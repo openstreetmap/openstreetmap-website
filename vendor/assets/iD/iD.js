@@ -9,8 +9,8 @@
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __export = (target, all) => {
-    for (var name2 in all)
-      __defProp(target, name2, { get: all[name2], enumerable: true });
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -20,7 +20,10 @@
     }
     return to;
   };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
 
   // node_modules/diacritics/index.js
   var require_diacritics = __commonJS({
@@ -3392,7 +3395,10 @@
           var compareArr = ["return a", " - b", ";"];
           this.compareMinX = new Function("a", "b", compareArr.join(format2[0]));
           this.compareMinY = new Function("a", "b", compareArr.join(format2[1]));
-          this.toBBox = new Function("a", "return {minX: a" + format2[0] + ", minY: a" + format2[1] + ", maxX: a" + format2[2] + ", maxY: a" + format2[3] + "};");
+          this.toBBox = new Function(
+            "a",
+            "return {minX: a" + format2[0] + ", minY: a" + format2[1] + ", maxX: a" + format2[2] + ", maxY: a" + format2[3] + "};"
+          );
         }
       };
       function findItem(item, items, equalsFn) {
@@ -3755,7 +3761,9 @@
         }
         var [lng, lat] = center;
         if (typeof lng !== "number" || typeof lat !== "number") {
-          throw new Error(`ERROR! Longitude and Latitude has to be numbers but where ${typeof lng} and ${typeof lat}`);
+          throw new Error(
+            `ERROR! Longitude and Latitude has to be numbers but where ${typeof lng} and ${typeof lat}`
+          );
         }
         if (lng > 180 || lng < -180) {
           throw new Error(`ERROR! Longitude has to be between -180 and 180 but was ${lng}`);
@@ -3863,8 +3871,13 @@
         var lat1 = toRadians(c1[1]);
         var lon1 = toRadians(c1[0]);
         var dByR = distance / earthRadius2;
-        var lat = Math.asin(Math.sin(lat1) * Math.cos(dByR) + Math.cos(lat1) * Math.sin(dByR) * Math.cos(bearing));
-        var lon = lon1 + Math.atan2(Math.sin(bearing) * Math.sin(dByR) * Math.cos(lat1), Math.cos(dByR) - Math.sin(lat1) * Math.sin(lat));
+        var lat = Math.asin(
+          Math.sin(lat1) * Math.cos(dByR) + Math.cos(lat1) * Math.sin(dByR) * Math.cos(bearing)
+        );
+        var lon = lon1 + Math.atan2(
+          Math.sin(bearing) * Math.sin(dByR) * Math.cos(lat1),
+          Math.cos(dByR) - Math.sin(lat1) * Math.sin(lat)
+        );
         return [toDegrees(lon), toDegrees(lat)];
       }
       module2.exports = function circleToPolygon2(center, radius, options2) {
@@ -3876,7 +3889,14 @@
         var start2 = toRadians(bearing);
         var coordinates = [];
         for (var i2 = 0; i2 < n2; ++i2) {
-          coordinates.push(offset(center, radius, earthRadius2, start2 + direction * 2 * Math.PI * -i2 / n2));
+          coordinates.push(
+            offset(
+              center,
+              radius,
+              earthRadius2,
+              start2 + direction * 2 * Math.PI * -i2 / n2
+            )
+          );
         }
         coordinates.push(coordinates[0]);
         return {
@@ -4377,14 +4397,14 @@
             return this._root === null;
           };
           Object.defineProperty(Tree2.prototype, "size", {
-            get: function get3() {
+            get: function get4() {
               return this._size;
             },
             enumerable: true,
             configurable: true
           });
           Object.defineProperty(Tree2.prototype, "root", {
-            get: function get3() {
+            get: function get4() {
               return this._root;
             },
             enumerable: true,
@@ -5984,12 +6004,12 @@
       }
       function stringify3(obj, options2) {
         options2 = options2 || {};
-        var indent2 = JSON.stringify([1], null, get3(options2, "indent", 2)).slice(2, -3);
-        var addMargin = get3(options2, "margins", false);
-        var addArrayMargin = get3(options2, "arrayMargins", false);
-        var addObjectMargin = get3(options2, "objectMargins", false);
-        var maxLength = indent2 === "" ? Infinity : get3(options2, "maxLength", 80);
-        var maxNesting = get3(options2, "maxNesting", Infinity);
+        var indent2 = JSON.stringify([1], null, get4(options2, "indent", 2)).slice(2, -3);
+        var addMargin = get4(options2, "margins", false);
+        var addArrayMargin = get4(options2, "arrayMargins", false);
+        var addObjectMargin = get4(options2, "objectMargins", false);
+        var maxLength = indent2 === "" ? Infinity : get4(options2, "maxLength", 80);
+        var maxNesting = get4(options2, "maxNesting", Infinity);
         return function _stringify(obj2, currentIndent, reserved) {
           if (obj2 && typeof obj2.toJSON === "function") {
             obj2 = obj2.toJSON();
@@ -6019,13 +6039,19 @@
             };
             if (Array.isArray(obj2)) {
               for (var index = 0; index < obj2.length; index++) {
-                items.push(_stringify(obj2[index], nextIndent, comma(obj2, index)) || "null");
+                items.push(
+                  _stringify(obj2[index], nextIndent, comma(obj2, index)) || "null"
+                );
               }
               delimiters = "[]";
             } else {
               Object.keys(obj2).forEach(function(key, index2, array2) {
                 var keyPart = JSON.stringify(key) + ": ";
-                var value = _stringify(obj2[key], nextIndent, keyPart.length + comma(array2, index2));
+                var value = _stringify(
+                  obj2[key],
+                  nextIndent,
+                  keyPart.length + comma(array2, index2)
+                );
                 if (value !== void 0) {
                   items.push(keyPart + value);
                 }
@@ -6066,8 +6092,8 @@
           return string2 ? match : tokens[match];
         });
       }
-      function get3(options2, name2, defaultValue) {
-        return name2 in options2 ? options2[name2] : defaultValue;
+      function get4(options2, name, defaultValue) {
+        return name in options2 ? options2[name] : defaultValue;
       }
       module2.exports = stringify3;
     }
@@ -6205,7 +6231,9 @@
         function convertToInt32(bytes) {
           var result = [];
           for (var i2 = 0; i2 < bytes.length; i2 += 4) {
-            result.push(bytes[i2] << 24 | bytes[i2 + 1] << 16 | bytes[i2 + 2] << 8 | bytes[i2 + 3]);
+            result.push(
+              bytes[i2] << 24 | bytes[i2 + 1] << 16 | bytes[i2 + 2] << 8 | bytes[i2 + 3]
+            );
           }
           return result;
         }
@@ -7375,7 +7403,9 @@
           var nativeObjectToString3 = objectProto3.toString;
           var objectCtorString = funcToString.call(Object2);
           var oldDash = root3._;
-          var reIsNative = RegExp2("^" + funcToString.call(hasOwnProperty2).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
+          var reIsNative = RegExp2(
+            "^" + funcToString.call(hasOwnProperty2).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+          );
           var Buffer2 = moduleExports ? context.Buffer : undefined2, Symbol3 = context.Symbol, Uint8Array2 = context.Uint8Array, allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : undefined2, getPrototype = overArg(Object2.getPrototypeOf, Object2), objectCreate = Object2.create, propertyIsEnumerable = objectProto3.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol3 ? Symbol3.isConcatSpreadable : undefined2, symIterator = Symbol3 ? Symbol3.iterator : undefined2, symToStringTag3 = Symbol3 ? Symbol3.toStringTag : undefined2;
           var defineProperty = function() {
             try {
@@ -7746,7 +7776,7 @@
           function baseAt(object, paths) {
             var index = -1, length = paths.length, result2 = Array2(length), skip = object == null;
             while (++index < length) {
-              result2[index] = skip ? undefined2 : get3(object, paths[index]);
+              result2[index] = skip ? undefined2 : get4(object, paths[index]);
             }
             return result2;
           }
@@ -8191,7 +8221,7 @@
               return matchesStrictComparable(toKey(path), srcValue);
             }
             return function(object) {
-              var objValue = get3(object, path);
+              var objValue = get4(object, path);
               return objValue === undefined2 && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
             };
           }
@@ -8857,7 +8887,18 @@
               var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
               length -= holders.length;
               if (length < arity) {
-                return createRecurry(func, bitmask, createHybrid, wrapper.placeholder, undefined2, args, holders, undefined2, undefined2, arity - length);
+                return createRecurry(
+                  func,
+                  bitmask,
+                  createHybrid,
+                  wrapper.placeholder,
+                  undefined2,
+                  args,
+                  holders,
+                  undefined2,
+                  undefined2,
+                  arity - length
+                );
               }
               var fn = this && this !== root3 && this instanceof wrapper ? Ctor : func;
               return apply(fn, this, args);
@@ -8935,7 +8976,18 @@
               length -= holdersCount;
               if (isCurried && length < arity) {
                 var newHolders = replaceHolders(args, placeholder);
-                return createRecurry(func, bitmask, createHybrid, wrapper.placeholder, thisArg, args, newHolders, argPos, ary2, arity - length);
+                return createRecurry(
+                  func,
+                  bitmask,
+                  createHybrid,
+                  wrapper.placeholder,
+                  thisArg,
+                  args,
+                  newHolders,
+                  argPos,
+                  ary2,
+                  arity - length
+                );
               }
               var thisBinding = isBind ? thisArg : this, fn = isBindKey ? thisBinding[func] : func;
               length = args.length;
@@ -10666,7 +10718,7 @@
           }
           var isBuffer = nativeIsBuffer || stubFalse;
           var isDate = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
-          function isElement(value) {
+          function isElement2(value) {
             return isObjectLike2(value) && value.nodeType === 1 && !isPlainObject(value);
           }
           function isEmpty(value) {
@@ -10924,7 +10976,7 @@
           function functionsIn(object) {
             return object == null ? [] : baseFunctions(object, keysIn(object));
           }
-          function get3(object, path, defaultValue) {
+          function get4(object, path, defaultValue) {
             var result2 = object == null ? undefined2 : baseGet(object, path);
             return result2 === undefined2 ? defaultValue : result2;
           }
@@ -11255,7 +11307,10 @@
             options2 = assignInWith({}, options2, settings, customDefaultsAssignIn);
             var imports = assignInWith({}, options2.imports, settings.imports, customDefaultsAssignIn), importsKeys = keys(imports), importsValues = baseValues(imports, importsKeys);
             var isEscaping, isEvaluating, index = 0, interpolate = options2.interpolate || reNoMatch, source = "__p += '";
-            var reDelimiters = RegExp2((options2.escape || reNoMatch).source + "|" + interpolate.source + "|" + (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + "|" + (options2.evaluate || reNoMatch).source + "|$", "g");
+            var reDelimiters = RegExp2(
+              (options2.escape || reNoMatch).source + "|" + interpolate.source + "|" + (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + "|" + (options2.evaluate || reNoMatch).source + "|$",
+              "g"
+            );
             var sourceURL = "//# sourceURL=" + (hasOwnProperty2.call(options2, "sourceURL") ? (options2.sourceURL + "").replace(/\s/g, " ") : "lodash.templateSources[" + ++templateCounter + "]") + "\n";
             string.replace(reDelimiters, function(match, escapeValue, interpolateValue, esTemplateValue, evaluateValue, offset) {
               interpolateValue || (interpolateValue = esTemplateValue);
@@ -11779,7 +11834,7 @@
           lodash.forInRight = forInRight;
           lodash.forOwn = forOwn;
           lodash.forOwnRight = forOwnRight;
-          lodash.get = get3;
+          lodash.get = get4;
           lodash.gt = gt;
           lodash.gte = gte;
           lodash.has = has;
@@ -11798,7 +11853,7 @@
           lodash.isBoolean = isBoolean;
           lodash.isBuffer = isBuffer;
           lodash.isDate = isDate;
-          lodash.isElement = isElement;
+          lodash.isElement = isElement2;
           lodash.isEmpty = isEmpty;
           lodash.isEqual = isEqual;
           lodash.isEqualWith = isEqualWith;
@@ -12088,7 +12143,7 @@
   var require_rbush_min = __commonJS({
     "node_modules/rbush/rbush.min.js"(exports2, module2) {
       !function(t, i2) {
-        typeof exports2 == "object" && typeof module2 != "undefined" ? module2.exports = i2() : typeof define == "function" && define.amd ? define(i2) : (t = t || self).RBush = i2();
+        "object" == typeof exports2 && "undefined" != typeof module2 ? module2.exports = i2() : "function" == typeof define && define.amd ? define(i2) : (t = t || self).RBush = i2();
       }(exports2, function() {
         "use strict";
         function t(t2, r2, e3, a2, h2) {
@@ -12105,7 +12160,7 @@
                 for (; h3(n3[x], p2) > 0; )
                   x--;
               }
-              h3(n3[e4], p2) === 0 ? i2(n3, e4, x) : i2(n3, ++x, a3), x <= r3 && (e4 = x + 1), r3 <= x && (a3 = x - 1);
+              0 === h3(n3[e4], p2) ? i2(n3, e4, x) : i2(n3, ++x, a3), x <= r3 && (e4 = x + 1), r3 <= x && (a3 = x - 1);
             }
           }(t2, r2, e3 || 0, a2 || t2.length - 1, h2 || n2);
         }
@@ -12117,7 +12172,7 @@
           return t2 < i3 ? -1 : t2 > i3 ? 1 : 0;
         }
         var r = function(t2) {
-          t2 === void 0 && (t2 = 9), this._maxEntries = Math.max(4, t2), this._minEntries = Math.max(2, Math.ceil(0.4 * this._maxEntries)), this.clear();
+          void 0 === t2 && (t2 = 9), this._maxEntries = Math.max(4, t2), this._minEntries = Math.max(2, Math.ceil(0.4 * this._maxEntries)), this.clear();
         };
         function e(t2, i3, n3) {
           if (!n3)
@@ -12231,7 +12286,7 @@
           for (var n3, r2, a2, h2 = this.data, o2 = this.toBBox(t2), s2 = [], l2 = []; h2 || s2.length; ) {
             if (h2 || (h2 = s2.pop(), r2 = s2[s2.length - 1], n3 = l2.pop(), a2 = true), h2.leaf) {
               var f3 = e(t2, h2.children, i3);
-              if (f3 !== -1)
+              if (-1 !== f3)
                 return h2.children.splice(f3, 1), s2.push(h2), this._condense(s2), this;
             }
             a2 || h2.leaf || !m(h2, o2) ? r2 ? (n3++, h2 = r2.children[n3], a2 = false) : h2 = null : (s2.push(h2), l2.push(n3), n3 = 0, r2 = h2, h2 = h2.children[0]);
@@ -12314,7 +12369,7 @@
             o(i3[r2], t2);
         }, r.prototype._condense = function(t2) {
           for (var i3 = t2.length - 1, n3 = void 0; i3 >= 0; i3--)
-            t2[i3].children.length === 0 ? i3 > 0 ? (n3 = t2[i3 - 1].children).splice(n3.indexOf(t2[i3]), 1) : this.clear() : a(t2[i3], this.toBBox);
+            0 === t2[i3].children.length ? i3 > 0 ? (n3 = t2[i3 - 1].children).splice(n3.indexOf(t2[i3]), 1) : this.clear() : a(t2[i3], this.toBBox);
         }, r;
       });
     }
@@ -13128,7 +13183,10 @@
           return this.angleWithSep(b.x, b.y);
         },
         angleWithSep: function(x, y) {
-          return Math.atan2(this.x * y - this.y * x, this.x * x + this.y * y);
+          return Math.atan2(
+            this.x * y - this.y * x,
+            this.x * x + this.y * y
+          );
         },
         _matMult: function(m) {
           var x = m[0] * this.x + m[1] * this.y, y = m[2] * this.x + m[3] * this.y;
@@ -14397,7 +14455,9 @@
                 return "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
               });
             }
-            if (rx_one.test(text.replace(rx_two, "@").replace(rx_three, "]").replace(rx_four, ""))) {
+            if (rx_one.test(
+              text.replace(rx_two, "@").replace(rx_three, "]").replace(rx_four, "")
+            )) {
               j = eval("(" + text + ")");
               return typeof reviver === "function" ? walk({ "": j }, "") : j;
             }
@@ -14466,14 +14526,14 @@
   }
   var viewClasses;
   var isArrayBufferView;
-  function normalizeName(name2) {
-    if (typeof name2 !== "string") {
-      name2 = String(name2);
+  function normalizeName(name) {
+    if (typeof name !== "string") {
+      name = String(name);
     }
-    if (/[^a-z0-9\-#$%&'*+.^_`|~!]/i.test(name2) || name2 === "") {
-      throw new TypeError('Invalid character in header field name: "' + name2 + '"');
+    if (/[^a-z0-9\-#$%&'*+.^_`|~!]/i.test(name) || name === "") {
+      throw new TypeError('Invalid character in header field name: "' + name + '"');
     }
-    return name2.toLowerCase();
+    return name.toLowerCase();
   }
   function normalizeValue(value) {
     if (typeof value !== "string") {
@@ -14498,49 +14558,49 @@
   function Headers(headers) {
     this.map = {};
     if (headers instanceof Headers) {
-      headers.forEach(function(value, name2) {
-        this.append(name2, value);
+      headers.forEach(function(value, name) {
+        this.append(name, value);
       }, this);
     } else if (Array.isArray(headers)) {
       headers.forEach(function(header) {
         this.append(header[0], header[1]);
       }, this);
     } else if (headers) {
-      Object.getOwnPropertyNames(headers).forEach(function(name2) {
-        this.append(name2, headers[name2]);
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name]);
       }, this);
     }
   }
-  Headers.prototype.append = function(name2, value) {
-    name2 = normalizeName(name2);
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name);
     value = normalizeValue(value);
-    var oldValue = this.map[name2];
-    this.map[name2] = oldValue ? oldValue + ", " + value : value;
+    var oldValue = this.map[name];
+    this.map[name] = oldValue ? oldValue + ", " + value : value;
   };
-  Headers.prototype["delete"] = function(name2) {
-    delete this.map[normalizeName(name2)];
+  Headers.prototype["delete"] = function(name) {
+    delete this.map[normalizeName(name)];
   };
-  Headers.prototype.get = function(name2) {
-    name2 = normalizeName(name2);
-    return this.has(name2) ? this.map[name2] : null;
+  Headers.prototype.get = function(name) {
+    name = normalizeName(name);
+    return this.has(name) ? this.map[name] : null;
   };
-  Headers.prototype.has = function(name2) {
-    return this.map.hasOwnProperty(normalizeName(name2));
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name));
   };
-  Headers.prototype.set = function(name2, value) {
-    this.map[normalizeName(name2)] = normalizeValue(value);
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = normalizeValue(value);
   };
   Headers.prototype.forEach = function(callback, thisArg) {
-    for (var name2 in this.map) {
-      if (this.map.hasOwnProperty(name2)) {
-        callback.call(thisArg, this.map[name2], name2, this);
+    for (var name in this.map) {
+      if (this.map.hasOwnProperty(name)) {
+        callback.call(thisArg, this.map[name], name, this);
       }
     }
   };
   Headers.prototype.keys = function() {
     var items = [];
-    this.forEach(function(value, name2) {
-      items.push(name2);
+    this.forEach(function(value, name) {
+      items.push(name);
     });
     return iteratorFor(items);
   };
@@ -14553,8 +14613,8 @@
   };
   Headers.prototype.entries = function() {
     var items = [];
-    this.forEach(function(value, name2) {
-      items.push([name2, value]);
+    this.forEach(function(value, name) {
+      items.push([name, value]);
     });
     return iteratorFor(items);
   };
@@ -14662,7 +14722,12 @@
             return isConsumed;
           }
           if (ArrayBuffer.isView(this._bodyArrayBuffer)) {
-            return Promise.resolve(this._bodyArrayBuffer.buffer.slice(this._bodyArrayBuffer.byteOffset, this._bodyArrayBuffer.byteOffset + this._bodyArrayBuffer.byteLength));
+            return Promise.resolve(
+              this._bodyArrayBuffer.buffer.slice(
+                this._bodyArrayBuffer.byteOffset,
+                this._bodyArrayBuffer.byteOffset + this._bodyArrayBuffer.byteLength
+              )
+            );
           } else {
             return Promise.resolve(this._bodyArrayBuffer);
           }
@@ -14758,9 +14823,9 @@
     body.trim().split("&").forEach(function(bytes) {
       if (bytes) {
         var split = bytes.split("=");
-        var name2 = split.shift().replace(/\+/g, " ");
+        var name = split.shift().replace(/\+/g, " ");
         var value = split.join("=").replace(/\+/g, " ");
-        form.append(decodeURIComponent(name2), decodeURIComponent(value));
+        form.append(decodeURIComponent(name), decodeURIComponent(value));
       }
     });
     return form;
@@ -14821,9 +14886,9 @@
   try {
     new DOMException2();
   } catch (err) {
-    DOMException2 = function(message, name2) {
+    DOMException2 = function(message, name) {
       this.message = message;
-      this.name = name2;
+      this.name = name;
       var error = Error(message);
       this.stack = error.stack;
     };
@@ -14888,12 +14953,12 @@
         }
       }
       if (init2 && typeof init2.headers === "object" && !(init2.headers instanceof Headers)) {
-        Object.getOwnPropertyNames(init2.headers).forEach(function(name2) {
-          xhr.setRequestHeader(name2, normalizeValue(init2.headers[name2]));
+        Object.getOwnPropertyNames(init2.headers).forEach(function(name) {
+          xhr.setRequestHeader(name, normalizeValue(init2.headers[name]));
         });
       } else {
-        request3.headers.forEach(function(value, name2) {
-          xhr.setRequestHeader(name2, value);
+        request3.headers.forEach(function(value, name) {
+          xhr.setRequestHeader(name, value);
         });
       }
       if (request3.signal) {
@@ -15189,7 +15254,7 @@
       return typeof self2.Request === "function" && !self2.Request.prototype.hasOwnProperty("signal") || !self2.AbortController;
     }
     function abortableFetchDecorator(patchTargets) {
-      if (typeof patchTargets === "function") {
+      if ("function" === typeof patchTargets) {
         patchTargets = {
           fetch: patchTargets
         };
@@ -15444,6 +15509,7 @@
     osmIsOldMultipolygonOuterMember: () => osmIsOldMultipolygonOuterMember,
     osmJoinWays: () => osmJoinWays,
     osmLanes: () => osmLanes,
+    osmLifecyclePrefixes: () => osmLifecyclePrefixes,
     osmNode: () => osmNode,
     osmNodeGeometriesForTags: () => osmNodeGeometriesForTags,
     osmNote: () => osmNote,
@@ -15454,6 +15520,7 @@
     osmPointTags: () => osmPointTags,
     osmRailwayTrackTagValues: () => osmRailwayTrackTagValues,
     osmRelation: () => osmRelation,
+    osmRemoveLifecyclePrefix: () => osmRemoveLifecyclePrefix,
     osmRoutableHighwayTagValues: () => osmRoutableHighwayTagValues,
     osmSetAreaKeys: () => osmSetAreaKeys,
     osmSetPointTags: () => osmSetPointTags,
@@ -15874,6 +15941,30 @@
   function osmIsInterestingTag(key) {
     return key !== "attribution" && key !== "created_by" && key !== "source" && key !== "odbl" && key.indexOf("source:") !== 0 && key.indexOf("source_ref") !== 0 && key.indexOf("tiger:") !== 0;
   }
+  var osmLifecyclePrefixes = {
+    proposed: true,
+    planned: true,
+    construction: true,
+    disused: true,
+    abandoned: true,
+    was: true,
+    dismantled: true,
+    razed: true,
+    demolished: true,
+    destroyed: true,
+    removed: true,
+    obliterated: true,
+    intermittent: true
+  };
+  function osmRemoveLifecyclePrefix(key) {
+    const keySegments = key.split(":");
+    if (keySegments.length === 1)
+      return key;
+    if (keySegments[0] in osmLifecyclePrefixes) {
+      return key.slice(keySegments[0].length + 1);
+    }
+    return key;
+  }
   var osmAreaKeys = {};
   function osmSetAreaKeys(value) {
     osmAreaKeys = value;
@@ -15905,13 +15996,14 @@
     if (tags.area === "no")
       return null;
     var returnTags = {};
-    for (var key in tags) {
+    for (var realKey in tags) {
+      const key = osmRemoveLifecyclePrefix(realKey);
       if (key in osmAreaKeys && !(tags[key] in osmAreaKeys[key])) {
-        returnTags[key] = tags[key];
+        returnTags[realKey] = tags[realKey];
         return returnTags;
       }
       if (key in osmAreaKeysExceptions && tags[key] in osmAreaKeysExceptions[key]) {
-        returnTags[key] = tags[key];
+        returnTags[realKey] = tags[realKey];
         return returnTags;
       }
     }
@@ -15986,6 +16078,7 @@
       "paved": true,
       "asphalt": true,
       "concrete": true,
+      "chipseal": true,
       "concrete:lanes": true,
       "concrete:plates": true
     },
@@ -17088,9 +17181,14 @@
   }
 
   // node_modules/d3-geo/src/clip/antimeridian.js
-  var antimeridian_default = clip_default(function() {
-    return true;
-  }, clipAntimeridianLine, clipAntimeridianInterpolate, [-pi, -halfPi]);
+  var antimeridian_default = clip_default(
+    function() {
+      return true;
+    },
+    clipAntimeridianLine,
+    clipAntimeridianInterpolate,
+    [-pi, -halfPi]
+  );
   function clipAntimeridianLine(stream) {
     var lambda04 = NaN, phi02 = NaN, sign0 = NaN, clean2;
     return {
@@ -18310,7 +18408,10 @@
     extend: function(obj) {
       if (!(obj instanceof geoExtent))
         obj = new geoExtent(obj);
-      return geoExtent([Math.min(obj[0][0], this[0][0]), Math.min(obj[0][1], this[0][1])], [Math.max(obj[1][0], this[1][0]), Math.max(obj[1][1], this[1][1])]);
+      return geoExtent(
+        [Math.min(obj[0][0], this[0][0]), Math.min(obj[0][1], this[0][1])],
+        [Math.max(obj[1][0], this[1][0]), Math.max(obj[1][1], this[1][1])]
+      );
     },
     _extend: function(extent) {
       this[0][0] = Math.min(extent[0][0], this[0][0]);
@@ -18352,7 +18453,10 @@
     intersection: function(obj) {
       if (!this.intersects(obj))
         return new geoExtent();
-      return new geoExtent([Math.max(obj[0][0], this[0][0]), Math.max(obj[0][1], this[0][1])], [Math.min(obj[1][0], this[1][0]), Math.min(obj[1][1], this[1][1])]);
+      return new geoExtent(
+        [Math.max(obj[0][0], this[0][0]), Math.max(obj[0][1], this[0][1])],
+        [Math.min(obj[1][0], this[1][0]), Math.min(obj[1][1], this[1][1])]
+      );
     },
     percentContainedIn: function(obj) {
       if (!(obj instanceof geoExtent))
@@ -18373,7 +18477,10 @@
     padByMeters: function(meters) {
       var dLat = geoMetersToLat(meters);
       var dLon = geoMetersToLon(meters, this.center()[1]);
-      return geoExtent([this[0][0] - dLon, this[0][1] - dLat], [this[1][0] + dLon, this[1][1] + dLat]);
+      return geoExtent(
+        [this[0][0] - dLon, this[0][1] - dLat],
+        [this[1][0] + dLon, this[1][1] + dLat]
+      );
     },
     toParam: function() {
       return this.rectangle().join(",");
@@ -18800,12 +18907,12 @@
   }
   function parseTypenames(typenames, types) {
     return typenames.trim().split(/^|\s+/).map(function(t) {
-      var name2 = "", i2 = t.indexOf(".");
+      var name = "", i2 = t.indexOf(".");
       if (i2 >= 0)
-        name2 = t.slice(i2 + 1), t = t.slice(0, i2);
+        name = t.slice(i2 + 1), t = t.slice(0, i2);
       if (t && !types.hasOwnProperty(t))
         throw new Error("unknown type: " + t);
-      return { type: t, name: name2 };
+      return { type: t, name };
     });
   }
   Dispatch.prototype = dispatch.prototype = {
@@ -18851,22 +18958,22 @@
         t[i2].value.apply(that, args);
     }
   };
-  function get(type3, name2) {
+  function get(type3, name) {
     for (var i2 = 0, n2 = type3.length, c; i2 < n2; ++i2) {
-      if ((c = type3[i2]).name === name2) {
+      if ((c = type3[i2]).name === name) {
         return c.value;
       }
     }
   }
-  function set(type3, name2, callback) {
+  function set(type3, name, callback) {
     for (var i2 = 0, n2 = type3.length; i2 < n2; ++i2) {
-      if (type3[i2].name === name2) {
+      if (type3[i2].name === name) {
         type3[i2] = noop2, type3 = type3.slice(0, i2).concat(type3.slice(i2 + 1));
         break;
       }
     }
     if (callback != null)
-      type3.push({ name: name2, value: callback });
+      type3.push({ name, value: callback });
     return type3;
   }
   var dispatch_default = dispatch;
@@ -18882,18 +18989,18 @@
   };
 
   // node_modules/d3-selection/src/namespace.js
-  function namespace_default(name2) {
-    var prefix = name2 += "", i2 = prefix.indexOf(":");
-    if (i2 >= 0 && (prefix = name2.slice(0, i2)) !== "xmlns")
-      name2 = name2.slice(i2 + 1);
-    return namespaces_default.hasOwnProperty(prefix) ? { space: namespaces_default[prefix], local: name2 } : name2;
+  function namespace_default(name) {
+    var prefix = name += "", i2 = prefix.indexOf(":");
+    if (i2 >= 0 && (prefix = name.slice(0, i2)) !== "xmlns")
+      name = name.slice(i2 + 1);
+    return namespaces_default.hasOwnProperty(prefix) ? { space: namespaces_default[prefix], local: name } : name;
   }
 
   // node_modules/d3-selection/src/creator.js
-  function creatorInherit(name2) {
+  function creatorInherit(name) {
     return function() {
       var document2 = this.ownerDocument, uri = this.namespaceURI;
-      return uri === xhtml && document2.documentElement.namespaceURI === xhtml ? document2.createElement(name2) : document2.createElementNS(uri, name2);
+      return uri === xhtml && document2.documentElement.namespaceURI === xhtml ? document2.createElement(name) : document2.createElementNS(uri, name);
     };
   }
   function creatorFixed(fullname) {
@@ -18901,8 +19008,8 @@
       return this.ownerDocument.createElementNS(fullname.space, fullname.local);
     };
   }
-  function creator_default(name2) {
-    var fullname = namespace_default(name2);
+  function creator_default(name) {
+    var fullname = namespace_default(name);
     return (fullname.local ? creatorFixed : creatorInherit)(fullname);
   }
 
@@ -19265,9 +19372,9 @@
   }
 
   // node_modules/d3-selection/src/selection/attr.js
-  function attrRemove(name2) {
+  function attrRemove(name) {
     return function() {
-      this.removeAttribute(name2);
+      this.removeAttribute(name);
     };
   }
   function attrRemoveNS(fullname) {
@@ -19275,9 +19382,9 @@
       this.removeAttributeNS(fullname.space, fullname.local);
     };
   }
-  function attrConstant(name2, value) {
+  function attrConstant(name, value) {
     return function() {
-      this.setAttribute(name2, value);
+      this.setAttribute(name, value);
     };
   }
   function attrConstantNS(fullname, value) {
@@ -19285,13 +19392,13 @@
       this.setAttributeNS(fullname.space, fullname.local, value);
     };
   }
-  function attrFunction(name2, value) {
+  function attrFunction(name, value) {
     return function() {
       var v = value.apply(this, arguments);
       if (v == null)
-        this.removeAttribute(name2);
+        this.removeAttribute(name);
       else
-        this.setAttribute(name2, v);
+        this.setAttribute(name, v);
     };
   }
   function attrFunctionNS(fullname, value) {
@@ -19303,8 +19410,8 @@
         this.setAttributeNS(fullname.space, fullname.local, v);
     };
   }
-  function attr_default(name2, value) {
-    var fullname = namespace_default(name2);
+  function attr_default(name, value) {
+    var fullname = namespace_default(name);
     if (arguments.length < 2) {
       var node = this.node();
       return fullname.local ? node.getAttributeNS(fullname.space, fullname.local) : node.getAttribute(fullname);
@@ -19318,54 +19425,54 @@
   }
 
   // node_modules/d3-selection/src/selection/style.js
-  function styleRemove(name2) {
+  function styleRemove(name) {
     return function() {
-      this.style.removeProperty(name2);
+      this.style.removeProperty(name);
     };
   }
-  function styleConstant(name2, value, priority) {
+  function styleConstant(name, value, priority) {
     return function() {
-      this.style.setProperty(name2, value, priority);
+      this.style.setProperty(name, value, priority);
     };
   }
-  function styleFunction(name2, value, priority) {
+  function styleFunction(name, value, priority) {
     return function() {
       var v = value.apply(this, arguments);
       if (v == null)
-        this.style.removeProperty(name2);
+        this.style.removeProperty(name);
       else
-        this.style.setProperty(name2, v, priority);
+        this.style.setProperty(name, v, priority);
     };
   }
-  function style_default(name2, value, priority) {
-    return arguments.length > 1 ? this.each((value == null ? styleRemove : typeof value === "function" ? styleFunction : styleConstant)(name2, value, priority == null ? "" : priority)) : styleValue(this.node(), name2);
+  function style_default(name, value, priority) {
+    return arguments.length > 1 ? this.each((value == null ? styleRemove : typeof value === "function" ? styleFunction : styleConstant)(name, value, priority == null ? "" : priority)) : styleValue(this.node(), name);
   }
-  function styleValue(node, name2) {
-    return node.style.getPropertyValue(name2) || window_default(node).getComputedStyle(node, null).getPropertyValue(name2);
+  function styleValue(node, name) {
+    return node.style.getPropertyValue(name) || window_default(node).getComputedStyle(node, null).getPropertyValue(name);
   }
 
   // node_modules/d3-selection/src/selection/property.js
-  function propertyRemove(name2) {
+  function propertyRemove(name) {
     return function() {
-      delete this[name2];
+      delete this[name];
     };
   }
-  function propertyConstant(name2, value) {
+  function propertyConstant(name, value) {
     return function() {
-      this[name2] = value;
+      this[name] = value;
     };
   }
-  function propertyFunction(name2, value) {
+  function propertyFunction(name, value) {
     return function() {
       var v = value.apply(this, arguments);
       if (v == null)
-        delete this[name2];
+        delete this[name];
       else
-        this[name2] = v;
+        this[name] = v;
     };
   }
-  function property_default(name2, value) {
-    return arguments.length > 1 ? this.each((value == null ? propertyRemove : typeof value === "function" ? propertyFunction : propertyConstant)(name2, value)) : this.node()[name2];
+  function property_default(name, value) {
+    return arguments.length > 1 ? this.each((value == null ? propertyRemove : typeof value === "function" ? propertyFunction : propertyConstant)(name, value)) : this.node()[name];
   }
 
   // node_modules/d3-selection/src/selection/classed.js
@@ -19380,22 +19487,22 @@
     this._names = classArray(node.getAttribute("class") || "");
   }
   ClassList.prototype = {
-    add: function(name2) {
-      var i2 = this._names.indexOf(name2);
+    add: function(name) {
+      var i2 = this._names.indexOf(name);
       if (i2 < 0) {
-        this._names.push(name2);
+        this._names.push(name);
         this._node.setAttribute("class", this._names.join(" "));
       }
     },
-    remove: function(name2) {
-      var i2 = this._names.indexOf(name2);
+    remove: function(name) {
+      var i2 = this._names.indexOf(name);
       if (i2 >= 0) {
         this._names.splice(i2, 1);
         this._node.setAttribute("class", this._names.join(" "));
       }
     },
-    contains: function(name2) {
-      return this._names.indexOf(name2) >= 0;
+    contains: function(name) {
+      return this._names.indexOf(name) >= 0;
     }
   };
   function classedAdd(node, names) {
@@ -19423,8 +19530,8 @@
       (value.apply(this, arguments) ? classedAdd : classedRemove)(this, names);
     };
   }
-  function classed_default(name2, value) {
-    var names = classArray(name2 + "");
+  function classed_default(name, value) {
+    var names = classArray(name + "");
     if (arguments.length < 2) {
       var list = classList(this.node()), i2 = -1, n2 = names.length;
       while (++i2 < n2)
@@ -19492,8 +19599,8 @@
   }
 
   // node_modules/d3-selection/src/selection/append.js
-  function append_default(name2) {
-    var create2 = typeof name2 === "function" ? name2 : creator_default(name2);
+  function append_default(name) {
+    var create2 = typeof name === "function" ? name : creator_default(name);
     return this.select(function() {
       return this.appendChild(create2.apply(this, arguments));
     });
@@ -19503,8 +19610,8 @@
   function constantNull() {
     return null;
   }
-  function insert_default(name2, before) {
-    var create2 = typeof name2 === "function" ? name2 : creator_default(name2), select = before == null ? constantNull : typeof before === "function" ? before : selector_default(before);
+  function insert_default(name, before) {
+    var create2 = typeof name === "function" ? name : creator_default(name), select = before == null ? constantNull : typeof before === "function" ? before : selector_default(before);
     return this.select(function() {
       return this.insertBefore(create2.apply(this, arguments), select.apply(this, arguments) || null);
     });
@@ -19546,10 +19653,10 @@
   }
   function parseTypenames2(typenames) {
     return typenames.trim().split(/^|\s+/).map(function(t) {
-      var name2 = "", i2 = t.indexOf(".");
+      var name = "", i2 = t.indexOf(".");
       if (i2 >= 0)
-        name2 = t.slice(i2 + 1), t = t.slice(0, i2);
-      return { type: t, name: name2 };
+        name = t.slice(i2 + 1), t = t.slice(0, i2);
+      return { type: t, name };
     });
   }
   function onRemove(typename) {
@@ -19919,18 +20026,23 @@
             p = pointer_default(touch2 || event2, container2), n2 = active;
             break;
         }
-        dispatch10.call(type3, that, new DragEvent(type3, {
-          sourceEvent: event2,
-          subject: s,
-          target: drag,
-          identifier,
-          active: n2,
-          x: p[0] + dx,
-          y: p[1] + dy,
-          dx: p[0] - p02[0],
-          dy: p[1] - p02[1],
-          dispatch: dispatch10
-        }), d);
+        dispatch10.call(
+          type3,
+          that,
+          new DragEvent(type3, {
+            sourceEvent: event2,
+            subject: s,
+            target: drag,
+            identifier,
+            active: n2,
+            x: p[0] + dx,
+            y: p[1] + dy,
+            dx: p[0] - p02[0],
+            dy: p[1] - p02[1],
+            dispatch: dispatch10
+          }),
+          d
+        );
       };
     }
     drag.filter = function(_) {
@@ -20286,7 +20398,12 @@
     },
     rgb() {
       var h = this.h % 360 + (this.h < 0) * 360, s = isNaN(h) || isNaN(this.s) ? 0 : this.s, l = this.l, m2 = l + (l < 0.5 ? l : 1 - l) * s, m1 = 2 * l - m2;
-      return new Rgb(hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2), hsl2rgb(h, m1, m2), hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2), this.opacity);
+      return new Rgb(
+        hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2),
+        hsl2rgb(h, m1, m2),
+        hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2),
+        this.opacity
+      );
     },
     clamp() {
       return new Hsl(clamph(this.h), clampt(this.s), clampt(this.l), clampa(this.opacity));
@@ -20816,14 +20933,14 @@
   var RUNNING = 4;
   var ENDING = 5;
   var ENDED = 6;
-  function schedule_default(node, name2, id2, index, group, timing) {
+  function schedule_default(node, name, id2, index, group, timing) {
     var schedules = node.__transition;
     if (!schedules)
       node.__transition = {};
     else if (id2 in schedules)
       return;
     create(node, id2, {
-      name: name2,
+      name,
       index,
       group,
       on: emptyOn,
@@ -20927,13 +21044,13 @@
   }
 
   // node_modules/d3-transition/src/interrupt.js
-  function interrupt_default(node, name2) {
+  function interrupt_default(node, name) {
     var schedules = node.__transition, schedule, active, empty2 = true, i2;
     if (!schedules)
       return;
-    name2 = name2 == null ? null : name2 + "";
+    name = name == null ? null : name + "";
     for (i2 in schedules) {
-      if ((schedule = schedules[i2]).name !== name2) {
+      if ((schedule = schedules[i2]).name !== name) {
         empty2 = false;
         continue;
       }
@@ -20948,21 +21065,21 @@
   }
 
   // node_modules/d3-transition/src/selection/interrupt.js
-  function interrupt_default2(name2) {
+  function interrupt_default2(name) {
     return this.each(function() {
-      interrupt_default(this, name2);
+      interrupt_default(this, name);
     });
   }
 
   // node_modules/d3-transition/src/transition/tween.js
-  function tweenRemove(id2, name2) {
+  function tweenRemove(id2, name) {
     var tween0, tween1;
     return function() {
       var schedule = set2(this, id2), tween = schedule.tween;
       if (tween !== tween0) {
         tween1 = tween0 = tween;
         for (var i2 = 0, n2 = tween1.length; i2 < n2; ++i2) {
-          if (tween1[i2].name === name2) {
+          if (tween1[i2].name === name) {
             tween1 = tween1.slice();
             tween1.splice(i2, 1);
             break;
@@ -20972,7 +21089,7 @@
       schedule.tween = tween1;
     };
   }
-  function tweenFunction(id2, name2, value) {
+  function tweenFunction(id2, name, value) {
     var tween0, tween1;
     if (typeof value !== "function")
       throw new Error();
@@ -20980,8 +21097,8 @@
       var schedule = set2(this, id2), tween = schedule.tween;
       if (tween !== tween0) {
         tween1 = (tween0 = tween).slice();
-        for (var t = { name: name2, value }, i2 = 0, n2 = tween1.length; i2 < n2; ++i2) {
-          if (tween1[i2].name === name2) {
+        for (var t = { name, value }, i2 = 0, n2 = tween1.length; i2 < n2; ++i2) {
+          if (tween1[i2].name === name) {
             tween1[i2] = t;
             break;
           }
@@ -20992,28 +21109,28 @@
       schedule.tween = tween1;
     };
   }
-  function tween_default(name2, value) {
+  function tween_default(name, value) {
     var id2 = this._id;
-    name2 += "";
+    name += "";
     if (arguments.length < 2) {
       var tween = get2(this.node(), id2).tween;
       for (var i2 = 0, n2 = tween.length, t; i2 < n2; ++i2) {
-        if ((t = tween[i2]).name === name2) {
+        if ((t = tween[i2]).name === name) {
           return t.value;
         }
       }
       return null;
     }
-    return this.each((value == null ? tweenRemove : tweenFunction)(id2, name2, value));
+    return this.each((value == null ? tweenRemove : tweenFunction)(id2, name, value));
   }
-  function tweenValue(transition2, name2, value) {
+  function tweenValue(transition2, name, value) {
     var id2 = transition2._id;
     transition2.each(function() {
       var schedule = set2(this, id2);
-      (schedule.value || (schedule.value = {}))[name2] = value.apply(this, arguments);
+      (schedule.value || (schedule.value = {}))[name] = value.apply(this, arguments);
     });
     return function(node) {
-      return get2(node, id2).value[name2];
+      return get2(node, id2).value[name];
     };
   }
 
@@ -21024,9 +21141,9 @@
   }
 
   // node_modules/d3-transition/src/transition/attr.js
-  function attrRemove2(name2) {
+  function attrRemove2(name) {
     return function() {
-      this.removeAttribute(name2);
+      this.removeAttribute(name);
     };
   }
   function attrRemoveNS2(fullname) {
@@ -21034,10 +21151,10 @@
       this.removeAttributeNS(fullname.space, fullname.local);
     };
   }
-  function attrConstant2(name2, interpolate, value1) {
+  function attrConstant2(name, interpolate, value1) {
     var string00, string1 = value1 + "", interpolate0;
     return function() {
-      var string0 = this.getAttribute(name2);
+      var string0 = this.getAttribute(name);
       return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
     };
   }
@@ -21048,13 +21165,13 @@
       return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
     };
   }
-  function attrFunction2(name2, interpolate, value) {
+  function attrFunction2(name, interpolate, value) {
     var string00, string10, interpolate0;
     return function() {
       var string0, value1 = value(this), string1;
       if (value1 == null)
-        return void this.removeAttribute(name2);
-      string0 = this.getAttribute(name2);
+        return void this.removeAttribute(name);
+      string0 = this.getAttribute(name);
       string1 = value1 + "";
       return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
     };
@@ -21070,15 +21187,15 @@
       return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
     };
   }
-  function attr_default2(name2, value) {
-    var fullname = namespace_default(name2), i2 = fullname === "transform" ? interpolateTransformSvg : interpolate_default;
-    return this.attrTween(name2, typeof value === "function" ? (fullname.local ? attrFunctionNS2 : attrFunction2)(fullname, i2, tweenValue(this, "attr." + name2, value)) : value == null ? (fullname.local ? attrRemoveNS2 : attrRemove2)(fullname) : (fullname.local ? attrConstantNS2 : attrConstant2)(fullname, i2, value));
+  function attr_default2(name, value) {
+    var fullname = namespace_default(name), i2 = fullname === "transform" ? interpolateTransformSvg : interpolate_default;
+    return this.attrTween(name, typeof value === "function" ? (fullname.local ? attrFunctionNS2 : attrFunction2)(fullname, i2, tweenValue(this, "attr." + name, value)) : value == null ? (fullname.local ? attrRemoveNS2 : attrRemove2)(fullname) : (fullname.local ? attrConstantNS2 : attrConstant2)(fullname, i2, value));
   }
 
   // node_modules/d3-transition/src/transition/attrTween.js
-  function attrInterpolate(name2, i2) {
+  function attrInterpolate(name, i2) {
     return function(t) {
-      this.setAttribute(name2, i2.call(this, t));
+      this.setAttribute(name, i2.call(this, t));
     };
   }
   function attrInterpolateNS(fullname, i2) {
@@ -21097,26 +21214,26 @@
     tween._value = value;
     return tween;
   }
-  function attrTween(name2, value) {
+  function attrTween(name, value) {
     var t0, i0;
     function tween() {
       var i2 = value.apply(this, arguments);
       if (i2 !== i0)
-        t0 = (i0 = i2) && attrInterpolate(name2, i2);
+        t0 = (i0 = i2) && attrInterpolate(name, i2);
       return t0;
     }
     tween._value = value;
     return tween;
   }
-  function attrTween_default(name2, value) {
-    var key = "attr." + name2;
+  function attrTween_default(name, value) {
+    var key = "attr." + name;
     if (arguments.length < 2)
       return (key = this.tween(key)) && key._value;
     if (value == null)
       return this.tween(key, null);
     if (typeof value !== "function")
       throw new Error();
-    var fullname = namespace_default(name2);
+    var fullname = namespace_default(name);
     return this.tween(key, (fullname.local ? attrTweenNS : attrTween)(fullname, value));
   }
 
@@ -21212,26 +21329,26 @@
   }
 
   // node_modules/d3-transition/src/transition/on.js
-  function start(name2) {
-    return (name2 + "").trim().split(/^|\s+/).every(function(t) {
+  function start(name) {
+    return (name + "").trim().split(/^|\s+/).every(function(t) {
       var i2 = t.indexOf(".");
       if (i2 >= 0)
         t = t.slice(0, i2);
       return !t || t === "start";
     });
   }
-  function onFunction(id2, name2, listener) {
-    var on0, on1, sit = start(name2) ? init : set2;
+  function onFunction(id2, name, listener) {
+    var on0, on1, sit = start(name) ? init : set2;
     return function() {
       var schedule = sit(this, id2), on = schedule.on;
       if (on !== on0)
-        (on1 = (on0 = on).copy()).on(name2, listener);
+        (on1 = (on0 = on).copy()).on(name, listener);
       schedule.on = on1;
     };
   }
-  function on_default2(name2, listener) {
+  function on_default2(name, listener) {
     var id2 = this._id;
-    return arguments.length < 2 ? get2(this.node(), id2).on.on(name2) : this.each(onFunction(id2, name2, listener));
+    return arguments.length < 2 ? get2(this.node(), id2).on.on(name) : this.each(onFunction(id2, name, listener));
   }
 
   // node_modules/d3-transition/src/transition/remove.js
@@ -21251,7 +21368,7 @@
 
   // node_modules/d3-transition/src/transition/select.js
   function select_default3(select) {
-    var name2 = this._name, id2 = this._id;
+    var name = this._name, id2 = this._id;
     if (typeof select !== "function")
       select = selector_default(select);
     for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j2 = 0; j2 < m; ++j2) {
@@ -21260,16 +21377,16 @@
           if ("__data__" in node)
             subnode.__data__ = node.__data__;
           subgroup[i2] = subnode;
-          schedule_default(subgroup[i2], name2, id2, i2, subgroup, get2(node, id2));
+          schedule_default(subgroup[i2], name, id2, i2, subgroup, get2(node, id2));
         }
       }
     }
-    return new Transition(subgroups, this._parents, name2, id2);
+    return new Transition(subgroups, this._parents, name, id2);
   }
 
   // node_modules/d3-transition/src/transition/selectAll.js
   function selectAll_default3(select) {
-    var name2 = this._name, id2 = this._id;
+    var name = this._name, id2 = this._id;
     if (typeof select !== "function")
       select = selectorAll_default(select);
     for (var groups = this._groups, m = groups.length, subgroups = [], parents = [], j2 = 0; j2 < m; ++j2) {
@@ -21277,7 +21394,7 @@
         if (node = group[i2]) {
           for (var children2 = select.call(node, node.__data__, i2, group), child, inherit2 = get2(node, id2), k = 0, l = children2.length; k < l; ++k) {
             if (child = children2[k]) {
-              schedule_default(child, name2, id2, k, children2, inherit2);
+              schedule_default(child, name, id2, k, children2, inherit2);
             }
           }
           subgroups.push(children2);
@@ -21285,7 +21402,7 @@
         }
       }
     }
-    return new Transition(subgroups, parents, name2, id2);
+    return new Transition(subgroups, parents, name, id2);
   }
 
   // node_modules/d3-transition/src/transition/selection.js
@@ -21295,74 +21412,74 @@
   }
 
   // node_modules/d3-transition/src/transition/style.js
-  function styleNull(name2, interpolate) {
+  function styleNull(name, interpolate) {
     var string00, string10, interpolate0;
     return function() {
-      var string0 = styleValue(this, name2), string1 = (this.style.removeProperty(name2), styleValue(this, name2));
+      var string0 = styleValue(this, name), string1 = (this.style.removeProperty(name), styleValue(this, name));
       return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : interpolate0 = interpolate(string00 = string0, string10 = string1);
     };
   }
-  function styleRemove2(name2) {
+  function styleRemove2(name) {
     return function() {
-      this.style.removeProperty(name2);
+      this.style.removeProperty(name);
     };
   }
-  function styleConstant2(name2, interpolate, value1) {
+  function styleConstant2(name, interpolate, value1) {
     var string00, string1 = value1 + "", interpolate0;
     return function() {
-      var string0 = styleValue(this, name2);
+      var string0 = styleValue(this, name);
       return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
     };
   }
-  function styleFunction2(name2, interpolate, value) {
+  function styleFunction2(name, interpolate, value) {
     var string00, string10, interpolate0;
     return function() {
-      var string0 = styleValue(this, name2), value1 = value(this), string1 = value1 + "";
+      var string0 = styleValue(this, name), value1 = value(this), string1 = value1 + "";
       if (value1 == null)
-        string1 = value1 = (this.style.removeProperty(name2), styleValue(this, name2));
+        string1 = value1 = (this.style.removeProperty(name), styleValue(this, name));
       return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
     };
   }
-  function styleMaybeRemove(id2, name2) {
-    var on0, on1, listener0, key = "style." + name2, event = "end." + key, remove2;
+  function styleMaybeRemove(id2, name) {
+    var on0, on1, listener0, key = "style." + name, event = "end." + key, remove2;
     return function() {
-      var schedule = set2(this, id2), on = schedule.on, listener = schedule.value[key] == null ? remove2 || (remove2 = styleRemove2(name2)) : void 0;
+      var schedule = set2(this, id2), on = schedule.on, listener = schedule.value[key] == null ? remove2 || (remove2 = styleRemove2(name)) : void 0;
       if (on !== on0 || listener0 !== listener)
         (on1 = (on0 = on).copy()).on(event, listener0 = listener);
       schedule.on = on1;
     };
   }
-  function style_default2(name2, value, priority) {
-    var i2 = (name2 += "") === "transform" ? interpolateTransformCss : interpolate_default;
-    return value == null ? this.styleTween(name2, styleNull(name2, i2)).on("end.style." + name2, styleRemove2(name2)) : typeof value === "function" ? this.styleTween(name2, styleFunction2(name2, i2, tweenValue(this, "style." + name2, value))).each(styleMaybeRemove(this._id, name2)) : this.styleTween(name2, styleConstant2(name2, i2, value), priority).on("end.style." + name2, null);
+  function style_default2(name, value, priority) {
+    var i2 = (name += "") === "transform" ? interpolateTransformCss : interpolate_default;
+    return value == null ? this.styleTween(name, styleNull(name, i2)).on("end.style." + name, styleRemove2(name)) : typeof value === "function" ? this.styleTween(name, styleFunction2(name, i2, tweenValue(this, "style." + name, value))).each(styleMaybeRemove(this._id, name)) : this.styleTween(name, styleConstant2(name, i2, value), priority).on("end.style." + name, null);
   }
 
   // node_modules/d3-transition/src/transition/styleTween.js
-  function styleInterpolate(name2, i2, priority) {
+  function styleInterpolate(name, i2, priority) {
     return function(t) {
-      this.style.setProperty(name2, i2.call(this, t), priority);
+      this.style.setProperty(name, i2.call(this, t), priority);
     };
   }
-  function styleTween(name2, value, priority) {
+  function styleTween(name, value, priority) {
     var t, i0;
     function tween() {
       var i2 = value.apply(this, arguments);
       if (i2 !== i0)
-        t = (i0 = i2) && styleInterpolate(name2, i2, priority);
+        t = (i0 = i2) && styleInterpolate(name, i2, priority);
       return t;
     }
     tween._value = value;
     return tween;
   }
-  function styleTween_default(name2, value, priority) {
-    var key = "style." + (name2 += "");
+  function styleTween_default(name, value, priority) {
+    var key = "style." + (name += "");
     if (arguments.length < 2)
       return (key = this.tween(key)) && key._value;
     if (value == null)
       return this.tween(key, null);
     if (typeof value !== "function")
       throw new Error();
-    return this.tween(key, styleTween(name2, value, priority == null ? "" : priority));
+    return this.tween(key, styleTween(name, value, priority == null ? "" : priority));
   }
 
   // node_modules/d3-transition/src/transition/text.js
@@ -21411,12 +21528,12 @@
 
   // node_modules/d3-transition/src/transition/transition.js
   function transition_default() {
-    var name2 = this._name, id0 = this._id, id1 = newId();
+    var name = this._name, id0 = this._id, id1 = newId();
     for (var groups = this._groups, m = groups.length, j2 = 0; j2 < m; ++j2) {
       for (var group = groups[j2], n2 = group.length, node, i2 = 0; i2 < n2; ++i2) {
         if (node = group[i2]) {
           var inherit2 = get2(node, id0);
-          schedule_default(node, name2, id1, i2, group, {
+          schedule_default(node, name, id1, i2, group, {
             time: inherit2.time + inherit2.delay + inherit2.duration,
             delay: 0,
             duration: inherit2.duration,
@@ -21425,7 +21542,7 @@
         }
       }
     }
-    return new Transition(groups, this._parents, name2, id1);
+    return new Transition(groups, this._parents, name, id1);
   }
 
   // node_modules/d3-transition/src/transition/end.js
@@ -21453,14 +21570,14 @@
 
   // node_modules/d3-transition/src/transition/index.js
   var id = 0;
-  function Transition(groups, parents, name2, id2) {
+  function Transition(groups, parents, name, id2) {
     this._groups = groups;
     this._parents = parents;
-    this._name = name2;
+    this._name = name;
     this._id = id2;
   }
-  function transition(name2) {
-    return selection_default().transition(name2);
+  function transition(name) {
+    return selection_default().transition(name);
   }
   function newId() {
     return ++id;
@@ -21523,21 +21640,21 @@
     }
     return timing;
   }
-  function transition_default2(name2) {
+  function transition_default2(name) {
     var id2, timing;
-    if (name2 instanceof Transition) {
-      id2 = name2._id, name2 = name2._name;
+    if (name instanceof Transition) {
+      id2 = name._id, name = name._name;
     } else {
-      id2 = newId(), (timing = defaultTiming).time = now(), name2 = name2 == null ? null : name2 + "";
+      id2 = newId(), (timing = defaultTiming).time = now(), name = name == null ? null : name + "";
     }
     for (var groups = this._groups, m = groups.length, j2 = 0; j2 < m; ++j2) {
       for (var group = groups[j2], n2 = group.length, node, i2 = 0; i2 < n2; ++i2) {
         if (node = group[i2]) {
-          schedule_default(node, name2, id2, i2, group, timing || inherit(node, id2));
+          schedule_default(node, name, id2, i2, group, timing || inherit(node, id2));
         }
       }
     }
-    return new Transition(groups, this._parents, name2, id2);
+    return new Transition(groups, this._parents, name, id2);
   }
 
   // node_modules/d3-transition/src/selection/index.js
@@ -21650,7 +21767,10 @@
   }
   function defaultConstrain(transform2, extent, translateExtent) {
     var dx0 = transform2.invertX(extent[0][0]) - translateExtent[0][0], dx1 = transform2.invertX(extent[1][0]) - translateExtent[1][0], dy0 = transform2.invertY(extent[0][1]) - translateExtent[0][1], dy1 = transform2.invertY(extent[1][1]) - translateExtent[1][1];
-    return transform2.translate(dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1), dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1));
+    return transform2.translate(
+      dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1),
+      dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1)
+    );
   }
   function zoom_default2() {
     var filter2 = defaultFilter2, extent = defaultExtent, constrain = defaultConstrain, wheelDelta = defaultWheelDelta, touchable = defaultTouchable2, scaleExtent = [0, Infinity], translateExtent = [[-Infinity, -Infinity], [Infinity, Infinity]], duration = 250, interpolate = zoom_default, listeners = dispatch_default("start", "zoom", "end"), touchstarting, touchfirst, touchending, touchDelay = 500, wheelDelay = 150, clickDistance2 = 0, tapDistance = 10;
@@ -21682,13 +21802,19 @@
     };
     zoom.translateBy = function(selection2, x, y, event) {
       zoom.transform(selection2, function() {
-        return constrain(this.__zoom.translate(typeof x === "function" ? x.apply(this, arguments) : x, typeof y === "function" ? y.apply(this, arguments) : y), extent.apply(this, arguments), translateExtent);
+        return constrain(this.__zoom.translate(
+          typeof x === "function" ? x.apply(this, arguments) : x,
+          typeof y === "function" ? y.apply(this, arguments) : y
+        ), extent.apply(this, arguments), translateExtent);
       }, null, event);
     };
     zoom.translateTo = function(selection2, x, y, p, event) {
       zoom.transform(selection2, function() {
         var e = extent.apply(this, arguments), t = this.__zoom, p02 = p == null ? centroid(e) : typeof p === "function" ? p.apply(this, arguments) : p;
-        return constrain(identity2.translate(p02[0], p02[1]).scale(t.k).translate(typeof x === "function" ? -x.apply(this, arguments) : -x, typeof y === "function" ? -y.apply(this, arguments) : -y), e, translateExtent);
+        return constrain(identity2.translate(p02[0], p02[1]).scale(t.k).translate(
+          typeof x === "function" ? -x.apply(this, arguments) : -x,
+          typeof y === "function" ? -y.apply(this, arguments) : -y
+        ), e, translateExtent);
       }, p, event);
     };
     function scale(transform2, k) {
@@ -21764,13 +21890,18 @@
       },
       emit: function(type3) {
         var d = select_default2(this.that).datum();
-        listeners.call(type3, this.that, new ZoomEvent(type3, {
-          sourceEvent: this.sourceEvent,
-          target: zoom,
-          type: type3,
-          transform: this.that.__zoom,
-          dispatch: listeners
-        }), d);
+        listeners.call(
+          type3,
+          this.that,
+          new ZoomEvent(type3, {
+            sourceEvent: this.sourceEvent,
+            target: zoom,
+            type: type3,
+            transform: this.that.__zoom,
+            dispatch: listeners
+          }),
+          d
+        );
       }
     };
     function wheeled(event, ...args) {
@@ -22235,144 +22366,130 @@
   var import_vparse = __toESM(require_vparse());
 
   // package.json
-  var name = "iD";
-  var version = "2.21.1";
-  var description = "A friendly editor for OpenStreetMap";
-  var main = "dist/iD.min.js";
-  var repository = "github:openstreetmap/iD";
-  var homepage = "https://github.com/openstreetmap/iD";
-  var bugs = "https://github.com/openstreetmap/iD/issues";
-  var keywords = [
-    "editor",
-    "openstreetmap"
-  ];
-  var license = "ISC";
-  var scripts = {
-    all: "run-s clean build dist",
-    build: "run-s build:css build:data build:js",
-    "build:css": "node scripts/build_css.js",
-    "build:data": "shx mkdir -p dist/data && node scripts/build_data.js",
-    "build:stats": "esbuild-visualizer --metadata dist/esbuild.json --exclude *.png --filename docs/statistics.html",
-    "build:js": "node config/esbuild.config.mjs",
-    "build:js:watch": "node config/esbuild.config.mjs --watch",
-    clean: "shx rm -f dist/esbuild.json dist/*.js dist/*.map dist/*.css dist/img/*.svg",
-    dist: "run-p dist:**",
-    "dist:mapillary": "shx mkdir -p dist/mapillary-js && shx cp -R node_modules/mapillary-js/dist/* dist/mapillary-js/",
-    "dist:pannellum": "shx mkdir -p dist/pannellum-streetside && shx cp -R node_modules/pannellum/build/* dist/pannellum-streetside/",
-    "dist:min": "node config/esbuild.config.min.mjs",
-    "dist:svg:iD": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "iD-%s" --symbol-sprite dist/img/iD-sprite.svg "svg/iD-sprite/**/*.svg"',
-    "dist:svg:community": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "community-%s" --symbol-sprite dist/img/community-sprite.svg node_modules/osm-community-index/dist/img/*.svg',
-    "dist:svg:fa": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/fa-sprite.svg svg/fontawesome/*.svg",
-    "dist:svg:maki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "maki-%s" --symbol-sprite dist/img/maki-sprite.svg node_modules/@mapbox/maki/icons/*.svg',
-    "dist:svg:mapillary:signs": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-sprite.svg node_modules/mapillary_sprite_source/package_signs/*.svg",
-    "dist:svg:mapillary:objects": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-object-sprite.svg node_modules/mapillary_sprite_source/package_objects/*.svg",
-    "dist:svg:temaki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "temaki-%s" --symbol-sprite dist/img/temaki-sprite.svg node_modules/@ideditor/temaki/icons/*.svg',
-    imagery: "node scripts/update_imagery.js",
-    lint: "eslint scripts test/spec modules",
-    "lint:fix": "eslint scripts test/spec modules --fix",
-    start: "run-s build:js start:server",
-    "start:watch": "run-p build:js:watch start:server",
-    "start:server": "node scripts/server.js",
-    test: "npm-run-all -s lint build test:spec",
-    "test:spec": "karma start karma.conf.js",
-    translations: "node scripts/update_locales.js"
-  };
-  var dependencies = {
-    "@ideditor/country-coder": "~5.0.3",
-    "@ideditor/location-conflation": "~1.0.2",
-    "@mapbox/geojson-area": "^0.2.2",
-    "@mapbox/sexagesimal": "1.2.0",
-    "@mapbox/vector-tile": "^1.3.1",
-    "@tmcw/togeojson": "^4.5.0",
-    "@turf/bbox-clip": "^6.0.0",
-    "abortcontroller-polyfill": "^1.4.0",
-    "aes-js": "^3.1.2",
-    "alif-toolkit": "^1.2.9",
-    "core-js-bundle": "^3.19.0",
-    diacritics: "1.3.0",
-    "fast-deep-equal": "~3.1.1",
-    "fast-json-stable-stringify": "2.1.0",
-    "lodash-es": "~4.17.15",
-    marked: "~4.0.12",
-    "node-diff3": "~3.1.0",
-    "osm-auth": "~2.0.0",
-    pannellum: "2.5.6",
-    pbf: "^3.2.1",
-    "polygon-clipping": "~0.15.1",
-    rbush: "3.0.1",
-    "whatwg-fetch": "^3.4.1",
-    "which-polygon": "2.2.0"
-  };
-  var devDependencies = {
-    "@fortawesome/fontawesome-svg-core": "~6.1.0",
-    "@fortawesome/free-brands-svg-icons": "~6.1.0",
-    "@fortawesome/free-regular-svg-icons": "~6.1.0",
-    "@fortawesome/free-solid-svg-icons": "~6.1.0",
-    "@ideditor/temaki": "~5.1.0",
-    "@mapbox/maki": "^7.1.0",
-    autoprefixer: "^10.0.1",
-    btoa: "^1.2.1",
-    chai: "^4.3.4",
-    "cldr-core": "37.0.0",
-    "cldr-localenames-full": "37.0.0",
-    chalk: "^4.1.2",
-    "concat-files": "^0.1.1",
-    d3: "~7.4.4",
-    "editor-layer-index": "github:osmlab/editor-layer-index#gh-pages",
-    esbuild: "^0.14.17",
-    "esbuild-visualizer": "^0.3.1",
-    eslint: "^8.8.0",
-    "fetch-mock": "^9.11.0",
-    gaze: "^1.1.3",
-    glob: "^8.0.3",
-    happen: "^0.3.2",
-    "js-yaml": "^4.0.0",
-    "json-stringify-pretty-compact": "^3.0.0",
-    karma: "^6.3.5",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage": "2.1.1",
-    "karma-mocha": "^2.0.1",
-    "karma-remap-istanbul": "^0.6.0",
-    "mapillary-js": "4.1.0",
-    mapillary_sprite_source: "^1.8.0",
-    minimist: "^1.2.3",
-    mocha: "^9.2.0",
-    "name-suggestion-index": "~6.0",
-    "node-fetch": "^2.6.1",
-    "npm-run-all": "^4.0.0",
-    "osm-community-index": "~5.1.0",
-    postcss: "^8.1.1",
-    "postcss-selector-prepend": "^0.5.0",
-    shelljs: "^0.8.0",
-    shx: "^0.3.0",
-    sinon: "^11.1.2",
-    "sinon-chai": "^3.7.0",
-    smash: "0.0",
-    "static-server": "^2.2.1",
-    "svg-sprite": "1.5.4",
-    vparse: "~1.1.0"
-  };
-  var engines = {
-    node: ">=12"
-  };
-  var browserslist = [
-    "> 0.2%, last 6 major versions, Firefox ESR, maintained node versions"
-  ];
   var package_default = {
-    name,
-    version,
-    description,
-    main,
-    repository,
-    homepage,
-    bugs,
-    keywords,
-    license,
-    scripts,
-    dependencies,
-    devDependencies,
-    engines,
-    browserslist
+    name: "iD",
+    version: "2.22.0",
+    description: "A friendly editor for OpenStreetMap",
+    main: "dist/iD.min.js",
+    repository: "github:openstreetmap/iD",
+    homepage: "https://github.com/openstreetmap/iD",
+    bugs: "https://github.com/openstreetmap/iD/issues",
+    keywords: [
+      "editor",
+      "openstreetmap"
+    ],
+    license: "ISC",
+    scripts: {
+      all: "run-s clean build dist",
+      build: "run-s build:css build:data build:js",
+      "build:css": "node scripts/build_css.js",
+      "build:data": "shx mkdir -p dist/data && node scripts/build_data.js",
+      "build:stats": "esbuild-visualizer --metadata dist/esbuild.json --exclude *.png --filename docs/statistics.html",
+      "build:js": "node config/esbuild.config.mjs",
+      "build:js:watch": "node config/esbuild.config.mjs --watch",
+      clean: "shx rm -f dist/esbuild.json dist/*.js dist/*.map dist/*.css dist/img/*.svg",
+      dist: "run-p dist:**",
+      "dist:mapillary": "shx mkdir -p dist/mapillary-js && shx cp -R node_modules/mapillary-js/dist/* dist/mapillary-js/",
+      "dist:pannellum": "shx mkdir -p dist/pannellum-streetside && shx cp -R node_modules/pannellum/build/* dist/pannellum-streetside/",
+      "dist:min": "node config/esbuild.config.min.mjs",
+      "dist:svg:iD": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "iD-%s" --symbol-sprite dist/img/iD-sprite.svg "svg/iD-sprite/**/*.svg"',
+      "dist:svg:community": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "community-%s" --symbol-sprite dist/img/community-sprite.svg node_modules/osm-community-index/dist/img/*.svg',
+      "dist:svg:fa": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/fa-sprite.svg svg/fontawesome/*.svg",
+      "dist:svg:maki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "maki-%s" --symbol-sprite dist/img/maki-sprite.svg node_modules/@mapbox/maki/icons/*.svg',
+      "dist:svg:mapillary:signs": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-sprite.svg node_modules/mapillary_sprite_source/package_signs/*.svg",
+      "dist:svg:mapillary:objects": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-object-sprite.svg node_modules/mapillary_sprite_source/package_objects/*.svg",
+      "dist:svg:temaki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "temaki-%s" --symbol-sprite dist/img/temaki-sprite.svg node_modules/@ideditor/temaki/icons/*.svg',
+      imagery: "node scripts/update_imagery.js",
+      lint: "eslint scripts test/spec modules",
+      "lint:fix": "eslint scripts test/spec modules --fix",
+      start: "run-s build:js start:server",
+      "start:watch": "run-p build:js:watch start:server",
+      "start:server": "node scripts/server.js",
+      test: "npm-run-all -s lint build test:spec",
+      "test:spec": "karma start karma.conf.js",
+      translations: "node scripts/update_locales.js"
+    },
+    dependencies: {
+      "@ideditor/country-coder": "~5.0.3",
+      "@ideditor/location-conflation": "~1.0.2",
+      "@mapbox/geojson-area": "^0.2.2",
+      "@mapbox/sexagesimal": "1.2.0",
+      "@mapbox/vector-tile": "^1.3.1",
+      "@tmcw/togeojson": "^5.2.1",
+      "@turf/bbox-clip": "^6.0.0",
+      "abortcontroller-polyfill": "^1.4.0",
+      "aes-js": "^3.1.2",
+      "alif-toolkit": "^1.2.9",
+      "core-js-bundle": "^3.19.0",
+      diacritics: "1.3.0",
+      "fast-deep-equal": "~3.1.1",
+      "fast-json-stable-stringify": "2.1.0",
+      "lodash-es": "~4.17.15",
+      marked: "~4.1.0",
+      "node-diff3": "~3.1.0",
+      "osm-auth": "~2.0.0",
+      pannellum: "2.5.6",
+      pbf: "^3.2.1",
+      "polygon-clipping": "~0.15.1",
+      rbush: "3.0.1",
+      "whatwg-fetch": "^3.4.1",
+      "which-polygon": "2.2.0"
+    },
+    devDependencies: {
+      "@fortawesome/fontawesome-svg-core": "~6.2.0",
+      "@fortawesome/free-brands-svg-icons": "~6.2.0",
+      "@fortawesome/free-regular-svg-icons": "~6.2.0",
+      "@fortawesome/free-solid-svg-icons": "~6.2.0",
+      "@ideditor/temaki": "~5.1.0",
+      "@mapbox/maki": "^8.0.0",
+      autoprefixer: "^10.0.1",
+      btoa: "^1.2.1",
+      chai: "^4.3.4",
+      chalk: "^4.1.2",
+      "cldr-core": "^41.0.0",
+      "cldr-localenames-full": "^41.0.0",
+      "concat-files": "^0.1.1",
+      d3: "~7.6.1",
+      "editor-layer-index": "github:osmlab/editor-layer-index#gh-pages",
+      esbuild: "^0.15.7",
+      "esbuild-visualizer": "^0.3.1",
+      eslint: "^8.8.0",
+      "fetch-mock": "^9.11.0",
+      gaze: "^1.1.3",
+      glob: "^8.0.3",
+      happen: "^0.3.2",
+      "js-yaml": "^4.0.0",
+      "json-stringify-pretty-compact": "^3.0.0",
+      karma: "^6.3.5",
+      "karma-chrome-launcher": "^3.1.0",
+      "karma-coverage": "2.1.1",
+      "karma-mocha": "^2.0.1",
+      "karma-remap-istanbul": "^0.6.0",
+      mapillary_sprite_source: "^1.8.0",
+      "mapillary-js": "4.1.1",
+      minimist: "^1.2.3",
+      mocha: "^10.0.0",
+      "name-suggestion-index": "~6.0",
+      "node-fetch": "^2.6.1",
+      "npm-run-all": "^4.0.0",
+      "osm-community-index": "~5.2.0",
+      postcss: "^8.1.1",
+      "postcss-selector-prepend": "^0.5.0",
+      shelljs: "^0.8.0",
+      shx: "^0.3.0",
+      sinon: "^11.1.2",
+      "sinon-chai": "^3.7.0",
+      smash: "0.0",
+      "static-server": "^2.2.1",
+      "svg-sprite": "1.5.4",
+      vparse: "~1.1.0"
+    },
+    engines: {
+      node: ">=16.14"
+    },
+    browserslist: [
+      "> 0.2%, last 6 major versions, Firefox ESR, maintained node versions"
+    ]
   };
 
   // modules/core/file_fetcher.js
@@ -23585,9 +23702,11 @@
       _detected.platform = "Unknown";
     }
     _detected.isMobileWebKit = (/\b(iPad|iPhone|iPod)\b/.test(ua) || navigator.platform === "MacIntel" && "maxTouchPoints" in navigator && navigator.maxTouchPoints > 1) && /WebKit/.test(ua) && !/Edge/.test(ua) && !window.MSStream;
-    _detected.browserLocales = Array.from(new Set([navigator.language].concat(navigator.languages || []).concat([
-      navigator.userLanguage
-    ]).filter(Boolean)));
+    _detected.browserLocales = Array.from(new Set(
+      [navigator.language].concat(navigator.languages || []).concat([
+        navigator.userLanguage
+      ]).filter(Boolean)
+    ));
     const loc = window.top.location;
     let origin = loc.origin;
     if (!origin) {
@@ -24041,18 +24160,18 @@
   }
 
   // modules/util/session_mutex.js
-  function utilSessionMutex(name2) {
+  function utilSessionMutex(name) {
     var mutex = {};
     var intervalID;
     function renew() {
       var expires = new Date();
       expires.setSeconds(expires.getSeconds() + 5);
-      document.cookie = name2 + "=1; expires=" + expires.toUTCString() + "; sameSite=strict";
+      document.cookie = name + "=1; expires=" + expires.toUTCString() + "; sameSite=strict";
     }
     mutex.lock = function() {
       if (intervalID)
         return true;
-      var cookie = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + name2 + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
+      var cookie = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + name + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
       if (cookie)
         return false;
       renew();
@@ -24062,7 +24181,7 @@
     mutex.unlock = function() {
       if (!intervalID)
         return;
-      document.cookie = name2 + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; sameSite=strict";
+      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; sameSite=strict";
       clearInterval(intervalID);
       intervalID = null;
     };
@@ -24108,8 +24227,14 @@
         (_translate[0] - _scale / 2) / k,
         (_translate[1] - _scale / 2) / k
       ];
-      var cols = range(clamp3(Math.floor(-origin[0]) - _margin, tileMin, tileMax + 1), clamp3(Math.ceil(_size[0] / k - origin[0]) + _margin, tileMin, tileMax + 1));
-      var rows = range(clamp3(Math.floor(-origin[1]) - _margin, tileMin, tileMax + 1), clamp3(Math.ceil(_size[1] / k - origin[1]) + _margin, tileMin, tileMax + 1));
+      var cols = range(
+        clamp3(Math.floor(-origin[0]) - _margin, tileMin, tileMax + 1),
+        clamp3(Math.ceil(_size[0] / k - origin[0]) + _margin, tileMin, tileMax + 1)
+      );
+      var rows = range(
+        clamp3(Math.floor(-origin[1]) - _margin, tileMin, tileMax + 1),
+        clamp3(Math.ceil(_size[1] / k - origin[1]) + _margin, tileMin, tileMax + 1)
+      );
       var tiles = [];
       for (var i2 = 0; i2 < rows.length; i2++) {
         var y = rows[i2];
@@ -24143,7 +24268,10 @@
         return {
           id: tile.toString(),
           xyz: tile,
-          extent: geoExtent(projection2.invert([x, y + ts]), projection2.invert([x + ts, y]))
+          extent: geoExtent(
+            projection2.invert([x, y + ts]),
+            projection2.invert([x + ts, y])
+          )
         };
       }).filter(Boolean);
     };
@@ -24893,10 +25021,12 @@
       }
     };
     localizer.t.append = function(stringId, replacements, locale2) {
-      return function(selection2) {
+      const ret = function(selection2) {
         const info = localizer.tInfo(stringId, replacements, locale2);
         return selection2.append("span").attr("class", "localized-text").attr("lang", info.locale || "und").text((replacements && replacements.prefix || "") + info.text + (replacements && replacements.suffix || ""));
       };
+      ret.stringId = stringId;
+      return ret;
     };
     localizer.languageName = (code, options2) => {
       if (_languageNames[code]) {
@@ -24940,13 +25070,19 @@
     };
     _this.index = (id2) => _this.collection.findIndex((d) => d.id === id2);
     _this.matchGeometry = (geometry) => {
-      return presetCollection(_this.collection.filter((d) => d.matchGeometry(geometry)));
+      return presetCollection(
+        _this.collection.filter((d) => d.matchGeometry(geometry))
+      );
     };
     _this.matchAllGeometry = (geometries) => {
-      return presetCollection(_this.collection.filter((d) => d && d.matchAllGeometry(geometries)));
+      return presetCollection(
+        _this.collection.filter((d) => d && d.matchAllGeometry(geometries))
+      );
     };
     _this.matchAnyGeometry = (geometries) => {
-      return presetCollection(_this.collection.filter((d) => geometries.some((geom) => d.matchGeometry(geom))));
+      return presetCollection(
+        _this.collection.filter((d) => geometries.some((geom) => d.matchGeometry(geom)))
+      );
     };
     _this.fallback = (geometry) => {
       let id2 = geometry;
@@ -25019,7 +25155,18 @@
       if (value.includes("=")) {
         leadingTagKeyValues = searchable.filter((a) => a.tags && Object.keys(a.tags).some((key) => key + "=" + a.tags[key] === value)).concat(searchable.filter((a) => a.tags && Object.keys(a.tags).some((key) => leading(key + "=" + a.tags[key]))));
       }
-      let results = leadingNames.concat(leadingSuggestions, leadingNamesStripped, leadingSuggestionsStripped, leadingTerms, leadingSuggestionTerms, leadingTagValues, similarName, similarSuggestions, similarTerms, leadingTagKeyValues).slice(0, MAXRESULTS - 1);
+      let results = leadingNames.concat(
+        leadingSuggestions,
+        leadingNamesStripped,
+        leadingSuggestionsStripped,
+        leadingTerms,
+        leadingSuggestionTerms,
+        leadingTagValues,
+        similarName,
+        similarSuggestions,
+        similarTerms,
+        leadingTagKeyValues
+      ).slice(0, MAXRESULTS - 1);
       if (geometry) {
         if (typeof geometry === "string") {
           results.push(_this.fallback(geometry));
@@ -25038,7 +25185,9 @@
     let _searchName;
     let _searchNameStripped;
     _this.id = categoryID;
-    _this.members = presetCollection((category.members || []).map((presetID) => allPresets[presetID]).filter(Boolean));
+    _this.members = presetCollection(
+      (category.members || []).map((presetID) => allPresets[presetID]).filter(Boolean)
+    );
     _this.geometry = _this.members.collection.reduce((acc, preset) => {
       for (let i2 in preset.geometry) {
         const geometry = preset.geometry[i2];
@@ -25052,7 +25201,7 @@
     _this.matchAllGeometry = (geometries) => _this.members.collection.some((preset) => preset.matchAllGeometry(geometries));
     _this.matchScore = () => -1;
     _this.name = () => _t(`_tagging.presets.categories.${categoryID}.name`, { "default": categoryID });
-    _this.nameLabel = () => _t.html(`_tagging.presets.categories.${categoryID}.name`, { "default": categoryID });
+    _this.nameLabel = () => _t.append(`_tagging.presets.categories.${categoryID}.name`, { "default": categoryID });
     _this.terms = () => [];
     _this.searchName = () => {
       if (!_searchName) {
@@ -25085,9 +25234,10 @@
     };
     _this.t = (scope, options2) => _t(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
     _this.t.html = (scope, options2) => _t.html(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
+    _this.t.append = (scope, options2) => _t.append(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
     _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${fieldID}.${scope}`);
     _this.title = () => _this.overrideLabel || _this.t("label", { "default": fieldID });
-    _this.label = () => _this.overrideLabel || _this.t.html("label", { "default": fieldID });
+    _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.t.append("label", { "default": fieldID });
     const _placeholder = _this.placeholder;
     _this.placeholder = () => _this.t("placeholder", { "default": _placeholder });
     _this.originalTerms = (_this.terms || []).join();
@@ -25155,16 +25305,14 @@
       const textID = `_tagging.presets.presets.${presetID}.${scope}`;
       return _t(textID, options2);
     };
-    _this.t.html = (scope, options2) => {
+    _this.t.append = (scope, options2) => {
       const textID = `_tagging.presets.presets.${presetID}.${scope}`;
-      return _t.html(textID, options2);
+      return _t.append(textID, options2);
     };
     _this.name = () => {
       return _this.t("name", { "default": _this.originalName });
     };
-    _this.nameLabel = () => {
-      return _this.t.html("name", { "default": _this.originalName });
-    };
+    _this.nameLabel = () => _this.t.append("name", { "default": _this.originalName });
     _this.subtitle = () => {
       if (_this.suggestion) {
         let path = presetID.split("/");
@@ -25177,7 +25325,7 @@
       if (_this.suggestion) {
         let path = presetID.split("/");
         path.pop();
-        return _t.html("_tagging.presets.presets." + path.join("/") + ".name");
+        return _t.append("_tagging.presets.presets." + path.join("/") + ".name");
       }
       return null;
     };
@@ -25426,7 +25574,9 @@
         Object.keys(d.defaults).forEach((geometry) => {
           const def = d.defaults[geometry];
           if (Array.isArray(def)) {
-            _defaults[geometry] = presetCollection(def.map((id2) => _presets[id2] || _categories[id2]).filter(Boolean));
+            _defaults[geometry] = presetCollection(
+              def.map((id2) => _presets[id2] || _categories[id2]).filter(Boolean)
+            );
           } else {
             delete _defaults[geometry];
           }
@@ -25599,7 +25749,7 @@
     };
     _this.field = (id2) => _fields[id2];
     _this.universal = () => _universal;
-    _this.defaults = (geometry, n2, startWithRecents, loc) => {
+    _this.defaults = (geometry, n2, startWithRecents, loc, extraPresets) => {
       let recents = [];
       if (startWithRecents) {
         recents = _this.recent().matchGeometry(geometry).collection.slice(0, 4);
@@ -25615,7 +25765,9 @@
       } else {
         defaults2 = _defaults[geometry].collection.concat(_this.fallback(geometry));
       }
-      let result = presetCollection(utilArrayUniq(recents.concat(defaults2)).slice(0, n2 - 1));
+      let result = presetCollection(
+        utilArrayUniq(recents.concat(defaults2).concat(extraPresets || [])).slice(0, n2 - 1)
+      );
       if (Array.isArray(loc)) {
         const validLocations = _mainLocations.locationsAt(loc);
         result.collection = result.collection.filter((a) => !a.locationSetID || validLocations[a.locationSetID]);
@@ -25642,7 +25794,9 @@
       return _this;
     };
     _this.recent = () => {
-      return presetCollection(utilArrayUniq(_this.getRecents().map((d) => d.preset)));
+      return presetCollection(
+        utilArrayUniq(_this.getRecents().map((d) => d.preset).filter((d) => d.searchable !== false))
+      );
     };
     function RibbonItem(preset, source) {
       let item = {};
@@ -25949,9 +26103,9 @@
   }
   function utilDisplayName(entity) {
     var localizedNameKey = "name:" + _mainLocalizer.languageCode().toLowerCase();
-    var name2 = entity.tags[localizedNameKey] || entity.tags.name || "";
-    if (name2)
-      return name2;
+    var name = entity.tags[localizedNameKey] || entity.tags.name || "";
+    if (name)
+      return name;
     var tags = {
       direction: entity.tags.direction,
       from: entity.tags.from,
@@ -25979,18 +26133,18 @@
       }
     }
     if (keyComponents.length) {
-      name2 = _t("inspector.display_name." + keyComponents.join("_"), tags);
+      name = _t("inspector.display_name." + keyComponents.join("_"), tags);
     }
-    return name2;
+    return name;
   }
   function utilDisplayNameForPath(entity) {
-    var name2 = utilDisplayName(entity);
+    var name = utilDisplayName(entity);
     var isFirefox = utilDetect().browser.toLowerCase().indexOf("firefox") > -1;
     var isNewChromium = Number(utilDetect().version.split(".")[0]) >= 96;
-    if (!isFirefox && !isNewChromium && name2 && rtlRegex.test(name2)) {
-      name2 = fixRTLTextForSvg(name2);
+    if (!isFirefox && !isNewChromium && name && rtlRegex.test(name)) {
+      name = fixRTLTextForSvg(name);
     }
-    return name2;
+    return name;
   }
   function utilDisplayType(id2) {
     return {
@@ -26056,17 +26210,17 @@
     for (var key in tags) {
       if (!Array.isArray(tags[key]))
         continue;
-      tags[key] = tags[key].sort(function(val1, val2) {
+      tags[key] = tags[key].sort(function(val12, val2) {
         var key2 = key2;
         var count2 = tagCounts[key2 + "=" + val2];
-        var count1 = tagCounts[key2 + "=" + val1];
+        var count1 = tagCounts[key2 + "=" + val12];
         if (count2 !== count1) {
           return count2 - count1;
         }
-        if (val2 && val1) {
-          return val1.localeCompare(val2);
+        if (val2 && val12) {
+          return val12.localeCompare(val2);
         }
-        return val1 ? 1 : -1;
+        return val12 ? 1 : -1;
       });
     }
     return tags;
@@ -26079,7 +26233,7 @@
     return str2.split("&").reduce(function(obj, pair2) {
       var parts = pair2.split("=");
       if (parts.length === 2) {
-        obj[parts[0]] = parts[1] === null ? "" : decodeURIComponent(parts[1]);
+        obj[parts[0]] = null === parts[1] ? "" : decodeURIComponent(parts[1]);
       }
       return obj;
     }, {});
@@ -26099,7 +26253,7 @@
     var s = document.body;
     if (property in s)
       return property;
-    property = property.substr(0, 1).toUpperCase() + property.substr(1);
+    property = property.slice(0, 1).toUpperCase() + property.slice(1);
     while (++i2 < n2) {
       if (prefixes2[i2] + property in s) {
         return prefixes2[i2] + property;
@@ -26148,7 +26302,13 @@
         if (b.charAt(i2 - 1) === a.charAt(j2 - 1)) {
           matrix[i2][j2] = matrix[i2 - 1][j2 - 1];
         } else {
-          matrix[i2][j2] = Math.min(matrix[i2 - 1][j2 - 1] + 1, Math.min(matrix[i2][j2 - 1] + 1, matrix[i2 - 1][j2] + 1));
+          matrix[i2][j2] = Math.min(
+            matrix[i2 - 1][j2 - 1] + 1,
+            Math.min(
+              matrix[i2][j2 - 1] + 1,
+              matrix[i2 - 1][j2] + 1
+            )
+          );
         }
       }
     }
@@ -26379,7 +26539,10 @@
           merged[k] = t2;
         } else if (t1 !== t2) {
           changed = true;
-          merged[k] = utilUnicodeCharsTruncated(utilArrayUnion(t1.split(/;\s*/), t2.split(/;\s*/)).join(";"), 255);
+          merged[k] = utilUnicodeCharsTruncated(
+            utilArrayUnion(t1.split(/;\s*/), t2.split(/;\s*/)).join(";"),
+            255
+          );
         }
       }
       return changed ? this.update({ tags: merged }) : this;
@@ -27402,7 +27565,10 @@
   function actionAddMidpoint(midpoint, node) {
     return function(graph) {
       graph = graph.replace(node.move(midpoint.loc));
-      var parents = utilArrayIntersection(graph.parentWays(graph.entity(midpoint.edge[0])), graph.parentWays(graph.entity(midpoint.edge[1])));
+      var parents = utilArrayIntersection(
+        graph.parentWays(graph.entity(midpoint.edge[0])),
+        graph.parentWays(graph.entity(midpoint.edge[1]))
+      );
       parents.forEach(function(way) {
         for (var i2 = 0; i2 < way.nodes.length - 1; i2++) {
           if (geoEdgeEqual([way.nodes[i2], way.nodes[i2 + 1]], midpoint.edge)) {
@@ -27452,6 +27618,40 @@
   }
 
   // modules/osm/node.js
+  var cardinal = {
+    north: 0,
+    n: 0,
+    northnortheast: 22,
+    nne: 22,
+    northeast: 45,
+    ne: 45,
+    eastnortheast: 67,
+    ene: 67,
+    east: 90,
+    e: 90,
+    eastsoutheast: 112,
+    ese: 112,
+    southeast: 135,
+    se: 135,
+    southsoutheast: 157,
+    sse: 157,
+    south: 180,
+    s: 180,
+    southsouthwest: 202,
+    ssw: 202,
+    southwest: 225,
+    sw: 225,
+    westsouthwest: 247,
+    wsw: 247,
+    west: 270,
+    w: 270,
+    westnorthwest: 292,
+    wnw: 292,
+    northwest: 315,
+    nw: 315,
+    northnorthwest: 337,
+    nnw: 337
+  };
   function osmNode() {
     if (!(this instanceof osmNode)) {
       return new osmNode().initialize(arguments);
@@ -27496,40 +27696,6 @@
       }
       if (val === "")
         return [];
-      var cardinal = {
-        north: 0,
-        n: 0,
-        northnortheast: 22,
-        nne: 22,
-        northeast: 45,
-        ne: 45,
-        eastnortheast: 67,
-        ene: 67,
-        east: 90,
-        e: 90,
-        eastsoutheast: 112,
-        ese: 112,
-        southeast: 135,
-        se: 135,
-        southsoutheast: 157,
-        sse: 157,
-        south: 180,
-        s: 180,
-        southsouthwest: 202,
-        ssw: 202,
-        southwest: 225,
-        sw: 225,
-        westsouthwest: 247,
-        wsw: 247,
-        west: 270,
-        w: 270,
-        westnorthwest: 292,
-        wnw: 292,
-        northwest: 315,
-        nw: 315,
-        northnorthwest: 337,
-        nnw: 337
-      };
       var values = val.split(";");
       var results = [];
       values.forEach(function(v) {
@@ -27559,7 +27725,9 @@
           }
         }, this);
         Object.keys(nodeIds).forEach(function(nodeId) {
-          results.push(geoAngle(this, resolver.entity(nodeId), projection2) * (180 / Math.PI) + 90);
+          results.push(
+            geoAngle(this, resolver.entity(nodeId), projection2) * (180 / Math.PI) + 90
+          );
         }, this);
       }, this);
       return utilArrayUniq(results);
@@ -28416,9 +28584,12 @@
       var entities = ids.map(function(id2) {
         return graph.entity(id2);
       });
-      return Object.assign({ line: [] }, utilArrayGroupBy(entities, function(entity) {
-        return entity.geometry(graph);
-      }));
+      return Object.assign(
+        { line: [] },
+        utilArrayGroupBy(entities, function(entity) {
+          return entity.geometry(graph);
+        })
+      );
     }
     var action = function(graph) {
       var ways = ids.map(graph.entity, graph);
@@ -28509,11 +28680,14 @@
             return e.loc;
           });
           var intersections = geoPathIntersections(path1, path2);
-          var common = utilArrayIntersection(joined[0].nodes.map(function(n2) {
-            return n2.loc.toString();
-          }), intersections.map(function(n2) {
-            return n2.toString();
-          }));
+          var common = utilArrayIntersection(
+            joined[0].nodes.map(function(n2) {
+              return n2.loc.toString();
+            }),
+            intersections.map(function(n2) {
+              return n2.toString();
+            })
+          );
           if (common.length !== intersections.length) {
             return "paths_intersect";
           }
@@ -28558,9 +28732,12 @@
       var entities = ids.map(function(id2) {
         return graph.entity(id2);
       });
-      return Object.assign({ point: [], area: [], line: [], relation: [] }, utilArrayGroupBy(entities, function(entity) {
-        return entity.geometry(graph);
-      }));
+      return Object.assign(
+        { point: [], area: [], line: [], relation: [] },
+        utilArrayGroupBy(entities, function(entity) {
+          return entity.geometry(graph);
+        })
+      );
     }
     var action = function(graph) {
       var geometries = groupEntitiesByGeometry(graph);
@@ -29065,10 +29242,10 @@
     },
     multipolygon: function(resolver) {
       var outers = this.members.filter(function(m) {
-        return (m.role || "outer") === "outer";
+        return "outer" === (m.role || "outer");
       });
       var inners = this.members.filter(function(m) {
-        return m.role === "inner";
+        return "inner" === m.role;
       });
       outers = osmJoinWays(outers, resolver);
       inners = osmJoinWays(inners, resolver);
@@ -30124,7 +30301,10 @@
           return "other";
         }
       });
-      return Object.assign({ closedWay: [], multipolygon: [], other: [] }, geometryGroups);
+      return Object.assign(
+        { closedWay: [], multipolygon: [], other: [] },
+        geometryGroups
+      );
     }
     var action = function(graph) {
       var entities = groupEntities(graph);
@@ -30139,11 +30319,14 @@
         return polygons.map(function(d, n2) {
           if (i2 === n2)
             return null;
-          return geoPolygonContainsPolygon(d.nodes.map(function(n3) {
-            return n3.loc;
-          }), w.nodes.map(function(n3) {
-            return n3.loc;
-          }));
+          return geoPolygonContainsPolygon(
+            d.nodes.map(function(n3) {
+              return n3.loc;
+            }),
+            w.nodes.map(function(n3) {
+              return n3.loc;
+            })
+          );
         });
       });
       var members = [];
@@ -30588,7 +30771,10 @@
         var k = keys[i2];
         if (o[k] !== b[k] && a[k] !== b[k]) {
           if (o[k] !== a[k]) {
-            _conflicts.push(_t.html("merge_remote_changes.conflict.tags", { tag: k, local: a[k], remote: b[k], user: { html: user(remote.user) } }));
+            _conflicts.push(_t.html(
+              "merge_remote_changes.conflict.tags",
+              { tag: k, local: a[k], remote: b[k], user: { html: user(remote.user) } }
+            ));
           } else {
             if (b.hasOwnProperty(k)) {
               tags[k] = b[k];
@@ -30931,7 +31117,9 @@
         t = 1;
       t = Math.min(Math.max(+t, 0), 1);
       var node = graph.entity(nodeID);
-      return graph.replace(node.move(geoVecInterp(node.loc, toLoc, t)));
+      return graph.replace(
+        node.move(geoVecInterp(node.loc, toLoc, t))
+      );
     };
     action.transitionable = true;
     return action;
@@ -31687,7 +31875,17 @@
   var _disableSpace = false;
   var _lastSpace = null;
   function behaviorDraw(context) {
-    var dispatch10 = dispatch_default("move", "down", "downcancel", "click", "clickWay", "clickNode", "undo", "cancel", "finish");
+    var dispatch10 = dispatch_default(
+      "move",
+      "down",
+      "downcancel",
+      "click",
+      "clickWay",
+      "clickNode",
+      "undo",
+      "cancel",
+      "finish"
+    );
     var keybinding = utilKeybinding("draw");
     var _hover = behaviorHover(context).altDisables(true).ignoreVertex(true).on("hover", context.ui().sidebar.hover);
     var _edit = behaviorEdit(context);
@@ -31788,7 +31986,12 @@
         dispatch10.call("clickNode", this, target, d);
         return;
       } else if (target && target.type === "way" && (mode.id !== "add-point" || mode.preset.matchGeometry("vertex"))) {
-        var choice = geoChooseEdge(context.graph().childNodes(target), loc, context.projection, context.activeID());
+        var choice = geoChooseEdge(
+          context.graph().childNodes(target),
+          loc,
+          context.projection,
+          context.activeID()
+        );
         if (choice) {
           var edge = [target.nodes[choice.index - 1], target.nodes[choice.index]];
           dispatch10.call("clickWay", this, choice.loc, edge, d);
@@ -32380,13 +32583,31 @@
     function setAnimationParams(transition2, fromTo) {
       var toFrom = fromTo === "from" ? "to" : "from";
       transition2.styleTween("stroke-opacity", function(d) {
-        return ratchetyInterpolator(_params[d.id][toFrom].opacity, _params[d.id][fromTo].opacity, steps);
+        return ratchetyInterpolator(
+          _params[d.id][toFrom].opacity,
+          _params[d.id][fromTo].opacity,
+          steps
+        );
       }).styleTween("stroke-width", function(d) {
-        return ratchetyInterpolator(_params[d.id][toFrom].width, _params[d.id][fromTo].width, steps, "px");
+        return ratchetyInterpolator(
+          _params[d.id][toFrom].width,
+          _params[d.id][fromTo].width,
+          steps,
+          "px"
+        );
       }).styleTween("fill-opacity", function(d) {
-        return ratchetyInterpolator(_params[d.id][toFrom].opacity, _params[d.id][fromTo].opacity, steps);
+        return ratchetyInterpolator(
+          _params[d.id][toFrom].opacity,
+          _params[d.id][fromTo].opacity,
+          steps
+        );
       }).styleTween("r", function(d) {
-        return ratchetyInterpolator(_params[d.id][toFrom].width, _params[d.id][fromTo].width, steps, "px");
+        return ratchetyInterpolator(
+          _params[d.id][toFrom].width,
+          _params[d.id][fromTo].width,
+          steps,
+          "px"
+        );
       });
     }
     function calcAnimationParams(selection2) {
@@ -32476,7 +32697,7 @@
       d3_event.preventDefault();
       var disabled = _operation.disabled();
       if (disabled) {
-        context.ui().flash.duration(4e3).iconName("#iD-operation-" + _operation.id).iconClass("operation disabled").label(_operation.tooltip)();
+        context.ui().flash.duration(4e3).iconName("#iD-operation-" + _operation.id).iconClass("operation disabled").label(_operation.tooltip())();
       } else {
         context.ui().flash.duration(2e3).iconName("#iD-operation-" + _operation.id).iconClass("operation").label(_operation.annotation() || _operation.title)();
         if (_operation.point)
@@ -32580,14 +32801,14 @@
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.circularize." + disable + "." + _amount) : _t("operations.circularize.description." + _amount);
+      return disable ? _t.append("operations.circularize." + disable + "." + _amount) : _t.append("operations.circularize.description." + _amount);
     };
     operation.annotation = function() {
       return _t("operations.circularize.annotation.feature", { n: _actions.length });
     };
     operation.id = "circularize";
     operation.keys = [_t("operations.circularize.key")];
-    operation.title = _t("operations.circularize.title");
+    operation.title = _t.append("operations.circularize.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -32749,14 +32970,14 @@
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.delete." + disable + "." + multi) : _t("operations.delete.description." + multi);
+      return disable ? _t.append("operations.delete." + disable + "." + multi) : _t.append("operations.delete.description." + multi);
     };
     operation.annotation = function() {
       return selectedIDs.length === 1 ? _t("operations.delete.annotation." + context.graph().geometry(selectedIDs[0])) : _t("operations.delete.annotation.feature", { n: selectedIDs.length });
     };
     operation.id = "delete";
     operation.keys = [uiCmd("\u2318\u232B"), uiCmd("\u2318\u2326"), uiCmd("\u2326")];
-    operation.title = _t("operations.delete.title");
+    operation.title = _t.append("operations.delete.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -32857,14 +33078,14 @@
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.orthogonalize." + disable + "." + _amount) : _t("operations.orthogonalize.description." + _type + "." + _amount);
+      return disable ? _t.append("operations.orthogonalize." + disable + "." + _amount) : _t.append("operations.orthogonalize.description." + _type + "." + _amount);
     };
     operation.annotation = function() {
       return _t("operations.orthogonalize.annotation." + _type, { n: _actions.length });
     };
     operation.id = "orthogonalize";
     operation.keys = [_t("operations.orthogonalize.key")];
-    operation.title = _t("operations.orthogonalize.title");
+    operation.title = _t.append("operations.orthogonalize.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -32929,14 +33150,14 @@
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.reflect." + disable + "." + multi) : _t("operations.reflect.description." + axis + "." + multi);
+      return disable ? _t.append("operations.reflect." + disable + "." + multi) : _t.append("operations.reflect.description." + axis + "." + multi);
     };
     operation.annotation = function() {
       return _t("operations.reflect.annotation." + axis + ".feature", { n: selectedIDs.length });
     };
     operation.id = "reflect-" + axis;
     operation.keys = [_t("operations.reflect.key." + axis)];
-    operation.title = _t("operations.reflect.title." + axis);
+    operation.title = _t.append("operations.reflect.title." + axis);
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -32990,14 +33211,14 @@
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.move." + disable + "." + multi) : _t("operations.move.description." + multi);
+      return disable ? _t.append("operations.move." + disable + "." + multi) : _t.append("operations.move.description." + multi);
     };
     operation.annotation = function() {
       return selectedIDs.length === 1 ? _t("operations.move.annotation." + context.graph().geometry(selectedIDs[0])) : _t("operations.move.annotation.feature", { n: selectedIDs.length });
     };
     operation.id = "move";
     operation.keys = [_t("operations.move.key")];
-    operation.title = _t("operations.move.title");
+    operation.title = _t.append("operations.move.title");
     operation.behavior = behaviorOperation(context).which(operation);
     operation.mouseOnly = true;
     return operation;
@@ -33171,14 +33392,14 @@
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.rotate." + disable + "." + multi) : _t("operations.rotate.description." + multi);
+      return disable ? _t.append("operations.rotate." + disable + "." + multi) : _t.append("operations.rotate.description." + multi);
     };
     operation.annotation = function() {
       return selectedIDs.length === 1 ? _t("operations.rotate.annotation." + context.graph().geometry(selectedIDs[0])) : _t("operations.rotate.annotation.feature", { n: selectedIDs.length });
     };
     operation.id = "rotate";
     operation.keys = [_t("operations.rotate.key")];
-    operation.title = _t("operations.rotate.title");
+    operation.title = _t.append("operations.rotate.title");
     operation.behavior = behaviorOperation(context).which(operation);
     operation.mouseOnly = true;
     return operation;
@@ -33571,7 +33792,7 @@
       _isCancelled = !context.editable() || d3_event.shiftKey || hasHidden;
       if (_isCancelled) {
         if (hasHidden) {
-          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t("modes.drag_node.connected_to_hidden"))();
+          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append("modes.drag_node.connected_to_hidden"))();
         }
         return drag.cancel();
       }
@@ -33621,7 +33842,9 @@
           }
         }
       }
-      context.replace(actionMoveNode(entity.id, loc));
+      context.replace(
+        actionMoveNode(entity.id, loc)
+      );
       var isInvalid = false;
       if (target) {
         isInvalid = hasRelationConflict(entity, target, edge, context.graph());
@@ -33632,11 +33855,14 @@
       var nope = context.surface().classed("nope");
       if (isInvalid === "relation" || isInvalid === "restriction") {
         if (!nope) {
-          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.html("operations.connect." + isInvalid, { relation: _mainPresetIndex.item("type/restriction").name() }))();
+          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append(
+            "operations.connect." + isInvalid,
+            { relation: _mainPresetIndex.item("type/restriction").name() }
+          ))();
         }
       } else if (isInvalid) {
         var errorID = isInvalid === "line" ? "lines" : "areas";
-        context.ui().flash.duration(3e3).iconName("#iD-icon-no").label(_t.html("self_intersection.error." + errorID))();
+        context.ui().flash.duration(3e3).iconName("#iD-icon-no").label(_t.append("self_intersection.error." + errorID))();
       } else {
         if (nope) {
           context.ui().flash.duration(1).label("")();
@@ -33731,19 +33957,33 @@
       var nope = d && d.properties && d.properties.nope || context.surface().classed("nope");
       var target = d && d.properties && d.properties.entity;
       if (nope) {
-        context.perform(_actionBounceBack(entity.id, _startLoc));
+        context.perform(
+          _actionBounceBack(entity.id, _startLoc)
+        );
       } else if (target && target.type === "way") {
         var choice = geoChooseEdge(context.graph().childNodes(target), context.map().mouse(), context.projection, entity.id);
-        context.replace(actionAddMidpoint({
-          loc: choice.loc,
-          edge: [target.nodes[choice.index - 1], target.nodes[choice.index]]
-        }, entity), connectAnnotation(entity, target));
+        context.replace(
+          actionAddMidpoint({
+            loc: choice.loc,
+            edge: [target.nodes[choice.index - 1], target.nodes[choice.index]]
+          }, entity),
+          connectAnnotation(entity, target)
+        );
       } else if (target && target.type === "node" && shouldSnapToNode(target)) {
-        context.replace(actionConnect([target.id, entity.id]), connectAnnotation(entity, target));
+        context.replace(
+          actionConnect([target.id, entity.id]),
+          connectAnnotation(entity, target)
+        );
       } else if (_wasMidpoint) {
-        context.replace(actionNoop(), _t("operations.add.annotation.vertex"));
+        context.replace(
+          actionNoop(),
+          _t("operations.add.annotation.vertex")
+        );
       } else {
-        context.replace(actionNoop(), moveAnnotation(entity));
+        context.replace(
+          actionNoop(),
+          moveAnnotation(entity)
+        );
       }
       if (wasPoint) {
         context.enter(modeSelect(context, [entity.id]));
@@ -34041,7 +34281,9 @@
       items.forEach((item) => {
         const match = item.match(/\#(\d+)\((.+)\)?/);
         if (match !== null && match.length > 2) {
-          newList.push(linkEntity2("w" + match[1]) + " " + _t("QA.keepRight.errorTypes.231.layer", { layer: match[2] }));
+          newList.push(
+            linkEntity2("w" + match[1]) + " " + _t("QA.keepRight.errorTypes.231.layer", { layer: match[2] })
+          );
         }
       });
       return newList.join(", ");
@@ -34135,7 +34377,7 @@
             } = feature3;
             let {
               geometry: { coordinates: loc },
-              properties: { description: description2 = "" }
+              properties: { description = "" }
             } = feature3;
             const issueTemplate = _krData.errorTypes[itemType];
             const parentIssueType = (Math.floor(itemType / 10) * 10).toString();
@@ -34143,26 +34385,26 @@
             const whichTemplate = _krData.errorTypes[whichType];
             switch (whichType) {
               case "170":
-                description2 = `This feature has a FIXME tag: ${description2}`;
+                description = `This feature has a FIXME tag: ${description}`;
                 break;
               case "292":
               case "293":
-                description2 = description2.replace("A turn-", "This turn-");
+                description = description.replace("A turn-", "This turn-");
                 break;
               case "294":
               case "295":
               case "296":
               case "297":
               case "298":
-                description2 = `This turn-restriction~${description2}`;
+                description = `This turn-restriction~${description}`;
                 break;
               case "300":
-                description2 = "This highway is missing a maxspeed tag";
+                description = "This highway is missing a maxspeed tag";
                 break;
               case "411":
               case "412":
               case "413":
-                description2 = `This feature~${description2}`;
+                description = `This feature~${description}`;
                 break;
             }
             let coincident = false;
@@ -34174,7 +34416,7 @@
             } while (coincident);
             let d = new QAItem(loc, this, itemType, id2, {
               comment,
-              description: description2,
+              description,
               whichType,
               parentIssueType,
               severity: whichTemplate.severity || "error",
@@ -34302,7 +34544,10 @@
   }
   function pointAverage(points) {
     if (points.length) {
-      const sum = points.reduce((acc, point) => geoVecAdd(acc, [point.lon, point.lat]), [0, 0]);
+      const sum = points.reduce(
+        (acc, point) => geoVecAdd(acc, [point.lon, point.lat]),
+        [0, 0]
+      );
       return geoVecScale(sum, 1 / points.length);
     } else {
       return [0, 0];
@@ -34377,7 +34622,11 @@
         const params = Object.assign({}, options2, { east, south, west, north });
         const requests = {};
         Object.keys(_impOsmUrls).forEach((k) => {
-          const kParams = Object.assign({}, params, k === "mr" ? { type: "PARKING,ROAD,BOTH,PATH" } : { confidenceLevel: "C1" });
+          const kParams = Object.assign(
+            {},
+            params,
+            k === "mr" ? { type: "PARKING,ROAD,BOTH,PATH" } : { confidenceLevel: "C1" }
+          );
           const url = `${_impOsmUrls[k]}/search?` + utilQsString(kParams);
           const controller = new AbortController();
           requests[k] = controller;
@@ -34607,6 +34856,7 @@
   // node_modules/marked/lib/marked.esm.js
   function getDefaults() {
     return {
+      async: false,
       baseUrl: null,
       breaks: false,
       extensions: null,
@@ -34673,10 +34923,10 @@
     regex = typeof regex === "string" ? regex : regex.source;
     opt = opt || "";
     const obj = {
-      replace: (name2, val) => {
+      replace: (name, val) => {
         val = val.source || val;
         val = val.replace(caret, "$1");
-        regex = regex.replace(name2, val);
+        regex = regex.replace(name, val);
         return obj;
       },
       getRegex: () => {
@@ -34849,7 +35099,7 @@
         href,
         title,
         text: text2,
-        tokens: lexer2.inlineTokens(text2, [])
+        tokens: lexer2.inlineTokens(text2)
       };
       lexer2.state.inLink = false;
       return token;
@@ -34930,15 +35180,13 @@
             text2 = trimmed.trim();
           }
         }
-        const token = {
+        return {
           type: "heading",
           raw: cap[0],
           depth: cap[1].length,
           text: text2,
-          tokens: []
+          tokens: this.lexer.inline(text2)
         };
-        this.lexer.inline(token.text, token.tokens);
-        return token;
       }
     }
     hr(src) {
@@ -35011,7 +35259,8 @@
           if (!endEarly) {
             const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?: [^\\n]*)?(?:\\n|$))`);
             const hrRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
-            const fencesBeginRegex = new RegExp(`^( {0,${Math.min(3, indent2 - 1)}})(\`\`\`|~~~)`);
+            const fencesBeginRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:\`\`\`|~~~)`);
+            const headingBeginRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}#`);
             while (src) {
               rawLine = src.split("\n", 1)[0];
               line = rawLine;
@@ -35021,7 +35270,7 @@
               if (fencesBeginRegex.test(line)) {
                 break;
               }
-              if (this.rules.block.heading.test(line)) {
+              if (headingBeginRegex.test(line)) {
                 break;
               }
               if (nextBulletRegex.test(line)) {
@@ -35107,10 +35356,10 @@
           text: cap[0]
         };
         if (this.options.sanitize) {
+          const text2 = this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape4(cap[0]);
           token.type = "paragraph";
-          token.text = this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape4(cap[0]);
-          token.tokens = [];
-          this.lexer.inline(token.text, token.tokens);
+          token.text = text2;
+          token.tokens = this.lexer.inline(text2);
         }
         return token;
       }
@@ -35164,15 +35413,13 @@
           }
           l = item.header.length;
           for (j2 = 0; j2 < l; j2++) {
-            item.header[j2].tokens = [];
-            this.lexer.inline(item.header[j2].text, item.header[j2].tokens);
+            item.header[j2].tokens = this.lexer.inline(item.header[j2].text);
           }
           l = item.rows.length;
           for (j2 = 0; j2 < l; j2++) {
             row = item.rows[j2];
             for (k = 0; k < row.length; k++) {
-              row[k].tokens = [];
-              this.lexer.inline(row[k].text, row[k].tokens);
+              row[k].tokens = this.lexer.inline(row[k].text);
             }
           }
           return item;
@@ -35182,41 +35429,36 @@
     lheading(src) {
       const cap = this.rules.block.lheading.exec(src);
       if (cap) {
-        const token = {
+        return {
           type: "heading",
           raw: cap[0],
           depth: cap[2].charAt(0) === "=" ? 1 : 2,
           text: cap[1],
-          tokens: []
+          tokens: this.lexer.inline(cap[1])
         };
-        this.lexer.inline(token.text, token.tokens);
-        return token;
       }
     }
     paragraph(src) {
       const cap = this.rules.block.paragraph.exec(src);
       if (cap) {
-        const token = {
+        const text2 = cap[1].charAt(cap[1].length - 1) === "\n" ? cap[1].slice(0, -1) : cap[1];
+        return {
           type: "paragraph",
           raw: cap[0],
-          text: cap[1].charAt(cap[1].length - 1) === "\n" ? cap[1].slice(0, -1) : cap[1],
-          tokens: []
+          text: text2,
+          tokens: this.lexer.inline(text2)
         };
-        this.lexer.inline(token.text, token.tokens);
-        return token;
       }
     }
     text(src) {
       const cap = this.rules.block.text.exec(src);
       if (cap) {
-        const token = {
+        return {
           type: "text",
           raw: cap[0],
           text: cap[0],
-          tokens: []
+          tokens: this.lexer.inline(cap[0])
         };
-        this.lexer.inline(token.text, token.tokens);
-        return token;
       }
     }
     escape(src) {
@@ -35351,7 +35593,7 @@
               type: "em",
               raw: src.slice(0, lLength + match.index + rLength + 1),
               text: text3,
-              tokens: this.lexer.inlineTokens(text3, [])
+              tokens: this.lexer.inlineTokens(text3)
             };
           }
           const text2 = src.slice(2, lLength + match.index + rLength - 1);
@@ -35359,7 +35601,7 @@
             type: "strong",
             raw: src.slice(0, lLength + match.index + rLength + 1),
             text: text2,
-            tokens: this.lexer.inlineTokens(text2, [])
+            tokens: this.lexer.inlineTokens(text2)
           };
         }
       }
@@ -35397,7 +35639,7 @@
           type: "del",
           raw: cap[0],
           text: cap[2],
-          tokens: this.lexer.inlineTokens(cap[2], [])
+          tokens: this.lexer.inlineTokens(cap[2])
         };
       }
     }
@@ -35512,7 +35754,9 @@
   block.gfm.table = edit(block.gfm.table).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("blockquote", " {0,3}>").replace("code", " {4}[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
   block.gfm.paragraph = edit(block._paragraph).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("|lheading", "").replace("table", block.gfm.table).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
   block.pedantic = merge2({}, block.normal, {
-    html: edit(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", block._comment).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
+    html: edit(
+      `^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`
+    ).replace("comment", block._comment).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
     def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
     heading: /^(#{1,6})(.*)(?:\n+|$)/,
     fences: noopTest,
@@ -35810,8 +36054,9 @@
       this.state.top = true;
       return tokens;
     }
-    inline(src, tokens) {
+    inline(src, tokens = []) {
       this.inlineQueue.push({ src, tokens });
+      return tokens;
     }
     inlineTokens(src, tokens = []) {
       let token, lastToken, cutSrc;
@@ -36162,11 +36407,20 @@ ${content}</tr>
             continue;
           }
           case "heading": {
-            out += this.renderer.heading(this.parseInline(token.tokens), token.depth, unescape3(this.parseInline(token.tokens, this.textRenderer)), this.slugger);
+            out += this.renderer.heading(
+              this.parseInline(token.tokens),
+              token.depth,
+              unescape3(this.parseInline(token.tokens, this.textRenderer)),
+              this.slugger
+            );
             continue;
           }
           case "code": {
-            out += this.renderer.code(token.text, token.lang, token.escaped);
+            out += this.renderer.code(
+              token.text,
+              token.lang,
+              token.escaped
+            );
             continue;
           }
           case "table": {
@@ -36174,7 +36428,10 @@ ${content}</tr>
             cell = "";
             l2 = token.header.length;
             for (j2 = 0; j2 < l2; j2++) {
-              cell += this.renderer.tablecell(this.parseInline(token.header[j2].tokens), { header: true, align: token.align[j2] });
+              cell += this.renderer.tablecell(
+                this.parseInline(token.header[j2].tokens),
+                { header: true, align: token.align[j2] }
+              );
             }
             header += this.renderer.tablerow(cell);
             body = "";
@@ -36184,7 +36441,10 @@ ${content}</tr>
               cell = "";
               l3 = row.length;
               for (k = 0; k < l3; k++) {
-                cell += this.renderer.tablecell(this.parseInline(row[k].tokens), { header: false, align: token.align[k] });
+                cell += this.renderer.tablecell(
+                  this.parseInline(row[k].tokens),
+                  { header: false, align: token.align[k] }
+                );
               }
               body += this.renderer.tablerow(cell);
             }
@@ -36397,18 +36657,26 @@ ${content}</tr>
       }
       return;
     }
-    try {
-      const tokens = Lexer.lex(src, opt);
-      if (opt.walkTokens) {
-        marked.walkTokens(tokens, opt.walkTokens);
-      }
-      return Parser.parse(tokens, opt);
-    } catch (e) {
+    function onError(e) {
       e.message += "\nPlease report this to https://github.com/markedjs/marked.";
       if (opt.silent) {
         return "<p>An error occurred:</p><pre>" + escape4(e.message + "", true) + "</pre>";
       }
       throw e;
+    }
+    try {
+      const tokens = Lexer.lex(src, opt);
+      if (opt.walkTokens) {
+        if (opt.async) {
+          return Promise.all(marked.walkTokens(tokens, opt.walkTokens)).then(() => {
+            return Parser.parse(tokens, opt);
+          }).catch(onError);
+        }
+        marked.walkTokens(tokens, opt.walkTokens);
+      }
+      return Parser.parse(tokens, opt);
+    } catch (e) {
+      onError(e);
     }
   }
   marked.options = marked.setOptions = function(opt) {
@@ -36504,10 +36772,12 @@ ${content}</tr>
       if (pack.walkTokens) {
         const walkTokens2 = marked.defaults.walkTokens;
         opts.walkTokens = function(token) {
-          pack.walkTokens.call(this, token);
+          let values = [];
+          values.push(pack.walkTokens.call(this, token));
           if (walkTokens2) {
-            walkTokens2.call(this, token);
+            values = values.concat(walkTokens2.call(this, token));
           }
+          return values;
         };
       }
       if (hasExtensions) {
@@ -36517,35 +36787,37 @@ ${content}</tr>
     });
   };
   marked.walkTokens = function(tokens, callback) {
+    let values = [];
     for (const token of tokens) {
-      callback.call(marked, token);
+      values = values.concat(callback.call(marked, token));
       switch (token.type) {
         case "table": {
           for (const cell of token.header) {
-            marked.walkTokens(cell.tokens, callback);
+            values = values.concat(marked.walkTokens(cell.tokens, callback));
           }
           for (const row of token.rows) {
             for (const cell of row) {
-              marked.walkTokens(cell.tokens, callback);
+              values = values.concat(marked.walkTokens(cell.tokens, callback));
             }
           }
           break;
         }
         case "list": {
-          marked.walkTokens(token.items, callback);
+          values = values.concat(marked.walkTokens(token.items, callback));
           break;
         }
         default: {
           if (marked.defaults.extensions && marked.defaults.extensions.childTokens && marked.defaults.extensions.childTokens[token.type]) {
             marked.defaults.extensions.childTokens[token.type].forEach(function(childTokens) {
-              marked.walkTokens(token[childTokens], callback);
+              values = values.concat(marked.walkTokens(token[childTokens], callback));
             });
           } else if (token.tokens) {
-            marked.walkTokens(token.tokens, callback);
+            values = values.concat(marked.walkTokens(token.tokens, callback));
           }
         }
       }
     }
+    return values;
   };
   marked.parseInline = function(src, opt) {
     if (typeof src === "undefined" || src === null) {
@@ -36668,7 +36940,7 @@ ${content}</tr>
         if (_cache3.loadedTile[tile.id] || _cache3.inflightTile[tile.id])
           return;
         let [x, y, z] = tile.xyz;
-        let url = `${_osmoseUrlRoot}/issues/${z}/${x}/${y}.json?` + utilQsString(params);
+        let url = `${_osmoseUrlRoot}/issues/${z}/${x}/${y}.geojson?` + utilQsString(params);
         let controller = new AbortController();
         _cache3.inflightTile[tile.id] = controller;
         json_default(url, { signal: controller.signal }).then((data) => {
@@ -37342,14 +37614,18 @@ ${content}</tr>
         const layer = tile.layers["mpy-or"];
         const geometries = layer.feature(0).loadGeometry();
         const polygon2 = geometries.map((ring) => ring.map((point) => [point.x / layer.extent, point.y / layer.extent]));
-        tag = new mapillary.OutlineTag(data.id, new mapillary.PolygonGeometry(polygon2[0]), {
-          text: text2,
-          textColor: color2,
-          lineColor: color2,
-          lineWidth: 2,
-          fillColor: color2,
-          fillOpacity: 0.3
-        });
+        tag = new mapillary.OutlineTag(
+          data.id,
+          new mapillary.PolygonGeometry(polygon2[0]),
+          {
+            text: text2,
+            textColor: color2,
+            lineColor: color2,
+            lineWidth: 2,
+            fillColor: color2,
+            fillOpacity: 0.3
+          }
+        );
         return tag;
       }
     },
@@ -37406,7 +37682,7 @@ ${content}</tr>
       var issue = this;
       if (issue.severity === "warning") {
         fixes.push(new validationIssueFix({
-          title: _t.html("issues.fix.ignore_issue.title"),
+          title: _t.append("issues.fix.ignore_issue.title"),
           icon: "iD-icon-close",
           onClick: function() {
             context.validator().ignoreIssue(this.issue.id);
@@ -37414,7 +37690,7 @@ ${content}</tr>
         }));
       }
       fixes.forEach(function(fix) {
-        fix.id = fix.title;
+        fix.id = fix.title.stringId;
         fix.issue = issue;
         if (fix.autoArgs) {
           issue.autoFix = fix;
@@ -37667,7 +37943,9 @@ ${content}</tr>
       });
     },
     reverse: function(loc, callback) {
-      var cached = _nominatimCache.search({ minX: loc[0], minY: loc[1], maxX: loc[0], maxY: loc[1] });
+      var cached = _nominatimCache.search(
+        { minX: loc[0], minY: loc[1], maxX: loc[0], maxY: loc[1] }
+      );
       if (cached.length > 0) {
         if (callback)
           callback(null, cached[0].data);
@@ -37728,356 +38006,355 @@ ${content}</tr>
   function simplify(str2) {
     if (typeof str2 !== "string")
       return "";
-    return import_diacritics2.default.remove(str2.replace(/&/g, "and").replace(/İ/ig, "i").replace(/[\s\-=_!"#%'*{},.\/:;?\(\)\[\]@\\$\^*+<>«»~`’\u00a1\u00a7\u00b6\u00b7\u00bf\u037e\u0387\u055a-\u055f\u0589\u05c0\u05c3\u05c6\u05f3\u05f4\u0609\u060a\u060c\u060d\u061b\u061e\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0830-\u083e\u085e\u0964\u0965\u0970\u0af0\u0df4\u0e4f\u0e5a\u0e5b\u0f04-\u0f12\u0f14\u0f85\u0fd0-\u0fd4\u0fd9\u0fda\u104a-\u104f\u10fb\u1360-\u1368\u166d\u166e\u16eb-\u16ed\u1735\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u1805\u1807-\u180a\u1944\u1945\u1a1e\u1a1f\u1aa0-\u1aa6\u1aa8-\u1aad\u1b5a-\u1b60\u1bfc-\u1bff\u1c3b-\u1c3f\u1c7e\u1c7f\u1cc0-\u1cc7\u1cd3\u2000-\u206f\u2cf9-\u2cfc\u2cfe\u2cff\u2d70\u2e00-\u2e7f\u3001-\u3003\u303d\u30fb\ua4fe\ua4ff\ua60d-\ua60f\ua673\ua67e\ua6f2-\ua6f7\ua874-\ua877\ua8ce\ua8cf\ua8f8-\ua8fa\ua92e\ua92f\ua95f\ua9c1-\ua9cd\ua9de\ua9df\uaa5c-\uaa5f\uaade\uaadf\uaaf0\uaaf1\uabeb\ufe10-\ufe16\ufe19\ufe30\ufe45\ufe46\ufe49-\ufe4c\ufe50-\ufe52\ufe54-\ufe57\ufe5f-\ufe61\ufe68\ufe6a\ufe6b\ufeff\uff01-\uff03\uff05-\uff07\uff0a\uff0c\uff0e\uff0f\uff1a\uff1b\uff1f\uff20\uff3c\uff61\uff64\uff65]+/g, "").toLowerCase());
+    return import_diacritics2.default.remove(
+      str2.replace(/&/g, "and").replace(/İ/ig, "i").replace(/[\s\-=_!"#%'*{},.\/:;?\(\)\[\]@\\$\^*+<>«»~`’\u00a1\u00a7\u00b6\u00b7\u00bf\u037e\u0387\u055a-\u055f\u0589\u05c0\u05c3\u05c6\u05f3\u05f4\u0609\u060a\u060c\u060d\u061b\u061e\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0830-\u083e\u085e\u0964\u0965\u0970\u0af0\u0df4\u0e4f\u0e5a\u0e5b\u0f04-\u0f12\u0f14\u0f85\u0fd0-\u0fd4\u0fd9\u0fda\u104a-\u104f\u10fb\u1360-\u1368\u166d\u166e\u16eb-\u16ed\u1735\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u1805\u1807-\u180a\u1944\u1945\u1a1e\u1a1f\u1aa0-\u1aa6\u1aa8-\u1aad\u1b5a-\u1b60\u1bfc-\u1bff\u1c3b-\u1c3f\u1c7e\u1c7f\u1cc0-\u1cc7\u1cd3\u2000-\u206f\u2cf9-\u2cfc\u2cfe\u2cff\u2d70\u2e00-\u2e7f\u3001-\u3003\u303d\u30fb\ua4fe\ua4ff\ua60d-\ua60f\ua673\ua67e\ua6f2-\ua6f7\ua874-\ua877\ua8ce\ua8cf\ua8f8-\ua8fa\ua92e\ua92f\ua95f\ua9c1-\ua9cd\ua9de\ua9df\uaa5c-\uaa5f\uaade\uaadf\uaaf0\uaaf1\uabeb\ufe10-\ufe16\ufe19\ufe30\ufe45\ufe46\ufe49-\ufe4c\ufe50-\ufe52\ufe54-\ufe57\ufe5f-\ufe61\ufe68\ufe6a\ufe6b\ufeff\uff01-\uff03\uff05-\uff07\uff0a\uff0c\uff0e\uff0f\uff1a\uff1b\uff1f\uff20\uff3c\uff61\uff64\uff65]+/g, "").toLowerCase()
+    );
   }
 
   // node_modules/name-suggestion-index/config/matchGroups.json
-  var matchGroups = {
-    adult_gaming_centre: [
-      "amenity/casino",
-      "amenity/gambling",
-      "leisure/adult_gaming_centre"
-    ],
-    beauty: [
-      "shop/beauty",
-      "shop/hairdresser_supply"
-    ],
-    bed: [
-      "shop/bed",
-      "shop/furniture"
-    ],
-    beverages: [
-      "shop/alcohol",
-      "shop/beer",
-      "shop/beverages",
-      "shop/kiosk",
-      "shop/wine"
-    ],
-    camping: [
-      "tourism/camp_site",
-      "tourism/caravan_site"
-    ],
-    car_parts: [
-      "shop/car_parts",
-      "shop/car_repair",
-      "shop/tires",
-      "shop/tyres"
-    ],
-    clinic: [
-      "amenity/clinic",
-      "amenity/doctors",
-      "healthcare/clinic",
-      "healthcare/laboratory",
-      "healthcare/physiotherapist",
-      "healthcare/sample_collection",
-      "healthcare/dialysis"
-    ],
-    convenience: [
-      "shop/beauty",
-      "shop/chemist",
-      "shop/convenience",
-      "shop/cosmetics",
-      "shop/grocery",
-      "shop/kiosk",
-      "shop/newsagent",
-      "shop/perfumery"
-    ],
-    coworking: [
-      "amenity/coworking_space",
-      "office/coworking",
-      "office/coworking_space"
-    ],
-    dentist: [
-      "amenity/dentist",
-      "amenity/doctors",
-      "healthcare/dentist"
-    ],
-    electronics: [
-      "office/telecommunication",
-      "shop/computer",
-      "shop/electronics",
-      "shop/hifi",
-      "shop/kiosk",
-      "shop/mobile",
-      "shop/mobile_phone",
-      "shop/telecommunication"
-    ],
-    fabric: [
-      "shop/fabric",
-      "shop/haberdashery",
-      "shop/sewing"
-    ],
-    fashion: [
-      "shop/accessories",
-      "shop/bag",
-      "shop/boutique",
-      "shop/clothes",
-      "shop/department_store",
-      "shop/fashion",
-      "shop/fashion_accessories",
-      "shop/sports",
-      "shop/shoes"
-    ],
-    financial: [
-      "amenity/bank",
-      "office/accountant",
-      "office/financial",
-      "office/financial_advisor",
-      "office/tax_advisor",
-      "shop/tax"
-    ],
-    fitness: [
-      "leisure/fitness_centre",
-      "leisure/fitness_center",
-      "leisure/sports_centre",
-      "leisure/sports_center"
-    ],
-    food: [
-      "amenity/bar",
-      "amenity/cafe",
-      "amenity/fast_food",
-      "amenity/ice_cream",
-      "amenity/pub",
-      "amenity/restaurant",
-      "shop/bakery",
-      "shop/candy",
-      "shop/chocolate",
-      "shop/coffee",
-      "shop/confectionary",
-      "shop/confectionery",
-      "shop/food",
-      "shop/kiosk",
-      "shop/ice_cream",
-      "shop/pastry",
-      "shop/tea"
-    ],
-    fuel: [
-      "amenity/fuel",
-      "shop/gas",
-      "shop/convenience;gas",
-      "shop/gas;convenience"
-    ],
-    gift: [
-      "shop/gift",
-      "shop/card",
-      "shop/cards",
-      "shop/kiosk",
-      "shop/stationery"
-    ],
-    hardware: [
-      "shop/bathroom_furnishing",
-      "shop/carpet",
-      "shop/diy",
-      "shop/doityourself",
-      "shop/doors",
-      "shop/electrical",
-      "shop/flooring",
-      "shop/hardware",
-      "shop/hardware_store",
-      "shop/power_tools",
-      "shop/tool_hire",
-      "shop/tools",
-      "shop/trade"
-    ],
-    health_food: [
-      "shop/health",
-      "shop/health_food",
-      "shop/herbalist",
-      "shop/nutrition_supplements"
-    ],
-    hobby: [
-      "shop/electronics",
-      "shop/hobby",
-      "shop/books",
-      "shop/games",
-      "shop/collector",
-      "shop/toys",
-      "shop/model",
-      "shop/video_games",
-      "shop/anime"
-    ],
-    hospital: [
-      "amenity/doctors",
-      "amenity/hospital",
-      "healthcare/hospital"
-    ],
-    houseware: [
-      "shop/houseware",
-      "shop/interior_decoration"
-    ],
-    lifeboat_station: [
-      "amenity/lifeboat_station",
-      "emergency/lifeboat_station",
-      "emergency/marine_rescue"
-    ],
-    lodging: [
-      "tourism/hotel",
-      "tourism/motel"
-    ],
-    money_transfer: [
-      "amenity/money_transfer",
-      "shop/money_transfer"
-    ],
-    office_supplies: [
-      "shop/office_supplies",
-      "shop/stationary",
-      "shop/stationery"
-    ],
-    outdoor: [
-      "shop/clothes",
-      "shop/outdoor",
-      "shop/sports"
-    ],
-    parcel_locker: [
-      "amenity/parcel_locker",
-      "amenity/vending_machine"
-    ],
-    pharmacy: [
-      "amenity/doctors",
-      "amenity/pharmacy",
-      "healthcare/pharmacy"
-    ],
-    playground: [
-      "amenity/theme_park",
-      "leisure/amusement_arcade",
-      "leisure/playground"
-    ],
-    rental: [
-      "amenity/bicycle_rental",
-      "amenity/boat_rental",
-      "amenity/car_rental",
-      "amenity/truck_rental",
-      "amenity/vehicle_rental",
-      "shop/kiosk",
-      "shop/rental"
-    ],
-    school: [
-      "amenity/childcare",
-      "amenity/college",
-      "amenity/kindergarten",
-      "amenity/language_school",
-      "amenity/prep_school",
-      "amenity/school",
-      "amenity/university"
-    ],
-    storage: [
-      "shop/storage_units",
-      "shop/storage_rental"
-    ],
-    substation: [
-      "power/station",
-      "power/substation",
-      "power/sub_station"
-    ],
-    supermarket: [
-      "shop/food",
-      "shop/frozen_food",
-      "shop/greengrocer",
-      "shop/grocery",
-      "shop/supermarket",
-      "shop/wholesale"
-    ],
-    variety_store: [
-      "shop/variety_store",
-      "shop/discount",
-      "shop/convenience"
-    ],
-    vending: [
-      "amenity/vending_machine",
-      "shop/kiosk",
-      "shop/vending_machine"
-    ],
-    weight_loss: [
-      "amenity/clinic",
-      "amenity/doctors",
-      "amenity/weight_clinic",
-      "healthcare/counselling",
-      "leisure/fitness_centre",
-      "office/therapist",
-      "shop/beauty",
-      "shop/diet",
-      "shop/food",
-      "shop/health_food",
-      "shop/herbalist",
-      "shop/nutrition",
-      "shop/nutrition_supplements",
-      "shop/weight_loss"
-    ],
-    wholesale: [
-      "shop/wholesale",
-      "shop/supermarket",
-      "shop/department_store"
-    ]
-  };
   var matchGroups_default = {
-    matchGroups
+    matchGroups: {
+      adult_gaming_centre: [
+        "amenity/casino",
+        "amenity/gambling",
+        "leisure/adult_gaming_centre"
+      ],
+      beauty: [
+        "shop/beauty",
+        "shop/hairdresser_supply"
+      ],
+      bed: [
+        "shop/bed",
+        "shop/furniture"
+      ],
+      beverages: [
+        "shop/alcohol",
+        "shop/beer",
+        "shop/beverages",
+        "shop/kiosk",
+        "shop/wine"
+      ],
+      camping: [
+        "tourism/camp_site",
+        "tourism/caravan_site"
+      ],
+      car_parts: [
+        "shop/car_parts",
+        "shop/car_repair",
+        "shop/tires",
+        "shop/tyres"
+      ],
+      clinic: [
+        "amenity/clinic",
+        "amenity/doctors",
+        "healthcare/clinic",
+        "healthcare/laboratory",
+        "healthcare/physiotherapist",
+        "healthcare/sample_collection",
+        "healthcare/dialysis"
+      ],
+      convenience: [
+        "shop/beauty",
+        "shop/chemist",
+        "shop/convenience",
+        "shop/cosmetics",
+        "shop/grocery",
+        "shop/kiosk",
+        "shop/newsagent",
+        "shop/perfumery"
+      ],
+      coworking: [
+        "amenity/coworking_space",
+        "office/coworking",
+        "office/coworking_space"
+      ],
+      dentist: [
+        "amenity/dentist",
+        "amenity/doctors",
+        "healthcare/dentist"
+      ],
+      electronics: [
+        "office/telecommunication",
+        "shop/computer",
+        "shop/electronics",
+        "shop/hifi",
+        "shop/kiosk",
+        "shop/mobile",
+        "shop/mobile_phone",
+        "shop/telecommunication"
+      ],
+      fabric: [
+        "shop/fabric",
+        "shop/haberdashery",
+        "shop/sewing"
+      ],
+      fashion: [
+        "shop/accessories",
+        "shop/bag",
+        "shop/boutique",
+        "shop/clothes",
+        "shop/department_store",
+        "shop/fashion",
+        "shop/fashion_accessories",
+        "shop/sports",
+        "shop/shoes"
+      ],
+      financial: [
+        "amenity/bank",
+        "office/accountant",
+        "office/financial",
+        "office/financial_advisor",
+        "office/tax_advisor",
+        "shop/tax"
+      ],
+      fitness: [
+        "leisure/fitness_centre",
+        "leisure/fitness_center",
+        "leisure/sports_centre",
+        "leisure/sports_center"
+      ],
+      food: [
+        "amenity/bar",
+        "amenity/cafe",
+        "amenity/fast_food",
+        "amenity/ice_cream",
+        "amenity/pub",
+        "amenity/restaurant",
+        "shop/bakery",
+        "shop/candy",
+        "shop/chocolate",
+        "shop/coffee",
+        "shop/confectionary",
+        "shop/confectionery",
+        "shop/food",
+        "shop/kiosk",
+        "shop/ice_cream",
+        "shop/pastry",
+        "shop/tea"
+      ],
+      fuel: [
+        "amenity/fuel",
+        "shop/gas",
+        "shop/convenience;gas",
+        "shop/gas;convenience"
+      ],
+      gift: [
+        "shop/gift",
+        "shop/card",
+        "shop/cards",
+        "shop/kiosk",
+        "shop/stationery"
+      ],
+      hardware: [
+        "shop/bathroom_furnishing",
+        "shop/carpet",
+        "shop/diy",
+        "shop/doityourself",
+        "shop/doors",
+        "shop/electrical",
+        "shop/flooring",
+        "shop/hardware",
+        "shop/hardware_store",
+        "shop/power_tools",
+        "shop/tool_hire",
+        "shop/tools",
+        "shop/trade"
+      ],
+      health_food: [
+        "shop/health",
+        "shop/health_food",
+        "shop/herbalist",
+        "shop/nutrition_supplements"
+      ],
+      hobby: [
+        "shop/electronics",
+        "shop/hobby",
+        "shop/books",
+        "shop/games",
+        "shop/collector",
+        "shop/toys",
+        "shop/model",
+        "shop/video_games",
+        "shop/anime"
+      ],
+      hospital: [
+        "amenity/doctors",
+        "amenity/hospital",
+        "healthcare/hospital"
+      ],
+      houseware: [
+        "shop/houseware",
+        "shop/interior_decoration"
+      ],
+      lifeboat_station: [
+        "amenity/lifeboat_station",
+        "emergency/lifeboat_station",
+        "emergency/marine_rescue"
+      ],
+      lodging: [
+        "tourism/hotel",
+        "tourism/motel"
+      ],
+      money_transfer: [
+        "amenity/money_transfer",
+        "shop/money_transfer"
+      ],
+      office_supplies: [
+        "shop/office_supplies",
+        "shop/stationary",
+        "shop/stationery"
+      ],
+      outdoor: [
+        "shop/clothes",
+        "shop/outdoor",
+        "shop/sports"
+      ],
+      parcel_locker: [
+        "amenity/parcel_locker",
+        "amenity/vending_machine"
+      ],
+      pharmacy: [
+        "amenity/doctors",
+        "amenity/pharmacy",
+        "healthcare/pharmacy"
+      ],
+      playground: [
+        "amenity/theme_park",
+        "leisure/amusement_arcade",
+        "leisure/playground"
+      ],
+      rental: [
+        "amenity/bicycle_rental",
+        "amenity/boat_rental",
+        "amenity/car_rental",
+        "amenity/truck_rental",
+        "amenity/vehicle_rental",
+        "shop/kiosk",
+        "shop/rental"
+      ],
+      school: [
+        "amenity/childcare",
+        "amenity/college",
+        "amenity/kindergarten",
+        "amenity/language_school",
+        "amenity/prep_school",
+        "amenity/school",
+        "amenity/university"
+      ],
+      storage: [
+        "shop/storage_units",
+        "shop/storage_rental"
+      ],
+      substation: [
+        "power/station",
+        "power/substation",
+        "power/sub_station"
+      ],
+      supermarket: [
+        "shop/food",
+        "shop/frozen_food",
+        "shop/greengrocer",
+        "shop/grocery",
+        "shop/supermarket",
+        "shop/wholesale"
+      ],
+      variety_store: [
+        "shop/variety_store",
+        "shop/discount",
+        "shop/convenience"
+      ],
+      vending: [
+        "amenity/vending_machine",
+        "shop/kiosk",
+        "shop/vending_machine"
+      ],
+      weight_loss: [
+        "amenity/clinic",
+        "amenity/doctors",
+        "amenity/weight_clinic",
+        "healthcare/counselling",
+        "leisure/fitness_centre",
+        "office/therapist",
+        "shop/beauty",
+        "shop/diet",
+        "shop/food",
+        "shop/health_food",
+        "shop/herbalist",
+        "shop/nutrition",
+        "shop/nutrition_supplements",
+        "shop/weight_loss"
+      ],
+      wholesale: [
+        "shop/wholesale",
+        "shop/supermarket",
+        "shop/department_store"
+      ]
+    }
   };
 
   // node_modules/name-suggestion-index/config/genericWords.json
-  var genericWords = [
-    "^(barn|bazaa?r|bench|bou?tique|building|casa|church)$",
-    "^(baseball|basketball|football|soccer|softball|tennis(halle)?)\\s?(field|court)?$",
-    "^(club|green|out|ware)\\s?house$",
-    "^(driveway|el \xE1rbol|fountain|generic|golf|government|graveyard)$",
-    "^(fixme|n\\s?\\/?\\s?a|name|no\\s?name|none|null|temporary|test|unknown)$",
-    "^(hofladen|librairie|magazine?|maison)$",
-    "^(mobile home|skate)?\\s?park$",
-    "^(obuwie|pond|pool|sale|shops?|sklep|stores?)$",
-    "^\\?+$",
-    "^private$",
-    "^tattoo( studio)?$",
-    "^windmill$",
-    "^\u0446\u0435\u0440\u043A\u043E\u0432\u043D\u0430\u044F( \u043B\u0430\u0432\u043A\u0430)?$"
-  ];
   var genericWords_default = {
-    genericWords
+    genericWords: [
+      "^(barn|bazaa?r|bench|bou?tique|building|casa|church)$",
+      "^(baseball|basketball|football|soccer|softball|tennis(halle)?)\\s?(field|court)?$",
+      "^(club|green|out|ware)\\s?house$",
+      "^(driveway|el \xE1rbol|fountain|generic|golf|government|graveyard)$",
+      "^(fixme|n\\s?\\/?\\s?a|name|no\\s?name|none|null|temporary|test|unknown)$",
+      "^(hofladen|librairie|magazine?|maison)$",
+      "^(mobile home|skate)?\\s?park$",
+      "^(obuwie|pond|pool|sale|shops?|sklep|stores?)$",
+      "^\\?+$",
+      "^private$",
+      "^tattoo( studio)?$",
+      "^windmill$",
+      "^\u0446\u0435\u0440\u043A\u043E\u0432\u043D\u0430\u044F( \u043B\u0430\u0432\u043A\u0430)?$"
+    ]
   };
 
   // node_modules/name-suggestion-index/config/trees.json
-  var trees = {
-    brands: {
-      emoji: "\u{1F354}",
-      mainTag: "brand:wikidata",
-      sourceTags: ["brand", "name"],
-      nameTags: {
-        primary: "^(name|name:\\w+)$",
-        alternate: "^(brand|brand:\\w+|operator|operator:\\w+|\\w+_name|\\w+_name:\\w+)$"
-      }
-    },
-    flags: {
-      emoji: "\u{1F6A9}",
-      mainTag: "flag:wikidata",
-      nameTags: {
-        primary: "^(flag:name|flag:name:\\w+)$",
-        alternate: "^(country|country:\\w+|flag|flag:\\w+|subject|subject:\\w+)$"
-      }
-    },
-    operators: {
-      emoji: "\u{1F4BC}",
-      mainTag: "operator:wikidata",
-      sourceTags: ["operator"],
-      nameTags: {
-        primary: "^(name|name:\\w+|operator|operator:\\w+)$",
-        alternate: "^(brand|brand:\\w+|\\w+_name|\\w+_name:\\w+)$"
-      }
-    },
-    transit: {
-      emoji: "\u{1F687}",
-      mainTag: "network:wikidata",
-      sourceTags: ["network"],
-      nameTags: {
-        primary: "^network$",
-        alternate: "^(operator|operator:\\w+|network:\\w+|\\w+_name|\\w+_name:\\w+)$"
+  var trees_default = {
+    trees: {
+      brands: {
+        emoji: "\u{1F354}",
+        mainTag: "brand:wikidata",
+        sourceTags: ["brand", "name"],
+        nameTags: {
+          primary: "^(name|name:\\w+)$",
+          alternate: "^(brand|brand:\\w+|operator|operator:\\w+|\\w+_name|\\w+_name:\\w+)$"
+        }
+      },
+      flags: {
+        emoji: "\u{1F6A9}",
+        mainTag: "flag:wikidata",
+        nameTags: {
+          primary: "^(flag:name|flag:name:\\w+)$",
+          alternate: "^(country|country:\\w+|flag|flag:\\w+|subject|subject:\\w+)$"
+        }
+      },
+      operators: {
+        emoji: "\u{1F4BC}",
+        mainTag: "operator:wikidata",
+        sourceTags: ["operator"],
+        nameTags: {
+          primary: "^(name|name:\\w+|operator|operator:\\w+)$",
+          alternate: "^(brand|brand:\\w+|\\w+_name|\\w+_name:\\w+)$"
+        }
+      },
+      transit: {
+        emoji: "\u{1F687}",
+        mainTag: "network:wikidata",
+        sourceTags: ["network"],
+        nameTags: {
+          primary: "^network$",
+          alternate: "^(operator|operator:\\w+|network:\\w+|\\w+_name|\\w+_name:\\w+)$"
+        }
       }
     }
   };
-  var trees_default = {
-    trees
-  };
 
   // node_modules/name-suggestion-index/lib/matcher.js
-  var matchGroups2 = matchGroups_default.matchGroups;
-  var trees2 = trees_default.trees;
+  var matchGroups = matchGroups_default.matchGroups;
+  var trees = trees_default.trees;
   var Matcher = class {
     constructor() {
       this.matchIndex = void 0;
@@ -38101,7 +38378,7 @@ ${content}</tr>
         const k = parts[1];
         const v = parts[2];
         const thiskv = `${k}/${v}`;
-        const tree = trees2[t];
+        const tree = trees[t];
         let branch = that.matchIndex.get(thiskv);
         if (!branch) {
           branch = {
@@ -38126,7 +38403,7 @@ ${content}</tr>
         const skipGenericKV = skipGenericKVMatches(t, k, v);
         const genericKV = /* @__PURE__ */ new Set([`${k}/yes`, `building/yes`]);
         const matchGroupKV = /* @__PURE__ */ new Set();
-        Object.values(matchGroups2).forEach((matchGroup) => {
+        Object.values(matchGroups).forEach((matchGroup) => {
           const inGroup = matchGroup.some((otherkv) => otherkv === thiskv);
           if (!inGroup)
             return;
@@ -38283,8 +38560,8 @@ ${content}</tr>
         let didMatch = tryMatch(which, kv);
         if (didMatch)
           return;
-        for (let mg in matchGroups2) {
-          const matchGroup = matchGroups2[mg];
+        for (let mg in matchGroups) {
+          const matchGroup = matchGroups[mg];
           const inGroup = matchGroup.some((otherkv) => otherkv === kv);
           if (!inGroup)
             continue;
@@ -38710,9 +38987,9 @@ ${content}</tr>
   }
 
   // modules/svg/icon.js
-  function svgIcon(name2, svgklass, useklass) {
+  function svgIcon(name, svgklass, useklass) {
     return function drawIcon(selection2) {
-      selection2.selectAll("svg.icon" + (svgklass ? "." + svgklass.split(" ")[0] : "")).data([0]).enter().append("svg").attr("class", "icon " + (svgklass || "")).append("use").attr("xlink:href", name2).attr("class", useklass);
+      selection2.selectAll("svg.icon" + (svgklass ? "." + svgklass.split(" ")[0] : "")).data([0]).enter().append("svg").attr("class", "icon " + (svgklass || "")).append("use").attr("xlink:href", name).attr("class", useklass);
     };
   }
 
@@ -39382,12 +39659,12 @@ ${content}</tr>
           message: function(context2) {
             const entity1 = context2.hasEntity(this.entityIds[0]);
             if (this.entityIds[0] === this.entityIds[2]) {
-              return entity1 ? _t.html("issues.almost_junction.self.message", {
+              return entity1 ? _t.append("issues.almost_junction.self.message", {
                 feature: utilDisplayLabel(entity1, context2.graph())
               }) : "";
             } else {
               const entity2 = context2.hasEntity(this.entityIds[2]);
-              return entity1 && entity2 ? _t.html("issues.almost_junction.message", {
+              return entity1 && entity2 ? _t.append("issues.almost_junction.message", {
                 feature: utilDisplayLabel(entity1, context2.graph()),
                 feature2: utilDisplayLabel(entity2, context2.graph())
               }) : "";
@@ -39413,7 +39690,7 @@ ${content}</tr>
       function makeFixes(context2) {
         let fixes = [new validationIssueFix({
           icon: "iD-icon-abutment",
-          title: _t.html("issues.fix.connect_features.title"),
+          title: _t.append("issues.fix.connect_features.title"),
           onClick: function(context3) {
             const annotation = _t("issues.fix.connect_almost_junction.annotation");
             const [, endNodeId, crossWayId] = this.issue.entityIds;
@@ -39424,7 +39701,10 @@ ${content}</tr>
             if (nearEndNodes.length > 0) {
               const collinear = findSmallJoinAngle(midNode, endNode, nearEndNodes);
               if (collinear) {
-                context3.perform(actionMergeNodes([collinear.id, endNode.id], collinear.loc), annotation);
+                context3.perform(
+                  actionMergeNodes([collinear.id, endNode.id], collinear.loc),
+                  annotation
+                );
                 return;
               }
             }
@@ -39433,9 +39713,15 @@ ${content}</tr>
             const edgeNodes = [context3.entity(targetEdge[0]), context3.entity(targetEdge[1])];
             const closestNodeInfo = geoSphericalClosestNode(edgeNodes, crossLoc);
             if (closestNodeInfo.distance < WELD_TH_METERS) {
-              context3.perform(actionMergeNodes([closestNodeInfo.node.id, endNode.id], closestNodeInfo.node.loc), annotation);
+              context3.perform(
+                actionMergeNodes([closestNodeInfo.node.id, endNode.id], closestNodeInfo.node.loc),
+                annotation
+              );
             } else {
-              context3.perform(actionAddMidpoint({ loc: crossLoc, edge: targetEdge }, endNode), annotation);
+              context3.perform(
+                actionAddMidpoint({ loc: crossLoc, edge: targetEdge }, endNode),
+                annotation
+              );
             }
           }
         })];
@@ -39443,12 +39729,15 @@ ${content}</tr>
         if (node && !node.hasInterestingTags()) {
           fixes.push(new validationIssueFix({
             icon: "maki-barrier",
-            title: _t.html("issues.fix.tag_as_disconnected.title"),
+            title: _t.append("issues.fix.tag_as_disconnected.title"),
             onClick: function(context3) {
               const nodeID = this.issue.entityIds[1];
               const tags = Object.assign({}, context3.entity(nodeID).tags);
               tags.noexit = "yes";
-              context3.perform(actionChangeTags(nodeID, tags), _t("issues.fix.tag_as_disconnected.annotation"));
+              context3.perform(
+                actionChangeTags(nodeID, tags),
+                _t("issues.fix.tag_as_disconnected.annotation")
+              );
             }
           }));
         }
@@ -39709,6 +39998,10 @@ ${content}</tr>
           if (nearby.type !== "node" || nearby.geometry(graph) !== "point")
             continue;
           if (nearby.loc === node.loc || geoSphericalDistance(node.loc, nearby.loc) < pointThresholdMeters) {
+            if ("memorial:type" in node.tags && "memorial:type" in nearby.tags && node.tags["memorial:type"] === "stolperstein" && nearby.tags["memorial:type"] === "stolperstein")
+              continue;
+            if ("memorial" in node.tags && "memorial" in nearby.tags && node.tags.memorial === "stolperstein" && nearby.tags.memorial === "stolperstein")
+              continue;
             var zAxisKeys = { layer: true, level: true, "addr:housenumber": true, "addr:unit": true };
             var zAxisDifferentiates = false;
             for (var key in zAxisKeys) {
@@ -39727,7 +40020,7 @@ ${content}</tr>
               severity: "warning",
               message: function(context2) {
                 var entity2 = context2.hasEntity(this.entityIds[0]), entity22 = context2.hasEntity(this.entityIds[1]);
-                return entity2 && entity22 ? _t.html("issues.close_nodes.detached.message", {
+                return entity2 && entity22 ? _t.append("issues.close_nodes.detached.message", {
                   feature: utilDisplayLabel(entity2, context2.graph()),
                   feature2: utilDisplayLabel(entity22, context2.graph())
                 }) : "";
@@ -39738,11 +40031,11 @@ ${content}</tr>
                 return [
                   new validationIssueFix({
                     icon: "iD-operation-disconnect",
-                    title: _t.html("issues.fix.move_points_apart.title")
+                    title: _t.append("issues.fix.move_points_apart.title")
                   }),
                   new validationIssueFix({
                     icon: "iD-icon-layers",
-                    title: _t.html("issues.fix.use_different_layers_or_levels.title")
+                    title: _t.append("issues.fix.use_different_layers_or_levels.title")
                   })
                 ];
               }
@@ -39779,7 +40072,7 @@ ${content}</tr>
           severity: "warning",
           message: function(context2) {
             var entity2 = context2.hasEntity(this.entityIds[0]);
-            return entity2 ? _t.html("issues.close_nodes.message", { way: utilDisplayLabel(entity2, context2.graph()) }) : "";
+            return entity2 ? _t.append("issues.close_nodes.message", { way: utilDisplayLabel(entity2, context2.graph()) }) : "";
           },
           reference: showReference,
           entityIds: [way.id, node1.id, node2.id],
@@ -39788,7 +40081,7 @@ ${content}</tr>
             return [
               new validationIssueFix({
                 icon: "iD-icon-plus",
-                title: _t.html("issues.fix.merge_points.title"),
+                title: _t.append("issues.fix.merge_points.title"),
                 onClick: function(context2) {
                   var entityIds = this.issue.entityIds;
                   var action = actionMergeNodes([entityIds[1], entityIds[2]]);
@@ -39797,7 +40090,7 @@ ${content}</tr>
               }),
               new validationIssueFix({
                 icon: "iD-operation-disconnect",
-                title: _t.html("issues.fix.move_points_apart.title")
+                title: _t.append("issues.fix.move_points_apart.title")
               })
             ];
           }
@@ -39929,7 +40222,7 @@ ${content}</tr>
               return {};
             }
             var pathFeature = entity1IsPath ? entity1 : entity2;
-            if (["marked", "unmarked"].indexOf(pathFeature.tags.crossing) !== -1) {
+            if (["marked", "unmarked", "traffic_signals"].indexOf(pathFeature.tags.crossing) !== -1) {
               return bothLines ? { highway: "crossing", crossing: pathFeature.tags.crossing } : {};
             }
             return bothLines ? { highway: "crossing" } : {};
@@ -40133,7 +40426,7 @@ ${content}</tr>
         message: function(context2) {
           var graph2 = context2.graph();
           var entity1 = graph2.hasEntity(this.entityIds[0]), entity2 = graph2.hasEntity(this.entityIds[1]);
-          return entity1 && entity2 ? _t.html("issues.crossing_ways.message", {
+          return entity1 && entity2 ? _t.append("issues.crossing_ways.message", {
             feature: utilDisplayLabel(entity1, graph2),
             feature2: utilDisplayLabel(entity2, graph2)
           }) : "";
@@ -40163,7 +40456,7 @@ ${content}</tr>
           if (isCrossingIndoors) {
             fixes.push(new validationIssueFix({
               icon: "iD-icon-layers",
-              title: _t.html("issues.fix.use_different_levels.title")
+              title: _t.append("issues.fix.use_different_levels.title")
             }));
           } else if (isCrossingTunnels || isCrossingBridges || featureType1 === "building" || featureType2 === "building") {
             fixes.push(makeChangeLayerFix("higher"));
@@ -40179,7 +40472,7 @@ ${content}</tr>
           }
           fixes.push(new validationIssueFix({
             icon: "iD-operation-move",
-            title: _t.html("issues.fix.reposition_features.title")
+            title: _t.append("issues.fix.reposition_features.title")
           }));
           return fixes;
         }
@@ -40191,7 +40484,7 @@ ${content}</tr>
     function makeAddBridgeOrTunnelFix(fixTitleID, iconName, bridgeOrTunnel) {
       return new validationIssueFix({
         icon: iconName,
-        title: _t.html("issues.fix." + fixTitleID + ".title"),
+        title: _t.append("issues.fix." + fixTitleID + ".title"),
         onClick: function(context2) {
           var mode = context2.mode();
           if (!mode || mode.id !== "select")
@@ -40342,37 +40635,40 @@ ${content}</tr>
       }
       return new validationIssueFix({
         icon: "iD-icon-crossing",
-        title: _t.html("issues.fix." + fixTitleID + ".title"),
+        title: _t.append("issues.fix." + fixTitleID + ".title"),
         onClick: function(context2) {
           var loc = this.issue.loc;
           var connectionTags2 = this.issue.data.connectionTags;
           var edges = this.issue.data.edges;
-          context2.perform(function actionConnectCrossingWays(graph) {
-            var node = osmNode({ loc, tags: connectionTags2 });
-            graph = graph.replace(node);
-            var nodesToMerge = [node.id];
-            var mergeThresholdInMeters = 0.75;
-            edges.forEach(function(edge) {
-              var edgeNodes = [graph.entity(edge[0]), graph.entity(edge[1])];
-              var nearby = geoSphericalClosestNode(edgeNodes, loc);
-              if ((!nearby.node.hasInterestingTags() || nearby.node.isCrossing()) && nearby.distance < mergeThresholdInMeters) {
-                nodesToMerge.push(nearby.node.id);
-              } else {
-                graph = actionAddMidpoint({ loc, edge }, node)(graph);
+          context2.perform(
+            function actionConnectCrossingWays(graph) {
+              var node = osmNode({ loc, tags: connectionTags2 });
+              graph = graph.replace(node);
+              var nodesToMerge = [node.id];
+              var mergeThresholdInMeters = 0.75;
+              edges.forEach(function(edge) {
+                var edgeNodes = [graph.entity(edge[0]), graph.entity(edge[1])];
+                var nearby = geoSphericalClosestNode(edgeNodes, loc);
+                if ((!nearby.node.hasInterestingTags() || nearby.node.isCrossing()) && nearby.distance < mergeThresholdInMeters) {
+                  nodesToMerge.push(nearby.node.id);
+                } else {
+                  graph = actionAddMidpoint({ loc, edge }, node)(graph);
+                }
+              });
+              if (nodesToMerge.length > 1) {
+                graph = actionMergeNodes(nodesToMerge, loc)(graph);
               }
-            });
-            if (nodesToMerge.length > 1) {
-              graph = actionMergeNodes(nodesToMerge, loc)(graph);
-            }
-            return graph;
-          }, _t("issues.fix.connect_crossing_features.annotation"));
+              return graph;
+            },
+            _t("issues.fix.connect_crossing_features.annotation")
+          );
         }
       });
     }
     function makeChangeLayerFix(higherOrLower) {
       return new validationIssueFix({
         icon: "iD-icon-" + (higherOrLower === "higher" ? "up" : "down"),
-        title: _t.html("issues.fix.tag_this_as_" + higherOrLower + ".title"),
+        title: _t.append("issues.fix.tag_this_as_" + higherOrLower + ".title"),
         onClick: function(context2) {
           var mode = context2.mode();
           if (!mode || mode.id !== "select")
@@ -40404,7 +40700,10 @@ ${content}</tr>
             }
           }
           tags.layer = layer.toString();
-          context2.perform(actionChangeTags(entity.id, tags), _t("operations.change_tags.annotation"));
+          context2.perform(
+            actionChangeTags(entity.id, tags),
+            _t("operations.change_tags.annotation")
+          );
         }
       });
     }
@@ -40437,10 +40736,13 @@ ${content}</tr>
     }
     function removeDrawNode() {
       context.pauseChangeDispatch();
-      context.replace(function actionDeleteDrawNode(graph) {
-        var way = graph.entity(wayID);
-        return graph.replace(way.removeNode(_drawNode.id)).remove(_drawNode);
-      }, _annotation);
+      context.replace(
+        function actionDeleteDrawNode(graph) {
+          var way = graph.entity(wayID);
+          return graph.replace(way.removeNode(_drawNode.id)).remove(_drawNode);
+        },
+        _annotation
+      );
       _drawNode = void 0;
       context.resumeChangeDispatch();
     }
@@ -40549,7 +40851,9 @@ ${content}</tr>
         _headNodeID = _origWay.nodes[_origWay.nodes.length - 1];
       }
       _wayGeometry = _origWay.geometry(context.graph());
-      _annotation = _t((_origWay.nodes.length === (_origWay.isClosed() ? 2 : 1) ? "operations.start.annotation." : "operations.continue.annotation.") + _wayGeometry);
+      _annotation = _t(
+        (_origWay.nodes.length === (_origWay.isClosed() ? 2 : 1) ? "operations.start.annotation." : "operations.continue.annotation.") + _wayGeometry
+      );
       _pointerHasMoved = false;
       context.pauseChangeDispatch();
       context.perform(actionNoop(), _annotation);
@@ -40611,7 +40915,10 @@ ${content}</tr>
     };
     drawWay.addWay = function(loc, edge, d) {
       attemptAdd(d, loc, function() {
-        context.replace(actionAddMidpoint({ loc, edge }, _drawNode), _annotation);
+        context.replace(
+          actionAddMidpoint({ loc, edge }, _drawNode),
+          _annotation
+        );
       });
     };
     drawWay.addNode = function(node, d) {
@@ -40620,10 +40927,13 @@ ${content}</tr>
         return;
       }
       attemptAdd(d, node.loc, function() {
-        context.replace(function actionReplaceDrawNode(graph) {
-          graph = graph.replace(graph.entity(wayID).removeNode(_drawNode.id)).remove(_drawNode);
-          return graph.replace(graph.entity(wayID).addNode(node.id, _nodeIndex));
-        }, _annotation);
+        context.replace(
+          function actionReplaceDrawNode(graph) {
+            graph = graph.replace(graph.entity(wayID).removeNode(_drawNode.id)).remove(_drawNode);
+            return graph.replace(graph.entity(wayID).addNode(node.id, _nodeIndex));
+          },
+          _annotation
+        );
       });
     };
     function getFeatureType(ways) {
@@ -40641,18 +40951,18 @@ ${content}</tr>
         const [secondLastNodeId, lastNodeId] = _origWay.nodes.slice(isDrawingArea ? -3 : -2);
         const historyGraph = context.history().graph();
         if (!lastNodeId || !secondLastNodeId || !historyGraph.hasEntity(lastNodeId) || !historyGraph.hasEntity(secondLastNodeId)) {
-          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.html("operations.follow.error.needs_more_initial_nodes"))();
+          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append("operations.follow.error.needs_more_initial_nodes"))();
           return;
         }
         const lastNodesParents = historyGraph.parentWays(historyGraph.entity(lastNodeId)).filter((w) => w.id !== wayID);
         const secondLastNodesParents = historyGraph.parentWays(historyGraph.entity(secondLastNodeId)).filter((w) => w.id !== wayID);
         const featureType = getFeatureType(lastNodesParents);
         if (lastNodesParents.length !== 1 || secondLastNodesParents.length === 0) {
-          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.html(`operations.follow.error.intersection_of_multiple_ways.${featureType}`))();
+          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append(`operations.follow.error.intersection_of_multiple_ways.${featureType}`))();
           return;
         }
         if (!secondLastNodesParents.some((n2) => n2.id === lastNodesParents[0].id)) {
-          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.html(`operations.follow.error.intersection_of_different_ways.${featureType}`))();
+          context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append(`operations.follow.error.intersection_of_different_ways.${featureType}`))();
           return;
         }
         const way = lastNodesParents[0];
@@ -40669,7 +40979,7 @@ ${content}</tr>
           properties: { target: true, entity: nextNode }
         });
       } catch (ex) {
-        context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.html("operations.follow.error.unknown"))();
+        context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append("operations.follow.error.unknown"))();
       }
     }
     keybinding.on(_t("operations.follow.key"), followMode);
@@ -40726,7 +41036,7 @@ ${content}</tr>
       id: "draw-line"
     };
     var behavior = behaviorDrawWay(context, wayID, mode, startGraph).on("rejectedSelfIntersection.modeDrawLine", function() {
-      context.ui().flash.iconName("#iD-icon-no").label(_t.html("self_intersection.error.lines"))();
+      context.ui().flash.iconName("#iD-icon-no").label(_t.append("self_intersection.error.lines"))();
     });
     mode.wayID = wayID;
     mode.isContinuing = continuing;
@@ -40763,7 +41073,7 @@ ${content}</tr>
         message: function(context) {
           var entity2 = this.entityIds.length && context.hasEntity(this.entityIds[0]);
           var label = entity2 && utilDisplayLabel(entity2, context.graph());
-          return _t.html("issues.disconnected_way.routable.message", { count: this.entityIds.length, highway: label });
+          return _t.append("issues.disconnected_way.routable.message", { count: this.entityIds.length, highway: label });
         },
         reference: showReference,
         entityIds: Array.from(routingIslandWays).map(function(way) {
@@ -40786,12 +41096,12 @@ ${content}</tr>
           }
           if (!fixes.length) {
             fixes.push(new validationIssueFix({
-              title: _t.html("issues.fix.connect_feature.title")
+              title: _t.append("issues.fix.connect_feature.title")
             }));
           }
           fixes.push(new validationIssueFix({
             icon: "iD-operation-delete",
-            title: _t.html("issues.fix.delete_feature.title"),
+            title: _t.append("issues.fix.delete_feature.title"),
             entityIds: [singleEntity.id],
             onClick: function(context2) {
               var id2 = this.issue.entityIds[0];
@@ -40803,7 +41113,7 @@ ${content}</tr>
           }));
         } else {
           fixes.push(new validationIssueFix({
-            title: _t.html("issues.fix.connect_features.title")
+            title: _t.append("issues.fix.connect_features.title")
           }));
         }
         return fixes;
@@ -40880,7 +41190,7 @@ ${content}</tr>
         var useLeftContinue = whichEnd === "start" && textDirection === "ltr" || whichEnd === "end" && textDirection === "rtl";
         return new validationIssueFix({
           icon: "iD-operation-continue" + (useLeftContinue ? "-left" : ""),
-          title: _t.html("issues.fix.continue_from_" + whichEnd + ".title"),
+          title: _t.append("issues.fix.continue_from_" + whichEnd + ".title"),
           entityIds: [vertexID],
           onClick: function(context) {
             var wayId = this.issue.entityIds[0];
@@ -40893,7 +41203,9 @@ ${content}</tr>
             if (!context.editable() || !map2.trimmedExtent().contains(vertex2.loc)) {
               map2.zoomToEase(vertex2);
             }
-            context.enter(modeDrawLine(context, wayId, context.graph(), "line", way.affix(vertexId), true));
+            context.enter(
+              modeDrawLine(context, wayId, context.graph(), "line", way.affix(vertexId), true)
+            );
           }
         });
       }
@@ -40927,7 +41239,10 @@ ${content}</tr>
             severity: "warning",
             message: function(context) {
               var entity2 = context.hasEntity(this.entityIds[0]);
-              return entity2 ? _t.html("issues.invalid_format.email.message" + this.data, { feature: utilDisplayLabel(entity2, context.graph()), email: emails.join(", ") }) : "";
+              return entity2 ? _t.append(
+                "issues.invalid_format.email.message" + this.data,
+                { feature: utilDisplayLabel(entity2, context.graph()), email: emails.join(", ") }
+              ) : "";
             },
             reference: showReferenceEmail,
             entityIds: [entity.id],
@@ -40961,14 +41276,14 @@ ${content}</tr>
         severity: "warning",
         message: function(context2) {
           var entity2 = context2.hasEntity(this.entityIds[0]);
-          return entity2 ? _t.html("issues.fixme_tag.message", {
+          return entity2 ? _t.append("issues.fixme_tag.message", {
             feature: utilDisplayLabel(entity2, context2.graph(), true)
           }) : "";
         },
         dynamicFixes: function() {
           return [
             new validationIssueFix({
-              title: _t.html("issues.fix.address_the_concern.title")
+              title: _t.append("issues.fix.address_the_concern.title")
             })
           ];
         },
@@ -41116,7 +41431,7 @@ ${content}</tr>
           severity: "warning",
           message: function(context) {
             var entity2 = context.hasEntity(this.entityIds[0]);
-            return entity2 ? _t.html("issues.impossible_oneway." + messageID + ".message", {
+            return entity2 ? _t.append("issues.impossible_oneway." + messageID + ".message", {
               feature: utilDisplayLabel(entity2, context.graph())
             }) : "";
           },
@@ -41127,7 +41442,7 @@ ${content}</tr>
             if (attachedOneways.length) {
               fixes.push(new validationIssueFix({
                 icon: "iD-operation-reverse",
-                title: _t.html("issues.fix.reverse_feature.title"),
+                title: _t.append("issues.fix.reverse_feature.title"),
                 entityIds: [way.id],
                 onClick: function(context) {
                   var id2 = this.issue.entityIds[0];
@@ -41140,7 +41455,7 @@ ${content}</tr>
               var useLeftContinue = isFirst && textDirection === "ltr" || !isFirst && textDirection === "rtl";
               fixes.push(new validationIssueFix({
                 icon: "iD-operation-continue" + (useLeftContinue ? "-left" : ""),
-                title: _t.html("issues.fix.continue_from_" + (isFirst ? "start" : "end") + ".title"),
+                title: _t.append("issues.fix.continue_from_" + (isFirst ? "start" : "end") + ".title"),
                 onClick: function(context) {
                   var entityID = this.issue.entityIds[0];
                   var vertexID = this.issue.entityIds[1];
@@ -41166,7 +41481,9 @@ ${content}</tr>
       if (!context.editable() || !map2.trimmedExtent().contains(vertex.loc)) {
         map2.zoomToEase(vertex);
       }
-      context.enter(modeDrawLine(context, way.id, context.graph(), "line", way.affix(vertex.id), true));
+      context.enter(
+        modeDrawLine(context, way.id, context.graph(), "line", way.affix(vertex.id), true)
+      );
     }
     validation.type = type3;
     return validation;
@@ -41210,7 +41527,7 @@ ${content}</tr>
           severity: "warning",
           message: (context) => {
             const entity2 = context.hasEntity(entityID);
-            return entity2 ? _t.html("issues.incompatible_source.feature.message", {
+            return entity2 ? _t.append("issues.incompatible_source.feature.message", {
               feature: utilDisplayLabel(entity2, context.graph(), true),
               value: source
             }) : "";
@@ -41220,7 +41537,7 @@ ${content}</tr>
           hash: source,
           dynamicFixes: () => {
             return [
-              new validationIssueFix({ title: _t.html("issues.fix.remove_proprietary_data.title") })
+              new validationIssueFix({ title: _t.append("issues.fix.remove_proprietary_data.title") })
             ];
           }
         });
@@ -41283,7 +41600,10 @@ ${content}</tr>
         if (!geoHasSelfIntersections(testNodes, testNodes[0].id)) {
           return function(context) {
             var way2 = context.entity(this.issue.entityIds[0]);
-            context.perform(actionMergeNodes([way2.nodes[0], way2.nodes[way2.nodes.length - 1]], nodes[0].loc), _t("issues.fix.connect_endpoints.annotation"));
+            context.perform(
+              actionMergeNodes([way2.nodes[0], way2.nodes[way2.nodes.length - 1]], nodes[0].loc),
+              _t("issues.fix.connect_endpoints.annotation")
+            );
           };
         }
       }
@@ -41295,7 +41615,10 @@ ${content}</tr>
           var way2 = context.entity(wayId);
           var nodeId = way2.nodes[0];
           var index = way2.nodes.length;
-          context.perform(actionAddVertex(wayId, nodeId, index), _t("issues.fix.connect_endpoints.annotation"));
+          context.perform(
+            actionAddVertex(wayId, nodeId, index),
+            _t("issues.fix.connect_endpoints.annotation")
+          );
         };
       }
     }
@@ -41309,7 +41632,7 @@ ${content}</tr>
         severity: "warning",
         message: function(context) {
           var entity2 = context.hasEntity(this.entityIds[0]);
-          return entity2 ? _t.html("issues.tag_suggests_area.message", {
+          return entity2 ? _t.append("issues.tag_suggests_area.message", {
             feature: utilDisplayLabel(entity2, "area", true),
             tag: utilTagText({ tags: tagSuggestingArea })
           }) : "";
@@ -41322,12 +41645,12 @@ ${content}</tr>
           var entity2 = context.entity(this.entityIds[0]);
           var connectEndsOnClick = makeConnectEndpointsFixOnClick(entity2, context.graph());
           fixes.push(new validationIssueFix({
-            title: _t.html("issues.fix.connect_endpoints.title"),
+            title: _t.append("issues.fix.connect_endpoints.title"),
             onClick: connectEndsOnClick
           }));
           fixes.push(new validationIssueFix({
             icon: "iD-operation-delete",
-            title: _t.html("issues.fix.remove_tag.title"),
+            title: _t.append("issues.fix.remove_tag.title"),
             onClick: function(context2) {
               var entityId = this.issue.entityIds[0];
               var entity3 = context2.entity(entityId);
@@ -41335,7 +41658,10 @@ ${content}</tr>
               for (var key in tagSuggestingArea) {
                 delete tags[key];
               }
-              context2.perform(actionChangeTags(entityId, tags), _t("issues.fix.remove_tag.annotation"));
+              context2.perform(
+                actionChangeTags(entityId, tags),
+                _t("issues.fix.remove_tag.annotation")
+              );
             }
           }));
           return fixes;
@@ -41361,7 +41687,7 @@ ${content}</tr>
           severity: "warning",
           message: function(context) {
             var entity2 = context.hasEntity(this.entityIds[0]);
-            return entity2 ? _t.html("issues.vertex_as_point.message", {
+            return entity2 ? _t.append("issues.vertex_as_point.message", {
               feature: utilDisplayLabel(entity2, "vertex", true)
             }) : "";
           },
@@ -41377,7 +41703,7 @@ ${content}</tr>
           severity: "warning",
           message: function(context) {
             var entity2 = context.hasEntity(this.entityIds[0]);
-            return entity2 ? _t.html("issues.point_as_vertex.message", {
+            return entity2 ? _t.append("issues.point_as_vertex.message", {
               feature: utilDisplayLabel(entity2, "point", true)
             }) : "";
           },
@@ -41435,7 +41761,7 @@ ${content}</tr>
         severity: "warning",
         message: function(context) {
           var entity2 = context.hasEntity(this.entityIds[0]);
-          return entity2 ? _t.html("issues." + referenceId + ".message", {
+          return entity2 ? _t.append("issues." + referenceId + ".message", {
             feature: utilDisplayLabel(entity2, targetGeom, true)
           }) : "";
         },
@@ -41460,13 +41786,16 @@ ${content}</tr>
           if (tags2.area) {
             delete tags2.area;
           }
-          context2.perform(actionChangeTags(entityId2, tags2), _t("issues.fix.convert_to_line.annotation"));
+          context2.perform(
+            actionChangeTags(entityId2, tags2),
+            _t("issues.fix.convert_to_line.annotation")
+          );
         };
       }
       return [
         new validationIssueFix({
           icon: "iD-icon-line",
-          title: _t.html("issues.fix.convert_to_line.title"),
+          title: _t.append("issues.fix.convert_to_line.title"),
           onClick: convertOnClick
         })
       ];
@@ -41478,14 +41807,17 @@ ${content}</tr>
         extractOnClick = function(context2) {
           var entityId2 = this.issue.entityIds[0];
           var action = actionExtract(entityId2, context2.projection);
-          context2.perform(action, _t("operations.extract.annotation", { n: 1 }));
+          context2.perform(
+            action,
+            _t("operations.extract.annotation", { n: 1 })
+          );
           context2.enter(modeSelect(context2, [action.getExtractedNodeID()]));
         };
       }
       return [
         new validationIssueFix({
           icon: "iD-operation-extract",
-          title: _t.html("issues.fix.extract_point.title"),
+          title: _t.append("issues.fix.extract_point.title"),
           onClick: extractOnClick
         })
       ];
@@ -41509,7 +41841,7 @@ ${content}</tr>
           severity: "warning",
           message: function(context) {
             var entity2 = context.hasEntity(this.entityIds[0]);
-            return entity2 ? _t.html("issues.unclosed_multipolygon_part.message", {
+            return entity2 ? _t.append("issues.unclosed_multipolygon_part.message", {
               feature: utilDisplayLabel(entity2, context.graph(), true)
             }) : "";
           },
@@ -41576,7 +41908,7 @@ ${content}</tr>
         severity: "warning",
         message: function(context) {
           var member2 = context.hasEntity(this.entityIds[1]), relation2 = context.hasEntity(this.entityIds[0]);
-          return member2 && relation2 ? _t.html("issues.missing_role.message", {
+          return member2 && relation2 ? _t.append("issues.missing_role.message", {
             member: utilDisplayLabel(member2, context.graph()),
             relation: utilDisplayLabel(relation2, context.graph())
           }) : "";
@@ -41593,11 +41925,14 @@ ${content}</tr>
             makeAddRoleFix("outer"),
             new validationIssueFix({
               icon: "iD-operation-delete",
-              title: _t.html("issues.fix.remove_from_relation.title"),
+              title: _t.append("issues.fix.remove_from_relation.title"),
               onClick: function(context) {
-                context.perform(actionDeleteMember(this.issue.entityIds[0], this.issue.data.member.index), _t("operations.delete_member.annotation", {
-                  n: 1
-                }));
+                context.perform(
+                  actionDeleteMember(this.issue.entityIds[0], this.issue.data.member.index),
+                  _t("operations.delete_member.annotation", {
+                    n: 1
+                  })
+                );
               }
             })
           ];
@@ -41609,13 +41944,16 @@ ${content}</tr>
     }
     function makeAddRoleFix(role) {
       return new validationIssueFix({
-        title: _t.html("issues.fix.set_as_" + role + ".title"),
+        title: _t.append("issues.fix.set_as_" + role + ".title"),
         onClick: function(context) {
           var oldMember = this.issue.data.member;
           var member = { id: this.issue.entityIds[1], type: oldMember.type, role };
-          context.perform(actionChangeMember(this.issue.entityIds[0], member, oldMember.index), _t("operations.change_role.annotation", {
-            n: 1
-          }));
+          context.perform(
+            actionChangeMember(this.issue.entityIds[0], member, oldMember.index),
+            _t("operations.change_role.annotation", {
+              n: 1
+            })
+          );
         }
       });
     }
@@ -41674,7 +42012,7 @@ ${content}</tr>
         severity,
         message: function(context2) {
           var entity2 = context2.hasEntity(this.entityIds[0]);
-          return entity2 ? _t.html("issues." + messageID + ".message", {
+          return entity2 ? _t.append("issues." + messageID + ".message", {
             feature: utilDisplayLabel(entity2, context2.graph())
           }) : "";
         },
@@ -41685,7 +42023,7 @@ ${content}</tr>
           var selectFixType = subtype === "highway_classification" ? "select_road_type" : "select_preset";
           fixes.push(new validationIssueFix({
             icon: "iD-icon-search",
-            title: _t.html("issues.fix." + selectFixType + ".title"),
+            title: _t.append("issues.fix." + selectFixType + ".title"),
             onClick: function(context3) {
               context3.ui().sidebar.showPresetList();
             }
@@ -41703,12 +42041,14 @@ ${content}</tr>
               }
             };
           }
-          fixes.push(new validationIssueFix({
-            icon: "iD-operation-delete",
-            title: _t.html("issues.fix.delete_feature.title"),
-            disabledReason: disabledReasonID ? _t("operations.delete." + disabledReasonID + ".single") : void 0,
-            onClick: deleteOnClick
-          }));
+          fixes.push(
+            new validationIssueFix({
+              icon: "iD-operation-delete",
+              title: _t.append("issues.fix.delete_feature.title"),
+              disabledReason: disabledReasonID ? _t("operations.delete." + disabledReasonID + ".single") : void 0,
+              onClick: deleteOnClick
+            })
+          );
           return fixes;
         }
       })];
@@ -41802,7 +42142,7 @@ ${content}</tr>
           let fixes = [
             new validationIssueFix({
               autoArgs,
-              title: _t.html("issues.fix.upgrade_tags.title"),
+              title: _t.append("issues.fix.upgrade_tags.title"),
               onClick: (context) => {
                 context.perform(doUpgrade, _t("issues.fix.upgrade_tags.annotation"));
               }
@@ -41810,12 +42150,14 @@ ${content}</tr>
           ];
           const item = nsiResult && nsiResult.matched;
           if (item) {
-            fixes.push(new validationIssueFix({
-              title: _t.html("issues.fix.tag_as_not.title", { name: item.displayName }),
-              onClick: (context) => {
-                context.perform(addNotTag, _t("issues.fix.tag_as_not.annotation"));
-              }
-            }));
+            fixes.push(
+              new validationIssueFix({
+                title: _t.append("issues.fix.tag_as_not.title", { name: item.displayName }),
+                onClick: (context) => {
+                  context.perform(addNotTag, _t("issues.fix.tag_as_not.annotation"));
+                }
+              })
+            );
           }
           return fixes;
         }
@@ -41862,7 +42204,7 @@ ${content}</tr>
         if (subtype === "noncanonical_brand" && isOnlyAddingTags) {
           messageID += "_incomplete";
         }
-        return _t.html(messageID, {
+        return _t.append(messageID, {
           feature: utilDisplayLabel(currEntity, context.graph(), true)
         });
       }
@@ -41900,7 +42242,7 @@ ${content}</tr>
           return [
             new validationIssueFix({
               autoArgs: [doUpgrade, _t("issues.fix.move_tags.annotation")],
-              title: _t.html("issues.fix.move_tags.title"),
+              title: _t.append("issues.fix.move_tags.title"),
               onClick: (context) => {
                 context.perform(doUpgrade, _t("issues.fix.move_tags.annotation"));
               }
@@ -41921,7 +42263,10 @@ ${content}</tr>
         let currMultipolygon = context.hasEntity(multipolygon.id);
         if (!currMultipolygon)
           return "";
-        return _t.html("issues.old_multipolygon.message", { multipolygon: utilDisplayLabel(currMultipolygon, context.graph(), true) });
+        return _t.append(
+          "issues.old_multipolygon.message",
+          { multipolygon: utilDisplayLabel(currMultipolygon, context.graph(), true) }
+        );
       }
       function showReference(selection2) {
         selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.old_multipolygon.reference"));
@@ -41992,9 +42337,9 @@ ${content}</tr>
           return [
             new validationIssueFix({
               icon: "iD-operation-delete",
-              title: _t.html("issues.fix." + fixID + ".title"),
+              title: _t.append("issues.fix." + fixID + ".title"),
               onClick: function(context) {
-                context.perform(doUpgrade, _t("issues.fix.upgrade_tags.annotation"));
+                context.perform(doUpgrade, _t("issues.fix.remove_tag.annotation"));
               }
             })
           ];
@@ -42018,7 +42363,10 @@ ${content}</tr>
         var currEntity = context.hasEntity(this.entityIds[0]);
         if (!currEntity)
           return "";
-        return _t.html("issues.private_data.contact.message", { feature: utilDisplayLabel(currEntity, context.graph()) });
+        return _t.append(
+          "issues.private_data.contact.message",
+          { feature: utilDisplayLabel(currEntity, context.graph()) }
+        );
       }
       function showReference(selection2) {
         var enter = selection2.selectAll(".issue-reference").data([0]).enter();
@@ -42078,9 +42426,9 @@ ${content}</tr>
       }
       return false;
     }
-    function isGenericName(name2, tags) {
-      name2 = name2.toLowerCase();
-      return nameMatchesRawTag(name2, tags) || isGenericMatchInNsi(tags);
+    function isGenericName(name, tags) {
+      name = name.toLowerCase();
+      return nameMatchesRawTag(name, tags) || isGenericMatchInNsi(tags);
     }
     function makeGenericNameIssue(entityId, nameKey, genericName, langCode) {
       return new validationIssue({
@@ -42093,7 +42441,10 @@ ${content}</tr>
             return "";
           let preset = _mainPresetIndex.match(entity, context.graph());
           let langName = langCode && _mainLocalizer.languageName(langCode);
-          return _t.html("issues.generic_name.message" + (langName ? "_language" : ""), { feature: preset.name(), name: genericName, language: langName });
+          return _t.append(
+            "issues.generic_name.message" + (langName ? "_language" : ""),
+            { feature: preset.name(), name: genericName, language: langName }
+          );
         },
         reference: showReference,
         entityIds: [entityId],
@@ -42102,13 +42453,16 @@ ${content}</tr>
           return [
             new validationIssueFix({
               icon: "iD-operation-delete",
-              title: _t.html("issues.fix.remove_the_name.title"),
+              title: _t.append("issues.fix.remove_the_name.title"),
               onClick: function(context) {
                 let entityId2 = this.issue.entityIds[0];
                 let entity = context.entity(entityId2);
                 let tags = Object.assign({}, entity.tags);
                 delete tags[nameKey];
-                context.perform(actionChangeTags(entityId2, tags), _t("issues.fix.remove_generic_name.annotation"));
+                context.perform(
+                  actionChangeTags(entityId2, tags),
+                  _t("issues.fix.remove_generic_name.annotation")
+                );
               }
             })
           ];
@@ -42129,7 +42483,10 @@ ${content}</tr>
             return "";
           const preset = _mainPresetIndex.match(entity, context.graph());
           const langName = langCode && _mainLocalizer.languageName(langCode);
-          return _t.html("issues.incorrect_name.message" + (langName ? "_language" : ""), { feature: preset.name(), name: incorrectName, language: langName });
+          return _t.append(
+            "issues.incorrect_name.message" + (langName ? "_language" : ""),
+            { feature: preset.name(), name: incorrectName, language: langName }
+          );
         },
         reference: showReference,
         entityIds: [entityId],
@@ -42138,13 +42495,16 @@ ${content}</tr>
           return [
             new validationIssueFix({
               icon: "iD-operation-delete",
-              title: _t.html("issues.fix.remove_the_name.title"),
+              title: _t.append("issues.fix.remove_the_name.title"),
               onClick: function(context) {
                 const entityId2 = this.issue.entityIds[0];
                 const entity = context.entity(entityId2);
                 let tags = Object.assign({}, entity.tags);
                 delete tags[nameKey];
-                context.perform(actionChangeTags(entityId2, tags), _t("issues.fix.remove_mistaken_name.annotation"));
+                context.perform(
+                  actionChangeTags(entityId2, tags),
+                  _t("issues.fix.remove_mistaken_name.annotation")
+                );
               }
             })
           ];
@@ -42246,7 +42606,7 @@ ${content}</tr>
         severity: "warning",
         message: function(context2) {
           var entity2 = context2.hasEntity(this.entityIds[0]);
-          return entity2 ? _t.html("issues.unsquare_way.message", {
+          return entity2 ? _t.append("issues.unsquare_way.message", {
             feature: utilDisplayLabel(entity2, context2.graph())
           }) : "";
         },
@@ -42257,11 +42617,14 @@ ${content}</tr>
           return [
             new validationIssueFix({
               icon: "iD-operation-orthogonalize",
-              title: _t.html("issues.fix.square_feature.title"),
+              title: _t.append("issues.fix.square_feature.title"),
               autoArgs,
               onClick: function(context2, completionHandler) {
                 var entityId = this.issue.entityIds[0];
-                context2.perform(actionOrthogonalize(entityId, context2.projection, void 0, degreeThreshold), _t("operations.orthogonalize.annotation.feature", { n: 1 }));
+                context2.perform(
+                  actionOrthogonalize(entityId, context2.projection, void 0, degreeThreshold),
+                  _t("operations.orthogonalize.annotation.feature", { n: 1 })
+                );
                 window.setTimeout(function() {
                   completionHandler();
                 }, 175);
@@ -42762,7 +43125,16 @@ ${content}</tr>
 
   // modules/core/uploader.js
   function coreUploader(context) {
-    var dispatch10 = dispatch_default("saveStarted", "saveEnded", "willAttemptUpload", "progressChanged", "resultNoChanges", "resultErrors", "resultConflicts", "resultSuccess");
+    var dispatch10 = dispatch_default(
+      "saveStarted",
+      "saveEnded",
+      "willAttemptUpload",
+      "progressChanged",
+      "resultNoChanges",
+      "resultErrors",
+      "resultConflicts",
+      "resultSuccess"
+    );
     var _isSaving = false;
     var _conflicts = [];
     var _errors = [];
@@ -43129,11 +43501,11 @@ ${content}</tr>
     };
     source.label = function() {
       var id_safe = source.id.replace(/\./g, "<TX_DOT>");
-      return _t.html("imagery." + id_safe + ".name", { default: (0, import_lodash2.escape)(_name) });
+      return _t.append("imagery." + id_safe + ".name", { default: (0, import_lodash2.escape)(_name) });
     };
     source.description = function() {
       var id_safe = source.id.replace(/\./g, "<TX_DOT>");
-      return _t.html("imagery." + id_safe + ".description", { default: (0, import_lodash2.escape)(_description) });
+      return _t.append("imagery." + id_safe + ".description", { default: (0, import_lodash2.escape)(_description) });
     };
     source.best = function() {
       return _best;
@@ -43456,7 +43828,7 @@ ${content}</tr>
       return _t("background.none");
     };
     source.label = function() {
-      return _t.html("background.none");
+      return _t.append("background.none");
     };
     source.imageryUsed = function() {
       return null;
@@ -43472,7 +43844,7 @@ ${content}</tr>
       return _t("background.custom");
     };
     source.label = function() {
-      return _t.html("background.custom");
+      return _t.append("background.custom");
     };
     source.imageryUsed = function() {
       var cleaned = source.template();
@@ -43661,7 +44033,9 @@ ${content}</tr>
             if (result && result.vintage && result.vintage.range) {
               span.text(result.vintage.range);
             } else {
-              span.html(_t.html("info_panels.background.vintage") + ": " + _t.html("info_panels.background.unknown"));
+              span.call(_t.append("info_panels.background.vintage"));
+              span.append("span").text(": ");
+              span.call(_t.append("info_panels.background.unknown"));
             }
           });
         });
@@ -43938,7 +44312,9 @@ ${content}</tr>
           return;
         }
       }
-      layer = rendererTileLayer(context).source(d).projection(context.projection).dimensions(baseLayer.dimensions());
+      layer = rendererTileLayer(context).source(d).projection(context.projection).dimensions(
+        baseLayer.dimensions()
+      );
       _overlayLayers.push(layer);
       dispatch10.call("change");
       background.updateImagery();
@@ -44000,30 +44376,31 @@ ${content}</tr>
     background.ensureLoaded = () => {
       if (_loadPromise)
         return _loadPromise;
-      function parseMapParams(qmap) {
-        if (!qmap)
-          return false;
-        const params = qmap.split("/").map(Number);
-        if (params.length < 3 || params.some(isNaN))
-          return false;
-        return geoExtent([params[2], params[1]]);
-      }
+      return _loadPromise = ensureImageryIndex();
+    };
+    background.init = () => {
+      const loadPromise = background.ensureLoaded();
       const hash = utilStringQs(window.location.hash);
-      const requested = hash.background || hash.layer;
-      let extent = parseMapParams(hash.map);
-      return _loadPromise = ensureImageryIndex().then((imageryIndex) => {
-        const first = imageryIndex.backgrounds.length && imageryIndex.backgrounds[0];
+      const requestedBackground = hash.background || hash.layer;
+      const lastUsedBackground = corePreferences("background-last-used");
+      return loadPromise.then((imageryIndex) => {
+        const extent = context.map().extent();
+        const validBackgrounds = background.sources(extent).filter((d) => d.id !== "none" && d.id !== "custom");
+        const first = validBackgrounds.length && validBackgrounds[0];
+        const isLastUsedValid = !!validBackgrounds.find((d) => d.id && d.id === lastUsedBackground);
         let best;
-        if (!requested && extent) {
-          best = background.sources(extent).find((s) => s.best());
+        if (!requestedBackground && extent) {
+          best = validBackgrounds.find((s) => s.best());
         }
-        if (requested && requested.indexOf("custom:") === 0) {
-          const template = requested.replace(/^custom:/, "");
+        if (requestedBackground && requestedBackground.indexOf("custom:") === 0) {
+          const template = requestedBackground.replace(/^custom:/, "");
           const custom = background.findSource("custom");
           background.baseLayerSource(custom.template(template));
           corePreferences("background-custom-template", template);
         } else {
-          background.baseLayerSource(background.findSource(requested) || best || background.findSource(corePreferences("background-last-used")) || background.findSource("Bing") || first || background.findSource("none"));
+          background.baseLayerSource(
+            background.findSource(requestedBackground) || best || isLastUsedValid && background.findSource(lastUsedBackground) || background.findSource("Bing") || first || background.findSource("none")
+          );
         }
         const locator = imageryIndex.backgrounds.find((d) => d.overlay && d.default);
         if (locator) {
@@ -44048,7 +44425,8 @@ ${content}</tr>
             background.offset(geoMetersToOffset(offset));
           }
         }
-      }).catch(() => {
+      }).catch((err) => {
+        console.error(err);
       });
     };
     return utilRebind(background, dispatch10, "on");
@@ -44086,16 +44464,6 @@ ${content}</tr>
       "bridleway": true,
       "steps": true,
       "pedestrian": true
-    };
-    var past_futures = {
-      "proposed": true,
-      "construction": true,
-      "abandoned": true,
-      "dismantled": true,
-      "disused": true,
-      "razed": true,
-      "demolished": true,
-      "obliterated": true
     };
     var _cullFactor = 1;
     var _cache4 = {};
@@ -44169,8 +44537,8 @@ ${content}</tr>
     defineRule("landuse", function isLanduse(tags, geometry) {
       return geometry === "area" && !_rules.buildings.filter(tags) && !_rules.building_parts.filter(tags) && !_rules.indoor.filter(tags) && !_rules.water.filter(tags) && !_rules.pistes.filter(tags);
     });
-    defineRule("boundaries", function isBoundary(tags) {
-      return !!tags.boundary && !(traffic_roads[tags.highway] || service_roads[tags.highway] || paths[tags.highway] || tags.waterway || tags.railway || tags.landuse || tags.natural || tags.building || tags.power);
+    defineRule("boundaries", function isBoundary(tags, geometry) {
+      return (geometry === "line" && !!tags.boundary || geometry === "relation" && tags.type === "boundary") && !(traffic_roads[tags.highway] || service_roads[tags.highway] || paths[tags.highway] || tags.waterway || tags.railway || tags.landuse || tags.natural || tags.building || tags.power);
     });
     defineRule("water", function isWater(tags) {
       return !!tags.waterway || tags.natural === "water" || tags.natural === "coastline" || tags.natural === "bay" || tags.landuse === "pond" || tags.landuse === "basin" || tags.landuse === "reservoir" || tags.landuse === "salt_pond";
@@ -44194,9 +44562,8 @@ ${content}</tr>
       var strings = Object.keys(tags);
       for (var i2 = 0; i2 < strings.length; i2++) {
         var s = strings[i2];
-        if (past_futures[s] || past_futures[tags[s]]) {
+        if (osmLifecyclePrefixes[s] || osmLifecyclePrefixes[tags[s]])
           return true;
-        }
       }
       return false;
     });
@@ -44770,18 +45137,7 @@ ${content}</tr>
       "building:part",
       "indoor"
     ];
-    var statuses = [
-      "proposed",
-      "planned",
-      "construction",
-      "disused",
-      "abandoned",
-      "dismantled",
-      "razed",
-      "demolished",
-      "obliterated",
-      "intermittent"
-    ];
+    var statuses = Object.keys(osmLifecyclePrefixes);
     var secondaries = [
       "oneway",
       "bridge",
@@ -45177,64 +45533,128 @@ ${content}</tr>
   // modules/svg/data.js
   var import_fast_json_stable_stringify = __toESM(require_fast_json_stable_stringify());
 
-  // node_modules/@tmcw/togeojson/dist/togeojson.es.js
-  function nodeVal(x) {
-    if (x && x.normalize) {
-      x.normalize();
-    }
-    return x && x.textContent || "";
+  // node_modules/@tmcw/togeojson/dist/togeojson.es.mjs
+  function $(element, tagName) {
+    return Array.from(element.getElementsByTagName(tagName));
   }
-  function get1(x, y) {
-    const n2 = x.getElementsByTagName(y);
-    return n2.length ? n2[0] : null;
+  function normalizeId(id2) {
+    return id2[0] === "#" ? id2 : `#${id2}`;
   }
-  function getLineStyle(extensions) {
-    const style = {};
-    if (extensions) {
-      const lineStyle = get1(extensions, "line");
-      if (lineStyle) {
-        const color2 = nodeVal(get1(lineStyle, "color")), opacity = parseFloat(nodeVal(get1(lineStyle, "opacity"))), width = parseFloat(nodeVal(get1(lineStyle, "width")));
-        if (color2)
-          style.stroke = color2;
-        if (!isNaN(opacity))
-          style["stroke-opacity"] = opacity;
-        if (!isNaN(width))
-          style["stroke-width"] = width * 96 / 25.4;
-      }
+  function $ns(element, tagName, ns) {
+    return Array.from(element.getElementsByTagNameNS(ns, tagName));
+  }
+  function nodeVal(node) {
+    node?.normalize();
+    return node && node.textContent || "";
+  }
+  function get1(node, tagName, callback) {
+    const n2 = node.getElementsByTagName(tagName);
+    const result = n2.length ? n2[0] : null;
+    if (result && callback)
+      callback(result);
+    return result;
+  }
+  function get3(node, tagName, callback) {
+    const properties = {};
+    if (!node)
+      return properties;
+    const n2 = node.getElementsByTagName(tagName);
+    const result = n2.length ? n2[0] : null;
+    if (result && callback) {
+      return callback(result, properties);
     }
-    return style;
+    return properties;
+  }
+  function val1(node, tagName, callback) {
+    const val = nodeVal(get1(node, tagName));
+    if (val && callback)
+      return callback(val) || {};
+    return {};
+  }
+  function $num(node, tagName, callback) {
+    const val = parseFloat(nodeVal(get1(node, tagName)));
+    if (isNaN(val))
+      return void 0;
+    if (val && callback)
+      return callback(val) || {};
+    return {};
+  }
+  function num1(node, tagName, callback) {
+    const val = parseFloat(nodeVal(get1(node, tagName)));
+    if (isNaN(val))
+      return void 0;
+    if (val && callback)
+      callback(val);
+    return val;
+  }
+  function getMulti(node, propertyNames) {
+    const properties = {};
+    for (const property of propertyNames) {
+      val1(node, property, (val) => {
+        properties[property] = val;
+      });
+    }
+    return properties;
+  }
+  function isElement(node) {
+    return node?.nodeType === 1;
+  }
+  function getLineStyle(node) {
+    return get3(node, "line", (lineStyle) => {
+      const val = Object.assign({}, val1(lineStyle, "color", (color2) => {
+        return { stroke: `#${color2}` };
+      }), $num(lineStyle, "opacity", (opacity) => {
+        return { "stroke-opacity": opacity };
+      }), $num(lineStyle, "width", (width) => {
+        return { "stroke-width": width * 96 / 25.4 };
+      }));
+      return val;
+    });
   }
   function getExtensions(node) {
     let values = [];
-    if (node !== null) {
-      for (let i2 = 0; i2 < node.childNodes.length; i2++) {
-        const child = node.childNodes[i2];
-        if (child.nodeType !== 1)
-          continue;
-        const name2 = ["heart", "gpxtpx:hr", "hr"].includes(child.nodeName) ? "heart" : child.nodeName;
-        if (name2 === "gpxtpx:TrackPointExtension") {
-          values = values.concat(getExtensions(child));
-        } else {
-          const val = nodeVal(child);
-          values.push([name2, isNaN(val) ? val : parseFloat(val)]);
-        }
+    if (node === null)
+      return values;
+    for (const child of Array.from(node.childNodes)) {
+      if (!isElement(child))
+        continue;
+      const name = abbreviateName(child.nodeName);
+      if (name === "gpxtpx:TrackPointExtension") {
+        values = values.concat(getExtensions(child));
+      } else {
+        const val = nodeVal(child);
+        values.push([name, parseNumeric(val)]);
       }
     }
     return values;
   }
-  function getMulti(x, ys) {
-    const o = {};
-    let n2;
-    let k;
-    for (k = 0; k < ys.length; k++) {
-      n2 = get1(x, ys[k]);
-      if (n2)
-        o[ys[k]] = nodeVal(n2);
-    }
-    return o;
+  function abbreviateName(name) {
+    return ["heart", "gpxtpx:hr", "hr"].includes(name) ? "heart" : name;
   }
-  function getProperties$1(node) {
-    const prop = getMulti(node, [
+  function parseNumeric(val) {
+    const num = parseFloat(val);
+    return isNaN(num) ? val : num;
+  }
+  function coordPair$1(node) {
+    const ll = [
+      parseFloat(node.getAttribute("lon") || ""),
+      parseFloat(node.getAttribute("lat") || "")
+    ];
+    if (isNaN(ll[0]) || isNaN(ll[1])) {
+      return null;
+    }
+    num1(node, "ele", (val) => {
+      ll.push(val);
+    });
+    const time = get1(node, "time");
+    return {
+      coordinates: ll,
+      time: time ? nodeVal(time) : null,
+      extendedValues: getExtensions(get1(node, "extensions"))
+    };
+  }
+  function extractProperties(node) {
+    const properties = getMulti(node, [
       "name",
       "cmt",
       "desc",
@@ -45242,38 +45662,45 @@ ${content}</tr>
       "time",
       "keywords"
     ]);
-    const extensions = node.getElementsByTagNameNS("http://www.garmin.com/xmlschemas/GpxExtensions/v3", "*");
-    for (let i2 = 0; i2 < extensions.length; i2++) {
-      const extension = extensions[i2];
-      if (extension.parentNode.parentNode === node) {
-        prop[extension.tagName.replace(":", "_")] = nodeVal(extension);
+    const extensions = Array.from(node.getElementsByTagNameNS("http://www.garmin.com/xmlschemas/GpxExtensions/v3", "*"));
+    for (const child of extensions) {
+      if (child.parentNode?.parentNode === node) {
+        properties[child.tagName.replace(":", "_")] = nodeVal(child);
       }
     }
-    const links = node.getElementsByTagName("link");
-    if (links.length)
-      prop.links = [];
-    for (let i2 = 0; i2 < links.length; i2++) {
-      prop.links.push(Object.assign({ href: links[i2].getAttribute("href") }, getMulti(links[i2], ["text", "type"])));
+    const links = $(node, "link");
+    if (links.length) {
+      properties.links = links.map((link2) => Object.assign({ href: link2.getAttribute("href") }, getMulti(link2, ["text", "type"])));
     }
-    return prop;
+    return properties;
   }
-  function coordPair$1(x) {
-    const ll = [
-      parseFloat(x.getAttribute("lon")),
-      parseFloat(x.getAttribute("lat"))
-    ];
-    const ele = get1(x, "ele");
-    const time = get1(x, "time");
-    if (ele) {
-      const e = parseFloat(nodeVal(ele));
-      if (!isNaN(e)) {
-        ll.push(e);
+  function getPoints$1(node, pointname) {
+    const pts = $(node, pointname);
+    const line = [];
+    const times = [];
+    const extendedValues = {};
+    for (let i2 = 0; i2 < pts.length; i2++) {
+      const c = coordPair$1(pts[i2]);
+      if (!c) {
+        continue;
+      }
+      line.push(c.coordinates);
+      if (c.time)
+        times.push(c.time);
+      for (const [name, val] of c.extendedValues) {
+        const plural = name === "heart" ? name : name.replace("gpxtpx:", "") + "s";
+        if (!extendedValues[plural]) {
+          extendedValues[plural] = Array(pts.length).fill(null);
+        }
+        extendedValues[plural][i2] = val;
       }
     }
+    if (line.length < 2)
+      return;
     return {
-      coordinates: ll,
-      time: time ? nodeVal(time) : null,
-      extendedValues: getExtensions(get1(x, "extensions"))
+      line,
+      times,
+      extendedValues
     };
   }
   function getRoute(node) {
@@ -45282,47 +45709,20 @@ ${content}</tr>
       return;
     return {
       type: "Feature",
-      properties: Object.assign(getProperties$1(node), getLineStyle(get1(node, "extensions")), { _gpxType: "rte" }),
+      properties: Object.assign({ _gpxType: "rte" }, extractProperties(node), getLineStyle(get1(node, "extensions"))),
       geometry: {
         type: "LineString",
         coordinates: line.line
       }
     };
   }
-  function getPoints$1(node, pointname) {
-    const pts = node.getElementsByTagName(pointname);
-    if (pts.length < 2)
-      return;
-    const line = [];
-    const times = [];
-    const extendedValues = {};
-    for (let i2 = 0; i2 < pts.length; i2++) {
-      const c = coordPair$1(pts[i2]);
-      line.push(c.coordinates);
-      if (c.time)
-        times.push(c.time);
-      for (let j2 = 0; j2 < c.extendedValues.length; j2++) {
-        const [name2, val] = c.extendedValues[j2];
-        const plural = name2 === "heart" ? name2 : name2.replace("gpxtpx:", "") + "s";
-        if (!extendedValues[plural]) {
-          extendedValues[plural] = Array(pts.length).fill(null);
-        }
-        extendedValues[plural][i2] = val;
-      }
-    }
-    return {
-      line,
-      times,
-      extendedValues
-    };
-  }
   function getTrack(node) {
-    const segments = node.getElementsByTagName("trkseg");
+    const segments = $(node, "trkseg");
     const track = [];
     const times = [];
     const extractedLines = [];
-    for (let i2 = 0; i2 < segments.length; i2++) {
-      const line = getPoints$1(segments[i2], "trkpt");
+    for (const segment of segments) {
+      const line = getPoints$1(segment, "trkpt");
       if (line) {
         extractedLines.push(line);
         if (line.times && line.times.length)
@@ -45330,27 +45730,29 @@ ${content}</tr>
       }
     }
     if (extractedLines.length === 0)
-      return;
+      return null;
     const multi = extractedLines.length > 1;
-    const properties = Object.assign(getProperties$1(node), getLineStyle(get1(node, "extensions")), { _gpxType: "trk" }, times.length ? {
+    const properties = Object.assign({ _gpxType: "trk" }, extractProperties(node), getLineStyle(get1(node, "extensions")), times.length ? {
       coordinateProperties: {
         times: multi ? times : times[0]
       }
     } : {});
-    for (let i2 = 0; i2 < extractedLines.length; i2++) {
-      const line = extractedLines[i2];
+    for (const line of extractedLines) {
       track.push(line.line);
-      for (const [name2, val] of Object.entries(line.extendedValues)) {
-        if (!properties.coordinateProperties) {
-          properties.coordinateProperties = {};
-        }
-        const props = properties.coordinateProperties;
+      if (!properties.coordinateProperties) {
+        properties.coordinateProperties = {};
+      }
+      const props = properties.coordinateProperties;
+      const entries = Object.entries(line.extendedValues);
+      for (let i2 = 0; i2 < entries.length; i2++) {
+        const [name, val] = entries[i2];
         if (multi) {
-          if (!props[name2])
-            props[name2] = extractedLines.map((line2) => new Array(line2.line.length).fill(null));
-          props[name2][i2] = val;
+          if (!props[name]) {
+            props[name] = extractedLines.map((line2) => new Array(line2.line.length).fill(null));
+          }
+          props[name][i2] = val;
         } else {
-          props[name2] = val;
+          props[name] = val;
         }
       }
     }
@@ -45367,326 +45769,355 @@ ${content}</tr>
     };
   }
   function getPoint(node) {
+    const properties = Object.assign(extractProperties(node), getMulti(node, ["sym"]));
+    const pair2 = coordPair$1(node);
+    if (!pair2)
+      return null;
     return {
       type: "Feature",
-      properties: Object.assign(getProperties$1(node), getMulti(node, ["sym"])),
+      properties,
       geometry: {
         type: "Point",
-        coordinates: coordPair$1(node).coordinates
+        coordinates: pair2.coordinates
       }
     };
   }
-  function* gpxGen(doc) {
-    const tracks = doc.getElementsByTagName("trk");
-    const routes = doc.getElementsByTagName("rte");
-    const waypoints = doc.getElementsByTagName("wpt");
-    for (let i2 = 0; i2 < tracks.length; i2++) {
-      const feature3 = getTrack(tracks[i2]);
+  function* gpxGen(node) {
+    for (const track of $(node, "trk")) {
+      const feature3 = getTrack(track);
       if (feature3)
         yield feature3;
     }
-    for (let i2 = 0; i2 < routes.length; i2++) {
-      const feature3 = getRoute(routes[i2]);
+    for (const route of $(node, "rte")) {
+      const feature3 = getRoute(route);
       if (feature3)
         yield feature3;
     }
-    for (let i2 = 0; i2 < waypoints.length; i2++) {
-      yield getPoint(waypoints[i2]);
+    for (const waypoint of $(node, "wpt")) {
+      const point = getPoint(waypoint);
+      if (point)
+        yield point;
     }
   }
-  function gpx(doc) {
+  function gpx(node) {
     return {
       type: "FeatureCollection",
-      features: Array.from(gpxGen(doc))
+      features: Array.from(gpxGen(node))
     };
+  }
+  function fixColor(v, prefix) {
+    const properties = {};
+    const colorProp = prefix == "stroke" || prefix === "fill" ? prefix : prefix + "-color";
+    if (v[0] === "#") {
+      v = v.substring(1);
+    }
+    if (v.length === 6 || v.length === 3) {
+      properties[colorProp] = "#" + v;
+    } else if (v.length === 8) {
+      properties[prefix + "-opacity"] = parseInt(v.substring(0, 2), 16) / 255;
+      properties[colorProp] = "#" + v.substring(6, 8) + v.substring(4, 6) + v.substring(2, 4);
+    }
+    return properties;
+  }
+  function numericProperty(node, source, target) {
+    const properties = {};
+    num1(node, source, (val) => {
+      properties[target] = val;
+    });
+    return properties;
+  }
+  function getColor(node, output) {
+    return get3(node, "color", (elem) => fixColor(nodeVal(elem), output));
+  }
+  function extractIcon(node) {
+    return get3(node, "IconStyle", (iconStyle) => {
+      return Object.assign(getColor(iconStyle, "icon"), numericProperty(iconStyle, "scale", "icon-scale"), numericProperty(iconStyle, "heading", "icon-heading"), get3(iconStyle, "hotSpot", (hotspot) => {
+        const left = parseFloat(hotspot.getAttribute("x") || "");
+        const top = parseFloat(hotspot.getAttribute("y") || "");
+        const xunits = hotspot.getAttribute("xunits") || "";
+        const yunits = hotspot.getAttribute("yunits") || "";
+        if (!isNaN(left) && !isNaN(top))
+          return {
+            "icon-offset": [left, top],
+            "icon-offset-units": [xunits, yunits]
+          };
+        return {};
+      }), get3(iconStyle, "Icon", (icon2, properties) => {
+        val1(icon2, "href", (href) => {
+          properties.icon = href;
+        });
+        return properties;
+      }));
+    });
+  }
+  function extractLabel(node) {
+    return get3(node, "LabelStyle", (labelStyle) => {
+      return Object.assign(getColor(labelStyle, "label"), numericProperty(labelStyle, "scale", "label-scale"));
+    });
+  }
+  function extractLine(node) {
+    return get3(node, "LineStyle", (lineStyle) => {
+      return Object.assign(getColor(lineStyle, "stroke"), numericProperty(lineStyle, "width", "stroke-width"));
+    });
+  }
+  function extractPoly(node) {
+    return get3(node, "PolyStyle", (polyStyle, properties) => {
+      return Object.assign(properties, get3(polyStyle, "color", (elem) => fixColor(nodeVal(elem), "fill")), val1(polyStyle, "fill", (fill) => {
+        if (fill === "0")
+          return { "fill-opacity": 0 };
+      }), val1(polyStyle, "outline", (outline) => {
+        if (outline === "0")
+          return { "stroke-opacity": 0 };
+      }));
+    });
+  }
+  function extractStyle(node) {
+    return Object.assign({}, extractPoly(node), extractLine(node), extractLabel(node), extractIcon(node));
   }
   var removeSpace = /\s*/g;
   var trimSpace = /^\s*|\s*$/g;
   var splitSpace = /\s+/;
-  function okhash(x) {
-    if (!x || !x.length)
-      return 0;
-    let h = 0;
-    for (let i2 = 0; i2 < x.length; i2++) {
-      h = (h << 5) - h + x.charCodeAt(i2) | 0;
-    }
-    return h;
+  function coord1(value) {
+    return value.replace(removeSpace, "").split(",").map(parseFloat).filter((num) => !isNaN(num)).slice(0, 3);
   }
-  function coord1(v) {
-    return v.replace(removeSpace, "").split(",").map(parseFloat);
+  function coord(value) {
+    return value.replace(trimSpace, "").split(splitSpace).map(coord1).filter((coord2) => {
+      return coord2.length >= 2;
+    });
   }
-  function coord(v) {
-    return v.replace(trimSpace, "").split(splitSpace).map(coord1);
-  }
-  function xml2str(node) {
-    if (node.xml !== void 0)
-      return node.xml;
-    if (node.tagName) {
-      let output = node.tagName;
-      for (let i2 = 0; i2 < node.attributes.length; i2++) {
-        output += node.attributes[i2].name + node.attributes[i2].value;
-      }
-      for (let i2 = 0; i2 < node.childNodes.length; i2++) {
-        output += xml2str(node.childNodes[i2]);
-      }
-      return output;
+  function gxCoords(node) {
+    let elems = $(node, "coord");
+    if (elems.length === 0) {
+      elems = $ns(node, "coord", "*");
     }
-    if (node.nodeName === "#text") {
-      return (node.nodeValue || node.value || "").trim();
+    const coordinates = elems.map((elem) => {
+      return nodeVal(elem).split(" ").map(parseFloat);
+    });
+    if (coordinates.length === 0) {
+      return null;
     }
-    if (node.nodeName === "#cdata-section") {
-      return node.nodeValue;
-    }
-    return "";
-  }
-  var geotypes = ["Polygon", "LineString", "Point", "Track", "gx:Track"];
-  function kmlColor(properties, elem, prefix) {
-    let v = nodeVal(get1(elem, "color")) || "";
-    const colorProp = prefix == "stroke" || prefix === "fill" ? prefix : prefix + "-color";
-    if (v.substr(0, 1) === "#") {
-      v = v.substr(1);
-    }
-    if (v.length === 6 || v.length === 3) {
-      properties[colorProp] = v;
-    } else if (v.length === 8) {
-      properties[prefix + "-opacity"] = parseInt(v.substr(0, 2), 16) / 255;
-      properties[colorProp] = "#" + v.substr(6, 2) + v.substr(4, 2) + v.substr(2, 2);
-    }
-  }
-  function numericProperty(properties, elem, source, target) {
-    const val = parseFloat(nodeVal(get1(elem, source)));
-    if (!isNaN(val))
-      properties[target] = val;
-  }
-  function gxCoords(root3) {
-    let elems = root3.getElementsByTagName("coord");
-    const coords = [];
-    const times = [];
-    if (elems.length === 0)
-      elems = root3.getElementsByTagName("gx:coord");
-    for (let i2 = 0; i2 < elems.length; i2++) {
-      coords.push(nodeVal(elems[i2]).split(" ").map(parseFloat));
-    }
-    const timeElems = root3.getElementsByTagName("when");
-    for (let j2 = 0; j2 < timeElems.length; j2++)
-      times.push(nodeVal(timeElems[j2]));
     return {
-      coords,
-      times
+      geometry: coordinates.length > 2 ? {
+        type: "LineString",
+        coordinates
+      } : {
+        type: "Point",
+        coordinates: coordinates[0]
+      },
+      times: $(node, "when").map((elem) => nodeVal(elem))
     };
   }
-  function getGeometry(root3) {
-    let geomNode;
-    let geomNodes;
-    let i2;
-    let j2;
-    let k;
-    const geoms = [];
+  function fixRing(ring) {
+    if (ring.length === 0)
+      return ring;
+    const first = ring[0];
+    const last = ring[ring.length - 1];
+    let equal = true;
+    for (let i2 = 0; i2 < Math.max(first.length, last.length); i2++) {
+      if (first[i2] !== last[i2]) {
+        equal = false;
+        break;
+      }
+    }
+    if (!equal) {
+      return ring.concat([ring[0]]);
+    }
+    return ring;
+  }
+  var GEO_TYPES = [
+    "Polygon",
+    "LineString",
+    "Point",
+    "Track",
+    "gx:Track"
+  ];
+  function getCoordinates(node) {
+    return nodeVal(get1(node, "coordinates"));
+  }
+  function getGeometry(node) {
+    const geometries = [];
     const coordTimes = [];
-    if (get1(root3, "MultiGeometry")) {
-      return getGeometry(get1(root3, "MultiGeometry"));
+    for (const t of ["MultiGeometry", "MultiTrack", "gx:MultiTrack"]) {
+      const elem = get1(node, t);
+      if (elem) {
+        return getGeometry(elem);
+      }
     }
-    if (get1(root3, "MultiTrack")) {
-      return getGeometry(get1(root3, "MultiTrack"));
-    }
-    if (get1(root3, "gx:MultiTrack")) {
-      return getGeometry(get1(root3, "gx:MultiTrack"));
-    }
-    for (i2 = 0; i2 < geotypes.length; i2++) {
-      geomNodes = root3.getElementsByTagName(geotypes[i2]);
-      if (geomNodes) {
-        for (j2 = 0; j2 < geomNodes.length; j2++) {
-          geomNode = geomNodes[j2];
-          if (geotypes[i2] === "Point") {
-            geoms.push({
-              type: "Point",
-              coordinates: coord1(nodeVal(get1(geomNode, "coordinates")))
-            });
-          } else if (geotypes[i2] === "LineString") {
-            geoms.push({
-              type: "LineString",
-              coordinates: coord(nodeVal(get1(geomNode, "coordinates")))
-            });
-          } else if (geotypes[i2] === "Polygon") {
-            const rings = geomNode.getElementsByTagName("LinearRing"), coords = [];
-            for (k = 0; k < rings.length; k++) {
-              coords.push(coord(nodeVal(get1(rings[k], "coordinates"))));
+    for (const geoType of GEO_TYPES) {
+      for (const geomNode of $(node, geoType)) {
+        switch (geoType) {
+          case "Point": {
+            const coordinates = coord1(getCoordinates(geomNode));
+            if (coordinates.length >= 2) {
+              geometries.push({
+                type: "Point",
+                coordinates
+              });
             }
-            geoms.push({
-              type: "Polygon",
-              coordinates: coords
-            });
-          } else if (geotypes[i2] === "Track" || geotypes[i2] === "gx:Track") {
-            const track = gxCoords(geomNode);
-            geoms.push({
-              type: "LineString",
-              coordinates: track.coords
-            });
-            if (track.times.length)
-              coordTimes.push(track.times);
+            break;
+          }
+          case "LineString": {
+            const coordinates = coord(getCoordinates(geomNode));
+            if (coordinates.length >= 2) {
+              geometries.push({
+                type: "LineString",
+                coordinates
+              });
+            }
+            break;
+          }
+          case "Polygon": {
+            const coords = [];
+            for (const linearRing of $(geomNode, "LinearRing")) {
+              const ring = fixRing(coord(getCoordinates(linearRing)));
+              if (ring.length >= 4) {
+                coords.push(ring);
+              }
+            }
+            if (coords.length) {
+              geometries.push({
+                type: "Polygon",
+                coordinates: coords
+              });
+            }
+            break;
+          }
+          case "Track":
+          case "gx:Track": {
+            const gx = gxCoords(geomNode);
+            if (!gx)
+              break;
+            const { times, geometry } = gx;
+            geometries.push(geometry);
+            if (times.length)
+              coordTimes.push(times);
+            break;
           }
         }
       }
     }
     return {
-      geoms,
+      geometries,
       coordTimes
     };
   }
-  function getPlacemark(root3, styleIndex, styleMapIndex, styleByHash) {
-    const geomsAndTimes = getGeometry(root3);
-    let i2;
-    const properties = {};
-    const name2 = nodeVal(get1(root3, "name"));
-    const address = nodeVal(get1(root3, "address"));
-    let styleUrl = nodeVal(get1(root3, "styleUrl"));
-    const description2 = nodeVal(get1(root3, "description"));
-    const timeSpan = get1(root3, "TimeSpan");
-    const timeStamp = get1(root3, "TimeStamp");
-    const extendedData = get1(root3, "ExtendedData");
-    let iconStyle = get1(root3, "IconStyle");
-    let labelStyle = get1(root3, "LabelStyle");
-    let lineStyle = get1(root3, "LineStyle");
-    let polyStyle = get1(root3, "PolyStyle");
-    const visibility = get1(root3, "visibility");
-    if (name2)
-      properties.name = name2;
-    if (address)
-      properties.address = address;
-    if (styleUrl) {
-      if (styleUrl[0] !== "#") {
-        styleUrl = "#" + styleUrl;
+  function extractExtendedData(node) {
+    return get3(node, "ExtendedData", (extendedData, properties) => {
+      for (const data of $(extendedData, "Data")) {
+        properties[data.getAttribute("name") || ""] = nodeVal(get1(data, "value"));
       }
-      properties.styleUrl = styleUrl;
-      if (styleIndex[styleUrl]) {
-        properties.styleHash = styleIndex[styleUrl];
+      for (const simpleData of $(extendedData, "SimpleData")) {
+        properties[simpleData.getAttribute("name") || ""] = nodeVal(simpleData);
       }
-      if (styleMapIndex[styleUrl]) {
-        properties.styleMapHash = styleMapIndex[styleUrl];
-        properties.styleHash = styleIndex[styleMapIndex[styleUrl].normal];
-      }
-      const style = styleByHash[properties.styleHash];
-      if (style) {
-        if (!iconStyle)
-          iconStyle = get1(style, "IconStyle");
-        if (!labelStyle)
-          labelStyle = get1(style, "LabelStyle");
-        if (!lineStyle)
-          lineStyle = get1(style, "LineStyle");
-        if (!polyStyle)
-          polyStyle = get1(style, "PolyStyle");
-      }
-    }
-    if (description2)
-      properties.description = description2;
-    if (timeSpan) {
-      const begin = nodeVal(get1(timeSpan, "begin"));
-      const end = nodeVal(get1(timeSpan, "end"));
-      properties.timespan = { begin, end };
-    }
-    if (timeStamp) {
-      properties.timestamp = nodeVal(get1(timeStamp, "when"));
-    }
-    if (iconStyle) {
-      kmlColor(properties, iconStyle, "icon");
-      numericProperty(properties, iconStyle, "scale", "icon-scale");
-      numericProperty(properties, iconStyle, "heading", "icon-heading");
-      const hotspot = get1(iconStyle, "hotSpot");
-      if (hotspot) {
-        const left = parseFloat(hotspot.getAttribute("x"));
-        const top = parseFloat(hotspot.getAttribute("y"));
-        if (!isNaN(left) && !isNaN(top))
-          properties["icon-offset"] = [left, top];
-      }
-      const icon2 = get1(iconStyle, "Icon");
-      if (icon2) {
-        const href = nodeVal(get1(icon2, "href"));
-        if (href)
-          properties.icon = href;
-      }
-    }
-    if (labelStyle) {
-      kmlColor(properties, labelStyle, "label");
-      numericProperty(properties, labelStyle, "scale", "label-scale");
-    }
-    if (lineStyle) {
-      kmlColor(properties, lineStyle, "stroke");
-      numericProperty(properties, lineStyle, "width", "stroke-width");
-    }
-    if (polyStyle) {
-      kmlColor(properties, polyStyle, "fill");
-      const fill = nodeVal(get1(polyStyle, "fill"));
-      const outline = nodeVal(get1(polyStyle, "outline"));
-      if (fill)
-        properties["fill-opacity"] = fill === "1" ? properties["fill-opacity"] || 1 : 0;
-      if (outline)
-        properties["stroke-opacity"] = outline === "1" ? properties["stroke-opacity"] || 1 : 0;
-    }
-    if (extendedData) {
-      const datas = extendedData.getElementsByTagName("Data"), simpleDatas = extendedData.getElementsByTagName("SimpleData");
-      for (i2 = 0; i2 < datas.length; i2++) {
-        properties[datas[i2].getAttribute("name")] = nodeVal(get1(datas[i2], "value"));
-      }
-      for (i2 = 0; i2 < simpleDatas.length; i2++) {
-        properties[simpleDatas[i2].getAttribute("name")] = nodeVal(simpleDatas[i2]);
-      }
-    }
-    if (visibility) {
-      properties.visibility = nodeVal(visibility);
-    }
-    if (geomsAndTimes.coordTimes.length) {
-      properties.coordinateProperties = {
-        times: geomsAndTimes.coordTimes.length === 1 ? geomsAndTimes.coordTimes[0] : geomsAndTimes.coordTimes
+      return properties;
+    });
+  }
+  function geometryListToGeometry(geometries) {
+    return geometries.length === 0 ? null : geometries.length === 1 ? geometries[0] : {
+      type: "GeometryCollection",
+      geometries
+    };
+  }
+  function extractTimeSpan(node) {
+    return get3(node, "TimeSpan", (timeSpan) => {
+      return {
+        timespan: {
+          begin: nodeVal(get1(timeSpan, "begin")),
+          end: nodeVal(get1(timeSpan, "end"))
+        }
       };
+    });
+  }
+  function extractTimeStamp(node) {
+    return get3(node, "TimeStamp", (timeStamp) => {
+      return { timestamp: nodeVal(get1(timeStamp, "when")) };
+    });
+  }
+  function extractCascadedStyle(node, styleMap) {
+    return val1(node, "styleUrl", (styleUrl) => {
+      styleUrl = normalizeId(styleUrl);
+      if (styleMap[styleUrl]) {
+        return Object.assign({ styleUrl }, styleMap[styleUrl]);
+      }
+      return { styleUrl };
+    });
+  }
+  function getMaybeHTMLDescription(node) {
+    const descriptionNode = get1(node, "description");
+    for (const c of Array.from(descriptionNode?.childNodes || [])) {
+      if (c.nodeType === 4) {
+        return {
+          description: {
+            "@type": "html",
+            value: nodeVal(c)
+          }
+        };
+      }
     }
+    return {};
+  }
+  function getPlacemark(node, styleMap) {
+    const { coordTimes, geometries } = getGeometry(node);
     const feature3 = {
       type: "Feature",
-      geometry: geomsAndTimes.geoms.length === 0 ? null : geomsAndTimes.geoms.length === 1 ? geomsAndTimes.geoms[0] : {
-        type: "GeometryCollection",
-        geometries: geomsAndTimes.geoms
-      },
-      properties
+      geometry: geometryListToGeometry(geometries),
+      properties: Object.assign(getMulti(node, [
+        "name",
+        "address",
+        "visibility",
+        "open",
+        "phoneNumber",
+        "description"
+      ]), getMaybeHTMLDescription(node), extractCascadedStyle(node, styleMap), extractStyle(node), extractExtendedData(node), extractTimeSpan(node), extractTimeStamp(node), coordTimes.length ? {
+        coordinateProperties: {
+          times: coordTimes.length === 1 ? coordTimes[0] : coordTimes
+        }
+      } : {})
     };
-    if (root3.getAttribute("id"))
-      feature3.id = root3.getAttribute("id");
+    if (feature3.properties?.visibility !== void 0) {
+      feature3.properties.visibility = feature3.properties.visibility !== "0";
+    }
+    const id2 = node.getAttribute("id");
+    if (id2 !== null && id2 !== "")
+      feature3.id = id2;
     return feature3;
   }
-  function* kmlGen(doc) {
-    const styleIndex = {};
-    const styleByHash = {};
-    const styleMapIndex = {};
-    const placemarks = doc.getElementsByTagName("Placemark");
-    const styles = doc.getElementsByTagName("Style");
-    const styleMaps = doc.getElementsByTagName("StyleMap");
-    for (let k = 0; k < styles.length; k++) {
-      const style = styles[k];
-      const hash = okhash(xml2str(style)).toString(16);
-      let id2 = style.getAttribute("id");
-      if (!id2 && style.parentNode.tagName.replace("gx:", "") === "CascadingStyle") {
-        id2 = style.parentNode.getAttribute("kml:id") || style.parentNode.getAttribute("id");
-      }
-      styleIndex["#" + id2] = hash;
-      styleByHash[hash] = style;
+  function getStyleId(style) {
+    let id2 = style.getAttribute("id");
+    const parentNode = style.parentNode;
+    if (!id2 && isElement(parentNode) && parentNode.localName === "CascadingStyle") {
+      id2 = parentNode.getAttribute("kml:id") || parentNode.getAttribute("id");
     }
-    for (let l = 0; l < styleMaps.length; l++) {
-      styleIndex["#" + styleMaps[l].getAttribute("id")] = okhash(xml2str(styleMaps[l])).toString(16);
-      const pairs = styleMaps[l].getElementsByTagName("Pair");
-      const pairsMap = {};
-      for (let m = 0; m < pairs.length; m++) {
-        pairsMap[nodeVal(get1(pairs[m], "key"))] = nodeVal(get1(pairs[m], "styleUrl"));
-      }
-      styleMapIndex["#" + styleMaps[l].getAttribute("id")] = pairsMap;
+    return normalizeId(id2 || "");
+  }
+  function buildStyleMap(node) {
+    const styleMap = {};
+    for (const style of $(node, "Style")) {
+      styleMap[getStyleId(style)] = extractStyle(style);
     }
-    for (let j2 = 0; j2 < placemarks.length; j2++) {
-      const feature3 = getPlacemark(placemarks[j2], styleIndex, styleMapIndex, styleByHash);
+    for (const map2 of $(node, "StyleMap")) {
+      const id2 = normalizeId(map2.getAttribute("id") || "");
+      val1(map2, "styleUrl", (styleUrl) => {
+        styleUrl = normalizeId(styleUrl);
+        if (styleMap[styleUrl]) {
+          styleMap[id2] = styleMap[styleUrl];
+        }
+      });
+    }
+    return styleMap;
+  }
+  function* kmlGen(node) {
+    const styleMap = buildStyleMap(node);
+    for (const placemark of $(node, "Placemark")) {
+      const feature3 = getPlacemark(placemark, styleMap);
       if (feature3)
         yield feature3;
     }
   }
-  function kml(doc) {
+  function kml(node) {
     return {
       type: "FeatureCollection",
-      features: Array.from(kmlGen(doc))
+      features: Array.from(kmlGen(node))
     };
   }
 
@@ -46152,8 +46583,8 @@ ${content}</tr>
     function drawDefs(selection2) {
       _defsSelection = selection2.append("defs");
       _defsSelection.append("marker").attr("id", "ideditor-oneway-marker").attr("viewBox", "0 0 10 5").attr("refX", 2.5).attr("refY", 2.5).attr("markerWidth", 2).attr("markerHeight", 2).attr("markerUnits", "strokeWidth").attr("orient", "auto").append("path").attr("class", "oneway-marker-path").attr("d", "M 5,3 L 0,3 L 0,2 L 5,2 L 5,0 L 10,2.5 L 5,5 z").attr("stroke", "none").attr("fill", "#000").attr("opacity", "0.75");
-      function addSidedMarker(name2, color2, offset) {
-        _defsSelection.append("marker").attr("id", "ideditor-sided-marker-" + name2).attr("viewBox", "0 0 2 2").attr("refX", 1).attr("refY", -offset).attr("markerWidth", 1.5).attr("markerHeight", 1.5).attr("markerUnits", "strokeWidth").attr("orient", "auto").append("path").attr("class", "sided-marker-path sided-marker-" + name2 + "-path").attr("d", "M 0,0 L 1,1 L 2,0 z").attr("stroke", "none").attr("fill", color2);
+      function addSidedMarker(name, color2, offset) {
+        _defsSelection.append("marker").attr("id", "ideditor-sided-marker-" + name).attr("viewBox", "0 0 2 2").attr("refX", 1).attr("refY", -offset).attr("markerWidth", 1.5).attr("markerHeight", 1.5).attr("markerUnits", "strokeWidth").attr("orient", "auto").append("path").attr("class", "sided-marker-path sided-marker-" + name + "-path").attr("d", "M 0,0 L 1,1 L 2,0 z").attr("stroke", "none").attr("fill", color2);
       }
       addSidedMarker("natural", "rgb(170, 170, 170)", 0);
       addSidedMarker("coastline", "#77dede", 1);
@@ -46219,7 +46650,9 @@ ${content}</tr>
         var url = context.imagePath(d + ".svg");
         var node = select_default2(this).node();
         svg(url).then(function(svg2) {
-          node.appendChild(select_default2(svg2.documentElement).attr("id", "ideditor-" + d).node());
+          node.appendChild(
+            select_default2(svg2.documentElement).attr("id", "ideditor-" + d).node()
+          );
           if (overrideColors && d !== "iD-sprite") {
             select_default2(node).selectAll("path").attr("fill", "currentColor");
           }
@@ -46451,6 +46884,9 @@ ${content}</tr>
       ["point", "shop", "*", 10],
       ["point", "tourism", "*", 10],
       ["point", "camp_site", "*", 10],
+      ["line", "ref", "*", 12],
+      ["area", "ref", "*", 12],
+      ["point", "ref", "*", 10],
       ["line", "name", "*", 12],
       ["area", "name", "*", 12],
       ["point", "name", "*", 10]
@@ -46461,7 +46897,7 @@ ${content}</tr>
         return preset.id.indexOf(s) >= 0;
       });
     }
-    function get3(array2, prop) {
+    function get4(array2, prop) {
       return function(d, i2) {
         return array2[i2][prop];
       };
@@ -46487,9 +46923,9 @@ ${content}</tr>
     function drawLinePaths(selection2, entities, filter2, classes, labels) {
       var paths = selection2.selectAll("path").filter(filter2).data(entities, osmEntity.key);
       paths.exit().remove();
-      paths.enter().append("path").style("stroke-width", get3(labels, "font-size")).attr("id", function(d) {
+      paths.enter().append("path").style("stroke-width", get4(labels, "font-size")).attr("id", function(d) {
         return "ideditor-labelpath-" + d.id;
-      }).attr("class", classes).merge(paths).attr("d", get3(labels, "lineString"));
+      }).attr("class", classes).merge(paths).attr("d", get4(labels, "lineString"));
     }
     function drawLineLabels(selection2, entities, filter2, classes, labels) {
       var texts = selection2.selectAll("text." + classes).filter(filter2).data(entities, osmEntity.key);
@@ -46506,7 +46942,7 @@ ${content}</tr>
       texts.exit().remove();
       texts.enter().append("text").attr("class", function(d, i2) {
         return classes + " " + labels[i2].classes + " " + d.id;
-      }).merge(texts).attr("x", get3(labels, "x")).attr("y", get3(labels, "y")).style("text-anchor", get3(labels, "textAnchor")).text(utilDisplayName).each(function(d, i2) {
+      }).merge(texts).attr("x", get4(labels, "x")).attr("y", get4(labels, "y")).style("text-anchor", get4(labels, "textAnchor")).text(utilDisplayName).each(function(d, i2) {
         textWidth(utilDisplayName(d), labels[i2].height, this);
       });
     }
@@ -46521,7 +46957,7 @@ ${content}</tr>
     function drawAreaIcons(selection2, entities, filter2, classes, labels) {
       var icons = selection2.selectAll("use." + classes).filter(filter2).data(entities, osmEntity.key);
       icons.exit().remove();
-      icons.enter().append("use").attr("class", "icon " + classes).attr("width", "17px").attr("height", "17px").merge(icons).attr("transform", get3(labels, "transform")).attr("xlink:href", function(d) {
+      icons.enter().append("use").attr("class", "icon " + classes).attr("width", "17px").attr("height", "17px").merge(icons).attr("transform", get4(labels, "transform")).attr("xlink:href", function(d) {
         var preset = _mainPresetIndex.match(d, context.graph());
         var picon = preset && preset.icon;
         return picon ? "#" + picon : "";
@@ -46625,8 +47061,8 @@ ${content}</tr>
           entity = labelable[k][i2];
           geometry = entity.geometry(graph);
           var getName = geometry === "line" ? utilDisplayNameForPath : utilDisplayName;
-          var name2 = getName(entity);
-          var width = name2 && textWidth(name2, fontSize);
+          var name = getName(entity);
+          var width = name && textWidth(name, fontSize);
           var p = null;
           if (geometry === "point" || geometry === "vertex") {
             if (wireframe)
@@ -48583,11 +49019,14 @@ ${content}</tr>
       function addMarkers(layergroup, pathclass, groupclass, groupdata, marker) {
         var markergroup = layergroup.selectAll("g." + groupclass).data([pathclass]);
         markergroup = markergroup.enter().append("g").attr("class", groupclass).merge(markergroup);
-        var markers = markergroup.selectAll("path").filter(filter2).data(function data() {
-          return groupdata[this.parentNode.__data__] || [];
-        }, function key(d) {
-          return [d.id, d.index];
-        });
+        var markers = markergroup.selectAll("path").filter(filter2).data(
+          function data() {
+            return groupdata[this.parentNode.__data__] || [];
+          },
+          function key(d) {
+            return [d.id, d.index];
+          }
+        );
         markers.exit().remove();
         markers = markers.enter().append("path").attr("class", pathclass).merge(markers).attr("marker-mid", marker).attr("d", function(d) {
           return d.d;
@@ -48609,7 +49048,7 @@ ${content}</tr>
         if (outer) {
           ways.push(entity.mergeTags(outer.tags));
           oldMultiPolygonOuters[outer.id] = true;
-        } else if (entity.geometry(graph) === "line") {
+        } else if (entity.geometry(graph) === "line" || entity.geometry(graph) === "area" && entity.sidednessIdentifier && entity.sidednessIdentifier() === "coastline") {
           ways.push(entity);
         }
       }
@@ -48622,20 +49061,32 @@ ${content}</tr>
         var onewayArr = v.filter(function(d) {
           return d.isOneWay();
         });
-        var onewaySegments = svgMarkerSegments(projection2, graph, 35, function shouldReverse(entity2) {
-          return entity2.tags.oneway === "-1";
-        }, function bothDirections(entity2) {
-          return entity2.tags.oneway === "reversible" || entity2.tags.oneway === "alternating";
-        });
+        var onewaySegments = svgMarkerSegments(
+          projection2,
+          graph,
+          35,
+          function shouldReverse(entity2) {
+            return entity2.tags.oneway === "-1";
+          },
+          function bothDirections(entity2) {
+            return entity2.tags.oneway === "reversible" || entity2.tags.oneway === "alternating";
+          }
+        );
         onewaydata[k] = utilArrayFlatten(onewayArr.map(onewaySegments));
         var sidedArr = v.filter(function(d) {
           return d.isSided();
         });
-        var sidedSegments = svgMarkerSegments(projection2, graph, 30, function shouldReverse() {
-          return false;
-        }, function bothDirections() {
-          return false;
-        });
+        var sidedSegments = svgMarkerSegments(
+          projection2,
+          graph,
+          30,
+          function shouldReverse() {
+            return false;
+          },
+          function bothDirections() {
+            return false;
+          }
+        );
         sideddata[k] = utilArrayFlatten(sidedArr.map(sidedSegments));
       });
       var covered = selection2.selectAll(".layer-osm.covered");
@@ -48657,10 +49108,16 @@ ${content}</tr>
         layergroup.selectAll("g.line-casing-highlighted").call(drawLineGroup, "casing", true);
         layergroup.selectAll("g.line-stroke-highlighted").call(drawLineGroup, "stroke", true);
         addMarkers(layergroup, "oneway", "onewaygroup", onewaydata, "url(#ideditor-oneway-marker)");
-        addMarkers(layergroup, "sided", "sidedgroup", sideddata, function marker(d) {
-          var category = graph.entity(d.id).sidednessIdentifier();
-          return "url(#ideditor-sided-marker-" + category + ")";
-        });
+        addMarkers(
+          layergroup,
+          "sided",
+          "sidedgroup",
+          sideddata,
+          function marker(d) {
+            var category = graph.entity(d.id).sidednessIdentifier();
+            return "url(#ideditor-sided-marker-" + category + ")";
+          }
+        );
       });
       touchLayer.call(drawTargets, graph, ways, filter2);
     }
@@ -48772,9 +49229,11 @@ ${content}</tr>
         var b2 = graph.entity(d.edge[1]);
         var angle2 = geoAngle(a2, b2, projection2) * (180 / Math.PI);
         return translate(d) + " rotate(" + angle2 + ")";
-      }).call(svgTagClasses().tags(function(d) {
-        return d.parents[0].tags;
-      }));
+      }).call(svgTagClasses().tags(
+        function(d) {
+          return d.parents[0].tags;
+        }
+      ));
       groups.select("polygon.shadow");
       groups.select("polygon.fill");
       touchLayer.call(drawTargets, graph, Object.values(midpoints), midpointFilter);
@@ -49281,7 +49740,10 @@ ${content}</tr>
   }
   function defaultConstrain2(transform2, extent, translateExtent) {
     var dx0 = transform2.invertX(extent[0][0]) - translateExtent[0][0], dx1 = transform2.invertX(extent[1][0]) - translateExtent[1][0], dy0 = transform2.invertY(extent[0][1]) - translateExtent[0][1], dy1 = transform2.invertY(extent[1][1]) - translateExtent[1][1];
-    return transform2.translate(dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1), dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1));
+    return transform2.translate(
+      dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1),
+      dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1)
+    );
   }
   function utilZoomPan() {
     var filter2 = defaultFilter3, extent = defaultExtent2, constrain = defaultConstrain2, wheelDelta = defaultWheelDelta2, scaleExtent = [0, Infinity], translateExtent = [[-Infinity, -Infinity], [Infinity, Infinity]], interpolate = zoom_default, dispatch10 = dispatch_default("start", "zoom", "end"), _wheelDelay = 150, _transform = identity2, _activeGesture;
@@ -49313,13 +49775,19 @@ ${content}</tr>
     };
     zoom.translateBy = function(selection2, x, y) {
       zoom.transform(selection2, function() {
-        return constrain(_transform.translate(typeof x === "function" ? x.apply(this, arguments) : x, typeof y === "function" ? y.apply(this, arguments) : y), extent.apply(this, arguments), translateExtent);
+        return constrain(_transform.translate(
+          typeof x === "function" ? x.apply(this, arguments) : x,
+          typeof y === "function" ? y.apply(this, arguments) : y
+        ), extent.apply(this, arguments), translateExtent);
       });
     };
     zoom.translateTo = function(selection2, x, y, p) {
       zoom.transform(selection2, function() {
         var e = extent.apply(this, arguments), t = _transform, p02 = !p ? centroid(e) : typeof p === "function" ? p.apply(this, arguments) : p;
-        return constrain(identity2.translate(p02[0], p02[1]).scale(t.k).translate(typeof x === "function" ? -x.apply(this, arguments) : -x, typeof y === "function" ? -y.apply(this, arguments) : -y), e, translateExtent);
+        return constrain(identity2.translate(p02[0], p02[1]).scale(t.k).translate(
+          typeof x === "function" ? -x.apply(this, arguments) : -x,
+          typeof y === "function" ? -y.apply(this, arguments) : -y
+        ), e, translateExtent);
       }, p);
     };
     function scale(transform2, k) {
@@ -49588,7 +50056,14 @@ ${content}</tr>
     return Math.max(min3, Math.min(num, max3));
   }
   function rendererMap(context) {
-    var dispatch10 = dispatch_default("move", "drawn", "crossEditableZoom", "hitMinZoom", "changeHighlighting", "changeAreaFill");
+    var dispatch10 = dispatch_default(
+      "move",
+      "drawn",
+      "crossEditableZoom",
+      "hitMinZoom",
+      "changeHighlighting",
+      "changeAreaFill"
+    );
     var projection2 = context.projection;
     var curtainProjection = context.curtainProjection;
     var drawLayers;
@@ -49883,7 +50358,11 @@ ${content}</tr>
         if (source.deltaMode === 1) {
           var lines = Math.abs(source.deltaY);
           var sign2 = source.deltaY > 0 ? 1 : -1;
-          dY = sign2 * clamp(Math.exp((lines - 1) * 0.75) * 4.000244140625, 4.000244140625, 350.000244140625);
+          dY = sign2 * clamp(
+            Math.exp((lines - 1) * 0.75) * 4.000244140625,
+            4.000244140625,
+            350.000244140625
+          );
           if (detected.os !== "mac") {
             dY *= 5;
           }
@@ -50243,7 +50722,10 @@ ${content}</tr>
     };
     map2.extent = function(val) {
       if (!arguments.length) {
-        return new geoExtent(projection2.invert([0, _dimensions[1]]), projection2.invert([_dimensions[0], 0]));
+        return new geoExtent(
+          projection2.invert([0, _dimensions[1]]),
+          projection2.invert([_dimensions[0], 0])
+        );
       } else {
         var extent = geoExtent(val);
         map2.centerZoom(extent.center(), map2.extentZoom(extent));
@@ -50254,7 +50736,10 @@ ${content}</tr>
         var headerY = 71;
         var footerY = 30;
         var pad2 = 10;
-        return new geoExtent(projection2.invert([pad2, _dimensions[1] - footerY - pad2]), projection2.invert([_dimensions[0] - pad2, headerY + pad2]));
+        return new geoExtent(
+          projection2.invert([pad2, _dimensions[1] - footerY - pad2]),
+          projection2.invert([_dimensions[0] - pad2, headerY + pad2])
+        );
       } else {
         var extent = geoExtent(val);
         map2.centerZoom(extent.center(), map2.trimmedExtentZoom(extent));
@@ -50386,7 +50871,7 @@ ${content}</tr>
     photos.setDateFilter = function(type3, val, updateUrl) {
       var date = val && new Date(val);
       if (date && !isNaN(date)) {
-        val = date.toISOString().substr(0, 10);
+        val = date.toISOString().slice(0, 10);
       } else {
         val = null;
       }
@@ -50622,7 +51107,10 @@ ${content}</tr>
           attribution = attribution.append("a").attr("href", d.terms_url).attr("target", "_blank");
         }
         const sourceID = d.id.replace(/\./g, "<TX_DOT>");
-        const terms_text = _t(`imagery.${sourceID}.attribution.text`, { default: d.terms_text || d.id || d.name() });
+        const terms_text = _t(
+          `imagery.${sourceID}.attribution.text`,
+          { default: d.terms_text || d.id || d.name() }
+        );
         if (d.icon && !d.overlay) {
           attribution.append("img").attr("class", "source-image").attr("src", d.icon);
         }
@@ -50995,19 +51483,21 @@ ${content}</tr>
       var heading = _heading.apply(this, arguments);
       var text2 = _title.apply(this, arguments);
       var keys = _keys.apply(this, arguments);
+      var headingCallback = typeof heading === "function" ? heading : (s) => s.text(heading);
+      var textCallback = typeof text2 === "function" ? text2 : (s) => s.text(text2);
       return function(selection2) {
         var headingSelect = selection2.selectAll(".tooltip-heading").data(heading ? [heading] : []);
         headingSelect.exit().remove();
-        headingSelect.enter().append("div").attr("class", "tooltip-heading").merge(headingSelect).html(heading);
+        headingSelect.enter().append("div").attr("class", "tooltip-heading").merge(headingSelect).text("").call(headingCallback);
         var textSelect = selection2.selectAll(".tooltip-text").data(text2 ? [text2] : []);
         textSelect.exit().remove();
-        textSelect.enter().append("div").attr("class", "tooltip-text").merge(textSelect).html(text2);
+        textSelect.enter().append("div").attr("class", "tooltip-text").merge(textSelect).text("").call(textCallback);
         var keyhintWrap = selection2.selectAll(".keyhint-wrap").data(keys && keys.length ? [0] : []);
         keyhintWrap.exit().remove();
         var keyhintWrapEnter = keyhintWrap.enter().append("div").attr("class", "keyhint-wrap");
         keyhintWrapEnter.append("span").call(_t.append("tooltip_keyhint"));
         keyhintWrap = keyhintWrapEnter.merge(keyhintWrap);
-        keyhintWrap.selectAll("kbd.shortcut").data(keys && keys.length ? keys : []).enter().append("kbd").attr("class", "shortcut").html(function(d) {
+        keyhintWrap.selectAll("kbd.shortcut").data(keys && keys.length ? keys : []).enter().append("kbd").attr("class", "shortcut").text(function(d) {
           return d;
         });
       };
@@ -51068,7 +51558,7 @@ ${content}</tr>
         utilHighlightEntities(d.relatedEntityIds(), false, context);
       });
       buttonsEnter.each(function(d) {
-        var tooltip = uiTooltip().heading(d.title).title(d.tooltip()).keys([d.keys[0]]);
+        var tooltip = uiTooltip().heading(() => d.title).title(d.tooltip).keys([d.keys[0]]);
         _tooltips.push(tooltip);
         select_default2(this).call(tooltip).append("div").attr("class", "icon-wrap").call(svgIcon(d.icon && d.icon() || "#iD-operation-" + d.id, "operation"));
       });
@@ -51101,7 +51591,7 @@ ${content}</tr>
         }
         if (operation.disabled()) {
           if (lastPointerUpType === "touch" || lastPointerUpType === "pen") {
-            context.ui().flash.duration(4e3).iconName("#iD-operation-" + operation.id).iconClass("operation disabled").label(operation.tooltip)();
+            context.ui().flash.duration(4e3).iconName("#iD-operation-" + operation.id).iconClass("operation disabled").label(operation.tooltip())();
           }
         } else {
           if (lastPointerUpType === "touch" || lastPointerUpType === "pen") {
@@ -51215,14 +51705,21 @@ ${content}</tr>
       var hiddenList = features2.hidden().map(function(k) {
         if (stats[k]) {
           count += stats[k];
-          return _t.html("inspector.title_count", { title: { html: _t.html("feature." + k + ".description") }, count: stats[k] });
+          return _t.append("inspector.title_count", {
+            title: _t("feature." + k + ".description"),
+            count: stats[k]
+          });
         }
         return null;
       }).filter(Boolean);
-      selection2.html("");
+      selection2.text("");
       if (hiddenList.length) {
         var tooltipBehavior = uiTooltip().placement("top").title(function() {
-          return hiddenList.join("<br/>");
+          return (selection3) => {
+            hiddenList.forEach((hiddenFeature) => {
+              selection3.append("div").call(hiddenFeature);
+            });
+          };
         });
         selection2.append("a").attr("class", "chip").attr("href", "#").call(_t.append("feature_info.hidden_warning", { count })).call(tooltipBehavior).on("click", function(d3_event) {
           tooltipBehavior.hide();
@@ -51246,7 +51743,7 @@ ${content}</tr>
     var _duration = 2e3;
     var _iconName = "#iD-icon-no";
     var _iconClass = "disabled";
-    var _label = "";
+    var _label = (s) => s.text("");
     function flash() {
       if (_flashTimer) {
         _flashTimer.stop();
@@ -51262,7 +51759,7 @@ ${content}</tr>
       content = content.merge(contentEnter);
       content.selectAll(".flash-icon").attr("class", "icon flash-icon " + (_iconClass || ""));
       content.selectAll(".flash-icon use").attr("xlink:href", _iconName);
-      content.selectAll(".flash-text").attr("class", "flash-text").html(_label);
+      content.selectAll(".flash-text").attr("class", "flash-text").call(_label);
       _flashTimer = timeout_default(function() {
         _flashTimer = null;
         context.container().select(".main-footer-wrap").classed("footer-hide", false).classed("footer-show", true);
@@ -51279,7 +51776,11 @@ ${content}</tr>
     flash.label = function(_) {
       if (!arguments.length)
         return _label;
-      _label = _;
+      if (typeof _ !== "function") {
+        _label = (selection2) => selection2.text(_);
+      } else {
+        _label = (selection2) => selection2.text("").call(_);
+      }
       return flash;
     };
     flash.iconName = function(_) {
@@ -51388,7 +51889,7 @@ ${content}</tr>
       if (_position) {
         zoomTo();
       } else {
-        context.ui().flash.label(_t.html("geolocate.location_unavailable")).iconName("#iD-icon-geolocate")();
+        context.ui().flash.label(_t.append("geolocate.location_unavailable")).iconName("#iD-icon-geolocate")();
       }
       finish();
     }
@@ -51406,7 +51907,9 @@ ${content}</tr>
     return function(selection2) {
       if (!navigator.geolocation || !navigator.geolocation.getCurrentPosition)
         return;
-      _button = selection2.append("button").on("click", click).attr("aria-pressed", false).call(svgIcon("#iD-icon-geolocate", "light")).call(uiTooltip().placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left").title(_t.html("geolocate.title")).keys([_t("geolocate.key")]));
+      _button = selection2.append("button").on("click", click).attr("aria-pressed", false).call(svgIcon("#iD-icon-geolocate", "light")).call(
+        uiTooltip().placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left").title(() => _t.append("geolocate.title")).keys([_t("geolocate.key")])
+      );
       context.keybinding().on(_t("geolocate.key"), click);
     };
   }
@@ -51435,9 +51938,9 @@ ${content}</tr>
         _currSourceName = sourceLabel;
         _metadata = {};
       }
-      selection2.html("");
+      selection2.text("");
       var list = selection2.append("ul").attr("class", "background-info");
-      list.append("li").html(_currSourceName);
+      list.append("li").call(_currSourceName);
       _metadataKeys.forEach(function(k) {
         if (isDG && k === "vintage")
           return;
@@ -51511,7 +52014,7 @@ ${content}</tr>
       context.map().on("drawn.info-background", null).on("move.info-background", null);
     };
     panel.id = "background";
-    panel.label = _t.html("info_panels.background.title");
+    panel.label = _t.append("info_panels.background.title");
     panel.key = _t("info_panels.background.key");
     return panel;
   }
@@ -51635,7 +52138,7 @@ ${content}</tr>
       context.on("enter.info-history", null);
     };
     panel.id = "history";
-    panel.label = _t.html("info_panels.history.title");
+    panel.label = _t.append("info_panels.history.title");
     panel.key = _t("info_panels.history.key");
     return panel;
   }
@@ -51803,7 +52306,7 @@ ${content}</tr>
       context.surface().on(".info-location", null);
     };
     panel.id = "location";
-    panel.label = _t.html("info_panels.location.title");
+    panel.label = _t.append("info_panels.location.title");
     panel.key = _t("info_panels.location.key");
     return panel;
   }
@@ -51895,7 +52398,9 @@ ${content}</tr>
       var list = selection2.append("ul");
       var coordItem;
       if (geometry) {
-        list.append("li").call(_t.append("info_panels.measurement.geometry", { suffix: ":" })).append("span").html(closed ? _t.html("info_panels.measurement.closed_" + geometry) : _t.html("geometry." + geometry));
+        list.append("li").call(_t.append("info_panels.measurement.geometry", { suffix: ":" })).append("span").html(
+          closed ? _t.html("info_panels.measurement.closed_" + geometry) : _t.html("geometry." + geometry)
+        );
       }
       if (totalNodeCount) {
         list.append("li").call(_t.append("info_panels.measurement.node_count", { suffix: ":" })).append("span").text(totalNodeCount.toLocaleString(localeCode));
@@ -51947,7 +52452,7 @@ ${content}</tr>
       context.on("enter.info-measurement", null);
     };
     panel.id = "measurement";
-    panel.label = _t.html("info_panels.measurement.title");
+    panel.label = _t.append("info_panels.measurement.title");
     panel.key = _t("info_panels.measurement.key");
     return panel;
   }
@@ -51988,8 +52493,8 @@ ${content}</tr>
         });
         enter.style("opacity", 0).transition().duration(200).style("opacity", 1);
         var title = enter.append("div").attr("class", "panel-title fillD2");
-        title.append("h3").html(function(d) {
-          return panels[d].label;
+        title.append("h3").each(function(d) {
+          return panels[d].label(select_default2(this));
         });
         title.append("button").attr("class", "close").attr("title", _t("icons.close")).on("click", function(d3_event, d) {
           d3_event.stopImmediatePropagation();
@@ -52079,8 +52584,8 @@ ${content}</tr>
       height: (box.width || 0) + 2 * padding
     };
   }
-  function icon(name2, svgklass, useklass) {
-    return '<svg class="icon ' + (svgklass || "") + '"><use xlink:href="' + name2 + '"' + (useklass ? ' class="' + useklass + '"' : "") + "></use></svg>";
+  function icon(name, svgklass, useklass) {
+    return '<svg class="icon ' + (svgklass || "") + '"><use xlink:href="' + name + '"' + (useklass ? ' class="' + useklass + '"' : "") + "></use></svg>";
   }
   var helpStringReplacements;
   function helpHtml(id2, replacements) {
@@ -52198,11 +52703,11 @@ ${content}</tr>
   }
   function localize(obj) {
     var key;
-    var name2 = obj.tags && obj.tags.name;
-    if (name2) {
-      key = "intro.graph.name." + slugify(name2);
-      obj.tags.name = _t(key, { default: name2 });
-      checkKey(key, name2);
+    var name = obj.tags && obj.tags.name;
+    if (name) {
+      key = "intro.graph.name." + slugify(name);
+      obj.tags.name = _t(key, { default: name });
+      checkKey(key, name);
     }
     var street = obj.tags && obj.tags["addr:street"];
     if (street) {
@@ -52454,17 +52959,32 @@ ${content}</tr>
     };
     function welcome() {
       context.map().centerZoom([-85.63591, 41.94285], 19);
-      reveal(".intro-nav-wrap .chapter-welcome", helpHtml("intro.welcome.welcome"), { buttonText: _t.html("intro.ok"), buttonCallback: practice });
+      reveal(
+        ".intro-nav-wrap .chapter-welcome",
+        helpHtml("intro.welcome.welcome"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: practice }
+      );
     }
     function practice() {
-      reveal(".intro-nav-wrap .chapter-welcome", helpHtml("intro.welcome.practice"), { buttonText: _t.html("intro.ok"), buttonCallback: words });
+      reveal(
+        ".intro-nav-wrap .chapter-welcome",
+        helpHtml("intro.welcome.practice"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: words }
+      );
     }
     function words() {
-      reveal(".intro-nav-wrap .chapter-welcome", helpHtml("intro.welcome.words"), { buttonText: _t.html("intro.ok"), buttonCallback: chapters });
+      reveal(
+        ".intro-nav-wrap .chapter-welcome",
+        helpHtml("intro.welcome.words"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: chapters }
+      );
     }
     function chapters() {
       dispatch10.call("done");
-      reveal(".intro-nav-wrap .chapter-navigation", helpHtml("intro.welcome.chapters", { next: _t("intro.navigation.title") }));
+      reveal(
+        ".intro-nav-wrap .chapter-navigation",
+        helpHtml("intro.welcome.chapters", { next: _t("intro.navigation.title") })
+      );
     }
     chapter.enter = function() {
       welcome();
@@ -52560,9 +53080,17 @@ ${content}</tr>
       var onClick = function() {
         continueTo(pointsLinesAreas);
       };
-      reveal(".surface", helpHtml("intro.navigation.features"), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        ".surface",
+        helpHtml("intro.navigation.features"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.map().on("drawn.intro", function() {
-        reveal(".surface", helpHtml("intro.navigation.features"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+        reveal(
+          ".surface",
+          helpHtml("intro.navigation.features"),
+          { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+        );
       });
       function continueTo(nextStep) {
         context.map().on("drawn.intro", null);
@@ -52573,9 +53101,17 @@ ${content}</tr>
       var onClick = function() {
         continueTo(nodesWays);
       };
-      reveal(".surface", helpHtml("intro.navigation.points_lines_areas"), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        ".surface",
+        helpHtml("intro.navigation.points_lines_areas"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.map().on("drawn.intro", function() {
-        reveal(".surface", helpHtml("intro.navigation.points_lines_areas"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+        reveal(
+          ".surface",
+          helpHtml("intro.navigation.points_lines_areas"),
+          { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+        );
       });
       function continueTo(nextStep) {
         context.map().on("drawn.intro", null);
@@ -52586,9 +53122,17 @@ ${content}</tr>
       var onClick = function() {
         continueTo(clickTownHall);
       };
-      reveal(".surface", helpHtml("intro.navigation.nodes_ways"), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        ".surface",
+        helpHtml("intro.navigation.nodes_ways"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.map().on("drawn.intro", function() {
-        reveal(".surface", helpHtml("intro.navigation.nodes_ways"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+        reveal(
+          ".surface",
+          helpHtml("intro.navigation.nodes_ways"),
+          { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+        );
       });
       function continueTo(nextStep) {
         context.map().on("drawn.intro", null);
@@ -52644,13 +53188,21 @@ ${content}</tr>
       var onClick = function() {
         continueTo(editorTownHall);
       };
-      reveal(box, helpHtml("intro.navigation.selected_townhall"), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        box,
+        helpHtml("intro.navigation.selected_townhall"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.map().on("move.intro drawn.intro", function() {
         var entity2 = context.hasEntity(hallId);
         if (!entity2)
           return;
         var box2 = pointBox(entity2.loc, context);
-        reveal(box2, helpHtml("intro.navigation.selected_townhall"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+        reveal(
+          box2,
+          helpHtml("intro.navigation.selected_townhall"),
+          { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+        );
       });
       context.history().on("change.intro", function() {
         if (!context.hasEntity(hallId)) {
@@ -52670,7 +53222,11 @@ ${content}</tr>
       var onClick = function() {
         continueTo(presetTownHall);
       };
-      reveal(".entity-editor-pane", helpHtml("intro.navigation.editor_townhall"), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        ".entity-editor-pane",
+        helpHtml("intro.navigation.editor_townhall"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.on("exit.intro", function() {
         continueTo(clickTownHall);
       });
@@ -52696,7 +53252,11 @@ ${content}</tr>
       var onClick = function() {
         continueTo(fieldsTownHall);
       };
-      reveal(".entity-editor-pane .section-feature-type", helpHtml("intro.navigation.preset_townhall", { preset: preset.name() }), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        ".entity-editor-pane .section-feature-type",
+        helpHtml("intro.navigation.preset_townhall", { preset: preset.name() }),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.on("exit.intro", function() {
         continueTo(clickTownHall);
       });
@@ -52720,7 +53280,11 @@ ${content}</tr>
       var onClick = function() {
         continueTo(closeTownHall);
       };
-      reveal(".entity-editor-pane .section-preset-fields", helpHtml("intro.navigation.fields_townhall"), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        ".entity-editor-pane .section-preset-fields",
+        helpHtml("intro.navigation.fields_townhall"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.on("exit.intro", function() {
         continueTo(clickTownHall);
       });
@@ -52741,14 +53305,21 @@ ${content}</tr>
         return clickTownHall();
       var selector = ".entity-editor-pane button.close svg use";
       var href = select_default2(selector).attr("href") || "#iD-icon-close";
-      reveal(".entity-editor-pane", helpHtml("intro.navigation.close_townhall", { button: { html: icon(href, "inline") } }));
+      reveal(
+        ".entity-editor-pane",
+        helpHtml("intro.navigation.close_townhall", { button: { html: icon(href, "inline") } })
+      );
       context.on("exit.intro", function() {
         continueTo(searchStreet);
       });
       context.history().on("change.intro", function() {
         var selector2 = ".entity-editor-pane button.close svg use";
         var href2 = select_default2(selector2).attr("href") || "#iD-icon-close";
-        reveal(".entity-editor-pane", helpHtml("intro.navigation.close_townhall", { button: { html: icon(href2, "inline") } }), { duration: 0 });
+        reveal(
+          ".entity-editor-pane",
+          helpHtml("intro.navigation.close_townhall", { button: { html: icon(href2, "inline") } }),
+          { duration: 0 }
+        );
       });
       function continueTo(nextStep) {
         context.on("exit.intro", null);
@@ -52765,16 +53336,23 @@ ${content}</tr>
       }
       context.map().centerZoomEase(springStreet, 19, msec);
       timeout2(function() {
-        reveal(".search-header input", helpHtml("intro.navigation.search_street", { name: _t("intro.graph.name.spring-street") }));
+        reveal(
+          ".search-header input",
+          helpHtml("intro.navigation.search_street", { name: _t("intro.graph.name.spring-street") })
+        );
         context.container().select(".search-header input").on("keyup.intro", checkSearchResult);
       }, msec + 100);
     }
     function checkSearchResult() {
       var first = context.container().select(".feature-list-item:nth-child(0n+2)");
       var firstName = first.select(".entity-name");
-      var name2 = _t("intro.graph.name.spring-street");
-      if (!firstName.empty() && firstName.html() === name2) {
-        reveal(first.node(), helpHtml("intro.navigation.choose_street", { name: name2 }), { duration: 300 });
+      var name = _t("intro.graph.name.spring-street");
+      if (!firstName.empty() && firstName.html() === name) {
+        reveal(
+          first.node(),
+          helpHtml("intro.navigation.choose_street", { name }),
+          { duration: 300 }
+        );
         context.on("exit.intro", function() {
           continueTo(selectedStreet);
         });
@@ -52796,7 +53374,11 @@ ${content}</tr>
       var entity = context.entity(springStreetEndId);
       var box = pointBox(entity.loc, context);
       box.height = 500;
-      reveal(box, helpHtml("intro.navigation.selected_street", { name: _t("intro.graph.name.spring-street") }), { duration: 600, buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      reveal(
+        box,
+        helpHtml("intro.navigation.selected_street", { name: _t("intro.graph.name.spring-street") }),
+        { duration: 600, buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       timeout2(function() {
         context.map().on("move.intro drawn.intro", function() {
           var entity2 = context.hasEntity(springStreetEndId);
@@ -52804,7 +53386,11 @@ ${content}</tr>
             return;
           var box2 = pointBox(entity2.loc, context);
           box2.height = 500;
-          reveal(box2, helpHtml("intro.navigation.selected_street", { name: _t("intro.graph.name.spring-street") }), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+          reveal(
+            box2,
+            helpHtml("intro.navigation.selected_street", { name: _t("intro.graph.name.spring-street") }),
+            { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+          );
         });
       }, 600);
       context.on("enter.intro", function(mode) {
@@ -52835,8 +53421,8 @@ ${content}</tr>
       var href = select_default2(selector).attr("href") || "#iD-icon-close";
       reveal(".entity-editor-pane", helpHtml("intro.navigation.street_different_fields") + "{br}" + helpHtml("intro.navigation.editor_street", {
         button: { html: icon(href, "inline") },
-        field1: { html: onewayField.label() },
-        field2: { html: maxspeedField.label() }
+        field1: onewayField.title(),
+        field2: maxspeedField.title()
       }));
       context.on("exit.intro", function() {
         continueTo(play);
@@ -52844,11 +53430,15 @@ ${content}</tr>
       context.history().on("change.intro", function() {
         var selector2 = ".entity-editor-pane button.close svg use";
         var href2 = select_default2(selector2).attr("href") || "#iD-icon-close";
-        reveal(".entity-editor-pane", helpHtml("intro.navigation.street_different_fields") + "{br}" + helpHtml("intro.navigation.editor_street", {
-          button: { html: icon(href2, "inline") },
-          field1: { html: onewayField.label() },
-          field2: { html: maxspeedField.label() }
-        }), { duration: 0 });
+        reveal(
+          ".entity-editor-pane",
+          helpHtml("intro.navigation.street_different_fields") + "{br}" + helpHtml("intro.navigation.editor_street", {
+            button: { html: icon(href2, "inline") },
+            field1: onewayField.title(),
+            field2: maxspeedField.title()
+          }),
+          { duration: 0 }
+        );
       });
       function continueTo(nextStep) {
         context.on("exit.intro", null);
@@ -52858,13 +53448,17 @@ ${content}</tr>
     }
     function play() {
       dispatch10.call("done");
-      reveal(".ideditor", helpHtml("intro.navigation.play", { next: _t("intro.points.title") }), {
-        tooltipBox: ".intro-nav-wrap .chapter-point",
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          reveal(".ideditor");
+      reveal(
+        ".ideditor",
+        helpHtml("intro.navigation.play", { next: _t("intro.points.title") }),
+        {
+          tooltipBox: ".intro-nav-wrap .chapter-point",
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            reveal(".ideditor");
+          }
         }
-      });
+      );
     }
     chapter.enter = function() {
       dragMap();
@@ -52911,7 +53505,10 @@ ${content}</tr>
       }
       context.map().centerZoomEase(intersection, 19, msec);
       timeout2(function() {
-        var tooltip = reveal("button.add-point", helpHtml("intro.points.points_info") + "{br}" + helpHtml("intro.points.add_point"));
+        var tooltip = reveal(
+          "button.add-point",
+          helpHtml("intro.points.points_info") + "{br}" + helpHtml("intro.points.add_point")
+        );
         _pointID = null;
         tooltip.selectAll(".popover-inner").insert("svg", "span").attr("class", "tooltip-illustration").append("use").attr("xlink:href", "#iD-graphic-points");
         context.on("enter.intro", function(mode) {
@@ -52954,7 +53551,10 @@ ${content}</tr>
       }
       context.container().select(".inspector-wrap").on("wheel.intro", eventCancel);
       context.container().select(".preset-search-input").on("keydown.intro", null).on("keyup.intro", checkPresetSearch);
-      reveal(".preset-search-input", helpHtml("intro.points.search_cafe", { preset: cafePreset.name() }));
+      reveal(
+        ".preset-search-input",
+        helpHtml("intro.points.search_cafe", { preset: cafePreset.name() })
+      );
       context.on("enter.intro", function(mode) {
         if (!_pointID || !context.hasEntity(_pointID)) {
           return continueTo(addPoint);
@@ -52964,7 +53564,10 @@ ${content}</tr>
           context.enter(modeSelect(context, [_pointID]));
           context.container().select(".inspector-wrap").on("wheel.intro", eventCancel);
           context.container().select(".preset-search-input").on("keydown.intro", null).on("keyup.intro", checkPresetSearch);
-          reveal(".preset-search-input", helpHtml("intro.points.search_cafe", { preset: cafePreset.name() }));
+          reveal(
+            ".preset-search-input",
+            helpHtml("intro.points.search_cafe", { preset: cafePreset.name() })
+          );
           context.history().on("change.intro", null);
         }
       });
@@ -52972,7 +53575,11 @@ ${content}</tr>
         var first = context.container().select(".preset-list-item:first-child");
         if (first.classed("preset-amenity-cafe")) {
           context.container().select(".preset-search-input").on("keydown.intro", eventCancel, true).on("keyup.intro", null);
-          reveal(first.select(".preset-list-button").node(), helpHtml("intro.points.choose_cafe", { preset: cafePreset.name() }), { duration: 300 });
+          reveal(
+            first.select(".preset-list-button").node(),
+            helpHtml("intro.points.choose_cafe", { preset: cafePreset.name() }),
+            { duration: 300 }
+          );
           context.history().on("change.intro", function() {
             continueTo(aboutFeatureEditor);
           });
@@ -53025,7 +53632,11 @@ ${content}</tr>
           });
           tooltip.select(".instruction").style("display", "none");
         } else {
-          reveal(".entity-editor-pane", addNameString, { tooltipClass: "intro-points-describe" });
+          reveal(
+            ".entity-editor-pane",
+            addNameString,
+            { tooltipClass: "intro-points-describe" }
+          );
         }
       }, 400);
       context.history().on("change.intro", function() {
@@ -53047,7 +53658,10 @@ ${content}</tr>
       context.on("exit.intro", function() {
         continueTo(reselectPoint);
       });
-      reveal(".entity-editor-pane", helpHtml("intro.points.add_close", { button: { html: icon(href, "inline") } }));
+      reveal(
+        ".entity-editor-pane",
+        helpHtml("intro.points.add_close", { button: { html: icon(href, "inline") } })
+      );
       function continueTo(nextStep) {
         context.on("exit.intro", null);
         nextStep();
@@ -53103,7 +53717,11 @@ ${content}</tr>
         continueTo(updateCloseEditor);
       });
       timeout2(function() {
-        reveal(".entity-editor-pane", helpHtml("intro.points.update"), { tooltipClass: "intro-points-describe" });
+        reveal(
+          ".entity-editor-pane",
+          helpHtml("intro.points.update"),
+          { tooltipClass: "intro-points-describe" }
+        );
       }, 400);
       function continueTo(nextStep) {
         context.on("exit.intro", null);
@@ -53120,7 +53738,10 @@ ${content}</tr>
         continueTo(rightClickPoint);
       });
       timeout2(function() {
-        reveal(".entity-editor-pane", helpHtml("intro.points.update_close", { button: { html: icon("#iD-icon-close", "inline") } }));
+        reveal(
+          ".entity-editor-pane",
+          helpHtml("intro.points.update_close", { button: { html: icon("#iD-icon-close", "inline") } })
+        );
       }, 500);
       function continueTo(nextStep) {
         context.on("exit.intro", null);
@@ -53175,10 +53796,18 @@ ${content}</tr>
       if (!node) {
         return continueTo(rightClickPoint);
       }
-      reveal(".edit-menu", helpHtml("intro.points.delete"), { padding: 50 });
+      reveal(
+        ".edit-menu",
+        helpHtml("intro.points.delete"),
+        { padding: 50 }
+      );
       timeout2(function() {
         context.map().on("move.intro", function() {
-          reveal(".edit-menu", helpHtml("intro.points.delete"), { duration: 0, padding: 50 });
+          reveal(
+            ".edit-menu",
+            helpHtml("intro.points.delete"),
+            { duration: 0, padding: 50 }
+          );
         });
       }, 300);
       context.on("exit.intro", function() {
@@ -53204,7 +53833,10 @@ ${content}</tr>
       context.history().on("change.intro", function() {
         continueTo(play);
       });
-      reveal(".top-toolbar button.undo-button", helpHtml("intro.points.undo"));
+      reveal(
+        ".top-toolbar button.undo-button",
+        helpHtml("intro.points.undo")
+      );
       function continueTo(nextStep) {
         context.history().on("change.intro", null);
         nextStep();
@@ -53212,13 +53844,17 @@ ${content}</tr>
     }
     function play() {
       dispatch10.call("done");
-      reveal(".ideditor", helpHtml("intro.points.play", { next: _t("intro.areas.title") }), {
-        tooltipBox: ".intro-nav-wrap .chapter-area",
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          reveal(".ideditor");
+      reveal(
+        ".ideditor",
+        helpHtml("intro.points.play", { next: _t("intro.areas.title") }),
+        {
+          tooltipBox: ".intro-nav-wrap .chapter-area",
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            reveal(".ideditor");
+          }
         }
-      });
+      );
     }
     chapter.enter = function() {
       addPoint();
@@ -53272,7 +53908,10 @@ ${content}</tr>
       }
       context.map().centerZoomEase(playground, 19, msec);
       timeout2(function() {
-        var tooltip = reveal("button.add-area", helpHtml("intro.areas.add_playground"));
+        var tooltip = reveal(
+          "button.add-area",
+          helpHtml("intro.areas.add_playground")
+        );
         tooltip.selectAll(".popover-inner").insert("svg", "span").attr("class", "tooltip-illustration").append("use").attr("xlink:href", "#iD-graphic-areas");
         context.on("enter.intro", function(mode) {
           if (mode.id !== "add-area")
@@ -53294,10 +53933,18 @@ ${content}</tr>
       timeout2(function() {
         var textId = context.lastPointerType() === "mouse" ? "starting_node_click" : "starting_node_tap";
         var startDrawString = helpHtml("intro.areas.start_playground") + helpHtml("intro.areas." + textId);
-        revealPlayground(playground, startDrawString, { duration: 250 });
+        revealPlayground(
+          playground,
+          startDrawString,
+          { duration: 250 }
+        );
         timeout2(function() {
           context.map().on("move.intro drawn.intro", function() {
-            revealPlayground(playground, startDrawString, { duration: 0 });
+            revealPlayground(
+              playground,
+              startDrawString,
+              { duration: 0 }
+            );
           });
           context.on("enter.intro", function(mode) {
             if (mode.id !== "draw-area")
@@ -53317,10 +53964,18 @@ ${content}</tr>
         return chapter.restart();
       }
       _areaID = null;
-      revealPlayground(playground, helpHtml("intro.areas.continue_playground"), { duration: 250 });
+      revealPlayground(
+        playground,
+        helpHtml("intro.areas.continue_playground"),
+        { duration: 250 }
+      );
       timeout2(function() {
         context.map().on("move.intro drawn.intro", function() {
-          revealPlayground(playground, helpHtml("intro.areas.continue_playground"), { duration: 0 });
+          revealPlayground(
+            playground,
+            helpHtml("intro.areas.continue_playground"),
+            { duration: 0 }
+          );
         });
       }, 250);
       context.on("enter.intro", function(mode) {
@@ -53350,10 +54005,18 @@ ${content}</tr>
       }
       _areaID = null;
       var finishString = helpHtml("intro.areas.finish_area_" + (context.lastPointerType() === "mouse" ? "click" : "tap")) + helpHtml("intro.areas.finish_playground");
-      revealPlayground(playground, finishString, { duration: 250 });
+      revealPlayground(
+        playground,
+        finishString,
+        { duration: 250 }
+      );
       timeout2(function() {
         context.map().on("move.intro drawn.intro", function() {
-          revealPlayground(playground, finishString, { duration: 0 });
+          revealPlayground(
+            playground,
+            finishString,
+            { duration: 0 }
+          );
         });
       }, 250);
       context.on("enter.intro", function(mode) {
@@ -53384,7 +54047,10 @@ ${content}</tr>
       timeout2(function() {
         context.container().select(".inspector-wrap .panewrap").style("right", "-100%");
         context.container().select(".preset-search-input").on("keydown.intro", null).on("keyup.intro", checkPresetSearch);
-        reveal(".preset-search-input", helpHtml("intro.areas.search_playground", { preset: playgroundPreset.name() }));
+        reveal(
+          ".preset-search-input",
+          helpHtml("intro.areas.search_playground", { preset: playgroundPreset.name() })
+        );
       }, 400);
       context.on("enter.intro", function(mode) {
         if (!_areaID || !context.hasEntity(_areaID)) {
@@ -53396,14 +54062,21 @@ ${content}</tr>
           context.container().select(".inspector-wrap .panewrap").style("right", "-100%");
           context.container().select(".inspector-wrap").on("wheel.intro", eventCancel);
           context.container().select(".preset-search-input").on("keydown.intro", null).on("keyup.intro", checkPresetSearch);
-          reveal(".preset-search-input", helpHtml("intro.areas.search_playground", { preset: playgroundPreset.name() }));
+          reveal(
+            ".preset-search-input",
+            helpHtml("intro.areas.search_playground", { preset: playgroundPreset.name() })
+          );
           context.history().on("change.intro", null);
         }
       });
       function checkPresetSearch() {
         var first = context.container().select(".preset-list-item:first-child");
         if (first.classed("preset-leisure-playground")) {
-          reveal(first.select(".preset-list-button").node(), helpHtml("intro.areas.choose_playground", { preset: playgroundPreset.name() }), { duration: 300 });
+          reveal(
+            first.select(".preset-list-button").node(),
+            helpHtml("intro.areas.choose_playground", { preset: playgroundPreset.name() }),
+            { duration: 300 }
+          );
           context.container().select(".preset-search-input").on("keydown.intro", eventCancel, true).on("keyup.intro", null);
           context.history().on("change.intro", function() {
             continueTo(clickAddField);
@@ -53450,10 +54123,14 @@ ${content}</tr>
           });
         }
         timeout2(function() {
-          reveal(".more-fields .combobox-input", helpHtml("intro.areas.add_field", {
-            name: { html: nameField.label() },
-            description: { html: descriptionField.label() }
-          }), { duration: 300 });
+          reveal(
+            ".more-fields .combobox-input",
+            helpHtml("intro.areas.add_field", {
+              name: nameField.title(),
+              description: descriptionField.title()
+            }),
+            { duration: 300 }
+          );
           context.container().select(".more-fields .combobox-input").on("click.intro", function() {
             var watcher;
             watcher = window.setInterval(function() {
@@ -53502,7 +54179,11 @@ ${content}</tr>
           }, 300);
         }
       }, 300);
-      reveal("div.combobox", helpHtml("intro.areas.choose_field", { field: { html: descriptionField.label() } }), { duration: 300 });
+      reveal(
+        "div.combobox",
+        helpHtml("intro.areas.choose_field", { field: descriptionField.title() }),
+        { duration: 300 }
+      );
       context.on("exit.intro", function() {
         return continueTo(searchPresets);
       });
@@ -53528,7 +54209,11 @@ ${content}</tr>
       context.on("exit.intro", function() {
         continueTo(play);
       });
-      reveal(".entity-editor-pane", helpHtml("intro.areas.describe_playground", { button: { html: icon("#iD-icon-close", "inline") } }), { duration: 300 });
+      reveal(
+        ".entity-editor-pane",
+        helpHtml("intro.areas.describe_playground", { button: { html: icon("#iD-icon-close", "inline") } }),
+        { duration: 300 }
+      );
       function continueTo(nextStep) {
         context.on("exit.intro", null);
         nextStep();
@@ -53543,12 +54228,16 @@ ${content}</tr>
         return searchPresets();
       }
       context.container().select(".inspector-wrap .panewrap").style("right", "0%");
-      reveal(".entity-editor-pane", helpHtml("intro.areas.retry_add_field", { field: { html: descriptionField.label() } }), {
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          continueTo(clickAddField);
+      reveal(
+        ".entity-editor-pane",
+        helpHtml("intro.areas.retry_add_field", { field: descriptionField.title() }),
+        {
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            continueTo(clickAddField);
+          }
         }
-      });
+      );
       context.on("exit.intro", function() {
         return continueTo(searchPresets);
       });
@@ -53559,13 +54248,17 @@ ${content}</tr>
     }
     function play() {
       dispatch10.call("done");
-      reveal(".ideditor", helpHtml("intro.areas.play", { next: _t("intro.lines.title") }), {
-        tooltipBox: ".intro-nav-wrap .chapter-line",
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          reveal(".ideditor");
+      reveal(
+        ".ideditor",
+        helpHtml("intro.areas.play", { next: _t("intro.lines.title") }),
+        {
+          tooltipBox: ".intro-nav-wrap .chapter-line",
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            reveal(".ideditor");
+          }
         }
-      });
+      );
     }
     chapter.enter = function() {
       addArea();
@@ -53630,7 +54323,10 @@ ${content}</tr>
       }
       context.map().centerZoomEase(tulipRoadStart, 18.5, msec);
       timeout2(function() {
-        var tooltip = reveal("button.add-line", helpHtml("intro.lines.add_line"));
+        var tooltip = reveal(
+          "button.add-line",
+          helpHtml("intro.lines.add_line")
+        );
         tooltip.selectAll(".popover-inner").insert("svg", "span").attr("class", "tooltip-illustration").append("use").attr("xlink:href", "#iD-graphic-lines");
         context.on("enter.intro", function(mode) {
           if (mode.id !== "add-line")
@@ -53679,12 +54375,19 @@ ${content}</tr>
         var padding = 200 * Math.pow(2, context.map().zoom() - 18.5);
         var box = pad(tulipRoadMidpoint, padding, context);
         box.height = box.height * 2;
-        reveal(box, helpHtml("intro.lines.intersect", { name: _t("intro.graph.name.flower-street") }));
+        reveal(
+          box,
+          helpHtml("intro.lines.intersect", { name: _t("intro.graph.name.flower-street") })
+        );
         context.map().on("move.intro drawn.intro", function() {
           padding = 200 * Math.pow(2, context.map().zoom() - 18.5);
           box = pad(tulipRoadMidpoint, padding, context);
           box.height = box.height * 2;
-          reveal(box, helpHtml("intro.lines.intersect", { name: _t("intro.graph.name.flower-street") }), { duration: 0 });
+          reveal(
+            box,
+            helpHtml("intro.lines.intersect", { name: _t("intro.graph.name.flower-street") }),
+            { duration: 0 }
+          );
         });
       }, 550);
       context.history().on("change.intro", function() {
@@ -53723,7 +54426,10 @@ ${content}</tr>
     function retryIntersect() {
       select_default2(window).on("pointerdown.intro mousedown.intro", eventCancel, true);
       var box = pad(tulipRoadIntersection, 80, context);
-      reveal(box, helpHtml("intro.lines.retry_intersect", { name: _t("intro.graph.name.flower-street") }));
+      reveal(
+        box,
+        helpHtml("intro.lines.retry_intersect", { name: _t("intro.graph.name.flower-street") })
+      );
       timeout2(chapter.restart, 3e3);
     }
     function continueLine() {
@@ -53761,7 +54467,10 @@ ${content}</tr>
       context.container().select(".inspector-wrap").on("wheel.intro", eventCancel);
       timeout2(function() {
         context.container().select(".inspector-wrap .panewrap").style("right", "-100%");
-        reveal(button.node(), helpHtml("intro.lines.choose_category_road", { category: roadCategory.name() }));
+        reveal(
+          button.node(),
+          helpHtml("intro.lines.choose_category_road", { category: roadCategory.name() })
+        );
         button.on("click.intro", function() {
           continueTo(choosePresetResidential);
         });
@@ -53789,7 +54498,11 @@ ${content}</tr>
         continueTo(nameRoad);
       });
       timeout2(function() {
-        reveal(subgrid.node(), helpHtml("intro.lines.choose_preset_residential", { preset: residentialPreset.name() }), { tooltipBox: ".preset-highway-residential .preset-list-button", duration: 300 });
+        reveal(
+          subgrid.node(),
+          helpHtml("intro.lines.choose_preset_residential", { preset: residentialPreset.name() }),
+          { tooltipBox: ".preset-highway-residential .preset-list-button", duration: 300 }
+        );
       }, 300);
       function continueTo(nextStep) {
         context.container().select(".preset-list-button").on("click.intro", null);
@@ -53806,7 +54519,10 @@ ${content}</tr>
       context.container().select(".inspector-wrap").on("wheel.intro", eventCancel);
       timeout2(function() {
         var button = context.container().select(".entity-editor-pane .preset-list-button");
-        reveal(button.node(), helpHtml("intro.lines.retry_preset_residential", { preset: residentialPreset.name() }));
+        reveal(
+          button.node(),
+          helpHtml("intro.lines.retry_preset_residential", { preset: residentialPreset.name() })
+        );
         button.on("click.intro", function() {
           continueTo(chooseCategoryRoad);
         });
@@ -53823,7 +54539,11 @@ ${content}</tr>
         continueTo(didNameRoad);
       });
       timeout2(function() {
-        reveal(".entity-editor-pane", helpHtml("intro.lines.name_road", { button: { html: icon("#iD-icon-close", "inline") } }), { tooltipClass: "intro-lines-name_road" });
+        reveal(
+          ".entity-editor-pane",
+          helpHtml("intro.lines.name_road", { button: { html: icon("#iD-icon-close", "inline") } }),
+          { tooltipClass: "intro-lines-name_road" }
+        );
       }, 500);
       function continueTo(nextStep) {
         context.on("exit.intro", null);
@@ -53860,11 +54580,19 @@ ${content}</tr>
         var advance = function() {
           continueTo(addNode);
         };
-        reveal(box, helpHtml("intro.lines.update_line"), { buttonText: _t.html("intro.ok"), buttonCallback: advance });
+        reveal(
+          box,
+          helpHtml("intro.lines.update_line"),
+          { buttonText: _t.html("intro.ok"), buttonCallback: advance }
+        );
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 250 * Math.pow(2, context.map().zoom() - 19);
           var box2 = pad(woodRoadDragMidpoint, padding2, context);
-          reveal(box2, helpHtml("intro.lines.update_line"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance });
+          reveal(
+            box2,
+            helpHtml("intro.lines.update_line"),
+            { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance }
+          );
         });
       }, msec + 100);
       function continueTo(nextStep) {
@@ -54008,7 +54736,11 @@ ${content}</tr>
         context.history().checkpoint("doneUpdateLine");
         continueTo(deleteLines);
       };
-      reveal(box, helpHtml("intro.lines.continue_drag_midpoint"), { buttonText: _t.html("intro.ok"), buttonCallback: advance });
+      reveal(
+        box,
+        helpHtml("intro.lines.continue_drag_midpoint"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: advance }
+      );
       context.map().on("move.intro drawn.intro", function() {
         if (!context.hasEntity(woodRoadID) || !context.hasEntity(woodRoadEndID)) {
           return continueTo(updateLine);
@@ -54016,7 +54748,11 @@ ${content}</tr>
         var padding2 = 100 * Math.pow(2, context.map().zoom() - 19);
         var box2 = pad(woodRoadDragEndpoint, padding2, context);
         box2.height += 400;
-        reveal(box2, helpHtml("intro.lines.continue_drag_midpoint"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance });
+        reveal(
+          box2,
+          helpHtml("intro.lines.continue_drag_midpoint"),
+          { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance }
+        );
       });
       function continueTo(nextStep) {
         context.map().on("move.intro drawn.intro", null);
@@ -54042,13 +54778,21 @@ ${content}</tr>
         var advance = function() {
           continueTo(rightClickIntersection);
         };
-        reveal(box, helpHtml("intro.lines.delete_lines", { street: _t("intro.graph.name.12th-avenue") }), { buttonText: _t.html("intro.ok"), buttonCallback: advance });
+        reveal(
+          box,
+          helpHtml("intro.lines.delete_lines", { street: _t("intro.graph.name.12th-avenue") }),
+          { buttonText: _t.html("intro.ok"), buttonCallback: advance }
+        );
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 200 * Math.pow(2, context.map().zoom() - 18);
           var box2 = pad(deleteLinesLoc, padding2, context);
           box2.top -= 200;
           box2.height += 400;
-          reveal(box2, helpHtml("intro.lines.delete_lines", { street: _t("intro.graph.name.12th-avenue") }), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance });
+          reveal(
+            box2,
+            helpHtml("intro.lines.delete_lines", { street: _t("intro.graph.name.12th-avenue") }),
+            { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance }
+          );
         });
         context.history().on("change.intro", function() {
           timeout2(function() {
@@ -54077,7 +54821,11 @@ ${content}</tr>
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 60 * Math.pow(2, context.map().zoom() - 18);
           var box2 = pad(eleventhAvenueEnd, padding2, context);
-          reveal(box2, rightClickString, { duration: 0 });
+          reveal(
+            box2,
+            rightClickString,
+            { duration: 0 }
+          );
         });
         context.on("enter.intro", function(mode) {
           if (mode.id !== "select")
@@ -54115,13 +54863,27 @@ ${content}</tr>
       }
       var wasChanged = false;
       _washingtonSegmentID = null;
-      reveal(".edit-menu", helpHtml("intro.lines.split_intersection", { street: _t("intro.graph.name.washington-street") }), { padding: 50 });
+      reveal(
+        ".edit-menu",
+        helpHtml(
+          "intro.lines.split_intersection",
+          { street: _t("intro.graph.name.washington-street") }
+        ),
+        { padding: 50 }
+      );
       context.map().on("move.intro drawn.intro", function() {
         var node2 = selectMenuItem(context, "split").node();
         if (!wasChanged && !node2) {
           return continueTo(rightClickIntersection);
         }
-        reveal(".edit-menu", helpHtml("intro.lines.split_intersection", { street: _t("intro.graph.name.washington-street") }), { duration: 0, padding: 50 });
+        reveal(
+          ".edit-menu",
+          helpHtml(
+            "intro.lines.split_intersection",
+            { street: _t("intro.graph.name.washington-street") }
+          ),
+          { duration: 0, padding: 50 }
+        );
       });
       context.history().on("change.intro", function(changed) {
         wasChanged = true;
@@ -54149,11 +54911,19 @@ ${content}</tr>
       };
       var padding = 60 * Math.pow(2, context.map().zoom() - 18);
       var box = pad(eleventhAvenueEnd, padding, context);
-      reveal(box, helpHtml("intro.lines.retry_split"), { buttonText: _t.html("intro.ok"), buttonCallback: advance });
+      reveal(
+        box,
+        helpHtml("intro.lines.retry_split"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: advance }
+      );
       context.map().on("move.intro drawn.intro", function() {
         var padding2 = 60 * Math.pow(2, context.map().zoom() - 18);
         var box2 = pad(eleventhAvenueEnd, padding2, context);
-        reveal(box2, helpHtml("intro.lines.retry_split"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance });
+        reveal(
+          box2,
+          helpHtml("intro.lines.retry_split"),
+          { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: advance }
+        );
       });
       function continueTo(nextStep) {
         context.map().on("move.intro drawn.intro", null);
@@ -54170,14 +54940,22 @@ ${content}</tr>
       var padding = 200 * Math.pow(2, context.map().zoom() - 18);
       var box = pad(twelfthAvenue, padding, context);
       box.width = box.width / 2;
-      reveal(box, helpHtml(string, { street1: street, street2: street }), { duration: 500 });
+      reveal(
+        box,
+        helpHtml(string, { street1: street, street2: street }),
+        { duration: 500 }
+      );
       timeout2(function() {
         context.map().centerZoomEase(twelfthAvenue, 18, 500);
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 200 * Math.pow(2, context.map().zoom() - 18);
           var box2 = pad(twelfthAvenue, padding2, context);
           box2.width = box2.width / 2;
-          reveal(box2, helpHtml(string, { street1: street, street2: street }), { duration: 0 });
+          reveal(
+            box2,
+            helpHtml(string, { street1: street, street2: street }),
+            { duration: 0 }
+          );
         });
       }, 600);
       context.on("enter.intro", function() {
@@ -54226,7 +55004,16 @@ ${content}</tr>
           box = pad(twelfthAvenue, padding, context);
           box.width /= 2;
         }
-        reveal(box, helpHtml("intro.lines.multi_select", { selected, other1: other }) + " " + helpHtml("intro.lines.add_to_selection_" + (context.lastPointerType() === "mouse" ? "click" : "touch"), { selected, other2: other }));
+        reveal(
+          box,
+          helpHtml(
+            "intro.lines.multi_select",
+            { selected, other1: other }
+          ) + " " + helpHtml(
+            "intro.lines.add_to_selection_" + (context.lastPointerType() === "mouse" ? "click" : "touch"),
+            { selected, other2: other }
+          )
+        );
         context.map().on("move.intro drawn.intro", function() {
           if (hasWashington) {
             selected = _t("intro.graph.name.washington-street");
@@ -54241,7 +55028,17 @@ ${content}</tr>
             box = pad(twelfthAvenue, padding, context);
             box.width /= 2;
           }
-          reveal(box, helpHtml("intro.lines.multi_select", { selected, other1: other }) + " " + helpHtml("intro.lines.add_to_selection_" + (context.lastPointerType() === "mouse" ? "click" : "touch"), { selected, other2: other }), { duration: 0 });
+          reveal(
+            box,
+            helpHtml(
+              "intro.lines.multi_select",
+              { selected, other1: other }
+            ) + " " + helpHtml(
+              "intro.lines.add_to_selection_" + (context.lastPointerType() === "mouse" ? "click" : "touch"),
+              { selected, other2: other }
+            ),
+            { duration: 0 }
+          );
         });
         context.on("enter.intro", function() {
           continueTo(multiSelect);
@@ -54308,9 +55105,17 @@ ${content}</tr>
       var node = selectMenuItem(context, "delete").node();
       if (!node)
         return continueTo(multiRightClick);
-      reveal(".edit-menu", helpHtml("intro.lines.multi_delete"), { padding: 50 });
+      reveal(
+        ".edit-menu",
+        helpHtml("intro.lines.multi_delete"),
+        { padding: 50 }
+      );
       context.map().on("move.intro drawn.intro", function() {
-        reveal(".edit-menu", helpHtml("intro.lines.multi_delete"), { duration: 0, padding: 50 });
+        reveal(
+          ".edit-menu",
+          helpHtml("intro.lines.multi_delete"),
+          { duration: 0, padding: 50 }
+        );
       });
       context.on("exit.intro", function() {
         if (context.hasEntity(_washingtonSegmentID) || context.hasEntity(twelfthAvenueID)) {
@@ -54347,13 +55152,17 @@ ${content}</tr>
     }
     function play() {
       dispatch10.call("done");
-      reveal(".ideditor", helpHtml("intro.lines.play", { next: _t("intro.buildings.title") }), {
-        tooltipBox: ".intro-nav-wrap .chapter-building",
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          reveal(".ideditor");
+      reveal(
+        ".ideditor",
+        helpHtml("intro.lines.play", { next: _t("intro.buildings.title") }),
+        {
+          tooltipBox: ".intro-nav-wrap .chapter-building",
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            reveal(".ideditor");
+          }
         }
-      });
+      );
     }
     chapter.enter = function() {
       addLine();
@@ -54415,7 +55224,10 @@ ${content}</tr>
       }
       context.map().centerZoomEase(house, 19, msec);
       timeout2(function() {
-        var tooltip = reveal("button.add-area", helpHtml("intro.buildings.add_building"));
+        var tooltip = reveal(
+          "button.add-area",
+          helpHtml("intro.buildings.add_building")
+        );
         tooltip.selectAll(".popover-inner").insert("svg", "span").attr("class", "tooltip-illustration").append("use").attr("xlink:href", "#iD-graphic-buildings");
         context.on("enter.intro", function(mode) {
           if (mode.id !== "add-area")
@@ -54492,9 +55304,17 @@ ${content}</tr>
       var onClick = function() {
         continueTo(addHouse);
       };
-      revealHouse(house, helpHtml("intro.buildings.retry_building"), { buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+      revealHouse(
+        house,
+        helpHtml("intro.buildings.retry_building"),
+        { buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+      );
       context.map().on("move.intro drawn.intro", function() {
-        revealHouse(house, helpHtml("intro.buildings.retry_building"), { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick });
+        revealHouse(
+          house,
+          helpHtml("intro.buildings.retry_building"),
+          { duration: 0, buttonText: _t.html("intro.ok"), buttonCallback: onClick }
+        );
       });
       function continueTo(nextStep) {
         context.map().on("move.intro drawn.intro", null);
@@ -54513,7 +55333,10 @@ ${content}</tr>
       timeout2(function() {
         context.container().select(".inspector-wrap .panewrap").style("right", "-100%");
         var button = context.container().select(".preset-category-building .preset-list-button");
-        reveal(button.node(), helpHtml("intro.buildings.choose_category_building", { category: buildingCatetory.name() }));
+        reveal(
+          button.node(),
+          helpHtml("intro.buildings.choose_category_building", { category: buildingCatetory.name() })
+        );
         button.on("click.intro", function() {
           button.on("click.intro", null);
           continueTo(choosePresetHouse);
@@ -54547,7 +55370,11 @@ ${content}</tr>
       timeout2(function() {
         context.container().select(".inspector-wrap .panewrap").style("right", "-100%");
         var button = context.container().select(".preset-building-house .preset-list-button");
-        reveal(button.node(), helpHtml("intro.buildings.choose_preset_house", { preset: housePreset.name() }), { duration: 300 });
+        reveal(
+          button.node(),
+          helpHtml("intro.buildings.choose_preset_house", { preset: housePreset.name() }),
+          { duration: 300 }
+        );
         button.on("click.intro", function() {
           button.on("click.intro", null);
           continueTo(closeEditorHouse);
@@ -54582,7 +55409,10 @@ ${content}</tr>
         continueTo(rightClickHouse);
       });
       timeout2(function() {
-        reveal(".entity-editor-pane", helpHtml("intro.buildings.close", { button: { html: icon("#iD-icon-close", "inline") } }));
+        reveal(
+          ".entity-editor-pane",
+          helpHtml("intro.buildings.close", { button: { html: icon("#iD-icon-close", "inline") } })
+        );
       }, 500);
       function continueTo(nextStep) {
         context.on("exit.intro", null);
@@ -54637,7 +55467,11 @@ ${content}</tr>
         return continueTo(rightClickHouse);
       }
       var wasChanged = false;
-      reveal(".edit-menu", helpHtml("intro.buildings.square_building"), { padding: 50 });
+      reveal(
+        ".edit-menu",
+        helpHtml("intro.buildings.square_building"),
+        { padding: 50 }
+      );
       context.on("enter.intro", function(mode) {
         if (mode.id === "browse") {
           continueTo(rightClickHouse);
@@ -54650,7 +55484,11 @@ ${content}</tr>
         if (!wasChanged && !node2) {
           return continueTo(rightClickHouse);
         }
-        reveal(".edit-menu", helpHtml("intro.buildings.square_building"), { duration: 0, padding: 50 });
+        reveal(
+          ".edit-menu",
+          helpHtml("intro.buildings.square_building"),
+          { duration: 0, padding: 50 }
+        );
       });
       context.history().on("change.intro", function() {
         wasChanged = true;
@@ -54704,7 +55542,10 @@ ${content}</tr>
       }
       context.map().centerZoomEase(tank, 19.5, msec);
       timeout2(function() {
-        reveal("button.add-area", helpHtml("intro.buildings.add_tank"));
+        reveal(
+          "button.add-area",
+          helpHtml("intro.buildings.add_tank")
+        );
         context.on("enter.intro", function(mode) {
           if (mode.id !== "add-area")
             return;
@@ -54777,7 +55618,10 @@ ${content}</tr>
       timeout2(function() {
         context.container().select(".inspector-wrap .panewrap").style("right", "-100%");
         context.container().select(".preset-search-input").on("keydown.intro", null).on("keyup.intro", checkPresetSearch);
-        reveal(".preset-search-input", helpHtml("intro.buildings.search_tank", { preset: tankPreset.name() }));
+        reveal(
+          ".preset-search-input",
+          helpHtml("intro.buildings.search_tank", { preset: tankPreset.name() })
+        );
       }, 400);
       context.on("enter.intro", function(mode) {
         if (!_tankID || !context.hasEntity(_tankID)) {
@@ -54789,14 +55633,21 @@ ${content}</tr>
           context.container().select(".inspector-wrap .panewrap").style("right", "-100%");
           context.container().select(".inspector-wrap").on("wheel.intro", eventCancel);
           context.container().select(".preset-search-input").on("keydown.intro", null).on("keyup.intro", checkPresetSearch);
-          reveal(".preset-search-input", helpHtml("intro.buildings.search_tank", { preset: tankPreset.name() }));
+          reveal(
+            ".preset-search-input",
+            helpHtml("intro.buildings.search_tank", { preset: tankPreset.name() })
+          );
           context.history().on("change.intro", null);
         }
       });
       function checkPresetSearch() {
         var first = context.container().select(".preset-list-item:first-child");
         if (first.classed("preset-man_made-storage_tank")) {
-          reveal(first.select(".preset-list-button").node(), helpHtml("intro.buildings.choose_tank", { preset: tankPreset.name() }), { duration: 300 });
+          reveal(
+            first.select(".preset-list-button").node(),
+            helpHtml("intro.buildings.choose_tank", { preset: tankPreset.name() }),
+            { duration: 300 }
+          );
           context.container().select(".preset-search-input").on("keydown.intro", eventCancel, true).on("keyup.intro", null);
           context.history().on("change.intro", function() {
             continueTo(closeEditorTank);
@@ -54824,7 +55675,10 @@ ${content}</tr>
         continueTo(rightClickTank);
       });
       timeout2(function() {
-        reveal(".entity-editor-pane", helpHtml("intro.buildings.close", { button: { html: icon("#iD-icon-close", "inline") } }));
+        reveal(
+          ".entity-editor-pane",
+          helpHtml("intro.buildings.close", { button: { html: icon("#iD-icon-close", "inline") } })
+        );
       }, 500);
       function continueTo(nextStep) {
         context.on("exit.intro", null);
@@ -54878,7 +55732,11 @@ ${content}</tr>
         return continueTo(rightClickTank);
       }
       var wasChanged = false;
-      reveal(".edit-menu", helpHtml("intro.buildings.circle_tank"), { padding: 50 });
+      reveal(
+        ".edit-menu",
+        helpHtml("intro.buildings.circle_tank"),
+        { padding: 50 }
+      );
       context.on("enter.intro", function(mode) {
         if (mode.id === "browse") {
           continueTo(rightClickTank);
@@ -54891,7 +55749,11 @@ ${content}</tr>
         if (!wasChanged && !node2) {
           return continueTo(rightClickTank);
         }
-        reveal(".edit-menu", helpHtml("intro.buildings.circle_tank"), { duration: 0, padding: 50 });
+        reveal(
+          ".edit-menu",
+          helpHtml("intro.buildings.circle_tank"),
+          { duration: 0, padding: 50 }
+        );
       });
       context.history().on("change.intro", function() {
         wasChanged = true;
@@ -54925,13 +55787,17 @@ ${content}</tr>
     }
     function play() {
       dispatch10.call("done");
-      reveal(".ideditor", helpHtml("intro.buildings.play", { next: _t("intro.startediting.title") }), {
-        tooltipBox: ".intro-nav-wrap .chapter-startEditing",
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          reveal(".ideditor");
+      reveal(
+        ".ideditor",
+        helpHtml("intro.buildings.play", { next: _t("intro.startediting.title") }),
+        {
+          tooltipBox: ".intro-nav-wrap .chapter-startEditing",
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            reveal(".ideditor");
+          }
         }
-      });
+      );
     }
     chapter.enter = function() {
       addHouse();
@@ -54960,29 +55826,41 @@ ${content}</tr>
       title: "intro.startediting.title"
     };
     function showHelp() {
-      reveal(".map-control.help-control", helpHtml("intro.startediting.help"), {
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          shortcuts();
+      reveal(
+        ".map-control.help-control",
+        helpHtml("intro.startediting.help"),
+        {
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            shortcuts();
+          }
         }
-      });
+      );
     }
     function shortcuts() {
-      reveal(".map-control.help-control", helpHtml("intro.startediting.shortcuts"), {
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          showSave();
+      reveal(
+        ".map-control.help-control",
+        helpHtml("intro.startediting.shortcuts"),
+        {
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            showSave();
+          }
         }
-      });
+      );
     }
     function showSave() {
       context.container().selectAll(".shaded").remove();
-      reveal(".top-toolbar button.save", helpHtml("intro.startediting.save"), {
-        buttonText: _t.html("intro.ok"),
-        buttonCallback: function() {
-          showStart();
+      reveal(
+        ".top-toolbar button.save",
+        helpHtml("intro.startediting.save"),
+        {
+          buttonText: _t.html("intro.ok"),
+          buttonCallback: function() {
+            showStart();
+          }
         }
-      });
+      );
     }
     function showStart() {
       context.container().selectAll(".shaded").remove();
@@ -55175,7 +56053,7 @@ ${content}</tr>
         return "chip " + d.id + "-count";
       }).attr("href", "#").each(function(d) {
         var chipSelection = select_default2(this);
-        var tooltipBehavior = uiTooltip().placement("top").title(_t.html(d.descriptionID));
+        var tooltipBehavior = uiTooltip().placement("top").title(() => _t.append(d.descriptionID));
         chipSelection.call(tooltipBehavior).on("click", function(d3_event) {
           d3_event.preventDefault();
           tooltipBehavior.hide(select_default2(this));
@@ -55410,9 +56288,18 @@ ${content}</tr>
       function preventDefault(d3_event) {
         d3_event.preventDefault();
       }
-      selection2.append("button").attr("class", "resize-handle-xy").on("touchstart touchdown touchend", preventDefault).on(_pointerPrefix + "down", buildResizeListener(selection2, "resize", dispatch10, { resizeOnX: true, resizeOnY: true }));
-      selection2.append("button").attr("class", "resize-handle-x").on("touchstart touchdown touchend", preventDefault).on(_pointerPrefix + "down", buildResizeListener(selection2, "resize", dispatch10, { resizeOnX: true }));
-      selection2.append("button").attr("class", "resize-handle-y").on("touchstart touchdown touchend", preventDefault).on(_pointerPrefix + "down", buildResizeListener(selection2, "resize", dispatch10, { resizeOnY: true }));
+      selection2.append("button").attr("class", "resize-handle-xy").on("touchstart touchdown touchend", preventDefault).on(
+        _pointerPrefix + "down",
+        buildResizeListener(selection2, "resize", dispatch10, { resizeOnX: true, resizeOnY: true })
+      );
+      selection2.append("button").attr("class", "resize-handle-x").on("touchstart touchdown touchend", preventDefault).on(
+        _pointerPrefix + "down",
+        buildResizeListener(selection2, "resize", dispatch10, { resizeOnX: true })
+      );
+      selection2.append("button").attr("class", "resize-handle-y").on("touchstart touchdown touchend", preventDefault).on(
+        _pointerPrefix + "down",
+        buildResizeListener(selection2, "resize", dispatch10, { resizeOnY: true })
+      );
       function buildResizeListener(target, eventName, dispatch11, options2) {
         var resizeOnX = !!options2.resizeOnX;
         var resizeOnY = !!options2.resizeOnY;
@@ -55710,9 +56597,12 @@ ${content}</tr>
   function uiDataHeader() {
     var _datum;
     function dataHeader(selection2) {
-      var header = selection2.selectAll(".data-header").data(_datum ? [_datum] : [], function(d) {
-        return d.__featurehash__;
-      });
+      var header = selection2.selectAll(".data-header").data(
+        _datum ? [_datum] : [],
+        function(d) {
+          return d.__featurehash__;
+        }
+      );
       header.exit().remove();
       var headerEnter = header.enter().append("div").attr("class", "data-header");
       var iconEnter = headerEnter.append("div").attr("class", "data-header-icon");
@@ -56007,8 +56897,12 @@ ${content}</tr>
           return "combobox-option " + (d.klass || "");
         }).attr("title", function(d) {
           return d.title;
-        }).html(function(d) {
-          return d.display || d.value;
+        }).each(function(d) {
+          if (d.display) {
+            d.display(select_default2(this));
+          } else {
+            select_default2(this).text(d.value);
+          }
         }).on("mouseenter", _mouseEnterHandler).on("mouseleave", _mouseLeaveHandler).merge(options2).classed("selected", function(d) {
           return d.value === _selected;
         }).on("click.combo-option", accept).order();
@@ -56110,8 +57004,17 @@ ${content}</tr>
       hideToggleEnter.append("span").attr("class", "hide-toggle-text");
       hideToggle = hideToggleEnter.merge(hideToggle);
       hideToggle.on("click", toggle).attr("title", _t(`icons.${_expanded ? "collapse" : "expand"}`)).attr("aria-expanded", _expanded).classed("expanded", _expanded);
-      hideToggle.selectAll(".hide-toggle-text").html(_label());
-      hideToggle.selectAll(".hide-toggle-icon").attr("xlink:href", _expanded ? "#iD-icon-down" : _mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward");
+      const label = _label();
+      const labelSelection = hideToggle.selectAll(".hide-toggle-text");
+      if (typeof label !== "function") {
+        labelSelection.text(_label());
+      } else {
+        labelSelection.text("").call(label);
+      }
+      hideToggle.selectAll(".hide-toggle-icon").attr(
+        "xlink:href",
+        _expanded ? "#iD-icon-down" : _mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward"
+      );
       var wrap2 = selection2.selectAll(".disclosure-wrap").data([0]);
       wrap2 = wrap2.enter().append("div").attr("class", "disclosure-wrap disclosure-wrap-" + key).merge(wrap2).classed("hide", !_expanded);
       if (_expanded) {
@@ -56124,7 +57027,10 @@ ${content}</tr>
           corePreferences("disclosure." + key + ".expanded", _expanded);
         }
         hideToggle.classed("expanded", _expanded).attr("aria-expanded", _expanded).attr("title", _t(`icons.${_expanded ? "collapse" : "expand"}`));
-        hideToggle.selectAll(".hide-toggle-icon").attr("xlink:href", _expanded ? "#iD-icon-down" : _mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward");
+        hideToggle.selectAll(".hide-toggle-icon").attr(
+          "xlink:href",
+          _expanded ? "#iD-icon-down" : _mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward"
+        );
         wrap2.call(uiToggle(_expanded));
         if (_expanded) {
           wrap2.call(_content);
@@ -56598,12 +57504,15 @@ ${content}</tr>
         reverser.call(reverserSetText).on("click", function(d3_event) {
           d3_event.preventDefault();
           d3_event.stopPropagation();
-          context.perform(function(graph) {
-            for (var i3 in _entityIDs) {
-              graph = actionReverse(_entityIDs[i3])(graph);
-            }
-            return graph;
-          }, _t("operations.reverse.annotation.line", { n: 1 }));
+          context.perform(
+            function(graph) {
+              for (var i3 in _entityIDs) {
+                graph = actionReverse(_entityIDs[i3])(graph);
+              }
+              return graph;
+            },
+            _t("operations.reverse.annotation.line", { n: 1 })
+          );
           context.validator().validate();
           select_default2(this).call(reverserSetText);
         });
@@ -56703,6 +57612,16 @@ ${content}</tr>
       }
       return tval;
     }
+    function renderValue(tval) {
+      tval = tval || "";
+      if (field.hasTextForStringId("options." + tval)) {
+        return field.t.append("options." + tval, { default: tval });
+      }
+      if (field.type === "typeCombo" && tval.toLowerCase() === "yes") {
+        tval = "";
+      }
+      return (selection2) => selection2.text(tval);
+    }
     function objectDifference(a, b) {
       return a.filter(function(d1) {
         return !b.some(function(d2) {
@@ -56730,7 +57649,7 @@ ${content}</tr>
           key: v,
           value: field.t("options." + v, { default: v }),
           title: v,
-          display: field.t.html("options." + v, { default: v }),
+          display: field.t.append("options." + v, { default: v }),
           klass: field.hasTextForStringId("options." + v) ? "" : "raw-option"
         };
       });
@@ -56757,10 +57676,7 @@ ${content}</tr>
         if (err)
           return;
         data = data.filter(function(d) {
-          if (field.type === "typeCombo" && d.value === "yes") {
-            return false;
-          }
-          return !d.count || d.count > 10;
+          return field.type !== "typeCombo" || d.value !== "yes";
         });
         var deprecatedValues = osmEntity.deprecatedTagValuesByKey(_dataDeprecated)[field.key];
         if (deprecatedValues) {
@@ -56781,8 +57697,8 @@ ${content}</tr>
           var label = field.t("options." + k, { default: k });
           return {
             key: k,
-            value: label,
-            display: field.t.html("options." + k, { default: k }),
+            value: _isMulti ? k : label,
+            display: field.t.append("options." + k, { default: k }),
             title: d.title || label,
             klass: field.hasTextForStringId("options." + k) ? "" : "raw-option"
           };
@@ -56933,10 +57849,11 @@ ${content}</tr>
             var v = tags[k];
             if (!v || typeof v === "string" && v.toLowerCase() === "no")
               continue;
-            var suffix = field.key ? k.substr(field.key.length) : k;
+            var suffix = field.key ? k.slice(field.key.length) : k;
             _multiData.push({
               key: k,
               value: displayValue(suffix),
+              display: renderValue(suffix),
               isMixed: Array.isArray(v)
             });
           }
@@ -56970,6 +57887,7 @@ ${content}</tr>
             return {
               key: v2,
               value: displayValue(v2),
+              display: renderValue(v2),
               isMixed: !commonValues.includes(v2)
             };
           });
@@ -57003,8 +57921,14 @@ ${content}</tr>
         if (allowDragAndDrop) {
           registerDragAndDrop(chips);
         }
-        chips.select("span").text(function(d) {
-          return d.value;
+        chips.select("span").each(function(d) {
+          const selection2 = select_default2(this);
+          if (d.display) {
+            selection2.text("");
+            d.display(selection2);
+          } else {
+            selection2.text(d.value);
+          }
         });
         chips.select("a").attr("href", "#").on("click", removeMultikey).attr("class", "remove").text("\xD7");
       } else {
@@ -57029,85 +57953,87 @@ ${content}</tr>
     };
     function registerDragAndDrop(selection2) {
       var dragOrigin, targetIndex;
-      selection2.call(drag_default().on("start", function(d3_event) {
-        dragOrigin = {
-          x: d3_event.x,
-          y: d3_event.y
-        };
-        targetIndex = null;
-      }).on("drag", function(d3_event) {
-        var x = d3_event.x - dragOrigin.x, y = d3_event.y - dragOrigin.y;
-        if (!select_default2(this).classed("dragging") && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
-          return;
-        var index = selection2.nodes().indexOf(this);
-        select_default2(this).classed("dragging", true);
-        targetIndex = null;
-        var targetIndexOffsetTop = null;
-        var draggedTagWidth = select_default2(this).node().offsetWidth;
-        if (field.key === "destination" || field.key === "via") {
-          _container.selectAll(".chip").style("transform", function(d2, index2) {
-            var node = select_default2(this).node();
-            if (index === index2) {
-              return "translate(" + x + "px, " + y + "px)";
-            } else if (index2 > index && d3_event.y > node.offsetTop) {
-              if (targetIndex === null || index2 > targetIndex) {
-                targetIndex = index2;
+      selection2.call(
+        drag_default().on("start", function(d3_event) {
+          dragOrigin = {
+            x: d3_event.x,
+            y: d3_event.y
+          };
+          targetIndex = null;
+        }).on("drag", function(d3_event) {
+          var x = d3_event.x - dragOrigin.x, y = d3_event.y - dragOrigin.y;
+          if (!select_default2(this).classed("dragging") && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
+            return;
+          var index = selection2.nodes().indexOf(this);
+          select_default2(this).classed("dragging", true);
+          targetIndex = null;
+          var targetIndexOffsetTop = null;
+          var draggedTagWidth = select_default2(this).node().offsetWidth;
+          if (field.key === "destination" || field.key === "via") {
+            _container.selectAll(".chip").style("transform", function(d2, index2) {
+              var node = select_default2(this).node();
+              if (index === index2) {
+                return "translate(" + x + "px, " + y + "px)";
+              } else if (index2 > index && d3_event.y > node.offsetTop) {
+                if (targetIndex === null || index2 > targetIndex) {
+                  targetIndex = index2;
+                }
+                return "translateY(-100%)";
+              } else if (index2 < index && d3_event.y < node.offsetTop + node.offsetHeight) {
+                if (targetIndex === null || index2 < targetIndex) {
+                  targetIndex = index2;
+                }
+                return "translateY(100%)";
               }
-              return "translateY(-100%)";
-            } else if (index2 < index && d3_event.y < node.offsetTop + node.offsetHeight) {
-              if (targetIndex === null || index2 < targetIndex) {
-                targetIndex = index2;
-              }
-              return "translateY(100%)";
-            }
-            return null;
-          });
-        } else {
-          _container.selectAll(".chip").each(function(d2, index2) {
-            var node = select_default2(this).node();
-            if (index !== index2 && d3_event.x < node.offsetLeft + node.offsetWidth + 5 && d3_event.x > node.offsetLeft && d3_event.y < node.offsetTop + node.offsetHeight && d3_event.y > node.offsetTop) {
-              targetIndex = index2;
-              targetIndexOffsetTop = node.offsetTop;
-            }
-          }).style("transform", function(d2, index2) {
-            var node = select_default2(this).node();
-            if (index === index2) {
-              return "translate(" + x + "px, " + y + "px)";
-            }
-            if (node.offsetTop === targetIndexOffsetTop) {
-              if (index2 < index && index2 >= targetIndex) {
-                return "translateX(" + draggedTagWidth + "px)";
-              } else if (index2 > index && index2 <= targetIndex) {
-                return "translateX(-" + draggedTagWidth + "px)";
-              }
-            }
-            return null;
-          });
-        }
-      }).on("end", function() {
-        if (!select_default2(this).classed("dragging")) {
-          return;
-        }
-        var index = selection2.nodes().indexOf(this);
-        select_default2(this).classed("dragging", false);
-        _container.selectAll(".chip").style("transform", null);
-        if (typeof targetIndex === "number") {
-          var element = _multiData[index];
-          _multiData.splice(index, 1);
-          _multiData.splice(targetIndex, 0, element);
-          var t = {};
-          if (_multiData.length) {
-            t[field.key] = _multiData.map(function(element2) {
-              return element2.key;
-            }).join(";");
+              return null;
+            });
           } else {
-            t[field.key] = void 0;
+            _container.selectAll(".chip").each(function(d2, index2) {
+              var node = select_default2(this).node();
+              if (index !== index2 && d3_event.x < node.offsetLeft + node.offsetWidth + 5 && d3_event.x > node.offsetLeft && d3_event.y < node.offsetTop + node.offsetHeight && d3_event.y > node.offsetTop) {
+                targetIndex = index2;
+                targetIndexOffsetTop = node.offsetTop;
+              }
+            }).style("transform", function(d2, index2) {
+              var node = select_default2(this).node();
+              if (index === index2) {
+                return "translate(" + x + "px, " + y + "px)";
+              }
+              if (node.offsetTop === targetIndexOffsetTop) {
+                if (index2 < index && index2 >= targetIndex) {
+                  return "translateX(" + draggedTagWidth + "px)";
+                } else if (index2 > index && index2 <= targetIndex) {
+                  return "translateX(-" + draggedTagWidth + "px)";
+                }
+              }
+              return null;
+            });
           }
-          dispatch10.call("change", this, t);
-        }
-        dragOrigin = void 0;
-        targetIndex = void 0;
-      }));
+        }).on("end", function() {
+          if (!select_default2(this).classed("dragging")) {
+            return;
+          }
+          var index = selection2.nodes().indexOf(this);
+          select_default2(this).classed("dragging", false);
+          _container.selectAll(".chip").style("transform", null);
+          if (typeof targetIndex === "number") {
+            var element = _multiData[index];
+            _multiData.splice(index, 1);
+            _multiData.splice(targetIndex, 0, element);
+            var t = {};
+            if (_multiData.length) {
+              t[field.key] = _multiData.map(function(element2) {
+                return element2.key;
+              }).join(";");
+            } else {
+              t[field.key] = void 0;
+            }
+            dispatch10.call("change", this, t);
+          }
+          dragOrigin = void 0;
+          targetIndex = void 0;
+        })
+      );
     }
     combo.focus = function() {
       _input.node().focus();
@@ -57181,7 +58107,12 @@ ${content}</tr>
           var vals = raw_vals.split(";");
           vals = vals.map(function(v) {
             var num = parseFloat(v.trim(), 10);
-            return isFinite(num) ? clamped(num + d) : v.trim();
+            if (isFinite(num))
+              return clamped(num + d);
+            const compassDir = cardinal[v.trim().toLowerCase()];
+            if (compassDir !== void 0)
+              return clamped(compassDir + d);
+            return v.trim();
           });
           input.node().value = vals.join(";");
           change()();
@@ -57353,7 +58284,9 @@ ${content}</tr>
       enter.append("div").attr("class", "preset-input-access-wrap").append("input").attr("type", "text").attr("class", function(d) {
         return "preset-input-access preset-input-access-" + d;
       }).call(utilNoAuto).each(function(d) {
-        select_default2(this).call(uiCombobox(context, "access-" + d).data(access.options(d)));
+        select_default2(this).call(
+          uiCombobox(context, "access-" + d).data(access.options(d))
+        );
       });
       items = items.merge(enter);
       wrap2.selectAll(".preset-input-access").on("change", change).on("blur", change);
@@ -57391,109 +58324,154 @@ ${content}</tr>
         };
       });
     };
-    var placeholdersByHighway = {
-      footway: {
-        foot: "designated",
-        motor_vehicle: "no"
+    const placeholdersByTag = {
+      highway: {
+        footway: {
+          foot: "designated",
+          motor_vehicle: "no"
+        },
+        steps: {
+          foot: "yes",
+          motor_vehicle: "no",
+          bicycle: "no",
+          horse: "no"
+        },
+        pedestrian: {
+          foot: "yes",
+          motor_vehicle: "no"
+        },
+        cycleway: {
+          motor_vehicle: "no",
+          bicycle: "designated"
+        },
+        bridleway: {
+          motor_vehicle: "no",
+          horse: "designated"
+        },
+        path: {
+          foot: "yes",
+          motor_vehicle: "no",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        motorway: {
+          foot: "no",
+          motor_vehicle: "yes",
+          bicycle: "no",
+          horse: "no"
+        },
+        trunk: {
+          motor_vehicle: "yes"
+        },
+        primary: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        secondary: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        tertiary: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        residential: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        unclassified: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        service: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        motorway_link: {
+          foot: "no",
+          motor_vehicle: "yes",
+          bicycle: "no",
+          horse: "no"
+        },
+        trunk_link: {
+          motor_vehicle: "yes"
+        },
+        primary_link: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        secondary_link: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        tertiary_link: {
+          foot: "yes",
+          motor_vehicle: "yes",
+          bicycle: "yes",
+          horse: "yes"
+        },
+        construction: {
+          access: "no"
+        }
       },
-      steps: {
-        foot: "yes",
-        motor_vehicle: "no",
-        bicycle: "no",
-        horse: "no"
-      },
-      pedestrian: {
-        foot: "yes",
-        motor_vehicle: "no"
-      },
-      cycleway: {
-        motor_vehicle: "no",
-        bicycle: "designated"
-      },
-      bridleway: {
-        motor_vehicle: "no",
-        horse: "designated"
-      },
-      path: {
-        foot: "yes",
-        motor_vehicle: "no",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      motorway: {
-        foot: "no",
-        motor_vehicle: "yes",
-        bicycle: "no",
-        horse: "no"
-      },
-      trunk: {
-        motor_vehicle: "yes"
-      },
-      primary: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      secondary: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      tertiary: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      residential: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      unclassified: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      service: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      motorway_link: {
-        foot: "no",
-        motor_vehicle: "yes",
-        bicycle: "no",
-        horse: "no"
-      },
-      trunk_link: {
-        motor_vehicle: "yes"
-      },
-      primary_link: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      secondary_link: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      tertiary_link: {
-        foot: "yes",
-        motor_vehicle: "yes",
-        bicycle: "yes",
-        horse: "yes"
-      },
-      construction: {
-        access: "no"
+      barrier: {
+        bollard: {
+          access: "no",
+          bicycle: "yes",
+          foot: "yes"
+        },
+        bus_trap: {
+          motor_vehicle: "no",
+          psv: "yes",
+          foot: "yes",
+          bicycle: "yes"
+        },
+        city_wall: {
+          access: "no"
+        },
+        coupure: {
+          access: "yes"
+        },
+        cycle_barrier: {
+          motor_vehicle: "no"
+        },
+        ditch: {
+          access: "no"
+        },
+        entrance: {
+          access: "yes"
+        },
+        fence: {
+          access: "no"
+        },
+        hedge: {
+          access: "no"
+        },
+        jersey_barrier: {
+          access: "no"
+        },
+        motorcycle_barrier: {
+          motor_vehicle: "no"
+        },
+        rail_guard: {
+          access: "no"
+        }
       }
     };
     access.tags = function(tags) {
@@ -57516,21 +58494,29 @@ ${content}</tr>
         if (tags.access && typeof tags.access === "string") {
           return tags.access;
         }
-        if (tags.highway) {
-          if (typeof tags.highway === "string") {
-            if (placeholdersByHighway[tags.highway] && placeholdersByHighway[tags.highway][d]) {
-              return placeholdersByHighway[tags.highway][d];
+        function getPlaceholdersByTag(key, placeholdersByKey) {
+          if (typeof tags[key] === "string") {
+            if (placeholdersByKey[tags[key]] && placeholdersByKey[tags[key]][d]) {
+              return placeholdersByKey[tags[key]][d];
             }
           } else {
-            var impliedAccesses = tags.highway.filter(Boolean).map(function(highwayVal) {
-              return placeholdersByHighway[highwayVal] && placeholdersByHighway[highwayVal][d];
+            var impliedAccesses = tags[key].filter(Boolean).map(function(val) {
+              return placeholdersByKey[val] && placeholdersByKey[val][d];
             }).filter(Boolean);
-            if (impliedAccesses.length === tags.highway.length && new Set(impliedAccesses).size === 1) {
+            if (impliedAccesses.length === tags[key].length && new Set(impliedAccesses).size === 1) {
               return impliedAccesses[0];
             }
           }
         }
-        if (d === "access") {
+        for (const key in placeholdersByTag) {
+          if (tags[key]) {
+            const impliedAccess = getPlaceholdersByTag(key, placeholdersByTag[key]);
+            if (impliedAccess) {
+              return impliedAccess;
+            }
+          }
+        }
+        if (d === "access" && !tags.barrier) {
           return "yes";
         }
         return field.placeholder();
@@ -57692,9 +58678,11 @@ ${content}</tr>
         if (dropdowns.indexOf(d.id) === -1)
           return;
         var nearValues = d.id === "street" ? getNearStreets : d.id === "city" ? getNearCities : getNearValues;
-        select_default2(this).call(uiCombobox(context, "address-" + d.id).minItems(1).caseSensitive(true).fetcher(function(value, callback) {
-          callback(nearValues("addr:" + d.id));
-        }));
+        select_default2(this).call(
+          uiCombobox(context, "address-" + d.id).minItems(1).caseSensitive(true).fetcher(function(value, callback) {
+            callback(nearValues("addr:" + d.id));
+          })
+        );
       }
       _wrap.selectAll("input").on("blur", change()).on("change", change());
       _wrap.selectAll("input:not(.combobox-input)").on("input", change(true));
@@ -57806,7 +58794,9 @@ ${content}</tr>
       enter.append("div").attr("class", "preset-input-cycleway-wrap").append("input").attr("type", "text").attr("class", function(d) {
         return "preset-input-cycleway preset-input-" + stripcolon(d);
       }).call(utilNoAuto).each(function(d) {
-        select_default2(this).call(uiCombobox(context, "cycleway-" + stripcolon(d)).data(cycleway.options(d)));
+        select_default2(this).call(
+          uiCombobox(context, "cycleway-" + stripcolon(d)).data(cycleway.options(d))
+        );
       });
       items = items.merge(enter);
       wrap2.selectAll(".preset-input-cycleway").on("change", change).on("blur", change);
@@ -57962,7 +58952,7 @@ ${content}</tr>
     var langCombo = uiCombobox(context, "localized-lang").fetcher(fetchLanguages).minItems(0);
     var _selection = select_default2(null);
     var _multilingual = [];
-    var _buttonTip = uiTooltip().title(_t.html("translate.translate")).placement("left");
+    var _buttonTip = uiTooltip().title(() => _t.append("translate.translate")).placement("left");
     var _wikiTitles;
     var _entityIDs = [];
     function loadLanguagesArray(dataLanguages) {
@@ -58282,7 +59272,12 @@ ${content}</tr>
       secondaryUnitInput = wrap2.selectAll("input.roadheight-secondary-unit").data([0]);
       secondaryUnitInput = secondaryUnitInput.enter().append("input").attr("type", "text").call(utilNoAuto).classed("disabled", true).classed("roadheight-secondary-unit", true).attr("readonly", "readonly").merge(secondaryUnitInput);
       function changeUnits() {
-        _isImperial = utilGetSetValue(primaryUnitInput) === "ft";
+        var primaryUnit = utilGetSetValue(primaryUnitInput);
+        if (primaryUnit === "m") {
+          _isImperial = false;
+        } else if (primaryUnit === "ft") {
+          _isImperial = true;
+        }
         utilGetSetValue(primaryUnitInput, _isImperial ? "ft" : "m");
         setUnitSuggestions();
         change();
@@ -58373,7 +59368,12 @@ ${content}</tr>
       unitInput = unitInput.enter().append("input").attr("type", "text").attr("class", "roadspeed-unit").attr("aria-label", _t("inspector.speed_unit")).call(unitCombo).merge(unitInput);
       unitInput.on("blur", changeUnits).on("change", changeUnits);
       function changeUnits() {
-        _isImperial = utilGetSetValue(unitInput) === "mph";
+        var unit2 = utilGetSetValue(unitInput);
+        if (unit2 === "km/h") {
+          _isImperial = false;
+        } else if (unit2 === "mph") {
+          _isImperial = true;
+        }
         utilGetSetValue(unitInput, _isImperial ? "mph" : "km/h");
         setUnitSuggestions();
         change();
@@ -58981,10 +59981,10 @@ ${content}</tr>
     }
     function displayName(entityID, graph) {
       var entity = graph.entity(entityID);
-      var name2 = utilDisplayName(entity) || "";
+      var name = utilDisplayName(entity) || "";
       var matched = _mainPresetIndex.match(entity, graph);
       var type3 = matched && matched.name() || utilDisplayType(entity.id);
-      return name2 || type3;
+      return name || type3;
     }
     restrictions.entityIDs = function(val) {
       _intersection = null;
@@ -59052,7 +60052,8 @@ ${content}</tr>
     var _entityIDs = [];
     var _wikipediaKey = field.keys && field.keys.find(function(key) {
       return key.includes("wikipedia");
-    }), _hintKey = field.key === "wikidata" ? "name" : field.key.split(":")[0];
+    });
+    var _hintKey = field.key === "wikidata" ? "name" : field.key.split(":")[0];
     var combobox = uiCombobox(context, "combo-" + field.safeid).caseSensitive(true).minItems(1);
     function wiki(selection2) {
       _selection = selection2;
@@ -59111,12 +60112,17 @@ ${content}</tr>
       wikidata.itemsForSearchQuery(q, function(err, data) {
         if (err)
           return;
-        for (var i3 in data) {
-          data[i3].value = data[i3].label + " (" + data[i3].id + ")";
-          data[i3].title = data[i3].description;
-        }
+        var result = data.map(function(item) {
+          return {
+            id: item.id,
+            value: item.display.label.value + " (" + item.id + ")",
+            display: (selection2) => selection2.append("span").attr("class", "localized-text").attr("lang", item.display.label.language).text(item.display.label.value),
+            title: item.display.description && item.display.description.value,
+            terms: item.aliases
+          };
+        });
         if (callback)
-          callback(data);
+          callback(result);
       });
     }
     function change() {
@@ -59190,12 +60196,15 @@ ${content}</tr>
         }).filter(Boolean);
         if (!actions.length)
           return;
-        context.overwrite(function actionUpdateWikipediaTags(graph) {
-          actions.forEach(function(action) {
-            graph = action(graph);
-          });
-          return graph;
-        }, context.history().undoAnnotation());
+        context.overwrite(
+          function actionUpdateWikipediaTags(graph) {
+            actions.forEach(function(action) {
+              graph = action(graph);
+            });
+            return graph;
+          },
+          context.history().undoAnnotation()
+        );
       });
     }
     function setLabelForEntity() {
@@ -59224,11 +60233,11 @@ ${content}</tr>
         }
         _wikidataEntity = entity;
         setLabelForEntity();
-        var description2 = entityPropertyForDisplay(entity, "descriptions");
+        var description = entityPropertyForDisplay(entity, "descriptions");
         _selection.select("button.wiki-link").classed("disabled", false);
         _selection.select(".preset-wikidata-description").style("display", function() {
-          return description2.length > 0 ? "flex" : "none";
-        }).select("input").attr("value", description2);
+          return description.length > 0 ? "flex" : "none";
+        }).select("input").attr("value", description);
         _selection.select(".preset-wikidata-identifier").style("display", function() {
           return entity.id ? "flex" : "none";
         }).select("input").attr("value", entity.id);
@@ -59293,9 +60302,11 @@ ${content}</tr>
     });
     const langCombo = uiCombobox(context, "wikipedia-lang").fetcher((value, callback) => {
       const v = value.toLowerCase();
-      callback(_dataWikipedia.filter((d) => {
-        return d[0].toLowerCase().indexOf(v) >= 0 || d[1].toLowerCase().indexOf(v) >= 0 || d[2].toLowerCase().indexOf(v) >= 0;
-      }).map((d) => ({ value: d[1] })));
+      callback(
+        _dataWikipedia.filter((d) => {
+          return d[0].toLowerCase().indexOf(v) >= 0 || d[1].toLowerCase().indexOf(v) >= 0 || d[2].toLowerCase().indexOf(v) >= 0;
+        }).map((d) => ({ value: d[1] }))
+      );
     });
     const titleCombo = uiCombobox(context, "wikipedia-title").fetcher((value, callback) => {
       if (!value) {
@@ -59405,12 +60416,15 @@ ${content}</tr>
         }).filter(Boolean);
         if (!actions.length)
           return;
-        context.overwrite(function actionUpdateWikidataTags(graph) {
-          actions.forEach(function(action) {
-            graph = action(graph);
-          });
-          return graph;
-        }, context.history().undoAnnotation());
+        context.overwrite(
+          function actionUpdateWikidataTags(graph) {
+            actions.forEach(function(action) {
+              graph = action(graph);
+            });
+            return graph;
+          },
+          context.history().undoAnnotation()
+        );
       });
     }
     wiki.tags = (tags) => {
@@ -59517,7 +60531,7 @@ ${content}</tr>
       }, geoExtent());
     }
     var _locked = false;
-    var _lockedTip = uiTooltip().title(_t.html("inspector.lock.suggestion", { label: field.label })).placement("bottom");
+    var _lockedTip = uiTooltip().title(() => _t.append("inspector.lock.suggestion", { label: field.title })).placement("bottom");
     field.keys = field.keys || [field.key];
     if (_show && !field.impl) {
       createField();
@@ -59585,8 +60599,8 @@ ${content}</tr>
           return d.domId;
         });
         var textEnter = labelEnter.append("span").attr("class", "label-text");
-        textEnter.append("span").attr("class", "label-textvalue").html(function(d) {
-          return d.label();
+        textEnter.append("span").attr("class", "label-textvalue").each(function(d) {
+          d.label()(select_default2(this));
         });
         textEnter.append("span").attr("class", "label-textannotation");
         if (options2.remove) {
@@ -59772,14 +60786,16 @@ ${content}</tr>
       var input = more.selectAll(".value").data([0]);
       input.exit().remove();
       input = input.enter().append("input").attr("class", "value").attr("type", "text").attr("placeholder", placeholder).call(utilNoAuto).merge(input);
-      input.call(utilGetSetValue, "").call(moreCombo.data(moreFields).on("accept", function(d) {
-        if (!d)
-          return;
-        var field = d.field;
-        field.show();
-        selection2.call(formFields);
-        field.focus();
-      }));
+      input.call(utilGetSetValue, "").call(
+        moreCombo.data(moreFields).on("accept", function(d) {
+          if (!d)
+            return;
+          var field = d.field;
+          field.show();
+          selection2.call(formFields);
+          field.focus();
+        })
+      );
       if (_lastPlaceholder !== placeholder) {
         input.attr("placeholder", placeholder);
         _lastPlaceholder = placeholder;
@@ -59854,7 +60870,9 @@ ${content}</tr>
               var comment = changeset.tags.comment;
               return comment ? { title: comment, value: comment } : null;
             }).filter(Boolean);
-            commentField.call(commentCombo.data(utilArrayUniqBy(comments, "title")));
+            commentField.call(
+              commentCombo.data(utilArrayUniqBy(comments, "title"))
+            );
           });
         }
       }
@@ -60035,7 +61053,7 @@ ${content}</tr>
     var section = uiSection("changes-list", context).label(function() {
       var history = context.history();
       var summary = history.difference().summary();
-      return _t.html("inspector.title_count", { title: { html: _t.html("commit.changes") }, count: summary.length });
+      return _t.append("inspector.title_count", { title: _t("commit.changes"), count: summary.length });
     }).disclosureContent(renderDisclosureContent);
     function renderDisclosureContent(selection2) {
       var history = context.history();
@@ -60058,11 +61076,11 @@ ${content}</tr>
         return matched && matched.name() || utilDisplayType(d.entity.id);
       });
       buttons.append("span").attr("class", "entity-name").text(function(d) {
-        var name2 = utilDisplayName(d.entity) || "", string = "";
-        if (name2 !== "") {
+        var name = utilDisplayName(d.entity) || "", string = "";
+        if (name !== "") {
           string += ":";
         }
-        return string += " " + name2;
+        return string += " " + name;
       });
       items = itemsEnter.merge(items);
       var changeset = new osmChangeset().update({ id: void 0 });
@@ -60076,7 +61094,9 @@ ${content}</tr>
       linkEnter.call(svgIcon("#iD-icon-load", "inline")).append("span").call(_t.append("commit.download_changes"));
       function mouseover(d) {
         if (d.entity) {
-          context.surface().selectAll(utilEntityOrMemberSelector([d.entity.id], context.graph())).classed("hover", true);
+          context.surface().selectAll(
+            utilEntityOrMemberSelector([d.entity.id], context.graph())
+          ).classed("hover", true);
         }
       }
       function mouseout() {
@@ -60109,7 +61129,7 @@ ${content}</tr>
         var container = selection2.selectAll("." + section).data(issues.length ? [0] : []);
         container.exit().remove();
         var containerEnter = container.enter().append("div").attr("class", "modal-section " + section + " fillL2");
-        containerEnter.append("h3").html(severity === "warning" ? _t.html("commit.warnings") : _t.html("commit.errors"));
+        containerEnter.append("h3").call(severity === "warning" ? _t.append("commit.warnings") : _t.append("commit.errors"));
         containerEnter.append("ul").attr("class", "changeset-list");
         container = containerEnter.merge(container);
         var items = container.select("ul").selectAll("li").data(issues, function(d) {
@@ -60119,7 +61139,12 @@ ${content}</tr>
         var itemsEnter = items.enter().append("li").attr("class", issueItem);
         var buttons = itemsEnter.append("button").on("mouseover", function(d3_event, d) {
           if (d.entityIds) {
-            context.surface().selectAll(utilEntityOrMemberSelector(d.entityIds, context.graph())).classed("hover", true);
+            context.surface().selectAll(
+              utilEntityOrMemberSelector(
+                d.entityIds,
+                context.graph()
+              )
+            ).classed("hover", true);
           }
         }).on("mouseout", function() {
           context.surface().selectAll(".hover").classed("hover", false);
@@ -60130,12 +61155,14 @@ ${content}</tr>
         buttons.append("strong").attr("class", "issue-message");
         buttons.filter(function(d) {
           return d.tooltip;
-        }).call(uiTooltip().title(function(d) {
-          return d.tooltip;
-        }).placement("top"));
+        }).call(
+          uiTooltip().title(function(d) {
+            return d.tooltip;
+          }).placement("top")
+        );
         items = itemsEnter.merge(items);
-        items.selectAll(".issue-message").html(function(d) {
-          return d.message(context);
+        items.selectAll(".issue-message").text("").each(function(d) {
+          return d.message(context)(select_default2(this));
         });
       }
     }
@@ -60297,7 +61324,9 @@ ${content}</tr>
       body = body.enter().append("div").attr("class", "body").merge(body);
       var changesetSection = body.selectAll(".changeset-editor").data([0]);
       changesetSection = changesetSection.enter().append("div").attr("class", "modal-section changeset-editor").merge(changesetSection);
-      changesetSection.call(changesetEditor.changesetID(context.changeset.id).tags(context.changeset.tags));
+      changesetSection.call(
+        changesetEditor.changesetID(context.changeset.id).tags(context.changeset.tags)
+      );
       body.call(commitWarnings);
       var saveSection = body.selectAll(".save-section").data([0]);
       saveSection = saveSection.enter().append("div").attr("class", "modal-section save-section fillL").merge(saveSection);
@@ -60324,7 +61353,7 @@ ${content}</tr>
       var requestReviewDomId = utilUniqueDomId("commit-input-request-review");
       var labelEnter = requestReviewEnter.append("label").attr("for", requestReviewDomId);
       if (!labelEnter.empty()) {
-        labelEnter.call(uiTooltip().title(_t.html("commit.request_review_info")).placement("top"));
+        labelEnter.call(uiTooltip().title(() => _t.append("commit.request_review_info")).placement("top"));
       }
       labelEnter.append("input").attr("type", "checkbox").attr("id", requestReviewDomId);
       labelEnter.append("span").call(_t.append("commit.request_review"));
@@ -60352,28 +61381,32 @@ ${content}</tr>
       });
       uiTooltip().destroyAny(buttonSection.selectAll(".save-button"));
       if (uploadBlockerTooltipText) {
-        buttonSection.selectAll(".save-button").call(uiTooltip().title(uploadBlockerTooltipText).placement("top"));
+        buttonSection.selectAll(".save-button").call(uiTooltip().title(() => uploadBlockerTooltipText).placement("top"));
       }
       var tagSection = body.selectAll(".tag-section.raw-tag-editor").data([0]);
       tagSection = tagSection.enter().append("div").attr("class", "modal-section tag-section raw-tag-editor").merge(tagSection);
-      tagSection.call(rawTagEditor.tags(Object.assign({}, context.changeset.tags)).render);
+      tagSection.call(
+        rawTagEditor.tags(Object.assign({}, context.changeset.tags)).render
+      );
       var changesSection = body.selectAll(".commit-changes-section").data([0]);
       changesSection = changesSection.enter().append("div").attr("class", "modal-section commit-changes-section").merge(changesSection);
       changesSection.call(commitChanges.render);
       function toggleRequestReview() {
         var rr = requestReviewInput.property("checked");
         updateChangeset({ review_requested: rr ? "yes" : void 0 });
-        tagSection.call(rawTagEditor.tags(Object.assign({}, context.changeset.tags)).render);
+        tagSection.call(
+          rawTagEditor.tags(Object.assign({}, context.changeset.tags)).render
+        );
       }
     }
     function getUploadBlockerMessage() {
       var errors = context.validator().getIssuesBySeverity({ what: "edited", where: "all" }).error;
       if (errors.length) {
-        return _t("commit.outstanding_errors_message", { count: errors.length });
+        return _t.append("commit.outstanding_errors_message", { count: errors.length });
       } else {
         var hasChangesetComment = context.changeset && context.changeset.tags.comment && context.changeset.tags.comment.trim().length;
         if (!hasChangesetComment) {
-          return _t("commit.comment_needed_message");
+          return _t.append("commit.comment_needed_message");
         }
       }
       return null;
@@ -60583,9 +61616,7 @@ ${content}</tr>
         return d;
       });
       details.append("div").attr("class", "conflict-choices").call(addChoices);
-      details.append("div").attr("class", "conflict-nav-buttons joined cf").selectAll("button").data(["previous", "next"]).enter().append("button").html(function(d) {
-        return _t.html("save.conflict." + d);
-      }).attr("class", "conflict-nav-button action col6").attr("disabled", function(d, i2) {
+      details.append("div").attr("class", "conflict-nav-buttons joined cf").selectAll("button").data(["previous", "next"]).enter().append("button").attr("class", "conflict-nav-button action col6").attr("disabled", function(d, i2) {
         return i2 === 0 && index === 0 || i2 === 1 && index === _conflictList.length - 1 || null;
       }).on("click", function(d3_event, d) {
         d3_event.preventDefault();
@@ -60593,6 +61624,8 @@ ${content}</tr>
         var sign2 = d === "previous" ? -1 : 1;
         container.selectAll(".conflict").remove();
         container.call(showConflict, index + sign2);
+      }).call(function(d) {
+        _t.append("save.conflict." + d)(select_default2(this));
       });
     }
     function addChoices(selection2) {
@@ -60683,7 +61716,7 @@ ${content}</tr>
     var section = uiSection("entity-issues", context).shouldDisplay(function() {
       return _issues.length > 0;
     }).label(function() {
-      return _t.html("inspector.title_count", { title: { html: _t.html("issues.list_title") }, count: _issues.length });
+      return _t.append("inspector.title_count", { title: _t("issues.list_title"), count: _issues.length });
     }).disclosureContent(renderDisclosureContent);
     context.validator().on("validated.entity_issues", function() {
       reloadIssues();
@@ -60766,8 +61799,8 @@ ${content}</tr>
       containers = containers.merge(containersEnter).classed("active", function(d) {
         return d.id === _activeIssueID;
       });
-      containers.selectAll(".issue-message").html(function(d) {
-        return d.message(context);
+      containers.selectAll(".issue-message").text("").each(function(d) {
+        return d.message(context)(select_default2(this));
       });
       var fixLists = containers.selectAll(".issue-fix-list");
       var fixes = fixLists.selectAll(".issue-fix-item").data(function(d) {
@@ -60804,8 +61837,8 @@ ${content}</tr>
         }
         select_default2(this).call(svgIcon("#" + iconName, "fix-icon"));
       });
-      buttons.append("span").attr("class", "fix-message").html(function(d) {
-        return d.title;
+      buttons.append("span").attr("class", "fix-message").each(function(d) {
+        return d.title(select_default2(this));
       });
       fixesEnter.merge(fixes).selectAll("button").classed("actionable", function(d) {
         return d.onClick;
@@ -60839,12 +61872,14 @@ ${content}</tr>
       selection2.each(render);
     }
     function getIcon(p, geom) {
+      if (p.isFallback && p.isFallback())
+        return geom === "vertex" ? "" : "iD-icon-" + p.id;
       if (p.icon)
         return p.icon;
       if (geom === "line")
         return "iD-other-line";
       if (geom === "vertex")
-        return p.isFallback() ? "" : "temaki-vertex";
+        return "temaki-vertex";
       return "maki-marker-stroked";
     }
     function renderPointBorder(container, drawPoint) {
@@ -61014,7 +62049,7 @@ ${content}</tr>
       const picon = getIcon(p, geom);
       const isCategory = !p.setTags;
       const drawPoint = false;
-      const drawVertex = picon !== null && geom === "vertex" && !isFallback;
+      const drawVertex = picon !== null && geom === "vertex";
       const drawLine = picon && geom === "line" && !isFallback && !isCategory;
       const drawArea = picon && geom === "area" && !isFallback && !isCategory;
       const drawRoute = picon && geom === "route";
@@ -61060,12 +62095,14 @@ ${content}</tr>
     var _entityIDs = [];
     var _presets = [];
     var _tagReference;
-    var section = uiSection("feature-type", context).label(_t.html("inspector.feature_type")).disclosureContent(renderDisclosureContent);
+    var section = uiSection("feature-type", context).label(() => _t.append("inspector.feature_type")).disclosureContent(renderDisclosureContent);
     function renderDisclosureContent(selection2) {
       selection2.classed("preset-list-item", true);
       selection2.classed("mixed-types", _presets.length > 1);
       var presetButtonWrap = selection2.selectAll(".preset-list-button-wrap").data([0]).enter().append("div").attr("class", "preset-list-button-wrap");
-      var presetButton = presetButtonWrap.append("button").attr("class", "preset-list-button preset-reset").call(uiTooltip().title(_t.html("inspector.back_tooltip")).placement("bottom"));
+      var presetButton = presetButtonWrap.append("button").attr("class", "preset-list-button preset-reset").call(
+        uiTooltip().title(() => _t.append("inspector.back_tooltip")).placement("bottom")
+      );
       presetButton.append("div").attr("class", "preset-icon-container");
       presetButton.append("div").attr("class", "label").append("div").attr("class", "label-inner");
       presetButtonWrap.append("div").attr("class", "accessory-buttons");
@@ -61082,18 +62119,18 @@ ${content}</tr>
         d3_event.stopPropagation();
       });
       var geometries = entityGeometries();
-      selection2.select(".preset-list-item button").call(uiPresetIcon().geometry(_presets.length === 1 ? geometries.length === 1 && geometries[0] : null).preset(_presets.length === 1 ? _presets[0] : _mainPresetIndex.item("point")));
+      selection2.select(".preset-list-item button").call(
+        uiPresetIcon().geometry(_presets.length === 1 ? geometries.length === 1 && geometries[0] : null).preset(_presets.length === 1 ? _presets[0] : _mainPresetIndex.item("point"))
+      );
       var names = _presets.length === 1 ? [
         _presets[0].nameLabel(),
         _presets[0].subtitleLabel()
-      ].filter(Boolean) : [_t("inspector.multiple_types")];
+      ].filter(Boolean) : [_t.append("inspector.multiple_types")];
       var label = selection2.select(".label-inner");
-      var nameparts = label.selectAll(".namepart").data(names, function(d) {
-        return d;
-      });
+      var nameparts = label.selectAll(".namepart").data(names, (d) => d.stringId);
       nameparts.exit().remove();
-      nameparts.enter().append("div").attr("class", "namepart").html(function(d) {
-        return d;
+      nameparts.enter().append("div").attr("class", "namepart").text("").each(function(d) {
+        d(select_default2(this));
       });
     }
     section.entityIDs = function(val) {
@@ -61130,7 +62167,7 @@ ${content}</tr>
 
   // modules/ui/sections/preset_fields.js
   function uiSectionPresetFields(context) {
-    var section = uiSection("preset-fields", context).label(_t.html("inspector.fields")).disclosureContent(renderDisclosureContent);
+    var section = uiSection("preset-fields", context).label(() => _t.append("inspector.fields")).disclosureContent(renderDisclosureContent);
     var dispatch10 = dispatch_default("change", "revert");
     var formFields = uiFormFields(context);
     var _state;
@@ -61171,20 +62208,26 @@ ${content}</tr>
         _fieldsArr = [];
         sharedFields.forEach(function(field) {
           if (field.matchAllGeometry(geometries)) {
-            _fieldsArr.push(uiField(context, field, _entityIDs));
+            _fieldsArr.push(
+              uiField(context, field, _entityIDs)
+            );
           }
         });
         var singularEntity = _entityIDs.length === 1 && graph.hasEntity(_entityIDs[0]);
         if (singularEntity && singularEntity.isHighwayIntersection(graph) && presetsManager.field("restrictions")) {
-          _fieldsArr.push(uiField(context, presetsManager.field("restrictions"), _entityIDs));
+          _fieldsArr.push(
+            uiField(context, presetsManager.field("restrictions"), _entityIDs)
+          );
         }
         var additionalFields = utilArrayUnion(sharedMoreFields, presetsManager.universal());
         additionalFields.sort(function(field1, field2) {
-          return field1.label().localeCompare(field2.label(), _mainLocalizer.localeCode());
+          return field1.title().localeCompare(field2.title(), _mainLocalizer.localeCode());
         });
         additionalFields.forEach(function(field) {
           if (sharedFields.indexOf(field) === -1 && field.matchAllGeometry(geometries)) {
-            _fieldsArr.push(uiField(context, field, _entityIDs, { show: false }));
+            _fieldsArr.push(
+              uiField(context, field, _entityIDs, { show: false })
+            );
           }
         });
         _fieldsArr.forEach(function(field) {
@@ -61198,7 +62241,9 @@ ${content}</tr>
       _fieldsArr.forEach(function(field) {
         field.state(_state).tags(_tags);
       });
-      selection2.call(formFields.fieldsArr(_fieldsArr).state(_state).klass("grouped-items-area"));
+      selection2.call(
+        formFields.fieldsArr(_fieldsArr).state(_state).klass("grouped-items-area")
+      );
       selection2.selectAll(".wrap-form-field input").on("keydown", function(d3_event) {
         if (d3_event.keyCode === 13 && context.container().select(".combobox").empty()) {
           context.enter(modeBrowse(context));
@@ -61251,7 +62296,7 @@ ${content}</tr>
         return "";
       var gt = entity.members.length > _maxMembers ? ">" : "";
       var count = gt + entity.members.slice(0, _maxMembers).length;
-      return _t.html("inspector.title_count", { title: { html: _t.html("inspector.members") }, count });
+      return _t.append("inspector.title_count", { title: _t("inspector.members"), count });
     }).disclosureContent(renderDisclosureContent);
     var taginfo = services.taginfo;
     var _entityIDs;
@@ -61284,17 +62329,23 @@ ${content}</tr>
       var newRole = context.cleanRelationRole(select_default2(this).property("value"));
       if (oldRole !== newRole) {
         var member = { id: d.id, type: d.type, role: newRole };
-        context.perform(actionChangeMember(d.relation.id, member, d.index), _t("operations.change_role.annotation", {
-          n: 1
-        }));
+        context.perform(
+          actionChangeMember(d.relation.id, member, d.index),
+          _t("operations.change_role.annotation", {
+            n: 1
+          })
+        );
         context.validator().validate();
       }
     }
     function deleteMember(d3_event, d) {
       utilHighlightEntities([d.id], false, context);
-      context.perform(actionDeleteMember(d.relation.id, d.index), _t("operations.delete_member.annotation", {
-        n: 1
-      }));
+      context.perform(
+        actionDeleteMember(d.relation.id, d.index),
+        _t("operations.delete_member.annotation", {
+          n: 1
+        })
+      );
       if (!context.hasEntity(d.relation.id)) {
         context.enter(modeBrowse(context));
       } else {
@@ -61364,47 +62415,52 @@ ${content}</tr>
       }).on("blur", changeRole).on("change", changeRole);
       items.select("button.member-delete").on("click", deleteMember);
       var dragOrigin, targetIndex;
-      items.call(drag_default().on("start", function(d3_event) {
-        dragOrigin = {
-          x: d3_event.x,
-          y: d3_event.y
-        };
-        targetIndex = null;
-      }).on("drag", function(d3_event) {
-        var x = d3_event.x - dragOrigin.x, y = d3_event.y - dragOrigin.y;
-        if (!select_default2(this).classed("dragging") && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
-          return;
-        var index = items.nodes().indexOf(this);
-        select_default2(this).classed("dragging", true);
-        targetIndex = null;
-        selection2.selectAll("li.member-row").style("transform", function(d2, index2) {
-          var node = select_default2(this).node();
-          if (index === index2) {
-            return "translate(" + x + "px, " + y + "px)";
-          } else if (index2 > index && d3_event.y > node.offsetTop) {
-            if (targetIndex === null || index2 > targetIndex) {
-              targetIndex = index2;
+      items.call(
+        drag_default().on("start", function(d3_event) {
+          dragOrigin = {
+            x: d3_event.x,
+            y: d3_event.y
+          };
+          targetIndex = null;
+        }).on("drag", function(d3_event) {
+          var x = d3_event.x - dragOrigin.x, y = d3_event.y - dragOrigin.y;
+          if (!select_default2(this).classed("dragging") && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
+            return;
+          var index = items.nodes().indexOf(this);
+          select_default2(this).classed("dragging", true);
+          targetIndex = null;
+          selection2.selectAll("li.member-row").style("transform", function(d2, index2) {
+            var node = select_default2(this).node();
+            if (index === index2) {
+              return "translate(" + x + "px, " + y + "px)";
+            } else if (index2 > index && d3_event.y > node.offsetTop) {
+              if (targetIndex === null || index2 > targetIndex) {
+                targetIndex = index2;
+              }
+              return "translateY(-100%)";
+            } else if (index2 < index && d3_event.y < node.offsetTop + node.offsetHeight) {
+              if (targetIndex === null || index2 < targetIndex) {
+                targetIndex = index2;
+              }
+              return "translateY(100%)";
             }
-            return "translateY(-100%)";
-          } else if (index2 < index && d3_event.y < node.offsetTop + node.offsetHeight) {
-            if (targetIndex === null || index2 < targetIndex) {
-              targetIndex = index2;
-            }
-            return "translateY(100%)";
+            return null;
+          });
+        }).on("end", function(d3_event, d) {
+          if (!select_default2(this).classed("dragging"))
+            return;
+          var index = items.nodes().indexOf(this);
+          select_default2(this).classed("dragging", false);
+          selection2.selectAll("li.member-row").style("transform", null);
+          if (targetIndex !== null) {
+            context.perform(
+              actionMoveMember(d.relation.id, index, targetIndex),
+              _t("operations.reorder_members.annotation")
+            );
+            context.validator().validate();
           }
-          return null;
-        });
-      }).on("end", function(d3_event, d) {
-        if (!select_default2(this).classed("dragging"))
-          return;
-        var index = items.nodes().indexOf(this);
-        select_default2(this).classed("dragging", false);
-        selection2.selectAll("li.member-row").style("transform", null);
-        if (targetIndex !== null) {
-          context.perform(actionMoveMember(d.relation.id, index, targetIndex), _t("operations.reorder_members.annotation"));
-          context.validator().validate();
-        }
-      }));
+        })
+      );
       function bindTypeahead(d) {
         var row = select_default2(this);
         var role = row.selectAll("input.member-role");
@@ -61421,30 +62477,32 @@ ${content}</tr>
           }
           return sameletter.concat(other);
         }
-        role.call(uiCombobox(context, "member-role").fetcher(function(role2, callback) {
-          var geometry;
-          if (d.member) {
-            geometry = context.graph().geometry(d.member.id);
-          } else if (d.type === "relation") {
-            geometry = "relation";
-          } else if (d.type === "way") {
-            geometry = "line";
-          } else {
-            geometry = "point";
-          }
-          var rtype = entity.tags.type;
-          taginfo.roles({
-            debounce: true,
-            rtype: rtype || "",
-            geometry,
-            query: role2
-          }, function(err, data) {
-            if (!err)
-              callback(sort(role2, data));
-          });
-        }).on("cancel", function() {
-          role.property("value", origValue);
-        }));
+        role.call(
+          uiCombobox(context, "member-role").fetcher(function(role2, callback) {
+            var geometry;
+            if (d.member) {
+              geometry = context.graph().geometry(d.member.id);
+            } else if (d.type === "relation") {
+              geometry = "relation";
+            } else if (d.type === "way") {
+              geometry = "line";
+            } else {
+              geometry = "point";
+            }
+            var rtype = entity.tags.type;
+            taginfo.roles({
+              debounce: true,
+              rtype: rtype || "",
+              geometry,
+              query: role2
+            }, function(err, data) {
+              if (!err)
+                callback(sort(role2, data));
+            });
+          }).on("cancel", function() {
+            role.property("value", origValue);
+          })
+        );
       }
       function unbind() {
         var row = select_default2(this);
@@ -61479,7 +62537,7 @@ ${content}</tr>
       var parents = getSharedParentRelations();
       var gt = parents.length > _maxMemberships ? ">" : "";
       var count = gt + parents.slice(0, _maxMemberships).length;
-      return _t.html("inspector.title_count", { title: { html: _t.html("inspector.relations") }, count });
+      return _t.append("inspector.title_count", { title: _t("inspector.relations"), count });
     }).disclosureContent(renderDisclosureContent);
     var taginfo = services.taginfo;
     var nearbyCombo = uiCombobox(context, "parent-relation").minItems(1).fetcher(fetchNearbyRelations).itemsMouseEnter(function(d3_event, d) {
@@ -61575,16 +62633,19 @@ ${content}</tr>
       });
       if (membersToUpdate.length) {
         _inChange = true;
-        context.perform(function actionChangeMemberRoles(graph) {
-          membersToUpdate.forEach(function(member) {
-            var newMember = Object.assign({}, member, { role: newRole });
-            delete newMember.index;
-            graph = actionChangeMember(d.relation.id, newMember, member.index)(graph);
-          });
-          return graph;
-        }, _t("operations.change_role.annotation", {
-          n: membersToUpdate.length
-        }));
+        context.perform(
+          function actionChangeMemberRoles(graph) {
+            membersToUpdate.forEach(function(member) {
+              var newMember = Object.assign({}, member, { role: newRole });
+              delete newMember.index;
+              graph = actionChangeMember(d.relation.id, newMember, member.index)(graph);
+            });
+            return graph;
+          },
+          _t("operations.change_role.annotation", {
+            n: membersToUpdate.length
+          })
+        );
         context.validator().validate();
       }
       _inChange = false;
@@ -61602,13 +62663,20 @@ ${content}</tr>
         };
       }
       if (d.relation) {
-        context.perform(actionAddMembers(d.relation.id, _entityIDs, role), _t("operations.add_member.annotation", {
-          n: _entityIDs.length
-        }));
+        context.perform(
+          actionAddMembers(d.relation.id, _entityIDs, role),
+          _t("operations.add_member.annotation", {
+            n: _entityIDs.length
+          })
+        );
         context.validator().validate();
       } else {
         var relation = osmRelation();
-        context.perform(actionAddEntity(relation), actionAddMembers(relation.id, _entityIDs, role), _t("operations.add.annotation.relation"));
+        context.perform(
+          actionAddEntity(relation),
+          actionAddMembers(relation.id, _entityIDs, role),
+          _t("operations.add.annotation.relation")
+        );
         context.enter(modeSelect(context, [relation.id]).newFeature(true));
       }
     }
@@ -61620,16 +62688,19 @@ ${content}</tr>
       var indexes = d.members.map(function(member) {
         return member.index;
       });
-      context.perform(actionDeleteMembers(d.relation.id, indexes), _t("operations.delete_member.annotation", {
-        n: _entityIDs.length
-      }));
+      context.perform(
+        actionDeleteMembers(d.relation.id, indexes),
+        _t("operations.delete_member.annotation", {
+          n: _entityIDs.length
+        })
+      );
       context.validator().validate();
     }
     function fetchNearbyRelations(q, callback) {
       var newRelation = {
         relation: null,
         value: _t("inspector.new_relation"),
-        display: _t.html("inspector.new_relation")
+        display: _t.append("inspector.new_relation")
       };
       var entityID = _entityIDs[0];
       var result = [];
@@ -61726,12 +62797,14 @@ ${content}</tr>
       var newWrapEnter = newMembershipEnter.append("div").attr("class", "form-field-input-wrap form-field-input-member");
       newWrapEnter.append("input").attr("class", "member-role").property("type", "text").attr("placeholder", _t("inspector.role")).call(utilNoAuto);
       newMembership = newMembership.merge(newMembershipEnter);
-      newMembership.selectAll(".member-entity-input").on("blur", cancelEntity).call(nearbyCombo.on("accept", acceptEntity).on("cancel", cancelEntity));
+      newMembership.selectAll(".member-entity-input").on("blur", cancelEntity).call(
+        nearbyCombo.on("accept", acceptEntity).on("cancel", cancelEntity)
+      );
       var addRow = selection2.selectAll(".add-row").data([0]);
       var addRowEnter = addRow.enter().append("div").attr("class", "add-row");
       var addRelationButton = addRowEnter.append("button").attr("class", "add-relation").attr("aria-label", _t("inspector.add_to_relation"));
       addRelationButton.call(svgIcon("#iD-icon-plus", "light"));
-      addRelationButton.call(uiTooltip().title(_t.html("inspector.add_to_relation")).placement(_mainLocalizer.textDirection() === "ltr" ? "right" : "left"));
+      addRelationButton.call(uiTooltip().title(() => _t.append("inspector.add_to_relation")).placement(_mainLocalizer.textDirection() === "ltr" ? "right" : "left"));
       addRowEnter.append("div").attr("class", "space-value");
       addRowEnter.append("div").attr("class", "space-buttons");
       addRow = addRow.merge(addRowEnter);
@@ -61771,20 +62844,22 @@ ${content}</tr>
           }
           return sameletter.concat(other);
         }
-        role.call(uiCombobox(context, "member-role").fetcher(function(role2, callback) {
-          var rtype = d.relation.tags.type;
-          taginfo.roles({
-            debounce: true,
-            rtype: rtype || "",
-            geometry: context.graph().geometry(_entityIDs[0]),
-            query: role2
-          }, function(err, data) {
-            if (!err)
-              callback(sort(role2, data));
-          });
-        }).on("cancel", function() {
-          role.property("value", origValue);
-        }));
+        role.call(
+          uiCombobox(context, "member-role").fetcher(function(role2, callback) {
+            var rtype = d.relation.tags.type;
+            taginfo.roles({
+              debounce: true,
+              rtype: rtype || "",
+              geometry: context.graph().geometry(_entityIDs[0]),
+              query: role2
+            }, function(err, data) {
+              if (!err)
+                callback(sort(role2, data));
+            });
+          }).on("cancel", function() {
+            role.property("value", origValue);
+          })
+        );
       }
       function unbind() {
         var row = select_default2(this);
@@ -61807,7 +62882,7 @@ ${content}</tr>
     var section = uiSection("selected-features", context).shouldDisplay(function() {
       return _selectedIDs.length > 1;
     }).label(function() {
-      return _t.html("inspector.title_count", { title: { html: _t.html("inspector.features") }, count: _selectedIDs.length });
+      return _t.append("inspector.title_count", { title: _t("inspector.features"), count: _selectedIDs.length });
     }).disclosureContent(renderDisclosureContent);
     context.history().on("change.selectionList", function(difference) {
       if (difference) {
@@ -61889,7 +62964,7 @@ ${content}</tr>
       }).call(svgIcon(_modified ? "#iD-icon-apply" : "#iD-icon-close"));
       headerEnter.append("h2");
       header = header.merge(headerEnter);
-      header.selectAll("h2").html(_entityIDs.length === 1 ? _t.html("inspector.edit") : _t.html("inspector.edit_features"));
+      header.selectAll("h2").text("").call(_entityIDs.length === 1 ? _t.append("inspector.edit") : _t.append("inspector.edit_features"));
       header.selectAll(".preset-reset").on("click", function() {
         dispatch10.call("choose", this, _activePresets);
       });
@@ -62175,8 +63250,8 @@ ${content}</tr>
           var entity = allEntities[id2];
           if (!entity)
             continue;
-          var name2 = utilDisplayName(entity) || "";
-          if (name2.toLowerCase().indexOf(q) < 0)
+          var name = utilDisplayName(entity) || "";
+          if (name.toLowerCase().indexOf(q) < 0)
             continue;
           var matched = _mainPresetIndex.match(entity, graph);
           var type3 = matched && matched.name() || utilDisplayType(entity.id);
@@ -62187,7 +63262,7 @@ ${content}</tr>
             entity,
             geometry: entity.geometry(graph),
             type: type3,
-            name: name2,
+            name,
             distance
           });
           if (localResults.length > 100)
@@ -62215,7 +63290,10 @@ ${content}</tr>
               geometry: tempEntity.geometry(tempGraph),
               type: type4,
               name: d.display_name,
-              extent: new geoExtent([parseFloat(d.boundingbox[3]), parseFloat(d.boundingbox[0])], [parseFloat(d.boundingbox[2]), parseFloat(d.boundingbox[1])])
+              extent: new geoExtent(
+                [parseFloat(d.boundingbox[3]), parseFloat(d.boundingbox[0])],
+                [parseFloat(d.boundingbox[2]), parseFloat(d.boundingbox[1])]
+              )
             });
           }
         });
@@ -62361,7 +63439,10 @@ ${content}</tr>
       return _t.html(`QA.improveOSM.error_types.${issueKey}.description`, d.replacements);
     }
     function improveOsmDetails(selection2) {
-      const details = selection2.selectAll(".error-details").data(_qaItem ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      const details = selection2.selectAll(".error-details").data(
+        _qaItem ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       details.exit().remove();
       const detailsEnter = details.enter().append("div").attr("class", "error-details qa-details-container");
       const descriptionEnter = detailsEnter.append("div").attr("class", "qa-details-subsection");
@@ -62399,13 +63480,13 @@ ${content}</tr>
           }
         });
         if (entity) {
-          let name2 = utilDisplayName(entity);
-          if (!name2 && !isObjectLink) {
+          let name = utilDisplayName(entity);
+          if (!name && !isObjectLink) {
             const preset = _mainPresetIndex.match(entity, context.graph());
-            name2 = preset && !preset.isFallback() && preset.name();
+            name = preset && !preset.isFallback() && preset.name();
           }
-          if (name2) {
-            this.innerText = name2;
+          if (name) {
+            this.innerText = name;
           }
         }
       });
@@ -62431,7 +63512,10 @@ ${content}</tr>
       return _t.html(`QA.improveOSM.error_types.${issueKey}.title`, d.replacements);
     }
     function improveOsmHeader(selection2) {
-      const header = selection2.selectAll(".qa-header").data(_qaItem ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      const header = selection2.selectAll(".qa-header").data(
+        _qaItem ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       header.exit().remove();
       const headerEnter = header.enter().append("div").attr("class", "qa-header");
       const svgEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d) => d.id < 0).append("svg").attr("width", "20px").attr("height", "30px").attr("viewbox", "0 0 20 30").attr("class", (d) => `preset-icon-28 qaItem ${d.service} itemId-${d.id} itemType-${d.itemType}`);
@@ -62467,7 +63551,10 @@ ${content}</tr>
     function improveOsmSaveSection(selection2) {
       const isSelected = _qaItem && _qaItem.id === context.selectedErrorID();
       const isShown = _qaItem && (isSelected || _qaItem.newComment || _qaItem.comment);
-      let saveSection = selection2.selectAll(".qa-save").data(isShown ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      let saveSection = selection2.selectAll(".qa-save").data(
+        isShown ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       saveSection.exit().remove();
       const saveSectionEnter = saveSection.enter().append("div").attr("class", "qa-save save-section cf");
       saveSectionEnter.append("h4").attr("class", ".qa-save-header").call(_t.append("note.newComment"));
@@ -62595,7 +63682,8 @@ ${content}</tr>
             search: value
           });
         } else {
-          results = _mainPresetIndex.defaults(entityGeometries()[0], 36, !context.inIntro(), _currLoc);
+          var entityPresets2 = _entityIDs.map((entityID) => _mainPresetIndex.match(context.graph().entity(entityID), context.graph()));
+          results = _mainPresetIndex.defaults(entityGeometries()[0], 36, !context.inIntro(), _currLoc, entityPresets2);
           messageText = _t.html("inspector.choose");
         }
         list.call(drawList, results);
@@ -62611,7 +63699,8 @@ ${content}</tr>
         }, 0);
       }
       var listWrap = selection2.append("div").attr("class", "inspector-body");
-      var list = listWrap.append("div").attr("class", "preset-list").call(drawList, _mainPresetIndex.defaults(entityGeometries()[0], 36, !context.inIntro(), _currLoc));
+      var entityPresets = _entityIDs.map((entityID) => _mainPresetIndex.match(context.graph().entity(entityID), context.graph()));
+      var list = listWrap.append("div").attr("class", "preset-list").call(drawList, _mainPresetIndex.defaults(entityGeometries()[0], 36, !context.inIntro(), _currLoc, entityPresets));
       context.features().on("change.preset-list", updateForFeatureHiddenState);
     }
     function drawList(list, presets) {
@@ -62720,9 +63809,7 @@ ${content}</tr>
           }
         });
         var label = button.append("div").attr("class", "label").append("div").attr("class", "label-inner");
-        label.append("div").attr("class", "namepart").call(svgIcon(_mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward", "inline")).append("span").html(function() {
-          return preset.nameLabel() + "&hellip;";
-        });
+        label.append("div").attr("class", "namepart").call(svgIcon(_mainLocalizer.textDirection() === "rtl" ? "#iD-icon-backward" : "#iD-icon-forward", "inline")).append("span").call(preset.nameLabel()).append("span").text("\u2026");
         box = selection2.append("div").attr("class", "subgrid").style("max-height", "0px").style("opacity", 0);
         box.append("div").attr("class", "arrow");
         sublist = box.append("div").attr("class", "preset-list fillL3");
@@ -62753,8 +63840,8 @@ ${content}</tr>
           preset.nameLabel(),
           preset.subtitleLabel()
         ].filter(Boolean);
-        label.selectAll(".namepart").data(nameparts).enter().append("div").attr("class", "namepart").html(function(d) {
-          return d;
+        label.selectAll(".namepart").data(nameparts, (d) => d.stringId).enter().append("div").attr("class", "namepart").text("").each(function(d) {
+          d(select_default2(this));
         });
         wrap2.call(item.reference.button);
         selection2.call(item.reference.body);
@@ -62765,14 +63852,17 @@ ${content}</tr>
         if (!context.inIntro()) {
           _mainPresetIndex.setMostRecent(preset, entityGeometries()[0]);
         }
-        context.perform(function(graph) {
-          for (var i2 in _entityIDs) {
-            var entityID = _entityIDs[i2];
-            var oldPreset = _mainPresetIndex.match(graph.entity(entityID), graph);
-            graph = actionChangePreset(entityID, oldPreset, preset)(graph);
-          }
-          return graph;
-        }, _t("operations.change_tags.annotation"));
+        context.perform(
+          function(graph) {
+            for (var i2 in _entityIDs) {
+              var entityID = _entityIDs[i2];
+              var oldPreset = _mainPresetIndex.match(graph.entity(entityID), graph);
+              graph = actionChangePreset(entityID, oldPreset, preset)(graph);
+            }
+            return graph;
+          },
+          _t("operations.change_tags.annotation")
+        );
         context.validator().validate();
         dispatch10.call("choose", this, preset);
       };
@@ -62801,9 +63891,11 @@ ${content}</tr>
         select_default2(this).classed("disabled", isHiddenPreset);
         if (isHiddenPreset) {
           var isAutoHidden = context.features().autoHidden(hiddenPresetFeaturesId);
-          select_default2(this).call(uiTooltip().title(_t.html("inspector.hidden_preset." + (isAutoHidden ? "zoom" : "manual"), {
-            features: { html: _t.html("feature." + hiddenPresetFeaturesId + ".description") }
-          })).placement(index < 2 ? "bottom" : "top"));
+          select_default2(this).call(
+            uiTooltip().title(() => _t.append("inspector.hidden_preset." + (isAutoHidden ? "zoom" : "manual"), {
+              features: _t("feature." + hiddenPresetFeaturesId + ".description")
+            })).placement(index < 2 ? "bottom" : "top")
+          );
         }
       });
     }
@@ -62938,7 +64030,9 @@ ${content}</tr>
       }
       var footer = selection2.selectAll(".footer").data([0]);
       footer = footer.enter().append("div").attr("class", "footer").merge(footer);
-      footer.call(uiViewOnOSM(context).what(context.hasEntity(_entityIDs.length === 1 && _entityIDs[0])));
+      footer.call(
+        uiViewOnOSM(context).what(context.hasEntity(_entityIDs.length === 1 && _entityIDs[0]))
+      );
     }
     inspector.showList = function(presets) {
       presetPane.classed("hide", false);
@@ -63006,7 +64100,10 @@ ${content}</tr>
       }
     }
     function keepRightDetails(selection2) {
-      const details = selection2.selectAll(".error-details").data(_qaItem ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      const details = selection2.selectAll(".error-details").data(
+        _qaItem ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       details.exit().remove();
       const detailsEnter = details.enter().append("div").attr("class", "error-details qa-details-container");
       const descriptionEnter = detailsEnter.append("div").attr("class", "qa-details-subsection");
@@ -63044,13 +64141,13 @@ ${content}</tr>
           }
         });
         if (entity) {
-          let name2 = utilDisplayName(entity);
-          if (!name2 && !isObjectLink) {
+          let name = utilDisplayName(entity);
+          if (!name && !isObjectLink) {
             const preset = _mainPresetIndex.match(entity, context.graph());
-            name2 = preset && !preset.isFallback() && preset.name();
+            name = preset && !preset.isFallback() && preset.name();
           }
-          if (name2) {
-            this.innerText = name2;
+          if (name) {
+            this.innerText = name;
           }
         }
       });
@@ -63081,7 +64178,10 @@ ${content}</tr>
       }
     }
     function keepRightHeader(selection2) {
-      const header = selection2.selectAll(".qa-header").data(_qaItem ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      const header = selection2.selectAll(".qa-header").data(
+        _qaItem ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       header.exit().remove();
       const headerEnter = header.enter().append("div").attr("class", "qa-header");
       const iconEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d) => d.id < 0);
@@ -63139,7 +64239,10 @@ ${content}</tr>
     function keepRightSaveSection(selection2) {
       const isSelected = _qaItem && _qaItem.id === context.selectedErrorID();
       const isShown = _qaItem && (isSelected || _qaItem.newComment || _qaItem.comment);
-      let saveSection = selection2.selectAll(".qa-save").data(isShown ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      let saveSection = selection2.selectAll(".qa-save").data(
+        isShown ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       saveSection.exit().remove();
       const saveSectionEnter = saveSection.enter().append("div").attr("class", "qa-save save-section cf");
       saveSectionEnter.append("h4").attr("class", ".qa-save-header").call(_t.append("QA.keepRight.comment"));
@@ -63322,9 +64425,12 @@ ${content}</tr>
   function uiNoteHeader() {
     var _note;
     function noteHeader(selection2) {
-      var header = selection2.selectAll(".note-header").data(_note ? [_note] : [], function(d) {
-        return d.status + d.id;
-      });
+      var header = selection2.selectAll(".note-header").data(
+        _note ? [_note] : [],
+        function(d) {
+          return d.status + d.id;
+        }
+      );
       header.exit().remove();
       var headerEnter = header.enter().append("div").attr("class", "note-header");
       var iconEnter = headerEnter.append("div").attr("class", function(d) {
@@ -63623,10 +64729,12 @@ ${content}</tr>
 
   // modules/ui/sections/privacy.js
   function uiSectionPrivacy(context) {
-    let section = uiSection("preferences-third-party", context).label(_t.html("preferences.privacy.title")).disclosureContent(renderDisclosureContent);
+    let section = uiSection("preferences-third-party", context).label(() => _t.append("preferences.privacy.title")).disclosureContent(renderDisclosureContent);
     function renderDisclosureContent(selection2) {
       selection2.selectAll(".privacy-options-list").data([0]).enter().append("ul").attr("class", "layer-list privacy-options-list");
-      let thirdPartyIconsEnter = selection2.select(".privacy-options-list").selectAll(".privacy-third-party-icons-item").data([corePreferences("preferences.privacy.thirdpartyicons") || "true"]).enter().append("li").attr("class", "privacy-third-party-icons-item").append("label").call(uiTooltip().title(_t.html("preferences.privacy.third_party_icons.tooltip")).placement("bottom"));
+      let thirdPartyIconsEnter = selection2.select(".privacy-options-list").selectAll(".privacy-third-party-icons-item").data([corePreferences("preferences.privacy.thirdpartyicons") || "true"]).enter().append("li").attr("class", "privacy-third-party-icons-item").append("label").call(
+        uiTooltip().title(() => _t.append("preferences.privacy.third_party_icons.tooltip")).placement("bottom")
+      );
       thirdPartyIconsEnter.append("input").attr("type", "checkbox").on("change", (d3_event, d) => {
         d3_event.preventDefault();
         corePreferences("preferences.privacy.thirdpartyicons", d === "true" ? "false" : "true");
@@ -63670,7 +64778,7 @@ ${content}</tr>
         updateMessage,
         privacyLink: { html: '<a target="_blank" href="https://github.com/openstreetmap/iD/blob/release/PRIVACY.md">' + _t("splash.privacy_policy") + "</a>" }
       }));
-      uiSectionPrivacy(context).label(_t.html("splash.privacy_settings")).render(modalSection);
+      uiSectionPrivacy(context).label(() => _t.append("splash.privacy_settings")).render(modalSection);
       let buttonWrap = introModal.append("div").attr("class", "modal-actions");
       let walkthrough = buttonWrap.append("button").attr("class", "walkthrough").on("click", () => {
         context.container().call(uiIntro(context));
@@ -63736,7 +64844,9 @@ ${content}</tr>
   function simplify2(str2) {
     if (typeof str2 !== "string")
       return "";
-    return import_diacritics3.default.remove(str2.replace(/&/g, "and").replace(/İ/ig, "i").replace(/[\s\-=_!"#%'*{},.\/:;?\(\)\[\]@\\$\^*+<>«»~`’\u00a1\u00a7\u00b6\u00b7\u00bf\u037e\u0387\u055a-\u055f\u0589\u05c0\u05c3\u05c6\u05f3\u05f4\u0609\u060a\u060c\u060d\u061b\u061e\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0830-\u083e\u085e\u0964\u0965\u0970\u0af0\u0df4\u0e4f\u0e5a\u0e5b\u0f04-\u0f12\u0f14\u0f85\u0fd0-\u0fd4\u0fd9\u0fda\u104a-\u104f\u10fb\u1360-\u1368\u166d\u166e\u16eb-\u16ed\u1735\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u1805\u1807-\u180a\u1944\u1945\u1a1e\u1a1f\u1aa0-\u1aa6\u1aa8-\u1aad\u1b5a-\u1b60\u1bfc-\u1bff\u1c3b-\u1c3f\u1c7e\u1c7f\u1cc0-\u1cc7\u1cd3\u200b-\u200f\u2016\u2017\u2020-\u2027\u2030-\u2038\u203b-\u203e\u2041-\u2043\u2047-\u2051\u2053\u2055-\u205e\u2cf9-\u2cfc\u2cfe\u2cff\u2d70\u2e00\u2e01\u2e06-\u2e08\u2e0b\u2e0e-\u2e16\u2e18\u2e19\u2e1b\u2e1e\u2e1f\u2e2a-\u2e2e\u2e30-\u2e39\u3001-\u3003\u303d\u30fb\ua4fe\ua4ff\ua60d-\ua60f\ua673\ua67e\ua6f2-\ua6f7\ua874-\ua877\ua8ce\ua8cf\ua8f8-\ua8fa\ua92e\ua92f\ua95f\ua9c1-\ua9cd\ua9de\ua9df\uaa5c-\uaa5f\uaade\uaadf\uaaf0\uaaf1\uabeb\ufe10-\ufe16\ufe19\ufe30\ufe45\ufe46\ufe49-\ufe4c\ufe50-\ufe52\ufe54-\ufe57\ufe5f-\ufe61\ufe68\ufe6a\ufe6b\ufeff\uff01-\uff03\uff05-\uff07\uff0a\uff0c\uff0e\uff0f\uff1a\uff1b\uff1f\uff20\uff3c\uff61\uff64\uff65]+/g, "").toLowerCase());
+    return import_diacritics3.default.remove(
+      str2.replace(/&/g, "and").replace(/İ/ig, "i").replace(/[\s\-=_!"#%'*{},.\/:;?\(\)\[\]@\\$\^*+<>«»~`’\u00a1\u00a7\u00b6\u00b7\u00bf\u037e\u0387\u055a-\u055f\u0589\u05c0\u05c3\u05c6\u05f3\u05f4\u0609\u060a\u060c\u060d\u061b\u061e\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0830-\u083e\u085e\u0964\u0965\u0970\u0af0\u0df4\u0e4f\u0e5a\u0e5b\u0f04-\u0f12\u0f14\u0f85\u0fd0-\u0fd4\u0fd9\u0fda\u104a-\u104f\u10fb\u1360-\u1368\u166d\u166e\u16eb-\u16ed\u1735\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u1805\u1807-\u180a\u1944\u1945\u1a1e\u1a1f\u1aa0-\u1aa6\u1aa8-\u1aad\u1b5a-\u1b60\u1bfc-\u1bff\u1c3b-\u1c3f\u1c7e\u1c7f\u1cc0-\u1cc7\u1cd3\u200b-\u200f\u2016\u2017\u2020-\u2027\u2030-\u2038\u203b-\u203e\u2041-\u2043\u2047-\u2051\u2053\u2055-\u205e\u2cf9-\u2cfc\u2cfe\u2cff\u2d70\u2e00\u2e01\u2e06-\u2e08\u2e0b\u2e0e-\u2e16\u2e18\u2e19\u2e1b\u2e1e\u2e1f\u2e2a-\u2e2e\u2e30-\u2e39\u3001-\u3003\u303d\u30fb\ua4fe\ua4ff\ua60d-\ua60f\ua673\ua67e\ua6f2-\ua6f7\ua874-\ua877\ua8ce\ua8cf\ua8f8-\ua8fa\ua92e\ua92f\ua95f\ua9c1-\ua9cd\ua9de\ua9df\uaa5c-\uaa5f\uaade\uaadf\uaaf0\uaaf1\uabeb\ufe10-\ufe16\ufe19\ufe30\ufe45\ufe46\ufe49-\ufe4c\ufe50-\ufe52\ufe54-\ufe57\ufe5f-\ufe61\ufe68\ufe6a\ufe6b\ufeff\uff01-\uff03\uff05-\uff07\uff0a\uff0c\uff0e\uff0f\uff1a\uff1b\uff1f\uff20\uff3c\uff61\uff64\uff65]+/g, "").toLowerCase()
+    );
   }
 
   // node_modules/osm-community-index/lib/resolve_strings.js
@@ -63865,7 +64975,7 @@ ${content}</tr>
         raw += "Z";
       }
       const parsed = new Date(raw);
-      return new Date(parsed.toUTCString().substr(0, 25));
+      return new Date(parsed.toUTCString().slice(0, 25));
     }
     function success(selection2) {
       let header = selection2.append("div").attr("class", "header fillL");
@@ -63924,7 +65034,9 @@ ${content}</tr>
       selection2.append("div").attr("class", "community-name").html(d.resolved.nameHTML);
       selection2.append("div").attr("class", "community-description").html(d.resolved.descriptionHTML);
       if (d.resolved.extendedDescriptionHTML || d.languageCodes && d.languageCodes.length) {
-        selection2.append("div").call(uiDisclosure(context, `community-more-${d.id}`, false).expanded(false).updatePreference(false).label(_t.html("success.more")).content(showMore));
+        selection2.append("div").call(
+          uiDisclosure(context, `community-more-${d.id}`, false).expanded(false).updatePreference(false).label(() => _t.append("success.more")).content(showMore)
+        );
       }
       let nextEvents = (d.events || []).map((event) => {
         event.date = parseEventDate(event.when);
@@ -63937,7 +65049,9 @@ ${content}</tr>
         return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
       }).slice(0, MAXEVENTS);
       if (nextEvents.length) {
-        selection2.append("div").call(uiDisclosure(context, `community-events-${d.id}`, false).expanded(false).updatePreference(false).label(_t.html("success.events")).content(showNextEvents)).select(".hide-toggle").append("span").attr("class", "badge-text").text(nextEvents.length);
+        selection2.append("div").call(
+          uiDisclosure(context, `community-events-${d.id}`, false).expanded(false).updatePreference(false).label(_t.html("success.events")).content(showNextEvents)
+        ).select(".hide-toggle").append("span").attr("class", "badge-text").text(nextEvents.length);
       }
       function showMore(selection3) {
         let more = selection3.selectAll(".community-more").data([0]);
@@ -63955,11 +65069,11 @@ ${content}</tr>
         let item = events.selectAll(".community-event").data(nextEvents);
         let itemEnter = item.enter().append("div").attr("class", "community-event");
         itemEnter.append("div").attr("class", "community-event-name").append("a").attr("target", "_blank").attr("href", (d2) => d2.url).text((d2) => {
-          let name2 = d2.name;
+          let name = d2.name;
           if (d2.i18n && d2.id) {
-            name2 = _t(`community.${communityID}.events.${d2.id}.name`, { default: name2 });
+            name = _t(`community.${communityID}.events.${d2.id}.name`, { default: name });
           }
-          return name2;
+          return name;
         });
         itemEnter.append("div").attr("class", "community-event-when").text((d2) => {
           let options2 = { weekday: "short", day: "numeric", month: "short", year: "numeric" };
@@ -63977,11 +65091,11 @@ ${content}</tr>
           return where;
         });
         itemEnter.append("div").attr("class", "community-event-description").text((d2) => {
-          let description2 = d2.description;
+          let description = d2.description;
           if (d2.i18n && d2.id) {
-            description2 = _t(`community.${communityID}.events.${d2.id}.description`, { default: description2 });
+            description = _t(`community.${communityID}.events.${d2.id}.description`, { default: description });
           }
-          return description2;
+          return description;
         });
       }
     }
@@ -64021,7 +65135,9 @@ ${content}</tr>
     return function(selection2) {
       selection2.append("a").attr("target", "_blank").attr("href", "https://github.com/openstreetmap/iD").text(currVersion);
       if (isNewVersion && !isNewUser) {
-        selection2.append("a").attr("class", "badge").attr("target", "_blank").attr("href", "https://github.com/openstreetmap/iD/blob/release/CHANGELOG.md#whats-new").call(svgIcon("#maki-gift-11")).call(uiTooltip().title(_t.html("version.whats_new", { version: currVersion })).placement("top").scrollContainer(context.container().select(".main-footer-wrap")));
+        selection2.append("a").attr("class", "badge").attr("target", "_blank").attr("href", "https://github.com/openstreetmap/iD/blob/release/CHANGELOG.md#whats-new").call(svgIcon("#maki-gift")).call(
+          uiTooltip().title(() => _t.append("version.whats_new", { version: currVersion })).placement("top").scrollContainer(context.container().select(".main-footer-wrap"))
+        );
       }
     };
   }
@@ -64031,22 +65147,22 @@ ${content}</tr>
     var zooms = [{
       id: "zoom-in",
       icon: "iD-icon-plus",
-      title: _t.html("zoom.in"),
+      title: _t.append("zoom.in"),
       action: zoomIn,
       disabled: function() {
         return !context.map().canZoomIn();
       },
-      disabledTitle: _t.html("zoom.disabled.in"),
+      disabledTitle: _t.append("zoom.disabled.in"),
       key: "+"
     }, {
       id: "zoom-out",
       icon: "iD-icon-minus",
-      title: _t.html("zoom.out"),
+      title: _t.append("zoom.out"),
       action: zoomOut,
       disabled: function() {
         return !context.map().canZoomOut();
       },
-      disabledTitle: _t.html("zoom.disabled.out"),
+      disabledTitle: _t.append("zoom.disabled.out"),
       key: "-"
     }];
     function zoomIn(d3_event) {
@@ -64127,7 +65243,7 @@ ${content}</tr>
       var count = Object.keys(_tags).filter(function(d) {
         return d;
       }).length;
-      return _t.html("inspector.title_count", { title: { html: _t.html("inspector.tags") }, count });
+      return _t.append("inspector.title_count", { title: _t("inspector.tags"), count });
     }).expandedByDefault(false).disclosureContent(renderDisclosureContent);
     var taginfo = services.taginfo;
     var dispatch10 = dispatch_default("change");
@@ -64196,7 +65312,7 @@ ${content}</tr>
       var list = wrap2.selectAll(".tag-list").data([0]);
       list = list.enter().append("ul").attr("class", "tag-list" + (_tagView !== "list" ? " hide" : "")).merge(list);
       var addRowEnter = wrap2.selectAll(".add-row").data([0]).enter().append("div").attr("class", "add-row" + (_tagView !== "list" ? " hide" : ""));
-      addRowEnter.append("button").attr("class", "add-tag").attr("aria-label", _t("inspector.add_to_tag")).call(svgIcon("#iD-icon-plus", "light")).call(uiTooltip().title(_t.html("inspector.add_to_tag")).placement(_mainLocalizer.textDirection() === "ltr" ? "right" : "left")).on("click", addTag);
+      addRowEnter.append("button").attr("class", "add-tag").attr("aria-label", _t("inspector.add_to_tag")).call(svgIcon("#iD-icon-plus", "light")).call(uiTooltip().title(() => _t.append("inspector.add_to_tag")).placement(_mainLocalizer.textDirection() === "ltr" ? "right" : "left")).on("click", addTag);
       addRowEnter.append("div").attr("class", "space-value");
       addRowEnter.append("div").attr("class", "space-buttons");
       var items = list.selectAll(".tag-row").data(rowData, function(d) {
@@ -64540,7 +65656,9 @@ ${content}</tr>
       var editor = body.selectAll(".data-editor").data([0]);
       editor.enter().append("div").attr("class", "modal-section data-editor").merge(editor).call(dataHeader.datum(_datum));
       var rte = body.selectAll(".raw-tag-editor").data([0]);
-      rte.enter().append("div").attr("class", "raw-tag-editor data-editor").merge(rte).call(rawTagEditor.tags(_datum && _datum.properties || {}).state("hover").render).selectAll("textarea.tag-text").attr("readonly", true).classed("readonly", true);
+      rte.enter().append("div").attr("class", "raw-tag-editor data-editor").merge(rte).call(
+        rawTagEditor.tags(_datum && _datum.properties || {}).state("hover").render
+      ).selectAll("textarea.tag-text").attr("readonly", true).classed("readonly", true);
     }
     dataEditor.datum = function(val) {
       if (!arguments.length)
@@ -64561,7 +65679,10 @@ ${content}</tr>
       return type3 in s ? s[type3] : "";
     }
     function osmoseDetails(selection2) {
-      const details = selection2.selectAll(".error-details").data(_qaItem ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      const details = selection2.selectAll(".error-details").data(
+        _qaItem ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       details.exit().remove();
       const detailsEnter = details.enter().append("div").attr("class", "error-details qa-details-container");
       if (issueString(_qaItem, "detail")) {
@@ -64621,13 +65742,13 @@ ${content}</tr>
             }
           });
           if (entity) {
-            let name2 = utilDisplayName(entity);
-            if (!name2) {
+            let name = utilDisplayName(entity);
+            if (!name) {
               const preset = _mainPresetIndex.match(entity, context.graph());
-              name2 = preset && !preset.isFallback() && preset.name();
+              name = preset && !preset.isFallback() && preset.name();
             }
-            if (name2) {
-              this.innerText = name2;
+            if (name) {
+              this.innerText = name;
             }
           }
         });
@@ -64657,7 +65778,10 @@ ${content}</tr>
       return "title" in s ? s.title : unknown;
     }
     function osmoseHeader(selection2) {
-      const header = selection2.selectAll(".qa-header").data(_qaItem ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      const header = selection2.selectAll(".qa-header").data(
+        _qaItem ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       header.exit().remove();
       const headerEnter = header.enter().append("div").attr("class", "qa-header");
       const svgEnter = headerEnter.append("div").attr("class", "qa-header-icon").classed("new", (d) => d.id < 0).append("svg").attr("width", "20px").attr("height", "30px").attr("viewbox", "0 0 20 30").attr("class", (d) => `preset-icon-28 qaItem ${d.service} itemId-${d.id} itemType-${d.itemType}`);
@@ -64717,7 +65841,10 @@ ${content}</tr>
     function osmoseSaveSection(selection2) {
       const isSelected = _qaItem && _qaItem.id === context.selectedErrorID();
       const isShown = _qaItem && isSelected;
-      let saveSection = selection2.selectAll(".qa-save").data(isShown ? [_qaItem] : [], (d) => `${d.id}-${d.status || 0}`);
+      let saveSection = selection2.selectAll(".qa-save").data(
+        isShown ? [_qaItem] : [],
+        (d) => `${d.id}-${d.status || 0}`
+      );
       saveSection.exit().remove();
       const saveSectionEnter = saveSection.enter().append("div").attr("class", "qa-save save-section cf");
       saveSection = saveSectionEnter.merge(saveSection).call(qaSaveButtons);
@@ -65034,7 +66161,7 @@ ${content}</tr>
       id: "draw-area"
     };
     var behavior = behaviorDrawWay(context, wayID, mode, startGraph).on("rejectedSelfIntersection.modeDrawArea", function() {
-      context.ui().flash.iconName("#iD-icon-no").label(_t.html("self_intersection.error.areas"))();
+      context.ui().flash.iconName("#iD-icon-no").label(_t.append("self_intersection.error.areas"))();
     });
     mode.wayID = wayID;
     mode.enter = function() {
@@ -65068,20 +66195,35 @@ ${content}</tr>
       var startGraph = context.graph();
       var node = osmNode({ loc });
       var way = osmWay({ tags: defaultTags });
-      context.perform(actionAddEntity(node), actionAddEntity(way), actionAddVertex(way.id, node.id), actionClose(way.id));
+      context.perform(
+        actionAddEntity(node),
+        actionAddEntity(way),
+        actionAddVertex(way.id, node.id),
+        actionClose(way.id)
+      );
       context.enter(modeDrawArea(context, way.id, startGraph, mode.button));
     }
     function startFromWay(loc, edge) {
       var startGraph = context.graph();
       var node = osmNode({ loc });
       var way = osmWay({ tags: defaultTags });
-      context.perform(actionAddEntity(node), actionAddEntity(way), actionAddVertex(way.id, node.id), actionClose(way.id), actionAddMidpoint({ loc, edge }, node));
+      context.perform(
+        actionAddEntity(node),
+        actionAddEntity(way),
+        actionAddVertex(way.id, node.id),
+        actionClose(way.id),
+        actionAddMidpoint({ loc, edge }, node)
+      );
       context.enter(modeDrawArea(context, way.id, startGraph, mode.button));
     }
     function startFromNode(node) {
       var startGraph = context.graph();
       var way = osmWay({ tags: defaultTags });
-      context.perform(actionAddEntity(way), actionAddVertex(way.id, node.id), actionClose(way.id));
+      context.perform(
+        actionAddEntity(way),
+        actionAddVertex(way.id, node.id),
+        actionClose(way.id)
+      );
       context.enter(modeDrawArea(context, way.id, startGraph, mode.button));
     }
     mode.enter = function() {
@@ -65104,20 +66246,32 @@ ${content}</tr>
       var startGraph = context.graph();
       var node = osmNode({ loc });
       var way = osmWay({ tags: defaultTags });
-      context.perform(actionAddEntity(node), actionAddEntity(way), actionAddVertex(way.id, node.id));
+      context.perform(
+        actionAddEntity(node),
+        actionAddEntity(way),
+        actionAddVertex(way.id, node.id)
+      );
       context.enter(modeDrawLine(context, way.id, startGraph, mode.button));
     }
     function startFromWay(loc, edge) {
       var startGraph = context.graph();
       var node = osmNode({ loc });
       var way = osmWay({ tags: defaultTags });
-      context.perform(actionAddEntity(node), actionAddEntity(way), actionAddVertex(way.id, node.id), actionAddMidpoint({ loc, edge }, node));
+      context.perform(
+        actionAddEntity(node),
+        actionAddEntity(way),
+        actionAddVertex(way.id, node.id),
+        actionAddMidpoint({ loc, edge }, node)
+      );
       context.enter(modeDrawLine(context, way.id, startGraph, mode.button));
     }
     function startFromNode(node) {
       var startGraph = context.graph();
       var way = osmWay({ tags: defaultTags });
-      context.perform(actionAddEntity(way), actionAddVertex(way.id, node.id));
+      context.perform(
+        actionAddEntity(way),
+        actionAddVertex(way.id, node.id)
+      );
       context.enter(modeDrawLine(context, way.id, startGraph, mode.button));
     }
     mode.enter = function() {
@@ -65138,16 +66292,24 @@ ${content}</tr>
       defaultTags = mode.preset.setTags(defaultTags, "point");
     function add(loc) {
       var node = osmNode({ loc, tags: defaultTags });
-      context.perform(actionAddEntity(node), _t("operations.add.annotation.point"));
+      context.perform(
+        actionAddEntity(node),
+        _t("operations.add.annotation.point")
+      );
       enterSelectMode(node);
     }
     function addWay(loc, edge) {
       var node = osmNode({ tags: defaultTags });
-      context.perform(actionAddMidpoint({ loc, edge }, node), _t("operations.add.annotation.vertex"));
+      context.perform(
+        actionAddMidpoint({ loc, edge }, node),
+        _t("operations.add.annotation.vertex")
+      );
       enterSelectMode(node);
     }
     function enterSelectMode(node) {
-      context.enter(modeSelect(context, [node.id]).newFeature(true));
+      context.enter(
+        modeSelect(context, [node.id]).newFeature(true)
+      );
     }
     function addNode(node) {
       if (Object.keys(defaultTags).length === 0) {
@@ -65158,7 +66320,10 @@ ${content}</tr>
       for (var key in defaultTags) {
         tags[key] = defaultTags[key];
       }
-      context.perform(actionChangeTags(node.id, tags), _t("operations.add.annotation.point"));
+      context.perform(
+        actionChangeTags(node.id, tags),
+        _t("operations.add.annotation.point")
+      );
       enterSelectMode(node);
     }
     function cancel() {
@@ -65267,7 +66432,7 @@ ${content}</tr>
     var mode = {
       id: "add-note",
       button: "note",
-      description: _t.html("modes.add_note.description"),
+      description: _t.append("modes.add_note.description"),
       key: _t("modes.add_note.key")
     };
     var behavior = behaviorDraw(context).on("click", add).on("cancel", cancel).on("finish", cancel);
@@ -65382,7 +66547,10 @@ ${content}</tr>
         var place = addr && (addr.town || addr.city || addr.county) || "";
         var region = addr && (addr.state || addr.country) || "";
         var separator = place && region ? _t("success.thank_you_where.separator") : "";
-        _location = _t("success.thank_you_where.format", { place, separator, region });
+        _location = _t(
+          "success.thank_you_where.format",
+          { place, separator, region }
+        );
       });
     }
     mode.selectedIDs = function() {
@@ -65530,27 +66698,27 @@ ${content}</tr>
   function uiToolDrawModes(context) {
     var tool = {
       id: "old_modes",
-      label: _t.html("toolbar.add_feature")
+      label: _t.append("toolbar.add_feature")
     };
     var modes = [
       modeAddPoint(context, {
-        title: _t.html("modes.add_point.title"),
+        title: _t.append("modes.add_point.title"),
         button: "point",
-        description: _t.html("modes.add_point.description"),
+        description: _t.append("modes.add_point.description"),
         preset: _mainPresetIndex.item("point"),
         key: "1"
       }),
       modeAddLine(context, {
-        title: _t.html("modes.add_line.title"),
+        title: _t.append("modes.add_line.title"),
         button: "line",
-        description: _t.html("modes.add_line.description"),
+        description: _t.append("modes.add_line.description"),
         preset: _mainPresetIndex.item("line"),
         key: "2"
       }),
       modeAddArea(context, {
-        title: _t.html("modes.add_area.title"),
+        title: _t.append("modes.add_area.title"),
         button: "area",
-        description: _t.html("modes.add_area.description"),
+        description: _t.append("modes.add_area.description"),
         preset: _mainPresetIndex.item("area"),
         key: "3"
       })
@@ -65596,16 +66764,18 @@ ${content}</tr>
           } else {
             context.enter(d);
           }
-        }).call(uiTooltip().placement("bottom").title(function(d) {
-          return d.description;
-        }).keys(function(d) {
-          return [d.key];
-        }).scrollContainer(context.container().select(".top-toolbar")));
+        }).call(
+          uiTooltip().placement("bottom").title(function(d) {
+            return d.description;
+          }).keys(function(d) {
+            return [d.key];
+          }).scrollContainer(context.container().select(".top-toolbar"))
+        );
         buttonsEnter.each(function(d) {
           select_default2(this).call(svgIcon("#iD-icon-" + d.button));
         });
-        buttonsEnter.append("span").attr("class", "label").html(function(mode) {
-          return mode.title;
+        buttonsEnter.append("span").attr("class", "label").text("").each(function(mode) {
+          mode.title(select_default2(this));
         });
         if (buttons.enter().size() || buttons.exit().size()) {
           context.ui().checkOverflow(".top-toolbar", true);
@@ -65628,7 +66798,7 @@ ${content}</tr>
   function uiToolNotes(context) {
     var tool = {
       id: "notes",
-      label: _t.html("modes.add_note.label")
+      label: _t.append("modes.add_note.label")
     };
     var mode = modeAddNote(context);
     function enabled() {
@@ -65676,11 +66846,13 @@ ${content}</tr>
           } else {
             context.enter(d);
           }
-        }).call(uiTooltip().placement("bottom").title(function(d) {
-          return d.description;
-        }).keys(function(d) {
-          return [d.key];
-        }).scrollContainer(context.container().select(".top-toolbar")));
+        }).call(
+          uiTooltip().placement("bottom").title(function(d) {
+            return d.description;
+          }).keys(function(d) {
+            return [d.key];
+          }).scrollContainer(context.container().select(".top-toolbar"))
+        );
         buttonsEnter.each(function(d) {
           select_default2(this).call(svgIcon(d.icon || "#iD-icon-" + d.button));
         });
@@ -65709,7 +66881,7 @@ ${content}</tr>
   function uiToolSave(context) {
     var tool = {
       id: "save",
-      label: _t.html("save.title")
+      label: _t.append("save.title")
     };
     var button = null;
     var tooltipBehavior = null;
@@ -65747,7 +66919,7 @@ ${content}</tr>
         return;
       _numChanges = val;
       if (tooltipBehavior) {
-        tooltipBehavior.title(_t.html(_numChanges > 0 ? "save.help" : "save.no_changes")).keys([key]);
+        tooltipBehavior.title(() => _t.append(_numChanges > 0 ? "save.help" : "save.no_changes")).keys([key]);
       }
       if (button) {
         button.classed("disabled", isDisabled()).style("background", bgColor(_numChanges));
@@ -65755,14 +66927,14 @@ ${content}</tr>
       }
     }
     tool.render = function(selection2) {
-      tooltipBehavior = uiTooltip().placement("bottom").title(_t.html("save.no_changes")).keys([key]).scrollContainer(context.container().select(".top-toolbar"));
+      tooltipBehavior = uiTooltip().placement("bottom").title(() => _t.append("save.no_changes")).keys([key]).scrollContainer(context.container().select(".top-toolbar"));
       var lastPointerUpType;
       button = selection2.append("button").attr("class", "save disabled bar-button").on("pointerup", function(d3_event) {
         lastPointerUpType = d3_event.pointerType;
       }).on("click", function(d3_event) {
         save(d3_event);
         if (_numChanges === 0 && (lastPointerUpType === "touch" || lastPointerUpType === "pen")) {
-          context.ui().flash.duration(2e3).iconName("#iD-icon-save").iconClass("disabled").label(_t.html("save.no_changes"))();
+          context.ui().flash.duration(2e3).iconName("#iD-icon-save").iconClass("disabled").label(_t.append("save.no_changes"))();
         }
         lastPointerUpType = null;
       }).call(tooltipBehavior);
@@ -65794,12 +66966,14 @@ ${content}</tr>
   function uiToolSidebarToggle(context) {
     var tool = {
       id: "sidebar_toggle",
-      label: _t.html("toolbar.inspect")
+      label: _t.append("toolbar.inspect")
     };
     tool.render = function(selection2) {
       selection2.append("button").attr("class", "bar-button").attr("aria-label", _t("sidebar.tooltip")).on("click", function() {
         context.ui().sidebar.toggle();
-      }).call(uiTooltip().placement("bottom").title(_t.html("sidebar.tooltip")).keys([_t("sidebar.key")]).scrollContainer(context.container().select(".top-toolbar"))).call(svgIcon("#iD-icon-sidebar-" + (_mainLocalizer.textDirection() === "rtl" ? "right" : "left")));
+      }).call(
+        uiTooltip().placement("bottom").title(() => _t.append("sidebar.tooltip")).keys([_t("sidebar.key")]).scrollContainer(context.container().select(".top-toolbar"))
+      ).call(svgIcon("#iD-icon-sidebar-" + (_mainLocalizer.textDirection() === "rtl" ? "right" : "left")));
     };
     return tool;
   }
@@ -65808,7 +66982,7 @@ ${content}</tr>
   function uiToolUndoRedo(context) {
     var tool = {
       id: "undo_redo",
-      label: _t.html("toolbar.undo_redo")
+      label: _t.append("toolbar.undo_redo")
     };
     var commands = [{
       id: "undo",
@@ -65836,7 +67010,7 @@ ${content}</tr>
     }
     tool.render = function(selection2) {
       var tooltipBehavior = uiTooltip().placement("bottom").title(function(d) {
-        return d.annotation() ? _t.html(d.id + ".tooltip", { action: d.annotation() }) : _t.html(d.id + ".nothing");
+        return d.annotation() ? _t.append(d.id + ".tooltip", { action: d.annotation() }) : _t.append(d.id + ".nothing");
       }).keys(function(d) {
         return [d.cmd];
       }).scrollContainer(context.container().select(".top-toolbar"));
@@ -65852,8 +67026,8 @@ ${content}</tr>
           d.action();
         }
         if (editable() && (lastPointerUpType === "touch" || lastPointerUpType === "pen")) {
-          var text2 = annotation ? _t.html(d.id + ".tooltip", { action: annotation }) : _t.html(d.id + ".nothing");
-          context.ui().flash.duration(2e3).iconName("#" + d.icon).iconClass(annotation ? "" : "disabled").label(text2)();
+          var label = annotation ? _t.append(d.id + ".tooltip", { action: annotation }) : _t.append(d.id + ".nothing");
+          context.ui().flash.duration(2e3).iconName("#" + d.icon).iconClass(annotation ? "" : "disabled").label(label)();
         }
         lastPointerUpType = null;
       }).call(tooltipBehavior);
@@ -65943,8 +67117,8 @@ ${content}</tr>
         actionableItems.append("div").attr("class", "item-content").each(function(d) {
           select_default2(this).call(d.render, bar);
         });
-        actionableItems.append("div").attr("class", "item-label").html(function(d) {
-          return d.label;
+        actionableItems.append("div").attr("class", "item-label").each(function(d) {
+          d.label(select_default2(this));
         });
       }
     }
@@ -65965,7 +67139,7 @@ ${content}</tr>
       d3_event.preventDefault();
       if (isDisabled()) {
         if (_lastPointerUpType === "touch" || _lastPointerUpType === "pen") {
-          context.ui().flash.duration(2e3).iconName("#iD-icon-framed-dot").iconClass("disabled").label(_t.html("inspector.zoom_to.no_selection"))();
+          context.ui().flash.duration(2e3).iconName("#iD-icon-framed-dot").iconClass("disabled").label(_t.append("inspector.zoom_to.no_selection"))();
         }
       } else {
         var mode = context.mode();
@@ -65978,9 +67152,9 @@ ${content}</tr>
     return function(selection2) {
       var tooltipBehavior = uiTooltip().placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left").title(function() {
         if (isDisabled()) {
-          return _t.html("inspector.zoom_to.no_selection");
+          return _t.append("inspector.zoom_to.no_selection");
         }
-        return _t.html("inspector.zoom_to.title");
+        return _t.append("inspector.zoom_to.title");
       }).keys([_t("inspector.zoom_to.key")]);
       var button = selection2.append("button").on("pointerup", pointerup).on("click", click).call(svgIcon("#iD-icon-framed-dot", "light")).call(tooltipBehavior);
       function setEnabledState() {
@@ -66050,7 +67224,7 @@ ${content}</tr>
     };
     pane.renderToggleButton = function(selection2) {
       if (!_paneTooltip) {
-        _paneTooltip = uiTooltip().placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left").title(_description).keys([_key]);
+        _paneTooltip = uiTooltip().placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left").title(() => _description).keys([_key]);
       }
       selection2.append("button").on("click", pane.togglePane).call(svgIcon("#" + _iconName, "light")).call(_paneTooltip);
     };
@@ -66064,7 +67238,7 @@ ${content}</tr>
     pane.renderPane = function(selection2) {
       _paneSelection = selection2.append("div").attr("class", "fillL map-pane hide " + id2 + "-pane").attr("pane", id2);
       var heading = _paneSelection.append("div").attr("class", "pane-heading");
-      heading.append("h2").html(_label);
+      heading.append("h2").text("").call(_label);
       heading.append("button").attr("title", _t("icons.close")).on("click", hidePane).call(svgIcon("#iD-icon-close"));
       _paneSelection.append("div").attr("class", "pane-content").call(pane.renderContent);
       if (_key) {
@@ -66076,7 +67250,7 @@ ${content}</tr>
 
   // modules/ui/sections/background_display_options.js
   function uiSectionBackgroundDisplayOptions(context) {
-    var section = uiSection("background-display-options", context).label(_t.html("background.display_options")).disclosureContent(renderDisclosureContent);
+    var section = uiSection("background-display-options", context).label(() => _t.append("background.display_options")).disclosureContent(renderDisclosureContent);
     var _storedOpacity = corePreferences("background-opacity");
     var _minVal = 0;
     var _maxVal = 3;
@@ -66215,7 +67389,7 @@ ${content}</tr>
     var _backgroundList = select_default2(null);
     var _customSource = context.background().findSource("custom");
     var _settingsCustomBackground = uiSettingsCustomBackground(context).on("change", customChanged);
-    var section = uiSection("background-list", context).label(_t.html("background.backgrounds")).disclosureContent(renderDisclosureContent);
+    var section = uiSection("background-list", context).label(() => _t.append("background.backgrounds")).disclosureContent(renderDisclosureContent);
     function previousBackgroundID() {
       return corePreferences("background-last-used-toggle");
     }
@@ -66223,19 +67397,25 @@ ${content}</tr>
       var container = selection2.selectAll(".layer-background-list").data([0]);
       _backgroundList = container.enter().append("ul").attr("class", "layer-list layer-background-list").attr("dir", "auto").merge(container);
       var bgExtrasListEnter = selection2.selectAll(".bg-extras-list").data([0]).enter().append("ul").attr("class", "layer-list bg-extras-list");
-      var minimapLabelEnter = bgExtrasListEnter.append("li").attr("class", "minimap-toggle-item").append("label").call(uiTooltip().title(_t.html("background.minimap.tooltip")).keys([_t("background.minimap.key")]).placement("top"));
+      var minimapLabelEnter = bgExtrasListEnter.append("li").attr("class", "minimap-toggle-item").append("label").call(
+        uiTooltip().title(() => _t.append("background.minimap.tooltip")).keys([_t("background.minimap.key")]).placement("top")
+      );
       minimapLabelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event) {
         d3_event.preventDefault();
         uiMapInMap.toggle();
       });
       minimapLabelEnter.append("span").call(_t.append("background.minimap.description"));
-      var panelLabelEnter = bgExtrasListEnter.append("li").attr("class", "background-panel-toggle-item").append("label").call(uiTooltip().title(_t.html("background.panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.background.key"))]).placement("top"));
+      var panelLabelEnter = bgExtrasListEnter.append("li").attr("class", "background-panel-toggle-item").append("label").call(
+        uiTooltip().title(() => _t.append("background.panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.background.key"))]).placement("top")
+      );
       panelLabelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event) {
         d3_event.preventDefault();
         context.ui().info.toggle("background");
       });
       panelLabelEnter.append("span").call(_t.append("background.panel.description"));
-      var locPanelLabelEnter = bgExtrasListEnter.append("li").attr("class", "location-panel-toggle-item").append("label").call(uiTooltip().title(_t.html("background.location_panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.location.key"))]).placement("top"));
+      var locPanelLabelEnter = bgExtrasListEnter.append("li").attr("class", "location-panel-toggle-item").append("label").call(
+        uiTooltip().title(() => _t.append("background.location_panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.location.key"))]).placement("top")
+      );
       locPanelLabelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event) {
         d3_event.preventDefault();
         context.ui().info.toggle("location");
@@ -66253,13 +67433,17 @@ ${content}</tr>
         var item = select_default2(this).select("label");
         var span = item.select("span");
         var placement = i2 < nodes.length / 2 ? "bottom" : "top";
-        var description2 = d.description();
+        var description = d.description();
         var isOverflowing = span.property("clientWidth") !== span.property("scrollWidth");
         item.call(uiTooltip().destroyAny);
         if (d.id === previousBackgroundID()) {
-          item.call(uiTooltip().placement(placement).title("<div>" + _t.html("background.switch") + "</div>").keys([uiCmd("\u2318" + _t("background.key"))]));
-        } else if (description2 || isOverflowing) {
-          item.call(uiTooltip().placement(placement).title(description2 || d.label()));
+          item.call(
+            uiTooltip().placement(placement).title(() => _t.append("background.switch")).keys([uiCmd("\u2318" + _t("background.key"))])
+          );
+        } else if (description || isOverflowing) {
+          item.call(
+            uiTooltip().placement(placement).title(() => description || d.label())
+          );
         }
       });
     }
@@ -66280,18 +67464,22 @@ ${content}</tr>
       label.append("input").attr("type", type3).attr("name", "background-layer").attr("value", function(d) {
         return d.id;
       }).on("change", change);
-      label.append("span").html(function(d) {
-        return d.label();
+      label.append("span").each(function(d) {
+        d.label()(select_default2(this));
       });
       enter.filter(function(d) {
         return d.id === "custom";
-      }).append("button").attr("class", "layer-browse").call(uiTooltip().title(_t.html("settings.custom_background.tooltip")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")).on("click", function(d3_event) {
+      }).append("button").attr("class", "layer-browse").call(
+        uiTooltip().title(() => _t.append("settings.custom_background.tooltip")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")
+      ).on("click", function(d3_event) {
         d3_event.preventDefault();
         editCustom();
       }).call(svgIcon("#iD-icon-more"));
       enter.filter(function(d) {
         return d.best();
-      }).append("div").attr("class", "best").call(uiTooltip().title(_t.html("background.best_imagery")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")).append("span").html("&#9733;");
+      }).append("div").attr("class", "best").call(
+        uiTooltip().title(() => _t.append("background.best_imagery")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")
+      ).append("span").text("\u2605");
       layerList.call(updateLayerSelections);
     }
     function updateLayerSelections(selection2) {
@@ -66326,15 +67514,18 @@ ${content}</tr>
     context.background().on("change.background_list", function() {
       _backgroundList.call(updateLayerSelections);
     });
-    context.map().on("move.background_list", debounce_default(function() {
-      window.requestIdleCallback(section.reRender);
-    }, 1e3));
+    context.map().on(
+      "move.background_list",
+      debounce_default(function() {
+        window.requestIdleCallback(section.reRender);
+      }, 1e3)
+    );
     return section;
   }
 
   // modules/ui/sections/background_offset.js
   function uiSectionBackgroundOffset(context) {
-    var section = uiSection("background-offset", context).label(_t.html("background.fix_misalignment")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
+    var section = uiSection("background-offset", context).label(() => _t.append("background.fix_misalignment")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
     var _pointerPrefix = "PointerEvent" in window ? "pointer" : "mouse";
     var _directions = [
       ["top", [0, -0.5]],
@@ -66430,18 +67621,20 @@ ${content}</tr>
 
   // modules/ui/sections/overlay_list.js
   function uiSectionOverlayList(context) {
-    var section = uiSection("overlay-list", context).label(_t.html("background.overlays")).disclosureContent(renderDisclosureContent);
+    var section = uiSection("overlay-list", context).label(() => _t.append("background.overlays")).disclosureContent(renderDisclosureContent);
     var _overlayList = select_default2(null);
     function setTooltips(selection2) {
       selection2.each(function(d, i2, nodes) {
         var item = select_default2(this).select("label");
         var span = item.select("span");
         var placement = i2 < nodes.length / 2 ? "bottom" : "top";
-        var description2 = d.description();
+        var description = d.description();
         var isOverflowing = span.property("clientWidth") !== span.property("scrollWidth");
         item.call(uiTooltip().destroyAny);
-        if (description2 || isOverflowing) {
-          item.call(uiTooltip().placement(placement).title(description2 || d.name()));
+        if (description || isOverflowing) {
+          item.call(
+            uiTooltip().placement(placement).title(() => description || d.name())
+          );
         }
       });
     }
@@ -66466,8 +67659,8 @@ ${content}</tr>
       var enter = layerLinks.enter().append("li");
       var label = enter.append("label");
       label.append("input").attr("type", type3).attr("name", "layers").on("change", change);
-      label.append("span").html(function(d) {
-        return d.label();
+      label.append("span").each(function(d) {
+        d.label()(select_default2(this));
       });
       layerList.selectAll("li").sort(sortSources);
       layerList.call(updateLayerSelections);
@@ -66482,15 +67675,18 @@ ${content}</tr>
         return !d.isHidden() && d.overlay;
       });
     }
-    context.map().on("move.overlay_list", debounce_default(function() {
-      window.requestIdleCallback(section.reRender);
-    }, 1e3));
+    context.map().on(
+      "move.overlay_list",
+      debounce_default(function() {
+        window.requestIdleCallback(section.reRender);
+      }, 1e3)
+    );
     return section;
   }
 
   // modules/ui/panes/background.js
   function uiPaneBackground(context) {
-    var backgroundPane = uiPane("background", context).key(_t("background.key")).label(_t.html("background.title")).description(_t.html("background.description")).iconName("iD-icon-layers").sections([
+    var backgroundPane = uiPane("background", context).key(_t("background.key")).label(_t.append("background.title")).description(_t.append("background.description")).iconName("iD-icon-layers").sections([
       uiSectionBackgroundList(context),
       uiSectionOverlayList(context),
       uiSectionBackgroundDisplayOptions(context),
@@ -66755,7 +67951,7 @@ ${content}</tr>
         content: marked(text2.trim()).replace(/<code>/g, "<kbd>").replace(/<\/code>/g, "</kbd>")
       };
     });
-    var helpPane = uiPane("help", context).key(_t("help.key")).label(_t.html("help.title")).description(_t.html("help.title")).iconName("iD-icon-help");
+    var helpPane = uiPane("help", context).key(_t("help.key")).label(_t.append("help.title")).description(_t.append("help.title")).iconName("iD-icon-help");
     helpPane.renderContent = function(content) {
       function clickHelp(d, i2) {
         var rtl = _mainLocalizer.textDirection() === "rtl";
@@ -66809,7 +68005,9 @@ ${content}</tr>
         d3_event.preventDefault();
         clickHelp(d, docs.indexOf(d));
       });
-      var shortcuts = toc.append("li").attr("class", "shortcuts").call(uiTooltip().title(_t.html("shortcuts.tooltip")).keys(["?"]).placement("top")).append("a").attr("href", "#").on("click", clickShortcuts);
+      var shortcuts = toc.append("li").attr("class", "shortcuts").call(
+        uiTooltip().title(() => _t.append("shortcuts.tooltip")).keys(["?"]).placement("top")
+      ).append("a").attr("href", "#").on("click", clickShortcuts);
       shortcuts.append("div").call(_t.append("shortcuts.title"));
       var walkthrough = toc.append("li").attr("class", "walkthrough").append("a").attr("href", "#").on("click", clickWalkthrough);
       walkthrough.append("svg").attr("class", "logo logo-walkthrough").append("use").attr("xlink:href", "#iD-logo-walkthrough");
@@ -66829,7 +68027,7 @@ ${content}</tr>
       if (!_issues)
         return "";
       var issueCountText = _issues.length > 1e3 ? "1000+" : String(_issues.length);
-      return _t.html("inspector.title_count", { title: { html: _t.html("issues." + severity + "s.list_title") }, count: issueCountText });
+      return _t.append("inspector.title_count", { title: _t("issues." + severity + "s.list_title"), count: issueCountText });
     }).disclosureContent(renderDisclosureContent).shouldDisplay(function() {
       return _issues && _issues.length;
     });
@@ -66879,8 +68077,8 @@ ${content}</tr>
       });
       textEnter.append("span").attr("class", "issue-message");
       items = items.merge(itemsEnter).order();
-      items.selectAll(".issue-message").html(function(d) {
-        return d.message(context);
+      items.selectAll(".issue-message").text("").each(function(d) {
+        return d.message(context)(select_default2(this));
       });
     }
     context.validator().on("validated.uiSectionValidationIssues" + id2, function() {
@@ -66889,14 +68087,17 @@ ${content}</tr>
         section.reRender();
       });
     });
-    context.map().on("move.uiSectionValidationIssues" + id2, debounce_default(function() {
-      window.requestIdleCallback(function() {
-        if (getOptions().where === "visible") {
-          reloadIssues();
-        }
-        section.reRender();
-      });
-    }, 1e3));
+    context.map().on(
+      "move.uiSectionValidationIssues" + id2,
+      debounce_default(function() {
+        window.requestIdleCallback(function() {
+          if (getOptions().where === "visible") {
+            reloadIssues();
+          }
+          section.reRender();
+        });
+      }, 1e3)
+    );
     return section;
   }
 
@@ -66958,7 +68159,7 @@ ${content}</tr>
     var MINSQUARE = 0;
     var MAXSQUARE = 20;
     var DEFAULTSQUARE = 5;
-    var section = uiSection("issues-rules", context).disclosureContent(renderDisclosureContent).label(_t.html("issues.rules.title"));
+    var section = uiSection("issues-rules", context).disclosureContent(renderDisclosureContent).label(() => _t.append("issues.rules.title"));
     var _ruleKeys = context.validator().getRuleKeys().filter(function(key) {
       return key !== "maprules";
     }).sort(function(key1, key2) {
@@ -66980,17 +68181,19 @@ ${content}</tr>
       container = container.merge(containerEnter);
       container.selectAll(".issue-rules-list").call(drawListItems, _ruleKeys, "checkbox", "rule", toggleRule, isRuleEnabled);
     }
-    function drawListItems(selection2, data, type3, name2, change, active) {
+    function drawListItems(selection2, data, type3, name, change, active) {
       var items = selection2.selectAll("li").data(data);
       items.exit().remove();
       var enter = items.enter().append("li");
-      if (name2 === "rule") {
-        enter.call(uiTooltip().title(function(d) {
-          return _t.html("issues." + d + ".tip");
-        }).placement("top"));
+      if (name === "rule") {
+        enter.call(
+          uiTooltip().title(function(d) {
+            return _t.append("issues." + d + ".tip");
+          }).placement("top")
+        );
       }
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", name2).on("change", change);
+      label.append("input").attr("type", type3).attr("name", name).on("change", change);
       label.append("span").html(function(d) {
         var params = {};
         if (d === "unsquare_way") {
@@ -67089,7 +68292,10 @@ ${content}</tr>
           var hiddenOpts = cases[type3];
           var hiddenIssues = context.validator().getIssues(hiddenOpts);
           if (hiddenIssues.length) {
-            selection2.select(".box .details").html("").call(_t.append("issues.no_issues.hidden_issues." + type3, { count: hiddenIssues.length.toString() }));
+            selection2.select(".box .details").html("").call(_t.append(
+              "issues.no_issues.hidden_issues." + type3,
+              { count: hiddenIssues.length.toString() }
+            ));
             return;
           }
         }
@@ -67138,15 +68344,18 @@ ${content}</tr>
     context.validator().on("validated.uiSectionValidationStatus", function() {
       window.requestIdleCallback(section.reRender);
     });
-    context.map().on("move.uiSectionValidationStatus", debounce_default(function() {
-      window.requestIdleCallback(section.reRender);
-    }, 1e3));
+    context.map().on(
+      "move.uiSectionValidationStatus",
+      debounce_default(function() {
+        window.requestIdleCallback(section.reRender);
+      }, 1e3)
+    );
     return section;
   }
 
   // modules/ui/panes/issues.js
   function uiPaneIssues(context) {
-    var issuesPane = uiPane("issues", context).key(_t("issues.key")).label(_t.html("issues.title")).description(_t.html("issues.title")).iconName("iD-icon-alert").sections([
+    var issuesPane = uiPane("issues", context).key(_t("issues.key")).label(_t.append("issues.title")).description(_t.append("issues.title")).iconName("iD-icon-alert").sections([
       uiSectionValidationOptions(context),
       uiSectionValidationStatus(context),
       uiSectionValidationIssues("issues-errors", "error", context),
@@ -67221,7 +68430,7 @@ ${content}</tr>
   function uiSectionDataLayers(context) {
     var settingsCustomData = uiSettingsCustomData(context).on("change", customChanged);
     var layers = context.layers();
-    var section = uiSection("data-layers", context).label(_t.html("map_data.data_layers")).disclosureContent(renderDisclosureContent);
+    var section = uiSection("data-layers", context).label(() => _t.append("map_data.data_layers")).disclosureContent(renderDisclosureContent);
     function renderDisclosureContent(selection2) {
       var container = selection2.selectAll(".data-layer-container").data([0]);
       container.enter().append("div").attr("class", "data-layer-container").merge(container).call(drawOsmItems).call(drawQAItems).call(drawCustomDataItems).call(drawVectorItems).call(drawPanelItems);
@@ -67262,9 +68471,13 @@ ${content}</tr>
       });
       var labelEnter = liEnter.append("label").each(function(d) {
         if (d.id === "osm") {
-          select_default2(this).call(uiTooltip().title(_t.html("map_data.layers." + d.id + ".tooltip")).keys([uiCmd("\u2325" + _t("area_fill.wireframe.key"))]).placement("bottom"));
+          select_default2(this).call(
+            uiTooltip().title(() => _t.append("map_data.layers." + d.id + ".tooltip")).keys([uiCmd("\u2325" + _t("area_fill.wireframe.key"))]).placement("bottom")
+          );
         } else {
-          select_default2(this).call(uiTooltip().title(_t.html("map_data.layers." + d.id + ".tooltip")).placement("bottom"));
+          select_default2(this).call(
+            uiTooltip().title(() => _t.append("map_data.layers." + d.id + ".tooltip")).placement("bottom")
+          );
         }
       });
       labelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event, d) {
@@ -67292,13 +68505,15 @@ ${content}</tr>
         return "list-item list-item-" + d.id;
       });
       var labelEnter = liEnter.append("label").each(function(d) {
-        select_default2(this).call(uiTooltip().title(_t.html("map_data.layers." + d.id + ".tooltip")).placement("bottom"));
+        select_default2(this).call(
+          uiTooltip().title(() => _t.append("map_data.layers." + d.id + ".tooltip")).placement("bottom")
+        );
       });
       labelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event, d) {
         toggleLayer(d.id);
       });
-      labelEnter.append("span").html(function(d) {
-        return _t.html("map_data.layers." + d.id + ".title");
+      labelEnter.append("span").each(function(d) {
+        _t.append("map_data.layers." + d.id + ".title")(select_default2(this));
       });
       li.merge(liEnter).classed("active", function(d) {
         return d.layer.enabled();
@@ -67344,7 +68559,9 @@ ${content}</tr>
         return "list-item list-item-" + d.src;
       });
       var labelEnter = liEnter.append("label").each(function(d) {
-        select_default2(this).call(uiTooltip().title(d.tooltip).placement("top"));
+        select_default2(this).call(
+          uiTooltip().title(d.tooltip).placement("top")
+        );
       });
       labelEnter.append("input").attr("type", "radio").attr("name", "vectortile").on("change", selectVTLayer);
       labelEnter.append("span").text(function(d) {
@@ -67370,16 +68587,22 @@ ${content}</tr>
       ul.exit().remove();
       var ulEnter = ul.enter().append("ul").attr("class", "layer-list layer-list-data");
       var liEnter = ulEnter.append("li").attr("class", "list-item-data");
-      var labelEnter = liEnter.append("label").call(uiTooltip().title(_t.html("map_data.layers.custom.tooltip")).placement("top"));
+      var labelEnter = liEnter.append("label").call(
+        uiTooltip().title(() => _t.append("map_data.layers.custom.tooltip")).placement("top")
+      );
       labelEnter.append("input").attr("type", "checkbox").on("change", function() {
         toggleLayer("data");
       });
       labelEnter.append("span").call(_t.append("map_data.layers.custom.title"));
-      liEnter.append("button").attr("class", "open-data-options").call(uiTooltip().title(_t.html("settings.custom_data.tooltip")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")).on("click", function(d3_event) {
+      liEnter.append("button").attr("class", "open-data-options").call(
+        uiTooltip().title(() => _t.append("settings.custom_data.tooltip")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")
+      ).on("click", function(d3_event) {
         d3_event.preventDefault();
         editCustom();
       }).call(svgIcon("#iD-icon-more"));
-      liEnter.append("button").attr("class", "zoom-to-data").call(uiTooltip().title(_t.html("map_data.layers.custom.zoom")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")).on("click", function(d3_event) {
+      liEnter.append("button").attr("class", "zoom-to-data").call(
+        uiTooltip().title(() => _t.append("map_data.layers.custom.zoom")).placement(_mainLocalizer.textDirection() === "rtl" ? "right" : "left")
+      ).on("click", function(d3_event) {
         if (select_default2(this).classed("disabled"))
           return;
         d3_event.preventDefault();
@@ -67403,13 +68626,17 @@ ${content}</tr>
     }
     function drawPanelItems(selection2) {
       var panelsListEnter = selection2.selectAll(".md-extras-list").data([0]).enter().append("ul").attr("class", "layer-list md-extras-list");
-      var historyPanelLabelEnter = panelsListEnter.append("li").attr("class", "history-panel-toggle-item").append("label").call(uiTooltip().title(_t.html("map_data.history_panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.history.key"))]).placement("top"));
+      var historyPanelLabelEnter = panelsListEnter.append("li").attr("class", "history-panel-toggle-item").append("label").call(
+        uiTooltip().title(() => _t.append("map_data.history_panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.history.key"))]).placement("top")
+      );
       historyPanelLabelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event) {
         d3_event.preventDefault();
         context.ui().info.toggle("history");
       });
       historyPanelLabelEnter.append("span").call(_t.append("map_data.history_panel.title"));
-      var measurementPanelLabelEnter = panelsListEnter.append("li").attr("class", "measurement-panel-toggle-item").append("label").call(uiTooltip().title(_t.html("map_data.measurement_panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.measurement.key"))]).placement("top"));
+      var measurementPanelLabelEnter = panelsListEnter.append("li").attr("class", "measurement-panel-toggle-item").append("label").call(
+        uiTooltip().title(() => _t.append("map_data.measurement_panel.tooltip")).keys([uiCmd("\u2318\u21E7" + _t("info_panels.measurement.key"))]).placement("top")
+      );
       measurementPanelLabelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event) {
         d3_event.preventDefault();
         context.ui().info.toggle("measurement");
@@ -67417,16 +68644,19 @@ ${content}</tr>
       measurementPanelLabelEnter.append("span").call(_t.append("map_data.measurement_panel.title"));
     }
     context.layers().on("change.uiSectionDataLayers", section.reRender);
-    context.map().on("move.uiSectionDataLayers", debounce_default(function() {
-      window.requestIdleCallback(section.reRender);
-    }, 1e3));
+    context.map().on(
+      "move.uiSectionDataLayers",
+      debounce_default(function() {
+        window.requestIdleCallback(section.reRender);
+      }, 1e3)
+    );
     return section;
   }
 
   // modules/ui/sections/map_features.js
   function uiSectionMapFeatures(context) {
     var _features = context.features().keys();
-    var section = uiSection("map-features", context).label(_t.html("map_data.map_features")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
+    var section = uiSection("map-features", context).label(() => _t.append("map_data.map_features")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
     function renderDisclosureContent(selection2) {
       var container = selection2.selectAll(".layer-feature-list-container").data([0]);
       var containerEnter = container.enter().append("div").attr("class", "layer-feature-list-container");
@@ -67443,21 +68673,26 @@ ${content}</tr>
       container = container.merge(containerEnter);
       container.selectAll(".layer-feature-list").call(drawListItems, _features, "checkbox", "feature", clickFeature, showsFeature);
     }
-    function drawListItems(selection2, data, type3, name2, change, active) {
+    function drawListItems(selection2, data, type3, name, change, active) {
       var items = selection2.selectAll("li").data(data);
       items.exit().remove();
-      var enter = items.enter().append("li").call(uiTooltip().title(function(d) {
-        var tip = _t.html(name2 + "." + d + ".tooltip");
-        if (autoHiddenFeature(d)) {
-          var msg = showsLayer("osm") ? _t.html("map_data.autohidden") : _t.html("map_data.osmhidden");
-          tip += "<div>" + msg + "</div>";
-        }
-        return tip;
-      }).placement("top"));
+      var enter = items.enter().append("li").call(
+        uiTooltip().title(function(d) {
+          var tip = _t.append(name + "." + d + ".tooltip");
+          if (autoHiddenFeature(d)) {
+            var msg = showsLayer("osm") ? _t.append("map_data.autohidden") : _t.append("map_data.osmhidden");
+            return (selection3) => {
+              selection3.call(tip);
+              selection3.append("div").call(msg);
+            };
+          }
+          return tip;
+        }).placement("top")
+      );
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", name2).on("change", change);
+      label.append("input").attr("type", type3).attr("name", name).on("change", change);
       label.append("span").html(function(d) {
-        return _t.html(name2 + "." + d + ".description");
+        return _t.html(name + "." + d + ".description");
       });
       items = items.merge(enter);
       items.classed("active", active).selectAll("input").property("checked", active).property("indeterminate", autoHiddenFeature);
@@ -67481,7 +68716,7 @@ ${content}</tr>
 
   // modules/ui/sections/map_style_options.js
   function uiSectionMapStyleOptions(context) {
-    var section = uiSection("fill-area", context).label(_t.html("map_data.style_options")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
+    var section = uiSection("fill-area", context).label(() => _t.append("map_data.style_options")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
     function renderDisclosureContent(selection2) {
       var container = selection2.selectAll(".layer-fill-list").data([0]);
       container.enter().append("ul").attr("class", "layer-list layer-fill-list").merge(container).call(drawListItems, context.map().areaFillOptions, "radio", "area_fill", setFill, isActiveFill);
@@ -67490,21 +68725,23 @@ ${content}</tr>
         return context.surface().classed("highlight-edited");
       });
     }
-    function drawListItems(selection2, data, type3, name2, change, active) {
+    function drawListItems(selection2, data, type3, name, change, active) {
       var items = selection2.selectAll("li").data(data);
       items.exit().remove();
-      var enter = items.enter().append("li").call(uiTooltip().title(function(d) {
-        return _t.html(name2 + "." + d + ".tooltip");
-      }).keys(function(d) {
-        var key = d === "wireframe" ? _t("area_fill.wireframe.key") : null;
-        if (d === "highlight_edits")
-          key = _t("map_data.highlight_edits.key");
-        return key ? [key] : null;
-      }).placement("top"));
+      var enter = items.enter().append("li").call(
+        uiTooltip().title(function(d) {
+          return _t.append(name + "." + d + ".tooltip");
+        }).keys(function(d) {
+          var key = d === "wireframe" ? _t("area_fill.wireframe.key") : null;
+          if (d === "highlight_edits")
+            key = _t("map_data.highlight_edits.key");
+          return key ? [key] : null;
+        }).placement("top")
+      );
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", name2).on("change", change);
+      label.append("input").attr("type", type3).attr("name", name).on("change", change);
       label.append("span").html(function(d) {
-        return _t.html(name2 + "." + d + ".description");
+        return _t.html(name + "." + d + ".description");
       });
       items = items.merge(enter);
       items.classed("active", active).selectAll("input").property("checked", active).property("indeterminate", false);
@@ -67526,7 +68763,7 @@ ${content}</tr>
   // modules/ui/sections/photo_overlays.js
   function uiSectionPhotoOverlays(context) {
     var layers = context.layers();
-    var section = uiSection("photo-overlays", context).label(_t.html("photo_overlays.title")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
+    var section = uiSection("photo-overlays", context).label(() => _t.append("photo_overlays.title")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
     function renderDisclosureContent(selection2) {
       var container = selection2.selectAll(".photo-overlay-container").data([0]);
       container.enter().append("div").attr("class", "photo-overlay-container").merge(container).call(drawPhotoItems).call(drawPhotoTypeItems).call(drawDateFilter).call(drawUsernameFilter);
@@ -67566,7 +68803,9 @@ ${content}</tr>
           titleID = "kartaview_images.tooltip";
         else
           titleID = d.id.replace(/-/g, "_") + ".tooltip";
-        select_default2(this).call(uiTooltip().title(_t.html(titleID)).placement("top"));
+        select_default2(this).call(
+          uiTooltip().title(() => _t.append(titleID)).placement("top")
+        );
       });
       labelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event, d) {
         toggleLayer(d.id);
@@ -67593,7 +68832,9 @@ ${content}</tr>
         return "list-item-photo-types list-item-" + d;
       });
       var labelEnter = liEnter.append("label").each(function(d) {
-        select_default2(this).call(uiTooltip().title(_t.html("photo_overlays.photo_type." + d + ".tooltip")).placement("top"));
+        select_default2(this).call(
+          uiTooltip().title(() => _t.append("photo_overlays.photo_type." + d + ".tooltip")).placement("top")
+        );
       });
       labelEnter.append("input").attr("type", "checkbox").on("change", function(d3_event, d) {
         context.photos().togglePhotoType(d);
@@ -67615,10 +68856,12 @@ ${content}</tr>
       li.exit().remove();
       var liEnter = li.enter().append("li").attr("class", "list-item-date-filter");
       var labelEnter = liEnter.append("label").each(function(d) {
-        select_default2(this).call(uiTooltip().title(_t.html("photo_overlays.date_filter." + d + ".tooltip")).placement("top"));
+        select_default2(this).call(
+          uiTooltip().title(() => _t.append("photo_overlays.date_filter." + d + ".tooltip")).placement("top")
+        );
       });
-      labelEnter.append("span").html(function(d) {
-        return _t.html("photo_overlays.date_filter." + d + ".title");
+      labelEnter.append("span").each(function(d) {
+        _t.append("photo_overlays.date_filter." + d + ".title")(select_default2(this));
       });
       labelEnter.append("input").attr("type", "date").attr("class", "list-item-input").attr("placeholder", _t("units.year_month_day")).call(utilNoAuto).each(function(d) {
         utilGetSetValue(select_default2(this), context.photos().dateFilterValue(d) || "");
@@ -67642,7 +68885,9 @@ ${content}</tr>
       li.exit().remove();
       var liEnter = li.enter().append("li").attr("class", "list-item-username-filter");
       var labelEnter = liEnter.append("label").each(function() {
-        select_default2(this).call(uiTooltip().title(_t.html("photo_overlays.username_filter.tooltip")).placement("top"));
+        select_default2(this).call(
+          uiTooltip().title(() => _t.append("photo_overlays.username_filter.tooltip")).placement("top")
+        );
       });
       labelEnter.append("span").call(_t.append("photo_overlays.username_filter.title"));
       labelEnter.append("input").attr("type", "text").attr("class", "list-item-input").call(utilNoAuto).property("value", usernameValue).on("change", function() {
@@ -67681,7 +68926,7 @@ ${content}</tr>
 
   // modules/ui/panes/map_data.js
   function uiPaneMapData(context) {
-    var mapDataPane = uiPane("map-data", context).key(_t("map_data.key")).label(_t.html("map_data.title")).description(_t.html("map_data.description")).iconName("iD-icon-data").sections([
+    var mapDataPane = uiPane("map-data", context).key(_t("map_data.key")).label(_t.append("map_data.title")).description(_t.append("map_data.description")).iconName("iD-icon-data").sections([
       uiSectionDataLayers(context),
       uiSectionPhotoOverlays(context),
       uiSectionMapStyleOptions(context),
@@ -67692,7 +68937,7 @@ ${content}</tr>
 
   // modules/ui/panes/preferences.js
   function uiPanePreferences(context) {
-    let preferencesPane = uiPane("preferences", context).key(_t("preferences.key")).label(_t.html("preferences.title")).description(_t.html("preferences.description")).iconName("fas-user-cog").sections([
+    let preferencesPane = uiPane("preferences", context).key(_t("preferences.key")).label(_t.append("preferences.title")).description(_t.append("preferences.description")).iconName("fas-user-cog").sections([
       uiSectionPrivacy(context)
     ]);
     return preferencesPane;
@@ -67739,7 +68984,7 @@ ${content}</tr>
       var map2 = context.map();
       map2.redrawEnable(false);
       map2.on("hitMinZoom.ui", function() {
-        ui.flash.iconName("#iD-icon-no").label(_t.html("cannot_zoom"))();
+        ui.flash.iconName("#iD-icon-no").label(_t.append("cannot_zoom"))();
       });
       container.append("svg").attr("id", "ideditor-defs").call(ui.svgDefs);
       container.append("div").attr("class", "sidebar").call(ui.sidebar);
@@ -67786,13 +69031,15 @@ ${content}</tr>
       aboutList.append("li").attr("class", "user-list").call(uiContributors(context));
       var apiConnections = context.apiConnections();
       if (apiConnections && apiConnections.length > 1) {
-        aboutList.append("li").attr("class", "source-switch").call(uiSourceSwitch(context).keys(apiConnections));
+        aboutList.append("li").attr("class", "source-switch").call(
+          uiSourceSwitch(context).keys(apiConnections)
+        );
       }
       aboutList.append("li").attr("class", "issues-info").call(uiIssuesInfo(context));
       aboutList.append("li").attr("class", "feature-warning").call(uiFeatureInfo(context));
       var issueLinks = aboutList.append("li");
-      issueLinks.append("a").attr("target", "_blank").attr("href", "https://github.com/openstreetmap/iD/issues").attr("aria-label", _t("report_a_bug")).call(svgIcon("#iD-icon-bug", "light")).call(uiTooltip().title(_t.html("report_a_bug")).placement("top"));
-      issueLinks.append("a").attr("target", "_blank").attr("href", "https://github.com/openstreetmap/iD/blob/develop/CONTRIBUTING.md#translating").attr("aria-label", _t("help_translate")).call(svgIcon("#iD-icon-translate", "light")).call(uiTooltip().title(_t.html("help_translate")).placement("top"));
+      issueLinks.append("a").attr("target", "_blank").attr("href", "https://github.com/openstreetmap/iD/issues").attr("aria-label", _t("report_a_bug")).call(svgIcon("#iD-icon-bug", "light")).call(uiTooltip().title(() => _t.append("report_a_bug")).placement("top"));
+      issueLinks.append("a").attr("target", "_blank").attr("href", "https://github.com/openstreetmap/iD/blob/develop/CONTRIBUTING.md#translating").attr("aria-label", _t("help_translate")).call(svgIcon("#iD-icon-translate", "light")).call(uiTooltip().title(() => _t.append("help_translate")).placement("top"));
       aboutList.append("li").attr("class", "version").call(uiVersion(context));
       if (!context.embed()) {
         aboutList.call(uiAccount(context));
@@ -67801,7 +69048,7 @@ ${content}</tr>
       map2.redrawEnable(true);
       ui.hash = behaviorHash(context);
       ui.hash();
-      if (!ui.hash.hadHash) {
+      if (!ui.hash.hadLocation) {
         map2.centerZoom([0, 0], 2);
       }
       window.onbeforeunload = function() {
@@ -68011,7 +69258,7 @@ ${content}</tr>
     const dispatch10 = dispatch_default("enter", "exit", "change");
     let context = utilRebind({}, dispatch10, "on");
     let _deferred2 = /* @__PURE__ */ new Set();
-    context.version = "2.21.1";
+    context.version = "2.22.0";
     context.privacyVersion = "20201202";
     context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
     context.changeset = null;
@@ -68409,8 +69656,8 @@ ${content}</tr>
           _mainLocalizer.preferredLocaleCodes(context.initialHashParams.locale);
         }
         _mainLocalizer.ensureLoaded();
-        _background.ensureLoaded();
         _mainPresetIndex.ensureLoaded();
+        _background.ensureLoaded();
         Object.values(services).forEach((service) => {
           if (service && typeof service.init === "function") {
             service.init();
@@ -68428,6 +69675,7 @@ ${content}</tr>
         }
         if (!context.container().empty()) {
           _ui.ensureLoaded().then(() => {
+            _background.init();
             _photos.init();
           });
         }
@@ -68617,8 +69865,8 @@ ${content}</tr>
     if (tags.name && testNameFragments) {
       const nameParts = tags.name.split(/[\s\-\/,.]/);
       for (let split = nameParts.length; split > 0; split--) {
-        const name2 = nameParts.slice(0, split).join(" ");
-        primary.add(name2);
+        const name = nameParts.slice(0, split).join(" ");
+        primary.add(name);
       }
     }
     Object.keys(tags).forEach((osmkey) => {
@@ -68793,9 +70041,9 @@ ${content}</tr>
         if (!isMoved) {
           const nameParts = origName.split(/[\s\-\/,.]/);
           for (let split = nameParts.length; split > 0; split--) {
-            const name2 = nameParts.slice(0, split).join(" ");
+            const name = nameParts.slice(0, split).join(" ");
             const branch = nameParts.slice(split).join(" ");
-            const nameHits = _nsi.matcher.match(k, v, name2, loc);
+            const nameHits = _nsi.matcher.match(k, v, name, loc);
             if (!nameHits || !nameHits.length)
               continue;
             if (nameHits.some((hit) => hit.itemID === itemID)) {
@@ -69357,7 +70605,14 @@ ${content}</tr>
       }
       function run() {
         var url = options2.prefix !== false ? o.url + options2.path : options2.path;
-        return oauth2.rawxhr(options2.method, url, token("oauth2_access_token"), options2.content, options2.headers, done);
+        return oauth2.rawxhr(
+          options2.method,
+          url,
+          token("oauth2_access_token"),
+          options2.content,
+          options2.headers,
+          done
+        );
       }
       function done(err, xhr) {
         if (err) {
@@ -69376,7 +70631,7 @@ ${content}</tr>
       }
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status !== 0) {
+        if (4 === xhr.readyState && 0 !== xhr.status) {
           if (/^20\d$/.test(xhr.status)) {
             callback(null, xhr);
           } else {
@@ -70012,28 +71267,40 @@ ${content}</tr>
       var type3 = osmEntity.id.type(id2);
       var osmID = osmEntity.id.toOSM(id2);
       var options2 = { skipSeen: false };
-      this.loadFromAPI("/api/0.6/" + type3 + "/" + osmID + (type3 !== "node" ? "/full" : "") + ".json", function(err, entities) {
-        if (callback)
-          callback(err, { data: entities });
-      }, options2);
+      this.loadFromAPI(
+        "/api/0.6/" + type3 + "/" + osmID + (type3 !== "node" ? "/full" : "") + ".json",
+        function(err, entities) {
+          if (callback)
+            callback(err, { data: entities });
+        },
+        options2
+      );
     },
-    loadEntityVersion: function(id2, version2, callback) {
+    loadEntityVersion: function(id2, version, callback) {
       var type3 = osmEntity.id.type(id2);
       var osmID = osmEntity.id.toOSM(id2);
       var options2 = { skipSeen: false };
-      this.loadFromAPI("/api/0.6/" + type3 + "/" + osmID + "/" + version2 + ".json", function(err, entities) {
-        if (callback)
-          callback(err, { data: entities });
-      }, options2);
+      this.loadFromAPI(
+        "/api/0.6/" + type3 + "/" + osmID + "/" + version + ".json",
+        function(err, entities) {
+          if (callback)
+            callback(err, { data: entities });
+        },
+        options2
+      );
     },
     loadEntityRelations: function(id2, callback) {
       var type3 = osmEntity.id.type(id2);
       var osmID = osmEntity.id.toOSM(id2);
       var options2 = { skipSeen: false };
-      this.loadFromAPI("/api/0.6/" + type3 + "/" + osmID + "/relations.json", function(err, entities) {
-        if (callback)
-          callback(err, { data: entities });
-      }, options2);
+      this.loadFromAPI(
+        "/api/0.6/" + type3 + "/" + osmID + "/relations.json",
+        function(err, entities) {
+          if (callback)
+            callback(err, { data: entities });
+        },
+        options2
+      );
     },
     loadMultiple: function(ids, callback) {
       var that = this;
@@ -70045,10 +71312,14 @@ ${content}</tr>
         });
         var options2 = { skipSeen: false };
         utilArrayChunk(osmIDs, 150).forEach(function(arr) {
-          that.loadFromAPI("/api/0.6/" + type3 + ".json?" + type3 + "=" + arr.join(), function(err, entities) {
-            if (callback)
-              callback(err, { data: entities });
-          }, options2);
+          that.loadFromAPI(
+            "/api/0.6/" + type3 + ".json?" + type3 + "=" + arr.join(),
+            function(err, entities) {
+              if (callback)
+                callback(err, { data: entities });
+            },
+            options2
+          );
         });
       });
     },
@@ -70065,7 +71336,10 @@ ${content}</tr>
           headers: { "Content-Type": "text/xml" },
           content: JXON.stringify(changeset.asJXON())
         };
-        _changeset.inflight = oauth.xhr(options2, wrapcb(this, createdChangeset, cid));
+        _changeset.inflight = oauth.xhr(
+          options2,
+          wrapcb(this, createdChangeset, cid)
+        );
       }
       function createdChangeset(err, changesetID) {
         _changeset.inflight = null;
@@ -70080,7 +71354,10 @@ ${content}</tr>
           headers: { "Content-Type": "text/xml" },
           content: JXON.stringify(changeset.osmChangeJXON(changes))
         };
-        _changeset.inflight = oauth.xhr(options3, wrapcb(this, uploadedChangeset, cid));
+        _changeset.inflight = oauth.xhr(
+          options3,
+          wrapcb(this, uploadedChangeset, cid)
+        );
       }
       function uploadedChangeset(err) {
         _changeset.inflight = null;
@@ -70118,7 +71395,10 @@ ${content}</tr>
           return;
       }
       utilArrayChunk(toLoad, 150).forEach(function(arr) {
-        oauth.xhr({ method: "GET", path: "/api/0.6/users.json?users=" + arr.join() }, wrapcb(this, done, _connectionID));
+        oauth.xhr(
+          { method: "GET", path: "/api/0.6/users.json?users=" + arr.join() },
+          wrapcb(this, done, _connectionID)
+        );
       }.bind(this));
       function done(err, payload) {
         if (err)
@@ -70136,7 +71416,10 @@ ${content}</tr>
         delete _userCache.toLoad[uid];
         return callback(void 0, _userCache.user[uid]);
       }
-      oauth.xhr({ method: "GET", path: "/api/0.6/user/" + uid + ".json" }, wrapcb(this, done, _connectionID));
+      oauth.xhr(
+        { method: "GET", path: "/api/0.6/user/" + uid + ".json" },
+        wrapcb(this, done, _connectionID)
+      );
       function done(err, payload) {
         if (err)
           return callback(err);
@@ -70152,7 +71435,10 @@ ${content}</tr>
       if (_userDetails) {
         return callback(void 0, _userDetails);
       }
-      oauth.xhr({ method: "GET", path: "/api/0.6/user/details.json" }, wrapcb(this, done, _connectionID));
+      oauth.xhr(
+        { method: "GET", path: "/api/0.6/user/details.json" },
+        wrapcb(this, done, _connectionID)
+      );
       function done(err, payload) {
         if (err)
           return callback(err);
@@ -70169,20 +71455,28 @@ ${content}</tr>
       if (_userChangesets) {
         return callback(void 0, _userChangesets);
       }
-      this.userDetails(wrapcb(this, gotDetails, _connectionID));
+      this.userDetails(
+        wrapcb(this, gotDetails, _connectionID)
+      );
       function gotDetails(err, user) {
         if (err) {
           return callback(err);
         }
-        oauth.xhr({ method: "GET", path: "/api/0.6/changesets?user=" + user.id }, wrapcb(this, done, _connectionID));
+        oauth.xhr(
+          { method: "GET", path: "/api/0.6/changesets?user=" + user.id },
+          wrapcb(this, done, _connectionID)
+        );
       }
       function done(err, xml) {
         if (err) {
           return callback(err);
         }
-        _userChangesets = Array.prototype.map.call(xml.getElementsByTagName("changeset"), function(changeset) {
-          return { tags: getTags(changeset) };
-        }).filter(function(changeset) {
+        _userChangesets = Array.prototype.map.call(
+          xml.getElementsByTagName("changeset"),
+          function(changeset) {
+            return { tags: getTags(changeset) };
+          }
+        ).filter(function(changeset) {
           var comment = changeset.tags.comment;
           return comment && comment !== "";
         });
@@ -70269,7 +71563,11 @@ ${content}</tr>
       }
       var path = "/api/0.6/map.json?bbox=";
       var options2 = { skipSeen: true };
-      _tileCache.inflight[tile.id] = this.loadFromAPI(path + tile.extent.toParam(), tileCallback, options2);
+      _tileCache.inflight[tile.id] = this.loadFromAPI(
+        path + tile.extent.toParam(),
+        tileCallback,
+        options2
+      );
       function tileCallback(err, parsed) {
         delete _tileCache.inflight[tile.id];
         if (!err) {
@@ -70324,14 +71622,18 @@ ${content}</tr>
         if (_noteCache.loaded[tile.id] || _noteCache.inflight[tile.id])
           return;
         var options2 = { skipSeen: false };
-        _noteCache.inflight[tile.id] = that.loadFromAPI(path + tile.extent.toParam(), function(err) {
-          delete _noteCache.inflight[tile.id];
-          if (!err) {
-            _noteCache.loaded[tile.id] = true;
-          }
-          throttleLoadUsers();
-          dispatch7.call("loadedNotes");
-        }, options2);
+        _noteCache.inflight[tile.id] = that.loadFromAPI(
+          path + tile.extent.toParam(),
+          function(err) {
+            delete _noteCache.inflight[tile.id];
+            if (!err) {
+              _noteCache.loaded[tile.id] = true;
+            }
+            throttleLoadUsers();
+            dispatch7.call("loadedNotes");
+          },
+          options2
+        );
       });
     },
     postNoteCreate: function(note, callback) {
@@ -70348,7 +71650,10 @@ ${content}</tr>
         comment += " #" + note.newCategory;
       }
       var path = "/api/0.6/notes?" + utilQsString({ lon: note.loc[0], lat: note.loc[1], text: comment });
-      _noteCache.inflightPost[note.id] = oauth.xhr({ method: "POST", path }, wrapcb(this, done, _connectionID));
+      _noteCache.inflightPost[note.id] = oauth.xhr(
+        { method: "POST", path },
+        wrapcb(this, done, _connectionID)
+      );
       function done(err, xml) {
         delete _noteCache.inflightPost[note.id];
         if (err) {
@@ -70386,7 +71691,10 @@ ${content}</tr>
       if (note.newComment) {
         path += "?" + utilQsString({ text: note.newComment });
       }
-      _noteCache.inflightPost[note.id] = oauth.xhr({ method: "POST", path }, wrapcb(this, done, _connectionID));
+      _noteCache.inflightPost[note.id] = oauth.xhr(
+        { method: "POST", path },
+        wrapcb(this, done, _connectionID)
+      );
       function done(err, xml) {
         delete _noteCache.inflightPost[note.id];
         if (err) {
@@ -70716,20 +72024,20 @@ ${content}</tr>
           return;
         }
         var i2;
-        var description2;
+        var description;
         for (i2 in langCodes) {
           let code2 = langCodes[i2];
           if (entity.descriptions[code2] && entity.descriptions[code2].language === code2) {
-            description2 = entity.descriptions[code2];
+            description = entity.descriptions[code2];
             break;
           }
         }
-        if (!description2 && Object.values(entity.descriptions).length)
-          description2 = Object.values(entity.descriptions)[0];
+        if (!description && Object.values(entity.descriptions).length)
+          description = Object.values(entity.descriptions)[0];
         var result = {
           title: entity.title,
-          description: description2 ? description2.value : "",
-          descriptionLocaleCode: description2 ? description2.language : "",
+          description: description ? description.value : "",
+          descriptionLocaleCode: description ? description.language : "",
           editURL: "https://wiki.openstreetmap.org/wiki/" + entity.title
         };
         if (entity.claims) {
@@ -71803,7 +73111,7 @@ ${content}</tr>
         return false;
       if (!allowUpperCase && d.value.match(/[A-Z*]/) !== null)
         return false;
-      return parseFloat(d.fraction) > 0;
+      return d.count > 100 || d.in_wiki;
     };
   }
   function filterRoles(geometry) {
@@ -71826,9 +73134,6 @@ ${content}</tr>
       value: d.value,
       title: d.description || d.value
     };
-    if (d.count) {
-      obj.count = d.count;
-    }
     return obj;
   }
   function roleKey(d) {
@@ -71891,6 +73196,7 @@ ${content}</tr>
         artist_name: true,
         nat_name: true,
         long_name: true,
+        via: true,
         "bridge:name": true
       };
       var params = {
@@ -72333,7 +73639,10 @@ ${content}</tr>
             var merged = mergeCache[propertyhash];
             if (merged && merged.length) {
               var other = merged[0];
-              var coords = import_polygon_clipping2.default.union(feature3.geometry.coordinates, other.geometry.coordinates);
+              var coords = import_polygon_clipping2.default.union(
+                feature3.geometry.coordinates,
+                other.geometry.coordinates
+              );
               if (!coords || !coords.length) {
                 continue;
               }
@@ -72563,20 +73872,20 @@ ${content}</tr>
           return;
         }
         var i2;
-        var description2;
+        var description;
         for (i2 in langs) {
           let code = langs[i2];
           if (entity.descriptions[code] && entity.descriptions[code].language === code) {
-            description2 = entity.descriptions[code];
+            description = entity.descriptions[code];
             break;
           }
         }
-        if (!description2 && Object.values(entity.descriptions).length)
-          description2 = Object.values(entity.descriptions)[0];
+        if (!description && Object.values(entity.descriptions).length)
+          description = Object.values(entity.descriptions)[0];
         var result = {
           title: entity.id,
-          description: description2 ? description2.value : "",
-          descriptionLocaleCode: description2 ? description2.language : "",
+          description: description ? description.value : "",
+          descriptionLocaleCode: description ? description.language : "",
           editURL: "https://www.wikidata.org/wiki/" + entity.id
         };
         if (entity.claims) {
@@ -73175,9 +74484,12 @@ ${content}</tr>
     var _entities = selectedIDs.map(function(id2) {
       return context.graph().entity(id2);
     });
-    var _geometries = Object.assign({ line: [], vertex: [] }, utilArrayGroupBy(_entities, function(entity) {
-      return entity.geometry(context.graph());
-    }));
+    var _geometries = Object.assign(
+      { line: [], vertex: [] },
+      utilArrayGroupBy(_entities, function(entity) {
+        return entity.geometry(context.graph());
+      })
+    );
     var _vertex = _geometries.vertex.length && _geometries.vertex[0];
     function candidateWays() {
       return _vertex ? context.graph().parentWays(_vertex).filter(function(parent) {
@@ -73187,7 +74499,9 @@ ${content}</tr>
     var _candidates = candidateWays();
     var operation = function() {
       var candidate = _candidates[0];
-      context.enter(modeDrawLine(context, candidate.id, context.graph(), "line", candidate.affix(_vertex.id), true));
+      context.enter(
+        modeDrawLine(context, candidate.id, context.graph(), "line", candidate.affix(_vertex.id), true)
+      );
     };
     operation.relatedEntityIds = function() {
       return _candidates.length ? [_candidates[0].id] : [];
@@ -73205,14 +74519,14 @@ ${content}</tr>
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.continue." + disable) : _t("operations.continue.description");
+      return disable ? _t.append("operations.continue." + disable) : _t.append("operations.continue.description");
     };
     operation.annotation = function() {
       return _t("operations.continue.annotation.line");
     };
     operation.id = "continue";
     operation.keys = [_t("operations.continue.key")];
-    operation.title = _t("operations.continue.title");
+    operation.title = _t.append("operations.continue.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -73263,7 +74577,10 @@ ${content}</tr>
       var entities = ids.map(function(id2) {
         return graph.entity(id2);
       });
-      return Object.assign({ relation: [], way: [], node: [] }, utilArrayGroupBy(entities, "type"));
+      return Object.assign(
+        { relation: [], way: [], node: [] },
+        utilArrayGroupBy(entities, "type")
+      );
     }
     function getDescendants(id2, graph, descendants) {
       var entity = graph.entity(id2);
@@ -73302,7 +74619,7 @@ ${content}</tr>
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.copy." + disable, { n: selectedIDs.length }) : _t("operations.copy.description", { n: selectedIDs.length });
+      return disable ? _t.append("operations.copy." + disable, { n: selectedIDs.length }) : _t.append("operations.copy.description", { n: selectedIDs.length });
     };
     operation.annotation = function() {
       return _t("operations.copy.annotation", { n: selectedIDs.length });
@@ -73314,7 +74631,7 @@ ${content}</tr>
     };
     operation.id = "copy";
     operation.keys = [uiCmd("\u2318C")];
-    operation.title = _t("operations.copy.title");
+    operation.title = _t.append("operations.copy.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -73475,17 +74792,14 @@ ${content}</tr>
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      if (disable) {
-        return _t("operations.disconnect." + disable);
-      }
-      return _t("operations.disconnect.description." + _descriptionID);
+      return disable ? _t.append("operations.disconnect." + disable) : _t.append("operations.disconnect.description." + _descriptionID);
     };
     operation.annotation = function() {
       return _t("operations.disconnect.annotation." + _annotationID);
     };
     operation.id = "disconnect";
     operation.keys = [_t("operations.disconnect.key")];
-    operation.title = _t("operations.disconnect.title");
+    operation.title = _t.append("operations.disconnect.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -73581,7 +74895,7 @@ ${content}</tr>
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.downgrade." + disable + "." + _multi) : _t("operations.downgrade.description." + _downgradeType);
+      return disable ? _t.append("operations.downgrade." + disable + "." + _multi) : _t.append("operations.downgrade.description." + _downgradeType);
     };
     operation.annotation = function() {
       var suffix;
@@ -73594,7 +74908,7 @@ ${content}</tr>
     };
     operation.id = "downgrade";
     operation.keys = [uiCmd("\u232B")];
-    operation.title = _t("operations.downgrade.title");
+    operation.title = _t.append("operations.downgrade.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -73651,9 +74965,9 @@ ${content}</tr>
     operation.tooltip = function() {
       var disableReason = operation.disabled();
       if (disableReason) {
-        return _t("operations.extract." + disableReason + "." + _amount);
+        return _t.append("operations.extract." + disableReason + "." + _amount);
       } else {
-        return _t("operations.extract.description." + _geometryID + "." + _amount);
+        return _t.append("operations.extract.description." + _geometryID + "." + _amount);
       }
     };
     operation.annotation = function() {
@@ -73661,7 +74975,7 @@ ${content}</tr>
     };
     operation.id = "extract";
     operation.keys = [_t("operations.extract.key")];
-    operation.title = _t("operations.extract.title");
+    operation.title = _t.append("operations.extract.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -73722,21 +75036,24 @@ ${content}</tr>
       var disabled = operation.disabled();
       if (disabled) {
         if (disabled === "conflicting_relations") {
-          return _t("operations.merge.conflicting_relations");
+          return _t.append("operations.merge.conflicting_relations");
         }
         if (disabled === "restriction" || disabled === "connectivity") {
-          return _t("operations.merge.damage_relation", { relation: _mainPresetIndex.item("type/" + disabled).name() });
+          return _t.append(
+            "operations.merge.damage_relation",
+            { relation: _mainPresetIndex.item("type/" + disabled).name() }
+          );
         }
-        return _t("operations.merge." + disabled);
+        return _t.append("operations.merge." + disabled);
       }
-      return _t("operations.merge.description");
+      return _t.append("operations.merge.description");
     };
     operation.annotation = function() {
       return _t("operations.merge.annotation", { n: selectedIDs.length });
     };
     operation.id = "merge";
     operation.keys = [_t("operations.merge.key")];
-    operation.title = _t("operations.merge.title");
+    operation.title = _t.append("operations.merge.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -73792,9 +75109,9 @@ ${content}</tr>
       var oldGraph = context.copyGraph();
       var ids = context.copyIDs();
       if (!ids.length) {
-        return _t("operations.paste.nothing_copied");
+        return _t.append("operations.paste.nothing_copied");
       }
-      return _t("operations.paste.description", { feature: utilDisplayLabel(oldGraph.entity(ids[0]), oldGraph), n: ids.length });
+      return _t.append("operations.paste.description", { feature: utilDisplayLabel(oldGraph.entity(ids[0]), oldGraph), n: ids.length });
     };
     operation.annotation = function() {
       var ids = context.copyIDs();
@@ -73802,7 +75119,7 @@ ${content}</tr>
     };
     operation.id = "paste";
     operation.keys = [uiCmd("\u2318V")];
-    operation.title = _t("operations.paste.title");
+    operation.title = _t.append("operations.paste.title");
     return operation;
   }
 
@@ -73854,7 +75171,7 @@ ${content}</tr>
       return false;
     };
     operation.tooltip = function() {
-      return _t("operations.reverse.description." + reverseTypeID());
+      return _t.append("operations.reverse.description." + reverseTypeID());
     };
     operation.annotation = function() {
       var acts = actions();
@@ -73862,7 +75179,7 @@ ${content}</tr>
     };
     operation.id = "reverse";
     operation.keys = [_t("operations.reverse.key")];
-    operation.title = _t("operations.reverse.title");
+    operation.title = _t.append("operations.reverse.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -73919,9 +75236,7 @@ ${content}</tr>
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      if (disable)
-        return _t("operations.split." + disable);
-      return _t("operations.split.description." + _geometry + "." + _waysAmount + "." + _nodesAmount + "_node");
+      return disable ? _t.append("operations.split." + disable) : _t.append("operations.split.description." + _geometry + "." + _waysAmount + "." + _nodesAmount + "_node");
     };
     operation.annotation = function() {
       return _t("operations.split.annotation." + _geometry, { n: _ways.length });
@@ -73935,7 +75250,7 @@ ${content}</tr>
     };
     operation.id = "split";
     operation.keys = [_t("operations.split.key")];
-    operation.title = _t("operations.split.title");
+    operation.title = _t.append("operations.split.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -74039,14 +75354,14 @@ ${content}</tr>
     };
     operation.tooltip = function() {
       var disable = operation.disabled();
-      return disable ? _t("operations.straighten." + disable + "." + _amount) : _t("operations.straighten.description." + _geometry + (_wayIDs.length === 1 ? "" : "s"));
+      return disable ? _t.append("operations.straighten." + disable + "." + _amount) : _t.append("operations.straighten.description." + _geometry + (_wayIDs.length === 1 ? "" : "s"));
     };
     operation.annotation = function() {
       return _t("operations.straighten.annotation." + _geometry, { n: _wayIDs.length ? _wayIDs.length : _nodeIDs.length });
     };
     operation.id = "straighten";
     operation.keys = [_t("operations.straighten.key")];
-    operation.title = _t("operations.straighten.title");
+    operation.title = _t.append("operations.straighten.title");
     operation.behavior = behaviorOperation(context).which(operation);
     return operation;
   }
@@ -74256,7 +75571,7 @@ ${content}</tr>
             return;
           var moveOp = operationMove(context, selectedIDs);
           if (moveOp.disabled()) {
-            context.ui().flash.duration(4e3).iconName("#iD-operation-" + moveOp.id).iconClass("operation disabled").label(moveOp.tooltip)();
+            context.ui().flash.duration(4e3).iconName("#iD-operation-" + moveOp.id).iconClass("operation disabled").label(moveOp.tooltip())();
           } else {
             context.perform(actionMove(selectedIDs, delta, context.projection), moveOp.annotation());
             context.validator().validate();
@@ -74315,7 +75630,7 @@ ${content}</tr>
           const disabled = scalingDisabled();
           if (disabled) {
             let multi = selectedIDs.length === 1 ? "single" : "multiple";
-            context.ui().flash.duration(4e3).iconName("#iD-icon-no").iconClass("operation disabled").label(_t.html("operations.scale." + disabled + "." + multi))();
+            context.ui().flash.duration(4e3).iconName("#iD-icon-no").iconClass("operation disabled").label(_t.append("operations.scale." + disabled + "." + multi))();
           } else {
             const pivot = context.projection(extent2.center());
             const annotation = _t("operations.scale.annotation." + (isUp ? "up" : "down") + ".feature", { n: selectedIDs.length });
@@ -74336,10 +75651,16 @@ ${content}</tr>
           var choice = geoChooseEdge(context.graph().childNodes(entity), loc2, context.projection);
           var prev = entity.nodes[choice.index - 1];
           var next = entity.nodes[choice.index];
-          context.perform(actionAddMidpoint({ loc: choice.loc, edge: [prev, next] }, osmNode()), _t("operations.add.annotation.vertex"));
+          context.perform(
+            actionAddMidpoint({ loc: choice.loc, edge: [prev, next] }, osmNode()),
+            _t("operations.add.annotation.vertex")
+          );
           context.validator().validate();
         } else if (entity.type === "midpoint") {
-          context.perform(actionAddMidpoint({ loc: entity.loc, edge: entity.edge }, osmNode()), _t("operations.add.annotation.vertex"));
+          context.perform(
+            actionAddMidpoint({ loc: entity.loc, edge: entity.edge }, osmNode()),
+            _t("operations.add.annotation.vertex")
+          );
           context.validator().validate();
         }
       }
@@ -74376,7 +75697,9 @@ ${content}</tr>
         }
         _focusedParentWayId = way && way.id;
         if (way) {
-          context.enter(mode.selectedIDs([way.first()]).follow(true));
+          context.enter(
+            mode.selectedIDs([way.first()]).follow(true)
+          );
         }
       }
       function lastVertex(d3_event) {
@@ -74391,7 +75714,9 @@ ${content}</tr>
         }
         _focusedParentWayId = way && way.id;
         if (way) {
-          context.enter(mode.selectedIDs([way.last()]).follow(true));
+          context.enter(
+            mode.selectedIDs([way.last()]).follow(true)
+          );
         }
       }
       function previousVertex(d3_event) {
@@ -74410,7 +75735,9 @@ ${content}</tr>
           index = length - 2;
         }
         if (index !== -1) {
-          context.enter(mode.selectedIDs([way.nodes[index]]).follow(true));
+          context.enter(
+            mode.selectedIDs([way.nodes[index]]).follow(true)
+          );
         }
       }
       function nextVertex(d3_event) {
@@ -74429,7 +75756,9 @@ ${content}</tr>
           index = 0;
         }
         if (index !== -1) {
-          context.enter(mode.selectedIDs([way.nodes[index]]).follow(true));
+          context.enter(
+            mode.selectedIDs([way.nodes[index]]).follow(true)
+          );
         }
       }
       function focusNextParent(d3_event) {
@@ -74455,7 +75784,9 @@ ${content}</tr>
         var parentIds = _focusedParentWayId ? [_focusedParentWayId] : parentWaysIdsOfSelection(false);
         if (!parentIds.length)
           return;
-        context.enter(mode.selectedIDs(parentIds));
+        context.enter(
+          mode.selectedIDs(parentIds)
+        );
         _focusedVertexIds = currentSelectedIds;
       }
       function selectChild(d3_event) {
@@ -74466,7 +75797,9 @@ ${content}</tr>
           return;
         if (currentSelectedIds.length === 1)
           _focusedParentWayId = currentSelectedIds[0];
-        context.enter(mode.selectedIDs(childIds));
+        context.enter(
+          mode.selectedIDs(childIds)
+        );
       }
     };
     mode.exit = function() {
@@ -74584,8 +75917,8 @@ ${content}</tr>
     var mode = {
       button: "browse",
       id: "browse",
-      title: _t("modes.browse.title"),
-      description: _t("modes.browse.description")
+      title: _t.append("modes.browse.title"),
+      description: _t.append("modes.browse.description")
     };
     var sidebar;
     var _selectBehavior;
@@ -74674,7 +76007,10 @@ ${content}</tr>
       var center = map2.center();
       var zoom = map2.zoom();
       var precision2 = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
-      var oldParams = utilObjectOmit(utilStringQs(window.location.hash), ["comment", "source", "hashtags", "walkthrough"]);
+      var oldParams = utilObjectOmit(
+        utilStringQs(window.location.hash),
+        ["comment", "source", "hashtags", "walkthrough"]
+      );
       var newParams = {};
       delete oldParams.id;
       var selected = context.selectedIDs().filter(function(id2) {
@@ -74740,6 +76076,10 @@ ${content}</tr>
         _cachedHash = latestHash;
         window.history.replaceState(null, computedTitle(false), latestHash);
         updateTitle(true);
+        const q = utilStringQs(latestHash);
+        if (q.map) {
+          corePreferences("map-location", q.map);
+        }
       }
     }
     var _throttledUpdate = throttle_default(updateHashIfNeeded, 500);
@@ -74782,20 +76122,23 @@ ${content}</tr>
       context.history().on("change.behaviorHash", _throttledUpdateTitle);
       context.on("enter.behaviorHash", _throttledUpdate);
       select_default2(window).on("hashchange.behaviorHash", hashchange);
-      if (window.location.hash) {
-        var q = utilStringQs(window.location.hash);
-        if (q.id) {
-          context.zoomToEntity(q.id.split(",")[0], !q.map);
-        }
-        if (q.walkthrough === "true") {
-          behavior.startWalkthrough = true;
-        }
-        if (q.map) {
-          behavior.hadHash = true;
-        }
-        hashchange();
-        updateTitle(false);
+      var q = utilStringQs(window.location.hash);
+      if (q.id) {
+        context.zoomToEntity(q.id.split(",")[0], !q.map);
       }
+      if (q.walkthrough === "true") {
+        behavior.startWalkthrough = true;
+      }
+      if (q.map) {
+        behavior.hadLocation = true;
+      } else if (!q.id && corePreferences("map-location")) {
+        const mapArgs = corePreferences("map-location").split("/").map(Number);
+        context.map().centerZoom([mapArgs[2], Math.min(_latitudeLimit, Math.max(-_latitudeLimit, mapArgs[1]))], mapArgs[0]);
+        updateHashIfNeeded();
+        behavior.hadLocation = true;
+      }
+      hashchange();
+      updateTitle(false);
     }
     behavior.off = function() {
       _throttledUpdate.cancel();

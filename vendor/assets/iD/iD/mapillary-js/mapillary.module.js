@@ -79297,7 +79297,7 @@ class GraphConverter {
         source.thumb = (_a = source.thumb) !== null && _a !== void 0 ? _a : { id: null, url: thumbUrl };
         source.cluster = (_b = source.sfm_cluster) !== null && _b !== void 0 ? _b : { id: null, url: null };
         source.creator = { id: null, username: null };
-        source.owner = (_c = source.owner) !== null && _c !== void 0 ? _c : { id: null };
+        source.owner = (_c = source.organization) !== null && _c !== void 0 ? _c : { id: null };
         source.mesh = (_d = source.mesh) !== null && _d !== void 0 ? _d : { id: null, url: null };
         return source;
     }
@@ -79333,6 +79333,7 @@ class GraphQueryCreator {
             'height',
             'merge_cc',
             'mesh',
+            'organization',
             'quality_score',
             'sfm_cluster',
             'thumb_1024_url',
