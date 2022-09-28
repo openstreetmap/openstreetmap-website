@@ -60,7 +60,7 @@
     <form class="mb-3" action="#">
       <input type="hidden" name="text" value="" autocomplete="off">
       <div class="btn-wrapper">
-        <% if current_user and current_user.moderator? -%>
+        <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
           <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
         <% end -%>
         <% if current_user -%>
