@@ -1,7 +1,7 @@
 //= require maplibre-gl
 //= require @maplibre/maplibre-gl-leaflet
 //= require i18n
-//= require leaflet.otm.language
+//= require leaflet.maptiler.language
 
 L.OSM = {};
 
