@@ -56,7 +56,8 @@ tr:
     dir: ltr
   time:
     formats:
-      friendly: '%e %B %Y saat %H:%M'
+      friendly: '%e %B %Y saat %H.%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Dosya seç
@@ -101,8 +102,8 @@ tr:
       issue: Sorun
       language: Dil
       message: Mesaj
-      node: Düğüm
-      node_tag: Düğüm Etiketi
+      node: Nokta
+      node_tag: Nokta Etiketi
       notifier: Bildiren
       old_node: Eski Nokta
       old_node_tag: Eski Nokta Etiketi
@@ -252,6 +253,9 @@ tr:
       x_years:
         one: 1 yıl önce
         other: '%{count} yıl önce'
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Varsayılan (şu anda %{name})
     id:
@@ -416,7 +420,8 @@ tr:
       history_title_html: 'Yol geçmişi: %{name}'
       nodes: Noktalar
       nodes_count:
-        other: '%{count} düğüm'
+        one: 1 nokta
+        other: '%{count} nokta'
       also_part_of_html:
         one: yol parçası %{related_ways}
         other: yol parçası %{related_ways}
@@ -641,8 +646,8 @@ tr:
         description: '%{user} kullanıcısının en yeni OpenHistoricalMap günlük girdileri'
       language:
         title: '%{language_name} dillindeki OpenHistoricalMap günlük girdileri'
-        description: OpenHistoricalMap kullanıcılarının %{language_name} dillindeki en
-          son günlük girdileri
+        description: OpenHistoricalMap kullanıcılarının %{language_name} dillindeki
+          en son günlük girdileri
       all:
         title: OpenHistoricalMap günlük girdileri
         description: OpenHistoricalMap kullanıcıların en son günlük girdileri
@@ -687,6 +692,7 @@ tr:
           Nominatim</a> sonuçları
         geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a> sonuçları
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Teleferik
@@ -1025,7 +1031,6 @@ tr:
           commercial: Ticari ve Hizmet Alanı
           conservation: Koruma
           construction: İnşaat
-          farm: Çiftlik
           farmland: Tarım arazisi
           farmyard: Çiftlik avlusu
           forest: Orman
@@ -1568,6 +1573,9 @@ tr:
       successful_report: Raporunuz başarıyla kaydedildi
       provide_details: Lütfen gerekli bilgileri sağlayın
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: OpenHistoricalMap logosu
     home: Kendi Konumuna Git
@@ -1592,18 +1600,25 @@ tr:
     intro_header: OpenHistoricalMap'e hoş geldiniz!
     intro_text: OpenHistoricalMap; senin gibi kişiler tarafından oluşturulan, kullanımı
       serbest ve açık lisans altında olan bir dünya haritasıdır.
+    intro_1: OpenHistoricalMap, dünya tarihi boyunca harita verilerini depolamak ve
+      görüntülemek için tasarlanmış bir projedir. Bu, şu anda devam eden bir çalışmadır
+      ve siteyi zaman içinde ilerlettikçe birçok yeni özellik ekleyeceğiz. Sizleri
+      de projeyi kullanmayı ve verileri düzenlemeye başlamayı öneririz.
     intro_2_create_account: hesap oluşturunuz
-    hosting_partners_html: Barındırma hizmeti; %{ucl}, %{fastly}, %{bytemark} ve diğer
-      %{partners} tarafından desteklenmektedir.
-    partners_ucl: UCL
-    partners_fastly: Fastly
-    partners_bytemark: Bytemark Hosting
+    partners_title: Ortaklar
+    hosting_partners_html: |-
+      <p>
+      <a href='https://greeninfo.org'>GreenInfo Network</a>; kâr amacı gütmeyen bir sosyal-iyi haritalama ve iletişim organizasyonudur. Kâr amacı gütmeyen kuruluşların ve devlet kurumlarının, insan merkezli tasarım uygulamaları, işbirlikçi geliştirme ve açık kaynaklı web ve coğrafi araçlar dahil olmak üzere bir dizi aracı kullanarak sosyal, çevresel ve diğer hedeflere ulaşmasına yardımcı olur.
+      </p>
+      <p>
+      <a href='https://developmentseed.org/'>Development Seed</a>, en büyük küresel zorluklarımıza dünya verilerinin uygulanmasını hızlandıran bir mühendislik ve ürün şirketidir. Development Seed, devasa dünya verilerinden, bulut bilişimden, jeo-uzamsal yapay zekadan ve düşünceli ürün geliştirmeden yararlanır.
+      </p>
     partners_partners: ortaklar
     tou: Kullanım Şartları
     osm_offline: OpenHistoricalMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
       şu anda çevrimdışıdır.
-    osm_read_only: OpenHistoricalMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
-      şu anda sadece okunur durumdadır.
+    osm_read_only: OpenHistoricalMap veritabanı bakım çalışmaları yürütüldüğü için
+      veritabanı şu anda sadece okunur durumdadır.
     donate: Donanım Yükseltme Fonu'na %{link} yaparak OpenHistoricalMap'e destek veriniz.
     help: Yardım
     about: Hakkında
@@ -1624,8 +1639,8 @@ tr:
       hi: Merhaba %{to_user},
       header: '%{from_user}, %{subject} konulu OpenHistoricalMap günlük girdisi hakkında
         yorum yaptı.'
-      header_html: '%{from_user}, %{subject} konulu OpenHistoricalMap günlük girdisi hakkında
-        yorum yaptı:'
+      header_html: '%{from_user}, %{subject} konulu OpenHistoricalMap günlük girdisi
+        hakkında yorum yaptı:'
       footer: Ayrıca yorumu %{readurl} adresinden okuyabilir ve %{commenturl} adresinden
         yorum yapabilir veya yazara %{replyurl} adresinden mesaj gönderebilirsiniz.
       footer_html: Ayrıca yorumu %{readurl} adresinden okuyabilir ve %{commenturl}
@@ -1633,10 +1648,10 @@ tr:
     message_notification:
       subject: '[OpenHistoricalMap] %{message_title}'
       hi: Merhaba %{to_user},
-      header: 'OpenHistoricalMap kullanıcı %{from_user} sana %{subject} konulu bir mesaj
-        gönderdi:'
-      header_html: '%{from_user}, size OpenHistoricalMap üzerinden %{subject} konulu bir
+      header: 'OpenHistoricalMap kullanıcı %{from_user} sana %{subject} konulu bir
         mesaj gönderdi:'
+      header_html: '%{from_user}, size OpenHistoricalMap üzerinden %{subject} konulu
+        bir mesaj gönderdi:'
       footer: Ayrıca mesajı %{readurl} adresinde okuyabilir ve yazara %{replyurl}
         adresinden mesaj gönderebilirsiniz.
       footer_html: İletiyi %{readurl} adresinden de okuyabilir ve yazara %{replyurl}
@@ -1708,8 +1723,8 @@ tr:
           yorum yaptı. Bu not %{place} yakınlarında.'
       closed:
         subject_own: '[OpenHistoricalMap] %{commenter}, notlarınızdan birini çözdü.'
-        subject_other: '[OpenHistoricalMap] %{commenter}, ilgilendiğiniz notlardan birini
-          çözdü'
+        subject_other: '[OpenHistoricalMap] %{commenter}, ilgilendiğiniz notlardan
+          birini çözdü'
         your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan birini
           çözdü.'
         your_note_html: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan
@@ -1719,9 +1734,10 @@ tr:
         commented_note_html: '%{commenter} yorum yaptığınız harita notlarınızdan birini
           çözdü. Bu not %{place} yakınlarında.'
       reopened:
-        subject_own: '[OpenHistoricalMap] %{commenter}, notlarınızdan birini yeniden etkinleştirdi.'
-        subject_other: '[OpenHistoricalMap] %{commenter}, ilgilendiğiniz bir notu yeniden
-          etkinleştirdi'
+        subject_own: '[OpenHistoricalMap] %{commenter}, notlarınızdan birini yeniden
+          etkinleştirdi.'
+        subject_other: '[OpenHistoricalMap] %{commenter}, ilgilendiğiniz bir notu
+          yeniden etkinleştirdi'
         your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan birini
           yeniden etkinleştirdi.'
         your_note_html: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan
@@ -1928,8 +1944,8 @@ tr:
       lost password link: Parolanı mı unuttun?
       login_button: Oturum aç
       register now: Şimdi kaydol
-      with username: 'OpenHistoricalMap hesabınız var mı? Lütfen kullanıcı adı ve parolanızla
-        oturum açın:'
+      with username: 'OpenHistoricalMap hesabınız var mı? Lütfen kullanıcı adı ve
+        parolanızla oturum açın:'
       with external: 'Alternatif olarak bir üçüncü parti uygulaması kullanarak oturum
         aç:'
       new to osm: OpenHistoricalMap sitesinde yeni misiniz?
@@ -1997,8 +2013,8 @@ tr:
     about:
       next: İleri
       copyright_html: <span>&copy;</span>OpenHistoricalMap<br>katkıda bulunanları
-      used_by_html: 'OpenHistoricalMap; binlerce web sitesi, mobil uygulama ve donanım cihazı
-        için harita verisi sağlar.'
+      used_by_html: OpenHistoricalMap, dünya tarihi boyunca harita verilerini işbirliği
+        içinde depolar ve görüntüler.
       lede_text: OpenHistoricalMap; tüm dünyada yollar, patikalar, kafeler, tren istasyonları
         ve çok daha fazlası hakkında veri sağlayan ve bunları koruyan bir haritacılar
         topluluğu tarafından oluşturulmuştur.
@@ -2078,13 +2094,6 @@ tr:
           okuyucularınızı openstreetmap.org'a, opendatacommons.org'a
           ve varsa creativecommons.org'a yönlendirmenizi
           öneriyoruz.
-        credit_3_1_html: "Harita &ldquo;standart stili&rdquo; www.openstreetmap.org
-          \nadresindeki OpenHistoricalMap Vakfı tarafından\nOpen Database Lisansı altında
-          OpenHistoricalMap verileri kullanılarak üretilmiş bir çalışmadır. Bu harita
-          stilini kullanırken harita verileriyle aynı atıf gereklidir."
-        credit_4_html: |-
-          Bir gezinebilir elektronik haritanın sağ alt köşesinde atfın görünmesi lazım.
-          Örnegin;
         attribution_example:
           alt: Web sayfasıında OpenHistoricalMap atıf etmek için bir örnek
           title: Atıf örneği
@@ -2092,57 +2101,19 @@ tr:
         more_1_html: |-
           Verilerimizi kullanma ve bizi nasıl referans verebileceğiniz hakkında daha fazla bilgi için <a
           href="https://osmfoundation.org/Licence">OSMF Lisans sayfasına</a> bakınız.
-        more_2_html: |-
-          OpenHistoricalMap açık veri olsa da, üçüncü taraflar
-          için ücretsiz bir harita API'ı sağlayamıyoruz. <a href="https://operations.osmfoundation.org/policies/api/">API Kullanım Politikası</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles/">Karo Kullanım Politikası</a>
-          ve <a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim Kullanım Politikası</a> sayfalarımıza bakınız.
         contributors_title_html: Katkıda Bulunanlar
         contributors_intro_html: |-
           Binlerce kişi projemize katkıda bulunmaktadır. Ulusal
           haritalama ajanslarından ve diğer kaynaklardan
           açık-lisanslı veriler de içeriyoruz:
-        contributors_at_html: |-
-          <strong>Avusturya</strong>: <a href="https://data.wien.gv.at/">Stadt Wien</a> (<a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> lisansı altında),
-          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> ve
-          Land Tirol'dan (<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">değişiklikleriyle CC BY AT lisansı altında</a>) veriler içermektedir.
-        contributors_au_html: |-
-          <strong>Avustralya</strong>: İdari Sınırlar kullanılarak birleştirilir veya geliştirilir &copy;
-          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Avustralya</a>,
-          Avustralya Topluluğu tarafından
-          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Atıf 4.0 Uluslararası lisansı (CC BY 4.0)</a> ile lisanslanmıştır.
-        contributors_ca_html: "<strong>Kanada</strong>: GeoBase&reg;, GeoGratis \n(&copy;
-          Department of Natural\nResources Canada), CanVec (&copy; Department of Natural\nResources
-          Canada) ve StatCan'den (Geography Division,\nStatistics Canada) veriler
-          içermektedir."
-        contributors_fi_html: |-
-          <strong>Finlandiya</strong>: National Land
-          Survey of Finland's Topographic Database
-          ve diğer veri setlerinden, <a href="https://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">NLSFI License</a> altında, veriler içermektedir..
-        contributors_fr_html: |-
-          <strong>Fransa</strong>: Direction Générale des Impôts'dan
-          veri içermektedir.
-        contributors_nl_html: |-
-          <strong>Hollanda</strong>: Contains &copy; AND veri, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: '<strong>Yeni Zelanda</strong>: <a href="https://data.linz.govt.nz/">LINZ
-          Data Service</a>''den alınan verileri içerir ve <a href="https://creativecommons.org/licenses/by/4.0/">CC
-          BY 4.0</a> altında kullanım için lisanslanmıştır.'
-        contributors_si_html: |-
-          <strong>Slovenya</strong>: <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> ve
-          <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
-          (Slovenya'nın halka açık bilgileri) sayfalarından
-          edinilen verileri içermektedir.
-        contributors_es_html: |-
-          <strong>İspanya</strong>: İspanya Ulusal Coğrafya Enstitüsü (<a href="http://www.ign.es/">IGN</a>) ile
-          Ulusal Kartografik Sistem'den (<a href="http://www.scne.es/">SCNE</a>) elde edilen verileri içerir ve tekrar kullanım amacıyla <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> ile lisanslanmıştır.
-        contributors_za_html: |-
-          <strong>Güney Afrika</strong>: <a href="http://www.ngi.gov.za/">Chief Directorate:
-          National Geo-Spatial Information</a> kaynaklı verileri içermektedir, Devlet telif hakkı saklıdır.
-        contributors_gb_html: |-
-          <strong>Birleşik Krallık</strong>: Contains Ordnance
-          Anket verileri & kopya; Crown telif hakkı ve veritabanı hakkı
-          2010-19.
+        contributors_cambridge-anr_html: <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/">Nüfus
+          ve Sosyal Yapıların Tarihi için Cambridge Grubu</a> <a href="https://anrcommunes.hypotheses.org/">ANR
+          Komünleri</a> projesi tarafından oluşturulan veriler içerir.
+        contributors_ned_html: Çeşitli <a href="https://www.naturalearthdata.com/"Natural
+          Earth Data</a> veri kümelerinden veriler içerir.
+        contributors_newberry_html: <a href="https://www.newberry.org/">Newberry Library</a>'nin
+          <a href-"https://digital.newberry.org/ahcb/">Tarihsel İlçe Sınırları Atlası</a>'ndan
+          veriler içerir.
         contributors_footer_1_html: |-
           OpenHistoricalMap'in geliştirilmesine yardımcı olmak için
           bu ve diğer kaynaklar hakkında daha ayrıntılı bilgi almak için,
@@ -2165,9 +2136,9 @@ tr:
           yanlışlıkla eklendiğine inanıyorsanız <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">kaldırma prosedürü</a> sayfasına başvurun veya
           doğrudan <a href="https://dmca.openstreetmap.org/">çevrimiçi dosyalama sayfamızda</a> kayda geçirin.
         trademarks_title_html: <span id="trademarks"></span>Ticari Markalar
-        trademarks_1_html: OpenHistoricalMap, büyüteç logosu ve State of the Map; OpenHistoricalMap
-          Foundation'ın tescilli ticari markalarıdır. Markaların kullanımı ile ilgili
-          sorularınız varsa lütfen sorularınızı <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Lisans
+        trademarks_1_html: OpenHistoricalMap, büyüteç logosu ve State of the Map;
+          OpenHistoricalMap Foundation'ın tescilli ticari markalarıdır. Markaların
+          kullanımı ile ilgili sorularınız varsa lütfen sorularınızı <a href="https://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Lisans
           Çalışma Grubu</a>'na gönderiniz
     index:
       js_1: JavaScript desteklemeyen bir tarayıcı kullanıyorsunuz ya da JavaScript
@@ -2264,8 +2235,8 @@ tr:
       welcome:
         url: /welcome
         title: OpenHistoricalMap'e hoş geldiniz!
-        description: OpenHistoricalMap temellerini öğrenmek için kısa bir kılavuz ile
-          başla.
+        description: OpenHistoricalMap temellerini öğrenmek için kısa bir kılavuz
+          ile başla.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Tr:Beginners%27_guide
         title: Yeni Başlayanlar Kılavuzu
@@ -2273,8 +2244,8 @@ tr:
       help:
         url: https://help.openstreetmap.org/
         title: Yardım Forumu
-        description: Bir soru sor veya OpenHistoricalMap'in soru-ve-cevap sitesinde yanıtları
-          ara.
+        description: Bir soru sor veya OpenHistoricalMap'in soru-ve-cevap sitesinde
+          yanıtları ara.
       mailing_lists:
         title: E-Posta Listeleri
         description: Oldukça geniş yerel veya bölgesel e-posta listelerinde soru sorabilir
@@ -2288,26 +2259,17 @@ tr:
         description: Birçok dilde ve birçok konuda interaktif sohbet.
       switch2osm:
         title: switch2osm
-        description: OpenHistoricalMap tabanlı haritalara ve diğer hizmetlere geçiş yapan
-          şirketler ve kuruluşlar için yardım.
+        description: OpenHistoricalMap tabanlı haritalara ve diğer hizmetlere geçiş
+          yapan şirketler ve kuruluşlar için yardım.
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Organizasyonlar için
-        description: OpenHistoricalMap için plan yapan bir organizasyon var mı? Hoş Geldiniz
-          sayfasında bilmeniz gerekenleri bulun.
+        description: OpenHistoricalMap için plan yapan bir organizasyon var mı? Hoş
+          Geldiniz sayfasında bilmeniz gerekenleri bulun.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: OpenHistoricalMap Viki
         description: Ayrıntılı OpenHistoricalMap belgeleri için wiki'ye göz atın.
-    potlatch:
-      removed: Varsayılan OpenHistoricalMap düzenleyiciniz Potlatch olarak ayarlanmıştır.
-        Adobe Flash Player geri çekildiğinden, Potlatch artık bir web tarayıcısında
-        kullanılamaz.
-      desktop_html: Potlatch'ı <a href="https://www.systemed.net/potlatch/">Mac ve
-        Windows için masaüstü uygulamasını indirerek</a> kullanmaya devam edebilirsiniz.
-      id_html: Alternatif olarak, varsayılan düzenleyicinizi, daha önce Potlatch'ın
-        yaptığı gibi web tarayıcınızda çalışan kimliği ayarlayabilirsiniz. <a href="%{settings_url}">Tercihlerinizi
-        buradan değiştirin</a>.
     sidebar:
       search_results: Arama Sonuçları
       close: Kapat
@@ -2398,9 +2360,9 @@ tr:
         için her şey hazır. İşte bilmeniz gereken en önemli şeylerin hızlı bir kılavuzu.
       whats_on_the_map:
         title: Haritada ne bulunur
-        on_html: OpenHistoricalMap, <em>gerçek ve güncel</em> şeyleri haritalamak için
-          bir yerdir. Bu milyonlarca binaları, yolları ve yerler hakkında diğer ayrıntıları
-          içerir. İlgini çeken her türlü gerçek dünya özelliklerini haritalayabilirsin.
+        on_html: OpenHistoricalMap, <em>gerçek ve güncel</em> şeyleri haritalamak
+          için bir yerdir. Bu milyonlarca binaları, yolları ve yerler hakkında diğer
+          ayrıntıları içerir. İlgini çeken her türlü gerçek dünya özelliklerini haritalayabilirsin.
         off_html: Neyi <em>içermez?</em> Önyargılı veriler gibi değerlendirmeler,
           tarihî ya da farazi özellikler ve telif hakkı olan kaynaklardan gelen verileri
           <em>içermez.</em> Özel izniniz yoksa, çevrimiçi ya da kâğıt haritaları kopyalamayın.
@@ -2427,11 +2389,12 @@ tr:
           <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Otomatik Düzenlemeler</a>
       questions:
         title: Sorularınız var mı?
-        paragraph_1_html: OpenHistoricalMap, proje hakkında bilgiler içeren, soru sormak
-          ve soruları cevaplamak için ve işbirliği halinde tartışma yapılan ve haritalama
-          konularını belgelemek için çeşitli kaynaklara sahiptir. <a href='%{help_url}'>Buradan
-          yardım alın</a>. OpenHistoricalMap için plan yapan bir organizasyon var mı?
-          <a href='https://welcome.openstreetmap.org/'>Hoş geldin sayfasına bakınız</a>
+        paragraph_1_html: OpenHistoricalMap, proje hakkında bilgiler içeren, soru
+          sormak ve soruları cevaplamak için ve işbirliği halinde tartışma yapılan
+          ve haritalama konularını belgelemek için çeşitli kaynaklara sahiptir. <a
+          href='%{help_url}'>Buradan yardım alın</a>. OpenHistoricalMap için plan
+          yapan bir organizasyon var mı? <a href='https://welcome.openstreetmap.org/'>Hoş
+          geldin sayfasına bakınız</a>
       start_mapping: Harita Çizmeye Başla
       add_a_note:
         title: Düzenlemek için vaktin yok mu? O zaman bir not ekle!
@@ -2475,6 +2438,7 @@ tr:
       title: '%{name} izi düzenleniyor'
       heading: '%{name} izi düzenleniyor'
       visibility_help: bu ne demek?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Tr:Visibility_of_GPS_traces
     update:
       updated: İzleme güncellendi
     trace_optionals:
@@ -2556,8 +2520,8 @@ tr:
     require_admin:
       not_an_admin: Bu eylemi gerçekleştirmek için yönetici olmanız gerekiyor.
     setup_user_auth:
-      blocked_zero_hour: OpenHistoricalMap web sitesinde önemli bir mesajınız var. Düzenlemelerinizi
-        kaydetmeden önce mesajı okumanız gerekiyor.
+      blocked_zero_hour: OpenHistoricalMap web sitesinde önemli bir mesajınız var.
+        Düzenlemelerinizi kaydetmeden önce mesajı okumanız gerekiyor.
       blocked: API'a erişiminiz engellendi. Daha fazla bilgi edinmek için lütfen web
         arayüzüne giriş yapın.
       need_to_see_terms: API'a erişiminiz geçici olarak askıya alındı. Katılımcı Şartları'nı
@@ -2652,6 +2616,7 @@ tr:
       no_applications_html: '%{oauth2} standardını bizimle kullanmak için kaydettirmek
         istediğiniz bir uygulamanız var mı? Bu hizmete OAuth isteklerinde bulunabilmesi
         için uygulamanızı kaydetmeniz gerekir.'
+      oauth_2: OAuth 2
       new: Yeni uygulama kaydet
       name: Ad
       permissions: İzinler
@@ -2849,8 +2814,8 @@ tr:
       unknown_error: Kimlik doğrulama başarısız
     auth_association:
       heading: Kimliğiniz henüz bir OpenHistoricalMap hesabıyla ilişkili değil.
-      option_1: OpenHistoricalMap'te yeniyseniz, lütfen aşağıdaki formu kullanarak yeni
-        bir hesap açın.
+      option_1: OpenHistoricalMap'te yeniyseniz, lütfen aşağıdaki formu kullanarak
+        yeni bir hesap açın.
       option_2: Hâlihazırda bir hesabınız varsa kullanıcı adınız ve şifrenizi kullanarak
         hesabınıza giriş yapabilir ve ardından hesaplarınızı kullanıcı ayarlarınızda
         kimliğinizle ilişkilendirebilirsiniz.
@@ -3034,6 +2999,8 @@ tr:
           one: Bu noktanın bir adım içindesiniz
           other: Bu noktanın %{count} adım içindesiniz
       base:
+        historical: Tarihi
+        woodblock: Ahşap blok
         standard: Standart
         cyclosm: CyclOSM
         cycle_map: Bisiklet Haritası

@@ -8,6 +8,7 @@
 # Author: Bassem JARKAS
 # Author: ButterflyOfFire
 # Author: Danieldegroot2
+# Author: Dr-Taher
 # Author: Dr. Mohammed
 # Author: Fahad
 # Author: Faris knight
@@ -62,7 +63,7 @@ ar:
       message:
         create: أرسل
       client_application:
-        create: سجِّل
+        create: سجِّل
         update: تحديث
       doorkeeper_application:
         create: سجِّل
@@ -140,6 +141,8 @@ ar:
         language: اللغة
       doorkeeper/application:
         name: الاسم
+        redirect_uri: إعادة توجيه URIs
+        confidential: تطبيق سري؟
         scopes: الصلاحيات
       friend:
         user: المستخدم
@@ -183,11 +186,22 @@ ar:
         pass_crypt: كلمة السر
         pass_crypt_confirmation: أكد كلمة السر
     help:
+      doorkeeper/application:
+        confidential: سيجري استخدام التطبيق بحيث يمكن الحفاظ على سرية العميل (تطبيقات
+          الجوال الأصلية وتطبيقات الصفحة الواحدة ليست سرية)
+        redirect_uri: استخدم سطرًا واحدًا لكل URI
       trace:
         tagstring: محدد بفواصل
       user_block:
+        reason: سبب منع المستخدم. يرجى التحلي بالهدوء والعقلانية قدر الإمكان، وإعطاء
+          أكبر قدر ممكن من التفاصيل حول الموقف، وتذكر أن الرسالة ستكون مرئية للعامة.
+          ضع في اعتبارك أنكثير من المستخدمين لا يعرفون المصطلحات الخاصة بالمجتمع،
+          لذا يرجى محاولة استخدام مصطلحات الشخص العادي.
         needs_view: هل يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة؟
       user:
+        email_confirmation: لم يجري عرض عنوانك علنًا، راجع <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">سياسة الخصوصية</a>
+          الخاصة بنا للحصول على مزيد من المعلومات.
         new_email: (لا يظهر علنًا)
   datetime:
     distance_in_words_ago:
@@ -274,7 +288,27 @@ ar:
   account:
     deletions:
       show:
+        title: حذف حسابي
+        warning: تحذير! عملية حذف الحساب نهائية ولا يمكن التراجع عنها.
         delete_account: حذف الحساب
+        delete_introduction: 'يمكنك حذف حساب OpenHistoricalMap الخاص بك باستخدام الزر
+          أدناه. يرجى ملاحظة التفاصيل التالية:'
+        delete_profile: سيجري إزالة معلومات ملفك الشخصي، بما في ذلك الصورة الرمزية
+          والوصف وموقع المنزل.
+        delete_display_name: ستتم إزالة اسم العرض الخاص بك، ويمكن إعادة استخدامه بواسطة
+          حسابات أخرى.
+        retain_caveats: 'ومع ذلك، سيجري الاحتفاظ ببعض المعلومات المتعلقة بك في OpenHistoricalMap،
+          حتى بعد حذف حسابك:'
+        retain_edits: سيتم الاحتفاظ بالتعديلات التي أجريتها على قاعدة بيانات الخرائط،
+          إن وجدت.
+        retain_traces: سيتم الاحتفاظ بآثارك التي تم تحميلها، إن وجدت.
+        retain_diary_entries: سيجري الاحتفاظ بإدخالات اليوميات الخاصة بك وتعليقات
+          اليوميات، إن وجدت ، ولكن سيجري إخفاؤها عن العرض.
+        retain_notes: سيجري الاحتفاظ بملاحظات الخريطة وتعليقات الملاحظات، إن وجدت  لكن
+          سيجري إخفاؤها عن العرض.
+        retain_changeset_discussions: سيجري الاحتفاظ بمناقشات مجموعة التغييرات الخاصة
+          بك، إن وجدت.
+        retain_email: سيتم الاحتفاظ بعنوان بريدك الإلكتروني.
         confirm_delete: هل أنت متأكد؟
         cancel: إلغاء
   accounts:
@@ -312,6 +346,7 @@ ar:
         link text: ما هذا؟
       save changes button: حفظ التغييرات
       make edits public button: اجعل جميع تعديلاتي عامة
+      delete_account: حذف الحساب
     update:
       success_confirm_needed: تم تحديث معلومات المستخدم بنجاح، تحقق من بريدك الإلكتروني
         لملاحظة تأكيد العنوان الإلكتروني الجديد.
@@ -870,7 +905,6 @@ ar:
           commercial: منطقة تجارية
           conservation: محمية طبيعية
           construction: ورشة بناء
-          farm: مزرعة
           farmland: أرض زراعية
           farmyard: فناء مزرعة
           forest: غابة
@@ -1333,7 +1367,7 @@ ar:
     sign_up_tooltip: أنشئ حسابًا للتعديل
     edit: تعديل
     history: تاريخ
-    export: صدِّر
+    export: صدِّر
     issues: المشاكل
     data: البيانات
     export_data: تصدير البيانات
@@ -1349,8 +1383,6 @@ ar:
     intro_2_create_account: أنشئ حساب مستخدم
     hosting_partners_html: يتم دعم الاستضافة بواسطة %{ucl} و%{fastly} و%{bytemark}
       و%{partners} آخرين.
-    partners_ucl: UCL
-    partners_bytemark: استضافة Bytemark
     partners_partners: الشركاء
     tou: شروط الاستخدام
     osm_offline: حاليًا قاعدة بيانات خريطة الشارع المفتوحة مغلقة بينما يتم الانتهاء
@@ -1662,8 +1694,8 @@ ar:
     about:
       next: التالي
       copyright_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
-      used_by_html: 'OpenHistoricalMap تدعم البيانات على آلالاف من مواقع الويب وتطبيقات الجوّال
-        والأجهزة'
+      used_by_html: OpenHistoricalMap تدعم البيانات على آلالاف من مواقع الويب وتطبيقات
+        الجوّال والأجهزة
       lede_text: تم بناء خريطة الشارع المفتوحة من قبل مجتمع من مصممي الخرائط، وتساهم
         وتحافظ على البيانات حول الطرق والممرات والمقاهي ومحطات السكك الحديدية، وأكثر
         من ذلك بكثير، في جميع أنحاء العالم.
@@ -1739,8 +1771,6 @@ ar:
           \nتوجيه القراء إلى openstreetmap.org (ربما عن طريق توسيع \n'OpenHistoricalMap'
           إلى هذا العنوان الكامل)، وإلى opendatacommons.org، \nوإذا كان ذلك مناسبا،
           إلى creativecommons.org."
-        credit_4_html: 'للحصول على الخريطة الإلكترونية للتصفح; يجب أن يظهر الائتمان
-          في زاوية من الخريطة، مثلا:'
         attribution_example:
           alt: مثال على كيفية إسناد خريطة الشارع المفتوحة على صفحة ويب
           title: مثال الإسناد
@@ -1748,66 +1778,9 @@ ar:
         more_1_html: |-
           اقرأ المزيد حول استخدام بياناتنا ، وكيفية اعتمادنا ، على <a
           href = "https://osmfoundation.org/Licence"> صفحة ترخيص OSMF </a>
-        more_2_html: "على الرغم من أن خريطة الشارع المفتوحة عبارة عن بيانات مفتوحة،
-          إلا أنه لا يمكننا توفير \nواجهة برمجة تطبيقات خريطة حرة للأطراف الثالثة،
-          \nراجع <a href=\"https://operations.osmfoundation.org/policies/api/\">سياسة
-          استخدام واجهة برمجة التطبيقات</a>،\nو<a href=\"https://operations.osmfoundation.org/policies/tiles/\">سياسة
-          استخدام البلاط</a>،\nو<a href=\"https://operations.osmfoundation.org/policies/nominatim/\">سياسة
-          الاستخدام حسب الاسم</a> لدينا."
         contributors_title_html: المساهمين
         contributors_intro_html: "مساهمونا هم آلاف الأفراد، نوفر أيضا \nبيانات مرخصة
           بشكلٍ مفتوح من وكالات الخرائط الوطنية \nوغيرها من المصادر، من بينها:"
-        contributors_at_html: |-
-          <strong> النمسا </ strong>: يحتوي على بيانات من
-          <a href="https://data.wien.gv.at/"> Stadt Wien </a> (under
-          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de"> CC BY </a>) ،
-          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm"> Land Vorarlberg </a> and
-          Land Tirol (ضمن <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/"> CC BY AT مع التعديلات </a>).
-        contributors_au_html: |-
-          <strong>أستراليا</strong>: تحتوي على البيانات المستمدة من
-          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
-          المرخصة بواسطة كومنولث أستراليا تحت
-          <a href="https://creativecommons.org/licenses/by/4.0/">رخصة المشاع الإبداعي: النسبة-الترخيص بالمثل 4.0</a>.
-        contributors_ca_html: |-
-          <strong> كندا </ strong>: يحتوي على بيانات من
-          GeoBase & reg ؛، GeoGratis (& copy؛ Department of Natural
-          موارد كندا) ، CanVec (& نسخ ؛ قسم الطبيعية
-          الموارد الكندية) ، و StatCan (قسم الجغرافيا ،
-          إحصائيات كندا).
-        contributors_fi_html: |-
-          <strong> فنلندا </ strong>: تحتوي على بيانات من
-          مسح الأراضي الوطني لقاعدة بيانات طبوغرافية فنلندا
-          ومجموعات البيانات الأخرى ، تحت
-          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1"> ترخيص NLSFI </a>.
-        contributors_fr_html: |-
-          <strong> فرنسا </ strong>: تحتوي على بيانات مصدرها
-          الاتجاه العام لمقاطعة Impôts.
-        contributors_nl_html: |-
-          <strong> هولندا </ strong>: تحتوي على & نسخ؛ والبيانات ، 2007
-          (<a href="https://www.and.com"> www.and.com </a>)
-        contributors_nz_html: |-
-          <strong> نيوزيلندا </ strong>: يحتوي على بيانات مصدرها
-          <a href="https://data.linz.govt.nz/"> LINZ Data Service </a> و
-          مرخص لإعادة استخدامها تحت
-          <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a>.
-        contributors_si_html: |-
-          <strong> سلوفينيا </ strong>: تحتوي على بيانات من
-          <a href="http://www.gu.gov.si/en/"> Authority Survey and Mapping Authority </a> and
-          <a href="http://www.mkgp.gov.si/en/"> وزارة الزراعة والغابات والأغذية </a>
-          (معلومات عامة من سلوفينيا).
-        contributors_es_html: |-
-          <strong>es </strong>: تحتوي على بيانات مصدرها
-          المعهد الجغرافي الوطني الإسباني (<a href="http://www.ign.es/">IGN</a>) و
-          النظام الوطني لرسم الخرائط (<a href="http://www.scne.es/">SCNE</a>)
-          مرخصة لإعادة الاستخدام بموجب <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_za_html: |-
-          <strong> جنوب إفريقيا </ strong>: يحتوي على بيانات مصدرها
-          <a href="http://www.ngi.gov.za/"> المديرية العامة:
-          National Geo-Spatial Information </a>، State copyright reserved.
-        contributors_gb_html: |-
-          <strong>المملكة المتحدة</ strong>: تحتوي على
-          بيانات مسح الأجهزة الحربية وحقوق تأليف ونشر التاج وقاعدة البيانات الحقوق
-          2010-19.
         contributors_footer_1_html: |-
           لمزيد من التفاصيل عن هذه ، وغيرها من المصادر التي تم استخدامها
           للمساعدة في تحسين OpenHistoricalMap ، يرجى الاطلاع على <a
@@ -1829,9 +1802,9 @@ ar:
           الإجراء </a> أو الملف مباشرة في موقعنا
           <a href="https://dmca.openstreetmap.org/"> صفحة الإيداع عبر الإنترنت </a>.
         trademarks_title_html: <span id="trademarks"></span>علامات تجارية
-        trademarks_1_html: OpenHistoricalMap ، وشعار العدسة المكبرة وحالة الخريطة هي علامات
-          تجارية مسجلة لمؤسسة OpenHistoricalMap. إذا كانت لديك أسئلة حول استخدامك للعلامات
-          ، فيرجى الاطلاع على <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">
+        trademarks_1_html: OpenHistoricalMap ، وشعار العدسة المكبرة وحالة الخريطة
+          هي علامات تجارية مسجلة لمؤسسة OpenHistoricalMap. إذا كانت لديك أسئلة حول
+          استخدامك للعلامات ، فيرجى الاطلاع على <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">
           سياسة العلامات التجارية </a>.
     index:
       js_1: إما أنك تستخدم متصفحا لا يدعم جافا سكريبت، أو أنك عطلت استعمال جافا سكريبت.
@@ -2043,9 +2016,9 @@ ar:
           toilets: مرحاض
     welcome:
       title: مرحبا!
-      introduction_html: مرحبًا بك في OpenHistoricalMap ، خريطة حرة وقابلة للتعديل بواسطة
-        العالم. الآن بعد أن سجلت، أنت جاهز للبدء في رسم الخرائط، وإليك دليل سريع مع
-        الأشياء الأكثر أهمية تحتاج إلى معرفتها.
+      introduction_html: مرحبًا بك في OpenHistoricalMap ، خريطة حرة وقابلة للتعديل
+        بواسطة العالم. الآن بعد أن سجلت، أنت جاهز للبدء في رسم الخرائط، وإليك دليل
+        سريع مع الأشياء الأكثر أهمية تحتاج إلى معرفتها.
       whats_on_the_map:
         title: ما على الخريطة
         on_html: |-
@@ -2256,7 +2229,7 @@ ar:
         الخدمة.
       oauth: أوث
       registered_apps: 'لديك التطبيقات المسجلة التالية:'
-      register_new: سجِّل تطبيقك
+      register_new: سجِّل تطبيقك
     form:
       requests: 'اطلب الصلاحيات التالية من المستخدم:'
     not_found:
