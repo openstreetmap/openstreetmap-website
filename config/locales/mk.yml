@@ -265,8 +265,8 @@ mk:
           го вашиот аватар, опис и место на живеење.
         delete_display_name: Ќе биде отстрането вашето име за приказ, и истото може
           да го земе друга сметка.
-        retain_caveats: 'Сепак, OpenHistoricalMap ќе задржи некои информации за вас, дури
-          и по бришењето на сметката:'
+        retain_caveats: 'Сепак, OpenHistoricalMap ќе задржи некои информации за вас,
+          дури и по бришењето на сметката:'
         retain_edits: Вашите уредувања на картографската база.
         retain_traces: Вашите подигнати траги.
         retain_diary_entries: Вашите дневнички записи и коментари.
@@ -590,8 +590,8 @@ mk:
         description: Скорешни дневнички ставки од %{user}
       language:
         title: Дневнички ставки на %{language_name}
-        description: Скорешни дневнички ставки од корисниците на OpenHistoricalMap на
-          %{language_name}
+        description: Скорешни дневнички ставки од корисниците на OpenHistoricalMap
+          на %{language_name}
       all:
         title: Дневнички ставки
         description: Скорешни дневнички ставки од корисници на OpenHistoricalMap
@@ -636,6 +636,7 @@ mk:
           Nominatim</a>
         geonames_reverse_html: Исход од <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Кабелски трамвај
@@ -974,7 +975,6 @@ mk:
           commercial: Стопанско подрачје
           conservation: Заштитено земјиште
           construction: Градилиште
-          farm: Фарма
           farmland: Земјоделско земјиште
           farmyard: Селски двор
           forest: Шума
@@ -1515,6 +1515,9 @@ mk:
       successful_report: Вашата пријава е успешно заведена
       provide_details: Наведете ги потребните подробности
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
       alt_text: Лого на OpenHistoricalMap
     home: Оди на матичната местоположба
@@ -1537,20 +1540,27 @@ mk:
     edit_with: Уреди со %{editor}
     tag_line: Слободна вики-карта на светот
     intro_header: Добре дојдовте на OpenHistoricalMap!
-    intro_text: OpenHistoricalMap е карта на светот создадена од луѓе како вас и се нуди
-      за слободна употреба под отворена лиценца.
+    intro_text: OpenHistoricalMap е карта на светот создадена од луѓе како вас и се
+      нуди за слободна употреба под отворена лиценца.
+    intro_1: OpenHistoricalMap е проект предвиден за складирање и приказ на картографски
+      податоци кои ја опфаќаат историјата на светот. Работата на неа е постојано во
+      тек и ќе испробуваме многу нови функции со тек на време. Ви препорачуваме и
+      вие да почнете да испробувате и да уредувате податоци.
     intro_2_create_account: Создајте корисничка сметка
-    hosting_partners_html: Вдомувањето е поддржано од %{ucl}, %{fastly}, %{bytemark}
-      и други %{partners}.
-    partners_ucl: UCL
-    partners_fastly: Fastly
-    partners_bytemark: вдомителот „Bytemark“
+    partners_title: Партнери
+    hosting_partners_html: |-
+      <p>
+      <a href='https://greeninfo.org'>Мрежата GreenInfo</a> е непрофитна организација за картграфија и општење која им помага на непрофитните и владините организации да достигнат општествени, еколошки и други цели користејќи разни алатки, вклучувајќи осмислувачки практики задржани на човекот, соработна разработка, како и семрежни и геопросторни алатки со отворен код.
+      </p>
+      <p>
+      <a href='https://developmentseed.org/'>Development Seed</a> е претпријатие за инженерство и производи кои ја забрзува примената на податоци за Земјата во решавањето на најголемите глобални предизвици. Development Seed располага со масивно количество податоци, облачна информатика, геопросторна вештачка интелигенција и промислена разработка на производи.
+      </p>
     partners_partners: партнери
     tou: Услови на употреба
     osm_offline: Базата на податоци на  OpenHistoricalMap моментално е исклучена додека
       работиме на неопходни одржувања.
-    osm_read_only: Базата на податоци на OpenHistoricalMap моментално може само да се
-      чита, додека ги извршиме неопходните одржувања.
+    osm_read_only: Базата на податоци на OpenHistoricalMap моментално може само да
+      се чита, додека ги извршиме неопходните одржувања.
     donate: Поддржете ја OpenHistoricalMap со %{link} за Фондот за обнова на машинската
       опрема.
     help: Помош
@@ -1570,8 +1580,8 @@ mk:
     diary_comment_notification:
       subject: '[OpenHistoricalMap] %{user} коментираше на дневничка ставка'
       hi: Здраво %{to_user},
-      header: '%{from_user} коментираше на дневничката ставка на OpenHistoricalMap со
-        наслов %{subject}:'
+      header: '%{from_user} коментираше на дневничката ставка на OpenHistoricalMap
+        со наслов %{subject}:'
       header_html: '%{from_user} коментираше на дневничката ставка на OpenHistoricalMap
         со наслов %{subject}:'
       footer: Можете и да го прочитате коментарот на %{readurl}, да коментирате на
@@ -1581,7 +1591,8 @@ mk:
     message_notification:
       subject: '[OpenHistoricalMap] %{message_title}'
       hi: Здраво %{to_user},
-      header: '%{from_user} ви испрати порака преку OpenHistoricalMap со насловот %{subject}:'
+      header: '%{from_user} ви испрати порака преку OpenHistoricalMap со насловот
+        %{subject}:'
       header_html: '%{from_user} ви испрати порака преку OpenHistoricalMap со насловот
         %{subject}:'
       footer: Можете и да ја прочитате пораката на %{readurl} и да му испратите порака
@@ -1640,9 +1651,10 @@ mk:
       anonymous: Анонимен корисник
       greeting: Здраво,
       commented:
-        subject_own: '[OpenHistoricalMap] %{commenter} искоментира на една од вашите белешки'
-        subject_other: '[OpenHistoricalMap] %{commenter} искоментира на белешка што ве
-          интересира'
+        subject_own: '[OpenHistoricalMap] %{commenter} искоментира на една од вашите
+          белешки'
+        subject_other: '[OpenHistoricalMap] %{commenter} искоментира на белешка што
+          ве интересира'
         your_note: '%{commenter} искоментира на една од вашите белешки на картите
           близу %{place}.'
         your_note_html: '%{commenter} искоментира на една од вашите белешки на картите
@@ -1662,12 +1674,14 @@ mk:
         commented_note_html: '%{commenter} реши картографска белешка на која вие веќе
           коментиравте. Белешката се наоѓа кај %{place}.'
       reopened:
-        subject_own: '[OpenHistoricalMap] %{commenter} преактивира една од вашите белешки'
-        subject_other: '[OpenHistoricalMap] %{commenter} преактивира белешка што ве интересира'
+        subject_own: '[OpenHistoricalMap] %{commenter} преактивира една од вашите
+          белешки'
+        subject_other: '[OpenHistoricalMap] %{commenter} преактивира белешка што ве
+          интересира'
         your_note: '[OpenHistoricalMap] %{commenter} преактивира една од вашите белешки
           на каритте близу %{place}.'
-        your_note_html: '[OpenHistoricalMap] %{commenter} преактивира една од вашите белешки
-          на каритте близу %{place}.'
+        your_note_html: '[OpenHistoricalMap] %{commenter} преактивира една од вашите
+          белешки на каритте близу %{place}.'
         commented_note: '%{commenter} реши картографска белешка на која имате коментирано.
           Белешката се наоѓа близу %{place}.'
         commented_note_html: '%{commenter} реши картографска белешка на која имате
@@ -1678,9 +1692,10 @@ mk:
       hi: Здраво %{to_user},
       greeting: Здраво,
       commented:
-        subject_own: '[OpenHistoricalMap] %{commenter} искоментира на една од вашите промени'
-        subject_other: '[OpenHistoricalMap] %{commenter} искоментира на промена што ве
-          интересира'
+        subject_own: '[OpenHistoricalMap] %{commenter} искоментира на една од вашите
+          промени'
+        subject_other: '[OpenHistoricalMap] %{commenter} искоментира на промена што
+          ве интересира'
         your_changeset: '%{commenter} во %{time} даде коментар на една од вашите промени'
         your_changeset_html: '%{commenter} во %{time} даде коментар на една од вашите
           промени'
@@ -1934,8 +1949,8 @@ mk:
     about:
       next: Следно
       copyright_html: <span>&copy;</span>Учесници на<br>OpenHistoricalMap
-      used_by_html: 'OpenHistoricalMap обезбедува картографски податоци на илјадници мрежни
-        места, мобилни прилози и сметачки уреди'
+      used_by_html: OpenHistoricalMap обезбедува картографски податоци на илјадници
+        мрежни места, мобилни прилози и сметачки уреди
       lede_text: |-
         OpenHistoricalMap ја гради заедница од учесници што придонесуваат со свои содржини и ги одржуваат податоците
         за патишта, патеки, кафеани, железнички станици и многу друго ширум светот.
@@ -1961,16 +1976,16 @@ mk:
         под истата лиценца. Повеќе ќе најдете на страницата <a href='%{copyright_path}'>Авторски права и лиценцирање</a>.
       legal_title: Правни работи
       legal_1_html: "Ова мрежно место и многу други поврзани услуги со кои раководи
-        \ \n<a href='https://osmfoundation.org/'>Задолжбината OpenHistoricalMap</a> (OSMF)
-        \nво име на заедницата. Употребата на сите услуги што ги нуди OSMF подлежи
-        на нашите <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Услови
+        \ \n<a href='https://osmfoundation.org/'>Задолжбината OpenHistoricalMap</a>
+        (OSMF) \nво име на заедницата. Употребата на сите услуги што ги нуди OSMF
+        подлежи на нашите <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Услови
         на употреба</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nПравила
         за прифатлива употреба</a> и <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Правилата
         за заштита на личните податоци</a>."
       legal_2_html: "Ве молиме <a href='https://osmfoundation.org/Contact'>обратете
         се кај OSMF</a> \nако имате прашања во врска со лиценцирањето, авторките права
-        и други правни прашања и проблеми.\n<br>\nOpenHistoricalMap, логото со лупа и
-        „Состојба на картата“ се <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">заштитни
+        и други правни прашања и проблеми.\n<br>\nOpenHistoricalMap, логото со лупа
+        и „Состојба на картата“ се <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">заштитни
         знаци на OSMF</a>."
       partners_title: Партнери
     copyright:
@@ -1988,8 +2003,8 @@ mk:
         mapping_link: почнете да ги работите картите
       legal_babble:
         title_html: Авторски права и лиценца
-        intro_1_html: "OpenHistoricalMap<sup><a href=\"#trademarks\">&reg;</a></sup> има
-          <i>отворени податоци</i> под лиценцата <a\nhref=\"https://opendatacommons.org/licenses/odbl/\">Open
+        intro_1_html: "OpenHistoricalMap<sup><a href=\"#trademarks\">&reg;</a></sup>
+          има <i>отворени податоци</i> под лиценцата <a\nhref=\"https://opendatacommons.org/licenses/odbl/\">Open
           Data\nCommons Open Database License</a> (ODbL) од <a\n \t+\t\nhref=\"https://osmfoundation.org/\">фондацијата
           OpenHistoricalMap</a> (OSMF)."
         intro_2_html: "Нашите податоци слободно можете да ги умножувате, распространувате,
@@ -2011,16 +2026,8 @@ mk:
           OSM во \nподаточен облик) е непосредно да го наведете името на лиценцата
           и да ставите врска. \nВо медиумите каде врските не се можни are not possible
           (на пр. печатени дела), предлагаме \nда ги упатите читателите кон openstreetmap.org
-          (можеби со проширување на \n'OpenHistoricalMap' на оваа полна адреса), кон opendatacommons.org
-          и\n(ако е релевантно) кон creativecommons.org."
-        credit_3_1_html: "Картографските полиња во &ldquo;стандардниот стил&rdquo;
-          на www.openstreetmap.org се \nдело на Задолжбината OpenHistoricalMap користејќи
-          податоци од OpenHistoricalMap под лиценцата Отворена база на податоци. Кога
-          го користите овој стил на картата, ве молиме наведете го истиот извор како
-          за податоците на картата."
-        credit_4_html: |-
-          Кај пребарливата електронска карта, припишувањето треба да се прикаже во аголот од картата.
-          На пример:
+          (можеби со проширување на \n'OpenHistoricalMap' на оваа полна адреса), кон
+          opendatacommons.org и\n(ако е релевантно) кон creativecommons.org."
         attribution_example:
           alt: Пример за тоа како да ја наведете OpenHistoricalMap на некоја страница
           title: Пример за наведување
@@ -2028,62 +2035,19 @@ mk:
         more_1_html: |-
           Повеќе за употребата на нашите податоци и како да нè наведете ќе најдете на <a
           href="https://osmfoundation.org/Licence">лиценцната страница</a>.
-        more_2_html: |-
-          Иако OpenHistoricalMap работи со отворени податоци, ние не можеме да понудиме
-          бесплатни извршници (API) за карти на трети лица.
-          Погледајте ги <a href="https://operations.osmfoundation.org/policies/api/">правилата за употреба на извршникот</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles/">правилата за полињата</a>
-          и <a href="https://operations.osmfoundation.org/policies/nominatim/">за Nominatim</a>.
         contributors_title_html: Нашите учесници
         contributors_intro_html: |-
           Во нашиот проект учествуваат илјадници поединци. Користиме и
           податоци со отворена лиценца од државни картографски установи
           и други извори, меѓу кои се:
-        contributors_at_html: |-
-          <strong>Австрија</strong>: Содржи податоци од
-          <a href="https://data.wien.gv.at/">Град Виена</a> (под
-          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.mk">CC BY</a>),
-          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Покраина Предарлска</a> и
-          Покраина Тирол (под <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT со исправки</a>).
-        contributors_au_html: |-
-          <strong>Австралија</strong>: Содржи податоци преземени од или разработени врз основа на
-          &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Австралија</a>
-          ставени на располагање од австралиската држава под лиценцата <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">Криејтив Комонс Наведи извор 4.0 Меѓународна (CC BY 4.0)</a>.
-        contributors_ca_html: |-
-          <strong>Canada</strong>: Содржи податоци од
-          GeoBase&reg;, GeoGratis (&copy; Министерство за природни ресурси на Канада), CanVec (&copy; Министерство за природни ресурси на Канада), and StatCan (Географско одделение,
-          Статистичка служба на Канада).
-        contributors_fi_html: |-
-          <strong>Финска</strong>: Содржи податоци од топографската база и други ресурси на Државната геодетска служба на Финска, под лиценцата
-          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI</a>.
-        contributors_fr_html: |-
-          <strong>Франција</strong>: Содржи податоци од
-          Генералната даночна управа.
-        contributors_nl_html: |-
-          <strong>Холандија</strong>: Содржи &copy; податоци од AND, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Нов Зеланд</strong>: Содржи податоци од
-          <a href="https://data.linz.govt.nz/">Катастарската служба на Нов Зеланд (LINZ)</a> и лиценцирана за примена под лиценцата
-          <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">CC BY 4.0</a>.
-        contributors_si_html: |-
-          <strong>Словенија</strong>: Содржи податоци од
-          <a href="http://www.gu.gov.si/en/">Геодетската управа</a> и
-          <a href="http://www.mkgp.gov.si/en/">Министерството за земјоделство, шумарство и храна</a>
-          (јавни информации од Словенија).
-        contributors_es_html: |-
-          <strong>Шпанија</strong>: Содржи податоци преземени од
-          Националниот географски институт на Шпанија (<a href="http://www.ign.es/">IGN</a>) и
-          Националниот картографски систем (<a href="http://www.scne.es/">SCNE</a>)
-          достапни за употреба под лиценцата <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">CC BY 4.0</a>.
-        contributors_za_html: |-
-          <strong>ЈАР</strong>: Содржи податоци од
-          <a href="http://www.ngi.gov.za/">Главната управа:
-          Национална катастарска служба</a>, државни авторски права задржани.
-        contributors_gb_html: |-
-          <strong>Велика Британија</strong>: Содржи податоци
-          од Картографскиот завод на Обединетото Кралство&copy; Крунски авторски права и
-          права на базата 2010-19 г.
+        contributors_cambridge-anr_html: Содржи податоци создадени од <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/">Групата
+          за историја на населението и општенствените структури при Кембричкиот универзитет</a>,
+          проект на <a href="https://anrcommunes.hypotheses.org/">ANR Communes</a>.
+        contributors_ned_html: Содржи податоци од разни податочни збирови од <a href="https://www.naturalearthdata.com/">Natural
+          Earth Data</a>.
+        contributors_newberry_html: Содржи податоци од <a href-"https://digital.newberry.org/ahcb/">Атласот
+          на историски окружни граници</a> од <a href="https://www.newberry.org/">Библиотеката
+          „Њубери“</a>.
         contributors_footer_1_html: |-
           Повеќе информации за овие и други извори искористени
           за подобрување на OpenHistoricalMap ќе најдете на страницата <a
@@ -2097,15 +2061,15 @@ mk:
           Би сакале да ги потсетиме учесниците на OSM дека никогаш не смеат да ставаат
           податоци од извори заштитени со авторски права (на пр. Google Карти или печатени карти) без
           изречна дозвола од нивните праводршци.
-        infringement_2_html: "Доколку сметате дека базата на OpenHistoricalMap или ова
-          мрежно место\nсодржи бесправно или неисправно поставени податоци, погледајте
+        infringement_2_html: "Доколку сметате дека базата на OpenHistoricalMap или
+          ова мрежно место\nсодржи бесправно или неисправно поставени податоци, погледајте
           ја\n<a href=\"https://www.osmfoundation.org/wiki/License/Takedown_procedure\">процедурата
           \nза отстранување</a> или поднесете жалба на \n<a href=\"https://dmca.openstreetmap.org/\">оваа
           наменска страница</a>."
         trademarks_title_html: <span id="trademarks"></span>Заштитни знаци
-        trademarks_1_html: OpenHistoricalMap, логото со лупа и  „State of the Map“ („Состојба
-          на картата“) се заштитни знаци на задолжбината OpenHistoricalMap. Ако имате
-          прашања во врска со употребата на знаците, погл. <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Работната
+        trademarks_1_html: OpenHistoricalMap, логото со лупа и  „State of the Map“
+          („Состојба на картата“) се заштитни знаци на задолжбината OpenHistoricalMap.
+          Ако имате прашања во врска со употребата на знаците, погл. <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Работната
           група за лиценци</a>.
     index:
       js_1: Или користите прелистувач кој не поддржува JavaScript, или пак сте го
@@ -2234,16 +2198,8 @@ mk:
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Mk:Main_Page
         title: Вики на OpenHistoricalMap
-        description: Прелистајте ја подробната документација за OpenHistoricalMap на викито.
-    potlatch:
-      removed: Вашиот стандарден уредник на OpenHistoricalMap е наместен да биде Potlatch.
-        Поради укинувањето на Adobe Flash Player, Potlatch повеќе не е достапен за
-        употреба во прелистувач.
-      desktop_html: Сепак, можете да го користите Potlatch со <a href="https://www.systemed.net/potlatch/">преземајќи
-        го ова програмче за Mac и Windows</a>.
-      id_html: Во спротивно, ставете го уредникот iD како стандарден, кој работи на
-        прелистувачот како што тоа беше со Potlatch. <a href="%{settings_url}">Сменете
-        си ги корисничките нагодувања овде</a>.
+        description: Прелистајте ја подробната документација за OpenHistoricalMap
+          на викито.
     sidebar:
       search_results: Исход од пребарувањето
       close: Затвори
@@ -2329,9 +2285,9 @@ mk:
           toilets: Тоалет
     welcome:
       title: Добре дојдовте!
-      introduction_html: Добре дојдовте на OpenHistoricalMap — слободна и уредлива карта
-        на светот. Сега веќе сте зачленети, што значи дека можете да почнете со работа.
-        Еве мала помош за најважните работи што треба да ги знаете.
+      introduction_html: Добре дојдовте на OpenHistoricalMap — слободна и уредлива
+        карта на светот. Сега веќе сте зачленети, што значи дека можете да почнете
+        со работа. Еве мала помош за најважните работи што треба да ги знаете.
       whats_on_the_map:
         title: Што има на картата
         on_html: На OpenHistoricalMap се ставаат најразчични <em>вистински и тековни</em>
@@ -2784,8 +2740,8 @@ mk:
       unknown_error: Заверката не успеа
     auth_association:
       heading: Вашата назнака сè уште не е здружена со сметка на OpenHistoricalMap.
-      option_1: Доколку сте нови на OpenHistoricalMap, направете сметка користејќи го
-        образецот подолу.
+      option_1: Доколку сте нови на OpenHistoricalMap, направете сметка користејќи
+        го образецот подолу.
       option_2: Ако веќе имате сметка, можете да се најавите на неа користејќи го
         вашето презиме и лозинка, па во корисничките нагодувања да ја здружите сметката
         со вашата назнака.
@@ -2967,6 +2923,8 @@ mk:
           one: Се наоѓате на една стапка од оваа точка
           other: Се наоѓате на %{count} стапки од оваа точка
       base:
+        historical: Историска
+        woodblock: Дрвен блок
         standard: Стандардна
         cyclosm: CyclOSM
         cycle_map: Велосипедска

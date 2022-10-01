@@ -116,7 +116,7 @@ sl:
         public: Javnost sledi
         description: Opis
         gpx_file: Naloži datoteko GPX
-        visibility: Vidljivost
+        visibility: Vidnost
         tagstring: Oznake
       message:
         sender: Pošiljatelj
@@ -344,7 +344,9 @@ sl:
       nodes: Vozlišča
       also_part_of_html:
         one: del poti %{related_ways}
-        other: del poti %{related_ways}
+        two: delov poti %{related_ways}
+        few: '%delov poti {related_ways}'
+        other: delov poti %{related_ways}
     relation:
       title_html: 'Zveza: %{name}'
       history_title_html: 'Zgodovina povezave: %{name}'
@@ -524,7 +526,6 @@ sl:
       comment_count:
         one: '%{count} komentar'
         two: '%{count} komentarja'
-        zero: Brez komentarjev
         few: '%{count} komentarji'
         other: '%{count} komentarjev'
       edit_link: Uredi ta vnos
@@ -862,7 +863,6 @@ sl:
           commercial: Poslovna cona
           conservation: Zaščiteno področje
           construction: Gradbišče
-          farm: Kmetija
           farmland: Kmetijsko zemljišče
           farmyard: Kmetija
           forest: Gozd
@@ -1283,18 +1283,25 @@ sl:
     edit_with: Za urejanje uporabi %{editor}
     tag_line: Prost wiki zemljevid sveta
     intro_header: Dobrodošli na OpenHistoricalMap!
-    intro_text: OpenHistoricalMap je zemljevid sveta, ki ga ustvarjajo ljudje kot ste
-      vi, brezplačen za uporabo z odprto licenco.
+    intro_text: OpenHistoricalMap je zemljevid sveta, ki ga ustvarjajo ljudje kot
+      ste vi, brezplačen za uporabo z odprto licenco.
     intro_2_create_account: Ustvarite uporabniški račun
-    hosting_partners_html: Gostovanje omogočajo %{ucl}, %{bytemark} in drugi %{partners}.
-    partners_ucl: UCL
-    partners_bytemark: Bytemark Hosting
+    hosting_partners_html: "<p>\n <a href='https://greeninfo.org'>GreenInfo Network</a>
+      je neprofitna družbeno koristna kartografska in komunikacijska organizacija,
+      ki pomaga neprofitnim organizacijam in vladnim agencijam pri doseganju družbenih,
+      okoljskih in drugih ciljev z vrsto orodij, vključno s praksami oblikovanja,
+      osredotočenimi na človeka, skupnim razvojem ter odprtokodnimi spletnimi in geoprostorskimi
+      orodji. \n</p> \n<p> \n <a href='https://developmentseed.org/'>Development Seed</a>
+      je inženirsko in proizvodno podjetje, ki pospešuje uporabo zemeljskih podatkov
+      za naše največje globalne izzive. Development Seed izkorišča ogromne podatke
+      o Zemlji, računalništvo v oblaku, geoprostorsko umetno inteligenco in premišljen
+      razvoj izdelkov.\n</p>"
     partners_partners: partnerji
     tou: Pogoji uporabe
     osm_offline: Baza OpenHistoricalMap zaradi izvajanja nujnih vzdrževalnih del trenutno
       ni dostopna.
-    osm_read_only: Baza OpenHistoricalMap je zaradi izvajanja nujnih vzdrževalnih del
-      trenutno dostopna le za branje.
+    osm_read_only: Baza OpenHistoricalMap je zaradi izvajanja nujnih vzdrževalnih
+      del trenutno dostopna le za branje.
     donate: Podprite OpenHistoricalMap z %{link} v fond za nadgradnjo strojne opreme.
     help: Pomoč
     about: O projektu
@@ -1334,9 +1341,19 @@ sl:
         Napaka:'
       subject: '[OpenHistoricalMap] Neuspeh uvoza datoteke GPX'
     gpx_success:
-      loaded_successfully: |-
-        bila uspešno uvožena z %{trace_points} od vseh možnih
-        %{possible_points} točk.
+      loaded_successfully:
+        one: |-
+          bila uspešno uvožena z %{trace_points} od možne
+          1 točke.
+        two: |-
+          bila uspešno uvožena z %{trace_points} od vseh možnih
+          %{possible_points} točk
+        few: |-
+          bila uspešno uvožena z %{trace_points} od vseh možnih
+          %{possible_points} točk
+        other: |-
+          bila uspešno uvožena z %{trace_points} od vseh možnih
+          %{possible_points} točk
       subject: '[OpenHistoricalMap] Uspeh uvoza datoteke GPX'
     signup_confirm:
       subject: '[OpenHistoricalMap] Dobrodošli na OpenHistoricalMap'
@@ -1364,16 +1381,19 @@ sl:
       anonymous: Brezimni uporabnik
       greeting: Živijo,
       commented:
-        subject_own: '[OpenHistoricalMap] %{commenter} je komentiral eno izmed vaših opomb'
-        subject_other: '[OpenHistoricalMap] %{commenter} je komentiral opombo, ki vas
-          zanima'
+        subject_own: '[OpenHistoricalMap] %{commenter} je komentiral eno izmed vaših
+          opomb'
+        subject_other: '[OpenHistoricalMap] %{commenter} je komentiral opombo, ki
+          vas zanima'
         your_note: '%{commenter} je pustil/-a komentar za opombo na zemljevidu v bližini
           %{place}.'
         commented_note: '%{commenter} je pustil/-a komentar za opombo na zemljevidu,
           ki ste jo vi komentirali. Opomba je v bližini %{place}.'
       closed:
-        subject_own: '[OpenHistoricalMap] %{commenter} je rešil/-a eno izmed vaših opomb'
-        subject_other: '[OpenHistoricalMap] %{commenter} je rešil/-a opombo, ki vas zanima'
+        subject_own: '[OpenHistoricalMap] %{commenter} je rešil/-a eno izmed vaših
+          opomb'
+        subject_other: '[OpenHistoricalMap] %{commenter} je rešil/-a opombo, ki vas
+          zanima'
         your_note: '%{commenter} je rešil/-a eno vaših opomb na zemljevidu v bližini
           %{place}.'
         commented_note: '%{commenter} je rešil/-a opombo na zemljevidu, ki ste jo
@@ -1433,14 +1453,14 @@ sl:
       my_inbox: Moja prejeta
       messages: Imate %{new_messages} in %{old_messages}.
       new_messages:
-        few: '%{count} nova sporočila'
         one: '%{count} novo sporočilo'
         two: '%{count} novi sporočili'
+        few: '%{count} nova sporočila'
         other: '%{count} novih sporočil'
       old_messages:
-        few: '%{count} stara sporočila'
         one: '%{count} staro sporočilo'
         two: '%{count} stari sporočili'
+        few: '%{count} stara sporočila'
         other: '%{count} starih sporočil'
       from: Od
       subject: Zadeva
@@ -1470,9 +1490,9 @@ sl:
     outbox:
       title: Poslana pošta
       messages:
-        few: Imate %{count} poslana sporočila
         one: Imate %{count} poslano sporočilo
         two: Imate %{count} poslani sporočili
+        few: Imate %{count} poslana sporočila
         other: Imate %{count} poslanih sporočil
       to: Za
       subject: Zadeva
@@ -1566,8 +1586,8 @@ sl:
         uporabniškim imenom in geslom:'
       with external: 'Lahko pa uporabite prijavo tretje osebe:'
       new to osm: Ste novi na OpenHistoricalMap?
-      to make changes: Če želite spreminjati podatke na OpenHistoricalMap, morate imeti
-        račun.
+      to make changes: Če želite spreminjati podatke na OpenHistoricalMap, morate
+        imeti račun.
       create account minute: Naredite si račun. To vam bo vzelo le minuto.
       no account: Še nimate uporabniškega računa?
       account not active: Oprostite, vaš uporabniški račun še ni aktiven.<br />Za
@@ -1649,13 +1669,13 @@ sl:
         mapping_link: začnete kartirati
       legal_babble:
         title_html: Avtorske pravice in licenca
-        intro_1_html: OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> so <i>prosti
-          podatki</i> z dovoljenjem <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
+        intro_1_html: OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup>
+          so <i>prosti podatki</i> z dovoljenjem <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
           Data Commons Open Database License</a> (ODbL) <a href="https://osmfoundation.org/">Fundacije
           OpenHistoricalMap</a> (OSMF).
         intro_2_html: "Naše podatke lahko prosto kopirate, razširjate, prenašate\nin
-          prilagajate dokler kot vir navedete OpenHistoricalMap in \nsodelavce. Če podatke
-          spremenite ali obogatite jih lahko\nrazširjate le pod enakimi licenčnimi
+          prilagajate dokler kot vir navedete OpenHistoricalMap in \nsodelavce. Če
+          podatke spremenite ali obogatite jih lahko\nrazširjate le pod enakimi licenčnimi
           pogoji. Polno\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">besedilo\nlicence</a>
           opisuje vaše pravice in obveznosti."
         intro_3_1_html: Kartografija v obliki slik zemljevida in naša dokumentacija
@@ -1663,10 +1683,6 @@ sl:
           avtorstva-Deljenje pod enakimi pogoji 2.0</a> license (CC BY-SA).
         credit_title_html: Kako pripisati zasluge projektu OpenHistoricalMap
         contributors_title_html: Naši sodelavci
-        contributors_si_html: |-
-          <strong>Slovenija</strong>: Vsebuje javne podatke
-          <a href="http://www.gu.gov.si">Geodetske uprave Republike Slovenije</a> in
-          <a href="http://www.mkgp.gov.si">Ministrstva za kmetijstvo, gozdarstvo in prehrano</a>.
         contributors_footer_1_html: |-
           Za več podrobnosti o teh in drugih virih, ki so bili uporabljeni kot pripomočki pri izboljševanju OpenHistoricalMap, si prosimo oglejte <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">stran sodelujočih</a> na wikiju OpenHistoricalMap.
@@ -1705,9 +1721,9 @@ sl:
         Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Če zgornji izvoz spodleti, uporabite enega od spodnjih virov:'
-        body: 'To področje je preveliko za izvoz v XML OpenHistoricalMap. Prosimo, da
-          se približate ali izberete manjše področje ali pa da uporabite enega od
-          naslednjih virov za obsežen prenos podatkov:'
+        body: 'To področje je preveliko za izvoz v XML OpenHistoricalMap. Prosimo,
+          da se približate ali izberete manjše področje ali pa da uporabite enega
+          od naslednjih virov za obsežen prenos podatkov:'
         planet:
           title: Planet OSM
           description: Redno posodabljane kopije celotne podatkovne zbirke OpenHistoricalMap
@@ -1759,8 +1775,8 @@ sl:
       help:
         url: https://help.openstreetmap.org/
         title: Forum za pomoč
-        description: Zastavite vprašanje ali poiščete odgovore v OpenHistoricalMap zbirki
-          vprašanj in odgovorov.
+        description: Zastavite vprašanje ali poiščete odgovore v OpenHistoricalMap
+          zbirki vprašanj in odgovorov.
       mailing_lists:
         title: Poštni seznami
         description: Zastavi vprašanje ali razpravljaj o zanimivih temah na številnih
@@ -1773,6 +1789,7 @@ sl:
       switch2osm:
         title: switch2osm
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Za organizacije
       wiki:
         url: https://wiki.openstreetmap.org/
@@ -1921,11 +1938,17 @@ sl:
         strežnik in čaka na uvoz v zbirko podatkov. To se ponavadi zgodi v roku pol
         ure. O uvozu boste obveščeni po elektronski pošti.
       traces_waiting:
-        one: V vrsti za obdelavo imate %{count} sled. Prosimo, počakajte, da se obdelajo
-          pred nadaljnjim nalaganjem, tako da lahko storitev uporabljajo tudi drugi
+        one: V vrsti za obdelavo imate %{count} sled. Prosimo, počakajte, da se obdela
+          pred nadaljnjim nalaganjem, da bodo storitev lahko uporabljali tudi drugi
+          uporabniki.
+        two: V vrsti za obdelavo imate %{count} sledi. Prosimo, počakajte, da se obdelata
+          pred nadaljnjim nalaganjem, da bodo storitev lahko uporabljali tudi drugi
+          uporabniki.
+        few: V vrsti za obdelavo imate %{count} sledi. Prosimo, počakajte, da se obdelajo
+          pred nadaljnjim nalaganjem, da bodo storitev lahko uporabljali tudi drugi
           uporabniki.
         other: V vrsti za obdelavo imate %{count} sledi. Prosimo, počakajte, da se
-          obdelajo pred nadaljnjim nalaganjem, tako da lahko storitev uporabljajo
+          obdelajo pred nadaljnjim nalaganjem, da bodo storitev lahko uporabljali
           tudi drugi uporabniki.
     edit:
       cancel: Prekliči
@@ -1952,7 +1975,7 @@ sl:
       edit_trace: Uredi to sled
       delete_trace: Izbriši to sled
       trace_not_found: Sledi ni bilo mogoče najti!
-      visibility: 'Vidljivost:'
+      visibility: 'Vidnost:'
       confirm_delete: Izbriši to sled?
     trace_paging_nav:
       showing_page: Stran %{page}
@@ -2000,6 +2023,7 @@ sl:
       description_with_count:
         one: Datoteka GPX z %{count} točko uporabnika %{user}
         two: Datoteka GPX z %{count} točkama uporabnika %{user}
+        few: Datoteka GPX s %{count} točkami uporabnika %{user}
         other: Datoteka GPX z %{count} točkami uporabnika %{user}
       description_without_count: Datoteka GPX uporabnika %{user}
   application:
@@ -2163,7 +2187,7 @@ sl:
       my profile: Moj profil
       my settings: Moje nastavitve
       my comments: Moje pripombe
-      blocks on me: Blokade mene
+      blocks on me: Blokiranja mene
       blocks by me: Moje blokade
       edit_profile: Uredi profil
       send message: Pošlji sporočilo
@@ -2181,7 +2205,7 @@ sl:
       email address: 'E-poštni naslov:'
       created from: 'Ustvarjen iz:'
       status: 'Stanje:'
-      spam score: 'Rezultat spama:'
+      spam score: 'OCena smetja:'
       description: Opis
       user location: Lokacija uporabnika
       role:
@@ -2193,8 +2217,8 @@ sl:
         revoke:
           administrator: Odvzemi administratorski dostop
           moderator: Odvzemi moderatorski dostop
-      block_history: Dejavne blokade
-      moderator_history: Dane blokade
+      block_history: Dejavna blokiranja
+      moderator_history: Izvedena blokiranja
       comments: Pripombe
       create_block: Blokiraj uporabnika
       activate_user: Aktiviraj uporabnika
@@ -2214,7 +2238,9 @@ sl:
       heading: Uporabniki
       showing:
         one: Stran %{page} (%{first_item} od %{items})
-        other: Stran %{page} (%{first_item}-%{last_item} od %{items})
+        two: Strani %{page} (%{first_item}–%{last_item} od %{items})
+        few: Strani %{page} (%{first_item}–%{last_item}
+        other: Strani %{page} (%{first_item}–%{last_item}})
       summary_html: '%{name} ustvarjen iz %{ip_address} dne %{date}'
       summary_no_ip_html: '%{name} ustvarjen dne %{date}'
       confirm: Potrdi izbrane uporabnike
@@ -2266,18 +2292,18 @@ sl:
       sorry: Žal blokade uporabnika z ID-jem %{id} ni bilo mogoče najti.
       back: Nazaj na kazalo
     new:
-      title: Ustvarjanje blokade za %{name}
+      title: Blokiranje uporabnika %{name}
       heading_html: Ustvarjanje blokade za %{name}
       period: Kako dolgo bo uporabnik blokiran za uporabo APIja.
       tried_contacting: Sem kontaktiral uporabnika in ga prosil, da preneha.
       tried_waiting: Uporabniku sem določil ustrezen rok za odgovor na sporočila.
-      back: Prikaži vse blokade
+      back: Prikaži vsa blokiranja
     edit:
-      title: Urejanje blokade za %{name}
+      title: Urejanje blokiranja za %{name}
       heading_html: Urejanje blokade za %{name}
       period: Kako dolgo bo uporabnik blokiran za uporabo APIja.
-      show: Prikaži blokado
-      back: Prikaži vse blokade
+      show: Prikaži blokiranje
+      back: Prikaži vsa blokiranja
     filter:
       block_expired: Blokada je že potekla in je ni mogoče urejati.
       block_period: Čas blokade mora biti ena od izbir s spustnega seznama vrednosti.
@@ -2288,19 +2314,19 @@ sl:
       flash: Ustvarjena blokada uporabnika %{name}.
     update:
       only_creator_can_edit: Samo moderator, ki je ustvaril to blokado, jo lahko ureja.
-      success: Blokada posodobljena.
+      success: Blokiranje posodobljeno.
     index:
-      title: Blokade uporabnika
-      heading: Seznam blokad uporabnika
-      empty: Ni bilo še nobene blokade.
+      title: Uporabnikova blokiranja
+      heading: Seznam blokiranj uporabnika
+      empty: Ni bilo še nobenega blokiranja.
     revoke:
-      title: Preklic blokade za %{block_on}
+      title: Preklic blokiranja za %{block_on}
       heading_html: Preklic blokade za %{block_on} od %{block_by}
       time_future: Ta blokada se bo končala  v %{time}.
       past: Ta blokada se je končala %{time} in se zdaj ne more preklicati.
-      confirm: Ali ste prepričani, da želite preklicati blokado?
+      confirm: Ali res želite preklicati blokiranje?
       revoke: Prekliči!
-      flash: Ta blokada je bila preklicana.
+      flash: To blokiranje je bilo preklicano.
     helper:
       time_future_html: Konča v %{time}.
       until_login: Aktivna dokler uporabnik se prijavi.
@@ -2308,9 +2334,9 @@ sl:
       time_past_html: Je končala %{time} nazaj.
       block_duration:
         hours:
-          few: '%{count} ure'
           one: 1 ura
           two: '%{count} uri'
+          few: '%{count} ure'
           other: '%{count} ur'
         days:
           one: 1 dan
@@ -2318,13 +2344,13 @@ sl:
           few: '%{count} dni'
           other: '%{count} dni'
     blocks_on:
-      title: Blokade uporabnika %{name}
-      heading_html: Seznam blokad uporabnika %{name}
-      empty: Uporabnik %{name} nima blokad.
+      title: Blokiranja na %{name}
+      heading_html: Seznam blokiranj uporabnika %{name}
+      empty: Uporabnik/ca %{name} še ni bil/a blokiran/a.
     blocks_by:
       title: Dane blokade uporabnika %{name}
-      heading_html: Seznam danoh blokad uporabnika %{name}
-      empty: Uporabnik %{name} ni dal blokad.
+      heading_html: Seznam izvedenih blokiranj uporabnika %{name}
+      empty: Uporabnik/ca %{name} ni blokiral/a še nikogar.
     show:
       title: '%{block_on} je blokiral %{block_by}'
       heading_html: '%{block_on} je blokiral %{block_by}'
@@ -2347,7 +2373,7 @@ sl:
     blocks:
       display_name: Blokiran uporabnik
       creator_name: Ustvarjalec
-      reason: 'Razlog blokiranja:'
+      reason: 'Razlog za blokiranje:'
       status: Stanje
       revoker_name: Preklical
       showing_page: Stran %{page}
