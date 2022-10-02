@@ -54,6 +54,9 @@
             </li>
           <% end %>
         </ul>
+        <% if @community.organizers.empty? %>
+          <%= link_to t(".step_up"), step_up_path(@community.id), :method => :post %>
+        <% end %>
       </div>
       <div>
         <% if current_user && ! @community.member?(current_user) %>

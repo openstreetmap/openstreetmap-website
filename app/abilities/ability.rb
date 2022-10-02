@@ -64,8 +64,7 @@ class Ability
             :role => CommunityMember::Roles::ORGANIZER
           }
         }
-
-        can [:create, :new], Community
+        can [:create, :new, :step_up], Community
         can [:edit, :update], Community, user_is_community_organizer
         can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => user_is_community_organizer }
         can [:create, :destroy], CommunityMember, { :user_id => user.id }

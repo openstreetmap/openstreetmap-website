@@ -2,7 +2,7 @@ class CommunitiesController < ApplicationController
   layout "site"
   before_action :authorize_web
 
-  before_action :set_community, :only => [:edit, :show, :update]
+  before_action :set_community, :only => [:edit, :show, :step_up, :update]
 
   helper_method :recent_changesets
 
@@ -73,6 +73,21 @@ class CommunitiesController < ApplicationController
     end
   end
 
+  def step_up
+    message = nil
+    if @community.organizers.empty?
+      if @community.member?(current_user)
+        message = t ".you_have_stepped_up"
+        add_first_organizer
+      else
+        message = t ".only_members_can_step_up"
+      end
+    else
+      message = t ".already_has_organizer"
+    end
+    redirect_to @community, :notice => message
+  end
+
   private
 
   def add_first_organizer
@@ -115,6 +130,9 @@ class CommunitiesController < ApplicationController
 
   def set_community
     @community = Community.friendly.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @not_found_community = params[:id]
+    render "no_such_community", :status => :not_found
   end
 
   def community_params

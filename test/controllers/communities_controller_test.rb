@@ -126,6 +126,14 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     assert_match "test comment", response.body
   end
 
+  def test_show_does_not_exist
+    # act
+    get community_path("foo")
+    # assert
+    assert_response :not_found
+    assert_template("no_such_community")
+  end
+
   def test_edit_get_no_session
     # arrange
     c = create(:community)
@@ -347,6 +355,40 @@ class CommunitiesControllerTest < ActionDispatch::IntegrationTest
     # Assign the id c_new to c_orig, so we can do an equality test easily.
     c_orig.id = c_new.id
     assert_equal 160, c_new.longitude
+  end
+
+  def test_step_up_non_member
+    # arrange
+    u = create(:user)
+    session_for(u)
+    c = create(:community)
+    # act
+    post step_up_url(c.id)
+    follow_redirect!
+    # assert
+    assert_equal I18n.t("communities.step_up.only_members_can_step_up"), flash[:notice]
+  end
+
+  def test_step_up_member
+    # arrange
+    cm = create(:community_member)
+    session_for(cm.user)
+    # act
+    post step_up_url(cm.community.id)
+    follow_redirect!
+    # assert
+    assert_equal I18n.t("communities.step_up.you_have_stepped_up"), flash[:notice]
+  end
+
+  def test_step_up_already_has_organizer
+    # arrange
+    cm = create(:community_member, :organizer)
+    session_for(cm.user)
+    # act
+    post step_up_url(cm.community.id)
+    follow_redirect!
+    # assert
+    assert_equal I18n.t("communities.step_up.already_has_organizer"), flash[:notice]
   end
 
   def test_show_members_get
