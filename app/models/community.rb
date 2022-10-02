@@ -26,7 +26,7 @@ class Community < ApplicationRecord
   friendly_id :name, :use => :slugged
 
   # Organizers before members, a tad hacky, but works for now.
-  has_many :community_members, -> { order(:role => :desc) }, :inverse_of => :community
+  has_many :community_members, -> { order(:user_id) }, :inverse_of => :community
   has_many :users, :through => :community_members # TODO: counter_cache
 
   belongs_to :leader, :class_name => "User"

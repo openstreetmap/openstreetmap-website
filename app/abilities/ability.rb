@@ -68,7 +68,7 @@ class Ability
         can [:edit, :update], Community, user_is_community_organizer
         can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => user_is_community_organizer }
         can [:create, :destroy], CommunityMember, { :user_id => user.id }
-        can [:edit, :update], CommunityMember, { :community => user_is_community_organizer }
+        can [:destroy, :edit, :update], CommunityMember, { :community => user_is_community_organizer }
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

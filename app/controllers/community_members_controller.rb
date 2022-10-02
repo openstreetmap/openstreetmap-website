@@ -1,7 +1,7 @@
 class CommunityMembersController < ApplicationController
   layout "site"
   before_action :authorize_web
-  before_action :set_community_member, :only => [:edit, :update]
+  before_action :set_community_member, :only => [:destroy, :edit, :update]
   load_and_authorize_resource :except => [:create, :new]
   authorize_resource
 
@@ -37,6 +37,18 @@ class CommunityMembersController < ApplicationController
     else
       flash.now[:alert] = t(".failure")
       render :edit
+    end
+  end
+
+  def destroy
+    issues = @community_member.can_be_deleted
+    if issues.empty? && @community_member.destroy
+      redirect_to @community_member.community, :notice => t(".success")
+    else
+      issues = issues.map { |i| t("activerecord.errors.models.community_member.#{i}") }
+      issues = issues.to_sentence.capitalize
+      flash[:error] = "#{t('.failure')} #{issues}."
+      redirect_to community_community_members_path(@community_member.community)
     end
   end
 

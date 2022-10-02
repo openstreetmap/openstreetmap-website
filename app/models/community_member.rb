@@ -26,9 +26,21 @@ class CommunityMember < ApplicationRecord
   belongs_to :community
   belongs_to :user
 
+  scope :organizers, -> { where(:role => Roles::ORGANIZER) }
+  scope :members, -> { where(:role => Roles::MEMBER) }
+
   validates :community, :associated => true
   validates :user, :associated => true
   validates :role, :inclusion => { :in => Roles::ALL_ROLES }
 
   # TODO: validate uniqueness of user's role in each community.
+
+  # We assume this user already belongs to this community.
+  def can_be_deleted
+    issues = []
+    # The user may also be an organizer under a separate membership.
+    issues.append(:is_organizer) if CommunityMember.exists?(:community_id => community_id, :user_id => user_id, :role => Roles::ORGANIZER)
+
+    issues
+  end
 end

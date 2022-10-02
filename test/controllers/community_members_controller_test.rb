@@ -131,4 +131,63 @@ class CommunityMembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "community_members/edit"
   end
+
+  def test_delete_as_a_different_user
+    # arrange
+    cm = create(:community_member) # N.b. not an organizer
+    session_for(create(:user))
+
+    # act
+    delete community_member_url(cm), :xhr => true
+
+    # assert
+    follow_redirect!
+    assert_response :forbidden
+  end
+
+  def test_delete_when_destroy_works
+    # arrange
+    cm1 = create(:community_member, :organizer) # original
+    session_for(cm1.user)
+    cm2 = create(:community_member, :community => cm1.community)
+
+    # act
+    delete community_member_url(cm2), :xhr => true
+
+    # assert
+    cm1.reload
+    assert_not cm1.community.member?(cm2.user)
+  end
+
+  def test_delete_when_destroy_fails
+    # arrange
+    cm = create(:community_member, :organizer)
+    session_for(cm.user)
+    # Customize this instance so delete returns false.
+    def cm.destroy
+      false
+    end
+
+    controller_mock = CommunityMembersController.new
+    def controller_mock.set_community_member
+      @community_member = CommunityMember.new
+    end
+
+    def controller_mock.render(_partial, _msg)
+      # Can't do assert_equal here.
+      # assert_equal :edit, partial
+    end
+
+    # act
+    CommunityMembersController.stub :new, controller_mock do
+      CommunityMember.stub :new, cm do
+        assert_difference "CommunityMember.count", 0 do
+          delete community_member_url(cm), :xhr => true
+        end
+      end
+    end
+
+    # assert
+    assert_match(/#{I18n.t("community_members.destroy.failure")}/, flash[:error])
+  end
 end

@@ -333,7 +333,7 @@ OpenStreetMap::Application.routes.draw do
   end
   post "/communities/:id/step_up" => "communities#step_up", :as => :step_up, :id => /\d+/
   resources :community_links, :only => [:destroy, :edit, :update]
-  resources :community_members, :only => [:create, :edit, :new, :update]
+  resources :community_members, :only => [:create, :destroy, :edit, :new, :update]
   get "/community_members" => "community_members#create", :as => "login_to_join"
 
   # errors
