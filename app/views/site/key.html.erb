@@ -7,7 +7,18 @@
             <%= image_tag "key/#{name}/#{entry['image']}" %>
           </td>
           <td class="mapkey-table-value">
-            <%= Array(t(".table.entry.#{entry['name']}")).to_sentence %>
+            <% if I18n.t("html.dir") = "rtl" %>
+              <%= Array(t(".table.entry.#{entry['name']}")).to_sentence(
+                words_connector: '، ',
+                two_words_connector: '، ',
+                last_word_connector: '، ') %>
+            <% end %>
+            <% if I18n.t("html.dir") = "ltr" %>
+              <%= Array(t(".table.entry.#{entry['name']}")).to_sentence(
+                words_connector: ', ',
+                two_words_connector: ', ',
+                last_word_connector: ', ') %>
+            <% end %>
           </td>
         </tr>
       <% end %>
