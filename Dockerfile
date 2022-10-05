@@ -41,7 +41,7 @@ WORKDIR /app
 
 # Install Ruby packages
 ADD Gemfile Gemfile.lock /app/
-RUN gem install bundler \
+RUN gem install bundler -v 2.3.7 \
  && bundle install
 
 # Install NodeJS packages using yarnpkg
