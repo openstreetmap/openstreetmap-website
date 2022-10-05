@@ -242,42 +242,64 @@ L.OSM.Map = L.Map.extend({
       interactive: false
     };
 
+    var haloStyle = {
+      weight: 2.5,
+      radius: 20,
+      fillOpacity: 0.5,
+      color: "#FF6200"
+    };
+
     this.removeObject();
 
-    var map = this;
-    this._objectLoader = $.ajax({
-      url: OSM.apiUrl(object),
-      dataType: "xml",
-      success: function (xml) {
-        map._object = object;
+    if (object.type === "note") {
+      this._objectLoader = {
+        abort: function () {}
+      };
+      this._object = object;
+      this._objectLayer = L.featureGroup().addTo(this);
+      L.circleMarker(object.latLng, haloStyle).addTo(this._objectLayer);
+      L.marker(object.latLng, {
+        icon: object.icon,
+        opacity: 1,
+        interactive: true
+      }).addTo(this._objectLayer);
+      if (callback) callback(this._objectLayer.getBounds());
+    } else { // element or changeset handled by L.OSM.DataLayer
+      var map = this;
+      this._objectLoader = $.ajax({
+        url: OSM.apiUrl(object),
+        dataType: "xml",
+        success: function (xml) {
+          map._object = object;
 
-        map._objectLayer = new L.OSM.DataLayer(null, {
-          styles: {
-            node: objectStyle,
-            way: objectStyle,
-            area: objectStyle,
-            changeset: changesetStyle
-          }
-        });
-
-        map._objectLayer.interestingNode = function (node, ways, relations) {
-          if (object.type === "node") {
-            return true;
-          } else if (object.type === "relation") {
-            for (var i = 0; i < relations.length; i++) {
-              if (relations[i].members.indexOf(node) !== -1) return true;
+          map._objectLayer = new L.OSM.DataLayer(null, {
+            styles: {
+              node: objectStyle,
+              way: objectStyle,
+              area: objectStyle,
+              changeset: changesetStyle
             }
-          } else {
-            return false;
-          }
-        };
+          });
 
-        map._objectLayer.addData(xml);
-        map._objectLayer.addTo(map);
+          map._objectLayer.interestingNode = function (node, ways, relations) {
+            if (object.type === "node") {
+              return true;
+            } else if (object.type === "relation") {
+              for (var i = 0; i < relations.length; i++) {
+                if (relations[i].members.indexOf(node) !== -1) return true;
+              }
+            } else {
+              return false;
+            }
+          };
 
-        if (callback) callback(map._objectLayer.getBounds());
-      }
-    });
+          map._objectLayer.addData(xml);
+          map._objectLayer.addTo(map);
+
+          if (callback) callback(map._objectLayer.getBounds());
+        }
+      });
+    }
   },
 
   removeObject: function () {
