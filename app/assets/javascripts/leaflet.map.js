@@ -258,15 +258,15 @@ L.OSM.Map = L.Map.extend({
 
       this._object = object;
       this._objectLayer = L.featureGroup().addTo(this);
-      
+
       L.circleMarker(object.latLng, haloStyle).addTo(this._objectLayer);
-      
+
       L.marker(object.latLng, {
         icon: object.icon,
         opacity: 1,
         interactive: true
       }).addTo(this._objectLayer);
-      
+
       if (callback) callback(this._objectLayer.getBounds());
     } else { // element or changeset handled by L.OSM.DataLayer
       var map = this;
