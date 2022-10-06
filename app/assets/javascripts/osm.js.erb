@@ -37,7 +37,8 @@ OSM = {
   SEARCHING:               <%= image_path("searching.gif").to_json %>,
 
   apiUrl: function (object) {
-    var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
+    var apiType = object.type === "note" ? "notes" : object.type;
+    var url = "/api/" + OSM.API_VERSION + "/" + apiType + "/" + object.id;
 
     if (object.type === "way" || object.type === "relation") {
       url += "/full";
@@ -85,6 +86,8 @@ OSM = {
       mapParams.object = {type: 'way', id: parseInt(params.way)};
     } else if (params.relation) {
       mapParams.object = {type: 'relation', id: parseInt(params.relation)};
+    } else if (params.note) {
+      mapParams.object = {type: 'note', id: parseInt(params.note)};
     }
 
     var hash = OSM.parseHash(location.hash);
