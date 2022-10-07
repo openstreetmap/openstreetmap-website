@@ -68,8 +68,8 @@ L.OSM.OpenMapTiles = L.MaplibreGL.extend({
       const a = document.getElementById('terrain_3d_url');
       if (a) {
         const c = map.getCenter();
-        a.href = a.href.replace(/#.*|$/, '#map=' + (map.getZoom() - 1) + '/' + c.lat.toFixed(5) + '/' + c.lng.toFixed(5)
-          + "&style=osm&is3d=true&language=" + I18n.locale.replace(/-.*/, ''));
+        a.href = a.href.replace(/#.*|$/, '#position=' + (map.getZoom() - 1) + '/' + c.lat.toFixed(5) + '/' + c.lng.toFixed(5)
+          + "&map=osm&mode=3d&lang=" + I18n.locale.replace(/-.*/, ''));
       }
     }
 
