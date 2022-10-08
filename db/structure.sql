@@ -782,11 +782,11 @@ CREATE TABLE public.diary_entry_subscriptions (
 --
 
 CREATE TABLE public.event_organizers (
-                                       id bigint NOT NULL,
-                                       event_id bigint NOT NULL,
-                                       user_id bigint NOT NULL,
-                                       created_at timestamp(6) without time zone NOT NULL,
-                                       updated_at timestamp(6) without time zone NOT NULL
+    id bigint NOT NULL,
+    event_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -795,11 +795,11 @@ CREATE TABLE public.event_organizers (
 --
 
 CREATE SEQUENCE public.event_organizers_id_seq
-  START WITH 1
-  INCREMENT BY 1
-  NO MINVALUE
-  NO MAXVALUE
-  CACHE 1;
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
 --
@@ -2195,7 +2195,7 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 --
 
 ALTER TABLE ONLY public.event_organizers
-  ADD CONSTRAINT event_organizers_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT event_organizers_pkey PRIMARY KEY (id);
 
 
 --
