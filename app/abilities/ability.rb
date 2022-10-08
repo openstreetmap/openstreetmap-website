@@ -19,6 +19,7 @@ class Ability
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show, :comments], DiaryEntry
       can [:index], CommunityLink
+      can [:index, :show], Event
       can [:index], Note
       can [:lost_password, :reset_password], :password
       can [:index, :show], Redaction
@@ -66,9 +67,11 @@ class Ability
         }
         can [:create, :new, :step_up], Community
         can [:edit, :update], Community, user_is_community_organizer
-        can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => user_is_community_organizer }
-        can [:create, :destroy], CommunityMember, { :user_id => user.id }
-        can [:destroy, :edit, :update], CommunityMember, { :community => user_is_community_organizer }
+        can [:edit, :create, :destroy, :new, :update], CommunityLink, :community => user_is_community_organizer
+        can [:create, :destroy], CommunityMember, :user_id => user.id
+        can [:destroy, :edit, :update], CommunityMember, :community => user_is_community_organizer
+        can [:destroy], CommunityMember, :user_id => user.id
+        can [:new, :create], Event, :community => user_is_community_organizer
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry
