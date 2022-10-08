@@ -778,6 +778,38 @@ CREATE TABLE public.diary_entry_subscriptions (
 
 
 --
+-- Name: event_organizers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.event_organizers (
+    id bigint NOT NULL,
+    event_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: event_organizers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.event_organizers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_organizers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.event_organizers_id_seq OWNED BY public.event_organizers.id;
+
+
+--
 -- Name: events; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1821,6 +1853,13 @@ ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: event_organizers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers ALTER COLUMN id SET DEFAULT nextval('public.event_organizers_id_seq'::regclass);
+
+
+--
 -- Name: events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2149,6 +2188,14 @@ ALTER TABLE ONLY public.diary_entries
 
 ALTER TABLE ONLY public.diary_entry_subscriptions
     ADD CONSTRAINT diary_entry_subscriptions_pkey PRIMARY KEY (user_id, diary_entry_id);
+
+
+--
+-- Name: event_organizers event_organizers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT event_organizers_pkey PRIMARY KEY (id);
 
 
 --
@@ -2713,6 +2760,20 @@ CREATE INDEX index_community_members_on_user_id ON public.community_members USIN
 --
 
 CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_entry_subscriptions USING btree (diary_entry_id);
+
+
+--
+-- Name: index_event_organizers_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_organizers_on_event_id ON public.event_organizers USING btree (event_id);
+
+
+--
+-- Name: index_event_organizers_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_organizers_on_user_id ON public.event_organizers USING btree (user_id);
 
 
 --
@@ -3347,11 +3408,27 @@ ALTER TABLE ONLY public.active_storage_variant_records
 
 
 --
+-- Name: event_organizers fk_rails_b1c2c61554; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT fk_rails_b1c2c61554 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_grants fk_rails_b4b53e07b8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.oauth_access_grants
     ADD CONSTRAINT fk_rails_b4b53e07b8 FOREIGN KEY (application_id) REFERENCES public.oauth_applications(id) NOT VALID;
+
+
+--
+-- Name: event_organizers fk_rails_c1e082c91e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT fk_rails_c1e082c91e FOREIGN KEY (event_id) REFERENCES public.events(id);
 
 
 --
@@ -3764,6 +3841,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220821143545'),
 ('20220925043305'),
 ('20221008144036'),
+('20221008224134'),
 ('21'),
 ('22'),
 ('23'),

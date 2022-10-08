@@ -207,6 +207,68 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     # assert_equal I18n.t("events.create.failure"), flash[:alert]
   end
 
+  def test_update_as_organizer
+    # arrange
+    cm = create(:community_member, :organizer)
+    session_for(cm.user)
+    e1 = create(:event, :community => cm.community) # original object
+    e2 = build(:event, :community => cm.community) # new data
+    # act
+    put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
+    # assert
+    assert_redirected_to event_path(e1)
+    # TODO: Is it better to use t() to translate?
+    assert_equal "The event was successfully updated.", flash[:notice]
+    e1.reload
+    # Assign the id of e1 to e2, so we can do an equality test easily.
+    e2.id = e1.id
+    assert_equal(e2, e1)
+  end
+
+  def test_update_as_non_organizer
+    # arrange
+    cm = create(:community_member)
+    session_for(cm.user)
+    e1 = create(:event, :community => cm.community) # original object
+    e2 = build(:event, :community => cm.community) # new data
+    # act
+    put event_url(e1), :params => { :event => e2.as_json }, :xhr => true
+    # assert
+    assert_redirected_to :controller => :errors, :action => :forbidden
+  end
+
+  def test_update_put_failure
+    # arrange
+    cm = create(:community_member, :organizer)
+    session_for(cm.user)
+    ev = create(:event, :community => cm.community)
+    def ev.update(_params)
+      false
+    end
+
+    controller_mock = EventsController.new
+    def controller_mock.set_event
+      @event = Event.new
+    end
+
+    def controller_mock.render(_partial)
+      # Can't do assert_equal here.
+      # assert_equal :edit, partial
+    end
+
+    # act
+    EventsController.stub :new, controller_mock do
+      Event.stub :new, ev do
+        assert_difference "Event.count", 0 do
+          put event_url(ev), :params => { :event => ev.as_json }, :xhr => true
+        end
+      end
+    end
+
+    # assert
+    assert_equal I18n.t("events.update.failure"), flash[:alert]
+  end
+
   def test_in_past_warns
     # arrange
     cm = create(:community_member, :organizer)

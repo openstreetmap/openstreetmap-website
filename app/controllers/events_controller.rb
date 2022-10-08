@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   layout "site"
   before_action :authorize_web
-  before_action :set_event, :only => [:edit, :show]
+  before_action :set_event, :only => [:edit, :show, :update]
   # This needs to be one before load_and_authorize_resource, so cancancan will be handed
   # an event that contains a community, based on the input parameter community_id.
   before_action :set_params_for_new, :only => [:new]
@@ -45,16 +45,23 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
+    @event_organizer = EventOrganizer.new(:event => @event, :user => current_user)
 
-    respond_to do |format|
-      if @event.save
-        warn_if_event_in_past
-        format.html { redirect_to @event, :notice => t(".success") }
-        format.json { render :show, :status => :created, :location => @event }
-      else
-        format.html { render :new }
-        format.json { render :json => @event.errors, :status => :unprocessable_entity }
-      end
+    if @event.save && @event_organizer.save
+      warn_if_event_in_past
+      redirect_to @event, :notice => t(".success")
+    else
+      flash.now[:alert] = t(".failure")
+      render :new
+    end
+  end
+
+  def update
+    if @event.update(event_params)
+      redirect_to @event, :notice => t(".success")
+    else
+      flash.now[:alert] = t(".failure")
+      render :edit
     end
   end
 

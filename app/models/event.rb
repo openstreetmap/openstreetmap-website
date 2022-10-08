@@ -17,6 +17,7 @@
 
 class Event < ApplicationRecord
   belongs_to :community
+  has_many :event_organizers
 
   scope :future, -> { where("moment >= ?", Time.now.utc) }
   scope :past, -> { where("moment < ?", Time.now.utc) }
@@ -46,6 +47,10 @@ class Event < ApplicationRecord
       :less_than_or_equal_to => 180
     }
   )
+
+  def organizers
+    EventOrganizer.where(:event_id => id)
+  end
 
   def past?
     moment < Time.now.utc
