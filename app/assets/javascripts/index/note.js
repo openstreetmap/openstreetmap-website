@@ -23,8 +23,9 @@ OSM.Note = function (map) {
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
       initialize(path, id, function () {
-        var data = $(".details").data(),
-            latLng = L.latLng(data.coordinates.split(","));
+        var data = $(".details").data();
+        if (!data) return;
+        var latLng = L.latLng(data.coordinates.split(","));
         if (!map.getBounds().contains(latLng)) moveToNote();
       });
     });
@@ -71,19 +72,22 @@ OSM.Note = function (map) {
 
     var data = $(".details").data();
 
-    map.addObject({
-      type: "note",
-      id: parseInt(id, 10),
-      latLng: L.latLng(data.coordinates.split(",")),
-      icon: noteIcons[data.status]
-    });
+    if (data) {
+      map.addObject({
+        type: "note",
+        id: parseInt(id, 10),
+        latLng: L.latLng(data.coordinates.split(",")),
+        icon: noteIcons[data.status]
+      });
+    }
 
     if (callback) callback();
   }
 
   function moveToNote() {
-    var data = $(".details").data(),
-        latLng = L.latLng(data.coordinates.split(","));
+    var data = $(".details").data();
+    if (!data) return;
+    var latLng = L.latLng(data.coordinates.split(","));
 
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.withoutMoveListener(function () {
