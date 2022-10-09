@@ -261,11 +261,13 @@ L.OSM.Map = L.Map.extend({
 
       L.circleMarker(object.latLng, haloStyle).addTo(this._objectLayer);
 
-      L.marker(object.latLng, {
-        icon: object.icon,
-        opacity: 1,
-        interactive: true
-      }).addTo(this._objectLayer);
+      if (object.icon) {
+        L.marker(object.latLng, {
+          icon: object.icon,
+          opacity: 1,
+          interactive: true
+        }).addTo(this._objectLayer);
+      }
 
       if (callback) callback(this._objectLayer.getBounds());
     } else { // element or changeset handled by L.OSM.DataLayer
