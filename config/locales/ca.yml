@@ -301,8 +301,14 @@ ca:
           vostre avatar, descripció i ubicació del vostre domicili.
         delete_display_name: S'eliminarà el vostre nom en pantalla i podrà ser utilitzat
           per altres comptes.
+        retain_caveats: 'Tanmateix, alguna informació vostra romandrà a OpenStreetMap,
+          fins i tot després de suprimir el compte:'
         retain_edits: Les vostres edicions a la base de dades de mapes, si en teniu
           cap, seran conservades.
+        retain_traces: Si hi heu penjat cap traça, hi romandran.
+        retain_diary_entries: Si teniu cap entrada o comentari de diari, hi romandran
+          però s'ocultaran.
+        retain_notes: Si teniu cap nota o comentari de mapes, hi romandran però s'ocultaran.
         retain_changeset_discussions: Les vostres discussions del conjunt de canvis,
           si n'hi ha cap, es conservaran.
         retain_email: Es conservarà la vostra adreça de correu electrònic.
@@ -488,7 +494,7 @@ ca:
       reopened_by_html: Reactivat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Reactivat per un anònim a <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Ocultat per %{user} a <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Reportar aquesta nota
+      report: informa d'aquesta nota
     query:
       title: Consultar objectes
       introduction: Feu clic al mapa per a trobar objectes propers.
@@ -1232,6 +1238,7 @@ ca:
           "yes": Lloc
         railway:
           abandoned: Ferrocarril abandonat
+          buffer_stop: Topall
           construction: Ferrocarril en construcció
           disused: Ferrocarril en desús
           funicular: Funicular
@@ -1254,6 +1261,7 @@ ca:
           switch: Canvi d'agulles
           tram: Tramvia
           tram_stop: Parada de tramvia
+          turntable: Placa giratòria
           yard: Pati de ferrocarril
         shop:
           agrarian: Botiga agrària
@@ -1504,6 +1512,7 @@ ca:
   issue_comments:
     create:
       comment_created: S’ha creat el comentari correctament
+      issue_reassigned: S'ha creat el vostre comentari i la incidència s'ha reassignat
   reports:
     new:
       title_html: Denunciar %{link}
@@ -2028,25 +2037,22 @@ ca:
         intro_3_1_html: La nostra documentació és disponible sota llicència <a href="http://creativecommons.org/licenses/by-sa/2.0/">Text
           de la llicència de Creative Commons Reconeixement-Compartir Igual 2.0</a>(CC-BY-SA).
         credit_title_html: Com atribuir autoria a OpenStreetMap
-        credit_1_html: Demanem que es reconegui &ldquo;&copy; Col·laboradors d'OpenStreetMap&rdquo;
-          com a autors.
-        credit_2_1_html: També heu de deixar clar que les dades són disponibles sota
-          llicència de base de dades oberta i, si utilitzeu els nostres mapes, que
-          la cartografia té llicència CC-BY-SA. Podeu fer-ho enllaçant a <a href="http://www.openstreetmap.org/copyright">aquesta
-          pàgina de copyright</a>. De manera alternativa, però com a requisit obligatori
-          si distribuïu OSM en forma de dades en brut, podeu citar i enllaçar directament
-          a la llicència. En el cas d'utilitzar suports on els enllaços d'hipertext
-          no són possibles (per exemple, obres impreses), us suggerim d'adreçar els
-          lectors a openstreetmap.org (potser indicant l'adreça completa d'OpenStreetMap),
-          a opendatacommons.org i, si s'escau, a creativecommons.org.
-        credit_3_1_html: |-
-          Les tessel·les de mapa en &ldquo;standard style&rdquo; a www.openstreetmap.org són un
-          producte de la Fundació OpenStreetMap usant dades de l'OpenStreetMap  sota llicència Open
-          Database License. Quan s'utilitza aquest estil de mapa, la mateixa atribució és requerit quant a
-          les dades del mapa.
+        credit_1_html: 'Allà on utilitzeu les dades de l''OpenStreetMap, cal que feu
+          les dues coses següents:'
+        credit_2_1_html: |-
+          <ul>
+            <li>Doneu crèdit a OpenStreetMap mostrant-ne l'avís de copyright.</li>
+            <li>Deixeu clar que les dades són disponibles sota l'Open Database License.</li>
+          </ul>
+        credit_3_1_html: Per a l'avís de copyright, tenim diferents requisits sobre
+          com cal mostrar-lo depenent de com feu servir les nostres dades. Per exemple,
+          s'apliquen diferents regles depenent de si heu creat un mapa navegable,
+          un mapa imprès o una imatge estàtica. Per a més detalls, podeu consultar
+          les <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">directrius
+          d'atribució</a>.
         credit_4_html: |-
-          En el cas d'un mapa electrònic navegable, els crèdits han d'aparèixer a la cantonada del mapa.
-          Per exemple:
+          Per tal de fer patent que les dades es troben sota l'Open
+          Database License, podeu enllaçar <a href="https://www.openstreetmap.org/copyright">aquesta pàgina de copyright</a>. Alternativament, i com a requisit si esteu distribuint l'OSM en un formulari de dades, podeu anomenar i enllaçar directament les llicències. En aquells llocs on els enllaços no siguin possibles (p. ex., en material imprès), us suggerim que dirigiu als lectors a openstreetmap.org (possible estenent 'OpenStreetMap' a aquesta adreça sencera) i a opendatacommons.org. En aquest exemple, l'atribució apareix a la cantonada del mapa.
         attribution_example:
           alt: Exemple de com atribuir l'autoria a OpenStreetMap en una pàgina web
           title: Exemple d'atribució d'autoria
@@ -2234,9 +2240,13 @@ ca:
         description: Pregunta o debat sobre qüestions interessants en un ampli ventall
           de llistes de correu temàtiques i regionals.
       forums:
-        title: Fòrums
+        title: Fòrums (obsolet)
         description: Preguntes i debats per als qui prefereixen un estil d'interfície
           de tauler d'anuncis.
+      community:
+        url: https://community.openstreetmap.org/
+        title: Fòrum comunitari
+        description: Un espai compartit per a les converses d'OpenStreetMap.
       irc:
         title: IRC
         description: Xat interactiu en llengües diferents i sobre diferents temes.
@@ -3052,6 +3062,9 @@ ca:
         reactivate: Reactivar
         comment_and_resolve: Comenta i resol
         comment: Comenta
+        report_link_html: Si aquesta nota conté informació delicada que cal eliminar,
+          podeu %{link}. Per a altres problemes amb la nota, solucioneu-ho amb un
+          comentari.
     edit_help: Moveu el mapa i feu zoom sobre una ubicació que vulgueu editar, i a
       continuació, feu clic aquí.
     directions:
