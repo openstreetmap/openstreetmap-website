@@ -72,6 +72,8 @@ class Ability
         can [:destroy, :edit, :update], CommunityMember, :community => user_is_community_organizer
         can [:destroy], CommunityMember, :user_id => user.id
         can [:create, :edit, :new, :update], Event, :community => user_is_community_organizer
+        can [:create], EventAttendance
+        can [:update], EventAttendance, :user_id => user.id
 
         if user.moderator?
           can [:hide, :hidecomment], DiaryEntry

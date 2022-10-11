@@ -27,6 +27,13 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @community = Community.friendly.find(params[:community_id]) if params[:community_id]
+    @my_attendance = EventAttendance.find_or_initialize_by(:event_id => @event.id, :user_id => current_user&.id)
+    @yes_check = @my_attendance.intention == EventAttendance::Intentions::YES ? "✓" : ""
+    @no_check = @my_attendance.intention == EventAttendance::Intentions::NO ? "✓" : ""
+    @maybe_check = @my_attendance.intention == EventAttendance::Intentions::MAYBE ? "✓" : ""
+    @yes_disabled = @my_attendance.intention == EventAttendance::Intentions::YES
+    @no_disabled = @my_attendance.intention == EventAttendance::Intentions::NO
+    @maybe_disabled = @my_attendance.intention == EventAttendance::Intentions::MAYBE
   rescue ActiveRecord::RecordNotFound
     @not_found_community = params[:community_id]
     render :template => "communities/no_such_community", :status => :not_found

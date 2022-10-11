@@ -339,6 +339,7 @@ OpenStreetMap::Application.routes.draw do
   resources :community_members, :only => [:create, :destroy, :edit, :new, :update]
   get "/community_members" => "community_members#create", :as => "login_to_join"
   resources :events
+  resources :event_attendances
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all
