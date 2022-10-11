@@ -118,7 +118,7 @@ class UsersController < ApplicationController
     email = auth_info[:info][:email]
 
     email_verified = case provider
-                     when "google", "facebook", "microsoft", "github", "wikipedia"
+                     when "google", "apple", "facebook", "microsoft", "github", "wikipedia"
                        true
                      else
                        false
