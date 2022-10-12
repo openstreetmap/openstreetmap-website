@@ -72,7 +72,7 @@ L.OSM.OpenMapTiles = L.MaplibreGL.extend({
         var precision = Math.ceil((zoom * Math.LN2 + Math.log(256 / 360)) / Math.LN10);
 
         el.href = el.href.replace(/#.*|$/, '#style=openstreetmap&lang=' + I18n.locale.replace(/-.*/, '')
-          + '&mode=3d&position=' + zoom + '/' + c.lat.toFixed(precision) + '/' + c.lng.toFixed(precision) + '/0.00/60.0');
+          + '&mode=3d&position=' + zoom + '/' + c.lng.toFixed(precision) + '/' + c.lat.toFixed(precision) + '/0.00/60.0');
       }
     }
 
