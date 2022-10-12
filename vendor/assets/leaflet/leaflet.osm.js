@@ -65,11 +65,14 @@ L.OSM.OpenMapTiles = L.MaplibreGL.extend({
   },
   onAdd: function (map) {
     function update3dMapUrl() {
-      const a = document.getElementById('terrain_3d_url');
-      if (a) {
-        const c = map.getCenter();
-        a.href = a.href.replace(/#.*|$/, '#position=' + (map.getZoom() - 1) + '/' + c.lat.toFixed(5) + '/' + c.lng.toFixed(5)
-          + "&map=osm&mode=3d&lang=" + I18n.locale.replace(/-.*/, ''));
+      var el = document.getElementById('terrain_3d_url');
+      if (el) {
+        var c = map.getCenter();
+        var zoom = map.getZoom() - 1;
+        var precision = Math.ceil((zoom * Math.LN2 + Math.log(256 / 360)) / Math.LN10);
+
+        el.href = el.href.replace(/#.*|$/, '#style=openstreetmap&lang=' + I18n.locale.replace(/-.*/, '')
+          + '&mode=3d&position=' + zoom + '/' + c.lat.toFixed(precision) + '/' + c.lng.toFixed(precision) + '/0.00/60.0');
       }
     }
 

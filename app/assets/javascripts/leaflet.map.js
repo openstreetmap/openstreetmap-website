@@ -22,7 +22,7 @@ L.OSM.Map = L.Map.extend({
     var thunderforest = I18n.t("javascripts.map.thunderforest", { thunderforest_url: "https://www.thunderforest.com/" });
     var memomaps = I18n.t("javascripts.map.opnvkarte", { memomaps_url: "https://memomaps.de/" });
     var hotosm = I18n.t("javascripts.map.hotosm", { hotosm_url: "https://www.hotosm.org/", osmfrance_url: "https://openstreetmap.fr/" });
-    var openmaptiles = I18n.t("javascripts.map.openmaptiles", { openmaptiles_url: "https://openmaptiles.org/", maptiler_url: "https://www.maptiler.com/", terrain_3d_url: "https://labs.maptiler.com/showcase/osm-3d-terrain/" });
+    var openmaptiles = I18n.t("javascripts.map.openmaptiles", { openmaptiles_url: "https://openmaptiles.org/", maptiler_url: "https://www.maptiler.com/", terrain_3d_url: "https://www.maptiler.com/maps/" });
 
     this.baseLayers = [];
 
