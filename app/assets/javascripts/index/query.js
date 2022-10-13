@@ -3,6 +3,7 @@
 
 OSM.Query = function (map) {
   var url = OSM.OVERPASS_URL,
+      credentials = OSM.OVERPASS_CREDENTIALS,
       queryButton = $(".control-query .control-button"),
       uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
       marker;
@@ -180,6 +181,9 @@ OSM.Query = function (map) {
       method: "POST",
       data: {
         data: "[timeout:10][out:json];" + query
+      },
+      xhrFields: {
+        withCredentials: credentials
       },
       success: function (results) {
         var elements;
