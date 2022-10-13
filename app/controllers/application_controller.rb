@@ -231,6 +231,7 @@ class ApplicationController < ActionController::Base
   def api_call_timeout(&block)
     Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
   rescue Timeout::Error
+    ActiveRecord::Base.connection.raw_connection.cancel
     raise OSM::APITimeoutError
   end
 
@@ -243,11 +244,13 @@ class ApplicationController < ActionController::Base
 
     if e.is_a?(Timeout::Error) ||
        (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
+      ActiveRecord::Base.connection.raw_connection.cancel
       render :action => "timeout"
     else
       raise
     end
   rescue Timeout::Error
+    ActiveRecord::Base.connection.raw_connection.cancel
     render :action => "timeout"
   end
 

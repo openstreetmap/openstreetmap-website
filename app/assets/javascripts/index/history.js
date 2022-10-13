@@ -48,6 +48,9 @@ OSM.History = function (map) {
 
     if (window.location.pathname === "/history") {
       data.bbox = map.getBounds().wrap().toBBoxString();
+      var feedLink = $("link[type=\"application/atom+xml\"]"),
+          feedHref = feedLink.attr("href").split("?")[0];
+      feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
     }
 
     $.ajax({
@@ -59,11 +62,6 @@ OSM.History = function (map) {
         updateMap();
       }
     });
-
-    var feedLink = $("link[type=\"application/atom+xml\"]"),
-        feedHref = feedLink.attr("href").split("?")[0];
-
-    feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
   }
 
   function loadMore(e) {

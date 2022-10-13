@@ -166,14 +166,14 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_large_picture
-    picture = File.read(Rails.root.join("test/gpx/fixtures/a.gif"), :mode => "rb")
+    picture = Rails.root.join("test/gpx/fixtures/a.gif").read(:mode => "rb")
     trace = create(:trace, :fixture => "a")
 
     assert_equal picture, trace.large_picture
   end
 
   def test_icon_picture
-    picture = File.read(Rails.root.join("test/gpx/fixtures/a_icon.gif"), :mode => "rb")
+    picture = Rails.root.join("test/gpx/fixtures/a_icon.gif").read(:mode => "rb")
     trace = create(:trace, :fixture => "a")
 
     assert_equal picture, trace.icon_picture
