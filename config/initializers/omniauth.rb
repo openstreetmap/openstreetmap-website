@@ -1,3 +1,4 @@
+require "multi_json"
 require "openid/fetchers"
 require "openid/util"
 
