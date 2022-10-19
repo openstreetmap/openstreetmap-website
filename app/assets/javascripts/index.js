@@ -2,6 +2,7 @@
 //= require leaflet.sidebar
 //= require leaflet.sidebar-pane
 //= require leaflet.locatecontrol/src/L.Control.Locate
+//= require leaflet.locate
 //= require leaflet.layers
 //= require leaflet.key
 //= require leaflet.note
@@ -98,62 +99,60 @@ $(document).ready(function () {
     }
   });
 
-  var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
-
-  L.OSM.zoom({ position: position })
-    .addTo(map);
-
-  var locate = L.control.locate({
-    position: position,
-    icon: "icon geolocate",
-    iconLoading: "icon geolocate",
-    strings: {
-      title: I18n.t("javascripts.map.locate.title"),
-      popup: function (options) {
-        return I18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
-      }
-    }
-  }).addTo(map);
-
-  var locateContainer = locate.getContainer();
-
-  $(locateContainer)
-    .removeClass("leaflet-control-locate leaflet-bar")
-    .addClass("control-locate")
-    .children("a")
-    .attr("href", "#")
-    .removeClass("leaflet-bar-part leaflet-bar-part-single")
-    .addClass("control-button");
-
   var sidebar = L.OSM.sidebar("#map-ui")
     .addTo(map);
 
-  L.OSM.layers({
-    position: position,
-    layers: map.baseLayers,
-    sidebar: sidebar
-  }).addTo(map);
+  var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
-  L.OSM.key({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+  function addControlGroup(controls) {
+    controls.forEach(function (control) {
+      control.addTo(map);
+    });
 
-  L.OSM.share({
-    "position": position,
-    "sidebar": sidebar,
-    "short": true
-  }).addTo(map);
+    var firstContainer = controls[0].getContainer();
+    $(firstContainer).find(".control-button").first()
+      .addClass("control-button-first");
 
-  L.OSM.note({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+    var lastContainer = controls[controls.length - 1].getContainer();
+    $(lastContainer).find(".control-button").last()
+      .addClass("control-button-last");
+  }
 
-  L.OSM.query({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+  addControlGroup([
+    L.OSM.zoom({ position: position }),
+    L.OSM.locate({ position: position })
+  ]);
+
+  addControlGroup([
+    L.OSM.layers({
+      position: position,
+      layers: map.baseLayers,
+      sidebar: sidebar
+    }),
+    L.OSM.key({
+      position: position,
+      sidebar: sidebar
+    }),
+    L.OSM.share({
+      "position": position,
+      "sidebar": sidebar,
+      "short": true
+    })
+  ]);
+
+  addControlGroup([
+    L.OSM.note({
+      position: position,
+      sidebar: sidebar
+    })
+  ]);
+
+  addControlGroup([
+    L.OSM.query({
+      position: position,
+      sidebar: sidebar
+    })
+  ]);
 
   L.control.scale()
     .addTo(map);
