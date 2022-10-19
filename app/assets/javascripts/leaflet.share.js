@@ -35,26 +35,25 @@ L.OSM.share = function (options) {
               .bind("change", toggleMarker))
           .append(I18n.t("javascripts.share.include_marker")));
 
-    $("<div>")
-      .attr("class", "share-tabs")
+    $("<div class='btn-group btn-group-sm mb-2'>")
       .appendTo($form)
-      .append($("<a>")
-        .attr("class", "active")
+      .append($("<a class='btn btn-primary'>")
+        .addClass("active")
         .attr("for", "long_input")
         .attr("id", "long_link")
         .text(I18n.t("javascripts.share.long_link")))
-      .append($("<a>")
+      .append($("<a class='btn btn-primary'>")
         .attr("for", "short_input")
         .attr("id", "short_link")
         .text(I18n.t("javascripts.share.short_link")))
-      .append($("<a>")
+      .append($("<a class='btn btn-primary'>")
         .attr("for", "embed_html")
         .attr("href", "#")
         .text(I18n.t("javascripts.share.embed")))
       .on("click", "a", function (e) {
         e.preventDefault();
         var id = "#" + $(this).attr("for");
-        $linkSection.find(".share-tabs a")
+        $(this).siblings("a")
           .removeClass("active");
         $(this).addClass("active");
         $linkSection.find(".share-tab")
