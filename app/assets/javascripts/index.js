@@ -255,20 +255,10 @@ $(document).ready(function () {
     });
 
     function sendRemoteEditCommand(url, callback) {
-      var iframe = $("<iframe>");
-      var timeoutId = setTimeout(function () {
-        alert(I18n.t("site.index.remote_failed"));
-        iframe.remove();
-      }, 5000);
-
-      iframe
-        .hide()
-        .appendTo("body")
-        .attr("src", url)
-        .on("load", function () {
-          clearTimeout(timeoutId);
-          iframe.remove();
-          if (callback) callback();
+      fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) })
+        .then(callback)
+        .catch(function () {
+          alert(I18n.t("site.index.remote_failed"));
         });
     }
 
