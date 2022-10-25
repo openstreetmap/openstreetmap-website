@@ -152,7 +152,7 @@ group :test do
   gem "rubocop"
   gem "rubocop-minitest"
   gem "rubocop-performance"
-  gem "rubocop-rails"
+  gem "rubocop-rails", "= 2.16.1"
   gem "rubocop-rake"
   gem "selenium-webdriver"
   gem "simplecov", :require => false

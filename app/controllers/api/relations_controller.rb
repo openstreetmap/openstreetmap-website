@@ -76,9 +76,9 @@ module Api
         # first find the ids of nodes, ways and relations referenced by this
         # relation - note that we exclude this relation just in case.
 
-        node_ids = relation.members.select { |m| m[0] == "Node" }.map { |m| m[1] }
-        way_ids = relation.members.select { |m| m[0] == "Way" }.map { |m| m[1] }
-        relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.map { |m| m[1] }
+        node_ids = relation.members.select { |m| m[0] == "Node" }.pluck(1)
+        way_ids = relation.members.select { |m| m[0] == "Way" }.pluck(1)
+        relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.pluck(1)
 
         # next load the relations and the ways.
 
