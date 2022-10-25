@@ -241,15 +241,15 @@ $(document).ready(function () {
         const noteQuery = new URLSearchParams({ url: osmHost + OSM.apiUrl(object) });
         sendRemoteEditCommand(remoteEditHost + "/import?" + noteQuery);
       }
+    }, function () {
+      // eslint-disable-next-line no-alert
+      alert(I18n.t("site.index.remote_failed"));
     });
 
-    function sendRemoteEditCommand(url, callback) {
+    function sendRemoteEditCommand(url, callback, errorCallback) {
       fetch(url, { mode: "no-cors", signal: AbortSignal.timeout(5000) })
         .then(callback)
-        .catch(function () {
-          // eslint-disable-next-line no-alert
-          alert(I18n.t("site.index.remote_failed"));
-        });
+        .catch(errorCallback);
     }
 
     return false;
