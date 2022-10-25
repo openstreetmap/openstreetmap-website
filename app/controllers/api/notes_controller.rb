@@ -35,6 +35,10 @@ module Api
 
       # Check the the bounding box is not too big
       bbox.check_size(Settings.max_note_request_area)
+      @min_lon = bbox.min_lon
+      @min_lat = bbox.min_lat
+      @max_lon = bbox.max_lon
+      @max_lat = bbox.max_lat
 
       # Find the notes we want to return
       @notes = notes.bbox(bbox).order("updated_at DESC").limit(result_limit).preload(:comments)
@@ -190,6 +194,10 @@ module Api
         bbox.check_size(Settings.max_note_request_area)
 
         notes = notes.bbox(bbox)
+        @min_lon = bbox.min_lon
+        @min_lat = bbox.min_lat
+        @max_lon = bbox.max_lon
+        @max_lat = bbox.max_lat
       end
 
       # Find the comments we want to return

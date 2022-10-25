@@ -632,6 +632,7 @@ module Api
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
+          assert_select "description", :text => /1\.2/, :count => 1
           assert_select "item", :count => 2
         end
       end
@@ -1032,6 +1033,7 @@ module Api
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
+          assert_select "description", :text => /1\.2/, :count => 1
           assert_select "item", :count => 2
         end
       end
