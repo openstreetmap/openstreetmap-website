@@ -5,7 +5,11 @@
 <% if @changesets.size == 20 -%>
   <div class="changeset_more mt-3 text-center">
     <%= link_to t(".load_more"), url_for(@params.merge(:max_id => @changesets.last.id - 1)), :class => "btn btn-primary" %>
-    <div class="loader"><%= image_tag "searching.gif" %></div>
+    <div class="text-center loader">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
+      </div>
+    </div>
   </div>
 <% end -%>
 <% elsif params[:bbox] %>
