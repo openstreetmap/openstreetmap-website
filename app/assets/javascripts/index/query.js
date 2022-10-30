@@ -168,10 +168,6 @@ OSM.Query = function (map) {
     $ul.empty();
     $section.show();
 
-    $section.find(".loader").oneTime(1000, "loading", function () {
-      $(this).show();
-    });
-
     if ($section.data("ajax")) {
       $section.data("ajax").abort();
     }
@@ -188,7 +184,7 @@ OSM.Query = function (map) {
       success: function (results) {
         var elements;
 
-        $section.find(".loader").stopTime("loading").hide();
+        $section.find(".loader").hide();
 
         if (merge) {
           elements = results.elements.reduce(function (hash, element) {
@@ -243,7 +239,7 @@ OSM.Query = function (map) {
         }
       },
       error: function (xhr, status, error) {
-        $section.find(".loader").stopTime("loading").hide();
+        $section.find(".loader").hide();
 
         $("<li>")
           .addClass("query-result list-group-item")
