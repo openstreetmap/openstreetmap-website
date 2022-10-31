@@ -265,7 +265,8 @@ OSM.Directions = function (map) {
       }
 
       var turnByTurnTable = $("<table class='mb-3'>");
-      var directionsCloseButton = $("<button type='button' class='btn-close'>");
+      var directionsCloseButton = $("<button type='button' class='btn-close'>")
+        .attr("aria-label", I18n.t("javascripts.close"));
 
       $("#sidebar_content")
         .empty()
