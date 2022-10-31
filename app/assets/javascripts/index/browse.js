@@ -54,6 +54,7 @@ OSM.initializeBrowse = function (map) {
             .text(I18n.t("browse.start_rjs.load_data")),
           $("<div>").append(
             $("<button type='button' class='btn-close'>")
+              .attr("aria-label", I18n.t("javascripts.close"))
               .click(cancel))),
         $("<p class='alert alert-warning'>")
           .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })),
