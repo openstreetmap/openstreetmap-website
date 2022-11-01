@@ -299,8 +299,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_confirm_email_bad_token
     post user_confirm_email_path, :params => { :confirm_string => "XXXXX" }
-    assert_response :success
-    assert_template :confirm_email
+    assert_response :redirect
+    assert_redirected_to edit_account_path
     assert_match(/confirmation code has expired or does not exist/, flash[:error])
   end
 
