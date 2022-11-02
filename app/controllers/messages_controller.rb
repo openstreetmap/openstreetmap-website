@@ -28,10 +28,7 @@ class MessagesController < ApplicationController
     render :action => "no_such_message", :status => :not_found
   end
 
-  # Allow the user to write a new message to another user. This action also
-  # deals with the sending of that message to the other user when the user
-  # clicks send.
-  # The display_name param is the display name of the user that the message is being sent to.
+  # Allow the user to write a new message to another user.
   def new
     @message = Message.new(message_params.merge(:recipient => @user))
     @title = t ".title"
