@@ -14,9 +14,13 @@ class RedactionsController < ApplicationController
     @redactions = Redaction.order(:id)
   end
 
+  def show; end
+
   def new
     @redaction = Redaction.new
   end
+
+  def edit; end
 
   def create
     @redaction = Redaction.new
@@ -32,10 +36,6 @@ class RedactionsController < ApplicationController
       render :action => "new"
     end
   end
-
-  def show; end
-
-  def edit; end
 
   def update
     # NOTE: don't update the user ID

@@ -19,6 +19,35 @@ module Api
       head :forbidden unless @trace.public? || @trace.user == current_user
     end
 
+    def create
+      tags = params[:tags] || ""
+      description = params[:description] || ""
+      visibility = params[:visibility]
+
+      if visibility.nil?
+        visibility = if params[:public]&.to_i&.nonzero?
+                       "public"
+                     else
+                       "private"
+                     end
+      end
+
+      if params[:file].respond_to?(:read)
+        trace = do_create(params[:file], tags, description, visibility)
+
+        if trace.id
+          TraceImporterJob.perform_later(trace)
+          render :plain => trace.id.to_s
+        elsif trace.valid?
+          head :internal_server_error
+        else
+          head :bad_request
+        end
+      else
+        head :bad_request
+      end
+    end
+
     def update
       trace = Trace.visible.find(params[:id])
 
@@ -61,35 +90,6 @@ module Api
         end
       else
         head :forbidden
-      end
-    end
-
-    def create
-      tags = params[:tags] || ""
-      description = params[:description] || ""
-      visibility = params[:visibility]
-
-      if visibility.nil?
-        visibility = if params[:public]&.to_i&.nonzero?
-                       "public"
-                     else
-                       "private"
-                     end
-      end
-
-      if params[:file].respond_to?(:read)
-        trace = do_create(params[:file], tags, description, visibility)
-
-        if trace.id
-          TraceImporterJob.perform_later(trace)
-          render :plain => trace.id.to_s
-        elsif trace.valid?
-          head :internal_server_error
-        else
-          head :bad_request
-        end
-      else
-        head :bad_request
       end
     end
 

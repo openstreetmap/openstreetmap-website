@@ -69,10 +69,6 @@ class TracesController < ApplicationController
     @target_user = target_user
   end
 
-  def mine
-    redirect_to :action => :index, :display_name => current_user.display_name
-  end
-
   def show
     @trace = Trace.find(params[:id])
 
@@ -91,6 +87,20 @@ class TracesController < ApplicationController
   def new
     @title = t ".upload_trace"
     @trace = Trace.new(:visibility => default_visibility)
+  end
+
+  def edit
+    @trace = Trace.find(params[:id])
+
+    if !@trace.visible?
+      head :not_found
+    elsif current_user.nil? || @trace.user != current_user
+      head :forbidden
+    else
+      @title = t ".title", :name => @trace.name
+    end
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   def create
@@ -127,42 +137,6 @@ class TracesController < ApplicationController
     end
   end
 
-  def data
-    trace = Trace.find(params[:id])
-
-    if trace.visible? && (trace.public? || (current_user && current_user == trace.user))
-      if Acl.no_trace_download(request.remote_ip)
-        head :forbidden
-      elsif request.format == Mime[:xml]
-        send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
-      elsif request.format == Mime[:gpx]
-        send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
-      elsif trace.file.attached?
-        redirect_to rails_blob_path(trace.file, :disposition => "attachment")
-      else
-        send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
-      end
-    else
-      head :not_found
-    end
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
-  end
-
-  def edit
-    @trace = Trace.find(params[:id])
-
-    if !@trace.visible?
-      head :not_found
-    elsif current_user.nil? || @trace.user != current_user
-      head :forbidden
-    else
-      @title = t ".title", :name => @trace.name
-    end
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
-  end
-
   def update
     @trace = Trace.find(params[:id])
 
@@ -194,6 +168,32 @@ class TracesController < ApplicationController
       flash[:notice] = t ".scheduled_for_deletion"
       TraceDestroyerJob.perform_later(trace)
       redirect_to :action => :index, :display_name => trace.user.display_name
+    end
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  end
+
+  def mine
+    redirect_to :action => :index, :display_name => current_user.display_name
+  end
+
+  def data
+    trace = Trace.find(params[:id])
+
+    if trace.visible? && (trace.public? || (current_user && current_user == trace.user))
+      if Acl.no_trace_download(request.remote_ip)
+        head :forbidden
+      elsif request.format == Mime[:xml]
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
+      elsif request.format == Mime[:gpx]
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
+      elsif trace.file.attached?
+        redirect_to rails_blob_path(trace.file, :disposition => "attachment")
+      else
+        send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
+      end
+    else
+      head :not_found
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
