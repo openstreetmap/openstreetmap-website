@@ -9,7 +9,13 @@
 <p><%= t ".local_chapters.list_text" %></p>
 <ul>
   <% @local_chapters.each do |chapter| %>
-    <li><a href="<%= chapter.url %>"><%= t "osm_community_index.communities.#{chapter.id}.name" %></a></li>
+    <li>
+      <% if chapter.url %>
+        <a href="<%= chapter.url %>"><%= t "osm_community_index.communities.#{chapter.id}.name" %></a>
+      <% else %>
+        <%= t "osm_community_index.communities.#{chapter.id}.name" %>
+      <% end %>
+    </li>
   <% end %>
 </ul>
 
