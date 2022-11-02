@@ -22,19 +22,19 @@ OSM.Query = function (map) {
 
     if (queryButton.hasClass("active")) {
       disableQueryMode();
+      deactivateQueryMode();
     } else if (!queryButton.hasClass("disabled")) {
+      activateQueryMode();
       enableQueryMode();
     }
   }).on("disabled", function () {
     if (queryButton.hasClass("active")) {
-      map.off("click", clickHandler);
-      $(map.getContainer()).removeClass("query-active").addClass("query-disabled");
+      disableQueryMode();
       $(this).tooltip("show");
     }
   }).on("enabled", function () {
     if (queryButton.hasClass("active")) {
-      map.on("click", clickHandler);
-      $(map.getContainer()).removeClass("query-disabled").addClass("query-active");
+      enableQueryMode();
       $(this).tooltip("hide");
     }
   });
@@ -296,9 +296,6 @@ OSM.Query = function (map) {
         nearby = "(" + nodes + ";" + ways + ";);out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
         isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
 
-    $("#sidebar_content .query-intro")
-      .hide();
-
     if (marker) map.removeLayer(marker);
     marker = L.circle(latlng, radius, featureStyle).addTo(map);
 
@@ -326,17 +323,27 @@ OSM.Query = function (map) {
     OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
   }
 
-  function enableQueryMode() {
+  function activateQueryMode() {
     queryButton.addClass("active");
-    map.on("click", clickHandler);
     $(map.getContainer()).addClass("query-active");
   }
 
-  function disableQueryMode() {
-    if (marker) map.removeLayer(marker);
-    $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
-    map.off("click", clickHandler);
+  function deactivateQueryMode() {
+    $(map.getContainer()).removeClass("query-active");
     queryButton.removeClass("active");
+    if (marker) map.removeLayer(marker);
+  }
+
+  function enableQueryMode() {
+    map.on("click", clickHandler);
+    $(map.getContainer()).removeClass("query-disabled");
+    $("#sidebar_content .query-intro").show();
+  }
+
+  function disableQueryMode() {
+    $("#sidebar_content .query-intro").hide();
+    $(map.getContainer()).addClass("query-disabled");
+    map.off("click", clickHandler);
   }
 
   var page = {};
@@ -357,12 +364,19 @@ OSM.Query = function (map) {
       });
     }
 
+    if (!queryButton.hasClass("active") || queryButton.hasClass("disabled")) {
+      $("#sidebar_content .query-intro").hide();
+    }
+
     queryOverpass(params.lat, params.lon);
   };
 
   page.unload = function (sameController) {
     if (!sameController) {
-      disableQueryMode();
+      if (queryButton.hasClass("active")) {
+        disableQueryMode();
+        deactivateQueryMode();
+      }
     }
   };
 
