@@ -17,6 +17,109 @@ class UsersController < ApplicationController
   before_action :lookup_user_by_name, :only => [:set_status, :destroy]
   before_action :allow_thirdparty_images, :only => [:show]
 
+  ##
+  # display a list of users matching specified criteria
+  def index
+    if request.post?
+      ids = params[:user].keys.collect(&:to_i)
+
+      User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
+      User.where(:id => ids).update_all(:status => "deleted") if params[:hide]
+
+      redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
+    else
+      @params = params.permit(:status, :ip)
+
+      conditions = {}
+      conditions[:status] = @params[:status] if @params[:status]
+      conditions[:creation_ip] = @params[:ip] if @params[:ip]
+
+      @user_pages, @users = paginate(:users,
+                                     :conditions => conditions,
+                                     :order => :id,
+                                     :per_page => 50)
+    end
+  end
+
+  def show
+    @user = User.find_by(:display_name => params[:display_name])
+
+    if @user &&
+       (@user.visible? || current_user&.administrator?)
+      @title = @user.display_name
+    else
+      render_unknown_user params[:display_name]
+    end
+  end
+
+  def new
+    @title = t "users.new.title"
+    @referer = if params[:referer]
+                 safe_referer(params[:referer])
+               else
+                 session[:referer]
+               end
+
+    append_content_security_policy_directives(
+      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+    )
+
+    if current_user
+      # The user is logged in already, so don't show them the signup
+      # page, instead send them to the home page
+      redirect_to @referer || { :controller => "site", :action => "index" }
+    elsif params.key?(:auth_provider) && params.key?(:auth_uid)
+      self.current_user = User.new(:email => params[:email],
+                                   :email_confirmation => params[:email],
+                                   :display_name => params[:nickname],
+                                   :auth_provider => params[:auth_provider],
+                                   :auth_uid => params[:auth_uid])
+
+      flash.now[:notice] = render_to_string :partial => "auth_association"
+    else
+      check_signup_allowed
+
+      self.current_user = User.new
+    end
+  end
+
+  def create
+    self.current_user = User.new(user_params)
+
+    if check_signup_allowed(current_user.email)
+      session[:referer] = safe_referer(params[:referer]) if params[:referer]
+
+      Rails.logger.info "create: #{session[:referer]}"
+
+      if current_user.auth_provider.present? && current_user.pass_crypt.empty?
+        # We are creating an account with external authentication and
+        # no password was specified so create a random one
+        current_user.pass_crypt = SecureRandom.base64(16)
+        current_user.pass_crypt_confirmation = current_user.pass_crypt
+      end
+
+      if current_user.invalid?
+        # Something is wrong with a new user, so rerender the form
+        render :action => "new"
+      elsif current_user.auth_provider.present?
+        # Verify external authenticator before moving on
+        session[:new_user] = current_user
+        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
+      else
+        # Save the user record
+        session[:new_user] = current_user
+        redirect_to :action => :terms
+      end
+    end
+  end
+
+  ##
+  # destroy a user, marking them as deleted and removing personal data
+  def destroy
+    @user.soft_destroy!
+    redirect_to user_path(:display_name => params[:display_name])
+  end
+
   def terms
     @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || Settings.default_legale
     @text = OSM.legal_text_for_country(@legale)
@@ -121,78 +224,6 @@ class UsersController < ApplicationController
     redirect_to edit_account_path
   end
 
-  def new
-    @title = t "users.new.title"
-    @referer = if params[:referer]
-                 safe_referer(params[:referer])
-               else
-                 session[:referer]
-               end
-
-    append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
-    )
-
-    if current_user
-      # The user is logged in already, so don't show them the signup
-      # page, instead send them to the home page
-      redirect_to @referer || { :controller => "site", :action => "index" }
-    elsif params.key?(:auth_provider) && params.key?(:auth_uid)
-      self.current_user = User.new(:email => params[:email],
-                                   :email_confirmation => params[:email],
-                                   :display_name => params[:nickname],
-                                   :auth_provider => params[:auth_provider],
-                                   :auth_uid => params[:auth_uid])
-
-      flash.now[:notice] = render_to_string :partial => "auth_association"
-    else
-      check_signup_allowed
-
-      self.current_user = User.new
-    end
-  end
-
-  def create
-    self.current_user = User.new(user_params)
-
-    if check_signup_allowed(current_user.email)
-      session[:referer] = safe_referer(params[:referer]) if params[:referer]
-
-      Rails.logger.info "create: #{session[:referer]}"
-
-      if current_user.auth_provider.present? && current_user.pass_crypt.empty?
-        # We are creating an account with external authentication and
-        # no password was specified so create a random one
-        current_user.pass_crypt = SecureRandom.base64(16)
-        current_user.pass_crypt_confirmation = current_user.pass_crypt
-      end
-
-      if current_user.invalid?
-        # Something is wrong with a new user, so rerender the form
-        render :action => "new"
-      elsif current_user.auth_provider.present?
-        # Verify external authenticator before moving on
-        session[:new_user] = current_user
-        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
-      else
-        # Save the user record
-        session[:new_user] = current_user
-        redirect_to :action => :terms
-      end
-    end
-  end
-
-  def show
-    @user = User.find_by(:display_name => params[:display_name])
-
-    if @user &&
-       (@user.visible? || current_user&.administrator?)
-      @title = @user.display_name
-    else
-      render_unknown_user params[:display_name]
-    end
-  end
-
   ##
   # sets a user's status
   def set_status
@@ -203,37 +234,6 @@ class UsersController < ApplicationController
     @user.unhide! if params[:event] == "unhide"
     @user.unsuspend! if params[:event] == "unsuspend"
     redirect_to user_path(:display_name => params[:display_name])
-  end
-
-  ##
-  # destroy a user, marking them as deleted and removing personal data
-  def destroy
-    @user.soft_destroy!
-    redirect_to user_path(:display_name => params[:display_name])
-  end
-
-  ##
-  # display a list of users matching specified criteria
-  def index
-    if request.post?
-      ids = params[:user].keys.collect(&:to_i)
-
-      User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
-      User.where(:id => ids).update_all(:status => "deleted") if params[:hide]
-
-      redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
-    else
-      @params = params.permit(:status, :ip)
-
-      conditions = {}
-      conditions[:status] = @params[:status] if @params[:status]
-      conditions[:creation_ip] = @params[:ip] if @params[:ip]
-
-      @user_pages, @users = paginate(:users,
-                                     :conditions => conditions,
-                                     :order => :id,
-                                     :per_page => 50)
-    end
   end
 
   ##

@@ -11,6 +11,67 @@ class DiaryEntriesController < ApplicationController
   before_action :check_database_writable, :only => [:new, :create, :edit, :update, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :allow_thirdparty_images, :only => [:new, :create, :edit, :update, :index, :show, :comments]
 
+  def index
+    if params[:display_name]
+      @user = User.active.find_by(:display_name => params[:display_name])
+
+      if @user
+        @title = t "diary_entries.index.user_title", :user => @user.display_name
+        @entries = @user.diary_entries
+      else
+        render_unknown_user params[:display_name]
+        return
+      end
+    elsif params[:friends]
+      if current_user
+        @title = t "diary_entries.index.title_friends"
+        @entries = DiaryEntry.where(:user_id => current_user.friends)
+      else
+        require_user
+        return
+      end
+    elsif params[:nearby]
+      if current_user
+        @title = t "diary_entries.index.title_nearby"
+        @entries = DiaryEntry.where(:user_id => current_user.nearby)
+      else
+        require_user
+        return
+      end
+    else
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
+
+      if params[:language]
+        @title = t "diary_entries.index.in_language_title", :language => Language.find(params[:language]).english_name
+        @entries = @entries.where(:language_code => params[:language])
+      else
+        @title = t "diary_entries.index.title"
+      end
+    end
+
+    @params = params.permit(:display_name, :friends, :nearby, :language)
+
+    @page = (params[:page] || 1).to_i
+    @page_size = 20
+
+    @entries = @entries.visible unless can? :unhide, DiaryEntry
+    @entries = @entries.order("created_at DESC")
+    @entries = @entries.offset((@page - 1) * @page_size)
+    @entries = @entries.limit(@page_size)
+    @entries = @entries.includes(:user, :language)
+  end
+
+  def show
+    @entry = @user.diary_entries.visible.where(:id => params[:id]).first
+    if @entry
+      @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
+      @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
+    else
+      @title = t "diary_entries.no_such_entry.title", :id => params[:id]
+      render :action => "no_such_entry", :status => :not_found
+    end
+  end
+
   def new
     @title = t "diary_entries.new.title"
 
@@ -19,6 +80,17 @@ class DiaryEntriesController < ApplicationController
     @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
     set_map_location
     render :action => "new"
+  end
+
+  def edit
+    @title = t "diary_entries.edit.title"
+    @diary_entry = DiaryEntry.find(params[:id])
+
+    redirect_to diary_entry_path(@diary_entry.user, @diary_entry) if current_user != @diary_entry.user
+
+    set_map_location
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
   end
 
   def create
@@ -43,17 +115,6 @@ class DiaryEntriesController < ApplicationController
     else
       render :action => "new"
     end
-  end
-
-  def edit
-    @title = t "diary_entries.edit.title"
-    @diary_entry = DiaryEntry.find(params[:id])
-
-    redirect_to diary_entry_path(@diary_entry.user, @diary_entry) if current_user != @diary_entry.user
-
-    set_map_location
-  rescue ActiveRecord::RecordNotFound
-    render :action => "no_such_entry", :status => :not_found
   end
 
   def update
@@ -114,56 +175,6 @@ class DiaryEntriesController < ApplicationController
     render :action => "no_such_entry", :status => :not_found
   end
 
-  def index
-    if params[:display_name]
-      @user = User.active.find_by(:display_name => params[:display_name])
-
-      if @user
-        @title = t "diary_entries.index.user_title", :user => @user.display_name
-        @entries = @user.diary_entries
-      else
-        render_unknown_user params[:display_name]
-        return
-      end
-    elsif params[:friends]
-      if current_user
-        @title = t "diary_entries.index.title_friends"
-        @entries = DiaryEntry.where(:user_id => current_user.friends)
-      else
-        require_user
-        return
-      end
-    elsif params[:nearby]
-      if current_user
-        @title = t "diary_entries.index.title_nearby"
-        @entries = DiaryEntry.where(:user_id => current_user.nearby)
-      else
-        require_user
-        return
-      end
-    else
-      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
-
-      if params[:language]
-        @title = t "diary_entries.index.in_language_title", :language => Language.find(params[:language]).english_name
-        @entries = @entries.where(:language_code => params[:language])
-      else
-        @title = t "diary_entries.index.title"
-      end
-    end
-
-    @params = params.permit(:display_name, :friends, :nearby, :language)
-
-    @page = (params[:page] || 1).to_i
-    @page_size = 20
-
-    @entries = @entries.visible unless can? :unhide, DiaryEntry
-    @entries = @entries.order("created_at DESC")
-    @entries = @entries.offset((@page - 1) * @page_size)
-    @entries = @entries.limit(@page_size)
-    @entries = @entries.includes(:user, :language)
-  end
-
   def rss
     if params[:display_name]
       user = User.active.find_by(:display_name => params[:display_name])
@@ -196,17 +207,6 @@ class DiaryEntriesController < ApplicationController
       end
     end
     @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
-  end
-
-  def show
-    @entry = @user.diary_entries.visible.where(:id => params[:id]).first
-    if @entry
-      @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
-      @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
-    else
-      @title = t "diary_entries.no_such_entry.title", :id => params[:id]
-      render :action => "no_such_entry", :status => :not_found
-    end
   end
 
   def hide

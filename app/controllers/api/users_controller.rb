@@ -12,6 +12,22 @@ module Api
 
     before_action :set_request_formats, :except => [:gpx_files]
 
+    def index
+      raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
+
+      ids = params["users"].split(",").collect(&:to_i)
+
+      raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
+
+      @users = User.visible.find(ids)
+
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
+      end
+    end
+
     def show
       if @user.visible?
         # Render the result
@@ -30,22 +46,6 @@ module Api
       respond_to do |format|
         format.xml { render :show }
         format.json { render :show }
-      end
-    end
-
-    def index
-      raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
-
-      ids = params["users"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
-
-      @users = User.visible.find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
 

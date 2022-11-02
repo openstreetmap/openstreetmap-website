@@ -13,14 +13,20 @@ module Api
 
     before_action :set_request_formats, :except => [:create, :update, :delete]
 
-    def create
-      assert_method :put
+    def index
+      raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
 
-      way = Way.from_xml(request.raw_post, :create => true)
+      ids = params["ways"].split(",").collect(&:to_i)
 
-      # Assume that Way.from_xml has thrown an exception if there is an error parsing the xml
-      way.create_with_history current_user
-      render :plain => way.id.to_s
+      raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
+
+      @ways = Way.find(ids)
+
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     def show
@@ -37,6 +43,16 @@ module Api
       else
         head :gone
       end
+    end
+
+    def create
+      assert_method :put
+
+      way = Way.from_xml(request.raw_post, :create => true)
+
+      # Assume that Way.from_xml has thrown an exception if there is an error parsing the xml
+      way.create_with_history current_user
+      render :plain => way.id.to_s
     end
 
     def update
@@ -84,22 +100,6 @@ module Api
         end
       else
         head :gone
-      end
-    end
-
-    def index
-      raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
-
-      ids = params["ways"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
-
-      @ways = Way.find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
 
