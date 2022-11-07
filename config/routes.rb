@@ -70,6 +70,12 @@ OpenStreetMap::Application.routes.draw do
     get "user/gpx_files" => "api/users#gpx_files"
     get "users" => "api/users#index", :as => :api_users
 
+    # This is needed to get automatic URL decoding along with not needing to worry about re-adding the "format"
+    # to the preference key.
+    get "user/preferences/:preference_key" => "api/user_preferences#show", :preference_key => /.*/
+    put "user/preferences/:preference_key" => "api/user_preferences#update", :preference_key => /.*/
+    delete "user/preferences/:preference_key" => "api/user_preferences#destroy", :preference_key => /.*/
+
     resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "api/user_preferences" do
       collection do
         put "" => "api/user_preferences#update_all", :as => ""

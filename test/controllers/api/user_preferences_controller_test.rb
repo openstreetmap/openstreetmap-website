@@ -32,6 +32,38 @@ module Api
     end
 
     ##
+    # Test special key routes. Specifically routes with `.` and URL encoded keys.
+    def test_special_routes
+      # authenticate as a user with no preferences
+      auth_header = basic_authorization_header create(:user).email, "test"
+
+      put "#{user_preferences_path}/gps.trace.visibility", :headers => auth_header, :params => "public"
+      get "#{user_preferences_path}/gps.trace.visibility", :headers => auth_header
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "public", @response.body
+
+      put "#{user_preferences_path}/apikey%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => auth_header, :params => "test_url_encode"
+      get "#{user_preferences_path}/apikey%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => auth_header
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "test_url_encode", @response.body
+
+      # Make certain that the key was stored in non-url-encoded form
+      # This is necessary just in case the .ones%2Fapi was interpreted as a format (e.g., `.json`)
+      get user_preferences_path, :headers => auth_header
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm" do
+        assert_select "preferences", :count => 1 do
+          assert_select "preference", :count => 2
+          assert_select "preference[k=\"apikey:https://some.ones/api\"][v=\"test_url_encode\"]", :count => 1
+          assert_select "preference[k=\"gps.trace.visibility\"][v=\"public\"]", :count => 1
+        end
+      end
+    end
+
+    ##
     # test showing all preferences
     def test_index
       # first try without auth
