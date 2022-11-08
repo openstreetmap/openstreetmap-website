@@ -39,17 +39,21 @@ OSM.Query = function (map) {
     }
   });
 
+  function showResultGeometry() {
+    var geometry = $(this).data("geometry");
+    if (geometry) map.addLayer(geometry);
+    $(this).addClass("selected");
+  }
+
+  function hideResultGeometry() {
+    var geometry = $(this).data("geometry");
+    if (geometry) map.removeLayer(geometry);
+    $(this).removeClass("selected");
+  }
+
   $("#sidebar_content")
-    .on("mouseover", ".query-results li.query-result", function () {
-      var geometry = $(this).data("geometry");
-      if (geometry) map.addLayer(geometry);
-      $(this).addClass("selected");
-    })
-    .on("mouseout", ".query-results li.query-result", function () {
-      var geometry = $(this).data("geometry");
-      if (geometry) map.removeLayer(geometry);
-      $(this).removeClass("selected");
-    })
+    .on("mouseover", ".query-results li.query-result", showResultGeometry)
+    .on("mouseout", ".query-results li.query-result", hideResultGeometry)
     .on("mousedown", ".query-results li.query-result", function () {
       var moved = false;
       $(this).one("click", function (e) {
@@ -363,6 +367,7 @@ OSM.Query = function (map) {
   page.unload = function (sameController) {
     if (!sameController) {
       disableQueryMode();
+      $("#sidebar_content .query-results li.query-result.selected").each(hideResultGeometry);
     }
   };
 
