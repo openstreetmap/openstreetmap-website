@@ -3114,19 +3114,19 @@
         all: function() {
           return this._all(this.data, []);
         },
-        search: function(bbox) {
+        search: function(bbox2) {
           var node = this.data, result = [], toBBox = this.toBBox;
-          if (!intersects(bbox, node))
+          if (!intersects(bbox2, node))
             return result;
           var nodesToSearch = [], i2, len, child, childBBox;
           while (node) {
             for (i2 = 0, len = node.children.length; i2 < len; i2++) {
               child = node.children[i2];
               childBBox = node.leaf ? toBBox(child) : child;
-              if (intersects(bbox, childBBox)) {
+              if (intersects(bbox2, childBBox)) {
                 if (node.leaf)
                   result.push(child);
-                else if (contains(bbox, childBBox))
+                else if (contains(bbox2, childBBox))
                   this._all(child, result);
                 else
                   nodesToSearch.push(child);
@@ -3136,17 +3136,17 @@
           }
           return result;
         },
-        collides: function(bbox) {
+        collides: function(bbox2) {
           var node = this.data, toBBox = this.toBBox;
-          if (!intersects(bbox, node))
+          if (!intersects(bbox2, node))
             return false;
           var nodesToSearch = [], i2, len, child, childBBox;
           while (node) {
             for (i2 = 0, len = node.children.length; i2 < len; i2++) {
               child = node.children[i2];
               childBBox = node.leaf ? toBBox(child) : child;
-              if (intersects(bbox, childBBox)) {
-                if (node.leaf || contains(bbox, childBBox))
+              if (intersects(bbox2, childBBox)) {
+                if (node.leaf || contains(bbox2, childBBox))
                   return true;
                 nodesToSearch.push(child);
               }
@@ -3191,7 +3191,7 @@
         remove: function(item, equalsFn) {
           if (!item)
             return this;
-          var node = this.data, bbox = this.toBBox(item), path = [], indexes = [], i2, parent, index, goingUp;
+          var node = this.data, bbox2 = this.toBBox(item), path = [], indexes = [], i2, parent, index, goingUp;
           while (node || path.length) {
             if (!node) {
               node = path.pop();
@@ -3208,7 +3208,7 @@
                 return this;
               }
             }
-            if (!goingUp && !node.leaf && contains(node, bbox)) {
+            if (!goingUp && !node.leaf && contains(node, bbox2)) {
               path.push(node);
               indexes.push(i2);
               i2 = 0;
@@ -3273,7 +3273,7 @@
           calcBBox(node, this.toBBox);
           return node;
         },
-        _chooseSubtree: function(bbox, node, level, path) {
+        _chooseSubtree: function(bbox2, node, level, path) {
           var i2, len, child, targetNode, area, enlargement, minArea, minEnlargement;
           while (true) {
             path.push(node);
@@ -3283,7 +3283,7 @@
             for (i2 = 0, len = node.children.length; i2 < len; i2++) {
               child = node.children[i2];
               area = bboxArea(child);
-              enlargement = enlargedArea(bbox, child) - area;
+              enlargement = enlargedArea(bbox2, child) - area;
               if (enlargement < minEnlargement) {
                 minEnlargement = enlargement;
                 minArea = area < minArea ? area : minArea;
@@ -3300,10 +3300,10 @@
           return node;
         },
         _insert: function(item, level, isNode) {
-          var toBBox = this.toBBox, bbox = isNode ? item : toBBox(item), insertPath = [];
-          var node = this._chooseSubtree(bbox, this.data, level, insertPath);
+          var toBBox = this.toBBox, bbox2 = isNode ? item : toBBox(item), insertPath = [];
+          var node = this._chooseSubtree(bbox2, this.data, level, insertPath);
           node.children.push(item);
-          extend2(node, bbox);
+          extend2(node, bbox2);
           while (level >= 0) {
             if (insertPath[level].children.length > this._maxEntries) {
               this._split(insertPath, level);
@@ -3311,7 +3311,7 @@
             } else
               break;
           }
-          this._adjustParentBBoxes(bbox, insertPath, level);
+          this._adjustParentBBoxes(bbox2, insertPath, level);
         },
         _split: function(insertPath, level) {
           var node = insertPath[level], M = node.children.length, m = this._minEntries;
@@ -3374,9 +3374,9 @@
           }
           return margin;
         },
-        _adjustParentBBoxes: function(bbox, path, level) {
+        _adjustParentBBoxes: function(bbox2, path, level) {
           for (var i2 = level; i2 >= 0; i2--) {
-            extend2(path[i2], bbox);
+            extend2(path[i2], bbox2);
           }
         },
         _condense: function(path) {
@@ -3491,14 +3491,14 @@
       module2.exports = lineclip2;
       lineclip2.polyline = lineclip2;
       lineclip2.polygon = polygonclip2;
-      function lineclip2(points, bbox, result) {
-        var len = points.length, codeA = bitCode2(points[0], bbox), part = [], i2, a, b, codeB, lastCode;
+      function lineclip2(points, bbox2, result) {
+        var len = points.length, codeA = bitCode2(points[0], bbox2), part = [], i2, a, b, codeB, lastCode;
         if (!result)
           result = [];
         for (i2 = 1; i2 < len; i2++) {
           a = points[i2 - 1];
           b = points[i2];
-          codeB = lastCode = bitCode2(b, bbox);
+          codeB = lastCode = bitCode2(b, bbox2);
           while (true) {
             if (!(codeA | codeB)) {
               part.push(a);
@@ -3515,11 +3515,11 @@
             } else if (codeA & codeB) {
               break;
             } else if (codeA) {
-              a = intersect2(a, b, codeA, bbox);
-              codeA = bitCode2(a, bbox);
+              a = intersect2(a, b, codeA, bbox2);
+              codeA = bitCode2(a, bbox2);
             } else {
-              b = intersect2(a, b, codeB, bbox);
-              codeB = bitCode2(b, bbox);
+              b = intersect2(a, b, codeB, bbox2);
+              codeB = bitCode2(b, bbox2);
             }
           }
           codeA = lastCode;
@@ -3528,17 +3528,17 @@
           result.push(part);
         return result;
       }
-      function polygonclip2(points, bbox) {
+      function polygonclip2(points, bbox2) {
         var result, edge, prev, prevInside, i2, p, inside;
         for (edge = 1; edge <= 8; edge *= 2) {
           result = [];
           prev = points[points.length - 1];
-          prevInside = !(bitCode2(prev, bbox) & edge);
+          prevInside = !(bitCode2(prev, bbox2) & edge);
           for (i2 = 0; i2 < points.length; i2++) {
             p = points[i2];
-            inside = !(bitCode2(p, bbox) & edge);
+            inside = !(bitCode2(p, bbox2) & edge);
             if (inside !== prevInside)
-              result.push(intersect2(prev, p, edge, bbox));
+              result.push(intersect2(prev, p, edge, bbox2));
             if (inside)
               result.push(p);
             prev = p;
@@ -3550,18 +3550,18 @@
         }
         return result;
       }
-      function intersect2(a, b, edge, bbox) {
-        return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox[3] - a[1]) / (b[1] - a[1]), bbox[3]] : edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox[1] - a[1]) / (b[1] - a[1]), bbox[1]] : edge & 2 ? [bbox[2], a[1] + (b[1] - a[1]) * (bbox[2] - a[0]) / (b[0] - a[0])] : edge & 1 ? [bbox[0], a[1] + (b[1] - a[1]) * (bbox[0] - a[0]) / (b[0] - a[0])] : null;
+      function intersect2(a, b, edge, bbox2) {
+        return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox2[3] - a[1]) / (b[1] - a[1]), bbox2[3]] : edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox2[1] - a[1]) / (b[1] - a[1]), bbox2[1]] : edge & 2 ? [bbox2[2], a[1] + (b[1] - a[1]) * (bbox2[2] - a[0]) / (b[0] - a[0])] : edge & 1 ? [bbox2[0], a[1] + (b[1] - a[1]) * (bbox2[0] - a[0]) / (b[0] - a[0])] : null;
       }
-      function bitCode2(p, bbox) {
+      function bitCode2(p, bbox2) {
         var code = 0;
-        if (p[0] < bbox[0])
+        if (p[0] < bbox2[0])
           code |= 1;
-        else if (p[0] > bbox[2])
+        else if (p[0] > bbox2[2])
           code |= 2;
-        if (p[1] < bbox[1])
+        if (p[1] < bbox2[1])
           code |= 4;
-        else if (p[1] > bbox[3])
+        else if (p[1] > bbox2[3])
           code |= 8;
         return code;
       }
@@ -3607,16 +3607,16 @@
           return multi && output.length ? output : null;
         }
         query.tree = tree;
-        query.bbox = function queryBBox(bbox) {
+        query.bbox = function queryBBox(bbox2) {
           var output = [];
           var result = tree.search({
-            minX: bbox[0],
-            minY: bbox[1],
-            maxX: bbox[2],
-            maxY: bbox[3]
+            minX: bbox2[0],
+            minY: bbox2[1],
+            maxX: bbox2[2],
+            maxY: bbox2[3]
           });
           for (var i3 = 0; i3 < result.length; i3++) {
-            if (polygonIntersectsBBox(result[i3].coords, bbox)) {
+            if (polygonIntersectsBBox(result[i3].coords, bbox2)) {
               output.push(result[i3].props);
             }
           }
@@ -3624,15 +3624,15 @@
         };
         return query;
       }
-      function polygonIntersectsBBox(polygon2, bbox) {
+      function polygonIntersectsBBox(polygon2, bbox2) {
         var bboxCenter = [
-          (bbox[0] + bbox[2]) / 2,
-          (bbox[1] + bbox[3]) / 2
+          (bbox2[0] + bbox2[2]) / 2,
+          (bbox2[1] + bbox2[3]) / 2
         ];
         if (insidePolygon(polygon2, bboxCenter))
           return true;
         for (var i2 = 0; i2 < polygon2.length; i2++) {
-          if (lineclip2(polygon2[i2], bbox).length > 0)
+          if (lineclip2(polygon2[i2], bbox2).length > 0)
             return true;
         }
         return false;
@@ -4540,8 +4540,8 @@
           sort(keys, values, left, j2, compare);
           sort(keys, values, j2 + 1, right, compare);
         }
-        var isInBbox = function isInBbox2(bbox, point) {
-          return bbox.ll.x <= point.x && point.x <= bbox.ur.x && bbox.ll.y <= point.y && point.y <= bbox.ur.y;
+        var isInBbox = function isInBbox2(bbox2, point2) {
+          return bbox2.ll.x <= point2.x && point2.x <= bbox2.ur.x && bbox2.ll.y <= point2.y && point2.y <= bbox2.ur.y;
         };
         var getBboxOverlap = function getBboxOverlap2(b1, b2) {
           if (b2.ur.x < b1.ll.x || b1.ur.x < b2.ll.x || b2.ur.y < b1.ll.y || b1.ur.y < b2.ll.y)
@@ -4738,13 +4738,13 @@
               return 0;
             }
           }]);
-          function SweepEvent2(point, isLeft) {
+          function SweepEvent2(point2, isLeft) {
             _classCallCheck(this, SweepEvent2);
-            if (point.events === void 0)
-              point.events = [this];
+            if (point2.events === void 0)
+              point2.events = [this];
             else
-              point.events.push(this);
-            this.point = point;
+              point2.events.push(this);
+            this.point = point2;
             this.isLeft = isLeft;
           }
           _createClass(SweepEvent2, [{
@@ -4944,7 +4944,7 @@
             }
           }, {
             key: "bbox",
-            value: function bbox() {
+            value: function bbox2() {
               var y12 = this.leftSE.point.y;
               var y2 = this.rightSE.point.y;
               return {
@@ -4973,26 +4973,26 @@
             }
           }, {
             key: "comparePoint",
-            value: function comparePoint(point) {
-              if (this.isAnEndpoint(point))
+            value: function comparePoint(point2) {
+              if (this.isAnEndpoint(point2))
                 return 0;
               var lPt = this.leftSE.point;
               var rPt = this.rightSE.point;
               var v = this.vector();
               if (lPt.x === rPt.x) {
-                if (point.x === lPt.x)
+                if (point2.x === lPt.x)
                   return 0;
-                return point.x < lPt.x ? 1 : -1;
+                return point2.x < lPt.x ? 1 : -1;
               }
-              var yDist = (point.y - lPt.y) / v.y;
+              var yDist = (point2.y - lPt.y) / v.y;
               var xFromYDist = lPt.x + yDist * v.x;
-              if (point.x === xFromYDist)
+              if (point2.x === xFromYDist)
                 return 0;
-              var xDist = (point.x - lPt.x) / v.x;
+              var xDist = (point2.x - lPt.x) / v.x;
               var yFromXDist = lPt.y + xDist * v.y;
-              if (point.y === yFromXDist)
+              if (point2.y === yFromXDist)
                 return 0;
-              return point.y < yFromXDist ? -1 : 1;
+              return point2.y < yFromXDist ? -1 : 1;
             }
           }, {
             key: "getIntersection",
@@ -5046,11 +5046,11 @@
             }
           }, {
             key: "split",
-            value: function split2(point) {
+            value: function split2(point2) {
               var newEvents = [];
-              var alreadyLinked = point.events !== void 0;
-              var newLeftSE = new SweepEvent(point, true);
-              var newRightSE = new SweepEvent(point, false);
+              var alreadyLinked = point2.events !== void 0;
+              var newLeftSE = new SweepEvent(point2, true);
+              var newRightSE = new SweepEvent(point2, false);
               var oldRightSE = this.rightSE;
               this.replaceRightSE(newRightSE);
               newEvents.push(newRightSE);
@@ -5296,19 +5296,19 @@
               if (typeof geomRing[i2][0] !== "number" || typeof geomRing[i2][1] !== "number") {
                 throw new Error("Input geometry is not a valid Polygon or MultiPolygon");
               }
-              var point = rounder.round(geomRing[i2][0], geomRing[i2][1]);
-              if (point.x === prevPoint.x && point.y === prevPoint.y)
+              var point2 = rounder.round(geomRing[i2][0], geomRing[i2][1]);
+              if (point2.x === prevPoint.x && point2.y === prevPoint.y)
                 continue;
-              this.segments.push(Segment.fromRing(prevPoint, point, this));
-              if (point.x < this.bbox.ll.x)
-                this.bbox.ll.x = point.x;
-              if (point.y < this.bbox.ll.y)
-                this.bbox.ll.y = point.y;
-              if (point.x > this.bbox.ur.x)
-                this.bbox.ur.x = point.x;
-              if (point.y > this.bbox.ur.y)
-                this.bbox.ur.y = point.y;
-              prevPoint = point;
+              this.segments.push(Segment.fromRing(prevPoint, point2, this));
+              if (point2.x < this.bbox.ll.x)
+                this.bbox.ll.x = point2.x;
+              if (point2.y < this.bbox.ll.y)
+                this.bbox.ll.y = point2.y;
+              if (point2.x > this.bbox.ur.x)
+                this.bbox.ur.x = point2.x;
+              if (point2.y > this.bbox.ur.y)
+                this.bbox.ur.y = point2.y;
+              prevPoint = point2;
             }
             if (firstPoint.x !== prevPoint.x || firstPoint.y !== prevPoint.y) {
               this.segments.push(Segment.fromRing(prevPoint, firstPoint, this));
@@ -5888,7 +5888,7 @@
     "node_modules/geojson-precision/index.js"(exports2, module2) {
       (function() {
         function parse(t, coordinatePrecision, extrasPrecision) {
-          function point(p) {
+          function point2(p) {
             return p.map(function(e, index) {
               if (index < 2) {
                 return 1 * e.toFixed(coordinatePrecision);
@@ -5898,7 +5898,7 @@
             });
           }
           function multi(l) {
-            return l.map(point);
+            return l.map(point2);
           }
           function poly(p) {
             return p.map(multi);
@@ -5912,7 +5912,7 @@
             }
             switch (obj.type) {
               case "Point":
-                obj.coordinates = point(obj.coordinates);
+                obj.coordinates = point2(obj.coordinates);
                 return obj;
               case "LineString":
               case "MultiPoint":
@@ -5974,13 +5974,13 @@
   // node_modules/@aitodotai/json-stringify-pretty-compact/index.js
   var require_json_stringify_pretty_compact = __commonJS({
     "node_modules/@aitodotai/json-stringify-pretty-compact/index.js"(exports2, module2) {
-      function isObject2(obj) {
+      function isObject3(obj) {
         return typeof obj === "object" && obj !== null;
       }
       function forEach(obj, cb) {
         if (Array.isArray(obj)) {
           obj.forEach(cb);
-        } else if (isObject2(obj)) {
+        } else if (isObject3(obj)) {
           Object.keys(obj).forEach(function(key) {
             var val = obj[key];
             cb(val, key);
@@ -5989,9 +5989,9 @@
       }
       function getTreeDepth(obj) {
         var depth = 0;
-        if (Array.isArray(obj) || isObject2(obj)) {
+        if (Array.isArray(obj) || isObject3(obj)) {
           forEach(obj, function(val) {
-            if (Array.isArray(val) || isObject2(val)) {
+            if (Array.isArray(val) || isObject3(val)) {
               var tmpDepth = getTreeDepth(val);
               if (tmpDepth > depth) {
                 depth = tmpDepth;
@@ -6030,7 +6030,7 @@
               return prettified;
             }
           }
-          if (isObject2(obj2)) {
+          if (isObject3(obj2)) {
             var nextIndent = currentIndent + indent2;
             var items = [];
             var delimiters;
@@ -7437,7 +7437,7 @@
             function object() {
             }
             return function(proto) {
-              if (!isObject2(proto)) {
+              if (!isObject3(proto)) {
                 return {};
               }
               if (objectCreate) {
@@ -7799,7 +7799,7 @@
             if (result2 !== undefined2) {
               return result2;
             }
-            if (!isObject2(value)) {
+            if (!isObject3(value)) {
               return value;
             }
             var isArr = isArray2(value);
@@ -8146,7 +8146,7 @@
             return true;
           }
           function baseIsNative(value) {
-            if (!isObject2(value) || isMasked(value)) {
+            if (!isObject3(value) || isMasked(value)) {
               return false;
             }
             var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
@@ -8186,7 +8186,7 @@
             return result2;
           }
           function baseKeysIn(object) {
-            if (!isObject2(object)) {
+            if (!isObject3(object)) {
               return nativeKeysIn(object);
             }
             var isProto = isPrototype(object), result2 = [];
@@ -8231,7 +8231,7 @@
             }
             baseFor(source, function(srcValue, key) {
               stack || (stack = new Stack());
-              if (isObject2(srcValue)) {
+              if (isObject3(srcValue)) {
                 baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
               } else {
                 var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + "", object, source, stack) : undefined2;
@@ -8271,7 +8271,7 @@
                 newValue = objValue;
                 if (isArguments(objValue)) {
                   newValue = toPlainObject(objValue);
-                } else if (!isObject2(objValue) || isFunction(objValue)) {
+                } else if (!isObject3(objValue) || isFunction(objValue)) {
                   newValue = initCloneObject(srcValue);
                 }
               } else {
@@ -8410,7 +8410,7 @@
             return shuffleSelf(array2, baseClamp(n2, 0, array2.length));
           }
           function baseSet(object, path, value, customizer) {
-            if (!isObject2(object)) {
+            if (!isObject3(object)) {
               return object;
             }
             path = castPath(path, object);
@@ -8424,7 +8424,7 @@
                 var objValue = nested[key];
                 newValue = customizer ? customizer(objValue, key, nested) : undefined2;
                 if (newValue === undefined2) {
-                  newValue = isObject2(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
+                  newValue = isObject3(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
                 }
               }
               assignValue(nested, key, newValue);
@@ -8874,7 +8874,7 @@
                   return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
               }
               var thisBinding = baseCreate(Ctor.prototype), result2 = Ctor.apply(thisBinding, args);
-              return isObject2(result2) ? result2 : thisBinding;
+              return isObject3(result2) ? result2 : thisBinding;
             };
           }
           function createCurry(func, bitmask, arity) {
@@ -9210,7 +9210,7 @@
             return objValue;
           }
           function customDefaultsMerge(objValue, srcValue, key, object, source, stack) {
-            if (isObject2(objValue) && isObject2(srcValue)) {
+            if (isObject3(objValue) && isObject3(srcValue)) {
               stack.set(srcValue, objValue);
               baseMerge(objValue, srcValue, undefined2, customDefaultsMerge, stack);
               stack["delete"](srcValue);
@@ -9558,7 +9558,7 @@
             return !!length && (type3 == "number" || type3 != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
           }
           function isIterateeCall(value, index, object) {
-            if (!isObject2(object)) {
+            if (!isObject3(object)) {
               return false;
             }
             var type3 = typeof index;
@@ -9601,7 +9601,7 @@
             return value === proto;
           }
           function isStrictComparable(value) {
-            return value === value && !isObject2(value);
+            return value === value && !isObject3(value);
           }
           function matchesStrictComparable(key, srcValue) {
             return function(object) {
@@ -10483,7 +10483,7 @@
               throw new TypeError2(FUNC_ERROR_TEXT3);
             }
             wait = toNumber2(wait) || 0;
-            if (isObject2(options2)) {
+            if (isObject3(options2)) {
               leading = !!options2.leading;
               maxing = "maxWait" in options2;
               maxWait = maxing ? nativeMax2(toNumber2(options2.maxWait) || 0, wait) : maxWait;
@@ -10653,7 +10653,7 @@
             if (typeof func != "function") {
               throw new TypeError2(FUNC_ERROR_TEXT3);
             }
-            if (isObject2(options2)) {
+            if (isObject3(options2)) {
               leading = "leading" in options2 ? !!options2.leading : leading;
               trailing = "trailing" in options2 ? !!options2.trailing : trailing;
             }
@@ -10761,7 +10761,7 @@
             return typeof value == "number" && nativeIsFinite(value);
           }
           function isFunction(value) {
-            if (!isObject2(value)) {
+            if (!isObject3(value)) {
               return false;
             }
             var tag = baseGetTag2(value);
@@ -10773,7 +10773,7 @@
           function isLength(value) {
             return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
           }
-          function isObject2(value) {
+          function isObject3(value) {
             var type3 = typeof value;
             return value != null && (type3 == "object" || type3 == "function");
           }
@@ -10880,9 +10880,9 @@
             if (isSymbol2(value)) {
               return NAN2;
             }
-            if (isObject2(value)) {
+            if (isObject3(value)) {
               var other = typeof value.valueOf == "function" ? value.valueOf() : value;
-              value = isObject2(other) ? other + "" : other;
+              value = isObject3(other) ? other + "" : other;
             }
             if (typeof value != "string") {
               return value === 0 ? value : +value;
@@ -11103,7 +11103,7 @@
               var Ctor = object && object.constructor;
               if (isArrLike) {
                 accumulator = isArr ? new Ctor() : [];
-              } else if (isObject2(object)) {
+              } else if (isObject3(object)) {
                 accumulator = isFunction(Ctor) ? baseCreate(getPrototype(object)) : {};
               } else {
                 accumulator = {};
@@ -11388,7 +11388,7 @@
           }
           function truncate(string, options2) {
             var length = DEFAULT_TRUNC_LENGTH, omission = DEFAULT_TRUNC_OMISSION;
-            if (isObject2(options2)) {
+            if (isObject3(options2)) {
               var separator = "separator" in options2 ? options2.separator : separator;
               length = "length" in options2 ? toInteger(options2.length) : length;
               omission = "omission" in options2 ? baseToString2(options2.omission) : omission;
@@ -11518,13 +11518,13 @@
           });
           function mixin(object, source, options2) {
             var props = keys(source), methodNames = baseFunctions(source, props);
-            if (options2 == null && !(isObject2(source) && (methodNames.length || !props.length))) {
+            if (options2 == null && !(isObject3(source) && (methodNames.length || !props.length))) {
               options2 = source;
               source = object;
               object = this;
               methodNames = baseFunctions(source, keys(source));
             }
-            var chain2 = !(isObject2(options2) && "chain" in options2) || !!options2.chain, isFunc = isFunction(object);
+            var chain2 = !(isObject3(options2) && "chain" in options2) || !!options2.chain, isFunc = isFunction(object);
             arrayEach(methodNames, function(methodName) {
               var func = source[methodName];
               object[methodName] = func;
@@ -11870,7 +11870,7 @@
           lodash.isNil = isNil;
           lodash.isNull = isNull;
           lodash.isNumber = isNumber2;
-          lodash.isObject = isObject2;
+          lodash.isObject = isObject3;
           lodash.isObjectLike = isObjectLike2;
           lodash.isPlainObject = isPlainObject;
           lodash.isRegExp = isRegExp;
@@ -13699,7 +13699,7 @@
         pluck,
         isList,
         isFunction,
-        isObject: isObject2,
+        isObject: isObject3,
         Global
       };
       function make_assign() {
@@ -13789,7 +13789,7 @@
       function isFunction(val) {
         return val && {}.toString.call(val) === "[object Function]";
       }
-      function isObject2(val) {
+      function isObject3(val) {
         return val && {}.toString.call(val) === "[object Object]";
       }
     }
@@ -13806,7 +13806,7 @@
       var create2 = util.create;
       var isList = util.isList;
       var isFunction = util.isFunction;
-      var isObject2 = util.isObject;
+      var isObject3 = util.isObject;
       module2.exports = {
         createStore
       };
@@ -13948,7 +13948,7 @@
               throw new Error("Plugins must be function values that return objects");
             }
             var pluginProperties = plugin.call(this);
-            if (!isObject2(pluginProperties)) {
+            if (!isObject3(pluginProperties)) {
               throw new Error("Plugins must return an object of function properties");
             }
             each(pluginProperties, function(pluginFnProp, propName) {
@@ -15354,6 +15354,7 @@
   // modules/index.js
   var modules_exports = {};
   __export(modules_exports, {
+    LocationManager: () => LocationManager,
     QAItem: () => QAItem,
     actionAddEntity: () => actionAddEntity,
     actionAddMember: () => actionAddMember,
@@ -15412,7 +15413,6 @@
     coreGraph: () => coreGraph,
     coreHistory: () => coreHistory,
     coreLocalizer: () => coreLocalizer,
-    coreLocations: () => coreLocations,
     coreTree: () => coreTree,
     coreUploader: () => coreUploader,
     coreValidator: () => coreValidator,
@@ -15465,7 +15465,7 @@
     geoViewportEdge: () => geoViewportEdge,
     geoZoomToScale: () => geoZoomToScale,
     localizer: () => _mainLocalizer,
-    locationManager: () => _mainLocations,
+    locationManager: () => _sharedLocationManager,
     modeAddArea: () => modeAddArea,
     modeAddLine: () => modeAddLine,
     modeAddNote: () => modeAddNote,
@@ -15610,6 +15610,7 @@
     uiFieldAccess: () => uiFieldAccess,
     uiFieldAddress: () => uiFieldAddress,
     uiFieldCheck: () => uiFieldCheck,
+    uiFieldColour: () => uiFieldText,
     uiFieldCombo: () => uiFieldCombo,
     uiFieldCycleway: () => uiFieldCycleway,
     uiFieldDefaultCheck: () => uiFieldCheck,
@@ -16008,6 +16009,10 @@
       }
     }
     return null;
+  }
+  var osmLineTags = {};
+  function osmSetLineTags(value) {
+    osmLineTags = value;
   }
   var osmPointTags = {};
   function osmSetPointTags(value) {
@@ -16917,16 +16922,16 @@
       if (direction > 0 ? t0 < t1 : t0 > t1)
         t0 += direction * tau;
     }
-    for (var point, t = t0; direction > 0 ? t > t1 : t < t1; t -= step) {
-      point = spherical([cosRadius, -sinRadius * cos(t), -sinRadius * sin(t)]);
-      stream.point(point[0], point[1]);
+    for (var point2, t = t0; direction > 0 ? t > t1 : t < t1; t -= step) {
+      point2 = spherical([cosRadius, -sinRadius * cos(t), -sinRadius * sin(t)]);
+      stream.point(point2[0], point2[1]);
     }
   }
-  function circleRadius(cosRadius, point) {
-    point = cartesian(point), point[0] -= cosRadius;
-    cartesianNormalizeInPlace(point);
-    var radius = acos(-point[1]);
-    return ((-point[2] < 0 ? -radius : radius) + tau - epsilon) % tau;
+  function circleRadius(cosRadius, point2) {
+    point2 = cartesian(point2), point2[0] -= cosRadius;
+    cartesianNormalizeInPlace(point2);
+    var radius = acos(-point2[1]);
+    return ((-point2[2] < 0 ? -radius : radius) + tau - epsilon) % tau;
   }
 
   // node_modules/d3-geo/src/clip/buffer.js
@@ -16959,8 +16964,8 @@
   }
 
   // node_modules/d3-geo/src/clip/rejoin.js
-  function Intersection(point, points, other, entry) {
-    this.x = point;
+  function Intersection(point2, points, other, entry) {
+    this.x = point2;
     this.z = points;
     this.o = other;
     this.e = entry;
@@ -16996,7 +17001,7 @@
     for (i2 = 0, n2 = clip.length; i2 < n2; ++i2) {
       clip[i2].e = startInside = !startInside;
     }
-    var start2 = subject[0], points, point;
+    var start2 = subject[0], points, point2;
     while (1) {
       var current = start2, isSubject = true;
       while (current.v)
@@ -17009,7 +17014,7 @@
         if (current.e) {
           if (isSubject) {
             for (i2 = 0, n2 = points.length; i2 < n2; ++i2)
-              stream.point((point = points[i2])[0], point[1]);
+              stream.point((point2 = points[i2])[0], point2[1]);
           } else {
             interpolate(current.x, current.n.x, 1, stream);
           }
@@ -17018,7 +17023,7 @@
           if (isSubject) {
             points = current.p.z;
             for (i2 = points.length - 1; i2 >= 0; --i2)
-              stream.point((point = points[i2])[0], point[1]);
+              stream.point((point2 = points[i2])[0], point2[1]);
           } else {
             interpolate(current.x, current.p.x, -1, stream);
           }
@@ -17045,11 +17050,11 @@
   }
 
   // node_modules/d3-geo/src/polygonContains.js
-  function longitude(point) {
-    return abs(point[0]) <= pi ? point[0] : sign(point[0]) * ((abs(point[0]) + pi) % tau - pi);
+  function longitude(point2) {
+    return abs(point2[0]) <= pi ? point2[0] : sign(point2[0]) * ((abs(point2[0]) + pi) % tau - pi);
   }
-  function polygonContains_default(polygon2, point) {
-    var lambda = longitude(point), phi = point[1], sinPhi = sin(phi), normal = [sin(lambda), -cos(lambda), 0], angle2 = 0, winding = 0;
+  function polygonContains_default(polygon2, point2) {
+    var lambda = longitude(point2), phi = point2[1], sinPhi = sin(phi), normal = [sin(lambda), -cos(lambda), 0], angle2 = 0, winding = 0;
     var sum = new Adder();
     if (sinPhi === 1)
       phi = halfPi + epsilon;
@@ -17083,7 +17088,7 @@
     return function(sink) {
       var line = clipLine(sink), ringBuffer = buffer_default(), ringSink = clipLine(ringBuffer), polygonStarted = false, polygon2, segments, ring;
       var clip = {
-        point,
+        point: point2,
         lineStart,
         lineEnd,
         polygonStart: function() {
@@ -17094,7 +17099,7 @@
           polygon2 = [];
         },
         polygonEnd: function() {
-          clip.point = point;
+          clip.point = point2;
           clip.lineStart = lineStart;
           clip.lineEnd = lineEnd;
           segments = merge(segments);
@@ -17122,7 +17127,7 @@
           sink.polygonEnd();
         }
       };
-      function point(lambda, phi) {
+      function point2(lambda, phi) {
         if (pointVisible(lambda, phi))
           sink.point(lambda, phi);
       }
@@ -17134,7 +17139,7 @@
         line.lineStart();
       }
       function lineEnd() {
-        clip.point = point;
+        clip.point = point2;
         line.lineEnd();
       }
       function pointRing(lambda, phi) {
@@ -17148,7 +17153,7 @@
       function ringEnd() {
         pointRing(ring[0][0], ring[0][1]);
         ringSink.lineEnd();
-        var clean2 = ringSink.clean(), ringSegments = ringBuffer.result(), i2, n2 = ringSegments.length, m, segment, point2;
+        var clean2 = ringSink.clean(), ringSegments = ringBuffer.result(), i2, n2 = ringSegments.length, m, segment, point3;
         ring.pop();
         polygon2.push(ring);
         ring = null;
@@ -17161,7 +17166,7 @@
               sink.polygonStart(), polygonStarted = true;
             sink.lineStart();
             for (i2 = 0; i2 < m; ++i2)
-              sink.point((point2 = segment[i2])[0], point2[1]);
+              sink.point((point3 = segment[i2])[0], point3[1]);
             sink.lineEnd();
           }
           return;
@@ -17469,21 +17474,21 @@
     return function(stream) {
       var activeStream = stream, bufferStream = buffer_default(), segments, polygon2, ring, x__, y__, v__, x_, y_, v_, first, clean2;
       var clipStream = {
-        point,
+        point: point2,
         lineStart,
         lineEnd,
         polygonStart,
         polygonEnd
       };
-      function point(x, y) {
+      function point2(x, y) {
         if (visible(x, y))
           activeStream.point(x, y);
       }
       function polygonInside() {
         var winding = 0;
         for (var i2 = 0, n2 = polygon2.length; i2 < n2; ++i2) {
-          for (var ring2 = polygon2[i2], j2 = 1, m = ring2.length, point2 = ring2[0], a0, a1, b0 = point2[0], b1 = point2[1]; j2 < m; ++j2) {
-            a0 = b0, a1 = b1, point2 = ring2[j2], b0 = point2[0], b1 = point2[1];
+          for (var ring2 = polygon2[i2], j2 = 1, m = ring2.length, point3 = ring2[0], a0, a1, b0 = point3[0], b1 = point3[1]; j2 < m; ++j2) {
+            a0 = b0, a1 = b1, point3 = ring2[j2], b0 = point3[0], b1 = point3[1];
             if (a1 <= y12) {
               if (b1 > y12 && (b0 - a0) * (y12 - a1) > (b1 - a1) * (x05 - a0))
                 ++winding;
@@ -17529,7 +17534,7 @@
             bufferStream.rejoin();
           segments.push(bufferStream.result());
         }
-        clipStream.point = point;
+        clipStream.point = point2;
         if (v_)
           activeStream.lineEnd();
       }
@@ -18052,7 +18057,7 @@
     return function(stream) {
       var lambda003, x004, y004, a00, b00, c00, lambda04, x05, y05, a0, b0, c0;
       var resampleStream = {
-        point,
+        point: point2,
         lineStart,
         lineEnd,
         polygonStart: function() {
@@ -18064,7 +18069,7 @@
           resampleStream.lineStart = lineStart;
         }
       };
-      function point(x, y) {
+      function point2(x, y) {
         x = project(x, y);
         stream.point(x[0], x[1]);
       }
@@ -18079,7 +18084,7 @@
         stream.point(x05, y05);
       }
       function lineEnd() {
-        resampleStream.point = point;
+        resampleStream.point = point2;
         stream.lineEnd();
       }
       function ringStart() {
@@ -18146,12 +18151,12 @@
   }
   function projectionMutator(projectAt) {
     var project, k = 150, x = 480, y = 250, lambda = 0, phi = 0, deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, alpha = 0, sx = 1, sy = 1, theta = null, preclip = antimeridian_default, x05 = null, y05, x12, y12, postclip = identity_default, delta2 = 0.5, projectResample, projectTransform, projectRotateTransform, cache, cacheStream;
-    function projection2(point) {
-      return projectRotateTransform(point[0] * radians, point[1] * radians);
+    function projection2(point2) {
+      return projectRotateTransform(point2[0] * radians, point2[1] * radians);
     }
-    function invert(point) {
-      point = projectRotateTransform.invert(point[0], point[1]);
-      return point && [point[0] * degrees, point[1] * degrees];
+    function invert(point2) {
+      point2 = projectRotateTransform.invert(point2[0], point2[1]);
+      return point2 && [point2[0] * degrees, point2[1] * degrees];
     }
     projection2.stream = function(stream) {
       return cache && cacheStream === stream ? cache : cache = transformRadians(transformRotate(rotate)(preclip(projectResample(postclip(cacheStream = stream)))));
@@ -18369,11 +18374,11 @@
     tileSize = tileSize || 256;
     return tileSize * Math.pow(2, z) / TAU;
   }
-  function geoSphericalClosestNode(nodes, point) {
+  function geoSphericalClosestNode(nodes, point2) {
     var minDistance = Infinity, distance;
     var indexOfMin;
     for (var i2 in nodes) {
-      distance = geoSphericalDistance(nodes[i2].loc, point);
+      distance = geoSphericalDistance(nodes[i2].loc, point2);
       if (distance < minDistance) {
         minDistance = distance;
         indexOfMin = i2;
@@ -18650,15 +18655,15 @@
     return a[0] === b[0] && a[1] === b[1] || a[0] === b[1] && a[1] === b[0];
   }
   function geoRotate(points, angle2, around) {
-    return points.map(function(point) {
-      var radial = geoVecSubtract(point, around);
+    return points.map(function(point2) {
+      var radial = geoVecSubtract(point2, around);
       return [
         radial[0] * Math.cos(angle2) - radial[1] * Math.sin(angle2) + around[0],
         radial[0] * Math.sin(angle2) + radial[1] * Math.cos(angle2) + around[1]
       ];
     });
   }
-  function geoChooseEdge(nodes, point, projection2, activeID) {
+  function geoChooseEdge(nodes, point2, projection2, activeID) {
     var dist = geoVecLength;
     var points = nodes.map(function(n2) {
       return projection2(n2.loc);
@@ -18674,7 +18679,7 @@
         continue;
       var o = points[i2];
       var s = geoVecSubtract(points[i2 + 1], o);
-      var v = geoVecSubtract(point, o);
+      var v = geoVecSubtract(point2, o);
       var proj = geoVecDot(v, s) / geoVecDot(s, s);
       var p;
       if (proj < 0) {
@@ -18684,7 +18689,7 @@
       } else {
         p = [o[0] + proj * s[0], o[1] + proj * s[1]];
       }
-      var d = dist(p, point);
+      var d = dist(p, point2);
       if (d < min3) {
         min3 = d;
         idx = i2 + 1;
@@ -18806,9 +18811,9 @@
     }
     return false;
   }
-  function geoPointInPolygon(point, polygon2) {
-    var x = point[0];
-    var y = point[1];
+  function geoPointInPolygon(point2, polygon2) {
+    var x = point2[0];
+    var y = point2[1];
     var inside = false;
     for (var i2 = 0, j2 = polygon2.length - 1; i2 < polygon2.length; j2 = i2++) {
       var xi = polygon2[i2][0];
@@ -18822,14 +18827,14 @@
     return inside;
   }
   function geoPolygonContainsPolygon(outer, inner) {
-    return inner.every(function(point) {
-      return geoPointInPolygon(point, outer);
+    return inner.every(function(point2) {
+      return geoPointInPolygon(point2, outer);
     });
   }
   function geoPolygonIntersectsPolygon(outer, inner, checkSegments) {
     function testPoints(outer2, inner2) {
-      return inner2.some(function(point) {
-        return geoPointInPolygon(point, outer2);
+      return inner2.some(function(point2) {
+        return geoPointInPolygon(point2, outer2);
       });
     }
     return testPoints(outer, inner) || !!checkSegments && geoPathHasIntersections(outer, inner);
@@ -18845,8 +18850,8 @@
       var c2 = i2 === hull.length - 1 ? hull[0] : hull[i2 + 1];
       var angle2 = Math.atan2(c2[1] - c1[1], c2[0] - c1[0]);
       var poly = geoRotate(hull, -angle2, centroid);
-      var extent = poly.reduce(function(extent2, point) {
-        return extent2.extend(geoExtent(point));
+      var extent = poly.reduce(function(extent2, point2) {
+        return extent2.extend(geoExtent(point2));
       }, geoExtent());
       var area = extent.area();
       if (area < minArea) {
@@ -18868,20 +18873,20 @@
     }
     return length;
   }
-  function geoViewportEdge(point, dimensions) {
+  function geoViewportEdge(point2, dimensions) {
     var pad2 = [80, 20, 50, 20];
     var x = 0;
     var y = 0;
-    if (point[0] > dimensions[0] - pad2[1]) {
+    if (point2[0] > dimensions[0] - pad2[1]) {
       x = -10;
     }
-    if (point[0] < pad2[3]) {
+    if (point2[0] < pad2[3]) {
       x = 10;
     }
-    if (point[1] > dimensions[1] - pad2[2]) {
+    if (point2[1] > dimensions[1] - pad2[2]) {
       y = -10;
     }
-    if (point[1] < pad2[0]) {
+    if (point2[1] < pad2[0]) {
       y = 10;
     }
     if (x || y) {
@@ -19828,10 +19833,10 @@
     if (node) {
       var svg2 = node.ownerSVGElement || node;
       if (svg2.createSVGPoint) {
-        var point = svg2.createSVGPoint();
-        point.x = event.clientX, point.y = event.clientY;
-        point = point.matrixTransform(node.getScreenCTM().inverse());
-        return [point.x, point.y];
+        var point2 = svg2.createSVGPoint();
+        point2.x = event.clientX, point2.y = event.clientY;
+        point2 = point2.matrixTransform(node.getScreenCTM().inverse());
+        return [point2.x, point2.y];
       }
       if (node.getBoundingClientRect) {
         var rect = node.getBoundingClientRect();
@@ -21694,8 +21699,8 @@
     translate: function(x, y) {
       return x === 0 & y === 0 ? this : new Transform(this.k, this.x + this.k * x, this.y + this.k * y);
     },
-    apply: function(point) {
-      return [point[0] * this.k + this.x, point[1] * this.k + this.y];
+    apply: function(point2) {
+      return [point2[0] * this.k + this.x, point2[1] * this.k + this.y];
     },
     applyX: function(x) {
       return x * this.k + this.x;
@@ -21777,11 +21782,11 @@
     function zoom(selection2) {
       selection2.property("__zoom", defaultTransform).on("wheel.zoom", wheeled, { passive: false }).on("mousedown.zoom", mousedowned).on("dblclick.zoom", dblclicked).filter(touchable).on("touchstart.zoom", touchstarted).on("touchmove.zoom", touchmoved).on("touchend.zoom touchcancel.zoom", touchended).style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
     }
-    zoom.transform = function(collection, transform2, point, event) {
+    zoom.transform = function(collection, transform2, point2, event) {
       var selection2 = collection.selection ? collection.selection() : collection;
       selection2.property("__zoom", defaultTransform);
       if (collection !== selection2) {
-        schedule(collection, transform2, point, event);
+        schedule(collection, transform2, point2, event);
       } else {
         selection2.interrupt().each(function() {
           gesture(this, arguments).event(event).start().zoom(null, typeof transform2 === "function" ? transform2.apply(this, arguments) : transform2).end();
@@ -21828,13 +21833,13 @@
     function centroid(extent2) {
       return [(+extent2[0][0] + +extent2[1][0]) / 2, (+extent2[0][1] + +extent2[1][1]) / 2];
     }
-    function schedule(transition2, transform2, point, event) {
+    function schedule(transition2, transform2, point2, event) {
       transition2.on("start.zoom", function() {
         gesture(this, arguments).event(event).start();
       }).on("interrupt.zoom end.zoom", function() {
         gesture(this, arguments).event(event).end();
       }).tween("zoom", function() {
-        var that = this, args = arguments, g = gesture(that, args).event(event), e = extent.apply(that, args), p = point == null ? centroid(e) : typeof point === "function" ? point.apply(that, args) : point, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = that.__zoom, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
+        var that = this, args = arguments, g = gesture(that, args).event(event), e = extent.apply(that, args), p = point2 == null ? centroid(e) : typeof point2 === "function" ? point2.apply(that, args) : point2, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = that.__zoom, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
         return function(t) {
           if (t === 1)
             t = b;
@@ -22090,13 +22095,13 @@
     var x = 0;
     var y = 0;
     var clipExtent = [[0, 0], [0, 0]];
-    function projection2(point) {
-      point = project(point[0] * Math.PI / 180, point[1] * Math.PI / 180);
-      return [point[0] * k + x, y - point[1] * k];
+    function projection2(point2) {
+      point2 = project(point2[0] * Math.PI / 180, point2[1] * Math.PI / 180);
+      return [point2[0] * k + x, y - point2[1] * k];
     }
-    projection2.invert = function(point) {
-      point = project.invert((point[0] - x) / k, (y - point[1]) / k);
-      return point && [point[0] * 180 / Math.PI, point[1] * 180 / Math.PI];
+    projection2.invert = function(point2) {
+      point2 = project.invert((point2[0] - x) / k, (y - point2[1]) / k);
+      return point2 && [point2[0] * 180 / Math.PI, point2[1] * 180 / Math.PI];
     };
     projection2.scale = function(_) {
       if (!arguments.length)
@@ -22365,10 +22370,30 @@
   // modules/core/file_fetcher.js
   var import_vparse = __toESM(require_vparse());
 
+  // config/id.js
+  var presetsCdnUrl = "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@{presets_version}/";
+  var ociCdnUrl = "https://cdn.jsdelivr.net/npm/osm-community-index@{version}/";
+  var wmfSitematrixCdnUrl = "https://cdn.jsdelivr.net/npm/wmf-sitematrix@{version}/";
+  var nsiCdnUrl = "https://cdn.jsdelivr.net/npm/name-suggestion-index@{version}/";
+  var osmApiConnections = [
+    {
+      url: "https://www.openstreetmap.org",
+      client_id: "0tmNTmd0Jo1dQp4AUmMBLtGiD9YpMuXzHefitcuVStc",
+      client_secret: "BTlNrNxIPitHdL4sP2clHw5KLoee9aKkA7dQbc0Bj7Q"
+    },
+    {
+      url: "https://api06.dev.openstreetmap.org",
+      client_id: "Ee1wWJ6UlpERbF6BfTNOpwn0R8k_06mvMXdDUkeHMgw",
+      client_secret: "OnfWFC-JkZNHyYdr_viNn_h_RTZXRslKcUxllOXqf5g"
+    }
+  ];
+  var taginfoApiUrl = "https://taginfo.openstreetmap.org/api/4/";
+  var nominatimApiUrl = "https://nominatim.openstreetmap.org/";
+
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.22.0",
+    version: "2.23.1",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -22406,7 +22431,7 @@
       "start:watch": "run-p build:js:watch start:server",
       "start:server": "node scripts/server.js",
       test: "npm-run-all -s lint build test:spec",
-      "test:spec": "karma start karma.conf.js",
+      "test:spec": "karma start config/karma.conf.js",
       translations: "node scripts/update_locales.js"
     },
     dependencies: {
@@ -22416,6 +22441,7 @@
       "@mapbox/sexagesimal": "1.2.0",
       "@mapbox/vector-tile": "^1.3.1",
       "@tmcw/togeojson": "^5.2.1",
+      "@turf/bbox": "^6.0.0",
       "@turf/bbox-clip": "^6.0.0",
       "abortcontroller-polyfill": "^1.4.0",
       "aes-js": "^3.1.2",
@@ -22425,7 +22451,7 @@
       "fast-deep-equal": "~3.1.1",
       "fast-json-stable-stringify": "2.1.0",
       "lodash-es": "~4.17.15",
-      marked: "~4.1.0",
+      marked: "~4.2.2",
       "node-diff3": "~3.1.0",
       "osm-auth": "~2.0.0",
       pannellum: "2.5.6",
@@ -22440,8 +22466,9 @@
       "@fortawesome/free-brands-svg-icons": "~6.2.0",
       "@fortawesome/free-regular-svg-icons": "~6.2.0",
       "@fortawesome/free-solid-svg-icons": "~6.2.0",
-      "@ideditor/temaki": "~5.1.0",
+      "@ideditor/temaki": "~5.2.0",
       "@mapbox/maki": "^8.0.0",
+      "@openstreetmap/id-tagging-schema": "^5.0.1",
       autoprefixer: "^10.0.1",
       btoa: "^1.2.1",
       chai: "^4.3.4",
@@ -22472,7 +22499,7 @@
       "name-suggestion-index": "~6.0",
       "node-fetch": "^2.6.1",
       "npm-run-all": "^4.0.0",
-      "osm-community-index": "~5.2.0",
+      "osm-community-index": "~5.3.0",
       postcss: "^8.1.1",
       "postcss-selector-prepend": "^0.5.0",
       shelljs: "^0.8.0",
@@ -22481,7 +22508,7 @@
       "sinon-chai": "^3.7.0",
       smash: "0.0",
       "static-server": "^2.2.1",
-      "svg-sprite": "1.5.4",
+      "svg-sprite": "2.0.1",
       vparse: "~1.1.0"
     },
     engines: {
@@ -22497,30 +22524,32 @@
   function coreFileFetcher() {
     const ociVersion = package_default.dependencies["osm-community-index"] || package_default.devDependencies["osm-community-index"];
     const v = (0, import_vparse.default)(ociVersion);
-    const vMinor = `${v.major}.${v.minor}`;
+    const ociVersionMinor = `${v.major}.${v.minor}`;
+    const presetsVersion = package_default.devDependencies["@openstreetmap/id-tagging-schema"];
     let _this = {};
     let _inflight4 = {};
     let _fileMap = {
       "address_formats": "data/address_formats.min.json",
-      "deprecated": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/deprecated.min.json",
-      "discarded": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/discarded.min.json",
       "imagery": "data/imagery.min.json",
       "intro_graph": "data/intro_graph.min.json",
       "keepRight": "data/keepRight.min.json",
       "languages": "data/languages.min.json",
       "locales": "locales/index.min.json",
-      "oci_defaults": `https://cdn.jsdelivr.net/npm/osm-community-index@${vMinor}/dist/defaults.min.json`,
-      "oci_features": `https://cdn.jsdelivr.net/npm/osm-community-index@${vMinor}/dist/featureCollection.min.json`,
-      "oci_resources": `https://cdn.jsdelivr.net/npm/osm-community-index@${vMinor}/dist/resources.min.json`,
-      "preset_categories": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/preset_categories.min.json",
-      "preset_defaults": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/preset_defaults.min.json",
-      "preset_fields": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/fields.min.json",
-      "preset_presets": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/presets.min.json",
       "phone_formats": "data/phone_formats.min.json",
       "qa_data": "data/qa_data.min.json",
       "shortcuts": "data/shortcuts.min.json",
       "territory_languages": "data/territory_languages.min.json",
-      "wmf_sitematrix": "https://cdn.jsdelivr.net/npm/wmf-sitematrix@0.1/wikipedia.min.json"
+      "oci_defaults": ociCdnUrl.replace("{version}", ociVersionMinor) + "dist/defaults.min.json",
+      "oci_features": ociCdnUrl.replace("{version}", ociVersionMinor) + "dist/featureCollection.min.json",
+      "oci_resources": ociCdnUrl.replace("{version}", ociVersionMinor) + "dist/resources.min.json",
+      "presets_package": presetsCdnUrl.replace("{presets_version}", presetsVersion) + "package.json",
+      "deprecated": presetsCdnUrl + "dist/deprecated.min.json",
+      "discarded": presetsCdnUrl + "dist/discarded.min.json",
+      "preset_categories": presetsCdnUrl + "dist/preset_categories.min.json",
+      "preset_defaults": presetsCdnUrl + "dist/preset_defaults.min.json",
+      "preset_fields": presetsCdnUrl + "dist/fields.min.json",
+      "preset_presets": presetsCdnUrl + "dist/presets.min.json",
+      "wmf_sitematrix": wmfSitematrixCdnUrl.replace("{version}", "0.1") + "wikipedia.min.json"
     };
     let _cachedData = {};
     _this.cache = () => _cachedData;
@@ -22533,6 +22562,16 @@
       if (!url) {
         return Promise.reject(`Unknown data file for "${which}"`);
       }
+      if (url.includes("{presets_version}")) {
+        return _this.get("presets_package").then((result) => {
+          const presetsVersion2 = result.version;
+          return getUrl(url.replace("{presets_version}", presetsVersion2), which);
+        });
+      } else {
+        return getUrl(url);
+      }
+    };
+    function getUrl(url, which) {
       let prom = _inflight4[url];
       if (!prom) {
         _inflight4[url] = prom = fetch(url).then((response) => {
@@ -22555,7 +22594,7 @@
         });
       }
       return prom;
-    };
+    }
     _this.fileMap = function(val) {
       if (!arguments.length)
         return _fileMap;
@@ -23288,8 +23327,8 @@
     }
     return featuresByCode[stringID] || null;
   }
-  function smallestFeaturesForBbox(bbox) {
-    return whichPolygonGetter.bbox(bbox).map((props) => featuresByCode[props.id]);
+  function smallestFeaturesForBbox(bbox2) {
+    return whichPolygonGetter.bbox(bbox2).map((props) => featuresByCode[props.id]);
   }
   function smallestOrMatchingFeature(query) {
     if (typeof query === "object") {
@@ -23581,60 +23620,495 @@
     return aRank > bRank ? 1 : aRank < bRank ? -1 : a.id.localeCompare(b.id);
   }
 
-  // modules/core/locations.js
+  // modules/core/LocationManager.js
   var import_which_polygon2 = __toESM(require_which_polygon());
   var import_geojson_area2 = __toESM(require_geojson_area());
-
-  // modules/util/aes.js
-  var import_aes_js = __toESM(require_aes_js());
-  var DEFAULT_128 = [250, 157, 60, 79, 142, 134, 229, 129, 138, 126, 210, 129, 29, 71, 160, 208];
-  function utilAesEncrypt(text2, key) {
-    key = key || DEFAULT_128;
-    const textBytes = import_aes_js.default.utils.utf8.toBytes(text2);
-    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
-    const encryptedBytes = aesCtr.encrypt(textBytes);
-    const encryptedHex = import_aes_js.default.utils.hex.fromBytes(encryptedBytes);
-    return encryptedHex;
-  }
-  function utilAesDecrypt(encryptedHex, key) {
-    key = key || DEFAULT_128;
-    const encryptedBytes = import_aes_js.default.utils.hex.toBytes(encryptedHex);
-    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
-    const decryptedBytes = aesCtr.decrypt(encryptedBytes);
-    const text2 = import_aes_js.default.utils.utf8.fromBytes(decryptedBytes);
-    return text2;
-  }
-
-  // modules/util/clean_tags.js
-  function utilCleanTags(tags) {
-    var out = {};
-    for (var k in tags) {
-      if (!k)
-        continue;
-      var v = tags[k];
-      if (v !== void 0) {
-        out[k] = cleanValue(k, v);
+  var _loco = new location_conflation_default();
+  var LocationManager = class {
+    constructor() {
+      this._wp = null;
+      this._resolved = /* @__PURE__ */ new Map();
+      this._knownLocationSets = /* @__PURE__ */ new Map();
+      this._locationIncludedIn = /* @__PURE__ */ new Map();
+      this._locationExcludedIn = /* @__PURE__ */ new Map();
+      const world = { locationSet: { include: ["Q2"] } };
+      this._resolveLocationSet(world);
+      this._rebuildIndex();
+    }
+    _validateLocationSet(obj) {
+      if (obj.locationSetID)
+        return;
+      try {
+        let locationSet = obj.locationSet;
+        if (!locationSet) {
+          throw new Error("object missing locationSet property");
+        }
+        if (!locationSet.include) {
+          locationSet.include = ["Q2"];
+        }
+        const locationSetID = _loco.validateLocationSet(locationSet).id;
+        obj.locationSetID = locationSetID;
+        if (this._knownLocationSets.has(locationSetID))
+          return;
+        let area = 0;
+        (locationSet.include || []).forEach((location) => {
+          const locationID = _loco.validateLocation(location).id;
+          let geojson = this._resolved.get(locationID);
+          if (!geojson) {
+            geojson = _loco.resolveLocation(location).feature;
+            this._resolved.set(locationID, geojson);
+          }
+          area += geojson.properties.area;
+          let s = this._locationIncludedIn.get(locationID);
+          if (!s) {
+            s = /* @__PURE__ */ new Set();
+            this._locationIncludedIn.set(locationID, s);
+          }
+          s.add(locationSetID);
+        });
+        (locationSet.exclude || []).forEach((location) => {
+          const locationID = _loco.validateLocation(location).id;
+          let geojson = this._resolved.get(locationID);
+          if (!geojson) {
+            geojson = _loco.resolveLocation(location).feature;
+            this._resolved.set(locationID, geojson);
+          }
+          area -= geojson.properties.area;
+          let s = this._locationExcludedIn.get(locationID);
+          if (!s) {
+            s = /* @__PURE__ */ new Set();
+            this._locationExcludedIn.set(locationID, s);
+          }
+          s.add(locationSetID);
+        });
+        this._knownLocationSets.set(locationSetID, area);
+      } catch (err) {
+        obj.locationSet = { include: ["Q2"] };
+        obj.locationSetID = "+[Q2]";
       }
     }
-    return out;
-    function cleanValue(k2, v2) {
-      function keepSpaces(k3) {
-        return /_hours|_times|:conditional$/.test(k3);
+    _resolveLocationSet(obj) {
+      this._validateLocationSet(obj);
+      if (this._resolved.has(obj.locationSetID))
+        return;
+      try {
+        const result = _loco.resolveLocationSet(obj.locationSet);
+        const locationSetID = result.id;
+        obj.locationSetID = locationSetID;
+        if (!result.feature.geometry.coordinates.length || !result.feature.properties.area) {
+          throw new Error(`locationSet ${locationSetID} resolves to an empty feature.`);
+        }
+        let geojson = JSON.parse(JSON.stringify(result.feature));
+        geojson.id = locationSetID;
+        geojson.properties.id = locationSetID;
+        this._resolved.set(locationSetID, geojson);
+      } catch (err) {
+        obj.locationSet = { include: ["Q2"] };
+        obj.locationSetID = "+[Q2]";
       }
-      function skip(k3) {
-        return /^(description|note|fixme)$/.test(k3);
-      }
-      if (skip(k2))
-        return v2;
-      var cleaned = v2.split(";").map(function(s) {
-        return s.trim();
-      }).join(keepSpaces(k2) ? "; " : ";");
-      if (k2.indexOf("website") !== -1 || k2.indexOf("email") !== -1 || cleaned.indexOf("http") === 0) {
-        cleaned = cleaned.replace(/[\u200B-\u200F\uFEFF]/g, "");
-      }
-      return cleaned;
     }
+    _rebuildIndex() {
+      this._wp = (0, import_which_polygon2.default)({ features: [...this._resolved.values()] });
+    }
+    mergeCustomGeoJSON(fc) {
+      if (!fc || fc.type !== "FeatureCollection" || !Array.isArray(fc.features))
+        return;
+      fc.features.forEach((feature3) => {
+        feature3.properties = feature3.properties || {};
+        let props = feature3.properties;
+        let id2 = feature3.id || props.id;
+        if (!id2 || !/^\S+\.geojson$/i.test(id2))
+          return;
+        id2 = id2.toLowerCase();
+        feature3.id = id2;
+        props.id = id2;
+        if (!props.area) {
+          const area = import_geojson_area2.default.geometry(feature3.geometry) / 1e6;
+          props.area = Number(area.toFixed(2));
+        }
+        _loco._cache[id2] = feature3;
+      });
+    }
+    mergeLocationSets(objects) {
+      if (!Array.isArray(objects))
+        return Promise.reject("nothing to do");
+      objects.forEach((obj) => this._validateLocationSet(obj));
+      this._rebuildIndex();
+      return Promise.resolve(objects);
+    }
+    locationSetID(locationSet) {
+      let locationSetID;
+      try {
+        locationSetID = _loco.validateLocationSet(locationSet).id;
+      } catch (err) {
+        locationSetID = "+[Q2]";
+      }
+      return locationSetID;
+    }
+    feature(locationSetID = "+[Q2]") {
+      const feature3 = this._resolved.get(locationSetID);
+      return feature3 || this._resolved.get("+[Q2]");
+    }
+    locationSetsAt(loc) {
+      let result = {};
+      const hits = this._wp(loc, true) || [];
+      const thiz = this;
+      hits.forEach((prop) => {
+        if (prop.id[0] !== "+")
+          return;
+        const locationSetID = prop.id;
+        const area = thiz._knownLocationSets.get(locationSetID);
+        if (area) {
+          result[locationSetID] = area;
+        }
+      });
+      hits.forEach((prop) => {
+        if (prop.id[0] === "+")
+          return;
+        const locationID = prop.id;
+        const included = thiz._locationIncludedIn.get(locationID);
+        (included || []).forEach((locationSetID) => {
+          const area = thiz._knownLocationSets.get(locationSetID);
+          if (area) {
+            result[locationSetID] = area;
+          }
+        });
+      });
+      hits.forEach((prop) => {
+        if (prop.id[0] === "+")
+          return;
+        const locationID = prop.id;
+        const excluded = thiz._locationExcludedIn.get(locationID);
+        (excluded || []).forEach((locationSetID) => {
+          delete result[locationSetID];
+        });
+      });
+      return result;
+    }
+    loco() {
+      return _loco;
+    }
+  };
+  var _sharedLocationManager = new LocationManager();
+
+  // node_modules/lodash-es/_freeGlobal.js
+  var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+  var freeGlobal_default = freeGlobal;
+
+  // node_modules/lodash-es/_root.js
+  var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+  var root2 = freeGlobal_default || freeSelf || Function("return this")();
+  var root_default = root2;
+
+  // node_modules/lodash-es/_Symbol.js
+  var Symbol2 = root_default.Symbol;
+  var Symbol_default = Symbol2;
+
+  // node_modules/lodash-es/_getRawTag.js
+  var objectProto = Object.prototype;
+  var hasOwnProperty = objectProto.hasOwnProperty;
+  var nativeObjectToString = objectProto.toString;
+  var symToStringTag = Symbol_default ? Symbol_default.toStringTag : void 0;
+  function getRawTag(value) {
+    var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+    try {
+      value[symToStringTag] = void 0;
+      var unmasked = true;
+    } catch (e) {
+    }
+    var result = nativeObjectToString.call(value);
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag] = tag;
+      } else {
+        delete value[symToStringTag];
+      }
+    }
+    return result;
   }
+  var getRawTag_default = getRawTag;
+
+  // node_modules/lodash-es/_objectToString.js
+  var objectProto2 = Object.prototype;
+  var nativeObjectToString2 = objectProto2.toString;
+  function objectToString(value) {
+    return nativeObjectToString2.call(value);
+  }
+  var objectToString_default = objectToString;
+
+  // node_modules/lodash-es/_baseGetTag.js
+  var nullTag = "[object Null]";
+  var undefinedTag = "[object Undefined]";
+  var symToStringTag2 = Symbol_default ? Symbol_default.toStringTag : void 0;
+  function baseGetTag(value) {
+    if (value == null) {
+      return value === void 0 ? undefinedTag : nullTag;
+    }
+    return symToStringTag2 && symToStringTag2 in Object(value) ? getRawTag_default(value) : objectToString_default(value);
+  }
+  var baseGetTag_default = baseGetTag;
+
+  // node_modules/lodash-es/isObjectLike.js
+  function isObjectLike(value) {
+    return value != null && typeof value == "object";
+  }
+  var isObjectLike_default = isObjectLike;
+
+  // node_modules/lodash-es/isSymbol.js
+  var symbolTag = "[object Symbol]";
+  function isSymbol(value) {
+    return typeof value == "symbol" || isObjectLike_default(value) && baseGetTag_default(value) == symbolTag;
+  }
+  var isSymbol_default = isSymbol;
+
+  // node_modules/lodash-es/_arrayMap.js
+  function arrayMap(array2, iteratee) {
+    var index = -1, length = array2 == null ? 0 : array2.length, result = Array(length);
+    while (++index < length) {
+      result[index] = iteratee(array2[index], index, array2);
+    }
+    return result;
+  }
+  var arrayMap_default = arrayMap;
+
+  // node_modules/lodash-es/isArray.js
+  var isArray = Array.isArray;
+  var isArray_default = isArray;
+
+  // node_modules/lodash-es/_baseToString.js
+  var INFINITY = 1 / 0;
+  var symbolProto = Symbol_default ? Symbol_default.prototype : void 0;
+  var symbolToString = symbolProto ? symbolProto.toString : void 0;
+  function baseToString(value) {
+    if (typeof value == "string") {
+      return value;
+    }
+    if (isArray_default(value)) {
+      return arrayMap_default(value, baseToString) + "";
+    }
+    if (isSymbol_default(value)) {
+      return symbolToString ? symbolToString.call(value) : "";
+    }
+    var result = value + "";
+    return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+  }
+  var baseToString_default = baseToString;
+
+  // node_modules/lodash-es/_trimmedEndIndex.js
+  var reWhitespace = /\s/;
+  function trimmedEndIndex(string) {
+    var index = string.length;
+    while (index-- && reWhitespace.test(string.charAt(index))) {
+    }
+    return index;
+  }
+  var trimmedEndIndex_default = trimmedEndIndex;
+
+  // node_modules/lodash-es/_baseTrim.js
+  var reTrimStart = /^\s+/;
+  function baseTrim(string) {
+    return string ? string.slice(0, trimmedEndIndex_default(string) + 1).replace(reTrimStart, "") : string;
+  }
+  var baseTrim_default = baseTrim;
+
+  // node_modules/lodash-es/isObject.js
+  function isObject(value) {
+    var type3 = typeof value;
+    return value != null && (type3 == "object" || type3 == "function");
+  }
+  var isObject_default = isObject;
+
+  // node_modules/lodash-es/toNumber.js
+  var NAN = 0 / 0;
+  var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+  var reIsBinary = /^0b[01]+$/i;
+  var reIsOctal = /^0o[0-7]+$/i;
+  var freeParseInt = parseInt;
+  function toNumber(value) {
+    if (typeof value == "number") {
+      return value;
+    }
+    if (isSymbol_default(value)) {
+      return NAN;
+    }
+    if (isObject_default(value)) {
+      var other = typeof value.valueOf == "function" ? value.valueOf() : value;
+      value = isObject_default(other) ? other + "" : other;
+    }
+    if (typeof value != "string") {
+      return value === 0 ? value : +value;
+    }
+    value = baseTrim_default(value);
+    var isBinary = reIsBinary.test(value);
+    return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+  }
+  var toNumber_default = toNumber;
+
+  // node_modules/lodash-es/toString.js
+  function toString(value) {
+    return value == null ? "" : baseToString_default(value);
+  }
+  var toString_default = toString;
+
+  // node_modules/lodash-es/_basePropertyOf.js
+  function basePropertyOf(object) {
+    return function(key) {
+      return object == null ? void 0 : object[key];
+    };
+  }
+  var basePropertyOf_default = basePropertyOf;
+
+  // node_modules/lodash-es/now.js
+  var now2 = function() {
+    return root_default.Date.now();
+  };
+  var now_default = now2;
+
+  // node_modules/lodash-es/debounce.js
+  var FUNC_ERROR_TEXT = "Expected a function";
+  var nativeMax = Math.max;
+  var nativeMin = Math.min;
+  function debounce(func, wait, options2) {
+    var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = false, maxing = false, trailing = true;
+    if (typeof func != "function") {
+      throw new TypeError(FUNC_ERROR_TEXT);
+    }
+    wait = toNumber_default(wait) || 0;
+    if (isObject_default(options2)) {
+      leading = !!options2.leading;
+      maxing = "maxWait" in options2;
+      maxWait = maxing ? nativeMax(toNumber_default(options2.maxWait) || 0, wait) : maxWait;
+      trailing = "trailing" in options2 ? !!options2.trailing : trailing;
+    }
+    function invokeFunc(time) {
+      var args = lastArgs, thisArg = lastThis;
+      lastArgs = lastThis = void 0;
+      lastInvokeTime = time;
+      result = func.apply(thisArg, args);
+      return result;
+    }
+    function leadingEdge(time) {
+      lastInvokeTime = time;
+      timerId = setTimeout(timerExpired, wait);
+      return leading ? invokeFunc(time) : result;
+    }
+    function remainingWait(time) {
+      var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, timeWaiting = wait - timeSinceLastCall;
+      return maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting;
+    }
+    function shouldInvoke(time) {
+      var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime;
+      return lastCallTime === void 0 || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+    }
+    function timerExpired() {
+      var time = now_default();
+      if (shouldInvoke(time)) {
+        return trailingEdge(time);
+      }
+      timerId = setTimeout(timerExpired, remainingWait(time));
+    }
+    function trailingEdge(time) {
+      timerId = void 0;
+      if (trailing && lastArgs) {
+        return invokeFunc(time);
+      }
+      lastArgs = lastThis = void 0;
+      return result;
+    }
+    function cancel() {
+      if (timerId !== void 0) {
+        clearTimeout(timerId);
+      }
+      lastInvokeTime = 0;
+      lastArgs = lastCallTime = lastThis = timerId = void 0;
+    }
+    function flush() {
+      return timerId === void 0 ? result : trailingEdge(now_default());
+    }
+    function debounced() {
+      var time = now_default(), isInvoking = shouldInvoke(time);
+      lastArgs = arguments;
+      lastThis = this;
+      lastCallTime = time;
+      if (isInvoking) {
+        if (timerId === void 0) {
+          return leadingEdge(lastCallTime);
+        }
+        if (maxing) {
+          clearTimeout(timerId);
+          timerId = setTimeout(timerExpired, wait);
+          return invokeFunc(lastCallTime);
+        }
+      }
+      if (timerId === void 0) {
+        timerId = setTimeout(timerExpired, wait);
+      }
+      return result;
+    }
+    debounced.cancel = cancel;
+    debounced.flush = flush;
+    return debounced;
+  }
+  var debounce_default = debounce;
+
+  // node_modules/lodash-es/_escapeHtmlChar.js
+  var htmlEscapes = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  };
+  var escapeHtmlChar = basePropertyOf_default(htmlEscapes);
+  var escapeHtmlChar_default = escapeHtmlChar;
+
+  // node_modules/lodash-es/escape.js
+  var reUnescapedHtml = /[&<>"']/g;
+  var reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+  function escape2(string) {
+    string = toString_default(string);
+    return string && reHasUnescapedHtml.test(string) ? string.replace(reUnescapedHtml, escapeHtmlChar_default) : string;
+  }
+  var escape_default = escape2;
+
+  // node_modules/lodash-es/throttle.js
+  var FUNC_ERROR_TEXT2 = "Expected a function";
+  function throttle(func, wait, options2) {
+    var leading = true, trailing = true;
+    if (typeof func != "function") {
+      throw new TypeError(FUNC_ERROR_TEXT2);
+    }
+    if (isObject_default(options2)) {
+      leading = "leading" in options2 ? !!options2.leading : leading;
+      trailing = "trailing" in options2 ? !!options2.trailing : trailing;
+    }
+    return debounce_default(func, wait, {
+      "leading": leading,
+      "maxWait": wait,
+      "trailing": trailing
+    });
+  }
+  var throttle_default = throttle;
+
+  // node_modules/lodash-es/_unescapeHtmlChar.js
+  var htmlUnescapes = {
+    "&amp;": "&",
+    "&lt;": "<",
+    "&gt;": ">",
+    "&quot;": '"',
+    "&#39;": "'"
+  };
+  var unescapeHtmlChar = basePropertyOf_default(htmlUnescapes);
+  var unescapeHtmlChar_default = unescapeHtmlChar;
+
+  // node_modules/lodash-es/unescape.js
+  var reEscapedHtml = /&(?:amp|lt|gt|quot|#39);/g;
+  var reHasEscapedHtml = RegExp(reEscapedHtml.source);
+  function unescape2(string) {
+    string = toString_default(string);
+    return string && reHasEscapedHtml.test(string) ? string.replace(reEscapedHtml, unescapeHtmlChar_default) : string;
+  }
+  var unescape_default = unescape2;
 
   // modules/util/detect.js
   var _detected;
@@ -23714,6 +24188,57 @@
     }
     _detected.host = origin + loc.pathname;
     return _detected;
+  }
+
+  // modules/util/aes.js
+  var import_aes_js = __toESM(require_aes_js());
+  var DEFAULT_128 = [250, 157, 60, 79, 142, 134, 229, 129, 138, 126, 210, 129, 29, 71, 160, 208];
+  function utilAesEncrypt(text2, key) {
+    key = key || DEFAULT_128;
+    const textBytes = import_aes_js.default.utils.utf8.toBytes(text2);
+    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
+    const encryptedBytes = aesCtr.encrypt(textBytes);
+    const encryptedHex = import_aes_js.default.utils.hex.fromBytes(encryptedBytes);
+    return encryptedHex;
+  }
+  function utilAesDecrypt(encryptedHex, key) {
+    key = key || DEFAULT_128;
+    const encryptedBytes = import_aes_js.default.utils.hex.toBytes(encryptedHex);
+    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
+    const decryptedBytes = aesCtr.decrypt(encryptedBytes);
+    const text2 = import_aes_js.default.utils.utf8.fromBytes(decryptedBytes);
+    return text2;
+  }
+
+  // modules/util/clean_tags.js
+  function utilCleanTags(tags) {
+    var out = {};
+    for (var k in tags) {
+      if (!k)
+        continue;
+      var v = tags[k];
+      if (v !== void 0) {
+        out[k] = cleanValue(k, v);
+      }
+    }
+    return out;
+    function cleanValue(k2, v2) {
+      function keepSpaces(k3) {
+        return /_hours|_times|:conditional$/.test(k3);
+      }
+      function skip(k3) {
+        return /^(description|note|fixme)$/.test(k3);
+      }
+      if (skip(k2))
+        return v2;
+      var cleaned = v2.split(";").map(function(s) {
+        return s.trim();
+      }).join(keepSpaces(k2) ? "; " : ";");
+      if (k2.indexOf("website") !== -1 || k2.indexOf("email") !== -1 || cleaned.indexOf("http") === 0) {
+        cleaned = cleaned.replace(/[\u200B-\u200F\uFEFF]/g, "");
+      }
+      return cleaned;
+    }
   }
 
   // modules/util/get_set_value.js
@@ -24348,435 +24873,6 @@
     });
   }
 
-  // modules/core/locations.js
-  var _mainLocations = coreLocations();
-  function coreLocations() {
-    let _this = {};
-    let _resolvedFeatures = {};
-    let _loco = new location_conflation_default();
-    let _wp;
-    const world = { locationSet: { include: ["Q2"] } };
-    resolveLocationSet(world);
-    rebuildIndex();
-    let _queue = [];
-    let _deferred2 = /* @__PURE__ */ new Set();
-    let _inProcess;
-    function processQueue() {
-      if (!_queue.length)
-        return Promise.resolve();
-      const chunk = _queue.pop();
-      return new Promise((resolvePromise) => {
-        const handle = window.requestIdleCallback(() => {
-          _deferred2.delete(handle);
-          chunk.forEach(resolveLocationSet);
-          resolvePromise();
-        });
-        _deferred2.add(handle);
-      }).then(() => processQueue());
-    }
-    function resolveLocationSet(obj) {
-      if (obj.locationSetID)
-        return;
-      try {
-        let locationSet = obj.locationSet;
-        if (!locationSet) {
-          throw new Error("object missing locationSet property");
-        }
-        if (!locationSet.include) {
-          locationSet.include = ["Q2"];
-        }
-        const resolved = _loco.resolveLocationSet(locationSet);
-        const locationSetID = resolved.id;
-        obj.locationSetID = locationSetID;
-        if (!resolved.feature.geometry.coordinates.length || !resolved.feature.properties.area) {
-          throw new Error(`locationSet ${locationSetID} resolves to an empty feature.`);
-        }
-        if (!_resolvedFeatures[locationSetID]) {
-          let feature3 = JSON.parse(JSON.stringify(resolved.feature));
-          feature3.id = locationSetID;
-          feature3.properties.id = locationSetID;
-          _resolvedFeatures[locationSetID] = feature3;
-        }
-      } catch (err) {
-        obj.locationSet = { include: ["Q2"] };
-        obj.locationSetID = "+[Q2]";
-      }
-    }
-    function rebuildIndex() {
-      _wp = (0, import_which_polygon2.default)({ features: Object.values(_resolvedFeatures) });
-    }
-    _this.mergeCustomGeoJSON = (fc) => {
-      if (fc && fc.type === "FeatureCollection" && Array.isArray(fc.features)) {
-        fc.features.forEach((feature3) => {
-          feature3.properties = feature3.properties || {};
-          let props = feature3.properties;
-          let id2 = feature3.id || props.id;
-          if (!id2 || !/^\S+\.geojson$/i.test(id2))
-            return;
-          id2 = id2.toLowerCase();
-          feature3.id = id2;
-          props.id = id2;
-          if (!props.area) {
-            const area = import_geojson_area2.default.geometry(feature3.geometry) / 1e6;
-            props.area = Number(area.toFixed(2));
-          }
-          _loco._cache[id2] = feature3;
-        });
-      }
-    };
-    _this.mergeLocationSets = (objects) => {
-      if (!Array.isArray(objects))
-        return Promise.reject("nothing to do");
-      _queue = _queue.concat(utilArrayChunk(objects, 200));
-      if (!_inProcess) {
-        _inProcess = processQueue().then(() => {
-          rebuildIndex();
-          _inProcess = null;
-          return objects;
-        });
-      }
-      return _inProcess;
-    };
-    _this.locationSetID = (locationSet) => {
-      let locationSetID;
-      try {
-        locationSetID = _loco.validateLocationSet(locationSet).id;
-      } catch (err) {
-        locationSetID = "+[Q2]";
-      }
-      return locationSetID;
-    };
-    _this.feature = (locationSetID) => _resolvedFeatures[locationSetID] || _resolvedFeatures["+[Q2]"];
-    _this.locationsAt = (loc) => {
-      let result = {};
-      (_wp(loc, true) || []).forEach((prop) => result[prop.id] = prop.area);
-      return result;
-    };
-    _this.query = (loc, multi) => _wp(loc, multi);
-    _this.loco = () => _loco;
-    _this.wp = () => _wp;
-    return _this;
-  }
-
-  // node_modules/lodash-es/_freeGlobal.js
-  var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
-  var freeGlobal_default = freeGlobal;
-
-  // node_modules/lodash-es/_root.js
-  var freeSelf = typeof self == "object" && self && self.Object === Object && self;
-  var root2 = freeGlobal_default || freeSelf || Function("return this")();
-  var root_default = root2;
-
-  // node_modules/lodash-es/_Symbol.js
-  var Symbol2 = root_default.Symbol;
-  var Symbol_default = Symbol2;
-
-  // node_modules/lodash-es/_getRawTag.js
-  var objectProto = Object.prototype;
-  var hasOwnProperty = objectProto.hasOwnProperty;
-  var nativeObjectToString = objectProto.toString;
-  var symToStringTag = Symbol_default ? Symbol_default.toStringTag : void 0;
-  function getRawTag(value) {
-    var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
-    try {
-      value[symToStringTag] = void 0;
-      var unmasked = true;
-    } catch (e) {
-    }
-    var result = nativeObjectToString.call(value);
-    if (unmasked) {
-      if (isOwn) {
-        value[symToStringTag] = tag;
-      } else {
-        delete value[symToStringTag];
-      }
-    }
-    return result;
-  }
-  var getRawTag_default = getRawTag;
-
-  // node_modules/lodash-es/_objectToString.js
-  var objectProto2 = Object.prototype;
-  var nativeObjectToString2 = objectProto2.toString;
-  function objectToString(value) {
-    return nativeObjectToString2.call(value);
-  }
-  var objectToString_default = objectToString;
-
-  // node_modules/lodash-es/_baseGetTag.js
-  var nullTag = "[object Null]";
-  var undefinedTag = "[object Undefined]";
-  var symToStringTag2 = Symbol_default ? Symbol_default.toStringTag : void 0;
-  function baseGetTag(value) {
-    if (value == null) {
-      return value === void 0 ? undefinedTag : nullTag;
-    }
-    return symToStringTag2 && symToStringTag2 in Object(value) ? getRawTag_default(value) : objectToString_default(value);
-  }
-  var baseGetTag_default = baseGetTag;
-
-  // node_modules/lodash-es/isObjectLike.js
-  function isObjectLike(value) {
-    return value != null && typeof value == "object";
-  }
-  var isObjectLike_default = isObjectLike;
-
-  // node_modules/lodash-es/isSymbol.js
-  var symbolTag = "[object Symbol]";
-  function isSymbol(value) {
-    return typeof value == "symbol" || isObjectLike_default(value) && baseGetTag_default(value) == symbolTag;
-  }
-  var isSymbol_default = isSymbol;
-
-  // node_modules/lodash-es/_arrayMap.js
-  function arrayMap(array2, iteratee) {
-    var index = -1, length = array2 == null ? 0 : array2.length, result = Array(length);
-    while (++index < length) {
-      result[index] = iteratee(array2[index], index, array2);
-    }
-    return result;
-  }
-  var arrayMap_default = arrayMap;
-
-  // node_modules/lodash-es/isArray.js
-  var isArray = Array.isArray;
-  var isArray_default = isArray;
-
-  // node_modules/lodash-es/_baseToString.js
-  var INFINITY = 1 / 0;
-  var symbolProto = Symbol_default ? Symbol_default.prototype : void 0;
-  var symbolToString = symbolProto ? symbolProto.toString : void 0;
-  function baseToString(value) {
-    if (typeof value == "string") {
-      return value;
-    }
-    if (isArray_default(value)) {
-      return arrayMap_default(value, baseToString) + "";
-    }
-    if (isSymbol_default(value)) {
-      return symbolToString ? symbolToString.call(value) : "";
-    }
-    var result = value + "";
-    return result == "0" && 1 / value == -INFINITY ? "-0" : result;
-  }
-  var baseToString_default = baseToString;
-
-  // node_modules/lodash-es/_trimmedEndIndex.js
-  var reWhitespace = /\s/;
-  function trimmedEndIndex(string) {
-    var index = string.length;
-    while (index-- && reWhitespace.test(string.charAt(index))) {
-    }
-    return index;
-  }
-  var trimmedEndIndex_default = trimmedEndIndex;
-
-  // node_modules/lodash-es/_baseTrim.js
-  var reTrimStart = /^\s+/;
-  function baseTrim(string) {
-    return string ? string.slice(0, trimmedEndIndex_default(string) + 1).replace(reTrimStart, "") : string;
-  }
-  var baseTrim_default = baseTrim;
-
-  // node_modules/lodash-es/isObject.js
-  function isObject(value) {
-    var type3 = typeof value;
-    return value != null && (type3 == "object" || type3 == "function");
-  }
-  var isObject_default = isObject;
-
-  // node_modules/lodash-es/toNumber.js
-  var NAN = 0 / 0;
-  var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-  var reIsBinary = /^0b[01]+$/i;
-  var reIsOctal = /^0o[0-7]+$/i;
-  var freeParseInt = parseInt;
-  function toNumber(value) {
-    if (typeof value == "number") {
-      return value;
-    }
-    if (isSymbol_default(value)) {
-      return NAN;
-    }
-    if (isObject_default(value)) {
-      var other = typeof value.valueOf == "function" ? value.valueOf() : value;
-      value = isObject_default(other) ? other + "" : other;
-    }
-    if (typeof value != "string") {
-      return value === 0 ? value : +value;
-    }
-    value = baseTrim_default(value);
-    var isBinary = reIsBinary.test(value);
-    return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
-  }
-  var toNumber_default = toNumber;
-
-  // node_modules/lodash-es/toString.js
-  function toString(value) {
-    return value == null ? "" : baseToString_default(value);
-  }
-  var toString_default = toString;
-
-  // node_modules/lodash-es/_basePropertyOf.js
-  function basePropertyOf(object) {
-    return function(key) {
-      return object == null ? void 0 : object[key];
-    };
-  }
-  var basePropertyOf_default = basePropertyOf;
-
-  // node_modules/lodash-es/now.js
-  var now2 = function() {
-    return root_default.Date.now();
-  };
-  var now_default = now2;
-
-  // node_modules/lodash-es/debounce.js
-  var FUNC_ERROR_TEXT = "Expected a function";
-  var nativeMax = Math.max;
-  var nativeMin = Math.min;
-  function debounce(func, wait, options2) {
-    var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = false, maxing = false, trailing = true;
-    if (typeof func != "function") {
-      throw new TypeError(FUNC_ERROR_TEXT);
-    }
-    wait = toNumber_default(wait) || 0;
-    if (isObject_default(options2)) {
-      leading = !!options2.leading;
-      maxing = "maxWait" in options2;
-      maxWait = maxing ? nativeMax(toNumber_default(options2.maxWait) || 0, wait) : maxWait;
-      trailing = "trailing" in options2 ? !!options2.trailing : trailing;
-    }
-    function invokeFunc(time) {
-      var args = lastArgs, thisArg = lastThis;
-      lastArgs = lastThis = void 0;
-      lastInvokeTime = time;
-      result = func.apply(thisArg, args);
-      return result;
-    }
-    function leadingEdge(time) {
-      lastInvokeTime = time;
-      timerId = setTimeout(timerExpired, wait);
-      return leading ? invokeFunc(time) : result;
-    }
-    function remainingWait(time) {
-      var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, timeWaiting = wait - timeSinceLastCall;
-      return maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting;
-    }
-    function shouldInvoke(time) {
-      var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime;
-      return lastCallTime === void 0 || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
-    }
-    function timerExpired() {
-      var time = now_default();
-      if (shouldInvoke(time)) {
-        return trailingEdge(time);
-      }
-      timerId = setTimeout(timerExpired, remainingWait(time));
-    }
-    function trailingEdge(time) {
-      timerId = void 0;
-      if (trailing && lastArgs) {
-        return invokeFunc(time);
-      }
-      lastArgs = lastThis = void 0;
-      return result;
-    }
-    function cancel() {
-      if (timerId !== void 0) {
-        clearTimeout(timerId);
-      }
-      lastInvokeTime = 0;
-      lastArgs = lastCallTime = lastThis = timerId = void 0;
-    }
-    function flush() {
-      return timerId === void 0 ? result : trailingEdge(now_default());
-    }
-    function debounced() {
-      var time = now_default(), isInvoking = shouldInvoke(time);
-      lastArgs = arguments;
-      lastThis = this;
-      lastCallTime = time;
-      if (isInvoking) {
-        if (timerId === void 0) {
-          return leadingEdge(lastCallTime);
-        }
-        if (maxing) {
-          clearTimeout(timerId);
-          timerId = setTimeout(timerExpired, wait);
-          return invokeFunc(lastCallTime);
-        }
-      }
-      if (timerId === void 0) {
-        timerId = setTimeout(timerExpired, wait);
-      }
-      return result;
-    }
-    debounced.cancel = cancel;
-    debounced.flush = flush;
-    return debounced;
-  }
-  var debounce_default = debounce;
-
-  // node_modules/lodash-es/_escapeHtmlChar.js
-  var htmlEscapes = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  };
-  var escapeHtmlChar = basePropertyOf_default(htmlEscapes);
-  var escapeHtmlChar_default = escapeHtmlChar;
-
-  // node_modules/lodash-es/escape.js
-  var reUnescapedHtml = /[&<>"']/g;
-  var reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-  function escape2(string) {
-    string = toString_default(string);
-    return string && reHasUnescapedHtml.test(string) ? string.replace(reUnescapedHtml, escapeHtmlChar_default) : string;
-  }
-  var escape_default = escape2;
-
-  // node_modules/lodash-es/throttle.js
-  var FUNC_ERROR_TEXT2 = "Expected a function";
-  function throttle(func, wait, options2) {
-    var leading = true, trailing = true;
-    if (typeof func != "function") {
-      throw new TypeError(FUNC_ERROR_TEXT2);
-    }
-    if (isObject_default(options2)) {
-      leading = "leading" in options2 ? !!options2.leading : leading;
-      trailing = "trailing" in options2 ? !!options2.trailing : trailing;
-    }
-    return debounce_default(func, wait, {
-      "leading": leading,
-      "maxWait": wait,
-      "trailing": trailing
-    });
-  }
-  var throttle_default = throttle;
-
-  // node_modules/lodash-es/_unescapeHtmlChar.js
-  var htmlUnescapes = {
-    "&amp;": "&",
-    "&lt;": "<",
-    "&gt;": ">",
-    "&quot;": '"',
-    "&#39;": "'"
-  };
-  var unescapeHtmlChar = basePropertyOf_default(htmlUnescapes);
-  var unescapeHtmlChar_default = unescapeHtmlChar;
-
-  // node_modules/lodash-es/unescape.js
-  var reEscapedHtml = /&(?:amp|lt|gt|quot|#39);/g;
-  var reHasEscapedHtml = RegExp(reEscapedHtml.source);
-  function unescape2(string) {
-    string = toString_default(string);
-    return string && reHasEscapedHtml.test(string) ? string.replace(reEscapedHtml, unescapeHtmlChar_default) : string;
-  }
-  var unescape_default = unescape2;
-
   // modules/core/localizer.js
   var _mainLocalizer = coreLocalizer();
   var _t = _mainLocalizer.t;
@@ -24820,7 +24916,7 @@
       ];
       const localeDirs = {
         general: "locales",
-        tagging: "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/translations"
+        tagging: presetsCdnUrl + "dist/translations"
       };
       let fileMap = _mainFileFetcher.fileMap();
       for (let scopeId in localeDirs) {
@@ -25111,7 +25207,7 @@
               if (strings.some((s) => s === value)) {
                 return strings.find((s) => s === value);
               } else {
-                return strings.find((s) => s.includes(value));
+                return strings.filter((s) => s.includes(value)).sort((a2, b2) => a2.length - b2.length)[0];
               }
             };
             aCompare = findMatchingAlias([aCompare].concat(a[aliasesProp]()));
@@ -25132,8 +25228,8 @@
       }
       let pool = _this.collection;
       if (Array.isArray(loc)) {
-        const validLocations = _mainLocations.locationsAt(loc);
-        pool = pool.filter((a) => !a.locationSetID || validLocations[a.locationSetID]);
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
+        pool = pool.filter((a) => !a.locationSetID || validHere[a.locationSetID]);
       }
       const searchable = pool.filter((a) => a.searchable !== false && a.suggestion !== true);
       const suggestions = pool.filter((a) => a.suggestion === true);
@@ -25224,7 +25320,8 @@
   }
 
   // modules/presets/field.js
-  function presetField(fieldID, field) {
+  function presetField(fieldID, field, allFields) {
+    allFields = allFields || {};
     let _this = Object.assign({}, field);
     _this.id = fieldID;
     _this.safeid = utilSafeClassName(fieldID);
@@ -25236,12 +25333,23 @@
     _this.t.html = (scope, options2) => _t.html(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
     _this.t.append = (scope, options2) => _t.append(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
     _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${fieldID}.${scope}`);
-    _this.title = () => _this.overrideLabel || _this.t("label", { "default": fieldID });
-    _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.t.append("label", { "default": fieldID });
-    const _placeholder = _this.placeholder;
-    _this.placeholder = () => _this.t("placeholder", { "default": _placeholder });
+    _this.resolveReference = (which) => {
+      const referenceRegex = /^\{(.*)\}$/;
+      const match = (field[which] || "").match(referenceRegex);
+      if (match) {
+        const field2 = allFields[match[1]];
+        if (field2) {
+          return field2;
+        }
+        console.error(`Unable to resolve referenced field: ${match[1]}`);
+      }
+      return _this;
+    };
+    _this.title = () => _this.overrideLabel || _this.resolveReference("label").t("label", { "default": fieldID });
+    _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.resolveReference("label").t.append("label", { "default": fieldID });
+    _this.placeholder = () => _this.resolveReference("placeholder").t("placeholder", { "default": "" });
     _this.originalTerms = (_this.terms || []).join();
-    _this.terms = () => _this.t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
+    _this.terms = () => _this.resolveReference("label").t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
     _this.increment = _this.type === "number" ? _this.increment || 1 : void 0;
     return _this;
   }
@@ -25258,6 +25366,7 @@
     let _searchNameStripped;
     let _searchAliases;
     let _searchAliasesStripped;
+    const referenceRegex = /^\{(.*)\}$/;
     _this.id = presetID;
     _this.safeid = utilSafeClassName(presetID);
     _this.originalTerms = (_this.terms || []).join();
@@ -25267,8 +25376,8 @@
     _this.originalReference = _this.reference || {};
     _this.originalFields = _this.fields || [];
     _this.originalMoreFields = _this.moreFields || [];
-    _this.fields = () => _resolvedFields || (_resolvedFields = resolve("fields"));
-    _this.moreFields = () => _resolvedMoreFields || (_resolvedMoreFields = resolve("moreFields"));
+    _this.fields = () => _resolvedFields || (_resolvedFields = resolveFields("fields"));
+    _this.moreFields = () => _resolvedMoreFields || (_resolvedMoreFields = resolveFields("moreFields"));
     _this.resetFields = () => _resolvedFields = _resolvedMoreFields = null;
     _this.tags = _this.tags || {};
     _this.addTags = _this.addTags || _this.tags;
@@ -25309,10 +25418,23 @@
       const textID = `_tagging.presets.presets.${presetID}.${scope}`;
       return _t.append(textID, options2);
     };
+    function resolveReference(which) {
+      const match = (_this[which] || "").match(referenceRegex);
+      if (match) {
+        const preset2 = allPresets[match[1]];
+        if (preset2) {
+          return preset2;
+        }
+        console.error(`Unable to resolve referenced preset: ${match[1]}`);
+      }
+      return _this;
+    }
     _this.name = () => {
-      return _this.t("name", { "default": _this.originalName });
+      return resolveReference("originalName").t("name", { "default": _this.originalName || presetID });
     };
-    _this.nameLabel = () => _this.t.append("name", { "default": _this.originalName });
+    _this.nameLabel = () => {
+      return resolveReference("originalName").t.append("name", { "default": _this.originalName || presetID });
+    };
     _this.subtitle = () => {
       if (_this.suggestion) {
         let path = presetID.split("/");
@@ -25330,9 +25452,11 @@
       return null;
     };
     _this.aliases = () => {
-      return _this.t("aliases", { "default": _this.originalAliases }).trim().split(/\s*[\r\n]+\s*/);
+      return resolveReference("originalName").t("aliases", { "default": _this.originalAliases }).trim().split(/\s*[\r\n]+\s*/);
     };
-    _this.terms = () => _this.t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
+    _this.terms = () => {
+      return resolveReference("originalName").t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
+    };
     _this.searchName = () => {
       if (!_searchName) {
         _searchName = (_this.suggestion ? _this.originalName : _this.name()).toLowerCase();
@@ -25386,7 +25510,7 @@
       tags = utilObjectOmit(tags, Object.keys(removeTags));
       if (geometry && !skipFieldDefaults) {
         _this.fields().forEach((field) => {
-          if (field.matchGeometry(geometry) && field.key && field.default === tags[field.key]) {
+          if (field.matchGeometry(geometry) && field.key && field.default === tags[field.key] && (!ignoringKeys || ignoringKeys.indexOf(field.key) === -1)) {
             delete tags[field.key];
           }
         });
@@ -25430,11 +25554,11 @@
       }
       return tags;
     };
-    function resolve(which) {
+    function resolveFields(which) {
       const fieldIDs = which === "fields" ? _this.originalFields : _this.originalMoreFields;
       let resolved = [];
       fieldIDs.forEach((fieldID) => {
-        const match = fieldID.match(/\{(.*)\}/);
+        const match = fieldID.match(referenceRegex);
         if (match !== null) {
           resolved = resolved.concat(inheritFields(match[1], which));
         } else if (allFields[fieldID]) {
@@ -25520,6 +25644,7 @@
           fields: vals[3]
         });
         osmSetAreaKeys(_this.areaKeys());
+        osmSetLineTags(_this.lineTags());
         osmSetPointTags(_this.pointTags());
         osmSetVertexTags(_this.vertexTags());
       });
@@ -25530,7 +25655,7 @@
         Object.keys(d.fields).forEach((fieldID) => {
           let f2 = d.fields[fieldID];
           if (f2) {
-            f2 = presetField(fieldID, f2);
+            f2 = presetField(fieldID, f2, _fields);
             if (f2.locationSet)
               newLocationSets.push(f2);
             _fields[fieldID] = f2;
@@ -25596,10 +25721,10 @@
         });
       });
       if (d.featureCollection && Array.isArray(d.featureCollection.features)) {
-        _mainLocations.mergeCustomGeoJSON(d.featureCollection);
+        _sharedLocationManager.mergeCustomGeoJSON(d.featureCollection);
       }
       if (newLocationSets.length) {
-        _mainLocations.mergeLocationSets(newLocationSets);
+        _sharedLocationManager.mergeLocationSets(newLocationSets);
       }
       return _this;
     };
@@ -25645,12 +25770,12 @@
         }
       }
       if (bestMatch && bestMatch.locationSetID && bestMatch.locationSetID !== "+[Q2]" && Array.isArray(loc)) {
-        let validLocations = _mainLocations.locationsAt(loc);
-        if (!validLocations[bestMatch.locationSetID]) {
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
+        if (!validHere[bestMatch.locationSetID]) {
           matchCandidates.sort((a, b) => a.score < b.score ? 1 : -1);
           for (let i2 = 0; i2 < matchCandidates.length; i2++) {
             const candidateScore = matchCandidates[i2];
-            if (!candidateScore.candidate.locationSetID || validLocations[candidateScore.candidate.locationSetID]) {
+            if (!candidateScore.candidate.locationSetID || validHere[candidateScore.candidate.locationSetID]) {
               bestMatch = candidateScore.candidate;
               bestScore = candidateScore.score;
               break;
@@ -25717,6 +25842,21 @@
       });
       return areaKeys;
     };
+    _this.lineTags = () => {
+      return _this.collection.filter((lineTags, d) => {
+        if (d.suggestion || d.replacement || d.searchable === false)
+          return lineTags;
+        const keys = d.tags && Object.keys(d.tags);
+        const key = keys && keys.length && keys[0];
+        if (!key)
+          return lineTags;
+        if (d.geometry.indexOf("line") !== -1) {
+          lineTags[key] = lineTags[key] || [];
+          lineTags[key].push(d.tags);
+        }
+        return lineTags;
+      }, {});
+    };
     _this.pointTags = () => {
       return _this.collection.reduce((pointTags, d) => {
         if (d.suggestion || d.replacement || d.searchable === false)
@@ -25769,8 +25909,8 @@
         utilArrayUniq(recents.concat(defaults2).concat(extraPresets || [])).slice(0, n2 - 1)
       );
       if (Array.isArray(loc)) {
-        const validLocations = _mainLocations.locationsAt(loc);
-        result.collection = result.collection.filter((a) => !a.locationSetID || validLocations[a.locationSetID]);
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
+        result.collection = result.collection.filter((a) => !a.locationSetID || validHere[a.locationSetID]);
       }
       return result;
     };
@@ -27601,8 +27741,16 @@
       var entity = graph.entity(entityID);
       var geometry = entity.geometry(graph);
       var tags = entity.tags;
+      var preserveKeys;
+      if (newPreset) {
+        preserveKeys = [];
+        if (newPreset.addTags) {
+          preserveKeys = preserveKeys.concat(Object.keys(newPreset.addTags));
+        }
+        newPreset.fields().concat(newPreset.moreFields()).filter((f2) => f2.matchGeometry(geometry)).map((f2) => f2.key).filter(Boolean).forEach((key) => preserveKeys.push(key));
+      }
       if (oldPreset)
-        tags = oldPreset.unsetTags(tags, geometry, newPreset && newPreset.addTags ? Object.keys(newPreset.addTags) : null);
+        tags = oldPreset.unsetTags(tags, geometry, preserveKeys);
       if (newPreset)
         tags = newPreset.setTags(tags, geometry, skipFieldDefaults);
       return graph.replace(entity.update({ tags }));
@@ -27980,8 +28128,8 @@
           indexRange += nodes.length;
         }
         for (j2 = 1; j2 < indexRange; j2++) {
-          var point = geoVecInterp(hull[i2], hull[i2 + 1], j2 / indexRange);
-          var node = nodes[(j2 + startIndex) % nodes.length].move(projection2.invert(point));
+          var point2 = geoVecInterp(hull[i2], hull[i2 + 1], j2 / indexRange);
+          var node = nodes[(j2 + startIndex) % nodes.length].move(projection2.invert(point2));
           graph = graph.replace(node);
         }
       }
@@ -28743,22 +28891,22 @@
       var geometries = groupEntitiesByGeometry(graph);
       var target = geometries.area[0] || geometries.line[0];
       var points = geometries.point;
-      points.forEach(function(point) {
-        target = target.mergeTags(point.tags);
+      points.forEach(function(point2) {
+        target = target.mergeTags(point2.tags);
         graph = graph.replace(target);
-        graph.parentRelations(point).forEach(function(parent) {
-          graph = graph.replace(parent.replaceMember(point, target));
+        graph.parentRelations(point2).forEach(function(parent) {
+          graph = graph.replace(parent.replaceMember(point2, target));
         });
         var nodes = utilArrayUniq(graph.childNodes(target));
-        var removeNode = point;
-        if (!point.isNew()) {
+        var removeNode = point2;
+        if (!point2.isNew()) {
           var inserted = false;
           var canBeReplaced = function(node2) {
             return !(graph.parentWays(node2).length > 1 || graph.parentRelations(node2).length);
           };
           var replaceNode = function(node2) {
-            graph = graph.replace(point.update({ tags: node2.tags, loc: node2.loc }));
-            target = target.replaceNode(node2.id, point.id);
+            graph = graph.replace(point2.update({ tags: node2.tags, loc: node2.loc }));
+            target = target.replaceNode(node2.id, point2.id);
             graph = graph.replace(target);
             removeNode = node2;
             inserted = true;
@@ -28772,7 +28920,7 @@
               break;
             }
           }
-          if (!inserted && point.hasInterestingTags()) {
+          if (!inserted && point2.hasInterestingTags()) {
             for (i2 = 0; i2 < nodes.length; i2++) {
               node = nodes[i2];
               if (canBeReplaced(node) && !node.hasInterestingTags()) {
@@ -28783,7 +28931,7 @@
             if (!inserted) {
               for (i2 = 0; i2 < nodes.length; i2++) {
                 node = nodes[i2];
-                if (canBeReplaced(node) && utilCompareIDs(point.id, node.id) < 0) {
+                if (canBeReplaced(node) && utilCompareIDs(point2.id, node.id) < 0) {
                   replaceNode(node);
                   break;
                 }
@@ -30070,144 +30218,155 @@
           return;
         currPath.push(entity.id);
         currRestrictions = (currRestrictions || []).slice();
-        var i3, j3;
         if (entity.type === "node") {
-          var parents2 = vgraph2.parentWays(entity);
-          var nextWays = [];
-          for (i3 = 0; i3 < parents2.length; i3++) {
-            var way2 = parents2[i3];
-            if (way2.__oneWay && way2.nodes[0] !== entity.id)
-              continue;
-            if (currPath.indexOf(way2.id) !== -1 && currPath.length >= 3)
-              continue;
-            var restrict = null;
-            for (j3 = 0; j3 < currRestrictions.length; j3++) {
-              var restriction = currRestrictions[j3];
-              var f2 = restriction.memberByRole("from");
-              var v = restriction.membersByRole("via");
-              var t = restriction.memberByRole("to");
-              var isOnly = /^only_/.test(restriction.tags.restriction);
-              var matchesFrom = f2.id === fromWayId;
-              var matchesViaTo = false;
-              var isAlongOnlyPath = false;
-              if (t.id === way2.id) {
-                if (v.length === 1 && v[0].type === "node") {
-                  matchesViaTo = v[0].id === entity.id && (matchesFrom && currPath.length === 2 || !matchesFrom && currPath.length > 2);
-                } else {
-                  var pathVias = [];
-                  for (k = 2; k < currPath.length; k += 2) {
-                    pathVias.push(currPath[k]);
-                  }
-                  var restrictionVias = [];
-                  for (k = 0; k < v.length; k++) {
-                    if (v[k].type === "way") {
-                      restrictionVias.push(v[k].id);
-                    }
-                  }
-                  var diff = utilArrayDifference(pathVias, restrictionVias);
-                  matchesViaTo = !diff.length;
-                }
-              } else if (isOnly) {
-                for (k = 0; k < v.length; k++) {
-                  if (v[k].type === "way" && v[k].id === way2.id) {
-                    isAlongOnlyPath = true;
-                    break;
-                  }
-                }
-              }
-              if (matchesViaTo) {
-                if (isOnly) {
-                  restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, only: true, end: true };
-                } else {
-                  restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, no: true, end: true };
-                }
-              } else {
-                if (isAlongOnlyPath) {
-                  restrict = { id: restriction.id, direct: false, from: f2.id, only: true, end: false };
-                } else if (isOnly) {
-                  restrict = { id: restriction.id, direct: false, from: f2.id, no: true, end: true };
-                }
-              }
-              if (restrict && restrict.direct)
-                break;
-            }
-            nextWays.push({ way: way2, restrict });
-          }
-          nextWays.forEach(function(nextWay) {
-            step(nextWay.way, currPath, currRestrictions, nextWay.restrict);
-          });
+          stepNode(entity, currPath, currRestrictions);
         } else {
-          if (currPath.length >= 3) {
-            var turnPath = currPath.slice();
-            if (matchedRestriction && matchedRestriction.direct === false) {
-              for (i3 = 0; i3 < turnPath.length; i3++) {
-                if (turnPath[i3] === matchedRestriction.from) {
-                  turnPath = turnPath.slice(i3);
+          stepWay(entity, currPath, currRestrictions, matchedRestriction);
+        }
+      }
+      function stepNode(entity, currPath, currRestrictions) {
+        var i3, j3;
+        var parents2 = vgraph2.parentWays(entity);
+        var nextWays = [];
+        for (i3 = 0; i3 < parents2.length; i3++) {
+          var way2 = parents2[i3];
+          if (way2.__oneWay && way2.nodes[0] !== entity.id)
+            continue;
+          if (currPath.indexOf(way2.id) !== -1 && currPath.length >= 3)
+            continue;
+          var restrict = null;
+          for (j3 = 0; j3 < currRestrictions.length; j3++) {
+            var restriction = currRestrictions[j3];
+            var f2 = restriction.memberByRole("from");
+            var v = restriction.membersByRole("via");
+            var t = restriction.memberByRole("to");
+            var isNo = /^no_/.test(restriction.tags.restriction);
+            var isOnly = /^only_/.test(restriction.tags.restriction);
+            if (!(isNo || isOnly)) {
+              continue;
+            }
+            var matchesFrom = f2.id === fromWayId;
+            var matchesViaTo = false;
+            var isAlongOnlyPath = false;
+            if (t.id === way2.id) {
+              if (v.length === 1 && v[0].type === "node") {
+                matchesViaTo = v[0].id === entity.id && (matchesFrom && currPath.length === 2 || !matchesFrom && currPath.length > 2);
+              } else {
+                var pathVias = [];
+                for (k = 2; k < currPath.length; k += 2) {
+                  pathVias.push(currPath[k]);
+                }
+                var restrictionVias = [];
+                for (k = 0; k < v.length; k++) {
+                  if (v[k].type === "way") {
+                    restrictionVias.push(v[k].id);
+                  }
+                }
+                var diff = utilArrayDifference(pathVias, restrictionVias);
+                matchesViaTo = !diff.length;
+              }
+            } else if (isOnly) {
+              for (k = 0; k < v.length; k++) {
+                if (v[k].type === "way" && v[k].id === way2.id) {
+                  isAlongOnlyPath = true;
                   break;
                 }
               }
             }
-            var turn = pathToTurn(turnPath);
-            if (turn) {
-              if (matchedRestriction) {
-                turn.restrictionID = matchedRestriction.id;
-                turn.no = matchedRestriction.no;
-                turn.only = matchedRestriction.only;
-                turn.direct = matchedRestriction.direct;
-              }
-              turns.push(osmTurn(turn));
-            }
-            if (currPath[0] === currPath[2])
-              return;
-          }
-          if (matchedRestriction && matchedRestriction.end)
-            return;
-          var n1 = vgraph2.entity(entity.first());
-          var n2 = vgraph2.entity(entity.last());
-          var dist = geoSphericalDistance(n1.loc, n2.loc);
-          var nextNodes = [];
-          if (currPath.length > 1) {
-            if (dist > maxDistance)
-              return;
-            if (!entity.__via)
-              return;
-          }
-          if (!entity.__oneWay && keyVertexIds.indexOf(n1.id) !== -1 && currPath.indexOf(n1.id) === -1) {
-            nextNodes.push(n1);
-          }
-          if (keyVertexIds.indexOf(n2.id) !== -1 && currPath.indexOf(n2.id) === -1) {
-            nextNodes.push(n2);
-          }
-          nextNodes.forEach(function(nextNode) {
-            var fromRestrictions = vgraph2.parentRelations(entity).filter(function(r) {
-              if (!r.isRestriction())
-                return false;
-              var f3 = r.memberByRole("from");
-              if (!f3 || f3.id !== entity.id)
-                return false;
-              var isOnly2 = /^only_/.test(r.tags.restriction);
-              if (!isOnly2)
-                return true;
-              var isOnlyVia = false;
-              var v2 = r.membersByRole("via");
-              if (v2.length === 1 && v2[0].type === "node") {
-                isOnlyVia = v2[0].id === nextNode.id;
+            if (matchesViaTo) {
+              if (isOnly) {
+                restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, only: true, end: true };
               } else {
-                for (var i4 = 0; i4 < v2.length; i4++) {
-                  if (v2[i4].type !== "way")
-                    continue;
-                  var viaWay = vgraph2.entity(v2[i4].id);
-                  if (viaWay.first() === nextNode.id || viaWay.last() === nextNode.id) {
-                    isOnlyVia = true;
-                    break;
-                  }
+                restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, no: true, end: true };
+              }
+            } else {
+              if (isAlongOnlyPath) {
+                restrict = { id: restriction.id, direct: false, from: f2.id, only: true, end: false };
+              } else if (isOnly) {
+                restrict = { id: restriction.id, direct: false, from: f2.id, no: true, end: true };
+              }
+            }
+            if (restrict && restrict.direct)
+              break;
+          }
+          nextWays.push({ way: way2, restrict });
+        }
+        nextWays.forEach(function(nextWay) {
+          step(nextWay.way, currPath, currRestrictions, nextWay.restrict);
+        });
+      }
+      function stepWay(entity, currPath, currRestrictions, matchedRestriction) {
+        var i3;
+        if (currPath.length >= 3) {
+          var turnPath = currPath.slice();
+          if (matchedRestriction && matchedRestriction.direct === false) {
+            for (i3 = 0; i3 < turnPath.length; i3++) {
+              if (turnPath[i3] === matchedRestriction.from) {
+                turnPath = turnPath.slice(i3);
+                break;
+              }
+            }
+          }
+          var turn = pathToTurn(turnPath);
+          if (turn) {
+            if (matchedRestriction) {
+              turn.restrictionID = matchedRestriction.id;
+              turn.no = matchedRestriction.no;
+              turn.only = matchedRestriction.only;
+              turn.direct = matchedRestriction.direct;
+            }
+            turns.push(osmTurn(turn));
+          }
+          if (currPath[0] === currPath[2])
+            return;
+        }
+        if (matchedRestriction && matchedRestriction.end)
+          return;
+        var n1 = vgraph2.entity(entity.first());
+        var n2 = vgraph2.entity(entity.last());
+        var dist = geoSphericalDistance(n1.loc, n2.loc);
+        var nextNodes = [];
+        if (currPath.length > 1) {
+          if (dist > maxDistance)
+            return;
+          if (!entity.__via)
+            return;
+        }
+        if (!entity.__oneWay && keyVertexIds.indexOf(n1.id) !== -1 && currPath.indexOf(n1.id) === -1) {
+          nextNodes.push(n1);
+        }
+        if (keyVertexIds.indexOf(n2.id) !== -1 && currPath.indexOf(n2.id) === -1) {
+          nextNodes.push(n2);
+        }
+        nextNodes.forEach(function(nextNode) {
+          var fromRestrictions = vgraph2.parentRelations(entity).filter(function(r) {
+            if (!r.isRestriction())
+              return false;
+            var f2 = r.memberByRole("from");
+            if (!f2 || f2.id !== entity.id)
+              return false;
+            var isOnly = /^only_/.test(r.tags.restriction);
+            if (!isOnly)
+              return true;
+            var isOnlyVia = false;
+            var v = r.membersByRole("via");
+            if (v.length === 1 && v[0].type === "node") {
+              isOnlyVia = v[0].id === nextNode.id;
+            } else {
+              for (var i4 = 0; i4 < v.length; i4++) {
+                if (v[i4].type !== "way")
+                  continue;
+                var viaWay = vgraph2.entity(v[i4].id);
+                if (viaWay.first() === nextNode.id || viaWay.last() === nextNode.id) {
+                  isOnlyVia = true;
+                  break;
                 }
               }
-              return isOnlyVia;
-            });
-            step(nextNode, currPath, currRestrictions.concat(fromRestrictions), false);
+            }
+            return isOnlyVia;
           });
-        }
+          step(nextNode, currPath, currRestrictions.concat(fromRestrictions), false);
+        });
       }
       function pathToTurn(path) {
         if (path.length < 3)
@@ -31162,7 +31321,7 @@
       var nodeCount = {};
       var points = [];
       var corner = { i: 0, dotp: 1 };
-      var node, point, loc, score, motions, i2, j2;
+      var node, point2, loc, score, motions, i2, j2;
       for (i2 = 0; i2 < nodes.length; i2++) {
         node = nodes[i2];
         nodeCount[node.id] = (nodeCount[node.id] || 0) + 1;
@@ -31184,17 +31343,17 @@
         var straights = [];
         var simplified = [];
         for (i2 = 0; i2 < points.length; i2++) {
-          point = points[i2];
+          point2 = points[i2];
           var dotp = 0;
           if (isClosed || i2 > 0 && i2 < points.length - 1) {
             var a = points[(i2 - 1 + points.length) % points.length];
             var b = points[(i2 + 1) % points.length];
-            dotp = Math.abs(geoOrthoNormalizedDotProduct(a.coord, b.coord, point.coord));
+            dotp = Math.abs(geoOrthoNormalizedDotProduct(a.coord, b.coord, point2.coord));
           }
           if (dotp > upperThreshold) {
-            straights.push(point);
+            straights.push(point2);
           } else {
-            simplified.push(point);
+            simplified.push(point2);
           }
         }
         var bestPoints = clonePoints(simplified);
@@ -31220,22 +31379,22 @@
         if (isClosed)
           bestCoords.push(bestCoords[0]);
         for (i2 = 0; i2 < bestPoints.length; i2++) {
-          point = bestPoints[i2];
-          if (!geoVecEqual(originalPoints[i2].coord, point.coord)) {
-            node = graph.entity(point.id);
-            loc = projection2.invert(point.coord);
+          point2 = bestPoints[i2];
+          if (!geoVecEqual(originalPoints[i2].coord, point2.coord)) {
+            node = graph.entity(point2.id);
+            loc = projection2.invert(point2.coord);
             graph = graph.replace(node.move(geoVecInterp(node.loc, loc, t)));
           }
         }
         for (i2 = 0; i2 < straights.length; i2++) {
-          point = straights[i2];
-          if (nodeCount[point.id] > 1)
+          point2 = straights[i2];
+          if (nodeCount[point2.id] > 1)
             continue;
-          node = graph.entity(point.id);
+          node = graph.entity(point2.id);
           if (t === 1 && graph.parentWays(node).length === 1 && graph.parentRelations(node).length === 0 && !node.hasInterestingTags()) {
             graph = actionDeleteNode(node.id)(graph);
           } else {
-            var choice = geoVecProject(point.coord, bestCoords);
+            var choice = geoVecProject(point2.coord, bestCoords);
             if (choice) {
               loc = projection2.invert(choice.target);
               graph = graph.replace(node.move(geoVecInterp(node.loc, loc, t)));
@@ -31249,13 +31408,13 @@
           return { id: p.id, coord: [p.coord[0], p.coord[1]] };
         });
       }
-      function calcMotion(point2, i3, array2) {
+      function calcMotion(point3, i3, array2) {
         if (!isClosed && (i3 === 0 || i3 === array2.length - 1))
           return [0, 0];
         if (nodeCount[array2[i3].id] > 1)
           return [0, 0];
         var a2 = array2[(i3 - 1 + array2.length) % array2.length].coord;
-        var origin = point2.coord;
+        var origin = point3.coord;
         var b2 = array2[(i3 + 1) % array2.length].coord;
         var p = geoVecSubtract(a2, origin);
         var q = geoVecSubtract(b2, origin);
@@ -31380,8 +31539,8 @@
     var action = function(graph) {
       return graph.update(function(graph2) {
         utilGetAllNodes(rotateIds, graph2).forEach(function(node) {
-          var point = geoRotate([projection2(node.loc)], angle2, pivot)[0];
-          graph2 = graph2.replace(node.move(projection2.invert(point)));
+          var point2 = geoRotate([projection2(node.loc)], angle2, pivot)[0];
+          graph2 = graph2.replace(node.move(projection2.invert(point2)));
         });
       });
     };
@@ -31392,18 +31551,18 @@
   function actionScale(ids, pivotLoc, scaleFactor, projection2) {
     return function(graph) {
       return graph.update(function(graph2) {
-        let point, radial;
+        let point2, radial;
         utilGetAllNodes(ids, graph2).forEach(function(node) {
-          point = projection2(node.loc);
+          point2 = projection2(node.loc);
           radial = [
-            point[0] - pivotLoc[0],
-            point[1] - pivotLoc[1]
+            point2[0] - pivotLoc[0],
+            point2[1] - pivotLoc[1]
           ];
-          point = [
+          point2 = [
             pivotLoc[0] + scaleFactor * radial[0],
             pivotLoc[1] + scaleFactor * radial[1]
           ];
-          graph2 = graph2.replace(node.move(projection2.invert(point)));
+          graph2 = graph2.replace(node.move(projection2.invert(point2)));
         });
       });
     };
@@ -31441,10 +31600,10 @@
       var endPoint = endpoints[1];
       for (var i2 = 0; i2 < points.length; i2++) {
         var node = nodes[i2];
-        var point = points[i2];
-        var u = positionAlongWay(point, startPoint, endPoint);
-        var point2 = geoVecInterp(startPoint, endPoint, u);
-        var loc2 = projection2.invert(point2);
+        var point2 = points[i2];
+        var u = positionAlongWay(point2, startPoint, endPoint);
+        var point22 = geoVecInterp(startPoint, endPoint, u);
+        var loc2 = projection2.invert(point22);
         graph = graph.replace(node.move(geoVecInterp(node.loc, loc2, t)));
       }
       return graph;
@@ -31461,10 +31620,10 @@
       var endPoint = endpoints[1];
       var maxDistance = 0;
       for (var i2 = 0; i2 < points.length; i2++) {
-        var point = points[i2];
-        var u = positionAlongWay(point, startPoint, endPoint);
+        var point2 = points[i2];
+        var u = positionAlongWay(point2, startPoint, endPoint);
         var p = geoVecInterp(startPoint, endPoint, u);
-        var dist = geoVecLength(p, point);
+        var dist = geoVecLength(p, point2);
         if (!isNaN(dist) && dist > maxDistance) {
           maxDistance = dist;
         }
@@ -31553,9 +31712,9 @@
       var i2;
       for (i2 = 1; i2 < points.length - 1; i2++) {
         var node = nodes[i2];
-        var point = points[i2];
+        var point2 = points[i2];
         if (t < 1 || shouldKeepNode(node, graph)) {
-          var u = positionAlongWay(point, startPoint, endPoint);
+          var u = positionAlongWay(point2, startPoint, endPoint);
           var p = geoVecInterp(startPoint, endPoint, u);
           var loc2 = projection2.invert(p);
           graph = graph.replace(node.move(geoVecInterp(node.loc, loc2, t)));
@@ -31584,10 +31743,10 @@
       }
       var maxDistance = 0;
       for (i2 = 1; i2 < points.length - 1; i2++) {
-        var point = points[i2];
-        var u = positionAlongWay(point, startPoint, endPoint);
+        var point2 = points[i2];
+        var u = positionAlongWay(point2, startPoint, endPoint);
         var p = geoVecInterp(startPoint, endPoint, u);
-        var dist = geoVecLength(p, point);
+        var dist = geoVecLength(p, point2);
         if (isNaN(dist) || dist > threshold) {
           return "too_bendy";
         } else if (dist > maxDistance) {
@@ -33935,14 +34094,14 @@
       }
       return false;
     }
-    function move(d3_event, entity, point) {
+    function move(d3_event, entity, point2) {
       if (_isCancelled)
         return;
       d3_event.stopPropagation();
       context.surface().classed("nope-disabled", d3_event.altKey);
-      _lastLoc = context.projection.invert(point);
+      _lastLoc = context.projection.invert(point2);
       doMove(d3_event, entity);
-      var nudge = geoViewportEdge(point, context.map().dimensions());
+      var nudge = geoViewportEdge(point2, context.map().dimensions());
       if (nudge) {
         startNudge(d3_event, entity, nudge);
       } else {
@@ -34411,8 +34570,8 @@
             do {
               let delta = coincident ? [1e-5, 0] : [0, 1e-5];
               loc = geoVecAdd(loc, delta);
-              let bbox = geoExtent(loc).bbox();
-              coincident = _cache.rtree.search(bbox).length;
+              let bbox2 = geoExtent(loc).bbox();
+              coincident = _cache.rtree.search(bbox2).length;
             } while (coincident);
             let d = new QAItem(loc, this, itemType, id2, {
               comment,
@@ -34472,8 +34631,8 @@
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _cache.rtree.search(bbox).map((d) => d.data);
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _cache.rtree.search(bbox2).map((d) => d.data);
     },
     getError(id2) {
       return _cache.data[id2];
@@ -34545,7 +34704,7 @@
   function pointAverage(points) {
     if (points.length) {
       const sum = points.reduce(
-        (acc, point) => geoVecAdd(acc, [point.lon, point.lat]),
+        (acc, point2) => geoVecAdd(acc, [point2.lon, point2.lat]),
         [0, 0]
       );
       return geoVecScale(sum, 1 / points.length);
@@ -34580,8 +34739,8 @@
     do {
       let delta = coincident ? [1e-5, 0] : bumpUp ? [0, 1e-5] : [0, 0];
       loc = geoVecAdd(loc, delta);
-      let bbox = geoExtent(loc).bbox();
-      coincident = _cache2.rtree.search(bbox).length;
+      let bbox2 = geoExtent(loc).bbox();
+      coincident = _cache2.rtree.search(bbox2).length;
     } while (coincident);
     return loc;
   }
@@ -34694,9 +34853,9 @@
             }
             if (data.entities) {
               data.entities.forEach((feature3) => {
-                const { point, id: id2, segments, numberOfPasses, turnType } = feature3;
+                const { point: point2, id: id2, segments, numberOfPasses, turnType } = feature3;
                 const itemId = `${id2.replace(/[,:+#]/g, "_")}`;
-                const loc = preventCoincident([point.lon, point.lat], true);
+                const loc = preventCoincident([point2.lon, point2.lat], true);
                 const ids = id2.split(",");
                 const from_way = ids[0];
                 const via_node = ids[3];
@@ -34823,8 +34982,8 @@
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _cache2.rtree.search(bbox).map((d) => d.data);
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _cache2.rtree.search(bbox2).map((d) => d.data);
     },
     getError(id2) {
       return _cache2.data[id2];
@@ -34871,7 +35030,6 @@
       sanitize: false,
       sanitizer: null,
       silent: false,
-      smartLists: false,
       smartypants: false,
       tokenizer: null,
       walkTokens: null,
@@ -35163,7 +35321,7 @@
         return {
           type: "code",
           raw,
-          lang: cap[2] ? cap[2].trim() : cap[2],
+          lang: cap[2] ? cap[2].trim().replace(this.rules.inline._escapes, "$1") : cap[2],
           text: text2
         };
       }
@@ -35374,8 +35532,8 @@
           type: "def",
           tag,
           raw: cap[0],
-          href: cap[2],
-          title: cap[3]
+          href: cap[2] ? cap[2].replace(this.rules.inline._escapes, "$1") : cap[2],
+          title: cap[3] ? cap[3].replace(this.rules.inline._escapes, "$1") : cap[3]
         };
       }
     }
@@ -35587,19 +35745,20 @@
           if (delimTotal > 0)
             continue;
           rLength = Math.min(rLength, rLength + delimTotal + midDelimTotal);
+          const raw = src.slice(0, lLength + match.index + (match[0].length - rDelim.length) + rLength);
           if (Math.min(lLength, rLength) % 2) {
-            const text3 = src.slice(1, lLength + match.index + rLength);
+            const text3 = raw.slice(1, -1);
             return {
               type: "em",
-              raw: src.slice(0, lLength + match.index + rLength + 1),
+              raw,
               text: text3,
               tokens: this.lexer.inlineTokens(text3)
             };
           }
-          const text2 = src.slice(2, lLength + match.index + rLength - 1);
+          const text2 = raw.slice(2, -2);
           return {
             type: "strong",
-            raw: src.slice(0, lLength + match.index + rLength + 1),
+            raw,
             text: text2,
             tokens: this.lexer.inlineTokens(text2)
           };
@@ -35773,8 +35932,8 @@
     reflinkSearch: "reflink|nolink(?!\\()",
     emStrong: {
       lDelim: /^(?:\*+(?:([punct_])|[^\s*]))|^_+(?:([punct*])|([^\s_]))/,
-      rDelimAst: /^[^_*]*?\_\_[^_*]*?\*[^_*]*?(?=\_\_)|[^*]+(?=[^*])|[punct_](\*+)(?=[\s]|$)|[^punct*_\s](\*+)(?=[punct_\s]|$)|[punct_\s](\*+)(?=[^punct*_\s])|[\s](\*+)(?=[punct_])|[punct_](\*+)(?=[punct_])|[^punct*_\s](\*+)(?=[^punct*_\s])/,
-      rDelimUnd: /^[^_*]*?\*\*[^_*]*?\_[^_*]*?(?=\*\*)|[^_]+(?=[^_])|[punct*](\_+)(?=[\s]|$)|[^punct*_\s](\_+)(?=[punct*\s]|$)|[punct*\s](\_+)(?=[^punct*_\s])|[\s](\_+)(?=[punct*])|[punct*](\_+)(?=[punct*])/
+      rDelimAst: /^(?:[^_*\\]|\\.)*?\_\_(?:[^_*\\]|\\.)*?\*(?:[^_*\\]|\\.)*?(?=\_\_)|(?:[^*\\]|\\.)+(?=[^*])|[punct_](\*+)(?=[\s]|$)|(?:[^punct*_\s\\]|\\.)(\*+)(?=[punct_\s]|$)|[punct_\s](\*+)(?=[^punct*_\s])|[\s](\*+)(?=[punct_])|[punct_](\*+)(?=[punct_])|(?:[^punct*_\s\\]|\\.)(\*+)(?=[^punct*_\s])/,
+      rDelimUnd: /^(?:[^_*\\]|\\.)*?\*\*(?:[^_*\\]|\\.)*?\_(?:[^_*\\]|\\.)*?(?=\*\*)|(?:[^_\\]|\\.)+(?=[^_])|[punct*](\_+)(?=[\s]|$)|(?:[^punct*_\s\\]|\\.)(\_+)(?=[punct*\s]|$)|[punct*\s](\_+)(?=[^punct*_\s])|[\s](\_+)(?=[punct*])|[punct*](\_+)(?=[punct*])/
     },
     code: /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,
     br: /^( {2,}|\\)\n(?!\s*$)/,
@@ -35785,7 +35944,7 @@
   inline._punctuation = "!\"#$%&'()+\\-.,/:;<=>?@\\[\\]`^{|}~";
   inline.punctuation = edit(inline.punctuation).replace(/punctuation/g, inline._punctuation).getRegex();
   inline.blockSkip = /\[[^\]]*?\]\([^\)]*?\)|`[^`]*?`|<[^>]*?>/g;
-  inline.escapedEmSt = /\\\*|\\_/g;
+  inline.escapedEmSt = /(?:^|[^\\])(?:\\\\)*\\[*_]/g;
   inline._comment = edit(block._comment).replace("(?:-->|$)", "-->").getRegex();
   inline.emStrong.lDelim = edit(inline.emStrong.lDelim).replace(/punct/g, inline._punctuation).getRegex();
   inline.emStrong.rDelimAst = edit(inline.emStrong.rDelimAst, "g").replace(/punct/g, inline._punctuation).getRegex();
@@ -36077,7 +36236,8 @@
         maskedSrc = maskedSrc.slice(0, match.index) + "[" + repeatString("a", match[0].length - 2) + "]" + maskedSrc.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
       }
       while ((match = this.tokenizer.rules.inline.escapedEmSt.exec(maskedSrc)) != null) {
-        maskedSrc = maskedSrc.slice(0, match.index) + "++" + maskedSrc.slice(this.tokenizer.rules.inline.escapedEmSt.lastIndex);
+        maskedSrc = maskedSrc.slice(0, match.index + match[0].length - 2) + "++" + maskedSrc.slice(this.tokenizer.rules.inline.escapedEmSt.lastIndex);
+        this.tokenizer.rules.inline.escapedEmSt.lastIndex--;
       }
       while (src) {
         if (!keepPrevChar) {
@@ -36894,8 +37054,8 @@ ${content}</tr>
     do {
       let delta = coincident ? [1e-5, 0] : [0, 1e-5];
       loc = geoVecAdd(loc, delta);
-      let bbox = geoExtent(loc).bbox();
-      coincident = _cache3.rtree.search(bbox).length;
+      let bbox2 = geoExtent(loc).bbox();
+      coincident = _cache3.rtree.search(bbox2).length;
     } while (coincident);
     return loc;
   }
@@ -37057,8 +37217,8 @@ ${content}</tr>
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _cache3.rtree.search(bbox).map((d) => d.data);
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _cache3.rtree.search(bbox2).map((d) => d.data);
     },
     getError(id2) {
       return _cache3.data[id2];
@@ -37318,10 +37478,10 @@ ${content}</tr>
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
       const sequenceIds = {};
       let lineStrings = [];
-      _mlyCache.images.rtree.search(bbox).forEach(function(d) {
+      _mlyCache.images.rtree.search(bbox2).forEach(function(d) {
         if (d.data.sequence_id) {
           sequenceIds[d.data.sequence_id] = true;
         }
@@ -37613,7 +37773,7 @@ ${content}</tr>
         const tile = new import_vector_tile.VectorTile(new import_pbf.default(uintArray.buffer));
         const layer = tile.layers["mpy-or"];
         const geometries = layer.feature(0).loadGeometry();
-        const polygon2 = geometries.map((ring) => ring.map((point) => [point.x / layer.extent, point.y / layer.extent]));
+        const polygon2 = geometries.map((ring) => ring.map((point2) => [point2.x / layer.extent, point2.y / layer.extent]));
         tag = new mapillary.OutlineTag(
           data.id,
           new mapillary.PolygonGeometry(polygon2[0]),
@@ -37916,7 +38076,7 @@ ${content}</tr>
 
   // modules/services/nominatim.js
   var import_rbush5 = __toESM(require_rbush_min());
-  var apibase = "https://nominatim.openstreetmap.org/";
+  var apibase = nominatimApiUrl;
   var _inflight = {};
   var _nominatimCache;
   var nominatim_default = {
@@ -38867,19 +39027,19 @@ ${content}</tr>
     var _segmentsByWayId = {};
     var tree = {};
     function entityBBox(entity) {
-      var bbox = entity.extent(head).bbox();
-      bbox.id = entity.id;
-      _bboxes[entity.id] = bbox;
-      return bbox;
+      var bbox2 = entity.extent(head).bbox();
+      bbox2.id = entity.id;
+      _bboxes[entity.id] = bbox2;
+      return bbox2;
     }
     function segmentBBox(segment) {
       var extent = segment.extent(head);
       if (!extent)
         return null;
-      var bbox = extent.bbox();
-      bbox.segment = segment;
-      _segmentsBBoxes[segment.id] = bbox;
-      return bbox;
+      var bbox2 = extent.bbox();
+      bbox2.segment = segment;
+      _segmentsBBoxes[segment.id] = bbox2;
+      return bbox2;
     }
     function removeEntity(entity) {
       _rtree.remove(_bboxes[entity.id]);
@@ -38973,14 +39133,14 @@ ${content}</tr>
     }
     tree.intersects = function(extent, graph) {
       updateToGraph(graph);
-      return _rtree.search(extent.bbox()).map(function(bbox) {
-        return graph.entity(bbox.id);
+      return _rtree.search(extent.bbox()).map(function(bbox2) {
+        return graph.entity(bbox2.id);
       });
     };
     tree.waySegments = function(extent, graph) {
       updateToGraph(graph);
-      return _segmentsRTree.search(extent.bbox()).map(function(bbox) {
-        return bbox.segment;
+      return _segmentsRTree.search(extent.bbox()).map(function(bbox2) {
+        return bbox2.segment;
       });
     };
     return tree;
@@ -39920,8 +40080,8 @@ ${content}</tr>
       function shouldCheckWay(way) {
         if (way.nodes.length <= 2 || way.isClosed() && way.nodes.length <= 4)
           return false;
-        var bbox = way.extent(graph).bbox();
-        var hypotenuseMeters = geoSphericalDistance([bbox.minX, bbox.minY], [bbox.maxX, bbox.maxY]);
+        var bbox2 = way.extent(graph).bbox();
+        var hypotenuseMeters = geoSphericalDistance([bbox2.minX, bbox2.minY], [bbox2.maxX, bbox2.maxY]);
         if (hypotenuseMeters < 1.5)
           return false;
         return true;
@@ -40324,8 +40484,8 @@ ${content}</tr>
             continue;
           segment1 = [n1.loc, n2.loc];
           segment2 = [nA.loc, nB.loc];
-          var point = geoLineIntersection(segment1, segment2);
-          if (point) {
+          var point2 = geoLineIntersection(segment1, segment2);
+          if (point2) {
             edgeCrossInfos.push({
               wayInfos: [
                 {
@@ -40339,7 +40499,7 @@ ${content}</tr>
                   edge: [nA.id, nB.id]
                 }
               ],
-              crossPoint: point
+              crossPoint: point2
             });
             if (oneOnly) {
               checkedSingleCrossingWays[way2.id] = true;
@@ -41626,6 +41786,18 @@ ${content}</tr>
       var tagSuggestingArea = tagSuggestingLineIsArea(entity);
       if (!tagSuggestingArea)
         return null;
+      var validAsLine = false;
+      var presetAsLine = _mainPresetIndex.matchTags(entity.tags, "line");
+      if (presetAsLine) {
+        validAsLine = true;
+        var key = Object.keys(tagSuggestingArea)[0];
+        if (presetAsLine.tags[key] && presetAsLine.tags[key] === "*") {
+          validAsLine = false;
+        }
+        if (Object.keys(presetAsLine.tags).length === 0) {
+          validAsLine = false;
+        }
+      }
       return new validationIssue({
         type: type3,
         subtype: "area_as_line",
@@ -41644,10 +41816,12 @@ ${content}</tr>
           var fixes = [];
           var entity2 = context.entity(this.entityIds[0]);
           var connectEndsOnClick = makeConnectEndpointsFixOnClick(entity2, context.graph());
-          fixes.push(new validationIssueFix({
-            title: _t.append("issues.fix.connect_endpoints.title"),
-            onClick: connectEndsOnClick
-          }));
+          if (!validAsLine) {
+            fixes.push(new validationIssueFix({
+              title: _t.append("issues.fix.connect_endpoints.title"),
+              onClick: connectEndsOnClick
+            }));
+          }
           fixes.push(new validationIssueFix({
             icon: "iD-operation-delete",
             title: _t.append("issues.fix.remove_tag.title"),
@@ -41655,8 +41829,8 @@ ${content}</tr>
               var entityId = this.issue.entityIds[0];
               var entity3 = context2.entity(entityId);
               var tags = Object.assign({}, entity3.tags);
-              for (var key in tagSuggestingArea) {
-                delete tags[key];
+              for (var key2 in tagSuggestingArea) {
+                delete tags[key2];
               }
               context2.perform(
                 actionChangeTags(entityId, tags),
@@ -43503,6 +43677,11 @@ ${content}</tr>
       var id_safe = source.id.replace(/\./g, "<TX_DOT>");
       return _t.append("imagery." + id_safe + ".name", { default: (0, import_lodash2.escape)(_name) });
     };
+    source.hasDescription = function() {
+      var id_safe = source.id.replace(/\./g, "<TX_DOT>");
+      var descriptionText = _mainLocalizer.tInfo("imagery." + id_safe + ".description", { default: (0, import_lodash2.escape)(_description) }).text;
+      return descriptionText !== "";
+    };
     source.description = function() {
       var id_safe = source.id.replace(/\./g, "<TX_DOT>");
       return _t.append("imagery." + id_safe + ".description", { default: (0, import_lodash2.escape)(_description) });
@@ -43866,6 +44045,373 @@ ${content}</tr>
     };
     return source;
   };
+
+  // node_modules/@turf/helpers/dist/es/index.js
+  var earthRadius = 63710088e-1;
+  var factors = {
+    centimeters: earthRadius * 100,
+    centimetres: earthRadius * 100,
+    degrees: earthRadius / 111325,
+    feet: earthRadius * 3.28084,
+    inches: earthRadius * 39.37,
+    kilometers: earthRadius / 1e3,
+    kilometres: earthRadius / 1e3,
+    meters: earthRadius,
+    metres: earthRadius,
+    miles: earthRadius / 1609.344,
+    millimeters: earthRadius * 1e3,
+    millimetres: earthRadius * 1e3,
+    nauticalmiles: earthRadius / 1852,
+    radians: 1,
+    yards: earthRadius * 1.0936
+  };
+  var unitsFactors = {
+    centimeters: 100,
+    centimetres: 100,
+    degrees: 1 / 111325,
+    feet: 3.28084,
+    inches: 39.37,
+    kilometers: 1 / 1e3,
+    kilometres: 1 / 1e3,
+    meters: 1,
+    metres: 1,
+    miles: 1 / 1609.344,
+    millimeters: 1e3,
+    millimetres: 1e3,
+    nauticalmiles: 1 / 1852,
+    radians: 1 / earthRadius,
+    yards: 1.0936133
+  };
+  function feature2(geom, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    var feat = { type: "Feature" };
+    if (options2.id === 0 || options2.id) {
+      feat.id = options2.id;
+    }
+    if (options2.bbox) {
+      feat.bbox = options2.bbox;
+    }
+    feat.properties = properties || {};
+    feat.geometry = geom;
+    return feat;
+  }
+  function polygon(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    for (var _i = 0, coordinates_1 = coordinates; _i < coordinates_1.length; _i++) {
+      var ring = coordinates_1[_i];
+      if (ring.length < 4) {
+        throw new Error("Each LinearRing of a Polygon must have 4 or more Positions.");
+      }
+      for (var j2 = 0; j2 < ring[ring.length - 1].length; j2++) {
+        if (ring[ring.length - 1][j2] !== ring[0][j2]) {
+          throw new Error("First and last Position are not equivalent.");
+        }
+      }
+    }
+    var geom = {
+      type: "Polygon",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+  function lineString(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    if (coordinates.length < 2) {
+      throw new Error("coordinates must be an array of two or more positions");
+    }
+    var geom = {
+      type: "LineString",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+  function multiLineString(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    var geom = {
+      type: "MultiLineString",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+  function multiPolygon(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    var geom = {
+      type: "MultiPolygon",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+
+  // node_modules/@turf/invariant/dist/es/index.js
+  function getGeom(geojson) {
+    if (geojson.type === "Feature") {
+      return geojson.geometry;
+    }
+    return geojson;
+  }
+
+  // node_modules/@turf/bbox-clip/dist/es/lib/lineclip.js
+  function lineclip(points, bbox2, result) {
+    var len = points.length, codeA = bitCode(points[0], bbox2), part = [], i2, codeB, lastCode;
+    var a;
+    var b;
+    if (!result)
+      result = [];
+    for (i2 = 1; i2 < len; i2++) {
+      a = points[i2 - 1];
+      b = points[i2];
+      codeB = lastCode = bitCode(b, bbox2);
+      while (true) {
+        if (!(codeA | codeB)) {
+          part.push(a);
+          if (codeB !== lastCode) {
+            part.push(b);
+            if (i2 < len - 1) {
+              result.push(part);
+              part = [];
+            }
+          } else if (i2 === len - 1) {
+            part.push(b);
+          }
+          break;
+        } else if (codeA & codeB) {
+          break;
+        } else if (codeA) {
+          a = intersect(a, b, codeA, bbox2);
+          codeA = bitCode(a, bbox2);
+        } else {
+          b = intersect(a, b, codeB, bbox2);
+          codeB = bitCode(b, bbox2);
+        }
+      }
+      codeA = lastCode;
+    }
+    if (part.length)
+      result.push(part);
+    return result;
+  }
+  function polygonclip(points, bbox2) {
+    var result, edge, prev, prevInside, i2, p, inside;
+    for (edge = 1; edge <= 8; edge *= 2) {
+      result = [];
+      prev = points[points.length - 1];
+      prevInside = !(bitCode(prev, bbox2) & edge);
+      for (i2 = 0; i2 < points.length; i2++) {
+        p = points[i2];
+        inside = !(bitCode(p, bbox2) & edge);
+        if (inside !== prevInside)
+          result.push(intersect(prev, p, edge, bbox2));
+        if (inside)
+          result.push(p);
+        prev = p;
+        prevInside = inside;
+      }
+      points = result;
+      if (!points.length)
+        break;
+    }
+    return result;
+  }
+  function intersect(a, b, edge, bbox2) {
+    return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox2[3] - a[1]) / (b[1] - a[1]), bbox2[3]] : edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox2[1] - a[1]) / (b[1] - a[1]), bbox2[1]] : edge & 2 ? [bbox2[2], a[1] + (b[1] - a[1]) * (bbox2[2] - a[0]) / (b[0] - a[0])] : edge & 1 ? [bbox2[0], a[1] + (b[1] - a[1]) * (bbox2[0] - a[0]) / (b[0] - a[0])] : null;
+  }
+  function bitCode(p, bbox2) {
+    var code = 0;
+    if (p[0] < bbox2[0])
+      code |= 1;
+    else if (p[0] > bbox2[2])
+      code |= 2;
+    if (p[1] < bbox2[1])
+      code |= 4;
+    else if (p[1] > bbox2[3])
+      code |= 8;
+    return code;
+  }
+
+  // node_modules/@turf/bbox-clip/dist/es/index.js
+  function bboxClip(feature3, bbox2) {
+    var geom = getGeom(feature3);
+    var type3 = geom.type;
+    var properties = feature3.type === "Feature" ? feature3.properties : {};
+    var coords = geom.coordinates;
+    switch (type3) {
+      case "LineString":
+      case "MultiLineString": {
+        var lines_1 = [];
+        if (type3 === "LineString") {
+          coords = [coords];
+        }
+        coords.forEach(function(line) {
+          lineclip(line, bbox2, lines_1);
+        });
+        if (lines_1.length === 1) {
+          return lineString(lines_1[0], properties);
+        }
+        return multiLineString(lines_1, properties);
+      }
+      case "Polygon":
+        return polygon(clipPolygon(coords, bbox2), properties);
+      case "MultiPolygon":
+        return multiPolygon(coords.map(function(poly) {
+          return clipPolygon(poly, bbox2);
+        }), properties);
+      default:
+        throw new Error("geometry " + type3 + " not supported");
+    }
+  }
+  function clipPolygon(rings, bbox2) {
+    var outRings = [];
+    for (var _i = 0, rings_1 = rings; _i < rings_1.length; _i++) {
+      var ring = rings_1[_i];
+      var clipped = polygonclip(ring, bbox2);
+      if (clipped.length > 0) {
+        if (clipped[0][0] !== clipped[clipped.length - 1][0] || clipped[0][1] !== clipped[clipped.length - 1][1]) {
+          clipped.push(clipped[0]);
+        }
+        if (clipped.length >= 4) {
+          outRings.push(clipped);
+        }
+      }
+    }
+    return outRings;
+  }
+
+  // node_modules/@turf/meta/dist/es/index.js
+  function coordEach(geojson, callback, excludeWrapCoord) {
+    if (geojson === null)
+      return;
+    var j2, k, l, geometry, stopG, coords, geometryMaybeCollection, wrapShrink = 0, coordIndex = 0, isGeometryCollection, type3 = geojson.type, isFeatureCollection = type3 === "FeatureCollection", isFeature = type3 === "Feature", stop = isFeatureCollection ? geojson.features.length : 1;
+    for (var featureIndex = 0; featureIndex < stop; featureIndex++) {
+      geometryMaybeCollection = isFeatureCollection ? geojson.features[featureIndex].geometry : isFeature ? geojson.geometry : geojson;
+      isGeometryCollection = geometryMaybeCollection ? geometryMaybeCollection.type === "GeometryCollection" : false;
+      stopG = isGeometryCollection ? geometryMaybeCollection.geometries.length : 1;
+      for (var geomIndex = 0; geomIndex < stopG; geomIndex++) {
+        var multiFeatureIndex = 0;
+        var geometryIndex = 0;
+        geometry = isGeometryCollection ? geometryMaybeCollection.geometries[geomIndex] : geometryMaybeCollection;
+        if (geometry === null)
+          continue;
+        coords = geometry.coordinates;
+        var geomType = geometry.type;
+        wrapShrink = excludeWrapCoord && (geomType === "Polygon" || geomType === "MultiPolygon") ? 1 : 0;
+        switch (geomType) {
+          case null:
+            break;
+          case "Point":
+            if (callback(
+              coords,
+              coordIndex,
+              featureIndex,
+              multiFeatureIndex,
+              geometryIndex
+            ) === false)
+              return false;
+            coordIndex++;
+            multiFeatureIndex++;
+            break;
+          case "LineString":
+          case "MultiPoint":
+            for (j2 = 0; j2 < coords.length; j2++) {
+              if (callback(
+                coords[j2],
+                coordIndex,
+                featureIndex,
+                multiFeatureIndex,
+                geometryIndex
+              ) === false)
+                return false;
+              coordIndex++;
+              if (geomType === "MultiPoint")
+                multiFeatureIndex++;
+            }
+            if (geomType === "LineString")
+              multiFeatureIndex++;
+            break;
+          case "Polygon":
+          case "MultiLineString":
+            for (j2 = 0; j2 < coords.length; j2++) {
+              for (k = 0; k < coords[j2].length - wrapShrink; k++) {
+                if (callback(
+                  coords[j2][k],
+                  coordIndex,
+                  featureIndex,
+                  multiFeatureIndex,
+                  geometryIndex
+                ) === false)
+                  return false;
+                coordIndex++;
+              }
+              if (geomType === "MultiLineString")
+                multiFeatureIndex++;
+              if (geomType === "Polygon")
+                geometryIndex++;
+            }
+            if (geomType === "Polygon")
+              multiFeatureIndex++;
+            break;
+          case "MultiPolygon":
+            for (j2 = 0; j2 < coords.length; j2++) {
+              geometryIndex = 0;
+              for (k = 0; k < coords[j2].length; k++) {
+                for (l = 0; l < coords[j2][k].length - wrapShrink; l++) {
+                  if (callback(
+                    coords[j2][k][l],
+                    coordIndex,
+                    featureIndex,
+                    multiFeatureIndex,
+                    geometryIndex
+                  ) === false)
+                    return false;
+                  coordIndex++;
+                }
+                geometryIndex++;
+              }
+              multiFeatureIndex++;
+            }
+            break;
+          case "GeometryCollection":
+            for (j2 = 0; j2 < geometry.geometries.length; j2++)
+              if (coordEach(geometry.geometries[j2], callback, excludeWrapCoord) === false)
+                return false;
+            break;
+          default:
+            throw new Error("Unknown Geometry Type");
+        }
+      }
+    }
+  }
+
+  // node_modules/@turf/bbox/dist/es/index.js
+  function bbox(geojson) {
+    var result = [Infinity, Infinity, -Infinity, -Infinity];
+    coordEach(geojson, function(coord2) {
+      if (result[0] > coord2[0]) {
+        result[0] = coord2[0];
+      }
+      if (result[1] > coord2[1]) {
+        result[1] = coord2[1];
+      }
+      if (result[2] < coord2[0]) {
+        result[2] = coord2[0];
+      }
+      if (result[3] < coord2[1]) {
+        result[3] = coord2[1];
+      }
+    });
+    return result;
+  }
+  bbox["default"] = bbox;
+  var es_default = bbox;
 
   // modules/renderer/background.js
   var import_which_polygon4 = __toESM(require_which_polygon());
@@ -44390,7 +44936,17 @@ ${content}</tr>
         const isLastUsedValid = !!validBackgrounds.find((d) => d.id && d.id === lastUsedBackground);
         let best;
         if (!requestedBackground && extent) {
-          best = validBackgrounds.find((s) => s.best());
+          const viewArea = extent.area();
+          best = validBackgrounds.find((s) => {
+            if (!s.best() || s.overlay)
+              return false;
+            let bbox2 = es_default(bboxClip(
+              { type: "MultiPolygon", coordinates: [s.polygon || [extent.polygon()]] },
+              extent.rectangle()
+            ));
+            let area = geoExtent(bbox2.slice(0, 2), bbox2.slice(2, 4)).area();
+            return area / viewArea > 0.5;
+          });
         }
         if (requestedBackground && requestedBackground.indexOf("custom:") === 0) {
           const template = requestedBackground.replace(/^custom:/, "");
@@ -45794,9 +46350,9 @@ ${content}</tr>
         yield feature3;
     }
     for (const waypoint of $(node, "wpt")) {
-      const point = getPoint(waypoint);
-      if (point)
-        yield point;
+      const point2 = getPoint(waypoint);
+      if (point2)
+        yield point2;
     }
   }
   function gpx(node) {
@@ -46538,18 +47094,18 @@ ${content}</tr>
       let dataDownloaded = [];
       if (osm && showDownloaded) {
         const rtree = osm.caches("get").tile.rtree;
-        dataDownloaded = rtree.all().map((bbox) => {
+        dataDownloaded = rtree.all().map((bbox2) => {
           return {
             type: "Feature",
-            properties: { id: bbox.id },
+            properties: { id: bbox2.id },
             geometry: {
               type: "Polygon",
               coordinates: [[
-                [bbox.minX, bbox.minY],
-                [bbox.minX, bbox.maxY],
-                [bbox.maxX, bbox.maxY],
-                [bbox.maxX, bbox.minY],
-                [bbox.minX, bbox.minY]
+                [bbox2.minX, bbox2.minY],
+                [bbox2.minX, bbox2.maxY],
+                [bbox2.maxX, bbox2.maxY],
+                [bbox2.maxX, bbox2.minY],
+                [bbox2.minX, bbox2.minY]
               ]]
             }
           };
@@ -47019,13 +47575,13 @@ ${content}</tr>
           }
           var coord2 = projection2(entity.loc);
           var nodePadding = 10;
-          var bbox = {
+          var bbox2 = {
             minX: coord2[0] - nodePadding,
             minY: coord2[1] - nodePadding - markerPadding,
             maxX: coord2[0] + nodePadding,
             maxY: coord2[1] + nodePadding
           };
-          doInsert(bbox, entity.id + "P");
+          doInsert(bbox2, entity.id + "P");
         }
         if (geometry === "vertex") {
           geometry = "point";
@@ -47109,23 +47665,23 @@ ${content}</tr>
           y: coord3[1] + offset[1],
           textAnchor: offset[2]
         };
-        var bbox2;
+        var bbox3;
         if (textDirection === "rtl") {
-          bbox2 = {
+          bbox3 = {
             minX: p2.x - width2 - textPadding,
             minY: p2.y - height / 2 - textPadding,
             maxX: p2.x + textPadding,
             maxY: p2.y + height / 2 + textPadding
           };
         } else {
-          bbox2 = {
+          bbox3 = {
             minX: p2.x - textPadding,
             minY: p2.y - height / 2 - textPadding,
             maxX: p2.x + width2 + textPadding,
             maxY: p2.y + height / 2 + textPadding
           };
         }
-        if (tryInsert([bbox2], entity2.id, true)) {
+        if (tryInsert([bbox3], entity2.id, true)) {
           return p2;
         }
       }
@@ -47264,13 +47820,13 @@ ${content}</tr>
         function addIcon() {
           var iconX = centroid[0] - iconSize / 2;
           var iconY = centroid[1] - iconSize / 2;
-          var bbox2 = {
+          var bbox3 = {
             minX: iconX,
             minY: iconY,
             maxX: iconX + iconSize,
             maxY: iconY + iconSize
           };
-          if (tryInsert([bbox2], entity2.id + "I", true)) {
+          if (tryInsert([bbox3], entity2.id + "I", true)) {
             p2.transform = "translate(" + iconX + "," + iconY + ")";
             return true;
           }
@@ -47280,13 +47836,13 @@ ${content}</tr>
           if (width2 && areaWidth >= width2 + 20) {
             var labelX = centroid[0];
             var labelY = centroid[1] + yOffset;
-            var bbox2 = {
+            var bbox3 = {
               minX: labelX - width2 / 2 - padding,
               minY: labelY - height / 2 - padding,
               maxX: labelX + width2 / 2 + padding,
               maxY: labelY + height / 2 + padding
             };
-            if (tryInsert([bbox2], entity2.id, true)) {
+            if (tryInsert([bbox3], entity2.id, true)) {
               p2.x = labelX;
               p2.y = labelY;
               p2.textAnchor = "middle";
@@ -47297,25 +47853,25 @@ ${content}</tr>
           return false;
         }
       }
-      function doInsert(bbox2, id2) {
-        bbox2.id = id2;
+      function doInsert(bbox3, id2) {
+        bbox3.id = id2;
         var oldbox = _entitybboxes[id2];
         if (oldbox) {
           _rdrawn.remove(oldbox);
         }
-        _entitybboxes[id2] = bbox2;
-        _rdrawn.insert(bbox2);
+        _entitybboxes[id2] = bbox3;
+        _rdrawn.insert(bbox3);
       }
       function tryInsert(bboxes, id2, saveSkipped) {
         var skipped = false;
         for (var i3 = 0; i3 < bboxes.length; i3++) {
-          var bbox2 = bboxes[i3];
-          bbox2.id = id2;
-          if (bbox2.minX < 0 || bbox2.minY < 0 || bbox2.maxX > dimensions[0] || bbox2.maxY > dimensions[1]) {
+          var bbox3 = bboxes[i3];
+          bbox3.id = id2;
+          if (bbox3.minX < 0 || bbox3.minY < 0 || bbox3.maxX > dimensions[0] || bbox3.maxY > dimensions[1]) {
             skipped = true;
             break;
           }
-          if (_rdrawn.collides(bbox2)) {
+          if (_rdrawn.collides(bbox3)) {
             skipped = true;
             break;
           }
@@ -47358,11 +47914,11 @@ ${content}</tr>
       var graph = context.graph();
       var selectedIDs = context.selectedIDs();
       var ids = [];
-      var pad2, bbox;
+      var pad2, bbox2;
       if (mouse) {
         pad2 = 20;
-        bbox = { minX: mouse[0] - pad2, minY: mouse[1] - pad2, maxX: mouse[0] + pad2, maxY: mouse[1] + pad2 };
-        var nearMouse = _rdrawn.search(bbox).map(function(entity2) {
+        bbox2 = { minX: mouse[0] - pad2, minY: mouse[1] - pad2, maxX: mouse[0] + pad2, maxY: mouse[1] + pad2 };
+        var nearMouse = _rdrawn.search(bbox2).map(function(entity2) {
           return entity2.id;
         });
         ids.push.apply(ids, nearMouse);
@@ -47377,14 +47933,14 @@ ${content}</tr>
       var debug2 = selection2.selectAll(".labels-group.debug");
       var gj = [];
       if (context.getDebug("collision")) {
-        gj = bbox ? [{
+        gj = bbox2 ? [{
           type: "Polygon",
           coordinates: [[
-            [bbox.minX, bbox.minY],
-            [bbox.maxX, bbox.minY],
-            [bbox.maxX, bbox.maxY],
-            [bbox.minX, bbox.maxY],
-            [bbox.minX, bbox.minY]
+            [bbox2.minX, bbox2.minY],
+            [bbox2.maxX, bbox2.minY],
+            [bbox2.maxX, bbox2.maxY],
+            [bbox2.minX, bbox2.maxY],
+            [bbox2.minX, bbox2.minY]
           ]]
         }] : [];
       }
@@ -49181,15 +49737,15 @@ ${content}</tr>
           if (midpoints[id2]) {
             midpoints[id2].parents.push(entity);
           } else if (geoVecLength(projection2(a.loc), projection2(b.loc)) > 40) {
-            var point = geoVecInterp(a.loc, b.loc, 0.5);
+            var point2 = geoVecInterp(a.loc, b.loc, 0.5);
             var loc = null;
-            if (extent.intersects(point)) {
-              loc = point;
+            if (extent.intersects(point2)) {
+              loc = point2;
             } else {
               for (var k = 0; k < 4; k++) {
-                point = geoLineIntersection([a.loc, b.loc], [poly[k], poly[k + 1]]);
-                if (point && geoVecLength(projection2(a.loc), projection2(point)) > 20 && geoVecLength(projection2(b.loc), projection2(point)) > 20) {
-                  loc = point;
+                point2 = geoLineIntersection([a.loc, b.loc], [poly[k], poly[k + 1]]);
+                if (point2 && geoVecLength(projection2(a.loc), projection2(point2)) > 20 && geoVecLength(projection2(b.loc), projection2(point2)) > 20) {
+                  loc = point2;
                   break;
                 }
               }
@@ -49751,10 +50307,10 @@ ${content}</tr>
       selection2.on("pointerdown.zoom", pointerdown).on("wheel.zoom", wheeled).style("touch-action", "none").style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
       select_default2(window).on("pointermove.zoompan", pointermove).on("pointerup.zoompan pointercancel.zoompan", pointerup);
     }
-    zoom.transform = function(collection, transform2, point) {
+    zoom.transform = function(collection, transform2, point2) {
       var selection2 = collection.selection ? collection.selection() : collection;
       if (collection !== selection2) {
-        schedule(collection, transform2, point);
+        schedule(collection, transform2, point2);
       } else {
         selection2.interrupt().each(function() {
           gesture(this, arguments).start(null).zoom(null, null, typeof transform2 === "function" ? transform2.apply(this, arguments) : transform2).end(null);
@@ -49801,13 +50357,13 @@ ${content}</tr>
     function centroid(extent2) {
       return [(+extent2[0][0] + +extent2[1][0]) / 2, (+extent2[0][1] + +extent2[1][1]) / 2];
     }
-    function schedule(transition2, transform2, point) {
+    function schedule(transition2, transform2, point2) {
       transition2.on("start.zoom", function() {
         gesture(this, arguments).start(null);
       }).on("interrupt.zoom end.zoom", function() {
         gesture(this, arguments).end(null);
       }).tween("zoom", function() {
-        var that = this, args = arguments, g = gesture(that, args), e = extent.apply(that, args), p = !point ? centroid(e) : typeof point === "function" ? point.apply(that, args) : point, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = _transform, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
+        var that = this, args = arguments, g = gesture(that, args), e = extent.apply(that, args), p = !point2 ? centroid(e) : typeof point2 === "function" ? point2.apply(that, args) : point2, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = _transform, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
         return function(t) {
           if (t === 1) {
             t = b;
@@ -50557,10 +51113,10 @@ ${content}</tr>
       var k2 = clamp(geoZoomToScale(z2, TILESIZE), kMin, kMax);
       proj.scale(k2);
       var t = proj.translate();
-      var point = proj(loc2);
+      var point2 = proj(loc2);
       var center = pxCenter();
-      t[0] += center[0] - point[0];
-      t[1] += center[1] - point[1];
+      t[0] += center[0] - point2[0];
+      t[1] += center[1] - point2[1];
       return setTransform(identity2.translate(t[0], t[1]).scale(k2), duration, force);
     }
     map2.pan = function(delta, duration) {
@@ -52557,10 +53113,10 @@ ${content}</tr>
   // modules/ui/intro/helper.js
   function pointBox(loc, context) {
     var rect = context.surfaceRect();
-    var point = context.curtainProjection(loc);
+    var point2 = context.curtainProjection(loc);
     return {
-      left: point[0] + rect.left - 40,
-      top: point[1] + rect.top - 60,
+      left: point2[0] + rect.left - 40,
+      top: point2[1] + rect.top - 60,
       width: 80,
       height: 90
     };
@@ -52569,10 +53125,10 @@ ${content}</tr>
     var box;
     if (locOrBox instanceof Array) {
       var rect = context.surfaceRect();
-      var point = context.curtainProjection(locOrBox);
+      var point2 = context.curtainProjection(locOrBox);
       box = {
-        left: point[0] + rect.left,
-        top: point[1] + rect.top
+        left: point2[0] + rect.left,
+        top: point2[1] + rect.top
       };
     } else {
       box = locOrBox;
@@ -56153,10 +56709,10 @@ ${content}</tr>
         var zMini = Math.max(zMain - _zDiff, 0.5);
         var kMini = geoZoomToScale(zMini);
         projection2.translate([tMain.x, tMain.y]).scale(kMini);
-        var point = projection2(loc);
+        var point2 = projection2(loc);
         var mouse = _gesture === "pan" ? geoVecSubtract([_tCurr.x, _tCurr.y], [_tStart.x, _tStart.y]) : [0, 0];
-        var xMini = _cMini[0] - point[0] + tMain.x + mouse[0];
-        var yMini = _cMini[1] - point[1] + tMain.y + mouse[1];
+        var xMini = _cMini[0] - point2[0] + tMain.x + mouse[0];
+        var yMini = _cMini[1] - point2[1] + tMain.y + mouse[1];
         projection2.translate([xMini, yMini]).clipExtent([[0, 0], _dMini]);
         _tCurr = projection2.transform();
         if (_isTransformed) {
@@ -56203,10 +56759,10 @@ ${content}</tr>
         dataLayers = dataLayers.enter().append("svg").attr("class", "map-in-map-data").merge(dataLayers).call(dataLayer).call(debugLayer);
         if (_gesture !== "pan") {
           var getPath = path_default(projection2);
-          var bbox = { type: "Polygon", coordinates: [context.map().extent().polygon()] };
+          var bbox2 = { type: "Polygon", coordinates: [context.map().extent().polygon()] };
           viewport = wrap2.selectAll(".map-in-map-viewport").data([0]);
           viewport = viewport.enter().append("svg").attr("class", "map-in-map-viewport").merge(viewport);
-          var path = viewport.selectAll(".map-in-map-bbox").data([bbox]);
+          var path = viewport.selectAll(".map-in-map-bbox").data([bbox2]);
           path.enter().append("path").attr("class", "map-in-map-bbox").merge(path).attr("d", getPath).classed("thick", function(d) {
             return getPath.area(d) < 30;
           });
@@ -56621,7 +57177,7 @@ ${content}</tr>
   // modules/ui/combobox.js
   var _comboHideTimerID;
   function uiCombobox(context, klass) {
-    var dispatch10 = dispatch_default("accept", "cancel");
+    var dispatch10 = dispatch_default("accept", "cancel", "update");
     var container = context.container();
     var _suggestions = [];
     var _data = [];
@@ -56637,6 +57193,9 @@ ${content}</tr>
       cb(_data.filter(function(d) {
         var terms = d.terms || [];
         terms.push(d.value);
+        if (d.key) {
+          terms.push(d.key);
+        }
         return terms.some(function(term) {
           return term.toString().toLowerCase().indexOf(val.toLowerCase()) !== -1;
         });
@@ -56737,6 +57296,7 @@ ${content}</tr>
               var start2 = input.property("selectionStart");
               input.node().setSelectionRange(start2, start2);
               input.on("input.combo-input", change);
+              change(false);
             });
             break;
           case 9:
@@ -56745,6 +57305,7 @@ ${content}</tr>
           case 13:
             d3_event.preventDefault();
             d3_event.stopPropagation();
+            accept(d3_event);
             break;
           case 38:
             if (tagName === "textarea" && !shown)
@@ -56771,17 +57332,16 @@ ${content}</tr>
           case 27:
             cancel();
             break;
-          case 13:
-            accept(d3_event);
-            break;
         }
       }
-      function change() {
+      function change(doAutoComplete) {
+        if (doAutoComplete === void 0)
+          doAutoComplete = true;
         fetchComboData(value(), function() {
           _selected = null;
           var val = input.property("value");
           if (_suggestions.length) {
-            if (input.property("selectionEnd") === val.length) {
+            if (doAutoComplete && input.property("selectionEnd") === val.length) {
               _selected = tryAutocomplete();
             }
             if (!_selected) {
@@ -56810,7 +57370,8 @@ ${content}</tr>
           }
           index = Math.max(Math.min(index + dir, _suggestions.length - 1), 0);
           _selected = _suggestions[index].value;
-          input.property("value", _selected);
+          utilGetSetValue(input, _selected);
+          dispatch10.call("update");
         }
         render();
         ensureVisible();
@@ -56862,9 +57423,16 @@ ${content}</tr>
           return;
         if (!isNaN(parseFloat(val)) && isFinite(val))
           return;
+        const suggestionValues = [];
+        _suggestions.forEach((s) => {
+          suggestionValues.push(s.value);
+          if (s.key && s.key !== s.value) {
+            suggestionValues.push(s.key);
+          }
+        });
         var bestIndex = -1;
-        for (var i2 = 0; i2 < _suggestions.length; i2++) {
-          var suggestion = _suggestions[i2].value;
+        for (var i2 = 0; i2 < suggestionValues.length; i2++) {
+          var suggestion = suggestionValues[i2];
           var compare = _caseSensitive ? suggestion : suggestion.toLowerCase();
           if (compare === val) {
             bestIndex = i2;
@@ -56874,9 +57442,10 @@ ${content}</tr>
           }
         }
         if (bestIndex !== -1) {
-          var bestVal = _suggestions[bestIndex].value;
+          var bestVal = suggestionValues[bestIndex];
           input.property("value", bestVal);
           input.node().setSelectionRange(val.length, bestVal.length);
+          dispatch10.call("update");
           return bestVal;
         }
       }
@@ -56904,7 +57473,7 @@ ${content}</tr>
             select_default2(this).text(d.value);
           }
         }).on("mouseenter", _mouseEnterHandler).on("mouseleave", _mouseLeaveHandler).merge(options2).classed("selected", function(d) {
-          return d.value === _selected;
+          return d.value === _selected || d.key === _selected;
         }).on("click.combo-option", accept).order();
         var node = attachTo ? attachTo.node() : input.node();
         var containerRect = container.node().getBoundingClientRect();
@@ -57427,11 +57996,15 @@ ${content}</tr>
     var _impliedYes;
     var _entityIDs = [];
     var _value;
+    var stringsField = field.resolveReference("stringsCrossReference");
+    if (!options2 && stringsField.options) {
+      options2 = stringsField.options;
+    }
     if (options2) {
       for (var i2 in options2) {
         var v = options2[i2];
         values.push(v === "undefined" ? void 0 : v);
-        texts.push(field.t.html("options." + v, { "default": v }));
+        texts.push(stringsField.t.html("options." + v, { "default": v }));
       }
     } else {
       values = [void 0, "yes"];
@@ -57555,16 +58128,31 @@ ${content}</tr>
   }
 
   // modules/ui/fields/combo.js
+  var valueIcons = {
+    "crossing:markings": [
+      "dashes",
+      "dots",
+      "ladder:paired",
+      "ladder:skewed",
+      "ladder",
+      "lines:paired",
+      "lines",
+      "surface",
+      "zebra:bicolour",
+      "zebra:double",
+      "zebra:paired",
+      "zebra"
+    ]
+  };
   function uiFieldCombo(field, context) {
     var dispatch10 = dispatch_default("change");
     var _isMulti = field.type === "multiCombo" || field.type === "manyCombo";
     var _isNetwork = field.type === "networkCombo";
     var _isSemi = field.type === "semiCombo";
-    var _optarray = field.options;
     var _showTagInfoSuggestions = field.type !== "manyCombo" && field.autoSuggestions !== false;
     var _allowCustomValues = field.type !== "manyCombo" && field.customValues !== false;
     var _snake_case = field.snake_case || field.snake_case === void 0;
-    var _combobox = uiCombobox(context, "combo-" + field.safeid).caseSensitive(field.caseSensitive).minItems(_isMulti || _isSemi ? 1 : 2);
+    var _combobox = uiCombobox(context, "combo-" + field.safeid).caseSensitive(field.caseSensitive).minItems(1);
     var _container = select_default2(null);
     var _inputWrap = select_default2(null);
     var _input = select_default2(null);
@@ -57583,7 +58171,7 @@ ${content}</tr>
       field.key += ":";
     }
     function snake(s) {
-      return s.replace(/\s+/g, "_").toLowerCase();
+      return s.replace(/\s+/g, "_");
     }
     function clean2(s) {
       return s.split(";").map(function(s2) {
@@ -57592,7 +58180,7 @@ ${content}</tr>
     }
     function tagValue(dval) {
       dval = clean2(dval || "");
-      var found = _comboData.find(function(o) {
+      var found = getOptions().find(function(o) {
         return o.key && clean2(o.value) === dval;
       });
       if (found)
@@ -57600,12 +58188,19 @@ ${content}</tr>
       if (field.type === "typeCombo" && !dval) {
         return "yes";
       }
-      return (_snake_case ? snake(dval) : dval) || void 0;
+      if (_snake_case) {
+        dval = snake(dval);
+      }
+      if (!field.caseSensitive) {
+        dval = dval.toLowerCase();
+      }
+      return dval || void 0;
     }
     function displayValue(tval) {
       tval = tval || "";
-      if (field.hasTextForStringId("options." + tval)) {
-        return field.t("options." + tval, { default: tval });
+      var stringsField = field.resolveReference("stringsCrossReference");
+      if (stringsField.hasTextForStringId("options." + tval)) {
+        return stringsField.t("options." + tval, { default: tval });
       }
       if (field.type === "typeCombo" && tval.toLowerCase() === "yes") {
         return "";
@@ -57614,8 +58209,9 @@ ${content}</tr>
     }
     function renderValue(tval) {
       tval = tval || "";
-      if (field.hasTextForStringId("options." + tval)) {
-        return field.t.append("options." + tval, { default: tval });
+      var stringsField = field.resolveReference("stringsCrossReference");
+      if (stringsField.hasTextForStringId("options." + tval)) {
+        return stringsField.t.append("options." + tval, { default: tval });
       }
       if (field.type === "typeCombo" && tval.toLowerCase() === "yes") {
         tval = "";
@@ -57641,23 +58237,34 @@ ${content}</tr>
         setStaticValues(setPlaceholder);
       }
     }
-    function setStaticValues(callback) {
-      if (!_optarray)
-        return;
-      _comboData = _optarray.map(function(v) {
+    function getOptions() {
+      var stringsField = field.resolveReference("stringsCrossReference");
+      if (!(field.options || stringsField.options))
+        return [];
+      return (field.options || stringsField.options).map(function(v) {
         return {
           key: v,
-          value: field.t("options." + v, { default: v }),
+          value: stringsField.t("options." + v, { default: v }),
           title: v,
-          display: field.t.append("options." + v, { default: v }),
-          klass: field.hasTextForStringId("options." + v) ? "" : "raw-option"
+          display: addComboboxIcons(stringsField.t.append("options." + v, { default: v }), v),
+          klass: stringsField.hasTextForStringId("options." + v) ? "" : "raw-option"
         };
       });
-      _combobox.data(objectDifference(_comboData, _multiData));
+    }
+    function setStaticValues(callback, filter2) {
+      _comboData = getOptions();
+      if (filter2 !== void 0) {
+        _comboData = _comboData.filter(filter2);
+      }
+      _comboData = objectDifference(_comboData, _multiData);
+      _combobox.data(_comboData);
       if (callback)
         callback(_comboData);
     }
     function setTaginfoValues(q, callback) {
+      var queryFilter = (d) => d.value.toLowerCase().includes(q.toLowerCase()) || d.key.toLowerCase().includes(q.toLowerCase());
+      setStaticValues(callback, queryFilter);
+      var stringsField = field.resolveReference("stringsCrossReference");
       var fn = _isMulti ? "multikeys" : "values";
       var query = (_isMulti ? field.key : "") + q;
       var hasCountryPrefix = _isNetwork && _countryCode && _countryCode.indexOf(q.toLowerCase()) === 0;
@@ -57689,24 +58296,39 @@ ${content}</tr>
             return d.value.toLowerCase().indexOf(_countryCode + ":") === 0;
           });
         }
+        const additionalOptions = (field.options || stringsField.options || []).filter((v) => !data.some((dv) => dv.value === (_isMulti ? field.key + v : v))).map((v) => ({ value: v }));
         _container.classed("empty-combobox", data.length === 0);
-        _comboData = data.map(function(d) {
+        _comboData = data.concat(additionalOptions).map(function(d) {
           var k = d.value;
           if (_isMulti)
             k = k.replace(field.key, "");
-          var label = field.t("options." + k, { default: k });
+          var isLocalizable = stringsField.hasTextForStringId("options." + k);
+          var label = stringsField.t("options." + k, { default: k });
           return {
             key: k,
-            value: _isMulti ? k : label,
-            display: field.t.append("options." + k, { default: k }),
-            title: d.title || label,
-            klass: field.hasTextForStringId("options." + k) ? "" : "raw-option"
+            value: label,
+            display: addComboboxIcons(stringsField.t.append("options." + k, { default: k }), k),
+            title: isLocalizable ? k : d.title !== label ? d.title : "",
+            klass: isLocalizable ? "" : "raw-option"
           };
         });
+        _comboData = _comboData.filter(queryFilter);
         _comboData = objectDifference(_comboData, _multiData);
         if (callback)
           callback(_comboData);
       });
+    }
+    function addComboboxIcons(disp, value) {
+      if (valueIcons[field.key]) {
+        return function(selection2) {
+          var span = selection2.insert("span", ":first-child").attr("class", "tag-value-icon");
+          if (valueIcons[field.key].indexOf(value) !== -1) {
+            span.call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
+          }
+          disp.call(this, selection2);
+        };
+      }
+      return disp;
     }
     function setPlaceholder(values) {
       if (_isMulti || _isSemi) {
@@ -57737,12 +58359,18 @@ ${content}</tr>
       var t = {};
       var val;
       if (_isMulti || _isSemi) {
-        val = tagValue(utilGetSetValue(_input).replace(/,/g, ";")) || "";
-        _container.classed("active", false);
-        utilGetSetValue(_input, "");
-        var vals = val.split(";").filter(Boolean);
+        var vals;
+        if (_isMulti) {
+          vals = [tagValue(utilGetSetValue(_input))];
+        } else if (_isSemi) {
+          val = tagValue(utilGetSetValue(_input).replace(/,/g, ";")) || "";
+          vals = val.split(";");
+        }
+        vals = vals.filter(Boolean);
         if (!vals.length)
           return;
+        _container.classed("active", false);
+        utilGetSetValue(_input, "");
         if (_isMulti) {
           utilArrayUniq(vals).forEach(function(v) {
             var key = (field.key || "") + v;
@@ -57816,7 +58444,9 @@ ${content}</tr>
         var countryCode = extent && iso1A2Code(extent.center());
         _countryCode = countryCode && countryCode.toLowerCase();
       }
-      _input.on("change", change).on("blur", change);
+      _input.on("change", change).on("blur", change).on("input", function() {
+        updateIcon(utilGetSetValue(_input));
+      });
       _input.on("keydown.field", function(d3_event) {
         switch (d3_event.keyCode) {
           case 13:
@@ -57834,9 +58464,24 @@ ${content}</tr>
           _container.classed("active", true);
         });
       }
+      _combobox.on("cancel", function() {
+        _input.node().blur();
+      }).on("update", function() {
+        updateIcon(utilGetSetValue(_input));
+      });
+    }
+    function updateIcon(value) {
+      value = tagValue(value);
+      if (valueIcons[field.key]) {
+        _container.selectAll(".tag-value-icon").remove();
+        if (valueIcons[field.key].indexOf(value) !== -1) {
+          _container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
+        }
+      }
     }
     combo.tags = function(tags) {
       _tags = tags;
+      var stringsField = field.resolveReference("stringsCrossReference");
       if (_isMulti || _isSemi) {
         _multiData = [];
         var maxLength;
@@ -57912,7 +58557,7 @@ ${content}</tr>
           var k2 = d.key;
           if (_isMulti)
             k2 = k2.replace(field.key, "");
-          return !field.hasTextForStringId("options." + k2);
+          return !stringsField.hasTextForStringId("options." + k2);
         }).classed("draggable", allowDragAndDrop).classed("mixed", function(d) {
           return d.isMixed;
         }).attr("title", function(d) {
@@ -57937,7 +58582,7 @@ ${content}</tr>
           return displayValue(val);
         }).filter(Boolean);
         var showsValue = !isMixed && tags[field.key] && !(field.type === "typeCombo" && tags[field.key] === "yes");
-        var isRawValue = showsValue && !field.hasTextForStringId("options." + tags[field.key]);
+        var isRawValue = showsValue && !stringsField.hasTextForStringId("options." + tags[field.key]);
         var isKnownValue = showsValue && !isRawValue;
         var isReadOnly = !_allowCustomValues || isKnownValue;
         utilGetSetValue(_input, !isMixed ? displayValue(tags[field.key]) : "").classed("raw-value", isRawValue).classed("known-value", isKnownValue).attr("readonly", isReadOnly ? "readonly" : void 0).attr("title", isMixed ? mixedValues.join("\n") : void 0).attr("placeholder", isMixed ? _t("inspector.multiple_values") : _staticPlaceholder || "").classed("mixed", isMixed).on("keydown.deleteCapture", function(d3_event) {
@@ -57949,6 +58594,7 @@ ${content}</tr>
             dispatch10.call("change", this, t);
           }
         });
+        updateIcon(tags[field.key]);
       }
     };
     function registerDragAndDrop(selection2) {
@@ -58144,7 +58790,7 @@ ${content}</tr>
           if (value)
             window.open(value, "_blank");
         }).merge(outlinkButton);
-      } else if (field.key.split(":").includes("colour")) {
+      } else if (field.type === "colour") {
         input.attr("type", "text");
         updateColourPreview();
       }
@@ -58244,6 +58890,8 @@ ${content}</tr>
       _tags = tags;
       var isMixed = Array.isArray(tags[field.key]);
       utilGetSetValue(input, !isMixed && tags[field.key] ? tags[field.key] : "").attr("title", isMixed ? tags[field.key].filter(Boolean).join("\n") : void 0).attr("placeholder", isMixed ? _t("inspector.multiple_values") : field.placeholder() || _t("inspector.unknown")).classed("mixed", isMixed);
+      if (field.type === "tel")
+        updatePhonePlaceholder();
       if (field.key.split(":").includes("colour"))
         updateColourPreview();
       if (outlinkButton && !outlinkButton.empty()) {
@@ -58317,9 +58965,10 @@ ${content}</tr>
       if (type3 === "bicycle") {
         options2.splice(options2.length - 4, 0, "dismount");
       }
+      var stringsField = field.resolveReference("stringsCrossReference");
       return options2.map(function(option) {
         return {
-          title: field.t("options." + option + ".description"),
+          title: stringsField.t("options." + option + ".description"),
           value: option
         };
       });
@@ -58833,9 +59482,10 @@ ${content}</tr>
       dispatch10.call("change", this, tag);
     }
     cycleway.options = function() {
+      var stringsField = field.resolveReference("stringsCrossReference");
       return field.options.map(function(option) {
         return {
-          title: field.t("options." + option + ".description"),
+          title: stringsField.t("options." + option + ".description"),
           value: option
         };
       });
@@ -59455,11 +60105,12 @@ ${content}</tr>
       placeholder = wrap2.selectAll(".placeholder");
       labels = wrap2.selectAll("label").data(radioData);
       enter = labels.enter().append("label");
+      var stringsField = field.resolveReference("stringsCrossReference");
       enter.append("input").attr("type", "radio").attr("name", field.id).attr("value", function(d) {
-        return field.t("options." + d, { "default": d });
+        return stringsField.t("options." + d, { "default": d });
       }).attr("checked", false);
-      enter.append("span").html(function(d) {
-        return field.t.html("options." + d, { "default": d });
+      enter.append("span").each(function(d) {
+        stringsField.t.append("options." + d, { "default": d })(select_default2(this));
       });
       labels = labels.merge(enter);
       radios = labels.selectAll("input").on("change", changeRadio);
@@ -60481,6 +61132,7 @@ ${content}</tr>
     access: uiFieldAccess,
     address: uiFieldAddress,
     check: uiFieldCheck,
+    colour: uiFieldText,
     combo: uiFieldCombo,
     cycleway: uiFieldCycleway,
     defaultCheck: uiFieldCheck,
@@ -60694,8 +61346,8 @@ ${content}</tr>
       }))
         return false;
       if (entityIDs && _entityExtent && field.locationSetID) {
-        var validLocations = _mainLocations.locationsAt(_entityExtent.center());
-        if (!validLocations[field.locationSetID])
+        var validHere = _sharedLocationManager.locationSetsAt(_entityExtent.center());
+        if (!validHere[field.locationSetID])
           return false;
       }
       var prerequisiteTag = field.prerequisiteTag;
@@ -61624,7 +62276,7 @@ ${content}</tr>
         var sign2 = d === "previous" ? -1 : 1;
         container.selectAll(".conflict").remove();
         container.call(showConflict, index + sign2);
-      }).call(function(d) {
+      }).each(function(d) {
         _t.append("save.conflict." + d)(select_default2(this));
       });
     }
@@ -61928,12 +62580,12 @@ ${content}</tr>
         fillEnter.append("path").attr("d", `M${c1} ${c1} L${c1} ${c2} L${c2} ${c2} L${c2} ${c1} Z`).attr("class", `area ${klass}`);
       });
       const rVertex = 2.5;
-      [[c1, c1], [c1, c2], [c2, c2], [c2, c1]].forEach((point) => {
-        fillEnter.append("circle").attr("class", "vertex").attr("cx", point[0]).attr("cy", point[1]).attr("r", rVertex);
+      [[c1, c1], [c1, c2], [c2, c2], [c2, c1]].forEach((point2) => {
+        fillEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", rVertex);
       });
       const rMidpoint = 1.25;
-      [[c1, w / 2], [c2, w / 2], [h / 2, c1], [h / 2, c2]].forEach((point) => {
-        fillEnter.append("circle").attr("class", "midpoint").attr("cx", point[0]).attr("cy", point[1]).attr("r", rMidpoint);
+      [[c1, w / 2], [c2, w / 2], [h / 2, c1], [h / 2, c2]].forEach((point2) => {
+        fillEnter.append("circle").attr("class", "midpoint").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", rMidpoint);
       });
       fill = fillEnter.merge(fill);
       fill.selectAll("path.stroke").attr("class", `area stroke ${tagClasses}`);
@@ -61955,8 +62607,8 @@ ${content}</tr>
       ["casing", "stroke"].forEach((klass) => {
         lineEnter.append("path").attr("d", `M${x12} ${y} L${x2} ${y}`).attr("class", `line ${klass}`);
       });
-      [[x12 - 1, y], [x2 + 1, y]].forEach((point) => {
-        lineEnter.append("circle").attr("class", "vertex").attr("cx", point[0]).attr("cy", point[1]).attr("r", r);
+      [[x12 - 1, y], [x2 + 1, y]].forEach((point2) => {
+        lineEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", r);
       });
       line = lineEnter.merge(line);
       line.selectAll("path.stroke").attr("class", `line stroke ${tagClasses}`);
@@ -61983,8 +62635,8 @@ ${content}</tr>
         routeEnter.append("path").attr("d", `M${x2} ${y2} L${x3} ${y12}`).attr("class", `segment1 line ${klass}`);
         routeEnter.append("path").attr("d", `M${x3} ${y12} L${x4} ${y2}`).attr("class", `segment2 line ${klass}`);
       });
-      [[x12, y12], [x2, y2], [x3, y12], [x4, y2]].forEach((point) => {
-        routeEnter.append("circle").attr("class", "vertex").attr("cx", point[0]).attr("cy", point[1]).attr("r", r);
+      [[x12, y12], [x2, y2], [x3, y12], [x4, y2]].forEach((point2) => {
+        routeEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", r);
       });
       route = routeEnter.merge(route);
       if (drawRoute) {
@@ -62244,11 +62896,6 @@ ${content}</tr>
       selection2.call(
         formFields.fieldsArr(_fieldsArr).state(_state).klass("grouped-items-area")
       );
-      selection2.selectAll(".wrap-form-field input").on("keydown", function(d3_event) {
-        if (d3_event.keyCode === 13 && context.container().select(".combobox").empty()) {
-          context.enter(modeBrowse(context));
-        }
-      });
     }
     section.presets = function(val) {
       if (!arguments.length)
@@ -62958,7 +63605,7 @@ ${content}</tr>
       var header = selection2.selectAll(".header").data([0]);
       var headerEnter = header.enter().append("div").attr("class", "header fillL");
       var direction = _mainLocalizer.textDirection() === "rtl" ? "forward" : "backward";
-      headerEnter.append("button").attr("class", "preset-reset preset-choose").attr("title", _t(`icons.${direction}`)).call(svgIcon(`#iD-icon-${direction}`));
+      headerEnter.append("button").attr("class", "preset-reset preset-choose").attr("title", _t("inspector.back_tooltip")).call(svgIcon(`#iD-icon-${direction}`));
       headerEnter.append("button").attr("class", "close").attr("title", _t("icons.close")).on("click", function() {
         context.enter(modeBrowse(context));
       }).call(svgIcon(_modified ? "#iD-icon-apply" : "#iD-icon-close"));
@@ -63637,7 +64284,7 @@ ${content}</tr>
       var messagewrap = selection2.append("div").attr("class", "header fillL");
       var message = messagewrap.append("h2").call(_t.append("inspector.choose"));
       var direction = _mainLocalizer.textDirection() === "rtl" ? "backward" : "forward";
-      messagewrap.append("button").attr("class", "preset-choose").attr("title", direction).on("click", function() {
+      messagewrap.append("button").attr("class", "preset-choose").attr("title", _entityIDs.length === 1 ? _t("inspector.edit") : _t("inspector.edit_features")).on("click", function() {
         dispatch10.call("cancel", this);
       }).call(svgIcon(`#iD-icon-${direction}`));
       function initialKeydown(d3_event) {
@@ -64328,8 +64975,8 @@ ${content}</tr>
       }
     }
     lasso.extent = function() {
-      return lasso.coordinates.reduce(function(extent, point) {
-        return extent.extend(geoExtent(point));
+      return lasso.coordinates.reduce(function(extent, point2) {
+        return extent.extend(geoExtent(point2));
       }, geoExtent());
     };
     lasso.p = function(_) {
@@ -64945,11 +65592,11 @@ ${content}</tr>
         if (_oci)
           return _oci;
         if (vals[0] && Array.isArray(vals[0].features)) {
-          _mainLocations.mergeCustomGeoJSON(vals[0]);
+          _sharedLocationManager.mergeCustomGeoJSON(vals[0]);
         }
         let ociResources = Object.values(vals[1].resources);
         if (ociResources.length) {
-          return _mainLocations.mergeLocationSets(ociResources).then(() => {
+          return _sharedLocationManager.mergeLocationSets(ociResources).then(() => {
             _oci = {
               resources: ociResources,
               defaults: vals[2].defaults
@@ -64999,10 +65646,10 @@ ${content}</tr>
       }));
       ensureOSMCommunityIndex().then((oci) => {
         const loc = context.map().center();
-        const validLocations = _mainLocations.locationsAt(loc);
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
         let communities = [];
         oci.resources.forEach((resource) => {
-          let area = validLocations[resource.locationSetID];
+          let area = validHere[resource.locationSetID];
           if (!area)
             return;
           const localizer = (stringID) => _t.html(`community.${stringID}`);
@@ -67433,16 +68080,16 @@ ${content}</tr>
         var item = select_default2(this).select("label");
         var span = item.select("span");
         var placement = i2 < nodes.length / 2 ? "bottom" : "top";
-        var description = d.description();
+        var hasDescription = d.hasDescription();
         var isOverflowing = span.property("clientWidth") !== span.property("scrollWidth");
         item.call(uiTooltip().destroyAny);
         if (d.id === previousBackgroundID()) {
           item.call(
             uiTooltip().placement(placement).title(() => _t.append("background.switch")).keys([uiCmd("\u2318" + _t("background.key"))])
           );
-        } else if (description || isOverflowing) {
+        } else if (hasDescription || isOverflowing) {
           item.call(
-            uiTooltip().placement(placement).title(() => description || d.label())
+            uiTooltip().placement(placement).title(() => hasDescription ? d.description() : d.label())
           );
         }
       });
@@ -69029,7 +69676,7 @@ ${content}</tr>
       footerWrap.append("div").attr("class", "scale-block").call(uiScale(context));
       var aboutList = footerWrap.append("div").attr("class", "info-block").append("ul").attr("class", "map-footer-list");
       aboutList.append("li").attr("class", "user-list").call(uiContributors(context));
-      var apiConnections = context.apiConnections();
+      var apiConnections = context.connection().apiConnections();
       if (apiConnections && apiConnections.length > 1) {
         aboutList.append("li").attr("class", "source-switch").call(
           uiSourceSwitch(context).keys(apiConnections)
@@ -69258,7 +69905,7 @@ ${content}</tr>
     const dispatch10 = dispatch_default("enter", "exit", "change");
     let context = utilRebind({}, dispatch10, "on");
     let _deferred2 = /* @__PURE__ */ new Set();
-    context.version = "2.22.0";
+    context.version = "2.23.1";
     context.privacyVersion = "20201202";
     context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
     context.changeset = null;
@@ -69315,13 +69962,6 @@ ${content}</tr>
       if (_connection) {
         _connection.switch(options2);
       }
-      return context;
-    };
-    let _apiConnections;
-    context.apiConnections = function(val) {
-      if (!arguments.length)
-        return _apiConnections;
-      _apiConnections = val;
       return context;
     };
     context.locale = function(locale2) {
@@ -69702,14 +70342,15 @@ ${content}</tr>
     const nsiVersion = package_default.dependencies["name-suggestion-index"] || package_default.devDependencies["name-suggestion-index"];
     const v = (0, import_vparse2.default)(nsiVersion);
     const vMinor = `${v.major}.${v.minor}`;
+    const cdn = nsiCdnUrl.replace("{version}", vMinor);
     const sources = {
-      "nsi_data": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/nsi.min.json`,
-      "nsi_dissolved": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/dissolved.min.json`,
-      "nsi_features": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/featureCollection.min.json`,
-      "nsi_generics": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/genericWords.min.json`,
-      "nsi_presets": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/presets/nsi-id-presets.min.json`,
-      "nsi_replacements": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/replacements.min.json`,
-      "nsi_trees": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/trees.min.json`
+      "nsi_data": cdn + "dist/nsi.min.json",
+      "nsi_dissolved": cdn + "dist/dissolved.min.json",
+      "nsi_features": cdn + "dist/featureCollection.min.json",
+      "nsi_generics": cdn + "dist/genericWords.min.json",
+      "nsi_presets": cdn + "dist/presets/nsi-id-presets.min.json",
+      "nsi_replacements": cdn + "dist/replacements.min.json",
+      "nsi_trees": cdn + "dist/trees.min.json"
     };
     let fileMap = _mainFileFetcher.fileMap();
     for (const k in sources) {
@@ -69745,9 +70386,37 @@ ${content}</tr>
         qids: /* @__PURE__ */ new Map(),
         ids: /* @__PURE__ */ new Map()
       };
-      _nsi.matcher = new Matcher();
-      _nsi.matcher.buildMatchIndex(_nsi.data);
-      _nsi.matcher.buildLocationIndex(_nsi.data, _mainLocations.loco());
+      const matcher = _nsi.matcher = new Matcher();
+      matcher.buildMatchIndex(_nsi.data);
+      matcher.itemLocation = /* @__PURE__ */ new Map();
+      matcher.locationSets = /* @__PURE__ */ new Map();
+      Object.keys(_nsi.data).forEach((tkv) => {
+        const items = _nsi.data[tkv].items;
+        if (!Array.isArray(items) || !items.length)
+          return;
+        items.forEach((item) => {
+          if (matcher.itemLocation.has(item.id))
+            return;
+          const locationSetID = _sharedLocationManager.locationSetID(item.locationSet);
+          matcher.itemLocation.set(item.id, locationSetID);
+          if (matcher.locationSets.has(locationSetID))
+            return;
+          const fakeFeature = { id: locationSetID, properties: { id: locationSetID, area: 1 } };
+          matcher.locationSets.set(locationSetID, fakeFeature);
+        });
+      });
+      matcher.locationIndex = (bbox2) => {
+        const validHere = _sharedLocationManager.locationSetsAt([bbox2[0], bbox2[1]]);
+        const results = [];
+        for (const [locationSetID, area] of Object.entries(validHere)) {
+          const fakeFeature = matcher.locationSets.get(locationSetID);
+          if (fakeFeature) {
+            fakeFeature.properties.area = area;
+            results.push(fakeFeature);
+          }
+        }
+        return results;
+      };
       Object.keys(_nsi.data).forEach((tkv) => {
         const category = _nsi.data[tkv];
         const parts = tkv.split("/", 3);
@@ -69965,42 +70634,35 @@ ${content}</tr>
       return changed ? { newTags, matched: null } : null;
     }
     const tuples = gatherTuples(tryKVs, tryNames);
-    let foundPrimary = false;
-    let bestItem;
-    for (let i2 = 0; i2 < tuples.length && !foundPrimary; i2++) {
+    for (let i2 = 0; i2 < tuples.length; i2++) {
       const tuple = tuples[i2];
       const hits = _nsi.matcher.match(tuple.k, tuple.v, tuple.n, loc);
       if (!hits || !hits.length)
         continue;
       if (hits[0].match !== "primary" && hits[0].match !== "alternate")
         break;
+      let itemID, item;
       for (let j2 = 0; j2 < hits.length; j2++) {
         const hit = hits[j2];
-        const isPrimary = hits[j2].match === "primary";
-        const itemID = hit.itemID;
+        itemID = hit.itemID;
         if (_nsi.dissolved[itemID])
           continue;
-        const item = _nsi.ids.get(itemID);
+        item = _nsi.ids.get(itemID);
         if (!item)
           continue;
         const mainTag = item.mainTag;
         const itemQID = item.tags[mainTag];
         const notQID = newTags[`not:${mainTag}`];
         if (!itemQID || itemQID === notQID || newTags.office && !item.tags.office) {
+          item = null;
           continue;
-        }
-        if (!bestItem || isPrimary) {
-          bestItem = item;
-          if (isPrimary) {
-            foundPrimary = true;
-          }
+        } else {
           break;
         }
       }
-    }
-    if (bestItem) {
-      const itemID = bestItem.id;
-      const item = JSON.parse(JSON.stringify(bestItem));
+      if (!item)
+        continue;
+      item = JSON.parse(JSON.stringify(item));
       const tkv = item.tkv;
       const parts = tkv.split("/", 3);
       const k = parts[1];
@@ -70090,12 +70752,7 @@ ${content}</tr>
   var nsi_default = {
     init: () => {
       setNsiSources();
-      _mainPresetIndex.ensureLoaded().then(() => loadNsiPresets()).then(() => delay(100)).then(() => _mainLocations.mergeLocationSets([])).then(() => loadNsiData()).then(() => _nsiStatus = "ok").catch(() => _nsiStatus = "failed");
-      function delay(msec) {
-        return new Promise((resolve) => {
-          window.setTimeout(resolve, msec);
-        });
-      }
+      _mainPresetIndex.ensureLoaded().then(() => loadNsiPresets()).then(() => loadNsiData()).then(() => _nsiStatus = "ok").catch(() => _nsiStatus = "failed");
     },
     reset: () => {
     },
@@ -70152,14 +70809,14 @@ ${content}</tr>
   }
   function loadNextTilePage(which, currZoom, url, tile) {
     var cache = _oscCache[which];
-    var bbox = tile.extent.bbox();
+    var bbox2 = tile.extent.bbox();
     var maxPages = maxPageAtZoom(currZoom);
     var nextPage = cache.nextPage[tile.id] || 1;
     var params = utilQsString({
       ipp: maxResults,
       page: nextPage,
-      bbTopLeft: [bbox.maxY, bbox.minX].join(","),
-      bbBottomRight: [bbox.minY, bbox.maxX].join(",")
+      bbTopLeft: [bbox2.maxY, bbox2.minX].join(","),
+      bbBottomRight: [bbox2.minY, bbox2.maxX].join(",")
     }, true);
     if (nextPage > maxPages)
       return;
@@ -70267,9 +70924,9 @@ ${content}</tr>
       var viewport = projection2.clipExtent();
       var min3 = [viewport[0][0], viewport[1][1]];
       var max3 = [viewport[1][0], viewport[0][1]];
-      var bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      var bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
       var sequenceKeys = {};
-      _oscCache.images.rtree.search(bbox).forEach(function(d) {
+      _oscCache.images.rtree.search(bbox2).forEach(function(d) {
         sequenceKeys[d.data.sequence_id] = true;
       });
       var lineStrings = [];
@@ -70710,17 +71367,18 @@ ${content}</tr>
   var import_rbush9 = __toESM(require_rbush_min());
   var tiler5 = utilTiler();
   var dispatch7 = dispatch_default("apiStatusChange", "authLoading", "authDone", "change", "loading", "loaded", "loadedNotes");
-  var urlroot = "https://www.openstreetmap.org";
+  var urlroot = osmApiConnections[0].url;
   var redirectPath = window.location.origin + window.location.pathname;
   var oauth = osmAuth({
     url: urlroot,
-    client_id: "0tmNTmd0Jo1dQp4AUmMBLtGiD9YpMuXzHefitcuVStc",
-    client_secret: "BTlNrNxIPitHdL4sP2clHw5KLoee9aKkA7dQbc0Bj7Q",
+    client_id: osmApiConnections[0].client_id,
+    client_secret: osmApiConnections[0].client_secret,
     scope: "read_prefs write_prefs write_api read_gpx write_notes",
     redirect_uri: redirectPath + "land.html",
     loading: authLoading,
     done: authDone
   });
+  var _apiConnections = osmApiConnections;
   var _imageryBlocklists = [/.*\.google(apis)?\..*\/(vt|kh)[\?\/].*([xyz]=.*){3}.*/];
   var _tileCache = { toLoad: {}, loaded: {}, inflight: {}, seen: {}, rtree: new import_rbush9.default() };
   var _noteCache = { toLoad: {}, loaded: {}, inflight: {}, inflightPost: {}, note: {}, closed: {}, rtree: new import_rbush9.default() };
@@ -71035,8 +71693,8 @@ ${content}</tr>
         if (coincident) {
           props.loc = geoVecAdd(props.loc, [epsilon3, epsilon3]);
         }
-        var bbox = geoExtent(props.loc).bbox();
-        coincident = _noteCache.rtree.search(bbox).length;
+        var bbox2 = geoExtent(props.loc).bbox();
+        coincident = _noteCache.rtree.search(bbox2).length;
       } while (coincident);
       for (var i2 = 0; i2 < childNodes.length; i2++) {
         var node = childNodes[i2];
@@ -71573,9 +72231,9 @@ ${content}</tr>
         if (!err) {
           delete _tileCache.toLoad[tile.id];
           _tileCache.loaded[tile.id] = true;
-          var bbox = tile.extent.bbox();
-          bbox.id = tile.id;
-          _tileCache.rtree.insert(bbox);
+          var bbox2 = tile.extent.bbox();
+          bbox2.id = tile.id;
+          _tileCache.rtree.insert(bbox2);
         }
         if (callback) {
           callback(err, Object.assign({ data: parsed }, tile));
@@ -71586,8 +72244,8 @@ ${content}</tr>
       }
     },
     isDataLoaded: function(loc) {
-      var bbox = { minX: loc[0], minY: loc[1], maxX: loc[0], maxY: loc[1] };
-      return _tileCache.rtree.collides(bbox);
+      var bbox2 = { minX: loc[0], minY: loc[1], maxX: loc[0], maxY: loc[1] };
+      return _tileCache.rtree.collides(bbox2);
     },
     loadTileAtLoc: function(loc, callback) {
       if (Object.keys(_tileCache.toLoad).length > 50)
@@ -71716,6 +72374,12 @@ ${content}</tr>
         }, options2);
       }
     },
+    apiConnections: function(val) {
+      if (!arguments.length)
+        return _apiConnections;
+      _apiConnections = val;
+      return this;
+    },
     switch: function(newOptions) {
       urlroot = newOptions.url;
       var oldOptions = utilObjectOmit(oauth.options(), "access_token");
@@ -71826,8 +72490,8 @@ ${content}</tr>
       var viewport = projection2.clipExtent();
       var min3 = [viewport[0][0], viewport[1][1]];
       var max3 = [viewport[1][0], viewport[0][1]];
-      var bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _noteCache.rtree.search(bbox).map(function(d) {
+      var bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _noteCache.rtree.search(bbox2).map(function(d) {
         return d.data;
       });
     },
@@ -72754,10 +73418,10 @@ ${content}</tr>
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
       let seen = {};
       let results = [];
-      _ssCache.bubbles.rtree.search(bbox).forEach((d) => {
+      _ssCache.bubbles.rtree.search(bbox2).forEach((d) => {
         const key = d.data.sequenceKey;
         if (key && !seen[key]) {
           seen[key] = true;
@@ -72865,8 +73529,8 @@ ${content}</tr>
           let poly = [p1, p2, p3, p4, p1];
           let angle2 = (stepBy === 1 ? ca : ca + 180) * (Math.PI / 180);
           poly = geoRotate(poly, -angle2, origin);
-          let extent = poly.reduce((extent2, point) => {
-            return extent2.extend(geoExtent(point));
+          let extent = poly.reduce((extent2, point2) => {
+            return extent2.extend(geoExtent(point2));
           }, geoExtent());
           let minDist = Infinity;
           _ssCache.bubbles.rtree.search(extent.bbox()).forEach((d) => {
@@ -73044,7 +73708,7 @@ ${content}</tr>
   };
 
   // modules/services/taginfo.js
-  var apibase4 = "https://taginfo.openstreetmap.org/api/4/";
+  var apibase4 = taginfoApiUrl;
   var _inflight3 = {};
   var _popularKeys = {};
   var _taginfoCache = {};
@@ -73100,7 +73764,7 @@ ${content}</tr>
   }
   function filterMultikeys(prefix) {
     return function(d) {
-      var re2 = new RegExp("^" + prefix + "(.*)$");
+      var re2 = new RegExp("^" + prefix + "(.*)$", "i");
       var matches = d.key.match(re2) || [];
       return matches.length === 2 && matches[1].indexOf(":") === -1;
     };
@@ -73349,248 +74013,6 @@ ${content}</tr>
 
   // modules/services/vector_tile.js
   var import_fast_deep_equal11 = __toESM(require_fast_deep_equal());
-
-  // node_modules/@turf/helpers/dist/es/index.js
-  var earthRadius = 63710088e-1;
-  var factors = {
-    centimeters: earthRadius * 100,
-    centimetres: earthRadius * 100,
-    degrees: earthRadius / 111325,
-    feet: earthRadius * 3.28084,
-    inches: earthRadius * 39.37,
-    kilometers: earthRadius / 1e3,
-    kilometres: earthRadius / 1e3,
-    meters: earthRadius,
-    metres: earthRadius,
-    miles: earthRadius / 1609.344,
-    millimeters: earthRadius * 1e3,
-    millimetres: earthRadius * 1e3,
-    nauticalmiles: earthRadius / 1852,
-    radians: 1,
-    yards: earthRadius * 1.0936
-  };
-  var unitsFactors = {
-    centimeters: 100,
-    centimetres: 100,
-    degrees: 1 / 111325,
-    feet: 3.28084,
-    inches: 39.37,
-    kilometers: 1 / 1e3,
-    kilometres: 1 / 1e3,
-    meters: 1,
-    metres: 1,
-    miles: 1 / 1609.344,
-    millimeters: 1e3,
-    millimetres: 1e3,
-    nauticalmiles: 1 / 1852,
-    radians: 1 / earthRadius,
-    yards: 1.0936133
-  };
-  function feature2(geom, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    var feat = { type: "Feature" };
-    if (options2.id === 0 || options2.id) {
-      feat.id = options2.id;
-    }
-    if (options2.bbox) {
-      feat.bbox = options2.bbox;
-    }
-    feat.properties = properties || {};
-    feat.geometry = geom;
-    return feat;
-  }
-  function polygon(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    for (var _i = 0, coordinates_1 = coordinates; _i < coordinates_1.length; _i++) {
-      var ring = coordinates_1[_i];
-      if (ring.length < 4) {
-        throw new Error("Each LinearRing of a Polygon must have 4 or more Positions.");
-      }
-      for (var j2 = 0; j2 < ring[ring.length - 1].length; j2++) {
-        if (ring[ring.length - 1][j2] !== ring[0][j2]) {
-          throw new Error("First and last Position are not equivalent.");
-        }
-      }
-    }
-    var geom = {
-      type: "Polygon",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-  function lineString(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    if (coordinates.length < 2) {
-      throw new Error("coordinates must be an array of two or more positions");
-    }
-    var geom = {
-      type: "LineString",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-  function multiLineString(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    var geom = {
-      type: "MultiLineString",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-  function multiPolygon(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    var geom = {
-      type: "MultiPolygon",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-
-  // node_modules/@turf/invariant/dist/es/index.js
-  function getGeom(geojson) {
-    if (geojson.type === "Feature") {
-      return geojson.geometry;
-    }
-    return geojson;
-  }
-
-  // node_modules/@turf/bbox-clip/dist/es/lib/lineclip.js
-  function lineclip(points, bbox, result) {
-    var len = points.length, codeA = bitCode(points[0], bbox), part = [], i2, codeB, lastCode;
-    var a;
-    var b;
-    if (!result)
-      result = [];
-    for (i2 = 1; i2 < len; i2++) {
-      a = points[i2 - 1];
-      b = points[i2];
-      codeB = lastCode = bitCode(b, bbox);
-      while (true) {
-        if (!(codeA | codeB)) {
-          part.push(a);
-          if (codeB !== lastCode) {
-            part.push(b);
-            if (i2 < len - 1) {
-              result.push(part);
-              part = [];
-            }
-          } else if (i2 === len - 1) {
-            part.push(b);
-          }
-          break;
-        } else if (codeA & codeB) {
-          break;
-        } else if (codeA) {
-          a = intersect(a, b, codeA, bbox);
-          codeA = bitCode(a, bbox);
-        } else {
-          b = intersect(a, b, codeB, bbox);
-          codeB = bitCode(b, bbox);
-        }
-      }
-      codeA = lastCode;
-    }
-    if (part.length)
-      result.push(part);
-    return result;
-  }
-  function polygonclip(points, bbox) {
-    var result, edge, prev, prevInside, i2, p, inside;
-    for (edge = 1; edge <= 8; edge *= 2) {
-      result = [];
-      prev = points[points.length - 1];
-      prevInside = !(bitCode(prev, bbox) & edge);
-      for (i2 = 0; i2 < points.length; i2++) {
-        p = points[i2];
-        inside = !(bitCode(p, bbox) & edge);
-        if (inside !== prevInside)
-          result.push(intersect(prev, p, edge, bbox));
-        if (inside)
-          result.push(p);
-        prev = p;
-        prevInside = inside;
-      }
-      points = result;
-      if (!points.length)
-        break;
-    }
-    return result;
-  }
-  function intersect(a, b, edge, bbox) {
-    return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox[3] - a[1]) / (b[1] - a[1]), bbox[3]] : edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox[1] - a[1]) / (b[1] - a[1]), bbox[1]] : edge & 2 ? [bbox[2], a[1] + (b[1] - a[1]) * (bbox[2] - a[0]) / (b[0] - a[0])] : edge & 1 ? [bbox[0], a[1] + (b[1] - a[1]) * (bbox[0] - a[0]) / (b[0] - a[0])] : null;
-  }
-  function bitCode(p, bbox) {
-    var code = 0;
-    if (p[0] < bbox[0])
-      code |= 1;
-    else if (p[0] > bbox[2])
-      code |= 2;
-    if (p[1] < bbox[1])
-      code |= 4;
-    else if (p[1] > bbox[3])
-      code |= 8;
-    return code;
-  }
-
-  // node_modules/@turf/bbox-clip/dist/es/index.js
-  function bboxClip(feature3, bbox) {
-    var geom = getGeom(feature3);
-    var type3 = geom.type;
-    var properties = feature3.type === "Feature" ? feature3.properties : {};
-    var coords = geom.coordinates;
-    switch (type3) {
-      case "LineString":
-      case "MultiLineString": {
-        var lines_1 = [];
-        if (type3 === "LineString") {
-          coords = [coords];
-        }
-        coords.forEach(function(line) {
-          lineclip(line, bbox, lines_1);
-        });
-        if (lines_1.length === 1) {
-          return lineString(lines_1[0], properties);
-        }
-        return multiLineString(lines_1, properties);
-      }
-      case "Polygon":
-        return polygon(clipPolygon(coords, bbox), properties);
-      case "MultiPolygon":
-        return multiPolygon(coords.map(function(poly) {
-          return clipPolygon(poly, bbox);
-        }), properties);
-      default:
-        throw new Error("geometry " + type3 + " not supported");
-    }
-  }
-  function clipPolygon(rings, bbox) {
-    var outRings = [];
-    for (var _i = 0, rings_1 = rings; _i < rings_1.length; _i++) {
-      var ring = rings_1[_i];
-      var clipped = polygonclip(ring, bbox);
-      if (clipped.length > 0) {
-        if (clipped[0][0] !== clipped[clipped.length - 1][0] || clipped[0][1] !== clipped[clipped.length - 1][1]) {
-          clipped.push(clipped[0]);
-        }
-        if (clipped.length >= 4) {
-          outRings.push(clipped);
-        }
-      }
-    }
-    return outRings;
-  }
-
-  // modules/services/vector_tile.js
   var import_fast_json_stable_stringify2 = __toESM(require_fast_json_stable_stringify());
   var import_polygon_clipping2 = __toESM(require_polygon_clipping_umd());
   var import_pbf2 = __toESM(require_pbf());
@@ -74092,11 +74514,11 @@ ${content}</tr>
       context.enter(mode);
       context.selectedNoteID(_note.id);
     }
-    function move(d3_event, entity, point) {
+    function move(d3_event, entity, point2) {
       d3_event.stopPropagation();
-      _lastLoc = context.projection.invert(point);
+      _lastLoc = context.projection.invert(point2);
       doMove(d3_event);
-      var nudge = geoViewportEdge(point, context.map().dimensions());
+      var nudge = geoViewportEdge(point2, context.map().dimensions());
       if (nudge) {
         startNudge(d3_event, nudge);
       } else {
@@ -74253,7 +74675,9 @@ ${content}</tr>
       if (d3_event.buttons && d3_event.buttons !== 1)
         return;
       context.ui().closeEditMenu();
-      _longPressTimeout = window.setTimeout(didLongPress, 500, id2, "longdown-" + (d3_event.pointerType || "mouse"));
+      if (d3_event.pointerType !== "mouse") {
+        _longPressTimeout = window.setTimeout(didLongPress, 500, id2, "longdown-" + (d3_event.pointerType || "mouse"));
+      }
       _downPointers[id2] = {
         firstEvent: d3_event,
         lastEvent: d3_event
@@ -74309,7 +74733,7 @@ ${content}</tr>
       d3_event.preventDefault();
       if (!+d3_event.clientX && !+d3_event.clientY) {
         if (_lastMouseEvent) {
-          d3_event.sourceEvent = _lastMouseEvent;
+          d3_event = _lastMouseEvent;
         } else {
           return;
         }
@@ -74371,7 +74795,7 @@ ${content}</tr>
         return null;
       }
     }
-    function processClick(datum2, isMultiselect, point, alsoSelectId) {
+    function processClick(datum2, isMultiselect, point2, alsoSelectId) {
       var mode = context.mode();
       var showMenu = _showMenu;
       var interactionType = _lastInteractionType;
@@ -74424,7 +74848,7 @@ ${content}</tr>
       }
       context.ui().closeEditMenu();
       if (showMenu)
-        context.ui().showEditMenu(point, interactionType);
+        context.ui().showEditMenu(point2, interactionType);
       resetProperties();
     }
     function cancelLongPress() {
