@@ -22393,7 +22393,7 @@
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.23.1",
+    version: "2.23.2",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -58594,7 +58594,9 @@ ${content}</tr>
             dispatch10.call("change", this, t);
           }
         });
-        updateIcon(tags[field.key]);
+        if (!Array.isArray(tags[field.key])) {
+          updateIcon(tags[field.key]);
+        }
       }
     };
     function registerDragAndDrop(selection2) {
@@ -69905,7 +69907,7 @@ ${content}</tr>
     const dispatch10 = dispatch_default("enter", "exit", "change");
     let context = utilRebind({}, dispatch10, "on");
     let _deferred2 = /* @__PURE__ */ new Set();
-    context.version = "2.23.1";
+    context.version = "2.23.2";
     context.privacyVersion = "20201202";
     context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
     context.changeset = null;
