@@ -11,15 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
       "Please upgrade your browser or use JOSM to edit the map.";
     container.className = "unsupported";
   } else {
-    var id = iD.coreContext()
+    var idContext = iD.coreContext();
+    idContext.connection().apiConnections([]);
+    idContext.preauth({
+      url: location.protocol + "//" + location.host,
+      access_token: container.dataset.token
+    });
+
+    var id = idContext
       .embed(true)
       .assetPath("iD/")
       .assetMap(JSON.parse(container.dataset.assetMap))
       .locale(container.dataset.locale)
-      .preauth({
-        url: location.protocol + "//" + location.host,
-        access_token: container.dataset.token
-      })
       .containerNode(container)
       .init();
 
