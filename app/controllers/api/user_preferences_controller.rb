@@ -23,7 +23,15 @@ module Api
     ##
     # return the value for a single preference
     def show
-      @preference = UserPreference.find([current_user.id, params[:preference_key]])
+      pkey = params[:preference_key]
+      if pkey.end_with?(".json")
+        pkey = pkey.chomp(".json")
+        self.formats = [:json]
+      elsif pkey.end_with?(".xml")
+        pkey = pkey.chomp(".xml")
+        self.formats = [:xml]
+      end
+      @preference = UserPreference.find([current_user.id, pkey])
       # We are setting the default format to xml in api_controller, but this api call used to only return plain text,
       # so the default xml result is incorrect
       if request.format == "application/xml" && (!request.headers["Accept"] || request.headers["Accept"].exclude?("application/xml"))

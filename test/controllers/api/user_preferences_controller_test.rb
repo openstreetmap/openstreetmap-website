@@ -44,8 +44,8 @@ module Api
       assert_equal "text/plain", @response.media_type
       assert_equal "public", @response.body
 
-      put "#{user_preferences_path}/apikey%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => text_header, :params => "test_url_encode"
-      get "#{user_preferences_path}/apikey%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => text_header
+      put "#{user_preferences_path}/apikey%23%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => text_header, :params => "test_url_encode"
+      get "#{user_preferences_path}/apikey%23%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => text_header
       assert_response :success
       assert_equal "text/plain", @response.media_type
       assert_equal "test_url_encode", @response.body
@@ -58,7 +58,7 @@ module Api
       assert_select "osm" do
         assert_select "preferences", :count => 1 do
           assert_select "preference", :count => 2
-          assert_select "preference[k=\"apikey:https://some.ones/api\"][v=\"test_url_encode\"]", :count => 1
+          assert_select "preference[k=\"apikey#:https://some.ones/api\"][v=\"test_url_encode\"]", :count => 1
           assert_select "preference[k=\"gps.trace.visibility\"][v=\"public\"]", :count => 1
         end
       end
@@ -96,11 +96,11 @@ module Api
       assert_equal 1, js["preferences"].count
       assert_equal "public", js["preferences"]["gps.trace.visibility"]
 
-      # Make certain we aren't using the key for formats
+      # Support for .fmt is mandatory
       get "#{user_preferences_path}/gps.trace.visibility.json", :headers => auth_header
-      assert_response :not_found
+      assert_response :success
       get "#{user_preferences_path}/gps.trace.visibility.xml", :headers => auth_header
-      assert_response :not_found
+      assert_response :success
     end
 
     ##
