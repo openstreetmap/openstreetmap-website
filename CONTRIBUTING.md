@@ -17,7 +17,7 @@ bundle exec erblint .
 ## Testing
 
 Having a good suite of tests is very important to the stability and
-maintainability of any code base. The tests in the Rails port code are
+maintainability of any code base. The tests in the `openstreetmap-website` code are
 by no means complete, but they are extensive, and must continue to be
 so with any new functionality which is written. Tests are also useful
 in giving others confidence in the code you've written, and can

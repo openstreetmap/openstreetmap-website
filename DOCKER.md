@@ -1,6 +1,6 @@
 # Using Docker and Docker Compose for Development and Testing
 
-These instructions are designed for setting up The Rails Port for development and testing using [Docker](https://www.docker.com/). This will allow you to install the OpenStreetMap application and all its dependencies in Docker images and then run them in containers, almost with a single command. You will need to install Docker and Docker Compose on your development machine:
+These instructions are designed for setting up `openstreetmap-website` for development and testing using [Docker](https://www.docker.com/). This will allow you to install the OpenStreetMap application and all its dependencies in Docker images and then run them in containers, almost with a single command. You will need to install Docker and Docker Compose on your development machine:
 
 - [Install Docker](https://docs.docker.com/install/)
 - [Install Docker Compose](https://docs.docker.com/compose/install/)
