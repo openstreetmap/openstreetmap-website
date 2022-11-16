@@ -38,14 +38,14 @@ module Api
       auth_header = basic_authorization_header create(:user).email, "test"
       text_header = auth_header.merge({ "Accept" => "text/plain" })
 
-      put "#{user_preferences_path}/gps.trace.visibility", :headers => text_header, :params => "public"
-      get "#{user_preferences_path}/gps.trace.visibility", :headers => text_header
+      put "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => text_header, :params => "public"
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility", :headers => text_header
       assert_response :success
       assert_equal "text/plain", @response.media_type
       assert_equal "public", @response.body
 
-      put "#{user_preferences_path}/apikey%23%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => text_header, :params => "test_url_encode"
-      get "#{user_preferences_path}/apikey%23%3Ahttps%3A%2F%2Fsome.ones%2Fapi", :headers => text_header
+      put "#{user_preferences_path}/apikey%2E%23%3Ahttps%3A%2F%2Fsome%2eones%2Fapi", :headers => text_header, :params => "test_url_encode"
+      get "#{user_preferences_path}/apikey%2E%23%3Ahttps%3A%2F%2Fsome%2eones%2Fapi", :headers => text_header
       assert_response :success
       assert_equal "text/plain", @response.media_type
       assert_equal "test_url_encode", @response.body
@@ -58,7 +58,7 @@ module Api
       assert_select "osm" do
         assert_select "preferences", :count => 1 do
           assert_select "preference", :count => 2
-          assert_select "preference[k=\"apikey#:https://some.ones/api\"][v=\"test_url_encode\"]", :count => 1
+          assert_select "preference[k=\"apikey.#:https://some.ones/api\"][v=\"test_url_encode\"]", :count => 1
           assert_select "preference[k=\"gps.trace.visibility\"][v=\"public\"]", :count => 1
         end
       end
@@ -68,16 +68,16 @@ module Api
       # authenticate as a user with no preferences
       auth_header = basic_authorization_header create(:user).email, "test"
 
-      put "#{user_preferences_path}/gps.trace.visibility", :headers => auth_header, :params => "public"
-      put "#{user_preferences_path}/gps.trace.json", :headers => auth_header, :params => "invalid"
+      put "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => auth_header, :params => "public"
+      put "#{user_preferences_path}/gps%2etrace%2Ejson", :headers => auth_header, :params => "invalid"
       # Make certain we only return json/xml if requested
-      get "#{user_preferences_path}/gps.trace.visibility", :headers => { "Accept" => "*/*" }.merge(auth_header)
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility", :headers => { "Accept" => "*/*" }.merge(auth_header)
       assert_response :success
       assert_equal "text/plain", @response.media_type
       assert_equal "public", @response.body
 
       # Check that XML is returned properly
-      get "#{user_preferences_path}/gps.trace.visibility", :headers => { "Accept" => "application/xml" }.merge(auth_header)
+      get "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => { "Accept" => "application/xml" }.merge(auth_header)
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm" do
@@ -88,7 +88,7 @@ module Api
       end
 
       # Check that JSON is returned properly
-      get "#{user_preferences_path}/gps.trace.visibility", :headers => { "Accept" => "application/json" }.merge(auth_header)
+      get "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => { "Accept" => "application/json" }.merge(auth_header)
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -97,10 +97,22 @@ module Api
       assert_equal "public", js["preferences"]["gps.trace.visibility"]
 
       # Support for .fmt is mandatory
-      get "#{user_preferences_path}/gps.trace.visibility.json", :headers => auth_header
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility.json", :headers => auth_header
       assert_response :success
-      get "#{user_preferences_path}/gps.trace.visibility.xml", :headers => auth_header
+      assert_equal "application/json", @response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["preferences"].count
+      assert_equal "public", js["preferences"]["gps.trace.visibility"]
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility.xml", :headers => auth_header
       assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm" do
+        assert_select "preferences", :count => 1 do
+          assert_select "preference", :count => 1
+          assert_select "preference[k=\"gps.trace.visibility\"][v=\"public\"]", :count => 1
+        end
+      end
     end
 
     ##
