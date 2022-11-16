@@ -132,7 +132,7 @@ bundle exec rake db:migrate
 
 ## Testing on the osm dev server
 
-For example, after developing a patch for `openstreetmap-website`, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of openstreetmap-website on the dev server in ones user directory](https://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
+For example, after developing a patch for `openstreetmap-website`, you might want to demonstrate it to others or ask for comments and testing. To do this you can [set up an instance of openstreetmap-website on the dev server in your user directory](https://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
 
 # Contributing
 
