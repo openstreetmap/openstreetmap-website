@@ -1,6 +1,6 @@
 # Installation
 
-These instructions are designed for setting up The Rails Port for development and testing.
+These instructions are designed for setting up `openstreetmap-website` for development and testing.
 If you want to deploy the software for your own project, then see the notes at the end.
 
 You can install the software directly on your machine, which is the traditional and probably best-supported approach. However, there
@@ -150,7 +150,7 @@ touch config/settings.local.yml
 
 ## Storage setup
 
-The Rails port needs to be configured with an object storage facility - for
+`openstreetmap-website` needs to be configured with an object storage facility - for
 development and testing purposes you can use the example configuration:
 
 ```
@@ -159,7 +159,7 @@ cp config/example.storage.yml config/storage.yml
 
 ## Database setup
 
-The Rails Port uses three databases -  one for development, one for testing, and one for production. The database-specific configuration
+`openstreetmap-website` uses three databases -  one for development, one for testing, and one for production. The database-specific configuration
 options are stored in `config/database.yml`, which we need to create from the example template.
 
 ```

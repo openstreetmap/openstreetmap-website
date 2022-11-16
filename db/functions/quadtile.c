@@ -18,7 +18,7 @@ PG_FUNCTION_INFO_V1(tile_for_point);
  * To bind this into PGSQL, try something like:
  *
  * CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8
- *  AS '/path/to/rails-port/db/functions/libpgosm', 'tile_for_point'
+ *  AS '/path/to/openstreetmap-website/db/functions/libpgosm', 'tile_for_point'
  *  LANGUAGE C STRICT;
  *
  * (without all the *s)

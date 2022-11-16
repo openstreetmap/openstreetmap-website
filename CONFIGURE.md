@@ -4,7 +4,7 @@ After [installing](INSTALL.md) this software, you may need to carry out some of 
 
 ## Application configuration
 
-Many settings are available in `config/settings.yml`. You can customize your installation of The Rails Port by overriding these values using `config/settings.local.yml`
+Many settings are available in `config/settings.yml`. You can customize your installation of `openstreetmap-website` by overriding these values using `config/settings.local.yml`
 
 ## Populating the database
 
@@ -122,9 +122,9 @@ If you have more problems, please ask on the [rails-dev@openstreetmap.org mailin
 
 If your installation stops working for some reason:
 
-* Sometimes gem dependencies change. To update go to your rails_port directory and run ''bundle install'' as root.
+* Sometimes gem dependencies change. To update go to your `openstreetmap-website` directory and run ''bundle install'' as root.
 
-* The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your rails_port directory and run:
+* The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your `openstreetmap-website` directory and run:
 
 ```
 bundle exec rake db:migrate
@@ -132,7 +132,7 @@ bundle exec rake db:migrate
 
 ## Testing on the osm dev server
 
-For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of the rails_port on the dev server in ones user directory](https://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
+For example, after developing a patch for `openstreetmap-website`, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of openstreetmap-website on the dev server in ones user directory](https://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
 
 # Contributing
 
@@ -140,7 +140,7 @@ For information on contributing changes to the codes, see [CONTRIBUTING.md](CONT
 
 # Production Deployment
 
-If you want to deploy The Rails Port for production use, you'll need to make a few changes.
+If you want to deploy `openstreetmap-website` for production use, you'll need to make a few changes.
 
 * It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). Instructions are available for [setting it up with most web servers](https://www.phusionpassenger.com/documentation_and_support#documentation).
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
