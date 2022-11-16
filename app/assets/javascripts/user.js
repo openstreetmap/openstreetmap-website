@@ -123,7 +123,7 @@ $(document).ready(function () {
   $("input[name=legale]").change(function () {
     var url = $(this).data("url");
 
-    $("#contributorTerms").html("<img src='" + OSM.SEARCHING + "' />");
+    $("#contributorTerms").html("<div class='spinner-border' role='status'><span class='visually-hidden'>" + I18n.t("browse.start_rjs.loading") + "</span></div>");
     $("#contributorTerms").load(url);
   });
 
