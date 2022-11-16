@@ -20,7 +20,7 @@ OSM.History = function (map) {
       unHighlightChangeset(e.layer.id);
     })
     .on("click", function (e) {
-      clickChangeset(e.layer.id, e);
+      clickChangeset(e.layer.id, e.originalEvent);
     });
 
   group.getLayerId = function (layer) {
