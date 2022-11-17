@@ -238,7 +238,13 @@ Note that the OSM map tiles you see aren't created from your local database - th
 
 # Configuration
 
-After installing this software, you may need to carry out some [configuration steps](CONFIGURE.md), depending on your tasks.
+After installing this software, you may need to carry out some [configuration steps](CONFIGURE.md), depending on your tasks. This includes:
+* Application configuration
+* Populating the database
+* Managing Users
+* Generating OAuth Keys
+* …
+
 
 # Installing compiled shared library database functions (optional)
 
