@@ -52,7 +52,7 @@ class SessionsController < ApplicationController
     elsif (user = User.authenticate(:username => username, :password => password, :pending => true))
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("sessions.new.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe, username
+      failed_login({ :partial => "sessions/suspended_flash" }, username)
     else
       failed_login t("sessions.new.auth failure"), username
     end
