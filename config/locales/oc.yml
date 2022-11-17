@@ -10,9 +10,12 @@
 # Author: Quentí
 ---
 oc:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y a %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Seleccionatz un fichier
@@ -36,11 +39,11 @@ oc:
         create: Crear la redaccion
         update: Sauvar la redaccion
       trace:
-        create: Mandar
+        create: Teledescargar
         update: Enregistrar lei modificacions
       user_block:
         create: Crear un blòt
-        update: Modificar lo blocatge
+        update: Modificar lo blòt
   activerecord:
     errors:
       messages:
@@ -52,41 +55,41 @@ oc:
       changeset_tag: Balisa dau grop de modificacions
       country: País
       diary_comment: Comentari dau jornau
-      diary_entry: Entrada del jornal
+      diary_entry: Intrada dau jornau
       friend: Amic
       issue: Dificultat
       language: Lenga
       message: Messatge
       node: Nos
-      node_tag: Balisa de nos
+      node_tag: Etiqueta de nos
       notifier: Notificador
-      old_node: Ancian nos
-      old_node_tag: Balisa de l'ancian nos
-      old_relation: Anciana relacion
+      old_node: Node Ancian
+      old_node_tag: Etiqueta de node anciana
+      old_relation: Relacion anciana
       old_relation_member: Membre de l'anciana relacion
-      old_relation_tag: Balisa de l'anciana relacion
-      old_way: Ancian camin
-      old_way_node: Nos de l’ancian camin
-      old_way_tag: Balisa de l’ancian camin
+      old_relation_tag: Etiqueta de l'anciana relacion
+      old_way: Linha anciana
+      old_way_node: Nos dau camin ancian
+      old_way_tag: Etiqueta de la linha anciana
       relation: Relacion
       relation_member: Membre de la relacion
-      relation_tag: Balisa de relacion
+      relation_tag: Etiqueta de la relacion
       report: Senhalar
       session: Session
       trace: Traça
       tracepoint: Ponch de la traça
-      tracetag: Balisa de la traça
+      tracetag: Etiqueta de la traça
       user: Utilizaire
       user_preference: Preferéncias de l’utilizaire
-      user_token: Geton de l'utilizaire
-      way: Camin
-      way_node: Nos dau camin
-      way_tag: Balisa del camin
+      user_token: Testimòni d'usatgièr
+      way: Linha
+      way_node: Nos de la linha
+      way_tag: Etiqueta de la linha
     attributes:
       client_application:
         name: Nom (Obligatòri)
         url: URL de l'aplicacion principala (Obligatòri)
-        callback_url: URL de rapèl
+        callback_url: URL de rampèu
         support_url: URL de supòrt
         allow_read_prefs: consultar lei preferéncias d'utilizaire.
         allow_write_prefs: modificar lei preferéncias d'utilizaire.
@@ -95,7 +98,7 @@ oc:
         allow_write_api: modificar la mapa
         allow_read_gpx: legir vòstrei traças GPS privadas.
         allow_write_gpx: telecargar de traças GPS.
-        allow_write_notes: modificar lei nòtas.
+        allow_write_notes: modificar lei nòtas
       diary_comment:
         body: Còrs
       diary_entry:
@@ -123,7 +126,7 @@ oc:
         description: Descripcion
         gpx_file: 'Mandar un fichier GPX :'
         visibility: 'Visibilitat :'
-        tagstring: 'Balisas :'
+        tagstring: Etiquetas
       message:
         sender: Expeditor
         title: Subjècte
@@ -138,7 +141,7 @@ oc:
       user:
         auth_provider: Fornidor d'autenticacion
         auth_uid: UID d'autentificacion
-        email: Adreça de corrièr electronic
+        email: Adreiça de corrier electronic
         email_confirmation: Corrier electronic d'autentificacion
         new_email: 'Novèla adreiça de corrier electronic :'
         active: Actiu
@@ -164,12 +167,11 @@ oc:
           la situacion. Doblidetz pas qu'aqueste messatge serà visible de totes. Sapiatz
           que tot lo monde compren pas lo gergon de la comunautat, adonc utilizatz
           de tèrmes simples e precís.
-        needs_view: L’utilizaire se deu connectar abans qu'aqueste blocatge expire
-          ?
+        needs_view: L’utilizaire se deu connectar avans qu'aqueste blòt expire ?
       user:
         email_confirmation: Vòstra adreiça se mostrarà pas publicament (vejatz la
           nòstra politica de privadança&#60;/a&#62; per mai d'informacion)
-        new_email: (pas jamai afichat publicament)
+        new_email: (jamai afichat publicament)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -202,18 +204,21 @@ oc:
         other: fa %{count} de minutas
       x_days:
         one: fa
-        other: ièr %{count} de jorns
+        other: ier %{count} de jorns
       x_months:
         one: fa près de 1 mes
         other: fa près de %{count} de mes
       x_years:
         one: fa près de 1 an
         other: fa près de %{count} d'ans
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Per defaut (actualament %{name})
     id:
       name: iD
-      description: iD (editor integrat al navigador)
+      description: iD (editor integrat au navigador)
     remote:
       name: Editor extèrne
       description: Editor extèrne (JOSM o Merkaartor)
@@ -239,13 +244,13 @@ oc:
         reopened_at_by_html: Reactivat fa %{when} per %{user}
       rss:
         title: Nòtas d'OpenStreetMap
-        description_area: Una lista de nòtas, reportadas, comentadas o tampadas dins
+        description_area: Una lista de nòtas, reportadas, comentadas o serradas dins
           vòstra zòna [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        description_item: Un fial rss per la nòta %{id}
-        opened: novèla nòta (prèp de %{place})
-        commented: novèu comentari (pròche de %{place})
-        closed: nòta tampada (prèp de %{place})
-        reopened: nòta reactivada (prèp de %{place})
+        description_item: Un fiu rss per la nòta %{id}
+        opened: nòta novèla (pròche de %{place})
+        commented: comentari novèu (pròche de %{place})
+        closed: nòta serrada (pròche de %{place})
+        reopened: nòta reactivada (pròche de %{place})
       entry:
         comment: Comentari
         full: Nòta completa
@@ -285,7 +290,7 @@ oc:
         link text: qu’es aquò ?
       public editing:
         heading: Modificacion publica
-        enabled: Activat. Pas anonim e pòt modificar las donadas.
+        enabled: Activat. Pas anonim e pòt modificar lei donadas.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: qu’es aquò ?
         disabled: Desactivadas e sensa permés per editar; lei modificacions anterioras
@@ -295,21 +300,21 @@ oc:
         heading: 'Modificacion publica :'
       contributor terms:
         heading: Tèrmes de collaboracion
-        agreed: Avètz acceptat los novèls tèrmes del contributor.
+        agreed: Avètz acceptat lei tèrmes novèus dau contributor.
         not yet agreed: Avètz pas encara acceptat los novèls tèrmes del contributor.
-        review link text: Seguissètz aqueu ligame per revisar e acceptar lei tèrmes
+        review link text: Seguissètz aquest ligame per revisar e acceptar lei tèrmes
           novèus de collaboracion.
         agreed_with_pd: Declaratz tanben que consideratz que vòstrei modificacions
           son de domeni public.
         link text: qu’es aquò ?
-      save changes button: Enregistrar las modificacions
-      make edits public button: Rendre totas mas modificacions publicas
+      save changes button: Enregistrar lei modificacions
+      make edits public button: Rendre totei lei modificacions publicas
       delete_account: Suprimir lo còmpte
     update:
       success_confirm_needed: Informacions sus l'utilizaire mesas a jorn amb succès.
-        Verificatz vòstra bóstia mail per tal de validar la verificacion de vòstre
-        novèla adreça e-mail.
-      success: Informacions sus l'utilizaire mesas a jorn amb succès.
+        Verificatz vòstra bóstia mail per validar la verificacion de la novèla adreiça
+        e-mail.
+      success: Informacions sus l'utilizaire actualizadas amb succès.
     destroy:
       success: Còmpte suprimit...
   browse:
@@ -324,8 +329,8 @@ oc:
     version: Version
     in_changeset: Grop de modificacions
     anonymous: anonim
-    no_comment: (sens comentaris)
-    part_of: Partida de
+    no_comment: (sensa comentaris)
+    part_of: Part de
     part_of_relations:
       one: 1 relacion
       other: '%{count} relacions'
@@ -336,13 +341,15 @@ oc:
     view_history: Mostrar l’istoric
     view_details: Mostrar lei detalhs
     location: 'Emplaçament :'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Grop de modificacions : %{id}'
       belongs_to: Autor
       node: Nos (%{count})
       node_paginated: Nos (%{x} a %{y} sus %{count})
-      way: Camins (%{count})
-      way_paginated: Camins (%{x} a %{y} sus %{count})
+      way: Linha (%{count})
+      way_paginated: Linhas (%{x} a %{y} sus %{count})
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x} a %{y} sus %{count})
       comment: Comentaris (%{count})
@@ -357,7 +364,7 @@ oc:
       join_discussion: Se connectar per rejónher la discussion
       discussion: Discussion
       still_open: Ensemble de modificacions totjorn dobèrt — la discussion se dobrirà
-        un còp que l’ensemble de modificacions serà tampat.
+        un còp que l’ensemble de modificacions serà plegat.
     node:
       title_html: 'Nos : %{name}'
       history_title_html: 'Istoric dau nos : %{name}'
@@ -379,6 +386,7 @@ oc:
         one: 1 membre
         other: '%{count} membres'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} amb lo ròtle %{role}'
       type:
         node: Nos
@@ -386,10 +394,10 @@ oc:
         relation: Relacion
     containing_relation:
       entry_html: Relacion %{relation_name}
-      entry_role_html: Relacion %{relation_name} (en tant que %{relation_role})
+      entry_role_html: Relacion %{relation_name} (per %{relation_role})
     not_found:
       title: S'es pas trobat
-      sorry: 'O planhèm, %{type} #%{id} a pas pogut èsser trobat.'
+      sorry: 'O planhèm, %{type} #%{id} es pas estat trobat.'
       type:
         node: nos
         way: linha
@@ -397,7 +405,7 @@ oc:
         changeset: grop de modificacions
         note: nòta
     timeout:
-      title: Error de temps d'espèra despassat
+      title: 'Error : temps d''espèra despassat'
       sorry: O planhèm, las donadas pel tipe %{type} amb l'id %{id} prenon tròp de
         temps per èsser recuperadas.
       type:
@@ -418,24 +426,24 @@ oc:
       feature_warning: Lo cargament de %{num_features} caracteristicas poiriá rendre
         vòstre navigador lent o poiriá respondre pas mai. Sètz segur que volètz afichar
         aquelas donadas ?
-      load_data: Cargar las donadas
-      loading: Cargament...
+      load_data: Teledescargar las donadas
+      loading: Teledescargament...
     tag_details:
-      tags: Balisas
+      tags: Etiquetas
       wiki_link:
-        key: La descripcion de la balisa <code>%{key}</code> sul wiki
-        tag: La descripcion de la balisa <code>%{key}=%{value}</code> sul wiki
+        key: La descripcion de l'etiqueta <code>%{key}</code> sus lo wiki
+        tag: La descripcion de l'etiqueta <code>%{key}=%{value}</code> sus lo wiki
       wikidata_link: L’element %{page} sus Wikidata
       wikipedia_link: L’article « %{page} » sus Wikipèdia
       wikimedia_commons_link: L'element %{page} sus Wikimedia Commons
       telephone_link: Sonar %{phone_number}
-      colour_preview: Apercebut de la color %{colour_value}
+      colour_preview: Previsualizacion de la color %{colour_value}
     note:
       title: 'Nòta : %{id}'
       new_note: Nòta novèla
       description: Descripcion
-      open_title: Nòta pas resolguda nº %{note_name}
-      closed_title: Nòta resolguda nº %{note_name}
+      open_title: Nòta pas resouguda nº %{note_name}
+      closed_title: Nòta resouguda nº %{note_name}
       hidden_title: Nòta amagada nº %{note_name}
       opened_by_html: Creat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
       opened_by_anonymous_html: Creat per un utilizaire anonim <abbr title='%{exact_time}'>fa
@@ -450,8 +458,9 @@ oc:
       reopened_by_anonymous_html: Reactivat per un utilizaire anonim fa <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Amagat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
       report: Avisar d’aquesta nòta
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
-      title: Requèsta suls objèctes
+      title: Requèsta sus leis objèctes
       introduction: Clicar sus la mapa per trobar los objèctes a proximitat.
       nearby: Objèctes a proximitat
       enclosing: Objèctes englobants
@@ -513,9 +522,9 @@ oc:
         domicili per veire leis usatgiers vesins.'
       edit_your_profile: Modificar lo perfiu
       my friends: los mens amics
-      no friends: Avètz pas encara apondut cap d'amic
-      nearby users: Autres utilizaires a proximitat
-      no nearby users: Cap d'utilizaire a pas encara senhalat que cartografiava a
+      no friends: Avètz pas encara ajustat d'amics
+      nearby users: Autreis utilizaires pròches
+      no nearby users: Ges d'utilizaire a pas encara senhalat que cartografiava a
         proximitat.
       friends_changesets: Percórrer totes los gropes de modificacions dels amics
       friends_diaries: Entradas de jornal dels amics
@@ -524,21 +533,21 @@ oc:
       nearby_diaries: Entradas de jornal dels utilizaires a proximitat
   diary_entries:
     new:
-      title: Novèla entrada de jornau
+      title: Entrada de jornau nòva
     form:
       location: 'Luòc :'
       use_map_link: Utilizar la mapa
     index:
       title: Jornaus deis utilizaires
       title_friends: Jornaus deis amics
-      title_nearby: Jornaus deis utilizaires a proximitat
+      title_nearby: Jornaus deis utilizaires pròches
       user_title: Jornau de %{user}
       in_language_title: Entradas de jornau en %{language}
-      new: Novèla entrada de jornau
-      new_title: Ajustar una novèla entrada dins vòstre jornau
+      new: Entrada de jornau nòva
+      new_title: Ajustar una intrada nòva dins vòstre jornau
       my_diary: Mon jornau
       no_entries: Ges d'entrada dins vòstre jornau
-      recent_entries: 'Entradas recentas de jornau :'
+      recent_entries: 'Intradas recentas de jornau :'
       older_entries: Entradas pus ancianas
       newer_entries: Entradas pus recentas
     edit:
@@ -610,23 +619,23 @@ oc:
       heading: Ajustar %{user} per amic ?
       button: Ajustar per amic
       success: d'ara enlà, %{name} es vòstre amic.
-      failed: O planhèm, fracàs al moment de l'apondon de %{name} coma vòstre amic
+      failed: O planhèm, fracàs al moment de l'ajust de %{name} per amic
       already_a_friend: Sètz ja amic amb %{name}.
       limit_exceeded: Avètz enviat tròp de de messatges recentament, esperatz un moment
         abans d'assajar tornarmai.
     remove_friend:
-      heading: Suprimir %{user} en tant qu’amic ?
-      button: Suprimir en tant qu'amic
+      heading: Suprimir %{user} per amic ?
+      button: Suprimir per amic
       success: '%{name} es estat levat de vòstres amics.'
       not_a_friend: '%{name} es pas de vòstres amics.'
   geocoder:
     search:
       title:
         latlon_html: Resultats <a href="https://openstreetmap.org/">intèrnes</a>
-        ca_postcode_html: Resultats dempuèi <a href="https://geocoder.ca/">Geocoder.CA</a>
+        ca_postcode_html: Resultats despuèi <a href="https://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim_html: Resultats de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_html: Resultats dempuèi <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_html: Resultats de <a href="http://www.geonames.org/">GeoNames</a>
         osm_nominatim_reverse_html: Resultats de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames_reverse_html: Resultats de <a href="http://www.geonames.org/">GeoNames</a>
@@ -637,10 +646,10 @@ oc:
           chair_lift: Telesèti
           drag_lift: Telesquí
           gondola: Telecabina
-          magic_carpet: Cinta Transportadoira
+          magic_carpet: Transportador rotlant
           platter: Montaplat
           pylon: Pilòn
-          station: Gara de telecabina
+          station: Estacion de telecabina
           t-bar: Montabarra en T
           "yes": Vias per cables penjats
         aeroway:
@@ -652,15 +661,15 @@ oc:
           helipad: Elipòrt
           holding_position: Posicion d’espèra
           navigationaid: Ajuda de Navigacion per l'Aviacion
-          parking_position: Plaça de parcatge
-          runway: Pista
+          parking_position: Plaça d'aparcament
+          runway: Pista d'aterratge e d'envòu
           taxilane: Via de taxi
           taxiway: Via de manòbra
-          terminal: Terminau
+          terminal: Terminau d'aeropòrt
           windsock: Manega de vent
         amenity:
           animal_boarding: Pension per animaus
-          animal_shelter: Refugi per animals
+          animal_shelter: Refugi per animaus
           arts_centre: Centre artistic
           atm: Distribuidor automatic de bilhets
           bank: Banca
@@ -668,19 +677,19 @@ oc:
           bbq: Barbacoa
           bench: Banc
           bicycle_parking: Aparcament per bicicletas
-          bicycle_rental: Logason de bicicletas
+          bicycle_rental: Logar de bicicletas
           bicycle_repair_station: Estacion per rabobar lei bicicletas
           biergarten: Braçariá a l’aire liure
           blood_bank: Banca de sang
           boat_rental: Barcas a renda
-          brothel: Bordèl
+          brothel: Bordèu
           bureau_de_change: Burèu de cambi
           bus_station: Terminus de linha
           cafe: Cafè
           car_rental: Veituras a renda
           car_sharing: Coveituratge
           car_wash: Lavatge de veitura
-          casino: Casinò
+          casino: Casino
           charging_station: Estacion de recarga
           childcare: Gardariá
           cinema: Cinèma
@@ -700,13 +709,13 @@ oc:
           fast_food: Restauracion rapida
           ferry_terminal: Terminau maritim
           fire_station: Casèrna de pompièrs
-          food_court: Airal de restauracion
-          fountain: Font
+          food_court: Airau de restauracion
+          fountain: Fònt
           fuel: Carburant
           gambling: Jòcs d'azard
           grave_yard: Cementèri
           grit_bin: Caissa de sau
-          hospital: Espital
+          hospital: Espitau
           hunting_stand: Taulièr de tir
           ice_cream: Glacet
           internet_cafe: Cafè internet
@@ -716,25 +725,25 @@ oc:
           loading_dock: Cai de carga
           love_hotel: Ostalariá d'amor
           marketplace: Plaça de mercat
-          mobile_money_agent: Agent de Sòus mobiles
-          monastery: Mostièr
-          money_transfer: Transferéncia de sòus
+          mobile_money_agent: Agent de moneda electronica
+          monastery: Monastèri
+          money_transfer: Transferiment de sòus
           motorcycle_parking: Aparcament de bicicleta
           music_school: Escòla de musica
           nightclub: Discotèca
-          nursing_home: Ostal de santat
+          nursing_home: Ostau de santat
           parking: Aparcament
           parking_entrance: Entrada de l’aparcament
           parking_space: Plaça d’aparcament
           payment_terminal: Terminau de pagament
-          pharmacy: Farmàcia
+          pharmacy: Farmacia
           place_of_worship: Luòc de culte
           police: Polícia
           post_box: Bóstia de letras
           post_office: Burèu de pòsta
           prison: Preson
           pub: Bar
-          public_bath: Banh public
+          public_bath: Banh public - Banhera
           public_bookcase: Biblioteca publica
           public_building: Bastissa publica
           ranger_station: Pòsta de gardabòsc
@@ -744,8 +753,8 @@ oc:
           school: Escòla
           shelter: Abric
           shower: Docha
-          social_centre: Centre social
-          social_facility: Servici social
+          social_centre: Centre sociau
+          social_facility: Servici sociau
           studio: Estúdio
           swimming_pool: Piscina
           taxi: Taxi
@@ -769,20 +778,20 @@ oc:
         boundary:
           aboriginal_lands: Tèrras aborigenas
           administrative: Limit administratiu
-          census: Frontièra estatistica
-          national_park: Pargue nacional
+          census: Limit estatistic
+          national_park: Pargue nacionau
           political: Circonscripcion electorala
           protected_area: Zòna protegida
-          "yes": Frontiera
+          "yes": Limit
         bridge:
-          aqueduct: Aqüeducte
+          aqueduct: Pòrtaiga
           boardwalk: Passejada
-          suspension: Pont penjat
+          suspension: Pont suspendut
           swing: Pont virant
           viaduct: Viaducte
-          "yes": Pont
+          "yes": Pònt
         building:
-          apartment: Departement
+          apartment: Despartament
           apartments: Apartaments
           barn: Feniera
           bungalow: Bastidon
@@ -836,13 +845,13 @@ oc:
           beekeeper: Apicultor
           blacksmith: Faure
           brewery: Braçariá
-          carpenter: Fustièr
+          carpenter: Fustier
           caterer: Manjador
           confectionery: Confiseria
           dressmaker: Sartre
           electrician: Electrician
           electronics_repair: Radobament d'aparelhs electronics
-          gardener: Jardinièr
+          gardener: Jardinier
           glaziery: Vitrier
           handicraft: Artesanat
           hvac: Fabricant de produchs de climatizacion
@@ -852,7 +861,7 @@ oc:
           plumber: Plombier
           roofer: Teulissier
           sawmill: Rèssa
-          shoemaker: Sabatièr
+          shoemaker: Sabatier
           stonemason: Maçon
           tailor: Sartre
           window_construction: Construccion de fenèstras
@@ -861,7 +870,7 @@ oc:
         emergency:
           access_point: Ponch d'accès
           ambulance_station: Depaus d'ambulància
-          assembly_point: Punt d'acampada
+          assembly_point: Ponch d'acampada
           defibrillator: Desfibrillador
           fire_extinguisher: Extintor de fòc
           fire_water_pond: Bassin d'aiga per incendis
@@ -873,7 +882,7 @@ oc:
           water_tank: Cistèrna d'aiga d'urgéncia
         highway:
           abandoned: Autorota abandonada
-          bridleway: Camin per cavalièrs
+          bridleway: Camin per cavaliers
           bus_guideway: Via de bus guidada
           bus_stop: Arrèst de bus
           construction: Autorota en construccion
@@ -881,26 +890,26 @@ oc:
           crossing: Crosament
           cycleway: Pista ciclabla
           elevator: Ascensor
-          emergency_access_point: Punt d'accès d'urgéncia
+          emergency_access_point: Ponch d'accès d'urgéncia
           emergency_bay: Zòna d'urgéncia
           footway: Camin piedonier
           ford: Ga
-          give_way: Panèl de cedar lo passatge
-          living_street: Carrièra en zòna de rencontre
+          give_way: Panèu de cedar lo passatge
+          living_street: Carriera en zòna de rescòntre
           milestone: Bòrna quilometrica
           motorway: Autorota
           motorway_junction: Joncion d'autorota
-          motorway_link: Rota autorotièra
+          motorway_link: Rota autorotiera
           passing_place: Luòc de passatge
           path: Camin
-          pedestrian: Camin pietonièr
+          pedestrian: Camin piedonier
           platform: Plataforma
           primary: Rota principala
           primary_link: Rota principala
           proposed: Projècte de rota
           raceway: Circuit
           residential: Carriera residenciala
-          rest_area: Airal de repaus
+          rest_area: Airau de repaus
           road: Rota
           secondary: Rota segondària
           secondary_link: Rota segondària
@@ -908,7 +917,7 @@ oc:
           services: Servicis autorotiers
           speed_camera: Radar de velocitat
           steps: Escaliers
-          stop: Panèl d'arrèst
+          stop: Panèu d'arrèst
           street_lamp: Lampadari
           tertiary: Rota terciària
           tertiary_link: Rota terciària
@@ -927,19 +936,19 @@ oc:
           archaeological_site: Site arqueologic
           bomb_crater: Cratèr de bomba istoric
           battlefield: Prat batalhier
-          boundary_stone: Bòrna frontiera
+          boundary_stone: Bòrna termiera
           building: Bastiment istoric
           bunker: Bunker
           cannon: Canon istoric
-          castle: Castèl
+          castle: Castèu
           charcoal_pile: Carboniera istorica
           church: Glèisa
           city_gate: Portau
           citywalls: Muralhas de vila
           fort: Fòrt
-          heritage: Site del patrimòni
+          heritage: Site de patrimòni
           hollow_way: Camins fons
-          house: Ostal
+          house: Ostau
           manor: Castelet
           memorial: Memoriau
           milestone: Boina istorica
@@ -951,7 +960,7 @@ oc:
           ruins: Roïnas
           rune_stone: Pèira runica
           stone: Pèira
-          tomb: Tombèu
+          tomb: Tombèu - Cròs
           tower: Torre
           wayside_chapel: Capèla votiva
           wayside_cross: Calvari
@@ -959,17 +968,17 @@ oc:
           wreck: Varatge
           "yes": Site istoric
         junction:
-          "yes": Interseccion/Caireforc
+          "yes": Interseccion / Caireforc
         landuse:
-          allotments: Òrts familials
+          allotments: Òrts familhaus
           aquaculture: Aquacultura
           basin: Bacin
-          brownfield: Terren rasat, ermàs
+          brownfield: Terren rasat - ermàs
           cemetery: Cementèri
           commercial: Zòna terciària
           conservation: Zòna protegida
           construction: Construccion
-          farmland: Terrens agricòls
+          farmland: Terrens agricòlas
           farmyard: Bastissas agricòlas
           forest: Bòsc
           garages: Garatges
@@ -982,9 +991,9 @@ oc:
           mine: Mina
           orchard: Vergier
           plant_nursery: Abarbador
-          quarry: Peirièra
+          quarry: Peiriera
           railway: Via ferrada
-          recreation_ground: Airal de jòcs
+          recreation_ground: Airau de jòcs - Jogador
           religious: Terren religiós
           reservoir: Sèrva
           reservoir_watershed: Bacin versant de sèrva
@@ -992,36 +1001,36 @@ oc:
           retail: Pargue comerciau
           village_green: Zòna publica erborada
           vineyard: Vinha
-          "yes": Usatge del terren
+          "yes": Usatge dau terren
         leisure:
           adult_gaming_centre: Centre recreatiu per adultes
           amusement_arcade: Sala recreativa de jòcsvideo
           bandstand: Quiòsc de la musica
           beach_resort: Estacion balneara
-          bird_hide: Obsevatòri ornitologic
+          bird_hide: Observatòri ornitologic
           bleachers: Bancaus
-          bowling_alley: Pista de bòchas
-          common: Terrens comunals
+          bowling_alley: Juòc de bòchas
+          common: Terrens comunaus
           dance: Balèti
-          dog_park: Parc canin
+          dog_park: Pargue canin
           firepit: Fogau
-          fishing: Zòna de pesca
-          fitness_centre: Utilizacion de las tèrras
-          fitness_station: Taulièr de percors de santat
+          fishing: Zòna de pèsca
+          fitness_centre: Utilizacion dei tèrras
+          fitness_station: Estacion de percors de santat
           garden: Jardin
           golf_course: Terren de gòlf
           horse_riding: Equitacion
           ice_rink: Pista de patinatge
-          marina: Pòrt de plasença
+          marina: Marina
           miniature_golf: Gòlf miniatura
           nature_reserve: Resèrva naturala
           outdoor_seating: Assètis exteriors
           park: Pargue
           picnic_table: Taulas per manjar defòra
           pitch: Terren d'espòrt
-          playground: Airal de jòcs
+          playground: Airau de jòcs - Jogador
           recreation_ground: Terren de jòcs
-          resort: Vilegiatura
+          resort: Complèxe toristic
           sauna: Sauna
           slipway: Cala d’avaratge
           sports_centre: Centre esportiu
@@ -1034,25 +1043,25 @@ oc:
           adit: Galariá d'accès
           advertising: Publicitat
           antenna: Antena
-          avalanche_protection: Proteccion còntra avalancas
+          avalanche_protection: Proteccion còntra leis avalancadas
           beacon: Far
           beam: Equipa
           beehive: Bornhon
           breakwater: Mòle
-          bridge: Pont
+          bridge: Pònt
           bunker_silo: Bunker
           cairn: Clapàs
-          chimney: Chemenèia
+          chimney: Chamenèia
           clearcut: Deboscatge
           communications_tower: Torre de comunicacions
           crane: Grua
           cross: Crotz
           dolphin: Pòste d’amarratge
           dyke: Levada
-          embankment: tèrraplen
-          flagpole: Mast
+          embankment: Tèrraplen
+          flagpole: Mast de bandiera
           gasometer: Gasomètre
-          groyne: Espiga de plaja
+          groyne: Espigon de plaja
           kiln: Forn de terralha
           lighthouse: Far
           manhole: Tapa de toat
@@ -1065,7 +1074,7 @@ oc:
           pipeline: Pipeline
           pumping_station: Estacion de pompatge
           reservoir_covered: Depaus cobèrt
-          silo: Silò
+          silo: Silo
           snow_cannon: Canon de nèu
           snow_fence: Barriera còntra lei avalancadas
           storage_tank: Cistèrna d'emmagazinatge
@@ -1074,14 +1083,14 @@ oc:
           telescope: Telescòpi
           tower: Torre
           utility_pole: Biga electrica
-          wastewater_plant: Estacion de tractament de las aigas usadas
+          wastewater_plant: Estacion de tractament deis aigas usadas
           watermill: Molin d’aiga
           water_tap: Robinet d'aiga
           water_tower: Torre d'aiga
           water_well: Potz
           water_works: Sistèma idrolic
           windmill: Molin de vent
-          works: Usina
+          works: Fabrega - Usina
           "yes": Creat per l'òme
         military:
           airfield: Terren d'aviacion militara
@@ -1091,7 +1100,7 @@ oc:
           trench: Trencada
           "yes": Armada
         mountain_pass:
-          "yes": Còl de montanha
+          "yes": Pas
         natural:
           atoll: Atòl
           bare_rock: Rocassiera
@@ -1104,13 +1113,13 @@ oc:
           crater: Cratèr
           dune: Duna
           fell: Lana
-          fjord: Fjòrd
-          forest: Bòsc
-          geyser: Geisèr
-          glacier: Glacièr
+          fjord: Fiòrd
+          forest: Sèuva
+          geyser: Guèiser
+          glacier: Glacier
           grassland: Prada
-          heath: Bruguièra
-          hill: Puèg
+          heath: Bruguiera
+          hill: Pueg
           hot_spring: Fònt termala
           island: Illa
           isthmus: Friu
@@ -1118,21 +1127,21 @@ oc:
           marsh: Sanha
           moor: Tèrra gasta
           mud: Nita
-          peak: Pic
+          peak: Cima
           peninsula: Peninsula
           point: Poncha
           reef: Estèu
-          ridge: Cresta
+          ridge: Crestenc
           rock: Ròca
-          saddle: Sèla
+          saddle: Pass
           sand: Sabla
-          scree: Esbudèl
-          scrub: Brossa
+          scree: Esbudèl - Cassa
+          scrub: Brossalha
           shingle: Còdol
           spring: Sorgent
           stone: Pèira
           strait: Estrech
-          tree: Arbre
+          tree: Aubre
           tree_row: Renguiera d'aubres
           tundra: Tondra
           valley: Vau
@@ -1152,7 +1161,7 @@ oc:
           educational_institution: Institucion educativa
           employment_agency: Agéncia per l'emplec
           energy_supplier: Burèu de fornitura d'energia
-          estate_agent: Agent immobilièr
+          estate_agent: Agent immobilier
           financial: Burèu financier
           government: Agéncia governamentala
           insurance: Burèu d'assegurança
@@ -1169,15 +1178,15 @@ oc:
           travel_agent: Agéncia de viatge
           "yes": Burèu
         place:
-          allotments: Òrts familials
+          allotments: Òrts familhaus
           archipelago: Archipèla
           city: Vila
-          city_block: Illa d'ostals
+          city_block: Rodolet d'ostaus
           country: País
           county: Comtat
           farm: Tenement
           hamlet: Masatge
-          house: Ostal
+          house: Ostau
           houses: Ostaus
           island: Illa
           islet: Illòt
@@ -1187,14 +1196,14 @@ oc:
           neighbourhood: Quartier forestier, escart
           plot: Parcèla
           postcode: Còdi postal
-          quarter: Quartièr
+          quarter: Quartier
           region: Region
           sea: Mar
           square: Plaça
           state: Estat / província
           subdivision: Subdivision
           suburb: Quartier de vila, borgada
-          town: Vila
+          town: Vilòta
           village: Vilatge
           "yes": Luòc
         railway:
@@ -1205,7 +1214,7 @@ oc:
           funicular: Via de funicular
           halt: Arrèst de tren
           junction: Jonccion ferroviària
-          level_crossing: Passatge de nivèl
+          level_crossing: Passatge de nivèu
           light_rail: Pichona via ferrada
           miniature: Via ferrada miniatura
           monorail: Monoralh
@@ -1215,7 +1224,7 @@ oc:
           proposed: Projècte de camin de fèrre
           rail: Ralh
           spur: Via de connexion
-          station: Gara ferroviària
+          station: Estacion ferroviària
           stop: Arrèst de camin de fèrre
           subway: Estacion de mètro
           subway_entrance: Entrada de mètro
@@ -1226,7 +1235,7 @@ oc:
           yard: Via de triatge
         shop:
           agrarian: Botiga agricòla
-          alcohol: Magazin oficial d'alcoòl
+          alcohol: Botiga oficiala d'alcoòl
           antiques: Antiquari
           appliance: Botiga d'aparelhs electrodomestics
           art: Botiga d'art
@@ -1238,53 +1247,53 @@ oc:
           bed: Matalassaria
           beverages: Magazin de bevendas
           bicycle: Botiga de bicicletas
-          bookmaker: Ostal d'escomesas
+          bookmaker: Ostau d'escomesas
           books: Librariá
           boutique: Botiga
-          butcher: Carnissièr
+          butcher: Carnissièr - Bochier
           car: Venda de Veituras
           car_parts: Pèças d'automobilas
           car_repair: Reparacion d'automobilas
           carpet: Botiga de tapís
           charity: Magazin de benfasença
           cheese: Fromatgier
-          chemist: Farmàcia
+          chemist: Farmacia
           chocolate: Chocolatier
           clothes: Botga de vestits
           coffee: Cafeteria
-          computer: Magazin informatic
+          computer: Botiga d'informatica
           confectionery: Confisariá
           convenience: Especiariá
-          copyshop: Magazin de fotocòpias
+          copyshop: Botiga de fotocòpias
           cosmetics: Botiga de cosmetics
           craft: Fornidudas per l'artesanat
           curtain: Botiga de cortinas
           dairy: Lachariá
           deli: Tractaire
           department_store: Grand magazin
-          discount: Magazin discount
+          discount: Botiga de rebais
           doityourself: Botiga de bricolejatge
-          dry_cleaning: Netejatge a sec
+          dry_cleaning: Netejament a sec
           e-cigarette: Botiga de cigaretas electronicas
-          electronics: Magazin d'electronica
+          electronics: Botiga d'electronica
           erotic: Botiga erotica
-          estate_agent: Agent immobilièr
+          estate_agent: Agent immobilier
           fabric: Botiga de teissuts
           farm: Venda de produchs agricòlas
-          fashion: Magazin de mòda
+          fashion: Botiga de mòda
           fishing: Botiga d'accessòris de pesca
           florist: Florista
           food: Botiga d'alimentacion
           frame: Botiga d'enquadrament
           funeral_directors: Pompas funèbras
-          furniture: Amòblament
+          furniture: Amoblament
           garden_centre: Jardinariá
           gas: Combustibles
-          general: Magazin generalista
+          general: Botiga generalista
           gift: Botiga de presents
           greengrocer: Mercand d’èrbas
           grocery: Especiariá
-          hairdresser: Cofaire
+          hairdresser: Coifaire - Perruquier
           hardware: Quicalhariá
           health_food: Botiga d'alimentacion naturala
           hearing_aids: Aparelhs auditius
@@ -1294,7 +1303,7 @@ oc:
           ice_cream: Glacier
           interior_decoration: Decoracion d'interior
           jewelry: Joielariá
-          kiosk: Quiòsque
+          kiosk: Quiòsc
           kitchen: Botiga de cosina
           laundry: Bugadariá
           locksmith: Serralhier
@@ -1304,14 +1313,14 @@ oc:
           medical_supply: Articles sanitaris
           mobile_phone: Botiga de telefòns mobils
           money_lender: Prestador de sòus
-          motorcycle: Magazin de mòto
+          motorcycle: Botiga de mòto
           motorcycle_repair: Botiga de radob per motocicletas
-          music: Magazin de musica
+          music: Botiga de musica
           musical_instrument: Instruments de musica
           newsagent: Mercand de jornaus
           nutrition_supplements: Complements alimentaris
           optician: Optician
-          organic: Magazin bio
+          organic: Botiga bio
           outdoor: Venda d’articles d'activitats de plen aire
           paint: Galariá de pintura
           pastry: Pastissariá
@@ -1319,12 +1328,12 @@ oc:
           perfumery: Perfumaria
           pet: Animalariá
           pet_grooming: Perruqueria per animaus
-          photo: Magazin de fotografia
+          photo: Botiga de fotografia
           seafood: Crustacèus e cauquilhatges de mar
-          second_hand: Botiga d’ocasions
+          second_hand: Botiga de segonda man
           sewing: Merceria
           shoes: Botiga de cauçaduras
-          sports: Magazin d'espòrt
+          sports: Botiga d'espòrt
           stationery: Papetariá
           storage_rental: Depaus de mòbles
           supermarket: Supermercat
@@ -1337,7 +1346,7 @@ oc:
           travel_agency: Agéncia de viatge
           tyres: Venda de pneumatics
           vacant: Comèrci vacant
-          variety_store: Magasin de varietats
+          variety_store: Botiga de varietats
           video: Botiga de vidèos
           video_games: Botiga de jòcsvideo
           wholesale: Grossista
@@ -1361,48 +1370,48 @@ oc:
           information: Informacions
           motel: Motèl
           museum: Musèu
-          picnic_site: Site de picnic
+          picnic_site: Site de picnica
           theme_park: Pargue a tèma
           viewpoint: Amirador
           wilderness_hut: Sosta rurala
           zoo: Zoo
         tunnel:
-          building_passage: Passatge de bastiment
+          building_passage: Passatge de bastissa
           culvert: Pontet
-          "yes": Tunèl
+          "yes": Galariá
         waterway:
           artificial: Riu artificial
           boatyard: Obrdor de construccion navala
-          canal: Canal
-          dam: Diga
-          derelict_canal: Canal de deslaissament
+          canal: Canau
+          dam: Diga - Restanca
+          derelict_canal: Canau abandonat
           ditch: Valat
           dock: Cai
           drain: Toat
-          lock: Esclusa
-          lock_gate: Pòrta d'esclusa
+          lock: Resclausa
+          lock_gate: Pòrta de resclausa
           mooring: Ancoratge
           rapids: Raspa, brivent, capau
           river: Riu
-          stream: Riuet
+          stream: Riusset
           wadi: Valat
           waterfall: Cascada
-          weir: Barratge
+          weir: Restanca
           "yes": Via navegabla
       admin_levels:
-        level2: Frontièra del país
+        level2: Frontiera de país
         level3: Limit regionau
-        level4: Frontièra de l’estat
-        level5: Frontièra de la region
-        level6: Frontièra del comtat
+        level4: Frontiera de l’estat
+        level5: Frontiera de la region
+        level6: Frontiera del comtat
         level7: Limit municipau
         level8: Limit de la vila
-        level9: Limit del vilatge
+        level9: Limit dau vilatge
         level10: Limit de la banlèga
         level11: Limit de quartier
       types:
         cities: Vilas
-        towns: Vilas
+        towns: Vilòtas
         places: Plaças
     results:
       no_results: Cap de resultat es pas estat trobat
@@ -1532,8 +1541,8 @@ oc:
     edit_with: Modificar amb %{editor}
     tag_line: La mapa cooperativa liura
     intro_header: Benvenguda dins OpenStreetMap !
-    intro_text: OpenStreetMap es una mapa del mond, creada per de personas coma vos
-      e liura d’utilizacion jos licéncia liura.
+    intro_text: OpenStreetMap es una mapa dau monde, creada per de personas coma vos
+      e liura d’utilizacion sota licéncia liura.
     intro_2_create_account: Creatz un compte d'utilizaire
     hosting_partners_html: L'aubergament es pres en carga per %{ucl}, %{fastly}, %{bytemark},
       e d'autres %{partners}.
@@ -1583,11 +1592,11 @@ oc:
         a %{replyurl}
     friendship_notification:
       hi: Bonjorn %{to_user},
-      subject: '[OpenStreetMap] %{user} vos a apondut coma amic'
-      had_added_you: '%{user} vos a apondut coma amic dins OpenStreetMap.'
-      see_their_profile: 'Podètz veire son perfil aicí : %{userurl}.'
+      subject: '[OpenStreetMap] %{user} vos a ajustat per amic'
+      had_added_you: '%{user} vos a ajustat per amic dins OpenStreetMap.'
+      see_their_profile: 'Podètz veire son perfiu aicí : %{userurl}.'
       see_their_profile_html: 'Podètz veire son perfiu aicí : %{userurl}.'
-      befriend_them: 'Tanben, lo podètz apondre coma amic aicí : %{befriendurl}.'
+      befriend_them: 'Tanben, lo podètz ajustar per amic aicí : %{befriendurl}.'
       befriend_them_html: 'Tanben, lo podètz ajustar coma amic-ga aicí : %{befriendurl}.'
     gpx_description:
       description_with_tags_html: 'Sembla que vòstre fichier GPX %{trace_name} amb
@@ -1613,10 +1622,10 @@ oc:
       confirm: 'Primier de tot devèm confirmar qu''aquela demanda es estada facha
         per vos, s''es ansin, se vos plai, quichatz sus lo ligam seguent per confirmar
         la demanda de creacion de còmpte d''usatgier:'
-      welcome: Un còp confirmat lo còmpte, vos donarem quauque informacion adicionala
+      welcome: Un còp confirmat lo còmpte, vos donarem quauqua informacion adicionala
         perque poscatz començar.
     email_confirm:
-      subject: '[OpenStreetMap] Confirmacion de vòstra adreça de corrièr electronic'
+      subject: '[OpenStreetMap] Confirmacion de vòstra adreiça de corrier electronic'
       greeting: Bonjorn,
       hopefully_you: Qualqu’un (vos, esperam-lo) voldriá modificar son adreça de corrièr
         electronic sus %{server_url} en %{new_address}.
