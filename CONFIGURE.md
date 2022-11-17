@@ -8,7 +8,7 @@ Many settings are available in `config/settings.yml`. You can customize your ins
 
 ## Populating the database
 
-Your installation comes with no geographic data loaded. You can either create new data using one of the editors (iD, JOSM etc) or by loading an OSM extract.
+Your installation comes with no geographic data loaded. You can either create new data using one of the editors (iD, JOSM etc), download data as OSM-XML via JOSM or by loading an OSM extract.
 
 After installing but before creating any users or data, import an extract with [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis) and the [``--write-apidb``](https://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--write-apidb_.28--wd.29) task.
 
@@ -18,9 +18,15 @@ osmosis --read-pbf greater-london-latest.osm.pbf \
   user="openstreetmap" password="" validateSchemaVersion="no"
 ```
 
-Loading an apidb database with Osmosis is about **twenty** times slower than loading the equivalent data with osm2pgsql into a rendering database. [``--log-progress``](https://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--log-progress_.28--lp.29) may be desirable for status updates.
+ ```
+ osmosis --read-xml local_area.osm --write-apidb database=openstreetmap validateSchemaVersion=no
+ ```
+
+Loading an apidb database with Osmosis is about **twenty** times slower than loading the equivalent data with osm2pgsql into a rendering database. [``--log-progress``](https://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--log-progress_.28--lp.29) may be desirable for status updates. You could improve speed by [temporarily disabling index updating](https://fle.github.io/temporarily-disable-all-indexes-of-a-postgresql-table.html) and reindex all tables after the import.
 
 To be able to edit the data you have loaded, you will need to use this [yet-to-be-written script](https://github.com/openstreetmap/openstreetmap-website/issues/282).
+
+More information can be found in [DOCKER.md#loading-an-osm-extract](DOCKER.md#loading-an-osm-extract) and https://github.com/openstreetmap/openstreetmap-website/issues/282#issuecomment-24721913 ff.
 
 ## Managing Users
 
