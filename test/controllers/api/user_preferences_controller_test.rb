@@ -38,7 +38,12 @@ module Api
       auth_header = basic_authorization_header create(:user).email, "test"
       text_header = auth_header.merge({ "Accept" => "text/plain" })
 
-      put "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => text_header, :params => "public"
+      put "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => text_header, :params => "private"
+      get "#{user_preferences_path}/gps.trace.visibility", :headers => text_header
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "private", @response.body
+      put "#{user_preferences_path}/gps.trace.visibility", :headers => text_header, :params => "public"
       get "#{user_preferences_path}/gps%2Etrace%2evisibility", :headers => text_header
       assert_response :success
       assert_equal "text/plain", @response.media_type

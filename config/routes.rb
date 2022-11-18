@@ -72,13 +72,11 @@ OpenStreetMap::Application.routes.draw do
 
     # This is needed to get automatic URL decoding along with not needing to worry about re-adding the "format"
     # to the preference key.
-    get "user/preferences/:preference_key" => "api/user_preferences#show"
-    put "user/preferences/:preference_key" => "api/user_preferences#update"
-    delete "user/preferences/:preference_key" => "api/user_preferences#destroy"
-
-    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "api/user_preferences" do
-      collection do
-        put "" => "api/user_preferences#update_all", :as => ""
+    constraints(:preference_key => %r{(.+?)(?=\.json|\.xml|$|/)}) do
+      resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "api/user_preferences" do
+        collection do
+          put "" => "api/user_preferences#update_all", :as => ""
+        end
       end
     end
 
