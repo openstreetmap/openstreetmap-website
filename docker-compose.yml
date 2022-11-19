@@ -14,7 +14,9 @@ services:
       - web-images:/home/osm/images
     ports:
       - "3000:3000"
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      PIDFILE: "./tmp/server.pid"
+    command: bundle exec puma
     depends_on:
       - db
 

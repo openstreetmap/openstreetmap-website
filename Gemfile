@@ -138,6 +138,7 @@ group :development do
   gem "debug_inspector"
   gem "listen"
   gem "vendorer"
+  gem "puma", "~> 5.6"
 end
 
 # Gems needed for running tests
