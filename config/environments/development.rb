@@ -24,7 +24,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
     config.action_controller.page_cache_directory = Rails.public_path
 
-    config.cache_store = :file_store, Rails.root.join('tmp', "cache")
+    config.cache_store = :file_store, Rails.root.join("tmp/cache")
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
@@ -34,7 +34,7 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(STDOUT))
+  config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new($stdout))
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local

@@ -4,7 +4,7 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
-require 'concurrent'
+require "concurrent"
 
 max_threads_count = ENV.fetch("RAILS_MAX_THREADS", Concurrent.processor_count)
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count - 1 }
