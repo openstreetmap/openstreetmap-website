@@ -8,14 +8,12 @@ attrs = {
   "uid" => relation.changeset.user_id
 }
 
-cache "relations/xml/#{relation.id}/#{relation.version}" do
-  xml.relation(attrs) do |r|
-    relation.relation_members.each do |m|
-      r.member(:type => m.member_type.downcase, :ref => m.member_id, :role => m.member_role)
-    end
+xml.relation(attrs) do |r|
+  relation.relation_members.each do |m|
+    r.member(:type => m.member_type.downcase, :ref => m.member_id, :role => m.member_role)
+  end
 
-    relation.tags.each do |k, v|
-      r.tag(:k => k, :v => v)
-    end
+  relation.tags.each do |k, v|
+    r.tag(:k => k, :v => v)
   end
 end
