@@ -17,15 +17,12 @@ Rails.application.configure do
   # Enable server timing
   config.server_timing = true
 
-  if ENV['RAILS_LOG_STDOUT']
-    config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new($stdout))
-  end
-
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist? || ENV['RAILS_DEV_CACHE']
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
+    config.action_controller.page_cache_directory = Rails.public_path
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
