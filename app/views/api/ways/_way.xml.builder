@@ -8,12 +8,14 @@ attrs = {
   "uid" => way.changeset.user_id
 }
 
-xml.way(attrs) do |w|
-  way.nodes.each do |n|
-    w.nd(:ref => n.id)
-  end
+cache "ways/xml/#{way.id}/#{way.version}" do
+  xml.way(attrs) do |w|
+    way.nodes.each do |n|
+      w.nd(:ref => n.id)
+    end
 
-  way.tags.each do |k, v|
-    w.tag(:k => k, :v => v)
+    way.tags.each do |k, v|
+      w.tag(:k => k, :v => v)
+    end
   end
 end

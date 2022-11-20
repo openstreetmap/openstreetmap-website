@@ -8,17 +8,19 @@ attrs = {
   "uid" => node.changeset.user_id
 }
 
-if node.visible
-  attrs["lat"] = node.lat
-  attrs["lon"] = node.lon
-end
+cache "nodes/xml/#{node.id}/#{node.version}" do
+  if node.visible
+    attrs["lat"] = node.lat
+    attrs["lon"] = node.lon
+  end
 
-if node.tags.empty?
-  xml.node(attrs)
-else
-  xml.node(attrs) do |nd|
-    node.tags.each do |k, v|
-      nd.tag(:k => k, :v => v)
+  if node.tags.empty?
+    xml.node(attrs)
+  else
+    xml.node(attrs) do |nd|
+      node.tags.each do |k, v|
+        nd.tag(:k => k, :v => v)
+      end
     end
   end
 end
