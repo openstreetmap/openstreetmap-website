@@ -17,7 +17,7 @@ Rails.application.configure do
   # Enable server timing
   config.server_timing = true
 
-  if ENV['LOG_STDOUT']
+  if ENV['RAILS_LOG_STDOUT']
     config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new($stdout))
   end
 
