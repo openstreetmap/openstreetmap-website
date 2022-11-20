@@ -17,24 +17,30 @@ Rails.application.configure do
   # Enable server timing
   config.server_timing = true
 
+  if ENV['LOG_STDOUT']
+    config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new($stdout))
+  end
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
-    config.action_controller.page_cache_directory = Rails.public_path
 
-    config.cache_store = :file_store, Rails.root.join("tmp/cache")
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
+
+    if ENV['RAILS_CACHE_DIR'].present?
+      FileUtils.mkdir_p(ENV['RAILS_CACHE_DIR']) unless FileTest.exist?(ENV['RAILS_CACHE_DIR'])
+      config.action_controller.page_cache_directory = ENV['RAILS_CACHE_DIR']
+      config.cache_store = :file_store, ENV['RAILS_CACHE_DIR']
+    end
   else
     config.action_controller.perform_caching = false
 
     config.cache_store = :null_store
   end
-
-  config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new($stdout))
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
