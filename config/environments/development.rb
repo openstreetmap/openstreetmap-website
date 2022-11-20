@@ -27,14 +27,14 @@ Rails.application.configure do
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
+    config.cache_store = :memory_store
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
 
-    if ENV['RAILS_CACHE_DIR'].present?
-      FileUtils.mkdir_p(ENV['RAILS_CACHE_DIR']) unless FileTest.exist?(ENV['RAILS_CACHE_DIR'])
-      config.action_controller.page_cache_directory = ENV['RAILS_CACHE_DIR']
-      config.cache_store = :file_store, ENV['RAILS_CACHE_DIR']
+    if ENV['RAILS_PAGE_CACHE_DIR'].present?
+      FileUtils.mkdir_p(ENV['RAILS_PAGE_CACHE_DIR']) unless FileTest.exist?(ENV['RAILS_PAGE_CACHE_DIR'])
+      config.action_controller.page_cache_directory = ENV['RAILS_PAGE_CACHE_DIR']
     end
   else
     config.action_controller.perform_caching = false
