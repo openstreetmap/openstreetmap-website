@@ -31,11 +31,6 @@ Rails.application.configure do
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
-
-    if ENV['RAILS_PAGE_CACHE_DIR'].present?
-      FileUtils.mkdir_p(ENV['RAILS_PAGE_CACHE_DIR']) unless FileTest.exist?(ENV['RAILS_PAGE_CACHE_DIR'])
-      config.action_controller.page_cache_directory = ENV['RAILS_PAGE_CACHE_DIR']
-    end
   else
     config.action_controller.perform_caching = false
 
