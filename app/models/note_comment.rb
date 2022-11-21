@@ -25,11 +25,11 @@
 
 class NoteComment < ApplicationRecord
   belongs_to :note, :touch => true
-  belongs_to :author, :class_name => "User"
+  belongs_to :author, :class_name => "User", :optional => true
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
-  validates :note, :presence => true, :associated => true
+  validates :note, :associated => true
   validates :visible, :inclusion => [true, false]
   validates :author, :associated => true
   validates :event, :inclusion => %w[opened closed reopened commented hidden]

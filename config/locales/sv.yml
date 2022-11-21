@@ -18,13 +18,16 @@
 # Author: Jas
 # Author: Jenniesarina
 # Author: Jopparn
+# Author: Larske
 # Author: Liftarn
 # Author: Lokal Profil
+# Author: Lucke
 # Author: Luen
 # Author: Macofe
 # Author: Magol
 # Author: Malmis
 # Author: Mjälten
+# Author: Myskoxen
 # Author: Nastoshka
 # Author: Nemo bis
 # Author: Per
@@ -49,12 +52,9 @@
 # Author: Zvenzzon
 ---
 sv:
-  html:
-    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
-      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Välj fil
@@ -192,6 +192,10 @@ sv:
         pass_crypt: Lösenord
         pass_crypt_confirmation: Bekräfta lösenord
     help:
+      doorkeeper/application:
+        confidential: Applikationen används när klientens hemlighet kan bevaras konfidentiella
+          (inhemska mobilappar och ensidiga appar är inte konfidentiella)
+        redirect_uri: Använd en rad per URI
       trace:
         tagstring: kommaseparerad
       user_block:
@@ -244,9 +248,6 @@ sv:
       x_years:
         one: 1 år sedan
         other: '%{count} år sedan'
-  printable_name:
-    with_version: '%{id}, v%{version}'
-    with_name_html: '%{name} (%{id})'
   editor:
     default: Standard (för närvarande %{name})
     id:
@@ -287,6 +288,75 @@ sv:
       entry:
         comment: Kommentar
         full: Hela anteckningen
+  account:
+    deletions:
+      show:
+        title: Radera mitt konto
+        warning: Varning! Kontots raderingsprocess är slutgiltig och kan inte återställas.
+        delete_account: Radera konto
+        delete_introduction: 'Du kan radera ditt OpenStreetMap-konto med knappen nedan.
+          Notera följande detaljer:'
+        delete_profile: Din profilinformation, inklusive din avatar, beskrivning och
+          hemposition kommer tas bort.
+        delete_display_name: Ditt visade namn kommer tas bort och kan återanvändas
+          av andra konton.
+        retain_caveats: 'Viss information om dig kommer bevaras på OpenStreetMap,
+          även efter att ditt konto raderats:'
+        retain_edits: Dina redigeringar på kartdatabasen, om du gjort några, kommer
+          bevaras.
+        retain_traces: Dina uppladdade spår, om du gjort några, kommer bevaras.
+        retain_diary_entries: Dina dagboksinlägg och dagbokskommentarer, om du gjort
+          några, kommer bevaras men hållas gömda.
+        retain_notes: Dina kartanteckningar och notkommentarer, om du gjort några,
+          kommer bevaras men hållas gömda.
+        retain_changeset_discussions: Dina diskussioner på ändringsuppsätningar, om
+          du gjort några, kommer bevaras.
+        retain_email: Din e-postadress kommer bevaras.
+        confirm_delete: Är du säker?
+        cancel: Avbryt
+  accounts:
+    edit:
+      title: Redigera konto
+      my settings: Mina inställningar
+      current email address: Nuvarande e-postadress
+      external auth: Extern autentisering
+      openid:
+        link text: vad är detta?
+      public editing:
+        heading: Offentlig redigering
+        enabled: Aktiverat, du är inte anonym och kan redigera data.
+        enabled link text: vad är detta?
+        disabled: Avstängt och kan inte redigera data, alla redigeringar som gjorts
+          är anonyma.
+        disabled link text: varför kan jag inte redigera?
+      public editing note:
+        heading: Offentlig redigering
+        html: Dina redigeringar är för tillfället anonyma och andra användare kan
+          inte skicka meddelanden till dig eller se din position. För att visa andra
+          vad du redigerat och för att tillåta andra att kontakta dig genom webbplatsen,
+          klicka på knappen nedan. <b>Sedan bytet till API av version 0.6 kan bara
+          publika användare redigera kartdata</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">ta
+          reda på varför (engelska)</a>).<ul><li>Din e-postadress avslöjas inte om
+          du blir publik användare.</li><li>Denna handling kan inte ångras och alla
+          nya användare är numera publika som standard.</li></ul>
+      contributor terms:
+        heading: Bidragsgivarvillkor
+        agreed: Du har godkänt de nya bidragsgivarvillkoren.
+        not yet agreed: Du har ännu inte godkänt de nya bidragsgivarvillkoren.
+        review link text: Följ denna länk när du har tid att granska och godkänna
+          de nya bidragsvillkoren.
+        agreed_with_pd: Du har också förklarat att du anser att dina redigeringar
+          är inom Public Domain.
+        link text: vad är detta?
+      save changes button: Spara ändringar
+      make edits public button: Gör alla mina redigeringar offentliga
+      delete_account: Radera konto...
+    update:
+      success_confirm_needed: Användarinformation uppdaterades. Kontrollera din e-post
+        för att bekräfta din e-postadress.
+      success: Användarinformation uppdaterades.
+    destroy:
+      success: Kontot har raderats.
   browse:
     created: Skapad
     closed: Stängd
@@ -311,8 +381,6 @@ sv:
     view_history: Visa historik
     view_details: Visa detaljer
     location: 'Plats:'
-    common_details:
-      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Ändringsuppsättning: %{id}'
       belongs_to: Författare
@@ -332,8 +400,8 @@ sv:
         title_comment: Ändringsset %{id} - %{comment}
       join_discussion: Logga in för att delta i diskussionen
       discussion: Diskussion
-      still_open: Ändringsuppsättning är fortfarande öppet - diskussionen kommer att
-        öppnas när ändringsuppsättning har stängts.
+      still_open: Ändringsuppsättningen är fortfarande öppen - diskussionen kommer
+        att öppnas när ändringsuppsättning har stängts.
     node:
       title_html: 'Nod: %{name}'
       history_title_html: 'Nodhistorik: %{name}'
@@ -355,7 +423,6 @@ sv:
         one: 1 medlem
         other: '%{count} medlemmar'
     relation_member:
-      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
       type:
         node: Nod
@@ -424,8 +491,7 @@ sv:
       reopened_by_anonymous_html: Återaktiverades av en anonym användare för <abbr
         title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Doldes av %{user} <abbr title='%{exact_time}'>för %{when}</abbr>
-      report: Rapportera denna anteckning
-      coordinates_html: '%{latitude}, %{longitude}'
+      report: rapportera denna anteckning
     query:
       title: Undersök kartobjekt
       introduction: Klicka på kartan för att hitta funktioner i närheten.
@@ -469,7 +535,8 @@ sv:
       comment: 'Ny kommentar på ändringsuppsättning #%{changeset_id} av %{author}'
     index:
       title_all: Diskussion om OpenStreetMaps ändringsset
-      title_particular: Diskussions om OpenStreetMaps ändringsuppsättning nummer %{changeset_id}
+      title_particular: Diskussioner om OpenStreetMaps ändringsuppsättning nummer
+        %{changeset_id}
     timeout:
       sorry: Tyvärr, listan med ändringsuppsättningskommentarer du begärde kunde inte
         hämtas då begäran tog för lång tid.
@@ -483,6 +550,8 @@ sv:
       friend: Vän
     show:
       title: Min kontrollpanel
+      no_home_location_html: '%{edit_profile_link} och sätt din hemposition för att
+        se närliggande användare.'
       edit_your_profile: Redigera din profil
       my friends: Mina vänner
       no friends: Du har inte lagt till några vänner ännu.
@@ -550,7 +619,6 @@ sv:
       location: 'Plats:'
       view: Visa
       edit: Redigera
-      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: OpenStreetMap-dagboksinlägg för %{user}
@@ -562,7 +630,9 @@ sv:
         title: OpenStreetMap-dagboksinlägg
         description: Senaste dagboksinlägg från användare av OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} har kommenterat på följande dagboksinlägg'
+      title: Dagbokskommentarer tillagda av %{user}
+      heading: '%{user}s dagbokskommentarer'
+      subheading_html: Dagbokskommentarer tillagda av %{user}
       no_comments: Inga dagbokskommentarer
       post: Inlägg
       when: När
@@ -581,6 +651,8 @@ sv:
       success: '%{name} är nu din vän!'
       failed: Misslyckades med att lägga till %{name} som en vän.
       already_a_friend: Du är redan vän med %{name}.
+      limit_exceeded: Du har lagt till många vänner nyligen. Var snäll och vänta ett
+        tag innan du lägger till fler vänner.
     remove_friend:
       heading: Ta bort %{user} som vän?
       button: Ta bort som vän
@@ -598,7 +670,6 @@ sv:
           Nominatim</a>
         geonames_reverse_html: Resultat från <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
-      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Linbana
@@ -614,8 +685,8 @@ sv:
         aeroway:
           aerodrome: Flygfält
           airstrip: Landningsbana
-          apron: Platta
-          gate: Gate
+          apron: Flygplatsplatta
+          gate: Flygplatsgate
           hangar: Hangar
           helipad: Helikopterplatta
           holding_position: Väntplats
@@ -624,7 +695,7 @@ sv:
           runway: Landningsbana
           taxilane: Taxifil
           taxiway: Taxibana
-          terminal: Terminal
+          terminal: Flygplatsterminal
           windsock: Vindstrut
         amenity:
           animal_boarding: Djurhotell
@@ -670,7 +741,7 @@ sv:
           fire_station: Brandstation
           food_court: Food Court
           fountain: Fontän
-          fuel: Bränsle
+          fuel: Bensinstation
           gambling: Spel
           grave_yard: Begravningsplats
           grit_bin: Sandtunna
@@ -826,7 +897,6 @@ sv:
           window_construction: Fönsterkonstruktion
           winery: Vingård
           "yes": Hantverksbutik
-        crossing: Övergångsställe
         emergency:
           access_point: Åtkomstpunkt
           ambulance_station: Ambulansstation
@@ -840,7 +910,6 @@ sv:
           siren: Varningssiren
           suction_point: Beredskapssugpunkt
           water_tank: Nödvattentank
-          "yes": Nödsituation
         highway:
           abandoned: Övergiven motorväg
           bridleway: Ridstig
@@ -848,6 +917,7 @@ sv:
           bus_stop: Busshållplats
           construction: Väg under byggnad
           corridor: Korridor
+          crossing: Övergångsställe
           cycleway: Cykelspår
           elevator: Hiss
           emergency_access_point: Utryckningsplats
@@ -887,6 +957,7 @@ sv:
           trailhead: Vandringsstartpunkt
           trunk: Stamväg
           trunk_link: På-/avfart till stamväg/motortrafikled
+          turning_circle: Vändplats
           turning_loop: Vändslinga
           unclassified: Oklassificerad väg
           "yes": Väg
@@ -937,7 +1008,6 @@ sv:
           commercial: Kommersiellt område
           conservation: Naturskyddsområde
           construction: Byggarbetsplats
-          farm: Bondgård
           farmland: Jordbruksmark
           farmyard: Gårdsplan
           forest: Skog
@@ -1168,6 +1238,7 @@ sv:
           "yes": Plats
         railway:
           abandoned: Övergiven järnväg
+          buffer_stop: Stoppbock
           construction: Järnväg under anläggande
           disused: Nedlagd järnväg
           funicular: Bergbana
@@ -1181,6 +1252,7 @@ sv:
           platform: Tågperrong
           preserved: Bevarad järnväg
           proposed: Föreslagen järnväg
+          rail: Räls
           spur: Sidospår
           station: Tågstation
           stop: Järnvägshållplats
@@ -1189,6 +1261,7 @@ sv:
           switch: Järnvägsväxel
           tram: Spårväg
           tram_stop: Spårvagnshållplats
+          turntable: Vändskiva
           yard: Bangård
         shop:
           agrarian: Jordbruksbutik
@@ -1229,7 +1302,7 @@ sv:
           deli: Delikatessbutik
           department_store: Varuhus
           discount: Lågprisbutik
-          doityourself: Gör-det-själv
+          doityourself: Gör-det-själv-butik
           dry_cleaning: Kemtvätt
           e-cigarette: E-cigarettbutik
           electronics: Elektronikbutik
@@ -1255,7 +1328,7 @@ sv:
           health_food: Hälsokostbutik
           hearing_aids: Hörapparater
           herbalist: Örthandel
-          hifi: Hi-Fi
+          hifi: Hi-Fi-butik
           houseware: Husvaruhandel
           ice_cream: Glassbutik
           interior_decoration: Heminredning
@@ -1315,7 +1388,7 @@ sv:
           artwork: Konstverk
           attraction: Attraktion
           bed_and_breakfast: Bed and breakfast
-          cabin: Stuga
+          cabin: Turiststuga
           camp_pitch: Campingplats
           camp_site: Campingplats
           caravan_site: Husvagnsuppställningsplats
@@ -1439,6 +1512,7 @@ sv:
   issue_comments:
     create:
       comment_created: Din kommentar skapades
+      issue_reassigned: Din kommentar skapades och problemet återtilldelades
   reports:
     new:
       title_html: Repportera %{link}
@@ -1476,8 +1550,6 @@ sv:
       successful_report: Din rapport har registrerats
       provide_details: Ange de nödvändiga detaljerna
   layouts:
-    project_name:
-      title: OpenStreetMap
     logo:
       alt_text: OpenStreetMaps logotyp
     home: Gå till hemposition
@@ -1485,7 +1557,7 @@ sv:
     log_in: Logga in
     log_in_tooltip: Logga in med ditt konto
     sign_up: Registrera
-    start_mapping: Börja kartläggning
+    start_mapping: Börja kartlägga
     sign_up_tooltip: Skapa ett konto för kartering
     edit: Redigera
     history: Historik
@@ -1568,7 +1640,6 @@ sv:
       failed_to_import: 'misslyckats med att importera. Här är felet:'
       more_info_html: Mer information om misslyckade GPX-importer och hur man undviker
         dem återfinns på %{url}.
-      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Misslyckades importera GPX'
     gpx_success:
       hi: Hej %{to_user},
@@ -1625,7 +1696,7 @@ sv:
           är intresserad av'
         your_note: '%{commenter} har kommenterat en av dina kartanteckningar i närheten
           av %{place}.'
-        your_note_html: '%{commenter} har löst en av dina kartanteckningar i närheten
+        your_note_html: '%{commenter} har löst en av dina kartanteckning i närheten
           av %{place}.'
         commented_note: '%{commenter} har löst en kartanteckning du har kommenterat.
           Anteckningen är nära %{place}.'
@@ -1639,10 +1710,10 @@ sv:
           %{place}.'
         your_note_html: '%{commenter} har återaktiverat en av dina kartanteckningar
           nära %{place}.'
-        commented_note: '%{commenter} har återaktiverat en kartnotering du har kommenterat
-          på. Noteringen är nära %{place}.'
-        commented_note_html: '%{commenter} har återaktiverat en kartnotering du har
-          kommenterat på. Noteringen är nära %{place}.'
+        commented_note: '%{commenter} har återaktiverat en kartanteckning du har kommenterat
+          på. Anteckningen är nära %{place}.'
+        commented_note_html: '%{commenter} har återaktiverat en kartanteckning du
+          har kommenterat på. Anteckningen är nära %{place}.'
       details: Fler detaljer om anteckningen finns på %{url}.
       details_html: Fler detaljer om anteckningen finns på %{url}.
     changeset_comment_notification:
@@ -1663,8 +1734,8 @@ sv:
         partial_changeset_with_comment: med kommentar '%{changeset_comment}'
         partial_changeset_with_comment_html: med kommentar '%{changeset_comment}'
         partial_changeset_without_comment: utan kommentar
-      details: Mer detaljer om ändringsuppsättningen finns på %{url}.
-      details_html: Mer detaljer om ändringsuppsättningen finns på %{url}.
+      details: Fler detaljer om ändringsuppsättningen finns på %{url}.
+      details_html: Fler detaljer om ändringsuppsättningen finns på %{url}.
       unsubscribe: För att avsluta prenumerationen av uppdateringar i denna ändringsuppsättning,
         besök %{url} och klicka på "Avprenumerera".
       unsubscribe_html: För att avsluta prenumerationen av uppdateringar i denna ändringsuppsättning,
@@ -1693,6 +1764,11 @@ sv:
       success: Ditt byte av e-postadress har bekräftats!
       failure: En e-postadress har redan bekräftats med den här nyckeln.
       unknown_token: Den bekräftelsekoden har löpt ut eller existerar inte.
+    resend_success_flash:
+      confirmation_sent: Vi har skickat ett nytt bekräftelsemail till %{email} och
+        så fort du verifierar ditt konto kommer du kunna kartlägga.
+      whitelist: Om du använder ett antispam-system som skickar bekräftelsemail se
+        till att vitlista %{sender} eftersom vi inte kan svara på några bekräfelsemail.
   messages:
     inbox:
       title: Inkorg
@@ -1842,9 +1918,6 @@ sv:
       account not active: Tyvärr, ditt konto är inte aktiverat.<br />Vänligen klicka
         på länken i e-posten med kontobekräftelsen, för att aktivera ditt konto, eller
         <a href="%{reconfirm}">begär en ny epostsbekräftelse</a>.
-      account is suspended: Tyvärr har ditt konto stängts av på grund av tvivelaktig
-        aktivitet.<br />Kontakta <a href="%{webmaster}">supporten</a> om du vill diskutera
-        saken.
       auth failure: Kunde inte logga in med de uppgifterna.
       openid_logo_alt: Logga in med ett OpenID
       auth_providers:
@@ -1962,22 +2035,20 @@ sv:
         intro_3_1_html: "Vår dokumentation är tillgänglig under licensen \n<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
           Erkännande-DelaLika 2.0</a> (CC BY-SA 2.0)."
         credit_title_html: Hur du anger OpenStreetMap som källa
-        credit_1_html: |-
-          Vi kräver att din källhänvisning består av &ldquo;&copy; OpenStreetMaps
-          bidragsgivare&rdquo;.
+        credit_1_html: 'När du använder OpenStreetMap-data, måste du göra dessa två
+          saker:'
         credit_2_1_html: |-
           Du måste också göra klart att datan är tillgänglig under licensen Open Database License, och om du använder våra kartrutor, att kartografin är
           tillgänglig under licensen CC BY-SA. Du kan göra detta genom att länka till
           <a href="https://www.openstreetmap.org/copyright">denna sida om upphovsrätt</a>.
           Alternativt, och som krav om du distribuerar OSM i dataform, kan du namnge
           och länka direkt till licenserna. I media där länkar ej är möjliga
-          (t.ex. tryckt material), förslår vi att du hänvisar dina läsare till openstreetmap.org
+          (t.ex. tryckt material), föreslår vi att du hänvisar dina läsare till openstreetmap.org
           (förslagsvis genom att expandera 'OpenStreetMap' till hela denna adress), till opendatacommons.org, och om relevant till creativecommons.org.
-        credit_3_1_html: 'Kartrutorna i &ldquo;standardstilen&rdquo; på www.openstreetmap.org
+        credit_3_1_html: Kartrutorna i &ldquo;standardstilen&rdquo; på www.openstreetmap.org
           är ett producerat verk av OpenStreetMap Foundation med hjälp av OpenStreetMap-data
-          under licensen Open Database. Använder du dessa rutor, vänligen använd följande
-          erkännande: &ldquo;Baskarta och data från OpenStreetMap och OpenStreetMap
-          Foundation&rdquo;.'
+          under licensen Open Database. När du använder denna kartstil krävs samma
+          erkännande som för kartdata.
         credit_4_html: |-
           För en navigerbar elektronisk karta, ska källhänvisningen synas i ena hörnet av kartan.
           Till exempel:
@@ -2059,7 +2130,7 @@ sv:
         infringement_2_html: |-
           Om du tror att upphovsrättsskyddat material felaktigt har
           lagts in i OpenStreetMaps databas eller till den här webbplatsen, se
-          vårt <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">borttagningsförfarande</a>
+          vårt <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">borttagningsförfarande</a>
           eller fyll i vårt <a href="https://dmca.openstreetmap.org/">online-formulär</a> direkt.
         trademarks_title_html: <span id="trademarks"></span>Varumärken
         trademarks_1_html: OpenStreetMap, förstoringsglas-logotypen och State of the
@@ -2082,7 +2153,6 @@ sv:
       not_public_description_html: Du kan inte längre redigera kartan om du inte gör
         det. Du kan göra dina redigeringar offentliga från din %{user_page}.
       user_page_link: användarsida
-      anon_edits_html: (%{link})
       anon_edits_link_text: Ta reda på varför det är så.
       id_not_configured: iD har inte konfigurerats
       no_iframe_support: Din webbläsare stöder inte HTML iframes, vilken är nödvändig
@@ -2167,7 +2237,6 @@ sv:
         title: Guide för nybörjare
         description: Guide för nybörjare som underhålls av gemenskapen.
       help:
-        url: https://help.OpenStreetMap.org/
         title: Hjälpforum
         description: Ställ en fråga eller kolla upp svar på OpenStreetMaps sida med
           svar på ofta förekommande frågor.
@@ -2179,6 +2248,9 @@ sv:
         title: Forum
         description: Frågor och diskussioner för de som föredrar ett gränssnitt liknande
           en anslagstavla.
+      community:
+        title: Gemenskapsforum
+        description: En delad plats för konversationer om OpenStreetMap.
       irc:
         title: IRC
         description: Interaktiv chatt på flera olika språk rörande mängder av ämnen.
@@ -2187,12 +2259,10 @@ sv:
         description: Hjälp för företag och organisationer att byta till OpenStreetMap-baserade
           kartor och andra tjänster.
       welcomemat:
-        url: https://welcome.openstreetmap.org/
         title: För organisationer
         description: Är du i en organisation som har planer med OpenStreetMap? Ta
           reda på vad du behöver veta i välkomstmattan.
       wiki:
-        url: https://wiki.openstreetmap.org/
         title: OpenStreetMaps wiki
         description: Sök i wikin för ingående dokumentation av OpenStreetMap.
     potlatch:
@@ -2256,6 +2326,7 @@ sv:
           common:
           - Allmänning
           - äng
+          - trädgård
           retail: Område för Detaljhandel
           industrial: Industriellt område
           commercial: Kommersiellt område
@@ -2316,12 +2387,11 @@ sv:
           exempel en restaurangs namn eller en vägs hastighetsbegränsning.
       rules:
         title: Regler!
-        paragraph_1_html: "OpenStreetMap har få formella regler, men vi förväntar
-          oss att alla deltagare samarbetar och kommunicerar med gemenskapen. Om du
-          funderar på\nnågon annan aktivitet än manuell redigering av sidan, läs och
-          följ anvisningarna på \n<a href=\"https://wiki.openstreetmap.org/wiki/Import/Guidelines\">Import</a>
-          och \n<a href=\"https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct\">Automatiserade
-          redigeringar</a>."
+        paragraph_1_html: |-
+          OpenStreetMap har få formella regler, men vi förväntar oss att alla deltagare samarbetar och kommunicerar med gemenskapen. Om du funderar på
+          någon annan aktivitet än manuell redigering av sidan, läs och följ anvisningarna på
+          <a href="https://wiki.openstreetmap.org/wiki/Import/Guidelines">Import</a> och
+          <a href="https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct">Automatiserade redigeringar</a>.
       questions:
         title: Några frågor?
         paragraph_1_html: |-
@@ -2367,7 +2437,6 @@ sv:
       title: Redigerar GPS-spår %{name}
       heading: Redigerar GPS-spår %{name}
       visibility_help: vad betyder detta?
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: GPS-spår uppdaterades
     trace_optionals:
@@ -2414,7 +2483,7 @@ sv:
       in: i
     index:
       public_traces: Publika GPS-spår
-      my_traces: Mina spår
+      my_gps_traces: Mina GPS-spår
       public_traces_from: Publika GPS-spår från %{user}
       description: Bläddra bland nyligen uppladdade GPS-spår
       tagged_with: ' taggad med %{tags}'
@@ -2422,6 +2491,7 @@ sv:
         GPS-spår</a> eller lär dig om GPS-spår på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikin</a>.
       upload_trace: Ladda upp GPS-spår
       all_traces: Alla spår
+      my_traces: Mina spår
       traces_from: Offentliga GPS-spår från %{user}
       remove_tag_filter: Ta bort taggfilter
     destroy:
@@ -2448,9 +2518,8 @@ sv:
     require_admin:
       not_an_admin: Du måste vara administratör för att utföra denna åtgärd.
     setup_user_auth:
-      blocked_zero_hour: Du har ett brådskande meddelande väntande på hemsidan för
-        OpenStreetMap. Du behöver läsa meddelandet innan du ges möjlighet att spara
-        dina redigeringar.
+      blocked_zero_hour: Ett brådskande meddelande väntar dig på OpenStreetMaps hemsida.
+        Du behöver läsa meddelandet innan du kan spara dina redigeringar.
       blocked: Du har blivit blockerad från API:et. Var god logga in via webinterfacet
         för att få reda på mer.
       need_to_see_terms: Din tillgång till API:t är tillfälligt avstängd. Logga in
@@ -2502,7 +2571,7 @@ sv:
       skip_authorization: Godkänn applikation automatiskt
   oauth_clients:
     new:
-      title: Registrera ett nytt applikation
+      title: Registrera en ny applikation
     edit:
       title: Redigera ditt tillägg
     show:
@@ -2514,7 +2583,7 @@ sv:
       authorize_url: 'Godkänn URL:'
       support_notice: Vi stödjer signaturer med HMAC-SHA1 (rekommenderas) och RSA-SHA1.
       edit: Redigera detaljer
-      delete: Ta bort klient
+      delete: Radera klient
       confirm: Är du säker?
       requests: 'Begär följande behörigheter från användaren:'
     index:
@@ -2544,6 +2613,9 @@ sv:
   oauth2_applications:
     index:
       title: Mina klientapplikationer
+      no_applications_html: Har du ett applikation som du vill registrera för användning
+        hos oss med hjälp av %{oauth2}-standarden? Du måste registrera din webbapplikation
+        innan du kan göra OAuth-anropp till den här tjänsten.
       new: Registrera ny applikation
       name: Namn
       permissions: Behörigheter
@@ -2552,7 +2624,7 @@ sv:
       delete: Radera
       confirm_delete: Radera den här applikationen?
     new:
-      title: Registrera ett nytt applikation
+      title: Registrera en ny applikation
     edit:
       title: Redigera din applikation
     show:
@@ -2561,6 +2633,8 @@ sv:
       confirm_delete: Radera den här applikationen?
       client_id: Klient-ID
       client_secret: Klienthemlighet
+      client_secret_warning: Se till att spara denna hemlighet - den kommer inte vara
+        tillgänglig igen
       permissions: Behörigheter
       redirect_uris: Omdirigerings-URI:er
     not_found:
@@ -2625,13 +2699,11 @@ sv:
       consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
         egendom.
       consider_pd_why: vad är det här?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Information som hjälper dig förstå dessa termer: en <a href="%{summary}">lättläst
         sammanfattning</a> och några <a href="%{translations}">informella översättningar</a>'
       continue: |2-
 
         Fortsätt
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Läs igenom och godkänn eller avböj de nya bidragsvillkoren
         för att fortsätta.
@@ -2644,7 +2716,6 @@ sv:
       terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera de
         nya användarvillkoren. För mer information, se %{terms_declined_link}.
       terms_declined_link: denna wikisida
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Finns ingen sådan användare
       heading: Användaren %{user} finns inte
@@ -2700,52 +2771,12 @@ sv:
       activate_user: Aktivera denna användare
       deactivate_user: Inaktivera denna användare
       confirm_user: Bekräfta denna användare
+      unconfirm_user: Häv denna användares bekräftelse
       hide_user: Dölj denna användare
       unhide_user: Sluta dölja användare
       delete_user: Radera denna användare
       confirm: Bekräfta
       report: Rapportera denna användare
-    account:
-      title: Redigera konto
-      my settings: Mina inställningar
-      current email address: Nuvarande e-postadress
-      external auth: Extern autentisering
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: vad är detta?
-      public editing:
-        heading: Offentlig redigering
-        enabled: Aktiverat, du är inte anonym och kan redigera data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: vad är detta?
-        disabled: Avstängt och kan inte redigera data, alla redigeringar som gjorts
-          är anonyma.
-        disabled link text: varför kan jag inte redigera?
-      public editing note:
-        heading: Offentlig redigering
-        html: Dina redigeringar är för tillfället anonyma och andra användare kan
-          inte skicka meddelanden till dig eller se din position. För att visa andra
-          vad du redigerat och för att tillåta andra att kontakta dig genom webbplatsen,
-          klicka på knappen nedan. <b>Sedan bytet till API av version 0.6 kan bara
-          publika användare redigera kartdata</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">ta
-          reda på varför (engelska)</a>).<ul><li>Din e-postadress avslöjas inte om
-          du blir publik användare.</li><li>Denna handling kan inte ångras och alla
-          nya användare är numera publika som standard.</li></ul>
-      contributor terms:
-        heading: Bidragsgivarvillkor
-        agreed: Du har godkänt de nya bidragsgivarvillkoren.
-        not yet agreed: Du har ännu inte godkänt de nya bidragsgivarvillkoren.
-        review link text: Följ denna länk när du har tid att granska och godkänna
-          de nya bidragsvillkoren.
-        agreed_with_pd: Du har också förklarat att du anser att dina redigeringar
-          är inom Public Domain.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: vad är detta?
-      save changes button: Spara ändringar
-      make edits public button: Gör alla mina redigeringar publika
-      flash update success confirm needed: Användarinformation uppdaterades. Kontrollera
-        din e-post för att bekräfta din e-postadress.
-      flash update success: Användarinformation uppdaterades.
     set_home:
       flash success: Hemposition sparad
     go_public:
@@ -2780,6 +2811,7 @@ sv:
       no_authorization_code: Ingen behörighetskod
       unknown_signature_algorithm: Okänd signaturalgoritm
       invalid_scope: Ogiltiga omfattning
+      unknown_error: Autentisering misslyckades
     auth_association:
       heading: Ditt ID är inte associerat med ett OpenStreetMap-konto ännu.
       option_1: |-

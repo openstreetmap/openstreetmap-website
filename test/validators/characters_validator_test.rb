@@ -23,7 +23,7 @@ class CharactersValidatorTest < ActiveSupport::TestCase
 
     valid.each do |v|
       c.chars = v
-      assert c.valid?, "'#{v}' should be valid"
+      assert_predicate c, :valid?, "'#{v}' should be valid"
     end
   end
 
@@ -48,7 +48,7 @@ class CharactersValidatorTest < ActiveSupport::TestCase
 
     valid.each do |v|
       c.chars = v
-      assert c.valid?, "'#{v}' should be valid"
+      assert_predicate c, :valid?, "'#{v}' should be valid"
     end
   end
 

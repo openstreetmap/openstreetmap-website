@@ -161,7 +161,7 @@ class ApplicationController < ActionController::Base
     response.headers["Error"] = message
 
     if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
-      result = OSM::API.new.get_xml_doc
+      result = OSM::API.new.xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
@@ -231,6 +231,7 @@ class ApplicationController < ActionController::Base
   def api_call_timeout(&block)
     Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
   rescue Timeout::Error
+    ActiveRecord::Base.connection.raw_connection.cancel
     raise OSM::APITimeoutError
   end
 
@@ -243,11 +244,13 @@ class ApplicationController < ActionController::Base
 
     if e.is_a?(Timeout::Error) ||
        (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
+      ActiveRecord::Base.connection.raw_connection.cancel
       render :action => "timeout"
     else
       raise
     end
   rescue Timeout::Error
+    ActiveRecord::Base.connection.raw_connection.cancel
     render :action => "timeout"
   end
 
@@ -349,7 +352,7 @@ class ApplicationController < ActionController::Base
     elsif current_user
       set_locale
       respond_to do |format|
-        format.html { redirect_to :controller => "errors", :action => "forbidden" }
+        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
         format.any { report_error t("application.permission_denied"), :forbidden }
       end
     elsif request.get?
@@ -363,7 +366,7 @@ class ApplicationController < ActionController::Base
   end
 
   # extract authorisation credentials from headers, returns user = nil if none
-  def get_auth_data
+  def auth_data
     if request.env.key? "X-HTTP_AUTHORIZATION" # where mod_rewrite might have put it
       authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
     elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION" # mod_fcgi
@@ -381,19 +384,23 @@ class ApplicationController < ActionController::Base
 
   # clean any referer parameter
   def safe_referer(referer)
-    referer = URI.parse(referer)
+    begin
+      referer = URI.parse(referer)
 
-    if referer.scheme == "http" || referer.scheme == "https"
-      referer.scheme = nil
-      referer.host = nil
-      referer.port = nil
-    elsif referer.scheme || referer.host || referer.port
+      if referer.scheme == "http" || referer.scheme == "https"
+        referer.scheme = nil
+        referer.host = nil
+        referer.port = nil
+      elsif referer.scheme || referer.host || referer.port
+        referer = nil
+      end
+
+      referer = nil if referer&.path&.first != "/"
+    rescue URI::InvalidURIError
       referer = nil
     end
 
-    referer = nil if referer&.path&.first != "/"
-
-    referer.to_s
+    referer&.to_s
   end
 
   def scope_enabled?(scope)

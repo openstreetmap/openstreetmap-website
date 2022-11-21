@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../../lib/oauth"
+
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
@@ -48,7 +50,7 @@ Doorkeeper.configure do
   #   end
   # end
 
-  application_class "Oauth2Application"
+  application_class "Oauth2Application" unless Settings.status == "database_offline"
 
   # Enables polymorphic Resource Owner association for Access Tokens and Access Grants.
   # By default this option is disabled.

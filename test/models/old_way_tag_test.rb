@@ -5,7 +5,7 @@ class OldWayTagTest < ActiveSupport::TestCase
     tag = create(:old_way_tag)
     [0, 255].each do |i|
       tag.k = "k" * i
-      assert tag.valid?
+      assert_predicate tag, :valid?
     end
   end
 
@@ -13,7 +13,7 @@ class OldWayTagTest < ActiveSupport::TestCase
     tag = create(:old_way_tag)
     [0, 255].each do |i|
       tag.v = "v" * i
-      assert tag.valid?
+      assert_predicate tag, :valid?
     end
   end
 
@@ -21,32 +21,33 @@ class OldWayTagTest < ActiveSupport::TestCase
     tag = create(:old_way_tag)
     tag.k = "k" * 256
     assert_not tag.valid?, "Key should be too long"
-    assert tag.errors[:k].any?
+    assert_predicate tag.errors[:k], :any?
   end
 
   def test_length_value_invalid
     tag = create(:old_way_tag)
     tag.v = "v" * 256
     assert_not tag.valid?, "Value should be too long"
-    assert tag.errors[:v].any?
+    assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_tag_invalid
-    tag = OldWayTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
-    assert tag.errors[:old_way].any?
+  def test_orphaned_tag_invalid
+    tag = create(:old_way_tag)
+    tag.old_way = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
+    assert_predicate tag.errors[:old_way], :any?
   end
 
   def test_uniqueness
     existing = create(:old_way_tag)
-    tag = OldWayTag.new
+    tag = build(:old_way_tag, :old_way => existing.old_way, :version => existing.version, :k => existing.k, :v => existing.v)
     tag.way_id = existing.way_id
     tag.version = existing.version
     tag.k = existing.k
     tag.v = existing.v
-    assert tag.new_record?
+    assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
-    assert tag.new_record?
+    assert_predicate tag, :new_record?
   end
 end

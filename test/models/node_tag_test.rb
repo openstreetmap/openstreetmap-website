@@ -5,7 +5,7 @@ class NodeTagTest < ActiveSupport::TestCase
     tag = create(:node_tag)
     [0, 255].each do |i|
       tag.k = "k" * i
-      assert tag.valid?
+      assert_predicate tag, :valid?
     end
   end
 
@@ -13,7 +13,7 @@ class NodeTagTest < ActiveSupport::TestCase
     tag = create(:node_tag)
     [0, 255].each do |i|
       tag.v = "v" * i
-      assert tag.valid?
+      assert_predicate tag, :valid?
     end
   end
 
@@ -21,31 +21,29 @@ class NodeTagTest < ActiveSupport::TestCase
     tag = create(:node_tag)
     tag.k = "k" * 256
     assert_not tag.valid?, "Key should be too long"
-    assert tag.errors[:k].any?
+    assert_predicate tag.errors[:k], :any?
   end
 
   def test_length_value_invalid
     tag = create(:node_tag)
     tag.v = "v" * 256
     assert_not tag.valid?, "Value should be too long"
-    assert tag.errors[:v].any?
+    assert_predicate tag.errors[:v], :any?
   end
 
-  def test_empty_node_tag_invalid
-    tag = NodeTag.new
-    assert_not tag.valid?, "Empty tag should be invalid"
-    assert tag.errors[:node].any?
+  def test_orphaned_node_tag_invalid
+    tag = create(:node_tag)
+    tag.node = nil
+    assert_not tag.valid?, "Orphaned tag should be invalid"
+    assert_predicate tag.errors[:node], :any?
   end
 
   def test_uniqueness
     existing = create(:node_tag)
-    tag = NodeTag.new
-    tag.node_id = existing.node_id
-    tag.k = existing.k
-    tag.v = existing.v
-    assert tag.new_record?
+    tag = build(:node_tag, :node => existing.node, :k => existing.k, :v => existing.v)
+    assert_predicate tag, :new_record?
     assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
-    assert tag.new_record?
+    assert_predicate tag, :new_record?
   end
 end

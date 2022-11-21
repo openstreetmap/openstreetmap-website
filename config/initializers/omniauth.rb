@@ -1,3 +1,4 @@
+require "multi_json"
 require "openid/fetchers"
 require "openid/util"
 
@@ -8,6 +9,7 @@ OpenID::Util.logger = Rails.logger
 
 OmniAuth.config.logger = Rails.logger
 OmniAuth.config.failure_raise_out_environments = []
+OmniAuth.config.allowed_request_methods = [:post, :patch]
 
 if Settings.key?(:memcache_servers)
   require "openid/store/memcache"

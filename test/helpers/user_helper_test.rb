@@ -8,12 +8,12 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_image(user)
-    assert_match %r{^<img class="user_image" .* src="/images/avatar_large.png" />$}, image
+    assert_match %r{^<img class="user_image border border-grey" .* src="/images/avatar_large.png" />$}, image
 
     image = user_image(user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="/images/avatar_large.png" />$}, image
     image = user_image(gravatar_user)
-    assert_match %r{^<img class="user_image" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_image border border-grey" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_image(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -24,13 +24,13 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_thumbnail(user)
-    assert_match %r{^<img class="user_thumbnail" .* src="/images/avatar_small.png" />$}, image
+    assert_match %r{^<img class="user_thumbnail border border-grey" .* src="/images/avatar_small.png" />$}, image
 
     image = user_thumbnail(user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="/images/avatar_small.png" />$}, image
 
     image = user_thumbnail(gravatar_user)
-    assert_match %r{^<img class="user_thumbnail" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail border border-grey" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -41,13 +41,13 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_thumbnail_tiny(user)
-    assert_match %r{^<img class="user_thumbnail_tiny" .* src="/images/avatar_small.png" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny border border-grey" .* src="/images/avatar_small.png" />$}, image
 
     image = user_thumbnail_tiny(user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="/images/avatar_small.png" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user)
-    assert_match %r{^<img class="user_thumbnail_tiny" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny border border-grey" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -116,10 +116,7 @@ class UserHelperTest < ActionView::TestCase
 
   def test_auth_button
     button = auth_button("google", "google")
-    assert_equal("<a class=\"auth_button\" title=\"Login with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" class=\"rounded-lg\" src=\"/images/google.svg\" /></a>", button)
-
-    button = auth_button("wordpress", "openid", :openid_url => "wordpress.com")
-    assert_equal("<a class=\"auth_button\" title=\"Login with Wordpress\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/openid?openid_url=wordpress\.com\"><img alt=\"Login with a Wordpress OpenID\" class=\"rounded-lg\" src=\"/images/wordpress.svg\" /></a>", button)
+    assert_equal("<a class=\"auth_button\" title=\"Login with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\"><img alt=\"Login with a Google OpenID\" class=\"rounded-3\" src=\"/images/google.svg\" /></a>", button)
   end
 
   private

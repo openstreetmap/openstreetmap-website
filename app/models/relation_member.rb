@@ -23,4 +23,6 @@ class RelationMember < ApplicationRecord
 
   belongs_to :relation
   belongs_to :member, :polymorphic => true
+
+  validates :member_role, :allow_blank => true, :length => { :maximum => 255 }, :characters => true
 end

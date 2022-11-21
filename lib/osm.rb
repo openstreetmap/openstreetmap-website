@@ -237,6 +237,24 @@ module OSM
     end
   end
 
+  # Raised when a relation has more than the configured number of relation members.
+  # This prevents relations from being too complex and difficult to work with
+  class APITooManyRelationMembersError < APIError
+    def initialize(id, provided, max)
+      super "You tried to add #{provided} members to relation #{id}, however only #{max} are allowed"
+
+      @id = id
+      @provided = provided
+      @max = max
+    end
+
+    attr_reader :id, :provided, :max
+
+    def status
+      :bad_request
+    end
+  end
+
   ##
   # raised when user input couldn't be parsed
   class APIBadUserInput < APIError
@@ -347,23 +365,23 @@ module OSM
       yscale = ysize / height
       scale = [xscale, yscale].max
 
-      xpad = width * scale - xsize
-      ypad = height * scale - ysize
+      xpad = (width * scale) - xsize
+      ypad = (height * scale) - ysize
 
       @width = width
       @height = height
 
-      @tx = xsheet(min_lon) - xpad / 2
-      @ty = ysheet(min_lat) - ypad / 2
+      @tx = xsheet(min_lon) - (xpad / 2)
+      @ty = ysheet(min_lat) - (ypad / 2)
 
-      @bx = xsheet(max_lon) + xpad / 2
-      @by = ysheet(max_lat) + ypad / 2
+      @bx = xsheet(max_lon) + (xpad / 2)
+      @by = ysheet(max_lat) + (ypad / 2)
     end
 
     # the following two functions will give you the x/y on the entire sheet
 
     def ysheet(lat)
-      log(tan(PI / 4 + (lat * PI / 180 / 2))) / (PI / 180)
+      log(tan((PI / 4) + (lat * PI / 180 / 2))) / (PI / 180)
     end
 
     def xsheet(lon)
@@ -399,7 +417,7 @@ module OSM
     def distance(lat, lon)
       lat = lat * PI / 180
       lon = lon * PI / 180
-      6372.795 * 2 * asin(sqrt(sin((lat - @lat) / 2)**2 + cos(@lat) * cos(lat) * sin((lon - @lon) / 2)**2))
+      6372.795 * 2 * asin(sqrt((sin((lat - @lat) / 2)**2) + (cos(@lat) * cos(lat) * (sin((lon - @lon) / 2)**2))))
     end
 
     # get the worst case bounds for a given radius from the base position
@@ -407,7 +425,7 @@ module OSM
       latradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2)**2))
 
       begin
-        lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2)**2 / cos(@lat)**2))
+        lonradius = 2 * asin(sqrt((sin(radius / 6372.795 / 2)**2) / (cos(@lat)**2)))
       rescue Errno::EDOM, Math::DomainError
         lonradius = PI
       end
@@ -427,7 +445,7 @@ module OSM
   end
 
   class API
-    def get_xml_doc
+    def xml_doc
       doc = XML::Document.new
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new "osm"
@@ -502,7 +520,7 @@ module OSM
 
   # Return the HTTP client to use
   def self.http_client
-    @http_client ||= Faraday.new
+    @http_client ||= Faraday.new(:request => { :timeout => 15 })
   end
 
   # Return the MaxMindDB database handle

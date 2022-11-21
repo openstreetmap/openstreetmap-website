@@ -23,7 +23,7 @@ class Ability
       can [:index, :show], Redaction
       can [:new, :create, :destroy], :session
       can [:index, :show, :data, :georss, :picture, :icon], Trace
-      can [:terms, :new, :create, :save,  :show, :auth_success, :auth_failure], User
+      can [:terms, :new, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
       can [:index, :show, :blocks_on, :blocks_by], UserBlock
       can [:index, :show], Node
       can [:index, :show, :full, :ways_for_node], Way
@@ -36,12 +36,14 @@ class Ability
     if user
       can :welcome, :site
       can [:revoke, :authorize], :oauth
+      can [:show], :deletion
 
       if Settings.status != "database_offline"
         can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
         can [:index, :new, :create, :show, :edit, :update, :destroy], :oauth2_application
         can [:index, :destroy], :oauth2_authorized_application
         can [:new, :show, :create, :destroy], :oauth2_authorization
+        can [:edit, :update, :destroy], :account
         can [:show], :dashboard
         can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
         can [:make_friend, :remove_friend], Friendship

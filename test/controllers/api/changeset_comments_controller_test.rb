@@ -10,12 +10,24 @@ module Api
         { :controller => "api/changeset_comments", :action => "create", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/changeset/1/comment.json", :method => :post },
+        { :controller => "api/changeset_comments", :action => "create", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
         { :controller => "api/changeset_comments", :action => "destroy", :id => "1" }
       )
       assert_routing(
+        { :path => "/api/0.6/changeset/comment/1/hide.json", :method => :post },
+        { :controller => "api/changeset_comments", :action => "destroy", :id => "1", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/comment/1/unhide", :method => :post },
         { :controller => "api/changeset_comments", :action => "restore", :id => "1" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/changeset/comment/1/unhide.json", :method => :post },
+        { :controller => "api/changeset_comments", :action => "restore", :id => "1", :format => "json" }
       )
     end
 
@@ -214,7 +226,7 @@ module Api
       assert_response :forbidden
 
       # Try again, after agreement with the terms
-      user.terms_agreed = Time.now
+      user.terms_agreed = Time.now.utc
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do
@@ -237,7 +249,7 @@ module Api
       assert_response :forbidden
 
       # Try again, after agreement with the terms
-      user.terms_agreed = Time.now
+      user.terms_agreed = Time.now.utc
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do

@@ -10,18 +10,6 @@ OSM.History = function (map) {
     })
     .on("mouseout", "[data-changeset]", function () {
       unHighlightChangeset($(this).data("changeset").id);
-    })
-    .on("mousedown", "[data-changeset]", function () {
-      var moved = false;
-      $(this)
-        .one("click", function (e) {
-          if (!moved && !$(e.target).is("a")) {
-            clickChangeset($(this).data("changeset").id, e);
-          }
-        })
-        .one("mousemove", function () {
-          moved = true;
-        });
     });
 
   var group = L.featureGroup()
@@ -32,7 +20,7 @@ OSM.History = function (map) {
       unHighlightChangeset(e.layer.id);
     })
     .on("click", function (e) {
-      clickChangeset(e.layer.id, e);
+      clickChangeset(e.layer.id, e.originalEvent);
     });
 
   group.getLayerId = function (layer) {
@@ -55,11 +43,26 @@ OSM.History = function (map) {
     $("#changeset_" + id).find("a.changeset_id").simulate("click", e);
   }
 
+  function displayFirstChangesets(html) {
+    $("#sidebar_content .changesets").html(html);
+  }
+
+  function displayMoreChangesets(html) {
+    $("#sidebar_content .changeset_more").replaceWith(html);
+    var oldList = $("#sidebar_content .changesets ol").first();
+    var newList = oldList.next("ol");
+    newList.children().appendTo(oldList);
+    newList.remove();
+  }
+
   function update() {
     var data = { list: "1" };
 
     if (window.location.pathname === "/history") {
       data.bbox = map.getBounds().wrap().toBBoxString();
+      var feedLink = $("link[type=\"application/atom+xml\"]"),
+          feedHref = feedLink.attr("href").split("?")[0];
+      feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
     }
 
     $.ajax({
@@ -67,15 +70,10 @@ OSM.History = function (map) {
       method: "GET",
       data: data,
       success: function (html) {
-        $("#sidebar_content .changesets").html(html);
+        displayFirstChangesets(html);
         updateMap();
       }
     });
-
-    var feedLink = $("link[type=\"application/atom+xml\"]"),
-        feedHref = feedLink.attr("href").split("?")[0];
-
-    feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
   }
 
   function loadMore(e) {
@@ -87,8 +85,8 @@ OSM.History = function (map) {
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function (data) {
-      div.replaceWith(data);
+    $.get($(this).attr("href"), function (html) {
+      displayMoreChangesets(html);
       updateMap();
     });
   }

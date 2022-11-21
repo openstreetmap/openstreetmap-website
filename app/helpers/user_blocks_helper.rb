@@ -8,7 +8,7 @@ module UserBlocksHelper
     if block.active?
       # if the block hasn't expired yet show the date, if the user just needs to login show that
       if block.needs_view?
-        if block.ends_at > Time.now.getutc
+        if block.ends_at > Time.now.utc
           t("user_blocks.helper.time_future_and_until_login_html", :time => friendly_date(block.ends_at))
         else
           t("user_blocks.helper.until_login")

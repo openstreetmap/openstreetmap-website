@@ -319,7 +319,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
+      assert_select "h2", :text => /#{new_title}/, :count => 1
       # This next line won't work if the text has been run through the htmlize function
       # due to formatting that could be introduced
       assert_select "p", :text => /#{new_body}/, :count => 1
@@ -339,7 +339,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
+      assert_select "h2", :text => /#{new_title}/, :count => 1
       # This next line won't work if the text has been run through the htmlize function
       # due to formatting that could be introduced
       assert_select "p", :text => /#{new_body}/, :count => 1

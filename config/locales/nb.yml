@@ -8,6 +8,7 @@
 # Author: Dittaeva
 # Author: EvenT
 # Author: Event
+# Author: Gabriel Kielland
 # Author: Gustavf
 # Author: Haakon K
 # Author: Hansfn
@@ -138,7 +139,7 @@ nb:
         description: Beskrivelse
         gpx_file: Last opp GPX-fil
         visibility: Synlighet
-        tagstring: Tagger
+        tagstring: Egenskaper
       message:
         sender: Avsender
         title: Emne
@@ -259,6 +260,45 @@ nb:
       entry:
         comment: Kommentar
         full: Fullstendig merknad
+  accounts:
+    edit:
+      title: Rediger konto
+      my settings: Mine innstillinger
+      current email address: Nåværende e-postadresse
+      external auth: Ekstern autentisering
+      openid:
+        link text: hva er dette?
+      public editing:
+        heading: Offentlig redigering
+        enabled: Aktivert. Ikke anonym og kan redigere data.
+        enabled link text: hva er dette?
+        disabled: Deaktivert og kan ikke redigere data. Alle tidligere redigeringer
+          er anonyme.
+        disabled link text: hvorfor kan jeg ikke redigere?
+      public editing note:
+        heading: Offentlig redigering
+        html: For øyeblikket er redigeringene dine anonyme og folk kan ikke sende
+          deg meldinger eller se posisjonen din. For å vise hva du redigerte og tillate
+          folk å kontakte deg gjennom nettsiden, klikk på knappen nedenfor. <b>Siden
+          overgangen til 0.6 API-et, kan kun offentlige brukere redigere kartdata.</b>
+          (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Finn ut hvorfor</a>
+          ). <ul><li>Din e-postadresse vil ikke bli avslørt ved å bli offentlig.</li><li>Denne
+          handlingen kan ikke angres, og alle nye brukere er nå offentlige som standard.</li></ul>
+      contributor terms:
+        heading: Bidragsytervilkår
+        agreed: Du har godkjent de nye Bidragsytervilkårene.
+        not yet agreed: Du har ennå ikke godkjent de nye bidragsytervilkårene.
+        review link text: Vennligst følg denne lenken når det passer deg, for å se
+          igjennom og godkjenne de nye bidragsytervilkårene.
+        agreed_with_pd: Du har også opplyst at du anser dine redigeringer for å være
+          offentlig eiendom (Public Domain).
+        link text: hva er dette?
+      save changes button: Lagre endringer
+      make edits public button: Gjør alle mine redigeringer offentlig
+    update:
+      success_confirm_needed: Brukerinformasjon oppdatert. Sjekk eposten din for å
+        bekrefte din epostadresse.
+      success: Brukerinformasjon oppdatert.
   browse:
     created: Opprettet
     closed: Lukket
@@ -522,7 +562,6 @@ nb:
         title: Innlegg i OpenStreetMap-dagboka
         description: Nye innlegg i dagbøkene til OpenStreetMap-brukere
     comments:
-      has_commented_on: '%{display_name} har kommentert følgende dagbokinnlegg'
       post: Artikkel
       when: Når
       comment: Kommentar
@@ -552,7 +591,6 @@ nb:
           Nominatim</a>
         geonames_reverse_html: Resultater fra <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
-      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Kabelbane
@@ -757,7 +795,6 @@ nb:
           landing_site: Nødlandingsplass
           phone: Nødtelefon
           water_tank: Nødvanntank
-          "yes": Nødsituasjon
         highway:
           abandoned: Forlatt motorvei
           bridleway: Ridevei
@@ -845,7 +882,6 @@ nb:
           commercial: Kommersielt område
           conservation: Fredet
           construction: Kontruksjon
-          farm: Gård
           farmland: Jorde
           farmyard: Gårdstun
           forest: Skog
@@ -1254,7 +1290,7 @@ nb:
       ignore: Se bort fra
       reopen: Gjenåpne
       reports_of_this_issue: Rapporter som finnes om denne saken
-      read_reports: Les rapporter
+      read_reports: Lese rapporter
       new_reports: Nye rapporter
       other_issues_against_this_user: Andre saker mot denne brukeren
       no_other_issues: Ingen andre saker mot denne brukeren.
@@ -1313,9 +1349,6 @@ nb:
       successful_report: Din rapport har blitt vellykket registrert
       provide_details: Vær vennlig å angi de påkrevde detaljer
   layouts:
-    project_name:
-      title: OpenStreetMap
-      h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap-logo
     home: Gå til din brukers hjemmeadresse
@@ -1528,7 +1561,7 @@ nb:
       wrong_user: Du er logget inn som «%{user}», men meldingen du ønsker å svare
         på ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å svare.
     show:
-      title: Les melding
+      title: Lese melding
       from: Fra
       subject: Emne
       date: Dato
@@ -1605,9 +1638,6 @@ nb:
       account not active: Beklager, kontoen din er ikke aktivert ennå.<br />Bruk lenka
         i kontobekreftelseseposten for å aktivere kontoen din, eller <a href="%{reconfirm}">be
         om en ny bekreftelsesepost</a>.
-      account is suspended: Beklager, kontoen din er deaktivert på grunn av mistenkelig
-        aktivitet.<br />Vennligst kontakt <a href="%{webmaster}">kundestøtte</a> hvis
-        du ønsker å diskutere dette.
       auth failure: Beklager, kunne ikke logge inn med den informasjonen
       openid_logo_alt: Logg inn med en OpenID
       auth_providers:
@@ -1639,6 +1669,9 @@ nb:
       title: Logg ut
       heading: Logg ut fra OpenStreetMap
       logout_button: Logg ut
+  shared:
+    richtext_field:
+      edit: Rediger
   site:
     about:
       next: Neste
@@ -1901,7 +1934,6 @@ nb:
         title: Hjelp for nybegynnere
         description: Dugnadsbasert guide for nybegynnere.
       help:
-        url: https://help.openstreetmap.org/
         title: Hjelpeforum
         description: Still spørsmål eller sjekk svar på OpenStreetMaps spørsmål- og
           svar-sider.
@@ -1922,12 +1954,10 @@ nb:
         description: Hjelp for bedrifter og organisasjoner som vil bytte til OpenStreetMap-baserte
           kart og andre tjenester.
       welcomemat:
-        url: https://welcome.openstreetmap.org/
         title: For organisasjoner
         description: Er du del av en organisasjon som har planer med OpenStreetMap?
           Finn ut av hva du har bruk for å vite på Velkomstmatten.
       wiki:
-        url: http://wiki.openstreetmap.org/
         title: OpenStreetMaps wiki
         description: Se gjennom wikien for dyptgående OSM-dokumentasjon.
     sidebar:
@@ -2043,12 +2073,10 @@ nb:
           strekning, f.eks. navnet på en restaurant eller fartsgrensen på en vei.
       rules:
         title: Regler!
-        paragraph_1_html: OpenStreetMap har få formelle regler, men vi forventer at
-          alle deltagere samarbeider og kommuniserer med fellesskapet. Hvis du er
-          interessert i andre aktiviteter enn manuell redigering, vennligst les og
-          følg retningslinjene for <a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>import</a>
-          og <a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automatiske
-          redigeringer</a>.
+        paragraph_1_html: |-
+          OpenStreetMap har få formelle regler, men vi forventer at alle deltagere samarbeider og kommuniserer med fellesskapet. Hvis du er interessert i andre aktiviteter enn manuell redigering, vennligst les og følg retningslinjene for
+          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>import</a> og
+          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automatiske redigeringer</a>.
       questions:
         title: Noen spørsmål?
         paragraph_1_html: |-
@@ -2072,7 +2100,6 @@ nb:
     new:
       upload_trace: Last opp GPS-spor
       visibility_help: hva betyr dette?
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Hjelp
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2139,13 +2166,13 @@ nb:
       in: i
     index:
       public_traces: Offentlig GPS-spor
-      my_traces: Mine spor
       public_traces_from: Offentlige GPS-spor fra %{user}
       description: Bla gjennom nylig opplastede GPS-spor
       tagged_with: merket med %{tags}
       empty_html: Ingenting her ennå. <a href='%{upload_link}'>Last opp et nytt spor</a>
         eller lær å lage GPS-spor på <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki-siden</a>.
       upload_trace: Last opp et GPS-spor
+      my_traces: Mine spor
     destroy:
       scheduled_for_deletion: Spor planlagt slettet
     make_public:
@@ -2209,9 +2236,10 @@ nb:
       read_prefs: Lese brukeralternativ
       write_prefs: Endre brukeralternativ
       write_api: Endre kartet
-      read_gpx: Les private GPS-spor
+      read_gpx: Lese private GPS-spor
       write_gpx: Last opp GPS-spor
       write_notes: Endre merknader
+      read_email: Lese brukerens e-postadresse
   oauth_clients:
     new:
       title: Registrer en ny applikasjon
@@ -2259,6 +2287,13 @@ nb:
       no_applications_html: Har du et program som du vil registrere for bruk med oss
         gjennom %{oauth2}-standarden? Du må registrere ditt program før det kan gjøre
         OAuth-forespørsler til denne tjenesten.
+    application:
+      edit: Rediger
+      delete: Slett
+    new:
+      title: Registrer en ny applikasjon
+    show:
+      delete: Slett
   users:
     new:
       title: Registrer deg
@@ -2302,7 +2337,6 @@ nb:
       guidance_html: 'Informasjon for å hjelpe å forstå disse vilkårene: et <a href="%{summary}">menneskelig
         lesbart sammendrag</a> og noen <a href="%{translations}">uformelle oversettelser</a>'
       continue: Fortsett
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Les og deretter enten godta eller avslå de nye
         bidragsytervilkårene for å fortsette.
@@ -2311,8 +2345,6 @@ nb:
         france: Frankrike
         italy: Italia
         rest_of_world: Resten av verden
-    terms_declined_flash:
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Ingen bruker funnet
       heading: Brukeren %{user} finnes ikke
@@ -2370,46 +2402,6 @@ nb:
       delete_user: Slett denne brukeren
       confirm: Bekreft
       report: Rapporter denne brukeren
-    account:
-      title: Rediger konto
-      my settings: Mine innstillinger
-      current email address: Nåværende e-postadresse
-      external auth: Ekstern autentisering
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: hva er dette?
-      public editing:
-        heading: Offentlig redigering
-        enabled: Aktivert. Ikke anonym og kan redigere data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: hva er dette?
-        disabled: Deaktivert og kan ikke redigere data. Alle tidligere redigeringer
-          er anonyme.
-        disabled link text: hvorfor kan jeg ikke redigere?
-      public editing note:
-        heading: Offentlig redigering
-        html: For øyeblikket er redigeringene dine anonyme og folk kan ikke sende
-          deg meldinger eller se posisjonen din. For å vise hva du redigerte og tillate
-          folk å kontakte deg gjennom nettsiden, klikk på knappen nedenfor. <b>Siden
-          overgangen til 0.6 API-et, kan kun offentlige brukere redigere kartdata.</b>
-          (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Finn ut hvorfor</a>
-          ). <ul><li>Din e-postadresse vil ikke bli avslørt ved å bli offentlig.</li><li>Denne
-          handlingen kan ikke angres, og alle nye brukere er nå offentlige som standard.</li></ul>
-      contributor terms:
-        heading: Bidragsytervilkår
-        agreed: Du har godkjent de nye Bidragsytervilkårene.
-        not yet agreed: Du har ennå ikke godkjent de nye bidragsytervilkårene.
-        review link text: Vennligst følg denne lenken når det passer deg, for å se
-          igjennom og godkjenne de nye bidragsytervilkårene.
-        agreed_with_pd: Du har også opplyst at du anser dine redigeringer for å være
-          offentlig eiendom (Public Domain).
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: hva er dette?
-      save changes button: Lagre endringer
-      make edits public button: Gjør alle mine redigeringer offentlig
-      flash update success confirm needed: Brukerinformasjon oppdatert. Sjekk eposten
-        din for å bekrefte din epostadresse.
-      flash update success: Brukerinformasjon oppdatert.
     set_home:
       flash success: Hjemmeposisjon lagret
     go_public:
@@ -2653,7 +2645,7 @@ nb:
       queryfeature_disabled_tooltip: Forstørr utvalg for å se over elementer
     changesets:
       show:
-        comment: Kommentar
+        comment: Kommenter
         subscribe: Abonner
         unsubscribe: Avslutt abonnement
         hide_comment: skjul

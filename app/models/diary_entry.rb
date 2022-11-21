@@ -28,9 +28,9 @@
 
 class DiaryEntry < ApplicationRecord
   belongs_to :user, :counter_cache => true
-  belongs_to :language, :foreign_key => "language_code"
+  belongs_to :language, :foreign_key => "language_code", :inverse_of => :diary_entries
 
-  has_many :comments, -> { order(:id).preload(:user) }, :class_name => "DiaryComment"
+  has_many :comments, -> { order(:id).preload(:user) }, :class_name => "DiaryComment", :inverse_of => :diary_entry
   has_many :visible_comments, -> { joins(:user).where(:visible => true, :users => { :status => %w[active confirmed] }).order(:id) }, :class_name => "DiaryComment"
   has_many :subscriptions, :class_name => "DiaryEntrySubscription"
   has_many :subscribers, :through => :subscriptions, :source => :user

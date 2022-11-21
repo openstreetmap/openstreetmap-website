@@ -11,6 +11,7 @@
 # Author: Caliburn
 # Author: Captaindogfish
 # Author: Chase me ladies, I'm the Cavalry
+# Author: Danieldegroot2
 # Author: E THP
 # Author: EdLoach
 # Author: Eduard Popov
@@ -34,12 +35,9 @@
 # Author: ديفيد
 ---
 en-GB:
-  html:
-    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y at %H:%M'
-      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Choose file
@@ -209,9 +207,6 @@ en-GB:
       x_years:
         one: 1 year ago
         other: '%{count} years ago'
-  printable_name:
-    with_version: '%{id}, v%{version}'
-    with_name_html: '%{name} (%{id})'
   editor:
     default: Default (currently %{name})
     id:
@@ -252,6 +247,44 @@ en-GB:
       entry:
         comment: Comment
         full: Full note
+  accounts:
+    edit:
+      title: Edit account
+      my settings: My settings
+      current email address: Current Email Address
+      external auth: External Authentication
+      openid:
+        link text: what is this?
+      public editing:
+        heading: Public editing
+        enabled: Enabled. Not anonymous and can edit data.
+        enabled link text: what is this?
+        disabled: Disabled and cannot edit data, all previous edits are anonymous.
+        disabled link text: why can't I edit?
+      public editing note:
+        heading: Public editing
+        html: Currently your edits are anonymous and people cannot send you messages
+          or see your location. To show what you edited and allow people to contact
+          you through the website, click the button below. <b>Since the 0.6 API changeover,
+          only public users can edit map data</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">find
+          out why</a>).<ul><li>Your e-mail address will not be revealed by becoming
+          public.</li><li>This action cannot be reversed and all new users are now
+          public by default.</li></ul>
+      contributor terms:
+        heading: Contributor Terms
+        agreed: You have agreed to the new Contributor Terms.
+        not yet agreed: You have not yet agreed to the new Contributor Terms.
+        review link text: Please follow this link at your convenience to review and
+          accept the new Contributor Terms.
+        agreed_with_pd: You have also declared that you consider your edits to be
+          in the Public Domain.
+        link text: what is this?
+      save changes button: Save Changes
+      make edits public button: Make all my edits public
+    update:
+      success_confirm_needed: User information updated successfully. Check your email
+        for a note to confirm your new email address.
+      success: User information updated successfully.
   browse:
     created: Created
     closed: Closed
@@ -270,8 +303,6 @@ en-GB:
     view_history: View History
     view_details: View Details
     location: 'Location:'
-    common_details:
-      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Changeset: %{id}'
       belongs_to: Author
@@ -308,7 +339,6 @@ en-GB:
       history_title_html: 'Relation History: %{name}'
       members: Members
     relation_member:
-      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} as %{role}'
       type:
         node: Node
@@ -374,8 +404,6 @@ en-GB:
       reopened_by_html: Reactivated by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Reactivated by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Hidden by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Report this note
-      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Query Features
       introduction: Click on the map to find nearby features.
@@ -506,7 +534,6 @@ en-GB:
         title: OpenStreetMap diary entries
         description: Recent diary entries from users of OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} has commented on the following diary entries'
       post: Post
       when: When
       comment: Comment
@@ -536,7 +563,6 @@ en-GB:
           Nominatim</a>
         geonames_reverse_html: Results from <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
-      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Cable Car
@@ -612,7 +638,6 @@ en-GB:
           ice_cream: Ice Cream
           internet_cafe: Internet Cafe
           kindergarten: Nursery School
-          language_school: Language school
           library: Library
           loading_dock: Loading Dock
           love_hotel: Love Hotel
@@ -705,7 +730,6 @@ en-GB:
           landing_site: Emergency Landing Site
           phone: Emergency Phone
           water_tank: Emergency Water Tank
-          "yes": Emergency
         highway:
           abandoned: Abandoned Highway
           bridleway: Bridleway
@@ -789,7 +813,6 @@ en-GB:
           commercial: Commercial Area
           conservation: Conservation
           construction: Construction
-          farm: Farm
           farmland: Farmland
           farmyard: Farmyard
           forest: Forest
@@ -1142,9 +1165,6 @@ en-GB:
     index:
       reports: Reports
   layouts:
-    project_name:
-      title: OpenStreetMap
-      h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap logo
     home: Go to Home Location
@@ -1212,7 +1232,6 @@ en-GB:
       befriend_them: You can also add them as a friend at %{befriendurl}.
     gpx_failure:
       failed_to_import: 'failed to import. Here is the error:'
-      import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX Import failure'
     gpx_success:
       loaded_successfully:
@@ -1430,9 +1449,6 @@ en-GB:
       account not active: Sorry, your account is not active yet.<br />Please use the
         link in the account confirmation email to activate your account, or <a href="%{reconfirm}">request
         a new confirmation email</a>.
-      account is suspended: Sorry, your account has been suspended due to suspicious
-        activity.<br />Please contact <a href="%{webmaster}">support</a> if you wish
-        to discuss this.
       auth failure: Sorry, could not log in with those details.
       openid_logo_alt: Log in with an OpenID
       auth_providers:
@@ -1633,7 +1649,6 @@ en-GB:
       not_public_description_html: You can no longer edit the map unless you do so.
         You can set your edits as public from your %{user_page}.
       user_page_link: user page
-      anon_edits_html: (%{link})
       anon_edits_link_text: Find out why this is the case.
       id_not_configured: iD has not been configured
       no_iframe_support: Your browser doesn't support HTML iframes, which are necessary
@@ -1714,11 +1729,9 @@ en-GB:
         title: Welcome to OpenStreetMap
         description: Start with this quick guide covering the OpenStreetMap basics.
       beginners_guide:
-        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: Beginners' Guide
         description: Community maintained guide for beginners.
       help:
-        url: https://help.openstreetmap.org/
         title: Help Forum
         description: Ask a question or look up answers on OpenStreetMap's question-and-answer
           site.
@@ -1738,7 +1751,6 @@ en-GB:
         description: Help for companies and organisations switching to OpenStreetMap
           based maps and other services.
       wiki:
-        url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: Browse the wiki for in-depth OpenStreetMap documentation.
     sidebar:
@@ -1881,7 +1893,6 @@ en-GB:
         points with timestamps)
     new:
       visibility_help: what does this mean?
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Help
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1900,7 +1911,6 @@ en-GB:
       title: Editing trace %{name}
       heading: Editing trace %{name}
       visibility_help: what does this mean?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     trace_optionals:
       tags: Tags
     show:
@@ -2046,6 +2056,9 @@ en-GB:
       flash: Updated the client information successfully
     destroy:
       flash: Destroyed the client application registration
+  oauth2_applications:
+    new:
+      title: Register a new application
   users:
     new:
       title: Sign Up
@@ -2079,7 +2092,6 @@ en-GB:
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Information to help understand these terms: a <a href="%{summary}">human
         readable summary</a> and some <a href="%{translations}">informal translations</a>'
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Decline
       you need to accept or decline: Please read and then either accept or decline
         the new Contributor Terms to continue.
@@ -2091,7 +2103,6 @@ en-GB:
     terms_declined_flash:
       terms_declined_html: We are sorry that you have decided to not accept the new
         Contributor Terms. For more information, please see %{terms_declined_link}.
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: No such user
       heading: The user %{user} does not exist
@@ -2148,45 +2159,6 @@ en-GB:
       unhide_user: Unhide this User
       delete_user: Delete this User
       confirm: Confirm
-    account:
-      title: Edit account
-      my settings: My settings
-      current email address: Current Email Address
-      external auth: External Authentication
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: what is this?
-      public editing:
-        heading: Public editing
-        enabled: Enabled. Not anonymous and can edit data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: what is this?
-        disabled: Disabled and cannot edit data, all previous edits are anonymous.
-        disabled link text: why can't I edit?
-      public editing note:
-        heading: Public editing
-        html: Currently your edits are anonymous and people cannot send you messages
-          or see your location. To show what you edited and allow people to contact
-          you through the website, click the button below. <b>Since the 0.6 API changeover,
-          only public users can edit map data</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">find
-          out why</a>).<ul><li>Your e-mail address will not be revealed by becoming
-          public.</li><li>This action cannot be reversed and all new users are now
-          public by default.</li></ul>
-      contributor terms:
-        heading: Contributor Terms
-        agreed: You have agreed to the new Contributor Terms.
-        not yet agreed: You have not yet agreed to the new Contributor Terms.
-        review link text: Please follow this link at your convenience to review and
-          accept the new Contributor Terms.
-        agreed_with_pd: You have also declared that you consider your edits to be
-          in the Public Domain.
-        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: what is this?
-      save changes button: Save Changes
-      make edits public button: Make all my edits public
-      flash update success confirm needed: User information updated successfully.
-        Check your email for a note to confirm your new email address.
-      flash update success: User information updated successfully.
     set_home:
       flash success: Home location saved successfully
     go_public:

@@ -28,7 +28,7 @@ class TracesController < ApplicationController
     @title = if target_user.nil?
                t ".public_traces"
              elsif current_user && current_user == target_user
-               t ".my_traces"
+               t ".my_gps_traces"
              else
                t ".public_traces_from", :user => target_user.display_name
              end
@@ -69,10 +69,6 @@ class TracesController < ApplicationController
     @target_user = target_user
   end
 
-  def mine
-    redirect_to :action => :index, :display_name => current_user.display_name
-  end
-
   def show
     @trace = Trace.find(params[:id])
 
@@ -93,64 +89,6 @@ class TracesController < ApplicationController
     @trace = Trace.new(:visibility => default_visibility)
   end
 
-  def create
-    @title = t ".upload_trace"
-
-    logger.info(params[:trace][:gpx_file].class.name)
-
-    if params[:trace][:gpx_file].respond_to?(:read)
-      begin
-        @trace = do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
-                           params[:trace][:description], params[:trace][:visibility])
-      rescue StandardError => e
-        logger.debug e
-      end
-
-      if @trace.id
-        flash[:notice] = t ".trace_uploaded"
-        flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
-
-        TraceImporterJob.perform_later(@trace) if Settings.trace_use_job_queue
-        redirect_to :action => :index, :display_name => current_user.display_name
-      else
-        flash[:error] = t("traces.create.upload_failed") if @trace.valid?
-
-        render :action => "new"
-      end
-    else
-      @trace = Trace.new(:name => "Dummy",
-                         :tagstring => params[:trace][:tagstring],
-                         :description => params[:trace][:description],
-                         :visibility => params[:trace][:visibility],
-                         :inserted => false, :user => current_user,
-                         :timestamp => Time.now.getutc)
-      @trace.valid?
-      @trace.errors.add(:gpx_file, "can't be blank")
-
-      render :action => "new"
-    end
-  end
-
-  def data
-    trace = Trace.find(params[:id])
-
-    if trace.visible? && (trace.public? || (current_user && current_user == trace.user))
-      if Acl.no_trace_download(request.remote_ip)
-        head :forbidden
-      elsif request.format == Mime[:xml]
-        send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
-      elsif request.format == Mime[:gpx]
-        send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
-      else
-        send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
-      end
-    else
-      head :not_found
-    end
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
-  end
-
   def edit
     @trace = Trace.find(params[:id])
 
@@ -163,6 +101,40 @@ class TracesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
+  end
+
+  def create
+    @title = t ".upload_trace"
+
+    logger.info(params[:trace][:gpx_file].class.name)
+
+    if params[:trace][:gpx_file].respond_to?(:read)
+      @trace = do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                         params[:trace][:description], params[:trace][:visibility])
+
+      if @trace.id
+        flash[:notice] = t ".trace_uploaded"
+        flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
+
+        TraceImporterJob.perform_later(@trace)
+        redirect_to :action => :index, :display_name => current_user.display_name
+      else
+        flash[:error] = t("traces.create.upload_failed") if @trace.valid?
+
+        render :action => "new"
+      end
+    else
+      @trace = Trace.new(:name => "Dummy",
+                         :tagstring => params[:trace][:tagstring],
+                         :description => params[:trace][:description],
+                         :visibility => params[:trace][:visibility],
+                         :inserted => false, :user => current_user,
+                         :timestamp => Time.now.utc)
+      @trace.valid?
+      @trace.errors.add(:gpx_file, "can't be blank")
+
+      render :action => "new"
+    end
   end
 
   def update
@@ -194,8 +166,34 @@ class TracesController < ApplicationController
       trace.visible = false
       trace.save
       flash[:notice] = t ".scheduled_for_deletion"
-      TraceDestroyerJob.perform_later(trace) if Settings.trace_use_job_queue
+      TraceDestroyerJob.perform_later(trace)
       redirect_to :action => :index, :display_name => trace.user.display_name
+    end
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  end
+
+  def mine
+    redirect_to :action => :index, :display_name => current_user.display_name
+  end
+
+  def data
+    trace = Trace.find(params[:id])
+
+    if trace.visible? && (trace.public? || (current_user && current_user == trace.user))
+      if Acl.no_trace_download(request.remote_ip)
+        head :forbidden
+      elsif request.format == Mime[:xml]
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
+      elsif request.format == Mime[:gpx]
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
+      elsif trace.file.attached?
+        redirect_to rails_blob_path(trace.file, :disposition => "attachment")
+      else
+        send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
+      end
+    else
+      head :not_found
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
@@ -217,8 +215,12 @@ class TracesController < ApplicationController
 
     if trace.visible? && trace.inserted?
       if trace.public? || (current_user && current_user == trace.user)
-        expires_in 7.days, :private => !trace.public?, :public => trace.public?
-        send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => "image/gif", :disposition => "inline")
+        if trace.icon.attached?
+          redirect_to rails_blob_path(trace.image, :disposition => "inline")
+        else
+          expires_in 7.days, :private => !trace.public?, :public => trace.public?
+          send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => "image/gif", :disposition => "inline")
+        end
       else
         head :forbidden
       end
@@ -234,8 +236,12 @@ class TracesController < ApplicationController
 
     if trace.visible? && trace.inserted?
       if trace.public? || (current_user && current_user == trace.user)
-        expires_in 7.days, :private => !trace.public?, :public => trace.public?
-        send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => "image/gif", :disposition => "inline")
+        if trace.icon.attached?
+          redirect_to rails_blob_path(trace.icon, :disposition => "inline")
+        else
+          expires_in 7.days, :private => !trace.public?, :public => trace.public?
+          send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => "image/gif", :disposition => "inline")
+        end
       else
         head :forbidden
       end
@@ -252,60 +258,27 @@ class TracesController < ApplicationController
     # Sanitise the user's filename
     name = file.original_filename.gsub(/[^a-zA-Z0-9.]/, "_")
 
-    # Get a temporary filename...
-    filename = "/tmp/#{rand}"
-
-    # ...and save the uploaded file to that location
-    File.open(filename, "wb") { |f| f.write(file.read) }
-
-    # Create the trace object, falsely marked as already
-    # inserted to stop the import daemon trying to load it
+    # Create the trace object
     trace = Trace.new(
       :name => name,
       :tagstring => tags,
       :description => description,
       :visibility => visibility,
-      :inserted => true,
+      :inserted => false,
       :user => current_user,
-      :timestamp => Time.now.getutc
+      :timestamp => Time.now.utc,
+      :file => file
     )
 
-    if trace.valid?
-      Trace.transaction do
-        begin
-          # Save the trace object
-          trace.save!
-
-          # Rename the temporary file to the final name
-          FileUtils.mv(filename, trace.trace_name)
-        rescue StandardError
-          # Remove the file as we have failed to update the database
-          FileUtils.rm_f(filename)
-
-          # Pass the exception on
-          raise
-        end
-
-        begin
-          # Clear the inserted flag to make the import daemon load the trace
-          trace.inserted = false
-          trace.save!
-        rescue StandardError
-          # Remove the file as we have failed to update the database
-          FileUtils.rm_f(trace.trace_name)
-
-          # Pass the exception on
-          raise
-        end
+    # Save the trace object
+    if trace.save
+      # Finally save the user's preferred privacy level
+      if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
+        pref.v = visibility
+        pref.save
+      else
+        current_user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
       end
-    end
-
-    # Finally save the user's preferred privacy level
-    if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
-      pref.v = visibility
-      pref.save
-    else
-      current_user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
     end
 
     trace

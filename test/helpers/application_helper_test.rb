@@ -8,11 +8,11 @@ class ApplicationHelperTest < ActionView::TestCase
       text = "Test #{link} is <b>made</b> into a link"
 
       html = linkify(text)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is &lt;b&gt;made&lt;/b&gt; into a link", html
 
       html = linkify(text.html_safe)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is <b>made</b> into a link", html
     end
 
@@ -20,11 +20,11 @@ class ApplicationHelperTest < ActionView::TestCase
       text = "Test #{link} is not <b>made</b> into a link"
 
       html = linkify(text)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test #{link} is not &lt;b&gt;made&lt;/b&gt; into a link", html
 
       html = linkify(text.html_safe)
-      assert html.html_safe?
+      assert_predicate html, :html_safe?
       assert_dom_equal "Test #{link} is not <b>made</b> into a link", html
     end
   end
@@ -56,19 +56,19 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_friendly_date
-    date = friendly_date(Time.new(2014, 3, 5, 18, 58, 23))
+    date = friendly_date(Time.new(2014, 3, 5, 18, 58, 23).utc)
     assert_match %r{^<span title=" *5 March 2014 at 18:58">.*</span>$}, date
 
-    date = friendly_date(Time.now - 1.hour)
+    date = friendly_date(Time.now.utc - 1.hour)
     assert_match %r{^<span title=".*">about 1 hour</span>$}, date
 
-    date = friendly_date(Time.now - 2.days)
+    date = friendly_date(Time.now.utc - 2.days)
     assert_match %r{^<span title=".*">2 days</span>$}, date
 
-    date = friendly_date(Time.now - 3.weeks)
+    date = friendly_date(Time.now.utc - 3.weeks)
     assert_match %r{^<span title=".*">21 days</span>$}, date
 
-    date = friendly_date(Time.now - 4.months)
+    date = friendly_date(Time.now.utc - 4.months)
     assert_match %r{^<span title=".*">4 months</span>$}, date
   end
 

@@ -191,7 +191,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     m = Message.last
     assert_equal user.id, m.from_user_id
     assert_equal recipient_user.id, m.to_user_id
-    assert_in_delta Time.now, m.sent_on, 2
+    assert_in_delta Time.now.utc, m.sent_on, 2
     assert_equal "Test Message", m.title
     assert_equal "Test message body", m.body
     assert_equal "markdown", m.body_format

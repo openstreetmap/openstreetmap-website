@@ -46,7 +46,7 @@ class PasswordsController < ApplicationController
         if params[:user]
           current_user.pass_crypt = params[:user][:pass_crypt]
           current_user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          current_user.status = "active" if current_user.status == "pending"
+          current_user.activate if current_user.may_activate?
           current_user.email_valid = true
 
           if current_user.save

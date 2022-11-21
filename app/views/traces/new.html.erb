@@ -4,7 +4,7 @@
 
 <%= bootstrap_form_for @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
   <%= f.file_field :gpx_file, :placeholder => t("helpers.file.prompt") %>
-  <%= f.text_field :description %>
+  <%= f.text_field :description, :maxlength => 255 %>
   <%= f.text_field :tagstring %>
   <%= f.select :visibility,
                [[t("traces.visibility.private"), "private"],

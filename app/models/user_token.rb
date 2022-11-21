@@ -24,7 +24,7 @@ class UserToken < ApplicationRecord
   after_initialize :set_defaults
 
   def expired?
-    expiry < Time.now
+    expiry < Time.now.utc
   end
 
   private

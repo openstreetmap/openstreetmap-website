@@ -1,6 +1,5 @@
 OSM.initializeBrowse = function (map) {
   var browseBounds;
-  var selectedLayer;
   var dataLayer = map.dataLayer;
 
   dataLayer.setStyle({
@@ -49,20 +48,19 @@ OSM.initializeBrowse = function (map) {
 
   function displayFeatureWarning(count, limit, add, cancel) {
     $("#browse_status").html(
-      $("<div>")
-        .append(
-          $("<h2>")
-            .text(I18n.t("browse.start_rjs.load_data"))
-            .prepend($("<span class='icon close'></span>").click(cancel)))
-        .append(
-          $("<div>")
-            .append(
-              $("<p class='alert alert-warning clearfix'></p>")
-                .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })))
-            .append(
-              $("<input type='submit' class='btn btn-primary'>")
-                .val(I18n.t("browse.start_rjs.load_data"))
-                .click(add))));
+      $("<div>").append(
+        $("<div class='d-flex'>").append(
+          $("<h2 class='flex-grow-1 text-break'>")
+            .text(I18n.t("browse.start_rjs.load_data")),
+          $("<div>").append(
+            $("<button type='button' class='btn-close'>")
+              .attr("aria-label", I18n.t("javascripts.close"))
+              .click(cancel))),
+        $("<p class='alert alert-warning'>")
+          .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })),
+        $("<input type='submit' class='btn btn-primary'>")
+          .val(I18n.t("browse.start_rjs.load_data"))
+          .click(add)));
   }
 
   var dataLoader;
@@ -92,7 +90,6 @@ OSM.initializeBrowse = function (map) {
       url: url,
       success: function (xml) {
         dataLayer.clearLayers();
-        selectedLayer = null;
 
         var features = dataLayer.buildFeatures(xml);
 
@@ -112,24 +109,16 @@ OSM.initializeBrowse = function (map) {
           displayFeatureWarning(features.length, maxFeatures, addFeatures, cancelAddFeatures);
         }
 
+        if (map._objectLayer) {
+          map._objectLayer.bringToFront();
+        }
+
         dataLoader = null;
       }
     });
   }
 
   function onSelect(layer) {
-    // Unselect previously selected feature
-    if (selectedLayer) {
-      selectedLayer.setStyle(selectedLayer.originalStyle);
-    }
-
-    // Redraw in selected style
-    layer.originalStyle = layer.options;
-    layer.setStyle({ color: "#0000ff", weight: 8 });
-
     OSM.router.route("/" + layer.feature.type + "/" + layer.feature.id);
-
-    // Stash the currently drawn feature
-    selectedLayer = layer;
   }
 };

@@ -3,6 +3,7 @@
 
 OSM.Query = function (map) {
   var url = OSM.OVERPASS_URL,
+      credentials = OSM.OVERPASS_CREDENTIALS,
       queryButton = $(".control-query .control-button"),
       uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
       marker;
@@ -38,17 +39,21 @@ OSM.Query = function (map) {
     }
   });
 
+  function showResultGeometry() {
+    var geometry = $(this).data("geometry");
+    if (geometry) map.addLayer(geometry);
+    $(this).addClass("selected");
+  }
+
+  function hideResultGeometry() {
+    var geometry = $(this).data("geometry");
+    if (geometry) map.removeLayer(geometry);
+    $(this).removeClass("selected");
+  }
+
   $("#sidebar_content")
-    .on("mouseover", ".query-results li.query-result", function () {
-      var geometry = $(this).data("geometry");
-      if (geometry) map.addLayer(geometry);
-      $(this).addClass("selected");
-    })
-    .on("mouseout", ".query-results li.query-result", function () {
-      var geometry = $(this).data("geometry");
-      if (geometry) map.removeLayer(geometry);
-      $(this).removeClass("selected");
-    })
+    .on("mouseover", ".query-results li.query-result", showResultGeometry)
+    .on("mouseout", ".query-results li.query-result", hideResultGeometry)
     .on("mousedown", ".query-results li.query-result", function () {
       var moved = false;
       $(this).one("click", function (e) {
@@ -103,8 +108,8 @@ OSM.Query = function (map) {
         value = tags[key];
 
         if (prefixes[key]) {
-          var first = value.substr(0, 1).toUpperCase(),
-              rest = value.substr(1).replace(/_/g, " ");
+          var first = value.slice(0, 1).toUpperCase(),
+              rest = value.slice(1).replace(/_/g, " ");
 
           return first + rest;
         }
@@ -167,10 +172,6 @@ OSM.Query = function (map) {
     $ul.empty();
     $section.show();
 
-    $section.find(".loader").oneTime(1000, "loading", function () {
-      $(this).show();
-    });
-
     if ($section.data("ajax")) {
       $section.data("ajax").abort();
     }
@@ -181,10 +182,13 @@ OSM.Query = function (map) {
       data: {
         data: "[timeout:10][out:json];" + query
       },
+      xhrFields: {
+        withCredentials: credentials
+      },
       success: function (results) {
         var elements;
 
-        $section.find(".loader").stopTime("loading").hide();
+        $section.find(".loader").hide();
 
         if (merge) {
           elements = results.elements.reduce(function (hash, element) {
@@ -239,7 +243,7 @@ OSM.Query = function (map) {
         }
       },
       error: function (xhr, status, error) {
-        $section.find(".loader").stopTime("loading").hide();
+        $section.find(".loader").hide();
 
         $("<li>")
           .addClass("query-result list-group-item")
@@ -363,6 +367,7 @@ OSM.Query = function (map) {
   page.unload = function (sameController) {
     if (!sameController) {
       disableQueryMode();
+      $("#sidebar_content .query-results li.query-result.selected").each(hideResultGeometry);
     }
   };
 

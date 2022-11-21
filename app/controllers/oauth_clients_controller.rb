@@ -11,8 +11,22 @@ class OauthClientsController < ApplicationController
     @tokens = current_user.oauth_tokens.authorized
   end
 
+  def show
+    @client_application = current_user.client_applications.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @type = "client application"
+    render :action => "not_found", :status => :not_found
+  end
+
   def new
     @client_application = ClientApplication.new
+  end
+
+  def edit
+    @client_application = current_user.client_applications.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @type = "client application"
+    render :action => "not_found", :status => :not_found
   end
 
   def create
@@ -23,20 +37,6 @@ class OauthClientsController < ApplicationController
     else
       render :action => "new"
     end
-  end
-
-  def show
-    @client_application = current_user.client_applications.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    @type = "client application"
-    render :action => "not_found", :status => :not_found
-  end
-
-  def edit
-    @client_application = current_user.client_applications.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    @type = "client application"
-    render :action => "not_found", :status => :not_found
   end
 
   def update

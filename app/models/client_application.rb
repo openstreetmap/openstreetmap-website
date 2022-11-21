@@ -31,7 +31,7 @@
 #
 
 class ClientApplication < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, :optional => true
   has_many :tokens, :class_name => "OauthToken", :dependent => :delete_all
   has_many :access_tokens
   has_many :oauth2_verifiers

@@ -30,7 +30,7 @@ class RedactionTest < ActiveSupport::TestCase
     assert_nothing_raised do
       node_v1.redact!(r)
     end
-    assert(node_v1.redacted?, "Expected node version 1 to be redacted after redact! call.")
+    assert_predicate(node_v1, :redacted?, "Expected node version 1 to be redacted after redact! call.")
     assert_not(node_v2.redacted?, "Expected node version 2 to not be redacted after redact! call.")
   end
 end

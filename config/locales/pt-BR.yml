@@ -9,8 +9,10 @@
 # Author: Brunomelnic
 # Author: Cainamarques
 # Author: Cristofer Alves
+# Author: Danieldegroot2
 # Author: Dianakc
 # Author: Diego Queiroz
+# Author: Duke of Wikipädia
 # Author: EVinente
 # Author: Eduardo Addad de Oliveira
 # Author: Eduardoaddad
@@ -49,15 +51,13 @@
 # Author: Walesson
 # Author: Wille
 # Author: Willemarcel
+# Author: YuriNikolai
 # Author: 555
 ---
 pt-BR:
-  html:
-    dir: ltr
   time:
     formats:
       friendly: '%e de %B de %Y às %H:%M'
-      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Escolher arquivo
@@ -253,9 +253,6 @@ pt-BR:
       x_years:
         one: 1 ano atrás
         other: '%{count} anos atrás'
-  printable_name:
-    with_version: '%{id}, v%{version}'
-    with_name_html: '%{name} (%{id})'
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -294,8 +291,78 @@ pt-BR:
         closed: nota encerrada (perto de %{place})
         reopened: Nota reativada (perto de %{place})
       entry:
-        comment: Comentar
+        comment: Comentário
         full: Nota completa
+  account:
+    deletions:
+      show:
+        title: Eliminar minha conta
+        warning: Alerta! O processo de eliminação de contas é permanente, e não pode
+          ser revertido.
+        delete_account: Eliminar conta
+        delete_introduction: 'Você pode eliminar sua conta no OpenStreetMap usando
+          o botão abaixo. Por favor observe os detalhes a seguir:'
+        delete_profile: Suas informações de perfil, incluindo seu avatar, descrição,
+          e localização, serão eliminadas.
+        delete_display_name: Seu nome de exibição será removido, e poderá ser reutilizado
+          por outras contas.
+        retain_caveats: 'Entretanto, algumas informações sobre você serão mantidas
+          no OpenStreetMap, mesmo após sua conta ser eliminada:'
+        retain_edits: Suas edições ao banco de dados de mapas, se houverem, serão
+          mantidas.
+        retain_traces: Seus rastros enviados, caso existam, serão retidos.
+        retain_diary_entries: Seus diários e comentários em diários, se existirem,
+          serão retidos mas escondidos.
+        retain_notes: Suas notas em mapas e comentários em notas, se existirem, serão
+          retidas mas escondidas.
+        retain_changeset_discussions: Suas discussões em conjuntos de edições, se
+          existirem, serão retidas.
+        retain_email: Seu endereço de e-mail será retido.
+        confirm_delete: Tem certeza?
+        cancel: Cancelar
+  accounts:
+    edit:
+      title: Editar conta
+      my settings: Minhas configurações
+      current email address: Endereço de e-mail atual
+      external auth: Autenticação externa
+      openid:
+        link text: o que é isto?
+      public editing:
+        heading: Edição pública
+        enabled: Ativado. Não é anônimo e pode editar dados.
+        enabled link text: o que é isso?
+        disabled: Desativado e não pode editar dados, todas as edições anteriores
+          são anônimas.
+        disabled link text: porque não posso editar?
+      public editing note:
+        heading: Edição pública
+        html: Neste momento as suas edições são anónimas e as outras pessoas não lhe
+          podem enviar mensagens nem ver onde se encontra. Para mostrar as suas edições
+          e permitir que o contactem através do OpenStreetMap, clique na ligação seguinte.
+          <b>Desde a migração 0.6 da API, apenas os usuários com edições públicas
+          podem editar dados do mapa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">mais
+          informações</a>).<ul><li>Ao tornar as suas edições públicas o seu endereço
+          de e-mail não será revelado.</li><li>Esta ação não pode ser revertida e
+          todos os novos utilizadores têm as edições disponibilizadas publicamente.</li></ul>
+      contributor terms:
+        heading: Termos do contribuidor
+        agreed: Você aceitou os novos termos do contribuidor.
+        not yet agreed: Você não aceitou os novos termos do contribuidor.
+        review link text: Por favor siga este link quando você puder para revisar
+          e aceitar os novos Termos de Contribuição.
+        agreed_with_pd: Você também declara que considera suas edições em Domínio
+          Público.
+        link text: o que é isso?
+      save changes button: Salvar alterações
+      make edits public button: Tornar públicas todas as minhas edições
+      delete_account: Eliminar Conta...
+    update:
+      success_confirm_needed: Informação de usuário atualizada com sucesso. Confira
+        o seu e-mail para confirmar seu novo endereço.
+      success: Sucesso ao atualizar informação de usuário.
+    destroy:
+      success: Conta Eliminada.
   browse:
     created: Criado
     closed: Fechado
@@ -320,8 +387,6 @@ pt-BR:
     view_history: Ver histórico
     view_details: Ver detalhes
     location: 'Localização:'
-    common_details:
-      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Conjunto de alterações: %{id}'
       belongs_to: Autor
@@ -364,7 +429,6 @@ pt-BR:
         one: 1 membro
         other: '%{count} membros'
     relation_member:
-      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} como %{role}'
       type:
         node: Ponto
@@ -430,8 +494,7 @@ pt-BR:
       reopened_by_html: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Reaberto por um usuário anônimo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Ocultado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Denunciar esta nota
-      coordinates_html: '%{latitude}, %{longitude}'
+      report: denunciar esta nota
     query:
       title: Consultar elementos
       introduction: Clique no mapa para achar elementos próximos
@@ -557,7 +620,6 @@ pt-BR:
       location: 'Local:'
       view: Exibir
       edit: Editar
-      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Publicações do diário do OpenStreetMap de %{user}
@@ -570,7 +632,9 @@ pt-BR:
         title: Publicações no diário do OpenStreetMap
         description: Publicações no diário recentes de usuários do OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} comentou nestas postagens de diário'
+      title: Comentários no diário feitos por %{user}
+      heading: Comentários no diário de %{user}
+      subheading_html: Comentários no diário feitos por %{user}
       no_comments: Sem comentários no diário.
       post: Entrada
       when: Quando
@@ -608,7 +672,6 @@ pt-BR:
           Nominatim</a>
         geonames_reverse_html: Resultados do <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
-      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Teleférico
@@ -624,8 +687,8 @@ pt-BR:
         aeroway:
           aerodrome: Aeródromo
           airstrip: Pista de pouso
-          apron: Pátio de aeródromo
-          gate: Portão
+          apron: Plataforma de estacionamento do aeroporto
+          gate: Portão do aeroporto
           hangar: Hangar
           helipad: Heliponto
           holding_position: Posição de estabelecimento
@@ -634,7 +697,7 @@ pt-BR:
           runway: Pista de pouso
           taxilane: Faixa de táxi
           taxiway: Pista de Taxiamento
-          terminal: Terminal de Aeródromo
+          terminal: Terminal do aeroporto
           windsock: Biruta
         amenity:
           animal_boarding: Hotel para animais
@@ -680,7 +743,7 @@ pt-BR:
           fire_station: Quartel de bombeiros
           food_court: Praça de alimentação
           fountain: Fonte
-          fuel: Combustível
+          fuel: Posto de abastecimento
           gambling: Casa de jogos
           grave_yard: Cemitério
           grit_bin: Caixa de sal-gema
@@ -689,7 +752,7 @@ pt-BR:
           ice_cream: Sorveteria
           internet_cafe: Internet café
           kindergarten: Escola infantil
-          language_school: Escola de idiomas
+          language_school: Escola de idioma
           library: Biblioteca
           loading_dock: Doca de carregamento
           love_hotel: Motel
@@ -714,9 +777,9 @@ pt-BR:
           pub: Pub
           public_bath: Banho público
           public_bookcase: Estante pública
-          public_building: Edifício Público
+          public_building: Edifício público
           ranger_station: Estação de patrulha
-          recycling: Posto de Reciclagem
+          recycling: Posto de reciclagem
           restaurant: Restaurante
           sanitary_dump_station: Estação de descarga sanitária
           school: Escola
@@ -746,17 +809,17 @@ pt-BR:
           "yes": Comodidade
         boundary:
           aboriginal_lands: Terras indígenas
-          administrative: Limite Administrativo
+          administrative: Limite administrativo
           census: Limite Censitário
-          national_park: Parque Nacional
+          national_park: Parque nacional
           political: Zona eleitoral
-          protected_area: Área Protegida
+          protected_area: Área protegida
           "yes": Limite
         bridge:
           aqueduct: Aqueduto
           boardwalk: Passeio à beira mar
-          suspension: Ponte Suspensa
-          swing: Ponte Giratória
+          suspension: Ponte suspensa
+          swing: Ponte giratória
           viaduct: Viaduto
           "yes": Ponte
         building:
@@ -808,7 +871,7 @@ pt-BR:
           "yes": Edifício
         club:
           scout: Grupamento de escoteiro
-          sport: Clube de esportes
+          sport: Club de esportes
           "yes": Clube
         craft:
           beekeeper: Apicultor
@@ -836,7 +899,6 @@ pt-BR:
           window_construction: Construção de janela
           winery: Adega
           "yes": Loja de Artesanato
-        crossing: Cruzando
         emergency:
           access_point: Ponto de acesso
           ambulance_station: Posto de Ambulâncias
@@ -850,7 +912,6 @@ pt-BR:
           siren: Sirene de Emergência
           suction_point: Ponto de sucção de emergência
           water_tank: Tanque de água de emergência
-          "yes": Emergência
         highway:
           abandoned: Via Abandonada
           bridleway: Hipovia
@@ -858,6 +919,7 @@ pt-BR:
           bus_stop: Ponto de ônibus
           construction: Via em Construção
           corridor: Corredor
+          crossing: Cruzando
           cycleway: Ciclovia
           elevator: Elevador
           emergency_access_point: Ponto de Resgate Emergencial
@@ -897,6 +959,7 @@ pt-BR:
           trailhead: Parada de trilha
           trunk: Via troncal
           trunk_link: Ligação troncal
+          turning_circle: Círculo de viragem
           turning_loop: Circuito reverso
           unclassified: Via Não Classificada
           "yes": Estrada
@@ -945,9 +1008,8 @@ pt-BR:
           brownfield: Terreno Abandonado
           cemetery: Cemitério Secular
           commercial: Área de Negócios
-          conservation: Conservação
+          conservation: Área de Conservação
           construction: Área de Construção
-          farm: Lavoura
           farmland: Lavoura
           farmyard: Pátio de fazenda
           forest: Floresta Manejada
@@ -1178,6 +1240,7 @@ pt-BR:
           "yes": Lugar
         railway:
           abandoned: Ferrovia Abandonada
+          buffer_stop: Para-choque de via
           construction: Ferrovia em Construção
           disused: Ferrovia Inativa
           funicular: Funicular
@@ -1191,6 +1254,7 @@ pt-BR:
           platform: Plataforma Ferroviária
           preserved: Ferrovia Preservada
           proposed: Ferrovia Planejada
+          rail: Trilho
           spur: Ramificação de Ferrovia
           station: Estação Ferroviária
           stop: Ponto de Trem
@@ -1199,6 +1263,7 @@ pt-BR:
           switch: Chave de Ferrovia
           tram: Trilho de Bonde
           tram_stop: Ponto de bonde
+          turntable: Girador ferroviário
           yard: Estação de classificação
         shop:
           agrarian: Loja agrária
@@ -1239,7 +1304,7 @@ pt-BR:
           deli: Delicatessen
           department_store: Loja de Departamento
           discount: Loja de Descontos
-          doityourself: Loja de Ferragens/Bricolagem
+          doityourself: Loja de bricolagem
           dry_cleaning: Lavanderia a Seco
           e-cigarette: Loja de cigarro eletrônico
           electronics: Loja de Eletroeletrônicos
@@ -1325,7 +1390,7 @@ pt-BR:
           artwork: Obra de arte
           attraction: Atração Turística
           bed_and_breakfast: Hospedagem Domiciliar
-          cabin: Cabana
+          cabin: Cabana turística
           camp_pitch: Campo de acampamento
           camp_site: Local de Acampamento
           caravan_site: Local de Caravanas
@@ -1449,6 +1514,7 @@ pt-BR:
   issue_comments:
     create:
       comment_created: Seu comentário foi criado com sucesso
+      issue_reassigned: O seu comentário foi criado e o problema foi reatribuído
   reports:
     new:
       title_html: Denuncia %{link}
@@ -1486,9 +1552,6 @@ pt-BR:
       successful_report: Sua denúncia foi registrada com sucesso
       provide_details: Por favor, forneça os detalhes necessários
   layouts:
-    project_name:
-      title: OpenStreetMap
-      h1: OpenStreetMap
     logo:
       alt_text: Logotipo do OpenStreetMap
     home: Ir para o seu local principal
@@ -1517,7 +1580,7 @@ pt-BR:
     hosting_partners_html: O hospedagem é suportada por %{ucl}, %{fastly}, %{bytemark}
       e outros %{partners}.
     partners_ucl: UCL
-    partners_fastly: Rapidamente
+    partners_fastly: Fastly
     partners_bytemark: Hospedagem Bytemark
     partners_partners: parceiros
     tou: Termo de uso
@@ -1856,9 +1919,6 @@ pt-BR:
       account not active: Sua conta não está ativa ainda.<br />Use o link do e-mail
         de confirmação para ativar sua conta ou <a href="%{reconfirm}">solicite uma
         nova confirmação por e-mail</a>.
-      account is suspended: Desculpe, mas sua conta foi suspensa por causa de atividades
-        suspeitas.<br />Por favor contate o <a href="%{webmaster}">suporte</a> se
-        você deseja discutir isto.
       auth failure: Impossível entrar com estas informações.
       openid_logo_alt: Entrar com um OpenID
       auth_providers:
@@ -1912,7 +1972,7 @@ pt-BR:
     about:
       next: Próximo
       copyright_html: <span>&copy;</span>contribuidores<br>do OpenStreetMap
-      used_by_html: O %{name} provê dados de mapa para milhares de sites, aplicativos
+      used_by_html: O %{name} fornece dados de mapa para milhares de sites, aplicativos
         móveis e dispositivos de hardware
       lede_text: O OpenStreetMap é desenvolvido por uma comunidade voluntária de mapeadores
         que contribuem e mantêm atualizados os dados sobre estradas, trilhos, cafés,
@@ -1978,29 +2038,30 @@ pt-BR:
         intro_3_1_html: "Nossa documentação é licenciada sob a \nlicença <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
           Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0)."
         credit_title_html: Como fazer atribuição ao OpenStreetMap
-        credit_1_html: Requeremos que você faça atribuição citando “© contribuidores
-          do OpenStreetMap”.
-        credit_2_1_html: Também tem de indicar claramente que os dados estão disponíveis
-          sob a Open Database License (ODbL), e caso utilize as telas de mapas (imagens
-          dos mapas), que a cartografia é disponibilizada sob a licença CC-BY-SA.
-          Pode fazer isto colocando uma hiperligação para <a href="https://www.openstreetmap.org/copyright">esta
-          página sobre licença e direitos de autor</a>. Como alternativa, e obrigatório
-          caso distribua o OpenStreetMap em formato de dados, pode indicar as licenças
-          e colocar hiperligações a apontar para as páginas das licenças. Em suportes
-          que não seja possível colocar hiperligações (por exemplo, obras impressas)
-          sugerimos que indique o endereço do sítio www.openstreetmap.org (talvez
-          substituindo &lsquo;OpenStreetMap&rsquo; por este endereço web), para www.opendatacommons.org
-          e, caso se aplique, para www.creativecommons.org
-        credit_3_1_html: |-
-          Os mosaicos de mapa no &ldquo;estilo padrão&rdquo; no www.openstreetmap.org é um
-          trabalho produzido pela Fundação OpenStreetMap usando
-          dados do OpenStreetMap
-          sob a Open Database License. Se você estiver usando esses mosaicos por favor use
-          a seguinte atribuição:
-          &ldquo;Mapa base e dados de OpenStreetMap e Fundação OpenStreetMap&rdquo;.
+        credit_1_html: 'Onde você usa dados do OpenStreetMap, é necessário fazer as
+          duas coisas a seguir:'
+        credit_2_1_html: |-
+          <ul>
+            <li>Forneça crédito ao OpenStreetMap exibindo nosso aviso de direitos autorais.</li>
+            <li>Deixe claro que os dados estão disponíveis sob a Open Database License.</li>
+          </ul>
+        credit_3_1_html: "Para o aviso de direitos autorais, temos requisitos diferentes
+          sobre como isso deve ser\nexibido, dependendo de como você está usando nossos
+          dados. Por exemplo, diferentes\nregras se aplicam sobre como mostrar o aviso
+          de direitos autorais dependendo se você\ncriou um mapa navegável, um mapa
+          impresso ou uma imagem estática. Detalhes completos sobre os\nrequisitos
+          podem ser encontrados no\n<a href=\"https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines\">Attribution
+          \nGuidelines</a>."
         credit_4_html: |-
-          Para um mapa eletrônico navegável, a atribuição deve aparecer no canto do mapa.
-          Por exemplo:
+          Para deixar claro que os dados estão disponíveis no Open
+          Licença de banco de dados, você pode vincular a
+          <a href="https://www.openstreetmap.org/copyright">esta página de direitos autorais</a>.
+          Alternativamente, e como requisito se você estiver distribuindo OSM em um
+          formulário de dados, você pode nomear e vincular diretamente à(s) licença(s). Nas mídias
+          onde as ligações não são possíveis (por exemplo, trabalhos impressos), sugerimos que você
+          direcione seus leitores para openstreetmap.org (talvez expandindo
+          'OpenStreetMap' para este endereço completo) e para opendatacommons.org.
+          Neste exemplo, o crédito aparece no canto do mapa.
         attribution_example:
           alt: Exemplo de como atribuir o OpenStreetMap numa página web
           title: Exemplo de atribuição
@@ -2071,9 +2132,9 @@ pt-BR:
             Os contribuidores do OSM são lembrados de nunca adicionar dados de quaisquer
             fontes com direitos autorais protegidos (ex.: Google Maps ou mapas impressos) sem
             permissão expressa dos seus detentores.
-        infringement_2_html: Se acredita que foi adicionado material protegido por
-          direitos de autor indevidamente à base de dados do OpenStreetMap, por favor
-          consulte o <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">procedimento
+        infringement_2_html: Se acredita que material protegido por direitos autorais
+          foi adicionado indevidamente à base de dados do OpenStreetMap, por favor
+          consulte o <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedimento
           para retirar dados protegidos</a> (em inglês) ou preencha os dados diretamente
           no <a href="https://dmca.openstreetmap.org/">formulário</a> (em inglês).
         trademarks_title_html: <span id="trademarks"></span>Marcas registradas
@@ -2098,7 +2159,6 @@ pt-BR:
       not_public_description_html: Você não pode editar o mapa até que você configure
         suas edições para serem públicas, o que pode fazer na sua %{user_page}.
       user_page_link: página de usuário
-      anon_edits_html: (%{link})
       anon_edits_link_text: Descubra se é esse o seu caso.
       id_not_configured: iD não foi configurado
       no_iframe_support: Seu navegador não suporta iframes HTML, que são necessários
@@ -2194,8 +2254,11 @@ pt-BR:
         description: Tire uma dúvida ou discuta assuntos interessantes em várias listas
           regionais ou por assunto.
       forums:
-        title: Fóruns
+        title: Fóruns (Legado)
         description: Questões e discussões para quem prefere fóruns.
+      community:
+        title: Fórum da comunidade
+        description: Un lugar compartilhado para conversas sobre o OpenStreetMap.
       irc:
         title: IRC
         description: Bate-papo interativo em vários idiomas e sobre vários assuntos.
@@ -2204,7 +2267,6 @@ pt-BR:
         description: Ajuda para empresas e organizações migrando para mapas baseados
           no OpenStreetMap e outros serviços.
       welcomemat:
-        url: https://welcome.openstreetmap.org/
         title: Para organizações
         description: Com uma organização fazendo planos para o OpenStreetMap? Encontre
           o que você precisa saber no Welcome Mat.
@@ -2274,6 +2336,7 @@ pt-BR:
           common:
           - Baldio comunitário
           - prado
+          - Jardim
           retail: Área de varejo
           industrial: Área industrial
           commercial: Área de negócios
@@ -2433,7 +2496,7 @@ pt-BR:
       in: em
     index:
       public_traces: Trilhas públicas de GPS
-      my_traces: Minhas trilhas
+      my_gps_traces: Minhas trilhas GPS
       public_traces_from: Trilhas de GPS públicas de %{user}
       description: Procurar trilhas de GPS enviadas recentemente
       tagged_with: ' etiquetadas com %{tags}'
@@ -2442,6 +2505,7 @@ pt-BR:
         wiki</a>.
       upload_trace: Enviar uma trilha
       all_traces: Todos os traços
+      my_traces: Minhas trilhas
       traces_from: Traços públicos de %{user}
       remove_tag_filter: Remova o filtro de marcações
     destroy:
@@ -2565,7 +2629,6 @@ pt-BR:
       no_applications_html: Você tem uma aplicação que quer registar para ser utilizada
         usando o padrão %{oauth2}? Você deve de registar a aplicação antes de poder
         fazer solicitações OAuth a este serviço.
-      oauth_2: OAuth 2
       new: Registar nova aplicação
       name: Nome
       permissions: Permissões
@@ -2649,7 +2712,6 @@ pt-BR:
       read_tou: Li e aceito os Termos de uso
       consider_pd: Além do acima, considero minhas contribuições como Public Domain
       consider_pd_why: o que é isso?
-      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Informações para ajudar a entender estes termos: um <a href="%{summary}">Resumo
         humano legível</a> e algumas <a href="%{translations}">traduções informais</a>'
       continue: Continuar
@@ -2722,52 +2784,13 @@ pt-BR:
       activate_user: Ativar este usuário
       deactivate_user: Desativar este usuário
       confirm_user: Confirmar este usuário
+      unconfirm_user: Desconfirmar este usuário
+      unsuspend_user: Anular a suspensão deste Usuário
       hide_user: Esconder esse usuário
       unhide_user: Exibir esse usuário
       delete_user: Excluir este usuário
       confirm: Confirmar
       report: Denunciar este usuário
-    account:
-      title: Editar conta
-      my settings: Minhas configurações
-      current email address: Endereço de e-mail atual
-      external auth: Autenticação externa
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: o que é isto?
-      public editing:
-        heading: Edição pública
-        enabled: Ativado. Não é anônimo e pode editar dados.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: o que é isso?
-        disabled: Desativado e não pode editar dados, todas as edições anteriores
-          são anônimas.
-        disabled link text: porque não posso editar?
-      public editing note:
-        heading: Edição pública
-        html: Neste momento as suas edições são anónimas e as outras pessoas não lhe
-          podem enviar mensagens nem ver onde se encontra. Para mostrar as suas edições
-          e permitir que o contactem através do OpenStreetMap, clique na ligação seguinte.
-          <b>Desde a migração 0.6 da API, apenas os usuários com edições públicas
-          podem editar dados do mapa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">mais
-          informações</a>).<ul><li>Ao tornar as suas edições públicas o seu endereço
-          de e-mail não será revelado.</li><li>Esta ação não pode ser revertida e
-          todos os novos utilizadores têm as edições disponibilizadas publicamente.</li></ul>
-      contributor terms:
-        heading: Termos do contribuidor
-        agreed: Você aceitou os novos termos do contribuidor.
-        not yet agreed: Você não aceitou os novos termos do contribuidor.
-        review link text: Por favor siga este link quando você puder para revisar
-          e aceitar os novos Termos de Contribuição.
-        agreed_with_pd: Você também declara que considera suas edições em Domínio
-          Público.
-        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: o que é isso?
-      save changes button: Salvar alterações
-      make edits public button: Tornar públicas todas as minhas edições
-      flash update success confirm needed: Informação de usuário atualizada com sucesso.
-        Confira o seu e-mail para confirmar seu novo endereço.
-      flash update success: Sucesso ao atualizar informação de usuário.
     set_home:
       flash success: Local principal salvo com sucesso
     go_public:
@@ -2801,6 +2824,7 @@ pt-BR:
       no_authorization_code: Nenhum código de autorização
       unknown_signature_algorithm: Algoritmo de assunatura desconhecido
       invalid_scope: Escopo inválido
+      unknown_error: A autenticação falhou
     auth_association:
       heading: Seu ID não está associado a uma conta de OpenStreetMap ainda.
       option_1: |-
@@ -3043,6 +3067,9 @@ pt-BR:
         reactivate: Reativar
         comment_and_resolve: Comentar e resolver
         comment: Comentar
+        report_link_html: Se esta nota contiver informação sensível que tenha de ser
+          removida, podes %{link}. Para qualquer outro problema com a nota, por favor,
+          resolve-a com um comentário.
     edit_help: Mover o mapa e ampliar uma localização que pretende editar e clique
       aqui.
     directions:

@@ -1,8 +1,9 @@
 module Api
   class TracepointsController < ApiController
+    before_action :check_api_readable
+
     authorize_resource
 
-    before_action :check_api_readable
     around_action :api_call_handle_error, :api_call_timeout
 
     # Get an XML response containing a list of tracepoints that have been uploaded

@@ -2,20 +2,6 @@ require "test_helper"
 
 class SiteControllerTest < ActionDispatch::IntegrationTest
   ##
-  # setup oauth keys
-  def setup
-    super
-
-    Settings.id_key = create(:client_application).key
-  end
-
-  ##
-  # clear oauth keys
-  def teardown
-    Settings.id_key = nil
-  end
-
-  ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
@@ -533,5 +519,13 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "id"
     assert_template :layout => false
+  end
+
+  # Test the id frame when not logged in
+  def test_id_without_login
+    get id_path
+
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => "/id")
   end
 end

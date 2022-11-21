@@ -240,9 +240,9 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to user_block_path(:id => id)
     assert_equal "Created a block on user #{target_user.display_name}.", flash[:notice]
     b = UserBlock.find(id)
-    assert_in_delta Time.now, b.created_at, 1
-    assert_in_delta Time.now, b.updated_at, 1
-    assert_in_delta Time.now + 12.hours, b.ends_at, 1
+    assert_in_delta Time.now.utc, b.created_at, 1
+    assert_in_delta Time.now.utc, b.updated_at, 1
+    assert_in_delta Time.now.utc + 12.hours, b.ends_at, 1
     assert_not b.needs_view
     assert_equal "Vandalism", b.reason
     assert_equal "markdown", b.reason_format
@@ -311,7 +311,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to user_block_path(active_block)
     assert_equal "Block updated.", flash[:notice]
     b = UserBlock.find(active_block.id)
-    assert_in_delta Time.now, b.updated_at, 1
+    assert_in_delta Time.now.utc, b.updated_at, 1
     assert b.needs_view
     assert_equal "Vandalism", b.reason
 
@@ -356,13 +356,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "revoke"
     b = UserBlock.find(active_block.id)
-    assert b.ends_at - Time.now > 100
+    assert b.ends_at - Time.now.utc > 100
 
     # Check that revoking a block works using POST
     post revoke_user_block_path(:id => active_block, :confirm => true)
     assert_redirected_to user_block_path(active_block)
     b = UserBlock.find(active_block.id)
-    assert_in_delta Time.now, b.ends_at, 1
+    assert_in_delta Time.now.utc, b.ends_at, 1
 
     # We should get an error if the block doesn't exist
     get revoke_user_block_path(:id => 99999)

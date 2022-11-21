@@ -6,6 +6,6 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Register now"
 
-    assert page.has_content? "Confirm Password"
+    assert_content "Confirm Password"
   end
 end

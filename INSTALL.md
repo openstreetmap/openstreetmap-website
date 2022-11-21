@@ -1,6 +1,6 @@
 # Installation
 
-These instructions are designed for setting up The Rails Port for development and testing.
+These instructions are designed for setting up `openstreetmap-website` for development and testing.
 If you want to deploy the software for your own project, then see the notes at the end.
 
 You can install the software directly on your machine, which is the traditional and probably best-supported approach. However, there
@@ -12,7 +12,7 @@ are two alternatives which make it easier to get a consistent development enviro
 These instructions are based on Ubuntu 20.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
-We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then try developing this software using Ubuntu in a virtual machine, or use [Vagrant](VAGRANT.md).
+We don't recommend attempting to develop or deploy this software on Windows. Some Ruby gems may not be supported. If you need to use Windows the easiest solutions in order are [Docker](DOCKER.md), [Vagrant](VAGRANT.md), and Ubuntu in a virtual machine.
 
 ## Dependencies
 
@@ -24,7 +24,6 @@ of packages required before you can get the various gems installed.
 
 * Ruby 2.7+
 * PostgreSQL 9.1+
-* ImageMagick
 * Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
@@ -33,10 +32,10 @@ These can be installed on Ubuntu 20.04 or later with:
 ```
 sudo apt-get update
 sudo apt-get install ruby2.7 libruby2.7 ruby2.7-dev \
-                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
+                     libvips-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
-                     imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
+                     libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
 sudo gem2.7 install bundler
 ```
 
@@ -51,8 +50,8 @@ sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  libxml2-devel nodejs \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib libpq-devel \
-                 perl-podlators ImageMagick libffi-devel gd-devel libarchive-devel \
-                 bzip2-devel nodejs-yarn
+                 perl-podlators libffi-devel gd-devel libarchive-devel \
+                 bzip2-devel nodejs-yarn vips-devel
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
@@ -90,7 +89,7 @@ Installing other dependencies:
 
 * Install Homebrew from https://brew.sh/
 * Install the latest version of Ruby: `brew install ruby`
-* Install other dependencies: `brew install imagemagick libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo`
+* Install other dependencies: `brew install libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo advancecomp vips`
 * Install Bundler: `gem install bundler` (you might need to `sudo gem install bundler` if you get an error about permissions - or see note below about [developer Ruby setup](#rbenv))
 
 You will need to tell `bundler` that `libxml2` is installed in a Homebrew location. If it uses the system-installed one then you will get errors installing the `libxml-ruby` gem later on<a name="macosx-bundle-config"></a>.
@@ -102,8 +101,7 @@ bundle config build.libxml-ruby --with-xml2-config=/usr/local/opt/libxml2/bin/xm
 If you want to run the tests, you need `geckodriver` as well:
 
 ```
-brew tap homebrew/cask
-brew cask install geckodriver
+brew install geckodriver
 ```
 
 Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
@@ -152,7 +150,7 @@ touch config/settings.local.yml
 
 ## Storage setup
 
-The Rails port needs to be configured with an object storage facility - for
+`openstreetmap-website` needs to be configured with an object storage facility - for
 development and testing purposes you can use the example configuration:
 
 ```
@@ -161,7 +159,7 @@ cp config/example.storage.yml config/storage.yml
 
 ## Database setup
 
-The Rails Port uses three databases -  one for development, one for testing, and one for production. The database-specific configuration
+`openstreetmap-website` uses three databases -  one for development, one for testing, and one for production. The database-specific configuration
 options are stored in `config/database.yml`, which we need to create from the example template.
 
 ```

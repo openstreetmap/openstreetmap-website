@@ -2,22 +2,6 @@ require "test_helper"
 
 module Api
   class TracesControllerTest < ActionDispatch::IntegrationTest
-    # Use temporary directories with unique names for each test
-    # This allows the tests to be run in parallel.
-    def setup
-      @gpx_trace_dir_orig = Settings.gpx_trace_dir
-      @gpx_image_dir_orig = Settings.gpx_image_dir
-      Settings.gpx_trace_dir = Dir.mktmpdir("trace", Rails.root.join("test/gpx"))
-      Settings.gpx_image_dir = Dir.mktmpdir("image", Rails.root.join("test/gpx"))
-    end
-
-    def teardown
-      FileUtils.remove_dir(Settings.gpx_trace_dir)
-      FileUtils.remove_dir(Settings.gpx_image_dir)
-      Settings.gpx_trace_dir = @gpx_trace_dir_orig
-      Settings.gpx_image_dir = @gpx_image_dir_orig
-    end
-
     ##
     # test all routes which lead to this controller
     def test_routes
@@ -119,11 +103,15 @@ module Api
       # Now with some other user, which should work since the trace is public
       auth_header = basic_authorization_header create(:user).display_name, "test"
       get api_trace_data_path(public_trace_file), :headers => auth_header
+      follow_redirect!
+      follow_redirect!
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
       # And finally we should be able to do it with the owner of the trace
       auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
       get api_trace_data_path(public_trace_file), :headers => auth_header
+      follow_redirect!
+      follow_redirect!
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
     end
 
@@ -136,7 +124,9 @@ module Api
 
       # First get the data as is
       get api_trace_data_path(identifiable_trace_file), :headers => auth_header
-      check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/x-gzip", "gpx.gz"
+      follow_redirect!
+      follow_redirect!
+      check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/gzip", "gpx.gz"
 
       # Now ask explicitly for XML format
       get api_trace_data_path(identifiable_trace_file, :format => "xml"), :headers => auth_header
@@ -163,6 +153,8 @@ module Api
       # And finally we should be able to do it with the owner of the trace
       auth_header = basic_authorization_header anon_trace_file.user.display_name, "test"
       get api_trace_data_path(anon_trace_file), :headers => auth_header
+      follow_redirect!
+      follow_redirect!
       check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
     end
 
@@ -211,7 +203,7 @@ module Api
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "trackable", trace.visibility
       assert_not trace.inserted
-      assert_equal File.new(fixture).read, File.new(trace.trace_name).read
+      assert_equal File.new(fixture).read, trace.file.blob.download
       trace.destroy
       assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
 
@@ -229,7 +221,7 @@ module Api
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "public", trace.visibility
       assert_not trace.inserted
-      assert_equal File.new(fixture).read, File.new(trace.trace_name).read
+      assert_equal File.new(fixture).read, trace.file.blob.download
       trace.destroy
       assert_equal "public", user.preferences.where(:k => "gps.trace.visibility").first.v
 
@@ -248,7 +240,7 @@ module Api
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "private", trace.visibility
       assert_not trace.inserted
-      assert_equal File.new(fixture).read, File.new(trace.trace_name).read
+      assert_equal File.new(fixture).read, trace.file.blob.download
       trace.destroy
       assert_equal "private", second_user.preferences.where(:k => "gps.trace.visibility").first.v
     end

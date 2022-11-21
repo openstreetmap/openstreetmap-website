@@ -4,6 +4,7 @@
 # Author: Acamicamacaraca
 # Author: Aktron
 # Author: BadDog
+# Author: Danieldegroot2
 # Author: Kizule
 # Author: Macofe
 # Author: Magnumns
@@ -24,8 +25,6 @@
 # Author: Сербијана
 ---
 sr:
-  html:
-    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y у %H:%M'
@@ -45,6 +44,9 @@ sr:
       client_application:
         create: Отвори налог
         update: Ажурирај
+      doorkeeper_application:
+        create: Регистрација
+        update: Ажурирај
       redaction:
         create: Направи редакцију
         update: Сачувај редакцију
@@ -58,6 +60,7 @@ sr:
     errors:
       messages:
         invalid_email_address: не изгледа као важећа имејл адреса
+        email_address_not_routable: није повезљив(а)
     models:
       acl: Листа контроле приступа
       changeset: Скуп промена
@@ -97,6 +100,7 @@ sr:
     attributes:
       client_application:
         name: Име (обавезно)
+        url: Главна адреса апликације (обавезно)
         callback_url: Повратна адреса
         support_url: Адреса подршке
         allow_read_prefs: чита њихове корисничке поставке
@@ -114,6 +118,11 @@ sr:
         latitude: Географска ширина
         longitude: Географска дужина
         language: Језик
+      doorkeeper/application:
+        name: Назив
+        redirect_uri: Адреса за преусмеравање
+        confidential: Поверљива апликација?
+        scopes: Дозволе
       friend:
         user: Корисник
         friend: Пријатељ
@@ -156,6 +165,8 @@ sr:
         pass_crypt: Лозинка
         pass_crypt_confirmation: Потврдите лозинку
     help:
+      doorkeeper/application:
+        redirect_uri: Користите једну линију по адреси
       trace:
         tagstring: раздвојено запетама
       user_block:
@@ -207,6 +218,44 @@ sr:
       entry:
         comment: Коментар
         full: Потпуна белешка
+  accounts:
+    edit:
+      title: Уреди налог
+      my settings: Поставке
+      current email address: Тренутна имејл адреса
+      external auth: Спољна аутентификација
+      openid:
+        link text: шта је ово?
+      public editing:
+        heading: Јавно уређивање
+        enabled: Омогућено. Није анонимно и могу се уређивати подаци.
+        enabled link text: шта је ово?
+        disabled: Онемогућено и не могу се уређивати подаци. Све претходне измене
+          су анонимне.
+        disabled link text: зашто не могу да уређујем?
+      public editing note:
+        heading: Јавно уређивање
+        html: Тренутно су ваше измене анонимне и људи вам не могу слати поруке или
+          видети вашу локацију. Да бисте показали ваше измене и дозволили људима да
+          вас контактирају, кликните на дугме испод. <b>Од промена АПИ-ја 0.6, само
+          јавни корисници могу уређивати мапе</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">сазнајте
+          зашто</a>).<ul><li>Ваша е-адреса неће бити откривена на овај начин.</li><li>Ова
+          радња не може бити опозвана и сви нови корисници су од сада постављени као
+          јавни.</li></ul>
+      contributor terms:
+        heading: Услови уређивања
+        agreed: Прихватили сте нове услове уређивања.
+        not yet agreed: Нисте прихватили нове услове уређивања.
+        review link text: Пратите ову везу да бисте прегледали и прихватили нове услове
+          уређивања.
+        agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
+        link text: шта је ово?
+      save changes button: Сачувај промене
+      make edits public button: Нека све моје измене буду јавне
+    update:
+      success_confirm_needed: Подаци о кориснику су успешно ажурирани. Проверите имејл
+        да бисте потврдили Вашу нову имејл адресу.
+      success: Подаци о кориснику су успешно ажурирани.
   browse:
     created: Направљено
     closed: Затворено
@@ -225,8 +274,6 @@ sr:
     view_history: Погледај историју
     view_details: Детаљније
     location: 'Локација:'
-    common_details:
-      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Скуп промена: %{id}'
       belongs_to: Аутор
@@ -261,7 +308,6 @@ sr:
       history_title_html: 'Историја односа: %{name}'
       members: Чланови
     relation_member:
-      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} као %{role}'
       type:
         node: Тачка
@@ -444,7 +490,6 @@ sr:
       location: 'Локација:'
       view: Приказ
       edit: Уреди
-      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Уноси у дневнику OpenStreetMap-а корисника %{user}
@@ -456,7 +501,6 @@ sr:
         title: Уноси у дневнику OpenStreetMap-а
         description: Недавни уноси у дневнику корисника OpenStreetMap-а
     comments:
-      has_commented_on: '%{display_name} је коментарисао следеће уносе у дневнику'
       post: Објава
       when: Када
       comment: Коментар
@@ -486,7 +530,6 @@ sr:
           Nominatim</a>
         geonames_reverse_html: Резултати са сајта <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
-      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Жичара
@@ -507,7 +550,7 @@ sr:
           runway: Писта
           taxilane: Жута трака
           taxiway: Рулна стаза
-          terminal: Терминал
+          terminal: Аеродромски терминал
         amenity:
           animal_shelter: Азил за животиње
           arts_centre: Уметнички центар
@@ -550,7 +593,7 @@ sr:
           fire_station: Ватрогасна станица
           food_court: Пултови са храном
           fountain: Фонтана
-          fuel: Гориво
+          fuel: Бензинска станица
           gambling: Коцкарница
           grave_yard: Гробље
           hospital: Болница
@@ -770,7 +813,6 @@ sr:
           commercial: Пословна зона
           conservation: Заштићено земљиште
           construction: Градилиште
-          farm: Фарма
           farmland: Обрадиво земљиште
           farmyard: Сеоско имање
           forest: Шума
@@ -1071,7 +1113,7 @@ sr:
           artwork: Уметничко дело
           attraction: Атракција
           bed_and_breakfast: Полупансион
-          cabin: Брвнара
+          cabin: Туристичка брвнара
           camp_site: Камп
           caravan_site: Парк за камп приколице
           chalet: Колиба
@@ -1181,9 +1223,6 @@ sr:
           abusive_label: Ова белешка је увредљива
           other_label: Друго
   layouts:
-    project_name:
-      title: OpenStreetMap
-      h1: OpenStreetMap
     logo:
       alt_text: Логотип OpenStreetMap-а
     home: Кућа
@@ -1330,7 +1369,7 @@ sr:
       heading: Проверите Ваш имејл!
       introduction_1: Послали смо ти е-писмо за потврду.
       introduction_2: Потврди свој налог тако што ћеш кликнути на везу у имејлу и
-        моћићеш да почнеш са цртањем карте.
+        моћи ћеш да почнеш са цртањем карте.
       press confirm button: Притисните дугме за потврду да бисте активирали налог.
       button: Потврди
       success: Ваш налог је потврђен. Хвала вам на упису!
@@ -1470,9 +1509,6 @@ sr:
       account not active: Жао нам је, ваш налог још увек није активиран. <br />Пратите
         везу у поруци за потврду е-поште да бисте га активирали или <a href="%{reconfirm}">затражите
         нову поруку</a>.
-      account is suspended: Нажалост, ваш налог је укинут због сумњиве активности.<br
-        />Обратите се <a href="%{webmaster}">администратору</a> ако желите да поразговарате
-        о проблему.
       auth failure: Није могуће пријавити се са тим детаљима.
       openid_logo_alt: Пријавите се с OpenID-јем
       auth_providers:
@@ -1611,8 +1647,10 @@ sr:
              <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Ланд Форарлберг</a> и
           Ланд Тирол (под лиценцом <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT са изменама и допунама</a>).
         contributors_au_html: |-
-          <strong>Аустралија</strong>: садржи податке о општинама
-              на основу података Аустралијског бироа за статистику.
+          <strong>Аустралија</strong>: садржи податке о општинама &copy;
+          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Аустралија</a>
+          лиценцирано од стране Комонвелта Аустралије под
+          <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International licence (CC BY 4.0)</a>.
         contributors_ca_html: |-
           <strong>Канада</strong>: садржи податке из
               Беобазе&reg;, Геогратиса (&copy; Одељење за природне
@@ -1685,7 +1723,6 @@ sr:
       not_public_description_html: Не можете уређивати мапу све док то не урадите.
         Можете подесити да ваше измене буду јавне с %{user_page}.
       user_page_link: корисничке странице
-      anon_edits_html: (%{link})
       anon_edits_link_text: Сазнајте зашто је то случај.
       id_not_configured: iD није конфигурисан
       no_iframe_support: Ваш прегледач не подржава HTML iframes, а они су потребни
@@ -1767,7 +1804,6 @@ sr:
         title: Водич за почетничке
         description: Водич за почетнике
       help:
-        url: https://help.openstreetmap.org/
         title: Форум за помоћ
         description: Постави питање или нађи одговор на OpenStreetMap страници за
           питања и одговоре.
@@ -1788,7 +1824,6 @@ sr:
         description: Помоћ за компаније и организације које прелазе на мапе засноване
           на OpenStreetMap-у и другим алаткама.
       welcomemat:
-        url: https://welcome.openstreetmap.org/
         title: За организације
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Sr:Main_Page
@@ -1995,7 +2030,6 @@ sr:
       in: у
     index:
       public_traces: Јавни ГПС трагови
-      my_traces: Моји GPS трагови
       public_traces_from: Јавни GPS трагови корисника %{user}
       description: Претражите недавне аплоуде GPS путева
       tagged_with: ' означени са %{tags}'
@@ -2003,6 +2037,7 @@ sr:
         траг</a> или сазнајте више о GPS траговима на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики
         страници</a>.
       upload_trace: Отпреми траг
+      my_traces: Моји трагови
     destroy:
       scheduled_for_deletion: Траг постављен за брисање
     make_public:
@@ -2105,8 +2140,8 @@ sr:
       title: Регистрација
       no_auto_account_create: Нажалост, тренутно нисмо у могућности да отворимо нови
         налог.
-      contact_support_html: Контактирајте <a href="%{support}">администратора</a>
-        за отварање новог налога. Обрадићемо захтев што је пре могуће.
+      contact_support_html: Контактирајте <a href="%{support}">подршку</a> за отварање
+        новог налога - обрадићемо захтев што је пре могуће.
       about:
         header: Слободно и изменљиво
         html: |-
@@ -2201,45 +2236,6 @@ sr:
       delete_user: Избриши корисника
       confirm: Потврди
       report: Пријави овог корисника
-    account:
-      title: Уреди налог
-      my settings: Поставке
-      current email address: Тренутна имејл адреса
-      external auth: Спољна аутентификација
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: шта је ово?
-      public editing:
-        heading: Јавно уређивање
-        enabled: Омогућено. Није анонимно и могу се уређивати подаци.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: шта је ово?
-        disabled: Онемогућено и не могу се уређивати подаци. Све претходне измене
-          су анонимне.
-        disabled link text: зашто не могу да уређујем?
-      public editing note:
-        heading: Јавно уређивање
-        html: Тренутно су ваше измене анонимне и људи вам не могу слати поруке или
-          видети вашу локацију. Да бисте показали ваше измене и дозволили људима да
-          вас контактирају, кликните на дугме испод. <b>Од промена АПИ-ја 0.6, само
-          јавни корисници могу уређивати мапе</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">сазнајте
-          зашто</a>).<ul><li>Ваша е-адреса неће бити откривена на овај начин.</li><li>Ова
-          радња не може бити опозвана и сви нови корисници су од сада постављени као
-          јавни.</li></ul>
-      contributor terms:
-        heading: Услови уређивања
-        agreed: Прихватили сте нове услове уређивања.
-        not yet agreed: Нисте прихватили нове услове уређивања.
-        review link text: Пратите ову везу да бисте прегледали и прихватили нове услове
-          уређивања.
-        agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
-        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
-        link text: шта је ово?
-      save changes button: Сачувај промене
-      make edits public button: Нека све моје измене буду јавне
-      flash update success confirm needed: Подаци о кориснику су успешно ажурирани.
-        Проверите имејл да бисте потврдили Вашу нову имејл адресу.
-      flash update success: Подаци о кориснику су успешно ажурирани.
     set_home:
       flash success: Место становања је успешно сачувано
     go_public:
@@ -2265,7 +2261,7 @@ sr:
         </p>
         <p>
           Ову одлуку ће убрзо размотрити администратор. Такође,
-          можете контактирати %{webmaster}а ако желите да се жалите.
+          можете контактирати %{webmaster} ако желите да ово прокоментаришете.
         </p>
     auth_failure:
       connection_failed: Повезивање до аутентификационог провајдера неуспешно
@@ -2459,7 +2455,7 @@ sr:
       queryfeature_disabled_tooltip: Зумирај на информације о објектима
     changesets:
       show:
-        comment: Коментар
+        comment: Коментариши
         subscribe: Пријави ме
         unsubscribe: Одјави ме
         hide_comment: сакриј

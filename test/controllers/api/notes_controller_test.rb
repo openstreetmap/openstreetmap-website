@@ -14,11 +14,11 @@ module Api
     def test_routes
       assert_routing(
         { :path => "/api/0.6/notes", :method => :post },
-        { :controller => "api/notes", :action => "create", :format => "xml" }
+        { :controller => "api/notes", :action => "create" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1", :method => :get },
-        { :controller => "api/notes", :action => "show", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "show", :id => "1" }
       )
       assert_recognizes(
         { :controller => "api/notes", :action => "show", :id => "1", :format => "xml" },
@@ -38,24 +38,24 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/notes/1/comment", :method => :post },
-        { :controller => "api/notes", :action => "comment", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "comment", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1/close", :method => :post },
-        { :controller => "api/notes", :action => "close", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "close", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1/reopen", :method => :post },
-        { :controller => "api/notes", :action => "reopen", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "reopen", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/notes/1", :method => :delete },
-        { :controller => "api/notes", :action => "destroy", :id => "1", :format => "xml" }
+        { :controller => "api/notes", :action => "destroy", :id => "1" }
       )
 
       assert_routing(
         { :path => "/api/0.6/notes", :method => :get },
-        { :controller => "api/notes", :action => "index", :format => "xml" }
+        { :controller => "api/notes", :action => "index" }
       )
       assert_recognizes(
         { :controller => "api/notes", :action => "index", :format => "xml" },
@@ -76,7 +76,7 @@ module Api
 
       assert_routing(
         { :path => "/api/0.6/notes/search", :method => :get },
-        { :controller => "api/notes", :action => "search", :format => "xml" }
+        { :controller => "api/notes", :action => "search" }
       )
       assert_recognizes(
         { :controller => "api/notes", :action => "search", :format => "xml" },
@@ -345,7 +345,7 @@ module Api
       end
       assert_response :gone
 
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
 
       assert_no_difference "NoteComment.count" do
         post comment_note_path(:id => closed_note_with_comment, :text => "This is an additional comment"), :headers => auth_header
@@ -406,14 +406,14 @@ module Api
       post close_note_path(:id => hidden_note_with_comment), :headers => auth_header
       assert_response :gone
 
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
 
       post close_note_path(:id => closed_note_with_comment), :headers => auth_header
       assert_response :conflict
     end
 
     def test_reopen_success
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
       user = create(:user)
 
       post reopen_note_path(:id => closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
@@ -494,10 +494,10 @@ module Api
           assert_select "item", :count => 1 do
             assert_select "link", browse_note_url(open_note)
             assert_select "guid", note_url(open_note)
-            assert_select "pubDate", open_note.created_at.to_s(:rfc822)
-            #          assert_select "geo:lat", open_note.lat.to_s
-            #          assert_select "geo:long", open_note.lon
-            #          assert_select "georss:point", "#{open_note.lon} #{open_note.lon}"
+            assert_select "pubDate", open_note.created_at.to_fs(:rfc822)
+            assert_select "geo|lat", open_note.lat.to_s
+            assert_select "geo|long", open_note.lon.to_s
+            assert_select "georss|point", "#{open_note.lon} #{open_note.lon}"
           end
         end
       end
@@ -632,6 +632,7 @@ module Api
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
+          assert_select "description", :text => /1\.2/, :count => 1
           assert_select "item", :count => 2
         end
       end
@@ -748,8 +749,8 @@ module Api
     end
 
     def test_index_closed
-      create(:note_with_comments, :status => "closed", :closed_at => Time.now - 5.days)
-      create(:note_with_comments, :status => "closed", :closed_at => Time.now - 100.days)
+      create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc - 5.days)
+      create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc - 100.days)
       create(:note_with_comments, :status => "hidden")
       create(:note_with_comments)
 
@@ -1032,6 +1033,7 @@ module Api
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
+          assert_select "description", :text => /1\.2/, :count => 1
           assert_select "item", :count => 2
         end
       end

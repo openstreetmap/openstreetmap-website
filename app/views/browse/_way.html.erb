@@ -13,7 +13,7 @@
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
       <details <%= "open" if way.containing_relation_members.count < 10 %>>
-        <summary><%= t "browse.part_of_relations", :count => way.containing_relation_members.count %></summary>
+        <summary><%= t "browse.part_of_relations", :count => way.containing_relation_members.uniq.count %></summary>
         <ul class="list-unstyled">
           <%= render :partial => "containing_relation", :collection => way.containing_relation_members.uniq %>
         </ul>

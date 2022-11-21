@@ -22,7 +22,9 @@ class OldRelationMember < ApplicationRecord
   self.table_name = "relation_members"
   self.primary_keys = "relation_id", "version", "sequence_id"
 
-  belongs_to :old_relation, :foreign_key => [:relation_id, :version]
+  belongs_to :old_relation, :foreign_key => [:relation_id, :version], :inverse_of => :old_members
   # A bit messy, referring to the current tables, should do for the data browser for now
   belongs_to :member, :polymorphic => true
+
+  validates :member_role, :allow_blank => true, :length => { :maximum => 255 }, :characters => true
 end

@@ -5,11 +5,11 @@
         <%= link_to user_thumbnail(comment.user), user_path(comment.user) %>
       </div>
       <div class="col">
-        <p class="text-muted mb-0">
+        <p class="text-muted">
           <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, user_path(comment.user)),
                                       :comment_created_at => l(comment.created_at.to_datetime, :format => :friendly) %>
         </p>
-        <p><%= comment.body %></p>
+        <div class="richtext text-break"><%= comment.body.to_html %></div>
       </div>
     </div>
     <hr>

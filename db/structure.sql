@@ -17,13 +17,6 @@ CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
-
-
---
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -228,7 +221,7 @@ CREATE TABLE public.active_storage_blobs (
     content_type character varying,
     metadata text,
     byte_size bigint NOT NULL,
-    checksum character varying NOT NULL,
+    checksum character varying,
     created_at timestamp without time zone NOT NULL,
     service_name character varying NOT NULL
 );
@@ -760,7 +753,7 @@ CREATE TABLE public.gps_points (
 --
 
 CREATE TABLE public.gpx_file_tags (
-    gpx_id bigint DEFAULT 0 NOT NULL,
+    gpx_id bigint NOT NULL,
     tag character varying NOT NULL,
     id bigint NOT NULL
 );
@@ -1281,7 +1274,7 @@ ALTER SEQUENCE public.redactions_id_seq OWNED BY public.redactions.id;
 --
 
 CREATE TABLE public.relation_members (
-    relation_id bigint DEFAULT 0 NOT NULL,
+    relation_id bigint NOT NULL,
     member_type public.nwr_enum NOT NULL,
     member_id bigint NOT NULL,
     member_role character varying NOT NULL,
@@ -1295,7 +1288,7 @@ CREATE TABLE public.relation_members (
 --
 
 CREATE TABLE public.relation_tags (
-    relation_id bigint DEFAULT 0 NOT NULL,
+    relation_id bigint NOT NULL,
     k character varying DEFAULT ''::character varying NOT NULL,
     v character varying DEFAULT ''::character varying NOT NULL,
     version bigint NOT NULL
@@ -1307,7 +1300,7 @@ CREATE TABLE public.relation_tags (
 --
 
 CREATE TABLE public.relations (
-    relation_id bigint DEFAULT 0 NOT NULL,
+    relation_id bigint NOT NULL,
     changeset_id bigint NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
@@ -1548,7 +1541,7 @@ CREATE TABLE public.way_nodes (
 --
 
 CREATE TABLE public.way_tags (
-    way_id bigint DEFAULT 0 NOT NULL,
+    way_id bigint NOT NULL,
     k character varying NOT NULL,
     v character varying NOT NULL,
     version bigint NOT NULL
@@ -1560,7 +1553,7 @@ CREATE TABLE public.way_tags (
 --
 
 CREATE TABLE public.ways (
-    way_id bigint DEFAULT 0 NOT NULL,
+    way_id bigint NOT NULL,
     changeset_id bigint NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
@@ -2516,6 +2509,13 @@ CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by
 
 
 --
+-- Name: index_note_comments_on_author_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_note_comments_on_author_id_and_created_at ON public.note_comments USING btree (author_id, created_at);
+
+
+--
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3425,6 +3425,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210510083027'),
 ('20210510083028'),
 ('20210511104518'),
+('20211216185316'),
+('20220201183346'),
+('20220223140543'),
 ('21'),
 ('22'),
 ('23'),

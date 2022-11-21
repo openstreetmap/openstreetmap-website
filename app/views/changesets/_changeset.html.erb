@@ -1,6 +1,6 @@
 <% changeset_data = { :id => changeset.id }
 
-   if changeset.has_valid_bbox?
+   if changeset.bbox_valid?
      bbox = changeset.bbox.to_unscaled
      changeset_data[:bbox] = {
        :minlon => bbox.min_lon,
@@ -11,16 +11,18 @@
    end %>
 
 <%= tag.li :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data }, :class => "list-group-item" do %>
-  <p class="font-italic">
-    <a class="changeset_id text-dark" href="<%= changeset_path(changeset) %>">
-      <%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %>
+  <p class="fst-italic">
+    <a class="changeset_id text-dark stretched-link" href="<%= changeset_path(changeset) %>">
+      <span><%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %></span>
     </a>
   </p>
   <div class="row">
     <div class="col">
       <%= changeset_details(changeset) %>
       &middot;
-      #<%= changeset.id %>
+      <a class="changeset_id text-dark" href="<%= changeset_path(changeset) %>">
+        #<%= changeset.id %>
+      </a>
     </div>
     <div class="col-auto comments comments-<%= changeset.comments.length %>">
       <%= changeset.comments.length %>

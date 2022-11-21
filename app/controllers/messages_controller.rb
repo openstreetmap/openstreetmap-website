@@ -11,10 +11,24 @@ class MessagesController < ApplicationController
   before_action :check_database_writable, :only => [:new, :create, :reply, :mark, :destroy]
   before_action :allow_thirdparty_images, :only => [:new, :create, :show]
 
-  # Allow the user to write a new message to another user. This action also
-  # deals with the sending of that message to the other user when the user
-  # clicks send.
-  # The display_name param is the display name of the user that the message is being sent to.
+  # Show a message
+  def show
+    @title = t ".title"
+    @message = Message.find(params[:id])
+
+    if @message.recipient == current_user || @message.sender == current_user
+      @message.message_read = true if @message.recipient == current_user
+      @message.save
+    else
+      flash[:notice] = t ".wrong_user", :user => current_user.display_name
+      redirect_to login_path(:referer => request.fullpath)
+    end
+  rescue ActiveRecord::RecordNotFound
+    @title = t "messages.no_such_message.title"
+    render :action => "no_such_message", :status => :not_found
+  end
+
+  # Allow the user to write a new message to another user.
   def new
     @message = Message.new(message_params.merge(:recipient => @user))
     @title = t ".title"
@@ -24,9 +38,9 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.recipient = @user
     @message.sender = current_user
-    @message.sent_on = Time.now.getutc
+    @message.sent_on = Time.now.utc
 
-    if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= current_user.max_messages_per_hour
+    if current_user.sent_messages.where("sent_on >= ?", Time.now.utc - 1.hour).count >= current_user.max_messages_per_hour
       flash.now[:error] = t ".limit_exceeded"
       render :action => "new"
     elsif @message.save
@@ -37,6 +51,23 @@ class MessagesController < ApplicationController
       @title = t "messages.new.title"
       render :action => "new"
     end
+  end
+
+  # Destroy the message.
+  def destroy
+    @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:id])
+    @message.from_user_visible = false if @message.sender == current_user
+    @message.to_user_visible = false if @message.recipient == current_user
+    if @message.save && !request.xhr?
+      flash[:notice] = t ".destroyed"
+
+      referer = safe_referer(params[:referer]) if params[:referer]
+
+      redirect_to referer || { :action => :inbox }
+    end
+  rescue ActiveRecord::RecordNotFound
+    @title = t "messages.no_such_message.title"
+    render :action => "no_such_message", :status => :not_found
   end
 
   # Allow the user to reply to another message.
@@ -55,23 +86,6 @@ class MessagesController < ApplicationController
       @title = @message.title
 
       render :action => "new"
-    else
-      flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to login_path(:referer => request.fullpath)
-    end
-  rescue ActiveRecord::RecordNotFound
-    @title = t "messages.no_such_message.title"
-    render :action => "no_such_message", :status => :not_found
-  end
-
-  # Show a message
-  def show
-    @title = t ".title"
-    @message = Message.find(params[:id])
-
-    if @message.recipient == current_user || @message.sender == current_user
-      @message.message_read = true if @message.recipient == current_user
-      @message.save
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
       redirect_to login_path(:referer => request.fullpath)
@@ -105,25 +119,6 @@ class MessagesController < ApplicationController
     if @message.save && !request.xhr?
       flash[:notice] = notice
       redirect_to :action => :inbox
-    end
-  rescue ActiveRecord::RecordNotFound
-    @title = t "messages.no_such_message.title"
-    render :action => "no_such_message", :status => :not_found
-  end
-
-  # Destroy the message.
-  def destroy
-    @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:id])
-    @message.from_user_visible = false if @message.sender == current_user
-    @message.to_user_visible = false if @message.recipient == current_user
-    if @message.save && !request.xhr?
-      flash[:notice] = t ".destroyed"
-
-      if params[:referer]
-        redirect_to safe_referer(params[:referer])
-      else
-        redirect_to :action => :inbox
-      end
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"

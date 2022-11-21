@@ -8,7 +8,7 @@ module SessionMethods
   def auth_url(provider, uid, referer = nil)
     params = { :provider => provider }
 
-    params[:openid_url] = openid_expand_url(uid) if provider == "openid"
+    params[:openid_url] = uid if provider == "openid"
 
     if referer.nil?
       params[:origin] = request.path
@@ -18,23 +18,6 @@ module SessionMethods
     end
 
     auth_path(params)
-  end
-
-  ##
-  # special case some common OpenID providers by applying heuristics to
-  # try and come up with the correct URL based on what the user entered
-  def openid_expand_url(openid_url)
-    if openid_url.nil?
-      nil
-    elsif openid_url.match(%r{(.*)gmail.com(/?)$}) || openid_url.match(%r{(.*)googlemail.com(/?)$})
-      # Special case gmail.com as it is potentially a popular OpenID
-      # provider and, unlike yahoo.com, where it works automatically, Google
-      # have hidden their OpenID endpoint somewhere obscure this making it
-      # somewhat less user friendly.
-      "https://www.google.com/accounts/o8/id"
-    else
-      openid_url
-    end
   end
 
   ##

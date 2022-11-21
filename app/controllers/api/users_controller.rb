@@ -1,16 +1,32 @@
 module Api
   class UsersController < ApiController
+    before_action :check_api_readable
     before_action :disable_terms_redirect, :only => [:details]
     before_action :setup_user_auth, :only => [:show, :index]
     before_action :authorize, :only => [:details, :gpx_files]
 
     authorize_resource
 
-    before_action :check_api_readable
     around_action :api_call_handle_error
     before_action :lookup_user_by_id, :only => [:show]
 
     before_action :set_request_formats, :except => [:gpx_files]
+
+    def index
+      raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
+
+      ids = params["users"].split(",").collect(&:to_i)
+
+      raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
+
+      @users = User.visible.find(ids)
+
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
+      end
+    end
 
     def show
       if @user.visible?
@@ -30,22 +46,6 @@ module Api
       respond_to do |format|
         format.xml { render :show }
         format.json { render :show }
-      end
-    end
-
-    def index
-      raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
-
-      ids = params["users"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
-
-      @users = User.visible.find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
 

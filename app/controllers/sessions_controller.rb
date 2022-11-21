@@ -12,9 +12,7 @@ class SessionsController < ApplicationController
   authorize_resource :class => false
 
   def new
-    append_content_security_policy_directives(
-      :form_action => %w[*]
-    )
+    override_content_security_policy_directives(:form_action => []) if Settings.csp_enforce || Settings.key?(:csp_report_url)
 
     session[:referer] = safe_referer(params[:referer]) if params[:referer]
   end
@@ -34,13 +32,13 @@ class SessionsController < ApplicationController
         token&.destroy
         session.delete(:token)
       end
+
       session.delete(:user)
       session_expires_automatically
-      if params[:referer]
-        redirect_to safe_referer(params[:referer])
-      else
-        redirect_to :controller => "site", :action => "index"
-      end
+
+      referer = safe_referer(params[:referer]) if params[:referer]
+
+      redirect_to referer || { :controller => "site", :action => "index" }
     end
   end
 
@@ -54,7 +52,7 @@ class SessionsController < ApplicationController
     elsif (user = User.authenticate(:username => username, :password => password, :pending => true))
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("sessions.new.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe, username
+      failed_login({ :partial => "sessions/suspended_flash" }, username)
     else
       failed_login t("sessions.new.auth failure"), username
     end

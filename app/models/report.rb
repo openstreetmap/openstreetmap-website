@@ -25,8 +25,6 @@ class Report < ApplicationRecord
   belongs_to :issue, :counter_cache => true
   belongs_to :user
 
-  validates :issue, :presence => true
-  validates :user, :presence => true
   validates :details, :presence => true, :characters => true
   validates :category, :presence => true
 
@@ -37,5 +35,9 @@ class Report < ApplicationRecord
     when "Note" then %w[spam personal abusive other]
     else %w[other]
     end
+  end
+
+  def details
+    RichText.new("markdown", self[:details])
   end
 end

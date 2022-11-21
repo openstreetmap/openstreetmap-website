@@ -30,14 +30,14 @@ class UserBlock < ApplicationRecord
 
   belongs_to :user, :class_name => "User"
   belongs_to :creator, :class_name => "User"
-  belongs_to :revoker, :class_name => "User"
+  belongs_to :revoker, :class_name => "User", :optional => true
 
   PERIODS = Settings.user_block_periods
 
   ##
   # scope to match active blocks
   def self.active
-    where("needs_view or ends_at > ?", Time.now.getutc)
+    where("needs_view or ends_at > ?", Time.now.utc)
   end
 
   ##
@@ -50,7 +50,7 @@ class UserBlock < ApplicationRecord
   # returns true if the block is currently active (i.e: the user can't
   # use the API).
   def active?
-    needs_view || ends_at > Time.now.getutc
+    needs_view || ends_at > Time.now.utc
   end
 
   ##
@@ -65,7 +65,7 @@ class UserBlock < ApplicationRecord
   # is the user object who is revoking the ban.
   def revoke!(revoker)
     update(
-      :ends_at => Time.now.getutc,
+      :ends_at => Time.now.utc,
       :revoker_id => revoker.id,
       :needs_view => false
     )

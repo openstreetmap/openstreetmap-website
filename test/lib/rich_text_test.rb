@@ -224,7 +224,7 @@ class RichTextTest < ActiveSupport::TestCase
 
   def assert_html(richtext, &block)
     html = richtext.to_html
-    assert html.html_safe?
+    assert_predicate html, :html_safe?
     root = Nokogiri::HTML::DocumentFragment.parse(html)
     assert_select root, "*" do
       yield block

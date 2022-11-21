@@ -11,6 +11,6 @@ comments.each do |comment|
 
     xml.dc :creator, comment.author.display_name if comment.author
 
-    xml.pubDate comment.created_at.to_s(:rfc822)
+    xml.pubDate comment.created_at.to_fs(:rfc822)
   end
 end

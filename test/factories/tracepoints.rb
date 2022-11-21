@@ -4,7 +4,7 @@ FactoryBot.define do
     latitude { 1 * GeoRecord::SCALE }
     longitude { 1 * GeoRecord::SCALE }
     # tile { QuadTile.tile_for_point(1,1) }
-    timestamp { Time.now }
+    timestamp { Time.now.utc }
 
     trace
   end

@@ -45,11 +45,11 @@
 
 class User < ApplicationRecord
   require "digest"
-  require "xml/libxml"
+  include AASM
 
   has_many :traces, -> { where(:visible => true) }
-  has_many :diary_entries, -> { order(:created_at => :desc) }
-  has_many :diary_comments, -> { order(:created_at => :desc) }
+  has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
+  has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_entry_subscriptions, :class_name => "DiaryEntrySubscription"
   has_many :diary_subscriptions, :through => :diary_entry_subscriptions, :source => :diary_entry
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
@@ -59,26 +59,26 @@ class User < ApplicationRecord
   has_many :friends, :through => :friendships, :source => :befriendee
   has_many :tokens, :class_name => "UserToken", :dependent => :destroy
   has_many :preferences, :class_name => "UserPreference"
-  has_many :changesets, -> { order(:created_at => :desc) }
-  has_many :changeset_comments, :foreign_key => :author_id
+  has_many :changesets, -> { order(:created_at => :desc) }, :inverse_of => :user
+  has_many :changeset_comments, :foreign_key => :author_id, :inverse_of => :author
   has_and_belongs_to_many :changeset_subscriptions, :class_name => "Changeset", :join_table => "changesets_subscribers", :foreign_key => "subscriber_id"
-  has_many :note_comments, :foreign_key => :author_id
+  has_many :note_comments, :foreign_key => :author_id, :inverse_of => :author
   has_many :notes, :through => :note_comments
 
   has_many :client_applications
-  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken"
+  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken", :inverse_of => :user
 
   has_many :oauth2_applications, :class_name => Doorkeeper.config.application_model.name, :as => :owner
   has_many :access_grants, :class_name => Doorkeeper.config.access_grant_model.name, :foreign_key => :resource_owner_id
   has_many :access_tokens, :class_name => Doorkeeper.config.access_token_model.name, :foreign_key => :resource_owner_id
 
   has_many :blocks, :class_name => "UserBlock"
-  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id
-  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id
+  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id, :inverse_of => :creator
+  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id, :inverse_of => :revoker
 
   has_many :roles, :class_name => "UserRole"
 
-  has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id
+  has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id, :inverse_of => :reported_user
   has_many :issue_comments
 
   has_many :reports
@@ -87,7 +87,7 @@ class User < ApplicationRecord
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
-  has_one_attached :avatar
+  has_one_attached :avatar, :service => Settings.avatar_storage
 
   validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
@@ -114,7 +114,8 @@ class User < ApplicationRecord
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
 
-  after_initialize :set_defaults
+  alias_attribute :created_at, :creation_time
+
   before_save :encrypt_password
   before_save :update_tile
   after_save :spam_check
@@ -158,6 +159,64 @@ class User < ApplicationRecord
     user
   end
 
+  aasm :column => :status, :no_direct_assignment => true do
+    state :pending, :initial => true
+    state :active
+    state :confirmed
+    state :suspended
+    state :deleted
+
+    # A normal account is active
+    event :activate do
+      transitions :from => :pending, :to => :active
+    end
+
+    # Used in test suite, not something that we would normally need to do.
+    if Rails.env.test?
+      event :deactivate do
+        transitions :from => :active, :to => :pending
+      end
+    end
+
+    # To confirm an account is used to override the spam scoring
+    event :confirm do
+      transitions :from => [:pending, :active, :suspended], :to => :confirmed
+    end
+
+    # To unconfirm an account is to make it subject to future spam scoring again
+    event :unconfirm do
+      transitions :from => :confirmed, :to => :active
+    end
+
+    # Accounts can be automatically suspended by spam_check
+    event :suspend do
+      transitions :from => [:pending, :active], :to => :suspended
+    end
+
+    # Unsuspending an account moves it back to active without overriding the spam scoring
+    event :unsuspend do
+      transitions :from => :suspended, :to => :active
+    end
+
+    # Mark the account as deleted but keep all data intact
+    event :hide do
+      transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
+    end
+
+    event :unhide do
+      transitions :from => [:deleted], :to => :active
+    end
+
+    # Mark the account as deleted and remove personal data
+    event :soft_destroy do
+      before do
+        remove_personal_data
+      end
+
+      transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
+    end
+  end
+
   def description
     RichText.new(self[:description_format], self[:description])
   end
@@ -199,7 +258,7 @@ class User < ApplicationRecord
     OSM::GreatCircle.new(home_lat, home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
 
-  def is_friends_with?(new_friend)
+  def friends_with?(new_friend)
     friendships.exists?(:befriendee => new_friend)
   end
 
@@ -241,8 +300,8 @@ class User < ApplicationRecord
   end
 
   ##
-  # delete a user - leave the account but purge most personal data
-  def delete
+  # remove personal data - leave the account but purge most personal data
+  def remove_personal_data
     avatar.purge_later
 
     self.display_name = "user_#{id}"
@@ -253,7 +312,6 @@ class User < ApplicationRecord
     self.new_email = nil
     self.auth_provider = nil
     self.auth_uid = nil
-    self.status = "deleted"
 
     save
   end
@@ -279,7 +337,7 @@ class User < ApplicationRecord
   ##
   # perform a spam check on a user
   def spam_check
-    update(:status => "suspended") if status == "active" && spam_score > Settings.spam_threshold
+    suspend! if may_suspend? && spam_score > Settings.spam_threshold
   end
 
   ##
@@ -308,28 +366,24 @@ class User < ApplicationRecord
   end
 
   def max_messages_per_hour
-    account_age_in_seconds = Time.now.utc - creation_time
+    account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_messages = messages.where("sent_on >= ?", Time.now.utc - 3600).count
     active_reports = issues.with_status(:open).sum(:reports_count)
-    max_messages = account_age_in_hours.ceil + recent_messages - active_reports * 10
+    max_messages = account_age_in_hours.ceil + recent_messages - (active_reports * 10)
     max_messages.clamp(0, Settings.max_messages_per_hour)
   end
 
   def max_friends_per_hour
-    account_age_in_seconds = Time.now.utc - creation_time
+    account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_friends = Friendship.where(:befriendee => self).where("created_at >= ?", Time.now.utc - 3600).count
     active_reports = issues.with_status(:open).sum(:reports_count)
-    max_friends = account_age_in_hours.ceil + recent_friends - active_reports * 10
+    max_friends = account_age_in_hours.ceil + recent_friends - (active_reports * 10)
     max_friends.clamp(0, Settings.max_friends_per_hour)
   end
 
   private
-
-  def set_defaults
-    self.creation_time = Time.now.getutc unless attribute_present?(:creation_time)
-  end
 
   def encrypt_password
     if pass_crypt_confirmation

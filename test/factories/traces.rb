@@ -5,7 +5,7 @@ FactoryBot.define do
 
     user
 
-    timestamp { Time.now }
+    timestamp { Time.now.utc }
     inserted { true }
     size { 10 }
 
@@ -17,14 +17,14 @@ FactoryBot.define do
       fixture { nil }
     end
 
-    after(:create) do |trace, evaluator|
+    after(:build) do |user, evaluator|
       if evaluator.fixture
-        FileUtils.copy(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gpx"),
-                       File.join(Settings.gpx_trace_dir, "#{trace.id}.gpx"))
-        FileUtils.copy(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gif"),
-                       File.join(Settings.gpx_image_dir, "#{trace.id}.gif"))
-        FileUtils.copy(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}_icon.gif"),
-                       File.join(Settings.gpx_image_dir, "#{trace.id}_icon.gif"))
+        user.file.attach(Rack::Test::UploadedFile.new(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gpx")))
+
+        if evaluator.inserted
+          user.image.attach(Rack::Test::UploadedFile.new(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gif")))
+          user.icon.attach(Rack::Test::UploadedFile.new(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}_icon.gif")))
+        end
       end
     end
   end

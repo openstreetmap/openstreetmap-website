@@ -55,28 +55,26 @@ small, aside {
 .icon.clipboard   { /* no-r2 */ background-position: -160px 0; }
 .icon.link        { /* no-r2 */ background-position: -180px 0; }
 .icon.close       { /* no-r2 */ background-position: -200px 0; }
-.close-wrap:hover .icon.close,
 .icon.close:hover { /* no-r2 */ background-position: -200px -20px; }
 .icon.check       { /* no-r2 */ background-position: -220px 0; }
 .icon.note        { /* no-r2 */ background-position: -240px 0; }
 .icon.note.grey   { /* no-r2 */ background-position: -240px -20px; }
 .icon.query       { /* no-r2 */ background-position: -260px 0; }
 
-/* Rules for links */
-
-a {
-  color: #24d;
-  text-decoration: none;
-  outline: 0;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 /* Utility for de-emphasizing content */
 
 .text-muted a {
   color: $blue;
+}
+
+/* Rules for borders */
+/* These add additional colours to those provided by bootstrap */
+.border-grey {
+  border-color: $grey !important;
+}
+
+.border-lightgrey {
+  border-color: $lightgrey !important;
 }
 
 /* Rules for the header */
@@ -147,7 +145,7 @@ header {
 
 nav.primary {
   .btn-outline-primary {
-    @include button-outline-variant($green, $white);
+    @include button-outline-variant($green, $color-hover: $white, $active-color: $white);
   }
 
   .disabled {
@@ -192,33 +190,18 @@ nav.secondary {
 
   .login-menu {
     .btn-outline-secondary {
-      @include button-outline-variant($darkgrey);
+      @include button-outline-variant($darkgrey, $color-hover: $white, $active-color: $white);
     }
   }
 
   .user-menu {
     .btn-outline-secondary {
-      @include button-outline-variant($darkgrey, $darkgrey, white, $darkgrey);
+      @include button-outline-variant($darkgrey, $color-hover: $darkgrey, $active-background: white, $active-border: $darkgrey);
       border-color: $grey;
       &:hover {
         border-color: $grey;
       }
-      &:focus {
-        background-color: white;
-        box-shadow: none;
-      }
     }
-    &.show .btn-outline-secondary {
-      background-color: white;
-      &:focus {
-        box-shadow: none;
-      }
-    }
-  }
-
-  img.user_thumbnail_tiny {
-    border: 0;
-    border-radius: 3px;
   }
 
   #inboxanchor {
@@ -259,6 +242,95 @@ body.compact-nav {
   }
 }
 
+body.small-nav {
+  #menu-icon {
+    display: inline-block !important;
+  }
+
+  nav.primary,
+  nav.secondary {
+    float: none !important;
+    position: relative;
+    display: block;
+    clear: both;
+  }
+
+  header {
+    height: auto;
+    min-height: $headerHeight;
+    background: #fff;
+
+    &.closed nav {
+      display: none;
+    }
+
+    .search_forms {
+      display: block;
+    }
+  }
+
+  #sidebar .search_forms,
+  #edit_tab,
+  #export_tab {
+    display: none;
+  }
+
+  nav.primary {
+    padding: 0;
+
+    ul, li {
+      border: none;
+      border-radius: 0;
+      width: 100%;
+    }
+
+    ul {
+      border-top: 1px solid #eee;
+      li {
+        border-bottom: 1px solid #eee;
+        border-right: none;
+        > a {
+          border-radius: 0;
+          width: 100%;
+          text-align: center;
+          font-size: 15px;
+        }
+      }
+    }
+
+    .btn-group {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+
+  nav.secondary {
+    .user-menu {
+      width: 100%;
+    }
+  }
+
+  #compact-secondary-nav {
+    display: none;
+  }
+
+  .compact-hide {
+    display: inline-block;
+  }
+
+  .overlay-sidebar #sidebar .welcome.visible {
+    display: none;
+  }
+
+  .overlay-sidebar #sidebar #banner {
+    display: none;
+  }
+
+  .leaflet-top.leaflet-right {
+    top: 10px !important;
+  }
+}
+
 /* Utility for styling notification numbers */
 
 .count-number {
@@ -286,11 +358,10 @@ body.compact-nav {
   width: 40px;
   background-color: #333;
   background-color: rgba(0,0,0,.6);
-  border-radius: 4px 0 0 4px;
-  margin-bottom: 10px;
   outline: none;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: black;
   }
 
@@ -305,26 +376,18 @@ body.compact-nav {
     background-color: $vibrant-green;
   }
 
+  &-first {
+    border-start-start-radius: 4px;
+  }
+
+  &-last {
+    border-end-start-radius: 4px;
+    margin-bottom: 10px;
+  }
+
   .icon {
     margin: 10px;
   }
-}
-
-.leaflet-control .zoomin,
-.control-layers .control-button {
-  margin-bottom: 0px;
-  border-radius: 4px 0 0 0;
-}
-
-.leaflet-control .zoomout,
-.control-key .control-button {
-  margin-bottom: 0;
-  border-radius: 0;
-}
-
-.control-locate .control-button,
-.control-share .control-button {
-  border-radius: 0 0 0 4px;
 }
 
 /* Rules for the sidebar and main map area */
@@ -363,47 +426,6 @@ body.compact-nav {
       float: left;
       clear: both;
       width: 100%;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-    }
-
-    h3, h4 {
-      font-size: 1.25rem;
-    }
-
-    .close-wrap {
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 60px;
-      height: 60px;
-
-      .icon.close {
-        pointer-events: none;
-        position: absolute;
-        right: 20px;
-        top: 20px;
-      }
-    }
-
-    .icon.close {
-      float: right;
-      cursor: pointer;
-    }
-
-    .flash {
-      padding: 15px;
-
-      picture {
-        margin-right: -25px;
-      }
-
-      div.message {
-        margin-left: 30px;
-      }
     }
   }
 
@@ -478,21 +500,35 @@ body.compact-nav {
       border-bottom: 1px solid $grey;
       padding: 10px 20px;
     }
+  }
+}
 
-    a.close-button {
-      float: right;
-      padding:5px;
-      font-size:20px;
-      line-height:10px;
-      color:#222;
-      border:1px solid $grey;
+@include media-breakpoint-down(md) {
+  body.map-layout {
+    #sidebar, #map {
+      position: relative;
+      overflow-x: hidden;
+      width: 100%;
+      height: 50%;
     }
 
-    .tooltip {
-      opacity: 1;
-      border: 1px solid $grey;
-      .tooltip-arrow {
-        border-top-color: $grey;
+    #map-ui {
+      z-index: 9999;
+      width: 100%;
+      height: 50%;
+      overflow-y: scroll;
+    }
+
+    .overlay-sidebar {
+      #sidebar {
+        position: absolute;
+        width: 350px;
+        height: auto;
+        overflow: hidden;
+      }
+
+      #map, #map-ui {
+        height: 100%;
       }
     }
   }
@@ -556,31 +592,6 @@ body.compact-nav {
 }
 
 .share-ui {
-  .share-tabs {
-    margin-bottom: 10px;
-
-    a {
-      color: #fff;
-      text-decoration: none;
-      background-color: $lightblue;
-      padding: 5px 10px;
-      border-right: 1px solid #fff;
-    }
-
-    a:first-child {
-      border-right: 1px solid #fff;
-      border-radius: 4px 0 0 4px;
-    }
-
-    a:last-child {
-      border-radius: 0 4px 4px 0;
-    }
-
-    a.active {
-      background-color: $blue;
-    }
-  }
-
   .share-tab {
     display: none;
   }
@@ -656,11 +667,6 @@ body.compact-nav {
   padding: $lineheight/2 $lineheight;
   // background: $offwhite;
   // border-bottom: 1px solid $grey;
-  > .close {
-    float: right;
-    margin-top: 2px;
-    cursor: pointer;
-  }
 }
 
 #browse_status {
@@ -675,27 +681,34 @@ body.compact-nav {
   }
 }
 
-#sidebar {
-  #sidebar_loader,
-  .search_more {
-    width: 100%;
-    margin: $lineheight auto;
-  }
-
-  .loader {
-    text-align: center;
-    margin: auto;
-    width: 40px;
-    display: block;
-  }
-}
-
 /* Temporary label size override until we remove site-wide font customisation */
 
 form {
   label {
     font-size: 16px;
   }
+}
+
+/* Stop bootstrap 5 from floating legends when they don't need to be */
+legend {
+  float: none;
+}
+
+/* Override the text colour for primary and secondary buttons, to match our
+   bootstrap 4 colours. Note this has accessibility issues, which is why
+   bootstrap 5 calculates black as the appropriate colour, and we should
+   reconsider our colours at some point with that in mind. */
+
+.btn-primary {
+  @include button-variant($primary, $primary, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
+}
+
+.btn-secondary {
+  @include button-variant($secondary, $secondary, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
+}
+
+.btn-outline-secondary {
+  @include button-outline-variant($secondary, $color-hover: $white, $active-color: $white);
 }
 
 /* Rules for the search and direction forms */
@@ -725,7 +738,6 @@ header .search_forms,
 
   .search_more .loader {
     display: none;
-    width: 100%;
   }
 }
 
@@ -782,10 +794,13 @@ tr.turn:hover {
 
 #sidebar .changesets {
   li {
-    cursor: pointer;
-
     &.selected { background: $list-highlight; }
     /* color is derived from changeset bbox fillColor in history.js */
+
+    a.stretched-link > span, a:not(.stretched-link), [title] {
+      position: relative;
+      z-index: 2; /* needs to be higher than Bootstrap's stretched link ::after z-index */
+    }
   }
 
   .comments {
@@ -819,38 +834,8 @@ tr.turn:hover {
     border-bottom: none;
   }
 
-  .paginate {
-    float: right;
-    padding: 1px 6px;
-    border: 1px solid $lightgrey;
-    border-radius: 3px;
-  }
-
-  .browse-field {
-    margin-bottom: 10px;
-
-    h4 {
-      padding: 5px 0 5px 10px;
-      font-size: 12px;
-      border: 1px solid $grey;
-      border-radius: 4px 4px 0 0;
-      background-color: $offwhite;
-    }
-
-    p {
-      padding: 7px 10px;
-      font-size: 12px;
-      background-color: #FFF;
-      border: 1px solid $grey;
-      border-top: 0;
-      border-radius: 0 0 4px 4px;
-    }
-  }
-
   .browse-tag-list {
     background-color: $offwhite;
-    border: 1px solid $grey;
-    border-radius: 3px;
     table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0;
@@ -900,16 +885,6 @@ tr.turn:hover {
       margin: 10px 6px 0 6px;
       line-height: 1.5;
     }
-  }
-
-  .comments-header {
-    float: left;
-  }
-
-  .subscribe-buttons {
-    float: left;
-    margin: 0 10px;
-    min-width: 80px;
   }
 
   .subscribe-buttons input {
@@ -973,8 +948,6 @@ tr.turn:hover {
 
   .export_boxy {
     background: $lightgrey;
-    border: 1px solid $grey;
-    border-radius: 3px;
 
     #maxlat { margin-top: -1px; }
     #minlon {
@@ -1067,6 +1040,10 @@ tr.turn:hover {
 
 [dir=rtl] .header-illustration {
   transform: scaleX(-1);
+
+  h1 {
+    transform: scaleX(-1);
+  }
 }
 
 #content.maximised {
@@ -1082,7 +1059,6 @@ tr.turn:hover {
 
 .content_map {
   height: 200px;
-  border: 1px solid $grey;
   margin-bottom: $lineheight;
 }
 
@@ -1105,7 +1081,7 @@ tr.turn:hover {
   min-width: 200px;
   p {
     padding: 0 0 5px 0;
-    margin-top: 0 0 0 60px;
+    margin: 0 0 0 60px;
     font-size: 12px;
   }
 }
@@ -1124,25 +1100,8 @@ tr.turn:hover {
   padding-bottom: $lineheight/2;
   border-top: 1px solid $grey;
 
-  &:first-of-type {
-    margin-top: $lineheight/2;
-  }
-
   &.deleted {
     background-color: #fee;
-  }
-
-  .post_heading {
-    margin-bottom: $lineheight;
-
-    h2 {
-      margin-top: 0;
-      margin-bottom: $lineheight/2;
-    }
-  }
-
-  img.user_thumbnail {
-    float: left;
   }
 }
 
@@ -1151,7 +1110,6 @@ tr.turn:hover {
 .diary_entries {
   #map {
     height: 400px;
-    border: 1px solid $grey;
     display: none;
     margin-bottom: $lineheight;
   }
@@ -1180,10 +1138,6 @@ tr.turn:hover {
   }
 }
 
-.diary_entries-show img.user_thumbnail {
-  float: left;
-}
-
 /* Rules for the log in page */
 
 #login_auth_buttons {
@@ -1199,7 +1153,6 @@ tr.turn:hover {
 
 .users-terms {
   .legale {
-    border: 1px solid $grey;
     padding: $lineheight;
     margin-bottom: $lineheight;
     overflow: auto;
@@ -1241,16 +1194,6 @@ tr.turn:hover {
   display: inline !important;
 }
 
-/* Rules for the oauth settings page */
-
-.oauth_clients .buttons .oauth-edit {
-  border-radius: 2px 0 0 2px;
-}
-
-.oauth_clients .buttons .oauth-delete {
-  border-radius: 0 2px 2px 0;
-}
-
 /* Rules for the oauth authorization page */
 
 .oauth-authorize ul {
@@ -1260,8 +1203,9 @@ tr.turn:hover {
 /* Rules for messages pages */
 
 .messages {
-  input[type="submit"] {
+  button[type="submit"] {
     margin: auto;
+    white-space: nowrap;
   }
 
   .inbox-row {
@@ -1312,8 +1256,6 @@ tr.turn:hover {
 /* Rules for "flash" notice boxes shown at the top of the content area */
 
 .flash {
-  padding: $lineheight;
-
   &.error {
     background-color: #ff7070;
   }
@@ -1378,18 +1320,6 @@ tr.turn:hover {
 
 .directions_form {
   background-color: $lightgrey;
-
-  .loader_copy {
-    display: none;
-
-    img {
-      vertical-align: middle;
-    }
-  }
-
-  a.reverse_directions {
-    cursor: pointer;
-  }
 }
 
 /* Rules for user images */
@@ -1397,13 +1327,11 @@ tr.turn:hover {
 img.user_image {
   max-width: 100px;
   max-height: 100px;
-  border: 1px solid $grey;
 }
 
 img.user_thumbnail {
   max-width: 50px;
   max-height: 50px;
-  border: 1px solid $grey;
 }
 
 img.user_thumbnail_tiny {
@@ -1411,7 +1339,6 @@ img.user_thumbnail_tiny {
   height: auto;
   max-width: 25px;
   max-height: 25px;
-  border: 1px solid $grey;
 }
 
 /* Rules for geo microformats */
@@ -1420,7 +1347,7 @@ abbr.geo {
   border-bottom: none;
 }
 
-/* General styles for action lists / subnavs / pager navs */
+/* General styles for action lists / subnavs */
 
 
 nav.secondary-actions {
@@ -1433,10 +1360,6 @@ nav.secondary-actions {
     margin-bottom: 0;
     margin-left: -1px;
     padding: 0;
-    &.pager {
-      display: inline-block;
-      margin-right: 60px;
-    }
     > li {
       flex-basis: auto;
       list-style: none;
@@ -1453,60 +1376,6 @@ div.secondary-actions {
   text-align: center;
 }
 
-.buttons {
-  min-width: 200px;
-  input[type="submit"],
-  input[type="button"],
-  input[type="reset"],
-  .button,
-  .button_to {
-    box-sizing: border-box;
-    float: left;
-    border-radius: 0;
-    margin:0;
-    min-width: 75px;
-    max-width: 180px;
-    border-right:1px solid white;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  input:first-child,
-  .button:first-child,
-  .button_to:first-child {
-    border-radius:2px 0 0 2px;
-  }
-  input:last-child,
-  .button:last-child,
-  .button_to:last-child {
-    border-radius:0 2px 2px 0;
-    border-right-width: 0;
-  }
-  input:only-child,
-  .button:only-child,
-  .button_to:only-child,
-  *[value="Hide"] + input:last-child,
-  *[value="Hide"] + .button:last-child,
-  *[value="Hide"] + .button_to:last-child {
-    border-radius:2px;
-    border-right-width: 0;
-  }
-    /* if a 3-button set has a hidden middle button */
-  *[value="Hide"] + input:nth-child(3),
-  *[value="Hide"] + .button:nth-child(3),
-  *[value="Hide"] + .button_to:nth-child(3) {
-    border-radius:0 2px 2px 0;
-    border-right-width: 0;
-  }
-  /* if a 3-button set starts with a hidden button */
-  *[value="Hide"] + input:nth-child(2):not(:last-child),
-  *[value="Hide"] + .button:nth-child(2):not(:last-child),
-  *[value="Hide"] + .button_to:nth-child(2):not(:last-child) {
-    border-radius:2px 0 0 2px;
-    border-right-width: 1px;
-  }
-}
-
 /* Create a single-line dl */
 
 dl.dl-inline {
@@ -1516,13 +1385,6 @@ dl.dl-inline {
   dd {
     margin-right: 1em;
   }
-}
-
-/* Customise the background colour of striped tables */
-
-.table-striped > tbody > tr:nth-child(2n+1) > td,
-.table-striped > tbody > tr:nth-child(2n+1) > th {
-   background-color: $offwhite;
 }
 
 /* Rules for OpenID logo */
@@ -1537,13 +1399,11 @@ dl.dl-inline {
 .richtext,
 .prose {
   code {
-    font-size: 13px;
     background: $lightgrey;
     padding: 2px 3px;
   }
 
   pre {
-    font-size: 13px;
     background: $lightgrey;
     padding: 2px 3px;
     white-space: pre-wrap;
@@ -1586,30 +1446,12 @@ dl.dl-inline {
 
 /* Rules for the "Welcome" page */
 .site-welcome, .site-fixthemap {
-  .center {
-    text-align: center;
-    .sprite {
-      float: none;
-      margin: auto;
-    }
-  }
-
   .sprite {
     background-image: image-url("welcome-sprite.png");
     background-size: 500px 250px;
     display: block;
-    float: left;
   }
 
-  .icon-list {
-    padding-bottom: 20px;
-    div {
-      margin-bottom: 10px;
-      p {
-        padding-top: 10px;
-      }
-    }
-  }
   .sprite.small {
     width: 50px;
     height: 50px;
@@ -1648,15 +1490,6 @@ dl.dl-inline {
     /* no-r2 */ background-position: -350px 0;
   }
 
-  .start-mapping {
-    margin: auto;
-    cursor: pointer;
-    border: none;
-    padding: 20px 40px;
-    font-size: 30px;
-    text-decoration: none;
-  }
-
   .icon.note {
     background-color: #333;
     border-radius: 4px;
@@ -1665,10 +1498,6 @@ dl.dl-inline {
 
 .site-about #content {
   background-color: $lightgrey;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
 
   .content-inner {
     max-width: 760px;
@@ -1706,8 +1535,6 @@ dl.dl-inline {
   .icon {
     width: 30px;
     height: 30px;
-    margin-right: 10px;
-    vertical-align: middle;
     background: 40px 40px image-url('about/sprite.png') no-repeat;
 
     &.local {
@@ -1738,9 +1565,3 @@ dl.dl-inline {
 }
 
 @import 'browse';
-
-@media only screen and (max-width:960px) {
-  .header-illustration.new-user-arm {
-    display: none;
-  }
-}

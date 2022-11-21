@@ -4,7 +4,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
   # Checks that you cannot add a new preference, that is a duplicate
   def test_add_duplicate_preference
     up = create(:user_preference)
-    new_up = UserPreference.new
+    new_up = build(:user_preference)
     new_up.user = up.user
     new_up.k = up.k
     new_up.v = "some other value"
@@ -16,11 +16,11 @@ class UserPreferenceTest < ActiveSupport::TestCase
     key = "k"
     val = "v"
     [1, 255].each do |i|
-      up = UserPreference.new
+      up = build(:user_preference)
       up.user = create(:user)
       up.k = key * i
       up.v = val * i
-      assert up.valid?
+      assert_predicate up, :valid?
       assert up.save!
       resp = UserPreference.find(up.id)
       assert_equal key * i, resp.k, "User preference with #{i} #{key} chars (i.e. #{key.length * i} bytes) fails"
@@ -32,7 +32,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     key = "k"
     val = "v"
     [0, 256].each do |i|
-      up = UserPreference.new
+      up = build(:user_preference)
       up.user = create(:user)
       up.k = key * i
       up.v = val * i

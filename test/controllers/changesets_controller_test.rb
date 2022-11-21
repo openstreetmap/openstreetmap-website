@@ -329,6 +329,14 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
       changesets.each do |changeset|
         assert_select "> entry > id", changeset_url(:id => changeset.id)
+
+        assert_select "> entry > content > xhtml|div > xhtml|table" do
+          assert_select "> xhtml|tr > xhtml|td > xhtml|table" do
+            changeset.tags.each do |key, _|
+              assert_select "> xhtml|tr > xhtml|td", :text => /^#{key} = /
+            end
+          end
+        end
       end
     end
   end

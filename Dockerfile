@@ -4,31 +4,30 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system packages then clean up to minimize image size
 RUN apt-get update \
-     && apt-get install --no-install-recommends -y \
-     build-essential \
-     curl \
-     default-jre-headless \
-     file \
-     firefox-geckodriver \
-     imagemagick \
-     libarchive-dev \
-     libffi-dev \
-     libgd-dev \
-     libmagickwand-dev \
-     libpq-dev \
-     libsasl2-dev \
-     libxml2-dev \
-     libxslt1-dev \
-     locales \
-     nodejs \
-     postgresql-client \
-     ruby2.7 \
-     ruby2.7-dev \
-     tzdata \
-     unzip \
-     yarnpkg \
-     && apt-get clean \
-     && rm -rf /var/lib/apt/lists/*
+ && apt-get install --no-install-recommends -y \
+      build-essential \
+      curl \
+      default-jre-headless \
+      file \
+      firefox-geckodriver \
+      libarchive-dev \
+      libffi-dev \
+      libgd-dev \
+      libpq-dev \
+      libsasl2-dev \
+      libvips-dev \
+      libxml2-dev \
+      libxslt1-dev \
+      locales \
+      nodejs \
+      postgresql-client \
+      ruby2.7 \
+      ruby2.7-dev \
+      tzdata \
+      unzip \
+      yarnpkg \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install compatible Osmosis to help users import sample data in a new instance
 RUN curl -OL https://github.com/openstreetmap/osmosis/releases/download/0.47.2/osmosis-0.47.2.tgz \
