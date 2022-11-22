@@ -16,7 +16,7 @@ class DiaryEntriesController < ApplicationController
       @user = User.active.find_by(:display_name => params[:display_name])
 
       if @user
-        @title = t "diary_entries.index.user_title", :user => @user.display_name
+        @title = t ".user_title", :user => @user.display_name
         @entries = @user.diary_entries
       else
         render_unknown_user params[:display_name]
@@ -24,7 +24,7 @@ class DiaryEntriesController < ApplicationController
       end
     elsif params[:friends]
       if current_user
-        @title = t "diary_entries.index.title_friends"
+        @title = t ".title_friends"
         @entries = DiaryEntry.where(:user_id => current_user.friends)
       else
         require_user
@@ -32,7 +32,7 @@ class DiaryEntriesController < ApplicationController
       end
     elsif params[:nearby]
       if current_user
-        @title = t "diary_entries.index.title_nearby"
+        @title = t ".title_nearby"
         @entries = DiaryEntry.where(:user_id => current_user.nearby)
       else
         require_user
@@ -42,10 +42,10 @@ class DiaryEntriesController < ApplicationController
       @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
-        @title = t "diary_entries.index.in_language_title", :language => Language.find(params[:language]).english_name
+        @title = t ".in_language_title", :language => Language.find(params[:language]).english_name
         @entries = @entries.where(:language_code => params[:language])
       else
-        @title = t "diary_entries.index.title"
+        @title = t ".title"
       end
     end
 
@@ -64,7 +64,7 @@ class DiaryEntriesController < ApplicationController
   def show
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
-      @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
+      @title = t ".title", :user => params[:display_name], :title => @entry.title
       @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
@@ -73,7 +73,7 @@ class DiaryEntriesController < ApplicationController
   end
 
   def new
-    @title = t "diary_entries.new.title"
+    @title = t ".title"
 
     default_lang = current_user.preferences.where(:k => "diary.default_language").first
     lang_code = default_lang ? default_lang.v : current_user.preferred_language
@@ -83,7 +83,7 @@ class DiaryEntriesController < ApplicationController
   end
 
   def edit
-    @title = t "diary_entries.edit.title"
+    @title = t ".title"
     @diary_entry = DiaryEntry.find(params[:id])
 
     redirect_to diary_entry_path(@diary_entry.user, @diary_entry) if current_user != @diary_entry.user

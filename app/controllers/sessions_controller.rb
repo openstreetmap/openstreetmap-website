@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @title = t "sessions.destroy.title"
+    @title = t ".title"
 
     if request.post?
       if session[:token]

@@ -12,7 +12,7 @@ class PasswordsController < ApplicationController
   before_action :check_database_writable, :only => [:lost_password, :reset_password]
 
   def lost_password
-    @title = t "passwords.lost_password.title"
+    @title = t ".title"
 
     if request.post?
       user = User.visible.find_by(:email => params[:email])
@@ -26,16 +26,16 @@ class PasswordsController < ApplicationController
       if user
         token = user.tokens.create
         UserMailer.lost_password(user, token).deliver_later
-        flash[:notice] = t "passwords.lost_password.notice email on way"
+        flash[:notice] = t ".notice email on way"
         redirect_to login_path
       else
-        flash.now[:error] = t "passwords.lost_password.notice email cannot find"
+        flash.now[:error] = t ".notice email cannot find"
       end
     end
   end
 
   def reset_password
-    @title = t "passwords.reset_password.title"
+    @title = t ".title"
 
     if params[:token]
       token = UserToken.find_by(:token => params[:token])
@@ -52,12 +52,12 @@ class PasswordsController < ApplicationController
           if current_user.save
             token.destroy
             session[:fingerprint] = current_user.fingerprint
-            flash[:notice] = t "passwords.reset_password.flash changed"
+            flash[:notice] = t ".flash changed"
             successful_login(current_user)
           end
         end
       else
-        flash[:error] = t "passwords.reset_password.flash token bad"
+        flash[:error] = t ".flash token bad"
         redirect_to :action => "lost_password"
       end
     else

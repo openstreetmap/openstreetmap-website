@@ -18,14 +18,14 @@ class FriendshipsController < ApplicationController
         friendship.befriender = current_user
         friendship.befriendee = @new_friend
         if current_user.friends_with?(@new_friend)
-          flash[:warning] = t "friendships.make_friend.already_a_friend", :name => @new_friend.display_name
+          flash[:warning] = t ".already_a_friend", :name => @new_friend.display_name
         elsif current_user.friendships.where("created_at >= ?", Time.now.utc - 1.hour).count >= current_user.max_friends_per_hour
-          flash.now[:error] = t "friendships.make_friend.limit_exceeded"
+          flash.now[:error] = t ".limit_exceeded"
         elsif friendship.save
-          flash[:notice] = t "friendships.make_friend.success", :name => @new_friend.display_name
+          flash[:notice] = t ".success", :name => @new_friend.display_name
           UserMailer.friendship_notification(friendship).deliver_later
         else
-          friendship.add_error(t("friendships.make_friend.failed", :name => @new_friend.display_name))
+          friendship.add_error(t(".failed", :name => @new_friend.display_name))
         end
 
         referer = safe_referer(params[:referer]) if params[:referer]
@@ -44,9 +44,9 @@ class FriendshipsController < ApplicationController
       if request.post?
         if current_user.friends_with?(@friend)
           Friendship.where(:befriender => current_user, :befriendee => @friend).delete_all
-          flash[:notice] = t "friendships.remove_friend.success", :name => @friend.display_name
+          flash[:notice] = t ".success", :name => @friend.display_name
         else
-          flash[:error] = t "friendships.remove_friend.not_a_friend", :name => @friend.display_name
+          flash[:error] = t ".not_a_friend", :name => @friend.display_name
         end
 
         referer = safe_referer(params[:referer]) if params[:referer]

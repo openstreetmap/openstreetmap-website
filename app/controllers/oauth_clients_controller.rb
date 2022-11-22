@@ -32,7 +32,7 @@ class OauthClientsController < ApplicationController
   def create
     @client_application = current_user.client_applications.build(application_params)
     if @client_application.save
-      flash[:notice] = t "oauth_clients.create.flash"
+      flash[:notice] = t ".flash"
       redirect_to :action => "show", :id => @client_application.id
     else
       render :action => "new"
@@ -42,7 +42,7 @@ class OauthClientsController < ApplicationController
   def update
     @client_application = current_user.client_applications.find(params[:id])
     if @client_application.update(application_params)
-      flash[:notice] = t "oauth_clients.update.flash"
+      flash[:notice] = t ".flash"
       redirect_to :action => "show", :id => @client_application.id
     else
       render :action => "edit"
@@ -55,7 +55,7 @@ class OauthClientsController < ApplicationController
   def destroy
     @client_application = current_user.client_applications.find(params[:id])
     @client_application.destroy
-    flash[:notice] = t "oauth_clients.destroy.flash"
+    flash[:notice] = t ".flash"
     redirect_to :action => "index"
   rescue ActiveRecord::RecordNotFound
     @type = "client application"

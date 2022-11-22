@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    @title = t "users.new.title"
+    @title = t ".title"
     @referer = if params[:referer]
                  safe_referer(params[:referer])
                else
@@ -127,7 +127,7 @@ class UsersController < ApplicationController
     if request.xhr?
       render :partial => "terms"
     else
-      @title = t "users.terms.title"
+      @title = t ".title"
 
       if current_user&.terms_agreed?
         # Already agreed to terms, so just show settings
@@ -220,7 +220,7 @@ class UsersController < ApplicationController
   def go_public
     current_user.data_public = true
     current_user.save
-    flash[:notice] = t "users.go_public.flash success"
+    flash[:notice] = t ".flash success"
     redirect_to edit_account_path
   end
 
@@ -304,7 +304,7 @@ class UsersController < ApplicationController
   ##
   # omniauth failure callback
   def auth_failure
-    flash[:error] = t(params[:message], :scope => "users.auth_failure", :default => t("users.auth_failure.unknown_error"))
+    flash[:error] = t(params[:message], :scope => "users.auth_failure", :default => t(".unknown_error"))
 
     origin = safe_referer(params[:origin]) if params[:origin]
 

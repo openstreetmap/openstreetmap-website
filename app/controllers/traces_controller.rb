@@ -119,7 +119,7 @@ class TracesController < ApplicationController
         TraceImporterJob.perform_later(@trace)
         redirect_to :action => :index, :display_name => current_user.display_name
       else
-        flash[:error] = t("traces.create.upload_failed") if @trace.valid?
+        flash[:error] = t(".upload_failed") if @trace.valid?
 
         render :action => "new"
       end
