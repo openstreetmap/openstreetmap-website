@@ -107,6 +107,10 @@ class SiteController < ApplicationController
     @locale = params[:about_locale] || I18n.locale
   end
 
+  def communities
+    @local_chapters = Community.where(:type => "osm-lc").where.not(:id => "OSMF")
+  end
+
   def export; end
 
   def offline; end
