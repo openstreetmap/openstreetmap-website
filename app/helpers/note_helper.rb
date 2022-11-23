@@ -23,4 +23,9 @@ module NoteHelper
       link_to h(author.display_name), link_options.merge(:controller => "/users", :action => "show", :display_name => author.display_name)
     end
   end
+
+  def disappear_in(note)
+    date = note.freshly_closed_until
+    tag.span(distance_of_time_in_words(date, Time.now.utc), :title => l(date, :format => :friendly))
+  end
 end

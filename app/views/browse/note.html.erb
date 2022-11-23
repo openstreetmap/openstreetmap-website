@@ -71,6 +71,21 @@
   <% end %>
 
   <% if current_user && current_user != @note.author %>
-    <p><small class="text-muted"><%= t "javascripts.notes.show.report_link_html", :link => report_link(t(".report"), @note) %></small></p>
+    <p>
+      <small class="text-muted">
+        <%= t "javascripts.notes.show.report_link_html", :link => report_link(t(".report"), @note) %>
+        <% if @note.status == "open" %>
+          <%= t "javascripts.notes.show.other_problems_resolve", :link => report_link(t(".report"), @note) %>
+        <% elsif @note.status == "closed" %>
+          <%= t "javascripts.notes.show.other_problems_resolved" %>
+        <% end %>
+      </small>
+    </p>
+  <% end %>
+
+  <% if @note.freshly_closed? %>
+    <small class="text-muted">
+      <%= t "javascripts.notes.show.disappear_date_html", :disappear_in => disappear_in(@note) %>
+    </small>
   <% end %>
 </div>

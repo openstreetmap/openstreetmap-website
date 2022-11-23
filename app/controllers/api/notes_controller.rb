@@ -360,9 +360,9 @@ module Api
     # on their status and the user's request parameters
     def closed_condition(notes)
       closed_since = if params[:closed]
-                       params[:closed].to_i
+                       params[:closed].to_i.days
                      else
-                       7
+                       Note::DEFAULT_FRESHLY_CLOSED_LIMIT
                      end
 
       if closed_since.negative?
@@ -370,7 +370,7 @@ module Api
       elsif closed_since.positive?
         notes.where(:status => "open")
              .or(notes.where(:status => "closed")
-                      .where(notes.arel_table[:closed_at].gt(Time.now.utc - closed_since.days)))
+                      .where(notes.arel_table[:closed_at].gt(Time.now.utc - closed_since)))
       else
         notes.where(:status => "open")
       end
