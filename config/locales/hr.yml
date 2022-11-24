@@ -41,6 +41,9 @@ hr:
       client_application:
         create: Registriraj
         update: Ažuriraj
+      doorkeeper_application:
+        create: Registracija
+        update: Ažuriraj
       trace:
         create: Pošalji
         update: 'Snimi promjene:'
@@ -78,9 +81,9 @@ hr:
       report: Prijavi
       session: Sesija
       trace: Trag
-      tracepoint: Točka trase
+      tracepoint: Točka traga
       tracetag: Oznaka traga
-      user: korisnik
+      user: Korisnik
       user_preference: Korisničke postavke
       user_token: korisnički token
       way: Put
@@ -136,7 +139,7 @@ hr:
         languages: 'Željeni jezici:'
         preferred_editor: 'Preferencijalni uređivač:'
         pass_crypt: Lozinka
-        pass_crypt_confirmation: Potvrdi zaporku
+        pass_crypt_confirmation: Potvrdi lozinku
     help:
       trace:
         tagstring: odvojeno zarezom
@@ -196,7 +199,7 @@ hr:
         few: prije %{count} godine
         other: prije %{count} godina
   editor:
-    default: Zadano (currently %{name})
+    default: Zadano (trenutno %{name})
     id:
       name: iD
       description: iD (uređivač u pregledniku)
@@ -239,7 +242,7 @@ hr:
     edit:
       title: Uredi korisnički račun
       my settings: Moje postavke
-      current email address: 'Trenutna E-mail adresa:'
+      current email address: Trenutna adresa e-pošte
       openid:
         link text: što je ovo?
       public editing:
@@ -250,7 +253,7 @@ hr:
           su anonimne.
         disabled link text: zašto ne mogu uređivati?
       public editing note:
-        heading: 'Javno uređivanje:'
+        heading: Javno uređivanje
         html: Trenutno su vaše izmjene anonimne i ljudi vam ne mogu poslati poruke
           ili vidjeti vašu lokaciju. Da bi pokazali vaše izmjene i dozvolili ljudima
           da vas kontaktiraju preko website-a, kliknite gumb ispod <b>Od promjene
@@ -259,7 +262,7 @@ hr:
           <li>Ova akcija se ne može poništiti i svi novi korisnici su postavljeni
           kao javni.</li> </ul>
       contributor terms:
-        heading: 'Uvjeti doprinositelja:'
+        heading: Uvjeti doprinositelja
         agreed: Prihvatio/la si nove Uvjete doprinositelja.
         not yet agreed: Niste još uvijek prihvatili nove uvjete doprinositelja.
         review link text: Molim slijedi ovu poveznicu kada budeš u prilici za pregled
@@ -407,7 +410,7 @@ hr:
       reopened_by_anonymous_html: Ponovno aktivirano anonimno <abbr title='%{exact_time}'>
         u %{when}</abbr>
       hidden_by_html: Sakrio/la %{user} <abbr title='%{exact_time}'> u %{when}</abbr>
-      report: Prijavi ovu bilješku
+      report: prijavi ovu bilješku
     query:
       title: Provjeri elemente karte
       introduction: Klikni na kartu za pronalazak okolnih elemenata karte.
@@ -1092,6 +1095,8 @@ hr:
     intro_text: OpenStreetMap je karta svijeta, stvorena od strane ljudi (volontera/doprinositelja)
       i može se slobodno koristiti pod licencijom otvorenog koda (ODbL).
     intro_2_create_account: Stvori korisnički račun
+    hosting_partners_html: Hosting podržavaju %{ucl}, %{fastly}, %{bytemark} i drugi
+      %{partners}.
     osm_offline: OpenStreetMap baza podataka je trenutno nedostupna dok se ne završe
       važni radovi na održavanju.
     osm_read_only: Zbog radova na održavanju baze podataka OpenStreetMapa, istu trenutačno
@@ -1286,7 +1291,7 @@ hr:
   sessions:
     new:
       title: Prijava
-      heading: 'Prijava:'
+      heading: Prijava
       email or username: 'Email adresa ili korisničko ime:'
       password: 'Lozinka:'
       openid_html: '%{logo} OpenID:'
@@ -1295,14 +1300,14 @@ hr:
       login_button: Prijava
       register now: Registrirajte se sada
       with external: 'Ili koristite drugi servis za prijavljivanje:'
-      new to osm: Novi na OpenStreetMap?
+      new to osm: Novi na OpenStreetMap-u?
       to make changes: Da bi napravili izmjene na OpenStreetMap podacima, morate imati
         korisnički račun.
       create account minute: Otvorite korisnički račun. To traje samo minutu.
       no account: Nemate račun?
-      account not active: Žao nam je, Vaš korisnički račun još nije aktivan. <br />
-        Molimo vas da koristite link u e-pošti potvrde da biste aktivirali svoj račun,
-        ili <a href="%{reconfirm}">zatražiti novu e-poštu potvrde</a> .
+      account not active: Žao nam je, Vaš korisnički račun još nije aktivan.<br />Molimo
+        vas da koristite link u e-pošti potvrde da biste aktivirali svoj račun, ili
+        <a href="%{reconfirm}">zatražite novu e-poštu potvrde</a> .
       auth failure: Žao mi je, ne mogu prijaviti s ovim detaljima.
       openid_logo_alt: Prijavi se sa OpenID-om
       auth_providers:
@@ -1332,28 +1337,51 @@ hr:
           alt: Prijavi se sa AOL-ovim OpenID-om
     destroy:
       title: Odjava
-      heading: Odjava iz OpenStreetMap
+      heading: Odjava iz OpenStreetMap-a
       logout_button: Odjava
   site:
     about:
       next: Dalje
       copyright_html: <span>&copy;</span>OpenStreetMap<br>doprinositelji
+      used_by_html: '%{name} snabdijeva geografskim podacima tisuće internetskih stranica,
+        mobilnih aplikacija i uređaja'
+      lede_text: OpenStreetMap je izgradila zajednica kartografa koji donose i održavaju
+        podatke o cestama, stazama, kafićima, željezničkim postajama i još mnogo čemu
+        drugom diljem cijelog svijeta.
       local_knowledge_title: Lokalno znanje
       local_knowledge_html: OpenStreetMap pridodaje posebnu važnost lokalnom znanju.
-        Doprinositelji koriste zračne snimke, GNSS uređaje i vlastito novo-prikupljene
-        podatke za provjeru točnosti i ažurnosti OSM podataka.
+        Doprinositelji koriste zračne snimke, GPS uređaje i vlastite terenske podatke
+        za provjeru točnosti i ažurnosti OSM podataka.
+      community_driven_title: Vođen zajednicom
+      community_driven_html: |-
+        Zajednica OpenStreetMapa je raznolika, strastvena, i raste svakim danom. Među našim suradnicima su kartografi amateri, GIS profesionalci, inženjeri koji održavaju OSM poslužitelje, humanitarci koji kartiraju područja pogođena katastrofom, i mnogi drugi.
+        Kako biste saznali više o zajednici, pogledajte <a href='https://blog.openstreetmap.org'>Blog OpenStreetMapa</a>, <a href='%{diary_path}'>korisničke dnevnike</a>, <a href='https://blogs.openstreetmap.org/'>blogove zajednice</a>, i web stranicu <a href='https://www.osmfoundation.org/'>Zaklade OSM-a</a> .
       open_data_title: Otvoreni podaci
       open_data_html: 'OpenStreetMap sadrži <i>slobodne podatke</i>: možeš ih slobodno
-        koristiti za bilo koju svrhu dok god su uz podatke naznačene zasluge OpenStreetMap-a
-        i njegovih doprinositelja. Ako izmjenjuješ podatke ili stvaraš nove na temelju
-        preuzetih podataka, te podatke možeš distribuirati samo pod istom licencom.  Vidi
-        stranicu:<a href=''%{copyright_path}''>Autorska prava i licenca</a> za detalje.'
+        koristiti za bilo koju svrhu dokle god su uz podatke naznačene zasluge OpenStreetMap-a
+        i njegovih doprinositelja. Ako mijenjaš podatke ili stvaraš nove na temelju
+        preuzetih podataka, te podatke možeš distribuirati samo pod istom licencom.
+        Vidi stranicu:<a href=''%{copyright_path}''>Autorska prava i licenca</a> za
+        detalje.'
+      legal_title: Pravno
+      legal_1_html: Ovom internetskom stranicom i mnogim drugim srodnim uslugama službeno
+        upravlja <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a>
+        (OSMF) u ime zajednice. Korištenje svih usluga kojima upravlja OSMF podliježe
+        našim <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Uvjetima
+        korištenja</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravilima
+        prihvatljivog korištenja</a> te <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravilima
+        privatnosti</a>.
+      legal_2_html: "Molimo <a href='https://osmfoundation.org/Contact'>kontaktirajte
+        OSMF</a> \nako imate pitanja o licenciranju, autorskim pravima ili druga pravna
+        pitanja.\n<br> \nOpenStreetMap, logotip u obliku povećala i State of Map registrirani
+        su <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">zaštitni
+        znakovi OSMF-a</a>."
       partners_title: Partneri
     copyright:
       foreign:
         title: O ovom prijevodu
         html: U slučaju konflikta između ove prevedene stranice i %{english_original_link},
-          Engleski stranice imaju prednost
+          Engleske stranice imaju prednost
         english_link: Engleski izvornik
       native:
         title: O ovoj stranici
@@ -1370,59 +1398,118 @@ hr:
           Commons Open Database License</a> (ODbL) licencom od strane <a
           href="http://osmfoundation.org/">OpenStreetMap zaklade</a> (OSMF).
         intro_2_html: Slobodni ste kopirati, distribuirati, prenositi i adaptirati
-          naše podatke, sve dok navodite OpenStreetMap i njegove doprinositelje kao
-          izvor. Ako izmijenite ili nadogradite naše podatke, možete distribuirati
-          rezultate samo pod istom licencom. Puni <a href="http://opendatacommons.org/licenses/odbl/1.0/">pravni
-          tekst</a> objašnjava vaša prava i odgovornosti.
-        intro_3_1_html: Naša dokumentacija licencirana je pod <a href="http://creativecommons.org/licenses/by-sa/2.0/">Imenovanje-Dijeli
-          pod istim uvjetima 2.0</a> licencijom (CC BY-SA 2.0).
-        credit_title_html: Kako navoditi OpenStreetMap kao izvor
-        credit_1_html: |-
-          Zahtjevamo da istaknete zasluge &ldquo;&copy; OpenStreetMap
-          contributors&rdquo;.
-        credit_2_1_html: |-
-          Također morate jasno naznačiti da su podaci dostupni po licenci Open Database Licence i, ako koristite naše sličice karte, naznačiti da je kartografija licencirana pod CC BY-SA. Možete to učiniti postavljanjem poveznice na <a href="http://www.openstreetmap.org/copyright">ovu stranicu sa autorskim pravima</a>.
-          Alternativno, a kao nužna potreba ako distribuirate OSM samo u obliku podataka, možete postaviti poveznicu izravno na tekst licence/a. Ako oblik medija ne omogućuje korištenje poveznica (npr. printani radovi), predlažemo da uputite Vaše čitatelje na openstreetmap.org (označava točno adresu web stranice umjesto samo ime projekta - 'OpenStreetMap'), na opendatacommons.org i ako je potrebno na creativecommons.org.
+          naše podatke, dokle god navodite OpenStreetMap i njegove doprinositelje
+          kao izvor. Ako izmijenite ili nadogradite naše podatke, možete distribuirati
+          rezultate samo pod istom licencijom. Puni <a href="http://opendatacommons.org/licenses/odbl/1.0/">pravni
+          tekst</a> objašnjava vaša prava i obveze.
+        intro_3_1_html: Naša dokumentacija licencirana je pod <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> licencijom (CC BY-SA 2.0).
+        credit_title_html: Kako iskazati zasluge OpenStreetMap-a
+        credit_1_html: 'Tamo gdje koristite OpenStreetMap podatke, morate učiniti
+          sljedeće dvije stvari:'
+        credit_2_1_html: "<ul>\n  <li>Označite da je zaslužan OpenStreetMap prikazivanjem
+          naše obavijesti o autorskim pravima.</li> \n  <li>Objasnite da su podaci
+          dostupni pod \"Open Database License\".</li> \n</ul>"
+        credit_3_1_html: |-
+          Imamo različite zahtjeve o tome kako treba prikazivati oznake o autorskim pravima, ovisno o tome kako koristite naše podatke. Na primjer, vrijede različita
+          pravila o tome kako prikazati obavijest o autorskim pravima ovisno o tome jeste li
+          stvorili dinamičku kartu koju možete pregledavati na internetskoj stranici, tiskani zemljovid ili statičnu sliku. Sve pojedinosti o zahtjevima mogu se pronaći u <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">smjernicama o atribuciji</a>.
+        credit_4_html: "Kako biste razjasnili da su podaci dostupni pod \"Open\nDatabase
+          License\", možete postaviti poveznicu na\n<a href=\"https://www.openstreetmap.org/copyright\">ovu
+          stranicu o autorskim pravima</a>.\n\nAlternativno, a kao nužna potreba ako
+          distribuirate OSM u\nformi podataka, možete možete postaviti poveznicu izravno
+          na\ntekst licence(i). Ako oblik medija ne omogućuje korištenje poveznica
+          (npr. tiskana djela), predlažemo da uputite Vaše čitatelje na openstreetmap.org
+          (označava točno adresu web stranice umjesto samo ime projekta - 'OpenStreetMap')
+          i na opendatacommons.org. \nU ovom primjeru atribucija se pojavljuje u kutu
+          karte."
         attribution_example:
-          title: Primjer doprinosa
-        more_title_html: Više o
+          alt: Primjer kako atribuirati OpenStreetMap na web stranici
+          title: Primjer atribucije
+        more_title_html: Saznaj više
         more_1_html: |-
           Pročitaj više o korištenju naših podataka i kako iskazati zasluge na <a
-          href="http://osmfoundation.org/Licence">OSMF Licence stranici</a> i zajednici <a
-          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
-          FAQ</a>.
+          href="http://osmfoundation.org/Licence">stranici OSMF Licence</a>.
         more_2_html: |-
-          Iako su podaci karte OpenStreetMap slobodni podaci, ne možemo pružiti besplatni API (aplikacijsko programsko sučelje) za razvojne inženjere treće strane.
-          Vidi naš <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API Usage Policy</a>,
-          <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile Usage Policy</a>
-          i <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim Usage Policy</a>.
+          Iako su podaci karte OpenStreetMap slobodni podaci, ne možemo pružiti besplatni API trećim stranama.
+          Vidi naša <a href="https://operations.osmfoundation.org/policies/api/">pravila korištenja API-a</a>,
+          <a href="https://operations.osmfoundation.org/policies/tiles/">pravila korištenja kvadratića karte</a>
+          i <a href="https://operations.osmfoundation.org/policies/nominatim/">Pravila korištenja Nominatim-a</a>.
         contributors_title_html: Naši doprinositelji
         contributors_intro_html: 'Sudionici projekta su tisuće individualaca. Projekt
           također uključuje podatke pod slobodnim licencama od nacionalnih kartografskih
           agencija i drugih izvora, među kojima su:'
-        contributors_au_html: '<strong>Australija</strong>: Sadrži podatke o predgrađima
-          na osnovu podataka Australian Bureau of Statistics.'
+        contributors_at_html: |-
+          <strong>Austrija</strong> : Sadrži podatke iz
+           <a href="https://data.wien.gv.at/">Stadt Wien</a> (pod
+           <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> i
+          Land Tirol (pod <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT s izmjenama i dopunama</a>).
+        contributors_au_html: "<strong>Australija</strong> : uključuje ili razvija
+          korištenjem administrativnih granica ©\n <a href=\"https://geoscape.com.au/legal/data-copyright-and-disclaimer/\">Geoscape
+          Australia</a> \nlicenciran od strane Commonwealtha Australije pod\n <a href=\"https://creativecommons.org/licenses/by/4.0/\">Creative
+          Commons Attribution 4.0 International licence (CC BY 4.0)</a>."
         contributors_ca_html: |-
           <strong>Kanada</strong>: Sadrži podatke iz
              GeoBase&reg;, GeoGratis (&copy; Department of Natural
              Resources Canada), CanVec (&copy; Department of Natural
-             Resources Canada), i StatCan (Geography Division,
+             Resources Canada) i StatCan (Geography Division,
              Statistics Canada).
+        contributors_fi_html: |-
+          <strong>Finska</strong> : Sadrži podatke iz
+          National Land Survey of Finland's Topographic Database
+          i drugih skupova podataka, pod
+           <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI licencom</a>.
+        contributors_fr_html: |-
+          <strong>Francuska</strong> : Sadrži podatke iz
+          Direction Générale des Impôts.
+        contributors_nl_html: |-
+          <strong>Nizozemska</strong> : Sadrži © AND data, 2007
+          ( <a href="https://www.and.com">www.and.com</a> )
         contributors_nz_html: '<strong>Novi Zeland</strong>: Sadrži podatke iz izvora
           <a href="https://data.linz.govt.nz/">LINZ Data Service</a> koji su licencirani
           za ponovnu upotrebu pod <a href="https://creativecommons.org/licenses/by/4.0/">CC
           BY 4.0</a> licencijom.'
+        contributors_si_html: "<strong>Slovenija</strong> : Sadrži podatke iz\n <a
+          href=\"http://www.gu.gov.si/en/\">Geodetske uprave</a> i\n <a href=\"http://www.mkgp.gov.si/en/\">Ministarstva
+          poljoprivrede, šumarstva i prehrane</a> \n (javne informacije Slovenije)."
+        contributors_es_html: |-
+          <strong>Španjolska</strong> : Sadrži podatke dobivene od
+          Spanish National Geographic Institute (<a href="http://www.ign.es/">IGN</a>) i
+          National Cartographic System (<a href="http://www.scne.es/">SCNE</a>)
+          licenciranih za ponovnu upotrebu pod <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        contributors_za_html: |-
+          <strong>Južna Afrika</strong>: Sadrži podatke iz
+           <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Information</a>, državna autorska prava zadržana.
         contributors_gb_html: '<strong>Ujedinjeno Kraljevstvo</strong>: Sadrži podatke
           iz Ordnance Survey data &copy; Crown copyright and database right 2010-19.'
-        contributors_footer_2_html: "  Uvrštenje podataka u OpenStreetMap ne podrazumjeva
-          da se izvorni\n  davatelj podataka podržava OpenStreetMap, pruža bilo kakovo
-          jamstvo, ili \n  prihvaća bilo kakve obveze."
+        contributors_footer_1_html: Za daljnje pojedinosti o ovim i drugim izvorima
+          koji su korišteni za poboljšanje OpenStreetMapa, pogledajte <a href="https://wiki.openstreetmap.org/wiki/Contributors">Contributors
+          page</a> na OpenStreetMap Wiki-u.
+        contributors_footer_2_html: Uvrštavanje podataka u OpenStreetMap ne podrazumijeva
+          da izvorni davatelj podataka podržava OpenStreetMap, pruža bilo kakvo jamstvo,
+          ili prihvaća bilo kakve obveze.
+        infringement_title_html: Kršenje autorskih prava
+        infringement_1_html: Suradnike OSM-a podsjećamo da nikada ne dodaju podatke
+          iz bilo kakvih izvora zaštićenih autorskim pravima (npr. Google karte ili
+          tiskane karte) bez izričitog dopuštenja nositelja autorskih prava.
+        infringement_2_html: Ako smatrate da je materijal zaštićen autorskim pravom
+          neprimjereno dodan u bazu podataka OpenStreetMap ili na ove stranice, pogledajte
+          naš <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">postupak
+          za uklanjanje</a> ili pritužbu pošaljite izravno na <a href="https://dmca.openstreetmap.org/">on-line
+          stranici za podnošenje zahtjeva</a>.
+        trademarks_title_html: <span id="trademarks"></span>Robni žigovi
+        trademarks_1_html: OpenStreetMap, logotip u obliku povećala i State of the
+          Map registrirani su žigovi OpenStreetMap Foundationa. Ako imate pitanja
+          o vašem korištenju žigova, pogledajte našu <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Politiku
+          zaštitnih znakova</a> .
     index:
       js_1: Koristite internet preglednik koji ne podržava JavaScript, ili vam je
         isključen JavaScript.
-      js_2: OpenStreetMap koristi JavaScript for za slippy kartu.
+      js_2: OpenStreetMap koristi JavaScript za slippy kartu.
       permalink: Permalink
-      shortlink: Shortlink
+      shortlink: Kratki link
       createnote: Dodaj bilješku
       license:
         copyright: Autorska prava pripadaju OpenStreetMap-u i doprinositeljima, pod
@@ -1432,7 +1519,7 @@ hr:
     edit:
       not_public: Niste postavili da Vaše promjene budu javne.
       not_public_description_html: Ne možete više uređivati kartu dok to ne napravite.
-        Možete namjestiti svoje promjene u javne sa %{user_page}.
+        Možete postaviti svoje promjene kao javne sa %{user_page}.
       user_page_link: korisnička stranica
       anon_edits_link_text: Otkrij zašto je to slučaj.
       id_not_configured: iD nije konfiguriran
@@ -1440,9 +1527,9 @@ hr:
         ovu mogućnost.
     export:
       title: Izvoz
-      area_to_export: Područje za export
+      area_to_export: Područje za izvoz
       manually_select: Ručno izaberi drukčije područje
-      format_to_export: Format za Export
+      format_to_export: Format za izvoz
       osm_xml_data: OpenStreetMap XML podaci
       map_image: Slika karte (prikazuje standardni sloj)
       embeddable_html: HTML kod za umetanje
@@ -1884,7 +1971,7 @@ hr:
         jeli korisnik i uloga ispravno.
   user_blocks:
     model:
-      non_moderator_update: Morate biti moderator da stovrite ili ažurirate  blokadu.
+      non_moderator_update: Morate biti moderator da stvorite ili ažurirate  blokadu.
       non_moderator_revoke: Morate biti moderator da opozovete blokadu.
     not_found:
       sorry: Žao mi je, korinička blokada sa ID %{id} se ne može naći.
@@ -1904,12 +1991,12 @@ hr:
       back: Prikaži sve blokade
     filter:
       block_expired: Blokada je već istekla i ne može se uređivati.
-      block_period: period blokade mora biti jedna od vrijednosti iz drop-down liste.
+      block_period: Period blokade mora biti jedna od vrijednosti iz padajuće liste.
     create:
       try_contacting: Molim da pokušate kontaktirati korisnika prije blokiranja i
-        dati im razumno vrijeme za odgovor.
-      try_waiting: Molim da date korisniku razumno vremena da odgovori prije nego
-        ga blokirate.
+        date im razumnu količinu vremena za odgovor.
+      try_waiting: Molim dajte korisniku razumnu količinu vremena da odgovori prije
+        nego ga blokirate.
       flash: Napravi blokadu na korisnika  %{name}.
     update:
       only_creator_can_edit: Samo moderator koji je napravio blokadu je može urediti.
@@ -1917,18 +2004,18 @@ hr:
     index:
       title: Korisnikove blokade
       heading: Lista korisničkih blokada
-      empty: Nisu napravljene
+      empty: Još nije napravljena nijedna blokada.
     revoke:
       title: Opozivanje blokade na %{block_on}
       heading_html: Opozivanje blokade na %{block_on} od %{block_by}
       time_future: Blokada će završiti za %{time}.
       past: Blokada je završila u %{time} i ne može se sada opozvati.
-      confirm: Jeste li sgurni da želite opozvati ovu blokadu?
+      confirm: Jeste li sigurni da želite opozvati ovu blokadu?
       revoke: Opozovi!
       flash: Ova blokada je opozvana.
     helper:
       time_future_html: Završava u %{time}.
-      until_login: Aktivno dok se korsnik ne prijavi.
+      until_login: Aktivno dok se korisnik ne prijavi.
       time_past_html: Završeno %{time}.
       block_duration:
         hours:
@@ -1959,8 +2046,8 @@ hr:
       heading_html: Lista blokada od %{name}
       empty: '%{name} nije napravila još ni jednu blokadu.'
     show:
-      title: '%{block_on} blokiran od %{block_by}'
-      heading_html: '%{block_on} blokiran od %{block_by}'
+      title: '%{block_by} blokirao %{block_on}'
+      heading_html: '%{block_by} blokirao %{block_on}'
       created: Stvoreno
       status: Status
       show: Prikaži
@@ -2013,7 +2100,7 @@ hr:
       short_url: Kratki URL
       include_marker: Uključi oznaku
       center_marker: Centriraj kartu na oznaku
-      paste_html: Zalijepi HTML za ugrađivanje na web stranicu
+      paste_html: Zalijepi HTML za ugrađivanje na internetsku stranicu
       view_larger_map: Prikaži veću kartu
     embed:
       report_problem: Prijavi problem
@@ -2069,10 +2156,10 @@ hr:
         add: Dodaj bilješku
       show:
         anonymous_warning: Ova bilješka sadrži komentare anonimnih korisnika koje
-          bi trebalo (komentare) neovisno provjeriti.
+          bi trebalo neovisno provjeriti.
         hide: Sakrij
         resolve: Razriješi
-        reactivate: Reaktiviraj
+        reactivate: Ponovno aktiviraj
         comment_and_resolve: Komentiraj i razriješi
         comment: Komentiraj
     edit_help: Pomakni kartu i približi dio koji želiš urediti, zatim klikni ovdje.
@@ -2125,7 +2212,7 @@ hr:
     show:
       description: 'Opis:'
       user: 'Tvorac:'
-      confirm: Jesi li siguran/na?
+      confirm: Jeste li sigurni?
     update:
       flash: Promjene su spremljene.
 ...

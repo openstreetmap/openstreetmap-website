@@ -4,6 +4,9 @@
 # Author: Fontan 030
 ---
 kk-cyrl:
+  time:
+    formats:
+      friendly: '%e %B %Y сағат %H:%M'
   helpers:
     file:
       prompt: Файлды таңдаңыз
@@ -23,19 +26,33 @@ kk-cyrl:
       doorkeeper_application:
         create: Тіркелу
         update: Жаңарту
+      redaction:
+        create: Түзетуді жасау
+        update: Түзетуді сақтау
       trace:
         create: Жүктеу
         update: Өзгерістерді сақтау
+      user_block:
+        create: Бұғаттауды жасау
+        update: Бұғаттауды жаңарту
   activerecord:
     errors:
       messages:
         invalid_email_address: жарамды е-пошта мекенжайына ұқсамайды
+        email_address_not_routable: қолжетімді емес
     models:
+      changeset: Өңдемелер дестесі
+      changeset_tag: Өңдемелер дестесінің тегі
       country: Ел
+      diary_comment: Күнделіктегі пікір
       diary_entry: Күнделік жазбасы
       friend: Дос
+      issue: Мәселе
       language: Тіл
       message: Хабарлама
+      node: Нүкте
+      node_tag: Нүкте тегі
+      old_node: Ескі нүкте
       user: Қолданушы
     attributes:
       diary_comment:
@@ -102,6 +119,7 @@ kk-cyrl:
       description: Қашықтан басқару (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
+      none: Жоқ
       openid: OpenID
       google: Google
       facebook: Facebook
@@ -120,6 +138,7 @@ kk-cyrl:
   account:
     deletions:
       show:
+        confirm_delete: Сенімдісіз бе?
         cancel: Болдырмау
   accounts:
     edit:
@@ -141,12 +160,21 @@ kk-cyrl:
     edited_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} өңдеген
     closed_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} жапқан
     version: Нұсқа
+    in_changeset: Өңдемелер дестесі
     download_xml: XML жүктеп алу
     location: 'Географиялық орны:'
     changeset:
       comment: Пікірлер (%{count})
+      changesetxml: Өңдемелер дестесінің XML-і
       osmchangexml: osmChange XML
       discussion: Талқылау
+    node:
+      title_html: 'Нүкте: %{name}'
+      history_title_html: 'Нүкте тарихы: %{name}'
+    way:
+      nodes: Нүктелер
+      nodes_count:
+        other: '%{count} нүкте'
     relation_member:
       type:
         node: Нүкте
@@ -154,6 +182,11 @@ kk-cyrl:
       title: Табылмады
       type:
         node: нүкте
+        changeset: өңдемелер дестесі
+    timeout:
+      type:
+        node: нүкте
+        changeset: өңдемелер дестесі
     redacted:
       type:
         node: нүкте
@@ -175,10 +208,12 @@ kk-cyrl:
     changeset:
       anonymous: Аноним
       no_edits: (өңдемелер жоқ)
+      view_changeset_details: Өңдемелер дестесінің егжей-тегжейін көру
     changesets:
       id: ID
       user: Қолданушы
     index:
+      title: Өңдемелер дестелері
       load_more: Көбірек жүктеу
   dashboards:
     popup:
@@ -210,6 +245,7 @@ kk-cyrl:
     no_such_entry:
       title: Күнделікте мұндай жазба жоқ
     diary_entry:
+      edit_link: Бұл жазбаны өңдеу
       hide_link: Бұл жазбаны жасыру
       unhide_link: Бұл жазбаны көрсету
       confirm: Құптау
@@ -262,8 +298,10 @@ kk-cyrl:
           bus_station: Автобекет
           cafe: Кафе
           car_rental: Автокөлікті жалға беру
+          car_sharing: Каршериң
           car_wash: Автожуу
           casino: Казино
+          charging_station: Зарядтау бекеті
           cinema: Кинотеатр
           clinic: Емхана
           clock: Сағат
@@ -335,6 +373,7 @@ kk-cyrl:
           hotel: Қонақ үй ғимараты
           house: Үй
           houseboat: Жүзбелі үй
+          hut: Лашық
           industrial: Өнеркәсіптік ғимарат
           kindergarten: Балабақша ғимараты
           manufacture: Өнеркәсіптік ғимарат
@@ -745,7 +784,7 @@ kk-cyrl:
       welcome:
         title: OpenStreetMap-ке қош келдіңіз
       forums:
-        title: Форумдар
+        title: Форумдар (ескірген)
       irc:
         title: IRC
       switch2osm:

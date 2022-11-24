@@ -6,6 +6,7 @@
 # Author: Danieldegroot2
 # Author: Danmichaelo
 # Author: Dittaeva
+# Author: EdoAug
 # Author: EvenT
 # Author: Event
 # Author: Gabriel Kielland
@@ -124,6 +125,7 @@ nb:
         language: Språk
       doorkeeper/application:
         name: Navn
+        redirect_uri: Omdirigerings-URI-er
         scopes: Tillatelser
       friend:
         user: Bruker
@@ -167,6 +169,8 @@ nb:
         pass_crypt: Passord
         pass_crypt_confirmation: Bekreft passord
     help:
+      doorkeeper/application:
+        redirect_uri: Bruk en linje per URI
       trace:
         tagstring: kommaseparert
       user_block:
@@ -260,6 +264,17 @@ nb:
       entry:
         comment: Kommentar
         full: Fullstendig merknad
+  account:
+    deletions:
+      show:
+        title: Slett min konto
+        delete_account: Slett konto
+        delete_introduction: 'Du kan slette din OpenStreetMap-konto ved å bruke knappen
+          nedenfor. Bemerk det følgende:'
+        delete_profile: Din profilinformasjon, inkludert ditt profilbilde/avatar,
+          beskrivelse og hjemmested kommer til å bli fjernet.
+        confirm_delete: Er du sikker?
+        cancel: Avbryt
   accounts:
     edit:
       title: Rediger konto
@@ -295,10 +310,13 @@ nb:
         link text: hva er dette?
       save changes button: Lagre endringer
       make edits public button: Gjør alle mine redigeringer offentlig
+      delete_account: Slett konto...
     update:
       success_confirm_needed: Brukerinformasjon oppdatert. Sjekk eposten din for å
         bekrefte din epostadresse.
       success: Brukerinformasjon oppdatert.
+    destroy:
+      success: Kontoen er slettet.
   browse:
     created: Opprettet
     closed: Lukket
@@ -430,7 +448,7 @@ nb:
       reopened_by_html: Gjenåpnet av %{user} for <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Gjenåpnet av anonym bruker for <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Skjult av %{user} for <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Rapporter denne notisen
+      report: rapporter denne notisen
     query:
       title: Se over elementer
       introduction: Klikk på kartet for å finne nærliggende funksjoner.
@@ -725,6 +743,7 @@ nb:
           viaduct: Viadukt
           "yes": Bru
         building:
+          apartment: Leilighet
           apartments: Leiligheter
           barn: Låve
           bungalow: Bungalow
@@ -774,6 +793,7 @@ nb:
           brewery: Bryggeri
           carpenter: Tømrer
           caterer: Catering
+          confectionery: Godtebutikk
           electrician: Elektriker
           electronics_repair: Elektronikkreparatør
           gardener: Gartner
@@ -783,6 +803,7 @@ nb:
           roofer: Taklegger
           sawmill: Sagbruk
           shoemaker: Skomaker
+          stonemason: Steinhogger
           tailor: Skredder
           window_construction: Vindussnekker
           winery: Vingård
@@ -876,12 +897,13 @@ nb:
           "yes": Kryss
         landuse:
           allotments: Kolonihager
+          aquaculture: Akvakultur
           basin: Elveområde
           brownfield: Tidligere industriområde
           cemetery: Gravplass
           commercial: Kommersielt område
-          conservation: Fredet
-          construction: Kontruksjon
+          conservation: Fredet område
+          construction: Kontruksjonsområde
           farmland: Jorde
           farmyard: Gårdstun
           forest: Skog
@@ -894,13 +916,14 @@ nb:
           military: Militært område
           mine: Gruve
           orchard: Frukthage
+          plant_nursery: Planteskole
           quarry: Steinbrudd
           railway: Jernbane
           recreation_ground: Rekreasjonsområde
           reservoir: Reservoar
           reservoir_watershed: Magasinvannskille
           residential: Boligområde
-          retail: Detaljsalg
+          retail: Detaljsalgsområde
           village_green: Landsbypark
           vineyard: Vingård
           "yes": Urbant område
@@ -1166,21 +1189,25 @@ nb:
           mobile_phone: Mobiltelefonbutikk
           motorcycle: Motorsykkelbutikk
           music: Musikkbutikk
+          musical_instrument: Musikkinstrumenter
           newsagent: Nyhetsbyrå
           optician: Optiker
           organic: Organisk matbutikk
           outdoor: Utendørs butikk
           paint: Fargehandel
           pawnbroker: Pantelåner
+          perfumery: Parfymeri
           pet: Dyrebutikk
           photo: Fotobutikk
           seafood: Sjømat
           second_hand: Bruktbutikk
+          sewing: Syforretning
           shoes: Skobutikk
           sports: Sportsbutikk
           stationery: Papirbutikk
           supermarket: Supermarked
           tailor: Skredder
+          tea: Tehandel
           ticket: Billettformidler
           tobacco: Tobakkshandler
           toys: Lekebutikk
@@ -1189,6 +1216,7 @@ nb:
           vacant: Ledig forretningslokale
           variety_store: Stormagasin
           video: Videobutikk
+          video_games: Videospillbutikk
           wine: Vinforretning
           "yes": Butikk
         tourism:
@@ -1548,6 +1576,7 @@ nb:
       body: Det er ingen melding med den ID-en.
     outbox:
       title: Utboks
+      my_inbox: Min innboks
       messages:
         one: Du har %{count} sendt melding
         other: Du har %{count} sendte meldinger
@@ -1597,10 +1626,15 @@ nb:
       flash changed: Ditt passord er endret.
       flash token bad: Kunne ikke finne den nøkkelen. Sjekke URLen kanskje?
   preferences:
+    show:
+      preferred_languages: Foretrukne språk
+      edit_preferences: Endre innstillinger
     edit:
+      title: Endre innstillinger
       cancel: Avbryt
   profiles:
     edit:
+      title: Rediger profil
       cancel: Avbryt
       image: Bilde
       gravatar:
