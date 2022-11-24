@@ -34,7 +34,7 @@ number of dependencies for installation. For full details please see [INSTALL.md
 We're always keen to have more developers! Pull requests are very welcome.
 
 * Bugs are recorded in the [issue tracker](https://github.com/openstreetmap/openstreetmap-website/issues).
-* Translation is managed by [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap).
+* Translation is managed by [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap), for communities's name we use data in [OCI](https://github.com/osmlab/osm-community-index) and work on [Transifex](https://www.transifex.com/openstreetmap/id-editor/languages/)
 * There is a [rails-dev@openstreetmap.org](https://lists.openstreetmap.org/listinfo/rails-dev) mailing list for development discussion.
 * IRC - there is the #osm-dev channel on irc.oftc.net.
 
