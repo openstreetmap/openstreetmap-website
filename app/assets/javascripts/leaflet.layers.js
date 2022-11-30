@@ -98,10 +98,13 @@ L.OSM.layers = function (options) {
 
       var addOverlay = function (layer, name, maxArea) {
         var item = $("<li>")
-          .tooltip({
-            placement: "top"
-          })
           .appendTo(overlays);
+
+        if (name === "notes" || name === "data") {
+          item
+            .attr("title", I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"))
+            .tooltip("disable");
+        }
 
         var label = $("<label>")
           .attr("class", "form-check-label")
@@ -144,9 +147,9 @@ L.OSM.layers = function (options) {
               .trigger("change");
           }
 
-          $(item).attr("class", disabled ? "disabled" : "");
-          item.attr("data-bs-original-title", disabled ?
-            I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip") : "");
+          $(item)
+            .attr("class", disabled ? "disabled" : "")
+            .tooltip(disabled ? "enable" : "disable");
         });
       };
 
