@@ -21,6 +21,7 @@
 # Author: MeskoBalazs
 # Author: Misibacsi
 # Author: Máté
+# Author: NB
 # Author: Nemo bis
 # Author: Notramo
 # Author: R-Joe
@@ -308,6 +309,7 @@ hu:
       public editing:
         heading: Nyilvános szerkesztés
         enabled: Engedélyezve. Nem vagy névtelen, így szerkesztheted az adatokat.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: mi ez?
         disabled: Tiltva, így nem szerkesztheted az adatokat, az összes eddigi szerkesztés
           névtelen.
@@ -330,6 +332,7 @@ hu:
         review link text: Kérjük, kövesd ezt a hivatkozást az új közreműködési feltételek
           áttekintéséhez és elfogadásához.
         agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: mi ez?
       save changes button: Módosítások mentése
       make edits public button: Az összes szerkesztésem nyilvánossá tétele
@@ -456,6 +459,7 @@ hu:
       wikimedia_commons_link: A(z) %{page} elem a Wikimédia Commons-on
       telephone_link: '%{phone_number} felhívása'
       colour_preview: '%{colour_value} szín előnézete'
+      email_link: Email %{email}
     note:
       title: '%{id} jegyzet'
       new_note: Új jegyzet
@@ -496,6 +500,7 @@ hu:
     index:
       title: Módosításcsomagok
       title_user: '%{user} módosításcsomagjai'
+      title_user_link_html: '%{user_link} módosításcsomagjai'
       title_friend: Ismerősök módosításcsomagjai
       title_nearby: Közeli felhasználók módosításcsomagjai
       empty: Nem található módosításcsomag
@@ -1495,6 +1500,7 @@ hu:
   issue_comments:
     create:
       comment_created: Hozzászólásod sikeresen létrehozva
+      issue_reassigned: A hozzászólásod létrejött és a probléma át lett csoportosítva.
   reports:
     new:
       title_html: '%{link} bejelentése'
@@ -1571,6 +1577,7 @@ hu:
     help: Súgó
     about: Névjegy
     copyright: Szerzői jog és licenc
+    communities: Közösségek
     community: Közösség
     community_blogs: Közösségi blogok
     community_blogs_title: Blogok az OpenStreetMap közösség tagjaitól
@@ -1925,6 +1932,11 @@ hu:
       title: Kijelentkezés
       heading: Kijelentkezés az OpenStreetMapból
       logout_button: Kijelentkezés
+    suspended_flash:
+      suspended: Sajnáljuk, fiókja gyanús tevékenység miatt fel lett függesztve.
+      contact_support_html: Kérjük vedd fel a kapcsolatot a %{support_link}-sal, ha
+        meg akarod vitatni ezt.
+      support: támogatás
   shared:
     markdown_help:
       title_html: <a href="https://kramdown.gettalong.org/quickref.html">Kramdown</a>nal
@@ -2012,25 +2024,20 @@ hu:
         intro_3_1_html: Dokumentációnkra a <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.hu">Creative
           Commons „Nevezd meg! – Így add tovább!” 2.0</a> (CC BY-SA) licenc vonatkozik.
         credit_title_html: Hogyan kell feltüntetned az OpenStreetMapet?
-        credit_1_html: Kérjük, hogy forrásként a &ldquo;&copy; OpenStreetMap közreműködők&rdquo;
-          szöveget tüntesd fel.
-        credit_2_1_html: Azt is egyértelművé kell tenned, hogy az adatok az Open Database
-          Licenc alatt elérhetőek, illetve ha a mi térkép csempéinket használod, akkor
-          azt, hogy a grafikai megjelenítés a CC BY-SA licenc feltételeivel használható.
-          Ezt megteheted egy erre a <a href="https://www.openstreetmap.org/copyright">copyright
-          oldalra</a> való hivatkozással. Alternatívaként, ha az OSM-et adatokként
-          terjeszted, akkor fel kell tüntetned a nevet és linket közvetlenül a licencre.
-          Ha a formátum a linkelést nem teszi lehetővé (pl. nyomtatásban), javasoljuk,
-          hogy a felhasználókat irányítsd az openstreetmap.org címre (esetlegesen
-          az "OpenStreetMap" szót kiegészítve erre a teljes címre), és az opendatacommons.org
-          címre, illetve - ha szükséges - a creativecommons.org címre.
-        credit_3_1_html: A www.openstreetmap.org webhelyen található „szokásos stílusú”
-          térképcsempék az OpenStreetMap Alapítvány alkotása, az OpenStreetMap adatok
-          felhasználásával, az Open Database Licenc alatt. Ha ezeket a csempéket felhasználod,
-          ugyanaz a szerzőmegjelölés szükséges, mint a térképadatokhoz.
+        credit_1_html: 'Ahol az OpenStreetMap adatait használja, ott kérjük tüntesse
+          fel az alább felsoroltakat:'
+        credit_2_1_html: |-
+          <ul>
+            <li>Biztosítson forrásmegjelölést az OpenStreetMap számára azzal, hogy megjeleníti a szerzői jogi közleményünket.</li>
+            <li>Tegye egyértelművé, hogy az adatok az Open Database License (Nyílt Adatbázis Licenc) alapján állnak rendelkezésre.</li>
+          </ul>
+        credit_3_1_html: |-
+          A szerzői jog megjelölésére különböző követelmények vonatkoznak annak függvényében, hogy hogyan használod az adatainkat. Például, különböző szabályok vonatkoznak arra, hogy hogyan kell megjelölni a szerzői jogot egy böngészhető térképen, egy nyomtatott térképen vagy egy állóképen. A követelmények részletes leírásáért olvassa el az <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Attribution
+          Guidelines</a>-t.
         credit_4_html: |-
-          Böngészhető elektronikus térkép esetén a forrásra vonatkozó hivatkozás jelenjen meg a térkép sarkában.
-          Például:
+          Annak egyértelművé tétele érdekében, hogy az adatok az Open Database License (Nyílt adatbázis licenc) alatt elérhetőek, hivatkozz <a href="https://www.openstreetmap.org/copyright">erre a szerzői jogi oldalra</a>.
+          Alternatív megoldásként és követelményként ha az OSM-et adat formában terjeszted, akkor közvetlenül is megnevezheted és hivatkozhatsz a licenc(ek)re. Az olyan helyzetekben ahol a hivatkozás nem lehetséges (pl. nyomtatott munkák), javasoljuk, hogy az olvasóidat közvetlenül irányítsd hozzánk az openstreetmap.org (vagy csak "OpenStreetMap") megjelöléssel és az opendatacommons.org-ra.
+          Ebben a példában a megjelölés a térkép sarkán jelenik meg.
         attribution_example:
           alt: Példa arra, hogyan jelenjen meg az OpenStreetMap-re való hivatkozás
             egy weboldalon
@@ -2219,9 +2226,12 @@ hu:
         description: Kérdezz vagy beszélgess érdekességekről a számos tematikus vagy
           helyi levelezőlistán.
       forums:
-        title: Fórumok
+        title: Fórumok (örökség)
         description: Kérdések és megbeszélések helye azoknak, akik előnyben részesítik
           a hirdetőtábla stílusú felületet.
+      community:
+        title: Közösségi portál
+        description: Egy hely, ahol az OpenStreetMap a téma.
       irc:
         title: IRC
         description: Interaktív chat számos nyelven, számos témában.
@@ -2380,6 +2390,29 @@ hu:
         paragraph_2_html: |-
           Menj a <a href='%{map_url}'>térképre</a> és kattints a jegyzet ikonra:
           <span class='icon note'></span>. Ez elhelyez egy jelzést a térképen, amelyet áthúzhatsz a pontos helyére. Majd írd be az üzeneted és nyomd meg az Elküldés gombot, hogy a térképezők megvizsgálhassák.
+    communities:
+      title: Közösségek
+      lede_text: |-
+        Az emberek a világ minden tájáról szerkesztik vagy használják az OpenStreetMap nyújtotta lehetőségeket.
+        Eközben sokak magánszemélyként, míg mások közösségként vesznek ebben részt.
+        Ezek a csoportok különböző méretűek, és különböző földrajzi területeket képviselnek a kisvárosoktól a nagy, több országon átívelő régiókig.
+        Lehetnek formálisak vagy informálisak.
+      local_chapters:
+        title: Helyi Csoportok
+        about_text: A helyi csoportok olyan ország- vagy régiószintű csoportok, amelyek
+          megtették a nonprofit jogi személlyé válás formális lépéseit. Ők képviselik
+          a terület térképét és térképezőit, amikor a helyi hatóságokkal, vállalkozásokkal
+          vagy a médiával kell tárgyalniuk. Emellett kapcsolatot alakítottak ki az
+          OpenStreetMap alapítvánnyal (OSMF), amely biztosítja számukra a jogi és
+          szerzői jogi irányító szervhez való hozzáférést.
+        list_text: 'A következő közösségek hivatalosan is Helyi Csoportként működnek:'
+      other_groups:
+        title: Más csoportok
+        about_html: Nincs szükség arra, hogy egy csoport olyan hivatalosan is létrejöjjön,
+          mint egy helyi csoport. Valójában sok csoport nagyon is sikeresen létezik
+          informális összejövetelként vagy közösségi csoportként. Ilyent bárki létrehozhat,
+          vagy csatlakozhat ilyenhez. Bővebben a <a href="https://wiki.openstreetmap.org/wiki/User_group">Közösségek
+          wikioldalon</a> olvashat.
   traces:
     visibility:
       private: Magán (megosztva csak névtelenül, rendezetlen pontok)
@@ -2451,6 +2484,7 @@ hu:
       in: 'címkék:'
     index:
       public_traces: Nyilvános GPS-nyomvonalak
+      my_gps_traces: GPS-nyomvonalaim
       public_traces_from: '%{user} nyilvános GPS-nyomvonalai'
       description: Böngészés a legutóbb feltöltött GPS-nyomvonalak között
       tagged_with: ' %{tags} címkével'
@@ -2630,9 +2664,6 @@ hu:
       title: Felhasználói fiók létrehozása
       no_auto_account_create: Sajnos jelenleg nem tudunk neked létrehozni automatikusan
         egy felhasználói fiókot.
-      contact_support_html: Kérjük, fordulj az <a href="%{support}">ügyfélszolgálathoz</a>
-        (angolul), hogy lehetővé tegye felhasználói fiók létrehozását. Igyekszünk
-        olyan gyorsan foglalkozni a kéréssel, amilyen gyorsan csak lehet.
       about:
         header: Szabad és szerkeszthető
         html: |-
@@ -2763,15 +2794,6 @@ hu:
       title: Felhasználói fiók felfüggesztve
       heading: Felhasználói fiók felfüggesztve
       support: támogatás
-      body_html: |-
-        <p>
-          Sajnáljuk, a felhasználói fiókodat automatikusan felfüggesztették
-          gyanús tevékenységed miatt.
-        </p>
-        <p>
-          Ezt a döntést rövidesen felül fogja vizsgálni egy adminisztrátor, vagy
-          kapcsolatba léphetsz a %{webmaster}rel, ha meg szeretnéd vitatni ezt.
-        </p>
     auth_failure:
       connection_failed: Nem sikerült csatlakozni a hitelesítés szolgáltatójához
       invalid_credentials: Hibás hitelesítési adatok
@@ -3024,6 +3046,13 @@ hu:
         reactivate: Újraaktiválás
         comment_and_resolve: Hozzászólás és megoldás
         comment: Hozzászólás
+        report_link_html: Ha ez a jegyzet eltávolítandó érzékeny információkat tartalmaz,
+          akkor használhatod a %{link} funkciót.
+        other_problems_resolve: A jegyzettel kapcsolatos összes többi problémánál
+          légy szíves, oldd meg magad egy hozzászólással.
+        other_problems_resolved: Minden más problémánál elegendő a megoldás.
+        disappear_date_html: A megoldott jegyzet %{disappear_in} múlva el fog tűnni
+          a térképről.
     edit_help: Mozgasd a térképet, nagyíts ott ahol módosítani szeretnéd, majd kattints
       ide.
     directions:
