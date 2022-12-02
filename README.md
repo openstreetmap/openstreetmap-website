@@ -48,8 +48,11 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 
 
 # Docker for local development
-Assuming you have a database setup:
-* Copy ohm-docker.env.example to ohm-docker.env
-* Supply appropriate variables in the env
-* Run `docker-compose up`
-* Access the development server at http://localhost:3000
+For a standalone ohm-website development server, follow the steps below:
+1. Create a ohm-docker.env from ohm-docker.env.example. If you are using the database as part the docker setup in this repo, leave the defaults.
+2. Create a config/settings.local.yml from config/settings.yml
+3. Run `docker compose up --build`
+4. Visit http://localhost:3000
+5. Create an account
+6. Follow instructions in [CONFIGURE.md](https://github.com/OpenHistoricalMap/ohm-website/blob/staging/CONFIGURE.md) to activate the user, provide admin, and create OAuth2 tokens for iD and Website. Supply these keys in settings.local.yml
+7. Restart containers
