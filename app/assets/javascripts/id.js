@@ -5,11 +5,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   var container = document.getElementById("id-container");
 
-  if (typeof iD === 'undefined' || !iD.utilDetect().support) {
-    container.innerHTML = 'This editor is supported ' +
-      'in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. ' +
-      'Please upgrade your browser or use Potlatch 2 to edit the map.';
-    container.className = 'unsupported';
+  if (typeof iD === "undefined" || !iD.utilDetect().support) {
+    container.innerHTML = "This editor is supported " +
+      "in Firefox, Chrome, Safari, Opera and Edge. " +
+      "Please upgrade your browser or use JOSM to edit the map.";
+    container.className = "unsupported";
   } else {
     var id = iD.coreContext()
       .embed(true)
@@ -17,11 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .assetMap(JSON.parse(container.dataset.assetMap))
       .locale(container.dataset.locale)
       .preauth({
-        urlroot: location.protocol + "//" + location.host,
-        oauth_consumer_key: container.dataset.consumerKey,
-        oauth_secret: container.dataset.consumerSecret,
-        oauth_token: container.dataset.token,
-        oauth_token_secret: container.dataset.tokenSecret
+        url: location.protocol + "//" + location.host,
+        access_token: container.dataset.token
       })
       .containerNode(container)
       .init();
@@ -54,6 +51,5 @@ document.addEventListener("DOMContentLoaded", function () {
           Math.max(data.zoom || 15, 13));
       }, 0);
     });
-
   }
 });
