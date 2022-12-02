@@ -9089,8 +9089,8 @@
           function createRelationalOperation(operator) {
             return function(value, other) {
               if (!(typeof value == "string" && typeof other == "string")) {
-                value = toNumber2(value);
-                other = toNumber2(other);
+                value = toNumber3(value);
+                other = toNumber3(other);
               }
               return operator(value, other);
             };
@@ -9124,7 +9124,7 @@
           function createRound(methodName) {
             var func = Math2[methodName];
             return function(number3, precision2) {
-              number3 = toNumber2(number3);
+              number3 = toNumber3(number3);
               precision2 = precision2 == null ? 0 : nativeMin2(toInteger(precision2), 292);
               if (precision2 && nativeIsFinite(number3)) {
                 var pair2 = (toString2(number3) + "e").split("e"), value = func(pair2[0] + "e" + (+pair2[1] + precision2));
@@ -10482,11 +10482,11 @@
             if (typeof func != "function") {
               throw new TypeError2(FUNC_ERROR_TEXT3);
             }
-            wait = toNumber2(wait) || 0;
+            wait = toNumber3(wait) || 0;
             if (isObject2(options2)) {
               leading = !!options2.leading;
               maxing = "maxWait" in options2;
-              maxWait = maxing ? nativeMax2(toNumber2(options2.maxWait) || 0, wait) : maxWait;
+              maxWait = maxing ? nativeMax2(toNumber3(options2.maxWait) || 0, wait) : maxWait;
               trailing = "trailing" in options2 ? !!options2.trailing : trailing;
             }
             function invokeFunc(time) {
@@ -10562,7 +10562,7 @@
             return baseDelay(func, 1, args);
           });
           var delay = baseRest(function(func, wait, args) {
-            return baseDelay(func, toNumber2(wait) || 0, args);
+            return baseDelay(func, toNumber3(wait) || 0, args);
           });
           function flip(func) {
             return createWrap(func, WRAP_FLIP_FLAG);
@@ -10859,7 +10859,7 @@
             if (!value) {
               return value === 0 ? value : 0;
             }
-            value = toNumber2(value);
+            value = toNumber3(value);
             if (value === INFINITY2 || value === -INFINITY2) {
               var sign2 = value < 0 ? -1 : 1;
               return sign2 * MAX_INTEGER;
@@ -10873,7 +10873,7 @@
           function toLength(value) {
             return value ? baseClamp(toInteger(value), 0, MAX_ARRAY_LENGTH) : 0;
           }
-          function toNumber2(value) {
+          function toNumber3(value) {
             if (typeof value == "number") {
               return value;
             }
@@ -11136,14 +11136,14 @@
               lower2 = undefined2;
             }
             if (upper !== undefined2) {
-              upper = toNumber2(upper);
+              upper = toNumber3(upper);
               upper = upper === upper ? upper : 0;
             }
             if (lower2 !== undefined2) {
-              lower2 = toNumber2(lower2);
+              lower2 = toNumber3(lower2);
               lower2 = lower2 === lower2 ? lower2 : 0;
             }
-            return baseClamp(toNumber2(number3), lower2, upper);
+            return baseClamp(toNumber3(number3), lower2, upper);
           }
           function inRange(number3, start2, end) {
             start2 = toFinite(start2);
@@ -11153,7 +11153,7 @@
             } else {
               end = toFinite(end);
             }
-            number3 = toNumber2(number3);
+            number3 = toNumber3(number3);
             return baseInRange(number3, start2, end);
           }
           function random(lower2, upper, floating) {
@@ -11939,7 +11939,7 @@
           lodash.toInteger = toInteger;
           lodash.toLength = toLength;
           lodash.toLower = toLower;
-          lodash.toNumber = toNumber2;
+          lodash.toNumber = toNumber3;
           lodash.toSafeInteger = toSafeInteger;
           lodash.toString = toString2;
           lodash.toUpper = toUpper;
@@ -15005,6 +15005,9 @@
         _defineProperties(Constructor.prototype, protoProps);
       if (staticProps)
         _defineProperties(Constructor, staticProps);
+      Object.defineProperty(Constructor, "prototype", {
+        writable: false
+      });
       return Constructor;
     }
     function _inherits(subClass, superClass) {
@@ -15018,17 +15021,20 @@
           configurable: true
         }
       });
+      Object.defineProperty(subClass, "prototype", {
+        writable: false
+      });
       if (superClass)
         _setPrototypeOf(subClass, superClass);
     }
     function _getPrototypeOf(o) {
-      _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o2) {
+      _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf2(o2) {
         return o2.__proto__ || Object.getPrototypeOf(o2);
       };
       return _getPrototypeOf(o);
     }
     function _setPrototypeOf(o, p) {
-      _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o2, p2) {
+      _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o2, p2) {
         o2.__proto__ = p2;
         return o2;
       };
@@ -15058,6 +15064,8 @@
     function _possibleConstructorReturn(self2, call) {
       if (call && (typeof call === "object" || typeof call === "function")) {
         return call;
+      } else if (call !== void 0) {
+        throw new TypeError("Derived constructors may only return object or undefined");
       }
       return _assertThisInitialized(self2);
     }
@@ -15082,22 +15090,22 @@
       }
       return object;
     }
-    function _get(target, property, receiver) {
+    function _get() {
       if (typeof Reflect !== "undefined" && Reflect.get) {
-        _get = Reflect.get;
+        _get = Reflect.get.bind();
       } else {
-        _get = function _get2(target2, property2, receiver2) {
-          var base = _superPropBase(target2, property2);
+        _get = function _get2(target, property, receiver) {
+          var base = _superPropBase(target, property);
           if (!base)
             return;
-          var desc = Object.getOwnPropertyDescriptor(base, property2);
+          var desc = Object.getOwnPropertyDescriptor(base, property);
           if (desc.get) {
-            return desc.get.call(receiver2);
+            return desc.get.call(arguments.length < 3 ? target : receiver);
           }
           return desc.value;
         };
       }
-      return _get(target, property, receiver || target);
+      return _get.apply(this, arguments);
     }
     var Emitter = /* @__PURE__ */ function() {
       function Emitter2() {
@@ -15179,6 +15187,11 @@
           writable: true,
           configurable: true
         });
+        Object.defineProperty(_assertThisInitialized(_this), "reason", {
+          value: void 0,
+          writable: true,
+          configurable: true
+        });
         return _this;
       }
       _createClass(AbortSignal2, [{
@@ -15211,7 +15224,7 @@
       }
       _createClass(AbortController3, [{
         key: "abort",
-        value: function abort() {
+        value: function abort(reason) {
           var event;
           try {
             event = new Event("abort");
@@ -15232,6 +15245,21 @@
               };
             }
           }
+          var signalReason = reason;
+          if (signalReason === void 0) {
+            if (typeof document === "undefined") {
+              signalReason = new Error("This operation was aborted");
+              signalReason.name = "AbortError";
+            } else {
+              try {
+                signalReason = new DOMException("signal is aborted without reason");
+              } catch (err) {
+                signalReason = new Error("This operation was aborted");
+                signalReason.name = "AbortError";
+              }
+            }
+          }
+          this.signal.reason = signalReason;
           this.signal.dispatchEvent(event);
         }
       }, {
@@ -15728,6 +15756,7 @@
     utilCleanTags: () => utilCleanTags,
     utilCombinedTags: () => utilCombinedTags,
     utilCompareIDs: () => utilCompareIDs,
+    utilDatesOverlap: () => utilDatesOverlap,
     utilDeepMemberSelector: () => utilDeepMemberSelector,
     utilDetect: () => utilDetect,
     utilDisplayLabel: () => utilDisplayLabel,
@@ -15748,6 +15777,7 @@
     utilHighlightEntities: () => utilHighlightEntities,
     utilKeybinding: () => utilKeybinding,
     utilNoAuto: () => utilNoAuto,
+    utilNormalizeDateString: () => utilNormalizeDateString,
     utilObjectOmit: () => utilObjectOmit,
     utilOldestID: () => utilOldestID,
     utilPrefixCSSProperty: () => utilPrefixCSSProperty,
@@ -25000,6 +25030,7 @@
     localizer.hasTextForStringId = function(stringId) {
       return !!localizer.tInfo(stringId, { default: "nothing found" }).locale;
     };
+    localizer.coalesceStringIds = (stringIds) => stringIds.find((id2) => localizer.hasTextForStringId(id2)) || stringIds[stringIds.length - 1];
     localizer.t = function(stringId, replacements, locale2) {
       return localizer.tInfo(stringId, replacements, locale2).text;
     };
@@ -25232,10 +25263,19 @@
     _this.matchAllGeometry = (geometries) => {
       return !_this.geometry || geometries.every((geom) => _this.geometry.indexOf(geom) !== -1);
     };
-    _this.t = (scope, options2) => _t(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
-    _this.t.html = (scope, options2) => _t.html(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
-    _this.t.append = (scope, options2) => _t.append(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
-    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${fieldID}.${scope}`);
+    _this.t = (scope, options2) => _t(_mainLocalizer.coalesceStringIds([
+      `custom_presets.fields.${fieldID}.${scope}`,
+      `_tagging.presets.fields.${fieldID}.${scope}`
+    ]), options2);
+    _this.t.html = (scope, options2) => _t.html(_mainLocalizer.coalesceStringIds([
+      `custom_presets.fields.${fieldID}.${scope}`,
+      `_tagging.presets.fields.${fieldID}.${scope}`
+    ]), options2);
+    _this.t.append = (scope, options2) => _t.append(_mainLocalizer.coalesceStringIds([
+      `custom_presets.fields.${fieldID}.${scope}`,
+      `_tagging.presets.fields.${fieldID}.${scope}`
+    ]), options2);
+    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`custom_presets.fields.${fieldID}.${scope}`) || _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${fieldID}.${scope}`);
     _this.title = () => _this.overrideLabel || _this.t("label", { "default": fieldID });
     _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.t.append("label", { "default": fieldID });
     const _placeholder = _this.placeholder;
@@ -25480,6 +25520,20 @@
 
   // modules/presets/index.js
   var _mainPresetIndex = presetIndex();
+  function addHistoricalFields(fields) {
+    fields.end_date = {
+      ...fields.start_date,
+      key: "end_date"
+    };
+    fields.source.type = "text";
+    fields.license = {
+      key: "license",
+      type: "combo",
+      universal: true,
+      snake_case: false,
+      caseSensitive: true
+    };
+  }
   function presetIndex() {
     const dispatch10 = dispatch_default("favoritePreset", "recentsChange");
     const MAXRECENTS = 30;
@@ -25513,6 +25567,7 @@
         _mainFileFetcher.get("preset_presets"),
         _mainFileFetcher.get("preset_fields")
       ]).then((vals) => {
+        addHistoricalFields(vals[3]);
         _this.merge({
           categories: vals[0],
           defaults: vals[1],
@@ -26419,6 +26474,87 @@
       }
     }
     return ids[oldestIDIndex];
+  }
+  function isSameDate(date1, date2) {
+    if (date1[1] !== date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] !== date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] !== date2[3])
+      return false;
+    return true;
+  }
+  function isBefore(date1, date2) {
+    if (date1[1] > date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] > date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] > date2[3])
+      return false;
+    return true;
+  }
+  function isAfter(date1, date2) {
+    if (date1[1] < date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] < date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] < date2[3])
+      return false;
+    return true;
+  }
+  function utilDatesOverlap(tags1, tags2, touchIsOverlap) {
+    var dateRegex = /^(-?\d{1,4})(?:-(\d\d))?(?:-(\d\d))?$/;
+    var minDate = ["-9999", "-9999"], maxDate = ["9999", "9999"], start1 = (tags1.start_date || "").match(dateRegex) || minDate, start2 = (tags2.start_date || "").match(dateRegex) || minDate, end1 = (tags1.end_date || "").match(dateRegex) || maxDate, end2 = (tags2.end_date || "").match(dateRegex) || maxDate;
+    if (isSameDate(end1, start2) || isSameDate(end2, start1)) {
+      return touchIsOverlap === true;
+    }
+    return isAfter(start1, start2) && isBefore(start1, end2) || isAfter(start2, start1) && isBefore(start2, end1) || isAfter(end1, start2) && isBefore(end1, end2) || isAfter(end2, start1) && isBefore(end2, end1);
+  }
+  function utilNormalizeDateString(raw) {
+    if (!raw)
+      return null;
+    var date;
+    var dateRegex = /^(-)?(\d+)(?:-(\d\d?)(?:-(\d\d?))?)?$/;
+    var match = raw.match(dateRegex);
+    if (match !== null) {
+      date = new Date(0);
+      date.setUTCFullYear(parseInt((match[1] || "") + match[2], 10));
+      if (match[3])
+        date.setUTCMonth(parseInt(match[3], 10) - 1);
+      if (match[4])
+        date.setUTCDate(parseInt(match[4], 10));
+    } else {
+      date = new Date(raw);
+      try {
+        date.toISOString();
+      } catch (exc) {
+        return null;
+      }
+    }
+    var normalized = "";
+    if (match !== null && date.getUTCFullYear() < 0) {
+      var absYear = Math.abs(date.getUTCFullYear());
+      normalized += "-" + String(absYear).padStart(4, "0");
+    } else {
+      normalized += String(date.getUTCFullYear()).padStart(4, "0");
+    }
+    if (match === null || match[3]) {
+      normalized += "-" + String(date.getUTCMonth() + 1).padStart(2, "0");
+    }
+    if (match === null || match[4]) {
+      normalized += "-" + String(date.getUTCDate()).padStart(2, "0");
+    }
+    return {
+      date,
+      value: normalized,
+      localeOptions: {
+        year: "numeric",
+        era: date.getUTCFullYear() < 1 ? "short" : void 0,
+        month: match === null || match[3] ? "long" : void 0,
+        day: match === null || match[4] ? "numeric" : void 0,
+        timeZone: "UTC"
+      }
+    };
   }
 
   // modules/osm/entity.js
@@ -34871,7 +35007,6 @@
       sanitize: false,
       sanitizer: null,
       silent: false,
-      smartLists: false,
       smartypants: false,
       tokenizer: null,
       walkTokens: null,
@@ -38230,7 +38365,9 @@ ${content}</tr>
         "amenity/truck_rental",
         "amenity/vehicle_rental",
         "shop/kiosk",
-        "shop/rental"
+        "shop/plant_hire",
+        "shop/rental",
+        "shop/tool_hire"
       ],
       school: [
         "amenity/childcare",
@@ -38257,6 +38394,11 @@ ${content}</tr>
         "shop/grocery",
         "shop/supermarket",
         "shop/wholesale"
+      ],
+      thrift: [
+        "shop/charity",
+        "shop/clothes",
+        "shop/second_hand"
       ],
       variety_store: [
         "shop/variety_store",
@@ -39741,6 +39883,10 @@ ${content}</tr>
             }
           }));
         }
+        fixes.push(new validationIssueFix({
+          icon: "iD-operation-change-date-range",
+          title: _t.append("issues.fix.change_date_range.title")
+        }));
         return fixes;
       }
       function showReference(selection2) {
@@ -39827,6 +39973,10 @@ ${content}</tr>
         const level1 = way.tags.level || "0", level2 = way2.tags.level || "0";
         if (level1 !== level2)
           return false;
+        if ((way.tags.start_date || way.tags.end_date) && (way2.tags.start_date || way2.tags.end_date)) {
+          if (!utilDatesOverlap(way.tags, way2.tags))
+            return false;
+        }
         return true;
       }
       function canConnectByExtend(way, endNodeIdx) {
@@ -40014,6 +40164,10 @@ ${content}</tr>
             }
             if (zAxisDifferentiates)
               continue;
+            if ((node.tags.start_date || node.tags.end_date) && (nearby.tags.start_date || nearby.tags.end_date)) {
+              if (!utilDatesOverlap(node.tags, nearby.tags))
+                continue;
+            }
             issues.push(new validationIssue({
               type: type3,
               subtype: "detached",
@@ -40036,6 +40190,10 @@ ${content}</tr>
                   new validationIssueFix({
                     icon: "iD-icon-layers",
                     title: _t.append("issues.fix.use_different_layers_or_levels.title")
+                  }),
+                  new validationIssueFix({
+                    icon: "iD-operation-change-date-range",
+                    title: _t.append("issues.fix.change_date_range.title")
                   })
                 ];
               }
@@ -40191,6 +40349,10 @@ ${content}</tr>
         return true;
       if (featureType1 === "building" || featureType2 === "building" || taggedAsIndoor(tags1) || taggedAsIndoor(tags2)) {
         if (layer1 !== layer2)
+          return true;
+      }
+      if ((tags1.start_date || tags1.end_date) && (tags2.start_date || tags2.end_date)) {
+        if (!utilDatesOverlap(tags1, tags2))
           return true;
       }
       return false;
@@ -40470,6 +40632,10 @@ ${content}</tr>
               fixes.push(makeAddBridgeOrTunnelFix("add_a_tunnel", "temaki-tunnel", "tunnel"));
             }
           }
+          fixes.push(new validationIssueFix({
+            icon: "iD-operation-change-date-range",
+            title: _t.append("issues.fix.change_date_range.title")
+          }));
           fixes.push(new validationIssueFix({
             icon: "iD-operation-move",
             title: _t.append("issues.fix.reposition_features.title")
@@ -41219,6 +41385,67 @@ ${content}</tr>
     var type3 = "invalid_format";
     var validation = function(entity) {
       var issues = [];
+      function showReferenceDate(selection2) {
+        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").text(_t.append("issues.invalid_format.date.reference"));
+      }
+      function validateDate(key, msgKey) {
+        if (!entity.tags[key])
+          return;
+        var normalized = utilNormalizeDateString(entity.tags[key]);
+        if (normalized !== null && entity.tags[key] === normalized.value)
+          return;
+        issues.push(new validationIssue({
+          type: type3,
+          subtype: "date",
+          severity: "error",
+          message: function(context) {
+            var entity2 = context.hasEntity(this.entityIds[0]);
+            return entity2 ? _t.append(
+              "issues.invalid_format.date.message_" + msgKey,
+              { feature: utilDisplayLabel(entity2, context.graph()) }
+            ) : "";
+          },
+          reference: showReferenceDate,
+          entityIds: [entity.id],
+          hash: key + entity.tags[key],
+          dynamicFixes: function() {
+            var fixes = [];
+            if (normalized !== null) {
+              var localeDateString2 = normalized.date.toLocaleDateString(_mainLocalizer.languageCode(), normalized.localeOptions);
+              fixes.push(new validationIssueFix({
+                title: _t.append("issues.fix.reformat_date.title", { date: localeDateString2 }),
+                onClick: function(context) {
+                  context.perform(function(graph) {
+                    var entityInGraph = graph.hasEntity(entity.id);
+                    if (!entityInGraph)
+                      return graph;
+                    var newTags = Object.assign({}, entityInGraph.tags);
+                    newTags[key] = normalized.value;
+                    return actionChangeTags(entityInGraph.id, newTags)(graph);
+                  }, _t.append("issues.fix.reformat_date.annotation"));
+                }
+              }));
+            }
+            fixes.push(new validationIssueFix({
+              icon: "iD-operation-delete",
+              title: _t.append("issues.fix.remove_tag.title"),
+              onClick: function(context) {
+                context.perform(function(graph) {
+                  var entityInGraph = graph.hasEntity(entity.id);
+                  if (!entityInGraph)
+                    return graph;
+                  var newTags = Object.assign({}, entityInGraph.tags);
+                  delete newTags[key];
+                  return actionChangeTags(entityInGraph.id, newTags)(graph);
+                }, _t.append("issues.fix.remove_tag.annotation"));
+              }
+            }));
+            return fixes;
+          }
+        }));
+      }
+      validateDate("start_date", "start");
+      validateDate("end_date", "end");
       function isValidEmail(email) {
         var valid_email = /^[^\(\)\\,":;<>@\[\]]+@[^\(\)\\,":;<>@\[\]\.]+(?:\.[a-z0-9-]+)*$/i;
         return !email || valid_email.test(email);
@@ -44468,6 +44695,7 @@ ${content}</tr>
     var _cullFactor = 1;
     var _cache4 = {};
     var _rules = {};
+    var _dateMatchCount = 0;
     var _stats = {};
     var _keys = [];
     var _hidden = [];
@@ -44650,10 +44878,14 @@ ${content}</tr>
         update();
       }
     };
+    features2.redraw = function() {
+      update();
+    };
     features2.resetStats = function() {
       for (var i2 = 0; i2 < _keys.length; i2++) {
         _rules[_keys[i2]].count = 0;
       }
+      _dateMatchCount = 0;
       dispatch10.call("change");
     };
     features2.gatherStats = function(d, resolver, dimensions) {
@@ -44664,6 +44896,7 @@ ${content}</tr>
       for (i2 = 0; i2 < _keys.length; i2++) {
         _rules[_keys[i2]].count = 0;
       }
+      _dateMatchCount = 0;
       _cullFactor = dimensions[0] * dimensions[1] / 1e6;
       for (i2 = 0; i2 < entities.length; i2++) {
         geometry = entities[i2].geometry(resolver);
@@ -44671,6 +44904,8 @@ ${content}</tr>
         for (j2 = 0; j2 < matches.length; j2++) {
           _rules[matches[j2]].count++;
         }
+        if (!features2.featureFitsDateRange(entities[i2]))
+          _dateMatchCount++;
       }
       currHidden = features2.hidden();
       if (currHidden !== _hidden) {
@@ -44686,6 +44921,7 @@ ${content}</tr>
       }
       return _stats;
     };
+    features2.dateMatchCount = () => _dateMatchCount;
     features2.clear = function(d) {
       for (var i2 = 0; i2 < d.length; i2++) {
         features2.clearEntity(d[i2]);
@@ -44774,11 +45010,13 @@ ${content}</tr>
       return false;
     };
     features2.isHiddenFeature = function(entity, resolver, geometry) {
-      if (!_hidden.length)
-        return false;
       if (!entity.version)
         return false;
       if (_forceVisible[entity.id])
+        return false;
+      if (!features2.featureFitsDateRange(entity))
+        return true;
+      if (!_hidden.length)
         return false;
       var matches = Object.keys(features2.getMatches(entity, resolver, geometry));
       return matches.length && matches.every(function(k) {
@@ -44786,12 +45024,12 @@ ${content}</tr>
       });
     };
     features2.isHiddenChild = function(entity, resolver, geometry) {
-      if (!_hidden.length)
-        return false;
       if (!entity.version || geometry === "point")
         return false;
       if (_forceVisible[entity.id])
         return false;
+      if (!features2.featureFitsDateRange(entity))
+        return true;
       var parents = features2.getParents(entity, resolver, geometry);
       if (!parents.length)
         return false;
@@ -44803,8 +45041,6 @@ ${content}</tr>
       return true;
     };
     features2.hasHiddenConnections = function(entity, resolver) {
-      if (!_hidden.length)
-        return false;
       var childNodes, connections;
       if (entity.type === "midpoint") {
         childNodes = [resolver.entity(entity.edge[0]), resolver.entity(entity.edge[1])];
@@ -44821,16 +45057,26 @@ ${content}</tr>
       });
     };
     features2.isHidden = function(entity, resolver, geometry) {
-      if (!_hidden.length)
-        return false;
       if (!entity.version)
         return false;
       var fn = geometry === "vertex" ? features2.isHiddenChild : features2.isHiddenFeature;
       return fn(entity, resolver, geometry);
     };
+    features2.featureFitsDateRange = function(entity) {
+      if (!features2.dateRange)
+        return true;
+      const entityRange = {
+        "start_date": entity.tags.start_date,
+        "end_date": entity.tags.end_date
+      };
+      const selectedRange = {
+        "start_date": features2.dateRange[0],
+        "end_date": features2.dateRange[1]
+      };
+      const withinrange = utilDatesOverlap(selectedRange, entityRange, true);
+      return withinrange;
+    };
     features2.filter = function(d, resolver) {
-      if (!_hidden.length)
-        return d;
       var result = [];
       for (var i2 = 0; i2 < d.length; i2++) {
         var entity = d[i2];
@@ -45829,6 +46075,14 @@ ${content}</tr>
   function getColor(node, output) {
     return get3(node, "color", (elem) => fixColor(nodeVal(elem), output));
   }
+  function extractIconHref(node) {
+    return get3(node, "Icon", (icon2, properties) => {
+      val1(icon2, "href", (href) => {
+        properties.icon = href;
+      });
+      return properties;
+    });
+  }
   function extractIcon(node) {
     return get3(node, "IconStyle", (iconStyle) => {
       return Object.assign(getColor(iconStyle, "icon"), numericProperty(iconStyle, "scale", "icon-scale"), numericProperty(iconStyle, "heading", "icon-heading"), get3(iconStyle, "hotSpot", (hotspot) => {
@@ -45842,12 +46096,7 @@ ${content}</tr>
             "icon-offset-units": [xunits, yunits]
           };
         return {};
-      }), get3(iconStyle, "Icon", (icon2, properties) => {
-        val1(icon2, "href", (href) => {
-          properties.icon = href;
-        });
-        return properties;
-      }));
+      }), extractIconHref(iconStyle));
     });
   }
   function extractLabel(node) {
@@ -45873,6 +46122,68 @@ ${content}</tr>
   }
   function extractStyle(node) {
     return Object.assign({}, extractPoly(node), extractLine(node), extractLabel(node), extractIcon(node));
+  }
+  var toNumber2 = (x) => Number(x);
+  var typeConverters = {
+    string: (x) => x,
+    int: toNumber2,
+    uint: toNumber2,
+    short: toNumber2,
+    ushort: toNumber2,
+    float: toNumber2,
+    double: toNumber2,
+    bool: (x) => Boolean(x)
+  };
+  function extractExtendedData(node, schema) {
+    return get3(node, "ExtendedData", (extendedData, properties) => {
+      for (const data of $(extendedData, "Data")) {
+        properties[data.getAttribute("name") || ""] = nodeVal(get1(data, "value"));
+      }
+      for (const simpleData of $(extendedData, "SimpleData")) {
+        const name = simpleData.getAttribute("name") || "";
+        const typeConverter = schema[name] || typeConverters.string;
+        properties[name] = typeConverter(nodeVal(simpleData));
+      }
+      return properties;
+    });
+  }
+  function getMaybeHTMLDescription(node) {
+    const descriptionNode = get1(node, "description");
+    for (const c of Array.from(descriptionNode?.childNodes || [])) {
+      if (c.nodeType === 4) {
+        return {
+          description: {
+            "@type": "html",
+            value: nodeVal(c)
+          }
+        };
+      }
+    }
+    return {};
+  }
+  function extractTimeSpan(node) {
+    return get3(node, "TimeSpan", (timeSpan) => {
+      return {
+        timespan: {
+          begin: nodeVal(get1(timeSpan, "begin")),
+          end: nodeVal(get1(timeSpan, "end"))
+        }
+      };
+    });
+  }
+  function extractTimeStamp(node) {
+    return get3(node, "TimeStamp", (timeStamp) => {
+      return { timestamp: nodeVal(get1(timeStamp, "when")) };
+    });
+  }
+  function extractCascadedStyle(node, styleMap) {
+    return val1(node, "styleUrl", (styleUrl) => {
+      styleUrl = normalizeId(styleUrl);
+      if (styleMap[styleUrl]) {
+        return Object.assign({ styleUrl }, styleMap[styleUrl]);
+      }
+      return { styleUrl };
+    });
   }
   var removeSpace = /\s*/g;
   var trimSpace = /^\s*|\s*$/g;
@@ -45924,30 +46235,26 @@ ${content}</tr>
     }
     return ring;
   }
-  var GEO_TYPES = [
-    "Polygon",
-    "LineString",
-    "Point",
-    "Track",
-    "gx:Track"
-  ];
   function getCoordinates(node) {
     return nodeVal(get1(node, "coordinates"));
   }
   function getGeometry(node) {
-    const geometries = [];
-    const coordTimes = [];
-    for (const t of ["MultiGeometry", "MultiTrack", "gx:MultiTrack"]) {
-      const elem = get1(node, t);
-      if (elem) {
-        return getGeometry(elem);
-      }
-    }
-    for (const geoType of GEO_TYPES) {
-      for (const geomNode of $(node, geoType)) {
-        switch (geoType) {
+    let geometries = [];
+    let coordTimes = [];
+    for (let i2 = 0; i2 < node.childNodes.length; i2++) {
+      const child = node.childNodes.item(i2);
+      if (isElement(child)) {
+        switch (child.tagName) {
+          case "MultiGeometry":
+          case "MultiTrack":
+          case "gx:MultiTrack": {
+            const childGeometries = getGeometry(child);
+            geometries = geometries.concat(childGeometries.geometries);
+            coordTimes = coordTimes.concat(childGeometries.coordTimes);
+            break;
+          }
           case "Point": {
-            const coordinates = coord1(getCoordinates(geomNode));
+            const coordinates = coord1(getCoordinates(child));
             if (coordinates.length >= 2) {
               geometries.push({
                 type: "Point",
@@ -45957,7 +46264,7 @@ ${content}</tr>
             break;
           }
           case "LineString": {
-            const coordinates = coord(getCoordinates(geomNode));
+            const coordinates = coord(getCoordinates(child));
             if (coordinates.length >= 2) {
               geometries.push({
                 type: "LineString",
@@ -45968,7 +46275,7 @@ ${content}</tr>
           }
           case "Polygon": {
             const coords = [];
-            for (const linearRing of $(geomNode, "LinearRing")) {
+            for (const linearRing of $(child, "LinearRing")) {
               const ring = fixRing(coord(getCoordinates(linearRing)));
               if (ring.length >= 4) {
                 coords.push(ring);
@@ -45984,7 +46291,7 @@ ${content}</tr>
           }
           case "Track":
           case "gx:Track": {
-            const gx = gxCoords(geomNode);
+            const gx = gxCoords(child);
             if (!gx)
               break;
             const { times, geometry } = gx;
@@ -46001,62 +46308,13 @@ ${content}</tr>
       coordTimes
     };
   }
-  function extractExtendedData(node) {
-    return get3(node, "ExtendedData", (extendedData, properties) => {
-      for (const data of $(extendedData, "Data")) {
-        properties[data.getAttribute("name") || ""] = nodeVal(get1(data, "value"));
-      }
-      for (const simpleData of $(extendedData, "SimpleData")) {
-        properties[simpleData.getAttribute("name") || ""] = nodeVal(simpleData);
-      }
-      return properties;
-    });
-  }
   function geometryListToGeometry(geometries) {
     return geometries.length === 0 ? null : geometries.length === 1 ? geometries[0] : {
       type: "GeometryCollection",
       geometries
     };
   }
-  function extractTimeSpan(node) {
-    return get3(node, "TimeSpan", (timeSpan) => {
-      return {
-        timespan: {
-          begin: nodeVal(get1(timeSpan, "begin")),
-          end: nodeVal(get1(timeSpan, "end"))
-        }
-      };
-    });
-  }
-  function extractTimeStamp(node) {
-    return get3(node, "TimeStamp", (timeStamp) => {
-      return { timestamp: nodeVal(get1(timeStamp, "when")) };
-    });
-  }
-  function extractCascadedStyle(node, styleMap) {
-    return val1(node, "styleUrl", (styleUrl) => {
-      styleUrl = normalizeId(styleUrl);
-      if (styleMap[styleUrl]) {
-        return Object.assign({ styleUrl }, styleMap[styleUrl]);
-      }
-      return { styleUrl };
-    });
-  }
-  function getMaybeHTMLDescription(node) {
-    const descriptionNode = get1(node, "description");
-    for (const c of Array.from(descriptionNode?.childNodes || [])) {
-      if (c.nodeType === 4) {
-        return {
-          description: {
-            "@type": "html",
-            value: nodeVal(c)
-          }
-        };
-      }
-    }
-    return {};
-  }
-  function getPlacemark(node, styleMap) {
+  function getPlacemark(node, styleMap, schema) {
     const { coordTimes, geometries } = getGeometry(node);
     const feature3 = {
       type: "Feature",
@@ -46068,11 +46326,100 @@ ${content}</tr>
         "open",
         "phoneNumber",
         "description"
-      ]), getMaybeHTMLDescription(node), extractCascadedStyle(node, styleMap), extractStyle(node), extractExtendedData(node), extractTimeSpan(node), extractTimeStamp(node), coordTimes.length ? {
+      ]), getMaybeHTMLDescription(node), extractCascadedStyle(node, styleMap), extractStyle(node), extractExtendedData(node, schema), extractTimeSpan(node), extractTimeStamp(node), coordTimes.length ? {
         coordinateProperties: {
           times: coordTimes.length === 1 ? coordTimes[0] : coordTimes
         }
       } : {})
+    };
+    if (feature3.properties?.visibility !== void 0) {
+      feature3.properties.visibility = feature3.properties.visibility !== "0";
+    }
+    const id2 = node.getAttribute("id");
+    if (id2 !== null && id2 !== "")
+      feature3.id = id2;
+    return feature3;
+  }
+  function getGroundOverlayBox(node) {
+    const latLonQuad = get1(node, "gx:LatLonQuad");
+    if (latLonQuad) {
+      const ring = fixRing(coord(getCoordinates(node)));
+      return {
+        type: "Polygon",
+        coordinates: [ring]
+      };
+    }
+    return getLatLonBox(node);
+  }
+  var DEGREES_TO_RADIANS = Math.PI / 180;
+  function rotateBox(bbox, coordinates, rotation) {
+    const center = [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+    return [
+      coordinates[0].map((coordinate) => {
+        const dy = coordinate[1] - center[1];
+        const dx = coordinate[0] - center[0];
+        const distance = Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2));
+        const angle2 = Math.atan2(dy, dx) - rotation * DEGREES_TO_RADIANS;
+        return [
+          center[0] + Math.cos(angle2) * distance,
+          center[1] + Math.sin(angle2) * distance
+        ];
+      })
+    ];
+  }
+  function getLatLonBox(node) {
+    const latLonBox = get1(node, "LatLonBox");
+    if (latLonBox) {
+      const north = num1(latLonBox, "north");
+      const west = num1(latLonBox, "west");
+      const east = num1(latLonBox, "east");
+      const south = num1(latLonBox, "south");
+      const rotation = num1(latLonBox, "rotation");
+      if (typeof north === "number" && typeof south === "number" && typeof west === "number" && typeof east === "number") {
+        const bbox = [west, south, east, north];
+        let coordinates = [
+          [
+            [west, north],
+            [east, north],
+            [east, south],
+            [west, south],
+            [west, north]
+          ]
+        ];
+        if (typeof rotation === "number") {
+          coordinates = rotateBox(bbox, coordinates, rotation);
+        }
+        return {
+          type: "Polygon",
+          coordinates
+        };
+      }
+    }
+    return null;
+  }
+  function getGroundOverlay(node, styleMap, schema) {
+    const geometry = getGroundOverlayBox(node);
+    const feature3 = {
+      type: "Feature",
+      geometry,
+      properties: Object.assign(
+        { "@geometry-type": "groundoverlay" },
+        getMulti(node, [
+          "name",
+          "address",
+          "visibility",
+          "open",
+          "phoneNumber",
+          "description"
+        ]),
+        getMaybeHTMLDescription(node),
+        extractCascadedStyle(node, styleMap),
+        extractStyle(node),
+        extractIconHref(node),
+        extractExtendedData(node, schema),
+        extractTimeSpan(node),
+        extractTimeStamp(node)
+      )
     };
     if (feature3.properties?.visibility !== void 0) {
       feature3.properties.visibility = feature3.properties.visibility !== "0";
@@ -46106,10 +46453,23 @@ ${content}</tr>
     }
     return styleMap;
   }
+  function buildSchema(node) {
+    const schema = {};
+    for (const field of $(node, "SimpleField")) {
+      schema[field.getAttribute("name") || ""] = typeConverters[field.getAttribute("type") || ""] || typeConverters["string"];
+    }
+    return schema;
+  }
   function* kmlGen(node) {
     const styleMap = buildStyleMap(node);
+    const schema = buildSchema(node);
     for (const placemark of $(node, "Placemark")) {
-      const feature3 = getPlacemark(placemark, styleMap);
+      const feature3 = getPlacemark(placemark, styleMap, schema);
+      if (feature3)
+        yield feature3;
+    }
+    for (const groundOverlay of $(node, "GroundOverlay")) {
+      const feature3 = getGroundOverlay(groundOverlay, styleMap, schema);
       if (feature3)
         yield feature3;
     }
@@ -51701,6 +52061,7 @@ ${content}</tr>
     function update(selection2) {
       var features2 = context.features();
       var stats = features2.stats();
+      var dateMatchCount = features2.dateMatchCount();
       var count = 0;
       var hiddenList = features2.hidden().map(function(k) {
         if (stats[k]) {
@@ -51712,8 +52073,9 @@ ${content}</tr>
         }
         return null;
       }).filter(Boolean);
+      count += dateMatchCount;
       selection2.text("");
-      if (hiddenList.length) {
+      if (hiddenList.length || dateMatchCount > 0) {
         var tooltipBehavior = uiTooltip().placement("top").title(function() {
           return (selection3) => {
             hiddenList.forEach((hiddenFeature) => {
@@ -51727,7 +52089,7 @@ ${content}</tr>
           context.ui().togglePanes(context.container().select(".map-panes .map-data-pane"));
         });
       }
-      selection2.classed("hide", !hiddenList.length);
+      selection2.classed("hide", !hiddenList.length && !dateMatchCount);
     }
     return function(selection2) {
       update(selection2);
@@ -52048,7 +52410,6 @@ ${content}</tr>
       if (osm) {
         links.append("a").attr("class", "user-osm-link").attr("href", osm.userURL(userName)).attr("target", "_blank").call(_t.append("info_panels.history.profile_link"));
       }
-      links.append("a").attr("class", "user-hdyc-link").attr("href", "https://hdyc.neis-one.org/?" + userName).attr("target", "_blank").attr("tabindex", -1).text("HDYC");
     }
     function displayChangeset(selection2, changeset) {
       if (!changeset) {
@@ -52060,8 +52421,6 @@ ${content}</tr>
       if (osm) {
         links.append("a").attr("class", "changeset-osm-link").attr("href", osm.changesetURL(changeset)).attr("target", "_blank").call(_t.append("info_panels.history.changeset_link"));
       }
-      links.append("a").attr("class", "changeset-osmcha-link").attr("href", "https://osmcha.org/changesets/" + changeset).attr("target", "_blank").text("OSMCha");
-      links.append("a").attr("class", "changeset-achavi-link").attr("href", "https://overpass-api.de/achavi/?changeset=" + changeset).attr("target", "_blank").text("Achavi");
     }
     function redraw(selection2) {
       var selectedNoteID = context.selectedNoteID();
@@ -52117,7 +52476,6 @@ ${content}</tr>
       if (osm) {
         links.append("a").attr("class", "view-history-on-osm").attr("href", osm.historyURL(entity)).attr("target", "_blank").call(_t.append("info_panels.history.history_link"));
       }
-      links.append("a").attr("class", "pewu-history-viewer-link").attr("href", "https://pewu.github.io/osm-history/#/" + entity.type + "/" + entity.osmId()).attr("target", "_blank").attr("tabindex", -1).text("PeWu");
       var list = selection2.append("ul");
       list.append("li").call(_t.append("info_panels.history.version", { suffix: ":" })).append("span").text(entity.version);
       list.append("li").call(_t.append("info_panels.history.last_edit", { suffix: ":" })).append("span").text(displayTimestamp(entity.timestamp));
@@ -62206,8 +62564,15 @@ ${content}</tr>
           return sharedTotalFields.indexOf(field) !== -1;
         });
         _fieldsArr = [];
+        let coreKeys = ["start_date", "end_date", "source"];
+        coreKeys.forEach((key) => {
+          let field = presetsManager.field(key);
+          if (field) {
+            _fieldsArr.push(uiField(context, field, _entityIDs));
+          }
+        });
         sharedFields.forEach(function(field) {
-          if (field.matchAllGeometry(geometries)) {
+          if (!coreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
             _fieldsArr.push(
               uiField(context, field, _entityIDs)
             );
@@ -62224,7 +62589,7 @@ ${content}</tr>
           return field1.title().localeCompare(field2.title(), _mainLocalizer.localeCode());
         });
         additionalFields.forEach(function(field) {
-          if (sharedFields.indexOf(field) === -1 && field.matchAllGeometry(geometries)) {
+          if (sharedFields.indexOf(field) === -1 && !coreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
             _fieldsArr.push(
               uiField(context, field, _entityIDs, { show: false })
             );
@@ -68924,10 +69289,89 @@ ${content}</tr>
     return section;
   }
 
+  // modules/ui/sections/map_daterange.js
+  var DEFAULT_MIN_DATE = "-4000-01-01";
+  var DEFAULT_MAX_DATE = new Date().getFullYear() + "-12-31";
+  var INPUT_STYLES = [
+    { name: "width", value: "125px" },
+    { name: "text-align", value: "center" }
+  ];
+  var LABEL_STYLES = [
+    { name: "font-weight", value: "bold" },
+    { name: "display", value: "inline-block" },
+    { name: "width", value: "75px" }
+  ];
+  function uiSectionDateRange(context) {
+    const section = uiSection("date_ranges", context).label(() => _t.append("date_ranges.title")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
+    function renderDisclosureContent(selection2) {
+      const container = selection2.selectAll(".date_ranges-container").data([0]);
+      const mindate_label = container.enter().append("label").call(_t.append("date_ranges.start_date.description")).merge(container);
+      const mindate_input = container.enter().append("input").attr("type", "text").attr("value", DEFAULT_MIN_DATE).attr("title", () => _t("date_ranges.start_date.tooltip")).attr("placeholder", () => _t("date_ranges.start_date.placeholder")).merge(container);
+      container.enter().append("br").merge(container);
+      const maxdate_label = container.enter().append("label").call(_t.append("date_ranges.end_date.description")).merge(container);
+      const maxdate_input = container.enter().append("input").attr("type", "text").attr("value", DEFAULT_MAX_DATE).attr("title", () => _t("date_ranges.end_date.tooltip")).attr("placeholder", () => _t("date_ranges.end_date.placeholder")).merge(container);
+      INPUT_STYLES.forEach(function(style) {
+        mindate_input.style(style.name, style.value);
+        maxdate_input.style(style.name, style.value);
+      });
+      LABEL_STYLES.forEach(function(style) {
+        mindate_label.style(style.name, style.value);
+        maxdate_label.style(style.name, style.value);
+      });
+      function applyDateRange() {
+        const mindate = mindate_input.property("value");
+        const maxdate = maxdate_input.property("value");
+        context.features().dateRange = [mindate, maxdate];
+        context.features().redraw();
+        updateUrlParam();
+      }
+      function ensureValidInputs() {
+        const mindate = mindate_input.property("value");
+        const maxdate = maxdate_input.property("value");
+        const mindate_clean = utilNormalizeDateString(mindate);
+        const maxdate_clean = utilNormalizeDateString(maxdate);
+        mindate_input.property("value", mindate_clean ? mindate_clean.value : DEFAULT_MIN_DATE);
+        maxdate_input.property("value", maxdate_clean ? maxdate_clean.value : DEFAULT_MAX_DATE);
+      }
+      function updateUrlParam() {
+        if (!window.mocha) {
+          const hash = utilStringQs(window.location.hash);
+          const daterange = context.features().dateRange;
+          if (daterange) {
+            hash.daterange = daterange.join(",");
+          } else {
+            delete hash.daterange;
+          }
+          window.location.replace("#" + utilQsString(hash, true));
+        }
+      }
+      mindate_input.on("change", function() {
+        ensureValidInputs();
+        applyDateRange();
+      });
+      maxdate_input.on("change", function() {
+        ensureValidInputs();
+        applyDateRange();
+      });
+      let startingdaterange = utilStringQs(window.location.hash).daterange;
+      if (startingdaterange) {
+        startingdaterange = startingdaterange.split(",");
+        const isvalid = startingdaterange[0].match(/^\-?[\d\-]+/) && startingdaterange[1].match(/^\-?[\d\-]+/);
+        if (isvalid) {
+          mindate_input.property("value", startingdaterange[0]);
+          maxdate_input.property("value", startingdaterange[1]);
+        }
+      }
+      applyDateRange();
+    }
+    return section;
+  }
+
   // modules/ui/panes/map_data.js
   function uiPaneMapData(context) {
     var mapDataPane = uiPane("map-data", context).key(_t("map_data.key")).label(_t.append("map_data.title")).description(_t.append("map_data.description")).iconName("iD-icon-data").sections([
       uiSectionDataLayers(context),
+      uiSectionDateRange(context),
       uiSectionPhotoOverlays(context),
       uiSectionMapStyleOptions(context),
       uiSectionMapFeatures(context)
@@ -70515,8 +70959,8 @@ ${content}</tr>
         var settings = [
           ["width", w],
           ["height", h],
-          ["left", screen.width / 2 - w / 2],
-          ["top", screen.height / 2 - h / 2]
+          ["left", window.screen.width / 2 - w / 2],
+          ["top", window.screen.height / 2 - h / 2]
         ].map(function(x) {
           return x.join("=");
         }).join(",");
@@ -70710,7 +71154,7 @@ ${content}</tr>
   var import_rbush9 = __toESM(require_rbush_min());
   var tiler5 = utilTiler();
   var dispatch7 = dispatch_default("apiStatusChange", "authLoading", "authDone", "change", "loading", "loaded", "loadedNotes");
-  var urlroot = "https://www.openstreetmap.org";
+  var urlroot = "https://www.openhistoricalmap.org";
   var redirectPath = window.location.origin + window.location.pathname;
   var oauth = osmAuth({
     url: urlroot,
