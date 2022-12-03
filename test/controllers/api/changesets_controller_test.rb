@@ -1116,6 +1116,90 @@ module Api
       post changeset_upload_path(changeset), :params => diff, :headers => auth_header
       assert_response :bad_request,
                       "shouldn't be able to re-use placeholder IDs"
+
+      # placeholder_ids must be unique across all action blocks
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+         </create>
+         <create>
+          <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :bad_request,
+                      "shouldn't be able to re-use placeholder IDs"
+    end
+
+    def test_upload_process_order
+      changeset = create(:changeset)
+
+      auth_header = basic_authorization_header changeset.user.email, "test"
+
+      diff = <<~CHANGESET
+        <osmChange>
+        <create>
+          <node id="-1" lat="1" lon="2" changeset="#{changeset.id}"/>
+          <way id="-1" changeset="#{changeset.id}">
+              <nd ref="-1"/>
+              <nd ref="-2"/>
+          </way>
+          <node id="-2" lat="1" lon="2" changeset="#{changeset.id}"/>
+        </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :bad_request,
+                      "shouldn't refer elements behind it"
+    end
+
+    def test_upload_duplicate_delete
+      changeset = create(:changeset)
+
+      auth_header = basic_authorization_header changeset.user.email, "test"
+
+      diff = <<~CHANGESET
+        <osmChange>
+          <create>
+            <node id="-1" lat="39" lon="116" changeset="#{changeset.id}" />
+          </create>
+          <delete>
+            <node id="-1" version="1" changeset="#{changeset.id}" />
+            <node id="-1" version="1" changeset="#{changeset.id}" />
+          </delete>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :gone,
+                      "transaction should be cancelled by second deletion"
+
+      diff = <<~CHANGESET
+        <osmChange>
+          <create>
+            <node id="-1" lat="39" lon="116" changeset="#{changeset.id}" />
+          </create>
+          <delete if-unused="true">
+            <node id="-1" version="1" changeset="#{changeset.id}" />
+            <node id="-1" version="1" changeset="#{changeset.id}" />
+          </delete>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+
+      assert_select "diffResult>node", 3
+      assert_select "diffResult>node[old_id='-1']", 3
+      assert_select "diffResult>node[new_version='1']", 1
+      assert_select "diffResult>node[new_version='2']", 1
     end
 
     ##
@@ -1349,6 +1433,153 @@ module Api
       assert_select "osmError[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
       assert_select "osmError>status", 1
       assert_select "osmError>message", 1
+    end
+
+    def test_upload_not_found
+      changeset = create(:changeset)
+
+      auth_header = basic_authorization_header changeset.user.email, "test"
+
+      # modify node
+      diff = <<~CHANGESET
+        <osmChange>
+        <modify>
+          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        </modify>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :not_found, "Node should not be found"
+
+      # modify way
+      diff = <<~CHANGESET
+        <osmChange>
+        <modify>
+          <way id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        </modify>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :not_found, "Way should not be found"
+
+      # modify relation
+      diff = <<~CHANGESET
+        <osmChange>
+        <modify>
+          <relation id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        </modify>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :not_found, "Relation should not be found"
+
+      # delete node
+      diff = <<~CHANGESET
+        <osmChange>
+        <delete>
+          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        </delete>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :not_found, "Node should not be deleted"
+
+      # delete way
+      diff = <<~CHANGESET
+        <osmChange>
+        <delete>
+          <way id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        </delete>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :not_found, "Way should not be deleted"
+
+      # delete relation
+      diff = <<~CHANGESET
+        <osmChange>
+        <delete>
+          <relation id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        </delete>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :not_found, "Relation should not be deleted"
+    end
+
+    def test_upload_relation_placeholder_not_fix
+      changeset = create(:changeset)
+
+      auth_header = basic_authorization_header changeset.user.email, "test"
+
+      # modify node
+      diff = <<~CHANGESET
+        <osmChange version='0.6'>
+          <create>
+            <relation id='-2' version='0' changeset='#{changeset.id}'>
+              <member type='relation' role='' ref='-4' />
+              <tag k='type' v='route' />
+              <tag k='name' v='AtoB' />
+            </relation>
+            <relation id='-3' version='0' changeset='#{changeset.id}'>
+              <tag k='type' v='route' />
+              <tag k='name' v='BtoA' />
+            </relation>
+            <relation id='-4' version='0' changeset='#{changeset.id}'>
+              <member type='relation' role='' ref='-2' />
+              <member type='relation' role='' ref='-3' />
+              <tag k='type' v='route_master' />
+              <tag k='name' v='master' />
+            </relation>
+          </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+      assert_response :bad_request, "shouldn't be able to use reference -4 in relation -2: #{@response.body}"
+      assert_equal "Placeholder Relation not found for reference -4 in relation -2.", @response.body
+    end
+
+    def test_upload_multiple_delete_block
+      changeset = create(:changeset)
+
+      auth_header = basic_authorization_header changeset.user.email, "test"
+
+      node = create(:node)
+      way = create(:way)
+      create(:way_node, :way => way, :node => node)
+      alone_node = create(:node)
+
+      # modify node
+      diff = <<~CHANGESET
+        <osmChange version='0.6'>
+          <delete version="0.6">
+            <node id="#{node.id}" version="#{node.version}" changeset="#{changeset.id}"/>
+          </delete>
+          <delete version="0.6" if-unused="true">
+            <node id="#{alone_node.id}" version="#{alone_node.version}" changeset="#{changeset.id}"/>
+          </delete>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff.to_s, :headers => auth_header
+      assert_response :precondition_failed,
+                      "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
+      assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way.id}.", @response.body
     end
 
     ##
