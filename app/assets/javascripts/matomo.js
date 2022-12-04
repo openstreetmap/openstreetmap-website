@@ -10,7 +10,7 @@ if (OSM.MATOMO) {
       success: function () {
         matomoTracker = Matomo.getTracker(base + "matomo.php", OSM.MATOMO.site);
 
-        if (OSM.user) {
+        if (OSM.user && OSM.MATOMO.set_user) {
           matomoTracker.setUserId(OSM.user.toString());
         }
 
