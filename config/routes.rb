@@ -115,11 +115,11 @@ OpenStreetMap::Application.routes.draw do
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
-  get "/user/:display_name/history" => "changesets#index"
+  get "/user/:display_name/history(/:max_id)" => "changesets#index", :max_id => /\d+/
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes
-  get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
-  get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  get "/history/friends(/:max_id)" => "changesets#index", :friends => true, :as => "friend_changesets", :max_id => /\d+/, :defaults => { :format => :html }
+  get "/history/nearby(/:max_id)" => "changesets#index", :nearby => true, :as => "nearby_changesets", :max_id => /\d+/, :defaults => { :format => :html }
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
@@ -148,7 +148,7 @@ OpenStreetMap::Application.routes.draw do
   get "/about/:about_locale" => "site#about"
   get "/about" => "site#about"
   get "/communities" => "site#communities"
-  get "/history" => "changesets#index"
+  get "/history(/:max_id)" => "changesets#index", :as => :history, :max_id => /\d+/
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"

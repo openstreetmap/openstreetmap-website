@@ -62,13 +62,13 @@ class HistoryTest < ApplicationSystemTestCase
       changesets.assert_text "last-changeset-in-history"
     end
 
-    visit "#{user_path(user)}/history?max_id=#{changeset2.id}"
+    visit "#{user_path(user)}/history/#{changeset2.id}"
     find "div.changesets" do |changesets|
       changesets.assert_text "first-changeset-in-history"
       changesets.assert_text "last-changeset-in-history"
     end
 
-    visit "#{user_path(user)}/history?max_id=#{changeset1.id}"
+    visit "#{user_path(user)}/history/#{changeset1.id}"
     find "div.changesets" do |changesets|
       changesets.assert_text "first-changeset-in-history"
       changesets.assert_no_text "last-changeset-in-history"

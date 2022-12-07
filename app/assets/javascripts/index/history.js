@@ -55,8 +55,8 @@ OSM.History = function (map) {
     newList.remove();
   }
 
-  function loadFirstChangesets(maxId) {
-    var data = prepareAjaxData(maxId);
+  function loadFirstChangesets() {
+    var data = prepareAjaxData();
 
     if (data.bbox) {
       var feedLink = $("link[type=\"application/atom+xml\"]"),
@@ -95,13 +95,10 @@ OSM.History = function (map) {
     });
   }
 
-  function prepareAjaxData(maxId) {
+  function prepareAjaxData() {
     var data = { list: "1" };
 
-    if (maxId) {
-      data.max_id = maxId;
-    }
-    if (window.location.pathname === "/history") {
+    if (window.location.pathname === "/history") { // TODO update for "/history/:max_id"
       data.bbox = map.getBounds().wrap().toBBoxString();
     }
 
@@ -164,12 +161,10 @@ OSM.History = function (map) {
 
   page.pushstate = page.popstate = function (path) {
     $("#history_tab").addClass("current");
-    OSM.loadSidebarContent(path, function () {
-      page.load(path);
-    });
+    OSM.loadSidebarContent(path, page.load);
   };
 
-  page.load = function (path) {
+  page.load = function () {
     map.addLayer(group);
 
     if (window.location.pathname === "/history") {
@@ -178,14 +173,7 @@ OSM.History = function (map) {
 
     map.on("zoomend", updateBounds);
 
-    var maxId;
-    var paramsIndex = path.indexOf("?");
-    if (paramsIndex >= 0) {
-      var params = Qs.parse(path.substring(paramsIndex + 1));
-      maxId = params.max_id;
-    }
-
-    loadFirstChangesets(maxId);
+    loadFirstChangesets();
   };
 
   page.unload = function () {
