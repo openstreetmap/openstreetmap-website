@@ -164,7 +164,9 @@ OSM.History = function (map) {
   }
 
   function updatePlaceHistoryBecauseOfMapMovement() {
-    // TODO remove max_id from url
+    if (window.location.pathname !== "/history") {
+      OSM.router.replace("/history" + window.location.hash);
+    }
     loadFirstChangesets();
   }
 

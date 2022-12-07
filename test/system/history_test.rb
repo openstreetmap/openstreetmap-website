@@ -92,6 +92,8 @@ class HistoryTest < ApplicationSystemTestCase
       changesets.assert_text "changeset-at-fives"
       changesets.assert_text "changeset-close-to-fives"
     end
+
+    assert_current_path history_path
   end
 
   def create_visible_changeset(user, comment)
