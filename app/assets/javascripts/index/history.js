@@ -4,7 +4,7 @@ OSM.History = function (map) {
   var page = {};
 
   $("#sidebar_content")
-    .on("click", ".changeset_more a", loadMore)
+    .on("click", ".changeset_more a", loadMoreChangesets)
     .on("mouseover", "[data-changeset]", function () {
       highlightChangeset($(this).data("changeset").id);
     })
@@ -55,7 +55,7 @@ OSM.History = function (map) {
     newList.remove();
   }
 
-  function update() {
+  function loadFirstChangesets() {
     var data = prepareAjaxData();
 
     if (data.bbox) {
@@ -74,7 +74,7 @@ OSM.History = function (map) {
     });
   }
 
-  function loadMore(e) {
+  function loadMoreChangesets(e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -168,17 +168,17 @@ OSM.History = function (map) {
     map.addLayer(group);
 
     if (window.location.pathname === "/history") {
-      map.on("moveend", update);
+      map.on("moveend", loadFirstChangesets);
     }
 
     map.on("zoomend", updateBounds);
 
-    update();
+    loadFirstChangesets();
   };
 
   page.unload = function () {
     map.removeLayer(group);
-    map.off("moveend", update);
+    map.off("moveend", loadFirstChangesets);
 
     $("#history_tab").removeClass("current");
   };
