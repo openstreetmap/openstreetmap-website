@@ -54,5 +54,5 @@ For a standalone ohm-website development server, follow the steps below:
 3. Run `docker compose up --build`
 4. Visit http://localhost:3000
 5. Create an account
-6. Follow instructions in [CONFIGURE.md](https://github.com/OpenHistoricalMap/ohm-website/blob/staging/CONFIGURE.md) to activate the user, provide admin, and create OAuth2 tokens for iD and Website. Supply these keys in settings.local.yml
+6. Follow instructions in [CONFIGURE.md](https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md) to activate the user, provide admin, and create OAuth2 tokens for iD and Website. Supply these keys in settings.local.yml
 7. Restart containers
