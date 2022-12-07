@@ -49,11 +49,23 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 
 # Docker for local development
 For a standalone ohm-website development server, follow the steps below:
-1. Create a ohm-docker.env from ohm-docker.env.example. If you are using the database as part the docker setup in this repo, leave the defaults.
-2. Create a config/settings.local.yml from config/settings.yml
-3. Run `docker compose up --build`. If you encounter any "SEGFAULT" 139 errors, you need to allocate more memory to Docker. Go to the GUI Docker Dashboard > Settings and allocate at least 6GB.
+1. Create a ohm-docker.env from ohm-docker.env.example. If you are using the database as part the docker setup in this repo, leave the defaults. This command is an easy way to do that:
+```bash
+cp ohm-docker.env.example ohm-docker.env
+```
+2. Create a config/settings.local.yml from config/settings.yml. This command is an easy way to do that:
+```bash
+cp config/settings.yml config/settings.local.yml
+```
+
+3. Run `docker compose up --build`. 
+If you encounter any `SEGFAULT` Code 139 errors, you need to allocate more memory to Docker. Go to the GUI Docker Dashboard > Settings and allocate at least 6GB.
+
 4. Visit http://localhost:3000
-5. Create an account
-6. Follow instructions in [CONFIGURE.md](https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md) to activate the user, provide admin, and create OAuth2 tokens for iD and Website. Supply these keys in settings.local.yml. To activate user, you'll need to open a bash session in the container, so you can run the Rails commands in the OSM docs. Do that with:
-`docker exec -it ohm-website-web-1 bash`
-7. Restart containers
+5. Create an account using the Sign up link.
+
+6. Follow instructions in the Managing users section of [CONFIGURE.md](https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md#managing-users) to activate the user, provide admin privileges, and create OAuth2 tokens for iD and Website. That file also shows how to supply these keys in settings.local.yml. 
+
+To activate user, you'll need to open a bash session in the container, so you can run the Rails commands in the OSM docs. Do that in a new terminal window with `docker exec -it ohm-website-web-1 bash`, then follow the Rails specific commans in CONFIGURE.md.
+
+7. Restart containers by going back to your temrinal where they are running, stopping them with ctrl-C to stop the containers, and then doing `docker compose up` to start them up again.
