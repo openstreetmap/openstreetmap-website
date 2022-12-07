@@ -51,6 +51,30 @@ class HistoryTest < ApplicationSystemTestCase
     changesets.assert_selector "li", :count => (2 * PAGE_SIZE) + 1
   end
 
+  test "limit user's changesets with max_id" do
+    user = create(:user)
+    changeset1 = create_visible_changeset(user, "first-changeset-in-history")
+    changeset2 = create_visible_changeset(user, "last-changeset-in-history")
+
+    visit "#{user_path(user)}/history"
+    find "div.changesets" do |changesets|
+      changesets.assert_text "first-changeset-in-history"
+      changesets.assert_text "last-changeset-in-history"
+    end
+
+    visit "#{user_path(user)}/history?max_id=#{changeset2.id}"
+    find "div.changesets" do |changesets|
+      changesets.assert_text "first-changeset-in-history"
+      changesets.assert_text "last-changeset-in-history"
+    end
+
+    visit "#{user_path(user)}/history?max_id=#{changeset1.id}"
+    find "div.changesets" do |changesets|
+      changesets.assert_text "first-changeset-in-history"
+      changesets.assert_no_text "last-changeset-in-history"
+    end
+  end
+
   def create_visible_changeset(user, comment)
     create(:changeset, :user => user, :num_changes => 1) do |changeset|
       create(:changeset_tag, :changeset => changeset, :k => "comment", :v => comment)

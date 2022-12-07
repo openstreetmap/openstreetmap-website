@@ -155,6 +155,28 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Check the 'load more' link and the max_id parameter of user changesets listing xhr responses
+  def test_index_user_max_id
+    user = create(:user)
+    changesets = create_list(:changeset, 30, :num_changes => 1, :user => user)
+    max_id = changesets[-20].id - 1
+
+    get "#{user_path(user)}/history?list=1", :xhr => true
+    assert_response :success
+    assert_template "index"
+    assert_select "a.btn", :text => "Load more", :count => 1 do
+      assert_select "[href=?]", "#{user_path(user)}/history?max_id=#{max_id}"
+    end
+    check_index_result(changesets.last(20))
+
+    get "#{user_path(user)}/history?max_id=#{max_id}&list=1", :xhr => true
+    assert_response :success
+    assert_template "index"
+    assert_select "a.btn", :text => "Load more", :count => 0
+    check_index_result(changesets.first(10))
+  end
+
+  ##
   # Checks the display of the friends changesets listing
   def test_index_friends
     private_user = create(:user, :data_public => true)
