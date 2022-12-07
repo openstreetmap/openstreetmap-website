@@ -7,6 +7,3 @@ psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" <<-EOSQL
     CREATE USER openstreetmap SUPERUSER PASSWORD 'openstreetmap';
     GRANT ALL PRIVILEGES ON DATABASE openstreetmap TO openstreetmap;
 EOSQL
-
-# Define custom functions
-psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -f "/usr/local/share/osm-db-functions.sql" openstreetmap

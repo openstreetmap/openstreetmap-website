@@ -40,7 +40,6 @@ jobs:
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
-        psql -f db/functions/functions.sql openstreetmap
     - name: Configure rails
       run: |
         cp config/github.database.yml config/database.yml
