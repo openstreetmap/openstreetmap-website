@@ -8,25 +8,14 @@ class TileNodes < ActiveRecord::Migration[4.2]
   end
 
   def self.upgrade_table(from_table, to_table, model)
-    if ENV["USE_DB_FUNCTIONS"]
-      execute <<-SQL.squish
-      INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
-      SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
-             user_id, visible, tags, timestamp,
-             tile_for_point(CAST(ROUND(latitude * 10000000) AS INTEGER),
-                            CAST(ROUND(longitude * 10000000) AS INTEGER))
-      FROM #{from_table}
-      SQL
-    else
-      execute <<-SQL.squish
-      INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
-      SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
-             user_id, visible, tags, timestamp, 0
-      FROM #{from_table}
-      SQL
+    execute <<-SQL.squish
+    INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
+    SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
+            user_id, visible, tags, timestamp, 0
+    FROM #{from_table}
+    SQL
 
-      model.all.each(&:save!)
-    end
+    model.all.each(&:save!)
   end
 
   def self.downgrade_table(from_table, to_table)
