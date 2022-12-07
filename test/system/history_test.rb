@@ -75,6 +75,25 @@ class HistoryTest < ApplicationSystemTestCase
     end
   end
 
+  test "update sidebar when max_id is included and map is moved" do
+    changeset1 = create(:changeset, :num_changes => 1, :min_lat => 50000000, :max_lat => 50000001, :min_lon => 50000000, :max_lon => 50000001)
+    create(:changeset_tag, :changeset => changeset1, :k => "comment", :v => "changeset-at-fives")
+    changeset2 = create(:changeset, :num_changes => 1, :min_lat => 50100000, :max_lat => 50100001, :min_lon => 50100000, :max_lon => 50100001)
+    create(:changeset_tag, :changeset => changeset2, :k => "comment", :v => "changeset-close-to-fives")
+
+    visit "#{history_path(changeset2.id)}#map=17/5/5"
+    find "div.changesets" do |changesets|
+      changesets.assert_text "changeset-at-fives"
+      changesets.assert_no_text "changeset-close-to-fives"
+    end
+
+    visit "#{history_path(changeset2.id)}#map=10/5/5"
+    find "div.changesets" do |changesets|
+      changesets.assert_text "changeset-at-fives"
+      changesets.assert_text "changeset-close-to-fives"
+    end
+  end
+
   def create_visible_changeset(user, comment)
     create(:changeset, :user => user, :num_changes => 1) do |changeset|
       create(:changeset_tag, :changeset => changeset, :k => "comment", :v => comment)

@@ -98,11 +98,15 @@ OSM.History = function (map) {
   function prepareAjaxData() {
     var data = { list: "1" };
 
-    if (window.location.pathname === "/history") { // TODO update for "/history/:max_id"
+    if (isPlaceHistory()) {
       data.bbox = map.getBounds().wrap().toBBoxString();
     }
 
     return data;
+  }
+
+  function isPlaceHistory() {
+    return window.location.pathname.indexOf("/history") === 0;
   }
 
   var changesets = [];
@@ -153,10 +157,15 @@ OSM.History = function (map) {
 
     updateBounds();
 
-    if (window.location.pathname !== "/history") {
+    if (!isPlaceHistory()) {
       var bounds = group.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
+  }
+
+  function updatePlaceHistoryBecauseOfMapMovement() {
+    // TODO remove max_id from url
+    loadFirstChangesets();
   }
 
   page.pushstate = page.popstate = function (path) {
@@ -167,8 +176,8 @@ OSM.History = function (map) {
   page.load = function () {
     map.addLayer(group);
 
-    if (window.location.pathname === "/history") {
-      map.on("moveend", loadFirstChangesets);
+    if (isPlaceHistory()) {
+      map.on("moveend", updatePlaceHistoryBecauseOfMapMovement);
     }
 
     map.on("zoomend", updateBounds);
@@ -178,7 +187,7 @@ OSM.History = function (map) {
 
   page.unload = function () {
     map.removeLayer(group);
-    map.off("moveend", loadFirstChangesets);
+    map.off("moveend", updatePlaceHistoryBecauseOfMapMovement);
 
     $("#history_tab").removeClass("current");
   };
