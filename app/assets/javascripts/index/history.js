@@ -55,8 +55,8 @@ OSM.History = function (map) {
     newList.remove();
   }
 
-  function loadFirstChangesets() {
-    var data = prepareAjaxData();
+  function loadFirstChangesets(maxId) {
+    var data = prepareAjaxData(maxId);
 
     if (data.bbox) {
       var feedLink = $("link[type=\"application/atom+xml\"]"),
@@ -95,9 +95,12 @@ OSM.History = function (map) {
     });
   }
 
-  function prepareAjaxData() {
+  function prepareAjaxData(maxId) {
     var data = { list: "1" };
 
+    if (maxId) {
+      data.max_id = maxId;
+    }
     if (window.location.pathname === "/history") {
       data.bbox = map.getBounds().wrap().toBBoxString();
     }
@@ -161,10 +164,12 @@ OSM.History = function (map) {
 
   page.pushstate = page.popstate = function (path) {
     $("#history_tab").addClass("current");
-    OSM.loadSidebarContent(path, page.load);
+    OSM.loadSidebarContent(path, function () {
+      page.load(path);
+    });
   };
 
-  page.load = function () {
+  page.load = function (path) {
     map.addLayer(group);
 
     if (window.location.pathname === "/history") {
@@ -173,7 +178,14 @@ OSM.History = function (map) {
 
     map.on("zoomend", updateBounds);
 
-    loadFirstChangesets();
+    var maxId;
+    var paramsIndex = path.indexOf("?");
+    if (paramsIndex >= 0) {
+      var params = Qs.parse(path.substring(paramsIndex + 1));
+      maxId = params.max_id;
+    }
+
+    loadFirstChangesets(maxId);
   };
 
   page.unload = function () {
