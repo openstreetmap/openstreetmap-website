@@ -51,8 +51,9 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 For a standalone ohm-website development server, follow the steps below:
 1. Create a ohm-docker.env from ohm-docker.env.example. If you are using the database as part the docker setup in this repo, leave the defaults.
 2. Create a config/settings.local.yml from config/settings.yml
-3. Run `docker compose up --build`
+3. Run `docker compose up --build`. If you encounter any "SEGFAULT" 139 errors, you need to allocate more memory to Docker. Go to the GUI Docker Dashboard > Settings and allocate at least 6GB.
 4. Visit http://localhost:3000
 5. Create an account
-6. Follow instructions in [CONFIGURE.md](https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md) to activate the user, provide admin, and create OAuth2 tokens for iD and Website. Supply these keys in settings.local.yml
+6. Follow instructions in [CONFIGURE.md](https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md) to activate the user, provide admin, and create OAuth2 tokens for iD and Website. Supply these keys in settings.local.yml. To activate user, you'll need to open a bash session in the container, so you can run the Rails commands in the OSM docs. Do that with:
+`docker exec -it ohm-website-web-1 bash`
 7. Restart containers
