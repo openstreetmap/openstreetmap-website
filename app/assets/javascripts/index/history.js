@@ -56,10 +56,9 @@ OSM.History = function (map) {
   }
 
   function update() {
-    var data = { list: "1" };
+    var data = prepareAjaxData();
 
-    if (window.location.pathname === "/history") {
-      data.bbox = map.getBounds().wrap().toBBoxString();
+    if (data.bbox) {
       var feedLink = $("link[type=\"application/atom+xml\"]"),
           feedHref = feedLink.attr("href").split("?")[0];
       feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
@@ -67,7 +66,6 @@ OSM.History = function (map) {
 
     $.ajax({
       url: window.location.pathname,
-      method: "GET",
       data: data,
       success: function (html) {
         displayFirstChangesets(html);
@@ -85,10 +83,26 @@ OSM.History = function (map) {
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function (html) {
-      displayMoreChangesets(html);
-      updateMap();
+    var data = prepareAjaxData();
+
+    $.ajax({
+      url: $(this).attr("href"),
+      data: data,
+      success: function (html) {
+        displayMoreChangesets(html);
+        updateMap();
+      }
     });
+  }
+
+  function prepareAjaxData() {
+    var data = { list: "1" };
+
+    if (window.location.pathname === "/history") {
+      data.bbox = map.getBounds().wrap().toBBoxString();
+    }
+
+    return data;
   }
 
   var changesets = [];
