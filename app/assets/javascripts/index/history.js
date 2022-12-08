@@ -58,7 +58,7 @@ OSM.History = function (map) {
   function update() {
     var data = { list: "1" };
 
-    if (window.location.pathname === "/history") {
+    if (isPlaceHistory()) {
       data.bbox = map.getBounds().wrap().toBBoxString();
       var feedLink = $("link[type=\"application/atom+xml\"]"),
           feedHref = feedLink.attr("href").split("?")[0];
@@ -89,6 +89,10 @@ OSM.History = function (map) {
       displayMoreChangesets(html);
       updateMap();
     });
+  }
+
+  function isPlaceHistory() {
+    return window.location.pathname.indexOf("/history") === 0;
   }
 
   var changesets = [];
@@ -139,7 +143,7 @@ OSM.History = function (map) {
 
     updateBounds();
 
-    if (window.location.pathname !== "/history") {
+    if (!isPlaceHistory()) {
       var bounds = group.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
@@ -153,7 +157,7 @@ OSM.History = function (map) {
   page.load = function () {
     map.addLayer(group);
 
-    if (window.location.pathname === "/history") {
+    if (isPlaceHistory()) {
       map.on("moveend", update);
     }
 
