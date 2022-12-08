@@ -37,4 +37,10 @@ class IndexTest < ApplicationSystemTestCase
     visible_note_marker.click
     assert_selector "#sidebar", :text => "this-is-a-visible-note"
   end
+
+  test "can close sidebar with empty query" do
+    visit query_path
+    find("#sidebar .btn-close").click
+    assert_current_path "/"
+  end
 end

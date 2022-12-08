@@ -352,8 +352,11 @@ OSM.Query = function (map) {
   };
 
   page.load = function (path, noCentre) {
-    var params = Qs.parse(path.substring(path.indexOf("?") + 1)),
-        latlng = L.latLng(params.lat, params.lon);
+    var params = Qs.parse(path.substring(path.indexOf("?") + 1));
+
+    if (!("lat" in params) || !("lon" in params)) return;
+
+    var latlng = L.latLng(params.lat, params.lon);
 
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
       OSM.router.withoutMoveListener(function () {
