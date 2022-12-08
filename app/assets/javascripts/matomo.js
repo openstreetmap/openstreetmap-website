@@ -14,6 +14,18 @@ if (OSM.MATOMO) {
           matomoTracker.setUserId(OSM.user.toString());
         }
 
+        if (OSM.MATOMO.visitor_cookie_timeout) {
+          matomoTracker.setVisitorCookieTimeout(OSM.MATOMO.visitor_cookie_timeout);
+        }
+
+        if (OSM.MATOMO.referral_cookie_timeout) {
+          matomoTracker.setReferralCookieTimeout(OSM.MATOMO.referral_cookie_timeout);
+        }
+
+        if (OSM.MATOMO.session_cookie_timeout) {
+          matomoTracker.setSessionCookieTimeout(OSM.MATOMO.session_cookie_timeout);
+        }
+
         matomoTracker.trackPageView();
         matomoTracker.enableLinkTracking();
 
