@@ -43,4 +43,10 @@ class IndexTest < ApplicationSystemTestCase
     find("#sidebar .btn-close").click
     assert_current_path "/"
   end
+
+  test "can close sidebar with invalid query" do
+    visit "#{query_path}?lat=wrong&lon=wrong"
+    find("#sidebar .btn-close").click
+    assert_current_path "/"
+  end
 end
