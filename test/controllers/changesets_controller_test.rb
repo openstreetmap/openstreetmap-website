@@ -9,6 +9,10 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
       { :controller => "changesets", :action => "index", :display_name => "name" }
     )
     assert_routing(
+      { :path => "/user/name/history/123", :method => :get },
+      { :controller => "changesets", :action => "index", :display_name => "name", :max_id => "123" }
+    )
+    assert_routing(
       { :path => "/user/name/history/feed", :method => :get },
       { :controller => "changesets", :action => "feed", :display_name => "name", :format => :atom }
     )
@@ -17,12 +21,24 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
       { :controller => "changesets", :action => "index", :friends => true, :format => :html }
     )
     assert_routing(
+      { :path => "/history/friends/456", :method => :get },
+      { :controller => "changesets", :action => "index", :friends => true, :max_id => "456", :format => :html }
+    )
+    assert_routing(
       { :path => "/history/nearby", :method => :get },
       { :controller => "changesets", :action => "index", :nearby => true, :format => :html }
     )
     assert_routing(
+      { :path => "/history/nearby/789", :method => :get },
+      { :controller => "changesets", :action => "index", :nearby => true, :max_id => "789", :format => :html }
+    )
+    assert_routing(
       { :path => "/history", :method => :get },
       { :controller => "changesets", :action => "index" }
+    )
+    assert_routing(
+      { :path => "/history/147", :method => :get },
+      { :controller => "changesets", :action => "index", :max_id => "147" }
     )
     assert_routing(
       { :path => "/history/feed", :method => :get },
