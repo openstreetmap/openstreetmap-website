@@ -26,7 +26,7 @@ if (OSM.MATOMO) {
           matomoTracker.setSessionCookieTimeout(OSM.MATOMO.session_cookie_timeout);
         }
 
-        matomoTracker.setSecureCookie( true );
+        matomoTracker.setSecureCookie(true);
         matomoTracker.trackPageView();
         matomoTracker.enableLinkTracking();
 
