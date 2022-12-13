@@ -131,6 +131,9 @@ gem "aws-sdk-s3"
 # Used to resize user images
 gem "image_processing"
 
+# Avoid mail 2.8.0 due to https://github.com/mikel/mail/issues/1489
+gem "mail", "~> 2.7.1"
+
 # Gems useful for development
 group :development do
   gem "annotate"
