@@ -19,6 +19,7 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require index/timeslider
 //= require router
 //= require qs/dist/qs
 
@@ -29,7 +30,9 @@ $(document).ready(function () {
     zoomControl: false,
     layerControl: false,
     contextmenu: true,
-    worldCopyJump: true
+    minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
+    maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
+    maxBounds: [[-90, -180], [90, 180]],  /* prevents vector & raster maps from slipping out of sync at extreme latitudes */    worldCopyJump: true
   });
 
   OSM.loadSidebarContent = function (path, callback) {
@@ -305,15 +308,27 @@ $(document).ready(function () {
       document.title = I18n.t("layouts.project_name.title");
     };
 
-    page.load = function () {
-      var params = Qs.parse(location.search.substring(1));
-      if (params.query) {
+    page.load = function() {
+      // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+      // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+      function originalLoadFunction () {
+      var params = querystring.parse(location.search.substring(1));      if (params.query) {
         $("#sidebar .search_form input[name=query]").value(params.query);
       }
       if (!("autofocus" in document.createElement("input"))) {
         $("#sidebar .search_form input[name=query]").focus();
       }
       return map.getState();
+      }  // end originalLoadFunction
+
+      // "if map.timeslider" only try to add the timeslider if we don't already have it
+      if (map.timeslider) {
+        originalLoadFunction();
+      }
+      else {
+        var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+        addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+      }
     };
 
     return page;
@@ -328,19 +343,56 @@ $(document).ready(function () {
       });
     };
 
-    page.load = function (path, id) {
+    // page.load was originally simply the addObject() call
+    // but with MBGLTimeSlider we need to wait for it to become ready
+    page.load = function(path, id) {
+      // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+      // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+      function originalLoadFunction () {
       addObject(type, id, true);
+      }  // end originalLoadFunction
+
+      // "if map.timeslider" only try to add the timeslider if we don't already have it
+      if (map.timeslider) {
+        originalLoadFunction();
+      }
+      else {
+        var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+        addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+      }
     };
 
     function addObject(type, id, center) {
-      map.addObject({ type: type, id: parseInt(id, 10) }, function (bounds) {
-        if (!window.location.hash && bounds.isValid() &&
-            (center || !map.getBounds().contains(bounds))) {
+      // cache these now, before the URL param updating starts and messes it up
+      var hasurlparam_center = window.location.hash.indexOf('map=') !== -1;
+      var hasurlparam_daterange = window.location.hash.indexOf('daterange=') !== -1;
+
+      map.addObject({type: type, id: parseInt(id)}, function(bounds) {
+        const zoomtoit = bounds.isValid() && (center || ! hasurlparam_center);
+        if (zoomtoit) {
           OSM.router.withoutMoveListener(function () {
             map.fitBounds(bounds);
           });
         }
+
+        var drawing = map._objectLayer.getLayers()[0];
+        if (drawing && ! hasurlparam_daterange) {
+          var startdate = drawing.feature.tags.start_date && ! isNaN(parseInt(drawing.feature.tags.start_date)) ? drawing.feature.tags.start_date : undefined;
+          var enddate = drawing.feature.tags.end_date && ! isNaN(parseInt(drawing.feature.tags.end_date)) ? drawing.feature.tags.end_date : undefined;
+
+          if (startdate && enddate) {
+            map.timeslider.setDate(startdate).setRange([startdate, enddate]);
+          }
+          else if (startdate) {
+            map.timeslider.setDate(startdate).setRangeLower(startdate);
+          }
+          else if (enddate) {
+            map.timeslider.setDate(enddate).setRangeUpper(enddate);
+          }
+        }
       });
+
+      setTimeout(addOpenHistoricalMapInspector(), 250);
 
       $(".colour-preview-box").each(function () {
         $(this).css("background-color", $(this).data("colour"));
@@ -353,6 +405,21 @@ $(document).ready(function () {
 
     return page;
   };
+
+  // add the enhanced inspector
+  function addOpenHistoricalMapInspector () {
+    var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
+        debug: true,
+        onFeatureFail: function (type, id) {
+            console.log([ 'failed to load feature', type, id ]);
+        },
+        onFeatureLoaded: function (type, id, xmldoc) {
+            console.log([ 'loaded feature', type, id, xmldoc ]);
+        },
+        apiBaseUrl: "/api/"
+    });
+    inspector.selectFeatureFromUrl();
+  }
 
   var history = OSM.History(map);
 
