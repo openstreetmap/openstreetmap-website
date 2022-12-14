@@ -16,7 +16,7 @@ class ViewCommunitiesTest < ApplicationSystemTestCase
     click_on "Update Preferences"
 
     visit "/communities"
-    assert_link "OpenStreetMap US", :href => "https://www.openstreetmap.us/"
+    assert_link "OpenStreetMap États-Unis", :href => "https://www.openstreetmap.us/"
     assert_link "Chapitre local OpenStreetMap Belgique", :href => "https://openstreetmap.be/"
   end
 end
