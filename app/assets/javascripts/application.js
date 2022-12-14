@@ -77,9 +77,6 @@ window.minimiseMap = function () {
 };
 
 $(document).ready(function () {
-  $("#edit_tab")
-    .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
-
   var headerWidth = 0,
       compactWidth = 0;
 
@@ -147,4 +144,7 @@ $(document).ready(function () {
   if (application_data.location) {
     OSM.location = application_data.location;
   }
+
+  $("#edit_tab")
+    .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
 });
