@@ -14,14 +14,31 @@ module OsmCommunityIndex
         id = community.id
 
         strings = community_locale_yaml[id] || {}
-        # if the name isn't defined then fall back on community,
-        # as per discussion here: https://github.com/osmlab/osm-community-index/issues/483
-        strings["name"] = strings["name"] || community.strings["name"] || community.strings["community"]
+        strings["name"] = resolve_name(community, community_locale_yaml)
 
         obj.deep_merge!("osm_community_index" => { "communities" => { id => strings } })
       end
 
       I18n.backend.store_translations locale_rails, data
     end
+  end
+
+  def self.resolve_name(community, community_locale_yaml)
+    # If theres an explicitly translated name then use that
+    translated_name = community_locale_yaml.dig(community.id, "name")
+    return translated_name if translated_name
+
+    # If not, then look up the default translated name for this type of community, and interpolate the template
+    template = community_locale_yaml.dig("_defaults", community.type, "name")
+    community_name = community_locale_yaml.dig("_communities", community.strings["communityID"])
+    # Change the `{community}` placeholder to `%{community}` and use Ruby's Kernel.format to fill it in.
+    translated_name = format(template.gsub("{", "%{"), { :community => community_name }) if template && community_name
+    return translated_name if translated_name
+
+    # Otherwise fall back to the (English-language) resource name
+    return community.strings["name"] if community.strings["name"]
+
+    # Finally use the (English-language) community name
+    community.strings["community"]
   end
 end
