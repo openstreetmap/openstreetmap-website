@@ -52,15 +52,9 @@ For a standalone ohm-website development server, follow the steps below:
 
 1. Check out this repository to your local machine. Make sure you also have Docker installed. You can get Docker at https://docs.docker.com/get-docker/
 
-2. Make a new file at `config/storage.yml` with the following contents:
-```yml
-test:
-  service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
-
-local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
+2. Create a `config/storage.yml` from `config/example.storage.yml` with 
+```bash
+cp config/example.storage.yml config/storage.yml
 ```
 
 3. Create a ohm-docker.env from ohm-docker.env.example. If you are using the database as part the docker setup in this repo, leave the defaults. This command is an easy way to do that:
@@ -84,3 +78,43 @@ If you encounter any `SEGFAULT` Code 139 errors, you need to allocate more memor
 To activate user, you'll need to open a bash session in the container, so you can run the Rails commands in the OSM docs. Do that in a new terminal window with `docker exec -it ohm-website-web-1 bash`, then follow the Rails specific commans in CONFIGURE.md.
 
 9. Restart containers by going back to your temrinal where they are running, stopping them with ctrl-C to stop the containers, and then doing `docker compose up` to start them up again.
+
+# Populating Local Data
+
+For testing purposes, it is useful to pull in data from the live OHm or staging website so you can see real-world examples of how the system is handling tags, etc.
+
+Rather than importing a whole planet file, an easy way to do this is to find items on the live website you want to test, export them, and then import them locally.
+
+Some good ways to find relevant content are using https://taginfo.openhistoricalmap.org to find specific keys or values, or using Overpass Turbo for the same purpose, at https://openhistoricalmap.github.io/overpass-turbo.
+
+Once you find a item you want to import, navigate to it on the live website, like at https://staging.openhistoricalmap.org/way/198291609
+
+Open your browser's Dev Tools network panel, then open the Map Layers window on the right side of the OHM website. Select "Map Data" to load the map data from OHM database.
+
+Search the network panel for BBOX and you’ll find an API call like this: https://staging.openhistoricalmap.org/api/0.6/map?bbox=-122.3349925875664,47.59867932091805,-122.33449235558511,47.59930511547229. 
+
+Putting that as the wget [URL] -O map.osm target of the following shell script would get you all the features in that BBOX.
+
+Run this inside the Docker container:
+
+```bash
+apt update
+apt-get install -y wget
+
+#replace this link with whatever BBOX you want to import. Be sure to retain the flag and filename after the URL
+wget https://www.openhistoricalmap.org/api/0.6/map?bbox=-122.33347713947298,47.60143384611086,-122.33222991228105,47.60254791359933 -O map.osm
+
+osmosis --read-xml \
+        file=map.osm \
+        --write-apidb \
+        host=$POSTGRES_HOST \
+        database=$POSTGRES_DATABASE \
+        user=$POSTGRES_USER \
+        password=$POSTGRES_PASSWORD \
+        validateSchemaVersion=no
+
+#this updates instneral datbase to recognize the data you just imported with proper IDs
+psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval('current_nodes_id_seq', (select max(node_id) from nodes));"
+    psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval('current_ways_id_seq', (select max(way_id) from ways));"
+    psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval('current_relations_id_seq', (select max(relation_id) from relations));"
+```
