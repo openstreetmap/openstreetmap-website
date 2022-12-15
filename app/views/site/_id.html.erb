@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
-  <%= stylesheet_link_tag "id" %>
-  <!--[if !IE || gte IE 9]><!-->
-  <%= javascript_include_tag "id" %>
-  <!-- <![endif]-->
-</head>
-<body>
-<% data = {}
-   if Settings.key?(:id_application)
-     token = current_user.oauth_token(Settings.id_application)
-     data[:token] = token.token
-   end
-   data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s
-   data[:asset_map] = assets("iD").to_json %>
-<%= tag.div "", :id => "id-container", :data => data %>
-</body>
-</html>
+<%= javascript_include_tag "edit/id" %>
+
+<div id="map">
+  <% data = { :configured => Settings.key?(:id_application) }
+     data[:lat] = @lat if @lat
+     data[:lon] = @lon if @lon
+     data[:gpx] = trace_data_url(params[:gpx], :format => :xml) if params[:gpx]
+     data[:url] = id_url(:locale => params[:locale]) %>
+  <%= tag.iframe "", :frameBorder => 0, :id => "id-embed", :class => "id-embed", :allowfullscreen => "", :data => data %>
+</div>
