@@ -32,7 +32,7 @@ $(document).ready(function () {
     contextmenu: true,
     minZoom: 2,  /* match to "L.MapboxGL" options in leaflet.map.js */
     maxZoom: 20,  /* match to "L.MapboxGL" options in leaflet.map.js */
-    maxBounds: [[-90, -180], [90, 180]],  /* prevents vector & raster maps from slipping out of sync at extreme latitudes */
+    maxBounds: [[-90, -180], [90, 180]],  /* prevents vector & raster maps from slipping out of sync at extreme latitudes */    worldCopyJump: true
   });
 
   OSM.loadSidebarContent = function (path, callback) {
@@ -90,7 +90,7 @@ $(document).ready(function () {
 
   var params = OSM.mapParams();
 
-  map.attributionControl.setPrefix('');
+  map.attributionControl.setPrefix("");
 
   map.updateLayers(params.layers);
 
@@ -142,9 +142,9 @@ $(document).ready(function () {
   }).addTo(map);
 
   L.OSM.share({
-    "position": position,
-    "sidebar": sidebar,
-    "short": true
+    position: position,
+    sidebar: sidebar,
+    short: true
   }).addTo(map);
 
   L.OSM.note({
@@ -198,7 +198,7 @@ $(document).ready(function () {
     $(".welcome").addClass("visible");
   }
 
-  $(".welcome .close").on("click", function () {
+  $(".welcome .btn-close").on("click", function () {
     $(".welcome").removeClass("visible");
     Cookies.set("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/", samesite: "lax" });
   });
@@ -206,7 +206,7 @@ $(document).ready(function () {
   var bannerExpiry = new Date();
   bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
-  $("#banner .close-wrap").on("click", function (e) {
+  $("#banner .btn-close").on("click", function (e) {
     var cookieId = e.target.id;
     $("#banner").hide();
     e.preventDefault();
@@ -312,8 +312,7 @@ $(document).ready(function () {
       // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
       // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
       function originalLoadFunction () {
-      var params = querystring.parse(location.search.substring(1));
-      if (params.query) {
+      var params = querystring.parse(location.search.substring(1));      if (params.query) {
         $("#sidebar .search_form input[name=query]").value(params.query);
       }
       if (!("autofocus" in document.createElement("input"))) {
@@ -394,6 +393,10 @@ $(document).ready(function () {
       });
 
       setTimeout(addOpenHistoricalMapInspector(), 250);
+
+      $(".colour-preview-box").each(function () {
+        $(this).css("background-color", $(this).data("colour"));
+      });
     }
 
     page.unload = function () {

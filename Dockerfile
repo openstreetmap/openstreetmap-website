@@ -26,6 +26,7 @@ RUN apt-get update \
       tzdata \
       unzip \
       yarnpkg \
+      git \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -45,6 +46,9 @@ RUN gem install bundler \
  && bundle install
 
 # Install NodeJS packages using yarnpkg
-# `bundle exec rake yarn:install` will not work
 ADD package.json yarn.lock /app/
 RUN yarnpkg --ignore-engines install
+
+# Update vendor assets
+ADD Vendorfile /app/
+RUN vendorer update

@@ -117,14 +117,15 @@ GEM
       debug_inspector (>= 0.0.1)
     bootsnap (1.11.1)
       msgpack (~> 1.2)
-    bootstrap (4.5.3)
+    bootstrap (5.1.3)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
+      popper_js (>= 2.9.3, < 3)
       sassc-rails (>= 2.0.0)
-    bootstrap_form (4.5.0)
+    bootstrap_form (5.1.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     brakeman (5.2.3)
+    brotli (0.4.0)
     browser (5.3.1)
     builder (3.2.4)
     bzip2-ffi (1.1.0)
@@ -225,6 +226,8 @@ GEM
       rake
     ffi-libarchive (1.1.3)
       ffi (~> 1.0)
+    frozen_record (0.26.2)
+      activemodel
     fspath (3.1.2)
     gd2-ffij (0.4.0)
       ffi (>= 1.0.0)
@@ -357,7 +360,7 @@ GEM
     parser (3.1.2.0)
       ast (~> 2.4.1)
     pg (1.3.5)
-    popper_js (1.16.0)
+    popper_js (2.11.6)
     progress (3.6.0)
     public_suffix (4.0.7)
     puma (5.6.4)
@@ -475,6 +478,9 @@ GEM
     sprockets (4.0.3)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
+    sprockets-exporters_pack (0.1.2)
+      brotli (>= 0.2.0)
+      sprockets (>= 4.0.0.beta3)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
@@ -519,8 +525,8 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap (>= 1.4.2)
-  bootstrap (~> 4.5.0)
-  bootstrap_form (~> 4.0)
+  bootstrap (~> 5.1.0)
+  bootstrap_form (~> 5.0)
   brakeman
   browser
   bzip2-ffi
@@ -539,10 +545,11 @@ DEPENDENCIES
   factory_bot_rails
   faraday
   ffi-libarchive
+  frozen_record
   gd2-ffij (>= 0.4.0)
   htmlentities
   http_accept_language (~> 2.1.1)
-  i18n-js (>= 3.0.0)
+  i18n-js (~> 3.9.2)
   image_optim_rails
   image_processing
   jbuilder (~> 2.7)
@@ -572,7 +579,7 @@ DEPENDENCIES
   r2 (~> 0.2.7)
   rack-cors
   rack-uri_sanitizer
-  rails (= 7.0.3)
+  rails (~> 7.0.0)
   rails-controller-testing
   rails-i18n (~> 7.0.0)
   rinku (>= 2.0.6)
@@ -588,6 +595,7 @@ DEPENDENCIES
   selenium-webdriver
   simplecov
   simplecov-lcov
+  sprockets-exporters_pack
   strong_migrations
   terser
   validates_email_format_of (>= 1.5.1)
@@ -595,4 +603,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.3.14
+   2.3.26
