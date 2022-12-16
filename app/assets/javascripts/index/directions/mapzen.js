@@ -29,7 +29,7 @@ function MapzenEngine(id, costing) {
     10, // kRoundaboutEnter = 26;
     11, // kRoundaboutExit = 27;
     17, // kFerryEnter = 28;
-    0, // kFerryExit = 29;
+    0 // kFerryExit = 29;
   ];
 
   return {
@@ -50,9 +50,9 @@ function MapzenEngine(id, costing) {
             costing: costing,
             directions_options: {
               units: "km",
-              language: I18n.currentLocale(),
-            },
-          }),
+              language: I18n.currentLocale()
+            }
+          })
         },
         dataType: "json",
         success: function (data) {
@@ -66,7 +66,7 @@ function MapzenEngine(id, costing) {
 
             trip.legs.forEach(function (leg) {
               var legLine = L.PolylineUtil.decode(leg.shape, {
-                precision: 6,
+                precision: 6
               });
 
               line = line.concat(legLine);
@@ -79,7 +79,7 @@ function MapzenEngine(id, costing) {
                   MZ_INSTR_MAP[manoeuvre.type],
                   manoeuvre.instruction,
                   manoeuvre.length * 1000,
-                  [],
+                  []
                 ]);
               });
 
@@ -91,7 +91,7 @@ function MapzenEngine(id, costing) {
               line: line,
               steps: steps,
               distance: distance * 1000,
-              time: time,
+              time: time
             });
           } else {
             callback(true);
@@ -99,9 +99,9 @@ function MapzenEngine(id, costing) {
         },
         error: function () {
           callback(true);
-        },
+        }
       });
-    },
+    }
   };
 }
 
