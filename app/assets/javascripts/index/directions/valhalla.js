@@ -35,7 +35,7 @@ function ValhallaEngine(id, costing) {
   return {
     id: id,
     creditline:
-      "<a href='https://github.com/valhalla/valhalla' target='_blank'>Valhalla</a>",
+      "<a href='https://gis-ops.com/global-open-valhalla-server-online/' target='_blank'>Valhalla Routing Service (FOSSGIS)</a>",
     draggable: false,
 
     getRoute: function (points, callback) {
