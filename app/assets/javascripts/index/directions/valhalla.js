@@ -1,5 +1,5 @@
 function ValhallaEngine(id, costing) {
-  var MZ_INSTR_MAP = [
+  var INSTR_MAP = [
     0, // kNone = 0;
     8, // kStart = 1;
     8, // kStartRight = 2;
@@ -78,7 +78,7 @@ function ValhallaEngine(id, costing) {
 
                 steps.push([
                   { lat: point[0], lng: point[1] },
-                  MZ_INSTR_MAP[manoeuvre.type],
+                  INSTR_MAP[manoeuvre.type],
                   manoeuvre.instruction,
                   manoeuvre.length * 1000,
                   []
