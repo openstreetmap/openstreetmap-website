@@ -289,7 +289,7 @@ class ApplicationController < ActionController::Base
     append_content_security_policy_directives(
       :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url],
+      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url],
       :form_action => %w[render.openstreetmap.org],
       :style_src => %w['unsafe-inline']
     )
