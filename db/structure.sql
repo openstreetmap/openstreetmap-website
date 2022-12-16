@@ -17,13 +17,6 @@ CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
-
-
---
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -114,9 +107,9 @@ CREATE TYPE public.user_status_enum AS ENUM (
     'deleted'
 );
 
-
 SET default_tablespace = '';
 
+SET default_table_access_method = heap;
 --
 -- Name: acls; Type: TABLE; Schema: public; Owner: -
 --
@@ -3445,5 +3438,3 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('7'),
 ('8'),
 ('9');
-
-
