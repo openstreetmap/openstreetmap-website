@@ -1,12 +1,12 @@
-// FOSSGIS engine (OSRM based)
+// OSRM engine
 // Doesn't yet support hints
 
-function FOSSGISEngine(id, vehicleType) {
+function OSRMEngine(id, vehicleType) {
   var cachedHints = [];
 
   return {
     id: id,
-    creditline: "<a href=\"https://routing.openstreetmap.de/about.html\" target=\"_blank\">FOSSGIS Routing Service</a>",
+    creditline: "<a href=\"https://routing.openstreetmap.de/about.html\" target=\"_blank\">OSRM (FOSSGIS)</a>",
     draggable: true,
 
     _transformSteps: function (input_steps, line) {
@@ -207,7 +207,6 @@ function FOSSGISEngine(id, vehicleType) {
   };
 }
 
-OSM.Directions.addEngine(new FOSSGISEngine("fossgis_osrm_car", "car"), true);
-OSM.Directions.addEngine(new FOSSGISEngine("fossgis_osrm_bike", "bike"), true);
-OSM.Directions.addEngine(new FOSSGISEngine("fossgis_osrm_foot", "foot"), true);
-
+OSM.Directions.addEngine(new OSRMEngine("fossgis_osrm_car", "car"), true);
+OSM.Directions.addEngine(new OSRMEngine("fossgis_osrm_bike", "bike"), true);
+OSM.Directions.addEngine(new OSRMEngine("fossgis_osrm_foot", "foot"), true);
