@@ -29,7 +29,10 @@ function ValhallaEngine(id, costing) {
     10, // kRoundaboutEnter = 26;
     11, // kRoundaboutExit = 27;
     17, // kFerryEnter = 28;
-    0 // kFerryExit = 29;
+    0, // kFerryExit = 29;
+    ...Array(7).fill(), // irrelevant transit maneuvers
+    21, // kMergeRight = 37;
+    20 // kMergeLeft = 38;
   ];
 
   return {
