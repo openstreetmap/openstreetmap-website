@@ -1,40 +1,41 @@
 function MapzenEngine(id, costing) {
   var MZ_INSTR_MAP = [
-    0,  // kNone = 0;
+    0, // kNone = 0;
     8, // kStart = 1;
     8, // kStartRight = 2;
     8, // kStartLeft = 3;
-    14,  // kDestination = 4;
-    14,  // kDestinationRight = 5;
-    14,  // kDestinationLeft = 6;
-    0,  // kBecomes = 7;
-    0,  // kContinue = 8;
-    1,  // kSlightRight = 9;
-    2,  // kRight = 10;
-    3,  // kSharpRight = 11;
-    4,  // kUturnRight = 12;
-    4,  // kUturnLeft = 13;
-    7,  // kSharpLeft = 14;
-    6,  // kLeft = 15;
-    5,  // kSlightLeft = 16;
-    0,  // kRampStraight = 17;
+    14, // kDestination = 4;
+    14, // kDestinationRight = 5;
+    14, // kDestinationLeft = 6;
+    0, // kBecomes = 7;
+    0, // kContinue = 8;
+    1, // kSlightRight = 9;
+    2, // kRight = 10;
+    3, // kSharpRight = 11;
+    4, // kUturnRight = 12;
+    4, // kUturnLeft = 13;
+    7, // kSharpLeft = 14;
+    6, // kLeft = 15;
+    5, // kSlightLeft = 16;
+    0, // kRampStraight = 17;
     24, // kRampRight = 18;
     25, // kRampLeft = 19;
     24, // kExitRight = 20;
     25, // kExitLeft = 21;
-    0,  // kStayStraight = 22;
-    1,  // kStayRight = 23;
-    5,  // kStayLeft = 24;
+    0, // kStayStraight = 22;
+    1, // kStayRight = 23;
+    5, // kStayLeft = 24;
     20, // kMerge = 25;
     10, // kRoundaboutEnter = 26;
     11, // kRoundaboutExit = 27;
     17, // kFerryEnter = 28;
-    0   // kFerryExit = 29;
+    0, // kFerryExit = 29;
   ];
 
   return {
     id: id,
-    creditline: "<a href='https://mapzen.com/products/turn-by-turn/' target='_blank'>Mapzen</a>",
+    creditline:
+      "<a href='https://mapzen.com/products/turn-by-turn/' target='_blank'>Mapzen</a>",
     draggable: false,
 
     getRoute: function (points, callback) {
@@ -43,13 +44,15 @@ function MapzenEngine(id, costing) {
         data: {
           api_key: OSM.MAPZEN_VALHALLA_KEY,
           json: JSON.stringify({
-            locations: points.map(function (p) { return { lat: p.lat, lon: p.lng }; }),
+            locations: points.map(function (p) {
+              return { lat: p.lat, lon: p.lng };
+            }),
             costing: costing,
             directions_options: {
               units: "km",
-              language: I18n.currentLocale()
-            }
-          })
+              language: I18n.currentLocale(),
+            },
+          }),
         },
         dataType: "json",
         success: function (data) {
@@ -63,7 +66,7 @@ function MapzenEngine(id, costing) {
 
             trip.legs.forEach(function (leg) {
               var legLine = L.PolylineUtil.decode(leg.shape, {
-                precision: 6
+                precision: 6,
               });
 
               line = line.concat(legLine);
@@ -76,7 +79,7 @@ function MapzenEngine(id, costing) {
                   MZ_INSTR_MAP[manoeuvre.type],
                   manoeuvre.instruction,
                   manoeuvre.length * 1000,
-                  []
+                  [],
                 ]);
               });
 
@@ -88,7 +91,7 @@ function MapzenEngine(id, costing) {
               line: line,
               steps: steps,
               distance: distance * 1000,
-              time: time
+              time: time,
             });
           } else {
             callback(true);
@@ -96,9 +99,9 @@ function MapzenEngine(id, costing) {
         },
         error: function () {
           callback(true);
-        }
+        },
       });
-    }
+    },
   };
 }
 
