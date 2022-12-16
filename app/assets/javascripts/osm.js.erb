@@ -18,10 +18,21 @@ OSM = {
   NOMINATIM_URL:           <%= Settings.nominatim_url.to_json %>,
   GRAPHHOPPER_URL:         <%= Settings.graphhopper_url.to_json %>,
   FOSSGIS_OSRM_URL:        <%= Settings.fossgis_osrm_url.to_json %>,
+  MAPZEN_VALHALLA_URL:     <%= MAPZEN_VALHALLA_URL.to_json %>,
   DEFAULT_LOCALE:          <%= I18n.default_locale.to_json %>,
+
 
 <% if Settings.key?(:thunderforest_key) %>
   THUNDERFOREST_KEY:       <%= Settings.thunderforest_key.to_json %>,
+||||||| 9340c4617 (Remove dependencies on mapzen services)
+<% if defined?(MAPQUEST_KEY) %>
+  MAPQUEST_KEY:            <%= MAPQUEST_KEY.to_json %>,
+<% end %>
+<% if defined?(MAPZEN_VALHALLA_KEY) %>
+  MAPZEN_VALHALLA_KEY:     <%= MAPZEN_VALHALLA_KEY.to_json %>,
+<% end %>
+<% if defined?(THUNDERFOREST_KEY) %>
+  THUNDERFOREST_KEY:       <%= THUNDERFOREST_KEY.to_json %>,
 <% end %>
 
   MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
