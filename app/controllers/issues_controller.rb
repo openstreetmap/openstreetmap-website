@@ -12,8 +12,8 @@ class IssuesController < ApplicationController
     @title = t ".title"
 
     @issue_types = []
-    @issue_types.concat %w[Note] if current_user.moderator?
-    @issue_types.concat %w[DiaryEntry DiaryComment User] if current_user.administrator?
+    @issue_types.push("Note") if current_user.moderator?
+    @issue_types.push("DiaryEntry", "DiaryComment", "User") if current_user.administrator?
 
     @users = User.joins(:roles).where(:user_roles => { :role => current_user.roles.map(&:role) }).distinct
     @issues = Issue.visible_to(current_user)
