@@ -54,11 +54,11 @@ jobs:
         restore-keys: |
           yarn-${{ env.os }}-
     - name: Install node modules
-      run: bundle exec rake yarn:install
+      run: bundle exec rails yarn:install
     - name: Create dummy database configuration
       run: cp config/example.database.yml config/database.yml
     - name: Run eslint
-      run: bundle exec rake eslint
+      run: bundle exec rails eslint
   brakeman:
     name: Brakeman
     runs-on: ubuntu-20.04

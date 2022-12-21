@@ -45,6 +45,6 @@ RUN gem install bundler \
  && bundle install
 
 # Install NodeJS packages using yarnpkg
-# `bundle exec rake yarn:install` will not work
+# `bundle exec rails yarn:install` will not work
 ADD package.json yarn.lock /app/
 RUN yarnpkg --ignore-engines install

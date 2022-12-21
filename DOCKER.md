@@ -54,7 +54,7 @@ This will launch one Docker container for each 'service' specified in `docker-co
 
 Run the Rails database migrations:
 
-    docker-compose run --rm web bundle exec rake db:migrate
+    docker-compose run --rm web bundle exec rails db:migrate
 
 ### Tests
 

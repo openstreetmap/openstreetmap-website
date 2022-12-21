@@ -137,7 +137,7 @@ bundle install
 We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for the project.
 
 ```
-bundle exec rake yarn:install
+bundle exec rails yarn:install
 ```
 
 ## Prepare local settings file
@@ -185,7 +185,7 @@ exit
 To create the three databases - for development, testing and production - run:
 
 ```
-bundle exec rake db:create
+bundle exec rails db:create
 ```
 
 ### Database structure
@@ -193,7 +193,7 @@ bundle exec rake db:create
 To create all the tables, indexes and constraints, run:
 
 ```
-bundle exec rake db:migrate
+bundle exec rails db:migrate
 ```
 
 ## Running the tests

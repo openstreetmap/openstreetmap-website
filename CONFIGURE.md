@@ -127,7 +127,7 @@ If your installation stops working for some reason:
 * The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your `openstreetmap-website` directory and run:
 
 ```
-bundle exec rake db:migrate
+bundle exec rails db:migrate
 ```
 
 ## Testing on the osm dev server
@@ -145,5 +145,5 @@ If you want to deploy `openstreetmap-website` for production use, you'll need to
 * It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). Instructions are available for [setting it up with most web servers](https://www.phusionpassenger.com/documentation_and_support#documentation).
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
-* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production rake i18n:js:export assets:precompile`
+* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production rails i18n:js:export assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.
