@@ -8,7 +8,8 @@ services:
       - .:/app
       # Prevent these directories from mounting so they're not shared between host OS and Docker
       - /app/node_modules/
-      - /app/tmp/
+      # Mount a tmp directory that will persist between runs
+      - web-tmp:/app/tmp
       # Mount a storage directory that will persist between runs
       - web-storage:/app/storage
     ports:
@@ -31,5 +32,6 @@ services:
       - db-data:/var/lib/postgresql/data
 
 volumes:
+  web-tmp:
   web-storage:
   db-data:
