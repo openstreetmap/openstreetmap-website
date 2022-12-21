@@ -9,9 +9,8 @@ services:
       # Prevent these directories from mounting so they're not shared between host OS and Docker
       - /app/node_modules/
       - /app/tmp/
-      # Mount these upload directories so they persist between runs
-      - web-traces:/home/osm/traces
-      - web-images:/home/osm/images
+      # Mount a storage directory that will persist between runs
+      - web-storage:/app/storage
     ports:
       - "3000:3000"
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
@@ -32,6 +31,5 @@ services:
       - db-data:/var/lib/postgresql/data
 
 volumes:
-  web-traces:
-  web-images:
+  web-storage:
   db-data:
