@@ -28,6 +28,7 @@ jobs:
       run: |
         docker-compose run --rm web bundle exec rails db:migrate
         docker-compose run --rm web bundle exec rails i18n:js:export
+        docker-compose run --rm web bundle exec rails assets:precompile
         docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
     - name: Test Basic Website
       run: |

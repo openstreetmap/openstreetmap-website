@@ -55,6 +55,8 @@ jobs:
       run: bundle exec rails i18n:js:export
     - name: Install node modules
       run: bundle exec rails yarn:install
+    - name: Compile assets
+      run: bundle exec rails assets:precompile
     - name: Run tests
       run: bundle exec rails test:all
     - name: Report completion to Coveralls
