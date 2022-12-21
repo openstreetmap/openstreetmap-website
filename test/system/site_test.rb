@@ -71,9 +71,10 @@ class SiteTest < ApplicationSystemTestCase
       find("h1").hover # un-hover original element
 
       visit "#map=10/0/0"
+      find("#{selector}.disabled") # Ensure that capybara has waited for JS to finish processing
+
       assert_no_selector ".tooltip"
       find(selector).hover
-      sleep(0.5)
       assert_selector ".tooltip", :text => "Zoom in"
     end
   end
