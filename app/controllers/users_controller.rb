@@ -151,7 +151,7 @@ class UsersController < ApplicationController
 
         redirect_to referer || edit_account_path
       elsif params[:decline]
-        redirect_to t("users.terms.declined")
+        redirect_to t("users.terms.declined"), :allow_other_host => true
       else
         redirect_to :action => :terms
       end
