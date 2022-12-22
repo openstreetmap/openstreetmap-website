@@ -24,7 +24,7 @@ kk-cyrl:
       client_application:
         create: Тіркелу
         update: Жаңарту
-      doorkeeper_application:
+      oauth2_application:
         create: Тіркелу
         update: Жаңарту
       redaction:
@@ -136,7 +136,7 @@ kk-cyrl:
         email_confirmation: E-mail растау
         new_email: Жаңа е-пошта мекенжайы
         active: Белсенді
-        display_name: Атауын көрсету
+        display_name: Көрсетілетін ат
         description: Бейін сипаттамасы
         home_lat: Ендік
         home_lon: Бойлық
@@ -228,6 +228,8 @@ kk-cyrl:
       save changes button: Өзгерістерді сақтау
       make edits public button: Барлық өңдемелерімді жария ету
       delete_account: Тіркелгіні жою...
+    destroy:
+      success: Тіркелгі жойылды.
   browse:
     closed: Жабық
     created_html: <abbr title='%{title}'>%{time}</abbr> жасалған
@@ -558,8 +560,10 @@ kk-cyrl:
           footway: Тротуар
           ford: Өткел
           milestone: Километрлік бағана
+          motorway: Автокүрежол
           path: Соқпақ
           platform: Платформа
+          primary: Бірінші дәрежелі жол
           raceway: Жарыс трассасы
           rest_area: Демалыс аймағы
           road: Жол
@@ -591,11 +595,14 @@ kk-cyrl:
           forest: Орман шаруашылығы
           garages: Гараждар
           grass: Шөп
+          industrial: Өнеркәсіп аймағы
           landfill: Қоқыс орны
           meadow: Шабындық
+          military: Әскери аймақ
           orchard: Жеміс бағы
           quarry: Карьер
           railway: Темір жол
+          residential: Тұрғын аудан
           vineyard: Жүзімдік
           "yes": Жерді пайдалану
         leisure:
@@ -608,7 +615,7 @@ kk-cyrl:
           ice_rink: Мұз айдыны
           marina: Айлақ
           miniature_golf: Минигольф
-          park: Парк
+          park: Саябақ
           pitch: Спорт алаңы
           resort: Шипажай
           sauna: Сауна
@@ -804,6 +811,8 @@ kk-cyrl:
           motel: Мотель
           museum: Мұражай
           zoo: Зообақ
+        tunnel:
+          "yes": Туннель
         waterway:
           dam: Бөгетше
           rapids: Шоңғал
@@ -979,7 +988,14 @@ kk-cyrl:
     key:
       table:
         entry:
+          motorway: Автокүрежол
+          main_road: Бас жол
+          trunk: Тас жол
+          primary: Бірінші дәрежелі жол
+          secondary: Екінші дәрежелі жол
+          unclassified: Жергілікті жол
           rail: Темір жол
+          subway: Метро
           tram:
           - Жеңіл рельсті көлік
           apron:
@@ -988,15 +1004,25 @@ kk-cyrl:
           admin: Әкімшілік шекара
           forest: Орман
           golf: Гольф алаңы
+          park: Саябақ
+          resident: Тұрғын аудан
+          common:
+            1: шабындық
+            2: бақ
+          retail: Сауда аймағы
+          industrial: Өнеркәсіп аймағы
           lake:
           - Көл
           farm: Ферма
           cemetery: Зират
+          allotments: Саяжайлар
           pitch: Спорт алаңы
           centre: Спорт орталығы
+          military: Әскери аймақ
           school:
           - Мектеп
           - университет
+          building: Елеулі ғимарат
           station: Темір жол бекеті
           summit:
             1: шың
@@ -1020,9 +1046,11 @@ kk-cyrl:
     show:
       filename: 'Файл атауы:'
       download: жүктеп алу
+      map: карта
       edit: өңдеу
       tags: 'Тегтер:'
       none: Жоқ
+      delete_trace: Бұл бағдарды жою
       trace_not_found: Бағдар табылмады!
     trace:
       edit_map: Картаны өңдеу
@@ -1034,6 +1062,7 @@ kk-cyrl:
     show:
       confirm: Сенімдісіз бе?
     index:
+      revoke: Күшін жою!
       oauth: OAuth
   oauth2_applications:
     index:
@@ -1051,6 +1080,9 @@ kk-cyrl:
   users:
     new:
       email address: 'Е-пошта мекенжайы:'
+      display name: 'Көрсетілетін ат:'
+      display name description: Басқа қолданушыларға көрінетін атыңыз. Кейінірек оны
+        баптауларда өзгерте аласыз.
     terms:
       consider_pd_why: бұл не?
       continue: Жалғастыру
@@ -1070,6 +1102,7 @@ kk-cyrl:
       diary: Күнделік
       traces: Бағдарлары
       remove as friend: Достардан жою
+      mapper since: 'Тіркелген күні:'
     index:
       title: Қолданушылар
       heading: Қолданушылар
