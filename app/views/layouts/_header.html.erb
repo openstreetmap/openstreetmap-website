@@ -18,7 +18,7 @@
                     :class => "btn btn-outline-primary geolink editlink",
                     :id => "editanchor",
                     :data => { :editor => preferred_editor } %>
-        <a class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split' data-bs-toggle='dropdown' href='#'></a>
+        <button class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split' type='button' data-bs-toggle='dropdown'></button>
         <ul class='dropdown-menu'>
           <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
             <li>
@@ -63,7 +63,7 @@
         <%= link_to t("layouts.about"), about_path, :class => "nav-link" %>
       </li>
       <li id="compact-secondary-nav" class="dropdown nav-item">
-        <a class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#"><%= t "layouts.more" %></a>
+        <button class="dropdown-toggle nav-link btn" type="button" data-bs-toggle="dropdown"><%= t "layouts.more" %></button>
         <ul class="dropdown-menu">
           <% if Settings.status != "database_offline" && can?(:index, Issue) %>
             <li class="<%= current_page_class(issues_path) %>">
@@ -84,7 +84,7 @@
     </ul>
     <% if current_user && current_user.id %>
       <div class='d-inline-flex dropdown user-menu logged-in clearfix'>
-        <a class='dropdown-toggle btn btn-outline-secondary px-2 py-1 flex-grow-1' data-bs-toggle='dropdown' href="#">
+        <button class='dropdown-toggle btn btn-outline-secondary px-2 py-1 flex-grow-1' type='button' data-bs-toggle='dropdown'>
           <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-1") %>
           <%= render :partial => "layouts/inbox" %>
           <span class="user-button">
@@ -92,7 +92,7 @@
               <%= current_user.display_name %>
             </span>
           </span>
-        </a>
+        </button>
         <div class='dropdown-menu dropdown-menu-end'>
           <%= link_to t("users.show.my_dashboard"), dashboard_path, :class => "dropdown-item" %>
           <%= link_to inbox_messages_path, :class => "dropdown-item" do %>
