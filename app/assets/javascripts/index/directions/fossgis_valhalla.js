@@ -30,7 +30,13 @@ function FOSSGISValhallaEngine(id, costing) {
     11, // kRoundaboutExit = 27;
     17, // kFerryEnter = 28;
     0, // kFerryExit = 29;
-    ...Array(7).fill(), // irrelevant transit maneuvers
+    undefined, // kTransit = 30;
+    undefined, // kTransitTransfer = 31;
+    undefined, // kTransitRemainOn = 32;
+    undefined, // kTransitConnectionStart = 33;
+    undefined, // kTransitConnectionTransfer = 34;
+    undefined, // kTransitConnectionDestination = 35;
+    undefined, // kPostTransitConnectionDestination = 36;
     21, // kMergeRight = 37;
     20 // kMergeLeft = 38;
   ];
