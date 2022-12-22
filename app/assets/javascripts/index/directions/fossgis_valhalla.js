@@ -30,13 +30,13 @@ function FOSSGISValhallaEngine(id, costing) {
     11, // kRoundaboutExit = 27;
     17, // kFerryEnter = 28;
     0, // kFerryExit = 29;
-    undefined, // kTransit = 30;
-    undefined, // kTransitTransfer = 31;
-    undefined, // kTransitRemainOn = 32;
-    undefined, // kTransitConnectionStart = 33;
-    undefined, // kTransitConnectionTransfer = 34;
-    undefined, // kTransitConnectionDestination = 35;
-    undefined, // kPostTransitConnectionDestination = 36;
+    null, // kTransit = 30;
+    null, // kTransitTransfer = 31;
+    null, // kTransitRemainOn = 32;
+    null, // kTransitConnectionStart = 33;
+    null, // kTransitConnectionTransfer = 34;
+    null, // kTransitConnectionDestination = 35;
+    null, // kPostTransitConnectionDestination = 36;
     21, // kMergeRight = 37;
     20 // kMergeLeft = 38;
   ];
@@ -113,6 +113,6 @@ function FOSSGISValhallaEngine(id, costing) {
   };
 }
 
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_car", "auto"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_bicycle", "bicycle"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_foot", "pedestrian"), true);
+OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_car", "auto"), true);
+OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_bicycle", "bicycle"), true);
+OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_foot", "pedestrian"), true);
