@@ -1,4 +1,4 @@
-function ValhallaEngine(id, costing) {
+function FOSSGISValhallaEngine(id, costing) {
   var INSTR_MAP = [
     0, // kNone = 0;
     8, // kStart = 1;
@@ -107,6 +107,6 @@ function ValhallaEngine(id, costing) {
   };
 }
 
-  OSM.Directions.addEngine(new ValhallaEngine("valhalla_car", "auto"), true);
-  OSM.Directions.addEngine(new ValhallaEngine("valhalla_bicycle", "bicycle"), true);
-  OSM.Directions.addEngine(new ValhallaEngine("valhalla_foot", "pedestrian"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_car", "auto"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_bicycle", "bicycle"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("fossgis_valhalla_foot", "pedestrian"), true);

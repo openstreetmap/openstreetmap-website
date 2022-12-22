@@ -1,7 +1,7 @@
 // OSRM engine
 // Doesn't yet support hints
 
-function OSRMEngine(id, vehicleType) {
+function FOSSGISOSRMEngine(id, vehicleType) {
   var cachedHints = [];
 
   return {
@@ -207,6 +207,6 @@ function OSRMEngine(id, vehicleType) {
   };
 }
 
-OSM.Directions.addEngine(new OSRMEngine("fossgis_osrm_car", "car"), true);
-OSM.Directions.addEngine(new OSRMEngine("fossgis_osrm_bike", "bike"), true);
-OSM.Directions.addEngine(new OSRMEngine("fossgis_osrm_foot", "foot"), true);
+OSM.Directions.addEngine(new FOSSGISOSRMEngine("fossgis_osrm_car", "car"), true);
+OSM.Directions.addEngine(new FOSSGISOSRMEngine("fossgis_osrm_bike", "bike"), true);
+OSM.Directions.addEngine(new FOSSGISOSRMEngine("fossgis_osrm_foot", "foot"), true);
