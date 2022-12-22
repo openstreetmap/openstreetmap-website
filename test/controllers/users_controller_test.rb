@@ -529,7 +529,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get user_path(seen_user)
     assert_response :success
-    # put @response.body
     assert_select "div.content-heading" do
       assert_select "dt", :count => 1, :text => /Contributor terms/
       assert_select "dd", /Declined/

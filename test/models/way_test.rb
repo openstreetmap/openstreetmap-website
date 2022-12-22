@@ -34,7 +34,6 @@ class WayTest < ActiveSupport::TestCase
       way.add_nd_num(node_b.id)
     end
     way.save
-    # print way.nds.size
     assert_predicate way, :valid?
     way.add_nd_num(node_c.id)
     assert_predicate way, :valid?
