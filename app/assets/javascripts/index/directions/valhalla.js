@@ -73,13 +73,13 @@ function ValhallaEngine(id, costing) {
 
               line = line.concat(legLine);
 
-              leg.maneuvers.forEach(function (manoeuvre) {
+              leg.maneuvers.forEach(function (manoeuvre, idx) {
                 var point = legLine[manoeuvre.begin_shape_index];
 
                 steps.push([
                   { lat: point[0], lng: point[1] },
                   INSTR_MAP[manoeuvre.type],
-                  manoeuvre.instruction,
+                  "<b>" + (idx + 1) + ".</b> " + manoeuvre.instruction,
                   manoeuvre.length * 1000,
                   []
                 ]);
