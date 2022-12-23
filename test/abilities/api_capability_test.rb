@@ -2,19 +2,7 @@
 
 require "test_helper"
 
-class ApiCapabilityTest < ActiveSupport::TestCase
-  private
-
-  def tokens(*toks)
-    AccessToken.new do |token|
-      toks.each do |t|
-        token.public_send("#{t}=", true)
-      end
-    end
-  end
-end
-
-class ChangesetCommentApiCapabilityTest < ApiCapabilityTest
+class ChangesetCommentApiCapabilityTest < ActiveSupport::TestCase
   test "as a normal user with permissionless token" do
     token = create(:access_token)
     capability = ApiCapability.new token
@@ -56,7 +44,7 @@ class ChangesetCommentApiCapabilityTest < ApiCapabilityTest
   end
 end
 
-class NoteApiCapabilityTest < ApiCapabilityTest
+class NoteApiCapabilityTest < ActiveSupport::TestCase
   test "as a normal user with permissionless token" do
     token = create(:access_token)
     capability = ApiCapability.new token
@@ -98,7 +86,7 @@ class NoteApiCapabilityTest < ApiCapabilityTest
   end
 end
 
-class UserApiCapabilityTest < ApiCapabilityTest
+class UserApiCapabilityTest < ActiveSupport::TestCase
   test "user preferences" do
     # a user with no tokens
     capability = ApiCapability.new nil
@@ -107,13 +95,15 @@ class UserApiCapabilityTest < ApiCapabilityTest
     end
 
     # A user with empty tokens
-    capability = ApiCapability.new tokens
+    token = create(:access_token)
+    capability = ApiCapability.new token
 
     [:index, :show, :update_all, :update, :destroy].each do |act|
       assert capability.cannot? act, UserPreference
     end
 
-    capability = ApiCapability.new tokens(:allow_read_prefs)
+    token = create(:access_token, :allow_read_prefs => true)
+    capability = ApiCapability.new token
 
     [:update_all, :update, :destroy].each do |act|
       assert capability.cannot? act, UserPreference
@@ -123,7 +113,9 @@ class UserApiCapabilityTest < ApiCapabilityTest
       assert capability.can? act, UserPreference
     end
 
-    capability = ApiCapability.new tokens(:allow_write_prefs)
+    token = create(:access_token, :allow_write_prefs => true)
+    capability = ApiCapability.new token
+
     [:index, :show].each do |act|
       assert capability.cannot? act, UserPreference
     end
