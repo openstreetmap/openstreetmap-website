@@ -299,7 +299,13 @@ fi:
           Huomioi seuraavat asiat:'
         delete_profile: Käyttäjätietosi, avatar, kuvaus ja kotisijainti mukaan lukien
           poistetaan.
+        delete_display_name: Näyttönimesi poistetaan, ja muut tilit voivat käyttää
+          sitä uudelleen.
+        retain_caveats: 'Vaikka tilisi poistetaan, joitain sinuun liittyviä tietoja
+          säilytetään OpenStreetMapissa:'
         retain_edits: Mahdolliset karttatietokantaan tekemäsi muutokset säilytetään.
+        retain_traces: Lähettämäsi jäljet, jos sellaisia on, säilytetään.
+        retain_email: Sähköpostiosoitteesi säilytetään.
         confirm_delete: Oletko varma?
         cancel: Peruuta
   accounts:
@@ -618,6 +624,9 @@ fi:
         title: OpenStreetMap-päiväkirjamerkinnät
         description: Tuoreimmat OpenStreetMapin käyttäjien päiväkirjamerkinnät
     comments:
+      title: Käyttäjän %{user} lisäämät päiväkirjamerkinnät
+      heading: Päiväkirjamerkinnät käyttäjältä %{user}
+      subheading_html: Käyttäjän %{user} lisäämät päiväkirjamerkinnät
       no_comments: Ei päiväkirjamerkintöjä
       post: Kommentti
       when: Päiväys
@@ -2166,6 +2175,9 @@ fi:
         title: Keskustelupalsta
         description: Kysymykset ja keskustelut niille, jotka haluavat mielummin ilmoitustaulutyylisen
           käyttöliittymän.
+      community:
+        title: Yhteisön keskustelupalsta
+        description: Jaettu paikka OpenStreetMapiin liittyville keskusteluille.
       irc:
         title: IRC
         description: Interaktiivinen chat monilla eri kielillä ja monista eri aiheista.
@@ -2327,6 +2339,12 @@ fi:
           kielellä tai englanniksi. Lopuksi tallenna ilmoitus, jolloin muut kartoittajat
           voivat korjata virheen.'
     communities:
+      title: Yhteisöt
+      lede_text: |-
+        Ihmiset ympäri maailmaa käyttävät ja täydentävät OpenStreetMapia.
+        Vaikka monet osallistuvat yksilöinä, osa käyttäjistä on muodostanut yhteisöjä.
+        Näiden ryhmien koko vaihtelee ja ryhmien jäsenet saattavat kattaa joko pienen kylän tai useita alueita eri maista.
+        Ryhmät voivat olla muodollisia tai epävirallisia.
       local_chapters:
         title: Paikalliset osastot
       other_groups:
@@ -2412,6 +2430,7 @@ fi:
       in: avainsanoilla
     index:
       public_traces: Julkiset GPS-jäljet
+      my_gps_traces: Omat GPS-jäljet
       public_traces_from: Käyttäjän %{user} julkiset GPS-jäljet
       description: Selaa viimeisimpiä GPS-jälkiä
       tagged_with: ', joilla on tagi %{tags}'
@@ -2420,6 +2439,7 @@ fi:
       upload_trace: Lisää GPS-jälki
       all_traces: Kaikki jäljet
       my_traces: Omat jäljet
+      traces_from: Julkiset jäljet käyttäjältä %{user}
     destroy:
       scheduled_for_deletion: Jälki on poistojonossa.
     make_public:
@@ -2453,6 +2473,7 @@ fi:
     settings_menu:
       account_settings: Käyttäjäasetukset
       oauth1_settings: OAuth 1 -asetukset
+      oauth2_applications: OAuth 2 -sovellukset
       oauth2_authorizations: OAuth 2 -käyttöoikeudet
   oauth:
     authorize:
@@ -2534,6 +2555,7 @@ fi:
       flash: Sovelluksen käyttöoikeus on poistettu.
   oauth2_applications:
     index:
+      title: Omat asiakasohjelmistot
       new: Rekisteröi uusi sovellus
       name: Nimi
       permissions: Käyttöoikeudet
@@ -2549,7 +2571,20 @@ fi:
       edit: Muokkaa
       delete: Poista
       confirm_delete: Poista tämä sovellus?
+      client_secret_warning: Varmista, että tallennat tämän salaisuuden - et näe sitä
+        enää uudelleen
       permissions: Oikeudet
+  oauth2_authorizations:
+    new:
+      title: Valtuutus vaaditaan
+      introduction: Haluatko valtuuttaa sovelluksen %{application} käyttää tiliäsi
+        seuraavin oikeuksin?
+      authorize: Valtuuta
+      deny: Kiellä
+    error:
+      title: Tapahtui virhe
+    show:
+      title: Valtuuskoodi
   oauth2_authorized_applications:
     index:
       title: Valtuutetut sovellukset
@@ -2558,6 +2593,7 @@ fi:
       no_applications_html: '%{oauth2} -sovelluksille ei ole vielä myönnetty käyttöoikeuksia.'
     application:
       revoke: Peruuta
+      confirm_revoke: Perutaanko tämän sovelluksen pääsy?
   users:
     new:
       title: Rekisteröidy
