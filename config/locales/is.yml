@@ -143,6 +143,7 @@ is:
         details: Tilgreindu öll nauðsynleg atriði um vandamálið (nauðsynlegt).
       user:
         auth_provider: Auðkenningaraðili
+        auth_uid: UID auðkenningar
         email: Netfang
         email_confirmation: Staðfesting póstfangs
         new_email: Nýtt póstfang
@@ -1221,6 +1222,7 @@ is:
           "yes": Staður
         railway:
           abandoned: Aflögð járnbraut
+          buffer_stop: Stuðpúði
           construction: Járnbraut í byggingu
           disused: Aflögð járnbraut
           funicular: Kláfbraut
@@ -1243,6 +1245,7 @@ is:
           switch: Lestarteinaskipting
           tram: Sporvagn
           tram_stop: Sporvagnastöð
+          turntable: Snúningspallur
           yard: Járnbrautagerði
         shop:
           agrarian: Landbúnaðarverslun
@@ -1558,9 +1561,21 @@ is:
     intro_header: Velkomin(n) í OpenHistoricalMap!
     intro_text: OpenHistoricalMap er heimskort gert af fólki eins og þér. Það er gefið
       út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
+    intro_1: OpenHistoricalMap er verkefni hannað til að geyma og birta söguleg kortagögn.
+      Þetta er í vinnslu, við munum leika okkur með marga nýja eiginleika þegar við
+      gerum síðuna tímavirka. Við hvetjum þig til að byrja líka að leika þér og breyta
+      gögnum eftir þínu höfði.
     intro_2_create_account: Búa til notandaaðgang
-    hosting_partners_html: Vefhýsing er studd af %{ucl},%{fastly}, %{bytemark} og
-      öðrum %{partners}.
+    partners_title: Samstarfsaðilar
+    hosting_partners_html: "<p>\n <a href='https://greeninfo.org'>GreenInfo Network</a>
+      er óhagnaðardrifin samfélagsleg korta- og samskiptasamtök sem hjálpa félagasamtökum
+      og ríkisstofnunum að ná m.a. félagslegum og umhverfislegum markmiðum með því
+      að nota margvísleg verkfæri, þar á meðal félagsmiðaðar hönnunaraðferðir, samvinnuþróun
+      og opin vef- og landfræðileg verkfæri. \n</p> \n<p> \n <a href='https://developmentseed.org/'>Development
+      Seed</a> er verkfræði- og hugbúnaðarfyrirtæki sem liðkar fyrir beitingu hnattfræðigagna
+      í baráttunni við stærstu hnattrænu áskoranir okkar. Development Seed nýtir sér
+      gríðarmikið magn hnattfræðigagna, tölvuský, hnattfræðigervigreind (geospatial
+      AI) og ígrundaða vöruþróun.\n</p>"
     partners_partners: samstarfsaðilum
     tou: Notkunarskilmálar
     osm_offline: OpenHistoricalMap gagnagrunnurinn er niðri vegna viðhalds.
@@ -2054,6 +2069,14 @@ is:
           Framlög hafa komið frá mörgum þúsundum einstaklinga. Við erum líka
           með gögn með opnum notkunarleyfum frá þjóðlegum landupplýsingastofnunum
           auk annarra opinberra aðila, meðal annars:
+        contributors_cambridge-anr_html: Inniheldur gögn búin til af <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/">The
+          Cambridge Group fyrir verkefnið History of Population and Social Structures</a>
+          og <a href="https://anrcommunes.hypotheses.org/">ANR Communes</a> verkefninu.
+        contributors_ned_html: Inniheldur gögn úr ýmsum <a href="https://www.naturalearthdata.com/">Natural
+          Earth Data</a> gagnasöfnum.
+        contributors_newberry_html: Inniheldur gögn úr <a href-"https://digital.newberry.org/ahcb/">Atlas
+          of Historical County Boundaries</a> frá <a href="https://www.newberry.org/">Newberry
+          Library</a> .
         contributors_footer_1_html: |-
           Til að skoða nánari upplýsingar um þetta, auk annarra gagna sem notuð hafa verið
           til að bæta OpenHistoricalMap, skoðaðu þá síðuna <a
@@ -2428,6 +2451,8 @@ is:
         eða lærðu meira um GPS-ferlun á <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki-síðunni</a>.
       upload_trace: Senda inn feril
       all_traces: Allar ferlar
+      traces_from: Opinberir ferlar frá %{user}
+      remove_tag_filter: Fjarlægja merkjasíu
     destroy:
       scheduled_for_deletion: Þessum feril verður eitt
     make_public:
@@ -2462,6 +2487,9 @@ is:
         að skoða þá.
     settings_menu:
       account_settings: Kjörstillingar
+      oauth1_settings: OAuth 1 stillingar
+      oauth2_applications: OAuth 2 forrit
+      oauth2_authorizations: OAuth 2 auðkenningar
   oauth:
     authorize:
       title: Auðkenndu aðgang að notandaaðganginum þínum
@@ -2494,10 +2522,15 @@ is:
     permissions:
       missing: Þú hefur ekki gefið forritinu heimild fyrir aðgang að þessum eiginleikum
     scopes:
+      read_prefs: Lesa kjörstillingar notanda
+      write_prefs: Breyta kjörstillingum notanda
+      write_diary: Búa til bloggfærslur, setja inn athugasemdir og bæta við vinum
       write_api: Breyta kortagögnunum.
       read_gpx: Lesa einka-GPS-ferlana þína.
       write_gpx: Senda inn GPS feril.
       write_notes: Breyta minnispunktum.
+      read_email: Lesa tölvupóstfang notanda
+      skip_authorization: Samþykkja forrit sjálfvirkt
   oauth_clients:
     new:
       title: Skrá nýtt forrit
@@ -2542,6 +2575,11 @@ is:
       flash: Eyðilagði skráningu biðlaraforritsins
   oauth2_applications:
     index:
+      title: Forritin mín
+      no_applications_html: Ert þú að nota forrit sem þú myndir vilja skrá til notkunar
+        hjá okkur með %{oauth2} staðlinum? Þú verður að skrá vefforritið áður en það
+        fer að senda OAuth-beiðnir á þessa þjónustu.
+      new: Skrá nýtt forrit
       name: Nafn
       permissions: Réttindi
     application:
@@ -2555,6 +2593,8 @@ is:
     show:
       edit: Breyta
       delete: Eyða
+      confirm_delete: Eyða þessu forriti?
+      client_id: Auðkenni biðlara
       client_secret: Notendu Leyndarmál
       client_secret_warning: Vertu viss um að vista þessa leyndarmál - það verður
         ekki nothæft aftur
@@ -2578,6 +2618,10 @@ is:
       title: Auðkenndu forritin mín
       application: Forrit
       permissions: Réttindi
+      no_applications_html: Þú hefur ekki ennþá heimilað nein %{oauth2} forrit.
+    application:
+      revoke: Afturkalla aðgang
+      confirm_revoke: Afturkalla aðgang fyrir þetta forrit?
   users:
     new:
       title: Nýskrá
@@ -2633,6 +2677,9 @@ is:
         italy: Ítalía
         rest_of_world: Restin af heiminum
     terms_declined_flash:
+      terms_declined_html: Okkur þykir miður að þú hafir ákveðið að samþykkja ekki
+        nýja skilmála vegna framlags (contributor terms). Til að sjá ítarlegri upplýsingar,
+        geturðu skoðað %{terms_declined_link}.
       terms_declined_link: þessari wiki síðu
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
@@ -2914,6 +2961,8 @@ is:
           one: Þú ert minna en eitt fet frá þessum punkti
           other: Þú ert minna en %{count} fet frá þessum punkti
       base:
+        historical: Sögulegt
+        woodblock: Trjárista
         standard: Staðlað
         cyclosm: CyclOSM
         cycle_map: Hjólakort

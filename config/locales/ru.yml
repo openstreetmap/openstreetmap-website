@@ -275,26 +275,40 @@ ru:
     distance_in_words_ago:
       about_x_hours:
         one: около часа назад
-        other: около %{count} часов назад
+        few: около %{count} часов назад
+        many: около %{count} часов назад
+        other: ""
       about_x_months:
         one: около месяца назад
-        other: около %{count} месяцев назад
+        few: около %{count} месяцев назад
+        many: около %{count} месяцев назад
+        other: ""
       about_x_years:
         one: около года назад
-        other: около %{count} лет назад
+        few: около %{count} лет назад
+        many: около %{count} лет назад
+        other: ""
       almost_x_years:
         one: почти год назад
-        other: почти %{count} лет назад
+        few: почти %{count} лет назад
+        many: почти %{count} лет назад
+        other: ""
       half_a_minute: полминуты назад
       less_than_x_seconds:
         one: менее секунды назад
-        other: менее %{count} секунд назад
+        few: менее %{count} секунд назад
+        many: менее %{count} секунд назад
+        other: ""
       less_than_x_minutes:
         one: менее минуты назад
-        other: менее %{count} минут назад
+        few: менее %{count} минут назад
+        many: менее %{count} минут назад
+        other: ""
       over_x_years:
         one: более года назад
-        other: более %{count} лет назад
+        few: более %{count} лет назад
+        many: более %{count} лет назад
+        other: ""
       x_seconds:
         one: '%{count} секунда назад'
         few: '%{count} секунды назад'
@@ -313,11 +327,13 @@ ru:
       x_months:
         one: 1 месяц назад
         few: '%{count} месяца назад'
-        other: '%{count} месяцев назад'
+        many: '%{count} месяцев назад'
+        other: ""
       x_years:
         one: 1 год назад
         few: '%{count} года назад'
-        other: '%{count} лет назад'
+        many: '%{count} лет назад'
+        other: ""
   editor:
     default: По умолчанию (назначен %{name})
     id:
@@ -494,7 +510,9 @@ ru:
         other: ""
       also_part_of_html:
         one: содержится в линии %{related_ways}
-        other: содержится в линиях %{related_ways}
+        few: содержится в линиях %{related_ways}
+        many: содержится в линиях %{related_ways}
+        other: ""
     relation:
       title_html: 'Отношение: %{name}'
       history_title_html: 'История отношения: %{name}'
@@ -1489,7 +1507,9 @@ ru:
       link_to_reports: Просмотр сообщений
       reports_count:
         one: 1 сообщение
-        other: '%{count} сообщений'
+        few: '%{count} сообщения'
+        many: '%{count} сообщений'
+        other: ""
       reported_item: Тема сообщения
       states:
         ignored: Проигнорировано
@@ -1793,15 +1813,15 @@ ru:
       my_outbox: Мои исходящие
       messages: У вас %{new_messages} и %{old_messages}
       new_messages:
+        one: '%{count} новое сообщение'
         few: '%{count} новых сообщения'
         many: '%{count} новых сообщений'
-        one: '%{count} новое сообщение'
-        other: '%{count} новых сообщений'
+        other: ""
       old_messages:
+        one: '%{count} старое'
         few: '%{count} старых'
         many: '%{count} старых'
-        one: '%{count} старое'
-        other: '%{count} старых'
+        other: ""
       from: От
       subject: Тема
       date: Дата
@@ -1837,10 +1857,10 @@ ru:
       my_inbox: Мои входящие
       my_outbox: Мои исходящие
       messages:
+        one: У вас %{count} отправленное сообщение
         few: У вас %{count} отправленных сообщения
         many: У вас %{count} отправленных сообщений
-        one: У вас %{count} отправленное сообщение
-        other: У вас %{count} отправленных сообщений
+        other: ""
       to: Кому
       subject: Тема
       date: Дата
@@ -2395,9 +2415,13 @@ ru:
         one: '%{count} ваш трек ожидает передачи на сервер. Пожалуйста, дождитесь
           окончания передачи этого трека, перед тем как начать передавать на сервер
           другие. Это позволит не блокировать сервер для других пользователей.'
-        other: '%{count} ваших треков ожидают передачи на сервер. Пожалуйста, дождитесь
+        few: '%{count} ваших треков ожидают передачи на сервер. Пожалуйста, дождитесь
           окончания передачи этих треков, перед тем как начать передавать на сервер
           другие. Это позволит не блокировать сервер для других пользователей.'
+        many: '%{count} ваших треков ожидают передачи на сервер. Пожалуйста, дождитесь
+          окончания передачи этих треков, перед тем как начать передавать на сервер
+          другие. Это позволит не блокировать сервер для других пользователей.'
+        other: ' Это позволит не блокировать сервер для других пользователей.'
     edit:
       cancel: Отменить
       title: Редактирование трека %{name}
@@ -2438,7 +2462,8 @@ ru:
       count_points:
         one: 1 точка
         few: '%{count} точки'
-        other: '%{count} точек'
+        many: '%{count} точек'
+        other: ""
       more: подробнее
       trace_details: Показать данные трека
       view_map: Просмотр карты
@@ -2474,8 +2499,10 @@ ru:
       title: OpenHistoricalMap GPS-треки
     description:
       description_with_count:
-        one: GPX-файл с %{count} точкой от %{user}}
-        other: GPX-файл с %{count} точками от %{user}
+        one: GPX-файл с %{count} точкой от %{user}
+        few: GPX-файл с %{count} точками от %{user}
+        many: GPX-файл с %{count} точками от %{user}
+        other: ""
       description_without_count: GPX-файл от %{user}
   application:
     permission_denied: У вас нет прав для выполнения этого действия
@@ -2755,7 +2782,9 @@ ru:
       heading: Пользователи
       showing:
         one: Страница %{page} (%{first_item} из %{items})
-        other: Страница %{page} (%{first_item}-%{last_item} из %{items})
+        few: Страница %{page} (%{first_item}-%{last_item} из %{items})
+        many: Страница %{page} (%{first_item}-%{last_item} из %{items})
+        other: ""
       summary_html: '%{name} создан %{date}, с адреса %{ip_address}'
       summary_no_ip_html: '%{name} создан %{date}'
       confirm: Подтвердить выделенных пользователей
@@ -2869,23 +2898,29 @@ ru:
       block_duration:
         hours:
           one: 1 час
-          other: '%{count} час.'
+          few: '%{count} часа'
+          many: '%{count} часов'
+          other: ""
         days:
           one: 1 день
           few: '%{count} дня'
-          other: '%{count} дней'
+          many: '%{count} дней'
+          other: ""
         weeks:
           one: 1 неделя
           few: '%{count} недели'
-          other: '%{count} недель'
+          many: '%{count} недель'
+          other: ""
         months:
           one: 1 месяц
           few: '%{count} месяца'
-          other: '%{count} месяцев'
+          many: '%{count} месяцев'
+          other: ""
         years:
           one: 1 год
           few: '%{count} года'
-          other: '%{count} лет'
+          many: '%{count} лет'
+          other: ""
     blocks_on:
       title: Блокировки для %{name}
       heading_html: Список блокировок пользователя %{name}
