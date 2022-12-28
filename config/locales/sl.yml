@@ -18,9 +18,12 @@
 # Author: Upwinxp
 ---
 sl:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e. %B %Y ob %H:%M'
+      blog: '%e %B, %Y'
   helpers:
     file:
       prompt: Izberi datoteko
@@ -38,6 +41,7 @@ sl:
         create: Registriraj
         update: Posodobi
       doorkeeper_application:
+        create: Registrirajte se
         update: Posodobi
       redaction:
         create: Ustvarite redakcijo
@@ -46,19 +50,20 @@ sl:
         create: Pošlji
         update: Shrani spremembe
       user_block:
-        create: Ustvari blokado
-        update: Posodobi blokado
+        create: Ustvari blokiranje
+        update: Posodobi blokiranje
   activerecord:
     errors:
       messages:
         invalid_email_address: se ne prikaže kot veljaven elektronski naslov
+        email_address_not_routable: ni preusmerljiv
     models:
       acl: Seznam nadzora dostopa
-      changeset: Paket sprememb
-      changeset_tag: Oznaka paketa sprememb
+      changeset: Sklop sprememb
+      changeset_tag: Oznaka sklopa sprememb
       country: Država
       diary_comment: Komentar v dnevniku
-      diary_entry: Vpis v dnevnik
+      diary_entry: Dnevniški zapis
       friend: Prijatelj
       issue: Težava
       language: Jezik
@@ -77,6 +82,7 @@ sl:
       relation: Povezava
       relation_member: Član povezave
       relation_tag: Oznaka povezave
+      report: Poročilo
       session: Seja
       trace: Sled
       tracepoint: Točka sledi
@@ -92,6 +98,7 @@ sl:
         name: Ime (obvezno)
         callback_url: URL povratnih klicev
         support_url: URL za podporo
+        allow_write_api: spremeni zemljevid
       diary_comment:
         body: Besedilo
       diary_entry:
@@ -102,6 +109,7 @@ sl:
         language: Jezik
       doorkeeper/application:
         name: Ime
+        redirect_uri: Preusmeritveni URI-ji
         scopes: Dovoljenja
       friend:
         user: Uporabnik
@@ -146,7 +154,7 @@ sl:
       trace:
         tagstring: uporabite vejice
       user_block:
-        needs_view: Ali se mora uporabnik prijaviti preden bo blokada ukinjena.
+        needs_view: Ali se mora uporabnik za pretek blokiranja prijaviti?
       user:
         new_email: (nikoli javno objavljen)
   datetime:
@@ -230,13 +238,13 @@ sl:
     notes:
       comment:
         opened_at_html: Ustvarjeno %{when}
-        opened_at_by_html: Ustvaril(a) %{user} %{when}
+        opened_at_by_html: Ustvaril_a %{user} %{when}
         commented_at_html: Posodobljeno %{when}
-        commented_at_by_html: Posodobil(a) %{user} %{when}
+        commented_at_by_html: Posodobil_a %{user} %{when}
         closed_at_html: Razrešeno %{when}
-        closed_at_by_html: Razrešil(a) %{user} %{when}
-        reopened_at_html: Ponovno aktivirano %{when}
-        reopened_at_by_html: Ponovno aktiviral(a) %{user} %{when}
+        closed_at_by_html: Razrešil_a %{user} %{when}
+        reopened_at_html: Znova aktivirano %{when}
+        reopened_at_by_html: Znova aktiviral(a) %{user} %{when}
       rss:
         title: OpenHistoricalMap opombe
         description_area: Seznam opomb, prijavljenih, komentiranih ali zaprtih na
@@ -245,7 +253,7 @@ sl:
         opened: Nova opomba (v bližini %{place})
         commented: Nov komentar (v bližini %{place})
         closed: Zaprta opomba (v bližini %{place})
-        reopened: Ponovno aktivirana opomba (v bližini %{place})
+        reopened: znova aktivirana opomba (v bližini %{place})
       entry:
         comment: Komentar
         full: Celotna opomba
@@ -258,7 +266,7 @@ sl:
       title: Urejanje uporabniškega računa
       my settings: Moje nastavitve
       current email address: Trenutni e-poštni naslov
-      external auth: 'Zunanje preverjanje pristnosti:'
+      external auth: 'Zunanja avtentikacija:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: kaj je to?
@@ -300,12 +308,12 @@ sl:
     closed: Zaprto
     created_html: Ustvarjeno <abbr title='%{title}'>%{time}</abbr>
     closed_html: Zaprto <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Ustvaril(a) %{user} <abbr title='%{title}'>%{time}</abbr>
-    deleted_by_html: Izbrisal(a) %{user} <abbr title='%{title}'>%{time}</abbr>
-    edited_by_html: Uredil(a) %{user} <abbr title='%{title}'>%{time}</abbr>
-    closed_by_html: Zaprl(a) %{user} <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Ustvaril_a %{user} <abbr title='%{title}'>%{time}</abbr>
+    deleted_by_html: Izbrisal_a %{user} <abbr title='%{title}'>%{time}</abbr>
+    edited_by_html: Uredil_a %{user} <abbr title='%{title}'>%{time}</abbr>
+    closed_by_html: Zaprl_a %{user} <abbr title='%{title}'>%{time}</abbr>
     version: Različica
-    in_changeset: Paket sprememb
+    in_changeset: Sklop sprememb
     anonymous: anonimni
     no_comment: (brez komentarja)
     part_of: Del
@@ -314,7 +322,7 @@ sl:
     view_details: Prikaz podrobnosti
     location: 'Lokacija:'
     changeset:
-      title: 'Paket sprememb: %{id}'
+      title: 'Sklop sprememb: %{id}'
       belongs_to: Avtor
       node: Vozlišč (%{count})
       node_paginated: Vozlišča (%{x}-%{y} od %{count})
@@ -326,14 +334,14 @@ sl:
       hidden_commented_by_html: Skrit komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
         nazaj</abbr>
       commented_by_html: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      changesetxml: Paket sprememb XML
+      changesetxml: Sklop sprememb XML
       osmchangexml: osmChange XML
       feed:
-        title: Paket sprememb %{id}
-        title_comment: Paket sprememb %{id} - %{comment}
+        title: Sklop sprememb %{id}
+        title_comment: Sklop sprememb %{id} - %{comment}
       join_discussion: Prijavite se za pridružitev pogovoru
       discussion: Pogovor
-      still_open: Paket sprememb je še vedno odprt – pogovor se bo začel, ko bo paket
+      still_open: Sklop sprememb je še vedno odprt – pogovor se bo začel, ko bo sklop
         sprememb zaključen.
     node:
       title_html: 'Vozlišče: %{name}'
@@ -372,7 +380,7 @@ sl:
         node: vozlišče
         way: pot
         relation: zveza
-        changeset: Paket sprememb
+        changeset: sklop sprememb
         note: opomba
     timeout:
       sorry: Pridobivanje podatkov za %{type} z ID-jem %{id} žal traja predolgo.
@@ -380,12 +388,12 @@ sl:
         node: vozlišče
         way: pot
         relation: zveza
-        changeset: Paket sprememb
+        changeset: sklop sprememb
         note: opomba
     redacted:
       redaction: Redakcija %{id}
-      message_html: Verzija %{version} te %{type} ne more biti prikazana, ker je bila
-        zavrnjena licenca. Glej %{redaction_link} za podrobnosti.
+      message_html: Različica %{version} te(ga) %{type} ne more biti prikazana, ker
+        je bila skrita. Za podrobnosti glejte %{redaction_link}.
       type:
         node: vozlišče
         way: pot
@@ -400,7 +408,7 @@ sl:
       wiki_link:
         key: Wiki stran z opisom oznake %{key}
         tag: Wiki stran z opisom oznake %{key}=%{value}
-      wikidata_link: Element %{page} na strani Wikidata
+      wikidata_link: Predmet %{page} v Wikipodatkih
       wikipedia_link: Članek %{page} v Wikipediji
       telephone_link: Pokliči %{phone_number}
       colour_preview: Predogled barve %{colour_value}
@@ -417,13 +425,11 @@ sl:
         nazaj</abbr>
       commented_by_anonymous_html: Komentar anonimnega uporabnika <abbr title='%{exact_time}'>%{when}
         nazaj</abbr>
-      closed_by_html: Razrešil(a) %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Razrešil_a %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by_anonymous_html: Razrešil anonimni uporabnik <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Ponovno aktiviral %{user} <abbr title='%{exact_time}'>%{when}
-        nazaj</abbr>
-      reopened_by_anonymous_html: Ponovno aktiviral anonimni <abbr title='%{exact_time}'>%{when}
-        nazaj</abbr>
-      hidden_by_html: Skril(a) %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Znova aktiviral %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Znova aktiviral anonimni ob <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Skril_a %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Prijavi to opombo
     query:
       title: Poišči značilnosti
@@ -438,7 +444,7 @@ sl:
     changeset:
       anonymous: Anonimen
       no_edits: (brez urejanj)
-      view_changeset_details: Ogled podrobnosti paketa sprememb
+      view_changeset_details: Ogled podrobnosti sklopa sprememb
     changesets:
       id: ID
       saved_at: Shranjeno ob
@@ -446,26 +452,26 @@ sl:
       comment: Komentar
       area: Območje
     index:
-      title: Paketi sprememb
-      title_user: Paketi sprememb uporabnika %{user}
-      title_friend: Paketi sprememb mojih prijateljev
-      title_nearby: Paketi sprememb bližnjih uporabnikov
-      empty: Ni najdenih paketov sprememb.
-      empty_area: Na tem področju ni paketov sprememb.
-      empty_user: Ni paketov sprememb tega uporabnika.
-      no_more: Ni najdenih več paketov sprememb.
-      no_more_area: Ni več paketov sprememb na tem področju.
-      no_more_user: Ni več paketov sprememb tega uporabnika.
+      title: Sklopi sprememb
+      title_user: Sklopi sprememb uporabnika %{user}
+      title_friend: Sklopi sprememb mojih prijateljev
+      title_nearby: Sklopi sprememb bližnjih uporabnikov
+      empty: Ni najdenih sklopov sprememb.
+      empty_area: Na tem območju ni sklopov sprememb.
+      empty_user: Ni sklopov sprememb tega uporabnika.
+      no_more: Najden ni noben drug sklop sprememb.
+      no_more_area: Na tem območju ni nobenega drugega sklopa sprememb.
+      no_more_user: Ni več sklopov sprememb tega uporabnika.
       load_more: Naloži več
     timeout:
       sorry: Žal je seznam zahtevanih sprememb predolg za prenos.
   changeset_comments:
     comment:
-      comment: 'Nov komentar o paketu sprememb #%{changeset_id} uporabnika %{author}'
-      commented_at_by_html: Posodobil(a) %{user} %{when}
+      comment: 'Nov komentar o sklopu sprememb #%{changeset_id} uporabnika %{author}'
+      commented_at_by_html: Posodobil_a %{user} %{when}
     index:
-      title_all: Razprava o paketu sprememb OpenHistoricalMap
-      title_particular: 'Razprava o paketu sprememb OpenHistoricalMap #%{changeset_id}'
+      title_all: Razprava o sklopu sprememb OpenHistoricalMap
+      title_particular: 'Razprava o sklopu sprememb OpenHistoricalMap #%{changeset_id}'
   dashboards:
     contact:
       km away: oddaljen %{count} km
@@ -481,13 +487,13 @@ sl:
       nearby users: Drugi bližnji uporabniki
       no nearby users: Ni še drugih uporabnikov, ki bi priznali, da kartirajo v vaši
         bližini.
-      friends_changesets: paketi sprememb prijateljev
+      friends_changesets: sklopi sprememb prijateljev
       friends_diaries: dnevniki prijateljev
-      nearby_changesets: paketi sprememb bližnjih uporabnikov
+      nearby_changesets: sklopi sprememb bližnjih uporabnikov
       nearby_diaries: dnevniški vnosi bližnjih uporabnikov
   diary_entries:
     new:
-      title: Nov zapis v dnevnik
+      title: Nov dnevniški zapis
     form:
       location: Lokacija
       use_map_link: Uporabi zemljevid
@@ -497,15 +503,15 @@ sl:
       title_nearby: Dnevniki bližnjih uporabnikov
       user_title: Dnevnik uporabnika %{user}
       in_language_title: Dnevniki v jeziku %{language}
-      new: Nov zapis v dnevnik
+      new: Nov dnevniški zapis
       new_title: Nov zapis v moj uporabniški dnevnik
       my_diary: Moj dnevnik
-      no_entries: Ni zapisov v dnevnik
-      recent_entries: Nedavni vnosi v dnevnik
+      no_entries: Ni dnevniških zapisov
+      recent_entries: Nedavni dnevniški zapisi
       older_entries: Starejši zapisi
       newer_entries: Novejši zapisi
     edit:
-      title: Uredi zapis v dnevnik
+      title: Uredi dnevniški zapis
       marker_text: Lokacija, na katero se nanaša zapis
     show:
       title: Dnevnik uporabnika %{user} | %{title}
@@ -514,10 +520,10 @@ sl:
       login_to_leave_a_comment_html: '%{login_link} za vpis komentarja'
       login: Prijava
     no_such_entry:
-      title: Takšnega vnosa v dnevnik ni
+      title: Ni takega dnevniškega zapisa
       heading: 'Vnosa v dnevnik z id-jem: %{id} ni'
-      body: Oprostite, vnosa v dnevnik št. %{id} ni. Prosimo, preverite črkovanje
-        in povezavo, ki ste jo kliknili.
+      body: Oprostite, dnevniškega vnosa ali komentarja z oznako %{id} ni. Prosimo,
+        preverite črkovanje ali pa ste morda sledili napačni povezavi.
     diary_entry:
       posted_by_html: Objavil %{link_user} v %{created} v jeziku %{language_link}
       updated_at_html: Nazadnje posodobljeno %{updated}.
@@ -540,7 +546,7 @@ sl:
       report: Prijavi ta komentar
     location:
       location: 'Lokacija:'
-      view: Poglej
+      view: Prikaži
       edit: Uredi
     feed:
       user:
@@ -564,7 +570,7 @@ sl:
       button: Dodaj prijatelja
       success: '%{name} je sedaj vaš prijatelj!'
       failed: Oprostite, uporabnika %{name} ni bilo mogoče dodati med prijatelje.
-      already_a_friend: Z uporabnikom %{name} ste že prijatelja.
+      already_a_friend: Z uporabnikom %{name} sta že prijatelja.
     remove_friend:
       heading: Odstrani %{user} iz prijateljev?
       button: Odstrani prijatelja
@@ -853,6 +859,7 @@ sl:
           wayside_cross: Križ
           wayside_shrine: Kapelica
           wreck: Razbitina
+          "yes": Zgodovinski kraj
         junction:
           "yes": Križišče
         landuse:
@@ -975,6 +982,7 @@ sl:
           grassland: Pašnik
           heath: Pušča
           hill: Hrib
+          hot_spring: Vroči vrelec
           island: Otok
           land: Otok
           marsh: Močvirje
@@ -1049,6 +1057,7 @@ sl:
           "yes": Kraj
         railway:
           abandoned: Opuščena železnica
+          buffer_stop: Tirni zaključek
           construction: Železnica v izgradnji
           disused: Opuščena železnica
           funicular: Žična vzpenjača
@@ -1237,7 +1246,7 @@ sl:
     show:
       resolve: Razreši
       ignore: Prezri
-      reopen: Ponovno odpri
+      reopen: Znova odpri
       read_reports: Prebrana poročila
       new_reports: Nova poročila
   issue_comments:
@@ -1282,7 +1291,7 @@ sl:
     user_diaries_tooltip: Pregled dnevnikov uporabnikov
     edit_with: Za urejanje uporabi %{editor}
     tag_line: Prost wiki zemljevid sveta
-    intro_header: Dobrodošli na OpenHistoricalMap!
+    intro_header: Pozdravljeni v OpenHistoricalMap!
     intro_text: OpenHistoricalMap je zemljevid sveta, ki ga ustvarjajo ljudje kot
       ste vi, brezplačen za uporabo z odprto licenco.
     intro_2_create_account: Ustvarite uporabniški račun
@@ -1293,9 +1302,9 @@ sl:
       osredotočenimi na človeka, skupnim razvojem ter odprtokodnimi spletnimi in geoprostorskimi
       orodji. \n</p> \n<p> \n <a href='https://developmentseed.org/'>Development Seed</a>
       je inženirsko in proizvodno podjetje, ki pospešuje uporabo zemeljskih podatkov
-      za naše največje globalne izzive. Development Seed izkorišča ogromne podatke
-      o Zemlji, računalništvo v oblaku, geoprostorsko umetno inteligenco in premišljen
-      razvoj izdelkov.\n</p>"
+      za naše največje globalne izzive. Development Seed uporablja velepodatke o Zemlji,
+      oblakovno računalništvo, geoprostorsko umetno inteligenco in premišljen razvoj
+      izdelkov.\n</p>"
     partners_partners: partnerji
     tou: Pogoji uporabe
     osm_offline: Baza OpenHistoricalMap zaradi izvajanja nujnih vzdrževalnih del trenutno
@@ -1318,9 +1327,9 @@ sl:
     more: Več
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenHistoricalMap] %{user} je komentiral vnos v dnevnik'
-      hi: Pozdravljen, %{to_user}!
-      header: '%{from_user} je komentiral vnos v dnevnik OpenHistoricalMap z naslovom
+      subject: '[OpenHistoricalMap] %{user} je komentiral dnevniški zapis'
+      hi: Pozdravljeni, %{to_user}!
+      header: '%{from_user} je komentiral zapis v dnevnik OpenHistoricalMap s temo
         %{subject}:'
       footer: Komentar lahko preberete tudi na %{readurl}, komentirate lahko na %{commenturl}
         ali odgovorite na %{replyurl}
@@ -1333,14 +1342,16 @@ sl:
     friendship_notification:
       hi: Pozdravljeni, %{to_user},
       subject: '[OpenHistoricalMap] %{user} vas je dodal med prijatelje'
-      had_added_you: '%{user} vas je dodal med prijatelje na OpenHistoricalMap.'
+      had_added_you: '%{user} vas je dodal_a med prijatelje v projektu OpenHistoricalMap.'
       see_their_profile: Njegov profil si lahko ogledate na %{userurl}.
       befriend_them: Lahko ga tudi dodate kot prijatelja na %{befriendurl}.
     gpx_failure:
+      hi: Pozdravljeni, %{to_user},
       failed_to_import: ' vsebovala neko napako, zaradi katere je ni bilo mogoče uvoziti.
         Napaka:'
       subject: '[OpenHistoricalMap] Neuspeh uvoza datoteke GPX'
     gpx_success:
+      hi: Pozdravljeni, %{to_user},
       loaded_successfully:
         one: |-
           bila uspešno uvožena z %{trace_points} od možne
@@ -1356,7 +1367,7 @@ sl:
           %{possible_points} točk
       subject: '[OpenHistoricalMap] Uspeh uvoza datoteke GPX'
     signup_confirm:
-      subject: '[OpenHistoricalMap] Dobrodošli na OpenHistoricalMap'
+      subject: '[OpenHistoricalMap] Pozdravljeni v OpenHistoricalMap'
       greeting: Pozdravljeni!
       created: Nekdo (upamo, da ste to vi) je pravkar ustvaril račun na %{site_url}.
       confirm: 'Pred karkoli drugim, morate potrditi, da je ta zahteva prišla od vas.
@@ -1385,50 +1396,50 @@ sl:
           opomb'
         subject_other: '[OpenHistoricalMap] %{commenter} je komentiral opombo, ki
           vas zanima'
-        your_note: '%{commenter} je pustil/-a komentar za opombo na zemljevidu v bližini
+        your_note: '%{commenter} je pustil_a komentar za opombo na zemljevidu v bližini
           %{place}.'
-        commented_note: '%{commenter} je pustil/-a komentar za opombo na zemljevidu,
-          ki ste jo vi komentirali. Opomba je v bližini %{place}.'
+        commented_note: '%{commenter} je pustil_a komentar za opombo na zemljevidu,
+          ki ste jo dodali. Opomba je v bližini %{place}.'
       closed:
-        subject_own: '[OpenHistoricalMap] %{commenter} je rešil/-a eno izmed vaših
+        subject_own: '[OpenHistoricalMap] %{commenter} je zaključil_a eno od vaših
           opomb'
-        subject_other: '[OpenHistoricalMap] %{commenter} je rešil/-a opombo, ki vas
-          zanima'
-        your_note: '%{commenter} je rešil/-a eno vaših opomb na zemljevidu v bližini
-          %{place}.'
-        commented_note: '%{commenter} je rešil/-a opombo na zemljevidu, ki ste jo
-          vi komentirali. Opomba je v bližini %{place}.'
-      reopened:
-        subject_own: '[OpenHistoricalMap] %{commenter} je zopet aktiviral/-a eno izmed
-          vaših opomb'
-        subject_other: '[OpenHistoricalMap] %{commenter} je zopet aktiviral/-a opombo,
-          ki vas zanima'
-        your_note: '%{commenter} je zopet aktiviral/-a eno opombo na zemljevidu v
+        subject_other: '[OpenHistoricalMap] %{commenter} je zaključil_a opombo, ki
+          vas zanima'
+        your_note: '%{commenter} je zaključil_a eno od vaših opomb na zemljevidu v
           bližini %{place}.'
-        commented_note: '%{commenter} je zopet aktiviral/-a opombo na zemljevidu,
-          ki ste jo vi komentirali. Opomba je v bližini %{place}.'
-      details: Več podrobnosti o opombi lahko najdete na %{url}.
+        commented_note: '%{commenter} je zaključil_a opombo na zemljevidu, ki ste
+          jo dodali. Opomba je v bližini %{place}.'
+      reopened:
+        subject_own: '[OpenHistoricalMap] %{commenter} je spet aktiviral_a eno od
+          vaših opomb'
+        subject_other: '[OpenHistoricalMap] %{commenter} je spet aktiviral_a opombo,
+          ki vas zanima'
+        your_note: '%{commenter} je spet aktiviral_a eno od vaših opomb na zemljevidu
+          v bližini %{place}.'
+        commented_note: '%{commenter} je spet aktiviral_a opombo na zemljevidu, ki
+          ste jo dodali. Opomba je v bližini %{place}.'
+      details: Več podatkov o opombi lahko najdete na %{url}.
     changeset_comment_notification:
       hi: Pozdravljeni, %{to_user},
       greeting: Pozdravljeni,
       commented:
         subject_own: '[OpenHistoricalMap] %{commenter} je komentiral enega izmed vaših
-          paketov sprememb'
-        subject_other: '[OpenHistoricalMap] %{commenter} je komentiral paket sprememb,
+          sklopov sprememb'
+        subject_other: '[OpenHistoricalMap] %{commenter} je komentiral sklop sprememb,
           ki vas zanima'
-        your_changeset: '%{commenter} je podal komentar na enega od vaših paketov
-          sprememb ustvarjen %{time}'
-        commented_changeset: '%{commenter} je podal komentar na paket sprememb, ki
-          vas zanima, katerega je %{changeset_author} ustvaril %{time}'
+        your_changeset: '%{commenter} je %{time} komentariral enega od vaših sklopov
+          sprememb'
+        commented_changeset: '%{commenter} je komentiral sklop sprememb, ki ga opazujete
+          in ga je %{time} ustvaril %{changeset_author}'
         partial_changeset_with_comment: s komentarjem "%{changeset_comment}"
         partial_changeset_without_comment: brez komentarja
-      details: Več podrobnosti o tem paketu sprememb lahko najdete na %{url}.
+      details: Več podatkov o tem sklopu sprememb lahko najdete na %{url}.
   confirmations:
     confirm:
       heading: Preverite vaš e-poštni naslov!
       introduction_1: Poslali smo vam potrditveno e-pošto.
-      introduction_2: Potrdite svoj račun s klikom na povezavo v e-pošti in takoj
-        boste lahko začeli kartirati.
+      introduction_2: Potrdite svoj račun s klikom povezave v e-pošti in takoj boste
+        lahko začeli kartirati.
       press confirm button: Za aktivacijo vašega uporabniškega računa pritisnite na
         gumb Potrdi spodaj.
       button: Potrdi
@@ -1501,8 +1512,8 @@ sl:
         v stik z %{people_mapping_nearby_link}?
       people_mapping_nearby: ljudmi, ki kartirajo blizu vas
     reply:
-      wrong_user: Prijavljeni ste kot '%{user}', ampak sporočilo na katerega odgovarjate,
-        ni bilo poslano vam. Prosimo, prijavite se, kot pravi uporabnik za odgovarjanje.
+      wrong_user: Prijavljeni ste kot '%{user}', toda sporočilo, na katerega odgovarjate,
+        ni bilo poslano temu uporabniku. Za odgovor se prijavite kot pravi uporabnik.
     show:
       title: Branje sporočila
       from: Od
@@ -1532,8 +1543,8 @@ sl:
         povezavo za ponastavitev gesla.
       notice email on way: Elektronsko sporočilo z vsemi potrebnimi podatki za nastavitev
         novega gesla je že na poti.
-      notice email cannot find: Oprostite, a vnešenega naslova elektronske pošte ni
-        bilo mogoče najti.
+      notice email cannot find: Oprostite, toda vnesenega e-poštnega naslova ni bilo
+        mogoče najti.
     reset_password:
       title: Ponastavitev gesla
       heading: Ponastavi geslo za %{user}
@@ -1567,7 +1578,7 @@ sl:
       image size hint: (najbolje delujejo kvadratne slike vsaj 100x100 točk)
       home location: Domača lokacija
       no home location: Niste nastavili vaše domače lokacije.
-      update home location on click: Posodobi domačo lokacijo ob kliku na zemljevid?
+      update home location on click: Posodobim domačo lokacijo ob kliku zemljevida?
     update:
       success: Profil posodobljen.
       failure: Profila ni bilo mogoče posodobiti.
@@ -1582,7 +1593,7 @@ sl:
       lost password link: Ste pozabili geslo?
       login_button: Prijava
       register now: Registrirajte se
-      with username: 'Že imate OpenHistoricalMap račun? Prosim, prijavite se s svojim
+      with username: 'Že imate račun OpenHistoricalMap? Prosimo, prijavite se s svojim
         uporabniškim imenom in geslom:'
       with external: 'Lahko pa uporabite prijavo tretje osebe:'
       new to osm: Ste novi na OpenHistoricalMap?
@@ -1609,14 +1620,14 @@ sl:
           title: Prijavi se s Facebookom
           alt: Prijavi se z računom Facebook
         windowslive:
-          title: Prijavi se z Windows Live
-          alt: Prijavi se z računom Windows Live
+          title: Prijava z Windows Live
+          alt: Prijava z računom Windows Live
         github:
           title: Vpis z GitHub-om
           alt: Vpis z računom pri GitHub-u
         wikipedia:
           title: Prijavi se z Wikipedio
-          alt: Prijavi se z računom Wikipedia
+          alt: Prijavi se z računom Wikipedije
         wordpress:
           title: Prijava z Wordpressom
           alt: Prijava z Wordpress OpenID-jem
@@ -1646,7 +1657,7 @@ sl:
       preview: Predogled
   site:
     about:
-      next: Naslednji
+      next: Naprej
       copyright_html: <span>&copy;</span>OpenHistoricalMap<br> sodelavci
       lede_text: |-
         OpenHistoricalMap ustvarja skupnost kartografov z vsega sveta, ki prispevajo in vzdržujejo
@@ -1669,10 +1680,14 @@ sl:
         mapping_link: začnete kartirati
       legal_babble:
         title_html: Avtorske pravice in licenca
-        intro_1_html: OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup>
-          so <i>prosti podatki</i> z dovoljenjem <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
-          Data Commons Open Database License</a> (ODbL) <a href="https://osmfoundation.org/">Fundacije
-          OpenHistoricalMap</a> (OSMF).
+        intro_1_html: "<b>OpenHistoricalMap (OHM)</b> zagotavlja zgodovinske kartografske
+          in sorodne podatke, ki jih \nlicencirajo sodelavci na ravni objektov. Sodelavce
+          močno spodbujamo, da prispevajo podatke pod licenco <a href=\"https://creativecommons.org/share-your-work/public-domain/cc0/\">CC0</a>,
+          vendar so v interesu varstva pravic ustvarjalcev zgodovinskih podatkov,
+          kot so akademiki, podprte tudi druge odprte licence, npr. katera koli kombinacija
+          CC, BY (priznanje avtorstva), SA (deljenje pod enakimi pogoji) in NC (nekomercialno).
+          Za razumevanje pogojev licenc, vključenih v podatke, ki jih kopirate, distribuirate,
+          prenašate in prilagajate, ste odgovorni sami."
         intro_2_html: "Naše podatke lahko prosto kopirate, razširjate, prenašate\nin
           prilagajate dokler kot vir navedete OpenHistoricalMap in \nsodelavce. Če
           podatke spremenite ali obogatite jih lahko\nrazširjate le pod enakimi licenčnimi
@@ -1684,13 +1699,13 @@ sl:
         credit_title_html: Kako pripisati zasluge projektu OpenHistoricalMap
         contributors_title_html: Naši sodelavci
         contributors_footer_1_html: |-
-          Za več podrobnosti o teh in drugih virih, ki so bili uporabljeni kot pripomočki pri izboljševanju OpenHistoricalMap, si prosimo oglejte <a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">stran sodelujočih</a> na wikiju OpenHistoricalMap.
+          Za več podrobnosti o teh in drugih virih, ki so bili uporabljeni kot pripomočki pri izboljševanju OpenHistoricalMap, si oglejte <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">stran sodelujočih</a> v vikiju OpenHistoricalMap.
         infringement_title_html: Kršitev avtorskih pravic
         trademarks_title_html: <span id="trademarks"></span>Blagovne znamke
     index:
-      js_1: Bodisi uporabljate brskalnik, ki ne podpira Javascript-a, ali pa je izvajanje
-        Javascript-a onemogočeno.
+      js_1: Bodisi uporabljate brskalnik, ki ne podpira Javascripta, ali pa je izvajanje
+        Javascripta onemogočeno.
       js_2: OpenHistoricalMap za prikaz zemljevida uporablja Javascript.
       permalink: Trajna povezava
       shortlink: Kratka povezava
@@ -1717,8 +1732,14 @@ sl:
       map_image: Slika zemljevida (prikaže standardni izris)
       embeddable_html: HTML za vključitev na spletno stran
       licence: Licenca
-      export_details_html: OpenHistoricalMap podatki imajo dovoljenje <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a> (ODbL).
+      export_details_html: Projekt OpenHistoricalMap (OHM) zagotavlja zgodovinske
+        kartografske in sorodne podatke, ki so jih sodelavci licencirali na ravni
+        objektov. Sodelavce močno spodbujamo, da prispevajo podatke pod licenco CC0,
+        vendar so v interesu varstva pravic ustvarjalcev zgodovinskih podatkov, kot
+        so akademiki, podprte tudi druge odprte licence, npr. katera koli kombinacija
+        CC, BY (priznanje avtorstva), SA (deljenje pod enakimi pogoji) in NC (nekomercialno).
+        Za razumevanje pogojev licenc, vključenih v podatke, ki jih kopirate, distribuirate,
+        prenašate in prilagajate, ste odgovorni sami.
       too_large:
         advice: 'Če zgornji izvoz spodleti, uporabite enega od spodnjih virov:'
         body: 'To področje je preveliko za izvoz v XML OpenHistoricalMap. Prosimo,
@@ -1739,7 +1760,7 @@ sl:
           description: Izvlečki za največja mesta na svetu in njihovo okolico
         other:
           title: Drugi viri
-          description: Dodatni viri, navedeni v wikiju OpenHistoricalMap
+          description: Dodatni viri, navedeni v vikiju OpenHistoricalMap
       options: Možnosti
       format: Oblika
       scale: Merilo
@@ -1766,7 +1787,7 @@ sl:
         vprašanj in odgovarjanje nanja, sodelovanje v pogovorih in dokumentiranje
         kartografskih tem.
       welcome:
-        title: Dobrodošli v OpenHistoricalMap (OSM)
+        title: Pozdravljeni v OpenHistoricalMap (OSM)
         description: Začnite s tem hitrim vodičem, ki zajema osnove OpenHistoricalMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Sl:Beginners%27_guide
@@ -1879,16 +1900,17 @@ sl:
           bicycle_parking: Parkirišče za kolesa
           toilets: Stranišče
     welcome:
-      title: Dobrodošli!
-      introduction_html: Dobrodošli na OpenHistoricalMap, brezplačni zemljevid sveta,
-        ki ga je mogoče tudi urejati. Zdaj, ko ste vpisani, ste pripravljeni za začetek
-        kartiranja. Tu dobite hitri vodnik z najbolj pomembnimi stvarmi, ki jih morate
-        vedeti.
+      title: Pozdravljeni!
+      introduction_html: Pozdravljeni v OpenHistoricalMap, brezplačnem zemljevidu
+        sveta, ki ga je mogoče tudi urejati. Zdaj, ko ste vpisani, ste pripravljeni
+        za začetek kartiranja. Tu je hitri vodnik z najpomembnejšim, kar morate vedeti.
       whats_on_the_map:
         title: Kaj je na zemljevidu
-        on_html: OpenHistoricalMap je kraj za kartiranje stvari, ki so bodisi <em>resnične
-          kot trenutne</em> - vključuje milijone stavb, cest in druge podatke o krajih.
-          Lahko kartirate katerikoli resnično značilnost, ki je za vas zanimiva.
+        on_html: |-
+          OpenHistoricalMap je kraj za kartiranje stvari, ki so <em>v preteklosti</em> –
+          vključuje stavbe, ceste in druge podatke o krajih. Kartirate lahko
+          katero koli resnično značilnost, ki je za vas zanimiva. Prosimo, kartirajte iz katerega koli
+          starega ali avtorsko prostega zemljevida, ki ga lahko najdete. Poleg tega smo zelo prijazni za uvoz.
         off_html: To, kar <em>ne</em> vključuje mnenjskih podatkov kot so ocene, zgodovinske
           ali hipotetične značilnosti in podatke iz avtorsko zaščitenih virov. Razen
           če nimate posebnega dovoljenja, ne kopirajte iz spletnih ali tiskanih zemljevidov.
@@ -1909,7 +1931,7 @@ sl:
       questions:
         title: Imate kakšno vprašanja?
         paragraph_1_html: |-
-          OpenHistoricalMap ima več virov za učenje o projektu, zastavljanje in odgovarjanje na vprašanja, sodelovalno razpravljanje in dokumentiranje tem o kartiranju.
+          OpenHistoricalMap ima več virov za učenje o projektu, postavljanje vprašanj in odgovarjanje nanja, sodelovalno razpravljanje in dokumentiranje kartografskih tem.
           <a href='%{help_url}'>Poiščite pomoč tukaj</a>.
       start_mapping: Začnite kartirati
       add_a_note:
@@ -2029,8 +2051,8 @@ sl:
   application:
     permission_denied: Za dostop do tega dejanja nimate dovoljenja.
     require_cookies:
-      cookies_needed: Izgleda imate onemogočene piškotke - prosim omogočite jih v
-        vašem brskalniku preden nadaljujete.
+      cookies_needed: Videti je, da imate onemogočene piškotke – za nadaljevanje jih
+        omogočite.
     require_admin:
       not_an_admin: Za izvedbo tega dejanja morate biti administrator.
     setup_user_auth:
@@ -2039,6 +2061,8 @@ sl:
       need_to_see_terms: Vaš dostop do API, je začasno prekinjen. Prosimo, prijavite
         se na spletno stran in si oglejte pogoje "Contributor Terms". Ni se vam treba
         strinjati, vendar si jih morate ogledati.
+    settings_menu:
+      oauth1_settings: Nastavitve OAuth 1
   oauth:
     authorize:
       title: Dovoli dostop do vašega računa
@@ -2119,22 +2143,23 @@ sl:
       edit: Uredi
       delete: Izbriši
       permissions: Dovoljenja
+      redirect_uris: Preusmeritveni URI-ji
   oauth2_authorizations:
     new:
       deny: Zavrni
     error:
-      title: Zgodila se je napaka
+      title: Prišlo je do napake
   oauth2_authorized_applications:
     index:
       permissions: Dovoljenja
   users:
     new:
       title: Prijavite se
-      no_auto_account_create: Na žalost vam trenutno ne moremo samodejno ustvariti
-        uporabniškega računa.
-      contact_support_html: Prosimo, pišite <a href="%{support}">skrbniku spletnega
-        mesta</a> (v angleščini) in se dogovorite za ustvaritev uporabniškega računa
-        – potrudili se bomo za čimprejšnjo obravnavo vašega zahtevka.
+      no_auto_account_create: Žal vam trenutno ne moremo samodejno ustvariti uporabniškega
+        računa.
+      contact_support_html: Prosimo, pišite <a href="%{support}">podpori</a> (v angleščini)
+        in se dogovorite za ustvaritev uporabniškega računa – potrudili se bomo za
+        čimprejšnjo obravnavo vašega zahtevka.
       about:
         header: Brezplačen, ki ga je mogoče urejati
         html: |-
@@ -2159,7 +2184,7 @@ sl:
       consider_pd: Poleg zgoraj navedenega sporazuma menim, da so moji prispevki v
         javni domeni
       consider_pd_why: kaj je to?
-      guidance_html: 'Informacije, ki pomagajo razumeti te pogoje: <a href="%{summary}">berljivi
+      guidance_html: 'Informacije za lažje razumevanje teh pogojev: <a href="%{summary}">berljivi
         povzetek</a> in nekaj <a href="%{translations}">neuradnih prevodov</a>'
       continue: Nadaljuj
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
@@ -2179,16 +2204,16 @@ sl:
       deleted: izbrisano
     show:
       my diary: Moj dnevnik
-      new diary entry: nov vnos v dnevnik
+      new diary entry: nov dnevniški zapis
       my edits: Moji prispevki
       my traces: Moje sledi
       my notes: Moje beležke
       my messages: Sporočila
       my profile: Moj profil
       my settings: Moje nastavitve
-      my comments: Moje pripombe
+      my comments: Moji komentarji
       blocks on me: Blokiranja mene
-      blocks by me: Moje blokade
+      blocks by me: Moja blokiranja
       edit_profile: Uredi profil
       send message: Pošlji sporočilo
       diary: Dnevnik
@@ -2219,7 +2244,7 @@ sl:
           moderator: Odvzemi moderatorski dostop
       block_history: Dejavna blokiranja
       moderator_history: Izvedena blokiranja
-      comments: Pripombe
+      comments: Komentarji
       create_block: Blokiraj uporabnika
       activate_user: Aktiviraj uporabnika
       deactivate_user: Dezaktiviraj uporabnika
@@ -2251,11 +2276,11 @@ sl:
       heading: Račun zaklenjen
       support: podpora
       body_html: |-
-        <p>Žal je bil vaš račun avtomatično začasno ustavljen zaradi sumljivih dejavnosti.</p>
-        <p>To odločitev bo pregledal administrator v kratkem ali pa se obrnete na %{webmaster}, če imate pripombe.</p>
+        <p>Žal je bil vaš račun zaradi sumljive dejavnosti samodejno zaustavljen.</p>
+        <p>To odločitev bo v kratkem pregledal administrator ali pa se obrnite na %{webmaster}, če se želite pogovoriti o tem.</p>
     auth_failure:
-      connection_failed: Povezava do storitve za preverjanje pristnosti ni uspela
-      invalid_credentials: Neveljavne poverilnice za preverjanje pristnosti
+      connection_failed: Povezava do ponudnika avtentikacije ni uspela
+      invalid_credentials: Neveljavne avtentikacijske poverilnice
       no_authorization_code: Ni pooblastitvene kode
       unknown_signature_algorithm: Neznan algoritem podpisa
       invalid_scope: Neveljaven obseg
@@ -2286,34 +2311,34 @@ sl:
         če sta uporabnik in vloga pravilna.
   user_blocks:
     model:
-      non_moderator_update: Morate biti moderator da ustvarite ali popravite blokado.
-      non_moderator_revoke: Morate biti moderator da prekličete blokado.
+      non_moderator_update: Da ustvarite ali spremenite blokiranje, morate biti moderator.
+      non_moderator_revoke: Da prekličete blokiranje, morate biti moderator.
     not_found:
-      sorry: Žal blokade uporabnika z ID-jem %{id} ni bilo mogoče najti.
+      sorry: Žal blokiranja uporabnika z ID-jem %{id} ni bilo mogoče najti.
       back: Nazaj na kazalo
     new:
       title: Blokiranje uporabnika %{name}
-      heading_html: Ustvarjanje blokade za %{name}
+      heading_html: Blokiranje uporabnika %{name}
       period: Kako dolgo bo uporabnik blokiran za uporabo APIja.
       tried_contacting: Sem kontaktiral uporabnika in ga prosil, da preneha.
       tried_waiting: Uporabniku sem določil ustrezen rok za odgovor na sporočila.
       back: Prikaži vsa blokiranja
     edit:
       title: Urejanje blokiranja za %{name}
-      heading_html: Urejanje blokade za %{name}
+      heading_html: Urejanje blokiranja za %{name}
       period: Kako dolgo bo uporabnik blokiran za uporabo APIja.
       show: Prikaži blokiranje
       back: Prikaži vsa blokiranja
     filter:
-      block_expired: Blokada je že potekla in je ni mogoče urejati.
-      block_period: Čas blokade mora biti ena od izbir s spustnega seznama vrednosti.
+      block_expired: Blokiranje je že preteklo in ga ni več mogoče urejati.
+      block_period: Čas blokiranja mora biti ena od izbir s spustnega seznama vrednosti.
     create:
       try_contacting: Prosimo, poskusite kontaktirati uporabnika pred blokiranjem
         in jim daje razumen času odziva.
       try_waiting: Poskusite dati uporabniku razumen rok za odgovor, preden ga blokirate.
-      flash: Ustvarjena blokada uporabnika %{name}.
+      flash: Ustvarjeno blokiranje uporabnika %{name}.
     update:
-      only_creator_can_edit: Samo moderator, ki je ustvaril to blokado, jo lahko ureja.
+      only_creator_can_edit: To blokiranje lahko ureja samo moderator, ki ga je ustvaril.
       success: Blokiranje posodobljeno.
     index:
       title: Uporabnikova blokiranja
@@ -2321,9 +2346,9 @@ sl:
       empty: Ni bilo še nobenega blokiranja.
     revoke:
       title: Preklic blokiranja za %{block_on}
-      heading_html: Preklic blokade za %{block_on} od %{block_by}
-      time_future: Ta blokada se bo končala  v %{time}.
-      past: Ta blokada se je končala %{time} in se zdaj ne more preklicati.
+      heading_html: Preklic blokiranja %{block_on} od %{block_by}
+      time_future: To blokiranje bo preteklo v %{time}.
+      past: To blokiranje se je končalo %{time} in ga zdaj ni več mogoče preklicati.
       confirm: Ali res želite preklicati blokiranje?
       revoke: Prekliči!
       flash: To blokiranje je bilo preklicano.
@@ -2346,11 +2371,11 @@ sl:
     blocks_on:
       title: Blokiranja na %{name}
       heading_html: Seznam blokiranj uporabnika %{name}
-      empty: Uporabnik/ca %{name} še ni bil/a blokiran/a.
+      empty: Uporabnik_ca %{name} še ni bil_a blokiran_a.
     blocks_by:
-      title: Dane blokade uporabnika %{name}
+      title: Blokiranja, ki jih je opravil_ uporabnik_ca %{name}
       heading_html: Seznam izvedenih blokiranj uporabnika %{name}
-      empty: Uporabnik/ca %{name} ni blokiral/a še nikogar.
+      empty: Uporabnik_ca %{name} ni blokiral_a še nikogar.
     show:
       title: '%{block_on} je blokiral %{block_by}'
       heading_html: '%{block_on} je blokiral %{block_by}'
@@ -2362,9 +2387,9 @@ sl:
       revoke: Prekliči!
       confirm: Ali ste prepričani?
       reason: 'Razlog blokiranja:'
-      back: Prikaži vse blokade
+      back: Prikaži vsa blokiranja
       revoker: 'Preklical:'
-      needs_view: Uporabnik se mora prijaviti preden bo blokada ukinjena.
+      needs_view: Uporabnik se mora za pretek blokiranja prijaviti.
     block:
       not_revoked: (ni preklicana)
       show: Prikaži
@@ -2381,9 +2406,9 @@ sl:
       previous: « Prejšnja
   notes:
     index:
-      title: Opombe, ki jih je posredoval/-a ali komentiral/-a %{user}
+      title: Opombe, ki jih je posredoval_a ali komentiral_a %{user}
       heading: Opombe uporabnika %{user}
-      subheading_html: Opombe, ki jih je posredoval/-a ali komentiral/-a %{user}
+      subheading_html: Opombe, ki jih je posredoval_a ali komentiral_a %{user}
       id: Id
       creator: Ustvarjalec
       description: Opis
@@ -2451,7 +2476,7 @@ sl:
       show:
         comment: Komentiraj
         subscribe: Naroči me
-        unsubscribe: Odjavi me
+        unsubscribe: Odnaroči
         hide_comment: skrij
         unhide_comment: razkrij
     notes:
@@ -2464,8 +2489,8 @@ sl:
           ali iz imenikov.
         add: Dodaj opombo
       show:
-        anonymous_warning: To opomba vključuje pripombe anonimnih uporabnikov, ki
-          bi morale biti posamezno preverjene.
+        anonymous_warning: To opomba vključuje komentarje anonimnih uporabnikov, ki
+          bi morali biti neodvisno preverjeni.
         hide: Skrij
         resolve: Razreši
         reactivate: Znova aktiviraj
@@ -2604,8 +2629,8 @@ sl:
     update:
       flash: Spremembe shranjene.
     destroy:
-      not_empty: Redakcija ni prazna. Prosim odrevidirajte vse različice, ki pripadajo
+      not_empty: Ta redakcija ni prazna. Prosimo, razkrijte vse različice, ki pripadajo
         tej redakciji, preden jo uničite.
       flash: Redakcija uničena.
-      error: Ob uničevanju te redakcije se je pojavila napaka.
+      error: Ob uničevanju te redakcije je prišlo do napake.
 ...
