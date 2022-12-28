@@ -42,6 +42,8 @@ help() unless -f $out_file;
 my $mw = MediaWiki::API->new();
 ok($mw, "Got a MediaWiki API");
 $mw->{config}->{api_url} = 'https://wiki.openstreetmap.org/w/api.php';
+$mw->{config}->{retries} = 5;
+$mw->{config}->{retry_delay} = 30;
 
 # All our goodies
 my (%feature, %count);
