@@ -1,4 +1,6 @@
 module OsmCommunityIndex
+  require_relative "../app/models/community" if Settings.status == "database_offline"
+
   def self.add_to_i18n
     # Filter the communities here to avoid loading excessive numbers of translations
     communities = Community.where(:type => "osm-lc").where.not(:id => "OSMF")
