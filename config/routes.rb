@@ -226,7 +226,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
-    resources :diary_entries, :path => "diary", :only => [:edit, :update, :show]
+    resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/
   end
   post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/, :as => :comment_diary_entry
   post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
