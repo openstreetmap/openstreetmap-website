@@ -24,10 +24,10 @@ function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
     },
     position: 'bottomright',
   };
-  if (params && params.date && typeof params.date == 'string' && params.date.match(/^\d\d\d\d\-\d\d\-\d\d$/)) {
+  if (params && params.date && typeof params.date == 'string' && params.date.match(/^\-?\d{1,4}\-\d\d\-\d\d$/)) {
     sliderOptions.date = params.date;
   }
-  if (params && params.daterange && typeof params.daterange == 'string' && params.daterange.match(/^\d\d\d\d\-\d\d\-\d\d,\d\d\d\d\-\d\d\-\d\d$/)) {
+  if (params && params.daterange && typeof params.daterange == 'string' && params.daterange.match(/^\-?\d{1,4}\-\d\d\-\d\d,\-?\d{1,4}\-\d\d\-\d\d$/)) {
     sliderOptions.range = params.daterange.split(',');
   }
 
