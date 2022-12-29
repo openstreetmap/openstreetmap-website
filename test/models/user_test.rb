@@ -259,7 +259,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.active?
   end
 
-  def test_soft_destroy_revokes_access_tokens
+  def test_soft_destroy_revokes_oauth1_tokens
     user = create(:user)
     access_token = create(:access_token, :user => user)
     assert_equal 1, user.oauth_tokens.authorized.count
@@ -271,7 +271,7 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate access_token, :invalidated?
   end
 
-  def test_soft_destroy_revokes_oauth_access_tokens
+  def test_soft_destroy_revokes_oauth2_tokens
     user = create(:user)
     oauth_access_token = create(:oauth_access_token, :resource_owner_id => user.id)
     assert_equal 1, user.access_tokens.not_expired.count
