@@ -671,7 +671,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Try a non-integer ID
     assert_raise ActionController::RoutingError do
-      get "/user/#{CGI.escapeURIComponent(user.display_name)}/diary/#{diary_entry.id})"
+      get "/user/#{CGI.escape(user.display_name)}/diary/#{diary_entry.id})"
     end
 
     # Try a deleted entry
