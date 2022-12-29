@@ -1856,6 +1856,2404 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_subways_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "in",
+          "construction",
+          "subway"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(153, 153, 153, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.5,
+          18,
+          4
+        ],
+        "line-dasharray": [
+          4,
+          1
+        ]
+      }
+    },
+    {
+      "id": "roads_tertiarytunnel_case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "tertiary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          1,
+          18,
+          36
+        ],
+        "line-dasharray": [
+          0.5,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "roads_secondarytunnel_case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "secondary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          8,
+          1,
+          18,
+          38
+        ],
+        "line-dasharray": [
+          0.5,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "roads_primarytunnel_case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "primary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          7,
+          1,
+          18,
+          42
+        ],
+        "line-dasharray": [
+          0.5,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "roads_motorwaytunnel_case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 5,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway",
+          "motorway_link",
+          "trunk",
+          "trunk_link"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          5,
+          1,
+          18,
+          46
+        ],
+        "line-dasharray": [
+          0.5,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "roads_tertiarytunnel_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "tertiary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(245, 245, 245, 0.6)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          0.8,
+          18,
+          24
+        ]
+      }
+    },
+    {
+      "id": "roads_secondarytunnel_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "secondary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(245, 245, 245, 0.6)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          8,
+          0.5,
+          18,
+          30
+        ]
+      }
+    },
+    {
+      "id": "roads_primarytunnel_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "primary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(241, 218, 187, 0.6)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          6,
+          0.75,
+          18,
+          32
+        ]
+      }
+    },
+    {
+      "id": "roads_motorwaytunnel_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 5,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "tunnel",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway",
+          "motorway_link",
+          "trunk",
+          "trunk_link"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(240, 197, 188, 0.6)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          5,
+          1,
+          18,
+          36
+        ]
+      }
+    },
+    {
+      "id": "roads_raceways_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "construction",
+          "raceway"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(255, 249, 241, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.2,
+          18,
+          12
+        ],
+        "line-dasharray": [
+          0.75,
+          0.1
+        ]
+      }
+    },
+    {
+      "id": "roads_trackfillcase_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "construction",
+          "track"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#b3b3b3",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.5,
+          18,
+          12
+        ]
+      }
+    },
+    {
+      "id": "roads_trackfill_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "construction",
+          "track"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(251, 247, 245, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.5,
+          18,
+          4
+        ]
+      }
+    },
+    {
+      "id": "roads_track_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "construction",
+          "track"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#b3b3b3",
+        "line-dasharray": [
+          0.3,
+          1
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.5,
+          18,
+          8
+        ]
+      }
+    },
+    {
+      "id": "roads_living_street_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "in",
+          "construction",
+          "living_street"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.2,
+          18,
+          6
+        ]
+      }
+    },
+    {
+      "id": "roads_pedestrian_street_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "construction",
+          "pedestrian"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.2,
+          18,
+          6
+        ]
+      }
+    },
+    {
+      "id": "roads_footway_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "in",
+          "construction",
+          "footway",
+          "cycleway",
+          "path"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(225, 225, 225, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.2,
+          18,
+          3
+        ],
+        "line-dasharray": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "id": "roads_pier_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "construction",
+          "pier"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.5,
+          18,
+          12
+        ]
+      }
+    },
+    {
+      "id": "roads_steps_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "in",
+          "construction",
+          "steps"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#b3b3b3",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.5,
+          18,
+          6
+        ],
+        "line-dasharray": [
+          0.1,
+          0.3
+        ]
+      }
+    },
+    {
+      "id": "roads_other_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "in",
+          "construction",
+          "unclassified",
+          "living_street",
+          "raceway"
+        ]
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "rgba(255, 207, 0, 1)",
+        "line-width": {
+          "stops": [
+            [
+              14,
+              4
+            ],
+            [
+              18,
+              16
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "roads_residentialcase_z13_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          0
+        ],
+        [
+          "in",
+          "construction",
+          "residential",
+          "service",
+          "unclassified"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#E6E6E6",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          13,
+          3,
+          18,
+          15
+        ]
+      }
+    },
+    {
+      "id": "roads_tertiary-case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 10.01,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "tertiary"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#E6E6E6",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          10,
+          2.2,
+          18,
+          28
+        ]
+      }
+    },
+    {
+      "id": "roads_secondary-case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 10,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "secondary"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(230, 230, 230, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          10,
+          2.4,
+          18,
+          35
+        ]
+      }
+    },
+    {
+      "id": "roads_primarylink-case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "primary_link"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          7,
+          2,
+          18,
+          40
+        ]
+      }
+    },
+    {
+      "id": "roads_primary-case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "ford",
+          "yes"
+        ],
+        [
+          "in",
+          "construction",
+          "primary"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          7,
+          2,
+          18,
+          40
+        ]
+      }
+    },
+    {
+      "id": "roads_motorwaylink-case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 6,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway_link",
+          "trunk_link"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          6,
+          2,
+          18,
+          46
+        ]
+      }
+    },
+    {
+      "id": "roads_motorway-case_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 6,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway",
+          "trunk"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          6,
+          2,
+          18,
+          46
+        ]
+      }
+    },
+    {
+      "id": "roads_roads_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "in",
+          "construction",
+          "road"
+        ]
+      ],
+      "layout": {
+        "visibility": "none",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 0, 0, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          0.5,
+          18,
+          5
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_residential_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "in",
+          "construction",
+          "residential",
+          "service",
+          "unclassified"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          1.5,
+          18,
+          12
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_secondarylink_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "secondary_link"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [
+              10,
+              "rgba(240, 240, 240, 1)"
+            ],
+            [
+              12,
+              "#ffffff"
+            ]
+          ]
+        },
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          8,
+          0.5,
+          18,
+          30
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_primarylink_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "primary_link"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(241, 218, 187, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          6,
+          0.75,
+          18,
+          32
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_motorwaylink_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 5,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway_link",
+          "trunk_link"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(240, 197, 188, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          5,
+          1,
+          18,
+          36
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_tertiary_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "tertiary"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [
+              10,
+              "rgba(240, 240, 240, 1)"
+            ],
+            [
+              12,
+              "#ffffff"
+            ]
+          ]
+        },
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          0.8,
+          18,
+          24
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_secondary_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "secondary"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [
+              10,
+              "rgba(240, 240, 240, 1)"
+            ],
+            [
+              12,
+              "#ffffff"
+            ]
+          ]
+        },
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          8,
+          0.5,
+          18,
+          30
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_primary_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "ford",
+          "yes"
+        ],
+        [
+          "==",
+          "construction",
+          "primary"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(241, 218, 187, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          6,
+          0.75,
+          18,
+          32
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_motorway_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 5,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "!=",
+          "tunnel",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway",
+          "trunk"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(240, 197, 188, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          5,
+          1,
+          18,
+          36
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_ford_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "filter": [
+        "all",
+        [
+          "==",
+          "ford",
+          "yes"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.9,
+          18,
+          30
+        ],
+        "line-dasharray": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "id": "roads_residential_bridge_z13-copy_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 13,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "residential",
+          "service",
+          "unclassified"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "butt",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(210, 210, 210, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          2,
+          18,
+          30
+        ]
+      }
+    },
+    {
+      "id": "roads_tertiarybridge_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "tertiary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "butt",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(210, 210, 210, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          4,
+          18,
+          48
+        ]
+      }
+    },
+    {
+      "id": "roads_secondarybridge_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "secondary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "butt",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(210, 210, 210, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          8,
+          3.2,
+          18,
+          50
+        ]
+      }
+    },
+    {
+      "id": "roads_primarybridge_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "primary",
+          "primary_link"
+        ]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "visibility": "visible",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          7,
+          3.5,
+          18,
+          52
+        ]
+      }
+    },
+    {
+      "id": "roads_motorwaybridge_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 5,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway",
+          "motorway_link",
+          "trunk",
+          "trunk_link"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "butt",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          5,
+          3,
+          18,
+          58
+        ]
+      }
+    },
+    {
+      "id": "roads_residential_bridgetop_z13_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "residential",
+          "service",
+          "unclassified"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          0.5,
+          18,
+          12
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_tertiarybridgetop_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "tertiary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [
+              10,
+              "rgba(217, 217, 217, 1)"
+            ],
+            [
+              11,
+              "#ffffff"
+            ]
+          ]
+        },
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          0.8,
+          18,
+          24
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_secondarybridgetop_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "==",
+          "construction",
+          "secondary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [
+              10,
+              "rgba(217, 217, 217, 1)"
+            ],
+            [
+              11,
+              "#ffffff"
+            ]
+          ]
+        },
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          8,
+          0.5,
+          18,
+          30
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_primarybridgetop_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "primary"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(241, 218, 187, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          6,
+          0.75,
+          18,
+          32
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_motorwaybridgetop_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 5,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "construction"
+        ],
+        [
+          "==",
+          "bridge",
+          1
+        ],
+        [
+          "in",
+          "construction",
+          "motorway",
+          "motorway_link",
+          "trunk",
+          "trunk_link"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(240, 197, 188, 1)",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          5,
+          1,
+          18,
+          36
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "roads_rail_tram_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "tram",
+          "funicular",
+          "monorail"
+        ],
+        [
+          "!in",
+          "service",
+          "yard",
+          "siding"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(197, 197, 197, 1)",
+        "line-width": {
+          "stops": [
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1.25
+            ],
+            [
+              20,
+              2.25
+            ]
+          ]
+        },
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    },
+    {
       "id": "roads_subways",
       "type": "line",
       "source": "osm",
@@ -2645,9 +5043,9 @@ ohmVectorStyles.Original = {
           "unclassified"
         ],
         [
-          "==",
+          "!=",
           "bridge",
-          0
+          1
         ]
       ],
       "layout": {
@@ -2691,6 +5089,11 @@ ohmVectorStyles.Original = {
           "!=",
           "tunnel",
           1
+        ],
+        [
+          "!=",
+          "bridge",
+          1
         ]
       ],
       "layout": {
@@ -2733,6 +5136,11 @@ ohmVectorStyles.Original = {
           "!=",
           "tunnel",
           1
+        ],
+        [
+          "!=",
+          "bridge",
+          1
         ]
       ],
       "layout": {
@@ -2774,6 +5182,11 @@ ohmVectorStyles.Original = {
         [
           "!=",
           "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "bridge",
           1
         ]
       ],
@@ -2822,6 +5235,11 @@ ohmVectorStyles.Original = {
           "!=",
           "ford",
           "yes"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
         ]
       ],
       "layout": {
@@ -2866,6 +5284,11 @@ ohmVectorStyles.Original = {
           "!=",
           "tunnel",
           1
+        ],
+        [
+          "!=",
+          "bridge",
+          1
         ]
       ],
       "layout": {
@@ -2909,6 +5332,11 @@ ohmVectorStyles.Original = {
         [
           "!=",
           "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "bridge",
           1
         ]
       ],
@@ -3035,6 +5463,11 @@ ohmVectorStyles.Original = {
           "residential",
           "service",
           "unclassified"
+        ],
+        [
+          "==",
+          "name",
+          ""
         ]
       ],
       "layout": {
@@ -3076,6 +5509,11 @@ ohmVectorStyles.Original = {
         [
           "!=",
           "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "bridge",
           1
         ]
       ],
@@ -3130,6 +5568,11 @@ ohmVectorStyles.Original = {
           "!=",
           "tunnel",
           1
+        ],
+        [
+          "!=",
+          "bridge",
+          1
         ]
       ],
       "layout": {
@@ -3174,6 +5617,11 @@ ohmVectorStyles.Original = {
           "!=",
           "tunnel",
           1
+        ],
+        [
+          "!=",
+          "bridge",
+          1
         ]
       ],
       "layout": {
@@ -3216,6 +5664,11 @@ ohmVectorStyles.Original = {
         [
           "!=",
           "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "bridge",
           1
         ]
       ],
@@ -3269,6 +5722,11 @@ ohmVectorStyles.Original = {
         [
           "!=",
           "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "bridge",
           1
         ]
       ],
@@ -3328,6 +5786,11 @@ ohmVectorStyles.Original = {
           "!=",
           "ford",
           "yes"
+        ],
+        [
+          "!=",
+          "bridge",
+          1
         ]
       ],
       "layout": {
@@ -3371,6 +5834,11 @@ ohmVectorStyles.Original = {
         [
           "!=",
           "tunnel",
+          1
+        ],
+        [
+          "!=",
+          "bridge",
           1
         ]
       ],
@@ -3997,7 +6465,7 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "#ffffff",
+        "line-color": "rgba(255, 255, 255, 1)",
         "line-width": [
           "interpolate",
           [
@@ -5218,25 +7686,29 @@ ohmVectorStyles.Original = {
         },
         "visibility": "visible",
         "icon-image": "capital-18",
-        "icon-offset": {
+        "icon-offset": [
+          0,
+          0
+        ],
+        "icon-size": 1,
+        "text-offset": {
           "stops": [
             [
               6,
               [
                 0,
-                -9
+                1.2
               ]
             ],
             [
               10,
               [
                 0,
-                -10
+                1
               ]
             ]
           ]
-        },
-        "icon-size": 1
+        }
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5284,25 +7756,29 @@ ohmVectorStyles.Original = {
         },
         "visibility": "visible",
         "icon-image": "city-18",
-        "icon-offset": {
+        "icon-offset": [
+          0,
+          0
+        ],
+        "icon-size": 1,
+        "text-offset": {
           "stops": [
             [
               6,
               [
                 0,
-                -9
+                1.2
               ]
             ],
             [
               10,
               [
                 0,
-                -10
+                1
               ]
             ]
           ]
-        },
-        "icon-size": 1
+        }
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5998,7 +8474,7 @@ ohmVectorStyles.Original = {
       ],
       "layout": {
         "icon-image": "{type}-12",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
@@ -6011,7 +8487,7 @@ ohmVectorStyles.Original = {
         ]
       },
       "paint": {
-        "text-color": "rgba(108, 132, 137, 1)",
+        "text-color": "rgba(80, 80, 80, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
         "text-halo-blur": 1
