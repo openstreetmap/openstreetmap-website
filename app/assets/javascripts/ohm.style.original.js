@@ -16,7 +16,7 @@ ohmVectorStyles.Original = {
     }
   },
   "sprite": spriteSheetUrls_Original[ohmTileServiceName],
-"glyphs": "https://openhistoricalmap.github.io/map-styles/fonts/{fontstack}/{range}.pbf",
+  "glyphs": "https://openhistoricalmap.github.io/map-styles/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
