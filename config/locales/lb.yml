@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Danieldegroot2
 # Author: Davio
+# Author: Felix3qH4
 # Author: Helicoducair
 # Author: Les Meloures
 # Author: Robby
@@ -12,13 +13,13 @@
 lb:
   time:
     formats:
-      friendly: '%e. %B %Y um %H:%M Auer'
+      friendly: '%e %B %Y um %H:%M Auer'
   helpers:
     file:
       prompt: Fichier eraussichen
     submit:
       diary_comment:
-        create: Späicheren
+        create: Kommentéieren
       diary_entry:
         create: Verëffentlechen
         update: Aktualiséieren
@@ -34,12 +35,12 @@ lb:
         update: Aktualiséieren
       redaction:
         create: Schwäerzen
-        update: Schäerzung späicheren
+        update: Schwäerzung späicheren
       trace:
         create: Eroplueden
         update: Ännerunge späicheren
       user_block:
-        create: Spär uleeën
+        create: Spären
         update: Spär aktualiséieren
   activerecord:
     errors:
@@ -251,7 +252,26 @@ lb:
     deletions:
       show:
         title: Mäi Benotzerkont läschen
+        warning: Opgepasst! De Konto Läschprozess ass final a kann net réckgängeg
+          gemaach ginn.
         delete_account: Benotzerkont läschen
+        delete_introduction: 'Dir kënnt Ären OpenStreetMap Kont läschen mat dem Knäppchen
+          hei drënner. Notéiert w.e.g. déi folgend Detailer:'
+        delete_profile: Är Profilinformatiounen, wéi Ären Avatar, Beschreiwung an
+          Heemplaz ginn geläscht.
+        delete_display_name: Ären affichéierten Numm gëtt geläscht, a ka vun anere
+          Konte benotzt ginn.
+        retain_caveats: 'E puer Informatiounen iwwer Iech ginn awer op OpenStreetMap
+          behalen, och nodeems Äre Kont geläscht ass:'
+        retain_edits: Är Ännerunge un der Kaarten Datebank, wann et der ginn, ginn
+          bäibehalen.
+        retain_traces: Är eropgeluede Tracen, wann et der ginn, ginn bäibehalen.
+        retain_diary_entries: Är Tagebuch-Entréeën an Tagebuchkommentarer, wann et
+          der ginn, ginn bäibehalen awer onsiichtbar gemaach.
+        retain_notes: Är Kaartennotizen an Notizkommentarer, wann et der ginn, ginn
+          bäibehalen awer onsiichtbar gemaach.
+        retain_changeset_discussions: Är Ännerungsdiskussiounen, wann et der ginn,
+          wäerte bäibehalen ginn.
         retain_email: Är E-Mail-Adress gëtt behalen.
         confirm_delete: Sidd Dir sécher?
         cancel: Ofbriechen
@@ -265,16 +285,37 @@ lb:
         link text: wat ass dat?
       public editing:
         heading: Ëffentlecht Beaarbechten
+        enabled: Aktivéiert. Net anonym a kann Daten änneren.
         enabled link text: wat ass dëst?
+        disabled: Déaktivéiert an kann keng Daten änneren, all vireg Beaarbeschtungen
+          sinn anonym.
         disabled link text: Firwat kann ech net änneren?
       public editing note:
         heading: Ëffentlecht Beaarbechten
+        html: Momentan sinn Är Ännerungen anonym an d'Leit kënnen Iech keng Messagen
+          schécken oder Är Positioun gesinn. Fir ze weisen wat Dir geännert hutt an
+          de Leit ze erlaben Iech iwwer d'Websäit ze kontaktéieren, klickt op de Knäppchen
+          hei ënnen. <b>Zënter dem 0.6 API Wiessel kënnen nëmmen ëffentlech Benotzer
+          Kaartdaten änneren</b> . ( <a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">fannt
+          eraus firwat</a> ).<ul><li> Är E-Mailadress gëtt net opgedeckt andeems Dir
+          ëffentlech gitt.</li><li> Dës Aktioun kann net réckgängeg gemaach ginn an
+          all nei Benotzer sinn elo als Standard ëffentlech.</li></ul>
       contributor terms:
+        heading: Bedéngungen fir Matwierkender
+        agreed: Dir hutt den neien Bedéngungen fir Matwierkender zougestëmmt.
+        not yet agreed: Dir hutt den neien Bedéngungen fir Matwierkender nach net
+          zougestëmmt.
+        review link text: Follegt w.e.g. dëssem Link fir déi nei Bedéngungen fir Matwierkender
+          ze gesinn an ze akzeptéieren.
+        agreed_with_pd: Dir hudd och deklaréiert dass Dir Är Ännerungen der Öffentlechkeet
+          zur Verfügung stellt (Public Domain).
         link text: wat ass dëst?
       save changes button: Ännerunge späicheren
       make edits public button: All meng Ännerunge ëffentlech maachen
       delete_account: Benotzerkont läschen...
     update:
+      success_confirm_needed: Benotzerinformatioun erfollegräich aktualiséiert. Checkt
+        Är E-Mail op eng Benoriichtegung fir Är nei Email Adress ze confirméieren.
       success: Benotzerinformatioun ass elo aktualiséiert.
     destroy:
       success: Benotzerkont geläscht.
@@ -436,6 +477,7 @@ lb:
     index:
       title: Sette vun Ännerungen
       title_user: Sette vun Ännerunge vum %{user}
+      title_user_link_html: Ännerungen vum %{user_link}
       title_friend: Ännerungs-Sette vu menge Frënn
       title_nearby: Gruppe vun Ännerunge vu Benotzer nobäi
       empty: Keng Gruppe vun Ännerunge fonnt.
@@ -464,6 +506,8 @@ lb:
       km away: '%{count} km ewech'
       m away: '%{count} m ewech'
     popup:
+      your location: Ären Standort
+      nearby mapper: Mapper an der Emgéigend
       friend: Frënn
     show:
       title: Meng Iwwersiichtssäit
@@ -473,8 +517,12 @@ lb:
       my friends: Meng Frënn
       no friends: Dir hutt nach keng Frënn derbäigesat.
       nearby users: Aner Benotzer nobäi
+      no nearby users: Et gi keng aner Benotzer déi hiren Standort an der Géigend
+        hunn.
       friends_changesets: Ännerungssätz vun dénge Frënn
+      friends_diaries: Blogs vun denge Frënn
       nearby_changesets: Ännerungssätz vu Benotzer an der Noperschaft
+      nearby_diaries: Blogs vun Benotzer an der Emgéigend.
   diary_entries:
     new:
       title: Neie Blogantrag
@@ -542,6 +590,9 @@ lb:
         title: OpenStreetMap Blogbäiträg
         description: Neiest Bloganträg vun OpenStreetMap-Benotzer
     comments:
+      title: Tagebuch Kommentarer bäigefüügt vum %{user}
+      heading: '%{user}''s Tagebuch Kommentarer'
+      subheading_html: Tagebuch Kommentarer bäigefüügt vum %{user}
       no_comments: Keng Blog-Commentairen
       post: Blogantrag
       when: Wéini
@@ -594,8 +645,8 @@ lb:
         aeroway:
           aerodrome: Fluchhafen
           airstrip: Startbunn
-          apron: Fluchvirfeld
-          gate: Paart
+          apron: Fluchhafenvirfeld
+          gate: Fluchhafenpaart
           hangar: Hangar
           helipad: Helikopterlandeplaz
           holding_position: Haltestell
@@ -866,6 +917,7 @@ lb:
           trailhead: Ausgangspunkt vun engem Wanderwee
           trunk: Schnellstrooss
           trunk_link: Schnellstroossenopfaart
+          turning_circle: Wendekrees
           turning_loop: Dréischläif
           unclassified: Net klasséiert Strooss
           "yes": Strooss
@@ -936,7 +988,7 @@ lb:
           reservoir: Reservoir
           reservoir_watershed: Waasseranzuchsgebitt
           residential: Wunngéigend
-          retail: Eenzelhandel
+          retail: Eenzelhandelsberäich
           village_green: Duerfwiss
           vineyard: Wéngert
           "yes": Buedemnotzung
@@ -983,6 +1035,7 @@ lb:
           antenna: Antenn
           avalanche_protection: Lawineschutz
           beacon: Liichttuerm
+          beam: Balken
           beehive: Beiestack
           breakwater: Hafendamm
           bridge: Bréck
@@ -993,6 +1046,7 @@ lb:
           communications_tower: Funktuerm
           crane: Kran
           cross: Kräiz
+          dolphin: Mooring Post
           dyke: Däich
           embankment: Rampli
           flagpole: Fändelsmast
@@ -1144,6 +1198,7 @@ lb:
           "yes": Plaz
         railway:
           abandoned: Fréier Eisebunn
+          buffer_stop: Prellbock
           construction: Eisebunn (am Bau)
           disused: Fréier Eisebunn
           funicular: Standseelbunn
@@ -1259,6 +1314,7 @@ lb:
           outdoor: Outdoor-Ausrëschter
           paint: Lackéierei
           pastry: Pâtisserie
+          pawnbroker: Pfandleiher
           perfumery: Parfümerie
           pet: Déierebuttek
           pet_grooming: Honds-Salon
@@ -1416,6 +1472,7 @@ lb:
   issue_comments:
     create:
       comment_created: Däi Commentaire gouf erfollegräich erstallt
+      issue_reassigned: Äre Kommentar gouf erstallt an den Problem gouf nei zougewisen
   reports:
     new:
       title_html: '%{link} mellen'
@@ -1676,6 +1733,8 @@ lb:
       failure: Eng E-Mail-Adress gouf ewell mat dësem Link bestätegt.
       unknown_token: Dee Confirmatiouns-Code ass ofgelaf oder et gëtt en net.
     resend_success_flash:
+      confirmation_sent: Mir hunn eng nei Bestätegungsnotiz un %{email} geschéckt
+        a soubal Dir Äre Kont confirméiert hutt, kënnt Dir mam kartograféieren ufänken.
       whitelist: Wanns du en Antispam-System verwenns, dee Bestätegungsufroe sent,
         stell wannechgelift sécher, dass du %{sender} op eng Erlaabnislëscht setz,
         well mir keng Bestätegungsufroë beäntwere kënnen.
@@ -1710,10 +1769,14 @@ lb:
       back_to_inbox: Zréck an de Postagang
     create:
       message_sent: Message geschéckt
+      limit_exceeded: Dir hutt a leschter Zäit vill Messagen geschéckt. Waart w.e.g.
+        eng Zäit ier Dir probéiert méi ze schécken.
     no_such_message:
       title: Kee sou ee Message
       heading: Kee sou ee Message
+      body: Leider gëtt et kee Message mat där ID.
     outbox:
+      title: Outbox
       my_inbox: Mäi Postagang
       my_outbox: Mäi Postausgang
       messages:
@@ -1817,11 +1880,18 @@ lb:
       lost password link: Hutt Dir Äert Passwuert vergiess?
       login_button: Umellen
       register now: Elo aschreiwen
+      with username: 'Hutt Dir schonn en OpenStreetMap Kont? Mellt Iech w.e.g. mat
+        Ärem Benotzernumm a Passwuert un:'
+      with external: 'Benotzt alternativ eng Drëtt Partei fir anzeloggen:'
       new to osm: Nei bei OpenStreetMap?
       to make changes: Fir Donnéesännerunge bei OpenStreetMap virhuelen ze kënnen,
         muss Du e Benotzerkont hunn.
       create account minute: Maacht e Benotzerkont. Et dauert nëmmen eng Minutt.
       no account: Hutt Dir kee Benotzerkont?
+      account not active: Entschëllegt, Äre Kont ass nach net aktiv.<br /> Benotzt
+        w.e.g. de Link an der Kont Bestätegungs-E-Mail fir Äre Kont ze aktivéieren,
+        oder <a href="%{reconfirm}">frot eng nei Confirmatiouns-E-Mail un</a> .
+      auth failure: Mat dëssen Daten ass leider keng Umeldung méiglech.
       openid_logo_alt: Alogge mat enger OpenID
       auth_providers:
         openid:
@@ -1852,8 +1922,14 @@ lb:
       title: Ofmellen
       heading: Vun OpenStreetMap ofmellen
       logout_button: Ofmellen
+    suspended_flash:
+      suspended: Entschëllegt, Äre Kont gouf wéinst verdächteger Aktivitéit suspendéiert.
+      contact_support_html: Kontaktéiert w.e.g. %{support_link} wann Dir dëst diskutéiere
+        wëllt.
+      support: support
   shared:
     markdown_help:
+      title_html: Parséiert mat <a href="https://kramdown.gettalong.org/quickref.html">Kramdown</a>
       headings: Iwwerschrëften
       heading: Iwwerschrëft
       subheading: Ënneriwwerschrëft
@@ -1868,6 +1944,7 @@ lb:
       url: URL
     richtext_field:
       edit: Änneren
+      preview: Virschau
   site:
     about:
       next: Weider
