@@ -49,6 +49,12 @@ class BrowseTagsHelperTest < ActionView::TestCase
 
     html = format_value("contact", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
+
+    html = format_value("source", "https://example.com")
+    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\">https://example.com</a>", html
+
+    html = format_value("source", "https://example.com;hello;https://example.net")
+    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\">https://example.com</a>;hello;<a href=\"https://example.net\" rel=\"nofollow\">https://example.net</a>", html
   end
 
   def test_wiki_link
