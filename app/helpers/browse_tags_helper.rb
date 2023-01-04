@@ -32,7 +32,7 @@ module BrowseTagsHelper
     elsif colour_value = colour_preview(key, value)
       tag.span("", :class => "colour-preview-box", :"data-colour" => colour_value, :title => t("browse.tag_details.colour_preview", :colour_value => colour_value)) + colour_value
     else
-      safe_join(h(value).split(";").map { |x| linkify(x) }, ";")
+      safe_join(value.split(";").map { |x| linkify(h(x)) }, ";")
     end
   end
 

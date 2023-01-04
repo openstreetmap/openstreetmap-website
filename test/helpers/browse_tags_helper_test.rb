@@ -22,6 +22,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("unknown", "unknown")
     assert_dom_equal "unknown", html
 
+    html = format_value("addr:street", "Rue de l'Amigo")
+    assert_dom_equal "Rue de l&#39;Amigo", html
+
     html = format_value("phone", "+1234567890")
     assert_dom_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
 
