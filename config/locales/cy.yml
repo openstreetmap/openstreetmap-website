@@ -11,19 +11,23 @@ cy:
     formats:
       friendly: '%e %B %Y at %H:%M'
   helpers:
+    file:
+      prompt: Dewiswch ffeil
     submit:
       diary_comment:
-        create: Cadw
+        create: Sylw
       diary_entry:
         create: Cyhoeddi
-        update: Uwchraddio
+        update: Diweddaru
       issue_comment:
         create: Ychwanegu sylw
       message:
         create: Anfon
       client_application:
         create: Cofrestru
-        update: Golygu
+        update: Diweddaru
+      oauth2_application:
+        update: Diweddaru
       redaction:
         create: Creu golygiadau
         update: Cadw golygiadau
@@ -72,6 +76,8 @@ cy:
       way_node: Cwgn Llwybr
       way_tag: Tag Llwybr
     attributes:
+      client_application:
+        name: Enw (Gofynnol)
       diary_comment:
         body: Corff
       diary_entry:
@@ -80,13 +86,15 @@ cy:
         latitude: Lledred
         longitude: Hydred
         language: Iaith
+      doorkeeper/application:
+        name: Enw
       friend:
         user: Defnyddiwr
         friend: Ffrind
       trace:
         user: Defnyddiwr
         visible: Gweladwy
-        name: Enw
+        name: Enw'r ffeil
         size: Maint
         latitude: Lledred
         longitude: Hydred
@@ -94,19 +102,20 @@ cy:
         description: Disgrifiad
         gpx_file: 'Uwchlwytho Ffeil GPX:'
         visibility: 'Gwelededd:'
-        tagstring: 'Tagiau:'
+        tagstring: Tagiau
       message:
         sender: Danfonwr
         title: Pwnc
         body: Corff
         recipient: Derbyniwr
       redaction:
+        title: Teitl
         description: Disgrifiad
       user:
         email: Ebost
         new_email: 'Cyfeiriad Ebost Newydd:'
         active: Gweithredol
-        display_name: Dangos Enw
+        display_name: Enw Arddangos
         description: Disgrifiad
         home_lat: 'Lledred:'
         home_lon: 'Hydred:'
@@ -144,6 +153,8 @@ cy:
       description: Pellreolwr (JOSM neu Merkaartor)
   auth:
     providers:
+      none: Dim
+      openid: OpenID
       google: Google
       facebook: Facebook
       windowslive: Windows Live
@@ -152,8 +163,8 @@ cy:
   api:
     notes:
       comment:
-        opened_at_html: Creewyd %{when}
-        opened_at_by_html: Creewyd %{when} gan %{user}
+        opened_at_html: Crëwyd %{when}
+        opened_at_by_html: Crëwyd %{when} gan %{user}
         commented_at_html: Diweddarwyd %{when}
         commented_at_by_html: Diweddarwyd %{when}gan %{user}
       rss:
@@ -167,6 +178,7 @@ cy:
         title: Dileu Fy Nghyfrif
         delete_account: Dileu Cyfrif
         confirm_delete: Ydych chi'n siŵr?
+        cancel: Canslo
   accounts:
     edit:
       title: Golygu'r cyfrif
@@ -188,10 +200,11 @@ cy:
         review link text: Dilynwch y ddolen hon i adolygu a derbyn y telerau cyfranwyr
           newydd.
         link text: beth yw hwn?
-      save changes button: Cadw'r Newidiadau
+      save changes button: Cadw Newidiadau
       make edits public button: Gwneud fy holl olygiadau yn gyhoeddus
+      delete_account: Dileu Cyfrif...
   browse:
-    created: Crewyd
+    created: Crëwyd
     closed: Wedi cau
     created_html: Crewyd <abbr title='%{title}'>%{time}</abbr>
     closed_html: Caewyd <abbr title='%{title}'>%{time}</abbr>
@@ -278,7 +291,7 @@ cy:
       feature_warning: Wrthi'n llwytho nodweddio %{num_features}, a all arafu eich
         porwr. Wyt ti'n sicr dy fod am weld y data?
       load_data: Llwytho Data
-      loading: Yn llwytho...
+      loading: Wrthi'n llwytho...
     tag_details:
       tags: Tagiau
       wiki_link:
@@ -287,6 +300,7 @@ cy:
       wikidata_link: Eitem %{page} ar Wikidata
       wikipedia_link: Erthygl %{page} ar Wicipedia
       telephone_link: Galw %{phone_number}
+      email_link: E-bost %{email}
     note:
       title: 'Nodyn: %{id}'
       new_note: Nodyn Newydd
@@ -356,6 +370,8 @@ cy:
       nearby mapper: Mapiwr gerllaw
       friend: Cyfaill
     show:
+      edit_your_profile: Golygu eich proffil
+      my friends: Fy ffrindiau
       no friends: Nid ydych wedi ychwanegu cyfaill eto.
       nearby users: Defnyddwyr eraill gerllaw
       no nearby users: Nid oes defnyddwyr gerllaw sy'n datgelu eu bod yn mapio eto.
@@ -578,10 +594,13 @@ cy:
           "yes": Pont
         building:
           chapel: Capel
+          garage: Garej
+          garages: Garejis
           greenhouse: Tŷ Gwydr
           hospital: Adeilad Ysbyty
           hotel: Adeilad Gwesty
           house: Tŷ
+          roof: To
           school: Adeilad Ysgol
           "yes": Adeilad
         club:
@@ -1228,6 +1247,18 @@ cy:
       title: Allgofnodi
       heading: Allgofnodi o OpenStreetMap
       logout_button: Allgofnodi
+  shared:
+    markdown_help:
+      headings: Penawdau
+      heading: Pennawd
+      subheading: Is-bennawd
+      link: Dolen
+      text: Testun
+      image: Delwedd
+      url: URL
+    richtext_field:
+      edit: Golygu
+      preview: Rhagolwg
   site:
     about:
       next: Nesaf
@@ -1266,6 +1297,7 @@ cy:
           2010-19.'
         infringement_title_html: Torrwyd yr hawlfraint
     index:
+      permalink: Dolen barhaol
       shortlink: Dolen Fyr
       createnote: Ychwanegu nodyn
       license:
@@ -1287,6 +1319,8 @@ cy:
         Data Agored (Open Data Commons Open Database License)</a> (ODbL).
       too_large:
         advice: 'Os yw''r allforio''n methu, ystyriwch un o''r canlynol:'
+        planet:
+          title: Planet OSM
         other:
           title: Ffynonellau eraill
           description: Ffynonellau ychwanegol a nodir ar wici OpenStreetMap
@@ -1323,6 +1357,10 @@ cy:
         title: Rhestr Gohebiaeth
       forums:
         title: Fforymau
+      irc:
+        title: IRC
+      switch2osm:
+        title: switch2osm
     sidebar:
       search_results: Canlyniadau Chwilio
       close: Cau
@@ -1417,11 +1455,16 @@ cy:
       start_mapping: Dechrau Mapio
       add_a_note:
         title: Dim amser i olygu? Ychwanegwch nodyn!
+    communities:
+      title: Cymunedau
+      other_groups:
+        title: Grwpiau Eraill
   traces:
     new:
       visibility_help: beth mae hyn yn golygu?
       help: Cymorth
     edit:
+      cancel: Canslo
       visibility_help: beth mae hyn yn golygu?
     trace_optionals:
       tags: Tagiau
@@ -1455,6 +1498,9 @@ cy:
       in: mewn
     index:
       tagged_with: tagiwyd gyda %{tags}
+  application:
+    settings_menu:
+      account_settings: Gosodiadau Cyfrif
   oauth:
     authorize:
       allow_to: 'Caniatáu''r rhaglen cleient i:'
@@ -1487,17 +1533,28 @@ cy:
       edit: Golygu Manylion
       delete: Dileu Cleient
       confirm: Ydych yn siŵr?
+    index:
+      oauth: OAuth
+  oauth2_applications:
+    application:
+      edit: Golygu
+      delete: Dileu
+    show:
+      edit: Golygu
+      delete: Dileu
   users:
     new:
       title: Cofrestru
       email address: 'Cyfeiriad Ebost:'
       confirm email address: 'Cadarnhau''r Cyfeiriad Ebost:'
+      display name: 'Enw Arddangos:'
       continue: Cofrestru
       terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
     terms:
-      title: Telerau cyfranwyr
-      heading: Telerau cyfranwyr
+      title: Telerau
+      heading: Telerau
       consider_pd_why: beth yw hwn?
+      continue: Parhau
       decline: Gwrthod
       legale_names:
         france: Ffrainc
@@ -1518,6 +1575,7 @@ cy:
       my comments: Fy Sylwadau
       blocks on me: Rhwystrau arnaf i
       blocks by me: Rhwystrau gennyf i
+      edit_profile: Golygu Proffil
       send message: Anfon Neges
       diary: Dyddiadur
       edits: Golygiadau
@@ -1530,7 +1588,7 @@ cy:
       ct undecided: Heb Benderfynu
       ct declined: Wedi Gwrthod
       email address: 'Cyfeiriad ebost:'
-      created from: 'Creuwyd o:'
+      created from: 'Crëwyd o:'
       status: 'Statws:'
       description: Disgrifiad
       user location: Lleoliad defnyddiwr
@@ -1567,7 +1625,7 @@ cy:
       status: Statws
       show: Dangos
       edit: Golygu
-      confirm: Ydych yn sicr?
+      confirm: Ydych chi'n siŵr?
     block:
       show: Dangos
       edit: Golygu
@@ -1583,7 +1641,7 @@ cy:
     close: Cau
     share:
       title: Rhannu
-      cancel: Diddymu
+      cancel: Canslo
       image: Delwedd
       link: Dolen neu HTML
       long_link: Dolen
@@ -1623,7 +1681,7 @@ cy:
       map_data_zoom_in_tooltip: Chwyddwch mewn i weld data'r map
     changesets:
       show:
-        comment: Adweithio
+        comment: Sylw
         subscribe: Tanysgrifio
         unsubscribe: Dad-danysgrifio
         hide_comment: cuddio
@@ -1651,5 +1709,5 @@ cy:
     show:
       description: 'Disgrifiad:'
       user: 'Crëwr:'
-      confirm: Ydych yn sicr?
+      confirm: Ydych chi'n siŵr?
 ...
