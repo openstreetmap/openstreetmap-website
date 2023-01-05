@@ -1,18 +1,6 @@
 require_relative "boot"
 
-if ENV.fetch("OPENSTREETMAP_STATUS", nil) == "database_offline"
-  require "active_model/railtie"
-  require "active_job/railtie"
-  require "active_storage/engine"
-  require "action_controller/railtie"
-  require "action_mailer/railtie"
-  require "action_view/railtie"
-  require "action_cable/engine"
-  require "sprockets/railtie"
-  require "rails/test_unit/railtie"
-else
-  require "rails/all"
-end
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -39,9 +27,6 @@ module OpenStreetMap
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
     config.active_record.schema_format = :sql unless Settings.status == "database_offline"
-
-    # Don't eager load models when the database is offline
-    config.paths["app/models"].skip_eager_load! if Settings.status == "database_offline"
 
     # Use memcached for caching if required
     config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
