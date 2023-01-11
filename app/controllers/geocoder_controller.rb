@@ -15,19 +15,8 @@ class GeocoderController < ApplicationController
     if @params[:lat] && @params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
-      @sources.push "geonames_reverse" if Settings.key?(:geonames_username)
     elsif @params[:query]
-      case @params[:query]
-      when /^\d{5}(-\d{4})?$/,
-           /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
-        @sources.push "osm_nominatim"
-      when /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i
-        @sources.push "ca_postcode"
-        @sources.push "osm_nominatim"
-      else
-        @sources.push "osm_nominatim"
-        @sources.push "geonames" if Settings.key?(:geonames_username)
-      end
+      @sources.push "osm_nominatim"
     end
 
     if @sources.empty?
@@ -79,28 +68,6 @@ class GeocoderController < ApplicationController
         render :action => "results"
       end
     end
-  end
-
-  def search_ca_postcode
-    # get query parameters
-    query = params[:query]
-    @results = []
-
-    # ask geocoder.ca (note - they have a per-day limit)
-    response = fetch_xml("https://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
-
-    # parse the response
-    if response.get_elements("geodata/error").empty?
-      @results.push(:lat => response.text("geodata/latt"),
-                    :lon => response.text("geodata/longt"),
-                    :zoom => Settings.postcode_zoom,
-                    :name => query.upcase)
-    end
-
-    render :action => "results"
-  rescue StandardError => e
-    @error = "Error contacting geocoder.ca: #{e}"
-    render :action => "error"
   end
 
   def search_osm_nominatim
@@ -172,38 +139,6 @@ class GeocoderController < ApplicationController
     render :action => "error"
   end
 
-  def search_geonames
-    # get query parameters
-    query = params[:query]
-
-    # get preferred language
-    lang = I18n.locale.to_s.split("-").first
-
-    # create result array
-    @results = []
-
-    # ask geonames.org
-    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&lang=#{lang}&maxRows=20&username=#{Settings.geonames_username}")
-
-    # parse the response
-    response.elements.each("geonames/geoname") do |geoname|
-      lat = geoname.text("lat")
-      lon = geoname.text("lng")
-      name = geoname.text("name")
-      country = geoname.text("countryName")
-
-      @results.push(:lat => lat, :lon => lon,
-                    :zoom => Settings.geonames_zoom,
-                    :name => name,
-                    :suffix => ", #{country}")
-    end
-
-    render :action => "results"
-  rescue StandardError => e
-    @error = "Error contacting api.geonames.org: #{e}"
-    render :action => "error"
-  end
-
   def search_osm_nominatim_reverse
     # get query parameters
     lat = params[:lat]
@@ -234,37 +169,6 @@ class GeocoderController < ApplicationController
   rescue StandardError => e
     host = URI(Settings.nominatim_url).host
     @error = "Error contacting #{host}: #{e}"
-    render :action => "error"
-  end
-
-  def search_geonames_reverse
-    # get query parameters
-    lat = params[:lat]
-    lon = params[:lon]
-
-    # get preferred language
-    lang = I18n.locale.to_s.split("-").first
-
-    # create result array
-    @results = []
-
-    # ask geonames.org
-    response = fetch_xml("http://api.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}&lang=#{lang}&username=#{Settings.geonames_username}")
-
-    # parse the response
-    response.elements.each("geonames/countrySubdivision") do |geoname|
-      name = geoname.text("adminName1")
-      country = geoname.text("countryName")
-
-      @results.push(:lat => lat, :lon => lon,
-                    :zoom => Settings.geonames_zoom,
-                    :name => name,
-                    :suffix => ", #{country}")
-    end
-
-    render :action => "results"
-  rescue StandardError => e
-    @error = "Error contacting api.geonames.org: #{e}"
     render :action => "error"
   end
 

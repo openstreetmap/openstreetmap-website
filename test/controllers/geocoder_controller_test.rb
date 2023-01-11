@@ -13,24 +13,12 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       { :controller => "geocoder", :action => "search_latlon" }
     )
     assert_routing(
-      { :path => "/geocoder/search_ca_postcode", :method => :get },
-      { :controller => "geocoder", :action => "search_ca_postcode" }
-    )
-    assert_routing(
       { :path => "/geocoder/search_osm_nominatim", :method => :get },
       { :controller => "geocoder", :action => "search_osm_nominatim" }
     )
     assert_routing(
-      { :path => "/geocoder/search_geonames", :method => :get },
-      { :controller => "geocoder", :action => "search_geonames" }
-    )
-    assert_routing(
       { :path => "/geocoder/search_osm_nominatim_reverse", :method => :get },
       { :controller => "geocoder", :action => "search_osm_nominatim_reverse" }
-    )
-    assert_routing(
-      { :path => "/geocoder/search_geonames_reverse", :method => :get },
-      { :controller => "geocoder", :action => "search_geonames_reverse" }
     )
   end
 
@@ -263,13 +251,13 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   ##
   # Test identification of Canadian postcodes
   def test_identify_ca_postcode
-    search_check "A1B 2C3", %w[ca_postcode osm_nominatim]
+    search_check "A1B 2C3", %w[osm_nominatim]
   end
 
   ##
   # Test identification fall through to the default case
   def test_identify_default
-    search_check "foo bar baz", %w[osm_nominatim geonames]
+    search_check "foo bar baz", %w[osm_nominatim]
   end
 
   ##
@@ -316,28 +304,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
-  # Test the Canadian postcode search
-  def test_search_ca_postcode
-    with_http_stubs "geocoder_ca" do
-      get geocoder_search_ca_postcode_path(:query => "A1B 2C3", :zoom => 10,
-                                           :minlon => -0.559, :minlat => 51.217,
-                                           :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-
-      results_check :name => "A1B 2C3", :lat => "47.172520", :lon => "-55.440515"
-
-      get geocoder_search_ca_postcode_path(:query => "k1a 0b1", :zoom => 10,
-                                           :minlon => -0.559, :minlat => 51.217,
-                                           :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check :name => "K1A 0B1", :lat => "45.375437", :lon => "-75.691041"
-
-      get geocoder_search_ca_postcode_path(:query => "Q0Q 0Q0", :zoom => 10,
-                                           :minlon => -0.559, :minlat => 51.217,
-                                           :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check
-    end
-  end
-
-  ##
   # Test the nominatim forward search
   def test_search_osm_nominatim
     with_http_stubs "nominatim" do
@@ -371,37 +337,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
-  # Test the geonames forward search
-  def test_search_geonames
-    with_http_stubs "geonames" do
-      get geocoder_search_geonames_path(:query => "Hoddesdon", :zoom => 10, :minlon => -0.559, :minlat => 51.217,
-                                        :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check :name => "Hoddesdon", :lat => 51.76148, :lon => -0.01144
-
-      get geocoder_search_geonames_path(:query => "Broxbourne", :zoom => 10,
-                                        :minlon => -0.559, :minlat => 51.217,
-                                        :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check({ :name => "Broxbourne", :lat => 51.74712, :lon => -0.01923 },
-                    { :name => "Broxbourne District", :lat => 51.73026, :lon => -0.04821 },
-                    { :name => "Cheshunt", :lat => 51.70791, :lon => -0.03739 },
-                    { :name => "Hoddesdon", :lat => 51.76148, :lon => -0.01144 },
-                    { :name => "Waltham Cross", :lat => 51.68905, :lon => -0.0333 },
-                    { :name => "Goffs Oak", :lat => 51.71015, :lon => -0.0872 },
-                    { :name => "Wormley", :lat => 51.7324, :lon => -0.0242 },
-                    { :name => "Broxbourne", :lat => -27.50314, :lon => 151.378 },
-                    { :name => "Lee Valley White Water Centre", :lat => 51.68814, :lon => -0.01682 },
-                    { :name => "Cheshunt Railway Station", :lat => 51.703, :lon => -0.024 },
-                    { :name => "Theobalds Grove Railway Station", :lat => 51.692, :lon => -0.035 },
-                    { :name => "Waltham Cross Railway Station", :lat => 51.685, :lon => -0.027 },
-                    { :name => "Rye House Station", :lat => 51.76938, :lon => 0.00562 },
-                    { :name => "Broxbourne Station", :lat => 51.74697, :lon => -0.01105 },
-                    { :name => "Broxbornebury Park", :lat => 51.75252, :lon => -0.03839 },
-                    { :name => "Marriott Cheshunt", :lat => 51.7208, :lon => -0.0324 },
-                    { :name => "Cheshunt Community Hospital", :lat => 51.68396, :lon => -0.03951 })
-    end
-  end
-
-  ##
   # Test the nominatim reverse search
   def test_search_osm_nominatim_reverse
     with_http_stubs "nominatim" do
@@ -422,16 +357,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  ##
-  # Test the geonames reverse search
-  def test_search_geonames_reverse
-    with_http_stubs "geonames" do
-      get geocoder_search_geonames_reverse_path(:lat => 51.7632, :lon => -0.0076, :zoom => 15), :xhr => true
-      results_check :name => "England", :suffix => ", United Kingdom",
-                    :lat => 51.7632, :lon => -0.0076
-    end
-  end
-
   private
 
   def latlon_check(query, lat, lon)
@@ -439,7 +364,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :search
     assert_template :layout => "map"
-    assert_equal %w[latlon osm_nominatim_reverse geonames_reverse], assigns(:sources)
+    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources)
     assert_nil @controller.params[:query]
     assert_in_delta lat, @controller.params[:lat]
     assert_in_delta lon, @controller.params[:lon]
@@ -448,7 +373,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :search
     assert_template :layout => "xhr"
-    assert_equal %w[latlon osm_nominatim_reverse geonames_reverse], assigns(:sources)
+    assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources)
     assert_nil @controller.params[:query]
     assert_in_delta lat, @controller.params[:lat]
     assert_in_delta lon, @controller.params[:lon]
