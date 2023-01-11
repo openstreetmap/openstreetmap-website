@@ -3,10 +3,12 @@ class IssuesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
 
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
+  before_action :check_database_writable, :only => [:resolve, :ignore, :reopen]
 
   def index
     @title = t ".title"

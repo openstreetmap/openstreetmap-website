@@ -3,8 +3,11 @@ class ReportsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
+
+  before_action :check_database_writable, :only => [:new, :create]
 
   def new
     if required_new_report_params_present?

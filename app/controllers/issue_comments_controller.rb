@@ -3,8 +3,11 @@ class IssueCommentsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
+
+  before_action :check_database_writable, :only => [:create]
 
   def create
     @issue = Issue.find(params[:issue_id])
