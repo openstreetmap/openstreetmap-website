@@ -196,45 +196,6 @@ class ApplicationController < ActionController::Base
     response.headers["Content-Language"] = I18n.locale.to_s
   end
 
-  def api_call_handle_error
-    yield
-  rescue ActionController::UnknownFormat
-    head :not_acceptable
-  rescue ActiveRecord::RecordNotFound => e
-    head :not_found
-  rescue LibXML::XML::Error, ArgumentError => e
-    report_error e.message, :bad_request
-  rescue ActiveRecord::RecordInvalid => e
-    message = "#{e.record.class} #{e.record.id}: "
-    e.record.errors.each { |error| message << "#{error.attribute}: #{error.message} (#{e.record[error.attribute].inspect})" }
-    report_error message, :bad_request
-  rescue OSM::APIError => e
-    report_error e.message, e.status
-  rescue AbstractController::ActionNotFound => e
-    raise
-  rescue StandardError => e
-    logger.info("API threw unexpected #{e.class} exception: #{e.message}")
-    e.backtrace.each { |l| logger.info(l) }
-    report_error "#{e.class}: #{e.message}", :internal_server_error
-  end
-
-  ##
-  # asserts that the request method is the +method+ given as a parameter
-  # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
-  def assert_method(method)
-    ok = request.send(:"#{method.to_s.downcase}?")
-    raise OSM::APIBadMethodError, method unless ok
-  end
-
-  ##
-  # wrap an api call in a timeout
-  def api_call_timeout(&block)
-    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
-  rescue Timeout::Error
-    ActiveRecord::Base.connection.raw_connection.cancel
-    raise OSM::APITimeoutError
-  end
-
   ##
   # wrap a web page in a timeout
   def web_timeout(&block)
