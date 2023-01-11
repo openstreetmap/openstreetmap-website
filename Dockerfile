@@ -44,7 +44,7 @@ ADD Gemfile Gemfile.lock /app/
 RUN gem install bundler \
  && bundle install
 
-# Install NodeJS packages using yarnpkg
-# `bundle exec rails yarn:install` will not work
+# Install NodeJS packages using yarn
 ADD package.json yarn.lock /app/
-RUN yarnpkg --ignore-engines install
+ADD bin/yarn /app/bin/
+RUN bundle exec bin/yarn install

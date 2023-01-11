@@ -29,7 +29,7 @@ pushd /srv/openstreetmap-website
 # do bundle install as a convenience
 bundle install --retry=10 --jobs=2
 # do yarn install as a convenience
-bundle exec rake yarn:install
+bundle exec bin/yarn install
 # create user and database for openstreetmap-website
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
