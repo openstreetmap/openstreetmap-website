@@ -137,7 +137,7 @@ bundle install
 We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for the project.
 
 ```
-bundle exec rails yarn:install
+bundle exec bin/yarn install
 ```
 
 ## Prepare local settings file
