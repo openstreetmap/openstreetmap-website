@@ -169,12 +169,16 @@ OSM.Directions = function (map) {
 
   function formatDistance(m) {
     if (m < 1000) {
-      return Math.round(m) + "m";
+      return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
     } else if (m < 10000) {
-      return (m / 1000.0).toFixed(1) + "km";
+      return I18n.t("javascripts.directions.distance_km", { distance: (m / 1000.0).toFixed(1) });
     } else {
-      return Math.round(m / 1000) + "km";
+      return I18n.t("javascripts.directions.distance_km", { distance: Math.round(m / 1000) });
     }
+  }
+
+  function formatHeight(m) {
+    return I18n.t("javascripts.directions.distance_m", { distance: Math.round(m) });
   }
 
   function formatTime(s) {
@@ -260,8 +264,8 @@ OSM.Directions = function (map) {
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
         distanceText.append(
           $("<br>"),
-          I18n.t("javascripts.directions.ascend") + ": " + Math.round(route.ascend) + "m. " +
-          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.");
+          I18n.t("javascripts.directions.ascend") + ": " + formatHeight(route.ascend) + ". " +
+          I18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
       }
 
       var turnByTurnTable = $("<table class='mb-3'>");
