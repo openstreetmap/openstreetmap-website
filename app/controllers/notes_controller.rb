@@ -7,7 +7,7 @@ class NotesController < ApplicationController
   authorize_resource
 
   before_action :set_locale
-  around_action :api_call_handle_error, :api_call_timeout
+  around_action :web_timeout
 
   ##
   # Display a list of notes by a specified user
