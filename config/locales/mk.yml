@@ -18,7 +18,7 @@ mk:
       prompt: Одберете податотека
     submit:
       diary_comment:
-        create: Зачувај
+        create: Коментирај
       diary_entry:
         create: Објави
         update: Поднови
@@ -100,9 +100,10 @@ mk:
       diary_entry:
         user: Корисник
         title: Тема
+        body: Содржина
         latitude: Гео. ширина
         longitude: Гео. должина
-        language: Јазик
+        language_code: Јазик
       doorkeeper/application:
         name: Име
         redirect_uri: URI-ја за пренасочување
@@ -604,6 +605,26 @@ mk:
       applications:
         create:
           notice: Прилогот е пријавен.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Contact?uselang=mk
+      contact_url_title: Објаснување на разните контактни канали
+      contact: контакт
+      contact_the_community_html: Слободно стапете во %{contact_link} со заедницата
+        OpenStreetMap ако имате најдено расипана врска или грешка. Забележете ја точната
+        URL на вашето барање.
+    forbidden:
+      title: Забрането
+      description: Постапката која ја побаравте на опслужувачот на OpenStreetMap е
+        достапна само за администратори (HTTP 403)
+    internal_server_error:
+      title: Грешка во прилогот
+      description: Опслужувачот на OpenStreetMap наиде на неочекуван услов кој го
+        спречи исполнувањето на барањето (HTTP 500)
+    not_found:
+      title: Податотеката не е пронајдена
+      description: Не можев да најдам постапка со податотека/папка/приложник со оа
+        име на опслужувачот на OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: Да го додадам корисникот %{user} како пријател?
@@ -622,13 +643,10 @@ mk:
     search:
       title:
         latlon_html: <a href="https://openstreetmap.org/">Внатрешни</a> исходни ставки
-        ca_postcode_html: Исход од <a href="https://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim_html: Исход од <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_html: Исход од <a href="http://www.geonames.org/">GeoNames</a>
         osm_nominatim_reverse_html: Исход од <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse_html: Исход од <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -3061,6 +3079,8 @@ mk:
       descend: Надолно
       directions: Насоки
       distance: Растојание
+      distance_m: '%{distance} м'
+      distance_km: '%{distance} км'
       errors:
         no_route: Не можев да најдам маршрута помеѓу тие две места.
         no_place: За жал, не можев да го најдам  местото „%{place}“.

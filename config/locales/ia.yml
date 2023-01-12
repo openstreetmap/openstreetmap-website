@@ -17,7 +17,7 @@ ia:
       prompt: Selige file
     submit:
       diary_comment:
-        create: Salveguardar
+        create: Commentar
       diary_entry:
         create: Publicar
         update: Actualisar
@@ -99,9 +99,10 @@ ia:
       diary_entry:
         user: Usator
         title: Subjecto
+        body: Corpore
         latitude: Latitude
         longitude: Longitude
-        language: Lingua
+        language_code: Lingua
       doorkeeper/application:
         name: Nomine
         redirect_uri: URIs de redirection
@@ -607,6 +608,26 @@ ia:
       applications:
         create:
           notice: Application registrate.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Contact
+      contact_url_title: Varie canales de contacto explicate
+      contact: contactar
+      contact_the_community_html: Sia libere de %{contact_link} le communitate de
+        OpenStreetMap si tu ha trovate un ligamine rupte o qualcunque anomalia. Nota
+        le URL exacte de tu requesta.
+    forbidden:
+      title: Prohibite
+      description: Le operation que tu ha requestate sur le servitor de OpenStreetMap
+        es disponibile solmente pro le administratores (HTTP 403)
+    internal_server_error:
+      title: Error del application
+      description: Le servitor de OpenStreetMap ha incontrate un condition inexpectate
+        que lo ha impedite de satisfacer le requesta (HTTP 500)
+    not_found:
+      title: File non trovate
+      description: Non poteva trovar un file, directorio o operation API con iste
+        nomine sur le servitor de OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: Adder %{user} como amico?
@@ -625,13 +646,10 @@ ia:
     search:
       title:
         latlon_html: Resultatos <a href="https://openstreetmap.org/">interne</a>
-        ca_postcode_html: Resultatos de <a href="https://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim_html: Resultatos de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_html: Resultatos de <a href="http://www.geonames.org/">GeoNames</a>
         osm_nominatim_reverse_html: Resultatos de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse_html: Resultatos ab <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -3080,6 +3098,8 @@ ia:
       descend: Descender
       directions: Itinerario
       distance: Distantia
+      distance_m: '%{distance}m'
+      distance_km: '%{distance}km'
       errors:
         no_route: Nulle route ha essite trovate inter iste duo locos.
         no_place: '''%{place}'' non poteva esser trovate.'

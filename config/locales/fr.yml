@@ -182,9 +182,10 @@ fr:
       diary_entry:
         user: Utilisateur
         title: Sujet
+        body: Corps
         latitude: Latitude
         longitude: Longitude
-        language: Langue
+        language_code: Langue
       doorkeeper/application:
         name: Nom
         redirect_uri: Rediriger les URI
@@ -708,6 +709,26 @@ fr:
       applications:
         create:
           notice: Application inscrite.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/FR:Canaux_de_contact
+      contact_url_title: Différents canaux de contact expliqués
+      contact: contacter
+      contact_the_community_html: N'hésitez pas à %{contact_link} la communauté OpenStreetMap
+        si vous avez trouvé un lien cassé ou une anomalie. Notez l’URL exacte de votre
+        demande.
+    forbidden:
+      title: Interdit
+      description: L’opération que vous avez demandée sur le serveur OpenStreetMap
+        n’est disponible que pour les administrateurs (HTTP 403).
+    internal_server_error:
+      title: Erreur de l’application
+      description: Le serveur d’autorisation a rencontré une condition inattendue
+        qui l’a empêché d’achever la requête (HTTP 500).
+    not_found:
+      title: Fichier introuvable
+      description: Impossible de trouver un fichier, un répertoire ou une opération
+        de l’API portant ce nom sur le serveur OpenStreetMap (HTTP 404).
   friendships:
     make_friend:
       heading: Ajouter %{user} en tant qu’ami(e) ?
@@ -726,13 +747,10 @@ fr:
     search:
       title:
         latlon_html: Résultats <a href="https://openstreetmap.org/">internes</a>
-        ca_postcode_html: Résultats venant de <a href="https://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim_html: Résultats venant de <a href="https://nominatim.openstreetmap.org/">Nominatim
           sur OpenStreetMap</a>
-        geonames_html: Résultats venant de <a href="http://www.geonames.org/">GeoNames</a>
         osm_nominatim_reverse_html: Résultats venant de <a href="https://nominatim.openstreetmap.org/">Nominatim
           sur OpenStreetMap</a>
-        geonames_reverse_html: Résultats venant de <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -3216,6 +3234,8 @@ fr:
       descend: Décroissant
       directions: Itinéraire
       distance: Distance
+      distance_m: '%{distance} m'
+      distance_km: '%{distance} km'
       errors:
         no_route: Impossible de trouver une route entre ces deux lieux.
         no_place: Désolé, impossible de trouver « %{place} ».
