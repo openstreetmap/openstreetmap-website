@@ -5,7 +5,7 @@ class ViewCommunitiesTest < ApplicationSystemTestCase
     # Check that all the parsing of the chapter information has worked
     visit "/communities"
     assert_link "OpenStreetMap US", :href => "https://www.openstreetmap.us/"
-    assert_link "OpenStreetMap Belgium Local Chapter", :href => "https://openstreetmap.be/"
+    assert_link "OpenStreetMap Belgium", :href => "https://openstreetmap.be/"
   end
 
   def test_translated_links
@@ -17,6 +17,6 @@ class ViewCommunitiesTest < ApplicationSystemTestCase
 
     visit "/communities"
     assert_link "OpenStreetMap États-Unis", :href => "https://www.openstreetmap.us/"
-    assert_link "Chapitre local OpenStreetMap Belgique", :href => "https://openstreetmap.be/"
+    assert_link "OpenStreetMap Belgique", :href => "https://openstreetmap.be/"
   end
 end
