@@ -45,7 +45,7 @@ da:
       prompt: Vælg fil
     submit:
       diary_comment:
-        create: Gem
+        create: Kommentér
       diary_entry:
         create: Offentliggør
         update: Opdater
@@ -127,6 +127,7 @@ da:
       diary_entry:
         user: Bruger
         title: Emne
+        body: Brødtekst
         latitude: Breddegrad
         longitude: Længdegrad
         language_code: Sprog
@@ -460,6 +461,7 @@ da:
       wikimedia_commons_link: Elementet %{page} på Wikimedia Commons
       telephone_link: Ring til %{phone_number}
       colour_preview: Forhåndsvisning af farve %{colour_value}
+      email_link: E-mail %{email}
     note:
       title: 'Bemærkning: %{id}'
       new_note: Ny bemærkning
@@ -500,6 +502,7 @@ da:
     index:
       title: Ændringssæt
       title_user: Ændringssæt af %{user}
+      title_user_link_html: Ændringssæt af %{user_link}
       title_friend: Ændringssæt af mine venner
       title_nearby: Ændringssæt af brugere i nærheden
       empty: Ingen ændringssæt fundet.
@@ -628,6 +631,25 @@ da:
       applications:
         create:
           notice: Applikation registrerad.
+  errors:
+    contact:
+      contact_url_title: Forklaring af forskellige kontaktkanaler
+      contact: kontakte
+      contact_the_community_html: Vær velkommen til at %{contact_link} OpenStreetMap-fællesskabet
+        hvis du finder et dødt link eller en fejl. Noter venligst den eksakte URL
+        hvorpå fejlen opstod.
+    forbidden:
+      title: Adgang forbudt
+      description: Den handling du anmodede om på OpenStreetMap-serveren er kun tilgængelig
+        for administratorer (HTTP 403)
+    internal_server_error:
+      title: Applikationsfejl
+      description: OpenStreetMap-serveren ramte en uventet tilstand som forhindrede
+        anmodningen i at blive fuldført (HTTP 500)
+    not_found:
+      title: Fil ikke fundet
+      description: En fil/mappe/API-handling ved dette navn findes ikke på OpenStreetMap-serveren
+        (HTTP 404)
   friendships:
     make_friend:
       heading: Tilføj %{user} som en ven?
@@ -1493,6 +1515,7 @@ da:
   issue_comments:
     create:
       comment_created: Din kommentar blev oprettet
+      issue_reassigned: Din kommentar blev oprettet og sagen blev gentildelt.
   reports:
     new:
       title_html: Rapport %{link}
@@ -1570,6 +1593,7 @@ da:
     help: Hjælp
     about: Om
     copyright: Ophavsret
+    communities: Fællesskaber
     community: Fællesskabet
     community_blogs: Blogs fra bidragsydere
     community_blogs_title: Blogs fra medlemmer af OpenStreetMap-fællesskabet
@@ -1925,6 +1949,12 @@ da:
       title: Log af
       heading: Log af fra OpenStreetMap
       logout_button: Log af
+    suspended_flash:
+      suspended: Beklager, din konto er blevet suspenderet på grund af mistænkelig
+        aktivitet.
+      contact_support_html: Kontakt venligst %{support_link}, hvis du ønsker at diskutere
+        dette.
+      support: supporten
   shared:
     markdown_help:
       title_html: Fortolket med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -2226,9 +2256,12 @@ da:
         description: Stil et spørgsmål eller diskuter interessante spørgsmål på en
           bred vifte af tematiske eller regionale mailinglister.
       forums:
-        title: Fora
+        title: Fora (ældre)
         description: Spørgsmål og diskussioner for dem, der foretrækker et opslagstavlelignende
           interface.
+      community:
+        title: Fællesskabs-forum
+        description: Et sted for fælles diskussioner om OpenStreetMap.
       irc:
         title: IRC
         description: Interaktiv chat på mange forskellige sprog, og om mange emner.
@@ -2387,6 +2420,27 @@ da:
           Bare gå ind på <a href='%{map_url}'>kortet</a> og klik på bemærknings-ikonet:
           <span class='icon note'></span>. Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked,
           klik på gem og andre brugere vil undersøge sagen.
+    communities:
+      title: Fællesskaber
+      lede_text: |-
+        Mennesker fra hele verden bidrager til og bruger OpenStreetMap. Mens mange deltager individuelt, har andre dannet fællesskaber. Disse grupper findes i mange størrelser, og repræsenterer brugere lige fra små byer til store regioner der spænder over flere lande.
+        De kan også både være formelle og mere uformelle.
+      local_chapters:
+        title: Lokalafdelinger
+        about_text: Lokalafdelinger er grupper der spænder over regioner eller lande
+          som har dannet formelle non-profit-foreninger. De repræsenterer det pågældende
+          områdes kort og bidragsydere overfor lokale myndigheder, forretninger og
+          medier. De har også en formel tilknytning til OpenStreetMap Foundation (OSMF),
+          som giver dem en kontaktflade til den enhed der varetager det juridiske
+          ansvar og ejer ophavsretten til kortet.
+        list_text: 'De følgende fællesskaber er formelt etableret som lokalafdelinger:'
+      other_groups:
+        title: Andre grupper
+        about_html: Det er ikke altid nødvendigt at oprette lokalafdelinger. Mange
+          grupper eksisterer succesfuldt som uformelle samlinger af mennesker eller
+          mere faste fællesskabsgrupper.  Enhver kan skabe eller blive medlem af en
+          sådan. Læs mere på <a href="https://wiki.openstreetmap.org/wiki/User_group">wiki-siden
+          for fællesskaber</a>.
   traces:
     visibility:
       private: Privat (kun delt som anonyme punkter uden rækkefølge og tidsstempler)
@@ -2644,6 +2698,9 @@ da:
       title: Opret konto
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for
         dig pt.
+      please_contact_support_html: Kontakt venligst %{support_link} for at få oprettet
+        en konto - vi vil forsøge at håndtere forespørgslen så hurtigt som muligt.
+      support: supporten
       about:
         header: Fri og redigerbar
         html: |-
@@ -2775,6 +2832,11 @@ da:
       title: Konto suspenderet
       heading: Konto suspenderet
       support: support
+      automatically_suspended: Beklager, din konto er blevet automatisk suspenderet
+        på grund af mistænkelig aktivitet.
+      contact_support_html: Denne beslutning vil indenfor kort tid blive gennemgået
+        af en administrator, eller du kan kontakte %{support_link}, hvis du ønsker
+        at diskutere dette.
     auth_failure:
       connection_failed: Forbindelse til godkendelsesudbyder mislykkedes
       invalid_credentials: Ugyldig godkendelse af legitimationsoplysninger
@@ -2986,13 +3048,13 @@ da:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Giv et bidrag</a>
       terms: <a href='%{terms_url}' target='_blank'>Hjemmeside og API-vilkår</a>
-      cyclosm: Flise-stil af <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
+      cyclosm: Kort-fliser af <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
         hosted af <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Frankrig</a>
-      thunderforest: Fliser venligst leveret af <a href='%{thunderforest_url}' target='_blank'>Andy
-        Allan</a>
-      opnvkarte: Fliser venligst leveret af <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: Flise-stil af <a href='%{hotosm_url}' target='_blank'>Humanitarian OpenStreetMap
-        Team</a> hosted af <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
+      thunderforest: Kort-fliser venligst leveret af <a href='%{thunderforest_url}'
+        target='_blank'>Andy Allan</a>
+      opnvkarte: Kort-fliser venligst leveret af <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
+      hotosm: Kort-fliser af <a href='%{hotosm_url}' target='_blank'>Humanitarian
+        OpenStreetMap Team</a> hosted af <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
         Frankrig</a>
     site:
       edit_tooltip: Rediger kortet
@@ -3028,8 +3090,12 @@ da:
         comment_and_resolve: Kommentere på og løse
         comment: Kommenter
         report_link_html: Hvis denne bemærkning indeholder følsomme oplysninger, der
-          skal fjernes, kan du %{link}. For alle andre problemer med bemærkningen,
-          bedes du løse det selv med en kommentar.
+          skal fjernes, kan du %{link}.
+        other_problems_resolve: For alle andre problemer med bemærkningen, bedes du
+          løse det selv med en kommentar.
+        other_problems_resolved: For alle andre problemer, vil en løsning af bemærkningen
+          være tilstrækkelig.
+        disappear_date_html: Denne løste bemærkning vil forsvinde fra kortet om %{disappear_in}.
     edit_help: Flyt kortet og zoom ind på et sted, du vil redigere, og klik så her.
     directions:
       ascend: Stigning
@@ -3040,9 +3106,14 @@ da:
         graphhopper_bicycle: Cykel (GraphHopper)
         graphhopper_car: Bil (GraphHopper)
         graphhopper_foot: Til fods (GrapHopper)
+        fossgis_valhalla_bicycle: Cykel (Valhalla)
+        fossgis_valhalla_car: Bil (Valhalla)
+        fossgis_valhalla_foot: Til fods (Valhalla)
       descend: Fald
       directions: Rutevejledning
       distance: Afstand
+      distance_m: '%{distance}m'
+      distance_km: '%{distance}km'
       errors:
         no_route: Kunne ikke finde en rute mellem de to steder.
         no_place: Beklager - kunne ikke finde '%{place}'.
