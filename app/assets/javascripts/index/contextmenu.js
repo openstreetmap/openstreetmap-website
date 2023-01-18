@@ -74,6 +74,18 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
+  map.contextmenu.addItem({
+    text: I18n.t("javascripts.context.copy_coordinates"),
+    callback: function copyCoordinates(e) {
+      var precision = OSM.zoomPrecision(map.getZoom()),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+
+      navigator.clipboard.writeText(lat + ", " + lng);
+    }
+  });
+
   map.on("mousedown", function (e) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
     else map.contextmenu.enable();
