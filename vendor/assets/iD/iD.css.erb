@@ -4980,10 +4980,10 @@
 }
 
 
-/* Field - Access, Cycleway
+/* Field - Access, DirectionalCombo
 ------------------------------------------------------- */
 .ideditor .form-field-input-access,
-.ideditor .form-field-input-cycleway {
+.ideditor .form-field-input-directionalcombo {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
@@ -5175,7 +5175,7 @@
 
 .ideditor .form-field-input-multicombo .input-wrap {
     border: 1px solid #ddd;
-    width: 100px;
+    width: 180px;
 }
 .ideditor .form-field-input-multicombo input {
     border: none;
@@ -5858,6 +5858,42 @@
     color: #333;
 }
 
+.ideditor .form-field-input-wrap {
+    position: relative;
+}
+
+.ideditor .form-field-input-wrap span.length-indicator-wrap {
+    visibility: hidden;
+    position: absolute;
+    top: -5px;
+    left: 0;
+    right: 0;
+}
+
+.ideditor .form-field-input-wrap input:focus + span.length-indicator-wrap,
+.ideditor .form-field-input-wrap textarea:focus + span.length-indicator-wrap,
+.ideditor .form-field-input-wrap input:focus + div.combobox-caret + span.length-indicator-wrap,
+.ideditor .form-field-input-wrap textarea:focus + div.combobox-caret + span.length-indicator-wrap {
+    visibility: visible;
+}
+
+.ideditor .form-field-input-wrap span.length-indicator {
+    display: block;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #7092ff;
+    border-right-style: solid;
+    border-right-color: lightgray;
+}
+
+.ideditor .form-field-input-wrap span.length-indicator.limit-reached {
+    border-right-color: red;
+}
+
+.ideditor .tooltip.max-length-warning {
+    z-index: 10;
+}
 
 /* Field Help
 ------------------------------------------------------- */
@@ -9025,11 +9061,14 @@
     display: none;
 }
 
-.ideditor .field-warning,
 .ideditor .changeset-info,
 .ideditor .request-review,
 .ideditor .commit-info {
     margin-bottom: 10px;
+}
+
+.ideditor .field-warning {
+    margin-top: 10px;
 }
 
 .ideditor .request-review label {
