@@ -10,7 +10,10 @@ class MicrocosmsController < ApplicationController
   authorize_resource
 
   def index
-    @microcosms = Microcosm.order(:longitude)
+    # Using Arel.sql here because we're using known-safe values.
+    @microcosms = Microcosm.order(Arel.sql(sunniest_communities))
+
+    @microcosms_organized = current_user ? current_user.microcosms_organized : []
   end
 
   # GET /microcosms/mycity
@@ -51,6 +54,25 @@ class MicrocosmsController < ApplicationController
       .where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
              bbox.max_lon.to_i, bbox.min_lon.to_i, bbox.max_lat.to_i, bbox.min_lat.to_i)
       .order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
+  end
+
+  ##
+  # Build an ORDER BY clause that sorts microcosms such that the ones
+  # getting the most sunlight are ranked highest.  These are the groups
+  # where people are awake and mapping.
+  #
+  # We ignore timezone and daylight saving here.  Only longitude matters.
+  def sunniest_communities
+    brightest_minute_of_day = "(60 * 12)" # noon
+    # convert float to numeric because extract returns floats
+    minute_of_day = "(60 * EXTRACT(HOUR FROM current_timestamp) + EXTRACT(MINUTE FROM current_timestamp))::numeric"
+    # longitude facing the sun
+    lfts = "((#{brightest_minute_of_day} - #{minute_of_day}) / 4)"
+    # find shortest span between lfts and the microcosm longitude
+    # pg doesn't have mod for floats, so convert to numeric
+    clockwise_delta = "((#{lfts} - longitude::numeric + 360) % 360)"
+    anticlockwise_delta = "((longitude::numeric - #{lfts} + 360) % 360)"
+    "least(#{clockwise_delta}, #{anticlockwise_delta})"
   end
 
   def set_microcosm
