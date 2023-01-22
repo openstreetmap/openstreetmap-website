@@ -26,7 +26,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template :show
-    assert_select ".notice", /^Profile updated./
+    assert_select ".alert-success", /^Profile updated./
     assert_select "div", "new description"
 
     # Changing to an uploaded image should work
@@ -37,7 +37,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template :show
-    assert_select ".notice", /^Profile updated./
+    assert_select ".alert-success", /^Profile updated./
     get edit_profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
 
@@ -48,7 +48,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template :show
-    assert_select ".notice", /^Profile updated./
+    assert_select ".alert-success", /^Profile updated./
     get edit_profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked][value=?]", "gravatar"
 
@@ -59,7 +59,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template :show
-    assert_select ".notice", /^Profile updated./
+    assert_select ".alert-success", /^Profile updated./
     get edit_profile_path
     assert_select "form > fieldset > div > div.col-sm-10 > div > input[name=avatar_action][checked]", false
     assert_select "form > fieldset > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked]", false
