@@ -161,10 +161,10 @@ class BoundingBox
 
       # Take an array of length 4, create a bounding box with min_lon, min_lat, max_lon and
       # max_lat within their respective boundaries.
-      min_lon = [[bbox_array[0].to_f, -LON_LIMIT].max, +LON_LIMIT].min
-      min_lat = [[bbox_array[1].to_f, -LAT_LIMIT].max, +LAT_LIMIT].min
-      max_lon = [[bbox_array[2].to_f, +LON_LIMIT].min, -LON_LIMIT].max
-      max_lat = [[bbox_array[3].to_f, +LAT_LIMIT].min, -LAT_LIMIT].max
+      min_lon = bbox_array[0].to_f.clamp(-LON_LIMIT, +LON_LIMIT)
+      min_lat = bbox_array[1].to_f.clamp(-LAT_LIMIT, +LAT_LIMIT)
+      max_lon = bbox_array[2].to_f.clamp(-LON_LIMIT, +LON_LIMIT)
+      max_lat = bbox_array[3].to_f.clamp(-LAT_LIMIT, +LAT_LIMIT)
       BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
     end
   end
