@@ -37,10 +37,6 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
       { :controller => "browse", :action => "note", :id => "1" }
     )
     assert_routing(
-      { :path => "/note/new", :method => :get },
-      { :controller => "browse", :action => "new_note" }
-    )
-    assert_routing(
       { :path => "/query", :method => :get },
       { :controller => "browse", :action => "query" }
     )
@@ -254,12 +250,6 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select ".browse-section", 4
     assert_select ".browse-section.browse-redacted", 2
     assert_select ".browse-section.browse-relation", 2
-  end
-
-  def test_new_note
-    get note_new_path
-    assert_response :success
-    assert_template "browse/new_note"
   end
 
   def test_query

@@ -15,6 +15,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username/notes", :method => :get },
       { :controller => "notes", :action => "index", :display_name => "username" }
     )
+
+    assert_routing(
+      { :path => "/note/new", :method => :get },
+      { :controller => "notes", :action => "new" }
+    )
   end
 
   def test_index_success
@@ -79,5 +84,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     get user_notes_path(:display_name => user.display_name)
     assert_response :success
     assert_select "h4", :html => "No notes"
+  end
+
+  def test_new_note
+    get new_note_path
+    assert_response :success
+    assert_template "notes/new"
   end
 end

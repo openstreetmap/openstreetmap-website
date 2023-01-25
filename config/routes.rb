@@ -114,7 +114,8 @@ OpenStreetMap::Application.routes.draw do
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
-  get "/note/new" => "browse#new_note"
+  resources :notes, :path => "note", :only => [:new]
+
   get "/user/:display_name/history" => "changesets#index"
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes
