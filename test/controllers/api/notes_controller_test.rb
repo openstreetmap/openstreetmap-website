@@ -125,7 +125,7 @@ module Api
     def test_create_success
       assert_difference "Note.count", 1 do
         assert_difference "NoteComment.count", 1 do
-          post notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json")
+          post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json")
         end
       end
       assert_response :success
@@ -141,7 +141,7 @@ module Api
       assert_nil js["properties"]["comments"].last["user"]
       id = js["properties"]["id"]
 
-      get note_path(:id => id, :format => "json")
+      get api_note_path(:id => id, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -159,63 +159,63 @@ module Api
     def test_create_fail
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lon => -1.0, :text => "This is a comment")
+          post api_notes_path(:lon => -1.0, :text => "This is a comment")
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => -1.0, :text => "This is a comment")
+          post api_notes_path(:lat => -1.0, :text => "This is a comment")
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => -1.0, :lon => -1.0)
+          post api_notes_path(:lat => -1.0, :lon => -1.0)
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => -1.0, :lon => -1.0, :text => "")
+          post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "")
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => -100.0, :lon => -1.0, :text => "This is a comment")
+          post api_notes_path(:lat => -100.0, :lon => -1.0, :text => "This is a comment")
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => -1.0, :lon => -200.0, :text => "This is a comment")
+          post api_notes_path(:lat => -1.0, :lon => -200.0, :text => "This is a comment")
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => "abc", :lon => -1.0, :text => "This is a comment")
+          post api_notes_path(:lat => "abc", :lon => -1.0, :text => "This is a comment")
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => -1.0, :lon => "abc", :text => "This is a comment")
+          post api_notes_path(:lat => -1.0, :lon => "abc", :text => "This is a comment")
         end
       end
       assert_response :bad_request
 
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
-          post notes_path(:lat => -1.0, :lon => -1.0, :text => "x\u0000y")
+          post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "x\u0000y")
         end
       end
       assert_response :bad_request
@@ -228,7 +228,7 @@ module Api
       assert_difference "NoteComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
-            post comment_note_path(:id => open_note_with_comment, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+            post comment_api_note_path(:id => open_note_with_comment, :text => "This is an additional comment", :format => "json"), :headers => auth_header
           end
         end
       end
@@ -243,7 +243,7 @@ module Api
       assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
-      get note_path(:id => open_note_with_comment, :format => "json")
+      get api_note_path(:id => open_note_with_comment, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -270,7 +270,7 @@ module Api
       assert_difference "NoteComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 2 do
           perform_enqueued_jobs do
-            post comment_note_path(:id => note_with_comments_by_users, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+            post comment_api_note_path(:id => note_with_comments_by_users, :text => "This is an additional comment", :format => "json"), :headers => auth_header
           end
         end
       end
@@ -296,7 +296,7 @@ module Api
       assert_equal 1, email.to.length
       assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on a note you are interested in", email.subject
 
-      get note_path(:id => note_with_comments_by_users, :format => "json")
+      get api_note_path(:id => note_with_comments_by_users, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -317,43 +317,43 @@ module Api
       user = create(:user)
 
       assert_no_difference "NoteComment.count" do
-        post comment_note_path(:id => open_note_with_comment)
+        post comment_api_note_path(:id => open_note_with_comment)
         assert_response :unauthorized
       end
 
       auth_header = basic_authorization_header user.email, "test"
 
       assert_no_difference "NoteComment.count" do
-        post comment_note_path(:id => open_note_with_comment), :headers => auth_header
+        post comment_api_note_path(:id => open_note_with_comment), :headers => auth_header
       end
       assert_response :bad_request
 
       assert_no_difference "NoteComment.count" do
-        post comment_note_path(:id => open_note_with_comment, :text => ""), :headers => auth_header
+        post comment_api_note_path(:id => open_note_with_comment, :text => ""), :headers => auth_header
       end
       assert_response :bad_request
 
       assert_no_difference "NoteComment.count" do
-        post comment_note_path(:id => 12345, :text => "This is an additional comment"), :headers => auth_header
+        post comment_api_note_path(:id => 12345, :text => "This is an additional comment"), :headers => auth_header
       end
       assert_response :not_found
 
       hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
       assert_no_difference "NoteComment.count" do
-        post comment_note_path(:id => hidden_note_with_comment, :text => "This is an additional comment"), :headers => auth_header
+        post comment_api_note_path(:id => hidden_note_with_comment, :text => "This is an additional comment"), :headers => auth_header
       end
       assert_response :gone
 
       closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
 
       assert_no_difference "NoteComment.count" do
-        post comment_note_path(:id => closed_note_with_comment, :text => "This is an additional comment"), :headers => auth_header
+        post comment_api_note_path(:id => closed_note_with_comment, :text => "This is an additional comment"), :headers => auth_header
       end
       assert_response :conflict
 
       assert_no_difference "NoteComment.count" do
-        post comment_note_path(:id => open_note_with_comment, :text => "x\u0000y"), :headers => auth_header
+        post comment_api_note_path(:id => open_note_with_comment, :text => "x\u0000y"), :headers => auth_header
       end
       assert_response :bad_request
     end
@@ -362,12 +362,12 @@ module Api
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)
 
-      post close_note_path(:id => open_note_with_comment, :text => "This is a close comment", :format => "json")
+      post close_api_note_path(:id => open_note_with_comment, :text => "This is a close comment", :format => "json")
       assert_response :unauthorized
 
       auth_header = basic_authorization_header user.email, "test"
 
-      post close_note_path(:id => open_note_with_comment, :text => "This is a close comment", :format => "json"), :headers => auth_header
+      post close_api_note_path(:id => open_note_with_comment, :text => "This is a close comment", :format => "json"), :headers => auth_header
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -379,7 +379,7 @@ module Api
       assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
-      get note_path(:id => open_note_with_comment.id, :format => "json")
+      get api_note_path(:id => open_note_with_comment.id, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -393,22 +393,22 @@ module Api
     end
 
     def test_close_fail
-      post close_note_path(:id => 12345)
+      post close_api_note_path(:id => 12345)
       assert_response :unauthorized
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
-      post close_note_path(:id => 12345), :headers => auth_header
+      post close_api_note_path(:id => 12345), :headers => auth_header
       assert_response :not_found
 
       hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
-      post close_note_path(:id => hidden_note_with_comment), :headers => auth_header
+      post close_api_note_path(:id => hidden_note_with_comment), :headers => auth_header
       assert_response :gone
 
       closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
 
-      post close_note_path(:id => closed_note_with_comment), :headers => auth_header
+      post close_api_note_path(:id => closed_note_with_comment), :headers => auth_header
       assert_response :conflict
     end
 
@@ -416,12 +416,12 @@ module Api
       closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
       user = create(:user)
 
-      post reopen_note_path(:id => closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
+      post reopen_api_note_path(:id => closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
       assert_response :unauthorized
 
       auth_header = basic_authorization_header user.email, "test"
 
-      post reopen_note_path(:id => closed_note_with_comment, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
+      post reopen_api_note_path(:id => closed_note_with_comment, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -433,7 +433,7 @@ module Api
       assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
-      get note_path(:id => closed_note_with_comment, :format => "json")
+      get api_note_path(:id => closed_note_with_comment, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -449,35 +449,35 @@ module Api
     def test_reopen_fail
       hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
-      post reopen_note_path(:id => hidden_note_with_comment)
+      post reopen_api_note_path(:id => hidden_note_with_comment)
       assert_response :unauthorized
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
-      post reopen_note_path(:id => 12345), :headers => auth_header
+      post reopen_api_note_path(:id => 12345), :headers => auth_header
       assert_response :not_found
 
-      post reopen_note_path(:id => hidden_note_with_comment), :headers => auth_header
+      post reopen_api_note_path(:id => hidden_note_with_comment), :headers => auth_header
       assert_response :gone
 
       open_note_with_comment = create(:note_with_comments)
 
-      post reopen_note_path(:id => open_note_with_comment), :headers => auth_header
+      post reopen_api_note_path(:id => open_note_with_comment), :headers => auth_header
       assert_response :conflict
     end
 
     def test_show_success
       open_note = create(:note_with_comments)
 
-      get note_path(:id => open_note, :format => "xml")
+      get api_note_path(:id => open_note, :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note[lat='#{open_note.lat}'][lon='#{open_note.lon}']", :count => 1 do
           assert_select "id", open_note.id.to_s
-          assert_select "url", note_url(open_note, :format => "xml")
-          assert_select "comment_url", comment_note_url(open_note, :format => "xml")
-          assert_select "close_url", close_note_url(open_note, :format => "xml")
+          assert_select "url", api_note_url(open_note, :format => "xml")
+          assert_select "comment_url", comment_api_note_url(open_note, :format => "xml")
+          assert_select "close_url", close_api_note_url(open_note, :format => "xml")
           assert_select "date_created", open_note.created_at.to_s
           assert_select "status", open_note.status
           assert_select "comments", :count => 1 do
@@ -486,14 +486,14 @@ module Api
         end
       end
 
-      get note_path(:id => open_note, :format => "rss")
+      get api_note_path(:id => open_note, :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 1 do
             assert_select "link", browse_note_url(open_note)
-            assert_select "guid", note_url(open_note)
+            assert_select "guid", api_note_url(open_note)
             assert_select "pubDate", open_note.created_at.to_fs(:rfc822)
             assert_select "geo|lat", open_note.lat.to_s
             assert_select "geo|long", open_note.lon.to_s
@@ -502,7 +502,7 @@ module Api
         end
       end
 
-      get note_path(:id => open_note, :format => "json")
+      get api_note_path(:id => open_note, :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -512,13 +512,13 @@ module Api
       assert_equal open_note.lat, js["geometry"]["coordinates"][0]
       assert_equal open_note.lon, js["geometry"]["coordinates"][1]
       assert_equal open_note.id, js["properties"]["id"]
-      assert_equal note_url(open_note, :format => "json"), js["properties"]["url"]
-      assert_equal comment_note_url(open_note, :format => "json"), js["properties"]["comment_url"]
-      assert_equal close_note_url(open_note, :format => "json"), js["properties"]["close_url"]
+      assert_equal api_note_url(open_note, :format => "json"), js["properties"]["url"]
+      assert_equal comment_api_note_url(open_note, :format => "json"), js["properties"]["comment_url"]
+      assert_equal close_api_note_url(open_note, :format => "json"), js["properties"]["close_url"]
       assert_equal open_note.created_at.to_s, js["properties"]["date_created"]
       assert_equal open_note.status, js["properties"]["status"]
 
-      get note_path(:id => open_note, :format => "gpx")
+      get api_note_path(:id => open_note, :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -529,9 +529,9 @@ module Api
           assert_select "link[href='http://www.example.com/note/#{open_note.id}']", :count => 1
           assert_select "extensions", :count => 1 do
             assert_select "id", open_note.id.to_s
-            assert_select "url", note_url(open_note, :format => "gpx")
-            assert_select "comment_url", comment_note_url(open_note, :format => "gpx")
-            assert_select "close_url", close_note_url(open_note, :format => "gpx")
+            assert_select "url", api_note_url(open_note, :format => "gpx")
+            assert_select "comment_url", comment_api_note_url(open_note, :format => "gpx")
+            assert_select "close_url", close_api_note_url(open_note, :format => "gpx")
           end
         end
       end
@@ -544,7 +544,7 @@ module Api
         create(:note_comment, :note => note, :body => "Another valid comment for hidden note")
       end
 
-      get note_path(:id => note_with_hidden_comment, :format => "json")
+      get api_note_path(:id => note_with_hidden_comment, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -556,10 +556,10 @@ module Api
     end
 
     def test_show_fail
-      get note_path(:id => 12345)
+      get api_note_path(:id => 12345)
       assert_response :not_found
 
-      get note_path(:id => create(:note, :status => "hidden"))
+      get api_note_path(:id => create(:note, :status => "hidden"))
       assert_response :gone
     end
 
@@ -568,17 +568,17 @@ module Api
       user = create(:user)
       moderator_user = create(:moderator_user)
 
-      delete note_path(:id => open_note_with_comment, :text => "This is a hide comment", :format => "json")
+      delete api_note_path(:id => open_note_with_comment, :text => "This is a hide comment", :format => "json")
       assert_response :unauthorized
 
       auth_header = basic_authorization_header user.email, "test"
 
-      delete note_path(:id => open_note_with_comment, :text => "This is a hide comment", :format => "json"), :headers => auth_header
+      delete api_note_path(:id => open_note_with_comment, :text => "This is a hide comment", :format => "json"), :headers => auth_header
       assert_response :forbidden
 
       auth_header = basic_authorization_header moderator_user.email, "test"
 
-      delete note_path(:id => open_note_with_comment, :text => "This is a hide comment", :format => "json"), :headers => auth_header
+      delete api_note_path(:id => open_note_with_comment, :text => "This is a hide comment", :format => "json"), :headers => auth_header
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -590,12 +590,12 @@ module Api
       assert_equal "This is a hide comment", js["properties"]["comments"].last["text"]
       assert_equal moderator_user.display_name, js["properties"]["comments"].last["user"]
 
-      get note_path(:id => open_note_with_comment, :format => "json"), :headers => auth_header
+      get api_note_path(:id => open_note_with_comment, :format => "json"), :headers => auth_header
       assert_response :success
 
       auth_header = basic_authorization_header user.email, "test"
 
-      get note_path(:id => open_note_with_comment, :format => "json"), :headers => auth_header
+      get api_note_path(:id => open_note_with_comment, :format => "json"), :headers => auth_header
       assert_response :gone
     end
 
@@ -603,22 +603,22 @@ module Api
       user = create(:user)
       moderator_user = create(:moderator_user)
 
-      delete note_path(:id => 12345, :format => "json")
+      delete api_note_path(:id => 12345, :format => "json")
       assert_response :unauthorized
 
       auth_header = basic_authorization_header user.email, "test"
 
-      delete note_path(:id => 12345, :format => "json"), :headers => auth_header
+      delete api_note_path(:id => 12345, :format => "json"), :headers => auth_header
       assert_response :forbidden
 
       auth_header = basic_authorization_header moderator_user.email, "test"
 
-      delete note_path(:id => 12345, :format => "json"), :headers => auth_header
+      delete api_note_path(:id => 12345, :format => "json"), :headers => auth_header
       assert_response :not_found
 
       hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
-      delete note_path(:id => hidden_note_with_comment, :format => "json"), :headers => auth_header
+      delete api_note_path(:id => hidden_note_with_comment, :format => "json"), :headers => auth_header
       assert_response :gone
     end
 
@@ -627,7 +627,7 @@ module Api
       create(:note_with_comments, :latitude => position, :longitude => position)
       create(:note_with_comments, :latitude => position, :longitude => position)
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :format => "rss")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -637,7 +637,7 @@ module Api
         end
       end
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :format => "json")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -645,14 +645,14 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 2, js["features"].count
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :format => "xml")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 2
       end
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :format => "gpx")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -665,7 +665,7 @@ module Api
       create(:note_with_comments, :latitude => position, :longitude => position)
       create(:note_with_comments, :latitude => position, :longitude => position)
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "rss")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -674,7 +674,7 @@ module Api
         end
       end
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "json")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -682,14 +682,14 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 1, js["features"].count
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "xml")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
-      get notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "gpx")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :limit => 1, :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -698,7 +698,7 @@ module Api
     end
 
     def test_index_empty_area
-      get notes_path(:bbox => "5,5,5.1,5.1", :format => "rss")
+      get api_notes_path(:bbox => "5,5,5.1,5.1", :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -707,7 +707,7 @@ module Api
         end
       end
 
-      get notes_path(:bbox => "5,5,5.1,5.1", :format => "json")
+      get api_notes_path(:bbox => "5,5,5.1,5.1", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -715,14 +715,14 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 0, js["features"].count
 
-      get notes_path(:bbox => "5,5,5.1,5.1", :format => "xml")
+      get api_notes_path(:bbox => "5,5,5.1,5.1", :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 0
       end
 
-      get notes_path(:bbox => "5,5,5.1,5.1", :format => "gpx")
+      get api_notes_path(:bbox => "5,5,5.1,5.1", :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -731,19 +731,19 @@ module Api
     end
 
     def test_index_large_area
-      get notes_path(:bbox => "-2.5,-2.5,2.5,2.5", :format => :json)
+      get api_notes_path(:bbox => "-2.5,-2.5,2.5,2.5", :format => :json)
       assert_response :success
       assert_equal "application/json", @response.media_type
 
-      get notes_path(:l => "-2.5", :b => "-2.5", :r => "2.5", :t => "2.5", :format => :json)
+      get api_notes_path(:l => "-2.5", :b => "-2.5", :r => "2.5", :t => "2.5", :format => :json)
       assert_response :success
       assert_equal "application/json", @response.media_type
 
-      get notes_path(:bbox => "-10,-10,12,12", :format => :json)
+      get api_notes_path(:bbox => "-10,-10,12,12", :format => :json)
       assert_response :bad_request
       assert_equal "text/plain", @response.media_type
 
-      get notes_path(:l => "-10", :b => "-10", :r => "12", :t => "12", :format => :json)
+      get api_notes_path(:l => "-10", :b => "-10", :r => "12", :t => "12", :format => :json)
       assert_response :bad_request
       assert_equal "text/plain", @response.media_type
     end
@@ -755,7 +755,7 @@ module Api
       create(:note_with_comments)
 
       # Open notes + closed in last 7 days
-      get notes_path(:bbox => "1,1,1.7,1.7", :closed => "7", :format => "json")
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :closed => "7", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -764,7 +764,7 @@ module Api
       assert_equal 2, js["features"].count
 
       # Only open notes
-      get notes_path(:bbox => "1,1,1.7,1.7", :closed => "0", :format => "json")
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :closed => "0", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -773,7 +773,7 @@ module Api
       assert_equal 1, js["features"].count
 
       # Open notes + all closed notes
-      get notes_path(:bbox => "1,1,1.7,1.7", :closed => "-1", :format => "json")
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :closed => "-1", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -783,42 +783,42 @@ module Api
     end
 
     def test_index_bad_params
-      get notes_path(:bbox => "-2.5,-2.5,2.5")
+      get api_notes_path(:bbox => "-2.5,-2.5,2.5")
       assert_response :bad_request
 
-      get notes_path(:bbox => "-2.5,-2.5,2.5,2.5,2.5")
+      get api_notes_path(:bbox => "-2.5,-2.5,2.5,2.5,2.5")
       assert_response :bad_request
 
-      get notes_path(:b => "-2.5", :r => "2.5", :t => "2.5")
+      get api_notes_path(:b => "-2.5", :r => "2.5", :t => "2.5")
       assert_response :bad_request
 
-      get notes_path(:l => "-2.5", :r => "2.5", :t => "2.5")
+      get api_notes_path(:l => "-2.5", :r => "2.5", :t => "2.5")
       assert_response :bad_request
 
-      get notes_path(:l => "-2.5", :b => "-2.5", :t => "2.5")
+      get api_notes_path(:l => "-2.5", :b => "-2.5", :t => "2.5")
       assert_response :bad_request
 
-      get notes_path(:l => "-2.5", :b => "-2.5", :r => "2.5")
+      get api_notes_path(:l => "-2.5", :b => "-2.5", :r => "2.5")
       assert_response :bad_request
 
-      get notes_path(:bbox => "1,1,1.7,1.7", :limit => "0", :format => "json")
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => "0", :format => "json")
       assert_response :bad_request
 
-      get notes_path(:bbox => "1,1,1.7,1.7", :limit => "10001", :format => "json")
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => "10001", :format => "json")
       assert_response :bad_request
     end
 
     def test_search_success
       create(:note_with_comments)
 
-      get search_notes_path(:q => "note comment", :format => "xml")
+      get search_api_notes_path(:q => "note comment", :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
-      get search_notes_path(:q => "note comment", :format => "json")
+      get search_api_notes_path(:q => "note comment", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -826,7 +826,7 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 1, js["features"].count
 
-      get search_notes_path(:q => "note comment", :format => "rss")
+      get search_api_notes_path(:q => "note comment", :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -835,7 +835,7 @@ module Api
         end
       end
 
-      get search_notes_path(:q => "note comment", :format => "gpx")
+      get search_api_notes_path(:q => "note comment", :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -850,14 +850,14 @@ module Api
         create(:note_comment, :note => note, :author => user)
       end
 
-      get search_notes_path(:display_name => user.display_name, :format => "xml")
+      get search_api_notes_path(:display_name => user.display_name, :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
-      get search_notes_path(:display_name => user.display_name, :format => "json")
+      get search_api_notes_path(:display_name => user.display_name, :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -865,7 +865,7 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 1, js["features"].count
 
-      get search_notes_path(:display_name => user.display_name, :format => "rss")
+      get search_api_notes_path(:display_name => user.display_name, :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -874,7 +874,7 @@ module Api
         end
       end
 
-      get search_notes_path(:display_name => user.display_name, :format => "gpx")
+      get search_api_notes_path(:display_name => user.display_name, :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -889,14 +889,14 @@ module Api
         create(:note_comment, :note => note, :author => user)
       end
 
-      get search_notes_path(:user => user.id, :format => "xml")
+      get search_api_notes_path(:user => user.id, :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 1
       end
 
-      get search_notes_path(:user => user.id, :format => "json")
+      get search_api_notes_path(:user => user.id, :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -904,7 +904,7 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 1, js["features"].count
 
-      get search_notes_path(:user => user.id, :format => "rss")
+      get search_api_notes_path(:user => user.id, :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -913,7 +913,7 @@ module Api
         end
       end
 
-      get search_notes_path(:user => user.id, :format => "gpx")
+      get search_api_notes_path(:user => user.id, :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -924,14 +924,14 @@ module Api
     def test_search_no_match
       create(:note_with_comments)
 
-      get search_notes_path(:q => "no match", :format => "xml")
+      get search_api_notes_path(:q => "no match", :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 0
       end
 
-      get search_notes_path(:q => "no match", :format => "json")
+      get search_api_notes_path(:q => "no match", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -939,7 +939,7 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 0, js["features"].count
 
-      get search_notes_path(:q => "no match", :format => "rss")
+      get search_api_notes_path(:q => "no match", :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -948,7 +948,7 @@ module Api
         end
       end
 
-      get search_notes_path(:q => "no match", :format => "gpx")
+      get search_api_notes_path(:q => "no match", :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -959,14 +959,14 @@ module Api
     def test_search_by_time_no_match
       create(:note_with_comments)
 
-      get search_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "xml")
+      get search_api_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "xml")
       assert_response :success
       assert_equal "application/xml", @response.media_type
       assert_select "osm", :count => 1 do
         assert_select "note", :count => 0
       end
 
-      get search_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "json")
+      get search_api_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "json")
       assert_response :success
       assert_equal "application/json", @response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -974,7 +974,7 @@ module Api
       assert_equal "FeatureCollection", js["type"]
       assert_equal 0, js["features"].count
 
-      get search_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "rss")
+      get search_api_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -983,7 +983,7 @@ module Api
         end
       end
 
-      get search_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "gpx")
+      get search_api_notes_path(:from => "01.01.2010", :to => "01.10.2010", :format => "gpx")
       assert_response :success
       assert_equal "application/gpx+xml", @response.media_type
       assert_select "gpx", :count => 1 do
@@ -992,22 +992,22 @@ module Api
     end
 
     def test_search_bad_params
-      get search_notes_path(:q => "no match", :limit => "0", :format => "json")
+      get search_api_notes_path(:q => "no match", :limit => "0", :format => "json")
       assert_response :bad_request
 
-      get search_notes_path(:q => "no match", :limit => "10001", :format => "json")
+      get search_api_notes_path(:q => "no match", :limit => "10001", :format => "json")
       assert_response :bad_request
 
-      get search_notes_path(:display_name => "non-existent")
+      get search_api_notes_path(:display_name => "non-existent")
       assert_response :bad_request
 
-      get search_notes_path(:user => "-1")
+      get search_api_notes_path(:user => "-1")
       assert_response :bad_request
 
-      get search_notes_path(:from => "wrong-date", :to => "wrong-date")
+      get search_api_notes_path(:from => "wrong-date", :to => "wrong-date")
       assert_response :bad_request
 
-      get search_notes_path(:from => "01.01.2010", :to => "2010.01.2010")
+      get search_api_notes_path(:from => "01.01.2010", :to => "2010.01.2010")
       assert_response :bad_request
     end
 
@@ -1019,7 +1019,7 @@ module Api
       create(:note_with_comments, :latitude => position, :longitude => position)
       create(:note_with_comments, :latitude => position, :longitude => position)
 
-      get feed_notes_path(:format => "rss")
+      get feed_api_notes_path(:format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -1028,7 +1028,7 @@ module Api
         end
       end
 
-      get feed_notes_path(:bbox => "1,1,1.2,1.2", :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -1040,16 +1040,16 @@ module Api
     end
 
     def test_feed_fail
-      get feed_notes_path(:bbox => "1,1,1.2", :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2", :format => "rss")
       assert_response :bad_request
 
-      get feed_notes_path(:bbox => "1,1,1.2,1.2,1.2", :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2,1.2", :format => "rss")
       assert_response :bad_request
 
-      get feed_notes_path(:bbox => "1,1,1.2,1.2", :limit => "0", :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => "0", :format => "rss")
       assert_response :bad_request
 
-      get feed_notes_path(:bbox => "1,1,1.2,1.2", :limit => "10001", :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => "10001", :format => "rss")
       assert_response :bad_request
     end
   end
