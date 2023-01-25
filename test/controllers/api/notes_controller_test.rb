@@ -492,7 +492,7 @@ module Api
       assert_select "rss", :count => 1 do
         assert_select "channel", :count => 1 do
           assert_select "item", :count => 1 do
-            assert_select "link", browse_note_url(open_note)
+            assert_select "link", note_url(open_note)
             assert_select "guid", api_note_url(open_note)
             assert_select "pubDate", open_note.created_at.to_fs(:rfc822)
             assert_select "geo|lat", open_note.lat.to_s

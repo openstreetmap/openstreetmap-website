@@ -33,10 +33,6 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
       { :controller => "browse", :action => "changeset", :id => "1" }
     )
     assert_routing(
-      { :path => "/note/1", :method => :get },
-      { :controller => "browse", :action => "note", :id => "1" }
-    )
-    assert_routing(
       { :path => "/query", :method => :get },
       { :controller => "browse", :action => "query" }
     )
@@ -100,78 +96,6 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
 
     browse_check :changeset_path, changeset.id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 4
-  end
-
-  def test_read_note
-    open_note = create(:note_with_comments)
-
-    browse_check :browse_note_path, open_note.id, "browse/note"
-  end
-
-  def test_read_hidden_note
-    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
-
-    get browse_note_path(:id => hidden_note_with_comment)
-    assert_response :not_found
-    assert_template "browse/not_found"
-    assert_template :layout => "map"
-
-    get browse_note_path(:id => hidden_note_with_comment), :xhr => true
-    assert_response :not_found
-    assert_template "browse/not_found"
-    assert_template :layout => "xhr"
-
-    session_for(create(:moderator_user))
-
-    browse_check :browse_note_path, hidden_note_with_comment.id, "browse/note"
-  end
-
-  def test_read_note_hidden_comments
-    note_with_hidden_comment = create(:note_with_comments, :comments_count => 2) do |note|
-      create(:note_comment, :note => note, :visible => false)
-    end
-
-    browse_check :browse_note_path, note_with_hidden_comment.id, "browse/note"
-    assert_select "div.note-comments ul li", :count => 1
-
-    session_for(create(:moderator_user))
-
-    browse_check :browse_note_path, note_with_hidden_comment.id, "browse/note"
-    assert_select "div.note-comments ul li", :count => 2
-  end
-
-  def test_read_note_hidden_user_comment
-    hidden_user = create(:user, :deleted)
-    note_with_hidden_user_comment = create(:note_with_comments, :comments_count => 2) do |note|
-      create(:note_comment, :note => note, :author => hidden_user)
-    end
-
-    browse_check :browse_note_path, note_with_hidden_user_comment.id, "browse/note"
-    assert_select "div.note-comments ul li", :count => 1
-
-    session_for(create(:moderator_user))
-
-    browse_check :browse_note_path, note_with_hidden_user_comment.id, "browse/note"
-    assert_select "div.note-comments ul li", :count => 1
-  end
-
-  def test_read_closed_note
-    user = create(:user)
-    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc, :comments_count => 2) do |note|
-      create(:note_comment, :event => "closed", :note => note, :author => user)
-    end
-
-    browse_check :browse_note_path, closed_note.id, "browse/note"
-    assert_select "div.note-comments ul li", :count => 2
-    assert_select "div.details", /Resolved by #{user.display_name}/
-
-    user.soft_destroy!
-
-    reset!
-
-    browse_check :browse_note_path, closed_note.id, "browse/note"
-    assert_select "div.note-comments ul li", :count => 1
-    assert_select "div.details", /Resolved by deleted/
   end
 
   ##

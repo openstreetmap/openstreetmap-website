@@ -15,8 +15,8 @@ xml.rss("version" => "2.0",
       xml.item do
         xml.title t("api.notes.rss.#{comment.event}", :place => location)
 
-        xml.link url_for(:controller => "/browse", :action => "note", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)
-        xml.guid url_for(:controller => "/browse", :action => "note", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)
+        xml.link url_for(:controller => "/notes", :action => "show", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)
+        xml.guid url_for(:controller => "/notes", :action => "show", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)
 
         xml.description do
           xml.cdata! render(:partial => "entry", :object => comment, :formats => [:html])

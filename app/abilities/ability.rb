@@ -5,8 +5,8 @@ class Ability
 
   def initialize(user)
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
-         :changeset, :note, :query], :browse
-    can [:new], Note
+         :changeset, :query], :browse
+    can [:show, :new], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id], :site
     can [:finish, :embed], :export

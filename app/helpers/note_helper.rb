@@ -3,11 +3,11 @@ module NoteHelper
 
   def note_event(event, at, by)
     if by.nil?
-      t("browse.note.#{event}_by_anonymous_html",
+      t("notes.show.#{event}_by_anonymous_html",
         :when => friendly_date_ago(at),
         :exact_time => l(at))
     else
-      t("browse.note.#{event}_by_html",
+      t("notes.show.#{event}_by_html",
         :when => friendly_date_ago(at),
         :exact_time => l(at),
         :user => note_author(by))

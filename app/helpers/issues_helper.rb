@@ -8,7 +8,7 @@ module IssuesHelper
     when DiaryComment
       diary_entry_url(reportable.diary_entry.user, reportable.diary_entry, :anchor => "comment#{reportable.id}")
     when Note
-      url_for(:controller => :browse, :action => :note, :id => reportable.id)
+      note_url(reportable)
     end
   end
 

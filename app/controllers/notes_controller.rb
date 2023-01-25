@@ -33,5 +33,19 @@ class NotesController < ApplicationController
     end
   end
 
+  def show
+    @type = "note"
+
+    if current_user&.moderator?
+      @note = Note.find(params[:id])
+      @note_comments = @note.comments.unscope(:where => :visible)
+    else
+      @note = Note.visible.find(params[:id])
+      @note_comments = @note.comments
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :template => "browse/not_found", :status => :not_found
+  end
+
   def new; end
 end
