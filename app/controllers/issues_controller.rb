@@ -18,7 +18,7 @@ class IssuesController < ApplicationController
     @issue_types.push("DiaryEntry", "DiaryComment", "User") if current_user.administrator?
 
     @users = User.joins(:roles).where(:user_roles => { :role => current_user.roles.map(&:role) }).distinct
-    @issues = Issue.visible_to(current_user)
+    @issues = Issue.visible_to(current_user).order(:updated_at => :desc)
 
     # If search
     if params[:search_by_user]&.present?
