@@ -25,7 +25,7 @@
   </div>
 
   <% if @note_comments.find { |comment| comment.author.nil? } -%>
-    <p class='alert alert-warning'><%= t "javascripts.notes.show.anonymous_warning" %></p>
+    <p class='alert alert-warning'><%= t ".anonymous_warning" %></p>
   <% end -%>
 
   <% if @note_comments.length > 1 %>
@@ -49,13 +49,13 @@
         </div>
         <div class="btn-wrapper">
           <% if current_user.moderator? -%>
-            <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
+            <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
           <% end -%>
-          <input type="submit" name="close" value="<%= t("javascripts.notes.show.resolve") %>" class="btn btn-primary"
+          <input type="submit" name="close" value="<%= t(".resolve") %>" class="btn btn-primary"
             data-method="POST" data-url="<%= close_api_note_url(@note, "json") %>"
-            data-default-action-text="<%= t("javascripts.notes.show.resolve") %>"
-            data-comment-action-text="<%= t("javascripts.notes.show.comment_and_resolve") %>">
-          <input type="submit" name="comment" value="<%= t("javascripts.notes.show.comment") %>" class="btn btn-primary" data-method="POST" data-url="<%= comment_api_note_url(@note, "json") %>" disabled="1">
+            data-default-action-text="<%= t(".resolve") %>"
+            data-comment-action-text="<%= t(".comment_and_resolve") %>">
+          <input type="submit" name="comment" value="<%= t(".comment") %>" class="btn btn-primary" data-method="POST" data-url="<%= comment_api_note_url(@note, "json") %>" disabled="1">
         </div>
       </form>
     <% end -%>
@@ -64,10 +64,10 @@
       <input type="hidden" name="text" value="" autocomplete="off">
       <div class="btn-wrapper">
         <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
-          <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
+          <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
         <% end -%>
         <% if current_user -%>
-          <input type="submit" name="reopen" value="<%= t("javascripts.notes.show.reactivate") %>" class="btn btn-primary" data-method="POST" data-url="<%= reopen_api_note_url(@note, "json") %>">
+          <input type="submit" name="reopen" value="<%= t(".reactivate") %>" class="btn btn-primary" data-method="POST" data-url="<%= reopen_api_note_url(@note, "json") %>">
         <% end -%>
       </div>
     </form>
@@ -76,11 +76,11 @@
   <% if current_user && current_user != @note.author %>
     <p>
       <small class="text-muted">
-        <%= t "javascripts.notes.show.report_link_html", :link => report_link(t(".report"), @note) %>
+        <%= t ".report_link_html", :link => report_link(t(".report"), @note) %>
         <% if @note.status == "open" %>
-          <%= t "javascripts.notes.show.other_problems_resolve", :link => report_link(t(".report"), @note) %>
+          <%= t ".other_problems_resolve", :link => report_link(t(".report"), @note) %>
         <% elsif @note.status == "closed" %>
-          <%= t "javascripts.notes.show.other_problems_resolved" %>
+          <%= t ".other_problems_resolved" %>
         <% end %>
       </small>
     </p>
@@ -88,7 +88,7 @@
 
   <% if @note.freshly_closed? %>
     <small class="text-muted">
-      <%= t "javascripts.notes.show.disappear_date_html", :disappear_in => disappear_in(@note) %>
+      <%= t ".disappear_date_html", :disappear_in => disappear_in(@note) %>
     </small>
   <% end %>
 </div>
