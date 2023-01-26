@@ -8,6 +8,7 @@
 # Author: Asdfqwer51
 # Author: B891202
 # Author: CYAN
+# Author: Cerulean
 # Author: Codenstory
 # Author: Cubbe
 # Author: D6283
@@ -137,12 +138,14 @@ ko:
       diary_entry:
         user: 사용자
         title: 제목
+        body: 내용
         latitude: 위도
         longitude: 경도
         language_code: 언어
       doorkeeper/application:
         name: 이름
         redirect_uri: URI 리다이렉트
+        confidential: 기밀 애플리케이션
         scopes: 허가
       friend:
         user: 사용자
@@ -256,7 +259,17 @@ ko:
     deletions:
       show:
         title: 내 계정 삭제
+        warning: 경고! 계속 진행하면 계정이 삭제되며 되돌릴 수 없습니다.
         delete_account: 계정 삭제
+        delete_introduction: 아래 버튼을 사용하여 OpenStreetMap 계정을 삭제할 수 있습니다. 다음 세부 사항에 유의하십시오.
+        delete_profile: 아바타, 설명, 집 위치를 포함한 프로필 정보가 제거됩니다.
+        delete_display_name: 표시되는 이름이 삭제되며 다른 계정에서 재사용될 수 있습니다.
+        retain_caveats: 그러나, 귀하의 정보가 삭제된 후 OpenStreetMap에서 일부 정보가 유지될 수 있습니다.
+        retain_edits: 지도 데이터베이스에 편집 내역이 있을 경우 그대로 유지됩니다.
+        retain_traces: 업로드된 경로가 있는 경우 그대로 유지됩니다.
+        retain_diary_entries: 일기 항목과 일기에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
+        retain_notes: 지도 메모와 메모에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
+        retain_changeset_discussions: 변경 집합 토론이 있는 경우 유지됩니다.
         retain_email: 이메일 주소는 그대로 유지됩니다.
         confirm_delete: 확실합니까?
         cancel: 취소
@@ -451,6 +464,7 @@ ko:
     index:
       title: 바뀜집합
       title_user: '%{user}님의 바뀜집합'
+      title_user_link_html: '%{user_link}님의 변경 집합'
       title_friend: 내 친구의 바뀜집합
       title_nearby: 근처 사용자의 바뀜집합
       empty: 찾는 바뀜집합이 없습니다.
@@ -483,6 +497,7 @@ ko:
       friend: 친구
     show:
       title: 내 대시보드
+      no_home_location_html: '%{edit_profile_link}을 하여 집 위치를 설정하면 주변 사용자를 볼 수 있습니다.'
       edit_your_profile: 내 프로파일 편집
       my friends: 내 친구
       no friends: 아직 어떠한 친구도 추가하지 않았습니다.
@@ -559,8 +574,10 @@ ko:
         title: 오픈스트리트맵 일기 항목
         description: 오픈스트리트맵 사용자의 최근 일기 항목
     comments:
+      title: '%{user}님이 추가한 일기 댓글'
       heading: '%{user}의 일기 댓글'
-      no_comments: 일기 댓글는 없습니다.
+      subheading_html: '%{user}님이 추가한 일기 댓글'
+      no_comments: 일기 댓글이 없습니다.
       post: 게시물
       when: 날짜
       comment: 의견
@@ -572,8 +589,19 @@ ko:
         create:
           notice: 애플리케이션을 등록했습니다.
   errors:
+    contact:
+      contact_url_title: 다양한 연락 방법이 설명되어 있습니다.
+      contact: 여러 연락 수단
+      contact_the_community_html: 끊어진 링크나 버그를 발견했다면 언제든지 OpenStreetMap 커뮤니티에 %{contact_link}으로
+        알려주십시오. 요청의 정확한 URL을 기록해 두십시오.
+    forbidden:
+      title: 접근 거부됨
+      description: OpenStreetMap 서버에 요청한 이 작업은 관리자만 사용할 수 있습니다(HTTP 403).
+    internal_server_error:
+      title: 애플리케이션 오류
     not_found:
       title: 파일을 찾을 수 없습니다
+      description: OpenStreetMap 서버에서 해당 이름으로 파일/디렉토리/API 작업을 찾을 수 없습니다(HTTP 404).
   friendships:
     make_friend:
       heading: '%{user} 님을 친구로 추가할까요?'
@@ -581,6 +609,7 @@ ko:
       success: '%{name}님은 이제 친구입니다!'
       failed: 죄송합니다, %{name}님을 친구로 추가하는 데 실패했습니다.
       already_a_friend: 이미 %{name}님과 친구입니다.
+      limit_exceeded: 최근에 많은 사용자와 친구가 되었습니다. 친구 추가를 시도하기 전에 잠시 기다리십시오.
     remove_friend:
       heading: '%{user}님을 친구 제거할까요?'
       button: 친구 제거
@@ -601,10 +630,12 @@ ko:
           chair_lift: 체어 리프트
           drag_lift: 드래그 리프트
           gondola: 곤돌라 리프트
+          magic_carpet: 매직 카펫 리프트
           platter: 플래터 리프트
           pylon: 송전탑
           station: 케이블 카 정류장
           t-bar: 티 바 리프트
+          "yes": 항공로
         aeroway:
           aerodrome: 비행장
           airstrip: 활주로
@@ -619,6 +650,7 @@ ko:
           taxilane: 유도선
           taxiway: 유도로
           terminal: 공항 터미널
+          windsock: 바람자루
         amenity:
           animal_shelter: 동물 보호소
           arts_centre: 아트 센터
@@ -656,6 +688,7 @@ ko:
           drinking_water: 음수대
           driving_school: 운전 학원
           embassy: 대사관
+          events_venue: 이벤트 장소
           fast_food: 패스트 푸드
           ferry_terminal: 페리 부두
           fire_station: 소방서
@@ -709,6 +742,7 @@ ko:
           theatre: 극장
           toilets: 화장실
           townhall: 마을 회관
+          training: 교육시설
           university: 대학
           vending_machine: 자동 판매기
           veterinary: 동물병원
@@ -2016,6 +2050,9 @@ ko:
       wiki:
         title: OpenStreetMap 위키
         description: 깊이 있는 OpenStreetMap 설명문서에 대해서는 위키를 찾아보세요.
+    potlatch:
+      desktop_html: <a href="https://www.systemed.net/potlatch/">Mac 및 Windows용 데스크탑
+        애플리케이션을 다운로드하여</a> Potlatch를 계속 사용할 수 있습니다.
     sidebar:
       search_results: 검색 결과
       close: 닫기
@@ -2148,8 +2185,23 @@ ko:
           <span class='icon note'></span>. 드래그하여 이동할 수 있는 표시가 지도에 추가됩니다.
           메시지를 추가하고 나서, 저장을 클릭하면, 다른 매퍼가 조사할 것입니다.
     communities:
+      title: 커뮤니티
+      lede_text: |-
+        전 세계의 사람들이 OpenStreetMap을 사용하고 OpenStreetMap에 기여합니다.
+        많은 기여자들이 개인적으로 참여하는 반면 어떤 기여자들은 커뮤니티를 형성하기도 합니다.
+        다양한 규모의 커뮤니티가 형성되어있으며 작은 마을에서 대규모 다국적 지역에 이르기까지 다양합니다.
+        공식적이거나 비공식적일 수 있습니다.
+      local_chapters:
+        title: 지역 지부
+        about_text: 지역 지부는 비영리 법인 설립의 공식적인 단계를 밟은 국가, 지역 수준의 그룹입니다. 그들은 지방 정부, 기업
+          및 미디어를 다룰 때 해당 지역의 지도 및 지도 작성자를 나타냅니다. 그들은 또한 OSMF(OpenStreetMap Foundation)와
+          제휴를 형성하여 법적 및 저작권 관리 기관에 대한 링크를 제공합니다.
+        list_text: 다음 커뮤니티는 공식적으로 지역 지부로 설립되었습니다.
       other_groups:
         title: 기타 그룹
+        about_html: |-
+          지역 지부 정도의 단체를 공식적으로 설립할 필요는 없습니다.
+          실제로 많은 단체들이 사람들의 비공식 모임이나 커뮤니티 단체로 존재합니다. 누구나 만들고 가입할 수 있습니다. 자세한 내용은 <a href="https://wiki.openstreetmap.org/wiki/User_group">이 위키 페이지</a>를 참고하세요
   traces:
     visibility:
       private: 비공개(익명으로 공유됨, 정렬되지 않은 점)
@@ -2159,6 +2211,7 @@ ko:
     new:
       upload_trace: GPS 궤적 올리기
       visibility_help: 이게 무슨 뜻입니까?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: 도움말
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2176,6 +2229,7 @@ ko:
       title: '%{name} 경로 편집'
       heading: '%{name} 경로 편집'
       visibility_help: 이게 무슨 뜻입니까?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: 추적 업데이트됨
     trace_optionals:
@@ -2296,6 +2350,7 @@ ko:
     scopes:
       read_prefs: 사용자 환경 설정 읽기
       write_prefs: 사용자 환경 설정 수정
+      write_diary: 일기 항목을 생성하고 덧글을 남기며 친구를 만듭니다.
       write_api: 지도 수정
       read_gpx: 비공개 GPS 궤적 읽기
       write_gpx: GPS 궤적 업로드
@@ -2345,6 +2400,9 @@ ko:
   oauth2_applications:
     index:
       title: 내 클라이언트 애플리케이션
+      no_applications_html: '%{oauth2} 표준을 사용하여 등록하려는 애플리케이션이 있습니까? 이 서비스에 OAuth 요청을
+        하려면 먼저 애플리케이션을 등록해야 합니다.'
+      oauth_2: OAuth 2
       new: 새 애플리케이션 등록
       name: 이름
       permissions: 권한
@@ -2362,8 +2420,13 @@ ko:
       confirm_delete: 이 애플리케이션을 삭제하시겠습니까?
       client_id: 클라이언트 ID
       permissions: 권한
+      redirect_uris: URI 리다이렉트
+    not_found:
+      sorry: 죄송합니다. 해당 애플리케이션을 찾을 수 없습니다.
   oauth2_authorizations:
     new:
+      title: 승인 필요
+      introduction: 다음 권한으로 계정에 액세스할 수 있도록 %{application}을(를) 승인하시겠습니까?
       authorize: 인가
       deny: 거부
     error:
@@ -2375,6 +2438,9 @@ ko:
       title: 내 인증한 애플리케이션
       application: 애플리케이션
       permissions: 권한
+    application:
+      revoke: 접근 취소
+      confirm_revoke: 이 애플리케이션에 대한 액세스 권한을 취소하시겠습니까?
   users:
     new:
       title: 가입하기
@@ -2402,12 +2468,16 @@ ko:
       read and accept with tou: 기여자 동의 및 사용 약관을 읽고 두 개의 체크 상자에 체크한 다음 계속 버튼을 눌러 주십시오.
       contributor_terms_explain: 이 동의는 기존 기여와 앞으로의 기여자의 약관에 적용됩니다.
       read_ct: 상기의 기여자 약관을 읽었고 동의합니다
+      tou_explain_html: 이러한 %{tou_link}는 오픈스트리트맵 재단에서 제공하는 웹사이트 및 기타 인프라 사용을 관리합니다.
+        링크를 클릭하여 텍스트를 읽고 동의하십시오.
       read_tou: 이용약관을 읽었으며 동의합니다
       consider_pd: 위의 내용 외에도 내 기여가 퍼블릭 도메인에 있다고 간주합니다
       consider_pd_why: 무엇인가요?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: '약관을 이해하는 데 유용한 정보: <a href="%{summary}">사람이 읽을 수 있는 요약</a>과
         일부 <a href="%{translations}">비공식 번역</a>'
       continue: 계속
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: 거부
       you need to accept or decline: 계속하려면 새 기여자 약관을 읽고 나서 동의나 거부하세요.
       legale_select: '거주 국가:'
@@ -2416,7 +2486,10 @@ ko:
         italy: 이탈리아
         rest_of_world: 나머지 국가
     terms_declined_flash:
+      terms_declined_html: 새 기여자 약관에 동의하지 않기로 결정하셨습니다. 자세한 내용은 %{terms_declined_link}를
+        참조하세요.
       terms_declined_link: 이 위키 문서
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: 이러한 사용자는 없습니다
       heading: '%{user} 사용자는 존재하지 않습니다'
@@ -2496,6 +2569,7 @@ ko:
       title: 계정 정지
       heading: 계정 정지
       support: 지원
+      automatically_suspended: 죄송합니다. 의심스러운 활동으로 인해 귀하의 계정이 자동으로 정지되었습니다.
     auth_failure:
       connection_failed: 인증 제공자와 연결하는 데 실패했습니다
       invalid_credentials: 잘못된 인증 자격 증명
@@ -2693,6 +2767,11 @@ ko:
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 기여자</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>기부하기</a>
       terms: <a href='%{terms_url}' target='_blank'>웹 사이트 및 API 약관</a>
+      cyclosm: <a href='%{osmfrance_url}' target='_blank'>오픈스트리트맵 프랑스</a>에서 호스팅되는
+        <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>의 타일 스타일
+      thunderforest: <a href='%{thunderforest_url}' target='_blank'>Andy Allan</a>의
+        제공된 타일
+      opnvkarte: <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>의 제공된 타일
     site:
       edit_tooltip: 지도 편집
       edit_disabled_tooltip: 지도를 편집하려면 확대
@@ -2723,6 +2802,10 @@ ko:
         reactivate: 다시 활성화
         comment_and_resolve: 의견 및 해결
         comment: 의견
+        report_link_html: 이 참고에 삭제해야 하는 민감한 정보가 포함되어 있으면 %{link}할 수 있습니다.
+        other_problems_resolve: 참고의 다른 모든 문제는 댓글로 직접 해결하시기 바랍니다.
+        other_problems_resolved: 다른 모든 문제는 해결하는 것으로 충분합니다.
+        disappear_date_html: 이 해결된 참고는 %{disappear_in}에 지도에서 사라집니다.
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
     directions:
       ascend: 올라가기
@@ -2733,6 +2816,9 @@ ko:
         graphhopper_bicycle: 자전거 (GraphHopper)
         graphhopper_car: 자동차(GraphHopper)
         graphhopper_foot: 도보(GraphHopper)
+        fossgis_valhalla_bicycle: 자전거 (Valhalla)
+        fossgis_valhalla_car: 자동차 (Valhalla)
+        fossgis_valhalla_foot: 도보 (Valhalla)
       descend: 내려가기
       directions: 길
       distance: 거리
