@@ -179,6 +179,8 @@ fi:
         category: Valitse ilmiannon syy
         details: Kuvaile ongelmaa (pakollinen)
       user:
+        auth_provider: Todennuksen tarjoaja
+        auth_uid: Todennus-UID
         email: Sähköpostiosoite
         email_confirmation: Sähköpostin varmistus
         new_email: Uusi sähköpostiosoite
@@ -196,6 +198,7 @@ fi:
         confidential: Sovellusta käytettäessä ei voida taata käyttäjätietojen tietoturvaa
           (natiivit mobiilisovellukset ja yhden sivun sovellukset eivät ole korkean
           tietoturvariskin sovelluksia)
+        redirect_uri: Käytä yhtä riviä URI:a kohden
       trace:
         tagstring: pilkuilla eroteltu lista
       user_block:
@@ -305,6 +308,8 @@ fi:
           säilytetään OpenStreetMapissa:'
         retain_edits: Mahdolliset karttatietokantaan tekemäsi muutokset säilytetään.
         retain_traces: Lähettämäsi jäljet, jos sellaisia on, säilytetään.
+        retain_diary_entries: Päiväkirjamerkintäsi ja päiväkirjakommenttisi, jos sellaisia
+          on, säilytetään, mutta piilotetaan näkyviltä.
         retain_email: Sähköpostiosoitteesi säilytetään.
         confirm_delete: Oletko varma?
         cancel: Peruuta
@@ -485,7 +490,7 @@ fi:
       reopened_by_html: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Ilmianna karttailmoitus
+      report: ilmianna karttailmoitus
     query:
       title: Ominaisuuskysely
       introduction: Napsauta karttaa löytääksesi lähistön karttakohteita.
@@ -638,6 +643,17 @@ fi:
       applications:
         create:
           notice: Sovellus rekisteröity.
+  errors:
+    forbidden:
+      title: Kielletty
+      description: OpenStreetMap-palvelimella pyytämäsi toiminto on vain järjestelmänvalvojien
+        käytettävissä (HTTP 403)
+    internal_server_error:
+      title: Sovellusvirhe
+      description: OpenStreetMap-palvelin kohtasi odottamattoman tilanteen, joka esti
+        sitä täyttämästä pyyntöä (HTTP 500)
+    not_found:
+      title: Tiedostoa ei löydy
   friendships:
     make_friend:
       heading: Lisätäänkö %{user} kaveriksi?
@@ -878,9 +894,11 @@ fi:
           shoemaker: Suutari
           stonemason: Kivenhakkaaja
           tailor: Räätäli
+          window_construction: Ikkunoiden valmistaminen
           winery: Viinitila
           "yes": Käsityömyymälä
         emergency:
+          access_point: Tukiasema
           ambulance_station: Ensihoitoasema
           assembly_point: kohtaamispaikka
           defibrillator: Defibrillaattori
@@ -943,12 +961,14 @@ fi:
         historic:
           aircraft: Historiallinen lentokone
           archaeological_site: Arkeologinen kohde
+          bomb_crater: Historiallinen pommikraatteri
           battlefield: Taistelukenttä
           boundary_stone: Rajakivi
           building: Historiallinen rakennus
           bunker: Bunkkeri
           cannon: Historiallinen tykki
           castle: Linna
+          charcoal_pile: Historiallinen puuhiilikasa
           church: Kirkko
           city_gate: Kaupungin portti
           citywalls: Kaupunginmuurit
@@ -968,6 +988,7 @@ fi:
           stone: Kivi
           tomb: Hautakammio
           tower: Torni
+          wayside_chapel: Tienvarsikappeli
           wayside_cross: Tieristi
           wayside_shrine: Tienvarsialttari
           wreck: Hylky
@@ -981,7 +1002,7 @@ fi:
           brownfield: Purettujen rakennusten alue
           cemetery: Hautausmaa
           commercial: Kaupallinen alue
-          conservation: Suojeltu kohde
+          conservation: Suojelualue
           construction: Rakennustyömaa
           farmland: Viljelysmaa
           farmyard: Maatilan piha
@@ -1003,12 +1024,13 @@ fi:
           reservoir: Tekojärvi
           reservoir_watershed: Tekoaltaan vedenjakaja
           residential: Asuinalue
-          retail: Vähittäiskauppa
+          retail: Vähittäiskauppa-alue
           village_green: Puisto
           vineyard: Viinitarha
           "yes": Maankäyttö
         leisure:
           adult_gaming_centre: Pelikeskus aikuisille
+          amusement_arcade: Pelihalli
           bandstand: Musiikkipaviljonki
           beach_resort: Rantakohde
           bird_hide: Linnunpesä
@@ -1207,6 +1229,7 @@ fi:
           "yes": Paikka
         railway:
           abandoned: Hylätty rautatie
+          buffer_stop: Päätepuskin
           construction: Rakenteilla oleva rautatie
           disused: Käyttämätön rautatie
           funicular: Funikulaari
@@ -1270,7 +1293,7 @@ fi:
           deli: Herkkukauppa
           department_store: Tavaratalo
           discount: Alennusmyymälä
-          doityourself: Tee-se-itse
+          doityourself: Tee-se-itse -kauppa
           dry_cleaning: Kuivapesula
           e-cigarette: Sähkötupakkakauppa
           electronics: Elektroniikkakauppa
@@ -1296,7 +1319,7 @@ fi:
           health_food: Terveysruokakauppa
           hearing_aids: Kuulokojeliike
           herbalist: Luontaistuotekauppias
-          hifi: Elektroniikkakauppa
+          hifi: Hi-Fi-kauppa
           houseware: Taloustavaraliike
           ice_cream: Jäätelökauppa
           interior_decoration: Kodinsisustus
@@ -1356,7 +1379,7 @@ fi:
           artwork: Taideteos
           attraction: Nähtävyys
           bed_and_breakfast: Aamiaismajoitus
-          cabin: Mökki
+          cabin: Turistimökki
           camp_pitch: Telttapaikka
           camp_site: Leirintäalue
           caravan_site: Leirintäalue
@@ -1892,6 +1915,7 @@ fi:
       heading: Kirjaudu ulos OpenStreetMapista
       logout_button: Kirjaudu ulos
     suspended_flash:
+      suspended: Valitettavasti tilisi on jäädytetty epäilyttävän toiminnan vuoksi.
       support: tuki
   shared:
     markdown_help:
@@ -2170,7 +2194,7 @@ fi:
         description: Esitä kysymyksiä tai keskustele laajalti kiinnostavista aiheista
           aiheita koskevilla tai alueellisilla sähköpostilistoilla.
       forums:
-        title: Keskustelupalsta
+        title: Keskustelupalsta (vanha)
         description: Kysymykset ja keskustelut niille, jotka haluavat mielummin ilmoitustaulutyylisen
           käyttöliittymän.
       community:
@@ -2597,6 +2621,7 @@ fi:
       title: Rekisteröidy
       no_auto_account_create: Automaattinen käyttäjätunnuksen luonti ei ole juuri
         nyt käytössä.
+      support: tuki
       about:
         header: Muokkaa vapaasti
         html: |-
@@ -2699,6 +2724,8 @@ fi:
       activate_user: Aktivoi tämä käyttäjä
       deactivate_user: Poista tämän käyttäjän aktivointi
       confirm_user: Vahvista tämä käyttäjä
+      unconfirm_user: Peru tämän käyttäjän vahvistus
+      unsuspend_user: Peru tämän käyttäjän jäädytys
       hide_user: Piilota tämä käyttäjä
       unhide_user: Poista käyttäjän piilottaminen
       delete_user: Poista tämä käyttäjä
@@ -2723,6 +2750,8 @@ fi:
       title: Käyttäjätili jäädytetty
       heading: Käyttäjätili jäädytetty
       support: tuki
+      automatically_suspended: Valitettavasti tilisi on automaattisesti jäädytetty
+        epäilyttävän toiminnan vuoksi.
     auth_failure:
       connection_failed: Yhdistäminen todennuspalveluntarjoajaan epäonnistui
       invalid_credentials: Virheelliset varmennustiedot
@@ -2966,6 +2995,8 @@ fi:
         reactivate: Avaa uudelleen
         comment_and_resolve: Kommentoi + ratkaise
         comment: Kommentoi
+        report_link_html: Jos tämä huomautus sisältää arkaluontoisia tietoja, jotka
+          on poistettava, voit %{link}.
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
     directions:
       ascend: Nousu
@@ -2976,9 +3007,14 @@ fi:
         graphhopper_bicycle: Pyörällä (GraphHopper)
         graphhopper_car: Autolla (GraphHopper)
         graphhopper_foot: Kävellen (GraphHopper)
+        fossgis_valhalla_bicycle: Pyörällä (Valhalla)
+        fossgis_valhalla_car: Autolla (Valhalla)
+        fossgis_valhalla_foot: Kävellen (Valhalla)
       descend: Lasku
       directions: Reittiohjeet
       distance: Etäisyys
+      distance_m: '%{distance} m'
+      distance_km: '%{distance} km'
       errors:
         no_route: Reittiä näiden paikkojen välille ei löytynyt.
         no_place: Paikkaa '%{place}' ei löytynyt.
