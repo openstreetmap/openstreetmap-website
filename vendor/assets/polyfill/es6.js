@@ -1,53 +1,58 @@
-/* Polyfill service v3.38.0
+/* Polyfill service v3.111.0
  * For detailed credits and licence information see https://github.com/financial-times/polyfill-service.
  * 
  * Features requested: es6
  * 
- * - _ESAbstract.ArrayCreate, License: CC0 (required by "Array.from", "es6", "Array.of", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
- * - _ESAbstract.Call, License: CC0 (required by "Array.from", "es6", "Array.prototype.find", "Array.prototype.findIndex", "WeakMap", "WeakSet", "_ESAbstract.GetIterator", "Map", "Set", "_ESAbstract.IteratorClose", "_ESAbstract.IteratorNext", "_ESAbstract.IteratorStep", "Array.prototype.forEach", "Object.setPrototypeOf", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.filter", "Array.prototype.map", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.of", "Array.prototype.fill", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith", "_ESAbstract.OrdinaryToPrimitive")
- * - _ESAbstract.Get, License: CC0 (required by "Array.from", "es6", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "Object.assign", "RegExp.prototype.flags", "WeakMap", "WeakSet", "_ESAbstract.IteratorValue", "Map", "Set", "_ESAbstract.IteratorComplete", "_ESAbstract.IteratorStep", "Array.prototype.forEach", "Object.setPrototypeOf", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_ESAbstract.IsRegExp", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.startsWith", "Array.prototype.filter", "Array.prototype.map", "_ESAbstract.GetPrototypeFromConstructor", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "Object.defineProperties", "Object.create", "_ESAbstract.GetIterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_Iterator", "_StringIterator", "_ESAbstract.ArraySpeciesCreate", "_ESAbstract.OrdinaryToPrimitive", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "String.prototype.codePointAt", "String.prototype.repeat")
- * - _ESAbstract.HasProperty, License: CC0 (required by "Array.prototype.copyWithin", "es6", "Array.prototype.forEach", "Object.setPrototypeOf", "Symbol", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.filter", "Array.prototype.map")
- * - _ESAbstract.IsArray, License: CC0 (required by "String.fromCodePoint", "es6", "WeakMap", "WeakSet", "Array.isArray", "Map", "Array.from", "Set", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
- * - _ESAbstract.IsCallable, License: CC0 (required by "Array.from", "es6", "Array.prototype.find", "Array.prototype.findIndex", "Map", "Set", "WeakMap", "WeakSet", "_ESAbstract.GetMethod", "Array.prototype.forEach", "Object.setPrototypeOf", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.filter", "Array.prototype.map", "Function.prototype.bind", "_ESAbstract.Construct", "Array.of", "Object.getOwnPropertyDescriptor", "Object.assign", "_ESAbstract.OrdinaryToPrimitive", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.fill", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith")
- * - _ESAbstract.RequireObjectCoercible, License: CC0 (required by "String.prototype.@@iterator", "es6", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith")
- * - _ESAbstract.SameValueNonNumber, License: CC0 (required by "_ESAbstract.SameValueZero", "Map", "es6", "Array.from", "Set", "WeakSet", "_ESAbstract.SameValue", "Object.is", "String.fromCodePoint", "WeakMap")
- * - _ESAbstract.ToBoolean, License: CC0 (required by "Array.prototype.find", "es6", "Array.prototype.findIndex", "RegExp.prototype.flags", "_ESAbstract.IteratorComplete", "Map", "Array.from", "Set", "_ESAbstract.IteratorStep", "WeakMap", "WeakSet", "_ESAbstract.IsRegExp", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.startsWith", "Array.prototype.filter", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables")
- * - _ESAbstract.ToInteger, License: CC0 (required by "Array.prototype.copyWithin", "es6", "Array.prototype.fill", "Number.isInteger", "Number.isSafeInteger", "String.fromCodePoint", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith", "_ESAbstract.ToLength", "Array.from", "Array.prototype.find", "Array.prototype.findIndex")
- * - _ESAbstract.ToLength, License: CC0 (required by "Array.from", "es6", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "Array.prototype.forEach", "Object.setPrototypeOf", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.filter", "Array.prototype.map")
+ * - _ESAbstract.ArrayCreate, License: CC0 (required by "Symbol.unscopables", "Symbol", "Array.prototype.filter", "_ESAbstract.ArraySpeciesCreate", "es6")
+ * - _ESAbstract.Call, License: CC0 (required by "String.prototype.startsWith", "_ESAbstract.ToString", "_ESAbstract.ToPrimitive", "_ESAbstract.OrdinaryToPrimitive", "es6")
+ * - _ESAbstract.Get, License: CC0 (required by "String.prototype.startsWith", "_ESAbstract.ToString", "_ESAbstract.ToPrimitive", "_ESAbstract.OrdinaryToPrimitive", "es6")
+ * - _ESAbstract.HasOwnProperty, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyDescriptor", "es6")
+ * - _ESAbstract.HasProperty, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "Array.prototype.indexOf", "es6")
+ * - _ESAbstract.IsArray, License: CC0 (required by "Symbol.unscopables", "Symbol", "Array.prototype.filter", "_ESAbstract.ArraySpeciesCreate", "es6")
+ * - _ESAbstract.IsCallable, License: CC0 (required by "String.prototype.startsWith", "_ESAbstract.ToString", "_ESAbstract.ToPrimitive", "_ESAbstract.OrdinaryToPrimitive", "es6")
+ * - _ESAbstract.RequireObjectCoercible, License: CC0 (required by "Number.parseInt", "String.prototype.trim", "_ESAbstract.TrimString", "es6")
+ * - _ESAbstract.SameValueNonNumber, License: CC0 (required by "WeakMap", "_ESAbstract.SameValue", "es6")
+ * - _ESAbstract.ToBoolean, License: CC0 (required by "Symbol.unscopables", "Symbol", "Array.prototype.filter", "es6")
  * - _ESAbstract.ToNumber, License: CC0 (required by "String.fromCodePoint", "es6")
- * - _ESAbstract.ToObject, License: CC0 (required by "Array.from", "es6", "Array.prototype.entries", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator", "Object.assign", "Array.prototype.forEach", "Object.setPrototypeOf", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.filter", "Array.prototype.map", "_ESAbstract.GetV", "_ESAbstract.GetMethod", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "Object.defineProperties", "Object.create", "_ArrayIterator", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "_Iterator", "_StringIterator")
- * - _ESAbstract.GetV, License: CC0 (required by "_ESAbstract.GetMethod", "Array.from", "es6", "Map", "Set", "_ESAbstract.GetIterator", "WeakMap", "WeakSet")
- * - _ESAbstract.GetMethod, License: CC0 (required by "Array.from", "es6", "Map", "Set", "_ESAbstract.IsConstructor", "Array.of", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_ESAbstract.IteratorClose", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "String.prototype.@@iterator", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith")
- * - _ESAbstract.ToUint32, License: CC0 (required by "Math.clz32", "es6", "Math.imul")
- * - _ESAbstract.Type, License: CC0 (required by "Map", "es6", "Array.from", "Number.isFinite", "Number.isInteger", "Number.isNaN", "Number.isSafeInteger", "Object.seal", "RegExp.prototype.flags", "WeakMap", "WeakSet", "_ESAbstract.IsConstructor", "Array.of", "_ESAbstract.GetIterator", "Set", "_ESAbstract.IteratorClose", "_ESAbstract.ToString", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "String.prototype.@@iterator", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith", "_ESAbstract.IteratorValue", "_ESAbstract.CreateIterResultObject", "_ESAbstract.IteratorComplete", "_ESAbstract.IteratorStep", "_ESAbstract.IteratorNext", "_ESAbstract.SameValueZero", "Object.create", "Object.setPrototypeOf", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.SameValue", "Object.is", "String.fromCodePoint", "_ESAbstract.IsRegExp", "_ESAbstract.ToPrimitive", "_ESAbstract.GetPrototypeFromConstructor", "Object.defineProperties", "_Iterator", "_StringIterator", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map", "_ESAbstract.OrdinaryToPrimitive")
- * - _ESAbstract.GetPrototypeFromConstructor, License: CC0 (required by "_ESAbstract.OrdinaryCreateFromConstructor", "Map", "es6", "Array.from", "Set", "WeakMap", "WeakSet", "_ESAbstract.Construct", "Array.of")
- * - _ESAbstract.IsConstructor, License: CC0 (required by "Array.from", "es6", "Array.of", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
- * - _ESAbstract.IsRegExp, License: CC0 (required by "String.prototype.endsWith", "es6", "String.prototype.includes", "String.prototype.startsWith")
- * - _ESAbstract.IteratorClose, License: CC0 (required by "Array.from", "es6", "Map", "Set", "WeakMap", "WeakSet")
- * - _ESAbstract.IteratorComplete, License: CC0 (required by "Map", "es6", "Array.from", "Set", "_ESAbstract.IteratorStep", "WeakMap", "WeakSet")
- * - _ESAbstract.IteratorNext, License: CC0 (required by "Map", "es6", "Array.from", "Set", "_ESAbstract.IteratorStep", "WeakMap", "WeakSet")
- * - _ESAbstract.IteratorStep, License: CC0 (required by "Array.from", "es6", "Map", "Set", "WeakMap", "WeakSet")
- * - _ESAbstract.IteratorValue, License: CC0 (required by "Array.from", "es6", "Map", "Set", "WeakMap", "WeakSet")
- * - _ESAbstract.OrdinaryToPrimitive, License: CC0 (required by "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.from", "es6", "Array.of", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "String.prototype.@@iterator", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith")
- * - _ESAbstract.SameValue, License: CC0 (required by "Object.is", "es6", "String.fromCodePoint", "WeakMap")
- * - _ESAbstract.SameValueZero, License: CC0 (required by "Map", "es6", "Array.from", "Set", "WeakSet")
- * - _ESAbstract.ToPrimitive, License: CC0 (required by "_ESAbstract.ToString", "Array.from", "es6", "Array.of", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "String.prototype.@@iterator", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith")
- * - _ESAbstract.ToString, License: CC0 (required by "Array.from", "es6", "Array.of", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "String.prototype.@@iterator", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith", "Array.prototype.forEach", "Object.setPrototypeOf", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.filter", "Array.prototype.map")
+ * - _ESAbstract.ToObject, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "Array.prototype.indexOf", "es6")
+ * - _ESAbstract.GetV, License: CC0 (required by "WeakSet", "_ESAbstract.GetIterator", "es6")
+ * - _ESAbstract.GetMethod, License: CC0 (required by "String.prototype.startsWith", "_ESAbstract.ToString", "_ESAbstract.ToPrimitive", "es6")
+ * - _ESAbstract.ToUint32, License: CC0 (required by "Math.imul", "es6")
+ * - _ESAbstract.Type, License: CC0 (required by "String.prototype.startsWith", "_ESAbstract.ToString", "_ESAbstract.ToPrimitive", "_ESAbstract.OrdinaryToPrimitive", "es6")
+ * - _ESAbstract.GetPrototypeFromConstructor, License: CC0 (required by "Array.of", "_ESAbstract.Construct", "_ESAbstract.OrdinaryCreateFromConstructor", "es6")
+ * - _ESAbstract.IsConstructor, License: CC0 (required by "Symbol.unscopables", "Symbol", "Array.prototype.filter", "_ESAbstract.ArraySpeciesCreate", "es6")
+ * - _ESAbstract.IsRegExp, License: CC0 (required by "String.prototype.startsWith", "es6")
+ * - _ESAbstract.IteratorClose, License: CC0 (required by "WeakSet", "es6")
+ * - _ESAbstract.IteratorComplete, License: CC0 (required by "WeakSet", "_ESAbstract.IteratorStep", "es6")
+ * - _ESAbstract.IteratorNext, License: CC0 (required by "WeakSet", "_ESAbstract.IteratorStep", "es6")
+ * - _ESAbstract.IteratorStep, License: CC0 (required by "WeakSet", "es6")
+ * - _ESAbstract.IteratorValue, License: CC0 (required by "WeakSet", "es6")
+ * - _ESAbstract.OrdinaryToPrimitive, License: CC0 (required by "String.prototype.startsWith", "_ESAbstract.ToString", "_ESAbstract.ToPrimitive", "es6")
+ * - _ESAbstract.SameValue, License: CC0 (required by "WeakMap", "es6")
+ * - _ESAbstract.SameValueZero, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "Array.prototype.includes", "es6")
+ * - _ESAbstract.ToInteger, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "Array.prototype.indexOf", "es6")
+ * - _ESAbstract.ToLength, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "Array.prototype.indexOf", "es6")
+ * - _ESAbstract.ToPrimitive, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyDescriptor", "_ESAbstract.ToPropertyKey", "es6")
+ * - _ESAbstract.ToString, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "Array.prototype.indexOf", "es6")
+ * - _ESAbstract.ToPropertyKey, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyDescriptor", "es6")
+ * - _ESAbstract.TrimString, License: CC0 (required by "Number.parseInt", "String.prototype.trim", "es6")
  * - _ESAbstract.UTF16Decode, License: CC0 (required by "String.prototype.codePointAt", "es6")
  * - _ESAbstract.UTF16Encoding, License: CC0 (required by "String.fromCodePoint", "es6")
- * - _TypedArray, License: MIT (required by "Math.fround", "es6")
- * - Object.defineProperty, License: CC0 (required by "Function.prototype.name", "es6", "Map", "Array.from", "Number.Epsilon", "Number.MAX_SAFE_INTEGER", "Number.MIN_SAFE_INTEGER", "Object.setPrototypeOf", "RegExp.prototype.flags", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Symbol", "WeakMap", "WeakSet", "_ESAbstract.CreateMethodProperty", "Array.of", "Array.prototype.copyWithin", "Array.prototype.entries", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "Array.prototype.keys", "Array.prototype.values", "Math.acosh", "Math.asinh", "Math.atanh", "Math.cbrt", "Math.clz32", "Math.cosh", "Math.expm1", "Math.fround", "Math.hypot", "Math.imul", "Math.log10", "Math.log1p", "Math.log2", "Math.sign", "Math.sinh", "Math.tanh", "Math.trunc", "Number.isFinite", "Number.isInteger", "Number.isNaN", "Number.isSafeInteger", "Number.parseFloat", "Number.parseInt", "Object.assign", "Object.is", "Object.seal", "String.fromCodePoint", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith", "_ArrayIterator", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_StringIterator", "_ESAbstract.CreateDataProperty", "_ESAbstract.CreateDataPropertyOrThrow", "_ESAbstract.CreateIterResultObject", "_Iterator", "Object.defineProperties", "Object.create", "_ESAbstract.GetIterator")
- * - _ESAbstract.CreateDataProperty, License: CC0 (required by "_ESAbstract.CreateDataPropertyOrThrow", "Array.from", "es6", "Array.of", "_ESAbstract.CreateIterResultObject", "Map", "Set")
- * - _ESAbstract.CreateDataPropertyOrThrow, License: CC0 (required by "Array.from", "es6", "Array.of", "Array.prototype.filter", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
- * - _ESAbstract.CreateIterResultObject, License: CC0 (required by "Map", "es6", "Array.from", "Set")
- * - _ESAbstract.CreateMethodProperty, License: CC0 (required by "Array.from", "es6", "Array.of", "Array.prototype.@@iterator", "Array.prototype.copyWithin", "Array.prototype.entries", "Array.prototype.fill", "Array.prototype.find", "Array.prototype.findIndex", "Array.prototype.keys", "Array.prototype.values", "Map", "Math.acosh", "Math.asinh", "Math.atanh", "Math.cbrt", "Math.clz32", "Math.cosh", "Math.expm1", "Math.fround", "Math.hypot", "Math.imul", "Math.log10", "Math.log1p", "Math.log2", "Math.sign", "Math.sinh", "Math.tanh", "Math.trunc", "Number.isFinite", "Number.isInteger", "Number.isNaN", "Number.isSafeInteger", "Number.parseFloat", "Number.parseInt", "Object.assign", "Object.is", "Object.seal", "Object.setPrototypeOf", "Set", "String.fromCodePoint", "String.prototype.@@iterator", "String.prototype.codePointAt", "String.prototype.endsWith", "String.prototype.includes", "String.prototype.repeat", "String.prototype.startsWith", "WeakMap", "WeakSet", "Array.isArray", "Object.create", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_ESAbstract.GetIterator", "_ArrayIterator", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Object.getOwnPropertyDescriptor", "Object.keys", "Array.prototype.forEach", "Object.getPrototypeOf", "Object.getOwnPropertyNames", "Array.prototype.filter", "Array.prototype.map", "Object.freeze", "Function.prototype.bind", "Object.defineProperties", "_Iterator", "_StringIterator")
- * - Array.isArray, License: CC0 (required by "Map", "es6", "Array.from", "Set", "WeakMap")
+ * - ArrayBuffer, License: MIT (required by "Math.fround", "es6")
+ * - Object.defineProperty, License: CC0 (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "Object.defineProperties", "es6")
+ * - _ESAbstract.CreateDataProperty, License: CC0 (required by "Array.from", "Set", "_ESAbstract.CreateIterResultObject", "es6")
+ * - _ESAbstract.CreateDataPropertyOrThrow, License: CC0 (required by "Symbol.unscopables", "Symbol", "Array.prototype.filter", "es6")
+ * - _ESAbstract.CreateIterResultObject, License: CC0 (required by "Array.from", "Set", "es6")
+ * - _ESAbstract.CreateMethodProperty, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "Array.prototype.indexOf", "es6")
+ * - Array.isArray, License: CC0 (required by "WeakMap", "es6")
  * - Array.prototype.copyWithin, License: MIT (required by "es6")
  * - Array.prototype.fill, License: CC0 (required by "es6")
  * - Array.prototype.find, License: CC0 (required by "es6")
  * - Array.prototype.findIndex, License: CC0 (required by "es6")
- * - Array.prototype.forEach, License: CC0 (required by "Object.setPrototypeOf", "es6", "Symbol", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables")
- * - Function.prototype.bind, License: MIT (required by "_ESAbstract.Construct", "Array.from", "es6", "Array.of", "Object.getOwnPropertyDescriptor", "Object.assign", "Object.setPrototypeOf", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_StringIterator")
+ * - Array.prototype.forEach, License: CC0 (required by "Symbol.unscopables", "Symbol", "es6")
+ * - Array.prototype.includes, License: MIT (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "es6")
+ * - Array.prototype.indexOf, License: CC0 (required by "Symbol.unscopables", "Symbol", "Object.getOwnPropertyNames", "es6")
+ * - Function.prototype.bind, License: MIT (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "es6")
  * - Math.acosh, License: CC0 (required by "es6")
  * - Math.asinh, License: CC0 (required by "es6")
  * - Math.atanh, License: CC0 (required by "es6")
@@ -69,65 +74,68 @@
  * - Number.isInteger, License: MIT (required by "es6")
  * - Number.isNaN, License: MIT (required by "es6")
  * - Number.isSafeInteger, License: MIT (required by "es6")
- * - Number.parseFloat, License: MIT (required by "es6")
- * - Number.parseInt, License: MIT (required by "es6")
  * - Function.prototype.name, License: MIT (required by "es6")
  * - Number.Epsilon, License: MIT (required by "es6")
  * - Number.MAX_SAFE_INTEGER, License: MIT (required by "es6")
  * - Number.MIN_SAFE_INTEGER, License: MIT (required by "es6")
- * - Object.freeze, License: CC0 (required by "Symbol", "es6", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables")
- * - Object.getOwnPropertyDescriptor, License: CC0 (required by "Object.assign", "es6", "Object.setPrototypeOf", "Symbol", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Object.defineProperties", "Object.create", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "_Iterator", "_StringIterator")
- * - Object.getOwnPropertyNames, License: CC0 (required by "Object.setPrototypeOf", "es6", "Symbol", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables")
- * - Object.getPrototypeOf, License: CC0 (required by "Object.setPrototypeOf", "es6", "_ESAbstract.OrdinaryCreateFromConstructor", "Map", "Array.from", "Set", "WeakMap", "WeakSet", "_ESAbstract.Construct", "Array.of")
+ * - Object.freeze, License: CC0 (required by "Symbol.unscopables", "Symbol", "es6")
+ * - Object.getOwnPropertyDescriptor, License: CC0 (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "Object.defineProperties", "es6")
+ * - Object.getPrototypeOf, License: CC0 (required by "Array.of", "_ESAbstract.Construct", "_ESAbstract.OrdinaryCreateFromConstructor", "es6")
  * - Object.is, License: CC0 (required by "es6")
- * - Object.keys, License: MIT (required by "Object.assign", "es6", "Symbol", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Object.defineProperties", "Object.create", "Object.setPrototypeOf", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "_Iterator", "_StringIterator")
- * - Object.assign, License: CC0 (required by "es6", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator", "_StringIterator", "String.prototype.@@iterator")
- * - Object.defineProperties, License: CC0 (required by "Object.create", "Map", "es6", "Array.from", "Object.setPrototypeOf", "Set", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "_Iterator", "_StringIterator")
- * - Object.create, License: CC0 (required by "Map", "es6", "Array.from", "Object.setPrototypeOf", "Set", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "_StringIterator")
- * - _ESAbstract.OrdinaryCreateFromConstructor, License: CC0 (required by "Map", "es6", "Array.from", "Set", "WeakMap", "WeakSet", "_ESAbstract.Construct", "Array.of")
- * - _ESAbstract.Construct, License: CC0 (required by "Array.from", "es6", "Array.of", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
- * - _ESAbstract.ArraySpeciesCreate, License: CC0 (required by "Array.prototype.filter", "Symbol", "es6", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
- * - Array.prototype.filter, License: CC0 (required by "Symbol", "es6", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables")
- * - Array.prototype.map, License: CC0 (required by "Symbol", "es6", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables")
+ * - Object.isExtensible, License: CC0 (required by "Array.from", "Map", "es6")
+ * - Object.keys, License: MIT (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "Object.defineProperties", "es6")
+ * - Object.assign, License: CC0 (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "es6")
+ * - Object.defineProperties, License: CC0 (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "es6")
+ * - Object.create, License: CC0 (required by "String.prototype.@@iterator", "_StringIterator", "es6")
+ * - _ESAbstract.OrdinaryCreateFromConstructor, License: CC0 (required by "Array.of", "_ESAbstract.Construct", "es6")
+ * - _ESAbstract.Construct, License: CC0 (required by "Symbol.unscopables", "Symbol", "Array.prototype.filter", "_ESAbstract.ArraySpeciesCreate", "es6")
+ * - _ESAbstract.ArraySpeciesCreate, License: CC0 (required by "Symbol.unscopables", "Symbol", "Array.prototype.filter", "es6")
+ * - Array.prototype.filter, License: CC0 (required by "Symbol.unscopables", "Symbol", "es6")
+ * - Array.prototype.map, License: CC0 (required by "Symbol.unscopables", "Symbol", "es6")
+ * - Array.prototype.sort, License: MIT (required by "es6")
  * - Array.of, License: CC0 (required by "es6")
+ * - Object.getOwnPropertyNames, License: CC0 (required by "Symbol.unscopables", "Symbol", "es6")
  * - Object.seal, License: MIT (required by "es6")
- * - Object.setPrototypeOf, License: MIT (required by "es6", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator", "_StringIterator", "String.prototype.@@iterator")
- * - Promise, License: MIT (required by "es6")
+ * - Object.setPrototypeOf, License: MIT (required by "String.prototype.@@iterator", "_StringIterator", "es6")
  * - RegExp.prototype.flags, License: MIT (required by "es6")
  * - String.fromCodePoint, License: MIT (required by "es6")
  * - String.prototype.codePointAt, License: MIT (required by "es6")
  * - String.prototype.endsWith, License: CC0 (required by "es6")
- * - String.prototype.includes, License: CC0 (required by "es6", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator")
+ * - String.prototype.includes, License: CC0 (required by "Array.prototype.@@iterator", "Array.prototype.values", "_ArrayIterator", "es6")
  * - String.prototype.repeat, License: CC0 (required by "es6")
  * - String.prototype.startsWith, License: CC0 (required by "es6")
- * - Symbol, License: MIT (required by "es6", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "WeakMap", "WeakSet", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_StringIterator")
+ * - String.prototype.trim, License: CC0 (required by "Number.parseInt", "es6")
+ * - Number.parseFloat, License: MIT (required by "es6")
+ * - Number.parseInt, License: MIT (required by "es6")
+ * - Symbol, License: MIT (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "es6")
  * - Symbol.hasInstance, License: MIT (required by "es6")
  * - Symbol.isConcatSpreadable, License: MIT (required by "es6")
- * - Symbol.iterator, License: MIT (required by "es6", "Array.from", "Array.prototype.@@iterator", "Map", "Set", "String.prototype.@@iterator", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_StringIterator")
- * - _ESAbstract.GetIterator, License: CC0 (required by "Array.from", "es6", "Map", "Set", "WeakMap", "WeakSet")
+ * - Symbol.iterator, License: MIT (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "es6")
+ * - _ESAbstract.GetIterator, License: CC0 (required by "WeakSet", "es6")
  * - Symbol.match, License: MIT (required by "es6")
  * - Symbol.replace, License: MIT (required by "es6")
  * - Symbol.search, License: MIT (required by "es6")
- * - Symbol.species, License: MIT (required by "es6", "Map", "Array.from", "Set")
- * - Map, License: CC0 (required by "es6", "Array.from")
- * - Set, License: CC0 (required by "es6", "Array.from")
+ * - Symbol.species, License: MIT (required by "Array.from", "Set", "es6")
+ * - Map, License: CC0 (required by "Array.from", "es6")
+ * - Set, License: CC0 (required by "Array.from", "es6")
  * - Array.from, License: CC0 (required by "es6")
  * - Symbol.split, License: MIT (required by "es6")
  * - Symbol.toPrimitive, License: MIT (required by "es6")
- * - Symbol.toStringTag, License: MIT (required by "es6", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator", "_StringIterator", "String.prototype.@@iterator")
- * - _Iterator, License: MIT (required by "_ArrayIterator", "Array.prototype.entries", "es6", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator", "_StringIterator", "String.prototype.@@iterator")
- * - _ArrayIterator, License: MIT (required by "Array.prototype.entries", "es6", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator")
+ * - Symbol.toStringTag, License: MIT (required by "String.prototype.@@iterator", "_StringIterator", "_Iterator", "es6")
+ * - _Iterator, License: MIT (required by "String.prototype.@@iterator", "_StringIterator", "es6")
+ * - _ArrayIterator, License: MIT (required by "Array.prototype.@@iterator", "Array.prototype.values", "es6")
  * - Array.prototype.entries, License: CC0 (required by "es6")
  * - Array.prototype.keys, License: CC0 (required by "es6")
- * - Array.prototype.values, License: MIT (required by "es6", "Array.prototype.@@iterator")
+ * - Array.prototype.values, License: MIT (required by "Array.prototype.@@iterator", "es6")
  * - Array.prototype.@@iterator, License: CC0 (required by "es6")
  * - _StringIterator, License: MIT (required by "String.prototype.@@iterator", "es6")
  * - String.prototype.@@iterator, License: CC0 (required by "es6")
+ * - Promise, License: MIT (required by "es6")
  * - Symbol.unscopables, License: MIT (required by "es6")
  * - WeakMap, License: MIT (required by "es6")
  * - WeakSet, License: MIT (required by "es6") */
 
-(function(undefined) {
+(function(self, undefined) {
 
 // _ESAbstract.ArrayCreate
 // 9.4.2.2. ArrayCreate ( length [ , proto ] )
@@ -175,6 +183,18 @@ function Get(O, P) { // eslint-disable-line no-unused-vars
 	// 2. Assert: IsPropertyKey(P) is true.
 	// 3. Return ? O.[[Get]](P, O).
 	return O[P];
+}
+
+// _ESAbstract.HasOwnProperty
+// 7.3.11 HasOwnProperty (O, P)
+function HasOwnProperty(o, p) { // eslint-disable-line no-unused-vars
+	// 1. Assert: Type(O) is Object.
+	// 2. Assert: IsPropertyKey(P) is true.
+	// 3. Let desc be ? O.[[GetOwnProperty]](P).
+	// 4. If desc is undefined, return false.
+	// 5. Return true.
+	// Polyfill.io - As we expect user agents to support ES3 fully we can skip the above steps and use Object.prototype.hasOwnProperty to do them for us.
+	return Object.prototype.hasOwnProperty.call(o, p);
 }
 
 // _ESAbstract.HasProperty
@@ -231,9 +251,9 @@ function IsCallable(argument) { // eslint-disable-line no-unused-vars
 */
 function RequireObjectCoercible(argument) { // eslint-disable-line no-unused-vars
 	if (argument === null || argument === undefined) {
-		throw TypeError();
+		throw TypeError(Object.prototype.toString.call(argument) + ' is not coercible to Object.');
 	}
-  return argument;
+	return argument;
 }
 
 // _ESAbstract.SameValueNonNumber
@@ -275,37 +295,6 @@ function ToBoolean(argument) { // eslint-disable-line no-unused-vars
 	return Boolean(argument);
 }
 
-// _ESAbstract.ToInteger
-// 7.1.4. ToInteger ( argument )
-function ToInteger(argument) { // eslint-disable-line no-unused-vars
-	// 1. Let number be ? ToNumber(argument).
-	var number = Number(argument);
-	// 2. If number is NaN, return +0.
-	if (isNaN(number)) {
-		return 0;
-	}
-	// 3. If number is +0, -0, +∞, or -∞, return number.
-	if (1/number === Infinity || 1/number === -Infinity || number === Infinity || number === -Infinity) {
-		return number;
-	}
-	// 4. Return the number value that is the same sign as number and whose magnitude is floor(abs(number)).
-	return ((number < 0) ? -1 : 1) * Math.floor(Math.abs(number));
-}
-
-// _ESAbstract.ToLength
-/* global ToInteger */
-// 7.1.15. ToLength ( argument )
-function ToLength(argument) { // eslint-disable-line no-unused-vars
-	// 1. Let len be ? ToInteger(argument).
-	var len = ToInteger(argument);
-	// 2. If len ≤ +0, return +0.
-	if (len <= 0) {
-		return 0;
-	}
-	// 3. Return min(len, 253-1).
-	return Math.min(len, Math.pow(2, 53) -1);
-}
-
 // _ESAbstract.ToNumber
 // 7.1.3. ToNumber ( argument )
 function ToNumber(argument) { // eslint-disable-line no-unused-vars
@@ -333,7 +322,7 @@ function ToObject(argument) { // eslint-disable-line no-unused-vars
 	if (argument === null || argument === undefined) {
 		throw TypeError();
 	}
-  return Object(argument);
+	return Object(argument);
 }
 
 // _ESAbstract.GetV
@@ -401,7 +390,8 @@ function Type(x) { // eslint-disable-line no-unused-vars
 			// typeof null is 'object'
 			if (x === null) return 'null';
 			// Polyfill.io - This is here because a Symbol polyfill will have a typeof `object`.
-			if ('Symbol' in this && x instanceof this.Symbol) return 'symbol';
+			if ('Symbol' in self && (x instanceof self.Symbol || x.constructor === self.Symbol)) return 'symbol';
+
 			return 'object';
 	}
 }
@@ -451,7 +441,7 @@ function IsRegExp(argument) { // eslint-disable-line no-unused-vars
 		return false;
 	}
 	// 2. Let matcher be ? Get(argument, @@match).
-	var matcher = 'Symbol' in this && 'match' in this.Symbol ? Get(argument, this.Symbol.match) : undefined;
+	var matcher = 'Symbol' in self && 'match' in self.Symbol ? Get(argument, self.Symbol.match) : undefined;
 	// 3. If matcher is not undefined, return ToBoolean(matcher).
 	if (matcher !== undefined) {
 		return ToBoolean(matcher);
@@ -462,6 +452,7 @@ function IsRegExp(argument) { // eslint-disable-line no-unused-vars
 		argument.lastIndex = 0;
 		RegExp.prototype.exec.call(argument);
 		return true;
+	// eslint-disable-next-line no-empty
 	} catch (e) {} finally {
 		argument.lastIndex = lastIndex;
 	}
@@ -670,6 +661,42 @@ function SameValueZero (x, y) { // eslint-disable-line no-unused-vars
 	return SameValueNonNumber(x, y);
 }
 
+// _ESAbstract.ToInteger
+/* global Type */
+// 7.1.4. ToInteger ( argument )
+function ToInteger(argument) { // eslint-disable-line no-unused-vars
+	if (Type(argument) === 'symbol') {
+		throw new TypeError('Cannot convert a Symbol value to a number');
+	}
+
+	// 1. Let number be ? ToNumber(argument).
+	var number = Number(argument);
+	// 2. If number is NaN, return +0.
+	if (isNaN(number)) {
+		return 0;
+	}
+	// 3. If number is +0, -0, +∞, or -∞, return number.
+	if (1/number === Infinity || 1/number === -Infinity || number === Infinity || number === -Infinity) {
+		return number;
+	}
+	// 4. Return the number value that is the same sign as number and whose magnitude is floor(abs(number)).
+	return ((number < 0) ? -1 : 1) * Math.floor(Math.abs(number));
+}
+
+// _ESAbstract.ToLength
+/* global ToInteger */
+// 7.1.15. ToLength ( argument )
+function ToLength(argument) { // eslint-disable-line no-unused-vars
+	// 1. Let len be ? ToInteger(argument).
+	var len = ToInteger(argument);
+	// 2. If len ≤ +0, return +0.
+	if (len <= 0) {
+		return 0;
+	}
+	// 3. Return min(len, 253-1).
+	return Math.min(len, Math.pow(2, 53) -1);
+}
+
 // _ESAbstract.ToPrimitive
 /* global Type, GetMethod, Call, OrdinaryToPrimitive */
 // 7.1.1. ToPrimitive ( input [ , PreferredType ] )
@@ -689,7 +716,7 @@ function ToPrimitive(input /* [, PreferredType] */) { // eslint-disable-line no-
 			hint = 'number';
 		}
 		// d. Let exoticToPrim be ? GetMethod(input, @@toPrimitive).
-		var exoticToPrim = typeof this.Symbol === 'function' && typeof this.Symbol.toPrimitive === 'symbol' ? GetMethod(input, this.Symbol.toPrimitive) : undefined;
+		var exoticToPrim = typeof self.Symbol === 'function' && typeof self.Symbol.toPrimitive === 'symbol' ? GetMethod(input, self.Symbol.toPrimitive) : undefined;
 		// e. If exoticToPrim is not undefined, then
 		if (exoticToPrim !== undefined) {
 			// i. Let result be ? Call(exoticToPrim, input, « hint »).
@@ -743,13 +770,54 @@ function ToString(argument) { // eslint-disable-line no-unused-vars
 	switch(Type(argument)) {
 		case 'symbol':
 			throw new TypeError('Cannot convert a Symbol value to a string');
-			break;
 		case 'object':
-			var primValue = ToPrimitive(argument, 'string');
-			return ToString(primValue);
+			var primValue = ToPrimitive(argument, String);
+			return ToString(primValue); // eslint-disable-line no-unused-vars
 		default:
 			return String(argument);
 	}
+}
+
+// _ESAbstract.ToPropertyKey
+/* globals ToPrimitive, Type, ToString */
+// 7.1.14. ToPropertyKey ( argument )
+function ToPropertyKey(argument) { // eslint-disable-line no-unused-vars
+	// 1. Let key be ? ToPrimitive(argument, hint String).
+	var key = ToPrimitive(argument, String);
+	// 2. If Type(key) is Symbol, then
+	if (Type(key) === 'symbol') {
+		// a. Return key.
+		return key;
+	}
+	// 3. Return ! ToString(key).
+	return ToString(key);
+}
+
+// _ESAbstract.TrimString
+/* eslint-disable no-control-regex */
+/* global RequireObjectCoercible, ToString */
+// TrimString ( string, where )
+function TrimString(string, where) { // eslint-disable-line no-unused-vars
+	// 1. Let str be ? RequireObjectCoercible(string).
+	var str = RequireObjectCoercible(string);
+	// 2. Let S be ? ToString(str).
+	var S = ToString(str);
+	// 3. If where is "start", let T be a String value that is a copy of S with leading white space removed.
+	// The definition of white space is the union of WhiteSpace and LineTerminator. When determining whether a Unicode code point is in Unicode general category “Space_Separator” (“Zs”), code unit sequences are interpreted as UTF-16 encoded code point sequences as specified in 6.1.4.
+	var whitespace = /[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+/.source;
+	if (where === 'start') {
+		var T = String.prototype.replace.call(S, new RegExp('^' + whitespace, 'g'), '');
+		// 4. Else if where is "end", let T be a String value that is a copy of S with trailing white space removed.
+	} else if (where === "end") {
+		T = String.prototype.replace.call(S, new RegExp(whitespace + '$', 'g'), '');
+		// 5. Else,
+	} else {
+		// a. Assert: where is "start+end".
+		// b. Let T be a String value that is a copy of S with both leading and trailing white space removed.
+		T = String.prototype.replace.call(S, new RegExp('^' + whitespace + '|' + whitespace + '$', 'g'), '');
+	}
+	// 6. Return T.
+	return T;
 }
 
 // _ESAbstract.UTF16Decode
@@ -779,7 +847,7 @@ function UTF16Encoding(cp) { // eslint-disable-line no-unused-vars
 	}
 }
 
-// _TypedArray
+// ArrayBuffer
 /*
  Copyright (c) 2010, Linden Research, Inc.
  Copyright (c) 2014, Joshua Bell
@@ -899,12 +967,14 @@ function UTF16Encoding(cp) { // eslint-disable-line no-unused-vars
     if (obj.length > MAX_ARRAY_LENGTH) throw RangeError('Array too large for polyfill');
 
     function makeArrayAccessor(index) {
-      Object.defineProperty(obj, index, {
-        'get': function() { return obj._getter(index); },
-        'set': function(v) { obj._setter(index, v); },
-        enumerable: true,
-        configurable: false
-      });
+      try {
+        Object.defineProperty(obj, index, {
+          'get': function() { return obj._getter(index); },
+          'set': function(v) { obj._setter(index, v); },
+          enumerable: true,
+          configurable: false
+        });
+      } catch (_){ }
     }
 
     var i;
@@ -1846,12 +1916,12 @@ return Object.defineProperty(e,"test",{value:42}),!0}catch(t){return!1}}()
 // Object.defineProperty
 (function (nativeDefineProperty) {
 
-	var supportsAccessors = Object.prototype.hasOwnProperty('__defineGetter__');
+	var supportsAccessors = Object.prototype.hasOwnProperty.call(Object.prototype, '__defineGetter__');
 	var ERR_ACCESSORS_NOT_SUPPORTED = 'Getters & setters cannot be defined on this javascript engine';
 	var ERR_VALUE_ACCESSORS = 'A property cannot both have accessors and be writable or have a value';
 
 	// Polyfill.io - This does not use CreateMethodProperty because our CreateMethodProperty function uses Object.defineProperty.
-	Object['defineProperty'] = function defineProperty(object, property, descriptor) {
+	Object.defineProperty = function defineProperty(object, property, descriptor) {
 
 		// Where native support exists, assume it
 		if (nativeDefineProperty && (object === window || object === document || object === Element.prototype || object instanceof Element)) {
@@ -1873,6 +1943,9 @@ return Object.defineProperty(e,"test",{value:42}),!0}catch(t){return!1}}()
 
 		// handle descriptor.get
 		if (getterType) {
+			if (getterType === undefined) {
+				return object;
+			}
 			if (getterType !== 'function') {
 				throw new TypeError('Getter must be a function');
 			}
@@ -1889,6 +1962,9 @@ return Object.defineProperty(e,"test",{value:42}),!0}catch(t){return!1}}()
 
 		// handle descriptor.set
 		if (setterType) {
+			if (setterType === undefined) {
+				return object;
+			}
 			if (setterType !== 'function') {
 				throw new TypeError('Setter must be a function');
 			}
@@ -2191,7 +2267,7 @@ CreateMethodProperty(Array.prototype, 'find', function find( predicate /* [ , th
 			return kValue;
 		}
 		// e. Increase k by 1.
-		var k = k + 1;
+		k = k + 1;
 	}
 	// 7. Return undefined.
 	return undefined;
@@ -2279,6 +2355,112 @@ CreateMethodProperty(Array.prototype, 'forEach', function forEach(callbackfn /* 
 	}
 	// 7. Return undefined.
 	return undefined;
+});
+
+}
+
+if (!("includes"in Array.prototype
+)) {
+
+// Array.prototype.includes
+/* global CreateMethodProperty, Get, SameValueZero, ToInteger, ToLength, ToObject, ToString */
+// 22.1.3.11. Array.prototype.includes ( searchElement [ , fromIndex ] )
+CreateMethodProperty(Array.prototype, 'includes', function includes(searchElement /* [ , fromIndex ] */) {
+	'use strict';
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(O, "length"));
+	// 3. If len is 0, return false.
+	if (len === 0) {
+		return false;
+	}
+	// 4. Let n be ? ToInteger(fromIndex). (If fromIndex is undefined, this step produces the value 0.)
+	var n = ToInteger(arguments[1]);
+	// 5. If n ≥ 0, then
+	if (n >= 0) {
+		// a. Let k be n.
+		var k = n;
+		// 6. Else n < 0,
+	} else {
+		// a. Let k be len + n.
+		k = len + n;
+		// b. If k < 0, let k be 0.
+		if (k < 0) {
+			k = 0;
+		}
+	}
+	// 7. Repeat, while k < len
+	while (k < len) {
+		// a. Let elementK be the result of ? Get(O, ! ToString(k)).
+		var elementK = Get(O, ToString(k));
+		// b. If SameValueZero(searchElement, elementK) is true, return true.
+		if (SameValueZero(searchElement, elementK)) {
+			return true;
+		}
+		// c. Increase k by 1.
+		k = k + 1;
+	}
+	// 8. Return false.
+	return false;
+});
+
+}
+
+if (!("indexOf"in Array.prototype
+)) {
+
+// Array.prototype.indexOf
+/* global CreateMethodProperty, Get, HasProperty, ToInteger, ToLength, ToObject, ToString */
+// 22.1.3.12. Array.prototype.indexOf ( searchElement [ , fromIndex ] )
+CreateMethodProperty(Array.prototype, 'indexOf', function indexOf(searchElement /* [ , fromIndex ] */) {
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(O, "length"));
+	// 3. If len is 0, return -1.
+	if (len === 0) {
+		return -1;
+	}
+	// 4. Let n be ? ToInteger(fromIndex). (If fromIndex is undefined, this step produces the value 0.)
+	var n = ToInteger(arguments[1]);
+	// 5. If n ≥ len, return -1.
+	if (n >= len) {
+		return -1;
+	}
+	// 6. If n ≥ 0, then
+	if (n >= 0) {
+		// a. If n is -0, let k be +0; else let k be n.
+		var k = 1/n === -Infinity ? 0 : n;
+		// 7. Else n < 0,
+	} else {
+		// a. Let k be len + n.
+		k = len + n;
+		// b. If k < 0, let k be 0.
+		if (k < 0) {
+			k = 0;
+		}
+	}
+	// 8. Repeat, while k < len
+	while (k < len) {
+		// a. Let kPresent be ? HasProperty(O, ! ToString(k)).
+		var kPresent = HasProperty(O, ToString(k));
+		// b. If kPresent is true, then
+		if (kPresent) {
+			// i. Let elementK be ? Get(O, ! ToString(k)).
+			var elementK = Get(O, ToString(k));
+			// ii. Let same be the result of performing Strict Equality Comparison searchElement === elementK.
+			var same = searchElement === elementK;
+			// iii. If same is true, return k.
+			if (same) {
+				return k;
+			}
+		}
+		// c. Increase k by 1.
+		k = k + 1;
+	}
+	// 9. Return -1.
+	return -1;
 });
 
 }
@@ -2617,7 +2799,7 @@ CreateMethodProperty(Math, 'cosh', function cosh(x) {
 		var y = Math.exp(0.5 * x);
 		return y / 2 * y;
 	}
-	var y = Math.exp(x);
+	y = Math.exp(x);
 	return (y + 1 / y) / 2;
 });
 
@@ -2721,7 +2903,7 @@ CreateMethodProperty(Math, 'hypot', function hypot(value1, value2) { // eslint-d
 		}
 	}
 
-  return max * Math.sqrt(y);
+	return max * Math.sqrt(y);
 });
 
 }
@@ -2746,6 +2928,7 @@ CreateMethodProperty(Math, 'imul', function imul(x, y) {
 	// the final |0 converts the unsigned value into a signed value
 	return aLow * bLow + (aHigh * bLow + aLow * bHigh << 16 >>> 0) | 0;
 });
+
 }
 
 if (!("log10"in Math
@@ -2784,6 +2967,7 @@ CreateMethodProperty(Math, 'log1p', function log1p(x) {
 
 	return Math.log(1 + x);
 });
+
 }
 
 if (!("log2"in Math
@@ -2805,7 +2989,7 @@ if (!("sign"in Math
 /* global CreateMethodProperty */
 // 20.2.2.29. Math.sign ( x )
 CreateMethodProperty(Math, 'sign', function sign(x) {
-	var x = Number(x);
+	x = Number(x);
 	// If x is NaN, the result is NaN.
 	if (isNaN(x)) {
 		return NaN;
@@ -2853,7 +3037,7 @@ CreateMethodProperty(Math, 'sinh', function sinh(x) {
 		return (s * Math.exp(absx))/2;
 	}
 	var w = Math.exp(0.5 * absx);
-	var t = (s * w)/2;
+	t = (s * w)/2;
 	return t * w;
 });
 
@@ -2890,7 +3074,7 @@ if (!("isFinite"in Number
 // Number.isFinite
 /* global CreateMethodProperty, Type */
 (function () {
-	var that = this;
+	var that = self;
 	// 20.1.2.2. Number.isFinite ( number )
 	CreateMethodProperty(Number, 'isFinite', function isFinite(number) {
 		// 1. If Type(number) is not Number, return false.
@@ -2939,7 +3123,7 @@ if (!("isNaN"in Number
 // Number.isNaN
 /* global CreateMethodProperty, Type */
 (function () {
-	var that = this;
+	var that = self;
 	// 20.1.2.4. Number.isNaN ( number )
 	CreateMethodProperty(Number, 'isNaN', function isNaN(number) {
 		// 1. If Type(number) is not Number, return false.
@@ -2988,29 +3172,7 @@ CreateMethodProperty(Number, 'isSafeInteger', function isSafeInteger(number) {
 
 }
 
-if (!("parseFloat"in Number
-)) {
-
-// Number.parseFloat
-/* global CreateMethodProperty */
-// 20.1.2.12. Number.parseFloat ( string )
-// The value of the Number.parseFloat data property is the same built-in function object that is the value of the  parseFloat property of the global object defined in 18.2.4.
-CreateMethodProperty(Number, 'parseFloat', parseFloat);
-
-}
-
-if (!("parseInt"in Number
-)) {
-
-// Number.parseInt
-/* global CreateMethodProperty */
-// 20.1.2.13. Number.parseInt ( string, radix )
-// The value of the Number.parseInt data property is the same built-in function object that is the value of the  parseInt property of the global object defined in 18.2.5.
-CreateMethodProperty(Number, 'parseInt', parseInt);
-
-}
-
-if (!("name"in Function.prototype&&"x"===function x(){}.name
+if (!("name"in Function.prototype
 )) {
 
 // Function.prototype.name
@@ -3018,7 +3180,7 @@ if (!("name"in Function.prototype&&"x"===function x(){}.name
 
 	var
 	accessorName = 'name',
-	fnNameMatchRegex = /^\s*function\s+([^\(\s]*)\s*/,
+	fnNameMatchRegex = /^\s*function\s+([^(\s]*)\s*/,
 	$Function = Function,
 	FunctionName = 'Function',
 	FunctionProto = $Function.prototype,
@@ -3126,155 +3288,59 @@ CreateMethodProperty(Object, 'freeze', function freeze(O) {
 
 }
 
-if (!("getOwnPropertyDescriptor"in Object&&"function"==typeof Object.getOwnPropertyDescriptor&&function(){try{var t={}
-return t.test=0,0===Object.getOwnPropertyDescriptor(t,"test").value}catch(e){return!1}}()
+if (!("getOwnPropertyDescriptor"in Object&&"function"==typeof Object.getOwnPropertyDescriptor&&function(){try{return"3"===Object.getOwnPropertyDescriptor("13.7",1).value}catch(t){return!1}}()
 )) {
 
 // Object.getOwnPropertyDescriptor
-/* global CreateMethodProperty */
+/* global CreateMethodProperty, ToObject, ToPropertyKey, HasOwnProperty, Type */
 (function () {
-	var call = Function.prototype.call;
-	var prototypeOfObject = Object.prototype;
-	var owns = call.bind(prototypeOfObject.hasOwnProperty);
+	var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
-	var lookupGetter;
-	var lookupSetter;
-	var supportsAccessors;
-	if ((supportsAccessors = owns(prototypeOfObject, "__defineGetter__"))) {
-	    lookupGetter = call.bind(prototypeOfObject.__lookupGetter__);
-	    lookupSetter = call.bind(prototypeOfObject.__lookupSetter__);
-	}
-	function doesGetOwnPropertyDescriptorWork(object) {
-	    try {
-	        object.sentinel = 0;
-	        return Object.getOwnPropertyDescriptor(
-	            object,
-	            "sentinel"
-	        ).value === 0;
-	    } catch (exception) {
-	        // returns falsy
-	    }
-	}
-	// check whether getOwnPropertyDescriptor works if it's given. Otherwise,
-	// shim partially.
-	if (Object.defineProperty) {
-	    var getOwnPropertyDescriptorWorksOnObject =
-	        doesGetOwnPropertyDescriptorWork({});
-	    var getOwnPropertyDescriptorWorksOnDom = typeof document == "undefined" ||
-	        doesGetOwnPropertyDescriptorWork(document.createElement("div"));
-	    if (!getOwnPropertyDescriptorWorksOnDom ||
-	        !getOwnPropertyDescriptorWorksOnObject
-	    ) {
-	        var getOwnPropertyDescriptorFallback = Object.getOwnPropertyDescriptor;
-	    }
-	}
-
-	if (!Object.getOwnPropertyDescriptor || getOwnPropertyDescriptorFallback) {
-	    var ERR_NON_OBJECT = "Object.getOwnPropertyDescriptor called on a non-object: ";
-
-	    CreateMethodProperty(Object, 'getOwnPropertyDescriptor', function getOwnPropertyDescriptor(object, property) {
-	        if ((typeof object != "object" && typeof object != "function") || object === null) {
-	            throw new TypeError(ERR_NON_OBJECT + object);
-	        }
-
-	        // make a valiant attempt to use the real getOwnPropertyDescriptor
-	        // for I8's DOM elements.
-	        if (getOwnPropertyDescriptorFallback) {
-	            try {
-	                return getOwnPropertyDescriptorFallback.call(Object, object, property);
-	            } catch (exception) {
-	                // try the shim if the real one doesn't work
-	            }
-	        }
-
-	        // If object does not owns property return undefined immediately.
-	        if (!owns(object, property)) {
-	            return;
-	        }
-
-	        // If object has a property then it's for sure both `enumerable` and
-	        // `configurable`.
-	        var descriptor = { enumerable: true, configurable: true };
-
-	        // If JS engine supports accessor properties then property may be a
-	        // getter or setter.
-	        if (supportsAccessors) {
-	            // Unfortunately `__lookupGetter__` will return a getter even
-	            // if object has own non getter property along with a same named
-	            // inherited getter. To avoid misbehavior we temporary remove
-	            // `__proto__` so that `__lookupGetter__` will return getter only
-	            // if it's owned by an object.
-	            var prototype = object.__proto__;
-	            object.__proto__ = prototypeOfObject;
-
-	            var getter = lookupGetter(object, property);
-	            var setter = lookupSetter(object, property);
-
-	            // Once we have getter and setter we can put values back.
-	            object.__proto__ = prototype;
-
-	            if (getter || setter) {
-	                if (getter) {
-	                    descriptor.get = getter;
-	                }
-	                if (setter) {
-	                    descriptor.set = setter;
-	                }
-	                // If it was accessor property we're done and return here
-	                // in order to avoid adding `value` to the descriptor.
-	                return descriptor;
-	            }
-	        }
-
-	        // If we got this far we know that object has an own property that is
-	        // not an accessor so we set it as a value and return descriptor.
-	        descriptor.value = object[property];
-			descriptor.writable = true;
-	        return descriptor;
-	    });
-	}
-}());
-
-}
-
-if (!("getOwnPropertyNames"in Object
-)) {
-
-// Object.getOwnPropertyNames
-/* global CreateMethodProperty */
-
-var toString = ({}).toString;
-var split = ''.split;
-
-CreateMethodProperty(Object, 'getOwnPropertyNames', function getOwnPropertyNames(object) {
-	var buffer = [];
-	var key;
-
-	// Non-enumerable properties cannot be discovered but can be checked for by name.
-	// Define those used internally by JS to allow an incomplete solution
-	var commonProps = ['length', "name", "arguments", "caller", "prototype", "observe", "unobserve"];
-
-	if (typeof object === 'undefined' || object === null) {
-		throw new TypeError('Cannot convert undefined or null to object');
-	}
-
-	// Polyfill.io fallback for non-array-like strings which exist in some ES3 user-agents (IE 8)
-	object = toString.call(object) == '[object String]' ? split.call(object, '') : Object(object);
-
-	// Enumerable properties only
-	for (key in object) {
-		if (Object.prototype.hasOwnProperty.call(object, key)) {
-			buffer.push(key);
+	var supportsDOMDescriptors = (function () {
+		try {
+			return Object.defineProperty(document.createElement('div'), 'one', {
+				get: function () {
+					return 1;
+				}
+			}).one === 1;
+		} catch (e) {
+			return false;
 		}
-	}
+	});
 
-	// Check for and add the common non-enumerable properties
-	for (var i=0, s=commonProps.length; i<s; i++) {
-		if (commonProps[i] in object) buffer.push(commonProps[i]);
-	}
+	var toString = ({}).toString;
+	var split = ''.split;
 
-	return buffer;
-});
+	// 19.1.2.8 Object.getOwnPropertyDescriptor ( O, P )
+	CreateMethodProperty(Object, 'getOwnPropertyDescriptor', function getOwnPropertyDescriptor(O, P) {
+		// 1. Let obj be ? ToObject(O).
+		var obj = ToObject(O);
+		// Polyfill.io fallback for non-array-like strings which exist in some ES3 user-agents (IE 8)
+		obj = (Type(obj) === 'string' || obj instanceof String) && toString.call(O) == '[object String]' ? split.call(O, '') : Object(O);
+
+		// 2. Let key be ? ToPropertyKey(P).
+		var key = ToPropertyKey(P);
+
+		// 3. Let desc be ? obj.[[GetOwnProperty]](key).
+		// 4. Return FromPropertyDescriptor(desc).
+		// Polyfill.io Internet Explorer 8 natively supports property descriptors only on DOM objects.
+		// We will fallback to the polyfill implementation if the native implementation throws an error.
+		if (supportsDOMDescriptors) {
+			try {
+				return nativeGetOwnPropertyDescriptor(obj, key);
+			// eslint-disable-next-line no-empty
+			} catch (error) {}
+		}
+		if (HasOwnProperty(obj, key)) {
+			return {
+				enumerable: true,
+				configurable: true,
+				writable: true,
+				value: obj[key]
+			};
+		}
+	});
+}());
 
 }
 
@@ -3300,8 +3366,8 @@ CreateMethodProperty(Object, 'getPrototypeOf', function getPrototypeOf(object) {
 	if (proto || proto === null) {
 		return proto;
 	} else if (typeof object.constructor == 'function' && object instanceof object.constructor) {
-    return object.constructor.prototype;
-  } else if (object instanceof Object) {
+		return object.constructor.prototype;
+	} else if (object instanceof Object) {
 		return Object.prototype;
 	} else {
 		// Correctly return null for Objects created with `Object.create(null)`
@@ -3327,6 +3393,26 @@ CreateMethodProperty(Object, 'is', function is(value1, value2) {
 
 }
 
+if (!("isExtensible"in Object
+)) {
+
+// Object.isExtensible
+/* global CreateMethodProperty, Type */
+
+(function (nativeIsExtensible) {
+	// 19.1.2.13 Object.isExtensible ( O )
+	CreateMethodProperty(Object, 'isExtensible', function isExtensible(O) {
+		// 1. If Type(O) is not Object, return false.
+		if (Type(O) !== "object") {
+			return false;
+		}
+		// 2. Return ? IsExtensible(O).
+		return nativeIsExtensible ? nativeIsExtensible(O) : true;
+	});
+}(Object.isExtensible));
+
+}
+
 if (!("keys"in Object&&function(){return 2===Object.keys(arguments).length}(1,2)&&function(){try{return Object.keys(""),!0}catch(t){return!1}}()
 )) {
 
@@ -3341,7 +3427,21 @@ CreateMethodProperty(Object, "keys", (function() {
 	var toStr = Object.prototype.toString;
 	var isEnumerable = Object.prototype.propertyIsEnumerable;
 	var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
-	var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
+	var hasPrototypeEnumBug = isEnumerable.call(function () { }, 'prototype');
+	function hasProtoEnumBug() {
+		// Object.create polyfill creates an enumerable __proto__
+		var createdObj;
+		try {
+			createdObj = Object.create({});
+		} catch (e) {
+			// If this fails the polyfil isn't loaded yet, but will be.
+			// Can't add it to depedencies because of it would create a circular depedency.
+			return true;
+		}
+
+		return isEnumerable.call(createdObj, '__proto__')
+	}
+
 	var dontEnums = [
 		'toString',
 		'toLocaleString',
@@ -3378,7 +3478,6 @@ CreateMethodProperty(Object, "keys", (function() {
 		$window: true
 	};
 	var hasAutomationEqualityBug = (function () {
-		/* global window */
 		if (typeof window === 'undefined') { return false; }
 		for (var k in window) {
 			try {
@@ -3396,7 +3495,6 @@ CreateMethodProperty(Object, "keys", (function() {
 		return false;
 	}());
 	var equalsConstructorPrototypeIfNotBuggy = function (o) {
-		/* global window */
 		if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
 			return equalsConstructorPrototype(o);
 		}
@@ -3431,7 +3529,7 @@ CreateMethodProperty(Object, "keys", (function() {
 			throw new TypeError('Cannot convert undefined or null to object');
 		}
 
-		var skipProto = hasProtoEnumBug && isFunction;
+		var skipPrototype = hasPrototypeEnumBug && isFunction;
 		if (isString && object.length > 0 && !has.call(object, 0)) {
 			for (var i = 0; i < object.length; ++i) {
 				theKeys.push(String(i));
@@ -3444,7 +3542,7 @@ CreateMethodProperty(Object, "keys", (function() {
 			}
 		} else {
 			for (var name in object) {
-				if (!(skipProto && name === 'prototype') && has.call(object, name)) {
+				if (!(hasProtoEnumBug() && name === '__proto__') && !(skipPrototype && name === 'prototype') && has.call(object, name)) {
 					theKeys.push(String(name));
 				}
 			}
@@ -3495,8 +3593,9 @@ CreateMethodProperty(Object, 'assign', function assign(target, source) { // esli
 			keys = [];
 			// b. Else,
 		} else {
+			// Polyfill.io - In order to get strings in ES3 and old V8 working correctly we need to split them into an array ourselves.
 			// i. Let from be ! ToObject(nextSource).
-			from = ToObject(nextSource);
+			from = Object.prototype.toString.call(nextSource) === '[object String]' ? String(nextSource).split('') : ToObject(nextSource);
 			// ii. Let keys be ? from.[[OwnPropertyKeys]]().
 			/*
 				This step in our polyfill is not complying with the specification.
@@ -3574,11 +3673,11 @@ CreateMethodProperty(Object, 'defineProperties', function defineProperties(O, Pr
 		}
 	}
 	// 6. For each pair from descriptors in list order, do
-	for (var i = 0; i < descriptors.length; i++){
+	for (var j = 0; j < descriptors.length; j++){
 		// a. Let P be the first element of pair.
-		var P = descriptors[i][0];
+		var P = descriptors[j][0];
 		// b. Let desc be the second element of pair.
-		var desc = descriptors[i][1];
+		desc = descriptors[j][1];
 		// c. Perform ? DefinePropertyOrThrow(O, P, desc).
 		Object.defineProperty(O, P, desc);
 	}
@@ -3593,24 +3692,78 @@ if (!("create"in Object
 
 // Object.create
 /* global CreateMethodProperty, Type */
-CreateMethodProperty(Object, 'create', function create(O, properties) {
-	// 1. If Type(O) is neither Object nor Null, throw a TypeError exception.
-	if (Type(O) !== 'object' && Type(O) !== 'null') {
-		throw new TypeError('Object prototype may only be an Object or null');
+(function () {
+	var supportsProto = !({ __proto__: null } instanceof Object);
+	if (supportsProto) {
+		var createEmpty = function () {
+			return {
+				__proto__: null
+			};
+		};
+	} else {
+		// Taken from https://github.com/es-shims/es5-shim/blob/a265a136d6220146cfbb09026c2de1fa42e220ec/es5-sham.js#L247
+		// In old IE __proto__ can't be used to manually set `null`, nor does
+		// any other method exist to make an object that inherits from nothing,
+		// aside from Object.prototype itself. Instead, create a new global
+		// object and *steal* its Object.prototype and strip it bare. This is
+		// used as the prototype to create nullary objects.
+		createEmpty = function () {
+			// Determine which approach to use
+			// see https://github.com/es-shims/es5-shim/issues/150
+			var iframe = document.createElement('iframe');
+			iframe.style.display = 'none';
+			var parent = document.body || document.documentElement;
+			parent.appendChild(iframe);
+			iframe.src = 'javascript:';
+			var empty = iframe.contentWindow.Object.prototype;
+			parent.removeChild(iframe);
+			iframe = null;
+			delete empty.constructor;
+			delete empty.hasOwnProperty;
+			delete empty.propertyIsEnumerable;
+			delete empty.isPrototypeOf;
+			delete empty.toLocaleString;
+			delete empty.toString;
+			delete empty.valueOf;
+			var Empty = function Empty() {};
+			Empty.prototype = empty;
+			// short-circuit future calls
+			createEmpty = function () {
+				return new Empty();
+			};
+			return new Empty();
+		};
 	}
-	// 2. Let obj be ObjectCreate(O).
-	var obj = new Function('e', 'function Object() {}Object.prototype=e;return new Object')(O);
 
-	obj.constructor.prototype = O;
+	function T() {}
 
-	// 3. If Properties is not undefined, then
-	if (1 in arguments) {
-		// a. Return ? ObjectDefineProperties(obj, Properties).
-		return Object.defineProperties(obj, properties);
-	}
+	CreateMethodProperty(Object, 'create', function create(O, properties) {
+		// 1. If Type(O) is neither Object nor Null, throw a TypeError exception.
+		if (Type(O) !== 'object' && Type(O) !== 'null') {
+			throw new TypeError('Object prototype may only be an Object or null');
+		}
+		if (Type(O) === 'null') {
+			var obj = createEmpty();
+		} else {
+			// 2. Let obj be ObjectCreate(O).
+			T.prototype = O;
+			obj = new T();
+			obj.__proto__ = O;
 
-	return obj;
-});
+
+			obj.constructor.prototype = O;
+			obj.__proto__ = O;
+		}
+
+		// 3. If Properties is not undefined, then
+		if (1 in arguments) {
+			// a. Return ? ObjectDefineProperties(obj, Properties).
+			return Object.defineProperties(obj, properties);
+		}
+
+		return obj;
+	});
+}());
 
 }
 
@@ -3679,7 +3832,7 @@ function Construct(F /* [ , argumentsList [ , newTarget ]] */) { // eslint-disab
 function ArraySpeciesCreate(originalArray, length) { // eslint-disable-line no-unused-vars
 	// 1. Assert: length is an integer Number ≥ 0.
 	// 2. If length is -0, set length to +0.
-	if (1/length === -Infinity) {
+	if (length === 0 && 1/length === -Infinity) {
 		length = 0;
 	}
 
@@ -3705,7 +3858,7 @@ function ArraySpeciesCreate(originalArray, length) { // eslint-disable-line no-u
 	// 7. If Type(C) is Object, then
 	if (Type(C) === 'object') {
 		// a. Set C to ? Get(C, @@species).
-		C = 'Symbol' in this && 'species' in this.Symbol ? Get(C, this.Symbol.species) : undefined;
+		C = 'Symbol' in self && 'species' in self.Symbol ? Get(C, self.Symbol.species) : undefined;
 		// b. If C is null, set C to undefined.
 		if (C === null) {
 			C = undefined;
@@ -3780,7 +3933,6 @@ if (!("map"in Array.prototype
 
 // Array.prototype.map
 /* global ArraySpeciesCreate, Call, CreateDataPropertyOrThrow, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
-/* global CreateMethodProperty, ToObject, ToLength, Get, ArraySpeciesCreate, ToString, HasProperty, Call, CreateDataPropertyOrThrow */
 // 22.1.3.16. Array.prototype.map ( callbackfn [ , thisArg ] )
 CreateMethodProperty(Array.prototype, 'map', function map(callbackfn /* [ , thisArg ] */) {
 	// 1. Let O be ? ToObject(this value).
@@ -3821,6 +3973,68 @@ CreateMethodProperty(Array.prototype, 'map', function map(callbackfn /* [ , this
 
 }
 
+if (!("sort"in Array.prototype&&function(){var r={length:3,0:2,1:1,2:3}
+return Array.prototype.sort.call(r,function(r,t){return r-t})===r}()
+)) {
+
+// Array.prototype.sort
+/* global CreateMethodProperty, IsCallable */
+"use strict";
+
+var origSort = Array.prototype.sort;
+
+// 22.1.3.27 Array.prototype.sort ( comparefn )
+// The elements of this array are sorted. The sort must be stable (that is,
+// elements that compare equal must remain in their original order). If
+// comparefn is not undefined, it should be a function that accepts two
+// arguments x and y and returns a negative value
+// if x < y, zero if x = y, or a positive value if x > y.
+
+CreateMethodProperty(Array.prototype, "sort", function sort(compareFn) {
+	// 1. If comparefn is not undefined and IsCallable(comparefn) is false, throw
+	//    a TypeError exception.
+	if (compareFn !== undefined && IsCallable(compareFn) === false) {
+		throw new TypeError(
+			"The comparison function must be either a function or undefined"
+		);
+	}
+
+	// Polyfill.io - the steps below are handled by the native
+	// Array.prototype.sort method that we call.
+	// 2.Let obj be ? ToObject(this value).
+	// 3.Let len be ? LengthOfArrayLike(obj).
+
+	// if comprateFn does not exist, use the spec defined in-built SortCompare.
+	if (compareFn === undefined) {
+		origSort.call(this);
+	} else {
+		// if compareFn exists, sort the array, breaking sorting ties by using the
+		// items' original index position.
+
+		// Keep track of the items starting index position.
+		var that = Array.prototype.map.call(this, function(item, index) {
+			return { item: item, index: index };
+		});
+		origSort.call(that, function(a, b) {
+			var compareResult = compareFn.call(undefined, a.item, b.item);
+			return compareResult === 0 ? a.index - b.index : compareResult;
+		});
+		// update the original object (`this`) with the new position for the items
+		// which were moved.
+		for (var a in that) {
+			if (Object.prototype.hasOwnProperty.call(that, a)) {
+				if (that[a].item !== this[a]) {
+					this[a] = that[a].item;
+				}
+			}
+		}
+	}
+
+	return this;
+});
+
+}
+
 if (!("of"in Array
 )) {
 
@@ -3841,7 +4055,7 @@ CreateMethodProperty(Array, 'of', function of() {
 		// 5. Else,
 	} else {
 		// a. Let A be ? ArrayCreate(len).
-		var A = ArrayCreate(len);
+		A = ArrayCreate(len);
 	}
 	// 6. Let k be 0.
 	var k = 0;
@@ -3854,39 +4068,97 @@ CreateMethodProperty(Array, 'of', function of() {
 		// c. Perform ? CreateDataPropertyOrThrow(A, Pk, kValue).
 		CreateDataPropertyOrThrow(A, Pk, kValue);
 		// d. Increase k by 1.
-		var k = k + 1;
+		k = k + 1;
 
 	}
 	// 8. Perform ? Set(A, "length", len, true)
-	A["length"] = len;
+	A.length = len;
 	// 9. Return A.
 	return A;
 });
 
 }
 
-if (!("seal"in Object&&function(){try{return Object.seal("1"),!0}catch(t){return!1}}
+if (!("getOwnPropertyNames"in Object&&function(){try{return Object.getOwnPropertyNames(1),!0}catch(t){return!1}}()
+)) {
+
+// Object.getOwnPropertyNames
+/* global CreateMethodProperty, ToObject */
+(function() {
+	var toString = {}.toString;
+	var split = "".split;
+	var concat = [].concat;
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var nativeGetOwnPropertyNames = Object.getOwnPropertyNames || Object.keys;
+	var cachedWindowNames =
+		typeof self === "object" ? nativeGetOwnPropertyNames(self) : [];
+
+	// 19.1.2.10 Object.getOwnPropertyNames ( O )
+	CreateMethodProperty(
+		Object,
+		"getOwnPropertyNames",
+		function getOwnPropertyNames(O) {
+			var object = ToObject(O);
+
+			if (toString.call(object) === "[object Window]") {
+				try {
+					return nativeGetOwnPropertyNames(object);
+				} catch (e) {
+					// IE bug where layout engine calls userland Object.getOwnPropertyNames for cross-domain `window` objects
+					return concat.call([], cachedWindowNames);
+				}
+			}
+
+			// Polyfill.io fallback for non-array-like strings which exist in some ES3 user-agents (IE 8)
+			object =
+				toString.call(object) == "[object String]"
+					? split.call(object, "")
+					: Object(object);
+
+			var result = nativeGetOwnPropertyNames(object);
+			var extraNonEnumerableKeys = ["length", "prototype"];
+			for (var i = 0; i < extraNonEnumerableKeys.length; i++) {
+				var key = extraNonEnumerableKeys[i];
+				if (hasOwnProperty.call(object, key) && !result.includes(key)) {
+					result.push(key);
+				}
+			}
+
+			if (result.includes("__proto__")) {
+				var index = result.indexOf("__proto__");
+				result.splice(index, 1);
+			}
+
+			return result;
+		}
+	);
+})();
+
+}
+
+if (!("seal"in Object&&function(){try{return Object.seal("1"),!0}catch(t){return!1}}()
 )) {
 
 // Object.seal
 /* global CreateMethodProperty, Type */
 // 19.1.2.19 Object.seal ( O )
 (function(originalObjectSeal) {
-    CreateMethodProperty(Object, 'seal', function seal(O) {
-        // 1. If Type(O) is not Object, return O.
-        if (Type(O) === 'object') {
-            return O;
-        }
-        // 2. Let status be ? SetIntegrityLevel(O, "sealed").
-        // 3. If status is false, throw a TypeError exception.
-        // 4. Return O.
-        return originalObjectSeal ? originalObjectSeal(O) : O;
-    });
+	CreateMethodProperty(Object, 'seal', function seal(O) {
+		// 1. If Type(O) is not Object, return O.
+		if (Type(O) === 'object') {
+			return O;
+		}
+		// 2. Let status be ? SetIntegrityLevel(O, "sealed").
+		// 3. If status is false, throw a TypeError exception.
+		// 4. Return O.
+		return originalObjectSeal ? originalObjectSeal(O) : O;
+	});
 }(Object.seal));
-
 
 }
 
+if (!("setPrototypeOf"in Object
+)) {
 
 // Object.setPrototypeOf
 /* global CreateMethodProperty */
@@ -3987,20 +4259,7 @@ if (!("seal"in Object&&function(){try{return Object.seal("1"),!0}catch(t){return
 	}
 	CreateMethodProperty(Object, 'setPrototypeOf', sPOf);
 }());
-if (!("Promise"in this
-)) {
 
-// Promise
-!function(n){function t(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return n[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var e={};t.m=n,t.c=e,t.i=function(n){return n},t.d=function(n,e,r){t.o(n,e)||Object.defineProperty(n,e,{configurable:!1,enumerable:!0,get:r})},t.n=function(n){var e=n&&n.__esModule?function(){return n["default"]}:function(){return n};return t.d(e,"a",e),e},t.o=function(n,t){return Object.prototype.hasOwnProperty.call(n,t)},t.p="",t(t.s=100)}({100:/*!***********************!*\
-  !*** ./src/global.js ***!
-  \***********************/
-function(n,t,e){(function(n){var t=e(/*! ./yaku */5);try{n.Promise=t,window.Promise=t}catch(r){}}).call(t,e(/*! ./../~/webpack/buildin/global.js */2))},2:/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-function(n,t){var e;e=function(){return this}();try{e=e||Function("return this")()||(0,eval)("this")}catch(r){"object"==typeof window&&(e=window)}n.exports=e},5:/*!*********************!*\
-  !*** ./src/yaku.js ***!
-  \*********************/
-function(n,t,e){(function(t){!function(){"use strict";function e(){return rn[q][B]||D}function r(n){return n&&"object"==typeof n}function o(n){return"function"==typeof n}function i(n,t){return n instanceof t}function u(n){return i(n,M)}function c(n,t,e){if(!t(n))throw h(e)}function f(){try{return R.apply(S,arguments)}catch(n){return nn.e=n,nn}}function s(n,t){return R=n,S=t,f}function a(n,t){function e(){for(var e=0;e<o;)t(r[e],r[e+1]),r[e++]=P,r[e++]=P;o=0,r.length>n&&(r.length=n)}var r=A(n),o=0;return function(n,t){r[o++]=n,r[o++]=t,2===o&&rn.nextTick(e)}}function l(n,t){var e,r,u,c,f=0;if(!n)throw h(Q);var a=n[rn[q][z]];if(o(a))r=a.call(n);else{if(!o(n.next)){if(i(n,A)){for(e=n.length;f<e;)t(n[f],f++);return f}throw h(Q)}r=n}for(;!(u=r.next()).done;)if((c=s(t)(u.value,f++))===nn)throw o(r[G])&&r[G](),c.e;return f}function h(n){return new TypeError(n)}function v(n){return(n?"":V)+(new M).stack}function _(n,t){var e="on"+n.toLowerCase(),r=O[e];H&&H.listeners(n).length?n===Z?H.emit(n,t._v,t):H.emit(n,t):r?r({reason:t._v,promise:t}):rn[n](t._v,t)}function p(n){return n&&n._s}function d(n){if(p(n))return new n(tn);var t,e,r;return t=new n(function(n,o){if(t)throw h();e=n,r=o}),c(e,o),c(r,o),t}function w(n,t){var e=!1;return function(r){e||(e=!0,L&&(n[N]=v(!0)),t===Y?k(n,r):x(n,t,r))}}function y(n,t,e,r){return o(e)&&(t._onFulfilled=e),o(r)&&(n[J]&&_(X,n),t._onRejected=r),L&&(t._p=n),n[n._c++]=t,n._s!==$&&on(n,t),t}function m(n){if(n._umark)return!0;n._umark=!0;for(var t,e=0,r=n._c;e<r;)if(t=n[e++],t._onRejected||m(t))return!0}function j(n,t){function e(n){return r.push(n.replace(/^\s+|\s+$/g,""))}var r=[];return L&&(t[N]&&e(t[N]),function o(n){n&&K in n&&(o(n._next),e(n[K]+""),o(n._p))}(t)),(n&&n.stack?n.stack:n)+("\n"+r.join("\n")).replace(en,"")}function g(n,t){return n(t)}function x(n,t,e){var r=0,o=n._c;if(n._s===$)for(n._s=t,n._v=e,t===U&&(L&&u(e)&&(e.longStack=j(e,n)),un(n));r<o;)on(n,n[r++]);return n}function k(n,t){if(t===n&&t)return x(n,U,h(W)),n;if(t!==C&&(o(t)||r(t))){var e=s(b)(t);if(e===nn)return x(n,U,e.e),n;o(e)?(L&&p(t)&&(n._next=t),p(t)?T(n,t,e):rn.nextTick(function(){T(n,t,e)})):x(n,Y,t)}else x(n,Y,t);return n}function b(n){return n.then}function T(n,t,e){var r=s(e,t)(function(e){t&&(t=C,k(n,e))},function(e){t&&(t=C,x(n,U,e))});r===nn&&t&&(x(n,U,r.e),t=C)}var P,R,S,C=null,F="object"==typeof self,O=F?self:t,E=O.Promise,H=O.process,I=O.console,L=!1,A=Array,M=Error,U=1,Y=2,$=3,q="Symbol",z="iterator",B="species",D=q+"("+B+")",G="return",J="_uh",K="_pt",N="_st",Q="Invalid argument",V="\nFrom previous ",W="Chaining cycle detected for promise",X="rejectionHandled",Z="unhandledRejection",nn={e:C},tn=function(){},en=/^.+\/node_modules\/yaku\/.+\n?/gm,rn=function(n){var t,e=this;if(!r(e)||e._s!==P)throw h("Invalid this");if(e._s=$,L&&(e[K]=v()),n!==tn){if(!o(n))throw h(Q);t=s(n)(w(e,Y),w(e,U)),t===nn&&x(e,U,t.e)}};rn["default"]=rn,function(n,t){for(var e in t)n[e]=t[e]}(rn.prototype,{then:function(n,t){if(this._s===undefined)throw h();return y(this,d(rn.speciesConstructor(this,rn)),n,t)},"catch":function(n){return this.then(P,n)},"finally":function(n){return this.then(function(t){return rn.resolve(n()).then(function(){return t})},function(t){return rn.resolve(n()).then(function(){throw t})})},_c:0,_p:C}),rn.resolve=function(n){return p(n)?n:k(d(this),n)},rn.reject=function(n){return x(d(this),U,n)},rn.race=function(n){var t=this,e=d(t),r=function(n){x(e,Y,n)},o=function(n){x(e,U,n)},i=s(l)(n,function(n){t.resolve(n).then(r,o)});return i===nn?t.reject(i.e):e},rn.all=function(n){function t(n){x(o,U,n)}var e,r=this,o=d(r),i=[];return(e=s(l)(n,function(n,u){r.resolve(n).then(function(n){i[u]=n,--e||x(o,Y,i)},t)}))===nn?r.reject(e.e):(e||x(o,Y,[]),o)},rn.Symbol=O[q]||{},s(function(){Object.defineProperty(rn,e(),{get:function(){return this}})})(),rn.speciesConstructor=function(n,t){var r=n.constructor;return r?r[e()]||t:t},rn.unhandledRejection=function(n,t){I&&I.error("Uncaught (in promise)",L?t.longStack:j(n,t))},rn.rejectionHandled=tn,rn.enableLongStackTrace=function(){L=!0},rn.nextTick=F?function(n){E?new E(function(n){n()}).then(n):setTimeout(n)}:H.nextTick,rn._s=1;var on=a(999,function(n,t){var e,r;return(r=n._s!==U?t._onFulfilled:t._onRejected)===P?void x(t,n._s,n._v):(e=s(g)(r,n._v))===nn?void x(t,U,e.e):void k(t,e)}),un=a(9,function(n){m(n)||(n[J]=1,_(Z,n))});try{n.exports=rn}catch(cn){O.Yaku=rn}}()}).call(t,e(/*! ./../~/webpack/buildin/global.js */2))}});
 }
 
 if (!("flags"in RegExp.prototype
@@ -4076,7 +4335,7 @@ if (!("fromCodePoint"in String&&1===String.fromCodePoint.length
 /* global CreateMethodProperty, IsArray, SameValue, ToInteger, ToNumber, UTF16Encoding */
 
 // 21.1.2.2. String.fromCodePoint ( ...codePoints )
-CreateMethodProperty(String, 'fromCodePoint', function fromCodePoint(_) { // eslint-disable-line no-unused-vars
+CreateMethodProperty(String, 'fromCodePoint', function fromCodePoint(_) {
 	// Polyfill.io - List to store the characters whilst iterating over the code points.
 	var result = [];
 	// 1. Let codePoints be a List containing the arguments passed to this function.
@@ -4090,7 +4349,7 @@ CreateMethodProperty(String, 'fromCodePoint', function fromCodePoint(_) { // esl
 	// 5. Repeat, while nextIndex < length
 	while (nextIndex < length) {
 		// Polyfill.io - We reset the elements List as we store the partial results in the result List.
-		var elements = [];
+		elements = [];
 		// a. Let next be codePoints[nextIndex].
 		var next = codePoints[nextIndex];
 		// b. Let nextCP be ? ToNumber(next).
@@ -4199,7 +4458,7 @@ CreateMethodProperty(String.prototype, 'endsWith', function endsWith(searchStrin
 	// 12. If the sequence of elements of S starting at start of length searchLength is the same as the full element sequence of searchStr, return true.
 	if (S.substr(start, searchLength) === searchStr) {
 		return true;
-	 }
+	}
 	// 13. Otherwise, return false.
 	return false;
 });
@@ -4314,15 +4573,101 @@ CreateMethodProperty(String.prototype, 'startsWith', function startsWith(searchS
 
 }
 
-if (!("Symbol"in this&&0===this.Symbol.length
+if (!("trim"in String.prototype&&function(){var r="​᠎"
+return!"\t\n\x0B\f\r                　\u2028\u2029\ufeff".trim()&&r.trim()===r}()
+)) {
+
+// String.prototype.trim
+/* global CreateMethodProperty, TrimString */
+// 21.1.3.27. String.prototype.trim ( )
+CreateMethodProperty(String.prototype, 'trim', function trim() {
+	'use strict';
+	// Let S be this value.
+	var S = this;
+	// Return ? TrimString(S, "start+end").
+	return TrimString(S, "start+end");
+});
+
+}
+
+if (!("parseFloat"in Number&&1/parseFloat("\t\n\x0B\f\r                　\u2028\u2029\ufeff-0")==-Infinity
+)) {
+
+// Number.parseFloat
+/* global CreateMethodProperty */
+(function (nativeparseFloat, global) {
+	var parseFloat = function parseFloat(str) {
+		var string = String(str).trim();
+		var result = nativeparseFloat(string);
+		return result === 0 && string.charAt(0) == '-' ? -0 : result;
+	}
+	try {
+		CreateMethodProperty(global, 'parseFloat', parseFloat);
+	} catch (e) {
+		// IE8 throws an error here if we set enumerable to false.
+		// More info on table 2: https://msdn.microsoft.com/en-us/library/dd229916(v=vs.85).aspx
+		global.parseFloat = parseFloat;
+	}
+	// 20.1.2.12. Number.parseFloat ( string )
+	// The value of the Number.parseFloat data property is the same built-in function object that is the value of the  parseFloat property of the global object defined in 18.2.4.
+	CreateMethodProperty(Number, 'parseFloat', global.parseFloat);
+}(parseFloat, this));
+
+}
+
+if (!("parseInt"in Number&&8===Number.parseInt("08")
+)) {
+
+// Number.parseInt
+/* global CreateMethodProperty */
+(function (nativeParseInt, global) {
+	// Polyfill.io - IE 8's parseInt is incorrect
+	var parseInt = function parseInt(str, radix) {
+		var string = String(str).trim();
+		return nativeParseInt(string, (radix >>> 0) || (/^[-+]?0[xX]/.test(string) ? 16 : 10));
+	}
+	try {
+		CreateMethodProperty(global, 'parseInt', parseInt);
+	} catch (e) {
+		// IE8 throws an error here if we set enumerable to false.
+		// More info on table 2: https://msdn.microsoft.com/en-us/library/dd229916(v=vs.85).aspx
+		global.parseInt = parseInt;
+	}
+	// 20.1.2.13. Number.parseInt ( string, radix )
+	// The value of the Number.parseInt data property is the same built-in function object that is the value of the  parseInt property of the global object defined in 18.2.5.
+	CreateMethodProperty(Number, 'parseInt', global.parseInt);
+}(parseInt, this));
+
+}
+
+if (!("Symbol"in self&&0===self.Symbol.length
 )) {
 
 // Symbol
 // A modification of https://github.com/WebReflection/get-own-property-symbols
 // (C) Andrea Giammarchi - MIT Licensed
 
-(function (Object, GOPS, global) {
+/* global Type */
+(function (Object,  GOPS, global) {
 	'use strict'; //so that ({}).toString.call(null) returns the correct [object Null] rather than [object Window]
+
+	var supportsGetters = (function () {
+		// supports getters
+		try {
+			var a = {};
+			Object.defineProperty(a, "t", {
+				configurable: true,
+				enumerable: false,
+				get: function () {
+					return true;
+				},
+				set: undefined
+			});
+			return !!a.t;
+		} catch (e) {
+			return false;
+		}
+	}());
 
 	var	setDescriptor;
 	var id = 0;
@@ -4330,6 +4675,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 	var prefix = '__\x01symbol:';
 	var prefixLength = prefix.length;
 	var internalSymbol = '__\x01symbol@@' + random;
+	var emptySymbolLookup = {};
 	var DP = 'defineProperty';
 	var DPies = 'defineProperties';
 	var GOPN = 'getOwnPropertyNames';
@@ -4340,7 +4686,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 	var pIE = ObjectProto[PIE];
 	var toString = ObjectProto.toString;
 	var concat = Array.prototype.concat;
-	var cachedWindowNames = Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [];
+	var cachedWindowNames = Object.getOwnPropertyNames ? Object.getOwnPropertyNames(self) : [];
 	var nGOPN = Object[GOPN];
 	var gOPN = function getOwnPropertyNames (obj) {
 		if (toString.call(obj) === '[object Window]') {
@@ -4354,16 +4700,16 @@ if (!("Symbol"in this&&0===this.Symbol.length
 		return nGOPN(obj);
 	};
 	var gOPD = Object[GOPD];
-	var create = Object.create;
-	var keys = Object.keys;
+	var objectCreate = Object.create;
+	var objectKeys = Object.keys;
 	var freeze = Object.freeze || Object;
-	var defineProperty = Object[DP];
+	var objectDefineProperty = Object[DP];
 	var $defineProperties = Object[DPies];
 	var descriptor = gOPD(Object, GOPN);
 	var addInternalIfNeeded = function (o, uid, enumerable) {
 		if (!hOP.call(o, internalSymbol)) {
 			try {
-				defineProperty(o, internalSymbol, {
+				objectDefineProperty(o, internalSymbol, {
 					enumerable: false,
 					configurable: false,
 					writable: false,
@@ -4376,7 +4722,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 		o[internalSymbol]['@@' + uid] = enumerable;
 	};
 	var createWithSymbols = function (proto, descriptors) {
-		var self = create(proto);
+		var self = objectCreate(proto);
 		gOPN(descriptors).forEach(function (key) {
 			if (propertyIsEnumerable.call(descriptors, key)) {
 				$defineProperty(self, key, descriptors[key]);
@@ -4385,7 +4731,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 		return self;
 	};
 	var copyAsNonEnumerable = function (descriptor) {
-		var newDescriptor = create(descriptor);
+		var newDescriptor = objectCreate(descriptor);
 		newDescriptor.enumerable = false;
 		return newDescriptor;
 	};
@@ -4402,7 +4748,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 		var uid = '' + key;
 		return onlySymbols(uid) ? (
 			hOP.call(this, uid) &&
-			this[internalSymbol]['@@' + uid]
+			this[internalSymbol] && this[internalSymbol]['@@' + uid]
 		) : pIE.call(this, key);
 	};
 	var setAndGetSymbol = function (uid) {
@@ -4421,38 +4767,89 @@ if (!("Symbol"in this&&0===this.Symbol.length
 			}
 		};
 		try {
-			defineProperty(ObjectProto, uid, descriptor);
+			objectDefineProperty(ObjectProto, uid, descriptor);
 		} catch (e) {
 			ObjectProto[uid] = descriptor.value;
 		}
-		return freeze(source[uid] = defineProperty(
+		source[uid] = objectDefineProperty(
 			Object(uid),
 			'constructor',
 			sourceConstructor
-		));
+		);
+		var description = gOPD(Symbol.prototype, 'description');
+		if (description) {
+			objectDefineProperty(
+				source[uid],
+				'description',
+				description
+			);
+		}
+		return freeze(source[uid]);
 	};
+
+	var symbolDescription = function (s) {
+		var sym = thisSymbolValue(s);
+
+		// 3. Return sym.[[Description]].
+		if (supportsInferredNames) {
+			var name = getInferredName(sym);
+			if (name !== "") {
+				return name.slice(1, -1); // name.slice('['.length, -']'.length);
+			}
+		}
+
+		if (emptySymbolLookup[sym] !== undefined) {
+			return emptySymbolLookup[sym];
+		}
+
+		var string = sym.toString();
+		var randomStartIndex = string.lastIndexOf("0.");
+		string = string.slice(10, randomStartIndex);
+
+		if (string === "") {
+			return undefined;
+		}
+		return string;
+	};
+
 	var Symbol = function Symbol() {
 		var description = arguments[0];
 		if (this instanceof Symbol) {
 			throw new TypeError('Symbol is not a constructor');
 		}
-		return setAndGetSymbol(
-			prefix.concat(description || '', random, ++id)
-		);
-		};
-	var source = create(null);
+
+		var uid = prefix.concat(description || '', random, ++id);
+
+		if (description !== undefined && (description === null || isNaN(description) || String(description) === "")) {
+			emptySymbolLookup[uid] = String(description);
+		}
+
+		var that = setAndGetSymbol(uid);
+
+		if (!supportsGetters) {
+			Object.defineProperty(that, "description", {
+				configurable: true,
+				enumerable: false,
+				value: symbolDescription(that)
+			});
+		}
+
+		return that;
+	};
+
+	var source = objectCreate(null);
 	var sourceConstructor = {value: Symbol};
 	var sourceMap = function (uid) {
 		return source[uid];
 		};
-	var $defineProperty = function defineProp(o, key, descriptor) {
+	var $defineProperty = function defineProperty(o, key, descriptor) {
 		var uid = '' + key;
 		if (onlySymbols(uid)) {
 			setDescriptor(o, uid, descriptor.enumerable ?
 				copyAsNonEnumerable(descriptor) : descriptor);
 			addInternalIfNeeded(o, uid, !!descriptor.enumerable);
 		} else {
-			defineProperty(o, key, descriptor);
+			objectDefineProperty(o, key, descriptor);
 		}
 		return o;
 	};
@@ -4468,20 +4865,20 @@ if (!("Symbol"in this&&0===this.Symbol.length
 	;
 
 	descriptor.value = $defineProperty;
-	defineProperty(Object, DP, descriptor);
+	objectDefineProperty(Object, DP, descriptor);
 
 	descriptor.value = $getOwnPropertySymbols;
-	defineProperty(Object, GOPS, descriptor);
+	objectDefineProperty(Object, GOPS, descriptor);
 
 	descriptor.value = function getOwnPropertyNames(o) {
 		return gOPN(o).filter(onlyNonSymbols);
 	};
-	defineProperty(Object, GOPN, descriptor);
+	objectDefineProperty(Object, GOPN, descriptor);
 
 	descriptor.value = function defineProperties(o, descriptors) {
 		var symbols = $getOwnPropertySymbols(descriptors);
 		if (symbols.length) {
-		keys(descriptors).concat(symbols).forEach(function (uid) {
+		objectKeys(descriptors).concat(symbols).forEach(function (uid) {
 			if (propertyIsEnumerable.call(descriptors, uid)) {
 			$defineProperty(o, uid, descriptors[uid]);
 			}
@@ -4491,20 +4888,20 @@ if (!("Symbol"in this&&0===this.Symbol.length
 		}
 		return o;
 	};
-	defineProperty(Object, DPies, descriptor);
+	objectDefineProperty(Object, DPies, descriptor);
 
 	descriptor.value = propertyIsEnumerable;
-	defineProperty(ObjectProto, PIE, descriptor);
+	objectDefineProperty(ObjectProto, PIE, descriptor);
 
 	descriptor.value = Symbol;
-	defineProperty(global, 'Symbol', descriptor);
+	objectDefineProperty(global, 'Symbol', descriptor);
 
 	// defining `Symbol.for(key)`
 	descriptor.value = function (key) {
 		var uid = prefix.concat(prefix, key, random);
 		return uid in ObjectProto ? source[uid] : setAndGetSymbol(uid);
 	};
-	defineProperty(Symbol, 'for', descriptor);
+	objectDefineProperty(Symbol, 'for', descriptor);
 
 	// defining `Symbol.keyFor(symbol)`
 	descriptor.value = function (symbol) {
@@ -4515,7 +4912,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 		void 0
 		;
 	};
-	defineProperty(Symbol, 'keyFor', descriptor);
+	objectDefineProperty(Symbol, 'keyFor', descriptor);
 
 	descriptor.value = function getOwnPropertyDescriptor(o, key) {
 		var descriptor = gOPD(o, key);
@@ -4524,14 +4921,15 @@ if (!("Symbol"in this&&0===this.Symbol.length
 		}
 		return descriptor;
 	};
-	defineProperty(Object, GOPD, descriptor);
+	objectDefineProperty(Object, GOPD, descriptor);
 
-	descriptor.value = function (proto, descriptors) {
+	descriptor.value = function create(proto, descriptors) {
 		return arguments.length === 1 || typeof descriptors === "undefined" ?
-		create(proto) :
+		objectCreate(proto) :
 		createWithSymbols(proto, descriptors);
 	};
-	defineProperty(Object, 'create', descriptor);
+
+	objectDefineProperty(Object, 'create', descriptor);
 
 	var strictModeSupported = (function(){ 'use strict'; return this; }).call(null) === null;
 	if (strictModeSupported) {
@@ -4547,8 +4945,8 @@ if (!("Symbol"in this&&0===this.Symbol.length
 			// This code ensures that we return the correct result in that situation however,
 			// this code also introduces a bug where it will return the incorrect result for
 			// `Object.prototype.toString.call(window)`. We can't have the correct result for
-			// both `window` and `null`, so we have opted for `null` as we believe this is the more 
-			// common situation. 
+			// both `window` and `null`, so we have opted for `null` as we believe this is the more
+			// common situation.
 			if (this === window) {
 				return '[object Null]';
 			}
@@ -4557,22 +4955,77 @@ if (!("Symbol"in this&&0===this.Symbol.length
 			return (str === '[object String]' && onlySymbols(this)) ? '[object Symbol]' : str;
 		};
 	}
-	defineProperty(ObjectProto, 'toString', descriptor);
+	objectDefineProperty(ObjectProto, 'toString', descriptor);
 
 	setDescriptor = function (o, key, descriptor) {
 		var protoDescriptor = gOPD(ObjectProto, key);
 		delete ObjectProto[key];
-		defineProperty(o, key, descriptor);
+		objectDefineProperty(o, key, descriptor);
 		if (o !== ObjectProto) {
-			defineProperty(ObjectProto, key, protoDescriptor);
+			objectDefineProperty(ObjectProto, key, protoDescriptor);
 		}
 	};
 
-}(Object, 'getOwnPropertySymbols', this));
+	// The abstract operation thisSymbolValue(value) performs the following steps:
+	function thisSymbolValue(value) {
+		// 1. If Type(value) is Symbol, return value.
+		if (Type(value) === "symbol") {
+			return value;
+		}
+		// 2. If Type(value) is Object and value has a [[SymbolData]] internal slot, then
+		// a. Let s be value.[[SymbolData]].
+		// b. Assert: Type(s) is Symbol.
+		// c. Return s.
+		// 3. Throw a TypeError exception.
+		throw TypeError(value + " is not a symbol");
+	}
+
+	// Symbol.prototype.description
+	if (function () {
+		// supports getters
+		try {
+			var a = {};
+			Object.defineProperty(a, "t", {
+				configurable: true,
+				enumerable: false,
+				get: function() {
+					return true;
+				},
+				set: undefined
+			});
+			return !!a.t;
+		} catch (e) {
+			return false;
+		}
+	}()) {
+		var getInferredName;
+		try {
+			// eslint-disable-next-line no-new-func
+			getInferredName = Function("s", "var v = s.valueOf(); return { [v]() {} }[v].name;");
+			// eslint-disable-next-line no-empty
+		} catch (e) { }
+
+		var inferred = function () { };
+		var supportsInferredNames = getInferredName && inferred.name === "inferred" ? getInferredName : null;
+
+
+		// 19.4.3.2 get Symbol.prototype.description
+		Object.defineProperty(global.Symbol.prototype, "description", {
+			configurable: true,
+			enumerable: false,
+			get: function () {
+				// 1. Let s be the this value.
+				var s = this;
+				return symbolDescription(s);
+			}
+		});
+	}
+
+}(Object, 'getOwnPropertySymbols', self));
 
 }
 
-if (!("Symbol"in this&&"hasInstance"in this.Symbol
+if (!("Symbol"in self&&"hasInstance"in self.Symbol
 )) {
 
 // Symbol.hasInstance
@@ -4581,7 +5034,7 @@ Object.defineProperty(Symbol, 'hasInstance', { value: Symbol('hasInstance') });
 
 }
 
-if (!("Symbol"in this&&"isConcatSpreadable"in this.Symbol
+if (!("Symbol"in self&&"isConcatSpreadable"in self.Symbol
 )) {
 
 // Symbol.isConcatSpreadable
@@ -4590,12 +5043,11 @@ Object.defineProperty(Symbol, 'isConcatSpreadable', { value: Symbol('isConcatSpr
 
 }
 
-if (!("Symbol"in this&&"iterator"in this.Symbol
+if (!("Symbol"in self&&"iterator"in self.Symbol
 )) {
 
 // Symbol.iterator
-/* global Symbol */
-Object.defineProperty(Symbol, 'iterator', { value: Symbol('iterator') });
+Object.defineProperty(self.Symbol, 'iterator', { value: self.Symbol('iterator') });
 
 }
 
@@ -4624,7 +5076,7 @@ function GetIterator(obj /*, method */) { // eslint-disable-line no-unused-vars
 	// 6. Return iteratorRecord.
 	return iteratorRecord;
 }
-if (!("Symbol"in this&&"match"in this.Symbol
+if (!("Symbol"in self&&"match"in self.Symbol
 )) {
 
 // Symbol.match
@@ -4633,7 +5085,7 @@ Object.defineProperty(Symbol, 'match', { value: Symbol('match') });
 
 }
 
-if (!("Symbol"in this&&"replace"in this.Symbol
+if (!("Symbol"in self&&"replace"in self.Symbol
 )) {
 
 // Symbol.replace
@@ -4642,7 +5094,7 @@ Object.defineProperty(Symbol, 'replace', { value: Symbol('replace') });
 
 }
 
-if (!("Symbol"in this&&"search"in this.Symbol
+if (!("Symbol"in self&&"search"in self.Symbol
 )) {
 
 // Symbol.search
@@ -4651,7 +5103,7 @@ Object.defineProperty(Symbol, 'search', { value: Symbol('search') });
 
 }
 
-if (!("Symbol"in this&&"species"in this.Symbol
+if (!("Symbol"in self&&"species"in self.Symbol
 )) {
 
 // Symbol.species
@@ -4660,8 +5112,8 @@ Object.defineProperty(Symbol, 'species', { value: Symbol('species') });
 
 }
 
-if (!("Map"in this&&function(t){try{var n=new Map([[1,1],[2,2]])
-return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"==typeof n[Symbol.iterator]}catch(i){return!1}}(this)
+if (!("Map"in self&&function(t){try{var n=new t.Map([[1,1],[2,2]])
+return 0===t.Map.length&&2===n.size&&"Symbol"in t&&"iterator"in t.Symbol&&"function"==typeof n[t.Symbol.iterator]}catch(e){return!1}}(self)
 )) {
 
 // Map
@@ -4684,6 +5136,99 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 		}
 	}());
 
+	// Need an internal counter to assign unique IDs to a key map
+	var _uniqueHashId = 0;
+	// Create a unique key name for storing meta data on functions and objects to enable lookups in hash table
+	var _metaKey = Symbol('meta_' + ((Math.random() * 100000000) + '').replace('.', ''));
+
+	/**
+	 * hashKey()
+	 * Function that given a key of `any` type, returns a string key value to enable hash map optimization for accessing Map data structure
+	 * @param {string|integer|function|object} recordKey - Record key to normalize to string accessor for hash map
+	 * @returns {string|false} - Returns a hashed string value or false if non extensible object key
+	 */
+	var hashKey = function(recordKey) {
+		// Check to see if we are dealing with object or function type.
+		if (typeof recordKey === 'object' ? recordKey !== null : typeof recordKey === 'function') {
+			// Check to see if we are dealing with a non extensible object
+			if (!Object.isExtensible(recordKey)) {
+				// Return `false`
+				return false;
+			}
+			if (!Object.prototype.hasOwnProperty.call(recordKey, _metaKey)) {
+				var uniqueHashKey = typeof(recordKey)+'-'+(++_uniqueHashId);
+				Object.defineProperty(recordKey, _metaKey, {
+					configurable: false,
+					enumerable: false,
+					writable: false,
+					value: uniqueHashKey
+				});
+			}
+			// Return previously defined hashed key
+			return recordKey[_metaKey];
+		}
+		// If this is just a primitive, we can cast it to a string and return it
+		return ''+recordKey;
+	};
+
+	/**
+	 * getRecordIndex()
+	 * Function that given a Map and a key of `any` type, returns an index number that coorelates with a record found in `this._keys[index]` and `this._values[index]`
+	 * @param {Map} map - Map structure
+	 * @param {string|number|function|object} recordKey - Record key to normalize to string accessor for hash map
+	 * @returns {number|false} - Returns either a index to access map._keys and map._values, or false if not found
+	 */
+	var getRecordIndex = function(map, recordKey) {
+		var hashedKey = hashKey(recordKey); // Casts key to unique string (unless already string or number)
+		if (hashedKey === false) {
+			// We have to iterate through our Map structure because `recordKey` is non-primitive and not extensible
+			return getRecordIndexSlow(map, recordKey);
+		}
+		var recordIndex = map._table[hashedKey]; // O(1) access to record
+		return recordIndex !== undefined ? recordIndex : false;
+	};
+
+	/**
+	 * getRecordIndexSlow()
+	 * Alternative (and slower) function to `getRecordIndex()`.  Necessary for looking up non-extensible object keys.
+	 * @param {Map} map - Map structure
+	 * @param {string|number|function|object} recordKey - Record key to normalize to string accessor for hash map
+	 * @returns {number|false} - Returns either a index to access map._keys and map._values, or false if not found
+	 */
+	var getRecordIndexSlow = function(map, recordKey) {
+		// We have to iterate through our Map structure because `recordKey` is non-primitive and not extensible
+		for (var i = 0; i < map._keys.length; i++) {
+			var _recordKey = map._keys[i];
+			if (_recordKey !== undefMarker && SameValueZero(_recordKey, recordKey)) {
+				return i;
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * setHashIndex()
+	 * Function that given a map, key of `any` type, and a value, creates a new entry in Map hash table
+	 * @param {Map} map
+	 * @param {string|number|function|object} recordKey - Key to translate into normalized key for hash map
+	 * @param {number|bool} recordIndex - new record index for the hashedKey or `false` to delete the record index for the hashedKey
+	 * @returns {bool} - indicates success of operation
+	 */
+	var setHashIndex = function(map, recordKey, recordIndex) {
+		var hashedKey = hashKey(recordKey);
+		if (hashedKey === false) {
+			// If hashed key is false, the recordKey is an object which is not extensible.
+			// That indicates we cannot use the hash map for it, so this operation becomes no-op.
+			return false;
+		}
+		if (recordIndex === false) {
+			delete map._table[hashedKey];
+		} else {
+			map._table[hashedKey] = recordIndex;
+		}
+		return true;
+	};
+
 	// Deleted map items mess with iterator pointers, so rather than removing them mark them as deleted. Can't use undefined or null since those both valid keys so use a private symbol.
 	var undefMarker = Symbol('undef');
 	// 23.1.1.1 Map ( [ iterable ] )
@@ -4694,6 +5239,7 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 		}
 		// 2. Let map be ? OrdinaryCreateFromConstructor(NewTarget, "%MapPrototype%", « [[MapData]] »).
 		var map = OrdinaryCreateFromConstructor(this, Map.prototype, {
+			_table: {}, // O(1) access table for retrieving records
 			_keys: [],
 			_values: [],
 			_size: 0,
@@ -4733,6 +5279,7 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 		try {
 			var iteratorRecord = GetIterator(iterable);
 			// 9. Repeat,
+			// eslint-disable-next-line no-constant-condition
 			while (true) {
 				// a. Let next be ? IteratorStep(iteratorRecord).
 				var next = IteratorStep(iteratorRecord);
@@ -4834,6 +5381,8 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 			if (!supportsGetters) {
 				this.size = this._size;
 			}
+			// 5a. Clear lookup table
+			this._table = {};
 			// 6. Return undefined.
 			return undefined;
 		}
@@ -4855,23 +5404,39 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 				throw new TypeError('Method Map.prototype.clear called on incompatible receiver ' + Object.prototype.toString.call(M));
 			}
 			// 4. Let entries be the List that is M.[[MapData]].
-			var entries = M._keys;
 			// 5. For each Record {[[Key]], [[Value]]} p that is an element of entries, do
-			for (var i = 0; i < entries.length; i++) {
-				// a. If p.[[Key]] is not empty and SameValueZero(p.[[Key]], key) is true, then
-				if (M._keys[i] !== undefMarker && SameValueZero(M._keys[i], key)) {
+				// 5a. If p.[[Key]] is not empty and SameValueZero(p.[[Key]], key) is true, then
 					// i. Set p.[[Key]] to empty.
-					this._keys[i] = undefMarker;
 					// ii. Set p.[[Value]] to empty.
-					this._values[i] = undefMarker;
+					// ii-a. Remove key from lookup table
+					// iii. Return true.
+			// 6. Return false.
+
+			// Implement steps 4-6 with a more optimal algo
+
+			// Steps 4-5: Access record
+			var recordIndex = getRecordIndex(M, key); // O(1) access to record index
+
+			if (recordIndex !== false) {
+				// Get record's `key` (could be `any` type);
+				var recordKey = M._keys[recordIndex];
+				// 5a. If p.[[Key]] is not empty and SameValueZero(p.[[Key]], key) is true, then
+				if (recordKey !== undefMarker && SameValueZero(recordKey, key)) {
+					// i. Set p.[[Key]] to empty.
+					this._keys[recordIndex] = undefMarker;
+					// ii. Set p.[[Value]] to empty.
+					this._values[recordIndex] = undefMarker;
 					this._size = --this._size;
 					if (!supportsGetters) {
 						this.size = this._size;
 					}
+					// iia. Remove key from lookup table
+					setHashIndex(this, key, false);
 					// iii. Return true.
 					return true;
 				}
 			}
+
 			// 6. Return false.
 			return false;
 		}
@@ -4934,15 +5499,19 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 				throw new TypeError('Method Map.prototype.get called on incompatible receiver ' + Object.prototype.toString.call(M));
 			}
 			// 4. Let entries be the List that is M.[[MapData]].
-			var entries = M._keys;
 			// 5. For each Record {[[Key]], [[Value]]} p that is an element of entries, do
-			for (var i = 0; i < entries.length; i++) {
 				// a. If p.[[Key]] is not empty and SameValueZero(p.[[Key]], key) is true, return p.[[Value]].
-				if (M._keys[i] !== undefMarker && SameValueZero(M._keys[i], key)) {
-					return M._values[i];
+			// 6. Return undefined.
+
+			// Implement steps 4-6 with a more optimal algo
+			var recordIndex = getRecordIndex(M, key); // O(1) access to record index
+			if (recordIndex !== false) {
+				var recordKey = M._keys[recordIndex];
+				if (recordKey !== undefMarker && SameValueZero(recordKey, key)) {
+					return M._values[recordIndex];
 				}
 			}
-			// 6. Return undefined.
+
 			return undefined;
 		});
 
@@ -4959,15 +5528,19 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 				throw new TypeError('Method Map.prototype.has called on incompatible receiver ' + Object.prototype.toString.call(M));
 			}
 			// 4. Let entries be the List that is M.[[MapData]].
-			var entries = M._keys;
 			// 5. For each Record {[[Key]], [[Value]]} p that is an element of entries, do
-			for (var i = 0; i < entries.length; i++) {
 				// a. If p.[[Key]] is not empty and SameValueZero(p.[[Key]], key) is true, return true.
-				if (M._keys[i] !== undefMarker && SameValueZero(M._keys[i], key)) {
+			// 6. Return false.
+
+			// Implement steps 4-6 with a more optimal algo
+			var recordIndex = getRecordIndex(M, key); // O(1) access to record index
+			if (recordIndex !== false) {
+				var recordKey = M._keys[recordIndex];
+				if (recordKey !== undefMarker && SameValueZero(recordKey, key)) {
 					return true;
 				}
 			}
-			// 6. Return false.
+
 			return false;
 		});
 
@@ -4992,33 +5565,35 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 				throw new TypeError('Method Map.prototype.set called on incompatible receiver ' + Object.prototype.toString.call(M));
 			}
 			// 4. Let entries be the List that is M.[[MapData]].
-			var entries = M._keys;
 			// 5. For each Record {[[Key]], [[Value]]} p that is an element of entries, do
-			for (var i = 0; i < entries.length; i++) {
-				// a. If p.[[Key]] is not empty and SameValueZero(p.[[Key]], key) is true, then
-				if (M._keys[i] !== undefMarker && SameValueZero(M._keys[i], key)) {
-					// i. Set p.[[Value]] to value.
-					M._values[i] = value;
-					// Return M.
-					return M;
+			// 6. If key is -0, let key be +0.
+			// 7. Let p be the Record {[[Key]]: key, [[Value]]: value}.
+			// 8. Append p as the last element of entries.
+			// 9. Return M.
+
+			// Strictly following the above steps 4-9 will lead to an inefficient algorithm.
+			// Step 8 also doesn't seem to be required if an entry already exists
+			var recordIndex = getRecordIndex(M, key); // O(1) access to record index
+			if (recordIndex !== false) {
+				// update path
+				M._values[recordIndex] = value;
+			} else {
+				// eslint-disable-next-line no-compare-neg-zero
+				if (key === -0) {
+					key = 0;
+				}
+				var p = {
+					'[[Key]]': key,
+					'[[Value]]': value
+				};
+				M._keys.push(p['[[Key]]']);
+				M._values.push(p['[[Value]]']);
+				setHashIndex(M, key, M._keys.length - 1); // update lookup table
+				++M._size;
+				if (!supportsGetters) {
+					M.size = M._size;
 				}
 			}
-			// 6. If key is -0, let key be +0.
-			if (key === -0) {
-				key = 0;
-			}
-			// 7. Let p be the Record {[[Key]]: key, [[Value]]: value}.
-			var p = {};
-			p['[[Key]]'] = key;
-			p['[[Value]]'] = value;
-			// 8. Append p as the last element of entries.
-			M._keys.push(p['[[Key]]']);
-			M._values.push(p['[[Value]]']);
-			++M._size;
-			if (!supportsGetters) {
-				M.size = M._size;
-			}
-			// 9. Return M.
 			return M;
 		});
 
@@ -5039,18 +5614,13 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 					throw new TypeError('Method Map.prototype.size called on incompatible receiver ' + Object.prototype.toString.call(M));
 				}
 				// 4. Let entries be the List that is M.[[MapData]].
-				var entries = M._keys;
 				// 5. Let count be 0.
-				var count = 0;
 				// 6. For each Record {[[Key]], [[Value]]} p that is an element of entries, do
-				for (var i = 0; i < entries.length; i++) {
-					// a. If p.[[Key]] is not empty, set count to count+1.
-					if (M._keys[i] !== undefMarker) {
-						count = count + 1;
-					}
-				}
+					// 6a. If p.[[Key]] is not empty, set count to count+1.
 				// 7. Return count.
-				return count;
+
+				// Implement 4-7 more efficently by returning pre-computed property
+				return this._size;
 			},
 			set: undefined
 		});
@@ -5218,14 +5788,14 @@ return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"
 	} catch (e) {
 		// IE8 throws an error here if we set enumerable to false.
 		// More info on table 2: https://msdn.microsoft.com/en-us/library/dd229916(v=vs.85).aspx
-		global['Map'] = Map;
+		global.Map = Map;
 	}
-}(this));
+}(self));
 
 }
 
-if (!("Set"in this&&function(){try{var t=new Set([1,2])
-return 0===Set.length&&2===t.size&&"Symbol"in this&&"iterator"in Symbol&&"function"==typeof t[Symbol.iterator]}catch(e){return!1}}()
+if (!("Set"in self&&function(){try{var e=new self.Set([1,2])
+return 0===self.Set.length&&2===e.size&&"Symbol"in self&&"iterator"in self.Symbol&&"function"==typeof e[self.Symbol.iterator]}catch(t){return!1}}()
 )) {
 
 // Set
@@ -5295,6 +5865,7 @@ return 0===Set.length&&2===t.size&&"Symbol"in this&&"iterator"in Symbol&&"functi
 			// 8. Let iteratorRecord be ? GetIterator(iterable).
 			var iteratorRecord = GetIterator(iterable);
 			// 9. Repeat,
+			// eslint-disable-next-line no-constant-condition
 			while (true) {
 				// a. Let next be ? IteratorStep(iteratorRecord).
 				var next = IteratorStep(iteratorRecord);
@@ -5379,7 +5950,7 @@ return 0===Set.length&&2===t.size&&"Symbol"in this&&"iterator"in Symbol&&"functi
 				}
 			}
 			// 6. If value is -0, let value be +0.
-			if (1/value === -Infinity) {
+			if (value === 0 && 1/value === -Infinity) {
 				value = 0;
 			}
 			// 7. Append value as the last element of entries.
@@ -5716,14 +6287,14 @@ return 0===Set.length&&2===t.size&&"Symbol"in this&&"iterator"in Symbol&&"functi
 	} catch (e) {
 		// IE8 throws an error here if we set enumerable to false.
 		// More info on table 2: https://msdn.microsoft.com/en-us/library/dd229916(v=vs.85).aspx
-		global['Set'] = Set;
+		global.Set = Set;
 	}
 
-}(this));
+}(self));
 
 }
 
-if (!("from"in Array&&function(){try{return Array.from({length:-Infinity}),!0}catch(r){return!1}}()
+if (!("from"in Array&&function(){try{return Array.from({length:-Infinity}),"a"===Array.from(new self.Set(["a"]))[0]&&"a"===Array.from(new self.Map([["a","one"]]))[0][0]}catch(r){return!1}}()
 )) {
 
 // Array.from
@@ -5784,6 +6355,7 @@ if (!("from"in Array&&function(){try{return Array.from({length:-Infinity}),!0}ca
 			// d. Let k be 0.
 			var k = 0;
 			// e. Repeat,
+			// eslint-disable-next-line no-constant-condition
 			while (true) {
 				// i. If k ≥ 2^53-1, then
 				if (k >= (Math.pow(2, 53) - 1)) {
@@ -5799,7 +6371,7 @@ if (!("from"in Array&&function(){try{return Array.from({length:-Infinity}),!0}ca
 				// iv. If next is false, then
 				if (next === false) {
 					// 1. Perform ? Set(A, "length", k, true).
-					A["length"] = k;
+					A.length = k;
 					// 2. Return A.
 					return A;
 				}
@@ -5874,7 +6446,7 @@ if (!("from"in Array&&function(){try{return Array.from({length:-Infinity}),!0}ca
 			k = k + 1;
 		}
 		// 13. Perform ? Set(A, "length", len, true).
-		A["length"] = len;
+		A.length = len;
 		// 14. Return A.
 		return A;
 	});
@@ -5882,7 +6454,7 @@ if (!("from"in Array&&function(){try{return Array.from({length:-Infinity}),!0}ca
 
 }
 
-if (!("Symbol"in this&&"split"in this.Symbol
+if (!("Symbol"in self&&"split"in self.Symbol
 )) {
 
 // Symbol.split
@@ -5891,7 +6463,7 @@ Object.defineProperty(Symbol, 'split', { value: Symbol('split') });
 
 }
 
-if (!("Symbol"in this&&"toPrimitive"in this.Symbol
+if (!("Symbol"in self&&"toPrimitive"in self.Symbol
 )) {
 
 // Symbol.toPrimitive
@@ -5900,7 +6472,7 @@ Object.defineProperty(Symbol, 'toPrimitive', { value: Symbol('toPrimitive') });
 
 }
 
-if (!("Symbol"in this&&"toStringTag"in this.Symbol
+if (!("Symbol"in self&&"toStringTag"in self.Symbol
 )) {
 
 // Symbol.toStringTag
@@ -6147,11 +6719,11 @@ var ArrayIterator = (function() { // eslint-disable-line no-unused-vars
 
 	return ArrayIterator;
 }());
-if (!("Symbol"in this&&"iterator"in this.Symbol&&!!Array.prototype.entries
+if (!("Symbol"in self&&"iterator"in self.Symbol&&!!Array.prototype.entries
 )) {
 
 // Array.prototype.entries
-/* global CreateMethodProperty, ToObject */
+/* global CreateMethodProperty, ToObject, ArrayIterator */
 // 22.1.3.4. Array.prototype.entries ( )
 CreateMethodProperty(Array.prototype, 'entries', function entries() {
 	// 1. Let O be ? ToObject(this value).
@@ -6163,11 +6735,11 @@ CreateMethodProperty(Array.prototype, 'entries', function entries() {
 
 }
 
-if (!("Symbol"in this&&"iterator"in this.Symbol&&!!Array.prototype.keys
+if (!("Symbol"in self&&"iterator"in self.Symbol&&!!Array.prototype.keys
 )) {
 
 // Array.prototype.keys
-/* global CreateMethodProperty, ToObject */
+/* global CreateMethodProperty, ToObject, ArrayIterator */
 // 22.1.3.14. Array.prototype.keys ( )
 CreateMethodProperty(Array.prototype, 'keys', function keys() {
 	// 1. Let O be ? ToObject(this value).
@@ -6183,10 +6755,10 @@ if (!("values"in Array.prototype
 )) {
 
 // Array.prototype.values
-/* global CreateMethodProperty, Symbol, ToObject */
+/* global CreateMethodProperty, Symbol, ToObject, ArrayIterator */
 // 22.1.3.30/ Array.prototype.values ( )
 // Polyfill.io - Firefox, Chrome and Opera have Array.prototype[Symbol.iterator], which is the exact same function as Array.prototype.values.
-if ('Symbol' in this && 'iterator' in Symbol && typeof Array.prototype[Symbol.iterator] === 'function') {
+if ('Symbol' in self && 'iterator' in Symbol && typeof Array.prototype[Symbol.iterator] === 'function') {
 	CreateMethodProperty(Array.prototype, 'values', Array.prototype[Symbol.iterator]);
 } else {
 	CreateMethodProperty(Array.prototype, 'values', function values () {
@@ -6200,7 +6772,7 @@ if ('Symbol' in this && 'iterator' in Symbol && typeof Array.prototype[Symbol.it
 
 }
 
-if (!("Symbol"in this&&"iterator"in this.Symbol&&!!Array.prototype[Symbol.iterator]
+if (!("Symbol"in self&&"iterator"in self.Symbol&&!!Array.prototype[self.Symbol.iterator]
 )) {
 
 // Array.prototype.@@iterator
@@ -6274,7 +6846,7 @@ var StringIterator = (function() { // eslint-disable-line no-unused-vars
 
 	return StringIterator;
 }());
-if (!("Symbol"in this&&"iterator"in this.Symbol&&!!String.prototype[Symbol.iterator]
+if (!("Symbol"in self&&"iterator"in self.Symbol&&!!String.prototype[self.Symbol.iterator]
 )) {
 
 // String.prototype.@@iterator
@@ -6292,7 +6864,891 @@ CreateMethodProperty(String.prototype, Symbol.iterator, function () {
 
 }
 
-if (!("Symbol"in this&&"unscopables"in this.Symbol
+if (!("Promise"in self
+)) {
+
+// Promise
+/*
+	Yaku v0.19.3
+	(c) 2015 Yad Smood. http://ysmood.org
+	License MIT
+*/
+/*
+	Yaku v0.17.9
+	(c) 2015 Yad Smood. http://ysmood.org
+	License MIT
+*/
+(function () {
+	'use strict';
+
+	var $undefined
+	, $null = null
+	, isBrowser = typeof self === 'object'
+	, root = self
+	, nativePromise = root.Promise
+	, process = root.process
+	, console = root.console
+	, isLongStackTrace = true
+	, Arr = Array
+	, Err = Error
+
+	, $rejected = 1
+	, $resolved = 2
+	, $pending = 3
+
+	, $Symbol = 'Symbol'
+	, $iterator = 'iterator'
+	, $species = 'species'
+	, $speciesKey = $Symbol + '(' + $species + ')'
+	, $return = 'return'
+
+	, $unhandled = '_uh'
+	, $promiseTrace = '_pt'
+	, $settlerTrace = '_st'
+
+	, $invalidThis = 'Invalid this'
+	, $invalidArgument = 'Invalid argument'
+	, $fromPrevious = '\nFrom previous '
+	, $promiseCircularChain = 'Chaining cycle detected for promise'
+	, $unhandledRejectionMsg = 'Uncaught (in promise)'
+	, $rejectionHandled = 'rejectionHandled'
+	, $unhandledRejection = 'unhandledRejection'
+
+	, $tryCatchFn
+	, $tryCatchThis
+	, $tryErr = { e: $null }
+	, $noop = function () {}
+	, $cleanStackReg = /^.+\/node_modules\/yaku\/.+\n?/mg
+	;
+
+	/**
+	* This class follows the [Promises/A+](https://promisesaplus.com) and
+	* [ES6](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects) spec
+	* with some extra helpers.
+	* @param  {Function} executor Function object with two arguments resolve, reject.
+	* The first argument fulfills the promise, the second argument rejects it.
+	* We can call these functions, once our operation is completed.
+	*/
+	var Yaku = function (executor) {
+	var self = this,
+		err;
+
+	// "this._s" is the internao state of: pending, resolved or rejected
+	// "this._v" is the internal value
+
+	if (!isObject(self) || self._s !== $undefined)
+		throw genTypeError($invalidThis);
+
+	self._s = $pending;
+
+	if (isLongStackTrace) self[$promiseTrace] = genTraceInfo();
+
+	if (executor !== $noop) {
+		if (!isFunction(executor))
+			throw genTypeError($invalidArgument);
+
+		err = genTryCatcher(executor)(
+			genSettler(self, $resolved),
+			genSettler(self, $rejected)
+		);
+
+		if (err === $tryErr)
+			settlePromise(self, $rejected, err.e);
+	}
+	};
+
+	Yaku['default'] = Yaku;
+
+	extend(Yaku.prototype, {
+	/**
+		* Appends fulfillment and rejection handlers to the promise,
+		* and returns a new promise resolving to the return value of the called handler.
+		* @param  {Function} onFulfilled Optional. Called when the Promise is resolved.
+		* @param  {Function} onRejected  Optional. Called when the Promise is rejected.
+		* @return {Yaku} It will return a new Yaku which will resolve or reject after
+		* @example
+		* the current Promise.
+		* ```js
+		* var Promise = require('yaku');
+		* var p = Promise.resolve(10);
+		*
+		* p.then((v) => {
+		*     console.log(v);
+		* });
+		* ```
+		*/
+	then: function (onFulfilled, onRejected) {
+		if (this._s === undefined) throw genTypeError();
+
+		return addHandler(
+			this,
+			newCapablePromise(Yaku.speciesConstructor(this, Yaku)),
+			onFulfilled,
+			onRejected
+		);
+	},
+
+	/**
+		* The `catch()` method returns a Promise and deals with rejected cases only.
+		* It behaves the same as calling `Promise.prototype.then(undefined, onRejected)`.
+		* @param  {Function} onRejected A Function called when the Promise is rejected.
+		* This function has one argument, the rejection reason.
+		* @return {Yaku} A Promise that deals with rejected cases only.
+		* @example
+		* ```js
+		* var Promise = require('yaku');
+		* var p = Promise.reject(new Error("ERR"));
+		*
+		* p['catch']((v) => {
+		*     console.log(v);
+		* });
+		* ```
+		*/
+	'catch': function (onRejected) {
+		return this.then($undefined, onRejected);
+	},
+
+	/**
+		* Register a callback to be invoked when a promise is settled (either fulfilled or rejected).
+		* Similar with the try-catch-finally, it's often used for cleanup.
+		* @param  {Function} onFinally A Function called when the Promise is settled.
+		* It will not receive any argument.
+		* @return {Yaku} A Promise that will reject if onFinally throws an error or returns a rejected promise.
+		* Else it will resolve previous promise's final state (either fulfilled or rejected).
+		* @example
+		* ```js
+		* var Promise = require('yaku');
+		* var p = Math.random() > 0.5 ? Promise.resolve() : Promise.reject();
+		* p.finally(() => {
+		*     console.log('finally');
+		* });
+		* ```
+		*/
+	'finally': function (onFinally) {
+		return this.then(function (val) {
+			return Yaku.resolve(onFinally()).then(function () {
+				return val;
+			});
+		}, function (err) {
+			return Yaku.resolve(onFinally()).then(function () {
+				throw err;
+			});
+		});
+	},
+
+	// The number of current promises that attach to this Yaku instance.
+	_c: 0,
+
+	// The parent Yaku.
+	_p: $null
+	});
+
+	/**
+	* The `Promise.resolve(value)` method returns a Promise object that is resolved with the given value.
+	* If the value is a thenable (i.e. has a then method), the returned promise will "follow" that thenable,
+	* adopting its eventual state; otherwise the returned promise will be fulfilled with the value.
+	* @param  {Any} value Argument to be resolved by this Promise.
+	* Can also be a Promise or a thenable to resolve.
+	* @return {Yaku}
+	* @example
+	* ```js
+	* var Promise = require('yaku');
+	* var p = Promise.resolve(10);
+	* ```
+	*/
+	Yaku.resolve = function (val) {
+	return isYaku(val) ? val : settleWithX(newCapablePromise(this), val);
+	};
+
+	/**
+	* The `Promise.reject(reason)` method returns a Promise object that is rejected with the given reason.
+	* @param  {Any} reason Reason why this Promise rejected.
+	* @return {Yaku}
+	* @example
+	* ```js
+	* var Promise = require('yaku');
+	* var p = Promise.reject(new Error("ERR"));
+	* ```
+	*/
+	Yaku.reject = function (reason) {
+	return settlePromise(newCapablePromise(this), $rejected, reason);
+	};
+
+	/**
+	* The `Promise.race(iterable)` method returns a promise that resolves or rejects
+	* as soon as one of the promises in the iterable resolves or rejects,
+	* with the value or reason from that promise.
+	* @param  {iterable} iterable An iterable object, such as an Array.
+	* @return {Yaku} The race function returns a Promise that is settled
+	* the same way as the first passed promise to settle.
+	* It resolves or rejects, whichever happens first.
+	* @example
+	* ```js
+	* var Promise = require('yaku');
+	* Promise.race([
+	*     123,
+	*     Promise.resolve(0)
+	* ])
+	* .then((value) => {
+	*     console.log(value); // => 123
+	* });
+	* ```
+	*/
+	Yaku.race = function (iterable) {
+	var self = this
+		, p = newCapablePromise(self)
+
+		, resolve = function (val) {
+			settlePromise(p, $resolved, val);
+		}
+
+		, reject = function (val) {
+			settlePromise(p, $rejected, val);
+		}
+
+		, ret = genTryCatcher(each)(iterable, function (v) {
+			self.resolve(v).then(resolve, reject);
+		});
+
+	if (ret === $tryErr) return self.reject(ret.e);
+
+	return p;
+	};
+
+	/**
+	* The `Promise.all(iterable)` method returns a promise that resolves when
+	* all of the promises in the iterable argument have resolved.
+	*
+	* The result is passed as an array of values from all the promises.
+	* If something passed in the iterable array is not a promise,
+	* it's converted to one by Promise.resolve. If any of the passed in promises rejects,
+	* the all Promise immediately rejects with the value of the promise that rejected,
+	* discarding all the other promises whether or not they have resolved.
+	* @param  {iterable} iterable An iterable object, such as an Array.
+	* @return {Yaku}
+	* @example
+	* ```js
+	* var Promise = require('yaku');
+	* Promise.all([
+	*     123,
+	*     Promise.resolve(0)
+	* ])
+	* .then((values) => {
+	*     console.log(values); // => [123, 0]
+	* });
+	* ```
+	* @example
+	* Use with iterable.
+	* ```js
+	* var Promise = require('yaku');
+	* Promise.all((function * () {
+	*     yield 10;
+	*     yield new Promise(function (r) { setTimeout(r, 1000, "OK") });
+	* })())
+	* .then((values) => {
+	*     console.log(values); // => [123, 0]
+	* });
+	* ```
+	*/
+	Yaku.all = function (iterable) {
+	var self = this
+		, p1 = newCapablePromise(self)
+		, res = []
+		, ret
+	;
+
+	function reject (reason) {
+		settlePromise(p1, $rejected, reason);
+	}
+
+	ret = genTryCatcher(each)(iterable, function (item, i) {
+		self.resolve(item).then(function (value) {
+			res[i] = value;
+			if (!--ret) settlePromise(p1, $resolved, res);
+		}, reject);
+	});
+
+	if (ret === $tryErr) return self.reject(ret.e);
+
+	if (!ret) settlePromise(p1, $resolved, []);
+
+	return p1;
+	};
+
+	/**
+	* The ES6 Symbol object that Yaku should use, by default it will use the
+	* global one.
+	* @type {Object}
+	* @example
+	* ```js
+	* var core = require("core-js/library");
+	* var Promise = require("yaku");
+	* Promise.Symbol = core.Symbol;
+	* ```
+	*/
+	Yaku.Symbol = root[$Symbol] || {};
+
+	// To support browsers that don't support `Object.defineProperty`.
+	genTryCatcher(function () {
+	Object.defineProperty(Yaku, getSpecies(), {
+		get: function () { return this; }
+	});
+	})();
+
+	/**
+	* Use this api to custom the species behavior.
+	* https://tc39.github.io/ecma262/#sec-speciesconstructor
+	* @param {Any} O The current this object.
+	* @param {Function} defaultConstructor
+	*/
+	Yaku.speciesConstructor = function (O, D) {
+	var C = O.constructor;
+
+	return C ? (C[getSpecies()] || D) : D;
+	};
+
+	/**
+	* Catch all possibly unhandled rejections. If you want to use specific
+	* format to display the error stack, overwrite it.
+	* If it is set, auto `console.error` unhandled rejection will be disabled.
+	* @param {Any} reason The rejection reason.
+	* @param {Yaku} p The promise that was rejected.
+	* @example
+	* ```js
+	* var Promise = require('yaku');
+	* Promise.unhandledRejection = (reason) => {
+	*     console.error(reason);
+	* };
+	*
+	* // The console will log an unhandled rejection error message.
+	* Promise.reject('my reason');
+	*
+	* // The below won't log the unhandled rejection error message.
+	* Promise.reject('v')["catch"](() => {});
+	* ```
+	*/
+	Yaku.unhandledRejection = function (reason, p) {
+	console && console.error(
+		$unhandledRejectionMsg,
+		isLongStackTrace ? p.longStack : genStackInfo(reason, p)
+	);
+	};
+
+	/**
+	* Emitted whenever a Promise was rejected and an error handler was
+	* attached to it (for example with `["catch"]()`) later than after an event loop turn.
+	* @param {Any} reason The rejection reason.
+	* @param {Yaku} p The promise that was rejected.
+	*/
+	Yaku.rejectionHandled = $noop;
+
+	/**
+	* It is used to enable the long stack trace.
+	* Once it is enabled, it can't be reverted.
+	* While it is very helpful in development and testing environments,
+	* it is not recommended to use it in production. It will slow down
+	* application and eat up memory.
+	* It will add an extra property `longStack` to the Error object.
+	* @example
+	* ```js
+	* var Promise = require('yaku');
+	* Promise.enableLongStackTrace();
+	* Promise.reject(new Error("err"))["catch"]((err) => {
+	*     console.log(err.longStack);
+	* });
+	* ```
+	*/
+	Yaku.enableLongStackTrace = function () {
+	isLongStackTrace = true;
+	};
+
+	/**
+	* Only Node has `process.nextTick` function. For browser there are
+	* so many ways to polyfill it. Yaku won't do it for you, instead you
+	* can choose what you prefer. For example, this project
+	* [next-tick](https://github.com/medikoo/next-tick).
+	* By default, Yaku will use `process.nextTick` on Node, `setTimeout` on browser.
+	* @type {Function}
+	* @example
+	* ```js
+	* var Promise = require('yaku');
+	* Promise.nextTick = require('next-tick');
+	* ```
+	* @example
+	* You can even use sync resolution if you really know what you are doing.
+	* ```js
+	* var Promise = require('yaku');
+	* Promise.nextTick = fn => fn();
+	* ```
+	*/
+	Yaku.nextTick = isBrowser ?
+	function (fn) {
+		nativePromise ?
+			new nativePromise(function (resolve) { resolve(); }).then(fn) :
+			setTimeout(fn);
+	} :
+	process.nextTick;
+
+	// ********************** Private **********************
+
+	Yaku._s = 1;
+
+	/**
+	* All static variable name will begin with `$`. Such as `$rejected`.
+	* @private
+	*/
+
+	// ******************************* Utils ********************************
+
+	function getSpecies () {
+	return Yaku[$Symbol][$species] || $speciesKey;
+	}
+
+	function extend (src, target) {
+	for (var k in target) {
+		src[k] = target[k];
+	}
+	}
+
+	function isObject (obj) {
+	return obj && typeof obj === 'object';
+	}
+
+	function isFunction (obj) {
+	return typeof obj === 'function';
+	}
+
+	function isInstanceOf (a, b) {
+	return a instanceof b;
+	}
+
+	function isError (obj) {
+	return isInstanceOf(obj, Err);
+	}
+
+	function ensureType (obj, fn, msg) {
+	if (!fn(obj)) throw genTypeError(msg);
+	}
+
+	/**
+	* Wrap a function into a try-catch.
+	* @private
+	* @return {Any | $tryErr}
+	*/
+	function tryCatcher () {
+	try {
+		return $tryCatchFn.apply($tryCatchThis, arguments);
+	} catch (e) {
+		$tryErr.e = e;
+		return $tryErr;
+	}
+	}
+
+	/**
+	* Generate a try-catch wrapped function.
+	* @private
+	* @param  {Function} fn
+	* @return {Function}
+	*/
+	function genTryCatcher (fn, self) {
+	$tryCatchFn = fn;
+	$tryCatchThis = self;
+	return tryCatcher;
+	}
+
+	/**
+	* Generate a scheduler.
+	* @private
+	* @param  {Integer}  initQueueSize
+	* @param  {Function} fn `(Yaku, Value) ->` The schedule handler.
+	* @return {Function} `(Yaku, Value) ->` The scheduler.
+	*/
+	function genScheduler (initQueueSize, fn) {
+	/**
+		* All async promise will be scheduled in
+		* here, so that they can be execute on the next tick.
+		* @private
+		*/
+	var fnQueue = Arr(initQueueSize)
+		, fnQueueLen = 0;
+
+	/**
+		* Run all queued functions.
+		* @private
+		*/
+	function flush () {
+		var i = 0;
+		while (i < fnQueueLen) {
+			fn(fnQueue[i], fnQueue[i + 1]);
+			fnQueue[i++] = $undefined;
+			fnQueue[i++] = $undefined;
+		}
+
+		fnQueueLen = 0;
+		if (fnQueue.length > initQueueSize) fnQueue.length = initQueueSize;
+	}
+
+	return function (v, arg) {
+		fnQueue[fnQueueLen++] = v;
+		fnQueue[fnQueueLen++] = arg;
+
+		if (fnQueueLen === 2) Yaku.nextTick(flush);
+	};
+	}
+
+	/**
+	* Generate a iterator
+	* @param  {Any} obj
+	* @private
+	* @return {Object || TypeError}
+	*/
+	function each (iterable, fn) {
+	var len
+		, i = 0
+		, iter
+		, item
+		, ret
+	;
+
+	if (!iterable) throw genTypeError($invalidArgument);
+
+	var gen = iterable[Yaku[$Symbol][$iterator]];
+	if (isFunction(gen))
+		iter = gen.call(iterable);
+	else if (isFunction(iterable.next)) {
+		iter = iterable;
+	}
+	else if (isInstanceOf(iterable, Arr)) {
+		len = iterable.length;
+		while (i < len) {
+			fn(iterable[i], i++);
+		}
+		return i;
+	} else
+		throw genTypeError($invalidArgument);
+
+	while (!(item = iter.next()).done) {
+		ret = genTryCatcher(fn)(item.value, i++);
+		if (ret === $tryErr) {
+			isFunction(iter[$return]) && iter[$return]();
+			throw ret.e;
+		}
+	}
+
+	return i;
+	}
+
+	/**
+	* Generate type error object.
+	* @private
+	* @param  {String} msg
+	* @return {TypeError}
+	*/
+	function genTypeError (msg) {
+	return new TypeError(msg);
+	}
+
+	function genTraceInfo (noTitle) {
+	return (noTitle ? '' : $fromPrevious) + new Err().stack;
+	}
+
+
+	// *************************** Promise Helpers ****************************
+
+	/**
+	* Resolve the value returned by onFulfilled or onRejected.
+	* @private
+	* @param {Yaku} p1
+	* @param {Yaku} p2
+	*/
+	var scheduleHandler = genScheduler(999, function (p1, p2) {
+	var x, handler;
+
+	// 2.2.2
+	// 2.2.3
+	handler = p1._s !== $rejected ? p2._onFulfilled : p2._onRejected;
+
+	// 2.2.7.3
+	// 2.2.7.4
+	if (handler === $undefined) {
+		settlePromise(p2, p1._s, p1._v);
+		return;
+	}
+
+	// 2.2.7.1
+	x = genTryCatcher(callHanler)(handler, p1._v);
+	if (x === $tryErr) {
+		// 2.2.7.2
+		settlePromise(p2, $rejected, x.e);
+		return;
+	}
+
+	settleWithX(p2, x);
+	});
+
+	var scheduleUnhandledRejection = genScheduler(9, function (p) {
+	if (!hashOnRejected(p)) {
+		p[$unhandled] = 1;
+		emitEvent($unhandledRejection, p);
+	}
+	});
+
+	function emitEvent (name, p) {
+	var browserEventName = 'on' + name.toLowerCase()
+		, browserHandler = root[browserEventName];
+
+	if (process && process.listeners(name).length)
+		name === $unhandledRejection ?
+			process.emit(name, p._v, p) : process.emit(name, p);
+	else if (browserHandler)
+		browserHandler({ reason: p._v, promise: p });
+	else
+		Yaku[name](p._v, p);
+	}
+
+	function isYaku (val) { return val && val._s; }
+
+	function newCapablePromise (Constructor) {
+	if (isYaku(Constructor)) return new Constructor($noop);
+
+	var p, r, j;
+	p = new Constructor(function (resolve, reject) {
+		if (p) throw genTypeError();
+
+		r = resolve;
+		j = reject;
+	});
+
+	ensureType(r, isFunction);
+	ensureType(j, isFunction);
+
+	return p;
+	}
+
+	/**
+	* It will produce a settlePromise function to user.
+	* Such as the resolve and reject in this `new Yaku (resolve, reject) ->`.
+	* @private
+	* @param  {Yaku} self
+	* @param  {Integer} state The value is one of `$pending`, `$resolved` or `$rejected`.
+	* @return {Function} `(value) -> undefined` A resolve or reject function.
+	*/
+	function genSettler (self, state) {
+	var isCalled = false;
+	return function (value) {
+		if (isCalled) return;
+		isCalled = true;
+
+		if (isLongStackTrace)
+			self[$settlerTrace] = genTraceInfo(true);
+
+		if (state === $resolved)
+			settleWithX(self, value);
+		else
+			settlePromise(self, state, value);
+	};
+	}
+
+	/**
+	* Link the promise1 to the promise2.
+	* @private
+	* @param {Yaku} p1
+	* @param {Yaku} p2
+	* @param {Function} onFulfilled
+	* @param {Function} onRejected
+	*/
+	function addHandler (p1, p2, onFulfilled, onRejected) {
+	// 2.2.1
+	if (isFunction(onFulfilled))
+		p2._onFulfilled = onFulfilled;
+	if (isFunction(onRejected)) {
+		if (p1[$unhandled]) emitEvent($rejectionHandled, p1);
+
+		p2._onRejected = onRejected;
+	}
+
+	if (isLongStackTrace) p2._p = p1;
+	p1[p1._c++] = p2;
+
+	// 2.2.6
+	if (p1._s !== $pending)
+		scheduleHandler(p1, p2);
+
+	// 2.2.7
+	return p2;
+	}
+
+	// iterate tree
+	function hashOnRejected (node) {
+	// A node shouldn't be checked twice.
+	if (node._umark)
+		return true;
+	else
+		node._umark = true;
+
+	var i = 0
+		, len = node._c
+		, child;
+
+	while (i < len) {
+		child = node[i++];
+		if (child._onRejected || hashOnRejected(child)) return true;
+	}
+	}
+
+	function genStackInfo (reason, p) {
+	var stackInfo = [];
+
+	function push (trace) {
+		return stackInfo.push(trace.replace(/^\s+|\s+$/g, ''));
+	}
+
+	if (isLongStackTrace) {
+		if (p[$settlerTrace])
+			push(p[$settlerTrace]);
+
+		// Hope you guys could understand how the back trace works.
+		// We only have to iterate through the tree from the bottom to root.
+		(function iter (node) {
+			if (node && $promiseTrace in node) {
+				iter(node._next);
+				push(node[$promiseTrace] + '');
+				iter(node._p);
+			}
+		})(p);
+	}
+
+	return (reason && reason.stack ? reason.stack : reason) +
+		('\n' + stackInfo.join('\n')).replace($cleanStackReg, '');
+	}
+
+	function callHanler (handler, value) {
+	// 2.2.5
+	return handler(value);
+	}
+
+	/**
+	* Resolve or reject a promise.
+	* @private
+	* @param  {Yaku} p
+	* @param  {Integer} state
+	* @param  {Any} value
+	*/
+	function settlePromise (p, state, value) {
+	var i = 0
+		, len = p._c;
+
+	// 2.1.2
+	// 2.1.3
+	if (p._s === $pending) {
+		// 2.1.1.1
+		p._s = state;
+		p._v = value;
+
+		if (state === $rejected) {
+			if (isLongStackTrace && isError(value)) {
+				value.longStack = genStackInfo(value, p);
+			}
+
+			scheduleUnhandledRejection(p);
+		}
+
+		// 2.2.4
+		while (i < len) {
+			scheduleHandler(p, p[i++]);
+		}
+	}
+
+	return p;
+	}
+
+	/**
+	* Resolve or reject promise with value x. The x can also be a thenable.
+	* @private
+	* @param {Yaku} p
+	* @param {Any | Thenable} x A normal value or a thenable.
+	*/
+	function settleWithX (p, x) {
+	// 2.3.1
+	if (x === p && x) {
+		settlePromise(p, $rejected, genTypeError($promiseCircularChain));
+		return p;
+	}
+
+	// 2.3.2
+	// 2.3.3
+	if (x !== $null && (isFunction(x) || isObject(x))) {
+		// 2.3.2.1
+		var xthen = genTryCatcher(getThen)(x);
+
+		if (xthen === $tryErr) {
+			// 2.3.3.2
+			settlePromise(p, $rejected, xthen.e);
+			return p;
+		}
+
+		if (isFunction(xthen)) {
+			if (isLongStackTrace && isYaku(x))
+				p._next = x;
+
+			// Fix https://bugs.chromium.org/p/v8/issues/detail?id=4162
+			if (isYaku(x))
+				settleXthen(p, x, xthen);
+			else
+				Yaku.nextTick(function () {
+					settleXthen(p, x, xthen);
+				});
+		} else
+			// 2.3.3.4
+			settlePromise(p, $resolved, x);
+	} else
+		// 2.3.4
+		settlePromise(p, $resolved, x);
+
+	return p;
+	}
+
+	/**
+	* Try to get a promise's then method.
+	* @private
+	* @param  {Thenable} x
+	* @return {Function}
+	*/
+	function getThen (x) { return x.then; }
+
+	/**
+	* Resolve then with its promise.
+	* @private
+	* @param  {Yaku} p
+	* @param  {Thenable} x
+	* @param  {Function} xthen
+	*/
+	function settleXthen (p, x, xthen) {
+	// 2.3.3.3
+	var err = genTryCatcher(xthen, x)(function (y) {
+		// 2.3.3.3.3
+		// 2.3.3.3.1
+		x && (x = $null, settleWithX(p, y));
+	}, function (r) {
+		// 2.3.3.3.3
+		// 2.3.3.3.2
+		x && (x = $null, settlePromise(p, $rejected, r));
+	});
+
+	// 2.3.3.3.4.1
+	if (err === $tryErr && x) {
+		// 2.3.3.3.4.2
+		settlePromise(p, $rejected, err.e);
+		x = $null;
+	}
+	}
+
+	root.Promise = Yaku;
+})();
+
+}
+
+if (!("Symbol"in self&&"unscopables"in self.Symbol
 )) {
 
 // Symbol.unscopables
@@ -6301,8 +7757,8 @@ Object.defineProperty(Symbol, 'unscopables', { value: Symbol('unscopables') });
 
 }
 
-if (!((function(e){try{if("WeakMap"in e&&0===WeakMap.length){var t={},a=new WeakMap([[t,"test"]])
-return"test"===a.get(t)&&!1===a["delete"](0)}return!1}catch(n){return!1}})(this)
+if (!((function(){try{if("WeakMap"in self&&0===self.WeakMap.length){var e={},t=new self.WeakMap([[e,"test"]])
+return"test"===t.get(e)&&!1===t["delete"](0)}return!1}catch(a){return!1}})()
 )) {
 
 // WeakMap
@@ -6346,6 +7802,7 @@ return"test"===a.get(t)&&!1===a["delete"](0)}return!1}catch(n){return!1}})(this)
 		try {
 			var iteratorRecord = GetIterator(iterable);
 			// 9. Repeat,
+			// eslint-disable-next-line no-constant-condition
 			while (true) {
 				// a. Let next be ? IteratorStep(iteratorRecord).
 				var next = IteratorStep(iteratorRecord);
@@ -6390,8 +7847,8 @@ return"test"===a.get(t)&&!1===a["delete"](0)}return!1}catch(n){return!1}})(this)
 				var index;
 				var length = iterable.length;
 				for (index = 0; index < length; index++) {
-					var k = iterable[index][0];
-					var v = iterable[index][1];
+					k = iterable[index][0];
+					v = iterable[index][1];
 					Call(adder, map, [k, v]);
 				}
 			}
@@ -6548,6 +8005,12 @@ return"test"===a.get(t)&&!1===a["delete"](0)}return!1}catch(n){return!1}})(this)
 	// 23.3.3.6 WeakMap.prototype [ @@toStringTag ]
 	// The initial value of the @@toStringTag property is the String value "WeakMap".
 	// This property has the attributes { [[Writable]]: false, [[Enumerable]]: false, [[Configurable]]: true }.
+	Object.defineProperty(WeakMap.prototype, Symbol.toStringTag, {
+		configurable: true,
+		enumerable: false,
+		writable: false,
+		value: 'WeakMap'
+	});
 
 	// Polyfill.io - Safari 8 implements WeakMap.name but as a non-writable property, which means it would throw an error if we try and write to it here.
 	if (!('name' in WeakMap)) {
@@ -6566,14 +8029,14 @@ return"test"===a.get(t)&&!1===a["delete"](0)}return!1}catch(n){return!1}})(this)
 	} catch (e) {
 		// IE8 throws an error here if we set enumerable to false.
 		// More info on table 2: https://msdn.microsoft.com/en-us/library/dd229916(v=vs.85).aspx
-		global['WeakMap'] = WeakMap;
+		global.WeakMap = WeakMap;
 	}
-}(this));
+}(self));
 
 }
 
-if (!((function(e){try{if("WeakSet"in e&&0===WeakSet.length){var t={},n=new WeakSet([t])
-return n.has(t)&&!1===n["delete"](0)}return!1}catch(r){return!1}})(this)
+if (!((function(e){try{if(Object.prototype.hasOwnProperty.call(e,"WeakSet")&&0===e.WeakSet.length){var t={},r=new e.WeakSet([t])
+return r.has(t)&&!1===r["delete"](0)}return!1}catch(a){return!1}})(self)
 )) {
 
 // WeakSet
@@ -6613,6 +8076,7 @@ return n.has(t)&&!1===n["delete"](0)}return!1}catch(r){return!1}})(this)
 			// 8. Let iteratorRecord be ? GetIterator(iterable).
 			var iteratorRecord = GetIterator(iterable);
 			// 9. Repeat,
+			// eslint-disable-next-line no-constant-condition
 			while (true) {
 				// a. Let next be ? IteratorStep(iteratorRecord).
 				var next = IteratorStep(iteratorRecord);
@@ -6776,12 +8240,12 @@ return n.has(t)&&!1===n["delete"](0)}return!1}catch(r){return!1}})(this)
 	} catch (e) {
 		// IE8 throws an error here if we set enumerable to false.
 		// More info on table 2: https://msdn.microsoft.com/en-us/library/dd229916(v=vs.85).aspx
-		global['WeakSet'] = WeakSet;
+		global.WeakSet = WeakSet;
 	}
 
-}(this));
+}(self));
 
 }
 
 })
-.call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});

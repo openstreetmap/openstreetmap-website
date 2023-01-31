@@ -4,7 +4,6 @@
 # Author: AivoK
 # Author: Avjoska
 # Author: Kanne
-# Author: Kareyac
 # Author: Luckas
 # Author: Macofe
 # Author: MidnightRaver
@@ -96,7 +95,7 @@ et:
         title: Teema
         latitude: Laius
         longitude: Pikkus
-        language_code: Keel
+        language: Keel
       doorkeeper/application:
         name: Nimi
         redirect_uri: Ümbersuunamise URI-d
@@ -218,7 +217,7 @@ et:
         reopened_at_html: Taasaktiveeritud %{when}
         reopened_at_by_html: Taasaktiveerinud %{user} %{when}
       rss:
-        title: OpenStreetMapi märkused
+        title: OpenHistoricalMapi märkused
         description_area: Loetelu märkustest mida teatati, kommenteeriti või suleti
           sinu piirkonnas [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Märkuse %{id} RSS uudisvoog
@@ -235,20 +234,20 @@ et:
         title: Konto kustutamine
         warning: Hoiatus! Konto kustutamine on jäädav. Seda ei saa tagasi pöörata.
         delete_account: Kustuta konto
-        delete_introduction: 'Saad enda OpenStreetMapi konto kustutada, kasutades
+        delete_introduction: 'Saad enda OpenHistoricalMapi konto kustutada, kasutades
           allolevat nuppu. Palun pea silmas järgmisi üksikasju:'
         delete_profile: Sinu profiiliteave, sealhulgas avatar, kirjeldus ja kodu asukoht
           eemaldatakse.
         delete_display_name: Sinu kuvatav nimi eemaldatakse ja mõni teine konto saab
           seda kasutada.
-        retain_caveats: Samas järgmine teave sinu kohta säilib OpenStreetMapis ka
-          pärast konto kustutamist.
+        retain_caveats: Samas järgmine teave sinu kohta säilib OpenHistoricalMapis
+          ka pärast konto kustutamist.
         retain_edits: Sinu muudatused kaardiandmebaasis säilivad, kui oled neid teinud.
         retain_traces: Sinu rajad säilivad, kui oled neid üles laadinud.
-        retain_diary_entries: Sinu päeviku sissekanded ja päeviku kommentaarid säilivad,
-          kui oled neid kirjutanud, kuid need peidetakse.
-        retain_notes: Sinu märkused kaardil ja märkuste kommentaarid säilivad, kui
-          oled neid kirjutanud, kuid need peidetakse.
+        retain_diary_entries: Sinu päeviku sissekanded ja päeviku kommentaarid, kui
+          oled neid kirjutanud, säilivad, kuid need peidetakse.
+        retain_notes: Sinu märkused kaardil ja märkuste kommentaarid, kui oled neid
+          kirjutanud, säilivad, kuid need peidetakse.
         retain_changeset_discussions: Sinu kommentaarid muudatuskogumites säilivad,
           kui oled neid kirjutanud.
         retain_email: Sinu e-posti aadress säilib.
@@ -261,10 +260,12 @@ et:
       current email address: Praegune e-posti aadress
       external auth: Väline autentimine
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: mis see on?
       public editing:
         heading: Avalik toimetamine
         enabled: Lubatud. Pole anonüümne ja saab andmeid muuta.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: mis see on?
         disabled: Keelatud ja ei saa andmeid muuta, kõik varasemad muudatused on anonüümsed.
         disabled link text: Miks ma ei saa kaarti töödelda?
@@ -423,7 +424,7 @@ et:
       reopened_by_html: Taasaktiveerinud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Taasaktiveerinud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Peitnud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: sellest märkusest teada anda
+      report: Teata sellest märkusest
     query:
       title: Info objektide kohta
       introduction: Klõpsa kaardil, et leida läheduses asuvad objektid.
@@ -447,7 +448,6 @@ et:
     index:
       title: Muudatuskogumid
       title_user: Kasutaja %{user} muudatuskogumid
-      title_user_link_html: Kasutaja %{user_link} muudatuskogumid
       title_friend: Sõprade muudatuskogumid
       title_nearby: Läheduses asuvate kasutajate muudatuskogumid
       empty: Muudatuskogumeid ei leitud.
@@ -466,8 +466,8 @@ et:
     comments:
       comment: 'Uus kommentaar muudatuskogumi #%{changeset_id} kohta kasutajalt %{author}'
     index:
-      title_all: OpenStreetMapi muudatuskogumi arutelu
-      title_particular: 'OpenStreetMapi muudatuskogumi #%{changeset_id} arutelu'
+      title_all: OpenHistoricalMapi muudatuskogumi arutelu
+      title_particular: 'OpenHistoricalMapi muudatuskogumi #%{changeset_id} arutelu'
   dashboards:
     contact:
       km away: '%{count} kilomeetri kaugusel'
@@ -546,19 +546,16 @@ et:
       edit: muuda
     feed:
       user:
-        title: Kasutaja %{user} OpenStreetMapi päeviku sissekanded
-        description: Kasutaja %{user} hiljutised OpenStreetMapi päeviku sissekanded
+        title: Kasutaja %{user} OpenHistoricalMapi päeviku sissekanded
+        description: Kasutaja %{user} hiljutised OpenHistoricalMapi päeviku sissekanded
       language:
-        title: OpenStreetMapi päevikusissekanded keeles %{language_name}
-        description: Hiljutised OpenStreetMapi kasutajate päevikusissekanded keeles
+        title: OpenHistoricalMapi päevikusissekanded keeles %{language_name}
+        description: Hiljutised OpenHistoricalMapi kasutajate päevikusissekanded keeles
           %{language_name}
       all:
-        title: OpenStreetMapi päevikusissekanded
-        description: Hiljutised OpenStreetMapi kasutajate päevikusissekanded
+        title: OpenHistoricalMapi päevikusissekanded
+        description: Hiljutised OpenHistoricalMapi kasutajate päevikusissekanded
     comments:
-      title: Kasutaja %{user} lisatud päeviku kommentaarid
-      heading: Kasutaja %{user} päeviku kommentaarid
-      subheading_html: Päeviku kommentaarid, mille on lisanud kasutaja %{user}
       no_comments: Päeviku kommentaarid puuduvad.
       post: Postitus
       when: Millal
@@ -586,17 +583,20 @@ et:
     search:
       title:
         latlon_html: <a href="https://openstreetmap.org/">Sisemised</a> tulemused
-        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a> tulemused
+        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatimi</a> tulemused
-        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a>i tulemused
+        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatimi</a> tulemused
+        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNamesi</a> tulemused
     search_osm_nominatim:
       prefix:
         aeroway:
-          gate: Lennujaama värav
+          gate: Värav
           helipad: Kopteriväljak
           taxiway: Ruleerimisrada
-          terminal: Lennujaama terminal
+          terminal: Terminal
         amenity:
           arts_centre: Kunstikeskus
           atm: Pangaautomaat
@@ -631,7 +631,7 @@ et:
           ferry_terminal: Praamiterminal
           fire_station: Tuletõrjedepoo
           fountain: Purskkaev
-          fuel: Tankla
+          fuel: Kütus
           grave_yard: Surnuaed
           hospital: Haigla
           hunting_stand: Jahikantsel
@@ -702,7 +702,6 @@ et:
           university: Ülikoolihoone
           "yes": Hoone
         craft:
-          blacksmith: Sepp
           brewery: Pruulikoda
           carpenter: Puusepp
           electrician: Elektrik
@@ -723,13 +722,11 @@ et:
           bus_stop: Bussipeatus
           construction: Ehitusjärgus tee
           corridor: Koridor
-          crossing: Ülekäik
           cycleway: Jalgrattatee
           elevator: Elevaator
           emergency_access_point: Hädaabi punkt
           footway: Jalgrada
           ford: Koolmekoht
-          give_way: Märk "Anna teed"
           living_street: Õueala
           milestone: Verstapost
           motorway: Kiirtee
@@ -744,7 +741,6 @@ et:
           service: Teenindustee
           speed_camera: Kiiruskaamera
           steps: Trepp
-          stop: Stoppmärk
           street_lamp: Tänavavalgusti
           tertiary: Kohalik maantee
           traffic_signals: Valgusfoor
@@ -928,7 +924,6 @@ et:
           car_repair: Autoparandus
           carpet: Vaibakauplus
           charity: Heategevuslik kauplus
-          cheese: Juustupood
           chemist: Apteek
           clothes: Riidepood
           computer: Arvutikauplus
@@ -954,7 +949,6 @@ et:
           kiosk: Kiosk
           laundry: Pesumaja
           mall: Ostukeskus
-          massage: Massaaž
           mobile_phone: Mobiiltelefonide pood
           motorcycle: Mootorrattapood
           music: Muusikapood
@@ -1070,7 +1064,7 @@ et:
       provide_details: Palun sisesta nõutavad üksikasjad
   layouts:
     logo:
-      alt_text: OpenStreetMapi logo
+      alt_text: OpenHistoricalMapi logo
     home: Kodu asukohta
     logout: Logi välja
     log_in: Logi sisse
@@ -1089,64 +1083,62 @@ et:
     user_diaries_tooltip: Vaata kasutajate päevikuid
     edit_with: Redigeeri rakendusega %{editor}
     tag_line: Vaba viki-maailmakaart
-    intro_header: Tere tulemast OpenStreetMapi!
-    intro_text: OpenStreetMap on maailma kaart, mille on loonud inimesed nagu sina
-      ja seda võib vabalt kasutada avatud litsentsi tingimustel.
+    intro_header: Tere tulemast OpenHistoricalMapi!
+    intro_text: OpenHistoricalMap on maailma kaart, mille on loonud inimesed nagu
+      sina ja seda võib vabalt kasutada avatud litsentsi tingimustel.
     intro_2_create_account: loo oma konto
     hosting_partners_html: Majutust toetavad %{ucl}, %{fastly}, %{bytemark} ja teised
       %{partners}.
-    partners_ucl: UCL
-    partners_bytemark: Bytemark Hosting
     partners_partners: partnerid
-    osm_offline: OpenStreetMapi andmebaas ei ole hetkel juurdepääsetav sest teostatakse
+    osm_offline: OpenHistoricalMapi andmebaas ei ole hetkel juurdepääsetav sest teostatakse
       vajalikke hooldustöid.
-    osm_read_only: OpenStreetMapi andmebaas on hetkel oluliste hooldustööde tõttu
+    osm_read_only: OpenHistoricalMapi andmebaas on hetkel oluliste hooldustööde tõttu
       ligipääsetav ainult lugemiseks.
-    donate: Toeta OpenStreetMapi %{link} Riistvara Uuendamise Fondi.
+    donate: Toeta OpenHistoricalMapi %{link} Riistvara Uuendamise Fondi.
     help: Juhend
     about: Teave
     copyright: Autoriõigused
-    communities: Kogukonnad
     community: Kogukond
     community_blogs: Kogukonna blogid
-    community_blogs_title: OpenStreetMapi kogukonna liikmete blogid
+    community_blogs_title: OpenHistoricalMapi kogukonna liikmete blogid
     foundation: Sihtasutus
-    foundation_title: OpenStreetMapi Sihtasutus
+    foundation_title: OpenHistoricalMapi Sihtasutus
     make_a_donation:
-      title: Toeta OpenStreetMapi rahaliselt
+      title: Toeta OpenHistoricalMapi rahaliselt
       text: Anneta
     learn_more: Lisateave
     more: Veel
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} kommenteeris päeviku sissekannet'
+      subject: '[OpenHistoricalMap] %{user} kommenteeris päeviku sissekannet'
       hi: Tere, %{to_user}!
-      header: '%{from_user} kommenteeris hiljutist OpenStreetMapi päevikusissekannet
+      header: '%{from_user} kommenteeris hiljutist OpenHistoricalMapi päevikusissekannet
         pealkirjaga %{subject}:'
       footer: Saad lugeda kommentaari aadressil %{readurl}. Samuti saad lisada kommentaari
         aadressil %{commenturl} või saata autorile sõnumi aadressil %{replyurl}.
     message_notification:
       hi: Tere, %{to_user}
-      header: '%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga %{subject}:'
+      header: '%{from_user} on saatnud sulle OpenHistoricalMapi kaudu sõnumi teemaga
+        %{subject}:'
       footer_html: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
         aadressil %{replyurl}.
     friendship_notification:
       hi: Tere, %{to_user}
-      subject: '[OpenStreetMap] %{user} lisas sind oma sõbraks'
-      had_added_you: '%{user} lisas sind OpenStreetMapis sõbraks.'
+      subject: '[OpenHistoricalMap] %{user} lisas sind oma sõbraks'
+      had_added_you: '%{user} lisas sind OpenHistoricalMapis sõbraks.'
       see_their_profile: Tema profiiliga võid tutvuda aadressil %{userurl}.
       befriend_them: Sa võid ta lisada oma sõbraks aadressil %{befriendurl}.
     gpx_failure:
       failed_to_import: 'importimine ebaõnnestus. Siin on viga:'
-      subject: '[OpenStreetMap] GPX importimine nurjus'
+      subject: '[OpenHistoricalMap] GPX importimine nurjus'
     gpx_success:
       loaded_successfully:
         one: laaditi üles edukalt %{trace_points} punkt võimalikust ühest punktist.
         other: laaditi üles edukalt %{trace_points} punkti võimalikust %{possible_points}
           punktist.
-      subject: '[OpenStreetMap] GPX Importimine õnnestus'
+      subject: '[OpenHistoricalMap] GPX Importimine õnnestus'
     signup_confirm:
-      subject: '[OpenStreetMap] Tere tulemast OpenStreetMapi'
+      subject: '[OpenHistoricalMap] Tere tulemast OpenHistoricalMapi'
       greeting: Tere!
       created: Keegi (loodetavasti sina) lõi äsja saidil %{site_url} kasutajakonto.
       confirm: 'Enne kasutajakonto loomist peame saama kinnituse, et see taotlus tuli
@@ -1154,14 +1146,14 @@ et:
       welcome: Peale seda, kui oled kinnitanud enda konto pakume sulle lisainfot,
         et saaksid kasutamist hõlpsalt alustada.
     email_confirm:
-      subject: '[OpenStreetMap] Kinnita oma e-posti aadress'
+      subject: '[OpenHistoricalMap] Kinnita oma e-posti aadress'
       greeting: Tere!
       hopefully_you: Keegi (loodetavasti sina) soovib muuta oma meiliaadressi asukohas
         %{server_url} kujule %{new_address}.
       click_the_link: Kui see oled sina, siis klõpsa palun alloleval lingil, et muudatus
         kinnitada.
     lost_password:
-      subject: '[OpenStreetMap] Parooli lähtestamise taotlus'
+      subject: '[OpenHistoricalMap] Parooli lähtestamise taotlus'
       greeting: Tere!
       hopefully_you: Keegi (tõenäoliselt sina) on esitanud taotluse, et lähtestada
         selle e-posti aadressiga openstreetmap.org-i konto parool.
@@ -1171,23 +1163,25 @@ et:
       anonymous: Anonüümne kasutaja
       greeting: Tere!
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} on kommenteerinud ühte sinu märkust'
-        subject_other: '[OpenStreetMap] %{commenter} on kommenteerinud märkust, millest
-          oled huvitatud'
+        subject_own: '[OpenHistoricalMap] %{commenter} on kommenteerinud ühte sinu
+          märkust'
+        subject_other: '[OpenHistoricalMap] %{commenter} on kommenteerinud märkust,
+          millest oled huvitatud'
         your_note: '%{commenter} on jätnud kommentaari ühele sinu märkusele koha %{place}
           lähedal.'
         commented_note: '%{commenter} on jätnud kommentaari märkusele, mida oled kommenteerinud.
           Märkus on koha %{place} lähedal.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} on lahendanud ühe sinu märkuse'
-        subject_other: '[OpenStreetMap] %{commenter} on lahendanud ühe märkuse, millest
-          oled huvitatud'
+        subject_own: '[OpenHistoricalMap] %{commenter} on lahendanud ühe sinu märkuse'
+        subject_other: '[OpenHistoricalMap] %{commenter} on lahendanud ühe märkuse,
+          millest oled huvitatud'
         your_note: '%{commenter} on lahendanud ühe sinu märkuse koha %{place} lähedal.'
         commented_note: '%{commenter} on lahendanud märkuse, mida oled kommenteerinud.
           Märkus on koha %{place} lähedal.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} on taasaktiveerinud ühe sinu märkustest'
-        subject_other: '[OpenStreetMap] %{commenter} on taasaktiveerinud ühe märkuse,
+        subject_own: '[OpenHistoricalMap] %{commenter} on taasaktiveerinud ühe sinu
+          märkustest'
+        subject_other: '[OpenHistoricalMap] %{commenter} on taasaktiveerinud ühe märkuse,
           millest sa huvitatud oled'
         your_note: '%{commenter} on taasaktiveerinud ühe sinu märkuse koha %{place}
           lähedal.'
@@ -1198,8 +1192,9 @@ et:
       hi: Tere, %{to_user}
       greeting: Tere!
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} on kommenteerinud üht sinu muudatuskogumit'
-        subject_other: '[OpenStreetMap] %{commenter} on kommenteerinud muudatuskogumit,
+        subject_own: '[OpenHistoricalMap] %{commenter} on kommenteerinud üht sinu
+          muudatuskogumit'
+        subject_other: '[OpenHistoricalMap] %{commenter} on kommenteerinud muudatuskogumit,
           millest sa oled huvitunud'
         your_changeset: '%{commenter} jättis kommentaari ühele sinu muudatuskogumile
           (%{time})'
@@ -1367,16 +1362,19 @@ et:
       lost password link: Kas unustasid parooli?
       login_button: Logi sisse
       register now: 'Registreeru:'
-      with username: 'Kas sul on juba OpenStreetMapi konto? Palun logi sisse oma kasutajanime
-        ja parooliga:'
+      with username: 'Kas sul on juba OpenHistoricalMapi konto? Palun logi sisse oma
+        kasutajanime ja parooliga:'
       with external: 'Teise võimalusena võid sisse logida kolmanda osapoole kaudu:'
-      new to osm: Kas OpenStreetMap on sulle uus?
-      to make changes: Et OpenStreetMapi andmeid muuta, peab sul olema kasutajakonto.
+      new to osm: Kas OpenHistoricalMap on sulle uus?
+      to make changes: Et OpenHistoricalMapi andmeid muuta, peab sul olema kasutajakonto.
       create account minute: Loo kasutajakonto. See võtab vaid hetke.
       no account: Sa ei ole veel registreerinud kasutajaks?
       account not active: Vabandust, sinu kasutajakonto ei ole veel aktiivne.<br />Aktiveerimiseks
         klõpsa palun lingil, mis saadeti sulle meiliga, või <a href="%{reconfirm}">taotle
         uut kontot kinnitavat meili</a>.
+      account is suspended: Vabandust, sinu konto tegevus on peatatud kahtlase tegevuse
+        tõttu.<br />Palun võta ühendust <a href="%{webmaster}">toega</a>, kui soovid
+        selle teema üle arutada.
       auth failure: Kahjuks ei õnnestu nende andmetega sisse logida.
       openid_logo_alt: Logi sisse OpenID-ga
       auth_providers:
@@ -1406,7 +1404,7 @@ et:
           alt: Logi sisse AOL-i OpenID-ga
     destroy:
       title: Logi välja
-      heading: Logi OpenStreetMapist välja
+      heading: Logi OpenHistoricalMapist välja
       logout_button: Logi välja
   shared:
     markdown_help:
@@ -1427,37 +1425,37 @@ et:
   site:
     about:
       next: Edasi
-      copyright_html: <span>&copy;</span>OpenStreetMapi<br>kaastöölised
-      used_by_html: '%{name} varustab kaardiandmetega tuhandeid veebisaite, mobiilirakendusi
-        ja riistvaraseadmeid.'
-      lede_text: OpenStreetMapi koostab kaardistajate kogukond, mis täiendab ja haldab
-        andmeid teede, radade, kohvikute, raudteejaamade ja paljude teiste objektide
-        kohta üle kogu maailma.
+      copyright_html: <span>&copy;</span>OpenHistoricalMapi<br>kaastöölised
+      used_by_html: OpenHistoricalMap varustab kaardiandmetega tuhandeid veebisaite,
+        mobiilirakendusi ja riistvaraseadmeid.
+      lede_text: OpenHistoricalMapi koostab kaardistajate kogukond, mis täiendab ja
+        haldab andmeid teede, radade, kohvikute, raudteejaamade ja paljude teiste
+        objektide kohta üle kogu maailma.
       local_knowledge_title: Kohalik teave
-      local_knowledge_html: OpenStreetMapi rõhuasetus on kohalikul teabel. Kaastöölised
+      local_knowledge_html: OpenHistoricalMapi rõhuasetus on kohalikul teabel. Kaastöölised
         kasutavad aerofotosid, GPS-seadmeid ja muid välikaardistuse vahendeid, et
         kontrollida OSMi andmete täpsust ja ajakohasust.
       community_driven_title: Kogukonnapõhine
       community_driven_html: |-
-        OpenStreetMapi kogukond on laiahaardeline ja entusiastlik ning suureneb iga päevaga.
+        OpenHistoricalMapi kogukond on laiahaardeline ja entusiastlik ning suureneb iga päevaga.
         Meie kaastöölisteks on innukad kaardistajad, GIS-spetsialistid, tehnikud, kes
         hoiavad töös OSM-i servereid, humanitaarabitöötajad, kes kaardistavad õnnetuspiirkondi,
         ja paljud teised.
         Et kogukonnaga tutvuda, vaata
-        <a href='https://blog.openstreetmap.org'>OpenStreetMapi blogi</a>,
+        <a href='https://blog.openstreetmap.org'>OpenHistoricalMapi blogi</a>,
         <a href='%{diary_path}'>kasutajate päevikuid</a>,
         <a href='https://blogs.openstreetmap.org/'>kogukonnablogisid</a> ja
         <a href='https://www.osmfoundation.org/'>OSM Foundationi</a> veebisaiti.
       open_data_title: Avaandmed
       open_data_html: |-
-        OpenStreetMapi andmed on <i>avaandmed</i>. See tähendab, et tohid andmeid vabalt
-        kasutada igal eesmärgil, kui viitad OpenStreetMapile ja selle kaastöölistele.
+        OpenHistoricalMapi andmed on <i>avaandmed</i>. See tähendab, et tohid andmeid vabalt
+        kasutada igal eesmärgil, kui viitad OpenHistoricalMapile ja selle kaastöölistele.
         Kui muudad andmeid või lood nende põhjal midagi uut, siis tohid tulemust levitada
         ainult sama litsentsi alusel. Üksikasjad leiad
         <a href='%{copyright_path}'>autoriõiguste ja litsentsi lehelt</a>.
       legal_title: Juriidiline teave
       legal_1_html: "Seda saiti ja paljusid teisi seotud teenuseid haldab ametlikult
-        \n<a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
+        \n<a href='https://osmfoundation.org/'>OpenHistoricalMap Foundation</a> (OSMF)
         \nkogukonna nimel. Kõigis OSMF-i hallatavates teenustes kehtivad meie <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">kasutustingimused</a>,
         <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">võrgueeskiri</a>
         ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">andmekaitsereeglid</a>."
@@ -1465,7 +1463,7 @@ et:
         Palun <a href='https://osmfoundation.org/Contact'>võta ühendust OSMF-iga</a>,
         kui sul on küsimusi litsentsimise, autoriõiguse või muude õiguslike teemade kohta.
         <br>
-        OpenStreetMap, suurendusklaasi logo ja State of the Map on <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF-i registreeritud kaubamärgid</a>.
+        OpenHistoricalMap, suurendusklaasi logo ja State of the Map on <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF-i registreeritud kaubamärgid</a>.
       partners_title: Partnerid
     copyright:
       foreign:
@@ -1483,111 +1481,50 @@ et:
       legal_babble:
         title_html: Autoriõigused ja litsents
         intro_1_html: |-
-          OpenStreetMapi<sup><a href="#trademarks">&reg;</a></sup> andmed on <i>avaandmed</i>, mille
-          <a href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) on avaldanud Open Data Commonsi litsentsi <a href="https://opendatacommons.org/licenses/odbl/">Open Database License</a> (ODbL) all.
+          OpenHistoricalMapi<sup><a href="#trademarks">&reg;</a></sup> andmed on <i>avaandmed</i>, mille
+          <a href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF) on avaldanud Open Data Commonsi litsentsi <a href="https://opendatacommons.org/licenses/odbl/">Open Database License</a> (ODbL) all.
         intro_2_html: |-
           Tohid andmeid vabalt kopeerida, levitada, edastada ja kohandada,
-          kui viitad OpenStreetMapile ja selle kaastöölistele.
+          kui viitad OpenHistoricalMapile ja selle kaastöölistele.
           Kui muudad andmeid või teed neist tuletise, siis tohid
           tulemust levitada ainult sama litsentsi tingimustel.
           Sinu õigusi ja kohustusi selgitab litsentsi <a href="https://opendatacommons.org/licenses/odbl/1.0/">täistekst</a>.
         intro_3_1_html: |-
           Meie dokumentatsioon kuulub Creative Commonsi
           litsentsi "<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.et">Autorile viitamine + jagamine samadel tingimustel 2.0</a>" (CC BY-SA 2.0) alla.
-        credit_title_html: OpenStreetMapile viitamine
-        credit_1_html: 'Seal, kus kasutad OpenStreetMapi andmeid, tuleb sul teha kaht
-          järgmist asja:'
+        credit_title_html: OpenHistoricalMapile viitamine
+        credit_1_html: |-
+          Nõuame, et kasutad omistamiseks teksti &ldquo;&copy; OpenHistoricalMapi
+          kaastöölised&rdquo;.
         credit_2_1_html: |-
-          <ul>
-            <li>Viidata OpenStreetMapile, kuvades meie autoriõiguse teatist.</li>
-            <li>Näidata selgelt, et andmed on saadaval litsentsi Open Database License all.</li>
-          </ul>
-        credit_3_1_html: |-
-          Nõuded selle kohta, kuidas autoriõiguse teatist kuvada, sõltuvad sellest,
-          kuidas andmeid kasutad. Näiteks kohalduvad erinevad reeglid sõltuvalt
-          sellest, kas oled teinud sirvitava kaardi, trükikaardi või staatilise pildi.
-          Kõik üksikasjad nõuete kohta leiad <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">omistamisjuhendist</a>.
-        credit_4_html: |-
-          Näitamaks selgelt, et andmed on saadaval litsentsi Open
-          Database License all, võid linkida
-          <a href="https://www.openstreetmap.org/copyright">sellele autoriõiguse leheküljele</a>.
-          Teise võimalusena ning ka nõudena, kui levitad OSM-i andmete kujul,
-          saad nimetada litsentsi(d) ja linkida otse sellele. Meediumites,
-          kus see pole võimalik (nt trükiteostes), soovitame juhatada
-          lugejad aadressidele openstreetmap.org (võid näiteks asendada nime
-          "OpenStreetMap" selle täieliku aadressiga) ja opendatacommons.org.
-          Selles näites on viide autoritele kaardi nurgas.
+          Samuti pead selgelt välja tooma, et andmed kuuluvad litsentsi Open
+          Database License alla ja kui kasutatakse kaardipaane, siis et kujutised
+          kuuluvad litsentsi CC BY-SA alla. Üks võimalus selleks on linkida
+          <a href="https://www.openstreetmap.org/copyright">siia autoriõiguse leheküljele</a>.
+          Teine võimalus ja samas ka nõue, kui levitad OSM-i
+          andmete kujul, on nimetada litsentsid ja linkida otse neile. Esitusvormis,
+          kus lingid pole võimalikud (nt trükises), soovitame suunata lugejad
+          aadressidele openstreetmap.org (võimalik, et laiendades teksti
+          "OpenHistoricalMap" täisaadressiks), opendatacommons.org ja
+          kui vaja, siis ka aadressile creativecommons.org.
         attribution_example:
-          alt: Näide, kuidas tunnustada OpenStreetMapi veebilehel
+          alt: Näide, kuidas tunnustada OpenHistoricalMapi veebilehel
           title: Omistamise näide
         more_title_html: Lisateave
         more_1_html: Loe <a href="https://osmfoundation.org/Licence">OSMF-i litsentsileheküljelt</a>
           veel andmete kasutamise kohta ja sellest, kuidas meile viidata.
-        more_2_html: |-
-          Kuigi OpenStreetMapi andmed on avaandmed, ei saa me pakkuda
-          kaardi juures tasuta API-t kolmandatele osapooltele.
-          Vaata meie <a href="https://operations.osmfoundation.org/policies/api/">API kasutusreegleid</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles/">kaardipaanide kasutusreegleid</a>
-          ja <a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatimi kasutusreegleid</a>.
         contributors_title_html: Meie kaastöölised
         contributors_intro_html: |-
           Meie kaastöölised on tuhanded üksikisikud. Samuti oleme kaasanud
           vabalt litsentseeritud andmeid riiklikest kaardistusteenistustest
           ja muudest allikatest, sealhulgas:
-        contributors_at_html: "<strong>Austria</strong>: Sisaldab andmeid\n<a href=\"https://data.wien.gv.at/\">Viini
-          linnast</a> \n(<a href=\"https://creativecommons.org/licenses/by/3.0/at/deed.de\">CC
-          BY</a> tingimustel),\n<a href=\"https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Vorarlbergi
-          liidumaast</a> ja\nTirooli liidumaast (<a href=\"https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC
-          BY AT tingimustel koos õiendustega</a>)."
-        contributors_au_html: "<strong>Austraalia</strong>: Sisaldab andmeid või on
-          tuletatud andmetest, mille allikas on \n<a href=\"https://geoscape.com.au/legal/data-copyright-and-disclaimer/\">Geoscape
-          Australia</a>\nja mille kasutust lubab Austraalia Ühendus rahvusvahelise
-          litsentsi \n<a href=\"https://creativecommons.org/licenses/by/4.0/deed.et\">\"Autorile
-          viitamine 4.0\" (CC BY 4.0)</a> tingimustel."
-        contributors_ca_html: |-
-          <strong>Kanada</strong>: Sisaldab andmekogude
-          GeoBase&reg;, GeoGratis (&copy; Kanada loodusvarade
-          ministeerium), CanVec (&copy; Kanada loodusvarade
-          ministeerium) ja StatCan (Kanada statistikaameti
-          geograafia osakond) andmeid.
-        contributors_fi_html: |-
-          <strong>Soome</strong>: Sisaldab andmeid, mis on pärit
-          Soome riikliku maa-ameti topograafia andmekogust
-          ja teistest andmestikest. Andmed on kasutatavad <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI litsentsi</a> tingimustel.
-        contributors_fr_html: '<strong>Prantsusmaa</strong>: Sisaldab kaardiandmeid,
-          mis on pärit maksuametist (Direction Générale des Impôts).'
-        contributors_nl_html: |-
-          <strong>Holland</strong>: Sisaldab ettevõtte &copy; AND andmeid
-          (2007, <a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: "<strong>Uus-Meremaa</strong>: Sisaldab teenuse \n<a
-          href=\"https://data.linz.govt.nz/\">LINZ Data Service</a> andmeid, mis on
-          kasutatavad litsentsi\n<a href=\"https://creativecommons.org/licenses/by/4.0/deed.et\">CC
-          BY 4.0</a> tingimustel."
-        contributors_si_html: |-
-          <strong>Sloveenia</strong>: Sisaldab
-          <a href="http://www.gu.gov.si/en/">mõõdistus- ja kaardistusteenistuse</a> ning
-          <a href="http://www.mkgp.gov.si/en/">põllu-, metsa- ja toidumajandusministeeriumi</a> andmeid
-          (Sloveenia avalik informatsioon).
-        contributors_es_html: "<strong>Hispaania</strong>: Sisaldab Hispaania riikliku
-          geograafiainstituudi (<a href=\"http://www.ign.es/\">IGN</a>) ja \nriikliku
-          kartograafiasüsteemi (<a href=\"http://www.scne.es/\">SCNE</a>) andmeid,
-          mis on kasutatavad litsentsi \n<a href=\"https://creativecommons.org/licenses/by/4.0/deed.et\">CC
-          BY 4.0</a> tingimustel."
-        contributors_za_html: |-
-          <strong>LAV</strong>: Sisaldab andmeid allikast
-          <a href="http://www.ngi.gov.za/">Chief Directorate:
-          National Geo-Spatial Information</a>, õigused kuuluvad riigile.
-        contributors_gb_html: |-
-          <strong>Suurbritannia</strong>: Sisaldab Ordnance
-          Survey andmeid &copy; krooni autoriõigus ja andmebaasi õigused kaitstud
-          2010–2019.
         contributors_footer_1_html: |-
           Täpsemat teavet nendest ja teistest allikatest, mida on kasutatud
-          OpenStreetMapi täiendamiseks, leiad
-          <a href="https://wiki.openstreetmap.org/wiki/Contributors">kaastööliste leheküljelt</a> OpenStreetMapi vikis.
+          OpenHistoricalMapi täiendamiseks, leiad
+          <a href="https://wiki.openstreetmap.org/wiki/Contributors">kaastööliste leheküljelt</a> OpenHistoricalMapi vikis.
         contributors_footer_2_html: |-
-          Andmete kasutamine OpenStreetMapi koosseisus ei tähenda, et
-          algsete andmete pakkuja toetab OpenStreetMapi, pakub mingit tagatist või
+          Andmete kasutamine OpenHistoricalMapi koosseisus ei tähenda, et
+          algsete andmete pakkuja toetab OpenHistoricalMapi, pakub mingit tagatist või
           võtab endale mingeid kohustusi.
         infringement_title_html: Autoriõiguste rikkumine
         infringement_1_html: |-
@@ -1595,23 +1532,24 @@ et:
           mis pärinevad autoriõigusega kaitstud allikatest (nt Google Maps või trükikaardid),
           kui neil puudub autoriõiguse valdaja selgesõnaline luba.
         infringement_2_html: |-
-          Kui usud, et OpenStreetMapi andmebaasi või sellele saidile on lisatud sobimatult
+          Kui usud, et OpenHistoricalMapi andmebaasi või sellele saidile on lisatud sobimatult
           autoriõigusega kaitstud materjali, siis palun juhindu
-          <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">eemaldamise protseduurist</a>
+          <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">eemaldamise protseduurist</a>
           või täida <a href="https://dmca.openstreetmap.org/">vastaval leheküljel</a> vorm, et kaebus esitada.
         trademarks_title_html: <span id="trademarks"></span>Kaubamärgid
-        trademarks_1_html: OpenStreetMap, suurendusklaasi logo ja State of the Map
-          on OpenStreetMap Foundationi registreeritud kaubamärgid. Kui sul on nende
-          märkide kasutamise kohta küsimusi, siis vaata meie <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">kaubamärgireegleid</a>.
+        trademarks_1_html: OpenHistoricalMap, suurendusklaasi logo ja State of the
+          Map on OpenHistoricalMap Foundationi registreeritud kaubamärgid. Kui sul
+          on nende märkide kasutamise kohta küsimusi, siis vaata meie <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">kaubamärgireegleid</a>.
     index:
       js_1: Kasutad kas brauserit, mis ei toeta JavaScripti, või oled JavaScripti
         keelanud.
-      js_2: OpenStreetMap kasutab JavaScripti kaartide laadimiseks.
+      js_2: OpenHistoricalMap kasutab JavaScripti kaartide laadimiseks.
       permalink: Püsilink
       shortlink: Lühilink
       createnote: Lisa märkus
       license:
-        copyright: Autoriõigused OpenStreetMap ja kaasautorid avatud litsentsi alusel
+        copyright: Autoriõigused OpenHistoricalMap ja kaasautorid avatud litsentsi
+          alusel
       remote_failed: Redigeerimise ebaõnnestus - veendu, et  JOSM või Merkaartor töötab
         ning kaugjuhtimine on lubatud
     edit:
@@ -1628,25 +1566,26 @@ et:
       area_to_export: Eksporditav ala
       manually_select: Vali käsitsi teine ala
       format_to_export: Eksporditav vorming
-      osm_xml_data: OpenStreetMapi andmed XML-kujul
+      osm_xml_data: OpenHistoricalMapi andmed XML-kujul
       map_image: Kaardi pilt (kuvab tavakaardi)
       embeddable_html: Põimitav HTML
       licence: Litsents
-      export_details_html: OpenStreetMapi andmed on avaldatud Open Data Commonsi litsentsi
-        <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Database License</a>
-        (ODbL) tingimustel.
+      export_details_html: OpenHistoricalMapi andmed on avaldatud Open Data Commonsi
+        litsentsi <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Database
+        License</a> (ODbL) tingimustel.
       too_large:
         advice: 'Kui ülaltoodu eksportimine ebaõnnestub, siis kasuta palun ühte alljärgnevatest
           allikatest:'
-        body: See ala on liiga suur, et eksportida OpenStreetMapi andmeid XML-kujul.
+        body: See ala on liiga suur, et eksportida OpenHistoricalMapi andmeid XML-kujul.
           Palun suurenda või vali väiksem ala või kasuta üht allpool loetletud allikatest,
           et laadida alla suuri andmehulki.
         planet:
           title: Planet OSM
-          description: Regulaarselt uuendatavad koopiad tervest OpenStreetMapi andmebaasist.
+          description: Regulaarselt uuendatavad koopiad tervest OpenHistoricalMapi
+            andmebaasist.
         overpass:
           title: Overpass API
-          description: Laadi alla piiritletud ala OpenStreetMapi andmebaasi peegelserverist.
+          description: Laadi alla piiritletud ala OpenHistoricalMapi andmebaasi peegelserverist.
         geofabrik:
           title: Geofabriki allalaadimised
           description: Regulaarselt uuendatavad tõmmised kontinentidest, riikidest
@@ -1656,7 +1595,7 @@ et:
           description: Tõmmised maailma suurematest linnadest ja nende ümbruskondadest
         other:
           title: Muud allikad
-          description: Täiendavad allikad on välja toodud OpenStreetMapi vikis.
+          description: Täiendavad allikad on välja toodud OpenHistoricalMapi vikis.
       options: Sätted
       format: 'Vorming:'
       scale: Mõõtkava
@@ -1677,7 +1616,7 @@ et:
           title: Liitu kogukonnaga
           explanation_html: Kui oled märganud probleemi meie kaardi andmetes, näiteks
             puuduvat teed või enda aadressi, siis parim viis selle lahendamiseks on
-            liituda OpenStreetMapi kogukonnaga ja muuta või parandada andmed ise.
+            liituda OpenHistoricalMapi kogukonnaga ja muuta või parandada andmed ise.
         add_a_note:
           instructions_html: |-
             Kliki <a class='icon note'></a> või samale ikoonile kaardivaates.
@@ -1689,47 +1628,45 @@ et:
           saamiseks meie <a href='/copyright'>autoriõiguste lehele</a> või võta ühendust sobiva <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-i töörühmaga</a>.
     help:
       title: Abikeskus
-      introduction: OpenStreetMap pakub erinevaid võimalusi projekti tundmaõppimiseks,
+      introduction: OpenHistoricalMap pakub erinevaid võimalusi projekti tundmaõppimiseks,
         küsimuste esitamiseks ja vastamiseks ning kaardistamise teemade üle üheskoos
         arupidamiseks ja dokumenteerimiseks.
       welcome:
         url: /welcome
-        title: Tere tulemast OpenStreetMapi
-        description: Alusta selle kiirjuhendiga, mis hõlmab OpenStreetMapi põhitõdesid.
+        title: Tere tulemast OpenHistoricalMapi
+        description: Alusta selle kiirjuhendiga, mis hõlmab OpenHistoricalMapi põhitõdesid.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Et:Beginners%27_guide
         title: Juhend algajatele
         description: Kogukonna hallatav juhend algajatele.
       help:
+        url: https://help.openstreetmap.org/
         title: Abifoorum
-        description: Esita küsimus või otsi vastuseid OpenStreetMapi küsimuste ja
-          vastuste veebilehel.
+        description: Esita küsimus või otsi vastuseid OpenHistoricalMapi küsimuste
+          ja vastuste veebilehel.
       mailing_lists:
         title: Postiloendid
         description: Esita küsimusi või arutle huvipakkuvatel teemadel paljudes temaatilistes
           või piirkondlikes postiloendites.
       forums:
-        title: Foorumid (vana)
+        title: Foorumid
         description: Küsimused ja arutelud nendele, kes eelistavad teadetetahvlile
           sarnanevat kasutajaliidest.
-      community:
-        title: Kogukonna foorum
-        description: Ühine arutelukoht OpenStreetMapi kohta käivateks vestlusteks.
       irc:
         title: IRC
         description: Interaktiivne suhtluskanal paljudes keeltes ja paljudel teemadel.
       switch2osm:
         title: switch2osm
         description: Abi ettevõtetele ja organisatsioonidele, kes plaanivad kasutusele
-          võtta OpenStreetMapil põhinevad kaardid ja muud teenused.
+          võtta OpenHistoricalMapil põhinevad kaardid ja muud teenused.
       welcomemat:
         title: Organisatsioonidele
-        description: Kas sinu organisatsioonil on kavas teha midagi OpenStreetMapiga?
+        description: Kas sinu organisatsioonil on kavas teha midagi OpenHistoricalMapiga?
           Vajamineva teabe leiad tervituslehelt.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Et:Main_Page
-        title: OpenStreetMapi viki
-        description: Sirvi vikis OpenStreetMapi põhjalikumat dokumentatsiooni.
+        title: OpenHistoricalMapi viki
+        description: Sirvi vikis OpenHistoricalMapi põhjalikumat dokumentatsiooni.
     sidebar:
       search_results: Otsingu tulemused
       close: Sulge
@@ -1808,22 +1745,22 @@ et:
           construction: Ehitatavad teed
     welcome:
       title: Tere tulemast!
-      introduction_html: Tere tulemast OpenStreetMappi, vabasse ja muudetavasse maailmakaarti.
-        Registreerumine on nüüd tehtud ja sa võid alustada kaardistamist. Siin on
-        lühiülevaade kõige olulisematest asjadest, mida peaksid teadma.
+      introduction_html: Tere tulemast OpenHistoricalMappi, vabasse ja muudetavasse
+        maailmakaarti. Registreerumine on nüüd tehtud ja sa võid alustada kaardistamist.
+        Siin on lühiülevaade kõige olulisematest asjadest, mida peaksid teadma.
       whats_on_the_map:
         title: Mis on kaardil?
-        on_html: OpenStreetMap on koht, kus saab kaardile kanda objekte mis on <em>reaalselt
-          antud hetkel olemas</em> - nendeks on miljonid hooned, teed ja muud üksikasjad.
-          Sa võid kaardile kanda suvalisi reaalselt eksisteerivaid üksikasju, mis
-          sulle huvi pakuvad.
+        on_html: OpenHistoricalMap on koht, kus saab kaardile kanda objekte mis on
+          <em>reaalselt antud hetkel olemas</em> - nendeks on miljonid hooned, teed
+          ja muud üksikasjad. Sa võid kaardile kanda suvalisi reaalselt eksisteerivaid
+          üksikasju, mis sulle huvi pakuvad.
         off_html: Kaart <em>ei sisalda</em> arvamuslikke andmeid, nagu näiteks hinnangud,
           ajaloolisi või hüpoteetilisi omadusi, ega andmeid autoriõigustega kaitstud
           allikatest. Kui sul puudub eriluba siis ära kopeeri võrgus olevatelt või
           paberkaartidelt.
       basic_terms:
         title: Põhilised mõisted kaardistamisel
-        paragraph_1_html: OpenStreetMapil on omad erialased mõisted. Siin on mõned
+        paragraph_1_html: OpenHistoricalMapil on omad erialased mõisted. Siin on mõned
           peamised mõisted, mida tasub meelde jätta.
         editor_html: <strong>Redaktor</strong> on programm või veebileht, mida saab
           kasutada kaardi redigeerimiseks.
@@ -1835,16 +1772,16 @@ et:
           kohta, näiteks restorani nime või tee kiiruspiirangut.
       rules:
         title: Reeglid!
-        paragraph_1_html: "OpenStreetMapil on vähe formaalseid reegleid, kuid me eeldame,
-          et kõik osavõtjad teevad koostööd ja suhtlevad kogukonnaga. Kui plaanid
-          tegevusi, mis ei ole käsitsi redigeerimine, siis loe \n<a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>importimise</a>
+        paragraph_1_html: "OpenHistoricalMapil on vähe formaalseid reegleid, kuid
+          me eeldame, et kõik osavõtjad teevad koostööd ja suhtlevad kogukonnaga.
+          Kui plaanid tegevusi, mis ei ole käsitsi redigeerimine, siis loe \n<a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>importimise</a>
           ja \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automaatsete
           muudatuste</a> juhendeid."
       questions:
         title: Tekkis küsimusi?
         paragraph_1_html: |-
-          OpenStreetMap pakub erinevaid võimalusi projekti tundmaõppimiseks, küsimuste esitamiseks ja vastamiseks ning kaardistamise teemade üle üheskoos arupidamiseks ja dokumenteerimiseks.
-          <a href='%{help_url}'>Leia abi siit</a>. Kas sinu organisatsioonil on plaane seoses OpenStreetMapiga? <a href='https://welcome.openstreetmap.org/'>Vaata tutvustuslehte</a>.
+          OpenHistoricalMap pakub erinevaid võimalusi projekti tundmaõppimiseks, küsimuste esitamiseks ja vastamiseks ning kaardistamise teemade üle üheskoos arupidamiseks ja dokumenteerimiseks.
+          <a href='%{help_url}'>Leia abi siit</a>. Kas sinu organisatsioonil on plaane seoses OpenHistoricalMapiga? <a href='https://welcome.openstreetmap.org/'>Vaata tutvustuslehte</a>.
       start_mapping: Alusta kaardistamist
       add_a_note:
         title: Pole aega kaarti muuta? Lisa märkus!
@@ -1853,26 +1790,6 @@ et:
         paragraph_2_html: |-
           See on lihtne! Mine <a href='%{map_url}'>kaardile</a> ja kliki märkuse ikoonile:
           <span class='icon note'></span>. See lisab kaardile markeri, mida sa saad liigutada seda hiirega lohistades. Lisa oma sõnum, seejärel kliki "Salvesta" ja teised kaardistajad näevad seda.
-    communities:
-      title: Kogukonnad
-      lede_text: |-
-        OpenStreetMapile teevad kaastööd inimesed üle maailma.
-        Paljud neist osalevad üksikisikutena, teised on moodustanud kogukondi.
-        Need on eri suuruses alates rühmadest, mis esindavad väikseid asulaid, kuni rühmadeni, mis esindavad riikideüleseid piirkondi.
-        Need võivad olla nii ametlikud kui ka mitteametlikud.
-      local_chapters:
-        title: Kohalikud haruühingud
-        about_text: |-
-          Kohalikud haruühingud on riigi- või piirkonnapõhised rühmad, mis on asutatud mittetulunduslike
-          juriidiliste isikutena. Need esindavad ala kaardistajaid suhtluses kohalike omavalitsusüksuste,
-          ettevõtete ja ajakirjandusega. Haruühingud on ühtlasi ühenduses OpenStreetMap Foundationiga (OSMF),
-          mille kaudu on nad seotud õigus- ja autoriõigusasju korraldava koguga.
-        list_text: 'Järgmised kogukonnad on ametlikult asutatud kohalikud haruühingud:'
-      other_groups:
-        title: Muud rühmad
-        about_html: |-
-          Rühma ei pea moodustama haruühinguna ega sama ametlikul moel.
-          Paljud rühmad tegutsevad õigupoolest väga edukalt, olles kokku tulnud mitteametlikult või kogukonnarühmana. Igaüks võib neid kokku kutsuda või nendega ühineda. Loe rohkem <a href="https://wiki.openstreetmap.org/wiki/User_group">kogukondade viki leheküljelt</a>.
   traces:
     visibility:
       private: Isiklik (jagatud ainult anonüümselt, järjestamata punktid)
@@ -1937,7 +1854,7 @@ et:
       in: kohas
     index:
       public_traces: Avalikud GPS-rajad
-      my_gps_traces: Minu GPS-rajad
+      my_traces: Minu rajad
       public_traces_from: Kasutaja %{user} avalikud GPS-rajad
       description: Viimati üles laaditud GPS-radade sirvimine
       tagged_with: ', millel on silt %{tags}'
@@ -1945,7 +1862,6 @@ et:
         või uuri GPS-radade kohta <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>vikileheküljelt</a>.
       upload_trace: Lisa GPS-rada
       all_traces: Kõik rajad
-      my_traces: Minu rajad
     destroy:
       scheduled_for_deletion: Raja kustutamine kantud tööplaani.
     offline_warning:
@@ -2077,10 +1993,13 @@ et:
       title: Registreerumine
       no_auto_account_create: Kahjuks ei ole meil võimalik luua hetkel sinu jaoks
         automaatselt kontot.
+      contact_support_html: Palun võta ühendust <a href="%{support}">toega</a>, et
+        kasutajakonto luua – me üritame tegeleda selle taotlusega nii kiiresti kui
+        võimalik.
       about:
         header: Vaba ja muudetav
         html: |-
-          <p>Erinevalt teistest kaartidest on kogu OpenStreetMapi loonud sinusugused inimesed ja igaüks võib seda parandada, täiendada, alla laadida ja kasutada.</p>
+          <p>Erinevalt teistest kaartidest on kogu OpenHistoricalMapi loonud sinusugused inimesed ja igaüks võib seda parandada, täiendada, alla laadida ja kasutada.</p>
           <p>Registreeru, et alustada kaardi täiendamist. Saadame sulle e-kirja, et saaksid kinnitada oma kasutajakonto.</p>
       email address: 'E-posti aadress:'
       confirm email address: 'Kinnita e-posti aadress:'
@@ -2191,14 +2110,23 @@ et:
     suspended:
       title: Konto peatatud
       heading: Konto peatatud
+      body_html: |-
+        <p>
+          Vabandust, sinu konto õigused on automaatselt peatatud
+          kahtlase tegevuse tõttu.
+        </p>
+        <p>
+          Administraator vaatab selle otsuse peagi üle. Kui soovid
+          seda arutada, siis võid võtta ühendust aadressil %{webmaster}.
+        </p>
     auth_failure:
       connection_failed: Ei õnnestunud ühenduda autentimisteenusega.
       invalid_credentials: Vigased autentimisandmed.
       no_authorization_code: Volitamiskood puudub.
     auth_association:
-      heading: Sinu ID ei ole veel seotud OpenStreetMapi kasutajakontoga.
+      heading: Sinu ID ei ole veel seotud OpenHistoricalMapi kasutajakontoga.
       option_1: |-
-        Kui oled esimest korda OpenStreetMapis, siis loo palun uus kasutajakonto,
+        Kui oled esimest korda OpenHistoricalMapis, siis loo palun uus kasutajakonto,
         täites allpool oleva vormi.
       option_2: Kui sul juba on kasutajakonto, saad sisse logida, kasutades oma kasutajanime
         ja parooli ning siduda seejärel kasutajasätetes konto oma ID-ga.
@@ -2350,7 +2278,6 @@ et:
       custom_dimensions: Vali suurus käsitsi
       format: 'Vorming:'
       scale: 'Mõõtkava:'
-      image_dimensions: Pildil näeb tavakaarti suurusega %{width} × %{height}
       download: Laadi alla
       short_url: Lühilink
       include_marker: Lisa marker
@@ -2382,7 +2309,7 @@ et:
         gps: Avalikud GPS-rajad
         overlays: Luba kattekihte, et kaarti analüüsida
         title: Kihid
-      copyright: © <a href='%{copyright_url}'>OpenStreetMapi kaastöölised</a>
+      copyright: © <a href='%{copyright_url}'>OpenHistoricalMapi kaastöölised</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tee annetus</a>
       terms: <a href='%{terms_url}' target='_blank'>Veebisaidi ja API tingimused</a>
     site:
@@ -2418,10 +2345,6 @@ et:
         reactivate: Aktiveeri uuesti
         comment_and_resolve: Kommenteeri ja lahenda
         comment: Kommenteeri
-        report_link_html: Kui see märkus sisaldab tundlikku teavet, mis tuleks eemaldada,
-          saad %{link}.
-        other_problems_resolve: Kõigi märkusega seotud muude probleemide korral lahenda
-          see ise kommentaariga.
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
     directions:

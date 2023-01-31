@@ -9,7 +9,6 @@
 # Author: Contrapunctus
 # Author: Danieldegroot2
 # Author: Innocentbunny
-# Author: McDutchie
 # Author: Nitin1485
 # Author: Prong$31
 # Author: Rajatkatiyar10
@@ -41,7 +40,7 @@ hi:
       client_application:
         create: खाता बनाएं
         update: अपडेट करें
-      oauth2_application:
+      doorkeeper_application:
         create: खाता बनाएं
         update: अद्यतनित करें
       redaction:
@@ -114,7 +113,7 @@ hi:
         title: विषय
         latitude: अक्षांश
         longitude: देशांतर
-        language_code: भाषा
+        language: भाषा
       doorkeeper/application:
         name: नाम
         scopes: अनुमतियां
@@ -149,6 +148,8 @@ hi:
         active: सक्रिय
         display_name: प्रदर्शन नाम
         description: वर्णन
+        home_lat: अक्षांश
+        home_lon: देशान्तर
         languages: पसंदीदा भाषाएं
         pass_crypt: पासवर्ड
         pass_crypt_confirmation: पासवर्ड कन्फर्म करें
@@ -248,7 +249,7 @@ hi:
         warning: चेतावनी! खाता हटाने की प्रक्रिया अंतिम है, और इसे वापस नहीं किया
           जा सकता है।
         delete_account: खाता हटायें
-        delete_introduction: 'आप नीचे दिए गए बटन का उपयोग करके अपना OpenStreetMap
+        delete_introduction: 'आप नीचे दिए गए बटन का उपयोग करके अपना OpenHistoricalMap
           खाता हटा सकते हैं। कृपया निम्नलिखित विवरणों पर ध्यान दें:'
         delete_profile: आपकी प्रोफ़ाइल जानकारी, जिसमें आपका अवतार, विवरण और घर का
           स्थान शामिल है, हटा दी जाएगी।
@@ -257,6 +258,7 @@ hi:
   accounts:
     edit:
       public editing:
+        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
         enabled link text: यह क्या है?
         disabled link text: मैं नक्षे में बदलाव क्यों नहीं कर पा रहा हूँ?
       contributor terms:
@@ -407,7 +409,7 @@ hi:
         द्वारा फिर चालू किया गया
       hidden_by_html: <abbr title='%{exact_time}'>%{when}</abbr> %{user} द्वारा छिपाया
         गया
-      report: इस नोट को रिपोर्ट कर
+      report: इस नोट को रिपोर्ट करें
     query:
       title: क्वेरी की सुविधाएँ
       introduction: आस-पास की सुविधाओं के लिए नक़्शे पर क्लिक करें
@@ -456,6 +458,8 @@ hi:
       sorry: माफ़ कीजिए, जिन चेंजसेट कमेंटों की आपने अनुरोध की थी उन्हें लाने में
         कुछ ज़्यादा ही वक्त लग गया।
   dashboards:
+    popup:
+      friend: दोस्त
     show:
       my friends: मेरे मित्र
   diary_entries:
@@ -529,9 +533,6 @@ hi:
       comment: टिप्पणी
       newer_comments: नई प्रतिक्रियाएं
       older_comments: पुरनी प्रतिक्रियाएं
-  errors:
-    contact:
-      contact: संपर्क
   friendships:
     make_friend:
       heading: क्या आप %{user} को दोस्त बनाना चाहेते हैं?
@@ -548,10 +549,14 @@ hi:
     search:
       title:
         latlon_html: <a href="https://openstreetmap.org/">Internal</a> से अंजाम
-        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a> से अंजाम
+        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a> से अंजाम
-        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a> से अंजाम
+        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a> से अंजाम
+        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a> से
+          अंजाम
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -719,6 +724,8 @@ hi:
           dormitory: डॉरमिटरी
           duplex: डुप्लेक्स घर
           farm: फार्म घर
+          house: घर
+          roof: छत
           "yes": इमारत
         craft:
           carpenter: बढ़ई
@@ -739,6 +746,7 @@ hi:
           give_way: रास्ता संकेत दें
           living_street: गली
           passing_place: गुजरता हुआ स्थान
+          path: मार्ग
           primary: प्राथमिक सड़क
           primary_link: प्राथमिक सड़क
           road: सड़क
@@ -845,6 +853,7 @@ hi:
           village: गाँव
           "yes": स्थान
         railway:
+          rail: रेल
           station: रेलवे‌ स्टेशन
           subway: मेट्रो
           subway_entrance: मेट्रो प्रवेश
@@ -876,6 +885,7 @@ hi:
           wine: शराब की दुकान
           "yes": दुकान
         tourism:
+          gallery: गैलरी
           hostel: छात्रावास
           hotel: होटल
           information: जानकारी
@@ -887,6 +897,7 @@ hi:
           canal: नहर
           dam: बांध
           drain: नाली/नाला
+          lock: ताला
           river: नदी
           waterfall: झरना
       admin_levels:
@@ -903,6 +914,7 @@ hi:
     index:
       title: समस्याएँ
       search: ढूंडें
+      status: स्थिति
     show:
       resolve: समाधान करें
       ignore: अंदेखा करें
@@ -933,11 +945,11 @@ hi:
     foundation: संस्थान
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} ने एक दैनिकी पर प्रतिक्रिया दी'
+      subject: '[OpenHistoricalMap] %{user} ने एक दैनिकी पर प्रतिक्रिया दी'
     friendship_notification:
-      subject: '[OpenStreetMap] %{user} ने आपको अपने दोस्तों में शामिल किया है'
-      had_added_you: '%{user} ने आपको OpenStreetMap पर अपने दोस्तों में शामिल किया
-        है।'
+      subject: '[OpenHistoricalMap] %{user} ने आपको अपने दोस्तों में शामिल किया है'
+      had_added_you: '%{user} ने आपको OpenHistoricalMap पर अपने दोस्तों में शामिल
+        किया है।'
     note_comment_notification:
       greeting: नमस्कार,
   messages:
@@ -978,11 +990,9 @@ hi:
           title: समुदाय से जुड़ें
     help:
       forums:
-        title: फ़ोरम (लिगेसी)
-      community:
-        title: सामुदायिक फ़ोरम
-        description: OpenStreetMap के बारे में चर्चा के लिए सार्वजनिक स्थान।
+        title: मंच
       wiki:
+        url: http://wiki.openstreetmap.org/
         title: ओपनस्ट्रीटमैप विकि
     key:
       table:
@@ -1044,8 +1054,6 @@ hi:
     new:
       deny: मना
   users:
-    new:
-      support: सहायता
     index:
       title: सदस्य
       heading: सदस्य
@@ -1084,9 +1092,6 @@ hi:
         reactivate: 'पुन: सक्रिय करें'
         comment_and_resolve: टिप्पणी कर समाधान करें
         comment: जवाब देना
-        report_link_html: अगर इस नोट में संवेदनशील जानकारी है जिसे हटाना उचित है,
-          आप %{link} सकते हैं। नोट से जुड़ी दूसरी समस्याओं के लिए कृपया एक टिप्पणी
-          से उन्हें सुलझाएँ।
     directions:
       directions: रास्ता
       distance: दूरी

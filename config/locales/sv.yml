@@ -17,6 +17,7 @@
 # Author: Haxpett
 # Author: Jas
 # Author: Jenniesarina
+# Author: JohanahoJ
 # Author: Jopparn
 # Author: Larske
 # Author: Liftarn
@@ -27,7 +28,6 @@
 # Author: Magol
 # Author: Malmis
 # Author: Mjälten
-# Author: Myskoxen
 # Author: Nastoshka
 # Author: Nemo bis
 # Author: Per
@@ -52,9 +52,12 @@
 # Author: Zvenzzon
 ---
 sv:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Välj fil
@@ -71,7 +74,7 @@ sv:
       client_application:
         create: Registrera
         update: Uppdatera
-      oauth2_application:
+      doorkeeper_application:
         create: Registrera
         update: Uppdatera
       redaction:
@@ -144,7 +147,7 @@ sv:
         title: Ämne
         latitude: Latitud
         longitude: Longitud
-        language_code: Språk
+        language: Språk
       doorkeeper/application:
         name: Namn
         redirect_uri: Omdirigerings-URI:er
@@ -193,8 +196,6 @@ sv:
         pass_crypt_confirmation: Bekräfta lösenord
     help:
       doorkeeper/application:
-        confidential: Applikationen används när klientens hemlighet kan bevaras konfidentiella
-          (inhemska mobilappar och ensidiga appar är inte konfidentiella)
         redirect_uri: Använd en rad per URI
       trace:
         tagstring: kommaseparerad
@@ -248,6 +249,9 @@ sv:
       x_years:
         one: 1 år sedan
         other: '%{count} år sedan'
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Standard (för närvarande %{name})
     id:
@@ -277,7 +281,7 @@ sv:
         reopened_at_html: Återaktiverades för %{when}
         reopened_at_by_html: Återaktiverades för %{when} av %{user}
       rss:
-        title: OpenStreetMap-anteckningar
+        title: OpenHistoricalMap-anteckningar
         description_area: En lista med anteckningar som rapporterats, kommenterats
           eller avklarats i närheten av ditt område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Ett rss-flöde för anteckning %{id}
@@ -294,13 +298,13 @@ sv:
         title: Radera mitt konto
         warning: Varning! Kontots raderingsprocess är slutgiltig och kan inte återställas.
         delete_account: Radera konto
-        delete_introduction: 'Du kan radera ditt OpenStreetMap-konto med knappen nedan.
-          Notera följande detaljer:'
+        delete_introduction: 'Du kan radera ditt OpenHistoricalMap-konto med knappen
+          nedan. Notera följande detaljer:'
         delete_profile: Din profilinformation, inklusive din avatar, beskrivning och
           hemposition kommer tas bort.
         delete_display_name: Ditt visade namn kommer tas bort och kan återanvändas
           av andra konton.
-        retain_caveats: 'Viss information om dig kommer bevaras på OpenStreetMap,
+        retain_caveats: 'Viss information om dig kommer bevaras på OpenHistoricalMap,
           även efter att ditt konto raderats:'
         retain_edits: Dina redigeringar på kartdatabasen, om du gjort några, kommer
           bevaras.
@@ -321,10 +325,12 @@ sv:
       current email address: Nuvarande e-postadress
       external auth: Extern autentisering
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: vad är detta?
       public editing:
         heading: Offentlig redigering
         enabled: Aktiverat, du är inte anonym och kan redigera data.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: vad är detta?
         disabled: Avstängt och kan inte redigera data, alla redigeringar som gjorts
           är anonyma.
@@ -347,6 +353,7 @@ sv:
           de nya bidragsvillkoren.
         agreed_with_pd: Du har också förklarat att du anser att dina redigeringar
           är inom Public Domain.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: vad är detta?
       save changes button: Spara ändringar
       make edits public button: Gör alla mina redigeringar offentliga
@@ -381,6 +388,8 @@ sv:
     view_history: Visa historik
     view_details: Visa detaljer
     location: 'Plats:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Ändringsuppsättning: %{id}'
       belongs_to: Författare
@@ -423,6 +432,7 @@ sv:
         one: 1 medlem
         other: '%{count} medlemmar'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
       type:
         node: Nod
@@ -491,7 +501,8 @@ sv:
       reopened_by_anonymous_html: Återaktiverades av en anonym användare för <abbr
         title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Doldes av %{user} <abbr title='%{exact_time}'>för %{when}</abbr>
-      report: rapportera denna anteckning
+      report: Rapportera denna anteckning
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Undersök kartobjekt
       introduction: Klicka på kartan för att hitta funktioner i närheten.
@@ -534,8 +545,8 @@ sv:
     comments:
       comment: 'Ny kommentar på ändringsuppsättning #%{changeset_id} av %{author}'
     index:
-      title_all: Diskussion om OpenStreetMaps ändringsset
-      title_particular: Diskussioner om OpenStreetMaps ändringsuppsättning nummer
+      title_all: Diskussion om OpenHistoricalMaps ändringsset
+      title_particular: Diskussioner om OpenHistoricalMaps ändringsuppsättning nummer
         %{changeset_id}
     timeout:
       sorry: Tyvärr, listan med ändringsuppsättningskommentarer du begärde kunde inte
@@ -619,16 +630,18 @@ sv:
       location: 'Plats:'
       view: Visa
       edit: Redigera
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: OpenStreetMap-dagboksinlägg för %{user}
-        description: Senaste dagboksinlägg på OpenStreetMap från %{user}
+        title: OpenHistoricalMap-dagboksinlägg för %{user}
+        description: Senaste dagboksinlägg på OpenHistoricalMap från %{user}
       language:
-        title: OpenStreetMap-dagboksinlägg på %{language_name}
-        description: Senaste dagboksinlägg från användare av OpenStreetMap på %{language_name}
+        title: OpenHistoricalMap-dagboksinlägg på %{language_name}
+        description: Senaste dagboksinlägg från användare av OpenHistoricalMap på
+          %{language_name}
       all:
-        title: OpenStreetMap-dagboksinlägg
-        description: Senaste dagboksinlägg från användare av OpenStreetMap
+        title: OpenHistoricalMap-dagboksinlägg
+        description: Senaste dagboksinlägg från användare av OpenHistoricalMap
     comments:
       title: Dagbokskommentarer tillagda av %{user}
       heading: '%{user}s dagbokskommentarer'
@@ -661,12 +674,16 @@ sv:
   geocoder:
     search:
       title:
-        latlon_html: Resultat från <a href="https://openstreetmap.org/">OpenStreetMap</a>
-        osm_nominatim_html: Resultat från <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon_html: Resultat från <a href="https://openstreetmap.org/">OpenHistoricalMap</a>
+        ca_postcode_html: Resultat från <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Resultat från <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
-        osm_nominatim_reverse_html: Resultat från <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: Resultat från <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Resultat från <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
+        geonames_reverse_html: Resultat från <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Linbana
@@ -682,8 +699,8 @@ sv:
         aeroway:
           aerodrome: Flygfält
           airstrip: Landningsbana
-          apron: Flygplatsplatta
-          gate: Flygplatsgate
+          apron: Platta
+          gate: Gate
           hangar: Hangar
           helipad: Helikopterplatta
           holding_position: Väntplats
@@ -692,7 +709,7 @@ sv:
           runway: Landningsbana
           taxilane: Taxifil
           taxiway: Taxibana
-          terminal: Flygplatsterminal
+          terminal: Terminal
           windsock: Vindstrut
         amenity:
           animal_boarding: Djurhotell
@@ -738,7 +755,7 @@ sv:
           fire_station: Brandstation
           food_court: Food Court
           fountain: Fontän
-          fuel: Bensinstation
+          fuel: Bränsle
           gambling: Spel
           grave_yard: Begravningsplats
           grit_bin: Sandtunna
@@ -894,6 +911,7 @@ sv:
           window_construction: Fönsterkonstruktion
           winery: Vingård
           "yes": Hantverksbutik
+        crossing: Övergångsställe
         emergency:
           access_point: Åtkomstpunkt
           ambulance_station: Ambulansstation
@@ -914,7 +932,6 @@ sv:
           bus_stop: Busshållplats
           construction: Väg under byggnad
           corridor: Korridor
-          crossing: Övergångsställe
           cycleway: Cykelspår
           elevator: Hiss
           emergency_access_point: Utryckningsplats
@@ -1235,7 +1252,6 @@ sv:
           "yes": Plats
         railway:
           abandoned: Övergiven järnväg
-          buffer_stop: Stoppbock
           construction: Järnväg under anläggande
           disused: Nedlagd järnväg
           funicular: Bergbana
@@ -1325,7 +1341,7 @@ sv:
           health_food: Hälsokostbutik
           hearing_aids: Hörapparater
           herbalist: Örthandel
-          hifi: Hi-Fi-butik
+          hifi: Hi-Fi
           houseware: Husvaruhandel
           ice_cream: Glassbutik
           interior_decoration: Heminredning
@@ -1385,7 +1401,7 @@ sv:
           artwork: Konstverk
           attraction: Attraktion
           bed_and_breakfast: Bed and breakfast
-          cabin: Turiststuga
+          cabin: Stuga
           camp_pitch: Campingplats
           camp_site: Campingplats
           caravan_site: Husvagnsuppställningsplats
@@ -1509,7 +1525,6 @@ sv:
   issue_comments:
     create:
       comment_created: Din kommentar skapades
-      issue_reassigned: Din kommentar skapades och problemet återtilldelades
   reports:
     new:
       title_html: Repportera %{link}
@@ -1529,12 +1544,12 @@ sv:
           other_label: Övrigt
         diary_comment:
           spam_label: Denna dagbokskommentar är/innehåller spam
-          offensive_label: Denna dagbokskommentar är oanständig/offensiv
+          offensive_label: Denna dagbokskommentar är oanständig/stötande
           threat_label: Denna dagbokskommentar innehåller ett hot
           other_label: Övrigt
         user:
           spam_label: Denna användarprofil är/innehåller spam
-          offensive_label: Denna användarprofil är oanständig/offensiv
+          offensive_label: Denna användarprofil är oanständig/stötande
           threat_label: Denna användarprofil innehåller ett hot
           vandal_label: Denna användare är en vandal
           other_label: Övrigt
@@ -1547,8 +1562,10 @@ sv:
       successful_report: Din rapport har registrerats
       provide_details: Ange de nödvändiga detaljerna
   layouts:
+    project_name:
+      title: OpenHistoricalMap
     logo:
-      alt_text: OpenStreetMaps logotyp
+      alt_text: OpenHistoricalMaps logotyp
     home: Gå till hemposition
     logout: Logga ut
     log_in: Logga in
@@ -1568,61 +1585,58 @@ sv:
     user_diaries_tooltip: Visa användardagböcker
     edit_with: Redigera med %{editor}
     tag_line: Den fria wiki-världskartan
-    intro_header: Välkommen till OpenStreetMap!
-    intro_text: OpenStreetMap är en karta över världen, skapad av människor som du
-      och fri att använda under en öppen licens.
+    intro_header: Välkommen till OpenHistoricalMap!
+    intro_text: OpenHistoricalMap är en karta över världen, skapad av människor som
+      du och fri att använda under en öppen licens.
     intro_2_create_account: Skapa ett användarkonto
     hosting_partners_html: Drivs via %{ucl}, %{fastly}, %{bytemark} och andra %{partners}.
-    partners_ucl: University College London
-    partners_fastly: Fastly
-    partners_bytemark: Bytemark Hosting
     partners_partners: partners
     tou: Användarvillkor
-    osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då nödvändigt
+    osm_offline: OpenHistoricalMap-databasen är inte tillgänglig just nu, då nödvändigt
       databasunderhåll pågår.
-    osm_read_only: OpenStreetMap-databasen är skrivskyddad just nu, då nödvändigt
+    osm_read_only: OpenHistoricalMap-databasen är skrivskyddad just nu, då nödvändigt
       databasunderhåll pågår.
-    donate: Stöd OpenStreetMap med en %{link} till hårdvarufonden.
+    donate: Stöd OpenHistoricalMap med en %{link} till hårdvarufonden.
     help: Hjälp
     about: Om
     copyright: Upphovsrätt
     community: Gemenskap
     community_blogs: Gemenskapens bloggar
-    community_blogs_title: Bloggar från medlemmar i OpenStreetMap-gemenskapen
+    community_blogs_title: Bloggar från medlemmar i OpenHistoricalMap-gemenskapen
     foundation: Stiftelsen
-    foundation_title: OpenStreetMap-stiftelsen
+    foundation_title: OpenHistoricalMap-stiftelsen
     make_a_donation:
-      title: Stöd OpenStreetMap med en monetär donation
+      title: Stöd OpenHistoricalMap med en monetär donation
       text: Donera
     learn_more: Läs mer
     more: Mer
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} kommenterade på ett dagboksinlägg'
+      subject: '[OpenHistoricalMap] %{user} kommenterade på ett dagboksinlägg'
       hi: Hej %{to_user},
-      header: '%{from_user} har kommenterat dagboksinlägget på OpenStreetMap med rubriken
-        %{subject}:'
-      header_html: '%{from_user} har kommenterat dagboksinlägget på OpenStreetMap
+      header: '%{from_user} har kommenterat dagboksinlägget på OpenHistoricalMap med
+        rubriken %{subject}:'
+      header_html: '%{from_user} har kommenterat dagboksinlägget på OpenHistoricalMap
         med rubriken %{subject}:'
       footer: Du kan också läsa kommentaren på %{readurl} och du kan kommentera på
         %{commenturl} eller skicka ett meddelande till författaren på %{replyurl}
       footer_html: Du kan också läsa kommentaren på %{readurl} och du kan kommentera
         på %{commenturl} eller skicka ett meddelande till författaren på %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hej %{to_user},
-      header: '%{from_user} har skickat ett meddelande via OpenStreetMap med ämnet
+      header: '%{from_user} har skickat ett meddelande via OpenHistoricalMap med ämnet
         %{subject}:'
-      header_html: '%{from_user} har skickat ett meddelande via OpenStreetMap med
-        ämnet %{subject}:'
+      header_html: '%{from_user} har skickat ett meddelande via OpenHistoricalMap
+        med ämnet %{subject}:'
       footer: Du kan också läsa meddelandet på %{readurl} och du kan skicka ett meddelande
         till författaren på %{replyurl}
       footer_html: Du kan också läsa meddelandet på %{readurl} och du kan skicka ett
         meddelande till författaren på %{replyurl}
     friendship_notification:
       hi: Hej %{to_user},
-      subject: '[OpenStreetMap] %{user} lade till dig som en vän'
-      had_added_you: '%{user} har lagt till dig som vän på OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} lade till dig som en vän'
+      had_added_you: '%{user} har lagt till dig som vän på OpenHistoricalMap.'
       see_their_profile: Du kan se deras profil på %{userurl}.
       see_their_profile_html: Du kan se deras profil på %{userurl}.
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
@@ -1637,7 +1651,8 @@ sv:
       failed_to_import: 'misslyckats med att importera. Här är felet:'
       more_info_html: Mer information om misslyckade GPX-importer och hur man undviker
         dem återfinns på %{url}.
-      subject: '[OpenStreetMap] Misslyckades importera GPX'
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+      subject: '[OpenHistoricalMap] Misslyckades importera GPX'
     gpx_success:
       hi: Hej %{to_user},
       loaded_successfully:
@@ -1649,9 +1664,9 @@ sv:
           inläst med %{trace_points} av %{possible_points} möjliga punkter.
 
           inläst med %{trace_points} av %{possible_points} möjliga punkter.
-      subject: '[OpenStreetMap] Lyckades importera GPX'
+      subject: '[OpenHistoricalMap] Lyckades importera GPX'
     signup_confirm:
-      subject: '[OpenStreetMap] Välkommen till OpenStreetMap'
+      subject: '[OpenHistoricalMap] Välkommen till OpenHistoricalMap'
       greeting: Hej där!
       created: Någon (förhoppningsvis du) skapade just ett konto på %{site_url}.
       confirm: 'Innan vi gör något annat måste vi bekräfta att denna begäran kom från
@@ -1660,13 +1675,13 @@ sv:
       welcome: Efter att du har bekräftat ditt konto ger vi dig ytterligare information
         om hur du kommer igång.
     email_confirm:
-      subject: '[OpenStreetMap] Bekräfta din e-postadress'
+      subject: '[OpenHistoricalMap] Bekräfta din e-postadress'
       greeting: Hej,
       hopefully_you: Någon (förhoppningsvis du själv) vill ändra sin e-postadress
         på %{server_url} till %{new_address}.
       click_the_link: Om det är du, klicka på länken nedan för att bekräfta ändringen.
     lost_password:
-      subject: '[OpenStreetMap] Begäran om återställning av lösenord'
+      subject: '[OpenHistoricalMap] Begäran om återställning av lösenord'
       greeting: Hej,
       hopefully_you: Någon (kanske du själv) har begärt återställning av lösenordet
         på denna e-postadress opeenstreetmap.org-konto.
@@ -1676,8 +1691,9 @@ sv:
       anonymous: En anonym användare
       greeting: Hej,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} har kommenterat en av dina anteckningar'
-        subject_other: '[OpenStreetMap] %{commenter} har kommenterat en anteckning
+        subject_own: '[OpenHistoricalMap] %{commenter} har kommenterat en av dina
+          anteckningar'
+        subject_other: '[OpenHistoricalMap] %{commenter} har kommenterat en anteckning
           du är intresserad av'
         your_note: '%{commenter} har lämnat en kommentar till en av dina kartanteckningar
           i närheten av %{place}.'
@@ -1688,9 +1704,9 @@ sv:
         commented_note_html: '%{commenter} har kommenterat en kartanteckning som du
           tidigare kommenterat. Anteckningen är i närheten av %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} har löst en av dina anteckningar'
-        subject_other: '[OpenStreetMap] %{commenter} har löst en anteckning som du
-          är intresserad av'
+        subject_own: '[OpenHistoricalMap] %{commenter} har löst en av dina anteckningar'
+        subject_other: '[OpenHistoricalMap] %{commenter} har löst en anteckning som
+          du är intresserad av'
         your_note: '%{commenter} har kommenterat en av dina kartanteckningar i närheten
           av %{place}.'
         your_note_html: '%{commenter} har löst en av dina kartanteckning i närheten
@@ -1700,8 +1716,9 @@ sv:
         commented_note_html: '%{commenter} har löst en kartanteckning du har kommenterat.
           Anteckningen är nära %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} har återaktiverat en av dina anteckningar'
-        subject_other: '[OpenStreetMap] %{commenter} har återaktiverat en anteckning
+        subject_own: '[OpenHistoricalMap] %{commenter} har återaktiverat en av dina
+          anteckningar'
+        subject_other: '[OpenHistoricalMap] %{commenter} har återaktiverat en anteckning
           som du är intresserad av'
         your_note: '%{commenter} har återaktiverat en av dina kartanteckningar nära
           %{place}.'
@@ -1717,8 +1734,9 @@ sv:
       hi: Hej %{to_user},
       greeting: Hej,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} har kommenterat på en av dina ändringsuppsättningar'
-        subject_other: '[OpenStreetMap] %{commenter} har kommenterat på ett ändringsuppsättning
+        subject_own: '[OpenHistoricalMap] %{commenter} har kommenterat på en av dina
+          ändringsuppsättningar'
+        subject_other: '[OpenHistoricalMap] %{commenter} har kommenterat på ett ändringsuppsättning
           du är intresserad av'
         your_changeset: '%{commenter} har lämnat en kommentar på en av dina ändringsuppsättningar
           skapt den %{time}'
@@ -1904,17 +1922,20 @@ sv:
       lost password link: Glömt ditt lösenord?
       login_button: Logga in
       register now: Registrera dig nu
-      with username: 'Har du redan ett OpenStreetMap-konto? Logga in med ditt användarnamn
-        och lösenord:'
+      with username: 'Har du redan ett OpenHistoricalMap-konto? Logga in med ditt
+        användarnamn och lösenord:'
       with external: 'Alternativt kan du använda en tredje part för att logga in:'
-      new to osm: Ny på OpenStreetMap?
-      to make changes: För att göra ändringar i OpenStreetMaps data måste du ha ett
-        konto.
+      new to osm: Ny på OpenHistoricalMap?
+      to make changes: För att göra ändringar i OpenHistoricalMaps data måste du ha
+        ett konto.
       create account minute: Skapa ett konto. Det tar bara en minut.
       no account: Har du inget konto?
       account not active: Tyvärr, ditt konto är inte aktiverat.<br />Vänligen klicka
         på länken i e-posten med kontobekräftelsen, för att aktivera ditt konto, eller
         <a href="%{reconfirm}">begär en ny epostsbekräftelse</a>.
+      account is suspended: Tyvärr har ditt konto stängts av på grund av tvivelaktig
+        aktivitet.<br />Kontakta <a href="%{webmaster}">supporten</a> om du vill diskutera
+        saken.
       auth failure: Kunde inte logga in med de uppgifterna.
       openid_logo_alt: Logga in med ett OpenID
       auth_providers:
@@ -1944,7 +1965,7 @@ sv:
           alt: Logga in med ett AOL OpenID
     destroy:
       title: Logga ut
-      heading: Logga ut från OpenStreetMap
+      heading: Logga ut från OpenHistoricalMap
       logout_button: Logga ut
   shared:
     markdown_help:
@@ -1967,40 +1988,40 @@ sv:
   site:
     about:
       next: Nästa
-      copyright_html: <span>&copy;</span>OpenStreetMaps<br>bidragsgivare
-      used_by_html: '%{name} förser tusentals webbsidor, mobilappar, appar och fysiska
-        apparater med kartdata'
-      lede_text: OpenStreetMap är byggt av en gemenskap av kartografer som bidrar
+      copyright_html: <span>&copy;</span>OpenHistoricalMaps<br>bidragsgivare
+      used_by_html: OpenHistoricalMap förser tusentals webbsidor, mobilappar, appar
+        och fysiska apparater med kartdata
+      lede_text: OpenHistoricalMap är byggt av en gemenskap av kartografer som bidrar
         och underhåller data om vägar, stigar, caféer, järnvägsstationer och mycket
         mer, över hela världen.
       local_knowledge_title: Lokalkännedom
-      local_knowledge_html: OpenStreetMap betonar lokal kunskap. Bidragsgivare använder
-        flygbilder, GPS-enheter och lågteknologiska fältkartor för att kontrollera
+      local_knowledge_html: OpenHistoricalMap betonar lokal kunskap. Bidragsgivare
+        använder flygbilder, GPS-enheter och lågteknologiska fältkartor för att kontrollera
         att OSM är korrekt och uppdaterad.
       community_driven_title: Gemenskapsdriven
-      community_driven_html: "OpenStreetMaps gemenskap är blandad, passionerad och
-        växer varje dag.\nBland våra bidragsgivare finns kartentusiaster, GIS-proffs,
+      community_driven_html: "OpenHistoricalMaps gemenskap är blandad, passionerad
+        och växer varje dag.\nBland våra bidragsgivare finns kartentusiaster, GIS-proffs,
         ingenjörer som håller igång OSM:s servrar, frivilliga som kartlägger katastrofområden,
-        och många andra.\nFör mer information om gemenskapen, se \n<a href='https://blog.openstreetmap.org'>OpenStreetMap-bloggen</a>,
+        och många andra.\nFör mer information om gemenskapen, se \n<a href='https://blog.openstreetmap.org'>OpenHistoricalMap-bloggen</a>,
         \n<a href='%{diary_path}'>användardagböcker</a>, \n<a href='https://blogs.openstreetmap.org/'>gemenskapens
         bloggar</a>, och \n<a href='https://www.osmfoundation.org/'>OSM-stiftelsens</a>
         webbplats."
       open_data_title: Öppna data
-      open_data_html: 'OpenStreetMap är <i>öppna data</i>: du kan fritt använda den
-        för valfritt syfte så länge du anger OpenStreetMap och dess bidragsgivare
+      open_data_html: 'OpenHistoricalMap är <i>öppna data</i>: du kan fritt använda
+        den för valfritt syfte så länge du anger OpenHistoricalMap och dess bidragsgivare
         som källa. Om du förändrar eller bygger vidare på datan på vissa sätt, kan
         du endast distribuera resultatet under samma licens. Se <a href=''%{copyright_path}''>sidan
         för Upphovsrätt och Licens</a> för detaljer.'
       legal_title: Juridik
       legal_1_html: "Denna sida och många andra liknande tjänster drivs formellt av
-        \n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
-        \npå gemenskapens vägnar. Användning av alla OSMF-drivna tjänster är föremål\nför
-        våra <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolicyer
+        \n<a href=\"https://osmfoundation.org/\">OpenHistoricalMap Foundation</a>
+        (OSMF) \npå gemenskapens vägnar. Användning av alla OSMF-drivna tjänster är
+        föremål\nför våra <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolicyer
         för acceptabel användning</a> och vår <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">integritetspolicy</a>."
       legal_2_html: "Vänligen <a href='https://osmfoundation.org/Contact'>kontakta
         OSMF</a> \nom du har frågor eller funderingar om licenser, upphovsrätt eller
-        andra rättsliga frågor.\n<br>\nOpenStreetMap, förstoringsglaslogotypen och
-        State of the Map är <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registrerade
+        andra rättsliga frågor.\n<br>\nOpenHistoricalMap, förstoringsglaslogotypen
+        och State of the Map är <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registrerade
         varumärken av OSMF</a>."
       partners_title: Partners
     copyright:
@@ -2019,21 +2040,22 @@ sv:
       legal_babble:
         title_html: Upphovsrätt och licens
         intro_1_html: |-
-          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> är <i>öppna data</i>, gjord tillgänglig under licensen <a
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> är <i>öppna data</i>, gjord tillgänglig under licensen <a
           href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) av <a
-          href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
+          href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
         intro_2_html: |-
           Du är fri att kopiera, distribuera, överföra och anpassa vår data,
-          så länge du anger OpenStreetMap och dess bidragsgivare som källa.
+          så länge du anger OpenHistoricalMap och dess bidragsgivare som källa.
           Om du ändrar eller bygger vidare på vår data kan du
           endast distribuera resultatet under samma licens. Den
           fullständiga <a href="https://opendatacommons.org/licenses/odbl/1.0/">juridiska
           texten</a> förklarar dina rättigheter och skyldigheter.
         intro_3_1_html: "Vår dokumentation är tillgänglig under licensen \n<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
           Erkännande-DelaLika 2.0</a> (CC BY-SA 2.0)."
-        credit_title_html: Hur du anger OpenStreetMap som källa
-        credit_1_html: 'När du använder OpenStreetMap-data, måste du göra dessa två
-          saker:'
+        credit_title_html: Hur du anger OpenHistoricalMap som källa
+        credit_1_html: |-
+          Vi kräver att din källhänvisning består av &ldquo;&copy; OpenHistoricalMaps
+          bidragsgivare&rdquo;.
         credit_2_1_html: |-
           Du måste också göra klart att datan är tillgänglig under licensen Open Database License, och om du använder våra kartrutor, att kartografin är
           tillgänglig under licensen CC BY-SA. Du kan göra detta genom att länka till
@@ -2041,84 +2063,27 @@ sv:
           Alternativt, och som krav om du distribuerar OSM i dataform, kan du namnge
           och länka direkt till licenserna. I media där länkar ej är möjliga
           (t.ex. tryckt material), föreslår vi att du hänvisar dina läsare till openstreetmap.org
-          (förslagsvis genom att expandera 'OpenStreetMap' till hela denna adress), till opendatacommons.org, och om relevant till creativecommons.org.
-        credit_3_1_html: Kartrutorna i &ldquo;standardstilen&rdquo; på www.openstreetmap.org
-          är ett producerat verk av OpenStreetMap Foundation med hjälp av OpenStreetMap-data
-          under licensen Open Database. När du använder denna kartstil krävs samma
-          erkännande som för kartdata.
-        credit_4_html: |-
-          För en navigerbar elektronisk karta, ska källhänvisningen synas i ena hörnet av kartan.
-          Till exempel:
+          (förslagsvis genom att expandera 'OpenHistoricalMap' till hela denna adress), till opendatacommons.org, och om relevant till creativecommons.org.
         attribution_example:
-          alt: Exempel på hur en webbsida kan ange OpenStreetMap som källa
+          alt: Exempel på hur en webbsida kan ange OpenHistoricalMap som källa
           title: Exempel på attribuering.
         more_title_html: Mer information
         more_1_html: |-
           Läs mer om användning av vår data och hur du anger oss som källa på <a
           href="https://osmfoundation.org/Licence">OSMF:s licenssida</a>.
-        more_2_html: |-
-          Även om OpenStreetMap är öppna data, kan vi inte tillhandahålla något gratis kart-API för tredjeparter.
-          Se vår <a href="https://operations.osmfoundation.org/policies/api/">användningspolicy för API</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles/">användningspolicy för kartrutor</a>
-          och <a href="https://operations.osmfoundation.org/policies/nominatim/">användningspolicy för Nominatim</a>.
         contributors_title_html: Våra bidragsgivare
         contributors_intro_html: |-
           Våra bidragsgivare är tusentals individer. Vi inkluderar också
           öppna data från nationella karttjänster,
           bland annat från:
-        contributors_at_html: |-
-          <strong>Österrike</strong>: Innehåller data från
-          <a href="https://data.wien.gv.at/">Stadt Wien</a> (under licensen
-          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> och
-          Land Tirol (under licensen <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT med tillägg</a>).
-        contributors_au_html: |-
-          <strong>Australia</strong>: Innehåller förortsdata baserad
-             på data från Australian Bureau of Statistics.
-        contributors_ca_html: |-
-          <strong>Kanada</strong>: Innehåller data från
-             GeoBase&reg;, GeoGratis (&copy; Department of Natural
-             Resources Canada), CanVec (&copy; Department of Natural
-             Resources Canada), och StatCan (Geography Division,
-             Statistics Canada).
-        contributors_fi_html: '<strong>Finland</strong>: Innehåller data från Lantmäteriverket
-          i Finlands topografiska databas och andra dataset, under licensen <a href="https://www.maanmittauslaitos.fi/sv/Licens_till_avgiftsfria_datamaterial_version1_20120501">NLSFI</a>.'
-        contributors_fr_html: |-
-          <strong>Frankrike</strong>: Innehåller data
-             från Direction Générale des Impôts.
-        contributors_nl_html: |-
-          <strong>Nederländerna</strong>: Innehåller © AND data, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Nya Zeeland</strong>: Innehåller data från
-          <a href="https://data.linz.govt.nz/">LINZ Data Service</a>
-          som är licensierad för återanvändning under
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_si_html: |-
-          <strong>Slovenien</strong>: Innehåller data från
-          <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> och
-          <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
-          (offentlig information i Slovenien).
-        contributors_es_html: |-
-          Spanien: Innehåller data från <strong>Spanish</strong> #Nationell Geographic Institute (<a href="http://www.ign.es/">IGN</a>) och
-          #Nationell Cartographic System (SCNE)
-          licenseret för videre bruk under CC STAD #4.0.
-        contributors_za_html: |-
-          <strong>Sydafrika</strong>: Innehåller data från
-          <a href="http://www.ngi.gov.za/">Chief Directorate:
-          National Geo-Spatial Information</a>, State copyright reserved.
-        contributors_gb_html: |-
-          <strong>Storbritannien</strong>: Innehåller Ordnance
-          Survey data &copy; Crown copyright and database right
-          2010-12.
         contributors_footer_1_html: |-
           För ytterligare detaljer om dessa och andra källor som använts
-          för att förbättra OpenStreetMap, se <a
+          för att förbättra OpenHistoricalMap, se <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">sidan om bidragsgivare</a>
-          på OpenStreetMaps wiki.
-        contributors_footer_2_html: "Införandet av uppgifter i OpenStreetMap innebär
-          inte att den ursprungliga \ndatagivaren stödjer OpenStreetMap, \nger någon
-          som helst garanti eller \ntar på sig något ansvar."
+          på OpenHistoricalMaps wiki.
+        contributors_footer_2_html: "Införandet av uppgifter i OpenHistoricalMap innebär
+          inte att den ursprungliga \ndatagivaren stödjer OpenHistoricalMap, \nger
+          någon som helst garanti eller \ntar på sig något ansvar."
         infringement_title_html: Upphovsrättsintrång
         infringement_1_html: |-
           Bidragsgivare till OSM påminns om att aldrig lägga till data från
@@ -2126,13 +2091,14 @@ sv:
           uttryckligt tillstånd från upphovsrättsinnehavarna.
         infringement_2_html: |-
           Om du tror att upphovsrättsskyddat material felaktigt har
-          lagts in i OpenStreetMaps databas eller till den här webbplatsen, se
-          vårt <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">borttagningsförfarande</a>
+          lagts in i OpenHistoricalMaps databas eller till den här webbplatsen, se
+          vårt <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">borttagningsförfarande</a>
           eller fyll i vårt <a href="https://dmca.openstreetmap.org/">online-formulär</a> direkt.
         trademarks_title_html: <span id="trademarks"></span>Varumärken
-        trademarks_1_html: OpenStreetMap, förstoringsglas-logotypen och State of the
-          Map är registrerade varumärken hos OpenStreetMap Foundation. Om du har frågor
-          gällande din användning av varumärkena, vänligen se vår <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">varumärkespolicy</a>.
+        trademarks_1_html: OpenHistoricalMap, förstoringsglas-logotypen och State
+          of the Map är registrerade varumärken hos OpenHistoricalMap Foundation.
+          Om du har frågor gällande din användning av varumärkena, vänligen se vår
+          <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">varumärkespolicy</a>.
     index:
       js_1: Du använder antingen en webbläsare som inte stöder JavaScript, eller så
         har du inaktiverat JavaScript.
@@ -2141,8 +2107,8 @@ sv:
       shortlink: Kortlänk
       createnote: Lägg till en anteckning
       license:
-        copyright: Upphovsrätten tillhör OpenStreetMap och bidragsgivare, under en
-          öppen licens
+        copyright: Upphovsrätten tillhör OpenHistoricalMap och bidragsgivare, under
+          en öppen licens
       remote_failed: Redigering misslyckades - kontrollera att JOSM eller Merkaartor
         är startad och fjärrkontrollsalternativet är aktiverat
     edit:
@@ -2150,6 +2116,7 @@ sv:
       not_public_description_html: Du kan inte längre redigera kartan om du inte gör
         det. Du kan göra dina redigeringar offentliga från din %{user_page}.
       user_page_link: användarsida
+      anon_edits_html: (%{link})
       anon_edits_link_text: Ta reda på varför det är så.
       id_not_configured: iD har inte konfigurerats
       no_iframe_support: Din webbläsare stöder inte HTML iframes, vilken är nödvändig
@@ -2159,25 +2126,25 @@ sv:
       area_to_export: Område att exportera
       manually_select: Välj ett annat område manuellt
       format_to_export: Format för export
-      osm_xml_data: OpenStreetMap XML-data
+      osm_xml_data: OpenHistoricalMap XML-data
       map_image: Kartbild (visar vanliga lager)
       embeddable_html: Inbäddad HTML
       licence: Licens
-      export_details_html: Data från OpenStreetMap har gjorts tillgänglig under licensen  <a
-        href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
-        Database License</a> (ODbL).
+      export_details_html: Data från OpenHistoricalMap har gjorts tillgänglig under
+        licensen  <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data
+        Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Om ovanstående export misslyckas, vänligen överväg att använda en
           av de källor som anges nedan:'
-        body: 'Detta område är för stort för att exporteras som OpenStreetMap XML-data.
-          Vänligen zooma in eller välj ett mindre område, eller använd en av följande
-          källor för nedladdningar av bulkdata:'
+        body: 'Detta område är för stort för att exporteras som OpenHistoricalMap
+          XML-data. Vänligen zooma in eller välj ett mindre område, eller använd en
+          av följande källor för nedladdningar av bulkdata:'
         planet:
           title: Planet OSM
-          description: Regelbundet uppdaterade kopior av den kompletta OpenStreetMap-databasen
+          description: Regelbundet uppdaterade kopior av den kompletta OpenHistoricalMap-databasen
         overpass:
           title: Overpass API
-          description: Hämta denna avgränsningsram från en spegel av OpenStreetMap-databasen
+          description: Hämta denna avgränsningsram från en spegel av OpenHistoricalMap-databasen
         geofabrik:
           title: Geofabrik Downloads
           description: Regelbundet uppdaterat utdrag av kontinenter, länder och utvalda
@@ -2187,7 +2154,7 @@ sv:
           description: Utdrag av stora världsstäder och deras närområden
         other:
           title: Andra källor
-          description: Ytterligare källor anges på OpenStreetMaps wiki
+          description: Ytterligare källor anges på OpenHistoricalMaps wiki
       options: Alternativ
       format: Format
       scale: Skala
@@ -2208,7 +2175,7 @@ sv:
           title: Gå med i gemenskapen
           explanation_html: Om du har hittat ett problem med vår kartdata, till exempel
             att en väg eller din adress saknas, är den bästa lösningen att gå med
-            i OpenStreetMap-gemenskapen och själv lägga till eller reparera datan.
+            i OpenHistoricalMap-gemenskapen och själv lägga till eller reparera datan.
         add_a_note:
           instructions_html: |-
             Klicka bara på <a class='icon note'></a> eller samma ikon i kartrutan.
@@ -2222,21 +2189,22 @@ sv:
           <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF-arbetsgrupp</a>.
     help:
       title: Få hjälp
-      introduction: OpenStreetMap har flera resurser som hjälper dig att lära dig
-        om projektet, för att ställa och svara på frågor, och tillsammans diskutera
+      introduction: OpenHistoricalMap har flera resurser som hjälper dig att lära
+        dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera
         och dokumentera frågor gällande kartering.
       welcome:
         url: /welcome
-        title: Välkommen till OpenStreetMap
-        description: Börja med den här snabbguiden som täcker grunderna i OpenStreetMap.
+        title: Välkommen till OpenHistoricalMap
+        description: Börja med den här snabbguiden som täcker grunderna i OpenHistoricalMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Sv:Beginners%27_guide
         title: Guide för nybörjare
         description: Guide för nybörjare som underhålls av gemenskapen.
       help:
+        url: https://help.OpenHistoricalMap.org/
         title: Hjälpforum
-        description: Ställ en fråga eller kolla upp svar på OpenStreetMaps sida med
-          svar på ofta förekommande frågor.
+        description: Ställ en fråga eller kolla upp svar på OpenHistoricalMaps sida
+          med svar på ofta förekommande frågor.
       mailing_lists:
         title: E-postlistor
         description: Ställ en fråga eller diskutera intressanta saker på ett brett
@@ -2245,32 +2213,22 @@ sv:
         title: Forum
         description: Frågor och diskussioner för de som föredrar ett gränssnitt liknande
           en anslagstavla.
-      community:
-        title: Gemenskapsforum
-        description: En delad plats för konversationer om OpenStreetMap.
       irc:
         title: IRC
         description: Interaktiv chatt på flera olika språk rörande mängder av ämnen.
       switch2osm:
         title: switch2osm
-        description: Hjälp för företag och organisationer att byta till OpenStreetMap-baserade
+        description: Hjälp för företag och organisationer att byta till OpenHistoricalMap-baserade
           kartor och andra tjänster.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: För organisationer
-        description: Är du i en organisation som har planer med OpenStreetMap? Ta
-          reda på vad du behöver veta i välkomstmattan.
+        description: Är du i en organisation som har planer med OpenHistoricalMap?
+          Ta reda på vad du behöver veta i välkomstmattan.
       wiki:
-        title: OpenStreetMaps wiki
-        description: Sök i wikin för ingående dokumentation av OpenStreetMap.
-    potlatch:
-      removed: Din standardredigerare på OpenStreetMat är Potlatch. På grund av att
-        Adobe Flash Player har dragits tillbaka, kan inte Potlatch längre användas
-        i webbläsaren.
-      desktop_html: Du kan fortfarande använda Potlatch genom att <a href="https://www.systemed.net/potlatch/">ladda
-        ner datorapplikationen för Mac och Windows</a>.
-      id_html: Eller så kan du ange din standardredigerare som iD, vilket kör din
-        webbläsare som Potlatch tidigare gjort. <a href="%{settings_url}">Ändra dina
-        alternativ här</a>.
+        url: https://wiki.openstreetmap.org/
+        title: OpenHistoricalMaps wiki
+        description: Sök i wikin för ingående dokumentation av OpenHistoricalMap.
     sidebar:
       search_results: Sökresultat
       close: Stäng
@@ -2323,7 +2281,6 @@ sv:
           common:
           - Allmänning
           - äng
-          - trädgård
           retail: Område för Detaljhandel
           industrial: Industriellt område
           commercial: Kommersiellt område
@@ -2357,23 +2314,24 @@ sv:
           toilets: Toaletter
     welcome:
       title: Välkommen!
-      introduction_html: Välkommen till OpenStreetMap, den fria och redigerbara kartan
-        över världen. Nu när du har registrerat dig är du klar för att börja kartlägga
-        saker. Här är en snabb genomgång av de viktigaste sakerna du behöver veta.
+      introduction_html: Välkommen till OpenHistoricalMap, den fria och redigerbara
+        kartan över världen. Nu när du har registrerat dig är du klar för att börja
+        kartlägga saker. Här är en snabb genomgång av de viktigaste sakerna du behöver
+        veta.
       whats_on_the_map:
         title: Vad finns på kartan
-        on_html: OpenStreetMap är en plats för att kartlägga sådant som både <em>finns
-          i verkligheten och är aktuellt</em>. OpenStreetMap innehåller miljontals
+        on_html: OpenHistoricalMap är en plats för att kartlägga sådant som både <em>finns
+          i verkligheten och är aktuellt</em>. OpenHistoricalMap innehåller miljontals
           byggnader, vägar och annan information om platser. Du kan lägga till vad
           som helst som finns i verkligheten och som intresserar dig.
-        off_html: Vad OpenStreetMap <em>inte</em> innehåller är subjektiva data som
-          betyg, historiska eller hypotetiska objekt, samt data från upphovsrättsskyddade
+        off_html: Vad OpenHistoricalMap <em>inte</em> innehåller är subjektiva data
+          som betyg, historiska eller hypotetiska objekt, samt data från upphovsrättsskyddade
           källor. Om du inte har ett speciellt tillstånd, kopiera inte från andra
           kartor online eller på papper.
       basic_terms:
         title: Grundläggande termer för kartering
-        paragraph_1_html: OpenStreetMap har en del egen jargong. Här är några begrepp
-          som kan vara bra att förstå.
+        paragraph_1_html: OpenHistoricalMap har en del egen jargong. Här är några
+          begrepp som kan vara bra att förstå.
         editor_html: En <strong>redigerare</strong> är ett applikation eller en webbsida
           du kan använda för att ändra i kartan.
         node_html: En <strong>nod</strong> är en punkt på kartan, till exempel en
@@ -2385,15 +2343,15 @@ sv:
       rules:
         title: Regler!
         paragraph_1_html: |-
-          OpenStreetMap har få formella regler, men vi förväntar oss att alla deltagare samarbetar och kommunicerar med gemenskapen. Om du funderar på
+          OpenHistoricalMap har få formella regler, men vi förväntar oss att alla deltagare samarbetar och kommunicerar med gemenskapen. Om du funderar på
           någon annan aktivitet än manuell redigering av sidan, läs och följ anvisningarna på
           <a href="https://wiki.openstreetmap.org/wiki/Import/Guidelines">Import</a> och
           <a href="https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct">Automatiserade redigeringar</a>.
       questions:
         title: Några frågor?
         paragraph_1_html: |-
-          OpenStreetMap har flera resurser som hjälper dig att lära dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera och dokumentera frågor gällande kartering.
-          <a href='%{help_url}'>Få hjälp här</a>. Är du i en organisation som har planer med OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Besök välkomstmattan</a>.
+          OpenHistoricalMap har flera resurser som hjälper dig att lära dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera och dokumentera frågor gällande kartering.
+          <a href='%{help_url}'>Få hjälp här</a>. Är du i en organisation som har planer med OpenHistoricalMap? <a href='https://welcome.openstreetmap.org/'>Besök välkomstmattan</a>.
       start_mapping: Börja kartlägga
       add_a_note:
         title: Ingen tid att redigera? Lägg till en kommentar!
@@ -2434,6 +2392,7 @@ sv:
       title: Redigerar GPS-spår %{name}
       heading: Redigerar GPS-spår %{name}
       visibility_help: vad betyder detta?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: GPS-spår uppdaterades
     trace_optionals:
@@ -2480,7 +2439,7 @@ sv:
       in: i
     index:
       public_traces: Publika GPS-spår
-      my_gps_traces: Mina GPS-spår
+      my_traces: Mina spår
       public_traces_from: Publika GPS-spår från %{user}
       description: Bläddra bland nyligen uppladdade GPS-spår
       tagged_with: ' taggad med %{tags}'
@@ -2488,7 +2447,6 @@ sv:
         GPS-spår</a> eller lär dig om GPS-spår på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikin</a>.
       upload_trace: Ladda upp GPS-spår
       all_traces: Alla spår
-      my_traces: Mina spår
       traces_from: Offentliga GPS-spår från %{user}
       remove_tag_filter: Ta bort taggfilter
     destroy:
@@ -2501,7 +2459,7 @@ sv:
       heading: GPX-lagring offline
       message: GPX-uppladdningssystemet är för närvarande inte tillgängligt.
     georss:
-      title: OpenStreetMap GPS-spår
+      title: OpenHistoricalMap GPS-spår
     description:
       description_with_count:
         one: GPX-fil med %{count} punkt från %{user}
@@ -2515,8 +2473,9 @@ sv:
     require_admin:
       not_an_admin: Du måste vara administratör för att utföra denna åtgärd.
     setup_user_auth:
-      blocked_zero_hour: Ett brådskande meddelande väntar dig på OpenStreetMaps hemsida.
-        Du behöver läsa meddelandet innan du kan spara dina redigeringar.
+      blocked_zero_hour: Du har ett brådskande meddelande väntande på hemsidan för
+        OpenHistoricalMap. Du behöver läsa meddelandet innan du ges möjlighet att
+        spara dina redigeringar.
       blocked: Du har blivit blockerad från API:et. Var god logga in via webinterfacet
         för att få reda på mer.
       need_to_see_terms: Din tillgång till API:t är tillfälligt avstängd. Logga in
@@ -2610,9 +2569,6 @@ sv:
   oauth2_applications:
     index:
       title: Mina klientapplikationer
-      no_applications_html: Har du ett applikation som du vill registrera för användning
-        hos oss med hjälp av %{oauth2}-standarden? Du måste registrera din webbapplikation
-        innan du kan göra OAuth-anropp till den här tjänsten.
       new: Registrera ny applikation
       name: Namn
       permissions: Behörigheter
@@ -2661,10 +2617,12 @@ sv:
       title: Registrera
       no_auto_account_create: Tyvärr kan vi för närvarande inte kan skapa ett konto
         åt dig automatiskt.
+      contact_support_html: Kontakta <a href="%{support}">supporten</a> för att få
+        ett konto skapat – vi kommer att behandla ansökan så snart som möjligt.
       about:
         header: Fri och redigerbar
         html: |-
-          <p>Till skillnad från andra kartor är OpenStreetMap helt skapad av människor som du. Kartan är öppen för alla att bidra till, uppdatera, ladda ner och använda.</p>
+          <p>Till skillnad från andra kartor är OpenHistoricalMap helt skapad av människor som du. Kartan är öppen för alla att bidra till, uppdatera, ladda ner och använda.</p>
           <p>Registrera dig för att börja kartera. Vi skickar ett mail för att bekräfta ditt konto.</p>
       email address: 'E-postadress:'
       confirm email address: 'Bekräfta e-postadress:'
@@ -2694,11 +2652,13 @@ sv:
       consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
         egendom.
       consider_pd_why: vad är det här?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Information som hjälper dig förstå dessa termer: en <a href="%{summary}">lättläst
         sammanfattning</a> och några <a href="%{translations}">informella översättningar</a>'
       continue: |2-
 
         Fortsätt
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Läs igenom och godkänn eller avböj de nya bidragsvillkoren
         för att fortsätta.
@@ -2711,6 +2671,7 @@ sv:
       terms_declined_html: Vi beklagar att du bestämt dig för att inte acceptera de
         nya användarvillkoren. För mer information, se %{terms_declined_link}.
       terms_declined_link: denna wikisida
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Finns ingen sådan användare
       heading: Användaren %{user} finns inte
@@ -2766,7 +2727,6 @@ sv:
       activate_user: Aktivera denna användare
       deactivate_user: Inaktivera denna användare
       confirm_user: Bekräfta denna användare
-      unconfirm_user: Häv denna användares bekräftelse
       hide_user: Dölj denna användare
       unhide_user: Sluta dölja användare
       delete_user: Radera denna användare
@@ -2791,6 +2751,15 @@ sv:
       title: Kontot avstängt
       heading: Kontot avstängt
       support: support
+      body_html: |-
+        <p>
+          Ditt konto har tyvärr stängts av på grund av
+          tvivelaktig aktivitet.
+        </p>
+        <p>
+          Detta beslut kommer granskas av en administratör inom kort, eller
+          så kan du kontakta %{webmaster} om vill diskutera saken.
+        </p>
     auth_failure:
       connection_failed: Anslutning till autentiseringsleverantören misslyckades
       invalid_credentials: Ogiltiga autentiseringsuppgifter
@@ -2799,9 +2768,9 @@ sv:
       invalid_scope: Ogiltiga omfattning
       unknown_error: Autentisering misslyckades
     auth_association:
-      heading: Ditt ID är inte associerat med ett OpenStreetMap-konto ännu.
+      heading: Ditt ID är inte associerat med ett OpenHistoricalMap-konto ännu.
       option_1: |-
-        Om du är ny på OpenStreetMap, vänligen skapa ett nytt konto
+        Om du är ny på OpenHistoricalMap, vänligen skapa ett nytt konto
         med hjälp av formuläret nedan.
       option_2: |-
         Om du redan har ett konto, kan du logga in på ditt konto
@@ -2987,6 +2956,7 @@ sv:
           one: Du är inom en fot av denna punkt
           other: Du är inom %{count} fot av denna punkt
       base:
+        historical: Historisk
         standard: Standard
         cyclosm: CyclOSM
         cycle_map: Cykelkarta
@@ -3000,7 +2970,7 @@ sv:
         gps: Offentliga GPS-spår
         overlays: Aktivera lager för felsökning av kartan
         title: Lager
-      copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsgivare</a>
+      copyright: © <a href='%{copyright_url}'>OpenHistoricalMaps bidragsgivare</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donera</a>
       terms: <a href="%{terms_url}">Hemsidan och API-villkor</a>
       cyclosm: Rututseende av <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>

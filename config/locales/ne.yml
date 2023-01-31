@@ -1,7 +1,6 @@
 # Messages for Nepali (नेपाली)
 # Exported from translatewiki.net
 # Export driver: phpyaml
-# Author: Bada Kaji
 # Author: Danieldegroot2
 # Author: Drjpoudel
 # Author: Haribanshi
@@ -17,15 +16,15 @@
 # Author: हिमाल सुबेदी
 ---
 ne:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y मा %H:%M'
   helpers:
-    file:
-      prompt: फाइल छान्नुहोस्
     submit:
       diary_comment:
-        create: टिप्पणी
+        create: सङ्ग्रह गर्नुहोस्
       diary_entry:
         create: प्रकाशन गर्नुहोस्
         update: अद्यावधिक गर्नुहोस्
@@ -35,10 +34,7 @@ ne:
         create: पठाउनुहोस्
       client_application:
         create: दर्ता गर्नुहाेस्
-        update: अद्यावधिक गर्नुहोस्
-      oauth2_application:
-        create: दर्ता गर्नुहाेस्
-        update: अद्यावधिक गर्नुहोस्
+        update: सम्पादन
       trace:
         create: अपलोड गर्ने
         update: परिवर्तनहरू संग्रह गर्ने
@@ -85,7 +81,7 @@ ne:
         title: विषय
         latitude: अक्षांश
         longitude: देशान्तर
-        language_code: भाषा
+        language: भाषा
       friend:
         user: प्रयोगकर्ता
         friend: साथी
@@ -120,6 +116,9 @@ ne:
     help:
       trace:
         tagstring: अल्पविरामले छुट्याएको
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: पूर्वस्थापित(अहिलेको %{name})
     id:
@@ -304,7 +303,7 @@ ne:
       title: परिवर्नहरू
       title_user: '%{user}द्वरा गरिएका परिवर्तनहरू'
       title_friend: तपाईको मित्रहरूद्वारा गरिएका परिवर्तनहरू
-      title_nearby: तपाईं नजिक हुनुभएका प्रयोगकर्ताहरूद्वारा गरिएका परिवर्तनहरू
+      title_nearby: तपाई नजिक हुनुभएका प्रयोगकर्ताहरूद्वारा गरिएका परिवर्तनहरू
       empty: कुनै पनि परिवर्तनहरू भेटिएनन्।
       empty_area: यो क्षेत्रमा कुनै परिवर्तनहरू छैनन्।
       empty_user: यस प्रयोगकर्ताद्वारा कुनै परिवर्तनहरू गरिएका छैनन्।
@@ -314,14 +313,14 @@ ne:
       load_more: अझै बढी खोल्नुहोस्
     timeout:
       sorry: माफ गर्नुहोला, तपाईंले खोज्नुभएको परिवर्तनहरूको सूची प्राप्त गर्न निकै
-        समय लाग्यो ।
+        समय लाग्यो।
   changeset_comments:
     comment:
       comment: ' %{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
       commented_at_by_html: ' %{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
     index:
-      title_all: OpenStreetMap परिवर्वतन सूची छलफल
-      title_particular: 'OpenStreetMap परिवर्तन सूची #%{changeset_id} छलफल'
+      title_all: OpenHistoricalMap परिवर्वतन सूची छलफल
+      title_particular: 'OpenHistoricalMap परिवर्तन सूची #%{changeset_id} छलफल'
   dashboards:
     contact:
       km away: '%{count}किमि टाढा'
@@ -376,7 +375,7 @@ ne:
         other: '%{count} टिप्पणीहरू'
       edit_link: यो प्रविष्टी सम्पादन गर्ने
       hide_link: यो प्रविष्टी लुकाउने
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
       report: यो प्रविष्टीको उजुरी गर्ने
     diary_comment:
       comment_from_html: '%{link_user}द्वारा %{comment_created_at}मा गरिएको टिप्पणी'
@@ -391,7 +390,7 @@ ne:
         title: '%{user}को लागि ओपनस्ट्रीटम्याप दैनिकी'
         description: '%{user}को लागि हालैका ओपनस्ट्रीटम्याप दैनिकीहरू'
       language:
-        title: '%{language_name} भाषामा OpenStreetMap दैनिकी'
+        title: '%{language_name} भाषामा OpenHistoricalMap दैनिकी'
         description: '%{language_name} भाषामा ओपनस्ट्रीटम्याप प्रयोगकर्ताहरूका हालैका
           दैनिकी'
       all:
@@ -415,10 +414,14 @@ ne:
     search:
       title:
         latlon_html: <a href="http://openstreetmap.org/">आन्तरिक</a> बाट नतिजाहरू
-        osm_nominatim_html: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: <a href="http://geocoder.ca/">Geocoder.CA</aबाट नतिजाहरू
+        osm_nominatim_html: <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>बाट नतिजाहरू
-        osm_nominatim_reverse_html: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a>बाट नतिजाहरू
+        osm_nominatim_reverse_html: <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>बाट नतिजाहरू
+        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a>बाट
+          नतिजाहरू
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -636,6 +639,7 @@ ne:
           mine: खानी
           pipeline: पाइपरेखा
           tower: टावर
+          windmill: पवन मिल
           works: कारखाना
         military:
           barracks: सैनिक घर
@@ -800,6 +804,7 @@ ne:
       status: स्थिति
       states:
         open: खोल्नुहोस्
+        resolved: समाधान गरियो
     show:
       ignore: वेवास्ता गर्नुहाेस्
       new_reports: नयाँ प्रतिवेदनहरू
@@ -810,9 +815,9 @@ ne:
           other_label: अन्य
   layouts:
     logo:
-      alt_text: OpenStreetMap लोगो
+      alt_text: OpenHistoricalMap लोगो
     logout: निर्गमन
-    log_in: प्रवेश गर्नुहोस्
+    log_in: प्रवेश
     sign_up: खाता खाेल्नुहाेस्
     start_mapping: म्यापिङ गर्न सुरु गर्नुहोस्
     edit: सम्पादन
@@ -845,7 +850,7 @@ ne:
       hi: नमस्ते %{to_user},
     friendship_notification:
       hi: नमस्ते %{to_user},
-      subject: '[OpenStreetMap] %{user} ले तपाईँलाई मित्रको रूपमा थप्नु भयो'
+      subject: '[OpenHistoricalMap] %{user} ले तपाईँलाई मित्रको रूपमा थप्नु भयो'
     signup_confirm:
       greeting: नमस्ते!
     email_confirm:
@@ -860,7 +865,7 @@ ne:
       greeting: नमस्ते,
   confirmations:
     confirm:
-      button: निश्चित गर्नुहोस्
+      button: निश्चित गर्ने
     confirm_email:
       heading: इमेल परिवर्तन भएको निश्चित गर्नुहोस्
       press confirm button: इमेल निश्चित गर्नको लागि निश्चितमा क्लिक गर्नुहोस् ।
@@ -922,6 +927,7 @@ ne:
       flash changed: तपाईंको प्रवेश शब्द परिवर्तन गरिएको छ।
   profiles:
     edit:
+      cancel: रद्द गर्नुहोस्
       image: 'चित्र:'
       home location: 'गृह स्थान:'
       no home location: तपाईंले आफ्नो गृहस्थान प्रविष्ठ गर्नुभएको छैन।
@@ -942,7 +948,6 @@ ne:
   site:
     about:
       next: अर्को
-      copyright_html: <span>©</span>खुला सडक नक्सा<br>योगदानकर्ताहरू
       local_knowledge_title: स्थानीय ज्ञान
       community_driven_title: समूदायबाट सञ्चालित
       open_data_title: खुल्ला डेटा
@@ -966,7 +971,7 @@ ne:
       area_to_export: निर्यात गर्ने क्षेत्र
       manually_select: आफै अर्को क्षेत्र छान्नुहोस
       format_to_export: निर्यात गर्ने ढाँचा
-      osm_xml_data: OpenStreetMap XML डेटा
+      osm_xml_data: OpenHistoricalMap XML डेटा
       map_image: नक्साको तस्वीर (सर्वस्वीकृत सतहहरू देखाउँछ)
       embeddable_html: थप्नलायक HTML
       licence: इजाजतपत्र
@@ -982,7 +987,7 @@ ne:
           description: नियमित रूपमा अपडेट गरिएका ओपनस्ट्रीटम्याप तथ्याङ्कका प्रतिहरू
         overpass:
           title: ओभरपास एपिअाइ
-          description: OpenStreetMap तथ्याङ्कको अर्को स्रोतबाट यो सिमारेखा प्राप्त
+          description: OpenHistoricalMap तथ्याङ्कको अर्को स्रोतबाट यो सिमारेखा प्राप्त
             गर्नुहोस्
         geofabrik:
           title: Geofabrik डाउनलोडहरू
@@ -1019,6 +1024,7 @@ ne:
         url: /welcome
         title: OSM मा स्वागत् छ
       beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: सुरुवातकर्ताहरूको लागि मार्गदर्शन
         description: सुरुवातकर्ताहरूको लागि समुदायद्वारा निर्मित निर्देशिका
       help:
@@ -1031,6 +1037,8 @@ ne:
         title: आईआरसि
       switch2osm:
         title: स्विचटु‍ओएसएम
+      wiki:
+        url: http://wiki.openstreetmap.org/
     sidebar:
       close: बन्द गर्नुहोस्
     search:
@@ -1038,6 +1046,7 @@ ne:
       get_directions: दिशानिर्देशन प्राप्त गर्नुहोस्
       from: बाट
       to: लाई
+      where_am_i: यो कहाँ छ?
       submit_text: जानुहोस्
     key:
       table:
@@ -1087,6 +1096,7 @@ ne:
     create:
       upload_trace: GPS Trace अपलोड गर्ने
     edit:
+      cancel: रद्द गर्नुहोस्
       title: ट्रेस सम्पादन गर्दै %{name}
       heading: ट्रेस सम्पादन गर्दै %{name}
       visibility_help: यसको मतलब के हो ?
@@ -1136,6 +1146,8 @@ ne:
     show:
       confirm: निश्चित हुनुहुन्छ ?
   oauth2_applications:
+    application:
+      delete: मेट्ने
     show:
       delete: मेट्ने
   users:
@@ -1173,7 +1185,7 @@ ne:
       role:
         administrator: यी प्रयोगकर्ता प्रबन्धक हुनुहुन्छ
       comments: टिप्पणी
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
     go_public:
       flash success: तपाईंका सबै सम्पादनहरू सार्वाजनिक छन् , तपाईं अब सम्पादन लायक
         हुनु भयो ।
@@ -1190,7 +1202,7 @@ ne:
       heading: भूमिका प्रदान निश्चित गर्ने
       are_you_sure: भूमिका `%{role}' प्रयोगकर्ता `%{name}'लाई प्रदान गर्न निश्चित
         हुनुहुन्छ?
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
       fail: भूमिका `%{role}' प्रयोगकर्ता  `%{name}'लाई प्रदान गर्न सकिएन । कृपया प्रयोगकर्ता
         र भूमिका दुबै मान्य छन् भनि जाँच गर्नुहोस् ।
     revoke:
@@ -1198,7 +1210,7 @@ ne:
       heading: भूमिका फिर्ता निश्चित गर्ने
       are_you_sure: तपाईं भूमिका `%{role}' , `%{name} प्रोगकर्ताबाट फिर्ता लिने कुरामा
         निश्चित हुनुहुन्छ'?
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
       fail: भूमिका `%{role}' ,`%{name}'बाट फिर्ता लिन सकिएन । प्रोगकर्ता नाम र भूमिका
         दुबै मान्य छन् भन्ने खुलाउनु होस् ।
   user_blocks:

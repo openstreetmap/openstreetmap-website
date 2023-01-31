@@ -27,7 +27,7 @@ fur:
       client_application:
         create: Regjistre
         update: Inzorne
-      oauth2_application:
+      doorkeeper_application:
         create: Regjistre
         update: Inzorne
       trace:
@@ -93,7 +93,7 @@ fur:
         title: Sogjet
         latitude: Latitudin
         longitude: Longjitudin
-        language_code: Lenghe
+        language: Lenghe
       doorkeeper/application:
         name: Non
         confidential: Aplicazion confidenziâl?
@@ -211,7 +211,7 @@ fur:
         reopened_at_html: Tornade a ativâ %{when}
         reopened_at_by_html: Tornade a ativâ %{when} di %{user}
       rss:
-        title: Notis di OpenStreetMap
+        title: Notis di OpenHistoricalMap
         description_area: Une liste des notis segnaladis, comentadis o risoltis inte
           tô zone [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Un canâl RSS per note %{id}
@@ -229,10 +229,12 @@ fur:
       current email address: Direzion di pueste eletroniche atuâl
       external auth: Autenticazion esterne
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: ce isal chest?
       public editing:
         heading: Modifiche publiche
         enabled: Ativâts. No anonims e si pues cambiâ i dâts.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ce isal chest?
         disabled: Disativâts e no si pues cambiâ i dâts, ducj i cambiaments precedents
           a son anonims.
@@ -425,8 +427,8 @@ fur:
     comments:
       comment: 'Gnûf coment sul grup di cambiaments #%{changeset_id} di %{author}'
     index:
-      title_all: Discussion sul grup di cambiaments di OpenStreetMap
-      title_particular: 'Discussion sul grup di cambiaments #%{changeset_id} di OpenStreetMap'
+      title_all: Discussion sul grup di cambiaments di OpenHistoricalMap
+      title_particular: 'Discussion sul grup di cambiaments #%{changeset_id} di OpenHistoricalMap'
   dashboards:
     contact:
       km away: '%{count}km di distance'
@@ -503,14 +505,14 @@ fur:
       edit: Cambie
     feed:
       user:
-        title: Vôs dal diari di OpenStreetMap par %{user}
-        description: Ultimis vôs dal diari di OpenStreetMap di %{user}
+        title: Vôs dal diari di OpenHistoricalMap par %{user}
+        description: Ultimis vôs dal diari di OpenHistoricalMap di %{user}
       language:
-        title: Vôs dai diaris di OpenStreetMap par %{language_name}
-        description: Ultimis vôs par %{language_name} dai diaris dai utents di OpenStreetMap
+        title: Vôs dai diaris di OpenHistoricalMap par %{language_name}
+        description: Ultimis vôs par %{language_name} dai diaris dai utents di OpenHistoricalMap
       all:
-        title: Vôs dai diaris di OpenStreetMap
-        description: Lis ultimis vôs dai diaris dai utents di OpenStreetMap
+        title: Vôs dai diaris di OpenHistoricalMap
+        description: Lis ultimis vôs dai diaris dai utents di OpenHistoricalMap
     comments:
       title: Coments ai diaris zontâts par %{user}
       heading: Coments ai diaris di %{user}
@@ -542,10 +544,13 @@ fur:
       title:
         latlon_html: Risultâts cjolts dal <a href="http://openstreetmap.org/">sît
           interni</a>
-        osm_nominatim_html: Risultâts di <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: Risultâts cjolts di <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Risultâts di <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
-        osm_nominatim_reverse_html: Risultâts di <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: Risultâts cjolts di <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Risultâts di <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
+        geonames_reverse_html: Risultâts di <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aeroway:
@@ -897,7 +902,7 @@ fur:
       successful_report: La tô segnalazion e je stade registrade corretamentri
   layouts:
     logo:
-      alt_text: Logo di OpenStreetMap
+      alt_text: Logo di OpenHistoricalMap
     home: Va al lûc iniziâl
     logout: Jes
     log_in: Jentre
@@ -916,62 +921,60 @@ fur:
     user_diaries_tooltip: Viôt i diaris dai utents
     edit_with: Cambie cun %{editor}
     tag_line: Il WikiMapeMont libar
-    intro_header: Benvignût in OpenStreetMap!
-    intro_text: OpenStreetMap e je une mape dal mont, creade di int come te e di ûs
-      libar sot di une licence vierte.
+    intro_header: Benvignût in OpenHistoricalMap!
+    intro_text: OpenHistoricalMap e je une mape dal mont, creade di int come te e
+      di ûs libar sot di une licence vierte.
     intro_2_create_account: Cree il to profîl utent
     hosting_partners_html: L'hosting al è sostignût di %{ucl}, %{fastly}, %{bytemark}
       e altris %{partners}.
-    partners_ucl: UCL
-    partners_fastly: Fastly
-    partners_bytemark: Bytemark Hosting
     partners_partners: associâts
     tou: Cundizions pal ûs
-    osm_offline: La base di dâts di OpenStreetMap e je par cumò fûr linie parcè che
-      o sin daûr a fâ lavôrs essenziâi di manutenzion de base di dâts.
-    osm_read_only: La base di dâts di OpenStreetMap e je par cumò dome in leture dilunc
-      la esecuzion di lavôrs essenziâi di manutenzion de base di dâts.
-    donate: Sosten OpenStreetMap %{link} al font pal inzornament dal hardware.
+    osm_offline: La base di dâts di OpenHistoricalMap e je par cumò fûr linie parcè
+      che o sin daûr a fâ lavôrs essenziâi di manutenzion de base di dâts.
+    osm_read_only: La base di dâts di OpenHistoricalMap e je par cumò dome in leture
+      dilunc la esecuzion di lavôrs essenziâi di manutenzion de base di dâts.
+    donate: Sosten OpenHistoricalMap %{link} al font pal inzornament dal hardware.
     help: Jutori
     about: Informazions
     copyright: Copyright
     community: Comunitât
     community_blogs: Blogs de comunitât
-    community_blogs_title: Blogs di bande dai membris de comunitât OpenStreetMap
+    community_blogs_title: Blogs di bande dai membris de comunitât OpenHistoricalMap
     foundation: Fondazion
-    foundation_title: La fondazion OpenStreetMap
+    foundation_title: La fondazion OpenHistoricalMap
     make_a_donation:
-      title: Sosten OpenStreetMap fasint une donazion monetarie
+      title: Sosten OpenHistoricalMap fasint une donazion monetarie
       text: Done alc
     learn_more: Par savênt di plui
     more: Plui
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} al à zontât un coment ae tô vôs dal diari'
+      subject: '[OpenHistoricalMap] %{user} al à zontât un coment ae tô vôs dal diari'
       hi: Mandi %{to_user},
-      header: '%{from_user} al à zontât un coment ae tô vôs dal diari di OpenStreetMap
+      header: '%{from_user} al à zontât un coment ae tô vôs dal diari di OpenHistoricalMap
         cun sogjet %{subject}:'
       footer: Tu puedis ancje lei il coment su %{readurl} e tu puedis zontâ un coment
         su %{commenturl} o ben rispuindi su %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Mandi %{to_user},
-      header: '%{from_user} ti à mandât un messaç su OpenStreetMap cun sogjet %{subject}:'
+      header: '%{from_user} ti à mandât un messaç su OpenHistoricalMap cun sogjet
+        %{subject}:'
       footer_html: Tu puedis ancje lei il messaç su %{readurl} e tu puedis rispuindi
         su %{replyurl}
     friendship_notification:
-      subject: '[OpenStreetMap] %{user} ti à zontât come amì su OpenStreetMap.'
-      had_added_you: '%{user} ti à zontât come amì su OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} ti à zontât come amì su OpenHistoricalMap.'
+      had_added_you: '%{user} ti à zontât come amì su OpenHistoricalMap.'
       see_their_profile: Tu puedis viodi il sô profîl su %{userurl}.
       befriend_them: Tu puedis ancje zontâlu/le come amì su %{befriendurl}.
     gpx_success:
       loaded_successfully: al sedi stât cjamât cun sucès, cun %{trace_points} suntun
         totâl di %{possible_points} ponts pussibii.
-      subject: '[OpenStreetMap] Impuartazion GPX completade cun sucès'
+      subject: '[OpenHistoricalMap] Impuartazion GPX completade cun sucès'
     signup_confirm:
-      subject: '[OpenStreetMap] Benvignût in OpenStreetMap'
+      subject: '[OpenHistoricalMap] Benvignût in OpenHistoricalMap'
     email_confirm:
-      subject: '[OpenStreetMap] Conferme la tô direzion di pueste eletroniche'
+      subject: '[OpenHistoricalMap] Conferme la tô direzion di pueste eletroniche'
       click_the_link: Se tu sês propite tu, par plasê frache sul leam ca sot par confermâ
         il cambiament.
     note_comment_notification:
@@ -1124,11 +1127,11 @@ fur:
       lost password link: Password pierdude?
       login_button: Jentre
       register now: Regjistriti cumò
-      with username: 'Âstu za un profîl su OpenStreetMap? Jentre cul to non utent
+      with username: 'Âstu za un profîl su OpenHistoricalMap? Jentre cul to non utent
         e la tô password:'
-      new to osm: Sêstu gnûf su OpenStreetMap?
-      to make changes: Par cambiâ alc tai dâts di OpenStreetMap, tu scugnis vê un
-        profîl.
+      new to osm: Sêstu gnûf su OpenHistoricalMap?
+      to make changes: Par cambiâ alc tai dâts di OpenHistoricalMap, tu scugnis vê
+        un profîl.
       create account minute: Cree un profîl. I vûl dome un minût.
       no account: No âstu ancjemò un profîl?
       auth failure: Nus displâs, ma no si à rivât a jentrâ cun i dâts inserîts.
@@ -1160,7 +1163,7 @@ fur:
           alt: Jentre cuntun OpenID AOL
     destroy:
       title: Jes
-      heading: Va fûr di OpenStreetMap
+      heading: Va fûr di OpenHistoricalMap
       logout_button: Jes
   shared:
     markdown_help:
@@ -1175,7 +1178,7 @@ fur:
   site:
     about:
       next: Prossim
-      copyright_html: <span>&copy;</span>Colaboradôrs<br> di OpenStreetMap
+      copyright_html: <span>&copy;</span>Colaboradôrs<br> di OpenHistoricalMap
       local_knowledge_title: Cognossince locâl
       open_data_title: Dâts vierts
       partners_title: Associâts
@@ -1194,13 +1197,13 @@ fur:
     index:
       js_1: Tu stâs doprant un sgarfadôr che nol supuarte JavaScript o ben JavaScript
         al è stât disativât.
-      js_2: OpenStreetMap al dopre JavaScript par mostrâ la sô mape.
+      js_2: OpenHistoricalMap al dopre JavaScript par mostrâ la sô mape.
       permalink: Leam permanent
       shortlink: Leam curt
       createnote: Zonte une note
       license:
-        copyright: Copyright di OpenStreetMap e dai siei colaboradôrs, sot di une
-          licence vierte
+        copyright: Copyright di OpenHistoricalMap e dai siei colaboradôrs, sot di
+          une licence vierte
       remote_failed: Cambiament falît - siguriti che JOSM o Merkaartor a sedin inviâts
         e la opzion pal remote control e sedi ativade
     edit:
@@ -1216,20 +1219,20 @@ fur:
       area_to_export: Aree di espuartâ
       manually_select: Sielç a man une aree divierse
       format_to_export: Formât di espuartâ
-      osm_xml_data: Dâts XML di OpenStreetMap
+      osm_xml_data: Dâts XML di OpenHistoricalMap
       licence: Licence
-      export_details_html: I dâts di OpenStreetMap a son dâts fûr sot de licence <a
-        href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
-        Database License</a> (ODbL).
+      export_details_html: I dâts di OpenHistoricalMap a son dâts fûr sot de licence
+        <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
+        Open Database License</a> (ODbL).
       too_large:
-        body: Cheste aree e je masse grande par espuartâle come dâts XML di OpenStreetMap.
+        body: Cheste aree e je masse grande par espuartâle come dâts XML di OpenHistoricalMap.
           Par plasê incrès il zoom, sielç une aree plui piçule o dopre une des sorzints
           ca sot par discjamâ un grum di dâts.
         overpass:
           title: API Overpass
         other:
           title: Altris sorzints
-          description: Altris sorzints elencadis su la wiki di OpenStreetMap
+          description: Altris sorzints elencadis su la wiki di OpenHistoricalMap
       options: Opzions
       format: 'Formât:'
       scale: Scjale
@@ -1254,7 +1257,7 @@ fur:
       title: Cemût vê un jutori
       welcome:
         url: /welcome
-        title: Benvignûts in OpenStreetMap
+        title: Benvignûts in OpenHistoricalMap
       beginners_guide:
         title: Guide pai principiants
       help:
@@ -1264,8 +1267,10 @@ fur:
       irc:
         title: IRC
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Pe organizazions
       wiki:
+        url: http://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
     sidebar:
       search_results: Risultâts de ricercje
@@ -1391,15 +1396,15 @@ fur:
       in: in
     index:
       public_traces: Percors GPS publics
+      my_traces: I miei percors
       public_traces_from: Percors GPS publics di %{user}
       description: Viôt i percors GPS cjamâts sù tai ultins timps
       tagged_with: ' etichetât cun %{tags}'
       upload_trace: Cjame un percors
       all_traces: Ducj i percors
-      my_traces: I miei percors
       traces_from: Percors publics di %{user}
     georss:
-      title: Percors GPS di OpenStreetMap
+      title: Percors GPS di OpenHistoricalMap
     description:
       description_without_count: File GPS di %{user}
   application:
@@ -1721,7 +1726,7 @@ fur:
         gps: Percors GPS publics
         overlays: Ative i nivei utii par risolvi i problemis de mape
         title: Nivei
-      copyright: © <a href='%{copyright_url}'>Colaboradôrs di OpenStreetMap</a>
+      copyright: © <a href='%{copyright_url}'>Colaboradôrs di OpenHistoricalMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fâs une donazion</a>
       terms: <a href='%{terms_url}' target='_blank'>Sît web e tiermins di ûs des APIs</a>
     site:

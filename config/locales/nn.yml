@@ -2,7 +2,6 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Abaksle
-# Author: Amire80
 # Author: Bjorni
 # Author: Danieldegroot2
 # Author: Dittaeva
@@ -21,6 +20,8 @@
 # Author: 6400
 ---
 nn:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
@@ -100,7 +101,7 @@ nn:
         title: 'Emne:'
         latitude: Breiddegrad
         longitude: Lengdegrad
-        language_code: Språk
+        language: Språk
       friend:
         user: Brukar
         friend: Ven
@@ -176,6 +177,8 @@ nn:
       x_years:
         one: 1 år sidan
         other: '%{count} år sidan'
+  printable_name:
+    with_version: '%{id}, v%{version}'
   editor:
     default: Standard (noverande %{name})
     id:
@@ -204,7 +207,7 @@ nn:
         reopened_at_html: Opna att %{when}
         reopened_at_by_html: Opna att %{when} av %{user}
       rss:
-        title: OpenStreetMap-merknadar
+        title: OpenHistoricalMap-merknadar
         commented: ny kommentar (nær %{place})
       entry:
         comment: Kommentar
@@ -215,10 +218,12 @@ nn:
       my settings: Innstellingane mine
       current email address: 'Noverande e-postadresse:'
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: kva er dette?
       public editing:
         heading: Offentleg redigering
         enabled: Aktivert. Ikkje anonym og kan redigere data.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: kva er dette?
         disabled: Deaktivert og kan ikkje redigere data. Alle tidlegare redigeringar
           er anonyme.
@@ -241,6 +246,7 @@ nn:
           igjennom og godkjenne dei nye bidragsytervilkåra.
         agreed_with_pd: Du har òg opplyst at du ansar redigeringane dine for å vere
           offentleg eigedom (Public Domain).
+        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: kva er dette?
       save changes button: Lagre endringar
       make edits public button: Gjer alle redigeringane mine offentleg
@@ -293,6 +299,7 @@ nn:
     relation:
       members: Medlemmar
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} som %{role}'
       type:
         node: Punkt
@@ -464,14 +471,15 @@ nn:
       edit: Rediger
     feed:
       user:
-        title: Oppføringar i OpenStreetMap-dagboka for %{user}
-        description: Nye oppføringar i OpenStreetMap-dagboka til %{user}
+        title: Oppføringar i OpenHistoricalMap-dagboka for %{user}
+        description: Nye oppføringar i OpenHistoricalMap-dagboka til %{user}
       language:
-        title: Oppføringar i OpenStreetMap-dagbøker på %{language_name}
-        description: Nye oppføringar i dagbøkene til OpenStreetMap-brukarar på %{language_name}
+        title: Oppføringar i OpenHistoricalMap-dagbøker på %{language_name}
+        description: Nye oppføringar i dagbøkene til OpenHistoricalMap-brukarar på
+          %{language_name}
       all:
-        title: Oppføringar OpenStreetMap-dagboka
-        description: Nye oppføringar i dagbøkene til OpenStreetMap-brukarar
+        title: Oppføringar OpenHistoricalMap-dagboka
+        description: Nye oppføringar i dagbøkene til OpenHistoricalMap-brukarar
     comments:
       post: Post
       when: Når
@@ -494,11 +502,15 @@ nn:
     search:
       title:
         latlon_html: Resultat frå <a href="http://openstreetmap.org/">Internt</a>
-        osm_nominatim_html: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: Resultat frå <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
-        osm_nominatim_reverse_html: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: Resultat frå <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
+        geonames_reverse_html: Resultat frå <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Kabelbane
@@ -1016,8 +1028,11 @@ nn:
           spam_label: Denne merknaden er søppel
           abusive_label: Denne merknaden er støytande
   layouts:
+    project_name:
+      title: OpenHistoricalMap
+      h1: OpenHistoricalMap
     logo:
-      alt_text: OpenStreetMap-logo
+      alt_text: OpenHistoricalMap-logo
     home: heim
     logout: Logg ut
     log_in: Logg inn
@@ -1036,60 +1051,60 @@ nn:
     user_diaries_tooltip: Vis brukaren si dagbok
     edit_with: Rediger med %{editor}
     tag_line: Fritt Wiki-verdenskart
-    intro_header: Velkomen til OpenStreetMap!
-    intro_text: OpenStreetMap er eit verdskart, laga av folk som deg. Kartet er gratis
-      å bruke under ein open lisens.
+    intro_header: Velkomen til OpenHistoricalMap!
+    intro_text: OpenHistoricalMap er eit verdskart, laga av folk som deg. Kartet er
+      gratis å bruke under ein open lisens.
     intro_2_create_account: Opprett ein brukarkonto
     hosting_partners_html: Drifta er støtta av %{ucl}, %{bytemark} og andre %{partners}.
-    partners_ucl: UCL VR-senteret
-    partners_bytemark: Bytemark Hosting
     partners_partners: partnarar
-    osm_offline: OpenStreetMap databasen er for augneblunken utilgjengelig medan essensielt
-      vedlikeholdsarbeid vert utført.
-    osm_read_only: OpenStreetMap kan ikkje redigerast akkurat no, på grunn av nødvendig
-      vedlikehaldsarbeid.
-    donate: Støytt OpenStreetMap ved %{link} til Hardware Upgrade Fund (eit fond for
-      maskinvareoppgraderinger).
+    osm_offline: OpenHistoricalMap databasen er for augneblunken utilgjengelig medan
+      essensielt vedlikeholdsarbeid vert utført.
+    osm_read_only: OpenHistoricalMap kan ikkje redigerast akkurat no, på grunn av
+      nødvendig vedlikehaldsarbeid.
+    donate: Støytt OpenHistoricalMap ved %{link} til Hardware Upgrade Fund (eit fond
+      for maskinvareoppgraderinger).
     help: Hjelp
     about: Om
     copyright: Opphavsrett
     community: Samfunnet
     community_blogs: Bloggar
-    community_blogs_title: Bloggar frå medlemmane i OpenStreetMap-felleskapet
+    community_blogs_title: Bloggar frå medlemmane i OpenHistoricalMap-felleskapet
     foundation: Stifting
-    foundation_title: OpenStreetMap-stiftinga
+    foundation_title: OpenHistoricalMap-stiftinga
     make_a_donation:
-      title: Støtt OpenStreetMap med ei pengegåve
+      title: Støtt OpenHistoricalMap med ei pengegåve
       text: Gje pengegåve
     learn_more: Les meir
     more: Meir
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} kommenterte på ein oppføring i dagboka di'
+      subject: '[OpenHistoricalMap] %{user} kommenterte på ein oppføring i dagboka
+        di'
       hi: Hei %{to_user},
-      header: '%{from_user} har kommentert på ditt siste OpenStreetMap-dagbokinnlegg
+      header: '%{from_user} har kommentert på ditt siste OpenHistoricalMap-dagbokinnlegg
         med emnet %{subject}:'
       footer: Du kan òg lese kommentaren på %{readurl} og du kan kommentere på %{commenturl}
         eller svare på %{replyurl}
     message_notification:
       hi: Hei %{to_user},
-      header: '%{from_user} har sendt deg ei melding gjennom OpenStreetMap med emnet
-        %{subject}:'
+      header: '%{from_user} har sendt deg ei melding gjennom OpenHistoricalMap med
+        emnet %{subject}:'
     friendship_notification:
       hi: Hei %{to_user},
-      subject: '[OpenStreetMap] %{user} la deg til som ein ven'
-      had_added_you: '%{user} har lagt deg til som ven på OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} la deg til som ein ven'
+      had_added_you: '%{user} har lagt deg til som ven på OpenHistoricalMap.'
       see_their_profile: Du kan sjå profilen deira på %{userurl}.
       befriend_them: Du kan òg leggje dei til som ven på %{befriendurl}.
     gpx_failure:
       failed_to_import: 'klarte ikkje importere. Her er feilen:'
-      subject: '[OpenStreetMap] Feil under import av GPX'
+      import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_import_failures
+      subject: '[OpenHistoricalMap] Feil under import av GPX'
     gpx_success:
       loaded_successfully: lasta med %{trace_points} av %{possible_points} moglege
         punkt.
-      subject: '[OpenStreetMap] Vellukka import av GPX'
+      subject: '[OpenHistoricalMap] Vellukka import av GPX'
     signup_confirm:
-      subject: '[OpenStreetMap] Velkommen til OpenStreetMap'
+      subject: '[OpenHistoricalMap] Velkommen til OpenHistoricalMap'
       greeting: Hei der!
       created: Nokon (forhåpentligvis deg) laga nettop ein konto på %{site_url}.
       confirm: 'Før me kan gjere noko må me bekrefta at denne forespørselen kom frå
@@ -1098,11 +1113,11 @@ nn:
       welcome: Me vil ynskje velkommen og gje deg litt meir informasjon for å få deg
         igang.
     email_confirm:
-      subject: '[OpenStreetMap] Stadfest di e-postadresse'
+      subject: '[OpenHistoricalMap] Stadfest di e-postadresse'
       greeting: Hei,
       click_the_link: Viss det er deg, klikk lenkja nedanfor for å stadfeste endringa.
     lost_password:
-      subject: '[OpenStreetMap] Førespurnad om nullstilling av passord'
+      subject: '[OpenHistoricalMap] Førespurnad om nullstilling av passord'
       greeting: Hei,
       click_the_link: Om dette er deg, vennligst klikk på lenkja under for å tilbakestille
         passordet.
@@ -1229,7 +1244,7 @@ nn:
       image: 'Bilete:'
       gravatar:
         gravatar: Bruk Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
       new image: Legg til eit bilete
       keep image: Hald på gjeldande bilete
       delete image: Fjern gjeldande bilete
@@ -1249,16 +1264,20 @@ nn:
       lost password link: Mista passordet ditt?
       login_button: Logg inn
       register now: Registrer deg no
-      with username: 'Har du allereie ein OpenStreetMap-konto? Logg inn med brukernavnet
+      with username: 'Har du allereie ein OpenHistoricalMap-konto? Logg inn med brukernavnet
         og passordet ditt:'
       with external: 'Alternativt kan du bruke ein tredjepart til å logge inn:'
-      new to osm: Ny på OpenStreetMap?
-      to make changes: For å gjere endringar på OpenStreetMap-data, må du ha ein konto.
+      new to osm: Ny på OpenHistoricalMap?
+      to make changes: For å gjere endringar på OpenHistoricalMap-data, må du ha ein
+        konto.
       create account minute: Opprett ein konto. Det tek berre eitt minutt.
       no account: Har du ingen brukarkonto?
       account not active: Beklagar, kontoen din er ikkje aktivert enno.<br />Bruk
         lenkja i kontobekreftelseseposten for å aktivare kontoen din, eller <a href="%{reconfirm}">be
         om ein ny bekreftelsesepost</a>.
+      account is suspended: Beklagar, kontoen din er deaktivert på grunn av mistenkjeleg
+        aktivitet.<br />Vennligst kontakt <a href="%{webmaster}">webmaster</a> viss
+        du ynskjer å diskutere dette.
       auth failure: Beklagar, kunne ikkje logge inn med den informasjonen
       openid_logo_alt: Logg inn med ein OpenID
       auth_providers:
@@ -1288,12 +1307,12 @@ nn:
           alt: Logg inn med ein AOL OpenID
     destroy:
       title: Logg ut
-      heading: Logg ut frå OpenStreetMap
+      heading: Logg ut frå OpenHistoricalMap
       logout_button: Logg ut
   site:
     about:
       next: Neste
-      copyright_html: <span>&copy;</span>OpenStreetMap<br>bidragsytarar
+      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>bidragsytarar
       local_knowledge_title: Lokalkunnskap
       community_driven_title: Fellesskapsdrive
       open_data_title: Opne Data
@@ -1314,106 +1333,65 @@ nn:
         mapping_link: start kartlegging
       legal_babble:
         title_html: Opphavsrett og lisensar
-        intro_1_html: Data frå OpenStreetMap er <i>åpne data</i>, lisensiert under
+        intro_1_html: Data frå OpenHistoricalMap er <i>åpne data</i>, lisensiert under
           <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open
           Database License</a> (ODbL).
         intro_2_html: "Du er fri til å kopiere, distribuere, overføre og tilpasse
-          dataa våre, så lenge du godskriv OpenStreetMap og bidragsytarane\n  deira.
+          dataa våre, så lenge du godskriv OpenHistoricalMap og bidragsytarane\n  deira.
           Dersom du endrar eller byggjer på dataa våre, kan du berre distribuere resultatet
           under same lisens. \n  Den fullstendige <a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">juridiske\n
           \ teksten</a> forklarer rettane og ansvaret."
         intro_3_1_html: |-
           Kartografien i våre kartfliser, og dokumentasjonen vår, er lisensiert under <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
              Commons Navngivelse-DelPåSammeVilkår 2.0</a> (CC BY-SA).
-        credit_title_html: Korleis kreditere OpenStreetMap
-        credit_1_html: Me krev at du brukar godskrivinga «© OpenStreetMap-bidragsytarane».
+        credit_title_html: Korleis kreditere OpenHistoricalMap
+        credit_1_html: Me krev at du brukar godskrivinga «© OpenHistoricalMap-bidragsytarane».
         credit_2_1_html: Du må óg gjere det klart at dataa er tilgjengeleg under Open
           Database License, og dersom du brukar kartflisene, at kartografien er lisensiert
           under CC BY-SA. Du kan gjere dette ved å lenkje til <a href="http://www.openstreetmap.org/copyright">denne
           sida</a>. Alternativt, og eit krav om du distribuerer OSM i dataform, kan
           du nemne og lenkje til lisensen eller lisensane. I former der lenkjer er
           umogleg (t.d. trykte verk), føreslår me at du viser lesarane dine til openstreetmap.org
-          (kanskje ved å utvide «OpenStreetMap» til denne fulle adressa), til opendatacommons.org,
-          og dersom relevant, til creativecommons.org.
-        credit_4_html: |-
-          For et navigerbart elektronisk kart, skal kjelda visast i hjørnet av kartet.
-          Til dømes:
+          (kanskje ved å utvide «OpenHistoricalMap» til denne fulle adressa), til
+          opendatacommons.org, og dersom relevant, til creativecommons.org.
         attribution_example:
-          alt: Døme på korleis ein syner OpenStreetMap som kjelde på ei vevside
+          alt: Døme på korleis ein syner OpenHistoricalMap som kjelde på ei vevside
           title: Døme på kjeldehenvising
         more_title_html: Finn ut meir
         more_1_html: |-
           Les meir om korleis du brukar dataa våre, og korleis du krediterer oss, i den <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">juridiske
             FAQ-en</a>.
-        more_2_html: |-
-          Sjølv om OpenStreetMap er åpne data kan me ikkje gje eit
-            gratis kart-API til tredjepartsutviklere.
-
-            Sjå våre retningslinjer for nytting av <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API-et</a>,
-            <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">kartbilder</a>
-            og <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_policy">Nominatim</a>.
         contributors_title_html: Bidragsytarane våre
         contributors_intro_html: 'Me har tusenvis av individuelle bidragsytarar. Me
           inkluderer óg åpne datasett frå nasjonale karttjenester og andre kjelder,
           bland anna frå:'
-        contributors_at_html: |-
-          <strong>Austerrike</strong>: Inneheld data henta frå
-             <a href="http://data.wien.gv.at/">Stadt Wien</a> under
-             <a href="http://creativecommons.org/licenses/by/3.0/at/deed.dei">CC BY</a>,
-             <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> og
-             Land Tirol (under <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT med tilleg</a>).
-        contributors_au_html: |-
-          <strong>Australia</strong>: Inneheld forstadsdata basert
-             på Australian Bureau of Statistics data.
-        contributors_ca_html: |-
-          <strong>Canada</strong>: Inneheld data frå
-             GeoBase®, GeoGratis (© Department of Natural
-             Resources Canada), CanVec (© Department of Natural
-             Resources Canada), og StatCan (Geography Division,
-             Statistics Canada).
-        contributors_fr_html: |-
-          <strong>Frankrike</strong>: Inneheld data henta frå
-             Direction Générale des Impôts.
-        contributors_nl_html: |-
-          <strong>Nederland</strong>: Inneheld &copy; AND-data, 2007
-             (<a href="http://www.and.com">www.and.com</a>)</li>
-             <li><strong>New Zealand</strong>: Inneheld data henta frå
-             Land Information New Zealand. Crown Copyright reservert.
-        contributors_nz_html: |-
-          <strong>New Zealand</strong>: Inneheld data henta frå
-             Land Information New Zealand. Crown Copyright reservert.
-        contributors_za_html: '<strong>Sør-Afrika</strong>: Inneheld data frå <a href="http://www.ngi.gov.za/">Chief
-          Directorate: National Geo-Spatial Information</a>, State copyright reserved.'
-        contributors_gb_html: |-
-          <strong>Storbritannia</strong>: Inneheld Ordnance
-             Survey data © Crown copyright og database-rettar
-             2010-12.
         contributors_footer_1_html: |2-
             For detaljar om desse og andre kjelder som har blitt brukt for å forbetra
-            OpenStreetMap, sjå <a href="http://wiki.openstreetmap.org/wiki/Contributors">Bidragsytarar
+            OpenHistoricalMap, sjå <a href="http://wiki.openstreetmap.org/wiki/Contributors">Bidragsytarar
             sida</a> på OpenStreetMap Wikien.
         contributors_footer_2_html: |2-
-            Inkludering av data i OpenStreetMap inneber ikkje at den opphavlege
-            dataleverandøren støttar OpenStreetMap, gjev nokon garanti eller
+            Inkludering av data i OpenHistoricalMap inneber ikkje at den opphavlege
+            dataleverandøren støttar OpenHistoricalMap, gjev nokon garanti eller
             godtek noko erstatningsansvar.
         infringement_title_html: Illegal kopiering
         infringement_1_html: |-
           OSM-bidragsytarar vert minna på å aldri leggje til data frå opphavsrettsbeskytta kjelder (t.d. Google Maps eller utskrivne kart) utan
             uttrykkeleg løyve frå rettighetshavere.
         infringement_2_html: "Dersom du trur at kopibeskytta materiale har blitt lagt
-          inn i OpenStreetMap databasen eller denne sida, venligst henvend deg til
-          vår <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">takedown
+          inn i OpenHistoricalMap databasen eller denne sida, venligst henvend deg
+          til vår <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">takedown
           \nprosedyre</a> eller direkte til vårt <a href=\"https://dmca.openstreetmap.org/\">online
           skjema</a>."
     index:
       js_1: Du har ein nettleser som ikkje støttar JavaScript eller så har du slått
         av JavaScript.
-      js_2: OpenStreetMap brukar JavaScript på kartsidene.
+      js_2: OpenHistoricalMap brukar JavaScript på kartsidene.
       permalink: Permanent lenkje
       shortlink: Kort lenkje
       createnote: Legg til ein notis
       license:
-        copyright: Kopibeskytta OpenStreetMap og bidragsytarar, under ein open lisens
+        copyright: Kopibeskytta OpenHistoricalMap og bidragsytarar, under ein open
+          lisens
       remote_failed: Klarte ikkje redigere - forsikre deg at JOSM eller Merkaartor
         er lasta og fjernkontrollvalget er aktivert
     edit:
@@ -1421,6 +1399,7 @@ nn:
       not_public_description_html: Du kan ikkje lenger redigere kartet om du ikkje
         gjer det. Du kan gjere redigeringane dine offentlege frå din %{user_page}.
       user_page_link: brukarside
+      anon_edits_html: (%{link})
       anon_edits_link_text: Finn ut kvifor dette er tilfellet.
       id_not_configured: iD er ikkje konfigurert
       no_iframe_support: Nettlesaren din støttar ikkje HTML iframes som er naudsynt
@@ -1430,15 +1409,15 @@ nn:
       area_to_export: Område som skal eksporterast
       manually_select: Vel eit anna område manuelt
       format_to_export: Format for eksport
-      osm_xml_data: OpenStreetMap XML-data
+      osm_xml_data: OpenHistoricalMap XML-data
       map_image: Kartblad (viser standard laget)
       embeddable_html: HTML som kan byggjast inn
       licence: Lisens
-      export_details_html: Data frå OpenStreetMap er lisensiert under <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+      export_details_html: Data frå OpenHistoricalMap er lisensiert under <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database License</a> (ODbL).
       too_large:
-        body: Dette området er for stort for å eksporterast som OpenStreetMap XML-data.
-          Zoom inn eller vel eit mindre område.
+        body: Dette området er for stort for å eksporterast som OpenHistoricalMap
+          XML-data. Zoom inn eller vel eit mindre område.
         planet:
           title: Planet OSM
         other:
@@ -1473,6 +1452,7 @@ nn:
         title: Hjelp for nybegynnarar
         description: Dugnadsbasert guide for nybegynnarar.
       help:
+        url: https://help.openstreetmap.org/
         title: help.openstreetmap.org
         description: Still spørsmål eller finn eit svar på spørsmål- og svar-sidene
           til OSM.
@@ -1485,6 +1465,7 @@ nn:
       switch2osm:
         title: switch2osm
       wiki:
+        url: http://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
     sidebar:
       search_results: Søkjeresultat
@@ -1590,6 +1571,7 @@ nn:
         punkt med tidsstempel)
     new:
       visibility_help: kva tyder dette?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Hjelp
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1605,6 +1587,7 @@ nn:
       title: Redigerer spor %{name}
       heading: Redigerer spor %{name}
       visibility_help: kva tyder dette?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     trace_optionals:
       tags: Merkelappar
     show:
@@ -1663,7 +1646,7 @@ nn:
       message: Systemet for opplasting og lagring av GPX-filer er ikkje tilgjengeleg
         for augneblunken.
     georss:
-      title: OpenStreetMap GPS-spor
+      title: OpenHistoricalMap GPS-spor
     description:
       description_without_count: GPX-fil frå %{user}
   application:
@@ -1749,10 +1732,12 @@ nn:
       title: Registrer deg
       no_auto_account_create: Beklagelegvis kan me for augneblunken ikkje opprette
         ein konto for deg automatisk.
+      contact_support_html: Kontakt <a href="%{support}">webmaster</a> for å opprette
+        ein konto. Me vil prøve å handsame førespurnaden så fort som mogleg.
       about:
         header: Fri og redigerbar
         html: |-
-          <p>I motsetnad til andre kart, er heile OpenStreetMap laga av folk som deg. Alle står fritt til å rette, oppdatere, laste ned og bruke kartet.</p>
+          <p>I motsetnad til andre kart, er heile OpenHistoricalMap laga av folk som deg. Alle står fritt til å rette, oppdatere, laste ned og bruke kartet.</p>
           <p>Registrer deg for å starte å bidra. Vi sender deg ein e-post for å stadfeste kontoen din.</p>
       email address: 'E-postadresse:'
       confirm email address: 'Stadfest e-postadresse:'
@@ -1770,6 +1755,7 @@ nn:
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_i_want_my_contributions_to_be_public_domain
       guidance_html: 'Informasjon for å hjelpe å forstå desse vilkåra: eit <a href="%{summary}">menneskeleg
         lesbart sammendrag</a> og nokon <a href="%{translations}">uformelle omsetjingar</a>'
+      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Les og deretter anten godta eller avslå dei nye
         bidragsytervilkåra for å halde fram.
@@ -1778,6 +1764,8 @@ nn:
         france: Frankrike
         italy: Italia
         rest_of_world: Resten av verda
+    terms_declined_flash:
+      terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_terms_declined
     no_such_user:
       title: Ingen brukar funnet
       heading: Brukaren %{user} finst ikkje
@@ -1854,6 +1842,12 @@ nn:
     suspended:
       title: Konto stengt
       heading: Konto stengt
+      body_html: |-
+        <p>
+        Beklagar, kontoen din har vorte automatisk deaktivert på grunn av mistenkjeleg aktivitet.
+        </p>
+        <p>
+        Denne avgjerda vil gjennomgåast av ein administrator snart, eller du kan kontakte %{webmaster} viss du ynskjer å diskutere dette.
     auth_failure:
       invalid_scope: Ugyldig avgrensning
   user_role:
@@ -2022,7 +2016,7 @@ nn:
         gps: Offentlege GPS-sporingar
         overlays: Aktiver lag for å feilsøke i kartet
         title: Lag
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap bidragsytarar</a>
+      copyright: © <a href='%{copyright_url}'>OpenHistoricalMap bidragsytarar</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doner</a>
     site:
       edit_tooltip: Rediger kartet

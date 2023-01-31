@@ -25,6 +25,37 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers = [];
 
+    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
+      attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+      code: "O",
+      keyid: "historical",
+      name: I18n.t("javascripts.map.base.historical"),
+      style: ohmVectorStyles.Original,
+      accessToken: "no-token",
+      localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
+      minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
+      maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
+    }));
+
+    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
+      attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+      code: "W",
+      keyid: "woodblock",
+      name: I18n.t("javascripts.map.base.woodblock"),
+      style: ohmVectorStyles.Woodblock,
+      accessToken: "no-token",
+      localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
+      minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
+      maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
+    }));
+
+    this.on('baselayerchange', function () {  /* MBGL layers can fall out of sync as they're swapped; this helps */
+      this.panBy([0, 1]);
+    });
+    this.on('viewreset', function () {  /* MBGL layers can fall out of sync as they're swapped; this helps */
+      this.panBy([0, 1]);
+    });
+
     this.baseLayers.push(new L.OSM.Mapnik({
       attribution: copyright + " &hearts; " + donate + ". " + terms,
       code: "M",
@@ -57,12 +88,14 @@ L.OSM.Map = L.Map.extend({
       }));
     }
 
+    /*
     this.baseLayers.push(new L.OSM.OPNVKarte({
       attribution: copyright + ". " + memomaps + ". " + terms,
       code: "O",
       keyid: "opnvkarte",
       name: I18n.t("javascripts.map.base.opnvkarte")
     }));
+    */
 
     this.baseLayers.push(new L.OSM.HOT({
       attribution: copyright + ". " + hotosm + ". " + terms,
@@ -91,7 +124,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function (layerParam) {
-    var layers = layerParam || "M",
+    var layers = layerParam || "O",
         layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {

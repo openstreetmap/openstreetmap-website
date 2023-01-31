@@ -8,7 +8,6 @@
 # Author: Eduardo Addad de Oliveira
 # Author: Eduardoaddad
 # Author: FranciscoDS
-# Author: Gfjsilva
 # Author: Giro720
 # Author: Gmare
 # Author: GoEThe
@@ -42,9 +41,12 @@
 # Author: Waldyrious
 ---
 pt-PT:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y às %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Escolher ficheiro
@@ -61,7 +63,7 @@ pt-PT:
       client_application:
         create: Registar
         update: Atualizar
-      oauth2_application:
+      doorkeeper_application:
         create: Registar
         update: Atualizar
       redaction:
@@ -134,7 +136,7 @@ pt-PT:
         title: Assunto
         latitude: Latitude
         longitude: Longitude
-        language_code: Idioma
+        language: Idioma
       doorkeeper/application:
         name: Nome
         redirect_uri: Redirecionar URIs
@@ -241,6 +243,9 @@ pt-PT:
       x_years:
         one: há 1 ano
         other: há %{count} anos
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -270,7 +275,7 @@ pt-PT:
         reopened_at_html: Reaberto %{when}
         reopened_at_by_html: Reaberto %{when} por %{user}
       rss:
-        title: Notas OpenStreetMap
+        title: Notas OpenHistoricalMap
         description_area: Lista de notas reportadas, comentadas ou resolvidas na tua
           área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Um feed RSS para a nota %{id} reportada
@@ -288,13 +293,13 @@ pt-PT:
         warning: Atenção! O processo de eliminação de conta é definitivo e não pode
           ser revertido.
         delete_account: Apagar Conta
-        delete_introduction: 'Podes apagar a tua conta OpenStreetMap usando o botão
-          em baixo. Por favor, tem em conta os seguintes detalhes:'
+        delete_introduction: 'Podes apagar a tua conta OpenHistoricalMap usando o
+          botão em baixo. Por favor, tem em conta os seguintes detalhes:'
         delete_profile: A informação do teu perfil, incluindo o avatar, a descrição
           e a localização, será removida.
         delete_display_name: O teu nome mostrado será eliminado e poderá ser reutilizado
           por outras contas.
-        retain_caveats: 'Contudo, parte da tua informação será mantida no OpenStreetMap,
+        retain_caveats: 'Contudo, parte da tua informação será mantida no OpenHistoricalMap,
           mesmo depois de a tua conta ser eliminada:'
         retain_edits: Se existirem, as edições que fizeste na base de dados do mapa
           serão mantidas.
@@ -315,6 +320,7 @@ pt-PT:
       current email address: E-mail atual
       external auth: Autenticação externa
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: o que é isto?
       public editing:
         heading: Edição pública
@@ -327,8 +333,8 @@ pt-PT:
         heading: Edição pública
         html: Neste momento, as tuas edições são anónimas e as outras pessoas não
           te podem enviar mensagens nem ver a tua localização. Para mostrares as tuas
-          edições e permitires que te contactem através do OpenStreetMap, clica na
-          ligação seguinte. <b>Desde a migração 0.6 da API, apenas os utilizadores
+          edições e permitires que te contactem através do OpenHistoricalMap, clica
+          na ligação seguinte. <b>Desde a migração 0.6 da API, apenas os utilizadores
           com edições públicas podem editar dados do mapa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">mais
           informações</a>).<ul><li>Ao tornares as tuas edições públicas, o teu endereço
           de correio eletrónico não será revelado.</li><li>Esta ação não pode ser
@@ -377,6 +383,8 @@ pt-PT:
     view_history: Ver histórico
     view_details: Ver detalhes
     location: 'Localização:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Conjunto de alterações: %{id}'
       belongs_to: Autor
@@ -419,6 +427,7 @@ pt-PT:
         one: 1 membro
         other: '%{count} membros'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} como %{role}'
       type:
         node: Nó
@@ -471,7 +480,6 @@ pt-PT:
       wikimedia_commons_link: O elemento %{page} na Wikimédia Commons
       telephone_link: Telefonar %{phone_number}
       colour_preview: Antevisão da cor %{colour_value}
-      email_link: E-mail %{email}
     note:
       title: 'Nota: %{id}'
       new_note: Nova Nota
@@ -488,7 +496,8 @@ pt-PT:
       reopened_by_html: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Reaberto por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Ocultada por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: denunciar esta nota
+      report: Denunciar esta nota
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Consultar elementos
       introduction: Clica no mapa para descobrir elementos próximos.
@@ -512,7 +521,6 @@ pt-PT:
     index:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
-      title_user_link_html: Conjuntos de alterações de %{user_link}
       title_friend: Conjuntos de alterações feitos pelos meus amigos
       title_nearby: Conjuntos de alterações feitos por utilizadores próximos
       empty: Não foi encontrado nenhum conjunto de alterações.
@@ -534,9 +542,9 @@ pt-PT:
       comment: Novo comentário sobre o conjunto de alterações n.º %{changeset_id}
         de %{author}
     index:
-      title_all: Discussão sobre conjunto de alterações do OpenStreetMap
+      title_all: Discussão sobre conjunto de alterações do OpenHistoricalMap
       title_particular: Discussão sobre o conjunto de alterações n.º %{changeset_id}
-        do OpenStreetMap
+        do OpenHistoricalMap
     timeout:
       sorry: Lamentamos, a lista de comentários sobre conjuntos de alterações que
         pediste demorou demasiado tempo a ser obtida.
@@ -620,17 +628,18 @@ pt-PT:
       location: 'Localização:'
       view: Ver
       edit: Editar
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: Publicações no diário OpenStreetMap de %{user}
-        description: Publicações recentes no diário OpenStreetMap de %{user}
+        title: Publicações no diário OpenHistoricalMap de %{user}
+        description: Publicações recentes no diário OpenHistoricalMap de %{user}
       language:
-        title: Publicações no diário OpenStreetMap em %{language_name}
-        description: Publicações recentes nos diários de utilizadores OpenStreetMap
+        title: Publicações no diário OpenHistoricalMap em %{language_name}
+        description: Publicações recentes nos diários de utilizadores OpenHistoricalMap
           em %{language_name}
       all:
-        title: Publicações no diário de mapeadores do OpenStreetMap
-        description: Publicações recentes no diário OpenStreetMap
+        title: Publicações no diário de mapeadores do OpenHistoricalMap
+        description: Publicações recentes no diário OpenHistoricalMap
     comments:
       title: Comentários no Diário feitos por %{user}
       heading: Comentários no Diário de %{user}
@@ -664,10 +673,13 @@ pt-PT:
     search:
       title:
         latlon_html: Resultados <a href="https://openstreetmap.org/">internos</a>
-        osm_nominatim_html: Resultados de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: Resultados de <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Resultados de <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
-        osm_nominatim_reverse_html: Resultados de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: Resultados de <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Resultados de <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a>
+        geonames_reverse_html: Resultados de <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -685,16 +697,16 @@ pt-PT:
           aerodrome: Aeródromo
           airstrip: Pista de aterragem
           apron: Plataforma de estacionamento
-          gate: Porta de aeroporto
+          gate: Porta
           hangar: Hangar
           helipad: Heliporto
           holding_position: Posição de estabelecimento
-          navigationaid: Auxílio à Navegação Aérea
+          navigationaid: Auxílio à navegação aérea
           parking_position: Posição de estacionamento
           runway: Pista de aterragem e descolagem
           taxilane: Via de circulação
           taxiway: Taxiway
-          terminal: Terminal de Aeroporto
+          terminal: Terminal
           windsock: Manga de vento
         amenity:
           animal_boarding: Hotel para animais
@@ -740,7 +752,7 @@ pt-PT:
           fire_station: Quartel de bombeiros
           food_court: Praça de alimentação
           fountain: Fonte
-          fuel: Posto de abastecimento
+          fuel: Combustível
           gambling: Jogos de azar
           grave_yard: Cemitério
           grit_bin: Caixa de sal-gema
@@ -896,6 +908,7 @@ pt-PT:
           window_construction: Caixilharia
           winery: Adega
           "yes": Loja de artesanato
+        crossing: Passadeira
         emergency:
           access_point: Ponto de acesso
           ambulance_station: Estação de ambulâncias
@@ -916,7 +929,6 @@ pt-PT:
           bus_stop: Paragem de autocarro
           construction: Estrada em construção
           corridor: Corredor
-          crossing: Passadeira
           cycleway: Ciclovia
           elevator: Elevador
           emergency_access_point: Ponto de acesso de emergência
@@ -1005,8 +1017,8 @@ pt-PT:
           brownfield: Baldio industrial
           cemetery: Cemitério
           commercial: Zona de escritórios
-          conservation: Área de conservação
-          construction: Área de construção
+          conservation: Conservação
+          construction: Construção
           farmland: Terreno agrícola
           farmyard: Edifícios agrícolas
           forest: Floresta
@@ -1027,7 +1039,7 @@ pt-PT:
           reservoir: Água represada
           reservoir_watershed: Reservatório hidrográfico
           residential: Zona residencial
-          retail: Área comercial
+          retail: Zona comercial
           village_green: Espaço verde urbano
           vineyard: Vinha
           "yes": Ocupação do solo
@@ -1237,7 +1249,6 @@ pt-PT:
           "yes": Localidade
         railway:
           abandoned: Ferrovia abandonada
-          buffer_stop: Para-choque ferroviário
           construction: Ferrovia sob construção
           disused: Ferrovia em desuso
           funicular: Funicular
@@ -1251,7 +1262,6 @@ pt-PT:
           platform: Plataforma ferroviária
           preserved: Ferrovia preservada
           proposed: Ferrovia sob planeamento
-          rail: Carris
           spur: Ramal curto (mercadorias)
           station: Estação ferroviária
           stop: Paragem ferroviária
@@ -1260,7 +1270,6 @@ pt-PT:
           switch: Agulha ferroviária
           tram: Linha de elétrico
           tram_stop: Paragem de elétrico
-          turntable: Rotunda ferroviária
           yard: Pátio de manobras ferroviário
         shop:
           agrarian: Loja agrícola
@@ -1387,7 +1396,7 @@ pt-PT:
           artwork: Obra de arte
           attraction: Atração
           bed_and_breakfast: Cama com pequeno-almoço incluído
-          cabin: Cabana turística
+          cabin: Casa de madeira
           camp_pitch: Espaço de acampamento
           camp_site: Parque de campismo
           caravan_site: Parque de caravanas
@@ -1511,7 +1520,6 @@ pt-PT:
   issue_comments:
     create:
       comment_created: O comentário foi criado com sucesso
-      issue_reassigned: O teu comentário foi criado e o problema foi reatribuído
   reports:
     new:
       title_html: Denunciar %{link}
@@ -1550,7 +1558,7 @@ pt-PT:
       provide_details: Por favor, fornece os detalhes necessários
   layouts:
     logo:
-      alt_text: Logótipo do OpenStreetMap
+      alt_text: Logótipo do OpenHistoricalMap
     home: Localização base
     logout: Terminar sessão
     log_in: Iniciar sessão
@@ -1570,63 +1578,59 @@ pt-PT:
     user_diaries_tooltip: Ver diários do utilizador
     edit_with: Editar com %{editor}
     tag_line: O mapa mundial livre e editável
-    intro_header: Bem-vind@ ao OpenStreetMap!
-    intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como tu e de
-      uso livre sob uma licença aberta.
+    intro_header: Bem-vind@ ao OpenHistoricalMap!
+    intro_text: O OpenHistoricalMap é um mapa do mundo, criado por pessoas como tu
+      e de uso livre sob uma licença aberta.
     intro_2_create_account: Cria uma conta de utilizador
     hosting_partners_html: O alojamento é suportado por %{ucl}, %{fastly}, %{bytemark}
       e outros %{partners}.
-    partners_ucl: UCL
-    partners_fastly: Fastly
-    partners_bytemark: Bytemark Hosting
     partners_partners: parceiros
     tou: Condições de utilização
-    osm_offline: A base de dados do OpenStreetMap está indisponível devido a trabalhos
+    osm_offline: A base de dados do OpenHistoricalMap está indisponível devido a trabalhos
       de manutenção.
-    osm_read_only: A base de dados do OpenStreetMap encontra-se em modo de leitura
+    osm_read_only: A base de dados do OpenHistoricalMap encontra-se em modo de leitura
       devido a trabalhos de manutenção.
-    donate: Apoia o OpenStreetMap %{link} para o Fundo de Atualização do Hardware.
+    donate: Apoia o OpenHistoricalMap %{link} para o Fundo de Atualização do Hardware.
     help: Ajuda
     about: Sobre
     copyright: Direitos de Autor
-    communities: Comunidades
     community: Comunidade
     community_blogs: Blogues da comunidade
-    community_blogs_title: Blogues de membros da comunidade OpenStreetMap
+    community_blogs_title: Blogues de membros da comunidade OpenHistoricalMap
     foundation: Fundação
-    foundation_title: A Fundação OpenStreetMap
+    foundation_title: A Fundação OpenHistoricalMap
     make_a_donation:
-      title: Apoia o OpenStreetMap com um donativo monetário
+      title: Apoia o OpenHistoricalMap com um donativo monetário
       text: Fazer donativo
     learn_more: Mais informações
     more: Mais
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} comentou uma publicação de diário'
+      subject: '[OpenHistoricalMap] %{user} comentou uma publicação de diário'
       hi: Olá, %{to_user}.
-      header: '%{from_user} comentou a publicação de diário OpenStreetMap com o assunto
-        %{subject}:'
-      header_html: '%{from_user} comentou a publicação de diário OpenStreetMap com
+      header: '%{from_user} comentou a publicação de diário OpenHistoricalMap com
         o assunto %{subject}:'
+      header_html: '%{from_user} comentou a publicação de diário OpenHistoricalMap
+        com o assunto %{subject}:'
       footer: Também podes ler o comentário em %{readurl} e comentar em %{commenturl}
         ou enviar uma mensagem ao autor em %{replyurl}
       footer_html: Também podes ler o comentário em %{readurl} e comentar em %{commenturl}
         ou enviar uma mensagem ao autor em %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Olá, %{to_user}.
-      header: '%{from_user} enviou-te uma mensagem através do OpenStreetMap com o
-        assunto %{subject}:'
-      header_html: '%{from_user} enviou-te uma mensagem através do OpenStreetMap com
+      header: '%{from_user} enviou-te uma mensagem através do OpenHistoricalMap com
         o assunto %{subject}:'
+      header_html: '%{from_user} enviou-te uma mensagem através do OpenHistoricalMap
+        com o assunto %{subject}:'
       footer: Também podes ler a mensagem em %{readurl} e enviar uma mensagem ao autor
         em %{replyurl}
       footer_html: Também podes ler a mensagem em %{readurl} e enviar mensagem ao
         autor em %{replyurl}
     friendship_notification:
       hi: Olá, %{to_user}.
-      subject: '[OpenStreetMap] %{user} adicionou-te como amigo'
-      had_added_you: '%{user} adicionou-te como amigo no OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} adicionou-te como amigo'
+      had_added_you: '%{user} adicionou-te como amigo no OpenHistoricalMap.'
       see_their_profile: Podes ver o perfil dele em %{userurl}.
       see_their_profile_html: Podes ver o seu perfil em %{userurl}.
       befriend_them: Também podes adicioná-lo como amigo em %{befriendurl}.
@@ -1642,16 +1646,16 @@ pt-PT:
       more_info_html: Podes encontrar mais informações sobre falhas de importação
         GPX e como evitá-las em %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=pt
-      subject: '[OpenStreetMap] Erro ao importar GPX'
+      subject: '[OpenHistoricalMap] Erro ao importar GPX'
     gpx_success:
       hi: Olá, %{to_user}.
       loaded_successfully:
         one: carregado corretamente com %{trace_points} de entre 1 ponto possível.
         other: carregado corretamente com %{trace_points} de entre  %{possible_points}
           pontos possíveis.
-      subject: '[OpenStreetMap] Importação de GPX bem-sucedida'
+      subject: '[OpenHistoricalMap] Importação de GPX bem-sucedida'
     signup_confirm:
-      subject: '[OpenStreetMap] Bem-vind@ ao OpenStreetMap'
+      subject: '[OpenHistoricalMap] Bem-vind@ ao OpenHistoricalMap'
       greeting: Olá!
       created: Alguém (provavelmente tu) acabou de criar uma conta em %{site_url}.
       confirm: 'Antes de avançarmos, precisamos de confirmar que este pedido foi feito
@@ -1659,14 +1663,14 @@ pt-PT:
       welcome: Depois de confirmares a tua conta, dar-te-emos algumas informações
         para começares a editar.
     email_confirm:
-      subject: '[OpenStreetMap] Confirma o teu endereço de e-mail'
+      subject: '[OpenHistoricalMap] Confirma o teu endereço de e-mail'
       greeting: Olá,
       hopefully_you: Alguém (provavelmente tu) pediu para alterar o endereço de e-mail
         em %{server_url} para o endereço %{new_address}.
       click_the_link: Se foste tu a fazer o pedido, clica na ligação seguinte para
         confirmares o pedido.
     lost_password:
-      subject: '[OpenStreetMap] Pedido de nova palavra-passe'
+      subject: '[OpenHistoricalMap] Pedido de nova palavra-passe'
       greeting: Olá,
       hopefully_you: Alguém (provavelmente tu) pediu para definir uma nova palavra-passe
         para a conta em openstreetmap.org associada a este e-mail.
@@ -1676,10 +1680,10 @@ pt-PT:
       anonymous: Um utilizador anónimo
       greeting: Olá,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} deixou um comentário numa das tuas
-          notas'
-        subject_other: '[OpenStreetMap] %{commenter} deixou um comentário numa nota
-          que estás a vigiar'
+        subject_own: '[OpenHistoricalMap] %{commenter} deixou um comentário numa das
+          tuas notas'
+        subject_other: '[OpenHistoricalMap] %{commenter} deixou um comentário numa
+          nota que estás a vigiar'
         your_note: '%{commenter} deixou um comentário numa das tuas notas perto de
           %{place}.'
         your_note_html: '%{commenter} deixou um comentário numa das tuas notas perto
@@ -1689,9 +1693,9 @@ pt-PT:
         commented_note_html: '%{commenter} deixou um comentário numa nota comentada
           por ti. A nota fica perto de %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} resolveu uma das tuas notas'
-        subject_other: '[OpenStreetMap] %{commenter} resolveu uma nota que estás a
-          vigiar'
+        subject_own: '[OpenHistoricalMap] %{commenter} resolveu uma das tuas notas'
+        subject_other: '[OpenHistoricalMap] %{commenter} resolveu uma nota que estás
+          a vigiar'
         your_note: '%{commenter} resolveu uma das tuas notas perto de %{place}.'
         your_note_html: '%{commenter} resolveu uma das tuas notas perto de %{place}.'
         commented_note: '%{commenter} resolveu uma nota comentada por ti. A nota fica
@@ -1699,9 +1703,9 @@ pt-PT:
         commented_note_html: '%{commenter} resolveu uma nota comentada por ti. A nota
           fica perto de %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} reabriu uma das tuas notas.'
-        subject_other: '[OpenStreetMap] %{commenter} reabriu uma nota que estás a
-          vigiar'
+        subject_own: '[OpenHistoricalMap] %{commenter} reabriu uma das tuas notas.'
+        subject_other: '[OpenHistoricalMap] %{commenter} reabriu uma nota que estás
+          a vigiar'
         your_note: '%{commenter} reabriu uma das tuas notas perto de %{place}.'
         your_note_html: '%{commenter} reabriu uma das tuas notas perto de %{place}.'
         commented_note: '%{commenter} reabriu uma nota comentada por ti. A nota fica
@@ -1714,9 +1718,9 @@ pt-PT:
       hi: Olá, %{to_user}.
       greeting: Olá,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} comentou um dos teus conjuntos
+        subject_own: '[OpenHistoricalMap] %{commenter} comentou um dos teus conjuntos
           de alterações'
-        subject_other: '[OpenStreetMap] %{commenter} comentou um conjunto de alterações
+        subject_other: '[OpenHistoricalMap] %{commenter} comentou um conjunto de alterações
           que estás a vigiar'
         your_changeset: '%{commenter} deixou um comentário a %{time} num dos teus
           conjuntos de alterações'
@@ -1880,7 +1884,7 @@ pt-PT:
       cancel: Cancelar
       image: Imagem
       gravatar:
-        gravatar: Usar Gravatar
+        gravatar: Usar imagem Gravatar
         link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: O que é o Gravatar?
         disabled: O Gravatar foi desativado.
@@ -1889,7 +1893,7 @@ pt-PT:
       keep image: Manter a imagem atual
       delete image: Remover a imagem atual
       replace image: Substituir a imagem atual
-      image size hint: (as imagens quadradas com, pelo menos, 100x100 píxeis funcionam
+      image size hint: (as imagens quadradas com pelo menos 100x100 píxeis, funcionam
         melhor)
       home location: Localização principal
       no home location: Não definiste a tua localização principal.
@@ -1908,16 +1912,19 @@ pt-PT:
       lost password link: Perdeste a tua palavra-passe?
       login_button: Iniciar sessão
       register now: Regista-te agora
-      with username: 'Já tens uma conta no OpenStreetMap? Por favor, introduz o teu
-        nome de utilizador e palavra-passe:'
+      with username: 'Já tens uma conta no OpenHistoricalMap? Por favor, introduz
+        o teu nome de utilizador e palavra-passe:'
       with external: 'Em alternativa, podes iniciar sessão com um serviço externo:'
-      new to osm: Primeira vez no OpenStreetMap?
-      to make changes: Para editares no OpenStreetMap, precisas de ter uma conta.
+      new to osm: Primeira vez no OpenHistoricalMap?
+      to make changes: Para editares no OpenHistoricalMap, precisas de ter uma conta.
       create account minute: Cria uma conta. Leva apenas um minuto.
       no account: Não tens uma conta?
       account not active: Lamentamos, mas a tua conta ainda não foi ativada.<br />Por
         favor, usa a ligação presente no e-mail que te foi enviado para a ativares
         ou <a href="%{reconfirm}">solicita um novo e-mail de confirmação</a>.
+      account is suspended: Lamentamos, mas a tua conta foi suspensa devido a atividades
+        suspeitas.<br />Por favor, contacta o <a href="%{webmaster}">administrador
+        do website</a> para resolver o problema.
       auth failure: Lamentamos, mas não foi possível iniciar sessão com os dados fornecidos.
       openid_logo_alt: Iniciar sessão com um OpenID
       auth_providers:
@@ -1947,12 +1954,8 @@ pt-PT:
           alt: Iniciar sessão com um OpenID da AOL
     destroy:
       title: Sair
-      heading: Encerrar sessão no OpenStreetMap
+      heading: Encerrar sessão no OpenHistoricalMap
       logout_button: Sair
-    suspended_flash:
-      suspended: Lamentamos, mas a tua conta foi suspensa devido a atividade suspeita.
-      contact_support_html: Contacta %{support_link} se quiseres discutir este assunto.
-      support: apoio
   shared:
     markdown_help:
       title_html: Formatado com <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
@@ -1974,31 +1977,32 @@ pt-PT:
   site:
     about:
       next: Seguinte
-      copyright_html: <span>&copy;</span>Contribuidores<br>do OpenStreetMap
+      copyright_html: <span>&copy;</span>Contribuidores<br>do OpenHistoricalMap
       used_by_html: O %{name} fornece dados a milhares de sítios na Internet, aplicações
         de telemóveis e outros dispositivos
-      lede_text: O OpenStreetMap é desenvolvido por uma comunidade de mapeadores voluntários
-        que contribuem e mantêm atualizados os dados sobre estradas, trilhos, cafés,
-        estações ferroviárias e muito mais por todo o mundo.
+      lede_text: O OpenHistoricalMap é desenvolvido por uma comunidade de mapeadores
+        voluntários que contribuem e mantêm atualizados os dados sobre estradas, trilhos,
+        cafés, estações ferroviárias e muito mais por todo o mundo.
       local_knowledge_title: Conhecimento Local
-      local_knowledge_html: O OpenStreetMap valoriza o conhecimento local. Os contribuidores
-        utilizam fotografias aéreas, dispositivos de GPS e mapas do terreno para verificar
-        que a informação no OpenStreetMap é rigorosa e atualizada.
+      local_knowledge_html: O OpenHistoricalMap valoriza o conhecimento local. Os
+        contribuidores utilizam fotografias aéreas, dispositivos de GPS e mapas do
+        terreno para verificar que a informação no OpenHistoricalMap é rigorosa e
+        atualizada.
       community_driven_title: Desenvolvido Pela Comunidade
       community_driven_html: |-
-        A comunidade do OpenStreetMap é diversa, apaixonada e cresce diariamente.
+        A comunidade do OpenHistoricalMap é diversa, apaixonada e cresce diariamente.
         Entre os nossos contribuidores, encontram-se cartógrafos entusiásticos, profissionais das áreas de sistemas geográficos, engenheiros que utilizam os servidores do OSM, voluntários que mapeiam áreas afetadas por grandes desastres, e muitos mais.
         Para saber mais sobre a nossa comunidade, consulte:
-        <a href='https://blog.openstreetmap.org'>Blogue do OpenStreetMap</a>,
+        <a href='https://blog.openstreetmap.org'>Blogue do OpenHistoricalMap</a>,
         <a href='%{diary_path}'>diários dos utilizadores</a>,
         <a href='https://blogs.openstreetmap.org/'>blogues da comunidade</a>, e o sítio da <a href='https://www.osmfoundation.org/'>Fundação OSM</a>.
       open_data_title: Dados Abertos
       open_data_html: |-
-        O OpenStreetMap é constituído por <i>dados abertos</i>: qualquer pessoa tem a liberdade de usar os dados para qualquer fim desde que dê os devidos créditos ao OpenStreetMap e aos seus contribuidores.
+        O OpenHistoricalMap é constituído por <i>dados abertos</i>: qualquer pessoa tem a liberdade de usar os dados para qualquer fim desde que dê os devidos créditos ao OpenHistoricalMap e aos seus contribuidores.
         Se alterar os dados ou criar algo com base nesses dados, só pode distribuir o produto resultante sob a mesma licença. Consulte <a href='%{copyright_path}'>a página sobre direitos de autor e licenciamento</a> para mais informações.
       legal_title: Termos Legais
       legal_1_html: Este sítio e muitos outros serviços relacionados são formalmente
-        geridos pela <a href='https://osmfoundation.org/'>Fundação OpenStreetMap</a>
+        geridos pela <a href='https://osmfoundation.org/'>Fundação OpenHistoricalMap</a>
         (OSMF) em nome da comunidade. A utilização de todos os serviços operados pela
         OSMF estão sujeitos aos nossos <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termos
         de Utilização</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Políticas
@@ -2007,7 +2011,7 @@ pt-PT:
       legal_2_html: |-
         Se tiver perguntas sobre o licenciamento, direitos de autor ou outras questões legais, por favor, <a href='https://osmfoundation.org/Contact'>contacte a OSMF</a>.
         <br>
-        O OpenStreetMap, o logótipo da lupa e o 'Estado do Mapa' são <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marcas registadas da OSMF</a>.
+        O OpenHistoricalMap, o logótipo da lupa e o 'Estado do Mapa' são <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marcas registadas da OSMF</a>.
       partners_title: Parceiros
     copyright:
       foreign:
@@ -2024,120 +2028,75 @@ pt-PT:
       legal_babble:
         title_html: Licença e Direitos de Autor
         intro_1_html: |-
-          O OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> é disponibilizado em <i>dados abertos</i>, sob a licença <a
+          O OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> é disponibilizado em <i>dados abertos</i>, sob a licença <a
           href="https://opendatacommons.org/licenses/odbl/">Open Data
           Commons Open Database License</a> (ODbL) pela  <a
-          href="https://osmfoundation.org/">Fundação OpenStreetMap</a> (OSMF).
+          href="https://osmfoundation.org/">Fundação OpenHistoricalMap</a> (OSMF).
         intro_2_html: Tem o direito de copiar, distribuir, transmitir e adaptar os
-          nossos dados, desde que atribua os devidos créditos ao OpenStreetMap e aos
-          seus contribuidores. Se alterar ou adicionar conteúdo dos nossos dados,
+          nossos dados, desde que atribua os devidos créditos ao OpenHistoricalMap
+          e aos seus contribuidores. Se alterar ou adicionar conteúdo dos nossos dados,
           pode distribuir o resultado apenas com a mesma licença. O <a href="https://opendatacommons.org/licenses/odbl/1.0/">texto
           legal completo</a> explica os seus direitos e responsabilidades.
         intro_3_1_html: A nossa documentação está disponibilizada sob a licença <a
           href="https://creativecommons.org/licenses/by-sa/2.0/deed.pt">Creative Commons
           Atribuição-CompartilhaIgual 2.0</a> (CC BY-SA 2.0).
-        credit_title_html: Como creditar o OpenStreetMap
-        credit_1_html: 'Onde usar dados do OpenStreetMap, é necessário fazer as duas
-          coisas seguintes:'
-        credit_2_1_html: "<ul>\n<li> Atribuir os créditos ao OpenStreetMap exibindo
-          o nosso aviso de direitos de autor.</li> \n<li> Deixar claro que os dados
-          estão disponíveis sob a Licença Open Database.</li> \n</ul>"
-        credit_3_1_html: Para o aviso de direitos de autor, temos vários requisitos
-          para a sua exibição, dependendo da forma como usa os nossos dados. Por exemplo,
-          aplicam-se regras diferentes para a exibição do aviso de direitos de autor
-          conforme usar um mapa navegável, um mapa impresso ou uma imagem estática.
-          Poderá encontrar toda a informação sobre os requisitos nas <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Diretrizes
-          de Atribuição</a>.
-        credit_4_html: |-
-          Para deixar claro que os dados estão disponíveis sob a Licença Open
-          Database, é possível criar uma ligação para <a href="https://www.openstreetmap.org/copyright">esta página de direitos de autor</a>.
-          Em alternativa, e como requisito, se estiver a distribuir o OSM num formato de dados, pode nomear e ligar diretamente à(s) licença(s). Em plataformas multimédia onde as ligações não são possíveis (por exemplo, trabalhos impressos), sugerimos que direcione os seus utilizadores para openstreetmap.org (talvez expandindo 'OpenStreetMap' para este endereço completo) e para opendatacommons.org. Neste exemplo, os créditos aparecem no canto do mapa.
+        credit_title_html: Como creditar o OpenHistoricalMap
+        credit_1_html: Pedimos que use os créditos &ldquo;&copy; contribuidores do
+          OpenHistoricalMap&rdquo; ou, se for mais adequado, em inglês &ldquo;&copy;
+          OpenHistoricalMap contributors&rdquo;.
+        credit_2_1_html: Também deve indicar claramente que os dados estão disponíveis
+          sob a Licença de Base de Dados Aberta. Pode fazer isto colocando uma hiperligação
+          para <a href="https://www.openstreetmap.org/copyright">esta página sobre
+          direitos de autor</a>. Em alternativa, e obrigatório caso distribua o OpenHistoricalMap
+          em formato de dados, pode fazer referência e colocar hiperligações a apontar
+          para a(s) licença(s). Em suportes onde não seja possível colocar hiperligações
+          (por exemplo, obras impressas) sugerimos que direcione os leitores para
+          www.openstreetmap.org (talvez expandindo &lsquo;OpenHistoricalMap&rsquo;
+          para o endereço completo) e para www.opendatacommons.org.
         attribution_example:
-          alt: Exemplo de como indicar os créditos do OpenStreetMap numa página eletrónica
+          alt: Exemplo de como indicar os créditos do OpenHistoricalMap numa página
+            eletrónica
           title: Exemplo de atribuição
         more_title_html: Mais informação
         more_1_html: |-
           Leia mais informações sobre a utilização dos nossos dados e como atribuir os devidos créditos na <a
           href="https://osmfoundation.org/Licence">página da licença da OSMF</a> (em inglês).
-        more_2_html: Apesar de o OpenStreetMap ser uma plataforma de dados abertos,
-          não podemos fornecer uma API de mapas a terceiros, livre de encargos. Veja
-          a <a href="https://operations.osmfoundation.org/policies/api/">Política
-          de Utilização da API</a>, <a href="https://operations.osmfoundation.org/policies/tiles/">Política
-          de Utilização de Telas</a> e <a href="https://operations.osmfoundation.org/policies/nominatim/">Política
-          de Utilização do Nominatim</a>.
         contributors_title_html: Os nossos contribuidores
-        contributors_intro_html: 'O OpenStreetMap tem milhares de contribuidores.
+        contributors_intro_html: 'O OpenHistoricalMap tem milhares de contribuidores.
           Também são utilizados dados de agências cartográficas nacionais e outras
           fontes, entre elas:'
-        contributors_at_html: '<strong>Áustria</strong>: Contém dados de <a href="https://data.wien.gv.at/">Stadt
-          Wien</a> (sob a licença <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC
-          BY</a>), <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
-          Vorarlberg</a> e Land Tirol (sob a licença <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
-          AT com emendas</a>).'
-        contributors_au_html: "<strong>Austrália</strong>: contém ou foi desenvolvido
-          usando fronteiras administrativas &copy; \n<a href=\"https://geoscape.com.au/legal/data-copyright-and-disclaimer/\">PSMA
-          Australia Limited</a>\nlicenciada pela Commonwealth of Australia sob uma
-          licença\n<a href=\"https://creativecommons.org/licenses/by/4.0/\">Creative
-          Commons Attribuição 4.0 Licença Internacional (CC BY 4.0)</a>."
-        contributors_ca_html: '<strong>Canadá</strong>: contém dados de GeoBase&reg;,
-          GeoGratis (&copy; Departmento de Recursos Naturais do Canadá), CanVec (&copy;
-          Departmento de Recursos Naturais do Canadá) e StatCan (Divisão de Geografia,
-          Estatísticas do Canadá).'
-        contributors_fi_html: '<strong>Finlândia</strong>: contém dados da Base de
-          Dados Topográficos do Instituto Nacional de Topografia da Finlândia e de
-          outras bases de dados, sob a licença <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI</a>.'
-        contributors_fr_html: '<strong>França</strong>: contém dados provenientes
-          da Direção Geral dos Impostos.'
-        contributors_nl_html: '<strong>Países Baixos</strong>: contém dados &copy;
-          AND, 2007 (<a href="https://www.and.com">www.and.com</a>)'
-        contributors_nz_html: |-
-          <strong>Nova Zelândia</strong>: contém dados provenientes do <a href="https://data.linz.govt.nz/">Serviço de Dados LINZ</a> e licenciados para reutilização com a licença
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_si_html: |-
-          <strong>Eslovénia</strong>: contém dados da
-          <a href="http://www.gu.gov.si/en/">Autoridade de Cartografia e Topografia (Geodetska uprava Republike Slovenije)</a> e do
-          <a href="http://www.mkgp.gov.si/en/">Ministério da Agricultura, Floresta e Alimentação (Ministrstvo za kmetijstvo, gozdarstvo in prehrano)</a>
-          (informação pública da Eslovénia).
-        contributors_es_html: |-
-          <strong>Espanha</strong>: contém dados provenientes do Instituto Geográfico Nacional (<a href="http://www.ign.es/">IGN</a>) e do Sistema Cartográfico Nacional (<a href="http://www.scne.es/">SCNE</a>) de Espanha
-          licenciado para reutilização com a <a href="https://creativecommons.org/licenses/by/4.0/deed.pt">CC BY 4.0</a>.
-        contributors_za_html: '<strong>África do Sul</strong>: contém dados provenientes
-          da <a href="http://www.ngi.gov.za/">Direção Geral da Informação Geoespacial
-          Nacional</a>, com direitos de autor do Estado reservados.'
-        contributors_gb_html: '<strong>Reino Unido</strong>: contém dados dos Serviços
-          Topográficos Britânicos &copy; direitos de autor e da base de dados da Coroa
-          2010-2019.'
         contributors_footer_1_html: Para mais informações sobre estas e outras fontes
-          que foram utilizadas para melhorar o OpenStreetMap, consulte a <a href="https://wiki.openstreetmap.org/wiki/Contributors">página
-          de contribuidores</a> (em inglês) na wiki do OpenStreetMap.
-        contributors_footer_2_html: A inclusão de dados no OpenStreetMap não implica
-          que o fornecedor de dados originais apoie o OpenStreetMap, forneça qualquer
+          que foram utilizadas para melhorar o OpenHistoricalMap, consulte a <a href="https://wiki.openstreetmap.org/wiki/Contributors">página
+          de contribuidores</a> (em inglês) na wiki do OpenHistoricalMap.
+        contributors_footer_2_html: A inclusão de dados no OpenHistoricalMap não implica
+          que o fornecedor de dados originais apoie o OpenHistoricalMap, forneça qualquer
           garantia ou aceite algum tipo de responsabilidade.
         infringement_title_html: Violação de direitos de autor
-        infringement_1_html: Os contribuidores do OpenStreetMap são informados regularmente
-          para nunca adicionarem dados de fontes protegidas por direitos de autor
-          (por exemplo o Google Maps ou mapas comerciais impressos) sem permissão
+        infringement_1_html: Os contribuidores do OpenHistoricalMap são informados
+          regularmente para nunca adicionarem dados de fontes protegidas por direitos
+          de autor (por exemplo o Google Maps ou mapas comerciais impressos) sem permissão
           explícita dos detentores dos direitos de autor.
         infringement_2_html: Se entender que foi adicionado material protegido por
-          direitos de autor indevidamente à base de dados do OpenStreetMap, por favor,
-          consulte o <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedimento
+          direitos de autor indevidamente à base de dados do OpenHistoricalMap, por
+          favor, consulte o <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedimento
           para retirar dados protegidos</a> (em inglês) ou preencha os dados diretamente
           no <a href="https://dmca.openstreetmap.org/">formulário online</a> (em inglês).
         trademarks_title_html: <span id="trademarks"></span>Marcas registadas
-        trademarks_1_html: O nome OpenStreetMap, o respetivo logótipo e State of the
-          Map são marcas registadas da Fundação OpenStreetMap. Se tiver alguma questão
-          sobre a utilização das marcas, por favor, consulte as nossas <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Normas
-          Sobre Marcas Comerciais</a>.
+        trademarks_1_html: O nome OpenHistoricalMap, o respetivo logótipo e State
+          of the Map são marcas registadas da Fundação OpenHistoricalMap. Se tiver
+          alguma questão sobre a utilização das marcas, por favor, consulte as nossas
+          <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Normas Sobre
+          Marcas Comerciais</a>.
     index:
       js_1: Está a usar um navegador de Internet que não suporta JavaScript ou tem
         o JavaScript desativado.
-      js_2: É necessário ter o JavaScript ativado para visualizar mapas no OpenStreetMap.
+      js_2: É necessário ter o JavaScript ativado para visualizar mapas no OpenHistoricalMap.
       permalink: Ligação permanente
       shortlink: Atalho
       createnote: Adicionar nota
       license:
-        copyright: Direitos de autor do OpenStreetMap e seus contribuidores, sob uma
-          licença aberta
+        copyright: Direitos de autor do OpenHistoricalMap e seus contribuidores, sob
+          uma licença aberta
       remote_failed: Erro ao editar - confirma se o JOSM ou o Merkaartor está carregado
         e se a opção de controlo remoto está ativada
     edit:
@@ -2145,6 +2104,7 @@ pt-PT:
       not_public_description_html: Não podes continuar a editar enquanto não o fizeres.
         Podes definir as tuas edições como públicas na tua %{user_page}.
       user_page_link: página de utilizador
+      anon_edits_html: (%{link})
       anon_edits_link_text: Descobre a que se deve isto.
       id_not_configured: O editor iD não foi configurado
       no_iframe_support: O teu navegador de Internet não suporta iframes HTML, que
@@ -2154,26 +2114,26 @@ pt-PT:
       area_to_export: Área a exportar
       manually_select: Selecionar manualmente outra área
       format_to_export: Formato a exportar
-      osm_xml_data: Dados XML do OpenStreetMap
+      osm_xml_data: Dados XML do OpenHistoricalMap
       map_image: Imagem do mapa (mostra a camada padrão)
       embeddable_html: HTML integrável
       licence: Licença
-      export_details_html: Os dados do OpenStreetMap encontram-se sob a <a href="https://opendatacommons.org/licenses/odbl/1.0/">licença
+      export_details_html: Os dados do OpenHistoricalMap encontram-se sob a <a href="https://opendatacommons.org/licenses/odbl/1.0/">licença
         Open Data Commons Open Database</a> (ODbL).
       too_large:
         advice: 'Se a exportação acima falhar, por favor, considera o uso de uma das
           fontes seguintes:'
-        body: Esta área é demasiado grande para exportar em dados XML do OpenStreetMap.
+        body: Esta área é demasiado grande para exportar em dados XML do OpenHistoricalMap.
           Por favor, amplia a vista ou seleciona uma área mais pequena. Para transferir
           dados em massa, usa uma das seguintes fontes.
         planet:
           title: Planeta OSM
           description: Cópias atualizadas regularmente da base de dados completa do
-            OpenStreetMap
+            OpenHistoricalMap
         overpass:
           title: API do Overpass
           description: Transferir dados desta caixa delimitadora através de um espelho
-            da base de dados do OpenStreetMap
+            da base de dados do OpenHistoricalMap
         geofabrik:
           title: Transferências do Geofabrik
           description: Extrações atualizadas regularmente de continentes, países e
@@ -2183,7 +2143,7 @@ pt-PT:
           description: Extrações das principais cidades do mundo e seus arredores
         other:
           title: Outras fontes
-          description: Fontes adicionais listadas na wiki do OpenStreetMap
+          description: Fontes adicionais listadas na wiki do OpenHistoricalMap
       options: Opções
       format: Formato
       scale: Escala
@@ -2204,7 +2164,8 @@ pt-PT:
           title: Junte-se à comunidade
           explanation_html: Se reparou num problema com os nossos dados do mapa, como
             a falta de uma estrada ou do seu endereço, a melhor coisa a fazer é juntar-se
-            à comunidade do OpenStreetMap e adicionar ou corrigir os dados você mesm@.
+            à comunidade do OpenHistoricalMap e adicionar ou corrigir os dados você
+            mesm@.
         add_a_note:
           instructions_html: |-
             Clique em <a class='icon note'></a> ou no mesmo ícone na interface do mapa.
@@ -2218,56 +2179,46 @@ pt-PT:
           OSMF</a> apropriado.
     help:
       title: Como Obter Ajuda
-      introduction: O OpenStreetMap tem vários recursos para aprender mais sobre o
-        projeto, perguntar e responder a perguntas, e discutir e documentar assuntos
+      introduction: O OpenHistoricalMap tem vários recursos para aprender mais sobre
+        o projeto, perguntar e responder a perguntas, e discutir e documentar assuntos
         sobre mapeamento de forma colaborativa.
       welcome:
         url: /welcome
-        title: Bem-vind@ ao OpenStreetMap
-        description: Começa com este guia rápido sobre os princípios básicos do OpenStreetMap.
+        title: Bem-vind@ ao OpenHistoricalMap
+        description: Começa com este guia rápido sobre os princípios básicos do OpenHistoricalMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Pt:Beginners%27_guide
         title: Guia para Principiantes
         description: Guia para principiantes atualizado pela comunidade.
       help:
+        url: https://help.openstreetmap.org/
         title: Fórum de Ajuda
         description: Faz uma pergunta ou procura respostas no fórum de perguntas e
-          respostas do OpenStreetMap.
+          respostas do OpenHistoricalMap.
       mailing_lists:
         title: Listas de E-mail
         description: Faz uma pergunta ou debate temas interessantes numa vasta gama
           de listas de e-mail temáticas ou regionais.
       forums:
-        title: Fóruns (obsoleto)
+        title: Fóruns
         description: Questões e discussões para quem prefere uma interface ao estilo
           dos sistemas de boletins eletrónicos.
-      community:
-        title: Fórum da comunidade
-        description: Um local partilhado para conversas sobre o OpenStreetMap.
       irc:
         title: IRC
         description: Sala de discussão IRC em várias línguas e sobre muitos tópicos.
       switch2osm:
         title: switch2osm
         description: Ajuda para empresas e organizações que queiram mudar para os
-          mapas do OpenStreetMap e outros serviços.
+          mapas do OpenHistoricalMap e outros serviços.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Para Organizações
-        description: Pertence a uma organização que está a ponderar usar o OpenStreetMap?
+        description: Pertence a uma organização que está a ponderar usar o OpenHistoricalMap?
           Descubra o que precisa de saber na Página de Boas-vindas.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Pt:Main_Page
-        title: Wiki OpenStreetMap
-        description: Explora a wiki de documentação sobre o OpenStreetMap.
-    potlatch:
-      removed: O teu editor padrão do OpenStreetMap está definido como sendo o Potlatch.
-        Como o Adobe Flash Player foi retirado, o Potlatch já não se encontra disponível
-        para uso num navegador de Internet.
-      desktop_html: Ainda podes usar o Potlatch <a href="https://www.systemed.net/potlatch/">transferindo
-        a aplicação desktop para Mac e Windows</a>.
-      id_html: Alternativamente, podes definir o teu editor padrão para o iD, que
-        é executado no teu navegador de Internet tal como o Potlatch fazia. <a href="%{settings_url}">Altera
-        as tuas definições aqui</a>.
+        title: Wiki OpenHistoricalMap
+        description: Explora a wiki de documentação sobre o OpenHistoricalMap.
     sidebar:
       search_results: Resultados da Pesquisa
       close: Fechar
@@ -2320,7 +2271,6 @@ pt-PT:
           common:
           - Terrenos comunitários
           - prado
-          - Jardim
           retail: Área de retalho
           industrial: Área industrial
           commercial: Área comercial
@@ -2354,12 +2304,12 @@ pt-PT:
           toilets: Casas de banho
     welcome:
       title: Bem-vind@!
-      introduction_html: Bem-vindo(a) ao OpenStreetMap, o mapa do mundo, grátis e
-        editável. Agora que te inscreveste, podes começar a mapear.<br>Apresentamos-te
+      introduction_html: Bem-vindo(a) ao OpenHistoricalMap, o mapa do mundo, grátis
+        e editável. Agora que te inscreveste, podes começar a mapear.<br>Apresentamos-te
         aqui um guia rápido com as coisas mais importantes que precisas de saber.
       whats_on_the_map:
         title: O que está no mapa
-        on_html: O OpenStreetMap é um sítio onde todos podem mapear coisas <em>reais
+        on_html: O OpenHistoricalMap é um sítio onde todos podem mapear coisas <em>reais
           e atuais</em> - inclui milhões de edifícios, estradas e outros detalhes
           sobre lugares. Aqui, podes mapear as características do mundo que mais te
           interessarem.
@@ -2369,8 +2319,8 @@ pt-PT:
           dados de outros mapas, quer eles estejam na Internet ou em papel.
       basic_terms:
         title: Termos básicos para mapear
-        paragraph_1_html: O OpenStreetMap tem os seus próprios conceitos. Aqui tens
-          a explicação de algumas palavras úteis.
+        paragraph_1_html: O OpenHistoricalMap tem os seus próprios conceitos. Aqui
+          tens a explicação de algumas palavras úteis.
         editor_html: Um <strong>editor</strong> é um programa ou website que podes
           usar para editar o mapa.
         node_html: Um <strong>nó</strong> é um ponto no mapa, como um restaurante
@@ -2382,7 +2332,7 @@ pt-PT:
           duma estrada.
       rules:
         title: Regras!
-        paragraph_1_html: "O OpenStreetMap tem poucas regras formais, mas espera-se
+        paragraph_1_html: "O OpenHistoricalMap tem poucas regras formais, mas espera-se
           que todos os participantes colaborem e comuniquem com a comunidade. Se pretendes
           realizar ações que não envolvam edição manual, como uma importação de dados
           através de programas, por favor, segue as instruções presentes em \n<a href='https://wiki.openstreetmap.org/wiki/Pt:Import/Guidelines'>Importações</a>
@@ -2391,8 +2341,8 @@ pt-PT:
       questions:
         title: Dúvidas?
         paragraph_1_html: |-
-          O OpenStreetMap tem vários recursos para aprender mais sobre o projeto, fazer perguntas, dar respostas e discutir e documentar assuntos sobre mapeamento de forma colaborativa.
-          <a href='%{help_url}'>Obtém ajuda aqui</a>. Pertences a uma organização que planeia usar o OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Visita o Tapete de Boas-vindas</a>.
+          O OpenHistoricalMap tem vários recursos para aprender mais sobre o projeto, fazer perguntas, dar respostas e discutir e documentar assuntos sobre mapeamento de forma colaborativa.
+          <a href='%{help_url}'>Obtém ajuda aqui</a>. Pertences a uma organização que planeia usar o OpenHistoricalMap? <a href='https://welcome.openstreetmap.org/'>Visita o Tapete de Boas-vindas</a>.
       start_mapping: Começar a mapear
       add_a_note:
         title: Sem tempo para editar? Adiciona uma nota!
@@ -2402,28 +2352,6 @@ pt-PT:
         paragraph_2_html: |-
           Vai ao <a href='%{map_url}'>mapa</a> e clica no ícone da nota: <span class='icon note'></span>. Isto adiciona um marcador no mapa, que podes reposicionar, arrastando-o.
           Adiciona a tua mensagem e clica para gravar. O problema será analisado por outros contribuidores.
-    communities:
-      title: Comunidades
-      lede_text: "O OpenStreetMap tem o contributo de pessoas de todo o mundo e é
-        usado por muitas mais.\nEnquanto muitos participam como indivíduos, outros
-        formaram comunidades.\nEsses grupos têm vários tamanhos e representam geografias
-        desde pequenas povoações a grandes regiões de vários países. \nAlém disso,
-        podem ser formais ou informais."
-      local_chapters:
-        title: Capítulos Locais
-        about_text: Os Capítulos Locais são grupos ao nível de países ou regiões que
-          tomaram o passo formal de estabelecer entidades legais sem fins lucrativos.
-          Representam o mapa e os mapeadores de uma área no que toca a lidar com o
-          governo, as empresas e a imprensa locais. Também formaram uma afiliação
-          com a Fundação OpenStreetMap (OSMF), que lhes dá uma ligação ao órgão governamental
-          legal e de direitos de autor.
-        list_text: 'As comunidades seguintes estabeleceram-se formalmente como Capítulos
-          Locais:'
-      other_groups:
-        title: Outros Grupos
-        about_html: |-
-          Não há necessidade de estabelecer formalmente um grupo do tipo dos Capítulos Locais.
-          Na verdade, muitos grupos existem como um conjunto informal de pessoas ou como grupo comunitário. Qualquer pessoa pode criar ou juntar-se a um deles. Lê mais na <a href="https://wiki.openstreetmap.org/wiki/User_group">página wiki das Comunidades</a>.
   traces:
     visibility:
       private: Privado (apenas partilhado como anónimo, pontos não ordenados)
@@ -2446,10 +2374,10 @@ pt-PT:
       upload_failed: Lamentamos, o envio do GPX falhou. Foi enviado um alerta a um
         administrador sobre o erro. Por favor, tenta novamente.
       traces_waiting:
-        one: Tens %{count} rota GPS na fila de envio para a base de dados do OpenStreetMap.
+        one: Tens %{count} rota GPS na fila de envio para a base de dados do OpenHistoricalMap.
           Por favor, antes de enviares mais rotas, aguarda um pouco para terminar
           a inclusão da rota enviada, de modo a não bloquear a fila para outros utilizadores.
-        other: Tens %{count} rotas GPS na fila de envio para a base de dados do OpenStreetMap.
+        other: Tens %{count} rotas GPS na fila de envio para a base de dados do OpenHistoricalMap.
           Por favor, antes de enviares mais rotas, aguarda um pouco para terminar
           a inclusão das rotas enviadas, de modo a não bloquear a fila para outros
           utilizadores.
@@ -2458,6 +2386,7 @@ pt-PT:
       title: A editar a rota %{name}
       heading: A editar a rota %{name}
       visibility_help: o que significa isto?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: Rota atualizada
     trace_optionals:
@@ -2504,7 +2433,7 @@ pt-PT:
       in: em
     index:
       public_traces: Rotas de GPS Públicas
-      my_gps_traces: As minhas rotas GPS
+      my_traces: As Minhas Rotas
       public_traces_from: Rotas GPS públicas do utilizador %{user}
       description: Explorar as rotas GPS enviadas recentemente
       tagged_with: etiquetada com %{tags}
@@ -2513,7 +2442,6 @@ pt-PT:
         wiki</a>.
       upload_trace: Enviar rota GPS
       all_traces: Todas as Rotas
-      my_traces: As Minhas Rotas
       traces_from: Rotas Públicas de %{user}
       remove_tag_filter: Eliminar filtro de etiqueta
     destroy:
@@ -2526,7 +2454,7 @@ pt-PT:
       heading: Armazenamento de GPX indisponível
       message: O sistema de envio e armazenamento de ficheiros GPX encontra-se indisponível.
     georss:
-      title: Rotas de GPS do OpenStreetMap
+      title: Rotas de GPS do OpenHistoricalMap
     description:
       description_with_count:
         one: Ficheiro GPX com %{count} ponto de %{user}
@@ -2540,12 +2468,12 @@ pt-PT:
     require_admin:
       not_an_admin: Tens de ser um administrador para realizar essa operação.
     setup_user_auth:
-      blocked_zero_hour: Tens uma mensagem urgente no website do OpenStreetMap. Terás
-        de ler a mensagem antes de poderes gravar as tuas edições.
+      blocked_zero_hour: Tens uma mensagem urgente no website do OpenHistoricalMap.
+        Tens de ler a mensagem antes de poderes gravar as tuas edições.
       blocked: O teu acesso à API foi bloqueado. Por favor, inicia sessão na página
-        web do OpenStreetMap para obteres mais informações.
+        web do OpenHistoricalMap para obteres mais informações.
       need_to_see_terms: O teu acesso à API está temporariamente suspenso. Por favor,
-        inicia sessão na página web do OpenStreetMap para veres os Termos de Contribuidor.
+        inicia sessão na página web do OpenHistoricalMap para veres os Termos de Contribuidor.
         Não precisas de aceitar os termos, mas tens de os ver.
     settings_menu:
       account_settings: Definições
@@ -2616,7 +2544,7 @@ pt-PT:
       revoke: Anular!
       my_apps: As minhas aplicações autorizadas
       no_apps_html: Tens uma aplicação que queiras registar para ser utilizada com
-        o OpenStreetMap utilizando o padrão %{oauth}? Tens de registar a aplicação
+        o OpenHistoricalMap utilizando o padrão %{oauth}? Tens de registar a aplicação
         web antes de poderes fazer solicitações OAuth a este serviço.
       oauth: OAuth
       registered_apps: 'Tens as seguintes aplicações registadas:'
@@ -2637,6 +2565,7 @@ pt-PT:
       no_applications_html: Tens uma aplicação que queiras registar para ser utilizada
         usando o padrão %{oauth2}? Tens de registar a aplicação antes de poderes fazer
         solicitações OAuth a este serviço.
+      oauth_2: OAuth 2
       new: Registar nova aplicação
       name: Nome
       permissions: Permissões
@@ -2685,13 +2614,13 @@ pt-PT:
       title: Criar conta
       no_auto_account_create: Infelizmente, e de momento, não é possível criar uma
         conta automaticamente.
-      please_contact_support_html: Por favor, contacta %{support_link} para pedir
-        a criação de uma conta - tentaremos tratar do pedido o mais rapidamente possível.
-      support: apoio
+      contact_support_html: Por favor, contacta o <a href="%{support}">apoio</a> para
+        combinar a criação de uma conta - tentaremos responder ao pedido o mais rapidamente
+        possível.
       about:
         header: Livre e editável
         html: |-
-          <p>Ao contrário de outros mapas, o OpenStreetMap é totalmente criado por pessoas como tu e disponibilizado gratuitamente para que qualquer pessoa o possa corrigir, atualizar, transferir e utilizar.</p>
+          <p>Ao contrário de outros mapas, o OpenHistoricalMap é totalmente criado por pessoas como tu e disponibilizado gratuitamente para que qualquer pessoa o possa corrigir, atualizar, transferir e utilizar.</p>
           <p>Cria uma conta de utilizador para começares a colaborar. Enviaremos um e-mail para confirmares a tua conta.</p>
       email address: 'E-mail:'
       confirm email address: 'Confirmar e-mail:'
@@ -2723,6 +2652,7 @@ pt-PT:
       consider_pd: Além do referido anteriormente, considero que as minhas contribuições
         fazem parte âmbito do Domínio Público.
       consider_pd_why: O que é isto?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Informação para ajudar a compreender estes termos: um <a href="%{summary}">resumo
         inteligível</a> e algumas <a href="%{translations}">traduções informais</a>'
       continue: Continuar
@@ -2823,10 +2753,14 @@ pt-PT:
       title: Conta suspensa
       heading: Conta Suspensa
       support: apoio
-      automatically_suspended: Lamentamos, mas a tua conta foi suspensa automaticamente
-        devido a atividade suspeita.
-      contact_support_html: Esta decisão será revista por um administrador em breve,
-        ou podes contactar %{support_link} se quiseres discutir o assunto.
+      body_html: |-
+        <p>
+          Lamentamos, mas a tua conta foi automaticamente suspensa devido a atividades suspeitas.
+        </p>
+        <p>
+          Esta decisão será revista brevemente por um administrador.
+          Podes contactar o %{webmaster} se pretenderes obter esclarecimentos.
+        </p>
     auth_failure:
       connection_failed: Falha na ligação ao serviço externo de autenticação
       invalid_credentials: Credenciais de autenticação inválidas
@@ -2835,9 +2769,9 @@ pt-PT:
       invalid_scope: Âmbito inválido
       unknown_error: Falha na autenticação
     auth_association:
-      heading: O teu ID ainda não está associado a uma conta do OpenStreetMap.
-      option_1: Se ainda não tens conta no OpenStreetMap, por favor, preenche o seguinte
-        formulário.
+      heading: O teu ID ainda não está associado a uma conta do OpenHistoricalMap.
+      option_1: Se ainda não tens conta no OpenHistoricalMap, por favor, preenche
+        o seguinte formulário.
       option_2: Se já tiveres conta, podes iniciar sessão utilizando o teu nome de
         utilizador e palavra-passe e associar a conta ao teu ID nas definições.
   user_role:
@@ -3035,7 +2969,7 @@ pt-PT:
         gps: Rotas de GPS públicas
         overlays: Ativar camadas para solucionar problemas no mapa
         title: Camadas
-      copyright: © <a href='%{copyright_url}'>Contribuidores do OpenStreetMap</a>
+      copyright: © <a href='%{copyright_url}'>Contribuidores do OpenHistoricalMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fazer um donativo</a>
       terms: <a href='%{terms_url}' target='_blank'>Condições de utilização do website
         e da API</a>
@@ -3080,13 +3014,6 @@ pt-PT:
         reactivate: Reabrir
         comment_and_resolve: Comentar e resolver
         comment: Comentar
-        report_link_html: Se esta nota contiver informações sensíveis que precisem
-          de ser removidas, poderás %{link}.
-        other_problems_resolve: Para qualquer outro problema com a nota, resolve-a
-          pessoalmente com um comentário.
-        other_problems_resolved: Para todos os outros problemas, a sua resolução é
-          suficiente.
-        disappear_date_html: Esta nota resolvida desaparecerá do mapa em %{disappear_in}.
     edit_help: Move o mapa, amplia-o no local que pretendes editar e clica aqui.
     directions:
       ascend: Ascenção
@@ -3097,8 +3024,6 @@ pt-PT:
         graphhopper_bicycle: Bicicleta (GraphHopper)
         graphhopper_car: Carro (GraphHopper)
         graphhopper_foot: A pé (GraphHopper)
-        fossgis_valhalla_bicycle: Bicicleta (Valhalla)
-        fossgis_valhalla_foot: Pé (Valhalla)
       descend: Descida
       directions: Direções
       distance: Distância

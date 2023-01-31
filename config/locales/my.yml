@@ -8,8 +8,6 @@
 ---
 my:
   helpers:
-    file:
-      prompt: ဖိုင်ရွေးပါ
     submit:
       diary_comment:
         create: သိမ်းရန်
@@ -21,9 +19,6 @@ my:
       message:
         create: ပို့
       client_application:
-        create: မှတ်ပုံတင်ရန်
-        update: မွမ်းမံ
-      oauth2_application:
         create: မှတ်ပုံတင်ရန်
         update: မွမ်းမံ
       trace:
@@ -45,7 +40,7 @@ my:
         title: အကြောင်းအရာ
         latitude: လတ္တီကျု
         longitude: လောင်ဂျီကျု
-        language_code: ဘာသာစကား
+        language: ဘာသာစကား
       friend:
         user: အသုံးပြုသူ
         friend: သူငယ်ချင်း
@@ -112,28 +107,16 @@ my:
   editor:
     remote:
       name: အဝေး ထိန်းချုပ်
-  auth:
-    providers:
-      none: တစ်ခုမှမဟုတ်
-      google: ဂူဂဲလ်
-      facebook: ဖေ့ဘုတ်
-      wikipedia: ဝီကီပီးဒီးယား
   api:
     notes:
       comment:
         opened_at_html: '%{when} အကြာက ဖန်တီးခဲ့သည်'
-        commented_at_html: '%{when} အသစ်ပြင်ဆင်ထားတဲ့'
+        commented_at_html: '%{when} အကြာက မွမ်းမံခဲ့သည်'
       entry:
         comment: မှတ်ချက်
         full: မှတ်စု အပြည့်အစုံ
-  account:
-    deletions:
-      show:
-        confirm_delete: သေချာပါသလား
-        cancel: မလုပ်တော့ပါ
   accounts:
     edit:
-      title: အကောင့်ကို ပြင်ဆင်ရန်
       current email address: လက်ရှိ အီးမေးလ်လိပ်စာ
       save changes button: ပြောင်းလဲမှုများကို သိမ်းရန်
   browse:
@@ -235,10 +218,14 @@ my:
     search:
       title:
         latlon_html: <a href="https://openstreetmap.org/">အတွင်းဘက်</a> မှ ရလဒ်များ
-        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a> မှ ရလဒ်များ
+        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a> မှ ရလဒ်များ
-        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
+        geonames_html: <a href="http://www.geonames.org/">GeoNames</a> မှ ရလဒ်များ
+        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
           Nominatim</a> မှ ရလဒ်များ
+        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a> မှ
+          ရလဒ်များ
     search_osm_nominatim:
       prefix:
         aeroway:
@@ -281,9 +268,7 @@ my:
           grave_yard: သုဿန်
           hospital: ဆေးရုံ
           ice_cream: ရေခဲမုန့်
-          internet_cafe: အင်တာနက်ကဖေး
           kindergarten: မူလတန်းကျောင်း
-          language_school: ဘာသာစကားကျောင်း
           library: စာကြည့်တိုက်
           marketplace: စျေးတန်း
           monastery: ဘုန်းကြီးကျောင်း
@@ -314,8 +299,6 @@ my:
           viaduct: တောင်ကြားလမ်း
           "yes": တံတား
         building:
-          house: အိမ်
-          roof: ခေါင်မိုး
           "yes": အဆောက်ဦး
         craft:
           brewery: ဘီယာချက်စက်ရုံ
@@ -382,7 +365,6 @@ my:
           embankment: တာရိုး
           lighthouse: မီးပြတိုက်
           pipeline: ပိုက်လိုင်း
-          telescope: အဝေးကြည့်မှန်ပြောင်း
           tower: မျှော်စင်
           watermill: ရေဒလက်စက်
           water_well: ရေတွင်း
@@ -544,8 +526,7 @@ my:
     user_diaries: အသုံးပြုသူများ၏ နေ့စဉ်မှတ်တမ်းများ
     user_diaries_tooltip: အသုံးပြုသူများ၏ နေ့စဉ်မှတ်တမ်းများကို ကြည့်ရန်
     edit_with: '%{editor} ဖြင့် ပြင်ဆင်ရန်'
-    intro_header: OpenStreetMap မှ ကြိုဆိုပါ၏
-    partners_fastly: မြန်မြန်ဆန်ဆန်
+    intro_header: OpenHistoricalMap မှ ကြိုဆိုပါ၏
     tou: အသုံးပြုခြင်းဆိုင်ရာ သတ်မှတ်ချက်များ
     help: အ​ကူ​အ​ညီ​
     about: အကြောင်း
@@ -662,7 +643,7 @@ my:
   site:
     about:
       next: ရှေ့
-      copyright_html: <span>&copy;</span>OpenStreetMap<br> ပံ့ပိုးသူများ
+      copyright_html: <span>&copy;</span>OpenHistoricalMap<br> ပံ့ပိုးသူများ
       local_knowledge_title: ဒေသန္တရ ဗဟုသုတ
       legal_title: တရားဝင်
       partners_title: လုပ်ဖော်ကိုင်ဖက်များ
@@ -695,13 +676,18 @@ my:
       how_to_help:
         title: မည်ကဲ့သို့ ကူညီမည်
     help:
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       help:
+        url: https://help.openstreetmap.org/
         title: အကူညီဖိုရမ်
       forums:
         title: ဖိုရမ်များ
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: အဖွဲ့အစည်းများအတွက်
       wiki:
+        url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
     sidebar:
       search_results: ရှာဖွေမှု ရလာဒ်များ
@@ -739,12 +725,10 @@ my:
       questions:
         title: မေးစရာ ရှိသေးလား
       start_mapping: မြေပုံ စတင်ရေးဆွဲရန်
-    communities:
-      other_groups:
-        title: အခြားအုပ်စုများ
   traces:
     new:
       visibility_help: ဒါက ဘာကိုဆိုလိုတာပါလိမ့်
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: အ​ကူ​အ​ညီ​
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     edit:
@@ -842,7 +826,7 @@ my:
       long_link: လင့်
       download: ဒေါင်းလုဒ်
     map:
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap ပံ့ပိုးသူများ</a>
+      copyright: © <a href='%{copyright_url}'>OpenHistoricalMap ပံ့ပိုးသူများ</a>
     changesets:
       show:
         hide_comment: ဝှက်

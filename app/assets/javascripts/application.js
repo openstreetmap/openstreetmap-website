@@ -6,8 +6,12 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require osm
-//= require leaflet/dist/leaflet-src
+//= require mapbox-gl
+//= require leaflet
 //= require leaflet.osm
+//= require ohm.style
+//= require ohm.style.original
+//= require ohm.style.woodblock
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
@@ -15,9 +19,12 @@
 //= require oauth
 //= require matomo
 //= require richtext
+//= require querystring
 //= require qs/dist/qs
 //= require bs-custom-file-input
 //= require bs-custom-file-input-init
+
+var querystring = require('querystring-component');
 
 /*
  * Called as the user scrolls/zooms around to manipulate hrefs of the
