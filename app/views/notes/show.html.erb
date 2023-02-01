@@ -49,13 +49,18 @@
         </div>
         <div class="btn-wrapper">
           <% if current_user.moderator? -%>
-            <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
+            <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-light",
+                                       :data => { :method => "DELETE",
+                                                  :url => api_note_url(@note, "json") } %>
           <% end -%>
-          <input type="submit" name="close" value="<%= t(".resolve") %>" class="btn btn-primary"
-            data-method="POST" data-url="<%= close_api_note_url(@note, "json") %>"
-            data-default-action-text="<%= t(".resolve") %>"
-            data-comment-action-text="<%= t(".comment_and_resolve") %>">
-          <input type="submit" name="comment" value="<%= t(".comment") %>" class="btn btn-primary" data-method="POST" data-url="<%= comment_api_note_url(@note, "json") %>" disabled="1">
+          <%= submit_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
+                                        :data => { :method => "POST",
+                                                   :url => close_api_note_url(@note, "json"),
+                                                   :default_action_text => t(".resolve"),
+                                                   :comment_action_text => t(".comment_and_resolve") } %>
+          <%= submit_tag t(".comment"), :name => "comment", :class => "btn btn-primary", :disabled => true,
+                                        :data => { :method => "POST",
+                                                   :url => comment_api_note_url(@note, "json") } %>
         </div>
       </form>
     <% end -%>
