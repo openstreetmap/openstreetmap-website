@@ -50,7 +50,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("colour", "#f00")
     assert_dom_equal %(<span class="colour-preview-box" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
 
-    html = format_value("contact", "foo@example.com")
+    html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
 
     html = format_value("source", "https://example.com")
@@ -269,6 +269,12 @@ class BrowseTagsHelperTest < ActionView::TestCase
     # Strips whitespace at ends
     email = email_link("email", " test@email.com ")
     assert_equal "test@email.com", email
+
+    email = email_link("contact:email", "example@example.com")
+    assert_equal "example@example.com", email
+
+    email = email_link("maxweight:conditional", "none@agricultural")
+    assert_nil email
   end
 
   def test_telephone_links

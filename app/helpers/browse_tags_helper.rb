@@ -125,7 +125,10 @@ module BrowseTagsHelper
     nil
   end
 
-  def email_link(_key, value)
+  def email_link(key, value)
+    # Avoid converting conditional tags into emails, since EMAIL_REGEXP is quite permissive
+    return nil unless %w[email contact:email].include? key
+
     # Does the value look like an email? eg "someone@domain.tld"
 
     #  Uses Ruby built-in regexp to validate email.
