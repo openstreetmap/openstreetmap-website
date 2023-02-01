@@ -84,7 +84,7 @@ OpenStreetMap::Application.routes.draw do
     get "gpx/:id/data" => "api/traces#data", :as => :api_trace_data
 
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :controller => "api/notes" do
+    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :controller => "api/notes", :as => :api_notes do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
@@ -113,8 +113,8 @@ OpenStreetMap::Application.routes.draw do
   get "/relation/:id/history" => "browse#relation_history", :id => /\d+/, :as => :relation_history
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
-  get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
-  get "/note/new" => "browse#new_note"
+  resources :notes, :path => "note", :only => [:show, :new]
+
   get "/user/:display_name/history" => "changesets#index"
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes

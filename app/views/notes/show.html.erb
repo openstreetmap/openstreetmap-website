@@ -25,7 +25,7 @@
   </div>
 
   <% if @note_comments.find { |comment| comment.author.nil? } -%>
-    <p class='alert alert-warning'><%= t "javascripts.notes.show.anonymous_warning" %></p>
+    <p class='alert alert-warning'><%= t ".anonymous_warning" %></p>
   <% end -%>
 
   <% if @note_comments.length > 1 %>
@@ -49,10 +49,18 @@
         </div>
         <div class="btn-wrapper">
           <% if current_user.moderator? -%>
-            <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
+            <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-light",
+                                       :data => { :method => "DELETE",
+                                                  :url => api_note_url(@note, "json") } %>
           <% end -%>
-          <input type="submit" name="close" value="<%= t("javascripts.notes.show.resolve") %>" class="btn btn-primary" data-method="POST" data-url="<%= close_note_url(@note, "json") %>">
-          <input type="submit" name="comment" value="<%= t("javascripts.notes.show.comment") %>" class="btn btn-primary" data-method="POST" data-url="<%= comment_note_url(@note, "json") %>" disabled="1">
+          <%= submit_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
+                                        :data => { :method => "POST",
+                                                   :url => close_api_note_url(@note, "json"),
+                                                   :default_action_text => t(".resolve"),
+                                                   :comment_action_text => t(".comment_and_resolve") } %>
+          <%= submit_tag t(".comment"), :name => "comment", :class => "btn btn-primary", :disabled => true,
+                                        :data => { :method => "POST",
+                                                   :url => comment_api_note_url(@note, "json") } %>
         </div>
       </form>
     <% end -%>
@@ -61,10 +69,10 @@
       <input type="hidden" name="text" value="" autocomplete="off">
       <div class="btn-wrapper">
         <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
-          <input type="submit" name="hide" value="<%= t("javascripts.notes.show.hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= note_url(@note, "json") %>">
+          <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
         <% end -%>
         <% if current_user -%>
-          <input type="submit" name="reopen" value="<%= t("javascripts.notes.show.reactivate") %>" class="btn btn-primary" data-method="POST" data-url="<%= reopen_note_url(@note, "json") %>">
+          <input type="submit" name="reopen" value="<%= t(".reactivate") %>" class="btn btn-primary" data-method="POST" data-url="<%= reopen_api_note_url(@note, "json") %>">
         <% end -%>
       </div>
     </form>
@@ -73,11 +81,11 @@
   <% if current_user && current_user != @note.author %>
     <p>
       <small class="text-muted">
-        <%= t "javascripts.notes.show.report_link_html", :link => report_link(t(".report"), @note) %>
+        <%= t ".report_link_html", :link => report_link(t(".report"), @note) %>
         <% if @note.status == "open" %>
-          <%= t "javascripts.notes.show.other_problems_resolve", :link => report_link(t(".report"), @note) %>
+          <%= t ".other_problems_resolve", :link => report_link(t(".report"), @note) %>
         <% elsif @note.status == "closed" %>
-          <%= t "javascripts.notes.show.other_problems_resolved" %>
+          <%= t ".other_problems_resolved" %>
         <% end %>
       </small>
     </p>
@@ -85,7 +93,7 @@
 
   <% if @note.freshly_closed? %>
     <small class="text-muted">
-      <%= t "javascripts.notes.show.disappear_date_html", :disappear_in => disappear_in(@note) %>
+      <%= t ".disappear_date_html", :disappear_in => disappear_in(@note) %>
     </small>
   <% end %>
 </div>

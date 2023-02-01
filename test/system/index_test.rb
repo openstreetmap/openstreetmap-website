@@ -12,7 +12,7 @@ class IndexTest < ApplicationSystemTestCase
 
   test "note included in edit link" do
     note = create(:note_with_comments)
-    visit browse_note_path(note)
+    visit note_path(note)
     assert_selector "#editanchor[href*='?note=#{note.id}#']"
 
     find("#sidebar .btn-close").click
@@ -27,8 +27,8 @@ class IndexTest < ApplicationSystemTestCase
     visible_note = create(:note, :latitude => position, :longitude => position)
     create(:note_comment, :note => visible_note, :body => "this-is-a-visible-note")
 
-    visit root_path(:anchor => "map=15/1/1") # view place of hidden note in case it is not rendered during browse_note_path(hidden_note)
-    visit browse_note_path(hidden_note)
+    visit root_path(:anchor => "map=15/1/1") # view place of hidden note in case it is not rendered during note_path(hidden_note)
+    visit note_path(hidden_note)
     find(".leaflet-control.control-layers .control-button").click
     find("#map-ui .overlay-layers .form-check-label", :text => "Map Notes").click
     visible_note_marker = find(".leaflet-marker-icon[title=this-is-a-visible-note]")
