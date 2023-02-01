@@ -60,10 +60,10 @@ OSM.Note = function (map) {
       var form = e.target.form;
 
       if ($(e.target).val() === "") {
-        $(form.close).val(I18n.t("javascripts.notes.show.resolve"));
+        $(form.close).val($(form.close).data("defaultActionText"));
         $(form.comment).prop("disabled", true);
       } else {
-        $(form.close).val(I18n.t("javascripts.notes.show.comment_and_resolve"));
+        $(form.close).val($(form.close).data("commentActionText"));
         $(form.comment).prop("disabled", false);
       }
     });
