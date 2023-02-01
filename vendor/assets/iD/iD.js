@@ -21,6 +21,10 @@
     return to;
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
@@ -457,6 +461,7 @@
         [69216, 69247],
         [126064, 126143],
         [126464, 126719]
+        // Mathematical Alphabetic symbols https://www.unicode.org/charts/PDF/U1EE00.pdf
       ];
       function isArabic(char) {
         if (char.length > 1) {
@@ -3114,19 +3119,19 @@
         all: function() {
           return this._all(this.data, []);
         },
-        search: function(bbox) {
+        search: function(bbox2) {
           var node = this.data, result = [], toBBox = this.toBBox;
-          if (!intersects(bbox, node))
+          if (!intersects(bbox2, node))
             return result;
           var nodesToSearch = [], i2, len, child, childBBox;
           while (node) {
             for (i2 = 0, len = node.children.length; i2 < len; i2++) {
               child = node.children[i2];
               childBBox = node.leaf ? toBBox(child) : child;
-              if (intersects(bbox, childBBox)) {
+              if (intersects(bbox2, childBBox)) {
                 if (node.leaf)
                   result.push(child);
-                else if (contains(bbox, childBBox))
+                else if (contains(bbox2, childBBox))
                   this._all(child, result);
                 else
                   nodesToSearch.push(child);
@@ -3136,17 +3141,17 @@
           }
           return result;
         },
-        collides: function(bbox) {
+        collides: function(bbox2) {
           var node = this.data, toBBox = this.toBBox;
-          if (!intersects(bbox, node))
+          if (!intersects(bbox2, node))
             return false;
           var nodesToSearch = [], i2, len, child, childBBox;
           while (node) {
             for (i2 = 0, len = node.children.length; i2 < len; i2++) {
               child = node.children[i2];
               childBBox = node.leaf ? toBBox(child) : child;
-              if (intersects(bbox, childBBox)) {
-                if (node.leaf || contains(bbox, childBBox))
+              if (intersects(bbox2, childBBox)) {
+                if (node.leaf || contains(bbox2, childBBox))
                   return true;
                 nodesToSearch.push(child);
               }
@@ -3191,7 +3196,7 @@
         remove: function(item, equalsFn) {
           if (!item)
             return this;
-          var node = this.data, bbox = this.toBBox(item), path = [], indexes = [], i2, parent, index, goingUp;
+          var node = this.data, bbox2 = this.toBBox(item), path = [], indexes = [], i2, parent, index, goingUp;
           while (node || path.length) {
             if (!node) {
               node = path.pop();
@@ -3208,7 +3213,7 @@
                 return this;
               }
             }
-            if (!goingUp && !node.leaf && contains(node, bbox)) {
+            if (!goingUp && !node.leaf && contains(node, bbox2)) {
               path.push(node);
               indexes.push(i2);
               i2 = 0;
@@ -3273,7 +3278,7 @@
           calcBBox(node, this.toBBox);
           return node;
         },
-        _chooseSubtree: function(bbox, node, level, path) {
+        _chooseSubtree: function(bbox2, node, level, path) {
           var i2, len, child, targetNode, area, enlargement, minArea, minEnlargement;
           while (true) {
             path.push(node);
@@ -3283,7 +3288,7 @@
             for (i2 = 0, len = node.children.length; i2 < len; i2++) {
               child = node.children[i2];
               area = bboxArea(child);
-              enlargement = enlargedArea(bbox, child) - area;
+              enlargement = enlargedArea(bbox2, child) - area;
               if (enlargement < minEnlargement) {
                 minEnlargement = enlargement;
                 minArea = area < minArea ? area : minArea;
@@ -3300,10 +3305,10 @@
           return node;
         },
         _insert: function(item, level, isNode) {
-          var toBBox = this.toBBox, bbox = isNode ? item : toBBox(item), insertPath = [];
-          var node = this._chooseSubtree(bbox, this.data, level, insertPath);
+          var toBBox = this.toBBox, bbox2 = isNode ? item : toBBox(item), insertPath = [];
+          var node = this._chooseSubtree(bbox2, this.data, level, insertPath);
           node.children.push(item);
-          extend2(node, bbox);
+          extend2(node, bbox2);
           while (level >= 0) {
             if (insertPath[level].children.length > this._maxEntries) {
               this._split(insertPath, level);
@@ -3311,8 +3316,9 @@
             } else
               break;
           }
-          this._adjustParentBBoxes(bbox, insertPath, level);
+          this._adjustParentBBoxes(bbox2, insertPath, level);
         },
+        // split overflowed node into two
         _split: function(insertPath, level) {
           var node = insertPath[level], M = node.children.length, m = this._minEntries;
           this._chooseSplitAxis(node, m, M);
@@ -3354,11 +3360,13 @@
           }
           return index;
         },
+        // sorts node children by the best axis for split
         _chooseSplitAxis: function(node, m, M) {
           var compareMinX = node.leaf ? this.compareMinX : compareNodeMinX, compareMinY = node.leaf ? this.compareMinY : compareNodeMinY, xMargin = this._allDistMargin(node, m, M, compareMinX), yMargin = this._allDistMargin(node, m, M, compareMinY);
           if (xMargin < yMargin)
             node.children.sort(compareMinX);
         },
+        // total margin of all possible split distributions where each node is at least m full
         _allDistMargin: function(node, m, M, compare) {
           node.children.sort(compare);
           var toBBox = this.toBBox, leftBBox = distBBox(node, 0, m, toBBox), rightBBox = distBBox(node, M - m, M, toBBox), margin = bboxMargin(leftBBox) + bboxMargin(rightBBox), i2, child;
@@ -3374,9 +3382,9 @@
           }
           return margin;
         },
-        _adjustParentBBoxes: function(bbox, path, level) {
+        _adjustParentBBoxes: function(bbox2, path, level) {
           for (var i2 = level; i2 >= 0; i2--) {
-            extend2(path[i2], bbox);
+            extend2(path[i2], bbox2);
           }
         },
         _condense: function(path) {
@@ -3491,14 +3499,14 @@
       module2.exports = lineclip2;
       lineclip2.polyline = lineclip2;
       lineclip2.polygon = polygonclip2;
-      function lineclip2(points, bbox, result) {
-        var len = points.length, codeA = bitCode2(points[0], bbox), part = [], i2, a, b, codeB, lastCode;
+      function lineclip2(points, bbox2, result) {
+        var len = points.length, codeA = bitCode2(points[0], bbox2), part = [], i2, a, b, codeB, lastCode;
         if (!result)
           result = [];
         for (i2 = 1; i2 < len; i2++) {
           a = points[i2 - 1];
           b = points[i2];
-          codeB = lastCode = bitCode2(b, bbox);
+          codeB = lastCode = bitCode2(b, bbox2);
           while (true) {
             if (!(codeA | codeB)) {
               part.push(a);
@@ -3515,11 +3523,11 @@
             } else if (codeA & codeB) {
               break;
             } else if (codeA) {
-              a = intersect2(a, b, codeA, bbox);
-              codeA = bitCode2(a, bbox);
+              a = intersect2(a, b, codeA, bbox2);
+              codeA = bitCode2(a, bbox2);
             } else {
-              b = intersect2(a, b, codeB, bbox);
-              codeB = bitCode2(b, bbox);
+              b = intersect2(a, b, codeB, bbox2);
+              codeB = bitCode2(b, bbox2);
             }
           }
           codeA = lastCode;
@@ -3528,17 +3536,17 @@
           result.push(part);
         return result;
       }
-      function polygonclip2(points, bbox) {
+      function polygonclip2(points, bbox2) {
         var result, edge, prev, prevInside, i2, p, inside;
         for (edge = 1; edge <= 8; edge *= 2) {
           result = [];
           prev = points[points.length - 1];
-          prevInside = !(bitCode2(prev, bbox) & edge);
+          prevInside = !(bitCode2(prev, bbox2) & edge);
           for (i2 = 0; i2 < points.length; i2++) {
             p = points[i2];
-            inside = !(bitCode2(p, bbox) & edge);
+            inside = !(bitCode2(p, bbox2) & edge);
             if (inside !== prevInside)
-              result.push(intersect2(prev, p, edge, bbox));
+              result.push(intersect2(prev, p, edge, bbox2));
             if (inside)
               result.push(p);
             prev = p;
@@ -3550,18 +3558,30 @@
         }
         return result;
       }
-      function intersect2(a, b, edge, bbox) {
-        return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox[3] - a[1]) / (b[1] - a[1]), bbox[3]] : edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox[1] - a[1]) / (b[1] - a[1]), bbox[1]] : edge & 2 ? [bbox[2], a[1] + (b[1] - a[1]) * (bbox[2] - a[0]) / (b[0] - a[0])] : edge & 1 ? [bbox[0], a[1] + (b[1] - a[1]) * (bbox[0] - a[0]) / (b[0] - a[0])] : null;
+      function intersect2(a, b, edge, bbox2) {
+        return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox2[3] - a[1]) / (b[1] - a[1]), bbox2[3]] : (
+          // top
+          edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox2[1] - a[1]) / (b[1] - a[1]), bbox2[1]] : (
+            // bottom
+            edge & 2 ? [bbox2[2], a[1] + (b[1] - a[1]) * (bbox2[2] - a[0]) / (b[0] - a[0])] : (
+              // right
+              edge & 1 ? [bbox2[0], a[1] + (b[1] - a[1]) * (bbox2[0] - a[0]) / (b[0] - a[0])] : (
+                // left
+                null
+              )
+            )
+          )
+        );
       }
-      function bitCode2(p, bbox) {
+      function bitCode2(p, bbox2) {
         var code = 0;
-        if (p[0] < bbox[0])
+        if (p[0] < bbox2[0])
           code |= 1;
-        else if (p[0] > bbox[2])
+        else if (p[0] > bbox2[2])
           code |= 2;
-        if (p[1] < bbox[1])
+        if (p[1] < bbox2[1])
           code |= 4;
-        else if (p[1] > bbox[3])
+        else if (p[1] > bbox2[3])
           code |= 8;
         return code;
       }
@@ -3607,16 +3627,16 @@
           return multi && output.length ? output : null;
         }
         query.tree = tree;
-        query.bbox = function queryBBox(bbox) {
+        query.bbox = function queryBBox(bbox2) {
           var output = [];
           var result = tree.search({
-            minX: bbox[0],
-            minY: bbox[1],
-            maxX: bbox[2],
-            maxY: bbox[3]
+            minX: bbox2[0],
+            minY: bbox2[1],
+            maxX: bbox2[2],
+            maxY: bbox2[3]
           });
           for (var i3 = 0; i3 < result.length; i3++) {
-            if (polygonIntersectsBBox(result[i3].coords, bbox)) {
+            if (polygonIntersectsBBox(result[i3].coords, bbox2)) {
               output.push(result[i3].props);
             }
           }
@@ -3624,15 +3644,15 @@
         };
         return query;
       }
-      function polygonIntersectsBBox(polygon2, bbox) {
+      function polygonIntersectsBBox(polygon2, bbox2) {
         var bboxCenter = [
-          (bbox[0] + bbox[2]) / 2,
-          (bbox[1] + bbox[3]) / 2
+          (bbox2[0] + bbox2[2]) / 2,
+          (bbox2[1] + bbox2[3]) / 2
         ];
         if (insidePolygon(polygon2, bboxCenter))
           return true;
         for (var i2 = 0; i2 < polygon2.length; i2++) {
-          if (lineclip2(polygon2[i2], bbox).length > 0)
+          if (lineclip2(polygon2[i2], bbox2).length > 0)
             return true;
         }
         return false;
@@ -3975,16 +3995,19 @@
             _defineProperties(Constructor, staticProps);
           return Constructor;
         }
-        var Node = function() {
-          function Node2(key, data) {
-            this.next = null;
-            this.key = key;
-            this.data = data;
-            this.left = null;
-            this.right = null;
-          }
-          return Node2;
-        }();
+        var Node = (
+          /** @class */
+          function() {
+            function Node2(key, data) {
+              this.next = null;
+              this.key = key;
+              this.data = data;
+              this.left = null;
+              this.right = null;
+            }
+            return Node2;
+          }()
+        );
         function DEFAULT_COMPARE(a, b) {
           return a > b ? 1 : a < b ? -1 : 0;
         }
@@ -4093,350 +4116,353 @@
               printRow(root3.right, indent2, true, out, printNode);
           }
         }
-        var Tree = function() {
-          function Tree2(comparator) {
-            if (comparator === void 0) {
-              comparator = DEFAULT_COMPARE;
+        var Tree = (
+          /** @class */
+          function() {
+            function Tree2(comparator) {
+              if (comparator === void 0) {
+                comparator = DEFAULT_COMPARE;
+              }
+              this._root = null;
+              this._size = 0;
+              this._comparator = comparator;
             }
-            this._root = null;
-            this._size = 0;
-            this._comparator = comparator;
-          }
-          Tree2.prototype.insert = function(key, data) {
-            this._size++;
-            return this._root = insert(key, data, this._root, this._comparator);
-          };
-          Tree2.prototype.add = function(key, data) {
-            var node = new Node(key, data);
-            if (this._root === null) {
-              node.left = node.right = null;
+            Tree2.prototype.insert = function(key, data) {
               this._size++;
-              this._root = node;
-            }
-            var comparator = this._comparator;
-            var t = splay(key, this._root, comparator);
-            var cmp2 = comparator(key, t.key);
-            if (cmp2 === 0)
-              this._root = t;
-            else {
-              if (cmp2 < 0) {
-                node.left = t.left;
-                node.right = t;
-                t.left = null;
-              } else if (cmp2 > 0) {
-                node.right = t.right;
-                node.left = t;
-                t.right = null;
+              return this._root = insert(key, data, this._root, this._comparator);
+            };
+            Tree2.prototype.add = function(key, data) {
+              var node = new Node(key, data);
+              if (this._root === null) {
+                node.left = node.right = null;
+                this._size++;
+                this._root = node;
               }
-              this._size++;
-              this._root = node;
-            }
-            return this._root;
-          };
-          Tree2.prototype.remove = function(key) {
-            this._root = this._remove(key, this._root, this._comparator);
-          };
-          Tree2.prototype._remove = function(i2, t, comparator) {
-            var x;
-            if (t === null)
-              return null;
-            t = splay(i2, t, comparator);
-            var cmp2 = comparator(i2, t.key);
-            if (cmp2 === 0) {
-              if (t.left === null) {
-                x = t.right;
-              } else {
-                x = splay(i2, t.left, comparator);
-                x.right = t.right;
-              }
-              this._size--;
-              return x;
-            }
-            return t;
-          };
-          Tree2.prototype.pop = function() {
-            var node = this._root;
-            if (node) {
-              while (node.left) {
-                node = node.left;
-              }
-              this._root = splay(node.key, this._root, this._comparator);
-              this._root = this._remove(node.key, this._root, this._comparator);
-              return {
-                key: node.key,
-                data: node.data
-              };
-            }
-            return null;
-          };
-          Tree2.prototype.findStatic = function(key) {
-            var current = this._root;
-            var compare = this._comparator;
-            while (current) {
-              var cmp2 = compare(key, current.key);
+              var comparator = this._comparator;
+              var t = splay(key, this._root, comparator);
+              var cmp2 = comparator(key, t.key);
               if (cmp2 === 0)
-                return current;
-              else if (cmp2 < 0)
-                current = current.left;
-              else
-                current = current.right;
-            }
-            return null;
-          };
-          Tree2.prototype.find = function(key) {
-            if (this._root) {
-              this._root = splay(key, this._root, this._comparator);
-              if (this._comparator(key, this._root.key) !== 0)
-                return null;
-            }
-            return this._root;
-          };
-          Tree2.prototype.contains = function(key) {
-            var current = this._root;
-            var compare = this._comparator;
-            while (current) {
-              var cmp2 = compare(key, current.key);
-              if (cmp2 === 0)
-                return true;
-              else if (cmp2 < 0)
-                current = current.left;
-              else
-                current = current.right;
-            }
-            return false;
-          };
-          Tree2.prototype.forEach = function(visitor, ctx) {
-            var current = this._root;
-            var Q = [];
-            var done = false;
-            while (!done) {
-              if (current !== null) {
-                Q.push(current);
-                current = current.left;
-              } else {
-                if (Q.length !== 0) {
-                  current = Q.pop();
-                  visitor.call(ctx, current);
-                  current = current.right;
-                } else
-                  done = true;
-              }
-            }
-            return this;
-          };
-          Tree2.prototype.range = function(low, high, fn, ctx) {
-            var Q = [];
-            var compare = this._comparator;
-            var node = this._root;
-            var cmp2;
-            while (Q.length !== 0 || node) {
-              if (node) {
-                Q.push(node);
-                node = node.left;
-              } else {
-                node = Q.pop();
-                cmp2 = compare(node.key, high);
-                if (cmp2 > 0) {
-                  break;
-                } else if (compare(node.key, low) >= 0) {
-                  if (fn.call(ctx, node))
-                    return this;
+                this._root = t;
+              else {
+                if (cmp2 < 0) {
+                  node.left = t.left;
+                  node.right = t;
+                  t.left = null;
+                } else if (cmp2 > 0) {
+                  node.right = t.right;
+                  node.left = t;
+                  t.right = null;
                 }
-                node = node.right;
+                this._size++;
+                this._root = node;
               }
-            }
-            return this;
-          };
-          Tree2.prototype.keys = function() {
-            var keys = [];
-            this.forEach(function(_a) {
-              var key = _a.key;
-              return keys.push(key);
-            });
-            return keys;
-          };
-          Tree2.prototype.values = function() {
-            var values = [];
-            this.forEach(function(_a) {
-              var data = _a.data;
-              return values.push(data);
-            });
-            return values;
-          };
-          Tree2.prototype.min = function() {
-            if (this._root)
-              return this.minNode(this._root).key;
-            return null;
-          };
-          Tree2.prototype.max = function() {
-            if (this._root)
-              return this.maxNode(this._root).key;
-            return null;
-          };
-          Tree2.prototype.minNode = function(t) {
-            if (t === void 0) {
-              t = this._root;
-            }
-            if (t)
-              while (t.left) {
-                t = t.left;
+              return this._root;
+            };
+            Tree2.prototype.remove = function(key) {
+              this._root = this._remove(key, this._root, this._comparator);
+            };
+            Tree2.prototype._remove = function(i2, t, comparator) {
+              var x;
+              if (t === null)
+                return null;
+              t = splay(i2, t, comparator);
+              var cmp2 = comparator(i2, t.key);
+              if (cmp2 === 0) {
+                if (t.left === null) {
+                  x = t.right;
+                } else {
+                  x = splay(i2, t.left, comparator);
+                  x.right = t.right;
+                }
+                this._size--;
+                return x;
               }
-            return t;
-          };
-          Tree2.prototype.maxNode = function(t) {
-            if (t === void 0) {
-              t = this._root;
-            }
-            if (t)
-              while (t.right) {
-                t = t.right;
+              return t;
+            };
+            Tree2.prototype.pop = function() {
+              var node = this._root;
+              if (node) {
+                while (node.left) {
+                  node = node.left;
+                }
+                this._root = splay(node.key, this._root, this._comparator);
+                this._root = this._remove(node.key, this._root, this._comparator);
+                return {
+                  key: node.key,
+                  data: node.data
+                };
               }
-            return t;
-          };
-          Tree2.prototype.at = function(index2) {
-            var current = this._root;
-            var done = false;
-            var i2 = 0;
-            var Q = [];
-            while (!done) {
-              if (current) {
-                Q.push(current);
-                current = current.left;
-              } else {
-                if (Q.length > 0) {
-                  current = Q.pop();
-                  if (i2 === index2)
-                    return current;
-                  i2++;
+              return null;
+            };
+            Tree2.prototype.findStatic = function(key) {
+              var current = this._root;
+              var compare = this._comparator;
+              while (current) {
+                var cmp2 = compare(key, current.key);
+                if (cmp2 === 0)
+                  return current;
+                else if (cmp2 < 0)
+                  current = current.left;
+                else
                   current = current.right;
-                } else
-                  done = true;
               }
-            }
-            return null;
-          };
-          Tree2.prototype.next = function(d) {
-            var root3 = this._root;
-            var successor = null;
-            if (d.right) {
-              successor = d.right;
-              while (successor.left) {
-                successor = successor.left;
+              return null;
+            };
+            Tree2.prototype.find = function(key) {
+              if (this._root) {
+                this._root = splay(key, this._root, this._comparator);
+                if (this._comparator(key, this._root.key) !== 0)
+                  return null;
+              }
+              return this._root;
+            };
+            Tree2.prototype.contains = function(key) {
+              var current = this._root;
+              var compare = this._comparator;
+              while (current) {
+                var cmp2 = compare(key, current.key);
+                if (cmp2 === 0)
+                  return true;
+                else if (cmp2 < 0)
+                  current = current.left;
+                else
+                  current = current.right;
+              }
+              return false;
+            };
+            Tree2.prototype.forEach = function(visitor, ctx) {
+              var current = this._root;
+              var Q = [];
+              var done = false;
+              while (!done) {
+                if (current !== null) {
+                  Q.push(current);
+                  current = current.left;
+                } else {
+                  if (Q.length !== 0) {
+                    current = Q.pop();
+                    visitor.call(ctx, current);
+                    current = current.right;
+                  } else
+                    done = true;
+                }
+              }
+              return this;
+            };
+            Tree2.prototype.range = function(low, high, fn, ctx) {
+              var Q = [];
+              var compare = this._comparator;
+              var node = this._root;
+              var cmp2;
+              while (Q.length !== 0 || node) {
+                if (node) {
+                  Q.push(node);
+                  node = node.left;
+                } else {
+                  node = Q.pop();
+                  cmp2 = compare(node.key, high);
+                  if (cmp2 > 0) {
+                    break;
+                  } else if (compare(node.key, low) >= 0) {
+                    if (fn.call(ctx, node))
+                      return this;
+                  }
+                  node = node.right;
+                }
+              }
+              return this;
+            };
+            Tree2.prototype.keys = function() {
+              var keys = [];
+              this.forEach(function(_a) {
+                var key = _a.key;
+                return keys.push(key);
+              });
+              return keys;
+            };
+            Tree2.prototype.values = function() {
+              var values = [];
+              this.forEach(function(_a) {
+                var data = _a.data;
+                return values.push(data);
+              });
+              return values;
+            };
+            Tree2.prototype.min = function() {
+              if (this._root)
+                return this.minNode(this._root).key;
+              return null;
+            };
+            Tree2.prototype.max = function() {
+              if (this._root)
+                return this.maxNode(this._root).key;
+              return null;
+            };
+            Tree2.prototype.minNode = function(t) {
+              if (t === void 0) {
+                t = this._root;
+              }
+              if (t)
+                while (t.left) {
+                  t = t.left;
+                }
+              return t;
+            };
+            Tree2.prototype.maxNode = function(t) {
+              if (t === void 0) {
+                t = this._root;
+              }
+              if (t)
+                while (t.right) {
+                  t = t.right;
+                }
+              return t;
+            };
+            Tree2.prototype.at = function(index2) {
+              var current = this._root;
+              var done = false;
+              var i2 = 0;
+              var Q = [];
+              while (!done) {
+                if (current) {
+                  Q.push(current);
+                  current = current.left;
+                } else {
+                  if (Q.length > 0) {
+                    current = Q.pop();
+                    if (i2 === index2)
+                      return current;
+                    i2++;
+                    current = current.right;
+                  } else
+                    done = true;
+                }
+              }
+              return null;
+            };
+            Tree2.prototype.next = function(d) {
+              var root3 = this._root;
+              var successor = null;
+              if (d.right) {
+                successor = d.right;
+                while (successor.left) {
+                  successor = successor.left;
+                }
+                return successor;
+              }
+              var comparator = this._comparator;
+              while (root3) {
+                var cmp2 = comparator(d.key, root3.key);
+                if (cmp2 === 0)
+                  break;
+                else if (cmp2 < 0) {
+                  successor = root3;
+                  root3 = root3.left;
+                } else
+                  root3 = root3.right;
               }
               return successor;
-            }
-            var comparator = this._comparator;
-            while (root3) {
-              var cmp2 = comparator(d.key, root3.key);
-              if (cmp2 === 0)
-                break;
-              else if (cmp2 < 0) {
-                successor = root3;
-                root3 = root3.left;
-              } else
-                root3 = root3.right;
-            }
-            return successor;
-          };
-          Tree2.prototype.prev = function(d) {
-            var root3 = this._root;
-            var predecessor = null;
-            if (d.left !== null) {
-              predecessor = d.left;
-              while (predecessor.right) {
-                predecessor = predecessor.right;
+            };
+            Tree2.prototype.prev = function(d) {
+              var root3 = this._root;
+              var predecessor = null;
+              if (d.left !== null) {
+                predecessor = d.left;
+                while (predecessor.right) {
+                  predecessor = predecessor.right;
+                }
+                return predecessor;
+              }
+              var comparator = this._comparator;
+              while (root3) {
+                var cmp2 = comparator(d.key, root3.key);
+                if (cmp2 === 0)
+                  break;
+                else if (cmp2 < 0)
+                  root3 = root3.left;
+                else {
+                  predecessor = root3;
+                  root3 = root3.right;
+                }
               }
               return predecessor;
-            }
-            var comparator = this._comparator;
-            while (root3) {
-              var cmp2 = comparator(d.key, root3.key);
-              if (cmp2 === 0)
-                break;
-              else if (cmp2 < 0)
-                root3 = root3.left;
-              else {
-                predecessor = root3;
-                root3 = root3.right;
+            };
+            Tree2.prototype.clear = function() {
+              this._root = null;
+              this._size = 0;
+              return this;
+            };
+            Tree2.prototype.toList = function() {
+              return toList(this._root);
+            };
+            Tree2.prototype.load = function(keys, values, presort) {
+              if (values === void 0) {
+                values = [];
               }
-            }
-            return predecessor;
-          };
-          Tree2.prototype.clear = function() {
-            this._root = null;
-            this._size = 0;
-            return this;
-          };
-          Tree2.prototype.toList = function() {
-            return toList(this._root);
-          };
-          Tree2.prototype.load = function(keys, values, presort) {
-            if (values === void 0) {
-              values = [];
-            }
-            if (presort === void 0) {
-              presort = false;
-            }
-            var size = keys.length;
-            var comparator = this._comparator;
-            if (presort)
-              sort(keys, values, 0, size - 1, comparator);
-            if (this._root === null) {
-              this._root = loadRecursive(keys, values, 0, size);
-              this._size = size;
-            } else {
-              var mergedList = mergeLists(this.toList(), createList(keys, values), comparator);
-              size = this._size + size;
-              this._root = sortedListToBST({
-                head: mergedList
-              }, 0, size);
-            }
-            return this;
-          };
-          Tree2.prototype.isEmpty = function() {
-            return this._root === null;
-          };
-          Object.defineProperty(Tree2.prototype, "size", {
-            get: function get4() {
-              return this._size;
-            },
-            enumerable: true,
-            configurable: true
-          });
-          Object.defineProperty(Tree2.prototype, "root", {
-            get: function get4() {
-              return this._root;
-            },
-            enumerable: true,
-            configurable: true
-          });
-          Tree2.prototype.toString = function(printNode) {
-            if (printNode === void 0) {
-              printNode = function printNode2(n2) {
-                return String(n2.key);
-              };
-            }
-            var out = [];
-            printRow(this._root, "", true, function(v) {
-              return out.push(v);
-            }, printNode);
-            return out.join("");
-          };
-          Tree2.prototype.update = function(key, newKey, newData) {
-            var comparator = this._comparator;
-            var _a = split(key, this._root, comparator), left = _a.left, right = _a.right;
-            if (comparator(key, newKey) < 0) {
-              right = insert(newKey, newData, right, comparator);
-            } else {
-              left = insert(newKey, newData, left, comparator);
-            }
-            this._root = merge3(left, right, comparator);
-          };
-          Tree2.prototype.split = function(key) {
-            return split(key, this._root, this._comparator);
-          };
-          return Tree2;
-        }();
+              if (presort === void 0) {
+                presort = false;
+              }
+              var size = keys.length;
+              var comparator = this._comparator;
+              if (presort)
+                sort(keys, values, 0, size - 1, comparator);
+              if (this._root === null) {
+                this._root = loadRecursive(keys, values, 0, size);
+                this._size = size;
+              } else {
+                var mergedList = mergeLists(this.toList(), createList(keys, values), comparator);
+                size = this._size + size;
+                this._root = sortedListToBST({
+                  head: mergedList
+                }, 0, size);
+              }
+              return this;
+            };
+            Tree2.prototype.isEmpty = function() {
+              return this._root === null;
+            };
+            Object.defineProperty(Tree2.prototype, "size", {
+              get: function get4() {
+                return this._size;
+              },
+              enumerable: true,
+              configurable: true
+            });
+            Object.defineProperty(Tree2.prototype, "root", {
+              get: function get4() {
+                return this._root;
+              },
+              enumerable: true,
+              configurable: true
+            });
+            Tree2.prototype.toString = function(printNode) {
+              if (printNode === void 0) {
+                printNode = function printNode2(n2) {
+                  return String(n2.key);
+                };
+              }
+              var out = [];
+              printRow(this._root, "", true, function(v) {
+                return out.push(v);
+              }, printNode);
+              return out.join("");
+            };
+            Tree2.prototype.update = function(key, newKey, newData) {
+              var comparator = this._comparator;
+              var _a = split(key, this._root, comparator), left = _a.left, right = _a.right;
+              if (comparator(key, newKey) < 0) {
+                right = insert(newKey, newData, right, comparator);
+              } else {
+                left = insert(newKey, newData, left, comparator);
+              }
+              this._root = merge3(left, right, comparator);
+            };
+            Tree2.prototype.split = function(key) {
+              return split(key, this._root, this._comparator);
+            };
+            return Tree2;
+          }()
+        );
         function loadRecursive(keys, values, start2, end) {
           var size = end - start2;
           if (size > 0) {
@@ -4540,8 +4566,8 @@
           sort(keys, values, left, j2, compare);
           sort(keys, values, j2 + 1, right, compare);
         }
-        var isInBbox = function isInBbox2(bbox, point) {
-          return bbox.ll.x <= point.x && point.x <= bbox.ur.x && bbox.ll.y <= point.y && point.y <= bbox.ur.y;
+        var isInBbox = function isInBbox2(bbox2, point2) {
+          return bbox2.ll.x <= point2.x && point2.x <= bbox2.ur.x && bbox2.ll.y <= point2.y && point2.y <= bbox2.ur.y;
         };
         var getBboxOverlap = function getBboxOverlap2(b1, b2) {
           if (b2.ur.x < b1.ll.x || b1.ur.x < b2.ll.x || b2.ur.y < b1.ll.y || b1.ur.y < b2.ll.y)
@@ -4714,6 +4740,7 @@
         var SweepEvent = /* @__PURE__ */ function() {
           _createClass(SweepEvent2, null, [{
             key: "compare",
+            // for ordering sweep events in the sweep event queue
             value: function compare(a, b) {
               var ptCmp = SweepEvent2.comparePoints(a.point, b.point);
               if (ptCmp !== 0)
@@ -4724,6 +4751,7 @@
                 return a.isLeft ? 1 : -1;
               return Segment.compare(a.segment, b.segment);
             }
+            // for ordering points in sweep line order
           }, {
             key: "comparePoints",
             value: function comparePoints(aPt, bPt) {
@@ -4737,14 +4765,15 @@
                 return 1;
               return 0;
             }
+            // Warning: 'point' input will be modified and re-used (for performance)
           }]);
-          function SweepEvent2(point, isLeft) {
+          function SweepEvent2(point2, isLeft) {
             _classCallCheck(this, SweepEvent2);
-            if (point.events === void 0)
-              point.events = [this];
+            if (point2.events === void 0)
+              point2.events = [this];
             else
-              point.events.push(this);
-            this.point = point;
+              point2.events.push(this);
+            this.point = point2;
             this.isLeft = isLeft;
           }
           _createClass(SweepEvent2, [{
@@ -4761,6 +4790,8 @@
               }
               this.checkForConsuming();
             }
+            /* Do a pass over our linked events and check to see if any pair
+             * of segments match, and should be consumed. */
           }, {
             key: "checkForConsuming",
             value: function checkForConsuming() {
@@ -4791,6 +4822,16 @@
               }
               return events;
             }
+            /**
+             * Returns a comparator function for sorting linked events that will
+             * favor the event that will give us the smallest left-side angle.
+             * All ring construction starts as low as possible heading to the right,
+             * so by always turning left as sharp as possible we'll get polygons
+             * without uncessary loops & holes.
+             *
+             * The comparator function has a compute cache such that it avoids
+             * re-computing already-computed values.
+             */
           }, {
             key: "getLeftmostComparator",
             value: function getLeftmostComparator(baseEvent) {
@@ -4838,6 +4879,19 @@
         var Segment = /* @__PURE__ */ function() {
           _createClass(Segment2, null, [{
             key: "compare",
+            /* This compare() function is for ordering segments in the sweep
+             * line tree, and does so according to the following criteria:
+             *
+             * Consider the vertical line that lies an infinestimal step to the
+             * right of the right-more of the two left endpoints of the input
+             * segments. Imagine slowly moving a point up from negative infinity
+             * in the increasing y direction. Which of the two segments will that
+             * point intersect first? That segment comes 'before' the other one.
+             *
+             * If neither segment would be intersected by such a line, (if one
+             * or more of the segments are vertical) then the line to be considered
+             * is directly on the right-more of the two left inputs.
+             */
             value: function compare(a, b) {
               var alx = a.leftSE.point.x;
               var blx = b.leftSE.point.x;
@@ -4921,6 +4975,8 @@
                 return 1;
               return 0;
             }
+            /* Warning: a reference to ringWindings input will be stored,
+             *  and possibly will be later modified */
           }]);
           function Segment2(leftSE, rightSE, rings, windings) {
             _classCallCheck(this, Segment2);
@@ -4936,6 +4992,7 @@
           }
           _createClass(Segment2, [{
             key: "replaceRightSE",
+            /* When a segment is split, the rightSE is replaced with a new sweep event */
             value: function replaceRightSE(newRightSE) {
               this.rightSE = newRightSE;
               this.rightSE.segment = this;
@@ -4944,7 +5001,7 @@
             }
           }, {
             key: "bbox",
-            value: function bbox() {
+            value: function bbox2() {
               var y12 = this.leftSE.point.y;
               var y2 = this.rightSE.point.y;
               return {
@@ -4958,6 +5015,7 @@
                 }
               };
             }
+            /* A vector from the left point to the right */
           }, {
             key: "vector",
             value: function vector() {
@@ -4971,29 +5029,57 @@
             value: function isAnEndpoint(pt) {
               return pt.x === this.leftSE.point.x && pt.y === this.leftSE.point.y || pt.x === this.rightSE.point.x && pt.y === this.rightSE.point.y;
             }
+            /* Compare this segment with a point.
+             *
+             * A point P is considered to be colinear to a segment if there
+             * exists a distance D such that if we travel along the segment
+             * from one * endpoint towards the other a distance D, we find
+             * ourselves at point P.
+             *
+             * Return value indicates:
+             *
+             *   1: point lies above the segment (to the left of vertical)
+             *   0: point is colinear to segment
+             *  -1: point lies below the segment (to the right of vertical)
+             */
           }, {
             key: "comparePoint",
-            value: function comparePoint(point) {
-              if (this.isAnEndpoint(point))
+            value: function comparePoint(point2) {
+              if (this.isAnEndpoint(point2))
                 return 0;
               var lPt = this.leftSE.point;
               var rPt = this.rightSE.point;
               var v = this.vector();
               if (lPt.x === rPt.x) {
-                if (point.x === lPt.x)
+                if (point2.x === lPt.x)
                   return 0;
-                return point.x < lPt.x ? 1 : -1;
+                return point2.x < lPt.x ? 1 : -1;
               }
-              var yDist = (point.y - lPt.y) / v.y;
+              var yDist = (point2.y - lPt.y) / v.y;
               var xFromYDist = lPt.x + yDist * v.x;
-              if (point.x === xFromYDist)
+              if (point2.x === xFromYDist)
                 return 0;
-              var xDist = (point.x - lPt.x) / v.x;
+              var xDist = (point2.x - lPt.x) / v.x;
               var yFromXDist = lPt.y + xDist * v.y;
-              if (point.y === yFromXDist)
+              if (point2.y === yFromXDist)
                 return 0;
-              return point.y < yFromXDist ? -1 : 1;
+              return point2.y < yFromXDist ? -1 : 1;
             }
+            /**
+             * Given another segment, returns the first non-trivial intersection
+             * between the two segments (in terms of sweep line ordering), if it exists.
+             *
+             * A 'non-trivial' intersection is one that will cause one or both of the
+             * segments to be split(). As such, 'trivial' vs. 'non-trivial' intersection:
+             *
+             *   * endpoint of segA with endpoint of segB --> trivial
+             *   * endpoint of segA with point along segB --> non-trivial
+             *   * endpoint of segB with point along segA --> non-trivial
+             *   * point along segA with point along segB --> non-trivial
+             *
+             * If no non-trivial intersection exists, return null
+             * Else, return null.
+             */
           }, {
             key: "getIntersection",
             value: function getIntersection(other) {
@@ -5044,13 +5130,25 @@
                 return null;
               return rounder.round(pt.x, pt.y);
             }
+            /**
+             * Split the given segment into multiple segments on the given points.
+             *  * Each existing segment will retain its leftSE and a new rightSE will be
+             *    generated for it.
+             *  * A new segment will be generated which will adopt the original segment's
+             *    rightSE, and a new leftSE will be generated for it.
+             *  * If there are more than two points given to split on, new segments
+             *    in the middle will be generated with new leftSE and rightSE's.
+             *  * An array of the newly generated SweepEvents will be returned.
+             *
+             * Warning: input array of points is modified
+             */
           }, {
             key: "split",
-            value: function split2(point) {
+            value: function split2(point2) {
               var newEvents = [];
-              var alreadyLinked = point.events !== void 0;
-              var newLeftSE = new SweepEvent(point, true);
-              var newRightSE = new SweepEvent(point, false);
+              var alreadyLinked = point2.events !== void 0;
+              var newLeftSE = new SweepEvent(point2, true);
+              var newRightSE = new SweepEvent(point2, false);
               var oldRightSE = this.rightSE;
               this.replaceRightSE(newRightSE);
               newEvents.push(newRightSE);
@@ -5068,6 +5166,7 @@
               }
               return newEvents;
             }
+            /* Swap which event is left and right */
           }, {
             key: "swapEvents",
             value: function swapEvents() {
@@ -5080,6 +5179,8 @@
                 this.windings[i2] *= -1;
               }
             }
+            /* Consume another segment. We take their rings under our wing
+             * and mark them as consumed. Use for perfectly overlapping segments */
           }, {
             key: "consume",
             value: function consume(other) {
@@ -5120,6 +5221,7 @@
               consumee.leftSE.consumedBy = consumer.leftSE;
               consumee.rightSE.consumedBy = consumer.rightSE;
             }
+            /* The first segment previous segment chain that is in the result */
           }, {
             key: "prevInResult",
             value: function prevInResult() {
@@ -5200,6 +5302,7 @@
               }
               return this._afterState;
             }
+            /* Is this segment part of the final result? */
           }, {
             key: "isInResult",
             value: function isInResult() {
@@ -5296,19 +5399,19 @@
               if (typeof geomRing[i2][0] !== "number" || typeof geomRing[i2][1] !== "number") {
                 throw new Error("Input geometry is not a valid Polygon or MultiPolygon");
               }
-              var point = rounder.round(geomRing[i2][0], geomRing[i2][1]);
-              if (point.x === prevPoint.x && point.y === prevPoint.y)
+              var point2 = rounder.round(geomRing[i2][0], geomRing[i2][1]);
+              if (point2.x === prevPoint.x && point2.y === prevPoint.y)
                 continue;
-              this.segments.push(Segment.fromRing(prevPoint, point, this));
-              if (point.x < this.bbox.ll.x)
-                this.bbox.ll.x = point.x;
-              if (point.y < this.bbox.ll.y)
-                this.bbox.ll.y = point.y;
-              if (point.x > this.bbox.ur.x)
-                this.bbox.ur.x = point.x;
-              if (point.y > this.bbox.ur.y)
-                this.bbox.ur.y = point.y;
-              prevPoint = point;
+              this.segments.push(Segment.fromRing(prevPoint, point2, this));
+              if (point2.x < this.bbox.ll.x)
+                this.bbox.ll.x = point2.x;
+              if (point2.y < this.bbox.ll.y)
+                this.bbox.ll.y = point2.y;
+              if (point2.x > this.bbox.ur.x)
+                this.bbox.ur.x = point2.x;
+              if (point2.y > this.bbox.ur.y)
+                this.bbox.ur.y = point2.y;
+              prevPoint = point2;
             }
             if (firstPoint.x !== prevPoint.x || firstPoint.y !== prevPoint.y) {
               this.segments.push(Segment.fromRing(prevPoint, firstPoint, this));
@@ -5429,6 +5532,8 @@
         var RingOut = /* @__PURE__ */ function() {
           _createClass(RingOut2, null, [{
             key: "factory",
+            /* Given the segments from the sweep line pass, compute & return a series
+             * of closed rings from all the segments marked to be part of the result */
             value: function factory(allSegments) {
               var ringsOut = [];
               for (var i2 = 0, iMax = allSegments.length; i2 < iMax; i2++) {
@@ -5540,6 +5645,7 @@
               }
               return this._enclosingRing;
             }
+            /* Returns the ring that encloses this one, if any */
           }, {
             key: "_calcEnclosingRing",
             value: function _calcEnclosingRing() {
@@ -5755,6 +5861,8 @@
               }
               return newEvents;
             }
+            /* Safely split a segment that is currently in the datastructures
+             * IE - a segment other than the one that is currently being processed. */
           }, {
             key: "_splitSafely",
             value: function _splitSafely(seg, pt) {
@@ -5778,8 +5886,8 @@
           }
           _createClass(Operation2, [{
             key: "run",
-            value: function run(type3, geom, moreGeoms) {
-              operation.type = type3;
+            value: function run(type2, geom, moreGeoms) {
+              operation.type = type2;
               rounder.reset();
               var multipolys = [new MultiPolyIn(geom, true)];
               for (var i2 = 0, iMax = moreGeoms.length; i2 < iMax; i2++) {
@@ -5888,7 +5996,7 @@
     "node_modules/geojson-precision/index.js"(exports2, module2) {
       (function() {
         function parse(t, coordinatePrecision, extrasPrecision) {
-          function point(p) {
+          function point2(p) {
             return p.map(function(e, index) {
               if (index < 2) {
                 return 1 * e.toFixed(coordinatePrecision);
@@ -5898,7 +6006,7 @@
             });
           }
           function multi(l) {
-            return l.map(point);
+            return l.map(point2);
           }
           function poly(p) {
             return p.map(multi);
@@ -5912,7 +6020,7 @@
             }
             switch (obj.type) {
               case "Point":
-                obj.coordinates = point(obj.coordinates);
+                obj.coordinates = point2(obj.coordinates);
                 return obj;
               case "LineString":
               case "MultiPoint":
@@ -5974,13 +6082,13 @@
   // node_modules/@aitodotai/json-stringify-pretty-compact/index.js
   var require_json_stringify_pretty_compact = __commonJS({
     "node_modules/@aitodotai/json-stringify-pretty-compact/index.js"(exports2, module2) {
-      function isObject2(obj) {
+      function isObject3(obj) {
         return typeof obj === "object" && obj !== null;
       }
       function forEach(obj, cb) {
         if (Array.isArray(obj)) {
           obj.forEach(cb);
-        } else if (isObject2(obj)) {
+        } else if (isObject3(obj)) {
           Object.keys(obj).forEach(function(key) {
             var val = obj[key];
             cb(val, key);
@@ -5989,9 +6097,9 @@
       }
       function getTreeDepth(obj) {
         var depth = 0;
-        if (Array.isArray(obj) || isObject2(obj)) {
+        if (Array.isArray(obj) || isObject3(obj)) {
           forEach(obj, function(val) {
-            if (Array.isArray(val) || isObject2(val)) {
+            if (Array.isArray(val) || isObject3(val)) {
               var tmpDepth = getTreeDepth(val);
               if (tmpDepth > depth) {
                 depth = tmpDepth;
@@ -6030,7 +6138,7 @@
               return prettified;
             }
           }
-          if (isObject2(obj2)) {
+          if (isObject3(obj2)) {
             var nextIndent = currentIndent + indent2;
             var items = [];
             var delimiters;
@@ -6812,6 +6920,7 @@
         cloneableTags[argsTag] = cloneableTags[arrayTag] = cloneableTags[arrayBufferTag] = cloneableTags[dataViewTag] = cloneableTags[boolTag] = cloneableTags[dateTag] = cloneableTags[float32Tag] = cloneableTags[float64Tag] = cloneableTags[int8Tag] = cloneableTags[int16Tag] = cloneableTags[int32Tag] = cloneableTags[mapTag] = cloneableTags[numberTag] = cloneableTags[objectTag] = cloneableTags[regexpTag] = cloneableTags[setTag] = cloneableTags[stringTag] = cloneableTags[symbolTag2] = cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] = cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
         cloneableTags[errorTag] = cloneableTags[funcTag] = cloneableTags[weakMapTag] = false;
         var deburredLetters = {
+          // Latin-1 Supplement block.
           "\xC0": "A",
           "\xC1": "A",
           "\xC2": "A",
@@ -6874,6 +6983,7 @@
           "\xDE": "Th",
           "\xFE": "th",
           "\xDF": "ss",
+          // Latin Extended-A block.
           "\u0100": "A",
           "\u0102": "A",
           "\u0104": "A",
@@ -7437,7 +7547,7 @@
             function object() {
             }
             return function(proto) {
-              if (!isObject2(proto)) {
+              if (!isObject3(proto)) {
                 return {};
               }
               if (objectCreate) {
@@ -7459,11 +7569,47 @@
             this.__values__ = undefined2;
           }
           lodash.templateSettings = {
+            /**
+             * Used to detect `data` property values to be HTML-escaped.
+             *
+             * @memberOf _.templateSettings
+             * @type {RegExp}
+             */
             "escape": reEscape,
+            /**
+             * Used to detect code to be evaluated.
+             *
+             * @memberOf _.templateSettings
+             * @type {RegExp}
+             */
             "evaluate": reEvaluate,
+            /**
+             * Used to detect `data` property values to inject.
+             *
+             * @memberOf _.templateSettings
+             * @type {RegExp}
+             */
             "interpolate": reInterpolate,
+            /**
+             * Used to reference the data object in the template text.
+             *
+             * @memberOf _.templateSettings
+             * @type {string}
+             */
             "variable": "",
+            /**
+             * Used to import variables into the compiled template.
+             *
+             * @memberOf _.templateSettings
+             * @type {Object}
+             */
             "imports": {
+              /**
+               * A reference to the `lodash` function.
+               *
+               * @memberOf _.templateSettings.imports
+               * @type {Function}
+               */
               "_": lodash
             }
           };
@@ -7512,11 +7658,11 @@
                 index += dir;
                 var iterIndex = -1, value = array2[index];
                 while (++iterIndex < iterLength) {
-                  var data = iteratees[iterIndex], iteratee2 = data.iteratee, type3 = data.type, computed = iteratee2(value);
-                  if (type3 == LAZY_MAP_FLAG) {
+                  var data = iteratees[iterIndex], iteratee2 = data.iteratee, type2 = data.type, computed = iteratee2(value);
+                  if (type2 == LAZY_MAP_FLAG) {
                     value = computed;
                   } else if (!computed) {
-                    if (type3 == LAZY_FILTER_FLAG) {
+                    if (type2 == LAZY_FILTER_FLAG) {
                       continue outer;
                     } else {
                       break outer;
@@ -7713,7 +7859,11 @@
           function arrayLikeKeys(value, inherited) {
             var isArr = isArray2(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result2 = skipIndexes ? baseTimes(value.length, String2) : [], length = result2.length;
             for (var key in value) {
-              if ((inherited || hasOwnProperty2.call(value, key)) && !(skipIndexes && (key == "length" || isBuff && (key == "offset" || key == "parent") || isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || isIndex(key, length)))) {
+              if ((inherited || hasOwnProperty2.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
+              (key == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
+              isBuff && (key == "offset" || key == "parent") || // PhantomJS 2 has enumerable non-index properties on typed arrays.
+              isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
+              isIndex(key, length)))) {
                 result2.push(key);
               }
             }
@@ -7799,7 +7949,7 @@
             if (result2 !== undefined2) {
               return result2;
             }
-            if (!isObject2(value)) {
+            if (!isObject3(value)) {
               return value;
             }
             var isArr = isArray2(value);
@@ -8146,7 +8296,7 @@
             return true;
           }
           function baseIsNative(value) {
-            if (!isObject2(value) || isMasked(value)) {
+            if (!isObject3(value) || isMasked(value)) {
               return false;
             }
             var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
@@ -8186,7 +8336,7 @@
             return result2;
           }
           function baseKeysIn(object) {
-            if (!isObject2(object)) {
+            if (!isObject3(object)) {
               return nativeKeysIn(object);
             }
             var isProto = isPrototype(object), result2 = [];
@@ -8231,7 +8381,7 @@
             }
             baseFor(source, function(srcValue, key) {
               stack || (stack = new Stack());
-              if (isObject2(srcValue)) {
+              if (isObject3(srcValue)) {
                 baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
               } else {
                 var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + "", object, source, stack) : undefined2;
@@ -8271,7 +8421,7 @@
                 newValue = objValue;
                 if (isArguments(objValue)) {
                   newValue = toPlainObject(objValue);
-                } else if (!isObject2(objValue) || isFunction(objValue)) {
+                } else if (!isObject3(objValue) || isFunction(objValue)) {
                   newValue = initCloneObject(srcValue);
                 }
               } else {
@@ -8410,7 +8560,7 @@
             return shuffleSelf(array2, baseClamp(n2, 0, array2.length));
           }
           function baseSet(object, path, value, customizer) {
-            if (!isObject2(object)) {
+            if (!isObject3(object)) {
               return object;
             }
             path = castPath(path, object);
@@ -8424,7 +8574,7 @@
                 var objValue = nested[key];
                 newValue = customizer ? customizer(objValue, key, nested) : undefined2;
                 if (newValue === undefined2) {
-                  newValue = isObject2(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
+                  newValue = isObject3(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
                 }
               }
               assignValue(nested, key, newValue);
@@ -8874,7 +9024,7 @@
                   return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
               }
               var thisBinding = baseCreate(Ctor.prototype), result2 = Ctor.apply(thisBinding, args);
-              return isObject2(result2) ? result2 : thisBinding;
+              return isObject3(result2) ? result2 : thisBinding;
             };
           }
           function createCurry(func, bitmask, arity) {
@@ -9210,7 +9360,7 @@
             return objValue;
           }
           function customDefaultsMerge(objValue, srcValue, key, object, source, stack) {
-            if (isObject2(objValue) && isObject2(srcValue)) {
+            if (isObject3(objValue) && isObject3(srcValue)) {
               stack.set(srcValue, objValue);
               baseMerge(objValue, srcValue, undefined2, customDefaultsMerge, stack);
               stack["delete"](srcValue);
@@ -9553,16 +9703,16 @@
             return isArray2(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
           }
           function isIndex(value, length) {
-            var type3 = typeof value;
+            var type2 = typeof value;
             length = length == null ? MAX_SAFE_INTEGER : length;
-            return !!length && (type3 == "number" || type3 != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
+            return !!length && (type2 == "number" || type2 != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
           }
           function isIterateeCall(value, index, object) {
-            if (!isObject2(object)) {
+            if (!isObject3(object)) {
               return false;
             }
-            var type3 = typeof index;
-            if (type3 == "number" ? isArrayLike(object) && isIndex(index, object.length) : type3 == "string" && index in object) {
+            var type2 = typeof index;
+            if (type2 == "number" ? isArrayLike(object) && isIndex(index, object.length) : type2 == "string" && index in object) {
               return eq(object[index], value);
             }
             return false;
@@ -9571,15 +9721,15 @@
             if (isArray2(value)) {
               return false;
             }
-            var type3 = typeof value;
-            if (type3 == "number" || type3 == "symbol" || type3 == "boolean" || value == null || isSymbol2(value)) {
+            var type2 = typeof value;
+            if (type2 == "number" || type2 == "symbol" || type2 == "boolean" || value == null || isSymbol2(value)) {
               return true;
             }
             return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object2(object);
           }
           function isKeyable(value) {
-            var type3 = typeof value;
-            return type3 == "string" || type3 == "number" || type3 == "symbol" || type3 == "boolean" ? value !== "__proto__" : value === null;
+            var type2 = typeof value;
+            return type2 == "string" || type2 == "number" || type2 == "symbol" || type2 == "boolean" ? value !== "__proto__" : value === null;
           }
           function isLaziable(func) {
             var funcName = getFuncName(func), other = lodash[funcName];
@@ -9601,7 +9751,7 @@
             return value === proto;
           }
           function isStrictComparable(value) {
-            return value === value && !isObject2(value);
+            return value === value && !isObject3(value);
           }
           function matchesStrictComparable(key, srcValue) {
             return function(object) {
@@ -10483,7 +10633,7 @@
               throw new TypeError2(FUNC_ERROR_TEXT3);
             }
             wait = toNumber3(wait) || 0;
-            if (isObject2(options2)) {
+            if (isObject3(options2)) {
               leading = !!options2.leading;
               maxing = "maxWait" in options2;
               maxWait = maxing ? nativeMax2(toNumber3(options2.maxWait) || 0, wait) : maxWait;
@@ -10653,7 +10803,7 @@
             if (typeof func != "function") {
               throw new TypeError2(FUNC_ERROR_TEXT3);
             }
-            if (isObject2(options2)) {
+            if (isObject3(options2)) {
               leading = "leading" in options2 ? !!options2.leading : leading;
               trailing = "trailing" in options2 ? !!options2.trailing : trailing;
             }
@@ -10761,7 +10911,7 @@
             return typeof value == "number" && nativeIsFinite(value);
           }
           function isFunction(value) {
-            if (!isObject2(value)) {
+            if (!isObject3(value)) {
               return false;
             }
             var tag = baseGetTag2(value);
@@ -10773,9 +10923,9 @@
           function isLength(value) {
             return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
           }
-          function isObject2(value) {
-            var type3 = typeof value;
-            return value != null && (type3 == "object" || type3 == "function");
+          function isObject3(value) {
+            var type2 = typeof value;
+            return value != null && (type2 == "object" || type2 == "function");
           }
           function isObjectLike2(value) {
             return value != null && typeof value == "object";
@@ -10880,9 +11030,9 @@
             if (isSymbol2(value)) {
               return NAN2;
             }
-            if (isObject2(value)) {
+            if (isObject3(value)) {
               var other = typeof value.valueOf == "function" ? value.valueOf() : value;
-              value = isObject2(other) ? other + "" : other;
+              value = isObject3(other) ? other + "" : other;
             }
             if (typeof value != "string") {
               return value === 0 ? value : +value;
@@ -11103,7 +11253,7 @@
               var Ctor = object && object.constructor;
               if (isArrLike) {
                 accumulator = isArr ? new Ctor() : [];
-              } else if (isObject2(object)) {
+              } else if (isObject3(object)) {
                 accumulator = isFunction(Ctor) ? baseCreate(getPrototype(object)) : {};
               } else {
                 accumulator = {};
@@ -11388,7 +11538,7 @@
           }
           function truncate(string, options2) {
             var length = DEFAULT_TRUNC_LENGTH, omission = DEFAULT_TRUNC_OMISSION;
-            if (isObject2(options2)) {
+            if (isObject3(options2)) {
               var separator = "separator" in options2 ? options2.separator : separator;
               length = "length" in options2 ? toInteger(options2.length) : length;
               omission = "omission" in options2 ? baseToString2(options2.omission) : omission;
@@ -11518,13 +11668,13 @@
           });
           function mixin(object, source, options2) {
             var props = keys(source), methodNames = baseFunctions(source, props);
-            if (options2 == null && !(isObject2(source) && (methodNames.length || !props.length))) {
+            if (options2 == null && !(isObject3(source) && (methodNames.length || !props.length))) {
               options2 = source;
               source = object;
               object = this;
               methodNames = baseFunctions(source, keys(source));
             }
-            var chain2 = !(isObject2(options2) && "chain" in options2) || !!options2.chain, isFunc = isFunction(object);
+            var chain2 = !(isObject3(options2) && "chain" in options2) || !!options2.chain, isFunc = isFunction(object);
             arrayEach(methodNames, function(methodName) {
               var func = source[methodName];
               object[methodName] = func;
@@ -11870,7 +12020,7 @@
           lodash.isNil = isNil;
           lodash.isNull = isNull;
           lodash.isNumber = isNumber2;
-          lodash.isObject = isObject2;
+          lodash.isObject = isObject3;
           lodash.isObjectLike = isObjectLike2;
           lodash.isPlainObject = isPlainObject;
           lodash.isRegExp = isRegExp;
@@ -11986,12 +12136,12 @@
             };
           });
           arrayEach(["filter", "map", "takeWhile"], function(methodName, index) {
-            var type3 = index + 1, isFilter = type3 == LAZY_FILTER_FLAG || type3 == LAZY_WHILE_FLAG;
+            var type2 = index + 1, isFilter = type2 == LAZY_FILTER_FLAG || type2 == LAZY_WHILE_FLAG;
             LazyWrapper.prototype[methodName] = function(iteratee2) {
               var result2 = this.clone();
               result2.__iteratees__.push({
                 "iteratee": getIteratee(iteratee2, 3),
-                "type": type3
+                "type": type2
               });
               result2.__filtered__ = result2.__filtered__ || isFilter;
               return result2;
@@ -12482,6 +12632,7 @@
         destroy: function() {
           this.buf = null;
         },
+        // === READING =================================================================
         readFields: function(readField, result, end) {
           end = end || this.length;
           while (this.pos < end) {
@@ -12506,6 +12657,7 @@
           this.pos += 4;
           return val;
         },
+        // 64-bit int handling is based on github.com/dpw/node-buffer-more-ints (MIT-licensed)
         readFixed64: function() {
           var val = readUInt32(this.buf, this.pos) + readUInt32(this.buf, this.pos + 4) * SHIFT_LEFT_32;
           this.pos += 8;
@@ -12572,6 +12724,7 @@
           this.pos = end;
           return buffer;
         },
+        // verbose for performance reasons; doesn't affect gzipped size
         readPackedVarint: function(arr, isSigned) {
           if (this.type !== Pbf.Bytes)
             return arr.push(this.readVarint(isSigned));
@@ -12654,21 +12807,22 @@
           return arr;
         },
         skip: function(val) {
-          var type3 = val & 7;
-          if (type3 === Pbf.Varint)
+          var type2 = val & 7;
+          if (type2 === Pbf.Varint)
             while (this.buf[this.pos++] > 127) {
             }
-          else if (type3 === Pbf.Bytes)
+          else if (type2 === Pbf.Bytes)
             this.pos = this.readVarint() + this.pos;
-          else if (type3 === Pbf.Fixed32)
+          else if (type2 === Pbf.Fixed32)
             this.pos += 4;
-          else if (type3 === Pbf.Fixed64)
+          else if (type2 === Pbf.Fixed64)
             this.pos += 8;
           else
-            throw new Error("Unimplemented type: " + type3);
+            throw new Error("Unimplemented type: " + type2);
         },
-        writeTag: function(tag, type3) {
-          this.writeVarint(tag << 3 | type3);
+        // === WRITING =================================================================
+        writeTag: function(tag, type2) {
+          this.writeVarint(tag << 3 | type2);
         },
         realloc: function(min3) {
           var length = this.length || 16;
@@ -13121,67 +13275,190 @@
         this.y = y;
       }
       Point.prototype = {
+        /**
+         * Clone this point, returning a new point that can be modified
+         * without affecting the old one.
+         * @return {Point} the clone
+         */
         clone: function() {
           return new Point(this.x, this.y);
         },
+        /**
+         * Add this point's x & y coordinates to another point,
+         * yielding a new point.
+         * @param {Point} p the other point
+         * @return {Point} output point
+         */
         add: function(p) {
           return this.clone()._add(p);
         },
+        /**
+         * Subtract this point's x & y coordinates to from point,
+         * yielding a new point.
+         * @param {Point} p the other point
+         * @return {Point} output point
+         */
         sub: function(p) {
           return this.clone()._sub(p);
         },
+        /**
+         * Multiply this point's x & y coordinates by point,
+         * yielding a new point.
+         * @param {Point} p the other point
+         * @return {Point} output point
+         */
         multByPoint: function(p) {
           return this.clone()._multByPoint(p);
         },
+        /**
+         * Divide this point's x & y coordinates by point,
+         * yielding a new point.
+         * @param {Point} p the other point
+         * @return {Point} output point
+         */
         divByPoint: function(p) {
           return this.clone()._divByPoint(p);
         },
+        /**
+         * Multiply this point's x & y coordinates by a factor,
+         * yielding a new point.
+         * @param {Point} k factor
+         * @return {Point} output point
+         */
         mult: function(k) {
           return this.clone()._mult(k);
         },
+        /**
+         * Divide this point's x & y coordinates by a factor,
+         * yielding a new point.
+         * @param {Point} k factor
+         * @return {Point} output point
+         */
         div: function(k) {
           return this.clone()._div(k);
         },
+        /**
+         * Rotate this point around the 0, 0 origin by an angle a,
+         * given in radians
+         * @param {Number} a angle to rotate around, in radians
+         * @return {Point} output point
+         */
         rotate: function(a) {
           return this.clone()._rotate(a);
         },
+        /**
+         * Rotate this point around p point by an angle a,
+         * given in radians
+         * @param {Number} a angle to rotate around, in radians
+         * @param {Point} p Point to rotate around
+         * @return {Point} output point
+         */
         rotateAround: function(a, p) {
           return this.clone()._rotateAround(a, p);
         },
+        /**
+         * Multiply this point by a 4x1 transformation matrix
+         * @param {Array<Number>} m transformation matrix
+         * @return {Point} output point
+         */
         matMult: function(m) {
           return this.clone()._matMult(m);
         },
+        /**
+         * Calculate this point but as a unit vector from 0, 0, meaning
+         * that the distance from the resulting point to the 0, 0
+         * coordinate will be equal to 1 and the angle from the resulting
+         * point to the 0, 0 coordinate will be the same as before.
+         * @return {Point} unit vector point
+         */
         unit: function() {
           return this.clone()._unit();
         },
+        /**
+         * Compute a perpendicular point, where the new y coordinate
+         * is the old x coordinate and the new x coordinate is the old y
+         * coordinate multiplied by -1
+         * @return {Point} perpendicular point
+         */
         perp: function() {
           return this.clone()._perp();
         },
+        /**
+         * Return a version of this point with the x & y coordinates
+         * rounded to integers.
+         * @return {Point} rounded point
+         */
         round: function() {
           return this.clone()._round();
         },
+        /**
+         * Return the magitude of this point: this is the Euclidean
+         * distance from the 0, 0 coordinate to this point's x and y
+         * coordinates.
+         * @return {Number} magnitude
+         */
         mag: function() {
           return Math.sqrt(this.x * this.x + this.y * this.y);
         },
+        /**
+         * Judge whether this point is equal to another point, returning
+         * true or false.
+         * @param {Point} other the other point
+         * @return {boolean} whether the points are equal
+         */
         equals: function(other) {
           return this.x === other.x && this.y === other.y;
         },
+        /**
+         * Calculate the distance from this point to another point
+         * @param {Point} p the other point
+         * @return {Number} distance
+         */
         dist: function(p) {
           return Math.sqrt(this.distSqr(p));
         },
+        /**
+         * Calculate the distance from this point to another point,
+         * without the square root step. Useful if you're comparing
+         * relative distances.
+         * @param {Point} p the other point
+         * @return {Number} distance
+         */
         distSqr: function(p) {
           var dx = p.x - this.x, dy = p.y - this.y;
           return dx * dx + dy * dy;
         },
+        /**
+         * Get the angle from the 0, 0 coordinate to this point, in radians
+         * coordinates.
+         * @return {Number} angle
+         */
         angle: function() {
           return Math.atan2(this.y, this.x);
         },
+        /**
+         * Get the angle from this point to another point, in radians
+         * @param {Point} b the other point
+         * @return {Number} angle
+         */
         angleTo: function(b) {
           return Math.atan2(this.y - b.y, this.x - b.x);
         },
+        /**
+         * Get the angle between this point and another point, in radians
+         * @param {Point} b the other point
+         * @return {Number} angle
+         */
         angleWith: function(b) {
           return this.angleWithSep(b.x, b.y);
         },
+        /*
+         * Find the angle of the two vectors, solving the formula for
+         * the cross product a x b = |a||b|sin(θ) for θ.
+         * @param {Number} x the x-coordinate
+         * @param {Number} y the y-coordinate
+         * @return {Number} the angle in radians
+         */
         angleWithSep: function(x, y) {
           return Math.atan2(
             this.x * y - this.y * x,
@@ -13359,7 +13636,7 @@
         return [x12, y12, x2, y2];
       };
       VectorTileFeature.prototype.toGeoJSON = function(x, y, z) {
-        var size = this.extent * Math.pow(2, z), x05 = this.extent * x, y05 = this.extent * y, coords = this.loadGeometry(), type3 = VectorTileFeature.types[this.type], i2, j2;
+        var size = this.extent * Math.pow(2, z), x05 = this.extent * x, y05 = this.extent * y, coords = this.loadGeometry(), type2 = VectorTileFeature.types[this.type], i2, j2;
         function project(line) {
           for (var j3 = 0; j3 < line.length; j3++) {
             var p = line[j3], y2 = 180 - (p.y + y05) * 360 / size;
@@ -13395,12 +13672,12 @@
         if (coords.length === 1) {
           coords = coords[0];
         } else {
-          type3 = "Multi" + type3;
+          type2 = "Multi" + type2;
         }
         var result = {
           type: "Feature",
           geometry: {
-            type: type3,
+            type: type2,
             coordinates: coords
           },
           properties: this.properties
@@ -13699,7 +13976,7 @@
         pluck,
         isList,
         isFunction,
-        isObject: isObject2,
+        isObject: isObject3,
         Global
       };
       function make_assign() {
@@ -13789,7 +14066,7 @@
       function isFunction(val) {
         return val && {}.toString.call(val) === "[object Function]";
       }
-      function isObject2(val) {
+      function isObject3(val) {
         return val && {}.toString.call(val) === "[object Object]";
       }
     }
@@ -13806,17 +14083,21 @@
       var create2 = util.create;
       var isList = util.isList;
       var isFunction = util.isFunction;
-      var isObject2 = util.isObject;
+      var isObject3 = util.isObject;
       module2.exports = {
         createStore
       };
       var storeAPI = {
         version: "2.0.12",
         enabled: false,
+        // get returns the value of the given key. If that value
+        // is undefined, it returns optionalDefaultValue instead.
         get: function(key, optionalDefaultValue) {
           var data = this.storage.read(this._namespacePrefix + key);
           return this._deserialize(data, optionalDefaultValue);
         },
+        // set will store the given value at key and returns value.
+        // Calling set with value === undefined is equivalent to calling remove.
         set: function(key, value) {
           if (value === void 0) {
             return this.remove(key);
@@ -13824,21 +14105,31 @@
           this.storage.write(this._namespacePrefix + key, this._serialize(value));
           return value;
         },
+        // remove deletes the key and value stored at the given key.
         remove: function(key) {
           this.storage.remove(this._namespacePrefix + key);
         },
+        // each will call the given callback once for each key-value pair
+        // in this store.
         each: function(callback) {
           var self2 = this;
           this.storage.each(function(val, namespacedKey) {
             callback.call(self2, self2._deserialize(val), (namespacedKey || "").replace(self2._namespaceRegexp, ""));
           });
         },
+        // clearAll will remove all the stored key-value pairs in this store.
         clearAll: function() {
           this.storage.clearAll();
         },
+        // additional functionality that can't live in plugins
+        // ---------------------------------------------------
+        // hasNamespace returns true if this store instance has the given namespace.
         hasNamespace: function(namespace) {
           return this._namespacePrefix == "__storejs_" + namespace + "_";
         },
+        // createStore creates a store.js instance with the first
+        // functioning storage in the list of storage candidates,
+        // and applies the the given mixins to the instance.
         createStore: function() {
           return createStore.apply(this, arguments);
         },
@@ -13948,7 +14239,7 @@
               throw new Error("Plugins must be function values that return objects");
             }
             var pluginProperties = plugin.call(this);
-            if (!isObject2(pluginProperties)) {
+            if (!isObject3(pluginProperties)) {
               throw new Error("Plugins must return an object of function properties");
             }
             each(pluginProperties, function(pluginFnProp, propName) {
@@ -13958,6 +14249,9 @@
               self2._assignPluginFnProp(pluginFnProp, propName);
             });
           },
+          // Put deprecated properties in the private API, so as to not expose it to accidential
+          // discovery through inspection of the store object.
+          // Deprecated: addStorage
           addStorage: function(storage) {
             _warn("store.addStorage(storage) is deprecated. Use createStore([storages])");
             this._addStorage(storage);
@@ -14287,6 +14581,7 @@
   var require_all = __commonJS({
     "node_modules/store/storages/all.js"(exports2, module2) {
       module2.exports = [
+        // Listed in order of usage preference
         require_localStorage(),
         require_oldFF_globalStorage(),
         require_oldIE_userDataStorage(),
@@ -14401,6 +14696,7 @@
         }
         if (typeof JSON.stringify !== "function") {
           meta = {
+            // table of character substitutions
             "\b": "\\b",
             "	": "\\t",
             "\n": "\\n",
@@ -14807,10 +15103,10 @@
       if (options2.cache === "no-store" || options2.cache === "no-cache") {
         var reParamSearch = /([?&])_=[^&]*/;
         if (reParamSearch.test(this.url)) {
-          this.url = this.url.replace(reParamSearch, "$1_=" + new Date().getTime());
+          this.url = this.url.replace(reParamSearch, "$1_=" + (/* @__PURE__ */ new Date()).getTime());
         } else {
           var reQueryString = /\?/;
-          this.url += (reQueryString.test(this.url) ? "&" : "?") + "_=" + new Date().getTime();
+          this.url += (reQueryString.test(this.url) ? "&" : "?") + "_=" + (/* @__PURE__ */ new Date()).getTime();
         }
       }
     }
@@ -15118,22 +15414,22 @@
       }
       _createClass(Emitter2, [{
         key: "addEventListener",
-        value: function addEventListener(type3, callback, options2) {
-          if (!(type3 in this.listeners)) {
-            this.listeners[type3] = [];
+        value: function addEventListener(type2, callback, options2) {
+          if (!(type2 in this.listeners)) {
+            this.listeners[type2] = [];
           }
-          this.listeners[type3].push({
+          this.listeners[type2].push({
             callback,
             options: options2
           });
         }
       }, {
         key: "removeEventListener",
-        value: function removeEventListener(type3, callback) {
-          if (!(type3 in this.listeners)) {
+        value: function removeEventListener(type2, callback) {
+          if (!(type2 in this.listeners)) {
             return;
           }
-          var stack = this.listeners[type3];
+          var stack = this.listeners[type2];
           for (var i2 = 0, l = stack.length; i2 < l; i2++) {
             if (stack[i2].callback === callback) {
               stack.splice(i2, 1);
@@ -15382,6 +15678,7 @@
   // modules/index.js
   var modules_exports = {};
   __export(modules_exports, {
+    LocationManager: () => LocationManager,
     QAItem: () => QAItem,
     actionAddEntity: () => actionAddEntity,
     actionAddMember: () => actionAddMember,
@@ -15440,7 +15737,6 @@
     coreGraph: () => coreGraph,
     coreHistory: () => coreHistory,
     coreLocalizer: () => coreLocalizer,
-    coreLocations: () => coreLocations,
     coreTree: () => coreTree,
     coreUploader: () => coreUploader,
     coreValidator: () => coreValidator,
@@ -15493,7 +15789,7 @@
     geoViewportEdge: () => geoViewportEdge,
     geoZoomToScale: () => geoZoomToScale,
     localizer: () => _mainLocalizer,
-    locationManager: () => _mainLocations,
+    locationManager: () => _sharedLocationManager,
     modeAddArea: () => modeAddArea,
     modeAddLine: () => modeAddLine,
     modeAddNote: () => modeAddNote,
@@ -15638,9 +15934,10 @@
     uiFieldAccess: () => uiFieldAccess,
     uiFieldAddress: () => uiFieldAddress,
     uiFieldCheck: () => uiFieldCheck,
+    uiFieldColour: () => uiFieldText,
     uiFieldCombo: () => uiFieldCombo,
-    uiFieldCycleway: () => uiFieldCycleway,
     uiFieldDefaultCheck: () => uiFieldCheck,
+    uiFieldDirectionalCombo: () => uiFieldDirectionalCombo,
     uiFieldEmail: () => uiFieldText,
     uiFieldHelp: () => uiFieldHelp,
     uiFieldIdentifier: () => uiFieldText,
@@ -15683,6 +15980,7 @@
     uiKeepRightEditor: () => uiKeepRightEditor,
     uiKeepRightHeader: () => uiKeepRightHeader,
     uiLasso: () => uiLasso,
+    uiLengthIndicator: () => uiLengthIndicator,
     uiLoading: () => uiLoading,
     uiMapInMap: () => uiMapInMap,
     uiModal: () => uiModal,
@@ -15753,6 +16051,7 @@
     utilArrayUniq: () => utilArrayUniq,
     utilArrayUniqBy: () => utilArrayUniqBy,
     utilAsyncMap: () => utilAsyncMap,
+    utilCleanOsmString: () => utilCleanOsmString,
     utilCleanTags: () => utilCleanTags,
     utilCombinedTags: () => utilCombinedTags,
     utilCompareIDs: () => utilCompareIDs,
@@ -15898,17 +16197,21 @@
       } else if (options2 && options2.reverseOneway && key === "oneway") {
         return onewayReplacements[value] || value;
       } else if (includeAbsolute && directionKey.test(key)) {
-        if (compassReplacements[value])
-          return compassReplacements[value];
-        var degrees3 = parseFloat(value);
-        if (typeof degrees3 === "number" && !isNaN(degrees3)) {
-          if (degrees3 < 180) {
-            degrees3 += 180;
+        return value.split(";").map((value2) => {
+          if (compassReplacements[value2])
+            return compassReplacements[value2];
+          var degrees3 = Number(value2);
+          if (isFinite(degrees3)) {
+            if (degrees3 < 180) {
+              degrees3 += 180;
+            } else {
+              degrees3 -= 180;
+            }
+            return degrees3.toString();
           } else {
-            degrees3 -= 180;
+            return valueReplacements[value2] || value2;
           }
-          return degrees3.toString();
-        }
+        }).join(";");
       }
       return valueReplacements[value] || value;
     }
@@ -15969,21 +16272,28 @@
 
   // modules/osm/tags.js
   function osmIsInterestingTag(key) {
-    return key !== "attribution" && key !== "created_by" && key !== "source" && key !== "odbl" && key.indexOf("source:") !== 0 && key.indexOf("source_ref") !== 0 && key.indexOf("tiger:") !== 0;
+    return key !== "attribution" && key !== "created_by" && key !== "source" && key !== "odbl" && key.indexOf("source:") !== 0 && key.indexOf("source_ref") !== 0 && // purposely exclude colon
+    key.indexOf("tiger:") !== 0;
   }
   var osmLifecyclePrefixes = {
+    // nonexistent, might be built
     proposed: true,
     planned: true,
+    // under maintentance or between groundbreaking and opening
     construction: true,
+    // existent but not functional
     disused: true,
+    // dilapidated to nonexistent
     abandoned: true,
     was: true,
+    // nonexistent, still may appear in imagery
     dismantled: true,
     razed: true,
     demolished: true,
     destroyed: true,
     removed: true,
     obliterated: true,
+    // existent occasionally, e.g. stormwater drainage basin
     intermittent: true
   };
   function osmRemoveLifecyclePrefix(key) {
@@ -16016,6 +16326,9 @@
       turntable: true,
       wash: true
     },
+    traffic_calming: {
+      island: true
+    },
     waterway: {
       dam: true
     }
@@ -16038,6 +16351,10 @@
       }
     }
     return null;
+  }
+  var osmLineTags = {};
+  function osmSetLineTags(value) {
+    osmLineTags = value;
   }
   var osmPointTags = {};
   function osmSetPointTags(value) {
@@ -16354,52 +16671,66 @@
   var e10 = Math.sqrt(50);
   var e5 = Math.sqrt(10);
   var e2 = Math.sqrt(2);
-  function ticks(start2, stop, count) {
-    var reverse, i2 = -1, n2, ticks2, step;
-    stop = +stop, start2 = +start2, count = +count;
-    if (start2 === stop && count > 0)
-      return [start2];
-    if (reverse = stop < start2)
-      n2 = start2, start2 = stop, stop = n2;
-    if ((step = tickIncrement(start2, stop, count)) === 0 || !isFinite(step))
-      return [];
-    if (step > 0) {
-      let r0 = Math.round(start2 / step), r1 = Math.round(stop / step);
-      if (r0 * step < start2)
-        ++r0;
-      if (r1 * step > stop)
-        --r1;
-      ticks2 = new Array(n2 = r1 - r0 + 1);
-      while (++i2 < n2)
-        ticks2[i2] = (r0 + i2) * step;
+  function tickSpec(start2, stop, count) {
+    const step = (stop - start2) / Math.max(0, count), power = Math.floor(Math.log10(step)), error = step / Math.pow(10, power), factor = error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1;
+    let i1, i2, inc;
+    if (power < 0) {
+      inc = Math.pow(10, -power) / factor;
+      i1 = Math.round(start2 * inc);
+      i2 = Math.round(stop * inc);
+      if (i1 / inc < start2)
+        ++i1;
+      if (i2 / inc > stop)
+        --i2;
+      inc = -inc;
     } else {
-      step = -step;
-      let r0 = Math.round(start2 * step), r1 = Math.round(stop * step);
-      if (r0 / step < start2)
-        ++r0;
-      if (r1 / step > stop)
-        --r1;
-      ticks2 = new Array(n2 = r1 - r0 + 1);
-      while (++i2 < n2)
-        ticks2[i2] = (r0 + i2) / step;
+      inc = Math.pow(10, power) * factor;
+      i1 = Math.round(start2 / inc);
+      i2 = Math.round(stop / inc);
+      if (i1 * inc < start2)
+        ++i1;
+      if (i2 * inc > stop)
+        --i2;
     }
-    if (reverse)
-      ticks2.reverse();
+    if (i2 < i1 && 0.5 <= count && count < 2)
+      return tickSpec(start2, stop, count * 2);
+    return [i1, i2, inc];
+  }
+  function ticks(start2, stop, count) {
+    stop = +stop, start2 = +start2, count = +count;
+    if (!(count > 0))
+      return [];
+    if (start2 === stop)
+      return [start2];
+    const reverse = stop < start2, [i1, i2, inc] = reverse ? tickSpec(stop, start2, count) : tickSpec(start2, stop, count);
+    if (!(i2 >= i1))
+      return [];
+    const n2 = i2 - i1 + 1, ticks2 = new Array(n2);
+    if (reverse) {
+      if (inc < 0)
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i2 - i3) / -inc;
+      else
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i2 - i3) * inc;
+    } else {
+      if (inc < 0)
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i1 + i3) / -inc;
+      else
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i1 + i3) * inc;
+    }
     return ticks2;
   }
   function tickIncrement(start2, stop, count) {
-    var step = (stop - start2) / Math.max(0, count), power = Math.floor(Math.log(step) / Math.LN10), error = step / Math.pow(10, power);
-    return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
+    stop = +stop, start2 = +start2, count = +count;
+    return tickSpec(start2, stop, count)[2];
   }
   function tickStep(start2, stop, count) {
-    var step0 = Math.abs(stop - start2) / Math.max(0, count), step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)), error = step0 / step1;
-    if (error >= e10)
-      step1 *= 10;
-    else if (error >= e5)
-      step1 *= 5;
-    else if (error >= e2)
-      step1 *= 2;
-    return stop < start2 ? -step1 : step1;
+    stop = +stop, start2 = +start2, count = +count;
+    const reverse = stop < start2, inc = reverse ? tickIncrement(stop, start2, count) : tickIncrement(start2, stop, count);
+    return (reverse ? -1 : 1) * (inc < 0 ? 1 / -inc : inc);
   }
 
   // node_modules/d3-array/src/max.js
@@ -16443,7 +16774,12 @@
   }
 
   // node_modules/d3-array/src/quickselect.js
-  function quickselect(array2, k, left = 0, right = array2.length - 1, compare) {
+  function quickselect(array2, k, left = 0, right = Infinity, compare) {
+    k = Math.floor(k);
+    left = Math.floor(Math.max(0, left));
+    right = Math.floor(Math.min(array2.length - 1, right));
+    if (!(left <= k && k <= right))
+      return array2;
     compare = compare === void 0 ? ascendingDefined : compareDefined(compare);
     while (right > left) {
       if (right - left > 600) {
@@ -16489,9 +16825,9 @@
   // node_modules/d3-array/src/quantile.js
   function quantile(values, p, valueof) {
     values = Float64Array.from(numbers(values, valueof));
-    if (!(n2 = values.length))
+    if (!(n2 = values.length) || isNaN(p = +p))
       return;
-    if ((p = +p) <= 0 || n2 < 2)
+    if (p <= 0 || n2 < 2)
       return min(values);
     if (p >= 1)
       return max(values);
@@ -16567,9 +16903,9 @@
       streamGeometry(object.geometry, stream);
     },
     FeatureCollection: function(object, stream) {
-      var features2 = object.features, i2 = -1, n2 = features2.length;
+      var features = object.features, i2 = -1, n2 = features.length;
       while (++i2 < n2)
-        streamGeometry(features2[i2].geometry, stream);
+        streamGeometry(features[i2].geometry, stream);
     }
   };
   var streamGeometryType = {
@@ -16886,7 +17222,9 @@
 
   // node_modules/d3-geo/src/rotation.js
   function rotationIdentity(lambda, phi) {
-    return [abs(lambda) > pi ? lambda + Math.round(-lambda / tau) * tau : lambda, phi];
+    if (abs(lambda) > pi)
+      lambda -= Math.round(lambda / tau) * tau;
+    return [lambda, phi];
   }
   rotationIdentity.invert = rotationIdentity;
   function rotateRadians(deltaLambda, deltaPhi, deltaGamma) {
@@ -16894,7 +17232,10 @@
   }
   function forwardRotationLambda(deltaLambda) {
     return function(lambda, phi) {
-      return lambda += deltaLambda, [lambda > pi ? lambda - tau : lambda < -pi ? lambda + tau : lambda, phi];
+      lambda += deltaLambda;
+      if (abs(lambda) > pi)
+        lambda -= Math.round(lambda / tau) * tau;
+      return [lambda, phi];
     };
   }
   function rotationLambda(deltaLambda) {
@@ -16947,16 +17288,16 @@
       if (direction > 0 ? t0 < t1 : t0 > t1)
         t0 += direction * tau;
     }
-    for (var point, t = t0; direction > 0 ? t > t1 : t < t1; t -= step) {
-      point = spherical([cosRadius, -sinRadius * cos(t), -sinRadius * sin(t)]);
-      stream.point(point[0], point[1]);
+    for (var point2, t = t0; direction > 0 ? t > t1 : t < t1; t -= step) {
+      point2 = spherical([cosRadius, -sinRadius * cos(t), -sinRadius * sin(t)]);
+      stream.point(point2[0], point2[1]);
     }
   }
-  function circleRadius(cosRadius, point) {
-    point = cartesian(point), point[0] -= cosRadius;
-    cartesianNormalizeInPlace(point);
-    var radius = acos(-point[1]);
-    return ((-point[2] < 0 ? -radius : radius) + tau - epsilon) % tau;
+  function circleRadius(cosRadius, point2) {
+    point2 = cartesian(point2), point2[0] -= cosRadius;
+    cartesianNormalizeInPlace(point2);
+    var radius = acos(-point2[1]);
+    return ((-point2[2] < 0 ? -radius : radius) + tau - epsilon) % tau;
   }
 
   // node_modules/d3-geo/src/clip/buffer.js
@@ -16989,8 +17330,8 @@
   }
 
   // node_modules/d3-geo/src/clip/rejoin.js
-  function Intersection(point, points, other, entry) {
-    this.x = point;
+  function Intersection(point2, points, other, entry) {
+    this.x = point2;
     this.z = points;
     this.o = other;
     this.e = entry;
@@ -17026,7 +17367,7 @@
     for (i2 = 0, n2 = clip.length; i2 < n2; ++i2) {
       clip[i2].e = startInside = !startInside;
     }
-    var start2 = subject[0], points, point;
+    var start2 = subject[0], points, point2;
     while (1) {
       var current = start2, isSubject = true;
       while (current.v)
@@ -17039,7 +17380,7 @@
         if (current.e) {
           if (isSubject) {
             for (i2 = 0, n2 = points.length; i2 < n2; ++i2)
-              stream.point((point = points[i2])[0], point[1]);
+              stream.point((point2 = points[i2])[0], point2[1]);
           } else {
             interpolate(current.x, current.n.x, 1, stream);
           }
@@ -17048,7 +17389,7 @@
           if (isSubject) {
             points = current.p.z;
             for (i2 = points.length - 1; i2 >= 0; --i2)
-              stream.point((point = points[i2])[0], point[1]);
+              stream.point((point2 = points[i2])[0], point2[1]);
           } else {
             interpolate(current.x, current.p.x, -1, stream);
           }
@@ -17075,11 +17416,11 @@
   }
 
   // node_modules/d3-geo/src/polygonContains.js
-  function longitude(point) {
-    return abs(point[0]) <= pi ? point[0] : sign(point[0]) * ((abs(point[0]) + pi) % tau - pi);
+  function longitude(point2) {
+    return abs(point2[0]) <= pi ? point2[0] : sign(point2[0]) * ((abs(point2[0]) + pi) % tau - pi);
   }
-  function polygonContains_default(polygon2, point) {
-    var lambda = longitude(point), phi = point[1], sinPhi = sin(phi), normal = [sin(lambda), -cos(lambda), 0], angle2 = 0, winding = 0;
+  function polygonContains_default(polygon2, point2) {
+    var lambda = longitude(point2), phi = point2[1], sinPhi = sin(phi), normal = [sin(lambda), -cos(lambda), 0], angle2 = 0, winding = 0;
     var sum = new Adder();
     if (sinPhi === 1)
       phi = halfPi + epsilon;
@@ -17113,7 +17454,7 @@
     return function(sink) {
       var line = clipLine(sink), ringBuffer = buffer_default(), ringSink = clipLine(ringBuffer), polygonStarted = false, polygon2, segments, ring;
       var clip = {
-        point,
+        point: point2,
         lineStart,
         lineEnd,
         polygonStart: function() {
@@ -17124,7 +17465,7 @@
           polygon2 = [];
         },
         polygonEnd: function() {
-          clip.point = point;
+          clip.point = point2;
           clip.lineStart = lineStart;
           clip.lineEnd = lineEnd;
           segments = merge(segments);
@@ -17152,7 +17493,7 @@
           sink.polygonEnd();
         }
       };
-      function point(lambda, phi) {
+      function point2(lambda, phi) {
         if (pointVisible(lambda, phi))
           sink.point(lambda, phi);
       }
@@ -17164,7 +17505,7 @@
         line.lineStart();
       }
       function lineEnd() {
-        clip.point = point;
+        clip.point = point2;
         line.lineEnd();
       }
       function pointRing(lambda, phi) {
@@ -17178,7 +17519,7 @@
       function ringEnd() {
         pointRing(ring[0][0], ring[0][1]);
         ringSink.lineEnd();
-        var clean2 = ringSink.clean(), ringSegments = ringBuffer.result(), i2, n2 = ringSegments.length, m, segment, point2;
+        var clean2 = ringSink.clean(), ringSegments = ringBuffer.result(), i2, n2 = ringSegments.length, m, segment, point3;
         ring.pop();
         polygon2.push(ring);
         ring = null;
@@ -17191,7 +17532,7 @@
               sink.polygonStart(), polygonStarted = true;
             sink.lineStart();
             for (i2 = 0; i2 < m; ++i2)
-              sink.point((point2 = segment[i2])[0], point2[1]);
+              sink.point((point3 = segment[i2])[0], point3[1]);
             sink.lineEnd();
           }
           return;
@@ -17352,6 +17693,8 @@
             stream.lineEnd();
           point0 = null;
         },
+        // Rejoin first and last segments if there were intersections and the first
+        // and last points were visible.
         clean: function() {
           return clean2 | (v00 && v0) << 1;
         }
@@ -17499,21 +17842,21 @@
     return function(stream) {
       var activeStream = stream, bufferStream = buffer_default(), segments, polygon2, ring, x__, y__, v__, x_, y_, v_, first, clean2;
       var clipStream = {
-        point,
+        point: point2,
         lineStart,
         lineEnd,
         polygonStart,
         polygonEnd
       };
-      function point(x, y) {
+      function point2(x, y) {
         if (visible(x, y))
           activeStream.point(x, y);
       }
       function polygonInside() {
         var winding = 0;
         for (var i2 = 0, n2 = polygon2.length; i2 < n2; ++i2) {
-          for (var ring2 = polygon2[i2], j2 = 1, m = ring2.length, point2 = ring2[0], a0, a1, b0 = point2[0], b1 = point2[1]; j2 < m; ++j2) {
-            a0 = b0, a1 = b1, point2 = ring2[j2], b0 = point2[0], b1 = point2[1];
+          for (var ring2 = polygon2[i2], j2 = 1, m = ring2.length, point3 = ring2[0], a0, a1, b0 = point3[0], b1 = point3[1]; j2 < m; ++j2) {
+            a0 = b0, a1 = b1, point3 = ring2[j2], b0 = point3[0], b1 = point3[1];
             if (a1 <= y12) {
               if (b1 > y12 && (b0 - a0) * (y12 - a1) > (b1 - a1) * (x05 - a0))
                 ++winding;
@@ -17559,7 +17902,7 @@
             bufferStream.rejoin();
           segments.push(bufferStream.result());
         }
-        clipStream.point = point;
+        clipStream.point = point2;
         if (v_)
           activeStream.lineEnd();
       }
@@ -17875,67 +18218,98 @@
   var measure_default = lengthStream2;
 
   // node_modules/d3-geo/src/path/string.js
-  function PathString() {
-    this._string = [];
-  }
-  PathString.prototype = {
-    _radius: 4.5,
-    _circle: circle(4.5),
-    pointRadius: function(_) {
-      if ((_ = +_) !== this._radius)
-        this._radius = _, this._circle = null;
+  var cacheDigits;
+  var cacheAppend;
+  var cacheRadius;
+  var cacheCircle;
+  var PathString = class {
+    constructor(digits) {
+      this._append = digits == null ? append : appendRound(digits);
+      this._radius = 4.5;
+      this._ = "";
+    }
+    pointRadius(_) {
+      this._radius = +_;
       return this;
-    },
-    polygonStart: function() {
+    }
+    polygonStart() {
       this._line = 0;
-    },
-    polygonEnd: function() {
+    }
+    polygonEnd() {
       this._line = NaN;
-    },
-    lineStart: function() {
+    }
+    lineStart() {
       this._point = 0;
-    },
-    lineEnd: function() {
+    }
+    lineEnd() {
       if (this._line === 0)
-        this._string.push("Z");
+        this._ += "Z";
       this._point = NaN;
-    },
-    point: function(x, y) {
+    }
+    point(x, y) {
       switch (this._point) {
         case 0: {
-          this._string.push("M", x, ",", y);
+          this._append`M${x},${y}`;
           this._point = 1;
           break;
         }
         case 1: {
-          this._string.push("L", x, ",", y);
+          this._append`L${x},${y}`;
           break;
         }
         default: {
-          if (this._circle == null)
-            this._circle = circle(this._radius);
-          this._string.push("M", x, ",", y, this._circle);
+          this._append`M${x},${y}`;
+          if (this._radius !== cacheRadius || this._append !== cacheAppend) {
+            const r = this._radius;
+            const s = this._;
+            this._ = "";
+            this._append`m0,${r}a${r},${r} 0 1,1 0,${-2 * r}a${r},${r} 0 1,1 0,${2 * r}z`;
+            cacheRadius = r;
+            cacheAppend = this._append;
+            cacheCircle = this._;
+            this._ = s;
+          }
+          this._ += cacheCircle;
           break;
         }
       }
-    },
-    result: function() {
-      if (this._string.length) {
-        var result = this._string.join("");
-        this._string = [];
-        return result;
-      } else {
-        return null;
-      }
+    }
+    result() {
+      const result = this._;
+      this._ = "";
+      return result.length ? result : null;
     }
   };
-  function circle(radius) {
-    return "m0," + radius + "a" + radius + "," + radius + " 0 1,1 0," + -2 * radius + "a" + radius + "," + radius + " 0 1,1 0," + 2 * radius + "z";
+  function append(strings) {
+    let i2 = 1;
+    this._ += strings[0];
+    for (const j2 = strings.length; i2 < j2; ++i2) {
+      this._ += arguments[i2] + strings[i2];
+    }
+  }
+  function appendRound(digits) {
+    const d = Math.floor(digits);
+    if (!(d >= 0))
+      throw new RangeError(`invalid digits: ${digits}`);
+    if (d > 15)
+      return append;
+    if (d !== cacheDigits) {
+      const k = 10 ** d;
+      cacheDigits = d;
+      cacheAppend = function append2(strings) {
+        let i2 = 1;
+        this._ += strings[0];
+        for (const j2 = strings.length; i2 < j2; ++i2) {
+          this._ += Math.round(arguments[i2] * k) / k + strings[i2];
+        }
+      };
+    }
+    return cacheAppend;
   }
 
   // node_modules/d3-geo/src/path/index.js
   function path_default(projection2, context) {
-    var pointRadius = 4.5, projectionStream, contextStream;
+    let digits = 3, pointRadius = 4.5, projectionStream, contextStream;
     function path(object) {
       if (object) {
         if (typeof pointRadius === "function")
@@ -17961,12 +18335,15 @@
       return centroid_default.result();
     };
     path.projection = function(_) {
-      return arguments.length ? (projectionStream = _ == null ? (projection2 = null, identity_default) : (projection2 = _).stream, path) : projection2;
+      if (!arguments.length)
+        return projection2;
+      projectionStream = _ == null ? (projection2 = null, identity_default) : (projection2 = _).stream;
+      return path;
     };
     path.context = function(_) {
       if (!arguments.length)
         return context;
-      contextStream = _ == null ? (context = null, new PathString()) : new PathContext(context = _);
+      contextStream = _ == null ? (context = null, new PathString(digits)) : new PathContext(context = _);
       if (typeof pointRadius !== "function")
         contextStream.pointRadius(pointRadius);
       return path;
@@ -17977,7 +18354,22 @@
       pointRadius = typeof _ === "function" ? _ : (contextStream.pointRadius(+_), +_);
       return path;
     };
-    return path.projection(projection2).context(context);
+    path.digits = function(_) {
+      if (!arguments.length)
+        return digits;
+      if (_ == null)
+        digits = null;
+      else {
+        const d = Math.floor(_);
+        if (!(d >= 0))
+          throw new RangeError(`invalid digits: ${_}`);
+        digits = d;
+      }
+      if (context === null)
+        contextStream = new PathString(digits);
+      return path;
+    };
+    return path.projection(projection2).digits(digits).context(context);
   }
 
   // node_modules/d3-geo/src/transform.js
@@ -18082,7 +18474,7 @@
     return function(stream) {
       var lambda003, x004, y004, a00, b00, c00, lambda04, x05, y05, a0, b0, c0;
       var resampleStream = {
-        point,
+        point: point2,
         lineStart,
         lineEnd,
         polygonStart: function() {
@@ -18094,7 +18486,7 @@
           resampleStream.lineStart = lineStart;
         }
       };
-      function point(x, y) {
+      function point2(x, y) {
         x = project(x, y);
         stream.point(x[0], x[1]);
       }
@@ -18109,7 +18501,7 @@
         stream.point(x05, y05);
       }
       function lineEnd() {
-        resampleStream.point = point;
+        resampleStream.point = point2;
         stream.lineEnd();
       }
       function ringStart() {
@@ -18176,12 +18568,12 @@
   }
   function projectionMutator(projectAt) {
     var project, k = 150, x = 480, y = 250, lambda = 0, phi = 0, deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, alpha = 0, sx = 1, sy = 1, theta = null, preclip = antimeridian_default, x05 = null, y05, x12, y12, postclip = identity_default, delta2 = 0.5, projectResample, projectTransform, projectRotateTransform, cache, cacheStream;
-    function projection2(point) {
-      return projectRotateTransform(point[0] * radians, point[1] * radians);
+    function projection2(point2) {
+      return projectRotateTransform(point2[0] * radians, point2[1] * radians);
     }
-    function invert(point) {
-      point = projectRotateTransform.invert(point[0], point[1]);
-      return point && [point[0] * degrees, point[1] * degrees];
+    function invert(point2) {
+      point2 = projectRotateTransform.invert(point2[0], point2[1]);
+      return point2 && [point2[0] * degrees, point2[1] * degrees];
     }
     projection2.stream = function(stream) {
       return cache && cacheStream === stream ? cache : cache = transformRadians(transformRotate(rotate)(preclip(projectResample(postclip(cacheStream = stream)))));
@@ -18399,11 +18791,11 @@
     tileSize = tileSize || 256;
     return tileSize * Math.pow(2, z) / TAU;
   }
-  function geoSphericalClosestNode(nodes, point) {
+  function geoSphericalClosestNode(nodes, point2) {
     var minDistance = Infinity, distance;
     var indexOfMin;
     for (var i2 in nodes) {
-      distance = geoSphericalDistance(nodes[i2].loc, point);
+      distance = geoSphericalDistance(nodes[i2].loc, point2);
       if (distance < minDistance) {
         minDistance = distance;
         indexOfMin = i2;
@@ -18680,15 +19072,15 @@
     return a[0] === b[0] && a[1] === b[1] || a[0] === b[1] && a[1] === b[0];
   }
   function geoRotate(points, angle2, around) {
-    return points.map(function(point) {
-      var radial = geoVecSubtract(point, around);
+    return points.map(function(point2) {
+      var radial = geoVecSubtract(point2, around);
       return [
         radial[0] * Math.cos(angle2) - radial[1] * Math.sin(angle2) + around[0],
         radial[0] * Math.sin(angle2) + radial[1] * Math.cos(angle2) + around[1]
       ];
     });
   }
-  function geoChooseEdge(nodes, point, projection2, activeID) {
+  function geoChooseEdge(nodes, point2, projection2, activeID) {
     var dist = geoVecLength;
     var points = nodes.map(function(n2) {
       return projection2(n2.loc);
@@ -18704,7 +19096,7 @@
         continue;
       var o = points[i2];
       var s = geoVecSubtract(points[i2 + 1], o);
-      var v = geoVecSubtract(point, o);
+      var v = geoVecSubtract(point2, o);
       var proj = geoVecDot(v, s) / geoVecDot(s, s);
       var p;
       if (proj < 0) {
@@ -18714,7 +19106,7 @@
       } else {
         p = [o[0] + proj * s[0], o[1] + proj * s[1]];
       }
-      var d = dist(p, point);
+      var d = dist(p, point2);
       if (d < min3) {
         min3 = d;
         idx = i2 + 1;
@@ -18836,9 +19228,9 @@
     }
     return false;
   }
-  function geoPointInPolygon(point, polygon2) {
-    var x = point[0];
-    var y = point[1];
+  function geoPointInPolygon(point2, polygon2) {
+    var x = point2[0];
+    var y = point2[1];
     var inside = false;
     for (var i2 = 0, j2 = polygon2.length - 1; i2 < polygon2.length; j2 = i2++) {
       var xi = polygon2[i2][0];
@@ -18852,14 +19244,14 @@
     return inside;
   }
   function geoPolygonContainsPolygon(outer, inner) {
-    return inner.every(function(point) {
-      return geoPointInPolygon(point, outer);
+    return inner.every(function(point2) {
+      return geoPointInPolygon(point2, outer);
     });
   }
   function geoPolygonIntersectsPolygon(outer, inner, checkSegments) {
     function testPoints(outer2, inner2) {
-      return inner2.some(function(point) {
-        return geoPointInPolygon(point, outer2);
+      return inner2.some(function(point2) {
+        return geoPointInPolygon(point2, outer2);
       });
     }
     return testPoints(outer, inner) || !!checkSegments && geoPathHasIntersections(outer, inner);
@@ -18875,8 +19267,8 @@
       var c2 = i2 === hull.length - 1 ? hull[0] : hull[i2 + 1];
       var angle2 = Math.atan2(c2[1] - c1[1], c2[0] - c1[0]);
       var poly = geoRotate(hull, -angle2, centroid);
-      var extent = poly.reduce(function(extent2, point) {
-        return extent2.extend(geoExtent(point));
+      var extent = poly.reduce(function(extent2, point2) {
+        return extent2.extend(geoExtent(point2));
       }, geoExtent());
       var area = extent.area();
       if (area < minArea) {
@@ -18898,20 +19290,20 @@
     }
     return length;
   }
-  function geoViewportEdge(point, dimensions) {
+  function geoViewportEdge(point2, dimensions) {
     var pad2 = [80, 20, 50, 20];
     var x = 0;
     var y = 0;
-    if (point[0] > dimensions[0] - pad2[1]) {
+    if (point2[0] > dimensions[0] - pad2[1]) {
       x = -10;
     }
-    if (point[0] < pad2[3]) {
+    if (point2[0] < pad2[3]) {
       x = 10;
     }
-    if (point[1] > dimensions[1] - pad2[2]) {
+    if (point2[1] > dimensions[1] - pad2[2]) {
       y = -10;
     }
-    if (point[1] < pad2[0]) {
+    if (point2[1] < pad2[0]) {
       y = 10;
     }
     if (x || y) {
@@ -18972,39 +19364,39 @@
         copy2[t] = _[t].slice();
       return new Dispatch(copy2);
     },
-    call: function(type3, that) {
+    call: function(type2, that) {
       if ((n2 = arguments.length - 2) > 0)
         for (var args = new Array(n2), i2 = 0, n2, t; i2 < n2; ++i2)
           args[i2] = arguments[i2 + 2];
-      if (!this._.hasOwnProperty(type3))
-        throw new Error("unknown type: " + type3);
-      for (t = this._[type3], i2 = 0, n2 = t.length; i2 < n2; ++i2)
+      if (!this._.hasOwnProperty(type2))
+        throw new Error("unknown type: " + type2);
+      for (t = this._[type2], i2 = 0, n2 = t.length; i2 < n2; ++i2)
         t[i2].value.apply(that, args);
     },
-    apply: function(type3, that, args) {
-      if (!this._.hasOwnProperty(type3))
-        throw new Error("unknown type: " + type3);
-      for (var t = this._[type3], i2 = 0, n2 = t.length; i2 < n2; ++i2)
+    apply: function(type2, that, args) {
+      if (!this._.hasOwnProperty(type2))
+        throw new Error("unknown type: " + type2);
+      for (var t = this._[type2], i2 = 0, n2 = t.length; i2 < n2; ++i2)
         t[i2].value.apply(that, args);
     }
   };
-  function get(type3, name) {
-    for (var i2 = 0, n2 = type3.length, c; i2 < n2; ++i2) {
-      if ((c = type3[i2]).name === name) {
+  function get(type2, name) {
+    for (var i2 = 0, n2 = type2.length, c; i2 < n2; ++i2) {
+      if ((c = type2[i2]).name === name) {
         return c.value;
       }
     }
   }
-  function set(type3, name, callback) {
-    for (var i2 = 0, n2 = type3.length; i2 < n2; ++i2) {
-      if (type3[i2].name === name) {
-        type3[i2] = noop2, type3 = type3.slice(0, i2).concat(type3.slice(i2 + 1));
+  function set(type2, name, callback) {
+    for (var i2 = 0, n2 = type2.length; i2 < n2; ++i2) {
+      if (type2[i2].name === name) {
+        type2[i2] = noop2, type2 = type2.slice(0, i2).concat(type2.slice(i2 + 1));
         break;
       }
     }
     if (callback != null)
-      type3.push({ name, value: callback });
-    return type3;
+      type2.push({ name, value: callback });
+    return type2;
   }
   var dispatch_default = dispatch;
 
@@ -19748,31 +20140,31 @@
   }
 
   // node_modules/d3-selection/src/selection/dispatch.js
-  function dispatchEvent(node, type3, params) {
+  function dispatchEvent(node, type2, params) {
     var window2 = window_default(node), event = window2.CustomEvent;
     if (typeof event === "function") {
-      event = new event(type3, params);
+      event = new event(type2, params);
     } else {
       event = window2.document.createEvent("Event");
       if (params)
-        event.initEvent(type3, params.bubbles, params.cancelable), event.detail = params.detail;
+        event.initEvent(type2, params.bubbles, params.cancelable), event.detail = params.detail;
       else
-        event.initEvent(type3, false, false);
+        event.initEvent(type2, false, false);
     }
     node.dispatchEvent(event);
   }
-  function dispatchConstant(type3, params) {
+  function dispatchConstant(type2, params) {
     return function() {
-      return dispatchEvent(this, type3, params);
+      return dispatchEvent(this, type2, params);
     };
   }
-  function dispatchFunction(type3, params) {
+  function dispatchFunction(type2, params) {
     return function() {
-      return dispatchEvent(this, type3, params.apply(this, arguments));
+      return dispatchEvent(this, type2, params.apply(this, arguments));
     };
   }
-  function dispatch_default2(type3, params) {
-    return this.each((typeof params === "function" ? dispatchFunction : dispatchConstant)(type3, params));
+  function dispatch_default2(type2, params) {
+    return this.each((typeof params === "function" ? dispatchFunction : dispatchConstant)(type2, params));
   }
 
   // node_modules/d3-selection/src/selection/iterator.js
@@ -19858,10 +20250,10 @@
     if (node) {
       var svg2 = node.ownerSVGElement || node;
       if (svg2.createSVGPoint) {
-        var point = svg2.createSVGPoint();
-        point.x = event.clientX, point.y = event.clientY;
-        point = point.matrixTransform(node.getScreenCTM().inverse());
-        return [point.x, point.y];
+        var point2 = svg2.createSVGPoint();
+        point2.x = event.clientX, point2.y = event.clientY;
+        point2 = point2.matrixTransform(node.getScreenCTM().inverse());
+        return [point2.x, point2.y];
       }
       if (node.getBoundingClientRect) {
         var rect = node.getBoundingClientRect();
@@ -19917,7 +20309,7 @@
   var constant_default2 = (x) => () => x;
 
   // node_modules/d3-drag/src/event.js
-  function DragEvent(type3, {
+  function DragEvent(type2, {
     sourceEvent,
     subject,
     target,
@@ -19930,7 +20322,7 @@
     dispatch: dispatch10
   }) {
     Object.defineProperties(this, {
-      type: { value: type3, enumerable: true, configurable: true },
+      type: { value: type2, enumerable: true, configurable: true },
       sourceEvent: { value: sourceEvent, enumerable: true, configurable: true },
       subject: { value: subject, enumerable: true, configurable: true },
       target: { value: target, enumerable: true, configurable: true },
@@ -20044,9 +20436,9 @@
         return;
       dx = s.x - p[0] || 0;
       dy = s.y - p[1] || 0;
-      return function gesture(type3, event2, touch2) {
+      return function gesture(type2, event2, touch2) {
         var p02 = p, n2;
-        switch (type3) {
+        switch (type2) {
           case "start":
             gestures[identifier] = gesture, n2 = active++;
             break;
@@ -20057,9 +20449,9 @@
             break;
         }
         dispatch10.call(
-          type3,
+          type2,
           that,
-          new DragEvent(type3, {
+          new DragEvent(type2, {
             sourceEvent: event2,
             subject: s,
             target: drag,
@@ -20282,6 +20674,7 @@
       return this.rgb().displayable();
     },
     hex: color_formatHex,
+    // Deprecated! Use color.formatHex.
     formatHex: color_formatHex,
     formatHex8: color_formatHex8,
     formatHsl: color_formatHsl,
@@ -20349,6 +20742,7 @@
       return -0.5 <= this.r && this.r < 255.5 && (-0.5 <= this.g && this.g < 255.5) && (-0.5 <= this.b && this.b < 255.5) && (0 <= this.opacity && this.opacity <= 1);
     },
     hex: rgb_formatHex,
+    // Deprecated! Use color.formatHex.
     formatHex: rgb_formatHex,
     formatHex8: rgb_formatHex8,
     formatRgb: rgb_formatRgb,
@@ -20574,7 +20968,7 @@
 
   // node_modules/d3-interpolate/src/date.js
   function date_default(a, b) {
-    var d = new Date();
+    var d = /* @__PURE__ */ new Date();
     return a = +a, b = +b, function(t) {
       return d.setTime(a * (1 - t) + b * t), d;
     };
@@ -20972,7 +21366,9 @@
     create(node, id2, {
       name,
       index,
+      // For context during callback.
       group,
+      // For context during callback.
       on: emptyOn,
       tween: emptyTween,
       time: timing.time,
@@ -21657,6 +22053,7 @@
   // node_modules/d3-transition/src/selection/transition.js
   var defaultTiming = {
     time: null,
+    // Set on use.
     delay: 0,
     duration: 250,
     ease: cubicInOut
@@ -21695,14 +22092,14 @@
   var constant_default4 = (x) => () => x;
 
   // node_modules/d3-zoom/src/event.js
-  function ZoomEvent(type3, {
+  function ZoomEvent(type2, {
     sourceEvent,
     target,
     transform: transform2,
     dispatch: dispatch10
   }) {
     Object.defineProperties(this, {
-      type: { value: type3, enumerable: true, configurable: true },
+      type: { value: type2, enumerable: true, configurable: true },
       sourceEvent: { value: sourceEvent, enumerable: true, configurable: true },
       target: { value: target, enumerable: true, configurable: true },
       transform: { value: transform2, enumerable: true, configurable: true },
@@ -21724,8 +22121,8 @@
     translate: function(x, y) {
       return x === 0 & y === 0 ? this : new Transform(this.k, this.x + this.k * x, this.y + this.k * y);
     },
-    apply: function(point) {
-      return [point[0] * this.k + this.x, point[1] * this.k + this.y];
+    apply: function(point2) {
+      return [point2[0] * this.k + this.x, point2[1] * this.k + this.y];
     },
     applyX: function(x) {
       return x * this.k + this.x;
@@ -21807,11 +22204,11 @@
     function zoom(selection2) {
       selection2.property("__zoom", defaultTransform).on("wheel.zoom", wheeled, { passive: false }).on("mousedown.zoom", mousedowned).on("dblclick.zoom", dblclicked).filter(touchable).on("touchstart.zoom", touchstarted).on("touchmove.zoom", touchmoved).on("touchend.zoom touchcancel.zoom", touchended).style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
     }
-    zoom.transform = function(collection, transform2, point, event) {
+    zoom.transform = function(collection, transform2, point2, event) {
       var selection2 = collection.selection ? collection.selection() : collection;
       selection2.property("__zoom", defaultTransform);
       if (collection !== selection2) {
-        schedule(collection, transform2, point, event);
+        schedule(collection, transform2, point2, event);
       } else {
         selection2.interrupt().each(function() {
           gesture(this, arguments).event(event).start().zoom(null, typeof transform2 === "function" ? transform2.apply(this, arguments) : transform2).end();
@@ -21858,13 +22255,13 @@
     function centroid(extent2) {
       return [(+extent2[0][0] + +extent2[1][0]) / 2, (+extent2[0][1] + +extent2[1][1]) / 2];
     }
-    function schedule(transition2, transform2, point, event) {
+    function schedule(transition2, transform2, point2, event) {
       transition2.on("start.zoom", function() {
         gesture(this, arguments).event(event).start();
       }).on("interrupt.zoom end.zoom", function() {
         gesture(this, arguments).event(event).end();
       }).tween("zoom", function() {
-        var that = this, args = arguments, g = gesture(that, args).event(event), e = extent.apply(that, args), p = point == null ? centroid(e) : typeof point === "function" ? point.apply(that, args) : point, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = that.__zoom, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
+        var that = this, args = arguments, g = gesture(that, args).event(event), e = extent.apply(that, args), p = point2 == null ? centroid(e) : typeof point2 === "function" ? point2.apply(that, args) : point2, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = that.__zoom, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
         return function(t) {
           if (t === 1)
             t = b;
@@ -21918,15 +22315,15 @@
         }
         return this;
       },
-      emit: function(type3) {
+      emit: function(type2) {
         var d = select_default2(this.that).datum();
         listeners.call(
-          type3,
+          type2,
           this.that,
-          new ZoomEvent(type3, {
+          new ZoomEvent(type2, {
             sourceEvent: this.sourceEvent,
             target: zoom,
-            type: type3,
+            type: type2,
             transform: this.that.__zoom,
             dispatch: listeners
           }),
@@ -22120,13 +22517,13 @@
     var x = 0;
     var y = 0;
     var clipExtent = [[0, 0], [0, 0]];
-    function projection2(point) {
-      point = project(point[0] * Math.PI / 180, point[1] * Math.PI / 180);
-      return [point[0] * k + x, y - point[1] * k];
+    function projection2(point2) {
+      point2 = project(point2[0] * Math.PI / 180, point2[1] * Math.PI / 180);
+      return [point2[0] * k + x, y - point2[1] * k];
     }
-    projection2.invert = function(point) {
-      point = project.invert((point[0] - x) / k, (y - point[1]) / k);
-      return point && [point[0] * 180 / Math.PI, point[1] * 180 / Math.PI];
+    projection2.invert = function(point2) {
+      point2 = project.invert((point2[0] - x) / k, (y - point2[1]) / k);
+      return point2 && [point2[0] * 180 / Math.PI, point2[1] * 180 / Math.PI];
     };
     projection2.scale = function(_) {
       if (!arguments.length)
@@ -22395,10 +22792,32 @@
   // modules/core/file_fetcher.js
   var import_vparse = __toESM(require_vparse());
 
+  // config/id.js
+  var presetsCdnUrl = "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@{presets_version}/";
+  var ociCdnUrl = "https://cdn.jsdelivr.net/npm/osm-community-index@{version}/";
+  var wmfSitematrixCdnUrl = "https://cdn.jsdelivr.net/npm/wmf-sitematrix@{version}/";
+  var nsiCdnUrl = "https://cdn.jsdelivr.net/npm/name-suggestion-index@{version}/";
+  var osmApiConnections = [
+    {
+      // "live" db
+      url: "https://www.openhistoricalmap.org",
+      client_id: "0tmNTmd0Jo1dQp4AUmMBLtGiD9YpMuXzHefitcuVStc",
+      client_secret: "BTlNrNxIPitHdL4sP2clHw5KLoee9aKkA7dQbc0Bj7Q"
+    },
+    {
+      // "dev" db
+      url: "https://api06.dev.openstreetmap.org",
+      client_id: "Ee1wWJ6UlpERbF6BfTNOpwn0R8k_06mvMXdDUkeHMgw",
+      client_secret: "OnfWFC-JkZNHyYdr_viNn_h_RTZXRslKcUxllOXqf5g"
+    }
+  ];
+  var taginfoApiUrl = "https://taginfo.openstreetmap.org/api/4/";
+  var nominatimApiUrl = "https://nominatim.openstreetmap.org/";
+
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.22.0",
+    version: "2.24.1",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -22414,7 +22833,7 @@
       build: "run-s build:css build:data build:js",
       "build:css": "node scripts/build_css.js",
       "build:data": "shx mkdir -p dist/data && node scripts/build_data.js",
-      "build:stats": "esbuild-visualizer --metadata dist/esbuild.json --exclude *.png --filename docs/statistics.html",
+      "build:stats": "node config/esbuild.config.mjs --stats && esbuild-visualizer --metadata dist/esbuild.json --exclude *.png --filename docs/statistics.html && shx rm dist/esbuild.json",
       "build:js": "node config/esbuild.config.mjs",
       "build:js:watch": "node config/esbuild.config.mjs --watch",
       clean: "shx rm -f dist/esbuild.json dist/*.js dist/*.map dist/*.css dist/img/*.svg",
@@ -22436,16 +22855,17 @@
       "start:watch": "run-p build:js:watch start:server",
       "start:server": "node scripts/server.js",
       test: "npm-run-all -s lint build test:spec",
-      "test:spec": "karma start karma.conf.js",
+      "test:spec": "karma start config/karma.conf.js",
       translations: "node scripts/update_locales.js"
     },
     dependencies: {
-      "@ideditor/country-coder": "~5.0.3",
-      "@ideditor/location-conflation": "~1.0.2",
+      "@ideditor/country-coder": "~5.1.0",
+      "@ideditor/location-conflation": "~1.1.0",
       "@mapbox/geojson-area": "^0.2.2",
       "@mapbox/sexagesimal": "1.2.0",
       "@mapbox/vector-tile": "^1.3.1",
       "@tmcw/togeojson": "^5.2.1",
+      "@turf/bbox": "^6.0.0",
       "@turf/bbox-clip": "^6.0.0",
       "abortcontroller-polyfill": "^1.4.0",
       "aes-js": "^3.1.2",
@@ -22455,7 +22875,7 @@
       "fast-deep-equal": "~3.1.1",
       "fast-json-stable-stringify": "2.1.0",
       "lodash-es": "~4.17.15",
-      marked: "~4.1.0",
+      marked: "~4.2.2",
       "node-diff3": "~3.1.0",
       "osm-auth": "~2.0.0",
       pannellum: "2.5.6",
@@ -22470,19 +22890,20 @@
       "@fortawesome/free-brands-svg-icons": "~6.2.0",
       "@fortawesome/free-regular-svg-icons": "~6.2.0",
       "@fortawesome/free-solid-svg-icons": "~6.2.0",
-      "@ideditor/temaki": "~5.1.0",
+      "@ideditor/temaki": "~5.2.0",
       "@mapbox/maki": "^8.0.0",
+      "@openstreetmap/id-tagging-schema": "^5.0.1",
+      "@transifex/api": "^5.0.1",
       autoprefixer: "^10.0.1",
-      btoa: "^1.2.1",
       chai: "^4.3.4",
       chalk: "^4.1.2",
       "cldr-core": "^41.0.0",
       "cldr-localenames-full": "^41.0.0",
       "concat-files": "^0.1.1",
-      d3: "~7.6.1",
-      "editor-layer-index": "github:osmlab/editor-layer-index#gh-pages",
-      esbuild: "^0.15.7",
-      "esbuild-visualizer": "^0.3.1",
+      d3: "~7.8.1",
+      esbuild: "^0.17.3",
+      "esbuild-visualizer": "^0.4.0",
+      "ohm-editor-layer-index": "github:openhistoricalmap/ohm-editor-layer-index#dist",
       eslint: "^8.8.0",
       "fetch-mock": "^9.11.0",
       gaze: "^1.1.3",
@@ -22502,7 +22923,7 @@
       "name-suggestion-index": "~6.0",
       "node-fetch": "^2.6.1",
       "npm-run-all": "^4.0.0",
-      "osm-community-index": "~5.2.0",
+      "osm-community-index": "~5.5.0",
       postcss: "^8.1.1",
       "postcss-selector-prepend": "^0.5.0",
       shelljs: "^0.8.0",
@@ -22511,7 +22932,7 @@
       "sinon-chai": "^3.7.0",
       smash: "0.0",
       "static-server": "^2.2.1",
-      "svg-sprite": "1.5.4",
+      "svg-sprite": "2.0.2",
       vparse: "~1.1.0"
     },
     engines: {
@@ -22527,30 +22948,32 @@
   function coreFileFetcher() {
     const ociVersion = package_default.dependencies["osm-community-index"] || package_default.devDependencies["osm-community-index"];
     const v = (0, import_vparse.default)(ociVersion);
-    const vMinor = `${v.major}.${v.minor}`;
+    const ociVersionMinor = `${v.major}.${v.minor}`;
+    const presetsVersion = package_default.devDependencies["@openstreetmap/id-tagging-schema"];
     let _this = {};
     let _inflight4 = {};
     let _fileMap = {
       "address_formats": "data/address_formats.min.json",
-      "deprecated": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/deprecated.min.json",
-      "discarded": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/discarded.min.json",
       "imagery": "data/imagery.min.json",
       "intro_graph": "data/intro_graph.min.json",
       "keepRight": "data/keepRight.min.json",
       "languages": "data/languages.min.json",
       "locales": "locales/index.min.json",
-      "oci_defaults": `https://cdn.jsdelivr.net/npm/osm-community-index@${vMinor}/dist/defaults.min.json`,
-      "oci_features": `https://cdn.jsdelivr.net/npm/osm-community-index@${vMinor}/dist/featureCollection.min.json`,
-      "oci_resources": `https://cdn.jsdelivr.net/npm/osm-community-index@${vMinor}/dist/resources.min.json`,
-      "preset_categories": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/preset_categories.min.json",
-      "preset_defaults": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/preset_defaults.min.json",
-      "preset_fields": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/fields.min.json",
-      "preset_presets": "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/presets.min.json",
       "phone_formats": "data/phone_formats.min.json",
       "qa_data": "data/qa_data.min.json",
       "shortcuts": "data/shortcuts.min.json",
       "territory_languages": "data/territory_languages.min.json",
-      "wmf_sitematrix": "https://cdn.jsdelivr.net/npm/wmf-sitematrix@0.1/wikipedia.min.json"
+      "oci_defaults": ociCdnUrl.replace("{version}", ociVersionMinor) + "dist/defaults.min.json",
+      "oci_features": ociCdnUrl.replace("{version}", ociVersionMinor) + "dist/featureCollection.min.json",
+      "oci_resources": ociCdnUrl.replace("{version}", ociVersionMinor) + "dist/resources.min.json",
+      "presets_package": presetsCdnUrl.replace("{presets_version}", presetsVersion) + "package.json",
+      "deprecated": presetsCdnUrl + "dist/deprecated.min.json",
+      "discarded": presetsCdnUrl + "dist/discarded.min.json",
+      "preset_categories": presetsCdnUrl + "dist/preset_categories.min.json",
+      "preset_defaults": presetsCdnUrl + "dist/preset_defaults.min.json",
+      "preset_fields": presetsCdnUrl + "dist/fields.min.json",
+      "preset_presets": presetsCdnUrl + "dist/presets.min.json",
+      "wmf_sitematrix": wmfSitematrixCdnUrl.replace("{version}", "0.1") + "wikipedia.min.json"
     };
     let _cachedData = {};
     _this.cache = () => _cachedData;
@@ -22563,6 +22986,16 @@
       if (!url) {
         return Promise.reject(`Unknown data file for "${which}"`);
       }
+      if (url.includes("{presets_version}")) {
+        return _this.get("presets_package").then((result) => {
+          const presetsVersion2 = result.version;
+          return getUrl(url.replace("{presets_version}", presetsVersion2), which);
+        });
+      } else {
+        return getUrl(url);
+      }
+    };
+    function getUrl(url, which) {
       let prom = _inflight4[url];
       if (!prom) {
         _inflight4[url] = prom = fetch(url).then((response) => {
@@ -22585,7 +23018,7 @@
         });
       }
       return prom;
-    };
+    }
     _this.fileMap = function(val) {
       if (!arguments.length)
         return _fileMap;
@@ -22617,8 +23050,7 @@
 
   // node_modules/@ideditor/country-coder/dist/country-coder.mjs
   var import_which_polygon = __toESM(require_which_polygon(), 1);
-  var type = "FeatureCollection";
-  var features = [
+  var borders_default = { type: "FeatureCollection", features: [
     { type: "Feature", properties: { wikidata: "Q21", nameEn: "England", aliases: ["GB-ENG"], country: "GB", groups: ["Q23666", "Q3336843", "154", "150", "UN"], driveSide: "left", roadSpeedUnit: "mph", roadHeightUnit: "ft", callingCodes: ["44"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-6.03913, 51.13217], [-7.74976, 48.64773], [1.17405, 50.74239], [2.18458, 51.52087], [2.56575, 51.85301], [0.792, 57.56437], [-2.30613, 55.62698], [-2.17058, 55.45916], [-2.6095, 55.28488], [-2.63532, 55.19452], [-3.02906, 55.04606], [-3.09361, 54.94924], [-3.38407, 54.94278], [-4.1819, 54.57861], [-3.5082, 53.54318], [-3.08228, 53.25526], [-3.03675, 53.25092], [-2.92329, 53.19383], [-2.92022, 53.17685], [-2.98598, 53.15589], [-2.90649, 53.10964], [-2.87469, 53.12337], [-2.89131, 53.09374], [-2.83133, 52.99184], [-2.7251, 52.98389], [-2.72221, 52.92969], [-2.80549, 52.89428], [-2.85897, 52.94487], [-2.92401, 52.93836], [-2.97243, 52.9651], [-3.13576, 52.895], [-3.15744, 52.84947], [-3.16105, 52.79599], [-3.08734, 52.77504], [-3.01001, 52.76636], [-2.95581, 52.71794], [-3.01724, 52.72083], [-3.04398, 52.65435], [-3.13648, 52.58208], [-3.12926, 52.5286], [-3.09746, 52.53077], [-3.08662, 52.54811], [-3.00929, 52.57774], [-2.99701, 52.551], [-3.03603, 52.49969], [-3.13359, 52.49174], [-3.22971, 52.45344], [-3.22754, 52.42526], [-3.04687, 52.34504], [-2.95364, 52.3501], [-2.99701, 52.323], [-3.00785, 52.2753], [-3.09289, 52.20546], [-3.12638, 52.08114], [-2.97111, 51.90456], [-2.8818, 51.93196], [-2.78742, 51.88833], [-2.74277, 51.84367], [-2.66234, 51.83555], [-2.66336, 51.59504], [-3.20563, 51.31615], [-6.03913, 51.13217]]]] } },
     { type: "Feature", properties: { wikidata: "Q22", nameEn: "Scotland", aliases: ["GB-SCT"], country: "GB", groups: ["Q23666", "Q3336843", "154", "150", "UN"], driveSide: "left", roadSpeedUnit: "mph", roadHeightUnit: "ft", callingCodes: ["44"] }, geometry: { type: "MultiPolygon", coordinates: [[[[0.792, 57.56437], [-0.3751, 61.32236], [-14.78497, 57.60709], [-6.82333, 55.83103], [-4.69044, 54.3629], [-3.38407, 54.94278], [-3.09361, 54.94924], [-3.02906, 55.04606], [-2.63532, 55.19452], [-2.6095, 55.28488], [-2.17058, 55.45916], [-2.30613, 55.62698], [0.792, 57.56437]]]] } },
     { type: "Feature", properties: { wikidata: "Q25", nameEn: "Wales", aliases: ["GB-WLS"], country: "GB", groups: ["Q23666", "Q3336843", "154", "150", "UN"], driveSide: "left", roadSpeedUnit: "mph", roadHeightUnit: "ft", callingCodes: ["44"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-3.5082, 53.54318], [-5.37267, 53.63269], [-6.03913, 51.13217], [-3.20563, 51.31615], [-2.66336, 51.59504], [-2.66234, 51.83555], [-2.74277, 51.84367], [-2.78742, 51.88833], [-2.8818, 51.93196], [-2.97111, 51.90456], [-3.12638, 52.08114], [-3.09289, 52.20546], [-3.00785, 52.2753], [-2.99701, 52.323], [-2.95364, 52.3501], [-3.04687, 52.34504], [-3.22754, 52.42526], [-3.22971, 52.45344], [-3.13359, 52.49174], [-3.03603, 52.49969], [-2.99701, 52.551], [-3.00929, 52.57774], [-3.08662, 52.54811], [-3.09746, 52.53077], [-3.12926, 52.5286], [-3.13648, 52.58208], [-3.04398, 52.65435], [-3.01724, 52.72083], [-2.95581, 52.71794], [-3.01001, 52.76636], [-3.08734, 52.77504], [-3.16105, 52.79599], [-3.15744, 52.84947], [-3.13576, 52.895], [-2.97243, 52.9651], [-2.92401, 52.93836], [-2.85897, 52.94487], [-2.80549, 52.89428], [-2.72221, 52.92969], [-2.7251, 52.98389], [-2.83133, 52.99184], [-2.89131, 53.09374], [-2.87469, 53.12337], [-2.90649, 53.10964], [-2.98598, 53.15589], [-2.92022, 53.17685], [-2.92329, 53.19383], [-3.03675, 53.25092], [-3.08228, 53.25526], [-3.5082, 53.54318]]]] } },
@@ -22795,7 +23227,7 @@
     { type: "Feature", properties: { iso1A2: "CD", iso1A3: "COD", iso1N3: "180", wikidata: "Q974", nameEn: "Democratic Republic of the Congo", aliases: ["ZR"], groups: ["017", "202", "002", "UN"], callingCodes: ["243"] }, geometry: { type: "MultiPolygon", coordinates: [[[[27.44012, 5.07349], [27.09575, 5.22305], [26.93064, 5.13535], [26.85579, 5.03887], [26.74572, 5.10685], [26.48595, 5.04984], [26.13371, 5.25594], [25.86073, 5.19455], [25.53271, 5.37431], [25.34558, 5.29101], [25.31256, 5.03668], [24.71816, 4.90509], [24.46719, 5.0915], [23.38847, 4.60013], [22.94817, 4.82392], [22.89094, 4.79321], [22.84691, 4.69887], [22.78526, 4.71423], [22.6928, 4.47285], [22.60915, 4.48821], [22.5431, 4.22041], [22.45504, 4.13039], [22.27682, 4.11347], [22.10721, 4.20723], [21.6405, 4.317], [21.55904, 4.25553], [21.25744, 4.33676], [21.21341, 4.29285], [21.11214, 4.33895], [21.08793, 4.39603], [20.90383, 4.44877], [20.60184, 4.42394], [18.62755, 3.47564], [18.63857, 3.19342], [18.10683, 2.26876], [18.08034, 1.58553], [17.85887, 1.04327], [17.86989, 0.58873], [17.95255, 0.48128], [17.93877, 0.32424], [17.81204, 0.23884], [17.66051, -0.26535], [17.72112, -0.52707], [17.32438, -0.99265], [16.97999, -1.12762], [16.70724, -1.45815], [16.50336, -1.8795], [16.16173, -2.16586], [16.22785, -2.59528], [16.1755, -3.25014], [16.21407, -3.2969], [15.89448, -3.9513], [15.53081, -4.042], [15.48121, -4.22062], [15.41785, -4.28381], [15.32693, -4.27282], [15.25411, -4.31121], [15.1978, -4.32388], [14.83101, -4.80838], [14.67948, -4.92093], [14.5059, -4.84956], [14.41499, -4.8825], [14.37366, -4.56125], [14.47284, -4.42941], [14.3957, -4.36623], [14.40672, -4.28381], [13.9108, -4.50906], [13.81162, -4.41842], [13.71794, -4.44864], [13.70417, -4.72601], [13.50305, -4.77818], [13.41764, -4.89897], [13.11182, -4.5942], [13.09648, -4.63739], [13.11195, -4.67745], [12.8733, -4.74346], [12.70868, -4.95505], [12.63465, -4.94632], [12.60251, -5.01715], [12.46297, -5.09408], [12.49815, -5.14058], [12.51589, -5.1332], [12.53586, -5.14658], [12.53599, -5.1618], [12.52301, -5.17481], [12.52318, -5.74353], [12.26557, -5.74031], [12.20376, -5.76338], [11.95767, -5.94705], [12.42245, -6.07585], [13.04371, -5.87078], [16.55507, -5.85631], [16.96282, -7.21787], [17.5828, -8.13784], [18.33635, -8.00126], [19.33698, -7.99743], [19.5469, -7.00195], [20.30218, -6.98955], [20.31846, -6.91953], [20.61689, -6.90876], [20.56263, -7.28566], [21.79824, -7.29628], [21.84856, -9.59871], [22.19039, -9.94628], [22.32604, -10.76291], [22.17954, -10.85884], [22.25951, -11.24911], [22.54205, -11.05784], [23.16602, -11.10577], [23.45631, -10.946], [23.86868, -11.02856], [24.00027, -10.89356], [24.34528, -11.06816], [24.42612, -11.44975], [25.34069, -11.19707], [25.33058, -11.65767], [26.01777, -11.91488], [26.88687, -12.01868], [27.04351, -11.61312], [27.22541, -11.60323], [27.21025, -11.76157], [27.59932, -12.22123], [28.33199, -12.41375], [29.01918, -13.41353], [29.60531, -13.21685], [29.65078, -13.41844], [29.81551, -13.44683], [29.8139, -12.14898], [29.48404, -12.23604], [29.4992, -12.43843], [29.18592, -12.37921], [28.48357, -11.87532], [28.37241, -11.57848], [28.65032, -10.65133], [28.62795, -9.92942], [28.68532, -9.78], [28.56208, -9.49122], [28.51627, -9.44726], [28.52636, -9.35379], [28.36562, -9.30091], [28.38526, -9.23393], [28.9711, -8.66935], [28.88917, -8.4831], [30.79243, -8.27382], [30.2567, -7.14121], [29.52552, -6.2731], [29.43673, -4.44845], [29.23708, -3.75856], [29.21463, -3.3514], [29.25633, -3.05471], [29.17258, -2.99385], [29.16037, -2.95457], [29.09797, -2.91935], [29.09119, -2.87871], [29.0505, -2.81774], [29.00404, -2.81978], [29.00167, -2.78523], [29.04081, -2.7416], [29.00357, -2.70596], [28.94346, -2.69124], [28.89793, -2.66111], [28.90226, -2.62385], [28.89288, -2.55848], [28.87943, -2.55165], [28.86193, -2.53185], [28.86209, -2.5231], [28.87497, -2.50887], [28.88846, -2.50493], [28.89342, -2.49017], [28.89132, -2.47557], [28.86846, -2.44866], [28.86826, -2.41888], [28.89601, -2.37321], [28.95642, -2.37321], [29.00051, -2.29001], [29.105, -2.27043], [29.17562, -2.12278], [29.11847, -1.90576], [29.24458, -1.69663], [29.24323, -1.66826], [29.36322, -1.50887], [29.45038, -1.5054], [29.53062, -1.40499], [29.59061, -1.39016], [29.58388, -0.89821], [29.63006, -0.8997], [29.62708, -0.71055], [29.67176, -0.55714], [29.67474, -0.47969], [29.65091, -0.46777], [29.72687, -0.08051], [29.7224, 0.07291], [29.77454, 0.16675], [29.81922, 0.16824], [29.87284, 0.39166], [29.97413, 0.52124], [29.95477, 0.64486], [29.98307, 0.84295], [30.1484, 0.89805], [30.22139, 0.99635], [30.24671, 1.14974], [30.48503, 1.21675], [31.30127, 2.11006], [31.28042, 2.17853], [31.20148, 2.2217], [31.1985, 2.29462], [31.12104, 2.27676], [31.07934, 2.30207], [31.06593, 2.35862], [30.96911, 2.41071], [30.91102, 2.33332], [30.83059, 2.42559], [30.74271, 2.43601], [30.75612, 2.5863], [30.8857, 2.83923], [30.8574, 2.9508], [30.77101, 3.04897], [30.84251, 3.26908], [30.93486, 3.40737], [30.94081, 3.50847], [30.85153, 3.48867], [30.85997, 3.5743], [30.80713, 3.60506], [30.78512, 3.67097], [30.56277, 3.62703], [30.57378, 3.74567], [30.55396, 3.84451], [30.47691, 3.83353], [30.27658, 3.95653], [30.22374, 3.93896], [30.1621, 4.10586], [30.06964, 4.13221], [29.79666, 4.37809], [29.82087, 4.56246], [29.49726, 4.7007], [29.43341, 4.50101], [29.22207, 4.34297], [29.03054, 4.48784], [28.8126, 4.48784], [28.6651, 4.42638], [28.20719, 4.35614], [27.79551, 4.59976], [27.76469, 4.79284], [27.65462, 4.89375], [27.56656, 4.89375], [27.44012, 5.07349]]]] } },
     { type: "Feature", properties: { iso1A2: "CF", iso1A3: "CAF", iso1N3: "140", wikidata: "Q929", nameEn: "Central African Republic", groups: ["017", "202", "002", "UN"], callingCodes: ["236"] }, geometry: { type: "MultiPolygon", coordinates: [[[[22.87758, 10.91915], [22.45889, 11.00246], [21.72139, 10.64136], [21.71479, 10.29932], [21.63553, 10.217], [21.52766, 10.2105], [21.34934, 9.95907], [21.26348, 9.97642], [20.82979, 9.44696], [20.36748, 9.11019], [19.06421, 9.00367], [18.86388, 8.87971], [19.11044, 8.68172], [18.79783, 8.25929], [18.67455, 8.22226], [18.62612, 8.14163], [18.64153, 8.08714], [18.6085, 8.05009], [18.02731, 8.01085], [17.93926, 7.95853], [17.67288, 7.98905], [16.8143, 7.53971], [16.6668, 7.67281], [16.658, 7.75353], [16.59415, 7.76444], [16.58315, 7.88657], [16.41583, 7.77971], [16.40703, 7.68809], [15.79942, 7.44149], [15.73118, 7.52006], [15.49743, 7.52179], [15.23397, 7.25135], [15.04717, 6.77085], [14.96311, 6.75693], [14.79966, 6.39043], [14.80122, 6.34866], [14.74206, 6.26356], [14.56149, 6.18928], [14.43073, 6.08867], [14.42917, 6.00508], [14.49455, 5.91683], [14.60974, 5.91838], [14.62375, 5.70466], [14.58951, 5.59777], [14.62531, 5.51411], [14.52724, 5.28319], [14.57083, 5.23979], [14.65489, 5.21343], [14.73383, 4.6135], [15.00825, 4.41458], [15.08609, 4.30282], [15.10644, 4.1362], [15.17482, 4.05131], [15.07686, 4.01805], [15.73522, 3.24348], [15.77725, 3.26835], [16.05449, 3.02306], [16.08252, 2.45708], [16.19357, 2.21537], [16.50126, 2.84739], [16.46701, 2.92512], [16.57598, 3.47999], [16.68283, 3.54257], [17.01746, 3.55136], [17.35649, 3.63045], [17.46876, 3.70515], [17.60966, 3.63705], [17.83421, 3.61068], [17.85842, 3.53378], [18.05656, 3.56893], [18.14902, 3.54476], [18.17323, 3.47665], [18.24148, 3.50302], [18.2723, 3.57992], [18.39558, 3.58212], [18.49245, 3.63924], [18.58711, 3.49423], [18.62755, 3.47564], [20.60184, 4.42394], [20.90383, 4.44877], [21.08793, 4.39603], [21.11214, 4.33895], [21.21341, 4.29285], [21.25744, 4.33676], [21.55904, 4.25553], [21.6405, 4.317], [22.10721, 4.20723], [22.27682, 4.11347], [22.45504, 4.13039], [22.5431, 4.22041], [22.60915, 4.48821], [22.6928, 4.47285], [22.78526, 4.71423], [22.84691, 4.69887], [22.89094, 4.79321], [22.94817, 4.82392], [23.38847, 4.60013], [24.46719, 5.0915], [24.71816, 4.90509], [25.31256, 5.03668], [25.34558, 5.29101], [25.53271, 5.37431], [25.86073, 5.19455], [26.13371, 5.25594], [26.48595, 5.04984], [26.74572, 5.10685], [26.85579, 5.03887], [26.93064, 5.13535], [27.09575, 5.22305], [27.44012, 5.07349], [27.26886, 5.25876], [27.23017, 5.37167], [27.28621, 5.56382], [27.22705, 5.62889], [27.22705, 5.71254], [26.51721, 6.09655], [26.58259, 6.1987], [26.32729, 6.36272], [26.38022, 6.63493], [25.90076, 7.09549], [25.37461, 7.33024], [25.35281, 7.42595], [25.20337, 7.50312], [25.20649, 7.61115], [25.29214, 7.66675], [25.25319, 7.8487], [24.98855, 7.96588], [24.85156, 8.16933], [24.35965, 8.26177], [24.13238, 8.36959], [24.25691, 8.69288], [23.51905, 8.71749], [23.59065, 8.99743], [23.44744, 8.99128], [23.4848, 9.16959], [23.56263, 9.19418], [23.64358, 9.28637], [23.64981, 9.44303], [23.62179, 9.53823], [23.69155, 9.67566], [23.67164, 9.86923], [23.3128, 10.45214], [23.02221, 10.69235], [22.87758, 10.91915]]]] } },
     { type: "Feature", properties: { iso1A2: "CG", iso1A3: "COG", iso1N3: "178", wikidata: "Q971", nameEn: "Republic of the Congo", groups: ["017", "202", "002", "UN"], callingCodes: ["242"] }, geometry: { type: "MultiPolygon", coordinates: [[[[18.62755, 3.47564], [18.58711, 3.49423], [18.49245, 3.63924], [18.39558, 3.58212], [18.2723, 3.57992], [18.24148, 3.50302], [18.17323, 3.47665], [18.14902, 3.54476], [18.05656, 3.56893], [17.85842, 3.53378], [17.83421, 3.61068], [17.60966, 3.63705], [17.46876, 3.70515], [17.35649, 3.63045], [17.01746, 3.55136], [16.68283, 3.54257], [16.57598, 3.47999], [16.46701, 2.92512], [16.50126, 2.84739], [16.19357, 2.21537], [16.15568, 2.18955], [16.08563, 2.19733], [16.05294, 1.9811], [16.14634, 1.70259], [16.02647, 1.65591], [16.02959, 1.76483], [15.48942, 1.98265], [15.34776, 1.91264], [15.22634, 2.03243], [15.00996, 1.98887], [14.61145, 2.17866], [13.29457, 2.16106], [13.13461, 1.57238], [13.25447, 1.32339], [13.15519, 1.23368], [13.89582, 1.4261], [14.25186, 1.39842], [14.48179, 0.9152], [14.26066, 0.57255], [14.10909, 0.58563], [13.88648, 0.26652], [13.90632, -0.2287], [14.06862, -0.20826], [14.2165, -0.38261], [14.41887, -0.44799], [14.52569, -0.57818], [14.41838, -1.89412], [14.25932, -1.97624], [14.23518, -2.15671], [14.16202, -2.23916], [14.23829, -2.33715], [14.10442, -2.49268], [13.85846, -2.46935], [13.92073, -2.35581], [13.75884, -2.09293], [13.47977, -2.43224], [13.02759, -2.33098], [12.82172, -1.91091], [12.61312, -1.8129], [12.44656, -1.92025], [12.47925, -2.32626], [12.04895, -2.41704], [11.96866, -2.33559], [11.74605, -2.39936], [11.57637, -2.33379], [11.64487, -2.61865], [11.5359, -2.85654], [11.64798, -2.81146], [11.80365, -3.00424], [11.70558, -3.0773], [11.70227, -3.17465], [11.96554, -3.30267], [11.8318, -3.5812], [11.92719, -3.62768], [11.87083, -3.71571], [11.68608, -3.68942], [11.57949, -3.52798], [11.48764, -3.51089], [11.22301, -3.69888], [11.12647, -3.94169], [10.75913, -4.39519], [11.50888, -5.33417], [12.00924, -5.02627], [12.16068, -4.90089], [12.20901, -4.75642], [12.25587, -4.79437], [12.32324, -4.78415], [12.40964, -4.60609], [12.64835, -4.55937], [12.76844, -4.38709], [12.87096, -4.40315], [12.91489, -4.47907], [13.09648, -4.63739], [13.11182, -4.5942], [13.41764, -4.89897], [13.50305, -4.77818], [13.70417, -4.72601], [13.71794, -4.44864], [13.81162, -4.41842], [13.9108, -4.50906], [14.40672, -4.28381], [14.3957, -4.36623], [14.47284, -4.42941], [14.37366, -4.56125], [14.41499, -4.8825], [14.5059, -4.84956], [14.67948, -4.92093], [14.83101, -4.80838], [15.1978, -4.32388], [15.25411, -4.31121], [15.32693, -4.27282], [15.41785, -4.28381], [15.48121, -4.22062], [15.53081, -4.042], [15.89448, -3.9513], [16.21407, -3.2969], [16.1755, -3.25014], [16.22785, -2.59528], [16.16173, -2.16586], [16.50336, -1.8795], [16.70724, -1.45815], [16.97999, -1.12762], [17.32438, -0.99265], [17.72112, -0.52707], [17.66051, -0.26535], [17.81204, 0.23884], [17.93877, 0.32424], [17.95255, 0.48128], [17.86989, 0.58873], [17.85887, 1.04327], [18.08034, 1.58553], [18.10683, 2.26876], [18.63857, 3.19342], [18.62755, 3.47564]]]] } },
-    { type: "Feature", properties: { iso1A2: "CH", iso1A3: "CHE", iso1N3: "756", wikidata: "Q39", nameEn: "Switzerland", groups: ["155", "150", "UN"], callingCodes: ["41"] }, geometry: { type: "MultiPolygon", coordinates: [[[[8.72809, 47.69282], [8.72617, 47.69651], [8.73671, 47.7169], [8.70543, 47.73121], [8.74251, 47.75168], [8.71778, 47.76571], [8.68985, 47.75686], [8.68022, 47.78599], [8.65292, 47.80066], [8.64425, 47.76398], [8.62408, 47.7626], [8.61657, 47.79998], [8.56415, 47.80633], [8.56814, 47.78001], [8.48868, 47.77215], [8.45771, 47.7493], [8.44807, 47.72426], [8.40569, 47.69855], [8.4211, 47.68407], [8.40473, 47.67499], [8.41346, 47.66676], [8.42264, 47.66667], [8.44711, 47.65379], [8.4667, 47.65747], [8.46605, 47.64103], [8.49656, 47.64709], [8.5322, 47.64687], [8.52801, 47.66059], [8.56141, 47.67088], [8.57683, 47.66158], [8.6052, 47.67258], [8.61113, 47.66332], [8.62884, 47.65098], [8.62049, 47.63757], [8.60412, 47.63735], [8.61471, 47.64514], [8.60701, 47.65271], [8.59545, 47.64298], [8.60348, 47.61204], [8.57586, 47.59537], [8.55756, 47.62394], [8.51686, 47.63476], [8.50747, 47.61897], [8.45578, 47.60121], [8.46637, 47.58389], [8.48949, 47.588], [8.49431, 47.58107], [8.43235, 47.56617], [8.39477, 47.57826], [8.38273, 47.56608], [8.32735, 47.57133], [8.30277, 47.58607], [8.29524, 47.5919], [8.29722, 47.60603], [8.2824, 47.61225], [8.26313, 47.6103], [8.25863, 47.61571], [8.23809, 47.61204], [8.22577, 47.60385], [8.22011, 47.6181], [8.20617, 47.62141], [8.19378, 47.61636], [8.1652, 47.5945], [8.14947, 47.59558], [8.13823, 47.59147], [8.13662, 47.58432], [8.11543, 47.5841], [8.10395, 47.57918], [8.10002, 47.56504], [8.08557, 47.55768], [8.06663, 47.56374], [8.04383, 47.55443], [8.02136, 47.55096], [8.00113, 47.55616], [7.97581, 47.55493], [7.95682, 47.55789], [7.94494, 47.54511], [7.91251, 47.55031], [7.90673, 47.57674], [7.88664, 47.58854], [7.84412, 47.5841], [7.81901, 47.58798], [7.79486, 47.55691], [7.75261, 47.54599], [7.71961, 47.54219], [7.69642, 47.53297], [7.68101, 47.53232], [7.6656, 47.53752], [7.66174, 47.54554], [7.65083, 47.54662], [7.63338, 47.56256], [7.67655, 47.56435], [7.68904, 47.57133], [7.67115, 47.5871], [7.68486, 47.59601], [7.69385, 47.60099], [7.68229, 47.59905], [7.67395, 47.59212], [7.64599, 47.59695], [7.64213, 47.5944], [7.64309, 47.59151], [7.61929, 47.57683], [7.60459, 47.57869], [7.60523, 47.58519], [7.58945, 47.59017], [7.58386, 47.57536], [7.56684, 47.57785], [7.56548, 47.57617], [7.55689, 47.57232], [7.55652, 47.56779], [7.53634, 47.55553], [7.52831, 47.55347], [7.51723, 47.54578], [7.50873, 47.54546], [7.49691, 47.53821], [7.50588, 47.52856], [7.51904, 47.53515], [7.53199, 47.5284], [7.5229, 47.51644], [7.49804, 47.51798], [7.51076, 47.49651], [7.47534, 47.47932], [7.43356, 47.49712], [7.42923, 47.48628], [7.4583, 47.47216], [7.4462, 47.46264], [7.43088, 47.45846], [7.40308, 47.43638], [7.35603, 47.43432], [7.33526, 47.44186], [7.24669, 47.4205], [7.17026, 47.44312], [7.19583, 47.49455], [7.16249, 47.49025], [7.12781, 47.50371], [7.07425, 47.48863], [7.0231, 47.50522], [6.98425, 47.49432], [7.0024, 47.45264], [6.93953, 47.43388], [6.93744, 47.40714], [6.88542, 47.37262], [6.87959, 47.35335], [7.03125, 47.36996], [7.0564, 47.35134], [7.05305, 47.33304], [6.94316, 47.28747], [6.95108, 47.26428], [6.9508, 47.24338], [6.8489, 47.15933], [6.76788, 47.1208], [6.68823, 47.06616], [6.71531, 47.0494], [6.43341, 46.92703], [6.46456, 46.88865], [6.43216, 46.80336], [6.45209, 46.77502], [6.38351, 46.73171], [6.27135, 46.68251], [6.11084, 46.57649], [6.1567, 46.54402], [6.07269, 46.46244], [6.08427, 46.44305], [6.06407, 46.41676], [6.09926, 46.40768], [6.15016, 46.3778], [6.15985, 46.37721], [6.16987, 46.36759], [6.15738, 46.3491], [6.13876, 46.33844], [6.1198, 46.31157], [6.11697, 46.29547], [6.1013, 46.28512], [6.11926, 46.2634], [6.12446, 46.25059], [6.10071, 46.23772], [6.08563, 46.24651], [6.07072, 46.24085], [6.0633, 46.24583], [6.05029, 46.23518], [6.04602, 46.23127], [6.03342, 46.2383], [6.02461, 46.23313], [5.97542, 46.21525], [5.96515, 46.19638], [5.99573, 46.18587], [5.98846, 46.17046], [5.98188, 46.17392], [5.97508, 46.15863], [5.9641, 46.14412], [5.95781, 46.12925], [5.97893, 46.13303], [5.9871, 46.14499], [6.01791, 46.14228], [6.03614, 46.13712], [6.04564, 46.14031], [6.05203, 46.15191], [6.07491, 46.14879], [6.09199, 46.15191], [6.09926, 46.14373], [6.13397, 46.1406], [6.15305, 46.15194], [6.18116, 46.16187], [6.18871, 46.16644], [6.18707, 46.17999], [6.19552, 46.18401], [6.19807, 46.18369], [6.20539, 46.19163], [6.21114, 46.1927], [6.21273, 46.19409], [6.21603, 46.19507], [6.21844, 46.19837], [6.22222, 46.19888], [6.22175, 46.20045], [6.23544, 46.20714], [6.23913, 46.20511], [6.24821, 46.20531], [6.26007, 46.21165], [6.27694, 46.21566], [6.29663, 46.22688], [6.31041, 46.24417], [6.29474, 46.26221], [6.26749, 46.24745], [6.24952, 46.26255], [6.23775, 46.27822], [6.25137, 46.29014], [6.24826, 46.30175], [6.21981, 46.31304], [6.25432, 46.3632], [6.53358, 46.45431], [6.82312, 46.42661], [6.8024, 46.39171], [6.77152, 46.34784], [6.86052, 46.28512], [6.78968, 46.14058], [6.89321, 46.12548], [6.87868, 46.03855], [6.93862, 46.06502], [7.00946, 45.9944], [7.04151, 45.92435], [7.10685, 45.85653], [7.56343, 45.97421], [7.85949, 45.91485], [7.9049, 45.99945], [7.98881, 45.99867], [8.02906, 46.10331], [8.11383, 46.11577], [8.16866, 46.17817], [8.08814, 46.26692], [8.31162, 46.38044], [8.30648, 46.41587], [8.42464, 46.46367], [8.46317, 46.43712], [8.45032, 46.26869], [8.62242, 46.12112], [8.75697, 46.10395], [8.80778, 46.10085], [8.85617, 46.0748], [8.79414, 46.00913], [8.78585, 45.98973], [8.79362, 45.99207], [8.8319, 45.9879], [8.85121, 45.97239], [8.86688, 45.96135], [8.88904, 45.95465], [8.93649, 45.86775], [8.94372, 45.86587], [8.93504, 45.86245], [8.91129, 45.8388], [8.94737, 45.84285], [8.9621, 45.83707], [8.99663, 45.83466], [9.00324, 45.82055], [9.0298, 45.82127], [9.03279, 45.82865], [9.03793, 45.83548], [9.03505, 45.83976], [9.04059, 45.8464], [9.04546, 45.84968], [9.06642, 45.8761], [9.09065, 45.89906], [8.99257, 45.9698], [9.01618, 46.04928], [9.24503, 46.23616], [9.29226, 46.32717], [9.25502, 46.43743], [9.28136, 46.49685], [9.36128, 46.5081], [9.40487, 46.46621], [9.45936, 46.50873], [9.46117, 46.37481], [9.57015, 46.2958], [9.71273, 46.29266], [9.73086, 46.35071], [9.95249, 46.38045], [10.07055, 46.21668], [10.14439, 46.22992], [10.17862, 46.25626], [10.10506, 46.3372], [10.165, 46.41051], [10.03715, 46.44479], [10.10307, 46.61003], [10.23674, 46.63484], [10.25309, 46.57432], [10.46136, 46.53164], [10.49375, 46.62049], [10.44686, 46.64162], [10.40475, 46.63671], [10.38659, 46.67847], [10.47197, 46.85698], [10.48376, 46.93891], [10.36933, 47.00212], [10.30031, 46.92093], [10.24128, 46.93147], [10.22675, 46.86942], [10.10715, 46.84296], [9.98058, 46.91434], [9.88266, 46.93343], [9.87935, 47.01337], [9.60717, 47.06091], [9.55721, 47.04762], [9.54041, 47.06495], [9.47548, 47.05257], [9.47139, 47.06402], [9.51362, 47.08505], [9.52089, 47.10019], [9.51044, 47.13727], [9.48774, 47.17402], [9.4891, 47.19346], [9.50318, 47.22153], [9.52406, 47.24959], [9.53116, 47.27029], [9.54773, 47.2809], [9.55857, 47.29919], [9.58513, 47.31334], [9.59978, 47.34671], [9.62476, 47.36639], [9.65427, 47.36824], [9.66243, 47.37136], [9.6711, 47.37824], [9.67445, 47.38429], [9.67334, 47.39191], [9.6629, 47.39591], [9.65136, 47.40504], [9.65043, 47.41937], [9.6446, 47.43233], [9.64483, 47.43842], [9.65863, 47.44847], [9.65728, 47.45383], [9.6423, 47.45599], [9.62475, 47.45685], [9.62158, 47.45858], [9.60841, 47.47178], [9.60484, 47.46358], [9.60205, 47.46165], [9.59482, 47.46305], [9.58208, 47.48344], [9.56312, 47.49495], [9.55125, 47.53629], [9.25619, 47.65939], [9.18203, 47.65598], [9.17593, 47.65399], [9.1755, 47.65584], [9.1705, 47.65513], [9.15181, 47.66904], [9.13845, 47.66389], [9.09891, 47.67801], [9.02093, 47.6868], [8.94093, 47.65596], [8.89946, 47.64769], [8.87625, 47.65441], [8.87383, 47.67045], [8.85065, 47.68209], [8.86989, 47.70504], [8.82002, 47.71458], [8.80663, 47.73821], [8.77309, 47.72059], [8.76965, 47.7075], [8.79966, 47.70222], [8.79511, 47.67462], [8.75856, 47.68969], [8.72809, 47.69282]], [[8.95861, 45.96485], [8.96668, 45.98436], [8.97741, 45.98317], [8.97604, 45.96151], [8.95861, 45.96485]], [[8.70847, 47.68904], [8.68985, 47.69552], [8.66837, 47.68437], [8.65769, 47.68928], [8.67508, 47.6979], [8.66416, 47.71367], [8.70237, 47.71453], [8.71773, 47.69088], [8.70847, 47.68904]]]] } },
+    { type: "Feature", geometry: { type: "MultiPolygon", coordinates: [[[[8.72809, 47.69282], [8.72617, 47.69651], [8.73671, 47.7169], [8.70543, 47.73121], [8.74251, 47.75168], [8.71778, 47.76571], [8.68985, 47.75686], [8.68022, 47.78599], [8.65292, 47.80066], [8.64425, 47.76398], [8.62408, 47.7626], [8.61657, 47.79998], [8.56415, 47.80633], [8.56814, 47.78001], [8.48868, 47.77215], [8.45771, 47.7493], [8.44807, 47.72426], [8.40569, 47.69855], [8.4211, 47.68407], [8.40473, 47.67499], [8.41346, 47.66676], [8.42264, 47.66667], [8.44711, 47.65379], [8.4667, 47.65747], [8.46605, 47.64103], [8.49656, 47.64709], [8.5322, 47.64687], [8.52801, 47.66059], [8.56141, 47.67088], [8.57683, 47.66158], [8.6052, 47.67258], [8.61113, 47.66332], [8.62884, 47.65098], [8.62049, 47.63757], [8.60412, 47.63735], [8.61471, 47.64514], [8.60701, 47.65271], [8.59545, 47.64298], [8.60348, 47.61204], [8.57586, 47.59537], [8.55756, 47.62394], [8.51686, 47.63476], [8.50747, 47.61897], [8.45578, 47.60121], [8.46637, 47.58389], [8.48949, 47.588], [8.49431, 47.58107], [8.43235, 47.56617], [8.39477, 47.57826], [8.38273, 47.56608], [8.35512, 47.57014], [8.32735, 47.57133], [8.30277, 47.58607], [8.29524, 47.5919], [8.29722, 47.60603], [8.2824, 47.61225], [8.26313, 47.6103], [8.25863, 47.61571], [8.23809, 47.61204], [8.22577, 47.60385], [8.22011, 47.6181], [8.20617, 47.62141], [8.19378, 47.61636], [8.1652, 47.5945], [8.14947, 47.59558], [8.13823, 47.59147], [8.13662, 47.58432], [8.11543, 47.5841], [8.10395, 47.57918], [8.10002, 47.56504], [8.08557, 47.55768], [8.06663, 47.56374], [8.04383, 47.55443], [8.02136, 47.55096], [8.00113, 47.55616], [7.97581, 47.55493], [7.95682, 47.55789], [7.94494, 47.54511], [7.91251, 47.55031], [7.90673, 47.57674], [7.88664, 47.58854], [7.84412, 47.5841], [7.81901, 47.58798], [7.79486, 47.55691], [7.75261, 47.54599], [7.71961, 47.54219], [7.69642, 47.53297], [7.68101, 47.53232], [7.6656, 47.53752], [7.66174, 47.54554], [7.65083, 47.54662], [7.63338, 47.56256], [7.67655, 47.56435], [7.68904, 47.57133], [7.67115, 47.5871], [7.68486, 47.59601], [7.69385, 47.60099], [7.68229, 47.59905], [7.67395, 47.59212], [7.64599, 47.59695], [7.64213, 47.5944], [7.64309, 47.59151], [7.61929, 47.57683], [7.60459, 47.57869], [7.60523, 47.58519], [7.58945, 47.59017], [7.58386, 47.57536], [7.56684, 47.57785], [7.56548, 47.57617], [7.55689, 47.57232], [7.55652, 47.56779], [7.53634, 47.55553], [7.52831, 47.55347], [7.51723, 47.54578], [7.50873, 47.54546], [7.49691, 47.53821], [7.50588, 47.52856], [7.51904, 47.53515], [7.53199, 47.5284], [7.5229, 47.51644], [7.49804, 47.51798], [7.51076, 47.49651], [7.47534, 47.47932], [7.43356, 47.49712], [7.42923, 47.48628], [7.4583, 47.47216], [7.4462, 47.46264], [7.43088, 47.45846], [7.40308, 47.43638], [7.35603, 47.43432], [7.33526, 47.44186], [7.24669, 47.4205], [7.17026, 47.44312], [7.19583, 47.49455], [7.16249, 47.49025], [7.12781, 47.50371], [7.07425, 47.48863], [7.0231, 47.50522], [6.98425, 47.49432], [7.0024, 47.45264], [6.93953, 47.43388], [6.93744, 47.40714], [6.88542, 47.37262], [6.87959, 47.35335], [7.03125, 47.36996], [7.0564, 47.35134], [7.05305, 47.33304], [6.94316, 47.28747], [6.95108, 47.26428], [6.9508, 47.24338], [6.8489, 47.15933], [6.76788, 47.1208], [6.68823, 47.06616], [6.71531, 47.0494], [6.43341, 46.92703], [6.46456, 46.88865], [6.43216, 46.80336], [6.45209, 46.77502], [6.38351, 46.73171], [6.27135, 46.68251], [6.11084, 46.57649], [6.1567, 46.54402], [6.07269, 46.46244], [6.08427, 46.44305], [6.06407, 46.41676], [6.09926, 46.40768], [6.15016, 46.3778], [6.15985, 46.37721], [6.16987, 46.36759], [6.15738, 46.3491], [6.13876, 46.33844], [6.1198, 46.31157], [6.11697, 46.29547], [6.1013, 46.28512], [6.11926, 46.2634], [6.12446, 46.25059], [6.10071, 46.23772], [6.08563, 46.24651], [6.07072, 46.24085], [6.0633, 46.24583], [6.05029, 46.23518], [6.04602, 46.23127], [6.03342, 46.2383], [6.02461, 46.23313], [5.97542, 46.21525], [5.96515, 46.19638], [5.99573, 46.18587], [5.98846, 46.17046], [5.98188, 46.17392], [5.97508, 46.15863], [5.9641, 46.14412], [5.95781, 46.12925], [5.97893, 46.13303], [5.9871, 46.14499], [6.01791, 46.14228], [6.03614, 46.13712], [6.04564, 46.14031], [6.05203, 46.15191], [6.07491, 46.14879], [6.09199, 46.15191], [6.09926, 46.14373], [6.13397, 46.1406], [6.15305, 46.15194], [6.18116, 46.16187], [6.18871, 46.16644], [6.18707, 46.17999], [6.19552, 46.18401], [6.19807, 46.18369], [6.20539, 46.19163], [6.21114, 46.1927], [6.21273, 46.19409], [6.21603, 46.19507], [6.21844, 46.19837], [6.22222, 46.19888], [6.22175, 46.20045], [6.23544, 46.20714], [6.23913, 46.20511], [6.24821, 46.20531], [6.26007, 46.21165], [6.27694, 46.21566], [6.29663, 46.22688], [6.31041, 46.24417], [6.29474, 46.26221], [6.26749, 46.24745], [6.24952, 46.26255], [6.23775, 46.27822], [6.25137, 46.29014], [6.24826, 46.30175], [6.21981, 46.31304], [6.25432, 46.3632], [6.53358, 46.45431], [6.82312, 46.42661], [6.8024, 46.39171], [6.77152, 46.34784], [6.86052, 46.28512], [6.78968, 46.14058], [6.89321, 46.12548], [6.87868, 46.03855], [6.93862, 46.06502], [7.00946, 45.9944], [7.04151, 45.92435], [7.10685, 45.85653], [7.56343, 45.97421], [7.85949, 45.91485], [7.9049, 45.99945], [7.98881, 45.99867], [8.02906, 46.10331], [8.11383, 46.11577], [8.16866, 46.17817], [8.08814, 46.26692], [8.31162, 46.38044], [8.30648, 46.41587], [8.42464, 46.46367], [8.46317, 46.43712], [8.45032, 46.26869], [8.62242, 46.12112], [8.75697, 46.10395], [8.80778, 46.10085], [8.85617, 46.0748], [8.79414, 46.00913], [8.78585, 45.98973], [8.79362, 45.99207], [8.8319, 45.9879], [8.85121, 45.97239], [8.86688, 45.96135], [8.88904, 45.95465], [8.93649, 45.86775], [8.94372, 45.86587], [8.93504, 45.86245], [8.91129, 45.8388], [8.94737, 45.84285], [8.9621, 45.83707], [8.99663, 45.83466], [9.00324, 45.82055], [9.0298, 45.82127], [9.03279, 45.82865], [9.03793, 45.83548], [9.03505, 45.83976], [9.04059, 45.8464], [9.04546, 45.84968], [9.06642, 45.8761], [9.09065, 45.89906], [8.99257, 45.9698], [9.01618, 46.04928], [9.24503, 46.23616], [9.29226, 46.32717], [9.25502, 46.43743], [9.28136, 46.49685], [9.36128, 46.5081], [9.40487, 46.46621], [9.45936, 46.50873], [9.46117, 46.37481], [9.57015, 46.2958], [9.71273, 46.29266], [9.73086, 46.35071], [9.95249, 46.38045], [10.07055, 46.21668], [10.14439, 46.22992], [10.17862, 46.25626], [10.10506, 46.3372], [10.165, 46.41051], [10.03715, 46.44479], [10.10307, 46.61003], [10.23674, 46.63484], [10.25309, 46.57432], [10.46136, 46.53164], [10.49375, 46.62049], [10.44686, 46.64162], [10.40475, 46.63671], [10.38659, 46.67847], [10.47197, 46.85698], [10.48376, 46.93891], [10.36933, 47.00212], [10.30031, 46.92093], [10.24128, 46.93147], [10.22675, 46.86942], [10.10715, 46.84296], [9.98058, 46.91434], [9.88266, 46.93343], [9.87935, 47.01337], [9.60717, 47.06091], [9.55721, 47.04762], [9.54041, 47.06495], [9.47548, 47.05257], [9.47139, 47.06402], [9.51362, 47.08505], [9.52089, 47.10019], [9.51044, 47.13727], [9.48774, 47.17402], [9.4891, 47.19346], [9.50318, 47.22153], [9.52406, 47.24959], [9.53116, 47.27029], [9.54773, 47.2809], [9.55857, 47.29919], [9.58513, 47.31334], [9.59978, 47.34671], [9.62476, 47.36639], [9.65427, 47.36824], [9.66243, 47.37136], [9.6711, 47.37824], [9.67445, 47.38429], [9.67334, 47.39191], [9.6629, 47.39591], [9.65136, 47.40504], [9.65043, 47.41937], [9.6446, 47.43233], [9.64483, 47.43842], [9.65863, 47.44847], [9.65728, 47.45383], [9.6423, 47.45599], [9.62475, 47.45685], [9.62158, 47.45858], [9.60841, 47.47178], [9.60484, 47.46358], [9.60205, 47.46165], [9.59482, 47.46305], [9.58208, 47.48344], [9.56312, 47.49495], [9.55125, 47.53629], [9.25619, 47.65939], [9.18203, 47.65598], [9.17593, 47.65399], [9.1755, 47.65584], [9.1705, 47.65513], [9.15181, 47.66904], [9.13845, 47.66389], [9.09891, 47.67801], [9.02093, 47.6868], [8.94093, 47.65596], [8.89946, 47.64769], [8.87625, 47.65441], [8.87383, 47.67045], [8.85065, 47.68209], [8.86989, 47.70504], [8.82002, 47.71458], [8.80663, 47.73821], [8.77309, 47.72059], [8.76965, 47.7075], [8.79966, 47.70222], [8.79511, 47.67462], [8.75856, 47.68969], [8.72809, 47.69282]], [[8.95861, 45.96485], [8.96668, 45.98436], [8.97741, 45.98317], [8.97604, 45.96151], [8.95861, 45.96485]], [[8.70847, 47.68904], [8.68985, 47.69552], [8.66837, 47.68437], [8.65769, 47.68928], [8.67508, 47.6979], [8.66416, 47.71367], [8.70237, 47.71453], [8.71773, 47.69088], [8.70847, 47.68904]]]] }, properties: { iso1A2: "CH", iso1A3: "CHE", iso1N3: "756", wikidata: "Q39", nameEn: "Switzerland", groups: ["155", "150", "UN"], callingCodes: ["41"] } },
     { type: "Feature", properties: { iso1A2: "CI", iso1A3: "CIV", iso1N3: "384", wikidata: "Q1008", nameEn: "C\xF4te d'Ivoire", groups: ["011", "202", "002", "UN"], callingCodes: ["225"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-7.52774, 3.7105], [-3.34019, 4.17519], [-3.10675, 5.08515], [-3.11073, 5.12675], [-3.063, 5.13665], [-2.96554, 5.10397], [-2.95261, 5.12477], [-2.75502, 5.10657], [-2.73074, 5.1364], [-2.77625, 5.34621], [-2.72737, 5.34789], [-2.76614, 5.60963], [-2.85378, 5.65156], [-2.93132, 5.62137], [-2.96671, 5.6415], [-2.95323, 5.71865], [-3.01896, 5.71697], [-3.25999, 6.62521], [-3.21954, 6.74407], [-3.23327, 6.81744], [-2.95438, 7.23737], [-2.97822, 7.27165], [-2.92339, 7.60847], [-2.79467, 7.86002], [-2.78395, 7.94974], [-2.74819, 7.92613], [-2.67787, 8.02055], [-2.61232, 8.02645], [-2.62901, 8.11495], [-2.49037, 8.20872], [-2.58243, 8.7789], [-2.66357, 9.01771], [-2.77799, 9.04949], [-2.69814, 9.22717], [-2.68802, 9.49343], [-2.76494, 9.40778], [-2.93012, 9.57403], [-3.00765, 9.74019], [-3.16609, 9.85147], [-3.19306, 9.93781], [-3.27228, 9.84981], [-3.31779, 9.91125], [-3.69703, 9.94279], [-4.25999, 9.76012], [-4.31392, 9.60062], [-4.6426, 9.70696], [-4.96621, 9.89132], [-4.96453, 9.99923], [-5.12465, 10.29788], [-5.39602, 10.2929], [-5.51058, 10.43177], [-5.65135, 10.46767], [-5.78124, 10.43952], [-5.99478, 10.19694], [-6.18851, 10.24244], [-6.1731, 10.46983], [-6.24795, 10.74248], [-6.325, 10.68624], [-6.40646, 10.69922], [-6.42847, 10.5694], [-6.52974, 10.59104], [-6.63541, 10.66893], [-6.68164, 10.35074], [-6.93921, 10.35291], [-7.01186, 10.25111], [-6.97444, 10.21644], [-7.00966, 10.15794], [-7.0603, 10.14711], [-7.13331, 10.24877], [-7.3707, 10.24677], [-7.44555, 10.44602], [-7.52261, 10.4655], [-7.54462, 10.40921], [-7.63048, 10.46334], [-7.92107, 10.15577], [-7.97971, 10.17117], [-8.01225, 10.1021], [-8.11921, 10.04577], [-8.15652, 9.94288], [-8.09434, 9.86936], [-8.14657, 9.55062], [-8.03463, 9.39604], [-7.85056, 9.41812], [-7.90777, 9.20456], [-7.73862, 9.08422], [-7.92518, 8.99332], [-7.95503, 8.81146], [-7.69882, 8.66148], [-7.65653, 8.36873], [-7.92518, 8.50652], [-8.22991, 8.48438], [-8.2411, 8.24196], [-8.062, 8.16071], [-7.98675, 8.20134], [-7.99919, 8.11023], [-7.94695, 8.00925], [-8.06449, 8.04989], [-8.13414, 7.87991], [-8.09931, 7.78626], [-8.21374, 7.54466], [-8.4003, 7.6285], [-8.47114, 7.55676], [-8.41935, 7.51203], [-8.37458, 7.25794], [-8.29249, 7.1691], [-8.31736, 6.82837], [-8.59456, 6.50612], [-8.48652, 6.43797], [-8.45666, 6.49977], [-8.38453, 6.35887], [-8.3298, 6.36381], [-8.17557, 6.28222], [-8.00642, 6.31684], [-7.90692, 6.27728], [-7.83478, 6.20309], [-7.8497, 6.08932], [-7.79747, 6.07696], [-7.78254, 5.99037], [-7.70294, 5.90625], [-7.67309, 5.94337], [-7.48155, 5.80974], [-7.46165, 5.84934], [-7.43677, 5.84687], [-7.43926, 5.74787], [-7.37209, 5.61173], [-7.43428, 5.42355], [-7.36463, 5.32944], [-7.46165, 5.26256], [-7.48901, 5.14118], [-7.55369, 5.08667], [-7.53876, 4.94294], [-7.59349, 4.8909], [-7.53259, 4.35145], [-7.52774, 3.7105]]]] } },
     { type: "Feature", properties: { iso1A2: "CK", iso1A3: "COK", iso1N3: "184", wikidata: "Q26988", nameEn: "Cook Islands", country: "NZ", groups: ["061", "009", "UN"], driveSide: "left", callingCodes: ["682"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-168.15106, -10.26955], [-156.45576, -31.75456], [-156.48634, -15.52824], [-156.50903, -7.4975], [-168.15106, -10.26955]]]] } },
     { type: "Feature", properties: { iso1A2: "CL", iso1A3: "CHL", iso1N3: "152", wikidata: "Q298", nameEn: "Chile", groups: ["005", "419", "019", "UN"], callingCodes: ["56"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-68.60702, -52.65781], [-68.41683, -52.33516], [-69.97824, -52.00845], [-71.99889, -51.98018], [-72.33873, -51.59954], [-72.31343, -50.58411], [-73.15765, -50.78337], [-73.55259, -49.92488], [-73.45156, -49.79461], [-73.09655, -49.14342], [-72.56894, -48.81116], [-72.54042, -48.52392], [-72.27662, -48.28727], [-72.50478, -47.80586], [-71.94152, -47.13595], [-71.68577, -46.55385], [-71.75614, -45.61611], [-71.35687, -45.22075], [-72.06985, -44.81756], [-71.26418, -44.75684], [-71.16436, -44.46244], [-71.81318, -44.38097], [-71.64206, -43.64774], [-72.14828, -42.85321], [-72.15541, -42.15941], [-71.74901, -42.11711], [-71.92726, -40.72714], [-71.37826, -38.91474], [-70.89532, -38.6923], [-71.24279, -37.20264], [-70.95047, -36.4321], [-70.38008, -36.02375], [-70.49416, -35.24145], [-69.87386, -34.13344], [-69.88099, -33.34489], [-70.55832, -31.51559], [-70.14479, -30.36595], [-69.8596, -30.26131], [-69.99507, -29.28351], [-69.80969, -29.07185], [-69.66709, -28.44055], [-69.22504, -27.95042], [-68.77586, -27.16029], [-68.43363, -27.08414], [-68.27677, -26.90626], [-68.59048, -26.49861], [-68.56909, -26.28146], [-68.38372, -26.15353], [-68.57622, -25.32505], [-68.38372, -25.08636], [-68.56909, -24.69831], [-68.24825, -24.42596], [-67.33563, -24.04237], [-66.99632, -22.99839], [-67.18382, -22.81525], [-67.54284, -22.89771], [-67.85114, -22.87076], [-68.18816, -21.28614], [-68.40403, -20.94562], [-68.53957, -20.91542], [-68.55383, -20.7355], [-68.44023, -20.62701], [-68.7276, -20.46178], [-68.74273, -20.08817], [-68.57132, -20.03134], [-68.54611, -19.84651], [-68.66761, -19.72118], [-68.41218, -19.40499], [-68.61989, -19.27584], [-68.80602, -19.08355], [-68.87082, -19.06003], [-68.94987, -18.93302], [-69.07432, -18.28259], [-69.14807, -18.16893], [-69.07496, -18.03715], [-69.28671, -17.94844], [-69.34126, -17.72753], [-69.46623, -17.60518], [-69.46897, -17.4988], [-69.66483, -17.65083], [-69.79087, -17.65563], [-69.82868, -17.72048], [-69.75305, -17.94605], [-69.81607, -18.12582], [-69.96732, -18.25992], [-70.16394, -18.31737], [-70.31267, -18.31258], [-70.378, -18.3495], [-70.59118, -18.35072], [-113.52687, -26.52828], [-68.11646, -58.14883], [-66.07313, -55.19618], [-67.11046, -54.94199], [-67.46182, -54.92205], [-68.01394, -54.8753], [-68.60733, -54.9125], [-68.60702, -52.65781]]]] } },
@@ -22860,7 +23292,7 @@
     { type: "Feature", properties: { iso1A2: "HU", iso1A3: "HUN", iso1N3: "348", wikidata: "Q28", nameEn: "Hungary", groups: ["EU", "151", "150", "UN"], callingCodes: ["36"] }, geometry: { type: "MultiPolygon", coordinates: [[[[21.72525, 48.34628], [21.67134, 48.3989], [21.6068, 48.50365], [21.44063, 48.58456], [21.11516, 48.49546], [20.83248, 48.5824], [20.5215, 48.53336], [20.29943, 48.26104], [20.24312, 48.2784], [19.92452, 48.1283], [19.63338, 48.25006], [19.52489, 48.19791], [19.47957, 48.09437], [19.28182, 48.08336], [19.23924, 48.0595], [19.01952, 48.07052], [18.82176, 48.04206], [18.76134, 47.97499], [18.76821, 47.87469], [18.8506, 47.82308], [18.74074, 47.8157], [18.66521, 47.76772], [18.56496, 47.76588], [18.29305, 47.73541], [18.02938, 47.75665], [17.71215, 47.7548], [17.23699, 48.02094], [17.16001, 48.00636], [17.09786, 47.97336], [17.11022, 47.92461], [17.08275, 47.87719], [17.00997, 47.86245], [17.07039, 47.81129], [17.05048, 47.79377], [17.08893, 47.70928], [16.87538, 47.68895], [16.86509, 47.72268], [16.82938, 47.68432], [16.7511, 47.67878], [16.72089, 47.73469], [16.65679, 47.74197], [16.61183, 47.76171], [16.54779, 47.75074], [16.53514, 47.73837], [16.55129, 47.72268], [16.4222, 47.66537], [16.58699, 47.61772], [16.64193, 47.63114], [16.71059, 47.52692], [16.64821, 47.50155], [16.6718, 47.46139], [16.57152, 47.40868], [16.52414, 47.41007], [16.49908, 47.39416], [16.45104, 47.41181], [16.47782, 47.25918], [16.44142, 47.25079], [16.43663, 47.21127], [16.41739, 47.20649], [16.42801, 47.18422], [16.4523, 47.18812], [16.46442, 47.16845], [16.44932, 47.14418], [16.52863, 47.13974], [16.46134, 47.09395], [16.52176, 47.05747], [16.43936, 47.03548], [16.51369, 47.00084], [16.28202, 47.00159], [16.27594, 46.9643], [16.22403, 46.939], [16.19904, 46.94134], [16.10983, 46.867], [16.14365, 46.8547], [16.15711, 46.85434], [16.21892, 46.86961], [16.2365, 46.87775], [16.2941, 46.87137], [16.34547, 46.83836], [16.3408, 46.80641], [16.31303, 46.79838], [16.30966, 46.7787], [16.37816, 46.69975], [16.42641, 46.69228], [16.41863, 46.66238], [16.38594, 46.6549], [16.39217, 46.63673], [16.50139, 46.56684], [16.52885, 46.53303], [16.52604, 46.5051], [16.59527, 46.47524], [16.6639, 46.45203], [16.7154, 46.39523], [16.8541, 46.36255], [16.8903, 46.28122], [17.14592, 46.16697], [17.35672, 45.95209], [17.56821, 45.93728], [17.66545, 45.84207], [17.87377, 45.78522], [17.99805, 45.79671], [18.08869, 45.76511], [18.12439, 45.78905], [18.44368, 45.73972], [18.57483, 45.80772], [18.6792, 45.92057], [18.80211, 45.87995], [18.81394, 45.91329], [18.99712, 45.93537], [19.01284, 45.96529], [19.0791, 45.96458], [19.10388, 46.04015], [19.14543, 45.9998], [19.28826, 45.99694], [19.52473, 46.1171], [19.56113, 46.16824], [19.66007, 46.19005], [19.81491, 46.1313], [19.93508, 46.17553], [20.01816, 46.17696], [20.03533, 46.14509], [20.09713, 46.17315], [20.26068, 46.12332], [20.28324, 46.1438], [20.35573, 46.16629], [20.45377, 46.14405], [20.49718, 46.18721], [20.63863, 46.12728], [20.76085, 46.21002], [20.74574, 46.25467], [20.86797, 46.28884], [21.06572, 46.24897], [21.16872, 46.30118], [21.28061, 46.44941], [21.26929, 46.4993], [21.33214, 46.63035], [21.43926, 46.65109], [21.5151, 46.72147], [21.48935, 46.7577], [21.52028, 46.84118], [21.59307, 46.86935], [21.59581, 46.91628], [21.68645, 46.99595], [21.648, 47.03902], [21.78395, 47.11104], [21.94463, 47.38046], [22.01055, 47.37767], [22.03389, 47.42508], [22.00917, 47.50492], [22.31816, 47.76126], [22.41979, 47.7391], [22.46559, 47.76583], [22.67247, 47.7871], [22.76617, 47.8417], [22.77991, 47.87211], [22.89849, 47.95851], [22.84276, 47.98602], [22.87847, 48.04665], [22.81804, 48.11363], [22.73427, 48.12005], [22.66835, 48.09162], [22.58733, 48.10813], [22.59007, 48.15121], [22.49806, 48.25189], [22.38133, 48.23726], [22.2083, 48.42534], [22.14689, 48.4005], [21.83339, 48.36242], [21.8279, 48.33321], [21.72525, 48.34628]]]] } },
     { type: "Feature", properties: { iso1A2: "IC", wikidata: "Q5813", nameEn: "Canary Islands", country: "ES", groups: ["Q3320166", "Q105472", "EU", "039", "150", "UN"], isoStatus: "excRes", callingCodes: ["34"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-12.00985, 30.24121], [-25.3475, 27.87574], [-14.43883, 27.02969], [-12.00985, 30.24121]]]] } },
     { type: "Feature", properties: { iso1A2: "ID", iso1A3: "IDN", iso1N3: "360", wikidata: "Q252", nameEn: "Indonesia", aliases: ["RI"] }, geometry: null },
-    { type: "Feature", properties: { iso1A2: "IE", iso1A3: "IRL", iso1N3: "372", wikidata: "Q27", nameEn: "Republic of Ireland", groups: ["EU", "Q22890", "154", "150", "UN"], driveSide: "left", callingCodes: ["353"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-6.26218, 54.09785], [-6.29003, 54.11278], [-6.32694, 54.09337], [-6.36279, 54.11248], [-6.36605, 54.07234], [-6.47849, 54.06947], [-6.62842, 54.03503], [-6.66264, 54.0666], [-6.6382, 54.17071], [-6.70175, 54.20218], [-6.74575, 54.18788], [-6.81583, 54.22791], [-6.85179, 54.29176], [-6.87775, 54.34682], [-7.02034, 54.4212], [-7.19145, 54.31296], [-7.14908, 54.22732], [-7.25012, 54.20063], [-7.26316, 54.13863], [-7.29493, 54.12013], [-7.29687, 54.1354], [-7.28017, 54.16714], [-7.29157, 54.17191], [-7.34005, 54.14698], [-7.30553, 54.11869], [-7.32834, 54.11475], [-7.44567, 54.1539], [-7.4799, 54.12239], [-7.55812, 54.12239], [-7.69501, 54.20731], [-7.81397, 54.20159], [-7.8596, 54.21779], [-7.87101, 54.29299], [-8.04555, 54.36292], [-8.179, 54.46763], [-8.04538, 54.48941], [-7.99812, 54.54427], [-7.8596, 54.53671], [-7.70315, 54.62077], [-7.93293, 54.66603], [-7.83352, 54.73854], [-7.75041, 54.7103], [-7.64449, 54.75265], [-7.54671, 54.74606], [-7.54508, 54.79401], [-7.47626, 54.83084], [-7.4473, 54.87003], [-7.44404, 54.9403], [-7.40004, 54.94498], [-7.4033, 55.00391], [-7.34464, 55.04688], [-7.2471, 55.06933], [-6.34755, 55.49206], [-7.75229, 55.93854], [-22.01468, 48.19557], [-6.03913, 51.13217], [-5.37267, 53.63269], [-6.26218, 54.09785]]]] } },
+    { type: "Feature", geometry: { type: "MultiPolygon", coordinates: [[[[-6.26218, 54.09785], [-6.29003, 54.11278], [-6.32694, 54.09337], [-6.36279, 54.11248], [-6.36605, 54.07234], [-6.47849, 54.06947], [-6.62842, 54.03503], [-6.66264, 54.0666], [-6.6382, 54.17071], [-6.70175, 54.20218], [-6.74575, 54.18788], [-6.81583, 54.22791], [-6.85179, 54.29176], [-6.87775, 54.34682], [-7.02034, 54.4212], [-7.19145, 54.31296], [-7.14908, 54.22732], [-7.25012, 54.20063], [-7.26316, 54.13863], [-7.29493, 54.12013], [-7.29687, 54.1354], [-7.28017, 54.16714], [-7.29157, 54.17191], [-7.34005, 54.14698], [-7.30553, 54.11869], [-7.32834, 54.11475], [-7.44567, 54.1539], [-7.4799, 54.12239], [-7.55812, 54.12239], [-7.69501, 54.20731], [-7.81397, 54.20159], [-7.8596, 54.21779], [-7.87101, 54.29299], [-8.04555, 54.36292], [-8.179, 54.46763], [-8.04538, 54.48941], [-7.99812, 54.54427], [-7.8596, 54.53671], [-7.70315, 54.62077], [-7.93293, 54.66603], [-7.83352, 54.73854], [-7.75041, 54.7103], [-7.64449, 54.75265], [-7.54671, 54.74606], [-7.54508, 54.79401], [-7.47626, 54.83084], [-7.4473, 54.87003], [-7.44404, 54.9403], [-7.40004, 54.94498], [-7.4033, 55.00391], [-7.34464, 55.04688], [-7.2471, 55.06933], [-6.34755, 55.49206], [-7.75229, 55.93854], [-11.75, 54], [-11, 51], [-6.03913, 51.13217], [-5.37267, 53.63269], [-6.26218, 54.09785]]]] }, properties: { iso1A2: "IE", iso1A3: "IRL", iso1N3: "372", wikidata: "Q27", nameEn: "Republic of Ireland", groups: ["EU", "Q22890", "154", "150", "UN"], driveSide: "left", callingCodes: ["353"] } },
     { type: "Feature", properties: { iso1A2: "IL", iso1A3: "ISR", iso1N3: "376", wikidata: "Q801", nameEn: "Israel", groups: ["145", "142", "UN"], callingCodes: ["972"] }, geometry: { type: "MultiPolygon", coordinates: [[[[34.052, 31.46619], [34.29262, 31.70393], [34.48681, 31.59711], [34.56797, 31.54197], [34.48892, 31.48365], [34.40077, 31.40926], [34.36505, 31.36404], [34.37381, 31.30598], [34.36523, 31.28963], [34.29417, 31.24194], [34.26742, 31.21998], [34.92298, 29.45305], [34.97718, 29.54294], [34.98207, 29.58147], [35.02147, 29.66343], [35.14108, 30.07374], [35.19183, 30.34636], [35.16218, 30.43535], [35.19595, 30.50297], [35.21379, 30.60401], [35.29311, 30.71365], [35.33456, 30.81224], [35.33984, 30.8802], [35.41371, 30.95565], [35.43658, 31.12444], [35.40316, 31.25535], [35.47672, 31.49578], [35.39675, 31.49572], [35.22921, 31.37445], [35.13033, 31.3551], [35.02459, 31.35979], [34.92571, 31.34337], [34.88932, 31.37093], [34.87833, 31.39321], [34.89756, 31.43891], [34.93258, 31.47816], [34.94356, 31.50743], [34.9415, 31.55601], [34.95249, 31.59813], [35.00879, 31.65426], [35.08226, 31.69107], [35.10782, 31.71594], [35.11895, 31.71454], [35.12933, 31.7325], [35.13931, 31.73012], [35.15119, 31.73634], [35.15474, 31.73352], [35.16478, 31.73242], [35.18023, 31.72067], [35.20538, 31.72388], [35.21937, 31.71578], [35.22392, 31.71899], [35.23972, 31.70896], [35.24315, 31.71244], [35.2438, 31.7201], [35.24981, 31.72543], [35.25182, 31.73945], [35.26319, 31.74846], [35.25225, 31.7678], [35.26058, 31.79064], [35.25573, 31.81362], [35.26404, 31.82567], [35.251, 31.83085], [35.25753, 31.8387], [35.24816, 31.8458], [35.2304, 31.84222], [35.2249, 31.85433], [35.22817, 31.8638], [35.22567, 31.86745], [35.22294, 31.87889], [35.22014, 31.88264], [35.2136, 31.88241], [35.21276, 31.88153], [35.21016, 31.88237], [35.20945, 31.8815], [35.20791, 31.8821], [35.20673, 31.88151], [35.20381, 31.86716], [35.21128, 31.863], [35.216, 31.83894], [35.21469, 31.81835], [35.19461, 31.82687], [35.18169, 31.82542], [35.18603, 31.80901], [35.14174, 31.81325], [35.07677, 31.85627], [35.05617, 31.85685], [35.01978, 31.82944], [34.9724, 31.83352], [34.99712, 31.85569], [35.03489, 31.85919], [35.03978, 31.89276], [35.03489, 31.92448], [35.00124, 31.93264], [34.98682, 31.96935], [35.00261, 32.027], [34.9863, 32.09551], [34.99437, 32.10962], [34.98507, 32.12606], [34.99039, 32.14626], [34.96009, 32.17503], [34.95703, 32.19522], [34.98885, 32.20758], [35.01841, 32.23981], [35.02939, 32.2671], [35.01119, 32.28684], [35.01772, 32.33863], [35.04243, 32.35008], [35.05142, 32.3667], [35.0421, 32.38242], [35.05311, 32.4024], [35.05423, 32.41754], [35.07059, 32.4585], [35.08564, 32.46948], [35.09236, 32.47614], [35.10024, 32.47856], [35.10882, 32.4757], [35.15937, 32.50466], [35.2244, 32.55289], [35.25049, 32.52453], [35.29306, 32.50947], [35.30685, 32.51024], [35.35212, 32.52047], [35.40224, 32.50136], [35.42034, 32.46009], [35.41598, 32.45593], [35.41048, 32.43706], [35.42078, 32.41562], [35.55807, 32.38674], [35.55494, 32.42687], [35.57485, 32.48669], [35.56614, 32.64393], [35.59813, 32.65159], [35.61669, 32.67999], [35.66527, 32.681], [35.68467, 32.70715], [35.75983, 32.74803], [35.78745, 32.77938], [35.83758, 32.82817], [35.84021, 32.8725], [35.87012, 32.91976], [35.89298, 32.9456], [35.87188, 32.98028], [35.84802, 33.1031], [35.81911, 33.11077], [35.81911, 33.1336], [35.84285, 33.16673], [35.83846, 33.19397], [35.81647, 33.2028], [35.81295, 33.24841], [35.77513, 33.27342], [35.813, 33.3172], [35.77477, 33.33609], [35.62019, 33.27278], [35.62283, 33.24226], [35.58502, 33.26653], [35.58326, 33.28381], [35.56523, 33.28969], [35.55555, 33.25844], [35.54544, 33.25513], [35.54808, 33.236], [35.5362, 33.23196], [35.54228, 33.19865], [35.52573, 33.11921], [35.50335, 33.114], [35.50272, 33.09056], [35.448, 33.09264], [35.43059, 33.06659], [35.35223, 33.05617], [35.31429, 33.10515], [35.1924, 33.08743], [35.10645, 33.09318], [34.78515, 33.20368], [33.62659, 31.82938], [34.052, 31.46619]]]] } },
     { type: "Feature", properties: { iso1A2: "IM", iso1A3: "IMN", iso1N3: "833", wikidata: "Q9676", nameEn: "Isle of Man", country: "GB", groups: ["Q185086", "154", "150", "UN"], driveSide: "left", roadSpeedUnit: "mph", roadHeightUnit: "ft", callingCodes: ["44 01624", "44 07624", "44 07524", "44 07924"] }, geometry: { type: "MultiPolygon", coordinates: [[[[-3.98763, 54.07351], [-4.1819, 54.57861], [-5.6384, 53.81157], [-3.98763, 54.07351]]]] } },
     { type: "Feature", properties: { iso1A2: "IN", iso1A3: "IND", iso1N3: "356", wikidata: "Q668", nameEn: "India" }, geometry: null },
@@ -23011,8 +23443,7 @@
     { type: "Feature", properties: { iso1A2: "ZA", iso1A3: "ZAF", iso1N3: "710", wikidata: "Q258", nameEn: "South Africa", groups: ["018", "202", "002", "UN"], driveSide: "left", callingCodes: ["27"] }, geometry: { type: "MultiPolygon", coordinates: [[[[31.30611, -22.422], [31.16344, -22.32599], [31.08932, -22.34884], [30.86696, -22.28907], [30.6294, -22.32599], [30.48686, -22.31368], [30.38614, -22.34533], [30.28351, -22.35587], [30.2265, -22.2961], [30.13147, -22.30841], [29.92242, -22.19408], [29.76848, -22.14128], [29.64609, -22.12917], [29.37703, -22.19581], [29.21955, -22.17771], [29.18974, -22.18599], [29.15268, -22.21399], [29.10881, -22.21202], [29.0151, -22.22907], [28.91889, -22.44299], [28.63287, -22.55887], [28.34874, -22.5694], [28.04562, -22.8394], [28.04752, -22.90243], [27.93729, -22.96194], [27.93539, -23.04941], [27.74154, -23.2137], [27.6066, -23.21894], [27.52393, -23.37952], [27.33768, -23.40917], [26.99749, -23.65486], [26.84165, -24.24885], [26.51667, -24.47219], [26.46346, -24.60358], [26.39409, -24.63468], [25.8515, -24.75727], [25.84295, -24.78661], [25.88571, -24.87802], [25.72702, -25.25503], [25.69661, -25.29284], [25.6643, -25.4491], [25.58543, -25.6343], [25.33076, -25.76616], [25.12266, -25.75931], [25.01718, -25.72507], [24.8946, -25.80723], [24.67319, -25.81749], [24.44703, -25.73021], [24.36531, -25.773], [24.18287, -25.62916], [23.9244, -25.64286], [23.47588, -25.29971], [23.03497, -25.29971], [22.86012, -25.50572], [22.70808, -25.99186], [22.56365, -26.19668], [22.41921, -26.23078], [22.21206, -26.3773], [22.06192, -26.61882], [21.90703, -26.66808], [21.83291, -26.65959], [21.77114, -26.69015], [21.7854, -26.79199], [21.69322, -26.86152], [21.37869, -26.82083], [21.13353, -26.86661], [20.87031, -26.80047], [20.68596, -26.9039], [20.63275, -26.78181], [20.61754, -26.4692], [20.86081, -26.14892], [20.64795, -25.47827], [20.29826, -24.94869], [20.03678, -24.81004], [20.02809, -24.78725], [19.99817, -24.76768], [19.99882, -28.42622], [18.99885, -28.89165], [17.4579, -28.68718], [17.15405, -28.08573], [16.90446, -28.057], [16.59922, -28.53246], [16.46592, -28.57126], [16.45332, -28.63117], [12.51595, -32.27486], [38.88176, -48.03306], [34.51034, -26.91792], [32.35222, -26.86027], [32.29584, -26.852], [32.22302, -26.84136], [32.19409, -26.84032], [32.13315, -26.84345], [32.09664, -26.80721], [32.00893, -26.8096], [31.97463, -27.11057], [31.97592, -27.31675], [31.49834, -27.31549], [31.15027, -27.20151], [30.96088, -27.0245], [30.97757, -26.92706], [30.88826, -26.79622], [30.81101, -26.84722], [30.78927, -26.48271], [30.95819, -26.26303], [31.13073, -25.91558], [31.31237, -25.7431], [31.4175, -25.71886], [31.86881, -25.99973], [31.974, -25.95387], [31.92649, -25.84216], [32.00631, -25.65044], [31.97875, -25.46356], [32.01676, -25.38117], [32.03196, -25.10785], [31.9835, -24.29983], [31.90368, -24.18892], [31.87707, -23.95293], [31.77445, -23.90082], [31.70223, -23.72695], [31.67942, -23.60858], [31.56539, -23.47268], [31.55779, -23.176], [31.30611, -22.422]], [[29.33204, -29.45598], [29.28545, -29.58456], [29.12553, -29.76266], [29.16548, -29.91706], [28.9338, -30.05072], [28.80222, -30.10579], [28.68627, -30.12885], [28.399, -30.1592], [28.2319, -30.28476], [28.12073, -30.68072], [27.74814, -30.60635], [27.69467, -30.55862], [27.67819, -30.53437], [27.6521, -30.51707], [27.62137, -30.50509], [27.56781, -30.44562], [27.56901, -30.42504], [27.45452, -30.32239], [27.38108, -30.33456], [27.36649, -30.27246], [27.37293, -30.19401], [27.40778, -30.14577], [27.32555, -30.14785], [27.29603, -30.05473], [27.22719, -30.00718], [27.09489, -29.72796], [27.01016, -29.65439], [27.33464, -29.48161], [27.4358, -29.33465], [27.47254, -29.31968], [27.45125, -29.29708], [27.48679, -29.29349], [27.54258, -29.25575], [27.5158, -29.2261], [27.55974, -29.18954], [27.75458, -28.89839], [27.8907, -28.91612], [27.88933, -28.88156], [27.9392, -28.84864], [27.98675, -28.8787], [28.02503, -28.85991], [28.1317, -28.7293], [28.2348, -28.69471], [28.30518, -28.69531], [28.40612, -28.6215], [28.65091, -28.57025], [28.68043, -28.58744], [29.40524, -29.21246], [29.44883, -29.3772], [29.33204, -29.45598]]]] } },
     { type: "Feature", properties: { iso1A2: "ZM", iso1A3: "ZMB", iso1N3: "894", wikidata: "Q953", nameEn: "Zambia", groups: ["014", "202", "002", "UN"], driveSide: "left", callingCodes: ["260"] }, geometry: { type: "MultiPolygon", coordinates: [[[[32.95389, -9.40138], [32.76233, -9.31963], [32.75611, -9.28583], [32.53661, -9.24281], [32.49147, -9.14754], [32.43543, -9.11988], [32.25486, -9.13371], [32.16146, -9.05993], [32.08206, -9.04609], [31.98866, -9.07069], [31.94196, -9.02303], [31.94663, -8.93846], [31.81587, -8.88618], [31.71158, -8.91386], [31.57147, -8.81388], [31.57147, -8.70619], [31.37533, -8.60769], [31.00796, -8.58615], [30.79243, -8.27382], [28.88917, -8.4831], [28.9711, -8.66935], [28.38526, -9.23393], [28.36562, -9.30091], [28.52636, -9.35379], [28.51627, -9.44726], [28.56208, -9.49122], [28.68532, -9.78], [28.62795, -9.92942], [28.65032, -10.65133], [28.37241, -11.57848], [28.48357, -11.87532], [29.18592, -12.37921], [29.4992, -12.43843], [29.48404, -12.23604], [29.8139, -12.14898], [29.81551, -13.44683], [29.65078, -13.41844], [29.60531, -13.21685], [29.01918, -13.41353], [28.33199, -12.41375], [27.59932, -12.22123], [27.21025, -11.76157], [27.22541, -11.60323], [27.04351, -11.61312], [26.88687, -12.01868], [26.01777, -11.91488], [25.33058, -11.65767], [25.34069, -11.19707], [24.42612, -11.44975], [24.34528, -11.06816], [24.00027, -10.89356], [24.02603, -11.15368], [23.98804, -12.13149], [24.06672, -12.29058], [23.90937, -12.844], [24.03339, -12.99091], [21.97988, -13.00148], [22.00323, -16.18028], [22.17217, -16.50269], [23.20038, -17.47563], [23.47474, -17.62877], [24.23619, -17.47489], [24.32811, -17.49082], [24.38712, -17.46818], [24.5621, -17.52963], [24.70864, -17.49501], [25.00198, -17.58221], [25.26433, -17.79571], [25.51646, -17.86232], [25.6827, -17.81987], [25.85738, -17.91403], [25.85892, -17.97726], [26.08925, -17.98168], [26.0908, -17.93021], [26.21601, -17.88608], [26.55918, -17.99638], [26.68403, -18.07411], [26.74314, -18.0199], [26.89926, -17.98756], [27.14196, -17.81398], [27.30736, -17.60487], [27.61377, -17.34378], [27.62795, -17.24365], [27.83141, -16.96274], [28.73725, -16.5528], [28.76199, -16.51575], [28.81454, -16.48611], [28.8501, -16.04537], [28.9243, -15.93987], [29.01298, -15.93805], [29.21955, -15.76589], [29.4437, -15.68702], [29.8317, -15.6126], [30.35574, -15.6513], [30.41902, -15.62269], [30.22098, -14.99447], [33.24249, -14.00019], [33.16749, -13.93992], [33.07568, -13.98447], [33.02977, -14.05022], [32.99042, -13.95689], [32.88985, -13.82956], [32.79015, -13.80755], [32.76962, -13.77224], [32.84528, -13.71576], [32.7828, -13.64805], [32.68654, -13.64268], [32.66468, -13.60019], [32.68436, -13.55769], [32.73683, -13.57682], [32.84176, -13.52794], [32.86113, -13.47292], [33.0078, -13.19492], [32.98289, -13.12671], [33.02181, -12.88707], [32.96733, -12.88251], [32.94397, -12.76868], [33.05917, -12.59554], [33.18837, -12.61377], [33.28177, -12.54692], [33.37517, -12.54085], [33.54485, -12.35996], [33.47636, -12.32498], [33.3705, -12.34931], [33.25998, -12.14242], [33.33937, -11.91252], [33.32692, -11.59248], [33.24252, -11.59302], [33.23663, -11.40637], [33.29267, -11.43536], [33.29267, -11.3789], [33.39697, -11.15296], [33.25998, -10.88862], [33.28022, -10.84428], [33.47636, -10.78465], [33.70675, -10.56896], [33.54797, -10.36077], [33.53863, -10.20148], [33.31297, -10.05133], [33.37902, -9.9104], [33.36581, -9.81063], [33.31517, -9.82364], [33.2095, -9.61099], [33.12144, -9.58929], [33.10163, -9.66525], [33.05485, -9.61316], [33.00256, -9.63053], [33.00476, -9.5133], [32.95389, -9.40138]]]] } },
     { type: "Feature", properties: { iso1A2: "ZW", iso1A3: "ZWE", iso1N3: "716", wikidata: "Q954", nameEn: "Zimbabwe", groups: ["014", "202", "002", "UN"], driveSide: "left", callingCodes: ["263"] }, geometry: { type: "MultiPolygon", coordinates: [[[[30.41902, -15.62269], [30.35574, -15.6513], [29.8317, -15.6126], [29.4437, -15.68702], [29.21955, -15.76589], [29.01298, -15.93805], [28.9243, -15.93987], [28.8501, -16.04537], [28.81454, -16.48611], [28.76199, -16.51575], [28.73725, -16.5528], [27.83141, -16.96274], [27.62795, -17.24365], [27.61377, -17.34378], [27.30736, -17.60487], [27.14196, -17.81398], [26.89926, -17.98756], [26.74314, -18.0199], [26.68403, -18.07411], [26.55918, -17.99638], [26.21601, -17.88608], [26.0908, -17.93021], [26.08925, -17.98168], [25.85892, -17.97726], [25.85738, -17.91403], [25.6827, -17.81987], [25.51646, -17.86232], [25.26433, -17.79571], [25.23909, -17.90832], [25.31799, -18.07091], [25.39972, -18.12691], [25.53465, -18.39041], [25.68859, -18.56165], [25.79217, -18.6355], [25.82353, -18.82808], [25.94326, -18.90362], [25.99837, -19.02943], [25.96226, -19.08152], [26.17227, -19.53709], [26.72246, -19.92707], [27.21278, -20.08244], [27.29831, -20.28935], [27.28865, -20.49873], [27.69361, -20.48531], [27.72972, -20.51735], [27.69171, -21.08409], [27.91407, -21.31621], [28.01669, -21.57624], [28.29416, -21.59037], [28.49942, -21.66634], [28.58114, -21.63455], [29.07763, -21.81877], [29.04023, -21.85864], [29.02191, -21.90647], [29.02191, -21.95665], [29.04108, -22.00563], [29.08495, -22.04867], [29.14501, -22.07275], [29.1974, -22.07472], [29.24648, -22.05967], [29.3533, -22.18363], [29.37703, -22.19581], [29.64609, -22.12917], [29.76848, -22.14128], [29.92242, -22.19408], [30.13147, -22.30841], [30.2265, -22.2961], [30.28351, -22.35587], [30.38614, -22.34533], [30.48686, -22.31368], [30.6294, -22.32599], [30.86696, -22.28907], [31.08932, -22.34884], [31.16344, -22.32599], [31.30611, -22.422], [31.38336, -22.36919], [32.41234, -21.31246], [32.48236, -21.32873], [32.37115, -21.133], [32.51644, -20.91929], [32.48122, -20.63319], [32.55167, -20.56312], [32.66174, -20.56106], [32.85987, -20.27841], [32.85987, -20.16686], [32.93032, -20.03868], [33.01178, -20.02007], [33.06461, -19.77787], [32.95013, -19.67219], [32.84666, -19.68462], [32.84446, -19.48343], [32.78282, -19.47513], [32.77966, -19.36098], [32.85107, -19.29238], [32.87088, -19.09279], [32.84006, -19.0262], [32.72118, -19.02204], [32.69917, -18.94293], [32.73439, -18.92628], [32.70137, -18.84712], [32.82465, -18.77419], [32.9017, -18.7992], [32.95013, -18.69079], [32.88629, -18.58023], [32.88629, -18.51344], [33.02278, -18.4696], [33.03159, -18.35054], [32.94133, -17.99705], [33.0492, -17.60298], [32.98536, -17.55891], [32.96554, -17.48964], [33.0426, -17.3468], [33.00517, -17.30477], [32.96554, -17.11971], [32.84113, -16.92259], [32.91051, -16.89446], [32.97655, -16.70689], [32.78943, -16.70267], [32.69917, -16.66893], [32.71017, -16.59932], [32.42838, -16.4727], [32.28529, -16.43892], [32.02772, -16.43892], [31.91324, -16.41569], [31.90223, -16.34388], [31.67988, -16.19595], [31.42451, -16.15154], [31.30563, -16.01193], [31.13171, -15.98019], [30.97761, -16.05848], [30.91597, -15.99924], [30.42568, -15.9962], [30.41902, -15.62269]]]] } }
-  ];
-  var borders_default = { type, features };
+  ] };
   var borders = borders_default;
   var whichPolygonGetter = {};
   var featuresByCode = {};
@@ -23147,7 +23578,9 @@
           sharedGroups = sharedGroups.filter((groupID) => memberGroups.indexOf(groupID) !== -1);
         }
       });
-      props.groups = props.groups.concat(sharedGroups.filter((groupID) => props.groups.indexOf(groupID) === -1));
+      props.groups = props.groups.concat(
+        sharedGroups.filter((groupID) => props.groups.indexOf(groupID) === -1)
+      );
       sharedGroups.forEach((groupID) => {
         const groupFeature = featuresByCode[groupID];
         if (groupFeature.properties.members.indexOf(props.id) === -1) {
@@ -23161,11 +23594,15 @@
         if (!props.roadSpeedUnit)
           props.roadSpeedUnit = "km/h";
       } else if (props.members) {
-        const vals = Array.from(new Set(props.members.map((id2) => {
-          const member = featuresByCode[id2];
-          if (member.geometry)
-            return member.properties.roadSpeedUnit || "km/h";
-        }).filter(Boolean)));
+        const vals = Array.from(
+          new Set(
+            props.members.map((id2) => {
+              const member = featuresByCode[id2];
+              if (member.geometry)
+                return member.properties.roadSpeedUnit || "km/h";
+            }).filter(Boolean)
+          )
+        );
         if (vals.length === 1)
           props.roadSpeedUnit = vals[0];
       }
@@ -23176,11 +23613,15 @@
         if (!props.roadHeightUnit)
           props.roadHeightUnit = "m";
       } else if (props.members) {
-        const vals = Array.from(new Set(props.members.map((id2) => {
-          const member = featuresByCode[id2];
-          if (member.geometry)
-            return member.properties.roadHeightUnit || "m";
-        }).filter(Boolean)));
+        const vals = Array.from(
+          new Set(
+            props.members.map((id2) => {
+              const member = featuresByCode[id2];
+              if (member.geometry)
+                return member.properties.roadHeightUnit || "m";
+            }).filter(Boolean)
+          )
+        );
         if (vals.length === 1)
           props.roadHeightUnit = vals[0];
       }
@@ -23191,11 +23632,15 @@
         if (!props.driveSide)
           props.driveSide = "right";
       } else if (props.members) {
-        const vals = Array.from(new Set(props.members.map((id2) => {
-          const member = featuresByCode[id2];
-          if (member.geometry)
-            return member.properties.driveSide || "right";
-        }).filter(Boolean)));
+        const vals = Array.from(
+          new Set(
+            props.members.map((id2) => {
+              const member = featuresByCode[id2];
+              if (member.geometry)
+                return member.properties.driveSide || "right";
+            }).filter(Boolean)
+          )
+        );
         if (vals.length === 1)
           props.driveSide = vals[0];
       }
@@ -23203,13 +23648,17 @@
     function loadCallingCodes(feature22) {
       const props = feature22.properties;
       if (!feature22.geometry && props.members) {
-        props.callingCodes = Array.from(new Set(props.members.reduce((array2, id2) => {
-          const member = featuresByCode[id2];
-          if (member.geometry && member.properties.callingCodes) {
-            return array2.concat(member.properties.callingCodes);
-          }
-          return array2;
-        }, [])));
+        props.callingCodes = Array.from(
+          new Set(
+            props.members.reduce((array2, id2) => {
+              const member = featuresByCode[id2];
+              if (member.geometry && member.properties.callingCodes) {
+                return array2.concat(member.properties.callingCodes);
+              }
+              return array2;
+            }, [])
+          )
+        );
       }
     }
     function loadFlag(feature22) {
@@ -23292,8 +23741,8 @@
         }
       }
     }
-    const features2 = featuresContaining(loc);
-    const match = features2.find((feature22) => {
+    const features = featuresContaining(loc);
+    const match = features.find((feature22) => {
       let levelIndex = levels.indexOf(feature22.properties.level);
       if (feature22.properties.level === targetLevel || levelIndex > targetLevelIndex && levelIndex <= maxLevelIndex) {
         if (!withProp || feature22.properties[withProp]) {
@@ -23318,8 +23767,8 @@
     }
     return featuresByCode[stringID] || null;
   }
-  function smallestFeaturesForBbox(bbox) {
-    return whichPolygonGetter.bbox(bbox).map((props) => featuresByCode[props.id]);
+  function smallestFeaturesForBbox(bbox2) {
+    return whichPolygonGetter.bbox(bbox2).map((props) => featuresByCode[props.id]);
   }
   function smallestOrMatchingFeature(query) {
     if (typeof query === "object") {
@@ -23371,29 +23820,29 @@
     const feature22 = featureForID(id2);
     if (!feature22)
       return [];
-    let features2 = [];
+    let features = [];
     if (!strict) {
-      features2.push(feature22);
+      features.push(feature22);
     }
     const properties = feature22.properties;
     (properties.members || []).forEach((memberID) => {
-      features2.push(featuresByCode[memberID]);
+      features.push(featuresByCode[memberID]);
     });
-    return features2;
+    return features;
   }
   function aggregateFeature(id2) {
-    const features2 = featuresIn(id2, false);
-    if (features2.length === 0)
+    const features = featuresIn(id2, false);
+    if (features.length === 0)
       return null;
     let aggregateCoordinates = [];
-    features2.forEach((feature22) => {
+    features.forEach((feature22) => {
       if (feature22.geometry && feature22.geometry.type === "MultiPolygon" && feature22.geometry.coordinates) {
         aggregateCoordinates = aggregateCoordinates.concat(feature22.geometry.coordinates);
       }
     });
     return {
       type: "Feature",
-      properties: features2[0].properties,
+      properties: features[0].properties,
       geometry: {
         type: "MultiPolygon",
         coordinates: aggregateCoordinates
@@ -23416,6 +23865,24 @@
   var import_geojson_precision = __toESM(require_geojson_precision(), 1);
   var import_json_stringify_pretty_compact = __toESM(require_json_stringify_pretty_compact(), 1);
   var location_conflation_default = class {
+    // constructor
+    //
+    // `fc`  Optional FeatureCollection of known features
+    //
+    // Optionally pass a GeoJSON FeatureCollection of known features which we can refer to later.
+    // Each feature must have a filename-like `id`, for example: `something.geojson`
+    //
+    // {
+    //   "type": "FeatureCollection"
+    //   "features": [
+    //     {
+    //       "type": "Feature",
+    //       "id": "philly_metro.geojson",
+    //       "properties": { … },
+    //       "geometry": { … }
+    //     }
+    //   ]
+    // }
     constructor(fc) {
       this._cache = {};
       this._strict = true;
@@ -23446,6 +23913,19 @@
       world.properties.area = import_geojson_area.default.geometry(world.geometry) / 1e6;
       this._cache.Q2 = world;
     }
+    // validateLocation
+    // `location`  The location to validate
+    //
+    // Pass a `location` value to validate
+    //
+    // Returns a result like:
+    //   {
+    //     type:     'point', 'geojson', or 'countrycoder'
+    //     location:  the queried location
+    //     id:        the stable identifier for the feature
+    //   }
+    // or `null` if the location is invalid
+    //
     validateLocation(location) {
       if (Array.isArray(location) && (location.length === 2 || location.length === 3)) {
         const lon = location[0];
@@ -23473,6 +23953,20 @@
         return null;
       }
     }
+    // resolveLocation
+    // `location`  The location to resolve
+    //
+    // Pass a `location` value to resolve
+    //
+    // Returns a result like:
+    //   {
+    //     type:      'point', 'geojson', or 'countrycoder'
+    //     location:  the queried location
+    //     id:        a stable identifier for the feature
+    //     feature:   the resolved GeoJSON feature
+    //   }
+    //  or `null` if the location is invalid
+    //
     resolveLocation(location) {
       const valid = this.validateLocation(location);
       if (!valid)
@@ -23493,6 +23987,7 @@
           id: id2,
           properties: { id: id2, area: Number(area.toFixed(2)) },
           geometry: (0, import_circle_to_polygon.default)([lon, lat], radius * 1e3, EDGES)
+          // km to m
         }, PRECISION);
         return Object.assign(valid, { feature: feature3 });
       } else if (valid.type === "geojson") {
@@ -23519,6 +24014,23 @@
         return null;
       }
     }
+    // validateLocationSet
+    // `locationSet`  the locationSet to validate
+    //
+    // Pass a locationSet Object to validate like:
+    //   {
+    //     include: [ Array of locations ],
+    //     exclude: [ Array of locations ]
+    //   }
+    //
+    // Returns a result like:
+    //   {
+    //     type:         'locationset'
+    //     locationSet:  the queried locationSet
+    //     id:           the stable identifier for the feature
+    //   }
+    // or `null` if the locationSet is invalid
+    //
     validateLocationSet(locationSet) {
       locationSet = locationSet || {};
       const validator = this.validateLocation.bind(this);
@@ -23540,6 +24052,24 @@
       }
       return { type: "locationset", locationSet, id: id2 };
     }
+    // resolveLocationSet
+    // `locationSet`  the locationSet to resolve
+    //
+    // Pass a locationSet Object to validate like:
+    //   {
+    //     include: [ Array of locations ],
+    //     exclude: [ Array of locations ]
+    //   }
+    //
+    // Returns a result like:
+    //   {
+    //     type:         'locationset'
+    //     locationSet:  the queried locationSet
+    //     id:           the stable identifier for the feature
+    //     feature:      the resolved GeoJSON feature
+    //   }
+    // or `null` if the locationSet is invalid
+    //
     resolveLocationSet(locationSet) {
       locationSet = locationSet || {};
       const valid = this.validateLocationSet(locationSet);
@@ -23564,6 +24094,8 @@
       this._cache[id2] = resultGeoJSON;
       return Object.assign(valid, { feature: resultGeoJSON });
     }
+    // strict
+    //
     strict(val) {
       if (val === void 0) {
         return this._strict;
@@ -23572,18 +24104,22 @@
         return this;
       }
     }
+    // cache
+    // convenience method to access the internal cache
     cache() {
       return this._cache;
     }
+    // stringify
+    // convenience method to prettyStringify the given object
     stringify(obj, options2) {
       return (0, import_json_stringify_pretty_compact.default)(obj, options2);
     }
   };
-  function _clip(features2, which) {
-    if (!Array.isArray(features2) || !features2.length)
+  function _clip(features, which) {
+    if (!Array.isArray(features) || !features.length)
       return null;
     const fn = { UNION: import_polygon_clipping.default.union, DIFFERENCE: import_polygon_clipping.default.difference }[which];
-    const args = features2.map((feature3) => feature3.geometry.coordinates);
+    const args = features.map((feature3) => feature3.geometry.coordinates);
     const coords = fn.apply(null, args);
     return {
       type: "Feature",
@@ -23611,800 +24147,36 @@
     return aRank > bRank ? 1 : aRank < bRank ? -1 : a.id.localeCompare(b.id);
   }
 
-  // modules/core/locations.js
+  // modules/core/LocationManager.js
   var import_which_polygon2 = __toESM(require_which_polygon());
   var import_geojson_area2 = __toESM(require_geojson_area());
-
-  // modules/util/aes.js
-  var import_aes_js = __toESM(require_aes_js());
-  var DEFAULT_128 = [250, 157, 60, 79, 142, 134, 229, 129, 138, 126, 210, 129, 29, 71, 160, 208];
-  function utilAesEncrypt(text2, key) {
-    key = key || DEFAULT_128;
-    const textBytes = import_aes_js.default.utils.utf8.toBytes(text2);
-    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
-    const encryptedBytes = aesCtr.encrypt(textBytes);
-    const encryptedHex = import_aes_js.default.utils.hex.fromBytes(encryptedBytes);
-    return encryptedHex;
-  }
-  function utilAesDecrypt(encryptedHex, key) {
-    key = key || DEFAULT_128;
-    const encryptedBytes = import_aes_js.default.utils.hex.toBytes(encryptedHex);
-    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
-    const decryptedBytes = aesCtr.decrypt(encryptedBytes);
-    const text2 = import_aes_js.default.utils.utf8.fromBytes(decryptedBytes);
-    return text2;
-  }
-
-  // modules/util/clean_tags.js
-  function utilCleanTags(tags) {
-    var out = {};
-    for (var k in tags) {
-      if (!k)
-        continue;
-      var v = tags[k];
-      if (v !== void 0) {
-        out[k] = cleanValue(k, v);
-      }
+  var _loco = new location_conflation_default();
+  var LocationManager = class {
+    /**
+     * @constructor
+     */
+    constructor() {
+      this._wp = null;
+      this._resolved = /* @__PURE__ */ new Map();
+      this._knownLocationSets = /* @__PURE__ */ new Map();
+      this._locationIncludedIn = /* @__PURE__ */ new Map();
+      this._locationExcludedIn = /* @__PURE__ */ new Map();
+      const world = { locationSet: { include: ["Q2"] } };
+      this._resolveLocationSet(world);
+      this._rebuildIndex();
     }
-    return out;
-    function cleanValue(k2, v2) {
-      function keepSpaces(k3) {
-        return /_hours|_times|:conditional$/.test(k3);
-      }
-      function skip(k3) {
-        return /^(description|note|fixme)$/.test(k3);
-      }
-      if (skip(k2))
-        return v2;
-      var cleaned = v2.split(";").map(function(s) {
-        return s.trim();
-      }).join(keepSpaces(k2) ? "; " : ";");
-      if (k2.indexOf("website") !== -1 || k2.indexOf("email") !== -1 || cleaned.indexOf("http") === 0) {
-        cleaned = cleaned.replace(/[\u200B-\u200F\uFEFF]/g, "");
-      }
-      return cleaned;
-    }
-  }
-
-  // modules/util/detect.js
-  var _detected;
-  function utilDetect(refresh2) {
-    if (_detected && !refresh2)
-      return _detected;
-    _detected = {};
-    const ua = navigator.userAgent;
-    let m = null;
-    m = ua.match(/(edge)\/?\s*(\.?\d+(\.\d+)*)/i);
-    if (m !== null) {
-      _detected.browser = m[1];
-      _detected.version = m[2];
-    }
-    if (!_detected.browser) {
-      m = ua.match(/Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})/i);
-      if (m !== null) {
-        _detected.browser = "msie";
-        _detected.version = m[1];
-      }
-    }
-    if (!_detected.browser) {
-      m = ua.match(/(opr)\/?\s*(\.?\d+(\.\d+)*)/i);
-      if (m !== null) {
-        _detected.browser = "Opera";
-        _detected.version = m[2];
-      }
-    }
-    if (!_detected.browser) {
-      m = ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
-      if (m !== null) {
-        _detected.browser = m[1];
-        _detected.version = m[2];
-        m = ua.match(/version\/([\.\d]+)/i);
-        if (m !== null)
-          _detected.version = m[1];
-      }
-    }
-    if (!_detected.browser) {
-      _detected.browser = navigator.appName;
-      _detected.version = navigator.appVersion;
-    }
-    _detected.version = _detected.version.split(/\W/).slice(0, 2).join(".");
-    _detected.opera = _detected.browser.toLowerCase() === "opera" && parseFloat(_detected.version) < 15;
-    if (_detected.browser.toLowerCase() === "msie") {
-      _detected.ie = true;
-      _detected.browser = "Internet Explorer";
-      _detected.support = false;
-    } else {
-      _detected.ie = false;
-      _detected.support = true;
-    }
-    _detected.filedrop = window.FileReader && "ondrop" in window;
-    if (/Win/.test(ua)) {
-      _detected.os = "win";
-      _detected.platform = "Windows";
-    } else if (/Mac/.test(ua)) {
-      _detected.os = "mac";
-      _detected.platform = "Macintosh";
-    } else if (/X11/.test(ua) || /Linux/.test(ua)) {
-      _detected.os = "linux";
-      _detected.platform = "Linux";
-    } else {
-      _detected.os = "win";
-      _detected.platform = "Unknown";
-    }
-    _detected.isMobileWebKit = (/\b(iPad|iPhone|iPod)\b/.test(ua) || navigator.platform === "MacIntel" && "maxTouchPoints" in navigator && navigator.maxTouchPoints > 1) && /WebKit/.test(ua) && !/Edge/.test(ua) && !window.MSStream;
-    _detected.browserLocales = Array.from(new Set(
-      [navigator.language].concat(navigator.languages || []).concat([
-        navigator.userLanguage
-      ]).filter(Boolean)
-    ));
-    const loc = window.top.location;
-    let origin = loc.origin;
-    if (!origin) {
-      origin = loc.protocol + "//" + loc.hostname + (loc.port ? ":" + loc.port : "");
-    }
-    _detected.host = origin + loc.pathname;
-    return _detected;
-  }
-
-  // modules/util/get_set_value.js
-  function utilGetSetValue(selection2, value) {
-    function d3_selection_value(value2) {
-      function valueNull() {
-        delete this.value;
-      }
-      function valueConstant() {
-        if (this.value !== value2) {
-          this.value = value2;
-        }
-      }
-      function valueFunction() {
-        var x = value2.apply(this, arguments);
-        if (x === null || x === void 0) {
-          delete this.value;
-        } else if (this.value !== x) {
-          this.value = x;
-        }
-      }
-      return value2 === null || value2 === void 0 ? valueNull : typeof value2 === "function" ? valueFunction : valueConstant;
-    }
-    if (arguments.length === 1) {
-      return selection2.property("value");
-    }
-    return selection2.each(d3_selection_value(value));
-  }
-
-  // modules/util/keybinding.js
-  function utilKeybinding(namespace) {
-    var _keybindings = {};
-    function testBindings(d3_event, isCapturing) {
-      var didMatch = false;
-      var bindings = Object.keys(_keybindings).map(function(id2) {
-        return _keybindings[id2];
-      });
-      var i2, binding;
-      for (i2 = 0; i2 < bindings.length; i2++) {
-        binding = bindings[i2];
-        if (!binding.event.modifiers.shiftKey)
-          continue;
-        if (!!binding.capture !== isCapturing)
-          continue;
-        if (matches(d3_event, binding, true)) {
-          binding.callback(d3_event);
-          didMatch = true;
-          break;
-        }
-      }
-      if (didMatch)
-        return;
-      for (i2 = 0; i2 < bindings.length; i2++) {
-        binding = bindings[i2];
-        if (binding.event.modifiers.shiftKey)
-          continue;
-        if (!!binding.capture !== isCapturing)
-          continue;
-        if (matches(d3_event, binding, false)) {
-          binding.callback(d3_event);
-          break;
-        }
-      }
-      function matches(d3_event2, binding2, testShift) {
-        var event = d3_event2;
-        var isMatch = false;
-        var tryKeyCode = true;
-        if (event.key !== void 0) {
-          tryKeyCode = event.key.charCodeAt(0) > 127;
-          isMatch = true;
-          if (binding2.event.key === void 0) {
-            isMatch = false;
-          } else if (Array.isArray(binding2.event.key)) {
-            if (binding2.event.key.map(function(s) {
-              return s.toLowerCase();
-            }).indexOf(event.key.toLowerCase()) === -1) {
-              isMatch = false;
-            }
-          } else {
-            if (event.key.toLowerCase() !== binding2.event.key.toLowerCase()) {
-              isMatch = false;
-            }
-          }
-        }
-        if (!isMatch && (tryKeyCode || binding2.event.modifiers.altKey)) {
-          isMatch = event.keyCode === binding2.event.keyCode;
-        }
-        if (!isMatch)
-          return false;
-        if (!(event.ctrlKey && event.altKey)) {
-          if (event.ctrlKey !== binding2.event.modifiers.ctrlKey)
-            return false;
-          if (event.altKey !== binding2.event.modifiers.altKey)
-            return false;
-        }
-        if (event.metaKey !== binding2.event.modifiers.metaKey)
-          return false;
-        if (testShift && event.shiftKey !== binding2.event.modifiers.shiftKey)
-          return false;
-        return true;
-      }
-    }
-    function capture(d3_event) {
-      testBindings(d3_event, true);
-    }
-    function bubble(d3_event) {
-      var tagName = select_default2(d3_event.target).node().tagName;
-      if (tagName === "INPUT" || tagName === "SELECT" || tagName === "TEXTAREA") {
-        return;
-      }
-      testBindings(d3_event, false);
-    }
-    function keybinding(selection2) {
-      selection2 = selection2 || select_default2(document);
-      selection2.on("keydown.capture." + namespace, capture, true);
-      selection2.on("keydown.bubble." + namespace, bubble, false);
-      return keybinding;
-    }
-    keybinding.unbind = function(selection2) {
-      _keybindings = [];
-      selection2 = selection2 || select_default2(document);
-      selection2.on("keydown.capture." + namespace, null);
-      selection2.on("keydown.bubble." + namespace, null);
-      return keybinding;
-    };
-    keybinding.clear = function() {
-      _keybindings = {};
-      return keybinding;
-    };
-    keybinding.off = function(codes, capture2) {
-      var arr = utilArrayUniq([].concat(codes));
-      for (var i2 = 0; i2 < arr.length; i2++) {
-        var id2 = arr[i2] + (capture2 ? "-capture" : "-bubble");
-        delete _keybindings[id2];
-      }
-      return keybinding;
-    };
-    keybinding.on = function(codes, callback, capture2) {
-      if (typeof callback !== "function") {
-        return keybinding.off(codes, capture2);
-      }
-      var arr = utilArrayUniq([].concat(codes));
-      for (var i2 = 0; i2 < arr.length; i2++) {
-        var id2 = arr[i2] + (capture2 ? "-capture" : "-bubble");
-        var binding = {
-          id: id2,
-          capture: capture2,
-          callback,
-          event: {
-            key: void 0,
-            keyCode: 0,
-            modifiers: {
-              shiftKey: false,
-              ctrlKey: false,
-              altKey: false,
-              metaKey: false
-            }
-          }
-        };
-        if (_keybindings[id2]) {
-          console.warn('warning: duplicate keybinding for "' + id2 + '"');
-        }
-        _keybindings[id2] = binding;
-        var matches = arr[i2].toLowerCase().match(/(?:(?:[^+⇧⌃⌥⌘])+|[⇧⌃⌥⌘]|\+\+|^\+$)/g);
-        for (var j2 = 0; j2 < matches.length; j2++) {
-          if (matches[j2] === "++")
-            matches[j2] = "+";
-          if (matches[j2] in utilKeybinding.modifierCodes) {
-            var prop = utilKeybinding.modifierProperties[utilKeybinding.modifierCodes[matches[j2]]];
-            binding.event.modifiers[prop] = true;
-          } else {
-            binding.event.key = utilKeybinding.keys[matches[j2]] || matches[j2];
-            if (matches[j2] in utilKeybinding.keyCodes) {
-              binding.event.keyCode = utilKeybinding.keyCodes[matches[j2]];
-            }
-          }
-        }
-      }
-      return keybinding;
-    };
-    return keybinding;
-  }
-  utilKeybinding.modifierCodes = {
-    "\u21E7": 16,
-    shift: 16,
-    "\u2303": 17,
-    ctrl: 17,
-    "\u2325": 18,
-    alt: 18,
-    option: 18,
-    "\u2318": 91,
-    meta: 91,
-    cmd: 91,
-    "super": 91,
-    win: 91
-  };
-  utilKeybinding.modifierProperties = {
-    16: "shiftKey",
-    17: "ctrlKey",
-    18: "altKey",
-    91: "metaKey"
-  };
-  utilKeybinding.plusKeys = ["plus", "ffplus", "=", "ffequals", "\u2260", "\xB1"];
-  utilKeybinding.minusKeys = ["_", "-", "ffminus", "dash", "\u2013", "\u2014"];
-  utilKeybinding.keys = {
-    "\u232B": "Backspace",
-    backspace: "Backspace",
-    "\u21E5": "Tab",
-    "\u21C6": "Tab",
-    tab: "Tab",
-    "\u21A9": "Enter",
-    "\u21B5": "Enter",
-    "\u23CE": "Enter",
-    "return": "Enter",
-    enter: "Enter",
-    "\u2305": "Enter",
-    "pause": "Pause",
-    "pause-break": "Pause",
-    "\u21EA": "CapsLock",
-    caps: "CapsLock",
-    "caps-lock": "CapsLock",
-    "\u238B": ["Escape", "Esc"],
-    escape: ["Escape", "Esc"],
-    esc: ["Escape", "Esc"],
-    space: [" ", "Spacebar"],
-    "\u2196": "PageUp",
-    pgup: "PageUp",
-    "page-up": "PageUp",
-    "\u2198": "PageDown",
-    pgdown: "PageDown",
-    "page-down": "PageDown",
-    "\u21DF": "End",
-    end: "End",
-    "\u21DE": "Home",
-    home: "Home",
-    ins: "Insert",
-    insert: "Insert",
-    "\u2326": ["Delete", "Del"],
-    del: ["Delete", "Del"],
-    "delete": ["Delete", "Del"],
-    "\u2190": ["ArrowLeft", "Left"],
-    left: ["ArrowLeft", "Left"],
-    "arrow-left": ["ArrowLeft", "Left"],
-    "\u2191": ["ArrowUp", "Up"],
-    up: ["ArrowUp", "Up"],
-    "arrow-up": ["ArrowUp", "Up"],
-    "\u2192": ["ArrowRight", "Right"],
-    right: ["ArrowRight", "Right"],
-    "arrow-right": ["ArrowRight", "Right"],
-    "\u2193": ["ArrowDown", "Down"],
-    down: ["ArrowDown", "Down"],
-    "arrow-down": ["ArrowDown", "Down"],
-    "*": ["*", "Multiply"],
-    star: ["*", "Multiply"],
-    asterisk: ["*", "Multiply"],
-    multiply: ["*", "Multiply"],
-    "+": ["+", "Add"],
-    "plus": ["+", "Add"],
-    "-": ["-", "Subtract"],
-    subtract: ["-", "Subtract"],
-    "dash": ["-", "Subtract"],
-    semicolon: ";",
-    equals: "=",
-    comma: ",",
-    period: ".",
-    "full-stop": ".",
-    slash: "/",
-    "forward-slash": "/",
-    tick: "`",
-    "back-quote": "`",
-    "open-bracket": "[",
-    "back-slash": "\\",
-    "close-bracket": "]",
-    quote: "'",
-    apostrophe: "'",
-    "num-0": "0",
-    "num-1": "1",
-    "num-2": "2",
-    "num-3": "3",
-    "num-4": "4",
-    "num-5": "5",
-    "num-6": "6",
-    "num-7": "7",
-    "num-8": "8",
-    "num-9": "9",
-    f1: "F1",
-    f2: "F2",
-    f3: "F3",
-    f4: "F4",
-    f5: "F5",
-    f6: "F6",
-    f7: "F7",
-    f8: "F8",
-    f9: "F9",
-    f10: "F10",
-    f11: "F11",
-    f12: "F12",
-    f13: "F13",
-    f14: "F14",
-    f15: "F15",
-    f16: "F16",
-    f17: "F17",
-    f18: "F18",
-    f19: "F19",
-    f20: "F20",
-    f21: "F21",
-    f22: "F22",
-    f23: "F23",
-    f24: "F24",
-    f25: "F25"
-  };
-  utilKeybinding.keyCodes = {
-    "\u232B": 8,
-    backspace: 8,
-    "\u21E5": 9,
-    "\u21C6": 9,
-    tab: 9,
-    "\u21A9": 13,
-    "\u21B5": 13,
-    "\u23CE": 13,
-    "return": 13,
-    enter: 13,
-    "\u2305": 13,
-    "pause": 19,
-    "pause-break": 19,
-    "\u21EA": 20,
-    caps: 20,
-    "caps-lock": 20,
-    "\u238B": 27,
-    escape: 27,
-    esc: 27,
-    space: 32,
-    "\u2196": 33,
-    pgup: 33,
-    "page-up": 33,
-    "\u2198": 34,
-    pgdown: 34,
-    "page-down": 34,
-    "\u21DF": 35,
-    end: 35,
-    "\u21DE": 36,
-    home: 36,
-    ins: 45,
-    insert: 45,
-    "\u2326": 46,
-    del: 46,
-    "delete": 46,
-    "\u2190": 37,
-    left: 37,
-    "arrow-left": 37,
-    "\u2191": 38,
-    up: 38,
-    "arrow-up": 38,
-    "\u2192": 39,
-    right: 39,
-    "arrow-right": 39,
-    "\u2193": 40,
-    down: 40,
-    "arrow-down": 40,
-    "ffequals": 61,
-    "*": 106,
-    star: 106,
-    asterisk: 106,
-    multiply: 106,
-    "+": 107,
-    "plus": 107,
-    "-": 109,
-    subtract: 109,
-    "|": 124,
-    "ffplus": 171,
-    "ffminus": 173,
-    ";": 186,
-    semicolon: 186,
-    "=": 187,
-    "equals": 187,
-    ",": 188,
-    comma: 188,
-    "dash": 189,
-    ".": 190,
-    period: 190,
-    "full-stop": 190,
-    "/": 191,
-    slash: 191,
-    "forward-slash": 191,
-    "`": 192,
-    tick: 192,
-    "back-quote": 192,
-    "[": 219,
-    "open-bracket": 219,
-    "\\": 220,
-    "back-slash": 220,
-    "]": 221,
-    "close-bracket": 221,
-    "'": 222,
-    quote: 222,
-    apostrophe: 222
-  };
-  var i = 95;
-  var n = 0;
-  while (++i < 106) {
-    utilKeybinding.keyCodes["num-" + n] = i;
-    ++n;
-  }
-  i = 47;
-  n = 0;
-  while (++i < 58) {
-    utilKeybinding.keyCodes[n] = i;
-    ++n;
-  }
-  i = 111;
-  n = 1;
-  while (++i < 136) {
-    utilKeybinding.keyCodes["f" + n] = i;
-    ++n;
-  }
-  i = 64;
-  while (++i < 91) {
-    utilKeybinding.keyCodes[String.fromCharCode(i).toLowerCase()] = i;
-  }
-
-  // modules/util/object.js
-  function utilObjectOmit(obj, omitKeys) {
-    return Object.keys(obj).reduce(function(result, key) {
-      if (omitKeys.indexOf(key) === -1) {
-        result[key] = obj[key];
-      }
-      return result;
-    }, {});
-  }
-
-  // modules/util/rebind.js
-  function utilRebind(target, source) {
-    var i2 = 1, n2 = arguments.length, method;
-    while (++i2 < n2) {
-      target[method = arguments[i2]] = d3_rebind(target, source, source[method]);
-    }
-    return target;
-  }
-  function d3_rebind(target, source, method) {
-    return function() {
-      var value = method.apply(source, arguments);
-      return value === source ? target : value;
-    };
-  }
-
-  // modules/util/session_mutex.js
-  function utilSessionMutex(name) {
-    var mutex = {};
-    var intervalID;
-    function renew() {
-      var expires = new Date();
-      expires.setSeconds(expires.getSeconds() + 5);
-      document.cookie = name + "=1; expires=" + expires.toUTCString() + "; sameSite=strict";
-    }
-    mutex.lock = function() {
-      if (intervalID)
-        return true;
-      var cookie = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + name + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
-      if (cookie)
-        return false;
-      renew();
-      intervalID = window.setInterval(renew, 4e3);
-      return true;
-    };
-    mutex.unlock = function() {
-      if (!intervalID)
-        return;
-      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; sameSite=strict";
-      clearInterval(intervalID);
-      intervalID = null;
-    };
-    mutex.locked = function() {
-      return !!intervalID;
-    };
-    return mutex;
-  }
-
-  // modules/util/tiler.js
-  function utilTiler() {
-    var _size = [256, 256];
-    var _scale = 256;
-    var _tileSize = 256;
-    var _zoomExtent = [0, 20];
-    var _translate = [_size[0] / 2, _size[1] / 2];
-    var _margin = 0;
-    var _skipNullIsland = false;
-    function clamp3(num, min3, max3) {
-      return Math.max(min3, Math.min(num, max3));
-    }
-    function nearNullIsland(tile) {
-      var x = tile[0];
-      var y = tile[1];
-      var z = tile[2];
-      if (z >= 7) {
-        var center = Math.pow(2, z - 1);
-        var width = Math.pow(2, z - 6);
-        var min3 = center - width / 2;
-        var max3 = center + width / 2 - 1;
-        return x >= min3 && x <= max3 && y >= min3 && y <= max3;
-      }
-      return false;
-    }
-    function tiler8() {
-      var z = geoScaleToZoom(_scale / (2 * Math.PI), _tileSize);
-      var z0 = clamp3(Math.round(z), _zoomExtent[0], _zoomExtent[1]);
-      var tileMin = 0;
-      var tileMax = Math.pow(2, z0) - 1;
-      var log2ts = Math.log(_tileSize) * Math.LOG2E;
-      var k = Math.pow(2, z - z0 + log2ts);
-      var origin = [
-        (_translate[0] - _scale / 2) / k,
-        (_translate[1] - _scale / 2) / k
-      ];
-      var cols = range(
-        clamp3(Math.floor(-origin[0]) - _margin, tileMin, tileMax + 1),
-        clamp3(Math.ceil(_size[0] / k - origin[0]) + _margin, tileMin, tileMax + 1)
-      );
-      var rows = range(
-        clamp3(Math.floor(-origin[1]) - _margin, tileMin, tileMax + 1),
-        clamp3(Math.ceil(_size[1] / k - origin[1]) + _margin, tileMin, tileMax + 1)
-      );
-      var tiles = [];
-      for (var i2 = 0; i2 < rows.length; i2++) {
-        var y = rows[i2];
-        for (var j2 = 0; j2 < cols.length; j2++) {
-          var x = cols[j2];
-          if (i2 >= _margin && i2 <= rows.length - _margin && j2 >= _margin && j2 <= cols.length - _margin) {
-            tiles.unshift([x, y, z0]);
-          } else {
-            tiles.push([x, y, z0]);
-          }
-        }
-      }
-      tiles.translate = origin;
-      tiles.scale = k;
-      return tiles;
-    }
-    tiler8.getTiles = function(projection2) {
-      var origin = [
-        projection2.scale() * Math.PI - projection2.translate()[0],
-        projection2.scale() * Math.PI - projection2.translate()[1]
-      ];
-      this.size(projection2.clipExtent()[1]).scale(projection2.scale() * 2 * Math.PI).translate(projection2.translate());
-      var tiles = tiler8();
-      var ts = tiles.scale;
-      return tiles.map(function(tile) {
-        if (_skipNullIsland && nearNullIsland(tile)) {
-          return false;
-        }
-        var x = tile[0] * ts - origin[0];
-        var y = tile[1] * ts - origin[1];
-        return {
-          id: tile.toString(),
-          xyz: tile,
-          extent: geoExtent(
-            projection2.invert([x, y + ts]),
-            projection2.invert([x + ts, y])
-          )
-        };
-      }).filter(Boolean);
-    };
-    tiler8.getGeoJSON = function(projection2) {
-      var features2 = tiler8.getTiles(projection2).map(function(tile) {
-        return {
-          type: "Feature",
-          properties: {
-            id: tile.id,
-            name: tile.id
-          },
-          geometry: {
-            type: "Polygon",
-            coordinates: [tile.extent.polygon()]
-          }
-        };
-      });
-      return {
-        type: "FeatureCollection",
-        features: features2
-      };
-    };
-    tiler8.tileSize = function(val) {
-      if (!arguments.length)
-        return _tileSize;
-      _tileSize = val;
-      return tiler8;
-    };
-    tiler8.zoomExtent = function(val) {
-      if (!arguments.length)
-        return _zoomExtent;
-      _zoomExtent = val;
-      return tiler8;
-    };
-    tiler8.size = function(val) {
-      if (!arguments.length)
-        return _size;
-      _size = val;
-      return tiler8;
-    };
-    tiler8.scale = function(val) {
-      if (!arguments.length)
-        return _scale;
-      _scale = val;
-      return tiler8;
-    };
-    tiler8.translate = function(val) {
-      if (!arguments.length)
-        return _translate;
-      _translate = val;
-      return tiler8;
-    };
-    tiler8.margin = function(val) {
-      if (!arguments.length)
-        return _margin;
-      _margin = +val;
-      return tiler8;
-    };
-    tiler8.skipNullIsland = function(val) {
-      if (!arguments.length)
-        return _skipNullIsland;
-      _skipNullIsland = val;
-      return tiler8;
-    };
-    return tiler8;
-  }
-
-  // modules/util/trigger_event.js
-  function utilTriggerEvent(target, type3) {
-    target.each(function() {
-      var evt = document.createEvent("HTMLEvents");
-      evt.initEvent(type3, true, true);
-      this.dispatchEvent(evt);
-    });
-  }
-
-  // modules/core/locations.js
-  var _mainLocations = coreLocations();
-  function coreLocations() {
-    let _this = {};
-    let _resolvedFeatures = {};
-    let _loco = new location_conflation_default();
-    let _wp;
-    const world = { locationSet: { include: ["Q2"] } };
-    resolveLocationSet(world);
-    rebuildIndex();
-    let _queue = [];
-    let _deferred2 = /* @__PURE__ */ new Set();
-    let _inProcess;
-    function processQueue() {
-      if (!_queue.length)
-        return Promise.resolve();
-      const chunk = _queue.pop();
-      return new Promise((resolvePromise) => {
-        const handle = window.requestIdleCallback(() => {
-          _deferred2.delete(handle);
-          chunk.forEach(resolveLocationSet);
-          resolvePromise();
-        });
-        _deferred2.add(handle);
-      }).then(() => processQueue());
-    }
-    function resolveLocationSet(obj) {
+    /**
+     * _validateLocationSet
+     * Pass an Object with a `locationSet` property.
+     * Validates the `locationSet` and sets a `locationSetID` property on the object.
+     * To avoid so much computation we only resolve the include and exclude regions, but not the locationSet itself.
+     *
+     * Use `_resolveLocationSet()` instead if you need to resolve geojson of locationSet, for example to render it.
+     * Note: You need to call `_rebuildIndex()` after you're all finished validating the locationSets.
+     *
+     * @param  `obj`  Object to check, it should have `locationSet` property
+     */
+    _validateLocationSet(obj) {
       if (obj.locationSetID)
         return;
       try {
@@ -24415,59 +24187,154 @@
         if (!locationSet.include) {
           locationSet.include = ["Q2"];
         }
-        const resolved = _loco.resolveLocationSet(locationSet);
-        const locationSetID = resolved.id;
+        const locationSetID = _loco.validateLocationSet(locationSet).id;
         obj.locationSetID = locationSetID;
-        if (!resolved.feature.geometry.coordinates.length || !resolved.feature.properties.area) {
-          throw new Error(`locationSet ${locationSetID} resolves to an empty feature.`);
-        }
-        if (!_resolvedFeatures[locationSetID]) {
-          let feature3 = JSON.parse(JSON.stringify(resolved.feature));
-          feature3.id = locationSetID;
-          feature3.properties.id = locationSetID;
-          _resolvedFeatures[locationSetID] = feature3;
-        }
+        if (this._knownLocationSets.has(locationSetID))
+          return;
+        let area = 0;
+        (locationSet.include || []).forEach((location) => {
+          const locationID = _loco.validateLocation(location).id;
+          let geojson = this._resolved.get(locationID);
+          if (!geojson) {
+            geojson = _loco.resolveLocation(location).feature;
+            this._resolved.set(locationID, geojson);
+          }
+          area += geojson.properties.area;
+          let s = this._locationIncludedIn.get(locationID);
+          if (!s) {
+            s = /* @__PURE__ */ new Set();
+            this._locationIncludedIn.set(locationID, s);
+          }
+          s.add(locationSetID);
+        });
+        (locationSet.exclude || []).forEach((location) => {
+          const locationID = _loco.validateLocation(location).id;
+          let geojson = this._resolved.get(locationID);
+          if (!geojson) {
+            geojson = _loco.resolveLocation(location).feature;
+            this._resolved.set(locationID, geojson);
+          }
+          area -= geojson.properties.area;
+          let s = this._locationExcludedIn.get(locationID);
+          if (!s) {
+            s = /* @__PURE__ */ new Set();
+            this._locationExcludedIn.set(locationID, s);
+          }
+          s.add(locationSetID);
+        });
+        this._knownLocationSets.set(locationSetID, area);
       } catch (err) {
         obj.locationSet = { include: ["Q2"] };
         obj.locationSetID = "+[Q2]";
       }
     }
-    function rebuildIndex() {
-      _wp = (0, import_which_polygon2.default)({ features: Object.values(_resolvedFeatures) });
-    }
-    _this.mergeCustomGeoJSON = (fc) => {
-      if (fc && fc.type === "FeatureCollection" && Array.isArray(fc.features)) {
-        fc.features.forEach((feature3) => {
-          feature3.properties = feature3.properties || {};
-          let props = feature3.properties;
-          let id2 = feature3.id || props.id;
-          if (!id2 || !/^\S+\.geojson$/i.test(id2))
-            return;
-          id2 = id2.toLowerCase();
-          feature3.id = id2;
-          props.id = id2;
-          if (!props.area) {
-            const area = import_geojson_area2.default.geometry(feature3.geometry) / 1e6;
-            props.area = Number(area.toFixed(2));
-          }
-          _loco._cache[id2] = feature3;
-        });
+    /**
+     * _resolveLocationSet
+     * Does everything that `_validateLocationSet()` does, but then "resolves" the locationSet into GeoJSON.
+     * This step is a bit more computationally expensive, so really only needed if you intend to render the shape.
+     *
+     * Note: You need to call `_rebuildIndex()` after you're all finished validating the locationSets.
+     *
+     * @param  `obj`  Object to check, it should have `locationSet` property
+     */
+    _resolveLocationSet(obj) {
+      this._validateLocationSet(obj);
+      if (this._resolved.has(obj.locationSetID))
+        return;
+      try {
+        const result = _loco.resolveLocationSet(obj.locationSet);
+        const locationSetID = result.id;
+        obj.locationSetID = locationSetID;
+        if (!result.feature.geometry.coordinates.length || !result.feature.properties.area) {
+          throw new Error(`locationSet ${locationSetID} resolves to an empty feature.`);
+        }
+        let geojson = JSON.parse(JSON.stringify(result.feature));
+        geojson.id = locationSetID;
+        geojson.properties.id = locationSetID;
+        this._resolved.set(locationSetID, geojson);
+      } catch (err) {
+        obj.locationSet = { include: ["Q2"] };
+        obj.locationSetID = "+[Q2]";
       }
-    };
-    _this.mergeLocationSets = (objects) => {
+    }
+    /**
+     * _rebuildIndex
+     * Rebuilds the whichPolygon index with whatever features have been resolved into GeoJSON.
+     */
+    _rebuildIndex() {
+      this._wp = (0, import_which_polygon2.default)({ features: [...this._resolved.values()] });
+    }
+    /**
+     * mergeCustomGeoJSON
+     * Accepts a FeatureCollection-like object containing custom locations
+     * Each feature must have a filename-like `id`, for example: `something.geojson`
+     * {
+     *   "type": "FeatureCollection"
+     *   "features": [
+     *     {
+     *       "type": "Feature",
+     *       "id": "philly_metro.geojson",
+     *       "properties": { … },
+     *       "geometry": { … }
+     *     }
+     *   ]
+     * }
+     *
+     * @param  `fc`  FeatureCollection-like Object containing custom locations
+     */
+    mergeCustomGeoJSON(fc) {
+      if (!fc || fc.type !== "FeatureCollection" || !Array.isArray(fc.features))
+        return;
+      fc.features.forEach((feature3) => {
+        feature3.properties = feature3.properties || {};
+        let props = feature3.properties;
+        let id2 = feature3.id || props.id;
+        if (!id2 || !/^\S+\.geojson$/i.test(id2))
+          return;
+        id2 = id2.toLowerCase();
+        feature3.id = id2;
+        props.id = id2;
+        if (!props.area) {
+          const area = import_geojson_area2.default.geometry(feature3.geometry) / 1e6;
+          props.area = Number(area.toFixed(2));
+        }
+        _loco._cache[id2] = feature3;
+      });
+    }
+    /**
+     * mergeLocationSets
+     * Accepts an Array of Objects containing `locationSet` properties:
+     * [
+     *  { id: 'preset1', locationSet: {…} },
+     *  { id: 'preset2', locationSet: {…} },
+     *  …
+     * ]
+     * After validating, the Objects will be decorated with a `locationSetID` property:
+     * [
+     *  { id: 'preset1', locationSet: {…}, locationSetID: '+[Q2]' },
+     *  { id: 'preset2', locationSet: {…}, locationSetID: '+[Q30]' },
+     *  …
+     * ]
+     *
+     * @param  `objects`  Objects to check - they should have `locationSet` property
+     * @return  Promise resolved true (this function used to be slow/async, now it's faster and sync)
+     */
+    mergeLocationSets(objects) {
       if (!Array.isArray(objects))
         return Promise.reject("nothing to do");
-      _queue = _queue.concat(utilArrayChunk(objects, 200));
-      if (!_inProcess) {
-        _inProcess = processQueue().then(() => {
-          rebuildIndex();
-          _inProcess = null;
-          return objects;
-        });
-      }
-      return _inProcess;
-    };
-    _this.locationSetID = (locationSet) => {
+      objects.forEach((obj) => this._validateLocationSet(obj));
+      this._rebuildIndex();
+      return Promise.resolve(objects);
+    }
+    /**
+     * locationSetID
+     * Returns a locationSetID for a given locationSet (fallback to `+[Q2]`, world)
+     * (The locationSet doesn't necessarily need to be resolved to compute its `id`)
+     *
+     * @param  `locationSet`  A locationSet Object, e.g. `{ include: ['us'] }`
+     * @return  String locationSetID, e.g. `+[Q30]`
+     */
+    locationSetID(locationSet) {
       let locationSetID;
       try {
         locationSetID = _loco.validateLocationSet(locationSet).id;
@@ -24475,18 +24342,83 @@
         locationSetID = "+[Q2]";
       }
       return locationSetID;
-    };
-    _this.feature = (locationSetID) => _resolvedFeatures[locationSetID] || _resolvedFeatures["+[Q2]"];
-    _this.locationsAt = (loc) => {
+    }
+    /**
+     * feature
+     * Returns the resolved GeoJSON feature for a given locationSetID (fallback to 'world')
+     * A GeoJSON feature:
+     * {
+     *   type: 'Feature',
+     *   id: '+[Q30]',
+     *   properties: { id: '+[Q30]', area: 21817019.17, … },
+     *   geometry: { … }
+     * }
+     *
+     * @param  `locationSetID`  String identifier, e.g. `+[Q30]`
+     * @return  GeoJSON object (fallback to world)
+     */
+    feature(locationSetID = "+[Q2]") {
+      const feature3 = this._resolved.get(locationSetID);
+      return feature3 || this._resolved.get("+[Q2]");
+    }
+    /**
+     * locationSetsAt
+     * Find all the locationSets valid at the given location.
+     * Results include the area (in km²) to facilitate sorting.
+     *
+     * Object of locationSetIDs to areas (in km²)
+     * {
+     *   "+[Q2]": 511207893.3958111,
+     *   "+[Q30]": 21817019.17,
+     *   "+[new_jersey.geojson]": 22390.77,
+     *   …
+     * }
+     *
+     * @param  `loc`  `[lon,lat]` location to query, e.g. `[-74.4813, 40.7967]`
+     * @return  Object of locationSetIDs valid at given location
+     */
+    locationSetsAt(loc) {
       let result = {};
-      (_wp(loc, true) || []).forEach((prop) => result[prop.id] = prop.area);
+      const hits = this._wp(loc, true) || [];
+      const thiz = this;
+      hits.forEach((prop) => {
+        if (prop.id[0] !== "+")
+          return;
+        const locationSetID = prop.id;
+        const area = thiz._knownLocationSets.get(locationSetID);
+        if (area) {
+          result[locationSetID] = area;
+        }
+      });
+      hits.forEach((prop) => {
+        if (prop.id[0] === "+")
+          return;
+        const locationID = prop.id;
+        const included = thiz._locationIncludedIn.get(locationID);
+        (included || []).forEach((locationSetID) => {
+          const area = thiz._knownLocationSets.get(locationSetID);
+          if (area) {
+            result[locationSetID] = area;
+          }
+        });
+      });
+      hits.forEach((prop) => {
+        if (prop.id[0] === "+")
+          return;
+        const locationID = prop.id;
+        const excluded = thiz._locationExcludedIn.get(locationID);
+        (excluded || []).forEach((locationSetID) => {
+          delete result[locationSetID];
+        });
+      });
       return result;
-    };
-    _this.query = (loc, multi) => _wp(loc, multi);
-    _this.loco = () => _loco;
-    _this.wp = () => _wp;
-    return _this;
-  }
+    }
+    // Direct access to the location-conflation resolver
+    loco() {
+      return _loco;
+    }
+  };
+  var _sharedLocationManager = new LocationManager();
 
   // node_modules/lodash-es/_freeGlobal.js
   var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
@@ -24610,8 +24542,8 @@
 
   // node_modules/lodash-es/isObject.js
   function isObject(value) {
-    var type3 = typeof value;
-    return value != null && (type3 == "object" || type3 == "function");
+    var type2 = typeof value;
+    return value != null && (type2 == "object" || type2 == "function");
   }
   var isObject_default = isObject;
 
@@ -24807,6 +24739,848 @@
   }
   var unescape_default = unescape2;
 
+  // modules/util/detect.js
+  var _detected;
+  function utilDetect(refresh2) {
+    if (_detected && !refresh2)
+      return _detected;
+    _detected = {};
+    const ua = navigator.userAgent;
+    let m = null;
+    m = ua.match(/(edge)\/?\s*(\.?\d+(\.\d+)*)/i);
+    if (m !== null) {
+      _detected.browser = m[1];
+      _detected.version = m[2];
+    }
+    if (!_detected.browser) {
+      m = ua.match(/Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})/i);
+      if (m !== null) {
+        _detected.browser = "msie";
+        _detected.version = m[1];
+      }
+    }
+    if (!_detected.browser) {
+      m = ua.match(/(opr)\/?\s*(\.?\d+(\.\d+)*)/i);
+      if (m !== null) {
+        _detected.browser = "Opera";
+        _detected.version = m[2];
+      }
+    }
+    if (!_detected.browser) {
+      m = ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+      if (m !== null) {
+        _detected.browser = m[1];
+        _detected.version = m[2];
+        m = ua.match(/version\/([\.\d]+)/i);
+        if (m !== null)
+          _detected.version = m[1];
+      }
+    }
+    if (!_detected.browser) {
+      _detected.browser = navigator.appName;
+      _detected.version = navigator.appVersion;
+    }
+    _detected.version = _detected.version.split(/\W/).slice(0, 2).join(".");
+    _detected.opera = _detected.browser.toLowerCase() === "opera" && Number(_detected.version) < 15;
+    if (_detected.browser.toLowerCase() === "msie") {
+      _detected.ie = true;
+      _detected.browser = "Internet Explorer";
+      _detected.support = false;
+    } else {
+      _detected.ie = false;
+      _detected.support = true;
+    }
+    _detected.filedrop = window.FileReader && "ondrop" in window;
+    if (/Win/.test(ua)) {
+      _detected.os = "win";
+      _detected.platform = "Windows";
+    } else if (/Mac/.test(ua)) {
+      _detected.os = "mac";
+      _detected.platform = "Macintosh";
+    } else if (/X11/.test(ua) || /Linux/.test(ua)) {
+      _detected.os = "linux";
+      _detected.platform = "Linux";
+    } else {
+      _detected.os = "win";
+      _detected.platform = "Unknown";
+    }
+    _detected.isMobileWebKit = (/\b(iPad|iPhone|iPod)\b/.test(ua) || // HACK: iPadOS 13+ requests desktop sites by default by using a Mac user agent,
+    // so assume any "mac" with multitouch is actually iOS
+    navigator.platform === "MacIntel" && "maxTouchPoints" in navigator && navigator.maxTouchPoints > 1) && /WebKit/.test(ua) && !/Edge/.test(ua) && !window.MSStream;
+    _detected.browserLocales = Array.from(new Set(
+      // remove duplicates
+      [navigator.language].concat(navigator.languages || []).concat([
+        // old property for backwards compatibility
+        navigator.userLanguage
+      ]).filter(Boolean)
+    ));
+    const loc = window.top.location;
+    let origin = loc.origin;
+    if (!origin) {
+      origin = loc.protocol + "//" + loc.hostname + (loc.port ? ":" + loc.port : "");
+    }
+    _detected.host = origin + loc.pathname;
+    return _detected;
+  }
+
+  // modules/util/aes.js
+  var import_aes_js = __toESM(require_aes_js());
+  var DEFAULT_128 = [250, 157, 60, 79, 142, 134, 229, 129, 138, 126, 210, 129, 29, 71, 160, 208];
+  function utilAesEncrypt(text2, key) {
+    key = key || DEFAULT_128;
+    const textBytes = import_aes_js.default.utils.utf8.toBytes(text2);
+    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
+    const encryptedBytes = aesCtr.encrypt(textBytes);
+    const encryptedHex = import_aes_js.default.utils.hex.fromBytes(encryptedBytes);
+    return encryptedHex;
+  }
+  function utilAesDecrypt(encryptedHex, key) {
+    key = key || DEFAULT_128;
+    const encryptedBytes = import_aes_js.default.utils.hex.toBytes(encryptedHex);
+    const aesCtr = new import_aes_js.default.ModeOfOperation.ctr(key);
+    const decryptedBytes = aesCtr.decrypt(encryptedBytes);
+    const text2 = import_aes_js.default.utils.utf8.fromBytes(decryptedBytes);
+    return text2;
+  }
+
+  // modules/util/clean_tags.js
+  function utilCleanTags(tags) {
+    var out = {};
+    for (var k in tags) {
+      if (!k)
+        continue;
+      var v = tags[k];
+      if (v !== void 0) {
+        out[k] = cleanValue(k, v);
+      }
+    }
+    return out;
+    function cleanValue(k2, v2) {
+      function keepSpaces(k3) {
+        return /_hours|_times|:conditional$/.test(k3);
+      }
+      function skip(k3) {
+        return /^(description|note|fixme)$/.test(k3);
+      }
+      if (skip(k2))
+        return v2;
+      var cleaned = v2.split(";").map(function(s) {
+        return s.trim();
+      }).join(keepSpaces(k2) ? "; " : ";");
+      if (k2.indexOf("website") !== -1 || k2.indexOf("email") !== -1 || cleaned.indexOf("http") === 0) {
+        cleaned = cleaned.replace(/[\u200B-\u200F\uFEFF]/g, "");
+      }
+      return cleaned;
+    }
+  }
+
+  // modules/util/get_set_value.js
+  function utilGetSetValue(selection2, value) {
+    function d3_selection_value(value2) {
+      function valueNull() {
+        delete this.value;
+      }
+      function valueConstant() {
+        if (this.value !== value2) {
+          this.value = value2;
+        }
+      }
+      function valueFunction() {
+        var x = value2.apply(this, arguments);
+        if (x === null || x === void 0) {
+          delete this.value;
+        } else if (this.value !== x) {
+          this.value = x;
+        }
+      }
+      return value2 === null || value2 === void 0 ? valueNull : typeof value2 === "function" ? valueFunction : valueConstant;
+    }
+    if (arguments.length === 1) {
+      return selection2.property("value");
+    }
+    return selection2.each(d3_selection_value(value));
+  }
+
+  // modules/util/keybinding.js
+  function utilKeybinding(namespace) {
+    var _keybindings = {};
+    function testBindings(d3_event, isCapturing) {
+      var didMatch = false;
+      var bindings = Object.keys(_keybindings).map(function(id2) {
+        return _keybindings[id2];
+      });
+      var i2, binding;
+      for (i2 = 0; i2 < bindings.length; i2++) {
+        binding = bindings[i2];
+        if (!binding.event.modifiers.shiftKey)
+          continue;
+        if (!!binding.capture !== isCapturing)
+          continue;
+        if (matches(d3_event, binding, true)) {
+          binding.callback(d3_event);
+          didMatch = true;
+          break;
+        }
+      }
+      if (didMatch)
+        return;
+      for (i2 = 0; i2 < bindings.length; i2++) {
+        binding = bindings[i2];
+        if (binding.event.modifiers.shiftKey)
+          continue;
+        if (!!binding.capture !== isCapturing)
+          continue;
+        if (matches(d3_event, binding, false)) {
+          binding.callback(d3_event);
+          break;
+        }
+      }
+      function matches(d3_event2, binding2, testShift) {
+        var event = d3_event2;
+        var isMatch = false;
+        var tryKeyCode = true;
+        if (event.key !== void 0) {
+          tryKeyCode = event.key.charCodeAt(0) > 127;
+          isMatch = true;
+          if (binding2.event.key === void 0) {
+            isMatch = false;
+          } else if (Array.isArray(binding2.event.key)) {
+            if (binding2.event.key.map(function(s) {
+              return s.toLowerCase();
+            }).indexOf(event.key.toLowerCase()) === -1) {
+              isMatch = false;
+            }
+          } else {
+            if (event.key.toLowerCase() !== binding2.event.key.toLowerCase()) {
+              isMatch = false;
+            }
+          }
+        }
+        if (!isMatch && (tryKeyCode || binding2.event.modifiers.altKey)) {
+          isMatch = event.keyCode === binding2.event.keyCode;
+        }
+        if (!isMatch)
+          return false;
+        if (!(event.ctrlKey && event.altKey)) {
+          if (event.ctrlKey !== binding2.event.modifiers.ctrlKey)
+            return false;
+          if (event.altKey !== binding2.event.modifiers.altKey)
+            return false;
+        }
+        if (event.metaKey !== binding2.event.modifiers.metaKey)
+          return false;
+        if (testShift && event.shiftKey !== binding2.event.modifiers.shiftKey)
+          return false;
+        return true;
+      }
+    }
+    function capture(d3_event) {
+      testBindings(d3_event, true);
+    }
+    function bubble(d3_event) {
+      var tagName = select_default2(d3_event.target).node().tagName;
+      if (tagName === "INPUT" || tagName === "SELECT" || tagName === "TEXTAREA") {
+        return;
+      }
+      testBindings(d3_event, false);
+    }
+    function keybinding(selection2) {
+      selection2 = selection2 || select_default2(document);
+      selection2.on("keydown.capture." + namespace, capture, true);
+      selection2.on("keydown.bubble." + namespace, bubble, false);
+      return keybinding;
+    }
+    keybinding.unbind = function(selection2) {
+      _keybindings = [];
+      selection2 = selection2 || select_default2(document);
+      selection2.on("keydown.capture." + namespace, null);
+      selection2.on("keydown.bubble." + namespace, null);
+      return keybinding;
+    };
+    keybinding.clear = function() {
+      _keybindings = {};
+      return keybinding;
+    };
+    keybinding.off = function(codes, capture2) {
+      var arr = utilArrayUniq([].concat(codes));
+      for (var i2 = 0; i2 < arr.length; i2++) {
+        var id2 = arr[i2] + (capture2 ? "-capture" : "-bubble");
+        delete _keybindings[id2];
+      }
+      return keybinding;
+    };
+    keybinding.on = function(codes, callback, capture2) {
+      if (typeof callback !== "function") {
+        return keybinding.off(codes, capture2);
+      }
+      var arr = utilArrayUniq([].concat(codes));
+      for (var i2 = 0; i2 < arr.length; i2++) {
+        var id2 = arr[i2] + (capture2 ? "-capture" : "-bubble");
+        var binding = {
+          id: id2,
+          capture: capture2,
+          callback,
+          event: {
+            key: void 0,
+            // preferred
+            keyCode: 0,
+            // fallback
+            modifiers: {
+              shiftKey: false,
+              ctrlKey: false,
+              altKey: false,
+              metaKey: false
+            }
+          }
+        };
+        if (_keybindings[id2]) {
+          console.warn('warning: duplicate keybinding for "' + id2 + '"');
+        }
+        _keybindings[id2] = binding;
+        var matches = arr[i2].toLowerCase().match(/(?:(?:[^+⇧⌃⌥⌘])+|[⇧⌃⌥⌘]|\+\+|^\+$)/g);
+        for (var j2 = 0; j2 < matches.length; j2++) {
+          if (matches[j2] === "++")
+            matches[j2] = "+";
+          if (matches[j2] in utilKeybinding.modifierCodes) {
+            var prop = utilKeybinding.modifierProperties[utilKeybinding.modifierCodes[matches[j2]]];
+            binding.event.modifiers[prop] = true;
+          } else {
+            binding.event.key = utilKeybinding.keys[matches[j2]] || matches[j2];
+            if (matches[j2] in utilKeybinding.keyCodes) {
+              binding.event.keyCode = utilKeybinding.keyCodes[matches[j2]];
+            }
+          }
+        }
+      }
+      return keybinding;
+    };
+    return keybinding;
+  }
+  utilKeybinding.modifierCodes = {
+    // Shift key, ⇧
+    "\u21E7": 16,
+    shift: 16,
+    // CTRL key, on Mac: ⌃
+    "\u2303": 17,
+    ctrl: 17,
+    // ALT key, on Mac: ⌥ (Alt)
+    "\u2325": 18,
+    alt: 18,
+    option: 18,
+    // META, on Mac: ⌘ (CMD), on Windows (Win), on Linux (Super)
+    "\u2318": 91,
+    meta: 91,
+    cmd: 91,
+    "super": 91,
+    win: 91
+  };
+  utilKeybinding.modifierProperties = {
+    16: "shiftKey",
+    17: "ctrlKey",
+    18: "altKey",
+    91: "metaKey"
+  };
+  utilKeybinding.plusKeys = ["plus", "ffplus", "=", "ffequals", "\u2260", "\xB1"];
+  utilKeybinding.minusKeys = ["_", "-", "ffminus", "dash", "\u2013", "\u2014"];
+  utilKeybinding.keys = {
+    // Backspace key, on Mac: ⌫ (Backspace)
+    "\u232B": "Backspace",
+    backspace: "Backspace",
+    // Tab Key, on Mac: ⇥ (Tab), on Windows ⇥⇥
+    "\u21E5": "Tab",
+    "\u21C6": "Tab",
+    tab: "Tab",
+    // Return key, ↩
+    "\u21A9": "Enter",
+    "\u21B5": "Enter",
+    "\u23CE": "Enter",
+    "return": "Enter",
+    enter: "Enter",
+    "\u2305": "Enter",
+    // Pause/Break key
+    "pause": "Pause",
+    "pause-break": "Pause",
+    // Caps Lock key, ⇪
+    "\u21EA": "CapsLock",
+    caps: "CapsLock",
+    "caps-lock": "CapsLock",
+    // Escape key, on Mac: ⎋, on Windows: Esc
+    "\u238B": ["Escape", "Esc"],
+    escape: ["Escape", "Esc"],
+    esc: ["Escape", "Esc"],
+    // Space key
+    space: [" ", "Spacebar"],
+    // Page-Up key, or pgup, on Mac: ↖
+    "\u2196": "PageUp",
+    pgup: "PageUp",
+    "page-up": "PageUp",
+    // Page-Down key, or pgdown, on Mac: ↘
+    "\u2198": "PageDown",
+    pgdown: "PageDown",
+    "page-down": "PageDown",
+    // END key, on Mac: ⇟
+    "\u21DF": "End",
+    end: "End",
+    // HOME key, on Mac: ⇞
+    "\u21DE": "Home",
+    home: "Home",
+    // Insert key, or ins
+    ins: "Insert",
+    insert: "Insert",
+    // Delete key, on Mac: ⌦ (Delete)
+    "\u2326": ["Delete", "Del"],
+    del: ["Delete", "Del"],
+    "delete": ["Delete", "Del"],
+    // Left Arrow Key, or ←
+    "\u2190": ["ArrowLeft", "Left"],
+    left: ["ArrowLeft", "Left"],
+    "arrow-left": ["ArrowLeft", "Left"],
+    // Up Arrow Key, or ↑
+    "\u2191": ["ArrowUp", "Up"],
+    up: ["ArrowUp", "Up"],
+    "arrow-up": ["ArrowUp", "Up"],
+    // Right Arrow Key, or →
+    "\u2192": ["ArrowRight", "Right"],
+    right: ["ArrowRight", "Right"],
+    "arrow-right": ["ArrowRight", "Right"],
+    // Up Arrow Key, or ↓
+    "\u2193": ["ArrowDown", "Down"],
+    down: ["ArrowDown", "Down"],
+    "arrow-down": ["ArrowDown", "Down"],
+    // odities, stuff for backward compatibility (browsers and code):
+    // Num-Multiply, or *
+    "*": ["*", "Multiply"],
+    star: ["*", "Multiply"],
+    asterisk: ["*", "Multiply"],
+    multiply: ["*", "Multiply"],
+    // Num-Plus or +
+    "+": ["+", "Add"],
+    "plus": ["+", "Add"],
+    // Num-Subtract, or -
+    "-": ["-", "Subtract"],
+    subtract: ["-", "Subtract"],
+    "dash": ["-", "Subtract"],
+    // Semicolon
+    semicolon: ";",
+    // = or equals
+    equals: "=",
+    // Comma, or ,
+    comma: ",",
+    // Period, or ., or full-stop
+    period: ".",
+    "full-stop": ".",
+    // Slash, or /, or forward-slash
+    slash: "/",
+    "forward-slash": "/",
+    // Tick, or `, or back-quote
+    tick: "`",
+    "back-quote": "`",
+    // Open bracket, or [
+    "open-bracket": "[",
+    // Back slash, or \
+    "back-slash": "\\",
+    // Close backet, or ]
+    "close-bracket": "]",
+    // Apostrophe, or Quote, or '
+    quote: "'",
+    apostrophe: "'",
+    // NUMPAD 0-9
+    "num-0": "0",
+    "num-1": "1",
+    "num-2": "2",
+    "num-3": "3",
+    "num-4": "4",
+    "num-5": "5",
+    "num-6": "6",
+    "num-7": "7",
+    "num-8": "8",
+    "num-9": "9",
+    // F1-F25
+    f1: "F1",
+    f2: "F2",
+    f3: "F3",
+    f4: "F4",
+    f5: "F5",
+    f6: "F6",
+    f7: "F7",
+    f8: "F8",
+    f9: "F9",
+    f10: "F10",
+    f11: "F11",
+    f12: "F12",
+    f13: "F13",
+    f14: "F14",
+    f15: "F15",
+    f16: "F16",
+    f17: "F17",
+    f18: "F18",
+    f19: "F19",
+    f20: "F20",
+    f21: "F21",
+    f22: "F22",
+    f23: "F23",
+    f24: "F24",
+    f25: "F25"
+  };
+  utilKeybinding.keyCodes = {
+    // Backspace key, on Mac: ⌫ (Backspace)
+    "\u232B": 8,
+    backspace: 8,
+    // Tab Key, on Mac: ⇥ (Tab), on Windows ⇥⇥
+    "\u21E5": 9,
+    "\u21C6": 9,
+    tab: 9,
+    // Return key, ↩
+    "\u21A9": 13,
+    "\u21B5": 13,
+    "\u23CE": 13,
+    "return": 13,
+    enter: 13,
+    "\u2305": 13,
+    // Pause/Break key
+    "pause": 19,
+    "pause-break": 19,
+    // Caps Lock key, ⇪
+    "\u21EA": 20,
+    caps: 20,
+    "caps-lock": 20,
+    // Escape key, on Mac: ⎋, on Windows: Esc
+    "\u238B": 27,
+    escape: 27,
+    esc: 27,
+    // Space key
+    space: 32,
+    // Page-Up key, or pgup, on Mac: ↖
+    "\u2196": 33,
+    pgup: 33,
+    "page-up": 33,
+    // Page-Down key, or pgdown, on Mac: ↘
+    "\u2198": 34,
+    pgdown: 34,
+    "page-down": 34,
+    // END key, on Mac: ⇟
+    "\u21DF": 35,
+    end: 35,
+    // HOME key, on Mac: ⇞
+    "\u21DE": 36,
+    home: 36,
+    // Insert key, or ins
+    ins: 45,
+    insert: 45,
+    // Delete key, on Mac: ⌦ (Delete)
+    "\u2326": 46,
+    del: 46,
+    "delete": 46,
+    // Left Arrow Key, or ←
+    "\u2190": 37,
+    left: 37,
+    "arrow-left": 37,
+    // Up Arrow Key, or ↑
+    "\u2191": 38,
+    up: 38,
+    "arrow-up": 38,
+    // Right Arrow Key, or →
+    "\u2192": 39,
+    right: 39,
+    "arrow-right": 39,
+    // Up Arrow Key, or ↓
+    "\u2193": 40,
+    down: 40,
+    "arrow-down": 40,
+    // odities, printing characters that come out wrong:
+    // Firefox Equals
+    "ffequals": 61,
+    // Num-Multiply, or *
+    "*": 106,
+    star: 106,
+    asterisk: 106,
+    multiply: 106,
+    // Num-Plus or +
+    "+": 107,
+    "plus": 107,
+    // Num-Subtract, or -
+    "-": 109,
+    subtract: 109,
+    // Vertical Bar / Pipe
+    "|": 124,
+    // Firefox Plus
+    "ffplus": 171,
+    // Firefox Minus
+    "ffminus": 173,
+    // Semicolon
+    ";": 186,
+    semicolon: 186,
+    // = or equals
+    "=": 187,
+    "equals": 187,
+    // Comma, or ,
+    ",": 188,
+    comma: 188,
+    // Dash / Underscore key
+    "dash": 189,
+    // Period, or ., or full-stop
+    ".": 190,
+    period: 190,
+    "full-stop": 190,
+    // Slash, or /, or forward-slash
+    "/": 191,
+    slash: 191,
+    "forward-slash": 191,
+    // Tick, or `, or back-quote
+    "`": 192,
+    tick: 192,
+    "back-quote": 192,
+    // Open bracket, or [
+    "[": 219,
+    "open-bracket": 219,
+    // Back slash, or \
+    "\\": 220,
+    "back-slash": 220,
+    // Close backet, or ]
+    "]": 221,
+    "close-bracket": 221,
+    // Apostrophe, or Quote, or '
+    "'": 222,
+    quote: 222,
+    apostrophe: 222
+  };
+  var i = 95;
+  var n = 0;
+  while (++i < 106) {
+    utilKeybinding.keyCodes["num-" + n] = i;
+    ++n;
+  }
+  i = 47;
+  n = 0;
+  while (++i < 58) {
+    utilKeybinding.keyCodes[n] = i;
+    ++n;
+  }
+  i = 111;
+  n = 1;
+  while (++i < 136) {
+    utilKeybinding.keyCodes["f" + n] = i;
+    ++n;
+  }
+  i = 64;
+  while (++i < 91) {
+    utilKeybinding.keyCodes[String.fromCharCode(i).toLowerCase()] = i;
+  }
+
+  // modules/util/object.js
+  function utilObjectOmit(obj, omitKeys) {
+    return Object.keys(obj).reduce(function(result, key) {
+      if (omitKeys.indexOf(key) === -1) {
+        result[key] = obj[key];
+      }
+      return result;
+    }, {});
+  }
+
+  // modules/util/rebind.js
+  function utilRebind(target, source) {
+    var i2 = 1, n2 = arguments.length, method;
+    while (++i2 < n2) {
+      target[method = arguments[i2]] = d3_rebind(target, source, source[method]);
+    }
+    return target;
+  }
+  function d3_rebind(target, source, method) {
+    return function() {
+      var value = method.apply(source, arguments);
+      return value === source ? target : value;
+    };
+  }
+
+  // modules/util/session_mutex.js
+  function utilSessionMutex(name) {
+    var mutex = {};
+    var intervalID;
+    function renew() {
+      var expires = /* @__PURE__ */ new Date();
+      expires.setSeconds(expires.getSeconds() + 5);
+      document.cookie = name + "=1; expires=" + expires.toUTCString() + "; sameSite=strict";
+    }
+    mutex.lock = function() {
+      if (intervalID)
+        return true;
+      var cookie = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + name + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
+      if (cookie)
+        return false;
+      renew();
+      intervalID = window.setInterval(renew, 4e3);
+      return true;
+    };
+    mutex.unlock = function() {
+      if (!intervalID)
+        return;
+      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; sameSite=strict";
+      clearInterval(intervalID);
+      intervalID = null;
+    };
+    mutex.locked = function() {
+      return !!intervalID;
+    };
+    return mutex;
+  }
+
+  // modules/util/tiler.js
+  function utilTiler() {
+    var _size = [256, 256];
+    var _scale = 256;
+    var _tileSize = 256;
+    var _zoomExtent = [0, 20];
+    var _translate = [_size[0] / 2, _size[1] / 2];
+    var _margin = 0;
+    var _skipNullIsland = false;
+    function clamp3(num, min3, max3) {
+      return Math.max(min3, Math.min(num, max3));
+    }
+    function nearNullIsland(tile) {
+      var x = tile[0];
+      var y = tile[1];
+      var z = tile[2];
+      if (z >= 7) {
+        var center = Math.pow(2, z - 1);
+        var width = Math.pow(2, z - 6);
+        var min3 = center - width / 2;
+        var max3 = center + width / 2 - 1;
+        return x >= min3 && x <= max3 && y >= min3 && y <= max3;
+      }
+      return false;
+    }
+    function tiler8() {
+      var z = geoScaleToZoom(_scale / (2 * Math.PI), _tileSize);
+      var z0 = clamp3(Math.round(z), _zoomExtent[0], _zoomExtent[1]);
+      var tileMin = 0;
+      var tileMax = Math.pow(2, z0) - 1;
+      var log2ts = Math.log(_tileSize) * Math.LOG2E;
+      var k = Math.pow(2, z - z0 + log2ts);
+      var origin = [
+        (_translate[0] - _scale / 2) / k,
+        (_translate[1] - _scale / 2) / k
+      ];
+      var cols = range(
+        clamp3(Math.floor(-origin[0]) - _margin, tileMin, tileMax + 1),
+        clamp3(Math.ceil(_size[0] / k - origin[0]) + _margin, tileMin, tileMax + 1)
+      );
+      var rows = range(
+        clamp3(Math.floor(-origin[1]) - _margin, tileMin, tileMax + 1),
+        clamp3(Math.ceil(_size[1] / k - origin[1]) + _margin, tileMin, tileMax + 1)
+      );
+      var tiles = [];
+      for (var i2 = 0; i2 < rows.length; i2++) {
+        var y = rows[i2];
+        for (var j2 = 0; j2 < cols.length; j2++) {
+          var x = cols[j2];
+          if (i2 >= _margin && i2 <= rows.length - _margin && j2 >= _margin && j2 <= cols.length - _margin) {
+            tiles.unshift([x, y, z0]);
+          } else {
+            tiles.push([x, y, z0]);
+          }
+        }
+      }
+      tiles.translate = origin;
+      tiles.scale = k;
+      return tiles;
+    }
+    tiler8.getTiles = function(projection2) {
+      var origin = [
+        projection2.scale() * Math.PI - projection2.translate()[0],
+        projection2.scale() * Math.PI - projection2.translate()[1]
+      ];
+      this.size(projection2.clipExtent()[1]).scale(projection2.scale() * 2 * Math.PI).translate(projection2.translate());
+      var tiles = tiler8();
+      var ts = tiles.scale;
+      return tiles.map(function(tile) {
+        if (_skipNullIsland && nearNullIsland(tile)) {
+          return false;
+        }
+        var x = tile[0] * ts - origin[0];
+        var y = tile[1] * ts - origin[1];
+        return {
+          id: tile.toString(),
+          xyz: tile,
+          extent: geoExtent(
+            projection2.invert([x, y + ts]),
+            projection2.invert([x + ts, y])
+          )
+        };
+      }).filter(Boolean);
+    };
+    tiler8.getGeoJSON = function(projection2) {
+      var features = tiler8.getTiles(projection2).map(function(tile) {
+        return {
+          type: "Feature",
+          properties: {
+            id: tile.id,
+            name: tile.id
+          },
+          geometry: {
+            type: "Polygon",
+            coordinates: [tile.extent.polygon()]
+          }
+        };
+      });
+      return {
+        type: "FeatureCollection",
+        features
+      };
+    };
+    tiler8.tileSize = function(val) {
+      if (!arguments.length)
+        return _tileSize;
+      _tileSize = val;
+      return tiler8;
+    };
+    tiler8.zoomExtent = function(val) {
+      if (!arguments.length)
+        return _zoomExtent;
+      _zoomExtent = val;
+      return tiler8;
+    };
+    tiler8.size = function(val) {
+      if (!arguments.length)
+        return _size;
+      _size = val;
+      return tiler8;
+    };
+    tiler8.scale = function(val) {
+      if (!arguments.length)
+        return _scale;
+      _scale = val;
+      return tiler8;
+    };
+    tiler8.translate = function(val) {
+      if (!arguments.length)
+        return _translate;
+      _translate = val;
+      return tiler8;
+    };
+    tiler8.margin = function(val) {
+      if (!arguments.length)
+        return _margin;
+      _margin = +val;
+      return tiler8;
+    };
+    tiler8.skipNullIsland = function(val) {
+      if (!arguments.length)
+        return _skipNullIsland;
+      _skipNullIsland = val;
+      return tiler8;
+    };
+    return tiler8;
+  }
+
+  // modules/util/trigger_event.js
+  function utilTriggerEvent(target, type2) {
+    target.each(function() {
+      var evt = document.createEvent("HTMLEvents");
+      evt.initEvent(type2, true, true);
+      this.dispatchEvent(evt);
+    });
+  }
+
   // modules/core/localizer.js
   var _mainLocalizer = coreLocalizer();
   var _t = _mainLocalizer.t;
@@ -24846,11 +25620,13 @@
         return _loadPromise;
       let filesToFetch = [
         "languages",
+        // load the list of languages
         "locales"
+        // load the list of supported locales
       ];
       const localeDirs = {
         general: "locales",
-        tagging: "https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@3/dist/translations"
+        tagging: presetsCdnUrl + "dist/translations"
       };
       let fileMap = _mainFileFetcher.fileMap();
       for (let scopeId in localeDirs) {
@@ -25142,7 +25918,7 @@
               if (strings.some((s) => s === value)) {
                 return strings.find((s) => s === value);
               } else {
-                return strings.find((s) => s.includes(value));
+                return strings.filter((s) => s.includes(value)).sort((a2, b2) => a2.length - b2.length)[0];
               }
             };
             aCompare = findMatchingAlias([aCompare].concat(a[aliasesProp]()));
@@ -25163,8 +25939,8 @@
       }
       let pool = _this.collection;
       if (Array.isArray(loc)) {
-        const validLocations = _mainLocations.locationsAt(loc);
-        pool = pool.filter((a) => !a.locationSetID || validLocations[a.locationSetID]);
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
+        pool = pool.filter((a) => !a.locationSetID || validHere[a.locationSetID]);
       }
       const searchable = pool.filter((a) => a.searchable !== false && a.suggestion !== true);
       const suggestions = pool.filter((a) => a.suggestion === true);
@@ -25255,7 +26031,8 @@
   }
 
   // modules/presets/field.js
-  function presetField(fieldID, field) {
+  function presetField(fieldID, field, allFields) {
+    allFields = allFields || {};
     let _this = Object.assign({}, field);
     _this.id = fieldID;
     _this.safeid = utilSafeClassName(fieldID);
@@ -25276,12 +26053,23 @@
       `_tagging.presets.fields.${fieldID}.${scope}`
     ]), options2);
     _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`custom_presets.fields.${fieldID}.${scope}`) || _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${fieldID}.${scope}`);
-    _this.title = () => _this.overrideLabel || _this.t("label", { "default": fieldID });
-    _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.t.append("label", { "default": fieldID });
-    const _placeholder = _this.placeholder;
-    _this.placeholder = () => _this.t("placeholder", { "default": _placeholder });
+    _this.resolveReference = (which) => {
+      const referenceRegex = /^\{(.*)\}$/;
+      const match = (field[which] || "").match(referenceRegex);
+      if (match) {
+        const field2 = allFields[match[1]];
+        if (field2) {
+          return field2;
+        }
+        console.error(`Unable to resolve referenced field: ${match[1]}`);
+      }
+      return _this;
+    };
+    _this.title = () => _this.overrideLabel || _this.resolveReference("label").t("label", { "default": fieldID });
+    _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.resolveReference("label").t.append("label", { "default": fieldID });
+    _this.placeholder = () => _this.resolveReference("placeholder").t("placeholder", { "default": "" });
     _this.originalTerms = (_this.terms || []).join();
-    _this.terms = () => _this.t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
+    _this.terms = () => _this.resolveReference("label").t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
     _this.increment = _this.type === "number" ? _this.increment || 1 : void 0;
     return _this;
   }
@@ -25298,6 +26086,7 @@
     let _searchNameStripped;
     let _searchAliases;
     let _searchAliasesStripped;
+    const referenceRegex = /^\{(.*)\}$/;
     _this.id = presetID;
     _this.safeid = utilSafeClassName(presetID);
     _this.originalTerms = (_this.terms || []).join();
@@ -25307,8 +26096,8 @@
     _this.originalReference = _this.reference || {};
     _this.originalFields = _this.fields || [];
     _this.originalMoreFields = _this.moreFields || [];
-    _this.fields = () => _resolvedFields || (_resolvedFields = resolve("fields"));
-    _this.moreFields = () => _resolvedMoreFields || (_resolvedMoreFields = resolve("moreFields"));
+    _this.fields = () => _resolvedFields || (_resolvedFields = resolveFields("fields"));
+    _this.moreFields = () => _resolvedMoreFields || (_resolvedMoreFields = resolveFields("moreFields"));
     _this.resetFields = () => _resolvedFields = _resolvedMoreFields = null;
     _this.tags = _this.tags || {};
     _this.addTags = _this.addTags || _this.tags;
@@ -25349,10 +26138,23 @@
       const textID = `_tagging.presets.presets.${presetID}.${scope}`;
       return _t.append(textID, options2);
     };
+    function resolveReference(which) {
+      const match = (_this[which] || "").match(referenceRegex);
+      if (match) {
+        const preset2 = allPresets[match[1]];
+        if (preset2) {
+          return preset2;
+        }
+        console.error(`Unable to resolve referenced preset: ${match[1]}`);
+      }
+      return _this;
+    }
     _this.name = () => {
-      return _this.t("name", { "default": _this.originalName });
+      return resolveReference("originalName").t("name", { "default": _this.originalName || presetID });
     };
-    _this.nameLabel = () => _this.t.append("name", { "default": _this.originalName });
+    _this.nameLabel = () => {
+      return resolveReference("originalName").t.append("name", { "default": _this.originalName || presetID });
+    };
     _this.subtitle = () => {
       if (_this.suggestion) {
         let path = presetID.split("/");
@@ -25370,9 +26172,11 @@
       return null;
     };
     _this.aliases = () => {
-      return _this.t("aliases", { "default": _this.originalAliases }).trim().split(/\s*[\r\n]+\s*/);
+      return resolveReference("originalName").t("aliases", { "default": _this.originalAliases }).trim().split(/\s*[\r\n]+\s*/);
     };
-    _this.terms = () => _this.t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
+    _this.terms = () => {
+      return resolveReference("originalName").t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
+    };
     _this.searchName = () => {
       if (!_searchName) {
         _searchName = (_this.suggestion ? _this.originalName : _this.name()).toLowerCase();
@@ -25426,7 +26230,7 @@
       tags = utilObjectOmit(tags, Object.keys(removeTags));
       if (geometry && !skipFieldDefaults) {
         _this.fields().forEach((field) => {
-          if (field.matchGeometry(geometry) && field.key && field.default === tags[field.key]) {
+          if (field.matchGeometry(geometry) && field.key && field.default === tags[field.key] && (!ignoringKeys || ignoringKeys.indexOf(field.key) === -1)) {
             delete tags[field.key];
           }
         });
@@ -25470,11 +26274,11 @@
       }
       return tags;
     };
-    function resolve(which) {
+    function resolveFields(which) {
       const fieldIDs = which === "fields" ? _this.originalFields : _this.originalMoreFields;
       let resolved = [];
       fieldIDs.forEach((fieldID) => {
-        const match = fieldID.match(/\{(.*)\}/);
+        const match = fieldID.match(referenceRegex);
         if (match !== null) {
           resolved = resolved.concat(inheritFields(match[1], which));
         } else if (allFields[fieldID]) {
@@ -25504,7 +26308,8 @@
         }
       }
       function shouldInherit(f2) {
-        if (f2.key && _this.tags[f2.key] !== void 0 && f2.type !== "multiCombo" && f2.type !== "semiCombo" && f2.type !== "manyCombo" && f2.type !== "check")
+        if (f2.key && _this.tags[f2.key] !== void 0 && // inherit anyway if multiple values are allowed or just a checkbox
+        f2.type !== "multiCombo" && f2.type !== "semiCombo" && f2.type !== "manyCombo" && f2.type !== "check")
           return false;
         return true;
       }
@@ -25575,6 +26380,7 @@
           fields: vals[3]
         });
         osmSetAreaKeys(_this.areaKeys());
+        osmSetLineTags(_this.lineTags());
         osmSetPointTags(_this.pointTags());
         osmSetVertexTags(_this.vertexTags());
       });
@@ -25585,7 +26391,7 @@
         Object.keys(d.fields).forEach((fieldID) => {
           let f2 = d.fields[fieldID];
           if (f2) {
-            f2 = presetField(fieldID, f2);
+            f2 = presetField(fieldID, f2, _fields);
             if (f2.locationSet)
               newLocationSets.push(f2);
             _fields[fieldID] = f2;
@@ -25651,10 +26457,10 @@
         });
       });
       if (d.featureCollection && Array.isArray(d.featureCollection.features)) {
-        _mainLocations.mergeCustomGeoJSON(d.featureCollection);
+        _sharedLocationManager.mergeCustomGeoJSON(d.featureCollection);
       }
       if (newLocationSets.length) {
-        _mainLocations.mergeLocationSets(newLocationSets);
+        _sharedLocationManager.mergeLocationSets(newLocationSets);
       }
       return _this;
     };
@@ -25700,12 +26506,12 @@
         }
       }
       if (bestMatch && bestMatch.locationSetID && bestMatch.locationSetID !== "+[Q2]" && Array.isArray(loc)) {
-        let validLocations = _mainLocations.locationsAt(loc);
-        if (!validLocations[bestMatch.locationSetID]) {
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
+        if (!validHere[bestMatch.locationSetID]) {
           matchCandidates.sort((a, b) => a.score < b.score ? 1 : -1);
           for (let i2 = 0; i2 < matchCandidates.length; i2++) {
             const candidateScore = matchCandidates[i2];
-            if (!candidateScore.candidate.locationSetID || validLocations[candidateScore.candidate.locationSetID]) {
+            if (!candidateScore.candidate.locationSetID || validHere[candidateScore.candidate.locationSetID]) {
               bestMatch = candidateScore.candidate;
               bestScore = candidateScore.score;
               break;
@@ -25746,6 +26552,7 @@
         footway: true,
         railway: true,
         junction: true,
+        traffic_calming: true,
         type: true
       };
       let areaKeys = {};
@@ -25765,12 +26572,29 @@
         let key;
         for (key in p.addTags) {
           const value = p.addTags[key];
-          if (key in areaKeys && p.geometry.indexOf("line") !== -1 && value !== "*") {
+          if (key in areaKeys && // probably an area...
+          p.geometry.indexOf("line") !== -1 && // but sometimes a line
+          value !== "*") {
             areaKeys[key][value] = true;
           }
         }
       });
       return areaKeys;
+    };
+    _this.lineTags = () => {
+      return _this.collection.filter((lineTags, d) => {
+        if (d.suggestion || d.replacement || d.searchable === false)
+          return lineTags;
+        const keys = d.tags && Object.keys(d.tags);
+        const key = keys && keys.length && keys[0];
+        if (!key)
+          return lineTags;
+        if (d.geometry.indexOf("line") !== -1) {
+          lineTags[key] = lineTags[key] || [];
+          lineTags[key].push(d.tags);
+        }
+        return lineTags;
+      }, {});
     };
     _this.pointTags = () => {
       return _this.collection.reduce((pointTags, d) => {
@@ -25824,8 +26648,8 @@
         utilArrayUniq(recents.concat(defaults2).concat(extraPresets || [])).slice(0, n2 - 1)
       );
       if (Array.isArray(loc)) {
-        const validLocations = _mainLocations.locationsAt(loc);
-        result.collection = result.collection.filter((a) => !a.locationSetID || validLocations[a.locationSetID]);
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
+        result.collection = result.collection.filter((a) => !a.locationSetID || validHere[a.locationSetID]);
       }
       return result;
     };
@@ -26359,8 +27183,10 @@
         } else {
           matrix[i2][j2] = Math.min(
             matrix[i2 - 1][j2 - 1] + 1,
+            // substitution
             Math.min(
               matrix[i2][j2 - 1] + 1,
+              // insertion
               matrix[i2 - 1][j2] + 1
             )
           );
@@ -26429,7 +27255,7 @@
     return str2.toLowerCase().replace(/[^a-z0-9]+/g, "_");
   }
   function utilUniqueDomId(val) {
-    return "ideditor-" + utilSafeClassName(val.toString()) + "-" + new Date().getTime().toString();
+    return "ideditor-" + utilSafeClassName(val.toString()) + "-" + (/* @__PURE__ */ new Date()).getTime().toString();
   }
   function utilUnicodeCharsCount(str2) {
     return Array.from(str2).length;
@@ -26475,6 +27301,17 @@
     }
     return ids[oldestIDIndex];
   }
+  function utilCleanOsmString(val, maxChars) {
+    if (val === void 0 || val === null) {
+      val = "";
+    } else {
+      val = val.toString();
+    }
+    val = val.trim();
+    if (val.normalize)
+      val = val.normalize("NFC");
+    return utilUnicodeCharsTruncated(val, maxChars);
+  }
   function isSameDate(date1, date2) {
     if (date1[1] !== date2[1])
       return false;
@@ -26517,7 +27354,7 @@
     var dateRegex = /^(-)?(\d+)(?:-(\d\d?)(?:-(\d\d?))?)?$/;
     var match = raw.match(dateRegex);
     if (match !== null) {
-      date = new Date(0);
+      date = /* @__PURE__ */ new Date(0);
       date.setUTCFullYear(parseInt((match[1] || "") + match[2], 10));
       if (match[3])
         date.setUTCMonth(parseInt(match[3], 10) - 1);
@@ -26568,8 +27405,8 @@
     }
     return new osmEntity().initialize(arguments);
   }
-  osmEntity.id = function(type3) {
-    return osmEntity.id.fromOSM(type3, osmEntity.id.next[type3]--);
+  osmEntity.id = function(type2) {
+    return osmEntity.id.fromOSM(type2, osmEntity.id.next[type2]--);
   };
   osmEntity.id.next = {
     changeset: -1,
@@ -26577,8 +27414,8 @@
     way: -1,
     relation: -1
   };
-  osmEntity.id.fromOSM = function(type3, id2) {
-    return type3[0] + id2;
+  osmEntity.id.fromOSM = function(type2, id2) {
+    return type2[0] + id2;
   };
   osmEntity.id.toOSM = function(id2) {
     var match = id2.match(/^[cnwr](-?\d+)$/);
@@ -26678,6 +27515,7 @@
           merged[k] = utilUnicodeCharsTruncated(
             utilArrayUnion(t1.split(/;\s*/), t2.split(/;\s*/)).join(";"),
             255
+            // avoid exceeding character limit; see also context.maxCharsForTagValue()
           );
         }
       }
@@ -27069,9 +27907,11 @@
         return -10;
       return 0;
     },
+    // the approximate width of the line based on its tags except its `width` tag
     impliedLineWidthMeters: function() {
       var averageWidths = {
         highway: {
+          // width is for single lane
           motorway: 5,
           motorway_link: 5,
           trunk: 4.5,
@@ -27098,6 +27938,7 @@
           footway: 1.5
         },
         railway: {
+          // width includes ties and rail bed, not just track gauge
           rail: 2.5,
           light_rail: 2.5,
           tram: 2.5,
@@ -27153,6 +27994,9 @@
       }
       return false;
     },
+    // Some identifier for tag that implies that this way is "sided",
+    // i.e. the right side is the 'inside' (e.g. the right side of a
+    // natural=cliff is lower).
     sidednessIdentifier: function() {
       for (var key in this.tags) {
         var value = this.tags[key];
@@ -27202,6 +28046,7 @@
       }
       return true;
     },
+    // returns an object with the tag that implies this is an area, if any
     tagSuggestingArea: function() {
       return osmTagSuggestingArea(this.tags);
     },
@@ -27231,6 +28076,7 @@
         return this.isArea() ? "area" : "line";
       });
     },
+    // returns an array of objects representing the segments between the nodes in this way
     segments: function(graph) {
       function segmentExtent(graph2) {
         var n1 = graph2.hasEntity(this.nodes[0]);
@@ -27260,6 +28106,7 @@
         return segments;
       });
     },
+    // If this way is not closed, append the beginning node to the end of the nodelist to close it.
     close: function() {
       if (this.isClosed() || !this.nodes.length)
         return this;
@@ -27268,6 +28115,7 @@
       nodes.push(nodes[0]);
       return this.update({ nodes });
     },
+    // If this way is closed, remove any connector nodes from the end of the nodelist to unclose it.
     unclose: function() {
       if (!this.isClosed())
         return this;
@@ -27281,6 +28129,11 @@
       nodes = nodes.filter(noRepeatNodes);
       return this.update({ nodes });
     },
+    // Adds a node (id) in front of the node which is currently at position index.
+    // If index is undefined, the node will be added to the end of the way for linear ways,
+    //   or just before the final connecting node for circular ways.
+    // Consecutive duplicates are eliminated including existing ones.
+    // Circularity is always preserved when adding a node.
     addNode: function(id2, index) {
       var nodes = this.nodes.slice();
       var isClosed = this.isClosed();
@@ -27314,6 +28167,9 @@
       }
       return this.update({ nodes });
     },
+    // Replaces the node which is currently at position index with the given node (id).
+    // Consecutive duplicates are eliminated including existing ones.
+    // Circularity is preserved when updating a node.
     updateNode: function(id2, index) {
       var nodes = this.nodes.slice();
       var isClosed = this.isClosed();
@@ -27344,6 +28200,9 @@
       }
       return this.update({ nodes });
     },
+    // Replaces each occurrence of node id needle with replacement.
+    // Consecutive duplicates are eliminated including existing ones.
+    // Circularity is preserved.
     replaceNode: function(needleID, replacementID) {
       var nodes = this.nodes.slice();
       var isClosed = this.isClosed();
@@ -27358,6 +28217,9 @@
       }
       return this.update({ nodes });
     },
+    // Removes each occurrence of node id.
+    // Consecutive duplicates are eliminated including existing ones.
+    // Circularity is preserved.
     removeNode: function(id2) {
       var nodes = this.nodes.slice();
       var isClosed = this.isClosed();
@@ -27737,8 +28599,18 @@
       var entity = graph.entity(entityID);
       var geometry = entity.geometry(graph);
       var tags = entity.tags;
+      var preserveKeys;
+      if (newPreset) {
+        preserveKeys = [];
+        if (newPreset.addTags) {
+          preserveKeys = preserveKeys.concat(Object.keys(newPreset.addTags));
+        }
+        if (oldPreset && !oldPreset.id.startsWith(newPreset.id)) {
+          newPreset.fields().concat(newPreset.moreFields()).filter((f2) => f2.matchGeometry(geometry)).map((f2) => f2.key).filter(Boolean).forEach((key) => preserveKeys.push(key));
+        }
+      }
       if (oldPreset)
-        tags = oldPreset.unsetTags(tags, geometry, newPreset && newPreset.addTags ? Object.keys(newPreset.addTags) : null);
+        tags = oldPreset.unsetTags(tags, geometry, preserveKeys);
       if (newPreset)
         tags = newPreset.setTags(tags, geometry, skipFieldDefaults);
       return graph.replace(entity.update({ tags }));
@@ -27814,6 +28686,7 @@
     isDegenerate: function() {
       return !(Array.isArray(this.loc) && this.loc.length === 2 && this.loc[0] >= -180 && this.loc[0] <= 180 && this.loc[1] >= -90 && this.loc[1] <= 90);
     },
+    // Inspect tags and geometry to determine which direction(s) this node/vertex points
     directions: function(resolver, projection2) {
       var val;
       var i2;
@@ -28116,8 +28989,8 @@
           indexRange += nodes.length;
         }
         for (j2 = 1; j2 < indexRange; j2++) {
-          var point = geoVecInterp(hull[i2], hull[i2 + 1], j2 / indexRange);
-          var node = nodes[(j2 + startIndex) % nodes.length].move(projection2.invert(point));
+          var point2 = geoVecInterp(hull[i2], hull[i2 + 1], j2 / indexRange);
+          var node = nodes[(j2 + startIndex) % nodes.length].move(projection2.invert(point2));
           graph = graph.replace(node);
         }
       }
@@ -28765,12 +29638,17 @@
           return;
         var multipolygon = multipolygons[0];
         for (var key in survivor.tags) {
-          if (multipolygon.tags[key] && multipolygon.tags[key] !== survivor.tags[key])
+          if (multipolygon.tags[key] && // don't collapse if tags cannot be cleanly merged
+          multipolygon.tags[key] !== survivor.tags[key])
             return;
         }
         survivor = survivor.mergeTags(multipolygon.tags);
         graph = graph.replace(survivor);
-        graph = actionDeleteRelation(multipolygon.id, true)(graph);
+        graph = actionDeleteRelation(
+          multipolygon.id,
+          true
+          /* allow untagged members */
+        )(graph);
         var tags = Object.assign({}, survivor.tags);
         if (survivor.geometry(graph) !== "area") {
           tags.area = "yes";
@@ -28879,22 +29757,22 @@
       var geometries = groupEntitiesByGeometry(graph);
       var target = geometries.area[0] || geometries.line[0];
       var points = geometries.point;
-      points.forEach(function(point) {
-        target = target.mergeTags(point.tags);
+      points.forEach(function(point2) {
+        target = target.mergeTags(point2.tags);
         graph = graph.replace(target);
-        graph.parentRelations(point).forEach(function(parent) {
-          graph = graph.replace(parent.replaceMember(point, target));
+        graph.parentRelations(point2).forEach(function(parent) {
+          graph = graph.replace(parent.replaceMember(point2, target));
         });
         var nodes = utilArrayUniq(graph.childNodes(target));
-        var removeNode = point;
-        if (!point.isNew()) {
+        var removeNode = point2;
+        if (!point2.isNew()) {
           var inserted = false;
           var canBeReplaced = function(node2) {
             return !(graph.parentWays(node2).length > 1 || graph.parentRelations(node2).length);
           };
           var replaceNode = function(node2) {
-            graph = graph.replace(point.update({ tags: node2.tags, loc: node2.loc }));
-            target = target.replaceNode(node2.id, point.id);
+            graph = graph.replace(point2.update({ tags: node2.tags, loc: node2.loc }));
+            target = target.replaceNode(node2.id, point2.id);
             graph = graph.replace(target);
             removeNode = node2;
             inserted = true;
@@ -28908,7 +29786,7 @@
               break;
             }
           }
-          if (!inserted && point.hasInterestingTags()) {
+          if (!inserted && point2.hasInterestingTags()) {
             for (i2 = 0; i2 < nodes.length; i2++) {
               node = nodes[i2];
               if (canBeReplaced(node) && !node.hasInterestingTags()) {
@@ -28919,7 +29797,7 @@
             if (!inserted) {
               for (i2 = 0; i2 < nodes.length; i2++) {
                 node = nodes[i2];
-                if (canBeReplaced(node) && utilCompareIDs(point.id, node.id) < 0) {
+                if (canBeReplaced(node) && utilCompareIDs(point2.id, node.id) < 0) {
                   replaceNode(node);
                   break;
                 }
@@ -29024,6 +29902,8 @@
         }
       };
     },
+    // Generate [osmChange](http://wiki.openstreetmap.org/wiki/OsmChange)
+    // XML. Returns a string.
     osmChangeJXON: function(changes) {
       var changeset_id = this.id;
       function nest(x, order) {
@@ -29194,6 +30074,8 @@
     isDegenerate: function() {
       return this.members.length === 0;
     },
+    // Return an array of members, each extended with an 'index' property whose value
+    // is the member index.
     indexedMembers: function() {
       var result = new Array(this.members.length);
       for (var i2 = 0; i2 < this.members.length; i2++) {
@@ -29201,6 +30083,8 @@
       }
       return result;
     },
+    // Return the first member with the given role. A copy of the member object
+    // is returned, extended with an 'index' property whose value is the member index.
     memberByRole: function(role) {
       for (var i2 = 0; i2 < this.members.length; i2++) {
         if (this.members[i2].role === role) {
@@ -29208,6 +30092,7 @@
         }
       }
     },
+    // Same as memberByRole, but returns all members with the given role
     membersByRole: function(role) {
       var result = [];
       for (var i2 = 0; i2 < this.members.length; i2++) {
@@ -29217,6 +30102,8 @@
       }
       return result;
     },
+    // Return the first member with the given id. A copy of the member object
+    // is returned, extended with an 'index' property whose value is the member index.
     memberById: function(id2) {
       for (var i2 = 0; i2 < this.members.length; i2++) {
         if (this.members[i2].id === id2) {
@@ -29224,6 +30111,8 @@
         }
       }
     },
+    // Return the first member with the given id and role. A copy of the member object
+    // is returned, extended with an 'index' property whose value is the member index.
     memberByIdAndRole: function(id2, role) {
       for (var i2 = 0; i2 < this.members.length; i2++) {
         if (this.members[i2].id === id2 && this.members[i2].role === role) {
@@ -29257,6 +30146,10 @@
       members.splice(toIndex, 0, members.splice(fromIndex, 1)[0]);
       return this.update({ members });
     },
+    // Wherever a member appears with id `needle.id`, replace it with a member
+    // with id `replacement.id`, type `replacement.type`, and the original role,
+    // By default, adding a duplicate member (by id and role) is prevented.
+    // Return an updated relation.
     replaceMember: function(needle, replacement, keepDuplicates) {
       if (!this.memberById(needle.id))
         return this;
@@ -29376,6 +30269,16 @@
     isConnectivity: function() {
       return !!(this.tags.type && this.tags.type.match(/^connectivity:?/));
     },
+    // Returns an array [A0, ... An], each Ai being an array of node arrays [Nds0, ... Ndsm],
+    // where Nds0 is an outer ring and subsequent Ndsi's (if any i > 0) being inner rings.
+    //
+    // This corresponds to the structure needed for rendering a multipolygon path using a
+    // `evenodd` fill rule, as well as the structure of a GeoJSON MultiPolygon geometry.
+    //
+    // In the case of invalid geometries, this function will still return a result which
+    // includes the nodes of all way members, but some Nds may be unclosed and some inner
+    // rings not matched with the intended outer ring.
+    //
     multipolygon: function(resolver) {
       var outers = this.members.filter(function(m) {
         return "outer" === (m.role || "outer");
@@ -29450,6 +30353,7 @@
       this.id = id2;
       return this;
     }
+    // Generic handling for newly created QAItems
     static id() {
       return this.nextId--;
     }
@@ -29542,8 +30446,11 @@
         wayB = wayB.update({ nodes: nodesB });
       }
       if (wayA.tags.step_count) {
-        var stepCount = parseFloat(wayA.tags.step_count);
-        if (stepCount && isFinite(stepCount) && stepCount > 0 && Math.round(stepCount) === stepCount) {
+        var stepCount = Number(wayA.tags.step_count);
+        if (stepCount && // ensure a number
+        isFinite(stepCount) && // ensure positive
+        stepCount > 0 && // ensure integer
+        Math.round(stepCount) === stepCount) {
           var tagsA = Object.assign({}, wayA.tags);
           var tagsB = Object.assign({}, wayB.tags);
           var ratioA = lengthA / (lengthA + lengthB);
@@ -29799,6 +30706,10 @@
         "parentRels": Object.getPrototypeOf(this._parentRels)
       };
     },
+    // Unlike other graph methods, rebase mutates in place. This is because it
+    // is used only during the history operation that merges newly downloaded
+    // data into each state. To external consumers, it should appear as if the
+    // graph always contained the newly downloaded data.
     rebase: function(entities, stack, force) {
       var base = this.base();
       var i2, j2, k, id2;
@@ -29846,12 +30757,13 @@
       }, this);
       this.transients = {};
     },
+    // Updates calculated properties (parentWays, parentRels) for the specified change
     _updateCalculated: function(oldentity, entity, parentWays, parentRels) {
       parentWays = parentWays || this._parentWays;
       parentRels = parentRels || this._parentRels;
-      var type3 = entity && entity.type || oldentity && oldentity.type;
+      var type2 = entity && entity.type || oldentity && oldentity.type;
       var removed, added, i2;
-      if (type3 === "way") {
+      if (type2 === "way") {
         if (oldentity && entity) {
           removed = utilArrayDifference(oldentity.nodes, entity.nodes);
           added = utilArrayDifference(entity.nodes, oldentity.nodes);
@@ -29870,7 +30782,7 @@
           parentWays[added[i2]] = new Set(parentWays[added[i2]]);
           parentWays[added[i2]].add(entity.id);
         }
-      } else if (type3 === "relation") {
+      } else if (type2 === "relation") {
         var oldentityMemberIDs = oldentity ? oldentity.members.map(function(m) {
           return m.id;
         }) : [];
@@ -29930,6 +30842,7 @@
         graph.frozen = true;
       return graph;
     },
+    // Obliterates any existing entities
     load: function(entities) {
       var base = this.base();
       this.entities = Object.create(base.entities);
@@ -30206,144 +31119,158 @@
           return;
         currPath.push(entity.id);
         currRestrictions = (currRestrictions || []).slice();
-        var i3, j3;
         if (entity.type === "node") {
-          var parents2 = vgraph2.parentWays(entity);
-          var nextWays = [];
-          for (i3 = 0; i3 < parents2.length; i3++) {
-            var way2 = parents2[i3];
-            if (way2.__oneWay && way2.nodes[0] !== entity.id)
-              continue;
-            if (currPath.indexOf(way2.id) !== -1 && currPath.length >= 3)
-              continue;
-            var restrict = null;
-            for (j3 = 0; j3 < currRestrictions.length; j3++) {
-              var restriction = currRestrictions[j3];
-              var f2 = restriction.memberByRole("from");
-              var v = restriction.membersByRole("via");
-              var t = restriction.memberByRole("to");
-              var isOnly = /^only_/.test(restriction.tags.restriction);
-              var matchesFrom = f2.id === fromWayId;
-              var matchesViaTo = false;
-              var isAlongOnlyPath = false;
-              if (t.id === way2.id) {
-                if (v.length === 1 && v[0].type === "node") {
-                  matchesViaTo = v[0].id === entity.id && (matchesFrom && currPath.length === 2 || !matchesFrom && currPath.length > 2);
-                } else {
-                  var pathVias = [];
-                  for (k = 2; k < currPath.length; k += 2) {
-                    pathVias.push(currPath[k]);
-                  }
-                  var restrictionVias = [];
-                  for (k = 0; k < v.length; k++) {
-                    if (v[k].type === "way") {
-                      restrictionVias.push(v[k].id);
-                    }
-                  }
-                  var diff = utilArrayDifference(pathVias, restrictionVias);
-                  matchesViaTo = !diff.length;
-                }
-              } else if (isOnly) {
-                for (k = 0; k < v.length; k++) {
-                  if (v[k].type === "way" && v[k].id === way2.id) {
-                    isAlongOnlyPath = true;
-                    break;
-                  }
-                }
-              }
-              if (matchesViaTo) {
-                if (isOnly) {
-                  restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, only: true, end: true };
-                } else {
-                  restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, no: true, end: true };
-                }
-              } else {
-                if (isAlongOnlyPath) {
-                  restrict = { id: restriction.id, direct: false, from: f2.id, only: true, end: false };
-                } else if (isOnly) {
-                  restrict = { id: restriction.id, direct: false, from: f2.id, no: true, end: true };
-                }
-              }
-              if (restrict && restrict.direct)
-                break;
-            }
-            nextWays.push({ way: way2, restrict });
-          }
-          nextWays.forEach(function(nextWay) {
-            step(nextWay.way, currPath, currRestrictions, nextWay.restrict);
-          });
+          stepNode(entity, currPath, currRestrictions);
         } else {
-          if (currPath.length >= 3) {
-            var turnPath = currPath.slice();
-            if (matchedRestriction && matchedRestriction.direct === false) {
-              for (i3 = 0; i3 < turnPath.length; i3++) {
-                if (turnPath[i3] === matchedRestriction.from) {
-                  turnPath = turnPath.slice(i3);
+          stepWay(entity, currPath, currRestrictions, matchedRestriction);
+        }
+      }
+      function stepNode(entity, currPath, currRestrictions) {
+        var i3, j3;
+        var parents2 = vgraph2.parentWays(entity);
+        var nextWays = [];
+        for (i3 = 0; i3 < parents2.length; i3++) {
+          var way2 = parents2[i3];
+          if (way2.__oneWay && way2.nodes[0] !== entity.id)
+            continue;
+          if (currPath.indexOf(way2.id) !== -1 && currPath.length >= 3)
+            continue;
+          var restrict = null;
+          for (j3 = 0; j3 < currRestrictions.length; j3++) {
+            var restriction = currRestrictions[j3];
+            var f2 = restriction.memberByRole("from");
+            var v = restriction.membersByRole("via");
+            var t = restriction.memberByRole("to");
+            var isNo = /^no_/.test(restriction.tags.restriction);
+            var isOnly = /^only_/.test(restriction.tags.restriction);
+            if (!(isNo || isOnly)) {
+              continue;
+            }
+            var matchesFrom = f2.id === fromWayId;
+            var matchesViaTo = false;
+            var isAlongOnlyPath = false;
+            if (t.id === way2.id) {
+              if (v.length === 1 && v[0].type === "node") {
+                matchesViaTo = v[0].id === entity.id && (matchesFrom && currPath.length === 2 || !matchesFrom && currPath.length > 2);
+              } else {
+                var pathVias = [];
+                for (k = 2; k < currPath.length; k += 2) {
+                  pathVias.push(currPath[k]);
+                }
+                var restrictionVias = [];
+                for (k = 0; k < v.length; k++) {
+                  if (v[k].type === "way") {
+                    restrictionVias.push(v[k].id);
+                  }
+                }
+                var diff = utilArrayDifference(pathVias, restrictionVias);
+                matchesViaTo = !diff.length;
+              }
+            } else if (isOnly) {
+              for (k = 0; k < v.length; k++) {
+                if (v[k].type === "way" && v[k].id === way2.id) {
+                  isAlongOnlyPath = true;
                   break;
                 }
               }
             }
-            var turn = pathToTurn(turnPath);
-            if (turn) {
-              if (matchedRestriction) {
-                turn.restrictionID = matchedRestriction.id;
-                turn.no = matchedRestriction.no;
-                turn.only = matchedRestriction.only;
-                turn.direct = matchedRestriction.direct;
-              }
-              turns.push(osmTurn(turn));
-            }
-            if (currPath[0] === currPath[2])
-              return;
-          }
-          if (matchedRestriction && matchedRestriction.end)
-            return;
-          var n1 = vgraph2.entity(entity.first());
-          var n2 = vgraph2.entity(entity.last());
-          var dist = geoSphericalDistance(n1.loc, n2.loc);
-          var nextNodes = [];
-          if (currPath.length > 1) {
-            if (dist > maxDistance)
-              return;
-            if (!entity.__via)
-              return;
-          }
-          if (!entity.__oneWay && keyVertexIds.indexOf(n1.id) !== -1 && currPath.indexOf(n1.id) === -1) {
-            nextNodes.push(n1);
-          }
-          if (keyVertexIds.indexOf(n2.id) !== -1 && currPath.indexOf(n2.id) === -1) {
-            nextNodes.push(n2);
-          }
-          nextNodes.forEach(function(nextNode) {
-            var fromRestrictions = vgraph2.parentRelations(entity).filter(function(r) {
-              if (!r.isRestriction())
-                return false;
-              var f3 = r.memberByRole("from");
-              if (!f3 || f3.id !== entity.id)
-                return false;
-              var isOnly2 = /^only_/.test(r.tags.restriction);
-              if (!isOnly2)
-                return true;
-              var isOnlyVia = false;
-              var v2 = r.membersByRole("via");
-              if (v2.length === 1 && v2[0].type === "node") {
-                isOnlyVia = v2[0].id === nextNode.id;
+            if (matchesViaTo) {
+              if (isOnly) {
+                restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, only: true, end: true };
               } else {
-                for (var i4 = 0; i4 < v2.length; i4++) {
-                  if (v2[i4].type !== "way")
-                    continue;
-                  var viaWay = vgraph2.entity(v2[i4].id);
-                  if (viaWay.first() === nextNode.id || viaWay.last() === nextNode.id) {
-                    isOnlyVia = true;
-                    break;
-                  }
+                restrict = { id: restriction.id, direct: matchesFrom, from: f2.id, no: true, end: true };
+              }
+            } else {
+              if (isAlongOnlyPath) {
+                restrict = { id: restriction.id, direct: false, from: f2.id, only: true, end: false };
+              } else if (isOnly) {
+                restrict = { id: restriction.id, direct: false, from: f2.id, no: true, end: true };
+              }
+            }
+            if (restrict && restrict.direct)
+              break;
+          }
+          nextWays.push({ way: way2, restrict });
+        }
+        nextWays.forEach(function(nextWay) {
+          step(nextWay.way, currPath, currRestrictions, nextWay.restrict);
+        });
+      }
+      function stepWay(entity, currPath, currRestrictions, matchedRestriction) {
+        var i3;
+        if (currPath.length >= 3) {
+          var turnPath = currPath.slice();
+          if (matchedRestriction && matchedRestriction.direct === false) {
+            for (i3 = 0; i3 < turnPath.length; i3++) {
+              if (turnPath[i3] === matchedRestriction.from) {
+                turnPath = turnPath.slice(i3);
+                break;
+              }
+            }
+          }
+          var turn = pathToTurn(turnPath);
+          if (turn) {
+            if (matchedRestriction) {
+              turn.restrictionID = matchedRestriction.id;
+              turn.no = matchedRestriction.no;
+              turn.only = matchedRestriction.only;
+              turn.direct = matchedRestriction.direct;
+            }
+            turns.push(osmTurn(turn));
+          }
+          if (currPath[0] === currPath[2])
+            return;
+        }
+        if (matchedRestriction && matchedRestriction.end)
+          return;
+        var n1 = vgraph2.entity(entity.first());
+        var n2 = vgraph2.entity(entity.last());
+        var dist = geoSphericalDistance(n1.loc, n2.loc);
+        var nextNodes = [];
+        if (currPath.length > 1) {
+          if (dist > maxDistance)
+            return;
+          if (!entity.__via)
+            return;
+        }
+        if (!entity.__oneWay && // bidirectional..
+        keyVertexIds.indexOf(n1.id) !== -1 && // key vertex..
+        currPath.indexOf(n1.id) === -1) {
+          nextNodes.push(n1);
+        }
+        if (keyVertexIds.indexOf(n2.id) !== -1 && // key vertex..
+        currPath.indexOf(n2.id) === -1) {
+          nextNodes.push(n2);
+        }
+        nextNodes.forEach(function(nextNode) {
+          var fromRestrictions = vgraph2.parentRelations(entity).filter(function(r) {
+            if (!r.isRestriction())
+              return false;
+            var f2 = r.memberByRole("from");
+            if (!f2 || f2.id !== entity.id)
+              return false;
+            var isOnly = /^only_/.test(r.tags.restriction);
+            if (!isOnly)
+              return true;
+            var isOnlyVia = false;
+            var v = r.membersByRole("via");
+            if (v.length === 1 && v[0].type === "node") {
+              isOnlyVia = v[0].id === nextNode.id;
+            } else {
+              for (var i4 = 0; i4 < v.length; i4++) {
+                if (v[i4].type !== "way")
+                  continue;
+                var viaWay = vgraph2.entity(v[i4].id);
+                if (viaWay.first() === nextNode.id || viaWay.last() === nextNode.id) {
+                  isOnlyVia = true;
+                  break;
                 }
               }
-              return isOnlyVia;
-            });
-            step(nextNode, currPath, currRestrictions.concat(fromRestrictions), false);
+            }
+            return isOnlyVia;
           });
-        }
+          step(nextNode, currPath, currRestrictions.concat(fromRestrictions), false);
+        });
       }
       function pathToTurn(path) {
         if (path.length < 3)
@@ -30631,8 +31558,11 @@
         ab,
         oStart: h.buffer1[0],
         oLength: h.buffer1[1],
+        // length of o to remove
         abStart: h.buffer2[0],
         abLength: h.buffer2[1]
+        // length of a/b to insert
+        // abContent: (ab === 'a' ? a : b).slice(h.buffer2[0], h.buffer2[0] + h.buffer2[1])
       });
     }
     diffIndices(o, a).forEach((item) => addHunk(item, "a"));
@@ -31298,7 +32228,7 @@
       var nodeCount = {};
       var points = [];
       var corner = { i: 0, dotp: 1 };
-      var node, point, loc, score, motions, i2, j2;
+      var node, point2, loc, score, motions, i2, j2;
       for (i2 = 0; i2 < nodes.length; i2++) {
         node = nodes[i2];
         nodeCount[node.id] = (nodeCount[node.id] || 0) + 1;
@@ -31320,17 +32250,17 @@
         var straights = [];
         var simplified = [];
         for (i2 = 0; i2 < points.length; i2++) {
-          point = points[i2];
+          point2 = points[i2];
           var dotp = 0;
           if (isClosed || i2 > 0 && i2 < points.length - 1) {
             var a = points[(i2 - 1 + points.length) % points.length];
             var b = points[(i2 + 1) % points.length];
-            dotp = Math.abs(geoOrthoNormalizedDotProduct(a.coord, b.coord, point.coord));
+            dotp = Math.abs(geoOrthoNormalizedDotProduct(a.coord, b.coord, point2.coord));
           }
           if (dotp > upperThreshold) {
-            straights.push(point);
+            straights.push(point2);
           } else {
-            simplified.push(point);
+            simplified.push(point2);
           }
         }
         var bestPoints = clonePoints(simplified);
@@ -31356,22 +32286,22 @@
         if (isClosed)
           bestCoords.push(bestCoords[0]);
         for (i2 = 0; i2 < bestPoints.length; i2++) {
-          point = bestPoints[i2];
-          if (!geoVecEqual(originalPoints[i2].coord, point.coord)) {
-            node = graph.entity(point.id);
-            loc = projection2.invert(point.coord);
+          point2 = bestPoints[i2];
+          if (!geoVecEqual(originalPoints[i2].coord, point2.coord)) {
+            node = graph.entity(point2.id);
+            loc = projection2.invert(point2.coord);
             graph = graph.replace(node.move(geoVecInterp(node.loc, loc, t)));
           }
         }
         for (i2 = 0; i2 < straights.length; i2++) {
-          point = straights[i2];
-          if (nodeCount[point.id] > 1)
+          point2 = straights[i2];
+          if (nodeCount[point2.id] > 1)
             continue;
-          node = graph.entity(point.id);
+          node = graph.entity(point2.id);
           if (t === 1 && graph.parentWays(node).length === 1 && graph.parentRelations(node).length === 0 && !node.hasInterestingTags()) {
             graph = actionDeleteNode(node.id)(graph);
           } else {
-            var choice = geoVecProject(point.coord, bestCoords);
+            var choice = geoVecProject(point2.coord, bestCoords);
             if (choice) {
               loc = projection2.invert(choice.target);
               graph = graph.replace(node.move(geoVecInterp(node.loc, loc, t)));
@@ -31385,13 +32315,13 @@
           return { id: p.id, coord: [p.coord[0], p.coord[1]] };
         });
       }
-      function calcMotion(point2, i3, array2) {
+      function calcMotion(point3, i3, array2) {
         if (!isClosed && (i3 === 0 || i3 === array2.length - 1))
           return [0, 0];
         if (nodeCount[array2[i3].id] > 1)
           return [0, 0];
         var a2 = array2[(i3 - 1 + array2.length) % array2.length].coord;
-        var origin = point2.coord;
+        var origin = point3.coord;
         var b2 = array2[(i3 + 1) % array2.length].coord;
         var p = geoVecSubtract(a2, origin);
         var q = geoVecSubtract(b2, origin);
@@ -31516,8 +32446,8 @@
     var action = function(graph) {
       return graph.update(function(graph2) {
         utilGetAllNodes(rotateIds, graph2).forEach(function(node) {
-          var point = geoRotate([projection2(node.loc)], angle2, pivot)[0];
-          graph2 = graph2.replace(node.move(projection2.invert(point)));
+          var point2 = geoRotate([projection2(node.loc)], angle2, pivot)[0];
+          graph2 = graph2.replace(node.move(projection2.invert(point2)));
         });
       });
     };
@@ -31528,18 +32458,18 @@
   function actionScale(ids, pivotLoc, scaleFactor, projection2) {
     return function(graph) {
       return graph.update(function(graph2) {
-        let point, radial;
+        let point2, radial;
         utilGetAllNodes(ids, graph2).forEach(function(node) {
-          point = projection2(node.loc);
+          point2 = projection2(node.loc);
           radial = [
-            point[0] - pivotLoc[0],
-            point[1] - pivotLoc[1]
+            point2[0] - pivotLoc[0],
+            point2[1] - pivotLoc[1]
           ];
-          point = [
+          point2 = [
             pivotLoc[0] + scaleFactor * radial[0],
             pivotLoc[1] + scaleFactor * radial[1]
           ];
-          graph2 = graph2.replace(node.move(projection2.invert(point)));
+          graph2 = graph2.replace(node.move(projection2.invert(point2)));
         });
       });
     };
@@ -31577,10 +32507,10 @@
       var endPoint = endpoints[1];
       for (var i2 = 0; i2 < points.length; i2++) {
         var node = nodes[i2];
-        var point = points[i2];
-        var u = positionAlongWay(point, startPoint, endPoint);
-        var point2 = geoVecInterp(startPoint, endPoint, u);
-        var loc2 = projection2.invert(point2);
+        var point2 = points[i2];
+        var u = positionAlongWay(point2, startPoint, endPoint);
+        var point22 = geoVecInterp(startPoint, endPoint, u);
+        var loc2 = projection2.invert(point22);
         graph = graph.replace(node.move(geoVecInterp(node.loc, loc2, t)));
       }
       return graph;
@@ -31597,10 +32527,10 @@
       var endPoint = endpoints[1];
       var maxDistance = 0;
       for (var i2 = 0; i2 < points.length; i2++) {
-        var point = points[i2];
-        var u = positionAlongWay(point, startPoint, endPoint);
+        var point2 = points[i2];
+        var u = positionAlongWay(point2, startPoint, endPoint);
         var p = geoVecInterp(startPoint, endPoint, u);
-        var dist = geoVecLength(p, point);
+        var dist = geoVecLength(p, point2);
         if (!isNaN(dist) && dist > maxDistance) {
           maxDistance = dist;
         }
@@ -31689,9 +32619,9 @@
       var i2;
       for (i2 = 1; i2 < points.length - 1; i2++) {
         var node = nodes[i2];
-        var point = points[i2];
+        var point2 = points[i2];
         if (t < 1 || shouldKeepNode(node, graph)) {
-          var u = positionAlongWay(point, startPoint, endPoint);
+          var u = positionAlongWay(point2, startPoint, endPoint);
           var p = geoVecInterp(startPoint, endPoint, u);
           var loc2 = projection2.invert(p);
           graph = graph.replace(node.move(geoVecInterp(node.loc, loc2, t)));
@@ -31720,10 +32650,10 @@
       }
       var maxDistance = 0;
       for (i2 = 1; i2 < points.length - 1; i2++) {
-        var point = points[i2];
-        var u = positionAlongWay(point, startPoint, endPoint);
+        var point2 = points[i2];
+        var u = positionAlongWay(point2, startPoint, endPoint);
         var p = geoVecInterp(startPoint, endPoint, u);
-        var dist = geoVecLength(p, point);
+        var dist = geoVecLength(p, point2);
         if (isNaN(dist) || dist > threshold) {
           return "too_bendy";
         } else if (dist > maxDistance) {
@@ -31733,7 +32663,8 @@
       var keepingAllNodes = nodes.every(function(node, i3) {
         return i3 === 0 || i3 === nodes.length - 1 || shouldKeepNode(node, graph);
       });
-      if (maxDistance < 1e-4 && keepingAllNodes) {
+      if (maxDistance < 1e-4 && // Allow straightening even if already straight in order to remove extraneous nodes
+      keepingAllNodes) {
         return "straight_enough";
       }
     };
@@ -32053,7 +32984,7 @@
       _downPointer = {
         id: d3_event.pointerId || "mouse",
         pointerLocGetter,
-        downTime: +new Date(),
+        downTime: +/* @__PURE__ */ new Date(),
         downLoc: pointerLocGetter(d3_event)
       };
       dispatch10.call("down", this, d3_event, datum2(d3_event));
@@ -32066,7 +32997,7 @@
       _lastPointerUpEvent = d3_event;
       if (downPointer.isCancelled)
         return;
-      var t2 = +new Date();
+      var t2 = +/* @__PURE__ */ new Date();
       var p2 = downPointer.pointerLocGetter(d3_event);
       var dist = geoVecLength(downPointer.downLoc, p2);
       if (dist < _closeTolerance || dist < _tolerance && t2 - downPointer.downTime < 500) {
@@ -32158,7 +33089,8 @@
         _disableSpace = false;
         select_default2(window).on("keyup.space-block", null);
       });
-      var loc = context.map().mouse() || context.projection(context.map().center());
+      var loc = context.map().mouse() || // or the map center if the mouse has never entered the map
+      context.projection(context.map().center());
       click(d3_event, loc);
     }
     function backspace(d3_event) {
@@ -32468,19 +33400,19 @@
     var group = locale2.grouping === void 0 || locale2.thousands === void 0 ? identity_default3 : formatGroup_default(map.call(locale2.grouping, Number), locale2.thousands + ""), currencyPrefix = locale2.currency === void 0 ? "" : locale2.currency[0] + "", currencySuffix = locale2.currency === void 0 ? "" : locale2.currency[1] + "", decimal = locale2.decimal === void 0 ? "." : locale2.decimal + "", numerals = locale2.numerals === void 0 ? identity_default3 : formatNumerals_default(map.call(locale2.numerals, String)), percent = locale2.percent === void 0 ? "%" : locale2.percent + "", minus = locale2.minus === void 0 ? "\u2212" : locale2.minus + "", nan = locale2.nan === void 0 ? "NaN" : locale2.nan + "";
     function newFormat(specifier) {
       specifier = formatSpecifier(specifier);
-      var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero3 = specifier.zero, width = specifier.width, comma = specifier.comma, precision2 = specifier.precision, trim = specifier.trim, type3 = specifier.type;
-      if (type3 === "n")
-        comma = true, type3 = "g";
-      else if (!formatTypes_default[type3])
-        precision2 === void 0 && (precision2 = 12), trim = true, type3 = "g";
+      var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero3 = specifier.zero, width = specifier.width, comma = specifier.comma, precision2 = specifier.precision, trim = specifier.trim, type2 = specifier.type;
+      if (type2 === "n")
+        comma = true, type2 = "g";
+      else if (!formatTypes_default[type2])
+        precision2 === void 0 && (precision2 = 12), trim = true, type2 = "g";
       if (zero3 || fill === "0" && align === "=")
         zero3 = true, fill = "0", align = "=";
-      var prefix = symbol === "$" ? currencyPrefix : symbol === "#" && /[boxX]/.test(type3) ? "0" + type3.toLowerCase() : "", suffix = symbol === "$" ? currencySuffix : /[%p]/.test(type3) ? percent : "";
-      var formatType = formatTypes_default[type3], maybeSuffix = /[defgprs%]/.test(type3);
-      precision2 = precision2 === void 0 ? 6 : /[gprs]/.test(type3) ? Math.max(1, Math.min(21, precision2)) : Math.max(0, Math.min(20, precision2));
+      var prefix = symbol === "$" ? currencyPrefix : symbol === "#" && /[boxX]/.test(type2) ? "0" + type2.toLowerCase() : "", suffix = symbol === "$" ? currencySuffix : /[%p]/.test(type2) ? percent : "";
+      var formatType = formatTypes_default[type2], maybeSuffix = /[defgprs%]/.test(type2);
+      precision2 = precision2 === void 0 ? 6 : /[gprs]/.test(type2) ? Math.max(1, Math.min(21, precision2)) : Math.max(0, Math.min(20, precision2));
       function format2(value) {
         var valuePrefix = prefix, valueSuffix = suffix, i2, n2, c;
-        if (type3 === "c") {
+        if (type2 === "c") {
           valueSuffix = formatType(value) + valueSuffix;
           value = "";
         } else {
@@ -32492,7 +33424,7 @@
           if (valueNegative && +value === 0 && sign2 !== "+")
             valueNegative = false;
           valuePrefix = (valueNegative ? sign2 === "(" ? sign2 : minus : sign2 === "-" || sign2 === "(" ? "" : sign2) + valuePrefix;
-          valueSuffix = (type3 === "s" ? prefixes[8 + prefixExponent / 3] : "") + valueSuffix + (valueNegative && sign2 === "(" ? ")" : "");
+          valueSuffix = (type2 === "s" ? prefixes[8 + prefixExponent / 3] : "") + valueSuffix + (valueNegative && sign2 === "(" ? ")" : "");
           if (maybeSuffix) {
             i2 = -1, n2 = value.length;
             while (++i2 < n2) {
@@ -32706,8 +33638,8 @@
     var _done = false;
     var _timer;
     function ratchetyInterpolator(a, b, steps2, units) {
-      a = parseFloat(a);
-      b = parseFloat(b);
+      a = Number(a);
+      b = Number(b);
       var sample = quantize().domain([0, 1]).range(quantize_default(number_default(a, b), steps2));
       return function(t) {
         return String(sample(t)) + (units || "");
@@ -32754,11 +33686,11 @@
         var opacity;
         var width;
         if (tag === "circle") {
-          opacity = parseFloat(s.style("fill-opacity") || 0.5);
-          width = parseFloat(s.style("r") || 15.5);
+          opacity = Number(s.style("fill-opacity") || 0.5);
+          width = Number(s.style("r") || 15.5);
         } else {
-          opacity = parseFloat(s.style("stroke-opacity") || 0.7);
-          width = parseFloat(s.style("stroke-width") || 10);
+          opacity = Number(s.style("stroke-opacity") || 0.7);
+          width = Number(s.style("stroke-width") || 10);
         }
         p.tag = tag;
         p.from.opacity = opacity * 0.6;
@@ -33095,9 +34027,9 @@
         var parents = context.graph().parentRelations(entity);
         for (var i2 = 0; i2 < parents.length; i2++) {
           var parent = parents[i2];
-          var type3 = parent.tags.type;
+          var type2 = parent.tags.type;
           var role = parent.memberById(id2).role || "outer";
-          if (type3 === "route" || type3 === "boundary" || type3 === "multipolygon" && role === "outer") {
+          if (type2 === "route" || type2 === "boundary" || type2 === "multipolygon" && role === "outer") {
             return true;
           }
         }
@@ -34071,14 +35003,14 @@
       }
       return false;
     }
-    function move(d3_event, entity, point) {
+    function move(d3_event, entity, point2) {
       if (_isCancelled)
         return;
       d3_event.stopPropagation();
       context.surface().classed("nope-disabled", d3_event.altKey);
-      _lastLoc = context.projection.invert(point);
+      _lastLoc = context.projection.invert(point2);
       doMove(d3_event, entity);
-      var nudge = geoViewportEdge(point, context.map().dimensions());
+      var nudge = geoViewportEdge(point2, context.map().dimensions());
       if (nudge) {
         startNudge(d3_event, entity, nudge);
       } else {
@@ -34211,8 +35143,8 @@
   }
 
   // node_modules/d3-fetch/src/xml.js
-  function parser(type3) {
-    return (input, init2) => text_default3(input, init2).then((text2) => new DOMParser().parseFromString(text2, type3));
+  function parser(type2) {
+    return (input, init2) => text_default3(input, init2).then((text2) => new DOMParser().parseFromString(text2, type2));
   }
   var xml_default = parser("application/xml");
   var html = parser("text/html");
@@ -34226,6 +35158,7 @@
   var _krData = { errorTypes: {}, localizeStrings: {} };
   var _cache;
   var _krRuleset = [
+    // no 20 - multiple node on same spot - these are mostly boundaries overlapping roads
     30,
     40,
     50,
@@ -34478,6 +35411,7 @@
         rtree: new import_rbush.default()
       };
     },
+    // KeepRight API:  http://osm.mueschelsoft.de/keepright/interfacing.php
     loadIssues(projection2) {
       const options2 = {
         format: "geojson",
@@ -34547,8 +35481,8 @@
             do {
               let delta = coincident ? [1e-5, 0] : [0, 1e-5];
               loc = geoVecAdd(loc, delta);
-              let bbox = geoExtent(loc).bbox();
-              coincident = _cache.rtree.search(bbox).length;
+              let bbox2 = geoExtent(loc).bbox();
+              coincident = _cache.rtree.search(bbox2).length;
             } while (coincident);
             let d = new QAItem(loc, this, itemType, id2, {
               comment,
@@ -34604,16 +35538,20 @@
           callback(null, d);
       });
     },
+    // Get all cached QAItems covering the viewport
     getItems(projection2) {
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _cache.rtree.search(bbox).map((d) => d.data);
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _cache.rtree.search(bbox2).map((d) => d.data);
     },
+    // Get a QAItem from cache
+    // NOTE: Don't change method name until UI v3 is merged
     getError(id2) {
       return _cache.data[id2];
     },
+    // Replace a single QAItem in the cache
     replaceItem(item) {
       if (!(item instanceof QAItem) || !item.id)
         return;
@@ -34621,6 +35559,7 @@
       updateRtree(encodeIssueRtree(item), true);
       return item;
     },
+    // Remove a single QAItem from the cache
     removeItem(item) {
       if (!(item instanceof QAItem) || !item.id)
         return;
@@ -34630,6 +35569,8 @@
     issueURL(item) {
       return `${_krUrlRoot}/report_map.php?schema=${item.schema}&error=${item.id}`;
     },
+    // Get an array of issues closed during this session.
+    // Used to populate `closed:keepright` changeset tag
     getClosedIDs() {
       return Object.keys(_cache.closed).sort();
     }
@@ -34681,7 +35622,7 @@
   function pointAverage(points) {
     if (points.length) {
       const sum = points.reduce(
-        (acc, point) => geoVecAdd(acc, [point.lon, point.lat]),
+        (acc, point2) => geoVecAdd(acc, [point2.lon, point2.lat]),
         [0, 0]
       );
       return geoVecScale(sum, 1 / points.length);
@@ -34716,8 +35657,8 @@
     do {
       let delta = coincident ? [1e-5, 0] : bumpUp ? [0, 1e-5] : [0, 0];
       loc = geoVecAdd(loc, delta);
-      let bbox = geoExtent(loc).bbox();
-      coincident = _cache2.rtree.search(bbox).length;
+      let bbox2 = geoExtent(loc).bbox();
+      coincident = _cache2.rtree.search(bbox2).length;
     } while (coincident);
     return loc;
   }
@@ -34748,6 +35689,7 @@
         client: "iD",
         status: "OPEN",
         zoom: "19"
+        // Use a high zoom so that clusters aren't returned
       };
       const tiles = tiler2.zoomExtent([_tileZoom2, _tileZoom2]).getTiles(projection2);
       abortUnwantedRequests2(_cache2, tiles);
@@ -34787,7 +35729,9 @@
                 loc = preventCoincident(loc, false);
                 let d = new QAItem(loc, this, k, itemId, {
                   issueKey: k,
+                  // used as a category
                   identifier: {
+                    // used to post changes
                     wayId,
                     fromNodeId,
                     toNodeId
@@ -34808,8 +35752,8 @@
             }
             if (data.tiles) {
               data.tiles.forEach((feature3) => {
-                const { type: type3, x, y, numberOfTrips } = feature3;
-                const geoType = type3.toLowerCase();
+                const { type: type2, x, y, numberOfTrips } = feature3;
+                const geoType = type2.toLowerCase();
                 const itemId = `${geoType}${x}${y}${numberOfTrips}`;
                 let loc = pointAverage(feature3.points);
                 loc = preventCoincident(loc, false);
@@ -34830,9 +35774,9 @@
             }
             if (data.entities) {
               data.entities.forEach((feature3) => {
-                const { point, id: id2, segments, numberOfPasses, turnType } = feature3;
+                const { point: point2, id: id2, segments, numberOfPasses, turnType } = feature3;
                 const itemId = `${id2.replace(/[,:+#]/g, "_")}`;
-                const loc = preventCoincident([point.lon, point.lat], true);
+                const loc = preventCoincident([point2.lon, point2.lat], true);
                 const ids = id2.split(",");
                 const from_way = ids[0];
                 const via_node = ids[3];
@@ -34926,7 +35870,7 @@
         json_default(url, options2).then(() => {
           delete _cache2.inflightPost[d.id];
           if (!d.newStatus) {
-            const now3 = new Date();
+            const now3 = /* @__PURE__ */ new Date();
             let comments = d.comments ? d.comments : [];
             comments.push({
               username: payload.username,
@@ -34955,19 +35899,24 @@
         });
       }
     },
+    // Get all cached QAItems covering the viewport
     getItems(projection2) {
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _cache2.rtree.search(bbox).map((d) => d.data);
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _cache2.rtree.search(bbox2).map((d) => d.data);
     },
+    // Get a QAItem from cache
+    // NOTE: Don't change method name until UI v3 is merged
     getError(id2) {
       return _cache2.data[id2];
     },
+    // get the name of the icon to display for this item
     getIcon(itemType) {
       return _impOsmData.icons[itemType];
     },
+    // Replace a single QAItem in the cache
     replaceItem(issue) {
       if (!(issue instanceof QAItem) || !issue.id)
         return;
@@ -34975,12 +35924,14 @@
       updateRtree2(encodeIssueRtree2(issue), true);
       return issue;
     },
+    // Remove a single QAItem from the cache
     removeItem(issue) {
       if (!(issue instanceof QAItem) || !issue.id)
         return;
       delete _cache2.data[issue.id];
       updateRtree2(encodeIssueRtree2(issue), false);
     },
+    // Used to populate `closed:improveosm:*` changeset tags
     getClosedCounts() {
       return _cache2.closed;
     }
@@ -35018,9 +35969,9 @@
     defaults = newDefaults;
   }
   var escapeTest = /[&<>"']/;
-  var escapeReplace = /[&<>"']/g;
-  var escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/;
-  var escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g;
+  var escapeReplace = new RegExp(escapeTest.source, "g");
+  var escapeTestNoEncode = /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/;
+  var escapeReplaceNoEncode = new RegExp(escapeTestNoEncode.source, "g");
   var escapeReplacements = {
     "&": "&amp;",
     "<": "&lt;",
@@ -35298,7 +36249,7 @@
         return {
           type: "code",
           raw,
-          lang: cap[2] ? cap[2].trim() : cap[2],
+          lang: cap[2] ? cap[2].trim().replace(this.rules.inline._escapes, "$1") : cap[2],
           text: text2
         };
       }
@@ -35337,10 +36288,14 @@
       const cap = this.rules.block.blockquote.exec(src);
       if (cap) {
         const text2 = cap[0].replace(/^ *>[ \t]?/gm, "");
+        const top = this.lexer.state.top;
+        this.lexer.state.top = true;
+        const tokens = this.lexer.blockTokens(text2);
+        this.lexer.state.top = top;
         return {
           type: "blockquote",
           raw: cap[0],
-          tokens: this.lexer.blockTokens(text2, []),
+          tokens,
           text: text2
         };
       }
@@ -35374,7 +36329,7 @@
           }
           raw = cap[0];
           src = src.substring(raw.length);
-          line = cap[2].split("\n", 1)[0];
+          line = cap[2].split("\n", 1)[0].replace(/^\t+/, (t) => " ".repeat(3 * t.length));
           nextLine = src.split("\n", 1)[0];
           if (this.options.pedantic) {
             indent2 = 2;
@@ -35392,40 +36347,54 @@
             endEarly = true;
           }
           if (!endEarly) {
-            const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?: [^\\n]*)?(?:\\n|$))`);
+            const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`);
             const hrRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
             const fencesBeginRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:\`\`\`|~~~)`);
             const headingBeginRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}#`);
             while (src) {
               rawLine = src.split("\n", 1)[0];
-              line = rawLine;
+              nextLine = rawLine;
               if (this.options.pedantic) {
-                line = line.replace(/^ {1,4}(?=( {4})*[^ ])/g, "  ");
+                nextLine = nextLine.replace(/^ {1,4}(?=( {4})*[^ ])/g, "  ");
               }
-              if (fencesBeginRegex.test(line)) {
+              if (fencesBeginRegex.test(nextLine)) {
                 break;
               }
-              if (headingBeginRegex.test(line)) {
+              if (headingBeginRegex.test(nextLine)) {
                 break;
               }
-              if (nextBulletRegex.test(line)) {
+              if (nextBulletRegex.test(nextLine)) {
                 break;
               }
               if (hrRegex.test(src)) {
                 break;
               }
-              if (line.search(/[^ ]/) >= indent2 || !line.trim()) {
-                itemContents += "\n" + line.slice(indent2);
-              } else if (!blankLine) {
-                itemContents += "\n" + line;
+              if (nextLine.search(/[^ ]/) >= indent2 || !nextLine.trim()) {
+                itemContents += "\n" + nextLine.slice(indent2);
               } else {
-                break;
+                if (blankLine) {
+                  break;
+                }
+                if (line.search(/[^ ]/) >= 4) {
+                  break;
+                }
+                if (fencesBeginRegex.test(line)) {
+                  break;
+                }
+                if (headingBeginRegex.test(line)) {
+                  break;
+                }
+                if (hrRegex.test(line)) {
+                  break;
+                }
+                itemContents += "\n" + nextLine;
               }
-              if (!blankLine && !line.trim()) {
+              if (!blankLine && !nextLine.trim()) {
                 blankLine = true;
               }
               raw += rawLine + "\n";
               src = src.substring(rawLine.length + 1);
+              line = nextLine.slice(indent2);
             }
           }
           if (!list.loose) {
@@ -35459,22 +36428,14 @@
         for (i2 = 0; i2 < l; i2++) {
           this.lexer.state.top = false;
           list.items[i2].tokens = this.lexer.blockTokens(list.items[i2].text, []);
-          const spacers = list.items[i2].tokens.filter((t) => t.type === "space");
-          const hasMultipleLineBreaks = spacers.every((t) => {
-            const chars = t.raw.split("");
-            let lineBreaks = 0;
-            for (const char of chars) {
-              if (char === "\n") {
-                lineBreaks += 1;
-              }
-              if (lineBreaks > 1) {
-                return true;
-              }
-            }
-            return false;
-          });
-          if (!list.loose && spacers.length && hasMultipleLineBreaks) {
-            list.loose = true;
+          if (!list.loose) {
+            const spacers = list.items[i2].tokens.filter((t) => t.type === "space");
+            const hasMultipleLineBreaks = spacers.length > 0 && spacers.some((t) => /\n.*\n/.test(t.raw));
+            list.loose = hasMultipleLineBreaks;
+          }
+        }
+        if (list.loose) {
+          for (i2 = 0; i2 < l; i2++) {
             list.items[i2].loose = true;
           }
         }
@@ -35502,15 +36463,15 @@
     def(src) {
       const cap = this.rules.block.def.exec(src);
       if (cap) {
-        if (cap[3])
-          cap[3] = cap[3].substring(1, cap[3].length - 1);
         const tag = cap[1].toLowerCase().replace(/\s+/g, " ");
+        const href = cap[2] ? cap[2].replace(/^<(.*)>$/, "$1").replace(this.rules.inline._escapes, "$1") : "";
+        const title = cap[3] ? cap[3].substring(1, cap[3].length - 1).replace(this.rules.inline._escapes, "$1") : cap[3];
         return {
           type: "def",
           tag,
           raw: cap[0],
-          href: cap[2],
-          title: cap[3]
+          href,
+          title
         };
       }
     }
@@ -35680,7 +36641,7 @@
       if ((cap = this.rules.inline.reflink.exec(src)) || (cap = this.rules.inline.nolink.exec(src))) {
         let link2 = (cap[2] || cap[1]).replace(/\s+/g, " ");
         link2 = links[link2.toLowerCase()];
-        if (!link2 || !link2.href) {
+        if (!link2) {
           const text2 = cap[0].charAt(0);
           return {
             type: "text",
@@ -35722,19 +36683,20 @@
           if (delimTotal > 0)
             continue;
           rLength = Math.min(rLength, rLength + delimTotal + midDelimTotal);
+          const raw = src.slice(0, lLength + match.index + (match[0].length - rDelim.length) + rLength);
           if (Math.min(lLength, rLength) % 2) {
-            const text3 = src.slice(1, lLength + match.index + rLength);
+            const text3 = raw.slice(1, -1);
             return {
               type: "em",
-              raw: src.slice(0, lLength + match.index + rLength + 1),
+              raw,
               text: text3,
               tokens: this.lexer.inlineTokens(text3)
             };
           }
-          const text2 = src.slice(2, lLength + match.index + rLength - 1);
+          const text2 = raw.slice(2, -2);
           return {
             type: "strong",
-            raw: src.slice(0, lLength + match.index + rLength + 1),
+            raw,
             text: text2,
             tokens: this.lexer.inlineTokens(text2)
           };
@@ -35819,9 +36781,9 @@
           } while (prevCapZero !== cap[0]);
           text2 = escape4(cap[0]);
           if (cap[1] === "www.") {
-            href = "http://" + text2;
+            href = "http://" + cap[0];
           } else {
-            href = text2;
+            href = cap[0];
           }
         }
         return {
@@ -35865,9 +36827,11 @@
     blockquote: /^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/,
     list: /^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/,
     html: "^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n *)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$))",
-    def: /^ {0,3}\[(label)\]: *(?:\n *)?<?([^\s>]+)>?(?:(?: +(?:\n *)?| *\n *)(title))? *(?:\n+|$)/,
+    def: /^ {0,3}\[(label)\]: *(?:\n *)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n *)?| *\n *)(title))? *(?:\n+|$)/,
     table: noopTest,
-    lheading: /^([^\n]+)\n {0,3}(=+|-+) *(?:\n+|$)/,
+    lheading: /^((?:.|\n(?!\n))+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
+    // regex template, placeholders will be replaced according to different paragraph
+    // interruption rules of commonmark and the original markdown spec:
     _paragraph: /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,
     text: /^[^\n]+/
   };
@@ -35885,6 +36849,7 @@
   block.normal = merge2({}, block);
   block.gfm = merge2({}, block.normal, {
     table: "^ *([^\\n ].*\\|.*)\\n {0,3}(?:\\| *)?(:?-+:? *(?:\\| *:?-+:? *)*)(?:\\| *)?(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)"
+    // Cells
   });
   block.gfm.table = edit(block.gfm.table).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("blockquote", " {0,3}>").replace("code", " {4}[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
   block.gfm.paragraph = edit(block._paragraph).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("|lheading", "").replace("table", block.gfm.table).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
@@ -35895,6 +36860,8 @@
     def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
     heading: /^(#{1,6})(.*)(?:\n+|$)/,
     fences: noopTest,
+    // fences not supported
+    lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
     paragraph: edit(block.normal._paragraph).replace("hr", block.hr).replace("heading", " *#{1,6} *[^\n]").replace("lheading", block.lheading).replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").getRegex()
   });
   var inline = {
@@ -35902,14 +36869,18 @@
     autolink: /^<(scheme:[^\s\x00-\x1f<>]*|email)>/,
     url: noopTest,
     tag: "^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>",
+    // CDATA section
     link: /^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/,
     reflink: /^!?\[(label)\]\[(ref)\]/,
     nolink: /^!?\[(ref)\](?:\[\])?/,
     reflinkSearch: "reflink|nolink(?!\\()",
     emStrong: {
       lDelim: /^(?:\*+(?:([punct_])|[^\s*]))|^_+(?:([punct*])|([^\s_]))/,
-      rDelimAst: /^[^_*]*?\_\_[^_*]*?\*[^_*]*?(?=\_\_)|[^*]+(?=[^*])|[punct_](\*+)(?=[\s]|$)|[^punct*_\s](\*+)(?=[punct_\s]|$)|[punct_\s](\*+)(?=[^punct*_\s])|[\s](\*+)(?=[punct_])|[punct_](\*+)(?=[punct_])|[^punct*_\s](\*+)(?=[^punct*_\s])/,
-      rDelimUnd: /^[^_*]*?\*\*[^_*]*?\_[^_*]*?(?=\*\*)|[^_]+(?=[^_])|[punct*](\_+)(?=[\s]|$)|[^punct*_\s](\_+)(?=[punct*\s]|$)|[punct*\s](\_+)(?=[^punct*_\s])|[\s](\_+)(?=[punct*])|[punct*](\_+)(?=[punct*])/
+      //        (1) and (2) can only be a Right Delimiter. (3) and (4) can only be Left.  (5) and (6) can be either Left or Right.
+      //          () Skip orphan inside strong                                      () Consume to delim     (1) #***                (2) a***#, a***                             (3) #***a, ***a                 (4) ***#              (5) #***#                 (6) a***a
+      rDelimAst: /^(?:[^_*\\]|\\.)*?\_\_(?:[^_*\\]|\\.)*?\*(?:[^_*\\]|\\.)*?(?=\_\_)|(?:[^*\\]|\\.)+(?=[^*])|[punct_](\*+)(?=[\s]|$)|(?:[^punct*_\s\\]|\\.)(\*+)(?=[punct_\s]|$)|[punct_\s](\*+)(?=[^punct*_\s])|[\s](\*+)(?=[punct_])|[punct_](\*+)(?=[punct_])|(?:[^punct*_\s\\]|\\.)(\*+)(?=[^punct*_\s])/,
+      rDelimUnd: /^(?:[^_*\\]|\\.)*?\*\*(?:[^_*\\]|\\.)*?\_(?:[^_*\\]|\\.)*?(?=\*\*)|(?:[^_\\]|\\.)+(?=[^_])|[punct*](\_+)(?=[\s]|$)|(?:[^punct*_\s\\]|\\.)(\_+)(?=[punct*\s]|$)|[punct*\s](\_+)(?=[^punct*_\s])|[\s](\_+)(?=[punct*])|[punct*](\_+)(?=[punct*])/
+      // ^- Not allowed for _
     },
     code: /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,
     br: /^( {2,}|\\)\n(?!\s*$)/,
@@ -35920,7 +36891,7 @@
   inline._punctuation = "!\"#$%&'()+\\-.,/:;<=>?@\\[\\]`^{|}~";
   inline.punctuation = edit(inline.punctuation).replace(/punctuation/g, inline._punctuation).getRegex();
   inline.blockSkip = /\[[^\]]*?\]\([^\)]*?\)|`[^`]*?`|<[^>]*?>/g;
-  inline.escapedEmSt = /\\\*|\\_/g;
+  inline.escapedEmSt = /(?:^|[^\\])(?:\\\\)*\\[*_]/g;
   inline._comment = edit(block._comment).replace("(?:-->|$)", "-->").getRegex();
   inline.emStrong.lDelim = edit(inline.emStrong.lDelim).replace(/punct/g, inline._punctuation).getRegex();
   inline.emStrong.rDelimAst = edit(inline.emStrong.rDelimAst, "g").replace(/punct/g, inline._punctuation).getRegex();
@@ -35959,7 +36930,7 @@
     escape: edit(inline.escape).replace("])", "~|])").getRegex(),
     _extended_email: /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/,
     url: /^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,
-    _backpedal: /(?:[^?!.,:;*_~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_~)]+(?!$))+/,
+    _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,
     del: /^(~~?)(?=[^\s~])([\s\S]*?[^\s~])\1(?=[^~]|$)/,
     text: /^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/
   });
@@ -36015,20 +36986,32 @@
       }
       this.tokenizer.rules = rules;
     }
+    /**
+     * Expose Rules
+     */
     static get rules() {
       return {
         block,
         inline
       };
     }
+    /**
+     * Static Lex Method
+     */
     static lex(src, options2) {
       const lexer2 = new Lexer(options2);
       return lexer2.lex(src);
     }
+    /**
+     * Static Lex Inline Method
+     */
     static lexInline(src, options2) {
       const lexer2 = new Lexer(options2);
       return lexer2.inlineTokens(src);
     }
+    /**
+     * Preprocessing
+     */
     lex(src) {
       src = src.replace(/\r\n|\r/g, "\n");
       this.blockTokens(src, this.tokens);
@@ -36038,6 +37021,9 @@
       }
       return this.tokens;
     }
+    /**
+     * Lexing
+     */
     blockTokens(src, tokens = []) {
       if (this.options.pedantic) {
         src = src.replace(/\t/g, "    ").replace(/^ +$/gm, "");
@@ -36193,6 +37179,9 @@
       this.inlineQueue.push({ src, tokens });
       return tokens;
     }
+    /**
+     * Lexing/Compiling
+     */
     inlineTokens(src, tokens = []) {
       let token, lastToken, cutSrc;
       let maskedSrc = src;
@@ -36212,7 +37201,8 @@
         maskedSrc = maskedSrc.slice(0, match.index) + "[" + repeatString("a", match[0].length - 2) + "]" + maskedSrc.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
       }
       while ((match = this.tokenizer.rules.inline.escapedEmSt.exec(maskedSrc)) != null) {
-        maskedSrc = maskedSrc.slice(0, match.index) + "++" + maskedSrc.slice(this.tokenizer.rules.inline.escapedEmSt.lastIndex);
+        maskedSrc = maskedSrc.slice(0, match.index + match[0].length - 2) + "++" + maskedSrc.slice(this.tokenizer.rules.inline.escapedEmSt.lastIndex);
+        this.tokenizer.rules.inline.escapedEmSt.lastIndex--;
       }
       while (src) {
         if (!keepPrevChar) {
@@ -36351,8 +37341,11 @@
       if (!lang) {
         return "<pre><code>" + (escaped ? code : escape4(code, true)) + "</code></pre>\n";
       }
-      return '<pre><code class="' + this.options.langPrefix + escape4(lang, true) + '">' + (escaped ? code : escape4(code, true)) + "</code></pre>\n";
+      return '<pre><code class="' + this.options.langPrefix + escape4(lang) + '">' + (escaped ? code : escape4(code, true)) + "</code></pre>\n";
     }
+    /**
+     * @param {string} quote
+     */
     blockquote(quote2) {
       return `<blockquote>
 ${quote2}</blockquote>
@@ -36361,6 +37354,12 @@ ${quote2}</blockquote>
     html(html2) {
       return html2;
     }
+    /**
+     * @param {string} text
+     * @param {string} level
+     * @param {string} raw
+     * @param {any} slugger
+     */
     heading(text2, level, raw, slugger) {
       if (this.options.headerIds) {
         const id2 = this.options.headerPrefix + slugger.slug(raw);
@@ -36374,9 +37373,12 @@ ${quote2}</blockquote>
       return this.options.xhtml ? "<hr/>\n" : "<hr>\n";
     }
     list(body, ordered, start2) {
-      const type3 = ordered ? "ol" : "ul", startatt = ordered && start2 !== 1 ? ' start="' + start2 + '"' : "";
-      return "<" + type3 + startatt + ">\n" + body + "</" + type3 + ">\n";
+      const type2 = ordered ? "ol" : "ul", startatt = ordered && start2 !== 1 ? ' start="' + start2 + '"' : "";
+      return "<" + type2 + startatt + ">\n" + body + "</" + type2 + ">\n";
     }
+    /**
+     * @param {string} text
+     */
     listitem(text2) {
       return `<li>${text2}</li>
 `;
@@ -36384,53 +37386,86 @@ ${quote2}</blockquote>
     checkbox(checked) {
       return "<input " + (checked ? 'checked="" ' : "") + 'disabled="" type="checkbox"' + (this.options.xhtml ? " /" : "") + "> ";
     }
+    /**
+     * @param {string} text
+     */
     paragraph(text2) {
       return `<p>${text2}</p>
 `;
     }
+    /**
+     * @param {string} header
+     * @param {string} body
+     */
     table(header, body) {
       if (body)
         body = `<tbody>${body}</tbody>`;
       return "<table>\n<thead>\n" + header + "</thead>\n" + body + "</table>\n";
     }
+    /**
+     * @param {string} content
+     */
     tablerow(content) {
       return `<tr>
 ${content}</tr>
 `;
     }
     tablecell(content, flags) {
-      const type3 = flags.header ? "th" : "td";
-      const tag = flags.align ? `<${type3} align="${flags.align}">` : `<${type3}>`;
-      return tag + content + `</${type3}>
+      const type2 = flags.header ? "th" : "td";
+      const tag = flags.align ? `<${type2} align="${flags.align}">` : `<${type2}>`;
+      return tag + content + `</${type2}>
 `;
     }
+    /**
+     * span level renderer
+     * @param {string} text
+     */
     strong(text2) {
       return `<strong>${text2}</strong>`;
     }
+    /**
+     * @param {string} text
+     */
     em(text2) {
       return `<em>${text2}</em>`;
     }
+    /**
+     * @param {string} text
+     */
     codespan(text2) {
       return `<code>${text2}</code>`;
     }
     br() {
       return this.options.xhtml ? "<br/>" : "<br>";
     }
+    /**
+     * @param {string} text
+     */
     del(text2) {
       return `<del>${text2}</del>`;
     }
+    /**
+     * @param {string} href
+     * @param {string} title
+     * @param {string} text
+     */
     link(href, title, text2) {
       href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
       if (href === null) {
         return text2;
       }
-      let out = '<a href="' + escape4(href) + '"';
+      let out = '<a href="' + href + '"';
       if (title) {
         out += ' title="' + title + '"';
       }
       out += ">" + text2 + "</a>";
       return out;
     }
+    /**
+     * @param {string} href
+     * @param {string} title
+     * @param {string} text
+     */
     image(href, title, text2) {
       href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
       if (href === null) {
@@ -36448,6 +37483,7 @@ ${content}</tr>
     }
   };
   var TextRenderer = class {
+    // no need for block level renderers
     strong(text2) {
       return text2;
     }
@@ -36480,9 +37516,17 @@ ${content}</tr>
     constructor() {
       this.seen = {};
     }
+    /**
+     * @param {string} value
+     */
     serialize(value) {
       return value.toLowerCase().trim().replace(/<[!\/a-z].*?>/ig, "").replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, "").replace(/\s/g, "-");
     }
+    /**
+     * Finds the next safe (unique) slug to use
+     * @param {string} originalSlug
+     * @param {boolean} isDryRun
+     */
     getNextSafeSlug(originalSlug, isDryRun) {
       let slug = originalSlug;
       let occurenceAccumulator = 0;
@@ -36499,6 +37543,12 @@ ${content}</tr>
       }
       return slug;
     }
+    /**
+     * Convert string to unique id
+     * @param {object} [options]
+     * @param {boolean} [options.dryrun] Generates the next unique slug without
+     * updating the internal accumulator.
+     */
     slug(value, options2 = {}) {
       const slug = this.serialize(value);
       return this.getNextSafeSlug(slug, options2.dryrun);
@@ -36513,14 +37563,23 @@ ${content}</tr>
       this.textRenderer = new TextRenderer();
       this.slugger = new Slugger();
     }
+    /**
+     * Static Parse Method
+     */
     static parse(tokens, options2) {
       const parser3 = new Parser(options2);
       return parser3.parse(tokens);
     }
+    /**
+     * Static Parse Inline Method
+     */
     static parseInline(tokens, options2) {
       const parser3 = new Parser(options2);
       return parser3.parseInline(tokens);
     }
+    /**
+     * Parse Loop
+     */
     parse(tokens, top = true) {
       let out = "", i2, j2, k, l2, l3, row, cell, header, body, token, ordered, start2, loose, itemBody, item, checked, task, checkbox, ret;
       const l = tokens.length;
@@ -36656,6 +37715,9 @@ ${content}</tr>
       }
       return out;
     }
+    /**
+     * Parse Inline Tokens
+     */
     parseInline(tokens, renderer) {
       renderer = renderer || this.renderer;
       let out = "", i2, token, ret;
@@ -36822,18 +37884,17 @@ ${content}</tr>
   marked.getDefaults = getDefaults;
   marked.defaults = defaults;
   marked.use = function(...args) {
-    const opts = merge2({}, ...args);
     const extensions = marked.defaults.extensions || { renderers: {}, childTokens: {} };
-    let hasExtensions;
     args.forEach((pack) => {
+      const opts = merge2({}, pack);
+      opts.async = marked.defaults.async || opts.async;
       if (pack.extensions) {
-        hasExtensions = true;
         pack.extensions.forEach((ext) => {
           if (!ext.name) {
             throw new Error("extension name required");
           }
           if (ext.renderer) {
-            const prevRenderer = extensions.renderers ? extensions.renderers[ext.name] : null;
+            const prevRenderer = extensions.renderers[ext.name];
             if (prevRenderer) {
               extensions.renderers[ext.name] = function(...args2) {
                 let ret = ext.renderer.apply(this, args2);
@@ -36875,6 +37936,7 @@ ${content}</tr>
             extensions.childTokens[ext.name] = ext.childTokens;
           }
         });
+        opts.extensions = extensions;
       }
       if (pack.renderer) {
         const renderer = marked.defaults.renderer || new Renderer();
@@ -36914,9 +37976,6 @@ ${content}</tr>
           }
           return values;
         };
-      }
-      if (hasExtensions) {
-        opts.extensions = extensions;
       }
       marked.setOptions(opts);
     });
@@ -37029,8 +38088,8 @@ ${content}</tr>
     do {
       let delta = coincident ? [1e-5, 0] : [0, 1e-5];
       loc = geoVecAdd(loc, delta);
-      let bbox = geoExtent(loc).bbox();
-      coincident = _cache3.rtree.search(bbox).length;
+      let bbox2 = geoExtent(loc).bbox();
+      coincident = _cache3.rtree.search(bbox2).length;
     } while (coincident);
     return loc;
   }
@@ -37067,6 +38126,8 @@ ${content}</tr>
     },
     loadIssues(projection2) {
       let params = {
+        // Tiles return a maximum # of issues
+        // So we want to filter our request for only types iD supports
         item: _osmoseData.items
       };
       let tiles = tiler3.zoomExtent([_tileZoom3, _tileZoom3]).getTiles(projection2);
@@ -37188,19 +38249,24 @@ ${content}</tr>
           callback(err.message);
       });
     },
+    // Get all cached QAItems covering the viewport
     getItems(projection2) {
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _cache3.rtree.search(bbox).map((d) => d.data);
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _cache3.rtree.search(bbox2).map((d) => d.data);
     },
+    // Get a QAItem from cache
+    // NOTE: Don't change method name until UI v3 is merged
     getError(id2) {
       return _cache3.data[id2];
     },
+    // get the name of the icon to display for this item
     getIcon(itemType) {
       return _osmoseData.icons[itemType];
     },
+    // Replace a single QAItem in the cache
     replaceItem(item) {
       if (!(item instanceof QAItem) || !item.id)
         return;
@@ -37208,12 +38274,14 @@ ${content}</tr>
       updateRtree3(encodeIssueRtree3(item), true);
       return item;
     },
+    // Remove a single QAItem from the cache
     removeItem(item) {
       if (!(item instanceof QAItem) || !item.id)
         return;
       delete _cache3.data[item.id];
       updateRtree3(encodeIssueRtree3(item), false);
     },
+    // Used to populate `closed:osmose:*` changeset tags
     getClosedCounts() {
       return _cache3.closed;
     },
@@ -37286,9 +38354,9 @@ ${content}</tr>
   }
   function loadTileDataToCache(data, tile, which) {
     const vectorTile = new import_vector_tile.VectorTile(new import_pbf.default(data));
-    let features2, cache, layer, i2, feature3, loc, d;
+    let features, cache, layer, i2, feature3, loc, d;
     if (vectorTile.layers.hasOwnProperty("image")) {
-      features2 = [];
+      features = [];
       cache = _mlyCache.images;
       layer = vectorTile.layers.image;
       for (i2 = 0; i2 < layer.length; i2++) {
@@ -37303,7 +38371,7 @@ ${content}</tr>
           sequence_id: feature3.properties.sequence_id
         };
         cache.forImageId[d.id] = d;
-        features2.push({
+        features.push({
           minX: loc[0],
           minY: loc[1],
           maxX: loc[0],
@@ -37312,11 +38380,11 @@ ${content}</tr>
         });
       }
       if (cache.rtree) {
-        cache.rtree.load(features2);
+        cache.rtree.load(features);
       }
     }
     if (vectorTile.layers.hasOwnProperty("sequence")) {
-      features2 = [];
+      features = [];
       cache = _mlyCache.sequences;
       layer = vectorTile.layers.sequence;
       for (i2 = 0; i2 < layer.length; i2++) {
@@ -37329,7 +38397,7 @@ ${content}</tr>
       }
     }
     if (vectorTile.layers.hasOwnProperty("point")) {
-      features2 = [];
+      features = [];
       cache = _mlyCache[which];
       layer = vectorTile.layers.point;
       for (i2 = 0; i2 < layer.length; i2++) {
@@ -37342,7 +38410,7 @@ ${content}</tr>
           last_seen_at: feature3.properties.last_seen_at,
           value: feature3.properties.value
         };
-        features2.push({
+        features.push({
           minX: loc[0],
           minY: loc[1],
           maxX: loc[0],
@@ -37351,11 +38419,11 @@ ${content}</tr>
         });
       }
       if (cache.rtree) {
-        cache.rtree.load(features2);
+        cache.rtree.load(features);
       }
     }
     if (vectorTile.layers.hasOwnProperty("traffic_sign")) {
-      features2 = [];
+      features = [];
       cache = _mlyCache[which];
       layer = vectorTile.layers.traffic_sign;
       for (i2 = 0; i2 < layer.length; i2++) {
@@ -37368,7 +38436,7 @@ ${content}</tr>
           last_seen_at: feature3.properties.last_seen_at,
           value: feature3.properties.value
         };
-        features2.push({
+        features.push({
           minX: loc[0],
           minY: loc[1],
           maxX: loc[0],
@@ -37377,7 +38445,7 @@ ${content}</tr>
         });
       }
       if (cache.rtree) {
-        cache.rtree.load(features2);
+        cache.rtree.load(features);
       }
     }
   }
@@ -37412,12 +38480,14 @@ ${content}</tr>
     }, []);
   }
   var mapillary_default = {
+    // Initialize Mapillary
     init: function() {
       if (!_mlyCache) {
         this.reset();
       }
       this.event = utilRebind(this, dispatch5, "on");
     },
+    // Reset cache and state
     reset: function() {
       if (_mlyCache) {
         Object.values(_mlyCache.requests.inflight).forEach(function(request3) {
@@ -37434,29 +38504,34 @@ ${content}</tr>
       };
       _mlyActiveImage = null;
     },
+    // Get visible images
     images: function(projection2) {
       const limit = 5;
       return searchLimited(limit, projection2, _mlyCache.images.rtree);
     },
+    // Get visible traffic signs
     signs: function(projection2) {
       const limit = 5;
       return searchLimited(limit, projection2, _mlyCache.signs.rtree);
     },
+    // Get visible map (point) features
     mapFeatures: function(projection2) {
       const limit = 5;
       return searchLimited(limit, projection2, _mlyCache.points.rtree);
     },
+    // Get cached image by id
     cachedImage: function(imageId) {
       return _mlyCache.images.forImageId[imageId];
     },
+    // Get visible sequences
     sequences: function(projection2) {
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
       const sequenceIds = {};
       let lineStrings = [];
-      _mlyCache.images.rtree.search(bbox).forEach(function(d) {
+      _mlyCache.images.rtree.search(bbox2).forEach(function(d) {
         if (d.data.sequence_id) {
           sequenceIds[d.data.sequence_id] = true;
         }
@@ -37468,15 +38543,19 @@ ${content}</tr>
       });
       return lineStrings;
     },
+    // Load images in the visible area
     loadImages: function(projection2) {
       loadTiles("images", tileUrl, 14, projection2);
     },
+    // Load traffic signs in the visible area
     loadSigns: function(projection2) {
       loadTiles("signs", trafficSignTileUrl, 14, projection2);
     },
+    // Load map (point) features in the visible area
     loadMapFeatures: function(projection2) {
       loadTiles("points", mapFeatureTileUrl, 14, projection2);
     },
+    // Return a promise that resolves when the image viewer (Mapillary JS) library has finished loading
     ensureViewerLoaded: function(context) {
       if (_loadViewerPromise)
         return _loadViewerPromise;
@@ -37504,31 +38583,45 @@ ${content}</tr>
       });
       return _loadViewerPromise;
     },
+    // Load traffic sign image sprites
     loadSignResources: function(context) {
-      context.ui().svgDefs.addSprites(["mapillary-sprite"], false);
+      context.ui().svgDefs.addSprites(
+        ["mapillary-sprite"],
+        false
+        /* don't override colors */
+      );
       return this;
     },
+    // Load map (point) feature image sprites
     loadObjectResources: function(context) {
-      context.ui().svgDefs.addSprites(["mapillary-object-sprite"], false);
+      context.ui().svgDefs.addSprites(
+        ["mapillary-object-sprite"],
+        false
+        /* don't override colors */
+      );
       return this;
     },
+    // Remove previous detections in image viewer
     resetTags: function() {
       if (_mlyViewer && !_mlyFallback) {
         _mlyViewer.getComponent("tag").removeAll();
       }
     },
+    // Show map feature detections in image viewer
     showFeatureDetections: function(value) {
       _mlyShowFeatureDetections = value;
       if (!_mlyShowFeatureDetections && !_mlyShowSignDetections) {
         this.resetTags();
       }
     },
+    // Show traffic sign detections in image viewer
     showSignDetections: function(value) {
       _mlyShowSignDetections = value;
       if (!_mlyShowFeatureDetections && !_mlyShowSignDetections) {
         this.resetTags();
       }
     },
+    // Apply filter to image viewer
     filterViewer: function(context) {
       const showsPano = context.photos().showsPanoramic();
       const showsFlat = context.photos().showsFlat();
@@ -37551,6 +38644,7 @@ ${content}</tr>
       _mlyViewerFilter = filter2;
       return filter2;
     },
+    // Make the image viewer visible
     showViewer: function(context) {
       const wrap2 = context.container().select(".photoviewer").classed("hide", false);
       const isHidden = wrap2.selectAll(".photo-wrapper.mly-wrapper.hide").size();
@@ -37561,6 +38655,7 @@ ${content}</tr>
       }
       return this;
     },
+    // Hide the image viewer and resets map markers
     hideViewer: function(context) {
       _mlyActiveImage = null;
       if (!_mlyFallback && _mlyViewer) {
@@ -37576,6 +38671,7 @@ ${content}</tr>
       dispatch5.call("loadedSigns");
       return this.setStyles(context, null);
     },
+    // Update the URL with current image id
     updateUrlImage: function(imageId) {
       if (!window.mocha) {
         const hash = utilStringQs(window.location.hash);
@@ -37587,12 +38683,14 @@ ${content}</tr>
         window.location.replace("#" + utilQsString(hash, true));
       }
     },
+    // Highlight the detection in the viewer that is related to the clicked map feature
     highlightDetection: function(detection) {
       if (detection) {
         _mlyHighlightedDetection = detection.id;
       }
       return this;
     },
+    // Initialize image viewer (Mapillar JS)
     initViewer: function(context) {
       const that = this;
       if (!window.mapillary)
@@ -37617,7 +38715,9 @@ ${content}</tr>
           sequence: false,
           tag: false,
           image: true,
+          // fallback
           navigation: true
+          // fallback
         };
       }
       _mlyViewer = new mapillary.Viewer(opts);
@@ -37647,6 +38747,7 @@ ${content}</tr>
         dispatch5.call("bearingChanged", void 0, e);
       }
     },
+    // Move to an image
     selectImage: function(context, imageId) {
       if (_mlyViewer && imageId) {
         _mlyViewer.moveTo(imageId).catch(function(e) {
@@ -37655,12 +38756,15 @@ ${content}</tr>
       }
       return this;
     },
+    // Return the currently displayed image
     getActiveImage: function() {
       return _mlyActiveImage;
     },
+    // Return a list of detection objects for the given id
     getDetections: function(id2) {
       return loadData(`${apiUrl}/${id2}/detections?access_token=${accessToken}&fields=id,value,image`);
     },
+    // Set the currently visible image
     setActiveImage: function(image) {
       if (image) {
         _mlyActiveImage = {
@@ -37674,6 +38778,7 @@ ${content}</tr>
         _mlyActiveImage = null;
       }
     },
+    // Update the currently highlighted sequence and selected bubble.
     setStyles: function(context, hovered) {
       const hoveredImageId = hovered && hovered.id;
       const hoveredSequenceId = hovered && hovered.sequence_id;
@@ -37690,6 +38795,7 @@ ${content}</tr>
       });
       return this;
     },
+    // Get detections for the current image and shows them in the image viewer
     updateDetections: function(imageId, url) {
       if (!_mlyViewer || _mlyFallback)
         return;
@@ -37748,7 +38854,7 @@ ${content}</tr>
         const tile = new import_vector_tile.VectorTile(new import_pbf.default(uintArray.buffer));
         const layer = tile.layers["mpy-or"];
         const geometries = layer.feature(0).loadGeometry();
-        const polygon2 = geometries.map((ring) => ring.map((point) => [point.x / layer.extent, point.y / layer.extent]));
+        const polygon2 = geometries.map((ring) => ring.map((point2) => [point2.x / layer.extent, point2.y / layer.extent]));
         tag = new mapillary.OutlineTag(
           data.id,
           new mapillary.PolygonGeometry(polygon2[0]),
@@ -37764,6 +38870,7 @@ ${content}</tr>
         return tag;
       }
     },
+    // Return the current cache
     cache: function() {
       return _mlyCache;
     }
@@ -37939,6 +39046,7 @@ ${content}</tr>
       this._areaKeys = osmAreaKeys;
       this._lineKeys = buildLineKeys();
     },
+    // list of rules only relevant to tag checks...
     filterRuleChecks: function(selector) {
       var _ruleChecks = this._ruleChecks;
       return Object.keys(selector).reduce(function(rules, key) {
@@ -37948,6 +39056,7 @@ ${content}</tr>
         return rules;
       }, []);
     },
+    // builds tagMap from mapcss-parse selector object...
     buildTagMap: function(selector) {
       var getRegexValues = function(regexes) {
         return regexes.map(function(regex) {
@@ -37978,6 +39087,7 @@ ${content}</tr>
       }, {});
       return tagMap;
     },
+    // inspired by osmWay#isArea()
     inferGeometry: function(tagMap) {
       var _lineKeys = this._lineKeys;
       var _areaKeys = this._areaKeys;
@@ -38005,14 +39115,18 @@ ${content}</tr>
       }
       return "line";
     },
+    // adds from mapcss-parse selector check...
     addRule: function(selector) {
       var rule = {
+        // checks relevant to mapcss-selector
         checks: this.filterRuleChecks(selector),
+        // true if all conditions for a tag error are true..
         matches: function(entity) {
           return this.checks.every(function(check) {
             return check(entity.tags);
           });
         },
+        // borrowed from Way#isArea()
         inferredGeometry: this.inferGeometry(this.buildTagMap(selector), this._areaKeys),
         geometryMatches: function(entity, graph) {
           if (entity.type === "node" || entity.type === "relation") {
@@ -38021,6 +39135,7 @@ ${content}</tr>
             return this.inferredGeometry === entity.geometry(graph);
           }
         },
+        // when geometries match and tag matches are present, return a warning...
         findIssues: function(entity, graph, issues) {
           if (this.geometryMatches(entity, graph) && this.matches(entity)) {
             var severity = Object.keys(selector).indexOf("error") > -1 ? "error" : "warning";
@@ -38041,9 +39156,11 @@ ${content}</tr>
     clearRules: function() {
       this._validationRules = [];
     },
+    // returns validationRules...
     validationRules: function() {
       return this._validationRules;
     },
+    // returns ruleChecks
     ruleChecks: function() {
       return this._ruleChecks;
     }
@@ -38051,7 +39168,7 @@ ${content}</tr>
 
   // modules/services/nominatim.js
   var import_rbush5 = __toESM(require_rbush_min());
-  var apibase = "https://nominatim.openstreetmap.org/";
+  var apibase = nominatimApiUrl;
   var _inflight = {};
   var _nominatimCache;
   var nominatim_default = {
@@ -38498,6 +39615,9 @@ ${content}</tr>
   var matchGroups = matchGroups_default.matchGroups;
   var trees = trees_default.trees;
   var Matcher = class {
+    //
+    // `constructor`
+    // initialize the genericWords regexes
     constructor() {
       this.matchIndex = void 0;
       this.genericWords = /* @__PURE__ */ new Map();
@@ -38507,6 +39627,18 @@ ${content}</tr>
       this.locationIndex = void 0;
       this.warnings = [];
     }
+    //
+    // `buildMatchIndex()`
+    // Call this to prepare the matcher for use
+    //
+    // `data` needs to be an Object indexed on a 'tree/key/value' path.
+    // (e.g. cache filled by `fileTree.read` or data found in `dist/nsi.json`)
+    // {
+    //    'brands/amenity/bank': { properties: {}, items: [ {}, {}, … ] },
+    //    'brands/amenity/bar':  { properties: {}, items: [ {}, {}, … ] },
+    //    …
+    // }
+    //
     buildMatchIndex(data) {
       const that = this;
       if (that.matchIndex)
@@ -38639,6 +39771,20 @@ ${content}</tr>
         return t === "flags" || t === "transit" || k === "landuse" || v === "atm" || v === "bicycle_parking" || v === "car_sharing" || v === "caravan_site" || v === "charging_station" || v === "dog_park" || v === "parking" || v === "phone" || v === "playground" || v === "post_box" || v === "public_bookcase" || v === "recycling" || v === "vending_machine";
       }
     }
+    //
+    // `buildLocationIndex()`
+    // Call this to prepare a which-polygon location index.
+    // This *resolves* all the locationSets into GeoJSON, which takes some time.
+    // You can skip this step if you don't care about matching within a location.
+    //
+    // `data` needs to be an Object indexed on a 'tree/key/value' path.
+    // (e.g. cache filled by `fileTree.read` or data found in `dist/nsi.json`)
+    // {
+    //    'brands/amenity/bank': { properties: {}, items: [ {}, {}, … ] },
+    //    'brands/amenity/bar':  { properties: {}, items: [ {}, {}, … ] },
+    //    …
+    // }
+    //
     buildLocationIndex(data, loco) {
       const that = this;
       if (that.locationIndex)
@@ -38679,6 +39825,54 @@ ${content}</tr>
         return JSON.parse(JSON.stringify(obj));
       }
     }
+    //
+    // `match()`
+    // Pass parts and return an Array of matches.
+    // `k` - key
+    // `v` - value
+    // `n` - namelike
+    // `loc` - optional - [lon,lat] location to search
+    //
+    // 1. If the [k,v,n] tuple matches a canonical item…
+    // Return an Array of match results.
+    // Each result will include the area in km² that the item is valid.
+    //
+    // Order of results:
+    // Primary ordering will be on the "match" column:
+    //   "primary" - where the query matches the `name` tag, followed by
+    //   "alternate" - where the query matches an alternate name tag (e.g. short_name, brand, operator, etc)
+    // Secondary ordering will be on the "area" column:
+    //   "area descending" if no location was provided, (worldwide before local)
+    //   "area ascending" if location was provided (local before worldwide)
+    //
+    // [
+    //   { match: 'primary',   itemID: String,  area: Number,  kv: String,  nsimple: String },
+    //   { match: 'primary',   itemID: String,  area: Number,  kv: String,  nsimple: String },
+    //   { match: 'alternate', itemID: String,  area: Number,  kv: String,  nsimple: String },
+    //   { match: 'alternate', itemID: String,  area: Number,  kv: String,  nsimple: String },
+    //   …
+    // ]
+    //
+    // -or-
+    //
+    // 2. If the [k,v,n] tuple matches an exclude pattern…
+    // Return an Array with a single exclude result, either
+    //
+    // [ { match: 'excludeGeneric', pattern: String,  kv: String } ]  // "generic" e.g. "Food Court"
+    //   or
+    // [ { match: 'excludeNamed', pattern: String,  kv: String } ]    // "named", e.g. "Kebabai"
+    //
+    // About results
+    //   "generic" - a generic word that is probably not really a name.
+    //     For these, iD should warn the user "Hey don't put 'food court' in the name tag".
+    //   "named" - a real name like "Kebabai" that is just common, but not a brand.
+    //     For these, iD should just let it be. We don't include these in NSI, but we don't want to nag users about it either.
+    //
+    // -or-
+    //
+    // 3. If the [k,v,n] tuple matches nothing of any kind, return `null`
+    //
+    //
     match(k, v, n2, loc) {
       const that = this;
       if (!that.matchIndex) {
@@ -38779,6 +39973,11 @@ ${content}</tr>
         }
       }
     }
+    //
+    // `getWarnings()`
+    // Return any warnings discovered when buiding the index.
+    // (currently this does nothing)
+    //
     getWarnings() {
       return this.warnings;
     }
@@ -39009,19 +40208,19 @@ ${content}</tr>
     var _segmentsByWayId = {};
     var tree = {};
     function entityBBox(entity) {
-      var bbox = entity.extent(head).bbox();
-      bbox.id = entity.id;
-      _bboxes[entity.id] = bbox;
-      return bbox;
+      var bbox2 = entity.extent(head).bbox();
+      bbox2.id = entity.id;
+      _bboxes[entity.id] = bbox2;
+      return bbox2;
     }
     function segmentBBox(segment) {
       var extent = segment.extent(head);
       if (!extent)
         return null;
-      var bbox = extent.bbox();
-      bbox.segment = segment;
-      _segmentsBBoxes[segment.id] = bbox;
-      return bbox;
+      var bbox2 = extent.bbox();
+      bbox2.segment = segment;
+      _segmentsBBoxes[segment.id] = bbox2;
+      return bbox2;
     }
     function removeEntity(entity) {
       _rtree.remove(_bboxes[entity.id]);
@@ -39115,14 +40314,14 @@ ${content}</tr>
     }
     tree.intersects = function(extent, graph) {
       updateToGraph(graph);
-      return _rtree.search(extent.bbox()).map(function(bbox) {
-        return graph.entity(bbox.id);
+      return _rtree.search(extent.bbox()).map(function(bbox2) {
+        return graph.entity(bbox2.id);
       });
     };
     tree.waySegments = function(extent, graph) {
       updateToGraph(graph);
-      return _segmentsRTree.search(extent.bbox()).map(function(bbox) {
-        return bbox.segment;
+      return _segmentsRTree.search(extent.bbox()).map(function(bbox2) {
+        return bbox2.segment;
       });
     };
     return tree;
@@ -39332,6 +40531,7 @@ ${content}</tr>
         select_default2(document).interrupt("history.perform");
         return _replace(arguments, 1);
       },
+      // Same as calling pop and then perform
       overwrite: function() {
         select_default2(document).interrupt("history.perform");
         return _overwrite(arguments, 1);
@@ -39348,6 +40548,7 @@ ${content}</tr>
         }
         return change(previous);
       },
+      // Back to the previous annotated state or _index = 0.
       undo: function() {
         select_default2(document).interrupt("history.perform");
         var previousStack = _stack[_index];
@@ -39360,6 +40561,7 @@ ${content}</tr>
         dispatch10.call("undone", this, _stack[_index], previousStack);
         return change(previous);
       },
+      // Forward to the next annotated state.
       redo: function() {
         select_default2(document).interrupt("history.perform");
         var previousStack = _stack[_index];
@@ -39403,6 +40605,8 @@ ${content}</tr>
           i2++;
         }
       },
+      // Returns the entities from the active graph with bounding boxes
+      // overlapping the given `extent`.
       intersects: function(extent) {
         return _tree.intersects(extent, _stack[_index].graph);
       },
@@ -39459,6 +40663,7 @@ ${content}</tr>
           return Array.from(s);
         }
       },
+      // save the current history state
       checkpoint: function(key) {
         _checkpoints[key] = {
           stack: _stack,
@@ -39466,6 +40671,7 @@ ${content}</tr>
         };
         return history;
       },
+      // restore history state to a given checkpoint or reset completely
       reset: function(key) {
         if (key !== void 0 && _checkpoints.hasOwnProperty(key)) {
           _stack = _checkpoints[key].stack;
@@ -39480,6 +40686,16 @@ ${content}</tr>
         dispatch10.call("change");
         return history;
       },
+      // `toIntroGraph()` is used to export the intro graph used by the walkthrough.
+      //
+      // To use it:
+      //  1. Start the walkthrough.
+      //  2. Get to a "free editing" tutorial step
+      //  3. Make your edits to the walkthrough map
+      //  4. In your browser dev console run:
+      //        `id.history().toIntroGraph()`
+      //  5. This outputs stringified JSON to the browser console
+      //  6. Copy it to `data/intro_graph.json` and prettify it in your code editor
       toIntroGraph: function() {
         var nextID = { n: 0, r: 0, w: 0 };
         var permIDs = {};
@@ -39594,7 +40810,8 @@ ${content}</tr>
           stack: s,
           nextIDs: osmEntity.id.next,
           index: _index,
-          timestamp: new Date().getTime()
+          // note the time the changes were saved
+          timestamp: (/* @__PURE__ */ new Date()).getTime()
         });
       },
       fromJSON: function(json, loadChildNodes) {
@@ -39713,13 +40930,15 @@ ${content}</tr>
         lock.unlock();
       },
       save: function() {
-        if (lock.locked() && !_hasUnresolvedRestorableChanges) {
+        if (lock.locked() && // don't overwrite existing, unresolved changes
+        !_hasUnresolvedRestorableChanges) {
           const success = corePreferences(getKey("saved_history"), history.toJSON() || null);
           if (!success)
             dispatch10.call("storage_error");
         }
         return history;
       },
+      // delete the history version saved in localStorage
       clearSaved: function() {
         context.debouncedSave.cancel();
         if (lock.locked()) {
@@ -39737,6 +40956,7 @@ ${content}</tr>
       hasRestorableChanges: function() {
         return _hasUnresolvedRestorableChanges;
       },
+      // load history from a version stored in localStorage
       restore: function() {
         if (lock.locked()) {
           _hasUnresolvedRestorableChanges = false;
@@ -39774,7 +40994,7 @@ ${content}</tr>
 
   // modules/validations/almost_junction.js
   function validationAlmostJunction(context) {
-    const type3 = "almost_junction";
+    const type2 = "almost_junction";
     const EXTEND_TH_METERS = 5;
     const WELD_TH_METERS = 0.75;
     const CLOSE_NODE_TH = EXTEND_TH_METERS - WELD_TH_METERS;
@@ -39795,7 +41015,7 @@ ${content}</tr>
       let issues = [];
       extendableNodeInfos.forEach((extendableNodeInfo) => {
         issues.push(new validationIssue({
-          type: type3,
+          type: type2,
           subtype: "highway-highway",
           severity: "warning",
           message: function(context2) {
@@ -40021,13 +41241,13 @@ ${content}</tr>
         return null;
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/close_nodes.js
   function validationCloseNodes(context) {
-    var type3 = "close_nodes";
+    var type2 = "close_nodes";
     var pointThresholdMeters = 0.2;
     var validation = function(entity, graph) {
       if (entity.type === "node") {
@@ -40070,8 +41290,8 @@ ${content}</tr>
       function shouldCheckWay(way) {
         if (way.nodes.length <= 2 || way.isClosed() && way.nodes.length <= 4)
           return false;
-        var bbox = way.extent(graph).bbox();
-        var hypotenuseMeters = geoSphericalDistance([bbox.minX, bbox.minY], [bbox.maxX, bbox.maxY]);
+        var bbox2 = way.extent(graph).bbox();
+        var hypotenuseMeters = geoSphericalDistance([bbox2.minX, bbox2.minY], [bbox2.maxX, bbox2.maxY]);
         if (hypotenuseMeters < 1.5)
           return false;
         return true;
@@ -40169,7 +41389,7 @@ ${content}</tr>
                 continue;
             }
             issues.push(new validationIssue({
-              type: type3,
+              type: type2,
               subtype: "detached",
               severity: "warning",
               message: function(context2) {
@@ -40225,7 +41445,7 @@ ${content}</tr>
             return null;
         }
         return new validationIssue({
-          type: type3,
+          type: type2,
           subtype: "vertices",
           severity: "warning",
           message: function(context2) {
@@ -40259,13 +41479,13 @@ ${content}</tr>
         }
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/crossing_ways.js
   function validationCrossingWays(context) {
-    var type3 = "crossing_ways";
+    var type2 = "crossing_ways";
     function getFeatureWithFeatureTypeTagsForWay(way, graph) {
       if (getFeatureType(way, graph) === null) {
         var parentRels = graph.parentRelations(way);
@@ -40384,7 +41604,7 @@ ${content}</tr>
               return {};
             }
             var pathFeature = entity1IsPath ? entity1 : entity2;
-            if (["marked", "unmarked", "traffic_signals"].indexOf(pathFeature.tags.crossing) !== -1) {
+            if (["marked", "unmarked", "traffic_signals", "uncontrolled"].indexOf(pathFeature.tags.crossing) !== -1) {
               return bothLines ? { highway: "crossing", crossing: pathFeature.tags.crossing } : {};
             }
             return bothLines ? { highway: "crossing" } : {};
@@ -40486,8 +41706,8 @@ ${content}</tr>
             continue;
           segment1 = [n1.loc, n2.loc];
           segment2 = [nA.loc, nB.loc];
-          var point = geoLineIntersection(segment1, segment2);
-          if (point) {
+          var point2 = geoLineIntersection(segment1, segment2);
+          if (point2) {
             edgeCrossInfos.push({
               wayInfos: [
                 {
@@ -40501,7 +41721,7 @@ ${content}</tr>
                   edge: [nA.id, nB.id]
                 }
               ],
-              crossPoint: point
+              crossPoint: point2
             });
             if (oneOnly) {
               checkedSingleCrossingWays[way2.id] = true;
@@ -40520,7 +41740,8 @@ ${content}</tr>
         return [entity];
       } else if (entity.type === "relation") {
         return entity.members.reduce(function(array2, member) {
-          if (member.type === "way" && (!member.role || member.role === "outer" || member.role === "inner")) {
+          if (member.type === "way" && // only look at geometry ways
+          (!member.role || member.role === "outer" || member.role === "inner")) {
             var entity2 = graph.hasEntity(member.id);
             if (entity2 && array2.indexOf(entity2) === -1) {
               array2.push(entity2);
@@ -40582,7 +41803,7 @@ ${content}</tr>
       }
       var uniqueID = crossing.crossPoint[0].toFixed(4) + "," + crossing.crossPoint[1].toFixed(4);
       return new validationIssue({
-        type: type3,
+        type: type2,
         subtype,
         severity: "warning",
         message: function(context2) {
@@ -40677,7 +41898,7 @@ ${content}</tr>
           var action = function actionAddStructure(graph) {
             var edgeNodes = [graph.entity(edge[0]), graph.entity(edge[1])];
             var crossedWay = graph.hasEntity(crossedWayID);
-            var structLengthMeters = crossedWay && crossedWay.tags.width && parseFloat(crossedWay.tags.width);
+            var structLengthMeters = crossedWay && isFinite(crossedWay.tags.width) && Number(crossedWay.tags.width);
             if (!structLengthMeters) {
               structLengthMeters = crossedWay && crossedWay.impliedLineWidthMeters();
             }
@@ -40873,7 +42094,7 @@ ${content}</tr>
         }
       });
     }
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
@@ -40948,7 +42169,10 @@ ${content}</tr>
       }
       context.replace(actionMoveNode(_drawNode.id, loc), _annotation);
       _drawNode = context.entity(_drawNode.id);
-      checkGeometry(true);
+      checkGeometry(
+        true
+        /* includeDrawNode */
+      );
     }
     function checkGeometry(includeDrawNode) {
       var nopeDisabled = context.surface().classed("nope-disabled");
@@ -41061,7 +42285,10 @@ ${content}</tr>
       } else {
         createDrawNode(loc);
       }
-      checkGeometry(true);
+      checkGeometry(
+        true
+        /* includeDrawNode */
+      );
       if (d && d.properties && d.properties.nope || context.surface().classed("nope")) {
         if (!_pointerHasMoved) {
           removeDrawNode();
@@ -41088,7 +42315,8 @@ ${content}</tr>
       });
     };
     drawWay.addNode = function(node, d) {
-      if (node.id === _headNodeID || _origWay.isClosed() && node.id === _origWay.first()) {
+      if (node.id === _headNodeID || // or the first node when drawing an area
+      _origWay.isClosed() && node.id === _origWay.first()) {
         drawWay.finish();
         return;
       }
@@ -41151,7 +42379,10 @@ ${content}</tr>
     keybinding.on(_t("operations.follow.key"), followMode);
     select_default2(document).call(keybinding);
     drawWay.finish = function() {
-      checkGeometry(false);
+      checkGeometry(
+        false
+        /* includeDrawNode */
+      );
       if (context.surface().classed("nope")) {
         dispatch10.call("rejectedSelfIntersection", this);
         return;
@@ -41224,7 +42455,7 @@ ${content}</tr>
 
   // modules/validations/disconnected_way.js
   function validationDisconnectedWay() {
-    var type3 = "disconnected_way";
+    var type2 = "disconnected_way";
     function isTaggedAsHighway(entity) {
       return osmRoutableHighwayTagValues[entity.tags.highway];
     }
@@ -41233,7 +42464,7 @@ ${content}</tr>
       if (!routingIslandWays)
         return [];
       return [new validationIssue({
-        type: type3,
+        type: type2,
         subtype: "highway",
         severity: "warning",
         message: function(context) {
@@ -41292,7 +42523,8 @@ ${content}</tr>
         var waysToCheck = [];
         function queueParentWays(node) {
           graph.parentWays(node).forEach(function(parentWay) {
-            if (!routingIsland.has(parentWay) && isRoutableWay(parentWay, false)) {
+            if (!routingIsland.has(parentWay) && // only check each feature once
+            isRoutableWay(parentWay, false)) {
               routingIsland.add(parentWay);
               waysToCheck.push(parentWay);
             }
@@ -41376,13 +42608,13 @@ ${content}</tr>
         });
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/invalid_format.js
   function validationFormatting() {
-    var type3 = "invalid_format";
+    var type2 = "invalid_format";
     var validation = function(entity) {
       var issues = [];
       function showReferenceDate(selection2) {
@@ -41395,7 +42627,7 @@ ${content}</tr>
         if (normalized !== null && entity.tags[key] === normalized.value)
           return;
         issues.push(new validationIssue({
-          type: type3,
+          type: type2,
           subtype: "date",
           severity: "error",
           message: function(context) {
@@ -41461,7 +42693,7 @@ ${content}</tr>
         });
         if (emails.length) {
           issues.push(new validationIssue({
-            type: type3,
+            type: type2,
             subtype: "email",
             severity: "warning",
             message: function(context) {
@@ -41480,13 +42712,13 @@ ${content}</tr>
       }
       return issues;
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/help_request.js
   function validationHelpRequest(context) {
-    var type3 = "help_request";
+    var type2 = "help_request";
     var validation = function checkFixmeTag(entity) {
       if (!entity.tags.fixme)
         return [];
@@ -41498,13 +42730,18 @@ ${content}</tr>
           return [];
       }
       return [new validationIssue({
-        type: type3,
+        type: type2,
         subtype: "fixme_tag",
         severity: "warning",
         message: function(context2) {
           var entity2 = context2.hasEntity(this.entityIds[0]);
           return entity2 ? _t.append("issues.fixme_tag.message", {
-            feature: utilDisplayLabel(entity2, context2.graph(), true)
+            feature: utilDisplayLabel(
+              entity2,
+              context2.graph(),
+              true
+              /* verbose */
+            )
           }) : "";
         },
         dynamicFixes: function() {
@@ -41521,13 +42758,13 @@ ${content}</tr>
         selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.fixme_tag.reference"));
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/impossible_oneway.js
   function validationImpossibleOneway() {
-    var type3 = "impossible_oneway";
+    var type2 = "impossible_oneway";
     var validation = function checkImpossibleOneway(entity, graph) {
       if (entity.type !== "way" || entity.geometry(graph) !== "line")
         return [];
@@ -41653,7 +42890,7 @@ ${content}</tr>
           referenceID += placement;
         }
         return [new validationIssue({
-          type: type3,
+          type: type2,
           subtype: wayType,
           severity: "warning",
           message: function(context) {
@@ -41712,13 +42949,13 @@ ${content}</tr>
         modeDrawLine(context, way.id, context.graph(), "line", way.affix(vertex.id), true)
       );
     }
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/incompatible_source.js
   function validationIncompatibleSource() {
-    const type3 = "incompatible_source";
+    const type2 = "incompatible_source";
     const incompatibleRules = [
       {
         id: "amap",
@@ -41750,12 +42987,17 @@ ${content}</tr>
         if (!matchRule)
           return null;
         return new validationIssue({
-          type: type3,
+          type: type2,
           severity: "warning",
           message: (context) => {
             const entity2 = context.hasEntity(entityID);
             return entity2 ? _t.append("issues.incompatible_source.feature.message", {
-              feature: utilDisplayLabel(entity2, context.graph(), true),
+              feature: utilDisplayLabel(
+                entity2,
+                context.graph(),
+                true
+                /* verbose */
+              ),
               value: source
             }) : "";
           },
@@ -41775,13 +43017,13 @@ ${content}</tr>
         };
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/maprules.js
   function validationMaprules() {
-    var type3 = "maprules";
+    var type2 = "maprules";
     var validation = function checkMaprules(entity, graph) {
       if (!services.maprules)
         return [];
@@ -41793,14 +43035,14 @@ ${content}</tr>
       }
       return issues;
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/mismatched_geometry.js
   var import_fast_deep_equal4 = __toESM(require_fast_deep_equal());
   function validationMismatchedGeometry() {
-    var type3 = "mismatched_geometry";
+    var type2 = "mismatched_geometry";
     function tagSuggestingLineIsArea(entity) {
       if (entity.type !== "way" || entity.isClosed())
         return null;
@@ -41853,14 +43095,31 @@ ${content}</tr>
       var tagSuggestingArea = tagSuggestingLineIsArea(entity);
       if (!tagSuggestingArea)
         return null;
+      var validAsLine = false;
+      var presetAsLine = _mainPresetIndex.matchTags(entity.tags, "line");
+      if (presetAsLine) {
+        validAsLine = true;
+        var key = Object.keys(tagSuggestingArea)[0];
+        if (presetAsLine.tags[key] && presetAsLine.tags[key] === "*") {
+          validAsLine = false;
+        }
+        if (Object.keys(presetAsLine.tags).length === 0) {
+          validAsLine = false;
+        }
+      }
       return new validationIssue({
-        type: type3,
+        type: type2,
         subtype: "area_as_line",
         severity: "warning",
         message: function(context) {
           var entity2 = context.hasEntity(this.entityIds[0]);
           return entity2 ? _t.append("issues.tag_suggests_area.message", {
-            feature: utilDisplayLabel(entity2, "area", true),
+            feature: utilDisplayLabel(
+              entity2,
+              "area",
+              true
+              /* verbose */
+            ),
             tag: utilTagText({ tags: tagSuggestingArea })
           }) : "";
         },
@@ -41871,10 +43130,12 @@ ${content}</tr>
           var fixes = [];
           var entity2 = context.entity(this.entityIds[0]);
           var connectEndsOnClick = makeConnectEndpointsFixOnClick(entity2, context.graph());
-          fixes.push(new validationIssueFix({
-            title: _t.append("issues.fix.connect_endpoints.title"),
-            onClick: connectEndsOnClick
-          }));
+          if (!validAsLine) {
+            fixes.push(new validationIssueFix({
+              title: _t.append("issues.fix.connect_endpoints.title"),
+              onClick: connectEndsOnClick
+            }));
+          }
           fixes.push(new validationIssueFix({
             icon: "iD-operation-delete",
             title: _t.append("issues.fix.remove_tag.title"),
@@ -41882,8 +43143,8 @@ ${content}</tr>
               var entityId = this.issue.entityIds[0];
               var entity3 = context2.entity(entityId);
               var tags = Object.assign({}, entity3.tags);
-              for (var key in tagSuggestingArea) {
-                delete tags[key];
+              for (var key2 in tagSuggestingArea) {
+                delete tags[key2];
               }
               context2.perform(
                 actionChangeTags(entityId, tags),
@@ -41909,13 +43170,18 @@ ${content}</tr>
       var allowedGeometries = osmNodeGeometriesForTags(entity.tags);
       if (geometry === "point" && !allowedGeometries.point && allowedGeometries.vertex) {
         return new validationIssue({
-          type: type3,
+          type: type2,
           subtype: "vertex_as_point",
           severity: "warning",
           message: function(context) {
             var entity2 = context.hasEntity(this.entityIds[0]);
             return entity2 ? _t.append("issues.vertex_as_point.message", {
-              feature: utilDisplayLabel(entity2, "vertex", true)
+              feature: utilDisplayLabel(
+                entity2,
+                "vertex",
+                true
+                /* verbose */
+              )
             }) : "";
           },
           reference: function showReference(selection2) {
@@ -41925,13 +43191,18 @@ ${content}</tr>
         });
       } else if (geometry === "vertex" && !allowedGeometries.vertex && allowedGeometries.point) {
         return new validationIssue({
-          type: type3,
+          type: type2,
           subtype: "point_as_vertex",
           severity: "warning",
           message: function(context) {
             var entity2 = context.hasEntity(this.entityIds[0]);
             return entity2 ? _t.append("issues.point_as_vertex.message", {
-              feature: utilDisplayLabel(entity2, "point", true)
+              feature: utilDisplayLabel(
+                entity2,
+                "point",
+                true
+                /* verbose */
+              )
             }) : "";
           },
           reference: function showReference(selection2) {
@@ -41957,7 +43228,8 @@ ${content}</tr>
       var asSource = _mainPresetIndex.match(entity, graph);
       var targetGeom = targetGeoms.find((nodeGeom) => {
         var asTarget = _mainPresetIndex.matchTags(entity.tags, nodeGeom);
-        if (!asSource || !asTarget || asSource === asTarget || (0, import_fast_deep_equal4.default)(asSource.tags, asTarget.tags))
+        if (!asSource || !asTarget || asSource === asTarget || // sometimes there are two presets with the same tags for different geometries
+        (0, import_fast_deep_equal4.default)(asSource.tags, asTarget.tags))
           return false;
         if (asTarget.isFallback())
           return false;
@@ -41983,13 +43255,18 @@ ${content}</tr>
         dynamicFixes = lineToAreaDynamicFixes;
       }
       return new validationIssue({
-        type: type3,
+        type: type2,
         subtype,
         severity: "warning",
         message: function(context) {
           var entity2 = context.hasEntity(this.entityIds[0]);
           return entity2 ? _t.append("issues." + referenceId + ".message", {
-            feature: utilDisplayLabel(entity2, targetGeom, true)
+            feature: utilDisplayLabel(
+              entity2,
+              targetGeom,
+              true
+              /* verbose */
+            )
           }) : "";
         },
         reference: function showReference(selection2) {
@@ -42050,7 +43327,8 @@ ${content}</tr>
       ];
     }
     function unclosedMultipolygonPartIssues(entity, graph) {
-      if (entity.type !== "relation" || !entity.isMultipolygon() || entity.isDegenerate() || !entity.isComplete(graph))
+      if (entity.type !== "relation" || !entity.isMultipolygon() || entity.isDegenerate() || // cannot determine issues for incompletely-downloaded relations
+      !entity.isComplete(graph))
         return [];
       var sequences = osmJoinWays(entity.members, graph);
       var issues = [];
@@ -42063,13 +43341,18 @@ ${content}</tr>
         if (firstNode === lastNode)
           continue;
         var issue = new validationIssue({
-          type: type3,
+          type: type2,
           subtype: "unclosed_multipolygon_part",
           severity: "warning",
           message: function(context) {
             var entity2 = context.hasEntity(this.entityIds[0]);
             return entity2 ? _t.append("issues.unclosed_multipolygon_part.message", {
-              feature: utilDisplayLabel(entity2, context.graph(), true)
+              feature: utilDisplayLabel(
+                entity2,
+                context.graph(),
+                true
+                /* verbose */
+              )
             }) : "";
           },
           reference: showReference,
@@ -42098,13 +43381,13 @@ ${content}</tr>
         return [mismatch];
       return unclosedMultipolygonPartIssues(entity, graph);
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/missing_role.js
   function validationMissingRole() {
-    var type3 = "missing_role";
+    var type2 = "missing_role";
     var validation = function checkMissingRole(entity, graph) {
       var issues = [];
       if (entity.type === "way") {
@@ -42131,7 +43414,7 @@ ${content}</tr>
     }
     function makeIssue(way, relation, member) {
       return new validationIssue({
-        type: type3,
+        type: type2,
         severity: "warning",
         message: function(context) {
           var member2 = context.hasEntity(this.entityIds[1]), relation2 = context.hasEntity(this.entityIds[0]);
@@ -42184,13 +43467,13 @@ ${content}</tr>
         }
       });
     }
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/missing_tag.js
   function validationMissingTag(context) {
-    var type3 = "missing_tag";
+    var type2 = "missing_tag";
     function hasDescriptiveTags(entity, graph) {
       var onlyAttributeKeys = ["description", "name", "note", "start_date"];
       var entityDescriptiveKeys = Object.keys(entity.tags).filter(function(k) {
@@ -42215,7 +43498,9 @@ ${content}</tr>
       var subtype;
       var osm = context.connection();
       var isUnloadedNode = entity.type === "node" && osm && !osm.isDataLoaded(entity.loc);
-      if (!isUnloadedNode && entity.geometry(graph) !== "vertex" && !entity.hasParentRelations(graph)) {
+      if (!isUnloadedNode && // allow untagged nodes that are part of ways
+      entity.geometry(graph) !== "vertex" && // allow untagged entities that are part of relations
+      !entity.hasParentRelations(graph)) {
         if (Object.keys(entity.tags).length === 0) {
           subtype = "any";
         } else if (!hasDescriptiveTags(entity, graph)) {
@@ -42234,7 +43519,7 @@ ${content}</tr>
       var canDelete = entity.version === void 0 || entity.v !== void 0;
       var severity = canDelete && subtype !== "highway_classification" ? "error" : "warning";
       return [new validationIssue({
-        type: type3,
+        type: type2,
         subtype,
         severity,
         message: function(context2) {
@@ -42283,28 +43568,34 @@ ${content}</tr>
         selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues." + referenceID + ".reference"));
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/outdated_tags.js
   function validationOutdatedTags() {
-    const type3 = "outdated_tags";
+    const type2 = "outdated_tags";
     let _waitingForDeprecated = true;
     let _dataDeprecated;
     _mainFileFetcher.get("deprecated").then((d) => _dataDeprecated = d).catch(() => {
     }).finally(() => _waitingForDeprecated = false);
     function oldTagIssues(entity, graph) {
-      const oldTags = Object.assign({}, entity.tags);
-      let preset = _mainPresetIndex.match(entity, graph);
-      let subtype = "deprecated_tags";
-      if (!preset)
-        return [];
       if (!entity.hasInterestingTags())
         return [];
+      let preset = _mainPresetIndex.match(entity, graph);
+      if (!preset)
+        return [];
+      const oldTags = Object.assign({}, entity.tags);
+      let subtype = "deprecated_tags";
       if (preset.replacement) {
         const newPreset = _mainPresetIndex.item(preset.replacement);
-        graph = actionChangePreset(entity.id, preset, newPreset, true)(graph);
+        graph = actionChangePreset(
+          entity.id,
+          preset,
+          newPreset,
+          true
+          /* skip field defaults */
+        )(graph);
         entity = graph.entity(entity.id);
         preset = newPreset;
       }
@@ -42358,7 +43649,7 @@ ${content}</tr>
       }
       let autoArgs = subtype !== "noncanonical_brand" ? [doUpgrade, _t("issues.fix.upgrade_tags.annotation")] : null;
       issues.push(new validationIssue({
-        type: type3,
+        type: type2,
         subtype,
         severity: "warning",
         message: showMessage,
@@ -42432,7 +43723,12 @@ ${content}</tr>
           messageID += "_incomplete";
         }
         return _t.append(messageID, {
-          feature: utilDisplayLabel(currEntity, context.graph(), true)
+          feature: utilDisplayLabel(
+            currEntity,
+            context.graph(),
+            true
+            /* verbose */
+          )
         });
       }
       function showReference(selection2) {
@@ -42459,7 +43755,7 @@ ${content}</tr>
       if (!multipolygon || !outerWay)
         return [];
       return [new validationIssue({
-        type: type3,
+        type: type2,
         subtype: "old_multipolygon",
         severity: "warning",
         message: showMessage,
@@ -42492,7 +43788,12 @@ ${content}</tr>
           return "";
         return _t.append(
           "issues.old_multipolygon.message",
-          { multipolygon: utilDisplayLabel(currMultipolygon, context.graph(), true) }
+          { multipolygon: utilDisplayLabel(
+            currMultipolygon,
+            context.graph(),
+            true
+            /* verbose */
+          ) }
         );
       }
       function showReference(selection2) {
@@ -42505,13 +43806,13 @@ ${content}</tr>
         issues = oldTagIssues(entity, graph);
       return issues;
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/private_data.js
   function validationPrivateData() {
-    var type3 = "private_data";
+    var type2 = "private_data";
     var privateBuildingValues = {
       detached: true,
       farm: true,
@@ -42555,7 +43856,7 @@ ${content}</tr>
         return [];
       var fixID = tagDiff.length === 1 ? "remove_tag" : "remove_tags";
       return [new validationIssue({
-        type: type3,
+        type: type2,
         severity: "warning",
         message: showMessage,
         reference: showReference,
@@ -42607,13 +43908,13 @@ ${content}</tr>
         });
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/suspicious_name.js
   function validationSuspiciousName() {
-    const type3 = "suspicious_name";
+    const type2 = "suspicious_name";
     const keysToTestForGenericValues = [
       "aerialway",
       "aeroway",
@@ -42659,7 +43960,7 @@ ${content}</tr>
     }
     function makeGenericNameIssue(entityId, nameKey, genericName, langCode) {
       return new validationIssue({
-        type: type3,
+        type: type2,
         subtype: "generic_name",
         severity: "warning",
         message: function(context) {
@@ -42701,7 +44002,7 @@ ${content}</tr>
     }
     function makeIncorrectNameIssue(entityId, nameKey, incorrectName, langCode) {
       return new validationIssue({
-        type: type3,
+        type: type2,
         subtype: "not_name",
         severity: "warning",
         message: function(context) {
@@ -42770,13 +44071,13 @@ ${content}</tr>
       }
       return issues;
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
   // modules/validations/unsquare_way.js
   function validationUnsquareWay(context) {
-    var type3 = "unsquare_way";
+    var type2 = "unsquare_way";
     var DEFAULT_DEG_THRESHOLD = 5;
     var epsilon3 = 0.05;
     var nodeThreshold = 10;
@@ -42815,7 +44116,7 @@ ${content}</tr>
       if (hasConnectedSquarableWays)
         return [];
       var storedDegreeThreshold = corePreferences("validate-square-degrees");
-      var degreeThreshold = isNaN(storedDegreeThreshold) ? DEFAULT_DEG_THRESHOLD : parseFloat(storedDegreeThreshold);
+      var degreeThreshold = isFinite(storedDegreeThreshold) ? Number(storedDegreeThreshold) : DEFAULT_DEG_THRESHOLD;
       var points = nodes.map(function(node) {
         return context.projection(node.loc);
       });
@@ -42828,7 +44129,7 @@ ${content}</tr>
         autoArgs = [autoAction, _t("operations.orthogonalize.annotation.feature", { n: 1 })];
       }
       return [new validationIssue({
-        type: type3,
+        type: type2,
         subtype: "building",
         severity: "warning",
         message: function(context2) {
@@ -42857,6 +44158,21 @@ ${content}</tr>
                 }, 175);
               }
             })
+            /*
+            new validationIssueFix({
+                title: t.append('issues.fix.tag_as_unsquare.title'),
+                onClick: function(context) {
+                    var entityId = this.issue.entityIds[0];
+                    var entity = context.entity(entityId);
+                    var tags = Object.assign({}, entity.tags);  // shallow copy
+                    tags.nonsquare = 'yes';
+                    context.perform(
+                        actionChangeTags(entityId, tags),
+                        t('issues.fix.tag_as_unsquare.annotation')
+                    );
+                }
+            })
+            */
           ];
         }
       })];
@@ -42864,7 +44180,7 @@ ${content}</tr>
         selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.unsquare_way.buildings.reference"));
       }
     };
-    validation.type = type3;
+    validation.type = type2;
     return validation;
   }
 
@@ -42893,11 +44209,11 @@ ${content}</tr>
       rules.forEach((rule) => {
         rule = rule.trim();
         const parts = rule.split("/", 2);
-        const type3 = parts[0];
+        const type2 = parts[0];
         const subtype = parts[1] || "*";
-        if (!type3 || !subtype)
+        if (!type2 || !subtype)
           return;
-        result.push({ type: makeRegExp(type3), subtype: makeRegExp(subtype) });
+        result.push({ type: makeRegExp(type2), subtype: makeRegExp(subtype) });
       });
       return result;
       function makeRegExp(str2) {
@@ -43057,14 +44373,19 @@ ${content}</tr>
     };
     validator.getSharedEntityIssues = (entityIDs, options2) => {
       const orderedIssueTypes = [
+        // Show some issue types in a particular order:
         "missing_tag",
         "missing_role",
+        // - missing data first
         "outdated_tags",
         "mismatched_geometry",
+        // - identity issues
         "crossing_ways",
         "almost_junction",
+        // - geometry issues where fixing them might solve connectivity issues
         "disconnected_way",
         "impossible_oneway"
+        // - finally connectivity issues
       ];
       const allIssues = validator.getIssues(options2);
       const forEntityIDs = new Set(entityIDs);
@@ -43179,23 +44500,23 @@ ${content}</tr>
         detected = detected.filter(applySeverityOverrides);
         result.issues = result.issues.concat(detected);
         function applySeverityOverrides(issue) {
-          const type3 = issue.type;
+          const type2 = issue.type;
           const subtype = issue.subtype || "";
           let i2;
           for (i2 = 0; i2 < _errorOverrides.length; i2++) {
-            if (_errorOverrides[i2].type.test(type3) && _errorOverrides[i2].subtype.test(subtype)) {
+            if (_errorOverrides[i2].type.test(type2) && _errorOverrides[i2].subtype.test(subtype)) {
               issue.severity = "error";
               return true;
             }
           }
           for (i2 = 0; i2 < _warningOverrides.length; i2++) {
-            if (_warningOverrides[i2].type.test(type3) && _warningOverrides[i2].subtype.test(subtype)) {
+            if (_warningOverrides[i2].type.test(type2) && _warningOverrides[i2].subtype.test(subtype)) {
               issue.severity = "warning";
               return true;
             }
           }
           for (i2 = 0; i2 < _disableOverrides.length; i2++) {
-            if (_disableOverrides[i2].type.test(type3) && _disableOverrides[i2].subtype.test(subtype)) {
+            if (_disableOverrides[i2].type.test(type2) && _disableOverrides[i2].subtype.test(subtype)) {
               return false;
             }
           }
@@ -43285,7 +44606,9 @@ ${content}</tr>
       queuedEntityIDs: /* @__PURE__ */ new Set(),
       provisionalEntityIDs: /* @__PURE__ */ new Set(),
       issuesByIssueID: {},
+      // issue.id -> issue
       issuesByEntityID: {}
+      // entity.id -> Set(issue.id)
     };
     cache.cacheIssue = (issue) => {
       (issue.entityIds || []).forEach((entityID) => {
@@ -43310,8 +44633,8 @@ ${content}</tr>
     cache.uncacheIssues = (issues) => {
       issues.forEach(cache.uncacheIssue);
     };
-    cache.uncacheIssuesOfType = (type3) => {
-      const issuesOfType = Object.values(cache.issuesByIssueID).filter((issue) => issue.type === type3);
+    cache.uncacheIssuesOfType = (type2) => {
+      const issuesOfType = Object.values(cache.issuesByIssueID).filter((issue) => issue.type === type2);
       cache.uncacheIssues(issuesOfType);
     };
     cache.uncacheEntityID = (entityID) => {
@@ -43353,14 +44676,23 @@ ${content}</tr>
   // modules/core/uploader.js
   function coreUploader(context) {
     var dispatch10 = dispatch_default(
+      // Start and end events are dispatched exactly once each per legitimate outside call to `save`
       "saveStarted",
+      // dispatched as soon as a call to `save` has been deemed legitimate
       "saveEnded",
+      // dispatched after the result event has been dispatched
       "willAttemptUpload",
+      // dispatched before the actual upload call occurs, if it will
       "progressChanged",
+      // Each save results in one of these outcomes:
       "resultNoChanges",
+      // upload wasn't attempted since there were no edits
       "resultErrors",
+      // upload failed due to errors
       "resultConflicts",
+      // upload failed due to data conflicts
       "resultSuccess"
+      // upload completed without errors
     );
     var _isSaving = false;
     var _conflicts = [];
@@ -43651,6 +44983,12 @@ ${content}</tr>
 
   // modules/util/IntervalTasksQueue.js
   var IntervalTasksQueue = class {
+    /**
+     * Interval in milliseconds inside which only 1 task can execute.
+     * e.g. if interval is 200ms, and 5 async tasks are unqueued,
+     * they will complete in ~1s if not cleared
+     * @param {number} intervalInMs
+     */
     constructor(intervalInMs) {
       this.intervalInMs = intervalInMs;
       this.pendingHandles = [];
@@ -43730,6 +45068,11 @@ ${content}</tr>
       var id_safe = source.id.replace(/\./g, "<TX_DOT>");
       return _t.append("imagery." + id_safe + ".name", { default: (0, import_lodash2.escape)(_name) });
     };
+    source.hasDescription = function() {
+      var id_safe = source.id.replace(/\./g, "<TX_DOT>");
+      var descriptionText = _mainLocalizer.tInfo("imagery." + id_safe + ".description", { default: (0, import_lodash2.escape)(_description) }).text;
+      return descriptionText !== "";
+    };
     source.description = function() {
       var id_safe = source.id.replace(/\./g, "<TX_DOT>");
       return _t.append("imagery." + id_safe + ".description", { default: (0, import_lodash2.escape)(_description) });
@@ -43801,7 +45144,8 @@ ${content}</tr>
             case "wkid":
               return projection2.replace(/^EPSG:/, "");
             case "bbox":
-              if (projection2 === "EPSG:4326" && /VERSION=1.3|CRS={proj}/.test(source.template().toUpperCase())) {
+              if (projection2 === "EPSG:4326" && // The CRS parameter implies version 1.3 (prior versions use SRS)
+              /VERSION=1.3|CRS={proj}/.test(source.template().toUpperCase())) {
                 return maxXminY.y + "," + minXmaxY.x + "," + minXmaxY.y + "," + maxXminY.x;
               } else {
                 return minXmaxY.x + "," + maxXminY.y + "," + maxXminY.x + "," + minXmaxY.y;
@@ -44026,8 +45370,8 @@ ${content}</tr>
           vintage,
           source: clean2(result.NICE_NAME),
           description: clean2(result.NICE_DESC),
-          resolution: clean2(+parseFloat(result.SRC_RES).toFixed(4)),
-          accuracy: clean2(+parseFloat(result.SRC_ACC).toFixed(4))
+          resolution: clean2(+Number(result.SRC_RES).toFixed(4)),
+          accuracy: clean2(+Number(result.SRC_ACC).toFixed(4))
         };
         if (isFinite(metadata.resolution)) {
           metadata.resolution += " m";
@@ -44093,6 +45437,373 @@ ${content}</tr>
     };
     return source;
   };
+
+  // node_modules/@turf/helpers/dist/es/index.js
+  var earthRadius = 63710088e-1;
+  var factors = {
+    centimeters: earthRadius * 100,
+    centimetres: earthRadius * 100,
+    degrees: earthRadius / 111325,
+    feet: earthRadius * 3.28084,
+    inches: earthRadius * 39.37,
+    kilometers: earthRadius / 1e3,
+    kilometres: earthRadius / 1e3,
+    meters: earthRadius,
+    metres: earthRadius,
+    miles: earthRadius / 1609.344,
+    millimeters: earthRadius * 1e3,
+    millimetres: earthRadius * 1e3,
+    nauticalmiles: earthRadius / 1852,
+    radians: 1,
+    yards: earthRadius * 1.0936
+  };
+  var unitsFactors = {
+    centimeters: 100,
+    centimetres: 100,
+    degrees: 1 / 111325,
+    feet: 3.28084,
+    inches: 39.37,
+    kilometers: 1 / 1e3,
+    kilometres: 1 / 1e3,
+    meters: 1,
+    metres: 1,
+    miles: 1 / 1609.344,
+    millimeters: 1e3,
+    millimetres: 1e3,
+    nauticalmiles: 1 / 1852,
+    radians: 1 / earthRadius,
+    yards: 1.0936133
+  };
+  function feature2(geom, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    var feat = { type: "Feature" };
+    if (options2.id === 0 || options2.id) {
+      feat.id = options2.id;
+    }
+    if (options2.bbox) {
+      feat.bbox = options2.bbox;
+    }
+    feat.properties = properties || {};
+    feat.geometry = geom;
+    return feat;
+  }
+  function polygon(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    for (var _i = 0, coordinates_1 = coordinates; _i < coordinates_1.length; _i++) {
+      var ring = coordinates_1[_i];
+      if (ring.length < 4) {
+        throw new Error("Each LinearRing of a Polygon must have 4 or more Positions.");
+      }
+      for (var j2 = 0; j2 < ring[ring.length - 1].length; j2++) {
+        if (ring[ring.length - 1][j2] !== ring[0][j2]) {
+          throw new Error("First and last Position are not equivalent.");
+        }
+      }
+    }
+    var geom = {
+      type: "Polygon",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+  function lineString(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    if (coordinates.length < 2) {
+      throw new Error("coordinates must be an array of two or more positions");
+    }
+    var geom = {
+      type: "LineString",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+  function multiLineString(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    var geom = {
+      type: "MultiLineString",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+  function multiPolygon(coordinates, properties, options2) {
+    if (options2 === void 0) {
+      options2 = {};
+    }
+    var geom = {
+      type: "MultiPolygon",
+      coordinates
+    };
+    return feature2(geom, properties, options2);
+  }
+
+  // node_modules/@turf/invariant/dist/es/index.js
+  function getGeom(geojson) {
+    if (geojson.type === "Feature") {
+      return geojson.geometry;
+    }
+    return geojson;
+  }
+
+  // node_modules/@turf/bbox-clip/dist/es/lib/lineclip.js
+  function lineclip(points, bbox2, result) {
+    var len = points.length, codeA = bitCode(points[0], bbox2), part = [], i2, codeB, lastCode;
+    var a;
+    var b;
+    if (!result)
+      result = [];
+    for (i2 = 1; i2 < len; i2++) {
+      a = points[i2 - 1];
+      b = points[i2];
+      codeB = lastCode = bitCode(b, bbox2);
+      while (true) {
+        if (!(codeA | codeB)) {
+          part.push(a);
+          if (codeB !== lastCode) {
+            part.push(b);
+            if (i2 < len - 1) {
+              result.push(part);
+              part = [];
+            }
+          } else if (i2 === len - 1) {
+            part.push(b);
+          }
+          break;
+        } else if (codeA & codeB) {
+          break;
+        } else if (codeA) {
+          a = intersect(a, b, codeA, bbox2);
+          codeA = bitCode(a, bbox2);
+        } else {
+          b = intersect(a, b, codeB, bbox2);
+          codeB = bitCode(b, bbox2);
+        }
+      }
+      codeA = lastCode;
+    }
+    if (part.length)
+      result.push(part);
+    return result;
+  }
+  function polygonclip(points, bbox2) {
+    var result, edge, prev, prevInside, i2, p, inside;
+    for (edge = 1; edge <= 8; edge *= 2) {
+      result = [];
+      prev = points[points.length - 1];
+      prevInside = !(bitCode(prev, bbox2) & edge);
+      for (i2 = 0; i2 < points.length; i2++) {
+        p = points[i2];
+        inside = !(bitCode(p, bbox2) & edge);
+        if (inside !== prevInside)
+          result.push(intersect(prev, p, edge, bbox2));
+        if (inside)
+          result.push(p);
+        prev = p;
+        prevInside = inside;
+      }
+      points = result;
+      if (!points.length)
+        break;
+    }
+    return result;
+  }
+  function intersect(a, b, edge, bbox2) {
+    return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox2[3] - a[1]) / (b[1] - a[1]), bbox2[3]] : edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox2[1] - a[1]) / (b[1] - a[1]), bbox2[1]] : edge & 2 ? [bbox2[2], a[1] + (b[1] - a[1]) * (bbox2[2] - a[0]) / (b[0] - a[0])] : edge & 1 ? [bbox2[0], a[1] + (b[1] - a[1]) * (bbox2[0] - a[0]) / (b[0] - a[0])] : null;
+  }
+  function bitCode(p, bbox2) {
+    var code = 0;
+    if (p[0] < bbox2[0])
+      code |= 1;
+    else if (p[0] > bbox2[2])
+      code |= 2;
+    if (p[1] < bbox2[1])
+      code |= 4;
+    else if (p[1] > bbox2[3])
+      code |= 8;
+    return code;
+  }
+
+  // node_modules/@turf/bbox-clip/dist/es/index.js
+  function bboxClip(feature3, bbox2) {
+    var geom = getGeom(feature3);
+    var type2 = geom.type;
+    var properties = feature3.type === "Feature" ? feature3.properties : {};
+    var coords = geom.coordinates;
+    switch (type2) {
+      case "LineString":
+      case "MultiLineString": {
+        var lines_1 = [];
+        if (type2 === "LineString") {
+          coords = [coords];
+        }
+        coords.forEach(function(line) {
+          lineclip(line, bbox2, lines_1);
+        });
+        if (lines_1.length === 1) {
+          return lineString(lines_1[0], properties);
+        }
+        return multiLineString(lines_1, properties);
+      }
+      case "Polygon":
+        return polygon(clipPolygon(coords, bbox2), properties);
+      case "MultiPolygon":
+        return multiPolygon(coords.map(function(poly) {
+          return clipPolygon(poly, bbox2);
+        }), properties);
+      default:
+        throw new Error("geometry " + type2 + " not supported");
+    }
+  }
+  function clipPolygon(rings, bbox2) {
+    var outRings = [];
+    for (var _i = 0, rings_1 = rings; _i < rings_1.length; _i++) {
+      var ring = rings_1[_i];
+      var clipped = polygonclip(ring, bbox2);
+      if (clipped.length > 0) {
+        if (clipped[0][0] !== clipped[clipped.length - 1][0] || clipped[0][1] !== clipped[clipped.length - 1][1]) {
+          clipped.push(clipped[0]);
+        }
+        if (clipped.length >= 4) {
+          outRings.push(clipped);
+        }
+      }
+    }
+    return outRings;
+  }
+
+  // node_modules/@turf/meta/dist/es/index.js
+  function coordEach(geojson, callback, excludeWrapCoord) {
+    if (geojson === null)
+      return;
+    var j2, k, l, geometry, stopG, coords, geometryMaybeCollection, wrapShrink = 0, coordIndex = 0, isGeometryCollection, type2 = geojson.type, isFeatureCollection = type2 === "FeatureCollection", isFeature = type2 === "Feature", stop = isFeatureCollection ? geojson.features.length : 1;
+    for (var featureIndex = 0; featureIndex < stop; featureIndex++) {
+      geometryMaybeCollection = isFeatureCollection ? geojson.features[featureIndex].geometry : isFeature ? geojson.geometry : geojson;
+      isGeometryCollection = geometryMaybeCollection ? geometryMaybeCollection.type === "GeometryCollection" : false;
+      stopG = isGeometryCollection ? geometryMaybeCollection.geometries.length : 1;
+      for (var geomIndex = 0; geomIndex < stopG; geomIndex++) {
+        var multiFeatureIndex = 0;
+        var geometryIndex = 0;
+        geometry = isGeometryCollection ? geometryMaybeCollection.geometries[geomIndex] : geometryMaybeCollection;
+        if (geometry === null)
+          continue;
+        coords = geometry.coordinates;
+        var geomType = geometry.type;
+        wrapShrink = excludeWrapCoord && (geomType === "Polygon" || geomType === "MultiPolygon") ? 1 : 0;
+        switch (geomType) {
+          case null:
+            break;
+          case "Point":
+            if (callback(
+              coords,
+              coordIndex,
+              featureIndex,
+              multiFeatureIndex,
+              geometryIndex
+            ) === false)
+              return false;
+            coordIndex++;
+            multiFeatureIndex++;
+            break;
+          case "LineString":
+          case "MultiPoint":
+            for (j2 = 0; j2 < coords.length; j2++) {
+              if (callback(
+                coords[j2],
+                coordIndex,
+                featureIndex,
+                multiFeatureIndex,
+                geometryIndex
+              ) === false)
+                return false;
+              coordIndex++;
+              if (geomType === "MultiPoint")
+                multiFeatureIndex++;
+            }
+            if (geomType === "LineString")
+              multiFeatureIndex++;
+            break;
+          case "Polygon":
+          case "MultiLineString":
+            for (j2 = 0; j2 < coords.length; j2++) {
+              for (k = 0; k < coords[j2].length - wrapShrink; k++) {
+                if (callback(
+                  coords[j2][k],
+                  coordIndex,
+                  featureIndex,
+                  multiFeatureIndex,
+                  geometryIndex
+                ) === false)
+                  return false;
+                coordIndex++;
+              }
+              if (geomType === "MultiLineString")
+                multiFeatureIndex++;
+              if (geomType === "Polygon")
+                geometryIndex++;
+            }
+            if (geomType === "Polygon")
+              multiFeatureIndex++;
+            break;
+          case "MultiPolygon":
+            for (j2 = 0; j2 < coords.length; j2++) {
+              geometryIndex = 0;
+              for (k = 0; k < coords[j2].length; k++) {
+                for (l = 0; l < coords[j2][k].length - wrapShrink; l++) {
+                  if (callback(
+                    coords[j2][k][l],
+                    coordIndex,
+                    featureIndex,
+                    multiFeatureIndex,
+                    geometryIndex
+                  ) === false)
+                    return false;
+                  coordIndex++;
+                }
+                geometryIndex++;
+              }
+              multiFeatureIndex++;
+            }
+            break;
+          case "GeometryCollection":
+            for (j2 = 0; j2 < geometry.geometries.length; j2++)
+              if (coordEach(geometry.geometries[j2], callback, excludeWrapCoord) === false)
+                return false;
+            break;
+          default:
+            throw new Error("Unknown Geometry Type");
+        }
+      }
+    }
+  }
+
+  // node_modules/@turf/bbox/dist/es/index.js
+  function bbox(geojson) {
+    var result = [Infinity, Infinity, -Infinity, -Infinity];
+    coordEach(geojson, function(coord2) {
+      if (result[0] > coord2[0]) {
+        result[0] = coord2[0];
+      }
+      if (result[1] > coord2[1]) {
+        result[1] = coord2[1];
+      }
+      if (result[2] < coord2[0]) {
+        result[2] = coord2[0];
+      }
+      if (result[3] < coord2[1]) {
+        result[3] = coord2[1];
+      }
+    });
+    return result;
+  }
+  bbox["default"] = bbox;
+  var es_default = bbox;
 
   // modules/renderer/background.js
   var import_which_polygon4 = __toESM(require_which_polygon());
@@ -44260,6 +45971,7 @@ ${content}</tr>
             if (result && result.vintage && result.vintage.range) {
               span.text(result.vintage.range);
             } else {
+              span.text("");
               span.call(_t.append("info_panels.background.vintage"));
               span.append("span").text(": ");
               span.call(_t.append("info_panels.background.unknown"));
@@ -44312,7 +46024,7 @@ ${content}</tr>
           imagery: sources,
           features: {}
         };
-        const features2 = sources.map((source) => {
+        const features = sources.map((source) => {
           if (!source.polygon)
             return null;
           const rings = source.polygon.map((ring) => [ring]);
@@ -44324,7 +46036,7 @@ ${content}</tr>
           _imageryIndex.features[source.id] = feature3;
           return feature3;
         }).filter(Boolean);
-        _imageryIndex.query = (0, import_which_polygon4.default)({ type: "FeatureCollection", features: features2 });
+        _imageryIndex.query = (0, import_which_polygon4.default)({ type: "FeatureCollection", features });
         _imageryIndex.backgrounds = sources.map((source) => {
           if (source.type === "bing") {
             return rendererBackgroundSource.Bing(source, dispatch10);
@@ -44617,7 +46329,17 @@ ${content}</tr>
         const isLastUsedValid = !!validBackgrounds.find((d) => d.id && d.id === lastUsedBackground);
         let best;
         if (!requestedBackground && extent) {
-          best = validBackgrounds.find((s) => s.best());
+          const viewArea = extent.area();
+          best = validBackgrounds.find((s) => {
+            if (!s.best() || s.overlay)
+              return false;
+            let bbox2 = es_default(bboxClip(
+              { type: "MultiPolygon", coordinates: [s.polygon || [extent.polygon()]] },
+              extent.rectangle()
+            ));
+            let area = geoExtent(bbox2.slice(0, 2), bbox2.slice(2, 4)).area();
+            return area / viewArea > 0.5;
+          });
         }
         if (requestedBackground && requestedBackground.indexOf("custom:") === 0) {
           const template = requestedBackground.replace(/^custom:/, "");
@@ -44662,7 +46384,7 @@ ${content}</tr>
   // modules/renderer/features.js
   function rendererFeatures(context) {
     var dispatch10 = dispatch_default("change", "redraw");
-    var features2 = utilRebind({}, dispatch10, "on");
+    var features = utilRebind({}, dispatch10, "on");
     var _deferred2 = /* @__PURE__ */ new Set();
     var traffic_roads = {
       "motorway": true,
@@ -44677,7 +46399,8 @@ ${content}</tr>
       "tertiary_link": true,
       "residential": true,
       "unclassified": true,
-      "living_street": true
+      "living_street": true,
+      "busway": true
     };
     var service_roads = {
       "service": true,
@@ -44703,7 +46426,7 @@ ${content}</tr>
     function update() {
       if (!window.mocha) {
         var hash = utilStringQs(window.location.hash);
-        var disabled = features2.disabled();
+        var disabled = features.disabled();
         if (disabled.length) {
           hash.disable_features = disabled.join(",");
         } else {
@@ -44712,7 +46435,7 @@ ${content}</tr>
         window.location.replace("#" + utilQsString(hash, true));
         corePreferences("disabled-features", disabled.join(","));
       }
-      _hidden = features2.hidden();
+      _hidden = features.hidden();
       dispatch10.call("change");
       dispatch10.call("redraw");
     }
@@ -44722,6 +46445,7 @@ ${content}</tr>
       _rules[k] = {
         filter: filter2,
         enabled: isEnabled,
+        // whether the user wants it enabled..
         count: 0,
         currentMax: max3 || Infinity,
         defaultMax: max3 || Infinity,
@@ -44798,13 +46522,13 @@ ${content}</tr>
     defineRule("others", function isOther(tags, geometry) {
       return geometry === "line" || geometry === "area";
     });
-    features2.features = function() {
+    features.features = function() {
       return _rules;
     };
-    features2.keys = function() {
+    features.keys = function() {
       return _keys;
     };
-    features2.enabled = function(k) {
+    features.enabled = function(k) {
       if (!arguments.length) {
         return _keys.filter(function(k2) {
           return _rules[k2].enabled;
@@ -44812,7 +46536,7 @@ ${content}</tr>
       }
       return _rules[k] && _rules[k].enabled;
     };
-    features2.disabled = function(k) {
+    features.disabled = function(k) {
       if (!arguments.length) {
         return _keys.filter(function(k2) {
           return !_rules[k2].enabled;
@@ -44820,7 +46544,7 @@ ${content}</tr>
       }
       return _rules[k] && !_rules[k].enabled;
     };
-    features2.hidden = function(k) {
+    features.hidden = function(k) {
       if (!arguments.length) {
         return _keys.filter(function(k2) {
           return _rules[k2].hidden();
@@ -44828,7 +46552,7 @@ ${content}</tr>
       }
       return _rules[k] && _rules[k].hidden();
     };
-    features2.autoHidden = function(k) {
+    features.autoHidden = function(k) {
       if (!arguments.length) {
         return _keys.filter(function(k2) {
           return _rules[k2].autoHidden();
@@ -44836,13 +46560,13 @@ ${content}</tr>
       }
       return _rules[k] && _rules[k].autoHidden();
     };
-    features2.enable = function(k) {
+    features.enable = function(k) {
       if (_rules[k] && !_rules[k].enabled) {
         _rules[k].enable();
         update();
       }
     };
-    features2.enableAll = function() {
+    features.enableAll = function() {
       var didEnable = false;
       for (var k in _rules) {
         if (!_rules[k].enabled) {
@@ -44853,13 +46577,13 @@ ${content}</tr>
       if (didEnable)
         update();
     };
-    features2.disable = function(k) {
+    features.disable = function(k) {
       if (_rules[k] && _rules[k].enabled) {
         _rules[k].disable();
         update();
       }
     };
-    features2.disableAll = function() {
+    features.disableAll = function() {
       var didDisable = false;
       for (var k in _rules) {
         if (_rules[k].enabled) {
@@ -44870,7 +46594,7 @@ ${content}</tr>
       if (didDisable)
         update();
     };
-    features2.toggle = function(k) {
+    features.toggle = function(k) {
       if (_rules[k]) {
         (function(f2) {
           return f2.enabled ? f2.disable() : f2.enable();
@@ -44878,17 +46602,17 @@ ${content}</tr>
         update();
       }
     };
-    features2.redraw = function() {
+    features.redraw = function() {
       update();
     };
-    features2.resetStats = function() {
+    features.resetStats = function() {
       for (var i2 = 0; i2 < _keys.length; i2++) {
         _rules[_keys[i2]].count = 0;
       }
       _dateMatchCount = 0;
       dispatch10.call("change");
     };
-    features2.gatherStats = function(d, resolver, dimensions) {
+    features.gatherStats = function(d, resolver, dimensions) {
       var needsRedraw = false;
       var types = utilArrayGroupBy(d, "type");
       var entities = [].concat(types.relation || [], types.way || [], types.node || []);
@@ -44900,14 +46624,14 @@ ${content}</tr>
       _cullFactor = dimensions[0] * dimensions[1] / 1e6;
       for (i2 = 0; i2 < entities.length; i2++) {
         geometry = entities[i2].geometry(resolver);
-        matches = Object.keys(features2.getMatches(entities[i2], resolver, geometry));
+        matches = Object.keys(features.getMatches(entities[i2], resolver, geometry));
         for (j2 = 0; j2 < matches.length; j2++) {
           _rules[matches[j2]].count++;
         }
-        if (!features2.featureFitsDateRange(entities[i2]))
+        if (!features.featureFitsDateRange(entities[i2]))
           _dateMatchCount++;
       }
-      currHidden = features2.hidden();
+      currHidden = features.hidden();
       if (currHidden !== _hidden) {
         _hidden = currHidden;
         needsRedraw = true;
@@ -44915,22 +46639,22 @@ ${content}</tr>
       }
       return needsRedraw;
     };
-    features2.stats = function() {
+    features.stats = function() {
       for (var i2 = 0; i2 < _keys.length; i2++) {
         _stats[_keys[i2]] = _rules[_keys[i2]].count;
       }
       return _stats;
     };
-    features2.dateMatchCount = () => _dateMatchCount;
-    features2.clear = function(d) {
+    features.dateMatchCount = () => _dateMatchCount;
+    features.clear = function(d) {
       for (var i2 = 0; i2 < d.length; i2++) {
-        features2.clearEntity(d[i2]);
+        features.clearEntity(d[i2]);
       }
     };
-    features2.clearEntity = function(entity) {
+    features.clearEntity = function(entity) {
       delete _cache4[osmEntity.key(entity)];
     };
-    features2.reset = function() {
+    features.reset = function() {
       Array.from(_deferred2).forEach(function(handle) {
         window.cancelIdleCallback(handle);
         _deferred2.delete(handle);
@@ -44940,7 +46664,7 @@ ${content}</tr>
     function relationShouldBeChecked(relation) {
       return relation.tags.type === "boundary";
     }
-    features2.getMatches = function(entity, resolver, geometry) {
+    features.getMatches = function(entity, resolver, geometry) {
       if (geometry === "vertex" || geometry === "relation" && !relationShouldBeChecked(entity))
         return {};
       var ent = osmEntity.key(entity);
@@ -44955,8 +46679,9 @@ ${content}</tr>
             if (hasMatch)
               continue;
             if (entity.type === "way") {
-              var parents = features2.getParents(entity, resolver, geometry);
-              if (parents.length === 1 && parents[0].isMultipolygon() || parents.length > 0 && parents.every(function(parent) {
+              var parents = features.getParents(entity, resolver, geometry);
+              if (parents.length === 1 && parents[0].isMultipolygon() || // 2b. or belongs only to boundary relations
+              parents.length > 0 && parents.every(function(parent) {
                 return parent.tags.type === "boundary";
               })) {
                 var pkey = osmEntity.key(parents[0]);
@@ -44975,7 +46700,7 @@ ${content}</tr>
       }
       return _cache4[ent].matches;
     };
-    features2.getParents = function(entity, resolver, geometry) {
+    features.getParents = function(entity, resolver, geometry) {
       if (geometry === "point")
         return [];
       var ent = osmEntity.key(entity);
@@ -44993,7 +46718,7 @@ ${content}</tr>
       }
       return _cache4[ent].parents;
     };
-    features2.isHiddenPreset = function(preset, geometry) {
+    features.isHiddenPreset = function(preset, geometry) {
       if (!_hidden.length)
         return false;
       if (!preset.tags)
@@ -45009,84 +46734,84 @@ ${content}</tr>
       }
       return false;
     };
-    features2.isHiddenFeature = function(entity, resolver, geometry) {
+    features.isHiddenFeature = function(entity, resolver, geometry) {
       if (!entity.version)
         return false;
       if (_forceVisible[entity.id])
         return false;
-      if (!features2.featureFitsDateRange(entity))
+      if (!features.featureFitsDateRange(entity))
         return true;
       if (!_hidden.length)
         return false;
-      var matches = Object.keys(features2.getMatches(entity, resolver, geometry));
+      var matches = Object.keys(features.getMatches(entity, resolver, geometry));
       return matches.length && matches.every(function(k) {
-        return features2.hidden(k);
+        return features.hidden(k);
       });
     };
-    features2.isHiddenChild = function(entity, resolver, geometry) {
+    features.isHiddenChild = function(entity, resolver, geometry) {
       if (!entity.version || geometry === "point")
         return false;
       if (_forceVisible[entity.id])
         return false;
-      if (!features2.featureFitsDateRange(entity))
+      if (!features.featureFitsDateRange(entity))
         return true;
-      var parents = features2.getParents(entity, resolver, geometry);
+      var parents = features.getParents(entity, resolver, geometry);
       if (!parents.length)
         return false;
       for (var i2 = 0; i2 < parents.length; i2++) {
-        if (!features2.isHidden(parents[i2], resolver, parents[i2].geometry(resolver))) {
+        if (!features.isHidden(parents[i2], resolver, parents[i2].geometry(resolver))) {
           return false;
         }
       }
       return true;
     };
-    features2.hasHiddenConnections = function(entity, resolver) {
+    features.hasHiddenConnections = function(entity, resolver) {
       var childNodes, connections;
       if (entity.type === "midpoint") {
         childNodes = [resolver.entity(entity.edge[0]), resolver.entity(entity.edge[1])];
         connections = [];
       } else {
         childNodes = entity.nodes ? resolver.childNodes(entity) : [];
-        connections = features2.getParents(entity, resolver, entity.geometry(resolver));
+        connections = features.getParents(entity, resolver, entity.geometry(resolver));
       }
       connections = childNodes.reduce(function(result, e) {
         return resolver.isShared(e) ? utilArrayUnion(result, resolver.parentWays(e)) : result;
       }, connections);
       return connections.some(function(e) {
-        return features2.isHidden(e, resolver, e.geometry(resolver));
+        return features.isHidden(e, resolver, e.geometry(resolver));
       });
     };
-    features2.isHidden = function(entity, resolver, geometry) {
+    features.isHidden = function(entity, resolver, geometry) {
       if (!entity.version)
         return false;
-      var fn = geometry === "vertex" ? features2.isHiddenChild : features2.isHiddenFeature;
+      var fn = geometry === "vertex" ? features.isHiddenChild : features.isHiddenFeature;
       return fn(entity, resolver, geometry);
     };
-    features2.featureFitsDateRange = function(entity) {
-      if (!features2.dateRange)
+    features.featureFitsDateRange = function(entity) {
+      if (!features.dateRange)
         return true;
       const entityRange = {
         "start_date": entity.tags.start_date,
         "end_date": entity.tags.end_date
       };
       const selectedRange = {
-        "start_date": features2.dateRange[0],
-        "end_date": features2.dateRange[1]
+        "start_date": features.dateRange[0],
+        "end_date": features.dateRange[1]
       };
       const withinrange = utilDatesOverlap(selectedRange, entityRange, true);
       return withinrange;
     };
-    features2.filter = function(d, resolver) {
+    features.filter = function(d, resolver) {
       var result = [];
       for (var i2 = 0; i2 < d.length; i2++) {
         var entity = d[i2];
-        if (!features2.isHidden(entity, resolver, entity.geometry(resolver))) {
+        if (!features.isHidden(entity, resolver, entity.geometry(resolver))) {
           result.push(entity);
         }
       }
       return result;
     };
-    features2.forceVisible = function(entityIDs) {
+    features.forceVisible = function(entityIDs) {
       if (!arguments.length)
         return Object.keys(_forceVisible);
       _forceVisible = {};
@@ -45099,18 +46824,18 @@ ${content}</tr>
           }
         }
       }
-      return features2;
+      return features;
     };
-    features2.init = function() {
+    features.init = function() {
       var storage = corePreferences("disabled-features");
       if (storage) {
         var storageDisabled = storage.replace(/;/g, ",").split(",");
-        storageDisabled.forEach(features2.disable);
+        storageDisabled.forEach(features.disable);
       }
       var hash = utilStringQs(window.location.hash);
       if (hash.disable_features) {
         var hashDisabled = hash.disable_features.replace(/;/g, ",").split(",");
-        hashDisabled.forEach(features2.disable);
+        hashDisabled.forEach(features.disable);
       }
     };
     context.history().on("merge.features", function(newEntities) {
@@ -45122,12 +46847,12 @@ ${content}</tr>
         var entities = [].concat(types.relation || [], types.way || [], types.node || []);
         for (var i2 = 0; i2 < entities.length; i2++) {
           var geometry = entities[i2].geometry(graph);
-          features2.getMatches(entities[i2], graph, geometry);
+          features.getMatches(entities[i2], graph, geometry);
         }
       });
       _deferred2.add(handle);
     });
-    return features2;
+    return features;
   }
 
   // modules/svg/areas.js
@@ -45286,8 +47011,8 @@ ${content}</tr>
       var tags = entity.tags;
       var shouldCopyMultipolygonTags = !entity.hasInterestingTags();
       graph.parentRelations(entity).forEach(function(relation) {
-        var type3 = relation.tags.type;
-        if (type3 === "multipolygon" && shouldCopyMultipolygonTags || type3 === "boundary") {
+        var type2 = relation.tags.type;
+        if (type2 === "multipolygon" && shouldCopyMultipolygonTags || type2 === "boundary") {
           tags = Object.assign({}, relation.tags, tags);
         }
       });
@@ -45302,14 +47027,14 @@ ${content}</tr>
     }
     function getWaySegments() {
       var isActiveWay = way.nodes.indexOf(activeID) !== -1;
-      var features2 = { passive: [], active: [] };
+      var features = { passive: [], active: [] };
       var start2 = {};
       var end = {};
-      var node, type3;
+      var node, type2;
       for (var i2 = 0; i2 < way.nodes.length; i2++) {
         node = graph.entity(way.nodes[i2]);
-        type3 = svgPassiveVertex(node, graph, activeID);
-        end = { node, type: type3 };
+        type2 = svgPassiveVertex(node, graph, activeID);
+        end = { node, type: type2 };
         if (start2.type !== void 0) {
           if (start2.node.id === activeID || end.node.id === activeID) {
           } else if (isActiveWay && (start2.type === 2 || end.type === 2)) {
@@ -45322,9 +47047,9 @@ ${content}</tr>
         }
         start2 = end;
       }
-      return features2;
+      return features;
       function pushActive(start3, end2, index) {
-        features2.active.push({
+        features.active.push({
           type: "Feature",
           id: way.id + "-" + index + "-nope",
           properties: {
@@ -45341,7 +47066,7 @@ ${content}</tr>
         });
       }
       function pushPassive(start3, end2, index) {
-        features2.passive.push({
+        features.passive.push({
           type: "Feature",
           id: way.id + "-" + index,
           properties: {
@@ -45531,6 +47256,12 @@ ${content}</tr>
 
   // modules/svg/tag_pattern.js
   var patterns = {
+    // tag - pattern name
+    // -or-
+    // tag - value - pattern name
+    // -or-
+    // tag - value - rules (optional tag-values, pattern name)
+    // (matches earlier rules first, so fallback should be last entry)
     amenity: {
       grave_yard: "cemetery",
       fountain: "water_standing"
@@ -45551,6 +47282,7 @@ ${content}</tr>
         { leaf_type: "needleleaved", pattern: "forest_needleleaved" },
         { leaf_type: "leafless", pattern: "forest_leafless" },
         { pattern: "forest" }
+        // same as 'leaf_type:mixed'
       ],
       grave_yard: "cemetery",
       grass: "grass",
@@ -45586,6 +47318,7 @@ ${content}</tr>
         { leaf_type: "needleleaved", pattern: "forest_needleleaved" },
         { leaf_type: "leafless", pattern: "forest_leafless" },
         { pattern: "forest" }
+        // same as 'leaf_type:mixed'
       ]
     },
     golf: {
@@ -45657,9 +47390,9 @@ ${content}</tr>
       var base = context.history().base();
       var data = { targets: [], nopes: [] };
       entities.forEach(function(way) {
-        var features2 = svgSegmentWay(way, graph, activeID);
-        data.targets.push.apply(data.targets, features2.passive);
-        data.nopes.push.apply(data.nopes, features2.active);
+        var features = svgSegmentWay(way, graph, activeID);
+        data.targets.push.apply(data.targets, features.passive);
+        data.nopes.push.apply(data.nopes, features.active);
       });
       var targetData = data.targets.filter(getPath);
       var targets = selection2.selectAll(".area.target-allowed").filter(function(d) {
@@ -46040,9 +47773,9 @@ ${content}</tr>
         yield feature3;
     }
     for (const waypoint of $(node, "wpt")) {
-      const point = getPoint(waypoint);
-      if (point)
-        yield point;
+      const point2 = getPoint(waypoint);
+      if (point2)
+        yield point2;
     }
   }
   function gpx(node) {
@@ -46263,6 +47996,7 @@ ${content}</tr>
             }
             break;
           }
+          case "LinearRing":
           case "LineString": {
             const coordinates = coord(getCoordinates(child));
             if (coordinates.length >= 2) {
@@ -46352,8 +48086,8 @@ ${content}</tr>
     return getLatLonBox(node);
   }
   var DEGREES_TO_RADIANS = Math.PI / 180;
-  function rotateBox(bbox, coordinates, rotation) {
-    const center = [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+  function rotateBox(bbox2, coordinates, rotation) {
+    const center = [(bbox2[0] + bbox2[2]) / 2, (bbox2[1] + bbox2[3]) / 2];
     return [
       coordinates[0].map((coordinate) => {
         const dy = coordinate[1] - center[1];
@@ -46376,7 +48110,7 @@ ${content}</tr>
       const south = num1(latLonBox, "south");
       const rotation = num1(latLonBox, "rotation");
       if (typeof north === "number" && typeof south === "number" && typeof west === "number" && typeof east === "number") {
-        const bbox = [west, south, east, north];
+        const bbox2 = [west, south, east, north];
         let coordinates = [
           [
             [west, north],
@@ -46384,10 +48118,11 @@ ${content}</tr>
             [east, south],
             [west, south],
             [west, north]
+            // top left (again)
           ]
         ];
         if (typeof rotation === "number") {
-          coordinates = rotateBox(bbox, coordinates, rotation);
+          coordinates = rotateBox(bbox2, coordinates, rotation);
         }
         return {
           type: "Polygon",
@@ -46403,6 +48138,10 @@ ${content}</tr>
       type: "Feature",
       geometry,
       properties: Object.assign(
+        /**
+         * Related to
+         * https://gist.github.com/tmcw/037a1cb6660d74a392e9da7446540f46
+         */
         { "@geometry-type": "groundoverlay" },
         getMulti(node, [
           "name",
@@ -46817,12 +48556,12 @@ ${content}</tr>
       return _src || "";
     };
     drawData.fitZoom = function() {
-      var features2 = getFeatures(_geojson);
-      if (!features2.length)
+      var features = getFeatures(_geojson);
+      if (!features.length)
         return;
       var map2 = context.map();
       var viewport = map2.trimmedExtent().polygon();
-      var coords = features2.reduce(function(coords2, feature3) {
+      var coords = features.reduce(function(coords2, feature3) {
         var geom = feature3.geometry;
         if (!geom)
           return coords2;
@@ -46888,8 +48627,8 @@ ${content}</tr>
       const extent = context.map().extent();
       _mainFileFetcher.get("imagery").then((d) => {
         const hits = showImagery && d.query.bbox(extent.rectangle(), true) || [];
-        const features2 = hits.map((d2) => d2.features[d2.id]);
-        let imagery = layer.selectAll("path.debug-imagery").data(features2);
+        const features = hits.map((d2) => d2.features[d2.id]);
+        let imagery = layer.selectAll("path.debug-imagery").data(features);
         imagery.exit().remove();
         imagery.enter().append("path").attr("class", "debug-imagery debug orange");
       }).catch(() => {
@@ -46898,18 +48637,18 @@ ${content}</tr>
       let dataDownloaded = [];
       if (osm && showDownloaded) {
         const rtree = osm.caches("get").tile.rtree;
-        dataDownloaded = rtree.all().map((bbox) => {
+        dataDownloaded = rtree.all().map((bbox2) => {
           return {
             type: "Feature",
-            properties: { id: bbox.id },
+            properties: { id: bbox2.id },
             geometry: {
               type: "Polygon",
               coordinates: [[
-                [bbox.minX, bbox.minY],
-                [bbox.minX, bbox.maxY],
-                [bbox.maxX, bbox.maxY],
-                [bbox.maxX, bbox.minY],
-                [bbox.minX, bbox.minY]
+                [bbox2.minX, bbox2.minY],
+                [bbox2.minX, bbox2.maxY],
+                [bbox2.maxX, bbox2.maxY],
+                [bbox2.maxX, bbox2.minY],
+                [bbox2.minX, bbox2.minY]
               ]]
             }
           };
@@ -46954,6 +48693,7 @@ ${content}</tr>
       _defsSelection.append("marker").attr("id", "ideditor-viewfield-marker").attr("viewBox", "0 0 16 16").attr("refX", 8).attr("refY", 16).attr("markerWidth", 4).attr("markerHeight", 4).attr("markerUnits", "strokeWidth").attr("orient", "auto").append("path").attr("class", "viewfield-marker-path").attr("d", "M 6,14 C 8,13.4 8,13.4 10,14 L 16,3 C 12,0 4,0 0,3 z").attr("fill", "#333").attr("fill-opacity", "0.75").attr("stroke", "#fff").attr("stroke-width", "0.5px").attr("stroke-opacity", "0.75");
       _defsSelection.append("marker").attr("id", "ideditor-viewfield-marker-wireframe").attr("viewBox", "0 0 16 16").attr("refX", 8).attr("refY", 16).attr("markerWidth", 4).attr("markerHeight", 4).attr("markerUnits", "strokeWidth").attr("orient", "auto").append("path").attr("class", "viewfield-marker-path").attr("d", "M 6,14 C 8,13.4 8,13.4 10,14 L 16,3 C 12,0 4,0 0,3 z").attr("fill", "none").attr("stroke", "#fff").attr("stroke-width", "0.5px").attr("stroke-opacity", "0.75");
       var patterns2 = _defsSelection.selectAll("pattern").data([
+        // pattern name, pattern image name
         ["beach", "dots"],
         ["construction", "construction"],
         ["cemetery", "cemetery"],
@@ -47379,13 +49119,13 @@ ${content}</tr>
           }
           var coord2 = projection2(entity.loc);
           var nodePadding = 10;
-          var bbox = {
+          var bbox2 = {
             minX: coord2[0] - nodePadding,
             minY: coord2[1] - nodePadding - markerPadding,
             maxX: coord2[0] + nodePadding,
             maxY: coord2[1] + nodePadding
           };
-          doInsert(bbox, entity.id + "P");
+          doInsert(bbox2, entity.id + "P");
         }
         if (geometry === "vertex") {
           geometry = "point";
@@ -47469,23 +49209,23 @@ ${content}</tr>
           y: coord3[1] + offset[1],
           textAnchor: offset[2]
         };
-        var bbox2;
+        var bbox3;
         if (textDirection === "rtl") {
-          bbox2 = {
+          bbox3 = {
             minX: p2.x - width2 - textPadding,
             minY: p2.y - height / 2 - textPadding,
             maxX: p2.x + textPadding,
             maxY: p2.y + height / 2 + textPadding
           };
         } else {
-          bbox2 = {
+          bbox3 = {
             minX: p2.x - textPadding,
             minY: p2.y - height / 2 - textPadding,
             maxX: p2.x + width2 + textPadding,
             maxY: p2.y + height / 2 + textPadding
           };
         }
-        if (tryInsert([bbox2], entity2.id, true)) {
+        if (tryInsert([bbox3], entity2.id, true)) {
           return p2;
         }
       }
@@ -47624,13 +49364,13 @@ ${content}</tr>
         function addIcon() {
           var iconX = centroid[0] - iconSize / 2;
           var iconY = centroid[1] - iconSize / 2;
-          var bbox2 = {
+          var bbox3 = {
             minX: iconX,
             minY: iconY,
             maxX: iconX + iconSize,
             maxY: iconY + iconSize
           };
-          if (tryInsert([bbox2], entity2.id + "I", true)) {
+          if (tryInsert([bbox3], entity2.id + "I", true)) {
             p2.transform = "translate(" + iconX + "," + iconY + ")";
             return true;
           }
@@ -47640,13 +49380,13 @@ ${content}</tr>
           if (width2 && areaWidth >= width2 + 20) {
             var labelX = centroid[0];
             var labelY = centroid[1] + yOffset;
-            var bbox2 = {
+            var bbox3 = {
               minX: labelX - width2 / 2 - padding,
               minY: labelY - height / 2 - padding,
               maxX: labelX + width2 / 2 + padding,
               maxY: labelY + height / 2 + padding
             };
-            if (tryInsert([bbox2], entity2.id, true)) {
+            if (tryInsert([bbox3], entity2.id, true)) {
               p2.x = labelX;
               p2.y = labelY;
               p2.textAnchor = "middle";
@@ -47657,25 +49397,25 @@ ${content}</tr>
           return false;
         }
       }
-      function doInsert(bbox2, id2) {
-        bbox2.id = id2;
+      function doInsert(bbox3, id2) {
+        bbox3.id = id2;
         var oldbox = _entitybboxes[id2];
         if (oldbox) {
           _rdrawn.remove(oldbox);
         }
-        _entitybboxes[id2] = bbox2;
-        _rdrawn.insert(bbox2);
+        _entitybboxes[id2] = bbox3;
+        _rdrawn.insert(bbox3);
       }
       function tryInsert(bboxes, id2, saveSkipped) {
         var skipped = false;
         for (var i3 = 0; i3 < bboxes.length; i3++) {
-          var bbox2 = bboxes[i3];
-          bbox2.id = id2;
-          if (bbox2.minX < 0 || bbox2.minY < 0 || bbox2.maxX > dimensions[0] || bbox2.maxY > dimensions[1]) {
+          var bbox3 = bboxes[i3];
+          bbox3.id = id2;
+          if (bbox3.minX < 0 || bbox3.minY < 0 || bbox3.maxX > dimensions[0] || bbox3.maxY > dimensions[1]) {
             skipped = true;
             break;
           }
-          if (_rdrawn.collides(bbox2)) {
+          if (_rdrawn.collides(bbox3)) {
             skipped = true;
             break;
           }
@@ -47718,11 +49458,11 @@ ${content}</tr>
       var graph = context.graph();
       var selectedIDs = context.selectedIDs();
       var ids = [];
-      var pad2, bbox;
+      var pad2, bbox2;
       if (mouse) {
         pad2 = 20;
-        bbox = { minX: mouse[0] - pad2, minY: mouse[1] - pad2, maxX: mouse[0] + pad2, maxY: mouse[1] + pad2 };
-        var nearMouse = _rdrawn.search(bbox).map(function(entity2) {
+        bbox2 = { minX: mouse[0] - pad2, minY: mouse[1] - pad2, maxX: mouse[0] + pad2, maxY: mouse[1] + pad2 };
+        var nearMouse = _rdrawn.search(bbox2).map(function(entity2) {
           return entity2.id;
         });
         ids.push.apply(ids, nearMouse);
@@ -47737,14 +49477,14 @@ ${content}</tr>
       var debug2 = selection2.selectAll(".labels-group.debug");
       var gj = [];
       if (context.getDebug("collision")) {
-        gj = bbox ? [{
+        gj = bbox2 ? [{
           type: "Polygon",
           coordinates: [[
-            [bbox.minX, bbox.minY],
-            [bbox.maxX, bbox.minY],
-            [bbox.maxX, bbox.maxY],
-            [bbox.minX, bbox.maxY],
-            [bbox.minX, bbox.minY]
+            [bbox2.minX, bbox2.minY],
+            [bbox2.maxX, bbox2.minY],
+            [bbox2.maxX, bbox2.maxY],
+            [bbox2.minX, bbox2.maxY],
+            [bbox2.minX, bbox2.minY]
           ]]
         }] : [];
       }
@@ -49287,9 +51027,9 @@ ${content}</tr>
       var base = context.history().base();
       var data = { targets: [], nopes: [] };
       entities.forEach(function(way) {
-        var features2 = svgSegmentWay(way, graph, activeID);
-        data.targets.push.apply(data.targets, features2.passive);
-        data.nopes.push.apply(data.nopes, features2.active);
+        var features = svgSegmentWay(way, graph, activeID);
+        data.targets.push.apply(data.targets, features.passive);
+        data.nopes.push.apply(data.nopes, features.active);
       });
       var targetData = data.targets.filter(getPath);
       var targets = selection2.selectAll(".line.target-allowed").filter(function(d) {
@@ -49348,7 +51088,8 @@ ${content}</tr>
             var parentMultipolygons = parentRelations.filter(function(relation) {
               return relation.isMultipolygon();
             });
-            if (parentMultipolygons.length > 0 && parentRelations.length === parentMultipolygons.length) {
+            if (parentMultipolygons.length > 0 && // and only multipolygon relations
+            parentRelations.length === parentMultipolygons.length) {
               prefix = "relation area";
             }
           }
@@ -49541,15 +51282,15 @@ ${content}</tr>
           if (midpoints[id2]) {
             midpoints[id2].parents.push(entity);
           } else if (geoVecLength(projection2(a.loc), projection2(b.loc)) > 40) {
-            var point = geoVecInterp(a.loc, b.loc, 0.5);
+            var point2 = geoVecInterp(a.loc, b.loc, 0.5);
             var loc = null;
-            if (extent.intersects(point)) {
-              loc = point;
+            if (extent.intersects(point2)) {
+              loc = point2;
             } else {
               for (var k = 0; k < 4; k++) {
-                point = geoLineIntersection([a.loc, b.loc], [poly[k], poly[k + 1]]);
-                if (point && geoVecLength(projection2(a.loc), projection2(point)) > 20 && geoVecLength(projection2(b.loc), projection2(point)) > 20) {
-                  loc = point;
+                point2 = geoLineIntersection([a.loc, b.loc], [poly[k], poly[k + 1]]);
+                if (point2 && geoVecLength(projection2(a.loc), projection2(point2)) > 20 && geoVecLength(projection2(b.loc), projection2(point2)) > 20) {
+                  loc = point2;
                   break;
                 }
               }
@@ -49761,6 +51502,7 @@ ${content}</tr>
   var import_fast_deep_equal8 = __toESM(require_fast_deep_equal());
   function svgVertices(projection2, context) {
     var radiuses = {
+      //       z16-, z17,   z18+,  w/icon
       shadow: [6, 7.5, 7.5, 12],
       stroke: [2.5, 3.5, 3.5, 8],
       fill: [1, 1.5, 1.5, 1.5]
@@ -50005,8 +51747,11 @@ ${content}</tr>
       }
       var sets2 = {
         persistent: _currPersistent,
+        // persistent = important vertices (render always)
         selected: _currSelected,
+        // selected + siblings of selected (render always)
         hovered: _currHover
+        // hovered + siblings of hovered (render only in draw modes)
       };
       var all = Object.assign({}, isMoving ? _currHover : {}, _currSelected, _currPersistent);
       var filterRendered = function(d) {
@@ -50069,8 +51814,8 @@ ${content}</tr>
   }
 
   // modules/util/bind_once.js
-  function utilBindOnce(target, type3, listener, capture) {
-    var typeOnce = type3 + ".once";
+  function utilBindOnce(target, type2, listener, capture) {
+    var typeOnce = type2 + ".once";
     function one2() {
       target.on(typeOnce, null);
       listener.apply(this, arguments);
@@ -50111,10 +51856,10 @@ ${content}</tr>
       selection2.on("pointerdown.zoom", pointerdown).on("wheel.zoom", wheeled).style("touch-action", "none").style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
       select_default2(window).on("pointermove.zoompan", pointermove).on("pointerup.zoompan pointercancel.zoompan", pointerup);
     }
-    zoom.transform = function(collection, transform2, point) {
+    zoom.transform = function(collection, transform2, point2) {
       var selection2 = collection.selection ? collection.selection() : collection;
       if (collection !== selection2) {
-        schedule(collection, transform2, point);
+        schedule(collection, transform2, point2);
       } else {
         selection2.interrupt().each(function() {
           gesture(this, arguments).start(null).zoom(null, null, typeof transform2 === "function" ? transform2.apply(this, arguments) : transform2).end(null);
@@ -50161,13 +51906,13 @@ ${content}</tr>
     function centroid(extent2) {
       return [(+extent2[0][0] + +extent2[1][0]) / 2, (+extent2[0][1] + +extent2[1][1]) / 2];
     }
-    function schedule(transition2, transform2, point) {
+    function schedule(transition2, transform2, point2) {
       transition2.on("start.zoom", function() {
         gesture(this, arguments).start(null);
       }).on("interrupt.zoom end.zoom", function() {
         gesture(this, arguments).end(null);
       }).tween("zoom", function() {
-        var that = this, args = arguments, g = gesture(that, args), e = extent.apply(that, args), p = !point ? centroid(e) : typeof point === "function" ? point.apply(that, args) : point, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = _transform, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
+        var that = this, args = arguments, g = gesture(that, args), e = extent.apply(that, args), p = !point2 ? centroid(e) : typeof point2 === "function" ? point2.apply(that, args) : point2, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = _transform, b = typeof transform2 === "function" ? transform2.apply(that, args) : transform2, i2 = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
         return function(t) {
           if (t === 1) {
             t = b;
@@ -50356,7 +52101,8 @@ ${content}</tr>
     var _maxDistance = 20;
     var _pointer;
     function pointerIsValidFor(loc) {
-      return new Date().getTime() - _pointer.startTime <= _maxTimespan && geoVecLength(_pointer.startLoc, loc) <= _maxDistance;
+      return (/* @__PURE__ */ new Date()).getTime() - _pointer.startTime <= _maxTimespan && // all pointer events must occur within a small distance of the first pointerdown
+      geoVecLength(_pointer.startLoc, loc) <= _maxDistance;
     }
     function pointerdown(d3_event) {
       if (d3_event.ctrlKey || d3_event.button === 2)
@@ -50368,7 +52114,7 @@ ${content}</tr>
       if (!_pointer) {
         _pointer = {
           startLoc: loc,
-          startTime: new Date().getTime(),
+          startTime: (/* @__PURE__ */ new Date()).getTime(),
           upCount: 0,
           pointerId: d3_event.pointerId
         };
@@ -50521,7 +52267,9 @@ ${content}</tr>
         }
       });
       var detected = utilDetect();
-      if ("GestureEvent" in window && !detected.isMobileWebKit) {
+      if ("GestureEvent" in window && // Listening for gesture events on iOS 13.4+ breaks double-tapping,
+      // but we only need to do this on desktop Safari anyway. – #7694
+      !detected.isMobileWebKit) {
         surface.on("gesturestart.surface", function(d3_event) {
           d3_event.preventDefault();
           _gestureTransformStart = projection2.transform();
@@ -50531,7 +52279,8 @@ ${content}</tr>
       _doubleUpHandler.on("doubleUp.map", function(d3_event, p02) {
         if (!_dblClickZoomEnabled)
           return;
-        if (typeof d3_event.target.__data__ === "object" && !select_default2(d3_event.target).classed("fill"))
+        if (typeof d3_event.target.__data__ === "object" && // or area fills
+        !select_default2(d3_event.target).classed("fill"))
           return;
         var zoomOut2 = d3_event.shiftKey;
         var t = projection2.transform();
@@ -50542,7 +52291,10 @@ ${content}</tr>
         map2.transformEase(t);
       });
       context.on("enter.map", function() {
-        if (!map2.editableDataEnabled(true))
+        if (!map2.editableDataEnabled(
+          true
+          /* skip zoom check */
+        ))
           return;
         if (_isTransformed)
           return;
@@ -50601,7 +52353,7 @@ ${content}</tr>
     function drawEditable(difference, extent) {
       var mode = context.mode();
       var graph = context.graph();
-      var features2 = context.features();
+      var features = context.features();
       var all = context.history().intersects(map2.extent());
       var fullRedraw = false;
       var data;
@@ -50625,9 +52377,9 @@ ${content}</tr>
         filter2 = function(d) {
           return set3.has(d.id);
         };
-        features2.clear(data);
+        features.clear(data);
       } else {
-        if (features2.gatherStats(all, graph, _dimensions)) {
+        if (features.gatherStats(all, graph, _dimensions)) {
           extent = void 0;
         }
         if (extent) {
@@ -50645,7 +52397,7 @@ ${content}</tr>
         }
       }
       if (applyFeatureLayerFilters) {
-        data = features2.filter(data, graph);
+        data = features.filter(data, graph);
       } else {
         context.features().resetStats();
       }
@@ -50686,7 +52438,9 @@ ${content}</tr>
       e.preventDefault();
       var props = {
         deltaMode: 0,
+        // dummy values to ignore in zoomPan
         deltaY: 1,
+        // dummy values to ignore in zoomPan
         clientX: e.clientX,
         clientY: e.clientY,
         screenX: e.screenX,
@@ -50721,7 +52475,9 @@ ${content}</tr>
           dY = sign2 * clamp(
             Math.exp((lines - 1) * 0.75) * 4.000244140625,
             4.000244140625,
+            // min
             350.000244140625
+            // max
           );
           if (detected.os !== "mac") {
             dY *= 5;
@@ -50917,10 +52673,10 @@ ${content}</tr>
       var k2 = clamp(geoZoomToScale(z2, TILESIZE), kMin, kMax);
       proj.scale(k2);
       var t = proj.translate();
-      var point = proj(loc2);
+      var point2 = proj(loc2);
       var center = pxCenter();
-      t[0] += center[0] - point[0];
-      t[1] += center[1] - point[1];
+      t[0] += center[0] - point2[0];
+      t[1] += center[1] - point2[1];
       return setTransform(identity2.translate(t[0], t[1]).scale(k2), duration, force);
     }
     map2.pan = function(delta, duration) {
@@ -51048,7 +52804,12 @@ ${content}</tr>
     };
     map2.transformEase = function(t2, duration) {
       duration = duration || 250;
-      setTransform(t2, duration, false);
+      setTransform(
+        t2,
+        duration,
+        false
+        /* don't force */
+      );
       return map2;
     };
     map2.zoomToEase = function(obj, duration) {
@@ -51228,20 +52989,20 @@ ${content}</tr>
     photos.dateFilterValue = function(val) {
       return val === _dateFilters[0] ? _fromDate : _toDate;
     };
-    photos.setDateFilter = function(type3, val, updateUrl) {
+    photos.setDateFilter = function(type2, val, updateUrl) {
       var date = val && new Date(val);
       if (date && !isNaN(date)) {
         val = date.toISOString().slice(0, 10);
       } else {
         val = null;
       }
-      if (type3 === _dateFilters[0]) {
+      if (type2 === _dateFilters[0]) {
         _fromDate = val;
         if (_fromDate && _toDate && new Date(_toDate) < new Date(_fromDate)) {
           _toDate = _fromDate;
         }
       }
-      if (type3 === _dateFilters[1]) {
+      if (type2 === _dateFilters[1]) {
         _toDate = val;
         if (_fromDate && _toDate && new Date(_toDate) < new Date(_fromDate)) {
           _fromDate = _toDate;
@@ -52059,11 +53820,11 @@ ${content}</tr>
   // modules/ui/feature_info.js
   function uiFeatureInfo(context) {
     function update(selection2) {
-      var features2 = context.features();
-      var stats = features2.stats();
-      var dateMatchCount = features2.dateMatchCount();
+      var features = context.features();
+      var stats = features.stats();
+      var dateMatchCount = features.dateMatchCount();
       var count = 0;
-      var hiddenList = features2.hidden().map(function(k) {
+      var hiddenList = features.hidden().map(function(k) {
         if (stats[k]) {
           count += stats[k];
           return _t.append("inspector.title_count", {
@@ -52211,8 +53972,11 @@ ${content}</tr>
   // modules/ui/geolocate.js
   function uiGeolocate(context) {
     var _geolocationOptions = {
+      // prioritize speed and power usage over precision
       enableHighAccuracy: false,
+      // don't hang indefinitely getting the location
       timeout: 6e3
+      // 6sec
     };
     var _locating = uiLoading(context).message(_t.html("geolocate.locating")).blocking(true);
     var _layer = context.layers().layer("geolocate");
@@ -52224,7 +53988,11 @@ ${content}</tr>
       if (context.inIntro())
         return;
       if (!_layer.enabled() && !_locating.isShown()) {
-        _timeoutID = setTimeout(error, 1e4);
+        _timeoutID = setTimeout(
+          error,
+          1e4
+          /* 10sec */
+        );
         context.container().call(_locating);
         navigator.geolocation.getCurrentPosition(success, error, _geolocationOptions);
       } else {
@@ -52915,10 +54683,10 @@ ${content}</tr>
   // modules/ui/intro/helper.js
   function pointBox(loc, context) {
     var rect = context.surfaceRect();
-    var point = context.curtainProjection(loc);
+    var point2 = context.curtainProjection(loc);
     return {
-      left: point[0] + rect.left - 40,
-      top: point[1] + rect.top - 60,
+      left: point2[0] + rect.left - 40,
+      top: point2[1] + rect.top - 60,
       width: 80,
       height: 90
     };
@@ -52927,10 +54695,10 @@ ${content}</tr>
     var box;
     if (locOrBox instanceof Array) {
       var rect = context.surfaceRect();
-      var point = context.curtainProjection(locOrBox);
+      var point2 = context.curtainProjection(locOrBox);
       box = {
-        left: point[0] + rect.left,
-        top: point[1] + rect.top
+        left: point2[0] + rect.left,
+        top: point2[1] + rect.top
       };
     } else {
       box = locOrBox;
@@ -52949,6 +54717,7 @@ ${content}</tr>
   function helpHtml(id2, replacements) {
     if (!helpStringReplacements) {
       helpStringReplacements = {
+        // insert icons corresponding to various UI elements
         point_icon: icon("#iD-icon-point", "inline"),
         line_icon: icon("#iD-icon-line", "inline"),
         area_icon: icon("#iD-icon-area", "inline"),
@@ -52962,6 +54731,7 @@ ${content}</tr>
         undo_icon: icon(_mainLocalizer.textDirection() === "rtl" ? "#iD-icon-redo" : "#iD-icon-undo", "inline"),
         redo_icon: icon(_mainLocalizer.textDirection() === "rtl" ? "#iD-icon-undo" : "#iD-icon-redo", "inline"),
         save_icon: icon("#iD-icon-save", "inline"),
+        // operation icons
         circularize_icon: icon("#iD-operation-circularize", "inline operation"),
         continue_icon: icon("#iD-operation-continue", "inline operation"),
         copy_icon: icon("#iD-operation-copy", "inline operation"),
@@ -52979,6 +54749,7 @@ ${content}</tr>
         rotate_icon: icon("#iD-operation-rotate", "inline operation"),
         split_icon: icon("#iD-operation-split", "inline operation"),
         straighten_icon: icon("#iD-operation-straighten", "inline operation"),
+        // interaction icons
         leftclick: icon("#iD-walkthrough-mouse-left", "inline operation"),
         rightclick: icon("#iD-walkthrough-mouse-right", "inline operation"),
         mousewheel_icon: icon("#iD-walkthrough-mousewheel", "inline operation"),
@@ -52987,6 +54758,7 @@ ${content}</tr>
         longpress_icon: icon("#iD-walkthrough-longpress", "inline operation"),
         touchdrag_icon: icon("#iD-walkthrough-touchdrag", "inline operation"),
         pinch_icon: icon("#iD-walkthrough-pinch-apart", "inline operation"),
+        // insert keys; may be localized and platform-dependent
         shift: uiCmd.display("\u21E7"),
         alt: uiCmd.display("\u2325"),
         return: uiCmd.display("\u21B5"),
@@ -52995,6 +54767,7 @@ ${content}</tr>
         add_note_key: _t.html("modes.add_note.key"),
         help_key: _t.html("help.key"),
         shortcuts_key: _t.html("shortcuts.toggle.key"),
+        // reference localized UI labels directly so that they'll always match
         save: _t.html("save.title"),
         undo: _t.html("undo.title"),
         redo: _t.html("redo.title"),
@@ -53425,7 +55198,7 @@ ${content}</tr>
         if (context.map().zoom() !== zoomStart) {
           context.map().on("move.intro", null);
           timeout2(function() {
-            continueTo(features2);
+            continueTo(features);
           }, 3e3);
         }
       });
@@ -53434,7 +55207,7 @@ ${content}</tr>
         nextStep();
       }
     }
-    function features2() {
+    function features() {
       var onClick = function() {
         continueTo(pointsLinesAreas);
       };
@@ -56511,10 +58284,10 @@ ${content}</tr>
         var zMini = Math.max(zMain - _zDiff, 0.5);
         var kMini = geoZoomToScale(zMini);
         projection2.translate([tMain.x, tMain.y]).scale(kMini);
-        var point = projection2(loc);
+        var point2 = projection2(loc);
         var mouse = _gesture === "pan" ? geoVecSubtract([_tCurr.x, _tCurr.y], [_tStart.x, _tStart.y]) : [0, 0];
-        var xMini = _cMini[0] - point[0] + tMain.x + mouse[0];
-        var yMini = _cMini[1] - point[1] + tMain.y + mouse[1];
+        var xMini = _cMini[0] - point2[0] + tMain.x + mouse[0];
+        var yMini = _cMini[1] - point2[1] + tMain.y + mouse[1];
         projection2.translate([xMini, yMini]).clipExtent([[0, 0], _dMini]);
         _tCurr = projection2.transform();
         if (_isTransformed) {
@@ -56561,10 +58334,10 @@ ${content}</tr>
         dataLayers = dataLayers.enter().append("svg").attr("class", "map-in-map-data").merge(dataLayers).call(dataLayer).call(debugLayer);
         if (_gesture !== "pan") {
           var getPath = path_default(projection2);
-          var bbox = { type: "Polygon", coordinates: [context.map().extent().polygon()] };
+          var bbox2 = { type: "Polygon", coordinates: [context.map().extent().polygon()] };
           viewport = wrap2.selectAll(".map-in-map-viewport").data([0]);
           viewport = viewport.enter().append("svg").attr("class", "map-in-map-viewport").merge(viewport);
-          var path = viewport.selectAll(".map-in-map-bbox").data([bbox]);
+          var path = viewport.selectAll(".map-in-map-bbox").data([bbox2]);
           path.enter().append("path").attr("class", "map-in-map-bbox").merge(path).attr("d", getPath).classed("thick", function(d) {
             return getPath.area(d) < 30;
           });
@@ -56979,7 +58752,7 @@ ${content}</tr>
   // modules/ui/combobox.js
   var _comboHideTimerID;
   function uiCombobox(context, klass) {
-    var dispatch10 = dispatch_default("accept", "cancel");
+    var dispatch10 = dispatch_default("accept", "cancel", "update");
     var container = context.container();
     var _suggestions = [];
     var _data = [];
@@ -56995,6 +58768,9 @@ ${content}</tr>
       cb(_data.filter(function(d) {
         var terms = d.terms || [];
         terms.push(d.value);
+        if (d.key) {
+          terms.push(d.key);
+        }
         return terms.some(function(term) {
           return term.toString().toLowerCase().indexOf(val.toLowerCase()) !== -1;
         });
@@ -57024,7 +58800,7 @@ ${content}</tr>
           return;
         if (input.classed("disabled"))
           return;
-        _tDown = +new Date();
+        _tDown = +/* @__PURE__ */ new Date();
         var start2 = input.property("selectionStart");
         var end = input.property("selectionEnd");
         if (start2 !== end) {
@@ -57095,6 +58871,7 @@ ${content}</tr>
               var start2 = input.property("selectionStart");
               input.node().setSelectionRange(start2, start2);
               input.on("input.combo-input", change);
+              change(false);
             });
             break;
           case 9:
@@ -57103,6 +58880,7 @@ ${content}</tr>
           case 13:
             d3_event.preventDefault();
             d3_event.stopPropagation();
+            accept(d3_event);
             break;
           case 38:
             if (tagName === "textarea" && !shown)
@@ -57129,17 +58907,16 @@ ${content}</tr>
           case 27:
             cancel();
             break;
-          case 13:
-            accept(d3_event);
-            break;
         }
       }
-      function change() {
+      function change(doAutoComplete) {
+        if (doAutoComplete === void 0)
+          doAutoComplete = true;
         fetchComboData(value(), function() {
           _selected = null;
           var val = input.property("value");
           if (_suggestions.length) {
-            if (input.property("selectionEnd") === val.length) {
+            if (doAutoComplete && input.property("selectionEnd") === val.length) {
               _selected = tryAutocomplete();
             }
             if (!_selected) {
@@ -57168,7 +58945,8 @@ ${content}</tr>
           }
           index = Math.max(Math.min(index + dir, _suggestions.length - 1), 0);
           _selected = _suggestions[index].value;
-          input.property("value", _selected);
+          utilGetSetValue(input, _selected);
+          dispatch10.call("update");
         }
         render();
         ensureVisible();
@@ -57218,11 +58996,18 @@ ${content}</tr>
         var val = _caseSensitive ? value() : value().toLowerCase();
         if (!val)
           return;
-        if (!isNaN(parseFloat(val)) && isFinite(val))
+        if (isFinite(val))
           return;
+        const suggestionValues = [];
+        _suggestions.forEach((s) => {
+          suggestionValues.push(s.value);
+          if (s.key && s.key !== s.value) {
+            suggestionValues.push(s.key);
+          }
+        });
         var bestIndex = -1;
-        for (var i2 = 0; i2 < _suggestions.length; i2++) {
-          var suggestion = _suggestions[i2].value;
+        for (var i2 = 0; i2 < suggestionValues.length; i2++) {
+          var suggestion = suggestionValues[i2];
           var compare = _caseSensitive ? suggestion : suggestion.toLowerCase();
           if (compare === val) {
             bestIndex = i2;
@@ -57232,9 +59017,10 @@ ${content}</tr>
           }
         }
         if (bestIndex !== -1) {
-          var bestVal = _suggestions[bestIndex].value;
+          var bestVal = suggestionValues[bestIndex];
           input.property("value", bestVal);
           input.node().setSelectionRange(val.length, bestVal.length);
+          dispatch10.call("update");
           return bestVal;
         }
       }
@@ -57262,7 +59048,7 @@ ${content}</tr>
             select_default2(this).text(d.value);
           }
         }).on("mouseenter", _mouseEnterHandler).on("mouseleave", _mouseLeaveHandler).merge(options2).classed("selected", function(d) {
-          return d.value === _selected;
+          return d.value === _selected || d.key === _selected;
         }).on("click.combo-option", accept).order();
         var node = attachTo ? attachTo.node() : input.node();
         var containerRect = container.node().getBoundingClientRect();
@@ -57785,11 +59571,15 @@ ${content}</tr>
     var _impliedYes;
     var _entityIDs = [];
     var _value;
+    var stringsField = field.resolveReference("stringsCrossReference");
+    if (!options2 && stringsField.options) {
+      options2 = stringsField.options;
+    }
     if (options2) {
       for (var i2 in options2) {
         var v = options2[i2];
         values.push(v === "undefined" ? void 0 : v);
-        texts.push(field.t.html("options." + v, { "default": v }));
+        texts.push(stringsField.t.html("options." + v, { "default": v }));
       }
     } else {
       values = [void 0, "yes"];
@@ -57912,20 +59702,71 @@ ${content}</tr>
     return utilRebind(check, dispatch10, "on");
   }
 
+  // modules/ui/length_indicator.js
+  function uiLengthIndicator(maxChars) {
+    var _wrap = select_default2(null);
+    var _tooltip = uiPopover("tooltip max-length-warning").placement("bottom").hasArrow(true).content(() => (selection2) => {
+      selection2.text("");
+      selection2.call(svgIcon("#iD-icon-alert", "inline"));
+      selection2.call(_t.append("inspector.max_length_reached", { maxChars }));
+    });
+    var _silent = false;
+    var lengthIndicator = function(selection2) {
+      _wrap = selection2.selectAll("span.length-indicator-wrap").data([0]);
+      _wrap = _wrap.enter().append("span").merge(_wrap).classed("length-indicator-wrap", true);
+      selection2.call(_tooltip);
+    };
+    lengthIndicator.update = function(val) {
+      const strLen = utilUnicodeCharsCount(utilCleanOsmString(val, Number.POSITIVE_INFINITY));
+      let indicator = _wrap.selectAll("span.length-indicator").data([strLen]);
+      indicator.enter().append("span").merge(indicator).classed("length-indicator", true).classed("limit-reached", (d) => d > maxChars).style("border-right-width", (d) => `${Math.abs(maxChars - d) * 2}px`).style("margin-right", (d) => d > maxChars ? `${(maxChars - d) * 2}px` : 0).style("opacity", (d) => d > maxChars * 0.8 ? Math.min(1, (d / maxChars - 0.8) / (1 - 0.8)) : 0).style("pointer-events", (d) => d > maxChars * 0.8 ? null : "none");
+      if (_silent)
+        return;
+      if (strLen > maxChars) {
+        _tooltip.show();
+      } else {
+        _tooltip.hide();
+      }
+    };
+    lengthIndicator.silent = function(val) {
+      if (!arguments.length)
+        return _silent;
+      _silent = val;
+      return lengthIndicator;
+    };
+    return lengthIndicator;
+  }
+
   // modules/ui/fields/combo.js
+  var valueIcons = {
+    "crossing:markings": [
+      "dashes",
+      "dots",
+      "ladder:paired",
+      "ladder:skewed",
+      "ladder",
+      "lines:paired",
+      "lines",
+      "surface",
+      "zebra:bicolour",
+      "zebra:double",
+      "zebra:paired",
+      "zebra"
+    ]
+  };
   function uiFieldCombo(field, context) {
     var dispatch10 = dispatch_default("change");
     var _isMulti = field.type === "multiCombo" || field.type === "manyCombo";
     var _isNetwork = field.type === "networkCombo";
     var _isSemi = field.type === "semiCombo";
-    var _optarray = field.options;
     var _showTagInfoSuggestions = field.type !== "manyCombo" && field.autoSuggestions !== false;
     var _allowCustomValues = field.type !== "manyCombo" && field.customValues !== false;
     var _snake_case = field.snake_case || field.snake_case === void 0;
-    var _combobox = uiCombobox(context, "combo-" + field.safeid).caseSensitive(field.caseSensitive).minItems(_isMulti || _isSemi ? 1 : 2);
+    var _combobox = uiCombobox(context, "combo-" + field.safeid).caseSensitive(field.caseSensitive).minItems(1);
     var _container = select_default2(null);
     var _inputWrap = select_default2(null);
     var _input = select_default2(null);
+    var _lengthIndicator = uiLengthIndicator(context.maxCharsForTagValue());
     var _comboData = [];
     var _multiData = [];
     var _entityIDs = [];
@@ -57941,7 +59782,7 @@ ${content}</tr>
       field.key += ":";
     }
     function snake(s) {
-      return s.replace(/\s+/g, "_").toLowerCase();
+      return s.replace(/\s+/g, "_");
     }
     function clean2(s) {
       return s.split(";").map(function(s2) {
@@ -57950,7 +59791,7 @@ ${content}</tr>
     }
     function tagValue(dval) {
       dval = clean2(dval || "");
-      var found = _comboData.find(function(o) {
+      var found = getOptions().find(function(o) {
         return o.key && clean2(o.value) === dval;
       });
       if (found)
@@ -57958,12 +59799,26 @@ ${content}</tr>
       if (field.type === "typeCombo" && !dval) {
         return "yes";
       }
-      return (_snake_case ? snake(dval) : dval) || void 0;
+      return restrictTagValueSpelling(dval) || void 0;
+    }
+    function restrictTagValueSpelling(dval) {
+      if (_snake_case) {
+        dval = snake(dval);
+      }
+      if (!field.caseSensitive) {
+        dval = dval.toLowerCase();
+      }
+      return dval;
+    }
+    function getLabelId(field2, v) {
+      return field2.hasTextForStringId(`options.${v}.title`) ? `options.${v}.title` : `options.${v}`;
     }
     function displayValue(tval) {
       tval = tval || "";
-      if (field.hasTextForStringId("options." + tval)) {
-        return field.t("options." + tval, { default: tval });
+      var stringsField = field.resolveReference("stringsCrossReference");
+      const labelId = getLabelId(stringsField, tval);
+      if (stringsField.hasTextForStringId(labelId)) {
+        return stringsField.t(labelId, { default: tval });
       }
       if (field.type === "typeCombo" && tval.toLowerCase() === "yes") {
         return "";
@@ -57972,8 +59827,10 @@ ${content}</tr>
     }
     function renderValue(tval) {
       tval = tval || "";
-      if (field.hasTextForStringId("options." + tval)) {
-        return field.t.append("options." + tval, { default: tval });
+      var stringsField = field.resolveReference("stringsCrossReference");
+      const labelId = getLabelId(stringsField, tval);
+      if (stringsField.hasTextForStringId(labelId)) {
+        return stringsField.t.append(labelId, { default: tval });
       }
       if (field.type === "typeCombo" && tval.toLowerCase() === "yes") {
         tval = "";
@@ -57999,23 +59856,35 @@ ${content}</tr>
         setStaticValues(setPlaceholder);
       }
     }
-    function setStaticValues(callback) {
-      if (!_optarray)
-        return;
-      _comboData = _optarray.map(function(v) {
+    function getOptions() {
+      var stringsField = field.resolveReference("stringsCrossReference");
+      if (!(field.options || stringsField.options))
+        return [];
+      return (field.options || stringsField.options).map(function(v) {
+        const labelId = getLabelId(stringsField, v);
         return {
           key: v,
-          value: field.t("options." + v, { default: v }),
-          title: v,
-          display: field.t.append("options." + v, { default: v }),
-          klass: field.hasTextForStringId("options." + v) ? "" : "raw-option"
+          value: stringsField.t(labelId, { default: v }),
+          title: stringsField.t(`options.${v}.description`, { default: v }),
+          display: addComboboxIcons(stringsField.t.append(labelId, { default: v }), v),
+          klass: stringsField.hasTextForStringId(labelId) ? "" : "raw-option"
         };
       });
-      _combobox.data(objectDifference(_comboData, _multiData));
+    }
+    function setStaticValues(callback, filter2) {
+      _comboData = getOptions();
+      if (filter2 !== void 0) {
+        _comboData = _comboData.filter(filter2);
+      }
+      _comboData = objectDifference(_comboData, _multiData);
+      _combobox.data(_comboData);
       if (callback)
         callback(_comboData);
     }
     function setTaginfoValues(q, callback) {
+      var queryFilter = (d) => d.value.toLowerCase().includes(q.toLowerCase()) || d.key.toLowerCase().includes(q.toLowerCase());
+      setStaticValues(callback, queryFilter);
+      var stringsField = field.resolveReference("stringsCrossReference");
       var fn = _isMulti ? "multikeys" : "values";
       var query = (_isMulti ? field.key : "") + q;
       var hasCountryPrefix = _isNetwork && _countryCode && _countryCode.indexOf(q.toLowerCase()) === 0;
@@ -58033,38 +59902,55 @@ ${content}</tr>
       services.taginfo[fn](params, function(err, data) {
         if (err)
           return;
-        data = data.filter(function(d) {
-          return field.type !== "typeCombo" || d.value !== "yes";
+        data = data.filter((d) => field.type !== "typeCombo" || d.value !== "yes");
+        data = data.filter((d) => {
+          var value = d.value;
+          if (_isMulti) {
+            value = value.slice(field.key.length);
+          }
+          return value === restrictTagValueSpelling(value);
         });
         var deprecatedValues = osmEntity.deprecatedTagValuesByKey(_dataDeprecated)[field.key];
         if (deprecatedValues) {
-          data = data.filter(function(d) {
-            return deprecatedValues.indexOf(d.value) === -1;
-          });
+          data = data.filter((d) => !deprecatedValues.includes(d.value));
         }
         if (hasCountryPrefix) {
-          data = data.filter(function(d) {
-            return d.value.toLowerCase().indexOf(_countryCode + ":") === 0;
-          });
+          data = data.filter((d) => d.value.toLowerCase().indexOf(_countryCode + ":") === 0);
         }
+        const additionalOptions = (field.options || stringsField.options || []).filter((v) => !data.some((dv) => dv.value === (_isMulti ? field.key + v : v))).map((v) => ({ value: v }));
         _container.classed("empty-combobox", data.length === 0);
-        _comboData = data.map(function(d) {
-          var k = d.value;
+        _comboData = data.concat(additionalOptions).map(function(d) {
+          var v = d.value;
           if (_isMulti)
-            k = k.replace(field.key, "");
-          var label = field.t("options." + k, { default: k });
+            v = v.replace(field.key, "");
+          const labelId = getLabelId(stringsField, v);
+          var isLocalizable = stringsField.hasTextForStringId(labelId);
+          var label = stringsField.t(labelId, { default: v });
           return {
-            key: k,
-            value: _isMulti ? k : label,
-            display: field.t.append("options." + k, { default: k }),
-            title: d.title || label,
-            klass: field.hasTextForStringId("options." + k) ? "" : "raw-option"
+            key: v,
+            value: label,
+            title: stringsField.t(`options.${v}.description`, { default: isLocalizable ? v : d.title !== label ? d.title : "" }),
+            display: addComboboxIcons(stringsField.t.append(labelId, { default: v }), v),
+            klass: isLocalizable ? "" : "raw-option"
           };
         });
+        _comboData = _comboData.filter(queryFilter);
         _comboData = objectDifference(_comboData, _multiData);
         if (callback)
           callback(_comboData);
       });
+    }
+    function addComboboxIcons(disp, value) {
+      if (valueIcons[field.key]) {
+        return function(selection2) {
+          var span = selection2.insert("span", ":first-child").attr("class", "tag-value-icon");
+          if (valueIcons[field.key].indexOf(value) !== -1) {
+            span.call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
+          }
+          disp.call(this, selection2);
+        };
+      }
+      return disp;
     }
     function setPlaceholder(values) {
       if (_isMulti || _isSemi) {
@@ -58095,12 +59981,19 @@ ${content}</tr>
       var t = {};
       var val;
       if (_isMulti || _isSemi) {
-        val = tagValue(utilGetSetValue(_input).replace(/,/g, ";")) || "";
-        _container.classed("active", false);
-        utilGetSetValue(_input, "");
-        var vals = val.split(";").filter(Boolean);
+        var vals;
+        if (_isMulti) {
+          vals = [tagValue(utilGetSetValue(_input))];
+        } else if (_isSemi) {
+          val = tagValue(utilGetSetValue(_input)) || "";
+          val = val.replace(/,/g, ";");
+          vals = val.split(";");
+        }
+        vals = vals.filter(Boolean);
         if (!vals.length)
           return;
+        _container.classed("active", false);
+        utilGetSetValue(_input, "");
         if (_isMulti) {
           utilArrayUniq(vals).forEach(function(v) {
             var key = (field.key || "") + v;
@@ -58144,13 +60037,14 @@ ${content}</tr>
         }).filter(Boolean);
         arr = utilArrayUniq(arr);
         t[field.key] = arr.length ? arr.join(";") : void 0;
+        _lengthIndicator.update(t[field.key]);
       }
       dispatch10.call("change", this, t);
     }
     function combo(selection2) {
       _container = selection2.selectAll(".form-field-input-wrap").data([0]);
-      var type3 = _isMulti || _isSemi ? "multicombo" : "combo";
-      _container = _container.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + type3).merge(_container);
+      var type2 = _isMulti || _isSemi ? "multicombo" : "combo";
+      _container = _container.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + type2).merge(_container);
       if (_isMulti || _isSemi) {
         _container = _container.selectAll(".chiplist").data([0]);
         var listClass = "chiplist";
@@ -58169,12 +60063,24 @@ ${content}</tr>
         _input = _container.selectAll("input").data([0]);
       }
       _input = _input.enter().append("input").attr("type", "text").attr("id", field.domId).call(utilNoAuto).call(initCombo, selection2).merge(_input);
+      if (_isSemi) {
+        _inputWrap.call(_lengthIndicator);
+      } else if (!_isMulti) {
+        _container.call(_lengthIndicator);
+      }
       if (_isNetwork) {
         var extent = combinedEntityExtent();
         var countryCode = extent && iso1A2Code(extent.center());
         _countryCode = countryCode && countryCode.toLowerCase();
       }
-      _input.on("change", change).on("blur", change);
+      _input.on("change", change).on("blur", change).on("input", function() {
+        let val = utilGetSetValue(_input);
+        updateIcon(val);
+        if (_isSemi && _tags[field.key]) {
+          val += ";" + _tags[field.key];
+        }
+        _lengthIndicator.update(val);
+      });
       _input.on("keydown.field", function(d3_event) {
         switch (d3_event.keyCode) {
           case 13:
@@ -58192,9 +60098,24 @@ ${content}</tr>
           _container.classed("active", true);
         });
       }
+      _combobox.on("cancel", function() {
+        _input.node().blur();
+      }).on("update", function() {
+        updateIcon(utilGetSetValue(_input));
+      });
+    }
+    function updateIcon(value) {
+      value = tagValue(value);
+      if (valueIcons[field.key]) {
+        _container.selectAll(".tag-value-icon").remove();
+        if (valueIcons[field.key].indexOf(value) !== -1) {
+          _container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
+        }
+      }
     }
     combo.tags = function(tags) {
       _tags = tags;
+      var stringsField = field.resolveReference("stringsCrossReference");
       if (_isMulti || _isSemi) {
         _multiData = [];
         var maxLength;
@@ -58270,7 +60191,7 @@ ${content}</tr>
           var k2 = d.key;
           if (_isMulti)
             k2 = k2.replace(field.key, "");
-          return !field.hasTextForStringId("options." + k2);
+          return !stringsField.hasTextForStringId("options." + k2);
         }).classed("draggable", allowDragAndDrop).classed("mixed", function(d) {
           return d.isMixed;
         }).attr("title", function(d) {
@@ -58295,7 +60216,7 @@ ${content}</tr>
           return displayValue(val);
         }).filter(Boolean);
         var showsValue = !isMixed && tags[field.key] && !(field.type === "typeCombo" && tags[field.key] === "yes");
-        var isRawValue = showsValue && !field.hasTextForStringId("options." + tags[field.key]);
+        var isRawValue = showsValue && !stringsField.hasTextForStringId(`options.${tags[field.key]}`) && !stringsField.hasTextForStringId(`options.${tags[field.key]}.title`);
         var isKnownValue = showsValue && !isRawValue;
         var isReadOnly = !_allowCustomValues || isKnownValue;
         utilGetSetValue(_input, !isMixed ? displayValue(tags[field.key]) : "").classed("raw-value", isRawValue).classed("known-value", isKnownValue).attr("readonly", isReadOnly ? "readonly" : void 0).attr("title", isMixed ? mixedValues.join("\n") : void 0).attr("placeholder", isMixed ? _t("inspector.multiple_values") : _staticPlaceholder || "").classed("mixed", isMixed).on("keydown.deleteCapture", function(d3_event) {
@@ -58307,6 +60228,12 @@ ${content}</tr>
             dispatch10.call("change", this, t);
           }
         });
+        if (!Array.isArray(tags[field.key])) {
+          updateIcon(tags[field.key]);
+        }
+        if (!isMixed) {
+          _lengthIndicator.update(tags[field.key]);
+        }
       }
     };
     function registerDragAndDrop(selection2) {
@@ -58320,7 +60247,8 @@ ${content}</tr>
           targetIndex = null;
         }).on("drag", function(d3_event) {
           var x = d3_event.x - dragOrigin.x, y = d3_event.y - dragOrigin.y;
-          if (!select_default2(this).classed("dragging") && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
+          if (!select_default2(this).classed("dragging") && // don't display drag until dragging beyond a distance threshold
+          Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
             return;
           var index = selection2.nodes().indexOf(this);
           select_default2(this).classed("dragging", true);
@@ -58414,9 +60342,11 @@ ${content}</tr>
     var input = select_default2(null);
     var outlinkButton = select_default2(null);
     var wrap2 = select_default2(null);
+    var _lengthIndicator = uiLengthIndicator(context.maxCharsForTagValue());
     var _entityIDs = [];
     var _tags;
     var _phoneFormats = {};
+    const isDirectionField = field.key.split(":").some((keyPart) => keyPart === "direction");
     if (field.type === "tel") {
       _mainFileFetcher.get("phone_formats").then(function(d) {
         _phoneFormats = d;
@@ -58446,6 +60376,7 @@ ${content}</tr>
       input = wrap2.selectAll("input").data([0]);
       input = input.enter().append("input").attr("type", field.type === "identifier" ? "text" : field.type).attr("id", field.domId).classed(field.type, true).call(utilNoAuto).merge(input);
       input.classed("disabled", !!isLocked).attr("readonly", isLocked || null).on("input", change(true)).on("blur", change()).on("change", change());
+      wrap2.call(_lengthIndicator);
       if (field.type === "tel") {
         updatePhonePlaceholder();
       } else if (field.type === "number") {
@@ -58461,16 +60392,28 @@ ${content}</tr>
           return _t(`inspector.${which}`);
         }).merge(buttons).on("click", function(d3_event, d) {
           d3_event.preventDefault();
+          var isMixed = Array.isArray(_tags[field.key]);
+          if (isMixed)
+            return;
           var raw_vals = input.node().value || "0";
           var vals = raw_vals.split(";");
           vals = vals.map(function(v) {
-            var num = parseFloat(v.trim(), 10);
-            if (isFinite(num))
-              return clamped(num + d);
-            const compassDir = cardinal[v.trim().toLowerCase()];
-            if (compassDir !== void 0)
-              return clamped(compassDir + d);
-            return v.trim();
+            var num = Number(v);
+            if (isDirectionField) {
+              const compassDir = cardinal[v.trim().toLowerCase()];
+              if (compassDir !== void 0) {
+                num = compassDir;
+              }
+            }
+            if (!isFinite(num)) {
+              return v.trim();
+            }
+            num += d;
+            if (isDirectionField) {
+              num = (num % 360 + 360) % 360;
+            }
+            const numDecimals = v.includes(".") ? v.split(".")[1].length : 0;
+            return clamped(num).toFixed(numDecimals);
           });
           input.node().value = vals.join(";");
           change()();
@@ -58502,7 +60445,7 @@ ${content}</tr>
           if (value)
             window.open(value, "_blank");
         }).merge(outlinkButton);
-      } else if (field.key.split(":").includes("colour")) {
+      } else if (field.type === "colour") {
         input.attr("type", "text");
         updateColourPreview();
       }
@@ -58581,7 +60524,7 @@ ${content}</tr>
           if (field.type === "number" && val) {
             var vals = val.split(";");
             vals = vals.map(function(v) {
-              var num = parseFloat(v.trim(), 10);
+              var num = Number(v);
               return isFinite(num) ? clamped(num) : v.trim();
             });
             val = vals.join(";");
@@ -58602,11 +60545,26 @@ ${content}</tr>
       _tags = tags;
       var isMixed = Array.isArray(tags[field.key]);
       utilGetSetValue(input, !isMixed && tags[field.key] ? tags[field.key] : "").attr("title", isMixed ? tags[field.key].filter(Boolean).join("\n") : void 0).attr("placeholder", isMixed ? _t("inspector.multiple_values") : field.placeholder() || _t("inspector.unknown")).classed("mixed", isMixed);
+      if (field.type === "number") {
+        const buttons = wrap2.selectAll(".increment, .decrement");
+        if (isMixed) {
+          buttons.attr("disabled", "disabled").classed("disabled", true);
+        } else {
+          var raw_vals = tags[field.key] || "0";
+          const canIncDec = raw_vals.split(";").some((val) => isFinite(Number(val)) || isDirectionField && cardinal[val.trim().toLowerCase()]);
+          buttons.attr("disabled", canIncDec ? null : "disabled").classed("disabled", !canIncDec);
+        }
+      }
+      if (field.type === "tel")
+        updatePhonePlaceholder();
       if (field.key.split(":").includes("colour"))
         updateColourPreview();
       if (outlinkButton && !outlinkButton.empty()) {
         var disabled = !validIdentifierValueForLink();
         outlinkButton.classed("disabled", disabled);
+      }
+      if (!isMixed) {
+        _lengthIndicator.update(tags[field.key]);
       }
     };
     i2.focus = function() {
@@ -58657,7 +60615,7 @@ ${content}</tr>
       tag[d] = value || void 0;
       dispatch10.call("change", this, tag);
     }
-    access.options = function(type3) {
+    access.options = function(type2) {
       var options2 = [
         "yes",
         "no",
@@ -58669,15 +60627,16 @@ ${content}</tr>
         "permit",
         "unknown"
       ];
-      if (type3 === "access") {
+      if (type2 === "access") {
         options2 = options2.filter((v) => v !== "yes" && v !== "designated");
       }
-      if (type3 === "bicycle") {
+      if (type2 === "bicycle") {
         options2.splice(options2.length - 4, 0, "dismount");
       }
+      var stringsField = field.resolveReference("stringsCrossReference");
       return options2.map(function(option) {
         return {
-          title: field.t("options." + option + ".description"),
+          title: stringsField.t("options." + option + ".description"),
           value: option
         };
       });
@@ -59125,13 +61084,14 @@ ${content}</tr>
     return utilRebind(address, dispatch10, "on");
   }
 
-  // modules/ui/fields/cycleway.js
-  function uiFieldCycleway(field, context) {
+  // modules/ui/fields/directional_combo.js
+  function uiFieldDirectionalCombo(field, context) {
     var dispatch10 = dispatch_default("change");
     var items = select_default2(null);
     var wrap2 = select_default2(null);
     var _tags;
-    function cycleway(selection2) {
+    var _combos = {};
+    function directionalCombo(selection2) {
       function stripcolon(s) {
         return s.replace(":", "");
       }
@@ -59139,99 +61099,61 @@ ${content}</tr>
       wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
       var div = wrap2.selectAll("ul").data([0]);
       div = div.enter().append("ul").attr("class", "rows").merge(div);
-      var keys = ["cycleway:left", "cycleway:right"];
+      var keys = field.keys.slice(1);
       items = div.selectAll("li").data(keys);
       var enter = items.enter().append("li").attr("class", function(d) {
-        return "labeled-input preset-cycleway-" + stripcolon(d);
+        return "labeled-input preset-directionalcombo-" + stripcolon(d);
       });
-      enter.append("span").attr("class", "label preset-label-cycleway").attr("for", function(d) {
-        return "preset-input-cycleway-" + stripcolon(d);
+      enter.append("span").attr("class", "label preset-label-directionalcombo").attr("for", function(d) {
+        return "preset-input-directionalcombo-" + stripcolon(d);
       }).html(function(d) {
         return field.t.html("types." + d);
       });
-      enter.append("div").attr("class", "preset-input-cycleway-wrap").append("input").attr("type", "text").attr("class", function(d) {
-        return "preset-input-cycleway preset-input-" + stripcolon(d);
-      }).call(utilNoAuto).each(function(d) {
-        select_default2(this).call(
-          uiCombobox(context, "cycleway-" + stripcolon(d)).data(cycleway.options(d))
-        );
+      enter.append("div").attr("class", "preset-input-directionalcombo-wrap form-field-input-wrap").each(function(key) {
+        const subField = {
+          ...field,
+          type: "combo",
+          key
+        };
+        const combo = uiFieldCombo(subField, context);
+        combo.on("change", (t) => change(key, t[key]));
+        _combos[key] = combo;
+        select_default2(this).call(combo);
       });
       items = items.merge(enter);
-      wrap2.selectAll(".preset-input-cycleway").on("change", change).on("blur", change);
+      wrap2.selectAll(".preset-input-directionalcombo").on("change", change).on("blur", change);
     }
-    function change(d3_event, key) {
-      var newValue = context.cleanTagValue(utilGetSetValue(select_default2(this)));
-      if (!newValue && (Array.isArray(_tags.cycleway) || Array.isArray(_tags[key])))
-        return;
-      if (newValue === "none" || newValue === "") {
-        newValue = void 0;
-      }
-      var otherKey = key === "cycleway:left" ? "cycleway:right" : "cycleway:left";
-      var otherValue = typeof _tags.cycleway === "string" ? _tags.cycleway : _tags[otherKey];
-      if (otherValue && Array.isArray(otherValue)) {
-        otherValue = otherValue[0];
-      }
-      if (otherValue === "none" || otherValue === "") {
-        otherValue = void 0;
-      }
-      var tag = {};
-      if (newValue === otherValue) {
-        tag = {
-          cycleway: newValue,
-          "cycleway:left": void 0,
-          "cycleway:right": void 0
-        };
-      } else {
-        tag = {
-          cycleway: void 0
-        };
-        tag[key] = newValue;
-        tag[otherKey] = otherValue;
-      }
-      dispatch10.call("change", this, tag);
-    }
-    cycleway.options = function() {
-      return field.options.map(function(option) {
-        return {
-          title: field.t("options." + option + ".description"),
-          value: option
-        };
+    function change(key, newValue) {
+      const commonKey = field.keys[0];
+      const otherKey = key === field.keys[1] ? field.keys[2] : field.keys[1];
+      dispatch10.call("change", this, (tags) => {
+        const otherValue = tags[otherKey] || tags[commonKey];
+        if (newValue === otherValue) {
+          tags[commonKey] = newValue;
+          delete tags[key];
+          delete tags[otherKey];
+        } else {
+          tags[key] = newValue;
+          delete tags[commonKey];
+          tags[otherKey] = otherValue;
+        }
+        return tags;
       });
-    };
-    cycleway.tags = function(tags) {
+    }
+    directionalCombo.tags = function(tags) {
       _tags = tags;
-      var commonValue = typeof tags.cycleway === "string" && tags.cycleway;
-      utilGetSetValue(items.selectAll(".preset-input-cycleway"), function(d) {
-        if (commonValue)
-          return commonValue;
-        return !tags.cycleway && typeof tags[d] === "string" ? tags[d] : "";
-      }).attr("title", function(d) {
-        if (Array.isArray(tags.cycleway) || Array.isArray(tags[d])) {
-          var vals = [];
-          if (Array.isArray(tags.cycleway)) {
-            vals = vals.concat(tags.cycleway);
-          }
-          if (Array.isArray(tags[d])) {
-            vals = vals.concat(tags[d]);
-          }
-          return vals.filter(Boolean).join("\n");
-        }
-        return null;
-      }).attr("placeholder", function(d) {
-        if (Array.isArray(tags.cycleway) || Array.isArray(tags[d])) {
-          return _t("inspector.multiple_values");
-        }
-        return field.placeholder();
-      }).classed("mixed", function(d) {
-        return Array.isArray(tags.cycleway) || Array.isArray(tags[d]);
-      });
+      const commonKey = field.keys[0];
+      for (let key in _combos) {
+        const uniqueValues = [...new Set([].concat(_tags[commonKey]).concat(_tags[key]).filter(Boolean))];
+        _combos[key].tags({ [key]: uniqueValues.length > 1 ? uniqueValues : uniqueValues[0] });
+      }
     };
-    cycleway.focus = function() {
+    directionalCombo.focus = function() {
       var node = wrap2.selectAll("input").node();
       if (node)
         node.focus();
     };
-    return utilRebind(cycleway, dispatch10, "on");
+    return utilRebind(directionalCombo, dispatch10, "on");
   }
 
   // modules/ui/fields/lanes.js
@@ -59298,6 +61220,7 @@ ${content}</tr>
     var wikipedia = services.wikipedia;
     var input = select_default2(null);
     var localizedInputs = select_default2(null);
+    var _lengthIndicator = uiLengthIndicator(context.maxCharsForTagValue());
     var _countryCode;
     var _tags;
     _mainFileFetcher.get("languages").then(loadLanguagesArray).catch(function() {
@@ -59318,7 +61241,9 @@ ${content}</tr>
         return;
       var replacements = {
         sr: "sr-Cyrl",
+        // in OSM, `sr` implies Cyrillic
         "sr-Cyrl": false
+        // `sr-Cyrl` isn't used in OSM
       };
       for (var code in dataLanguages) {
         if (replacements[code] === false)
@@ -59394,6 +61319,7 @@ ${content}</tr>
       input = wrap2.selectAll(".localized-main").data([0]);
       input = input.enter().append("input").attr("type", "text").attr("id", field.domId).attr("class", "localized-main").call(utilNoAuto).merge(input);
       input.classed("disabled", !!isLocked).attr("readonly", isLocked || null).on("input", change(true)).on("blur", change()).on("change", change());
+      wrap2.call(_lengthIndicator);
       var translateButton = wrap2.selectAll(".localized-add").data([0]);
       translateButton = translateButton.enter().append("button").attr("class", "localized-add form-field-button").attr("aria-label", _t("icons.plus")).call(svgIcon("#iD-icon-plus")).merge(translateButton);
       translateButton.classed("disabled", !!isLocked).call(isLocked ? _buttonTip.destroy : _buttonTip).on("click", addNew);
@@ -59569,6 +61495,9 @@ ${content}</tr>
       utilGetSetValue(input, typeof tags[field.key] === "string" ? tags[field.key] : "").attr("title", isMixed ? tags[field.key].filter(Boolean).join("\n") : void 0).attr("placeholder", isMixed ? _t("inspector.multiple_values") : field.placeholder()).classed("mixed", isMixed);
       calcMultilingual(tags);
       _selection.call(localized);
+      if (!isMixed) {
+        _lengthIndicator.update(tags[field.key]);
+      }
     };
     localized.focus = function() {
       input.node().focus();
@@ -59813,18 +61742,19 @@ ${content}</tr>
       placeholder = wrap2.selectAll(".placeholder");
       labels = wrap2.selectAll("label").data(radioData);
       enter = labels.enter().append("label");
+      var stringsField = field.resolveReference("stringsCrossReference");
       enter.append("input").attr("type", "radio").attr("name", field.id).attr("value", function(d) {
-        return field.t("options." + d, { "default": d });
+        return stringsField.t("options." + d, { "default": d });
       }).attr("checked", false);
-      enter.append("span").html(function(d) {
-        return field.t.html("options." + d, { "default": d });
+      enter.append("span").each(function(d) {
+        stringsField.t.append("options." + d, { "default": d })(select_default2(this));
       });
       labels = labels.merge(enter);
       radios = labels.selectAll("input").on("change", changeRadio);
     }
     function structureExtras(selection2, tags) {
       var selected = selectedKey() || tags.layer !== void 0;
-      var type3 = _mainPresetIndex.field(selected);
+      var type2 = _mainPresetIndex.field(selected);
       var layer = _mainPresetIndex.field("layer");
       var showLayer = selected === "bridge" || selected === "tunnel" || tags.layer !== void 0;
       var extrasWrap = selection2.selectAll(".structure-extras-wrap").data(selected ? [0] : []);
@@ -59832,9 +61762,9 @@ ${content}</tr>
       extrasWrap = extrasWrap.enter().append("div").attr("class", "structure-extras-wrap").merge(extrasWrap);
       var list = extrasWrap.selectAll("ul").data([0]);
       list = list.enter().append("ul").attr("class", "rows").merge(list);
-      if (type3) {
+      if (type2) {
         if (!typeField || typeField.id !== selected) {
-          typeField = uiField(context, type3, _entityIDs, { wrap: false }).on("change", changeType);
+          typeField = uiField(context, type2, _entityIDs, { wrap: false }).on("change", changeType);
         }
         typeField.tags(tags);
       } else {
@@ -60012,9 +61942,11 @@ ${content}</tr>
         _graph = context.graph();
         _intersection = osmIntersection(_graph, _vertexID, _maxDistance);
       }
-      var isOK = _intersection && _intersection.vertices.length && _intersection.vertices.filter(function(vertex) {
+      var isOK = _intersection && _intersection.vertices.length && // has vertices
+      _intersection.vertices.filter(function(vertex) {
         return vertex.id === _vertexID;
-      }).length && _intersection.ways.length > 2 && _intersection.ways.filter(function(way) {
+      }).length && _intersection.ways.length > 2 && // has more than 2 ways
+      _intersection.ways.filter(function(way) {
         return way.__to;
       }).length > 1;
       select_default2(selection2.node().parentNode).classed("hide", !isOK);
@@ -60316,6 +62248,7 @@ ${content}</tr>
         var opts;
         if (isImperial) {
           var distToFeet = {
+            // imprecise conversion for prettier display
             20: 70,
             25: 85,
             30: 100,
@@ -60341,8 +62274,8 @@ ${content}</tr>
       var entity = graph.entity(entityID);
       var name = utilDisplayName(entity) || "";
       var matched = _mainPresetIndex.match(entity, graph);
-      var type3 = matched && matched.name() || utilDisplayType(entity.id);
-      return name || type3;
+      var type2 = matched && matched.name() || utilDisplayType(entity.id);
+      return name || type2;
     }
     restrictions.entityIDs = function(val) {
       _intersection = null;
@@ -60368,29 +62301,34 @@ ${content}</tr>
   function uiFieldTextarea(field, context) {
     var dispatch10 = dispatch_default("change");
     var input = select_default2(null);
+    var _lengthIndicator = uiLengthIndicator(context.maxCharsForTagValue()).silent(field.usage === "changeset" && field.key === "comment");
     var _tags;
     function textarea(selection2) {
       var wrap2 = selection2.selectAll(".form-field-input-wrap").data([0]);
-      wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
+      wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).style("position", "relative").merge(wrap2);
       input = wrap2.selectAll("textarea").data([0]);
       input = input.enter().append("textarea").attr("id", field.domId).call(utilNoAuto).on("input", change(true)).on("blur", change()).on("change", change()).merge(input);
-    }
-    function change(onInput) {
-      return function() {
-        var val = utilGetSetValue(input);
-        if (!onInput)
-          val = context.cleanTagValue(val);
-        if (!val && Array.isArray(_tags[field.key]))
-          return;
-        var t = {};
-        t[field.key] = val || void 0;
-        dispatch10.call("change", this, t, onInput);
-      };
+      wrap2.call(_lengthIndicator);
+      function change(onInput) {
+        return function() {
+          var val = utilGetSetValue(input);
+          if (!onInput)
+            val = context.cleanTagValue(val);
+          if (!val && Array.isArray(_tags[field.key]))
+            return;
+          var t = {};
+          t[field.key] = val || void 0;
+          dispatch10.call("change", this, t, onInput);
+        };
+      }
     }
     textarea.tags = function(tags) {
       _tags = tags;
       var isMixed = Array.isArray(tags[field.key]);
       utilGetSetValue(input, !isMixed && tags[field.key] ? tags[field.key] : "").attr("title", isMixed ? tags[field.key].filter(Boolean).join("\n") : void 0).attr("placeholder", isMixed ? _t("inspector.multiple_values") : field.placeholder() || _t("inspector.unknown")).classed("mixed", isMixed);
+      if (!isMixed) {
+        _lengthIndicator.update(tags[field.key]);
+      }
     };
     textarea.focus = function() {
       input.node().focus();
@@ -60815,7 +62753,10 @@ ${content}</tr>
           const defaultLangInfo = defaultLanguageInfo();
           _wikiURL = `https://${defaultLangInfo[2]}.wikipedia.org/w/index.php?fulltext=1&search=${value}`;
         } else {
-          const shownOrDefaultLangInfo = language(true);
+          const shownOrDefaultLangInfo = language(
+            true
+            /* skipEnglishFallback */
+          );
           utilGetSetValue(_langInput, shownOrDefaultLangInfo[1]);
           _wikiURL = "";
         }
@@ -60839,9 +62780,11 @@ ${content}</tr>
     access: uiFieldAccess,
     address: uiFieldAddress,
     check: uiFieldCheck,
+    colour: uiFieldText,
     combo: uiFieldCombo,
-    cycleway: uiFieldCycleway,
+    cycleway: uiFieldDirectionalCombo,
     defaultCheck: uiFieldCheck,
+    directionalCombo: uiFieldDirectionalCombo,
     email: uiFieldText,
     identifier: uiFieldText,
     lanes: uiFieldLanes,
@@ -61052,12 +62995,13 @@ ${content}</tr>
       }))
         return false;
       if (entityIDs && _entityExtent && field.locationSetID) {
-        var validLocations = _mainLocations.locationsAt(_entityExtent.center());
-        if (!validLocations[field.locationSetID])
+        var validHere = _sharedLocationManager.locationSetsAt(_entityExtent.center());
+        if (!validHere[field.locationSetID])
           return false;
       }
       var prerequisiteTag = field.prerequisiteTag;
-      if (entityIDs && !tagsContainFieldKey() && prerequisiteTag) {
+      if (entityIDs && !tagsContainFieldKey() && // ignore tagging prerequisites if a value is already present
+      prerequisiteTag) {
         if (!entityIDs.every(function(entityID) {
           var entity = context.graph().entity(entityID);
           if (prerequisiteTag.key) {
@@ -61234,12 +63178,34 @@ ${content}</tr>
           });
         }
       }
-      var hasGoogle = _tags.comment.match(/google/i);
-      var commentWarning = selection2.select(".form-field-comment").selectAll(".comment-warning").data(hasGoogle ? [0] : []);
+      const warnings = [];
+      if (_tags.comment.match(/google/i)) {
+        warnings.push({
+          id: 'contains "google"',
+          msg: _t.append("commit.google_warning"),
+          link: _t("commit.google_warning_link")
+        });
+      }
+      const maxChars = context.maxCharsForTagValue();
+      const strLen = utilUnicodeCharsCount(utilCleanOsmString(_tags.comment, Number.POSITIVE_INFINITY));
+      if (strLen > maxChars || false) {
+        warnings.push({
+          id: "message too long",
+          msg: _t.append("commit.changeset_comment_length_warning", { maxChars })
+        });
+      }
+      var commentWarning = selection2.select(".form-field-comment").selectAll(".comment-warning").data(warnings, (d) => d.id);
       commentWarning.exit().transition().duration(200).style("opacity", 0).remove();
-      var commentEnter = commentWarning.enter().insert("div", ".tag-reference-body").attr("class", "field-warning comment-warning").style("opacity", 0);
-      commentEnter.append("a").attr("target", "_blank").call(svgIcon("#iD-icon-alert", "inline")).attr("href", _t("commit.google_warning_link")).append("span").call(_t.append("commit.google_warning"));
+      var commentEnter = commentWarning.enter().insert("div", ".comment-warning").attr("class", "comment-warning field-warning").style("opacity", 0);
+      commentEnter.call(svgIcon("#iD-icon-alert", "inline")).append("span");
       commentEnter.transition().duration(200).style("opacity", 1);
+      commentWarning.merge(commentEnter).selectAll("div > span").text("").each(function(d) {
+        let selection3 = select_default2(this);
+        if (d.link) {
+          selection3 = selection3.append("a").attr("target", "_blank").attr("href", d.link);
+        }
+        selection3.call(d.msg);
+      });
     }
     changesetEditor.tags = function(_) {
       if (!arguments.length)
@@ -61293,7 +63259,10 @@ ${content}</tr>
     }
     function createObjTree(oParentNode, nVerb, bFreeze, bNesteAttr) {
       var nLevelStart = aCache.length, bChildren = oParentNode.hasChildNodes(), bAttributes = oParentNode.hasAttributes(), bHighVerb = Boolean(nVerb & 2);
-      var sProp, vContent, nLength = 0, sCollectedTxt = "", vResult = bHighVerb ? {} : true;
+      var sProp, vContent, nLength = 0, sCollectedTxt = "", vResult = bHighVerb ? {} : (
+        /* put here the default value for empty nodes: */
+        true
+      );
       if (bChildren) {
         for (var oNode, nItem = 0; nItem < oParentNode.childNodes.length; nItem++) {
           oNode = oParentNode.childNodes.item(nItem);
@@ -61388,7 +63357,10 @@ ${content}</tr>
       }
     }
     this.build = function(oXMLParent, nVerbosity, bFreeze, bNesteAttributes) {
-      var _nVerb = arguments.length > 1 && typeof nVerbosity === "number" ? nVerbosity & 3 : 1;
+      var _nVerb = arguments.length > 1 && typeof nVerbosity === "number" ? nVerbosity & 3 : (
+        /* put here the default verbosity level: */
+        1
+      );
       return createObjTree(oXMLParent, _nVerb, bFreeze || false, arguments.length > 3 ? bNesteAttributes : _nVerb === 3);
     };
     this.unbuild = function(oObjTree) {
@@ -61982,7 +63954,7 @@ ${content}</tr>
         var sign2 = d === "previous" ? -1 : 1;
         container.selectAll(".conflict").remove();
         container.call(showConflict, index + sign2);
-      }).call(function(d) {
+      }).each(function(d) {
         _t.append("save.conflict." + d)(select_default2(this));
       });
     }
@@ -62171,9 +64143,9 @@ ${content}</tr>
       var buttons = fixesEnter.append("button").on("click", function(d3_event, d) {
         if (select_default2(this).attr("disabled") || !d.onClick)
           return;
-        if (d.issue.dateLastRanFix && new Date() - d.issue.dateLastRanFix < 1e3)
+        if (d.issue.dateLastRanFix && /* @__PURE__ */ new Date() - d.issue.dateLastRanFix < 1e3)
           return;
-        d.issue.dateLastRanFix = new Date();
+        d.issue.dateLastRanFix = /* @__PURE__ */ new Date();
         utilHighlightEntities(d.issue.entityIds.concat(d.entityIds), false, context);
         new Promise(function(resolve, reject) {
           d.onClick(context, resolve, reject);
@@ -62286,12 +64258,12 @@ ${content}</tr>
         fillEnter.append("path").attr("d", `M${c1} ${c1} L${c1} ${c2} L${c2} ${c2} L${c2} ${c1} Z`).attr("class", `area ${klass}`);
       });
       const rVertex = 2.5;
-      [[c1, c1], [c1, c2], [c2, c2], [c2, c1]].forEach((point) => {
-        fillEnter.append("circle").attr("class", "vertex").attr("cx", point[0]).attr("cy", point[1]).attr("r", rVertex);
+      [[c1, c1], [c1, c2], [c2, c2], [c2, c1]].forEach((point2) => {
+        fillEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", rVertex);
       });
       const rMidpoint = 1.25;
-      [[c1, w / 2], [c2, w / 2], [h / 2, c1], [h / 2, c2]].forEach((point) => {
-        fillEnter.append("circle").attr("class", "midpoint").attr("cx", point[0]).attr("cy", point[1]).attr("r", rMidpoint);
+      [[c1, w / 2], [c2, w / 2], [h / 2, c1], [h / 2, c2]].forEach((point2) => {
+        fillEnter.append("circle").attr("class", "midpoint").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", rMidpoint);
       });
       fill = fillEnter.merge(fill);
       fill.selectAll("path.stroke").attr("class", `area stroke ${tagClasses}`);
@@ -62313,8 +64285,8 @@ ${content}</tr>
       ["casing", "stroke"].forEach((klass) => {
         lineEnter.append("path").attr("d", `M${x12} ${y} L${x2} ${y}`).attr("class", `line ${klass}`);
       });
-      [[x12 - 1, y], [x2 + 1, y]].forEach((point) => {
-        lineEnter.append("circle").attr("class", "vertex").attr("cx", point[0]).attr("cy", point[1]).attr("r", r);
+      [[x12 - 1, y], [x2 + 1, y]].forEach((point2) => {
+        lineEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", r);
       });
       line = lineEnter.merge(line);
       line.selectAll("path.stroke").attr("class", `line stroke ${tagClasses}`);
@@ -62341,8 +64313,8 @@ ${content}</tr>
         routeEnter.append("path").attr("d", `M${x2} ${y2} L${x3} ${y12}`).attr("class", `segment1 line ${klass}`);
         routeEnter.append("path").attr("d", `M${x3} ${y12} L${x4} ${y2}`).attr("class", `segment2 line ${klass}`);
       });
-      [[x12, y12], [x2, y2], [x3, y12], [x4, y2]].forEach((point) => {
-        routeEnter.append("circle").attr("class", "vertex").attr("cx", point[0]).attr("cy", point[1]).attr("r", r);
+      [[x12, y12], [x2, y2], [x3, y12], [x4, y2]].forEach((point2) => {
+        routeEnter.append("circle").attr("class", "vertex").attr("cx", point2[0]).attr("cy", point2[1]).attr("r", r);
       });
       route = routeEnter.merge(route);
       if (drawRoute) {
@@ -62609,11 +64581,6 @@ ${content}</tr>
       selection2.call(
         formFields.fieldsArr(_fieldsArr).state(_state).klass("grouped-items-area")
       );
-      selection2.selectAll(".wrap-form-field input").on("keydown", function(d3_event) {
-        if (d3_event.keyCode === 13 && context.container().select(".combobox").empty()) {
-          context.enter(modeBrowse(context));
-        }
-      });
     }
     section.presets = function(val) {
       if (!arguments.length)
@@ -62789,7 +64756,8 @@ ${content}</tr>
           targetIndex = null;
         }).on("drag", function(d3_event) {
           var x = d3_event.x - dragOrigin.x, y = d3_event.y - dragOrigin.y;
-          if (!select_default2(this).classed("dragging") && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
+          if (!select_default2(this).classed("dragging") && // don't display drag until dragging beyond a distance threshold
+          Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= 5)
             return;
           var index = items.nodes().indexOf(this);
           select_default2(this).classed("dragging", true);
@@ -63323,7 +65291,7 @@ ${content}</tr>
       var header = selection2.selectAll(".header").data([0]);
       var headerEnter = header.enter().append("div").attr("class", "header fillL");
       var direction = _mainLocalizer.textDirection() === "rtl" ? "forward" : "backward";
-      headerEnter.append("button").attr("class", "preset-reset preset-choose").attr("title", _t(`icons.${direction}`)).call(svgIcon(`#iD-icon-${direction}`));
+      headerEnter.append("button").attr("class", "preset-reset preset-choose").attr("title", _t("inspector.back_tooltip")).call(svgIcon(`#iD-icon-${direction}`));
       headerEnter.append("button").attr("class", "close").attr("title", _t("icons.close")).on("click", function() {
         context.enter(modeBrowse(context));
       }).call(svgIcon(_modified ? "#iD-icon-apply" : "#iD-icon-close"));
@@ -63392,14 +65360,18 @@ ${content}</tr>
         var entityID = entityIDs[i2];
         var entity = context.entity(entityID);
         var tags = Object.assign({}, entity.tags);
-        for (var k in changed) {
-          if (!k)
-            continue;
-          var v = changed[k];
-          if (typeof v === "object") {
-            tags[k] = tags[v.oldKey];
-          } else if (v !== void 0 || tags.hasOwnProperty(k)) {
-            tags[k] = v;
+        if (typeof changed === "function") {
+          tags = changed(tags);
+        } else {
+          for (var k in changed) {
+            if (!k)
+              continue;
+            var v = changed[k];
+            if (typeof v === "object") {
+              tags[k] = tags[v.oldKey];
+            } else if (v !== void 0 || tags.hasOwnProperty(k)) {
+              tags[k] = v;
+            }
           }
         }
         if (!onInput) {
@@ -63563,7 +65535,8 @@ ${content}</tr>
       }
       function keypress(d3_event) {
         var q = search.property("value"), items = list.selectAll(".feature-list-item");
-        if (d3_event.keyCode === 13 && q.length && items.size()) {
+        if (d3_event.keyCode === 13 && // ↩ Return
+        q.length && items.size()) {
           click(d3_event, items.datum());
         }
       }
@@ -63580,7 +65553,7 @@ ${content}</tr>
           drawList();
         }
       }
-      function features2() {
+      function features() {
         var result = [];
         var graph = context.graph();
         var visibleCenter = context.map().extent().center();
@@ -63589,7 +65562,7 @@ ${content}</tr>
           return result;
         var locationMatch = sexagesimal.pair(q.toUpperCase()) || q.match(/^(-?\d+\.?\d*)\s+(-?\d+\.?\d*)$/);
         if (locationMatch) {
-          var loc = [parseFloat(locationMatch[0]), parseFloat(locationMatch[1])];
+          var loc = [Number(locationMatch[0]), Number(locationMatch[1])];
           result.push({
             id: -1,
             geometry: "point",
@@ -63619,14 +65592,14 @@ ${content}</tr>
           if (name.toLowerCase().indexOf(q) < 0)
             continue;
           var matched = _mainPresetIndex.match(entity, graph);
-          var type3 = matched && matched.name() || utilDisplayType(entity.id);
+          var type2 = matched && matched.name() || utilDisplayType(entity.id);
           var extent = entity.extent(graph);
           var distance = extent ? geoSphericalDistance(visibleCenter, extent.center()) : 0;
           localResults.push({
             id: entity.id,
             entity,
             geometry: entity.geometry(graph),
-            type: type3,
+            type: type2,
             name,
             distance
           });
@@ -63649,15 +65622,15 @@ ${content}</tr>
             var tempEntity = osmEntity(attrs);
             var tempGraph = coreGraph([tempEntity]);
             var matched2 = _mainPresetIndex.match(tempEntity, tempGraph);
-            var type4 = matched2 && matched2.name() || utilDisplayType(id3);
+            var type3 = matched2 && matched2.name() || utilDisplayType(id3);
             result.push({
               id: tempEntity.id,
               geometry: tempEntity.geometry(tempGraph),
-              type: type4,
+              type: type3,
               name: d.display_name,
               extent: new geoExtent(
-                [parseFloat(d.boundingbox[3]), parseFloat(d.boundingbox[0])],
-                [parseFloat(d.boundingbox[2]), parseFloat(d.boundingbox[1])]
+                [Number(d.boundingbox[3]), Number(d.boundingbox[0])],
+                [Number(d.boundingbox[2]), Number(d.boundingbox[1])]
               )
             });
           }
@@ -63686,7 +65659,7 @@ ${content}</tr>
       }
       function drawList() {
         var value = search.property("value");
-        var results = features2();
+        var results = features();
         list.classed("filtered", value.length);
         var resultsIndicator = list.selectAll(".no-results-item").data([0]).enter().append("button").property("disabled", true).attr("class", "no-results-item").call(svgIcon("#iD-icon-alert", "pre-text"));
         resultsIndicator.append("span").attr("class", "entity-name");
@@ -64002,7 +65975,7 @@ ${content}</tr>
       var messagewrap = selection2.append("div").attr("class", "header fillL");
       var message = messagewrap.append("h2").call(_t.append("inspector.choose"));
       var direction = _mainLocalizer.textDirection() === "rtl" ? "backward" : "forward";
-      messagewrap.append("button").attr("class", "preset-choose").attr("title", direction).on("click", function() {
+      messagewrap.append("button").attr("class", "preset-choose").attr("title", _entityIDs.length === 1 ? _t("inspector.edit") : _t("inspector.edit_features")).on("click", function() {
         dispatch10.call("cancel", this);
       }).call(svgIcon(`#iD-icon-${direction}`));
       function initialKeydown(d3_event) {
@@ -64020,7 +65993,8 @@ ${content}</tr>
         }
       }
       function keydown(d3_event) {
-        if (d3_event.keyCode === utilKeybinding.keyCodes["\u2193"] && search.node().selectionStart === search.property("value").length) {
+        if (d3_event.keyCode === utilKeybinding.keyCodes["\u2193"] && // if insertion point is at the end of the string
+        search.node().selectionStart === search.property("value").length) {
           d3_event.preventDefault();
           d3_event.stopPropagation();
           var buttons = list.selectAll(".preset-list-button");
@@ -64030,7 +66004,8 @@ ${content}</tr>
       }
       function keypress(d3_event) {
         var value = search.property("value");
-        if (d3_event.keyCode === 13 && value.length) {
+        if (d3_event.keyCode === 13 && // ↩ Return
+        value.length) {
           list.selectAll(".preset-list-item:first-child").each(function(d) {
             d.choose.call(this);
           });
@@ -64693,8 +66668,8 @@ ${content}</tr>
       }
     }
     lasso.extent = function() {
-      return lasso.coordinates.reduce(function(extent, point) {
-        return extent.extend(geoExtent(point));
+      return lasso.coordinates.reduce(function(extent, point2) {
+        return extent.extend(geoExtent(point2));
       }, geoExtent());
     };
     lasso.p = function(_) {
@@ -64900,7 +66875,8 @@ ${content}</tr>
       }
       noteSave = noteSaveEnter.merge(noteSave).call(userDetails).call(noteSaveButtons);
       function keydown(d3_event) {
-        if (!(d3_event.keyCode === 13 && d3_event.metaKey))
+        if (!(d3_event.keyCode === 13 && // ↩ Return
+        d3_event.metaKey))
           return;
         var osm = services.osm;
         if (!osm)
@@ -65310,11 +67286,11 @@ ${content}</tr>
         if (_oci)
           return _oci;
         if (vals[0] && Array.isArray(vals[0].features)) {
-          _mainLocations.mergeCustomGeoJSON(vals[0]);
+          _sharedLocationManager.mergeCustomGeoJSON(vals[0]);
         }
         let ociResources = Object.values(vals[1].resources);
         if (ociResources.length) {
-          return _mainLocations.mergeLocationSets(ociResources).then(() => {
+          return _sharedLocationManager.mergeLocationSets(ociResources).then(() => {
             _oci = {
               resources: ociResources,
               defaults: vals[2].defaults
@@ -65324,6 +67300,7 @@ ${content}</tr>
         } else {
           _oci = {
             resources: [],
+            // no resources?
             defaults: vals[2].defaults
           };
           return _oci;
@@ -65364,10 +67341,10 @@ ${content}</tr>
       }));
       ensureOSMCommunityIndex().then((oci) => {
         const loc = context.map().center();
-        const validLocations = _mainLocations.locationsAt(loc);
+        const validHere = _sharedLocationManager.locationSetsAt(loc);
         let communities = [];
         oci.resources.forEach((resource) => {
-          let area = validLocations[resource.locationSetID];
+          let area = validHere[resource.locationSetID];
           if (!area)
             return;
           const localizer = (stringID) => _t.html(`community.${stringID}`);
@@ -65408,7 +67385,7 @@ ${content}</tr>
         return event;
       }).filter((event) => {
         const t = event.date.getTime();
-        const now3 = new Date().setHours(0, 0, 0, 0);
+        const now3 = (/* @__PURE__ */ new Date()).setHours(0, 0, 0, 0);
         return !isNaN(t) && t >= now3;
       }).sort((a, b) => {
         return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
@@ -66037,11 +68014,11 @@ ${content}</tr>
   // modules/ui/osmose_details.js
   function uiOsmoseDetails(context) {
     let _qaItem;
-    function issueString(d, type3) {
+    function issueString(d, type2) {
       if (!d)
         return "";
       const s = services.osmose.getStrings(d.itemType);
-      return type3 in s ? s[type3] : "";
+      return type2 in s ? s[type2] : "";
     }
     function osmoseDetails(selection2) {
       const details = selection2.selectAll(".error-details").data(
@@ -67371,7 +69348,10 @@ ${content}</tr>
       icon: "iD-icon-" + (_mainLocalizer.textDirection() === "rtl" ? "undo" : "redo")
     }];
     function editable() {
-      return context.mode() && context.mode().id !== "save" && context.map().editableDataEnabled(true);
+      return context.mode() && context.mode().id !== "save" && context.map().editableDataEnabled(
+        true
+        /* ignore min zoom */
+      );
     }
     tool.render = function(selection2) {
       var tooltipBehavior = uiTooltip().placement("bottom").title(function(d) {
@@ -67798,21 +69778,21 @@ ${content}</tr>
         var item = select_default2(this).select("label");
         var span = item.select("span");
         var placement = i2 < nodes.length / 2 ? "bottom" : "top";
-        var description = d.description();
+        var hasDescription = d.hasDescription();
         var isOverflowing = span.property("clientWidth") !== span.property("scrollWidth");
         item.call(uiTooltip().destroyAny);
         if (d.id === previousBackgroundID()) {
           item.call(
             uiTooltip().placement(placement).title(() => _t.append("background.switch")).keys([uiCmd("\u2318" + _t("background.key"))])
           );
-        } else if (description || isOverflowing) {
+        } else if (hasDescription || isOverflowing) {
           item.call(
-            uiTooltip().placement(placement).title(() => description || d.label())
+            uiTooltip().placement(placement).title(() => hasDescription ? d.description() : d.label())
           );
         }
       });
     }
-    function drawListItems(layerList, type3, change, filter2) {
+    function drawListItems(layerList, type2, change, filter2) {
       var sources = context.background().sources(context.map().extent(), context.map().zoom(), true).filter(filter2).sort(function(a, b) {
         return a.best() && !b.best() ? -1 : b.best() && !a.best() ? 1 : descending(a.area(), b.area()) || ascending(a.name(), b.name()) || 0;
       });
@@ -67826,7 +69806,7 @@ ${content}</tr>
         return d.best();
       });
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", "background-layer").attr("value", function(d) {
+      label.append("input").attr("type", type2).attr("name", "background-layer").attr("value", function(d) {
         return d.id;
       }).on("change", change);
       label.append("span").each(function(d) {
@@ -68015,7 +69995,7 @@ ${content}</tr>
       _overlayList.call(updateLayerSelections);
       document.activeElement.blur();
     }
-    function drawListItems(layerList, type3, change, filter2) {
+    function drawListItems(layerList, type2, change, filter2) {
       var sources = context.background().sources(context.map().extent(), context.map().zoom(), true).filter(filter2);
       var layerLinks = layerList.selectAll("li").data(sources, function(d) {
         return d.name();
@@ -68023,7 +70003,7 @@ ${content}</tr>
       layerLinks.exit().remove();
       var enter = layerLinks.enter().append("li");
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", "layers").on("change", change);
+      label.append("input").attr("type", type2).attr("name", "layers").on("change", change);
       label.append("span").each(function(d) {
         d.label()(select_default2(this));
       });
@@ -68506,7 +70486,9 @@ ${content}</tr>
     function getOptions() {
       return {
         what: corePreferences("validate-what") || "edited",
+        // 'all', 'edited'
         where: corePreferences("validate-where") || "all"
+        // 'all', 'visible'
       };
     }
     function updateOptionValue(d3_event, d, val) {
@@ -68546,7 +70528,7 @@ ${content}</tr>
       container = container.merge(containerEnter);
       container.selectAll(".issue-rules-list").call(drawListItems, _ruleKeys, "checkbox", "rule", toggleRule, isRuleEnabled);
     }
-    function drawListItems(selection2, data, type3, name, change, active) {
+    function drawListItems(selection2, data, type2, name, change, active) {
       var items = selection2.selectAll("li").data(data);
       items.exit().remove();
       var enter = items.enter().append("li");
@@ -68558,7 +70540,7 @@ ${content}</tr>
         );
       }
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", name).on("change", change);
+      label.append("input").attr("type", type2).attr("name", name).on("change", change);
       label.append("span").html(function(d) {
         var params = {};
         if (d === "unsquare_way") {
@@ -68588,7 +70570,7 @@ ${content}</tr>
     function changeSquare() {
       var input = select_default2(this);
       var degStr = utilGetSetValue(input).trim();
-      var degNum = parseFloat(degStr, 10);
+      var degNum = Number(degStr);
       if (!isFinite(degNum)) {
         degNum = DEFAULTSQUARE;
       } else if (degNum > MAXSQUARE) {
@@ -68653,12 +70635,12 @@ ${content}</tr>
     function setNoIssuesText(selection2) {
       var opts = getOptions();
       function checkForHiddenIssues(cases) {
-        for (var type3 in cases) {
-          var hiddenOpts = cases[type3];
+        for (var type2 in cases) {
+          var hiddenOpts = cases[type2];
           var hiddenIssues = context.validator().getIssues(hiddenOpts);
           if (hiddenIssues.length) {
             selection2.select(".box .details").html("").call(_t.append(
-              "issues.no_issues.hidden_issues." + type3,
+              "issues.no_issues.hidden_issues." + type2,
               { count: hiddenIssues.length.toString() }
             ));
             return;
@@ -69038,7 +71020,7 @@ ${content}</tr>
       container = container.merge(containerEnter);
       container.selectAll(".layer-feature-list").call(drawListItems, _features, "checkbox", "feature", clickFeature, showsFeature);
     }
-    function drawListItems(selection2, data, type3, name, change, active) {
+    function drawListItems(selection2, data, type2, name, change, active) {
       var items = selection2.selectAll("li").data(data);
       items.exit().remove();
       var enter = items.enter().append("li").call(
@@ -69055,7 +71037,7 @@ ${content}</tr>
         }).placement("top")
       );
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", name).on("change", change);
+      label.append("input").attr("type", type2).attr("name", name).on("change", change);
       label.append("span").html(function(d) {
         return _t.html(name + "." + d + ".description");
       });
@@ -69090,7 +71072,7 @@ ${content}</tr>
         return context.surface().classed("highlight-edited");
       });
     }
-    function drawListItems(selection2, data, type3, name, change, active) {
+    function drawListItems(selection2, data, type2, name, change, active) {
       var items = selection2.selectAll("li").data(data);
       items.exit().remove();
       var enter = items.enter().append("li").call(
@@ -69104,7 +71086,7 @@ ${content}</tr>
         }).placement("top")
       );
       var label = enter.append("label");
-      label.append("input").attr("type", type3).attr("name", name).on("change", change);
+      label.append("input").attr("type", type2).attr("name", name).on("change", change);
       label.append("span").html(function(d) {
         return _t.html(name + "." + d + ".description");
       });
@@ -69291,7 +71273,7 @@ ${content}</tr>
 
   // modules/ui/sections/map_daterange.js
   var DEFAULT_MIN_DATE = "-4000-01-01";
-  var DEFAULT_MAX_DATE = new Date().getFullYear() + "-12-31";
+  var DEFAULT_MAX_DATE = (/* @__PURE__ */ new Date()).getFullYear() + "-12-31";
   var INPUT_STYLES = [
     { name: "width", value: "125px" },
     { name: "text-align", value: "center" }
@@ -69399,14 +71381,19 @@ ${content}</tr>
         if (!d3_event.composedPath)
           return;
         var isOkayTarget = d3_event.composedPath().some(function(node) {
-          return node.nodeType === 1 && (node.nodeName === "INPUT" || node.nodeName === "LABEL" || node.nodeName === "A");
+          return node.nodeType === 1 && // clicking <input> focuses it and/or changes a value
+          (node.nodeName === "INPUT" || // clicking <label> affects its <input> by default
+          node.nodeName === "LABEL" || // clicking <a> opens a hyperlink by default
+          node.nodeName === "A");
         });
         if (isOkayTarget)
           return;
         d3_event.preventDefault();
       });
       var detected = utilDetect();
-      if ("GestureEvent" in window && !detected.isMobileWebKit) {
+      if ("GestureEvent" in window && // Listening for gesture events on iOS 13.4+ breaks double-tapping,
+      // but we only need to do this on desktop Safari anyway. – #7694
+      !detected.isMobileWebKit) {
         container.on("gesturestart.ui gesturechange.ui gestureend.ui", function(d3_event) {
           d3_event.preventDefault();
         });
@@ -69473,7 +71460,7 @@ ${content}</tr>
       footerWrap.append("div").attr("class", "scale-block").call(uiScale(context));
       var aboutList = footerWrap.append("div").attr("class", "info-block").append("ul").attr("class", "map-footer-list");
       aboutList.append("li").attr("class", "user-list").call(uiContributors(context));
-      var apiConnections = context.apiConnections();
+      var apiConnections = context.connection().apiConnections();
       if (apiConnections && apiConnections.length > 1) {
         aboutList.append("li").attr("class", "source-switch").call(
           uiSourceSwitch(context).keys(apiConnections)
@@ -69583,6 +71570,7 @@ ${content}</tr>
       if (_loadPromise)
         return _loadPromise;
       return _loadPromise = Promise.all([
+        // must have strings and presets before loading the UI
         _mainLocalizer.ensureLoaded(),
         _mainPresetIndex.ensureLoaded()
       ]).then(() => {
@@ -69702,7 +71690,7 @@ ${content}</tr>
     const dispatch10 = dispatch_default("enter", "exit", "change");
     let context = utilRebind({}, dispatch10, "on");
     let _deferred2 = /* @__PURE__ */ new Set();
-    context.version = "2.22.0";
+    context.version = package_default.version;
     context.privacyVersion = "20201202";
     context.initialHashParams = window.location.hash ? utilStringQs(window.location.hash) : {};
     context.changeset = null;
@@ -69759,13 +71747,6 @@ ${content}</tr>
       if (_connection) {
         _connection.switch(options2);
       }
-      return context;
-    };
-    let _apiConnections;
-    context.apiConnections = function(val) {
-      if (!arguments.length)
-        return _apiConnections;
-      _apiConnections = val;
       return context;
     };
     context.locale = function(locale2) {
@@ -69865,20 +71846,9 @@ ${content}</tr>
     context.maxCharsForTagKey = () => 255;
     context.maxCharsForTagValue = () => 255;
     context.maxCharsForRelationRole = () => 255;
-    function cleanOsmString(val, maxChars) {
-      if (val === void 0 || val === null) {
-        val = "";
-      } else {
-        val = val.toString();
-      }
-      val = val.trim();
-      if (val.normalize)
-        val = val.normalize("NFC");
-      return utilUnicodeCharsTruncated(val, maxChars);
-    }
-    context.cleanTagKey = (val) => cleanOsmString(val, context.maxCharsForTagKey());
-    context.cleanTagValue = (val) => cleanOsmString(val, context.maxCharsForTagValue());
-    context.cleanRelationRole = (val) => cleanOsmString(val, context.maxCharsForRelationRole());
+    context.cleanTagKey = (val) => utilCleanOsmString(val, context.maxCharsForTagKey());
+    context.cleanTagValue = (val) => utilCleanOsmString(val, context.maxCharsForTagValue());
+    context.cleanRelationRole = (val) => utilCleanOsmString(val, context.maxCharsForRelationRole());
     let _inIntro = false;
     context.inIntro = function(val) {
       if (!arguments.length)
@@ -69990,10 +71960,15 @@ ${content}</tr>
     };
     let _debugFlags = {
       tile: false,
+      // tile boundaries
       collision: false,
+      // label collision bounding boxes
       imagery: false,
+      // imagery bounding polygons
       target: false,
+      // touch targets
       downloaded: false
+      // downloaded data from osm
     };
     context.debugFlags = () => _debugFlags;
     context.getDebug = (flag) => flag && _debugFlags[flag];
@@ -70146,14 +72121,15 @@ ${content}</tr>
     const nsiVersion = package_default.dependencies["name-suggestion-index"] || package_default.devDependencies["name-suggestion-index"];
     const v = (0, import_vparse2.default)(nsiVersion);
     const vMinor = `${v.major}.${v.minor}`;
+    const cdn = nsiCdnUrl.replace("{version}", vMinor);
     const sources = {
-      "nsi_data": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/nsi.min.json`,
-      "nsi_dissolved": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/dissolved.min.json`,
-      "nsi_features": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/featureCollection.min.json`,
-      "nsi_generics": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/genericWords.min.json`,
-      "nsi_presets": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/presets/nsi-id-presets.min.json`,
-      "nsi_replacements": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/replacements.min.json`,
-      "nsi_trees": `https://cdn.jsdelivr.net/npm/name-suggestion-index@${vMinor}/dist/trees.min.json`
+      "nsi_data": cdn + "dist/nsi.min.json",
+      "nsi_dissolved": cdn + "dist/dissolved.min.json",
+      "nsi_features": cdn + "dist/featureCollection.min.json",
+      "nsi_generics": cdn + "dist/genericWords.min.json",
+      "nsi_presets": cdn + "dist/presets/nsi-id-presets.min.json",
+      "nsi_replacements": cdn + "dist/replacements.min.json",
+      "nsi_trees": cdn + "dist/trees.min.json"
     };
     let fileMap = _mainFileFetcher.fileMap();
     for (const k in sources) {
@@ -70182,16 +72158,51 @@ ${content}</tr>
     ]).then((vals) => {
       _nsi = {
         data: vals[0].nsi,
+        // the raw name-suggestion-index data
         dissolved: vals[1].dissolved,
+        // list of dissolved items
         replacements: vals[2].replacements,
+        // trivial old->new qid replacements
         trees: vals[3].trees,
+        // metadata about trees, main tags
         kvt: /* @__PURE__ */ new Map(),
+        // Map (k -> Map (v -> t) )
         qids: /* @__PURE__ */ new Map(),
+        // Map (wd/wp tag values -> qids)
         ids: /* @__PURE__ */ new Map()
+        // Map (id -> NSI item)
       };
-      _nsi.matcher = new Matcher();
-      _nsi.matcher.buildMatchIndex(_nsi.data);
-      _nsi.matcher.buildLocationIndex(_nsi.data, _mainLocations.loco());
+      const matcher = _nsi.matcher = new Matcher();
+      matcher.buildMatchIndex(_nsi.data);
+      matcher.itemLocation = /* @__PURE__ */ new Map();
+      matcher.locationSets = /* @__PURE__ */ new Map();
+      Object.keys(_nsi.data).forEach((tkv) => {
+        const items = _nsi.data[tkv].items;
+        if (!Array.isArray(items) || !items.length)
+          return;
+        items.forEach((item) => {
+          if (matcher.itemLocation.has(item.id))
+            return;
+          const locationSetID = _sharedLocationManager.locationSetID(item.locationSet);
+          matcher.itemLocation.set(item.id, locationSetID);
+          if (matcher.locationSets.has(locationSetID))
+            return;
+          const fakeFeature = { id: locationSetID, properties: { id: locationSetID, area: 1 } };
+          matcher.locationSets.set(locationSetID, fakeFeature);
+        });
+      });
+      matcher.locationIndex = (bbox2) => {
+        const validHere = _sharedLocationManager.locationSetsAt([bbox2[0], bbox2[1]]);
+        const results = [];
+        for (const [locationSetID, area] of Object.entries(validHere)) {
+          const fakeFeature = matcher.locationSets.get(locationSetID);
+          if (fakeFeature) {
+            fakeFeature.properties.area = area;
+            results.push(fakeFeature);
+          }
+        }
+        return results;
+      };
       Object.keys(_nsi.data).forEach((tkv) => {
         const category = _nsi.data[tkv];
         const parts = tkv.split("/", 3);
@@ -70286,6 +72297,7 @@ ${content}</tr>
       patterns2 = {
         primary: /^(flag:name|flag:name:\w+)$/i,
         alternate: /^(flag|flag:\w+|subject|subject:\w+)$/i
+        // note: no `country`, we special-case it below
       };
     } else if (t === "brands") {
       testNameFragments = true;
@@ -70409,42 +72421,39 @@ ${content}</tr>
       return changed ? { newTags, matched: null } : null;
     }
     const tuples = gatherTuples(tryKVs, tryNames);
-    let foundPrimary = false;
-    let bestItem;
-    for (let i2 = 0; i2 < tuples.length && !foundPrimary; i2++) {
+    for (let i2 = 0; i2 < tuples.length; i2++) {
       const tuple = tuples[i2];
       const hits = _nsi.matcher.match(tuple.k, tuple.v, tuple.n, loc);
       if (!hits || !hits.length)
         continue;
       if (hits[0].match !== "primary" && hits[0].match !== "alternate")
         break;
+      let itemID, item;
       for (let j2 = 0; j2 < hits.length; j2++) {
         const hit = hits[j2];
-        const isPrimary = hits[j2].match === "primary";
-        const itemID = hit.itemID;
+        itemID = hit.itemID;
         if (_nsi.dissolved[itemID])
           continue;
-        const item = _nsi.ids.get(itemID);
+        item = _nsi.ids.get(itemID);
         if (!item)
           continue;
         const mainTag = item.mainTag;
         const itemQID = item.tags[mainTag];
         const notQID = newTags[`not:${mainTag}`];
-        if (!itemQID || itemQID === notQID || newTags.office && !item.tags.office) {
+        if (
+          // Exceptions, skip this hit
+          !itemQID || itemQID === notQID || // No `*:wikidata` or matched a `not:*:wikidata`
+          newTags.office && !item.tags.office
+        ) {
+          item = null;
           continue;
-        }
-        if (!bestItem || isPrimary) {
-          bestItem = item;
-          if (isPrimary) {
-            foundPrimary = true;
-          }
+        } else {
           break;
         }
       }
-    }
-    if (bestItem) {
-      const itemID = bestItem.id;
-      const item = JSON.parse(JSON.stringify(bestItem));
+      if (!item)
+        continue;
+      item = JSON.parse(JSON.stringify(item));
       const tkv = item.tkv;
       const parts = tkv.split("/", 3);
       const k = parts[1];
@@ -70532,20 +72541,55 @@ ${content}</tr>
     return false;
   }
   var nsi_default = {
+    // `init()`
+    // On init, start preparing the name-suggestion-index
+    //
     init: () => {
       setNsiSources();
-      _mainPresetIndex.ensureLoaded().then(() => loadNsiPresets()).then(() => delay(100)).then(() => _mainLocations.mergeLocationSets([])).then(() => loadNsiData()).then(() => _nsiStatus = "ok").catch(() => _nsiStatus = "failed");
-      function delay(msec) {
-        return new Promise((resolve) => {
-          window.setTimeout(resolve, msec);
-        });
-      }
+      _mainPresetIndex.ensureLoaded().then(() => loadNsiPresets()).then(() => loadNsiData()).then(() => _nsiStatus = "ok").catch(() => _nsiStatus = "failed");
     },
+    // `reset()`
+    // Reset is called when user saves data to OSM (does nothing here)
+    //
     reset: () => {
     },
+    // `status()`
+    // To let other code know how it's going...
+    //
+    // Returns
+    //   `String`: 'loading', 'ok', 'failed'
+    //
     status: () => _nsiStatus,
+    // `isGenericName()`
+    // Is the `name` tag generic?
+    //
+    // Arguments
+    //   `tags`: `Object` containing the feature's OSM tags
+    // Returns
+    //   `true` if it is generic, `false` if not
+    //
     isGenericName: (tags) => _isGenericName(tags),
+    // `upgradeTags()`
+    // Suggest tag upgrades.
+    // This function will not modify the input tags, it makes a copy.
+    //
+    // Arguments
+    //   `tags`: `Object` containing the feature's OSM tags
+    //   `loc`: Location where this feature exists, as a [lon, lat]
+    // Returns
+    //   `Object` containing the result, or `null` if no changes needed:
+    //   {
+    //     'newTags': `Object` - The tags the the feature should have
+    //     'matched': `Object` - The matched item
+    //   }
+    //
     upgradeTags: (tags, loc) => _upgradeTags(tags, loc),
+    // `cache()`
+    // Direct access to the NSI cache, useful for testing or breaking things
+    //
+    // Returns
+    //   `Object`: the internal NSI cache
+    //
     cache: () => _nsi
   };
 
@@ -70596,14 +72640,15 @@ ${content}</tr>
   }
   function loadNextTilePage(which, currZoom, url, tile) {
     var cache = _oscCache[which];
-    var bbox = tile.extent.bbox();
+    var bbox2 = tile.extent.bbox();
     var maxPages = maxPageAtZoom(currZoom);
     var nextPage = cache.nextPage[tile.id] || 1;
     var params = utilQsString({
       ipp: maxResults,
       page: nextPage,
-      bbTopLeft: [bbox.maxY, bbox.minX].join(","),
-      bbBottomRight: [bbox.minY, bbox.maxX].join(",")
+      // client_id: clientId,
+      bbTopLeft: [bbox2.maxY, bbox2.minX].join(","),
+      bbBottomRight: [bbox2.minY, bbox2.maxX].join(",")
     }, true);
     if (nextPage > maxPages)
       return;
@@ -70624,7 +72669,7 @@ ${content}</tr>
       if (!data || !data.currentPageItems || !data.currentPageItems.length) {
         throw new Error("No Data");
       }
-      var features2 = data.currentPageItems.map(function(item) {
+      var features = data.currentPageItems.map(function(item) {
         var loc = [+item.lng, +item.lat];
         var d;
         if (which === "images") {
@@ -70654,7 +72699,7 @@ ${content}</tr>
           data: d
         };
       });
-      cache.rtree.load(features2);
+      cache.rtree.load(features);
       if (data.currentPageItems.length === maxResults) {
         cache.nextPage[tile.id] = nextPage + 1;
         loadNextTilePage(which, currZoom, url, tile);
@@ -70711,9 +72756,9 @@ ${content}</tr>
       var viewport = projection2.clipExtent();
       var min3 = [viewport[0][0], viewport[1][1]];
       var max3 = [viewport[1][0], viewport[0][1]];
-      var bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      var bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
       var sequenceKeys = {};
-      _oscCache.images.rtree.search(bbox).forEach(function(d) {
+      _oscCache.images.rtree.search(bbox2).forEach(function(d) {
         sequenceKeys[d.data.sequence_id] = true;
       });
       var lineStrings = [];
@@ -70868,6 +72913,9 @@ ${content}</tr>
     getSequenceKeyForImage: function(d) {
       return d && d.sequence_id;
     },
+    // Updates the currently highlighted sequence and selected bubble.
+    // Reset is only necessary when interacting with the viewport because
+    // this implicitly changes the currently selected bubble/sequence
     setStyles: function(context, hovered, reset) {
       if (reset) {
         context.container().selectAll(".viewfield-group").classed("highlighted", false).classed("hovered", false).classed("currentView", false);
@@ -71154,17 +73202,18 @@ ${content}</tr>
   var import_rbush9 = __toESM(require_rbush_min());
   var tiler5 = utilTiler();
   var dispatch7 = dispatch_default("apiStatusChange", "authLoading", "authDone", "change", "loading", "loaded", "loadedNotes");
-  var urlroot = "https://www.openhistoricalmap.org";
+  var urlroot = osmApiConnections[0].url;
   var redirectPath = window.location.origin + window.location.pathname;
   var oauth = osmAuth({
     url: urlroot,
-    client_id: "0tmNTmd0Jo1dQp4AUmMBLtGiD9YpMuXzHefitcuVStc",
-    client_secret: "BTlNrNxIPitHdL4sP2clHw5KLoee9aKkA7dQbc0Bj7Q",
+    client_id: osmApiConnections[0].client_id,
+    client_secret: osmApiConnections[0].client_secret,
     scope: "read_prefs write_prefs write_api read_gpx write_notes",
     redirect_uri: redirectPath + "land.html",
     loading: authLoading,
     done: authDone
   });
+  var _apiConnections = osmApiConnections;
   var _imageryBlocklists = [/.*\.google(apis)?\..*\/(vt|kh)[\?\/].*([xyz]=.*){3}.*/];
   var _tileCache = { toLoad: {}, loaded: {}, inflight: {}, seen: {}, rtree: new import_rbush9.default() };
   var _noteCache = { toLoad: {}, loaded: {}, inflight: {}, inflightPost: {}, note: {}, closed: {}, rtree: new import_rbush9.default() };
@@ -71209,7 +73258,7 @@ ${content}</tr>
   function getLoc(attrs) {
     var lon = attrs.lon && attrs.lon.value;
     var lat = attrs.lat && attrs.lat.value;
-    return [parseFloat(lon), parseFloat(lat)];
+    return [Number(lon), Number(lat)];
   }
   function getNodes(obj) {
     var elems = obj.getElementsByTagName("nd");
@@ -71311,7 +73360,7 @@ ${content}</tr>
         timestamp: obj.timestamp,
         user: obj.user,
         uid: obj.uid && obj.uid.toString(),
-        loc: [parseFloat(obj.lon), parseFloat(obj.lat)],
+        loc: [Number(obj.lon), Number(obj.lat)],
         tags: obj.tags
       });
     },
@@ -71479,8 +73528,8 @@ ${content}</tr>
         if (coincident) {
           props.loc = geoVecAdd(props.loc, [epsilon3, epsilon3]);
         }
-        var bbox = geoExtent(props.loc).bbox();
-        coincident = _noteCache.rtree.search(bbox).length;
+        var bbox2 = geoExtent(props.loc).bbox();
+        coincident = _noteCache.rtree.search(bbox2).length;
       } while (coincident);
       for (var i2 = 0; i2 < childNodes.length; i2++) {
         var node = childNodes[i2];
@@ -71646,6 +73695,8 @@ ${content}</tr>
     noteReportURL: function(note) {
       return urlroot + "/reports/new?reportable_type=Note&reportable_id=" + note.id;
     },
+    // Generic method to load data from the OSM API
+    // Can handle either auth or unauth calls.
     loadFromAPI: function(path, callback, options2) {
       options2 = Object.assign({ skipSeen: true }, options2);
       var that = this;
@@ -71707,12 +73758,16 @@ ${content}</tr>
         return controller;
       }
     },
+    // Load a single entity by id (ways and relations use the `/full` call to include
+    // nodes and members). Parent relations are not included, see `loadEntityRelations`.
+    // GET /api/0.6/node/#id
+    // GET /api/0.6/[way|relation]/#id/full
     loadEntity: function(id2, callback) {
-      var type3 = osmEntity.id.type(id2);
+      var type2 = osmEntity.id.type(id2);
       var osmID = osmEntity.id.toOSM(id2);
       var options2 = { skipSeen: false };
       this.loadFromAPI(
-        "/api/0.6/" + type3 + "/" + osmID + (type3 !== "node" ? "/full" : "") + ".json",
+        "/api/0.6/" + type2 + "/" + osmID + (type2 !== "node" ? "/full" : "") + ".json",
         function(err, entities) {
           if (callback)
             callback(err, { data: entities });
@@ -71720,12 +73775,14 @@ ${content}</tr>
         options2
       );
     },
+    // Load a single entity with a specific version
+    // GET /api/0.6/[node|way|relation]/#id/#version
     loadEntityVersion: function(id2, version, callback) {
-      var type3 = osmEntity.id.type(id2);
+      var type2 = osmEntity.id.type(id2);
       var osmID = osmEntity.id.toOSM(id2);
       var options2 = { skipSeen: false };
       this.loadFromAPI(
-        "/api/0.6/" + type3 + "/" + osmID + "/" + version + ".json",
+        "/api/0.6/" + type2 + "/" + osmID + "/" + version + ".json",
         function(err, entities) {
           if (callback)
             callback(err, { data: entities });
@@ -71733,12 +73790,14 @@ ${content}</tr>
         options2
       );
     },
+    // Load the relations of a single entity with the given.
+    // GET /api/0.6/[node|way|relation]/#id/relations
     loadEntityRelations: function(id2, callback) {
-      var type3 = osmEntity.id.type(id2);
+      var type2 = osmEntity.id.type(id2);
       var osmID = osmEntity.id.toOSM(id2);
       var options2 = { skipSeen: false };
       this.loadFromAPI(
-        "/api/0.6/" + type3 + "/" + osmID + "/relations.json",
+        "/api/0.6/" + type2 + "/" + osmID + "/relations.json",
         function(err, entities) {
           if (callback)
             callback(err, { data: entities });
@@ -71746,18 +73805,22 @@ ${content}</tr>
         options2
       );
     },
+    // Load multiple entities in chunks
+    // (note: callback may be called multiple times)
+    // Unlike `loadEntity`, child nodes and members are not fetched
+    // GET /api/0.6/[nodes|ways|relations]?#parameters
     loadMultiple: function(ids, callback) {
       var that = this;
       var groups = utilArrayGroupBy(utilArrayUniq(ids), osmEntity.id.type);
       Object.keys(groups).forEach(function(k) {
-        var type3 = k + "s";
+        var type2 = k + "s";
         var osmIDs = groups[k].map(function(id2) {
           return osmEntity.id.toOSM(id2);
         });
         var options2 = { skipSeen: false };
         utilArrayChunk(osmIDs, 150).forEach(function(arr) {
           that.loadFromAPI(
-            "/api/0.6/" + type3 + ".json?" + type3 + "=" + arr.join(),
+            "/api/0.6/" + type2 + ".json?" + type2 + "=" + arr.join(),
             function(err, entities) {
               if (callback)
                 callback(err, { data: entities });
@@ -71767,6 +73830,10 @@ ${content}</tr>
         });
       });
     },
+    // Create, upload, and close a changeset
+    // PUT /api/0.6/changeset/create
+    // POST /api/0.6/changeset/#id/upload
+    // PUT /api/0.6/changeset/#id/close
     putChangeset: function(changeset, changes, callback) {
       var cid = _connectionID;
       if (_changeset.inflight) {
@@ -71822,6 +73889,9 @@ ${content}</tr>
         }
       }
     },
+    // Load multiple users in chunks
+    // (note: callback may be called multiple times)
+    // GET /api/0.6/users?users=#id1,#id2,...,#idn
     loadUsers: function(uids, callback) {
       var toLoad = [];
       var cached = [];
@@ -71855,6 +73925,8 @@ ${content}</tr>
         }, options2);
       }
     },
+    // Load a given user by id
+    // GET /api/0.6/user/#id
     loadUser: function(uid, callback) {
       if (_userCache.user[uid] || !this.authenticated()) {
         delete _userCache.toLoad[uid];
@@ -71875,6 +73947,8 @@ ${content}</tr>
         }, options2);
       }
     },
+    // Load the details of the logged-in user
+    // GET /api/0.6/user/details
     userDetails: function(callback) {
       if (_userDetails) {
         return callback(void 0, _userDetails);
@@ -71895,6 +73969,8 @@ ${content}</tr>
         }, options2);
       }
     },
+    // Load previous changesets for the logged in user
+    // GET /api/0.6/changesets?user=#id
     userChangesets: function(callback) {
       if (_userChangesets) {
         return callback(void 0, _userChangesets);
@@ -71927,6 +74003,8 @@ ${content}</tr>
         return callback(void 0, _userChangesets);
       }
     },
+    // Fetch the status of the OSM API
+    // GET /api/capabilities
     status: function(callback) {
       var url = urlroot + "/api/capabilities";
       var errback = wrapcb(this, done, _connectionID);
@@ -71967,6 +74045,8 @@ ${content}</tr>
         }
       }
     },
+    // Calls `status` and dispatches an `apiStatusChange` event if the returned
+    // status differs from the cached status.
     reloadApiStatus: function() {
       if (!this.throttledReloadApiStatus) {
         var that = this;
@@ -71981,9 +74061,12 @@ ${content}</tr>
       }
       this.throttledReloadApiStatus();
     },
+    // Returns the maximum number of nodes a single way can have
     maxWayNodes: function() {
       return _maxWayNodes;
     },
+    // Load data (entities) from the API in tiles
+    // GET /api/0.6/map?bbox=
     loadTiles: function(projection2, callback) {
       if (_off)
         return;
@@ -71997,6 +74080,8 @@ ${content}</tr>
         this.loadTile(tile, callback);
       }, this);
     },
+    // Load a single data tile
+    // GET /api/0.6/map?bbox=
     loadTile: function(tile, callback) {
       if (_off)
         return;
@@ -72017,9 +74102,9 @@ ${content}</tr>
         if (!err) {
           delete _tileCache.toLoad[tile.id];
           _tileCache.loaded[tile.id] = true;
-          var bbox = tile.extent.bbox();
-          bbox.id = tile.id;
-          _tileCache.rtree.insert(bbox);
+          var bbox2 = tile.extent.bbox();
+          bbox2.id = tile.id;
+          _tileCache.rtree.insert(bbox2);
         }
         if (callback) {
           callback(err, Object.assign({ data: parsed }, tile));
@@ -72030,9 +74115,10 @@ ${content}</tr>
       }
     },
     isDataLoaded: function(loc) {
-      var bbox = { minX: loc[0], minY: loc[1], maxX: loc[0], maxY: loc[1] };
-      return _tileCache.rtree.collides(bbox);
+      var bbox2 = { minX: loc[0], minY: loc[1], maxX: loc[0], maxY: loc[1] };
+      return _tileCache.rtree.collides(bbox2);
     },
+    // load the tile that covers the given `loc`
     loadTileAtLoc: function(loc, callback) {
       if (Object.keys(_tileCache.toLoad).length > 50)
         return;
@@ -72047,6 +74133,8 @@ ${content}</tr>
         this.loadTile(tile, callback);
       }, this);
     },
+    // Load notes from the API in tiles
+    // GET /api/0.6/notes?bbox=
     loadNotes: function(projection2, noteOptions) {
       noteOptions = Object.assign({ limit: 1e4, closed: 7 }, noteOptions);
       if (_off)
@@ -72080,6 +74168,8 @@ ${content}</tr>
         );
       });
     },
+    // Create a note
+    // POST /api/0.6/notes?params
     postNoteCreate: function(note, callback) {
       if (!this.authenticated()) {
         return callback({ message: "Not Authenticated", status: -3 }, note);
@@ -72114,6 +74204,10 @@ ${content}</tr>
         }, options2);
       }
     },
+    // Update a note
+    // POST /api/0.6/notes/#id/comment?text=comment
+    // POST /api/0.6/notes/#id/close?text=comment
+    // POST /api/0.6/notes/#id/reopen?text=comment
     postNoteUpdate: function(note, newStatus, callback) {
       if (!this.authenticated()) {
         return callback({ message: "Not Authenticated", status: -3 }, note);
@@ -72160,6 +74254,13 @@ ${content}</tr>
         }, options2);
       }
     },
+    /* connection options for source switcher (optional) */
+    apiConnections: function(val) {
+      if (!arguments.length)
+        return _apiConnections;
+      _apiConnections = val;
+      return this;
+    },
     switch: function(newOptions) {
       urlroot = newOptions.url;
       var oldOptions = utilObjectOmit(oauth.options(), "access_token");
@@ -72177,6 +74278,9 @@ ${content}</tr>
     isChangesetInflight: function() {
       return !!_changeset.inflight;
     },
+    // get/set cached data
+    // This is used to save/restore the state when entering/exiting the walkthrough
+    // Also used for testing purposes.
     caches: function(obj) {
       function cloneCache(source) {
         var target = {};
@@ -72266,24 +74370,28 @@ ${content}</tr>
       _tileZoom4 = val;
       return this;
     },
+    // get all cached notes covering the viewport
     notes: function(projection2) {
       var viewport = projection2.clipExtent();
       var min3 = [viewport[0][0], viewport[1][1]];
       var max3 = [viewport[1][0], viewport[0][1]];
-      var bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
-      return _noteCache.rtree.search(bbox).map(function(d) {
+      var bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      return _noteCache.rtree.search(bbox2).map(function(d) {
         return d.data;
       });
     },
+    // get a single note from the cache
     getNote: function(id2) {
       return _noteCache.note[id2];
     },
+    // remove a single note from the cache
     removeNote: function(note) {
       if (!(note instanceof osmNote) || !note.id)
         return;
       delete _noteCache.note[note.id];
       updateRtree4(encodeNoteRtree(note), false);
     },
+    // replace a single note in the cache
     replaceNote: function(note) {
       if (!(note instanceof osmNote) || !note.id)
         return;
@@ -72291,6 +74399,8 @@ ${content}</tr>
       updateRtree4(encodeNoteRtree(note), true);
       return note;
     },
+    // Get an array of note IDs closed during this session.
+    // Used to populate `closed:note` changeset tag
     getClosedIDs: function() {
       return Object.keys(_noteCache.closed).sort();
     }
@@ -72331,6 +74441,12 @@ ${content}</tr>
       });
       _inflight2 = {};
     },
+    /**
+     * Get the best value for the property, or undefined if not found
+     * @param entity object from wikibase
+     * @param property string e.g. 'P4' for image
+     * @param langCode string e.g. 'fr' for French
+     */
     claimToValue: function(entity, property, langCode) {
       if (!entity.claims[property])
         return void 0;
@@ -72352,6 +74468,11 @@ ${content}</tr>
         return void 0;
       }
     },
+    /**
+     * Convert monolingual property into a key-value object (language -> value)
+     * @param entity object from wikibase
+     * @param property string e.g. 'P31' for monolingual wiki page title
+     */
     monolingualClaimToValueObj: function(entity, property) {
       if (!entity || !entity.claims[property])
         return void 0;
@@ -72365,6 +74486,14 @@ ${content}</tr>
       var result = value ? "Tag:" + key + "=" + value : "Key:" + key;
       return result.replace(/_/g, " ").trim();
     },
+    //
+    // Pass params object of the form:
+    // {
+    //   key: 'string',
+    //   value: 'string',
+    //   langCode: 'string'
+    // }
+    //
     getEntity: function(params, callback) {
       var doRequest = params.debounce ? debouncedRequest : request;
       var that = this;
@@ -72414,6 +74543,9 @@ ${content}</tr>
         languagefallback: 1,
         origin: "*",
         format: "json"
+        // There is an MW Wikibase API bug https://phabricator.wikimedia.org/T212069
+        // We shouldn't use v1 until it gets fixed, but should switch to it afterwards
+        // formatversion: 2,
       };
       var url = apibase3 + "?" + utilQsString(obj);
       doRequest(url, function(err, d) {
@@ -72451,6 +74583,22 @@ ${content}</tr>
         }
       });
     },
+    //
+    // Pass params object of the form:
+    // {
+    //   key: 'string',     // required
+    //   value: 'string'    // optional
+    // }
+    //
+    // Get an result object used to display tag documentation
+    // {
+    //   title:        'string',
+    //   description:  'string',
+    //   editURL:      'string',
+    //   imageURL:     'string',
+    //   wiki:         { title: 'string', text: 'string', url: 'string' }
+    // }
+    //
     getDocs: function(params, callback) {
       var that = this;
       var langCodes = _mainLocalizer.localeCodes().map(function(code) {
@@ -72662,7 +74810,7 @@ ${content}</tr>
       if (!bubbles)
         return;
       bubbles.shift();
-      const features2 = bubbles.map((bubble) => {
+      const features = bubbles.map((bubble) => {
         if (cache.points[bubble.id])
           return null;
         const loc = [bubble.lo, bubble.la];
@@ -72672,8 +74820,14 @@ ${content}</tr>
           ca: bubble.he,
           captured_at: bubble.cd,
           captured_by: "microsoft",
+          // nbn: bubble.nbn,
+          // pbn: bubble.pbn,
+          // ad: bubble.ad,
+          // rn: bubble.rn,
           pr: bubble.pr,
+          // previous
           ne: bubble.ne,
+          // next
           pano: true,
           sequenceKey: null
         };
@@ -72689,7 +74843,7 @@ ${content}</tr>
           data: d
         };
       }).filter(Boolean);
-      cache.rtree.load(features2);
+      cache.rtree.load(features);
       connectSequences();
       if (which === "bubbles") {
         dispatch8.call("loadedImages");
@@ -73172,12 +75326,18 @@ ${content}</tr>
     return quadKeys;
   }
   var streetside_default = {
+    /**
+     * init() initialize streetside.
+     */
     init: function() {
       if (!_ssCache) {
         this.reset();
       }
       this.event = utilRebind(this, dispatch8, "on");
     },
+    /**
+     * reset() reset the cache.
+     */
     reset: function() {
       if (_ssCache) {
         Object.values(_ssCache.bubbles.inflight).forEach(abortRequest6);
@@ -73187,6 +75347,9 @@ ${content}</tr>
         sequences: {}
       };
     },
+    /**
+     * bubbles()
+     */
     bubbles: function(projection2) {
       const limit = 5;
       return searchLimited3(limit, projection2, _ssCache.bubbles.rtree);
@@ -73198,10 +75361,10 @@ ${content}</tr>
       const viewport = projection2.clipExtent();
       const min3 = [viewport[0][0], viewport[1][1]];
       const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
       let seen = {};
       let results = [];
-      _ssCache.bubbles.rtree.search(bbox).forEach((d) => {
+      _ssCache.bubbles.rtree.search(bbox2).forEach((d) => {
         const key = d.data.sequenceKey;
         if (key && !seen[key]) {
           seen[key] = true;
@@ -73210,6 +75373,9 @@ ${content}</tr>
       });
       return results;
     },
+    /**
+     * loadBubbles()
+     */
     loadBubbles: function(projection2, margin) {
       if (margin === void 0)
         margin = 2;
@@ -73309,8 +75475,8 @@ ${content}</tr>
           let poly = [p1, p2, p3, p4, p1];
           let angle2 = (stepBy === 1 ? ca : ca + 180) * (Math.PI / 180);
           poly = geoRotate(poly, -angle2, origin);
-          let extent = poly.reduce((extent2, point) => {
-            return extent2.extend(geoExtent(point));
+          let extent = poly.reduce((extent2, point2) => {
+            return extent2.extend(geoExtent(point2));
           }, geoExtent());
           let minDist = Infinity;
           _ssCache.bubbles.rtree.search(extent.bbox()).forEach((d) => {
@@ -73343,6 +75509,9 @@ ${content}</tr>
       _sceneOptions.yaw = yaw;
       return this;
     },
+    /**
+     * showViewer()
+     */
     showViewer: function(context) {
       let wrap2 = context.container().select(".photoviewer").classed("hide", false);
       let isHidden = wrap2.selectAll(".photo-wrapper.ms-wrapper.hide").size();
@@ -73352,6 +75521,9 @@ ${content}</tr>
       }
       return this;
     },
+    /**
+     * hideViewer()
+     */
     hideViewer: function(context) {
       let viewer = context.container().select(".photoviewer");
       if (!viewer.empty())
@@ -73361,6 +75533,9 @@ ${content}</tr>
       this.updateUrlImage(null);
       return this.setStyles(context, null, true);
     },
+    /**
+     * selectImage().
+     */
     selectImage: function(context, key) {
       let that = this;
       let d = this.cachedImage(key);
@@ -73394,7 +75569,7 @@ ${content}</tr>
       label.append("span").call(_t.append("streetside.hires"));
       let captureInfo = line1.append("div").attr("class", "attribution-capture-info");
       if (d.captured_by) {
-        const yyyy = new Date().getFullYear();
+        const yyyy = (/* @__PURE__ */ new Date()).getFullYear();
         captureInfo.append("a").attr("class", "captured_by").attr("target", "_blank").attr("href", "https://www.microsoft.com/en-us/maps/streetside").text("\xA9" + yyyy + " Microsoft");
         captureInfo.append("span").text("|");
       }
@@ -73442,6 +75617,9 @@ ${content}</tr>
     getSequenceKeyForBubble: function(d) {
       return d && d.sequenceKey;
     },
+    // Updates the currently highlighted sequence and selected bubble.
+    // Reset is only necessary when interacting with the viewport because
+    // this implicitly changes the currently selected bubble/sequence
     setStyles: function(context, hovered, reset) {
       if (reset) {
         context.container().selectAll(".viewfield-group").classed("highlighted", false).classed("hovered", false).classed("currentView", false);
@@ -73482,13 +75660,16 @@ ${content}</tr>
         window.location.replace("#" + utilQsString(hash, true));
       }
     },
+    /**
+     * cache().
+     */
     cache: function() {
       return _ssCache;
     }
   };
 
   // modules/services/taginfo.js
-  var apibase4 = "https://taginfo.openstreetmap.org/api/4/";
+  var apibase4 = taginfoApiUrl;
   var _inflight3 = {};
   var _popularKeys = {};
   var _taginfoCache = {};
@@ -73536,15 +75717,15 @@ ${content}</tr>
   function clean(params) {
     return utilObjectOmit(params, ["geometry", "debounce"]);
   }
-  function filterKeys(type3) {
-    var count_type = type3 ? "count_" + type3 : "count_all";
+  function filterKeys(type2) {
+    var count_type = type2 ? "count_" + type2 : "count_all";
     return function(d) {
-      return parseFloat(d[count_type]) > 2500 || d.in_wiki;
+      return Number(d[count_type]) > 2500 || d.in_wiki;
     };
   }
   function filterMultikeys(prefix) {
     return function(d) {
-      var re2 = new RegExp("^" + prefix + "(.*)$");
+      var re2 = new RegExp("^" + prefix + "(.*)$", "i");
       var matches = d.key.match(re2) || [];
       return matches.length === 2 && matches[1].indexOf(":") === -1;
     };
@@ -73564,7 +75745,7 @@ ${content}</tr>
         return false;
       if (d.role.match(/[A-Z*;,]/) !== null)
         return false;
-      return parseFloat(d[tag_members_fractions[geometry]]) > 0;
+      return Number(d[tag_members_fractions[geometry]]) > 0;
     };
   }
   function valKey(d) {
@@ -73631,6 +75812,7 @@ ${content}</tr>
       _inflight3 = {};
       _taginfoCache = {};
       _popularKeys = {
+        // manually exclude some keys – #5377, #7485
         postal_code: true,
         full_name: true,
         loc_name: true,
@@ -73793,248 +75975,6 @@ ${content}</tr>
 
   // modules/services/vector_tile.js
   var import_fast_deep_equal11 = __toESM(require_fast_deep_equal());
-
-  // node_modules/@turf/helpers/dist/es/index.js
-  var earthRadius = 63710088e-1;
-  var factors = {
-    centimeters: earthRadius * 100,
-    centimetres: earthRadius * 100,
-    degrees: earthRadius / 111325,
-    feet: earthRadius * 3.28084,
-    inches: earthRadius * 39.37,
-    kilometers: earthRadius / 1e3,
-    kilometres: earthRadius / 1e3,
-    meters: earthRadius,
-    metres: earthRadius,
-    miles: earthRadius / 1609.344,
-    millimeters: earthRadius * 1e3,
-    millimetres: earthRadius * 1e3,
-    nauticalmiles: earthRadius / 1852,
-    radians: 1,
-    yards: earthRadius * 1.0936
-  };
-  var unitsFactors = {
-    centimeters: 100,
-    centimetres: 100,
-    degrees: 1 / 111325,
-    feet: 3.28084,
-    inches: 39.37,
-    kilometers: 1 / 1e3,
-    kilometres: 1 / 1e3,
-    meters: 1,
-    metres: 1,
-    miles: 1 / 1609.344,
-    millimeters: 1e3,
-    millimetres: 1e3,
-    nauticalmiles: 1 / 1852,
-    radians: 1 / earthRadius,
-    yards: 1.0936133
-  };
-  function feature2(geom, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    var feat = { type: "Feature" };
-    if (options2.id === 0 || options2.id) {
-      feat.id = options2.id;
-    }
-    if (options2.bbox) {
-      feat.bbox = options2.bbox;
-    }
-    feat.properties = properties || {};
-    feat.geometry = geom;
-    return feat;
-  }
-  function polygon(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    for (var _i = 0, coordinates_1 = coordinates; _i < coordinates_1.length; _i++) {
-      var ring = coordinates_1[_i];
-      if (ring.length < 4) {
-        throw new Error("Each LinearRing of a Polygon must have 4 or more Positions.");
-      }
-      for (var j2 = 0; j2 < ring[ring.length - 1].length; j2++) {
-        if (ring[ring.length - 1][j2] !== ring[0][j2]) {
-          throw new Error("First and last Position are not equivalent.");
-        }
-      }
-    }
-    var geom = {
-      type: "Polygon",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-  function lineString(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    if (coordinates.length < 2) {
-      throw new Error("coordinates must be an array of two or more positions");
-    }
-    var geom = {
-      type: "LineString",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-  function multiLineString(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    var geom = {
-      type: "MultiLineString",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-  function multiPolygon(coordinates, properties, options2) {
-    if (options2 === void 0) {
-      options2 = {};
-    }
-    var geom = {
-      type: "MultiPolygon",
-      coordinates
-    };
-    return feature2(geom, properties, options2);
-  }
-
-  // node_modules/@turf/invariant/dist/es/index.js
-  function getGeom(geojson) {
-    if (geojson.type === "Feature") {
-      return geojson.geometry;
-    }
-    return geojson;
-  }
-
-  // node_modules/@turf/bbox-clip/dist/es/lib/lineclip.js
-  function lineclip(points, bbox, result) {
-    var len = points.length, codeA = bitCode(points[0], bbox), part = [], i2, codeB, lastCode;
-    var a;
-    var b;
-    if (!result)
-      result = [];
-    for (i2 = 1; i2 < len; i2++) {
-      a = points[i2 - 1];
-      b = points[i2];
-      codeB = lastCode = bitCode(b, bbox);
-      while (true) {
-        if (!(codeA | codeB)) {
-          part.push(a);
-          if (codeB !== lastCode) {
-            part.push(b);
-            if (i2 < len - 1) {
-              result.push(part);
-              part = [];
-            }
-          } else if (i2 === len - 1) {
-            part.push(b);
-          }
-          break;
-        } else if (codeA & codeB) {
-          break;
-        } else if (codeA) {
-          a = intersect(a, b, codeA, bbox);
-          codeA = bitCode(a, bbox);
-        } else {
-          b = intersect(a, b, codeB, bbox);
-          codeB = bitCode(b, bbox);
-        }
-      }
-      codeA = lastCode;
-    }
-    if (part.length)
-      result.push(part);
-    return result;
-  }
-  function polygonclip(points, bbox) {
-    var result, edge, prev, prevInside, i2, p, inside;
-    for (edge = 1; edge <= 8; edge *= 2) {
-      result = [];
-      prev = points[points.length - 1];
-      prevInside = !(bitCode(prev, bbox) & edge);
-      for (i2 = 0; i2 < points.length; i2++) {
-        p = points[i2];
-        inside = !(bitCode(p, bbox) & edge);
-        if (inside !== prevInside)
-          result.push(intersect(prev, p, edge, bbox));
-        if (inside)
-          result.push(p);
-        prev = p;
-        prevInside = inside;
-      }
-      points = result;
-      if (!points.length)
-        break;
-    }
-    return result;
-  }
-  function intersect(a, b, edge, bbox) {
-    return edge & 8 ? [a[0] + (b[0] - a[0]) * (bbox[3] - a[1]) / (b[1] - a[1]), bbox[3]] : edge & 4 ? [a[0] + (b[0] - a[0]) * (bbox[1] - a[1]) / (b[1] - a[1]), bbox[1]] : edge & 2 ? [bbox[2], a[1] + (b[1] - a[1]) * (bbox[2] - a[0]) / (b[0] - a[0])] : edge & 1 ? [bbox[0], a[1] + (b[1] - a[1]) * (bbox[0] - a[0]) / (b[0] - a[0])] : null;
-  }
-  function bitCode(p, bbox) {
-    var code = 0;
-    if (p[0] < bbox[0])
-      code |= 1;
-    else if (p[0] > bbox[2])
-      code |= 2;
-    if (p[1] < bbox[1])
-      code |= 4;
-    else if (p[1] > bbox[3])
-      code |= 8;
-    return code;
-  }
-
-  // node_modules/@turf/bbox-clip/dist/es/index.js
-  function bboxClip(feature3, bbox) {
-    var geom = getGeom(feature3);
-    var type3 = geom.type;
-    var properties = feature3.type === "Feature" ? feature3.properties : {};
-    var coords = geom.coordinates;
-    switch (type3) {
-      case "LineString":
-      case "MultiLineString": {
-        var lines_1 = [];
-        if (type3 === "LineString") {
-          coords = [coords];
-        }
-        coords.forEach(function(line) {
-          lineclip(line, bbox, lines_1);
-        });
-        if (lines_1.length === 1) {
-          return lineString(lines_1[0], properties);
-        }
-        return multiLineString(lines_1, properties);
-      }
-      case "Polygon":
-        return polygon(clipPolygon(coords, bbox), properties);
-      case "MultiPolygon":
-        return multiPolygon(coords.map(function(poly) {
-          return clipPolygon(poly, bbox);
-        }), properties);
-      default:
-        throw new Error("geometry " + type3 + " not supported");
-    }
-  }
-  function clipPolygon(rings, bbox) {
-    var outRings = [];
-    for (var _i = 0, rings_1 = rings; _i < rings_1.length; _i++) {
-      var ring = rings_1[_i];
-      var clipped = polygonclip(ring, bbox);
-      if (clipped.length > 0) {
-        if (clipped[0][0] !== clipped[clipped.length - 1][0] || clipped[0][1] !== clipped[clipped.length - 1][1]) {
-          clipped.push(clipped[0]);
-        }
-        if (clipped.length >= 4) {
-          outRings.push(clipped);
-        }
-      }
-    }
-    return outRings;
-  }
-
-  // modules/services/vector_tile.js
   var import_fast_json_stable_stringify2 = __toESM(require_fast_json_stable_stringify());
   var import_polygon_clipping2 = __toESM(require_polygon_clipping_umd());
   var import_pbf2 = __toESM(require_pbf());
@@ -74051,7 +75991,7 @@ ${content}</tr>
     if (!Array.isArray(layers)) {
       layers = [layers];
     }
-    var features2 = [];
+    var features = [];
     layers.forEach(function(layerID) {
       var layer = vectorTile.layers[layerID];
       if (layer) {
@@ -74078,7 +76018,7 @@ ${content}</tr>
           feature3.__layerID__ = layerID.replace(/[^_a-zA-Z0-9\-]/g, "_");
           feature3.__featurehash__ = featurehash;
           feature3.__propertyhash__ = propertyhash;
-          features2.push(feature3);
+          features.push(feature3);
           if (isClipped && geometry.type === "MultiPolygon") {
             var merged = mergeCache[propertyhash];
             if (merged && merged.length) {
@@ -74102,7 +76042,7 @@ ${content}</tr>
         }
       }
     });
-    return features2;
+    return features;
   }
   function loadTile2(source, tile) {
     if (source.loaded[tile.id] || source.inflight[tile.id])
@@ -74163,11 +76103,11 @@ ${content}</tr>
       var seen = {};
       var results = [];
       for (var i2 = 0; i2 < tiles.length; i2++) {
-        var features2 = source.loaded[tiles[i2].id];
-        if (!features2 || !features2.length)
+        var features = source.loaded[tiles[i2].id];
+        if (!features || !features.length)
           continue;
-        for (var j2 = 0; j2 < features2.length; j2++) {
-          var feature3 = features2[j2];
+        for (var j2 = 0; j2 < features.length; j2++) {
+          var feature3 = features[j2];
           var hash = feature3.__featurehash__;
           if (seen[hash])
             continue;
@@ -74210,6 +76150,7 @@ ${content}</tr>
     reset: function() {
       _wikidataCache = {};
     },
+    // Search for Wikidata items matching the query
     itemsForSearchQuery: function(query, callback) {
       if (!query) {
         if (callback)
@@ -74223,7 +76164,9 @@ ${content}</tr>
         formatversion: 2,
         search: query,
         type: "item",
+        // the language to search
         language: lang,
+        // the language for the label and description in the result
         uselang: lang,
         limit: 10,
         origin: "*"
@@ -74239,6 +76182,8 @@ ${content}</tr>
           callback(err.message, {});
       });
     },
+    // Given a Wikipedia language and article title,
+    // return an array of corresponding Wikidata entities.
     itemsByTitle: function(lang, title, callback) {
       if (!title) {
         if (callback)
@@ -74253,6 +76198,7 @@ ${content}</tr>
         sites: lang.replace(/-/g, "_") + "wiki",
         titles: title,
         languages: "en",
+        // shrink response by filtering to one language
         origin: "*"
       });
       json_default(url).then(function(result) {
@@ -74308,6 +76254,20 @@ ${content}</tr>
           callback(err.message, {});
       });
     },
+    // Pass `params` object of the form:
+    // {
+    //   qid: 'string'      // brand wikidata  (e.g. 'Q37158')
+    // }
+    //
+    // Get an result object used to display tag documentation
+    // {
+    //   title:        'string',
+    //   description:  'string',
+    //   editURL:      'string',
+    //   imageURL:     'string',
+    //   wiki:         { title: 'string', text: 'string', url: 'string' }
+    // }
+    //
     getDocs: function(params, callback) {
       var langs = this.languagesToQuery();
       this.entityByQID(params.qid, function(err, entity) {
@@ -74536,11 +76496,11 @@ ${content}</tr>
       context.enter(mode);
       context.selectedNoteID(_note.id);
     }
-    function move(d3_event, entity, point) {
+    function move(d3_event, entity, point2) {
       d3_event.stopPropagation();
-      _lastLoc = context.projection.invert(point);
+      _lastLoc = context.projection.invert(point2);
       doMove(d3_event);
-      var nudge = geoViewportEdge(point, context.map().dimensions());
+      var nudge = geoViewportEdge(point2, context.map().dimensions());
       if (nudge) {
         startNudge(d3_event, nudge);
       } else {
@@ -74650,7 +76610,8 @@ ${content}</tr>
         if (activeNode && (/* @__PURE__ */ new Set(["INPUT", "TEXTAREA"])).has(activeNode.nodeName))
           return;
       }
-      if (d3_event.keyCode === 93 || d3_event.keyCode === 32) {
+      if (d3_event.keyCode === 93 || // context menu key
+      d3_event.keyCode === 32) {
         d3_event.preventDefault();
       }
       if (d3_event.repeat)
@@ -74697,7 +76658,9 @@ ${content}</tr>
       if (d3_event.buttons && d3_event.buttons !== 1)
         return;
       context.ui().closeEditMenu();
-      _longPressTimeout = window.setTimeout(didLongPress, 500, id2, "longdown-" + (d3_event.pointerType || "mouse"));
+      if (d3_event.pointerType !== "mouse") {
+        _longPressTimeout = window.setTimeout(didLongPress, 500, id2, "longdown-" + (d3_event.pointerType || "mouse"));
+      }
       _downPointers[id2] = {
         firstEvent: d3_event,
         lastEvent: d3_event
@@ -74753,7 +76716,7 @@ ${content}</tr>
       d3_event.preventDefault();
       if (!+d3_event.clientX && !+d3_event.clientY) {
         if (_lastMouseEvent) {
-          d3_event.sourceEvent = _lastMouseEvent;
+          d3_event = _lastMouseEvent;
         } else {
           return;
         }
@@ -74785,7 +76748,10 @@ ${content}</tr>
           _downPointers[selectPointerInfo.pointerId].done = true;
         }
       }
-      var isMultiselect = context.mode().id === "select" && (lastEvent && lastEvent.shiftKey || context.surface().select(".lasso").node() || _multiselectionPointerId && !multiselectEntityId);
+      var isMultiselect = context.mode().id === "select" && // and shift key is down
+      (lastEvent && lastEvent.shiftKey || // or we're lasso-selecting
+      context.surface().select(".lasso").node() || // or a pointer is down over a selected feature
+      _multiselectionPointerId && !multiselectEntityId);
       processClick(targetDatum, isMultiselect, p2, multiselectEntityId);
       function mapContains(event) {
         var rect = mapNode.getBoundingClientRect();
@@ -74815,7 +76781,7 @@ ${content}</tr>
         return null;
       }
     }
-    function processClick(datum2, isMultiselect, point, alsoSelectId) {
+    function processClick(datum2, isMultiselect, point2, alsoSelectId) {
       var mode = context.mode();
       var showMenu = _showMenu;
       var interactionType = _lastInteractionType;
@@ -74868,7 +76834,7 @@ ${content}</tr>
       }
       context.ui().closeEditMenu();
       if (showMenu)
-        context.ui().showEditMenu(point, interactionType);
+        context.ui().showEditMenu(point2, interactionType);
       resetProperties();
     }
     function cancelLongPress() {
@@ -75258,17 +77224,17 @@ ${content}</tr>
       _affectedFeatureCount = 0;
       for (var i2 in entityIds) {
         var entityID = entityIds[i2];
-        var type3 = downgradeTypeForEntityID(entityID);
-        if (type3) {
+        var type2 = downgradeTypeForEntityID(entityID);
+        if (type2) {
           _affectedFeatureCount += 1;
-          if (downgradeType && type3 !== downgradeType) {
-            if (downgradeType !== "generic" && type3 !== "generic") {
+          if (downgradeType && type2 !== downgradeType) {
+            if (downgradeType !== "generic" && type2 !== "generic") {
               downgradeType = "building_address";
             } else {
               downgradeType = "generic";
             }
           } else {
-            downgradeType = type3;
+            downgradeType = type2;
           }
         }
       }
@@ -75300,18 +77266,18 @@ ${content}</tr>
       context.perform(function(graph) {
         for (var i2 in selectedIDs) {
           var entityID = selectedIDs[i2];
-          var type3 = downgradeTypeForEntityID(entityID);
-          if (!type3)
+          var type2 = downgradeTypeForEntityID(entityID);
+          if (!type2)
             continue;
           var tags = Object.assign({}, graph.entity(entityID).tags);
           for (var key in tags) {
-            if (type3 === "address" && addressKeysToKeep.indexOf(key) !== -1)
+            if (type2 === "address" && addressKeysToKeep.indexOf(key) !== -1)
               continue;
-            if (type3 === "building") {
+            if (type2 === "building") {
               if (buildingKeysToKeep.indexOf(key) !== -1 || key.match(/^building:.{1,}/) || key.match(/^roof:.{1,}/))
                 continue;
             }
-            if (type3 !== "generic") {
+            if (type2 !== "generic") {
               if (key.match(/^addr:.{1,}/) || key.match(/^source:.{1,}/))
                 continue;
             }
@@ -75949,6 +77915,7 @@ ${content}</tr>
       }).filter(function(o) {
         return o.id !== "delete" && o.id !== "downgrade" && o.id !== "copy";
       }).concat([
+        // group copy/downgrade/delete operation together at the end of the list
         operationCopy(context, selectedIDs),
         operationDowngrade(context, selectedIDs),
         operationDelete(context, selectedIDs)
@@ -76120,7 +78087,12 @@ ${content}</tr>
           surface.selectAll(utilEntitySelector([_focusedParentWayId])).classed("related", true);
         }
         if (context.map().withinEditableZoom()) {
-          surface.selectAll(utilDeepMemberSelector(selectedIDs, context.graph(), true)).classed("selected-member", true);
+          surface.selectAll(utilDeepMemberSelector(
+            selectedIDs,
+            context.graph(),
+            true
+            /* skipMultipolgonMembers */
+          )).classed("selected-member", true);
           surface.selectAll(utilEntityOrDeepMemberSelector(selectedIDs, context.graph())).classed("selected", true);
         }
       }
@@ -76268,8 +78240,15 @@ ${content}</tr>
       context.ui().sidebar.hide();
       context.features().forceVisible([]);
       var entity = singular();
-      if (_newFeature && entity && entity.type === "relation" && Object.keys(entity.tags).length === 0 && context.graph().parentRelations(entity).length === 0 && (entity.members.length === 0 || entity.members.length === 1 && !entity.members[0].role)) {
-        var deleteAction = actionDeleteRelation(entity.id, true);
+      if (_newFeature && entity && entity.type === "relation" && // no tags
+      Object.keys(entity.tags).length === 0 && // no parent relations
+      context.graph().parentRelations(entity).length === 0 && // no members or one member with no role
+      (entity.members.length === 0 || entity.members.length === 1 && !entity.members[0].role)) {
+        var deleteAction = actionDeleteRelation(
+          entity.id,
+          true
+          /* don't delete untagged members */
+        );
         context.perform(deleteAction, _t("operations.delete.annotation.relation"));
         context.validator().validate();
       }
@@ -76308,7 +78287,10 @@ ${content}</tr>
           return [];
         var graph = context.graph();
         var limitToNodes;
-        if (context.map().editableDataEnabled(true) && context.map().isInWideSelection()) {
+        if (context.map().editableDataEnabled(
+          true
+          /* skipZoomCheck */
+        ) && context.map().isInWideSelection()) {
           limitToNodes = new Set(utilGetAllNodes(context.selectedIDs(), graph));
         } else if (!context.map().editableDataEnabled()) {
           return [];
@@ -76327,7 +78309,7 @@ ${content}</tr>
               var sharedParentNodes = sharedParents[0].nodes;
               return sharedParentNodes.indexOf(node1.id) - sharedParentNodes.indexOf(node2.id);
             } else {
-              return parseFloat(parents1[0].id.slice(1)) - parseFloat(parents2[0].id.slice(1));
+              return Number(parents1[0].id.slice(1)) - Number(parents2[0].id.slice(1));
             }
           } else if (parents1.length || parents2.length) {
             return parents1.length - parents2.length;
@@ -76518,8 +78500,14 @@ ${content}</tr>
       var latestHash = computedHash();
       if (_cachedHash !== latestHash) {
         _cachedHash = latestHash;
-        window.history.replaceState(null, computedTitle(false), latestHash);
-        updateTitle(true);
+        window.history.replaceState(null, computedTitle(
+          false
+          /* includeChangeCount */
+        ), latestHash);
+        updateTitle(
+          true
+          /* includeChangeCount */
+        );
         const q = utilStringQs(latestHash);
         if (q.map) {
           corePreferences("map-location", q.map);
@@ -76528,7 +78516,10 @@ ${content}</tr>
     }
     var _throttledUpdate = throttle_default(updateHashIfNeeded, 500);
     var _throttledUpdateTitle = throttle_default(function() {
-      updateTitle(true);
+      updateTitle(
+        true
+        /* includeChangeCount */
+      );
     }, 500);
     function hashchange() {
       if (window.location.hash === _cachedHash)
@@ -76605,7 +78596,7 @@ ${content}</tr>
   }
   var X = {
     name: "x",
-    handles: ["w", "e"].map(type2),
+    handles: ["w", "e"].map(type),
     input: function(x, e) {
       return x == null ? null : [[+x[0], e[0][1]], [+x[1], e[1][1]]];
     },
@@ -76615,7 +78606,7 @@ ${content}</tr>
   };
   var Y = {
     name: "y",
-    handles: ["n", "s"].map(type2),
+    handles: ["n", "s"].map(type),
     input: function(y, e) {
       return y == null ? null : [[e[0][0], +y[0]], [e[1][0], +y[1]]];
     },
@@ -76625,7 +78616,7 @@ ${content}</tr>
   };
   var XY = {
     name: "xy",
-    handles: ["n", "w", "e", "s", "nw", "ne", "sw", "se"].map(type2),
+    handles: ["n", "w", "e", "s", "nw", "ne", "sw", "se"].map(type),
     input: function(xy) {
       return xy == null ? null : number22(xy);
     },
@@ -76633,7 +78624,7 @@ ${content}</tr>
       return xy;
     }
   };
-  function type2(t) {
+  function type(t) {
     return { type: t };
   }
 
