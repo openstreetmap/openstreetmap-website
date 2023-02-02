@@ -463,23 +463,6 @@ hu:
       telephone_link: '%{phone_number} felhívása'
       colour_preview: '%{colour_value} szín előnézete'
       email_link: Email %{email}
-    note:
-      title: '%{id} jegyzet'
-      new_note: Új jegyzet
-      description: Leírás
-      open_title: '%{note_name} megoldatlan jegyzet'
-      closed_title: '%{note_name} megoldott jegyzet'
-      hidden_title: '%{note_name} rejtett jegyzet'
-      opened_by_html: Létrehozta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Létrehozva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: '%{user} hozzászólása, <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by_anonymous_html: Névtelen megjegyzés, <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Megoldotta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Megoldva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Újraaktiválta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Újraaktiválva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Elrejtette %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      report: jegyzet bejelentése
     query:
       title: Objektumok lekérdezése
       introduction: Kattints a térképre a közeli objektumok megtalálásához.
@@ -637,13 +620,23 @@ hu:
           notice: Alkalmazás regisztrálva.
   errors:
     contact:
+      contact_url_title: A különféle kapcsolatfelvételi csatornák magyarázata
       contact: kapcsolat
+      contact_the_community_html: Nyugodtan keresse fel az OpenStreetMap közösséget
+        (%{contact_link}), ha hibás linket vagy más hibát talál. Kérjük, ne felejtse
+        el feljegyezni a hibás oldal pontos URL-jét.
     forbidden:
       title: Tiltott
+      description: Az OpenStreetMap szerveren kért művelet csak a rendszergazdáknak
+        érhető el (HTTP 403).
     internal_server_error:
       title: Alkalmazáshiba
+      description: Az OpenStreetMap szerver váratlan feltétellel találkozott, amely
+        megakadályozta a kérés teljesítésében (HTTP 500)
     not_found:
       title: A fájl nem található
+      description: Nem található ilyen nevű fájl/könyvtár/API-művelet az OpenStreetMap
+        szerveren (HTTP 404)
   friendships:
     make_friend:
       heading: '%{user} hozzáadása ismerősként?'
@@ -2673,6 +2666,10 @@ hu:
       title: Felhasználói fiók létrehozása
       no_auto_account_create: Sajnos jelenleg nem tudunk neked létrehozni automatikusan
         egy felhasználói fiókot.
+      please_contact_support_html: Kérjük, lépjen kapcsolatba velünk (%{support_link}),
+        hogy elrendezhessük a fiók létrehozását. Kérését igyekszünk a lehető leggyorsabban
+        feldolgozni.
+      support: támogatás
       about:
         header: Szabad és szerkeszthető
         html: |-
@@ -2803,6 +2800,10 @@ hu:
       title: Felhasználói fiók felfüggesztve
       heading: Felhasználói fiók felfüggesztve
       support: támogatás
+      automatically_suspended: Sajnáljuk, fiókja gyanús tevékenység miatt automatikusan
+        felfüggesztődött.
+      contact_support_html: A döntést hamarosan felülvizsgálja egy rendszergazda,
+        vagy ha szeretné megvitatni, Ön is felveheti a kapcsolatot velünk (%{support_link}).
     auth_failure:
       connection_failed: Nem sikerült csatlakozni a hitelesítés szolgáltatójához
       invalid_credentials: Hibás hitelesítési adatok
@@ -2954,6 +2955,45 @@ hu:
       description: Leírás
       created_at: Létrehozva ekkor
       last_changed: Utoljára módosítva
+    show:
+      title: '%{id} jegyzet'
+      description: Leírás
+      open_title: '%{note_name} megoldatlan jegyzet'
+      closed_title: '%{note_name} megoldott jegyzet'
+      hidden_title: '%{note_name} rejtett jegyzet'
+      opened_by_html: Létrehozta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Létrehozva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: '%{user} hozzászólása, <abbr title=''%{exact_time}''>%{when}</abbr>'
+      commented_by_anonymous_html: Névtelen megjegyzés, <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Megoldotta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Megoldva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Újraaktiválta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Újraaktiválva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Elrejtette %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      report: jegyzet bejelentése
+      anonymous_warning: Ez a jegyzet névtelen felhasználók hozzászólásait is tartalmazza,
+        amelyeket független módon kell ellenőrizni.
+      hide: Elrejtés
+      resolve: Megoldás
+      reactivate: Újraaktiválás
+      comment_and_resolve: Hozzászólás és megoldás
+      comment: Hozzászólás
+      report_link_html: Ha ez a jegyzet eltávolítandó érzékeny információkat tartalmaz,
+        akkor használhatod a %{link} funkciót.
+      other_problems_resolve: A jegyzettel kapcsolatos összes többi problémánál légy
+        szíves, oldd meg magad egy hozzászólással.
+      other_problems_resolved: Minden más problémánál elegendő a megoldás.
+      disappear_date_html: A megoldott jegyzet %{disappear_in} múlva el fog tűnni
+        a térképről.
+    new:
+      title: Új jegyzet
+      intro: Hibát találtál vagy valami hiányzik? Tudasd a többi térképezővel, hogy
+        javítani tudjuk. Mozgasd a jelölőt a megfelelő helyre, és minél pontosabban
+        írd le a problémát.
+      advice: A jegyzeted nyilvános és használható a térkép frissítéséhez, ezért ne
+        adj meg személyes adatokat vagy jogvédett térképről vagy katalógusokból származó
+        információkat.
+      add: Jegyzet hozzáadása
   javascripts:
     close: Bezárás
     share:
@@ -3038,30 +3078,6 @@ hu:
         unsubscribe: Leiratkozás
         hide_comment: elrejt
         unhide_comment: megjelenít
-    notes:
-      new:
-        intro: Hibát találtál vagy valami hiányzik? Tudasd a többi térképezővel, hogy
-          javítani tudjuk. Mozgasd a jelölőt a megfelelő helyre, és minél pontosabban
-          írd le a problémát.
-        advice: A jegyzeted nyilvános és használható a térkép frissítéséhez, ezért
-          ne adj meg személyes adatokat vagy jogvédett térképről vagy katalógusokból
-          származó információkat.
-        add: Jegyzet hozzáadása
-      show:
-        anonymous_warning: Ez a jegyzet névtelen felhasználók hozzászólásait is tartalmazza,
-          amelyeket független módon kell ellenőrizni.
-        hide: Elrejtés
-        resolve: Megoldás
-        reactivate: Újraaktiválás
-        comment_and_resolve: Hozzászólás és megoldás
-        comment: Hozzászólás
-        report_link_html: Ha ez a jegyzet eltávolítandó érzékeny információkat tartalmaz,
-          akkor használhatod a %{link} funkciót.
-        other_problems_resolve: A jegyzettel kapcsolatos összes többi problémánál
-          légy szíves, oldd meg magad egy hozzászólással.
-        other_problems_resolved: Minden más problémánál elegendő a megoldás.
-        disappear_date_html: A megoldott jegyzet %{disappear_in} múlva el fog tűnni
-          a térképről.
     edit_help: Mozgasd a térképet, nagyíts ott ahol módosítani szeretnéd, majd kattints
       ide.
     directions:

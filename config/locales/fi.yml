@@ -145,6 +145,7 @@ fi:
       diary_entry:
         user: Käyttäjä
         title: Aihe
+        body: Sisältö
         latitude: Leveyspiiri
         longitude: Pituuspiiri
         language_code: Kieli
@@ -474,23 +475,6 @@ fi:
       telephone_link: Soita %{phone_number}
       colour_preview: Värin %{colour_value} esikatselu
       email_link: Sähköposti %{email}
-    note:
-      title: 'Karttailmoitus: %{id}'
-      new_note: Uusi karttailmoitus
-      description: Kuvaus
-      open_title: 'Ratkaisematon karttailmoitus #%{note_name}'
-      closed_title: 'Ratkaistu karttailmoitus #%{note_name}'
-      hidden_title: 'Piilotettu karttailmoitus #%{note_name}'
-      opened_by_html: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: ilmianna karttailmoitus
     query:
       title: Ominaisuuskysely
       introduction: Napsauta karttaa löytääksesi lähistön karttakohteita.
@@ -565,7 +549,7 @@ fi:
       title: Uusi päiväkirjamerkintä
     form:
       location: Sijainti
-      use_map_link: Käytä Karttaa
+      use_map_link: Käytä karttaa
     index:
       title: Käyttäjien päiväkirjamerkinnät
       title_friends: Kaverien päiväkirjat
@@ -644,6 +628,10 @@ fi:
         create:
           notice: Sovellus rekisteröity.
   errors:
+    contact:
+      contact: Ota yhteyttä
+      contact_the_community_html: '%{contact_link} OpenStreetMap-yhteisöön, jos olet
+        löytänyt rikkinäisen linkin / virheen. Kirjoita muistiin pyyntösi tarkka URL-osoite.'
     forbidden:
       title: Kielletty
       description: OpenStreetMap-palvelimella pyytämäsi toiminto on vain järjestelmänvalvojien
@@ -833,6 +821,7 @@ fi:
           chapel: Kappeli
           church: Kirkkorakennus
           civic: Julkinen rakennus
+          college: Yliopistorakennus
           commercial: Liikerakennus
           construction: Rakenteilla oleva rakennus
           detached: Omakotitalo
@@ -1916,6 +1905,7 @@ fi:
       logout_button: Kirjaudu ulos
     suspended_flash:
       suspended: Valitettavasti tilisi on jäädytetty epäilyttävän toiminnan vuoksi.
+      contact_support_html: Ota yhteyttä %{support_link}, jos haluat keskustella tästä.
       support: tuki
   shared:
     markdown_help:
@@ -2084,12 +2074,12 @@ fi:
           (esimerkiksi Google-kartoista tai paperikartoista) ilman tekijänoikeuden haltijan nimenomaista lupaa on kielletty.
         infringement_2_html: Jos kuka tahansa OpenStreetMapin käyttäjä epäilee, että
           karttatietoja on otettu luvattomasta lähteestä OpenStreetMapin karttatietoihin
-          tai sivustolle, siitä tulee tehdä <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">poistopyyntö</a>
+          tai sivustolle, siitä tulee tehdä <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">poistopyyntö</a>
           tai <a href="https://dmca.openstreetmap.org/">ilmoittaa suoraan</a>.
         trademarks_title_html: <span id="trademarks"></span>Tavaramerkit
-        trademarks_1_html: OpenStreetMap, suurennuslasilogo ja maailmankarttalogo
-          ovat OpenStreetMap-säätiön rekisteröityjä tavaramerkkejä. Tutustu ohjeeseen
-          <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">tavaramerkkien
+        trademarks_1_html: OpenStreetMap, suurennuslasilogo ja State of the Map ovat
+          OpenStreetMap-säätiön rekisteröityjä tavaramerkkejä. Tutustu ohjeeseen <a
+          href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">tavaramerkkien
           käytöstä.</a>
     index:
       js_1: Selain ei tue JavaScriptiä tai sen suorittaminen on estetty.
@@ -2462,6 +2452,7 @@ fi:
       all_traces: Kaikki jäljet
       my_traces: Omat jäljet
       traces_from: Julkiset jäljet käyttäjältä %{user}
+      remove_tag_filter: Poista tunnistesuodatin
     destroy:
       scheduled_for_deletion: Jälki on poistojonossa.
     make_public:
@@ -2596,6 +2587,8 @@ fi:
       client_secret_warning: Varmista, että tallennat tämän salaisuuden - et näe sitä
         enää uudelleen
       permissions: Oikeudet
+    not_found:
+      sorry: Valitettavasti sovellusta ei löytynyt.
   oauth2_authorizations:
     new:
       title: Valtuutus vaaditaan
@@ -2899,6 +2892,40 @@ fi:
       description: Kuvaus
       created_at: Luotu
       last_changed: Viimeksi muutettu
+    show:
+      title: 'Karttailmoitus: %{id}'
+      description: Kuvaus
+      open_title: 'Ratkaisematon karttailmoitus #%{note_name}'
+      closed_title: 'Ratkaistu karttailmoitus #%{note_name}'
+      hidden_title: 'Piilotettu karttailmoitus #%{note_name}'
+      opened_by_html: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: ilmianna karttailmoitus
+      anonymous_warning: Suhtaudu varauksella tunnistautumattomien käyttäjien karttailmoituksiin
+        ja kommentteihin.
+      hide: Piilota
+      resolve: Ratkaise
+      reactivate: Avaa uudelleen
+      comment_and_resolve: Kommentoi + ratkaise
+      comment: Kommentoi
+      report_link_html: Jos tämä huomautus sisältää arkaluontoisia tietoja, jotka
+        on poistettava, voit %{link}.
+    new:
+      title: Uusi karttailmoitus
+      intro: Huomasitko virheen tai puuttuvan kohteen? Ilmoita siitä muille kartoittajille,
+        jolloin virhe voidaan korjata. Siirrä merkkipiste oikeaan kohtaan ja kirjoita
+        selite ongelmasta.
+      advice: Merkintä näkyy julkisesti kaikille, älä kirjoita henkilökohtaisia tietoja.
+        Aineistoa kehitetään palautteen perusteella, minkä takia älä käytä lähteenä
+        muita karttoja tai hakemistoja.
+      add: Lähetä ilmoitus
   javascripts:
     close: Sulje
     share:
@@ -2978,25 +3005,6 @@ fi:
         unsubscribe: Lopeta tilaus
         hide_comment: piilota
         unhide_comment: näytä
-    notes:
-      new:
-        intro: Huomasitko virheen tai puuttuvan kohteen? Ilmoita siitä muille kartoittajille,
-          jolloin virhe voidaan korjata. Siirrä merkkipiste oikeaan kohtaan ja kirjoita
-          selite ongelmasta.
-        advice: Merkintä näkyy julkisesti kaikille, älä kirjoita henkilökohtaisia
-          tietoja. Aineistoa kehitetään palautteen perusteella, minkä takia älä käytä
-          lähteenä muita karttoja tai hakemistoja.
-        add: Lähetä ilmoitus
-      show:
-        anonymous_warning: Suhtaudu varauksella tunnistautumattomien käyttäjien karttailmoituksiin
-          ja kommentteihin.
-        hide: Piilota
-        resolve: Ratkaise
-        reactivate: Avaa uudelleen
-        comment_and_resolve: Kommentoi + ratkaise
-        comment: Kommentoi
-        report_link_html: Jos tämä huomautus sisältää arkaluontoisia tietoja, jotka
-          on poistettava, voit %{link}.
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
     directions:
       ascend: Nousu

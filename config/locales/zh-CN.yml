@@ -480,23 +480,6 @@ zh-CN:
       telephone_link: 请拨打 %{phone_number}
       colour_preview: '%{colour_value}的颜色预览'
       email_link: 电子邮件 %{email}
-    note:
-      title: 注记：%{id}
-      new_note: 新注记
-      description: 描述
-      open_title: '未解决注记 #%{note_name}'
-      closed_title: '已解决注记 #%{note_name}'
-      hidden_title: '隐藏注记 #%{note_name}'
-      opened_by_html: '%{user}创建于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      opened_by_anonymous_html: 匿名用户创建于<abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: '%{user}于<abbr title=''%{exact_time}''>%{when}</abbr>发表的评论'
-      commented_by_anonymous_html: 匿名用户于<abbr title='%{exact_time}'>%{when}</abbr>发表的评论
-      closed_by_html: '%{user}解决于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      closed_by_anonymous_html: 匿名用户解决于<abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: '%{user}重新激活于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      reopened_by_anonymous_html: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
-      report: 举报此注记
     query:
       title: 查询要素
       introduction: 点击地图以查找附近要素。
@@ -648,6 +631,10 @@ zh-CN:
     contact:
       contact_url: http://wiki.openstreetmap.org/wiki/Contact
       contact: 联系
+    internal_server_error:
+      title: 应用程序错误
+    not_found:
+      title: 文件未找到
   friendships:
     make_friend:
       heading: 添加 %{user} 为朋友？
@@ -1230,9 +1217,9 @@ zh-CN:
           region: 地区
           sea: 海
           square: 广场
-          state: 洲
+          state: 州/省
           subdivision: 细分
-          suburb: 郊区
+          suburb: 城市片区
           town: 镇
           village: 村
           "yes": 地方
@@ -1431,14 +1418,14 @@ zh-CN:
       admin_levels:
         level2: 国界
         level3: 大区界
-        level4: 州界(省界)
+        level4: 州界/省界
         level5: 地区界(地级行政区界)
         level6: 县界
         level7: 市边界
-        level8: 市界(乡级行政区界)
+        level8: 乡界
         level9: 村界
-        level10: 郊区界(村级行政区界)
-        level11: 邻里(小区)边界
+        level10: 村界
+        level11: 邻里界
       types:
         cities: 城市
         towns: 城镇
@@ -2740,6 +2727,37 @@ zh-CN:
       description: 描述
       created_at: 创建于
       last_changed: 最后更改于
+    show:
+      title: 注记：%{id}
+      description: 描述
+      open_title: '未解决注记 #%{note_name}'
+      closed_title: '已解决注记 #%{note_name}'
+      hidden_title: '隐藏注记 #%{note_name}'
+      opened_by_html: '%{user}创建于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      opened_by_anonymous_html: 匿名用户创建于<abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: '%{user}于<abbr title=''%{exact_time}''>%{when}</abbr>发表的评论'
+      commented_by_anonymous_html: 匿名用户于<abbr title='%{exact_time}'>%{when}</abbr>发表的评论
+      closed_by_html: '%{user}解决于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      closed_by_anonymous_html: 匿名用户解决于<abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: '%{user}重新激活于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      reopened_by_anonymous_html: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      report: 举报此注记
+      anonymous_warning: 该注记包含匿名用户的评论，应独立地予以核实。
+      hide: 隐藏
+      resolve: 解决
+      reactivate: 重启
+      comment_and_resolve: 评论与解决
+      comment: 评论
+      report_link_html: 如果此注记包含需要被删除的敏感信息，您可以%{link}。
+      other_problems_resolve: 对于注记的所有其他问题，请通过评论自行解决。
+      other_problems_resolved: 对于所有其他问题，解决就足够了。
+      disappear_date_html: 此已解决的注记将在%{disappear_in}后从地图中消失。
+    new:
+      title: 新注记
+      intro: 发现错误或遗漏了什么？请告诉其他绘图者以便于我们更正错误。将标记移动到正确的位置并输入备注说明问题。
+      advice: 您的注释会公开，并可能用于更新地图，所以不要输入个人信息，或是来自版权保护地图的信息或目录列表。
+      add: 添加注记
   javascripts:
     close: 关闭
     share:
@@ -2819,22 +2837,6 @@ zh-CN:
         unsubscribe: 取消订阅
         hide_comment: 隐藏
         unhide_comment: 取消隐藏
-    notes:
-      new:
-        intro: 发现错误或遗漏了什么？请告诉其他绘图者以便于我们更正错误。将标记移动到正确的位置并输入备注说明问题。
-        advice: 您的注释会公开，并可能用于更新地图，所以不要输入个人信息，或是来自版权保护地图的信息或目录列表。
-        add: 添加注记
-      show:
-        anonymous_warning: 该注记包含匿名用户的评论，应独立地予以核实。
-        hide: 隐藏
-        resolve: 解决
-        reactivate: 重启
-        comment_and_resolve: 评论与解决
-        comment: 评论
-        report_link_html: 如果此注记包含需要被删除的敏感信息，您可以%{link}。
-        other_problems_resolve: 对于注记的所有其他问题，请通过评论自行解决。
-        other_problems_resolved: 对于所有其他问题，解决就足够了。
-        disappear_date_html: 此已解决的注记将在%{disappear_in}后从地图中消失。
     edit_help: 移动地图并在您想编辑的位置放大，然后点击这里。
     directions:
       ascend: 上升
@@ -2848,6 +2850,7 @@ zh-CN:
       descend: 下降
       directions: 方向
       distance: 距离
+      distance_km: '%{distance}公里'
       errors:
         no_route: 找不到那两个地方之间的路径。
         no_place: 对不起——无法定位“%{place}”。

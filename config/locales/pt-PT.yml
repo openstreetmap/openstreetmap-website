@@ -132,6 +132,7 @@ pt-PT:
       diary_entry:
         user: Utilizador
         title: Assunto
+        body: Mensagem
         latitude: Latitude
         longitude: Longitude
         language_code: Idioma
@@ -472,23 +473,6 @@ pt-PT:
       telephone_link: Telefonar %{phone_number}
       colour_preview: Antevisão da cor %{colour_value}
       email_link: E-mail %{email}
-    note:
-      title: 'Nota: %{id}'
-      new_note: Nova Nota
-      description: Descrição
-      open_title: Nota não resolvida n.º %{note_name}
-      closed_title: Nota resolvida n.º %{note_name}
-      hidden_title: Nota oculta n.º %{note_name}
-      opened_by_html: Criada por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Criada por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Comentário de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Comentário de um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Resolvida por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Resolvida por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Reaberto por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Ocultada por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: denunciar esta nota
     query:
       title: Consultar elementos
       introduction: Clica no mapa para descobrir elementos próximos.
@@ -646,6 +630,25 @@ pt-PT:
       applications:
         create:
           notice: Aplicação registada.
+  errors:
+    contact:
+      contact_url_title: Vários canais de contacto explicados
+      contact: contactar
+      contact_the_community_html: Fique à vontade para %{contact_link} a comunidade
+        OpenStreetMap caso tenha encontrado uma ligação inativa ou um erro. Deixe
+        uma nota da URL exata da sua solicitação.
+    forbidden:
+      title: Proibido
+      description: A operação solicitada no servidor do OpenStreetMap só está disponível
+        para administradores (HTTP 403)
+    internal_server_error:
+      title: Erro de aplicação
+      description: O servidor do OpenStreetMap encontrou um problema inesperado que
+        o impediu de atender ao pedido (HTTP 500)
+    not_found:
+      title: Ficheiro não encontrado
+      description: Não foi possível encontrar uma operação de ficheiro/diretório/API
+        com esse nome no servidor do OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: Adicionar %{user} à lista de amigos?
@@ -2981,6 +2984,45 @@ pt-PT:
       description: Descrição
       created_at: Criada em
       last_changed: Última alteração
+    show:
+      title: 'Nota: %{id}'
+      description: Descrição
+      open_title: Nota não resolvida n.º %{note_name}
+      closed_title: Nota resolvida n.º %{note_name}
+      hidden_title: Nota oculta n.º %{note_name}
+      opened_by_html: Criada por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Criada por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentário de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Comentário de um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Resolvida por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Resolvida por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reaberto por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Ocultada por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: denunciar esta nota
+      anonymous_warning: Esta nota inclui comentários de utilizadores anónimos que
+        devem ser confirmados por fonte independente.
+      hide: Esconder
+      resolve: Marcar como resolvido
+      reactivate: Reabrir
+      comment_and_resolve: Comentar e resolver
+      comment: Comentar
+      report_link_html: Se esta nota contiver informações sensíveis que precisem de
+        ser removidas, poderás %{link}.
+      other_problems_resolve: Para qualquer outro problema com a nota, resolve-a pessoalmente
+        com um comentário.
+      other_problems_resolved: Para todos os outros problemas, a sua resolução é suficiente.
+      disappear_date_html: Esta nota resolvida desaparecerá do mapa em %{disappear_in}.
+    new:
+      title: Nova Nota
+      intro: Encontraste um erro ou algo que está em falta no mapa? Deixa uma descrição
+        o mais pormenorizada possível sobre o que pretendes ver alterado no mapa,
+        para que outros mapeadores te possam ajudar. Posiciona o marcador no local
+        correto e escreve uma nota que explique o problema.
+      advice: 'Lembra-te: a tua nota é pública e poderá ser usada para atualizar o
+        mapa, portanto, não introduzas informações pessoais, dados de mapas ou catálogos
+        protegidos por direitos de autor.'
+      add: Adicionar Nota
   javascripts:
     close: Fechar
     share:
@@ -3063,30 +3105,6 @@ pt-PT:
         unsubscribe: Anular subscrição
         hide_comment: ocultar
         unhide_comment: desocultar
-    notes:
-      new:
-        intro: Encontraste um erro ou algo que está em falta? Informa os outros mapeadores
-          para que eles possam corrigi-lo. Posiciona o marcador no local correto e
-          escreve uma nota que explique o problema.
-        advice: A tua nota é pública e poderá ser utilizada para atualizar o mapa,
-          portanto, não introduzas informações pessoais, dados de mapas ou catálogos
-          protegidos por direitos de autor.
-        add: Adicionar Nota
-      show:
-        anonymous_warning: Esta nota inclui comentários de utilizadores anónimos que
-          devem ser confirmados por fonte independente.
-        hide: Esconder
-        resolve: Marcar como resolvido
-        reactivate: Reabrir
-        comment_and_resolve: Comentar e resolver
-        comment: Comentar
-        report_link_html: Se esta nota contiver informações sensíveis que precisem
-          de ser removidas, poderás %{link}.
-        other_problems_resolve: Para qualquer outro problema com a nota, resolve-a
-          pessoalmente com um comentário.
-        other_problems_resolved: Para todos os outros problemas, a sua resolução é
-          suficiente.
-        disappear_date_html: Esta nota resolvida desaparecerá do mapa em %{disappear_in}.
     edit_help: Move o mapa, amplia-o no local que pretendes editar e clica aqui.
     directions:
       ascend: Ascenção
@@ -3098,10 +3116,13 @@ pt-PT:
         graphhopper_car: Carro (GraphHopper)
         graphhopper_foot: A pé (GraphHopper)
         fossgis_valhalla_bicycle: Bicicleta (Valhalla)
+        fossgis_valhalla_car: Automóvel (Valhalla)
         fossgis_valhalla_foot: Pé (Valhalla)
       descend: Descida
       directions: Direções
       distance: Distância
+      distance_m: '%{distance} m'
+      distance_km: '%{distance} km'
       errors:
         no_route: Não foi encontrada uma rota entre os dois pontos.
         no_place: Desculpe - não foi possível encontrar '%{place}'.

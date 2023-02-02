@@ -23,7 +23,7 @@ et:
       prompt: Vali fail
     submit:
       diary_comment:
-        create: Salvesta
+        create: Kommenteeri
       diary_entry:
         create: Avalda
       issue_comment:
@@ -94,6 +94,7 @@ et:
       diary_entry:
         user: Kasutaja
         title: Teema
+        body: Kehatekst
         latitude: Laius
         longitude: Pikkus
         language_code: Keel
@@ -407,23 +408,6 @@ et:
       wikidata_link: '%{page} Wikidatas'
       wikipedia_link: Artikkel %{page} Vikipeedias
       telephone_link: Helista %{phone_number}
-    note:
-      title: 'Märkus: %{id}'
-      new_note: Uus märkus
-      description: Kirjeldus
-      open_title: 'Lahendamata märkus: #%{note_name}'
-      closed_title: 'Lahendatud märkus: #%{note_name}'
-      hidden_title: 'Peidetud märkus #%{note_name}'
-      opened_by_html: Loonud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Loonud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Kommentaar anonüümselt kasutajalt <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Lahendanud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Lahendanud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Taasaktiveerinud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Taasaktiveerinud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Peitnud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: sellest märkusest teada anda
     query:
       title: Info objektide kohta
       introduction: Klõpsa kaardil, et leida läheduses asuvad objektid.
@@ -1808,29 +1792,29 @@ et:
           construction: Ehitatavad teed
     welcome:
       title: Tere tulemast!
-      introduction_html: Tere tulemast OpenStreetMappi, vabasse ja muudetavasse maailmakaarti.
-        Registreerumine on nüüd tehtud ja sa võid alustada kaardistamist. Siin on
-        lühiülevaade kõige olulisematest asjadest, mida peaksid teadma.
+      introduction_html: Tere tulemast OpenStreetMapi, vabasse ja muudetavasse maailmakaarti.
+        Registreerumine on nüüd tehtud ja võid alustada kaardistamist. Siin on lühiülevaade
+        kõige olulisematest asjadest, mida peaksid teadma.
       whats_on_the_map:
         title: Mis on kaardil?
-        on_html: OpenStreetMap on koht, kus saab kaardile kanda objekte mis on <em>reaalselt
-          antud hetkel olemas</em> - nendeks on miljonid hooned, teed ja muud üksikasjad.
-          Sa võid kaardile kanda suvalisi reaalselt eksisteerivaid üksikasju, mis
-          sulle huvi pakuvad.
-        off_html: Kaart <em>ei sisalda</em> arvamuslikke andmeid, nagu näiteks hinnangud,
-          ajaloolisi või hüpoteetilisi omadusi, ega andmeid autoriõigustega kaitstud
-          allikatest. Kui sul puudub eriluba siis ära kopeeri võrgus olevatelt või
-          paberkaartidelt.
+        on_html: |-
+          OpenStreetMap on koht, kus saab kaardile kanda objekte, mis on <em>praegu päriselt olemas</em>.
+          Need on miljonid hooned, teed ja muud kohti puudutavad üksikasjad.
+          Võid kaardile kanda looduses leiduvaid mis tahes objekte, mis sulle huvi pakuvad.
+        off_html: |-
+          Kaart <em>ei sisalda</em> seisukohti väljendavaid andmed nagu hinnangud, ajaloolisi
+          ega oletuslikke objekte ega andmeid autoriõigusega kaitstud allikatest. Kui sul
+          puudub eriluba, siis ära kopeeri veebi- ega paberkaartidelt.
       basic_terms:
         title: Põhilised mõisted kaardistamisel
         paragraph_1_html: OpenStreetMapil on omad erialased mõisted. Siin on mõned
           peamised mõisted, mida tasub meelde jätta.
         editor_html: <strong>Redaktor</strong> on programm või veebileht, mida saab
           kasutada kaardi redigeerimiseks.
-        node_html: <strong>Sõlm</strong> on punkt kaardil, nagu näiteks restoran või
-          puu.
-        way_html: <strong>Joon</strong> on joon või ala ja tähistab näiteks teed,
-          oja, järve või hoonet.
+        node_html: <strong>Sõlm</strong> on kaardil punkt, mis tähistab näiteks restorani
+          või puud.
+        way_html: <strong>Joon</strong> tähistab joonobjekti või ala nagu tee, oja,
+          järv või hoone.
         tag_html: <strong>Silt</strong> sisaldab väikest hulka andmeid sõlme või joone
           kohta, näiteks restorani nime või tee kiiruspiirangut.
       rules:
@@ -2336,6 +2320,42 @@ et:
       description: Kirjeldus
       created_at: Loodud
       last_changed: Viimati muudetud
+    show:
+      title: 'Märkus: %{id}'
+      description: Kirjeldus
+      open_title: 'Lahendamata märkus: #%{note_name}'
+      closed_title: 'Lahendatud märkus: #%{note_name}'
+      hidden_title: 'Peidetud märkus #%{note_name}'
+      opened_by_html: Loonud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Loonud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Kommentaar anonüümselt kasutajalt <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Lahendanud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Lahendanud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Taasaktiveerinud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Taasaktiveerinud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Peitnud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: sellest märkusest teada anda
+      anonymous_warning: See märkus sisaldab anonüümsete kasutajate kommentaare, mis
+        tuleks eraldi üle kontrollida.
+      hide: Peida
+      resolve: Lahenda
+      reactivate: Aktiveeri uuesti
+      comment_and_resolve: Kommenteeri ja lahenda
+      comment: Kommenteeri
+      report_link_html: Kui see märkus sisaldab tundlikku teavet, mis tuleks eemaldada,
+        saad %{link}.
+      other_problems_resolve: Kõigi märkusega seotud muude probleemide korral lahenda
+        see ise kommentaariga.
+    new:
+      title: Uus märkus
+      intro: Kas märkasid viga või midagi, mis vajab täiendamist? Anna sellest teistele
+        kaardistajatele teada, et nad saaksid seda parandada. Lohista marker õigele
+        kohale ja kirjuta märkus, et probleemi selgitada.
+      advice: Märkus on avalik ja seda võidakse kasutada kaardi uuendamiseks. Seega
+        palun ära kirjuta siia isiklikku teavet ega teavet autoriõigustega kaitstud
+        kaartidelt ega kataloogiloenditest.
+      add: Lisa märkus
   javascripts:
     close: Sulge
     share:
@@ -2401,27 +2421,6 @@ et:
         unsubscribe: Lõpeta tellimus
         hide_comment: peida
         unhide_comment: nähtavale
-    notes:
-      new:
-        intro: Kas märkasid viga või midagi, mis vajab täiendamist? Anna sellest teistele
-          kaardistajatele teada, et nad saaksid seda parandada. Lohista marker õigele
-          kohale ja kirjuta märkus, et probleemi selgitada.
-        advice: Märkus on avalik ja seda võidakse kasutada kaardi uuendamiseks. Seega
-          palun ära kirjuta siia isiklikku teavet ega teavet autoriõigustega kaitstud
-          kaartidelt ega kataloogiloenditest.
-        add: Lisa märkus
-      show:
-        anonymous_warning: See märkus sisaldab anonüümsete kasutajate kommentaare,
-          mis tuleks eraldi üle kontrollida.
-        hide: Peida
-        resolve: Lahenda
-        reactivate: Aktiveeri uuesti
-        comment_and_resolve: Kommenteeri ja lahenda
-        comment: Kommenteeri
-        report_link_html: Kui see märkus sisaldab tundlikku teavet, mis tuleks eemaldada,
-          saad %{link}.
-        other_problems_resolve: Kõigi märkusega seotud muude probleemide korral lahenda
-          see ise kommentaariga.
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
     directions:
