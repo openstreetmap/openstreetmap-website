@@ -222,6 +222,16 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Test identification of lat/lon pairs using WKT formatting
+  def test_identify_latlon_wkt
+    [
+      "POINT (-50.06773, -14.37742)"
+    ].each do |code|
+      latlon_check code, -50.06773, -14.37742
+    end
+  end
+
+  ##
   # Test identification of US zipcodes
   def test_identify_us_postcode
     %w[

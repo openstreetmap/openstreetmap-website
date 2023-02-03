@@ -211,6 +211,9 @@ class GeocoderController < ApplicationController
       elsif latlon = query.match(/^([+-]?\d+(\.\d*)?)(?:\s+|\s*,\s*)([+-]?\d+(\.\d*)?)$/)
         params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
 
+      elsif latlon = query.match(/^POINT(?:\s+|\s*,\s*)\(([+-]?\d+(\.\d*)?)(?:\s+|\s*,\s*)([+-]?\d+(\.\d*)?)\)$/)
+        params.merge!(:lat => latlon[3].to_f, :lon => latlon[1].to_f).delete(:query)
+
         params[:latlon_digits] = true unless params[:whereami]
       end
     end
