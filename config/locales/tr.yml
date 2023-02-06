@@ -61,7 +61,7 @@ tr:
       prompt: Dosya seç
     submit:
       diary_comment:
-        create: Kaydet
+        create: Yorum
       diary_entry:
         create: Yayımla
         update: Güncelle
@@ -143,6 +143,7 @@ tr:
       diary_entry:
         user: Kullanıcı
         title: Konu
+        body: Gövde
         latitude: Enlem
         longitude: Boylam
         language_code: Dil
@@ -631,6 +632,25 @@ tr:
       applications:
         create:
           notice: Uygulama Kayıtlı.
+  errors:
+    contact:
+      contact_url_title: Çeşitli iletişim kanalları açıklandı
+      contact: iletişim
+      contact_the_community_html: Bozuk bir bağlantı/hata bulduysanız OpenStreetMap
+        topluluğuna %{contact_link} bağlantısıyla iletmekten çekinmeyin. İsteğinizin
+        tam URL'sini not edin.
+    forbidden:
+      title: Yasaklı
+      description: OpenStreetMap sunucusunda talep ettiğiniz işlem sadece yöneticiler
+        tarafından kullanılabilir (HTTP 403)
+    internal_server_error:
+      title: Uygulama hatası
+      description: OpenStreetMap sunucusu, isteği yerine getirmesini engelleyen beklenmeyen
+        bir durumla karşılaştı (HTTP 500)
+    not_found:
+      title: Dosya bulunamadı
+      description: OpenStreetMap sunucusunda (HTTP 404) bu ada sahip bir dosya/dizin/API
+        işlemi bulunamadı
   friendships:
     make_friend:
       heading: '%{user}, arkadaş olarak eklensin mi?'
@@ -2418,10 +2438,25 @@ tr:
           haritacılar yaptıklarınızı inceleyecektir.
     communities:
       title: Topluluklar
+      lede_text: "Dünyanın her yerinden insanlar OpenStreetMap'e katkıda bulunur veya
+        OpenStreetMap'i kullanır. Birçoğu bireysel olarak katılırken bazıları topluluk
+        hâlinde katkıda bulunur.\nBu gruplar, çeşitli büyüklükte olup küçük kasabalardan
+        çok ülkeli büyük bölgelere kadar çeşitli coğrafyaları temsil eder. \nAyrıca
+        resmî veya gayri resmî olabilirler."
       local_chapters:
         title: Yerel Bölümler
+        about_text: |-
+          Yerel Bölümler, kâr amacı gütmeyen tüzel kişilikler
+          kurmak için resmî adımı atmış olan ülke düzeyinde veya bölge düzeyinde gruplardır. Yerel yönetim, iş dünyası ve medyayla
+          ilişki kurarken bölgenin haritasını ve haritacılarını temsil eder. Ayrıca, OpenStreetMap Foundation (OSMF) ile bir ortaklık
+          yaparak onlara yasal ve telif hakkı
+          yönetim organına bir bağlantı sağlar.
+        list_text: 'Aşağıdaki topluluklar resmî olarak Yerel Bölümler şeklinde kurulmuştur:'
       other_groups:
         title: Diğer Gruplar
+        about_html: |-
+          Yerel Bölümler kadar resmî olarak bir grup kurmaya gerek yoktur.
+          Gerçekten de birçok grup, gayri resmî bir insan topluluğu veya bir topluluk grubu olarak çok başarılı bir şekilde var olur. Herkes bunları kurabilir veya bunlara katılabilir. Hakkında daha fazlasını <a href="https://wiki.openstreetmap.org/wiki/User_group">Topluluklar wiki sayfasında</a> okuyun.
   traces:
     visibility:
       private: Kişiye özel (sadece anonim ve sıralanmamış noktalar olarak paylaşılır)
@@ -2679,6 +2714,8 @@ tr:
       title: Hesap Oluştur
       no_auto_account_create: Maalesef, şu anda sizin için otomatik olarak bir hesap
         oluşturamıyoruz.
+      please_contact_support_html: Oluşturulacak bir hesap ayarlamak için lütfen %{support_link}
+        ile iletişime geçin - isteğinizi en kısa sürede çözmeye çalışacağız.
       support: destek
       about:
         header: Ücretsiz ve düzenlenebilir
@@ -2816,6 +2853,8 @@ tr:
       support: destek
       automatically_suspended: Üzgünüz, şüpheli etkinlik nedeniyle hesabınız otomatik
         olarak askıya alındı.
+      contact_support_html: Bu karar kısa süre içinde bir yönetici tarafından incelenecek
+        veya bu konuyu görüşmek isterseniz %{support_link} ile iletişime geçebilirsiniz.
     auth_failure:
       connection_failed: Kimlik doğrulama sağlayıcısına bağlantı başarısız oldu
       invalid_credentials: Geçersiz kimlik doğrulama bilgileri
@@ -3003,6 +3042,10 @@ tr:
       comment: Yorum
       report_link_html: Bu not, kaldırılması gereken hassas bilgiler içeriyorsa %{link}
         bağlantısına tıklayınız.
+      other_problems_resolve: Notla ilgili diğer tüm sorunlar için lütfen bir yorum
+        yaparak sorunu kendiniz çözün.
+      other_problems_resolved: Diğer tüm problemler için çözülmesi yeterlidir.
+      disappear_date_html: Bu çözümlenmiş not, %{disappear_in} içinde haritadan kaybolacak.
     new:
       title: Yeni Not
       intro: Bir hata mı buldunuz ya da eksik bir şey mi var? Bu sorunun düzeltilebilmesi
@@ -3101,13 +3144,18 @@ tr:
       engines:
         fossgis_osrm_bike: Bisiklet (OSRM)
         fossgis_osrm_car: Araba (OSRM)
-        fossgis_osrm_foot: Ayak (OSRM)
+        fossgis_osrm_foot: Yürüyerek (OSRM)
         graphhopper_bicycle: Bisikletle (GraphHopper)
         graphhopper_car: Arabayla (GraphHopper)
         graphhopper_foot: Yürüyerek (GraphHopper)
+        fossgis_valhalla_bicycle: Bisiklet (Valhalla)
+        fossgis_valhalla_car: Araba (Valhalla)
+        fossgis_valhalla_foot: Yürüyerek (Valhalla)
       descend: İniş
       directions: İstikametler
       distance: Uzaklık
+      distance_m: '%{distance}m'
+      distance_km: '%{distance}km'
       errors:
         no_route: Bu iki yer arasında bir rota bulunamadı.
         no_place: Maalesef, '%{place}' adlı yeri bulamadık!
