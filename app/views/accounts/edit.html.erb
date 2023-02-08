@@ -65,18 +65,5 @@
 <% end %>
 
 <% unless current_user.data_public? %>
-  <hr class="mb-3" />
-  <a name="public"></a>
-  <h2><%= t ".public editing note.heading" %></h2>
-  <p>
-    <%= t ".public editing note.currently_not_public" %>
-    <strong><%= t ".public editing note.only_public_can_edit" %></strong>
-    <%= t ".public editing note.find_out_why_html", :link => link_to(t(".public editing note.find_out_why"),
-                                                                     t(".public editing note.find_out_why_url")) %>
-  </p>
-  <ul>
-    <li><%= t ".public editing note.email_not_revealed" %></li>
-    <li><%= t ".public editing note.not_reversible" %></li>
-  </ul>
-  <%= button_to t(".make edits public button"), user_go_public_path, :class => "btn btn-primary" %>
+  <%= render :partial => "go_public" %>
 <% end %>
