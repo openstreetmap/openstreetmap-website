@@ -45,3 +45,9 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 
 * Tom Hughes [@tomhughes](https://github.com/tomhughes/)
 * Andy Allan [@gravitystorm](https://github.com/gravitystorm/)
+
+# More Info
+
+* Translation is managed by [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap). Most of the messages can be translated there. However, some translations come from external sources:
+   * GraphHopper: https://github.com/graphhopper/graphhopper/blob/master/docs/core/translations.md
+   * Time and date format: https://github.com/svenfuchs/rails-i18n
