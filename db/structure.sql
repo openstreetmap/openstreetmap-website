@@ -17,6 +17,13 @@ CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
 
 
 --
+-- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
+
+
+--
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -107,9 +114,40 @@ CREATE TYPE public.user_status_enum AS ENUM (
     'deleted'
 );
 
-SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+--
+-- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.tile_for_point(scaled_lat integer, scaled_lon integer) RETURNS bigint
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+  x int8; -- quantized x from lon,
+  y int8; -- quantized y from lat,
+BEGIN
+  x := round(((scaled_lon / 10000000.0) + 180.0) * 65535.0 / 360.0);
+  y := round(((scaled_lat / 10000000.0) +  90.0) * 65535.0 / 180.0);
+
+  -- these bit-masks are special numbers used in the bit interleaving algorithm.
+  -- see https://graphics.stanford.edu/~seander/bithacks.html#InterleaveBMN
+  -- for the original algorithm and more details.
+  x := (x | (x << 8)) &   16711935; -- 0x00FF00FF
+  x := (x | (x << 4)) &  252645135; -- 0x0F0F0F0F
+  x := (x | (x << 2)) &  858993459; -- 0x33333333
+  x := (x | (x << 1)) & 1431655765; -- 0x55555555
+
+  y := (y | (y << 8)) &   16711935; -- 0x00FF00FF
+  y := (y | (y << 4)) &  252645135; -- 0x0F0F0F0F
+  y := (y | (y << 2)) &  858993459; -- 0x33333333
+  y := (y | (y << 1)) & 1431655765; -- 0x55555555
+
+  RETURN (x << 1) | y;
+END;
+$$;
+
+
+SET default_tablespace = '';
 
 --
 -- Name: acls; Type: TABLE; Schema: public; Owner: -
@@ -3439,3 +3477,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('7'),
 ('8'),
 ('9');
+
+
