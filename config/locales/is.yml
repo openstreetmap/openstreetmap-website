@@ -22,7 +22,7 @@ is:
       prompt: Veldu skrá
     submit:
       diary_comment:
-        create: Vista
+        create: Athugasemd
       diary_entry:
         create: Birta
         update: Uppfæra
@@ -61,16 +61,16 @@ is:
       issue: Vandamál
       language: Tungumál
       message: Skilaboð
-      node: Hnútur
+      node: Liður
       node_tag: Merki hnúts
       notifier: Tilkynnandi
-      old_node: Gamall hnútur
+      old_node: Gamall liður
       old_node_tag: Merki gamals hnúts
       old_relation: Gömul vensl
       old_relation_member: Stak í gömlum venslum
       old_relation_tag: Merki gamalla vensla
       old_way: Gömul leið
-      old_way_node: Hnútur í gamalli leið
+      old_way_node: Liður í gamalli leið
       old_way_tag: Merki gamallar leiðar
       relation: Vensl
       relation_member: Stak í venslum
@@ -84,7 +84,7 @@ is:
       user_preference: Notandastillingar
       user_token: Leynistrengur notanda
       way: Leið
-      way_node: Leiðarhnútur
+      way_node: Leiðarliður
       way_tag: Merki leiðar
     attributes:
       client_application:
@@ -105,14 +105,15 @@ is:
       diary_entry:
         user: Notandi
         title: Fyrirsögn
+        body: Meginmál
         latitude: Breiddargráða
         longitude: Lengdargráða
         language_code: Tungumál
       doorkeeper/application:
         name: Nafn
-        redirect_uri: Tilvísa tengslar
-        confidential: Leynilegur umsókn?
-        scopes: Réttindi
+        redirect_uri: Endurbeina slóðum
+        confidential: Umsókn trúnaðarmál?
+        scopes: Heimildir
       friend:
         user: Notandi
         friend: Vinur
@@ -132,7 +133,7 @@ is:
         sender: Sendandi
         title: Fyrirsögn
         body: Texti
-        recipient: Móttakandi
+        recipient: Viðtakandi
       redaction:
         title: Titill
         description: Lýsing
@@ -163,17 +164,17 @@ is:
       trace:
         tagstring: aðskilið með kommum
       user_block:
-        reason: Ástæðan til af hverju Notandinn verði falinn. Vinsamlegast vertu eins
-          rólegur og eins sanngjarn og mögulegt er, gefa eins miklar upplýsingar og
-          þú getur um ástandið, muna að skilaboðin verða sýnileg opinberlega. Hafðu
-          í huga að ekki allir notendur skilja orðalag samfélagsins, svo vinsamlegast
-          reyndu að nota skilmála leikmanna.
+        reason: Ástæða þess af hverju notandinn er útilokaður. Haltu ró þinni, sýndu
+          eins mikla sanngirni og mögulegt er, gefa eins miklar upplýsingar og þú
+          getur um ástandið, mundu líka að skilaboðin verða sýnileg opinberlega. Hafðu
+          í huga að ekki er allir notendur með orðfæri samfélagsins á hreinu, þannig
+          að betra að nota orðalag sem allir skilja.
         needs_view: Notandinn þarf að innskrá sig áður en bannið fellur úr gildi.
       user:
         email_confirmation: Netfangið þitt er ekki birt opinberlega, sjá kaflann <a
           href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title=Meðferð
           OSMF á persónuupplýsingum, þar með töldum netföngum">um meðferð persónuupplýsinga</a>
-        new_email: (aldrei sýnt opinberlega)
+        new_email: (aldrei birt opinberlega)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -221,7 +222,7 @@ is:
       name: iD
       description: iD (ritill í vafra)
     remote:
-      name: RC-fjarstýring
+      name: Fjarstýring
       description: Fjarstýring (JOSM eða Merkaartor)
   auth:
     providers:
@@ -259,24 +260,24 @@ is:
   account:
     deletions:
       show:
-        title: Eyði Aðgangi
-        warning: Viðvörun! Eyðing aðgangs er óbreytanlegt, og ekki hægt að afturkalla.
-        delete_account: Eyði Aðgangi
-        delete_introduction: 'Þú getur eytt OpenStreetMap aðgangin þínum með því að
-          nota takkann hér að neðan. Vinsamlegast athugaðu eftirfarandi upplýsingar:'
-        delete_profile: Notenduupplýsingarnar þínar, þar á meðal notandaútlit, lýsing
+        title: Eyða aðgangnum mínum
+        warning: Viðvörun! Eyðing aðgangs er óbreytanlegt, og er ekki hægt að afturkalla.
+        delete_account: Eyða aðgangi
+        delete_introduction: 'Þú getur eytt OpenStreetMap-aðgangnum þínum með því
+          að nota hnappinn hér að neðan. Athugaðu eftirfarandi upplýsingar:'
+        delete_profile: Notendaupplýsingarnar þínar, þar á meðal auðkennismynd, lýsing
           og heimastaðsetning verða fjarlægðar.
-        delete_display_name: Sýningarnafnið þitt verður fjarlægt, og get verið notuð
-          frá öðrum aðgöngum.
+        delete_display_name: Birtingarnafnið þitt verður fjarlægt, og getur verið
+          endurnýtt af öðrum aðgöngum.
         retain_caveats: 'Hins vegar verða sumar upplýsingar um þig geymdar á OpenStreetMap,
-          jafnvel eftir að aðgangið þitt hefur verið eytt:'
+          jafnvel eftir að aðgangnum þínum hefur verið eytt:'
         retain_edits: Breytingar þínar á kortagagnagrunninum, ef einhverjar eru, verða
           geymdar.
-        retain_traces: Hlöðuð ummerki þín, ef einhverjar eru, verða geymdar.
+        retain_traces: Innsendir ferlar frá þér, ef einhverjir eru, verða geymdir.
         retain_diary_entries: Dagbókarfærslur þínar og dagbókarathugasemdir, ef einhverjar
-          eru, verða geymdar en falin.
-        retain_notes: Kortaskýrslur þínar og athugasemdir, ef einhverjar eru, verða
-          geymdar en falin.
+          eru, verða geymdar en faldar.
+        retain_notes: Minnispunktar þínir og athugasemdir á korti, ef einhverjir eru,
+          verða geymdir en faldir.
         retain_changeset_discussions: Umræður þínar um breytingar, ef einhverjar eru,
           verða geymdar.
         retain_email: Netfangið þitt verður geymt.
@@ -292,7 +293,7 @@ is:
         link text: hvað er openID?
       public editing:
         heading: Nafngreindar breytingar
-        enabled: Nei, nafngreindur og getur breytt gögnum.
+        enabled: Virkt. Ekki nafnlaus og getur breytt gögnum.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Hvað er þetta?
         disabled: Óvirkur og getur ekki breytt gögnum, allar fyrri breytingar eru
@@ -322,14 +323,13 @@ is:
         link text: Hvað er þetta?
       save changes button: Vista breytingar
       make edits public button: Gera allar breytingarnar mínar opinberar
-      delete_account: Eyði Aðgangi
+      delete_account: Eyði aðgangi...
     update:
-      success_confirm_needed: Stillingarnar þínar voru uppfærðar. Póstur var sendur
-        á netfangið þitt sem þú þarft að bregðast við til að netfangið þitt verði
-        staðfest.
-      success: Stillingarnar þínar voru uppfærðar.
+      success_confirm_needed: Notandaupplýsingar voru uppfærðar. Tölvupóstur var sendur
+        á netfangið þitt sem þú þarft að bregðast við til að staðfesta netfangið þitt.
+      success: Tókst að uppfæra notandaupplýsingar.
     destroy:
-      success: Aðgangi eytt...
+      success: Aðgangi eytt.
   browse:
     created: Búið til
     closed: Lokað
@@ -357,8 +357,8 @@ is:
     changeset:
       title: 'Breytingasett: %{id}'
       belongs_to: Höfundur
-      node: Hnútar (%{count})
-      node_paginated: Hnútar (%{x}-%{y} af %{count})
+      node: Liðir (%{count})
+      node_paginated: Liðir (%{x}-%{y} af %{count})
       way: Leiðir (%{count})
       way_paginated: Leiðir (%{x}-%{y} af %{count})
       relation: Vensl (%{count})
@@ -366,8 +366,8 @@ is:
       comment: Athugasemdir (%{count})
       hidden_commented_by_html: Falin umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by_html: Umsögn frá %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      changesetxml: Breytingasetts XML sniði
-      osmchangexml: osmChange XML sniði
+      changesetxml: XML breytingasetts
+      osmchangexml: XML osmChange
       feed:
         title: Breytingasett %{id}
         title_comment: Breytingasett %{id} - %{comment}
@@ -376,12 +376,12 @@ is:
       still_open: Breytingasett er enn opið - Umræða mun opnast þegar breytingasettinu
         hefur verið lokað.
     node:
-      title_html: 'Hnútur: %{name}'
+      title_html: 'Liður: %{name}'
       history_title_html: 'Saga hnúts: %{name}'
     way:
       title_html: 'Leið: %{name}'
       history_title_html: 'Saga leiðar: %{name}'
-      nodes: Hnútar
+      nodes: Liðir
       nodes_count:
         one: liður
         other: '%{count} liðir'
@@ -398,7 +398,7 @@ is:
     relation_member:
       entry_role_html: '%{type} %{name} sem „%{role}“'
       type:
-        node: Hnútur
+        node: Liður
         way: Leið
         relation: Vensl
     containing_relation:
@@ -408,30 +408,29 @@ is:
       title: Fannst ekki
       sorry: Því miður, %{type} með auðkennið %{id} fannst ekki.
       type:
-        node: hnútur
+        node: liður
         way: leið
         relation: vensl
         changeset: breytingasett
         note: minnispunktur
     timeout:
-      title: Hlé Villa
-      sorry: Ekki var hægt að ná í gögn fyrir %{type} með kennitöluna %{id}, það tók
+      title: Villa í tímamörkum
+      sorry: Ekki var hægt að ná í gögn fyrir %{type} með auðkennið %{id}, það tók
         of langan tíma að ná í gögnin.
       type:
-        node: hnútinn
+        node: liðinn
         way: leiðina
         relation: venslin
         changeset: breytingasettið
-        note: minnispunktur
+        note: minnispunktinn
     redacted:
       redaction: Leiðrétting %{id}
-      message_html: Ekki er hægt að birta útgáfu %{version} af þessu %{type} því hún
-        hefur verið endurskoðuð. Endilega skoðaðu %{redaction_link} til að sjá nánari
-        upplýsingar.
+      message_html: Ekki er hægt að birta útgáfu %{version} af %{type} því hún hefur
+        verið endurskoðuð. Endilega skoðaðu %{redaction_link} til að sjá nánari upplýsingar.
       type:
-        node: hnút
-        way: leið
-        relation: venslum
+        node: liðnum
+        way: leiðinni
+        relation: venslunum
     start_rjs:
       feature_warning: Hleð inn %{num_features} fitjum (kortahlutum), sem gæti valdið
         því að vafrinn þinn verði hægur eða svari ekki. Ertu viss um að þú viljir
@@ -506,12 +505,12 @@ is:
       nearby mapper: Nálægur notandi
       friend: Vinur
     show:
-      title: Stjórnborðið Mitt
+      title: Stjórnborðið mitt
       no_home_location_html: '%{edit_profile_link} og stilltu heimastaðsetninguna
         þína til að sjá nálæga notendur.'
-      edit_your_profile: Breyttu notandaaðgang þínum
+      edit_your_profile: Breyttu notandaaðgangnum þínum
       my friends: Vinir mínir
-      no friends: Þú átt enga vini
+      no friends: Þú hefur ekki bætt við neinum vinum ennþá.
       nearby users: Aðrir nálægir notendur
       no nearby users: Engir notendur hafa stillt staðsetningu sína á korti nálægt
         þér.
@@ -570,7 +569,7 @@ is:
       comment_from_html: Athugasemd eftir %{link_user} sett inn %{comment_created_at}
       hide_link: Fela þessa athugasemd
       unhide_link: Af-fela þessa athugasemd
-      confirm: Staðfestu
+      confirm: Staðfesta
       report: Tilkynna þessa athugasemd
     location:
       location: 'Staðsetning:'
@@ -601,6 +600,25 @@ is:
       applications:
         create:
           notice: Umsókn skráð.
+  errors:
+    contact:
+      contact_url_title: Ýmsar samskiptaleiðir útskýrðar
+      contact: hafa samband við
+      contact_the_community_html: Ekki hika við að %{contact_link} OpenStreetMap-samfélagið
+        ef þú hefur fundið bilaðan tengil eða villu. Taktu niður nákvæma vefslóð beiðni
+        þinnar.
+    forbidden:
+      title: Bannað
+      description: Aðgerðin sem þú baðst um á OpenStreetMap-þjóninum er aðeins í boði
+        fyrir stjórnendur (HTTP 403)
+    internal_server_error:
+      title: Villa í forriti
+      description: OpenStreetMap-þjónninn lenti í óvæntum aðstæðum sem komu í veg
+        fyrir að hann gæti uppfyllt beiðnina (HTTP 500)
+    not_found:
+      title: Skrá fannst ekki
+      description: Gat ekki fundið skrá/skrá/API-aðgerð með því nafni á OpenStreetMap-þjóninum
+        (HTTP 404)
   friendships:
     make_friend:
       heading: Bæta %{user} við sem vini?
@@ -608,13 +626,13 @@ is:
       success: '%{name} er núna vinur þinn!'
       failed: Gat ekki bætt %{name} á vinalistann þinn.
       already_a_friend: '%{name} er þegar vinur þinn.'
-      limit_exceeded: Þú hefur vingast við marga notendur nýlega. Vinsamlegast bíddu
-        aðeins áður en þú reynir að vingast fleiri.
+      limit_exceeded: Þú hefur vingast við marga notendur nýlega. Bíddu aðeins áður
+        en þú reynir að vingast fleiri.
     remove_friend:
       heading: Hætta að vera vinur %{user}?
-      button: fjarlægja úr vinahópi
+      button: Fjarlægja úr vinum
       success: '%{name} er ekki lengur vinur þinn.'
-      not_a_friend: '%{name} er ekki vinur þinn.'
+      not_a_friend: '%{name} er ekki einn af vinum þínum.'
   geocoder:
     search:
       title:
@@ -761,7 +779,7 @@ is:
           weighbridge: Bílavog
           "yes": Aðstaða
         boundary:
-          aboriginal_lands: Frumbyggjaland
+          aboriginal_lands: Frumbyggjalönd
           administrative: Stjórnsýslumörk
           census: Manntalsmörk
           national_park: Þjóðgarður
@@ -1594,16 +1612,16 @@ is:
         með lýsingunni %{trace_description} og engin merki
     gpx_failure:
       hi: Hæ %{to_user},
-      failed_to_import: 'Lenti í villu þegar átti að flytja hana inn, hérna er villan::'
-      more_info_html: Meir upplýsingar Um misheppnaðir GPX-innflutningur og hvernig
-        maður forðast þau finnst á %{url}.
+      failed_to_import: 'tókst ekki að flytja inn. Hér er villan:'
+      more_info_html: Frekari upplýsingar um bilanir í GPX-innflutningi og hvernig
+        á að forðast þær má finna á %{url}.
       subject: '[OpenStreetMap] Villa við að flytja inn GPX skrá'
     gpx_success:
       hi: Hæ %{to_user},
       loaded_successfully:
         one: var hlaðið inn með %{trace_points} af 1 punkti mögulegum.
         other: var hlaðið inn með %{trace_points} punktum af %{possible_points} mögulegum.
-      subject: '[OpenStreetMap] GPX skrá innflutt'
+      subject: '[OpenStreetMap] GPX skrá flutt inn'
     signup_confirm:
       subject: '[OpenStreetMap] Velkomin í OpenStreetMap'
       greeting: Hæ þú!
@@ -1614,7 +1632,7 @@ is:
       welcome: Eftir að þú hefur staðfest notandaaðganginn þinn, munum við senda þér
         viðbótarupplýsingar til að koma þér í gang.
     email_confirm:
-      subject: '[OpenStreetMap] Staðfestu netfangið þitt'
+      subject: '[OpenStreetMap] Staðfestu tölvupóstfangið þitt'
       greeting: Hæ,
       hopefully_you: Einhver (vonandi þú) vill breyta netfanginu sínu á %{server_url}
         í %{new_address}.
@@ -1698,14 +1716,15 @@ is:
         farðu þá á %{url} og smelltu á "Segja upp áskrift".
   confirmations:
     confirm:
-      heading: Athuga með tölvupóstinn þinn!
+      heading: Skoðaðu tölvupóstinn þinn!
       introduction_1: Við höfum sent þér staðfestingartölvupóst.
       introduction_2: Staðfestu aðganginn þinn með því að smella á tengilinn í tölvupóstinum
         og þá geturðu hafið kortlagningu.
       press confirm button: Hér getur þú staðfest að þú viljir virkja notandaaðganginn
         þinn.
       button: Staðfesta
-      success: Notandinn þinn hefur verið staðfestur.
+      success: Notandaaðgangurinn þinn hefur verið staðfestur, takk fyrir að skrá
+        þig.
       already active: Þessi notandaaðgangur hefur þegar verið staðfestur.
       unknown token: Þessi staðfestingarkóði er útrunninn eða er ekki til staðar.
       reconfirm_html: Ef þú vilt að við sendum þér staðfestingarpóstinn aftur, <a
@@ -1722,9 +1741,9 @@ is:
     resend_success_flash:
       confirmation_sent: Við höfum sent nýja staðfestingarmiða til %{email} og um
         leið og þú staðfestir aðganginn þinn muntu geta fengið kortlagningu.
-      whitelist: Ef þú notar ruslpóstskerfi sem sendir staðfestingarbeiðnir, vinsamlegast
-        vertu viss um að þú skráir %{sender} á hvítlista þar sem við getum ekki svarað
-        neinum staðfestingarbeiðnum.
+      whitelist: Ef þú notar ruslpóstskerfi sem sendir staðfestingarbeiðnir, skaltu
+        ganga úr skugga um að um að þú setjjir %{sender} á lista yfir leyfða notendur
+        þar sem við getum ekki svarað neinum staðfestingarbeiðnum.
   messages:
     inbox:
       title: Innhólf
@@ -1738,7 +1757,7 @@ is:
         one: '%{count} eldri skilaboð'
         other: '%{count} eldri skilaboð'
       from: Frá
-      subject: Titill
+      subject: Viðfangsefni
       date: Dagsetning
       no_messages_yet_html: Þú hefur ekki fengið nein skilboð. Hví ekki að hafa samband
         við einhverja %{people_mapping_nearby_link}?
@@ -1751,7 +1770,7 @@ is:
     new:
       title: Senda skilaboð
       send_message_to_html: Senda skilaboð til %{name}
-      subject: Titill
+      subject: Viðfangsefni
       body: Texti
       back_to_inbox: Aftur í innhólf
     create:
@@ -1770,10 +1789,10 @@ is:
         one: Þú hefur sent %{count} skilaboð
         other: Þú hefur sent %{count} skilaboð
       to: Til
-      subject: Titill
+      subject: Viðfangsefni
       date: Dags
-      no_sent_messages_html: Þú hefur ekki seint nein skeyti, hví ekki að hafa samband
-        við einhverja %{people_mapping_nearby_link}?
+      no_sent_messages_html: Þú hefur enn ekki seint nein skilaboð, því ekki að hafa
+        samband við einhverja %{people_mapping_nearby_link}?
       people_mapping_nearby: nálæga notendur
     reply:
       wrong_user: Þú hefur skráð þig inn sem `%{user}' en skilaboðin sem þú baðst
@@ -1782,7 +1801,7 @@ is:
     show:
       title: Les skilaboð
       from: Frá
-      subject: Titill
+      subject: Viðfangsefni
       date: Dags
       reply_button: Svara
       unread_button: Merkja sem ólesin
@@ -1804,35 +1823,35 @@ is:
       title: Glatað lykilorð
       heading: Gleymt lykilorð?
       email address: 'Tölvupóstfang:'
-      new password button: Senda nýtt lykilorð á netfangið þitt
+      new password button: Endurstilla lykilorð
       help_text: Sláðu inn netfangið sem þú skráðir þig með, við munum senda tengil
         á það sem þú getur notað til að breyta lykilorðinu þínu.
       notice email on way: Nýtt lykilorð er á leiðinni í innhólfið þitt.
       notice email cannot find: Þetta netfang fannst ekki.
     reset_password:
-      title: Lykilorð endurstillt
-      heading: Endurstillti lykilorð fyrir notandann %{user}
+      title: Endurstilla lykilorð
+      heading: Endurstilla lykilorð fyrir %{user}
       reset: Endurstilla lykilorð
       flash changed: Lykilorðinu þínu hefur verið breytt
       flash token bad: Þessi leynistrengur fannst ekki, kannski er slóðin röng?
   preferences:
     show:
       title: Kjörstillingar
-      preferred_editor: 'Uppáhaldsritill:'
+      preferred_editor: Uppáhaldsritill
       preferred_languages: Ákjósanleg tungumál
       edit_preferences: Kjörstillingar
     edit:
-      title: Valmöguleikar
+      title: Breyta kjörstillingum
       save: Uppfæra kjörstillingar
       cancel: Hætta við
     update:
       failure: Gat ekki uppfært kjörstillingar.
     update_success_flash:
-      message: Kjörstillingar uppfærðir
+      message: Kjörstillingar uppfærðar.
   profiles:
     edit:
-      title: Breyta Notandasíðu
-      save: Uppfæra Notandasíðu
+      title: Breyta notandasíðu
+      save: Uppfæra notandasíðu
       cancel: Hætta við
       image: Mynd
       gravatar:
@@ -1871,9 +1890,9 @@ is:
         notandaaðgang.
       create account minute: Stofnaðu aðgang. Það tekur eina mínútu.
       no account: Ertu ekki með aðgang?
-      account not active: Þessi reikningur er ekki virkur.<br />Vinsamlegast smelltu
-        á tengilinn í staðfestingarpóstinum sem þú fékkst til að virkja reikninginn,
-        eða <a href="%{reconfirm}">óskaðu eftir nýjum staðfestingarpósti</a>.
+      account not active: Aðgangurinn þinn er ennþá ekki virkur.<br />Smelltu á tengilinn
+        í staðfestingarpóstinum sem þú fékkst til að virkja aðganginn, eða <a href="%{reconfirm}">óskaðu
+        eftir nýjum staðfestingarpósti</a>.
       auth failure: Þetta notandanafn eða lykilorð er rangt.
       openid_logo_alt: Skrá inn með OpenID-aðgangi
       auth_providers:
@@ -2137,8 +2156,8 @@ is:
         ef nota á þennan eiginleika.
     export:
       title: Flytja út
-      area_to_export: Svæði til að niðurhala
-      manually_select: Velja annað svæði á kortinu
+      area_to_export: Svæði til útflutnings
+      manually_select: Veldu annað svæði handvirkt
       format_to_export: Skráasnið
       osm_xml_data: OpenStreetMap XML gögn
       map_image: Kortamynd (sýnir staðallagið)
@@ -2184,7 +2203,7 @@ is:
       how_to_help:
         title: Hvernig á að hjálpa til
         join_the_community:
-          title: Ganga í hópinn
+          title: Gakktu í hópinn
           explanation_html: |-
             Ef þú hefur rekist á vandamál í kortagögnunum, til dæmis ef það vantar götu eða húsnúmer, er besta leiðin
             að ganga til liðs við OpenStreetMap og bæta við eða laga gögnin sjálfur. \
@@ -2211,7 +2230,7 @@ is:
         description: Byrjaðu með þessum fljótlega leiðarvísi með helstu grunnatriðum
           varðandi OpenStreetMap.
       beginners_guide:
-        title: Byrjenda-leiðbeiningar
+        title: Leiðbeiningar fyrir byrjendur
         description: Leiðarvísir fyrir byrjendur sem haldið er við af samfélaginu.
       help:
         title: Hjálparvefur
@@ -2357,12 +2376,12 @@ is:
           Hér eru nokkur algeng orð sem gott er að hafa á bak við eyrað.
         editor_html: <strong>Ritill</strong> er forrit eða vefsvæði sem hægt er að
           nota við breytingar á landakortinu.
-        node_html: <strong>Hnútur</strong> er punktur á kortinu, eins og til dæmis
+        node_html: <strong>Liður</strong> er punktur á kortinu, eins og til dæmis
           veitingastaður eða tré.
         way_html: <strong>Leið</strong> er lína eða svæði, eins og til dæmis vegur,
           vatnsfall, tjörn eða bygging.
         tag_html: |-
-          <strong>Merki</strong> er dálítill gagnabútur varðandi leið eða annað atriði, til dæmis
+          <strong>Merki</strong> er dálítill gagnabútur varðandi leið eða lið, til dæmis
           nafn á veitingastað eða hraðatakmörk á vegi.
       rules:
         title: Reglur!
@@ -2419,13 +2438,13 @@ is:
       identifiable: Auðkennanlegur (sýndur í ferlalista sem auðkennanlegir, raðaðir
         punktar með tímastimpli)
     new:
-      upload_trace: Senda inn GPS feril
-      visibility_help: hvað þýðir þetta
+      upload_trace: Senda inn GPS-feril
+      visibility_help: hvað þýðir þetta?
       help: Hjálp
       help_url: https://wiki.openstreetmap.org/index.php?title=Upload&uselang=is
     create:
-      upload_trace: Senda inn GPS feril
-      trace_uploaded: Búið er að hlaða upp GPS ferlinum og bíður hann núna eftir því
+      upload_trace: Senda inn GPS-feril
+      trace_uploaded: Búið er að senda inn GPS-ferilinn og bíður hann núna eftir því
         að vera settur inn í gagnagrunninn, sem gerist yfirleitt innan stundar. Póstur
         verður sendur á netfangið þitt þegar því er lokið.
       upload_failed: Því miður, innsending GPX-ferils mistókst. Kerfisstjóri hefur
@@ -2482,7 +2501,7 @@ is:
       identifiable: AUÐKENNANLEGT
       private: EINKA
       trackable: REKJANLEGT
-      by: eftir
+      by: frá
       in: í
     index:
       public_traces: Allir ferlar
@@ -2525,7 +2544,7 @@ is:
         að lesa þessi skilaboð áður en þú getur vistað neinar breytingar.
       blocked: Aðgangur þinn að API-forritunarviðmótinu hefur verið bannaður. Skráðu
         þig inn í vefviðmótið fyrir frekari upplýsingar.
-      need_to_see_terms: Aðgangur þinn að API-forritunarviðmótinu hefur verið frystur
+      need_to_see_terms: Aðgangi þínum að API-forritunarviðmótinu hefur verið lokað
         tímabundið. Skráðu þig inn í vefviðmótið til að skoða skilmála vegna framlags
         (Contributor Terms). Þú þarft ekki endilega að samþykkja þá, en þú verður
         að skoða þá.
@@ -2625,7 +2644,7 @@ is:
         fer að senda OAuth-beiðnir á þessa þjónustu.
       new: Skrá nýtt forrit
       name: Nafn
-      permissions: Réttindi
+      permissions: Heimildir
     application:
       edit: Breyta
       delete: Eyða
@@ -2639,16 +2658,16 @@ is:
       delete: Eyða
       confirm_delete: Eyða þessu forriti?
       client_id: Auðkenni biðlara
-      client_secret: Notendu Leyndarmál
-      client_secret_warning: Vertu viss um að vista þessa leyndarmál - það verður
-        ekki nothæft aftur
-      permissions: Réttindi
+      client_secret: Leynikóði biðlara
+      client_secret_warning: Vertu viss um að vista þennan leynikóða - hann verður
+        ekki aðgengilegur aftur
+      permissions: Heimildir
       redirect_uris: Tilvísa tengslar
     not_found:
       sorry: Því miður, forritið fannst ekki.
   oauth2_authorizations:
     new:
-      title: Réttindi Nauðsynleg
+      title: Heimildar er krafist
       introduction: Veita %{application} aðgang að aðgangnum þínum með eftirfarandi
         réttindi?
       authorize: Leyfa
@@ -2661,7 +2680,7 @@ is:
     index:
       title: Auðkenndu forritin mín
       application: Forrit
-      permissions: Réttindi
+      permissions: Heimildir
       no_applications_html: Þú hefur ekki ennþá heimilað nein %{oauth2} forrit.
     application:
       revoke: Afturkalla aðgang
@@ -2696,7 +2715,7 @@ is:
       title: Skilmálar
       heading: Skilmálar
       heading_ct: Skilmálar vegna framlags
-      read and accept with tou: Vinsamlega lestu samkomulag vegna framlaga auk notkunarskilmálanna,
+      read and accept with tou: Endilega lestu samkomulagið vegna framlaga auk notkunarskilmálanna,
         merktu í báða reitina þegar því er lokið og ýttu á hnappinn til að halda áfram.
       contributor_terms_explain: Þessir skilmálar eru forsendur fyrir núverandi- jafnt
         sem framtíðar-framlögum þínum.
@@ -2741,18 +2760,18 @@ is:
       my settings: Stillingarnar mínar
       my comments: Athugasemdir mínar
       my_preferences: Valmöguleikar
-      my_dashboard: Stjórnborðið Mitt
+      my_dashboard: Stjórnborðið mitt
       blocks on me: Bönn gegn mér
       blocks by me: Bönn eftir mig
-      edit_profile: Breyta Notandasíðu
+      edit_profile: Breyta notandasíðu
       send message: Senda skilaboð
       diary: Blogg
       edits: Breytingar
       traces: Ferlar
       notes: Minnispunktar á korti
-      remove as friend: fjarlægja úr vinahópi
-      add as friend: bæta við sem vini
-      mapper since: 'Notandi síðan:'
+      remove as friend: Fjarlægja úr vinum
+      add as friend: Bæta við sem vini
+      mapper since: 'Í kortlagningu síðan:'
       ct status: 'Skilmálar vegna framlags:'
       ct undecided: Óvíst
       ct declined: Hafnað
@@ -2779,8 +2798,8 @@ is:
       activate_user: Virkja þennan notanda
       deactivate_user: Gera þennan notanda óvirkan
       confirm_user: Staðfesta þennan notanda
-      unconfirm_user: Óstaðfesta þennan notanda
-      unsuspend_user: Óbanna þessum Notanda
+      unconfirm_user: Afturkalla staðfestingu þessa notanda
+      unsuspend_user: Afturkalla frystingu þessa notanda
       hide_user: Fela þennan notanda
       unhide_user: Af-fela þennan notanda
       delete_user: Eyða þessum notanda
@@ -2802,7 +2821,7 @@ is:
       hide: Fela valda notendur
       empty: Engir samsvarandi notendur fundust
     suspended:
-      title: Aðgangur frystur
+      title: Aðgangi lokað
       heading: Aðgangur frystur
       support: Aðstoð
       automatically_suspended: Því miður hefur reikningnum þínum verið sjálfvirkt
@@ -3033,8 +3052,8 @@ is:
       tooltip_disabled: Kortaskýringar ekki tiltækar fyrir þetta lag
     map:
       zoom:
-        in: Þysja Inn
-        out: Þysja Út
+        in: Renna að
+        out: Renna frá
       locate:
         title: Birta staðsetningu mína
         metersPopup:
@@ -3070,13 +3089,13 @@ is:
         France</a>
     site:
       edit_tooltip: Breyta kortinu
-      edit_disabled_tooltip: Þysja inn til að breyta kortinu
+      edit_disabled_tooltip: Renndu að til að breyta kortinu
       createnote_tooltip: Bæta við minnispunkti á kortið
-      createnote_disabled_tooltip: Þysja inn til að bæta minnispunkti á kortið
-      map_notes_zoom_in_tooltip: Þysja inn til að sjá minnispunkta á kortinu
-      map_data_zoom_in_tooltip: Þysja inn til að skoða gögn kortsins
+      createnote_disabled_tooltip: Renndu að til að bæta minnispunkti á kortið
+      map_notes_zoom_in_tooltip: Renndu að til að sjá minnispunkta á kortinu
+      map_data_zoom_in_tooltip: Renndu að til að skoða gögn kortsins
       queryfeature_tooltip: Rannsaka fitjur
-      queryfeature_disabled_tooltip: Þysja inn til að rannsaka fitjur
+      queryfeature_disabled_tooltip: Renndu að til að rannsaka fitjur
     changesets:
       show:
         comment: Athugasemd
@@ -3090,14 +3109,19 @@ is:
       ascend: Fara upp
       engines:
         fossgis_osrm_bike: Hjólreiðar (OSRM)
-        fossgis_osrm_car: Bíll (OSRM)
+        fossgis_osrm_car: Akandi (OSRM)
         fossgis_osrm_foot: Fótgangandi (OSRM)
-        graphhopper_bicycle: Reiðhjól (GraphHopper)
-        graphhopper_car: Bíll (GraphHopper)
+        graphhopper_bicycle: Hjólandi (GraphHopper)
+        graphhopper_car: Akandi (GraphHopper)
         graphhopper_foot: Fótgangandi (GraphHopper)
+        fossgis_valhalla_bicycle: Hjólandi (Valhalla)
+        fossgis_valhalla_car: Akandi (Valhalla)
+        fossgis_valhalla_foot: Fótgangandi (Valhalla)
       descend: Fara niður
       directions: Leiðir
       distance: Vegalengd
+      distance_m: '%{distance}m'
+      distance_km: '%{distance}km'
       errors:
         no_route: Gat ekki fundið leið á milli þessara tveggja staða.
         no_place: Því miður - gat ekki fundið '%{place}'.
@@ -3181,7 +3205,7 @@ is:
           tenth: "10."
       time: Tími
     query:
-      node: Hnútur
+      node: Liður
       way: Leið
       relation: Vensl
       nothing_found: Engar fitjur fundust
