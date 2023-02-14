@@ -50,7 +50,7 @@ OSM.NewNote = function (map) {
       data: {
         lat: location.lat,
         lon: location.lng,
-        text: $(form.text).val()
+        text: $(form.text).val() + "#osm.org"
       },
       success: function (feature) {
         noteCreated(feature, marker);
