@@ -1,0 +1,18 @@
+<% content_for :heading do %>
+  <h1><%= t(".title") %></h1>
+  <nav class="secondary-actions">
+    <ul class='clearfix'>
+      <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_community_path, :title => t(".new_title") %></li>
+    </ul>
+  </nav>
+<% end %>
+
+<% if @communities_organized %>
+  <%= render :partial => "index_list", :locals => { :communities => @communities_organized, :header => t(".communities_organized") } %>
+<% end %>
+
+<p>
+  <%= t(".sorted_by") %>
+</p>
+
+<%= render :partial => "index_list", :locals => { :communities => @all_communities, :header => t(".all") } %>

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :microcosm do
+  factory :community do
     # Make sure the ranges make sense.
     lat1 = Random.rand(-90.0..90.0)
     lat2 = Random.rand(-90.0..90.0)
@@ -10,7 +10,7 @@ FactoryBot.define do
     lat = Random.rand(lat1..lat2)
     lon = Random.rand(lon1..lon2)
 
-    sequence(:name) { |n| "Microcosm #{n}" }
+    sequence(:name) { |n| "Community #{n}" }
     sequence(:description) { |n| "This is description #{n}" }
     sequence(:location) { |n| "This is location #{n}" }
     organizer :factory => :user

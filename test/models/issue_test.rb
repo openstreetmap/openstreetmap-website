@@ -12,7 +12,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_reported_user
     create(:language, :code => "en")
     user = create(:user)
-    microcosm = create(:microcosm)
+    community = create(:community)
     note = create(:note_comment, :author => create(:user)).note
     anonymous_note = create(:note_comment, :author => nil).note
     diary_entry = create(:diary_entry)
@@ -22,9 +22,9 @@ class IssueTest < ActiveSupport::TestCase
     issue.save!
     assert_equal issue.reported_user, user
 
-    issue = build(:issue, :reportable => microcosm, :assigned_role => "moderator")
+    issue = build(:issue, :reportable => community, :assigned_role => "moderator")
     issue.save!
-    assert_equal issue.reported_user, microcosm.organizer
+    assert_equal issue.reported_user, community.organizer
 
     issue = build(:issue, :reportable => note, :assigned_role => "administrator")
     issue.save!

@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :microcosm_link do
-    microcosm
+  factory :community_link do
+    community
     site { "website" }
     url { "https://example.com" }
   end

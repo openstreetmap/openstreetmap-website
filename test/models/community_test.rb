@@ -1,7 +1,7 @@
 require "test_helper"
 
-class MicrocosmTest < ActiveSupport::TestCase
-  def test_microcosm_validations
+class CommunityTest < ActiveSupport::TestCase
+  def test_community_validations
     validate({}, true)
 
     validate({ :name => nil }, false)
@@ -44,13 +44,13 @@ class MicrocosmTest < ActiveSupport::TestCase
 
   def test_bbox
     # arrange
-    m = create(:microcosm)
-    m.min_lat = 10
-    m.max_lat = 20
-    m.min_lon = 30
-    m.max_lon = 40
+    c = create(:community)
+    c.min_lat = 10
+    c.max_lat = 20
+    c.min_lon = 30
+    c.max_lon = 40
     # act
-    b = m.bbox
+    b = c.bbox
     # assert
     assert_equal 10, b.min_lat
     assert_equal 20, b.max_lat

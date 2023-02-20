@@ -323,14 +323,14 @@ OpenStreetMap::Application.routes.draw do
 
   # user nested resources
   resources :users, :path => "user", :param => :display_name do
-    resources :microcosms, :only => [:index]
+    resources :communities, :only => [:index]
   end
 
-  # microcosms
-  resources :microcosms do
-    resources :microcosm_links, :only => [:create, :index, :new]
+  # communities
+  resources :communities do
+    resources :community_links, :only => [:create, :index, :new]
   end
-  resources :microcosm_links, :only => [:destroy, :edit, :update]
+  resources :community_links, :only => [:destroy, :edit, :update]
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all

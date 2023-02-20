@@ -1,11 +1,11 @@
 require "test_helper"
 
-class MicrocosmLinkTest < ActiveSupport::TestCase
-  def test_microcosm_link_validations
+class CommunityLinkTest < ActiveSupport::TestCase
+  def test_community_link_validations
     validate({}, true)
 
-    validate({ :microcosm_id => nil }, false)
-    validate({ :microcosm_id => "" }, false)
+    validate({ :community_id => nil }, false)
+    validate({ :community_id => "" }, false)
 
     validate({ :site => nil }, false)
     validate({ :site => "" }, false)

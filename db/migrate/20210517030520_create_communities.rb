@@ -1,6 +1,6 @@
-class CreateMicrocosms < ActiveRecord::Migration[5.2]
+class CreateCommunities < ActiveRecord::Migration[5.2]
   def change
-    create_table :microcosms do |t|
+    create_table :communities do |t|
       t.string :name, :null => false
       t.text :description, :null => false
       t.references :organizer, :null => false, :foreign_key => { :to_table => :users }

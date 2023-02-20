@@ -1,14 +1,14 @@
-<%= stylesheet_link_tag "microcosms" %>
-<%= javascript_include_tag "microcosms" %>
+<%= stylesheet_link_tag "communities" %>
+<%= javascript_include_tag "communities" %>
 
 <% content_for :heading do %>
   <h1>
-    <%= "#{@microcosm.name} " + t(".header_title") %>
+    <%= "#{@community.name} " + t(".header_title") %>
   </h1>
   <% if current_user %>
-    <%= report_link(t(".report"), @microcosm) %>
-    <% if current_user == @microcosm.organizer %>
-      <%= link_to t(".edit"), edit_microcosm_path(@microcosm) %>
+    <%= report_link(t(".report"), @community) %>
+    <% if current_user == @community.organizer %>
+      <%= link_to t(".edit"), edit_community_path(@community) %>
     <% end %>
   <% end %>
 <% end %>
@@ -17,28 +17,28 @@
   <div class="row">
     <div class="col-sm">
       <%# TODO: replace these attributes @map_coords %>
-      <%= tag.div :id => "microcosm_map", :class => "content_map", :data => { :lat => @microcosm.latitude, :lon => @microcosm.longitude, :zoom => 11 } %>
+      <%= tag.div :id => "community_map", :class => "content_map", :data => { :lat => @community.latitude, :lon => @community.longitude, :zoom => 11 } %>
     </div>
-    <div class="col-sm mic_details">
+    <div class="col-sm community_details">
       <h1>
-        <%= link_to @microcosm.name, @microcosm %>
+        <%= link_to @community.name, @community %>
       </h1>
       <p>
-        <%= @microcosm.location %>, <%= @microcosm.latitude %>, <%= @microcosm.longitude %>
+        <%= @community.location %>, <%= @community.latitude %>, <%= @community.longitude %>
       </p>
       <p>
-        <%= auto_link @microcosm.description %>
+        <%= auto_link @community.description %>
       </p>
       <div class="d-flex">
         <label>
-          <% if current_user == @microcosm.organizer %>
-              <%= link_to t(".links"), microcosm_microcosm_links_path(@microcosm) %>
+          <% if current_user == @community.organizer %>
+              <%= link_to t(".links"), community_community_links_path(@community) %>
             <% else %>
               <%= t(".links") %>
           <% end %>
         </label>
         <ul class="ps-2 breadcrumb">
-          <% @microcosm.microcosm_links.each do |link| %>
+          <% @community.community_links.each do |link| %>
             <li class="breadcrumb-item">
               <a href="<%= link.url %>"><%= link.site %></a>
             </li>
@@ -47,12 +47,12 @@
       </div>
       <div>
         <label><%= t(".organizer") %></label>
-        <%= link_to @microcosm.organizer.display_name, user_path(@microcosm.organizer) %>
+        <%= link_to @community.organizer.display_name, user_path(@community.organizer) %>
       </div>
       <div>
         <label><%= t(".links") %></label>
         <ul>
-          <% @microcosm.microcosm_links.each do |link| %>
+          <% @community.community_links.each do |link| %>
             <li>
               <a href="<%= link.url %>"><%= link.site %></a>
             </li>

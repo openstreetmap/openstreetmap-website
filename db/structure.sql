@@ -392,6 +392,80 @@ ALTER SEQUENCE public.client_applications_id_seq OWNED BY public.client_applicat
 
 
 --
+-- Name: communities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.communities (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text NOT NULL,
+    organizer_id bigint NOT NULL,
+    slug character varying NOT NULL,
+    location character varying NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    min_lat double precision NOT NULL,
+    max_lat double precision NOT NULL,
+    min_lon double precision NOT NULL,
+    max_lon double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: communities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.communities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: communities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.communities_id_seq OWNED BY public.communities.id;
+
+
+--
+-- Name: community_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.community_links (
+    id bigint NOT NULL,
+    community_id bigint NOT NULL,
+    site character varying NOT NULL,
+    url character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: community_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.community_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: community_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.community_links_id_seq OWNED BY public.community_links.id;
+
+
+--
 -- Name: current_node_tags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -936,80 +1010,6 @@ CREATE SEQUENCE public.messages_id_seq
 --
 
 ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
-
-
---
--- Name: microcosm_links; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.microcosm_links (
-    id bigint NOT NULL,
-    microcosm_id bigint NOT NULL,
-    site character varying NOT NULL,
-    url character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: microcosm_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.microcosm_links_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: microcosm_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.microcosm_links_id_seq OWNED BY public.microcosm_links.id;
-
-
---
--- Name: microcosms; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.microcosms (
-    id bigint NOT NULL,
-    name character varying NOT NULL,
-    description text NOT NULL,
-    organizer_id bigint NOT NULL,
-    slug character varying NOT NULL,
-    location character varying NOT NULL,
-    latitude double precision NOT NULL,
-    longitude double precision NOT NULL,
-    min_lat double precision NOT NULL,
-    max_lat double precision NOT NULL,
-    min_lon double precision NOT NULL,
-    max_lon double precision NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: microcosms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.microcosms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: microcosms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.microcosms_id_seq OWNED BY public.microcosms.id;
 
 
 --
@@ -1686,6 +1686,20 @@ ALTER TABLE ONLY public.client_applications ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: communities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities ALTER COLUMN id SET DEFAULT nextval('public.communities_id_seq'::regclass);
+
+
+--
+-- Name: community_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links ALTER COLUMN id SET DEFAULT nextval('public.community_links_id_seq'::regclass);
+
+
+--
 -- Name: current_nodes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1774,20 +1788,6 @@ ALTER TABLE ONLY public.issues ALTER COLUMN id SET DEFAULT nextval('public.issue
 --
 
 ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
-
-
---
--- Name: microcosm_links id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.microcosm_links ALTER COLUMN id SET DEFAULT nextval('public.microcosm_links_id_seq'::regclass);
-
-
---
--- Name: microcosms id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.microcosms ALTER COLUMN id SET DEFAULT nextval('public.microcosms_id_seq'::regclass);
 
 
 --
@@ -1943,6 +1943,22 @@ ALTER TABLE ONLY public.changesets
 
 ALTER TABLE ONLY public.client_applications
     ADD CONSTRAINT client_applications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: communities communities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities
+    ADD CONSTRAINT communities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: community_links community_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links
+    ADD CONSTRAINT community_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -2103,22 +2119,6 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
-
-
---
--- Name: microcosm_links microcosm_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.microcosm_links
-    ADD CONSTRAINT microcosm_links_pkey PRIMARY KEY (id);
-
-
---
--- Name: microcosms microcosms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.microcosms
-    ADD CONSTRAINT microcosms_pkey PRIMARY KEY (id);
 
 
 --
@@ -2565,6 +2565,27 @@ CREATE INDEX index_client_applications_on_user_id ON public.client_applications 
 
 
 --
+-- Name: index_communities_on_organizer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_communities_on_organizer_id ON public.communities USING btree (organizer_id);
+
+
+--
+-- Name: index_communities_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_communities_on_slug ON public.communities USING btree (slug);
+
+
+--
+-- Name: index_community_links_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_links_on_community_id ON public.community_links USING btree (community_id);
+
+
+--
 -- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2646,27 +2667,6 @@ CREATE INDEX index_issues_on_status ON public.issues USING btree (status);
 --
 
 CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by);
-
-
---
--- Name: index_microcosm_links_on_microcosm_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_microcosm_links_on_microcosm_id ON public.microcosm_links USING btree (microcosm_id);
-
-
---
--- Name: index_microcosms_on_organizer_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_microcosms_on_organizer_id ON public.microcosms USING btree (organizer_id);
-
-
---
--- Name: index_microcosms_on_slug; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_microcosms_on_slug ON public.microcosms USING btree (slug);
 
 
 --
@@ -3161,27 +3161,19 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: communities fk_rails_15754625a4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities
+    ADD CONSTRAINT fk_rails_15754625a4 FOREIGN KEY (organizer_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_grants fk_rails_330c32d8d9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.oauth_access_grants
     ADD CONSTRAINT fk_rails_330c32d8d9 FOREIGN KEY (resource_owner_id) REFERENCES public.users(id) NOT VALID;
-
-
---
--- Name: microcosm_links fk_rails_4e3be5d646; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.microcosm_links
-    ADD CONSTRAINT fk_rails_4e3be5d646 FOREIGN KEY (microcosm_id) REFERENCES public.microcosms(id);
-
-
---
--- Name: microcosms fk_rails_682f8f4a39; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.microcosms
-    ADD CONSTRAINT fk_rails_682f8f4a39 FOREIGN KEY (organizer_id) REFERENCES public.users(id);
 
 
 --
@@ -3230,6 +3222,14 @@ ALTER TABLE ONLY public.oauth_applications
 
 ALTER TABLE ONLY public.oauth_access_tokens
     ADD CONSTRAINT fk_rails_ee63f25419 FOREIGN KEY (resource_owner_id) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- Name: community_links fk_rails_f60a749c39; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links
+    ADD CONSTRAINT fk_rails_f60a749c39 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -3652,3 +3652,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('7'),
 ('8'),
 ('9');
+
+
