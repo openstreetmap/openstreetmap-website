@@ -195,6 +195,22 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_markdown_table_alignment
+    # Ensure that kramdown table alignment styles are converted to bootstrap classes
+    markdown_table = <<~MARKDOWN
+      | foo  | bar |
+      |:----:|----:|
+      |center|right|
+    MARKDOWN
+    r = RichText.new("markdown", markdown_table)
+    assert_html r do
+      assert_select "td[style='text-align:center']", false
+      assert_select "td[class='text-center']", true
+      assert_select "td[style='text-align:right']", false
+      assert_select "td[class='text-end']", true
+    end
+  end
+
   def test_markdown_to_text
     r = RichText.new("markdown", "foo [bar](http://example.com/) baz")
     assert_equal "foo [bar](http://example.com/) baz", r.to_text
