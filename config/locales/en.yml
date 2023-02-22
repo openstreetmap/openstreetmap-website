@@ -273,9 +273,6 @@ en:
         enabled link text: "what is this?"
         disabled: "Disabled and cannot edit data, all previous edits are anonymous."
         disabled link text: "why can't I edit?"
-      public editing note:
-        heading: "Public editing"
-        html: "Currently your edits are anonymous and people cannot send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below. <b>Since the 0.6 API changeover, only public users can edit map data</b>. (<a href=\"https://wiki.openstreetmap.org/wiki/Anonymous_edits\">find out why</a>).<ul><li>Your email address will not be revealed by becoming public.</li><li>This action cannot be reversed and all new users are now public by default.</li></ul>"
       contributor terms:
         heading: "Contributor Terms"
         agreed: "You have agreed to the new Contributor Terms."
@@ -285,8 +282,17 @@ en:
         link: "https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms"
         link text: "what is this?"
       save changes button: Save Changes
-      make edits public button: Make all my edits public
       delete_account: Delete Account...
+    go_public:
+      heading: "Public editing"
+      currently_not_public: "Currently your edits are anonymous and people cannot send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below."
+      only_public_can_edit: Since the 0.6 API changeover, only public users can edit map data.
+      find_out_why_html: (%{link}).
+      find_out_why: "find out why"
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+      email_not_revealed: Your email address will not be revealed by becoming public.
+      not_reversible: This action cannot be reversed and all new users are now public by default.
+      make_edits_public_button: Make all my edits public
     update:
       success_confirm_needed: "User information updated successfully. Check your email for a note to confirm your new email address."
       success: "User information updated successfully."
@@ -2052,7 +2058,9 @@ en:
       map_image: "Map Image (shows standard layer)"
       embeddable_html: "Embeddable HTML"
       licence: "Licence"
-      export_details_html: 'OpenStreetMap data is licensed under the <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL).'
+      licence_details_html: OpenStreetMap data is licensed under the %{odbl_link} (ODbL).
+      odbl: Open Data Commons Open Database License
+      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: "If the above export fails, please consider using one of the sources listed below:"
         body: "This area is too large to be exported as OpenStreetMap XML Data. Please zoom in or select a smaller area, or use one of the sources listed below for bulk data downloads."
@@ -2152,6 +2160,15 @@ en:
       removed: Your default OpenStreetMap editor is set as Potlatch. Because Adobe Flash Player has been withdrawn, Potlatch is no longer available to use in a web browser.
       desktop_html: You can still use Potlatch by <a href="https://www.systemed.net/potlatch/">downloading the desktop application for Mac and Windows</a>.
       id_html: Alternatively, you can set your default editor to iD, which runs in your web browser as Potlatch formerly did. <a href="%{settings_url}">Change your preferences here</a>.
+    any_questions:
+      title: Any questions?
+      paragraph_1_html: |
+        OpenStreetMap has several resources for learning about the project, asking and answering
+        questions, and collaboratively discussing and documenting mapping topics.
+        %{help_link}. With an organization making plans for OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Get help here
+      welcome_mat: Check out the Welcome Mat
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Search Results
       close: Close
@@ -2238,57 +2255,56 @@ en:
           toilets: "Toilets"
     welcome:
       title: Welcome!
-      introduction_html: |
+      introduction: |
         Welcome to OpenStreetMap, the free and editable map of the world. Now that you're signed
         up, you're all set to get started mapping. Here's a quick guide with the most important
         things you need to know.
       whats_on_the_map:
         title: What's on the Map
-        on_html: |
-          OpenStreetMap is a place for mapping things that are both <em>real and current</em> -
+        on_the_map_html: |
+          OpenStreetMap is a place for mapping things that are both %{real_and_current} -
           it includes millions of buildings, roads, and other details about places. You can map
           whatever real-world features are interesting to you.
-        off_html: |
-          What it <em>doesn't</em> include is opinionated data like ratings, historical or
+        real_and_current: real and current
+        off_the_map_html: |
+          What it %{doesnt} include is opinionated data like ratings, historical or
           hypothetical features, and data from copyrighted sources. Unless you have special
           permission, don't copy from online or paper maps.
+        doesnt: doesn't
       basic_terms:
         title: Basic Terms For Mapping
-        paragraph_1_html: |
+        paragraph_1: |
           OpenStreetMap has some of its own lingo. Here are a few key words that'll come in handy.
-        editor_html: |
-          An <strong>editor</strong> is a program or website you can use to edit the map.
-        node_html: |
-          A <strong>node</strong> is a point on the map, like a single restaurant or a tree.
-        way_html: |
-          A <strong>way</strong> is a line or area, like a road, stream, lake or building.
-        tag_html: |
-          A <strong>tag</strong> is a bit of data about a node or way, like a
-          restaurant's name or a road's speed limit.
+        an_editor_html: An %{editor} is a program or website you can use to edit the map.
+        a_node_html: A %{node} is a point on the map, like a single restaurant or a tree.
+        a_way_html: A %{way} is a line or area, like a road, stream, lake or building.
+        a_tag_html: A %{tag} is a bit of data about a node or way, like a restaurant's name or a road's speed limit.
+        editor: editor
+        node: node
+        way: way
+        tag: tag
       rules:
         title: Rules!
-        paragraph_1_html: |
+        para_1_html: |
           OpenStreetMap has few formal rules but we expect all participants to collaborate
           with, and communicate with, the community. If you are considering
           any activities other than editing by hand, please read and follow the guidelines on
-          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Imports</a> and
-          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Automated Edits</a>.
-      questions:
-        title: Any questions?
-        paragraph_1_html: |
-          OpenStreetMap has several resources for learning about the project, asking and answering
-          questions, and collaboratively discussing and documenting mapping topics.
-          <a href='%{help_url}'>Get help here</a>. With an organization making plans for OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Check out the Welcome Mat</a>.
+          %{imports_link} and %{automated_edits_link}.
+        imports: Imports
+        imports_url: https://wiki.openstreetmap.org/wiki/Import/Guidelines
+        automated_edits: Automated Edits
+        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Start Mapping
       add_a_note:
         title: No Time To Edit? Add a Note!
-        paragraph_1_html: |
+        para_1: |
           If you just want something small fixed and don't have the time to sign up and learn how to edit, it's
           easy to add a note.
-        paragraph_2_html: |
-          Just go to <a href='%{map_url}'>the map</a> and click the note icon:
-          <span class='icon note'></span>. This will add a marker to the map, which you can move
-          by dragging. Add your message, then click save, and other mappers will investigate.
+        para_2_html: |
+          Just go to %{map_link} and click the note icon: %{note_icon}.
+          This will add a marker to the map, which you can move by dragging.
+          Add your message, then click save, and other mappers will investigate.
+        the_map: the map
     communities:
       title: Communities
       lede_text: |
@@ -2388,7 +2404,11 @@ en:
       public_traces_from: "Public GPS Traces from %{user}"
       description: "Browse recent GPS trace uploads"
       tagged_with: " tagged with %{tags}"
-      empty_html: "Nothing here yet. <a href='%{upload_link}'>Upload a new trace</a> or learn more about GPS tracing on the <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki page</a>."
+      empty_title: Nothing here yet
+      empty_upload_html: "%{upload_link} or learn more about GPS tracing on the %{wiki_link}."
+      upload_new: Upload a new trace
+      wiki_page: wiki page
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: "Upload a trace"
       all_traces: "All Traces"
       my_traces: "My Traces"
@@ -2553,10 +2573,8 @@ en:
       support: support
       about:
         header: Free and editable
-        html: |
-          <p>Unlike other maps, OpenStreetMap is completely created by people like you,
-          and it's free for anyone to fix, update, download and use.</p>
-          <p>Sign up to get started contributing. We'll send an email to confirm your account.</p>
+        paragraph_1: Unlike other maps, OpenStreetMap is completely created by people like you, and it's free for anyone to fix, update, download and use.
+        paragraph_2: Sign up to get started contributing. We'll send an email to confirm your account.
       email address: "Email Address:"
       confirm email address: "Confirm Email Address:"
       display name: "Display Name:"

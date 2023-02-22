@@ -76,5 +76,7 @@
 
   <%= render "trace_paging_nav", :page => @page, :page_size => @page_size, :traces => @traces, :params => @params %>
 <% else %>
-  <h4><%= t ".empty_html", :upload_link => new_trace_path %></h4>
+  <h2><%= t ".empty_title" %></h2>
+  <p><%= t ".empty_upload_html", :upload_link => link_to(t(".upload_new"), new_trace_path),
+                                 :wiki_link => link_to(t(".wiki_page"), t(".wiki_page_url")) %></p>
 <% end %>

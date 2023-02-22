@@ -6,7 +6,7 @@
   <h1><%= t ".title" %></h1>
 <% end %>
 
-<p class="lead"><%= t ".introduction_html" %></p>
+<p class="lead"><%= t ".introduction" %></p>
 
 <h2><%= t ".whats_on_the_map.title" %></h2>
 
@@ -15,49 +15,48 @@
     <div>
       <span class='sprite small check mx-auto'></span>
     </div>
-    <p><%= t ".whats_on_the_map.on_html" %></p>
+    <p><%= t ".whats_on_the_map.on_the_map_html", :real_and_current => tag.em(t(".whats_on_the_map.real_and_current")) %></p>
   </div>
   <div class='col'>
     <div class='center'>
       <span class='sprite small x mx-auto'></span>
     </div>
-    <p><%= t ".whats_on_the_map.off_html" %></p>
+    <p><%= t ".whats_on_the_map.off_the_map_html", :doesnt => tag.em(t(".whats_on_the_map.doesnt")) %></p>
   </div>
 </div>
 
 <h2><%= t ".basic_terms.title" %></h2>
 
-<p><%= t ".basic_terms.paragraph_1_html" %></p>
+<p><%= t ".basic_terms.paragraph_1" %></p>
 
 <div class='clearfix'>
   <div class='clearfix'>
     <span class='sprite small term editor float-start'></span>
-    <p><%= t ".basic_terms.editor_html" %></p>
+    <p><%= t ".basic_terms.an_editor_html", :editor => tag.strong(t(".basic_terms.editor")) %></p>
   </div>
   <div class='clearfix'>
     <span class='sprite small term node float-start'></span>
-    <p><%= t ".basic_terms.node_html" %></p>
+    <p><%= t ".basic_terms.a_node_html", :node => tag.strong(t(".basic_terms.node")) %></p>
   </div>
   <div class='clearfix'>
     <span class='sprite small term way float-start'></span>
-    <p><%= t ".basic_terms.way_html" %></p>
+    <p><%= t ".basic_terms.a_way_html", :way => tag.strong(t(".basic_terms.way")) %></p>
   </div>
   <div class='clearfix'>
     <span class='sprite small term tag float-start'></span>
-    <p><%= t ".basic_terms.tag_html" %></p>
+    <p><%= t ".basic_terms.a_tag_html", :tag => tag.strong(t(".basic_terms.tag")) %></p>
   </div>
 </div>
 
 <div class='clearfix'>
   <h2><%= t ".rules.title" %></h2>
   <span class='sprite small term rules float-start'></span>
-  <p><%= t ".rules.paragraph_1_html" %></p>
+  <p><%= t ".rules.para_1_html", :imports_link => link_to(t(".rules.imports"), t(".rules.imports_url")),
+                                 :automated_edits_link => link_to(t(".rules.automated_edits"), t(".rules.automated_edits_url")) %></p>
 </div>
 
 <div class='clearfix'>
-  <h2><%= t ".questions.title" %></h2>
-  <span class='sprite small term question float-start'></span>
-  <p><%= t ".questions.paragraph_1_html", :help_url => help_path %></p>
+  <%= render "any_questions" %>
 </div>
 
 <div class='clearfix text-center'>
@@ -66,6 +65,7 @@
 
 <div class='alert alert-primary'>
   <h2><%= t ".add_a_note.title" %></h2>
-  <p><%= t ".add_a_note.paragraph_1_html" %></p>
-  <p><%= t ".add_a_note.paragraph_2_html", :map_url => root_path %></p>
+  <p><%= t ".add_a_note.para_1" %></p>
+  <p><%= t ".add_a_note.para_2_html", :map_link => link_to(t(".add_a_note.the_map"), root_path),
+                                      :note_icon => tag.span(:class => "icon note") %></p>
 </div>
