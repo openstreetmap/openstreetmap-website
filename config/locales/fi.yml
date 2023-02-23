@@ -329,16 +329,6 @@ fi:
         enabled link text: Mitä tämä tarkoittaa?
         disabled: Ei. Karttatietojen muokkaus estetty. Aiemmat karttamuutokset anonyymejä.
         disabled link text: Miksen voi enää muokata karttaa?
-      public editing note:
-        heading: Muokkaukset julkisia
-        html: Tällä hetkellä muokkauksesi ovat yksityisiä ja ihmiset eivät voi lähettää
-          sinulle viestejä tai nähdä sijaintiasi. Nähdääksesi mitä olet muokannut
-          ja salliaksesi ihmisten lähettää sinulle viestejä nettisivun kautta, napsauta
-          alla olevaa painiketta. <b>0.6 API versioon siirtymisen jälkeen vain yleiset
-          käyttäjät voivat muokata kartan dataa.</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">Katso
-          täältä miksi</a>).<ul><li>Sähköpostiosoitettasi ei saateta julkiseen tietoon.</li><li>Tätä
-          toimintoa ei voi perua ja kaikki uudet käyttäjät ovat automaattisesti julkisia.<a
-          href="https://wiki.openstreetmap.org/wiki/Anonymous_edits"></a></li></ul>
       contributor terms:
         heading: Osallistumisehdot
         agreed: Olet hyväksynyt osallistumisehdot.
@@ -349,8 +339,10 @@ fi:
           vapaita (Public Domain).
         link text: Mitä tämä tarkoittaa?
       save changes button: Tallenna muutokset
-      make edits public button: Tee muokkauksistani julkisia
       delete_account: Poista käyttäjä...
+    go_public:
+      heading: Muokkaukset julkisia
+      make_edits_public_button: Tee muokkauksistani julkisia
     update:
       success_confirm_needed: Käyttäjätietojen muutokset on tallennettu. Vahvista
         uusi sähköpostiosoite siihen lähetettyjen ohjeiden mukaisesti.
@@ -2111,8 +2103,6 @@ fi:
       map_image: Karttakuva (näyttää standarditason)
       embeddable_html: HTML-koodi
       licence: Lisenssi
-      export_details_html: OpenStreetMap-karttatietoja saa käyttää <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a> (ODbL) (engl.) ehdoilla.
       too_large:
         advice: 'Jos vientitoiminto ei toimi, kokeile myös seuraavia palveluja:'
         body: 'Näin suurta aluetta ei voi viedä OpenStreetMap XML-tiedostona. Lähennä
@@ -2216,6 +2206,8 @@ fi:
         ja PC-ohjelmalla</a>.
       id_html: Vaihtoehtoisesti voit siirtyä iD-ohjelman käyttöön, joka toimii verkkoselaimessa.
         <a href="%{settings_url}">Muuta käyttäjäasetuksiasi</a>.
+    any_questions:
+      title: Kysyttävää?
     sidebar:
       search_results: Hakutulokset
       close: Sulje
@@ -2302,56 +2294,22 @@ fi:
           toilets: Vessat
     welcome:
       title: Tervetuloa!
-      introduction_html: 'Tervetuloa OpenStreetMapiin: ilmaiseen ja vapaasti muokattavaan
+      introduction: 'Tervetuloa OpenStreetMapiin: ilmaiseen ja vapaasti muokattavaan
         maailmankarttaan. Rekisteröityminen on nyt suoritettu, joten olet valmis aloittamaan
         kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.'
       whats_on_the_map:
         title: Kartan sisältö
-        on_html: OpenStreetMapissa voi kartoittaa asioita, jotka ovat <em>olemassa
-          juuri nyt</em> – se sisältää miljoonia rakennuksia, teitä ja muita tietoja
-          maailmasta. Voit kartoittaa mitä tahansa reaalimaailman piirteitä, jotka
-          sinua kiinnostavat.
-        off_html: Kartta <em>ei</em> sisällä mielipiteitä, kuten arvosteluja, historiallisia
-          tai hypoteettisia ominaisuuksia, eikä tietoja tekijänoikeuksin suojatuista
-          lähteistä. Ellei sinulla ole erityistä lupaa, älä kopioi verkko- tai paperikarttoja.
       basic_terms:
         title: Käsitteitä ja termistöä
-        paragraph_1_html: OpenStreetMapissa käytetään paljon vain sille omaista termistöä.
+        paragraph_1: OpenStreetMapissa käytetään paljon vain sille omaista termistöä.
           Kun nämä sanat ovat hallinnassa, olet jo voiton puolella!
-        editor_html: <strong>Muokkausohjelma</strong> tai <strong>kartanmuokkain</strong>
-          (engl. editor) on ohjelmisto tai verkkosivusto, jolla voi muokata karttaa.
-        node_html: <strong>Piste</strong> (engl. node) on pistemäinen kohde kartalla,
-          kuten ravintola tai puu. Näitä kutsutaan paikkapisteiksi. Pisteet, joilla
-          ei ole ominaisuustietoja ja ovat vain viivan osana, kutsutaan myös viivapisteiksi.
-        way_html: Avoin <strong>viiva</strong> (engl. way) on viivamainen kohde, kuten
-          katu tai joki. Suljettu viiva eli <strong>alue</strong> (engl. area) kuvaa
-          aluetta, kuten järveä tai rakennusta.
-        tag_html: <strong>Tagi</strong> eli <strong>ominaisuustieto</strong> kuvaa
-          pisteen, viivan tai alueen käyttötarkoitusta. Tällaisia tietoja ovat esimerkiksi
-          ravintolan nimi tai kadun nopeusrajoitus.
       rules:
         title: Pelisäännöt
-        paragraph_1_html: "OpenStreetMapilla on joitakin muodollisia säännöksiä, mutta
-          oletamme kaikkien käyttäjien tekevän yhteistyötä muiden kanssa. Jos harkitset
-          muita toimintoja kuin perusmuokkausta, lue ohje  <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>tietojen
-          tuonnista</a> ja \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automaattisista
-          muokkauksista</a>."
-      questions:
-        title: Kysyttävää?
-        paragraph_1_html: OpenStreetMapin käyttötukea on saatavilla useilla eri tavoilla.
-          Tutustu OpenStreetMapin <a href='%{help_url}'>ohjekeskukseen</a>. Järjestöille
-          on oma <a href='https://welcome.openstreetmap.org/'>tietokeskuksensa</a>.
       start_mapping: Aloita kartan muokkaaminen
       add_a_note:
         title: Eikö muokkaaminen innosta? Ilmoita karttavirheistä!
-        paragraph_1_html: Jos huomaat kartalla virheen, muttet halua korjata sitä
-          itse, tee siitä karttavirheilmoitus.
-        paragraph_2_html: 'Se on helppoa! Siirry <a href=''%{map_url}''>kartalle</a>
-          ja napsauta <span class=''icon note''></span>-kuvaketta. Siirrä kartalle
-          ilmestyvä karttamerkki virheen kohdalle. Kirjoita virheestä lisätietoja:
-          Suomessa olevista virheistä suomeksi ja muualla olevista virheistä paikallisella
-          kielellä tai englanniksi. Lopuksi tallenna ilmoitus, jolloin muut kartoittajat
-          voivat korjata virheen.'
+        para_1: Jos huomaat kartalla virheen, muttet halua korjata sitä itse, tee
+          siitä karttavirheilmoitus.
     communities:
       title: Yhteisöt
       lede_text: |-
@@ -2448,8 +2406,6 @@ fi:
       public_traces_from: Käyttäjän %{user} julkiset GPS-jäljet
       description: Selaa viimeisimpiä GPS-jälkiä
       tagged_with: ', joilla on tagi %{tags}'
-      empty_html: Sivu on tyhjä. <a href='%{upload_link}'>Lähetä uusi GPS-jälki</a>
-        tai lue lisätietoja GPS-jälkien keräämisestä <a href='https://wiki.openstreetmap.org/wiki/Fi:Beginners_Guide_1.2'>wikisivulta</a>.
       upload_trace: Lisää GPS-jälki
       all_traces: Kaikki jäljet
       my_traces: Omat jäljet
@@ -2619,9 +2575,6 @@ fi:
       support: tuki
       about:
         header: Muokkaa vapaasti
-        html: |-
-          <p>Toisin kuin muut karttapalvelut, OpenStreetMap on täysin yhteisön eli vapaaehtoisten ihmisten luoma. Palvelun käyttö ja muokkaaminen on täysin ilmaista ja vapaata.</p>
-          <p>Aloita kartan kehittäminen rekisteröitymällä. Tämän jälkeen vahvista käyttäjätunnus napsauttamalla linkkiä sähköpostitse lähetettävässä aktivointiviestissä.</p>
       email address: 'Sähköpostiosoite:'
       confirm email address: 'Sähköpostiosoite uudelleen:'
       display name: 'Käyttäjätunnus:'

@@ -345,17 +345,6 @@ nl:
         disabled: Uitgeschakeld. U kunt niet bewerken en al uw eerdere bewerkingen
           zijn anoniem.
         disabled link text: waarom kan ik niets bewerken?
-      public editing note:
-        heading: Openbaar bewerken
-        html: Op dit moment zijn uw bewerkingen anoniem en kunnen andere gebruikers
-          u geen berichten sturen of uw locatie zien. Om uw bewerkingen weer te kunnen
-          geven en andere gebruikers in staat te stellen in contact met u te komen,
-          kunt u op de onderstaande knop klikken. <b>Sinds de overgang naar versie
-          0.6 van de API kunnen alleen publieke gebruikers de kaartgegevens bewerken</b>.
-          (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">Meer informatie</a>).<ul><li>Uw
-          e-mailadres wordt niet publiek gemaakt door uw bewerkingen publiek te maken.</li><li>Deze
-          handeling kan niet ongedaan gemaakt worden en alle nieuwe gebrukers zijn
-          nu standaard publiek.</li></ul>
       contributor terms:
         heading: Bijdragersvoorwaarden
         agreed: U bent akkoord gegaan met de nieuwe Bijdragersovereenkomst.
@@ -367,8 +356,10 @@ nl:
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: wat is dit?
       save changes button: Wijzigingen opslaan
-      make edits public button: Al mijn wijzigingen  openbaar maken
       delete_account: Account verwijderen...
+    go_public:
+      heading: Openbaar bewerken
+      make_edits_public_button: Al mijn wijzigingen  openbaar maken
     update:
       success_confirm_needed: Gebruikersinformatie succesvol bijgewerkt. Controleer
         uw e-mail om uw nieuwe e-mailadres te bevestigen.
@@ -2210,9 +2201,6 @@ nl:
       map_image: Kaartafbeelding (geeft de standaard laag weer)
       embeddable_html: HTML-code
       licence: Licentie
-      export_details_html: OpenStreetMap-gegevens zijn vrijgegeven onder de licentie
-        <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
-        Open Database</a> (ODbL).
       too_large:
         advice: 'Als de bovenstaande export mislukt, overweeg dan één van de onderstaande
           bronnen te gebruiken:'
@@ -2321,6 +2309,8 @@ nl:
       id_html: U kunt ook uw standaardeditor op iD zetten. Dat werkt in uw browser
         zoals Potlatch dat vroeger deed. <a href="%{settings_url}">Wijzig hier uw
         voorkeuren</a>.
+    any_questions:
+      title: Nog vragen?
     sidebar:
       search_results: Zoekresultaten
       close: Sluiten
@@ -2407,51 +2397,23 @@ nl:
           toilets: Toiletten
     welcome:
       title: Welkom!
-      introduction_html: Welkom bij OpenStreetMap, de open en te bewerken kaart van
-        de wereld. Nu u bent aangemeld, kunt u kaarten gaan maken. Hier zijn een aantal
+      introduction: Welkom bij OpenStreetMap, de open en te bewerken kaart van de
+        wereld. Nu u bent aangemeld, kunt u kaarten gaan maken. Hier zijn een aantal
         dingen die belangrijk zijn om te weten.
       whats_on_the_map:
         title: Wat is er op de kaart?
-        on_html: |-
-          OpenStreetMap is plaats voor het in kaart brengen van dingen die <em>echt en actueel</em> zijn -
-          we hebben een kaart met miljoenen gebouwen, wegen en andere details over plaatsen.
-          U kunt alles uit de echte wereld waar u interesse in hebt in kaart brengen.
-        off_html: |-
-          <em>Geen onderdeel</em> van de kaart zijn subjectieve gegevens zoals waarderingen, historische of hypothetische eigenschappen en gegevens uit bronnen die auteursrechtelijk beschermd zijn. Tenzij u bijzondere toestemming hebt,
-          kunt u niet kopiëren uit kaarten die u online of op papier kunt vinden.
       basic_terms:
         title: Basisbegrippen voor cartografie
-        paragraph_1_html: OpenStreetMap heeft een eigen jargon. Hier volgen een aantal
+        paragraph_1: OpenStreetMap heeft een eigen jargon. Hier volgen een aantal
           woorden die van pas gaan komen.
-        editor_html: Een <strong>editor</strong> is een programma of website die u
-          kunt gebruiken om de kaart te bewerken.
-        node_html: Een <strong>knooppunt</strong> is een punt op de kaart, zoals een
-          enkel restaurant of een boom.
-        way_html: Een <strong>weg</strong> (way) is een lijn of gebied, zoals een
-          weg, een rivier, een meer of een gebouw.
-        tag_html: Een <strong>label</strong> is een eigenschap over een knooppunt
-          of een weg, zoals de naam van een restaurant of de maximumsnelheid op een
-          weg.
       rules:
         title: Regels!
-        paragraph_1_html: |-
-          OpenStreetMap heeft weinig formele regels, maar we verwachten dat alle deelnemers samenwerken en communiceren met de gemeenschap. Als u van plan bent andere activiteiten uit te voeren dan met de hand bewerkingen maken, lees en volg dan de richtlijnen voor
-          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Imports</a> en
-          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Geautomatiseerde bewerkingen</a>.
-      questions:
-        title: Nog vragen?
-        paragraph_1_html: |-
-          OpenStreetMap bied verschillende hulpbronnen om meer te leren over het project, over het stellen en beantwoorden van vragen, en het gezamenlijk overleggen en documenteren van kaartonderwerpen.
-          <a href='%{help_url}'>Hier vindt u meer informatie</a>. Werkt u bij een organisatie met plannen voor OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Bekijk de Welkomstpagina</a>
       start_mapping: Beginnen met kaarten maken
       add_a_note:
         title: Geen tijd om te bewerken? Voeg een opmerking toe!
-        paragraph_1_html: Als u gewoon iets kleins wilt verbeteren en niet de tijd
-          hebt om u in te schrijven en om te leren hoe te bewerken, kunt u eenvoudig
-          een opmerking toevoegen.
-        paragraph_2_html: |-
-          Ga naar <a href='%{map_url}'>de kaart</a> en klik op het opmerkingssymbool:
-          <span class='icon note'></span>. Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen door te slepen. Voeg uw bericht toe en klik dan op Opslaan, zodat andere mappers het kunnen onderzoeken.
+        para_1: Als u gewoon iets kleins wilt verbeteren en niet de tijd hebt om u
+          in te schrijven en om te leren hoe te bewerken, kunt u eenvoudig een opmerking
+          toevoegen.
     communities:
       title: Gemeenschappen
       lede_text: "Mensen van over de hele wereld dragen bij aan of gebruiken OpenStreetMap.\nHoewel
@@ -2553,8 +2515,6 @@ nl:
       public_traces_from: Openbare gps-trajecten van %{user}
       description: Door recente gps-traject-uploads bladeren
       tagged_with: ' gelabeld met %{tags}'
-      empty_html: Hier is nog niets te zien. <a href='%{upload_link}'>Upload een nieuw
-        traject</a> of kom meer te weten over gps-tracing op de <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikipagina</a>.
       upload_trace: Traject uploaden
       all_traces: Alle trajecten
       my_traces: Mijn trajecten
@@ -2734,9 +2694,6 @@ nl:
       support: ondersteuning
       about:
         header: Open en te bewerken
-        html: |-
-          <p>In tegenstelling tot andere kaarten, is OpenStreetMap volledig gemaakt door mensen net als u en iedereen kan correcties maken, en de kaart bijwerken of downloaden en gebruiken.</p>
-          <p>Registreer u om te beginnen met bijdragen. We sturen een e-mail om uw registratie te bevestigen.</p>
       email address: 'E-mailadres:'
       confirm email address: 'E-mailadres bevestigen:'
       display name: 'Weergavenaam:'

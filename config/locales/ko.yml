@@ -287,13 +287,6 @@ ko:
         enabled link text: 무엇인가요?
         disabled: 바활성화되어 데이터를 편집할 수 없으며, 모든 이전 편집은 익명입니다.
         disabled link text: 왜 편집할 수 없나요?
-      public editing note:
-        heading: 공개 편집
-        html: 현재 편집은 익명으로 나타나며, 다른 사람에게서 메시지를 받을 수 없고 자신의 위치가 공개되지 않습니다. 자신이 편집한 것을
-          드러내고 다른 사람이 웹 사이트를 통해 연락할 수 있게 하려면 아래 버튼을 클릭하세요. <b>0.6 API 개편 이후 공개 사용자만
-          지도 데이터를 편집할 수 있습니다</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">이유
-          알아보기</a>).<ul><li>공개 사용자가 되더라도 이메일 주소는 공개되지 않습니다.</li><li>이 동작은 취소할 수 없으며,
-          모든 새로운 사용자는 현재 기본적으로 공개 계정입니다.</li></ul>
       contributor terms:
         heading: 기여자 약관
         agreed: 새 기여자 약관에 동의했습니다.
@@ -302,8 +295,10 @@ ko:
         agreed_with_pd: 또한 자신의 편집이 퍼블릭 도메인에 있어야 한다고 생각하는 것도 선언하고 있습니다.
         link text: 무엇인가요?
       save changes button: 변경사항 저장
-      make edits public button: 내 편집을 공개하기
       delete_account: 계정 삭제...
+    go_public:
+      heading: 공개 편집
+      make_edits_public_button: 내 편집을 공개하기
     update:
       success_confirm_needed: 사용자 정보를 성공적으로 업데이트했습니다. 새 이메일 주소를 확인하기 위해 이메일을 확인하세요.
       success: 사용자 정보를 성공적으로 업데이트했습니다.
@@ -633,7 +628,7 @@ ko:
           windsock: 바람자루
         amenity:
           animal_shelter: 동물 보호소
-          arts_centre: 아트 센터
+          arts_centre: 예술의 전당
           atm: ATM
           bank: 은행
           bar: 주점
@@ -1271,7 +1266,7 @@ ko:
           camp_site: 캠프장
           caravan_site: 캐러밴 사이트
           chalet: 샬렛
-          gallery: 갤러리
+          gallery: 미술관
           guest_house: 게스트 하우스
           hostel: 호스텔
           hotel: 호텔
@@ -1466,7 +1461,7 @@ ko:
     communities: 커뮤니티
     community: 공동체
     community_blogs: 공동체 블로그
-    community_blogs_title: OpenStreetMap 커뮤니티의 회원에서의 블로그
+    community_blogs_title: OpenStreetMap 커뮤니티 회원 블로그
     foundation: 재단
     foundation_title: OpenStreetMap 재단
     make_a_donation:
@@ -1776,8 +1771,8 @@ ko:
       next: 다음
       copyright_html: <span>&copy;</span>OpenStreetMap<br>기여자
       used_by_html: '%{name}은 수많은 웹사이트와 모바일 앱, 하드웨어 장치를 위해 지도 자료를 제공합니다'
-      lede_text: OpenStreetMap은 도로나 오솔길, 카페, 기차역 등에 대한 전세계에 있는 자료를 유지하고 기여하는 지도 제작자
-        공동체로부터 제작됩니다.
+      lede_text: OpenStreetMap은 전 세계의 도로나 오솔길, 카페, 기차역을 비롯한 다양한 정보를 관리하고 기여하는 지도 편집자
+        공동체가 만들어 나갑니다.
       local_knowledge_title: 지역 지식
       local_knowledge_html: OpenStreetMap은 지역 지식을 강조합니다. 기여자는 OSM이 정확하고 최신 상태라는 것이
         확인되는 항공 사진이나 GPS 장치, 저차원 기술분야 지도를 사용합니다.
@@ -1948,8 +1943,6 @@ ko:
       map_image: 지도 그림 (표준 레이어 보이기)
       embeddable_html: 내장된 HTML
       licence: 라이선스
-      export_details_html: OpenStreetMap 데이터는 <a href="https://opendatacommons.org/licenses/odbl/1.0/">오픈
-        데이터 커먼즈 오픈 데이터베이스 라이선스</a>(ODbL)에 따라 사용할 수 있습니다.
       too_large:
         advice: '위의 내보내기가 실패하면, 아래에 나열된 원본 중 하나를 사용하는 것을 고려해주세요:'
         body: 이 지역은 OpenStreetMap XML 데이터로 내보내는 데 너무 넓습니다. 확대하거나 작은 지역을 선택하거나, 대량
@@ -2041,6 +2034,8 @@ ko:
     potlatch:
       desktop_html: <a href="https://www.systemed.net/potlatch/">Mac 및 Windows용 데스크탑
         애플리케이션을 다운로드하여</a> Potlatch를 계속 사용할 수 있습니다.
+    any_questions:
+      title: 질문이 있습니까?
     sidebar:
       search_results: 검색 결과
       close: 닫기
@@ -2127,51 +2122,24 @@ ko:
           toilets: 화장실
     welcome:
       title: 환영합니다!
-      introduction_html: |-
+      introduction: |-
         세계의 자유롭고 편집할 수 있는 지도인, OpenStreetMap에 오신 것을 환영합니다. 지금 가입하면,
         시작된 매핑을 얻도록 모두 설정됩니다. 여기에서 알아야 하는 가장 중요한 것들로 된
         빠른 가이드가 있습니다.
       whats_on_the_map:
         title: 지도는 무엇입니까
-        on_html: |-
-          OpenStreetMap은 <em>현실과 현재</em>를 전부 매핑하기 위한 장소입니다 -
-          장소에 대한 건물, 도로, 그리고 그밖의 자세한 수백만 가지 정보를 포함합니다. 흥미있는
-          현실 세계 지물은 무엇이든 매핑할 수 있습니다.
-        off_html: |-
-          장소에 대한 평가, 역사에 관한 것이나 추측에 의한 정보, 그리고 저작권이 있는 정보처럼
-          독단적인 데이터는 들어갈 수 <em>없습니다</em>. 특별히 허용받지 않으셨다면
-          온라인 지도나 종이 지도에서 복사해오지 마십시오.
       basic_terms:
         title: 매핑하는데 필요한 기본 용어
-        paragraph_1_html: OpenStreetMap에서는 자체 용어가 몇 가지 사용됩니다. 여기에 편리하게 사용할 수 있는 몇
-          가지 핵심 단어가 있습니다.
-        editor_html: <strong>편집기</strong>는 지도를 편집하는 데 사용할 수 있는 프로그램이나 웹사이트입니다.
-        node_html: <strong>점</strong>은 지도상의 한 점으로, 한 군데의 음식점이나 나무 한 그루가 이에 속합니다.
-        way_html: <strong>길</strong>은 지도상의 선이나 구역을 말하며, 도로, 개울, 호수나 건물을 나타냅니다.
-        tag_html: <strong>태그</strong>는 노드나 길을 보충하는 데이터로, 음식점의 이름이나 도로의 속도 제한 같은 것을
-          말합니다.
+        paragraph_1: OpenStreetMap에서는 자체 용어가 몇 가지 사용됩니다. 여기에 편리하게 사용할 수 있는 몇 가지 핵심
+          단어가 있습니다.
       rules:
         title: 여기서 규칙!
-        paragraph_1_html: "OpenStreetMap은 몇 가지 형식적인 규칙이 있지만 우리는 모든 참가자가 협력하고, 공동체와
-          소통하기를 바랍니다.\n여러분이 직접 편집하지 않는 다른 활동을 고려한다면, \n<a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>가져오기</a>와
-          \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>자동화된
-          편집</a>에서의\n다음 가이드라인을 읽고 따라주시기 바랍니다."
-      questions:
-        title: 질문이 있습니까?
-        paragraph_1_html: |-
-          OpenStreetMap에는 프로젝트에 대해 배우고, 질문을 묻고 답하고,
-          매핑 주제를 협력하여 토론하고 문서화하기 위한 여러 자료가 있습니다.
-          <a href='%{help_url}'>여기서 도움을 얻으세요</a>. OpenStreetMap에 기여할 계획을 가진 조직에 속해 있나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
       start_mapping: 매핑 시작
       add_a_note:
         title: 편집할 시간이 없습니까? 참고를 추가하세요!
-        paragraph_1_html: |-
+        para_1: |-
           그냥 한 가지 간단한 것이 고칠 게 있다거나 가입하면서 편집하는 방법을 배우기에 시간이 없다면,
           참고를 추가하는 것이 낫습니다.
-        paragraph_2_html: |-
-          <a href='%{map_url}'>지도</a>로 가고 나서 참고 아이콘을 클릭하세요:
-          <span class='icon note'></span>. 드래그하여 이동할 수 있는 표시가 지도에 추가됩니다.
-          메시지를 추가하고 나서, 저장을 클릭하면, 다른 매퍼가 조사할 것입니다.
     communities:
       title: 커뮤니티
       lede_text: |-
@@ -2268,9 +2236,6 @@ ko:
       public_traces_from: '%{user}님의 공개 GPS 궤적'
       description: 최근의 GPS 궤적 업로드 항목 둘러보기
       tagged_with: '%{tags}(으)로 태그함'
-      empty_html: 여기에는 아직 아무것도 없습니다. <a href='%{upload_link}'>새 궤적 올리기</a>를 사용하거나
-        <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>위키 문서</a>에서
-        GPS 궤적에 대해 더 알아보세요.
       upload_trace: 궤적 올리기
       all_traces: 모든 궤적
       my_traces: 내 발자취
@@ -2437,10 +2402,6 @@ ko:
       support: 지원
       about:
         header: 자유롭게 편집 가능
-        html: |-
-          <p>다른 지도와는 달리, OpenStreetMap은 완전히 여러분과 같은 사람들이 만들어,
-          누구나 자유롭게 고치고, 갱신하며, 내려받아 사용할 수 있습니다.</p>
-          <p>기여를 시작하려면 가입하세요. 계정 확인용 이메일을 보내드립니다.</p>
       email address: '이메일 주소:'
       confirm email address: '이메일 주소 확인:'
       display name: '표시 이름:'

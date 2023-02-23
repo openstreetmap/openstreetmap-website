@@ -163,17 +163,6 @@ gd:
         disabled: À comas agus chan fhaod thu dàta a dheasachadh, bith gach deasachadh
           a rinn thu roimhe gun urra.
         disabled link text: Carson nach urrainn dhomh deasachadh?
-      public editing note:
-        heading: 'Deasachadh poblach:'
-        html: Cha nochd d' ainm leis na dheasaicheas tu aig an àm seo agus chan fhaodar
-          teachdaireachd a chur thugad no sealltainn far a bheil thu. Gus na dheasaich
-          thu a shealltainn agus cead a thoirt do chàch gun cuir iad fios thugad air
-          an làrach-lìn, briog air a' phutan gu h-ìosal. <b>O na ghluais sinn dha
-          tionndadh 0.6 dhen API, chan fhaod ach cleachdaichean poblach dàta a' mhapa
-          a dheasachadh</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">faigh
-          a-mach carson</a>).<ul><li>Cha dèid an seòladh puist-d agad fhoillseachadh
-          nuair a thèid thu 'nad deasaiche poblach.</li><li>Cha ghabh an gnìomh seo
-          a neo-dhèanamh agus bidh gach cleachdaiche ùr poblach o thùs o seo a-mach.</li></ul>
       contributor terms:
         heading: 'Teirmichean a'' chom-pàirtiche:'
         agreed: Dh'aontaich thu ri teirmichean ùra a' chom-pàirtiche.
@@ -185,7 +174,9 @@ gd:
           chur ris a' Public Domain.
         link text: Dè th`ann?
       save changes button: Sàbhail na dh'atharraich thu
-      make edits public button: Dèan fear poblach de gach deasachadh a rinn mi
+    go_public:
+      heading: 'Deasachadh poblach:'
+      make_edits_public_button: Dèan fear poblach de gach deasachadh a rinn mi
     update:
       success_confirm_needed: Chaidh fiosrachadh a' chleachdaiche ùrachadh gu soirbheachail.
         Thoir sùil air a' phost-d agad gus an seòladh puist-d ùr agad a dhearbhadh.
@@ -1443,8 +1434,6 @@ gd:
       map_image: Dealbh a' mhapa (seallaidh seo a' bhreath stannardach)
       embeddable_html: HTML a ghabhas leabachadh
       licence: Ceadachas
-      export_details_html: Tha OpenStreetMap fo cheadachas <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Ma dh''fhàilligeas leis an às-phortadh gu h-àrd, feuch an cleachd
           thu aon dhe na tùsan gu h-ìosal:'
@@ -1529,6 +1518,8 @@ gd:
       wiki:
         title: wiki.openstreetmap.org
         description: Brabhsaich san uicidh airson docamaideadh mionaideach air OSM.
+    any_questions:
+      title: A bheil ceist sam bith agad?
     sidebar:
       search_results: Toraidhean luirg
       close: Dùin
@@ -1613,46 +1604,22 @@ gd:
           toilets: Taighean-beaga
     welcome:
       title: Fàilte!
-      introduction_html: Fàilte gu OpenStreetMap, mapa saor an t-saoghail a ghabhas
-        deasachadh. Nise on a tha thu air clàradh, tha thu ullamh gus tòiseachadh
-        air an obair-mhapa. Seo treòir luath a bheir eòlas dhut air na rudan as cudromaiche.
+      introduction: Fàilte gu OpenStreetMap, mapa saor an t-saoghail a ghabhas deasachadh.
+        Nise on a tha thu air clàradh, tha thu ullamh gus tòiseachadh air an obair-mhapa.
+        Seo treòir luath a bheir eòlas dhut air na rudan as cudromaiche.
       whats_on_the_map:
         title: Na tha air a' mhapa
-        on_html: |-
-          'S e àite a tha san OpenStreetMap gus mapa a dhèanamh de nithean a tha an dà chuid <em>fìos is làithreach</em> -
-          gabhaidh seo a-steach milleanan de thogalaichean, rathaidean agus fiosrachadh eile mu àiteachan. 'S urrainn dhut feart sam bith an t-saoghail fhìrinnich sa bheil ùidh agad a chur ris a' mhapa.
-        off_html: '''S ann <em>nach gabh e a-steach</em> dàta mu bheachdan a leithid
-          rangachaidhean, feartan eachdraidheil no baralach no dàta o thùsan fo chòir-lethbhreac.
-          Mur eil cead soilleir agad, na dèan lethbhreac o mhapaichean air loidhne
-          no air pàipear.'
       basic_terms:
         title: Teirmichean bunasach airson na h-obrach-mapa
-        paragraph_1_html: Tha cainnt shònraichte air OpenStreetMap. Seo facal no dhà
-          cudromach a bhios feumail dhut.
-        editor_html: '''S e prògram no làrach-lìn a tha ann an <strong>deasaiche</strong>
-          as urrainn dhut cleachdadh gus am mapa a dheasachadh.'
-        node_html: '''S e puing air a'' mhapa a tha ann an <strong>nòd</strong>, can
-          taigh-bìdh no craobh.'
-        way_html: '''S e loidhne no raon a tha ann an <strong>slighe</strong>, can
-          rathad, loch no togalach.'
-        tag_html: '''S e beagan dàta mu nòd no slighe a tha ann an <strong>taga</strong>,
-          can ainm taighe-bhìdh no crìoch astair rathaid.'
+        paragraph_1: Tha cainnt shònraichte air OpenStreetMap. Seo facal no dhà cudromach
+          a bhios feumail dhut.
       rules:
         title: Riaghailtean!
-      questions:
-        title: A bheil ceist sam bith agad?
-        paragraph_1_html: |-
-          Tha iomadh goireas aig OpenStreetMap gus faighinn a-mach mun phròiseact, ceistean a chur 's a fhreagairt agus deasbad a dhèanamh is cuspairean mun mhapa a chlàradh còmhla.
-          <a href='%{help_url}'>Faigh cobhair an-seo</a>.
       start_mapping: Tòisich air an obair-mhapa
       add_a_note:
         title: Nach eil ùine agad airson deasachadh? Cuir nòta ris!
-        paragraph_1_html: Ma thogras tu rud beag a chàradh ach chan eil ùine agad
-          gus clàradh agus ionnsachadh mar a nì thu deasachadh, tha e furasta nòta
-          a chur ris.
-        paragraph_2_html: |-
-          Cha leig thu leas ach tadhal air a' <a href='%{map_url}'>mhapa</a> 's briogadh air ìomhaigheag an nòta:
-          <span class='icon note'></span>. Cuiridh seo comharra ris a' mhapa as urrainn dhut gluasad 's tu 'ga shlaodadh. Cuir an teachdaireachd agad ris agus briog air "Sàbhail" an uairsin gus an dèan luchd-mapachaidh eile sgrùdadh air.
+        para_1: Ma thogras tu rud beag a chàradh ach chan eil ùine agad gus clàradh
+          agus ionnsachadh mar a nì thu deasachadh, tha e furasta nòta a chur ris.
   traces:
     visibility:
       private: Prìobhaideach (cha dèid a cho-roinneadh ach 'na phuingean gun urra
@@ -1724,9 +1691,6 @@ gd:
       description: Rùraich na lorgaidhean GPS a chaidh a luchdadh a-nuas o chionn
         goirid
       tagged_with: ' ris a bheil taga %{tags}'
-      empty_html: Chan eil dad an-seo fhathast. <a href='%{upload_link}'>Luchdaich
-        suas lorgadh ùr</a> no faigh barrachd fiosrachaidh mu lorgadh GPS air an <a
-        href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>uicidh</a>.
       upload_trace: Luchdaich suas lorgadh
     destroy:
       scheduled_for_deletion: Chaidh an lorgadh seo a chur air an sgeideil gus a sguabadh
@@ -1835,9 +1799,6 @@ gd:
         dhut gu fèin-obrachail an-dràsta.
       about:
         header: Saor agus gabhaidh deasachadh
-        html: |-
-          <p>Eu-coltach ri mapaichean eile, tha OpenStreetMap 'ga chruthachadh gu tur le cleachdaichean mar a tha thu fhèin agus faodaidh duine sam bith a chàradh, ùrachadh, a luchdadh a-nuas is a chleachdadh gu saor.</p>
-          <p>Clàraich gus taic a thoirt dhuinn. Cuiridh sinn post-d thugad gus an cunntas agad a dhearbhadh.</p>
       email address: 'Seòladh puist-d:'
       confirm email address: 'Dearbhaich an seòladh puist-d:'
       display name: 'Ainm seallaidh:'

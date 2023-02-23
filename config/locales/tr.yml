@@ -333,16 +333,6 @@ tr:
         disabled: Devre dışı ve verileri düzenleyemez; önceki düzenlemeleri hepsi
           anonimdir.
         disabled link text: neden düzenleyemiyorum?
-      public editing note:
-        heading: Herkese açık düzenleme modu
-        html: Şu anda yaptığınız düzenlemeler anonimdir bundan ötürü kullanıcılar
-          size mesaj gönderemez veya konumunuzu göremez. Düzenlemelerinizi görünür
-          kılmak ve site üzerinden sizinle iletişime geçilmesine izin vermek için
-          aşağıdaki butona tıklayın. <b>0.6 API'a geçişten beri yalnızca herkese açık
-          kullanıcılar harita verilerini düzenleyebilmektedir</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">sebebini
-          öğren</a>). <ul><li>E-posta adresiniz herkese açık hale getirilmez.</li><li>Bu
-          işlem tersine çevrilemez ve tüm yeni kullanıcılar artık varsayılan olarak
-          herkese açık olarak gösterilmektedir.</li></ul>
       contributor terms:
         heading: Katılımcı Şartları
         agreed: Yeni katılımcı şartlarını kabul ettin.
@@ -353,8 +343,10 @@ tr:
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: bu nedir?
       save changes button: Değişiklikleri Kaydet
-      make edits public button: Bütün girdiklerim herkese açık olsun
       delete_account: Hesabı Sil...
+    go_public:
+      heading: Herkese açık düzenleme modu
+      make_edits_public_button: Bütün girdiklerim herkese açık olsun
     update:
       success_confirm_needed: Kullanıcı bilgisi başarıyla güncellendi. Yeni e-posta
         adresinizi onaylamak için e-mail'inizi lütfen kontrol ediniz.
@@ -2190,8 +2182,6 @@ tr:
       map_image: Harita (varsayılan katmanı gösterir)
       embeddable_html: Gömülebilir HTML
       licence: Lisans
-      export_details_html: OpenStreetMap verileri, <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a>  (ODbL) altında lisanslanmıştır.
       too_large:
         advice: 'Yukarıdaki dışa aktarma işlemi başarısız olursa lütfen aşağıda listelenen
           kaynaklardan birini kullanmayı düşünün:'
@@ -2299,6 +2289,8 @@ tr:
       id_html: Alternatif olarak, varsayılan düzenleyicinizi, daha önce Potlatch'ın
         yaptığı gibi web tarayıcınızda çalışan kimliği ayarlayabilirsiniz. <a href="%{settings_url}">Tercihlerinizi
         buradan değiştirin</a>.
+    any_questions:
+      title: Sorularınız var mı?
     sidebar:
       search_results: Arama Sonuçları
       close: Kapat
@@ -2385,57 +2377,24 @@ tr:
           toilets: Tuvaletler
     welcome:
       title: Hoş geldiniz!
-      introduction_html: Dünyanın düzenlenebilir ve ücretsiz haritası OpenStreetMap'e
-        hoş geldiniz. Şu an kaydoldunuz ve bütün haritalama işlemlerine başlamanız
-        için her şey hazır. İşte bilmeniz gereken en önemli şeylerin hızlı bir kılavuzu.
+      introduction: Dünyanın düzenlenebilir ve ücretsiz haritası OpenStreetMap'e hoş
+        geldiniz. Şu an kaydoldunuz ve bütün haritalama işlemlerine başlamanız için
+        her şey hazır. İşte bilmeniz gereken en önemli şeylerin hızlı bir kılavuzu.
       whats_on_the_map:
         title: Haritada ne bulunur
-        on_html: OpenStreetMap, <em>gerçek ve güncel</em> şeyleri haritalamak için
-          bir yerdir. Bu milyonlarca binaları, yolları ve yerler hakkında diğer ayrıntıları
-          içerir. İlgini çeken her türlü gerçek dünya özelliklerini haritalayabilirsin.
-        off_html: Neyi <em>içermez?</em> Önyargılı veriler gibi değerlendirmeler,
-          tarihî ya da farazi özellikler ve telif hakkı olan kaynaklardan gelen verileri
-          <em>içermez.</em> Özel izniniz yoksa, çevrimiçi ya da kâğıt haritaları kopyalamayın.
       basic_terms:
         title: Haritacılığın temel terimleri
-        paragraph_1_html: OpenStreetMap'in kendine ait bazı argoları vardır. İşte
-          kullanışlı gelecek birkaç anahtar kelime.
-        editor_html: <strong>Düzenleyici</strong> haritayı düzenlemek için kullanabileceğiniz
-          bir program ya da web sayfasıdır.
-        node_html: <strong>Düğüm</strong>, haritadaki bir noktadır. Bu bir restoran
-          ya da bir ağaç olabilir.
-        way_html: <strong>Yol</strong>, bir çizgi ya da alan, bir cadde, akarsu, göl
-          ya da bina olabilir.
-        tag_html: <strong>Etiket</strong>, bir noktanın ya da yolun veri parçasıdır.
-          Bu bir restoranın ismi ya da yolun hız sınırı olabilir.
+        paragraph_1: OpenStreetMap'in kendine ait bazı argoları vardır. İşte kullanışlı
+          gelecek birkaç anahtar kelime.
       rules:
         title: Kuralları!
-        paragraph_1_html: |-
-          OpenStreetMap'in resmi kuralları yoktur ancak tüm katılımcıların
-          toplulukla işbirliği yapmasını ve iletişim kurmasını bekleriz.
-          Elle düzenleme dışında herhangi bir faaliyet düşünüyorsanız,
-          lütfen yönergeleri okuyun ve uygulayın:
-          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>İçe aktarma</a> ve
-          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Otomatik Düzenlemeler</a>
-      questions:
-        title: Sorularınız var mı?
-        paragraph_1_html: OpenStreetMap, proje hakkında bilgiler içeren, soru sormak
-          ve soruları cevaplamak için ve işbirliği halinde tartışma yapılan ve haritalama
-          konularını belgelemek için çeşitli kaynaklara sahiptir. <a href='%{help_url}'>Buradan
-          yardım alın</a>. OpenStreetMap için plan yapan bir organizasyon var mı?
-          <a href='https://welcome.openstreetmap.org/'>Hoş geldin sayfasına bakınız</a>
       start_mapping: Harita Çizmeye Başla
       add_a_note:
         title: Düzenlemek için vaktin yok mu? O zaman bir not ekle!
-        paragraph_1_html: |-
+        para_1: |-
           Küçük bir değişikliğin sabit kalmasını istiyor fakat üye olacak ve
           nasıl düzenleneceğini öğrenecek zamanınız yoksa
           not eklemeniz yeterlidir.
-        paragraph_2_html: |-
-          Sadece <a href='%{map_url}'>haritaya</a> gidin ve not simgesine tıklayın:
-          <span class='icon note'></span>. Bu, haritaya sürükleyerek taşıyabileceğiniz bir işaret imleci ekleyecektir.
-          Mesajınızı ekleyin, ardından kaydet'i tıklayın ve diğer
-          haritacılar yaptıklarınızı inceleyecektir.
     communities:
       title: Topluluklar
       lede_text: "Dünyanın her yerinden insanlar OpenStreetMap'e katkıda bulunur veya
@@ -2538,9 +2497,6 @@ tr:
       public_traces_from: '%{user} tarafından gelen herkese açık GPS izleri'
       description: Son GPS izi güncellemelerine göz at
       tagged_with: ' %{tags} ile etiketlendi'
-      empty_html: Burada henüz bir şey yok. <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>Wiki
-        sayfasında</a> <a href='%{upload_link}'>yeni bir iz yükle</a> veya GPS iz
-        hakkında daha fazla bilgi edinin
       upload_trace: GPS izi gönder
       all_traces: Tüm İzler
       my_traces: GPS İzlerim
@@ -2719,9 +2675,6 @@ tr:
       support: destek
       about:
         header: Ücretsiz ve düzenlenebilir
-        html: |-
-          <p>OpenStreetMap, diğer haritaların aksine tamamıyla sizin gibi kişiler tarafından oluşturulur ve düzenleme, güncelleme, indirme ve kullanma işlemleri herkes için ücretsizdir.</p>
-          <p>Katkıda bulunmaya başlamak için kaydolun. Hesabınızın onaylanması için size bir e-posta göndereceğiz.</p>
       email address: 'E-posta Adresi:'
       confirm email address: E-posta Adresini Onayla
       display name: 'Görünen Ad:'

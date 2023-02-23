@@ -300,16 +300,6 @@ gl:
         disabled: Desactivado e non pode editar os datos. Tódalas anteriores edicións
           son anónimas.
         disabled link text: por que non podo editar?
-      public editing note:
-        heading: Edición pública
-        html: Actualmente, as túas edicións son anónimas e a xente non che pode enviar
-          mensaxes ou ollar a túa localización. Para amosar o que editaches e permitir
-          que a xente se poña en contacto contigo mediante a páxina web, preme no
-          botón que aparece deseguido. <b>Dende a migración da API á versión 0.6,
-          tan só os usuarios públicos poden editar os datos do mapa</b> (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">máis
-          información</a>).<ul><li>Os enderezos de correo electrónico non se farán
-          públicos.</li><li>Non é posíbel reverter esta acción e agora os novos usuarios
-          xa son públicos por defecto.</li></ul>
       contributor terms:
         heading: Termos do contribuínte
         agreed: Aceptaches os novos termos do contribuínte.
@@ -321,8 +311,10 @@ gl:
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: que é isto?
       save changes button: Gardar as modificacións
-      make edits public button: Facer públicas tódalas miñas edicións
       delete_account: Borrar a conta...
+    go_public:
+      heading: Edición pública
+      make_edits_public_button: Facer públicas tódalas miñas edicións
     update:
       success_confirm_needed: Información de usuario actualizada de xeito correcto.
         Procura no teu correo electrónico unha mensaxe para confirmar o teu novo enderezo.
@@ -2132,8 +2124,6 @@ gl:
       map_image: Imaxe do mapa (amosa unha capa normal)
       embeddable_html: HTML embebíbel
       licence: Licenza
-      export_details_html: Os datos do OpenStreetMap están licenzados baixo a <a href="https://opendatacommons.org/licenses/odbl/1.0/">licenza
-        Open Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Se a exportación anterior falla, considere empregar unha das fontes
           listadas deseguido:'
@@ -2241,6 +2231,8 @@ gl:
       id_html: Como alternativa, podes establecer como o teu editor predeterminado
         o iD, que se executa directamente no teu navegador web como antes facía o
         Potlatch. <a href="%{settings_url}">Muda as túas preferencias aquí</a>.
+    any_questions:
+      title: Ten algunha pregunta?
     sidebar:
       search_results: Resultados da procura
       close: Pechar
@@ -2327,54 +2319,22 @@ gl:
           toilets: Servizos
     welcome:
       title: Reciba a nosa benvida!
-      introduction_html: Dámoslle a benvida ó OpenStreetMap, o mapa do mundo libre
-        e editábel. Agora que está rexistrado, xa pode comezar a cartografar. Velaquí
-        hai unha guía rápida das cousas máis importantes que precisa saber.
+      introduction: Dámoslle a benvida ó OpenStreetMap, o mapa do mundo libre e editábel.
+        Agora que está rexistrado, xa pode comezar a cartografar. Velaquí hai unha
+        guía rápida das cousas máis importantes que precisa saber.
       whats_on_the_map:
         title: Que hai no mapa
-        on_html: O OpenStreetMap é un lugar para cartografar cousas que son <em>reais
-          e actuais</em>, entre as que se atopan millóns de edificios, estradas e
-          outros detalles sobre os lugares. Pode cartografar calquera elemento do
-          mundo real no que teña interese.
-        off_html: O que <em>non</em> inclúe son datos subxectivos como valoracións,
-          características históricas ou hipotéticas e datos de fontes protexidas por
-          dereitos de autoría. A menos que teña permisos especiais, non copie de mapas
-          en liña ou en papel.
       basic_terms:
         title: Vocabulario básico para cartografar
-        paragraph_1_html: O OpenStreetMap ten unha xerga propia. Velaquí hai unhas
-          palabras clave que son de utilidade.
-        editor_html: Un <strong>editor</strong> é un programa ou sitio web que pode
-          empregar para editar o mapa.
-        node_html: Un <strong>nó</strong> é un punto no mapa, coma un restaurante
-          ou unha árbore.
-        way_html: Unha <strong>vía</strong> é unha liña ou área, coma unha estrada,
-          un regato, unha lagoa ou un edificio.
-        tag_html: Unha <strong>etiqueta</strong> é un anaco de datos sobre un nó ou
-          unha vía, coma o nome dun restaurante ou o límite de velocidade dunha estrada.
+        paragraph_1: O OpenStreetMap ten unha xerga propia. Velaquí hai unhas palabras
+          clave que son de utilidade.
       rules:
         title: Regras!
-        paragraph_1_html: OpenStreetMap ten poucas regras formais, pero esperamos
-          que tódolos participantes contribúan e se comuniquen ca comunidade. Se estás
-          a estudar algunha actividade que non sexa a edición manual, le e segue as
-          instrucións sobre <a href='https://wiki.openstreetmap.<a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'></a>org/wiki/Import/Guidelines'>importacións</a>
-          e <a href='https://wiki.openstreetmap.org/wiki/Import/Automated_Edits_code_of_conduct'>edicións
-          automatizadas</a>.
-      questions:
-        title: Ten algunha pregunta?
-        paragraph_1_html: |-
-          O OpenStreetMap ten varios recursos para aprender sobre o proxecto, preguntando e respostando
-          cuestións, así como para debater e documentar colaborativamente sobre temas de cartografía.
-          <a href='%{help_url}'>Obter axuda eiquí</a>. Cunha organización que fai plans para o OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Bótalle unha ollada ó Welcome Mat</a>.
       start_mapping: Comezar a cartografar
       add_a_note:
         title: Non ten tempo para editar? Engada unha nota!
-        paragraph_1_html: Se soamente quere corrixir unha pequena cousa e non ten
-          tempo de rexistrarse e aprender a editar, engadir unha nota é moi doado.
-        paragraph_2_html: 'Vai <a href=''%{map_url}''>ó mapa</a> e preme na icona
-          de notas: <span class=''icon note''></span>. Isto vai engadir unha marcaxe
-          ó mapa, que podes desprazar arrastrándoa. Engade a túa mensaxe, despois
-          preme no botón de gardar e os outros contribuíntes comprobaranlo.'
+        para_1: Se soamente quere corrixir unha pequena cousa e non ten tempo de rexistrarse
+          e aprender a editar, engadir unha nota é moi doado.
     communities:
       title: Comunidades
       lede_text: "Persoas de todo o mundo contribúen ou usan OpenStreetMap.\nAínda
@@ -2477,9 +2437,6 @@ gl:
       public_traces_from: Pistas GPS públicas de %{user}
       description: Procurar as pistas GPS subidas recentemente
       tagged_with: ' etiquetadas con %{tags}'
-      empty_html: Aínda non hai ren por eiquí. <a href='%{upload_link}'>Suba unha
-        nova pista</a> ou obteña máis información sobre as pistas GPS na <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>páxina
-        da wiki</a>.
       upload_trace: Subir unha pista
       all_traces: Todas as pistas
       my_traces: As miñas pistas GPS
@@ -2658,9 +2615,6 @@ gl:
       support: soporte
       about:
         header: Libre e editábel
-        html: |-
-          <p>A diferenza doutros mapas, o OpenStreetMap está completamente creado por xente coma ti, e calquera persoa é libre de corrixilo, actualizalo, baixalo e empregalo.</p>
-          <p>Rexístrate para comezar a contribuír. Enviarémosche un correo electrónico para confirmar a túa conta.</p>
       email address: 'Enderezo de correo electrónico:'
       confirm email address: Confirmar o enderezo de correo electrónico
       display name: 'Nome público:'

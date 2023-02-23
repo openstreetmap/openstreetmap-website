@@ -378,18 +378,6 @@ fr:
         disabled: Désactivée et ne peut pas modifier les données ; toutes les précédentes
           modifications sont anonymes.
         disabled link text: pourquoi ne puis-je pas modifier ?
-      public editing note:
-        heading: Modification publique
-        html: Votre compte est actuellement en mode de « modifications anonymes »
-          et les autres contributeurs ne peuvent pas vous envoyer de message ni connaître
-          votre localisation géographique. Pour qu’il soit possible de lister vos
-          contributions et permettre aux autres personnes de vous contacter via ce
-          site, cliquez sur le bouton ci-dessous. <b>Depuis le basculement de l’API
-          en version 0.6, seuls les utilisateurs en mode de « modifications publiques »
-          peuvent modifier les données des cartes</b> (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">en
-          savoir plus</a>).<ul><li>Votre adresse de courriel ne sera pas rendue publique.</li><li>Cette
-          opération ne peut pas être annulée et tous les nouveaux utilisateurs sont
-          maintenant en mode de « modifications publiques » par défaut.</li></ul>
       contributor terms:
         heading: Conditions de contribution
         agreed: Vous avez accepté les nouvelles Conditions de contribution.
@@ -402,8 +390,10 @@ fr:
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms/FR
         link text: qu’est-ce que ceci ?
       save changes button: Enregistrer les modifications
-      make edits public button: Rendre toutes mes modifications publiques
       delete_account: Suppression du compte...
+    go_public:
+      heading: Modification publique
+      make_edits_public_button: Rendre toutes mes modifications publiques
     update:
       success_confirm_needed: Informations sur l’utilisateur mises à jour avec succès.
         Consultez la boîte de réception de votre messagerie pour confirmer votre nouvelle
@@ -2250,8 +2240,6 @@ fr:
       map_image: Image de la carte (affiche le calque standard)
       embeddable_html: HTML incorporable.
       licence: Licence
-      export_details_html: Les données d’OpenStreetMap sont publiées sous la <a href="https://opendatacommons.org/licenses/odbl/1.0/">licence
-        Open Data Commons Open Database</a> (ODbL).
       too_large:
         advice: 'Si l’export ci-dessus échoue, veuillez envisager l’utilisation de
           l’une des sources listées ci-dessous :'
@@ -2366,6 +2354,8 @@ fr:
       id_html: Sinon, vous pouvez définir votre éditeur par défaut à iD, qui tourne
         dans votre navigateur web comme Potlatch auparavant. <a href="%{settings_url}">Modifier
         vos préférences ici</a>.
+    any_questions:
+      title: Des questions ?
     sidebar:
       search_results: Résultats de la recherche
       close: Fermer
@@ -2452,56 +2442,24 @@ fr:
           toilets: Toilettes
     welcome:
       title: Bienvenue !
-      introduction_html: Bienvenue dans OpenStreetMap, la carte du monde libre et
-        éditable. Maintenant que vous êtes inscrit, vous avez tout ce qu’il faut pour
-        commencer à cartographier. Ce qui suit est un petit guide des choses les plus
-        importantes à savoir.
+      introduction: Bienvenue dans OpenStreetMap, la carte du monde libre et éditable.
+        Maintenant que vous êtes inscrit, vous avez tout ce qu’il faut pour commencer
+        à cartographier. Ce qui suit est un petit guide des choses les plus importantes
+        à savoir.
       whats_on_the_map:
         title: Ce qu’il y a sur la carte
-        on_html: OpenStreetMap sert à cartographier des objets qui sont à la fois
-          <em>réels et actuels</em> — il contient des millions de bâtiments, de routes
-          et d’autres détails sur des lieux. Vous pouvez cartographier n’importe quel
-          élément du monde réel qui vous intéresse.
-        off_html: Ce qui est par contre <em>exclu</em> sont les données subjectives
-          comme les cotes de popularité, les éléments historiques ou hypothétiques
-          et les données venant de source protégées par le droit d’auteur ou des droits
-          voisins. À moins d’avoir une permission spéciale, ne copiez rien depuis
-          une carte sur papier ou en ligne.
       basic_terms:
         title: Terminologie de base pour la cartographie
-        paragraph_1_html: OpenStreetMap a son propre jargon. Voici quelques mots-clefs
+        paragraph_1: OpenStreetMap a son propre jargon. Voici quelques mots-clefs
           qui vous seront utiles.
-        editor_html: Un <strong>éditeur</strong> est un programme ou site web qui
-          vous permet de modifier la carte.
-        node_html: Un <strong>nœud</strong> est un point sur la carte, tel qu’un seul
-          restaurant ou un arbre isolé.
-        way_html: Un <strong>chemin</strong est une ligne ou une surface, comme par
-          exemple une route, un ruisseau, un lac ou un bâtiment.
-        tag_html: Un <strong>attribut</strong> (ou <em>tag</em>) est une information
-          à propos d’un nœud ou d’un chemin, comme le nom d’un restaurant ou la limite
-          de vitesse d’une route.
       rules:
         title: Règles !
-        paragraph_1_html: OpenStreetMap a quelques règles formelles, mais nous attendons
-          de tous les participants une collaboration et une communication avec la
-          communauté. Si vous envisagez d’autres activités que la modification à la
-          main, veuillez lire et suivre les directives sur les <a href="https://wiki.openstreetmap.org/wiki/Import/Guidelines">importations</a>
-          et les <a href="https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct">modifications
-          automatiques</a>.
-      questions:
-        title: Des questions ?
-        paragraph_1_html: |-
-          OpenStreetMap propose plusieurs ressources pour apprendre à travailler dans le projet, pour poser des questions et y répondre, ainsi que pour discuter ou documenter les sujets de cartographie en collaboration avec d’autres utilisateurs.
-          <a href="%{help_url}">Trouver de l’aide ici</a>. Vous êtes dans une organisation qui fait des plans pour OpenStreetMap ? <a href='https://welcome.openstreetmap.org/'>Vérifiez votre tapis d’accueil</a>.
       start_mapping: Commencer à cartographier
       add_a_note:
         title: Pas le temps d’effectuer les modifications ? Ajoutez une note !
-        paragraph_1_html: Si vous voulez juste une petite correction et n’avez pas
-          le temps de vous inscrire sur le projet et d’apprendre à effectuer des modifications,
+        para_1: Si vous voulez juste une petite correction et n’avez pas le temps
+          de vous inscrire sur le projet et d’apprendre à effectuer des modifications,
           il est facile d’ajouter une note.
-        paragraph_2_html: |-
-          Allez simplement sur <a href="%{map_url}">la carte</a> et cliquez sur l’icône note :
-          <span class="icon note"></span>. Cela placera un marqueur sur la carte, que vous pourrez déplacer en faisant glisser la carte. Ajoutez votre message puis cliquez sur « Enregistrer » ; alors d’autres cartographes iront enquêter.
     communities:
       title: Communautés
       lede_text: |-
@@ -2610,10 +2568,6 @@ fr:
       public_traces_from: Traces GPS publiques de %{user}
       description: Parcourir les téléversements récents de traces GPS
       tagged_with: balisée avec %{tags}
-      empty_html: Il n’y a encore rien ici. <a href="%{upload_link}">Téléverser une
-        nouvelle trace</a> ou pour en savoir plus sur le traçage GPS, consultez la
-        <a href="https://wiki.openstreetmap.org/wiki/FR:Beginners_Guide_1.2">page
-        wiki</a>.
       upload_trace: Téléverser une trace
       all_traces: Toutes les traces
       my_traces: Mes traces
@@ -2800,9 +2754,6 @@ fr:
       support: assistance
       about:
         header: Libre et modifiable
-        html: |-
-          <p>À la différence des autres cartes, OpenStreetMap est entièrement créé par des gens comme vous, et chacun est libre de le corriger, le mettre à jour, le télécharger et l’utiliser.</p>
-          <p>Inscrivez-vous pour commencer à participer. Nous vous enverrons un courriel pour confirmer votre compte.</p>
       email address: 'Adresse de courriel :'
       confirm email address: 'Confirmez l’adresse de courriel :'
       display name: 'Nom affiché :'

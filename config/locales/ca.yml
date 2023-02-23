@@ -327,16 +327,6 @@ ca:
         disabled: Desactivades i sense permís per a editar; les modificacions anteriors
           són anònimes.
         disabled link text: per què no puc editar?
-      public editing note:
-        heading: Edició pública
-        html: Actualment, les vostres modificacions són anònimes i la gent no us pot
-          enviar missatges o veure la vostra ubicació. Per mostrar el que heu editat
-          i permetre que la gent us pugui contactar a través del web, feu clic al
-          botó de sota. <b>Des de canvi de l'API 0.6, només els usuaris públics poden
-          editar les dades de mapa</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">sapigueu
-          per què</a>).<ul><li>La vostra adreça de correu electrònic no serà revelada
-          quan sigueu usuari públic.</li><li>Aquesta acció no es pot desfer i tots
-          els nous usuaris seran públics per defecte.</li></ul>
       contributor terms:
         heading: Termes de col·laboració
         agreed: Heu acceptat els nous termes de col·laboració.
@@ -347,8 +337,11 @@ ca:
           són de domini públic.
         link text: què és això?
       save changes button: Desa els canvis
-      make edits public button: Fes totes les meves modificacions públiques
       delete_account: Suprimeix el compte...
+    go_public:
+      heading: Edició pública
+      find_out_why_html: (%{link}).
+      make_edits_public_button: Fes totes les meves modificacions públiques
     update:
       success_confirm_needed: Informació de l'usuari ha actualitzat correctament.
         Comproveu el vostre correu per a confirmar la vostra adreça de correu electrònic
@@ -2143,9 +2136,6 @@ ca:
       map_image: Imatge de mapa (mostra una capa estàndard)
       embeddable_html: HTML incrustable
       licence: Llicència
-      export_details_html: Les dades d'OpenStreetMap són publicades sota els termes
-        de la <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
-        Open Database License</a> (ODbL).
       too_large:
         advice: 'Si l''exportació anterior falla, proveu-ho amb alguna de les fonts
           incloses a la llista següent:'
@@ -2255,6 +2245,8 @@ ca:
       id_html: Alternativament, podeu establir iD com al vostre editor per defecte,
         el qual s'executa en el vostre navegador de web com Potlatch feia anteriorment.
         <a href="%{settings_url}">Canvieu aquí la vostra configuració</a>.
+    any_questions:
+      title: Alguna pregunta?
     sidebar:
       search_results: Resultats de la cerca
       close: Tanca
@@ -2341,55 +2333,30 @@ ca:
           toilets: Lavabos
     welcome:
       title: Us donem la benvinguda!
-      introduction_html: Us donem la benvinguda a l'OpenStreetMap, el mapamundi lliure
+      introduction: Us donem la benvinguda a l'OpenStreetMap, el mapamundi lliure
         i editable. Ara que ja us heu registrat, ja ho teniu tot a punt per començar
         a editar el mapa. Aquí hi ha una guia ràpida amb les coses més importants
         que cal saber
       whats_on_the_map:
         title: Què hi ha al mapa
-        on_html: L'OpenStreetMap cartografia coses que són <em>reals i actuals</em>-
-          això inclou milions d'edificis, carreteres i altres detalls sobre llocs.
-          Pots cartografiar tots els elements del món real que et semblin interessants.
-        off_html: El que <em>no</em> inclou són dades subjectives com ara puntuacions,
-          característiques històriques o hipotètiques i dades de fonts amb drets d'autor.
-          Tret que posseeixis un permís especial, no copiïs res de mapes de paper
-          o en línia.
       basic_terms:
         title: Condicions bàsiques per editar el mapa
-        paragraph_1_html: L'OpenStreetMap té un argot propi. Aquí tens unes quantes
-          paraules clau que et poden venir bé.
-        editor_html: Un <strong>editor</strong> és un programa o pàgina web que pots
-          utilitzar per editar el mapa.
-        node_html: Un <strong>node</strong> és un punt al mapa, com ara un restaurant
-          o un arbre.
-        way_html: Una <strong>via</strong> és una línia o àrea, com ara una carretera,
-          un rierol, un llac o un edifici.
-        tag_html: Una <strong>etiqueta</strong> és un recull de dades sobre un node
-          o una via, com ara el nom d'un restaurant o la velocitat màxima d'una carretera.
+        paragraph_1: L'OpenStreetMap té un argot propi. Aquí tens unes quantes paraules
+          clau que et poden venir bé.
+        editor: editor
+        node: node
+        way: via
+        tag: etiqueta
       rules:
         title: Normes
-        paragraph_1_html: "L'OpenStreetMap té poques les regles formals, però esperem
-          que tots els participants col·laborin i es comuniquin amb la comunitat.
-          Si voleu dur a terme\naltres activitats que no siguin l'edició manual, llegiu
-          i seguiu les directrius d' \n<a href=\"http://wiki.openstreetmap.org/wiki/Import/Guidelines\">Importació</a>
-          i \n<a href=\"http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct\">Edició
-          Automàtica</a>."
-      questions:
-        title: Alguna pregunta?
-        paragraph_1_html: "OpenStreetMap té diversos recursos per a conèixer aquest
-          projecte, per a plantejar i respondre preguntes, i per a debatre  i documentar
-          de forma col·laborativa qüestions de cartografia. \n<a href='%{help_url}'>Ajuda</a>.
-          Ets amb una organització que vol usar OpenStreetMap?<a href='https://welcome.openstreetmap.org/'>Doneu
-          un cop d'ull a la nostra zona de benvinguda."
+        imports: Importacions
+        automated_edits: Edicions automatitzades
       start_mapping: Comença a editar el mapa
       add_a_note:
         title: No tens temps per editar? Escriu una nota
-        paragraph_1_html: Si només voleu fer una petita modificació, però no disposeu
-          del temps per registrar-vos i aprendre a editar, deixeu una nota al mapa.
-        paragraph_2_html: 'Només cal que us dirigiu al<a href=''%{map_url}''>mapa</a>
-          i cliqueu la icona de la nota: <span class=''icon note''></span>. Això afegirà
-          un marcador al mapa que podeu moure arrossegant-lo. Afegiu el vostre missatge,
-          cliqueu el botó de desar, i altres usuaris ho investigaran.'
+        para_1: Si només voleu fer una petita modificació, però no disposeu del temps
+          per registrar-vos i aprendre a editar, deixeu una nota al mapa.
+        the_map: el mapa
     communities:
       title: Comunitats
       local_chapters:
@@ -2482,9 +2449,9 @@ ca:
       public_traces_from: Traces GPS públiques de %{user}
       description: Navega per les traces pujades recentment
       tagged_with: etiquetat amb %{tags}
-      empty_html: Aquí encara no hi ha res. <a href='%{upload_link}'>Pugeu una nova
-        traça</a> o apreneu més sobre les traces GPS a la <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pàgina
-        wiki</a>.
+      empty_title: Aquí encara no hi ha res
+      upload_new: Puja una traça nova
+      wiki_page: pàgina wiki
       upload_trace: Puja una traça
       all_traces: Totes les traces
       my_traces: Les meves traces
@@ -2663,9 +2630,6 @@ ca:
       support: assistència
       about:
         header: Lliure i editable
-        html: |-
-          <p>A diferència d'altres mapes, OpenStreetMap el crea gent com vós i qualsevol persona el pot modificar, actualitzar, descarregar i usar.</p>
-          <p>Registreu-vos i comenceu a col·laborar. Us enviarem un e-mail per a confirmar el vostre compte.</p>
       email address: 'Adreça de correu:'
       confirm email address: 'Confirmeu l''adreça de correu electrònic:'
       display name: 'Nom en pantalla:'

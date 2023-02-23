@@ -28,6 +28,7 @@
 # Author: Pesder
 # Author: Reke
 # Author: Ruila
+# Author: S8321414
 # Author: Sanmosa
 # Author: Shangkuanlc
 # Author: Shoufen
@@ -49,7 +50,7 @@
 zh-TW:
   time:
     formats:
-      friendly: '%Y年%B月%e日　%H時%M分'
+      friendly: '%Y年%m月%e日　%H時%M分'
       blog: '%Y年%B%e日'
   helpers:
     file:
@@ -314,11 +315,6 @@ zh-TW:
         enabled link text: 這是什麼？
         disabled: 已停用且不能編輯資料，所有先前的編輯都會成為匿名的。
         disabled link text: 為什麼我不能編輯？
-      public editing note:
-        heading: 公開編輯
-        html: 目前您的編輯是匿名的，人們不能發送郵件給您或看到您的位置。為了顯示你的編輯，讓別人透過網站與您聯繫，請點選下面的按鈕。 <b>由於 0.6
-          API 的轉換，只有公開的使用者可以編輯地圖資料</b>。（<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">知道為什麼</a>）。<ul><li>您的電子郵件地址將不會被因為成為公開使用者而被透露。
-          </li><li>這個動作不能逆轉，所有新的使用者現在都預設為公開的。 </li></ul>
       contributor terms:
         heading: 貢獻者條款
         agreed: 您已同意新的貢獻者條款。
@@ -328,8 +324,10 @@ zh-TW:
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: 這是什麼？
       save changes button: 儲存變更
-      make edits public button: 將我所有的編輯設為公開
       delete_account: 刪除帳號…
+    go_public:
+      heading: 公開編輯
+      make_edits_public_button: 將我所有的編輯設為公開
     update:
       success_confirm_needed: 使用者資訊成功的更新。請檢查您的電子郵件，以確認收到新電子郵件地址的通知。
       success: 使用者資訊已成功更新。
@@ -2028,8 +2026,6 @@ zh-TW:
       map_image: 地圖影像 (顯示標準圖層)
       embeddable_html: 內嵌式 HTML
       licence: 授權
-      export_details_html: OpenStreetMap 的資料採用 <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons 開放資料庫授權條款</a>（ODbL）授權。
       too_large:
         advice: 若以上匯出失敗，請考慮使用下列來源：
         body: 這個區域太大，無法匯出 OpenStreetMap XML 資料。請放大或選擇一個較小的區域，或使用下列大量資料下載源：
@@ -2116,6 +2112,8 @@ zh-TW:
       desktop_html: 您仍可以透過<a href="https://www.systemed.net/potlatch/">下載適用於 Mac 與
         Windows 的桌面應用程式</a>來使用 Potlatch。
       id_html: 除此之外，您可以設定您的預設編輯器成 iD，這可以和先前的 Potlatch 一樣，在您的網路瀏覽器上運作。<a href="%{settings_url}">在此更改您的偏好設定</a>。
+    any_questions:
+      title: 有任何問題嗎？
     sidebar:
       search_results: 搜尋結果
       close: 關閉
@@ -2202,37 +2200,18 @@ zh-TW:
           toilets: 廁所
     welcome:
       title: 歡迎！
-      introduction_html: 歡迎來到 OpenStreetMap，自由和可編輯的世界地圖。您目前已經登入，可以開始繪製地圖。這裡有一份您須知道最重要事項的快速指南。
+      introduction: 歡迎來到 OpenStreetMap，自由和可編輯的世界地圖。您目前已經登入，可以開始繪製地圖。這裡有一份您須知道最重要事項的快速指南。
       whats_on_the_map:
         title: 地圖上有什麼
-        on_html: |-
-          OpenStreetMap 是一個為<em>真實且現存</em>物件繪製地圖的地方 -
-          它包含數以百萬計的建築物、道路以及關於位置其他詳細資料。您可以
-          在地圖上畫出任何現實世界中令您感興趣的地理特徵。
-        off_html: 然而它<em>不包含</em>一些例如評分的主觀意見資料、歷史或假設性的地理特徵，以及有版權的來源資料。除非你獲特別許可，不要抄襲網上或印刷的地圖。
       basic_terms:
         title: 繪製地圖的基本術語
-        paragraph_1_html: OpenStreetMap 有自己的術語。以下是一些常用的關鍵詞。
-        editor_html: <strong>編輯器</strong>是你可以用於編輯地圖的程序或網站。
-        node_html: <strong>節點</strong>是地圖上的一個點，例如一間餐廳或一棵樹。
-        way_html: <strong>路徑</strong>是一條線或一個區域，例如一條道路、一條溪、一個湖或一棟建築物。
-        tag_html: <strong>標籤</strong>是關於節點或路徑的簡要資料，例如餐廳的名字或道路的速度限制。
+        paragraph_1: OpenStreetMap 有自己的術語。以下是一些常用的關鍵詞。
       rules:
         title: 規則！
-        paragraph_1_html: OpenStreetMap 沒有多少正式規則，除了所有參與者都得與社群合作和溝通。如果你有想過用人工以外的方式參與的話，請先熟讀和遵循<a
-          href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>匯入</a>以及<a
-          href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>自動化編輯</a>守則。
-      questions:
-        title: 有任何問題嗎？
-        paragraph_1_html: OpenStreetMap 有一些資源，可用於學習本專案、提出和回答問題，以及討論和紀錄與製作地圖相關的話題。
-          <a href='%{help_url}'>按此取得說明</a>。想要以組織來對 OpenStreetMap 製作計劃嗎？請查看 <a href='https://welcome.openstreetmap.org/'>Welcome
-          Mat</a>。
       start_mapping: 開始製圖
       add_a_note:
         title: 沒有時間編輯嗎？可加入註記！
-        paragraph_1_html: 如果你只想做一些微小改動，而沒有時間登入來學習如何編輯，那麼加入一項註記還是非常容易的。
-        paragraph_2_html: 只要到<a href='%{map_url}'>地圖</a>並點選註記圖示： <span class='icon
-          note'></span>。這將在地圖上加入一個標記，你可以拖動它，並新增你的註記，然後點選儲存，其他製圖者會作出查證。
+        para_1: 如果你只想做一些微小改動，而沒有時間登入來學習如何編輯，那麼加入一項註記還是非常容易的。
     communities:
       title: 社群
       lede_text: |-
@@ -2321,8 +2300,6 @@ zh-TW:
       public_traces_from: '%{user} 的公開 GPS 軌跡'
       description: 瀏覽最近的 GPS 軌跡上傳
       tagged_with: 有如下標籤：%{tags}
-      empty_html: 還沒有軌跡。<a href='%{upload_link}'>上傳新的軌跡</a>或在 <a href='https://wiki.openstreetmap.org/wiki/Zh-hant:Beginners_Guide_1.2'>wiki
-        頁面</a>上瞭解更多有關 GPS 軌跡的資訊。
       upload_trace: 上傳軌跡
       all_traces: 所有軌跡
       my_traces: 我的軌跡
@@ -2487,9 +2464,6 @@ zh-TW:
       support: 支援
       about:
         header: 自由及可編輯
-        html: |-
-          <p>與其他地圖不同，OpenStreetMap 是完全由像你一樣的人們建立的，而且任何人都可自由地修正、更新、下載和使用。</p>
-          <p>請註冊以開始貢獻吧。我們將發出電子郵件以確認你的帳號。</p>
       email address: 電子郵件地址：
       confirm email address: 確認電子郵件地址：
       display name: 顯示名稱：
