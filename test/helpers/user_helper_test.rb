@@ -1,4 +1,5 @@
 require "test_helper"
+require "user_helper"
 
 class UserHelperTest < ActionView::TestCase
   include ERB::Util

@@ -1,4 +1,5 @@
 require "test_helper"
+require "user_helper"
 
 class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   include ActionView::Helpers::NumberHelper
@@ -946,6 +947,44 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "diary_entry.subscribers.count" do
       post diary_entry_unsubscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     end
+  end
+
+  def test_diary_og_tags
+    user = create(:user, :display_name => "user display name")
+    diary_entry = create(:diary_entry, :language_code => "en", :user => user, :title => "diary title")
+    get diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry)
+    assert_response :success
+    assert_select "head meta[property='og:type'][content='article']"
+    assert_select "head meta[property='og:locale'][content='en']"
+    assert_select "head meta[property='og:title'][content^='user display name']"
+    assert_select "head meta[property='og:title'][content*='| diary title |']"
+    assert_select "head meta[property='og:image']"
+    # Error: undefined local variable or method `helpers'
+    #assert_select "head meta[property='og:image'][content='#{helpers.user_image_url(@user)}']"
+    assert_select "head meta[property='og:image:secure_url']"
+    assert_select "head meta[property='og:image:alt'][content='Profile image of user display name']"
+  end
+
+  def test_diary_og_tags_description
+    user = create(:user, :display_name => "userdisplayname")
+
+    # Plain text format
+    diary_entry_text = create(:diary_entry, :user => user, :body => "foo < bar & baz > qux", :body_format => "text")
+    get diary_entry_path(:display_name => diary_entry_text.user.display_name, :id => diary_entry_text)
+    assert_response :success
+    assert_select "head meta[property='og:description'][content='foo < bar & baz > qux']"
+
+    # HTML
+    diary_entry_html = create(:diary_entry, :user => user, :body => "foo <b>bar</b>", :body_format => "html")
+    get diary_entry_path(:display_name => diary_entry_html.user.display_name, :id => diary_entry_html)
+    assert_response :success
+    assert_select "head meta[property='og:description'][content='foo <b>bar</b>']"
+
+    # Markdown
+    diary_entry_md = create(:diary_entry, :user => user, :body => "bar *baz*", :body_format => "markdown")
+    get diary_entry_path(:display_name => diary_entry_md.user.display_name, :id => diary_entry_md)
+    assert_response :success
+    assert_select "head meta[property='og:description'][content='bar *baz*']"
   end
 
   private

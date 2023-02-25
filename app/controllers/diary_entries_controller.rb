@@ -66,6 +66,24 @@ class DiaryEntriesController < ApplicationController
     if @entry
       @title = t ".title", :user => params[:display_name], :title => @entry.title
       @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
+      @og_tags = {
+        "og:type" => "article",
+        "og:locale" => @entry.language_code,
+
+        # helpers.user_image_url is a hack, and should be done Properly™
+        "og:image" => helpers.user_image_url(@user),
+        "og:image:secure_url" => helpers.user_image_url(@user),
+        # user_image_url returns a 100×100 image
+        "og:image:width" => "100",
+        "og:image:height" => "100",
+
+        # Should/Could this be translated?
+        "og:image:alt" => "Profile image of #{@user.display_name} on OpenStreetMap.org",
+
+        # Including the entire body sounds bad. Arbitrarily choose 300 chars as the limit.
+        # It would be better to strip out all HTML, or Markdown, syntax here.
+        "og:description" => @entry.body.to_text[0..300]
+      }
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
