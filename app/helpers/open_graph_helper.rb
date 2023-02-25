@@ -1,6 +1,7 @@
 module OpenGraphHelper
-  def opengraph_tags(title = nil)
-    tags = {
+  def opengraph_tags(title, og_tags)
+    og_tags = {} if og_tags.nil?
+    default_og_tags = {
       "og:site_name" => t("layouts.project_name.title"),
       "og:title" => [title, t("layouts.project_name.title")].compact.join(" | "),
       "og:type" => "website",
@@ -10,7 +11,9 @@ module OpenGraphHelper
       "og:description" => t("layouts.intro_text")
     }
 
-    safe_join(tags.map do |property, content|
+    og_tags = og_tags.reverse_merge(default_og_tags)
+
+    safe_join(og_tags.map do |property, content|
       tag.meta(:property => property, :content => content)
     end, "\n")
   end
