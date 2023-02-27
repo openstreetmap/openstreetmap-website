@@ -342,6 +342,19 @@ sl:
       delete_account: Izbriši račun ...
     go_public:
       heading: Javno urejanje
+      currently_not_public: Trenutno so vaša urejanja anonimna in vam drugi ne morejo
+        pošiljati sporočil ali videti vaše lokacije. Če želite pokazati, kaj ste uredili,
+        in omogočiti ljudem, da stopijo v stik z vami prek spletnega mesta, kliknite
+        spodnji gumb.
+      only_public_can_edit: Od prehoda na API 0.6 lahko urejajo podatke zemljevida
+        samo javni uporabniki.
+      find_out_why_html: (%{link}).
+      find_out_why: ugotovite, zakaj
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+      email_not_revealed: Vaš e-poštni naslov ne bo razkrit, ko bo vaš račun postal
+        javen.
+      not_reversible: Tega dejanja ni mogoče razveljaviti, vsi novi uporabniki pa
+        so zdaj privzeto javni.
       make_edits_public_button: Naj bodo vsi moji prispevki javni
     update:
       success_confirm_needed: Podatki o uporabniku so bili uspešno posodobljeni. Preverite
@@ -1051,7 +1064,7 @@ sl:
           fitness_station: Fitnes center
           garden: Vrt
           golf_course: Igrišče za golf
-          horse_riding: Jahanje
+          horse_riding: Jahalni center
           ice_rink: Drsališče
           marina: Marina
           miniature_golf: Mini golf
@@ -2190,6 +2203,10 @@ sl:
       map_image: Slika zemljevida (prikaže standardni izris)
       embeddable_html: HTML za vključitev na spletno stran
       licence: Licenca
+      licence_details_html: Podatki OpenStreetMap so licencirani pod %{odbl_link}
+        (ODbL).
+      odbl: Licenca odprte podatkovne zbirke Open Data Commons1
+      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: 'Če zgornji izvoz spodleti, uporabite enega od naslednjih virov:'
         body: To območje je preveliko za izvoz podatkov OpenStreetMap v formatu XML.
@@ -2300,6 +2317,13 @@ sl:
         prilagoditve spremenite tukaj</a>.
     any_questions:
       title: Imate kakšno vprašanje?
+      paragraph_1_html: |-
+        OpenStreetMap ima več virov za spoznavanje projekta, spraševanje in odgovarjanje na
+        vprašanja ter skupno razpravo in dokumentiranje tem kartiranja.
+        %{help_link}. Ste pri organizacijo, ki ima načrte za uporabo OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Poiščite pomoč tukaj
+      welcome_mat: Oglejte si podlogo za dobrodošlico
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Iskalni zadetki
       close: Zapri
@@ -2391,17 +2415,50 @@ sl:
         kartiranja. Tu je hitri vodnik z najpomembnejšim, kar morate vedeti.
       whats_on_the_map:
         title: Kaj je na zemljevidu
+        on_the_map_html: |-
+          OpenStreetMap je kraj za kartiranje stvari, ki so <%{real_and_current} –
+          vključuje milijone stavb, cest in drugih podatkov o krajih. Kartirate lahko
+          katero koli resnično značilnost, ki je za vas zanimiva.
+        real_and_current: resnične in zdajšnje
+        off_the_map_html: To, česar %{doesnt} vključuje, so mnenjski podatki, kot
+          so ocene, zgodovinske ali hipotetične značilnosti in podatki iz avtorsko
+          varovanih virov. Če nimate posebnega dovoljenja, ne kopirajte iz spletnih
+          ali tiskanih zemljevidov.
+        doesnt: ne vključuje
       basic_terms:
         title: Osnovni pogoji za kartiranje
         paragraph_1: OpenStreetMap ima tudi svoj žargon. Tukaj je nekaj ključnih besed,
           ki vam bodo prišle prav.
+        an_editor_html: '%{editor} je program ali spletišče, ki ga lahko uporabite
+          za urejanje zemljevida.'
+        a_node_html: '%{node} je točka na zemljevidu, npr. restavracija ali drevo.'
+        a_way_html: '%{way} je črta ali območje, npr. cesta, potok, jezero ali stavba.'
+        a_tag_html: '%{tag} je podatek o vozlišču ali poti, npr. ime restavracije
+          ali omejitev cestne hitrosti.'
+        editor: urejevalec
+        node: vozlišče
+        way: pot
+        tag: oznaka
       rules:
         title: Pravila!
+        para_1_html: |-
+          OpenStreetMap ima nekaj formalnih pravil, vendar pričakujemo, da vsi udeleženci sodelujejo
+          s skupnostjo in komunicirajo z njo. Če razmišljate o
+          kateri koli dejavnosti razen ročnega urejanja, preberite in sledite smernicam na
+          %{imports_link} in %{automated_edits_link}.
+        imports: Uvozi
+        imports_url: https://wiki.openstreetmap.org/wiki/SL:Import/Guidelines
+        automated_edits: Avtomatizirana urejanja
+        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Začnite kartirati
       add_a_note:
         title: Nimate časa za urejanje? Dodajte opombo!
         para_1: Če si želite popraviti kakšno majhno napako in nimate časa za prijavo
           oziroma za spoznati kaj več o urejanju, lahko enostavneje le dodati opombo.
+        para_2_html: 'Preprosto pojdite na %{map_link} in kliknite ikono opombe: %{note_icon}.
+          Tako boste na zemljevid dodali oznako, ki jo lahko premaknete z vlečenjem.
+          Dodajte vašo opombo in nato kliknite Shrani. Drugi kartografi bodo to preiskali.'
+        the_map: zemljevid
     communities:
       title: ' Skupnosti'
       lede_text: "K OpenStreetMap prispevajo in ga uporabljajo ljudje z vsega sveta.\nMedtem
@@ -2506,6 +2563,11 @@ sl:
       public_traces_from: Javne sledi GPS uporabnika %{user}
       description: Brskajte po nedavnih prenosih sledi GPS
       tagged_with: z oznako %{tags}
+      empty_title: Tukaj še ni ničesar
+      empty_upload_html: '%{upload_link} ali izvedite več o sledenju GPS na %{wiki_link}.'
+      upload_new: Naloži novo sled
+      wiki_page: vikistran
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Sl:Beginners%27_guide
       upload_trace: Naloži sled GPS
       all_traces: Vse sledi
       my_traces: Moje sledi
@@ -2687,6 +2749,11 @@ sl:
       support: podpora
       about:
         header: Prosto in z možnostjo urejanja
+        paragraph_1: Za razliko od drugih zemljevidov so OpenStreetMap v celoti ustvarili
+          ljudje, kot ste vi, in ga lahko brezplačno popravi, posodobi, prenese in
+          uporablja vsakdo.
+        paragraph_2: Če želite začeti prispevati, se prijavite. Poslali vam bomo e-pošto
+          za potrditev vašega računa.
       email address: 'E-poštni naslov:'
       confirm email address: 'Potrdite e-poštni naslov:'
       display name: 'Prikazano ime:'
