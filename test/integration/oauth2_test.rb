@@ -131,7 +131,7 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     post oauth_token_path(options)
     assert_response :success
-    token = JSON.parse(response.body)
+    token = response.parsed_body
     assert_equal "Bearer", token["token_type"]
     assert_equal "read_prefs", token["scope"]
 
