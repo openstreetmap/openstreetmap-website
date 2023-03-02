@@ -23,7 +23,7 @@ class ApiAbility
       can [:history, :version], OldRelation
     end
 
-    if user
+    if user&.active?
       can :welcome, :site
       can [:revoke, :authorize], :oauth
 

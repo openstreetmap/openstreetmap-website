@@ -30,7 +30,7 @@ xml.rss("version" => "2.0",
 
         xml.dc :creator, trace.user.display_name
 
-        xml.pubDate trace.timestamp.to_formatted_s(:rfc822)
+        xml.pubDate trace.timestamp.to_fs(:rfc822)
 
         if trace.latitude && trace.longitude
           xml.geo :lat, trace.latitude

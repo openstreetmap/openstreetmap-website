@@ -1,7 +1,6 @@
 OSM.Note = function (map) {
   var content = $("#sidebar_content"),
-      page = {},
-      halo, currentNote;
+      page = {};
 
   var noteIcons = {
     "new": L.icon({
@@ -21,25 +20,12 @@ OSM.Note = function (map) {
     })
   };
 
-  function updateNote(form, method, url) {
-    $(form).find("input[type=submit]").prop("disabled", true);
-
-    $.ajax({
-      url: url,
-      type: method,
-      oauth: true,
-      data: { text: $(form.text).val() },
-      success: function () {
-        OSM.loadSidebarContent(window.location.pathname, page.load);
-      }
-    });
-  }
-
-  page.pushstate = page.popstate = function (path) {
+  page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
-      initialize(function () {
-        var data = $(".details").data(),
-            latLng = L.latLng(data.coordinates.split(","));
+      initialize(path, id, function () {
+        var data = $(".details").data();
+        if (!data) return;
+        var latLng = L.latLng(data.coordinates.split(","));
         if (!map.getBounds().contains(latLng)) moveToNote();
       });
     });
@@ -62,11 +48,25 @@ OSM.Note = function (map) {
     }
   };
 
-  function initialize(callback) {
+  function initialize(path, id, callback) {
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
-      updateNote(e.target.form, data.method, data.url);
+      var form = e.target.form;
+
+      $(form).find("input[type=submit]").prop("disabled", true);
+
+      $.ajax({
+        url: data.url,
+        type: data.method,
+        oauth: true,
+        data: { text: $(form.text).val() },
+        success: function () {
+          OSM.loadSidebarContent(path, function () {
+            initialize(path, id, moveToNote);
+          });
+        }
+      });
     });
 
     content.find("textarea").on("input", function (e) {
@@ -83,35 +83,24 @@ OSM.Note = function (map) {
 
     content.find("textarea").val("").trigger("input");
 
-    var data = $(".details").data(),
-        latLng = L.latLng(data.coordinates.split(","));
+    var data = $(".details").data();
 
-    if (!halo || !map.hasLayer(halo)) {
-      halo = L.circleMarker(latLng, {
-        weight: 2.5,
-        radius: 20,
-        fillOpacity: 0.5,
-        color: "#FF6200"
+    if (data) {
+      map.addObject({
+        type: "note",
+        id: parseInt(id, 10),
+        latLng: L.latLng(data.coordinates.split(",")),
+        icon: noteIcons[data.status]
       });
-      map.addLayer(halo);
     }
-
-    if (currentNote && map.hasLayer(currentNote)) map.removeLayer(currentNote);
-
-    currentNote = L.marker(latLng, {
-      icon: noteIcons[data.status],
-      opacity: 1,
-      interactive: true
-    });
-
-    map.addLayer(currentNote);
 
     if (callback) callback();
   }
 
   function moveToNote() {
-    var data = $(".details").data(),
-        latLng = L.latLng(data.coordinates.split(","));
+    var data = $(".details").data();
+    if (!data) return;
+    var latLng = L.latLng(data.coordinates.split(","));
 
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.withoutMoveListener(function () {
@@ -121,8 +110,7 @@ OSM.Note = function (map) {
   }
 
   page.unload = function () {
-    if (map.hasLayer(halo)) map.removeLayer(halo);
-    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
+    map.removeObject();
   };
 
   return page;

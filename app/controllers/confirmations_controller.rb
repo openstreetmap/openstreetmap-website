@@ -16,10 +16,10 @@ class ConfirmationsController < ApplicationController
     if request.post?
       token = UserToken.find_by(:token => params[:confirm_string])
       if token&.user&.active?
-        flash[:error] = t("confirmations.confirm.already active")
+        flash[:error] = t(".already active")
         redirect_to login_path
       elsif !token || token.expired?
-        flash[:error] = t("confirmations.confirm.unknown token")
+        flash[:error] = t(".unknown token")
         redirect_to :action => "confirm"
       elsif !token.user.visible?
         render_unknown_user token.user.display_name
@@ -40,7 +40,7 @@ class ConfirmationsController < ApplicationController
         end
 
         if token.nil? || token.user != user
-          flash[:notice] = t("confirmations.confirm.success")
+          flash[:notice] = t(".success")
           redirect_to login_path(:referer => referer)
         else
           token.destroy
@@ -63,7 +63,7 @@ class ConfirmationsController < ApplicationController
     token = UserToken.find_by(:token => session[:token])
 
     if user.nil? || token.nil? || token.user != user
-      flash[:error] = t "confirmations.confirm_resend.failure", :name => params[:display_name]
+      flash[:error] = t ".failure", :name => params[:display_name]
     else
       UserMailer.signup_confirm(user, user.tokens.create).deliver_later
       flash[:notice] = { :partial => "confirmations/resend_success_flash", :locals => { :email => user.email, :sender => Settings.email_from } }
@@ -83,9 +83,9 @@ class ConfirmationsController < ApplicationController
         gravatar_enabled = gravatar_enable(current_user)
         if current_user.save
           flash[:notice] = if gravatar_enabled
-                             "#{t('confirmations.confirm_email.success')} #{gravatar_status_message(current_user)}"
+                             "#{t('.success')} #{gravatar_status_message(current_user)}"
                            else
-                             t("confirmations.confirm_email.success")
+                             t(".success")
                            end
         else
           flash[:errors] = current_user.errors
@@ -93,13 +93,13 @@ class ConfirmationsController < ApplicationController
         current_user.tokens.delete_all
         session[:user] = current_user.id
         session[:fingerprint] = current_user.fingerprint
-        redirect_to edit_account_path
       elsif token
-        flash[:error] = t "confirmations.confirm_email.failure"
-        redirect_to edit_account_path
+        flash[:error] = t ".failure"
       else
-        flash[:error] = t "confirmations.confirm_email.unknown_token"
+        flash[:error] = t ".unknown_token"
       end
+
+      redirect_to edit_account_path
     end
   end
 

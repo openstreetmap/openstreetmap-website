@@ -11,25 +11,15 @@ class OauthClientsController < ApplicationController
     @tokens = current_user.oauth_tokens.authorized
   end
 
-  def new
-    @client_application = ClientApplication.new
-  end
-
-  def create
-    @client_application = current_user.client_applications.build(application_params)
-    if @client_application.save
-      flash[:notice] = t "oauth_clients.create.flash"
-      redirect_to :action => "show", :id => @client_application.id
-    else
-      render :action => "new"
-    end
-  end
-
   def show
     @client_application = current_user.client_applications.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     @type = "client application"
     render :action => "not_found", :status => :not_found
+  end
+
+  def new
+    @client_application = ClientApplication.new
   end
 
   def edit
@@ -39,10 +29,20 @@ class OauthClientsController < ApplicationController
     render :action => "not_found", :status => :not_found
   end
 
+  def create
+    @client_application = current_user.client_applications.build(application_params)
+    if @client_application.save
+      flash[:notice] = t ".flash"
+      redirect_to :action => "show", :id => @client_application.id
+    else
+      render :action => "new"
+    end
+  end
+
   def update
     @client_application = current_user.client_applications.find(params[:id])
     if @client_application.update(application_params)
-      flash[:notice] = t "oauth_clients.update.flash"
+      flash[:notice] = t ".flash"
       redirect_to :action => "show", :id => @client_application.id
     else
       render :action => "edit"
@@ -55,7 +55,7 @@ class OauthClientsController < ApplicationController
   def destroy
     @client_application = current_user.client_applications.find(params[:id])
     @client_application.destroy
-    flash[:notice] = t "oauth_clients.destroy.flash"
+    flash[:notice] = t ".flash"
     redirect_to :action => "index"
   rescue ActiveRecord::RecordNotFound
     @type = "client application"

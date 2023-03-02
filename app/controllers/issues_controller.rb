@@ -3,20 +3,22 @@ class IssuesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
 
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
+  before_action :check_database_writable, :only => [:resolve, :ignore, :reopen]
 
   def index
     @title = t ".title"
 
     @issue_types = []
-    @issue_types.concat %w[Note] if current_user.moderator?
-    @issue_types.concat %w[DiaryEntry DiaryComment User] if current_user.administrator?
+    @issue_types.push("Note") if current_user.moderator?
+    @issue_types.push("DiaryEntry", "DiaryComment", "User") if current_user.administrator?
 
     @users = User.joins(:roles).where(:user_roles => { :role => current_user.roles.map(&:role) }).distinct
-    @issues = Issue.visible_to(current_user)
+    @issues = Issue.visible_to(current_user).order(:updated_at => :desc)
 
     # If search
     if params[:search_by_user]&.present?

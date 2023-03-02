@@ -52,8 +52,13 @@ class ApiController < ApplicationController
     # handle authenticate pass/fail
     unless current_user
       # no auth, the user does not exist or the password was wrong
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
+      if Settings.basic_auth_support
+        response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
+        render :plain => errormessage, :status => :unauthorized
+      else
+        render :plain => errormessage, :status => :forbidden
+      end
+
       false
     end
   end
@@ -75,11 +80,13 @@ class ApiController < ApplicationController
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       head :forbidden
-    else
+    elsif Settings.basic_auth_support
       realm = "Web Password"
       errormessage = "Couldn't authenticate you"
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
       render :plain => errormessage, :status => :unauthorized
+    else
+      render :plain => errormessage, :status => :forbidden
     end
   end
 
@@ -94,12 +101,13 @@ class ApiController < ApplicationController
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
   def setup_user_auth
+    logger.info " setup_user_auth"
     # try and setup using OAuth
     if doorkeeper_token&.accessible?
       self.current_user = User.find(doorkeeper_token.resource_owner_id)
     elsif Authenticator.new(self, [:token]).allow?
       # self.current_user setup by OAuth
-    else
+    elsif Settings.basic_auth_support
       username, passwd = auth_data # parse from headers
       # authenticate per-scheme
       self.current_user = if username.nil?
@@ -109,6 +117,8 @@ class ApiController < ApplicationController
                           else
                             User.authenticate(:username => username, :password => passwd) # basic auth
                           end
+      # log if we have authenticated using basic auth
+      logger.info "Authenticated as user #{current_user.id} using basic authentication" if current_user
     end
 
     # have we identified the user?
@@ -132,5 +142,44 @@ class ApiController < ApplicationController
         report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
       end
     end
+  end
+
+  def api_call_handle_error
+    yield
+  rescue ActionController::UnknownFormat
+    head :not_acceptable
+  rescue ActiveRecord::RecordNotFound => e
+    head :not_found
+  rescue LibXML::XML::Error, ArgumentError => e
+    report_error e.message, :bad_request
+  rescue ActiveRecord::RecordInvalid => e
+    message = "#{e.record.class} #{e.record.id}: "
+    e.record.errors.each { |error| message << "#{error.attribute}: #{error.message} (#{e.record[error.attribute].inspect})" }
+    report_error message, :bad_request
+  rescue OSM::APIError => e
+    report_error e.message, e.status
+  rescue AbstractController::ActionNotFound => e
+    raise
+  rescue StandardError => e
+    logger.info("API threw unexpected #{e.class} exception: #{e.message}")
+    e.backtrace.each { |l| logger.info(l) }
+    report_error "#{e.class}: #{e.message}", :internal_server_error
+  end
+
+  ##
+  # asserts that the request method is the +method+ given as a parameter
+  # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
+  def assert_method(method)
+    ok = request.send(:"#{method.to_s.downcase}?")
+    raise OSM::APIBadMethodError, method unless ok
+  end
+
+  ##
+  # wrap an api call in a timeout
+  def api_call_timeout(&block)
+    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
+  rescue Timeout::Error
+    ActiveRecord::Base.connection.raw_connection.cancel
+    raise OSM::APITimeoutError
   end
 end

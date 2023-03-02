@@ -3,17 +3,31 @@ class IssueCommentsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
+
+  before_action :check_database_writable, :only => [:create]
 
   def create
     @issue = Issue.find(params[:issue_id])
     comment = @issue.comments.build(issue_comment_params)
     comment.user = current_user
     comment.save!
-    notice = t(".comment_created")
-    reassign_issue(@issue) if params[:reassign]
-    redirect_to @issue, :notice => notice
+
+    if params[:reassign]
+      reassign_issue(@issue)
+      flash[:notice] = t ".issue_reassigned"
+
+      if current_user.has_role? @issue.assigned_role
+        redirect_to @issue
+      else
+        redirect_to issues_path(:status => "open")
+      end
+    else
+      flash[:notice] = t(".comment_created")
+      redirect_to @issue
+    end
   end
 
   private

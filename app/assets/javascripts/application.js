@@ -17,7 +17,7 @@
 //= require leaflet.locationfilter
 //= require i18n
 //= require oauth
-//= require piwik
+//= require matomo
 //= require richtext
 //= require querystring
 //= require qs/dist/qs
@@ -40,6 +40,7 @@ window.updateLinks = function (loc, zoom, layers, object) {
     delete args.way;
     delete args.relation;
     delete args.changeset;
+    delete args.note;
 
     if (object && editlink) {
       args[object.type] = object.id;
@@ -63,14 +64,15 @@ window.updateLinks = function (loc, zoom, layers, object) {
     link.href = href;
   });
 
+  // Disable the button group and also the buttons to avoid
+  // inconsistent behaviour when zooming
   var editDisabled = zoom < 13;
   $("#edit_tab")
     .tooltip({ placement: "bottom" })
-    .off("click.minzoom")
-    .on("click.minzoom", function () { return !editDisabled; })
+    .tooltip(editDisabled ? "enable" : "disable")
     .toggleClass("disabled", editDisabled)
-    .attr("data-original-title", editDisabled ?
-      I18n.t("javascripts.site.edit_disabled_tooltip") : "");
+    .find("a")
+    .toggleClass("disabled", editDisabled);
 };
 
 window.maximiseMap = function () {
@@ -149,4 +151,7 @@ $(document).ready(function () {
   if (application_data.location) {
     OSM.location = application_data.location;
   }
+
+  $("#edit_tab")
+    .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
 });

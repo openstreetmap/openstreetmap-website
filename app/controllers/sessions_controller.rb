@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @title = t "sessions.destroy.title"
+    @title = t ".title"
 
     if request.post?
       if session[:token]
@@ -38,11 +38,7 @@ class SessionsController < ApplicationController
 
       referer = safe_referer(params[:referer]) if params[:referer]
 
-      if referer
-        redirect_to referer
-      else
-        redirect_to :controller => "site", :action => "index"
-      end
+      redirect_to referer || { :controller => "site", :action => "index" }
     end
   end
 
@@ -56,7 +52,7 @@ class SessionsController < ApplicationController
     elsif (user = User.authenticate(:username => username, :password => password, :pending => true))
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("sessions.new.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe, username
+      failed_login({ :partial => "sessions/suspended_flash" }, username)
     else
       failed_login t("sessions.new.auth failure"), username
     end

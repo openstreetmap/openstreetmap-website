@@ -18,7 +18,7 @@ nqo:
       prompt: ߞߐߕߐ߮ ߛߎߥߊ߲ߘߟߌ
     submit:
       diary_comment:
-        create: ߊ߬ ߟߊߞߎ߲߬ߘߎ߬
+        create: ߡߙߌߣߊ߲
       diary_entry:
         create: ߟߊ߬ߥߊ߲߬ߞߊ߬ߟߌ
         update: ߟߏ߲ߘߐߦߊߟߌ
@@ -29,7 +29,7 @@ nqo:
       client_application:
         create: ߕߐ߯ߛߓߍߟߌ
         update: ߟߏ߲ߘߐߦߊߟߌ
-      doorkeeper_application:
+      oauth2_application:
         create: ߕߐ߯ߛߓߍߟߌ
         update: ߟߏ߲ߘߐߦߊߟߌ
       redaction:
@@ -102,7 +102,7 @@ nqo:
         title: ߝߐߡߊ
         latitude: ߦߙߐ ߘߟߊߕߍ߯ߦߊ߫
         longitude: ߘߎ߰ߕߍ߬ߟߍ߲߬ߦߊ
-        language: ߞߊ߲
+        language_code: ߞߊ߲
       doorkeeper/application:
         name: ߕߐ߮
         redirect_uri: URLs ߟߊߞߎ߲߬ߛߌ߲߬ߠߌ߲
@@ -155,6 +155,8 @@ nqo:
           ߜߎ߲߬ߘߎ ߟߎ߬ ߘߌ߫ ߡߊ߬ߙߊ߫ ߜߎ߲߬ߘߎ ߘߐ߫ (ߜߋߟߋ߲ߜߋߟߋ߲ ߟߥߊ߬ߟߌ߬ߟߊ߲ ߓߐߖߎ ߟߎ߬ ߣߌ߫ ߞߐߜߍ߫
           ߜߋ߲߬ߞߋߟߋ߲ ߟߥߊ߬ߟߌ߬ߟߊ߲ ߠߎ߬ ߕߍ߫ ߜߎ߲߬ߘߎ߬ߕߊ߫ ߘߌ߫)
         redirect_uri: ߛߌ߬ߕߊ߬ߙߌ߬ ߞߋߟߋ߲߫ ߠߊߓߊ߯ߙߊ߫ URL ߡߊ߬
+      trace:
+        tagstring: ߓߟߏߡߟߊ ߡߍ߲ ߠߎ߬ ߕߍߝߘߊߣߍ߲߫ ߦߋ߫ ߦߟߌߘߟߐ ߟߊ߫
       user_block:
         needs_view: ߊ߬ ߝߐ߫ ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߡߊ߬ߞߏ ߦߋ߫ ߜߊ߲߬ߞߎ߲߬ߠߌ߲ ߠߊ߫ ߓߊ߬ߟߌ߬ߟߌ ߣߌ߲߬ ߞߏ
           ߟߛߊߣߌ߲ߧߊ ߕߍ߫ ߓߊ߬؟
@@ -236,13 +238,11 @@ nqo:
       current email address: ߕߋ߲߭ߕߋ߲߭ ߢߎߡߍߙߋ߲߫ ߞߏ߲ߘߏ
       external auth: ߞߐߞߊ߲ߠߊ ߕߎ߬ߡߊ߬ߢߐ߲߰ߦߊ߬ߟߌ
       openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ߡߎ߲߬ ߦߋ߫ ߣߌ߲߬ ߘߌ߫؟
       public editing:
         heading: ߖߊ߬ߡߊ ߟߊ߫ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲
         enabled: ߓߘߊ߫ ߓߌ߬ߟߴߊ߬ ߟߊ߫. ߊ߬ ߕߍ߫ ߘߋ߬ ߞߏ߫ ߕߐ߯ߒߕߊ߲ ߛߋ߫ ߕߐ߫ ߓߍ߫ ߟߐ߲ߕߊ ߡߊߦߟߍ߬ߡߊ߲߫
           ߠߊ߫.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ߣߌ߲߬ ߦߋ߫ ߡߎ߲߬ ߘߌ߫؟
         disabled: ߊ߬ ߓߘߊ߫ ߓߴߊ߬ ߟߊ߫ ߊ߬ ߘߏ߲߬ ߕߍ߫ ߛߋ߫ ߟߐ߲ߕߊ ߡߊߦߟߍ߬ߡߊ߲߫ ߠߊ߫߸ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲
           ߛߎ߯-ߎ-ߛߎ߫ ߞߐ߲߬ߣߍ߲߫ ߦߋ߫ ߢߍ ߘߐ߫߸ ߏ߬ ߓߍ߯ ߦߋ߫ ߕߐ߯ߒߕߊ߲ ߠߋ߬ ߘߌ߫.
@@ -343,6 +343,9 @@ nqo:
         changeset: ߟߊ߬ߘߏ߲߬ߠߌ߲ ߡߊ߬ߝߊ߬ߟߋ߲߬ߠߌ߲
         note: ߘߐ߬ߞߌߛߍ
     redacted:
+      redaction: ߥߣߊ߬ߙߌ߬ߣߍ߲ %{id}
+      message_html: ߦߌߟߡߊ %{version} ߣߌ߲߬ %{type} ߕߍ߫ ߛߐ߲߬ ߦߌ߬ߘߊ߬ ߟߊ߫ ߓߊߏ߬ ߊ߬ ߥߣߊ߬ߙߌ߬ߣߍ߲߫
+        ߠߋ߬. %{redaction_link} ߦߋ߫ ߖߊ߰ߣߌ߲߫ ߝߊߙߊ߲ߝߊ߯ߛߌ߫ ߞߏ ߘߐ߫.
       type:
         node: ߥߎߙߋ߲ߛߋ߲
         way: ߛߌߟߊ
@@ -360,6 +363,7 @@ nqo:
       wikimedia_commons_link: '%{page} ߞߣߐߘߐ ߥߞߌߡߋߘߌߦߊ߫ ߞߐߡߐ߲ ߞߊ߲߬'
       telephone_link: ߞߟߌߟߌ %{phone_number}
       colour_preview: ߞߐ߬ߟߐ %{colour_value} ߢߍߕߊ
+      email_link: ߢ:ߞߏ߲ߘߏ %{email}
     note:
       title: 'ߦߟߌߣߐ: %{id}'
       new_note: ߦߟߌߣߐ߫ ߞߎߘߊ߫
@@ -380,7 +384,7 @@ nqo:
       reopened_by_html: ߊ߬ ߟߊߞߎߣߎ߲ߣߍ߲߫ ߕߎ߲߯ %{user} ߟߋ߬ ߓߟߏ߫ <abbr title='%{exact_time}'>%{exact_time}%{when}</abbr>
       reopened_by_anonymous_html: ߊ߬ ߟߊߞߎߣߎ߲ߣߍ߲߫ ߦߋ߫ ߕߐ߯ߒߕߊ߲ ߠߋ߬ ߓߟߏ߫ <abbr title='%{exact_time}'>%{exact_time}%{when}</abbr>
       hidden_by_html: ߊ߬ ߢߡߊߘߏ߲߰ߣߍ߲߬ ߦߋ߫ %{user} ߟߋ߬ ߓߟߏ߫ <abbr title='%{exact_time}'>%{exact_time}%{when}</abbr>
-      report: ߞߟߏߜߍ ߣߌ߲߬ ߠߊߞߏߝߐ߫
+      report: ߦߟߌߣߐ ߣߌ߲߬ ߠߊߞߏߝߐ߫
     query:
       title: ߟߊ߬ߓߊ߰ߙߊ߬ߟߌ ߟߎ߬ ߡߊߢߌ߬ߣߌ߲߬ߞߊ߫
       introduction: ߡߊߔ ߛߐ߲߬ߞߌ߲߫ ߞߊ߬ ߌ ߡߊߛߘߎ߬ߧߊ߬ ߟߊߓߊ߯ߙߊߟߌ ߟߎ߫ ߢߌߣߌ߲߫.
@@ -404,6 +408,7 @@ nqo:
     index:
       title: ߟߊ߬ߘߏ߲߬ߠߌ߲ ߠߎ߬ ߡߊߝߊ߬ߟߋ߲߫
       title_user: '%{user} ߓߘߊ߫ ߟߊ߬ߘߏ߲߬ߠߌ߲ ߡߊߝߊ߬ߟߋ߲߫'
+      title_user_link_html: ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲߫ ߞߙߎ %{user_link} ߓߟߏ߫
       title_friend: ߒ ߕߋߙߌ ߓߘߊ߫ ߟߊ߬ߘߏ߲߬ߠߌ߲ ߡߊߝߊ߬ߟߋ߲߫
       title_nearby: ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲ ߡߍ߲ ߟߊߘߏ߲߬ߣߍ߲߫ ߛߌ߬ߢߐ߲߰ ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߟߎ߬ ߓߟߏ߫
       empty: ߟߊ߬ߘߏ߲߬ߠߌ߲߬ ߡߊ߬ߝߊ߬ߟߋ߲߬ߠߌ߲߬ ߡߊ߫ ߛߐ߬ߘߐ߲߫
@@ -419,6 +424,8 @@ nqo:
   changeset_comments:
     comment:
       commented_at_by_html: ߊ߬ ߟߊߘߎߘߦߊߣߍ߲߫ ߦߋ߫ %{when} ߊ߬ ߣߌ߫ %{user} ߓߟߏ߫
+    index:
+      title_all: ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲߫ ߞߙߎ ߘߊߘߐߖߊߥߏ
   dashboards:
     contact:
       km away: ߞߎߘߍ %{count} ߝߏ߬ߣߊ߲ ߠߊ߫
@@ -533,36 +540,42 @@ nqo:
     search:
       title:
         latlon_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="https://openstreetmap.org/">ߞߣߐߟߊ</a>
-        ca_postcode_html: ߞߐߝߟߌ ߟߎ߬ ߞߊ߬ ߝߘߊ߫ <a href="https://geocoder.ca/">ߘߎ߱ߘߏߞߊ߲</a>
         osm_nominatim_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="https://nominatim.openstreetmap.org/">ߏߔߌ߲ߛߕߑߙߌߕߑߡߊߔ</a>
-          ߟߊ߫
-        geonames_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="http://www.geonames.org/">ߘߎ߱ߕߐ߮</a>
           ߟߊ߫
         osm_nominatim_reverse_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="https://nominatim.openstreetmap.org/">ߕߐ߯ߦߊߟߌ</a>
           ߟߊ߫
-        geonames_reverse_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="http://www.geonames.org/">ߘߎ߱ߕߐ߮</a>
     search_osm_nominatim:
       prefix:
         aerialway:
           cable_car: ߘߎ߲ߞߎߟߎ߲
           chair_lift: ߥߎߟߊߛߌ߯ߝߋ߲
+          drag_lift: ߕߣߍ߬ߣߍ߬ߡߟߊߡߟߊ
+          gondola: ߖߟߎ߬ߞߎߟߎ߲
+          magic_carpet: ߘߎ߰ߓߍ߲߬ ߞߘߎߞߘߎߟߊ
+          platter: ߕߊ߬ߢߍ߲ߞߍߘߍ߲
+          station: ߘߎ߲ߞߎߟߎ߲ ߟߐ߬ߘߊ߮
+          "yes": ߛߊ߲ߡߊ߫ ߛߌߟߊ (ߘߎ߲ߞߎߟߎ߲)
         aeroway:
-          gate: ߘߏ߲߬ߘߊ
+          aerodrome: ߛߊ߲ߡߊߞߎߟߎ߲߫ ߜߘߋ
+          airstrip: ߖߌ߰ߟߌ߬ ߜߘߋ (ߛߊ߲ߡߊߞߎߟߎ߲)
+          gate: ߛߊ߲ߡߊߘߊ߲ ߘߏ߲߬ߘߊ
           hangar: ߜߕߊ
           helipad: ߛߊ߲ߡߊߘߊ߲
           holding_position: ߛߊ߲ߡߊߘߊ߲߫ ߦߙߐ
-          navigationaid: ߛߊ߲ߡߊߘߊ߲ ߛߏ߯ߓߊߟߌ ߘߍ߬ߡߍ߲߬ߠߌ߲ ߠߎ߬
+          navigationaid: ߛߊ߲ߡߊߞߎߟߎ߲ ߖߊ߲ߓߊ߲ߠߌ߲ ߘߍ߬ߡߍ߲߬ߠߌ߲ ߠߎ߬
           parking_position: ߟߐ߬ߟߌ ߘߌ߲߬ߞߌߙߊ
           runway: ߓߏ߬ߙߌ߬ ߛߌߟߊ
           taxilane: ߛߌߟߊ߫ ߡߊߡߌ߬ߘߊ߬ߣߍ߲ ߠߎ߬ ߞߐ߲߰ߛߏ ߛߙߊ߬ߕߊ ߦߋ߫
           taxiway: ߥߊߛߌߥߊߟߌ߫ ߛߌߟߊ
-          terminal: ߟߊ߬ߓߊ߲
+          terminal: ߛߊ߲ߡߊߘߊ߲ ߞߎ߲߬ߝߊ߮
         amenity:
           animal_boarding: ߓߌߦߊ߲߫ ߠߊߦߟߍ߫ ߦߌߟߊ
+          animal_shelter: ߓߌߦߊ߲ ߠߎ߬ ߥߊ߬ߣߊߙߌ
           arts_centre: ߞߎ߬ߛߊ߲߬ߧߊ ߕߊ߲ߓߊ߲
           bank: ߜߍߓߏ߲
           bar: ߡߌ߲߬ߓߏ߲
           bbq: BBQ
+          bench: ߛߌ߰ߟߊ߲
           bicycle_parking: ߣߍ߰ߛߏ߬ ߜߘߋ
           bicycle_rental: ߣߍ߰ߛߏ߬ ߛߎߝߙߎ
           bicycle_repair_station: ߣߍ߰ߛߏ߬ ߘߐ߬ߓߍ߲߬ ߦߌߟߊ
@@ -573,6 +586,7 @@ nqo:
           bus_station: ߞߎߟߎ߲ߓߏ߲߫ ߟߐ߫ ߦߙߐ
           cafe: ߞߊߝߋ
           car_rental: ߞߐ߲߬ߛߏ߬ ߛߎ߬ߝߙߎ߬ ߦߙߐ
+          car_sharing: ߘߍ߬ߒ߬ߡߊ߬ߞߐ߲ߛߏ
           car_wash: ߞߐ߲߬ߛߏ߬ ߞߏ߬ ߦߌߟߊ
           casino: ߞߊߛߌߣߏ
           childcare: ߘߋ߲ߣߍ߲߫ ߠߊߡߙߊ߫ ߦߌߟߊ
@@ -585,12 +599,15 @@ nqo:
           drinking_water: ߖߌ߫ ߡߌ߲߬ߕߊ
           driving_school: ߞߐ߲߬ߛߏ߬ ߞߊߙߊ߲ߕߊ
           embassy: ߟߊ߬ߛߌ߰ߘߊ
+          fast_food: ߛߎ߬ߡߊ߲߬ ߞߊߟߌ߲
+          ferry_terminal: ߝߋ߰ߙߌ ߘߊ߲߬ߦߙߐ
           fire_station: ߕߊ߫ ߟߊߛߟߊ ߟߎ߬
           fountain: ߕߋ߲߬ߞߋ
-          fuel: ߖߋ߬ߣߌ߲߬ߕߊ
+          fuel: ߖߋ߬ߣߌ߲߬ߕߊ ߝߊߝߊ
           gambling: ߣߊ߲߬ߞߊ߬ߡߎ߲߬ߣߊ߲ߞߊߡߎ߲
           grave_yard: ߞߊߓߙߎߟߏ
           hospital: ߘߊ߲ߘߊߛߏ
+          hunting_stand: ߟߐ߬ ߞߊ߬ ߓߏ߲
           ice_cream: ߣߍߣߍߞߓߊ
           internet_cafe: ߓߟߐߟߐ߫ ߞߊߝߋ
           kindergarten: ߘߡߊߞߟߏ߫ ߞߊߙߊ߲ߕߊ
@@ -628,6 +645,7 @@ nqo:
           toilets: ߢߍ߲߮
           townhall: ߛߏߕߌ߯ߘߊ
           university: ߖߊ߯ߓߘߊ
+          vending_machine: ߝߋ߰ߙߋ߬ߞߍ߬ ߕߙߏߞߏ
           veterinary: ߓߌߦߊ߲ߘߊ߲ߘߟߊ ߘߐ߬ߓߛߏ߬ߟߌ
           village_hall: ߕߏ߯ߘߊ ߛߏߕߌ߯ߟߊ߫
           waste_basket: ߢߡߊ߬ߞߍ߬ߝߋ߲
@@ -648,18 +666,28 @@ nqo:
           commercial: ߖߎ߬ߟߦߊ ߓߏ߲
           construction: ߓߏ߲ ߡߍ߲ ߦߋ߫ ߟߐ߬ߟߌ ߘߊߞߘߐ߫
           farm: ߛߣߍ߬ߘߐ߬ ߟߎ
+          garage: ߘߐ߬ߓߍ߲߬ߘߊ
+          garages: ߘߐ߬ߓߍ߲߬ߘߊ
+          greenhouse: ߥߟߊߞߘߊߡߊ
           hangar: ߜߕߊ
           hospital: ߘߊ߲ߘߊߛߏ ߓߏ߲
           hotel: ߖߌ߬ߦߊ߬ߓߏ߲
           house: ߟߎ
+          houseboat: ߝߎ߲ߓߏ߲
+          hut: ߓߎ߭ (ߖߐ߲߬ߞߐ\ߕߏ߮)
           industrial: ߝߊ߲ߓߏ߲ ߓߏ߲
           kindergarten: ߘߋߣߍ߲߫ ߓߘߎߓߘߎ߫ ߞߊߙߊ߲ߕߊ
           manufacture: ߝߊ߲ߓߏ߲
           office: ߛߓߍߘߊ߫ ߓߏ߲
           public: ߝߘߏ߬ߓߊ߬ ߓߏ߲
           residential: ߡߊ߬ߞߍ߬ߦߙߐ߬ ߓߏ߲
+          retail: ߣߍ߰ߛߌߟߊ ߡߣߐ߬ߓߏ߲
+          roof: ߕߌߓߊ
+          ruins: ߓߏ߲߫ ߜߘߊ
           school: ߞߊ߬ߙߊ߲߬ߕߊ
+          train_station: ߛߌ߬ߛߌ߬ߞߎߟߎ߲ ߟߐ߬ߘߊ߬ߟߊ߫ ߓߏ߲
           university: ߖߊ߯ߓߘߊ ߓߏ߲
+          warehouse: ߡߣߐ߬ߓߏ߲
         craft:
           electrician: ߢߎߡߍߦߟߊ
           electronics_repair: ߢߎߡߍ߫ ߘߐߓߍ߲߫ ߦߙߐ
@@ -764,7 +792,10 @@ nqo:
           peninsula: ߕߌ߲ߡߎߣߎ߲
           point: ߕߏ߲ߘߋ
           sand: ߕߌ߬ߢߍ
+          stone: ߞߓߊ
+          strait: ߕߟߍ
           tree: ߦߙߌߖߎ
+          tree_row: ߦߙߌ߫ ߛߝߊ
           valley: ߝߏ߲ߝߊ߲
           volcano: ߕߊߞߙߎ
           water: ߖߌ
@@ -811,8 +842,11 @@ nqo:
           construction: ߣߍ߰ߛߌߟߊ ߡߍ߲ ߦߋ߫ ߓߏ߲߫ ߟߐ߬ߣߍ߲ ߠߎ߬ ߞߘߐ߫
           halt: ߛߌ߬ߛߌ߬ߞߎߟߎ߲ ߟߐ߬ߦߙߐ
           junction: ߣߍ߰ߛߌߟߊ ߓߍ߲߬ߕߍ
+          light_rail: ߣߍ߰ߛߌ߬ߟߊ߫ ߡߊ߲ߞߊ߲
+          miniature: ߣߍ߰ߛߌ߬ߟߊ߫ ߡߌߛߍ߲
           preserved: ߣߍ߰ߛߌ߬ߟߊ߬ ߟߊߞߊ߲ߘߊߣߍ߲
           proposed: ߣߍ߰ߛߌߟߊ ߖߊ߬ߕߋ߬ߘߐ߬ߛߌ߰ߣߍ߲
+          rail: ߣߍ߰ߛߌߟߊ
           spur: ߛߌ߬ߛߌ߬ߞߎߟߎ߲ ߟߐ߬ߦߙߐ
           station: ߣߍ߰ߛߌߟߊ ߟߐ߬ߘߊ߮
           stop: ߛߌ߬ߛߌ߬ߞߎߟߎ߲ ߟߐ߬ߦߙߐ
@@ -867,6 +901,7 @@ nqo:
           music: ߘߐ߲߬ߞߟߌ ߝߎ߲ߞߎ߲
           musical_instrument: ߘߐ߲߬ߞߟߌ߬ߟߊ߬ ߡߎߙߊ߲ ߠߎ߬
           nutrition_supplements: ߛߎ߬ߡߊ߲߬ ߡߊ߬ߛߐ߬ߟߊ ߟߎ߫
+          paint: ߓߐߙߐ߲ߜߍ߫ ߝߎ߲ߞߎ߲
           pet: ߓߌߦߊ߲ ߠߎ߬ ߟߊ߫ ߝߎ߲ߞߎ߲
           pet_grooming: ߛߏߞߣߐ߫ ߓߌߦߊ߲ ߠߎ߬ ߘߊ߲ߘߊ߫ ߦߌߟߊ
           photo: ߖߌ߬ߦߊ߬ߖߊߛߏ߲ ߝߎ߲ߞߎ߲
@@ -1067,7 +1102,6 @@ nqo:
     gpx_failure:
       hi: '%{to_user} ߣߌ߫ ߕߎ߬ߡߊ߬'
       failed_to_import: 'ߟߊ߬ߛߣߍ߬ߟߌ߬ ߗߌߙߏ߲ߣߍ߲. ߝߎ߬ߕߎ߲߬ߕߌ ߦߋ߫ ߦߊ߲߬:'
-      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ] GPX ߟߊߛߣߍߟߌ ߓߘߊ߫ ߗߌߙߏ߲߫'
     gpx_success:
       hi: ߌ ߣߌ߫ ߕߎ߬ߡߊ߫ %{to_user}
@@ -1430,11 +1464,9 @@ nqo:
         url: /welcome
         title: ߌ ߣߌ߫ ߛߣߍ߫ ߏߔߌ߲߫ ߛߕߑߙߌߕ ߡߊߔ ߞߊ߲߬߹
       beginners_guide:
-        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: ߘߊߡߌߣߊߟߌߟߊ ߟߎ߬ ߢߍߡߌߘߊ
         description: ߘߍ߬ߘߊ ߦߋ߫ ߢߍߡߌߘߊ ߘߏ߫ ߘߐߓߍ߲߬ ߠߊ߫ ߘߊߡߌߣߊߟߌߟߊ ߟߎ߬ ߦߋ߫.
       help:
-        url: https://help.openstreetmap.org/
         title: ߘߍ߬ߡߍ߲߬ߠߌ߲ ߟߐ߯ߓߊߟߐ
         description: ߢߌ߬ߣߌ߲߬ߞߊ߬ߟߌ ߘߏ߫ ߞߍ߫ ߤߊߡߊ߲ߕߍ߫ ߞߊ߬ ߖߋ߬ߓߌ ߘߏ߫ ߟߎ߫ ߡߊߝߟߍ߫ ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ
           ߢߌ߬ߣߌ߲߬ߞߊ߬ߟߌ-ߣߴߊ߬-ߖߋ߬ߓߌ ߞߍߦߙߐ ߞߊ߲߬.
@@ -1443,10 +1475,8 @@ nqo:
       forums:
         title: ߟߐ߯ߓߊߟߐ
       welcomemat:
-        url: https://welcome.openstreetmap.org/
         title: ߛߌ߲߬ߝߏ߲߬ߘߊ ߢߍ߫
       wiki:
-        url: https://wiki.openstreetmap.org/
         title: ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ ߥߞߌ
         description: ߥߞߌ ߛߏ߲߯ߓߊ߫ ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ ߘߐ߬ߛߙߋ߬ߦߊ߬ߟߌ߬ ߘߐߘߎ߲߰ߧߊ߬ߣߍ߲߬ ߞߏ߫ ߘߐ߫
     sidebar:
@@ -1513,7 +1543,6 @@ nqo:
     new:
       upload_trace: GPS ߜߋ߬ߙߋ ߟߊߞߎߘߦߊ߫
       visibility_help: ߣߌ߲߬ ߞߘߐ ߦߋ߫ ߡߎ߲߬ ߘߌ߫؟
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: ߘߍ߬ߡߍ߲߬ߠߌ߲
       help_url: https://wiki.openstreetmap.org/ߥߞߌ/ߟߊ߬ߦߟߍ߬ߟߌ
     create:
@@ -1564,13 +1593,13 @@ nqo:
       in: ߘߐ߫
     index:
       public_traces: ߜߍߘߐ߫ GPS ߜߋ߬ߙߋ ߟߎ߬
-      my_traces: ߒ ߝߏ߲߬ߝߏ߲ ߠߎ߬
       public_traces_from: ߜߍߘߐ߫ ߜߙߋ ߟߎ߬ ߞߊ߬ ߝߘߊ߫ %{user} ߟߊ߫
       empty_html: ߝߏߦߌ߬ ߕߍ߫ ߦߊ߲߬ ߡߎߣߎ߲߬. <a href='%{upload_link}'>ߜߙߋ߬ ߞߎߘߊ߫ ߟߊߦߟߍ߬</a>ߥߟߊ߫
         ߘߏ߫ ߜߘߍ߫ ߟߎ߫ ߘߐߞߊ߬ߙߊ߲ ߞߊ߬ ߓߍ߲߬ GPS ߜߙߋ߬ߓߐ߬ߟߌ ߡߊ߬ <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>ߥߞߌ߫
         ߞߐߜߍ</a> ߞߊ߲߬.
       upload_trace: ߜߋ߬ߙߋ ߘߏ߫ ߟߊߦߟߍ߬
       all_traces: ߜߋ߬ߙߋ ߟߎ߬ ߓߍ߯
+      my_traces: ߒ ߝߏ߲߬ߝߏ߲ ߠߎ߬
       traces_from: ߜߍߘߐ߫ ߜߙߋ ߟߎ߬ ߞߊ߬ ߝߘߊ߫ %{user} ߟߊ߫
     destroy:
       scheduled_for_deletion: ߜߋ߬ߙߋ ߟߐ߯ߟߊߟߌ ߖߏ߰ߛߌ߬ ߞߊ߲ߡߊ߬
@@ -1726,7 +1755,6 @@ nqo:
         ߟߊ߫ ߛߟߊ߫ ߘߐߞߊ߬ߙߊ߲߬ߕߊ</a> ߣߌ߫ <a href="%{translations}">ߞߎ߲߬ߠߊ߬ߝߏߣߌ߲ ߘߟߊߡߌߘߊߟߌ</a>
         ߘߏ߫ ߟߎ߫'
       continue: ߊ߬ ߘߊߓߊ߲߫
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       legale_select: 'ߌ ߛߌ߰ߣߍ߲߬ ߦߋ߫ ߖߡߊ߬ߣߊ ߡߍ߲ ߘߐ߫:'
       legale_names:
         france: ߝߊ߬ߙߊ߲߬ߛߌ߫
@@ -1737,7 +1765,6 @@ nqo:
         ߞߎߘߊ ߛߙߊߕߌ ߟߊߡߌ߬ߣߊ߫ ߟߊ߫. ߛߴߌ ߘߌ߫ ߞߎ߲߬ߠߊ߬ߝߏ߬ߣߌ߲߫ ߛߌߦߊߡߊ߲߫ ߞߏ ߘߐ߫߸ %{terms_declined_link}
         ߘߐߜߍ߫ ߖߊ߰ߣߌ߲߫.
       terms_declined_link: ߥߞߌ߫ ߞߐߜߍ ߣߌ߲߬
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ߫ ߛߎ߮ ߏ߬ ߕߍ߫ ߦߋ߲߬
       heading: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ %{user} ߕߍ߫ ߦߋ߲߬
@@ -1795,6 +1822,11 @@ nqo:
       support: ߘߍ߬ߡߍ߲߬ߠߌ߲
     auth_failure:
       unknown_error: ߕߎ߬ߡߊ߬ߢߐ߲߰ߦߊ ߓߘߊ߫ ߗߌߙߏ߲߫
+  user_role:
+    grant:
+      confirm: ߊ߬ ߟߊߛߙߋߦߊ߫
+    revoke:
+      confirm: ߊ߬ ߟߊߛߙߋߦߊ߫
   user_blocks:
     helper:
       time_future_html: ߘߌ߫ ߓߊ߲߫ %{time} ߟߊ߫.
@@ -1832,12 +1864,22 @@ nqo:
       link: ߛߘߌ߬ߜߋ߲ ߥߟߊ߫ HTML
       long_link: ߛߘߌ߬ߜߋ߲
       short_link: ߛߘߌ߬ߜߋ߲߫ ߛߎߘߎ߲
+      geo_uri: ߘߎ߰ߡ URL
+      embed: HTML
+      format: 'ߖߙߎߡߎ߲:'
+      download: ߟߊ߬ߖߌ߰ߒ߬ߞߎ߲߬ߠߌ߲
+      short_url: URL ߛߎߘߎ߲
+      center_marker: ߔߊ߬ߔߘߊ ߕߊ߲ߓߊ߲ߓߐ߫ ߣߐ߬ߣߐ߬ߟߊ߲ ߠߊ߫
+      view_larger_map: ߔߊ߬ߔߘߊ߬ ߘߐߥߛߊ߬ߣߍ߲ ߦߋ߫
     map:
       zoom:
         in: ߞߵߊ߬ ߡߊߛߊ߬ߡߊ߲߫
         out: ߊ߬ ߡߊߓߐ߫
       locate:
         title: ߒ ߘߌ߲߬ߞߌߙߊ ߦߌ߬ߘߊ߬
+      base:
+        standard: ߛߎߡߊ߲ߘߊ߲ߕߊ
+        transport_map: ߡߊ߬ߘߏ߬ߣߌ߲߬ߠߌ߲ ߔߊ߬ߔߘߊ
       layers:
         notes: ߡߊߔ ߦߟߌߣߐ ߟߎ߬
         data: ߔߊ߬ߔߘߊ ߟߐ߲ߕߊ
@@ -1858,7 +1900,21 @@ nqo:
         unsubscribe: ߊ߬ ߡߊߝߘߎߣߍ߲ ߓߐ߫
         hide_comment: ߊ߬ ߢߡߊߘߏ߲߰
         unhide_comment: ߊ߬ ߟߊ߲ߞߣߍߡߦߊ߫
+    notes:
+      new:
+        add: ߦߟߌߣߐ ߝߙߊ߬
+      show:
+        hide: ߊ߬ ߢߡߊߘߏ߲߰
+        resolve: ߊ߬ ߢߊߓߐ߫
+        reactivate: ߊ߬ ߟߊߞߎߣߎ߲߫
     directions:
+      engines:
+        fossgis_osrm_bike: ߣߍ߰ߛߏ (OSRM)
+        fossgis_osrm_car: ߞߐ߲߬ߛߏ (OSRM)
+        fossgis_osrm_foot: ߛߋ߲߬ߡߊ߬ߟߊ (OSRM)
+        graphhopper_bicycle: ߣߍ߰ߛߏ (GraphHopper)
+        graphhopper_car: ߞߐ߲߬ߛߏ (GraphHopper)
+        graphhopper_foot: ߛߋ߲߬ߡߊ߬ߟߊ (GraphHopper)
       directions: ߞߎ߲߬ߕߋߟߋ߲
       distance: ߝߏ߬ߣߊ߲
       errors:
@@ -1872,8 +1928,10 @@ nqo:
         uturn_without_exit: ߌ ߡߎߙߎ߲ߘߎ߫ ߞߵߌ ߞߐߛߊ߬ߦߌ߫ %{name} ߡߊ߬
         sharp_left_without_exit: ߊ߬ ߕߟߌߡߌ߲߫ ߣߎߡߊ߲ ߝߍ߬ %{name} ߘߌ߫
         turn_left_without_exit: ߊ߬ ߕߟߌߡߌ߲߫ ߣߎߡߊ߲ ߝߍ߬ %{name} ߘߌ߫
+        follow_without_exit: '%{name} ߟߊߓߊ߬ߕߏ߬'
         start_without_exit: ߊ߬ ߘߊߡߌ߬ߣߊ߬ %{name} ߡߊ߬
         destination_without_exit: ߕߊ߯ߦߙߐ ߟߊߛߐ߬ߘߐ߲߬
+        unnamed: ߛߌߟߊ߫ ߕߐ߯ߒߕߊ߲
         exit_counts:
           first: ߁߭
           second: ߂߲

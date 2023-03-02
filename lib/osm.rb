@@ -520,7 +520,7 @@ module OSM
 
   # Return the HTTP client to use
   def self.http_client
-    @http_client ||= Faraday.new
+    @http_client ||= Faraday.new(:request => { :timeout => 15 })
   end
 
   # Return the MaxMindDB database handle

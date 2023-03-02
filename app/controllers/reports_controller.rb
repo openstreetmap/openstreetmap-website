@@ -3,8 +3,11 @@ class ReportsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
+
+  before_action :check_database_writable, :only => [:new, :create]
 
   def new
     if required_new_report_params_present?
@@ -28,7 +31,8 @@ class ReportsController < ApplicationController
 
       redirect_to helpers.reportable_url(@report.issue.reportable), :notice => t(".successful_report")
     else
-      redirect_to new_report_path(:reportable_type => @report.issue.reportable_type, :reportable_id => @report.issue.reportable_id), :notice => t(".provide_details")
+      flash.now[:notice] = t(".provide_details")
+      render :action => "new"
     end
   end
 

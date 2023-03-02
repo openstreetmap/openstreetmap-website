@@ -199,7 +199,7 @@ class UserMailer < ApplicationMailer
         avatar.blob.download
       end
     else
-      File.read(Rails.root.join("app/assets/images/avatar_small.png"))
+      Rails.root.join("app/assets/images/avatar_small.png").read
     end
   end
 

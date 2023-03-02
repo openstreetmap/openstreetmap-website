@@ -436,7 +436,7 @@ module Api
                  ("a".."z").to_a,
                  ("A".."Z").to_a,
                  ("0".."9").to_a].flatten
-      (1..16).map { |_i| letters[rand(letters.length)] }.join
+      (1..16).map { letters[rand(letters.length)] }.join
     end
 
     ##

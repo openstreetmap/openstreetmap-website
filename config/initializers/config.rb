@@ -2,7 +2,7 @@
 # Otherwise, admins might not be aware that they are now silently ignored
 # and major problems could occur
 # rubocop:disable Rails/Output, Rails/Exit
-if File.exist?(Rails.root.join("config/application.yml"))
+if Rails.root.join("config/application.yml").exist?
   puts "The config/application.yml file is no longer supported."
   puts ""
   puts "Default settings are now found in config/settings.yml and you"
@@ -16,14 +16,16 @@ end
 # rubocop:enable Rails/Output, Rails/Exit
 
 # Allowed status values
-ALLOWED_STATUS = [
-  "online",            # online and operating normally
-  "api_readonly",      # site online but API in read-only mode
-  "api_offline",       # site online but API offline
-  "database_readonly", # database and site in read-only mode
-  "database_offline",  # database offline with site in emergency mode
-  "gpx_offline"        # gpx storage offline
-].freeze
+unless Object.const_defined?(:ALLOWED_STATUS)
+  ALLOWED_STATUS = [
+    "online",            # online and operating normally
+    "api_readonly",      # site online but API in read-only mode
+    "api_offline",       # site online but API offline
+    "database_readonly", # database and site in read-only mode
+    "database_offline",  # database offline with site in emergency mode
+    "gpx_offline"        # gpx storage offline
+  ].freeze
+end
 
 Config.setup do |config|
   # Name of the constant exposing loaded settings

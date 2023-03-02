@@ -1,17 +1,17 @@
 # The server protocol and host
-server_protocol: ""
+server_protocol: "http"
 server_url: "openhistoricalmap.example.com"
 # Publisher
 #publisher_url: ""
 # The generator
-generator: "OpenStreetMap server"
-copyright_owner: "OpenStreetMap and contributors"
-attribution_url: "http://www.openstreetmap.org/copyright"
+generator: "OpenHistoricalMap server"
+copyright_owner: "OpenHistoricalMap and contributors"
+attribution_url: "http://www.openhistoricalmap.org/copyright"
 license_url: "http://opendatacommons.org/licenses/odbl/1-0/"
 # Support email address
 support_email: ""
 # Sender addresses for emails
-email_from: "OpenStreetMap <>"
+email_from: "OpenHistoricalMap <>"
 email_return_path: ""
 # API version
 api_version: "0.6"
@@ -37,8 +37,6 @@ max_number_of_relation_members: 32000
 max_note_request_area: 25
 # Zoom level to use for postcode results from the geocoder
 postcode_zoom: 15
-# Zoom level to use for geonames results from the geocoder
-geonames_zoom: 12
 # Timeout for API calls in seconds
 api_timeout: 300
 # Timeout for web pages in seconds
@@ -51,8 +49,6 @@ max_messages_per_hour: 60
 max_friends_per_hour: 60
 # Domain for handling message replies
 #messages_domain: "messages.openstreetmap.org"
-# Geonames authentication details
-#geonames_username: ""
 # MaxMind GeoIPv2 database
 #maxmind_database: ""
 # Users to show as being nearby
@@ -73,10 +69,12 @@ attachments_dir: ":rails_root/public/attachments"
 #logstash_path: ""
 # List of memcache servers to use for caching
 #memcache_servers: []
+# Enable HTTP basic authentication support
+basic_auth_support: true
 # Enable legacy OAuth 1.0 support
 oauth_10_support: true
 # URL of Nominatim instance to use for geocoding
-nominatim_url: "http://nomin-publi-15vpg1m703pp9-1297651006.us-east-1.elb.amazonaws.com/"
+nominatim_url: "https://nominatim.openhistoricalmap.org/"
 # Default editor
 default_editor: "id"
 # OAuth consumer key for iD
@@ -87,17 +85,18 @@ default_editor: "id"
 # Imagery to return in capabilities as blacklisted
 imagery_blacklist:
   # Current Google imagery URLs have google or googleapis in the domain
-  # with a vt or kh endpoint, and x, y and z query parameters
-  - ".*\\.google(apis)?\\..*/(vt|kh)[\\?/].*([xyz]=.*){3}.*"
+  - ".*\\.google(apis)?\\..*/.*"
   # Blacklist VWorld
   - "http://xdworld\\.vworld\\.kr:8080/.*"
   # Blacklist here
   - ".*\\.here\\.com[/:].*"
 # URL of Overpass instance to use for feature queries
 overpass_url: "https://overpass-api.de/api/interpreter"
+overpass_credentials: false
 # Routing endpoints
 graphhopper_url: "https://graphhopper.com/api/1/route"
 fossgis_osrm_url: "https://routing.openstreetmap.de/"
+fossgis_valhalla_url: "https://valhalla1.openstreetmap.de/route"
 # External authentication credentials
 #google_auth_id: ""
 #google_auth_secret: ""
@@ -138,3 +137,5 @@ smtp_tls_verify_mode: "none"
 smtp_authentication: "login"
 smtp_user_name: ""
 smtp_password: ""
+# Matomo settings for analytics
+#matomo:

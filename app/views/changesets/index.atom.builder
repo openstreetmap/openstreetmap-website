@@ -1,6 +1,7 @@
 atom_feed(:language => I18n.locale, :schema_date => 2009,
           :id => url_for(@params.merge(:only_path => false)),
           :root_url => url_for(@params.merge(:action => :index, :format => nil, :only_path => false)),
+          "xmlns:xhtml" => "http://www.w3.org/1999/xhtml",
           "xmlns:georss" => "http://www.georss.org/georss") do |feed|
   feed.title changeset_index_title(params, current_user)
 
@@ -62,7 +63,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
                 td.table :cellpadding => "0" do |tag_table|
                   changeset.tags.sort.each do |tag|
                     tag_table.tr do |tag_tr|
-                      tag_tr.td << "#{tag[0]} = #{linkify(tag[1])}"
+                      tag_tr.td "#{tag[0]} = #{linkify(tag[1])}"
                     end
                   end
                 end

@@ -30,6 +30,34 @@ class IssuesTest < ApplicationSystemTestCase
     assert_content issues.first.reported_user.display_name
   end
 
+  def test_view_issue_with_report
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report, :details => "test report text **with kramdown**")
+
+    visit issue_path(issue)
+    assert_content I18n.t("issues.show.reports", :count => 1)
+    assert_content "test report text with kramdown"
+    assert_selector "strong", :text => "with kramdown"
+  end
+
+  def test_view_issue_rich_text_container
+    sign_in_as(create(:moderator_user))
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report, :details => "paragraph one\n\n---\n\nparagraph two")
+
+    visit issue_path(issue)
+    assert_content I18n.t("issues.show.reports", :count => 1)
+    richtext = find "div.richtext"
+    richtext_elements = richtext.all "*"
+    assert_equal 3, richtext_elements.size
+    assert_equal "p", richtext_elements[0].tag_name
+    assert_equal "paragraph one", richtext_elements[0].text
+    assert_equal "hr", richtext_elements[1].tag_name
+    assert_equal "p", richtext_elements[2].tag_name
+    assert_equal "paragraph two", richtext_elements[2].text
+  end
+
   def test_view_issues_with_no_reported_user
     sign_in_as(create(:moderator_user))
     anonymous_note = create(:note_with_comments)
@@ -97,8 +125,25 @@ class IssuesTest < ApplicationSystemTestCase
     check :reassign
     click_on "Add Comment"
 
+    assert_content "and the issue was reassigned"
+    assert_current_path issues_path(:status => "open")
+
     issue.reload
     assert_equal "moderator", issue.assigned_role
+  end
+
+  def test_reassign_issue_as_super_user
+    issue = create(:issue)
+    sign_in_as(create(:super_user))
+
+    visit issue_path(issue)
+
+    fill_in :issue_comment_body, :with => "reassigning to moderators"
+    check :reassign
+    click_on "Add Comment"
+
+    assert_content "and the issue was reassigned"
+    assert_current_path issue_path(issue)
   end
 
   def test_issue_index_with_multiple_roles

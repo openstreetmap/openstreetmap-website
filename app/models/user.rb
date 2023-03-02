@@ -210,6 +210,7 @@ class User < ApplicationRecord
     # Mark the account as deleted and remove personal data
     event :soft_destroy do
       before do
+        revoke_authentication_tokens
         remove_personal_data
       end
 
@@ -297,6 +298,13 @@ class User < ApplicationRecord
   # a message, or nil if there are none.
   def blocked_on_view
     blocks.active.detect(&:needs_view?)
+  end
+
+  ##
+  # revoke any authentication tokens
+  def revoke_authentication_tokens
+    oauth_tokens.authorized.each(&:invalidate!)
+    access_tokens.not_expired.each(&:revoke)
   end
 
   ##

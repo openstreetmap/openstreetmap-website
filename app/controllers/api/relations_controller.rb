@@ -13,14 +13,20 @@ module Api
 
     before_action :set_request_formats, :except => [:create, :update, :delete]
 
-    def create
-      assert_method :put
+    def index
+      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
 
-      relation = Relation.from_xml(request.raw_post, :create => true)
+      ids = params["relations"].split(",").collect(&:to_i)
 
-      # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
-      relation.create_with_history current_user
-      render :plain => relation.id.to_s
+      raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
+
+      @relations = Relation.find(ids)
+
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     def show
@@ -35,6 +41,16 @@ module Api
       else
         head :gone
       end
+    end
+
+    def create
+      assert_method :put
+
+      relation = Relation.from_xml(request.raw_post, :create => true)
+
+      # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
+      relation.create_with_history current_user
+      render :plain => relation.id.to_s
     end
 
     def update
@@ -76,9 +92,9 @@ module Api
         # first find the ids of nodes, ways and relations referenced by this
         # relation - note that we exclude this relation just in case.
 
-        node_ids = relation.members.select { |m| m[0] == "Node" }.map { |m| m[1] }
-        way_ids = relation.members.select { |m| m[0] == "Way" }.map { |m| m[1] }
-        relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.map { |m| m[1] }
+        node_ids = relation.members.select { |m| m[0] == "Node" }.pluck(1)
+        way_ids = relation.members.select { |m| m[0] == "Way" }.pluck(1)
+        relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.pluck(1)
 
         # next load the relations and the ways.
 
@@ -128,22 +144,6 @@ module Api
         end
       else
         head :gone
-      end
-    end
-
-    def index
-      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
-
-      ids = params["relations"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
-
-      @relations = Relation.find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
 

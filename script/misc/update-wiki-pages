@@ -42,6 +42,8 @@ help() unless -f $out_file;
 my $mw = MediaWiki::API->new();
 ok($mw, "Got a MediaWiki API");
 $mw->{config}->{api_url} = 'https://wiki.openstreetmap.org/w/api.php';
+$mw->{config}->{retries} = 5;
+$mw->{config}->{retry_delay} = 30;
 
 # All our goodies
 my (%feature, %count);
@@ -58,6 +60,12 @@ for my $lang ('', map { "${_}:" } qw[ Pt Fi De It HU Cz Fr RU Pl ]) {
     ok(1, "    Got $cnt key pages");
     $count{key} += $cnt;
 
+    # Key prefix pages
+    ok(1, "    Getting key prefix pages");
+    $cnt = stick_content_in_hash("key", "Template:${lang}KeyPrefixDescription", \%feature);
+    ok(1, "    Got $cnt key prefix pages");
+    $count{keyprefix} += $cnt;
+
     # Value pages
     ok(1, "    Getting value pages");
     $cnt = stick_content_in_hash("tag", "Template:${lang}ValueDescription", \%feature);
@@ -65,7 +73,7 @@ for my $lang ('', map { "${_}:" } qw[ Pt Fi De It HU Cz Fr RU Pl ]) {
     $count{value} += $cnt;
 }
 
-ok(1, "Got a total of $count{$_} ${_}s") for qw[ key value ];
+ok(1, "Got a total of $count{$_} ${_}s") for qw[ key keyprefix value ];
 
 # Dump to .yml file
 open my $out, ">", $out_file or die "Can't open file '$out_file' supplied on the command line";

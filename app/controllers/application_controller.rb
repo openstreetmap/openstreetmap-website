@@ -196,44 +196,6 @@ class ApplicationController < ActionController::Base
     response.headers["Content-Language"] = I18n.locale.to_s
   end
 
-  def api_call_handle_error
-    yield
-  rescue ActionController::UnknownFormat
-    head :not_acceptable
-  rescue ActiveRecord::RecordNotFound => e
-    head :not_found
-  rescue LibXML::XML::Error, ArgumentError => e
-    report_error e.message, :bad_request
-  rescue ActiveRecord::RecordInvalid => e
-    message = "#{e.record.class} #{e.record.id}: "
-    e.record.errors.each { |error| message << "#{error.attribute}: #{error.message} (#{e.record[error.attribute].inspect})" }
-    report_error message, :bad_request
-  rescue OSM::APIError => e
-    report_error e.message, e.status
-  rescue AbstractController::ActionNotFound => e
-    raise
-  rescue StandardError => e
-    logger.info("API threw unexpected #{e.class} exception: #{e.message}")
-    e.backtrace.each { |l| logger.info(l) }
-    report_error "#{e.class}: #{e.message}", :internal_server_error
-  end
-
-  ##
-  # asserts that the request method is the +method+ given as a parameter
-  # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
-  def assert_method(method)
-    ok = request.send(:"#{method.to_s.downcase}?")
-    raise OSM::APIBadMethodError, method unless ok
-  end
-
-  ##
-  # wrap an api call in a timeout
-  def api_call_timeout(&block)
-    Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
-  rescue Timeout::Error
-    raise OSM::APITimeoutError
-  end
-
   ##
   # wrap a web page in a timeout
   def web_timeout(&block)
@@ -243,11 +205,13 @@ class ApplicationController < ActionController::Base
 
     if e.is_a?(Timeout::Error) ||
        (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
+      ActiveRecord::Base.connection.raw_connection.cancel
       render :action => "timeout"
     else
       raise
     end
   rescue Timeout::Error
+    ActiveRecord::Base.connection.raw_connection.cancel
     render :action => "timeout"
   end
 
@@ -286,7 +250,7 @@ class ApplicationController < ActionController::Base
     append_content_security_policy_directives(
       :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url],
+      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url],
       :form_action => %w[render.openstreetmap.org],
       :style_src => %w['unsafe-inline']
     )

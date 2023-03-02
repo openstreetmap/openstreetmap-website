@@ -22,6 +22,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("unknown", "unknown")
     assert_dom_equal "unknown", html
 
+    html = format_value("addr:street", "Rue de l'Amigo")
+    assert_dom_equal "Rue de l&#39;Amigo", html
+
     html = format_value("phone", "+1234567890")
     assert_dom_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
 
@@ -46,6 +49,15 @@ class BrowseTagsHelperTest < ActionView::TestCase
 
     html = format_value("colour", "#f00")
     assert_dom_equal %(<span class="colour-preview-box" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
+
+    html = format_value("contact", "foo@example.com")
+    assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
+
+    html = format_value("source", "https://example.com")
+    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\">https://example.com</a>", html
+
+    html = format_value("source", "https://example.com;hello;https://example.net")
+    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\">https://example.com</a>;hello;<a href=\"https://example.net\" rel=\"nofollow\">https://example.net</a>", html
   end
 
   def test_wiki_link
@@ -240,29 +252,23 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_nil email
 
     email = email_link("email", "x@example.com")
-    assert_equal "x@example.com", email[:email]
-    assert_equal "mailto:x@example.com", email[:url]
+    assert_equal "x@example.com", email
 
     email = email_link("email", "other.email-with-hyphen@example.com")
-    assert_equal "other.email-with-hyphen@example.com", email[:email]
-    assert_equal "mailto:other.email-with-hyphen@example.com", email[:url]
+    assert_equal "other.email-with-hyphen@example.com", email
 
     email = email_link("email", "user.name+tag+sorting@example.com")
-    assert_equal "user.name+tag+sorting@example.com", email[:email]
-    assert_equal "mailto:user.name+tag+sorting@example.com", email[:url]
+    assert_equal "user.name+tag+sorting@example.com", email
 
     email = email_link("email", "dash-in@both-parts.com")
-    assert_equal "dash-in@both-parts.com", email[:email]
-    assert_equal "mailto:dash-in@both-parts.com", email[:url]
+    assert_equal "dash-in@both-parts.com", email
 
     email = email_link("email", "example@s.example")
-    assert_equal "example@s.example", email[:email]
-    assert_equal "mailto:example@s.example", email[:url]
+    assert_equal "example@s.example", email
 
     # Strips whitespace at ends
     email = email_link("email", " test@email.com ")
-    assert_equal "test@email.com", email[:email]
-    assert_equal "mailto:test@email.com", email[:url]
+    assert_equal "test@email.com", email
   end
 
   def test_telephone_links

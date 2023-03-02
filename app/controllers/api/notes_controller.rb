@@ -2,13 +2,14 @@ module Api
   class NotesController < ApiController
     before_action :check_api_readable
     before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
-    before_action :setup_user_auth, :only => [:create, :comment, :show]
+    before_action :setup_user_auth, :only => [:create, :show]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
 
     authorize_resource
 
     before_action :set_locale
     around_action :api_call_handle_error, :api_call_timeout
+    before_action :set_request_formats, :except => [:feed]
 
     ##
     # Return a list of notes in a given area
@@ -34,6 +35,10 @@ module Api
 
       # Check the the bounding box is not too big
       bbox.check_size(Settings.max_note_request_area)
+      @min_lon = bbox.min_lon
+      @min_lat = bbox.min_lat
+      @max_lon = bbox.max_lon
+      @max_lat = bbox.max_lat
 
       # Find the notes we want to return
       @notes = notes.bbox(bbox).order("updated_at DESC").limit(result_limit).preload(:comments)
@@ -42,6 +47,26 @@ module Api
       respond_to do |format|
         format.rss
         format.xml
+        format.json
+        format.gpx
+      end
+    end
+
+    ##
+    # Read a note
+    def show
+      # Check the arguments are sane
+      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
+
+      # Find the note and check it is valid
+      @note = Note.find(params[:id])
+      raise OSM::APINotFoundError unless @note
+      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user&.moderator?
+
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.rss
         format.json
         format.gpx
       end
@@ -77,6 +102,36 @@ module Api
       end
 
       # Return a copy of the new note
+      respond_to do |format|
+        format.xml { render :action => :show }
+        format.json { render :action => :show }
+      end
+    end
+
+    ##
+    # Delete (hide) a note
+    def destroy
+      # Check the arguments are sane
+      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
+
+      # Extract the arguments
+      id = params[:id].to_i
+      comment = params[:text]
+
+      # Find the note and check it is valid
+      @note = Note.find(id)
+      raise OSM::APINotFoundError unless @note
+      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+
+      # Mark the note as hidden
+      Note.transaction do
+        @note.status = "hidden"
+        @note.save
+
+        add_comment(@note, comment, "hidden", :notify => false)
+      end
+
+      # Return a copy of the updated note
       respond_to do |format|
         format.xml { render :action => :show }
         format.json { render :action => :show }
@@ -189,6 +244,10 @@ module Api
         bbox.check_size(Settings.max_note_request_area)
 
         notes = notes.bbox(bbox)
+        @min_lon = bbox.min_lon
+        @min_lat = bbox.min_lat
+        @max_lon = bbox.max_lon
+        @max_lat = bbox.max_lat
       end
 
       # Find the comments we want to return
@@ -197,56 +256,6 @@ module Api
       # Render the result
       respond_to do |format|
         format.rss
-      end
-    end
-
-    ##
-    # Read a note
-    def show
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Find the note and check it is valid
-      @note = Note.find(params[:id])
-      raise OSM::APINotFoundError unless @note
-      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user&.moderator?
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.rss
-        format.json
-        format.gpx
-      end
-    end
-
-    ##
-    # Delete (hide) a note
-    def destroy
-      # Check the arguments are sane
-      raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-      # Extract the arguments
-      id = params[:id].to_i
-      comment = params[:text]
-
-      # Find the note and check it is valid
-      @note = Note.find(id)
-      raise OSM::APINotFoundError unless @note
-      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-
-      # Mark the note as hidden
-      Note.transaction do
-        @note.status = "hidden"
-        @note.save
-
-        add_comment(@note, comment, "hidden", :notify => false)
-      end
-
-      # Return a copy of the updated note
-      respond_to do |format|
-        format.xml { render :action => :show }
-        format.json { render :action => :show }
       end
     end
 
@@ -351,9 +360,9 @@ module Api
     # on their status and the user's request parameters
     def closed_condition(notes)
       closed_since = if params[:closed]
-                       params[:closed].to_i
+                       params[:closed].to_i.days
                      else
-                       7
+                       Note::DEFAULT_FRESHLY_CLOSED_LIMIT
                      end
 
       if closed_since.negative?
@@ -361,7 +370,7 @@ module Api
       elsif closed_since.positive?
         notes.where(:status => "open")
              .or(notes.where(:status => "closed")
-                      .where(notes.arel_table[:closed_at].gt(Time.now.utc - closed_since.days)))
+                      .where(notes.arel_table[:closed_at].gt(Time.now.utc - closed_since)))
       else
         notes.where(:status => "open")
       end

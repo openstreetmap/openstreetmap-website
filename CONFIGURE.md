@@ -4,7 +4,7 @@ After [installing](INSTALL.md) this software, you may need to carry out some of 
 
 ## Application configuration
 
-Many settings are available in `config/settings.yml`. You can customize your installation of The Rails Port by overriding these values using `config/settings.local.yml`
+Many settings are available in `config/settings.yml`. You can customize your installation of `openstreetmap-website` by overriding these values using `config/settings.local.yml`
 
 ## Populating the database
 
@@ -54,30 +54,26 @@ $ bundle exec rails console
 
 ## OAuth Consumer Keys
 
-There are two built-in applications which communicate via the API, and therefore need OAuth consumer keys configured. These are:
+There are two built-in applications which communicate via the API, and therefore need to be registered as OAuth 2 applications. These are:
 
 * iD
 * The website itself (for the Notes functionality)
 
-To use the iD editor you need to register it as an OAuth 1 application.
+For iD, do the following:
 
-Do the following:
-* Log into your Rails Port instance - e.g. http://localhost:3000
-* Click on your user name to go to your user page
-* Click on "my settings" on the user page
-* Click on "OAuth 1 settings" on the My settings page
-* Click on 'Register your application'.
+* Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My settings page.
+* Click on "Register new application".
 * Unless you have set up alternatives, use Name: "Local iD" and Main Application URL: "http://localhost:3000"
 * Check boxes for the following Permissions
-  * 'read their user preferences'
-  * 'modify the map'
-  * 'read their private GPS traces'
-  * 'modify notes'
-* Everything else can be left with the default blank values.
-* Click the "Register" button
-* On the next page, copy the "consumer key"
+  * 'Read user preferences'
+  * 'Modify user preferences'
+  * 'Modify the map'
+  * 'Read private GPS traces'
+  * 'Upload GPS traces'
+  * 'Modify notes'
+* On the next page, copy the "Client ID"
 * Edit config/settings.local.yml in your rails tree
-* Add the "id_key" configuration key and the consumer key as the value
+* Add the "id_application" configuration with the "Client ID" as the value
 * Restart your rails server
 
 An example excerpt from settings.local.yml:
@@ -85,8 +81,8 @@ An example excerpt from settings.local.yml:
 ```
 # Default editor
 default_editor: "id"
-# OAuth 1 consumer key for iD
-id_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
+# OAuth 2 Client ID for iD
+id_application: "Snv…OA0"
 ```
 
 To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discussions to work, follow a similar process, this time registering an OAuth 2 application for the web site:
@@ -126,17 +122,17 @@ If you have more problems, please ask on the [rails-dev@openstreetmap.org mailin
 
 If your installation stops working for some reason:
 
-* Sometimes gem dependencies change. To update go to your rails_port directory and run ''bundle install'' as root.
+* Sometimes gem dependencies change. To update go to your `openstreetmap-website` directory and run ''bundle install'' as root.
 
-* The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your rails_port directory and run:
+* The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your `openstreetmap-website` directory and run:
 
 ```
-bundle exec rake db:migrate
+bundle exec rails db:migrate
 ```
 
 ## Testing on the osm dev server
 
-For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of the rails_port on the dev server in ones user directory](https://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
+For example, after developing a patch for `openstreetmap-website`, you might want to demonstrate it to others or ask for comments and testing. To do this you can [set up an instance of openstreetmap-website on the dev server in your user directory](https://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
 
 # Contributing
 
@@ -144,12 +140,10 @@ For information on contributing changes to the codes, see [CONTRIBUTING.md](CONT
 
 # Production Deployment
 
-If you want to deploy The Rails Port for production use, you'll need to make a few changes.
+If you want to deploy `openstreetmap-website` for production use, you'll need to make a few changes.
 
 * It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). Instructions are available for [setting it up with most web servers](https://www.phusionpassenger.com/documentation_and_support#documentation).
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
-* Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
-* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production rake i18n:js:export assets:precompile`
+* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production rails i18n:js:export assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.
-* If you expect to serve a lot of `/changes` API calls, then you might also want to install the shared library versions of the SQL functions.

@@ -1,6 +1,8 @@
 //= require_self
 //= require leaflet.sidebar
+//= require leaflet.sidebar-pane
 //= require leaflet.locatecontrol/src/L.Control.Locate
+//= require leaflet.locate
 //= require leaflet.layers
 //= require leaflet.key
 //= require leaflet.note
@@ -100,62 +102,60 @@ $(document).ready(function () {
     }
   });
 
-  var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
-
-  L.OSM.zoom({ position: position })
-    .addTo(map);
-
-  var locate = L.control.locate({
-    position: position,
-    icon: "icon geolocate",
-    iconLoading: "icon geolocate",
-    strings: {
-      title: I18n.t("javascripts.map.locate.title"),
-      popup: function (options) {
-        return I18n.t("javascripts.map.locate." + options.unit + "Popup", { count: options.distance });
-      }
-    }
-  }).addTo(map);
-
-  var locateContainer = locate.getContainer();
-
-  $(locateContainer)
-    .removeClass("leaflet-control-locate leaflet-bar")
-    .addClass("control-locate")
-    .children("a")
-    .attr("href", "#")
-    .removeClass("leaflet-bar-part leaflet-bar-part-single")
-    .addClass("control-button");
-
   var sidebar = L.OSM.sidebar("#map-ui")
     .addTo(map);
 
-  L.OSM.layers({
-    position: position,
-    layers: map.baseLayers,
-    sidebar: sidebar
-  }).addTo(map);
+  var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
-  L.OSM.key({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+  function addControlGroup(controls) {
+    controls.forEach(function (control) {
+      control.addTo(map);
+    });
 
-  L.OSM.share({
-    position: position,
-    sidebar: sidebar,
-    short: true
-  }).addTo(map);
+    var firstContainer = controls[0].getContainer();
+    $(firstContainer).find(".control-button").first()
+      .addClass("control-button-first");
 
-  L.OSM.note({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+    var lastContainer = controls[controls.length - 1].getContainer();
+    $(lastContainer).find(".control-button").last()
+      .addClass("control-button-last");
+  }
 
-  L.OSM.query({
-    position: position,
-    sidebar: sidebar
-  }).addTo(map);
+  addControlGroup([
+    L.OSM.zoom({ position: position }),
+    L.OSM.locate({ position: position })
+  ]);
+
+  addControlGroup([
+    L.OSM.layers({
+      position: position,
+      layers: map.baseLayers,
+      sidebar: sidebar
+    }),
+    L.OSM.key({
+      position: position,
+      sidebar: sidebar
+    }),
+    L.OSM.share({
+      "position": position,
+      "sidebar": sidebar,
+      "short": true
+    })
+  ]);
+
+  addControlGroup([
+    L.OSM.note({
+      position: position,
+      sidebar: sidebar
+    })
+  ]);
+
+  addControlGroup([
+    L.OSM.query({
+      position: position,
+      sidebar: sidebar
+    })
+  ]);
 
   L.control.scale()
     .addTo(map);
@@ -215,13 +215,13 @@ $(document).ready(function () {
     }
   });
 
-  if (OSM.PIWIK) {
+  if (OSM.MATOMO) {
     map.on("layeradd", function (e) {
       if (e.layer.options) {
-        var goal = OSM.PIWIK.goals[e.layer.options.keyid];
+        var goal = OSM.MATOMO.goals[e.layer.options.keyid];
 
         if (goal) {
-          $("body").trigger("piwikgoal", goal);
+          $("body").trigger("matomogoal", goal);
         }
       }
     });
@@ -248,8 +248,8 @@ $(document).ready(function () {
   });
 
   function remoteEditHandler(bbox, object) {
-    var loaded = false,
-        url,
+    var remoteEditHost = "http://127.0.0.1:8111",
+        osmHost = location.protocol + "//" + location.host,
         query = {
           left: bbox.getWest() - 0.0001,
           top: bbox.getNorth() + 0.0001,
@@ -257,25 +257,31 @@ $(document).ready(function () {
           bottom: bbox.getSouth() - 0.0001
         };
 
-    url = "http://127.0.0.1:8111/load_and_zoom?";
+    if (object && object.type !== "note") query.select = object.type + object.id; // can't select notes
+    sendRemoteEditCommand(remoteEditHost + "/load_and_zoom?" + Qs.stringify(query), function () {
+      if (object && object.type === "note") {
+        var noteQuery = { url: osmHost + OSM.apiUrl(object) };
+        sendRemoteEditCommand(remoteEditHost + "/import?" + Qs.stringify(noteQuery));
+      }
+    });
 
-    if (object) query.select = object.type + object.id;
-
-    var iframe = $("<iframe>")
-      .hide()
-      .appendTo("body")
-      .attr("src", url + Qs.stringify(query))
-      .on("load", function () {
-        $(this).remove();
-        loaded = true;
-      });
-
-    setTimeout(function () {
-      if (!loaded) {
+    function sendRemoteEditCommand(url, callback) {
+      var iframe = $("<iframe>");
+      var timeoutId = setTimeout(function () {
         alert(I18n.t("site.index.remote_failed"));
         iframe.remove();
-      }
-    }, 1000);
+      }, 5000);
+
+      iframe
+        .hide()
+        .appendTo("body")
+        .attr("src", url)
+        .on("load", function () {
+          clearTimeout(timeoutId);
+          iframe.remove();
+          if (callback) callback();
+        });
+    }
 
     return false;
   }
@@ -466,5 +472,9 @@ $(document).ready(function () {
     if (OSM.router.route(this.pathname + this.search + this.hash)) {
       e.preventDefault();
     }
+  });
+
+  $(document).on("click", "#sidebar_content .btn-close", function () {
+    OSM.router.route("/" + OSM.formatHash(map));
   });
 });

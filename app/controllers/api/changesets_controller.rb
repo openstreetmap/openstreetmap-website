@@ -19,6 +19,20 @@ module Api
     # Helper methods for checking consistency
     include ConsistencyValidations
 
+    ##
+    # Return XML giving the basic info about the changeset. Does not
+    # return anything about the nodes, ways and relations in the changeset.
+    def show
+      @changeset = Changeset.find(params[:id])
+      @include_discussion = params[:include_discussion].presence
+      render "changeset"
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
+    end
+
     # Create a changeset from XML.
     def create
       assert_method :put
@@ -33,20 +47,6 @@ module Api
       cs.subscribers << current_user
 
       render :plain => cs.id.to_s
-    end
-
-    ##
-    # Return XML giving the basic info about the changeset. Does not
-    # return anything about the nodes, ways and relations in the changeset.
-    def show
-      @changeset = Changeset.find(params[:id])
-      @include_discussion = params[:include_discussion].presence
-      render "changeset"
-
-      respond_to do |format|
-        format.xml
-        format.json
-      end
     end
 
     ##

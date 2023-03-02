@@ -3,8 +3,8 @@
 //= require qs/dist/qs
 
 OSM = {
-<% if defined?(PIWIK) %>
-  PIWIK:                   <%= PIWIK.to_json %>,
+<% if defined?(Settings.matomo) %>
+  MATOMO:                  <%= Settings.matomo.to_json %>,
 <% end %>
 
   MAX_REQUEST_AREA:        <%= Settings.max_request_area.to_json %>,
@@ -14,9 +14,11 @@ OSM = {
   STATUS:                  <%= Settings.status.to_json %>,
   MAX_NOTE_REQUEST_AREA:   <%= Settings.max_note_request_area.to_json %>,
   OVERPASS_URL:            <%= Settings.overpass_url.to_json %>,
+  OVERPASS_CREDENTIALS:    <%= Settings.overpass_credentials.to_json %>,
   NOMINATIM_URL:           <%= Settings.nominatim_url.to_json %>,
   GRAPHHOPPER_URL:         <%= Settings.graphhopper_url.to_json %>,
   FOSSGIS_OSRM_URL:        <%= Settings.fossgis_osrm_url.to_json %>,
+  FOSSGIS_VALHALLA_URL:    <%= Settings.fossgis_valhalla_url.to_json %>,
   DEFAULT_LOCALE:          <%= I18n.default_locale.to_json %>,
 
 <% if Settings.key?(:thunderforest_key) %>
@@ -34,10 +36,9 @@ OSM = {
   OPEN_NOTE_MARKER:        <%= image_path("open_note_marker.png").to_json %>,
   CLOSED_NOTE_MARKER:      <%= image_path("closed_note_marker.png").to_json %>,
 
-  SEARCHING:               <%= image_path("searching.gif").to_json %>,
-
   apiUrl: function (object) {
-    var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
+    var apiType = object.type === "note" ? "notes" : object.type;
+    var url = "/api/" + OSM.API_VERSION + "/" + apiType + "/" + object.id;
 
     if (object.type === "way" || object.type === "relation") {
       url += "/full";
@@ -88,6 +89,8 @@ OSM = {
       mapParams.object = {type: 'way', id: parseInt(params.way)};
     } else if (params.relation) {
       mapParams.object = {type: 'relation', id: parseInt(params.relation)};
+    } else if (params.note) {
+      mapParams.object = {type: 'note', id: parseInt(params.note)};
     }
 
     var hash = OSM.parseHash(location.hash);

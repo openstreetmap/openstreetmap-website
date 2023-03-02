@@ -29,32 +29,14 @@ pushd /srv/openstreetmap-website
 # do bundle install as a convenience
 bundle install --retry=10 --jobs=2
 # do yarn install as a convenience
-bundle exec rake yarn:install
+bundle exec bin/yarn install
 # create user and database for openstreetmap-website
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
     sudo -u postgres createuser -s vagrant
     sudo -u vagrant createdb -E UTF-8 -O vagrant openstreetmap
     sudo -u vagrant createdb -E UTF-8 -O vagrant osm_test
-    # add btree_gist extension
-    sudo -u vagrant psql -c "create extension btree_gist" openstreetmap
-    sudo -u vagrant psql -c "create extension btree_gist" osm_test
 fi
-
-
-# install PostgreSQL functions
-sudo -u vagrant psql -d openstreetmap -f db/functions/functions.sql
-################################################################################
-# *IF* you want a vagrant image which supports replication (or perhaps you're
-# using this script to provision some other server and want replication), then
-# uncomment the following lines (until popd) and comment out the one above
-# (functions.sql).
-################################################################################
-#pushd db/functions
-#sudo -u vagrant make
-#sudo -u vagrant psql openstreetmap -c "CREATE OR REPLACE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'tile_for_point' LANGUAGE C STRICT"
-#popd
-
 
 # set up sample configs
 if [ ! -f config/database.yml ]; then

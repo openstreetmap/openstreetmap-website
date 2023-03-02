@@ -1,34 +1,8 @@
 L.OSM.layers = function (options) {
-  var control = L.control(options);
+  var control = L.OSM.sidebarPane(options, "layers", "javascripts.map.layers.title", "javascripts.map.layers.header");
 
-  control.onAdd = function (map) {
+  control.onAddPane = function (map, button, $ui, toggle) {
     var layers = options.layers;
-
-    var $container = $("<div>")
-      .attr("class", "control-layers");
-
-    var button = $("<a>")
-      .attr("class", "control-button")
-      .attr("href", "#")
-      .attr("title", I18n.t("javascripts.map.layers.title"))
-      .html("<span class=\"icon layers\"></span>")
-      .on("click", toggle)
-      .appendTo($container);
-
-    var $ui = $("<div>")
-      .attr("class", "layers-ui");
-
-    $("<div>")
-      .attr("class", "sidebar_heading")
-      .appendTo($ui)
-      .append(
-        $("<span>")
-          .text(I18n.t("javascripts.close"))
-          .attr("class", "icon close")
-          .bind("click", toggle))
-      .append(
-        $("<h4>")
-          .text(I18n.t("javascripts.map.layers.header")));
 
     var baseSection = $("<div>")
       .attr("class", "section base-layers")
@@ -128,10 +102,13 @@ L.OSM.layers = function (options) {
 
       var addOverlay = function (layer, name, maxArea) {
         var item = $("<li>")
-          .tooltip({
-            placement: "top"
-          })
           .appendTo(overlays);
+
+        if (name === "notes" || name === "data") {
+          item
+            .attr("title", I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"))
+            .tooltip("disable");
+        }
 
         var label = $("<label>")
           .attr("class", "form-check-label")
@@ -174,9 +151,9 @@ L.OSM.layers = function (options) {
               .trigger("change");
           }
 
-          $(item).attr("class", disabled ? "disabled" : "");
-          item.attr("data-original-title", disabled ?
-            I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip") : "");
+          $(item)
+            .attr("class", disabled ? "disabled" : "")
+            .tooltip(disabled ? "enable" : "disable");
         });
       };
 
@@ -184,17 +161,6 @@ L.OSM.layers = function (options) {
       addOverlay(map.dataLayer, "data", OSM.MAX_REQUEST_AREA);
       addOverlay(map.gpsLayer, "gps", Number.POSITIVE_INFINITY);
     }
-
-    options.sidebar.addPane($ui);
-
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      options.sidebar.togglePane($ui, button);
-      $(".leaflet-control .control-button").tooltip("hide");
-    }
-
-    return $container[0];
   };
 
   return control;
