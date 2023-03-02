@@ -692,10 +692,16 @@ es:
         la URL exacta de su solicitud.
     forbidden:
       title: Prohibido
+      description: La operación que se solicitó al servidor de OpenStreetMap solo
+        está disponible para el personal administrativo (HTTP 403)
     internal_server_error:
       title: Error en la aplicación
+      description: El servidor de OpenStreetMap encontró una condición inesperada
+        que le impidió llevar a cabo la solicitud (HTTP 500)
     not_found:
       title: No se encontró el archivo
+      description: No se pudo encontrar un archivo, directorio u operación de API
+        con ese nombre en el servidor de OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: ¿Añadir a %{user} como un amigo?
@@ -2292,7 +2298,7 @@ es:
         temas de cartografía.
       welcome:
         url: /welcome
-        title: Bienvenido a OpenStreetMap
+        title: Bienvenida a OpenStreetMap
         description: Comience con esta guía rápida que cubre lo básico de OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/ES:Beginners%27_guide
@@ -2433,12 +2439,16 @@ es:
           toilets: Baños
     welcome:
       title: ¡Bienvenido!
-      introduction: Bienvenido a OpenStreetMap, el mapa libre y editable del mundo.
-        Ahora que está registrado, está todo listo para comenzar a mapear. He aquí
-        una guía rápida con las cosas más importantes que necesita saber.
+      introduction: Le damos la bienvenida a OpenStreetMap, el mapa libre y editable
+        del mundo. Ahora que se ha registrado, ha hecho lo necesario para empezar
+        a cartografiar. He aquí una guía rápida con las cosas más importantes que
+        necesita saber.
       whats_on_the_map:
         title: Qué hay en el mapa
-        real_and_current: real y actual
+        on_the_map_html: |-
+          OpenStreetMap es un sitio para cartografiar objetos %{real_and_current}:
+          esto incluye millones de edificios, carreteras y otros datos de destinos. Es posible cartografiar cualquier rasgo del mundo real que le interese.
+        real_and_current: reales y actuales
         doesnt: "no"
       basic_terms:
         title: Términos básicos para mapear
@@ -2470,6 +2480,10 @@ es:
         title: ¿No tiene tiempo para editar? ¡Añada una nota!
         para_1: Si sólo desea corregir algo pequeño y no tiene tiempo para registrarse
           y aprender a editar, es fácil añadir una nota.
+        para_2_html: |-
+          Basta con ir a %{map_link} y pulsar en el icono de nota: %{note_icon}.
+          Esto añadirá un marcador al mapa que se puede mover al arrastrarlo.
+          Escriba su mensaje y pulse en «Guardar». La comunidad cartógrafa investigará al respecto.
         the_map: el mapa
     communities:
       title: Comunidades
@@ -2575,8 +2589,10 @@ es:
       description: Explorar las trazas GPS recién subidas
       tagged_with: etiquetado con %{tags}
       empty_title: Todavía no hay nada
-      upload_new: Subir una nueva señal
-      wiki_page: Página wiki
+      empty_upload_html: '%{upload_link} o conozca más sobre el trazado GPS en la
+        %{wiki_link} correspondiente.'
+      upload_new: Cargue una traza nueva
+      wiki_page: página del wiki
       wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Subir una traza
       all_traces: Todas las trazas

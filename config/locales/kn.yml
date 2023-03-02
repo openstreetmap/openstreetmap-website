@@ -8,6 +8,7 @@
 # Author: Shankar
 # Author: Srividyacb
 # Author: VASANTH S.N.
+# Author: Vikashegde
 # Author: Xor
 # Author: Yogesh
 # Author: ~aanzx
@@ -18,11 +19,14 @@ kn:
     formats:
       friendly: '%H:%M ರಲ್ಲಿ %e %B %Y'
   helpers:
+    file:
+      prompt: ಫೈಲ್ ಆಯ್ಕೆ ಮಾಡಿ
     submit:
       diary_comment:
         create: ಟಿಪ್ಪಣಿ
       diary_entry:
         create: ಪ್ರಕಟಿಸು
+        update: ನವೀಕರಿಸಿ
       issue_comment:
         create: ಅಭಿಪ್ರಾಯ ದಾಖಲಿಸಿರಿ
       message:
@@ -30,6 +34,9 @@ kn:
       client_application:
         create: ನೊಂದಾಯಿಸಿರಿ
         update: ಪರಿಷ್ಕರಿಸು
+      oauth2_application:
+        create: ನೊಂದಾಯಿಸಿರಿ
+        update: ನವೀಕರಿಸಿ
       trace:
         create: ಅಪ್ಲೋಡ್
   activerecord:
@@ -66,6 +73,11 @@ kn:
       user_token: ಬಳಕೆದಾರನ ಗುರುತು
       way: ದಾರಿ
     attributes:
+      client_application:
+        allow_write_api: ನಕ್ಷೆಯನ್ನು ಮಾರ್ಪಡಿಸಿ
+        allow_read_gpx: ಅವರ ಖಾಸಗಿ ಜಿಪಿಎಸ್ ಟ್ರೇಸ್‌ಗಳನ್ನು ಓದಿ
+        allow_write_gpx: GPS ಟ್ರೇಸ್‌ಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ
+        allow_write_notes: ಟಿಪ್ಪಣಿಗಳನ್ನು ಮಾರ್ಪಡಿಸಿ
       diary_comment:
         body: ಶರೀರ
       diary_entry:
@@ -88,6 +100,9 @@ kn:
         longitude: ರೇಖಾಂಶ
         public: ಸಾರ್ವಜನಿಕ
         description: ವಿವರಣೆ
+        gpx_file: GPX ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ
+        visibility: ಗೋಚರತೆ
+        tagstring: ಟ್ಯಾಗ್‌ಗಳು
       message:
         sender: ಕಳಿಸಿದವರು
         title: ವಿಷಯ
@@ -95,6 +110,7 @@ kn:
         recipient: ಪಡೆಯುವವರು
       redaction:
         title: ಶೀರ್ಷಿಕೆ
+        description: ವಿವರಣೆ
       user:
         email: ಇ-ಅಂಚೆ
         email_confirmation: ಮಿಂಚಂಚೆ ದೃಢೀಕರಣ
@@ -175,6 +191,20 @@ kn:
       entry:
         comment: ಅಭಿಪ್ರಾಯ
         full: ಪೂರ್ತಿ ಟಿಪ್ಪಣಿ
+  account:
+    deletions:
+      show:
+        title: ನನ್ನ ಖಾತೆಯನ್ನು ಅಳಿಸಿ
+        delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
+        cancel: ರದ್ದುಗೊಳಿಸಿ
+  accounts:
+    edit:
+      title: ಖಾತೆಯನ್ನು ಸಂಪಾದಿಸಿ
+      my settings: ನನ್ನ ಸೆಟ್ಟಿಂಗ್‌ಗಳು
+      current email address: ಪ್ರಸ್ತುತ ಇಮೇಲ್ ವಿಳಾಸ
+      external auth: ಬಾಹ್ಯ ದೃಢೀಕರಣ
+      openid:
+        link text: ಇದು ಏನು?
   browse:
     created: ಸೃಷ್ಟಿಸಲ್ಪಟ್ಟ
     closed: ಮುಚ್ಚಲಾಗಿದೆ
