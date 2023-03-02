@@ -55,7 +55,7 @@ sl:
   activerecord:
     errors:
       messages:
-        invalid_email_address: se ne prikaže kot veljaven elektronski naslov
+        invalid_email_address: se ne prikaže kot veljaven e-poštni naslov
         email_address_not_routable: ni preusmerljiv
     models:
       acl: Seznam nadzora dostopa
@@ -88,7 +88,7 @@ sl:
       tracepoint: Točka sledi
       tracetag: Oznaka sledi
       user: Uporabnik
-      user_preference: Uporabniške nastavitve
+      user_preference: Uporabniške prilagoditve
       user_token: Uporabniški žeton
       way: Pot
       way_node: Vozlišče poti
@@ -96,9 +96,17 @@ sl:
     attributes:
       client_application:
         name: Ime (obvezno)
+        url: Glavni URL aplikacije (obvezno)
         callback_url: URL povratnih klicev
         support_url: URL za podporo
+        allow_read_prefs: branje uporabniških prilagoditev
+        allow_write_prefs: spreminjanje uporabniških nastavitev
+        allow_write_diary: ustvarjanje dnevniških zapisov, komentarjev in sklepanje
+          prijateljstev
         allow_write_api: spremeni zemljevid
+        allow_read_gpx: branje zasebnih sledi GPS
+        allow_write_gpx: nalaganje sledi GPS
+        allow_write_notes: spreminjanje opomb
       diary_comment:
         body: Besedilo
       diary_entry:
@@ -110,6 +118,7 @@ sl:
       doorkeeper/application:
         name: Ime
         redirect_uri: Preusmeritveni URI-ji
+        confidential: Zaupna aplikacija?
         scopes: Dovoljenja
       friend:
         user: Uporabnik
@@ -138,7 +147,9 @@ sl:
         category: Izberite razlog za poročilo
         details: Prosimo, opišite še več podrobnosti o težavi (polje je obvezno).
       user:
-        email: Elektronski naslov
+        auth_provider: Ponudnik avtentikacije
+        auth_uid: UID avtentikacije
+        email: E-poštni naslov
         email_confirmation: Potrditev e-pošte
         new_email: Nov e-poštni naslov
         active: Aktiven
@@ -151,12 +162,24 @@ sl:
         pass_crypt: Geslo
         pass_crypt_confirmation: Potrditev gesla
     help:
+      doorkeeper/application:
+        confidential: Aplikacija bo uporabljena, kadar skrivnost odjemalca lahko ostane
+          zaupna (avtohtone mobilne aplikacije in enostranske aplikacije niso zaupne)
+        redirect_uri: Uporabite eno vrstico na URI
       trace:
         tagstring: uporabite vejice
       user_block:
+        reason: Razlog, zakaj je uporabnik blokiran. Prosimo, bodite čim bolj umirjeni
+          in razumni ter navedite čim več podrobnosti o situaciji in ne pozabite,
+          da bo sporočilo javno vidno. Upoštevajte, da vsi uporabniki ne razumejo
+          žargona skupnosti, zato poskusite uporabljati laične izraze.
         needs_view: Ali se mora uporabnik za pretek blokiranja prijaviti?
       user:
-        new_email: (nikoli javno objavljen)
+        email_confirmation: Vaš naslov ni javno prikazan – za več informacij glejte
+          naš <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Pravilnik
+          o zasebnosti OSMF, vključno s poglavjem o e-poštnih naslovih">pravilnik
+          o zasebnosti</a>.
+        new_email: (nikoli ni javno prikazan)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -169,6 +192,11 @@ sl:
         two: pred približno %{count} mesecema
         few: pred približno %{count} meseci
         other: pred približno %{count} meseci
+      about_x_years:
+        one: pred približno 1 letom
+        two: pred približno %{count} letoma
+        few: pred približno %{count} leti
+        other: pred približno %{count} leti
       almost_x_years:
         one: pred skoraj 1 letom
         two: pred skoraj %{count} letoma
@@ -218,7 +246,7 @@ sl:
   printable_name:
     with_version: '%{id}, %{version}. različica'
   editor:
-    default: Privzet (trenutno %{name})
+    default: Privzeti (trenutno %{name})
     id:
       name: iD
       description: iD (urejevalnik v brskalniku)
@@ -260,6 +288,28 @@ sl:
   account:
     deletions:
       show:
+        title: Izbris mojega računa
+        warning: Opozorilo! Postopek brisanja računa je dokončen in ga ni mogoče razveljaviti.
+        delete_account: Izbriši račun
+        delete_introduction: 'Svoj račun OpenHistoricalMap lahko izbrišete s spodnjim
+          gumbom. Upoštevajte naslednje:'
+        delete_profile: Podatki o vašem profilu, vključno s profilno sliko, opisom
+          in domačo lokacijo, bodo odstranjeni.
+        delete_display_name: Vaše prikazno ime bo odstranjeno in ga bodo lahko uporabili
+          drugi računi.
+        retain_caveats: 'Nekateri podatki o vas se bodo na OpenHistoricalMap ohranili,
+          tudi ko bo vaš račun izbrisan:'
+        retain_edits: Ohranjena bodo vaša urejanja podatkovne zbirke zemljevidov,
+          če obstajajo.
+        retain_traces: Ohranjene bodo morebitne sledi, ki ste jih naložili.
+        retain_diary_entries: Ohranjeni bodo vaši dnevniški vnosi in komentarji, če
+          obstajajo, vendar si jih ne bo mogoče ogledati.
+        retain_notes: Ohranjeni bodo morebitne opombe na zemljevidu in komentarji
+          k opombam, vendar si jih ne bo mogoče ogledati.
+        retain_changeset_discussions: Ohranjeni bodo vaši pogovori o sklopih sprememb,
+          če obstajajo.
+        retain_email: Ohranjen bo vaš e-poštni naslov.
+        confirm_delete: Ste prepričani?
         cancel: Prekliči
   accounts:
     edit:
@@ -294,15 +344,18 @@ sl:
         not yet agreed: Niste še sprejeli novih pogojev sodelovanja.
         review link text: Prosimo sledite tej povezavi, ko imate čas da pregledate
           in sprejmete nove pogoje sodelovanja..
-        agreed_with_pd: Prav tako ste izjavili, da so vaša urejanja v javni lasti.
+        agreed_with_pd: Prav tako ste izjavili, da so vaša urejanja v javni domeni.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Kaj je to?
       save changes button: Shrani spremembe
       make edits public button: Naj bodo vsi moji prispevki javni
+      delete_account: Izbriši račun ...
     update:
       success_confirm_needed: Podatki o uporabniku so bili uspešno posodobljeni. Preverite
         svojo e-pošto in potrdite spremembo e-poštnega naslova.
       success: Podatki o uporabniku so uspešno posodobljeni.
+    destroy:
+      success: Račun izbrisan.
   browse:
     created: Ustvarjeno
     closed: Zaprto
@@ -317,6 +370,16 @@ sl:
     anonymous: anonimni
     no_comment: (brez komentarja)
     part_of: Del
+    part_of_relations:
+      one: 1 relacija
+      two: '%{count} relaciji'
+      few: '%{count} relacije'
+      other: '%{count} relacij'
+    part_of_ways:
+      one: 1 pot
+      two: 2 poti
+      few: '%{count} poti'
+      other: '%{count} poti'
     download_xml: Prenesi XML
     view_history: Ogled zgodovine
     view_details: Prikaz podrobnosti
@@ -350,6 +413,11 @@ sl:
       title_html: 'Pot: %{name}'
       history_title_html: 'Zgodovina poti: %{name}'
       nodes: Vozlišča
+      nodes_count:
+        one: 1 %{count} vozlišče
+        two: '%{count} vozlišči'
+        few: '%{count} vozlišča'
+        other: '%{count} vozlišč'
       also_part_of_html:
         one: del poti %{related_ways}
         two: delov poti %{related_ways}
@@ -383,6 +451,7 @@ sl:
         changeset: sklop sprememb
         note: opomba
     timeout:
+      title: Napaka časovne omejitve
       sorry: Pridobivanje podatkov za %{type} z ID-jem %{id} žal traja predolgo.
       type:
         node: vozlišče
@@ -410,6 +479,7 @@ sl:
         tag: Wiki stran z opisom oznake %{key}=%{value}
       wikidata_link: Predmet %{page} v Wikipodatkih
       wikipedia_link: Članek %{page} v Wikipediji
+      wikimedia_commons_link: Predmet %{page} v Wikimedijini zbirki
       telephone_link: Pokliči %{phone_number}
       colour_preview: Predogled barve %{colour_value}
     note:
@@ -469,9 +539,14 @@ sl:
     comment:
       comment: 'Nov komentar o sklopu sprememb #%{changeset_id} uporabnika %{author}'
       commented_at_by_html: Posodobil_a %{user} %{when}
+    comments:
+      comment: 'Nov komentar o sklopu sprememb #%{changeset_id} uporabnika %{author}'
     index:
       title_all: Razprava o sklopu sprememb OpenHistoricalMap
       title_particular: 'Razprava o sklopu sprememb OpenHistoricalMap #%{changeset_id}'
+    timeout:
+      sorry: Žal je trajalo pridobivanje seznama zahtevanih komentarjev sklopov sprememb
+        predolgo.
   dashboards:
     contact:
       km away: oddaljen %{count} km
@@ -481,6 +556,9 @@ sl:
       nearby mapper: Bližnji kartograf
       friend: Prijatelj
     show:
+      title: Moja nadzorna plošča
+      no_home_location_html: '%{edit_profile_link} in nastavite svojo domačo lokacijo
+        za prikaz bližnjih uporabnikov.'
       edit_your_profile: Uredi profil
       my friends: Moji prijatelji
       no friends: Niste še dodali nobenih prijateljev.
@@ -536,6 +614,7 @@ sl:
         other: '%{count} komentarjev'
       edit_link: Uredi ta vnos
       hide_link: Skrij ta vnos
+      unhide_link: Razkrij ta vnos
       confirm: Potrdi
       report: Prijavi ta vnos
     diary_comment:
@@ -559,11 +638,20 @@ sl:
         title: Dnevnik OpenHistoricalMap
         description: Nedavni zapisi v dnevnik uporabnikov OpenStreetmap
     comments:
+      title: Dnevniški komentarji, ki jih je dodal_a %{user}
+      heading: Dnevniški komentarji %{user}
+      subheading_html: Dnevniški komentarji, ki jih je dodal_a %{user}
+      no_comments: Brez dnevniških komentarjev
       post: Objavi
       when: Kdaj
       comment: Komentar
       newer_comments: Novejši komentarji
       older_comments: Starejši komentarji
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Aplikacija registrirana.
   friendships:
     make_friend:
       heading: Dodaj %{user} med prijatelje?
@@ -571,6 +659,8 @@ sl:
       success: '%{name} je sedaj vaš prijatelj!'
       failed: Oprostite, uporabnika %{name} ni bilo mogoče dodati med prijatelje.
       already_a_friend: Z uporabnikom %{name} sta že prijatelja.
+      limit_exceeded: V kratkem času ste se spoprijateljili s številnimi uporabniki.
+        Prosimo, nekoliko počakajte, preden dodate nove prijatelje.
     remove_friend:
       heading: Odstrani %{user} iz prijateljev?
       button: Odstrani prijatelja
@@ -594,10 +684,12 @@ sl:
           chair_lift: Sedežnica
           drag_lift: Vlečnica
           gondola: Kabinska žičnica
+          magic_carpet: Čarobna preproga
           platter: Vlečnica s krožnički
           pylon: Steber
           station: Žičniška postaja
           t-bar: Vlečnica s sidri
+          "yes": Gondola
         aeroway:
           aerodrome: Letališče
           airstrip: Vzletna steza
@@ -605,10 +697,16 @@ sl:
           gate: Vrata
           hangar: Hangar
           helipad: Heliodrom
+          holding_position: Položaj čakanja
+          navigationaid: Letalska navigacijska pomoč
+          parking_position: Parkirno mesto
           runway: Vzletna steza
+          taxilane: Vozna steza do postajališča za zrakoplov
           taxiway: Vozna steza
           terminal: Terminal
+          windsock: Vetrokaz
         amenity:
+          animal_boarding: Hotel za živali
           animal_shelter: Zavetišče za živali
           arts_centre: Umetnostni center
           atm: Bankomat
@@ -620,6 +718,7 @@ sl:
           bicycle_rental: Izposoja koles
           bicycle_repair_station: Postaja za popravilo koles
           biergarten: Pivski vrt
+          blood_bank: Krvna banka
           boat_rental: Najem čolna
           brothel: Javna hiša
           bureau_de_change: Menjalnica
@@ -636,6 +735,7 @@ sl:
           clock: Ura
           college: Fakulteta
           community_centre: Center skupnosti
+          conference_centre: Konferenčni center
           courthouse: Sodišče
           crematorium: Krematorij
           dentist: Zobozdravnik
@@ -643,6 +743,7 @@ sl:
           drinking_water: Pitna voda
           driving_school: Avtošola
           embassy: Veleposlaništvo
+          events_venue: Prizorišče dogodkov
           fast_food: Hitra hrana
           ferry_terminal: Trajekt
           fire_station: Gasilska postaja
@@ -651,6 +752,7 @@ sl:
           fuel: Bencinska črpalka
           gambling: Igre na srečo
           grave_yard: Pokopališče
+          grit_bin: Posoda za pesek
           hospital: Bolnišnica
           hunting_stand: Lovska preža
           ice_cream: Sladoled
@@ -658,8 +760,12 @@ sl:
           kindergarten: Vrtec
           language_school: Jezikovna šola
           library: Knjižnica
+          loading_dock: Nakladalna rampa
+          love_hotel: Ljubezenski hotel
           marketplace: Tržnica
+          mobile_money_agent: Mobilni gotovinski agent
           monastery: Samostan
+          money_transfer: Denarna transakcija
           motorcycle_parking: Parkirišče motornih koles
           music_school: Glasbena šola
           nightclub: Nočni klub
@@ -667,6 +773,7 @@ sl:
           parking: Parkirišče
           parking_entrance: Vhod v parkirišče
           parking_space: Parkirno mesto
+          payment_terminal: Plačilni terminal
           pharmacy: Lekarna
           place_of_worship: Verski hram
           police: Policija
@@ -675,9 +782,12 @@ sl:
           prison: Zapor
           pub: Pivnica
           public_bath: Kopališče
-          public_building: Javne zgradba
+          public_bookcase: Javna knjižna omara
+          public_building: Javne stavba
+          ranger_station: Gozdarska postaja
           recycling: Reciklirna točka
           restaurant: Restavracija
+          sanitary_dump_station: Sanitarna odlagališča
           school: Šola
           shelter: Zavetišče
           shower: Tuš
@@ -690,6 +800,7 @@ sl:
           theatre: Gledališče
           toilets: Stranišča
           townhall: Mestna hiša
+          training: Objekt za trening
           university: Univerza
           vehicle_inspection: Tehnični pregled vozil
           vending_machine: Avtomat
@@ -698,32 +809,42 @@ sl:
           waste_basket: Koš za odpadke
           waste_disposal: Zabojnik za odpadke
           waste_dump_site: Odlagališče odpadkov
+          watering_place: Napajališče
           water_point: Pitna voda
+          weighbridge: Mostna tehtnica
+          "yes": Infrastruktura
         boundary:
           aboriginal_lands: Ozemlje staroselcev
           administrative: Upravna meja
           census: Popisna meja
           national_park: Nacionalni Park
           political: Meja volilnega okraja
-          protected_area: Zavarovano področje
+          protected_area: Zavarovano območje
           "yes": Meja
         bridge:
           aqueduct: Akvadukt
+          boardwalk: Sprehajališče
           suspension: Viseči most
           swing: Vrteči most
           viaduct: Viadukt
           "yes": Most
         building:
+          apartment: Stanovanje
           apartments: Stanovanjski blok
           barn: Skedenj
           bungalow: Bungalov
+          cabin: Brunarica
           chapel: Kapelica
           church: Cerkveno poslopje
-          commercial: Poslovna zgradba
+          civic: Občinska stavba
+          college: VIsokošolska stavba
+          commercial: Poslovna stavba
           construction: Stavba v gradnji
+          detached: Osamljena hiša
           dormitory: Študentski dom
           duplex: Dvostanovanjska hiša
           farm: Kmetija
+          farm_auxiliary: Pomožna kmetijska stavba
           garage: Garaža
           garages: Garaže
           greenhouse: Rastlinjak
@@ -731,26 +852,31 @@ sl:
           hospital: Poslopje bolnišnice
           hotel: Poslopje hotela
           house: Hiša
+          houseboat: Bivalni čoln
           hut: Koča
           industrial: Industrijski objekt
           kindergarten: Poslopje vrtca
+          manufacture: Proizvodna stavba
           office: Poslovna stavba
-          public: Javna zgradba
+          public: Javna stavba
           residential: Stanovanjska stavba
           retail: Trgovina na drobno
           roof: Streha
           ruins: Razvalina
           school: Šola
           semidetached_house: Dvojček
+          service: Servisna stavba
           shed: Lopa
           stable: Hlev
+          static_caravan: Stanovanjska prikolica
           temple: Tempelj
           terrace: Terasa
           train_station: Poslopje železniške postaje
           university: Univerza
           warehouse: Skladišče
-          "yes": Zgradba
+          "yes": Stavba
         club:
+          scout: Baza skavtske skupine
           sport: Športni klub
           "yes": Klub
         craft:
@@ -758,11 +884,16 @@ sl:
           blacksmith: Kovač
           brewery: Pivovarna
           carpenter: Mizarstvo
+          caterer: Gostinec
+          confectionery: Slaščičarna
           dressmaker: Šiviljstvo
           electrician: Elektrikar
           electronics_repair: Popravilo elektronskih naprav
           gardener: Vrtnar
           glaziery: Steklarstvo
+          handicraft: Rokodelstvo
+          hvac: Plovilo HVAC
+          metal_construction: Kovinarsko podjetje
           painter: Soboslikar
           photographer: Fotograf
           plumber: Vodovodar
@@ -771,6 +902,7 @@ sl:
           shoemaker: Čevljar
           stonemason: Kamnoseštvo
           tailor: Krojač
+          window_construction: Steklarstvo
           winery: Vinogradništvo
           "yes": Obrtnik
         crossing: Prehod
@@ -780,16 +912,20 @@ sl:
           assembly_point: Zbirno mesto
           defibrillator: Defibrilator
           fire_extinguisher: Gasilni aparat
+          fire_water_pond: Ribnik za požarno vodo
           landing_site: Mesto za pristanek v sili
           life_ring: Rešilni obroč
           phone: Klic v sili
           siren: Sirena
+          suction_point: Nujno črpališče
+          water_tank: Nujni rezervoar za vodo
         highway:
           abandoned: Opuščena cesta
           bridleway: Jahalna pot
           bus_guideway: Turistični avtobus
           bus_stop: Avtobusna postaja
           construction: Cesta v izgradnji
+          corridor: Hodnik
           cycleway: Kolesarska steza
           elevator: Dvigalo
           emergency_access_point: Dostop za interventna vozila
@@ -826,29 +962,38 @@ sl:
           track: Kolovoz
           traffic_mirror: Prometno ogledalo
           traffic_signals: Prometna signalizacija
+          trailhead: Izhodišče poti
           trunk: Hitra cesta
           trunk_link: Priključek na hitro cesto
+          turning_circle: Obračališče
           turning_loop: Obračališče
           unclassified: Neopredeljena cesta
           "yes": Cesta
         historic:
+          aircraft: Zgodovinsko letalo
           archaeological_site: Arheološko najdišče
+          bomb_crater: Zgodovinski bombni krater
           battlefield: Bojišče
           boundary_stone: Mejni kamen
           building: Zgodovinska stavba
           bunker: Bunker
+          cannon: Zgodovinski top
           castle: Grad
+          charcoal_pile: Stara oglarska kopa
           church: Cerkev
           city_gate: Mestna vrata
           citywalls: Mestno obzidje
           fort: Trdnjava
           heritage: Kulturna dediščina
+          hollow_way: Usekana pot
           house: Hiša
           manor: Graščina
           memorial: Spomenik
+          milestone: Zgodovinski miljnik
           mine: Rudnik
           mine_shaft: Rudniški jašek
           monument: Spomenik
+          railway: Zgodovinska železnica
           roman_road: Rimska cesta
           ruins: Ruševine
           rune_stone: Runski kamen
@@ -864,11 +1009,12 @@ sl:
           "yes": Križišče
         landuse:
           allotments: Vrtički
+          aquaculture: Akvakultura
           basin: Čistilni bazen
           brownfield: Gradbišče
           cemetery: Pokopališče
           commercial: Poslovna cona
-          conservation: Zaščiteno področje
+          conservation: Zaščiteno območje
           construction: Gradbišče
           farmland: Kmetijsko zemljišče
           farmyard: Kmetija
@@ -879,26 +1025,34 @@ sl:
           industrial: Industrijsko podočje
           landfill: Smetišče
           meadow: Travnik
-          military: Vojaško področje
+          military: Vojaško območje
           mine: Minsko polje
           orchard: Sadovnjak
+          plant_nursery: Gojilnica rastlin
           quarry: Kamnolom
           railway: Železnica
-          recreation_ground: Rekreacijsko področje
+          recreation_ground: Rekreacijsko območje
+          religious: Versko zemljišče
           reservoir: Zbiralnik
           reservoir_watershed: Vodno zajetje
-          residential: Stanovanjsko področje
+          residential: Stanovanjsko območje
           retail: Trgovine
           village_green: Zelenica
           vineyard: Vinograd
           "yes": Raba tal
         leisure:
+          adult_gaming_centre: Igralni center za odrasle
+          amusement_arcade: Arkadna igralnica
+          bandstand: Glasbeni paviljon
           beach_resort: kopališče
           bird_hide: Ptičja opazovalnica
+          bleachers: Tribune
+          bowling_alley: Kegljišče
           common: Javno zemljišče
           dance: Plesna dvorana
           dog_park: Pasji park
-          fishing: Ribolovno področje
+          firepit: Ognjišče
+          fishing: Ribolovno območje
           fitness_centre: Fitnes center
           fitness_station: Fitnes center
           garden: Vrt
@@ -908,10 +1062,12 @@ sl:
           marina: Marina
           miniature_golf: Mini golf
           nature_reserve: Naravni rezervat
+          outdoor_seating: Sedeži na prostem
           park: Park
+          picnic_table: Miza za piknik
           pitch: Športno igrišče
           playground: Otroško igrišče
-          recreation_ground: Rekreacijsko področje
+          recreation_ground: Rekreacijsko območje
           resort: Letovišče
           sauna: Savna
           slipway: Rampa
@@ -922,20 +1078,31 @@ sl:
           water_park: Vodni park
           "yes": Prosti čas
         man_made:
+          adit: Rudarski jašek
+          advertising: Oglaševanje
           antenna: Antena
           avalanche_protection: Zaščita pred plazovi
+          beacon: Svetilnik
+          beam: Tram
           beehive: Čebelnjak
           breakwater: Valobran
           bridge: Most
           bunker_silo: Bunker
+          cairn: Možic
           chimney: Dimnik
+          clearcut: Poseka
           communications_tower: Oddajnik
           crane: Žerjav
           cross: Križ
+          dolphin: Privez
           dyke: Nasip
           embankment: Nasip
           flagpole: Zastavni drog
+          gasometer: Plinometer
+          groyne: Valobran
+          kiln: Peč
           lighthouse: Svetilnik
+          manhole: Vhodna odprtina
           mast: Steber
           mine: Rudnik
           mineshaft: Rudniški jašek
@@ -944,27 +1111,36 @@ sl:
           pier: Pomol
           pipeline: Cevovod
           pumping_station: Črpališče
+          reservoir_covered: Pokriti rezervoar
           silo: Silos
           snow_cannon: Snežni top
+          snow_fence: Snežna ograja
+          storage_tank: Rezervoar za shranjevanje
+          street_cabinet: Ulična omarica
           surveillance: Nadzor
           telescope: Teleskop
           tower: Stolp
           utility_pole: Drog
           wastewater_plant: Čistilna naprava
           watermill: Vodno kolo
+          water_tap: Vodna pipa
           water_tower: Vodni stolp
           water_well: Vodnjak
           water_works: Vodarna
           windmill: Vetrnica
           works: Tovarna
+          "yes": Človeško delo
         military:
           airfield: Vojaško letališče
           barracks: Vojašnica
           bunker: Bunker
+          checkpoint: Kontrolna točka
           trench: Jarek
+          "yes": Vojska
         mountain_pass:
           "yes": Gorski prelaz
         natural:
+          atoll: Atol
           bare_rock: Skalovje
           bay: Zaliv
           beach: Obala
@@ -984,6 +1160,7 @@ sl:
           hill: Hrib
           hot_spring: Vroči vrelec
           island: Otok
+          isthmus: Ožina
           land: Otok
           marsh: Močvirje
           moor: Barje
@@ -998,6 +1175,7 @@ sl:
           sand: Pesek
           scree: Melišče
           scrub: Grmovje
+          shingle: Prodišče
           spring: Izvir
           stone: Skala
           strait: Ožina
@@ -1009,6 +1187,7 @@ sl:
           water: Vodovje
           wetland: Mokrišče
           wood: Pragozd
+          "yes": Naravna značilnost
         office:
           accountant: Računovodstvo
           administrative: Administracija
@@ -1016,14 +1195,22 @@ sl:
           architect: Arhitekt
           association: Združenje
           company: Podjetje
+          diplomatic: Diplomatski urad
           educational_institution: Izobraževalna ustanova
           employment_agency: Agencija za zaposlovanje
+          energy_supplier: Urad dobavitelja energije
           estate_agent: Nepremičninska agencija
+          financial: Finančni urad
           government: Vladni urad
           insurance: Zavarovalnica
+          it: IT-pisarna
           lawyer: Odvetnik
+          logistics: Logistična pisarna
+          newspaper: Novinarski urad
           ngo: NVO urad
           notary: Notar
+          religion: Verski urad
+          research: Raziskovalni urad
           tax_advisor: Davčni svetovalec
           telecommunication: Telekomunikacijski urad
           travel_agent: Potovalna agencija
@@ -1032,6 +1219,7 @@ sl:
           allotments: Vrtički
           archipelago: Otočje
           city: Mesto
+          city_block: Mestni blok
           country: Država
           county: Okrožje
           farm: Kmetija
@@ -1044,6 +1232,7 @@ sl:
           locality: Krajevno ime
           municipality: Občina
           neighbourhood: Mestna četrt
+          plot: Zemljišče
           postcode: Poštna številka
           quarter: Četrt
           region: Regija
@@ -1071,6 +1260,7 @@ sl:
           platform: Železniški peron
           preserved: Ohranjena železniška proga
           proposed: Predlagana železnica
+          rail: Tir
           spur: Stranski tir
           station: Železniška postaja
           stop: Železniško postajališče
@@ -1079,6 +1269,7 @@ sl:
           switch: Kretnica
           tram: Tramvaj
           tram_stop: Tramvajska postaja
+          turntable: Okretnica
           yard: Železniško dvorišče
         shop:
           agrarian: Kmetijska trgovina
@@ -1086,8 +1277,12 @@ sl:
           antiques: Starinarna
           appliance: Trgovina z belo tehniko
           art: Prodajna galerija
+          baby_goods: Otroško blago
+          bag: Prodajalna torbic
           bakery: Pekarna
+          bathroom_furnishing: Kopalniška oprema
           beauty: Salon lepote
+          bed: Prodajalna posteljnine
           beverages: Trgovina pijač
           bicycle: Kolesarska trgovina
           bookmaker: Knjigovez
@@ -1099,14 +1294,19 @@ sl:
           car_repair: Avtoservis
           carpet: Prodajalna preprog
           charity: Trgovina za dobrodelne namene
+          cheese: Prodajalna kitajskih izdelkov
           chemist: Drogerija
+          chocolate: Čokolada
           clothes: Trgovina z oblekami
+          coffee: Prodajalna kave
           computer: Računalniška trgovina
           confectionery: Slaščičarna
           convenience: Minimarket
           copyshop: Kopirnica
           cosmetics: Trgovina s kozmetiko
+          craft: Prodajalna rokodelskih izdelkov
           curtain: Trgovina z zavesami
+          dairy: Mlekarna
           deli: Delikatesna trgovina
           department_store: Trgovska hiša
           discount: Outlet
@@ -1116,13 +1316,17 @@ sl:
           electronics: Trgovina z elektroniko
           erotic: Erotična trgovina
           estate_agent: Nepremičninska agencija
+          fabric: Prodajalna blaga
           farm: Kmečka trgovina
           fashion: Modna trgovina
+          fishing: Prodajalna ribiške opreme
           florist: Cvetličarna
           food: Prehrambena trgovina
+          frame: Prodajalna okvirjev
           funeral_directors: Pogrebni zavod
           furniture: Pohištvo
           garden_centre: Vrtni center
+          gas: Skladišče plina
           general: Trgovina z mešanim blagom
           gift: Prodajalna daril
           greengrocer: Sadje in zelenjava
@@ -1131,40 +1335,59 @@ sl:
           hardware: Železnina
           health_food: Trgovina z zdravo prehrano
           hearing_aids: Slušni aparati
+          herbalist: Zeliščarstvo
           hifi: Trgovina z avdio opremo
+          houseware: Prodajalna gospodinjskih izdelkov
+          ice_cream: Prodajalna sladoleda
+          interior_decoration: Prodajalna notranje opreme
           jewelry: Draguljarna
           kiosk: Kiosk prodajalna
+          kitchen: Prodajalna kuhinjskih izdelkov
           laundry: Pralnica
           locksmith: Ključavničar
           lottery: Loterija
           mall: Trgovski center
           massage: Masaža
+          medical_supply: Prodajalna medicinskih izdelkov
           mobile_phone: Trgovina mobilnih telefonov
           money_lender: Posojilnica
           motorcycle: Trgovina z motorji
+          motorcycle_repair: Servis motornih koles
           music: Trgovina z glasbo
           musical_instrument: Glasbena trgovina
           newsagent: Trafika
+          nutrition_supplements: Prehranska dopolnila
           optician: Optik
           organic: Trgovina z ekološko hrano
           outdoor: Trgovina za dejavnosti na prostem
           paint: Trgovina z barvami
+          pastry: Prodajalna peciva
           pawnbroker: Zastavljalnica
           perfumery: Parfumerija
           pet: Trgovina za male živali
+          pet_grooming: Nega hišnih ljubljenčkov
           photo: Fotograf
           seafood: Morska hrana
           second_hand: Trgovina z rabljeno opremo
+          sewing: Šivalnica
           shoes: Trgovina s čevlji
           sports: Športna trgovina
           stationery: Papirnica
+          storage_rental: Najem skladišča
           supermarket: Supermarket
           tailor: Krojač
+          tattoo: Tetovator
+          tea: Prodajalna čajev
           ticket: Prodaja vstopnic
+          tobacco: Prodajalna tobaka
           toys: Trgovina igrač
           travel_agency: Potovalna agencija
           tyres: Vulkanizer
+          vacant: Prost lokal
+          variety_store: Nizkocenovna prodajalna
           video: Videoteka
+          video_games: Prodajalna videoiger
+          wholesale: Veleprodajno skladišče
           wine: Vinoteka
           "yes": Trgovina
         tourism:
@@ -1174,6 +1397,7 @@ sl:
           attraction: Zanimivost
           bed_and_breakfast: Nočitev z zajtrkom
           cabin: Nočitev
+          camp_pitch: Prostor za kampiranje
           camp_site: Kamp
           caravan_site: Kamp
           chalet: Počitniška hišica
@@ -1187,9 +1411,10 @@ sl:
           picnic_site: Prostor za piknike
           theme_park: Zabaviščni park
           viewpoint: Razgledna točka
+          wilderness_hut: Koča v divjini
           zoo: Živalski vrt
         tunnel:
-          building_passage: Prehod skozi zgradbo
+          building_passage: Prehod skozi stavbo
           culvert: Podzemni kanal
           "yes": Predor
         waterway:
@@ -1232,43 +1457,109 @@ sl:
   issues:
     index:
       title: Težave
+      select_status: Izberite stanje
+      select_type: Izberite vrsto
+      select_last_updated_by: Izberi po avtorju zadnje spremembe
+      reported_user: Prijavljeni uporabnik
+      not_updated: Ni posodobljeno
       search: Iskanje
+      search_guidance: 'Težave pri iskanju:'
       user_not_found: Uporabnik ne obstaja
+      issues_not_found: Ni najdenih tovrstnih težav
       status: Stanje
+      reports: Poročila
       last_updated: Zadnja posodobitev
       last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> uporabnika
+        %{user}
+      link_to_reports: Ogled prijav
+      reports_count:
+        one: 1 poročilo
+        two: '%{count} poročili'
+        few: '%{count} poročila'
+        other: '%{count} poročil'
+      reported_item: Prijavljeni predmet
       states:
         ignored: Prezrto
         open: Odpri
         resolved: Razrešeno
     update:
+      new_report: Vaše poročilo je uspešno zabeleženo.
+      successful_update: Vaše poročilo je uspešno posodobljeno.
       provide_details: Navedite zahtevane podrobnosti
     show:
+      title: '%{status} Težava #%{issue_id}'
+      reports:
+        one: 1 prijava
+        two: '%{count} prijavi'
+        few: '%{count} prijave'
+        other: '%{count} prijav'
+      report_created_at: Prvič prijavljeno %{datetime}
+      last_resolved_at: Zadnjič razrešeno %{datetime}
+      last_updated_at: Zadnjič %{datetime} posodobil_a %{displayname}
       resolve: Razreši
       ignore: Prezri
       reopen: Znova odpri
+      reports_of_this_issue: Sporočila o tej težavi
       read_reports: Prebrana poročila
       new_reports: Nova poročila
+      other_issues_against_this_user: Druge težave glede tega uporabnika
+      no_other_issues: Ni drugih težav glede tega uporabnika.
+      comments_on_this_issue: Komentarji o tej težavi
+    resolve:
+      resolved: Stanje težave je nastavljeno na »Rešeno«
+    ignore:
+      ignored: Stanje težave je nastavljeno na »Prezrto«
+    reopen:
+      reopened: Stanje težave je nastavljeno na »Odprto«
+    comments:
+      comment_from_html: Komentar uporabnika %{user_link} dne %{comment_created_at}
+      reassign_param: Želite predodeliti težavo?
+    reports:
+      reported_by_html: Sporočil_a %{user} kot %{category} dne %{updated_at}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, komentar #%{comment_id}'
+        note: 'Opomba #%{note_id}'
   issue_comments:
     create:
       comment_created: Vaš komentar je bil uspešno ustvarjen
   reports:
     new:
       title_html: Prijavi %{link}
+      missing_params: Ni mogoče ustvariti novega poročila
       disclaimer:
         intro: 'Pred pošiljanjem poročila moderatorjem strani se prosimo prepričajte,
           da:'
+        not_just_mistake: Prepričani ste, da težava ni samo napaka
+        unable_to_fix: Težave ne morete odpraviti sami ali s pomočjo drugih članov
+          skupnosti
+        resolve_with_user: Težavo ste z zadevnim uporabnikom že poskušali rešiti
       categories:
         diary_entry:
+          spam_label: Ta dnevniški zapis je/vsebuje smetje
+          offensive_label: Ta dnevniški zapis je nespodoben/žaljiv
+          threat_label: Ta dnevniški zapis vsebuje grožnjo
           other_label: Drugo
         diary_comment:
+          spam_label: Ta dnevniški komentar je/vsebuje smetje
+          offensive_label: Ta dnevniški zapis je nespodoben/žaljiv
+          threat_label: Ta dnevniški komentar vsebuje grožnjo
           other_label: Ostalo
         user:
           spam_label: Uporabniški profil vsebuje reklamno vsebino
+          offensive_label: Ta uporabniški profil je nespodoben/žaljiv
+          threat_label: Ta uporabniški profil vsebuje grožnjo
           vandal_label: Uporabnik je vandal
           other_label: Ostalo
         note:
+          spam_label: Ta opomba je smetje
+          personal_label: Ta opomba vsebuje osebne podatke
+          abusive_label: Ta opomba je žaljiva
           other_label: Ostalo
+    create:
+      successful_report: Vaše poročilo je uspešno zabeleženo.
+      provide_details: Navedite zahtevane podrobnosti
   layouts:
     logo:
       alt_text: OpenHistoricalMap logotip
@@ -1294,7 +1585,10 @@ sl:
     intro_header: Pozdravljeni v OpenHistoricalMap!
     intro_text: OpenHistoricalMap je zemljevid sveta, ki ga ustvarjajo ljudje kot
       ste vi, brezplačen za uporabo z odprto licenco.
+    intro_1: OpenHistoricalMap je zemljevid sveta, ki ga ustvarjajo ljudje kot ste
+      vi, brezplačen za uporabo z odprto licenco.
     intro_2_create_account: Ustvarite uporabniški račun
+    partners_title: Partnerji
     hosting_partners_html: "<p>\n <a href='https://greeninfo.org'>GreenInfo Network</a>
       je neprofitna družbeno koristna kartografska in komunikacijska organizacija,
       ki pomaga neprofitnim organizacijam in vladnim agencijam pri doseganju družbenih,
@@ -1331,12 +1625,21 @@ sl:
       hi: Pozdravljeni, %{to_user}!
       header: '%{from_user} je komentiral zapis v dnevnik OpenHistoricalMap s temo
         %{subject}:'
+      header_html: '%{from_user} je komentiral zapis v dnevnik OpenHistoricalMap s
+        temo %{subject}:'
       footer: Komentar lahko preberete tudi na %{readurl}, komentirate lahko na %{commenturl}
         ali odgovorite na %{replyurl}
+      footer_html: Komentar lahko preberete tudi na %{readurl}, komentirate lahko
+        na %{commenturl} ali odgovorite na %{replyurl}
     message_notification:
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Pozdravljeni, %{to_user},
-      header: 'Uporabnik %{from_user}  vam je prek OpenHistoricalMap poslal novo sporočilo
+      header: 'Uporabnik %{from_user}  vam je iz OpenHistoricalMap poslal novo sporočilo
         glede %{subject}:'
+      header_html: 'Uporabnik %{from_user}  vam je iz OpenHistoricalMap poslal novo
+        sporočilo glede %{subject}:'
+      footer: Lahko tudi preberete sporočilo na %{readurl} in lahko odgovorite na
+        %{replyurl}
       footer_html: Lahko tudi preberete sporočilo na %{readurl} in lahko odgovorite
         na %{replyurl}
     friendship_notification:
@@ -1344,11 +1647,21 @@ sl:
       subject: '[OpenHistoricalMap] %{user} vas je dodal med prijatelje'
       had_added_you: '%{user} vas je dodal_a med prijatelje v projektu OpenHistoricalMap.'
       see_their_profile: Njegov profil si lahko ogledate na %{userurl}.
+      see_their_profile_html: Njegov profil si lahko ogledate na %{userurl}.
       befriend_them: Lahko ga tudi dodate kot prijatelja na %{befriendurl}.
+      befriend_them_html: Lahko ga tudi dodate kot prijatelja na %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Videti je kot vaša datoteka GPX %{trace_name} z
+        opisom %{trace_description} in naslednjimi oznakami: %{tags}'
+      description_with_no_tags_html: Videti je kot vaša datoteka GPX %{trace_name}
+        z opisom %{trace_description} in brez oznak
     gpx_failure:
       hi: Pozdravljeni, %{to_user},
       failed_to_import: ' vsebovala neko napako, zaradi katere je ni bilo mogoče uvoziti.
         Napaka:'
+      more_info_html: Več informacij o napakah pri uvozu GPX in o tem, kako se jim
+        izogniti, lahko najdete na %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenHistoricalMap] Neuspeh uvoza datoteke GPX'
     gpx_success:
       hi: Pozdravljeni, %{to_user},
@@ -1375,7 +1688,7 @@ sl:
       welcome: Ko boste potrdili svoj račun, vam bomo za začetek nudili nekaj dodatnih
         informacij.
     email_confirm:
-      subject: '[OpenHistoricalMap] Potrdite svoj elektronski naslov'
+      subject: '[OpenHistoricalMap] Potrdite svoj e-poštni naslov'
       greeting: Pozdravljeni,
       hopefully_you: Nekdo (upamo, da ste to vi) je zahteval spremembo svojega e-poštnega
         naslova v %{server_url} na %{new_address}.
@@ -1389,7 +1702,7 @@ sl:
       click_the_link: Če ste to vi, vas prosimo, da kliknete na spodnjo povezavo za
         ponastavitev gesla.
     note_comment_notification:
-      anonymous: Brezimni uporabnik
+      anonymous: Anonimni uporabnik
       greeting: Živijo,
       commented:
         subject_own: '[OpenHistoricalMap] %{commenter} je komentiral eno izmed vaših
@@ -1398,7 +1711,11 @@ sl:
           vas zanima'
         your_note: '%{commenter} je pustil_a komentar za opombo na zemljevidu v bližini
           %{place}.'
+        your_note_html: '%{commenter} je pustil_a komentar za opombo na zemljevidu
+          v bližini %{place}.'
         commented_note: '%{commenter} je pustil_a komentar za opombo na zemljevidu,
+          ki ste jo dodali. Opomba je v bližini %{place}.'
+        commented_note_html: '%{commenter} je pustil_a komentar za opombo na zemljevidu,
           ki ste jo dodali. Opomba je v bližini %{place}.'
       closed:
         subject_own: '[OpenHistoricalMap] %{commenter} je zaključil_a eno od vaših
@@ -1407,8 +1724,12 @@ sl:
           vas zanima'
         your_note: '%{commenter} je zaključil_a eno od vaših opomb na zemljevidu v
           bližini %{place}.'
+        your_note_html: '%{commenter} je zaključil_a eno od vaših opomb na zemljevidu
+          v bližini %{place}.'
         commented_note: '%{commenter} je zaključil_a opombo na zemljevidu, ki ste
           jo dodali. Opomba je v bližini %{place}.'
+        commented_note_html: '%{commenter} je zaključil_a opombo na zemljevidu, ki
+          ste jo dodali. Opomba je v bližini %{place}.'
       reopened:
         subject_own: '[OpenHistoricalMap] %{commenter} je spet aktiviral_a eno od
           vaših opomb'
@@ -1416,9 +1737,14 @@ sl:
           ki vas zanima'
         your_note: '%{commenter} je spet aktiviral_a eno od vaših opomb na zemljevidu
           v bližini %{place}.'
+        your_note_html: '%{commenter} je spet aktiviral_a eno od vaših opomb na zemljevidu
+          v bližini %{place}.'
         commented_note: '%{commenter} je spet aktiviral_a opombo na zemljevidu, ki
           ste jo dodali. Opomba je v bližini %{place}.'
+        commented_note_html: '%{commenter} je spet aktiviral_a opombo na zemljevidu,
+          ki ste jo dodali. Opomba je v bližini %{place}.'
       details: Več podatkov o opombi lahko najdete na %{url}.
+      details_html: Več podatkov o opombi lahko najdete na %{url}.
     changeset_comment_notification:
       hi: Pozdravljeni, %{to_user},
       greeting: Pozdravljeni,
@@ -1429,16 +1755,26 @@ sl:
           ki vas zanima'
         your_changeset: '%{commenter} je %{time} komentariral enega od vaših sklopov
           sprememb'
+        your_changeset_html: '%{commenter} je %{time} podal komentar na enega od vaših
+          sklopov sprememb'
         commented_changeset: '%{commenter} je komentiral sklop sprememb, ki ga opazujete
           in ga je %{time} ustvaril %{changeset_author}'
+        commented_changeset_html: '%{commenter} je podal komentar na sklop sprememb,
+          ki ga opazujete in ki ga je %{time} ustvaril %{changeset_author}'
         partial_changeset_with_comment: s komentarjem "%{changeset_comment}"
+        partial_changeset_with_comment_html: s komentarjem »%{changeset_comment}«
         partial_changeset_without_comment: brez komentarja
       details: Več podatkov o tem sklopu sprememb lahko najdete na %{url}.
+      details_html: Več podrobnosti o tem sklopu sprememb lahko najdete na %{url}.
+      unsubscribe: Če se želite odnaročiti od posodobitev tega sklopa sprememb, obiščite
+        %{url} in kliknite »Odnaroči«.
+      unsubscribe_html: Če se želite odnaročiti od posodobitev tega sklopa sprememb,
+        obiščite %{url} in kliknite »Odnaroči«.
   confirmations:
     confirm:
-      heading: Preverite vaš e-poštni naslov!
-      introduction_1: Poslali smo vam potrditveno e-pošto.
-      introduction_2: Potrdite svoj račun s klikom povezave v e-pošti in takoj boste
+      heading: Preverite svojo e-pošto!
+      introduction_1: Poslali smo vam potrditveno e-pismo.
+      introduction_2: Potrdite svoj račun s klikom povezave v e-pismu in takoj boste
         lahko začeli kartirati.
       press confirm button: Za aktivacijo vašega uporabniškega računa pritisnite na
         gumb Potrdi spodaj.
@@ -1446,22 +1782,29 @@ sl:
       success: Vaš uporabniški račun je potrjen. Hvala, da ste se vpisali!
       already active: Ta račun je že bil potrjen.
       unknown token: Ta potrditvena koda je potekla ali ne obstaja.
-      reconfirm_html: Če hočete da vam znova pošljemo potrditveno e-pošto, <a href="%{reconfirm}">kliknite
+      reconfirm_html: Če hočete da vam znova pošljemo potrditveno e-pismo, <a href="%{reconfirm}">kliknite
         tukaj</a>.
     confirm_resend:
       failure: Uporabnika %{name} ni bilo mogoče najti.
     confirm_email:
-      heading: Potrdite spremembo naslova e-pošte
-      press confirm button: Za potrditev spremembe vašega naslova elektronske pošte
-        pritisnite na gumb Potrdi spodaj.
+      heading: Potrdite spremembo e-poštnega naslova
+      press confirm button: Za potrditev spremembe svojega e-poštnega naslova pritisnite
+        na gumb Potrdi spodaj.
       button: Potrdi
       success: Potrdili smo vašo spremembo e-poštnega naslova!
-      failure: Naslov elektronske pošte je bil s tem žetonom že potrjen.
+      failure: E-poštni naslov s tem žetonom je že potrjen.
       unknown_token: Ta potrditvena koda je potekla ali pa ne obstaja.
+    resend_success_flash:
+      confirmation_sent: Na %{email} smo vam poslali novo potrditveno sporočilo, in
+        takoj ko boste potrdili svoj račun, boste lahko začeli kartirati.
+      whitelist: Če uporabljate sistem za zaščito pred neželeno pošto, ki pošilja
+        zahtevke za potrditev, se prepričajte, da ste %{sender} uvrstili na beli seznam,
+        saj ne moremo odgovoriti na nobene zahtevke za potrditev.
   messages:
     inbox:
       title: Prejeta pošta
-      my_inbox: Moja prejeta
+      my_inbox: Prejeta pošta
+      my_outbox: Poslana pošta
       messages: Imate %{new_messages} in %{old_messages}.
       new_messages:
         one: '%{count} novo sporočilo'
@@ -1500,6 +1843,8 @@ sl:
       body: Žal ni sporočila s tem id-jem.
     outbox:
       title: Poslana pošta
+      my_inbox: Prejeta pošta
+      my_outbox: Poslana pošta
       messages:
         one: Imate %{count} poslano sporočilo
         two: Imate %{count} poslani sporočili
@@ -1541,8 +1886,8 @@ sl:
       new password button: Pošlji mi novo geslo
       help_text: Vpišite e-poštni naslov s katerim ste se prijavili. Poslali vam bomo
         povezavo za ponastavitev gesla.
-      notice email on way: Elektronsko sporočilo z vsemi potrebnimi podatki za nastavitev
-        novega gesla je že na poti.
+      notice email on way: E-pismo z vsemi potrebnimi podatki za nastavitev novega
+        gesla je že na poti.
       notice email cannot find: Oprostite, toda vnesenega e-poštnega naslova ni bilo
         mogoče najti.
     reset_password:
@@ -1553,12 +1898,19 @@ sl:
       flash token bad: Tega žetona ni bilo mogoče najti.  Predlagamo, da preverite
         naslov URL.
   preferences:
+    show:
+      title: Moje prilagoditve
+      preferred_editor: Prednostni urejevalnik
+      preferred_languages: Prednostni jeziki
+      edit_preferences: Uredi prilagoditve
     edit:
+      title: Uredi prilagoditve
+      save: Posodobi prilagoditve
       cancel: Prekliči
     update:
-      failure: Nastavitev ni bilo mogoče posodobiti.
+      failure: Prilagoditev ni bilo mogoče posodobiti.
     update_success_flash:
-      message: Nastavitve posodobljene.
+      message: Prilagoditve posodobljene.
   profiles:
     edit:
       title: Uredi profil
@@ -1586,7 +1938,7 @@ sl:
     new:
       title: Prijava
       heading: Prijava
-      email or username: 'Naslov e-pošte ali uporabniško ime:'
+      email or username: 'E-poštni naslov ali uporabniško ime:'
       password: 'Geslo:'
       openid_html: '%{logo} OpenID:'
       remember: Zapomni si me
@@ -1602,9 +1954,8 @@ sl:
       create account minute: Naredite si račun. To vam bo vzelo le minuto.
       no account: Še nimate uporabniškega računa?
       account not active: Oprostite, vaš uporabniški račun še ni aktiven.<br />Za
-        aktivacijo prosimo uporabite povezavo, ki ste jo prejeli v elektronskem sporočilu
-        za potrditev uporabniškega računa, ali <a href="%{reconfirm}">zahtevajte novo
-        potrditveno elektronsko sporočilo</a>.
+        aktivacijo uporabite povezavo, ki ste jo prejeli v e-pismu za potrditev uporabniškega
+        računa, ali <a href="%{reconfirm}">zahtevajte novo potrditveno e-pismo</a>.
       account is suspended: Žal je bil vaš račun ustavljen zaradi sumljive aktivnosti.<br>Prosimo,
         obrnite se na <a href="%{webmaster}">webmaster</a>, če želite o tem razpravljati.
       auth failure: Oprostite, prijava s temi podatki ni uspela.
@@ -1640,6 +1991,7 @@ sl:
       logout_button: Odjava
   shared:
     markdown_help:
+      title_html: Razčlenjeno s <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Naslovi
       heading: Naslov
       subheading: Podnaslov
@@ -1659,11 +2011,23 @@ sl:
     about:
       next: Naprej
       copyright_html: <span>&copy;</span>OpenHistoricalMap<br> sodelavci
+      used_by_html: OpenHistoricalMap sodelovalno shranjuje in prikazuje kartografske
+        podatke za vso zgodovino sveta.
       lede_text: |-
         OpenHistoricalMap ustvarja skupnost kartografov z vsega sveta, ki prispevajo in vzdržujejo
         podatke o cestah, poteh, kavarnah, postajah in ostalem.
       local_knowledge_title: Krajevno znanje
+      local_knowledge_html: OpenHistoricalMap je namenjen zgodovinskim podatkom. Stvarem,
+        ki so nekje obstajale nekoč, kakor so to opisali kartografi in zgodovinarji
+        po vsem svetu.
       community_driven_title: Urejeno od skupnosti
+      community_driven_html: |-
+        Skupnost OpenHistoricalMap je raznolika, strastna in vsakodnevno raste.
+        Naši sodelavci so navdušeni kartografi, akademiki, digitalni zgodovinarji, zgodovinska društva
+        ,
+        in številni drugi.
+        Če želite izvedeti več o skupnosti, si oglejte <a href='%{diary_path}'>uporabniške dnevnike</a> idr.
+      open_data_title: Odprti podatki
       open_data_html: "<p>OpenHistoricalMap so <i>odprti podatki</i>: Lahko jih uporabljate
         za kateri koli namen\npod pogoji podatkov, ki jih uporabljate. OpenHistoricalMap
         identificira zahteve glede licenc\nin citiranja na ravni objektov (če obstajajo).
@@ -1676,6 +2040,11 @@ sl:
         ter API-jev si oglejte na <a href='https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_Web_Services'>naši
         vikistrani</a>.</p>"
       legal_title: Legalno
+      legal_1_html: "To spletišče in številne druge sorodne storitve v imenu skupnosti
+        \nuradno upravlja zelo neformalna skupina OpenHistoricalMap."
+      legal_2_html: |-
+        Če imate vprašanja o licenciranju, avtorskih pravicah ali druga pravna vprašanja, se obrnite na ekipo OHM na <a href='mailto:historic@opensteetmap.org'>historic@opensteetmap.org</a>.
+        <br>
       partners_title: Partnerji
     copyright:
       foreign:
@@ -1708,12 +2077,49 @@ sl:
           sta na voljo pod pogoji <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.sl">Priznanje
           avtorstva-Deljenje pod enakimi pogoji 2.0</a> license (CC BY-SA).
         credit_title_html: Kako pripisati zasluge projektu OpenHistoricalMap
+        credit_1_html: Ne zahtevamo nobenih priznanj zaslug, specifičnih za OHM, razen
+          tistih, ki jih zahtevajo osnovni podatki. Cenimo pa navedbo kot »sodelavci
+          OpenHistoricalMap«.
+        credit_2_1_html: |-
+          Pri elektronskem zemljevidu, po katerem je mogoče brskati, OHM raje prikaže izbirno priznanje avtorstva v spodnjem desnem kotu zemljevida.
+          Na primer:
+        attribution_example:
+          alt: Zgled priznanja avtorstva OpenHistoricalMap na spletni strani
+          title: Zgled priznanja avtorstva
+        more_title_html: Več o tem
+        more_1_html: |-
+          Več o uporabi naših podatkov in priznanju avtorstva preberite na strani <a
+          href="https://wiki.openstreetmap.org/wiki/Open_Historical_Map/License">OHM Licence page</a>.
         contributors_title_html: Naši sodelavci
+        contributors_intro_html: Naši sodelavci so zelo številni posamezniki in organizacije.
+          Brez vašega truda ne bi obstajali.
+        contributors_cambridge-anr_html: Vsebuje podatke, ki jih je ustvaril projekt
+          <a href="https://anrcommunes.hypotheses.org/">ANR Communes</a> <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/">Skupine
+          Cambridgea za zgodovino prebivalstva in družbenih struktur</a>.
+        contributors_ned_html: Vsebuje podatke iz različnih podatkovnih sklopiv <a
+          href="https://www.naturalearthdata.com/">Natural Earth Data</a>.
+        contributors_newberry_html: Vsebuje podatke <a href-"https://digital.newberry.org/ahcb/">Atlas
+          of Historical County Boundaries</a> <a href="https://www.newberry.org/">Knjižnice
+          v Newberryju</a>.
         contributors_footer_1_html: |-
           Za več podrobnosti o teh in drugih virih, ki so bili uporabljeni kot pripomočki pri izboljševanju OpenHistoricalMap, si oglejte <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">stran sodelujočih</a> v vikiju OpenHistoricalMap.
+        contributors_footer_2_html: |-
+          Vključitev podatkov v OpenHistoricalMap ne pomeni, da izvorni
+          ponudnik podatkov podpira OpenHistoricalMap, daje kakršno koli jamstvo ali
+          prevzema kakršno koli odgovornost.
         infringement_title_html: Kršitev avtorskih pravic
-        trademarks_title_html: <span id="trademarks"></span>Blagovne znamke
+        infringement_1_html: |-
+          Sodelavce OSM opozarjamo, naj nikoli ne dodajajo podatkov iz nobenega
+          avtorsko zavarovanega vira (npr. Google Zemljevidov ali tiskanih zemljevidov) brez
+          izrecnega dovoljenja imetnikov avtorskih pravic.
+        infringement_2_html: Če menite, da je bilo avtorsko gradivo v podatkovno zbirko
+          OpenHistoricalMap ali to spletišče dodano neupravičeno, nam na naslov historic@openstreetmap.org
+          pošljite e-pismo z zadevo »TAKEDOWN REQUEST« (zahteva za odstranitev).
+        trademarks_title_html: <span id="trademarks"></span>Tržne znamke
+        trademarks_1_html: Če imate vprašanja o vaši uporabi imena OpenHistoricalMap,
+          glejte naš <a href="https://wiki.openstreetmap.org/wiki/Open_Historical_Map/Copyright">pravilnik
+          o tržnih znamkah</a>.
     index:
       js_1: Bodisi uporabljate brskalnik, ki ne podpira Javascripta, ali pa je izvajanje
         Javascripta onemogočeno.
@@ -1730,14 +2136,15 @@ sl:
       not_public_description_html: Urejanje zemljevida ni mogoče dokler vaši prispevki
         niso javni. Označite jih lahko kot javne na %{user_page}.
       user_page_link: strani vašega uporabniškega računa
+      anon_edits_html: (%{link})
       anon_edits_link_text: Pojasnilo zakaj je temu tako.
       id_not_configured: iD še ni konfiguriran
       no_iframe_support: Vaš brskalnik ne podpira HTML iframes, kar je potrebno za
         to funkcijo.
     export:
       title: Izvozi
-      area_to_export: Področje za izvoz
-      manually_select: Ročno izberi drugo področje
+      area_to_export: Območje za izvoz
+      manually_select: Ročno izberite drugo območje
       format_to_export: Oblika izvoženih podatkov
       osm_xml_data: Podatki OpenHistoricalMap v zapisu XML
       map_image: Slika zemljevida (prikaže standardni izris)
@@ -1753,16 +2160,16 @@ sl:
         prenašate in prilagajate, ste odgovorni sami.
       too_large:
         advice: 'Če zgornji izvoz spodleti, uporabite enega od spodnjih virov:'
-        body: 'To področje je preveliko za izvoz v XML OpenHistoricalMap. Prosimo,
-          da se približate ali izberete manjše področje ali pa da uporabite enega
-          od naslednjih virov za obsežen prenos podatkov:'
+        body: 'To območje je preveliko za izvoz v formatu XML OpenHistoricalMap. Prosimo,
+          približajte prikaz ali izberite manjše območje ali pa uporabite enega od
+          naslednjih virov za obsežen prenos podatkov:'
         planet:
           title: Planet OSM
           description: Redno posodabljane kopije celotne podatkovne zbirke OpenHistoricalMap
         overpass:
           title: Overpass API
-          description: Prenesi to območje iz zrcalnega strežnika podatkovne zbirke
-            OpenHistoricalMap
+          description: Prenos izbranega območja iz zrcalnega strežnika podatkovne
+            zbirke OpenHistoricalMap
         geofabrik:
           title: Prenosi Geofabrik
           description: Redno posodabljani izvlečki celin, držav in izbranih mest
@@ -1790,14 +2197,27 @@ sl:
         title: Kako pomagati
         join_the_community:
           title: Pridružite se skupnosti
+          explanation_html: Če ste opazili težavo z našimi kartografskimi podatki,
+            na primer manjkajočo cesto ali naslov, boste najbolje ravnali, če se boste
+            pridružili skupnosti OpenHistoricalMap in boste podatke dodali ali popravili
+            sami.
+        add_a_note:
+          instructions_html: |-
+            Preprosto kliknite <a class='icon note'></a> ali isto ikono na prikazu zemljevida.
+            To bo na zemljevid dodalo oznako, ki jo lahko premikate
+            z vlečenjem. Dodajte svojo sporočilo, nato kliknite »Shrani« in ga bodo drugi kartografi pregledali.
       other_concerns:
         title: Drugi pomisleki
+        explanation_html: |-
+          Če imate pomisleke o uporabi naših podatkov ali vsebini, glejte našo <a href='/copyright'>avtorskopravno stran</a> za več pravnih informacij ali pišite na ustrezni
+          <a href='https://openhistoricalmap.org'>e-poštni naslov</a>
     help:
       title: Iskanje pomoči
       introduction: OpenHistoricalMap ima več virov za učenje o projektu, postavljanje
         vprašanj in odgovarjanje nanja, sodelovanje v pogovorih in dokumentiranje
         kartografskih tem.
       welcome:
+        url: /pozdravljeni
         title: Pozdravljeni v OpenHistoricalMap (OSM)
         description: Začnite s tem hitrim vodičem, ki zajema osnove OpenHistoricalMap.
       beginners_guide:
@@ -1815,14 +2235,20 @@ sl:
           poštnih seznamih.
       forums:
         title: Forumi
+        description: Vprašanja in razprave za tiste, ki jim bolj ustreza forumski
+          slog.
       irc:
         title: IRC
         description: Interaktivni klepet v mnogo različnih jezikih in o mnogo temah.
       switch2osm:
         title: switch2osm
+        description: Pridružite se kanalu OpenHistoricalMap in razpravljajte o OHM
+          z navdušenimi uporabniki OHM.
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Za organizacije
+        description: Ste iz organizacije z načrti za OpenStreetMap? Kar morati vedeti,
+          lahko najdete v Paketu dobrodošlice.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: Wiki OpenHistoricalMap
@@ -1879,9 +2305,9 @@ sl:
           common:
           - Travniki
           - travnik
-          retail: Trgovsko področje
-          industrial: Industrijsko področje
-          commercial: Poslovno področje
+          retail: Trgovinsko območje
+          industrial: Industrijsko območje
+          commercial: Poslovno območje
           heathland: Grmičevje
           lake:
           - Jezero
@@ -1893,11 +2319,11 @@ sl:
           pitch: Športno igrišče
           centre: Športni center
           reserve: Naravni rezervat
-          military: Vojaško področje
+          military: Vojaško območje
           school:
           - Šola
           - univerza
-          building: Pomembna zgradba
+          building: Pomembna stavba
           station: Železniška postaja
           summit:
           - Vrh
@@ -1933,12 +2359,15 @@ sl:
           jo lahko uporabite za urejanje zemljevida.
         node_html: <strong>Vozlišče</strong> je točka na zemljevidu, kot npr. restavracija
           ali drevo.
-        way_html: <strong>Pot</strong> je črta ali področje, kot je npr. cesta, potok,
-          jezero ali zgradba.
+        way_html: <strong>Pot</strong> je črta ali območje, npr. cesta, potok, jezero
+          ali stavba.
         tag_html: <strong>Oznaka</strong> je podatek o vozlišču ali poti, npr. ime
           restavracije ali omejitev cestne hitrosti.
       rules:
         title: Pravila!
+        paragraph_1_html: OpenHistoricalMap ima le malo formalnih pravil, od vseh
+          udeležencev pa pričakujemo, da s skupnostjo sodelujejo in komunicirajo vljudno
+          in spoštljivo.
       questions:
         title: Imate kakšno vprašanja?
         paragraph_1_html: |-
@@ -1967,9 +2396,11 @@ sl:
       help: Pomoč
     create:
       upload_trace: Naloži sled GPS
-      trace_uploaded: Vaša datoteka s sledjo GPS v datoteki GPX je bila poslana na
-        strežnik in čaka na uvoz v zbirko podatkov. To se ponavadi zgodi v roku pol
-        ure. O uvozu boste obveščeni po elektronski pošti.
+      trace_uploaded: Vaša datoteka s sledjo GPS v datoteki GPX je bila poslana v
+        strežnik in čaka na uvoz v podatkovno zbirko. To se ponavadi zgodi v roku
+        pol ure. O uvozu boste obveščeni po e-pošti.
+      upload_failed: Žal nalaganje GPX ni uspelo. Na napako je bil opozorjen administrator.
+        Prosimo, poskusite znova.
       traces_waiting:
         one: V vrsti za obdelavo imate %{count} sled. Prosimo, počakajte, da se obdela
           pred nadaljnjim nalaganjem, da bodo storitev lahko uporabljali tudi drugi
@@ -1988,6 +2419,8 @@ sl:
       title: Urejanje sledi %{name}
       heading: Urejanje sledi %{name}
       visibility_help: kaj to pomeni?
+    update:
+      updated: Sled posodobljena
     trace_optionals:
       tags: Oznake
     show:
@@ -1999,6 +2432,7 @@ sl:
       uploaded: 'Poslano:'
       points: 'Točk:'
       start_coordinates: 'Začetna koordinata:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: zemljevid
       edit: uredi
       owner: 'Lastnik:'
@@ -2041,6 +2475,9 @@ sl:
         izvedete več o GPS sledeh na <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki
         strani</a>.
       upload_trace: Naloži sled GPS
+      all_traces: Vse sledi
+      traces_from: Javne sledi uporabnika %{user}
+      remove_tag_filter: Odstrani filter oznak
     destroy:
       scheduled_for_deletion: Sled bo izbrisana
     make_public:
@@ -2067,13 +2504,18 @@ sl:
     require_admin:
       not_an_admin: Za izvedbo tega dejanja morate biti administrator.
     setup_user_auth:
+      blocked_zero_hour: Na spletnem mestu OpenStreetMap imate nujno sporočilo. Preden
+        boste lahko shranjevali urejanja, morate prebrati to sporočilo.
       blocked: Vaš dostop do API je bil blokiran. Prosimo, prijavite se na spletno
         stran, če želite izvedeti več.
       need_to_see_terms: Vaš dostop do API, je začasno prekinjen. Prosimo, prijavite
         se na spletno stran in si oglejte pogoje "Contributor Terms". Ni se vam treba
         strinjati, vendar si jih morate ogledati.
     settings_menu:
+      account_settings: Nastavitve računa
       oauth1_settings: Nastavitve OAuth 1
+      oauth2_applications: Aplikacije OAuth 2
+      oauth2_authorizations: Pooblastila OAuth 2
   oauth:
     authorize:
       title: Dovoli dostop do vašega računa
@@ -2081,7 +2523,7 @@ sl:
         %{user}. Prosimo, preverite, ali želite aplikaciji omogočiti naslednje zmožnosti.
         Izbirate lahko med poljubnim številom.
       allow_to: 'Dovoli odjemalska aplikaciji dostop:'
-      allow_read_prefs: branje uporabniških nastavitev.
+      allow_read_prefs: branje uporabniških prilagoditev.
       allow_write_prefs: spreminjanje uporabniških nastavitev.
       allow_write_diary: ustvarjanje dnevniških zapisov, komentarjev in dodajanje
         prijateljev.
@@ -2089,7 +2531,7 @@ sl:
       allow_read_gpx: branje zasebnih sledi GPS.
       allow_write_gpx: nalaganje sledi GPS.
       allow_write_notes: spreminjanje opomb.
-      grant_access: Odobri dostop
+      grant_access: Podeli dostop
     authorize_success:
       title: Zahteva za potrditev identitete je bila sprejeta
       allowed_html: Aplikaciji %{app_name} ste odobrili zahtevek za dostop do vašega
@@ -2098,10 +2540,21 @@ sl:
     authorize_failure:
       title: Zahteva za overovitev ni uspela
       denied: Aplikaciji %{app_name} ste zavrnili zahtevek za dostop do vašega računa.
+      invalid: Avtorizacijski žeton ni veljaven.
     revoke:
       flash: Preklicali ste žeton za %{application}
+    permissions:
+      missing: Aplikaciji niste dovolili dostopa do te funkcije
     scopes:
+      read_prefs: Branje uporabniških prilagoditev
+      write_prefs: Spreminjanje uporabniških nastavitev
+      write_diary: Ustvarjajte dnevniške zapise, komentarje in sklepajte prijateljstva
       write_api: Spreminjanje zemljevida
+      read_gpx: Branje zasebnih sledi GPS
+      write_gpx: Nalaganje sledi GPS
+      write_notes: Spreminjanje opomb
+      read_email: Branje uporabnikovega e-poštnega naslova
+      skip_authorization: Samodejna odobritev aplikacije
   oauth_clients:
     new:
       title: Registriraj novo aplikacijo
@@ -2113,16 +2566,16 @@ sl:
       secret: 'Uporabnikova skrivnost:'
       url: 'URL zahteve žetona:'
       access_url: 'URL dostopa žetona:'
-      authorize_url: 'URL za potrditev zahteve:'
+      authorize_url: 'Pooblastitveni URL:'
       support_notice: Podpiramo HMAC-SHA1 (priporočeno) in podpise RSA-SHA1.
       edit: Urejanje podrobnosti
       delete: Izbriši odjemalca
       confirm: Ali ste prepričani?
-      requests: 'Zahteva dovoljenja za naslednje dostope do uporabnikovih podatkov:'
+      requests: 'Zahtevanje dovoljenja za naslednje dostope do uporabnikovih podatkov:'
     index:
       title: Moje nastavitve OAuth
       my_tokens: Moje pooblaščene aplikacije
-      list_tokens: 'Naslednji žetoni so bili izdani aplikacijam za vaše ime:'
+      list_tokens: 'V vašem imenu so bili aplikacijam izdani naslednji žetoni:'
       application: Ime aplikacije
       issued_at: Izdan
       revoke: Prekliči!
@@ -2145,24 +2598,52 @@ sl:
       flash: Registracija odjemalske aplikacije uničena
   oauth2_applications:
     index:
+      title: Moje odjemalske aplikacije
+      no_applications_html: Imate aplikacijo, ki jo želite registrirati za uporabo
+        z nami po standardu %{oauth2}? Da bo lahko za to storitev izvajala zahtevke
+        OAuth, jo morate najprej registrirati.
+      new: Registriraj novo aplikacijo
       name: Ime
       permissions: Dovoljenja
     application:
       edit: Uredi
       delete: Izbriši
+      confirm_delete: Želite izbrisati to aplikacijo?
+    new:
+      title: Registriraj novo aplikacijo
+    edit:
+      title: Urejanje aplikacije
     show:
       edit: Uredi
       delete: Izbriši
+      confirm_delete: Želite izbrisati to aplikacijo?
+      client_id: ID odjemalca
+      client_secret: Skrivnost odjemalca
+      client_secret_warning: Ne pozabite shraniti te skrivnosti – ne bo več dostopna
       permissions: Dovoljenja
       redirect_uris: Preusmeritveni URI-ji
+    not_found:
+      sorry: Te aplikacije ni bilo mogoče najti.
   oauth2_authorizations:
     new:
+      title: Potrebna je avtorizacija
+      introduction: Želite avtorizirati %{application} za dostop do vašega računa
+        z naslednjimi dovoljenji?
+      authorize: Avtoriziraj
       deny: Zavrni
     error:
       title: Prišlo je do napake
+    show:
+      title: Avtorizacijska koda
   oauth2_authorized_applications:
     index:
+      title: Moje pooblaščene aplikacije
+      application: Aplikacija
       permissions: Dovoljenja
+      no_applications_html: Pooblastili še niste nobene aplikacije %{oauth2}.
+    application:
+      revoke: Prekliči dostop
+      confirm_revoke: Želite za to aplikacijo preklicati dostop?
   users:
     new:
       title: Prijavite se
@@ -2174,14 +2655,14 @@ sl:
       about:
         header: Brezplačen, ki ga je mogoče urejati
         html: |-
-          <p>Za razliko od drugih zemljevidov je OpenHistoricalMap popolnoma ustvarjen od ljudi kot si ti in ga lahko vsakdo popravit, nadgradi, prenese ter brezplačno uporablja.</p>
-          <p>Prijavite se, če želite začeti prispevati. Poslali vam bomo elektronsko sporočilo za potrditev računa.</p>
+          <p>Za razliko od drugih zemljevidov so OpenHistoricalMap v celoti ustvarili ljudje, kot ste vi, in ga lahko vsakdo prosto popravlja, posodablja, prenaša in uporablja.</p>
+          <p>Če želite začeti prispevati, se registrirajte. Poslali vam bomo e-poštno sporočilo za potrditev računa.</p>
       email address: 'E-poštni naslov:'
-      confirm email address: 'Potrdite naslov e-pošte:'
+      confirm email address: 'Potrdite e-poštni naslov:'
       display name: 'Prikazno ime:'
       display name description: Javno prikazano uporabniško ime. To lahko spremenite
-        kasneje v nastavitvah.
-      external auth: Overitev tretje osebe
+        pozneje v prilagoditvah.
+      external auth: 'Avtentikacija tretje osebe:'
       use external auth: Lahko pa uporabite prijavo tretje osebe
       auth no password: Pri overitvi tretje osebe geslo ni zahtevano, vendar ga bodo
         nekatera dodatna orodja ali strežnik morda še vedno zahtevala.
@@ -2190,11 +2671,20 @@ sl:
     terms:
       title: Pogoji
       heading: Pogoji
+      heading_ct: Pogoji sodelovanja
+      read and accept with tou: Prosimo, preberite sporazum o prispevanju in pogoje
+        uporabe, obkljukajte obe potrditveni polji in nato pritisnite gumb za nadaljevanje.
+      contributor_terms_explain: Ta sporazum ureja pogoje za vaše obstoječe in prihodnje
+        prispevke.
       read_ct: Prebral sem zgornje pogoje in soglašam z njimi
+      tou_explain_html: Ti %{tou_link} urejajo uporabo spletnega mesta in druge infrastrukture,
+        ki jo zagotavlja OSMF. Kliknite povezavo, preberite jih in potrdite strinjanje
+        z besedilom.
       read_tou: Prebral sem pogoje uporabe in soglašam z njimi
       consider_pd: Poleg zgoraj navedenega sporazuma menim, da so moji prispevki v
         javni domeni
       consider_pd_why: kaj je to?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance_html: 'Informacije za lažje razumevanje teh pogojev: <a href="%{summary}">berljivi
         povzetek</a> in nekaj <a href="%{translations}">neuradnih prevodov</a>'
       continue: Nadaljuj
@@ -2207,6 +2697,11 @@ sl:
         france: Francija
         italy: Italija
         rest_of_world: Ostali svet
+    terms_declined_flash:
+      terms_declined_html: Žal nam je, da ste se odločili, da ne sprejmete novih pogojev
+        za sodelavce. Za več informacij glejte %{terms_declined_link}.
+      terms_declined_link: ta vikistran
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Ni tega uporabnika
       heading: Uporabnik %{user} ne obstaja
@@ -2223,6 +2718,8 @@ sl:
       my profile: Moj profil
       my settings: Moje nastavitve
       my comments: Moji komentarji
+      my_preferences: Moje prilagoditve
+      my_dashboard: Moja nadzorna plošča
       blocks on me: Blokiranja mene
       blocks by me: Moja blokiranja
       edit_profile: Uredi profil
@@ -2248,8 +2745,8 @@ sl:
         administrator: Ta uporabnik je administrator
         moderator: Ta uporabnik je moderator
         grant:
-          administrator: Dodeli administratorski dostop
-          moderator: Dodeli moderatorski dostop
+          administrator: Podeli administratorski dostop
+          moderator: Podeli moderatorski dostop
         revoke:
           administrator: Odvzemi administratorski dostop
           moderator: Odvzemi moderatorski dostop
@@ -2260,6 +2757,8 @@ sl:
       activate_user: Aktiviraj uporabnika
       deactivate_user: Dezaktiviraj uporabnika
       confirm_user: Potrdi uporabnika
+      unconfirm_user: Prekliči potrditev tega uporabnika
+      unsuspend_user: Prekliči suspendiranje tega uporabnika
       hide_user: Skrij uporabnika
       unhide_user: Prikaži uporabnika
       delete_user: Izbriši uporabnika
@@ -2295,6 +2794,7 @@ sl:
       no_authorization_code: Ni pooblastitvene kode
       unknown_signature_algorithm: Neznan algoritem podpisa
       invalid_scope: Neveljaven obseg
+      unknown_error: Avtentikacija ni uspela
     auth_association:
       heading: Vaš ID še ni povezan z računom OpenHistoricalMap.
       option_1: Če ste novi v OpenHistoricalMapu, prosimo, ustvarite nov račun z uporabo
@@ -2306,13 +2806,15 @@ sl:
       not_a_role: Besedilo `%{role}' ni pravilna vloga.
       already_has_role: Uporabnik že ima vlogo %{role}.
       doesnt_have_role: Uporabnik nima vloge %{role}.
+      not_revoke_admin_current_user: Trenutnemu uporabniku ni mogoče preklicati vloge
+        skrbnika.
     grant:
       title: Potrdi dodeljevanje vloge
       heading: Potrdi dodeljevanje vloge
-      are_you_sure: Ali res želite dodeliti vlogo '%{role}' uporabniku '%{name}'?
+      are_you_sure: Ali res želite podeliti vlogo »%{role}« uporabniku »%{name}«?
       confirm: Potrdi
-      fail: Ne morem odobriti vlogo '%{role}' uporabniku '%{name}'. Prosimo preverite,
-        če sta uporabnik in vloga pravilna.
+      fail: Uporabniku »%{name}« ni mogoče podeliti vloge »%{role}«. Preverite, ali
+        sta uporabnik in vloga pravilna.
     revoke:
       title: Potrdi preklic vloge
       heading: Potrdi preklic vloge
@@ -2379,6 +2881,21 @@ sl:
           two: '%{count} dneva'
           few: '%{count} dni'
           other: '%{count} dni'
+        weeks:
+          one: 1 teden
+          two: '%{count} tedna'
+          few: '%{count} tedni'
+          other: '%{count} tednov'
+        months:
+          one: 1 mesec
+          two: '%{count} meseca'
+          few: '%{count} meseci'
+          other: '%{count} mesecev'
+        years:
+          one: 1 leto
+          two: '%{count} leti'
+          few: '%{count} leta'
+          other: '%{count} let'
     blocks_on:
       title: Blokiranja na %{name}
       heading_html: Seznam blokiranj uporabnika %{name}
@@ -2420,6 +2937,7 @@ sl:
       title: Opombe, ki jih je posredoval_a ali komentiral_a %{user}
       heading: Opombe uporabnika %{user}
       subheading_html: Opombe, ki jih je posredoval_a ali komentiral_a %{user}
+      no_notes: Ni opomb
       id: Id
       creator: Ustvarjalec
       description: Opis
@@ -2439,26 +2957,40 @@ sl:
       custom_dimensions: Nastavitev velikosti po meri
       format: 'Oblika:'
       scale: 'Merilo:'
+      image_dimensions: Slika bo prikazovala standardni sloj velikosti %{width} x
+        %{height}
       download: Prenesi
       short_url: Kratek URL
       include_marker: Vključi oznako
       center_marker: Osredini zemljevid na oznako
-      paste_html: Prilepi HTML za vdelavo v spletno mesto
+      paste_html: Prilepite HTML za vdelavo v spletno mesto
       view_larger_map: Prikaži večji zemljevid
-      only_standard_layer: Samo standardno plast je mogoče izvoziti kot sliko
+      only_standard_layer: Kot sliko je mogoče izvoziti samo standardni sloj
     embed:
       report_problem: Prijavi težavo
     key:
-      title: Ključ zemljevida
-      tooltip: Ključ zemljevida
-      tooltip_disabled: Ključ zemljevida za to plast ni na voljo
+      title: Legenda
+      tooltip: Legenda
+      tooltip_disabled: Legenda za ta sloj ni na voljo
     map:
       zoom:
         in: Povečaj
         out: Pomanjšaj
       locate:
         title: Pokaži mojo lokacijo
+        metersPopup:
+          one: Ste znotraj enega metra od te točke
+          two: Ste znotraj %{count} metrov od te točke
+          few: Ste znotraj %{count} metrov od te točke
+          other: Ste znotraj %{count} metrov od te točke
+        feetPopup:
+          one: Ste znotraj enega čevlja od te točke
+          two: Ste znotraj %{count} čevljev od te točke
+          few: Ste znotraj %{count} čevljev od te točke
+          other: Ste znotraj %{count} čevljev od te točke
       base:
+        historical: Zgodovinski
+        woodblock: Leseni blok
         standard: Privzeta karta
         cyclosm: CyclOSM
         cycle_map: Kolesarska karta
@@ -2466,14 +2998,24 @@ sl:
         hot: Človekoljub
         opnvkarte: ÖPNVKarte
       layers:
-        header: Plasti zemljevida
+        header: Sloji zemljevida
         notes: Opombe na zemljevidu
         data: Podatki zemljevida
         gps: Javne sledi GPS
         overlays: Omogočite prekrivke za odpravljanje težav na zemljevidu
-        title: Plasti
+        title: Sloji
       copyright: © <a href='%{copyright_url}'>OpenHistoricalMap sodelavci</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Denarni prispevki</a>
+      terms: <a href='%{terms_url}' target='_blank'>Pogoji uporabe spletnega mesta
+        in API-ja</a>
+      cyclosm: 'Slog ploščic: <a href=''%{cyclosm_url}'' target=''_blank''>CyclOSM</a>;
+        gosti <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap France</a>'
+      thunderforest: Ploščice z dovoljenjem <a href='%{thunderforest_url}' target='_blank'>Andyja
+        Allana</a>
+      opnvkarte: Ploščite z dovoljenjem <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
+      hotosm: 'Slog ploščic: <a href=''%{hotosm_url}'' target=''_blank''>Humanitarian
+        OpenStreetMap Team</a>; gosti <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap
+        France</a>'
     site:
       edit_tooltip: Urejanje zemljevida
       edit_disabled_tooltip: Povečajte za urejanje zemljevida
@@ -2492,12 +3034,12 @@ sl:
         unhide_comment: razkrij
     notes:
       new:
-        intro: Ste opazili napako ali pa kaj manjka? Obvestite ostale kartografe o
+        intro: Ste opazili napako ali da kaj manjka? Obvestite druge kartografe o
           tem, da lahko to popravimo. Premaknite oznako na pravilno lokacijo in vpišite
-          opombo, kjer pojasnite problem.
-        advice: Vaša opomba je javna in se jo lahko uporabi za posodobitev zemljevida.
-          Ne vnašajte osebnih podatkov, ali podatkov z avtorsko-zaščitenih zemljevidov
-          ali iz imenikov.
+          opombo, v kateri pojasnite problem.
+        advice: Vaša opomba je javna in se lahko uporabi za posodobitev zemljevida.
+          Ne vnašajte osebnih podatkov ali podatkov iz avtorsko zaščitenih zemljevidov
+          ali imenikov.
         add: Dodaj opombo
       show:
         anonymous_warning: To opomba vključuje komentarje anonimnih uporabnikov, ki
@@ -2644,4 +3186,9 @@ sl:
         tej redakciji, preden jo uničite.
       flash: Redakcija uničena.
       error: Ob uničevanju te redakcije je prišlo do napake.
+  validations:
+    leading_whitespace: ima začetne presledke
+    trailing_whitespace: ima končne presledke
+    invalid_characters: vsebuje neveljavne znake
+    url_characters: vsebuje posebne znake URL (%{characters})
 ...
