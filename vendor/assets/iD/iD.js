@@ -15103,10 +15103,10 @@
       if (options2.cache === "no-store" || options2.cache === "no-cache") {
         var reParamSearch = /([?&])_=[^&]*/;
         if (reParamSearch.test(this.url)) {
-          this.url = this.url.replace(reParamSearch, "$1_=" + new Date().getTime());
+          this.url = this.url.replace(reParamSearch, "$1_=" + (/* @__PURE__ */ new Date()).getTime());
         } else {
           var reQueryString = /\?/;
-          this.url += (reQueryString.test(this.url) ? "&" : "?") + "_=" + new Date().getTime();
+          this.url += (reQueryString.test(this.url) ? "&" : "?") + "_=" + (/* @__PURE__ */ new Date()).getTime();
         }
       }
     }
@@ -20865,7 +20865,7 @@
 
   // node_modules/d3-interpolate/src/date.js
   function date_default(a, b) {
-    var d = new Date();
+    var d = /* @__PURE__ */ new Date();
     return a = +a, b = +b, function(t) {
       return d.setTime(a * (1 - t) + b * t), d;
     };
@@ -22694,27 +22694,38 @@
   var ociCdnUrl = "https://cdn.jsdelivr.net/npm/osm-community-index@{version}/";
   var wmfSitematrixCdnUrl = "https://cdn.jsdelivr.net/npm/wmf-sitematrix@{version}/";
   var nsiCdnUrl = "https://cdn.jsdelivr.net/npm/name-suggestion-index@{version}/";
-  var osmApiConnections = [
-    {
-      // "live" db
+  var defaultOsmApiConnections = {
+    "live": {
       url: "https://www.openstreetmap.org",
       client_id: "0tmNTmd0Jo1dQp4AUmMBLtGiD9YpMuXzHefitcuVStc",
       client_secret: "BTlNrNxIPitHdL4sP2clHw5KLoee9aKkA7dQbc0Bj7Q"
     },
-    {
-      // "dev" db
+    "dev": {
       url: "https://api06.dev.openstreetmap.org",
       client_id: "Ee1wWJ6UlpERbF6BfTNOpwn0R8k_06mvMXdDUkeHMgw",
       client_secret: "OnfWFC-JkZNHyYdr_viNn_h_RTZXRslKcUxllOXqf5g"
     }
-  ];
+  };
+  var osmApiConnections = [];
+  if (false) {
+    osmApiConnections.push({
+      url: null,
+      client_id: null,
+      client_secret: null
+    });
+  } else if (false) {
+    osmApiConnections.push(defaultOsmApiConnections[null]);
+  } else {
+    osmApiConnections.push(defaultOsmApiConnections.live);
+    osmApiConnections.push(defaultOsmApiConnections.dev);
+  }
   var taginfoApiUrl = "https://taginfo.openstreetmap.org/api/4/";
   var nominatimApiUrl = "https://nominatim.openstreetmap.org/";
 
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.24.2",
+    version: "2.25.1",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -22744,11 +22755,13 @@
       "dist:svg:maki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "maki-%s" --symbol-sprite dist/img/maki-sprite.svg node_modules/@mapbox/maki/icons/*.svg',
       "dist:svg:mapillary:signs": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-sprite.svg node_modules/mapillary_sprite_source/package_signs/*.svg",
       "dist:svg:mapillary:objects": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-object-sprite.svg node_modules/mapillary_sprite_source/package_objects/*.svg",
+      "dist:svg:roentgen": 'svg-sprite --shape-id-generator "roentgen-%s" --shape-dim-width 16 --shape-dim-height 16 --symbol --symbol-dest . --symbol-sprite dist/img/roentgen-sprite.svg svg/roentgen/*.svg',
       "dist:svg:temaki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "temaki-%s" --symbol-sprite dist/img/temaki-sprite.svg node_modules/@ideditor/temaki/icons/*.svg',
       imagery: "node scripts/update_imagery.js",
       lint: "eslint scripts test/spec modules",
       "lint:fix": "eslint scripts test/spec modules --fix",
-      start: "run-s build:js start:server",
+      start: "run-s start:watch",
+      "start:single-build": "run-p build:js start:server",
       "start:watch": "run-p build:js:watch start:server",
       "start:server": "node scripts/server.js",
       test: "npm-run-all -s lint build test:spec",
@@ -22789,7 +22802,7 @@
       "@fortawesome/free-solid-svg-icons": "~6.2.0",
       "@ideditor/temaki": "~5.2.0",
       "@mapbox/maki": "^8.0.0",
-      "@openstreetmap/id-tagging-schema": "^5.0.1",
+      "@openstreetmap/id-tagging-schema": "^6.0.0",
       "@transifex/api": "^5.0.1",
       autoprefixer: "^10.0.1",
       chai: "^4.3.4",
@@ -22798,8 +22811,9 @@
       "cldr-localenames-full": "^41.0.0",
       "concat-files": "^0.1.1",
       d3: "~7.8.1",
+      dotenv: "^16.0.3",
       "editor-layer-index": "github:osmlab/editor-layer-index#gh-pages",
-      esbuild: "^0.17.3",
+      esbuild: "^0.17.10",
       "esbuild-visualizer": "^0.4.0",
       eslint: "^8.8.0",
       "fetch-mock": "^9.11.0",
@@ -25294,7 +25308,7 @@
     var mutex = {};
     var intervalID;
     function renew() {
-      var expires = new Date();
+      var expires = /* @__PURE__ */ new Date();
       expires.setSeconds(expires.getSeconds() + 5);
       document.cookie = name + "=1; expires=" + expires.toUTCString() + "; sameSite=strict";
     }
@@ -27127,7 +27141,7 @@
     return str2.toLowerCase().replace(/[^a-z0-9]+/g, "_");
   }
   function utilUniqueDomId(val) {
-    return "ideditor-" + utilSafeClassName(val.toString()) + "-" + new Date().getTime().toString();
+    return "ideditor-" + utilSafeClassName(val.toString()) + "-" + (/* @__PURE__ */ new Date()).getTime().toString();
   }
   function utilUnicodeCharsCount(str2) {
     return Array.from(str2).length;
@@ -32775,7 +32789,7 @@
       _downPointer = {
         id: d3_event.pointerId || "mouse",
         pointerLocGetter,
-        downTime: +new Date(),
+        downTime: +/* @__PURE__ */ new Date(),
         downLoc: pointerLocGetter(d3_event)
       };
       dispatch10.call("down", this, d3_event, datum2(d3_event));
@@ -32788,7 +32802,7 @@
       _lastPointerUpEvent = d3_event;
       if (downPointer.isCancelled)
         return;
-      var t2 = +new Date();
+      var t2 = +/* @__PURE__ */ new Date();
       var p2 = downPointer.pointerLocGetter(d3_event);
       var dist = geoVecLength(downPointer.downLoc, p2);
       if (dist < _closeTolerance || dist < _tolerance && t2 - downPointer.downTime < 500) {
@@ -35661,7 +35675,7 @@
         json_default(url, options2).then(() => {
           delete _cache2.inflightPost[d.id];
           if (!d.newStatus) {
-            const now3 = new Date();
+            const now3 = /* @__PURE__ */ new Date();
             let comments = d.comments ? d.comments : [];
             comments.push({
               username: payload.username,
@@ -40587,7 +40601,7 @@ ${content}</tr>
           nextIDs: osmEntity.id.next,
           index: _index,
           // note the time the changes were saved
-          timestamp: new Date().getTime()
+          timestamp: (/* @__PURE__ */ new Date()).getTime()
         });
       },
       fromJSON: function(json, loadChildNodes) {
@@ -48229,6 +48243,7 @@ ${content}</tr>
       "maki-sprite",
       "temaki-sprite",
       "fa-sprite",
+      "roentgen-sprite",
       "community-sprite"
     ];
     function drawDefs(selection2) {
@@ -51653,7 +51668,7 @@ ${content}</tr>
     var _maxDistance = 20;
     var _pointer;
     function pointerIsValidFor(loc) {
-      return new Date().getTime() - _pointer.startTime <= _maxTimespan && // all pointer events must occur within a small distance of the first pointerdown
+      return (/* @__PURE__ */ new Date()).getTime() - _pointer.startTime <= _maxTimespan && // all pointer events must occur within a small distance of the first pointerdown
       geoVecLength(_pointer.startLoc, loc) <= _maxDistance;
     }
     function pointerdown(d3_event) {
@@ -51666,7 +51681,7 @@ ${content}</tr>
       if (!_pointer) {
         _pointer = {
           startLoc: loc,
-          startTime: new Date().getTime(),
+          startTime: (/* @__PURE__ */ new Date()).getTime(),
           upCount: 0,
           pointerId: d3_event.pointerId
         };
@@ -53236,8 +53251,8 @@ ${content}</tr>
         select_default2(this).call(tooltip).append("div").attr("class", "icon-wrap").call(svgIcon(d.icon && d.icon() || "#iD-operation-" + d.id, "operation"));
       });
       if (showLabels) {
-        buttonsEnter.append("span").attr("class", "label").html(function(d) {
-          return d.title;
+        buttonsEnter.append("span").attr("class", "label").each(function(d) {
+          select_default2(this).call(d.title);
         });
       }
       buttonsEnter.merge(buttons).classed("disabled", function(d) {
@@ -58354,7 +58369,7 @@ ${content}</tr>
           return;
         if (input.classed("disabled"))
           return;
-        _tDown = +new Date();
+        _tDown = +/* @__PURE__ */ new Date();
         var start2 = input.property("selectionStart");
         var end = input.property("selectionEnd");
         if (start2 !== end) {
@@ -59292,22 +59307,6 @@ ${content}</tr>
   }
 
   // modules/ui/fields/combo.js
-  var valueIcons = {
-    "crossing:markings": [
-      "dashes",
-      "dots",
-      "ladder:paired",
-      "ladder:skewed",
-      "ladder",
-      "lines:paired",
-      "lines",
-      "surface",
-      "zebra:bicolour",
-      "zebra:double",
-      "zebra:paired",
-      "zebra"
-    ]
-  };
   function uiFieldCombo(field, context) {
     var dispatch10 = dispatch_default("change");
     var _isMulti = field.type === "multiCombo" || field.type === "manyCombo";
@@ -59495,11 +59494,12 @@ ${content}</tr>
       });
     }
     function addComboboxIcons(disp, value) {
-      if (valueIcons[field.key]) {
+      const iconsField = field.resolveReference("iconsCrossReference");
+      if (iconsField.icons) {
         return function(selection2) {
           var span = selection2.insert("span", ":first-child").attr("class", "tag-value-icon");
-          if (valueIcons[field.key].indexOf(value) !== -1) {
-            span.call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
+          if (iconsField.icons[value]) {
+            span.call(svgIcon(`#${iconsField.icons[value]}`));
           }
           disp.call(this, selection2);
         };
@@ -59660,10 +59660,11 @@ ${content}</tr>
     }
     function updateIcon(value) {
       value = tagValue(value);
-      if (valueIcons[field.key]) {
+      const iconsField = field.resolveReference("iconsCrossReference");
+      if (iconsField.icons) {
         _container.selectAll(".tag-value-icon").remove();
-        if (valueIcons[field.key].indexOf(value) !== -1) {
-          _container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
+        if (iconsField.icons[value]) {
+          _container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon(`#${iconsField.icons[value]}`));
         }
       }
     }
@@ -60002,24 +60003,29 @@ ${content}</tr>
       } else if (field.type === "colour") {
         input.attr("type", "text");
         updateColourPreview();
+      } else if (field.type === "date") {
+        input.attr("type", "text");
+        updateDateField();
       }
-    }
-    function isColourValid(colour) {
-      if (!colour.match(/^(#([0-9a-fA-F]{3}){1,2}|\w+)$/)) {
-        return false;
-      } else if (!CSS.supports("color", colour) || ["unset", "inherit", "initial", "revert"].includes(colour)) {
-        return false;
-      }
-      return true;
     }
     function updateColourPreview() {
+      function isColourValid(colour2) {
+        if (!colour2.match(/^(#([0-9a-fA-F]{3}){1,2}|\w+)$/)) {
+          return false;
+        } else if (!CSS.supports("color", colour2) || ["unset", "inherit", "initial", "revert"].includes(colour2)) {
+          return false;
+        }
+        return true;
+      }
       wrap2.selectAll(".colour-preview").remove();
       const colour = utilGetSetValue(input);
-      if (!isColourValid(colour) && colour !== "")
+      if (!isColourValid(colour) && colour !== "") {
+        wrap2.selectAll("input.colour-selector").remove();
+        wrap2.selectAll(".form-field-button").remove();
         return;
+      }
       var colourSelector = wrap2.selectAll(".colour-selector").data([0]);
-      outlinkButton = wrap2.selectAll(".colour-preview").data([colour]);
-      colourSelector.enter().append("input").attr("type", "color").attr("class", "form-field-button colour-selector").attr("value", colour).on("input", debounce_default(function(d3_event) {
+      colourSelector.enter().append("input").attr("type", "color").attr("class", "colour-selector").on("input", debounce_default(function(d3_event) {
         d3_event.preventDefault();
         var colour2 = this.value;
         if (!isColourValid(colour2))
@@ -60028,11 +60034,51 @@ ${content}</tr>
         change()();
         updateColourPreview();
       }, 100));
-      outlinkButton = outlinkButton.enter().append("div").attr("class", "form-field-button colour-preview").append("div").style("background-color", (d) => d).attr("class", "colour-box");
+      wrap2.selectAll("input.colour-selector").attr("value", colour);
+      var chooserButton = wrap2.selectAll(".colour-preview").data([colour]);
+      chooserButton = chooserButton.enter().append("div").attr("class", "form-field-button colour-preview").append("div").style("background-color", (d) => d).attr("class", "colour-box");
       if (colour === "") {
-        outlinkButton = outlinkButton.call(svgIcon("#iD-icon-edit"));
+        chooserButton = chooserButton.call(svgIcon("#iD-icon-edit"));
       }
-      outlinkButton.on("click", () => wrap2.select(".colour-selector").node().click()).merge(outlinkButton);
+      chooserButton.on("click", () => wrap2.select(".colour-selector").node().showPicker());
+    }
+    function updateDateField() {
+      function isDateValid(date2) {
+        return date2.match(/^[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?$/);
+      }
+      const date = utilGetSetValue(input);
+      const now3 = /* @__PURE__ */ new Date();
+      const today = new Date(now3.getTime() - now3.getTimezoneOffset() * 6e4).toISOString().split("T")[0];
+      if ((field.key === "check_date" || field.key === "survey:date") && date !== today) {
+        wrap2.selectAll(".date-set-today").data([0]).enter().append("button").attr("class", "form-field-button date-set-today").call(svgIcon("#fas-rotate")).call(uiTooltip().title(() => _t.append("inspector.set_today"))).on("click", () => {
+          utilGetSetValue(input, today);
+          change()();
+          updateDateField();
+        });
+      } else {
+        wrap2.selectAll(".date-set-today").remove();
+      }
+      if (!isDateValid(date) && date !== "") {
+        wrap2.selectAll("input.date-selector").remove();
+        wrap2.selectAll(".date-calendar").remove();
+        return;
+      }
+      if (utilDetect().browser !== "Safari") {
+        var dateSelector = wrap2.selectAll(".date-selector").data([0]);
+        dateSelector.enter().append("input").attr("type", "date").attr("class", "date-selector").on("input", debounce_default(function(d3_event) {
+          d3_event.preventDefault();
+          var date2 = this.value;
+          if (!isDateValid(date2))
+            return;
+          utilGetSetValue(input, this.value);
+          change()();
+          updateDateField();
+        }, 100));
+        wrap2.selectAll("input.date-selector").attr("value", date);
+        var calendarButton = wrap2.selectAll(".date-calendar").data([date]);
+        calendarButton = calendarButton.enter().append("button").attr("class", "form-field-button date-calendar").call(svgIcon("#fas-calendar-days"));
+        calendarButton.on("click", () => wrap2.select(".date-selector").node().showPicker());
+      }
     }
     function updatePhonePlaceholder() {
       if (input.empty() || !Object.keys(_phoneFormats).length)
@@ -60111,8 +60157,10 @@ ${content}</tr>
       }
       if (field.type === "tel")
         updatePhonePlaceholder();
-      if (field.key.split(":").includes("colour"))
+      if (field.type === "colour")
         updateColourPreview();
+      if (field.type === "date")
+        updateDateField();
       if (outlinkButton && !outlinkButton.empty()) {
         var disabled = !validIdentifierValueForLink();
         outlinkButton.classed("disabled", disabled);
@@ -60645,6 +60693,13 @@ ${content}</tr>
     var wrap2 = select_default2(null);
     var _tags;
     var _combos = {};
+    if (field.type === "cycleway") {
+      field = {
+        ...field,
+        key: field.keys[0],
+        keys: field.keys.slice(1)
+      };
+    }
     function directionalCombo(selection2) {
       function stripcolon(s) {
         return s.replace(":", "");
@@ -60653,8 +60708,7 @@ ${content}</tr>
       wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
       var div = wrap2.selectAll("ul").data([0]);
       div = div.enter().append("ul").attr("class", "rows").merge(div);
-      var keys = field.keys.slice(1);
-      items = div.selectAll("li").data(keys);
+      items = div.selectAll("li").data(field.keys);
       var enter = items.enter().append("li").attr("class", function(d) {
         return "labeled-input preset-directionalcombo-" + stripcolon(d);
       });
@@ -60678,8 +60732,8 @@ ${content}</tr>
       wrap2.selectAll(".preset-input-directionalcombo").on("change", change).on("blur", change);
     }
     function change(key, newValue) {
-      const commonKey = field.keys[0];
-      const otherKey = key === field.keys[1] ? field.keys[2] : field.keys[1];
+      const commonKey = field.key;
+      const otherKey = key === field.keys[0] ? field.keys[1] : field.keys[0];
       dispatch10.call("change", this, (tags) => {
         const otherValue = tags[otherKey] || tags[commonKey];
         if (newValue === otherValue) {
@@ -60696,7 +60750,7 @@ ${content}</tr>
     }
     directionalCombo.tags = function(tags) {
       _tags = tags;
-      const commonKey = field.keys[0];
+      const commonKey = field.key;
       for (let key in _combos) {
         const uniqueValues = [...new Set([].concat(_tags[commonKey]).concat(_tags[key]).filter(Boolean))];
         _combos[key].tags({ [key]: uniqueValues.length > 1 ? uniqueValues : uniqueValues[0] });
@@ -62337,6 +62391,7 @@ ${content}</tr>
     colour: uiFieldText,
     combo: uiFieldCombo,
     cycleway: uiFieldDirectionalCombo,
+    date: uiFieldText,
     defaultCheck: uiFieldCheck,
     directionalCombo: uiFieldDirectionalCombo,
     email: uiFieldText,
@@ -62387,7 +62442,6 @@ ${content}</tr>
     }
     var _locked = false;
     var _lockedTip = uiTooltip().title(() => _t.append("inspector.lock.suggestion", { label: field.title })).placement("bottom");
-    field.keys = field.keys || [field.key];
     if (_show && !field.impl) {
       createField();
     }
@@ -62402,19 +62456,26 @@ ${content}</tr>
         }
       }
     }
+    function allKeys() {
+      let keys = field.keys || [field.key];
+      if (field.type === "directionalCombo" && field.key) {
+        keys = keys.concat(field.key);
+      }
+      return keys;
+    }
     function isModified() {
       if (!entityIDs || !entityIDs.length)
         return false;
       return entityIDs.some(function(entityID) {
         var original = context.graph().base().entities[entityID];
         var latest = context.graph().entity(entityID);
-        return field.keys.some(function(key) {
+        return allKeys().some(function(key) {
           return original ? latest.tags[key] !== original.tags[key] : latest.tags[key];
         });
       });
     }
     function tagsContainFieldKey() {
-      return field.keys.some(function(key) {
+      return allKeys().some(function(key) {
         if (field.type === "multiCombo") {
           for (var tagKey in _tags) {
             if (tagKey.indexOf(key) === 0) {
@@ -62431,7 +62492,7 @@ ${content}</tr>
       d3_event.preventDefault();
       if (!entityIDs || _locked)
         return;
-      dispatch10.call("revert", d, d.keys);
+      dispatch10.call("revert", d, allKeys());
     }
     function remove2(d3_event, d) {
       d3_event.stopPropagation();
@@ -62439,7 +62500,7 @@ ${content}</tr>
       if (_locked)
         return;
       var t = {};
-      d.keys.forEach(function(key) {
+      allKeys().forEach(function(key) {
         t[key] = void 0;
       });
       dispatch10.call("change", d, t);
@@ -63697,9 +63758,9 @@ ${content}</tr>
       var buttons = fixesEnter.append("button").on("click", function(d3_event, d) {
         if (select_default2(this).attr("disabled") || !d.onClick)
           return;
-        if (d.issue.dateLastRanFix && new Date() - d.issue.dateLastRanFix < 1e3)
+        if (d.issue.dateLastRanFix && /* @__PURE__ */ new Date() - d.issue.dateLastRanFix < 1e3)
           return;
-        d.issue.dateLastRanFix = new Date();
+        d.issue.dateLastRanFix = /* @__PURE__ */ new Date();
         utilHighlightEntities(d.issue.entityIds.concat(d.entityIds), false, context);
         new Promise(function(resolve, reject) {
           d.onClick(context, resolve, reject);
@@ -63886,7 +63947,8 @@ ${content}</tr>
       const isMaki = picon && /^maki-/.test(picon);
       const isTemaki = picon && /^temaki-/.test(picon);
       const isFa = picon && /^fa[srb]-/.test(picon);
-      const isiDIcon = picon && !(isMaki || isTemaki || isFa);
+      const isR\u00F6ntgen = picon && /^roentgen-/.test(picon);
+      const isiDIcon = picon && !(isMaki || isTemaki || isFa || isR\u00F6ntgen);
       let icon2 = container.selectAll(".preset-icon").data(picon ? [0] : []);
       icon2.exit().remove();
       icon2 = icon2.enter().append("div").attr("class", "preset-icon").call(svgIcon("")).merge(icon2);
@@ -66932,7 +66994,7 @@ ${content}</tr>
         return event;
       }).filter((event) => {
         const t = event.date.getTime();
-        const now3 = new Date().setHours(0, 0, 0, 0);
+        const now3 = (/* @__PURE__ */ new Date()).setHours(0, 0, 0, 0);
         return !isNaN(t) && t >= now3;
       }).sort((a, b) => {
         return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
@@ -69598,6 +69660,7 @@ ${content}</tr>
         "before_start",
         "open_source_h",
         "open_source",
+        "open_source_attribution",
         "open_source_help"
       ]],
       ["overview", [
@@ -75037,7 +75100,7 @@ ${content}</tr>
       label.append("span").call(_t.append("streetside.hires"));
       let captureInfo = line1.append("div").attr("class", "attribution-capture-info");
       if (d.captured_by) {
-        const yyyy = new Date().getFullYear();
+        const yyyy = (/* @__PURE__ */ new Date()).getFullYear();
         captureInfo.append("a").attr("class", "captured_by").attr("target", "_blank").attr("href", "https://www.microsoft.com/en-us/maps/streetside").text("\xA9" + yyyy + " Microsoft");
         captureInfo.append("span").text("|");
       }
@@ -76190,7 +76253,12 @@ ${content}</tr>
         }
       } else {
         _lastMouseEvent = d3_event;
-        _lastInteractionType = "rightclick";
+        if (d3_event.pointerType === "touch" || d3_event.pointerType === "pen" || d3_event.mozInputSource && // firefox doesn't give a pointerType on contextmenu events
+        (d3_event.mozInputSource === MouseEvent.MOZ_SOURCE_TOUCH || d3_event.mozInputSource === MouseEvent.MOZ_SOURCE_PEN)) {
+          _lastInteractionType = "touch";
+        } else {
+          _lastInteractionType = "rightclick";
+        }
       }
       _showMenu = true;
       click(d3_event, d3_event);
