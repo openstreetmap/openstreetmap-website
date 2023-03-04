@@ -1,7 +1,7 @@
 module OsmCommunityIndex
   def self.add_to_i18n
     # Filter the communities here to avoid loading excessive numbers of translations
-    communities = Community.where(:type => "osm-lc").where.not(:id => "OSMF")
+    communities = CommunityIndex.where(:type => "osm-lc").where.not(:id => "OSMF")
 
     files = Rails.root.glob("node_modules/osm-community-index/i18n/*.yaml")
     files.each do |file|
