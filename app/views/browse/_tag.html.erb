@@ -1,4 +1,15 @@
 <tr>
   <th class='browse-tag-k'><%= format_key(tag[0]) %></th>
-  <td class='browse-tag-v'><%= format_value(tag[0], tag[1]) %></td>
+  <td class='browse-tag-v'><%= format_value(tag[0], is_history ? tag[1][0] : tag[1]) %></td>
+  <% if is_history %>
+      <td class='browse-tag-3rd'>
+          <%= link_to t(
+                "browse.last_edited_html",
+                :default => "Missing",
+                :time => time_ago_in_words(tag[1][1][:timestamp], :scope => :"datetime.distance_in_words_ago"),
+                :user => tag[1][1][:changeset].user.display_name,
+                :version => tag[1][1][:version]
+              ),
+                      :action => :changeset, :id => tag[1][1][:changeset].id %></td>
+  <% end %>
 </tr>

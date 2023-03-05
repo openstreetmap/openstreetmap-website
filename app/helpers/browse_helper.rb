@@ -75,4 +75,30 @@ module BrowseHelper
   def name_locales(object)
     object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
   end
+
+  def tags_with_version_info(current_tags, old_objects)
+    result = {}
+
+    current_tags.each do |t|
+      result[t.k] = [nil, {}]
+    end
+    old_objects.each do |old|
+      seen_tags = []
+      old.old_tags.each do |t|
+        next unless result.include?(t.k)
+
+        seen_tags << t.k
+
+        next unless result[t.k][0] != t.v
+
+        result[t.k] = [
+          t.v, { :version => old.version, :changeset => old.changeset, :timestamp => old.timestamp }
+        ]
+      end
+      result.each_key do |k|
+        result[k] = [nil, {}] unless seen_tags.include? k
+      end
+    end
+    result
+  end
 end

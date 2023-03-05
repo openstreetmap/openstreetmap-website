@@ -8,7 +8,10 @@
   </div>
 <% else %>
   <div class="browse-section browse-relation">
-    <%= render :partial => "common_details", :object => relation %>
+      <%= render :partial => "common_details", :object => relation, :locals => {
+            :tag_history => (is_history && relation.latest_version? ? tags_with_version_info(relation.current_relation.relation_tags, relation.current_relation.old_relations) : relation.tags),
+            :is_history => is_history && relation.latest_version?
+          } %>
 
     <% unless relation.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
