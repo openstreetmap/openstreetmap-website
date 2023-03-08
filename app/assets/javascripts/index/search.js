@@ -129,17 +129,21 @@ OSM.Search = function (map) {
 
   page.load = function () {
     $(".search_results_entry").each(function (index) {
-      var entry = $(this);
+      var entry = $(this),
+          csrf_param = $("meta[name=csrf-param]").attr("content"),
+          csrf_token = $("meta[name=csrf-token]").attr("content"),
+          params = {
+            zoom: map.getZoom(),
+            minlon: map.getBounds().getWest(),
+            minlat: map.getBounds().getSouth(),
+            maxlon: map.getBounds().getEast(),
+            maxlat: map.getBounds().getNorth()
+          };
+      params[csrf_param] = csrf_token;
       $.ajax({
         url: entry.data("href"),
-        method: "GET",
-        data: {
-          zoom: map.getZoom(),
-          minlon: map.getBounds().getWest(),
-          minlat: map.getBounds().getSouth(),
-          maxlon: map.getBounds().getEast(),
-          maxlat: map.getBounds().getNorth()
-        },
+        method: "POST",
+        data: params,
         success: function (html) {
           entry.html(html);
           // go to first result of first geocoder

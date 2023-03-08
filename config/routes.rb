@@ -260,9 +260,9 @@ OpenStreetMap::Application.routes.draw do
 
   # geocoder
   get "/search" => "geocoder#search"
-  get "/geocoder/search_latlon" => "geocoder#search_latlon"
-  get "/geocoder/search_osm_nominatim" => "geocoder#search_osm_nominatim"
-  get "/geocoder/search_osm_nominatim_reverse" => "geocoder#search_osm_nominatim_reverse"
+  post "/geocoder/search_latlon" => "geocoder#search_latlon"
+  post "/geocoder/search_osm_nominatim" => "geocoder#search_osm_nominatim"
+  post "/geocoder/search_osm_nominatim_reverse" => "geocoder#search_osm_nominatim_reverse"
 
   # directions
   get "/directions" => "directions#search"
