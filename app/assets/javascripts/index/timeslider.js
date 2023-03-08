@@ -4,7 +4,7 @@
  */
 
 function addOpenHistoricalMapTimeSlider (map, params, onreadycallback) {
-  const historicalLayerKeys = ['historical', 'woodblock'];
+  const historicalLayerKeys = ['historical', 'woodblock', 'japanese'];
 
   const sliderOptions = {
     vectorLayer: undefined,  // see addTimeSliderToMap() which searches for this
