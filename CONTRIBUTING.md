@@ -79,6 +79,21 @@ database, and update the list of available keys manually.
 Adding or removing keys to this list is therefore discouraged, but contributions
 to the descriptive texts are welcome.
 
+### Copyright attribution
+
+The list of attributions on the /copyright page is managed by the [OSMF Licensing
+Working Group (LWG)](https://wiki.osmfoundation.org/wiki/Licensing_Working_Group).
+
+If you want to add another attribution, or make changes to the text of an existing
+attribution, please follow these steps:
+
+* First, contact the LWG to discuss your proposed changes.
+* If the LWG approves, please create a pull request with your proposed changes.
+* Finally, please ask the LWG to formally approve the wording used in the pull request
+  (by having an LWG member comment on the PR).
+
+When we have formal confirmation from LWG, we can go ahead and merge the PR.
+
 ## Committing
 
 When you submit your changes, the project maintainers have to read them and
