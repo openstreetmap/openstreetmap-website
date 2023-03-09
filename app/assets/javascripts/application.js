@@ -12,6 +12,7 @@
 //= require ohm.style
 //= require ohm.style.original
 //= require ohm.style.woodblock
+//= require ohm.style.japanese
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
