@@ -169,7 +169,6 @@ ohmVectorStyles.JapaneseScroll = {
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(202, 196, 196, 1)",
-        "line-dasharray": [3, 2],
         "line-width": 3,
         "line-pattern": "adminbound"
       }
