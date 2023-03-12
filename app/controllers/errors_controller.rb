@@ -3,6 +3,8 @@ class ErrorsController < ApplicationController
 
   skip_authorization_check
 
+  before_action :set_locale
+
   def forbidden
     respond_to do |format|
       format.html { render :status => :forbidden }
