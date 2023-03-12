@@ -98,7 +98,7 @@ class GeocoderController < ApplicationController
 
     # create parameter hash for "more results" link
     @more_params = params
-                   .permit(:query, :minlon, :minlat, :maxlon, :maxlat, :exclude, :xhr)
+                   .permit(:query, :minlon, :minlat, :maxlon, :maxlat, :exclude)
                    .merge(:exclude => more_url_params["exclude_place_ids"].first)
 
     # parse the response
