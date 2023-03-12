@@ -62,13 +62,23 @@ OSM.Search = function (map) {
     e.preventDefault();
     e.stopPropagation();
 
-    var div = $(this).parents(".search_more");
+    var div = $(this).parents(".search_more"),
+        csrf_param = $("meta[name=csrf-param]").attr("content"),
+        csrf_token = $("meta[name=csrf-token]").attr("content"),
+        params = {};
 
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function (data) {
-      div.replaceWith(data);
+    params[csrf_param] = csrf_token;
+
+    $.ajax({
+      url: $(this).attr("href"),
+      method: "POST",
+      data: params,
+      success: function (data) {
+        div.replaceWith(data);
+      }
     });
   }
 
