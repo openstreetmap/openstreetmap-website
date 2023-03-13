@@ -8,11 +8,22 @@ const spriteSheetUrls_Original = {
 ohmVectorStyles.Original = {
   "version": 8,
   "name": "ohmbasemap",
-  "metadata": {"maputnik:renderer": "mbgljs"},
+  "metadata": {
+    "maputnik:renderer": "mbgljs"
+  },
   "sources": {
     "osm": {
       "type": "vector",
       "tiles": ohmTileServicesLists[ohmTileServiceName],
+    },
+    "ohm_landcover_hillshade": {
+      "type": "raster",
+      "tiles": [
+        "https://static-tiles-lclu.s3.us-west-1.amazonaws.com/{z}/{x}/{y}.png"
+      ],
+      "minzoom": 0,
+      "maxzoom": 8,
+      "tileSize": 256
     }
   },
   "sprite": spriteSheetUrls_Original[ohmTileServiceName],
@@ -45,6 +56,33 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "fill-color": "rgba(248, 247, 242, 1)"
+      }
+    },
+    {
+      "id": "ohm_landcover_hillshade",
+      "type": "raster",
+      "source": "ohm_landcover_hillshade",
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "raster-opacity": {
+          "stops": [
+            [
+              0,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              8,
+              0
+            ]
+          ]
+        }
       }
     },
     {
@@ -1749,15 +1787,29 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
-        "line-dasharray": [
-          2,
-          2
-        ],
+        "line-dasharray": {
+          "stops": [
+            [
+              6,
+              [
+                1,
+                1
+              ]
+            ],
+            [
+              10,
+              [
+                2,
+                2
+              ]
+            ]
+          ]
+        },
         "line-width": {
           "stops": [
             [
               6,
-              0.5
+              0.25
             ],
             [
               10,
@@ -1791,19 +1843,22 @@ ohmVectorStyles.Original = {
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(202, 196, 196, 1)",
+        "line-color": "rgba(200, 198, 198, 1)",
         "line-dasharray": [
-          3,
-          2
+          3
         ],
         "line-width": {
           "stops": [
             [
               2,
-              0.25
+              0.4
             ],
             [
-              14,
+              12,
+              1
+            ],
+            [
+              15,
               2
             ]
           ]
@@ -4272,20 +4327,26 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "line-color": "rgba(153, 153, 153, 1)",
-        "line-width": [
-          "interpolate",
-          [
-            "exponential",
-            1.5
-          ],
-          [
-            "zoom"
-          ],
-          11,
-          0.5,
-          18,
-          4
-        ],
+        "line-width": {
+          "stops": [
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1.25
+            ],
+            [
+              20,
+              2.25
+            ]
+          ]
+        },
         "line-dasharray": [
           4,
           1
@@ -5463,11 +5524,6 @@ ohmVectorStyles.Original = {
           "residential",
           "service",
           "unclassified"
-        ],
-        [
-          "==",
-          "name",
-          ""
         ]
       ],
       "layout": {
@@ -6163,22 +6219,18 @@ ohmVectorStyles.Original = {
               3
             ],
             [
-              8,
-              4
-            ],
-            [
               9,
-              5
+              3
             ],
             [
               10,
-              6
+              5
             ]
           ]
         },
         "line-dasharray": [
           0.2,
-          2
+          1
         ]
       }
     },
@@ -7083,9 +7135,9 @@ ohmVectorStyles.Original = {
         }
       },
       "paint": {
-        "text-color": "rgba(68, 136, 136, 1)",
+        "text-color": "rgba(41, 84, 84, 1)",
         "text-halo-width": 1,
-        "text-halo-color": "rgba(178, 220, 220, 1)"
+        "text-halo-color": "rgba(209, 230, 230, 1)"
       }
     },
     {
@@ -7348,8 +7400,30 @@ ohmVectorStyles.Original = {
         "visibility": "visible"
       },
       "paint": {
-        "text-color": "rgba(109, 146, 146, 1)",
-        "text-halo-color": "rgba(233, 244, 244, 1)",
+        "text-color": {
+          "stops": [
+            [
+              10,
+              "rgba(83, 147, 147, 1)"
+            ],
+            [
+              15,
+              "rgba(41, 84, 84, 1)"
+            ]
+          ]
+        },
+        "text-halo-color": {
+          "stops": [
+            [
+              10,
+              "rgba(255, 255, 255, 1)"
+            ],
+            [
+              12,
+              "rgba(207, 230, 230, 1)"
+            ]
+          ]
+        },
         "text-halo-width": 1
       }
     },
@@ -7406,7 +7480,7 @@ ohmVectorStyles.Original = {
         ]
       },
       "paint": {
-        "text-color": "rgba(122, 143, 61, 1)",
+        "text-color": "rgba(85, 104, 42, 1)",
         "text-halo-color": "rgba(228, 235, 209, 1)",
         "text-halo-width": 1,
         "icon-translate-anchor": "map"
@@ -7442,7 +7516,7 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "text-color": "rgba(107, 101, 71, 1)",
-        "text-halo-color": "rgba(213, 211, 190, 1)",
+        "text-halo-color": "rgba(255, 254, 249, 1)",
         "text-halo-width": 1
       }
     },
@@ -7581,7 +7655,7 @@ ohmVectorStyles.Original = {
           "stops": [
             [
               6,
-              6
+              7
             ],
             [
               10,
@@ -7630,7 +7704,7 @@ ohmVectorStyles.Original = {
             ],
             [
               10,
-              14
+              15
             ],
             [
               16,
@@ -7676,11 +7750,11 @@ ohmVectorStyles.Original = {
           "stops": [
             [
               6,
-              8
+              12
             ],
             [
               10,
-              14
+              15
             ]
           ]
         },
@@ -7691,24 +7765,11 @@ ohmVectorStyles.Original = {
           0
         ],
         "icon-size": 1,
-        "text-offset": {
-          "stops": [
-            [
-              6,
-              [
-                0,
-                1.2
-              ]
-            ],
-            [
-              10,
-              [
-                0,
-                1
-              ]
-            ]
-          ]
-        }
+        "text-offset": [
+          0,
+          0.25
+        ],
+        "text-anchor": "top"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -7746,11 +7807,11 @@ ohmVectorStyles.Original = {
           "stops": [
             [
               6,
-              8
+              12
             ],
             [
               10,
-              14
+              15
             ]
           ]
         },
@@ -7761,24 +7822,11 @@ ohmVectorStyles.Original = {
           0
         ],
         "icon-size": 1,
-        "text-offset": {
-          "stops": [
-            [
-              6,
-              [
-                0,
-                1.2
-              ]
-            ],
-            [
-              10,
-              [
-                0,
-                1
-              ]
-            ]
-          ]
-        }
+        "text-offset": [
+          0,
+          0.25
+        ],
+        "text-anchor": "top"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -7853,12 +7901,16 @@ ohmVectorStyles.Original = {
         "text-size": {
           "stops": [
             [
+              3,
+              8
+            ],
+            [
               6,
-              10
+              13
             ],
             [
               10,
-              14
+              17
             ]
           ]
         },
@@ -7872,7 +7924,9 @@ ohmVectorStyles.Original = {
         "text-color": "rgba(101, 108, 108, 1)",
         "text-halo-width": 1,
         "text-halo-blur": 2,
-        "text-halo-color": "rgba(220, 231, 232, 1)"
+        "text-halo-color": "rgba(220, 231, 232, 1)",
+        "text-translate-anchor": "map",
+        "icon-translate-anchor": "map"
       }
     },
     {
@@ -8117,7 +8171,7 @@ ohmVectorStyles.Original = {
       "source": "osm",
       "source-layer": "place_points",
       "minzoom": 0,
-      "maxzoom": 14,
+      "maxzoom": 12,
       "filter": [
         "all",
         [
@@ -8132,16 +8186,20 @@ ohmVectorStyles.Original = {
         "text-size": {
           "stops": [
             [
-              4,
-              12
+              0,
+              8
             ],
             [
-              6,
+              3,
               14
             ],
             [
-              8,
+              6,
               16
+            ],
+            [
+              10,
+              18
             ]
           ]
         },
@@ -8333,7 +8391,14 @@ ohmVectorStyles.Original = {
       "source-layer": "place_areas",
       "minzoom": 16,
       "filter": [
-        "all"
+        "all",
+        [
+          "!in",
+          "type",
+          "country",
+          "state",
+          "territory"
+        ]
       ],
       "layout": {
         "visibility": "visible",
@@ -8368,7 +8433,18 @@ ohmVectorStyles.Original = {
         "icon-image": "{tourism}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 9,
+        "text-size": {
+          "stops": [
+            [
+              16,
+              10
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
         "text-anchor": "center",
         "text-offset": [
           0,
@@ -8376,13 +8452,26 @@ ohmVectorStyles.Original = {
         ],
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              15,
+              0.7
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        }
       },
       "paint": {
-        "text-color": "rgba(108, 132, 137, 1)",
+        "text-color": "rgba(80, 80, 80, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-opacity": 1
       }
     },
     {
@@ -8425,10 +8514,11 @@ ohmVectorStyles.Original = {
         ]
       },
       "paint": {
-        "text-color": "rgba(108, 132, 137, 1)",
+        "text-color": "#505050",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-opacity": 0
       }
     },
     {
@@ -8445,7 +8535,22 @@ ohmVectorStyles.Original = {
         "icon-image": "{type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
+        "text-size": {
+          "stops": [
+            [
+              15.99,
+              0
+            ],
+            [
+              16,
+              10
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
         "text-anchor": "top",
         "text-offset": [
           0,
@@ -8453,13 +8558,37 @@ ohmVectorStyles.Original = {
         ],
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              15,
+              0.7
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        }
       },
       "paint": {
-        "text-color": "rgba(108, 132, 137, 1)",
+        "text-color": "rgba(80, 80, 80, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-opacity": {
+          "stops": [
+            [
+              16.99,
+              0
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -8473,8 +8602,8 @@ ohmVectorStyles.Original = {
         "all"
       ],
       "layout": {
-        "icon-image": "{type}-12",
-        "visibility": "visible",
+        "icon-image": "{type}-18",
+        "visibility": "none",
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
@@ -8498,7 +8627,7 @@ ohmVectorStyles.Original = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "amenity_points",
-      "minzoom": 16,
+      "minzoom": 15,
       "maxzoom": 24,
       "filter": [
         "all"
@@ -8507,7 +8636,22 @@ ohmVectorStyles.Original = {
         "icon-image": "{type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
+        "text-size": {
+          "stops": [
+            [
+              15.99,
+              0
+            ],
+            [
+              16,
+              10
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
         "text-anchor": "top",
         "text-offset": [
           0,
@@ -8515,13 +8659,38 @@ ohmVectorStyles.Original = {
         ],
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              15,
+              0.7
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        },
+        "text-line-height": 1.2
       },
       "paint": {
         "text-color": "rgba(80, 80, 80, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-opacity": {
+          "stops": [
+            [
+              16.9,
+              0
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -8529,7 +8698,7 @@ ohmVectorStyles.Original = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "other_points",
-      "minzoom": 14,
+      "minzoom": 15,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -8543,21 +8712,68 @@ ohmVectorStyles.Original = {
         "icon-image": "{type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
-        "text-anchor": "top",
+        "text-size": {
+          "stops": [
+            [
+              15.99,
+              0
+            ],
+            [
+              16,
+              10
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
         "text-offset": [
           0,
           1
         ],
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              15,
+              0.7
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        },
+        "icon-keep-upright": false,
+        "text-anchor": "top",
+        "icon-text-fit": "none",
+        "icon-optional": false,
+        "icon-ignore-placement": false,
+        "icon-allow-overlap": false,
+        "text-max-width": 10
       },
       "paint": {
         "text-color": "#505050",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-translate-anchor": "viewport",
+        "icon-translate-anchor": "viewport",
+        "text-opacity": {
+          "stops": [
+            [
+              16.99,
+              0
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -8579,7 +8795,22 @@ ohmVectorStyles.Original = {
         "icon-image": "{site_type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
+        "text-size": {
+          "stops": [
+            [
+              15.99,
+              0
+            ],
+            [
+              16,
+              10
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
         "text-anchor": "top",
         "text-offset": [
           0,
@@ -8587,13 +8818,37 @@ ohmVectorStyles.Original = {
         ],
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              15,
+              0.7
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        }
       },
       "paint": {
         "text-color": "#505050",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-opacity": {
+          "stops": [
+            [
+              16.99,
+              0
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -8601,7 +8856,7 @@ ohmVectorStyles.Original = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "other_points",
-      "minzoom": 14,
+      "minzoom": 15,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -8615,7 +8870,22 @@ ohmVectorStyles.Original = {
         "icon-image": "{artwork_type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
+        "text-size": {
+          "stops": [
+            [
+              15.99,
+              0
+            ],
+            [
+              16,
+              10
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
         "text-anchor": "top",
         "text-offset": [
           0,
@@ -8623,13 +8893,37 @@ ohmVectorStyles.Original = {
         ],
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              15,
+              0.7
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        }
       },
       "paint": {
         "text-color": "#505050",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-opacity": {
+          "stops": [
+            [
+              16.99,
+              0
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -8691,7 +8985,22 @@ ohmVectorStyles.Original = {
         "icon-image": "{type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": 8,
+        "text-size": {
+          "stops": [
+            [
+              15.99,
+              0
+            ],
+            [
+              16,
+              8
+            ],
+            [
+              20,
+              10
+            ]
+          ]
+        },
         "text-anchor": "top",
         "text-offset": [
           0,
@@ -8699,14 +9008,38 @@ ohmVectorStyles.Original = {
         ],
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              16,
+              1
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        }
       },
       "paint": {
         "icon-color": "#000000",
         "text-color": "rgba(80, 80, 80, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
-        "text-halo-blur": 1
+        "text-halo-blur": 1,
+        "text-opacity": {
+          "stops": [
+            [
+              16.99,
+              0
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -8733,7 +9066,8 @@ ohmVectorStyles.Original = {
         "icon-image": "place_of_worship-18",
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "visibility": "visible"
       }
     },
     {
@@ -8748,7 +9082,8 @@ ohmVectorStyles.Original = {
         "icon-image": "{religion}-18",
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "visibility": "visible"
       }
     },
     {
@@ -8781,7 +9116,8 @@ ohmVectorStyles.Original = {
       "paint": {
         "text-color": "rgba(80, 80, 80, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 0.5
+        "text-halo-width": 0.5,
+        "text-opacity": 1
       }
     },
     {
@@ -8796,13 +9132,40 @@ ohmVectorStyles.Original = {
           "OpenHistorical"
         ],
         "text-field": "{name}",
-        "text-size": 8,
+        "text-size": {
+          "stops": [
+            [
+              6,
+              8
+            ],
+            [
+              16,
+              10
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
         "text-anchor": "top",
         "text-offset": [
           0,
           1
         ],
-        "visibility": "visible"
+        "visibility": "visible",
+        "icon-size": {
+          "stops": [
+            [
+              15,
+              0.7
+            ],
+            [
+              20,
+              1.4
+            ]
+          ]
+        }
       },
       "paint": {
         "text-color": "rgba(80, 80, 80, 1)",
@@ -8830,7 +9193,8 @@ ohmVectorStyles.Original = {
         "icon-image": "{type}-18",
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "visibility": "visible"
       }
     },
     {
@@ -8851,7 +9215,8 @@ ohmVectorStyles.Original = {
         "icon-image": "acra-18",
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "visibility": "visible"
       }
     },
     {
@@ -8896,7 +9261,8 @@ ohmVectorStyles.Original = {
         "icon-image": "oxfam-18",
         "text-font": [
           "OpenHistorical"
-        ]
+        ],
+        "visibility": "visible"
       }
     },
     {
