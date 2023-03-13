@@ -59,7 +59,6 @@ mk:
       message: Порака
       node: Јазол
       node_tag: Ознака на јазол
-      notifier: Известувач
       old_node: Стар јазол
       old_node_tag: Стара ознака за јазол
       old_relation: Стар однос
@@ -1437,10 +1436,6 @@ mk:
         ignored: Занемарено
         open: Отворено
         resolved: Решено
-    update:
-      new_report: Вашата пријава е успешно заведена
-      successful_update: Вашата пријава е успешно подновена
-      provide_details: Наведете ги потребните подробности
     show:
       title: '%{status} Проблем бр. #%{issue_id}'
       reports:
@@ -1519,10 +1514,8 @@ mk:
     home: Оди на матичната местоположба
     logout: Одјава
     log_in: Најава
-    log_in_tooltip: Најава со постоечка сметка
     sign_up: Зачленување
     start_mapping: Почнете да ги работите картите
-    sign_up_tooltip: Создај сметка за уредување
     edit: Уреди
     history: Историја
     export: Извези
@@ -1559,8 +1552,6 @@ mk:
     community: Заедница
     community_blogs: Блогови на заедницата
     community_blogs_title: Блогови од членови на заедницата на OpenStreetMap
-    foundation: Фондација
-    foundation_title: Фондацијата OpenStreetMap
     make_a_donation:
       title: Поддржете ја OpenStreetMap со паричен прилог
       text: Дарувајте
@@ -1709,8 +1700,9 @@ mk:
       success: Вашата сметка е потврдена. Ви благодариме што се зачленивте!
       already active: Оваа сметка е веќе потврдена.
       unknown token: Потврдниот код е истечен или не постои.
-      reconfirm_html: Ако сакате повторно да ви ја испратиме потврдната порака, <a
-        href="%{reconfirm}">стиснете тука</a>.
+      resend_html: Ако сакате уште еднаш да ја добиете потврдната порака по е-пошта,
+        %{reconfirm_link}.
+      click_here: стиснете тука
     confirm_resend:
       failure: Корисникот %{name} не е пронајден.
     confirm_email:
@@ -1753,8 +1745,6 @@ mk:
     new:
       title: Испрати ја пораката
       send_message_to_html: Испрати нова порака за %{name}
-      subject: Наслов
-      body: Содржина
       back_to_inbox: Назад во примени
     create:
       message_sent: Пораката е испратена
@@ -1783,14 +1773,10 @@ mk:
         име за да одговорите.
     show:
       title: Прочитај ја пораката
-      from: Од
-      subject: Наслов
-      date: Датум
       reply_button: Одговори
       unread_button: Означи како непрочитано
       destroy_button: Избриши
       back: Назад
-      to: За
       wrong_user: Најавени сте како „%{user}“, но пораката што побаравте да ја прочитате
         не е испратена до или од тој корисник. Најавете се под правилно корисничко
         име за да ја прочитате.
@@ -1867,17 +1853,8 @@ mk:
       lost password link: Ја заборавивте лозинката?
       login_button: Најава
       register now: Зачленете се сега
-      with username: 'Веќе имате сметка на OpenStreetMap? Најавете се со корисничкото
-        име и лозинката:'
       with external: 'Во спротивно, најавете преку надворешно место:'
-      new to osm: Нови сте на OpenStreetMap?
-      to make changes: Мора да имате сметка за да можете да правите измени на податоците
-        на OpenStreetMap.
-      create account minute: Направете сметка. Ова трае само една минута.
       no account: Немате сметка?
-      account not active: Жалиме, но сметката сè уште не е активна.<br />Стиснете
-        на врската наведена во пораката со која ви ја потврдуваме сметката за да ја
-        активирате, или пак <a href="%{reconfirm}">побарајте нова потврдна порака</a>.
       auth failure: Жалиме, не можевме да ве најавиме со тие податоци.
       openid_logo_alt: Најава со OpenID
       auth_providers:
@@ -1916,7 +1893,9 @@ mk:
       support: поддршка
   shared:
     markdown_help:
-      title_html: Расчленето со <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      heading_html: Расчленето со %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Наслови
       heading: Наслов
       subheading: Подзаглавие
@@ -2085,7 +2064,7 @@ mk:
         contributors_gb_html: |-
           <strong>Велика Британија</strong>: Содржи податоци
           од Картографскиот завод на Обединетото Кралство&copy; Крунски авторски права и
-          права на базата 2010-19 г.
+          права на базата 2010-2023 г.
         contributors_footer_1_html: |-
           Повеќе информации за овие и други извори искористени
           за подобрување на OpenStreetMap ќе најдете на страницата <a
@@ -2159,9 +2138,6 @@ mk:
           title: Преземања на Geofabrik
           description: Редовно подновувани извадоци од континенти, земји и избрани
             градови
-        metro:
-          title: Метроизвадоци
-          description: Извадоци за поважните градови во свеетот и нивните околни подрачја
         other:
           title: Други извори
           description: Другите извори се наведени на викито на OpenStreetMap
@@ -2192,10 +2168,12 @@ mk:
             Со ова на неа ќе ставите бележник, кој можете да го преместувате со влечење. Ставете ја пораката, па стиснете да зачувате. Потоа другите картографи ќе го иследат проблемот.
       other_concerns:
         title: Други проблеми
-        explanation_html: "Ако сте загрижени за тоа како се користат нашите податоци
-          или во врска со содржините, повеќе правни информации ќе добиете на\n<a href='/copyright'>страницата
-          за авторски права</a> или обратете се кај соодветната \n<a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>работна
-          група на OSMF</a>."
+        concerns_html: |-
+          If you have concerns about како се користат нашите податоци или за содржините, погледајте ја нашата
+          %{copyright_link} за повеќе правни информации, или пак обратете се кај соодветната %{working_group_link}.
+        copyright: страница за авторски права
+        working_group: работна група на OSMF
+        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Помош
       introduction: |-
@@ -2216,9 +2194,6 @@ mk:
         title: Поштенски списоци
         description: Поставете прашање или разговарајте за интересни прашања на широк
           опсег на тематски и регионални поштенски списоци.
-      forums:
-        title: Форуми (наследени)
-        description: Прашања и разговори за оние кои претпочитаат да општат со објави.
       community:
         title: Форум на заедницата
         description: Заедничко место за разговори за OpenStreetMap.
@@ -2241,11 +2216,13 @@ mk:
       removed: Вашиот стандарден уредник на OpenStreetMap е наместен да биде Potlatch.
         Поради укинувањето на Adobe Flash Player, Potlatch повеќе не е достапен за
         употреба во прелистувач.
-      desktop_html: Сепак, можете да го користите Potlatch со <a href="https://www.systemed.net/potlatch/">преземајќи
-        го ова програмче за Mac и Windows</a>.
-      id_html: Во спротивно, ставете го уредникот iD како стандарден, кој работи на
-        прелистувачот како што тоа беше со Potlatch. <a href="%{settings_url}">Сменете
-        си ги корисничките нагодувања овде</a>.
+      desktop_application_html: Сè уште можете да го користите Potlatch со %{download_link}.
+      download: преземање на оваа програма за Mac и Windows
+      download_url: https://www.systemed.net/potlatch/
+      id_editor_html: Во спротивно, можете да го поставите уредникот iD како стандарден,
+        кој работи во вашиот прелистувач како што порано беше случај со Potlatch.
+        %{change_preferences_link}.
+      change_preferences: Тука сменете ги нагодувањата
     any_questions:
       title: Имате прашања?
       paragraph_1_html: |-
@@ -2405,10 +2382,11 @@ mk:
         list_text: 'Еве список на формалните месни ограноци:'
       other_groups:
         title: Други групи
-        about_html: |-
+        other_groups_html: |-
           Нема потреба од формално основање на група како што тоа важи за месните ограноци.
-          Многу групи работат мошне успешно со неформални собири на учесници или како заедница. Секој може да отпочне ваква група или да се приклучи кон постоечка. Повеќе за нив ќе прочитате на викистраницата
-          <a href="https://wiki.openstreetmap.org/wiki/User_group">Заедници</a>.
+          Многу групи работат мошне успешно со неформални собири на учесници или како заедница. Секој може да отпочне ваква група или да се приклучи кон постоечка. Повеќе за нив ќе прочитате на %{communities_wiki_link}.
+        communities_wiki: викистраницата за Заедници
+        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: Доверливо (споделено само како анонимни, неподредени точки)
@@ -2680,9 +2658,6 @@ mk:
           како вас. Секој слободно може да ја поправа, подновува, презема и користи.
         paragraph_2: Зачленете се за да почнете со учество. Ќе ви испратиме е-пошта
           за потврда на сметката.
-      email address: 'Е-пошта:'
-      confirm email address: 'Потврдете ја е-поштата:'
-      display name: 'Име за приказ:'
       display name description: Вашето јавно прикажано име. Можете да го смените подоцна
         во прилагодувањата.
       external auth: 'Заверка за надворешното место:'
@@ -2707,9 +2682,10 @@ mk:
       consider_pd: Покрај горенаведеното, моите придонеси ги сметам за јавна сопственост
       consider_pd_why: Што е ова?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=mk
-      guidance_html: 'Информации што ќе ви помогнат да ги разберете овие услови: a
-        <a href="%{summary}">краток опис</a> и некои <a href="%{translations}">неформали
-        преводи</a>'
+      guidance_info_html: 'Информации што ќе ви помогнат да ги разберете овие поими:
+        %{readable_summary_link} и некои %{informal_translations_link}'
+      readable_summary: човечки читлив опис
+      informal_translations: неформални преводи
       continue: Продолжи
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
       decline: Одбиј
@@ -2733,7 +2709,6 @@ mk:
       deleted: избришан
     show:
       my diary: Мојот дневник
-      new diary entry: нова ставка во дневникот
       my edits: Мои уредувања
       my traces: Мои траги
       my notes: Мои белешки
@@ -2762,8 +2737,6 @@ mk:
       created from: 'Создадено од:'
       status: 'Статус:'
       spam score: 'Оцена за спам:'
-      description: Опис
-      user location: Местоположба на корисникот
       role:
         administrator: Овој корисник е администратор
         moderator: Овој корисник е модератор
@@ -2778,7 +2751,6 @@ mk:
       comments: Коментари
       create_block: Блокирај го корисников
       activate_user: Активирај го корисников
-      deactivate_user: Деактивирај го корисников
       confirm_user: Потврди го корисников
       unconfirm_user: Отпотврди го корисников
       unsuspend_user: Откочи го корисников
@@ -2787,8 +2759,6 @@ mk:
       delete_user: Избриши го корисников
       confirm: Потврди
       report: Пријави го корисников
-    set_home:
-      flash success: Матичната местоположба е успешно зачувана
     go_public:
       flash success: Сега сите уредувања ви се јавни, и ви е дозволено да уредувате.
     index:
@@ -2860,8 +2830,6 @@ mk:
       title: Правење на блок за %{name}
       heading_html: Правење на блок за %{name}
       period: Колку да трае блокот за овој корисник?
-      tried_contacting: Го контактирав корисникот и побарав да престане.
-      tried_waiting: На корисникот му дадов разумен рок за да одговори на тие преписки.
       back: Преглед на сите блокови
     edit:
       title: Уредување на блок за %{name}
@@ -2873,10 +2841,6 @@ mk:
       block_expired: Блокот е веќе истечен и затоа не може да се менува.
       block_period: Периодот на блокада мора да биде со рок избран од паѓачкиот список.
     create:
-      try_contacting: Обидете се да го контактирате корисникот пред да го блокирате,
-        и да му дадете разумен рок за да одговори.
-      try_waiting: Обидете се на корисникот да му дадете разумен рок за да одговори
-        пред да го блокирате.
       flash: Направен е блок на корисникот %{name}.
     update:
       only_creator_can_edit: Само модераторот кој го направил блоков може да го менува.

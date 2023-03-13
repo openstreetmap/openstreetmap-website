@@ -138,7 +138,6 @@ fr:
       message: Message
       node: Nœud
       node_tag: Attribut du nœud
-      notifier: Notificateur
       old_node: Ancien nœud
       old_node_tag: Attribut de l’ancien nœud
       old_relation: Ancienne relation
@@ -291,9 +290,6 @@ fr:
       x_years:
         one: l’année dernière
         other: il y a %{count} ans
-  printable_name:
-    with_version: '%{id}, v%{version}'
-    with_name_html: '%{name} (%{id})'
   editor:
     default: Par défaut (actuellement %{name})
     id:
@@ -1539,10 +1535,6 @@ fr:
         ignored: Ignoré
         open: Ouvert
         resolved: Résolu
-    update:
-      new_report: Votre rapport a bien été enregistré.
-      successful_update: Votre rapport a bien été mis à jour
-      provide_details: Veuillez fournir les détails demandés
     show:
       title: Problème %{status} nº %{issue_id}
       reports:
@@ -1626,10 +1618,8 @@ fr:
     home: Aller à votre domicile
     logout: Se déconnecter
     log_in: Se connecter
-    log_in_tooltip: Se connecter avec un compte existant
     sign_up: S’inscrire
     start_mapping: Commencer à cartographier
-    sign_up_tooltip: Créer un compte pour la modification
     edit: Modifier
     history: Historique
     export: Exporter
@@ -1665,8 +1655,6 @@ fr:
     community: Communauté
     community_blogs: Blogues de la communauté
     community_blogs_title: Blogues de membres de la communauté OpenStreetMap
-    foundation: La Fondation
-    foundation_title: La Fondation OpenStreetMap
     make_a_donation:
       title: Soutenez OpenStreetMap avec un don financier
       text: Faire un don
@@ -1822,8 +1810,9 @@ fr:
       success: Compte confirmé, merci de vous être inscrit !
       already active: Ce compte a déjà été confirmé.
       unknown token: Le code de confirmation a expiré ou n’existe pas.
-      reconfirm_html: Si vous avez besoin que nous vous renvoyions un courriel de
-        confirmation, <a href="%{reconfirm}">cliquez ici</a>.
+      resend_html: Si vous souhaitez que nous renvoyions le courriel de confirmation,
+        %{reconfirm_link}.
+      click_here: cliquez ici
     confirm_resend:
       failure: L’utilisateur %{name} est introuvable.
     confirm_email:
@@ -1868,8 +1857,6 @@ fr:
     new:
       title: Envoyer un message
       send_message_to_html: Envoyer un nouveau message à %{name}
-      subject: Sujet
-      body: Corps
       back_to_inbox: Revenir à la boîte de réception
     create:
       message_sent: Message envoyé
@@ -1898,14 +1885,10 @@ fr:
         connecter avec l’identifiant correct pour pouvoir répondre.
     show:
       title: Lire le message
-      from: De
-      subject: Objet
-      date: Date
       reply_button: Répondre
       unread_button: Marque comme non lu
       destroy_button: Supprimer
       back: Retour
-      to: À
       wrong_user: Vous êtes identifié comme « %{user} » mais le message que vous essayez
         de lire n’a pas été envoyé par cet utilisateur, ni ne lui a été destiné. Veuillez
         vous connecter avec l’identifiant correct pour pouvoir le lire.
@@ -1984,17 +1967,8 @@ fr:
       lost password link: Vous avez perdu votre mot de passe ?
       login_button: Se connecter
       register now: S’inscrire maintenant
-      with username: 'Vous avez déjà un compte sur OpenStreetMap ? Connectez-vous
-        avec votre identifiant et votre mot de passe :'
       with external: 'Vous pouvez également utiliser un service tiers pour vous connecter :'
-      new to osm: Nouveau sur OpenStreetMap ?
-      to make changes: Pour apporter des modifications aux données d’OpenStreetMap,
-        vous devez posséder un compte.
-      create account minute: Créer un compte. Ça ne prend qu’une minute.
       no account: Vous n’avez pas encore de compte ?
-      account not active: Désolé, votre compte n’est pas encore actif.<br /> Veuillez
-        cliquer sur le lien dans le courriel de confirmation pour activer votre compte,
-        sinon <a href="%{reconfirm}">demandez un nouveau courriel de confirmation</a>.
       auth failure: Désolé, mais les informations fournies n’ont pas permis de vous
         identifier.
       openid_logo_alt: Se connecter avec OpenID
@@ -2034,7 +2008,9 @@ fr:
       support: assistance
   shared:
     markdown_help:
-      title_html: Analysé avec <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
+      heading_html: Analysé avec %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Titres
       heading: Titre
       subheading: Sous-titre
@@ -2193,8 +2169,8 @@ fr:
         contributors_za_html: '<strong>Afrique du Sud</strong> : contient des données
           issues de la <a href="http://www.ngi.gov.za/">Direction principale des Informations
           Géospatiales Nationales</a>, copyright de l’État réservé.'
-        contributors_gb_html: '<strong>Royaume-Uni</strong> : contient des données
-          issues de l’<em>Ordnance Survey</em> © 2010–2019 Droits d’auteurs et de
+        contributors_gb_html: '<strong>Royaume-Uni</strong> : contient des données
+          issues de l’<em>Ordnance Survey</em> © 2010–2023 Droits d’auteurs et de
           la base de données de la Couronne.'
         contributors_footer_1_html: Pour plus de détails sur celles-ci et sur les
           autres sources utilisées pour aider à améliorer OpenStreetMap, consultez
@@ -2275,10 +2251,6 @@ fr:
           title: Téléchargements de Geofabrik
           description: Extractions régulièrement mises à jour des continents, des
             pays et des villes sélectionnées
-        metro:
-          title: Extractions de Metro
-          description: Extractions des principales villes et métropoles du monde et
-            de leurs environs
         other:
           title: Autres sources
           description: Sources supplémentaires listées sur le wiki d’OpenStreetMap
@@ -2310,11 +2282,13 @@ fr:
             Cela placera un marqueur sur la carte, que vous pourrez déplacer en faisant glisser la carte. Ajoutez votre message, puis cliquez sur « Enregistrer » ; alors d’autres cartographes iront enquêter.
       other_concerns:
         title: Autres préoccupations
-        explanation_html: Si vous êtes préoccupé par la manière dont nos données sont
-          utilisées ou sur leur contenu, veuillez consulter notre <a href="/copyright">page
-          relative aux droits d’auteur</a> pour davantage d’informations légales ou
-          contacter le <a href="https://wiki.osmfoundation.org/wiki/Working_Groups">groupe
-          de travail OSMF</a> approprié.
+        concerns_html: Si vous avez des préoccupations concernant la façon dont nos
+          données sont utilisées ou sur le contenu, veuillez consulter notre %{copyright_link}
+          pour plus d’informations juridiques ou contactez le %{working_group_link}
+          approprié.
+        copyright: page relative aux droits d’auteur
+        working_group: groupe de travail de la Fondation OSM
+        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Obtenir de l’aide
       introduction: OpenStreetMap propose plusieurs ressources pour apprendre à travailler
@@ -2337,10 +2311,6 @@ fr:
         title: Listes de diffusion
         description: Poser une question ou discuter de questions intéressantes sur
           un large éventail de listes de diffusion thématiques ou régionales.
-      forums:
-        title: Forums (hérités)
-        description: Des questions et des discussions pour ceux qui préfèrent une
-          interface sous forme de tableau d’affichage.
       community:
         url: https://community.openstreetmap.org/
         title: Forum de la communauté
@@ -2366,11 +2336,13 @@ fr:
       removed: Votre éditeur OpenStreetMap par défaut est fixé à Potlatch. Comme Adobe
         Flash Player a été retiré, Potlatch n’est plus disponible à l’utilisation
         dans un navigateur web.
-      desktop_html: Vous pouvez toujours utiliser Potlatch en <a href="https://www.systemed.net/potlatch/">téléchargeant
-        l’application de bureau pour Mac et Windows</a>.
-      id_html: Sinon, vous pouvez définir votre éditeur par défaut à iD, qui tourne
-        dans votre navigateur web comme Potlatch auparavant. <a href="%{settings_url}">Modifier
-        vos préférences ici</a>.
+      desktop_application_html: Vous pouvez toujours utiliser Potlatch en %{download_link}.
+      download: téléchargeant l’application de bureau pour Mac et Windows
+      download_url: https://www.systemed.net/potlatch/
+      id_editor_html: Sinon, vous pouvez définir votre éditeur par défaut à iD, lequel
+        fonctionne dans votre navigateur web comme le faisait Potlatch auparavant.
+        %{change_preferences_link}
+      change_preferences: Modifiez vos préférences ici
     any_questions:
       title: Vous avez des questions ?
       paragraph_1_html: |-
@@ -2540,10 +2512,11 @@ fr:
           que chapitres locaux :'
       other_groups:
         title: Autres groupes
-        about_html: |-
+        other_groups_html: |-
           Il n’est pas nécessaire d’établir formellement un groupe dans la même mesure que les chapitres locaux.
-          En effet, de nombreux groupes existent avec beaucoup de succès en tant que rassemblement informel de personnes ou en tant que groupe communautaire. Tout le monde peut les créer ou les rejoindre. En savoir plus sur la
-           <a href="https://wiki.openstreetmap.org/wiki/User_group">page wiki des communautés</a>.
+          En effet, de nombreux groupes existent avec beaucoup de succès en tant que rassemblement informel de personnes ou en tant que groupe communautaire. Chacun peut en créer ou en rejoindre un. En savoir plus sur la %{communities_wiki_link}.
+        communities_wiki: page wiki des communautés
+        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: Privé (partagé anonymement, points non ordonnés)
@@ -2825,9 +2798,6 @@ fr:
           la réparer, la mettre à jour, la télécharger et l’utiliser.
         paragraph_2: Inscrivez-vous pour commencer à contribuer. Nous vous enverrons
           un courriel pour confirmer votre compte.
-      email address: 'Adresse de courriel :'
-      confirm email address: 'Confirmez l’adresse de courriel :'
-      display name: 'Nom affiché :'
       display name description: Votre nom d’utilisateur affiché publiquement. Vous
         pouvez changer ceci ultérieurement dans les préférences.
       external auth: 'Authentification tierce :'
@@ -2856,8 +2826,10 @@ fr:
         étant dans le domaine public.
       consider_pd_why: qu’est-ce que ceci ?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance_html: 'Pour plus d’information sur ces conditions : un <a href="%{summary}">résumé
-        lisible</a> et quelques <a href="%{translations}">traductions informelles</a>'
+      guidance_info_html: 'Informations pour aider à comprendre ces termes : un %{readable_summary_link}
+        et quelques %{informal_translations_link}'
+      readable_summary: résumé lisible par un humain
+      informal_translations: traductions informelles
       continue: Continuer
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Refuser
@@ -2882,7 +2854,6 @@ fr:
       deleted: supprimé
     show:
       my diary: Mon journal
-      new diary entry: nouvelle entrée d’agenda
       my edits: Mes modifications
       my traces: Mes traces
       my notes: Mes notes
@@ -2911,8 +2882,6 @@ fr:
       created from: 'Créé depuis :'
       status: 'État :'
       spam score: 'Indice de pollution :'
-      description: Description
-      user location: Emplacement de l’utilisateur
       role:
         administrator: C’est un administrateur ou une administratrice
         moderator: C’est un modérateur ou une modératrice
@@ -2927,7 +2896,6 @@ fr:
       comments: Commentaires
       create_block: Bloquer cet utilisateur ou cette utilisatrice
       activate_user: Activer cet utilisateur ou cette utilisatrice
-      deactivate_user: Désactiver cet utilisateur ou cette utilisatrice
       confirm_user: Confirmer cet utilisateur ou cette utilisatrice
       unconfirm_user: Ne plus confirmer cet utilisateur ou cette utilisatrice
       unsuspend_user: Ne plus suspendre cet utilisateur ou cette utilisatrice
@@ -2936,8 +2904,6 @@ fr:
       delete_user: Supprimer cet utilisateur ou cette utilisatrice
       confirm: Confirmer
       report: Signaler cet utilisateur ou cette utilisatrice
-    set_home:
-      flash success: Lieu de domicile enregistré avec succès
     go_public:
       flash success: Toutes vos modifications sont dorénavant publiques et vous êtes
         autorisé à modifier.
@@ -3010,10 +2976,6 @@ fr:
       heading_html: Création d’un blocage sur « %{name} »
       period: Pendant combien de temps, à partir de maintenant, l’utilisateur ou l’utilisatrice
         doit être bloqué(e) sur l’API.
-      tried_contacting: J’ai contacté l’utilisateur ou l’utilisatrice et lui ai demandé
-        d’arrêter.
-      tried_waiting: J’ai donné un temps raisonnable à l’utilisateur ou l’utilisatrice
-        pour répondre à ces messages.
       back: Voir tous les blocages
     edit:
       title: Modification d’un blocage sur « %{name} »
@@ -3026,10 +2988,6 @@ fr:
       block_expired: Le blocage a déjà expiré et ne peut pas être modifié.
       block_period: La période de blocage doit être choisie dans la liste déroulante.
     create:
-      try_contacting: Merci de contacter l’utilisateur ou l’utilisatrice avant son
-        blocage et de lui donner un temps raisonnable pour répondre.
-      try_waiting: Merci de donner un temps raisonnable à l’utilisateur ou l’utilisatrice
-        avant son blocage.
       flash: Blocage créé sur l’utilisateur « %{name} ».
     update:
       only_creator_can_edit: Seul le modérateur ou la modératrice qui a créé ce blocage
@@ -3131,6 +3089,7 @@ fr:
       reopened_by_anonymous_html: Réactivée par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
       hidden_by_html: Masquée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
       report: signaler cette note
+      coordinates_html: '%{latitude}, %{longitude}'
       anonymous_warning: Cette note comprend des commentaires d’utilisateurs anonymes,
         qui devraient être vérifiés de façon indépendante.
       hide: Masquer

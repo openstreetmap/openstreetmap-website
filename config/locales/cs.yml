@@ -60,7 +60,7 @@ cs:
       prompt: Vyberte soubor
     submit:
       diary_comment:
-        create: Uložit
+        create: Odeslat
       diary_entry:
         create: Publikovat
         update: Aktualizovat
@@ -101,7 +101,6 @@ cs:
       message: Zpráva
       node: Uzel
       node_tag: Tag uzlu
-      notifier: Oznamovatel
       old_node: Starý uzel
       old_node_tag: Tag starého uzlu
       old_relation: Stará relace
@@ -142,6 +141,7 @@ cs:
       diary_entry:
         user: Uživatel
         title: Nadpis
+        body: Obsah
         latitude: Šířka
         longitude: Délka
         language_code: Jazyk
@@ -328,6 +328,7 @@ cs:
       public editing:
         heading: Veřejné editace
         enabled: Aktivní. Není anonym, smí editovat data.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: co to znamená?
         disabled: Deaktivováno, nemůže editovat data, všechny předchozí editace jsou
           anonymní.
@@ -345,6 +346,16 @@ cs:
       delete_account: Smazat účet…
     go_public:
       heading: Veřejné editace
+      currently_not_public: V současné době jsou vaše úpravy anonymní a lidé vám nemohou
+        posílat zprávy ani zobrazit vaši polohu. Chcete-li zobrazit, co jste upravili,
+        a umožnit lidem, aby vás prostřednictvím webu kontaktovali, klikněte na tlačítko
+        níže.
+      only_public_can_edit: Od přechodu na 0.6 API mohou mapová data upravovat pouze
+        veřejní uživatelé.
+      find_out_why: zjistěte proč
+      email_not_revealed: Vaše e-mailová adresa nebude zveřejněna.
+      not_reversible: Tuto akci nelze vrátit zpět a všichni noví uživatelé jsou nyní
+        ve výchozím nastavení veřejní.
       make_edits_public_button: Zvěřejnit všechny moje úpravy
     update:
       success_confirm_needed: Uživatelské údaje byly úspěšně aktualizovány. Zkontrolujte
@@ -628,6 +639,25 @@ cs:
       applications:
         create:
           notice: Aplikace zaregistrována.
+  errors:
+    contact:
+      contact_url_title: Vysvětlení různých komunikačních kanálů
+      contact: kontaktovat
+      contact_the_community_html: Neváhejte %{contact_link} komunitu OpenStreetMap,
+        pokud jste našli nefunkční odkaz / chybu. Poznamenejte si přesnou adresu URL
+        vaší žádosti.
+    forbidden:
+      title: Zakázáno
+      description: Operace, kterou jste požadovali na serveru OpenStreetMap, je dostupná
+        pouze administrátorům (HTTP 403)
+    internal_server_error:
+      title: Chyba aplikace
+      description: Server OpenStreetMap narazil na neočekávanou situaci, která mu
+        zabránila splnit požadavek (HTTP 500)
+    not_found:
+      title: Soubor nenalezen
+      description: Na serveru OpenStreetMap se nepodařilo najít soubor/adresář/operaci
+        API s tímto názvem (HTTP 404)
   friendships:
     make_friend:
       heading: Přidat uživatele %{user} jako přítele?
@@ -1030,7 +1060,7 @@ cs:
           fitness_station: Fitness
           garden: Zahrada
           golf_course: Golfové hřiště
-          horse_riding: Jezdecká stáj
+          horse_riding: Jezdecké centrum
           ice_rink: Kluziště
           marina: Přístav
           miniature_golf: Minigolf
@@ -1453,10 +1483,6 @@ cs:
         ignored: Ignorováno
         open: Otevřeno
         resolved: Vyřešeno
-    update:
-      new_report: Vaše hlášení bylo úspěšně zaevidováno
-      successful_update: Vaše hlášení bylo úspěšně upraveno
-      provide_details: Uveďte prosím nutné podrobnosti
     show:
       title: '%{status} Problém #%{issue_id}'
       reports:
@@ -1493,6 +1519,7 @@ cs:
   issue_comments:
     create:
       comment_created: Váš komentář byl úspěšně přiložen
+      issue_reassigned: Váš komentář byl vytvořen a problém byl znovu přidělen
   reports:
     new:
       title_html: Hlášení %{link}
@@ -1534,10 +1561,8 @@ cs:
     home: Přejít domů
     logout: Odhlásit se
     log_in: Přihlásit se
-    log_in_tooltip: Přihlásit se k existujícímu účtu
     sign_up: Zaregistrovat se
     start_mapping: Začít mapovat
-    sign_up_tooltip: Vytvořit účet pro editaci
     edit: Upravit
     history: Historie
     export: Export
@@ -1573,8 +1598,6 @@ cs:
     community: Komunita
     community_blogs: Komunitní blogy
     community_blogs_title: Blogy členů komunity OpenStreetMap
-    foundation: Nadace
-    foundation_title: Nadace OpenStreetMap
     make_a_donation:
       title: Podpořte OpenStreetMap finančním příspěvkem
       text: Pošlete příspěvek
@@ -1728,8 +1751,6 @@ cs:
       success: Účet potvrzen, děkujeme za registraci!
       already active: Tento uživatelský účet už byl potvrzen.
       unknown token: Zadaný potvrzovací kód vypršel nebo neexistuje.
-      reconfirm_html: Pokud potřebujete, abychom vám poslali potvrzovací e-mail znovu,
-        <a href="%{reconfirm}">klikněte zde</a>.
     confirm_resend:
       failure: Uživatel %{name} nebyl nalezen.
     confirm_email:
@@ -1774,8 +1795,6 @@ cs:
     new:
       title: Odeslat zprávu
       send_message_to_html: Poslat novou zprávu uživateli %{name}
-      subject: Předmět
-      body: Text
       back_to_inbox: Zpět do doručené pošty
     create:
       message_sent: Zpráva odeslána
@@ -1805,14 +1824,10 @@ cs:
         pod správným účtem.
     show:
       title: Čtení zprávy
-      from: Od
-      subject: Předmět
-      date: Datum
       reply_button: Odpovědět
       unread_button: Označit jako nepřečtené
       destroy_button: Smazat
       back: Zpět
-      to: Komu
       wrong_user: Jste přihlášeni jako „%{user}“, ale zpráva, kterou si chcete přečíst,
         není ani od, ani pro tohoto uživatele. Pokud si ji chcete přečíst, přihlaste
         se pod správným účtem.
@@ -1888,16 +1903,8 @@ cs:
       lost password link: Ztratili jste heslo?
       login_button: Přihlásit
       register now: Zaregistrujte se
-      with username: 'Máte už na OpenStreetMap účet? Přihlaste se svým jménem a heslem:'
       with external: 'Případně se přihlaste prostřednictvím třetí strany:'
-      new to osm: Jste na OpenStreetMap noví?
-      to make changes: Pokud chcete upravovat OpenStreetMap, musíte mít uživatelský
-        účet.
-      create account minute: Založte si účet. Zabere to jen chvilku.
       no account: Nemáte účet?
-      account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br
-        />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu,
-        případně si <a href="%{reconfirm}">nechte poslat nový potvrzovací e-mail</a>.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
       openid_logo_alt: Přihlášení pomocí OpenID
       auth_providers:
@@ -1935,7 +1942,6 @@ cs:
       support: podporu
   shared:
     markdown_help:
-      title_html: Zpracovává se <a href="https://kramdown.gettalong.org/quickref.html">kramdownem</a>
       headings: Nadpisy
       heading: Nadpis
       subheading: Podnadpis
@@ -2141,6 +2147,8 @@ cs:
       map_image: Obrázek mapy (zobrazuje standardní vrstvu)
       embeddable_html: Vkládatelné HTML
       licence: Licence
+      licence_details_html: Data OpenStreetMap jsou licencována pod %{odbl_link} (ODbL).
+      odbl: Open Data Commons Open Database License
       too_large:
         advice: 'Pokud se tento export nezdaří, zvažte použití jednoho z následujících
           zdrojů:'
@@ -2157,9 +2165,6 @@ cs:
           title: Soubory Geofabrik
           description: Pravidelně aktualizované extrakty kontinentů zemí a vybraných
             měst
-        metro:
-          title: Extrakty Metro
-          description: Extrakty pro hlavní světová města a jejich okolí
         other:
           title: Další zdroje
           description: Další zdroje uvedené na wiki OpenStreetMap
@@ -2190,10 +2195,6 @@ cs:
             Tím do mapy přidáte značku, kterou můžete přesunout tažením myší. Přidejte svou zprávu a klikněte na uložit a ostatní uživatelé se na to podívají.
       other_concerns:
         title: Jiné problémy
-        explanation_html: |-
-          Pokud máte pochyby o používání našich dat nebo jejich obsahu, na naší
-          <a href='/copyright'>stránce o autorských právech</a> naleznete více právních informací, případně kontaktujte
-          příslušnou <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>pracovní skupinu OSMF</a>.
     help:
       title: Nápověda
       introduction: OpenStreetMap nabízí několik zdrojů pro informace o projektu,
@@ -2214,10 +2215,6 @@ cs:
         title: E-mailové konference
         description: Položte dotaz nebo diskutujte o zajímavých věcech na některé
           ze široké nabídky tematických či regionálních e-mailových konferencí.
-      forums:
-        title: Diskusní fóra (historická)
-        description: Otázky a diskuse pro ty, kteří preferují rozhraní v nástěnkovém
-          stylu.
       community:
         title: Komunitní fórum
         description: Sdílený prostor pro diskuse o OpenStreetMap.
@@ -2240,13 +2237,14 @@ cs:
       removed: Jako preferovaný editor pro OpenStreetMap máte nastaven Potlatch. Protože
         byl ale Adobe Flash Player ukončen, Potlatch již pro použití ve webovém prohlížeči
         není dostupný.
-      desktop_html: Potlatch můžete stále používat <a href="https://www.systemed.net/potlatch/">stažením
-        desktopové aplikace pro Mac a Windows</a>.
-      id_html: Nebo si můžete jako preferovaný editor nastavit iD, které běží ve webovém
-        prohlížeči tak, jak dříve fungoval Potlatch. <a href="%{settings_url}">Preference
-        můžete změnit zde</a>.
     any_questions:
       title: Nějaké dotazy?
+      paragraph_1_html: |-
+        OpenStreetMap má několik zdrojů pro seznámení se s projektem, kladení a zodpovídání
+        otázek a společnou diskuzi a dokumentaci mapovacích témat.
+        %{help_link}. Jste z organizace, která se chystá na OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Získejte pomoc zde
+      welcome_mat: Podívejte se na Welcome Mat
     sidebar:
       search_results: Výsledky hledání
       close: Zavřít
@@ -2338,17 +2336,48 @@ cs:
         nejdůležitějších věcí, které budete potřebovat znát.
       whats_on_the_map:
         title: Co patří do mapy
+        on_the_map_html: OpenStreetMap je místo pro mapování věcí, které jsou %{real_and_current}
+          – zahrnuje miliony budov, silnic a dalších podrobností o místech. Můžete
+          mapovat cokoli ze skutečného světa, co vás zajímá.
+        real_and_current: skutečné a aktuální
+        off_the_map_html: To, co %{doesnt}, jsou názory jako třeba hodnocení, historické
+          nebo hypotetické prvky a data ze zdrojů chráněných autorským právem. Pokud
+          nemáte speciální povolení, nekopírujte z online nebo papírových map.
+        doesnt: nezahrnuje
       basic_terms:
         title: Základní pojmy pro mapování
         paragraph_1: OpenStreetMap používá trochu vlastního žargonu. Tady je několik
           klíčových slov, která se vám budou hodit.
+        an_editor_html: '%{editor} je program nebo webová stránka, pomocí kterých
+          můžete upravovat mapu.'
+        a_node_html: '%{node} je bod na mapě, jako třeba konkrétní restaurace nebo
+          jeden strom.'
+        a_way_html: '%{way} je čára nebo oblast, jako třeba silnice, potok, jezero
+          nebo budova.'
+        a_tag_html: '%{tag} je troška dat o uzlu nebo cestě, jako třeba název restaurace
+          nebo rychlostní limit silnice.'
+        editor: Editor
+        node: Uzel
+        way: Cesta
+        tag: Značka
       rules:
         title: Pravidla!
+        para_1_html: |-
+          OpenStreetMap má jen málo formálních pravidel, ale očekáváme, že všichni účastníci budou spolupracovat
+          s komunitou a komunikovat s ní. Pokud zvažujete jakékoli jiné činnosti než ruční úpravy, přečtěte si a dodržujte pokyny pro
+          %{imports_link} a %{automated_edits_link}.
+        imports: Importy
+        automated_edits: Automatizované úpravy
       start_mapping: Začít mapovat
       add_a_note:
         title: Nemáte čas editovat? Přidejte poznámku!
         para_1: Pokud chcete jen opravit nějakou drobnost a nemáte čas se registrovat
           a učit se editovat, můžete jednoduše přidat poznámku.
+        para_2_html: |-
+          Stačí přejít na %{map_link} a kliknout na ikonu poznámky: %{note_icon}.
+          Tím přidáte značku na mapu, kterou můžete přesunout přetažením.
+          Přidejte svou zprávu, poté klikněte na Uložit a další mapovači to prozkoumají.
+        the_map: mapu
     communities:
       title: Komunity
       lede_text: |-
@@ -2367,11 +2396,6 @@ cs:
         list_text: 'Následující komunity jsou formálně vedeny jako Místní pobočky:'
       other_groups:
         title: Další skupiny
-        about_html: |-
-          Skupiny není potřeba formálně organizovat do stejné míry jako Místní pobočky.
-          A mnoho skupin velmi úspěšně působí jako neformální sdružení lidí či
-          komunitní skupina. Kdokoli může založit takovou skupinu nebo se připojit.
-          Více informací najdete na <a href="https://wiki.openstreetmap.org/wiki/Special:MyLanguage/User_group">wiki stránce pro komunity</a>.
   traces:
     visibility:
       private: Soukromá (veřejně dostupná jedině jako anonymní, neuspořádané body)
@@ -2459,6 +2483,12 @@ cs:
       public_traces_from: Veřejné GPS stopy uživatele %{user}
       description: Procházení nedávno nahraných GPS stop
       tagged_with: se štítky %{tags}
+      empty_title: Tady zatím nic není
+      empty_upload_html: '%{upload_link} nebo si přečtěte více o sledování GPS na
+        %{wiki_link}.'
+      upload_new: Nahrajte novou stopu
+      wiki_page: wiki stránce
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide_1.2
       upload_trace: Nahrát stopu
       all_traces: Všechny stopy
       my_traces: Moje stopy
@@ -2632,11 +2662,16 @@ cs:
       title: Zaregistrovat se
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet
         automaticky.
+      please_contact_support_html: Kontaktujte prosím %{support_link} a domluvte se
+        na vytvoření účtu – pokusíme se žádost vyřídit co nejrychleji.
+      support: podporu
       about:
         header: Svobodná a editovatelná
-      email address: 'E-mailová adresa:'
-      confirm email address: 'Potvrdit e-mailovou adresu:'
-      display name: 'Zobrazované jméno:'
+        paragraph_1: Na rozdíl od jiných map je OpenStreetMap kompletně vytvořena
+          lidmi jako jste vy a kdokoli ji může zdarma opravit, aktualizovat, stáhnout
+          a používat.
+        paragraph_2: Zaregistrujte se a začněte přispívat. Zašleme vám e-mail pro
+          potvrzení vašeho účtu.
       display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete
         si ho později změnit ve svém nastavení.
       external auth: 'Autentizace třetí stranou:'
@@ -2661,8 +2696,6 @@ cs:
       read_tou: Přečetl jsem si Podmínky užití a souhlasím s nimi
       consider_pd: Navíc k výše uvedenému považuji své příspěvky za volné dílo.
       consider_pd_why: co to znamená?
-      guidance_html: 'Informace, které pomohou tyto podmínky pochopit: <a href="%{summary}">lidsky
-        čitelné shrnutí</a> a nějaké <a href="%{translations}">neoficiální překlady</a>'
       continue: Pokračovat
       declined: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
       decline: Nesouhlasím
@@ -2686,7 +2719,6 @@ cs:
       deleted: smazán
     show:
       my diary: Můj deník
-      new diary entry: nový záznam do deníku
       my edits: Moje úpravy
       my traces: Moje stopy
       my notes: Moje poznámky k mapě
@@ -2715,8 +2747,6 @@ cs:
       created from: 'Vytvořeno od:'
       status: 'Stav:'
       spam score: 'Spam skóre:'
-      description: Popis
-      user location: Poloha uživatele
       role:
         administrator: Tento uživatel je správce
         moderator: Tento uživatel je moderátor
@@ -2731,7 +2761,6 @@ cs:
       comments: Komentáře
       create_block: Blokovat tohoto uživatele
       activate_user: Aktivovat tohoto uživatele
-      deactivate_user: Deaktivovat tohoto uživatele
       confirm_user: Potvrdit tohoto uživatele
       unconfirm_user: Nepotvrdit tohoto uživatele
       unsuspend_user: Zrušit pozastavení tohoto uživatele
@@ -2740,8 +2769,6 @@ cs:
       delete_user: Odstranit tohoto uživatele
       confirm: Potvrdit
       report: Nahlásit tohoto uživatele
-    set_home:
-      flash success: Pozice domova byla úspěšně uložena
     go_public:
       flash success: Všechny vaše úpravy jsou nyní veřejné a máte oprávnění k úpravám.
     index:
@@ -2759,6 +2786,10 @@ cs:
       title: Účet pozastaven
       heading: Účet pozastaven
       support: podporu
+      automatically_suspended: Omlouváme se, váš účet byl automaticky pozastaven kvůli
+        podezřelé aktivitě.
+      contact_support_html: Toto rozhodnutí bude brzy přezkoumáno administrátorem,
+        nebo můžete kontaktovat %{support_link}, pokud si to přejete prodiskutovat.
     auth_failure:
       connection_failed: Připojení k poskytovateli autentizace se nezdařilo
       invalid_credentials: Neplatné autentizační údaje
@@ -2804,9 +2835,6 @@ cs:
       title: Vytvoření bloku na uživatele %{name}
       heading_html: Vytvoření bloku na uživatele %{name}
       period: Jak dlouho (odteď) bude přístup uživatel k API zablokován.
-      tried_contacting: Kontaktoval jsem uživatele a požádal ho, aby přestal.
-      tried_waiting: Dejte uživateli přiměřené množství času, aby mohl na tuto komunikaci
-        reagovat.
       back: Zobrazit všechny bloky
     edit:
       title: Upravit blok na uživatele %{name}
@@ -2818,10 +2846,6 @@ cs:
       block_expired: Tento blok již vypršel, a proto ho nelze upravovat.
       block_period: Doba bloku musí být jedna z těch, které obsahuje rozevírací seznam.
     create:
-      try_contacting: Zkuste prosím kontaktovat uživatele před tím, než bude blokován,
-        a dát mu přiměřenou dobu na odpověď.
-      try_waiting: Zkuste prosím dát uživateli před zablokováním přiměřenou dobu na
-        odpověď.
       flash: Uživatel %{name} zablokován.
     update:
       only_creator_can_edit: Jen moderátor, který tento blok vytvořil, ho může upravovat.
@@ -3044,9 +3068,14 @@ cs:
         graphhopper_bicycle: Na kole (GraphHopper)
         graphhopper_car: Autem (GraphHopper)
         graphhopper_foot: Pěšky (GraphHopper)
+        fossgis_valhalla_bicycle: Na kole (Valhalla)
+        fossgis_valhalla_car: Autem (Valhalla)
+        fossgis_valhalla_foot: Pěšky (Valhalla)
       descend: Sestupte
       directions: Pokyny
       distance: Vzdálenost
+      distance_m: '%{distance} m'
+      distance_km: '%{distance} km'
       errors:
         no_route: Nepodařilo se nalézt trasu mezi zadanými místy.
         no_place: Omlouváme se – nepodařilo se nám najít „%{place}“.

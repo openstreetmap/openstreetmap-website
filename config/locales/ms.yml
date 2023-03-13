@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Amire80
 # Author: Anakmalaysia
+# Author: Hakimi97
 # Author: Izing
 # Author: Jeluang Terluang
 # Author: Karmadunya9-
@@ -64,7 +65,6 @@ ms:
       message: Pesanan
       node: Nod
       node_tag: Tag Nod
-      notifier: Pemberitahu
       old_node: Nod Lama
       old_node_tag: Tag Nod Lama
       old_relation: Hubungan Lama
@@ -1146,8 +1146,6 @@ ms:
       states:
         ignored: Diabaikan
         open: Buka
-    update:
-      new_report: Laporan anda telah berjaya didaftar
     show:
       ignore: Abaikan
       reopen: Buka semula
@@ -1183,10 +1181,8 @@ ms:
     home: Pergi ke Lokasi Pangkal
     logout: Log Keluar
     log_in: log Masuk
-    log_in_tooltip: Log masuk dengan akaun yang sedia ada
     sign_up: Daftar
     start_mapping: Mulakan Memeta
-    sign_up_tooltip: Buka akaun untuk menyunting
     edit: Sunting
     history: Sejarah
     export: Eksport
@@ -1219,8 +1215,6 @@ ms:
     community: Komuniti
     community_blogs: Blog Komuniti
     community_blogs_title: Blog-blog ahli komuniti OpenStreetMap
-    foundation: Yayasan
-    foundation_title: Yayasan OpenStreetMap
     make_a_donation:
       title: Sokonglah OpenStreetMap dengan dermaan dalam bentuk wang
       text: Derma
@@ -1328,8 +1322,8 @@ ms:
       success: Akaun anda telah disahkan. Terima kasih kerana mendaftar!
       already active: Akaun ini sudah pun disahkan.
       unknown token: Kod pengesahan itu telah tamat tempoh atau tidak wujud.
-      reconfirm_html: Jika anda perlukan kami untuk mengirim semula e-mel penghantaran,
-        <a href="%{reconfirm}">klik di sini</a>.
+      resend_html: Jika anda memerlukan kami menghantar semula e-mel pengesahan, %{reconfirm_link}.
+      click_here: tekan di sini
     confirm_resend:
       failure: Pengguna %{name} tidak dijumpai.
     confirm_email:
@@ -1361,8 +1355,6 @@ ms:
     new:
       title: Hantar pesanan
       send_message_to_html: Hantar pesanan baru kepada %{name}
-      subject: Subjek
-      body: Isi
       back_to_inbox: Kembali ke peti masuk
     create:
       message_sent: Pesanan dikirim
@@ -1387,14 +1379,10 @@ ms:
         sebagai pengguna yang betul untuk membacanya.
     show:
       title: Baca pesanan
-      from: Daripada
-      subject: Subjek
-      date: Tarikh
       reply_button: Balas
       unread_button: Tanda sebagai belum dibaca
       destroy_button: Hapuskan
       back: Kembali
-      to: Kepada
       wrong_user: Anda telah log masuk sebagai `%{user}' tetapi pesanan yang anda
         pohon untuk membaca itu tidak dihantar oleh/kepada pengguna itu. Sila log
         masuk sebagai pengguna yang betul untuk membacanya.
@@ -1466,16 +1454,7 @@ ms:
       lost password link: Lupa kata laluan anda?
       login_button: Log masuk
       register now: Daftar sekarang
-      with username: 'Sudah ada akaun OpenStreetMap? Sila log masuk dengan nama pengguna
-        dan kata laluan anda:'
-      new to osm: Baru kenal OpenStreetMap?
-      to make changes: Untuk membuat perubahan pada data OpenStreetMap, anda mesti
-        mempunyai akaun.
-      create account minute: Bukalah satu akaun. Seminit sahaja masa untuk membuatnya.
       no account: Belum buka akaun?
-      account not active: Maaf, akaun anda belum aktif.<br />Sila ikuti pautan dalam
-        pesanan e-mel pengesahan akaun untuk menghidupkan akaun anda, atau <a href="%{reconfirm}">pohon
-        pesanan e-mel pengesahan yang baru</a>.
       auth failure: Maaf, log masuk tidak dapat dibenarkan dengan butiran-butiran
         itu.
       openid_logo_alt: Log masuk dengan OpenID
@@ -1512,6 +1491,8 @@ ms:
       support: sokongan
   shared:
     markdown_help:
+      heading_html: Dihuraikan dengan %{kramdown_link}
+      kramdown: kramdown
       headings: Judul
       heading: Judul
       subheading: Tajuk kecil
@@ -1634,8 +1615,8 @@ ms:
           <strong>Afrika Selatan</strong>: Mengandungi data yang disumberkan daripada
              <a href="http://www.ngi.gov.za/">Pejabat Ketua Pengarah:
              National Geo-Spatial Information</a>, Hak cipta kerajaan dipelihara.
-        contributors_gb_html: '<strong>United Kingdom</strong>: Mengandungi data Ordnance
-          Survey data &copy; Crown copyright and database right 2010-12.'
+        contributors_gb_html: '<strong>United Kingdom</strong>: Mengandungi Data Tinjauan
+          Kelengkapan &copy; Hak cipta diraja dan hak kepemilikan pangkalan data 2010-2023.'
         contributors_footer_1_html: '  Untuk keterangan lanjut tentang semua ini,
           serta sumber-sumber lain yang telah digunakan untuk membantu menambah baik
           OpenStreetMap, sila rujuk <a href="http://wiki.openstreetmap.org/wiki/Contributors">Halaman
@@ -1700,10 +1681,6 @@ ms:
           title: Muat-Turunan Geofabrik
           description: Ekstrak benua, negara dan bandar-bandar terpilih yang sentiasa
             dikemaskinikan
-        metro:
-          title: Ekstrak Metro
-          description: Pengekstrakan untuk bandar-bandar utama di dunia serta kawasan-kawasan
-            sekitar
         other:
           title: Sumber-sumber Lain
           description: Sumber-sumber lanjutan yang tersenarai di wiki OpenStreetMap
@@ -1735,10 +1712,13 @@ ms:
             Ini akan menambah penanda pada peta yang boleh anda alihkan secara menyeret. Berikan pesanan anda, kemudian klik "simpan", barulah pemeta-pemeta lain akan menyiasat.
       other_concerns:
         title: Persoalan lain
-        explanation_html: |-
-          Jika anda mempunyai persoalan mengenai cara penggunaan data kami ataupun isi kandungannya, sila rujuk
-          <a href='/copyright'>halaman hak cipta</a> untuk maklumat undang-undang selanjutnya atau hubungi
-          <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>kumpulan kerja OSMF</a> yang sewajarnya.
+        concerns_html: Jika anda ada sebarang kemusykilan mengenai bagaimana data
+          kami digunakan atau sebarang berkaitan dengan kandungan sila hubungi %{copyright_link}
+          untuk maklumat perundangan yang lebih lanjut, atau hubungi %{working_group_link}
+          yang sepatutnya
+        copyright: laman berhak cipta
+        working_group: Kumpulan bekerja OSMF
+        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Meminta Bantuan
       introduction: OpenStreetMap menyediakan kemudahan-kemudahan untuk mempelajari
@@ -1756,8 +1736,6 @@ ms:
         description: Tanyakan soalan atau cari jawapan di tapak soal jawab OSM.
       mailing_lists:
         title: Senarai Mel
-      forums:
-        title: Forum
       community:
         title: Forum masyarakat
       irc:
@@ -1770,6 +1748,12 @@ ms:
       wiki:
         title: wiki.openstreetmap.org
         description: Layari wiki untuk maklumat lanjut tentang OSM.
+    potlatch:
+      desktop_application_html: Anda masih boleh menggunakan Potlatch dari %{download_link}.
+      id_editor_html: Alternatifnya, anda boleh menetapkan perisian suntingan lalai
+        anda kepada iD, yang berlari dalam penyemak imbas web anda seperti yang dilakukan
+        oleh Potlatch terlebih dahulu. %{change_preferences_link}.
+      change_preferences: Tukar pilihan anda di sini
     any_questions:
       title: Ada soalan?
     sidebar:
@@ -1864,14 +1848,20 @@ ms:
         paragraph_1: OpenStreetMap mempunyai peristilahan tersendiri. Yang berikut
           ialah kata-kata kunci yang berguna.
         editor: penyunting
+        tag: tag
       rules:
         title: Peraturan!
+        imports: Import
       start_mapping: Mula
       add_a_note:
         title: Tiada Masa untuk Menyunting? Letak Nota!
         para_1: Jika anda inginkan suatu butiran kecil dibetulkan tetapi tiada kelapangan
           untuk mendaftar dan belajar menyunting, adalah lebih mudah untuk meletakkan
           nota.
+    communities:
+      other_groups:
+        communities_wiki: Laman wiki komuniti
+        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: Peribadi (hanya dikongsikan sebagai titik yang tidak tersusun secara
@@ -2071,9 +2061,6 @@ ms:
       support: sokongan
       about:
         header: Bebas dan boleh disunting
-      email address: 'Alamat E-mel:'
-      confirm email address: 'Sahkan Alamat E-mel:'
-      display name: 'Nama Paparan:'
       display name description: Nama pengguna anda yang dipaparkan kepada awam. Anda
         boleh menukarnya dalam keutamaan anda pada bila-bila masa.
       external auth: Pengesahan Pihak Ketiga
@@ -2087,9 +2074,8 @@ ms:
       consider_pd: Selain perjanjian di atas, saya sudi menyerahkan sumbangan-sumbangan
         saya dalam Domain Awam
       consider_pd_why: apakah ini?
-      guidance_html: 'Maklumat untuk memudahkan kefahaman istilah-istilah ini: a <a
-        href="%{summary}">ringkasan yang boleh dibaca manusia</a> dan beberapa <a
-        href="%{translations}">terjemahan tidak formal</a>'
+      readable_summary: ringkasan yang boleh dibaca manusia
+      informal_translations: penterjemahan tidak formal
       continue: Sambung
       decline: Tolak
       you need to accept or decline: Sila baca, kemudian terima atau tolak Terma-Terma
@@ -2109,7 +2095,6 @@ ms:
       deleted: dihapuskan
     show:
       my diary: Diari Saya
-      new diary entry: catatan diari baru
       my edits: Suntingan Saya
       my traces: Jejak Saya
       my notes: Nota Saya
@@ -2138,8 +2123,6 @@ ms:
       created from: 'Dibuat daripada:'
       status: 'Status:'
       spam score: 'Markah Spam:'
-      description: Keterangan
-      user location: Lokasi pengguna
       role:
         administrator: Pengguna ini seorang pentadbir
         moderator: Pengguna ini seorang penyelia
@@ -2154,15 +2137,12 @@ ms:
       comments: Komen
       create_block: sekat pengguna ini
       activate_user: aktifkan pengguna ini
-      deactivate_user: nyahaktifkan pengguna ini
       confirm_user: sahkan pengguna ini
       hide_user: sorokkan pengguna ini
       unhide_user: tunjukkan pengguna ini
       delete_user: hapuskan pengguna ini
       confirm: Sahkan
       report: Laporkan Pengguna ini
-    set_home:
-      flash success: Lokasi rumah berjaya disimpan
     go_public:
       flash success: Sekarang, suntingan anda menjadi tatapan umum, maka anda dibenarkan
         untuk menyunting.
@@ -2214,10 +2194,6 @@ ms:
       title: Mengenakan sekatan ke atas %{name}
       heading_html: Mengenakan sekatan ke atas %{name}
       period: Berapa lama pengguna ini akan disekat dari API, mulai sekarang.
-      tried_contacting: Saya telah menghubungi pengguna itu dan memintanya supaya
-        berhenti.
-      tried_waiting: Saya telah memberikan masa yang secukupnya kepada pengguna ini
-        untuk membalas perhubungan itu.
       back: Lihat semua sekatan
     edit:
       title: Menyunting sekatan ke atas %{name}
@@ -2230,10 +2206,6 @@ ms:
       block_period: Tempoh sekatan mestilah salah satu nilai yang boleh dipilih dalam
         senarai juntai bawah ini.
     create:
-      try_contacting: Sila cuba hubungi pengguna sebelum menyekatnya, dan berikan
-        masa yang secukupnya untuk mereka membalas.
-      try_waiting: Sila berikan masa yang secukupnya kepada pengguna untuk membalas
-        sebelum menyekatnya.
       flash: Sekatan dikenakan ke atas pengguna %{name}.
     update:
       only_creator_can_edit: Hanya penyelia yang mengenakan sekatan ini boleh menyuntingnya.
