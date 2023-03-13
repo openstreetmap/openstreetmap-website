@@ -29,7 +29,7 @@ nqo:
       client_application:
         create: ߕߐ߯ߛߓߍߟߌ
         update: ߟߏ߲ߘߐߦߊߟߌ
-      oauth2_application:
+      doorkeeper_application:
         create: ߕߐ߯ߛߓߍߟߌ
         update: ߟߏ߲ߘߐߦߊߟߌ
       redaction:
@@ -102,7 +102,7 @@ nqo:
         title: ߝߐߡߊ
         latitude: ߦߙߐ ߘߟߊߕߍ߯ߦߊ߫
         longitude: ߘߎ߰ߕߍ߬ߟߍ߲߬ߦߊ
-        language_code: ߞߊ߲
+        language: ߞߊ߲
       doorkeeper/application:
         name: ߕߐ߮
         redirect_uri: URLs ߟߊߞߎ߲߬ߛߌ߲߬ߠߌ߲
@@ -238,11 +238,13 @@ nqo:
       current email address: ߕߋ߲߭ߕߋ߲߭ ߢߎߡߍߙߋ߲߫ ߞߏ߲ߘߏ
       external auth: ߞߐߞߊ߲ߠߊ ߕߎ߬ߡߊ߬ߢߐ߲߰ߦߊ߬ߟߌ
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ߡߎ߲߬ ߦߋ߫ ߣߌ߲߬ ߘߌ߫؟
       public editing:
         heading: ߖߊ߬ߡߊ ߟߊ߫ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲
         enabled: ߓߘߊ߫ ߓߌ߬ߟߴߊ߬ ߟߊ߫. ߊ߬ ߕߍ߫ ߘߋ߬ ߞߏ߫ ߕߐ߯ߒߕߊ߲ ߛߋ߫ ߕߐ߫ ߓߍ߫ ߟߐ߲ߕߊ ߡߊߦߟߍ߬ߡߊ߲߫
           ߠߊ߫.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ߣߌ߲߬ ߦߋ߫ ߡߎ߲߬ ߘߌ߫؟
         disabled: ߊ߬ ߓߘߊ߫ ߓߴߊ߬ ߟߊ߫ ߊ߬ ߘߏ߲߬ ߕߍ߫ ߛߋ߫ ߟߐ߲ߕߊ ߡߊߦߟߍ߬ߡߊ߲߫ ߠߊ߫߸ ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲
           ߛߎ߯-ߎ-ߛߎ߫ ߞߐ߲߬ߣߍ߲߫ ߦߋ߫ ߢߍ ߘߐ߫߸ ߏ߬ ߓߍ߯ ߦߋ߫ ߕߐ߯ߒߕߊ߲ ߠߋ߬ ߘߌ߫.
@@ -363,7 +365,6 @@ nqo:
       wikimedia_commons_link: '%{page} ߞߣߐߘߐ ߥߞߌߡߋߘߌߦߊ߫ ߞߐߡߐ߲ ߞߊ߲߬'
       telephone_link: ߞߟߌߟߌ %{phone_number}
       colour_preview: ߞߐ߬ߟߐ %{colour_value} ߢߍߕߊ
-      email_link: ߢ:ߞߏ߲ߘߏ %{email}
     note:
       title: 'ߦߟߌߣߐ: %{id}'
       new_note: ߦߟߌߣߐ߫ ߞߎߘߊ߫
@@ -408,7 +409,6 @@ nqo:
     index:
       title: ߟߊ߬ߘߏ߲߬ߠߌ߲ ߠߎ߬ ߡߊߝߊ߬ߟߋ߲߫
       title_user: '%{user} ߓߘߊ߫ ߟߊ߬ߘߏ߲߬ߠߌ߲ ߡߊߝߊ߬ߟߋ߲߫'
-      title_user_link_html: ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲߫ ߞߙߎ %{user_link} ߓߟߏ߫
       title_friend: ߒ ߕߋߙߌ ߓߘߊ߫ ߟߊ߬ߘߏ߲߬ߠߌ߲ ߡߊߝߊ߬ߟߋ߲߫
       title_nearby: ߡߊ߬ߦߟߍ߬ߡߊ߲߬ߠߌ߲ ߡߍ߲ ߟߊߘߏ߲߬ߣߍ߲߫ ߛߌ߬ߢߐ߲߰ ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ ߟߎ߬ ߓߟߏ߫
       empty: ߟߊ߬ߘߏ߲߬ߠߌ߲߬ ߡߊ߬ߝߊ߬ߟߋ߲߬ߠߌ߲߬ ߡߊ߫ ߛߐ߬ߘߐ߲߫
@@ -540,10 +540,14 @@ nqo:
     search:
       title:
         latlon_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="https://openstreetmap.org/">ߞߣߐߟߊ</a>
+        ca_postcode_html: ߞߐߝߟߌ ߟߎ߬ ߞߊ߬ ߝߘߊ߫ <a href="https://geocoder.ca/">ߘߎ߱ߘߏߞߊ߲</a>
         osm_nominatim_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="https://nominatim.openstreetmap.org/">ߏߔߌ߲ߛߕߑߙߌߕߑߡߊߔ</a>
+          ߟߊ߫
+        geonames_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="http://www.geonames.org/">ߘߎ߱ߕߐ߮</a>
           ߟߊ߫
         osm_nominatim_reverse_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="https://nominatim.openstreetmap.org/">ߕߐ߯ߦߊߟߌ</a>
           ߟߊ߫
+        geonames_reverse_html: ߞߐߝߟߌ ߞߊ߬ ߝߘߊ߫ <a href="http://www.geonames.org/">ߘߎ߱ߕߐ߮</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -651,10 +655,12 @@ nqo:
           waste_basket: ߢߡߊ߬ߞߍ߬ߝߋ߲
           waste_disposal: ߢߡߊ߬ߘߊ߲߬ߘߊ߫ ߦߌߟߊ
           waste_dump_site: ߛߎ߬ߣߎ߲߬ߞߎ߲
+          watering_place: ߖߌߡߊ߫ ߦߙߐ
           water_point: ߖߌ߫ ߡߊ߫ ߦߙߐ
           weighbridge: ߖߌߘߊ߲ߕߊ߫ ߛߍ߲
         boundary:
           administrative: ߓߐߕߏ߲߫ ߞߎ߲߬ߠߊ߬ߛߌ߰ߟߊ߬ߞߊ
+          political: ߛߎߥߊ߲ߘߟߌ ߓߐߕߏ߲
           protected_area: ߦߙߐ߫ ߟߊߞߊ߲ߘߊߣߍ߲
           "yes": ߓߐߕߏ߲
         bridge:
@@ -689,8 +695,14 @@ nqo:
           university: ߖߊ߯ߓߘߊ ߓߏ߲
           warehouse: ߡߣߐ߬ߓߏ߲
         craft:
+          beekeeper: ߟߞߌߛߍ߫ ߡߙߊߟߊ
+          blacksmith: ߣߎ߬ߡߎ߲
+          brewery: ߢߐ߬ߘߟߐ߬ ߝߊ߲ߓߏ߲
+          carpenter: ߓߏ߲߫ ߜߊ߲ߜߊ߲ߠߊ
+          dressmaker: ߞߙߊߟߌߟߊ
           electrician: ߢߎߡߍߦߟߊ
           electronics_repair: ߢߎߡߍ߫ ߘߐߓߍ߲߫ ߦߙߐ
+          gardener: ߣߊߞߐߦߟߊ
           painter: ߓߐߙߐ߲ߦߟߊ
           photographer: ߖߌ߬ߦߕߊ߬ߟߊ
           plumber: ߘߎ߰ߡߊ߬ߟߊ߬ߟߊ
@@ -732,6 +744,10 @@ nqo:
           building: ߓߏ߲߫ ߞߘߐߞߘߐ
           castle: ߖߌ߲߬ߓߏ߲
           church: ߓߊ߬ߕߏ߬ߓߏ߲
+          citywalls: ߞߟߐ߬ߞߐ ߥߟߊ߫ ߞߏߞߏ
+          fort: ߖߌ߲߭
+          heritage: ߞߍߦߙߐ ߥߟߊ߫ ߝߘߏ߬ߓߊ߬ߗߍ߮
+          hollow_way: ߛߌߟߊ߫ ߞߊ߲߬ߞߏߟߏ߲
           house: ߟߎ
           mine: ߘߊ߬ߡߊ߲
           monument: ߝߙߎߕߎ
@@ -1102,6 +1118,7 @@ nqo:
     gpx_failure:
       hi: '%{to_user} ߣߌ߫ ߕߎ߬ߡߊ߬'
       failed_to_import: 'ߟߊ߬ߛߣߍ߬ߟߌ߬ ߗߌߙߏ߲ߣߍ߲. ߝߎ߬ߕߎ߲߬ߕߌ ߦߋ߫ ߦߊ߲߬:'
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ] GPX ߟߊߛߣߍߟߌ ߓߘߊ߫ ߗߌߙߏ߲߫'
     gpx_success:
       hi: ߌ ߣߌ߫ ߕߎ߬ߡߊ߫ %{to_user}
@@ -1464,9 +1481,11 @@ nqo:
         url: /welcome
         title: ߌ ߣߌ߫ ߛߣߍ߫ ߏߔߌ߲߫ ߛߕߑߙߌߕ ߡߊߔ ߞߊ߲߬߹
       beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: ߘߊߡߌߣߊߟߌߟߊ ߟߎ߬ ߢߍߡߌߘߊ
         description: ߘߍ߬ߘߊ ߦߋ߫ ߢߍߡߌߘߊ ߘߏ߫ ߘߐߓߍ߲߬ ߠߊ߫ ߘߊߡߌߣߊߟߌߟߊ ߟߎ߬ ߦߋ߫.
       help:
+        url: https://help.openstreetmap.org/
         title: ߘߍ߬ߡߍ߲߬ߠߌ߲ ߟߐ߯ߓߊߟߐ
         description: ߢߌ߬ߣߌ߲߬ߞߊ߬ߟߌ ߘߏ߫ ߞߍ߫ ߤߊߡߊ߲ߕߍ߫ ߞߊ߬ ߖߋ߬ߓߌ ߘߏ߫ ߟߎ߫ ߡߊߝߟߍ߫ ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ
           ߢߌ߬ߣߌ߲߬ߞߊ߬ߟߌ-ߣߴߊ߬-ߖߋ߬ߓߌ ߞߍߦߙߐ ߞߊ߲߬.
@@ -1475,8 +1494,10 @@ nqo:
       forums:
         title: ߟߐ߯ߓߊߟߐ
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: ߛߌ߲߬ߝߏ߲߬ߘߊ ߢߍ߫
       wiki:
+        url: https://wiki.openstreetmap.org/
         title: ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ ߥߞߌ
         description: ߥߞߌ ߛߏ߲߯ߓߊ߫ ߏߔߌ߲ߛߑߕߙߌߕߑߡߊߔ ߘߐ߬ߛߙߋ߬ߦߊ߬ߟߌ߬ ߘߐߘߎ߲߰ߧߊ߬ߣߍ߲߬ ߞߏ߫ ߘߐ߫
     sidebar:
@@ -1543,6 +1564,7 @@ nqo:
     new:
       upload_trace: GPS ߜߋ߬ߙߋ ߟߊߞߎߘߦߊ߫
       visibility_help: ߣߌ߲߬ ߞߘߐ ߦߋ߫ ߡߎ߲߬ ߘߌ߫؟
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: ߘߍ߬ߡߍ߲߬ߠߌ߲
       help_url: https://wiki.openstreetmap.org/ߥߞߌ/ߟߊ߬ߦߟߍ߬ߟߌ
     create:
@@ -1593,13 +1615,13 @@ nqo:
       in: ߘߐ߫
     index:
       public_traces: ߜߍߘߐ߫ GPS ߜߋ߬ߙߋ ߟߎ߬
+      my_traces: ߒ ߝߏ߲߬ߝߏ߲ ߠߎ߬
       public_traces_from: ߜߍߘߐ߫ ߜߙߋ ߟߎ߬ ߞߊ߬ ߝߘߊ߫ %{user} ߟߊ߫
       empty_html: ߝߏߦߌ߬ ߕߍ߫ ߦߊ߲߬ ߡߎߣߎ߲߬. <a href='%{upload_link}'>ߜߙߋ߬ ߞߎߘߊ߫ ߟߊߦߟߍ߬</a>ߥߟߊ߫
         ߘߏ߫ ߜߘߍ߫ ߟߎ߫ ߘߐߞߊ߬ߙߊ߲ ߞߊ߬ ߓߍ߲߬ GPS ߜߙߋ߬ߓߐ߬ߟߌ ߡߊ߬ <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>ߥߞߌ߫
         ߞߐߜߍ</a> ߞߊ߲߬.
       upload_trace: ߜߋ߬ߙߋ ߘߏ߫ ߟߊߦߟߍ߬
       all_traces: ߜߋ߬ߙߋ ߟߎ߬ ߓߍ߯
-      my_traces: ߒ ߝߏ߲߬ߝߏ߲ ߠߎ߬
       traces_from: ߜߍߘߐ߫ ߜߙߋ ߟߎ߬ ߞߊ߬ ߝߘߊ߫ %{user} ߟߊ߫
     destroy:
       scheduled_for_deletion: ߜߋ߬ߙߋ ߟߐ߯ߟߊߟߌ ߖߏ߰ߛߌ߬ ߞߊ߲ߡߊ߬
@@ -1755,6 +1777,7 @@ nqo:
         ߟߊ߫ ߛߟߊ߫ ߘߐߞߊ߬ߙߊ߲߬ߕߊ</a> ߣߌ߫ <a href="%{translations}">ߞߎ߲߬ߠߊ߬ߝߏߣߌ߲ ߘߟߊߡߌߘߊߟߌ</a>
         ߘߏ߫ ߟߎ߫'
       continue: ߊ߬ ߘߊߓߊ߲߫
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       legale_select: 'ߌ ߛߌ߰ߣߍ߲߬ ߦߋ߫ ߖߡߊ߬ߣߊ ߡߍ߲ ߘߐ߫:'
       legale_names:
         france: ߝߊ߬ߙߊ߲߬ߛߌ߫
@@ -1765,6 +1788,7 @@ nqo:
         ߞߎߘߊ ߛߙߊߕߌ ߟߊߡߌ߬ߣߊ߫ ߟߊ߫. ߛߴߌ ߘߌ߫ ߞߎ߲߬ߠߊ߬ߝߏ߬ߣߌ߲߫ ߛߌߦߊߡߊ߲߫ ߞߏ ߘߐ߫߸ %{terms_declined_link}
         ߘߐߜߍ߫ ߖߊ߰ߣߌ߲߫.
       terms_declined_link: ߥߞߌ߫ ߞߐߜߍ ߣߌ߲߬
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ߫ ߛߎ߮ ߏ߬ ߕߍ߫ ߦߋ߲߬
       heading: ߟߊ߬ߓߊ߰ߙߊ߬ߟߊ %{user} ߕߍ߫ ߦߋ߲߬
