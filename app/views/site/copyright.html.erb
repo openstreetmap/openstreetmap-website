@@ -1,7 +1,6 @@
 <% content_for :heading do %>
-<% if @locale == "en" %>
-  <!-- Maybe ease foreigners back to their native page -->
-
+  <% if @locale == "en" %>
+    <!-- Maybe ease foreigners back to their native page -->
     <% if t(".legal_babble", :locale => I18n.locale) != t(".legal_babble", :locale => :en) %>
       <%= tag.div :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
         <h1><%= t ".native.title" %></h1>
@@ -40,7 +39,6 @@
       <%= t ".legal_babble.title_html" %>
     <% end %>
   <% end %>
-
 <% end %>
 
 <% I18n.with_locale @locale do %>
