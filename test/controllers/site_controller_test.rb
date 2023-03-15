@@ -476,6 +476,11 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "about"
     assert_select "div[lang='ar'][dir='rtl']"
+
+    # Page should still render even with incorrect locale
+    get about_path(:about_locale => "zzz")
+    assert_response :success
+    assert_template "about"
   end
 
   # Test the export page
