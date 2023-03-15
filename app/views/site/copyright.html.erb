@@ -3,19 +3,17 @@
   <!-- Maybe ease foreigners back to their native page -->
 
     <% if t(".legal_babble", :locale => I18n.locale) != t(".legal_babble", :locale => :en) %>
-      <%= tag.div :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
-        <h1><%= t ".native.title" %></h1>
-        <p>
-          <%= t ".native.html",
-                :native_link => link_to(t(".native.native_link"),
-                                        :controller => "site",
-                                        :action => "copyright",
-                                        :copyright_locale => nil),
-                :mapping_link => link_to(t(".native.mapping_link"),
-                                         :controller => "site",
-                                         :action => "index") %>
-        </p>
-      <% end %>
+      <h1><%= t ".native.title" %></h1>
+      <p>
+        <%= t ".native.html",
+              :native_link => link_to(t(".native.native_link"),
+                                      :controller => "site",
+                                      :action => "copyright",
+                                      :copyright_locale => nil),
+              :mapping_link => link_to(t(".native.mapping_link"),
+                                       :controller => "site",
+                                       :action => "index") %>
+      </p>
       <hr />
     <% end %>
   <% else %>
