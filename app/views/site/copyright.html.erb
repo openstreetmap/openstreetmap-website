@@ -19,16 +19,14 @@
   <% else %>
     <!-- Maybe note that this page has been translated -->
     <% if t(".legal_babble", :locale => @locale) != t(".legal_babble", :locale => :en) %>
-      <%= tag.div :lang => "en", :dir => t("html.dir", :locale => "en") do %>
-        <h1><%= t ".foreign.title" %></h1>
-        <p>
-          <%= t ".foreign.html",
-                :english_original_link => link_to(t(".foreign.english_link"),
-                                                  :controller => "site",
-                                                  :action => "copyright",
-                                                  :copyright_locale => "en") %>
-        </p>
-      <% end %>
+      <h1><%= t ".foreign.title" %></h1>
+      <p>
+        <%= t ".foreign.html",
+              :english_original_link => link_to(t(".foreign.english_link"),
+                                                :controller => "site",
+                                                :action => "copyright",
+                                                :copyright_locale => "en") %>
+      </p>
       <hr />
     <% end %>
   <% end %>
