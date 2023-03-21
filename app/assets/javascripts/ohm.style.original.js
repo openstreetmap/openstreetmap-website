@@ -1843,7 +1843,18 @@ ohmVectorStyles.Original = {
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(200, 198, 198, 1)",
+        "line-color": {
+          "stops": [
+            [
+              4,
+              "rgba(169, 163, 163, 1)"
+            ],
+            [
+              7,
+              "rgba(200, 198, 198, 1)"
+            ]
+          ]
+        },
         "line-dasharray": [
           3
         ],
@@ -1851,7 +1862,7 @@ ohmVectorStyles.Original = {
           "stops": [
             [
               2,
-              0.4
+              0.2
             ],
             [
               12,
@@ -7020,15 +7031,30 @@ ohmVectorStyles.Original = {
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(157, 169, 174, 1)",
+        "line-color": {
+          "stops": [
+            [
+              4,
+              "rgba(133, 147, 156, 1)"
+            ],
+            [
+              7,
+              "rgba(157, 169, 174, 1)"
+            ]
+          ]
+        },
         "line-width": {
           "stops": [
             [
               2,
-              0.25
+              0.5
             ],
             [
-              14,
+              12,
+              1.5
+            ],
+            [
+              15,
               3
             ]
           ]
