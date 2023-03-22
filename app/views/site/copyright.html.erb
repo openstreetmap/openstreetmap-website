@@ -1,7 +1,6 @@
 <% content_for :heading do %>
-<% if @locale == "en" %>
-  <!-- Maybe ease foreigners back to their native page -->
-
+  <% if @locale == "en" %>
+    <!-- Maybe ease foreigners back to their native page -->
     <% if t(".legal_babble", :locale => I18n.locale) != t(".legal_babble", :locale => :en) %>
       <h1><%= t ".native.title" %></h1>
       <p>
@@ -31,53 +30,56 @@
     <% end %>
   <% end %>
 
-  <%= tag.h1 :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
-    <%= t ".legal_babble.title_html", :locale => @locale %>
+  <% I18n.with_locale @locale do %>
+    <%= tag.h1 :lang => @locale, :dir => t("html.dir") do %>
+      <%= t ".legal_babble.title_html" %>
+    <% end %>
   <% end %>
-
 <% end %>
 
-<%= tag.div :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
-  <p><%= t ".legal_babble.intro_1_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.intro_2_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.intro_3_1_html", :locale => @locale %></p>
+<% I18n.with_locale @locale do %>
+  <%= tag.div :lang => @locale, :dir => t("html.dir") do %>
+    <p><%= t ".legal_babble.intro_1_html" %></p>
+    <p><%= t ".legal_babble.intro_2_html" %></p>
+    <p><%= t ".legal_babble.intro_3_1_html" %></p>
 
-  <h3><%= t ".legal_babble.credit_title_html", :locale => @locale %></h3>
-  <p><%= t ".legal_babble.credit_1_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.credit_2_1_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.credit_3_1_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.credit_4_html", :locale => @locale %></p>
-  <p><%= image_tag("attribution_example.png",
-                   :alt => t(".legal_babble.attribution_example.alt"),
-                   :border => 0,
-                   :title => t(".legal_babble.attribution_example.title")) %></p>
+    <h3><%= t ".legal_babble.credit_title_html" %></h3>
+    <p><%= t ".legal_babble.credit_1_html" %></p>
+    <p><%= t ".legal_babble.credit_2_1_html" %></p>
+    <p><%= t ".legal_babble.credit_3_1_html" %></p>
+    <p><%= t ".legal_babble.credit_4_html" %></p>
+    <p><%= image_tag("attribution_example.png",
+                     :alt => t(".legal_babble.attribution_example.alt"),
+                     :border => 0,
+                     :title => t(".legal_babble.attribution_example.title")) %></p>
 
-  <h3><%= t ".legal_babble.more_title_html", :locale => @locale %></h3>
-  <p><%= t ".legal_babble.more_1_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.more_2_html", :locale => @locale %></p>
+    <h3><%= t ".legal_babble.more_title_html" %></h3>
+    <p><%= t ".legal_babble.more_1_html" %></p>
+    <p><%= t ".legal_babble.more_2_html" %></p>
 
-  <h3><%= t ".legal_babble.contributors_title_html", :locale => @locale %></h3>
-  <p><%= t ".legal_babble.contributors_intro_html", :locale => @locale %></p>
-  <ul id="contributors">
-    <li><%= t ".legal_babble.contributors_at_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_au_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_ca_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_fi_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_fr_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_nl_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_nz_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_si_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_es_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_za_html", :locale => @locale %></li>
-    <li><%= t ".legal_babble.contributors_gb_html", :locale => @locale %></li>
-  </ul>
-  <p><%= t ".legal_babble.contributors_footer_1_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.contributors_footer_2_html", :locale => @locale %></p>
+    <h3><%= t ".legal_babble.contributors_title_html" %></h3>
+    <p><%= t ".legal_babble.contributors_intro_html" %></p>
+    <ul id="contributors">
+      <li><%= t ".legal_babble.contributors_at_html" %></li>
+      <li><%= t ".legal_babble.contributors_au_html" %></li>
+      <li><%= t ".legal_babble.contributors_ca_html" %></li>
+      <li><%= t ".legal_babble.contributors_fi_html" %></li>
+      <li><%= t ".legal_babble.contributors_fr_html" %></li>
+      <li><%= t ".legal_babble.contributors_nl_html" %></li>
+      <li><%= t ".legal_babble.contributors_nz_html" %></li>
+      <li><%= t ".legal_babble.contributors_si_html" %></li>
+      <li><%= t ".legal_babble.contributors_es_html" %></li>
+      <li><%= t ".legal_babble.contributors_za_html" %></li>
+      <li><%= t ".legal_babble.contributors_gb_html" %></li>
+    </ul>
+    <p><%= t ".legal_babble.contributors_footer_1_html" %></p>
+    <p><%= t ".legal_babble.contributors_footer_2_html" %></p>
 
-  <h3><%= t ".legal_babble.infringement_title_html", :locale => @locale %></h3>
-  <p><%= t ".legal_babble.infringement_1_html", :locale => @locale %></p>
-  <p><%= t ".legal_babble.infringement_2_html", :locale => @locale %></p>
+    <h3><%= t ".legal_babble.infringement_title_html" %></h3>
+    <p><%= t ".legal_babble.infringement_1_html" %></p>
+    <p><%= t ".legal_babble.infringement_2_html" %></p>
 
-  <h3><%= t ".legal_babble.trademarks_title_html", :locale => @locale %></h3>
-  <p><%= t ".legal_babble.trademarks_1_html", :locale => @locale %></p>
+    <h3><%= t ".legal_babble.trademarks_title_html" %></h3>
+    <p><%= t ".legal_babble.trademarks_1_html" %></p>
+  <% end %>
 <% end %>
