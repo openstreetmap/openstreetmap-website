@@ -39,47 +39,168 @@
 
 <% I18n.with_locale @locale do %>
   <%= tag.div :lang => @locale, :dir => t("html.dir") do %>
-    <p><%= t ".legal_babble.intro_1_html" %></p>
-    <p><%= t ".legal_babble.intro_2_html" %></p>
-    <p><%= t ".legal_babble.intro_3_1_html" %></p>
+    <p>
+      <%= t ".legal_babble.introduction_1_html",
+            :registered_trademark_link => tag.sup(link_to(t(".legal_babble.introduction_1_registered_trademark_html"),
+                                                          :anchor => "trademarks")),
+            :open_data => tag.i(t(".legal_babble.introduction_1_open_data")),
+            :odc_odbl_link => link_to(t(".legal_babble.introduction_1_odc_odbl"),
+                                      t(".legal_babble.introduction_1_odc_odbl_url")),
+            :osm_foundation_link => link_to(t(".legal_babble.introduction_1_osm_foundation"),
+                                            t(".legal_babble.introduction_1_osm_foundation_url")) %>
+    </p>
+    <p>
+      <%= t ".legal_babble.introduction_2_html",
+            :legal_code_link => link_to(t(".legal_babble.introduction_2_legal_code"),
+                                        t(".legal_babble.introduction_2_legal_code_url")) %>
+    </p>
+    <p>
+      <%= t ".legal_babble.introduction_3_html",
+            :creative_commons_link => link_to(t(".legal_babble.introduction_3_creative_commons"),
+                                              t(".legal_babble.introduction_3_creative_commons_url")) %>
+    </p>
 
     <h3><%= t ".legal_babble.credit_title_html" %></h3>
     <p><%= t ".legal_babble.credit_1_html" %></p>
-    <p><%= t ".legal_babble.credit_2_1_html" %></p>
-    <p><%= t ".legal_babble.credit_3_1_html" %></p>
-    <p><%= t ".legal_babble.credit_4_html" %></p>
+    <ul>
+      <li><%= t ".legal_babble.credit_2_1" %></li>
+      <li><%= t ".legal_babble.credit_2_2" %></li>
+    </ul>
+    <p>
+      <%= t ".legal_babble.credit_3_html",
+            :attribution_guidelines_link => link_to(t(".legal_babble.credit_3_attribution_guidelines"),
+                                                    t(".legal_babble.credit_3_attribution_guidelines_url")) %>
+    </p>
+    <p>
+      <%= t ".legal_babble.credit_4_1_html",
+            :this_copyright_page_link => link_to(t(".legal_babble.credit_4_1_this_copyright_page"),
+                                                 copyright_path) %>
+    </p>
     <p><%= image_tag("attribution_example.png",
                      :alt => t(".legal_babble.attribution_example.alt"),
                      :border => 0,
                      :title => t(".legal_babble.attribution_example.title")) %></p>
 
     <h3><%= t ".legal_babble.more_title_html" %></h3>
-    <p><%= t ".legal_babble.more_1_html" %></p>
-    <p><%= t ".legal_babble.more_2_html" %></p>
+    <p>
+      <%= t ".legal_babble.more_1_1_html",
+            :osmf_licence_page_link => link_to(t(".legal_babble.more_1_1_osmf_licence_page"),
+                                               t(".legal_babble.more_1_1_osmf_licence_page_url")) %>
+    </p>
+    <p>
+      <%= t ".legal_babble.more_2_1_html",
+            :api_usage_policy_link => link_to(t(".legal_babble.more_2_1_api_usage_policy"),
+                                              t(".legal_babble.more_2_1_api_usage_policy_url")),
+            :tile_usage_policy_link => link_to(t(".legal_babble.more_2_1_tile_usage_policy"),
+                                               t(".legal_babble.more_2_1_tile_usage_policy_url")),
+            :nominatim_usage_policy_link => link_to(t(".legal_babble.more_2_1_nominatim_usage_policy"),
+                                                    t(".legal_babble.more_2_1_nominatim_usage_policy_url")) %>
+    </p>
 
     <h3><%= t ".legal_babble.contributors_title_html" %></h3>
     <p><%= t ".legal_babble.contributors_intro_html" %></p>
     <ul id="contributors">
-      <li><%= t ".legal_babble.contributors_at_html" %></li>
-      <li><%= t ".legal_babble.contributors_au_html" %></li>
-      <li><%= t ".legal_babble.contributors_ca_html" %></li>
-      <li><%= t ".legal_babble.contributors_fi_html" %></li>
-      <li><%= t ".legal_babble.contributors_fr_html" %></li>
-      <li><%= t ".legal_babble.contributors_nl_html" %></li>
-      <li><%= t ".legal_babble.contributors_nz_html" %></li>
-      <li><%= t ".legal_babble.contributors_si_html" %></li>
-      <li><%= t ".legal_babble.contributors_es_html" %></li>
-      <li><%= t ".legal_babble.contributors_za_html" %></li>
-      <li><%= t ".legal_babble.contributors_gb_html" %></li>
+      <li>
+        <%= t ".legal_babble.contributors_at_credit_html",
+              :austria => tag.strong(t(".legal_babble.contributors_at_austria")),
+              :stadt_wien_link => link_to(t(".legal_babble.contributors_at_stadt_wien"),
+                                          t(".legal_babble.contributors_at_stadt_wien_url")),
+              :cc_by_link => link_to(t(".legal_babble.contributors_at_cc_by"),
+                                     t(".legal_babble.contributors_at_cc_by_url")),
+              :land_vorarlberg_link => link_to(t(".legal_babble.contributors_at_land_vorarlberg"),
+                                               t(".legal_babble.contributors_at_land_vorarlberg_url")),
+              :cc_by_at_with_amendments_link => link_to(t(".legal_babble.contributors_at_cc_by_at_with_amendments"),
+                                                        t(".legal_babble.contributors_at_cc_by_at_with_amendments_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_au_credit_html",
+              :australia => tag.strong(t(".legal_babble.contributors_au_australia")),
+              :geoscape_australia_link => link_to(t(".legal_babble.contributors_au_geoscape_australia"),
+                                                  t(".legal_babble.contributors_au_geoscape_australia_url")),
+              :cc_licence_link => link_to(t(".legal_babble.contributors_au_cc_licence"),
+                                          t(".legal_babble.contributors_au_cc_licence_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_ca_credit_html",
+              :canada => tag.strong(t(".legal_babble.contributors_ca_canada")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_fi_credit_html",
+              :finland => tag.strong(t(".legal_babble.contributors_fi_finland")),
+              :nlsfi_license_link => link_to(t(".legal_babble.contributors_fi_nlsfi_license"),
+                                             t(".legal_babble.contributors_fi_nlsfi_license_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_fr_credit_html",
+              :france => tag.strong(t(".legal_babble.contributors_fr_france")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_nl_credit_html",
+              :netherlands => tag.strong(t(".legal_babble.contributors_nl_netherlands")),
+              :and_link => link_to(t(".legal_babble.contributors_nl_and"),
+                                   t(".legal_babble.contributors_nl_and_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_nz_credit_html",
+              :new_zealand => tag.strong(t(".legal_babble.contributors_nz_new_zealand")),
+              :linz_data_service_link => link_to(t(".legal_babble.contributors_nz_linz_data_service"),
+                                                 t(".legal_babble.contributors_nz_linz_data_service_url")),
+              :cc_by_link => link_to(t(".legal_babble.contributors_nz_cc_by"),
+                                     t(".legal_babble.contributors_nz_cc_by_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_si_credit_html",
+              :slovenia => tag.strong(t(".legal_babble.contributors_si_slovenia")),
+              :gu_link => link_to(t(".legal_babble.contributors_si_gu"),
+                                  t(".legal_babble.contributors_si_gu_url")),
+              :mkgp_link => link_to(t(".legal_babble.contributors_si_mkgp"),
+                                    t(".legal_babble.contributors_si_mkgp_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_es_credit_html",
+              :spain => tag.strong(t(".legal_babble.contributors_es_spain")),
+              :ign_link => link_to(t(".legal_babble.contributors_es_ign"),
+                                   t(".legal_babble.contributors_es_ign_url")),
+              :scne_link => link_to(t(".legal_babble.contributors_es_scne"),
+                                    t(".legal_babble.contributors_es_scne_url")),
+              :cc_by_link => link_to(t(".legal_babble.contributors_es_cc_by"),
+                                     t(".legal_babble.contributors_es_cc_by_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_za_credit_html",
+              :south_africa => tag.strong(t(".legal_babble.contributors_za_south_africa")),
+              :ngi_link => link_to(t(".legal_babble.contributors_za_ngi"),
+                                   t(".legal_babble.contributors_za_ngi_url")) %>
+      </li>
+      <li>
+        <%= t ".legal_babble.contributors_gb_credit_html",
+              :united_kingdom => tag.strong(t(".legal_babble.contributors_gb_united_kingdom")) %>
+      </li>
     </ul>
-    <p><%= t ".legal_babble.contributors_footer_1_html" %></p>
+    <p>
+      <%= t ".legal_babble.contributors_2_html",
+            :contributors_page_link => link_to(t(".legal_babble.contributors_2_contributors_page"),
+                                               t(".legal_babble.contributors_2_contributors_page_url")) %>
+    </p>
     <p><%= t ".legal_babble.contributors_footer_2_html" %></p>
 
     <h3><%= t ".legal_babble.infringement_title_html" %></h3>
     <p><%= t ".legal_babble.infringement_1_html" %></p>
-    <p><%= t ".legal_babble.infringement_2_html" %></p>
+    <p>
+      <%= t ".legal_babble.infringement_2_1_html",
+            :takedown_procedure_link => link_to(t(".legal_babble.infringement_2_1_takedown_procedure"),
+                                                t(".legal_babble.infringement_2_1_takedown_procedure_url")),
+            :online_filing_page_link => link_to(t(".legal_babble.infringement_2_1_online_filing_page"),
+                                                t(".legal_babble.infringement_2_1_online_filing_page_url")) %>
+    </p>
 
-    <h3><%= t ".legal_babble.trademarks_title_html" %></h3>
-    <p><%= t ".legal_babble.trademarks_1_html" %></p>
+    <h3 id="trademarks">
+      <%= t ".legal_babble.trademarks_title" %>
+    </h3>
+    <p>
+      <%= t ".legal_babble.trademarks_1_1_html",
+            :trademark_policy_link => link_to(t(".legal_babble.trademarks_1_1_trademark_policy"),
+                                              t(".legal_babble.trademarks_1_1_trademark_policy_url")) %>
+    </p>
   <% end %>
 <% end %>
