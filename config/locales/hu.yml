@@ -199,41 +199,41 @@ hu:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: nagyjából 1 órával ezelőtt
+        one: nagyjából %{count} órával ezelőtt
         other: mintegy %{count} órával ezelőtt
       about_x_months:
-        one: nagyjából 1 hónappal ezelőtt
+        one: nagyjából %{count} hónappal ezelőtt
         other: mintegy %{count} hónappal ezelőtt
       about_x_years:
-        one: nagyjából 1 éve
-        other: nagyjából %{count} éve
+        one: nagyjából %{count} évvel ezelőtt
+        other: nagyjából %{count} évvel ezelőtt
       almost_x_years:
-        one: majdnem 1 évvel ezelőtt
+        one: majdnem %{count} évvel ezelőtt
         other: majdnem %{count} évvel ezelőtt
       half_a_minute: fél perccel ezelőtt
       less_than_x_seconds:
-        one: kevesebb mint 1 másodperccel ezelőtt
+        one: kevesebb mint %{count} másodperccel ezelőtt
         other: kevesebb mint %{count} másodperccel ezelőtt
       less_than_x_minutes:
-        one: kevesebb mint 1 perccel ezelőtt
+        one: kevesebb mint %{count} perccel ezelőtt
         other: kevesebb mint %{count} perccel ezelőtt
       over_x_years:
-        one: több mint 1 éve
-        other: több mint %{count} éve
+        one: több mint %{count} évvel ezelőtt
+        other: több mint %{count} évvel ezelőtt
       x_seconds:
-        one: 1 másodperccel ezelőtt
+        one: '%{count} másodperccel ezelőtt'
         other: '%{count} másodperccel ezelőtt'
       x_minutes:
-        one: 1 perccel ezelőtt
+        one: '%{count} perccel ezelőtt'
         other: '%{count} perccel ezelőtt'
       x_days:
-        one: 1 napja
-        other: '%{count} napja'
+        one: '%{count} nappal ezelőtt'
+        other: '%{count} nappal ezelőtt'
       x_months:
-        one: 1 hónappal ezelőtt
+        one: '%{count} hónappal ezelőtt'
         other: '%{count} hónappal ezelőtt'
       x_years:
-        one: 1 évvel ezelőtt
+        one: '%{count} évvel ezelőtt'
         other: '%{count} évvel ezelőtt'
   editor:
     default: Alapértelmezett (jelenleg %{name})
@@ -335,9 +335,7 @@ hu:
         léphessenek Veled a webhelyen keresztül, kattints az alábbi gombra.
       only_public_can_edit: A 0.6-os API-váltás óta csak nyilvános felhasználó szerkeszthet
         térképadatokat.
-      find_out_why_html: (%{link}).
       find_out_why: olvasd el, miért
-      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Az e-mail-címed nem fog nyilvánosságra kerülni.
       not_reversible: Ez a művelet nem vonható vissza, és most már minden új felhasználó
         alapértelmezés szerint nyilvános.
@@ -363,10 +361,10 @@ hu:
     no_comment: (nincs hozzászólás)
     part_of: 'Része ennek:'
     part_of_relations:
-      one: 1 kapcsolat
+      one: '%{count} kapcsolat'
       other: '%{count} kapcsolat'
     part_of_ways:
-      one: 1 vonal
+      one: '%{count} vonal'
       other: '%{count} vonal'
     download_xml: XML letöltése
     view_history: Előzmények megtekintése
@@ -411,7 +409,7 @@ hu:
       history_title_html: '%{name} kapcsolat előzményei'
       members: Tagok
       members_count:
-        one: 1 tag
+        one: '%{count} tag'
         other: '%{count} tag'
     relation_member:
       entry_role_html: '%{type} %{name} mint %{role}'
@@ -1457,7 +1455,7 @@ hu:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> %{user} által
       link_to_reports: Bejelentések megtekintése
       reports_count:
-        one: 1 bejelentés
+        one: '%{count} bejelentés'
         other: '%{count} bejelentés'
       reported_item: Jelentett elem
       states:
@@ -1626,10 +1624,6 @@ hu:
       subject: '[OpenStreetMap] Sikertelen GPX importálás'
     gpx_success:
       hi: Szia %{to_user}!
-      loaded_successfully:
-        one: sikeresen betöltődött a lehetséges 1 pontból %{trace_points} ponttal.
-        other: sikeresen betöltődött a lehetséges %{possible_points} pontból %{trace_points}
-          ponttal.
       subject: '[OpenStreetMap] Sikeres GPX importálás'
     signup_confirm:
       subject: '[OpenStreetMap] Üdvözlünk az OpenStreetMapen'
@@ -1988,94 +1982,21 @@ hu:
         mapping_link: kezdheted a térképezést
       legal_babble:
         title_html: Szerzői jog és licenc
-        intro_1_html: |-
-          Az OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> egy <i>szabad adathalmaz</i>, amelyet az <a
-          href="https://opendatacommons.org/licenses/odbl/">Open Data
-          Commons Open Database License</a> licenc (ODbL) alatt tett közzé az <a
-          href="https://osmfoundation.org/">OpenStreetMap Alapítvány</a> (OSMF).
-        intro_2_html: |2-
-            Szabadon másolhatod, terjesztheted, továbbíthatod és átdolgozhatod adatainkat mindaddig, amíg feltünteted az OpenStreetMapet és közreműködőit. Ha módosítod vagy felhasználod az adatainkat, akkor az eredményt is csak azonos licenccel terjesztheted. A teljes <a
-            href="https://opendatacommons.org/licenses/odbl/1.0/">jogi
-            szabályzat</a> ismerteti a jogaidat és kötelezettségeidet.
-        intro_3_1_html: Dokumentációnkra a <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.hu">Creative
-          Commons „Nevezd meg! – Így add tovább!” 2.0</a> (CC BY-SA) licenc vonatkozik.
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.hu
         credit_title_html: Hogyan kell feltüntetned az OpenStreetMapet?
         credit_1_html: 'Ahol az OpenStreetMap adatait használja, ott kérjük tüntesse
           fel az alább felsoroltakat:'
-        credit_2_1_html: |-
-          <ul>
-            <li>Biztosítson forrásmegjelölést az OpenStreetMap számára azzal, hogy megjeleníti a szerzői jogi közleményünket.</li>
-            <li>Tegye egyértelművé, hogy az adatok az Open Database License (Nyílt Adatbázis Licenc) alapján állnak rendelkezésre.</li>
-          </ul>
-        credit_3_1_html: |-
-          A szerzői jog megjelölésére különböző követelmények vonatkoznak annak függvényében, hogy hogyan használod az adatainkat. Például, különböző szabályok vonatkoznak arra, hogy hogyan kell megjelölni a szerzői jogot egy böngészhető térképen, egy nyomtatott térképen vagy egy állóképen. A követelmények részletes leírásáért olvassa el az <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Attribution
-          Guidelines</a>-t.
-        credit_4_html: |-
-          Annak egyértelművé tétele érdekében, hogy az adatok az Open Database License (Nyílt adatbázis licenc) alatt elérhetőek, hivatkozz <a href="https://www.openstreetmap.org/copyright">erre a szerzői jogi oldalra</a>.
-          Alternatív megoldásként és követelményként ha az OSM-et adat formában terjeszted, akkor közvetlenül is megnevezheted és hivatkozhatsz a licenc(ek)re. Az olyan helyzetekben ahol a hivatkozás nem lehetséges (pl. nyomtatott munkák), javasoljuk, hogy az olvasóidat közvetlenül irányítsd hozzánk az openstreetmap.org (vagy csak "OpenStreetMap") megjelöléssel és az opendatacommons.org-ra.
-          Ebben a példában a megjelölés a térkép sarkán jelenik meg.
         attribution_example:
           alt: Példa arra, hogyan jelenjen meg az OpenStreetMap-re való hivatkozás
             egy weboldalon
           title: Példa egy hivatkozásra
         more_title_html: Tudj meg többet!
-        more_1_html: |-
-          További információ adataink használatáról az <a
-          href="https://osmfoundation.org/License">OSMF Licenc lapon</a>.
-        more_2_html: |-
-          Habár az OpenStreetMap egy nyílt adatforrás, nem tudunk ingyenes térkép API elérést biztosítani a harmadik feleknek.
-
-          Lásd az <a href="https://operations.osmfoundation.org/policies/tiles/">API Felhasználási Irányelveinket</a>, a <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Csempe Felhasználási Irányelveinket</a> és a <a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim Felhasználási Irányelveinket</a>.
         contributors_title_html: Közreműködőink
         contributors_intro_html: 'Több ezer egyéni közreműködőnk van. További, szabadon
           elérhető adatokat is felhasználunk nemzeti térkép intézetektől és más forrásokból,
           többek között:'
-        contributors_at_html: |-
-          <strong>Ausztria</strong>: adatokat tartalmaz a következő forrásból:
-             <a href="https://data.wien.gv.at/">Bécs városa</a>
-             <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> licenc alatt.
-        contributors_au_html: '<strong>Ausztrália</strong>: A Commonwealth of Australia
-          által a <a href="https://creativecommons.org/licenses/by/4.0/">Creative
-          Commons Attribution 4.0 International licenc (CC BY 4.0)</a> alapján engedélyezett
-          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
-          Australia</a> Administrative Boundaries &copy; (közigazgatási határok) felhasználásával
-          készült vagy azt tartalmazza.'
-        contributors_ca_html: |-
-          <strong>Kanada</strong>: adatokat tartalmaz a következő forrásokból:
-             GeoBase&reg;, GeoGratis (&copy; Department of Natural
-             Resources Canada), CanVec (&copy; Department of Natural
-             Resources Canada), and StatCan (Geography Division,
-             Statistics Canada).
-        contributors_fi_html: "<strong>Finnország</strong>: Adatokat tartalmaz a következő
-          forrásokból: \nNational Land Survey of Finland's Topographic Database\nés
-          más adatforrások <a href=\"https://www.maanmittauslaitos.fi/en/opendata-licence-version1\"></a>NLSFI
-          licenc alatt."
-        contributors_fr_html: '<strong>Franciaország</strong>: adatokat tartalmaz
-          a következő forrásból: Direction Générale des Impôts.'
-        contributors_nl_html: |-
-          <strong>Hollandia</strong>: adatokat tartalmaz innen: Automotive Navigation Data, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: '<strong>Új-Zéland</strong>: adatokat tartalmaz a következő
-          forrásból: <a href="https://data.linz.govt.nz/">LINZ Data Service</a>, újrafelhasználható
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> licenc
-          szerint.'
-        contributors_si_html: '<strong>Szlovénia</strong>: Tartalmaz adatokat a <a
-          href="http://www.gu.gov.si/en/">Földmérési és Térképészeti Hatóságtól</a>
-          és a <a href="http://www.mkgp.gov.si/en/">Földművelési, Erdőgazdálkodási
-          és Élelmezésügyi Minisztériumtól</a> (nyilvános információk Szlovéniában).'
-        contributors_es_html: '<strong>Spanyolország</strong>: A Spanyol Nemzeti Geográfiai
-          Intézet (<a href="http://www.ign.es/">IGN</a>) és Nemzeti Kartográfiai Rendszer
-          (<a href="http://www.scne.es/">SCENE</a>) adataiból származtatott adatokat
-          tartalmaz a <a href="https://creativecommons.org/licenses/by/4.0/">CC BY
-          4.0</a> licenc alapján.'
-        contributors_za_html: |-
-          <strong>Dél-Afrika</strong>: tartalmaz olyan adatokat, amelyek a
-          <a href="http://www.ngi.gov.za/">nemzeti térinformatikai főigazgatóságtól</a> származnak, és az állam fenntartja a szerzői jogokat.
-        contributors_gb_html: "<strong>Egyesült Királyság</strong>: Térképészeti Szolgálat
-          adatai &copy; Királyi szerzői és adatbázisjog \n2010-2019."
-        contributors_footer_1_html: |-
-          További részletekért, és az OpenStreetMap javításához használt más forrásokról, kérjük, olvassa el <a href="https://wiki.openstreetmap.org/wiki/contributors">a szerkesztők oldalát
-          az OpenStreetMap wikin.</a>
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.hu
+        contributors_at_land_vorarlberg_url: https://vorarlberg.at/-/wms-dienste
         contributors_footer_2_html: Az adatok befoglalása az OpenStreetMapbe nem jelenti
           azt, hogy az eredeti adatszolgáltató támogatja az OpenStreetMapet, garanciát
           nyújt vagy felelősséget vállal rá.
@@ -2084,15 +2005,6 @@ hu:
           ne adjanak hozzá adatokat egyetlen szerzői jogvédett forrásból se (pl. Google
           Térkép vagy nyomtatott térképek) a szerzői jog tulajdonosának kifejezett
           engedélye nélkül.
-        infringement_2_html: |-
-          Ha úgy gondolod, hogy jogvédett anyag került jogszerűtlenül az OpenStreetMap adatbázisba vagy erre a weblapra, kérjük olvasd el az <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">eltávolítási
-          folyamat leírását</a> vagy jelentsd be közvetlenül az
-          <a href="https://dmca.openstreetmap.org/">online bejelentő oldalon</a>.
-        trademarks_title_html: <span id="trademarks"></span>Védjegyek
-        trademarks_1_html: Az OpenStreetMap, a nagyító ikon és a State of the Map
-          az OpenStreetMap Foundation bejegyzett védjegyei. Ha kérdésed van ezek felhasználásával
-          kapcsolatban, kérlek tekintsd meg a <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Védjegy
-          irányelv</a>einket.
     index:
       js_1: Vagy egy olyan böngészőt használsz, amely nem támogatja a JavaScriptet,
         vagy letiltottad a JavaScriptet.
@@ -2125,7 +2037,6 @@ hu:
       licence_details_html: Az OpenStreetMap adatokra az %{odbl_link} (ODbL) licenc
         vonatkozik.
       odbl: Open Data Commons Open Database License (open data commons nyílt adatbázis-licenc)
-      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: Ha a fenti exportálás sikertelen lenne, próbáld meg az alábbi listából
           valamelyik lehetőséget.
@@ -2224,7 +2135,6 @@ hu:
         Esetleg a szervezetednek is vannak tervei az OpenStreetMappel kapcsolatban? %{welcome_mat_link}.
       get_help_here: Itt kaphatsz segítséget
       welcome_mat: Nézd meg az előszobát
-      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Keresés eredményei
       close: Bezár
@@ -2347,9 +2257,7 @@ hu:
           kézi szerkesztésen kívül bármilyen más tevékenységet fontolgatsz, kérjük,
           olvasd el és kövesd az %{imports_link} és %{automated_edits_link} irányelveit.
         imports: Importálások
-        imports_url: https://wiki.openstreetmap.org/wiki/Import/Guidelines
         automated_edits: automatizált szerkesztések
-        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Térképezés indítása
       add_a_note:
         title: Nincs időd szerkeszteni? Küldj be jegyzetet!
@@ -2436,7 +2344,9 @@ hu:
       newer: Újabb nyomvonalak
     trace:
       pending: FÜGGŐBEN
-      count_points: '%{count} pont'
+      count_points:
+        one: '%{count} pont'
+        other: '%{count} pont'
       more: tovább
       trace_details: Nyomvonal részleteinek megtekintése
       view_map: Térkép megtekintése
@@ -2832,19 +2742,19 @@ hu:
       time_past_html: Véget ért %{time} időpontban.
       block_duration:
         hours:
-          one: 1 óra
+          one: '%{count} óra'
           other: '%{count} óra'
         days:
-          one: 1 nap
+          one: '%{count} nap'
           other: '%{count} nap'
         weeks:
-          one: 1 hét
+          one: '%{count} hét'
           other: '%{count} hét'
         months:
-          one: 1 hónap
+          one: '%{count} hónap'
           other: '%{count} hónap'
         years:
-          one: 1 év
+          one: '%{count} év'
           other: '%{count} év'
     blocks_on:
       title: '%{name} blokkolásai'
@@ -2968,10 +2878,10 @@ hu:
       locate:
         title: Helyzetem megjelenítése
         metersPopup:
-          one: Egy méternél közelebb vagy ehhez a ponthoz
+          one: '%{count} méternél is közelebb vagy ehhez a ponthoz'
           other: '%{count} méternél közelebb vagy ehhez a ponthoz'
         feetPopup:
-          one: Egy lábnál is közelebb vagy ehhez a ponthoz
+          one: '%{count} lábnál is közelebb vagy ehhez a ponthoz'
           other: '%{count} lábnál közelebb vagy ehhez a ponthoz'
       base:
         standard: Alapértelmezett

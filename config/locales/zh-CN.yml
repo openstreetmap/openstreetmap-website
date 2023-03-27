@@ -237,41 +237,41 @@ zh-CN:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: 约1小时前
+        one: 约%{count}小时前
         other: 约%{count}小时前
       about_x_months:
-        one: 约1个月前
+        one: 约%{count}个月前
         other: 约%{count}个月前
       about_x_years:
-        one: 约1年
+        one: 约%{count}年
         other: 约%{count}年前
       almost_x_years:
-        one: 近1年前
+        one: 近%{count}年前
         other: 近%{count}年前
       half_a_minute: 30秒前
       less_than_x_seconds:
-        one: 小于1秒前
-        other: 小于%{count}秒前
+        one: 不到%{count}秒前
+        other: 不到%{count}秒前
       less_than_x_minutes:
-        one: 小于1分钟前
+        one: 小于%{count}分钟前
         other: 小于%{count}分钟前
       over_x_years:
-        one: 超过1年前
+        one: 超过%{count}年前
         other: 超过%{count}年前
       x_seconds:
-        one: 1秒
+        one: '%{count}秒前'
         other: '%{count}秒前'
       x_minutes:
-        one: 1分钟前
+        one: '%{count}分钟前'
         other: '%{count}分钟前'
       x_days:
-        one: 1日前
+        one: '%{count}日前'
         other: '%{count}日前'
       x_months:
-        one: 1个月前
+        one: '%{count}个月前'
         other: '%{count}个月前'
       x_years:
-        one: 1年前
+        one: '%{count}年前'
         other: '%{count}年前'
   printable_name:
     with_version: '%{id}，版本 %{version}'
@@ -364,6 +364,7 @@ zh-CN:
       only_public_can_edit: 自0.6 API上线以来，只有公共用户可以编辑地图数据。
       find_out_why: 找出为什么
       email_not_revealed: 您的电子邮件地址不会公开泄露。
+      not_reversible: 此操作无法撤消，所有新用户现在默认都是公开的。
       make_edits_public_button: 公开我所有的编辑
     update:
       success_confirm_needed: 成功更新用户信息。 查看您的邮箱以确认您的新邮箱地址。
@@ -385,10 +386,10 @@ zh-CN:
     no_comment: (无注释)
     part_of: 属于
     part_of_relations:
-      one: 1 relation
+      one: '%{count} 个关系'
       other: '%{count} 个关系'
     part_of_ways:
-      one: 1 way
+      one: '%{count} 条路径'
       other: '%{count} 条路径'
     download_xml: 下载 XML
     view_history: 查看历史
@@ -431,7 +432,7 @@ zh-CN:
       history_title_html: 关系历史：%{name}
       members: 成员
       members_count:
-        one: 1 member
+        one: '%{count} 位成员'
         other: '%{count} 位成员'
     relation_member:
       entry_role_html: '%{type} %{name} 作为%{role}'
@@ -632,13 +633,19 @@ zh-CN:
   errors:
     contact:
       contact_url: http://wiki.openstreetmap.org/wiki/Contact
+      contact_url_title: 各种联系渠道说明
       contact: 联系
+      contact_the_community_html: 如果您发现有损坏的链接/错误，请随时%{contact_link} OpenStreetMap
+        社区。并记下您请求的确切 URL。
     forbidden:
       title: 禁止
+      description: 您在 OpenStreetMap 服务器上请求的操作仅限管理员使用（HTTP 403）
     internal_server_error:
       title: 应用程序错误
+      description: OpenStreetMap 服务器遇到意外情况，无法满足请求（HTTP 500）
     not_found:
       title: 文件未找到
+      description: 在 OpenStreetMap 服务器上找不到该名称的文件/目录/API 操作（HTTP 404）
   friendships:
     make_friend:
       heading: 添加 %{user} 为朋友？
@@ -1456,7 +1463,7 @@ zh-CN:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr>由%{user}
       link_to_reports: 查看举报
       reports_count:
-        one: 1个举报
+        one: '%{count}个举报'
         other: '%{count}个举报'
       reported_item: 举报项
       states:
@@ -1467,7 +1474,7 @@ zh-CN:
       title: '%{status}问题#%{issue_id}'
       reports:
         zero: 无举报
-        one: 1个举报
+        one: '%{count}个举报'
         other: '%{count}个举报'
       report_created_at: 首次报告于%{datetime}
       last_resolved_at: 上次解决于%{datetime}
@@ -1612,7 +1619,6 @@ zh-CN:
       subject: '[OpenStreetMap] GPX 导入失败'
     gpx_success:
       hi: 您好，%{to_user}：
-      loaded_successfully: 成功载入 %{possible_points} 可能节点中的 %{trace_points} 个。
       subject: '[OpenStreetMap] GPX 导入成功'
     signup_confirm:
       subject: '[OpenStreetMap] 欢迎加入 OpenStreetMap'
@@ -1683,6 +1689,8 @@ zh-CN:
       success: 已确认您的账户，感谢您的注册！
       already active: 该账户已经确认。
       unknown token: 确认码已经过期或不存在。
+      resend_html: 如果您需要我们重新发送确认邮件，%{reconfirm_link}。
+      click_here: 点击此处
     confirm_resend:
       failure: 用户 %{name} 未找到。
     confirm_email:
@@ -1854,6 +1862,7 @@ zh-CN:
       support: 支持
   shared:
     markdown_help:
+      heading_html: 以%{kramdown_link}解析
       headings: 标题
       heading: 标题
       subheading: 副标题
@@ -1907,78 +1916,35 @@ zh-CN:
         mapping_link: 开始绘制地图
       legal_babble:
         title_html: 著作权与许可
-        intro_1_html: |-
-          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup>是<i>开放数据</i>，由<a
-          href="https://osmfoundation.org/">OpenStreetMap基金会</a>（OSMF）采用<a
-          href="https://opendatacommons.org/licenses/odbl/">开放数据共享开放数据库许可协议</a>（ODbL）授权。
-        intro_2_html: 只要你表明来源为OpenStreetMap及其贡献者，你就可以自由地复制、分发、传送和改编我们的数据。如果你想转换或者以我们的数据为基础进行创作，你只能采用相同的许可协议发表你的作品。完整的<a
-          href="https://opendatacommons.org/licenses/odbl/1.0/">法律文本</a>阐明了你的权利和义务。
-        intro_3_1_html: 我们的文档采用<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.zh">知识共享
-          署名-相同方式共享 2.0 （CC BY-SA 2.0）</a>许可协议授权。
+        introduction_1_open_data: 开放数据
+        introduction_1_odc_odbl: 开放数据共享开放数据库许可协议
+        introduction_1_osm_foundation: OpenStreetMap 基金会
         credit_title_html: 如何表明作者是 OpenStreetMap
         credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
-        credit_2_1_html: |-
-          <ul>
-            <li>显示出我们的版权声明来表达归属于 OpenStreetMap 的内容。</li>
-            <li>清楚表明数据在开放数据库许可协议下可用。</li>
-          </ul>
-        credit_3_1_html: 对于版权声明的显示，我们会依据您如何使用我们的数据，而有不同的要求。例如，不同的规则要如何显示版权声明，具体取决于您是否建立了可浏览的地图、列印的地图或是静态图像。完整的详细信息要求可以在<a
-          href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">署名方针</a>上查看。
-        credit_4_html: |-
-          请明确表示数据在开放数据库许可协议下可用，您可以链接到<a href="https://www.openstreetmap.org/copyright">这个版权页面</a>。
-          相对地，如果您以数据表来分发 OSM，您可以命名并直接链接到许可协议。在一些无法作出链接的媒介（例如印刷品），我们建议您引导您的读者到 openstreetmap.org（像是注明“OpenStreetMap”的完整网址）以及 opendatacommons.org。
-          在此示例中，版权相关的归属会出现在地图的角落。
         attribution_example:
           alt: 如何在网页上署名 OpenStreetMap 的示例
           title: 署名示例
         more_title_html: 了解更多
-        more_1_html: |-
-          请在<a
-          href="https://osmfoundation.org/Licence">OSMF许可协议页面</a>阅读更多关于使用我们的数据，以及如何表明我们是作者的信息。
-        more_2_html: 尽管 OpenStreetMap 开放数据，但是我们无法为第三方提供免费的地图 API。详见我们的 <a href="https://operations.osmfoundation.org/policies/api/">API使用政策</a>、<a
-          href="https://operations.osmfoundation.org/policies/tiles/">地图图块使用政策</a>及<a
-          href="https://operations.osmfoundation.org/policies/nominatim/">名称服务使用政策</a>。
         contributors_title_html: 我们的贡献者
         contributors_intro_html: 我们的数据来源于成千上万人的贡献。但我们也从国家测绘机构等处获取公共版权的数据，其中包括：
-        contributors_at_html: <strong>奥地利</strong>：包含来自 <a href="https://data.wien.gv.at/">Stadt
-          Wien</a>(<a href="https://creativecommons.org/licenses/by/3.0/at/deed.zh">CC
-          BY</a>协议)、<a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
-          Vorarlberg</a>及 Land Tirol (修订的 <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
-          AT</a>协议)的数据。
-        contributors_au_html: |-
-          <strong>澳大利亚</strong>：使用行政边界纳入或开发&copy;
-          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape澳大利亚</a>依据<a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名4.0国际许可协议（CC BY 4.0）</a>由澳大利亚联邦条款授权。
-        contributors_ca_html: <strong>加拿大</strong>：含有来自GeoBase&reg;，GeoGratis（&copy;
-          加拿大自然资源部），CanVec（&copy; 加拿大自然资源部）和StatCan（加拿大统计局地理处）的数据。
-        contributors_fi_html: <strong>芬兰</strong>：包含来自芬兰国家测绘局地形数据库和其他测绘机构的数据，依据 <a
-          href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI
-          协议</a>授权。
-        contributors_fr_html: <strong>法国</strong>：含有来自 Direction Générale des Impôts
-          的数据。
-        contributors_nl_html: <strong>荷兰</strong>：含有&copy; AND data, 2007(<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: <strong>新西兰</strong>：包含来源自<a href="https://data.linz.govt.nz/">LINZ数据服务</a>的数据，依据<a
-          href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>授权复用。
-        contributors_si_html: |-
-          <strong>斯洛文尼亚</strong>：包含来自
-          <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a>和
-          <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>（斯洛文尼亚公开信息）的数据。
-        contributors_es_html: <strong>西班牙</strong>：包含来自西班牙国家地理研究所（<a href="http://www.ign.es/">IGN</a>）和国家制图系统（<a
-          href="http://www.scne.es/">SCNE</a>）的数据，这些数据以<a href="https://creativecommons.org/licenses/by/4.0/">知识共享
-          署名 4.0协议</a>授权。
-        contributors_za_html: <strong>南非</strong>：包含来自<a href="http://www.ngi.gov.za/">行政局：国家地球空间信息</a>，国家版权所有。
-        contributors_gb_html: <strong>英国</strong>：包含来自 Ordnance 的调查数据，&copy; Crown
-          版权所有及数据库权利，2010-2023。
-        contributors_footer_1_html: |-
-          关于其进一步的细节，及其他被用来帮助提升 OpenStreetMap 的来源，详见 OpenStreetMap Wiki 的<a
-          href="https://wiki.openstreetmap.org/wiki/Zh-hans:Contributors">贡献者页面</a>。
+        contributors_at_austria: 奥地利
+        contributors_at_stadt_wien: 维也纳
+        contributors_au_australia: 澳大利亚
+        contributors_ca_canada: 加拿大
+        contributors_fi_finland: 芬兰
+        contributors_fr_france: 法国
+        contributors_nl_netherlands: 荷兰
+        contributors_nz_new_zealand: 新西兰
+        contributors_si_slovenia: 斯洛文尼亚
+        contributors_es_spain: 西班牙
+        contributors_za_south_africa: 南非
+        contributors_gb_united_kingdom: 英国
+        contributors_2_contributors_page: 贡献者页面
         contributors_footer_2_html: OpenStreetMap 纳入数据并不意味着原始数据提供者认可 OpenStreetMap、提供任何担保或担负任何法律责任。
         infringement_title_html: 著作权侵犯
         infringement_1_html: OSM 的贡献者会被提醒，绝不要在没有著作权人的明确许可时添加来自任何有著作权的来源的数据(如谷歌地图或印刷地图)。
-        infringement_2_html: 如果您认为版权的材料已被不恰当地添加的 OpenStreetMap 数据库或该网站，请参见我们的<a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">撤除程序</a>，或直接在我们的<a
-          href="https://dmca.openstreetmap.org/">在线申报页面</a>上提出。
-        trademarks_title_html: <span id="trademarks"></span>商标
-        trademarks_1_html: OpenStreetMap、放大镜标志和地图状态是OpenStreetMap基金会的注册商标。如果您对使用这些标志有任何问题，请参见我们的<a
-          href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">商标方针</a>。
+        trademarks_title: 商标
+        trademarks_1_1_trademark_policy: 商标政策
     index:
       js_1: 您或许正在使用不支持 JavaScript 的浏览器，或您禁用了 JavaScript。
       js_2: OpenStreetMap 使用 JavaScript 让地图更平滑。
@@ -2004,6 +1970,8 @@ zh-CN:
       map_image: 地图图像 (显示标准图层)
       embeddable_html: 可嵌入HTML
       licence: 许可协议
+      licence_details_html: OpenStreetMap 数据以 %{odbl_link} (ODbL) 许可。
+      odbl: 开放数据共享开放数据库许可协议
       too_large:
         advice: 如果用上面的导出工具失败了，请考虑使用下面列出的来源来导出：
         body: 该区域过大，不能导出为 OpenStreetMap XML 数据。请放大地图或选择一个更小的区域，或使用以下大量数据下载来源之一：
@@ -2043,6 +2011,9 @@ zh-CN:
           instructions_html: 只需点击<a class='icon note'></a>或地图上显示的相同图标。这会在地图上添加标记，您可以拖动它来改变位置。添加您所知信息后点击保存，其他绘图者将进行核查。
       other_concerns:
         title: 其他问题
+        concerns_html: 如果您对我们的数据使用方式或内容有疑虑，请参阅我们的%{copyright_link}来了解更多法律信息，或者联系相应的%{working_group_link}。
+        copyright: 版权页面
+        working_group: OSMF 工作小组
     help:
       title: 获得帮助
       introduction: OpenStreetMap 有若干资源用于学习该项目，提问和回答问题，以及讨论与制作地图相关的话题并且撰写相关文档。
@@ -2077,8 +2048,16 @@ zh-CN:
         description: 浏览 wiki 深入了解 OpenStreetMap 文档。
     potlatch:
       removed: 您的默认OpenStreetMap编辑器设置为Potlatch。由于Adobe Flash Player已停止支持，因此Potlatch不再可在Web浏览器中使用。
+      desktop_application_html: 您仍然可以通过%{download_link}使用 Potlatch。
+      download: 下载适用于 Mac 和 Windows 的桌面应用程序
+      id_editor_html: 或者，您可以将默认编辑器设置为 iD，它会像先前的 Potlatch 一样在您的网络浏览器上运行。%{change_preferences_link}。
+      change_preferences: 在这里更改您的参数设置
     any_questions:
       title: 还有疑问吗？
+      paragraph_1_html: 有多种资源可用于了解该项目、提出和回答与 OpenStreetMap 有关的问题，并且协作讨论和记录地图主题。%{help_link}。以组织形式为
+        OpenStreetMap 制定计划吗？%{welcome_mat_link}。
+      get_help_here: 在这里寻求帮助
+      welcome_mat: 查看欢迎垫
     sidebar:
       search_results: 搜索结果
       close: 关闭
@@ -2171,6 +2150,10 @@ zh-CN:
       basic_terms:
         title: 绘制地图的基本术语
         paragraph_1: OpenStreetMap 有一些自己的术语。这里是一些常用的关键词。
+        an_editor_html: '%{editor}是您可以用于编辑地图的程序或网站。'
+        a_node_html: '%{node}是地图上的一个点，例如一间餐厅或者一棵树。'
+        a_way_html: '%{way}是一条线或一片区域，例如一条道路、一条溪流、一个湖泊或者一栋建筑物。'
+        a_tag_html: '%{tag}是关于节点或路径的数据，例如餐厅名称或者道路限速。'
         editor: 编辑器
         node: 节点
         way: 路径
@@ -2181,6 +2164,8 @@ zh-CN:
           OpenStreetMap 几乎没有正式规则，但我们希望所有参与者都能与社群合作并与之沟通。如果您正在考虑
           除手动编辑之外的任何活动，请阅读并遵循
           %{imports_link} 和 %{automated_edits_link} 上的指南。
+        imports: 导入
+        automated_edits: 自动化编辑
       start_mapping: 开始绘制地图
       add_a_note:
         title: 没有时间编辑？添加注记！
@@ -2199,6 +2184,7 @@ zh-CN:
         list_text: 以下社区正式成立为地方分会：
       other_groups:
         title: 其他团体
+        communities_wiki: 社区 wiki 页面
   traces:
     visibility:
       private: 私有 (只以匿名分享，无顺序的点)
@@ -2252,7 +2238,7 @@ zh-CN:
     trace:
       pending: 挂起
       count_points:
-        one: 1个点
+        one: '%{count}个点'
         other: '%{count}个点'
       more: 更多
       trace_details: 查看轨迹详情
@@ -2271,6 +2257,8 @@ zh-CN:
       description: 浏览最近的GPS轨迹上传
       tagged_with: ' 标签为%{tags}'
       empty_title: 这里还没有东西
+      empty_upload_html: '%{upload_link}或者在%{wiki_link}了解更多有关 GPS 追踪的信息。'
+      upload_new: 上传新轨迹
       wiki_page: Wiki页面
       upload_trace: 上传轨迹
       all_traces: 所有轨迹
@@ -2489,7 +2477,7 @@ zh-CN:
       notes: 地图注记
       remove as friend: 删除朋友
       add as friend: 添加朋友
-      mapper since: 绘图始于：
+      mapper since: 绘图者注册于：
       ct status: 贡献者条款：
       ct undecided: 未决定
       ct declined: 已拒绝
@@ -2613,19 +2601,19 @@ zh-CN:
       time_past_html: 结束于%{time}。
       block_duration:
         hours:
-          one: 1 小时
+          one: '%{count} 小时'
           other: '%{count} 小时'
         days:
-          one: 1日
+          one: '%{count}日'
           other: '%{count}日'
         weeks:
-          one: 1周
+          one: '%{count}周'
           other: '%{count}周'
         months:
-          one: 1个月
+          one: '%{count}个月'
           other: '%{count}个月'
         years:
-          one: 1年
+          one: '%{count}年'
           other: '%{count}年'
     blocks_on:
       title: 对 %{name} 的封禁
@@ -2740,10 +2728,10 @@ zh-CN:
       locate:
         title: 显示我的位置
         metersPopup:
-          one: 你距离该点1米
+          one: 你距离该点%{count}米
           other: 你距离该点%{count}米
         feetPopup:
-          one: 你就在这个位置的一英尺范围内
+          one: 你就在这个位置的%{count}英尺范围内
           other: 你就在这个位置的%{count}英尺范围内
       base:
         standard: 标准

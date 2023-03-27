@@ -90,14 +90,22 @@ tt:
         allow_write_diary: көндәлектә язма калдырырга, шәрехләргә һәм яңа дуслар табарга
         allow_write_api: хаританы үзгәртергә
         allow_read_gpx: шәхси GPS трекларын укырга
+        allow_write_gpx: GPS трекларны йөкләргә
+        allow_write_notes: искәрмәләрне төзәтергә
       diary_comment:
         body: Текст
       diary_entry:
         user: Кулланучы
         title: Тема
+        body: Текст
         latitude: Киңлек
         longitude: Озынлык
         language_code: Тел
+      doorkeeper/application:
+        name: Исем
+        redirect_uri: Юнәлтүләр
+        confidential: Конфиденциаль кушымтамы?
+        scopes: Рөхсәтләр
       friend:
         user: Кулланучы
         friend: Дус
@@ -108,25 +116,52 @@ tt:
         size: Зурлык
         latitude: Киңлек
         longitude: Озынлык
+        public: Ачык
         description: Тасвир
         gpx_file: GPX файлын төяү
+        visibility: Күренүчәнлек
         tagstring: Тамгалар
       message:
         sender: Җибәрүче
         title: Тема
         body: Текст
         recipient: Хатны кабул итүче
+      redaction:
+        title: Башлык
+        description: Тасвирлама
+      report:
+        category: 'Хәбәрнамә ясавыгызның сәбәбен сайлагыз:'
+        details: Проблема турында тулырак мәгълүмат бирегез (бу мәҗбүри).
       user:
+        auth_provider: Аутентификация провайдеры
+        auth_uid: Аутентификациянең UID коды
         email: Электрон почтасы
+        email_confirmation: E-mail раслау
+        new_email: Яңа электрон почта адресы
         active: Актив
-        description: Тасвир
-        home_lat: 'Киңлек:'
-        home_lon: 'Озынлык:'
-        languages: Телләр
+        display_name: Күрсәтелүче исем
+        description: Профильның тасвирламасы
+        home_lat: Киңлек
+        home_lon: Озынлык
+        languages: Өстенлек бирелгән телләр
+        preferred_editor: Өстенлек бирелгән мөхәррирләү коралы
         pass_crypt: Серсүз
+        pass_crypt_confirmation: Серсүзне раслагыз
     help:
+      doorkeeper/application:
+        confidential: Кушымта клиентның сере сер булып кала алган урында кулланылачак
+          (аерым мобиль кушымталар һәм бер битле кушымталар турында алар конфиденциаль
+          дип әйтеп булмый)
+        redirect_uri: Бер URIга бер юл кулланыгыз
       trace:
         tagstring: өтер аша
+      user_block:
+        reason: Кулланучыны тыю сәбәбе. Зинһар, моңа мөмкинчә тыныч карагыз. Кулланучыга
+          тыю турында мөмкин кадәр тулырак мәгълүмат бирегез. Исегездә тотыгыз, бу
+          хәбәрнамәне һәркем дә укый алачак. Һәм шуны онытмагыз, җәмгыятьтә күнегелгән
+          жаргон сүзләрен бар кулланучылар да аңламый. Шуңа күрә дилетант төшенчәләр
+          кулланып карагыз.
+        needs_view: Тыю төшкәнче кулланучыга хисапъязмасы аша керергә рөхсәт бирергәме?
   datetime:
     distance_in_words_ago:
       about_x_hours:

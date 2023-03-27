@@ -226,41 +226,41 @@ it:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: circa 1 ora fa
+        one: circa %{count} ora fa
         other: circa %{count} ore fa
       about_x_months:
-        one: circa 1 mese fa
+        one: circa %{count} mese fa
         other: circa %{count} mesi fa
       about_x_years:
-        one: circa 1 anno fa
+        one: circa %{count} anno fa
         other: circa %{count} anni fa
       almost_x_years:
-        one: quasi 1 anno fa
+        one: quasi %{count} anno fa
         other: quasi %{count} anni fa
       half_a_minute: mezzo minuto fa
       less_than_x_seconds:
-        one: meno di 1 secondo fa
+        one: meno di %{count} secondo fa
         other: meno di %{count} secondi fa
       less_than_x_minutes:
-        one: meno di un minuto fa
+        one: meno di %{count} minuto fa
         other: meno di %{count} minuti fa
       over_x_years:
-        one: oltre 1 anno fa
+        one: oltre %{count} anno fa
         other: oltre %{count} anni fa
       x_seconds:
-        one: 1 secondo fa
+        one: '%{count} secondo fa'
         other: '%{count} secondi fa'
       x_minutes:
-        one: 1 minuto fa
+        one: '%{count} minuto fa'
         other: '%{count} minuti fa'
       x_days:
-        one: 1 giorno fa
+        one: '%{count} giorno fa'
         other: '%{count} giorni fa'
       x_months:
-        one: 1 mese fa
+        one: '%{count} mese fa'
         other: '%{count} mesi fa'
       x_years:
-        one: 1 anno fa
+        one: '%{count} anno fa'
         other: '%{count} anni fa'
   editor:
     default: Predefinito (al momento %{name})
@@ -391,10 +391,10 @@ it:
     no_comment: (nessun commento)
     part_of: Parte di
     part_of_relations:
-      one: 1 relazione
+      one: '%{count} relazione'
       other: '%{count} relazioni'
     part_of_ways:
-      one: 1 percorso
+      one: '%{count} percorso'
       other: '%{count} percorsi'
     download_xml: Scarica XML
     view_history: Visualizza cronologia
@@ -439,7 +439,7 @@ it:
       history_title_html: 'Cronologia relazione: %{name}'
       members: Membri
       members_count:
-        one: 1 membro
+        one: '%{count} membro'
         other: '%{count} membri'
     relation_member:
       entry_role_html: '%{type} %{name} come %{role}'
@@ -1484,7 +1484,7 @@ it:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> da %{user}
       link_to_reports: Visualizza segnalazioni
       reports_count:
-        one: 1 segnalazione
+        one: '%{count} segnalazione'
         other: '%{count} segnalazioni'
       reported_item: Elemento segnalato
       states:
@@ -1657,10 +1657,6 @@ it:
       subject: '[OpenStreetMap] Importazione GPX fallita'
     gpx_success:
       hi: Ciao %{to_user},
-      loaded_successfully:
-        one: sia stato caricato con successo con %{trace_points} di 1 punto possibile.
-        other: sia stato caricato con successo con %{trace_points} dei possibili %{possible_points}
-          punti.
       subject: '[OpenStreetMap] Importazione GPX completata con successo'
     signup_confirm:
       subject: '[OpenStreetMap] Benvenuti su OpenStreetMap'
@@ -2030,107 +2026,29 @@ it:
         mapping_link: inizia a mappare
       legal_babble:
         title_html: Copyright e licenza
-        intro_1_html: |-
-          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> è <i>open data</i>, e i suoi dati sono distribuiti con licenza <a
-          href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) dalla <a href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
-        intro_2_html: "Sei libero di copiare, distribuire, trasmettere e adattare
-          i nostri dati, finché lo attribuisci a OpenStreetMap e ai suoi contributori.
-          Se alteri o ti basi sui nostri dati,\npuoi distribuire il risultato solo
-          sotto la stessa licenza. Il \n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">codice\nlegale
-          completo</a> illustra i tuoi diritti e le tue responsabilità."
-        intro_3_1_html: "La nostra documentazione è rilasciata in base alla licenza
-          <a href=\"https://creativecommons.org/licenses/by-sa/2.0/deed.it\">Creative
-          \nCommons Attribuzione - Condividi allo stesso modo 2.0</a> (CC BY-SA 2.0)."
         credit_title_html: Come si attribuisce a OpenStreetMap
         credit_1_html: 'Quando utilizzi i dati di OpenStreetMap, devi eseguire le
           seguenti due operazioni:'
-        credit_2_1_html: |-
-          <ul>
-            <li>Fornisci crediti a OpenStreetMap visualizzando il nostro avviso di copyright.</li>
-            <li>Rendere chiaro che i dati sono disponibili con la licenza Open Database.</li>
-          </ul>
-        credit_3_1_html: Per l'avviso di copyright, abbiamo requisiti diversi su come
-          dovrebbe essere visualizzato, a seconda di come stai utilizzando i nostri
-          dati. Ad esempio, si applicano regole diverse su come mostrare l'avviso
-          di copyright a seconda che tu abbia creato una mappa navigabile, una mappa
-          stampata o un'immagine statica. Tutti i dettagli sui requisiti possono essere
-          trovati nelle <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">linee
-          guide sull'attribuzione</a>.
-        credit_4_html: |-
-          Per rendere chiaro che i dati sono disponibili in base alla licenza Open Database, puoi inserire un collegamento a <a href="https://www.openstreetmap.org/copyright">questa pagina sul copyright</a>. In alternativa, e come requisito se stai distribuendo OSM in a
-          modulo dati, è possibile nominare e collegare direttamente le licenze. Nei media dove i collegamenti non sono possibili (ad es. opere cartacee), ti suggeriamo di indirizzare i tuoi lettori direttamente a openstreetmap.org (magari espandendo 'OpenStreetMap' al suo indirizzo completo) e a opendatacommons.org. In questo esempio, i crediti appaiono nell'angolo della mappa.
         attribution_example:
           alt: Esempio di come attribuire ad OpenStreetMap su una pagina web
           title: Esempio di attribuzione
         more_title_html: Per saperne di più
-        more_1_html: Per saperne di più su come utilizzare i nostri dati e come citarne
-          correttamente la fonte, consulta la pagina sulla <a href="https://osmfoundation.org/Licence">Licenza
-          OSMF</a>.
-        more_2_html: |-
-          Anche se i dati OpenStreetMap sono aperti, non possiamo fornire accesso alle API della mappa gratuitamente per terze parti.
-          Vedi la nostra <a href="https://operations.osmfoundation.org/policies/api/">Politica di utilizzo delle API</a>, la
-          <a href="https://operations.osmfoundation.org/policies/tiles/">Politica di utilizzo delle tavole della mappa</a>
-          e la <a href="https://operations.osmfoundation.org/policies/nominatim/">Politica di utilizzo di Nominatim</a>.
         contributors_title_html: Nostri collaboratori
         contributors_intro_html: 'I nostri contributori sono migliaia di individui.
           Includiamo anche dati distribuiti sotto licenze aperte provenienti da agenzie
           cartografiche nazionali o di altra fonte, tra cui:'
-        contributors_at_html: |-
-          <strong>Austria</strong>: contiene i dati della
-          <a href="https://data.wien.gv.at/">Stadt Wien</a> (sotto
-          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> e
-          Land Tirol (sotto <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT con emendamenti</a>).
-        contributors_au_html: '<strong>Australia</strong>: contiene o è sviluppato
-          sfruttando i confini amministrativi &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
-          Australia</a> rilasciati dal Commonwealth dell''Australia con licenza <a
-          href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribuzione
-          4.0 Internazionale (CC BY 4.0)</a>.'
-        contributors_ca_html: |-
-          <strong>Canada</strong>: contiene i dati della
-          GeoBase&reg;, GeoGratis (&copy; Department of Natural
-          Resources Canada), CanVec (&copy; Department of Natural
-          Resources Canada), e della StatCan (Geography Division,
-          Statistics Canada).
-        contributors_fi_html: |-
-          <strong>Finlandia</strong>: contiene dati dal
-          National Land Survey of Finland's Topographic Database
-          e di altri set di dati, in base alla
-          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">licensa NLSFI</a>.
-        contributors_fr_html: |-
-          <strong>Francia</strong>: contiene dati provenienti dalla
-          Direction Générale des Impôts.
-        contributors_nl_html: |-
-          <strong>Olanda</strong>: contiene dati &copy; AND, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Nuova Zelanda</strong>: contiene i dati provenienti da
-          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> in
-          base alla licenza per il riutilizzo
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_si_html: |-
-          <strong>Slovenia</strong>: Contiene dati dell'
-          <a href="http://www.gu.gov.si/en/">Autorità per il Rilievo e la Mappatura</a> e del
-          <a href="http://www.mkgp.gov.si/en/">Ministero dell' Agricoltura, delle foreste e dell'alimentazione</a>
-          (informazioni pubbliche della Slovenia).
-        contributors_es_html: '<strong>Spagna</strong>: contiene dati provenienti
-          dall''istituto geografico nazionale spagnolo (<a href="http://www.ign.es/">IGN</a>)
-          e dal sistema cartografico nazionale (<a href="http://www.scne.es/">SCNE</a>)
-          con autorizzazione al riutilizzo secondo la <a href="https://creativecommons.org/licenses/by/4.0/">CC
-          BY 4.0</a>.'
-        contributors_za_html: |-
-          <strong>Sud Africa</strong>: contiene i dati provenienti dalla
-          <a href="http://www.ngi.gov.za/">Chief Directorate:
-          National Geo-Spatial Information</a>, State copyright reserved.
-        contributors_gb_html: |-
-          <strong>Regno Unito</strong>: contiene i dati della
-          Ordnance Survey &copy; Crown copyright and database right
-          2010-2023.
-        contributors_footer_1_html: |-
-          Per ulteriori dettagli di queste e altre fonti che sono state utilizzate
-          per aiutare a migliorare OpenStreetMap, consulta la <a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">pagina dei
-          collaboratori</a> sul wiki di OpenStreetMap.
+        contributors_at_austria: Austria
+        contributors_at_cc_by: CC BY
+        contributors_au_australia: Australia
+        contributors_ca_canada: Canada
+        contributors_fi_finland: Finlandia
+        contributors_fr_france: Francia
+        contributors_nz_new_zealand: Nuova Zelanda
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_slovenia: Slovenia
+        contributors_es_spain: Spagna
+        contributors_es_cc_by: CC BY 4.0
+        contributors_gb_united_kingdom: Regno Unito
         contributors_footer_2_html: |-
           L'inserimento dei dati in OpenStreetMap non implica che il fornitore
           originale dei dati appoggi OpenStreetMap, fornisca alcuna garanzia o
@@ -2139,15 +2057,6 @@ it:
         infringement_1_html: Ai contributori OSM si ricorda di non aggiungere dati
           da qualsiasi fonte protetta da copyright (ad esempio Google Maps o mappe
           stampate) senza esplicita autorizzazione dei titolari del copyright.
-        infringement_2_html: |-
-          Se ritieni che materiale protetto da copyright sia stato impropriamente aggiunto al database di OpenStreetMap o a questo sito, consulta la nostra
-           <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedura di rimozione per violazione del copyright</a> o segnalacelo direttamente alla nostra
-          <a href="https://dmca.openstreetmap.org/">pagina di segnalazione on-line</a>.
-        trademarks_title_html: <span id="trademarks"></span>Marchi registrati
-        trademarks_1_html: '"OpenStreetMap", il logo con la lente d''ingrandimento
-          e "State of the Map" sono marchi registrati della <i>Fondazione OpenStreetMap</i>.
-          Se hai domande sull''uso dei marchi, vedi la nostra <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">politica
-          sui marchi</a>.'
     index:
       js_1: Si sta utilizzando un browser che non supporta JavaScript, oppure è stato
         disabilitato JavaScript.
@@ -2513,7 +2422,7 @@ it:
     trace:
       pending: IN ATTESA
       count_points:
-        one: 1 punto
+        one: '%{count} punto'
         other: '%{count} punti'
       more: altri
       trace_details: Visualizza i dettagli del tracciato
@@ -2926,19 +2835,19 @@ it:
       time_past_html: Terminato %{time}.
       block_duration:
         hours:
-          one: 1 ora
+          one: '%{count} ora'
           other: '%{count} ore'
         days:
-          one: 1 giorno
+          one: '%{count} giorno'
           other: '%{count} giorni'
         weeks:
-          one: 1 settimana
+          one: '%{count} settimana'
           other: '%{count} settimane'
         months:
-          one: 1 mese
+          one: '%{count} mese'
           other: '%{count} mesi'
         years:
-          one: 1 anno
+          one: '%{count} anno'
           other: '%{count} anni'
     blocks_on:
       title: Blocchi su %{name}
@@ -3060,10 +2969,10 @@ it:
       locate:
         title: Mostra la mia posizione
         metersPopup:
-          one: Ti trovi entro un metro da questo punto
+          one: Ti trovi entro %{count} metro da questo punto
           other: Ti trovi entro %{count} metri da questo punto
         feetPopup:
-          one: Ti trovi entro un piede da questo punto
+          one: Ti trovi entro %{count} piede da questo punto
           other: Ti trovi entro %{count} piedi da questo punto
       base:
         standard: Standard

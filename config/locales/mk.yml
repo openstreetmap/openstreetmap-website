@@ -172,41 +172,41 @@ mk:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: пред околу 1 час
+        one: пред околу %{count} час
         other: пред околу %{count} часа
       about_x_months:
-        one: пред околу 1 месец
+        one: пред околу %{count} месец
         other: пред околу %{count} месеци
       about_x_years:
-        one: пред околу 1 година
+        one: пред околу %{count} година
         other: пред околу %{count} години
       almost_x_years:
-        one: речиси пред 1 година
+        one: речиси пред %{count} година
         other: речиси пред %{count} години
       half_a_minute: пред половина минута
       less_than_x_seconds:
-        one: пред помалку од 1 секунда
+        one: пред помалку од %{count} секунда
         other: пред помалку од %{count} секунди
       less_than_x_minutes:
-        one: пред помалку од 1 минута
+        one: пред помалку од %{count} минута
         other: пред помалку од %{count} минути
       over_x_years:
-        one: пред повеќе од 1 година
+        one: пред повеќе од %{count} година
         other: пред повеќе од %{count} години
       x_seconds:
-        one: пред повеќе од 1 секунда
+        one: пред повеќе од %{count} секунда
         other: пред повеќе од %{count} секунди
       x_minutes:
-        one: пред 1 минута
+        one: пред %{count} минута
         other: пред %{count} минути
       x_days:
-        one: пред 1 ден
+        one: пред %{count} ден
         other: пред %{count} дена
       x_months:
-        one: пред 1 месец
+        one: пред %{count} месец
         other: пред %{count} месеци
       x_years:
-        one: пред 1 година
+        one: пред %{count} година
         other: пред %{count} години
   printable_name:
     with_version: '%{id}, вер. %{version}'
@@ -309,9 +309,7 @@ mk:
         копчето подолу.
       only_public_can_edit: Почнувајќи од смената на приложникот 0.6, картографски
         податоци можат да уредуваат само јавни корисници.
-      find_out_why_html: (%{link}).
       find_out_why: дознајте зошто
-      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Вашата е-поштенска адреса нема да им се открива на другите.
       not_reversible: Ова дејство е неповратно и сите нови корисници сега се јавни
         по основно.
@@ -337,10 +335,10 @@ mk:
     no_comment: (нема коментари)
     part_of: Дел од
     part_of_relations:
-      one: 1 однос
+      one: '%{count} однос'
       other: '%{count} односи'
     part_of_ways:
-      one: 1 пат
+      one: '%{count} пат'
       other: '%{count} патишта'
     download_xml: Преземи XML
     view_history: Погл. историја
@@ -385,7 +383,7 @@ mk:
       history_title_html: 'Историја на односот: %{name}'
       members: Членови
       members_count:
-        one: 1 член
+        one: '%{count} член'
         other: '%{count} члена'
     relation_member:
       entry_role_html: '%{type} %{name} како %{role}'
@@ -1429,7 +1427,7 @@ mk:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> од %{user}
       link_to_reports: Преглед на пријави
       reports_count:
-        one: 1 пријава
+        one: '%{count} пријава'
         other: '%{count} пријави'
       reported_item: Пријавена ставка
       states:
@@ -1601,9 +1599,9 @@ mk:
       subject: '[OpenStreetMap] Проблем при увозот на GPX податотека'
     gpx_success:
       hi: Здраво %{to_user},
-      loaded_successfully:
-        one: успешно вчитана %{trace_points} од можната една точка.
-        other: успешно вчитани %{trace_points} од можните %{possible_points} точки.
+      loaded:
+        one: успешно вчитано со %{trace_points} од %{count} можни точки.
+        other: успешно вчитано со %{trace_points} од %{count} можни точки.
       subject: '[OpenStreetMap] Успешен увоз на GPX-податотека'
     signup_confirm:
       subject: '[OpenStreetMap] Добре дојдовте на OpenStreetMap'
@@ -1894,8 +1892,6 @@ mk:
   shared:
     markdown_help:
       heading_html: Расчленето со %{kramdown_link}
-      kramdown_url: https://kramdown.gettalong.org/quickref.html
-      kramdown: kramdown
       headings: Наслови
       heading: Наслов
       subheading: Подзаглавие
@@ -1969,106 +1965,125 @@ mk:
         mapping_link: почнете да ги работите картите
       legal_babble:
         title_html: Авторски права и лиценца
-        intro_1_html: "OpenStreetMap<sup><a href=\"#trademarks\">&reg;</a></sup> има
-          <i>отворени податоци</i> под лиценцата <a\nhref=\"https://opendatacommons.org/licenses/odbl/\">Open
-          Data\nCommons Open Database License</a> (ODbL) од <a\n \t+\t\nhref=\"https://osmfoundation.org/\">фондацијата
-          OpenStreetMap</a> (OSMF)."
-        intro_2_html: "Нашите податоци слободно можете да ги умножувате, распространувате,
-          предавате и менувате, \nдоколку ја наведете OpenStreetMap и нејзините\nучесници.
-          Доколку ги измените или дополните податоците,\nдобиеното можете да го распространувате
-          само под истата лиценца. Вашите права и одговорност ќе ги најдете\nво целосниот
-          <a\nhref=\"https://opendatacommons.org/licenses/odbl/1.0/\">правен текст</a>."
-        intro_3_1_html: "Нашата документација се нуди под лиценцата \n<a href=\"https://creativecommons.org/licenses/by-sa/2.0/deed.mk\">Криејтив
-          комонс Наведи извор-Сподели под исти услови 2.0</a> (CC BY-SA 2.0)."
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} работи на %{open_data}, заштитен со лиценцата
+          %{odc_odbl_link} (ODbL) од %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: отворени податоци
+        introduction_1_odc_odbl: Лиценцата за отворени бази на податоци
+        introduction_1_osm_foundation: Фондацијата OpenStreetMap
+        introduction_2_html: |-
+          Нашите податоци слободно можете да ги умножувате, предавате и менувате,
+          под услов да ја наведете OpenStreetMap и нејзините учесници. Доколку ги измените или дополните податоците, добиеното мора да го распространувате само под истата лиценца. Вашите права и одговорности ќе ги најдете во целосниот %{legal_code_link}.
+        introduction_2_legal_code: правен документ
+        introduction_3_html: Нашата документација е под лиценцата %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Криејтив комонс Наведи извор-Сподели под
+          исти услови 2.0
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.mk
         credit_title_html: Како да ја наведете OpenStreetMap
         credit_1_html: 'Кога користите податоци од OpenStreetMap, задолжително треба
           да ги направите следниве две нешта:'
-        credit_2_1_html: |-
-          <ul>
-            <li>Да му оддадете заслуга на OpenStreetMap прикажувајќи ја нашата авторскоправна напомена.</li>
-            <li>Да истакнете дека податоците се достапни под Лиценцата за отворени бази.</li>
-          </ul>
-        credit_3_1_html: "Условите за истакнување на авторскоправната напомена се
-          разликуваат зависно од тоа како ги користите нашите податоци. На пример,
-          правилата се различни за прелистлива карта, печатена карта и уцврстена слика.
-          Сите подробности на условите ќе ги најдете во \n<a href=\"https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines\">Упатството
-          за припишување</a>."
-        credit_4_html: "За да истакнете дека податоците се достапни под Лиценцата
-          за отврени бази,\nможете да ставите врска до <a href=\"https://www.openstreetmap.org/copyright\">оваа
-          авторскоправна страница</a>.\nАлтернативно, и како неопходно ако го распространувате
-          OSM во\nподаточен облик, можете право да го напишете името на лиценцата/ците
-          и да ставите непосредна врска до неа/нив. \nКај медиумските содржини каде
-          ова е невозможно (на пр. печатени дела), предлагаме\nда ги упатите читалтелите
-          на openstreetmap.org (можеби проширувајќи го\n„OpenStreetMap“ на целносната
-          адреса) и opendatacommons.org.\nВо овој пример, приписот се покажува во
-          аголот на картата."
+        credit_2_1: Дајте му заслуга на OpenStreetMap прикажувајќи ја нашата авторскоправна
+          напомена.
+        credit_2_2: Истакнете дека податоците се достапни под Лиценцата за отворени
+          бази на податоци.
+        credit_3_html: "Условите за истакнување на авторскоправната напомена се разликуваат
+          зависно од тоа како ги користите нашите податоци. На пример, правилата се
+          различни за прелистлива карта, печатена карта и уцврстена слика. Сите подробности
+          на условите ќе ги најдете на \n%{attribution_guidelines_link}."
+        credit_3_attribution_guidelines: Напатствијата за припис
+        credit_4_1_html: "За да истакнете дека податоците се достапни под Лиценцата
+          за отврени бази, можете да ставите врска до %{this_copyright_page_link}.\nАлтернативно,
+          и како неопходно ако го распространувате OSM во\nподаточен облик, можете
+          право да го напишете името на лиценцата/ците и да ставите непосредна врска
+          до неа/нив. \nКај медиумските содржини каде ова е невозможно (на пр. печатени
+          дела), предлагаме\nда ги упатите читалтелите на openstreetmap.org (можеби
+          проширувајќи го\n„OpenStreetMap“ на целносната адреса) и opendatacommons.org.\nВо
+          овој пример, приписот се покажува во аголот на картата."
+        credit_4_1_this_copyright_page: оваа авторскоправна страница
         attribution_example:
           alt: Пример за тоа како да ја наведете OpenStreetMap на некоја страница
           title: Пример за наведување
         more_title_html: Повеќе информации
-        more_1_html: |-
-          Повеќе за употребата на нашите податоци и како да нè наведете ќе најдете на <a
-          href="https://osmfoundation.org/Licence">лиценцната страница</a>.
-        more_2_html: |-
-          Иако OpenStreetMap работи со отворени податоци, ние не можеме да понудиме
-          бесплатни извршници (API) за карти на трети лица.
-          Погледајте ги <a href="https://operations.osmfoundation.org/policies/api/">правилата за употреба на извршникот</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles/">правилата за полињата</a>
-          и <a href="https://operations.osmfoundation.org/policies/nominatim/">за Nominatim</a>.
+        more_1_1_html: Прочитајте повеќе за употребата на нашите податоци и затоа
+          како да ни оддадавате заслуга (припис) на %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: страницата за лиценцата OSMF
+        more_2_1_html: |-
+          Иако OpenStreetMap работи на отворени податоци, не можеме да понудиме бесплатен приложник на трети лица.
+          Погледајте ги нашите %{api_usage_policy_link}, %{tile_usage_policy_link} and %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Правила за употреба на приложник
+        more_2_1_tile_usage_policy: Правила за употреба на полиња
+        more_2_1_nominatim_usage_policy: Правила за употреба на Nominatim
         contributors_title_html: Нашите учесници
         contributors_intro_html: |-
           Во нашиот проект учествуваат илјадници поединци. Користиме и
           податоци со отворена лиценца од државни картографски установи
           и други извори, меѓу кои се:
-        contributors_at_html: |-
-          <strong>Австрија</strong>: Содржи податоци од
-          <a href="https://data.wien.gv.at/">Град Виена</a> (под
-          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.mk">CC BY</a>),
-          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Покраина Предарлска</a> и
-          Покраина Тирол (под <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT со исправки</a>).
-        contributors_au_html: |-
-          <strong>Австралија</strong>: Содржи податоци преземени од или разработени врз основа на
-          &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Австралија</a>
-          ставени на располагање од австралиската држава под лиценцата <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">Криејтив Комонс Наведи извор 4.0 Меѓународна (CC BY 4.0)</a>.
-        contributors_ca_html: |-
-          <strong>Canada</strong>: Содржи податоци од
-          GeoBase&reg;, GeoGratis (&copy; Министерство за природни ресурси на Канада), CanVec (&copy; Министерство за природни ресурси на Канада), and StatCan (Географско одделение,
-          Статистичка служба на Канада).
-        contributors_fi_html: |-
-          <strong>Финска</strong>: Содржи податоци од топографската база и други ресурси на Државната геодетска служба на Финска, под лиценцата
-          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI</a>.
-        contributors_fr_html: |-
-          <strong>Франција</strong>: Содржи податоци од
-          Генералната даночна управа.
-        contributors_nl_html: |-
-          <strong>Холандија</strong>: Содржи &copy; податоци од AND, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Нов Зеланд</strong>: Содржи податоци од
-          <a href="https://data.linz.govt.nz/">Катастарската служба на Нов Зеланд (LINZ)</a> и лиценцирана за примена под лиценцата
-          <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">CC BY 4.0</a>.
-        contributors_si_html: |-
-          <strong>Словенија</strong>: Содржи податоци од
-          <a href="http://www.gu.gov.si/en/">Геодетската управа</a> и
-          <a href="http://www.mkgp.gov.si/en/">Министерството за земјоделство, шумарство и храна</a>
-          (јавни информации од Словенија).
-        contributors_es_html: |-
-          <strong>Шпанија</strong>: Содржи податоци преземени од
-          Националниот географски институт на Шпанија (<a href="http://www.ign.es/">IGN</a>) и
-          Националниот картографски систем (<a href="http://www.scne.es/">SCNE</a>)
-          достапни за употреба под лиценцата <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">CC BY 4.0</a>.
-        contributors_za_html: |-
-          <strong>ЈАР</strong>: Содржи податоци од
-          <a href="http://www.ngi.gov.za/">Главната управа:
-          Национална катастарска служба</a>, државни авторски права задржани.
-        contributors_gb_html: |-
-          <strong>Велика Британија</strong>: Содржи податоци
-          од Картографскиот завод на Обединетото Кралство&copy; Крунски авторски права и
-          права на базата 2010-2023 г.
-        contributors_footer_1_html: |-
-          Повеќе информации за овие и други извори искористени
-          за подобрување на OpenStreetMap ќе најдете на страницата <a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">Учесници</a> на викито на OpenStreetMap.
+        contributors_at_credit_html: |-
+          %{austria}: Содржи податоци од %{stadt_wien_link} (под %{cc_by_link}), %{land_vorarlberg_link}
+          и Земјиште Тирол (под %{cc_by_at_with_amendments_link}).
+        contributors_at_austria: Австрија
+        contributors_at_stadt_wien: Град Виена
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Покраина Предарлска
+        contributors_at_cc_by_at_with_amendments: CC BY AT со измени/дополнувања
+        contributors_au_credit_html: |-
+          %{australia}: Вклучува или разработено користејќи ги Административните граници &copy; %{geoscape_australia_link}
+          заштитени од Државната Заедница Австралија под %{cc_licence_link}.
+        contributors_au_australia: Австралија
+        contributors_au_geoscape_australia: Geoscape Австралија
+        contributors_au_cc_licence: Криејтив комонс Наведи извор 4.0 Меѓународна (CC
+          BY 4.0)
+        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.mk
+        contributors_ca_credit_html: |-
+          %{canada}: Содржи податоци од
+          GeoBase&reg;, GeoGratis (&copy; Министерство за природни ресурси), CanVec (&copy; Министерство за природни ресурси) и StatCan (Географски оддел, Статистичка служба на Канада).
+        contributors_ca_canada: Канада
+        contributors_fi_credit_html: |-
+          %{finland}: Содржи податоци од
+          Националниот земјомер на Финската топографска база на податоци и други податочни збирови под лиценцата %{nlsfi_license_link}.
+        contributors_fi_finland: Финска
+        contributors_fi_nlsfi_license: NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: Содржи податоци преземени од
+          Главната даночна управа.
+        contributors_fr_france: Франција
+        contributors_nl_credit_html: '%{netherlands}: Содржи &copy; и податоци, 2007
+          (%{and_link})'
+        contributors_nl_netherlands: Холандија
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Содржи податоци од %{linz_data_service_link}
+          и лиценцирана за преупотреба според %{cc_by_link}.
+        contributors_nz_new_zealand: Нов Зеланд
+        contributors_nz_linz_data_service: Податочната служба LINZ
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.mk
+        contributors_si_credit_html: |-
+          %{slovenia}: Содржи податоци од %{gu_link} и %{mkgp_link}
+          (информации од јавен карактер во Словенија).
+        contributors_si_slovenia: Словенија
+        contributors_si_gu: Геоодетската управа на Словенија
+        contributors_si_mkgp: Министерството за земјоделство, шумарство и храна
+        contributors_es_credit_html: |-
+          %{spain}: Содржи податоци преземени од
+          Националиот географски иститут на Шпанија (%{ign_link}) и Националниот катографски систем (%{scne_link})
+          достапно за преупотреба согласно %{cc_by_link}.
+        contributors_es_spain: Шпанија
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.mk
+        contributors_za_credit_html: '%{south_africa}: Содржи податоци добиени од
+          %{ngi_link}, Државните авторски права се задржани.'
+        contributors_za_south_africa: ЈАР
+        contributors_za_ngi: 'Главна управа: Национални геопросторни информации'
+        contributors_gb_credit_html: '%{united_kingdom}: Содржи податоци од Картографскиот
+          завод на Обединетото Кралство &copy; Крунски авторски права и права на базата
+          2010-2023 г.'
+        contributors_gb_united_kingdom: Обединето Кралство
+        contributors_2_html: Повеќе поединости за овие и други извори употребени за
+          подобрување на OpenStreetMap ќе најдете на %{contributors_page_link} на
+          Викито на OpenStreetMap.
+        contributors_2_contributors_page: Страна за учесници
         contributors_footer_2_html: |-
           Употребата на податоците на OpenStreetMap не подразбира дека добавувачот
           на изворните податоци го застапува или рекламира OpenStreetMap, дава каква било гаранција, или
@@ -2078,16 +2093,16 @@ mk:
           Би сакале да ги потсетиме учесниците на OSM дека никогаш не смеат да ставаат
           податоци од извори заштитени со авторски права (на пр. Google Карти или печатени карти) без
           изречна дозвола од нивните праводршци.
-        infringement_2_html: "Доколку сметате дека базата на OpenStreetMap или ова
-          мрежно место\nсодржи бесправно или неисправно поставени податоци, погледајте
-          ја\n<a href=\"https://wiki.osmfoundation.org/wiki/License/Takedown_procedure\">процедурата
-          \nза отстранување</a> или поднесете жалба на \n<a href=\"https://dmca.openstreetmap.org/\">оваа
-          наменска страница</a>."
-        trademarks_title_html: <span id="trademarks"></span>Заштитни знаци
-        trademarks_1_html: OpenStreetMap, логото со лупа и  „State of the Map“ („Состојба
-          на картата“) се заштитни знаци на задолжбината OpenStreetMap. Ако имате
-          прашања во врска со употребата на знаците, погл. <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Работната
-          група за лиценци</a>.
+        infringement_2_1_html: |-
+          Ако сметате дека некој бесправно додал авторскозаштитен материјал во базата на OpenStreetMap database или ова мрежно место, погледајте ја нашата %{takedown_procedure_link} или поднесете пријава непосредно на нашата
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: постапка за симнување
+        infringement_2_1_online_filing_page: страница за семрежно поднесување
+        trademarks_title: Заштитни знаци
+        trademarks_1_1_html: |-
+          OpenStreetMap, логото со лупа и Состојба на картата се заштитни знаци/имиња на Фондацијата OpenStreetMap. Ако имате прашања за тоа како да ги користите знаците, погледајте го нашите
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Правила за заштитни знаци
     index:
       js_1: Или користите прелистувач кој не поддржува JavaScript, или пак сте го
         оневозможиле тој програм.
@@ -2121,7 +2136,6 @@ mk:
       licence_details_html: Податоците на OpenStreetMap се лиценцирани според  %{odbl_link}
         (ODbL).
       odbl: Лиценцата за отворени бази на податоци
-      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: 'Ако не успее увозот погоре, послужете се со некој од долунаведените
           извори:'
@@ -2173,7 +2187,6 @@ mk:
           %{copyright_link} за повеќе правни информации, или пак обратете се кај соодветната %{working_group_link}.
         copyright: страница за авторски права
         working_group: работна група на OSMF
-        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Помош
       introduction: |-
@@ -2218,7 +2231,6 @@ mk:
         употреба во прелистувач.
       desktop_application_html: Сè уште можете да го користите Potlatch со %{download_link}.
       download: преземање на оваа програма за Mac и Windows
-      download_url: https://www.systemed.net/potlatch/
       id_editor_html: Во спротивно, можете да го поставите уредникот iD како стандарден,
         кој работи во вашиот прелистувач како што порано беше случај со Potlatch.
         %{change_preferences_link}.
@@ -2230,7 +2242,6 @@ mk:
         %{help_link}. Дали сте дел од организација која прави планови за OpenStreetMap? %{welcome_mat_link}.
       get_help_here: Овде побарајте помош
       welcome_mat: Погледајте ја подлогата за добредојде
-      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Исход од пребарувањето
       close: Затвори
@@ -2352,9 +2363,7 @@ mk:
           OpenStreetMap има малку формални правила, но од сите учесници се очекува да соработуваат и општат со заедницата. Ако размислувате за други активности освен рачно уредување, прочитајте и следете ги напатствијата за
           %{imports_link} и %{automated_edits_link}.
         imports: Увози
-        imports_url: https://wiki.openstreetmap.org/wiki/Import/Guidelines
         automated_edits: Автоматски уредувања
-        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Почнете да ги работите картите
       add_a_note:
         title: Немате време да уредувате? Ставете белешка.
@@ -2386,7 +2395,6 @@ mk:
           Нема потреба од формално основање на група како што тоа важи за месните ограноци.
           Многу групи работат мошне успешно со неформални собири на учесници или како заедница. Секој може да отпочне ваква група или да се приклучи кон постоечка. Повеќе за нив ќе прочитате на %{communities_wiki_link}.
         communities_wiki: викистраницата за Заедници
-        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: Доверливо (споделено само како анонимни, неподредени точки)
@@ -2453,7 +2461,7 @@ mk:
     trace:
       pending: ВО ИСЧЕКУВАЊЕ
       count_points:
-        one: 1 точка
+        one: '%{count} точка'
         other: '%{count} точки'
       more: повеќе
       trace_details: Погледајте ги деталите за трагата
@@ -2476,7 +2484,6 @@ mk:
         на %{wiki_link}.'
       upload_new: Подигни нова трага
       wiki_page: викистраницата
-      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Подигни трага
       all_traces: Сите траги
       my_traces: Мои траги
@@ -2865,19 +2872,19 @@ mk:
       time_past_html: Истечено %{time}.
       block_duration:
         hours:
-          one: еден час
+          one: '%{count} час'
           other: '%{count} часа'
         days:
-          one: 1 ден
+          one: '%{count} ден'
           other: '%{count} дена'
         weeks:
-          one: 1 седмица
+          one: '%{count} седмица'
           other: '%{count} седмици'
         months:
-          one: 1 месец
+          one: '%{count} месец'
           other: '%{count} месеци'
         years:
-          one: 1 година
+          one: '%{count} година'
           other: '%{count} години'
     blocks_on:
       title: Блокови за %{name}
@@ -2999,10 +3006,10 @@ mk:
       locate:
         title: Прик. моја местоположба
         metersPopup:
-          one: Се наоѓате на еден метар од оваа точка
+          one: Се наоѓате на  %{count} метар од оваа точка
           other: Се наоѓате на %{count} метри од оваа точка
         feetPopup:
-          one: Се наоѓате на една стапка од оваа точка
+          one: Се наоѓате на  %{count} стапка од оваа точка
           other: Се наоѓате на %{count} стапки од оваа точка
       base:
         standard: Стандардна

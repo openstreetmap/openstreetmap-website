@@ -219,20 +219,20 @@ pt-BR:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: cerca de 1 hora atrás
+        one: cerca de %{count} hora atrás
         other: cerca de %{count} horas atrás
       about_x_months:
-        one: cerca de 1 mês atrás
+        one: cerca de %{count} mês atrás
         other: cerca de %{count} meses atrás
       about_x_years:
         one: cerca de 1 ano atrás
         other: cerca de %{count} anos atrás
       almost_x_years:
-        one: quase 1 ano atrás
+        one: quase %{count} ano atrás
         other: quase %{count} anos atrás
       half_a_minute: meio minuto atrás
       less_than_x_seconds:
-        one: menos de 1 segundo atrás
+        one: menos de %{count} segundo atrás
         other: menos de %{count} segundos atrás
       less_than_x_minutes:
         one: menos de um minuto atras
@@ -241,7 +241,7 @@ pt-BR:
         one: mais de 1 ano atrás
         other: mais de %{count} anos atrás
       x_seconds:
-        one: 1 segundo atrás
+        one: '%{count} segundo atrás'
         other: '%{count} segundos atrás'
       x_minutes:
         one: 1 minuto atrás
@@ -387,7 +387,7 @@ pt-BR:
       one: 1 relação
       other: '%{count} relações'
     part_of_ways:
-      one: 1 via
+      one: '%{count} via'
       other: '%{count} vias'
     download_xml: Baixar XML
     view_history: Ver histórico
@@ -1648,10 +1648,9 @@ pt-BR:
       subject: '[OpenStreetMap] Falha ao importar arquivo GPX'
     gpx_success:
       hi: Olá %{to_user},
-      loaded_successfully:
-        one: carregado com sucesso com %{trace_points} de um 1 ponto possível.
-        other: carregado com sucesso com %{trace_points} de %{possible_points} pontos
-          possíveis.
+      loaded:
+        one: carregado com sucesso com %{trace_points} de %{count} ponto.
+        other: carregado com sucesso com %{trace_points} de %{count} pontos possíveis
       subject: '[OpenStreetMap] GPX importado com sucesso'
     signup_confirm:
       subject: '[OpenStreetMap] Bem-vindo(a) ao OpenStreetMap'
@@ -1944,8 +1943,6 @@ pt-BR:
   shared:
     markdown_help:
       heading_html: Analisado com %{kramdown_link}
-      kramdown_url: https://kramdown.gettalong.org/quickref.html
-      kramdown: kramdown
       headings: Títulos
       heading: Cabeçalho
       subheading: Subtítulo
@@ -2018,105 +2015,35 @@ pt-BR:
         mapping_link: começar a mapear
       legal_babble:
         title_html: Direitos autorais e licença
-        intro_1_html: |-
-          O OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> é disponibilizado em <i>dados abertos</i>, sob a licença <a
-          href="https://opendatacommons.org/licenses/odbl/">Open Data
-          Commons Open Database License</a> (ODbL) pela  <a
-          href="https://osmfoundation.org/">Fundação OpenStreetMap</a> (OSMF).
-        intro_2_html: Tem o direito de copiar, distribuir, transmitir e adaptar os
-          nossos dados, desde que atribua a autoria do OpenStreetMap e os seus contribuidores.
-          Se alterar ou adicionar conteúdo dos nossos dados, pode distribuir o resultado
-          apenas com a mesma licença. O <a href="https://opendatacommons.org/licenses/odbl/1.0/">texto
-          legal completo</a> explica os seus direitos e responsabilidades.
-        intro_3_1_html: "Nossa documentação é licenciada sob a \nlicença <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons
-          Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0)."
         credit_title_html: Como fazer atribuição ao OpenStreetMap
         credit_1_html: 'Onde você usa dados do OpenStreetMap, é necessário fazer as
           duas coisas a seguir:'
-        credit_2_1_html: |-
-          <ul>
-            <li>Forneça crédito ao OpenStreetMap exibindo nosso aviso de direitos autorais.</li>
-            <li>Deixe claro que os dados estão disponíveis sob a Open Database License.</li>
-          </ul>
-        credit_3_1_html: "Para o aviso de direitos autorais, temos requisitos diferentes
-          sobre como isso deve ser\nexibido, dependendo de como você está usando nossos
-          dados. Por exemplo, diferentes\nregras se aplicam sobre como mostrar o aviso
-          de direitos autorais dependendo se você\ncriou um mapa navegável, um mapa
-          impresso ou uma imagem estática. Detalhes completos sobre os\nrequisitos
-          podem ser encontrados no\n<a href=\"https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines\">Attribution
-          \nGuidelines</a>."
-        credit_4_html: |-
-          Para deixar claro que os dados estão disponíveis no Open
-          Licença de banco de dados, você pode vincular a
-          <a href="https://www.openstreetmap.org/copyright">esta página de direitos autorais</a>.
-          Alternativamente, e como requisito se você estiver distribuindo OSM em um
-          formulário de dados, você pode nomear e vincular diretamente à(s) licença(s). Nas mídias
-          onde as ligações não são possíveis (por exemplo, trabalhos impressos), sugerimos que você
-          direcione seus leitores para openstreetmap.org (talvez expandindo
-          'OpenStreetMap' para este endereço completo) e para opendatacommons.org.
-          Neste exemplo, o crédito aparece no canto do mapa.
+        credit_2_1: Forneça crédito ao OpenStreetMap exibindo nossa nota de direitos
+          autorais.
         attribution_example:
           alt: Exemplo de como atribuir o OpenStreetMap numa página web
           title: Exemplo de atribuição
         more_title_html: Descobrir mais
-        more_1_html: |-
-          Leia mais informações sobre a utilização dos nossos dados e como atribuir a autoria na <a
-          href="https://osmfoundation.org/Licence">página da licença da OSMF</a> (em inglês).
-        more_2_html: |-
-          Embora o OpenStreetMap seja aberto, não podemos fornecer
-          API de mapa gratuito para terceiros.
-          Veja nossa<a href="https://operations.osmfoundation.org/policies/api/"></a> Política de uso da API<a href="https://operations.osmfoundation.org/policies/tiles/"></a>Política de Uso de Imagens</a>
-            e<a href="https://operations.osmfoundation.org/policies/nominatim/"></a>
         contributors_title_html: Nossos contribuidores
         contributors_intro_html: |-
           Nossos contribuidores são milhares de indivíduos. Também incluímos
           dados, cujas licenças são abertas, de organismos nacionais de cartografia
           e de outras fontes, dentre elas:
-        contributors_at_html: '<strong>Áustria</strong>: Contém dados de <a href="https://data.wien.gv.at/">Stadt
-          Wien</a> (sob a licença <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC
-          BY</a>), <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
-          Vorarlberg</a> e Land Tirol (sob a licença <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
-          AT com emendas</a>).'
-        contributors_au_html: "<strong>Austrália</strong>: contém ou foi desenvolvido
-          usando fronteiras administrativas &copy; \n<a href=\"https://geoscape.com.au/legal/data-copyright-and-disclaimer/\">PSMA
-          Australia Limited</a>\nlicenciada pela Commonwealth of Australia sob uma
-          licença\n<a href=\"https://creativecommons.org/licenses/by/4.0/\">Creative
-          Commons Attribuição 4.0 Licença Internacional (CC BY 4.0)</a>."
-        contributors_ca_html: "<strong>Canadá</strong>: Contém dados do\n   GeoBase&reg;,
-          GeoGratis (&copy; Departamento de Recursos\n   Naturais do Canadá), CanVec
-          (&copy; Departamento de Recursos\n   Naturais do Canadá), and StatCan (Divisão
-          de Geografia e \n   Estatística do Canada)."
-        contributors_fi_html: "<strong>Finlândia</strong>: Contem dados do \nNational
-          Land Survey da Finland´s Topographic Database \nassim como de outras bases
-          de dados, sob a licença <a href=\"https://www.maanmittauslaitos.fi/en/opendata-licence-version1\">NLSFI</a>."
-        contributors_fr_html: |-
-          <strong>França</strong>: Contém dados da
-             Direction Générale des Impôts.
-        contributors_nl_html: '<strong>Países Baixos</strong>: Contém dados &copy;
-          AND, 2007 (<a href="https://www.and.com">www.and.com</a>)'
-        contributors_nz_html: |-
-          <strong>New Zealand</strong>: Contém dados originados do
-          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> e
-          licenciado para reutilização sob
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_si_html: '<strong>Eslovênia</strong>: Possui dados da <a href="http://www.gu.gov.si/en/">Autoridade
-          de Levantamento e Mapeamento</a> e do <a href="http://www.mkgp.gov.si/en/">Ministério
-          de Agricultura, Silvicultura e Alimentação</a> (informações públicas da
-          Eslovênia).'
-        contributors_es_html: |-
-          <strong>Espanha</strong>: Contém dados provenientes do
-          Instituto Geográfico Nacional da Espanha (<a href="http://www.ign.es/">IGN</a>) e
-          Sistema Cartográfico Nacional (<a href="http://www.scne.es/">SCNE</a>)
-          licenciado para reutilização sob <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_za_html: |-
-          <strong>Africa do Sul</strong>: contém dados originários de
-          <a href="http://www.ngi.gov.za/">Chief Directorate:
-          National Geo-Spatial Information</a>, com direitos autorais reservados àquele Estado.
-        contributors_gb_html: '<strong>Reino Unido</strong>: Contém dados do Ordnance
-          Survey &copy; Crown copyright and database right 2010-2023.'
-        contributors_footer_1_html: Para mais informações sobre estas e outras fontes
-          utilizadas para melhorar o OpenStreetMap, consulte a <a href="https://wiki.openstreetmap.org/wiki/Contributors">página
-          de contribuidores</a> (em inglês) na wiki do OpenStreetMap.
+        contributors_at_credit_html: |-
+          %{austria}: Contém dados de %{stadt_wien_link} (conforme %{cc_by_link}), %{land_vorarlberg_link}
+          e Land Tirol (conforme %{cc_by_at_with_amendments_link}).
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.pt_BR
+        contributors_nz_linz_data_service: Serviço de Dados LINZ
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_slovenia: Eslovenia
+        contributors_si_mkgp: Ministério da Agricultura, Silvicultura e Alimentos
+        contributors_es_credit_html: '%{spain}: Contém dados do Instituto Geográfico
+          Nacional da Espanha (%{ign_link}) e do Sitema de Cartografia Nacional (%{scne_link})
+          licenciados para reutilização conforme %{cc_by_link}.'
+        contributors_es_ign: IGN
+        contributors_2_html: Para mais detalhes come esses, e outras fontes que foram
+          usadas para ajudar a melhor o OpenStreetMap, por favor veja a %{contributors_page_link}
+          na OpenStreetMap Wiki.
         contributors_footer_2_html: "A inclusão de dados no OpenStreetMap não implica
           que fornecedor \noriginal apoie o OpenStreetMap, ou dê qualquer garantia,
           ou \naceite qualquer responsabilidade."
@@ -2125,16 +2052,9 @@ pt-BR:
             Os contribuidores do OSM são lembrados de nunca adicionar dados de quaisquer
             fontes com direitos autorais protegidos (ex.: Google Maps ou mapas impressos) sem
             permissão expressa dos seus detentores.
-        infringement_2_html: Se acredita que material protegido por direitos autorais
-          foi adicionado indevidamente à base de dados do OpenStreetMap, por favor
-          consulte o <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedimento
-          para retirar dados protegidos</a> (em inglês) ou preencha os dados diretamente
-          no <a href="https://dmca.openstreetmap.org/">formulário</a> (em inglês).
-        trademarks_title_html: <span id="trademarks"></span>Marcas registradas
-        trademarks_1_html: OpenStreetMap, o respetivo logótipo e State of the Map
-          são marcas registadas da Fundação OpenStreetMap. Se tiver alguma questão
-          sobre a utilização das marcas, por favor consulte as nossas <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Normas
-          sobre Marcas Comerciais</a>.
+        trademarks_1_1_html: OpenStreetMap, a logo com a lupa e State of the Map são
+          marcas registradas da Fundação OpenStreetMap. Se você tiver perguntas sobre
+          o seu uso das marcas, por favor veja nossa %{trademark_policy_link}.
     index:
       js_1: Você está usando um navegador sem suporte a JavaScript, ou está com o
         JavaScript desativado.
@@ -2222,7 +2142,6 @@ pt-BR:
           para mais informações legais, ou contate o %{working_group_link} apropriado.
         copyright: págian de direitos autorais
         working_group: Grupo de trabalho OSMF
-        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Obtendo ajuda
       introduction: O OpenStreetMap oferece vários recursos para você saber mais sobre
@@ -2270,7 +2189,6 @@ pt-BR:
         uso em um navegador da web.
       desktop_application_html: Você ainda pode usar Potlatch por %{download_link}.
       download: baixando o aplicativo de desktop para Mac e Windows
-      download_url: https://www.systemed.net/potlatch/
       id_editor_html: Como alternativa, você pode definir seu editor padrão para iD,
         que é executado em seu navegador da web como o Potlatch fazia anteriormente.
         %{change_preferences_link}.
@@ -2440,7 +2358,6 @@ pt-BR:
           De fato, muitos grupos existem com muito sucesso como uma reunião informal de pessoas ou como um
           grupo comunitário. Qualquer um pode criar ou se juntar a eles. Leia mais em %{communities_wiki_link}.
         communities_wiki: Páginas wiki de comunidades
-        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: Privado (compartilhado apenas como pontos anônimos e não ordenados)

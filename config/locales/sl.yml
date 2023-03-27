@@ -182,63 +182,63 @@ sl:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: pred približno 1 uro
+        one: pred približno %{count} uro
         two: pred približno %{count} urama
         few: pred približno %{count} urami
         other: pred približno %{count} urami
       about_x_months:
-        one: pred približno 1 mesecem
+        one: pred približno %{count} mesecem
         two: pred približno %{count} mesecema
         few: pred približno %{count} meseci
         other: pred približno %{count} meseci
       about_x_years:
-        one: pred približno 1 letom
+        one: pred približno %{count} letom
         two: pred približno %{count} letoma
         few: pred približno %{count} leti
         other: pred približno %{count} leti
       almost_x_years:
-        one: pred skoraj 1 letom
+        one: pred skoraj %{count} letom
         two: pred skoraj %{count} letoma
         few: pred skoraj %{count} leti
         other: pred skoraj %{count} leti
       half_a_minute: pred pol minute
       less_than_x_seconds:
-        one: pred manj kot 1 sekundo
+        one: pred manj kot %{count} sekundo
         two: pred manj kot %{count} sekundama
         few: pred manj kot %{count} sekundami
         other: pred manj kot %{count} sekundami
       less_than_x_minutes:
-        one: pred manj kot minuto
+        one: pred manj kot %{count} minuto
         two: pred manj kot %{count} minutama
         few: pred manj kot %{count} minutami
         other: pred manj kot %{count} minutami
       over_x_years:
-        one: pred več kot 1 letom
+        one: pred več kot %{count} letom
         two: pred več kot %{count} letoma
         few: pred več kot %{count} leti
         other: pred več kot %{count} leti
       x_seconds:
-        one: pred 1 sekundo
+        one: pred %{count} sekundo
         two: pred %{count} sekundama
         few: pred %{count} sekundami
         other: pred %{count} sekundami
       x_minutes:
-        one: pred 1 minuto
+        one: pred %{count} minuto
         two: pred %{count} minutama
         few: pred %{count} minutami
         other: pred %{count} minutami
       x_days:
-        one: pred 1 dnem
+        one: pred %{count} dnem
         two: pred %{count} dnevoma
         few: pred %{count} dnevi
         other: pred %{count} dnevi
       x_months:
-        one: pred 1 mesecem
+        one: pred %{count} mesecem
         two: pred %{count} mesecema
         few: pred %{count} meseci
         other: pred %{count} meseci
       x_years:
-        one: pred 1 letom
+        one: pred %{count} letom
         two: pred %{count} letoma
         few: pred %{count} leti
         other: pred %{count} leti
@@ -345,9 +345,7 @@ sl:
         spodnji gumb.
       only_public_can_edit: Od prehoda na API 0.6 lahko urejajo podatke zemljevida
         samo javni uporabniki.
-      find_out_why_html: (%{link}).
       find_out_why: ugotovite, zakaj
-      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Vaš e-poštni naslov ne bo razkrit, ko bo vaš račun postal
         javen.
       not_reversible: Tega dejanja ni mogoče razveljaviti, vsi novi uporabniki pa
@@ -374,12 +372,12 @@ sl:
     no_comment: (brez komentarja)
     part_of: Del
     part_of_relations:
-      one: 1 relacija
+      one: '%{count} relacija'
       two: '%{count} relaciji'
       few: '%{count} relacije'
       other: '%{count} relacij'
     part_of_ways:
-      one: 1 pot
+      one: '%{count} pot'
       two: 2 poti
       few: '%{count} poti'
       other: '%{count} poti'
@@ -387,8 +385,6 @@ sl:
     view_history: Ogled zgodovine
     view_details: Prikaz podrobnosti
     location: 'Lokacija:'
-    common_details:
-      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Sklop sprememb: %{id}'
       belongs_to: Avtor
@@ -431,12 +427,11 @@ sl:
       history_title_html: 'Zgodovina povezave: %{name}'
       members: Člani
       members_count:
-        one: 1 član
+        one: '%{count} član'
         two: '%{count} člana'
         few: '%{count} člani'
         other: '%{count} članov'
     relation_member:
-      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} kot %{role}'
       type:
         node: Vozlišče
@@ -614,7 +609,6 @@ sl:
       location: 'Lokacija:'
       view: Prikaži
       edit: Uredi
-      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Dnevniški zapisi OpenStreetMap za uporabnika %{user}
@@ -681,7 +675,6 @@ sl:
         osm_nominatim_reverse_html: Zadetki iz <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>-a
     search_osm_nominatim:
-      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Nihalka
@@ -1478,7 +1471,7 @@ sl:
         %{user}
       link_to_reports: Ogled prijav
       reports_count:
-        one: 1 poročilo
+        one: '%{count} poročilo'
         two: '%{count} poročili'
         few: '%{count} poročila'
         other: '%{count} poročil'
@@ -1490,7 +1483,7 @@ sl:
     show:
       title: '%{status} Težava #%{issue_id}'
       reports:
-        one: 1 prijava
+        one: '%{count} prijava'
         two: '%{count} prijavi'
         few: '%{count} prijave'
         other: '%{count} prijav'
@@ -1562,9 +1555,6 @@ sl:
       successful_report: Vaše sporočilo je uspešno zabeleženo.
       provide_details: Navedite zahtevane podrobnosti
   layouts:
-    project_name:
-      title: OpenStreetMap
-      h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap logotip
     home: Domov
@@ -1653,13 +1643,22 @@ sl:
         Napaka:'
       more_info_html: Več informacij o napakah pri uvozu GPX in o tem, kako se jim
         izogniti, lahko najdete na %{url}.
-      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Neuspeh uvoza datoteke GPX'
     gpx_success:
       hi: Pozdravljeni, %{to_user},
-      loaded_successfully: |-
-        bila uspešno uvožena z %{trace_points} od vseh možnih
-        %{possible_points} točk.
+      loaded:
+        one: |-
+          bila uspešno naložena z %{trace_points} od možne
+          %{count} točke.
+        two: |-
+          bila uspešno naložena z %{trace_points} od možnih
+          %{count} točk
+        few: |-
+          bila uspešno naložena s %{trace_points} od možnih
+          %{count} točk
+        other: |-
+          bila uspešno naložena z %{trace_points} od možnih
+          %{count} točk
       subject: '[OpenStreetMap] Uspeh uvoza datoteke GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Pozdravljeni v OpenStreetMap'
@@ -1959,8 +1958,6 @@ sl:
   shared:
     markdown_help:
       heading_html: Razčlenjeno s %{kramdown_link}
-      kramdown_url: https://kramdown.gettalong.org/quickref.html
-      kramdown: kramdown
       headings: Naslovi
       heading: Naslov
       subheading: Podnaslov
@@ -2032,104 +2029,129 @@ sl:
         mapping_link: začnete kartirati
       legal_babble:
         title_html: Avtorske pravice in licenca
-        intro_1_html: |-
-          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> so <i>prosti podatki</i>, objavljeni
-          pod licenco <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL) <a href="https://osmfoundation.org/">Fundacije OpenStreetMap</a> (OSMF).
-        intro_2_html: "Naše podatke lahko prosto kopirate, razširjate, prenašate\nin
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} so %{open_data}, ki jih je pod licenco
+          %{odc_odbl_link} (ODbL) objavila %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: odprti podatki
+        introduction_1_odc_odbl: Licenca za odprte podatkovne zbirke Open Data Commons
+        introduction_1_osm_foundation: Fundacija OpenStreetMap
+        introduction_2_html: "Naše podatke lahko prosto kopirate, razširjate, prenašate\nin
           prilagajate, pod pogojem, da kot vir navedete OpenStreetMap in \nsodelavce.
           Če podatke spremenite ali nadgradite, jih lahko\nrazširjate le pod enakimi
-          licenčnimi pogoji. Vaše pravice in obveznosti opisuje polno\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">besedilo\nlicence</a>."
-        intro_3_1_html: Naša dokumentacija je na voljo pod pogoji licence <a href="https://creativecommons.org/licenses/by-sa/2.0/deed.sl">Creative
-          Commons Priznanje avtorstva-Deljenje pod enakimi pogoji 2.0</a> (CC BY-SA
-          2.0).
+          licenčnimi pogoji. Vaše pravice in obveznosti opisuje %{legal_code_link}."
+        introduction_2_legal_code: pravno besedilo
+        introduction_3_html: Naša dokumentacija je objavljena pod licenco %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Priznanje avtorstva-Deljenje
+          pod enakimi pogoji 2.0
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.sl
         credit_title_html: Kako pripisati zasluge projektu OpenStreetMap
         credit_1_html: 'Pri uporabi podatkov OpenStreetMap morate narediti naslednje:'
-        credit_2_1_html: |-
-          <ul>
-            <li>Pripišite zasluge OpenStreetMap z navedbo našega obvestila o avtorskih pravicah.</li>
-            <li>Pojasnite, da so podatki na voljo pod licenco Open Database License.</li>
-          </ul>
-        credit_3_1_html: Za obvestilo o avtorskih pravicah imamo različne zahteve,
-          kako naj bo prikazano, odvisno od tega, kako uporabljate naše podatke. Veljajo
+        credit_2_1: Navedite avtorstvo OpenStreetMap s prikazom našega obvestila o
+          avtorskih pravicah.
+        credit_2_2: Pojasnite, da so podatki na voljo pod licenco Open Database.
+        credit_3_html: Za obvestilo o avtorskih pravicah imamo različne zahteve, kako
+          naj bo prikazano, odvisno od tega, kako uporabljate naše podatke. Veljajo
           na primer različna pravila o tem, kako prikazati obvestilo o avtorskih pravicah
           glede na to, ali ste ustvarili zemljevid za brskanje, natisnjeni zemljevid
-          ali statično sliko. Vse podrobnosti o zahtevah najdete v <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Smernicah
-          o pripisu avtorstva</a>.
-        credit_4_html: "Za pojasnitev, da so podatki na voljo pod licenco Open Database,
-          se lahko povežete na\n<a href=\"https://www.openstreetmap.org/copyright\">to
-          avtorskopravno stran</a>.\nDruga možnost in zahteva, če OSM distribuirate
-          v\npodatkovni obliki, je navedba licence (licenc) z neposredno povezavo
-          (neposrednimi povezavami) nanjo (nanje). V medijih,\nkjer povezave niso
-          mogoče (npr. tiskana dela), predlagamo, da svoje bralce usmerite na\nopenstreetmap.org
-          (morda z razširitvijo\n»OpenStreetMap« na ta polni naslov) in na opendatacommons.org.
-          \nV tem primeru je pripis zaslug naveden v kotu zemljevida."
+          ali statično sliko. Vse podrobnosti o zahtevah najdete v %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: Smernice za navedbo avtorstva
+        credit_4_1_html: "Za pojasnitev, da so podatki na voljo pod licenco Open Database,
+          se lahko povežete na\n%{this_copyright_page_link}.\nDruga možnost in zahteva,
+          če OSM distribuirate v\npodatkovni obliki, je navedba licence (licenc) z
+          neposredno povezavo (neposrednimi povezavami) nanjo (nanje). V medijih,\nkjer
+          povezave niso mogoče (npr. tiskana dela), predlagamo, da svoje bralce usmerite
+          na\nopenstreetmap.org (morda z razširitvijo\n»OpenStreetMap« na ta polni
+          naslov) in na opendatacommons.org. \nV tem primeru je pripis zaslug naveden
+          v kotu zemljevida."
+        credit_4_1_this_copyright_page: ta stran o avtorskih pravicah
         attribution_example:
           alt: Zgled pripisa avtorstva OpenStreetMap na spletni strani
           title: Zgled pripisa
         more_title_html: Več o tem
-        more_1_html: "Preberite več o uporabi naših podatkov in o tem, kako nam pripisati
-          zasluge, na \n<a href=\"https://osmfoundation.org/Licence\">strani licence
-          OSMF</a>."
-        more_2_html: |-
-          Čeprav so OpenStreetMap odprti podatki, za tretje
-          osebe ne moremo zagotavljati brezplačnega API-ja.
-          Glejte <a href="https://operations.osmfoundation.org/policies/api/">Pravilnik o uporabi API-ja</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles/">Pravilnik o uporabi ploščic</a>
-          in <a href="https://operations.osmfoundation.org/policies/nominatim/">Pravilnik o uporabi Nominatim</a>.
+        more_1_1_html: O uporabi naših podatkov in o tem, kako lahko navedete naše
+          avtorstvo, si preberite več na %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: Licenčna stran Fundacije OSM
+        more_2_1_html: |-
+          Čeprav so OpenStreetMap odprti podatki, ne moremo zagotoviti
+          brezplačnega API-ja zemljevidov za tretje osebe.
+          Glejte %{api_usage_policy_link}, %{tile_usage_policy_link} in %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Politika uporabe API-ja
+        more_2_1_tile_usage_policy: Politika uporabe ploščic
+        more_2_1_nominatim_usage_policy: Politika uporabe Nominatim
         contributors_title_html: Naši sodelavci
         contributors_intro_html: "Naših sodelavcev je na tisoče. Vključujemo tudi
           odprtolicenčne \npodatke nacionalnih kartografskih agencij\nin drugih virov,
           med njimi:"
-        contributors_at_html: "<strong>Avstrija</strong>: Vsebuje podatke \n<a href=\"https://data.wien.gv.at/\">Stadt
-          Wien</a> (pod licenco\n<a href=\"https://creativecommons.org/licenses/by/3.0/at/deed.de\">CC
-          BY</a>),\n<a href=\"https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land
-          Vorarlberg</a> in\nLand Tirol (under <a href=\"https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC
-          BY AT s popravki</a>)."
-        contributors_au_html: "<strong>Avstralija</strong>: vključuje ali se razvija
-          z uporabo upravnih meja &copy;\n<a href=\"https://geoscape.com.au/legal/data-copyright-and-disclaimer/\">Geoscape
-          Australia</a>, \nz dovoljenjem Commonwealtha Avstralije pod\n<a href=\"https://creativecommons.org/licenses/by/4.0/\">Mednarodno
-          licenco Creative Commons Attribution 4.0 (CC BY 4.0)</a>."
-        contributors_ca_html: |-
-          <strong>Kanada</strong>: Vsebuje podatke iz
+        contributors_at_credit_html: |-
+          %{austria}: Vsebuje podatke iz %{stadt_wien_link} (pod %{cc_by_link}), %{land_vorarlberg_link}
+          in dežele Tirolske (pod %{cc_by_at_with_amendments_link}).
+        contributors_at_austria: Avstrija
+        contributors_at_stadt_wien: Mesto Dunaj
+        contributors_at_cc_by: CC BY
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by-sa/3.0/deed.sl
+        contributors_at_land_vorarlberg: Dežela Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT s spremembami
+        contributors_au_credit_html: |-
+          %{australia}: Vključuje ali razvito z uporabo Administrative Boundaries &copy; %{geoscape_australia_link}
+          objavil Commonwealth of Australia pod licenco %{cc_licence_link}.
+        contributors_au_australia: Avstralija
+        contributors_au_geoscape_australia: Geoscape Avstralija
+        contributors_au_cc_licence: Lcenca Creative Commons Attribution 4.0 International
+          (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: Vsebuje podatke iz
           GeoBase®, GeoGratis (&copy; Department of Natural
           Resources Canada), CanVec (&copy; Department of Natural
           Resources Canada) in StatCan (Geography Division,
           Statistics Canada).
-        contributors_fi_html: |-
-          <strong>Finska</strong>: Vsebuje podatke
-          National Land Survey Finske Topografske podatkovne zbirke
-          in druge nabore podatkov, pod
-          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">licenco NLSFI</a>.
-        contributors_fr_html: |-
-          <strong>Francija</strong>: Vsebuje podatke iz
+        contributors_ca_canada: Kanada
+        contributors_fi_credit_html: |-
+          %{finland}: Vsebuje podatke iz
+          National Land Survey of Finland's Topographic Database
+          in druge nize podatkov pod %{nlsfi_license_link}.
+        contributors_fi_finland: Finska
+        contributors_fi_nlsfi_license: Licenca NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: Vsebuje podatke iz
           Direction Générale des Impôts.
-        contributors_nl_html: |-
-          <strong>Nizozemska</strong>: Vsebuje podatke &copy; <abbr title="Automotive Navigation Data">AND"</abbr>, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Nova Zelandija</strong>: Vsebuje podatke iz
-          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> in
-          licencirane za nadaljnjo uporabo pod licenco
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_si_html: |-
-          <strong>Slovenija</strong>: Vsebuje javne podatke
-          <a href="http://www.gu.gov.si">Geodetske uprave Republike Slovenije</a> in
-          <a href="http://www.mkgp.gov.si">Ministrstva za kmetijstvo, gozdarstvo in prehrano</a>.
-        contributors_es_html: |-
-          <strong>Španija</strong>: Vsebuje podatke, pridobljene od
-          Španskega nacionalnega geografskega inštituta (<a href="http://www.ign.es/">IGN</a>) in iz Nacionalnega kartografskega sistema (<a href="http://www.scne.es/">SCNE</a>),
-          licencirane za nadaljnjo uporabo pod licenco <a href="https://creativecommons.org/licenses/by/4.0/deed.sl">CC BY 4.0</a>.
-        contributors_za_html: |-
-          <strong>Južna Afrika</strong>: Vsebuje podatke
-          <a href="http://www.ngi.gov.za/">Glavnega direktorata:
-          Nacionalni geoprostorski podatki</a>, avtorske pravice države pridržane.
-        contributors_gb_html: |-
-          <strong>Združeno kraljestvo</strong>: Vsebuje podatke Ordnance
+        contributors_fr_france: Francija
+        contributors_nl_credit_html: '%{netherlands}: Vsebuje podatke © IN, 2007 (%{and_link})'
+        contributors_nl_netherlands: Nizozemska
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Vsebuje podatke, pridobljene iz %{linz_data_service_link}
+          in objavljene za nadaljnjo uporabo pod licenco %{cc_by_link}.
+        contributors_nz_new_zealand: Nova Zelandija
+        contributors_nz_linz_data_service: Podatkovna storitev LINZ
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_credit_html: |-
+          %{slovenia}: Vsebuje podatke iz %{gu_link} in %{mkgp_link}
+          (javne informacije v Sloveniji).
+        contributors_si_slovenia: Slovenija
+        contributors_si_gu: Geodetska uprava
+        contributors_si_gu_url: https://www.gov.si/drzavni-organi/organi-v-sestavi/geodetska-uprava/
+        contributors_si_mkgp: Ministrstvo za kmetijstvo, gozdarstvo in prehrano
+        contributors_es_credit_html: |-
+          %{spain}: Vsebuje podatke, pridobljene iz
+          Španskega nacionalnega geografskega inštituta (%{ign_link}) in
+          Nacionalnega kartografskega sistema (%{scne_link})
+          licenciranih za ponovno uporabo pod %{cc_by_link}.
+        contributors_es_spain: Španija
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Vsebuje podatke iz %{ngi_link},
+          avtorske pravice države pridržane.'
+        contributors_za_south_africa: Južna Afrika
+        contributors_za_ngi: 'Glavni direktorat: Nacionalne geoprostorske informacije'
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: Vsebuje podatke Ordnance
           Survey &copy; Avtorske pravice in pravice podatkovne zbirke,
           2010–2023.
-        contributors_footer_1_html: |-
-          Za več podrobnosti o teh in drugih virih, ki so bili uporabljeni kot pripomočki pri izboljševanju OpenStreetMap, si oglejte <a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">stran sodelujočih</a> v vikiju OpenStreetMap.
+        contributors_gb_united_kingdom: Združeno kraljestvo
+        contributors_2_html: |-
+          Za dodatne podrobnosti o teh in drugih virih, ki so bili uporabljeni
+          za pomoč pri izboljšanju OpenStreetMap, glejte %{contributors_page_link} v vikiju OpenStreetMap.
+        contributors_2_contributors_page: Stran sodelujočih
         contributors_footer_2_html: |-
           Vključitev podatkov v OpenStreetMap ne pomeni, da izvorni
           ponudnik podatkov podpira OpenStreetMap, daje kakršno koli jamstvo ali
@@ -2139,16 +2161,18 @@ sl:
           Sodelavce OSM opozarjamo, da nikoli ne dodajajo podatkov iz nobenega
           avtorsko zavarovanega vira (npr. Zemljevidov Google ali tiskanih zemljevidov) brez
           izrecnega dovoljenja imetnikov avtorskih pravic.
-        infringement_2_html: |-
-          Če menite, da je bilo avtorsko zavarovano gradivo neprimerno
-          dodano v podatkovno zbirko OpenStreetMap ali na to spletno mesto, glejte
-          naš <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">postopek odstranitve</a> ali neposredno izpolnite našo
-          <a href="https://dmca.openstreetmap.org/">stran za spletno prijavo</a>.
-        trademarks_title_html: <span id="trademarks"></span>Tržne znamke
-        trademarks_1_html: OpenStreetMap, logotip povečevalnega stekla in State of
-          the Map so registrirane tržne znamke Fundacije OpenStreetMap. Če imate vprašanja
-          o uporabi znamk, glejte naš <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Pravilnik
-          o tržnih znamkah</a>.
+        infringement_2_1_html: |-
+          Če menite, da je bilo v zbirko podatkov OpenStreetMap ali na to spletno mesto neustrezno dodano avtorskopravno varovano gradivo, glejte
+          našo %{takedown_procedure_link} ali datoteko neposredno na naši
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: postopek odstranitve
+        infringement_2_1_online_filing_page: spletna stran za prijavo
+        trademarks_title: Tržne znamke
+        trademarks_1_1_html: |-
+          OpenStreetMap, logotip povečevalnega stekla in State of the Map so registrirane blagovne znamke
+          OpenStreetMap Foundation. Če imate vprašanja o vaši uporabi znamk, glejte našo
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Politika tržnih znamk
     index:
       js_1: Bodisi uporabljate brskalnik, ki ne podpira Javascripta, ali pa je izvajanje
         Javascripta onemogočeno.
@@ -2165,7 +2189,6 @@ sl:
       not_public_description_html: Urejanje zemljevida ni mogoče dokler vaši prispevki
         niso javni. Označite jih lahko kot javne na %{user_page}.
       user_page_link: strani vašega uporabniškega računa
-      anon_edits_html: (%{link})
       anon_edits_link_text: Pojasnilo zakaj je temu tako.
       id_not_configured: iD še ni konfiguriran
       no_iframe_support: Vaš brskalnik ne podpira HTML iframes, kar je potrebno za
@@ -2182,7 +2205,6 @@ sl:
       licence_details_html: Podatki OpenStreetMap so licencirani pod %{odbl_link}
         (ODbL).
       odbl: Licenca odprte podatkovne zbirke Open Data Commons1
-      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: 'Če zgornji izvoz spodleti, uporabite enega od naslednjih virov:'
         body: To območje je preveliko za izvoz podatkov OpenStreetMap v formatu XML.
@@ -2235,7 +2257,6 @@ sl:
           %{copyright_link} za več pravnih informacij ali se obrnite na ustrezno %{working_group_link}.
         copyright: stran o avtorskih pravicah
         working_group: delovno skupino OSMF
-        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Iskanje pomoči
       introduction: OpenStreetMap ima več virov za učenje o projektu, postavljanje
@@ -2250,7 +2271,6 @@ sl:
         title: Vodnik za začetnike
         description: Vodnik za začetnike, ki ga vzdržuje skupnost.
       help:
-        url: https://help.openstreetmap.org/
         title: Forum za pomoč
         description: Postavite vprašanje ali poiščite odgovore v zbirki vprašanj in
           odgovorov OpenStreetMap.
@@ -2259,7 +2279,6 @@ sl:
         description: Postavite vprašanje ali razpravljajte o različnih krajevnih ali
           regionalnih temah v številnih dopisnih seznamih.
       community:
-        url: https://community.openstreetmap.org/
         title: Forum skupnosti
         description: Skupno mesto za pogovore o OpenStreetMap.
       irc:
@@ -2271,12 +2290,10 @@ sl:
         description: Pomoč za podjetja in organizacije, ki prehajajo na zemljevide
           in druge storitve OpenStreetMap.
       welcomemat:
-        url: https://welcome.openstreetmap.org/
         title: Za organizacije
         description: Ste iz organizacije z načrti za OpenStreetMap? Kar morati vedeti,
           lahko najdete v Paketu dobrodošlice.
       wiki:
-        url: https://wiki.openstreetmap.org/
         title: Viki OpenStreetMap
         description: Prebrskajte viki za poglobljeno dokumentacijo OpenStreetMap.
     potlatch:
@@ -2284,7 +2301,6 @@ sl:
         Player ni več na voljo, Potlatch ni več na voljo za uporabo v spletnem brskalniku.
       desktop_application_html: Še vedno lahko uporabljate Potlatch %{download_link}.
       download: prenos namizne aplikacije za Mac in Windows
-      download_url: https://www.systemed.net/potlatch/
       id_editor_html: Lahko pa privzeti urejevalnik nastavite na iD, ki se izvaja
         v vašem spletnem brskalniku, tako kot se je Potlatch. %{change_preferences_link}
       change_preferences: Spremenite svoje prilagoditve tukaj
@@ -2296,7 +2312,6 @@ sl:
         %{help_link}. Ste pri organizacijo, ki ima načrte za uporabo OpenStreetMap? %{welcome_mat_link}.
       get_help_here: Poiščite pomoč tukaj
       welcome_mat: Oglejte si podlogo za dobrodošlico
-      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Iskalni zadetki
       close: Zapri
@@ -2422,7 +2437,6 @@ sl:
         imports: Uvozi
         imports_url: https://wiki.openstreetmap.org/wiki/SL:Import/Guidelines
         automated_edits: Avtomatizirana urejanja
-        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Začnite kartirati
       add_a_note:
         title: Nimate časa za urejanje? Dodajte opombo!
@@ -2451,7 +2465,6 @@ sl:
           obstajajo kot neformalno srečevanje ali kot skupina v skupnosti. Vsakdo
           jih lahko ustanovi ali se jim pridruži. Preberite več na %{communities_wiki_link}.
         communities_wiki: Vikistran skupnosti
-        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: Zasebna (v skupni rabi kot anonimna, neurejene točke)
@@ -2462,7 +2475,6 @@ sl:
     new:
       upload_trace: Naloži sled GPS
       visibility_help: kaj to pomeni?
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Pomoč
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2484,7 +2496,6 @@ sl:
       title: Urejanje sledi %{name}
       heading: Urejanje sledi %{name}
       visibility_help: kaj to pomeni?
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: Sled posodobljena
     trace_optionals:
@@ -2517,7 +2528,7 @@ sl:
     trace:
       pending: V ČAKALNI VRSTI
       count_points:
-        one: 1 točka
+        one: '%{count} točka'
         two: '%{count} točki'
         few: '%{count} točke'
         other: '%{count} točk'
@@ -2670,7 +2681,6 @@ sl:
       no_applications_html: Imate aplikacijo, ki jo želite registrirati za uporabo
         z nami po standardu %{oauth2}? Da bo lahko za to storitev izvajala zahtevke
         OAuth, jo morate najprej registrirati.
-      oauth_2: OAuth 2
       new: Registriraj novo aplikacijo
       name: Ime
       permissions: Dovoljenja
@@ -2929,27 +2939,27 @@ sl:
       time_past_html: Je končala %{time} nazaj.
       block_duration:
         hours:
-          few: '%{count} ure'
-          one: 1 ura
+          one: '%{count} ura'
           two: '%{count} uri'
+          few: '%{count} ure'
           other: '%{count} ur'
         days:
-          one: 1 dan
+          one: '%{count} dan'
           two: '%{count} dneva'
           few: '%{count} dni'
           other: '%{count} dni'
         weeks:
-          one: 1 teden
+          one: '%{count} teden'
           two: '%{count} tedna'
           few: '%{count} tedni'
           other: '%{count} tednov'
         months:
-          one: 1 mesec
+          one: '%{count} mesec'
           two: '%{count} meseca'
           few: '%{count} meseci'
           other: '%{count} mesecev'
         years:
-          one: 1 leto
+          one: '%{count} leto'
           two: '%{count} leti'
           few: '%{count} leta'
           other: '%{count} let'
@@ -3075,12 +3085,12 @@ sl:
       locate:
         title: Pokaži mojo lokacijo
         metersPopup:
-          one: Ste znotraj enega metra od te točke
+          one: Ste znotraj %{count} metra od te točke
           two: Ste znotraj %{count} metrov od te točke
           few: Ste znotraj %{count} metrov od te točke
           other: Ste znotraj %{count} metrov od te točke
         feetPopup:
-          one: Ste znotraj enega čevlja od te točke
+          one: Ste znotraj %{count} čevlja od te točke
           two: Ste znotraj %{count} čevljev od te točke
           few: Ste znotraj %{count} čevljev od te točke
           other: Ste znotraj %{count} čevljev od te točke

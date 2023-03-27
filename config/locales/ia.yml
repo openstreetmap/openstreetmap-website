@@ -172,41 +172,41 @@ ia:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: circa 1 hora retro
+        one: circa %{count} hora retro
         other: circa %{count} horas retro
       about_x_months:
-        one: circa 1 mense retro
+        one: circa %{count} mense retro
         other: circa %{count} menses retro
       about_x_years:
-        one: circa 1 anno retro
+        one: circa %{count} anno retro
         other: circa %{count} annos retro
       almost_x_years:
-        one: quasi 1 anno retro
+        one: quasi %{count} anno retro
         other: quasi %{count} annos retro
       half_a_minute: un medie minuta retro
       less_than_x_seconds:
-        one: minus de 1 seconda retro
+        one: minus de %{count} secunda retro
         other: minus de %{count} secundas retro
       less_than_x_minutes:
-        one: minus de un minuta retro
+        one: minus de %{count} minuta retro
         other: minus de %{count} minutas retro
       over_x_years:
-        one: plus de 1 anno retro
+        one: plus de %{count} anno retro
         other: plus de %{count} annos retro
       x_seconds:
-        one: 1 secunda retro
+        one: '%{count} secunda retro'
         other: '%{count} secundas retro'
       x_minutes:
-        one: 1 minuta retro
+        one: '%{count} minuta retro'
         other: '%{count} minutas retro'
       x_days:
-        one: 1 die retro
+        one: '%{count} die retro'
         other: '%{count} dies retro'
       x_months:
-        one: 1 mense retro
+        one: '%{count} mense retro'
         other: '%{count} menses retro'
       x_years:
-        one: 1 anno retro
+        one: '%{count} anno retro'
         other: '%{count} annos retro'
   editor:
     default: Predefinite (actualmente %{name})
@@ -310,9 +310,7 @@ ia:
         sur le button hic infra.
       only_public_can_edit: Post le cambiamento al API 0.6, solmente usatores public
         pote modificar datos cartographic.
-      find_out_why_html: (%{link}).
       find_out_why: apprende proque
-      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Render tu conto public non revelara tu adresse de e-mail.
       not_reversible: Iste action es irreversibile e tote le nove usatores es ora
         public per predefinition.
@@ -338,10 +336,10 @@ ia:
     no_comment: (sin commento)
     part_of: Parte de
     part_of_relations:
-      one: 1 relation
+      one: '%{count} relation'
       other: '%{count} relationes'
     part_of_ways:
-      one: 1 via
+      one: '%{count} via'
       other: '%{count} vias'
     download_xml: Discargar XML
     view_history: Vider historia
@@ -386,7 +384,7 @@ ia:
       history_title_html: 'Historia del relation: %{name}'
       members: Membros
       members_count:
-        one: 1 membro
+        one: '%{count} membro'
         other: '%{count} membros'
     relation_member:
       entry_role_html: '%{type} %{name} como %{role}'
@@ -1431,7 +1429,7 @@ ia:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> per %{user}
       link_to_reports: Vider reportos
       reports_count:
-        one: 1 reporto
+        one: '%{count} reporto'
         other: '%{count} reportos'
       reported_item: Objecto reportate
       states:
@@ -1606,11 +1604,11 @@ ia:
       subject: '[OpenStreetMap] Importation GPX fallite'
     gpx_success:
       hi: Salute %{to_user},
-      loaded_successfully:
-        one: ha essite cargate con successo con %{trace_points} ex un maximo de 1
+      loaded:
+        one: ha essite cargate con successo con %{trace_points} ex un maximo de %{count}
           puncto.
         other: ha essite cargate con successo con %{trace_points} ex un maximo de
-          %{possible_points} punctos.
+          %{count} punctos.
       subject: '[OpenStreetMap] Importation GPX succedite'
     signup_confirm:
       subject: '[OpenStreetMap] Benvenite a OpenStreetMap'
@@ -1906,8 +1904,6 @@ ia:
   shared:
     markdown_help:
       heading_html: Interpretate con %{kramdown_link}
-      kramdown_url: https://kramdown.gettalong.org/quickref.html
-      kramdown: kramdown
       headings: Titulos
       heading: Titulo
       subheading: Subtitulo
@@ -1977,109 +1973,53 @@ ia:
         mapping_link: comenciar le cartographia
       legal_babble:
         title_html: Copyright e Licentia
-        intro_1_html: |-
-          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> es <i>datos aperte</i>, licentiate sub le <a
-          href="https://opendatacommons.org/licenses/odbl/">Open Data
-          Commons Open Database License</a> (ODbL) per le <a
-          href="https://osmfoundation.org/">Fundation OpenStreetMap</a> (OSMF).
-        intro_2_html: Vos es libere de copiar, distribuer, transmitter e adaptar nostre
-          datos, a condition que vos da recognoscentia a OpenStreetMap e su contributores.
-          Si vos altera o extende nostre datos, vos pote distribuer le resultato solmente
-          sub le mesme licentia. Le <a href="https://opendatacommons.org/licenses/odbl/1.0/">codice
-          juridic</a> complete explica vostre derectos e responsabilitates.
-        intro_3_1_html: Nostre documentation es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA 2.0).
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} es %{open_data}, licentiate sub
+          %{odc_odbl_link} (ODbL) per le %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: datos aperte
+        introduction_1_odc_odbl: Licentia de base de datos aperte de Open Data Commons
+        introduction_1_osm_foundation: Fundation OpenStreetMap
+        introduction_2_html: Vos es libere de copiar, distribuer, transmitter e adaptar
+          nostre datos, a condition que vos da recognoscentia a OpenStreetMap e su
+          contributores. Si vos altera o extende nostre datos, vos pote distribuer
+          le resultato solmente sub le mesme licentia. Le %{legal_code_link} complete
+          explica vostre derectos e responsabilitates.
+        introduction_2_legal_code: codice juridic
+        introduction_3_html: Nostre documentation es sub licentia %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Attribution-CompartiSimile
+          2.0
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.ia
         credit_title_html: Como dar recognoscentia a OpenStreetMap
         credit_1_html: 'Ubi tu usa le datos de OpenStreetMap, tu es obligate a facer
           le sequente duo cosas:'
-        credit_2_1_html: |-
-          <ul>
-            <li>Dar credito a OpenStreetMap monstrante nostre aviso de derecto de autor.</li>
-            <li>Render clar que le datos es disponibile sub Open Database License.</li>
-          </ul>
-        credit_3_1_html: Quanto al aviso de derecto de autor, nos ha differente exigentias
+        credit_2_1: Forni credito a OpenStreetMap monstrante nostre aviso de derecto
+          de autor.
+        credit_2_2: Rende clar que le datos es disponibile sub le Licentia Open Database.
+        credit_3_html: Quanto al aviso de derecto de autor, nos ha differente exigentias
           sur como illo debe esser monstrate, dependente de como tu usa nostre datos.
           Per exemplo, se applica regulas differente sur como monstrar le aviso de
           derecto de autor dependente de si tu ha create un carta navigabile, un carta
           imprimite o un imagine static. Le detalios complete sur le iste exigentias
-          se trova in le <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">Directivas
-          de attribution</a>.
-        credit_4_html: Pro render clar que le datos es disponibile sub Open Database
-          License, tu pote ligar a <a href="https://www.openstreetmap.org/copyright">iste
-          pagina de derecto de autor</a>. Alternativemente, e obligatorimente si tu
-          distribue OSM in forma de datos, tu pote mentionar le licentia(s) e ligar
-          directemente a illo(s). Si tu usa un medio de communication in le qual le
-          ligamines non es possibile (p.ex. un obra imprimite), nos suggere que tu
-          dirige le lectores a openstreetmap.org (forsan inserente iste adresse complete
-          in loco del parola &lsquo;OpenStreetMap&rsquo;) e a opendatacommons.org.
+          se trova in le %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: Directivas de attribution
+        credit_4_1_html: Pro render clar que le datos es disponibile sub Open Database
+          License, tu pote ligar a %{this_copyright_page_link}. Alternativemente,
+          e obligatorimente si tu distribue OSM in forma de datos, tu pote mentionar
+          le licentia(s) e ligar directemente a illo(s). Si tu usa un medio de communication
+          in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos
+          suggere que tu dirige le lectores a openstreetmap.org (forsan inserente
+          iste adresse complete in loco del parola ‘OpenStreetMap’) e a opendatacommons.org.
           In iste exemplo, le credito appare in le angulo del carta.
+        credit_4_1_this_copyright_page: iste pagina de derecto de autor
         attribution_example:
           alt: Exemplo de como recognoscer OpenStreetMap in un pagina web
           title: Exemplo de recognoscentia
         more_title_html: Pro saper plus
-        more_1_html: Lege plus sur le uso de nostre datos, e sur como citar correctemente
-          lor fonte, in le <a href="https://osmfoundation.org/Licence">pagina de licentia
-          OSMF</a>.
-        more_2_html: |-
-          Ben que OpenStreetMap es datos aperte, nos non pote fornir un API cartographic gratuite pro tertios. Vide nostre <a href="https://operations.osmfoundation.org/policies/api/">politica pro le uso del API</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles">politica pro le uso de tegulas</a>
-          e <a href="https://operations.osmfoundation.org/policies/nominatim">politica pro le uso de Nominatim</a>.
         contributors_title_html: Nostre contributores
         contributors_intro_html: 'Nostre contributores es milles de personas. Nos
           include anque le datos sub licentia aperte de agentias cartographic national
           e de altere fontes, inter le quales:'
-        contributors_at_html: '<strong>Austria</strong>: Contine datos ab le <a href="https://data.wien.gv.at/">Citate
-          de Vienna</a> licentiate sub <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC
-          BY</a>, <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
-          Vorarlberg</a> e Land Tirol (sub <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC
-          BY AT con emendamentos</a>).'
-        contributors_au_html: '<strong>Australia</strong>: Incorpora o disveloppate
-          usante Limites Administrative &copy; <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape
-          Australia</a> publicate per le Commonwealth de Australia sub licentia <a
-          href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
-          4.0 International (CC BY 4.0)</a>.'
-        contributors_ca_html: |-
-          <strong>Canada</strong>: Contine datos ab
-             GeoBase&reg;, GeoGratis (&copy; Department of Natural
-             Resources Canada), CanVec (&copy; Department of Natural
-             Resources Canada), e StatCan (Geography Division,
-             Statistics Canada).
-        contributors_fi_html: '<strong>Finlandia</strong>: Contine datos ab le base
-          de datos topographic del Inspection National del Territorio de Finlandia
-          e de altere insimules de datos, sub le <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">licentia
-          NLSFI</a>.'
-        contributors_fr_html: |-
-          <strong>Francia</strong>: Contine datos fornite per le
-             Direction Générale des Impôts.
-        contributors_nl_html: '<strong>Nederlandia</strong>: Contine datos &copy;
-          AND, 2007 (<a href="https://www.and.com">www.and.com</a>)'
-        contributors_nz_html: '<strong>Nove Zelandia</strong>: Contine datos proveniente
-          de <a href="https://data.linz.govt.nz/">LINZ Data Service</a> e licentiate
-          pro re-uso sub <a href="https://creativecommons.org/licenses/by/4.0/">CC
-          BY 4.0</a>.'
-        contributors_si_html: |-
-          <strong>Slovenia</strong>: Contine datos ab le
-          <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> e del
-          <a href="http://www.mkgp.gov.si/en/">Ministerio del Agricultura, Silvicultura e Alimento</a>
-          (information public de Slovenia).
-        contributors_es_html: '<strong>Espania</strong>: Contine datos proveniente
-          del Instituto Geographic National (<a href="http://www.ign.es/">IGN</a>)
-          e del Systema Cartographic National (<a href="http://www.scne.es/">SCNE</a>),
-          licentiate pro su reutilisation sub <a href="https://creativecommons.org/licenses/by/4.0/">CC
-          BY 4.0</a>.'
-        contributors_za_html: |-
-          <strong>Africa del Sud</strong>: Contine datos proveniente del
-             <a href="http://www.ngi.gov.za/">Chief Directorate:
-             National Geo-Spatial Information</a>, copyright del Stato reservate.
-        contributors_gb_html: |-
-          <strong>Regno Unite</strong>: Contine datos de Ordnance
-          Survey &copy; copyright del Corona e derecto de base de datos
-          2010-23.
-        contributors_footer_1_html: |-
-          Pro ulterior detalios de iste e altere fontes que ha essite usate
-          pro adjutar a meliorar OpenStreetMap, vide le <a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">pagina
-          de contributores</a> in le wiki de OpenStreetMap.
         contributors_footer_2_html: |2-
             Le inclusion de datos in OpenStreetMap non implica que le fornitor
             original del datos indorsa OpenStreetMap, forni alcun garantia, o
@@ -2089,16 +2029,6 @@ ia:
             Nos rememora al contributores de OSM de nunquam adder datos de alcun
             fonte sub derecto de autor (p.ex. Google Maps o cartas imprimite)
             sin explicite permission del titulares del derecto de autor.
-        infringement_2_html: Si vos crede que material sub copyright ha essite inserite
-          inappropriatemente in le base de datos de OpenStreetMap o in iste sito,
-          per favor consulta nostre <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">procedura
-          de remotion</a> o submitte un plancto immediate usante nostre <a href="https://dmca.openstreetmap.org/">formulario
-          in linea</a>.
-        trademarks_title_html: <span id="trademarks"></span>Marcas commercial
-        trademarks_1_html: OpenStreetMap, le logotypo con le lupa e "State of the
-          Map" es marcas registrate del Fundation OpenStreetMap. Si vos ha questiones
-          sur le uso de iste marcas, vide nostre <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">politica
-          sur le marcas registrate</a>.
     index:
       js_1: O tu usa un navigator que non supporta JavaScript, o tu ha disactivate
         JavaScript.
@@ -2131,7 +2061,6 @@ ia:
       licence_details_html: Le datos de OpenStreetMap data es sub licentia %{odbl_link}
         (ODbL).
       odbl: Licentia de base de datos aperte de Open Data Commons
-      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: 'Si iste exportation falle, considera usar un del fontes listate hic
           infra:'
@@ -2186,7 +2115,6 @@ ia:
           pro plus information juridic o contacta le %{working_group_link} appropriate.
         copyright: pagina de derecto de autor
         working_group: Gruppo de labor del Fundation OSM
-        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Obtener adjuta
       introduction: OpenStreetMap ha plure ressources pro apprender a cognoscer le
@@ -2232,7 +2160,6 @@ ia:
         in un navigator web.
       desktop_application_html: Tu pote sempre usar Potlatch per %{download_link}.
       download: discargar le application scriptorio pro Mac e Windows
-      download_url: https://www.systemed.net/potlatch/
       id_editor_html: Alternativemente, tu pote fixar le editor predefinite a iD,
         le qual functiona in tu navigator web como Potlatch lo faceva antea. %{change_preferences_link}
       change_preferences: Cambia tu preferentias hic
@@ -2244,7 +2171,6 @@ ia:
         planos pro OpenStreetMap? %{welcome_mat_link}.
       get_help_here: Obtene adjuta hic
       welcome_mat: Discoperi le Tapete de benvenita
-      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Resultatos del recerca
       close: Clauder
@@ -2367,9 +2293,7 @@ ia:
           activitates altere que modificar per mano, per favor lege e seque le directivas
           sur %{imports_link} e %{automated_edits_link}.
         imports: Importationes
-        imports_url: https://wiki.openstreetmap.org/wiki/Import/Guidelines
         automated_edits: Modificationes automatisate
-        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: comenciar le cartographia
       add_a_note:
         title: Non ha tempore pro modificar? Adde un nota!
@@ -2403,7 +2327,6 @@ ia:
           Non es necessari stabilir formalmente un gruppo in le mesme mesura que le capitulos local.
           In effecto, multe gruppos existe con grande successo como reunion informal de personas o como un gruppo communitari. Omnes pote crear o adherer a tales. Lege plus sur le %{communities_wiki_link}.
         communities_wiki: pagina wiki sur communitates
-        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: Private (solmente condividite como anonymo, punctos non ordinate)
@@ -2469,7 +2392,7 @@ ia:
     trace:
       pending: PENDENTE
       count_points:
-        one: 1 puncto
+        one: '%{count} puncto'
         other: '%{count} punctos'
       more: plus
       trace_details: Vider detalios del tracia
@@ -2492,7 +2415,6 @@ ia:
         le %{wiki_link}.'
       upload_new: Incargar un nove tracia
       wiki_page: pagina wiki
-      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Incargar un tracia
       all_traces: Tote le tracias
       my_traces: Mi tracias
@@ -2880,19 +2802,19 @@ ia:
       time_past_html: Expirava %{time}.
       block_duration:
         hours:
-          one: 1 hora
+          one: '%{count} hora'
           other: '%{count} horas'
         days:
-          one: 1 die
+          one: '%{count} die'
           other: '%{count} dies'
         weeks:
-          one: 1 septimana
+          one: '%{count} septimana'
           other: '%{count} septimanas'
         months:
-          one: 1 mense
+          one: '%{count} mense'
           other: '%{count} menses'
         years:
-          one: 1 anno
+          one: '%{count} anno'
           other: '%{count} annos'
     blocks_on:
       title: Blocadas de %{name}
@@ -3015,10 +2937,10 @@ ia:
       locate:
         title: Monstrar mi position
         metersPopup:
-          one: Tu es minus de un metro distante de iste puncto
+          one: Tu es minus de %{count} metro distante de iste puncto
           other: Tu es minus de %{count} metros distante de iste puncto
         feetPopup:
-          one: Tu es minus de un pede distante de iste puncto
+          one: Tu es minus de %{count} pede distante de iste puncto
           other: Tu es minus de %{count} pedes distante de iste puncto
       base:
         standard: Standard

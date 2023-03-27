@@ -188,7 +188,7 @@ he:
           ניידים ילידיים ויישומי דף אחד אינם סודיים)
         redirect_uri: להשתמש בשורה אחת לכתובת URI
       trace:
-        tagstring: מופרד בפסיקים
+        tagstring: מופרדים בפסיקים
       user_block:
         reason: הסיבה שבגינה המשתמש נחסם. נא לכתוב משהו הגיוני ורגוע ולתת כמה שיותר
           פרטים על המצב. נא לזכור שלא כל המשתמשים מבינים את העגה המקצועית של הקהילה
@@ -1477,6 +1477,8 @@ he:
       link_to_reports: הצגת דיווחים
       reports_count:
         one: דיווח אחד
+        two: '%{count} דיווחים'
+        many: '%{count} דיווחים'
         other: '%{count} דיווחים'
       reported_item: פריט שדווח
       states:
@@ -1640,11 +1642,11 @@ he:
       subject: '[אופן סטריט מאפ OpenStreetMap] שגיאה בייבוא GPX'
     gpx_success:
       hi: שלום %{to_user},
-      loaded_successfully:
-        one: נקלט כראוי עם %{trace_points} מתוך נקודה אחת אפשרית.
-        two: נקלט כראוי עם %{trace_points} מתוך %{possible_points} נקודות אפשריות.
-        many: נקלט כראוי עם %{trace_points} מתוך %{possible_points} נקודות אפשריות.
-        other: נקלט כראוי עם %{trace_points} מתוך %{possible_points} נקודות אפשריות.
+      loaded:
+        one: נטען בהצלחה עם  נקודה אחת אפשרית.
+        two: נטען בהצלחה עם %{trace_points} נקודות מתוך %{count} נקודות אפשריות.
+        many: נטען בהצלחה עם %{trace_points} נקודות מתוך %{count} נקודות אפשריות.
+        other: נטען בהצלחה עם %{trace_points} נקודות מתוך %{count} נקודות אפשריות.
       subject: '[אופן סטריט מאפ OpenStreetMap] ייבוא GPX הצליח'
     signup_confirm:
       subject: '[אופן סטריט מאפ OpenStreetMap] ברוך בואך לאופן סטריט מאפ'
@@ -1987,113 +1989,51 @@ he:
         mapping_link: להתחיל למפות
       legal_babble:
         title_html: זכויות יוצרים ורישיון
-        intro_1_html: |-
-          מיזם OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> הוא <i>נתונים פתוחים</i>, שמתפרסמים לפי רישיון <a
-          href="https://opendatacommons.org/licenses/odbl/">Open Data
-          Commons Open Database</a>  (ר״ת ODbL) על־ידי <a
-          href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (ר״ת OSMF).
-        intro_2_html: |-
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} הוא מיזם %{open_data}, שמתפרסמים לפי תנאי רישיון
+          %{odc_odbl_link} (ר״ת ODbL) על־ידי %{osm_foundation_link} (ר״ת OSMF).
+        introduction_1_open_data: נתונים פתוחים
+        introduction_1_odc_odbl: רישיון מסד נתונים פתוח של Open Data Commons
+        introduction_1_osm_foundation: קרן אופן סטריט מאפ
+        introduction_2_html: |-
           אתם חופשיים להעתיק, להפיץ, לשדר ולהתאים את הנתונים שלנו,
           כל עוד אתם נותנים ייחוס ל־OpenStreetMap
           ולתורמים למיזם. אם אתם משנים את הנתונים או את המפות שלנו או מסתמכים עליהם כדי ליצור משהו חדש,
           מותר לכם להפיץ את התוצאות רק לפי תנאי אותו הרישיון.
-          <a href="https://opendatacommons.org/licenses/odbl/1.0/">המסמך
-          המשפטי</a> המלא מסביר את זכויותיכם ואת תחומי האחריות שלכם.
-        intro_3_1_html: |-
-          התיעוד שלנו מוגש בכפוף
-          לרישיון <a href="https://creativecommons.org/licenses/by-sa/2.0/">קריאייטיב
-          קומונז ייחוס–שיתוף־זהה 2.0</a> license (בקיצור  CC-BY-SA 2.0).
+          %{legal_code_link} המלא מסביר את זכויותיכם ואת תחומי האחריות שלכם.
+        introduction_2_legal_code: המסמך המשפטי
+        introduction_3_html: התיעוד שלנו מתפרסם לפי תנאי רישיון %{creative_commons_link}
+          (ר״ת CC BY-SA 2.0).
+        introduction_3_creative_commons: קריאייטיב קומונז–ייחוס–שיתוף זהה 2.0
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.he
         credit_title_html: איך לתת ייחוס ל־OpenStreetMap
         credit_1_html: 'בעת שימוש בנתונים של OpenStreetMap, חובה לעשות את שני הדברים
           הבאים:'
-        credit_2_1_html: |-
-          <ul>
-            <li>לתת קרדיט ל־OpenStreetMap באמצעות הצגת הודעת זכויות היוצרים שלנו.</li>
-            <li>להבהיר שהנתונים זמינים לפי תנאי Open Database License.</li>
-          </ul>
-        credit_3_1_html: |-
+        credit_2_1: יש לתת קרדיט ל־OpenStreetMap על־ידי הצגת הודעת זכויות היוצרים
+          שלנו.
+        credit_2_2: יש להבהיר שהנתונים זמינים לפי רישיון מסד נתונים פתוח.
+        credit_3_html: |-
           לגבי הודעת זכויות היוצרים, יש לנו דרישות שונות לגבי איך זה צריך להיות
           מוצג, בהתאם לאופן שבו עשית שימוש בנתונים שלנו. למשל, כללים שונים
-          חלים על אופן הצגת הודעת זכויות היוצרים – תלוי אם יש לך
-          יצרו מפה ניתנת לעיון, מפה מודפסת, או תמונה סטטית. פרטים מלאים על
-          דרישות ניתן למצוא בדף
-          <a href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">הנחיות
-          ייחוס</a>.
-        credit_4_html: |-
-          כדי להבהיר שהנתונים זמינים לפי תנאי Open Database License , באפשרותך לקשר ל<a href="https://www.openstreetmap.org/copyright">דף זכויות היוצרים הזה</a>.
+          חלים על אופן הצגת הודעת זכויות היוצרים – תלוי אם
+          יצרת מפה ניתנת לעיון, מפה מודפסת, או תמונה סטטית. פרטים מלאים על
+          דרישות ניתן למצוא בדף %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: הנחיות ייחוס
+        credit_4_1_html: |-
+          כדי להבהיר שהנתונים זמינים לפי תנאי רישיון מסד הנתונים הפתוח, באפשרותך לקשר ל%{this_copyright_page_link}.
           לחלופין, וכדרישה אם OSM מופץ על־ידיך בצורת נתונים, באפשרותך לתת שם ולקשר ישירות לרישיון (או רישיונות). באמצעי אחסון שבהם קישורים אינם אפשריים (למשל עבודות מודפסות), אנו מציעים לך להפנות את הקוראים שלך לאתר openstreetmap.org (אולי על‏‏־ידי הרחבת
           "OpenStreetMap" לכתובת המלאה הזאת) ולאתר opendatacommons.org.
           בדוגמה הזאת, הקרדיט מופיע בפינת המפה.
+        credit_4_1_this_copyright_page: דף זכויות היוצרים הזה
         attribution_example:
           alt: דוגמה לצורה הנכונה לתת ייחוס ל־OpenStreetMap באתר האינטרנט
           title: דוגמה לייחוס
         more_title_html: איך למצוא מידע נוסף
-        more_1_html: |-
-          קִראו עוד על שימוש בנתונים שלנו ועל דרכים לייחס אלינו יצירות נגזרות ב<a
-          href="http://osmfoundation.org/Licence">דף רישיון OSMF</a>.
-        more_2_html: |-
-          אף־על־פי ש־OpenStreetMap הוא מיזם נתונים פתוחים, איננו יכולים לספק
-          API מפות בחינם לכל צד שלישי.
-          ר׳ את דפי המדיניות שלנו: <a href="https://operations.osmfoundation.org/policies/api/">המדיניות השימוש ב־API</a>,
-          <a href="https://operations.osmfoundation.org/policies/tiles/">מדיניות השימוש באריחים</a>
-          ו<a href="https://operations.osmfoundation.org/policies/nominatim/">מדיניות השימוש בנומינטים</a>.
         contributors_title_html: התורמים שלנו
         contributors_intro_html: |-
           התורמים שלנו הם אלפי אנשים. אנו גם כוללים
           נתונים ברישיון פתוח מסוכנויות מיפוי לאומות
           וממקורות אחרים, בהם:
-        contributors_at_html: |-
-          <strong>אוסטריה</strong>: מכיל נתונים
-          מ<a href="https://data.wien.gv.at/">עיריית וינה</a> לפי תנאי
-          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>,
-          מ<a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">מדינת פורארלברג</a>
-          וממדינת טירול (לפי <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT עם תיקונים</a>).
-        contributors_au_html: |-
-          <strong>אוסטרליה</strong>: מכיל או מפותח באמצעות Administrative Boundaries &copy;
-          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape Australia</a>
-          ברישיון שניתן על־ידי חבר העמים האוסטרלי לפי תנאי
-          <a href="https://creativecommons.org/licenses/by/4.0/">רישיון קריאייטיב קומונז ייחוס 4.0 בין־לאומי (CC BY 4.0)</a>.
-        contributors_ca_html: |-
-          <strong>קנדה</strong>: מכיל נתונים
-          מ־GeoBase&reg;&rlm;, GeoGratis&rlm; (&copy;&rlm; Department of Natural
-          Resources Canada)&rlm;, CanVec&rlm; (&copy;&rlm; Department of Natural
-          Resources Canada), ו־StatCan&rlm; (Geography Division,
-          Statistics Canada).
-        contributors_fi_html: |-
-          <strong>פינלנד</strong>: מכיל מידע ממסד נתונים טופוגרפיים של פינלנד וממקורות מידע אחרים, תחת
-          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">רישיון NLSFI</a>.
-        contributors_fr_html: |-
-          <strong>צרפת</strong>: מכיל נתונים שהגיעו במקור
-          ממנהלת המסים הכללית (Direction Générale des Impôts).
-        contributors_nl_html: |-
-          <strong>הולנד</strong>: מכיל &copy; נתונים מ־ AND&rlm;, 2007
-          (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>ניו זילנד</strong>: מכיל נתונים שהגיעו במקור
-          מ־<a href="https://data.linz.govt.nz/">LINZ Data Service</a>
-          וניתן רישיון לשימוש חוזר לפי תנאי
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_si_html: |-
-          <strong>סלובניה</strong>: מכיל נתונים מ<a href="http://www.gu.gov.si/en/">הרשות למדידת־קרקעות ולמיפוי</a> ומ<a href="http://www.mkgp.gov.si/en/">משרד החקלאות, היערנות והמזון</a>
-          (מידע ציבורי של סלובניה).
-        contributors_es_html: |-
-          <strong>ספרד</strong>: מכיל נתונים שסופקו על ידי
-          המכון הגאוגרפי הלאומי של ספרד (<a href="http://www.ign.es/">IGN</a>) ועל ידי
-          מערכת המיפוי הלאומית (<a href="http://www.scne.es/">SCNE</a>)
-          שמותר להשתמש בהן תחת תנאי <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-        contributors_za_html: |-
-          <strong>דרום אפריקה</strong>: מכיל נתונים שהגיעו
-          מ־<a href="http://www.ngi.gov.za/">מִנהל כללי:
-          מידע גאו־מרחבי לאומי</a>, זכות יוצרים ממלכתית שמורה.
-        contributors_gb_html: |-
-          <strong>הממלכה המאוחדת</strong>: מכיל נתוני סקר מדידות
-          &copy; זכויות הכתר וזכויות מסדי נתונים
-          2010–2023.
-        contributors_footer_1_html: |-
-          למידע נוסף על מקורות אלה ואחרים ששימשו
-          לשיפור OpenStreetMap, נא לראות את <a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">דף
-          התורמים</a> בוויקי של OpenStreetMap.
         contributors_footer_2_html: |-
           הכללה של נתונים ב־OpenStreetMap אינה אומרת שהספק המקורי
           של הנתוהים תומך ב־OpenStreetMap, לוקח על עצמו אחריות כלשהי, או
@@ -2103,17 +2043,6 @@ he:
           אנו מזכירים לתורמים ל־OSM לעולם לא להוסיף נתונים משום מקור
           שמוגבל בזכויות יוצרים (למשל מפות גוגל או מפות מודפסות) ללא
           אישור מפורש מבעלי הזכויות.
-        infringement_2_html: |-
-          אם נראה לך שחומר שמוגבל בזכויות יוצרים נוסף באופן לא הולם
-          אל מסד הנתונים של OpenStreetMap או אל האתר הזה, נא לפנות
-          אל <a href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">נוהל
-          ההסרה</a> שלנו או כתבו תלונה ישירות
-          <a href="https://dmca.openstreetmap.org/">בדף התלונות המקוון שלנו</a>.
-        trademarks_title_html: <span id="trademarks"></span>סימנים מסחריים
-        trademarks_1_html: OpenStreetMap, סמל הזכוכית המגדלת ו־State of the Map הם
-          סימנים מסחריים של קרן OpenStreetMap. אם יש לך שאלות על השימוש שלך בסימנים,
-          ר' את <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">מדיניות
-          הסימנים המסחריים שלנו</a>.
     index:
       js_1: הדפדפן שבו אתה משתמש אינו תומך ב־JavaScript, או שכיבית את השימוש ב־JavaScript.
       js_2: אתר OpenStreetMap משתמש ב־JavaScript למפה המחליקה.

@@ -9,6 +9,7 @@
 # Author: Cwlin0416
 # Author: EagerLin
 # Author: Foothsu
+# Author: GuoPC
 # Author: HTan (WMF)
 # Author: Hlaw
 # Author: Impersonator 1
@@ -204,42 +205,42 @@ zh-TW:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: 約一小時前
-        other: 約%{count}小時前
+        one: 約 %{count} 小時前
+        other: 約 %{count} 小時前
       about_x_months:
-        one: 約一個月前
-        other: 約%{count}個月前
+        one: 約 %{count} 個月前
+        other: 約 %{count} 個月前
       about_x_years:
-        one: 約一年
-        other: 約%{count}年前
+        one: 約 %{count} 年前
+        other: 約 %{count} 年前
       almost_x_years:
-        one: 將近一年前
-        other: 將近%{count}年前
+        one: 將近 %{count} 年前
+        other: 將近 %{count} 年前
       half_a_minute: 半分鐘前
       less_than_x_seconds:
-        one: 小於 1 秒前
+        one: 小於 %{count} 秒前
         other: 小於 %{count} 秒前
       less_than_x_minutes:
-        one: 小於 1 分前
+        one: 小於 %{count} 分前
         other: 小於 %{count} 分前
       over_x_years:
-        one: 超過1年前
-        other: 超過%{count}年前
+        one: 超過 %{count} 年前
+        other: 超過 %{count} 年前
       x_seconds:
-        one: 1秒前
-        other: '%{count}秒前'
+        one: '%{count} 秒前'
+        other: '%{count} 秒前'
       x_minutes:
-        one: 1分鐘前
-        other: '%{count}分鐘前'
+        one: '%{count} 分鐘前'
+        other: '%{count} 分鐘前'
       x_days:
-        one: 1日前
-        other: '%{count}日前'
+        one: '%{count} 天前'
+        other: '%{count} 天前'
       x_months:
-        one: 1個月前
-        other: '%{count}個月前'
+        one: '%{count} 個月前'
+        other: '%{count} 個月前'
       x_years:
-        one: 1年前
-        other: '%{count}年前'
+        one: '%{count} 年前'
+        other: '%{count} 年前'
   printable_name:
     with_version: '%{id}，版本%{version}'
   editor:
@@ -353,11 +354,11 @@ zh-TW:
     no_comment: (沒有評論)
     part_of: 屬於：
     part_of_relations:
-      one: 1 個關聯
+      one: '%{count} 個關聯'
       other: '%{count} 個關聯'
     part_of_ways:
-      one: 1 條路
-      other: '%{count} 條路'
+      one: '%{count} 條路徑'
+      other: '%{count} 條路徑'
     download_xml: 下載 XML
     view_history: 檢視歷史
     view_details: 檢視詳細資料
@@ -399,8 +400,8 @@ zh-TW:
       history_title_html: 關聯歷史：%{name}
       members: 成員
       members_count:
-        one: 1 個成員
-        other: '%{count} 個成員'
+        one: '%{count} 名成員'
+        other: '%{count} 名成員'
     relation_member:
       entry_role_html: '%{type} %{name} 作為 %{role}'
       type:
@@ -611,7 +612,7 @@ zh-TW:
       description: OpenStreetMap 伺服器遇到意外情況，而無法滿足請求（HTTP 500）
     not_found:
       title: 檔案未找到
-      description: 在 OpenStreetMap 服務器上找不到該名稱的文件/目錄/API 操作 (HTTP 404)
+      description: 在 OpenStreetMap 伺服器上找不到該名稱的檔案/目錄/API 操作（HTTP 404）
   friendships:
     make_friend:
       heading: 將 %{user} 加入為好友？
@@ -1429,8 +1430,8 @@ zh-TW:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr>由%{user}
       link_to_reports: 檢視回報
       reports_count:
-        one: 1 個回報
-        other: '%{count} 個回報'
+        one: '%{count} 份回報'
+        other: '%{count} 份回報'
       reported_item: 已回報項目
       states:
         ignored: 已忽略
@@ -1440,8 +1441,8 @@ zh-TW:
       title: '%{status} 問題 #%{issue_id}'
       reports:
         zero: 無回報
-        one: 1 個回報
-        other: '%{count} 個回報'
+        one: '%{count} 份回報'
+        other: '%{count} 份回報'
       report_created_at: 首次回報是在 %{datetime}
       last_resolved_at: 最後回報是在 %{datetime}
       last_updated_at: 最後更新是由 %{displayname} 在 %{datetime}
@@ -1587,13 +1588,9 @@ zh-TW:
       subject: '[OpenStreetMap] GPX 匯入失敗'
     gpx_success:
       hi: '%{to_user} 您好，'
-      loaded_successfully:
-        one: |-
-          成功載入 1 點中的
-          %{trace_points}。
-        other: |-
-          l成功載入 %{possible_points} 點中的
-          %{trace_points}。
+      loaded:
+        one: 成功載入 %{count} 個可能軌跡點中的 %{trace_points} 個。
+        other: 成功載入 %{count} 個可能軌跡點中的 %{trace_points} 個。
       subject: '[OpenStreetMap] GPX 匯入成功'
     signup_confirm:
       subject: '[OpenStreetMap] 歡迎加入 OpenStreetMap'
@@ -1842,8 +1839,6 @@ zh-TW:
   shared:
     markdown_help:
       heading_html: 以%{kramdown_link}解析
-      kramdown_url: https://kramdown.gettalong.org/quickref.html
-      kramdown: kramdown
       headings: 標題
       heading: 標題
       subheading: 副標題
@@ -1900,98 +1895,102 @@ zh-TW:
         mapping_link: 開始製圖
       legal_babble:
         title_html: 版權與授權條款
-        intro_1_html: OpenStreetMap 為<i>開放資料</i>，以<a href="https://osmfoundation.org/">
-          OpenStreetMap 基金會</a>（OSMF）採用的<a href="https://opendatacommons.org/licenses/odbl/">
-          Open Data Commons 開放資料庫授權條款</a>（ODbL）授權。
-        intro_2_html: |-
-          您可以自由地複製、散布、傳輸及修改我們的資料，前提是您須標明作者為 OpenStreetMap 及其貢獻者。若您在我們的資料上作修改或據之衍生其他資料
-          ，則只可依相同授權條款散佈有關成果。授權的<a href="https://opendatacommons.org/licenses/odbl/1.0/">法律原文</a>詳述您的權責。
-        intro_3_1_html: 我們的文件以<a href="https://creativecommons.org/licenses/by-sa/2.0/deed.zh_TW">創用
-          CC 姓名標示-相同方式分享（CC BY-SA 2.0版）</a>條款授權。
+        introduction_1_html: OpenStreetMap%{registered_trademark_link}是%{open_data}，透過%{osm_foundation_link}（OSMF）在%{odc_odbl_link}（ODbL）下授權。
+        introduction_1_open_data: 開放資料
+        introduction_1_odc_odbl: 開放資料共享開放資料庫授權
+        introduction_1_osm_foundation: OpenStreetMap 基金會
+        introduction_2_html: 您可以自由地複製、散布、傳輸及修改我們的資料，前提是您須標明作者為 OpenStreetMap 及其貢獻者。若您在我們的資料上作變動或以此來建立其他資料，您只能依照相同授權條款來散佈成果。%{legal_code_link}有詳述您的權責。
+        introduction_2_legal_code: 法律條款
+        introduction_3_html: 我們的文件是依據 %{creative_commons_link} 授權條款（CC BY-SA 2.0）獲得許可。
+        introduction_3_creative_commons: 創用 CC 姓名標示-相同方式分享
+        introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.zh_TW
         credit_title_html: 如何標明作者是 OpenStreetMap
         credit_1_html: 當您使用 OpenStreetMap 的資料，您會被要求遵循兩件事：
-        credit_2_1_html: |-
-          <ul>
-            <li>顯示出我們的版權聲明來表達歸屬於 OpenStreetMap 的內容。</li>
-            <li>清楚表明資料在開放資料庫授權條款下可用。</li>
-          </ul>
-        credit_3_1_html: 對於版權聲明的顯示，我們會依據於您如何使用我們的資料，而有不同的要求。例如，不同的規則要如何顯示版權聲明，具體取決於您是否有建立了可瀏覽的地圖、列印的地圖或是靜態圖片。完整的詳細資訊要求可以在<a
-          href="https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines">屬名指南</a>上查看。
-        credit_4_html: |-
-          請明確表示資料在開放資料庫授權條款下可用，您可以連結到<a href="https://www.openstreetmap.org/copyright">這個版權頁面</a>。
+        credit_2_1: 透過顯示我們的版權聲明為 OpenStreetMap 提供屬名。
+        credit_2_2: 明確資料在開放資料共享開放資料庫授權下可用。
+        credit_3_html: 對於版權聲明的顯示，我們會依據您如何使用我們的資料，而有不同的要求。例如，不同的規則要如何顯示版權聲明，具體取決於您是否有建立可瀏覽的地圖、列印的地圖、或靜態圖片。完整的詳細資訊要求可以在%{attribution_guidelines_link}上查看。
+        credit_3_attribution_guidelines: 姓名標示指南
+        credit_4_1_html: |-
+          請明確表示資料在開放資料庫授權條款下可用，您可以連結到%{this_copyright_page_link}。
           相對地，如果您以資料表來分發 OSM，您可以命名並直接連結到授權條款。在一些無法作出連結的媒體（例如印刷品），我們建議您引導您的讀者到 openstreetmap.org（像是註明「OpenStreetMap」的完整網址）以及 opendatacommons.org。
-          在此範例中，版權相關的歸屬會出現在地圖的角落。
+          在此範例中，版權相關聲明會出現在地圖的角落處。
+        credit_4_1_this_copyright_page: 此版權頁面
         attribution_example:
           alt: 如何在網頁上署名 OpenStreetMap 的例子
-          title: 署名的例子
+          title: 姓名標示例子
         more_title_html: 尋找更多
-        more_1_html: |-
-          在<a
-          href="https://osmfoundation.org/Licence"> OSMF 授權條款頁面</a>可閱讀更多關於使用我們的資料，以及如何標明我們是作者的資料。
-        more_2_html: 雖然 OpenStreetMap 是開放資料，但我們無法為第三方提供免費的地圖 API。詳見我們的<a href="https://operations.osmfoundation.org/policies/api/">API
-          使用政策</a>、<a href="https://operations.osmfoundation.org/policies/tiles/">地圖影像塊使用政策</a>及<a
-          href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim
-          服務使用政策</a>。
+        more_1_1_html: 在%{osmf_licence_page_link}閱讀更多關於使用我們的資料，以及如何屬名我們的方式。
+        more_1_1_osmf_licence_page: OSMF 授權條款頁面
+        more_2_1_html: |-
+          儘管 OpenStreetMap 是開放資料，我們不對第三方提供免費的地圖 API。
+          請參閱我們的%{api_usage_policy_link}、%{tile_usage_policy_link}、和%{nominatim_usage_policy_link}。
+        more_2_1_api_usage_policy: API 使用方針
+        more_2_1_tile_usage_policy: 影像塊使用方針
+        more_2_1_nominatim_usage_policy: 提名使用方針
         contributors_title_html: 我們的貢獻者
         contributors_intro_html: 我們的貢獻者為成千上萬的人。我們也收納了從國家測繪機構及其他來源等取得的開放版權資料，其中包括：
-        contributors_at_html: <strong>奧地利</strong>：包含來自 <a href="https://data.wien.gv.at/">Stadt
-          Wien</a> (<a href="https://creativecommons.org/licenses/by/3.0/at/deed.zh_TW">CC
-          BY</a>授權) 、<a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
-          Vorarlberg</a>及 Land Tirol (修訂的<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
-          AT</a>授權) 的資料。
-        contributors_au_html: |-
-          <strong>澳大利亞</strong>：使用行政區劃納入或開發&copy;
-          <a href="https://geoscape.com.au/legal/data-copyright-and-disclaimer/">Geoscape 澳大利亞</a>是依據<a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">姓名標示 4.0 國際（CC BY 4.0）</a>澳大利亞聯邦條款授權。
-        contributors_ca_html: |-
-          <strong>加拿大</strong>：包含來自 GeoBase&reg;，GeoGratis (&copy; Department of Natural
-          Resources Canada) ，CanVec (&copy; Department of Natural
-          Resources Canada) 和 StatCan (Geography Division,
-          Statistics Canada) 的資料。
-        contributors_fi_html: |-
-          <strong>芬蘭</strong>: 包含來自
-          National Land Survey of Finland's Topographic Database
-          及其他資料集的資料，以
-          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1"> NLSFI License </a>授權。
-        contributors_fr_html: |-
-          <strong>法國</strong>: 包含來自
+        contributors_at_credit_html: '%{austria}：包含來自%{stadt_wien_link}（under %{cc_by_link}）、%{land_vorarlberg_link}、與
+          Land Tirol（依據%{cc_by_at_with_amendments_link}）的資料。'
+        contributors_at_austria: 奧地利
+        contributors_at_stadt_wien: 維也納
+        contributors_at_cc_by: 創用 CC 姓名標示
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.zh_TW
+        contributors_at_land_vorarlberg: 福拉爾貝格邦
+        contributors_at_cc_by_at_with_amendments: CC BY AT 修正條款
+        contributors_au_credit_html: '%{australia}：使用行政區域界線&copy; %{geoscape_australia_link}來合併或開發，由澳大利亞聯邦依據%{cc_licence_link}授權。'
+        contributors_au_australia: 澳洲
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: 創用 CC 姓名標示 4.0 國際授權條款（CC BY 4.0）
+        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.zh_TW
+        contributors_ca_credit_html: '%{canada}：包含來自 GeoBase&reg;、GeoGratis（&copy;加拿大自然資源處）、CanVec（&copy;加拿大自然資源處）、和
+          StatCan（地理部，加拿大統計局）的資料。'
+        contributors_ca_canada: 加拿大
+        contributors_fi_credit_html: '%{finland}：包含來自芬蘭測量局地形資料庫與其他資料集的資料，依據%{nlsfi_license_link}授權。'
+        contributors_fi_finland: 芬蘭
+        contributors_fi_nlsfi_license: NLSFI 授權條款
+        contributors_fr_credit_html: |-
+          %{france}：包含來自
           Direction Générale des Impôts 的資料。
-        contributors_nl_html: |-
-          <strong>荷蘭</strong>: 包含來自&copy; AND data, 2007
-          (<a href="https://www.and.com">www.and.com</a>) 的資料。
-        contributors_nz_html: |-
-          <strong>紐西蘭</strong>：包含來自
-          <a href="https://data.linz.govt.nz/">LINZ 資料服務</a> 的資料來源，並依據
-          <a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">姓名標示 4.0 國際</a>條款授權。
-        contributors_si_html: |-
-          <strong>斯洛維尼亞</strong>：包含來自<a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a>和
-          <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
-          (斯洛維尼亞公開資訊).
-        contributors_es_html: |-
-          <strong>西班牙</strong>：包含來自西班牙國家地理研究所（<a href="http://www.ign.es/">IGN</a>）以及國家製圖系統<a href="http://www.scne.es/">SCNE</a>）的資料來源，並依據
-          <a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">姓名標示 4.0 國際</a>條款授權。
-        contributors_za_html: |-
-          <strong>南非</strong>: 包含來自
-          <a href="http://www.ngi.gov.za/">Chief Directorate:
-          National Geo-Spatial Information</a> (State copyright reserved) 的資料。
-        contributors_gb_html: |-
-          <strong>英國</strong>: 包含來自 Ordnance
-          Survey data &copy; Crown copyright and database right
-          2010-23 的資料。
-        contributors_footer_1_html: |-
-          若需要進一步詳情，以及其他曾用以協助改進
-           OpenStreetMap 的資料來源，請參閱 OpenStreetMap Wiki 上的<a
-          href="https://wiki.openstreetmap.org/wiki/Contributors">貢獻者
-          頁面</a>。
+        contributors_fr_france: 法國
+        contributors_nl_credit_html: '%{netherlands}：包含 &copy; AND 資料，2007（%{and_link}）'
+        contributors_nl_netherlands: 荷蘭
+        contributors_nz_credit_html: |-
+          %{new_zealand}：包含來自 %{linz_data_service_link}
+          與基於 %{cc_by_link} 的重複使用授權條款。
+        contributors_nz_new_zealand: 紐西蘭
+        contributors_nz_linz_data_service: LINZ 資料服務
+        contributors_nz_cc_by: 創用 CC 姓名標示 4.0
+        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.zh_TW
+        contributors_si_credit_html: |-
+          %{slovenia}：包含來自 %{gu_link} 和 %{mkgp_link}
+          （斯洛維尼亞公開資訊）的資料。
+        contributors_si_slovenia: 斯洛維尼亞
+        contributors_si_gu: 測繪局
+        contributors_si_mkgp: 農林食品部
+        contributors_es_credit_html: '%{spain}：包含來自西班牙國家地理研究所（%{ign_link}）和國家製圖系統（%{scne_link}）的資料，在%{cc_by_link}下授權重複使用。'
+        contributors_es_spain: 西班牙
+        contributors_es_ign: IGN
+        contributors_es_cc_by: 創用 CC 姓名標示 4.0
+        contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.zh_TW
+        contributors_za_credit_html: '%{south_africa}：包含來自%{ngi_link}的資料，國家版權所有。'
+        contributors_za_south_africa: 南非
+        contributors_za_ngi: 總局：國家地理空間資訊局
+        contributors_gb_credit_html: '%{united_kingdom}：包含軍械調查資料&copy;皇家版權與資料庫版權 2010-2023。'
+        contributors_gb_united_kingdom: 英國
+        contributors_2_html: 關於這些的進一步詳細資訊，與其他已使用來改善 OpenStreetMap 的來源，請參閱 OpenStreetMap
+          Wiki 上的%{contributors_page_link}。
+        contributors_2_contributors_page: 貢獻者頁面
         contributors_footer_2_html: OpenStreetMap 收錄一項資料，並不意味原本的資料提供者認可 OpenStreetMap、提供任何保證或承擔任何法律責任。
         infringement_title_html: 侵犯版權
         infringement_1_html: OSM 的貢獻者會被提醒，絕不要在沒有版權所有人的明確淮許下，加入來自任何有版權的來源的資料 (如 Google
           地圖或印刷地圖)。
-        infringement_2_html: 如果你認為有含有著作權的材料被不恰當地加入到 OpenStreetMap 資料庫或此網站，請參考我們的<a
-          href="https://wiki.osmfoundation.org/wiki/Takedown_procedure">撤除程序</a>或直接在我們的<a
-          href="https://dmca.openstreetmap.org/">線上申報頁面</a>提出。
-        trademarks_title_html: <span id="trademarks"></span>商標
-        trademarks_1_html: OpenStreetMap、放大鏡標誌和 OpenStreetMap 研討會是 OpenStreetMap 基金會的註冊商標。如果你對於使用這些商標有疑問的話，請查看我們的<a
-          href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">商標方針</a>。
+        infringement_2_1_html: 如果您認為有受版權保護的素材被不恰當地加到 OpenStreetMap 資料庫或本網站，請參考我們的%{takedown_procedure_link}，或直接在我們的%{online_filing_page_link}反應。
+        infringement_2_1_takedown_procedure: 侵權處理程序
+        infringement_2_1_online_filing_page: 線上申請頁面
+        trademarks_title: 商標
+        trademarks_1_1_html: OpenStreetMap、網站上的放大鏡標誌，和 State of the Map 是 OpenStreetMap
+          基金會的註冊商標。如果您對商標的使用有任何疑問，請參閱我們的%{trademark_policy_link}。
+        trademarks_1_1_trademark_policy: 商標方針
     index:
       js_1: 您使用不支援 JavaScript 的瀏覽器，或者停用了 JavaScript。
       js_2: OpenStreetMap 使用 JavaScript 讓地圖更平順。
@@ -2064,7 +2063,6 @@ zh-TW:
         concerns_html: 如果您對我們的資料使用方面或內容有所疑慮，請參考我們的%{copyright_link}來了解更多法律資訊，或是聯繫相應的%{working_group_link}。
         copyright: 版權頁面
         working_group: OSMF 工作小組
-        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: 取得協助
       introduction: OpenStreetMap 有一些資源，可用於學習本專案、提出和回答問題，以及討論和紀錄與製作地圖相關的話題。
@@ -2101,7 +2099,6 @@ zh-TW:
       removed: 您預設的開放街圖編輯器是設定成 Potlatch。因為 Adobe Flash Player 已終止維護，Potlatch 已不在網路瀏覽器上可用。
       desktop_application_html: 您仍然可以透過 %{download_link} 使用 Potlatch。
       download: 下載適用於 Mac 和 Windows 的桌面應用程式
-      download_url: https://www.systemed.net/potlatch/
       id_editor_html: 除此之外，您可以設定您的預設編輯器成 iD，這可以和先前的 Potlatch 一樣在您的網路瀏覽器上運作。%{change_preferences_link}。
       change_preferences: 在此更改您的偏好設定
     any_questions:
@@ -2254,7 +2251,6 @@ zh-TW:
           沒有需要正式建立一個與地方分會同等規模的團體。
           事實上，許多團體作為人們的非正式集會或是社群團體而非常成功地存在。任何人都可以設定或是加入這些團體。請在%{communities_wiki_link}上閱讀更多內容。
         communities_wiki: 社群 wiki 頁面
-        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   traces:
     visibility:
       private: 私人 (以匿名方式分享，節點無順序)
@@ -2308,7 +2304,7 @@ zh-TW:
     trace:
       pending: 等候
       count_points:
-        one: 1 個點
+        one: '%{count} 個點'
         other: '%{count} 個點'
       more: 更多
       trace_details: 檢視軌跡詳細資料
@@ -2677,20 +2673,20 @@ zh-TW:
       time_past_html: 於%{time}結束。
       block_duration:
         hours:
-          one: 1 小時
+          one: '%{count} 小時'
           other: '%{count} 小時'
         days:
-          one: 1日
-          other: '%{count}日'
+          one: '%{count} 天'
+          other: '%{count} 天'
         weeks:
-          one: 1週
-          other: '%{count}週'
+          one: '%{count} 週'
+          other: '%{count} 週'
         months:
-          one: 1個月
-          other: '%{count}個月'
+          one: '%{count} 個月'
+          other: '%{count} 個月'
         years:
-          one: 1年
-          other: '%{count}年'
+          one: '%{count} 年'
+          other: '%{count} 年'
     blocks_on:
       title: 對 %{name} 的封鎖
       heading_html: 對 %{name} 封鎖的清單
@@ -2804,10 +2800,10 @@ zh-TW:
       locate:
         title: 顯示我的位置
         metersPopup:
-          one: 您距離此地點在 1 公尺內
+          one: 您距離此地點在 %{count} 公尺內
           other: 您距離此地點在 %{count} 公尺內
         feetPopup:
-          one: 您距離此地點在 1 英尺內
+          one: 您距離此地點在 %{count} 英尺內
           other: 您距離此地點在 %{count} 英尺內
       base:
         standard: 標準
