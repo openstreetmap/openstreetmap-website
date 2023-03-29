@@ -4,7 +4,10 @@
       <div class='row'>
         <div class='col-sm-7 user-image'></div>
         <div class='col-sm-5 px-5 py-3 byosm'>
-          <p class='h5 text-white text-nowrap'><%= t ".copyright_html" %></p>
+          <p class='h5 text-white text-nowrap'>
+            <%= t ".heading_html", :copyright => tag.span(t(".copyright_symbol_html")),
+                                   :br => tag.br %>
+          </p>
         </div>
       </div>
       <div class='row'>
@@ -22,16 +25,44 @@
       <% end %>
 
       <%= render :layout => "about_section", :locals => { :icon => "community", :title => "community_driven" } do %>
-        <p><%= t "site.about.community_driven_html", :diary_path => diary_entries_path %></p>
+        <p>
+          <%= t "site.about.community_driven_1_html", :osm_blog_link => link_to(t("site.about.community_driven_osm_blog"),
+                                                                                t("site.about.community_driven_osm_blog_url")),
+                                                      :user_diaries_link => link_to(t("site.about.community_driven_user_diaries"),
+                                                                                    diary_entries_path),
+                                                      :community_blogs_link => link_to(t("site.about.community_driven_community_blogs"),
+                                                                                       t("site.about.community_driven_community_blogs_url")),
+                                                      :osm_foundation_link => link_to(t("site.about.community_driven_osm_foundation"),
+                                                                                      t("site.about.community_driven_osm_foundation_url")) %>
+        </p>
       <% end %>
 
       <%= render :layout => "about_section", :locals => { :id => "open-data", :icon => "open", :title => "open_data" } do %>
-        <p><%= t "site.about.open_data_html", :copyright_path => copyright_path %></p>
+        <p>
+          <%= t "site.about.open_data_1_html", :open_data => tag.i(t("site.about.open_data_open_data")),
+                                               :copyright_license_link => link_to(t("site.about.open_data_copyright_license"),
+                                                                                  copyright_path) %></p>
       <% end %>
 
       <%= render :layout => "about_section", :locals => { :id => "legal", :icon => "legal", :title => "legal" } do %>
-        <p><%= t "site.about.legal_1_html" %></p>
-        <p><%= t "site.about.legal_2_html" %></p>
+        <p>
+          <%= t "site.about.legal_1_1_html", :openstreetmap_foundation_link => link_to(t("site.about.legal_1_1_openstreetmap_foundation"),
+                                                                                       t("site.about.legal_1_1_openstreetmap_foundation_url")),
+                                             :terms_of_use_link => link_to(t("site.about.legal_1_1_terms_of_use"),
+                                                                           t("site.about.legal_1_1_terms_of_use_url")),
+                                             :aup_link => link_to(t("site.about.legal_1_1_aup"),
+                                                                  t("site.about.legal_1_1_aup_url")),
+                                             :privacy_policy_link => link_to(t("site.about.legal_1_1_privacy_policy"),
+                                                                             t("site.about.legal_1_1_privacy_policy_url")) %>
+        </p>
+        <p>
+          <%= t "site.about.legal_2_1_html", :contact_the_osmf_link => link_to(t("site.about.legal_2_1_contact_the_osmf"),
+                                                                               t("site.about.legal_2_1_contact_the_osmf_url")) %>
+        </p>
+        <p>
+          <%= t "site.about.legal_2_2_html", :registered_trademarks_link => link_to(t("site.about.legal_2_2_registered_trademarks"),
+                                                                                    t("site.about.legal_2_2_registered_trademarks_url")) %>
+        </p>
       <% end %>
 
       <%= render :layout => "about_section", :locals => { :id => "partners", :icon => "partners", :title => "partners" } do %>
