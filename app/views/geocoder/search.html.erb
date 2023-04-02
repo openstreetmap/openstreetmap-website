@@ -3,7 +3,10 @@
 <%= render "sidebar_header", :title => t("site.sidebar.search_results") %>
 
 <% @sources.each do |source| %>
-  <h4><%= t(".title.#{source}_html") %></h4>
+  <h4>
+    <%= t(".title.results_from_html", :results_link => link_to(t(".title.#{source}"),
+                                                               t(".title.#{source}_url"))) %>
+  </h4>
   <div class="search_results_entry mx-n3" data-href="<%= url_for @params.merge(:action => "search_#{source}") %>">
     <div class="text-center loader">
       <div class="spinner-border" role="status">

@@ -154,7 +154,6 @@ en:
         reason: The reason why the user is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation, remembering that the message will be publicly visible. Bear in mind that not all users understand the community jargon, so please try to use layman's terms.
         needs_view: Does the user need to log in before this block will be cleared?
       user:
-        email_confirmation: 'Your address is not displayed publicly, see our <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy policy including section on email addresses">privacy policy</a> for more information.'
         new_email: "(never displayed publicly)"
   datetime:
     distance_in_words_ago:
@@ -591,9 +590,13 @@ en:
   geocoder:
     search:
       title:
-        latlon_html: 'Results from <a href="https://openstreetmap.org/">Internal</a>'
-        osm_nominatim_html: 'Results from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>'
-        osm_nominatim_reverse_html: 'Results from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>'
+        results_from_html: 'Results from %{results_link}'
+        latlon: Internal
+        latlon_url: https://openstreetmap.org/
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_url: https://nominatim.openstreetmap.org/
+        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openstreetmap.org/
     search_osm_nominatim:
       prefix_format: "%{name}"
       prefix:
@@ -2141,8 +2144,8 @@ en:
             If you have noticed a problem with our map data, for example a road is missing or your address, the best way to
             proceed is to join the OpenStreetMap community and add or repair the data yourself.
         add_a_note:
-          instructions_html: |
-            Just click <a class='icon note'></a> or the same icon on the map display.
+          instructions_1_html: |
+            Just click %{note_icon} or the same icon on the map display.
             This will add a marker to the map, which you can move
             by dragging. Add your message, then click save, and other mappers will investigate.
       other_concerns:
@@ -2623,6 +2626,10 @@ en:
       auth no password: "With third party authentication a password is not required, but some extra tools or server may still need one."
       continue: Sign Up
       terms accepted: "Thanks for accepting the new contributor terms!"
+      email_confirmation_help_html: 'Your address is not displayed publicly, see our %{privacy_policy_link} for more information.'
+      privacy_policy: privacy policy
+      privacy_policy_url: https://wiki.osmfoundation.org/wiki/Privacy_Policy
+      privacy_policy_title: OSMF privacy policy including section on email addresses
     terms:
       title: "Terms"
       heading: "Terms"
@@ -2873,15 +2880,15 @@ en:
       open_title: "Unresolved note #%{note_name}"
       closed_title: "Resolved note #%{note_name}"
       hidden_title: "Hidden note #%{note_name}"
-      opened_by_html: "Created by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
-      opened_by_anonymous_html: "Created by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
-      commented_by_html: "Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
-      commented_by_anonymous_html: "Comment from anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
-      closed_by_html: "Resolved by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
-      closed_by_anonymous_html: "Resolved by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
-      reopened_by_html: "Reactivated by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
-      reopened_by_anonymous_html: "Reactivated by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
-      hidden_by_html: "Hidden by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      event_opened_by_html: "Created by %{user} %{time_ago}"
+      event_opened_by_anonymous_html: "Created by anonymous %{time_ago}"
+      event_commented_by_html: "Comment from %{user} %{time_ago}"
+      event_commented_by_anonymous_html: "Comment from anonymous %{time_ago}"
+      event_closed_by_html: "Resolved by %{user} %{time_ago}"
+      event_closed_by_anonymous_html: "Resolved by anonymous %{time_ago}"
+      event_reopened_by_html: "Reactivated by %{user} %{time_ago}"
+      event_reopened_by_anonymous_html: "Reactivated by anonymous %{time_ago}"
+      event_hidden_by_html: "Hidden by %{user} %{time_ago}"
       report: report this note
       coordinates_html: "%{latitude}, %{longitude}"
       anonymous_warning: This note includes comments from anonymous users which should be independently verified.
@@ -2953,13 +2960,19 @@ en:
         gps: Public GPS Traces
         overlays: Enable overlays for troubleshooting the map
         title: "Layers"
-      copyright: "© <a href='%{copyright_url}'>OpenStreetMap contributors</a>"
-      donate_link_text: "<a class='donate-attr' href='%{donate_url}'>Make a Donation</a>"
-      terms: "<a href='%{terms_url}' target='_blank'>Website and API terms</a>"
-      cyclosm: "Tiles style by <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a> hosted by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>"
-      thunderforest: "Tiles courtesy of <a href='%{thunderforest_url}' target='_blank'>Andy Allan</a>"
-      opnvkarte: "Tiles courtesy of <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>"
-      hotosm: "Tiles style by <a href='%{hotosm_url}' target='_blank'>Humanitarian OpenStreetMap Team</a> hosted by <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>"
+      copyright_text: "© %{copyright_link}"
+      openstreetmap_contributors: "OpenStreetMap contributors"
+      make_a_donation: Make a Donation
+      website_and_api_terms: Website and API terms
+      cyclosm_credit: "Tiles style by %{cyclosm_link} hosted by %{osm_france_link}"
+      cyclosm_name: CyclOSM
+      osm_france: OpenStreetMap France
+      thunderforest_credit: "Tiles courtesy of %{thunderforest_link}"
+      andy_allan: Andy Allan
+      opnvkarte_credit: "Tiles courtesy of %{memomaps_link}"
+      memomaps: MeMoMaps
+      hotosm_credit: "Tiles style by %{hotosm_link} hosted by %{osm_france_link}"
+      hotosm_name: Humanitarian OpenStreetMap Team
     site:
       edit_tooltip: Edit the map
       edit_disabled_tooltip: Zoom in to edit the map
