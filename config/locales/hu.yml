@@ -192,9 +192,6 @@ hu:
           használni.
         needs_view: Be kell jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
       user:
-        email_confirmation: E-mail címed nem jelenik nyilvánosan. További információ
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="az OSMF
-          adatvédelmi irányelvek e-mail címekre vonatkozó részéről">privacy policy</a>.
         new_email: (soha nem jelenik meg nyilvánosan)
   datetime:
     distance_in_words_ago:
@@ -349,12 +346,8 @@ hu:
   browse:
     created: Létrehozva
     closed: Lezárva
-    created_html: 'Létrehozva: <abbr title=''%{title}''>%{time}</abbr>'
-    closed_html: 'Lezárva: <abbr title=''%{title}''>%{time}</abbr>'
-    created_by_html: Létrehozta %{user}, <abbr title='%{title}'>%{time}</abbr>
-    deleted_by_html: Törölte %{user}, <abbr title='%{title}'>%{time}</abbr>
-    edited_by_html: Szerkesztette %{user}, <abbr title='%{title}'>%{time}</abbr>
-    closed_by_html: Lezárta %{user}, <abbr title='%{title}'>%{time}</abbr>
+    closed_ago_html: Lezárva %{time_ago}
+    closed_ago_by_html: Lezárva %{time_ago}, %{user} által
     version: Verzió
     in_changeset: Módosításcsomag
     anonymous: névtelen
@@ -380,9 +373,6 @@ hu:
       relation: Kapcsolatok (%{count})
       relation_paginated: 'Kapcsolatok (%{x}-%{y} ennyiből: %{count})'
       comment: Hozzászólások (%{count})
-      hidden_commented_by_html: Rejtett hozzászólás %{user} felhasználótól, <abbr
-        title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Hozzászólás %{user} felhasználótól, <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
@@ -652,13 +642,6 @@ hu:
       success: '%{name} eltávolítva az ismerőseid közül.'
       not_a_friend: '%{name} nem tartozik az ismerőseid közé.'
   geocoder:
-    search:
-      title:
-        latlon_html: Eredmények az <a href="https://openstreetmap.org/">Internal</a>-ról
-        osm_nominatim_html: Eredmények az <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>-ról
-        osm_nominatim_reverse_html: Eredmények az <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatimról</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1451,8 +1434,6 @@ hu:
       status: Állapot
       reports: Bejelentések
       last_updated: Utoljára frissítve
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> %{user} által
       link_to_reports: Bejelentések megtekintése
       reports_count:
         one: '%{count} bejelentés'
@@ -1624,6 +1605,10 @@ hu:
       subject: '[OpenStreetMap] Sikertelen GPX importálás'
     gpx_success:
       hi: Szia %{to_user}!
+      loaded:
+        one: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points} ponttal.
+        other: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points}
+          ponttal.
       subject: '[OpenStreetMap] Sikeres GPX importálás'
     signup_confirm:
       subject: '[OpenStreetMap] Üdvözlünk az OpenStreetMapen'
@@ -1721,6 +1706,8 @@ hu:
       success: Felhasználói fiókod megerősítve, köszönjük a regisztrációt!
       already active: Ez a fiók már megerősítésre került.
       unknown token: Ez a megerősítési kód lejárt vagy nem létezik.
+      resend_html: Ha újra el kell küldenünk a megerősítő e-mailt, %{reconfirm_link}.
+      click_here: kattints ide
     confirm_resend:
       failure: '%{name} felhasználó nem található.'
     confirm_email:
@@ -1911,6 +1898,7 @@ hu:
       support: támogatás
   shared:
     markdown_help:
+      heading_html: 'Elemezve ezzel: %{kramdown_link}'
       headings: Címsorok
       heading: Cím
       subheading: Alcím
@@ -1929,7 +1917,6 @@ hu:
   site:
     about:
       next: Következő
-      copyright_html: <span>&copy;</span>OpenStreetMap<br />közreműködők
       used_by_html: '%{name} több ezer weboldalnak, mobilalkalmazásnak és hardvereszköznek
         biztosít térképadatokat'
       lede_text: Az OpenStreetMapet egy térképszerkesztő-közösség építi, akik hozzáadnak
@@ -1940,7 +1927,7 @@ hu:
         A közreműködők műholdképeket, GPS-eszközöket és hagyományos térképeket használnak,
         hogy ellenőrizzék az OSM pontosságát és naprakészségét.
       community_driven_title: Közösség által vezérelt
-      community_driven_html: Az OpenStreetMap közössége változatos, lelkes, és minden
+      community_driven_1_html: Az OpenStreetMap közössége változatos, lelkes, és minden
         nap növekszik. Lelkes térképezők, GIS profik, az OSM szervereket üzemeltető
         technikusok, katasztrófa-sújtotta területeket térképező önkéntesek működnek
         közre a térkép szerkesztésében. Ha többet szeretnél megtudni a közösségről,
@@ -1948,25 +1935,20 @@ hu:
         a <a href='%{diary_path}'>felhasználói naplókat</a>, a <a href='https://blogs.openstreetmap.org/'>közösségi
         blogokat</a>, és az <a href='https://www.osmfoundation.org/'>OSM Foundation</a>
         weboldalát.
-      open_data_title: Szabad adatok
-      open_data_html: 'Az OpenStreetMap <i>szabad adatokból</i> áll: szabadon használhatod
-        bármilyen célra az OpenStreetMap és közreműködői megjelölésével. Ha hozzáadsz,
-        vagy módosítod az adatot valamilyen módon, az eredményt csak ugyanezzel a
-        licenccel teheted közzé. Lásd a <a href=''%{copyright_path}''>Copyright és
-        Licence oldalt</a> a részletekért.'
+      open_data_title: Nyílt adat
+      open_data_1_html: 'Az OpenStreetMap <i>nyílt adat</i>: szabadon használhatod
+        bármilyen célra az OpenStreetMap és közreműködői megjelölésével. Ha az adatokat
+        kiegészíted vagy módosítod, az eredményt csak ugyanezzel a licenccel teheted
+        közzé. Lásd a <a href=''%{copyright_path}''>Copyright és Licence oldalt</a>
+        a részletekért.'
       legal_title: Jogi segítség
-      legal_1_html: Ezt az oldalt és sok más kapcsolódó szolgáltatást hivatalosan
+      legal_1_1_html: Ezt az oldalt és sok más kapcsolódó szolgáltatást hivatalosan
         az <a href='https://osmfoundation.org/'>OpenStreetMap Alapítvány</a> (OSMF)
         üzemelteti, a közösség nevében. Az összes OSMF által üzemeltetett szolgáltatásra
         vonatkoznak a <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">felhasználási
         feltételek</a>, az <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">elfogadható
         felhasználásra vonatkozó irányelvek</a>, és az <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">adatvédelmi
         nyilatkozat</a>.
-      legal_2_html: "Ha licenccel kapcsolatos, szerzői jogi vagy más jogi kérdésed
-        van, <a href='https://osmfoundation.org/Contact'>fordulj az OSMF-hez</a>.\n<br>\nAz
-        OpenStreetMap elnevezés, a nagyítót ábrázoló logó és a State of the Map elnevezés
-        \n<a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">az OSMF
-        bejegyzett védjegyei</a>."
       partners_title: Partnerek
     copyright:
       foreign:
@@ -1982,6 +1964,18 @@ hu:
         mapping_link: kezdheted a térképezést
       legal_babble:
         title_html: Szerzői jog és licenc
+        introduction_1_html: Az OpenStreetMap%{registered_trademark_link} %{open_data},
+          amely %{osm_foundation_link} (OSMF) %{odc_odbl_link} (ODbL) licencével rendelkezik.
+        introduction_1_open_data: nyílt adat
+        introduction_1_odc_odbl: Open Data Commons Open Database License (open data
+          commons nyílt adatbázis-licenc)
+        introduction_1_osm_foundation: OpenStreetMap Alapítvány
+        introduction_2_html: Adatainkat szabadon másolhatod, terjesztheted, továbbíthatod
+          és átdolgozhatod mindaddig, amíg feltünteted az OpenStreetMapet és közreműködőit.
+          Ha módosítod vagy felhasználod az adatainkat, akkor az eredményt is csak
+          azonos licenccel terjesztheted. Jogaid és kötelességeid a teljes %{legal_code_link}
+          ismerteti.
+        introduction_2_legal_code: jogi kódex
         introduction_3_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.hu
         credit_title_html: Hogyan kell feltüntetned az OpenStreetMapet?
         credit_1_html: 'Ahol az OpenStreetMap adatait használja, ott kérjük tüntesse
@@ -1991,6 +1985,12 @@ hu:
             egy weboldalon
           title: Példa egy hivatkozásra
         more_title_html: Tudj meg többet!
+        more_2_1_html: 'Bár az OpenStreetMap nyílt adat, harmadik feleknek nem tudunk
+          ingyenes térkép-API-t biztosítani. A részleteket megtekintheted a következő
+          oldalakon: %{api_usage_policy_link}, %{tile_usage_policy_link} és %{nominatim_usage_policy_link}.'
+        more_2_1_api_usage_policy: API-felhasználási irányelvek
+        more_2_1_tile_usage_policy: csempefelhasználási irányelvek
+        more_2_1_nominatim_usage_policy: a Nominatim felhasználási irányelvei
         contributors_title_html: Közreműködőink
         contributors_intro_html: 'Több ezer egyéni közreműködőnk van. További, szabadon
           elérhető adatokat is felhasználunk nemzeti térkép intézetektől és más forrásokból,
@@ -2078,11 +2078,6 @@ hu:
           explanation_html: Ha bármilyen hibát találtál a térképadatokban, például
             hiányzik egy út vagy cím, a legjobb, ha csatlakozol az OpenStreetMap közösséghez
             és kijavítod az adatot saját magad.
-        add_a_note:
-          instructions_html: Csak kattints a <a class='icon note'></a> ikonra vagy
-            ugyanerre az ikonra a térképmegjelenítőben. Ez felrak egy helyjelölőt
-            a térképre, amelyet húzással mozgathatsz. Írj hozzá egy üzenetet, majd
-            kattints a mentésre, és a többi térképész meg fogja vizsgálni.
       other_concerns:
         title: Egyéb aggályok
     help:
@@ -2809,15 +2804,6 @@ hu:
       open_title: '%{note_name} megoldatlan jegyzet'
       closed_title: '%{note_name} megoldott jegyzet'
       hidden_title: '%{note_name} rejtett jegyzet'
-      opened_by_html: Létrehozta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Létrehozva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: '%{user} hozzászólása, <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by_anonymous_html: Névtelen megjegyzés, <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Megoldotta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Megoldva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Újraaktiválta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Újraaktiválva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Elrejtette %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
       report: jegyzet bejelentése
       anonymous_warning: Ez a jegyzet névtelen felhasználók hozzászólásait is tartalmazza,
         amelyeket független módon kell ellenőrizni.
@@ -2897,19 +2883,6 @@ hu:
         gps: Nyilvános GPS-nyomvonalak
         overlays: További rétegek engedélyezése a térkép hibáinak javítása érdekében
         title: Rétegek
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap közreműködők</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Támogatás</a>
-      terms: A <a href='%{terms_url}' target='_blank'>weboldal és API felhasználási
-        feltételei</a>
-      cyclosm: 'Csempestílus: <a href=''%{cyclosm_url}'' target=''_blank''>CyclOSM</a>,
-        üzemeltető: <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap France</a>'
-      thunderforest: Csempék <a href='%{thunderforest_url}' target='_blank'>Andy Allen</a>
-        jóvoltából
-      opnvkarte: Csempék a <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-        jóvoltából
-      hotosm: 'Csempestílus: <a href=''%{hotosm_url}'' target=''_blank''>Humanitarian
-        OpenStreetMap Team</a>, üzemeltető: <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap
-        France</a>'
     site:
       edit_tooltip: Térkép szerkesztése
       edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez

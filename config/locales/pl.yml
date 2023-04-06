@@ -126,7 +126,7 @@ pl:
       relation: Relacja
       relation_member: Człon relacji
       relation_tag: Tag relacji
-      report: raport
+      report: zgłoszenie
       session: Sesja
       trace: Ślad
       tracepoint: Punkt śladu
@@ -222,10 +222,6 @@ pl:
           staraj się używać ogólnie rozumianych pojęć.
         needs_view: Czy użytkownik musi się zalogować, zanim blokada zostanie zdjęta?
       user:
-        email_confirmation: Twój adres nie będzie wyświetlany publicznie, zobacz naszą
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="polityka
-          prywatności OSMF zawierająca sekcję o adresach el-pocztowych">politykę prywatności</a>,
-          aby uzyskać więcej informacji.
         new_email: (nie jest wyświetlany publicznie)
   datetime:
     distance_in_words_ago:
@@ -385,13 +381,12 @@ pl:
       delete_account: Usuń konto...
     go_public:
       heading: 'Edycje publiczne:'
-      currently_not_public: Obecnie Twoje zmiany są anonimowe i inne osoby nie mogą
-        wysyłać Ci wiadomości ani widzieć Twojej lokalizacji. Aby pokazać, co edytowałeś
-        i umożliwić innym kontaktowanie się z Tobą za pośrednictwem witryny, kliknij
-        przycisk poniżej.
-      only_public_can_edit: Od zmiany interfejsu API na wersję 0.6 tylko użytkownicy
-        publiczni mogą edytować dane map.
-      find_out_why: dowiedz się dlaczego
+      currently_not_public: Twoje edycje są obecnie anonimowe i inni nie mogą ci wysyłać
+        wiadomości ani zobaczyć twojej lokalizacji. Aby pokazać swoje edycje i umożliwić
+        innym kontakt z tobą przez stronę, kliknij przycisk poniżej.
+      only_public_can_edit: Od czasu zmiany API na wersję 0.6 tylko użytkownicy publiczni
+        mogą edytować dane mapy.
+      find_out_why: dowiedz się, dlaczego
       make_edits_public_button: Niech wszystkie edycje będą publiczne.
     update:
       success_confirm_needed: Zaktualizowano profil użytkownika. Sprawdź, czy przyszedł
@@ -402,12 +397,12 @@ pl:
   browse:
     created: Utworzone
     closed: Zamknięte
-    created_html: Utworzone <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Zamknięte <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Utworzone <abbr title='%{title}'>%{time}</abbr> przez %{user}
-    deleted_by_html: Usunięte <abbr title='%{title}'>%{time}</abbr> przez %{user}
-    edited_by_html: Edytowane <abbr title='%{title}'>%{time}</abbr> przez %{user}
-    closed_by_html: Zamknięte <abbr title='%{title}'>%{time} </abbr> przez %{user}
+    created_ago_html: Utworzone %{time_ago}
+    closed_ago_html: Zamknięte %{time_ago}
+    created_ago_by_html: Utworzone %{time_ago} przez %{user}
+    closed_ago_by_html: Zamknięte %{time_ago} przez %{user}
+    deleted_ago_by_html: Usunięte %{time_ago} przez %{user}
+    edited_ago_by_html: Edytowane %{time_ago} przez %{user}
     version: Wersja
     in_changeset: Zestaw zmian
     anonymous: Anonimowy użytkownik
@@ -437,8 +432,8 @@ pl:
       relation: Relacje (%{count})
       relation_paginated: Relacje (%{x}-%{y} z %{count})
       comment: Komentarze (%{count})
-      hidden_commented_by_html: Ukryty komentarz od użytkownika %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Komentarz od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_comment_by_html: Ukryty komentarz od użytkownika %{user} %{time_ago}
+      comment_by_html: Komentarz od %{user} %{time_ago}
       changesetxml: XML w formacie zestawu zmian
       osmchangexml: XML w formacie osmChange
       feed:
@@ -714,11 +709,9 @@ pl:
   geocoder:
     search:
       title:
-        latlon_html: Wyniki z <a href="https://openstreetmap.org/">Internal</a>
-        osm_nominatim_html: Wyniki z <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Wyniki z <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
+        results_from_html: Wyniki z %{results_link}
+        osm_nominatim: Nominatim
+        osm_nominatim_reverse: Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1055,7 +1048,7 @@ pl:
           basin: Basen-zbiornik,niecka
           brownfield: Grunty poprzemysłowe
           cemetery: Cmentarz
-          commercial: Obszar handlowo-usługowy
+          commercial: Teren komercyjny
           conservation: Rezerwat
           construction: Teren budowy
           farmland: Grunty orne
@@ -1511,13 +1504,13 @@ pl:
       status: Stan
       reports: Zgłoszenia
       last_updated: Ostatnia aktualizacja
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> przez %{user}
+      last_updated_time_ago_user_html: '%{time_ago} przez %{user}'
       link_to_reports: Zobacz zgłoszenia
       reports_count:
         one: 1 zgłoszenie
         few: '%{count} zgłoszenia'
-        other: '%{count} zgłoszeń'
+        many: '%{count} zgłoszeń'
+        other: '%{count} zgłoszenia'
       reported_item: Zgłoszony element
       states:
         ignored: zignorowane
@@ -1537,7 +1530,7 @@ pl:
       ignore: Zignoruj
       reopen: Otwórz ponownie
       reports_of_this_issue: Zgłoszenia w tej sprawie
-      read_reports: Czytaj raporty
+      read_reports: Czytaj zgłoszenia
       new_reports: Nowe zgłoszenia
       other_issues_against_this_user: Inne sprawy przeciwko temu użytkownikowi
       no_other_issues: Brak innych zgłoszeń dotyczących tego użytkownika.
@@ -1999,7 +1992,6 @@ pl:
   site:
     about:
       next: Dalej
-      copyright_html: <span>&copy;</span>Autorzy<br>OpenStreetMap
       used_by_html: '%{name} dostarcza dane mapowe tysiącom stron internetowych, aplikacji
         oraz urządzeń'
       lede_text: OpenStreetMap jest tworzony przez społeczność dodającą dane o drogach,
@@ -2009,7 +2001,7 @@ pl:
         zdjęć satelitarnych, lotniczych, nawigacji GPS i zwykłych map, aby zweryfikować,
         czy dane w OSM są dokładne i aktualne.
       community_driven_title: Zarządzany przez społeczność
-      community_driven_html: |-
+      community_driven_1_html: |-
         Społeczność OpenStreetMap jest różnorodna, zaangażowana i każdego dnia coraz większa. Wśród edytujących mapę są amatorscy kartografowie, specjaliści GIS, inżynierowie odpowiadający za pracę serwerów OSM, osoby tworzące mapy obszarów dotkniętych skutkami klęski żywiołowej potrzebne służbom ratunkowym oraz wielu innych ludzi.
         Aby dowiedzieć się więcej na temat wspólnoty, odwiedź
         <a href='https://blog.openstreetmap.org'>Blog OpenStreetMap</a>,
@@ -2017,19 +2009,15 @@ pl:
         <a href='https://blogs.openstreetmap.org/'>blogi społeczności</a> oraz
         <a href='http://openstreetmap.org.pl'>stronę OSM Polska</a>.
       open_data_title: Otwarte dane
-      open_data_html: 'OpenStreetMap to <i>otwarte dane</i>: możesz używać ich, jak
-        tylko chcesz pod warunkiem, że dodasz, że pochodzą one z  OpenStreetMap i
-        jego autorów. Jeśli zmienisz lub stworzysz coś na podstawie tych danych, możesz
-        je dystrybuować, ale tylko na tej samej licencji. Szczegółowe informacje na
-        stronie <a href=''%{copyright_path}''>Prawa autorskie i licencja</a>.'
+      open_data_1_html: 'OpenStreetMap to <i>otwarte dane</i>: możesz używać ich,
+        jak tylko chcesz pod warunkiem, że dodasz, że pochodzą one z  OpenStreetMap
+        i jego autorów. Jeśli zmienisz lub stworzysz coś na podstawie tych danych,
+        możesz je dystrybuować, ale tylko na tej samej licencji. Szczegółowe informacje
+        na stronie <a href=''%{copyright_path}''>Prawa autorskie i licencja</a>.'
       legal_title: Pytania prawne
-      legal_1_html: |-
+      legal_1_1_html: |-
         Ta strona internetowa i inne powiązane usługi prowadzone są oficjalnie przez <a href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) w imieniu społeczności. Korzystanie ze wszystkich usług OSMF jest regulowane przez <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Warunki użytkowania</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         Politykę użytkowania</a> i naszą <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politykę prywatności</a>.
-      legal_2_html: |-
-        Jeśli masz pytania dotyczące licencji, praw autorskich lub innych kwestii prawnych, <a href='https://osmfoundation.org/Contact'>skontaktuj się z OSMF</a>.
-        <br>
-        OpenStreetMap, logo z lupą oraz State of the Map są <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">zarejestrowanymi znakami towarowymi OSMF</a>.
       partners_title: Partnerzy
     copyright:
       foreign:
@@ -2046,16 +2034,111 @@ pl:
         mapping_link: rozpocząć tworzenie mapy
       legal_babble:
         title_html: Prawa autorskie i&nbsp;licencja
+        introduction_1_html: OpenStreetMap%{registered_trademark_link} to projekt
+          %{open_data}, rozpowszechniany na licencji %{odc_odbl_link} (ODbL) przez
+          %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: open data
+        introduction_1_odc_odbl: Open Data Commons Open Database License
+        introduction_1_osm_foundation: OpenStreetMap Foundation
+        introduction_2_html: Możesz swobodnie kopiować, rozpowszechniać, przekazywać
+          innym i dostosowywać nasze dane, pod warunkiem podania OpenStreetMap i jego
+          autorów jako źródła. Jeśli zmienisz, przekształcisz lub wykorzystasz nasze
+          dane, wynik swojej pracy możesz rozpowszechniać tylko na podstawie tej samej
+          licencji. %{legal_code_link} dokładnie opisuje twoje prawa i obowiązki.
+        introduction_2_legal_code: Pełny tekst licencji
+        introduction_3_html: Nasza dokumentacja rozpowszechniana jest na warunkach
+          licencji %{creative_commons_link} (CC BY-SA 2.0).
+        introduction_3_creative_commons: Uznanie autorstwa na tych samych warunkach
+          2.0
         credit_title_html: Jak określić pochodzenie danych
         credit_1_html: 'W przypadku korzystania z danych OpenStreetMap należy:'
+        credit_2_1: Podać źródło poprzez wyświetlenie informacji o prawach autorskich
+          (np. w postaci „&copy; autorzy OpenStreetMap”.).
+        credit_2_2: Wyraźnie zaznaczyć, że dane dostępne są na licencji Open Database
+          License.
+        credit_3_html: W przypadku informacji o prawach autorskich mamy różne wymagania
+          co do sposobu jej wyświetlania, w zależności od tego, jak korzysta się z
+          naszych danych. Na przykład, różne zasady dotyczące sposobu wyświetlania
+          informacji o prawach autorskich zależą od tego, czy utworzono interaktywną
+          mapę elektroniczną, mapę drukowaną czy obraz statyczny. Pełne informacje
+          na temat wymagań można znaleźć w %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: wytycznych dotyczących atrybucji
+        credit_4_1_html: |-
+          Żeby jasno zaznaczyć, że dane dostępne są na licencji Open Database License, możesz to zrobić przez podlinkowanie %{this_copyright_page_link}. W przypadku rozpowszechniania OSM w formie danych możesz podać nazwy licencji i umieścić do nich bezpośredni link. Jeśli niemożliwe jest umieszczenie linków (np. na mapach papierowych), sugerujemy pokierowanie czytelników na stronę openstreetmap.org (lub OpenStreetMap.org) i opendatacommons.org.
+          W przykładzie poniżej podziękowania pojawiają się w rogu mapy.
+        credit_4_1_this_copyright_page: tej strony licencyjnej
         attribution_example:
           alt: Przykład, jak przypisywać OpenStreetMap na stronie internetowej
           title: Przykład uznania autorstwa
         more_title_html: Dowiedz się więcej
+        more_1_1_html: Dowiedz się więcej o korzystaniu z naszych danych i o tym,
+          jak określić nas jako źródło, z którego pochodzą dane na %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: stronie OSMF License
+        more_2_1_html: Chociaż dane OpenStreetMap są otwarte, nie jesteśmy w stanie
+          zapewnić nieograniczonego dostępu do naszego API wszystkim chętnym. Zapoznaj
+          się z naszą %{api_usage_policy_link}, %{tile_usage_policy_link} oraz %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Polityką korzystania z API
+        more_2_1_tile_usage_policy: Polityką korzystania z kafelków
+        more_2_1_nominatim_usage_policy: Polityką korzystania z Nominatima
         contributors_title_html: Współtwórcy
         contributors_intro_html: 'Autorami są tysiące osób. Uwzględniamy również licencjonowane
           dane na otwartej zasadzie z krajowych agencji kartograficznych i innych
           źródeł, wśród nich:'
+        contributors_at_credit_html: |-
+          %{austria}: Zawiera dane %{stadt_wien_link} (na licencji %{cc_by_link}), %{land_vorarlberg_link}
+          oraz Land Tirol (na licencji %{cc_by_at_with_amendments_link}).
+        contributors_at_austria: Austria
+        contributors_at_stadt_wien: miasta Wiednia
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT z późniejszymi zmianami
+        contributors_au_credit_html: '%{australia}: Zawiera dane oparte na &copy;
+          %{geoscape_australia_link}, licencjonowane przez Związek Australijski na
+          podstawie licencji %{cc_licence_link}.'
+        contributors_au_australia: Australia
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: CC BY 4.0
+        contributors_ca_credit_html: '%{canada}: Zawiera dane z GeoBase&reg;, GeoGratis
+          (&copy; Department of Natural Resources Canada), CanVec (&copy; Department
+          of Natural Resources Canada) i StatCan (Geography Division, Statistics Canada).'
+        contributors_ca_canada: Kanada
+        contributors_fi_credit_html: '%{finland}: Zawiera dane z National Land Survey
+          of Finland''s Topographic Database i innych zbiorów danych, na podstawie
+          %{nlsfi_license_link}.'
+        contributors_fi_finland: Finlandia
+        contributors_fi_nlsfi_license: licencji NLSFI
+        contributors_fr_credit_html: '%{france}: Zawiera dane uzyskane z Direction
+          Générale des Impôts.'
+        contributors_fr_france: Francja
+        contributors_nl_credit_html: '%{netherlands}: Zawiera dane &copy; AND, 2007
+          (%{and_link})'
+        contributors_nl_netherlands: Holandia
+        contributors_nz_credit_html: '%{new_zealand}: Zawiera dane uzyskane z %{linz_data_service_link}
+          i licencjonowane do ponownego użycia na podstawie licencji %{cc_by_link}.'
+        contributors_nz_new_zealand: Nowa Zelandia
+        contributors_nz_linz_data_service: LINZ Data Service
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_credit_html: '%{slovenia}: Zawiera dane %{gu_link} oraz %{mkgp_link}
+          (informacja publiczna Słowenii).'
+        contributors_si_slovenia: Słowenia
+        contributors_si_gu: Urzędu Geodezji i Kartografii
+        contributors_si_mkgp: Ministerstwa Rolnictwa, Leśnictwa i Żywności
+        contributors_es_credit_html: |-
+          %{spain}: Zawiera dane z Hiszpańskiego Narodowego Instytutu Geograficznego (%{ign_link}) i Krajowego Systemu Kartograficznego (%{scne_link})
+          licencjonowane do ponownego użycia na podstawie licencji %{cc_by_link}.
+        contributors_es_spain: Hiszpania
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Zawiera dane pochodzące z %{ngi_link},
+          prawa autorskie państwa zastrzeżone.'
+        contributors_za_south_africa: RPA
+        contributors_za_ngi: 'zarządu głównego: National Geo-Spatial Information'
+        contributors_gb_credit_html: '%{united_kingdom}: Zawiera dane Ordnance Survey.
+          &copy; Crown copyright and database right 2010-2023.'
+        contributors_gb_united_kingdom: Wielka Brytania
+        contributors_2_html: Szczegóły tych i innych źródeł, które zostały wykorzystane,
+          aby udoskonalić OpenStreetMap, są dostępne na stronie %{contributors_page_link}.
+        contributors_2_contributors_page: Contributors (en)
         contributors_footer_2_html: Włączenie danych do OpenStreetMap nie musi oznaczać,
           że udostępniający je podmiot popiera OpenStreetMap, udziela jakiejkolwiek
           gwarancji lub ponosi jakąkolwiek odpowiedzialność.
@@ -2064,6 +2147,16 @@ pl:
           dodawać danych z żadnych źródeł chronionych prawami autorskimi (jak np.
           Google Maps i&nbsp;większość map drukowanych) bez wyraźnego pozwolenia właściciela
           praw autorskich.
+        infringement_2_1_html: Jeśli uważasz, że materiał chroniony prawem autorskim
+          został niewłaściwie dodany do bazy OpenStreetMap, zajrzyj pod adres naszej
+          %{takedown_procedure_link} lub %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: procedury usuwania danych
+        infringement_2_1_online_filing_page: wypełnij formularz on-line
+        trademarks_title: Znaki towarowe
+        trademarks_1_1_html: OpenStreetMap, logo z lupą oraz nazwa State of the Map
+          są zarejestrowanymi znakami towarowymi Fundacji OpenStreetMap. Jeśli masz
+          pytania dotyczące ich używania, zobacz naszą %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: politykę znaków towarowych
     index:
       js_1: Twoja przeglądarka internetowa nie obsługuje JavaScriptu bądź też masz
         wyłączoną jego obsługę.
@@ -2094,6 +2187,7 @@ pl:
       map_image: Obraz mapy (standardowa warstwa)
       embeddable_html: Kod HTML do osadzenia
       licence: Licencja
+      odbl: Open Data Commons Open Database License
       too_large:
         advice: 'Jeśli eksportowanie się nie uda, proszę rozważyć użycie jednego z
           podanych zasobów:'
@@ -2136,11 +2230,6 @@ pl:
             ulicę lub adres, najlepszym sposobem na dodanie lub naprawę takich danych
             jest dołączenie do społeczności OpenStreetMap i dokonanie edycji lub naprawy
             własnoręcznie.
-        add_a_note:
-          instructions_html: 'Wystarczy, że klikniesz tutaj: <a class=''icon note''></a>
-            lub na taką samą ikonkę przeglądając mapę na głównej stronie. Pojawi się
-            wtedy pinezka, którą możesz przesunąć, przeciągając. Wpisz wiadomość,
-            kliknij Zapisz, a inni mapujący zajmą się opisanym problemem.'
       other_concerns:
         title: Inne kwestie
     help:
@@ -2243,7 +2332,7 @@ pl:
           - ogród
           retail: Zabudowa handlowo-usługowa
           industrial: Teren przemysłowy
-          commercial: Zabudowa handlowo-usługowa
+          commercial: Teren komercyjny
           heathland: Wrzosowisko
           lake:
           - Jezioro
@@ -2619,7 +2708,8 @@ pl:
       title: Nie znaleziono użytkownika
       heading: Użytkownik %{user} nie istnieje
       body: Niestety nie znaleziono użytkownika o nazwie %{user}. Sprawdź pisownię.
-        Być może skorzystano z nieprawidłowego odnośnika.
+        Być może skorzystano z nieprawidłowego odnośnika lub konto tego użytkownika
+        zostało usunięte.
       deleted: '? (konto usunięte)'
     show:
       my diary: Dziennik
@@ -2853,15 +2943,6 @@ pl:
       open_title: 'Nierozwiązana uwaga #%{note_name}'
       closed_title: 'Rozwiązana uwaga #%{note_name}'
       hidden_title: 'Ukryta uwaga #%{note_name}'
-      opened_by_html: 'Utworzona przez: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
-      opened_by_anonymous_html: Utworzona anonimowo <abbr title='%{exact_time}'>%{when}.</abbr>
-      commented_by_html: Komentarz od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Skomentowana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: 'Rozwiązana przez: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
-      closed_by_anonymous_html: Rozwiązana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Ponownie aktywowana przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Ponownie aktywowana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: ją zgłosić
       anonymous_warning: Uwaga zawiera informacje od anonimowych użytkowników, które
         należy zweryfikować przed wprowadzeniem zmian na mapie.
@@ -2945,17 +3026,6 @@ pl:
         gps: Publiczne ślady GPS
         overlays: Nakładki do rozwiązywania problemów na mapie
         title: Warstwy
-      copyright: © <a href='%{copyright_url}'>autorzy OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Przekaż darowiznę</a>
-      terms: <a href='%{terms_url}' target='_blank'>Warunki użytkowania</a>
-      cyclosm: 'Styl kafelków <a href=''%{cyclosm_url}'' target=''_blank''>CyclOSM</a>.
-        Hosting: <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap France</a>'
-      thunderforest: Kafelki dzięki uprzejmości <a href='%{thunderforest_url}' target='_blank'>Andy'ego
-        Allana</a>
-      opnvkarte: Kafelki dzięki uprzejmości <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: 'Styl kafelków: <a href=''%{hotosm_url}'' target=''_blank''>Humanitarian
-        OpenStreetMap Team</a>. Hosting: <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap
-        France</a>'
     site:
       edit_tooltip: Edytuje mapę
       edit_disabled_tooltip: Przybliż mapę, aby ją edytować

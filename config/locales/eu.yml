@@ -176,49 +176,45 @@ eu:
           komunitatearen hizkera ulertzen; beraz, saiatu hitz arruntak erabiltzen.
         needs_view: Erabiltzaileak saioa hasi behar al du bloke hau garbitu aurretik?
       user:
-        email_confirmation: Zure helbidea ez da publikoki erakutsiko, ikusi gure <a
-          href="https://wiki.openstreetmap.org/wiki/Privacy_Policy" title="OSMFren
-          pribatutasun politika, helbide elektronikoei buruzko atala ere bai">pribatutasun
-          politika</a>) informazio gehiagorako.
         new_email: (inoiz ez da publikoki bistaratuko)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: duela ordu 1 inguru
+        one: duela ordu %{count} inguru
         other: duela %{count} ordu inguru
       about_x_months:
-        one: duela hilabete inguru
+        one: duela hilabete %{count} ingueu
         other: duela %{count} hilabete inguru
       about_x_years:
-        one: duela urtebete inguru
+        one: duela urte %{count} inguru
         other: duela %{count} urte inguru
       almost_x_years:
-        one: duela urte 1 ia
-        other: duela %{count} urte ia
+        one: duela ia urte %{count}
+        other: duela ia %{count} urte
       half_a_minute: duela minutu erdi
       less_than_x_seconds:
-        one: duela segundo bat baino gutxiago
+        one: duela segundo %{count} baino gutxiago
         other: duela %{count} segundo baino gutxiago
       less_than_x_minutes:
-        one: duela minutu bat baino gutxiago
+        one: duela minutu %{count} baino gutxiago
         other: duela %{count} minutu baino gutxiago
       over_x_years:
-        one: duela urtebete baino gehiago
+        one: duela urte %{count} baino gehiago
         other: duela %{count} urte baino gehiago
       x_seconds:
-        one: duela segundo bat
+        one: duela segundo %{count}
         other: duela %{count} segundo
       x_minutes:
-        one: duela minutu bat
+        one: duela minutu %{count}
         other: duela %{count} minutu
       x_days:
-        one: duela egun bat
+        one: duela egun %{count}
         other: duela %{count} egun
       x_months:
-        one: duela hilabete bat
+        one: duela hilabete %{count}
         other: duela %{count} hilabete
       x_years:
-        one: duela urte bat
+        one: duela urte %{count}
         other: duela %{count} urte
   editor:
     default: Lehenetsia (orain %{name})
@@ -316,6 +312,16 @@ eu:
       delete_account: Ezabatu kontua...
     go_public:
       heading: Aldaketa publikoak
+      currently_not_public: Une honetan, zure aldaketak anonimoak dira eta jendeak
+        ezin dizu mezurik bidali edo zure kokapena ikusi. Editatu duzuna erakusteko
+        eta jendeari webgunearen bidez zurekin harremanetan jarri izan ahal dadin
+        baimentzeko, egin klik beheko botoian.
+      only_public_can_edit: 0.6 APIa aldatu zenetik, erabiltzaile publikoek soilik
+        edita ditzakete maparen datuak.
+      find_out_why: jakin zergatik
+      email_not_revealed: Zure helbide-elektronikoa ez da erakutsiko publiko bilakatzean.
+      not_reversible: Ekintza hau ezin da aldatu eta erabiltzaile berri guztiak publikoak
+        dira lehenespenez.
       make_edits_public_button: Nire aldaketa guztiak publikoak egin
     update:
       success_confirm_needed: Erabiltzaile informazio igoera arrakastatsua. Zure email-a
@@ -326,26 +332,16 @@ eu:
   browse:
     created: Sortua
     closed: Itxita
-    created_html: <abbr title='%{title}'>Duela %{time}</abbr> sortua
-    closed_html: <abbr title='%{title}'>Duela %{time}</abbr> itxia
-    created_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''>%{time}</abbr>
-      sortua'
-    deleted_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''>%{time}</abbr>
-      ezabatua'
-    edited_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''>%{time}</abbr>
-      aldatua'
-    closed_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''>%{time}</abbr>
-      itxia'
     version: Bertsioa
     in_changeset: Aldaketak
     anonymous: anonimoa
     no_comment: (iruzkinik gabe)
     part_of: Zati bat
     part_of_relations:
-      one: Erlazio 1
+      one: erlazio %{count}
       other: '%{count} erlazio'
     part_of_ways:
-      one: Bide bat
+      one: bide %{count}
       other: '%{count} bide'
     download_xml: XML deskargatu
     view_history: Ikusi historia
@@ -361,9 +357,6 @@ eu:
       relation: Erlazioak (%{count})
       relation_paginated: Erlazioak (%{x}-%{y} %{count}-tik)
       comment: Iruzkinak (%{count})
-      hidden_commented_by_html: '%{user} erabiltzaileak egindako iruzkin ezkutua duela
-        <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by_html: '%{user} erabiltzaileak egindako iruzkina duela <abbr title=''%{exact_time}''>%{when}</abbr>'
       changesetxml: Aldaketaren XML kodea
       osmchangexml: osmChange XML kodea
       feed:
@@ -391,7 +384,7 @@ eu:
       history_title_html: 'Erlazioaren historia: %{name}'
       members: Kideak
       members_count:
-        one: Kide bat
+        one: kide %{count}
         other: '%{count} kide'
     relation_member:
       entry_role_html: '%{type} %{name} %{role} rolean'
@@ -633,13 +626,6 @@ eu:
       success: '%{name} kendu duzu zure adiskide zerrendatik.'
       not_a_friend: '%{name} ez da zure laguna.'
   geocoder:
-    search:
-      title:
-        latlon_html: 'Emaitzak hemendik: <a href="http://openstreetmap.org/">Internal</a>'
-        osm_nominatim_html: 'Emaitzak hemendik: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>'
-        osm_nominatim_reverse_html: 'Emaitzak hemendik: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>'
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1020,7 +1006,7 @@ eu:
           fitness_station: Fitness Geltokia
           garden: Lorategia
           golf_course: Golf Zelaia
-          horse_riding: Zalditegia
+          horse_riding: Hipika-eskola
           ice_rink: Izotz-pista
           marina: Kirol-portua
           miniature_golf: Minigolfa
@@ -1432,13 +1418,10 @@ eu:
       status: Egoera
       reports: Reporteak
       last_updated: Azken eguneratzea
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr izenburua='%{title}'>%{time}</abbr> egilea
-        %{user} dela
       link_to_reports: Reporteak ikusi
       reports_count:
-        one: Reporte 1
-        other: '%{count} reporte'
+        one: txosten %{count}
+        other: '%{count} txosten'
       reported_item: Salatutako elementua
       states:
         ignored: Ezikusia
@@ -1919,7 +1902,6 @@ eu:
   site:
     about:
       next: Hurrengoa
-      copyright_html: <span>&copy;</span>OpenStreetMap<br>kolaboratzaileak
       used_by_html: '%{name}-k mapa datuz hornitzen ditu milaka web gune, mugikorretako
         aplikazio eta hardware gailu.'
       lede_text: OpenStreetMap mundu osoan zehar errepideak, bideak, kafetegiak, tren
@@ -1930,7 +1912,7 @@ eu:
         aireko irudiak erabiltzen dituzte, GPS gailuak eta teknologia baxuko eremuko
         mapak OSMrako egiaztapen zehatza eta eguneratua egiteko.
       community_driven_title: Komunitatearen Ahotsa
-      community_driven_html: "OpenStreetMap komunitatea anitza eta sutsua da, egunero
+      community_driven_1_html: "OpenStreetMap komunitatea anitza eta sutsua da, egunero
         haziz doa.\nGure laguntzaileen artean daude, mapazaleak, GIS arloko profesionalak,
         \nOSM zerbitzariak exekutatzen dituzten ingeniariak, hondamendiek kaltetutako
         eremuak mapatzen dituzten boluntarioak,\neta askoz gehiagok.\nKomunitateari
@@ -1939,17 +1921,13 @@ eu:
         blogak</a> eta <a href='http://www.osmfoundation.org/'>OSM Fundazioaren</a>
         webgunea."
       open_data_title: Datu Irekiak
-      open_data_html: |-
+      open_data_1_html: |-
         OpenStreetMap <i> datu irekiak </i> ditu: edozein gauzarako erabil dezakezu betiere OpenStreetMap-ek eta bere kolaboratzaileek aipatzen badituzu. Moduren batean datuen gainean edukia eraikiz, emaitza bakarrik banatu ahal izango duzu lizentzia beraren azpian. Ikusi <a href='%{copyright_path}'> Copyright eta
         Lizentzia orria </a> xehetasunak lortzeko.
       legal_title: Legala
-      legal_1_html: |-
+      legal_1_1_html: |-
         Gune hau eta erlazionatutako beste hainbat zerbitzu formalki <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) fundazioak kudeatzen ditu komunitatearen izenean. OSMFk kudeatutako zerbitzu guztien erabilera gure <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Erabilera Baldintzen</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         Erabilera onargarrien politiken</a> eta gure <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pribatutasun-politikaren</a> menpe dago.
-      legal_2_html: "Mesedez <a href='https://osmfoundation.org/Contact'>, jarri harremanetan
-        OSMFrekin</a> \nlizentzia, copyright edo beste legezko galderarik baduzu.\n<br>
-        OpenStreetMap, lupa logotipoa eta State of the Map <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">OSMFren
-        marka erregistratuak</a> dira."
       partners_title: Parte-hartzaileak
     copyright:
       foreign:
@@ -2055,10 +2033,6 @@ eu:
           explanation_html: Arazoren bat nabaritu baduzu maparen datuekin, adibidez,
             errepide edo zure helbidea faltan daudela, jarraitzeko modurik onena OpenStreetMap
             komunitatean sartzea da datuak berreskuratu edo konpontzeko.
-        add_a_note:
-          instructions_html: |-
-            Egin klik <a class='ikono oharra'> </a> edo ikono berean maparen pantailan.
-            Honek markatzailea gehituko dio mapari, arrastatuz mugitu ahal izateko. Gehitu zure mezua, ondoren sakatu gorde eta beste erabiltzaileek ikertu egingo dute.
       other_concerns:
         title: Bestelako kezkak
     help:
@@ -2727,22 +2701,6 @@ eu:
       open_title: 'Konpondugabeko #%{note_name} oharra'
       closed_title: 'Konpondutako #%{note_name} oharra'
       hidden_title: 'Ezkutatuko #%{note_name} oharra'
-      opened_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
-        sortua'
-      opened_by_anonymous_html: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}</abbr>
-        sortua
-      commented_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
-        egindako iruzkina'
-      commented_by_anonymous_html: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
-        </abbr> egindako iruzkina
-      closed_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
-        </abbr> konpondua'
-      closed_by_anonymous_html: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
-        </abbr> konpondua
-      reopened_by_html: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
-        </abbr> berraktibatua'
-      reopened_by_anonymous_html: Ezezagun batek berraktibatua duela <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: '%{user} erabiltzaileak ezkutatua duela <abbr title=''%{exact_time}''>%{when}</abbr>'
       report: Reportatu ohar hau
       anonymous_warning: Ohar honek independenteak izan behar diren erabiltzaile anonimoen
         iruzkinak barne hartzen ditu.
@@ -2818,18 +2776,6 @@ eu:
         gps: GPS aztarna publikoak
         overlays: Gaitu maparen konponketa egiteko gainjartzen direnak
         title: Geruzak
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap kolaboratzaileak</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Dohaintza egin</a>
-      terms: <a href='%{terms_url}' target='_blank'>Webgunearen eta APIaren baldintzak</a>
-      cyclosm: <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a> lauza estiloa
-        <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>k ostatatua.
-      thunderforest: Lauzatzea <a href='%{thunderforest_url}' target='_blank'>Andy
-        Allanen</a> eskutik
-      opnvkarte: Lauzatzea <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>en
-        eskutik
-      hotosm: <a href='%{hotosm_url}' target='_blank'>Humanitarian OpenStreetMap Team</a>
-        lauzatze estiloa <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        France</a>k ostatatua.
     site:
       edit_tooltip: Editatu mapa
       edit_disabled_tooltip: Handiagotu mapa aldatzeko

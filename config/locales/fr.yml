@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: 0x010C
+# Author: Adriendelucca
 # Author: Ajeje Brazorf
 # Author: Alno
 # Author: Amire80
@@ -89,6 +90,8 @@
 # Author: Zarisi
 ---
 fr:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y à %-Hh%M'
@@ -247,10 +250,6 @@ fr:
         needs_view: Est-ce que l’utilisateur ou l’utilisatrice doit se connecter avant
           qu’expire ce blocage ?
       user:
-        email_confirmation: Votre adresse n’est pas affichée publiquement, voyez notre
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Politique
-          de confidentialité de la Fondation OSM incluant une section sur les adresses
-          de courriel">politique de confidentialité</a> pour plus d’informations.
         new_email: (jamais affichée publiquement)
   datetime:
     distance_in_words_ago:
@@ -259,7 +258,7 @@ fr:
         other: il y a environ %{count} heures
       about_x_months:
         one: il y a environ %{count} mois
-        other: il y a environ %{count} mois
+        other: 'il y a environ %{count} mois '
       about_x_years:
         one: il y a environ %{count} an
         other: il y a environ %{count} ans
@@ -286,11 +285,14 @@ fr:
         one: il y a %{count} jour
         other: il y a %{count} jours
       x_months:
-        one: il y a %{count}}} mois
-        other: il y a %{count}}} mois
+        one: il y a %{count} mois
+        other: 'il y a %{count} mois '
       x_years:
         one: il y a %{count} an
         other: il y a %{count} ans
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Par défaut (actuellement %{name})
     id:
@@ -396,6 +398,7 @@ fr:
         site Web, cliquez sur le bouton ci-dessous.
       only_public_can_edit: Depuis le basculement à l’API 0.6, seuls les utilisateurs
         publics peuvent modifier les données cartographiques
+      find_out_why_html: (%{link}).
       find_out_why: découvrez pourquoi
       find_out_why_url: https://wiki.openstreetmap.org/wiki/FR:Modifications_anonymes
       email_not_revealed: Votre adresse de courriel ne sera pas révélée en rendant
@@ -413,12 +416,12 @@ fr:
   browse:
     created: Créé
     closed: Fermé
-    created_html: Créé à <abbr title="%{title}">%{time}</abbr>
-    closed_html: Fermé <abbr title="%{title}">%{time}</abbr>
-    created_by_html: Créé à <abbr title="%{title}">%{time}</abbr> par %{user}
-    deleted_by_html: Supprimé <abbr title="%{title}">%{time}</abbr> par %{user}
-    edited_by_html: Modifié <abbr title="%{title}">%{time}</abbr> par %{user}
-    closed_by_html: Fermé <abbr title="%{title}">%{time}</abbr> par %{user}
+    created_ago_html: Créé %{time_ago}
+    closed_ago_html: Fermé %{time_ago}
+    created_ago_by_html: Créé %{time_ago} par %{user}
+    closed_ago_by_html: Fermé %{time_ago} par %{user}
+    deleted_ago_by_html: Supprimé %{time_ago} par %{user}
+    edited_ago_by_html: Modifié %{time_ago} par %{user}
     version: Version
     in_changeset: Groupe de modifications
     anonymous: anonyme
@@ -434,6 +437,8 @@ fr:
     view_history: Voir l’historique
     view_details: Afficher les détails
     location: 'Emplacement :'
+    common_details:
+      coordinates_html: '%{latitude} ; %{longitude}'
     changeset:
       title: 'Groupe de modifications : %{id}'
       belongs_to: Auteur
@@ -444,8 +449,8 @@ fr:
       relation: Relations (%{count})
       relation_paginated: Relations (%{x} à %{y} sur %{count})
       comment: Commentaires (%{count})
-      hidden_commented_by_html: Commentaire masqué de %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      commented_by_html: Commentaire de %{user} <abbr title="%{exact_time}">%{when}</abbr>
+      hidden_comment_by_html: Commentaire caché de %{user} %{time_ago}
+      comment_by_html: Commentaire de %{user} %{time_ago}
       changesetxml: XML du groupe de modifications
       osmchangexml: XML osmChange
       feed:
@@ -476,6 +481,7 @@ fr:
         one: '%{count} membre'
         other: '%{count} membres'
     relation_member:
+      entry_html: '%{type} « %{name} »'
       entry_role_html: '%{type} %{name} avec le rôle %{role}'
       type:
         node: Nœud
@@ -722,12 +728,12 @@ fr:
   geocoder:
     search:
       title:
-        latlon_html: Résultats <a href="https://openstreetmap.org/">internes</a>
-        osm_nominatim_html: Résultats venant de <a href="https://nominatim.openstreetmap.org/">Nominatim
-          sur OpenStreetMap</a>
-        osm_nominatim_reverse_html: Résultats venant de <a href="https://nominatim.openstreetmap.org/">Nominatim
-          sur OpenStreetMap</a>
+        results_from_html: Résultats de %{results_link}
+        latlon: Interne
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Téléphérique
@@ -1519,8 +1525,7 @@ fr:
       status: État
       reports: Rapports
       last_updated: Dernière mise à jour
-      last_updated_time_html: <abbr title="%{title}">%{time}</abbr>
-      last_updated_time_user_html: à <abbr title="%{title}">%{time}</abbr> par %{user}
+      last_updated_time_ago_user_html: '%{time_ago} par %{user}'
       link_to_reports: Afficher les rapports
       reports_count:
         one: '%{count} rapport'
@@ -1604,6 +1609,9 @@ fr:
       successful_report: Votre rapport a bien été enregistré
       provide_details: Veuillez fournir les détails requis
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: Logo d’OpenStreetMap
     home: Aller à votre domicile
@@ -1693,6 +1701,7 @@ fr:
       failed_to_import: 'n’a pas pu être importé. Voici l’erreur :'
       more_info_html: Vous trouverez plus d’informations sur les échecs d’import GPX
         et comment les éviter à l’adresse %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX#Troubleshooting
       subject: '[OpenStreetMap] Échec de l’import GPX'
     gpx_success:
       hi: Bonjour %{to_user},
@@ -2017,7 +2026,7 @@ fr:
   site:
     about:
       next: Suivant
-      copyright_html: <span>©</span> Contributeurs<br /> d’OpenStreetMap
+      heading_html: '%{copyright}contributeurs%{br} d’OpenStreetMap'
       used_by_html: '%{name} fournit les données cartographiques pour des milliers
         de sites web, d’applications mobiles et d’appareils'
       lede_text: OpenStreetMap est bâti par une communauté de cartographes bénévoles
@@ -2029,32 +2038,38 @@ fr:
         GPS et les cartes classiques du terrain pour vérifier qu’OSM est exact et
         à jour.
       community_driven_title: Conduit par la communauté
-      community_driven_html: "La communauté d’OpenStreetMap est diverse, passionnée
-        et grossit chaque jour. Nos contributeurs incluent des cartographes enthousiastes,
-        des professionnels du SIG, des ingénieurs qui font fonctionner les serveurs
-        d’OSM, des humanitaires cartographiant les zones dévastées par une catastrophe
-        et beaucoup d’autres.\nPour en savoir plus sur la communauté, consultez \nle
-        <a href=\"https://blog.openstreetmap.org/\">blogue OpenStreetMap</a>,\nles
-        <a href=\"%{diary_path}\">journaux d’utilisateurs</a>, \nles <a href=\"https://blogs.openstreetmap.org/\">blogues
-        communautaires</a> et \nle site web de la <a href=\"https://www.osmfoundation.org/\">Fondation
-        OSM</a>."
+      community_driven_1_html: |-
+        La communauté d’OpenStreetMap est diverse, passionnée et grossit chaque jour. Nos contributeurs incluent des cartographes enthousiastes, des professionnels du SIG, des ingénieurs qui font fonctionner les serveurs d’OSM, des humanitaires cartographiant les zones dévastées par une catastrophe et beaucoup d’autres.
+        Pour en savoir plus sur la communauté, consultez le %{osm_blog_link}, les %{user_diaries_link}, les %{community_blogs_link} et le site web de la %{osm_foundation_link}.
+      community_driven_osm_blog: blogue d’OpenStreetMap
+      community_driven_user_diaries: agendas d’utilisateurs
+      community_driven_community_blogs: blogues de la communauté
+      community_driven_osm_foundation: Fondation OSM
       open_data_title: Données libres
-      open_data_html: 'OpenStreetMap est en <i>données libres</i> : vous êtes libre
-        de l’utiliser dans n’importe quel but tant que vous créditez OpenStreetMap
-        et ses contributeurs. Si vous modifiez ou vous appuyez sur les données d’une
-        façon quelconque, vous pouvez distribuer le résultat seulement suivant la
-        même licence. Consultez la <a href="%{copyright_path}">page sur les droits
-        d’auteur et la licence</a> pour plus de détails.'
+      open_data_1_html: 'OpenStreetMap est en %{open_data} : vous êtes libre de l’utiliser
+        dans n’importe quel but tant que vous créditez OpenStreetMap et ses contributeurs.
+        Si vous modifiez ou vous appuyez sur les données d’une façon quelconque, vous
+        pouvez distribuer le résultat seulement sous la même licence. Consultez la
+        %{copyright_license_link} pour plus de détails.'
+      open_data_open_data: données libres
+      open_data_copyright_license: page sur les droits d’auteur et la licence
       legal_title: Informations juridiques
-      legal_1_html: |-
+      legal_1_1_html: |-
         Ce site et de nombreux autres services connexes sont formellement exploités par la
-        <a href="https://osmfoundation.org/">Fondation OpenStreetMap</a> (OSMF) au nom de la communauté. L’utilisation de tous les services offerts par l’OSMF est sujette
-        à nos <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Conditions d’utilisation</a>, à notre <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Politique des usages acceptés</a> et à notre <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy">Politique de confidentialité</a>.
-      legal_2_html: |-
-        Veuillez <a href="https://osmfoundation.org/Contact">contacter l’OSMF</a>
-        si vous avez des questions de licence, de droit d’auteur ou d’autres questions légales.
-        <br>
-        OpenStreetMap, le logo de loupe grossissante et l’état de la carte sont des <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marques déposées de l’OSMF</a>.
+        %{openstreetmap_foundation_link} (OSMF)
+        au nom de la communauté. L’utilisation de tous les services offerts par l’OSMF est sujette
+        à nos %{terms_of_use_link}, à notre %{aup_link} et à notre %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Fondation OpenStreetMap
+      legal_1_1_terms_of_use: Conditions d’utilisation
+      legal_1_1_aup: Politique des usages acceptés
+      legal_1_1_privacy_policy: Politique de confidentialité
+      legal_2_1_html: |-
+        Veuillez %{contact_the_osmf_link}
+        si vous avez des questions sur les conditions de licence, les droits d’auteur ou d’autres questions juridiques.
+      legal_2_1_contact_the_osmf: contacter l’OSMF
+      legal_2_2_html: OpenStreetMap, le logo avec la loupe, ainsi que State of the
+        Map are %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: marques commerciales enregistrées de l’OSMF
       partners_title: Partenaires
     copyright:
       foreign:
@@ -2142,6 +2157,7 @@ fr:
         contributors_at_cc_by: CC BY
         contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.fr
         contributors_at_land_vorarlberg: Land de Vorarlberg
+        contributors_at_land_vorarlberg_url: https://vorarlberg.at/-/wms-dienste
         contributors_at_cc_by_at_with_amendments: CC BY AT avec amendements
         contributors_at_cc_by_at_with_amendments_url: https://www.tirol.gv.at/sicherheit/geoinformationen-karten/
         contributors_au_credit_html: |-
@@ -2184,6 +2200,7 @@ fr:
            (informations publiques de Slovénie).
         contributors_si_slovenia: Slovénie
         contributors_si_gu: Autorité d’arpentage et de cartographie
+        contributors_si_gu_url: https://www.gov.si/en/state-authorities/bodies-within-ministries/surveying-and-mapping-authority/
         contributors_si_mkgp: Ministère de l’Agriculture, des Forêts et de l’Alimentation
         contributors_es_credit_html: |-
           %{spain} : contient des données provenant de
@@ -2192,15 +2209,18 @@ fr:
           réutilisables sous licence %{cc_by_link}.
         contributors_es_spain: Espagne
         contributors_es_ign: IGN.es
+        contributors_es_ign_url: https://www.ign.es/
+        contributors_es_scne_url: https://www.scne.es/
         contributors_es_cc_by: CC BY 4.0
         contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.fr
         contributors_za_credit_html: '%{south_africa} : contient des données provenant
           de la %{ngi_link}, droits d’auteur réservés à l’État.'
         contributors_za_south_africa: Afrique du Sud
         contributors_za_ngi: 'Direction générale : Information géospatiale nationale'
-        contributors_gb_credit_html: |-
-          %{united_kingdom} : contient des données issues de l’<em>Ordnance Survey</em>
-          © 2010–2023 Droits d’auteurs et de la base de données de la Couronne.
+        contributors_za_ngi_url: https://ngi.dalrrd.gov.za/
+        contributors_gb_credit_html: '%{united_kingdom} : contient des données issues
+          de l’<em>Ordnance Survey</em> © 2010–2023 Droits d’auteur et de base de
+          données de la Couronne.'
         contributors_gb_united_kingdom: Royaume-Uni
         contributors_2_html: |-
           Pour plus de détails sur ceux-ci et sur d’autres sources qui ont été utilisées pour aider à améliorer
@@ -2247,6 +2267,7 @@ fr:
         vous ne rendiez vos modifications publiques. Vous pouvez rendre vos modifications
         publiques à partir de votre %{user_page}.
       user_page_link: page utilisateur
+      anon_edits_html: (%{link})
       anon_edits_link_text: Trouvez pourquoi ici.
       id_not_configured: iD n’a pas été configuré
       no_iframe_support: Votre navigateur ne prend pas en charge les ''iframes HTML'',
@@ -2307,9 +2328,10 @@ fr:
             moyen de faire est de rejoindre la communauté OpenStreetMap et d’ajouter
             ou réparer les données vous-même.
         add_a_note:
-          instructions_html: |-
-            Cliquez simplement sur <a class="icon note"></a> ou cette même icône sur l’affichage de la carte.
-            Cela placera un marqueur sur la carte, que vous pourrez déplacer en faisant glisser la carte. Ajoutez votre message, puis cliquez sur « Enregistrer » ; alors d’autres cartographes iront enquêter.
+          instructions_1_html: |-
+            Cliquez simplement sur %{note_icon} ou sur la même icône affichée sur la carte.
+            Cela placera un marqueur sur la carte, que vous pourrez déplacer en la faisant glisser.
+            Ajoutez votre message, puis cliquez sur « Enregistrer » ; alors d’autres cartographes iront enquêter.
       other_concerns:
         title: Autres préoccupations
         concerns_html: Si vous avez des préoccupations concernant la façon dont nos
@@ -2831,6 +2853,11 @@ fr:
         en nécessiter un.
       continue: S’inscrire
       terms accepted: Merci d’avoir accepté les nouveaux termes du contributeur !
+      email_confirmation_help_html: Votre adresse n’est pas affichée publiquement,
+        consultez notre %{privacy_policy_link} pour plus d’informations.
+      privacy_policy: politique de confidentialité
+      privacy_policy_title: Politique de confidentialité de l’OSMF, qui comprend une
+        section sur les adresses de courriel
     terms:
       title: Conditions
       heading: Conditions
@@ -3046,7 +3073,7 @@ fr:
           other: '%{count} semaines'
         months:
           one: '%{count} mois'
-          other: '%{count} mois'
+          other: '%{count} mois '
         years:
           one: '%{count} année'
           other: '%{count} années'
@@ -3104,16 +3131,17 @@ fr:
       open_title: Note non résolue nº %{note_name}
       closed_title: Note résolue nº %{note_name}
       hidden_title: Note masquée nº %{note_name}
-      opened_by_html: Créée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      opened_by_anonymous_html: Créée par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
-      commented_by_html: Commentée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      commented_by_anonymous_html: Commentée par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
-      closed_by_html: Résolue par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      closed_by_anonymous_html: Résolue par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
-      reopened_by_html: Réactivée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
-      reopened_by_anonymous_html: Réactivée par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
-      hidden_by_html: Masquée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
+      event_opened_by_html: Créé par %{user} %{time_ago}
+      event_opened_by_anonymous_html: Créé par un anonyme %{time_ago}
+      event_commented_by_html: Commentaire de %{user} %{time_ago}
+      event_commented_by_anonymous_html: Commentaire d’un anonyme %{time_ago}
+      event_closed_by_html: Résolu par %{user} %{time_ago}
+      event_closed_by_anonymous_html: Résolu par un anonyme %{time_ago}
+      event_reopened_by_html: Réactivé par %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Réactivé par un anonyme %{time_ago}
+      event_hidden_by_html: Masqué par %{user} %{time_ago}
       report: signaler cette note
+      coordinates_html: '%{latitude} ; %{longitude}'
       anonymous_warning: Cette note comprend des commentaires d’utilisateurs anonymes,
         qui devraient être vérifiés de façon indépendante.
       hide: Masquer
@@ -3190,17 +3218,17 @@ fr:
         gps: Traces GPS publiques
         overlays: Autoriser les superpositions pour réparer la carte
         title: Couches
-      copyright: © <a href="%{copyright_url}">Contributeurs d’OpenStreetMap</a>
-      donate_link_text: <a class="donate-attr" href="%{donate_url}">Faire un don</a>
-      terms: <a href="%{terms_url}" target="_blank">Conditions du site web et de l’API</a>
-      cyclosm: Style de briques par <a href="%{cyclosm_url}" target="_blank">CyclOSM</a>
-        hébergé par <a href="%{osmfrance_url}" target="_blank">OpenStreetMap France</a>
-      thunderforest: Carreaux gracieusement fournis par <a href="%{thunderforest_url}"
-        target="_blank">Andy Allan</a>
-      opnvkarte: Carreaux gracieusement fournis par <a href="%{memomaps_url}" target="_blank">MeMoMaps</a>
-      hotosm: Style de carreaux pour l’<a href="%{hotosm_url}" target="_blank">Équipe
-        Humanitaire OpenStreetMap (HOT)</a> hébergé par <a href="%{osmfrance_url}"
-        target="_blank">OpenStreetMap France</a>
+      openstreetmap_contributors: Les Contributeurs d’OpenStreetMap
+      make_a_donation: Faire un don
+      website_and_api_terms: Conditions d’utilisation du site web et de l’API
+      cyclosm_credit: Style de carreaux par %{cyclosm_link} hébergé par %{osm_france_link}
+      osm_france: OpenStreetMap France
+      thunderforest_credit: Carreaux fournis aimablement par %{thunderforest_link}
+      andy_allan: Andy Allan
+      opnvkarte_credit: Carreaux fournis aimablement par %{memomaps_link}
+      memomaps: MeMoMaps
+      hotosm_credit: Style de carreaux par %{hotosm_link} hébergé par %{osm_france_link}
+      hotosm_name: L’Équipe OpenStreetMap Humanitaire
     site:
       edit_tooltip: Modifier la carte
       edit_disabled_tooltip: Zoomez en avant pour modifier la carte

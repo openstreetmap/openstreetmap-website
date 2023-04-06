@@ -114,7 +114,7 @@ da:
         url: Hovedapplikations-URL (påkrævet)
         callback_url: Callback URL
         support_url: Support URL
-        allow_read_prefs: læse deres brugeralternativer
+        allow_read_prefs: læse deres brugerpræferencer
         allow_write_prefs: ændre deres brugeralternativer
         allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber
         allow_write_api: ændre kortet
@@ -168,7 +168,7 @@ da:
         email_confirmation: E-mail-bekræftelse
         new_email: Ny e-mailadresse
         active: Aktiv
-        display_name: offentligt synlige brugernavn
+        display_name: Offentligt brugernavn
         description: Profilbeskrivelse
         home_lat: Breddegrad
         home_lon: Længdegrad
@@ -192,48 +192,45 @@ da:
           muligt.
         needs_view: Skal brugeren logge på, før denne blokering vil blive fjernet?
       user:
-        email_confirmation: Din adresse vises ikke offentligt. Se vores href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">privatlivspolitik</a>
-          for yderligere information.
         new_email: (vises aldrig offentligt)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: omkring 1 time siden
+        one: omkring %{count} time siden
         other: omkring %{count} timer siden
       about_x_months:
-        one: omkring 1 måned siden
+        one: omkring %{count} måned siden
         other: omkring %{count} måneder siden
       about_x_years:
-        one: omkring 1 år siden
+        one: omkring %{count} år siden
         other: omkring %{count} år siden
       almost_x_years:
-        one: næsten 1 år siden
+        one: næsten %{count} år siden
         other: næsten %{count} år siden
       half_a_minute: for et halvt minut siden
       less_than_x_seconds:
-        one: mindre end 1 sekund siden
+        one: mindre end %{count} sekund siden
         other: mindre end %{count} sekunder siden
       less_than_x_minutes:
-        one: mindre end et minut siden
+        one: mindre end %{count} minut siden
         other: mindre end %{count} minutter siden
       over_x_years:
-        one: over 1 år siden
+        one: over %{count} år siden
         other: over %{count} år siden
       x_seconds:
-        one: 1 sekund siden
+        one: '%{count} sekund siden'
         other: '%{count} sekunder siden'
       x_minutes:
-        one: 1 minut siden
+        one: '%{count} minut siden'
         other: '%{count} minutter siden'
       x_days:
-        one: 1 dag siden
+        one: '%{count} dag siden'
         other: '%{count} dage siden'
       x_months:
-        one: 1 måned siden
+        one: '%{count} måned siden'
         other: '%{count} måneder siden'
       x_years:
-        one: 1 år siden
+        one: '%{count} år siden'
         other: '%{count} år siden'
   editor:
     default: Standard (nuværende %{name})
@@ -329,6 +326,16 @@ da:
       delete_account: Slet konto
     go_public:
       heading: Offentlig redigering
+      currently_not_public: I øjeblikket er dine redigeringer anonyme og folk kan
+        ikke sende dig beskeder eller se din lokation. For at synliggøre hvad du redigerede
+        og tillade at folk kontakter dig gennem websiden, tryk på knappen nedenfor.
+      only_public_can_edit: Siden overgangen til 0.6-API'et kan kun offentlige brugere
+        redigere kort-data.
+      find_out_why: find ud af hvorfor
+      email_not_revealed: Din email-adresse bliver ikke synlig af at din bruger bliver
+        offentlig.
+      not_reversible: Denne handling kan ikke omgøres, og alle nye brugere er nu som
+        udgangspunkt offentlige.
       make_edits_public_button: Gør alle mine rettelser offentlige
     update:
       success_confirm_needed: Brugeroplysningerne blev opdateret. Tjek din e-mail
@@ -339,22 +346,22 @@ da:
   browse:
     created: Oprettet
     closed: Lukket
-    created_html: Oprettet <abbr title='%{title}'>%{time} siden</abbr>
-    closed_html: Lukket <abbr title='%{title}'>%{time} siden</abbr>
-    created_by_html: Oprettet <abbr title='%{title}'>%{time} siden</abbr> af %{user}
-    deleted_by_html: Slettet <abbr title='%{title}'>%{time}</abbr> af %{user}
-    edited_by_html: Redigeret <abbr title='%{title}'>%{time} siden</abbr> af %{user}
-    closed_by_html: Lukket <abbr title='%{title}'>%{time} siden</abbr> af %{user}
+    created_ago_html: Oprettet %{time_ago}
+    closed_ago_html: Lukket %{time_ago}
+    created_ago_by_html: Oprettet %{time_ago} af %{user}
+    closed_ago_by_html: Lukket %{time_ago} af %{user}
+    deleted_ago_by_html: Slettet %{time_ago} af %{user}
+    edited_ago_by_html: Redigeret %{time_ago} af %{user}
     version: Version
     in_changeset: Ændringssæt
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del af
     part_of_relations:
-      one: 1 relation
+      one: '%{count} relation'
       other: '%{count} relationer'
     part_of_ways:
-      one: 1 vej
+      one: '%{count} vej'
       other: '%{count} veje'
     download_xml: Hent XML
     view_history: Se historik
@@ -370,9 +377,8 @@ da:
       relation: Relationer (%{count})
       relation_paginated: Relationer (%{x}-%{y} af %{count})
       comment: Kommentarer (%{count})
-      hidden_commented_by_html: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}
-        siden</abbr>
+      hidden_comment_by_html: Skjult kommentar fra %{user} %{time_ago}
+      comment_by_html: Kommentar fra %{user} %{time_ago}
       changesetxml: XML for ændringssæt
       osmchangexml: XML for osmChange
       feed:
@@ -400,7 +406,7 @@ da:
       history_title_html: 'Relationshistorik: %{name}'
       members: Medlemmer
       members_count:
-        one: 1 medlem
+        one: '%{count} medlem'
         other: '%{count} medlemmer'
     relation_member:
       entry_role_html: '%{type} %{name} som %{role}'
@@ -640,13 +646,6 @@ da:
       success: '%{name} blev fjernet fra din liste af venner.'
       not_a_friend: '%{name} er ikke en af dine venner.'
   geocoder:
-    search:
-      title:
-        latlon_html: Resultater fra <a href="https://openstreetmap.org/">interne</a>
-        osm_nominatim_html: Resultater fra <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Resultater fra <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -813,7 +812,7 @@ da:
           detached: Parcelhus
           dormitory: Kollegium
           duplex: Dobbelthus
-          farm: Gård
+          farm: Stuehus
           farm_auxiliary: Landbrugsbygning
           garage: Garage
           garages: Garager
@@ -1027,7 +1026,7 @@ da:
           fitness_station: Udendørs fitness udstyr
           garden: Have
           golf_course: Golfbane
-          horse_riding: Ridning
+          horse_riding: Ridecenter
           ice_rink: Skøjtebane
           marina: Bådehavn
           miniature_golf: Minigolf
@@ -1125,7 +1124,7 @@ da:
           forest: Skov
           geyser: Gejser
           glacier: Gletsjer
-          grassland: Græsslette
+          grassland: Overdrev eller græshede
           heath: Hede
           hill: Bakke
           hot_spring: Varm kilde
@@ -1439,11 +1438,10 @@ da:
       status: Status
       reports: Rapporter
       last_updated: Sidst opdateret
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> af %{user}
+      last_updated_time_ago_user_html: '%{time_ago} af %{user}'
       link_to_reports: Vis rapporter
       reports_count:
-        one: 1 rapport
+        one: '%{count} rapport'
         other: '%{count} rapporter'
       reported_item: Rapporteret element
       states:
@@ -1453,8 +1451,7 @@ da:
     show:
       title: '%{status} Sag #%{issue_id}'
       reports:
-        zero: Ingen rapporter
-        one: 1 rapport
+        one: '%{count} rapport'
         other: '%{count} rapporter'
       report_created_at: Rapporteret første gang %{datetime}
       last_resolved_at: Sidst løst %{datetime}
@@ -1615,6 +1612,9 @@ da:
       subject: '[OpenStreetMap] GPX-importering mislykkedes'
     gpx_success:
       hi: Hej %{to_user},
+      loaded:
+        one: indlæst med %{trace_points} ud af %{count} muligt punkt.
+        other: indlæst med %{trace_points} ud af %{count} mulige punkter.
       subject: '[OpenStreetMap] GPX-importering lykkedes'
     signup_confirm:
       subject: '[OpenStreetMap] Velkommen til OpenStreetMap'
@@ -1715,6 +1715,8 @@ da:
       success: Din konto er bekræftet, tak for din registrering!
       already active: Denne konto er allerede blevet bekræftet.
       unknown token: Den bekræftelseskode er udløbet eller eksisterer ikke.
+      resend_html: Hvis du har brug for at vi gensender bekræftelsesmeddelelsen, %{reconfirm_link}.
+      click_here: klik her
     confirm_resend:
       failure: Bruger %{name} ikke fundet.
     confirm_email:
@@ -1818,18 +1820,18 @@ da:
       flash token bad: Kunne ikke finde denne nøgle, prøv at kontrollere URL'en?
   preferences:
     show:
-      title: Mine alternativer
+      title: Mine præferencer
       preferred_editor: Foretrukken editor
       preferred_languages: Foretrukne sprog
-      edit_preferences: Rediger alternativer
+      edit_preferences: Rediger præferencer
     edit:
-      title: Rediger alternativer
-      save: Opdater alternativer
+      title: Rediger præferencer
+      save: Opdater præferencer
       cancel: Annuller
     update:
-      failure: Kunne ikke opdatere alternativer.
+      failure: Kunne ikke opdatere præferencer.
     update_success_flash:
-      message: Alternativer opdateret.
+      message: Præferencer opdateret.
   profiles:
     edit:
       title: Rediger profil
@@ -1905,6 +1907,7 @@ da:
       support: supporten
   shared:
     markdown_help:
+      heading_html: Parset med %{kramdown_link}
       headings: Overskrifter
       heading: Overskrift
       subheading: Underoverskrift
@@ -1923,7 +1926,7 @@ da:
   site:
     about:
       next: Næste
-      copyright_html: <span>&copy;</span>OpenStreetMap<br>bidragsydere
+      heading_html: '%{copyright}OpenStreetMap-%{br}bidragsydere'
       used_by_html: '%{name} leverer kortdata til tusindvis af websteder, mobile apps
         og hardware-enheder'
       lede_text: OpenStreetMap er bygget af et fællesskab af kortlæggere, der bidrager
@@ -1934,28 +1937,39 @@ da:
         bruger luftfotografier, GPS-enheder og lavteknologiske feltkort til at kontrollere
         at OSM er præcist og ajourført.
       community_driven_title: Drevet af fællesskabet
-      community_driven_html: "OpenStreetMap-fællesskabet er alsidigt, passioneret,
-        og vokser hver dag.\nVores bidragsydere omfatter entusiastiske kortlæggere,
-        GIS-fagfolk, ingeniører der\ndriver OSM-servere, humanister der kortlægger
-        katastroferamte områder,\nog mange flere.\nLær mere om fællesskabet ved at
-        se nærmere på\n<a href='https://blog.openstreetmap.org'>OpenStreetMap-bloggen</a>,
-        \n<a href='%{diary_path}'>brugerblogs</a>,\n<a href='https://blogs.openstreetmap.org/'>fællesskabsblogs</a>,
-        og\n <a href='https://www.osmfoundation.org/'>hjemmesiden for OSM Foundation</a>."
+      community_driven_1_html: |-
+        OpenStreetMap-fællesskabet er alsidigt, passioneret, og vokser hver dag.
+        Vores bidragsydere omfatter entusiastiske kortlæggere, GIS-fagfolk, ingeniører der
+        driver OSM-servere, humanister der kortlægger katastroferamte områder,
+        og mange flere.
+        Lær mere om fællesskabet ved at se nærmere på %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link}, og %{osm_foundation_link}-hjemmesiden.
+      community_driven_osm_blog: OpenStreetMap-bloggen
+      community_driven_user_diaries: brugerblogs
+      community_driven_community_blogs: fællesskabsblogs
+      community_driven_osm_foundation: OSM Foundation
       open_data_title: Åbne Data
-      open_data_html: |-
-        OpenStreetMap er <i>åbne data</i>: du må bruge dem til ethvert formål,
+      open_data_1_html: |-
+        OpenStreetMap er %{open_data}: du må bruge dem til ethvert formål,
         så længe du nævner OpenStreetMap og dets bidragsydere. Hvis du ændrer eller
         bygger oven på data på bestemte måder, må du kun distribuere resultatet under
-        den samme licens. Se siden om <a href='%{copyright_path}'>ophavsret og licens</a> for detaljer.
+        den samme licens. Se %{copyright_license_link} for detaljer.
+      open_data_open_data: åbne data
+      open_data_copyright_license: siden om ophavsret og licens
       legal_title: Juridisk
-      legal_1_html: |-
-        Dette websted og mange andre relaterede tjenester er formelt drevet af
-        <a href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) på vegne af fællesskabet. Brug af samtlige OSMF-drevne tjenester er underlagt vores <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Brugsvilkår, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Politikker for acceptabel brug</a> og vores <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Privatlivs-poltik</a>.
-      legal_2_html: "Du bedes <a href=\"https://osmfoundation.org/Contact\">kontakte
-        OSMF</a> \nhvis du har spørgsmål om licensering, ophavsret eller andre juridiske
-        spørgsmål og problemstillinger.\n<br>\nOpenStreetMap, forstørrelsesglas-logoet
-        og \"State of the Map\" er <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">varemærker
-        registreret af OSMF</a>."
+      legal_1_1_html: Dette websted og mange andre relaterede tjenester er formelt
+        drevet af %{openstreetmap_foundation_link} (OSMF) på vegne af fællesskabet.
+        Brug af samtlige OSMF-drevne tjenester er underlagt vores %{terms_of_use_link},
+        %{aup_link} og vores %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
+      legal_1_1_terms_of_use: Brugsvilkår
+      legal_1_1_aup: Politikker for acceptabel brug
+      legal_1_1_privacy_policy: Privatlivs-poltik
+      legal_2_1_html: Du bedes %{contact_the_osmf_link} hvis du har spørgsmål om licensering,
+        ophavsret eller andre juridiske spørgsmål og problemstillinger.
+      legal_2_1_contact_the_osmf: kontakte OSMF
+      legal_2_2_html: OpenStreetMap, forstørrelsesglas-logoet og "State of the Map"
+        er %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: varemærker registreret af OSMF
       partners_title: Partnere
     copyright:
       foreign:
@@ -1972,18 +1986,114 @@ da:
         mapping_link: begynde kortlægningen
       legal_babble:
         title_html: Ophavsret og licens
+        introduction_1_html: OpenStreetMap%{registered_trademark_link} er %{open_data},
+          licenseret under %{odc_odbl_link} (ODbL) af %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: åbne data
+        introduction_1_odc_odbl: Open Data Commons Open Database License
+        introduction_1_osm_foundation: OpenStreetMap Foundation
+        introduction_2_html: "Du kan frit kopiere, distribuere, overføre og tilpasse
+          vores data, \nså længe du angiver OpenStreetMap og dets\nbidragsydere som
+          kilde. Hvis du ændrer eller bygger på vores\ndata, må du kun distribuere
+          resultatet under den samme licens. Den\nfulde %{legal_code_link} forklarer
+          dine rettigheder og pligter."
+        introduction_2_legal_code: juridiske tekst
+        introduction_3_html: Vores dokumentation er licenseret under %{creative_commons_link}-licensen
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Kreditering-Deling på samme
+          vilkår 2.0
         credit_title_html: Kildeangivelse og OpenStreetMap
         credit_1_html: 'Når du bruger OpenStreetMap-data, er du forpligtet til at
           gøre følgende to ting:'
+        credit_2_1: Giv OpenStreetMap kredit ved at vise vores ophavsretsmeddelelse.
+        credit_2_2: Gør det klart, at dataene er tilgængelige under Open Database
+          License.
+        credit_3_html: Vi har forskellige krav til ophavsretsmeddelelsen om, hvordan
+          den skal vises, afhængigt af hvordan du bruger vores data. For eksempel
+          gælder der forskellige regler for, hvordan ophavsretsmeddelelsen skal vises,
+          afhængigt af, om du har oprettet et kort, der er interaktivt, et trykt kort
+          eller et statisk billede. Alle oplysninger om krav kan findes i %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: Retningslinjer for kildeangivelse
+        credit_4_1_html: For at gøre det klart, at dataene er tilgængelige under Open
+          Database License, kan du linke til %{this_copyright_page_link}. Alternativt,
+          og som et krav, hvis du distribuerer OSM i dataform, kan du nævne og linke
+          direkte til licensen/licenserne. I medier, hvor links ikke er mulige (f.eks.
+          trykte værker), foreslår vi, at du henviser dine læsere til openstreetmap.org
+          (evt. ved at udvide "OpenStreetMap" til denne fulde adresse) og til opendatacommons.org.
+          I dette eksempel vises kreditten i hjørnet af kortet.
+        credit_4_1_this_copyright_page: denne copyright-side
         attribution_example:
           alt: Eksempel på hvordan man angiver OpenStreetMap som kilde for en webside
           title: Eksempel på kildeangivelse
         more_title_html: Læs mere
+        more_1_1_html: Læs mere om brug af vores data, og hvordan du krediterer os,
+          på %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: OSMF Licens-siden
+        more_2_1_html: "Selvom OpenStreetMap er åbne data, kan vi ikke levere et gratis
+          kort-API til tredjeparter.\nSe vores \n%{api_usage_policy_link}, %{tile_usage_policy_link}
+          og %{nominatim_usage_policy_link}."
+        more_2_1_api_usage_policy: Politik for brug af API
+        more_2_1_tile_usage_policy: Politik for brug af kort-fliser
+        more_2_1_nominatim_usage_policy: Politik for brug af Nominatim
         contributors_title_html: Vores bidragsydere
         contributors_intro_html: |-
           Vores bidragsydere er tusinder af individer. Vi medtager også
           åbent licenseret data fra nationale kortlægningsagenturer
           og andre kilder, blandt dem:
+        contributors_at_credit_html: '%{austria}: Indeholder data fra %{stadt_wien_link}
+          (under %{cc_by_link}), %{land_vorarlberg_link} og Land Tirol (under %{cc_by_at_with_amendments_link}).'
+        contributors_at_austria: Østrig
+        contributors_at_stadt_wien: Stadt Wien
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT med tillæg
+        contributors_au_credit_html: '%{australia}: Indeholder eller er udviklet med
+          administrative grænser ("Administrative Boundaries") &copy; %{geoscape_australia_link}
+          licenseret af Commonwealth of Australia under %{cc_licence_link}.'
+        contributors_au_australia: Australien
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Creative Commons Kreditering 4.0 International
+          licence (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: Indeholder data fra GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada) og StatCan (Geography Division, Statistics Canada).
+        contributors_ca_canada: Canada
+        contributors_fi_credit_html: '%{finland}: Indeholder data fra National Land
+          Survey af Finlands topografiske database og andre datasæt under %{nlsfi_license_link}.'
+        contributors_fi_finland: Finland
+        contributors_fi_nlsfi_license: NLSFI-licensen
+        contributors_fr_credit_html: '%{france}: Indeholder data fra Direction Générale
+          des Impôts.'
+        contributors_fr_france: Frankrig
+        contributors_nl_credit_html: '%{netherlands}: Indeholder &copy; AND data,
+          2007 (%{and_link}).'
+        contributors_nl_netherlands: Holland
+        contributors_nz_credit_html: '%{new_zealand}: Indeholder data fra %{linz_data_service_link}
+          som er licenseret til anvendelse under %{cc_by_link}.'
+        contributors_nz_new_zealand: New Zealand
+        contributors_nz_linz_data_service: LINZ Data Service
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_credit_html: '%{slovenia}: Indeholder data fra %{gu_link}
+          og %{mkgp_link} (offentlig information Slovenien).'
+        contributors_si_slovenia: Slovenien
+        contributors_si_gu: Opmålings- og Kortlægnings-myndigheden
+        contributors_si_mkgp: Ministeriet for Landbrug, Skovbrug og Fødevarer
+        contributors_es_credit_html: '%{spain}: Indeholder data fra Spanish National
+          Geographic Institute (%{ign_link}) og National Cartographic System (%{scne_link})
+          licenseret for videre brug under %{cc_by_link}.'
+        contributors_es_spain: Spain
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Indeholder data fra %{ngi_link},
+          State copyright reserveret.'
+        contributors_za_south_africa: Syd Afrika
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
+        contributors_gb_credit_html: '%{united_kingdom}: indeholder Ordnance Survey
+          data &copy; Crown copyright and database right 2010-2023.'
+        contributors_gb_united_kingdom: Storbritannien
+        contributors_2_html: For yderligere oplysninger om disse og andre kilder,
+          der er blevet brugt til at hjælpe med at forbedre OpenStreetMap, se venligst
+          %{contributors_page_link} på OpenStreetMap Wiki.
+        contributors_2_contributors_page: siden med bidragsydere
         contributors_footer_2_html: |-
           Optagelse af data i OpenStreetMap indebærer ikke at den oprindelige
           dataudbyder siger god for OpenStreetMap, giver nogen garanti eller
@@ -1993,6 +2103,17 @@ da:
           OSM-bidragsydere bliver mindet om aldrig at tilføje data fra nogen
           ophavsretligt beskyttede kilder (f.eks. Google Maps eller trykte kort) uden
           eksplicit tilladelse fra ophavsret-indehaverne.
+        infringement_2_1_html: Hvis du mener, at ophavsretligt beskyttet materiale
+          uberettiget er føjet til OpenStreetMap-databasen eller dette websted, bedes
+          du følge vores %{takedown_procedure_link} eller klage direkte via vores
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: procedure til fjernelse a materiale
+        infringement_2_1_online_filing_page: on-line formular
+        trademarks_title: Varemærker
+        trademarks_1_1_html: OpenStreetMap, forstørrelsesglas-logoet og "State of
+          the Map" er varemærker registreret til OpenStreetMap Foundation. Hvis du
+          har spørgsmål om din brug af mærkerne, så se %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Varemærkepolitikken
     index:
       js_1: Du bruger enten en browser som ikke understøtter Javascript, eller du
         har deaktiveret Javascript.
@@ -2023,6 +2144,7 @@ da:
       map_image: Kort billede (viser standard lag)
       embeddable_html: HTML der kan indlejres
       licence: Licens
+      licence_details_html: OpenStreetMap-data er licenseret under %{odbl_link} (ODbL).
       too_large:
         advice: 'Hvis ovenstående eksport mislykkes, kan du overveje at bruge en af
           de kilder, der er anført nedenfor:'
@@ -2065,12 +2187,13 @@ da:
             eksempel en vej der mangler eller din adresse, er den bedste måde at gøre
             noget ved det, at deltage i OpenStreetMap-fællesskabet, og tilføje eller
             reparere data selv.
-        add_a_note:
-          instructions_html: |-
-            Bare klik på <a class='icon note'></a> eller det samme ikon på kortvisningen.
-            Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked, klik på gem og andre brugere vil undersøge sagen.
       other_concerns:
         title: Andre bekymringer
+        concerns_html: Hvis du har bekymringer omkring hvordan vores data anvendes
+          eller om indholdet, sǻ se venligst vores %{copyright_link} for mere juridisk
+          information, eller kontakt den relevante %{working_group_link}.
+        copyright: ophavsret-siden
+        working_group: OSMF-arbejdsgruppe (working group)
     help:
       title: Få hjælp
       introduction: OpenStreetMap har flere ressourcer til at lære om projektet, stille
@@ -2113,8 +2236,20 @@ da:
     potlatch:
       removed: Din foretrukne OpenStreetMap-editor er sat til Potlatch. Da Adobe Flash
         Player er blevet trukket tilbage, er Potlatch ikke længere tilgængelig i browseren.
+      desktop_application_html: Du kan stadig anvende Potlatch ved at %{download_link}.
+      download: downloade desktop-applikationen til Mac og Windows
+      id_editor_html: Alternativt kan du sætte din standardeditor til iD, som kører
+        i browseren ligesom Potlatch før gjorde. %{change_preferences_link}.
+      change_preferences: Ændr dine præferencer her
     any_questions:
       title: Spørgsmål?
+      paragraph_1_html: |-
+        OpenStreetMap har flere ressourcer der kan lære dig om projektet, stille og besvare spørgsmål og i fællesskab diskutere og dokumentere emner omkring kortlægning.
+        %{help_link}.
+        Er du del af en organisation der har planer med OpenStreetMap?
+        %{welcome_mat_link}.
+      get_help_here: Få hjælp her
+      welcome_mat: Få flere svar på Velkomstsiden
     sidebar:
       search_results: Søgeresultater
       close: Luk
@@ -2206,17 +2341,48 @@ da:
         Her er en guide med de vigtigste informationer til at komme hurtigt i gang.
       whats_on_the_map:
         title: Hvad kortet indholder
+        on_the_map_html: |-
+          OpenStreetMap indeholder elementer, der %{real_and_current} findes -
+          f.eks. er der millioner af bygninger, veje og andre detaljer om steder. Du kan kortlægge enhver detalje fra den virkelige verden som du interesserer dig for.
+        real_and_current: konkret og aktuelt
+        off_the_map_html: Kortet indeholder %{doesnt} subjektive informationer såsom
+          anmeldelser, ting der ikke længere eksisterer, fiktive ting og ophavsretsligt
+          beskyttede data. Kopier aldrig informationer fra andre online- eller papirkort
+          med mindre der forelægger en særlig tilladelse.
+        doesnt: ikke
       basic_terms:
         title: Grundlæggende begreber
         paragraph_1: Her er nogen få begreber som er nyttige at forstå for at bidrage
           til OpenStreetMap.
+        an_editor_html: En %{editor} er et program eller en hjemmeside der kan bruges
+          til at redigere kortet.
+        a_node_html: Et %{node} er et sted på kortet, f.eks. en enkelt restaurant
+          eller et træ.
+        a_way_html: En %{way} er en linje eller et areal, f.eks. en vej, en å eller
+          en bygning.
+        a_tag_html: En %{tag} er en lille bid information om et punkt eller en vej,
+          f.eks. navnet på en restaurant eller hastighedsbegrænsningen på en gade.
+        editor: editor
+        node: punkt
+        way: vej
+        tag: egenskab
       rules:
         title: Regler!
+        para_1_html: OpenStreetMap har få formelle regler men vi forventer at alle
+          deltagere samarbejder med, og kommunikerer med, fællesskabet. Hvis du overvejer
+          andre aktiviteter end manuel redigering, så vær venlig at læse og følge
+          retningslinjerne for %{imports_link} og %{automated_edits_link}.
+        imports: Importering
+        automated_edits: Automatiske Redigeringer
       start_mapping: Begynd at kortlægge
       add_a_note:
         title: Ikke tid til redigering? Tilføj en bemærkning!
         para_1: Hvis du bare vil have en lille detalje rettet, men ikke har tid til
           at registrere dig og gøre det selv, så kan du let tilføje en bemærkning.
+        para_2_html: |-
+          Bare gå ind på %{map_link} og klik på bemærknings-ikonet: %{note_icon}.
+          Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked, klik på gem og andre brugere vil undersøge sagen.
+        the_map: kortet
     communities:
       title: Fællesskaber
       lede_text: |-
@@ -2233,6 +2399,12 @@ da:
         list_text: 'De følgende fællesskaber er formelt etableret som lokalafdelinger:'
       other_groups:
         title: Andre grupper
+        other_groups_html: Det er ikke nødvendigt formelt at oprette en gruppe på
+          samme måde som med lokalafdelinger. Mange grupper eksisterer fint som helt
+          uformelle samlinger af mennesker eller fællesskabsgrupper med lidt mere
+          faste rammer. Enhver kan oprette eller blive medlem af sådanne. Læs mere
+          på %{communities_wiki_link}.
+        communities_wiki: wiki-siden for fællesskaber
   traces:
     visibility:
       private: Privat (kun delt som anonyme punkter uden rækkefølge og tidsstempler)
@@ -2295,7 +2467,7 @@ da:
     trace:
       pending: VENTENDE
       count_points:
-        one: 1 punkt
+        one: '%{count} punkt'
         other: '%{count} punkter'
       more: detaljer
       trace_details: Vis spordetaljer
@@ -2313,6 +2485,11 @@ da:
       public_traces_from: Offentlige GPS-spor fra %{user}
       description: Gennemse de seneste overførsler af GPS-spor
       tagged_with: ' med egenskaberne %{tags}'
+      empty_title: Ingenting her endnu
+      empty_upload_html: '%{upload_link} eller lær mere om kortlægning vha. GPS på
+        %{wiki_link}.'
+      upload_new: Overfør et nyt GPS-spor
+      wiki_page: wiki-siden
       upload_trace: Overfør et spor
       all_traces: Alle GPS-spor
       my_traces: Mine spor
@@ -2363,7 +2540,7 @@ da:
         %{user}. Kontroller, om du vil tillade adgang til følgende funktioner. Du
         kan vælge lige så mange eller så få, som du ønsker.
       allow_to: 'Tillad klient-applikationen at:'
-      allow_read_prefs: læse dine brugeralternativer.
+      allow_read_prefs: læse dine brugerpræferencer.
       allow_write_prefs: ændre dine brugeralternativer.
       allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber.
       allow_write_api: ændre kortet.
@@ -2384,7 +2561,7 @@ da:
     permissions:
       missing: Du har ikke givet applikationen adgang til denne facilitet
     scopes:
-      read_prefs: Læse brugeralternativer
+      read_prefs: Læse brugerpræferencer
       write_prefs: Ændre brugeralternativer
       write_diary: Udgiv brugerblogs, kommenter og få venner
       write_api: Ændre kortet
@@ -2493,6 +2670,10 @@ da:
       support: supporten
       about:
         header: Fri og redigerbar
+        paragraph_1: Til forskel fra andre kort, er OpenStreetMap skabt af folk som
+          dig, og er gratis for enhver både at rette, opdatere, downloade og anvende.
+        paragraph_2: Opret en konto for at kunne bidrage. Vi sender dig en e-mail
+          for at bekræfte kontoen.
       display name description: Dit offentligt synlige brugernavn. Du kan ændre dette
         senere i indstillingerne.
       external auth: 'Tredjeparts-godkendelse:'
@@ -2518,6 +2699,10 @@ da:
         for ophavsret (public domain)
       consider_pd_why: hvad er dette?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
+      guidance_info_html: 'Oplysninger til at hjælpe med at forstå disse udtryk: et
+        %{readable_summary_link} og nogle %{informal_translations_link}'
+      readable_summary: menneskeligt læsbart sammendrag
+      informal_translations: uformelle oversættelser
       continue: Fortsæt
       decline: Afslå
       you need to accept or decline: Læs og godkend eller afvis de nye vilkår for
@@ -2546,7 +2731,7 @@ da:
       my profile: Min profil
       my settings: Mine indstillinger
       my comments: Mine kommentarer
-      my_preferences: Mine alternativer
+      my_preferences: Mine præferencer
       my_dashboard: Min kontrolpanel
       blocks on me: Mine blokeringer
       blocks by me: Blokeringer udført af mig
@@ -2698,19 +2883,19 @@ da:
       time_past_html: Sluttede %{time}.
       block_duration:
         hours:
-          one: 1 time
+          one: '%{count} time'
           other: '%{count} timer'
         days:
-          one: 1 dag
+          one: '%{count} dag'
           other: '%{count} dage'
         weeks:
-          one: 1 uge
+          one: '%{count} uge'
           other: '%{count} uger'
         months:
-          one: 1 måned
+          one: '%{count} måned'
           other: '%{count} måneder'
         years:
-          one: 1 år
+          one: '%{count} år'
           other: '%{count} år'
     blocks_on:
       title: Blokeringer af %{name}
@@ -2765,15 +2950,6 @@ da:
       open_title: 'Uløst bemærkning #%{note_name}'
       closed_title: 'Løst bemærkning #%{note_name}'
       hidden_title: 'Skjult bemærkning #%{note_name}'
-      opened_by_html: Oprettet af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Oprettet af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Kommentar fra anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Løst af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Løst af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Genaktiveret af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Genaktiveret af anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Skjult af %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: rapportere denne bemærkning
       anonymous_warning: Denne bemærkning indeholder kommentarer fra anonyme brugere
         som bør undergå en uafhængig kontrol af oplysningerne.
@@ -2833,10 +3009,10 @@ da:
       locate:
         title: Vis min placering
         metersPopup:
-          one: Du er indenfor en meter fra dette punkt
+          one: Du er indenfor %{count} meter fra dette punkt
           other: Du er indenfor %{count} meter fra dette punkt
         feetPopup:
-          one: Du er indenfor en fod fra dette punkt
+          one: Du er indenfor %{count} fod fra dette punkt
           other: Du er indenfor %{count} fod fra dette punkt
       base:
         standard: Standard
@@ -2852,17 +3028,6 @@ da:
         gps: Offentlige GPS-spor
         overlays: Aktiver overlejringer til fejlfinding af kortet
         title: Lag
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Giv et bidrag</a>
-      terms: <a href='%{terms_url}' target='_blank'>Hjemmeside og API-vilkår</a>
-      cyclosm: Kort-fliser af <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
-        hosted af <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Frankrig</a>
-      thunderforest: Kort-fliser venligst leveret af <a href='%{thunderforest_url}'
-        target='_blank'>Andy Allan</a>
-      opnvkarte: Kort-fliser venligst leveret af <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: Kort-fliser af <a href='%{hotosm_url}' target='_blank'>Humanitarian
-        OpenStreetMap Team</a> hosted af <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        Frankrig</a>
     site:
       edit_tooltip: Rediger kortet
       edit_disabled_tooltip: Zoom ind for at redigere kortet

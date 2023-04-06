@@ -33,7 +33,7 @@ vi:
       prompt: Chọn tập tin
     submit:
       diary_comment:
-        create: Lưu
+        create: Nhận xét
       diary_entry:
         create: Đăng
         update: Cập nhật
@@ -114,6 +114,7 @@ vi:
       diary_entry:
         user: Người dùng
         title: Tiêu đề
+        body: Nội dung
         latitude: Vĩ độ
         longitude: Kinh độ
         language_code: Ngôn ngữ
@@ -177,49 +178,33 @@ vi:
           hãy tránh thuật ngữ chuyên môn vì người dùng có thể không rành.
         needs_view: Người dùng có phải cần đăng nhập trước khi bỏ cấm được không?
       user:
-        email_confirmation: Địa chỉ thư điện tử của bạn không được hiển thị công khai.
-          Xem thêm chi tiết trong <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi"
-          title="Quy định quyền riêng tư Quỹ OSM, có đoạn nói về địa chỉ thư điện
-          tử">quy định quyền riêng tư</a> của chúng tôi.
         new_email: (không lúc nào hiện công khai)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: khoảng 1 giờ trước
         other: khoảng %{count} giờ trước
       about_x_months:
-        one: khoảng 1 tháng trước
         other: khoảng %{count} tháng trước
       about_x_years:
-        one: khoảng 1 năm trước
         other: khoảng %{count} năm trước
       almost_x_years:
-        one: gần 1 năm trước
         other: gần %{count} năm trước
       half_a_minute: 30 giây trước
       less_than_x_seconds:
-        one: trong vòng 1 giây trước
         other: trong vòng %{count} giây trước
       less_than_x_minutes:
-        one: trong vòng 1 phút trước
         other: trong vòng %{count} phút trước
       over_x_years:
-        one: hơn 1 năm trước
         other: hơn %{count} năm trước
       x_seconds:
-        one: 1 giây trước
         other: '%{count} giây trước'
       x_minutes:
-        one: 1 phút trước
         other: '%{count} phút trước'
       x_days:
-        one: 1 ngày trước
         other: '%{count} ngày trước'
       x_months:
-        one: 1 tháng trước
         other: '%{count} tháng trước'
       x_years:
-        one: 1 năm trước
         other: '%{count} năm trước'
   editor:
     default: Mặc định (hiện là %{name})
@@ -318,6 +303,7 @@ vi:
       delete_account: Xóa Tài khoản…
     go_public:
       heading: Sửa đổi công khai
+      find_out_why: tìm hiểu tại sao
       make_edits_public_button: Phát hành công khai các sửa đổi của tôi
     update:
       success_confirm_needed: Đã cập nhật thông tin cá nhân thành công. Kiểm tra thư
@@ -328,22 +314,20 @@ vi:
   browse:
     created: Tạo
     closed: Đóng
-    created_html: Tạo ra <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Đóng <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Tạo ra <abbr title='%{title}'>%{time}</abbr> bởi %{user}
-    deleted_by_html: Xóa <abbr title='%{title}'>%{time}</abbr> bởi %{user}
-    edited_by_html: Sửa đổi <abbr title='%{title}'>%{time}</abbr> bởi %{user}
-    closed_by_html: Đóng <abbr title='%{title}'>%{time}</abbr> bởi %{user}
+    created_ago_html: Tạo %{time_ago}
+    closed_ago_html: Đóng %{time_ago}
+    created_ago_by_html: Tạo %{time_ago} bởi %{user}
+    closed_ago_by_html: Đóng %{time_ago} bởi %{user}
+    deleted_ago_by_html: Xóa %{time_ago} bởi %{user}
+    edited_ago_by_html: Sửa đổi %{time_ago} bởi %{user}
     version: Phiên bản
     in_changeset: Bộ thay đổi
     anonymous: vô danh
     no_comment: (không miêu tả)
     part_of: Trực thuộc
     part_of_relations:
-      one: '%{count} quan hệ'
       other: '%{count} quan hệ'
     part_of_ways:
-      one: '%{count} lối'
       other: '%{count} lối'
     download_xml: Tải về XML
     view_history: Xem Lịch sử
@@ -359,8 +343,8 @@ vi:
       relation: Các quan hệ (%{count})
       relation_paginated: Các quan hệ (%{x}–%{y} trên %{count})
       comment: Bình luận (%{count})
-      hidden_commented_by_html: Bình luận ẩn của %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Bình luận của %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_comment_by_html: Nhận xét ẩn của %{user} từ %{time_ago}
+      comment_by_html: Nhận xét của %{user} từ %{time_ago}
       changesetxml: Bộ thay đổi XML
       osmchangexml: osmChange XML
       feed:
@@ -387,7 +371,6 @@ vi:
       history_title_html: 'Lịch sử Quan hệ: %{name}'
       members: Thành viên
       members_count:
-        one: '%{count} thành viên'
         other: '%{count} thành viên'
     relation_member:
       entry_role_html: '%{type} %{name} với vai trò %{role}'
@@ -590,6 +573,15 @@ vi:
       applications:
         create:
           notice: Ứng dụng được đăng ký.
+  errors:
+    contact:
+      contact: liên lạc
+    forbidden:
+      title: Cấm
+    internal_server_error:
+      title: Lỗi ứng dụng
+    not_found:
+      title: Không tìm thấy tập tin
   friendships:
     make_friend:
       heading: Kết bạn với %{user}?
@@ -605,13 +597,6 @@ vi:
       success: '%{name} đã được xóa khỏi danh sách bạn của bạn.'
       not_a_friend: '%{name} đã không phải người bạn.'
   geocoder:
-    search:
-      title:
-        latlon_html: Kết quả <a href="https://www.openstreetmap.org/">nội bộ</a>
-        osm_nominatim_html: Kết quả <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Kết quả <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -952,7 +937,7 @@ vi:
           fitness_station: Trạm Thể dục
           garden: Vườn
           golf_course: Sân Golf
-          horse_riding: Cưỡi Ngựa
+          horse_riding: Khu Cưỡi Ngựa
           ice_rink: Sân băng
           marina: Bến tàu
           miniature_golf: Golf Nhỏ
@@ -1320,11 +1305,9 @@ vi:
       status: Trạng thái
       reports: Báo cáo
       last_updated: Lần Cập nhật Cuối
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> bởi %{user}
+      last_updated_time_ago_user_html: '%{time_ago} bởi %{user}'
       link_to_reports: Xem Báo cáo
       reports_count:
-        one: 1 Báo cáo
         other: '%{count} Báo cáo'
       reported_item: Mục Báo cáo
       states:
@@ -1496,6 +1479,8 @@ vi:
       subject: '[OpenStreetMap] Nhập GPX thất bại'
     gpx_success:
       hi: Chào %{to_user},
+      loaded:
+        other: tải thành công với %{trace_points} điểm trên tổng số %{count} điểm.
       subject: '[OpenStreetMap] Nhập GPX thành công'
     signup_confirm:
       subject: '[OpenStreetMap] Chào mừng bạn đã tham gia OpenStreetMap'
@@ -1595,6 +1580,7 @@ vi:
       success: Đã xác nhận tài khoản của bạn. Cám ơn bạn đã mở tài khoản!
       already active: Tài khoản này đã được xác nhận rồi.
       unknown token: Dấu hiệu xác nhận này đã hết hạn hoặc không tồn tại.
+      click_here: nhấn chuột tại đây
     confirm_resend:
       failure: Không tìm thấy người dùng %{name}.
     confirm_email:
@@ -1796,7 +1782,7 @@ vi:
   site:
     about:
       next: Tiếp
-      copyright_html: <span>&copy;</span>những người<br>đóng góp vào<br>OpenStreetMap
+      heading_html: '%{copyright}những người đóng góp vào %{br} OpenStreetMap'
       used_by_html: '%{name} cung cấp dữ liệu bản đồ cho hàng ngàn trang Web, ứng
         dụng di động, và thiết bị phần cứng'
       lede_text: OpenStreetMap được xây dựng bởi cộng đồng những người đóng góp và
@@ -1807,30 +1793,32 @@ vi:
         người đóng góp sử dụng hình ảnh từ không trung, các thiết bị GPS, và các bản
         đồ phác thảo trên giấy để làm cho OSM chính xác và đúng thời.
       community_driven_title: Căn cứ vào Cộng động
-      community_driven_html: |-
+      community_driven_1_html: |-
         Cộng đồng của OpenStreetMap gồm đủ loại người nhiệt tình và càng ngày càng phát triển.
         Cộng đồng gồm những người tình nguyện vẽ bản đồ, các chuyên gia GIS, các kỹ sư bảo quản các máy chủ OSM. Chúng ta vẽ bản đồ quê hưởng, những nơi du lịch, những nơi bị thiên tai (để hỗ trợ cơ quan nhân đạo), và nhiều hơn nữa.
-        Để tìm hiểu thêm về cộng đồng này, hãy đọc <a href='https://blog.openstreetmap.org'>Blog OpenStreetMap</a>, các <a href='%{diary_path}'>nhật ký của người dùng</a>,
-        <a href='https://blogs.openstreetmap.org/'>blog của cộng đồng</a>, và trang chủ <a href='https://www.osmfoundation.org/'>Quỹ OSM</a>.
+        Để tìm hiểu thêm về cộng đồng này, hãy đọc %{osm_blog_link}, các %{user_diaries_link}, %{community_blogs_link}, và trang chủ %{osm_foundation_link}.
+      community_driven_osm_blog: Blog OpenStreetMap
+      community_driven_user_diaries: nhật ký của người dùng
+      community_driven_community_blogs: blog của cộng đồng
+      community_driven_osm_foundation: Quỹ OSM
       open_data_title: Dữ liệu Mở
-      open_data_html: 'OpenStreetMap là <i>dữ liệu mở</i>: bạn được tự do sử dụng
-        nó cho bất cứ mục đích nào, miễn là bạn ghi công OpenStreetMap và những người
+      open_data_1_html: 'OpenStreetMap là %{open_data}: bạn được tự do sử dụng nó
+        cho bất cứ mục đích nào, miễn là bạn ghi công OpenStreetMap và những người
         đóng góp vào nó. Nếu bạn tạo ra một tác phẩm thay đổi dữ liệu hoặc dựa trên
         dữ liệu theo một số cách nhất định, bạn chỉ được phép phân phối tác phẩm kết
-        quả dưới cùng giấy phép này. Hãy xem chi tiết tại <a href=''%{copyright_path}''>trang
-        Bản quyền và Giấy phép</a>.'
+        quả dưới cùng giấy phép này. Hãy xem chi tiết tại %{copyright_license_link}.'
+      open_data_open_data: dữ liệu mở
+      open_data_copyright_license: trang Bản quyền và Giấy phép
       legal_title: Pháp luật
-      legal_1_html: Trang Web này và nhiều dịch vụ có liên quan được hoạt động chính
+      legal_1_1_html: Trang Web này và nhiều dịch vụ có liên quan được hoạt động chính
         thức bởi <a href='https://osmfoundation.org/?uselang=vi'>Quỹ OpenStreetMap</a>
         (OSMF) thay mặt cho cộng đồng. Việc sử dụng các dịch vụ do OSMF hoạt động
         phải tuân theo <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use?uselang=vi">các
         Điều khoản Sử dụng</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy?uselang=vi">các
         Quy định Sử dụng Hợp lý</a> and our <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi">Quy
         định về Quyền Riêng tư</a> của chúng tôi.
-      legal_2_html: |-
-        Xin vui lòng <a href='https://osmfoundation.org/Contact?uselang=vi'>liên lạc với OSMF</a> nếu bạn có thắc mắc về giấy phép, bản quyền, hoặc thắc mắc khác về pháp luật.
-        <br>
-        OpenStreetMap, biểu trưng kính lúp, và State of the Map đều là <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy?uselang=vi">nhãn hiệu đăng ký của Quỹ OSM</a>.
+      legal_1_1_terms_of_use: Điều khoản Sử dụng
+      legal_2_1_contact_the_osmf: liên lạc với Quỹ OSM
       partners_title: Nhà bảo trợ
     copyright:
       foreign:
@@ -1846,17 +1834,42 @@ vi:
         mapping_link: bắt đầu vẽ bản đồ
       legal_babble:
         title_html: Bản quyền và Giấy phép
+        introduction_1_open_data: dữ liệu mở
+        introduction_1_osm_foundation: Quỹ OpenStreetMap
+        introduction_3_creative_commons: Creative Commons Ghi công–Chia sẻ tương tự
+          2.0
         credit_title_html: Cách ghi công OpenStreetMap
         credit_1_html: 'Khi nào bạn sử dụng dữ liệu OpenStreetMap, bạn cần phải tuân
           tho hai quy tắc sau:'
+        credit_4_1_this_copyright_page: trang bản quyền
         attribution_example:
           alt: Ví dụ ghi công OpenStreetMap trên một trang Web
           title: Ví dụ ghi công
         more_title_html: Tìm hiểu thêm
+        more_1_1_osmf_licence_page: trang Giấy phép của Quỹ OSM
         contributors_title_html: Những người đóng góp vào đây
         contributors_intro_html: 'Dự án này nhờ công sức đóng góp của hàng ngàn cá
           nhân và cũng bao gồm các dữ liệu có giấy phép mở từ các cơ quan khảo sát
           quốc gia và những nguồn gốc khác, chẳng hạn:'
+        contributors_at_austria: Áo
+        contributors_at_stadt_wien: Thành phố Viên
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Bang Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT sửa đổi
+        contributors_au_australia: Úc
+        contributors_au_cc_licence: giấy phép Creative Commons Ghi công 4.0 Quốc tế
+          (CC BY 4.0)
+        contributors_ca_canada: Canada
+        contributors_fi_finland: Phần Lan
+        contributors_fr_france: Pháp
+        contributors_nl_netherlands: Hà Lan
+        contributors_nz_new_zealand: New Zealand
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_slovenia: Slovenia
+        contributors_es_spain: Tây Ban Nha
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_south_africa: Nam Phi
+        contributors_gb_united_kingdom: Vương quốc Anh
         contributors_footer_2_html: '  Việc bao gồm dữ liệu trong OpenStreetMap không
           ngụ ý rằng nhà cung cấp dữ liệu đầu tiên ủng hộ OpenStreetMap, biện hộ sự
           chính xác của nó, hoặc nhận trách nhiệm pháp lý nào.'
@@ -1864,6 +1877,7 @@ vi:
         infringement_1_html: Những người đóng góp vào OSM được khuyên không bao giờ
           bổ sung dữ liệu từ những nguồn có bản quyền (chẳng hạn Bản đồ Google hoặc
           các bản đồ trên giấy) trước khi các nhà giữ bản quyền cho phép rõ ràng.
+        trademarks_title: Nhãn hiệu
     index:
       js_1: Hoặc trình duyệt của bạn không hỗ trợ JavaScript, hoặc bạn đã tắt JavaScript.
       js_2: OpenStreetMap sử dụng JavaScript cho chức năng bản đồ trơn.
@@ -1935,12 +1949,10 @@ vi:
             chúng tôi, chẳng hạn thiếu con đường hoặc địa chỉ của bạn, cách xử lý
             tốt nhất là tham gia cộng đồng OpenStreetMap để thêm hoặc sửa dữ liệu
             lấy.
-        add_a_note:
-          instructions_html: |-
-            Chỉ việc bấm <a class='icon note'></a> hoặc hình tượng này trên bản đồ.
-            Nút này sẽ thả một ghim vào bản đồ để bạn kéo thả vào vị trí đúng. Miêu tả vấn đề và bấm Lưu. Những người khác sẽ điều tra.
       other_concerns:
         title: Vấn đề khác
+        copyright: trang bản quyền
+        working_group: nhóm làm việc của Quỹ OSM
     help:
       title: Trợ giúp
       introduction: OpenStreetMap có nhiều tài nguyên để cho bạn tìm hiểu về dự án,
@@ -2081,6 +2093,10 @@ vi:
         title: Thuật ngữ Cơ bản
         paragraph_1: 'Đây là những thuật ngữ thường gặp khi sử dụng và đóng góp vào
           OpenStreetMap:'
+        editor: trình vẽ
+        node: nốt
+        way: lối
+        tag: thẻ
       rules:
         title: Quy định!
       start_mapping: Bắt đầu Đóng góp
@@ -2088,6 +2104,7 @@ vi:
         title: Không có Thì giờ Sửa đổi? Thêm một Ghi chú!
         para_1: Nếu bạn chỉ muốn sửa một chi tiết nhỏ và không có thì giờ tập sửa
           đổi, bạn có thể thêm một ghi chú dễ dàng.
+        the_map: bản đồ
     communities:
       title: Cộng đồng
       lede_text: |-
@@ -2104,6 +2121,7 @@ vi:
           địa phương:'
       other_groups:
         title: Các Nhóm Khác
+        communities_wiki: trang wiki về cộng đồng
   traces:
     visibility:
       private: Bí mật (chỉ hiển thị các điểm vô danh không có thứ tự)
@@ -2166,7 +2184,6 @@ vi:
     trace:
       pending: CHƯA XỬ
       count_points:
-        one: 1 điểm
         other: '%{count} điểm'
       more: thêm
       trace_details: Xem Chi tiết Tuyến đường
@@ -2184,6 +2201,7 @@ vi:
       public_traces_from: Tuyến đường GPS công khai của %{user}
       description: Xem những tuyến đường GPS được tải lên gần đây
       tagged_with: ' có thẻ %{tags}'
+      wiki_page: trang wiki
       upload_trace: Tải lên tuyến đường
       all_traces: Tất cả các Tuyến đường
       my_traces: Tuyến đường của Tôi
@@ -2387,6 +2405,7 @@ vi:
         thuộc về phạm vi công cộng
       consider_pd_why: đây là gì?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=vi
+      informal_translations: bản dịch không chính thức
       continue: Tiếp tục
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
       decline: Từ chối
@@ -2566,18 +2585,15 @@ vi:
         nhập.
       time_past_html: Đã hết hạn %{time}.
       block_duration:
-        hours: '%{count} giờ'
+        hours:
+          other: '%{count} giờ'
         days:
-          one: 1 ngày
           other: '%{count} ngày'
         weeks:
-          one: 1 tuần
           other: '%{count} tuần'
         months:
-          one: 1 tháng
           other: '%{count} tháng'
         years:
-          one: 1 năm
           other: '%{count} năm'
     blocks_on:
       title: Các tác vụ cấm %{name}
@@ -2632,15 +2648,6 @@ vi:
       open_title: 'Ghi chú chưa giải quyết #%{note_name}'
       closed_title: 'Ghi chú đã giải quyết #%{note_name}'
       hidden_title: 'Ghi chú ẩn #%{note_name}'
-      opened_by_html: Tạo bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Tạo vô danh <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Bình luận của %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Bình luận vô danh <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Giải quyết bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Giải quyết vô danh <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Mở lại bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Mở lại vô danh <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Ẩn bởi %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: báo cáo ghi chú này
       anonymous_warning: Ghi chú này có bình luận của người dùng vô danh đóng góp;
         các bình luận này cần được xác nhận lại.
@@ -2700,10 +2707,8 @@ vi:
       locate:
         title: Bay tới Vị trí của Tôi
         metersPopup:
-          one: Bạn đang cách địa điểm này trong vòng 1 mét
           other: Bạn đang cách địa điểm này trong vòng %{count} mét
         feetPopup:
-          one: Bạn đang cách địa điểm này trong vòng 1 bộ
           other: Bạn đang cách địa điểm này trong vòng %{count} bộ
       base:
         standard: Chuẩn
@@ -2719,19 +2724,6 @@ vi:
         gps: Tuyến đường GPS Công khai
         overlays: Bật lớp phủ để gỡ lỗi trên bản đồ
         title: Lớp
-      copyright: © <a href='%{copyright_url}'>những người đóng góp vào OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Quyên góp</a>
-      terms: <a href='%{terms_url}' target='_blank'>Điều khoản trang Web và API</a>
-      cyclosm: Kiểu hình ảnh bản đồ <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
-        do <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Pháp</a> phục
-        vụ
-      thunderforest: Các hình ảnh bản đồ do <a href='%{thunderforest_url}' target='_blank'>Andy
-        Allan</a> cung cấp
-      opnvkarte: Mảnh bản đồ do <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-        cung cấp
-      hotosm: Kiểu hình ảnh bản đồ do <a href='%{hotosm_url}' target='_blank'>Tổ chức
-        Nhân đạo OpenStreetMap</a> do <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        Pháp</a> phục vụ
     site:
       edit_tooltip: Sửa đổi bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
@@ -2765,6 +2757,8 @@ vi:
       descend: Xuống
       directions: Chỉ đường
       distance: Tầm xa
+      distance_m: '%{distance}&nbsp;m'
+      distance_km: '%{distance}&nbsp;km'
       errors:
         no_route: Không tìm thấy tuyến đường giữa hai địa điểm này.
         no_place: Rất tiếc, không tìm thấy “%{place}”.

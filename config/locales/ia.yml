@@ -164,10 +164,6 @@ ia:
           usar terminos simple.
         needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
       user:
-        email_confirmation: Tu adresse non es monstrate publicamente. Vide nostre
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Politica
-          de confidentialitate de OSMF includente un section sur adresses de e-mail">politica
-          de confidentialitate</a> pro plus information.
         new_email: (nunquam monstrate publicamente)
   datetime:
     distance_in_words_ago:
@@ -324,12 +320,12 @@ ia:
   browse:
     created: Create a
     closed: Claudite a
-    created_html: Create <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Claudite <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Create <abbr title='%{title}'>%{time}</abbr> per %{user}
-    deleted_by_html: Delite <abbr title='%{title}'>%{time}</abbr> per %{user}
-    edited_by_html: Modificate <abbr title='%{title}'>%{time}</abbr> per %{user}
-    closed_by_html: Claudite <abbr title='%{title}'>%{time}</abbr> per %{user}
+    created_ago_html: Create %{time_ago}
+    closed_ago_html: Claudite %{time_ago}
+    created_ago_by_html: Create %{time_ago} per %{user}
+    closed_ago_by_html: Claudite %{time_ago} per %{user}
+    deleted_ago_by_html: Delite %{time_ago} per %{user}
+    edited_ago_by_html: Modificate %{time_ago} per %{user}
     version: Version
     in_changeset: Gruppo de modificationes
     anonymous: anonyme
@@ -355,8 +351,8 @@ ia:
       relation: Relationes (%{count})
       relation_paginated: Relationes (%{x}-%{y} de %{count})
       comment: Commentos (%{count})
-      hidden_commented_by_html: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_comment_by_html: Commento celate de %{user} %{time_ago}
+      comment_by_html: Commento de %{user} %{time_ago}
       changesetxml: XML del gruppo de modificationes
       osmchangexml: XML osmChange
       feed:
@@ -626,13 +622,6 @@ ia:
       success: '%{name} ha essite removite de tu amicos.'
       not_a_friend: '%{name} non es un de tu amicos.'
   geocoder:
-    search:
-      title:
-        latlon_html: Resultatos <a href="https://openstreetmap.org/">interne</a>
-        osm_nominatim_html: Resultatos de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Resultatos de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1425,8 +1414,7 @@ ia:
       status: Stato
       reports: Reportos
       last_updated: Ultime actualisation
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> per %{user}
+      last_updated_time_ago_user_html: '%{time_ago} per %{user}'
       link_to_reports: Vider reportos
       reports_count:
         one: '%{count} reporto'
@@ -1439,7 +1427,6 @@ ia:
     show:
       title: '%{status} Problema №%{issue_id}'
       reports:
-        zero: Nulle reporto
         one: 1 reporto
         other: '%{count} reportos'
       report_created_at: 'Prime reporto: %{datetime}'
@@ -1922,7 +1909,7 @@ ia:
   site:
     about:
       next: Sequente
-      copyright_html: <span>&copy;</span>Contributores de<br>OpenStreetMap
+      heading_html: '%{copyright}Contributores %{br} de OpenStreetMap'
       used_by_html: '%{name} forni datos cartographic a milles de sitos web, applicationes
         mobile e dispositivos physic'
       lede_text: OpenStreetMap es construite per un communitate de cartographos que
@@ -1934,29 +1921,36 @@ ia:
         imageria aeree, apparatos GPS e cartas ordinari de terreno pro verificar que OSM
         es accurate e actual.
       community_driven_title: Dirigite per le communitate
-      community_driven_html: |-
+      community_driven_1_html: |-
         Le communitate de OpenStreetMap es diverse, passionate e cresce cata die. Nostre contributores include cartographos enthusiasta, professionales de GIS, ingenieros gerente le servitores de OSM, humanitarios cartographiante areas devastate per un disastro, e multe alteres.
-        Pro apprender plus sur le communitate, vide
-        le <a href='https://blog.openstreetmap.org'>blog de OpenStreetMap</a>,
-        le <a href='%{diary_path}'>diarios del usatores</a>,
-        le <a href='http://blogs.openstreetmap.org/'>blogs del communitate</a>
-        e le sito web del <a href='http://www.osmfoundation.org/'>Fundation OSM</a>.
+        Pro apprender plus sur le communitate, vide le %{osm_blog_link}, le %{user_diaries_link}, le %{community_blogs_link} e le sito web del %{osm_foundation_link}.
+      community_driven_osm_blog: Blog de OpenStreetMap
+      community_driven_user_diaries: diarios de usatores
+      community_driven_community_blogs: blogs del communitate
+      community_driven_osm_foundation: Fundation OSM
       open_data_title: Datos aperte
-      open_data_html: |-
-        OpenStreetMap es constituite per <i>datos aperte</i>: tu es libere de usar lo pro qualcunque scopo a condition que tu da credito a OpenStreetMap e su contributores. Si tu altera o extende le datos in certe manieras, tu pote distribuer le resultato solmente sub le mesme licentia. Vide le pagina <a href='%{copyright_path}'>Copyright e
-        Licentia</a> pro detalios.
+      open_data_1_html: 'OpenStreetMap es constituite per %{open_data}: tu es libere
+        de usar lo pro qualcunque scopo a condition que tu da recognoscenita a OpenStreetMap
+        e su contributores. Si tu altera o extende le datos in certe manieras, tu
+        pote distribuer le resultato solmente sub le mesme licentia. Vide le pagina
+        %{copyright_license_link} pro detalios.'
+      open_data_open_data: datos aperte
+      open_data_copyright_license: pagina Derectos de autor e Licentia
       legal_title: Juridic
-      legal_1_html: "Iste sito e multe altere servicios associate es formalmente gerite
-        per le  \n<a href=\"https://osmfoundation.org/\">Fundation OpenStreetMap</a>
-        (OSMF) \nin nomine del communitate. Le uso de tote le servicios gerite per
-        OSMF es subjecte a nostre <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">conditiones
-        de uso</a>, a nostre <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npoliticas
-        de uso acceptabile</a> e a nostre <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">politica
-        de confidentialitate</a>."
-      legal_2_html: "<a href=\"https://osmfoundation.org/Contact\">Contacta OSMF</a>
-        \nsi vos ha questiones sur licentias, derectos de autor o altere themas juridic.\n<br>\nOpenStreetMap,
-        le logotypo de lupa e \"State of the Map\" es <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marcas
-        commercial registrate del OSMF</a>."
+      legal_1_1_html: Iste sito e multe altere servicios associate es formalmente
+        gerite per le %{openstreetmap_foundation_link} (OSMF) in nomine del communitate.
+        Le uso de tote le servicios gerite per OSMF es subjecte a nostre %{terms_of_use_link},
+        a nostre %{aup_link} e a nostre %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Fundation OpenStreetMap
+      legal_1_1_terms_of_use: Conditiones de uso
+      legal_1_1_aup: Politica de uso acceptabile
+      legal_1_1_privacy_policy: Politica de confidentialitate
+      legal_2_1_html: Per favor %{contact_the_osmf_link} si tu ha questiones sur le
+        licentia o le derecto de autor o altere questiones juridic.
+      legal_2_1_contact_the_osmf: contacta le OSMF
+      legal_2_2_html: OpenStreetMap, le logotypo con le lupa e "State of the Map"
+        es %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: marcas commercial registrate del OSMF
       partners_title: Partners
     copyright:
       foreign:
@@ -2016,10 +2010,27 @@ ia:
           alt: Exemplo de como recognoscer OpenStreetMap in un pagina web
           title: Exemplo de recognoscentia
         more_title_html: Pro saper plus
+        more_1_1_html: Lege plus sur le uso de nostre datos, e como dar nos recognoscentia,
+          sur le %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: pagina Licentia del Fundation OSM
+        more_2_1_html: Benque OpenStreetMap es datos aperte, nos non pote fornir un
+          API cartographic gratuite a tertios. Vide nostre %{api_usage_policy_link},
+          %{tile_usage_policy_link} e %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Politica de uso del API
+        more_2_1_tile_usage_policy: Politica de uso de tegulas
+        more_2_1_nominatim_usage_policy: Politica de uso de Nominatim
         contributors_title_html: Nostre contributores
         contributors_intro_html: 'Nostre contributores es milles de personas. Nos
           include anque le datos sub licentia aperte de agentias cartographic national
           e de altere fontes, inter le quales:'
+        contributors_at_credit_html: |-
+          %{austria}: Contine datos del %{stadt_wien_link} (sub %{cc_by_link}), %{land_vorarlberg_link}
+          e le Region de Tirol (sub %{cc_by_at_with_amendments_link}).
+        contributors_at_austria: Austria
+        contributors_at_stadt_wien: Citate de Vienna
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Region de Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT con emendamentos
         contributors_footer_2_html: |2-
             Le inclusion de datos in OpenStreetMap non implica que le fornitor
             original del datos indorsa OpenStreetMap, forni alcun garantia, o
@@ -2103,11 +2114,6 @@ ia:
           explanation_html: Si tu ha trovate un problema con nostre datos cartographic,
             per exemplo si il manca un cammino o tu adresse, lo melior es inscriber
             te a OpenStreetMap e adder o reparar le datos tu mesme.
-        add_a_note:
-          instructions_html: Clicca simplemente sur <a class='icon note'></a> o sur
-            le mesme icone in le quadro del carta. Un marcator essera addite al carta,
-            que tu pote displaciar trahente lo con le mouse. Adde tu message, pois
-            clicca sur Salveguardar, e altere cartographos lo investigara.
       other_concerns:
         title: Altere preoccupationes
         concerns_html: Si tu ha preoccupationes concernente le maniera in que nostre
@@ -2869,15 +2875,6 @@ ia:
       open_title: Nota non resolvite №%{note_name}
       closed_title: Nota resolvite №%{note_name}
       hidden_title: Nota celate №%{note_name}
-      opened_by_html: Create per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Create per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Commento de un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Resolvite per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Reactivate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Celate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: signalar iste nota
       coordinates_html: '%{latitude}; %{longitude}'
       anonymous_warning: Iste nota include commentos de usatores anonyme que debe
@@ -2956,18 +2953,6 @@ ia:
         gps: Tracias GPS public
         overlays: Activar superpositiones pro resolver problemas in le carta
         title: Stratos
-      copyright: © <a href='%{copyright_url}'>contributores de OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer un donation</a>
-      terms: <a href='%{terms_url}' target='_blank'>Conditiones del sito web e del
-        API</a>
-      cyclosm: Stilo de tegulas concipite per <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
-        e albergate per <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>
-      thunderforest: Tegulas fornite per <a href='%{thunderforest_url}' target='_blank'>Andy
-        Allan</a>
-      opnvkarte: Tegulas fornite per <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: Stilo de tegulas concipite per <a href='%{hotosm_url}' target='_blank'>le
-        equipa humanitari de OpenStreetMap</a> e albergate per <a href='%{osmfrance_url}'
-        target='_blank'>OpenStreetMap France</a>
     site:
       edit_tooltip: Modificar le carta
       edit_disabled_tooltip: Face zoom avante pro modificar le carta

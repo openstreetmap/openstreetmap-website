@@ -199,8 +199,6 @@ zh-TW:
         reason: 封鎖使用者的理由。請盡量以平靜、合理態度詳細描述情況，並記住訊息公開可見。請注意，並非所有使用者都了解社群術語，所以請盡量使用通俗說法。
         needs_view: 解封前是否需要使用者登入？
       user:
-        email_confirmation: 您的地址未公開顯示，請瀏覽我們的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="包含電郵地址的OSMF私隱權政策">私隱權政策</a>獲得更多資訊。
         new_email: （永不公開顯示）
   datetime:
     distance_in_words_ago:
@@ -342,12 +340,12 @@ zh-TW:
   browse:
     created: 建立於
     closed: 關閉於
-    created_html: 於<abbr title='%{title}'>%{time}</abbr>建立
-    closed_html: 於<abbr title='%{title}'>%{time}</abbr>關閉
-    created_by_html: 於<abbr title='%{title}'>%{time}</abbr>由%{user}建立
-    deleted_by_html: 於<abbr title='%{title}'>%{time}</abbr>由%{user}刪除
-    edited_by_html: 由%{user}編輯於<abbr title='%{title}'>%{time}</abbr>
-    closed_by_html: 於<abbr title='%{title}'>%{time}</abbr>由%{user}關閉
+    created_ago_html: '%{time_ago}建立'
+    closed_ago_html: '%{time_ago}關閉'
+    created_ago_by_html: 由%{user}%{time_ago}建立
+    closed_ago_by_html: 由%{user}%{time_ago}關閉
+    deleted_ago_by_html: 由%{user}%{time_ago}刪除
+    edited_ago_by_html: 由%{user}%{time_ago}編輯
     version: 版本
     in_changeset: 變更集
     anonymous: 匿名
@@ -373,8 +371,8 @@ zh-TW:
       relation: 關聯 (%{count})
       relation_paginated: 關聯 (%{count} 的 %{x}-%{y})
       comment: 評論 (%{count})
-      hidden_commented_by_html: 隱藏來自%{user}於<abbr title='%{exact_time}'>%{when}</abbr>的評論
-      commented_by_html: 來自%{user}於<abbr title='%{exact_time}'>%{when}</abbr>的評論
+      hidden_comment_by_html: '%{user}%{time_ago}隱藏評論'
+      comment_by_html: 來自%{user}%{time_ago}的評論
       changesetxml: 變更集 XML
       osmchangexml: osmChange 格式 XML
       feed:
@@ -629,11 +627,10 @@ zh-TW:
   geocoder:
     search:
       title:
-        latlon_html: 來自<a href="https://openstreetmap.org/">內部</a>的結果
-        osm_nominatim_html: 來自 <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> 的結果
-        osm_nominatim_reverse_html: 來自 <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a> 的結果
+        results_from_html: 來自 %{results_link} 的結果
+        latlon: 內部
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1426,8 +1423,7 @@ zh-TW:
       status: 狀態
       reports: 回報
       last_updated: 上一次更新
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr>由%{user}
+      last_updated_time_ago_user_html: 由%{user}%{time_ago}
       link_to_reports: 檢視回報
       reports_count:
         one: '%{count} 份回報'
@@ -1534,7 +1530,7 @@ zh-TW:
     intro_header: 歡迎來到 OpenStreetMap！
     intro_text: OpenStreetMap 是一幅世界地圖，由像您這樣的人們所建立，在開放授權下可以自由使用。
     intro_2_create_account: 建立使用者帳號
-    hosting_partners_html: 由%{ucl}、%{fastly}、%{bytemark}，和其他%{partners}支援託管。
+    hosting_partners_html: 由%{ucl}、%{fastly}、%{bytemark}，和其他%{partners}支援代管。
     partners_ucl: 倫敦大學學院
     partners_fastly: Fastly
     partners_bytemark: Bytemark 主機代管
@@ -1857,7 +1853,7 @@ zh-TW:
   site:
     about:
       next: 下一頁
-      copyright_html: <span>&copy;</span>OpenStreetMap<br>貢獻者
+      heading_html: '%{copyright}OpenStreetMap %{br} 貢獻者'
       used_by_html: '%{name} 為數以千計的網站、行動應用程式和硬體提供地圖資料'
       lede_text: OpenStreetMap 是由製圖者社群所建立，他們提供及不斷更新包括有關世界各地的道路、路徑、咖啡館、火車站等等的資料。
       local_knowledge_title: 地方知識
@@ -1866,22 +1862,30 @@ zh-TW:
         航照圖、GPS 裝置與低技術的實地考察製圖，來檢驗 OSM
         是準確而且最新的。
       community_driven_title: 社群推動
-      community_driven_html: |-
+      community_driven_1_html: |-
         OpenStreetMap 的社群多元化、懷有熱情，而且日益壯大。我們的貢獻者包括地圖製作愛好者，地理訊息系統的專業人員，提供 OSM 伺服器的工程師，為受災害影響區域製圖的人道主義志願人士，以及其他各界人士。
-        想進一步了解這個社群，請參閱<a href='https://blog.openstreetmap.org'> OpenStreetMap 部落格</a>、<a href='%{diary_path}'>使用者日記</a>、
-        <a href='https://blogs.openstreetmap.org/'>社群部落格</a>，以及<a href='https://www.osmfoundation.org/'> OSM 基金會</a> 網站。
+        想進一步了解這個社群，請參閱%{osm_blog_link}、%{user_diaries_link}、
+        %{community_blogs_link}，以及%{osm_foundation_link}網站。
+      community_driven_osm_blog: OpenStreetMap 部落格
+      community_driven_user_diaries: 使用者日記
+      community_driven_community_blogs: 社群部落格
+      community_driven_osm_foundation: OSM 基金會
       open_data_title: 開放資料
-      open_data_html: OpenStreetMap 是<i>開放資料</i>的：您可以自由地使用作任何用途，前提是您須標明作者為 OpenStreetMap
-        及其貢獻者。若您在我們的資料上作修改或以之透過某些方式衍生其他資料，則只可依相同授權條款散佈有關成果。詳情請參閱<a href='%{copyright_path}'>版權及授權條款頁面</a>。
+      open_data_1_html: OpenStreetMap 是%{open_data}的：您可以自由地使用作任何用途，前提是您須標明作者為 OpenStreetMap
+        及其貢獻者。若您在我們的資料上作修改或以之透過某些方式衍生其他資料，則只可依相同授權條款散佈有關成果。詳情請參閱%{copyright_license_link}。
+      open_data_open_data: 開放資料
+      open_data_copyright_license: 版權與授權條款頁面
       legal_title: 法律資訊
-      legal_1_html: 本站以及許多相關的服務正式由<a href='https://osmfoundation.org/'> OpenStreetMap
-        基金會</a>（OSMF）代表社群所營運。所有使用的 OSMF 運行服務皆符合我們的<a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">使用條款</a>、<a
-        href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">可接受使用方針</a>、和<a
-        href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">隱私政策</a>。
-      legal_2_html: |-
-        若您有任何授權、版權或其他法律諮詢，請<a href='https://osmfoundation.org/Contact'>聯絡 OSMF </a>。
-        <br>
-        OpenStreetMap、放大鏡標誌，和地圖狀態是<a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy"> OSMF 的註冊商標</a>。
+      legal_1_1_html: 本站以及許多相關的服務正式由%{openstreetmap_foundation_link}（OSMF）代表社群所營運。所有使用的
+        OSMF 運行服務皆符合我們的%{terms_of_use_link}、%{aup_link}、和%{privacy_policy_link}。
+      legal_1_1_openstreetmap_foundation: OpenStreetMap 基金會
+      legal_1_1_terms_of_use: 使用條款
+      legal_1_1_aup: 可接受使用方針
+      legal_1_1_privacy_policy: 隱私權政策
+      legal_2_1_html: 若您有授權、版權、或其他法律上的問題，請%{contact_the_osmf_link}。
+      legal_2_1_contact_the_osmf: 聯絡 OSMF
+      legal_2_2_html: OpenStreetMap，查看地圖狀態的放大鏡模樣標誌是%{registered_trademarks_link}。
+      legal_2_2_registered_trademarks: OSMF 的註冊商標
       partners_title: 合作夥伴
     copyright:
       foreign:
@@ -2055,9 +2059,9 @@ zh-TW:
           explanation_html: 如果你發現我們的地圖資料有問題，例如缺少某條道路或者你的地址，最好的方法就是加入 OpenStreetMap
             社群，然後自己加入或者改進資料。
         add_a_note:
-          instructions_html: |-
-            只須點選 <a class='icon note'></a>或地圖上的同一圖示，
-            這將在地圖上加入一個標記，你可以拖動它，並新增你的註記，然後點選儲存，其他製圖者會作出查證。
+          instructions_1_html: |-
+            只需點選%{note_icon}或地圖上顯示的同一圖示，
+            這會在地圖上加入一個標記，您可以拖動它，並新增您的註記，然後點選儲存，其他製圖者會作出查證。
       other_concerns:
         title: 其他問題
         concerns_html: 如果您對我們的資料使用方面或內容有所疑慮，請參考我們的%{copyright_link}來了解更多法律資訊，或是聯繫相應的%{working_group_link}。
@@ -2498,6 +2502,9 @@ zh-TW:
       auth no password: 使用第三方認証無須填寫密碼，但部份額外工具或伺服器可能仍需要使用密碼。
       continue: 註冊
       terms accepted: 感謝您接受新的貢獻條款！
+      email_confirmation_help_html: 您的地址不會公開顯示，請參閱我們的%{privacy_policy_link}來了解更多資訊。
+      privacy_policy: 隱私權政策
+      privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
     terms:
       title: 條款
       heading: 條款
@@ -2740,15 +2747,15 @@ zh-TW:
       open_title: 未解決的註記：#%{note_name}
       closed_title: 已解決的註記：#%{note_name}
       hidden_title: 已隱藏的註記：#%{note_name}
-      opened_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}建立
-      opened_by_anonymous_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者建立
-      commented_by_html: '%{user}於<abbr title=''%{exact_time}''>%{when}</abbr>的評論'
-      commented_by_anonymous_html: 匿名使用者於<abbr title='%{exact_time}'>%{when}</abbr>的評論
-      closed_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}解決
-      closed_by_anonymous_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者解決
-      reopened_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}重新開啟
-      reopened_by_anonymous_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由匿名使用者重新開啟
-      hidden_by_html: 於<abbr title='%{exact_time}'>%{when}</abbr>由%{user}隱藏
+      event_opened_by_html: 由%{user}%{time_ago}建立
+      event_opened_by_anonymous_html: 由匿名使用者%{time_ago}建立
+      event_commented_by_html: 來自%{user}%{time_ago}的評論
+      event_commented_by_anonymous_html: 來自匿名使用者%{time_ago}的評論
+      event_closed_by_html: 由%{user}%{time_ago}解決
+      event_closed_by_anonymous_html: 由匿名使用者%{time_ago}解決
+      event_reopened_by_html: 由%{user} %{time_ago}重新開啟
+      event_reopened_by_anonymous_html: 由匿名使用者%{time_ago}重新開啟
+      event_hidden_by_html: 由%{user} %{time_ago}隱藏
       report: 回報此註記
       anonymous_warning: 此項註記包含來自匿名使用者的評論，應作獨立核實。
       hide: 隱藏
@@ -2819,16 +2826,17 @@ zh-TW:
         gps: 公開GPS軌跡
         overlays: 開啟覆蓋層，以為地圖解決問題
         title: 圖層
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap 貢獻者</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>來捐款吧</a>
-      terms: <a href='%{terms_url}' target='_blank'>網站與 API 項目</a>
-      cyclosm: <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a> 影像塊樣式，由 <a href='%{osmfrance_url}'
-        target='_blank'>OpenStreetMap 法國</a>託管
-      thunderforest: 由 <a href='%{thunderforest_url}' target='_blank'>Andy Allan</a>
-        提供的影像塊
-      opnvkarte: 由 <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a> 提供的影像塊
-      hotosm: <a href='%{hotosm_url}' target='_blank'>人道 OpenStreetMap 團隊</a>影像塊樣式，由
-        <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap 法國</a> 託管
+      openstreetmap_contributors: OpenStreetMap 貢獻者
+      make_a_donation: 捐款
+      website_and_api_terms: 網站和 API 條款
+      cyclosm_credit: 由 %{osm_france_link} 代管的 %{cyclosm_link} 所提供影像塊樣式
+      osm_france: OpenStreetMap 法國
+      thunderforest_credit: '%{thunderforest_link} 提供的影像塊'
+      andy_allan: Andy Allan
+      opnvkarte_credit: '%{memomaps_link} 提供的影像塊'
+      memomaps: MeMoMaps
+      hotosm_credit: 由 %{osm_france_link} 代管的 %{hotosm_link} 所提供影像塊樣式
+      hotosm_name: OpenStreetMap 人道主義團隊
     site:
       edit_tooltip: 編輯地圖
       edit_disabled_tooltip: 放大以編輯地圖

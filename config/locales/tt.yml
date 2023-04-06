@@ -162,67 +162,159 @@ tt:
           жаргон сүзләрен бар кулланучылар да аңламый. Шуңа күрә дилетант төшенчәләр
           кулланып карагыз.
         needs_view: Тыю төшкәнче кулланучыга хисапъязмасы аша керергә рөхсәт бирергәме?
+      user:
+        new_email: (күрсәтелмәячәк)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: якынча 1 сәгать элек
+        one: якынча %{count} сәгать элек
         other: якынча %{count} сәгать элек
       about_x_months:
-        one: якынча 1 ай элек
+        one: якынча %{count} ай элек
         other: якынча %{count} ай элек
       about_x_years:
-        one: якынча 1 ел элек
+        one: якынча %{count} ел элек
         other: якынча %{count} ел элек
       almost_x_years:
-        one: 1 ел элек диярлек
+        one: '%{count} ел элек диярлек'
         other: '%{count} ел элек диярлек'
       half_a_minute: ярты минут элек
       less_than_x_seconds:
-        one: 1 секунд кимрәк элек
-        other: '%{count} секунд кимрәк элек'
+        one: '%{count} секундтан кимрәк элек'
+        other: '%{count} секундтан кимрәк элек'
       less_than_x_minutes:
-        one: 1 минут кимрәк элек
-        other: '%{count} минут кимрәк элек'
+        one: '%{count} минуттан кимрәк элек'
+        other: '%{count} минуттан кимрәк элек'
       over_x_years:
-        one: 1 ел артыграк элек
-        other: '%{count} ел артыграк элек'
+        one: '%{count} елдан артыграк элек'
+        other: '%{count} елдан артыграк элек'
       x_seconds:
-        one: 1 секунд элек
+        one: '%{count} секунд элек'
         other: '%{count} секунд элек'
       x_minutes:
-        one: 1 минут элек
+        one: '%{count} минут элек'
         other: '%{count} минут элек'
       x_days:
-        one: 1 көн элек
+        one: '%{count} көн элек'
         other: '%{count} көн элек'
       x_months:
-        one: 1 ай элек
+        one: '%{count} ай элек'
         other: '%{count} ай элек'
       x_years:
-        one: 1 ел элек
+        one: '%{count} ел элек'
         other: '%{count} ел элек'
   editor:
+    default: Килешенгәнчә (%{name} билгеләнгән)
     id:
       name: iD
+      description: iD (гизгечтәге редактор)
     remote:
       name: Дистанцион идарә
-      description: Дистанционн идарә (JOSM яки Merkaartor)
+      description: Дистанцион идарә (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: Юк
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Википедия
+  api:
+    notes:
+      comment:
+        opened_at_html: Төзү датасы %{when}
+        opened_at_by_html: Төзү датасы %{when}, һәм төзүчесе %{user}
+        commented_at_html: Яңартылу датасы %{when}
+        commented_at_by_html: Яңартылу датасы %{when}, һәм яңартучысы %{user}
+        closed_at_html: Чишү датасы %{when}
+        closed_at_by_html: Чишү датасы %{when} һәм чишүчесе %{user}
+        reopened_at_html: Яңадан ачылу датасы %{when}
+        reopened_at_by_html: Яңадан ачылу датасы %{when} һәм ачучысы %{user}
+      rss:
+        title: OpenStreetMap искәрмәләре
+        description_area: Сезнең тирәдә ясалган, шәрехләнгән яки ябык булган искәрмәләр
+          исемлеге [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Искәрмәнең RSS-агымы %{id}
+        opened: (%{place} янында) яңа искәрмә
+        commented: (%{place} янында) яңа шәрех
+        closed: (%{place} янында) ябык искәрмә
+        reopened: (%{place} янында) яңадан ачылган искәрмә
+      entry:
+        comment: Шәрех
+        full: Тулы текст
+  account:
+    deletions:
+      show:
+        title: Минем хисапъязмамны бетерү
+        warning: Игътибар! Хисапъязманы бетерү нәтиҗәләрен кире алып булмый.
+        delete_account: Хисапъязманы бетерергә
+        delete_introduction: 'Сез астагы төймә ярдәмендә OpenStreetMap хисапъязмагызны
+          бетерә аласыз. Түбәндәге нечкәлекләргә күз салып алыгыз:'
+        delete_profile: Профилегыз турында мәгълүмат (монда аватар, тасвирлама һәм
+          урнашу урыны керә) бетереләчәк.
+        delete_display_name: Күрсәтелә торган исемегез бетереләчәк, һәм башка кулланучылар
+          аны куллана алачак.
+        retain_caveats: 'Әмма OpenStreetMap сайтында сезнең турында күпмедер мәгълүмат
+          хисапъязмагызны бетергәч тә сакланыр:'
+        retain_edits: Харитада сез ясаган үзгәртүләр булса, алар сакланыр.
+        retain_traces: Йөкләгән трекларыгыз булса, алар сакланыр.
+        retain_diary_entries: Көндәлеккә керткән язмаларыгыз һәм язмаларыгызга ясалган
+          шәрехләр булса, алар сакланыр, ләкин беркемгә дә күренмәс.
+        retain_notes: Ясалган искәрмәләрегез һәм аларга шәрехләр булса, алар сакланыр,
+          ләкин беркемгә дә күренмәс.
+        retain_changeset_discussions: Үзгәртү пакетлары бәхәсләре булса, алар сакланыр.
+        retain_email: Электрон почтагызның юлламасы сакланыр.
+        confirm_delete: Сез инанасызмы?
+        cancel: Кире алу
   accounts:
     edit:
+      title: Хисапъязманы үзгәртергә
+      my settings: Көйләнмәләрем
+      current email address: Хәзерге электрон почта адресы
+      external auth: Тышкы аутентификация
+      openid:
+        link text: бу нәрсә?
       public editing:
+        heading: Барысына күренерлек үзгәртүләр
+        enabled: Кабызылган. Мөхәррирләргә була. Үзгәртүләр аноним түгел.
         enabled link text: бу нәрсә?
+        disabled: Сүндерелгән һәм яңа кертемнәр ясый алмый, моңарчы ясалган үзгәртүләр
+          аноним була кала.
+        disabled link text: мин ник үзгәртүләр кертә алмыйм?
       contributor terms:
+        heading: Катнашу шартлары
+        agreed: Сез яңа Катнашу Шартлары белән ризалаштыгыз.
+        not yet agreed: Сез яңа Катнашу Шартлары белән әле ризалашмадыгыз.
+        review link text: Зинһар, җайлы вакытта бу сылтама аша үтегез һәм яңа Катнашу
+          Шартлары белән риза булуыгызны белдерегез.
+        agreed_with_pd: Сез шулай ук үзгәртүләрегезнең җәмгыять кулланышына күчүенә
+          ризалык белдердегез.
+        link: https://wiki.openstreetmap.org/wiki/TT:Open_Database_License/Contributor_Terms?uselang=tt
         link text: бу нәрсә?
       save changes button: Үзгәрешләрне саклау
+      delete_account: Хисапъязманы бетерергә...
+    go_public:
+      heading: Барысына күренерлек үзгәртүләр
+      currently_not_public: Ясалган соңгы үзгәртүләрегез сердә, башка кешеләр сезгә
+        хәбәрләр яза алмас һәм сезнең кайда булуыгызны белә алмас. Нәрсә үзгәрткәнегезне
+        күрсәтер өчен һәм башкаларга сайт аша сезнең белән элемтәгә керергә мөмкинлек
+        бирер өчен астагы төймәгә басыгыз.
+      find_out_why: нигә икәнен белергә
+      make_edits_public_button: Мин ясалган үзгәртүләрне барысына да күрсәтергә
+    update:
+      success_confirm_needed: Кулланучы турында мәгълүмат уңышлы үзгәртелде. Яңа юлламаны
+        раслау өчен электрон почтагызны тикшерегез.
+      success: Кулланучы турында мәгълүмат уңышлы яңартылды.
+    destroy:
+      success: Хисапъязма бетерелде.
   browse:
     created: Төзелгән
     closed: Ябык
-    created_html: <abbr title='%{title}'>%{time}</abbr> төзелгән
-    closed_html: <abbr title='%{title}'>%{time}</abbr> ябылган
-    created_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} тарафыннан төзелгән
-    deleted_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} тарафыннан бетерелгән
-    edited_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} тарафыннан үзгәртелгән
-    closed_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} тарафыннан ябылган
+    created_ago_html: 'Күпме вакыт элек ясалды: %{time_ago}'
+    closed_ago_html: 'Күпме вакыт элек ябылды: %{time_ago}'
+    created_ago_by_html: 'Күпме вакыт элек ясалды: %{time_ago}, кем тарафыннан: %{user}'
+    closed_ago_by_html: 'Күпме вакыт элек ябылды: %{time_ago}, кем тарафыннан: %{user}'
     version: Юрама
     anonymous: аноним
     no_comment: (шәрехләр юк)
@@ -327,9 +419,6 @@ tt:
       description: Шушы исем буенча OpenStreetMap серверыннан файл/директория/API
         гамәл табып булмый
   geocoder:
-    search:
-      title:
-        latlon_html: <a href="http://openstreetmap.org/">Эчке нәтиҗәләр</a>
     search_osm_nominatim:
       prefix:
         aeroway:
@@ -627,8 +716,6 @@ tt:
       search: Эзләү
       status: Халәт
       last_updated: Соңгы яңарту
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> %{user} тарафыннан
       states:
         open: Ачык
     show:
@@ -846,9 +933,6 @@ tt:
     show:
       title: 'Искәрмә: %{id}'
       description: Тасвирлама
-      opened_by_html: '%{user} тарафыннан төзелгән <abbr title=''%{exact_time}''>%{when}</abbr>'
-      opened_by_anonymous_html: Аноним тарафыннан төзелгән <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: '%{user} тарафыннан яшеренгән <abbr title=''%{exact_time}''>%{when}</abbr>'
       hide: Яшерү
   javascripts:
     close: Ябу

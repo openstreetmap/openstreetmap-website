@@ -180,10 +180,6 @@ eo:
           komprenas la komunuman ĵargonon, do bonvolu uzi simplajn vortojn.
         needs_view: Ĉu la uzanto devas ensaluti antaŭ ĉi tiu blokado nuligos?
       user:
-        email_confirmation: Via retpoŝta adreso ne estos montrata publike, legu nian
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="privateca
-          politiko de OSMF enhavanta sekcion pri retpoŝta adreso">privatecan politikon</a>
-          por pli da informoj.
         new_email: (neniam publike montrita)
   datetime:
     distance_in_words_ago:
@@ -336,12 +332,12 @@ eo:
   browse:
     created: Kreita
     closed: Fermita
-    created_html: Kreita <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Fermita <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Kreita <abbr title='%{title}'>%{time}</abbr> de %{user}
-    deleted_by_html: Forigita <abbr title='%{title}'>%{time}</abbr> de %{user}
-    edited_by_html: Ŝanĝita <abbr title='%{title}'>%{time}</abbr> de %{user}
-    closed_by_html: Fermita <abbr title='%{title}'>%{time}</abbr> de %{user}
+    created_ago_html: Kreita %{time_ago}
+    closed_ago_html: Fermita %{time_ago}
+    created_ago_by_html: Kreita %{time_ago} de %{user}
+    closed_ago_by_html: Fermita %{time_ago} de %{user}
+    deleted_ago_by_html: Forigita %{time_ago} de %{user}
+    edited_ago_by_html: Redaktita %{time_ago} de %{user}
     version: Versio
     in_changeset: Ŝanĝaro
     anonymous: anonimulo
@@ -369,8 +365,8 @@ eo:
       relation: Rilatoj (%{count})
       relation_paginated: Rilatoj (%{x}-%{y} el %{count})
       comment: Komentoj (%{count})
-      hidden_commented_by_html: Kaŝita komento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Komento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_comment_by_html: Kaŝita komento de %{time_ago} de %{user}
+      comment_by_html: Komento de %{time_ago} de %{user}
       changesetxml: Ŝanĝaro XML
       osmchangexml: osmŜanĝo XML
       feed:
@@ -636,13 +632,6 @@ eo:
       success: '%{name} estis forviŝita el viaj amikoj.'
       not_a_friend: '%{name} ne estas amiko via.'
   geocoder:
-    search:
-      title:
-        latlon_html: Rezultoj el <a href="https://openstreetmap.org/">nia retejo</a>
-        osm_nominatim_html: Rezultoj el <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Rezultoj el <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1435,8 +1424,7 @@ eo:
       status: Stato
       reports: Raportoj
       last_updated: Laste aktualigita
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> de %{user}
+      last_updated_time_ago_user_html: '%{time_ago} de %{user}'
       link_to_reports: Montri raportojn
       reports_count:
         one: '%{count} raporto'
@@ -1449,7 +1437,7 @@ eo:
     show:
       title: '%{status} problemo #%{issue_id}'
       reports:
-        one: 1 raporto
+        one: '%{count} raporto'
         other: '%{count} raportoj'
       report_created_at: Unue raportita je %{datetime}
       last_resolved_at: Laste solvita je %{datetime}
@@ -1607,6 +1595,9 @@ eo:
       subject: '[OpenStreetMap] Eraro dum enportado de GPX-dosiero'
     gpx_success:
       hi: Saluton %{to_user},
+      loaded:
+        one: estas sukcese enlegita kun %{trace_points} el ebla %{count} punkto.
+        other: estas sukcese enlegita kun %{trace_points} el eblaj %{count} punktoj.
       subject: '[OpenStreetMap] GPX-dosiero enportita sukcese'
     signup_confirm:
       subject: '[OpenStreetMap] Bonvenon al OpenStreetMap'
@@ -1906,7 +1897,7 @@ eo:
   site:
     about:
       next: Sekva
-      copyright_html: <span>&copy;</span>kontribuintoj de<br>OpenStreetMap
+      heading_html: '%{copyright}kontribuintoj de %{br} OpenStreetMap'
       used_by_html: '%{name} liveras map-datumojn por miloj da retejoj, poŝtelefonaj
         aplikaĵoj kaj aparatoj'
       lede_text: OpenStreetMap estas kreata de komunumo de mapigistoj kiuj aldonas
@@ -1917,25 +1908,36 @@ eo:
         aerfotojn, GPS-aparatojn kaj normajn mapojn por verigi ĉu datumoj de OSM estas
         akurataj kaj ĝisdatigaj.
       community_driven_title: Kondukata de komunumo
-      community_driven_html: |-
-        La komunumo de OpenStreetMap estas diversa, pasia kaj kreskas tagon post tago. Inter niaj kontribuantoj estas ŝatantoj de mapoj, profesiuloj de GIS, inĝenieroj prizorgantaj OSM-servilojn, helpistoj kiuj mapigas areojn tuŝitajn de katastrofoj kaj multaj aliaj. Por ekscii pli pri la komunumo, vidu <a href='https://blog.openstreetmap.org'>taglibron OpenStreetMap</a>, <a href='%{diary_path}'>taglibrojn de uzantoj</a>,
-        <a href='https://blogs.openstreetmap.org/'>komunumajn taglibrojn</a> kaj la retpaĝon de la <a href='https://www.osmfoundation.org/'>Fondaĵo OSM</a>.
+      community_driven_1_html: |-
+        La komunumo de OpenStreetMap estas diversa, pasia kaj kreskas tago post tago. Inter niaj kontribuantoj estas ŝatantoj de mapoj, profesiuloj de GIS, inĝenieroj prizorgantaj OSM-servilojn, helpistoj kiuj mapigas areojn tuŝitajn de katastrofoj kaj multaj aliaj. Por ekscii pli pri la komunumo, rigardu la %{osm_blog_link}
+        , %{user_diaries_link}, %{community_blogs_link} kaj retejon de la %{osm_foundation_link}.
+      community_driven_osm_blog: OpenStreetMap-taglibro
+      community_driven_user_diaries: taglibrojn de uzantoj
+      community_driven_community_blogs: taglibrojn de la komunumo
+      community_driven_osm_foundation: Fondaĵo OpenStreetMap
       open_data_title: Malfermaj datumoj
-      open_data_html: 'OpenStreetMap estas <i>malfermaj datumoj</i>: vi povas uzi
-        ĝin kiamaniere vi volas laŭ la kondiĉo, ke vi atribuos aŭtorecon al OpenStreetMap
-        kaj ĝiaj kontribuintoj. Se vi modifos aŭ uzos niajn datumojn, vi povos distribui
-        la verkon nur laŭ la sama permesilo. Legu la <a href=''%{copyright_path}''>paĝon
-        pri aŭtorrajto kaj permesilo</a> por pli da detaloj.'
+      open_data_1_html: 'OpenStreetMap estas %{open_data}: vi povas uzi ĝin kiamaniere
+        vi volas laŭ la kondiĉo, ke vi atribuos aŭtorecon al OpenStreetMap kaj ĝiaj
+        kontribuintoj. Se vi modifos aŭ uzos niajn datumojn, vi povos distribui la
+        verkon nur laŭ la sama permesilo. Legu la %{copyright_license_link} por pli
+        da detaloj.'
+      open_data_open_data: malfermaj datumoj
+      open_data_copyright_license: paĝon pri aŭtorrajtoj kaj permesilo
       legal_title: Leĝaj demandoj
-      legal_1_html: Tiu ĉi retejo kaj aliaj servoj estas formale administrataj de
-        la <a href="https://osmfoundation.org/">Fondaĵo OpenStreetMap</a> (OSMF) komisie
-        de la komunumo. Uzado de ĉiuj OSMF‑servoj estas regulata per niaj <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">kondiĉoj
-        de uzado</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">politiko
-        de akceptata uzo</a>, kaj nia <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">politiko
-        de privateco</a>.
-      legal_2_html: |-
-        <a href="https://osmfoundation.org/Contact">Kontaktu kun OSMF</a>, se vi havas iun demandon pri permesilo, aŭtorrajto aŭ leĝo.<br>
-        OpenStreetMap, la bildsimbolo de lupeo kaj “State of the Map” estas <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registritaj varmarkoj de OSMF</a>.
+      legal_1_1_html: Tiu ĉi retejo kaj aliaj servoj estas formale administrataj de
+        la %{openstreetmap_foundation_link} (OSMF) komisie de la komunumo. Uzado de
+        ĉiuj OSMF‑servoj estas regulata per niaj %{terms_of_use_link}, %{aup_link}
+        kaj %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Fondaĵo OpenStreetMap
+      legal_1_1_terms_of_use: kondiĉoj de uzado
+      legal_1_1_aup: politiko de akceptata uzado
+      legal_1_1_privacy_policy: privateca politiko
+      legal_2_1_html: Se vi havas demandojn pri permesiloj, aŭtorrajtoj aŭ aliaj leĝaj
+        problemoj; %{contact_the_osmf_link}.
+      legal_2_1_contact_the_osmf: kontaktu kun OSMF
+      legal_2_2_html: OpenStreetMap, la emblemo de lupeo kaj State of the Map estas
+        %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: registritaj varmarkoj de la Fondaĵo OpenStreetMap
       partners_title: Kunlaborantoj
     copyright:
       foreign:
@@ -1951,17 +1953,123 @@ eo:
         mapping_link: ekigi mapigadon
       legal_babble:
         title_html: Aŭtorrajto kaj permesilo
+        introduction_1_html: OpenStreetMap%{registered_trademark_link} estas %{open_data}
+          eldonata laŭ la permesilo %{odc_odbl_link} (ODbL) fare de la %{osm_foundation_link}
+          (OSMF).
+        introduction_1_open_data: malfermaj datumoj
+        introduction_1_odc_odbl: Open Data Commons Open Database License
+        introduction_1_osm_foundation: Fondaĵo OpenStreetMap
+        introduction_2_html: Vi rajtas kopii, disdoni, transdoni kaj modifi niajn
+          datumojn, nur se vi atribuos aŭtorecon al OpenStreetMap kaj ĝiaj kontribuintoj.
+          Se vi modifos aŭ uzos niajn datumojn, vi povos distribui la rezulton nur
+          laŭ la sama permesilo. La plena %{legal_code_link} klarigas viajn rajtojn
+          kaj devojn.
+        introduction_2_legal_code: jura teksto
+        introduction_3_html: Nia dokumentaro estas eldonata laŭ la permesilo %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Krea Komunaĵo Atribuite-Samkondiĉe 2.0
         credit_title_html: Kiel atribui aŭtorecon
         credit_1_html: 'Kiam vi uzas OpenStreetMap-datumojn, vi devas fari la jenajn
           du agojn:'
+        credit_2_1: afiŝi aŭtorecon al OpenStreetMap per montri nian noton pri aŭtorrajtoj;
+        credit_2_2: klarigi, ke la datumoj estas eldonitaj laŭ la permesilo Open Database
+          License.
+        credit_3_html: Por la noto pri aŭtorrajtoj, niaj postuloj pri kiel montri
+          ĝin dependas de maniero en kiu vi uzas niajn datumojn. Ekzemple malsamaj
+          reguloj aplikiĝas kiam vi kreas enretan ŝoveblan mapon, statikan mapon aŭ
+          presitan mapon. Plenaj detaloj pri la postuloj troviĝas en la %{attribution_guidelines_link}
+          (en la angla).
+        credit_3_attribution_guidelines: konsiloj pri atribuo
+        credit_4_1_html: Por klare indiki, ke la datumoj estas disponeblaj laŭ la
+          permesilo Open Database License, vi povas enmeti ligilon al %{this_copyright_page_link}
+          tiu ĉi paĝo pri aŭtorrajtoj</a>. Alimaniere, se vi distribuas OSM kiel datumojn
+          vi povas enmeti nomojn kaj ligilojn al la permesiloj. Kiam ne eblas enmeti
+          ligilojn (ekzemple en paperaj materialoj), ni sugestas direkti la uzantojn
+          al openstreetmap.org (aŭ eĉ liveri la plenan ligilon de tiu ĉi retpaĝo)
+          kaj al opendatacommons.org. En la suba ekzemplo la noto pri aŭtorrajtoj
+          troviĝas ĉe la angulo de la mapo.
+        credit_4_1_this_copyright_page: tiu ĉi paĝo de aŭtorrajtoj
         attribution_example:
           alt: Ekzemplo kiel atribui OpenStreetMap sur retpaĝo
           title: Ekzemplo de aŭtorec-atribuado
         more_title_html: Pliaj informoj
+        more_1_1_html: Pliaj informoj pri uzado de niaj datumoj kaj pri atribuado
+          troviĝas sur la %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: retpaĝo “permesilo” ĉe OSMF
+        more_2_1_html: Kvankam OpenStreetMap estas malfermaj datumoj, ni ne povas
+          liveri senpagan API al triaj partioj. Ekkonu kun %{api_usage_policy_link},
+          %{tile_usage_policy_link} kaj %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: uzkondiĉoj de API
+        more_2_1_tile_usage_policy: uzkondiĉoj de kaheloj
+        more_2_1_nominatim_usage_policy: uzkondiĉoj de Nominatim
         contributors_title_html: Kunlaborantoj
         contributors_intro_html: 'Niaj kunlaborantoj estas miloj da homoj. Ni ankaŭ
           inkludas datumoj laŭ malferma permesilo el landaj kartografiaj organizaĵoj
           kaj el aliaj fontoj, inter ili:'
+        contributors_at_credit_html: '%{austria}: enhavas datumojn el %{stadt_wien_link}
+          (laŭ %{cc_by_link}), %{land_vorarlberg_link} kaj Federacia Lando Tirolo
+          (laŭ %{cc_by_at_with_amendments_link}).'
+        contributors_at_austria: Aŭstrujo
+        contributors_at_stadt_wien: Urbo Vieno
+        contributors_at_cc_by: CC BY
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.eo
+        contributors_at_land_vorarlberg: Federacia Lando Vorarlbergo
+        contributors_at_cc_by_at_with_amendments: CC BY AT kun ŝanĝoj
+        contributors_au_credit_html: '%{australia}: enhavas aŭ estas evoluigita uzante
+          la datumaron Administraj Limoj &copy;%{geoscape_australia_link} danke al
+          Komunejo de Aŭstralio laŭ %{cc_licence_link}.'
+        contributors_au_australia: Aŭstralio
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Krea Komunaĵo Atribuite 4.0 Tutmonda (CC BY 4.0)
+        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.eo
+        contributors_ca_credit_html: '%{canada}: enhavas datumojn el GeoBase&reg;,
+          GeoGratis (&copy; Ministerio pri Naturaj Rimedoj de Kanado), CanVec (&copy;
+          Ministerio pri Naturaj Rimedoj de Kanado) kaj StatCan (Geografia Divido,
+          Statistikoj Kanado).'
+        contributors_ca_canada: Kanado
+        contributors_fi_credit_html: '%{finland}: enhavas datumojn el la topografia
+          datumbazo de Termezurada Ofico de Finnlando «Maanmittauslaitos» kaj el aliaj
+          ĝiaj datumaroj laŭ la permesilo %{nlsfi_license_link}.'
+        contributors_fi_finland: Finnlando
+        contributors_fi_nlsfi_license: NLSFI
+        contributors_fi_nlsfi_license_url: https://www.maanmittauslaitos.fi/avoindata-lisenssi-versio1
+        contributors_fr_credit_html: '%{france}: enhavas datumojn ricevitajn el la
+          Ĝenerala Direkcio de Impostoj «Direction Générale des Impôts».'
+        contributors_fr_france: Francujo
+        contributors_nl_credit_html: '%{netherlands}: enhavas datumojn el &copy; AND,
+          2007 (%{and_link}).'
+        contributors_nl_netherlands: Nederlando
+        contributors_nz_credit_html: '%{new_zealand}: enhavas datumojn ricevitajn
+          el %{linz_data_service_link} eldonitaj por reuzo laŭ %{cc_by_link}.'
+        contributors_nz_new_zealand: Nov-Zelando
+        contributors_nz_linz_data_service: LINZ Data Service
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.eo
+        contributors_si_credit_html: '%{slovenia}: enhavas datumojn el %{gu_link}
+          kaj %{mkgp_link} (publikaj informoj de Slovenujo).'
+        contributors_si_slovenia: Slovenujo
+        contributors_si_gu: Ofico de Termezurado
+        contributors_si_gu_url: http://www.gu.gov.si/
+        contributors_si_mkgp: Ministerio pri Terkulturo, Arbarkulturo kaj Manĝo
+        contributors_si_mkgp_url: http://www.mkgp.gov.si/
+        contributors_es_credit_html: '%{spain}: enhavas datumojn ricevitajn el la
+          Ŝtata Geografia Instituto de Hispanujo (%{ign_link}) kaj Ŝtata Kartografia
+          Sistemo (%{scne_link}) eldonitaj por reuzo laŭ %{cc_by_link}.'
+        contributors_es_spain: Hispanujo
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/deed.eo
+        contributors_za_credit_html: '%{south_africa}: enhavas datumojn el %{ngi_link},
+          ŝtataj aŭtorrajtoj rezervitaj.'
+        contributors_za_south_africa: Sud-Afriko
+        contributors_za_ngi: 'Centra Departemento: Ŝtata Termezurada Informejo'
+        contributors_gb_credit_html: '%{united_kingdom}: enhavas datumojn el Ordnance
+          Survey &copy; 2010-2023 aŭtorrajtoj kaj datumbaz-rajtoj de la Krono.'
+        contributors_gb_united_kingdom: Unuiĝinta Reĝlando
+        contributors_2_html: Pliaj detaloj pri la menciitaj kaj pri aliaj fontoj uzitaj
+          por plibonigi OpenStreetMap troviĝas sur la %{contributors_page_link} ĉe
+          la OpenStreetMap-vikio.
+        contributors_2_contributors_page: paĝo pri kontribuintoj
         contributors_footer_2_html: Inkludo de datumoj en OpenStreetMap ne indikas,
           ke la provizanto de datumoj apogas OpenStreetMap, garantias por iu aŭ respondumas
           por iu.
@@ -1969,6 +2077,16 @@ eo:
         infringement_1_html: OSM-kunlaborantoj memoru, por ke neniam aldonu datumojn
           el iuj ajn fontoj protektataj de aŭtorrajtoj (ekz. Google Maps aŭ paperaj
           mapoj) sen klara permeso de posedanto de aŭtorrajtoj.
+        infringement_2_1_html: Se viaopinie iu materialo protektata per aŭtorrajtoj
+          estas kontraŭleĝe aldonita al la OpenStreetMap-datumbazo aŭ al tiu ĉi retejo,
+          legu pri la %{takedown_procedure_link} aŭ senpere plenigu nian %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: foriga proceduro
+        infringement_2_1_online_filing_page: enretan formularon
+        trademarks_title: Varmarkoj
+        trademarks_1_1_html: OpenStreetMap, la emblemo de lupeo kaj State of the Map
+          estas registritaj varmarkoj de la Fondaĵo OpenStreetMap. Se vi havas demandojn
+          pri via uzo de la varmarkoj, legu nian %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: politikon pri varmarkoj
     index:
       js_1: Vi aŭ uzas foliumilon, kiu ne subtenas Ĝavoskripton, aŭ vi havas ĝin malaktivan.
       js_2: OpensStreetMap uzas Ĝavoskripton por montri ŝoveblan mapon.
@@ -2038,10 +2156,6 @@ eo:
           explanation_html: Se vi rimarkis iun problemon kun niaj map-datumoj, ekzemple
             strato aŭ adreso mankas, la plej bona rimedo estas aniĝi OpenStreetMap-komunumo
             kaj redakti kaj ripari datumojn mem.
-        add_a_note:
-          instructions_html: Simple alklaku <a class='icon note'></a> aŭ la saman
-            piktogramon sur la mapo. Ĉi tio aldonos moveblan markon, aldonu vian mesaĝon,
-            konservu ĝin, kaj aliaj mapigistoj okupiĝos pri via rimarko.
       other_concerns:
         title: Aliaj aferoj
         concerns_html: Se vi havas demandojn pri kiel niaj datumoj estas uzataj aŭ
@@ -2321,7 +2435,7 @@ eo:
     trace:
       pending: OKAZONTA
       count_points:
-        one: 1 punkto
+        one: '%{count} punkto'
         other: '%{count} punktoj'
       more: pli
       trace_details: Vidi detalojn de spuro
@@ -2726,19 +2840,19 @@ eo:
       time_past_html: Finiĝis %{time}.
       block_duration:
         hours:
-          one: 1 horo
+          one: '%{count} horo'
           other: '%{count} horoj'
         days:
-          one: 1 tago
+          one: '%{count} tago'
           other: '%{count} tagoj'
         weeks:
-          one: 1 semajno
+          one: '%{count} semajno'
           other: '%{count} semajnoj'
         months:
-          one: 1 monato
+          one: '%{count} monato'
           other: '%{count} monatoj'
         years:
-          one: 1 jaro
+          one: '%{count} jaro'
           other: '%{count} jaroj'
     blocks_on:
       title: Blokadoj por %{name}
@@ -2793,15 +2907,6 @@ eo:
       open_title: 'Nesolvita rimarko #%{note_name}'
       closed_title: 'Solvita rimarko #%{note_name}'
       hidden_title: 'Kaŝita rimarko #%{note_name}'
-      opened_by_html: Kreita de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Kreita de anonimulo <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Komento de %{user} de <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Anonima komento de <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Solvita de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Solvita de anonimulo <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Remalfermita de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Remalfermita de anonimulo <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Kaŝita de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: raporti tiun ĉi rimarkon
       coordinates_html: '%{latitude}; %{longitude}'
       anonymous_warning: Ĉi tiu rimarko enhavas komentojn de anonimuloj, kiuj devas
@@ -2861,10 +2966,10 @@ eo:
       locate:
         title: Montri mian pozicion
         metersPopup:
-          one: Vi estas unu metro for de tiu punkto
+          one: Vi estas %{count} metro for de tiu punkto
           other: Vi estas %{count} metroj for de tiu punkto
         feetPopup:
-          one: Vi estas unu futo for de tiu punkto
+          one: Vi estas %{count} futo for de tiu punkto
           other: Vi estas %{count} futoj for de tiu punkto
       base:
         standard: Norma mapo
@@ -2880,17 +2985,6 @@ eo:
         gps: Publikaj GPS-spuroj
         overlays: Aktivigu surtavolojn por solvi problemojn kun la mapo
         title: Tavoloj
-      copyright: © <a href='%{copyright_url}'>kontribuintoj de OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donaci</a>
-      terms: <a href='%{terms_url}' target='_blank'>Kondiĉoj pri Retejo kaj API</a>
-      cyclosm: Stilo de kaheloj de <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>,
-        gastigata de <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>
-      thunderforest: Kaheloj danke al <a href='%{thunderforest_url}' target='_blank'>Andy
-        ALLAN</a>
-      opnvkarte: Kaheloj danke al <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: Stilo de kaheloj de <a href='%{hotosm_url}' target='_blank'>Humanitarian
-        OpenStreetMap Team</a> gastigata de <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        France</a>
     site:
       edit_tooltip: Redakti la mapon
       edit_disabled_tooltip: Pligrandigu por redakti la mapon

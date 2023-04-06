@@ -258,9 +258,6 @@ de:
           und verwende bitte Formulierungen, die für Laien verständlich sind.
         needs_view: Muss der Benutzer sich anmelden, damit die Sperre aufgehoben wird?
       user:
-        email_confirmation: Deine E-Mail-Adresse wird nicht öffentlich gezeigt. Für
-          weitere Informationen konsultiere unsere <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF-Datenschutzerklärung inklusive des Abschnitts über E-Mail-Adressen">Datenschutzerklärung</a>.
         new_email: (niemals öffentlich dargestellt)
   datetime:
     distance_in_words_ago:
@@ -274,8 +271,8 @@ de:
         one: vor etwa einem Jahr
         other: vor etwa %{count} Jahren
       almost_x_years:
-        one: vor beinahe einem Jahr
-        other: vor beinahe %{count} Jahren
+        one: vor fast einem Jahr
+        other: vor fast %{count} Jahren
       half_a_minute: vor einer halben Minute
       less_than_x_seconds:
         one: vor weniger als einer Sekunde
@@ -400,6 +397,17 @@ de:
       delete_account: Konto löschen …
     go_public:
       heading: Karte bearbeiten (public editing)
+      currently_not_public: Derzeit sind deine Bearbeitungen anonym und andere können
+        weder deine Nachrichten noch deinen Standort sehen. Um öffentlich deine Bearbeitungen
+        zu zeigen und anderen die Möglichkeit zu geben, dich über die Website zu kontaktieren,
+        klicke die Taste unten.
+      only_public_can_edit: Seit der API Version 0.6 können nur öffentliche Mitglieder
+        Kartendaten bearbeiten.
+      find_out_why: finde heraus wieso
+      email_not_revealed: Deine Emailadressen werden beim öffentlich werden nicht
+        mit veröffentlicht.
+      not_reversible: Dies kann nicht rückgängig gemacht werden und alle neuen Mitglieder
+        sind jetzt standardmäßig öffentlich.
       make_edits_public_button: Alle meine Bearbeitungen öffentlich machen
     update:
       success_confirm_needed: Deine Änderungen wurden gespeichert. Du erhältst nun
@@ -410,12 +418,6 @@ de:
   browse:
     created: Erstellt
     closed: Geschlossen
-    created_html: Erstellt <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Geschlossen <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Erstellt <abbr title='%{title}'>%{time}</abbr> von %{user}
-    deleted_by_html: Gelöscht <abbr title='%{title}'>%{time}</abbr> von %{user}
-    edited_by_html: Bearbeitet <abbr title='%{title}'>%{time}</abbr> von %{user}
-    closed_by_html: Geschlossen <abbr title='%{title}'>%{time}</abbr> von %{user}
     version: Version
     in_changeset: Änderungssatz
     anonymous: anonym
@@ -441,9 +443,6 @@ de:
       relation: Relationen (%{count})
       relation_paginated: Relationen (%{x}–%{y} von %{count})
       comment: Kommentare (%{count})
-      hidden_commented_by_html: Versteckter Diskussionsbeitrag von %{user} <abbr title='%{exact_time}'>
-        %{when}</abbr>
-      commented_by_html: Kommentar von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Änderungssatz-XML
       osmchangexml: osmChange-XML
       feed:
@@ -712,13 +711,6 @@ de:
       success: '%{name} wurde als Freund entfernt.'
       not_a_friend: '%{name} ist nicht dein Freund.'
   geocoder:
-    search:
-      title:
-        latlon_html: Suchergebnisse von <a href="https://openstreetmap.org/">Internal</a>
-        osm_nominatim_html: Ergebnisse von <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Ergebnisse von <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1511,8 +1503,6 @@ de:
       status: Status
       reports: Meldungen
       last_updated: Zuletzt aktualisiert
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> von %{user}
       link_to_reports: Meldungen ansehen
       reports_count:
         one: Eine Meldung
@@ -1798,6 +1788,8 @@ de:
       success: Dein Benutzerkonto wurde bestätigt, danke fürs Registrieren!
       already active: Dieses Benutzerkonto wurde bereits bestätigt.
       unknown token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
+      resend_html: Wenn du eine neue Bestätigungsemail brauchst, %{reconfirm_link}.
+      click_here: klicke hier
     confirm_resend:
       failure: Benutzer %{name} konnte nicht gefunden werden.
     confirm_email:
@@ -1991,6 +1983,7 @@ de:
       support: Support
   shared:
     markdown_help:
+      heading_html: Geparst mit %{kramdown_link}
       headings: Überschriften
       heading: Überschrift
       subheading: Zwischenüberschrift
@@ -2009,7 +2002,6 @@ de:
   site:
     about:
       next: Nächste
-      copyright_html: <span>&copy;</span>OpenStreetMap<br>Mitwirkende
       used_by_html: '%{name} stellt Kartendaten für tausende von Webseiten, Apps und
         andere Geräte zur Verfügung'
       lede_text: |-
@@ -2021,7 +2013,7 @@ de:
         Luftbilder, GPS-Geräte und Feldkarten zur Verifizierung, sodass OSM
         korrekt und aktuell ist.
       community_driven_title: Gemeinschaftsbetrieben
-      community_driven_html: |-
+      community_driven_1_html: |-
         Die OpenStreetMap-Gemeinschaft ist vielfältig, leidenschaftlich und wächst täglich.
         Unsere Mitwirkenden sind begeisterte Mapper, GIS-Profis, Ingenieure, die die OSM-Server
         betreiben, und viele mehr.
@@ -2031,24 +2023,19 @@ de:
         <a href='https://blogs.openstreetmap.org/'>Community-Blogs</a> und die Webseite der
         <a href='https://www.osmfoundation.org/'>OSM-Stiftung</a>.
       open_data_title: Open Data
-      open_data_html: |-
+      open_data_1_html: |-
         OpenStreetMap ist „<i>Open Data</i>“: Du kannst es für jeden Zweck verwenden,
         solange du OpenStreetMap und seine Mitwirkenden erwähnst. Falls du die Daten
         abänderst oder auf bestimmte Art einbaust, darfst du das Ergebnis nur unter
         der gleichen Lizenz verbreiten. Siehe die
         <a href='%{copyright_path}'>Urheberrechts- und Lizenzseite</a> für Einzelheiten.
       legal_title: Rechtliche Hinweise
-      legal_1_html: |-
+      legal_1_1_html: |-
         Diese Webseite und viele damit in Zusammenhang stehende Dienste werden
         von der <a href='https://osmfoundation.org/'>OpenStreetMap-Stiftung</a> (OSMF)
         für die OSM-Gemeinschaft betrieben. Die Verwendung aller von OSMF betriebenen Dienste wird durch unsere
         „<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Acceptable Use Policies</a>“
         und unsere <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Datenschutzrichtlinie</a> geregelt.
-      legal_2_html: |-
-        Bitte <a href='https://osmfoundation.org/Contact'>kontaktiere die OSMF</a>,
-        falls du Lizenz-, Urheberrechts- oder andere rechtliche Fragen hast.
-        <br>
-        OpenStreetMap, das Lupenlogo und „State of the Map“ sind <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">eingetragene Warenzeichen der OSMF</a>.
       partners_title: Partner
     copyright:
       foreign:
@@ -2066,10 +2053,14 @@ de:
         mapping_link: mit dem Kartieren anfangen
       legal_babble:
         title_html: Urheberrecht und Lizenz
+        introduction_1_open_data: offene Daten
+        introduction_1_osm_foundation: OpenStreetMap Stiftung
+        introduction_2_legal_code: Rechtstext
         credit_title_html: Wie auf die Urheberschaft von OpenStreetMap hinzuweisen
           ist
         credit_1_html: 'Wenn du OpenStreetMap-Daten verwendest, musst du die folgenden
           zwei Bedingungen erfüllen:'
+        credit_3_attribution_guidelines: Richtlinien für Namensnennungen
         attribution_example:
           alt: Beispiel, wie man auf OpenStreetMap auf einer Webseite hinweist
           title: Namensnennung-Beispiel
@@ -2078,6 +2069,22 @@ de:
         contributors_intro_html: 'Unsere Mitwirkenden sind tausende einzelne Menschen.
           Wir beziehen auch offen lizenzierte Daten von nationalen Kartenagenturen
           und anderen Quellen ein, darunter:'
+        contributors_at_austria: Österreich
+        contributors_at_stadt_wien: Stadt Wien
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_au_australia: Australien
+        contributors_ca_canada: Kanada
+        contributors_fi_finland: Finnland
+        contributors_fr_france: Frankreich
+        contributors_nl_netherlands: Niederlande
+        contributors_nz_new_zealand: Neuseeland
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_slovenia: Slowenien
+        contributors_es_spain: Spanien
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_south_africa: Südafrika
+        contributors_gb_united_kingdom: Vereinigtes Königreich
         contributors_footer_2_html: Die Einbeziehung von Daten bei OpenStreetMap bedeutet
           nicht, dass der ursprüngliche Datenlieferant OpenStreetMap unterstützt,
           Gewährleistung dafür gibt oder die Haftung dafür übernimmt.
@@ -2086,6 +2093,8 @@ de:
           hin, dass keinesfalls Daten aus urheberrechtlich geschützten Quellen verwendet
           werden dürfen (z. B. Google Maps oder gedruckte Kartenwerke), ohne vorher
           die ausdrückliche Erlaubnis des Rechteinhabers erhalten zu haben.
+        trademarks_title: Warenzeichen
+        trademarks_1_1_trademark_policy: Richtlinie für Warenzeichen
     index:
       js_1: Dein Browser unterstützt kein JavaScript oder du hast es deaktiviert.
       js_2: OpenStreetMap nutzt JavaScript für die Kartendarstellung.
@@ -2157,11 +2166,6 @@ de:
           explanation_html: |-
             Falls du bei unseren Kartendaten ein Problem bemerkt hast wie das Fehlen einer Straße oder deiner Adresse,
             ist der beste Weg zum Weitermachen der Beitritt zur OpenStreetMap-Gemeinschaft und das Beheben der Daten durch dich selbst.
-        add_a_note:
-          instructions_html: |-
-            Klicke einfach auf <a class='icon note'></a> oder auf das gleiche Symbol in der Kartenanzeige.
-            Dies fügt eine Markierung der Karte hinzu, die du durch Ziehen verschieben kannst.
-            Schreibe deine Nachricht, klicke auf „Speichern“ und andere Mapper werden den Fehler untersuchen.
       other_concerns:
         title: Andere Anliegen
     help:
@@ -2208,8 +2212,10 @@ de:
       removed: Deine Standard OpenStreetMap Editor ist Potlatch. Da die Entwicklung
         des Adobe Flash Player eingestellt wurde, ist Potlatch nicht mehr für die
         Nutzung im Browser verfügbar.
+      change_preferences: Einstellungen hier ändern
     any_questions:
       title: Fragen?
+      get_help_here: Hilfe hier erhalten
     sidebar:
       search_results: Suchergebnisse
       close: Schließen
@@ -2305,8 +2311,14 @@ de:
         title: Grundbegriffe fürs Mapping
         paragraph_1: OpenStreetMap nutzt ein paar spezifische Begriffe. Hier sind
           ein paar davon, die nützlich sein dürften.
+        editor: Bearbeiter
+        node: Knoten
+        way: Weg
+        tag: Etikett
       rules:
         title: Regeln!
+        imports: Importe
+        automated_edits: Automatisierte Bearbeitungen
       start_mapping: Beginne mit dem Bearbeiten der Karte
       add_a_note:
         title: Keine Zeit? Dann füge einen Hinweis ein!
@@ -2416,6 +2428,7 @@ de:
       public_traces_from: Öffentliche GPS-Tracks von %{user}
       description: Letzte GPS-Track-Uploads durchsuchen
       tagged_with: ' gekennzeichnet mit %{tags}'
+      empty_title: Noch nichts vorhanden
       upload_trace: Lade einen Track hoch
       all_traces: Alle Tracks
       my_traces: Meine Tracks
@@ -2625,6 +2638,8 @@ de:
         Beiträge als gemeinfrei (Public Domain)
       consider_pd_why: Was bedeutet dies?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=de
+      readable_summary: menschenlesbare Zusammenfassung
+      informal_translations: informelle Übersetzung
       continue: Weiter
       declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
       decline: Ablehnen
@@ -2882,15 +2897,6 @@ de:
       open_title: Ungelöster Hinweis Nr. %{note_name}
       closed_title: Erledigter Hinweis Nr. %{note_name}
       hidden_title: Versteckter Hinweis Nr. %{note_name}
-      opened_by_html: Erstellt von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Erstellt von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Kommentar von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Kommentar von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Erledigt von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Erledigt von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Reaktiviert von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Reaktiviert von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Versteckt von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: diesen Hinweis melden
       anonymous_warning: Dieser Hinweis enthält Kommentare von anonymen Benutzern,
         die unabhängig geprüft werden sollten.
@@ -2970,20 +2976,6 @@ de:
         gps: Öffentliche GPS-Tracks
         overlays: Overlays zur Fehlersuche aktivieren
         title: Ebenen
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap-Mitwirkende</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Spenden</a>
-      terms: <a href='%{terms_url}' target='_blank'>Nutzungsbedingungen von Webseite
-        und API</a>
-      cyclosm: Kachelstil von <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
-        bereitgestellt von <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        Frankreich</a>
-      thunderforest: Kacheln mit freundlicher Genehmigung von <a href='%{thunderforest_url}'
-        target='_blank'>Andy Allan</a>
-      opnvkarte: Kacheln mit freundlicher Genehmigung von <a href='%{memomaps_url}'
-        target='_blank'>MeMoMaps</a>
-      hotosm: Kachelstil von <a href='%{hotosm_url}' target='_blank'>Humanitarian
-        OpenStreetMap Team</a> bereitgestellt von <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        Frankreich</a>
     site:
       edit_tooltip: Karte bearbeiten
       edit_disabled_tooltip: Zum Bearbeiten muss eine höhere Zoomstufe gewählt werden

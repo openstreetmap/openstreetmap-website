@@ -164,10 +164,6 @@ mk:
           жаргонот на заедницата, па затоа обидете се да користите лаички поими.
         needs_view: Дали корисникот треба да се најави пред да се исчисти овој блок?
       user:
-        email_confirmation: Вашата адреса нема да се прикажува јавно. Повеќе информации
-          за ова ќе најдете во <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">Правилата
-          за заштита на личните податоци</a>.
         new_email: (никогаш не се прикажува јавно)
   datetime:
     distance_in_words_ago:
@@ -323,15 +319,15 @@ mk:
   browse:
     created: Создадено
     closed: Затворено
-    created_html: Создадено <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Затворено <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Создадено <abbr title='%{title}'>%{time}</abbr> од %{user}
-    deleted_by_html: Избришано <abbr title='%{title}'>%{time}</abbr> од %{user}
-    edited_by_html: Изменето <abbr title='%{title}'>%{time}</abbr> од %{user}
-    closed_by_html: Затворено <abbr title='%{title}'>%{time}</abbr> од %{user}
+    created_ago_html: Создадено %{time_ago}
+    closed_ago_html: Затворено %{time_ago}
+    created_ago_by_html: Создадено %{time_ago} од %{user}
+    closed_ago_by_html: Затворено %{time_ago} од %{user}
+    deleted_ago_by_html: Избришано %{time_ago} од %{user}
+    edited_ago_by_html: Изменето %{time_ago} од %{user}
     version: Верзија
     in_changeset: Измени
-    anonymous: анонимен
+    anonymous: анонимец
     no_comment: (нема коментари)
     part_of: Дел од
     part_of_relations:
@@ -354,8 +350,8 @@ mk:
       relation: Односи (%{count})
       relation_paginated: Односи (%{x}-%{y} од вкупно %{count})
       comment: Коментари (%{count})
-      hidden_commented_by_html: Скриен коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_comment_by_html: Скриен коментар од %{user} %{time_ago}
+      comment_by_html: Коментар од %{user} %{time_ago}
       changesetxml: XML за измените
       osmchangexml: osmChange XML
       feed:
@@ -447,7 +443,7 @@ mk:
       next: Следно »
       previous: « Претходно
     changeset:
-      anonymous: Анонимен
+      anonymous: Анонимец
       no_edits: (нема уредувања)
       view_changeset_details: Погл. поединости за измените
     changesets:
@@ -626,11 +622,10 @@ mk:
   geocoder:
     search:
       title:
-        latlon_html: <a href="https://openstreetmap.org/">Внатрешни</a> исходни ставки
-        osm_nominatim_html: Исход од <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Исход од <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
+        results_from_html: Исход од %{results_link}
+        latlon: Внатрешни
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1423,8 +1418,7 @@ mk:
       status: Статус
       reports: Пријави
       last_updated: Последна поднова
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> од %{user}
+      last_updated_time_ago_user_html: '%{time_ago} од %{user}'
       link_to_reports: Преглед на пријави
       reports_count:
         one: '%{count} пријава'
@@ -1910,7 +1904,7 @@ mk:
   site:
     about:
       next: Следно
-      copyright_html: <span>&copy;</span>Учесници на<br>OpenStreetMap
+      heading_html: '%{copyright}OpenStreetMap %{br} учесници'
       used_by_html: '%{name} обезбедува картографски податоци на илјадници мрежни
         места, мобилни прилози и сметачки уреди'
       lede_text: |-
@@ -1923,32 +1917,38 @@ mk:
         со цел да се провери исправноста
         и актуелноста на OSM.
       community_driven_title: Проектот го работи заедницата
-      community_driven_html: "Заедницата на OpenStreetMap е разнообразна, посветена
+      community_driven_1_html: "Заедницата на OpenStreetMap е разнообразна, посветена
         и секојдневно расте.\nМеѓу учесниците имаме аматерски картографи, стручњаци
         во ГИС, технолози што работат со опслужувачите на OSM, \nхуманитарни работници
         што картираат подрачја погодени \nод катастрофи и разни други.\nПовеќе за
-        заедницата ќе дознаете на <a href='https://blog.openstreetmap.org'>блогот
-        на OpenStreetMap</a>,\n<a href='%{diary_path}'>корисничките дневници</a>,\n<a
-        href='https://blogs.openstreetmap.org/'>блоговите на заедницата</a> и страниците
-        на\n<a href='https://www.osmfoundation.org/'>Фондацијата OSM</a> website."
+        заедницата ќе дознаете на %{osm_blog_link},\n%{user_diaries_link}, %{community_blogs_link}
+        и мрежното место\n%{osm_foundation_link}."
+      community_driven_osm_blog: Блог на OpenStreetMap
+      community_driven_user_diaries: кориснички дневници
+      community_driven_community_blogs: блогови на заедницата
+      community_driven_osm_foundation: Фондација OSM
       open_data_title: Отворени податоци
-      open_data_html: |-
-        OpenStreetMap е проект со <i>отворени податоци</i>: можете слободно да го користите за било која цел
+      open_data_1_html: |-
+        OpenStreetMap е проект со %{open_data}: можете слободно да го користите за било која цел
         доколку ја наведете OpenStreetMap и нејзините учесници. Ако решите да ги менувате податоците или да се надоврзувате на нив, добиеното дело можете да го распространувате исклучиво
-        под истата лиценца. Повеќе ќе најдете на страницата <a href='%{copyright_path}'>Авторски права и лиценцирање</a>.
+        под истата лиценца. Повеќе ќе најдете на страницата %{copyright_license_link}.
+      open_data_open_data: отворени податоци
+      open_data_copyright_license: Авторски права и лиценца
       legal_title: Правни работи
-      legal_1_html: "Ова мрежно место и многу други поврзани услуги со кои раководи
-        \ \n<a href='https://osmfoundation.org/'>Задолжбината OpenStreetMap</a> (OSMF)
-        \nво име на заедницата. Употребата на сите услуги што ги нуди OSMF подлежи
-        на нашите <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Услови
-        на употреба</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nПравила
-        за прифатлива употреба</a> и <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Правилата
-        за заштита на личните податоци</a>."
-      legal_2_html: "Ве молиме <a href='https://osmfoundation.org/Contact'>обратете
-        се кај OSMF</a> \nако имате прашања во врска со лиценцирањето, авторките права
-        и други правни прашања и проблеми.\n<br>\nOpenStreetMap, логото со лупа и
-        „Состојба на картата“ се <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">заштитни
-        знаци на OSMF</a>."
+      legal_1_1_html: "Со ова мрежно место и многу други поврзани услуги формално
+        раководи %{openstreetmap_foundation_link} (OSMF) \nво име на заедницата. Употребата
+        на сите услуги што ги нуди OSMF подлежи на нашите %{terms_of_use_link}, %{aup_link}
+        и our %{privacy_policy_link}."
+      legal_1_1_openstreetmap_foundation: Фондацијата OpenStreetMap
+      legal_1_1_terms_of_use: Услови на употреба
+      legal_1_1_aup: Правила за прифатлива употреба
+      legal_1_1_privacy_policy: Правила за личните податоци
+      legal_2_1_html: |-
+        %{contact_the_osmf_link}
+        ако имате прашања во врска со лиценцирање, авторски права или други правни работи.
+      legal_2_1_contact_the_osmf: Контактирајте ја OSMF
+      legal_2_2_html: OpenStreetMap, логото со лупа и Сотстојбата на картата се %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: заштитни знаци на OSMF
       partners_title: Партнери
     copyright:
       foreign:
@@ -2177,8 +2177,8 @@ mk:
             (на пр. недостасува пат или адреса), најдобро е да се приклучите на заедницата
             на OpenStreetMap или пак самите да ги исправите податоците.
         add_a_note:
-          instructions_html: |-
-            Просто стиснете на <a class='icon note'></a> или пак на истата икона од приказникот на картата.
+          instructions_1_html: |-
+            Просто стиснете на %{note_icon} или пак на истата икона од приказникот на картата.
             Со ова на неа ќе ставите бележник, кој можете да го преместувате со влечење. Ставете ја пораката, па стиснете да зачувате. Потоа другите картографи ќе го иследат проблемот.
       other_concerns:
         title: Други проблеми
@@ -2673,6 +2673,11 @@ mk:
         но може да ја побараат некои дополнителни алатки или опслужувачот.
       continue: Зачленување
       terms accepted: Ви благодариме што ги прифативте новите услови за учество!
+      email_confirmation_help_html: Вашата адреса не се прикажува јавно. Повеќе ќе
+        дознаете на %{privacy_policy_link}.
+      privacy_policy: правила за личните податоци
+      privacy_policy_title: Правилата за лични податоци на OSMF, со одделот за е-поштенски
+        адреси
     terms:
       title: Услови
       heading: Услови
@@ -2939,15 +2944,15 @@ mk:
       open_title: Нерешена белешка бр. %{note_name}
       closed_title: Решена белешка бр. %{note_name}
       hidden_title: 'Скриена белешка бр. #%{note_name}'
-      opened_by_html: Создадено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Создадено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Коментар на %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous_html: Коментар на анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Решено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Решено од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Преактивирано од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      event_opened_by_html: Создадено од %{user} %{time_ago}
+      event_opened_by_anonymous_html: Создадено од анонимец %{time_ago}
+      event_commented_by_html: Коментар од %{user} %{time_ago}
+      event_commented_by_anonymous_html: Коментар од анонимец %{time_ago}
+      event_closed_by_html: Решено од %{user} %{time_ago}
+      event_closed_by_anonymous_html: Решено од аномимен %{time_ago}
+      event_reopened_by_html: Преактивирано од %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Преактивирано од анонимец %{time_ago}
+      event_hidden_by_html: Скриено од %{user} %{time_ago}
       report: пријави го јазолов
       anonymous_warning: Оваа белешка има коментари од анонимни корисници што треба
         независно да се проверат.
@@ -3025,17 +3030,17 @@ mk:
         gps: Јавни ГПС-траги
         overlays: Овозможи облоги за утврдување грешки
         title: Слоеви
-      copyright: © <a href='%{copyright_url}'>Учесници во OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Дарувајте</a>
-      terms: <a href='%{terms_url}' target='_blank'>Услови за мреж. место и приложникот</a>
-      cyclosm: 'Стил на полињата: <a href=''%{cyclosm_url}'' target=''_blank''>CyclOSM</a>
-        вдомена од <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap Франција</a>'
-      thunderforest: 'Полиња: <a href=''%{thunderforest_url}'' target=''_blank''>Енди
-        Алан</a>'
-      opnvkarte: Полињата ги достави <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: 'Стил на полињата: <a href=''%{hotosm_url}'' target=''_blank''>Хуманитарна
-        екипа на OpenStreetMap</a> вдомена од <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap
-        Франција</a>'
+      openstreetmap_contributors: Учесници на OpenStreetMap
+      make_a_donation: Дарувајте
+      website_and_api_terms: Мрежно место и услови на приложникот
+      cyclosm_credit: Стилот на полињата е од %{cyclosm_link} вдомено на %{osm_france_link}
+      osm_france: OpenStreetMap Франција
+      thunderforest_credit: Полињата се доставени од %{thunderforest_link}
+      andy_allan: Енди Алан
+      opnvkarte_credit: Полињата се доставени од %{memomaps_link}
+      memomaps: MeMoMaps
+      hotosm_credit: Стилот на полињата е од %{hotosm_link} вдомен од %{osm_france_link}
+      hotosm_name: Екипа на Хуманитарната OpenStreetMap
     site:
       edit_tooltip: Уредување на картата
       edit_disabled_tooltip: Приближете за да ја уредите картата

@@ -174,10 +174,6 @@ sl:
           žargona skupnosti, zato poskusite uporabljati laične izraze.
         needs_view: Ali se mora uporabnik za pretek blokiranja prijaviti?
       user:
-        email_confirmation: Vaš naslov ni javno prikazan – za več informacij glejte
-          naš <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Pravilnik
-          o zasebnosti OSMF, vključno s poglavjem o e-poštnih naslovih">pravilnik
-          o zasebnosti</a>.
         new_email: (nikoli ni javno prikazan)
   datetime:
     distance_in_words_ago:
@@ -360,12 +356,12 @@ sl:
   browse:
     created: Ustvarjeno
     closed: Zaprto
-    created_html: Ustvarjeno <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Zaprto <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Ustvaril_a %{user} <abbr title='%{title}'>%{time}</abbr>
-    deleted_by_html: Izbrisal_a %{user} <abbr title='%{title}'>%{time}</abbr>
-    edited_by_html: Uredil_a %{user} <abbr title='%{title}'>%{time}</abbr>
-    closed_by_html: Zaprl_a %{user} <abbr title='%{title}'>%{time}</abbr>
+    created_ago_html: Ustvaril_a %{time_ago}
+    closed_ago_html: Zaprto %{time_ago}
+    created_ago_by_html: Ustvaril %{user} %{time_ago}
+    closed_ago_by_html: Zaprl_a %{time_ago} %{user}
+    deleted_ago_by_html: Izbrisal %{user} %{time_ago}
+    edited_ago_by_html: Uredil_a %{user} %{time_ago}
     version: Različica
     in_changeset: Sklop sprememb
     anonymous: anonimni
@@ -395,9 +391,8 @@ sl:
       relation: Relacije (%{count})
       relation_paginated: Zveze (%{x}-%{y} od %{count})
       comment: Komentarji (%{count})
-      hidden_commented_by_html: Skrit komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
-        nazaj</abbr>
-      commented_by_html: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_comment_by_html: Skrit komentar %{user} %{time_ago}
+      comment_by_html: Komentar %{user} %{time_ago}
       changesetxml: Sklop sprememb XML
       osmchangexml: osmChange XML
       feed:
@@ -669,11 +664,10 @@ sl:
   geocoder:
     search:
       title:
-        latlon_html: <a href="https://openstreetmap.org/">Interni</a> zadetki
-        osm_nominatim_html: Zadetki iz <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
-        osm_nominatim_reverse_html: Zadetki iz <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>-a
+        results_from_html: Zadetki iz %{results_link}
+        latlon: Notranji
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1466,9 +1460,7 @@ sl:
       status: Stanje
       reports: Prijave
       last_updated: Zadnja posodobitev
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> uporabnika
-        %{user}
+      last_updated_time_ago_user_html: '%{user} %{time_ago}'
       link_to_reports: Ogled prijav
       reports_count:
         one: '%{count} poročilo'
@@ -1599,7 +1591,7 @@ sl:
     community_blogs_title: Blogi članov skupnosti OpenStreetMap
     make_a_donation:
       title: Podprite OpenStreetMap z denarnim prispevkom
-      text: Prispevajte finančna sredstva
+      text: Donirajte
     learn_more: Več o tem
     more: Več
   user_mailer:
@@ -1976,7 +1968,7 @@ sl:
   site:
     about:
       next: Naslednja
-      copyright_html: <span>&copy;</span> Sodelavci<br />OpenStreetMap
+      heading_html: Sodelavci %{copyright}OpenStreetMap %{br}
       used_by_html: '%{name} zagotavlja kartografske podatke za tisoče spletnih mest,
         mobilnih aplikacij in naprav'
       lede_text: |-
@@ -1988,32 +1980,42 @@ sl:
         posodabljajo OSM z zračnimi posnetki, napravami GPS in nizkotehnološkimi
         terenskimi zemljevidi.
       community_driven_title: Skupnostno vodeno
-      community_driven_html: |-
+      community_driven_1_html: |-
         Skupnost OpenStreetMap je raznolika, zagnana in raste vsak dan.
         Naši sodelavci so strastni kartografi, strokovnjaki za GIS, inženirji,
         ki upravljajo strežnike OSM, človekoljubi, ki kartirajo prizadeta območja,
         in številni drugi.
         Za več o naši skupnosti glejte
-        <a href='https://blog.openstreetmap.org'>Blog OpenStreetMap</a>,
-        <a href='%{diary_path}'>dnevnike uporabnikov</a>,
-        <a href='https://blogs.openstreetmap.org/'>bloge skupnosti</a> in
-        spletno mesto <a href='https://www.osmfoundation.org/'>Fundacije OSM</a>.
+        %{osm_blog_link},
+        %{user_diaries_link}, %{community_blogs_link} in
+        spletno mesto %{osm_foundation_link}.
+      community_driven_osm_blog: Blog OpenStreetMap
+      community_driven_user_diaries: Uporabniški dnevniki
+      community_driven_community_blogs: blogi skupnosti
+      community_driven_osm_foundation: Fundacija OSM
       open_data_title: Odprti podatki
-      open_data_html: |-
-        OpenStreetMap so <i>odprti podatki</i>: Ob navedbi OpenStreetMap in njegovih
+      open_data_1_html: |-
+        OpenStreetMap so %{open_data}: Ob navedbi OpenStreetMap in njegovih
         sodelavcev ga lahko uporabljate, kakor želite. Če podatke na določen način
         spremenite ali nadgradite, lahko rezultat distribuirate samo pod isto licenco.
-        Za podrobnosti glejte stran <a href='%{copyright_path}'>Avtorske pravice in licenca</a>.
+        Za podrobnosti glejte stran %{copyright_license_link}.
+      open_data_open_data: odprti podatki
+      open_data_copyright_license: Avtorske pravice in licenca
       legal_title: Pravno
-      legal_1_html: |-
+      legal_1_1_html: |-
         To spletno mesto in številne povezane storitve formalno
-        v imenu skupnosti upravlja <a href='https://osmfoundation.org/'>Fundacija OpenStreetMap</a> (OSMF). Za uporabo vseh storitev OSMF veljajo naši <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Pogoji uporabe</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        Pravilnik o sprejemljivi uporabi</a> in <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravilnik o zasebnosti</a>.
-      legal_2_html: |-
-        Če imate vprašanja o licencah, avtorskih pravicah ali drugih pravnih vidikih,
-        se <a href='https://osmfoundation.org/Contact'>obrnite na OSMF</a>.
-        <br>
-        OpenStreetMap, logotip povečevalnega stekla in State of the Map so <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registrirane tržne znamke OSMF</a>.
+        v imenu skupnosti upravlja %{openstreetmap_foundation_link} (OSMF). Za uporabo vseh storitev OSMF veljajo naši %{terms_of_use_link}, %{aup_link} in %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Fundacija OpenStreetMap
+      legal_1_1_terms_of_use: Pogoji uporabe
+      legal_1_1_aup: Politika sprejemljive uporabe
+      legal_1_1_privacy_policy: Pravilnik o zasebnosti
+      legal_2_1_html: |-
+        Če imate vprašanja o licenci, avtorskih pravicah ali druga pravna vprašanja,
+        prosimo, %{contact_the_osmf_link}.
+      legal_2_1_contact_the_osmf: kontaktirajte OSMF
+      legal_2_2_html: OpenStreetMap, logotip povečevalnega stekla in State of the
+        Map so %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: registrirane tržne znamke OSMF
       partners_title: Partnerji
     copyright:
       foreign:
@@ -2246,8 +2248,8 @@ sl:
             pridružili skupnosti OpenStreetMap in boste podatke dodali ali popravili
             sami.
         add_a_note:
-          instructions_html: |-
-            Preprosto kliknite <a class='icon note'></a> ali isto ikono na prikazu zemljevida.
+          instructions_1_html: |-
+            Preprosto kliknite %{note_icon} ali isto ikono na prikazu zemljevida.
             To bo na zemljevid dodalo oznako, ki jo lahko premikate
             z vlečenjem. Dodajte svojo sporočilo, nato kliknite »Shrani« in ga bodo drugi kartografi pregledali.
       other_concerns:
@@ -2746,6 +2748,11 @@ sl:
         nekatera dodatna orodja ali strežnik morda še vedno zahtevala.
       continue: Registracija
       terms accepted: Hvala za sprejem novih pogojev prispevanja!
+      email_confirmation_help_html: Vaš naslov ni javno prikazan, za več informacij
+        glejte naš %{privacy_policy_link}.
+      privacy_policy: pravilnik o zasebnosti
+      privacy_policy_title: Pravilnik o zasebnosti OSMF, vključno z razdelkom o e-poštnih
+        naslovih
     terms:
       title: Pogoji
       heading: Pogoji
@@ -3016,17 +3023,15 @@ sl:
       open_title: 'Nerazrešena opomba #%{note_name}'
       closed_title: 'Razrešena opomba #%{note_name}'
       hidden_title: 'Skrita opomba #%{note_name}'
-      opened_by_html: Ustvaril %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Ustvaril anonimni uporabnik <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
-        nazaj</abbr>
-      commented_by_anonymous_html: Komentar anonimnega uporabnika <abbr title='%{exact_time}'>%{when}
-        nazaj</abbr>
-      closed_by_html: Razrešil_a %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Razrešil anonimni uporabnik <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Znova aktiviral %{user} ob <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Znova aktiviral anonimni ob <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Skril_a %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      event_opened_by_html: Ustvaril_a %{user} %{time_ago}
+      event_opened_by_anonymous_html: Ustvaril anonimni %{time_ago}
+      event_commented_by_html: Komentar %{user} %{time_ago}
+      event_commented_by_anonymous_html: Komentar anonimnega %{time_ago}
+      event_closed_by_html: Razrešil_a %{user} %{time_ago}
+      event_closed_by_anonymous_html: Razrešil anonimni %{time_ago}
+      event_reopened_by_html: Ponovno aktiviral_a %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Ponovno aktiviral anonimni %{time_ago}
+      event_hidden_by_html: Skril_a %{user} %{time_ago}
       report: prijavi to opombo
       anonymous_warning: To opomba vključuje komentarje anonimnih uporabnikov, ki
         bi morali biti neodvisno preverjeni.
@@ -3108,18 +3113,17 @@ sl:
         gps: Javne sledi GPS
         overlays: Za odpravljanje težav z zemljevidom omogočite prekrivke
         title: Sloji
-      copyright: © <a href='%{copyright_url}'>Sodelavci OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Denarni prispevki</a>
-      terms: <a href='%{terms_url}' target='_blank'>Pogoji za uporabo spletnega mesta
-        in API-ja</a>
-      cyclosm: 'Slog ploščic: <a href=''%{cyclosm_url}'' target=''_blank''>CyclOSM</a>;
-        gosti <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap France</a>'
-      thunderforest: Ploščice z dovoljenjem <a href='%{thunderforest_url}' target='_blank'>Andyja
-        Allana</a>
-      opnvkarte: Ploščite z dovoljenjem <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: 'Slog ploščic: <a href=''%{hotosm_url}'' target=''_blank''>Humanitarian
-        OpenStreetMap Team</a>; gosti <a href=''%{osmfrance_url}'' target=''_blank''>OpenStreetMap
-        France</a>'
+      openstreetmap_contributors: Sodelavci OpenStreetMap
+      make_a_donation: Donirajte
+      website_and_api_terms: Pogoji za spletno mesto in API
+      cyclosm_credit: Slog ploščic %{cyclosm_link}, gosti jih %{osm_france_link}
+      osm_france: OpenStreetMap France
+      thunderforest_credit: Ploščice z dovoljenjem %{thunderforest_link}
+      andy_allan: Andy Allan
+      opnvkarte_credit: Ploščice z dovoljenjem %{memomaps_link}
+      memomaps: MeMoMaps
+      hotosm_credit: Slog ploščic %{hotosm_link}, gosti jih %{osm_france_link}
+      hotosm_name: Humanitarna ekipa OpenStreetMap
     site:
       edit_tooltip: Urejanje zemljevida
       edit_disabled_tooltip: Približajte za urejanje zemljevida

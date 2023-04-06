@@ -203,11 +203,6 @@ uk:
           розуміють жаргон спільноти, тому користуйтесь для пояснення простою мовою.
         needs_view: Чи потрібно маперу здійснити вхід, перш ніж блокування буде знято?
       user:
-        email_confirmation: Ваша адреса не є загальнодоступною і не показується іншим,
-          ознайомтесь з <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="Правила OSMF по захисту персональних даних, розділ про адреси електронной
-          пошти">правилами захисту персональних даних</a> для отримання докладної
-          інформації.
         new_email: |2-
 
           (ніколи не показується загальнодоступно)
@@ -391,12 +386,12 @@ uk:
   browse:
     created: Створено
     closed: Закрито
-    created_html: Створено <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Закрито <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Створено <abbr title='%{title}'>%{time}</abbr> %{user}
-    deleted_by_html: Вилучено <abbr title='%{title}'>%{time}</abbr> %{user}
-    edited_by_html: Змінено <abbr title='%{title}'>%{time}</abbr> %{user}
-    closed_by_html: Закрито <abbr title='%{title}'>%{time}</abbr> %{user}
+    created_ago_html: Створено %{time_ago}
+    closed_ago_html: Закрито %{time_ago}
+    created_ago_by_html: Створив(ла) %{user} %{time_ago}
+    closed_ago_by_html: Закрив(ла) %{time_ago} %{user}
+    deleted_ago_by_html: Вилучив(ла) %{time_ago} %{user}
+    edited_ago_by_html: Змінив(ла) %{user} %{time_ago}
     version: Версія
     in_changeset: Набір змін
     anonymous: анонім
@@ -408,7 +403,7 @@ uk:
       many: '%{count} зв’язків'
       other: ""
     part_of_ways:
-      one: '%{count} ліня'
+      one: '%{count} лінія'
       few: '%{count} лінії'
       many: '%{count} ліній'
       other: ""
@@ -426,8 +421,8 @@ uk:
       relation: Зв’язки (%{count})
       relation_paginated: Зв’язки (%{x}-%{y} із %{count})
       comment: Коментарі (%{count})
-      hidden_commented_by_html: Прихований коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: Коментар від %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_comment_by_html: Прихований коментар від %{user} %{time_ago}
+      comment_by_html: Коментар від %{user} %{time_ago}
       changesetxml: XML опис набору змін
       osmchangexml: osmChange XML
       feed:
@@ -701,12 +696,6 @@ uk:
       success: '%{name} вилучений з вашого списку друзів.'
       not_a_friend: '%{name} не є вашим другом.'
   geocoder:
-    search:
-      title:
-        latlon_html: <a href="https://openstreetmap.org/">Внутрішні</a> результати
-        osm_nominatim_html: Результати від <a href="https://nominatim.openstreetmap.org/">Nominatim</a>
-        osm_nominatim_reverse_html: Результати від <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
-          Nominatim</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1501,8 +1490,7 @@ uk:
       status: Статус
       reports: Скарги
       last_updated: Останнє оновлення
-      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr>, %{user}
+      last_updated_time_ago_user_html: '%{user} %{time_ago}'
       link_to_reports: Дивитися скарги
       reports_count:
         one: '%{count} Скарга'
@@ -1616,7 +1604,7 @@ uk:
     hosting_partners_html: Хостинг підтримується %{ucl}, %{fastly}, %{bytemark} та
       іншими %{partners}.
     partners_ucl: UCL
-    partners_fastly: Швидко
+    partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
     partners_partners: партнерами
     tou: Умови використання
@@ -1680,6 +1668,11 @@ uk:
       subject: '[OpenStreetMap] Збій імпорту GPX'
     gpx_success:
       hi: Привіт, %{to_user},
+      loaded:
+        one: успішно завантажено %{trace_points} точка з %{count} можливих.
+        few: 'успішно завантажено %{trace_points} точки з %{count} можливих. '
+        many: успішно завантажено %{trace_points} точок з %{count} можливих.
+        other: ""
       subject: '[OpenStreetMap] Імпорт GPX пройшов успішно'
     signup_confirm:
       subject: '[OpenStreetMap] Ласкаво просимо до OpenStreetMap'
@@ -1995,7 +1988,7 @@ uk:
   site:
     about:
       next: Далі
-      copyright_html: <span>&copy;</span>Учасники<br>OpenStreetMap
+      heading_html: '%{copyright}Учасники %{br} OpenStreetMap'
       used_by_html: '%{name} надає картографічні дані для тисяч вебсайтів, мобільних
         застосунків та різних пристроїв'
       lede_text: OpenStreetMap створений спільнотою маперів, які вносять і підтримують
@@ -2006,26 +1999,37 @@ uk:
         використовують аерофотознімки, GPS пристрої та прості створені на місцевості
         схеми для перевірки точності та актуальності даних OSM.
       community_driven_title: Керується спільнотою
-      community_driven_html: |-
-        Спільнота OpenStreetMap — різноманітна, затята і щоденно зростаюча. Серед учасників спільноти є мапери ентузіасти, фахівці ГІС, інженери що підтримують роботу серверів OSM, фахівці, які із гуманістичних причин, допомагають в створені мап для районів, постраждалих від стихійного лиха, і багато інших.
-        Щоб дізнатися більше про спільноту, подивіться <a href='%{diary_path}'>щоденники учасників</a>
-        <a href='http://blogs.openstreetmap.org/'>блоги спільноти</a> і сайт <a href='http://www.osmfoundation.org/'>фундації OSM</a>.
+      community_driven_1_html: |-
+        Спільнота OpenStreetMap — різноманітна, затята і щоденно зростаюча. Серед учасників спільноти є мапери ентузіасти, фахівці ГІС, інженери що підтримують роботу серверів OSM, фахівці, які із гуманістичних причин, допомагають у створені мап для районів, постраждалих від стихійних лих, і багато інших.
+        Щоб дізнатися більше про спільноту, подивіться %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link}, а також сайт %{osm_foundation_link}.
+      community_driven_osm_blog: Блог OpenStreetMap
+      community_driven_user_diaries: щоденники учасників
+      community_driven_community_blogs: блоги спільноти
+      community_driven_osm_foundation: Фундації OSM
       open_data_title: Відкриті дані
-      open_data_html: |-
-        OpenStreetMap — це <i>відкриті дані</i>: Ви можете вільно використовувати їх для будь-яких цілей доти, поки посилаєтесь OpenStreetMap та його учасників. Якщо Ви змінюєте дані або на основі даних будуєте певним чином власні, Ви можете розповсюджувати результат лише під тією самою ліцензією. Дивіться сторінку <a href='%{copyright_path}'>«Авторські права і
-        ліцензії»</a>, щоб отримати докладну інформацію.
+      open_data_1_html: 'OpenStreetMap — це %{open_data}: Ви можете вільно використовувати
+        їх для будь-яких цілей доти, поки посилаєтесь OpenStreetMap та його учасників.
+        Якщо Ви змінюєте дані або на основі даних будуєте певним чином власні, Ви
+        можете розповсюджувати результат лише під тією самою ліцензією. Дивіться сторінку
+        %{copyright_license_link}, щоб отримати докладну інформацію.'
+      open_data_open_data: відкриті дані
+      open_data_copyright_license: «Авторські права і ліцензії»
       legal_title: Правова інформація
-      legal_1_html: "Цей сайт та багато інших повʼязаних сервісів офіційно керуються
-        \n<a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
-        \nвід імені спільноти. Використання усіх сервісів, підконтрольних OSMF, здійснюється
-        на основі <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nПравил
-        щодо прийнятного використання</a> та нашій <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Політиці
-        конфіденційності</a>."
-      legal_2_html: "Будь ласка, <a href='https://osmfoundation.org/Contact'>звʼяжіться
-        з OSMF</a>, \nякщо у Вас є питання чи проблеми щодо ліцензування, авторських
-        прав та інших юридичних питань.\n<br>\nЛоготип OpenStreepMap та State of the
-        Map є <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">зареєстрованими
-        торговими марками OSMF</a>."
+      legal_1_1_html: "Цей сайт та багато інших повʼязаних сервісів офіційно керуються
+        \n%{openstreetmap_foundation_link} від імені спільноти. Використання усіх
+        сервісів, підконтрольних OSMF, здійснюється на основі %{terms_of_use_link},
+        %{aup_link} та нашій %{privacy_policy_link}."
+      legal_1_1_openstreetmap_foundation: Фундацією OpenStreetMap
+      legal_1_1_terms_of_use: Умов використання
+      legal_1_1_aup: Правил щодо прийнятного використання
+      legal_1_1_privacy_policy: Політиці конфіденційності
+      legal_2_1_html: |-
+        Будь ласка, %{contact_the_osmf_link}
+        якщо у вас є питання щодо ліцензування, авторського права чи інші юридичні питання.
+      legal_2_1_contact_the_osmf: звертайтесь до OSMF
+      legal_2_2_html: OpenStreetMap, логотип у вигляді лупи та State of the Map є
+        %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: зареєстрованими торговими марками OSMF
       partners_title: Партнери
     copyright:
       foreign:
@@ -2068,14 +2072,96 @@ uk:
           правила щодо того, як показувати повідомлення про авторські права, залежно від того, чи ви створили мапу для онлайн перегляду, друковану мапу чи статичне зображення. Повну інформацію про
           вимоги можна знайти в %{attribution_guidelines_link}.
         credit_3_attribution_guidelines: Настановах з атрибуції
+        credit_4_1_html: Ви повинні чітко вказувати, що дані доступні на умовах ліцензії
+          Open Database License. Ви можете зробити це, пославшись на %{this_copyright_page_link}.
+          Або ж, під час розповсюдження даних OSM, ви можете безпосередньо вказувати
+          назву ліцензії(й) та посилання на її(їх) текст. Якщо ви користуєтесь носіями,
+          де використання гіпертекстових посилань неможливе (наприклад друковані матеріали),
+          ми пропонуємо посилатися безпосередньо на www.openstreetmap.org (або розширено
+          "www.openstreetmap.org, OpenStreetMap") та на opendatacommons.org. В цьому
+          прикладі посилання знаходиться в куті мапи.
+        credit_4_1_this_copyright_page: сторінку з роз’ясненням ліцензійних вимог
         attribution_example:
           alt: Приклад того, як треба посилатись на OpenStreetMap на веб-сторінці
           title: Приклад зазначення авторства
         more_title_html: Дізнатися більше
+        more_1_1_html: Дізнайтеся більше про використання наших даних і про те, як
+          посилатись на проєкт, на %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: сторінці OSMF Licence
+        more_2_1_html: |-
+          Хоча OpenStreetMap є відкритими даними, ми не можемо надати
+          безплатний API для мап для всіх.
+          Ознайомтесь з нашими %{api_usage_policy_link}, %{tile_usage_policy_link} і %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Правилами використання API
+        more_2_1_tile_usage_policy: Правилами використання тайлів
+        more_2_1_nominatim_usage_policy: Правилами використання сервісу Nominatim
         contributors_title_html: Наші учасники
         contributors_intro_html: 'Нашими учасниками є тисячі людей. Наші дані також
           містять дані від національних картографічних агенцій, які розповсюджуються
           на умовах відкритих ліцензій, серед них:'
+        contributors_at_credit_html: |-
+          %{austria}: містить дані з %{stadt_wien_link} (на умовах %{cc_by_link}), %{land_vorarlberg_link}
+          та Землі Тироль (на умовах %{cc_by_at_with_amendments_link}).
+        contributors_at_austria: Австрія
+        contributors_at_stadt_wien: Місто Відень
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Земля Форарльберг
+        contributors_at_cc_by_at_with_amendments: CC BY AT із змінами
+        contributors_au_credit_html: |-
+          %{australia}: Включає або розроблено з використанням адміністративних кордонів &copy; %{geoscape_australia_link}
+          ліцензовано Австралійським Союзом на умовах %{cc_licence_link}.
+        contributors_au_australia: Австралія
+        contributors_au_geoscape_australia: Geoscape Австралія
+        contributors_au_cc_licence: Creative Commons Attribution 4.0 International
+          (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: дані від GeoBase&reg;, GeoGratis
+          (&copy; Департамент природних ресурсів Канади), CanVec (&copy; Департамент
+          природних ресурсів Канади), та StatCan (Відділ Географії, Статистичне відомство
+          Канади).'
+        contributors_ca_canada: Канада
+        contributors_fi_credit_html: |-
+          %{finland}: Містить дані з топографічної бази даних
+          Національної служби землеустрою Фінляндії
+          та інші набори даних на умовах %{nlsfi_license_link}.
+        contributors_fi_finland: Фінляндія
+        contributors_fi_nlsfi_license: Ліцензії NLSFI
+        contributors_fr_credit_html: '%{france}: Дані отримані від Direction Générale
+          des Impôts (Генеральне управління з оподаткування).'
+        contributors_fr_france: Франція
+        contributors_nl_credit_html: '%{netherlands}: Містить дані © AND, 2007 (%{and_link})'
+        contributors_nl_netherlands: Нідерланди
+        contributors_nz_credit_html: |-
+          %{new_zealand}: містить дані, отримані з %{linz_data_service_link}
+          та ліцензовані для повторного використання на умовах %{cc_by_link}.
+        contributors_nz_new_zealand: Нова Зеландія
+        contributors_nz_linz_data_service: Служба даних LINZ
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_credit_html: |-
+          %{slovenia}: містить дані з %{gu_link} і %{mkgp_link}
+          (публічна інформація Словенії).
+        contributors_si_slovenia: Словенія
+        contributors_si_gu: Геодезичного управління
+        contributors_si_mkgp: Міністерства сільського господарства, лісового господарства
+          та продовольства
+        contributors_es_credit_html: |-
+          %{spain}: Містить дані, отримані від
+          Іспанського національного географічного інституту (%{ign_link}) та
+          Національної картографічної системи (%{scne_link})
+          ліцензованих для повторного використання на умовах %{cc_by_link}.
+        contributors_es_spain: Іспанія
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: містить дані, отримані з %{ngi_link},
+          захищене державне авторське право.'
+        contributors_za_south_africa: Південна Америка
+        contributors_za_ngi: 'Головне управління: Національна геопросторова інформація'
+        contributors_gb_credit_html: '%{united_kingdom}: дані Ordnance Survey &copy;
+          Crown copyright and database right 2010-2023.'
+        contributors_gb_united_kingdom: Великобританія
+        contributors_2_html: Для отримання додаткової інформації про ці та інші джерела,
+          які були використані для покращення OpenStreetMap, перегляньте %{contributors_page_link}
+          у OpenStreetMap Wiki.
+        contributors_2_contributors_page: сторінку Contributors
         contributors_footer_2_html: Включення даних до OpenStreetMap не означає, що
           постачальник цих даних якимось чином підтримує OpenStreetMap, надає які-небудь
           гарантії чи бере на себе якусь  відповідальність.
@@ -2084,6 +2170,17 @@ uk:
           що забороняється додавати дані з будь-яких захищених авторським правом джерел
           (наприклад, з Google Maps чи з друкованих мап) без отримання попереднього
           дозволу правовласників.
+        infringement_2_1_html: Якщо ви вважаєте, що матеріал, захищений авторським
+          правом, було неналежним чином додано до бази даних OpenStreetMap або на
+          цей сайт, ознайомтеся з нашою %{takedown_procedure_link} або залиште звернення
+          безпосередньо на %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: процедурою вилучення даних
+        infringement_2_1_online_filing_page: нашій онлайн сторінці для звернень
+        trademarks_title: Торгові марки
+        trademarks_1_1_html: |-
+          OpenStreetMap, логотип у вигляді лупи та State of the Map є зареєстрованими товарними знаками Фундації OpenStreetMap. Якщо у вас виникли запитання щодо використання вами цих знаків, перегляньте наші
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: Правила використання торгової марки
     index:
       js_1: Ви користуєтесь оглядачем, в якому не підтримується або відключений JavaScript.
       js_2: OpenStreetMap використовує JavaScript для мапи.
@@ -2156,10 +2253,6 @@ uk:
           explanation_html: Якщо ви помітили, неточності в наших даних, наприклад
             відсутня дорога або ваша адреса, найкращий спосіб це виправити — приєднатись
             до спільноти OpenStreetMap і додати або виправити дані самостійно.
-        add_a_note:
-          instructions_html: |-
-            Просто натисніть <a class='icon note'></a> або подібну піктограму на мапі.
-            У результаті, на мапі зʼявиться маркер, який Ви зможете перетягувати на мапі. Додайте Ваше повідомлення, а потім натисніть кнопку Зберегти, і інші учасники матимуть змогу з цим розібратись.
       other_concerns:
         title: Інші проблеми
         concerns_html: |-
@@ -2876,12 +2969,12 @@ uk:
           many: '%{count} годин'
           other: ""
         days:
-          one: 1 день
+          one: '%{count} день'
           few: '%{count} дні'
           many: '%{count} днів'
           other: ""
         weeks:
-          one: 1 тиждень
+          one: '%{count} тиждень'
           few: '%{count} тижні'
           many: '%{count} тижнів'
           other: ""
@@ -2948,15 +3041,6 @@ uk:
       open_title: 'Неопрацьована нотатка #%{note_name}'
       closed_title: 'Опрацьована нотатка #%{note_name}'
       hidden_title: 'Прихована нотатка #%{note_name}'
-      opened_by_html: Створено %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      opened_by_anonymous_html: Створено анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_html: '%{user} залишив(ла) коментар <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by_anonymous_html: Прокоментовано анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_html: Розв’язано, %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous_html: Розв’язано анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_html: Відновлено %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous_html: Відновлено анонімом <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by_html: Приховано %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: поскаржитися на цю нотатку
       anonymous_warning: Ця нотатка містить коментарі від анонімних учасників. Потрібна
         додаткова перевірка відомостей.
@@ -3016,7 +3100,7 @@ uk:
       locate:
         title: Показати моє місцезнаходження
         metersPopup:
-          one: Ви перебуваєте за один метр від цієї точки
+          one: Ви перебуваєте за %{count} метр від цієї точки
           few: Ви перебуваєте за %{count} метри від цієї точки
           many: Ви перебуваєте за %{count} метрів від цієї точки
           other: ""
@@ -3039,18 +3123,6 @@ uk:
         gps: Публічні GPS-треки
         overlays: Увімкніть наступні шари для пошуку і усунення помилок на мапі
         title: Шари
-      copyright: © <a href='%{copyright_url}'>Учасники OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Зробити внесок</a>
-      terms: <a href='%{terms_url}' target='_blank'>Умови використання Вебсайту та
-        API</a>
-      cyclosm: Тайли <a href='%{cyclosm_url}' target='_blank'>ЦиклОСМ</a> за підтримки
-        <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap France</a>
-      thunderforest: Тайли надав <a href='%{thunderforest_url}' target='_blank'>Andy
-        Allan</a>
-      opnvkarte: Тайли надані <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: Стиль тайлів — від <a href='%{hotosm_url}' target='_blank'>Гуманітарної
-        команди OpenStreetMap</a>, хостинг — від <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        Франція</a>
     site:
       edit_tooltip: Редагування мапи
       edit_disabled_tooltip: Збільшить масштаб для редагування мапи
