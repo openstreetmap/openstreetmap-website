@@ -273,6 +273,8 @@ pl:
         other: '%{count} minuty temu'
       x_days:
         one: wczoraj
+        few: '%{count} dni temu'
+        many: '%{count} dni temu'
         other: '%{count} dni temu'
       x_months:
         one: miesiąc temu
@@ -387,6 +389,9 @@ pl:
       only_public_can_edit: Od czasu zmiany API na wersję 0.6 tylko użytkownicy publiczni
         mogą edytować dane mapy.
       find_out_why: dowiedz się, dlaczego
+      email_not_revealed: Twój adres e-mail nie będzie wyświetlany publicznie.
+      not_reversible: Tej akcji nie można cofnąć, a wszyscy nowi użytkownicy są teraz
+        domyślnie publiczni.
       make_edits_public_button: Niech wszystkie edycje będą publiczne.
     update:
       success_confirm_needed: Zaktualizowano profil użytkownika. Sprawdź, czy przyszedł
@@ -710,6 +715,7 @@ pl:
     search:
       title:
         results_from_html: Wyniki z %{results_link}
+        latlon: Wewnętrzny
         osm_nominatim: Nominatim
         osm_nominatim_reverse: Nominatim
     search_osm_nominatim:
@@ -1780,6 +1786,9 @@ pl:
       success: Twoje konto zostało zatwierdzone, cieszymy się, że do nas dołączyłeś!
       already active: To konto zostało potwierdzone.
       unknown token: Ten kod potwierdzający wygasł lub nie istnieje.
+      resend_html: Jeśli chcesz, abyśmy ponownie wysłali wiadomość e-mail z potwierdzeniem,
+        %{reconfirm_link}.
+      click_here: Kliknij tutaj
     confirm_resend:
       failure: Nie odnaleziono użytkownika %{name}.
     confirm_email:
@@ -1974,6 +1983,7 @@ pl:
       support: supportem
   shared:
     markdown_help:
+      heading_html: Przeanalizowano za pomocą %{kramdown_link}
       headings: Nagłówki
       heading: Nagłówki
       subheading: Podtytuł
@@ -2008,6 +2018,9 @@ pl:
         <a href='%{diary_path}'>blogi użytkowników</a>,
         <a href='https://blogs.openstreetmap.org/'>blogi społeczności</a> oraz
         <a href='http://openstreetmap.org.pl'>stronę OSM Polska</a>.
+      community_driven_osm_blog: Blog OpenStreetMap
+      community_driven_community_blogs: blogi społecznościowe
+      community_driven_osm_foundation: Fundacja OSM
       open_data_title: Otwarte dane
       open_data_1_html: 'OpenStreetMap to <i>otwarte dane</i>: możesz używać ich,
         jak tylko chcesz pod warunkiem, że dodasz, że pochodzą one z  OpenStreetMap
@@ -2018,6 +2031,10 @@ pl:
       legal_1_1_html: |-
         Ta strona internetowa i inne powiązane usługi prowadzone są oficjalnie przez <a href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF) w imieniu społeczności. Korzystanie ze wszystkich usług OSMF jest regulowane przez <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Warunki użytkowania</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         Politykę użytkowania</a> i naszą <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politykę prywatności</a>.
+      legal_1_1_openstreetmap_foundation: Fundacja OpenStreetMap
+      legal_1_1_terms_of_use: Warunki użytkowania
+      legal_1_1_privacy_policy: Polityka prywatności
+      legal_2_1_contact_the_osmf: skontaktuj się z OSM
       partners_title: Partnerzy
     copyright:
       foreign:
@@ -2187,6 +2204,7 @@ pl:
       map_image: Obraz mapy (standardowa warstwa)
       embeddable_html: Kod HTML do osadzenia
       licence: Licencja
+      licence_details_html: Dane OpenStreetMap są objęte licencją %{odbl_link} (ODbL).
       odbl: Open Data Commons Open Database License
       too_large:
         advice: 'Jeśli eksportowanie się nie uda, proszę rozważyć użycie jednego z
@@ -2275,8 +2293,10 @@ pl:
     potlatch:
       removed: Twój domyślny edytor OpenStreetMap to Potlatch. Ponieważ Adobe Flash
         Player został wycofany, Potlatch nie jest już dostępny w przeglądarce.
+      change_preferences: Zmień swoje preferencje tutaj
     any_questions:
       title: Czy masz jakieś pytania?
+      get_help_here: Uzyskaj pomoc tutaj
     sidebar:
       search_results: Wyniki wyszukiwania
       close: Zamknij
@@ -2368,16 +2388,25 @@ pl:
         rzeczami, o których musisz wiedzieć.
       whats_on_the_map:
         title: Co jest na mapie
+        real_and_current: prawdziwy i aktualny
+        doesnt: nie
       basic_terms:
         title: Podstawowe zasady mapowania
         paragraph_1: OpenStreetMap ma własny slang. Oto kilka słów, które ci się przydadzą.
+        an_editor_html: '%{editor} to program lub strona internetowa, za pomocą których
+          można edytować mapę.'
+        editor: edytor
+        node: węzeł
       rules:
         title: Zasady!
+        imports: Import
+        automated_edits: Zautomatyzowane edycje
       start_mapping: Rozpocznij mapowanie
       add_a_note:
         title: Nie masz czasu na edycję? Dodaj uwagę!
         para_1: Jeśli chcesz wprowadzić małą zmianę, ale nie masz czasu na rejestrację
           i poznanie sposobów edycji, możesz łatwo dodać uwagę.
+        the_map: mapa
     communities:
       title: Społeczności
       lede_text: Ludzie z całego świata tworzą lub używają OpenStreetMap. Podczas
@@ -2396,6 +2425,7 @@ pl:
           lokalne OSMF:'
       other_groups:
         title: Inne grupy
+        communities_wiki: Strona społeczności wiki
   traces:
     visibility:
       private: Prywatny (udostępniany jedynie jako anonimowy, nieuporządkowane punkty)
@@ -2666,6 +2696,11 @@ pl:
       support: supportem
       about:
         header: Darmowa i edytowalna
+        paragraph_1: W przeciwieństwie do innych map, OpenStreetMap jest w całości
+          tworzona przez ludzi takich jak Ty i każdy może ją bezpłatnie poprawiać,
+          aktualizować, pobierać i używać.
+        paragraph_2: Zarejestruj się, aby zacząć współtworzyć. Wyślemy wiadomość e-mail,
+          aby potwierdzić Twoje konto.
       display name description: Twoja publiczna nazwa użytkownika. Można ją później
         zmienić w ustawieniach.
       external auth: 'Logowanie przez:'
@@ -2674,6 +2709,11 @@ pl:
         jednak niektóre dodatkowe narzędzia lub serwer mogą go potrzebować.
       continue: Zarejestruj się
       terms accepted: Dziękujemy za przyjęcie nowych Warunków uczestnictwa!
+      email_confirmation_help_html: Twój adres nie jest wyświetlany publicznie, zobacz
+        naszą %{privacy_policy_link}, aby uzyskać więcej informacji.
+      privacy_policy: Polityka prywatności
+      privacy_policy_title: Polityka prywatności OSMF, w tym sekcja dotycząca adresów
+        e-mail
     terms:
       title: Warunki
       heading: Warunki
@@ -2691,6 +2731,7 @@ pl:
         w domenie publicznej
       consider_pd_why: co to oznacza?
       consider_pd_why_url: https://wiki.osmfoundation.org/w/index.php?title=Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain&redirect=no
+      informal_translations: tłumaczenia nieformalne
       continue: Dalej
       decline: Nie akceptuję
       you need to accept or decline: Prosimy przeczytać i następnie przyjąć lub odrzucić
@@ -2874,7 +2915,9 @@ pl:
           other: '%{count} godziny'
         days:
           one: 1 dzień
-          other: '%{count} dni'
+          few: '%{count} dni'
+          many: '%{count} dni'
+          other: '%{count} dnia'
         weeks:
           one: 1 tydzień
           few: '%{count} tygodnie'
@@ -2943,6 +2986,15 @@ pl:
       open_title: 'Nierozwiązana uwaga #%{note_name}'
       closed_title: 'Rozwiązana uwaga #%{note_name}'
       hidden_title: 'Ukryta uwaga #%{note_name}'
+      event_opened_by_html: Utworzona przez %{user} %{time_ago}
+      event_opened_by_anonymous_html: Utworzona anonimowo %{time_ago}
+      event_commented_by_html: Komentarz od %{user} %{time_ago}
+      event_commented_by_anonymous_html: Skomentowana anonimowo %{time_ago}
+      event_closed_by_html: Rozwiązana przez %{user} %{time_ago}
+      event_closed_by_anonymous_html: Rozwiązana anonimowo %{time_ago}
+      event_reopened_by_html: Ponownie aktywowana przez %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Ponownie aktywowana anonimowo %{time_ago}
+      event_hidden_by_html: Ukryta przez %{user} %{time_ago}
       report: ją zgłosić
       anonymous_warning: Uwaga zawiera informacje od anonimowych użytkowników, które
         należy zweryfikować przed wprowadzeniem zmian na mapie.
@@ -3026,6 +3078,18 @@ pl:
         gps: Publiczne ślady GPS
         overlays: Nakładki do rozwiązywania problemów na mapie
         title: Warstwy
+      openstreetmap_contributors: autorzy OpenStreetMap
+      make_a_donation: Przekaż darowiznę
+      website_and_api_terms: Warunki użytkowania
+      cyclosm_credit: 'Styl kafelków %{cyclosm_link}. Hosting: %{osm_france_link}'
+      cyclosm_name: CyclOSM
+      osm_france: OpenStreetMap France
+      thunderforest_credit: Kafelki dzięki uprzejmości %{thunderforest_link}
+      andy_allan: Andy'ego Allana
+      opnvkarte_credit: Kafelki dzięki uprzejmości %{memomaps_link}
+      memomaps: MeMoMaps
+      hotosm_credit: 'Styl kafelków: %{hotosm_link}. Hosting: %{osm_france_link}'
+      hotosm_name: Humanitarian OpenStreetMap Team
     site:
       edit_tooltip: Edytuje mapę
       edit_disabled_tooltip: Przybliż mapę, aby ją edytować

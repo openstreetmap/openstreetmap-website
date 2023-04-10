@@ -212,41 +212,65 @@ cs:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: asi před 1 hodinou
-        other: asi před %{count} hodinami
+        one: asi před hodinou
+        few: asi před %{count} hodinami
+        many: asi před %{count} hodiny
+        other: asi před %{count} hodiny
       about_x_months:
         one: asi před měsícem
+        few: asi před %{count} měsíci
+        many: asi před %{count} měsíci
         other: asi před %{count} měsíci
       about_x_years:
         one: asi před rokem
-        other: asi před %{count} roky
+        few: asi před %{count} lety
+        many: asi před %{count} lety
+        other: asi před %{count} lety
       almost_x_years:
         one: skoro před rokem
-        other: skoro před %{count} roky
+        few: skoro před %{count} lety
+        many: skoro před %{count} lety
+        other: skoro před %{count} lety
       half_a_minute: před půl minutou
       less_than_x_seconds:
         one: před méně než vteřinou
+        few: před méně než %{count} vteřinami
+        many: před méně než %{count} vteřinami
         other: před méně než %{count} vteřinami
       less_than_x_minutes:
         one: před méně než minutou
+        few: před méně než %{count} minutami
+        many: před méně než %{count} minutami
         other: před méně než %{count} minutami
       over_x_years:
-        one: více než před rokem
+        one: před více než před rokem
+        few: před více než %{count} lety
+        many: před více než %{count} lety
         other: před více než %{count} lety
       x_seconds:
-        one: před sekundou
-        other: před %{count} sekundami
+        one: před vteřinou
+        few: před %{count} vteřinami
+        many: před %{count} vteřinami
+        other: před %{count} vteřinami
       x_minutes:
         one: před minutou
+        few: před %{count} minutami
+        many: před %{count} minutami
         other: před %{count} minutami
       x_days:
         one: den nazpět
+        few: před %{count} dny
+        many: před %{count} dny
         other: před %{count} dny
       x_months:
         one: před měsícem
+        few: před %{count} měsíci
+        many: před %{count} měsíci
         other: před %{count} měsíci
       x_years:
         one: před rokem
+        few: před %{count} lety
+        many: před %{count} lety
         other: před %{count} lety
   editor:
     default: Výchozí (aktuálně %{name})
@@ -362,18 +386,24 @@ cs:
   browse:
     created: Vytvořeno
     closed: Uzavřeno
+    created_ago_html: Vytvořeno %{time_ago}
+    closed_ago_html: Uzavřeno %{time_ago}
+    created_ago_by_html: Vytvořeno %{time_ago} uživatelem %{user}
+    closed_ago_by_html: Uzavřeno %{time_ago} uživatelem %{user}
+    deleted_ago_by_html: Smazáno %{time_ago} uživatelem %{user}
+    edited_ago_by_html: Upraveno %{time_ago} uživatelem %{user}
     version: Verze
     in_changeset: Sada změn
     anonymous: anonym
     no_comment: (bez komentáře)
     part_of: Součást
     part_of_relations:
-      one: 1 relace
+      one: '%{count} relace'
       few: '%{count} relace'
       many: '%{count} relací'
       other: '%{count} relací'
     part_of_ways:
-      one: 1 cesta
+      one: '%{count} cesta'
       few: '%{count} cesty'
       many: '%{count} cest'
       other: '%{count} cest'
@@ -420,7 +450,7 @@ cs:
       history_title_html: 'Historie relace: %{name}'
       members: Prvky
       members_count:
-        one: 1 prvek
+        one: '%{count} prvek'
         few: '%{count} prvky'
         many: '%{count} prvků'
         other: '%{count} prvků'
@@ -1455,7 +1485,9 @@ cs:
       last_updated: Poslední změna
       link_to_reports: Zobrazit hlášení
       reports_count:
-        one: 1 Hlášení
+        one: '%{count} Hlášení'
+        few: '%{count} Hlášení'
+        many: '%{count} Hlášení'
         other: '%{count} Hlášení'
       reported_item: Hlášená položka
       states:
@@ -1464,10 +1496,8 @@ cs:
         resolved: Vyřešeno
     show:
       title: '%{status} Problém #%{issue_id}'
-      reports:
-        zero: žádné
-        one: 1 hlášení
-        other: '%{count} hlášení'
+      reports: '{{PLURAL|zero=žádné|one=%{count} hlášení|few=%{count} hlášení}|many=%{count}
+        hlášení|žádné}'
       report_created_at: První hlášení v %{datetime}
       last_resolved_at: Naposledy vyřešeno v %{datetime}
       last_updated_at: Poslední aktualizace v %{datetime} od %{displayname}

@@ -368,6 +368,12 @@ pt-BR:
   browse:
     created: Criado
     closed: Fechado
+    created_ago_html: Criado há %{time_ago}
+    closed_ago_html: Fechado há %{time_ago}
+    created_ago_by_html: Criado há %{time_ago} por %{user}
+    closed_ago_by_html: Fechado há %{time_ago} por %{user}
+    deleted_ago_by_html: Excluído há %{time_ago} por %{user}
+    edited_ago_by_html: Editado há %{time_ago} por %{user}
     version: Versão
     in_changeset: Conjunto de alterações
     anonymous: anônimo
@@ -393,6 +399,8 @@ pt-BR:
       relation: Relações (%{count})
       relation_paginated: Relações (%{x}-%{y} de %{count})
       comment: Comentários (%{count})
+      hidden_comment_by_html: Comentário ocultado por %{user} há %{time_ago}
+      comment_by_html: Comentário de %{user} há %{time_ago}
       changesetxml: XML do conjunto de alterações
       osmchangexml: XML osmChange
       feed:
@@ -660,6 +668,12 @@ pt-BR:
       success: '%{name} foi removido dos seus amigos.'
       not_a_friend: '%{name} não é um dos seus amigos.'
   geocoder:
+    search:
+      title:
+        results_from_html: Resultados de %{results_link}
+        latlon: Interno
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1452,6 +1466,7 @@ pt-BR:
       status: Status
       reports: Relatórios
       last_updated: Última Atualização
+      last_updated_time_ago_user_html: Há %{time_ago} por %{user}
       link_to_reports: Ver Denúncias
       reports_count:
         one: '%{count} Relatório'
@@ -1940,6 +1955,7 @@ pt-BR:
   site:
     about:
       next: Próximo
+      heading_html: '%{copyright}Contribuidores %{br} do OpenStreetMap'
       used_by_html: O %{name} fornece dados de mapa para milhares de sites, aplicativos
         móveis e dispositivos de hardware
       lede_text: O OpenStreetMap é desenvolvido por uma comunidade voluntária de mapeadores
@@ -1951,12 +1967,13 @@ pt-BR:
         que a informação no OpenStreetMap é rigorosa e atualizada.
       community_driven_title: Impulsionado pela comunidade
       community_driven_1_html: |-
-        A comunidade do OpenStreetMap é diversa, apaixonada, e aumenta diariamente.
-        Entre os nossos colaboradores encontra-se mapeadores entusiastas, profissionais das áreas de sistemas geográficos, engenheiros que utilizam os servidores do OSM, voluntários a mapear áreas afetadas por grandes desastres, e muitos mais.
-        Para saber mais sobre a nossa comunidade, veja:
-        <a href='https://blog.openstreetmap.org'>Blogue do OpenStreetMap</a>,
-        <a href='%{diary_path}'>diários dos utilizadores</a>,
-        <a href='https://blogs.openstreetmap.org/'>blogues da comunidade</a>, e o sítio da <a href='https://www.osmfoundation.org/'>Fundação OSM</a>.
+        A comunidade do OpenStreetMap é diversa, apaixonada e cresce diariamente.
+        Entre os nossos contribuidores, encontram-se mapeadores entusiásticos, profissionais das áreas de sistemas geográficos, engenheiros que utilizam os servidores do OSM, voluntários que mapeiam áreas afetadas por grandes desastres, e muitos mais.
+        Para saber mais sobre a nossa comunidade, consulte:
+        %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link} e o sítio da %{osm_foundation_link}.
+      community_driven_osm_blog: Blog do OpenStreetMap
+      community_driven_user_diaries: diários de usuário
+      community_driven_community_blogs: blogs da comunidade
       community_driven_osm_foundation: Fundação OSM
       open_data_title: Dados abertos
       open_data_1_html: |-
@@ -1965,14 +1982,22 @@ pt-BR:
         credite a autoria do OpenStreetMap e os seus contribuidores.
         Se você alterar os dados ou criar algo com os dados, pode distribuir
         o produto resultante apenas sob a mesma licença. Consulte %{copyright_license_link} para mais detalhes.
+      open_data_open_data: dados abertos
+      open_data_copyright_license: página sobre direitos de autor e licenciamento
       legal_title: Jurídico
-      legal_1_1_html: "Este ''site'' e muitos outros serviços relacionados são formalmente
-        geridos pela \n<a href='https://osmfoundation.org/'>Fundação OpenStreetMap</a>
-        (OSMF) \nem nome da comunidade. A utilização de todos os serviços operados
-        pela OSMF estão sujeitos\naos nossos <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Termos
-        de Utilização</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Políticas
-        de Utilização Aceitáveis</a> e a nossa <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Política
-        de Privacidade</a>"
+      legal_1_1_html: Este site e muitos outros serviços relacionados são formalmente
+        geridos pela %{openstreetmap_foundation_link} (OSMF) em nome da comunidade.
+        A utilização de todos os serviços operados pela OSMF estão sujeitos aos nossos
+        %{terms_of_use_link}, às %{aup_link} e à nossa %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Fundação OpenStreetMap
+      legal_1_1_terms_of_use: Termos de uso
+      legal_1_1_aup: Políticas de uso aceitável
+      legal_1_1_privacy_policy: Politica de privacidade
+      legal_2_1_html: Por favor, %{contact_the_osmf_link} se tiver dúvidas de licenciamento,
+        direitos de autor ou de outro teor.
+      legal_2_1_contact_the_osmf: contate a OSMF
+      legal_2_2_html: O OpenStreetMap, o logótipo da lupa e o State of the Map são
+        %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: marcas registadas da OSMF
       partners_title: Parceiros
     copyright:
@@ -1990,6 +2015,9 @@ pt-BR:
         mapping_link: começar a mapear
       legal_babble:
         title_html: Direitos autorais e licença
+        introduction_1_html: O OpenStreetMap%{registered_trademark_link} é composto
+          por %{open_data}, licenciados sob %{odc_odbl_link} (ODbL) pela %{osm_foundation_link}
+          (OSMF).
         introduction_1_open_data: dados abertos
         introduction_1_odc_odbl: Licença de banco de dados aberto de Oper Data Commons
         introduction_1_osm_foundation: OpenStreetMap Foundation
@@ -2001,6 +2029,8 @@ pt-BR:
         introduction_2_legal_code: código legal
         introduction_3_html: Nossa documentação é licenciada sob a licença %{creative_commons_link}
           (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Atribuição-CompartilhaIgual
+          2.0
         credit_title_html: Como fazer atribuição ao OpenStreetMap
         credit_1_html: 'Onde você usa dados do OpenStreetMap, é necessário fazer as
           duas coisas a seguir:'
@@ -2008,7 +2038,15 @@ pt-BR:
           autorais.
         credit_2_2: Deixe claro que os dados estão disponíveis sob a Open Database
           License.
+        credit_3_html: Para o aviso de direitos de autor, temos vários requisitos
+          para a sua exibição, dependendo da forma como usa os nossos dados. Por exemplo,
+          aplicam-se regras diferentes para a exibição do aviso de direitos de autor
+          conforme usar um mapa navegável, um mapa impresso ou uma imagem estática.
+          Poderá encontrar toda a informação sobre os requisitos nas %{attribution_guidelines_link}.
         credit_3_attribution_guidelines: Diretrizes de atribuição
+        credit_4_1_html: |-
+          Para deixar claro que os dados estão disponíveis sob a Licença de Base de Dados Abertos, é possível criar uma ligação para %{this_copyright_page_link}.
+          Em alternativa, e como requisito, se estiver a distribuir o OSM num formato de dados, pode nomear e ligar diretamente à(s) licença(s). Em plataformas multimídia onde as ligações não são possíveis (por exemplo, trabalhos impressos), sugerimos que direcione os seus utilizadores para openstreetmap.org (talvez expandindo "OpenStreetMap" para este endereço completo) e para opendatacommons.org. Neste exemplo, os créditos aparecem no canto do mapa.
         credit_4_1_this_copyright_page: esta página de direitos autorais
         attribution_example:
           alt: Exemplo de como atribuir o OpenStreetMap numa página web
@@ -2017,7 +2055,11 @@ pt-BR:
         more_1_1_html: Leia mais sobre como usar nossos dados e como nos creditar,
           na %{osmf_licence_page_link}.
         more_1_1_osmf_licence_page: Página de licença OSMF
+        more_2_1_html: |-
+          Embora o OpenStreetMap seja composto por dados abertos, não podemos fornecer API gratuitamente a terceiros.
+          Veja a nossa %{api_usage_policy_link}, %{tile_usage_policy_link} e %{nominatim_usage_policy_link}.
         more_2_1_api_usage_policy: Política de uso da API
+        more_2_1_tile_usage_policy: Política de uso de mosaicos
         more_2_1_nominatim_usage_policy: Política de uso do Nominatim
         contributors_title_html: Nossos contribuidores
         contributors_intro_html: |-
@@ -2028,17 +2070,45 @@ pt-BR:
           %{austria}: Contém dados de %{stadt_wien_link} (conforme %{cc_by_link}), %{land_vorarlberg_link}
           e Land Tirol (conforme %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Áustria
+        contributors_at_stadt_wien: Cidade de Viena
         contributors_at_cc_by: CC BY
         contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.pt_BR
+        contributors_at_land_vorarlberg: Estado de Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT com emendas
+        contributors_au_credit_html: |-
+          %{australia}: Incorpora ou foi desenvolvido usando Fronteiras Administrativas &copy; %{geoscape_australia_link}
+          licenciado pela Commonwealth Australia sob %{cc_licence_link}.
         contributors_au_australia: Austrália
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Atribuição Creative Commons 4.0 Licença Internacional
+          (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: Contém dados de GeoBase&reg;, GeoGratis
+          (&copy; Departamento de Recursos Naturais do Canadá), CanVec (&copy; Departamento
+          de Recursos Naturais do Canadá) e StatCan (Divisão de Geografia, Estatísticas
+          do Canadá).'
         contributors_ca_canada: Canadá
+        contributors_fi_credit_html: '%{finland}: Contém dados do Serviço Topográfico
+          Nacional da Base de Dados Topográfica da Finlândia e outros conjuntos de
+          dados, sob a %{nlsfi_license_link}.'
         contributors_fi_finland: Finlândia
+        contributors_fi_nlsfi_license: Licença NLSFI
+        contributors_fr_credit_html: '%{france}: contém dados provenientes da Direção
+          Geral de Impostos.'
         contributors_fr_france: França
+        contributors_nl_credit_html: '%{netherlands}: Contém &copy; e dados, 2007
+          (%{and_link})'
         contributors_nl_netherlands: Países Baixos
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Contém dados provenientes do %{linz_data_service_link}
+          e licenciados para reutilização sob %{cc_by_link}.
         contributors_nz_new_zealand: Nova Zelândia
         contributors_nz_linz_data_service: LINZ Data Service
         contributors_nz_cc_by: CC BY 4.0
+        contributors_si_credit_html: |-
+          %{slovenia}: Contém dados da %{gu_link} e %{mkgp_link}
+          (informação pública da Eslovénia).
         contributors_si_slovenia: Eslovenia
+        contributors_si_gu: Autoridade de Levantamento Topográfico e Mapeamento
         contributors_si_mkgp: Ministério da Agricultura, Silvicultura e Alimentos
         contributors_es_credit_html: '%{spain}: Contém dados do Instituto Geográfico
           Nacional da Espanha (%{ign_link}) e do Sitema de Cartografia Nacional (%{scne_link})
@@ -2046,7 +2116,13 @@ pt-BR:
         contributors_es_spain: Espanha
         contributors_es_ign: IGN
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Contém dados provenientes do
+          %{ngi_link}, reservados os direitos de autor do Estado.'
         contributors_za_south_africa: África do sul
+        contributors_za_ngi: 'Diretorado Superior: Informação Geoespacial Nacional'
+        contributors_gb_credit_html: '%{united_kingdom}: Contém dados do Serviço Cartográfico
+          e Topográfico &copy; Direitos de Autor da Coroa e Direito de Base de Dados
+          2010-2023.'
         contributors_gb_united_kingdom: Reino Unido
         contributors_2_html: Para mais detalhes come esses, e outras fontes que foram
           usadas para ajudar a melhor o OpenStreetMap, por favor veja a %{contributors_page_link}
@@ -2650,6 +2726,7 @@ pt-BR:
         mas certas ferramentas ou o servidor talvez ainda precisem.
       continue: Registrar-se
       terms accepted: Obrigado por aceitar os novos termos de contribuição!
+      privacy_policy: politica de privacidade
     terms:
       title: Termos
       heading: Termos
@@ -2915,6 +2992,15 @@ pt-BR:
       open_title: 'Nota não resolvida #%{note_name}'
       closed_title: 'Nota resolvida #%{note_name}'
       hidden_title: 'Nota oculta #%{note_name}'
+      event_opened_by_html: Criado por %{user} há %{time_ago}
+      event_opened_by_anonymous_html: Criado por anônimo há %{time_ago}
+      event_commented_by_html: Comentário de %{user} há %{time_ago}
+      event_commented_by_anonymous_html: Comentário de anônimo há %{time_ago}
+      event_closed_by_html: Resolvido por %{user} há %{time_ago}
+      event_closed_by_anonymous_html: Resolvido por anônimo há %{time_ago}
+      event_reopened_by_html: Re-ativado por %{user} há %{time_ago}
+      event_reopened_by_anonymous_html: Re-ativado por anônimo há %{time_ago}
+      event_hidden_by_html: Ocultado por %{user} há %{time_ago}
       report: denunciar esta nota
       anonymous_warning: Esta nota contém comentários de usuários anônimos que devem
         ser conferidos separadamente.
@@ -2992,6 +3078,11 @@ pt-BR:
         gps: Trilhas de GPS públicas
         overlays: Ativar sobreposições para solucionar problemas do mapa
         title: Camadas
+      openstreetmap_contributors: Contribuidores do OpenStreetMap
+      make_a_donation: Faça uma doação
+      website_and_api_terms: Termos do site e API
+      andy_allan: Andy Allan
+      memomaps: MeMoMaps
     site:
       edit_tooltip: Edite o mapa
       edit_disabled_tooltip: Aproxime para editar o mapa

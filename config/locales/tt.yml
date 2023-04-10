@@ -300,7 +300,13 @@ tt:
         хәбәрләр яза алмас һәм сезнең кайда булуыгызны белә алмас. Нәрсә үзгәрткәнегезне
         күрсәтер өчен һәм башкаларга сайт аша сезнең белән элемтәгә керергә мөмкинлек
         бирер өчен астагы төймәгә басыгыз.
+      only_public_can_edit: 0.6 API үзгәртүләр өеменнән башлап җәмәгый кулланучылар
+        гына харита бирелмәләрен үзгәртә ала.
       find_out_why: нигә икәнен белергә
+      email_not_revealed: Җәмәгый статуска күчкәндә дә сезнең электрон почта юлламагыз
+        ачыкланмаячак.
+      not_reversible: Бу гамәл кире кайтарыла алмый, һәм бар яңа кулланучылар килешенгәнчә
+        баядан җәмәгый була.
       make_edits_public_button: Мин ясалган үзгәртүләрне барысына да күрсәтергә
     update:
       success_confirm_needed: Кулланучы турында мәгълүмат уңышлы үзгәртелде. Яңа юлламаны
@@ -315,17 +321,50 @@ tt:
     closed_ago_html: 'Күпме вакыт элек ябылды: %{time_ago}'
     created_ago_by_html: 'Күпме вакыт элек ясалды: %{time_ago}, кем тарафыннан: %{user}'
     closed_ago_by_html: 'Күпме вакыт элек ябылды: %{time_ago}, кем тарафыннан: %{user}'
+    deleted_ago_by_html: 'Күпме вакыт элек бетерелде: %{time_ago}, кем тарафыннан:
+      %{user}'
+    edited_ago_by_html: 'Күпме вакыт элек үзгәртелде: %{time_ago}, кем тарафыннан:
+      %{user}'
     version: Юрама
+    in_changeset: Үзгәртүләр өеме
     anonymous: аноним
     no_comment: (шәрехләр юк)
+    part_of: Өлеш
     download_xml: XML күчереп алу
     view_history: Тарихын карау
+    view_details: Тулырак мәгълүмат
+    location: 'Урын:'
     changeset:
+      title: 'Үзгәртүләр өеме: %{id}'
       belongs_to: Автор
+      node: Нокталар (%{count})
+      node_paginated: Нокталар (%{count} ноктадан %{x}-%{y})
+      way: Сызыклар (%{count})
+      way_paginated: Сызыклар (%{count} сызыктан %{x}-%{y})
+      relation: Мөнәсәбәтләр (%{count})
+      relation_paginated: Мөнәсәбәтләр (%{count} мөнәсәбәттән %{x}-%{y})
+      comment: Шәрехләр (%{count})
+      hidden_comment_by_html: '%{user} исемле кулланучыдан яшерен шәрех %{time_ago}'
+      comment_by_html: '%{user} исемле кулланучыдан шәрех %{time_ago}'
+      changesetxml: Үзгәртүләр өеменең XMLы
+      osmchangexml: osmChange XML
+      feed:
+        title: '%{id} үзгәртүләр өеме'
+        title_comment: '%{id} үзгәртүләр өеме  -  %{comment}'
+      join_discussion: Бәхәстә катнашу өчен хисапъязмагызга керегез
       discussion: Фикер алышу
+      still_open: Үзгәртүләр өеме әлегә ачык. Ул ябылгач бәхәскә шунда ук керергә
+        мөмкин булыр.
+    node:
+      title_html: 'Нокта: %{name}'
+      history_title_html: 'Нокта тарихы: %{name}'
     way:
+      title_html: 'Сызык: %{name}'
+      history_title_html: 'Сызык тарихы: %{name}'
       nodes: Нокталар
     relation:
+      title_html: 'Мөнәсәбәт: %{name}'
+      history_title_html: 'Мөнәсәбәт тарихы: %{name}'
       members: Катнашучылар
     relation_member:
       type:
@@ -336,12 +375,15 @@ tt:
       entry_html: Мөнәсәбәт %{relation_name}
       entry_role_html: Мөнәсәбәт %{relation_name} (%{relation_role} сыйфатында)
     not_found:
+      title: Табылмады
       type:
         node: төен
         way: юл
         relation: мөнәсәбәт
         changeset: төзәтмәләр пакеты
+        note: искәрмә
     timeout:
+      title: Тайм-аут хата
       type:
         node: төен
         way: юл

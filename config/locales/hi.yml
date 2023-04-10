@@ -17,6 +17,7 @@
 # Author: Sfic
 # Author: Shubhamkanodia
 # Author: Siddhartha Ghai
+# Author: Suyash.dwivedi
 # Author: ThisIsACreeper0101
 # Author: Vdhatterwal
 # Author: पदाति
@@ -30,7 +31,7 @@ hi:
       prompt: फाइल चुनें
     submit:
       diary_comment:
-        create: सहेजें
+        create: टिप्पणी
       diary_entry:
         create: प्रकाशित करें
         update: सुधारें
@@ -111,11 +112,14 @@ hi:
       diary_entry:
         user: सदस्य
         title: विषय
+        body: मुख्यभाग
         latitude: अक्षांश
         longitude: देशांतर
         language_code: भाषा
       doorkeeper/application:
         name: नाम
+        redirect_uri: यूआरआई को पुनर्निर्देशित करें
+        confidential: गोपनीय आवेदन?
         scopes: अनुमतियां
       friend:
         user: सदस्य
@@ -144,14 +148,25 @@ hi:
         category: अपने रिपोर्ट का एक कारण दें
         details: कृपया अपनी समस्या के बारे में थोड़ी और जानकारी दें (ज़रूरी)
       user:
+        auth_provider: प्रमाणीकरण प्रदाता
+        auth_uid: प्रमाणीकरण यूआईडी
         email: ई-मेल
+        email_confirmation: ईमेल पुष्टिकरण
+        new_email: नया ई-मेल पता
         active: सक्रिय
         display_name: प्रदर्शन नाम
-        description: वर्णन
+        description: प्रोफाइल विवरण
+        home_lat: अक्षांश
+        home_lon: देशांतर
         languages: पसंदीदा भाषाएं
+        preferred_editor: पसंदीदा संपादक
         pass_crypt: पासवर्ड
         pass_crypt_confirmation: पासवर्ड कन्फर्म करें
     help:
+      doorkeeper/application:
+        confidential: एप्लिकेशन का उपयोग वहां किया जाएगा जहां क्लाइंट सीक्रेट को गोपनीय
+          रखा जा सकता है (देशी मोबाइल ऐप और सिंगल पेज ऐप गोपनीय नहीं हैं)
+        redirect_uri: प्रति यूआरआई एक पंक्ति का प्रयोग करें
       trace:
         tagstring: कॉमा डीलिमिट किया गया है
       user_block:
@@ -161,44 +176,46 @@ hi:
           सभी सदस्य इस समुदाय को पूरी तरह से नहीं समझ पाते, तो आसान शब्दों का इस्तेमाल
           करने की कोशिश करें।
         needs_view: क्या इस सदस्य को ब्लॉक के क्लियर होने से पहले लॉगइन करना होगा?
+      user:
+        new_email: (सार्वजनिक रूप से कभी प्रदर्शित नहीं किया गया)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: तकरीबन १ घंटा पहले
+        one: तकरीबन %{count} घंटा पहले
         other: तकरीबन %{count} घंटे पहले
       about_x_months:
-        one: तकरीबन १ महीना पहले
+        one: तकरीबन %{count} महीना पहले
         other: तकरीबन %{count} महीने पहले
       about_x_years:
-        one: तकरीबन १ साल पहले
+        one: तकरीबन %{count} साल पहले
         other: तकरीबन %{count} साल पहले
       almost_x_years:
-        one: करीब १ साल पहले
+        one: करीब %{count} साल पहले
         other: करीब %{count} साल पहले
       half_a_minute: करीब एक मिनट पहले
       less_than_x_seconds:
-        one: १ सेकंड से कम समय पहले
+        one: '%{count} सेकंड से कम समय पहले'
         other: '%{count} से कम समय पहले'
       less_than_x_minutes:
-        one: १ मिनट से कम समय पहले
+        one: '%{count} मिनट से कम समय पहले'
         other: '%{count} से कम समय पहले'
       over_x_years:
-        one: १ साल से ज़यादा समय पहले
+        one: '%{count} साल से ज़यादा समय पहले'
         other: less than %{count} सालों से ज़्यादा समय पहले
       x_seconds:
-        one: १ सेकंड पहले
+        one: '%{count} सेकंड पहले'
         other: '%{count} सेकंड पहले'
       x_minutes:
-        one: १ मिनट पहले
+        one: '%{count} मिनट पहले'
         other: '%{count} मिनट पहले'
       x_days:
-        one: १ दिन पहले
+        one: '%{count} दिन पहले'
         other: '%{count} दिन पहले'
       x_months:
-        one: एक महीने पहले
+        one: '%{count} महीने पहले'
         other: '%{count} महीने पहले'
       x_years:
-        one: १ साल पहले
+        one: '%{count} साल पहले'
         other: '%{count} साल पहले'
   editor:
     default: डिफ़ॉल्ट (currently %{name})
@@ -251,6 +268,8 @@ hi:
           खाता हटा सकते हैं। कृपया निम्नलिखित विवरणों पर ध्यान दें:'
         delete_profile: आपकी प्रोफ़ाइल जानकारी, जिसमें आपका अवतार, विवरण और घर का
           स्थान शामिल है, हटा दी जाएगी।
+        delete_display_name: 'आपका प्रदर्शन नाम हटा दिया जाएगा, और अन्य खातों द्वारा
+          इसका पुन: उपयोग किया जा सकता है।'
         confirm_delete: क्या आप निश्चित है?
         cancel: रद्द करें
   accounts:

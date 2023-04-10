@@ -116,7 +116,7 @@ es:
         create: Registrar
         update: Actualizar
       redaction:
-        create: Crear redacción
+        create: Crear censura
         update: Guardar redacción
       trace:
         create: Subir
@@ -253,41 +253,41 @@ es:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: hace cerca de 1 hora
+        one: hace cerca de %{count} hora
         other: hace cerca de %{count} horas
       about_x_months:
-        one: hace cerca de 1 mes
+        one: hace cerca de %{count} mes
         other: hace cerca de %{count} meses
       about_x_years:
-        one: hace cerca de 1 año
+        one: hace cerca de %{count} año
         other: hace cerca de %{count} años
       almost_x_years:
-        one: hace casi 1 año
+        one: hace casi %{count} año
         other: hace casi %{count} años
       half_a_minute: hace medio minuto
       less_than_x_seconds:
-        one: hace menos de 1 segundo
+        one: hace menos de %{count} segundo
         other: hace menos de %{count} segundos
       less_than_x_minutes:
-        one: hace menos de 1 minuto
+        one: hace menos de %{count} minuto
         other: hace menos de %{count} minutos
       over_x_years:
-        one: hace más de 1 año
+        one: hace más de %{count} año
         other: hace más de %{count} años
       x_seconds:
-        one: hace 1 segundo
+        one: hace %{count} segundo
         other: hace %{count} segundos
       x_minutes:
-        one: hace 1 minuto
+        one: hace %{count} minuto
         other: hace %{count} minutos
       x_days:
         one: ayer
         other: hace %{count} días
       x_months:
-        one: hace 1 mes
+        one: hace %{count} mes
         other: hace %{count} meses
       x_years:
-        one: hace 1 año
+        one: hace %{count} año
         other: hace %{count} años
   editor:
     default: Predeterminado (actualmente %{name})
@@ -321,7 +321,7 @@ es:
         title: Notas de OpenStreetMap
         description_area: Una lista de notas, informadas, comentadas o cerradas en
           su área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        description_item: Agregador RSS para la nota %{id}
+        description_item: Un suministro RSS para la nota %{id}
         opened: nueva nota (cerca de %{place})
         commented: nuevo comentario (cerca de %{place})
         closed: nota cerrada (cerca de %{place})
@@ -490,7 +490,7 @@ es:
         changeset: conjunto de cambios
         note: nota
     redacted:
-      redaction: Redacción %{id}
+      redaction: Censura %{id}
       message_html: La versión %{version} de este %{type} no se puede mostrar porque
         se ha censurado. Consúltese %{redaction_link} para obtener más detalles.
       type:
@@ -703,6 +703,11 @@ es:
       success: Ha quitado a %{name} de sus amigos.
       not_a_friend: '%{name} no es uno de sus amigos.'
   geocoder:
+    search:
+      title:
+        results_from_html: Resultados de %{results_link}
+        osm_nominatim: Nominatim de OpenStreetMap
+        osm_nominatim_reverse: Nominatim de OpenStreetMap
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -727,9 +732,9 @@ es:
           navigationaid: Ayuda a la navegación aérea
           parking_position: Punto de estacionamiento
           runway: Pista
-          taxilane: Carril de Taxi
+          taxilane: Pista de rodaje
           taxiway: Calle de rodaje
-          terminal: Terminal de Aeropuerto
+          terminal: Terminal de aeropuerto
           windsock: Manga de viento
         amenity:
           animal_boarding: Alojamiento de animales
@@ -1518,7 +1523,7 @@ es:
       reopen: Reabrir
       reports_of_this_issue: Informes de este problema
       read_reports: Leer reportes
-      new_reports: Nuevos reportes
+      new_reports: Informes nuevos
       other_issues_against_this_user: Otras incidencias en contra de este usuario
       no_other_issues: No hay otras incidencias en contra de este usuario.
       comments_on_this_issue: Comentarios sobre este informe
@@ -1602,8 +1607,8 @@ es:
     intro_text: OpenStreetMap es un mapa del mundo, creado por gente como tú y de
       uso libre bajo una licencia abierta.
     intro_2_create_account: Crear una cuenta de usuario
-    hosting_partners_html: El alojamiento es apoyado por %{ucl}, %{fastly}, %{bytemark},
-      y otros %{partners}.
+    hosting_partners_html: '%{ucl}, %{fastly}, %{bytemark} y otros %{partners} patrocinan
+      el alojamiento.'
     partners_ucl: UCL
     partners_fastly: Fastly
     partners_bytemark: Bytemark Hosting
@@ -1629,7 +1634,7 @@ es:
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} ha comentado en una entrada de diario'
-      hi: Hola %{to_user},
+      hi: 'Hola, %{to_user}:'
       header: '%{from_user} ha comentado sobre en la entrada de diario con el asunto
         %{subject}:'
       header_html: '%{from_user} ha comentado la entrada de diario con el asunto %{subject}:'
@@ -2001,12 +2006,15 @@ es:
         de OpenStreetMap</a>, \n<a href='%{diary_path}'>diarios de los usuarios</a>,
         \n<a href='http://blogs.openstreetmap.org/'>blogs comunitarios</a>, y \nel
         sitio web de la <a href='http://www.osmfoundation.org/'>Fundación OSM</a>."
+      community_driven_osm_blog: Blog de OpenStreetMap
+      community_driven_community_blogs: blogs comunitarios
       open_data_title: Datos abiertos
       open_data_1_html: 'OpenStreetMap es <i>datos abiertos</i>: puede usarlo libremente
         para cualquier propósito siempre que dé crédito a OpenStreetMap y a sus colaboradores.
         Si altera o se basa en los datos de alguna manera, sólo puede distribuir el
         resultado bajo la misma licencia. Consulte la <a href=''%{copyright_path}''>página
         sobre Derechos de autor y Licencia</a> para obtener más detalles.'
+      open_data_open_data: datos abiertos
       legal_title: Legal
       legal_1_1_html: "Este sitio y muchos otros servicios relacionados son gestionados
         formalmente por la  \n<a href='https://osmfoundation.org/'>Fundación OpenStreetMap</a>
@@ -2015,6 +2023,8 @@ es:
         de uso</a>,  <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nnormativa
         de uso aceptable</a> y nuestra <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">normativa
         de privacidad</a>."
+      legal_1_1_aup: Normativas de uso aceptable
+      legal_1_1_privacy_policy: Normativa de privacidad
       partners_title: Socios
     copyright:
       foreign:
@@ -2031,17 +2041,38 @@ es:
         mapping_link: comenzar a cartografiar
       legal_babble:
         title_html: Derechos de autor y licencia
+        introduction_1_open_data: datos abiertos
+        introduction_1_odc_odbl: Licencia de bases de datos abiertas de Open Data
+          Commons
         credit_title_html: Cómo dar reconocimiento a OpenStreetMap
         credit_1_html: 'Cuando utilice datos de OpenStreetMap, deberá hacer las dos
           cosas siguientes:'
+        credit_3_attribution_guidelines: Directrices de atribución
         attribution_example:
           alt: Ejemplo de como dar reconocimiento a OpenStreetMap en una página web
           title: Ejemplo de atribución
         more_title_html: Para saber más...
+        more_2_1_api_usage_policy: Normativa de uso de la API
+        more_2_1_nominatim_usage_policy: Normativa de uso de Nominatim
         contributors_title_html: Nuestros colaboradores
         contributors_intro_html: 'Nuestros colaboradores son miles de personas. Incluimos
           también datos con licencia abierta de organismos cartográficos nacionales
           y otras fuentes, entre ellas:'
+        contributors_at_austria: Austria
+        contributors_au_australia: Australia
+        contributors_ca_canada: Canadá
+        contributors_fi_finland: Finlandia
+        contributors_fi_nlsfi_license: Licencia NLSFI
+        contributors_fr_france: Francia
+        contributors_nl_netherlands: Países Bajos
+        contributors_nz_new_zealand: Nueva Zelanda
+        contributors_nz_linz_data_service: Servicio de datos de LINZ
+        contributors_si_slovenia: Eslovenia
+        contributors_si_mkgp: Ministerio de Agricultura, Silvicultura y Alimentación
+        contributors_es_spain: España
+        contributors_es_ign: IGN
+        contributors_za_south_africa: Sudáfrica
+        contributors_gb_united_kingdom: Reino Unido
         contributors_footer_2_html: La inclusión de datos en OpenStreetMap no implica
           que el proveedor de la información original apoya a OpenStreetMap, proporciona
           alguna garantía, o acepta cualquier responsabilidad.
@@ -2050,6 +2081,8 @@ es:
           añadir información procedente de ninguna fuente con derechos de autor reservados
           (p. ej. Google Maps o mapas impresos) sin el consentimiento explícito de
           los poseedores de los derechos de autor.
+        trademarks_title: Marcas
+        trademarks_1_1_trademark_policy: Normativa de marcas
     index:
       js_1: Está usando un navegador que no soporta o tiene desactivado JavaScript
       js_2: OpenStreetMap utiliza JavaScript para mostrar su mapa
@@ -2399,7 +2432,7 @@ es:
       edit_map: Editar mapa
       public: PÚBLICO
       identifiable: IDENTIFICABLE
-      private: PRIVADO
+      private: PRIVADA
       trackable: RASTREABLE
       by: por
       in: en
@@ -2606,6 +2639,7 @@ es:
         aunque hay algunas herramientas y servidores que aún la solicitan.
       continue: Registrarse
       terms accepted: ¡Gracias por aceptar los nuevos términos de colaborador!
+      privacy_policy: normativa de privacidad
     terms:
       title: Términos
       heading: Términos
@@ -2806,19 +2840,19 @@ es:
       time_past_html: Finalizado %{time}.
       block_duration:
         hours:
-          one: 1 hora
+          one: '%{count} hora'
           other: '%{count} horas'
         days:
-          one: 1 día
+          one: '%{count} día'
           other: '%{count} días'
         weeks:
-          one: 1 semana
+          one: '%{count} semana'
           other: '%{count} semanas'
         months:
-          one: 1 mes
+          one: '%{count} mes'
           other: '%{count} meses'
         years:
-          one: 1 año
+          one: '%{count} año'
           other: '%{count} años'
     blocks_on:
       title: Bloqueos sobre %{name}
@@ -2951,6 +2985,7 @@ es:
         gps: Trazas GPS públicas
         overlays: Activar superposiciones para solucionar problemas en el mapa
         title: Capas
+      osm_france: OpenStreetMap Francia
     site:
       edit_tooltip: Editar el mapa
       edit_disabled_tooltip: Acercar para editar el mapa
@@ -3083,21 +3118,21 @@ es:
       centre_map: Centrar el mapa aquí
   redactions:
     edit:
-      heading: Editar redacción
+      heading: Editar censura
       title: Editar redacción
     index:
-      empty: No hay ninguna redacción que mostrar.
+      empty: No hay ninguna censura que mostrar.
       heading: Lista de redacciones
-      title: Lista de redacciones
+      title: Lista de censuras
     new:
-      heading: Introduzca la información de la nueva redacción
+      heading: Introduzca la información de la censura nueva
       title: Creando nueva redacción
     show:
       description: 'Descripción:'
       heading: Mostrando redacción "%{title}"
       title: Mostrando redacción
       user: 'Creador:'
-      edit: Editar esta redacción
+      edit: Editar esta censura
       destroy: Eliminar esta redacción
       confirm: ¿Está seguro?
     create:
@@ -3108,7 +3143,7 @@ es:
       not_empty: La redacción no está vacía. Elimine todas las versiones previas pertenecientes
         a esta redacción antes de destruirla.
       flash: Redacción destruida.
-      error: Se produjo un error al destruir esta redacción
+      error: Se produjo un error al destruir esta censura.
   validations:
     leading_whitespace: tiene espacio en blanco delantero
     trailing_whitespace: tiene espacio en blanco final
