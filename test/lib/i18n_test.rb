@@ -55,6 +55,20 @@ class I18nTest < ActiveSupport::TestCase
     end
   end
 
+  def test_en_for_raw_html
+    en = YAML.load_file(Rails.root.join("config/locales/en.yml"))
+    assert_nothing_raised do
+      check_values_for_raw_html(en)
+    end
+  end
+
+  def test_en_for_nil_values
+    en = YAML.load_file(Rails.root.join("config/locales/en.yml"))
+    assert_nothing_raised do
+      check_values_for_nil(en)
+    end
+  end
+
   private
 
   def translation_keys(scope = nil)
@@ -80,5 +94,26 @@ class I18nTest < ActiveSupport::TestCase
     I18n.t("i18n.plural.keys", :locale => locale, :raise => true) + [:zero]
   rescue I18n::MissingTranslationData
     [:zero, :one, :other]
+  end
+
+  def check_values_for_raw_html(hash)
+    hash.each_pair do |k, v|
+      if v.is_a? Hash
+        check_values_for_raw_html(v)
+      else
+        next unless k.end_with?("_html")
+        raise "Avoid using raw html in '#{k}: #{v}'" if v.include? "<"
+      end
+    end
+  end
+
+  def check_values_for_nil(hash)
+    hash.each_pair do |k, v|
+      if v.is_a? Hash
+        check_values_for_nil(v)
+      else
+        raise "Avoid nil values in '#{k}: nil'" if v.nil?
+      end
+    end
   end
 end
