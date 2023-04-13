@@ -421,6 +421,8 @@ cs:
       relation: Relace (%{count})
       relation_paginated: Relace (%{x}–%{y} z %{count})
       comment: Komentáře (%{count})
+      hidden_comment_by_html: Skrytý komentář od uživatele %{user} %{time_ago}
+      comment_by_html: Komentář od uživatele %{user} %{time_ago}
       changesetxml: Sada změn XML
       osmchangexml: osmChange XML
       feed:
@@ -691,6 +693,12 @@ cs:
       success: '%{name} byl odstraněn z vašich přátel.'
       not_a_friend: '%{name} není mezi vašimi přáteli.'
   geocoder:
+    search:
+      title:
+        results_from_html: Výsledky z %{results_link}
+        latlon: Interní
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1483,6 +1491,7 @@ cs:
       status: Stav
       reports: Hlášení
       last_updated: Poslední změna
+      last_updated_time_ago_user_html: '%{time_ago} uživatelem %{user}'
       link_to_reports: Zobrazit hlášení
       reports_count:
         one: '%{count} Hlášení'
@@ -1657,6 +1666,11 @@ cs:
       subject: '[OpenStreetMap] Neúspěšný import GPX'
     gpx_success:
       hi: Ahoj %{to_user},
+      loaded:
+        one: úspěšně načteno s %{trace_points} z možného %{count} bodu.
+        few: úspěšně načteno s %{trace_points} z možných %{count} bodů.
+        many: úspěšně načteno s %{trace_points} z možných %{count} bodů.
+        other: úspěšně načteno s %{trace_points} z možných %{count} bodů.
       subject: '[OpenStreetMap] Úspěšný import GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Vítejte v OpenStreetMap'
@@ -1757,6 +1771,8 @@ cs:
       success: Účet potvrzen, děkujeme za registraci!
       already active: Tento uživatelský účet už byl potvrzen.
       unknown token: Zadaný potvrzovací kód vypršel nebo neexistuje.
+      resend_html: Pokud potřebujete, abychom znovu poslali potvrzovací e-mail, %{reconfirm_link}.
+      click_here: klikněte zde
     confirm_resend:
       failure: Uživatel %{name} nebyl nalezen.
     confirm_email:
@@ -1948,6 +1964,7 @@ cs:
       support: podporu
   shared:
     markdown_help:
+      heading_html: Analyzováno pomocí %{kramdown_link}
       headings: Nadpisy
       heading: Nadpis
       subheading: Podnadpis
@@ -1966,6 +1983,7 @@ cs:
   site:
     about:
       next: Další
+      heading_html: '%{copyright}přispěvatelů%{br} OpenStreetMap'
       used_by_html: '%{name} poskytuje mapová data pro tisíce webových stránek, mobilních
         aplikací a hardwarových zařízení'
       lede_text: OpenStreetMap tvoří komunita uživatelů, kteří přidávají a udržují
@@ -1976,8 +1994,37 @@ cs:
         využívají letecké snímky, GPS přístroje a klasické mapy, aby ověřili, že OSM
         je přesné a aktuální.
       community_driven_title: Řízeno komunitou
+      community_driven_1_html: |-
+        Komunita OpenStreetMap je různorodá, vášnivá a každý den se rozrůstá. Mezi našimi přispěvateli najdete amatérské kreslíře map, profesionály z oblasti GIS, techniky spravující servery OSM, humanitární pracovníky mapující oblasti zasažené neštěstím a mnohé další.
+        Pokud se chcete o komunitě dozvědět více, prohlédněte si <a href='%{osm_blog_link}'>blog OpenStreetMap</a>, <a href='%{user_diaries_link}'>uživatelské deníky</a>, <a href='%{community_blogs_link}'>komunitní blogy</a> a webovou stránku <a href='%{osm_foundation_link}'>nadace OSM Foundation</a>.
+      community_driven_osm_blog: Blog OpenStreetMap
+      community_driven_user_diaries: deníky uživatelů
+      community_driven_community_blogs: komunitní blogy
+      community_driven_osm_foundation: Nadace OSM
       open_data_title: Otevřená data
+      open_data_1_html: 'OpenStreetMap tvoří <a href=''%{open_data}''>otevřená data</a>:
+        smíte je užívat pro libovolný účel, pokud uvádíte autorství OpenStreetMap
+        a jeho přispěvatelů. Pokud data měníte nebo rozšiřujete jistými způsoby, smíte
+        výsledek šířit jen pod stejnou licencí. Podrobnosti najdete na stránce <a
+        href=''%{copyright_license_link}''>Autorská práva a licence</a>.'
+      open_data_open_data: otevřená data
+      open_data_copyright_license: Autorská práva a Licence
       legal_title: Právní informace
+      legal_1_1_html: Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně
+        provozuje <a href='%{openstreetmap_foundation_link}'>OpenStreetMap Foundation</a>
+        (OSMF). Použití všech služeb provozovaných OSMF podléhá našim <a href="%{terms_of_use_link}">Podmínkám
+        užití</a>, <a href="%{aup_link}">Pravidlům přijatelného užití</a> a našim
+        <a href="%{privacy_policy_link}">Pravidlům ochrany osobních údajů</a>.
+      legal_1_1_openstreetmap_foundation: Nadace OpenStreetMap
+      legal_1_1_terms_of_use: Podmínky užití
+      legal_1_1_aup: Zásady přijatelného použití
+      legal_1_1_privacy_policy: Zásady ochrany osobních údajů
+      legal_2_1_html: |-
+        Prosím, %{contact_the_osmf_link},
+        pokud máte otázky týkající se licencí, autorských práv nebo jiné právní otázky.
+      legal_2_1_contact_the_osmf: kontaktujte OSMF
+      legal_2_2_html: OpenStreetMap, logo lupy a stav mapy jsou %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: registrované ochranné známky OSMF
       partners_title: Partneři
     copyright:
       foreign:
@@ -1994,17 +2041,87 @@ cs:
         mapping_link: začít mapovat
       legal_babble:
         title_html: Autorská práva a licence
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} jsou %{open_data}, licencováno pod
+          %{odc_odbl_link} (ODbL) od %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: otevřená data
+        introduction_1_odc_odbl: Open Data Commons Open Database License
+        introduction_1_osm_foundation: Nadace OpenStreetMap
+        introduction_2_html: Smíte kopírovat, distribuovat, sdělovat veřejnosti a
+          upravovat naše data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele.
+          Pokud naše data budete upravovat nebo je použijete ve svém díle, musíte
+          výsledek šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny
+          v plném <a href="%{legal_code_link}">licenčním ujednání</a>.
+        introduction_2_legal_code: právní kodex
+        introduction_3_html: Naše dokumentace je licencována pod licencí %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Uveďte autora-Zachovejte
+          licenci 2.0
         credit_title_html: Jak uvádět OpenStreetMap
         credit_1_html: 'Pokud používáte data OpenStreetMap, máte povinnost učinit
           následující dvě věci:'
+        credit_2_1: Poděkujte OpenStreetMap zobrazením našeho upozornění na autorská
+          práva.
+        credit_2_2: Ujistěte se, že jsou data dostupná pod licencí Open Database License.
+        credit_3_html: |-
+          Co se týká uvedení autorských práv, liší se naše požadavky podle toho,
+          jak naše data používáte. Různá pravidla například platí, když tvoříte
+          interaktivní mapu, tištěnou mapu nebo statický obrázek. Podrobné
+          informace k požadavkům naleznete
+          v %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: Pokynech pro uvádění původu
+        credit_4_1_html: |-
+          Aby bylo zřejmé, že jsou data dostupná za podmínek Open
+          Database License, můžete odkázat na
+          %{this_copyright_page_link}. Jinou možností – a povinností v případě,
+          že OSM šíříte v datové podobě, můžete uvést a odkázat přímo
+          na licenci. Ve formě, ve které odkazování není možné (např.
+          v tištěných dílech), navrhujeme, abyste čtenáře nasměřovali
+          na openstreetmap.org (např. rozšířením „OpenStreetMap“ na
+          tuto celou adresu) a opendatacommons.org.
+          V tomto příkladu se informace o zdroji objevuje v rohu mapy.
+        credit_4_1_this_copyright_page: tuto stránku k autorským právům
         attribution_example:
           alt: Příklad, jak uvádět autorství OpenStreetMap na webové stránce
           title: Příklad uvedení autorství
         more_title_html: Další informace
+        more_1_1_html: Další informace o používání našich dat a o tom, jak nám připsat
+          kredit, naleznete na %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: licenční stránce OSMF
+        more_2_1_html: |-
+          Přestože jsou OpenStreetMap otevřená data, nemůžeme třetím stranám poskytovat
+          bezplatné mapové API.
+          Viz naše %{api_usage_policy_link}, %{tile_usage_policy_link} a %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: Zásady používání API
+        more_2_1_tile_usage_policy: Zásady používání dlaždic
+        more_2_1_nominatim_usage_policy: Zásady používání Nominatim
         contributors_title_html: Naši přispěvatelé
         contributors_intro_html: 'Našimi přispěvateli jsou tisíce jednotlivců. Také
           zahrnujeme svobodně licencovaná data z národních zeměměřických úřadů a dalších
           zdrojů, mimo jiné:'
+        contributors_at_credit_html: '%{austria}: Obsahuje data z %{stadt_wien_link}
+          (pod %{cc_by_link}), %{land_vorarlberg_link} a Land Tirol (pod %{cc_by_at_with_amendments_link}).'
+        contributors_at_austria: Rakousko
+        contributors_at_stadt_wien: města Vídeň
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Země Vorarlbersko
+        contributors_at_cc_by_at_with_amendments: CC BY AT se změnami
+        contributors_au_credit_html: |-
+          %{australia}: Začleněno nebo vyvinuto pomocí administrativních hranic © %{geoscape_australia_link}
+          licencováno Australským společenstvím pod %{cc_licence_link}.
+        contributors_au_australia: Austrálie
+        contributors_au_geoscape_australia: Geoscape Austrálie
+        contributors_au_cc_licence: mezinárodní licencí Creative Commons Attribution
+          4.0 (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: Obsahuje data z GeoBase&reg;, GeoGratis
+          (&copy; Department of Natural Resources Canada), CanVec (&copy; Department
+          of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).'
+        contributors_ca_canada: Kanada
+        contributors_fi_credit_html: |-
+          %{finland}: Obsahuje data z topografické databáze
+          National Land Survey of Finland
+          a dalších datových sad pod %{nlsfi_license_link}.
+        contributors_fi_finland: Finsko
         contributors_footer_2_html: Zahrnutí dat do OpenStreetMap neznamená, že původní
           poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá
           jakoukoli zodpovědnost.
@@ -2354,8 +2471,9 @@ cs:
     trace:
       pending: ZPRACOVÁVÁ SE
       count_points:
-        one: 1 bod
+        one: '%{count} bod'
         few: '%{count} body'
+        many: '%{count} bodů'
         other: '%{count} bodů'
       more: více
       trace_details: Zobrazit podrobnosti stopy
@@ -2759,23 +2877,29 @@ cs:
       time_past_html: Ukončeno %{time}.
       block_duration:
         hours:
-          one: 1 hodina
-          other: '%{count} hodiny'
+          one: '%{count} hodina'
+          few: '%{count} hodiny'
+          many: '%{count} hodin'
+          other: '%{count} hodin'
         days:
-          one: 1 den
+          one: '%{count} den'
           few: '%{count} dny'
+          many: '%{count} dnů'
           other: '%{count} dnů'
         weeks:
-          one: 1 týden
+          one: '%{count} týden'
           few: '%{count} týdny'
+          many: '%{count} týdnů'
           other: '%{count} týdnů'
         months:
-          one: 1 měsíc
+          one: '%{count} měsíc'
           few: '%{count} měsíce'
+          many: '%{count} měsíců'
           other: '%{count} měsíců'
         years:
-          one: 1 rok
+          one: '%{count} rok'
           few: '%{count} roky'
+          many: '%{count} let'
           other: '%{count} let'
     blocks_on:
       title: Zablokování uživatele %{name}
@@ -2887,12 +3011,14 @@ cs:
       locate:
         title: Ukázat moji polohu
         metersPopup:
-          one: Od tohoto bodu jste vzdáleni metr
+          one: Od tohoto bodu jste vzdáleni %{count} metr
           few: Od tohoto bodu jste vzdáleni %{count} metry
+          many: Od tohoto bodu jste vzdáleni %{count} metrů
           other: Od tohoto bodu jste vzdáleni %{count} metrů
         feetPopup:
-          one: Od tohoto bodu jste vzdáleni jednu stopu
+          one: Od tohoto bodu jste vzdáleni %{count} stopu
           few: Od tohoto bodu jste vzdáleni %{count} stopy
+          many: Od tohoto bodu jste vzdáleni %{count} stop
           other: Od tohoto bodu jste vzdáleni %{count} stop
       base:
         standard: Standardní

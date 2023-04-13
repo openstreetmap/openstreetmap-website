@@ -325,6 +325,12 @@ sc:
   browse:
     created: Creadu
     closed: Serradu
+    created_ago_html: Creadu %{time_ago}
+    closed_ago_html: Tancadu %{time_ago}
+    created_ago_by_html: Creadu %{time_ago} dae %{user}
+    closed_ago_by_html: Tancadu %{time_ago} dae %{user}
+    deleted_ago_by_html: Iscantzelladu %{time_ago} dae %{user}
+    edited_ago_by_html: Modificadu %{time_ago} dae %{user}
     version: Versione
     in_changeset: Annantu de modìficas
     anonymous: anònimu
@@ -350,6 +356,8 @@ sc:
       relation: Relatziones (%{count})
       relation_paginated: Relatziones (%{x}-%{y} de %{count})
       comment: Cummentos (%{count})
+      hidden_comment_by_html: Cummentu cuadu de %{user} %{time_ago}
+      comment_by_html: Cummentu de %{user} %{time_ago}
       changesetxml: XML de s'annantu de modìficas
       osmchangexml: XML in formadu osmChange
       feed:
@@ -619,6 +627,12 @@ sc:
       success: '%{name} est istadu bogadu dae sos amigos tuos.'
       not_a_friend: '%{name} no est unu de sos amigos tuos.'
   geocoder:
+    search:
+      title:
+        results_from_html: Resurtados dae %{results_link}
+        latlon: Internu
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1414,6 +1428,7 @@ sc:
       status: Istadu
       reports: Informes
       last_updated: Ùrtimu agiornamentu
+      last_updated_time_ago_user_html: '%{time_ago} dae %{user}'
       link_to_reports: Abbàida sos informes
       reports_count:
         one: '%{count} sinnalatzione'
@@ -1589,6 +1604,10 @@ sc:
       subject: '[OpenStreetMap] Faddina de importatzione de GPX'
     gpx_success:
       hi: Salude %{to_user},
+      loaded:
+        one: carrigadu in manera curreta cun %{trace_points} de 1 puntu possìbile.
+        other: carrigadu in manera curreta cun %{trace_points} de %{count} puntos
+          possìbiles.
       subject: '[OpenStreetMap] GPX importadu chene problemas'
     signup_confirm:
       subject: '[OpenStreetMap] Bene bènnidu in OpenStreetMap'
@@ -1693,6 +1712,7 @@ sc:
       success: As cunfirmadu su contu tuo, gràtzias pro t'èssere registradu!
       already active: Custu contu est istadu giai cunfirmadu.
       unknown token: Custu còdighe de cunfirma est iscadidu o no esistet.
+      resend_html: Si bisòngias chi ti torremus a imbiare sa lìtera de cunfirma, %{reconfirm_link}.
       click_here: incarca inoghe
     confirm_resend:
       failure: Utente %{name} no agatadu.
@@ -1889,6 +1909,7 @@ sc:
       support: assistèntzia
   shared:
     markdown_help:
+      heading_html: Analizadu cun %{kramdown_link}
       headings: Intestatziones
       heading: Intestatzione
       subheading: Sutatìtulu
@@ -1907,6 +1928,7 @@ sc:
   site:
     about:
       next: Imbeniente
+      heading_html: '%{copyright}Contribuidores%{br} de OpenStreetMap'
       used_by_html: '%{name} frunit datos cartogràficos a mìgias de sitos web, aplicatziones
         pro telefoneddos e dispositivos fìsicos'
       lede_text: OpenStreetMap est fraigadu dae una comunidade de mapadores chi frunint
@@ -1917,8 +1939,38 @@ sc:
         OpenStreetMap daet valore a sa connoschèntzia locale. Sos collaboradores impreant immàgines aèreas, dispositivos GPS e mapas clàssicas de su terrinu pro verificare chi OSM
         siat pretzisas e atualizadas.
       community_driven_title: Ghiadu dae sa comunidade
+      community_driven_1_html: |-
+        Sa comunidade de OpenStreetMap est diversa, apassionada e creschet cada die.
+        Intre sos contribuidores nostros b'ant cartògrafos entusiastas, professionistas de GIS, ingegneris
+        chi gestint sos serbidores de OSM, voluntàrios chi mapant sas zonas tocadas dae disastros
+        e medas àteros.
+        Pro imparare de prus subra de sa comunidade pòmpia·ti su
+        %{osm_blog_link},
+        sos %{user_diaries_link},
+        sos %{community_blogs_link}, e
+        su situ web de sa %{osm_foundation_link}.
+      community_driven_osm_blog: blog de OpenStreetMap
+      community_driven_user_diaries: diàrios de sos utentes
+      community_driven_community_blogs: blogs de sa comunidade
+      community_driven_osm_foundation: Fundatzione OSM
       open_data_title: Datos abertos
+      open_data_1_html: |-
+        OpenStreetMap est a %{open_data}: ses lìberu de l'impreare pro cale si siat punna,
+        bastat chi pòngias in craru chi sos datos sunt òpera de OpenStreetMap e de sos contribuidores suos. Si modìficas o
+        isvilupas carchi cosa cosa partende dae sos datos in unas cantas maneras ispetzìficas, podes publicare sos resurtados petzi
+        suta de sa matessi lissèntzia. Pòmpia·ti sa %{copyright_license_link} pro sos detàllios.
+      open_data_open_data: datos abertos
+      open_data_copyright_license: pàgina de su deretu de autore e de sa litzèntzia
       legal_title: Notas legales
+      legal_1_1_html: |-
+        Custu situ web e medas àteros servìtzios relatzionados sunt operados, in manera formale, dae sa
+        %{openstreetmap_foundation_link} (OSMF)
+        on behalf of the community. in nùmene de sa comunidade. S'impreu de totu sos servìtzios operados dae s'OSMF est sugetu
+        a sas <%{terms_of_use_link}, a sas %{aup_link} e a sa %{privacy_policy_link} nostras.
+      legal_1_1_openstreetmap_foundation: Fundatzione OpenStreetMap
+      legal_1_1_terms_of_use: Cunditziones de impreu
+      legal_1_1_aup: Polìticas de impreu atzetàbile
+      legal_1_1_privacy_policy: Polìtica de riservadesa
       partners_title: Sòtzios
     copyright:
       foreign:
