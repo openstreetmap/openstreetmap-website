@@ -355,6 +355,9 @@ fi:
     closed: Suljettu
     created_ago_html: Luotu %{time_ago}
     closed_ago_html: Suljettu %{time_ago}
+    created_ago_by_html: Luonut %{user}, %{time_ago}
+    closed_ago_by_html: Sulkenut %{user}, %{time_ago}
+    deleted_ago_by_html: Poistanut %{user}, %{time_ago}
     edited_ago_by_html: Muokannut %{time_ago} %{user}
     version: Versio
     in_changeset: Muutoskokoelma
@@ -1803,7 +1806,6 @@ fi:
       image: Kuva
       gravatar:
         gravatar: Käytä Gravataria
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Mikä on Gravatar?
         disabled: Gravatar on poistettu käytöstä.
         enabled: Gravatarisi näyttäminen on otettu käyttöön.
@@ -1944,6 +1946,19 @@ fi:
         mapping_link: aloittaa kartoituksen
       legal_babble:
         title_html: Tekijänoikeus ja lisenssi
+        introduction_1_html: OpenStreetMap%{registered_trademark_link} on %{open_data},
+          jonka %{osm_foundation_link} (OSMF) on lisensoinut %{odc_odbl_link} (ODbL).
+        introduction_1_open_data: avointa dataa
+        introduction_1_odc_odbl: Open Data Commons Open Database -lisenssillä
+        introduction_1_osm_foundation: OpenStreetMap Foundation
+        introduction_2_html: OpenStreetMapin karttoja ja tietoja voi kopioida, levittää,
+          välittää ja mukauttaa, kunhan OpenStreetMap ja sen tekijät mainitaan. Jos
+          karttoja tai tietoja muutetaan tai kehitetään, niitä saa levittää vain samalla
+          lisenssillä. %{legal_code_link} mainitaan levittäjän oikeudet ja velvollisuudet.
+        introduction_2_legal_code: Lakitekstissä
+        introduction_3_html: Dokumentaatio on lisensoitu %{creative_commons_link}
+          -lisenssillä (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Nimeä-JaaSamoin 2.0
         credit_title_html: OpenStreetMapin mainitseminen
         credit_1_html: 'Kun käytät OpenStreetMap-tietoja, sinun on tehtävä nämä kaksi
           asiaa:'
@@ -1951,23 +1966,56 @@ fi:
           alt: Esimerkki siitä, miten nimetä OpenStreetMap nettisivulla
           title: Nimeämisesimerkki
         more_title_html: Lisätietoja
+        more_1_1_osmf_licence_page: OSMF-lisenssisivu
+        more_2_1_html: Vaikka OpenStreetMap on avointa dataa, emme voi tarjota maksutonta
+          karttarajapintaa (API) kolmannen osapuolen kehittäjille. Tutustu %{api_usage_policy_link},
+          %{tile_usage_policy_link} ja %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: API:n käyttöehtoihin
+        more_2_1_tile_usage_policy: kartta-aineiston käyttöehtoihin
         contributors_title_html: Tekijät
         contributors_intro_html: |-
           Tekijöinämme on tuhansia yksityishenkilöitä. Olemme myös sisällyttäneet
           vapaasti lisensoitua dataa kansallisilta kartoitustoimistoilta
           ja muista lähteistä, muun muassa:
+        contributors_at_credit_html: '%{austria}: Sisältää karttatietoja %{stadt_wien_link}
+          (%{cc_by_link}), %{land_vorarlberg_link} ja Land Tirolesta (%{cc_by_at_with_amendments_link})'
         contributors_at_austria: Itävalta
+        contributors_at_stadt_wien: Stadt Wienistä
+        contributors_at_cc_by: CC BY -lisenssillä
+        contributors_at_land_vorarlberg: Land Vorarlbergistä
+        contributors_at_cc_by_at_with_amendments: CC-BY AT -lisenssillä tietyin muutoksin
         contributors_au_australia: Australia
         contributors_au_geoscape_australia: Geoscape Australia
+        contributors_ca_credit_html: |-
+          %{canada}: Sisältää karttatietoja GeoBasesta&reg;, GeoGratisista (&copy; Department of Natural
+          Resources Canada), CanVecista (&copy; Department of Natural
+          Resources Canada), ja StatCanista (Geography Division,
+          Statistics Canada).
         contributors_ca_canada: Kanada
+        contributors_fi_credit_html: '%{finland}: Sisältää karttatietoja Maanmittauslaitoksen
+          maastotietokannasta ja muista lähteistä %{nlsfi_license_link} mukaisesti.'
         contributors_fi_finland: Suomi
-        contributors_fi_nlsfi_license: NLSFI-lisenssi
+        contributors_fi_nlsfi_license: Maanmittauslaitoksen lisenssin
+        contributors_fr_credit_html: '%{france}: Sisältää karttatietoja Direction
+          Générale des Impôtsista.'
         contributors_fr_france: Ranska
+        contributors_nl_credit_html: '%{netherlands}: Sisältää &copy; AND-karttatietoja
+          vuodelta 2007 (%{and_link})'
         contributors_nl_netherlands: Alankomaat
         contributors_nz_new_zealand: Uusi-Seelanti
+        contributors_si_credit_html: '%{slovenia}: Sisältää %{gu_link} sekä %{mkgp_link}
+          tuottamia karttatietoja (Slovenian julkista karttamateriaalia).'
         contributors_si_slovenia: Slovenia
+        contributors_si_gu: Maanmittaus- ja kartoitusviranomaisen
+        contributors_si_mkgp: Maatalous-, metsä- ja ruokaministeriön
         contributors_es_spain: Espanja
+        contributors_za_credit_html: '%{south_africa}: Sisältää karttatietoja %{ngi_link},
+          kaikki oikeudet pidätetään.'
         contributors_za_south_africa: Etelä-Afrikka
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Informationista'
+        contributors_gb_credit_html: '%{united_kingdom}: Sisältää Ordnance Surveyn
+          keräämiä karttatietoja &copy; Crown Copyright ja tietokantojen käyttöoikeuden
+          2010-2023.'
         contributors_gb_united_kingdom: Yhdistynyt kuningaskunta
         contributors_footer_2_html: |-
           Tietojen sisältyminen OpenStreetMapiin ei tarkoita, että tietojen antaja
@@ -2483,6 +2531,7 @@ fi:
         tai palvelimet voivat silti vaatia sitä.
       continue: Rekisteröidy
       terms accepted: Kiitos uusien osallistujaehtojen hyväksymisestä!
+      privacy_policy: tietosuojakäytäntö
     terms:
       title: Ehdot
       heading: Ehdot
@@ -2740,6 +2789,9 @@ fi:
       open_title: 'Ratkaisematon karttailmoitus #%{note_name}'
       closed_title: 'Ratkaistu karttailmoitus #%{note_name}'
       hidden_title: 'Piilotettu karttailmoitus #%{note_name}'
+      event_opened_by_html: Luonut %{user}, %{time_ago}
+      event_opened_by_anonymous_html: Luonut anonyymi käyttäjä, %{time_ago}
+      event_commented_by_html: Kommentti käyttäjältä %{user} %{time_ago}
       report: ilmianna karttailmoitus
       anonymous_warning: Suhtaudu varauksella tunnistautumattomien käyttäjien karttailmoituksiin
         ja kommentteihin.
@@ -2813,6 +2865,14 @@ fi:
         gps: Julkiset GPS-jäljet
         overlays: Nämä toiminnot on tarkoitettu karttavirheiden korjaamiseen
         title: Karttanäkymä
+      openstreetmap_contributors: OpenStreetMap-avustajat
+      make_a_donation: Lahjoita
+      website_and_api_terms: Verkkosivusto ja API-ehdot
+      cyclosm_credit: 'Laattojen tyyli: %{osm_france_link} ylläpitämä %{cyclosm_link}'
+      osm_france: OpenStreetMap Francen
+      thunderforest_credit: Laattojen tekijä %{thunderforest_link}
+      opnvkarte_credit: Laattojen tekijä %{memomaps_link}
+      hotosm_credit: 'Laattojen tyyli: %{osm_france_link} ylläpitämä %{hotosm_link}'
     site:
       edit_tooltip: Muokkaa karttaa
       edit_disabled_tooltip: Lähennä karttaa ennen muokkaamisen aloittamista
