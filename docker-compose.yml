@@ -4,6 +4,8 @@ services:
   web:
     build:
       context: .
+    environment:
+      PIDFILE: /tmp/pids/server.pid
     volumes:
       - .:/app
       # Prevent these directories from mounting so they're not shared between host OS and Docker
@@ -12,6 +14,8 @@ services:
       - web-tmp:/app/tmp
       # Mount a storage directory that will persist between runs
       - web-storage:/app/storage
+    tmpfs:
+      /tmp/pids/
     ports:
       - "3000:3000"
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
