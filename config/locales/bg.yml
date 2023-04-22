@@ -4,7 +4,6 @@
 # Author: BennyZ2304
 # Author: DCLXVI
 # Author: Danieldegroot2
-# Author: Dimitar
 # Author: Kareyac
 # Author: Lyubomirv
 # Author: MrPanyGoff
@@ -25,10 +24,10 @@ bg:
       friendly: '%e %B %Y в %H:%M'
   helpers:
     file:
-      prompt: Избиране на файл
+      prompt: Избери файл
     submit:
       diary_comment:
-        create: Коментиране
+        create: Съхраняване
       diary_entry:
         create: Публикуване
         update: Обновяване
@@ -38,10 +37,9 @@ bg:
         create: Изпращане
       client_application:
         create: Регистриране
-        update: Обновяване
-      oauth2_application:
+        update: Обнови
+      doorkeeper_application:
         create: Регистриране
-        update: Обновяване
       redaction:
         create: Създаване на поправка
         update: Запазване на поправка
@@ -69,6 +67,7 @@ bg:
       message: Съобщение
       node: Възел
       node_tag: Етикет на възел
+      notifier: Известител
       old_node: Стар възел
       old_node_tag: Етикет на стар възел
       old_relation: Стара релация
@@ -91,14 +90,14 @@ bg:
       way_tag: Етикет на път
     attributes:
       client_application:
-        name: Име (задължително)
-        url: Адрес на основното приложение (задължително)
+        name: Име (Задължително)
+        url: Основно приложение URL(Задължително)
         allow_read_prefs: прочетете потребителските предпочитания
         allow_write_prefs: променете потребителските им предпочитания
         allow_write_diary: създай дневник на бележките, коментарите и новите приятелства
         allow_write_api: промени картата
-        allow_read_gpx: четете личните им GPS следи
-        allow_write_gpx: качвате на GPS следи
+        allow_read_gpx: прочети личните GPS следи
+        allow_write_gpx: Качване на GPS следи
         allow_write_notes: промени бележки
       diary_comment:
         body: Текст
@@ -107,7 +106,7 @@ bg:
         title: Тема
         latitude: Географска ширина
         longitude: Географска дължина
-        language_code: Език
+        language: Език
       doorkeeper/application:
         name: Име
       friend:
@@ -145,7 +144,6 @@ bg:
         home_lat: Географска ширина
         home_lon: Географска дължина
         languages: Предпочитани езици
-        preferred_editor: Предпочитан редактор
         pass_crypt: Парола
         pass_crypt_confirmation: Потвърди парола
     help:
@@ -221,7 +219,7 @@ bg:
         reopened_at_html: Повторно отворена %{when}
         reopened_at_by_html: Повторно отворена %{when} от %{user}
       rss:
-        title: Бележки на OpenStreetMap
+        title: Бележки на OpenHistoricalMap
         description_area: Списък с бележки, докладвани и коментирани в или близо до
           вашата територия [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Емисия на RSS за бележка %{id}
@@ -232,31 +230,6 @@ bg:
       entry:
         comment: Коментар
         full: Цялата бележка
-  account:
-    deletions:
-      show:
-        title: Изтриване на профила
-        delete_account: Изтриване на профила
-        delete_introduction: 'Можете да изтриете профила си в OpenStreetMap, като
-          използвате бутона по-долу. Моля, обърнете внимание на следните подробности:'
-        delete_profile: Информацията от профила Ви, включително аватар, описание и
-          местоположение на дома Ви, ще бъде премахната.
-        delete_display_name: Вашето потребителско име ще бъде премахнато и ще може
-          да се използва отново от други потребители.
-        retain_caveats: 'Въпреки това част от информацията за вас ще бъде запазена
-          в OpenStreetMap, дори и след като профилът Ви бъде изтрит:'
-        retain_edits: Вашите редакции в базата данни на картата, ако има такива, ще
-          бъдат запазени.
-        retain_traces: Качените от Вас GPS следи, ако има такива, ще бъдат запазени.
-        retain_diary_entries: Вашите дневници и коментарите в дневниците, ако има
-          такива, ще бъдат запазени, но скрити от останалите потребители.
-        retain_notes: Вашите бележки към картата и коментарите към тях, ако има такива,
-          ще бъдат запазени, но скрити от останалите потребители.
-        retain_changeset_discussions: Обсъжданията на списъци от промени, ако има
-          такива, ще бъдат запазени.
-        retain_email: Вашият имейл адрес ще бъде запазен.
-        confirm_delete: Сигурни ли сте?
-        cancel: Отказ
   accounts:
     edit:
       title: Промяна на профил
@@ -264,32 +237,36 @@ bg:
       current email address: Текуща електронна поща
       external auth: Удостоверяване от външен източник
       openid:
-        link text: какво е това?
+        link: https://wiki.openstreetmap.org/wiki/OpenID
+        link text: Какво е това?
       public editing:
         enabled: Разрешено. Не е анонимно и можете да променяте данните.
-        enabled link text: какво е това?
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: Какво е това?
         disabled link text: защо не мога да редактирам?
+      public editing note:
+        heading: Обществено видимо редактиране
       contributor terms:
         heading: Условия за сътрудничество
         agreed: Приели сте новите условия за сътрудничество.
         not yet agreed: Все още не сте приели новите Условия за участие.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Какво е това?
-      save changes button: Запазване на промените
-      delete_account: Изтриване на профила...
-    go_public:
-      heading: Обществено видимо редактиране
-      make_edits_public_button: Всички мои промени да са публично достъпни
+      save changes button: Съхраняване на промените
+      make edits public button: Всички мои промени да са публично достъпни
     update:
       success_confirm_needed: Сведенията за потребителя са успешно обновени. Проверете
         електронната си поща за писмо, с което да потвърдите новия адрес.
       success: Сведенията за потребителя са успешно обновени.
-    destroy:
-      success: Профилът е изтрит.
   browse:
     created: Създадена
     closed: Затворена
-    closed_ago_html: Затворен %{time_ago}
-    created_ago_by_html: Създаден %{time_ago} от %{user}
+    created_html: Създадена <abbr title="%{title}">%{time}</abbr>
+    closed_html: Затворена <abbr title="%{title}">%{time}</abbr>
+    created_by_html: Създадена <abbr title="%{title}">%{time}</abbr> от %{user}
+    deleted_by_html: Изтрита <abbr title='%{title}'>%{time}</abbr> от %{user}
+    edited_by_html: Променена <abbr title='%{title}'>%{time}</abbr> от %{user}
+    closed_by_html: Затворена <abbr title="%{title}">%{time}</abbr> от %{user}
     version: Версия
     in_changeset: Списък с промени
     anonymous: анонимен
@@ -299,6 +276,8 @@ bg:
     view_history: Показване на историята
     view_details: Показване на детайли
     location: 'Местоположение:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Списък с промени: %{id}'
       belongs_to: Автор
@@ -309,6 +288,8 @@ bg:
       relation: Релации (%{count})
       relation_paginated: Релации(%{x}-%{y} от %{count})
       comment: Коментари (%{count})
+      hidden_commented_by_html: Скрит коментар от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Коментар от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML на списъка с промени
       osmchangexml: osmChange XML
       feed:
@@ -376,6 +357,25 @@ bg:
       wikipedia_link: Статията %{page} в Уикипедия
       telephone_link: Позвънете на %{phone_number}
       colour_preview: Преглед на цвета %{colour_value}
+    note:
+      title: Бележка № %{id}
+      new_note: Нова бележка
+      description: Описание
+      open_title: Нерешена бележка № %{note_name}
+      closed_title: Решена бележка № %{note_name}
+      hidden_title: Скрита бележка № %{note_name}
+      opened_by_html: Създадена от %{user} <abbr title='%{exact_time}'> %{when}</abbr>
+      opened_by_anonymous_html: Създадена от анонимен <abbr title='%{exact_time}'>
+        %{when}</abbr>
+      commented_by_html: Коментар от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Коментар от анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Решена от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Решена от анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Повторно отворена от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Повторно отворена от анонимен <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Скрита от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Докладване на бележката
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Търсене на обекти
       introduction: Щракнете върху картата, за да търсите обекти в близост.
@@ -416,8 +416,8 @@ bg:
     comments:
       comment: Нов коментар към списък с промени № %{changeset_id} на %{author}
     index:
-      title_all: Дискусия за промяна на OpenStreetMap
-      title_particular: 'Разговор за промяната #%{changeset_id} на OpenStreetMap'
+      title_all: Дискусия за промяна на OpenHistoricalMap
+      title_particular: 'Разговор за промяната #%{changeset_id} на OpenHistoricalMap'
     timeout:
       sorry: Съжаляваме, но списъка с коментарит по промените който заявихте се зарежда
         твърде дълго.
@@ -430,7 +430,6 @@ bg:
       nearby mapper: Картографи в близост
       friend: Приятел
     show:
-      edit_your_profile: Редактиране на профила
       my friends: Моите приятели
       no friends: Все още нямате добавени приятели.
       nearby users: Други потребители в близост
@@ -473,8 +472,7 @@ bg:
       comment_link: Коментар към публикацията
       reply_link: Изпрати послание на автора
       comment_count:
-        zero: Няма коментари
-        one: 1 коментар
+        one: '%{count} коментар'
         other: '%{count} коментара'
       edit_link: Променяне на публикацията
       hide_link: Скриване на публикацията
@@ -491,12 +489,13 @@ bg:
       location: 'Местоположение:'
       view: Преглеждане
       edit: Променяне
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: OpenStreetMap дневник записи за %{user}
-        description: Последни OpenStreetMap записи в дневника от %{user}
+        title: OpenHistoricalMap дневник записи за %{user}
+        description: Последни OpenHistoricalMap записи в дневника от %{user}
       all:
-        title: Записи в дневника на OpenStreetMap
+        title: Записи в дневника на OpenHistoricalMap
     comments:
       no_comments: Няма коментари в дневника
       post: Публикация
@@ -504,9 +503,6 @@ bg:
       comment: Коментар
       newer_comments: По-нови коментари
       older_comments: По-стари коментари
-  errors:
-    contact:
-      contact: контакт
   friendships:
     make_friend:
       heading: Добави %{user} като приятел?
@@ -520,6 +516,16 @@ bg:
       success: '%{name} беше премахнат от списъка с приятелите.'
       not_a_friend: '%{name} не е между вашите приятели.'
   geocoder:
+    search:
+      title:
+        latlon_html: <a href="https://openstreetmap.org/">Вътрешни</a> резултати
+        ca_postcode_html: Резултати от <a href="https://geocoder.us/">Geocoder.CA</a>
+        osm_nominatim_html: Резултати от <a href="https://nominatim.openstreetmap.org">OpenHistoricalMap
+          Nominatim</a>
+        geonames_html: Резултати от <a href="https://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Резултати от <a href="https://nominatim.openstreetmap.org">OpenHistoricalMap
+          Nominatim</a>
+        geonames_reverse_html: Резултати от <a href="https://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -531,14 +537,14 @@ bg:
           t-bar: Седалков лифт
         aeroway:
           aerodrome: Летище
-          apron: Самолетна писта
-          gate: Врата на летище
+          apron: Перон
+          gate: Врата
           hangar: Хангар
           helipad: Вертолетна площадка
           runway: Писта
           taxilane: Таксилента
           taxiway: Път за рулиране
-          terminal: Летищен терминал
+          terminal: Терминал
         amenity:
           animal_shelter: Приют за животни
           arts_centre: Център на изкуствата
@@ -579,7 +585,7 @@ bg:
           ferry_terminal: Фериботен терминал
           fire_station: Пожарна станция
           fountain: Фонтан
-          fuel: Бензиностанция
+          fuel: Гориво
           gambling: Хазартни игри
           grave_yard: Гробище
           hospital: Болница
@@ -587,7 +593,7 @@ bg:
           ice_cream: Сладолед
           internet_cafe: Интернет Кафе
           kindergarten: Детска градина
-          language_school: Езиково училище
+          language_school: Училище за езици
           library: Библиотека
           loading_dock: Товарна рампа
           marketplace: Пазар
@@ -671,7 +677,6 @@ bg:
           residential: Жилищна сграда
           roof: Покрив
           school: Училище
-          shed: Навес
           static_caravan: Каравана
           temple: Храм
           train_station: Железопътна станция
@@ -783,7 +788,7 @@ bg:
           cemetery: Гробище
           commercial: Търговска зона
           conservation: Резерват
-          construction: Строителен обект
+          construction: Строителство
           farmland: Обработваема земя
           farmyard: Стопански двор
           forest: Гора
@@ -896,7 +901,6 @@ bg:
           spring: Ручей
           stone: Камък
           tree: Дърво
-          tree_row: Редица дървета
           valley: Долина
           volcano: Вулкан
           water: Вода
@@ -989,7 +993,7 @@ bg:
           curtain: Магазин за завеси
           deli: Деликатесен магазин
           department_store: Универсален магазин
-          doityourself: Магазин направи сам
+          doityourself: Направи сам
           dry_cleaning: Химическо чистене
           e-cigarette: Магазин е-цигари
           electronics: Магазин за електроника
@@ -1011,7 +1015,7 @@ bg:
           hairdresser: Фризьорски салон
           hardware: Железария
           health_food: Магазин Здравословна храна
-          hifi: Аудиомагазин
+          hifi: Аудиосистеми
           houseware: Домашни потреби
           ice_cream: Магазин за Сладолед
           jewelry: Бижутериен магазин
@@ -1053,7 +1057,7 @@ bg:
           apartment: Ваканционен апартамент
           artwork: Произведениe на изкуството
           attraction: Атракция
-          cabin: Заслон
+          cabin: Кабина
           camp_site: Лагер
           caravan_site: Къмпинг
           chalet: Бунгало
@@ -1069,7 +1073,6 @@ bg:
           wilderness_hut: Горска хижа
           zoo: Зологическа градина
         tunnel:
-          building_passage: Преминаване през сграда
           "yes": Тунел
         waterway:
           canal: Канал
@@ -1108,20 +1111,25 @@ bg:
       status: Състояние
       reports: Доклади
       last_updated: Последна промяна
-      last_updated_time_ago_user_html: '%{time_ago} от %{user}'
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> by %{user}
       link_to_reports: Преглед на докладите
       reports_count:
-        one: '%{count} доклад'
+        one: 1 доклад
         other: '%{count} доклада'
       reported_item: Докладван елемент
       states:
         ignored: Пренебрегнат
         open: Отворен
         resolved: Решени
+    update:
+      new_report: Вашия сигнал е регистриран успешно
+      successful_update: Вашия сигнал е обновен успешно
+      provide_details: Моля допълнете с необходимите подробности
     show:
       title: '%{status} Проблем #%{issue_id}'
       reports:
-        one: '%{count} доклад'
+        one: 1 доклад
         other: '%{count} доклада'
       report_created_at: Първоначално докладван на %{datetime}
       last_resolved_at: Последно решена на %{datetime}
@@ -1185,43 +1193,49 @@ bg:
       provide_details: Моля допълнете с необходимите подробности
   layouts:
     logo:
-      alt_text: Лого на OpenStreetMap
+      alt_text: Лого на OpenHistoricalMap
     home: Моят дом
     logout: Излизане
     log_in: Влизане
+    log_in_tooltip: Влизане със съществуващ профил
     sign_up: Регистриране
     start_mapping: Картографиране
+    sign_up_tooltip: Създава сметка за редактиране
     edit: Променяне
     history: История
-    export: Експортиране
+    export: Изнасяне
     issues: Проблеми
     data: Данни
-    export_data: Експортиране на данни
+    export_data: Изнасяне на данни
     gps_traces: Следи от GPS
     gps_traces_tooltip: Управление на следи от GPS
     user_diaries: Потребителски дневници
     user_diaries_tooltip: Дневници на потребители
     edit_with: Променяне с %{editor}
     tag_line: Свободна Wiki-карта на света
-    intro_header: Добре дошли в OpenStreetMap!
-    intro_text: OpenStreetMap е карта на света създадена от хора като вас, за свободно
-      ползване и под отворен лиценз.
+    intro_header: Добре дошли в OpenHistoricalMap!
+    intro_text: OpenHistoricalMap е карта на света създадена от хора като вас, за
+      свободно ползване и под отворен лиценз.
     intro_2_create_account: Създаване на сметка
-    hosting_partners_html: Хостингът се поддържа от %{ucl}, %{fastly}, %{bytemark}
-      и други %{partners}.
-    partners_ucl: UCL
-    partners_bytemark: Bytemark
+    hosting_partners_html: |-
+      <p>
+      <a href='https://greeninfo.org'>GreenInfo Network</a> е организация с нестопанска цел за картографиране и комуникации, която помага на организации с нестопанска цел и правителствени агенции да постигнат социални, екологични и други цели, използвайки набор от инструменти, включително практики за проектиране, ориентирани към човека, съвместна разработка и уеб инструменти с отворен код и геопространствени инструменти.
+      </p>
+      <p>
+      <a href='https://developmentseed.org/'>Development Seed</a> е инженерингова и продуктова компания, която ускорява прилагането на земни данни към нашите най-големи глобални предизвикателства. Development Seed използва масивни земни данни, облачни изчисления, геопространствен изкуствен интелект и грижливо разработване на продукти.
+      </p>
     partners_partners: партньори
     tou: Условия за ползване
-    osm_offline: Базата на данни на  OpenStreetMap в момента е изключена докато се
-      извършва необходима поддръжка.
+    osm_offline: Базата на данни на  OpenHistoricalMap в момента е изключена докато
+      се извършва необходима поддръжка.
     help: Помощ
     about: За проекта
     copyright: Авторски права
-    communities: Общности
     community: Общност
+    foundation: Фондация
+    foundation_title: Фондацията OpenHistoricalMap
     make_a_donation:
-      title: Подкрепете OpenStreetMap с парично дарение
+      title: Подкрепете OpenHistoricalMap с парично дарение
       text: Направете дарение
     learn_more: Научете повече
     more: Още
@@ -1232,32 +1246,31 @@ bg:
       hi: Здравейте %{to_user},
     friendship_notification:
       hi: Здравейте %{to_user},
-      subject: '[OpenStreetMap] %{user} ви добави като приятел'
-      had_added_you: '%{user} ви добави като приятел на OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} ви добави като приятел'
+      had_added_you: '%{user} ви добави като приятел на OpenHistoricalMap.'
       see_their_profile: Можете да видите профила му на %{userurl}.
       befriend_them: Можете да ги добавите като приятел на %{befriendurl}.
     gpx_failure:
       failed_to_import: 'не е внесен. Това е грешката:'
-      subject: '[OpenStreetMap] Грешка при внасяне на GPX'
+      subject: '[OpenHistoricalMap] Грешка при внасяне на GPX'
     gpx_success:
-      hi: Здравейте %{to_user},
-      subject: '[OpenStreetMap] GPX импорта е успешен'
+      subject: '[OpenHistoricalMap] GPX импорта е успешен'
     signup_confirm:
-      subject: '[OpenStreetMap] Добре дошли в OpenStreetMap'
+      subject: '[OpenHistoricalMap] Добре дошли в OpenHistoricalMap'
       greeting: Здравейте!
       created: Някой (надяваме се вие), току-що създаде сметка в %{site_url}.
       confirm: 'Най-напред трябва да потвърдите, че вие сте дали заявката. Ако това
         сте Вие, моля, посетете препратката за потвърждение на сметката:'
       welcome: След като потвърдите ще ви изпратим още повече информация как да започнете.
     email_confirm:
-      subject: '[OpenStreetMap] Потвърждаване на адрес за електронна поща'
+      subject: '[OpenHistoricalMap] Потвърждаване на адрес за електронна поща'
       greeting: Здравейте,
       hopefully_you: 'Някой (надяваме се Вие) желае да промени адреса на електронната
         си поща намиращ се на %{server_url} с адрес: %{new_address}.'
       click_the_link: Ако това сте Вие, моля, посетете препратката за потвърждение
         на промяната.
     lost_password:
-      subject: '[OpenStreetMap] Заявка за промяна на парола'
+      subject: '[OpenHistoricalMap] Заявка за промяна на парола'
       greeting: Здравейте,
       hopefully_you: Някой (надяваме се Вие) е поискал промяна на паролата на сметка
         в openstreetmap.org свързана този адрес на електронна поща.
@@ -1266,17 +1279,17 @@ bg:
       anonymous: Анонимен потребител
       greeting: Здравейте,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} е коментирал на една от вашите
+        subject_own: '[OpenHistoricalMap] %{commenter} е коментирал на една от вашите
           бележки'
-        subject_other: '[OpenStreetMap] %{commenter} коментира бележка, от която се
-          интересувате'
+        subject_other: '[OpenHistoricalMap] %{commenter} коментира бележка, от която
+          се интересувате'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} е решил една от бележките ви'
+        subject_own: '[OpenHistoricalMap] %{commenter} е решил една от бележките ви'
         your_note: '%{commenter} е решил една от бележките ви към картата в близост
           до %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} повторно е отворил една от бележките
-          ви'
+        subject_own: '[OpenHistoricalMap] %{commenter} повторно е отворил една от
+          бележките ви'
         your_note: '%{commenter} повторно е отворил една от бележките ви към картата
           в близост до %{place}.'
       details: Повече детайли за бележката можете да намерите на %{url}.
@@ -1296,6 +1309,8 @@ bg:
       success: Профилът е потвърден, благодарим за регистрацията!
       already active: Този профил вече е бил потвърден.
       unknown token: Този код за потвърждение е изтекъл или не съществува.
+      reconfirm_html: Ако искате отново да изпратим съобщението за потвърждение, <a
+        href="%{reconfirm}">натиснете тук</a>.
     confirm_resend:
       failure: Потребителят %{name} не е открит.
     confirm_email:
@@ -1304,12 +1319,10 @@ bg:
         поща.
       button: Потвърждаване
       success: Промяната на електронна поща е потвърдена!
-      unknown_token: Този код за потвърждение е изтекъл или не съществува.
   messages:
     inbox:
       title: Входящи
       my_inbox: Входяща кутия
-      my_outbox: Изходяща кутия
       messages: Имате %{new_messages} и %{old_messages}
       new_messages:
         one: '%{count} ново съобщение'
@@ -1331,7 +1344,9 @@ bg:
     new:
       title: Изпращане на съобщение
       send_message_to_html: Изпращане ново съобщение на %{name}
-      back_to_inbox: Обратно към входящата поща
+      subject: Тема
+      body: Текст
+      back_to_inbox: Обратно в пощата
     create:
       message_sent: Съобщението е изпратено
     no_such_message:
@@ -1339,9 +1354,7 @@ bg:
       heading: Няма такова съобщение
       body: Съжаляваме но няма съобщение със това id.
     outbox:
-      title: Изходящи
-      my_inbox: Входящи
-      my_outbox: Изходяща кутия
+      title: Изпратени
       messages:
         one: Изпратили сте %{count} съобщение
         other: Изпратили сте %{count} съобщения
@@ -1357,10 +1370,14 @@ bg:
         за да можете да отговорите.
     show:
       title: Прочетете съобщението
+      from: От
+      subject: Тема
+      date: Дата
       reply_button: Отговор
       unread_button: Отбелязване като непрочетено
       destroy_button: Изтриване
       back: Назад
+      to: До
     sent_message_summary:
       destroy_button: Изтриване
     mark:
@@ -1386,11 +1403,8 @@ bg:
   preferences:
     show:
       title: Предпочитания
-      preferred_editor: Предпочитан редактор
       preferred_languages: Предпочитани езици
-      edit_preferences: Редактиране на предпочитанията
     edit:
-      save: Запазване на предпочитанията
       cancel: Отказ
   profiles:
     edit:
@@ -1423,6 +1437,10 @@ bg:
       login_button: Влизане
       register now: Регистрирайте се
       with external: 'Или използвайте удостоверяване от външен източник:'
+      new to osm: Нов за OpenHistoricalMap?
+      to make changes: За да правите промени в OpenHistoricalMap data, вие трябва
+        да имате профил.
+      create account minute: Създайте своя сметка. Отнема само минута.
       no account: Нямате сметка?
       auth failure: Съжаляваме, но не можете да влезете с тези данни.
       openid_logo_alt: Влизане с OpenID
@@ -1453,15 +1471,11 @@ bg:
           alt: Влизане с OpenID от AOL
     destroy:
       title: Изход
-      heading: Изход от OpenStreetMap
+      heading: Изход от OpenHistoricalMap
       logout_button: Изход
   shared:
     markdown_help:
       headings: Заглавия
-      subheading: Подзаглавие
-      ordered: Подреден списък
-      first: Първи елемент
-      second: Втори елемент
       link: Препратка
       text: Текст
       image: Изображение
@@ -1472,14 +1486,11 @@ bg:
   site:
     about:
       next: Напред
-      used_by_html: '%{name} осигурява картографски данни на хиляди страници, мобилни
-        приложения и устройства'
-      lede_text: OpenStreetMap е създадена от общност от картографи, които предоставят
-        и поддържат данни за пътища, пътеки, кафенета, железопътни гари и много други
-        по целия свят.
+      copyright_html: <span>&copy;</span>сътрудници на<br>OpenHistoricalMap
+      used_by_html: OpenHistoricalMap осигурява картографски данни на хиляди страници,
+        мобилни приложения и устройства
       local_knowledge_title: Местно познание
       open_data_title: Отворени данни
-      open_data_open_data: отворени данни
       legal_title: Правни въпроси
       partners_title: Партньори
     copyright:
@@ -1497,12 +1508,17 @@ bg:
         mapping_link: картографирате
       legal_babble:
         title_html: Авторски права и лиценз
-        credit_title_html: Как да кредитирате OpenStreetMap
+        credit_title_html: Как да кредитирате OpenHistoricalMap
         more_title_html: Открийте повече
         contributors_title_html: Нашите сътрудници
         infringement_title_html: Нарушаване на авторските права
+        trademarks_title_html: <span id="trademarks"></span>Търговски марки
+        trademarks_1_html: OpenHistoricalMap и логото с лупата са регистрирани търговски
+          марки на фондация OpenHistoricalMap. Ако имате въпроси относно използването
+          на тези знаци, моля изпратете Вашите въпроси на <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">работната
+          група по лиценза</a>.
     index:
-      js_2: OpenStreetMap използва JavaScript за своята статична карта.
+      js_2: OpenHistoricalMap използва JavaScript за своята статична карта.
       permalink: Постоянна връзка
       shortlink: Къса връзка
       createnote: Добавяне на бележка
@@ -1512,16 +1528,16 @@ bg:
       anon_edits_link_text: Разберете защо е така.
       id_not_configured: iD не е настроен
     export:
-      title: Експортиране
-      area_to_export: Зона за експортиране
+      title: Изнасяне
+      area_to_export: Зона за изнасяне
       manually_select: Ръчно избиране на друга област
-      format_to_export: Формат за експортиране
-      osm_xml_data: OpenStreetMap XML данни
+      format_to_export: Формат за изнасяне
+      osm_xml_data: OpenHistoricalMap XML данни
       embeddable_html: HTML-код за вграждане
       licence: Лиценз
       too_large:
-        advice: 'Ако експортирането по-горе не сработи, моля, използвайте един от
-          следните източници:'
+        advice: 'Ако изнасянето по-горе не сработи, моля, използвайте един от следните
+          източници:'
         planet:
           title: Planet OSM
         overpass:
@@ -1541,7 +1557,7 @@ bg:
       longitude: 'Геогр. дълж:'
       output: Изход
       paste_html: Копирайте HTML за вграждане в интернет страница
-      export_button: Експортиране
+      export_button: Изнасяне
     fixthemap:
       title: Докладвай проблем/Коригирай картата
       how_to_help:
@@ -1554,25 +1570,28 @@ bg:
       title: Получаване на помощ
       welcome:
         url: /welcome
-        title: Добре дошли в OpenStreetMap
+        title: Добре дошли в OpenHistoricalMap
       beginners_guide:
         title: Наръчник за начинаещи
       help:
+        url: https://help.openstreetmap.org/
         title: Форум за поддръжка
       mailing_lists:
         title: Пощенски списъци
+      forums:
+        title: Форуми
       irc:
         title: IRC
       switch2osm:
         title: switch2osm
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: За организации
-        description: Вие сте от организация, която иска да работи с OpenStreetMap?
+        description: Вие сте от организация, която иска да работи с OpenHistoricalMap?
           Ще получите необходимата информация на началната страница.
       wiki:
-        title: Уики на OpenStreetMap
-    any_questions:
-      title: Въпроси?
+        url: http://wiki.openstreetmap.org/
+        title: Уики на OpenHistoricalMap
     sidebar:
       search_results: Резултати от търсенето
       close: Затваряне
@@ -1662,8 +1681,18 @@ bg:
         title: Какво има на картата
       basic_terms:
         title: Основни картографски термини
+        editor_html: <strong>Редактор</strong> е приложение или страница, които използвате,
+          за да променяте картата.
+        node_html: <strong>Възел</strong> е точка на картата, например ресторант или
+          дърво.
+        way_html: <strong>Път</strong> е права или площ, например път, поток, езеро
+          или сграда.
+        tag_html: <strong>Етикет</strong> е част от данни за възел или път, например
+          име на ресторант или ограничение на скоростта.
       rules:
         title: Правилата!
+      questions:
+        title: Въпроси?
       start_mapping: Картографиране
       add_a_note:
         title: Нямате време да правите промени? Добавете бележка!
@@ -1671,6 +1700,7 @@ bg:
     new:
       upload_trace: Качване на следи от GPS
       visibility_help: какво означава това?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Помощ
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1717,7 +1747,7 @@ bg:
     trace:
       pending: Обработва се
       count_points:
-        one: '%{count} точка'
+        one: 1 точка
         other: '%{count} точки'
       more: още
       view_map: Вижте на картата
@@ -1729,12 +1759,12 @@ bg:
       in: в
     index:
       public_traces: Публични следи от GPS
+      my_traces: Моите следи от GPS
       public_traces_from: Публични следи от GPS от потребител %{user}
       tagged_with: с етикет %{tags}
       upload_trace: Качване на следи от GPS
-      my_traces: Моите следи
     georss:
-      title: OpenStreetMap GPS трасета
+      title: OpenHistoricalMap GPS трасета
     description:
       description_with_count:
         one: файл от GPX с %{count} точка от %{user}
@@ -1778,7 +1808,6 @@ bg:
     index:
       title: Мои данни за OAuth
       my_tokens: Упълномощени от мен приложения
-      list_tokens: 'Следните токени са издадени на приложения от ваше име:'
       application: Име на приложението
       issued_at: Упълномощено на
       revoke: Анулиране!
@@ -1790,6 +1819,9 @@ bg:
       title: Регистриране
       about:
         header: Безплатна и достъпна за редактиране
+      email address: 'Електронна поща:'
+      confirm email address: 'Потвърждаване на електронната поща:'
+      display name: Видимо потребителско имеː
       external auth: 'Удостоверяване от външен източник:'
       use external auth: Или използвайте удостоверяване от външен източник
       continue: Регистриране
@@ -1799,7 +1831,9 @@ bg:
       heading: Условия
       heading_ct: Условия за сътрудничество
       consider_pd_why: какво е това?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       continue: Продължаване
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Отхвърли
       you need to accept or decline: За да продължите, моля, прочетете, а след това
         се съгласете или откажете новите условия за сътрудничество.
@@ -1808,12 +1842,15 @@ bg:
         france: Франция
         italy: Италия
         rest_of_world: В останалата част на света
+    terms_declined_flash:
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Няма такъв потребител
       heading: Потребителят %{user} не съществува
       deleted: изтрито
     show:
       my diary: Моя дневник
+      new diary entry: Нова публикация в дневника
       my edits: Мои промени
       my traces: Моите следи
       my notes: Моите бележки
@@ -1840,6 +1877,8 @@ bg:
       created from: 'Създадена от:'
       status: 'Състояние:'
       spam score: 'Оценка за спам:'
+      description: Описание
+      user location: Местоположение
       role:
         administrator: Този потребител е администратор
         moderator: Този потребител е модератор
@@ -1851,12 +1890,15 @@ bg:
       comments: Коментари
       create_block: Блокиране на този потребител
       activate_user: Активирай този Потребител
+      deactivate_user: Деактивирай този Потребител
       confirm_user: Потвърди този Потребител
       hide_user: Скрий този Потребител
       unhide_user: Разкрий този потребител
       delete_user: Изтриване на този потребител
       confirm: Потвърдете
       report: Докладване на потребителя
+    set_home:
+      flash success: Вашето местоположение е успешно запазено
     index:
       title: Потребители
       heading: Потребители
@@ -1887,19 +1929,19 @@ bg:
       time_future_html: Изтича след %{time}.
       block_duration:
         hours:
-          one: '%{count} час'
+          one: час
           other: '%{count} часа'
         days:
-          one: '%{count} ден'
+          one: 1 ден
           other: '%{count} дена'
         weeks:
-          one: '%{count} седмица'
+          one: 1 седмица
           other: '%{count} седмици'
         months:
-          one: '%{count} месец'
+          one: месец
           other: '%{count} месеца'
         years:
-          one: '%{count} година'
+          one: 1 година
           other: '%{count} години'
     show:
       created: 'Създадена:'
@@ -1931,23 +1973,6 @@ bg:
       description: Описание
       created_at: Създадена на
       last_changed: Последна промяна
-    show:
-      title: Бележка № %{id}
-      description: Описание
-      open_title: Нерешена бележка № %{note_name}
-      closed_title: Решена бележка № %{note_name}
-      hidden_title: Скрита бележка № %{note_name}
-      report: докладване на бележката
-      anonymous_warning: Бележката е от анонимен потребител и съдържа твърдения, които
-        трябва да бъдат проверени.
-      hide: Скриване
-      resolve: Решаване
-      reactivate: Повторно отваряне
-      comment_and_resolve: Коментиране и решаване
-      comment: Коментиране
-    new:
-      title: Нова бележка
-      add: Добавяне на бележка
   javascripts:
     close: Затваряне
     share:
@@ -1992,6 +2017,9 @@ bg:
         gps: Публични следи от GPS
         overlays: Слоеве за отстраняване на грешки
         title: Слоеве
+      copyright: © <a href='%{copyright_url}'>Сътрудници на OpenHistoricalMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Направете дарение</a>
+      terms: <a href='%{terms_url}' target='_blank'>Условия на страницата и API</a>
     site:
       edit_tooltip: Променяне на картата
       edit_disabled_tooltip: Увеличете за редактиране на картата
@@ -2008,6 +2036,17 @@ bg:
         unsubscribe: Отписване
         hide_comment: скриване
         unhide_comment: показване
+    notes:
+      new:
+        add: Добавяне на бележка
+      show:
+        anonymous_warning: Бележката е от анонимен потребител и съдържа твърдения,
+          които трябва да бъдат проверени.
+        hide: Скриване
+        resolve: Решаване
+        reactivate: Повторно отваряне
+        comment_and_resolve: Коментиране и решаване
+        comment: Коментиране
     directions:
       ascend: Изкачване
       engines:

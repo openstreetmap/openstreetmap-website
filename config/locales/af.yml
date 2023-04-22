@@ -30,7 +30,7 @@ af:
       client_application:
         create: Registreer
         update: Opdateer
-      oauth2_application:
+      doorkeeper_application:
         create: Registreer
         update: Opdateer
       redaction:
@@ -60,6 +60,7 @@ af:
       message: Boodskap
       node: Knooppunt
       node_tag: Knooppuntmerker
+      notifier: Kennisgewer
       old_node: Ou Knooppunt
       old_node_tag: Ou knooppuntmerker
       old_relation: Ou Verband
@@ -102,7 +103,7 @@ af:
         title: Onderwerp
         latitude: Breedtegraad
         longitude: Lengtegraad
-        language_code: Taal
+        language: Taal
       doorkeeper/application:
         name: Naam
         scopes: Regte
@@ -157,6 +158,10 @@ af:
           nie, sp probeer leketaal gebruik sover moontlik.
         needs_view: Moet die gebruiker aanmeld voordat dié versperring verwyder word?
       user:
+        email_confirmation: U adres word nie openbaar gemaak nie; raadpleeg ons <a
+          href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privaatheidsbeleid
+          insluitende die klousule ten opsigte van e-posadresse">privaatheidsbeleid</a>
+          vir verdere inligting.
         new_email: (word nooit openbaar vertoon nie)
   datetime:
     distance_in_words_ago:
@@ -226,7 +231,7 @@ af:
         reopened_at_html: '%{when} heraktiveer'
         reopened_at_by_html: '%{when} deur %{user} geheraktiveer'
       rss:
-        title: OpenStreetMap-notas
+        title: OpenHistoricalMap-notas
         description_area: '''N lys met notas, gerapporteer, opmerkings of geslote
           in u omgewing [(%{min_lat}|%{min_lon})--(%{max_lat}|%{max_lon})]'
         description_item: '''N RSS-voer vir nota %{id}'
@@ -247,18 +252,24 @@ af:
         enabled: Geaktiveer. Nie anoniem nie en kan data redigeer.
         enabled link text: wat is dié?
         disabled link text: hoekom kan ek nie redigeer nie?
+      public editing note:
+        heading: Openbare redigerings
       contributor terms:
         heading: Bydraervoorwaardes
         link text: wat is dié?
       save changes button: Stoor Wysigings
-    go_public:
-      heading: Openbare redigerings
-      make_edits_public_button: Stel al my wysigings openbaar
+      make edits public button: Stel al my wysigings openbaar
     update:
       success: Gebruikersbesonderhede suksesvol bygewerk.
   browse:
     created: Geskep
     closed: Gesluit
+    created_html: Geskep <abbr title ='%{title}'>%{time}</abbr>
+    closed_html: Geslote <abbr titel='%{title}'>%{time} gelede</abbr>
+    created_by_html: Geskep <abbr titel='%{title}'>%{time} gelede</abbr> deur %{user}
+    deleted_by_html: Geskrap <abbr titel='%{title}'>%{time} gelede</abbr> deur %{user}
+    edited_by_html: Geredigeer <abbr titel='%{title}'>%{time} gelede</abbr> deur %{user}
+    closed_by_html: Gesluit <abbr titel='%{title}'>%{time} gelede</abbr> deur %{user}
     version: Weergawe
     in_changeset: Wysigingstel
     anonymous: anoniem
@@ -284,6 +295,10 @@ af:
       relation: Verwantskappe (%{count})
       relation_paginated: Verwantskappe (%{x}-%{y} of %{count})
       comment: Kommentaar (%{count})
+      hidden_commented_by_html: Verskuilde kommentaar van %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      commented_by_html: Kommentaar deur %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
       changesetxml: Wysigingstel XML
       osmchangexml: osmWysiging XML
       feed:
@@ -364,6 +379,24 @@ af:
       wikimedia_commons_link: Die item %{page} op Wikimedia Commons
       telephone_link: Skakel %{phone_number}
       colour_preview: Kleur %{colour_value}-voorskou
+    note:
+      title: 'Nota: %{id}'
+      new_note: Nuwe nota
+      description: Beskrywing
+      open_title: 'Onopgeloste nota #%{note_name}'
+      closed_title: 'Opgeloste nota #%{note_name}'
+      hidden_title: 'Verborge nota #%{note_name}'
+      opened_by_html: Geskep deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Geskep deur anoniem <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      commented_by_html: Kommentaar van %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Kommentaar deur anoniem <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Opgelos deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Opgelos deur anoniem <abbr title ='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Geheraktiveer deur %{user} <abbr title ='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Geheraktiveer deur anoniem <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Versteek deur %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Rapporteer hierdie nota
     query:
       title: Soek bakens op
       introduction: Klik op die kaart om bakens naby te ontdek.
@@ -406,8 +439,8 @@ af:
     comments:
       comment: 'Nuwe opmerking oor wysigingstel #%{changeset_id} deur %{author}'
     index:
-      title_all: OpenStreetMap bespreking oor wysigingstelle
-      title_particular: 'OpenStreetMap wysigingstel #%{changeset_id} bespreking'
+      title_all: OpenHistoricalMap bespreking oor wysigingstelle
+      title_particular: 'OpenHistoricalMap wysigingstel #%{changeset_id} bespreking'
     timeout:
       sorry: Jammer, die lys met kommentaar wat u versoek het, het te lank geneem
         om op te spoor.
@@ -488,14 +521,15 @@ af:
       edit: Wysig
     feed:
       user:
-        title: OpenStreetMap-dagboekinskrywings vir %{user}
-        description: Onlangse OpenStreetMap-dagboekinskrywings van %{user}
+        title: OpenHistoricalMap-dagboekinskrywings vir %{user}
+        description: Onlangse OpenHistoricalMap-dagboekinskrywings van %{user}
       language:
-        title: OpenStreetMap dagboekinskrywings in %{language_name}
-        description: Onlangse dagboekinskrywings van OpenStreetMap-gebruikers in %{language_name}
+        title: OpenHistoricalMap dagboekinskrywings in %{language_name}
+        description: Onlangse dagboekinskrywings van OpenHistoricalMap-gebruikers
+          in %{language_name}
       all:
-        title: OpenStreetMap-dagboekinskrywings
-        description: Onlangse dagboekinskrywings van OpenStreetMap-gebruikers
+        title: OpenHistoricalMap-dagboekinskrywings
+        description: Onlangse dagboekinskrywings van OpenHistoricalMap-gebruikers
     comments:
       no_comments: Geen dagboekkommentaar
       post: Inskrywing
@@ -523,6 +557,16 @@ af:
       success: '%{name} is uit u vriendekring verwyder.'
       not_a_friend: '%{name} is nie een van u vriende nie.'
   geocoder:
+    search:
+      title:
+        latlon_html: Resultate vanaf <a href="https://openstreetmap.org/">intern</a>
+        ca_postcode_html: Resultate vanaf <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Resultate vanaf <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
+          Nominatim</a>
+        geonames_html: Resultate vanaf <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Resultate vanaf <a href="https://nominatim.openstreetmap.org/">
+          OpenHistoricalMap Nominatim</a>
+        geonames_reverse_html: Uitslae vanaf <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -748,6 +792,7 @@ af:
           window_construction: Vensterraamwerk
           winery: Wynboer
           "yes": Handwerkwinkel
+        crossing: Kruis
         emergency:
           access_point: Reddingsdienstoegangspunt
           ambulance_station: Ambulansstasie
@@ -768,7 +813,6 @@ af:
           bus_stop: Bushalte
           construction: Weg in aanbou
           corridor: Korridor
-          crossing: Kruis
           cycleway: Fietspad
           elevator: Hysbak
           emergency_access_point: Noodtoeganspunt
@@ -1080,7 +1124,6 @@ af:
           platform: Spoorwegperron
           preserved: Historiese spoorweg
           proposed: Voorgestelde spoorlyn
-          rail: Spoorweg
           spur: Spoorweg spur
           station: Spoorwegstasie
           stop: Spoorweghalte
@@ -1182,7 +1225,6 @@ af:
           supermarket: Supermark
           tailor: Snyer
           tattoo: Tatoeëerder
-          tea: Teewinkel
           ticket: Kaartjiewinkel
           tobacco: Tabakwinkel
           toys: Speelgoedwinkel
@@ -1272,6 +1314,8 @@ af:
       status: Status
       reports: Berigte
       last_updated: Laas opgedateer
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> deur %{user}
       link_to_reports: Beskou verslae
       reports_count:
         one: 1 verslag
@@ -1281,6 +1325,10 @@ af:
         ignored: Geïgnoreer
         open: Oop
         resolved: Opgelos
+    update:
+      new_report: U verslag is suksesvol geregistreer
+      successful_update: U verslag is suksesvol opgedateer
+      provide_details: Verskaf asseblief die vereiste besonderhede
     show:
       title: '%{status} Probleem #%{issue_id}'
       report_created_at: Eerste vermelding op %{datetime}
@@ -1352,12 +1400,14 @@ af:
       provide_details: Verskaf asseblief die vereiste besonderhede
   layouts:
     logo:
-      alt_text: OpenStreetMap-embleem
+      alt_text: OpenHistoricalMap-embleem
     home: Na tuisligging gaan
     logout: Meld af
     log_in: Meld aan
+    log_in_tooltip: Meld aan met 'n bestaande rekening
     sign_up: Registreer
     start_mapping: Begin karteer
+    sign_up_tooltip: Skep 'n rekening vir redigering
     edit: Wysig
     history: Geskiedenis
     export: Voer uit
@@ -1370,48 +1420,49 @@ af:
     user_diaries_tooltip: Wys gebruikersdagboeke
     edit_with: Redigeer met %{editor}
     tag_line: Die Vrye Wiki-Wêreldkaart
-    intro_header: Welkom by OpenStreetMap!
-    intro_text: OpenStreetMap is wêreldkaart deur gewone mense geskep. Die gebruik
+    intro_header: Welkom by OpenHistoricalMap!
+    intro_text: OpenHistoricalMap is wêreldkaart deur gewone mense geskep. Die gebruik
       daarvan is gratis en val onder 'n oop-lisensie.
     intro_2_create_account: Skep 'n gebruikerrekening
-    partners_fastly: Fastly
-    partners_bytemark: Bytemark Hosting
     partners_partners: vennote
     tou: Gebruiksvoorwaardes
-    osm_offline: Die OpenStreetMap-databasis is tans vanlyn terwyl noodsaaklike onderhoud
-      gedoen word.
-    osm_read_only: Die OpenStreetMap-databasis kan tans slegs gelees word terwyl noodsaaklike
+    osm_offline: Die OpenHistoricalMap-databasis is tans vanlyn terwyl noodsaaklike
       onderhoud gedoen word.
-    donate: Ondersteun OpenStreetMap deur aan die Fonds vir hardwareopgradering te
-      %{link}.
+    osm_read_only: Die OpenHistoricalMap-databasis kan tans slegs gelees word terwyl
+      noodsaaklike onderhoud gedoen word.
+    donate: Ondersteun OpenHistoricalMap deur aan die Fonds vir hardwareopgradering
+      te %{link}.
     help: Hulp
     about: Aangaande
     copyright: Kopiereg
     community: Gemeenskap
     community_blogs: Gemeenskapblogs
+    foundation: Stigting
+    foundation_title: Die OpenHistoricalMap-stigting
     make_a_donation:
-      title: Ondersteun OpenStreetMap met 'n geldelike skenking
+      title: Ondersteun OpenHistoricalMap met 'n geldelike skenking
       text: Skenk aan die projek
     learn_more: Meer inligting
     more: Meer
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} het kommentaar op ''n dagboekinskrywing gelewer'
+      subject: '[OpenHistoricalMap] %{user} het kommentaar op ''n dagboekinskrywing
+        gelewer'
       hi: Hallo %{to_user},
-      header: '%{from_user} het kommentaar op die OpenStreetMap-dagboekinskrywing
+      header: '%{from_user} het kommentaar op die OpenHistoricalMap-dagboekinskrywing
         met die tema %{subject} gelewer:'
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hallo %{to_user},
     friendship_notification:
       hi: Hallo %{to_user},
-      subject: '[OpenStreetMap] %{user} het u as ''n vriend bygevoeg'
+      subject: '[OpenHistoricalMap] %{user} het u as ''n vriend bygevoeg'
     gpx_failure:
       hi: Hallo %{to_user},
     gpx_success:
       hi: Hallo %{to_user},
     signup_confirm:
-      subject: '[OpenStreetMap] Welkom by OpenStreetMap'
+      subject: '[OpenHistoricalMap] Welkom by OpenHistoricalMap'
       greeting: Hallo!
       created: Iemand (hopelik u) het pas 'n rekening op %{site_url} geskep.
       confirm: Voordat ons iets doen, moet ons bevestig dat u dié versoek gerig het.
@@ -1419,10 +1470,10 @@ af:
       welcome: Nadat u u rekening bevestig het, bied ons u graag  addisionele inligting
         sodat u kan wegtrek.
     email_confirm:
-      subject: '[OpenStreetMap] Bevestig u e-posadres'
+      subject: '[OpenHistoricalMap] Bevestig u e-posadres'
       greeting: Hallo,
     lost_password:
-      subject: '[OpenStreetMap] Versoek om wagwoord te herstel'
+      subject: '[OpenHistoricalMap] Versoek om wagwoord te herstel'
       greeting: Hallo,
       click_the_link: As dit u is, klik die onderstaande skakel om u wagwoord te herstel.
     note_comment_notification:
@@ -1445,6 +1496,8 @@ af:
       success: U rekening is bevestig. Dankie dat u aangeteken het!
       already active: Hierdie rekening is reeds bevestig.
       unknown token: Die bevestigingskode het reeds verval of bestaan nie.
+      reconfirm_html: Sou u van ons verlang om weer die e-pos ter bevestiging te stuur,
+        <a href="%{reconfirm}">klik hier</a>.
     confirm_resend:
       failure: Die gebruiker %{name} is nie gevind nie.
     confirm_email:
@@ -1471,6 +1524,8 @@ af:
     new:
       title: Stuur boodskap
       send_message_to_html: Stuur 'n nuwe boodskap aan %{name}
+      subject: Onderwerp
+      body: Teks
       back_to_inbox: Terug na in-vakkie
     create:
       message_sent: Boodskap is gestuur
@@ -1489,10 +1544,14 @@ af:
       people_mapping_nearby: nabygeleë karteerders
     show:
       title: Lees boodskap
+      from: Van
+      subject: Onderwerp
+      date: Datum
       reply_button: Beantwoord
       unread_button: Merk as ongelees
       destroy_button: Skrap
       back: Terug
+      to: Aan
     sent_message_summary:
       destroy_button: Skrap
     mark:
@@ -1574,7 +1633,7 @@ af:
           alt: Meld aan met ’n AOL-OpenID
     destroy:
       title: Teken af
-      heading: Meld van OpenStreetMap af
+      heading: Meld van OpenHistoricalMap af
       logout_button: Teken af
   shared:
     markdown_help:
@@ -1604,7 +1663,12 @@ af:
         mapping_link: begin karteer
       legal_babble:
         title_html: Kopiereg en lisensie
-        credit_title_html: Hoe om na OpenStreetMap te verwys
+        intro_2_html: Dit staan u vry om ons data te kopieer, versprei, versend of
+          aan te pas, mits u erkenning aan OpenHistoricalMap en die bydraers gee.
+          Indien u ons data wysig of daarop voortbou, mag u dit slegs in gevolge dieselfde
+          lisensie versprei. Die volledige <a href="http://opendatacommons.org/licenses/odbl/1.0/">regsteks</a>
+          verduidelik u regte en verantwoordelikhede.
+        credit_title_html: Hoe om na OpenHistoricalMap te verwys
         contributors_title_html: Ons bydraers
         infringement_title_html: Kopieregoortreding
     index:
@@ -1619,10 +1683,12 @@ af:
       area_to_export: Area om uit te voer
       manually_select: Kies self 'n ander area
       format_to_export: Formaat om uit te voer
-      osm_xml_data: OpenStreetMap XML-data
+      osm_xml_data: OpenHistoricalMap XML-data
       map_image: Kaartbeeld (wys standaardlaag)
       embeddable_html: Versteekbare HTML-kode
       licence: Lisensie
+      export_details_html: OpenHistoricalMap se data word ingevolge die <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL) gelisensieer.
       too_large:
         advice: 'As die uitvoering hierbo misluk, oorweeg gerus een van die volgende
           bronne:'
@@ -1654,21 +1720,25 @@ af:
     help:
       welcome:
         url: /welcome
-        title: Welkom by OpenStreetMap
+        title: Welkom by OpenHistoricalMap
       beginners_guide:
         title: Gids vir beginners
       help:
+        url: https://help.openstreetmap.org/
         title: Help Forum
       mailing_lists:
         title: Poslyste
+      forums:
+        title: Forums
       irc:
         title: IRC
       switch2osm:
         title: switch2osm
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
       wiki:
+        url: https://wiki.openstreetmap.org/
         title: OpenStreetMap-wiki
-    any_questions:
-      title: Enige vrae?
     sidebar:
       search_results: Soekuitslae
       close: Sluit
@@ -1752,10 +1822,12 @@ af:
       title: Welkom!
       basic_terms:
         title: Grondliggende terme vir kartering
-        paragraph_1: OpenStreetMap bevat 'n gedeelte van ons eie vakbegrippe. Hier
-          is 'n paar wat handig te pas sal kom.
+        paragraph_1_html: OpenHistoricalMap bevat 'n gedeelte van ons eie vakbegrippe.
+          Hier is 'n paar wat handig te pas sal kom.
       rules:
         title: Reëls!
+      questions:
+        title: Enige vrae?
       start_mapping: Begin karteer
       add_a_note:
         title: Geen tyd om te redigeer nie? Voeg 'n nota by!
@@ -1763,6 +1835,7 @@ af:
     new:
       upload_trace: Laai GPS-spore op
       visibility_help: wat beteken dit?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces‎
       help: Hulp
     create:
       upload_trace: Laai GPS-spore op
@@ -1812,10 +1885,10 @@ af:
       in: in
     index:
       public_traces: Openbare GPS-spore
+      my_traces: My Spore
       public_traces_from: Openbare GPS-spore van %{user}
       tagged_with: gemerk met %{tags}
       upload_trace: Laai 'n GPS-spoor op
-      my_traces: My Spore
       traces_from: Openbare spore van %{user}
     destroy:
       scheduled_for_deletion: Spoor is vir verwydering geoormerk
@@ -1910,6 +1983,12 @@ af:
       title: Meld aan
       about:
         header: Gratis en redigeerbaar
+        html: |-
+          <p>Anders as ander kaarte, skep mense soos jy OpenHistoricalMap geheel en al; daarbenewens is dit gratis vir enigeen om te herstel, by te werk, af te laai en te benut.</p>
+          <p>Registreer om 'n bydrae te lewer. Ons sal dan u registrasie per e-pos bevestig.</p>
+      email address: 'E-posadres:'
+      confirm email address: 'Bevestig e-posadres:'
+      display name: 'Skermnaam:'
       display name description: U gebruikernaam wat openbaar verskyn. U kan dit wel
         later nog onder voorkeure wysig.
       use external auth: Gebruik andersins 'n derde party om mee aan te meld
@@ -1935,6 +2014,7 @@ af:
       deleted: Geskrap
     show:
       my diary: My Dagboek
+      new diary entry: nuwe dagboekinskrywing
       my edits: My Wysigings
       my traces: My Spore
       my notes: My notas
@@ -1960,6 +2040,8 @@ af:
       created from: 'Geskep vanaf:'
       status: 'Status:'
       spam score: 'SPAM-telling:'
+      description: Beskrywing
+      user location: Ligging van gebruiker
       role:
         administrator: Hierdie gebruiker is 'n administrateur
         moderator: Hierdie gebruiker is 'n moderator
@@ -1974,12 +2056,15 @@ af:
       comments: Kommentaar
       create_block: Versper hierdie gebruiker
       activate_user: Aktiveer hierdie gebruiker
+      deactivate_user: Deaktiveer hierdie gebruiker
       confirm_user: Bevestig dié gebruiker
       hide_user: Versteek hierdie gebruiker
       unhide_user: Wys hierdie gebruiker
       delete_user: Skrap dié Gebruiker
       confirm: Bevestig
       report: Rapporteer hierdie gebruiker
+    set_home:
+      flash success: U tuisligging is suksesvol gestoor
     index:
       title: Gebruikers
       heading: Gebruikers
@@ -2015,6 +2100,10 @@ af:
       show: Wys dié versperring
       back: Wys alle versperrings
     create:
+      try_contacting: Probeer eers met die gebruiker in verbinding tree voordat u
+        hulle versper, en gun hulle 'n billike tyd om te antwoord.
+      try_waiting: Gun asseblief die gebruiker billike tyd om te antwoord voordat
+        u hulle versper.
       flash: Het gebruiker %{name} versper.
     update:
       success: Versperring bygewerk.
@@ -2087,18 +2176,6 @@ af:
       id: Id
       created_at: Geskep op
       last_changed: Laas gewysig
-    show:
-      title: 'Nota: %{id}'
-      description: Beskrywing
-      open_title: 'Onopgeloste nota #%{note_name}'
-      closed_title: 'Opgeloste nota #%{note_name}'
-      hidden_title: 'Verborge nota #%{note_name}'
-      report: Rapporteer hierdie nota
-      hide: Versteek
-      comment: Reageer
-    new:
-      title: Nuwe nota
-      add: Voeg nota by
   javascripts:
     close: Sluit
     share:
@@ -2146,6 +2223,12 @@ af:
         unsubscribe: Kanselleer subskripsie
         hide_comment: versteek
         unhide_comment: bring weer aan die lig
+    notes:
+      new:
+        add: Voeg nota by
+      show:
+        hide: Versteek
+        comment: Reageer
     directions:
       engines:
         fossgis_osrm_car: Kar (OSRM)

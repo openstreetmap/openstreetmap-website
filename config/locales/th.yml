@@ -63,6 +63,7 @@ th:
       message: ข้อความ
       node: หมุด
       node_tag: ป้ายกำกับหมุด
+      notifier: ผู้แจ้ง
       old_node: หมุดเก่า
       old_node_tag: ป้ายกำกับหมุดเก่า
       old_relation: ความสัมพันธ์เดิม
@@ -105,7 +106,7 @@ th:
         title: หัวเรื่อง
         latitude: ละติจูด
         longitude: ลองติจูด
-        language_code: ภาษา
+        language: ภาษา
       doorkeeper/application:
         name: ชื่อ
       friend:
@@ -158,6 +159,9 @@ th:
           และต้องอย่าลืมว่าสิ่งที่คุณเขียนนี้จะแสดงต่อสาธารณะด้วย
         needs_view: ต้องการให้ผู้ใช้คนนี้เข้าระบบก่อนเพิกถอนการระงับหรือไม่?
       user:
+        email_confirmation: ที่อยู่อีเมลของคุณจะไม่แสดงเป็นสาธารณะ โปรดดูเพิ่มเติมที่<a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="นโยบายความเป็นส่วนตัวของ
+          OSMF ซึ่งมีเนื้อหาเกี่ยวข้องกับการจัดการที่อยู่อีเมลของคุณ">นโยบายความเป็นส่วนตัว</a>สำหรับสารสนเทศเพิ่มเติม
         new_email: (จะไม่แสดงต่อสาธารณะ)
   datetime:
     distance_in_words_ago:
@@ -219,7 +223,7 @@ th:
         reopened_at_html: รื้อฟื้นเมื่อ %{when}
         reopened_at_by_html: เปิดใช้งานซ้ำเมื่อ %{when} โดย %{user}
       rss:
-        title: หมายเหตุ OpenStreetMap
+        title: หมายเหตุ OpenHistoricalMap
         description_area: รายชื่อหมายเหตุที่มีการรายงาน แสดงความคิดเห็น หรือถูกปิดในพื้นที่ของคุณ
           [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: ฟีด rss สำหรับหมายเหตุ %{id}
@@ -248,18 +252,24 @@ th:
         enabled: 'เปิดใช้: สามารถแก้ไขแผนที่ได้ แต่ทำโดยเปิดเผยนาม'
         enabled link text: นี้คืออะไร?
         disabled: 'ปิดใช้: ไม่สามารถแก้ไขแผนที่ได้อีก, โดยการแก้ไขในอดีตจะยังคงความนิรนามไว้'
+      public editing note:
+        heading: 'แก้ไขโดยเปิดเผย:'
       contributor terms:
         link text: นี้คืออะไร?
       save changes button: บันทึกการเปลี่ยนแปลง
-    go_public:
-      heading: 'แก้ไขโดยเปิดเผย:'
-      make_edits_public_button: ทำให้การแก้ไขของข้าพเจ้าเป็นสาธารณะเห็นได้ทั่วไป
+      make edits public button: ทำให้การแก้ไขของข้าพเจ้าเป็นสาธารณะเห็นได้ทั่วไป
     update:
       success_confirm_needed: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย โปรดตรวจสอบอีเมลของท่านเพื่อยืนยันที่อยู่อีเมลใหม่
       success: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
   browse:
     created: สร้างเมื่อ
     closed: ปิดเมื่อ
+    created_html: สร้างเมื่อ <abbr title='%{title}'>%{time}</abbr>
+    closed_html: ปิดเมื่อ <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: สร้างเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
+    deleted_by_html: ลบเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
+    edited_by_html: แก้ไขเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
+    closed_by_html: ปิดเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
     version: รุ่นที่
     in_changeset: ชุดการเปลี่ยนแปลง
     anonymous: ไม่ระบุตัวตน
@@ -283,6 +293,8 @@ th:
       relation: ความสัมพันธ์ (%{count})
       relation_paginated: ความสัมพันธ์ (%{x}-%{y} จาก %{count})
       comment: ความคิดเห็น (%{count})
+      hidden_commented_by_html: ความคิดเห็นซ่อนจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: ความคิดเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: ชุดการเปลี่ยนแปลง XML
       osmchangexml: เอ็กซ์เอ็มแอลของ osmChange
       feed:
@@ -355,6 +367,23 @@ th:
       wikimedia_commons_link: รายการ %{page} บนวิกิมีเดียคอมมอนส์
       telephone_link: โทรไปที่หมายเลข %{phone_number}
       colour_preview: แสดงตัวอย่างสี %{colour_value}
+    note:
+      title: 'หมายเหตุ: %{id}'
+      new_note: หมายเหตุใหม่
+      description: คำอธิบาย
+      open_title: 'หมายเหตุที่ยังไม่มีคำตอบ #%{note_name}'
+      closed_title: หมายเหตุที่ตอบสนองแล้ว %{note_name}
+      hidden_title: 'หมายเหตุที่ซ่อนอยู่ #%{note_name}'
+      opened_by_html: จัดทำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: จัดทำโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: ความเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: ความเห็นจากผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: แก้ไขโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: แก้ไขโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: เปิดใช้ซ้ำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: เปิดใช้ซ้ำโดยผู้ไม่ประสงค์ออกนาม เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: ซ่อนโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
     query:
       title: ส่วนประกอบในพื้นที่
       introduction: คลิกบนแผนที่เพื่อค้นหาส่วนประกอบต่างๆ ที่อยู่ใกล้เคียง
@@ -396,8 +425,8 @@ th:
     comments:
       comment: 'ความคิดเห็นใหม่ที่มีต่อชุดการเปลี่ยนแปลง #%{changeset_id} โดย %{author}'
     index:
-      title_all: การอภิปรายชุดการเปลี่ยนแปลงของ OpenStreetMap
-      title_particular: 'การอภิปรายชุดการเปลี่ยนแปลง OpenStreetMap #%{changeset_id}'
+      title_all: การอภิปรายชุดการเปลี่ยนแปลงของ OpenHistoricalMap
+      title_particular: 'การอภิปรายชุดการเปลี่ยนแปลง OpenHistoricalMap #%{changeset_id}'
     timeout:
       sorry: ขออภัย รายการชุดการเปลี่ยนแปลงที่ท่านร้องขอใช้เวลานานเกินสมควรในการสืบค้น
   dashboards:
@@ -474,14 +503,14 @@ th:
       edit: แก้ไข
     feed:
       user:
-        title: รายการบันทึก OpenStreetMap สำหรับ %{user}
-        description: รายการบันทึกล่าสุด OpenStreetMap จาก %{user}
+        title: รายการบันทึก OpenHistoricalMap สำหรับ %{user}
+        description: รายการบันทึกล่าสุด OpenHistoricalMap จาก %{user}
       language:
-        title: รายการบันทึก OpenStreetMap ในภาษา%{language_name}
-        description: รายการบันทึกล่าสุดจากผู้ใช้ OpenStreetMap ในภาษา%{language_name}
+        title: รายการบันทึก OpenHistoricalMap ในภาษา%{language_name}
+        description: รายการบันทึกล่าสุดจากผู้ใช้ OpenHistoricalMap ในภาษา%{language_name}
       all:
-        title: รายการบันทึก OpenStreetMap
-        description: รายการบันทึกล่าสุดจากผู้ใช้ OpenStreetMap
+        title: รายการบันทึก OpenHistoricalMap
+        description: รายการบันทึกล่าสุดจากผู้ใช้ OpenHistoricalMap
     comments:
       post: เผยแพร่
       when: เมื่อ
@@ -501,6 +530,16 @@ th:
       success: ท่านได้ลบผู้ใช้ %{name} ออกจากรายการเพื่อน
       not_a_friend: ผู้ใช้ %{name} ไม่ได้อยู่ในรายการเพื่อนของท่าน
   geocoder:
+    search:
+      title:
+        latlon_html: ผลการค้นหาจาก <a href="https://openstreetmap.org/">เว็บไซต์นี้</a>
+        ca_postcode_html: ผลการค้นหาจาก <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: ผลการค้นหาจาก <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
+          Nominatim</a>
+        geonames_html: ผลการค้นหาจาก <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: ผลการค้นหาจาก <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
+          Nominatim</a>
+        geonames_reverse_html: ผลการค้นหาจาก <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1098,6 +1137,8 @@ th:
       status: สถานะ
       reports: รายการปัญหาที่รับแจ้งจากผู้ใช้
       last_updated: ปรับปรุงล่าสุดเมื่อ
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> โดย %{user}
       link_to_reports: ดูรายงาน
       reports_count:
         one: 1 รายงาน
@@ -1107,6 +1148,10 @@ th:
         ignored: ละเว้น
         open: เปิด
         resolved: ปิดเรื่องแล้ว
+    update:
+      new_report: ลงทะเบียนรายงานของคุณสำเร็จแล้ว
+      successful_update: ปรับปรุงรายงานของคุณสำเร็จแล้ว
+      provide_details: โปรดระบุรายละเอียดที่จำเป็น
     show:
       title: 'ปัญหา %{status} #%{issue_id}'
       reports:
@@ -1179,12 +1224,14 @@ th:
       provide_details: กรุณาระบุรายละเอียด
   layouts:
     logo:
-      alt_text: ตราสัญลักษณ์ OpenStreetMap
+      alt_text: ตราสัญลักษณ์ OpenHistoricalMap
     home: กลับไปที่ตำแหน่งบ้าน
     logout: ออกจากระบบ
     log_in: ลงชื่อเข้าใช้
+    log_in_tooltip: ลงชื่อเข้าใช้ด้วยบัญชีที่มีอยู่แล้ว
     sign_up: สมัครบัญชี
     start_mapping: เริ่มการทำแผนที่
+    sign_up_tooltip: สร้างบัญชีสำหรับการแก้ไข
     edit: แก้ไข
     history: ประวัติ
     export: ส่งออก
@@ -1197,73 +1244,75 @@ th:
     user_diaries_tooltip: ดูบันทึกของผู้ใช้
     edit_with: แก้ไขด้วย %{editor}
     tag_line: แผนที่โลกวิกิ ใช้งานได้ไม่เสียค่าใช้จ่าย
-    intro_header: ยินดีต้อนรับสู่ OpenStreetMap!
-    intro_text: OpenStreetMap เป็นแผนที่โลกที่สร้างโดยผู้คนเช่นท่าน และใช้งานได้ไม่เสียค่าใช้จ่ายภายใต้สัญญาอนุญาตแบบเปิด
+    intro_header: ยินดีต้อนรับสู่ OpenHistoricalMap!
+    intro_text: OpenHistoricalMap เป็นแผนที่โลกที่สร้างโดยผู้คนเช่นท่าน และใช้งานได้ไม่เสียค่าใช้จ่ายภายใต้สัญญาอนุญาตแบบเปิด
     intro_2_create_account: สร้างบัญชีผู้ใช้ใหม่
     hosting_partners_html: การโฮสต์ได้รับการสนับสนุนโดย %{ucl}, %{bytemark}, และ%{partners}อื่น
       ๆ
-    partners_ucl: ยูซีแอล (วิทยาลัยอุดมศึกษาลอนดอน)
-    partners_bytemark: ไบต์มาร์กโฮสติง
     partners_partners: องค์กรพันธมิตร
     tou: ข้อกำหนดการใช้งาน
-    osm_offline: ฐานข้อมูลของ OpenStreetMap กำลังออฟไลน์เพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
-    osm_read_only: ฐานข้อมูลของ OpenStreetMap กำลังอยู่ในโหมดอ่านอย่างเดียวเพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
-    donate: สนับสนุน OpenStreetMap โดย %{link} สมทบทุนปรับปรุงฮาร์ดแวร์
+    osm_offline: ฐานข้อมูลของ OpenHistoricalMap กำลังออฟไลน์เพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
+    osm_read_only: ฐานข้อมูลของ OpenHistoricalMap กำลังอยู่ในโหมดอ่านอย่างเดียวเพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
+    donate: สนับสนุน OpenHistoricalMap โดย %{link} สมทบทุนปรับปรุงฮาร์ดแวร์
     help: วิธีใช้
     about: เกี่ยวกับ
     copyright: ลิขสิทธิ์
     community: ชุมชน
     community_blogs: บทความชุมชน
-    community_blogs_title: บทความเพื่อชุมชนจากสมาชิก OpenStreetMap
+    community_blogs_title: บทความเพื่อชุมชนจากสมาชิก OpenHistoricalMap
+    foundation: มูลนิธิ
+    foundation_title: มูลนิธิ OpenHistoricalMap
     make_a_donation:
-      title: สนับสนุน OpenStreetMap โดยการบริจาคเงิน
+      title: สนับสนุน OpenHistoricalMap โดยการบริจาคเงิน
       text: บริจาค
     learn_more: เรียนรู้เพิ่มเติม
     more: เพิ่มเติม
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] ผู้ใช้ %{user} แสดงความคิดเห็นต่อรายการบันทึก'
+      subject: '[OpenHistoricalMap] ผู้ใช้ %{user} แสดงความคิดเห็นต่อรายการบันทึก'
       hi: เรียนคุณ %{to_user},
-      header: 'ผู้ใช้ %{from_user} ได้แสดงความคิดเห็นต่อบันทึก OpenStreetMap หัวเรื่อง
+      header: 'ผู้ใช้ %{from_user} ได้แสดงความคิดเห็นต่อบันทึก OpenHistoricalMap หัวเรื่อง
         %{subject}:'
       footer: ท่านสามารถอ่านความคิดเห็นได้ที่ลิงก์ %{readurl} และแสดงความคิดเห็นตอบได้ที่
         %{commenturl} หรือตอบกลับได้ที่ %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: เรียนคุณ %{to_user},
-      header: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenStreetMap โดยมีหัวเรื่อง
+      header: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenHistoricalMap โดยมีหัวเรื่อง
         %{subject}:'
-      header_html: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenStreetMap โดยมีหัวเรื่อง
-        %{subject}:'
+      header_html: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenHistoricalMap
+        โดยมีหัวเรื่อง %{subject}:'
       footer_html: ท่านสามารถอ่านข้อความที่ลิงก์ %{readurl} และถ้าต้องการสามารถตอบกลับที่ลิงก์
         %{replyurl}
     friendship_notification:
       hi: เรียนคุณ %{to_user},
-      subject: '[OpenStreetMap] %{user} เพิ่มท่านในรายการเพื่อน'
-      had_added_you: ผู้ใช้ %{user} เพิ่มท่านในรายการเพื่อนบน OpenStreetMap
+      subject: '[OpenHistoricalMap] %{user} เพิ่มท่านในรายการเพื่อน'
+      had_added_you: ผู้ใช้ %{user} เพิ่มท่านในรายการเพื่อนบน OpenHistoricalMap
       see_their_profile: ท่านสามารถดูหน้าประวัติส่วนตัวของเขาได้ที่ %{userurl}.
       befriend_them: นอกจากนี้ท่านสามารถเพิ่มเขาในรายการเพื่อนได้ที่ %{befriendurl}.
     gpx_failure:
       hi: สวัสดี %{to_user}
       failed_to_import: 'การนำเข้าล้มเหลว เนื่องจาก:'
-      subject: '[OpenStreetMap] การนำเข้า GPX ล้มเหลว'
+      subject: '[OpenHistoricalMap] การนำเข้า GPX ล้มเหลว'
     gpx_success:
-      subject: '[OpenStreetMap] การนำเข้า GPX เรียบร้อย'
+      loaded_successfully: การนำเข้าสำเร็จ มีจำนวนจุด %{trace_points} จุด จากที่เป็นไปได้ทั้งหมด
+        %{possible_points} จุด
+      subject: '[OpenHistoricalMap] การนำเข้า GPX เรียบร้อย'
     signup_confirm:
-      subject: '[OpenStreetMap] ยินดีต้อนรับสู่ OpenStreetMap'
+      subject: '[OpenHistoricalMap] ยินดีต้อนรับสู่ OpenHistoricalMap'
       greeting: เรียนท่านผู้ใช้งาน
       created: มีบางคน (ซึ่งอาจเป็นท่าน) ได้สร้างบัญชีผู้ใช้ใหม่ไว้ที่ %{site_url}
       confirm: 'ก่อนที่ทางเราจะดำเนินการต่อไปได้ เราขอให้ท่านยืนยันว่า ท่านได้สมัครสมาชิกจริงหรือไม่
         ถ้าจริง ขอให้ท่านคลิกลิงก์ข้างล่างเพื่อยืนยันบัญชีของท่าน:'
       welcome: หลังจากที่ยืนยันบัญชีของท่านแล้ว เราจะให้รายละเอียดเพิ่มเติมเพื่อให้ท่านเริ่มใช้งานเว็บไซต์ได้ต่อไป
     email_confirm:
-      subject: '[OpenStreetMap] ยืนยันที่อยู่อีเมลของท่าน'
+      subject: '[OpenHistoricalMap] ยืนยันที่อยู่อีเมลของท่าน'
       greeting: เรียนท่านผู้ใช้งาน
       hopefully_you: มีบางคน (ซึ่งอาจเป็นท่าน) ประสงค์จะเปลี่ยนที่อยู่อีเมลที่รักษาไว้ที่
         %{server_url} เป็น %{new_address}
       click_the_link: ถ้าเป็นท่านจริง ขอให้คลิกลิงก์ด้านล่างเพื่อยืนยันการเปลี่ยนแปลง
     lost_password:
-      subject: '[OpenStreetMap] คำขอเปลี่ยนรหัสผ่านใหม่'
+      subject: '[OpenHistoricalMap] คำขอเปลี่ยนรหัสผ่านใหม่'
       greeting: เรียนท่านผู้ใช้งาน
       hopefully_you: มีบางคน (ซึ่งอาจเป็นท่าน) ขอเปลี่ยนรหัสผ่านซึ่งกำกับบัญชีผู้ใช้
         openstreetmap.org
@@ -1272,22 +1321,22 @@ th:
       anonymous: ผู้ใช้ไม่ระบุตัวตน
       greeting: เรียนท่านผู้ใช้งาน
       commented:
-        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} แสดงความคิดเห็นต่อหมายเหตุของท่าน'
-        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} แสดงความคิดเห็นต่อบันทึกที่ท่านสนใจ'
+        subject_own: '[OpenHistoricalMap] ผู้ใช้ %{commenter} แสดงความคิดเห็นต่อหมายเหตุของท่าน'
+        subject_other: '[OpenHistoricalMap] ผู้ใช้ %{commenter} แสดงความคิดเห็นต่อบันทึกที่ท่านสนใจ'
         your_note: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อหมายเหตุของท่านซึ่งอยู่ใกล้กับ
           %{place}
         commented_note: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อหมายเหตุที่ท่านแสดงความเห็นไว้ก่อนหน้านี้
           โดยหมายเหตุนั้นแปะไว้ใกล้กับ %{place}
       closed:
-        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านหนึ่งฉบับแล้ว'
-        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ทำการตอบสนองหมายเหตุที่ท่านสนใจ'
+        subject_own: '[OpenHistoricalMap] ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านหนึ่งฉบับแล้ว'
+        subject_other: '[OpenHistoricalMap] ผู้ใช้ %{commenter} ได้ทำการตอบสนองหมายเหตุที่ท่านสนใจ'
         your_note: ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านที่อยู่ใกล้กับ
           %{place}
         commented_note: ผู้ใช้ %{commenter} ได้สนองตอบต่อหมายเหตุที่ท่านแสดงความเห็นไว้ก่อนหน้านี้
           ซึ่งหมายเหตุนั้นแปะอยู่ใกล้กับ %{place}
       reopened:
-        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ขอรื้อฟื้นหรือเปิดใช้งานบันทึกของท่าน'
-        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ขอรื้อฟื้นหรือเปิดใช้งานบันทึกที่ท่านสนใจ'
+        subject_own: '[OpenHistoricalMap] ผู้ใช้ %{commenter} ได้ขอรื้อฟื้นหรือเปิดใช้งานบันทึกของท่าน'
+        subject_other: '[OpenHistoricalMap] ผู้ใช้ %{commenter} ได้ขอรื้อฟื้นหรือเปิดใช้งานบันทึกที่ท่านสนใจ'
         your_note: ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านที่อยู่ใกล้กับ
           %{place}
         commented_note: ผู้ใช้ %{commenter} ได้รื้อฟื้นเรื่องในหมายเหตุที่ได้ท่านแสดงความเห็นไว้ก่อนหน้านี้
@@ -1297,8 +1346,8 @@ th:
       hi: เรียนคุณ %{to_user},
       greeting: เรียนท่านผู้ใช้งาน
       commented:
-        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อชุดการเปลี่ยนแปลงของท่าน'
-        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อชุดการเปลี่ยนแปลงที่ท่านสนใจ'
+        subject_own: '[OpenHistoricalMap] ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อชุดการเปลี่ยนแปลงของท่าน'
+        subject_other: '[OpenHistoricalMap] ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อชุดการเปลี่ยนแปลงที่ท่านสนใจ'
         your_changeset: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อชุดการเปลี่ยนแปลงของท่านที่ทำไว้
           ณ เวลา %{time}
         commented_changeset: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อชุดการเปลี่ยนแปลงที่ท่านเฝ้าดู
@@ -1318,6 +1367,7 @@ th:
       success: บัญชีของท่านยืนยันเสร็จแล้ว ขอบคุณสำหรับการสมัครใช้งาน!
       already active: บัญชีนี้ได้ถูกยืนยันมาก่อนแล้ว
       unknown token: รหัสยืนยันหมดอายุหรือผิดพลาด
+      reconfirm_html: ถ้าท่านต้องการให้เราส่งอีเมลยืนยันซ้ำ <a href="%{reconfirm}">โปรดคลิกที่นี่</a>.
     confirm_resend:
       failure: ไม่พบผู้ใช้ %{name}
     confirm_email:
@@ -1352,6 +1402,8 @@ th:
     new:
       title: ส่งข้อความ
       send_message_to_html: ส่งข้อความใหม่หาผู้ใช้ %{name}
+      subject: หัวเรื่อง
+      body: เนื้อหา
       back_to_inbox: กลับไปที่กล่องจดหมายรับ
     create:
       message_sent: ส่งข้อความแล้ว
@@ -1377,10 +1429,14 @@ th:
         โปรดเข้าระบบใหม่โดยใช้ชื่อผู้ใช้นั้นเพื่อตอบกลับ
     show:
       title: อ่านข้อความ
+      from: จาก
+      subject: เรื่อง
+      date: วันที่
       reply_button: ตอบกลับ
       unread_button: ทำเครื่องหมายว่ายังไม่ได้อ่าน
       destroy_button: ลบ
       back: ย้อนกลับ
+      to: ถึง
       wrong_user: ท่านเข้าระบบโดยใช้ชื่อผู้ใช้ `%{user}' แต่ข้อความที่ท่านกำลังจะตอบกลับไม่ได้ส่งโดยหรือส่งถึงผู้ใช้ดังกล่าว
         โปรดเข้าระบบใหม่โดยใช้ชื่อผู้ใช้นั้นเพื่อตอบกลับ
     sent_message_summary:
@@ -1428,8 +1484,16 @@ th:
       lost password link: ลืมรหัสผ่านหรือ?
       login_button: ลงชื่อเข้าใช้
       register now: สมัครเลย!
+      with username: มีบัญชี OpenHistoricalMap แล้วหรือยัง? ถ้ามีโปรดเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านที่ท่านมี
       with external: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
+      new to osm: เพิ่งเริ่มใช้ OpenHistoricalMap หรือ?
+      to make changes: หากต้องการเปลี่ยนแปลงข้อมูลใน OpenHistoricalMap ท่านต้องมีบัญชีเสียก่อน
+      create account minute: สร้างบัญชีเดี๋ยวนี้ ใช้เวลาไม่นาน
       no account: ยังไม่ได้เป็นสมาชิก?
+      account not active: ขออภัย บัญชีของท่านยังไม่เปิดใช้งาน<br/>โปรดใช้ลิงก์ที่ให้ไว้ในอีเมลตอบรับเพื่อเปิดใช้งานบัญชี
+        หรือ<a href="%{reconfirm}">ขออีเมลตอบรับใหม่</a> หากสูญหาย
+      account is suspended: ขออภัย บัญชีของคุณถูกระงับการใช้งานเนื่องจากกิจกรรมที่น่าสงสัย<br/>หากต้องการพูดคุยในรายละเอียด
+        กรุณาติดต่อ<a href="%{webmaster}">ผู้ดูแลระบบ</a>
       auth failure: ขออภัย ไม่สามารถเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านดังกล่าวได้
       openid_logo_alt: เข้าใช้งานด้วย OpenID
       auth_providers:
@@ -1459,23 +1523,50 @@ th:
           alt: เข้าใช้งานด้วย AOL OpenID
     destroy:
       title: ออกจากระบบ
-      heading: ออกจากระบบ OpenStreetMap
+      heading: ออกจากระบบ OpenHistoricalMap
       logout_button: ออกจากระบบ
   site:
     about:
       next: ถัดไป
-      used_by_html: '%{name} ให้ข้อมูลแผนที่แก่เว็บไซต์ แอปพลิเคชั่นมือถือ และอุปกรณ์นับพัน'
-      lede_text: OpenStreetMap เป็นโครงการซึ่งสร้างสรรค์ขึ้นจากชุมชนของผู้ใช้และผู้สนใจ
+      copyright_html: |2-
+
+        <span>&copy;ผู้มีส่วนร่วม </span>OpenHistoricalMap<br>
+      used_by_html: OpenHistoricalMap ให้ข้อมูลแผนที่แก่เว็บไซต์ แอปพลิเคชั่นมือถือ
+        และอุปกรณ์นับพัน
+      lede_text: OpenHistoricalMap เป็นโครงการซึ่งสร้างสรรค์ขึ้นจากชุมชนของผู้ใช้และผู้สนใจ
         ที่ได้ทำการสำรวจ ปรับปรุง แบ่งปันข้อมูลแผนที่ถนน ทางหลวง ทางเดินป่า, รวมถึงสถานที่ที่น่าสนใจอย่าง
         ร้านกาแฟ สถานีรถไฟ และอื่นๆ อีกมากมาย จากทั่วทุกมุมโลก
       local_knowledge_title: ความรู้จากท้องถิ่น
-      local_knowledge_html: OpenStreetMap มุ่งเน้นส่งเสริมการใช้และเผยแพร่ความรู้จากคนท้องถิ่น
+      local_knowledge_html: OpenHistoricalMap มุ่งเน้นส่งเสริมการใช้และเผยแพร่ความรู้จากคนท้องถิ่น
         โดยนักทำแผนที่ในท้องถิ่นสามารถใช้ทั้งภาพถ่ายดาวเทียม อุปกรณ์ระบุตำแหน่งจีพีเอส
-        หรือแม้แต่ผังกระดาษ เพื่อเดินสำรวจ เพิ่มเติม และปรับปรุงข้อมูลแผนที่ OpenStreetMap
+        หรือแม้แต่ผังกระดาษ เพื่อเดินสำรวจ เพิ่มเติม และปรับปรุงข้อมูลแผนที่ OpenHistoricalMap
         ให้ละเอียด ถูกต้อง ทันสมัยอยู่เสมอได้ด้วยตนเอง ทุกที่ ทุกเวลา
       community_driven_title: ผลักดันโดยชุมชน
+      community_driven_html: ชุมชนผู้ใช้ OpenHistoricalMap เติบโตขึ้นมาจากกลุ่มคนที่หลากหลาย
+        ร่วมสร้างสรรค์จากทั้งนักทำแผนที่สมัครเล่น, ผู้เชี่ยวชาญระบบภูมิสารสนเทศ, วิศวกรดูแลเซิร์ฟเวอร์,
+        อาสาสมัครบรรเทาสาธารณภัย และสาขาอาชีพอื่นๆ อีกมากมาย, เรียนรู้เพิ่มเติมเกี่ยวกับชุมชนของเราได้จาก<a
+        href='https://blog.openstreetmap.org'>บล็อกทางการของ OpenHistoricalMap</a>,
+        รวม<a href='%{diary_path}'>บันทึก</a>และ<a href='https://blogs.openstreetmap.org/'>บล็อกของผู้ใช้</a>ทั่วสารทิศ,
+        และที่เว็บไซต์ของ<a href='https://www.osmfoundation.org/'>มูลนิธิ OpenHistoricalMap</a>
       open_data_title: ข้อมูลเปิดเผย
+      open_data_html: |-
+        OpenHistoricalMap อนุญาตให้ใช้ตามหลักเกณฑ์<i>ข้อมูลเปิดเผย</i> โดยจะนำไปใช้ในวัตถุประสงค์อื่นใดก็ได้
+        แต่ต้องแสดงที่มาหรือให้คำขอบคุณต่อ OpenHistoricalMap ตลอดจนผู้ร่วมสร้างสรรค์ ถ้าท่านปรับแก้ สร้างสรรค์
+        หรือกระทำการให้เกิดสิ่งอื่นใดใหม่ขึ้นต่องานที่มีนี้ ท่านสามารถแจกจ่ายได้แต่เพียงภายใต้สัญญาอนุญาตเดิม โปรดดู
+         <a href='%{copyright_path}'>หน้าลิขสิทธิ์และสัญญาอนุญาต</a> ถ้าต้องการรายละเอียดเพิ่ม
       legal_title: ข้อกำหนดทางกฎหมาย
+      legal_1_html: "เว็บไซต์และบริการที่เกี่ยวข้องนี้ดำเนินการและบำรุงรักษาอย่างเป็นทางการโดย\n<a
+        href='https://osmfoundation.org/'>มูลนิธิ OpenHistoricalMap</a> (OSMF) \nในนามสมาชิกทุกคน
+        การใช้บริการที่ดำเนินการโดย OSMF จะต้องอยู่ภายใต้<a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">ข้อกำหนดการใช้งาน</a>
+        <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nเงื่อนไขการใช้งานที่ยอมรับได้</a>
+        และ<a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">นโยบายความเป็นส่วนตัว</a>\n<br>
+        \nโปรด<a href='https://osmfoundation.org/Contact'>ติดต่อ OSMF</a> \nหากคุณมีข้อสงสัยเกี่ยวกับสัญญาอนุญาต
+        ลิขสิทธิ์ คำถามกฎหมาย และประเด็นอื่น ๆ ที่เกี่ยวข้อง"
+      legal_2_html: "โปรด<a href='https://osmfoundation.org/Contact'>ติดต่อ OSMF</a>
+        \nหากคุณมีข้อสงสัยเกี่ยวกับสัญญาอนุญาต ลิขสิทธิ์ คำถามกฎหมาย และประเด็นอื่น
+        ๆ ที่เกี่ยวข้อง\n<br>\nOpenHistoricalMap, โลโก้แว่นขยาย และ State of the Map
+        เป็น<a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">เครื่องหมายการค้าที่ลงทะเบียนของ
+        OSMF</a>"
       partners_title: องค์กรพันธมิตร
     copyright:
       foreign:
@@ -1491,34 +1582,69 @@ th:
         mapping_link: เริ่มการทำแผนที่
       legal_babble:
         title_html: ลิขสิทธิ์และสัญญาอนุญาต
-        credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenStreetMap
+        intro_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> เป็น<i>ข้อมูลเปิดให้ใช้งาน</i> และอนุญาตให้ใช้งานภายใต้สัญญาอนุญาต <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) โดย<a
+          href="https://osmfoundation.org/">มูลนิธิ OpenHistoricalMap</a> (OSMF).
+        intro_2_html: "ท่านสามารถทำสำเนา แจกจ่าย แพร่ภาพ และปรับใช้ข้อมูลของเรา\nตราบเท่าที่ได้ระบุชื่อ
+          OpenHistoricalMap ตลอดจนผู้ร่วมจัดทำไว้ในคำขอบคุณหรือที่มา\nถ้าท่านปรับแก้ไขหรือสร้างสรรค์งานใหม่โดยใช้ข้อมูลของเราเป็นพื้น
+          ท่านสามารถ\nแจกจ่ายผลลัพธ์ที่ได้ภายใต้สัญญาอนุญาตเดียวกันเท่านั้น โปรดดู
+          <a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">ข้อกำหนดทางกฎหมาย</a>
+          \nซึ่งจะอธิบายสิทธิและหน้าที่ที่ท่านพึงมี"
+        intro_3_1_html: เอกสารประกอบนี้อยู่ภายใต้สัญญาอนุญาต <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA 2.0)
+        credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenHistoricalMap
         credit_1_html: |-
-          เราจำเป็นต้องให้ท่านแสดงที่มาหรือคำขอบคุณแก่ &ldquo;&copy; ผู้ร่วมสร้างสรรค์ OpenStreetMap
+          เราจำเป็นต้องให้ท่านแสดงที่มาหรือคำขอบคุณแก่ &ldquo;&copy; ผู้ร่วมสร้างสรรค์ OpenHistoricalMap
           &rdquo;.
+        credit_2_1_html: |-
+          ท่านจะต้องระบุให้ชัดเจนเจาะจงว่าข้อมูลอนุญาตให้ใช้ตามสัญญาอนุญาต Open
+          Database License และถ้ามีการนำรูปแผนที่ไปใช้ รูปนั้นอนุญาตให้ใช้ตามสัญญาอนุญาต
+           CC BY-SA ในการนี้อาจจะลิงก์ไปยังหน้า
+          <a href="https://www.openstreetmap.org/copyright">ข้อมูลลิขสิทธิ์</a>
+          นอกจากนี้ (จำเป็นหากท่านจ่ายแจกข้อมูล OSM) ท่านสามารถลิงก์ไปยังสัญญาอนุญาตโดยตรง
+          ในสื่ออย่างอื่น อาทิ สิ่งพิมพ์ ซึ่งไม่สามารถลิงก์ข้อมูลได้แนะนำให้ระบุเพียง openstreetmap.org
+          และ/หรือ opendatacommons.org และ/หรือ creativecommons.org
         attribution_example:
-          alt: ตัวอย่างการอ้างอิง OpenStreetMap บนหน้าเว็บ
+          alt: ตัวอย่างการอ้างอิง OpenHistoricalMap บนหน้าเว็บ
           title: ตัวอย่างการอ้างอิง
         more_title_html: ค้นหาเพิ่มเติม
+        more_1_html: |-
+          อ่านเพิ่มเติมเกี่ยวกับการใช้ข้อมูลของเรา ตลอดจนการอ้างอิงเราได้ที่ <a
+          href="https://osmfoundation.org/Licence">หน้าสัญญาอนุญาต OSMF</a>
         contributors_title_html: ผู้ร่วมสร้างสรรค์ของเรา
         contributors_intro_html: |-
           ผู้มีส่วนร่วมของเราคือบุคคลนับพัน เรายังมีข้อมูลที่ใช้สัญญาอนุญาตแบบเปิดเผย
           จากตัวแทนการทำแผนที่ของชาติต่าง ๆ และแหล่งข้อมูลอื่น ๆ ต่อไปนี้:
+        contributors_footer_1_html: |-
+          สำหรับรายละเอียดเพิ่มเติมเกี่ยวกับแหล่งข้อมูลเหล่านี้ และแหล่งข้อมูลอื่น ๆ
+          ที่ใช้เพื่อช่วยปรับปรุง OpenHistoricalMap โปรดดูที่<a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">หน้า
+          ผู้มีส่วนร่วม</a>บน OpenStreetMap Wiki
         contributors_footer_2_html: |-
-          การรวมข้อมูลใน OpenStreetMap ไม่ได้หมายความว่าผู้ให้บริการข้อมูลดั้งเดิม
-          จะรับรอง OpenStreetMap รับประกัน หรือรับผิดชอบใด ๆ
+          การรวมข้อมูลใน OpenHistoricalMap ไม่ได้หมายความว่าผู้ให้บริการข้อมูลดั้งเดิม
+          จะรับรอง OpenHistoricalMap รับประกัน หรือรับผิดชอบใด ๆ
         infringement_title_html: การละเมิดลิขสิทธิ์
         infringement_1_html: |-
           ผู้มีส่วนร่วม OSM จะถูกเตือนไม่ให้เพิ่มข้อมูลจากแหล่งข้อมูลที่มีลิขสิทธิ์
           (เช่น Google Maps หรือแผนที่แบบพิมพ์) โดยไม่ได้รับอนุญาตอย่าง
           ชัดเจนจากเจ้าของลิขสิทธิ์
+        infringement_2_html: |-
+          หากท่านเชื่อว่าข้อมูลละเมิดลิขสิทธิ์ปรากฏในเว็บไซต์นี้หรือในฐานข้อมูล OpenHistoricalMap โปรดดู <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">ขั้นตอนการลบข้อมูลละเมิดลิขสิทธิ์</a> หรือแจ้งได้ที่
+          <a href="https://dmca.openstreetmap.org/">หน้ารับแจ้งการละเมิดข้อมูลลิขสิทธิ์</a>
+        trademarks_title_html: <span id="trademarks"></span>เครื่องหมายการค้า
+        trademarks_1_html: OpenHistoricalMap, State of the Map, และตราสัญลักษณ์แว่นขยาย
+          เป็นเครื่องหมายการค้าจดทะเบียนของมูลนิธิ OpenHistoricalMap, หากคุณมีข้อสงสัยเกี่ยวกับการใช้ชื่อและตราสัญลักษณ์ของเรา
+          สามารถตรวจสอบรายละเอียดได้ที่หน้า<a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">นโยบายเครื่องหมายการค้า</a>
     index:
       js_1: ท่านกำลังใช้เบราว์เซอร์ที่ไม่รองรับจาวาสคริปต์ หรือท่านปิดใช้งานจาวาสคริปต์
-      js_2: OpenStreetMap ใช้จาวาสคริปต์ในการแสดงแผนที่
+      js_2: OpenHistoricalMap ใช้จาวาสคริปต์ในการแสดงแผนที่
       permalink: ลิงก์ถาวร
       shortlink: ลิงก์ย่อ
       createnote: เพิ่มหมายเหตุ
       license:
-        copyright: สงวนลิขสิทธิ์โดย OpenStreetMap และผู้มีส่วนร่วม ภายใต้สัญญาอนุญาตแบบเปิด
+        copyright: สงวนลิขสิทธิ์โดย OpenHistoricalMap และผู้มีส่วนร่วม ภายใต้สัญญาอนุญาตแบบเปิด
       remote_failed: การแก้ไขล้มเหลว - ตรวจสอบให้แน่ใจว่าได้โหลด JOSM หรือ Merkaartor
         และได้เปิดใช้งานตัวเลือกการควบคุมระยะไกลแล้ว
     edit:
@@ -1534,26 +1660,32 @@ th:
       area_to_export: พื้นที่ที่จะส่งออก
       manually_select: เลือกพื้นที่อื่นด้วยตนเอง
       format_to_export: รูปแบบที่จะส่งออก
-      osm_xml_data: ข้อมูล XML ของ OpenStreetMap
+      osm_xml_data: ข้อมูล XML ของ OpenHistoricalMap
       map_image: ภาพแผนที่ (แสดงชั้นภาพมาตรฐาน)
       embeddable_html: HTML ฝังตัวได้
       licence: สัญญาอนุญาต
+      export_details_html: บรรดาข้อมูลที่ปรากฏในเว็บไซต์ OpenHistoricalMap อนุญาตให้ใช้ภายใต้<a
+        href="https://opendatacommons.org/licenses/odbl/1.0/">สัญญาอนุญาต Open Data
+        Commons Open Database</a> (ODbL).
       too_large:
         advice: 'ถ้าการส่งออกข้างต้นล้มเหลว โปรดพิจารณาใช้แหล่งข้อมูลตามที่ระบุด้านล่างนี้:'
-        body: พื้นที่ใหญ่เกินกว่าที่จะส่งออกเป็นข้อมูล XML ของ OpenStreetMap โปรดขยายเข้าหรือเลือกพื้นที่ที่เล็กลง
+        body: พื้นที่ใหญ่เกินกว่าที่จะส่งออกเป็นข้อมูล XML ของ OpenHistoricalMap โปรดขยายเข้าหรือเลือกพื้นที่ที่เล็กลง
           หรืออาจจะใช้แหล่งข้อมูลข้างล่างในการดาวน์โหลดแฟ้มข้อมูลจำนวนมาก
         planet:
           title: Planet OSM
-          description: สำเนาของฐานข้อมูล OpenStreetMap ซึ่งปรับปรุงอย่างสม่ำเสมอ
+          description: สำเนาของฐานข้อมูล OpenHistoricalMap ซึ่งปรับปรุงอย่างสม่ำเสมอ
         overpass:
           title: API ของ Overpass
-          description: ดาวน์โหลดกล่องแบบมีขอบเขตจากมิเรอร์ของฐานข้อมูล OpenStreetMap
+          description: ดาวน์โหลดกล่องแบบมีขอบเขตจากมิเรอร์ของฐานข้อมูล OpenHistoricalMap
         geofabrik:
           title: การดาวน์โหลด Geofabrik
           description: รายการทวีป ประเทศ และเมืองสำคัญซึ่งปรับปรุงอย่างสม่ำเสมอ
+        metro:
+          title: เมโทรเอกซ์แทรกซ์
+          description: รายการเมืองสำคัญของโลกและพื้นที่โดยรอบ
         other:
           title: แหล่งข้อมูลอื่น
-          description: แหล่งข้อมูลอื่นตามที่ระบุไว้ใน OpenStreetMap wiki
+          description: แหล่งข้อมูลอื่นตามที่ระบุไว้ใน OpenHistoricalMap wiki
       options: ตัวเลือก
       format: รูปแบบ
       scale: มาตราส่วน
@@ -1574,22 +1706,26 @@ th:
           title: เข้าร่วมเป็นสมาชิก
           explanation_html: หากท่านประสบปัญหาเกี่ยวกับข้อมูลแผนที่ของเรา หรือพบข้อผิดพลาด
             เช่น ถนนหายไป หรือมีข้อผิดพลาดด้านที่อยู่ วิธีที่ดีที่สุดคือสมัครเป็นสมาชิก
-            OpenStreetMap เพื่อดำเนินการแก้ไขด้วยตัวท่านเอง
+            OpenHistoricalMap เพื่อดำเนินการแก้ไขด้วยตัวท่านเอง
       other_concerns:
         title: ข้อกังวลอื่น ๆ
+        explanation_html: หากท่านมีข้อกังวลเกี่ยวกับการใช้ข้อมูลของเราหรือเกี่ยวกับเนื้อหา
+          โปรดดู<a href='/copyright'>หน้าลิขสิทธิ์</a> เพื่อดูรายละเอียดทางกฎหมาย
+          หรือติดต่อคณะทำงาน <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
+          </a>
     help:
       title: ขอรับความช่วยเหลือ
       welcome:
-        title: ยินดีต้อนรับสู่ OpenStreetMap
+        title: ยินดีต้อนรับสู่ OpenHistoricalMap
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
         title: คำแนะนำสำหรับผู้เริ่มต้น
       mailing_lists:
         title: รายการอีเมลรับข่าวสาร
+      forums:
+        title: กระดานสนทนา
       irc:
         title: ไออาร์ซี
-    any_questions:
-      title: มีคำถามอีกหรือไม่?
     sidebar:
       search_results: ผลการค้นหา
       close: ปิด
@@ -1674,21 +1810,44 @@ th:
           toilets: ห้องน้ำสาธารณะ
     welcome:
       title: ยินดีต้อนรับ!
-      introduction: 'ยินดิต้อนรับสู่ OpenStreetMap, แผนที่โลกแบบเสรีที่ทุกคนสามารถแก้ไขได้
+      introduction_html: 'ยินดิต้อนรับสู่ OpenHistoricalMap, แผนที่โลกแบบเสรีที่ทุกคนสามารถแก้ไขได้
         ซึ่งตอนนี้คุณได้ลงทะเบียนมาแล้ว ก่อนจะไปลุยกัน ด้านล่างมีสิ่งสำคัญที่คุณควรจะรู้ไว้ตลอดการทำแผนที่ของคุณ:'
       whats_on_the_map:
         title: บนแผนที่ควรมีอะไร
+        on_html: OpenHistoricalMap เป็นที่ที่คุณบันทึกสิ่งที่<em>มีอยู่จริงบนพื้นโลก</em>
+          และ<em>มีอยู่ในปัจจุบัน</em> - เช่นตึก หรือถนนที่คุณแห็นอยู่ดาษดื่นทั่วไป
+          รวมทั้งรายละเอียดเกี่ยวกับร้านรวงต่างๆ หรือข้อมูลอื่นๆ ที่เห็นได้ของสถานที่เหล่านั้น,
+          โดยคุณจะทำแผนที่โครงสร้างอะไรที่คุณเห็นอยู่บนพื้นดินก็ได้ แล้วแต่ความสนใจของคุณเอง
+        off_html: แต่ที่นี่จะ<em>ไม่รับ</em>ข้อมูลที่มาจากข้อคิดเห็น เช่นคะแนนเรตติ้ง
+          สถานที่ที่เคยมีอยู่แต่ในอดีต (ปัจจุบันไม่มีแล้ว) รวมทั้งสถานที่ที่คาดว่าจะมีในอนาคต,
+          และจะไม่รับข้อมูลจากแหล่งที่มีลิขสิทธิ์อื่นๆ, ฉะนั้นอย่าได้คัดลอกข้อมูลจากแผนที่ออนไลน์หรือแผนที่กระดาษมาใส่
+          (เว้นแต่คุณได้รับอนุญาตจากเจ้าของลิขสิทธิ์แล้ว)
       basic_terms:
         title: คำศัพท์พื้นฐานในการทำแผนที่
-        paragraph_1: 'เมื่อคุณเข้ามาทำแผนที่ใน OpenStreetMap, คุณจะพบกับศัพท์เฉพาะหลายคำ
+        paragraph_1_html: 'เมื่อคุณเข้ามาทำแผนที่ใน OpenHistoricalMap, คุณจะพบกับศัพท์เฉพาะหลายคำ
           ซึ่งความหมายจะอธิบายไว้เบื้องต้นที่ด้านล่างนี้:'
+        editor_html: <strong>ตัวแก้ไข</strong> หมายถึงโปรแกรม หรือเว็บไซต์ ที่คุณใช้แก้ไขข้อมูลแผนที่
+        node_html: <strong>หมุด</strong> จะเป็นจุดหนึ่งจุดบนแผนที่, เช่น ร้านอาหารที่ตั้งเดี่ยวๆ
+          หรือต้นไม้
+        way_html: <strong>เส้นทาง</strong> เป็นส่วนที่ลักษณะเป็นเส้นบนแผนที่ เช่นถนน
+          ลำธาร, หรือไม่ก็เป็นรูปปิด เช่นทะเลสาบ หรือตึก
+        tag_html: <strong>ป้ายกำกับ</strong> เป็นข้อมูลรายละเอียดของหมุด หรือเส้นทาง,
+          เช่น ชื่อ (ของร้าน) หรือ ขีดจำกัดความเร็ว (ของถนน)
       rules:
         title: อย่าลืมกติกา!
+      questions:
+        title: มีคำถามอีกหรือไม่?
+        paragraph_1_html: "OpenHistoricalMap มีสื่อสำหรับค้นคว้า สอบถาม ตอบคำถาม \nสนทนาหัวข้อต่างๆ
+          ตลอดจนอภิปรายและจัดทำวิธีการสร้างแผนที่\nซึ่งคุณจะ<a href='%{help_url}'>หาความช่วยเหลือได้ที่นี่</a>"
       start_mapping: เริ่มการทำแผนที่
       add_a_note:
         title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
-        para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
+        paragraph_1_html: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
           คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
+        paragraph_2_html: |-
+          แค่ไปที่<a href='%{map_url}'>แผนที่</a> แล้วคลิกไอคอน หมายเหตุ:
+          <span class='icon note'></span>. จากนั้นจะมีเครื่องหมายมาที่แผนที่ให้ท่านลากไปยัง
+          ตำแหน่งที่ต้องการ ใส่ข้อความที่ต้องการ คลิกบันทึก แล้วผู้ใช้ท่านอื่นจะเข้ามาตรวจสอบให้
   traces:
     visibility:
       private: ส่วนตัว (เผยแพร่ในนามผู้ไม่ประสงค์ออกนาม แต่ละจุดไม่เรียงลำดับ)
@@ -1749,11 +1908,11 @@ th:
       in: ใน
     index:
       public_traces: รอยทาง GPS สาธารณะ
+      my_traces: รอยทาง GPS ของฉัน
       public_traces_from: รอยทางจีพีเอสสาธารณะโดยผู้ใช้ %{user}
       description: ค้นหาการอัปโหลดรอยทางจีพีเอสล่าสุด
       tagged_with: ระบุด้วยป้าย %{tags}
       upload_trace: อัปโหลดรอยทาง
-      my_traces: รอยทาง GPS ของฉัน
     offline_warning:
       message: ระบบอัปโหลดแฟ้มข้อมูล GPX ไม่พร้อมใช้งานในขณะนี้
     offline:
@@ -1846,6 +2005,9 @@ th:
       title: สมัครสมาชิก
       about:
         header: เสรีและแก้ไขได้
+      email address: 'ที่อยู่อีเมล:'
+      confirm email address: 'ยืนยันที่อยู่อีเมล:'
+      display name: 'ชื่อที่ใช้แสดง:'
       display name description: ชื่อที่แสดงต่อสาธารณะ ท่านสามารถเปลี่ยนในภายหลังได้ในหน้าการตั้งค่า
       external auth: 'บัญชีผู้ใช้จากเว็บอื่น:'
       use external auth: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
@@ -1861,6 +2023,7 @@ th:
       consider_pd: นอกเหนือจากข้อความข้างต้น ข้าพเจ้ายินดีสละการสร้างสรรค์ของข้าพเจ้าให้เป็นงานอันไม่มีลิขสิทธิ์
       consider_pd_why: นี้คืออะไร?
       continue: ถัดไป
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: ไม่ยอมรับ
       you need to accept or decline: กรุณาตรวจทานและเลือกยอมรับหรือไม่ยอมรับข้อกำหนดของผู้มีส่วนร่วมเพื่อไปต่อ
       legale_select: 'ประเทศที่พำนัก:'
@@ -1875,6 +2038,7 @@ th:
       deleted: ลบแล้ว
     show:
       my diary: บันทึกของฉัน
+      new diary entry: สร้างบันทึกใหม่
       my edits: การแก้ไขของฉัน
       my traces: รอยทางของฉัน
       my notes: หมายเหตุของฉัน
@@ -1900,6 +2064,8 @@ th:
       created from: 'สร้างจาก:'
       status: 'สถานะ:'
       spam score: 'คะแนนสแปม:'
+      description: คำอธิบาย
+      user location: ตำแหน่งผู้ใช้
       role:
         administrator: คนนี้เป็นผู้ดูแลระบบ
         moderator: ผู้ใช้นี้เป็นผู้ดูแล
@@ -1913,8 +2079,11 @@ th:
       comments: ความเห็นที่เขียน
       create_block: ระงับผู้ใช้นี้
       activate_user: เปิดใช้งานผู้ใช้นี้
+      deactivate_user: ปิดใช้งานผู้ใช้นี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
+    set_home:
+      flash success: ตำแหน่งที่อยู่บ้านบันทึกเรียบร้อย
     go_public:
       flash success: การแก้ไขของท่านเป็นสาธารณะ ท่านสามารถแก้ไขได้
     index:
@@ -1930,6 +2099,14 @@ th:
     suspended:
       title: บัญชีถูกระงับ
       heading: บัญชีถูกระงับ
+      body_html: |2-
+
+        <p>
+          ขออภัยอย่างสูง เนื่องจากมีการกระทำต้องสงสัย บัญชีของท่านถูกระงับโดยอัตโนมัติ
+        </p>
+        <p>
+          การดำเนินการอื่นใดจะถูกกลั่นกรองโดยผู้ดูแลเว็บในเวลาไม่นานจากนี้ หรืออาจจะชี้แจงต่อ%{webmaster}หากต้องการเหตุผล
+        </p>
     auth_failure:
       connection_failed: การเชื่อมต่อกับผู้ให้บริการบัญชีภายนอกล้มเหลว
       invalid_credentials: ชื่อผู้ใช้และ/หรือรหัสผ่านไม่ถูกต้อง
@@ -1937,8 +2114,8 @@ th:
       unknown_signature_algorithm: ลายเซ็นดิจิตอลที่ใช้เป็นระบบที่ไม่รู้จัก
       invalid_scope: ขอบข่ายผิดพลาด
     auth_association:
-      heading: บัญชีภายนอกของท่านยังมิได้ต่อเชื่อมกับบัญชี OpenStreetMap
-      option_1: ถ้าท่านเป็นผู้ใช้ OpenStreetMap ใหม่ โปรดใช้แบบฟอร์มข้างล่างสร้างบัญชีผู้ใช้
+      heading: บัญชีภายนอกของท่านยังมิได้ต่อเชื่อมกับบัญชี OpenHistoricalMap
+      option_1: ถ้าท่านเป็นผู้ใช้ OpenHistoricalMap ใหม่ โปรดใช้แบบฟอร์มข้างล่างสร้างบัญชีผู้ใช้
       option_2: "ถ้าท่านมีบัญชีผู้ใช้แล้ว สามารถเข้าสู่ระบบโดยใช้ชื่อผู้ใช้ รหัสผ่าน
         \nแล้วผูกโยงบัญชีกับบัญชีภายนอกในหน้าการตั้งค่าา"
   user_role:
@@ -1971,6 +2148,8 @@ th:
       title: ระงับผู้ใช้ %{name}
       heading_html: สร้างการกีดกันบน %{name}
       period: ระงับผู้ใช้คนนี้จากการเข้าถึง API, นานเท่าใด โดยเริ่มนับจากปัจจุบัน
+      tried_contacting: ข้าพเจ้าติดต่อผู้ใช้คนนี้และขอร้องให้เขาหยุดการกระทำ
+      tried_waiting: ข้าพเจ้าได้ให้เวลานานสมควรแก่ผู้ใช้คนนี้ในการตอบคำถามกลับ
       back: แสดงการกีดกันทั้งหมด
     edit:
       title: แก้ไขการระงับผู้ใช้ %{name}
@@ -1981,6 +2160,9 @@ th:
     filter:
       block_expired: การกีดกันนี้สิ้นผลแล้วแก้ไขไม่ได้
       block_period: ดูระยะเวลาที่ระงับ ให้เป็นหนึ่งในค่าที่เลือกไว้จากรายการนี้
+    create:
+      try_contacting: กรุณาติดต่อผู้ใช้คนนั้นก่อนที่จะตัดสินใจสั่งระงับใช้งาน และอย่าลืมเผื่อเวลาระยะหนึ่งให้ตอบกลับ
+      try_waiting: กรุณาให้เวลากับผู้ใช้ในการตอบคำถาม ก่อนที่ตัดสินเรื่องการสั่งระงับใช้งาน
     update:
       only_creator_can_edit: การระงับนี้สามารถแก้ไขได้ โดยผู้ดูแลที่เป็นผู้สั่งระงับเองเท่านั้น
       success: ปรับปรุงการกีดกันแล้ว
@@ -2032,23 +2214,6 @@ th:
     index:
       heading: หมายเหตุของ %{user}
       creator: ผู้สร้าง
-    show:
-      title: 'หมายเหตุ: %{id}'
-      description: คำอธิบาย
-      open_title: 'หมายเหตุที่ยังไม่มีคำตอบ #%{note_name}'
-      closed_title: หมายเหตุที่ตอบสนองแล้ว %{note_name}
-      hidden_title: 'หมายเหตุที่ซ่อนอยู่ #%{note_name}'
-      report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
-      anonymous_warning: หมายเหตุนี้มีข้อความจากผู้ที่ไม่ประสงค์จะออกนาม ซึ่งควรทำการตรวจสอบตามข้อมูลที่แจ้งมานี้ด้วยตัวคุณเองอีกครั้ง
-        ก่อนจะดำเนินการใดๆ ต่อ
-      hide: ซ่อน
-      resolve: ปิดเรื่อง
-      reactivate: รื้อฟื้นหมายเหตุ
-      comment_and_resolve: แสดงความเห็น และปิดเรื่อง
-      comment: แสดงความเห็น
-    new:
-      title: หมายเหตุใหม่
-      add: เพิ่มหมายเหตุ
   javascripts:
     close: ปิด
     share:
@@ -2088,6 +2253,7 @@ th:
         gps: รอยทาง GPS สาธารณะ
         overlays: 'ซ้อนชั้นข้อมูลพิเศษเพื่อช่วยในการแก้ปัญหาแผนที่:'
         title: ชั้นแผนที่
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>บริจาค</a>
     site:
       edit_tooltip: แก้ไขแผนที่
       edit_disabled_tooltip: ขยายเพื่อแก้ไขแผนที่
@@ -2101,6 +2267,17 @@ th:
         unsubscribe: เลิกรับข้อมูล
         hide_comment: ซ่อน
         unhide_comment: แสดง
+    notes:
+      new:
+        add: เพิ่มหมายเหตุ
+      show:
+        anonymous_warning: หมายเหตุนี้มีข้อความจากผู้ที่ไม่ประสงค์จะออกนาม ซึ่งควรทำการตรวจสอบตามข้อมูลที่แจ้งมานี้ด้วยตัวคุณเองอีกครั้ง
+          ก่อนจะดำเนินการใดๆ ต่อ
+        hide: ซ่อน
+        resolve: ปิดเรื่อง
+        reactivate: รื้อฟื้นหมายเหตุ
+        comment_and_resolve: แสดงความเห็น และปิดเรื่อง
+        comment: แสดงความเห็น
     directions:
       ascend: ลาดขึ้น
       engines:

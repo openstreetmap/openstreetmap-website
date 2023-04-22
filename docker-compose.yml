@@ -18,9 +18,11 @@ services:
       /tmp/pids/
     ports:
       - "3000:3000"
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bash -c "bundle exec rails db:migrate && bundle exec rake i18n:js:export && bundle exec rails s -p 3000 -b '0.0.0.0'"
     depends_on:
       - db
+    env_file:
+      - ohm-docker.env
 
   db:
     build:

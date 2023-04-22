@@ -58,6 +58,7 @@ diq:
       message: Mesac
       node: Qedyin
       node_tag: Etiket Qedyin
+      notifier: Xeber ke
       old_node: Verên Qedya
       old_node_tag: Etiletê Qedyina Verên
       old_relation: Eleqeyo Verên
@@ -99,7 +100,7 @@ diq:
         title: Mewzu
         latitude: Verıniye
         longitude: Derganiye
-        language_code: Zıwan
+        language: Zıwan
       friend:
         user: Karber
         friend: Embaz
@@ -168,19 +169,28 @@ diq:
       my settings: Eyarê mı
       current email address: 'E-postay şımaya newki:'
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: no çıko?
       public editing:
         heading: 'Pêron rê akerde vurnayış:'
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: no çıko?
         disabled link text: Ezo çı nêşena bıvurna?
+      public editing note:
+        heading: 'Pêron rê akerde vırnayış:'
       contributor terms:
         link text: no çıko?
       save changes button: Vurnayışan qeyd ke
-    go_public:
-      heading: 'Pêron rê akerde vırnayış:'
   browse:
     created: Vıraziya
     closed: Kerd kip
+    created_html: <abbr title='%{title}'>%{time}</abbr> de vıraziyayo
+    closed_html: <abbr title='%{title}'>%{time}</abbr> de kılid biyo
+    created_by_html: <abbr title='%{title}'>%{time}</abbr> de terefê %{user} ra vıraziyayo
+    deleted_by_html: <abbr title='%{title}'>%{time}</abbr> de terefê %{user} ra esteriyayo
+    edited_by_html: <abbr title='%{title}'>%{time}</abbr> de terefê %{user} ra vurniyayo
+    closed_by_html: <abbr title='%{title}'>%{time}</abbr> de terefê %{user} ra kılid
+      biyo
     version: Versiyon
     in_changeset: Qeydê Vurnayışan
     anonymous: anonim
@@ -264,6 +274,12 @@ diq:
     tag_details:
       tags: 'Etiketi:'
       telephone_link: Veynd %{phone_number}
+    note:
+      title: 'Not: %{id}'
+      new_note: Nota Newi
+      description: Şınasnayış
+      hidden_by_html: '%{user} <abbr title=''%{exact_time}''>%{when}</abbr> bınımnê'
+      report: Nê noti rapor ke
     query:
       title: Xısusiyetan bıasne
       introduction: Xısusiyetanê nezdiyan vinayışi rê xeriter sero bıploğnê
@@ -347,6 +363,13 @@ diq:
     remove_friend:
       button: Embazan ra vec
   geocoder:
+    search:
+      title:
+        latlon_html: <a href="http://openstreetmap.org/">OSM</a> ra neticey
+        ca_postcode_html: <a href="http://geocoder.ca/">Geocoder.CA</a> ra neticey
+        osm_nominatim_html: <a href="http://nominatim.openstreetmap.org/">OSM Nominatim</a>
+          ra neticey
+        geonames_html: <a href="http://www.geonames.org/">GeoNames.org</a> ra neticey
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -813,6 +836,8 @@ diq:
       destroy_button: Bestere
     new:
       title: Mesac bırışê
+      subject: Mewzu
+      body: Vêrey mesaci
     outbox:
       title: Şıyenan
       to: Gırewtoğ
@@ -820,9 +845,12 @@ diq:
       date: Tarix
     show:
       title: Mesaci bıwane
+      subject: Mewzu
+      date: Tarix
       reply_button: Cewab bıde
       destroy_button: Bestere
       back: Peyser
+      to: Gırewtoğ
     sent_message_summary:
       destroy_button: Bestere
   passwords:
@@ -858,10 +886,8 @@ diq:
       openid_logo_alt: OpenID ya dekewê de
     destroy:
       title: Veciyayış
-      heading: OpenStreetMap ra vıcyayış
+      heading: OpenHistoricalMap ra vıcyayış
       logout_button: Veciyayış
-    suspended_flash:
-      support: peşti
   site:
     copyright:
       native:
@@ -875,13 +901,16 @@ diq:
       area_to_export: Cayo ke cıra bıvciyo
       manually_select: Be desti ra yew cayo bin weçıne
       format_to_export: Formatê teberi ra eştışi
-      osm_xml_data: OpenStreetMap XML Data
+      osm_xml_data: OpenHistoricalMap XML Data
       licence: Lisans
       too_large:
         planet:
           title: Geyrenıka OSM
         overpass:
           title: Overpass API
+        metro:
+          title: Çap kerdenê Metroy
+          description: Çap kerdenê metroyan u banliyo
         other:
           title: Çemê bini
       options: Weçinegi
@@ -980,6 +1009,9 @@ diq:
       revoke: Terkne!
   users:
     new:
+      email address: 'Adresa e-postey:'
+      confirm email address: 'Adresê E-posta tesdiq ke:'
+      display name: 'Nameyo ke Aseno:'
       continue: Qeyd be
     terms:
       title: Terimi
@@ -993,9 +1025,9 @@ diq:
     no_such_user:
       title: Karbero do wuna çıniyo
       heading: '%{user} name dı karber çıniyo'
-      deleted: esteriya
     show:
       my diary: Rocekê mı
+      new diary entry: Roceko newe defi
       my edits: İştırakê mı
       my traces: GPS rêçê mı
       my settings: Eyarê Mı
@@ -1015,6 +1047,8 @@ diq:
       email address: 'Adresa e-postey:'
       created from: 'Vıraşten ra:'
       status: 'Weziyet:'
+      description: Şınasnayış
+      user location: Heruna karberi
       role:
         administrator: |-
           Na karber administratora<br>
@@ -1033,6 +1067,7 @@ diq:
       comments: Mışewreyi
       create_block: nê karberi kılit ke
       activate_user: Nê karberi aktiv ke
+      deactivate_user: Nê karberi aktiv meke
       confirm_user: nê karberi tesdiq ke
       hide_user: nê karberi  bınımnê
       unhide_user: nê karberi menımnê
@@ -1110,14 +1145,6 @@ diq:
   notes:
     index:
       description: Şınasnayış
-    show:
-      title: 'Not: %{id}'
-      description: Şınasnayış
-      report: Nê noti rapor ke
-      hide: Bınımne
-      comment: Mışewre
-    new:
-      title: Nota Newi
   javascripts:
     close: Kip ke
     share:
@@ -1145,6 +1172,10 @@ diq:
         unsubscribe: Aboneyiye ra veciye
         hide_comment: bınımne
         unhide_comment: menımne
+    notes:
+      show:
+        hide: Bınımne
+        comment: Mışewre
     directions:
       engines:
         fossgis_osrm_bike: Bisiklet (OSRM)

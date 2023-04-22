@@ -91,15 +91,15 @@ class GeocoderController < ApplicationController
     results =  response.elements["searchresults"]
 
     # extract parameters from more_url
-    more_url_params = CGI.parse(URI.parse(results.attributes["more_url"]).query)
+    # more_url_params = CGI.parse(URI.parse(results.attributes["more_url"]).query)
 
     # create result array
     @results = []
 
     # create parameter hash for "more results" link
-    @more_params = params
-                   .permit(:query, :minlon, :minlat, :maxlon, :maxlat, :exclude)
-                   .merge(:exclude => more_url_params["exclude_place_ids"].first)
+    # @more_params = params
+    #                .permit(:query, :minlon, :minlat, :maxlon, :maxlat, :exclude)
+    #                .merge(:exclude => more_url_params["exclude_place_ids"].first)
 
     # parse the response
     results.elements.each("place") do |place|

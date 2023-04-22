@@ -15980,6 +15980,7 @@
     uiSectionBackgroundOffset: () => uiSectionBackgroundOffset,
     uiSectionChanges: () => uiSectionChanges,
     uiSectionDataLayers: () => uiSectionDataLayers,
+    uiSectionDateRange: () => uiSectionDateRange,
     uiSectionEntityIssues: () => uiSectionEntityIssues,
     uiSectionFeatureType: () => uiSectionFeatureType,
     uiSectionMapFeatures: () => uiSectionMapFeatures,
@@ -16027,6 +16028,7 @@
     utilCleanTags: () => utilCleanTags,
     utilCombinedTags: () => utilCombinedTags,
     utilCompareIDs: () => utilCompareIDs,
+    utilDatesOverlap: () => utilDatesOverlap,
     utilDeepMemberSelector: () => utilDeepMemberSelector,
     utilDetect: () => utilDetect,
     utilDisplayLabel: () => utilDisplayLabel,
@@ -16047,6 +16049,7 @@
     utilHighlightEntities: () => utilHighlightEntities,
     utilKeybinding: () => utilKeybinding,
     utilNoAuto: () => utilNoAuto,
+    utilNormalizeDateString: () => utilNormalizeDateString,
     utilObjectOmit: () => utilObjectOmit,
     utilOldestID: () => utilOldestID,
     utilPrefixCSSProperty: () => utilPrefixCSSProperty,
@@ -22694,38 +22697,27 @@
   var ociCdnUrl = "https://cdn.jsdelivr.net/npm/osm-community-index@{version}/";
   var wmfSitematrixCdnUrl = "https://cdn.jsdelivr.net/npm/wmf-sitematrix@{version}/";
   var nsiCdnUrl = "https://cdn.jsdelivr.net/npm/name-suggestion-index@{version}/";
-  var defaultOsmApiConnections = {
-    "live": {
-      url: "https://www.openstreetmap.org",
+  var osmApiConnections = [
+    {
+      // "live" db
+      url: "https://www.openhistoricalmap.org",
       client_id: "0tmNTmd0Jo1dQp4AUmMBLtGiD9YpMuXzHefitcuVStc",
       client_secret: "BTlNrNxIPitHdL4sP2clHw5KLoee9aKkA7dQbc0Bj7Q"
     },
-    "dev": {
+    {
+      // "dev" db
       url: "https://api06.dev.openstreetmap.org",
       client_id: "Ee1wWJ6UlpERbF6BfTNOpwn0R8k_06mvMXdDUkeHMgw",
       client_secret: "OnfWFC-JkZNHyYdr_viNn_h_RTZXRslKcUxllOXqf5g"
     }
-  };
-  var osmApiConnections = [];
-  if (false) {
-    osmApiConnections.push({
-      url: null,
-      client_id: null,
-      client_secret: null
-    });
-  } else if (false) {
-    osmApiConnections.push(defaultOsmApiConnections[null]);
-  } else {
-    osmApiConnections.push(defaultOsmApiConnections.live);
-    osmApiConnections.push(defaultOsmApiConnections.dev);
-  }
+  ];
   var taginfoApiUrl = "https://taginfo.openstreetmap.org/api/4/";
   var nominatimApiUrl = "https://nominatim.openstreetmap.org/";
 
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.25.1",
+    version: "2.24.1",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -22755,13 +22747,11 @@
       "dist:svg:maki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "maki-%s" --symbol-sprite dist/img/maki-sprite.svg node_modules/@mapbox/maki/icons/*.svg',
       "dist:svg:mapillary:signs": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-sprite.svg node_modules/mapillary_sprite_source/package_signs/*.svg",
       "dist:svg:mapillary:objects": "svg-sprite --symbol --symbol-dest . --symbol-sprite dist/img/mapillary-object-sprite.svg node_modules/mapillary_sprite_source/package_objects/*.svg",
-      "dist:svg:roentgen": 'svg-sprite --shape-id-generator "roentgen-%s" --shape-dim-width 16 --shape-dim-height 16 --symbol --symbol-dest . --symbol-sprite dist/img/roentgen-sprite.svg svg/roentgen/*.svg',
       "dist:svg:temaki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "temaki-%s" --symbol-sprite dist/img/temaki-sprite.svg node_modules/@ideditor/temaki/icons/*.svg',
       imagery: "node scripts/update_imagery.js",
       lint: "eslint scripts test/spec modules",
       "lint:fix": "eslint scripts test/spec modules --fix",
-      start: "run-s start:watch",
-      "start:single-build": "run-p build:js start:server",
+      start: "run-s build:js start:server",
       "start:watch": "run-p build:js:watch start:server",
       "start:server": "node scripts/server.js",
       test: "npm-run-all -s lint build test:spec",
@@ -22802,7 +22792,7 @@
       "@fortawesome/free-solid-svg-icons": "~6.2.0",
       "@ideditor/temaki": "~5.2.0",
       "@mapbox/maki": "^8.0.0",
-      "@openstreetmap/id-tagging-schema": "^6.0.0",
+      "@openstreetmap/id-tagging-schema": "^5.0.1",
       "@transifex/api": "^5.0.1",
       autoprefixer: "^10.0.1",
       chai: "^4.3.4",
@@ -22811,10 +22801,9 @@
       "cldr-localenames-full": "^41.0.0",
       "concat-files": "^0.1.1",
       d3: "~7.8.1",
-      dotenv: "^16.0.3",
-      "editor-layer-index": "github:osmlab/editor-layer-index#gh-pages",
-      esbuild: "^0.17.10",
+      esbuild: "^0.17.3",
       "esbuild-visualizer": "^0.4.0",
+      "ohm-editor-layer-index": "github:openhistoricalmap/ohm-editor-layer-index#dist",
       eslint: "^8.8.0",
       "fetch-mock": "^9.11.0",
       gaze: "^1.1.3",
@@ -25717,6 +25706,7 @@
     localizer.hasTextForStringId = function(stringId) {
       return !!localizer.tInfo(stringId, { default: "nothing found" }).locale;
     };
+    localizer.coalesceStringIds = (stringIds) => stringIds.find((id2) => localizer.hasTextForStringId(id2)) || stringIds[stringIds.length - 1];
     localizer.t = function(stringId, replacements, locale2) {
       return localizer.tInfo(stringId, replacements, locale2).text;
     };
@@ -25950,10 +25940,19 @@
     _this.matchAllGeometry = (geometries) => {
       return !_this.geometry || geometries.every((geom) => _this.geometry.indexOf(geom) !== -1);
     };
-    _this.t = (scope, options2) => _t(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
-    _this.t.html = (scope, options2) => _t.html(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
-    _this.t.append = (scope, options2) => _t.append(`_tagging.presets.fields.${fieldID}.${scope}`, options2);
-    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${fieldID}.${scope}`);
+    _this.t = (scope, options2) => _t(_mainLocalizer.coalesceStringIds([
+      `custom_presets.fields.${fieldID}.${scope}`,
+      `_tagging.presets.fields.${fieldID}.${scope}`
+    ]), options2);
+    _this.t.html = (scope, options2) => _t.html(_mainLocalizer.coalesceStringIds([
+      `custom_presets.fields.${fieldID}.${scope}`,
+      `_tagging.presets.fields.${fieldID}.${scope}`
+    ]), options2);
+    _this.t.append = (scope, options2) => _t.append(_mainLocalizer.coalesceStringIds([
+      `custom_presets.fields.${fieldID}.${scope}`,
+      `_tagging.presets.fields.${fieldID}.${scope}`
+    ]), options2);
+    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId(`custom_presets.fields.${fieldID}.${scope}`) || _mainLocalizer.hasTextForStringId(`_tagging.presets.fields.${fieldID}.${scope}`);
     _this.resolveReference = (which) => {
       const referenceRegex = /^\{(.*)\}$/;
       const match = (field[which] || "").match(referenceRegex);
@@ -26226,6 +26225,20 @@
 
   // modules/presets/index.js
   var _mainPresetIndex = presetIndex();
+  function addHistoricalFields(fields) {
+    fields.end_date = {
+      ...fields.start_date,
+      key: "end_date"
+    };
+    fields.source.type = "text";
+    fields.license = {
+      key: "license",
+      type: "combo",
+      universal: true,
+      snake_case: false,
+      caseSensitive: true
+    };
+  }
   function presetIndex() {
     const dispatch10 = dispatch_default("favoritePreset", "recentsChange");
     const MAXRECENTS = 30;
@@ -26259,6 +26272,7 @@
         _mainFileFetcher.get("preset_presets"),
         _mainFileFetcher.get("preset_fields")
       ]).then((vals) => {
+        addHistoricalFields(vals[3]);
         _this.merge({
           categories: vals[0],
           defaults: vals[1],
@@ -27197,6 +27211,87 @@
     if (val.normalize)
       val = val.normalize("NFC");
     return utilUnicodeCharsTruncated(val, maxChars);
+  }
+  function isSameDate(date1, date2) {
+    if (date1[1] !== date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] !== date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] !== date2[3])
+      return false;
+    return true;
+  }
+  function isBefore(date1, date2) {
+    if (date1[1] > date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] > date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] > date2[3])
+      return false;
+    return true;
+  }
+  function isAfter(date1, date2) {
+    if (date1[1] < date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] < date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] < date2[3])
+      return false;
+    return true;
+  }
+  function utilDatesOverlap(tags1, tags2, touchIsOverlap) {
+    var dateRegex = /^(-?\d{1,4})(?:-(\d\d))?(?:-(\d\d))?$/;
+    var minDate = ["-9999", "-9999"], maxDate = ["9999", "9999"], start1 = (tags1.start_date || "").match(dateRegex) || minDate, start2 = (tags2.start_date || "").match(dateRegex) || minDate, end1 = (tags1.end_date || "").match(dateRegex) || maxDate, end2 = (tags2.end_date || "").match(dateRegex) || maxDate;
+    if (isSameDate(end1, start2) || isSameDate(end2, start1)) {
+      return touchIsOverlap === true;
+    }
+    return isAfter(start1, start2) && isBefore(start1, end2) || isAfter(start2, start1) && isBefore(start2, end1) || isAfter(end1, start2) && isBefore(end1, end2) || isAfter(end2, start1) && isBefore(end2, end1);
+  }
+  function utilNormalizeDateString(raw) {
+    if (!raw)
+      return null;
+    var date;
+    var dateRegex = /^(-)?(\d+)(?:-(\d\d?)(?:-(\d\d?))?)?$/;
+    var match = raw.match(dateRegex);
+    if (match !== null) {
+      date = /* @__PURE__ */ new Date(0);
+      date.setUTCFullYear(parseInt((match[1] || "") + match[2], 10));
+      if (match[3])
+        date.setUTCMonth(parseInt(match[3], 10) - 1);
+      if (match[4])
+        date.setUTCDate(parseInt(match[4], 10));
+    } else {
+      date = new Date(raw);
+      try {
+        date.toISOString();
+      } catch (exc) {
+        return null;
+      }
+    }
+    var normalized = "";
+    if (match !== null && date.getUTCFullYear() < 0) {
+      var absYear = Math.abs(date.getUTCFullYear());
+      normalized += "-" + String(absYear).padStart(4, "0");
+    } else {
+      normalized += String(date.getUTCFullYear()).padStart(4, "0");
+    }
+    if (match === null || match[3]) {
+      normalized += "-" + String(date.getUTCMonth() + 1).padStart(2, "0");
+    }
+    if (match === null || match[4]) {
+      normalized += "-" + String(date.getUTCDate()).padStart(2, "0");
+    }
+    return {
+      date,
+      value: normalized,
+      localeOptions: {
+        year: "numeric",
+        era: date.getUTCFullYear() < 1 ? "short" : void 0,
+        month: match === null || match[3] ? "long" : void 0,
+        day: match === null || match[4] ? "numeric" : void 0,
+        timeZone: "UTC"
+      }
+    };
   }
 
   // modules/osm/entity.js
@@ -35774,9 +35869,9 @@
     defaults = newDefaults;
   }
   var escapeTest = /[&<>"']/;
-  var escapeReplace = /[&<>"']/g;
-  var escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/;
-  var escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g;
+  var escapeReplace = new RegExp(escapeTest.source, "g");
+  var escapeTestNoEncode = /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/;
+  var escapeReplaceNoEncode = new RegExp(escapeTestNoEncode.source, "g");
   var escapeReplacements = {
     "&": "&amp;",
     "<": "&lt;",
@@ -36093,10 +36188,14 @@
       const cap = this.rules.block.blockquote.exec(src);
       if (cap) {
         const text2 = cap[0].replace(/^ *>[ \t]?/gm, "");
+        const top = this.lexer.state.top;
+        this.lexer.state.top = true;
+        const tokens = this.lexer.blockTokens(text2);
+        this.lexer.state.top = top;
         return {
           type: "blockquote",
           raw: cap[0],
-          tokens: this.lexer.blockTokens(text2, []),
+          tokens,
           text: text2
         };
       }
@@ -36130,7 +36229,7 @@
           }
           raw = cap[0];
           src = src.substring(raw.length);
-          line = cap[2].split("\n", 1)[0];
+          line = cap[2].split("\n", 1)[0].replace(/^\t+/, (t) => " ".repeat(3 * t.length));
           nextLine = src.split("\n", 1)[0];
           if (this.options.pedantic) {
             indent2 = 2;
@@ -36148,40 +36247,54 @@
             endEarly = true;
           }
           if (!endEarly) {
-            const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?: [^\\n]*)?(?:\\n|$))`);
+            const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`);
             const hrRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
             const fencesBeginRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}(?:\`\`\`|~~~)`);
             const headingBeginRegex = new RegExp(`^ {0,${Math.min(3, indent2 - 1)}}#`);
             while (src) {
               rawLine = src.split("\n", 1)[0];
-              line = rawLine;
+              nextLine = rawLine;
               if (this.options.pedantic) {
-                line = line.replace(/^ {1,4}(?=( {4})*[^ ])/g, "  ");
+                nextLine = nextLine.replace(/^ {1,4}(?=( {4})*[^ ])/g, "  ");
               }
-              if (fencesBeginRegex.test(line)) {
+              if (fencesBeginRegex.test(nextLine)) {
                 break;
               }
-              if (headingBeginRegex.test(line)) {
+              if (headingBeginRegex.test(nextLine)) {
                 break;
               }
-              if (nextBulletRegex.test(line)) {
+              if (nextBulletRegex.test(nextLine)) {
                 break;
               }
               if (hrRegex.test(src)) {
                 break;
               }
-              if (line.search(/[^ ]/) >= indent2 || !line.trim()) {
-                itemContents += "\n" + line.slice(indent2);
-              } else if (!blankLine) {
-                itemContents += "\n" + line;
+              if (nextLine.search(/[^ ]/) >= indent2 || !nextLine.trim()) {
+                itemContents += "\n" + nextLine.slice(indent2);
               } else {
-                break;
+                if (blankLine) {
+                  break;
+                }
+                if (line.search(/[^ ]/) >= 4) {
+                  break;
+                }
+                if (fencesBeginRegex.test(line)) {
+                  break;
+                }
+                if (headingBeginRegex.test(line)) {
+                  break;
+                }
+                if (hrRegex.test(line)) {
+                  break;
+                }
+                itemContents += "\n" + nextLine;
               }
-              if (!blankLine && !line.trim()) {
+              if (!blankLine && !nextLine.trim()) {
                 blankLine = true;
               }
               raw += rawLine + "\n";
               src = src.substring(rawLine.length + 1);
+              line = nextLine.slice(indent2);
             }
           }
           if (!list.loose) {
@@ -36215,22 +36328,14 @@
         for (i2 = 0; i2 < l; i2++) {
           this.lexer.state.top = false;
           list.items[i2].tokens = this.lexer.blockTokens(list.items[i2].text, []);
-          const spacers = list.items[i2].tokens.filter((t) => t.type === "space");
-          const hasMultipleLineBreaks = spacers.every((t) => {
-            const chars = t.raw.split("");
-            let lineBreaks = 0;
-            for (const char of chars) {
-              if (char === "\n") {
-                lineBreaks += 1;
-              }
-              if (lineBreaks > 1) {
-                return true;
-              }
-            }
-            return false;
-          });
-          if (!list.loose && spacers.length && hasMultipleLineBreaks) {
-            list.loose = true;
+          if (!list.loose) {
+            const spacers = list.items[i2].tokens.filter((t) => t.type === "space");
+            const hasMultipleLineBreaks = spacers.length > 0 && spacers.some((t) => /\n.*\n/.test(t.raw));
+            list.loose = hasMultipleLineBreaks;
+          }
+        }
+        if (list.loose) {
+          for (i2 = 0; i2 < l; i2++) {
             list.items[i2].loose = true;
           }
         }
@@ -36258,15 +36363,15 @@
     def(src) {
       const cap = this.rules.block.def.exec(src);
       if (cap) {
-        if (cap[3])
-          cap[3] = cap[3].substring(1, cap[3].length - 1);
         const tag = cap[1].toLowerCase().replace(/\s+/g, " ");
+        const href = cap[2] ? cap[2].replace(/^<(.*)>$/, "$1").replace(this.rules.inline._escapes, "$1") : "";
+        const title = cap[3] ? cap[3].substring(1, cap[3].length - 1).replace(this.rules.inline._escapes, "$1") : cap[3];
         return {
           type: "def",
           tag,
           raw: cap[0],
-          href: cap[2] ? cap[2].replace(this.rules.inline._escapes, "$1") : cap[2],
-          title: cap[3] ? cap[3].replace(this.rules.inline._escapes, "$1") : cap[3]
+          href,
+          title
         };
       }
     }
@@ -36436,7 +36541,7 @@
       if ((cap = this.rules.inline.reflink.exec(src)) || (cap = this.rules.inline.nolink.exec(src))) {
         let link2 = (cap[2] || cap[1]).replace(/\s+/g, " ");
         link2 = links[link2.toLowerCase()];
-        if (!link2 || !link2.href) {
+        if (!link2) {
           const text2 = cap[0].charAt(0);
           return {
             type: "text",
@@ -36576,9 +36681,9 @@
           } while (prevCapZero !== cap[0]);
           text2 = escape4(cap[0]);
           if (cap[1] === "www.") {
-            href = "http://" + text2;
+            href = "http://" + cap[0];
           } else {
-            href = text2;
+            href = cap[0];
           }
         }
         return {
@@ -36622,9 +36727,9 @@
     blockquote: /^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/,
     list: /^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/,
     html: "^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n *)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$))",
-    def: /^ {0,3}\[(label)\]: *(?:\n *)?<?([^\s>]+)>?(?:(?: +(?:\n *)?| *\n *)(title))? *(?:\n+|$)/,
+    def: /^ {0,3}\[(label)\]: *(?:\n *)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n *)?| *\n *)(title))? *(?:\n+|$)/,
     table: noopTest,
-    lheading: /^([^\n]+)\n {0,3}(=+|-+) *(?:\n+|$)/,
+    lheading: /^((?:.|\n(?!\n))+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
     // regex template, placeholders will be replaced according to different paragraph
     // interruption rules of commonmark and the original markdown spec:
     _paragraph: /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,
@@ -36656,6 +36761,7 @@
     heading: /^(#{1,6})(.*)(?:\n+|$)/,
     fences: noopTest,
     // fences not supported
+    lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
     paragraph: edit(block.normal._paragraph).replace("hr", block.hr).replace("heading", " *#{1,6} *[^\n]").replace("lheading", block.lheading).replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").getRegex()
   });
   var inline = {
@@ -36724,7 +36830,7 @@
     escape: edit(inline.escape).replace("])", "~|])").getRegex(),
     _extended_email: /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/,
     url: /^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,
-    _backpedal: /(?:[^?!.,:;*_~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_~)]+(?!$))+/,
+    _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,
     del: /^(~~?)(?=[^\s~])([\s\S]*?[^\s~])\1(?=[^~]|$)/,
     text: /^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/
   });
@@ -37135,7 +37241,7 @@
       if (!lang) {
         return "<pre><code>" + (escaped ? code : escape4(code, true)) + "</code></pre>\n";
       }
-      return '<pre><code class="' + this.options.langPrefix + escape4(lang, true) + '">' + (escaped ? code : escape4(code, true)) + "</code></pre>\n";
+      return '<pre><code class="' + this.options.langPrefix + escape4(lang) + '">' + (escaped ? code : escape4(code, true)) + "</code></pre>\n";
     }
     /**
      * @param {string} quote
@@ -37248,7 +37354,7 @@ ${content}</tr>
       if (href === null) {
         return text2;
       }
-      let out = '<a href="' + escape4(href) + '"';
+      let out = '<a href="' + href + '"';
       if (title) {
         out += ' title="' + title + '"';
       }
@@ -37678,18 +37784,17 @@ ${content}</tr>
   marked.getDefaults = getDefaults;
   marked.defaults = defaults;
   marked.use = function(...args) {
-    const opts = merge2({}, ...args);
     const extensions = marked.defaults.extensions || { renderers: {}, childTokens: {} };
-    let hasExtensions;
     args.forEach((pack) => {
+      const opts = merge2({}, pack);
+      opts.async = marked.defaults.async || opts.async;
       if (pack.extensions) {
-        hasExtensions = true;
         pack.extensions.forEach((ext) => {
           if (!ext.name) {
             throw new Error("extension name required");
           }
           if (ext.renderer) {
-            const prevRenderer = extensions.renderers ? extensions.renderers[ext.name] : null;
+            const prevRenderer = extensions.renderers[ext.name];
             if (prevRenderer) {
               extensions.renderers[ext.name] = function(...args2) {
                 let ret = ext.renderer.apply(this, args2);
@@ -37731,6 +37836,7 @@ ${content}</tr>
             extensions.childTokens[ext.name] = ext.childTokens;
           }
         });
+        opts.extensions = extensions;
       }
       if (pack.renderer) {
         const renderer = marked.defaults.renderer || new Renderer();
@@ -37770,9 +37876,6 @@ ${content}</tr>
           }
           return values;
         };
-      }
-      if (hasExtensions) {
-        opts.extensions = extensions;
       }
       marked.setOptions(opts);
     });
@@ -40893,6 +40996,10 @@ ${content}</tr>
             }
           }));
         }
+        fixes.push(new validationIssueFix({
+          icon: "iD-operation-change-date-range",
+          title: _t.append("issues.fix.change_date_range.title")
+        }));
         return fixes;
       }
       function showReference(selection2) {
@@ -40979,6 +41086,10 @@ ${content}</tr>
         const level1 = way.tags.level || "0", level2 = way2.tags.level || "0";
         if (level1 !== level2)
           return false;
+        if ((way.tags.start_date || way.tags.end_date) && (way2.tags.start_date || way2.tags.end_date)) {
+          if (!utilDatesOverlap(way.tags, way2.tags))
+            return false;
+        }
         return true;
       }
       function canConnectByExtend(way, endNodeIdx) {
@@ -41166,6 +41277,10 @@ ${content}</tr>
             }
             if (zAxisDifferentiates)
               continue;
+            if ((node.tags.start_date || node.tags.end_date) && (nearby.tags.start_date || nearby.tags.end_date)) {
+              if (!utilDatesOverlap(node.tags, nearby.tags))
+                continue;
+            }
             issues.push(new validationIssue({
               type: type2,
               subtype: "detached",
@@ -41188,6 +41303,10 @@ ${content}</tr>
                   new validationIssueFix({
                     icon: "iD-icon-layers",
                     title: _t.append("issues.fix.use_different_layers_or_levels.title")
+                  }),
+                  new validationIssueFix({
+                    icon: "iD-operation-change-date-range",
+                    title: _t.append("issues.fix.change_date_range.title")
                   })
                 ];
               }
@@ -41343,6 +41462,10 @@ ${content}</tr>
         return true;
       if (featureType1 === "building" || featureType2 === "building" || taggedAsIndoor(tags1) || taggedAsIndoor(tags2)) {
         if (layer1 !== layer2)
+          return true;
+      }
+      if ((tags1.start_date || tags1.end_date) && (tags2.start_date || tags2.end_date)) {
+        if (!utilDatesOverlap(tags1, tags2))
           return true;
       }
       return false;
@@ -41623,6 +41746,10 @@ ${content}</tr>
               fixes.push(makeAddBridgeOrTunnelFix("add_a_tunnel", "temaki-tunnel", "tunnel"));
             }
           }
+          fixes.push(new validationIssueFix({
+            icon: "iD-operation-change-date-range",
+            title: _t.append("issues.fix.change_date_range.title")
+          }));
           fixes.push(new validationIssueFix({
             icon: "iD-operation-move",
             title: _t.append("issues.fix.reposition_features.title")
@@ -42383,6 +42510,67 @@ ${content}</tr>
     var type2 = "invalid_format";
     var validation = function(entity) {
       var issues = [];
+      function showReferenceDate(selection2) {
+        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").text(_t.append("issues.invalid_format.date.reference"));
+      }
+      function validateDate(key, msgKey) {
+        if (!entity.tags[key])
+          return;
+        var normalized = utilNormalizeDateString(entity.tags[key]);
+        if (normalized !== null && entity.tags[key] === normalized.value)
+          return;
+        issues.push(new validationIssue({
+          type: type2,
+          subtype: "date",
+          severity: "error",
+          message: function(context) {
+            var entity2 = context.hasEntity(this.entityIds[0]);
+            return entity2 ? _t.append(
+              "issues.invalid_format.date.message_" + msgKey,
+              { feature: utilDisplayLabel(entity2, context.graph()) }
+            ) : "";
+          },
+          reference: showReferenceDate,
+          entityIds: [entity.id],
+          hash: key + entity.tags[key],
+          dynamicFixes: function() {
+            var fixes = [];
+            if (normalized !== null) {
+              var localeDateString2 = normalized.date.toLocaleDateString(_mainLocalizer.languageCode(), normalized.localeOptions);
+              fixes.push(new validationIssueFix({
+                title: _t.append("issues.fix.reformat_date.title", { date: localeDateString2 }),
+                onClick: function(context) {
+                  context.perform(function(graph) {
+                    var entityInGraph = graph.hasEntity(entity.id);
+                    if (!entityInGraph)
+                      return graph;
+                    var newTags = Object.assign({}, entityInGraph.tags);
+                    newTags[key] = normalized.value;
+                    return actionChangeTags(entityInGraph.id, newTags)(graph);
+                  }, _t.append("issues.fix.reformat_date.annotation"));
+                }
+              }));
+            }
+            fixes.push(new validationIssueFix({
+              icon: "iD-operation-delete",
+              title: _t.append("issues.fix.remove_tag.title"),
+              onClick: function(context) {
+                context.perform(function(graph) {
+                  var entityInGraph = graph.hasEntity(entity.id);
+                  if (!entityInGraph)
+                    return graph;
+                  var newTags = Object.assign({}, entityInGraph.tags);
+                  delete newTags[key];
+                  return actionChangeTags(entityInGraph.id, newTags)(graph);
+                }, _t.append("issues.fix.remove_tag.annotation"));
+              }
+            }));
+            return fixes;
+          }
+        }));
+      }
+      validateDate("start_date", "start");
+      validateDate("end_date", "end");
       function isValidEmail(email) {
         var valid_email = /^[^\(\)\\,":;<>@\[\]]+@[^\(\)\\,":;<>@\[\]\.]+(?:\.[a-z0-9-]+)*$/i;
         return !email || valid_email.test(email);
@@ -46123,6 +46311,7 @@ ${content}</tr>
     var _cullFactor = 1;
     var _cache4 = {};
     var _rules = {};
+    var _dateMatchCount = 0;
     var _stats = {};
     var _keys = [];
     var _hidden = [];
@@ -46306,10 +46495,14 @@ ${content}</tr>
         update();
       }
     };
+    features.redraw = function() {
+      update();
+    };
     features.resetStats = function() {
       for (var i2 = 0; i2 < _keys.length; i2++) {
         _rules[_keys[i2]].count = 0;
       }
+      _dateMatchCount = 0;
       dispatch10.call("change");
     };
     features.gatherStats = function(d, resolver, dimensions) {
@@ -46320,6 +46513,7 @@ ${content}</tr>
       for (i2 = 0; i2 < _keys.length; i2++) {
         _rules[_keys[i2]].count = 0;
       }
+      _dateMatchCount = 0;
       _cullFactor = dimensions[0] * dimensions[1] / 1e6;
       for (i2 = 0; i2 < entities.length; i2++) {
         geometry = entities[i2].geometry(resolver);
@@ -46327,6 +46521,8 @@ ${content}</tr>
         for (j2 = 0; j2 < matches.length; j2++) {
           _rules[matches[j2]].count++;
         }
+        if (!features.featureFitsDateRange(entities[i2]))
+          _dateMatchCount++;
       }
       currHidden = features.hidden();
       if (currHidden !== _hidden) {
@@ -46342,6 +46538,7 @@ ${content}</tr>
       }
       return _stats;
     };
+    features.dateMatchCount = () => _dateMatchCount;
     features.clear = function(d) {
       for (var i2 = 0; i2 < d.length; i2++) {
         features.clearEntity(d[i2]);
@@ -46431,11 +46628,13 @@ ${content}</tr>
       return false;
     };
     features.isHiddenFeature = function(entity, resolver, geometry) {
-      if (!_hidden.length)
-        return false;
       if (!entity.version)
         return false;
       if (_forceVisible[entity.id])
+        return false;
+      if (!features.featureFitsDateRange(entity))
+        return true;
+      if (!_hidden.length)
         return false;
       var matches = Object.keys(features.getMatches(entity, resolver, geometry));
       return matches.length && matches.every(function(k) {
@@ -46443,12 +46642,12 @@ ${content}</tr>
       });
     };
     features.isHiddenChild = function(entity, resolver, geometry) {
-      if (!_hidden.length)
-        return false;
       if (!entity.version || geometry === "point")
         return false;
       if (_forceVisible[entity.id])
         return false;
+      if (!features.featureFitsDateRange(entity))
+        return true;
       var parents = features.getParents(entity, resolver, geometry);
       if (!parents.length)
         return false;
@@ -46460,8 +46659,6 @@ ${content}</tr>
       return true;
     };
     features.hasHiddenConnections = function(entity, resolver) {
-      if (!_hidden.length)
-        return false;
       var childNodes, connections;
       if (entity.type === "midpoint") {
         childNodes = [resolver.entity(entity.edge[0]), resolver.entity(entity.edge[1])];
@@ -46478,16 +46675,26 @@ ${content}</tr>
       });
     };
     features.isHidden = function(entity, resolver, geometry) {
-      if (!_hidden.length)
-        return false;
       if (!entity.version)
         return false;
       var fn = geometry === "vertex" ? features.isHiddenChild : features.isHiddenFeature;
       return fn(entity, resolver, geometry);
     };
+    features.featureFitsDateRange = function(entity) {
+      if (!features.dateRange)
+        return true;
+      const entityRange = {
+        "start_date": entity.tags.start_date,
+        "end_date": entity.tags.end_date
+      };
+      const selectedRange = {
+        "start_date": features.dateRange[0],
+        "end_date": features.dateRange[1]
+      };
+      const withinrange = utilDatesOverlap(selectedRange, entityRange, true);
+      return withinrange;
+    };
     features.filter = function(d, resolver) {
-      if (!_hidden.length)
-        return d;
       var result = [];
       for (var i2 = 0; i2 < d.length; i2++) {
         var entity = d[i2];
@@ -48243,7 +48450,6 @@ ${content}</tr>
       "maki-sprite",
       "temaki-sprite",
       "fa-sprite",
-      "roentgen-sprite",
       "community-sprite"
     ];
     function drawDefs(selection2) {
@@ -53251,8 +53457,8 @@ ${content}</tr>
         select_default2(this).call(tooltip).append("div").attr("class", "icon-wrap").call(svgIcon(d.icon && d.icon() || "#iD-operation-" + d.id, "operation"));
       });
       if (showLabels) {
-        buttonsEnter.append("span").attr("class", "label").each(function(d) {
-          select_default2(this).call(d.title);
+        buttonsEnter.append("span").attr("class", "label").html(function(d) {
+          return d.title;
         });
       }
       buttonsEnter.merge(buttons).classed("disabled", function(d) {
@@ -53389,6 +53595,7 @@ ${content}</tr>
     function update(selection2) {
       var features = context.features();
       var stats = features.stats();
+      var dateMatchCount = features.dateMatchCount();
       var count = 0;
       var hiddenList = features.hidden().map(function(k) {
         if (stats[k]) {
@@ -53400,8 +53607,9 @@ ${content}</tr>
         }
         return null;
       }).filter(Boolean);
+      count += dateMatchCount;
       selection2.text("");
-      if (hiddenList.length) {
+      if (hiddenList.length || dateMatchCount > 0) {
         var tooltipBehavior = uiTooltip().placement("top").title(function() {
           return (selection3) => {
             hiddenList.forEach((hiddenFeature) => {
@@ -53415,7 +53623,7 @@ ${content}</tr>
           context.ui().togglePanes(context.container().select(".map-panes .map-data-pane"));
         });
       }
-      selection2.classed("hide", !hiddenList.length);
+      selection2.classed("hide", !hiddenList.length && !dateMatchCount);
     }
     return function(selection2) {
       update(selection2);
@@ -53743,7 +53951,6 @@ ${content}</tr>
       if (osm) {
         links.append("a").attr("class", "user-osm-link").attr("href", osm.userURL(userName)).attr("target", "_blank").call(_t.append("info_panels.history.profile_link"));
       }
-      links.append("a").attr("class", "user-hdyc-link").attr("href", "https://hdyc.neis-one.org/?" + userName).attr("target", "_blank").attr("tabindex", -1).text("HDYC");
     }
     function displayChangeset(selection2, changeset) {
       if (!changeset) {
@@ -53755,8 +53962,6 @@ ${content}</tr>
       if (osm) {
         links.append("a").attr("class", "changeset-osm-link").attr("href", osm.changesetURL(changeset)).attr("target", "_blank").call(_t.append("info_panels.history.changeset_link"));
       }
-      links.append("a").attr("class", "changeset-osmcha-link").attr("href", "https://osmcha.org/changesets/" + changeset).attr("target", "_blank").text("OSMCha");
-      links.append("a").attr("class", "changeset-achavi-link").attr("href", "https://overpass-api.de/achavi/?changeset=" + changeset).attr("target", "_blank").text("Achavi");
     }
     function redraw(selection2) {
       var selectedNoteID = context.selectedNoteID();
@@ -53812,7 +54017,6 @@ ${content}</tr>
       if (osm) {
         links.append("a").attr("class", "view-history-on-osm").attr("href", osm.historyURL(entity)).attr("target", "_blank").call(_t.append("info_panels.history.history_link"));
       }
-      links.append("a").attr("class", "pewu-history-viewer-link").attr("href", "https://pewu.github.io/osm-history/#/" + entity.type + "/" + entity.osmId()).attr("target", "_blank").attr("tabindex", -1).text("PeWu");
       var list = selection2.append("ul");
       list.append("li").call(_t.append("info_panels.history.version", { suffix: ":" })).append("span").text(entity.version);
       list.append("li").call(_t.append("info_panels.history.last_edit", { suffix: ":" })).append("span").text(displayTimestamp(entity.timestamp));
@@ -59307,6 +59511,22 @@ ${content}</tr>
   }
 
   // modules/ui/fields/combo.js
+  var valueIcons = {
+    "crossing:markings": [
+      "dashes",
+      "dots",
+      "ladder:paired",
+      "ladder:skewed",
+      "ladder",
+      "lines:paired",
+      "lines",
+      "surface",
+      "zebra:bicolour",
+      "zebra:double",
+      "zebra:paired",
+      "zebra"
+    ]
+  };
   function uiFieldCombo(field, context) {
     var dispatch10 = dispatch_default("change");
     var _isMulti = field.type === "multiCombo" || field.type === "manyCombo";
@@ -59494,12 +59714,11 @@ ${content}</tr>
       });
     }
     function addComboboxIcons(disp, value) {
-      const iconsField = field.resolveReference("iconsCrossReference");
-      if (iconsField.icons) {
+      if (valueIcons[field.key]) {
         return function(selection2) {
           var span = selection2.insert("span", ":first-child").attr("class", "tag-value-icon");
-          if (iconsField.icons[value]) {
-            span.call(svgIcon(`#${iconsField.icons[value]}`));
+          if (valueIcons[field.key].indexOf(value) !== -1) {
+            span.call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
           }
           disp.call(this, selection2);
         };
@@ -59660,11 +59879,10 @@ ${content}</tr>
     }
     function updateIcon(value) {
       value = tagValue(value);
-      const iconsField = field.resolveReference("iconsCrossReference");
-      if (iconsField.icons) {
+      if (valueIcons[field.key]) {
         _container.selectAll(".tag-value-icon").remove();
-        if (iconsField.icons[value]) {
-          _container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon(`#${iconsField.icons[value]}`));
+        if (valueIcons[field.key].indexOf(value) !== -1) {
+          _container.selectAll(".tag-value-icon").data([value]).enter().insert("div", "input").attr("class", "tag-value-icon").call(svgIcon("#iD-" + field.key.replace(/:/g, "_") + "-" + value.replace(/:/g, "_")));
         }
       }
     }
@@ -60003,29 +60221,24 @@ ${content}</tr>
       } else if (field.type === "colour") {
         input.attr("type", "text");
         updateColourPreview();
-      } else if (field.type === "date") {
-        input.attr("type", "text");
-        updateDateField();
       }
     }
-    function updateColourPreview() {
-      function isColourValid(colour2) {
-        if (!colour2.match(/^(#([0-9a-fA-F]{3}){1,2}|\w+)$/)) {
-          return false;
-        } else if (!CSS.supports("color", colour2) || ["unset", "inherit", "initial", "revert"].includes(colour2)) {
-          return false;
-        }
-        return true;
+    function isColourValid(colour) {
+      if (!colour.match(/^(#([0-9a-fA-F]{3}){1,2}|\w+)$/)) {
+        return false;
+      } else if (!CSS.supports("color", colour) || ["unset", "inherit", "initial", "revert"].includes(colour)) {
+        return false;
       }
+      return true;
+    }
+    function updateColourPreview() {
       wrap2.selectAll(".colour-preview").remove();
       const colour = utilGetSetValue(input);
-      if (!isColourValid(colour) && colour !== "") {
-        wrap2.selectAll("input.colour-selector").remove();
-        wrap2.selectAll(".form-field-button").remove();
+      if (!isColourValid(colour) && colour !== "")
         return;
-      }
       var colourSelector = wrap2.selectAll(".colour-selector").data([0]);
-      colourSelector.enter().append("input").attr("type", "color").attr("class", "colour-selector").on("input", debounce_default(function(d3_event) {
+      outlinkButton = wrap2.selectAll(".colour-preview").data([colour]);
+      colourSelector.enter().append("input").attr("type", "color").attr("class", "form-field-button colour-selector").attr("value", colour).on("input", debounce_default(function(d3_event) {
         d3_event.preventDefault();
         var colour2 = this.value;
         if (!isColourValid(colour2))
@@ -60034,51 +60247,11 @@ ${content}</tr>
         change()();
         updateColourPreview();
       }, 100));
-      wrap2.selectAll("input.colour-selector").attr("value", colour);
-      var chooserButton = wrap2.selectAll(".colour-preview").data([colour]);
-      chooserButton = chooserButton.enter().append("div").attr("class", "form-field-button colour-preview").append("div").style("background-color", (d) => d).attr("class", "colour-box");
+      outlinkButton = outlinkButton.enter().append("div").attr("class", "form-field-button colour-preview").append("div").style("background-color", (d) => d).attr("class", "colour-box");
       if (colour === "") {
-        chooserButton = chooserButton.call(svgIcon("#iD-icon-edit"));
+        outlinkButton = outlinkButton.call(svgIcon("#iD-icon-edit"));
       }
-      chooserButton.on("click", () => wrap2.select(".colour-selector").node().showPicker());
-    }
-    function updateDateField() {
-      function isDateValid(date2) {
-        return date2.match(/^[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?$/);
-      }
-      const date = utilGetSetValue(input);
-      const now3 = /* @__PURE__ */ new Date();
-      const today = new Date(now3.getTime() - now3.getTimezoneOffset() * 6e4).toISOString().split("T")[0];
-      if ((field.key === "check_date" || field.key === "survey:date") && date !== today) {
-        wrap2.selectAll(".date-set-today").data([0]).enter().append("button").attr("class", "form-field-button date-set-today").call(svgIcon("#fas-rotate")).call(uiTooltip().title(() => _t.append("inspector.set_today"))).on("click", () => {
-          utilGetSetValue(input, today);
-          change()();
-          updateDateField();
-        });
-      } else {
-        wrap2.selectAll(".date-set-today").remove();
-      }
-      if (!isDateValid(date) && date !== "") {
-        wrap2.selectAll("input.date-selector").remove();
-        wrap2.selectAll(".date-calendar").remove();
-        return;
-      }
-      if (utilDetect().browser !== "Safari") {
-        var dateSelector = wrap2.selectAll(".date-selector").data([0]);
-        dateSelector.enter().append("input").attr("type", "date").attr("class", "date-selector").on("input", debounce_default(function(d3_event) {
-          d3_event.preventDefault();
-          var date2 = this.value;
-          if (!isDateValid(date2))
-            return;
-          utilGetSetValue(input, this.value);
-          change()();
-          updateDateField();
-        }, 100));
-        wrap2.selectAll("input.date-selector").attr("value", date);
-        var calendarButton = wrap2.selectAll(".date-calendar").data([date]);
-        calendarButton = calendarButton.enter().append("button").attr("class", "form-field-button date-calendar").call(svgIcon("#fas-calendar-days"));
-        calendarButton.on("click", () => wrap2.select(".date-selector").node().showPicker());
-      }
+      outlinkButton.on("click", () => wrap2.select(".colour-selector").node().click()).merge(outlinkButton);
     }
     function updatePhonePlaceholder() {
       if (input.empty() || !Object.keys(_phoneFormats).length)
@@ -60157,10 +60330,8 @@ ${content}</tr>
       }
       if (field.type === "tel")
         updatePhonePlaceholder();
-      if (field.type === "colour")
+      if (field.key.split(":").includes("colour"))
         updateColourPreview();
-      if (field.type === "date")
-        updateDateField();
       if (outlinkButton && !outlinkButton.empty()) {
         var disabled = !validIdentifierValueForLink();
         outlinkButton.classed("disabled", disabled);
@@ -60693,13 +60864,6 @@ ${content}</tr>
     var wrap2 = select_default2(null);
     var _tags;
     var _combos = {};
-    if (field.type === "cycleway") {
-      field = {
-        ...field,
-        key: field.keys[0],
-        keys: field.keys.slice(1)
-      };
-    }
     function directionalCombo(selection2) {
       function stripcolon(s) {
         return s.replace(":", "");
@@ -60708,7 +60872,8 @@ ${content}</tr>
       wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
       var div = wrap2.selectAll("ul").data([0]);
       div = div.enter().append("ul").attr("class", "rows").merge(div);
-      items = div.selectAll("li").data(field.keys);
+      var keys = field.keys.slice(1);
+      items = div.selectAll("li").data(keys);
       var enter = items.enter().append("li").attr("class", function(d) {
         return "labeled-input preset-directionalcombo-" + stripcolon(d);
       });
@@ -60732,8 +60897,8 @@ ${content}</tr>
       wrap2.selectAll(".preset-input-directionalcombo").on("change", change).on("blur", change);
     }
     function change(key, newValue) {
-      const commonKey = field.key;
-      const otherKey = key === field.keys[0] ? field.keys[1] : field.keys[0];
+      const commonKey = field.keys[0];
+      const otherKey = key === field.keys[1] ? field.keys[2] : field.keys[1];
       dispatch10.call("change", this, (tags) => {
         const otherValue = tags[otherKey] || tags[commonKey];
         if (newValue === otherValue) {
@@ -60750,7 +60915,7 @@ ${content}</tr>
     }
     directionalCombo.tags = function(tags) {
       _tags = tags;
-      const commonKey = field.key;
+      const commonKey = field.keys[0];
       for (let key in _combos) {
         const uniqueValues = [...new Set([].concat(_tags[commonKey]).concat(_tags[key]).filter(Boolean))];
         _combos[key].tags({ [key]: uniqueValues.length > 1 ? uniqueValues : uniqueValues[0] });
@@ -62391,7 +62556,6 @@ ${content}</tr>
     colour: uiFieldText,
     combo: uiFieldCombo,
     cycleway: uiFieldDirectionalCombo,
-    date: uiFieldText,
     defaultCheck: uiFieldCheck,
     directionalCombo: uiFieldDirectionalCombo,
     email: uiFieldText,
@@ -62442,6 +62606,7 @@ ${content}</tr>
     }
     var _locked = false;
     var _lockedTip = uiTooltip().title(() => _t.append("inspector.lock.suggestion", { label: field.title })).placement("bottom");
+    field.keys = field.keys || [field.key];
     if (_show && !field.impl) {
       createField();
     }
@@ -62456,26 +62621,19 @@ ${content}</tr>
         }
       }
     }
-    function allKeys() {
-      let keys = field.keys || [field.key];
-      if (field.type === "directionalCombo" && field.key) {
-        keys = keys.concat(field.key);
-      }
-      return keys;
-    }
     function isModified() {
       if (!entityIDs || !entityIDs.length)
         return false;
       return entityIDs.some(function(entityID) {
         var original = context.graph().base().entities[entityID];
         var latest = context.graph().entity(entityID);
-        return allKeys().some(function(key) {
+        return field.keys.some(function(key) {
           return original ? latest.tags[key] !== original.tags[key] : latest.tags[key];
         });
       });
     }
     function tagsContainFieldKey() {
-      return allKeys().some(function(key) {
+      return field.keys.some(function(key) {
         if (field.type === "multiCombo") {
           for (var tagKey in _tags) {
             if (tagKey.indexOf(key) === 0) {
@@ -62492,7 +62650,7 @@ ${content}</tr>
       d3_event.preventDefault();
       if (!entityIDs || _locked)
         return;
-      dispatch10.call("revert", d, allKeys());
+      dispatch10.call("revert", d, d.keys);
     }
     function remove2(d3_event, d) {
       d3_event.stopPropagation();
@@ -62500,7 +62658,7 @@ ${content}</tr>
       if (_locked)
         return;
       var t = {};
-      allKeys().forEach(function(key) {
+      d.keys.forEach(function(key) {
         t[key] = void 0;
       });
       dispatch10.call("change", d, t);
@@ -63947,8 +64105,7 @@ ${content}</tr>
       const isMaki = picon && /^maki-/.test(picon);
       const isTemaki = picon && /^temaki-/.test(picon);
       const isFa = picon && /^fa[srb]-/.test(picon);
-      const isR\u00F6ntgen = picon && /^roentgen-/.test(picon);
-      const isiDIcon = picon && !(isMaki || isTemaki || isFa || isR\u00F6ntgen);
+      const isiDIcon = picon && !(isMaki || isTemaki || isFa);
       let icon2 = container.selectAll(".preset-icon").data(picon ? [0] : []);
       icon2.exit().remove();
       icon2 = icon2.enter().append("div").attr("class", "preset-icon").call(svgIcon("")).merge(icon2);
@@ -64152,8 +64309,15 @@ ${content}</tr>
           return sharedTotalFields.indexOf(field) !== -1;
         });
         _fieldsArr = [];
+        let coreKeys = ["start_date", "end_date", "source"];
+        coreKeys.forEach((key) => {
+          let field = presetsManager.field(key);
+          if (field) {
+            _fieldsArr.push(uiField(context, field, _entityIDs));
+          }
+        });
         sharedFields.forEach(function(field) {
-          if (field.matchAllGeometry(geometries)) {
+          if (!coreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
             _fieldsArr.push(
               uiField(context, field, _entityIDs)
             );
@@ -64170,7 +64334,7 @@ ${content}</tr>
           return field1.title().localeCompare(field2.title(), _mainLocalizer.localeCode());
         });
         additionalFields.forEach(function(field) {
-          if (sharedFields.indexOf(field) === -1 && field.matchAllGeometry(geometries)) {
+          if (sharedFields.indexOf(field) === -1 && !coreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
             _fieldsArr.push(
               uiField(context, field, _entityIDs, { show: false })
             );
@@ -69660,7 +69824,6 @@ ${content}</tr>
         "before_start",
         "open_source_h",
         "open_source",
-        "open_source_attribution",
         "open_source_help"
       ]],
       ["overview", [
@@ -70881,10 +71044,92 @@ ${content}</tr>
     return section;
   }
 
+  // modules/ui/sections/map_daterange.js
+  var DEFAULT_MIN_DATE = "-4000-01-01";
+  var DEFAULT_MAX_DATE = (/* @__PURE__ */ new Date()).getFullYear() + "-12-31";
+  var INPUT_STYLES = [
+    { name: "width", value: "125px" },
+    { name: "text-align", value: "center" }
+  ];
+  var LABEL_STYLES = [
+    { name: "font-weight", value: "bold" },
+    { name: "display", value: "inline-block" },
+    { name: "width", value: "75px" }
+  ];
+  function uiSectionDateRange(context) {
+    const section = uiSection("date_ranges", context).label(() => _t.append("date_ranges.title")).disclosureContent(renderDisclosureContent).expandedByDefault(false);
+    function renderDisclosureContent(selection2) {
+      const container = selection2.selectAll(".date_ranges-container").data([0]);
+      const alreadyhasinputs = container.enter().selectAll("input").size();
+      if (alreadyhasinputs)
+        return;
+      const mindate_label = container.enter().append("label").call(_t.append("date_ranges.start_date.description")).merge(container);
+      const mindate_input = container.enter().append("input").attr("type", "text").attr("value", DEFAULT_MIN_DATE).attr("title", () => _t("date_ranges.start_date.tooltip")).attr("placeholder", () => _t("date_ranges.start_date.placeholder")).merge(container);
+      container.enter().append("br").merge(container);
+      const maxdate_label = container.enter().append("label").call(_t.append("date_ranges.end_date.description")).merge(container);
+      const maxdate_input = container.enter().append("input").attr("type", "text").attr("value", DEFAULT_MAX_DATE).attr("title", () => _t("date_ranges.end_date.tooltip")).attr("placeholder", () => _t("date_ranges.end_date.placeholder")).merge(container);
+      INPUT_STYLES.forEach(function(style) {
+        mindate_input.style(style.name, style.value);
+        maxdate_input.style(style.name, style.value);
+      });
+      LABEL_STYLES.forEach(function(style) {
+        mindate_label.style(style.name, style.value);
+        maxdate_label.style(style.name, style.value);
+      });
+      function applyDateRange() {
+        const mindate = mindate_input.property("value");
+        const maxdate = maxdate_input.property("value");
+        context.features().dateRange = [mindate, maxdate];
+        context.features().redraw();
+        updateUrlParam();
+      }
+      function ensureValidInputs() {
+        const mindate = mindate_input.property("value");
+        const maxdate = maxdate_input.property("value");
+        const mindate_clean = utilNormalizeDateString(mindate);
+        const maxdate_clean = utilNormalizeDateString(maxdate);
+        mindate_input.property("value", mindate_clean ? mindate_clean.value : DEFAULT_MIN_DATE);
+        maxdate_input.property("value", maxdate_clean ? maxdate_clean.value : DEFAULT_MAX_DATE);
+      }
+      function updateUrlParam() {
+        if (!window.mocha) {
+          const hash = utilStringQs(window.location.hash);
+          const daterange = context.features().dateRange;
+          if (daterange) {
+            hash.daterange = daterange.join(",");
+          } else {
+            delete hash.daterange;
+          }
+          window.location.replace("#" + utilQsString(hash, true));
+        }
+      }
+      mindate_input.on("change", function() {
+        ensureValidInputs();
+        applyDateRange();
+      });
+      maxdate_input.on("change", function() {
+        ensureValidInputs();
+        applyDateRange();
+      });
+      let startingdaterange = utilStringQs(window.location.hash).daterange;
+      if (startingdaterange) {
+        startingdaterange = startingdaterange.split(",");
+        const isvalid = startingdaterange[0].match(/^\-?[\d\-]+/) && startingdaterange[1].match(/^\-?[\d\-]+/);
+        if (isvalid) {
+          mindate_input.property("value", startingdaterange[0]);
+          maxdate_input.property("value", startingdaterange[1]);
+        }
+      }
+      applyDateRange();
+    }
+    return section;
+  }
+
   // modules/ui/panes/map_data.js
   function uiPaneMapData(context) {
     var mapDataPane = uiPane("map-data", context).key(_t("map_data.key")).label(_t.append("map_data.title")).description(_t.append("map_data.description")).iconName("iD-icon-data").sections([
       uiSectionDataLayers(context),
+      uiSectionDateRange(context),
       uiSectionPhotoOverlays(context),
       uiSectionMapStyleOptions(context),
       uiSectionMapFeatures(context)
@@ -72538,8 +72783,8 @@ ${content}</tr>
         var settings = [
           ["width", w],
           ["height", h],
-          ["left", screen.width / 2 - w / 2],
-          ["top", screen.height / 2 - h / 2]
+          ["left", window.screen.width / 2 - w / 2],
+          ["top", window.screen.height / 2 - h / 2]
         ].map(function(x) {
           return x.join("=");
         }).join(",");
@@ -76253,12 +76498,7 @@ ${content}</tr>
         }
       } else {
         _lastMouseEvent = d3_event;
-        if (d3_event.pointerType === "touch" || d3_event.pointerType === "pen" || d3_event.mozInputSource && // firefox doesn't give a pointerType on contextmenu events
-        (d3_event.mozInputSource === MouseEvent.MOZ_SOURCE_TOUCH || d3_event.mozInputSource === MouseEvent.MOZ_SOURCE_PEN)) {
-          _lastInteractionType = "touch";
-        } else {
-          _lastInteractionType = "rightclick";
-        }
+        _lastInteractionType = "rightclick";
       }
       _showMenu = true;
       click(d3_event, d3_event);

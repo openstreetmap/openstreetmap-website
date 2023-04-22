@@ -71,6 +71,9 @@ OSM = {
   },
 
   mapParams: function (search) {
+    // any params not handed back in parseHash() willl be stripped when formatHash() is used to update URL params
+    // any params not in mapParams() will not be set up immeduately on page load
+    // so keep the three in sync
     var params = OSM.params(search), mapParams = {}, loc, match;
 
     if (params.mlon && params.mlat) {
@@ -133,6 +136,21 @@ OSM = {
 
     mapParams.layers = hash.layers || (loc && loc[3]) || '';
 
+    // timeslider state
+    if (hash.date) {
+      mapParams.date = hash.date
+    }
+    else {
+      mapParams.date = 1850;
+    }
+
+    if (hash.daterange) {
+      mapParams.daterange = hash.daterange;
+    }
+    else {
+      mapParams.daterange = [ 1800 , (new Date()).getFullYear() ].join(',');
+    }
+
     var scale = parseFloat(params.scale);
     if (scale > 0) {
       mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
@@ -142,6 +160,9 @@ OSM = {
   },
 
   parseHash: function(hash) {
+    // any params not handed back in parseHash() willl be stripped when formatHash() is used to update URL params
+    // any params not in mapParams() will not be set up immeduately on page load
+    // so keep the three in sync
     var args = {};
 
     var i = hash.indexOf('#');
@@ -165,10 +186,17 @@ OSM = {
       args.layers = hash.layers;
     }
 
+    // timeslider state
+    if (hash.date) args.date = hash.date;
+    if (hash.daterange) args.daterange = hash.daterange;
+
     return args;
   },
 
   formatHash: function(args) {
+    // any params not handed back in parseHash() willl be stripped when formatHash() is used to update URL params
+    // any params not in mapParams() will not be set up immeduately on page load
+    // so keep the three in sync
     var center, zoom, layers;
 
     if (args instanceof L.Map) {
@@ -191,6 +219,16 @@ OSM = {
 
     if (layers) {
       hash += '&layers=' + layers;
+    }
+
+    // timeslider state: make sure we got a map, which has the Leaflet control, which in turn does have the underlying real control ready
+    if (args instanceof L.Map && args.timeslider && args.timeslider instanceof L.Control.OHMTimeSlider) {
+      hash += '&date=' + args.timeslider.getDate();
+      hash += '&daterange=' + args.timeslider.getRange().join(',');
+    }
+    else {
+      if (args.date) hash += '&date=' + args.date;
+      if (args.daterange) hash += '&daterange=' + args.daterange;
     }
 
     return hash;

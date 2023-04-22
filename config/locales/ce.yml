@@ -49,6 +49,7 @@ ce:
       message: Хаам
       node: ТӀадам
       node_tag: ТӀадаман тег
+      notifier: Хаийта
       old_node: Шира тӀадам
       old_node_tag: ТӀадаман шира тег
       old_relation: Шира хилар
@@ -78,7 +79,7 @@ ce:
         title: Тема
         latitude: Шоралла
         longitude: Дохалла
-        language_code: Мотт
+        language: Мотт
       friend:
         user: Декъашхо
         friend: ДоттагӀ
@@ -170,7 +171,7 @@ ce:
         reopened_at_html: Йуха йеллина %{when} хьалха
         reopened_at_by_html: Йуха йиллина %{when} хьалха %{user}
       rss:
-        title: OpenStreetMap билгалонаш
+        title: OpenHistoricalMap билгалонаш
       entry:
         comment: Коммент
         full: Дуьззина йоза
@@ -185,6 +186,16 @@ ce:
   browse:
     created: Кхоьллина
     closed: ДӀачӀагӀа
+    created_html: Кхоьллина <abbr title='%{title}'>%{time} хьалха</abbr>
+    closed_html: ДӀачӀаьгӀна <abbr title='%{title}'>%{time} хьалха</abbr>
+    created_by_html: Кхоьллина <abbr title='%{title}'>%{time} хьалха</abbr> декъашхочо
+      %{user}
+    deleted_by_html: ДӀаяьккхина <abbr title='%{title}'>%{time} хьалха</abbr> декъашхочо
+      %{user}
+    edited_by_html: Хийцам бина <abbr title='%{title}'>%{time} хьалха</abbr> декъашхочо
+      %{user}
+    closed_by_html: ДӀачӀаьгӀна <abbr title='%{title}'>%{time} хьалха</abbr> декъашхочо
+      %{user}
     version: Верси
     in_changeset: Нисдарш
     anonymous: цӀе хьулйина
@@ -204,6 +215,10 @@ ce:
       relation: Хилар (%{count})
       relation_paginated: Хилар (%{x}-%{y} чуьра %{count})
       comment: Комменташ (%{count})
+      hidden_commented_by_html: Къайла комменташ %{user} <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
+      commented_by_html: Декъашхочун комменташ %{user} <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
       changesetxml: Нисдарийн XML
       osmchangexml: osmChange XML
       feed:
@@ -271,6 +286,29 @@ ce:
       wikidata_link: Элемент %{page} Викихаамашкахь
       wikipedia_link: АгӀо %{page} Википедин чохь
       telephone_link: Телпо тоха %{phone_number}
+    note:
+      title: 'Билгалдаккхар: %{id}'
+      new_note: Керла билгало
+      description: Цуьнах лаьцна
+      open_title: 'Кечйина йоцу билгало #%{note_name}'
+      closed_title: 'Кечйина билгало #%{note_name}'
+      hidden_title: 'Къайлаяьккхина билгало #%{note_name}'
+      opened_by_html: Кхоьллина декъашхочо %{user} <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
+      opened_by_anonymous_html: Кхоьллина цӀе хьулйина декъашхочо <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
+      commented_by_html: Декъашхочун коммент %{user} <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
+      commented_by_anonymous_html: Коммент цӀе хьулйина декъашхочун <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
+      closed_by_html: Кечйина %{user} <abbr title='%{exact_time}'>%{when} хьалха</abbr>
+      closed_by_anonymous_html: Кечйина цӀе хьулйина декъашхочо <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
+      reopened_by_html: Кечйина %{user} <abbr title='%{exact_time}'>%{when} хьалха</abbr>
+      reopened_by_anonymous_html: Кечйина цӀе хьулйина декъашхочо <abbr title='%{exact_time}'>%{when}
+        хьалха</abbr>
+      hidden_by_html: Къайлаяьккхина %{user} <abbr title='%{exact_time}'>%{when} хьалха</abbr>
+      report: Хаамбе хӀокху билгалонах
     query:
       title: ХӀун йу кхузахь?
       introduction: Уллера объекташ карайан, картан тӀетаӀае
@@ -310,8 +348,8 @@ ce:
       comment: '#%{changeset_id} %{author} керла коммент'
       commented_at_by_html: Карлаяьккхина %{when} хьалха %{user}
     index:
-      title_all: OpenStreetMap тӀехь дина нисдарийн дийцар
-      title_particular: 'OpenStreetMap #%{changeset_id} тӀехь дина нисдарийн дийцар'
+      title_all: OpenHistoricalMap тӀехь дина нисдарийн дийцар
+      title_particular: 'OpenHistoricalMap #%{changeset_id} тӀехь дина нисдарийн дийцар'
   dashboards:
     popup:
       friend: ДоттагӀ
@@ -373,15 +411,15 @@ ce:
       edit: Нисдар
     feed:
       user:
-        title: Дневникийн дӀайаздарш OpenStreetMap цуна %{user}
-        description: ТӀаьххьара дневникийн дӀайаздарш OpenStreetMap цуна %{user}
+        title: Дневникийн дӀайаздарш OpenHistoricalMap цуна %{user}
+        description: ТӀаьххьара дневникийн дӀайаздарш OpenHistoricalMap цуна %{user}
       language:
-        title: Дневникийн дӀайаздарш OpenStreetMap тӀе %{language_name}
-        description: OpenStreetMap декъашхойн тӀехьарлера дневникийн дӀайаздарш %{language_name}
-          чуьра
+        title: Дневникийн дӀайаздарш OpenHistoricalMap тӀе %{language_name}
+        description: OpenHistoricalMap декъашхойн тӀехьарлера дневникийн дӀайаздарш
+          %{language_name} чуьра
       all:
-        title: Дневникан дӀайаздарш OpenStreetMap
-        description: OpenStreetMap декъашхойн тӀаьххьарлера дӀайаздарш
+        title: Дневникан дӀайаздарш OpenHistoricalMap
+        description: OpenHistoricalMap декъашхойн тӀаьххьарлера дӀайаздарш
     comments:
       post: Хаам
       when: Маца
@@ -389,6 +427,16 @@ ce:
       newer_comments: Керла комменташ
       older_comments: Шира комменташ
   geocoder:
+    search:
+      title:
+        latlon_html: <a href="http://openstreetmap.org/">Чоьхьара хилам</a>
+        ca_postcode_html: Хилам <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Хиламаш бела <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
+          Nominatim</a> чура
+        geonames_html: Хиламаш <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Хиламаш <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
+          Nominatim</a>
+        geonames_reverse_html: Хиламаш <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -710,7 +758,6 @@ ce:
     gps_traces: GPS-трекаш
     gps_traces_tooltip: Болхбе GPS-трекашца
     user_diaries: Декъашхочун дневник
-    partners_ucl: UCL
     help: ГӀо
     about: Проектах лаьцна
     copyright: Авторийн бакъонаш
@@ -743,6 +790,8 @@ ce:
       reply_button: Жоп ло
       destroy_button: ДӀайаккха
     new:
+      subject: Тема
+      body: 'Йоза:'
       back_to_inbox: ЧубогӀучаьрга йуханехьа
     outbox:
       title: ДӀайохьуьйтурш
@@ -751,10 +800,14 @@ ce:
       date: Терахь
     show:
       title: Хаамашка хьажар
+      from: Хьаьнгара
+      subject: Тема
+      date: Терахь
       reply_button: Жоп ло
       unread_button: Билгалйе ца-йешна санна
       destroy_button: ДӀайаккха
       back: Йуха
+      to: 'Хьаьнга:'
     sent_message_summary:
       destroy_button: ДӀайаккха
   passwords:
@@ -786,7 +839,7 @@ ce:
       register now: ДӀадазло
     destroy:
       title: Болх дӀаберзор
-      heading: OpenStreetMap чуьра болх дӀаберзор
+      heading: OpenHistoricalMap чуьра болх дӀаберзор
       logout_button: Болх дӀаберзор
   site:
     about:
@@ -804,10 +857,12 @@ ce:
       area_to_export: Экспорт йаран меттиг
       manually_select: Билгале кхин меттиг
       format_to_export: Экспортан формат
-      osm_xml_data: OpenStreetMap XML форматехь хаамаш
+      osm_xml_data: OpenHistoricalMap XML форматехь хаамаш
       map_image: Картан сурт (гайта стандартан гӀатт)
       embeddable_html: Нисйан луш йолу HTML
       licence: Лицензи
+      export_details_html: Хаамаш OpenHistoricalMap лело мега <a href="http://opendatacommons.org/licenses/odbl/1.0/">лицензица
+        Open Data Commons Open Database License</a> (ODbL).
       too_large:
         planet:
           title: Планета OSM
@@ -815,6 +870,8 @@ ce:
           title: Overpass API
         geofabrik:
           title: Чуйолурш Geofabrik
+        metro:
+          title: ГӀаланаш чуйахар
         other:
           title: Кхин хьосташ
       options: Параметраш
@@ -867,6 +924,7 @@ ce:
   users:
     new:
       title: ДӀайаздалар
+      display name: 'Гуш йолу цӀе:'
       continue: Кхин дӀа
     terms:
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ce
@@ -881,6 +939,7 @@ ce:
       deleted: дӀайаьккхина
     show:
       my diary: Сан дӀайаздарш
+      new diary entry: керла дӀайаздар
       my edits: Сан нисдарш
       my traces: Сан трекаш
       my notes: Сан билгалонаш
@@ -904,6 +963,8 @@ ce:
       created from: 'Кхоьллина:'
       status: 'Статус:'
       spam score: 'Спаман маххадор:'
+      description: Цуьнах лаьцна
+      user location: Декъашхо волу/йолу меттиг
       report: Хаамбе хӀокху декъашхох
     index:
       title: Декъашхой
@@ -960,21 +1021,6 @@ ce:
       description: Цуьнах лаьцна
       created_at: Кхоьллина
       last_changed: Хийцина
-    show:
-      title: 'Билгалдаккхар: %{id}'
-      description: Цуьнах лаьцна
-      open_title: 'Кечйина йоцу билгало #%{note_name}'
-      closed_title: 'Кечйина билгало #%{note_name}'
-      hidden_title: 'Къайлайаьккхина билгало #%{note_name}'
-      report: Хаамбе хӀокху билгалонах
-      hide: Къайлайаккха
-      resolve: Кечъян
-      reactivate: Йуха йела
-      comment_and_resolve: Жопделла кечъе
-      comment: Жопдала
-    new:
-      title: Керла билгало
-      add: ТӀетоха билгало
   javascripts:
     close: ДӀачӀагӀа
     share:
@@ -998,6 +1044,7 @@ ce:
         notes: Билгалонаш
         data: Картан хаамаш
         title: Чкъор
+      copyright: © <a href='%{copyright_url}'>OpenHistoricalMap декъашхой</a>
     site:
       edit_tooltip: Нисде карта
       edit_disabled_tooltip: Хийцамашбан гергадаладе карта
@@ -1006,6 +1053,15 @@ ce:
         comment: Коммент
         hide_comment: къайлайаккха
         unhide_comment: гайта
+    notes:
+      new:
+        add: ТӀетоха билгало
+      show:
+        hide: Къайлайаккха
+        resolve: Кечъян
+        reactivate: Йуха йела
+        comment_and_resolve: Жопделла кечъе
+        comment: Жопдала
     directions:
       ascend: Хьала
       engines:

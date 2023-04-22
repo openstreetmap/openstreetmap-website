@@ -26,6 +26,7 @@ RUN apt-get update \
       tzdata \
       unzip \
       yarnpkg \
+      git \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -48,3 +49,7 @@ RUN gem install bundler \
 ADD package.json yarn.lock /app/
 ADD bin/yarn /app/bin/
 RUN bundle exec bin/yarn install
+
+# Update vendor assets
+ADD Vendorfile /app/
+RUN vendorer update

@@ -9,10 +9,25 @@ OSM.Changeset = function (map) {
     });
   };
 
-  page.load = function (path, id) {
-    if (id) currentChangesetId = id;
+  page.load = function(path, id) {
+    // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+    // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+    function originalLoadFunction () {
+    if(id)
+      currentChangesetId = id;
     initialize();
+
     addChangeset(currentChangesetId, true);
+    }  // end originalLoadFunction
+
+    // "if map.timeslider" only try to add the timeslider if we don't already have it
+    if (map.timeslider) {
+      originalLoadFunction();
+    }
+    else {
+      var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+      addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+    }
   };
 
   function addChangeset(id, center) {

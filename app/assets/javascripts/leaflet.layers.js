@@ -22,9 +22,13 @@ L.OSM.layers = function (options) {
       var div = $("<div>")
         .appendTo(item);
 
-      map.whenReady(function () {
-        var miniMap = L.map(div[0], { attributionControl: false, zoomControl: false, keyboard: false })
-          .addLayer(new layer.constructor({ apikey: layer.options.apikey }));
+      map.whenReady(function() {
+        var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false, keyboard: false})
+          .addLayer(new layer.constructor({
+            apikey: layer.options.apikey,
+            style: layer.options.style,
+            accessToken: layer.options.accessToken
+          }));
 
         miniMap.dragging.disable();
         miniMap.touchZoom.disable();

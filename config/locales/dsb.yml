@@ -43,6 +43,7 @@ dsb:
       message: Powěsć
       node: Suk
       node_tag: Atribut suka
+      notifier: Powěźeńka
       old_node: Stary suk
       old_node_tag: Atribut starego suka
       old_relation: Stara relacija
@@ -75,7 +76,7 @@ dsb:
         title: Tema
         latitude: Šyrina
         longitude: Dlinina
-        language_code: Rěc
+        language: Rěc
       friend:
         user: Wužywaŕ
         friend: Pśijaśel
@@ -135,7 +136,7 @@ dsb:
         reopened_at_html: Pśed %{when} reaktiwěrowany
         reopened_at_by_html: Pśed %{when} wót %{user} reaktiwěrowany
       rss:
-        title: Pokazki OpenStreetMap
+        title: Pokazki OpenHistoricalMap
         description_area: Lisćina pokazkow, kótarež su se za twój wobcerk [(%{min_lat}|%{min_lon})
           -- (%{max_lat}|%{max_lon})] k wěsći dali, komentěrowali abo docynili
         description_item: RSS-kanal za pokazku %{id}
@@ -152,14 +153,25 @@ dsb:
       my settings: Móje nastajenja
       current email address: 'Aktualna e-mailowa adresa:'
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: Co to jo?
       public editing:
         heading: Zjawne wobźěłowanje
         enabled: Zmóžnjony. Nic anonymny, daty daju se wobźěłaś.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Co to jo?
         disabled: Znjemóžnjony, daty njedaju se wobźěłas, wše pjerwjejšne změny su
           anonymne.
         disabled link text: Cogodla njamógu wobźěłas?
+      public editing note:
+        heading: 'Zjawne wobźěłowanje:'
+        html: Tuchylu twóje změny su anonymne a luźe njamógu śi powěsći pósłaś abo
+          twójo městno wiźeś. Aby pokazał, což sy wobźěłał a luźam dowólił, se z tobu
+          pśez websedło do zwiska stajiś, klikni dołojnce na tłocašk. <b>Wót pśeźenja
+          do API 0.6, jano zjawne wužywarje mógu kórtowe daty wobźěłaś.</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">glědaj
+          pśicyny</a>).<ul><li>Twója e-mailowa adresa njebuźo zjawnje widobna.</li><li>Toś
+          ta akcija njedajo se anulěrowaś a wše nowe wužywarje su něnto pó standarźe
+          zjawne.</li></ul>
       contributor terms:
         heading: 'Wuměnjenja za sobustatkujucych:'
         agreed: Sy nowe wuměnjenja za sobuskutkujucych akceptěrował.
@@ -169,9 +181,7 @@ dsb:
         agreed_with_pd: Sy teke deklarěrował, až twóje změny su zjawne.
         link text: Co to jo?
       save changes button: Změny składowaś
-    go_public:
-      heading: 'Zjawne wobźěłowanje:'
-      make_edits_public_button: Wše móje změny wózjawiś
+      make edits public button: Wše móje změny wózjawiś
     update:
       success_confirm_needed: Wužywarske informacije wuspěšnje zaktualizěrowane. Dostanjoš
         e-mail z napominanim, twóju e-mailowu adresu wobkšuśiś.
@@ -179,6 +189,12 @@ dsb:
   browse:
     created: Napórany
     closed: Zacynjony
+    created_html: Napórany <abbr title='%{title}'>pśed %{time}</abbr>
+    closed_html: Zacynjony <abbr title='%{title}'>pśed %{time}</abbr>
+    created_by_html: Napórany <abbr title='%{title}'>pśed %{time}</abbr> wót %{user}
+    deleted_by_html: Wulašowany <abbr title='%{title}'>pśed %{time}</abbr> wót %{user}
+    edited_by_html: Wobźěłany <abbr title='%{title}'>pśed %{time}</abbr> wót %{user}
+    closed_by_html: Zacynjony <abbr title='%{title}'>pśed %{time}</abbr> wót %{user}
     version: Wersija
     in_changeset: Sajźba změnow
     anonymous: anonymny
@@ -263,6 +279,27 @@ dsb:
       wikidata_link: Zapisk %{page} na Wikidata
       wikipedia_link: Nastawk %{page} we Wikipediji
       telephone_link: Na %{phone_number} zazwoniś
+    note:
+      title: 'Suk: %{id}'
+      new_note: Nowa notica
+      description: Wopisanje
+      open_title: 'Njedocynjona pokazka #%{note_name}'
+      closed_title: 'Docynjona pokazka #%{note_name}'
+      hidden_title: 'Schowana pokazka #%{note_name}'
+      opened_by_html: Napórany wót %{user} <abbr title='%{exact_time}'>pśed %{when}</abbr>
+      opened_by_anonymous_html: Napórany wót anonymnego <abbr title='%{exact_time}'>pśed
+        %{when}</abbr>
+      commented_by_html: Komentar wót %{user} <abbr title='%{exact_time}'>pśed %{when}</abbr>
+      commented_by_anonymous_html: Komentar wót anonymnego <abbr title='%{exact_time}'>pśed
+        %{when}</abbr>
+      closed_by_html: Docynjony wót %{user} <abbr title='%{exact_time}'>pśed %{when}</abbr>
+      closed_by_anonymous_html: Docynjony wót anonymnego <abbr title='%{exact_time}'>pśed
+        %{when}</abbr>
+      reopened_by_html: Reaktiwěrowany wót %{user} <abbr title='%{exact_time}'>pśed
+        %{when}</abbr>
+      reopened_by_anonymous_html: Reaktiwěrowany wót anonymnego <abbr title='%{exact_time}'>pśed
+        %{when}</abbr>
+      hidden_by_html: Schowany wót %{user} <abbr title='%{exact_time}'>pśed %{when}</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Bok %{page}
@@ -363,14 +400,15 @@ dsb:
       edit: Wobźěłaś
     feed:
       user:
-        title: Zapiski dnjownika OpenStreetMap za %{user}
-        description: Nejnowše zapiski dnjownika OpenStreetMap wót %{user}
+        title: Zapiski dnjownika OpenHistoricalMap za %{user}
+        description: Nejnowše zapiski dnjownika OpenHistoricalMap wót %{user}
       language:
-        title: Zapiski dnjownika OpenStreetMap w %{language_name}
-        description: Nejnowše zapiski dnjownika wót wužywarjow OpenStreetMap w %{language_name}
+        title: Zapiski dnjownika OpenHistoricalMap w %{language_name}
+        description: Nejnowše zapiski dnjownika wót wužywarjow OpenHistoricalMap w
+          %{language_name}
       all:
-        title: Zapiski dnjownika OpenStreetMap
-        description: Nejnowše zapiski dnjownika wót wužywarjow OpenStreetMap
+        title: Zapiski dnjownika OpenHistoricalMap
+        description: Nejnowše zapiski dnjownika wót wužywarjow OpenHistoricalMap
     comments:
       post: Powěsć
       when: Cas
@@ -390,6 +428,16 @@ dsb:
       success: '%{name} jo se z twójich pśijaśelow wótpórał.'
       not_a_friend: '%{name} njejo twój pśijaśel.'
   geocoder:
+    search:
+      title:
+        latlon_html: Wuslědki z <a href="http://openstreetmap.org/">Internal</a>
+        ca_postcode_html: Wuslědki z <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim_html: Wuslědki z <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
+          Nominatim</a>
+        geonames_html: Wuslědki z <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse_html: Wuslědki z <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
+          Nominatim</a>
+        geonames_reverse_html: Wuslědki z <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -851,12 +899,14 @@ dsb:
       more_results: Dalšne wuslědki
   layouts:
     logo:
-      alt_text: Logo OpenStreetMap
+      alt_text: Logo OpenHistoricalMap
     home: K domacnemu městnoju
     logout: Wótzjawiś
     log_in: Pśizjawiś
+    log_in_tooltip: Do eksistěrowacego konta se pśizjawiś
     sign_up: Registrěrowaś
     start_mapping: Kartěrowanje zachopiś
+    sign_up_tooltip: Konto za wobźěłowanje załožyś
     edit: Wobźěłaś
     history: Historija
     export: Eksport
@@ -868,32 +918,32 @@ dsb:
     user_diaries_tooltip: Wužywarske dnjowniki cytaś
     edit_with: Z %{editor} wobźěłaś
     tag_line: Licha wikikórta swěta
-    intro_header: Witaj k OpenStreetMap!
-    intro_text: OpenStreetMap jó kórta swěta, napórana wót luźi ako ty a dajo se licho
-      pód wótwórjoneju licencu wužywaś.
+    intro_header: Witaj k OpenHistoricalMap!
+    intro_text: OpenHistoricalMap jó kórta swěta, napórana wót luźi ako ty a dajo
+      se licho pód wótwórjoneju licencu wužywaś.
     intro_2_create_account: Załož wužywarske konto
-    partners_ucl: z UCL VR Centre
-    partners_bytemark: Bytemark Hosting
     partners_partners: partnerow
-    osm_offline: Datowa banka OpenStreetMap jo tuchylu offline, dokulaž se wažne źěło
-      za wótglědowanje datoweje banki pśewjedujo.
-    osm_read_only: Datowa banka OpenStreetMap jo tuchylu w modusu "Jano cytaś", dokulaž
-      se wažne źěło za wótglědowanje datoweje banki pśewjedujo.
-    donate: Pódprěj OpenStreetMap pśez %{link} do fondsa aktualizacije hardware
+    osm_offline: Datowa banka OpenHistoricalMap jo tuchylu offline, dokulaž se wažne
+      źěło za wótglědowanje datoweje banki pśewjedujo.
+    osm_read_only: Datowa banka OpenHistoricalMap jo tuchylu w modusu "Jano cytaś",
+      dokulaž se wažne źěło za wótglědowanje datoweje banki pśewjedujo.
+    donate: Pódprěj OpenHistoricalMap pśez %{link} do fondsa aktualizacije hardware
     help: Pomoc
     about: Wó
     copyright: Awtorske pšawo
     community: Zgromaźeństwo
     community_blogs: Blogi zgromaźeństwa
-    community_blogs_title: Blogi cłonkow zgromaźeństwa OpenStreetMap
+    community_blogs_title: Blogi cłonkow zgromaźeństwa OpenHistoricalMap
+    foundation: Załožba
+    foundation_title: Załožba OpenHistoricalMap
     make_a_donation:
-      title: Pódprěj OpenStreetMap z pjenjezneju pósćiwanku
+      title: Pódprěj OpenHistoricalMap z pjenjezneju pósćiwanku
       text: Pósćiś
     learn_more: Dalšne informacije
     more: Wěcej
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} jo twój zapisk dnjownika komentěrował.'
+      subject: '[OpenHistoricalMap] %{user} jo twój zapisk dnjownika komentěrował.'
       hi: Witaj %{to_user},
       header: '%{from_user} jo twój nejnowšy zapisk dnjownika openStreetMap z temowym
         nadpismom %{subject} komentěrował:'
@@ -901,21 +951,23 @@ dsb:
         abo na %{replyurl} wótegroniś
     message_notification:
       hi: Witaj %{to_user},
-      header: '%{from_user} jo śi pósłał powěsć pśez OpenStreetMap z temowym nadpismom
+      header: '%{from_user} jo śi pósłał powěsć pśez OpenHistoricalMap z temowym nadpismom
         %{subject}:'
       footer_html: Móžoš powěsć pód %{readurl} cytaś a móžoš pód %{replyurl} wótegroniś
     friendship_notification:
-      subject: '[OpenStreetMap] %{user} jo śi ako pśijaśela pśidał.'
-      had_added_you: '%{user} jo śi na OpenStreetMap ako pśijaśela pśidał.'
+      subject: '[OpenHistoricalMap] %{user} jo śi ako pśijaśela pśidał.'
+      had_added_you: '%{user} jo śi na OpenHistoricalMap ako pśijaśela pśidał.'
       see_their_profile: Móžoš profil na %{userurl} wiźeś.
       befriend_them: Móžoš někogo na %{befriendurl} ako pśijaśela pśidaś.
     gpx_failure:
       failed_to_import: 'njejo se dał importěrowaś. How jo zmólka:'
-      subject: '[OpenStreetMap] GPX-import jo se njeraźił'
+      subject: '[OpenHistoricalMap] GPX-import jo se njeraźił'
     gpx_success:
-      subject: '[OpenStreetMap] GPX-import wuspěšny'
+      loaded_successfully: jo se %{trace_points} z %{possible_points} móžnych dypkow
+        zacytało.
+      subject: '[OpenHistoricalMap] GPX-import wuspěšny'
     signup_confirm:
-      subject: '[OpenStreetMap] Witaj do OpenStreetMap'
+      subject: '[OpenHistoricalMap] Witaj do OpenHistoricalMap'
       greeting: Witaj!
       created: Něchten (naźejamy se ty) jo rowno konto na %{site_url} załožył.
       confirm: 'Nježli až cynimy něco, musymy wobkšuśiś, až toś to napšašowanje pśiźo
@@ -924,16 +976,16 @@ dsb:
       welcome: Za tym až sy swójo konto wobkšuśił, buźomy tebi pśidatne informacije
         za prědne kšacei daś.
     email_confirm:
-      subject: '[OpenStreetMap] Twóju e-mailowu adresu wobkšuśiś'
+      subject: '[OpenHistoricalMap] Twóju e-mailowu adresu wobkšuśiś'
       greeting: Witaj,
       hopefully_you: Něchten (naźejucy ty) co swóju e-mailowu adresu pla %{server_url}
         do %{new_address} změniś.
       click_the_link: Jolic ty to sy, klikni pšosym dołojce na wótkaz, aby wobkšuśił
         změnu.
     lost_password:
-      subject: '[OpenStreetMap] Napšašowanje wó slědkstajenju gronidła'
+      subject: '[OpenHistoricalMap] Napšašowanje wó slědkstajenju gronidła'
       greeting: Witaj,
-      hopefully_you: Něchten (snaź ty) jo pominał gronidło za konto OpenStreetMap
+      hopefully_you: Něchten (snaź ty) jo pominał gronidło za konto OpenHistoricalMap
         z toś teju e-majloweju adresu slědk stajiś.
       click_the_link: Jolic ty to sy, klikni pšosym dołojce na wótkaz, aby swójo gronidło
         slědk stajił.
@@ -941,25 +993,28 @@ dsb:
       anonymous: Anonymny wužywaŕ
       greeting: Witaj,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} jo jadnu z twójich pokazkow komentěrował'
-        subject_other: '[OpenStreetMap] %{commenter} jo pokazku komentěrował, za kótaruž
-          se zajmujoš'
+        subject_own: '[OpenHistoricalMap] %{commenter} jo jadnu z twójich pokazkow
+          komentěrował'
+        subject_other: '[OpenHistoricalMap] %{commenter} jo pokazku komentěrował,
+          za kótaruž se zajmujoš'
         your_note: '%{commenter} jo komentar wó jadnej z twojich pokazkow blisko %{place}
           zawóstajił.'
         commented_note: '%{commenter} jo komentar wó kórtowej pokazce zawóstajił,
           kótaruž sy komentěrował. Pokazka jo blisko %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} jo jadnu z twójich pokazkow docynił'
-        subject_other: '[OpenStreetMap] %{commenter} jo pokazku docynił, za kótaruž
+        subject_own: '[OpenHistoricalMap] %{commenter} jo jadnu z twójich pokazkow
+          docynił'
+        subject_other: '[OpenHistoricalMap] %{commenter} jo pokazku docynił, za kótaruž
           se zajmujoš'
         your_note: '%{commenter} jo jadnu z twójich kórtowych pokazkow blisko %{place}
           docynił.'
         commented_note: '%{commenter} jo kórtowu pokazku docynił,  kótaruž sy komentěrował.
           Pokazka jo blisko %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} jo jadnu z twójich pokazkow reaktiwěrował'
-        subject_other: '[OpenStreetMap] %{commenter} jo pokazku reaktiwěrował, za
-          kótaruž se zajmujoš'
+        subject_own: '[OpenHistoricalMap] %{commenter} jo jadnu z twójich pokazkow
+          reaktiwěrował'
+        subject_other: '[OpenHistoricalMap] %{commenter} jo pokazku reaktiwěrował,
+          za kótaruž se zajmujoš'
         your_note: '%{commenter} jo jadnu z twójich kórtowych pokazkow blisko %{place}
           reaktiwěrował.'
         commented_note: '%{commenter} jo kórtowu pokazku reaktiwěrował,  kótaruž sy
@@ -977,6 +1032,8 @@ dsb:
       success: Twójo konto jo se wobkšuśiło, źěkujomy se za registrěrowanje!
       already active: Toś te konto jo se južo wobkšuśiło.
       unknown token: Wobkšuśeński kod jo pśepadnjony abo njeeksistěrujo.
+      reconfirm_html: Jolic musyš nam wobkšuśeńsku e-mailku znowego pósłaś, <a href="%{reconfirm}">klikni
+        how</a>.
     confirm_resend:
       failure: Wuzywaŕ %{name} njejo se namakał.
     confirm_email:
@@ -1015,6 +1072,8 @@ dsb:
     new:
       title: Powěsć pósłaś
       send_message_to_html: '%{name} nowu powěsć pósłaś'
+      subject: Temowe nadpismo
+      body: Tekst
       back_to_inbox: Slědk k postoju
     create:
       message_sent: Powěsć pósłana
@@ -1043,9 +1102,13 @@ dsb:
         Pšosym pśizjaw se ako korektny wužywaŕ, aby wótegronił.
     show:
       title: Powěsć cytaś
+      from: Wót
+      subject: Temowe nadpismo
+      date: Datum
       reply_button: Wótegroniś
       unread_button: Ako njepśecytany markěrowaś
       back: Slědk
+      to: Komu
       wrong_user: Sy ako `%{user} pśizjawjony, ale powěsć, kótaruž sy kśěł cytaś,
         njejo se pósłała wót togo wužywarja abo k tomu wužywarjeju. Pšosym pśizjaw
         se ako korektny wužywaŕ, aby ju cytał.
@@ -1097,27 +1160,47 @@ dsb:
       lost password link: Sy swójo gronidło zabył?
       login_button: Pśizjawiś se
       register now: Něnto registrěrowaś
+      with username: 'Maš južo konto pla OpenHistoricalMap? Pšosym pśizjaw se ze swójim
+        wužywarskim mjenim a gronidłom:'
+      new to osm: Nowy w OpenHistoricalMap?
+      to make changes: Aby daty OpenHistoricalMap změnił, musyš konto měś.
+      create account minute: Załož konto. Trajo jano minutku.
       no account: Njamaš wužywarske konto?
+      account not active: Bóžko twojo konto hyšći njejo aktiwne.<br />Pšosym klikni
+        na wótkaz w e-mailu za wobkšuśenje konta, aby aktiwěrował swójo konto abo
+        <a href="%{reconfirm}">pominaj nowu wobkšuśeńsku e-mail</a>.
+      account is suspended: Twójo konto jo se bóžko wupowěźeło dla pódglědneje aktiwity.<br
+        />Staj se z <a href="%{webmaster}">webmasterom</a>, jolic coš wó tom diskutěrowaś.
       auth failure: Bóžko, pśizjawjenje z toś tymi datami njejo móžno.
       openid_logo_alt: Z OpenID se pśizjawiś
     destroy:
       title: Wótzjawiś se
-      heading: Z OpenStreetMap se wótzjawiś
+      heading: Z OpenHistoricalMap se wótzjawiś
       logout_button: Wótzjawjenje
   site:
     about:
       next: Pśiducy
-      used_by_html: '%{name} staja kórtowe daty za sta websedłow, mobilne nałoženja
-        a rědy k dispoziciji'
-      lede_text: OpenStreetMap twóri se wót zgromaźeństwa kartěrowarjow, kótarež pśinosuju
-        a woplěwaju daty wó drogach, puśach, kafejownjach, dwórnišćach a wjele wěcej
-        na cełem swěśe.
+      copyright_html: <span>&copy; </span>sobustatkujuce<br>OpenHistoricalMap
+      used_by_html: OpenHistoricalMap staja kórtowe daty za sta websedłow, mobilne
+        nałoženja a rědy k dispoziciji
+      lede_text: OpenHistoricalMap twóri se wót zgromaźeństwa kartěrowarjow, kótarež
+        pśinosuju a woplěwaju daty wó drogach, puśach, kafejownjach, dwórnišćach a
+        wjele wěcej na cełem swěśe.
       local_knowledge_title: Lokalna wěda
-      local_knowledge_html: Za OpenStreetMap jo wažna lokalna wěda. Sobustatkujuce
+      local_knowledge_html: Za OpenHistoricalMap jo wažna lokalna wěda. Sobustatkujuce
         wužywaju wobraze z powětša, GPS-graty a pólne kórty, aby pśeglědali, aby OSM
         dokładny a aktualny był.
       community_driven_title: Wót zgromaźeństwa spěchowany
+      community_driven_html: |-
+        Zgromaźeństwo OpenHistoricalMap jo wjelerake, zagórity a rosćo kuždy źeń.
+        Naše sobustatkujuce su zagórite kartěrowarjo, GIS-profije, inženjery, kótarež gónje OSM-serwery, pomogarje, kótarež kartěruju strona katastrofo a wjele wěcej.
+        Aby wěcej wó zgromaźeństwje zgónił, glej <a href='%{diary_path}'>wužywarske dnjowniki</a>, <a href='http://blogs.openstreetmap.org/'>blogi zgromaźeństwa</a> a websedło załožby <a href='http://www.osmfoundation.org/'>OSM Foundation</a>
       open_data_title: Zjawne daty
+      open_data_html: 'OpenHistoricalMap wopśimujo <i>zjawne daty</i>: Móžoš je za
+        kuždy zaměr wužywaś, joli až naspomnjejoš OpenHistoricalMap a jogo sobustatkujuce.
+        Jolic změnijoš daty na wěsty nałog abo napórajoš, móžoš wuslědk jano pód teju
+        samskeju licencu rozdźěliś. Glej <a href=''%{copyright_path}''>bok awtorskego
+        pšawa a licence</a> za drobnosći.'
       partners_title: Partnarje
     copyright:
       foreign:
@@ -1133,32 +1216,65 @@ dsb:
         mapping_link: kartěrowanje zachopiś
       legal_babble:
         title_html: Awtorske pšawo a licenca
-        credit_title_html: Kak naspomnjeś awtorstwo OpenStreetMap
-        credit_1_html: Pominamy se, až  pódawaš sobustatkujucych &ldquo;&copy; OpenStreetMap&rdquo;.
+        intro_1_html: |-
+          OpenHistoricalMap su <i>zjawne daty</i>, licencěrowane pód licencu <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database</a> (ODbL).
+        intro_2_html: Móžoš naše daty kopěrowaś, rozdźěliś, pśenjasć a pśiměriś, tak
+          dłujko ako  naspomnjejoš OpenHistoricalMap a jich sobustatkujucych. Jolic
+          změnijoš naše kórty abo daty abo zepěraš se na nje, móžoš wuslědk jano pód
+          teju sameju licencu rozdźěliś. Dopołny <a href="http://opendatacommons.org/licenses/odbl/1.0/">pšawniski
+          code</a> wujasnjujo twóje pšawa a zagronitosći.
+        intro_3_1_html: Kartografija w našych kórtowych kachlach a naša dokumentacija
+          stej pód licencu <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA) licencěrowanej.
+        credit_title_html: Kak naspomnjeś awtorstwo OpenHistoricalMap
+        credit_1_html: Pominamy se, až  pódawaš sobustatkujucych &ldquo;&copy; OpenHistoricalMap&rdquo;.
+        credit_2_1_html: Musyš teke wujasniś, až daty stoje pód licencu Open Database,
+          a, jolic naše kórtowe kachle se wužywaju, až kartografija licencěrujo se
+          pód CC-BY-SA. Móžoš to cyniś, z tym až wótkazujoš do <a href="http://www.openstreetmap.org/copyright">toś
+          togo boka awtorskego pšawa</a>. Alternatiwnje, a ako pótrěbnosć, jolic rozdźělujoš
+          OSM w datowem formje, móžoš direktnje k licencam pomjenjowaś a wótkazaś.
+          W medijach, źož wótkaze njejsu móžno (na pś. wuśišćane źěła), naraźujomy
+          śi, twójich cytarjow na openstreetmap.org (snaź z tym až rozšyrjujoš 'OpenHistoricalMap'
+          k toś tej połnej adresy), na opendatacommons.org a, jolic to jo relewantne,
+          na creativecommons.org dopomnjeś.
         attribution_example:
-          alt: Pśikład, kak pokazujo se na webboku na OpenStreetMap
+          alt: Pśikład, kak pokazujo se na webboku na OpenHistoricalMap
           title: Pśipokazański pśikład
         more_title_html: Dalšne informacije
+        more_1_html: Cytaj wěcej wó wužywanju našych datow a kak dajo se nas pśipóznaś
+          pód <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Ceste pšawniske
+          pšašenja</a>.
         contributors_title_html: Naše sobustatkujuce
         contributors_intro_html: 'Naše sobustatkujuce su towzynty wósobow. Zapśimujomy
           teke daty wótwórjoneje licence z narodnych kartěrowańskich pśedewześow a
           drugich žrědłow, mjaz nimi:'
-        contributors_footer_2_html: Zapśimowanje datow do OpenStreetMap njegroni,
-          až póbitowaŕ originalnych datow pśipóznawa OpenStreetMap, dawa někaku garantiju
-          abo pśewzejo rukowanje.
+        contributors_footer_1_html: Za dalšne drobnostki za to a druge žrědła, kótarež
+          su se wužyli, aby OpenHistoricalMap pólěpšyli, glědaj pšošym <a href="http://wiki.openstreetmap.org/wiki/Contributors">bok
+          sobustatkujucych</a> na wikiju OpenHistoricalMap.
+        contributors_footer_2_html: Zapśimowanje datow do OpenHistoricalMap njegroni,
+          až póbitowaŕ originalnych datow pśipóznawa OpenHistoricalMap, dawa někaku
+          garantiju abo pśewzejo rukowanje.
         infringement_title_html: Pśejźenje stwóriśelskego pšawa
         infringement_1_html: Sobustatkujucych OSM napominamy, až njedodawaju nigda
           daty ze žrědłow, kótarež su pśez awtorske pšawo šćitane (na pś. z Google
           Maps abo z wuśišćanych kórtow) bźez wurazneje dowólnosći awtorow.
+        infringement_2_html: Joli měniš, aý awtorskopšawniski šćitany material jo
+          se datowej bance OpenHistoricalMap abo toś tomu sedłoju bźez dowólnosći
+          pśidał, póśěguj se pšosym na našo <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">póstupowanje
+          za wótwónoźowanje wopśimjeśa</a>abo daj to direktnje na našom <a href="https://dmca.openstreetmap.org/">formularnem
+          boku</a> k wěsći.
     index:
       js_1: Pak wužywaš wobglědowak, kótaryž njepódpěra JavaScript, pak sy znjemóžnił
         JavaScript.
-      js_2: OpenStreetMap wužywa JavaScript za suwatu kórtu.
+      js_2: OpenHistoricalMap wužywa JavaScript za suwatu kórtu.
       permalink: Trajny wótkaz
       shortlink: Krotki wótkaz
       createnote: Pokaz pśidaś
       license:
-        copyright: Copyright OpenStreetMap a sobustatkujuce, pód wótewrjoneju licencu
+        copyright: Copyright OpenHistoricalMap a sobustatkujuce, pód wótewrjoneju
+          licencu
       remote_failed: Wobźěłowanje njejo se raźiło - pśeznań se, lěc JOSM jo zacytany
         a opcija zdalokawóźenje jo zmóžnjona
     edit:
@@ -1175,31 +1291,36 @@ dsb:
       area_to_export: Wurězk za eksport
       manually_select: Drugi wurězk manuelnje wubraś
       format_to_export: Format za eksport
-      osm_xml_data: XML-daty OpenStreetMap
+      osm_xml_data: XML-daty OpenHistoricalMap
       map_image: Kórtowy wobraz (pokazujo standardnu rowninu)
       embeddable_html: Zasajźujobny HTML
       licence: Licenca
+      export_details_html: Daty OpenHistoricalMap licencěruju se pód licencu <a href="http://opendatacommons.org/licenses/odbl/1.0/">Licenca
+        Data Commons Open Database</a> (ODbL).
       too_large:
         advice: 'Jolic górni eksport se njeraźi, pšosym rozwaž, lěc wužywaš jadnu
           ze slědujucych lisćinow:'
-        body: 'Toś ten wobcerk jo pśewjeliki za eksportěrowanje ako XML-daty OpenStreetMap.
+        body: 'Toś ten wobcerk jo pśewjeliki za eksportěrowanje ako XML-daty OpenHistoricalMap.
           Pšosym pówětš abo wubjeŕ mjeńšy wobcerk abo wužyj jadno ze slědujucych žrědłow
           za ześěgnjenje wjelikich kopicow datow:'
         planet:
           title: Planet OSM
           description: Pšawidłownje zaktualizěrowane kopije dopołneje datoweje banki
-            OpenStreetMap
+            OpenHistoricalMap
         overpass:
           title: Overpass API
-          description: Toś ten wobłuk z glědałkowego serwera datoweje banki OpenStreetMap
+          description: Toś ten wobłuk z glědałkowego serwera datoweje banki OpenHistoricalMap
             ześěgnuś
         geofabrik:
           title: Geofabrik Downloads
           description: Pšawidłownje zaktualizěrowane wuśěgi kontinentow, krajow a
             wubranych městow
+        metro:
+          title: Metro Extracts
+          description: Wuśěgi za nejwětše swětowe města a jich wokolinu
         other:
           title: Druge žrědła
-          description: Pśidatne žrědła nalicone wikiju OpenStreetMap
+          description: Pśidatne žrědła nalicone wikiju OpenHistoricalMap
       options: Opcije
       format: 'Format:'
       scale: Měritko
@@ -1220,28 +1341,39 @@ dsb:
           title: Zgromaźeństwu pśistupiś
           explanation_html: Jolic sy problem z našymi kórtowymi datami zawuputnuł,
             na pśikład droga abo twója adresa felujo, jo nejlěpša wašnja, z tym pókšacowaś,
-            se zgromaźeństwoju OpenStreetMap pśizamknuś a sam daty pśidaś abo korigěrowaś.
+            se zgromaźeństwoju OpenHistoricalMap pśizamknuś a sam daty pśidaś abo
+            korigěrowaś.
+        add_a_note:
+          instructions_html: |-
+            Klikni jadnorje na <a class='icon note'></a> abo na ten samski symbol w zwobraznjenju kórty.
+            To pśidajo kórśe marku, kótaruž móžoš pśez śěgnjenje pśesunuś.
+            Pśidaj swóju powěsć, klikni pon na Składowaś a druge kartěrowarje budu pó tom slěźiś.
       other_concerns:
         title: Druge nastupnosći
+        explanation_html: Jolic maš wobmyslenja wó tom, kak naše daty se wužiwaju
+          abo nastupajucy wopśimjeśe, woglědaj se k našomu <a href='/copyright'>bokoju
+          awtorstwa</a> za dalšne kazniske informacije abo staj se z wótpowědneju
+          <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>źěłoweju kupku</a>
+          do zwiska.
     help:
       title: Pomoc
-      introduction: OpenStreetMap ma wšake resurse za zeznaśe projekta, pšašanja a
-        wótegrona wó něcom a zgromadnu diskusiju a dokumentěrowanje kartěrowańskich
+      introduction: OpenHistoricalMap ma wšake resurse za zeznaśe projekta, pšašanja
+        a wótegrona wó něcom a zgromadnu diskusiju a dokumentěrowanje kartěrowańskich
         temow.
       welcome:
         url: /welcome
         title: Witaj k OSM
         description: Zachop z toś tym spěšnym rozpokazanim, kótarež wopsímujo zakłady
-          OpenStreetMap.
+          OpenHistoricalMap.
       help:
+        url: https://help.openstreetmap.org/
         title: help.openstreetmap.org
         description: Pšašaj se něcogo abo pytaj za wótegronami na boku pšašanjow a
-          wótegronow OpenStreetMap.
+          wótegronow OpenHistoricalMap.
       wiki:
+        url: http://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
         description: Pśepytaj wiki za nadrobneju OSM-dokumentaciju
-    any_questions:
-      title: Maš hyšći pšašanja?
     sidebar:
       search_results: Pytańske wuslědki
       close: Zacyniś
@@ -1316,20 +1448,42 @@ dsb:
           bicycle_shop: Kólasaŕnja
     welcome:
       title: Witaj!
-      introduction: Witaj k OpenstreetMap, lichej a wobźěłujobnej kórśe swěta. Něnto,
-        za tym až sy se zregistrěrował, móžoš se do kartěrowanja pušćiś. How jo krotke
-        zapokazanje z nejwažnjejšymi informacijami, kótarež musyš wěźeś.
+      introduction_html: Witaj k OpenstreetMap, lichej a wobźěłujobnej kórśe swěta.
+        Něnto, za tym až sy se zregistrěrował, móžoš se do kartěrowanja pušćiś. How
+        jo krotke zapokazanje z nejwažnjejšymi informacijami, kótarež musyš wěźeś.
       whats_on_the_map:
         title: Což na kórtu słuša
+        on_html: OpenHistoricalMap jo městno za kartěrowanje wěcow, kótarež su <em>realne
+          a aktualne</em> - wopśimujo miliony twarjenjow, puśow a druge drobnostki
+          wó městnach. Móžoš kartěrowaś, cožkuli zajmujo śi we napšawdnem swěśe.
+        off_html: Což <em>nja</em>ma wopśimjeś, su subjektiwne daty kaž pogódnośenja,
+          historiske abo hypotetiske funkcije a daty z pśez awtorske pšawo šćitanych
+          žrědłow. Njekopěruj z online- abo papjernych kórtow, snaźkuli maš wósebnu
+          dowólnosć.
       basic_terms:
         title: Zakładne zapśimjeśa za kartěrowanje
-        paragraph_1: OpenStreetMap wužywa někotare wósebne zapśimjeśa. How su někotare
-          z nich, kótarež by mógli śi wužytne byś.
+        paragraph_1_html: OpenHistoricalMap wužywa někotare wósebne zapśimjeśa. How
+          su někotare z nich, kótarež by mógli śi wužytne byś.
+        editor_html: <strong>Editor</strong> jo program abo websedło, kótarež móžoš
+          wužywaś, aby kórtu wobźěłał.
+        node_html: <strong>Suk</strong> jo dypk na kórśe, na pś. gósćeńc abo bom.
+        way_html: <strong>Puś</strong> jo linija abo płonina, na pś. droga, rěka,
+          jazor abo twarjenje.
+        tag_html: <strong>Atribut</strong> jo datowa kakosć wó suku abo puśu, na pśikład
+          mě gósćeńca abo nejwuša spěšnosć na droze.
+      questions:
+        title: Maš hyšći pšašanja?
+        paragraph_1_html: |-
+          OpenHistoricalMap ma wšake resurse za zeznaśe projekta, pšašanja a wótegrona wó něcom a zgromadnu diskusiju a dokumentěrowanje kartěrowańske temy.
+          <a href='%{help_url}'>Pomoc</a>.
       start_mapping: Kartěrowanje zachopiś
       add_a_note:
         title: Njamaš chyle za wobźěłowanje? Pśidaj pokazku!
-        para_1: Jolic coš jano drobnosć korigěrowaś a njamaš chyle, aby se zregistrěrował
-          a wuknuł, kak se wobźěłujo, móžoš jadnorje pokazku pśidaś.
+        paragraph_1_html: Jolic coš jano drobnosć korigěrowaś a njamaš chyle, aby
+          se zregistrěrował a wuknuł, kak se wobźěłujo, móžoš jadnorje pokazku pśidaś.
+        paragraph_2_html: |-
+          Źi jadnorje na <a href='%{map_url}'>kórtu</a> a klikni na symbol pokazki:
+          <span class='icon note'></span>. Ten pśida kórśe marku, kótaruž móžoš pśesunuś. Pśidaj swóju powěźeńku, klikni pótom na Składowaś a druge kartěrowarje budu se wěcy wěnowaś.
   traces:
     visibility:
       private: Priwatny (jano źělony ako anonymne, njezrědowane dypki)
@@ -1398,6 +1552,9 @@ dsb:
       public_traces_from: Zjawne GPS-slědy wót %{user}
       description: Nejnowše nagraśa GPS-cerow pśepytaś
       tagged_with: '   wobznamjenjony pśez %{tags}'
+      empty_html: How njejo nic. <a href='%{upload_link}'>Nagraj nowy slěd</a> abo
+        wukni wěcej wó GPS-slědowanju na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikijowem
+        boku</a>.
       upload_trace: Slěd nagraś
     destroy:
       scheduled_for_deletion: Za wulašowanje pśedwiźona cera
@@ -1409,7 +1566,7 @@ dsb:
       heading: Składowanje GPX offline
       message: Składowanje a nagrawański system GPX-datajow njestoj tuchylu k dispoziciji.
     georss:
-      title: OpenStreetMap GPS-slědy
+      title: OpenHistoricalMap GPS-slědy
     description:
       description_with_count:
         few: GPX-dataja z %{count} dypkami wót %{user}
@@ -1495,8 +1652,17 @@ dsb:
     new:
       title: Registrěrowaś
       no_auto_account_create: Bóžko njamóžomy tuchylu za tebje konto awtomatiski załožyś.
+      contact_support_html: Pšosym staj so z <a href="%{support}">webmasterom</a>
+        do zwiska, aby se śi konto załožyło - buźomy napšašowanje tak spěšnje ako
+        móžno wobźěłowaś.
       about:
         header: Lichy a wobźěłujobny
+        html: |-
+          <p>Na rozdźěl wót drugich kórtow, twóri se dopołnje  OpenHistoricalMap dospołnje wót luźi ako ty, a kuždy móžo ju korigěrowaś, aktualizěrowaś, ześěgnuś a wužywaś.</p>
+          <p>Zregistrěruj se a cyń sobu. Buźomy śi e-mailku słaś, aby my twójo konto wobkšuśili.</p>
+      email address: 'E-mailowa adresa:'
+      confirm email address: 'E-mailowu adresu wobkšuśiś:'
+      display name: 'Wužywarske mě:'
       display name description: Sy wužywarske mě zjawnje pokazał. Móžoš to pózdźej
         w nastajenjach změniś.
       continue: Registrěrowaś
@@ -1507,6 +1673,8 @@ dsb:
       consider_pd: Pśidatnje ku górjejce dojadnanjeju, mam swóje pśinoski za zjawnosć
         pśistupne.
       consider_pd_why: Co to jo?
+      guidance_html: 'Informacije, kótarež pomagaju toś te wuměnjenja rozměś: <a href="%{summary}">zbadne
+        zespominanje</a> a někotare <a href="%{translations}">njeoficielne pśełožki</a>'
       decline: Wótpokazaś
       you need to accept or decline: Pšosym pśecytaj nowe wužywarske wuměnjenja a
         akceptěruj abo wótpokaž je, nježli až dalej cyniš.
@@ -1522,6 +1690,7 @@ dsb:
         abo wótkaz, na kótaryž sy kliknuł, jo njepłaśiwy.
     show:
       my diary: Mój dnjownik
+      new diary entry: nowy dnjownikowy zapisk
       my edits: Móje změny
       my traces: Móje ceri
       my notes: Móje pokazki
@@ -1547,6 +1716,8 @@ dsb:
       created from: 'Napórany z:'
       status: 'Status:'
       spam score: 'Spamowe gódnośenje:'
+      description: Wopisanje
+      user location: Wužywarske městno
       role:
         administrator: Toś ten wužywaŕ jo administrator
         moderator: Toś ten wužywaŕ jo moderator
@@ -1561,11 +1732,14 @@ dsb:
       comments: Komentary
       create_block: toś togo wužywarja blokěrowaś
       activate_user: toś togo wužywarja aktiwěrowaś
+      deactivate_user: toś togo wužywarja znjemóžniś
       confirm_user: toś togo wužywarja wobkšuśiś
       hide_user: toś togo wužywarja schowaś
       unhide_user: toś togo wužiwarja pokazaś
       delete_user: toś togo wužywarja lašowaś
       confirm: Wobkšuśiś
+    set_home:
+      flash success: Bydlišćo jo se wuspěšnje składło.
     go_public:
       flash success: Wše twóje změny su něnto zjawne, a ty móžoš je něnto wobźěłaś.
     index:
@@ -1582,6 +1756,11 @@ dsb:
     suspended:
       title: Konto wupowěźone
       heading: Konto wupowěźone
+      body_html: |-
+        <p>
+        Twójo konto jo se awtomatiski wupowěźeło dla pódglědneje aktiwity.
+        </p>
+        Toś ten rozsud buźo se wót administratora skóro pśeglědowaś, abo móžoš se %{webmaster} do zwiska stajiś, jolic coš wó tom diskutěrowaś.
   user_role:
     filter:
       not_a_role: Znamuškowy rjeśazk "%{role}" njejo płaśiwa rola.
@@ -1612,6 +1791,9 @@ dsb:
       title: Wuźělujo se blokěrowanje pśeśiwo %{name}
       heading_html: Wuźělujo se blokěrowanje pśeśiwo %{name}
       period: Kak dłujko, wótněnta, wužywaŕ buźo se za API blokěrowaś.
+      tried_contacting: Som se zwužywarjom do zwiska stajił a jogo prosył zastajiś.
+      tried_waiting: Som wužywarjeju pśiměrjony cas dał, aby mógał na toś te powěźeńki
+        wótegroniś.
       back: Wšykne blokěrowanja pokazaś
     edit:
       title: Wobźěłujo se blokěrowanje pśeśiwo %{name}
@@ -1624,6 +1806,10 @@ dsb:
       block_period: Cas blokěrowanja musy jadna z gódnotow byś, kótarež daju se z
         padajuceje lisćiny wubraś.
     create:
+      try_contacting: Pšosym staj se z wužywarjom do zwiska, nježli až jogo zablokěrujoš
+        a daj jomu pśiměrjony cas za wótegrono.
+      try_waiting: Pšosym daj wužywarjeju pśiměrjony cas za wótegrono, nježli až jogo
+        zablokěrujoš.
       flash: Jo se zablokował wužywaŕ %{name}.
     update:
       only_creator_can_edit: Jano moderator, kótaryž jo toś to blokěrowanje wuźělił,
@@ -1695,26 +1881,6 @@ dsb:
       description: Wopis
       created_at: Napórany
       last_changed: Slědny raz změnjony
-    show:
-      title: 'Suk: %{id}'
-      description: Wopisanje
-      open_title: 'Njedocynjona pokazka #%{note_name}'
-      closed_title: 'Docynjona pokazka #%{note_name}'
-      hidden_title: 'Schowana pokazka #%{note_name}'
-      anonymous_warning: Toś ta pokazka wopśimujo komentary wót anonymnych wužywarjow,
-        kótarež by měli se njewótwisnje pśeglědaś.
-      hide: Schowaś
-      resolve: Wótbyty
-      reactivate: Znowego aktiwěrowaś
-      comment_and_resolve: Komentěrowaś a cyniś
-      comment: Reagěrowaś
-    new:
-      title: Nowa notica
-      intro: Sy zmólku wiźeł abo až něco felujo? Informěruj drugich kartěrowarjow,  aby
-        mógli to korigěrowaś. Pśesuń marku ku korektnej poziciji a zapiš pokazku,
-        aby problem rozkładł. (Pšosym njezapódaj wósobinske informacije abo informacije
-        z kórtow šćitanych pśez awtorske pšawo abo lisćiny zarědnikow.)
-      add: Pokazku pśidaś
   javascripts:
     close: Zacyniś
     share:
@@ -1755,6 +1921,8 @@ dsb:
         data: Kórtowe daty
         overlays: Waršty za pytanje za zmólkami na kórśe zmóžniś
         title: Rowniny
+      copyright: © <a href='%{copyright_url}'>Sobustatkujuce OpenHistoricalMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Pósćiś</a>
     site:
       edit_tooltip: Kórtu wobźěłaś
       edit_disabled_tooltip: Za wobźěłowanje kórty  powětšyś
@@ -1764,6 +1932,21 @@ dsb:
       map_data_zoom_in_tooltip: Powětš kórtu, aby daty wiźeł
     changesets:
       show:
+        comment: Reagěrowaś
+    notes:
+      new:
+        intro: Sy zmólku wiźeł abo až něco felujo? Informěruj drugich kartěrowarjow,  aby
+          mógli to korigěrowaś. Pśesuń marku ku korektnej poziciji a zapiš pokazku,
+          aby problem rozkładł. (Pšosym njezapódaj wósobinske informacije abo informacije
+          z kórtow šćitanych pśez awtorske pšawo abo lisćiny zarědnikow.)
+        add: Pokazku pśidaś
+      show:
+        anonymous_warning: Toś ta pokazka wopśimujo komentary wót anonymnych wužywarjow,
+          kótarež by měli se njewótwisnje pśeglědaś.
+        hide: Schowaś
+        resolve: Wótbyty
+        reactivate: Znowego aktiwěrowaś
+        comment_and_resolve: Komentěrowaś a cyniś
         comment: Reagěrowaś
     edit_help: Pśesuń kórtu do městna, kótarež coš wobźěłaś, powětš tam a klikni pótom
       how.

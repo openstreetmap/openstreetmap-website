@@ -139,9 +139,9 @@ OSM.Router = function (map, rts) {
     }
   };
 
-  router.updateHash = function () {
+  router.updateHash = function(force) {
     var hash = OSM.formatHash(map);
-    if (hash === currentHash) return;
+    if (hash === currentHash && !force) return;
     currentHash = hash;
     router.stateChange(OSM.parseHash(hash));
   };
