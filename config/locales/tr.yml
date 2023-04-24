@@ -211,41 +211,41 @@ tr:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: yaklaşık 1 saat önce
+        one: yaklaşık %{count} saat önce
         other: yaklaşık %{count} saat önce
       about_x_months:
-        one: yaklaşık 1 ay önce
+        one: yaklaşık %{count} ay önce
         other: yaklaşık %{count} ay önce
       about_x_years:
-        one: yaklaşık 1 yıl önce
+        one: yaklaşık %{count} yıl önce
         other: yaklaşık %{count} yıl önce
       almost_x_years:
-        one: neredeyse 1 yıl önce
+        one: neredeyse %{count} yıl önce
         other: neredeyse %{count} yıl önce
       half_a_minute: yarım dakika önce
       less_than_x_seconds:
-        one: 1 saniyeden az önce
+        one: '%{count} saniyeden az önce'
         other: '%{count} saniyeden az önce'
       less_than_x_minutes:
-        one: bir dakikadan daha az bir süre önce
+        one: '%{count} dakikadan daha az bir süre önce'
         other: '%{count} dakikadan daha az bir süre önce'
       over_x_years:
-        one: 1 yıldan fazla
+        one: '%{count} yıldan fazla'
         other: '%{count} yıldan fazla'
       x_seconds:
-        one: 1 saniye önce
+        one: '%{count} saniye önce'
         other: '%{count} saniye önce'
       x_minutes:
-        one: 1 dakika önce
+        one: '%{count} dakika önce'
         other: '%{count} dakika önce'
       x_days:
-        one: 1 gün önce
+        one: '%{count} gün önce'
         other: '%{count} gün önce'
       x_months:
-        one: 1 ay önce
+        one: '%{count} ay önce'
         other: '%{count} ay önce'
       x_years:
-        one: 1 yıl önce
+        one: '%{count} yıl önce'
         other: '%{count} yıl önce'
   editor:
     default: Varsayılan (şu anda %{name})
@@ -361,16 +361,22 @@ tr:
   browse:
     created: Oluşturuldu
     closed: Kapandı
+    created_ago_html: '%{time_ago} oluşturuldu'
+    closed_ago_html: '%{time_ago} kapatıldı'
+    created_ago_by_html: '%{user} tarafından %{time_ago} oluşturuldu'
+    closed_ago_by_html: '%{user} tarafından %{time_ago} kapatıldı'
+    deleted_ago_by_html: '%{user} tarafından %{time_ago} silindi'
+    edited_ago_by_html: '%{user} tarafından %{time_ago} düzenlendi'
     version: Sürüm
     in_changeset: Değişiklik Kaydı
     anonymous: anonim
     no_comment: (yorum yok)
     part_of: 'Parçası:'
     part_of_relations:
-      one: 1 ilişki
+      one: '%{count} ilişki'
       other: '%{count} ilişki'
     part_of_ways:
-      one: 1 yol
+      one: '%{count} yol'
       other: '%{count} yol'
     download_xml: XML İndir
     view_history: Geçmişi Görüntüle
@@ -386,6 +392,8 @@ tr:
       relation: İlişkiler (%{count})
       relation_paginated: İlişkiler (%{x}-%{y} - toplam %{count})
       comment: Yorumlar (%{count})
+      hidden_comment_by_html: '%{user} tarafından %{time_ago} yapılan gizli yorum'
+      comment_by_html: '%{user} tarafından %{time_ago} yapılan yorum'
       changesetxml: ' XML değişiklik kaydı'
       osmchangexml: osmChange XML
       feed:
@@ -412,7 +420,7 @@ tr:
       history_title_html: 'İlişki Geçmişi: %{name}'
       members: Üyeler
       members_count:
-        one: 1 üye
+        one: '%{count} üye'
         other: '%{count} üye'
     relation_member:
       entry_role_html: '%{type} %{name}, adı %{role}'
@@ -655,6 +663,10 @@ tr:
       success: '%{name}, arkadaş listesinden çıkarıldı.'
       not_a_friend: '%{name}, arkadaşın değil.'
   geocoder:
+    search:
+      title:
+        results_from_html: '%{results_link} sonuçları'
+        latlon: Dahili
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -848,7 +860,7 @@ tr:
           stable: Ahır
           static_caravan: Karavan
           temple: Tapınak Binası
-          terrace: Teras Binası
+          terrace: Sıra Ev
           train_station: Tren İstasyon Binası
           university: Üniversite Binası
           warehouse: Depo
@@ -935,7 +947,7 @@ tr:
           steps: Merdiven
           stop: Dur işareti
           street_lamp: Sokak Lambası
-          tertiary: Köy arası yolu
+          tertiary: Üçüncül Yol
           tertiary_link: Köy arası yolu
           track: Toprak yol
           traffic_mirror: Trafik Aynası
@@ -945,7 +957,7 @@ tr:
           trunk_link: Bölünmüş anayol bağlantısı
           turning_circle: Dönüş Dairesi
           turning_loop: Dönüş
-          unclassified: Sınıflandırılmamış yolu
+          unclassified: Sınıflandırılmamış Yol
           "yes": Yol
         historic:
           aircraft: Tarihi Uçak
@@ -1447,9 +1459,10 @@ tr:
       status: Durum
       reports: Raporlar
       last_updated: Son Güncelleme
+      last_updated_time_ago_user_html: '%{user} tarafından %{time_ago}'
       link_to_reports: Raporları Görüntüle
       reports_count:
-        one: 1 Rapor
+        one: '%{count} Rapor'
         other: '%{count} Rapor'
       reported_item: Bildirilen Öge
       states:
@@ -1937,6 +1950,7 @@ tr:
   site:
     about:
       next: İleri
+      heading_html: '%{copyright}OpenStreetMap''e %{br} katkıda bulunanlar'
       used_by_html: '%{name}; binlerce web sitesi, mobil uygulama ve donanım cihazı
         için harita verisi sağlar.'
       lede_text: OpenStreetMap; tüm dünyada yollar, patikalar, kafeler, tren istasyonları
@@ -1947,8 +1961,24 @@ tr:
         OpenStreetMap, piyasa bilgisi üzerinde durmaktadır. Katkıda bulunanlar,
         OSM'nin doğru ve güncel olduğunu doğrulamak için havadan görüntüler, GPS cihazları ve düşük teknoloji alan haritaları kullanmaktadır.
       community_driven_title: Katılım Kaynaklı
+      community_driven_osm_blog: OpenStreetMap Blogu
+      community_driven_user_diaries: kullanıcı günlükleri
+      community_driven_community_blogs: topluluk blogları
+      community_driven_osm_foundation: OSM Vakfı
       open_data_title: Açık Veri
+      open_data_open_data: açık veri
+      open_data_copyright_license: Telif Hakkı ve Lisans sayfası
       legal_title: Yasal
+      legal_1_1_openstreetmap_foundation: OpenStreetMap Vakfı
+      legal_1_1_terms_of_use: Kullanım Şartları
+      legal_1_1_aup: Kabul Edilebilir Kullanım Politikaları
+      legal_1_1_privacy_policy: Gizlilik Politikası
+      legal_2_1_html: Lisanslama, telif hakkı veya diğer yasal sorularınız varsa lütfen
+        %{contact_the_osmf_link}
+      legal_2_1_contact_the_osmf: OSMF ile iletişime geçin
+      legal_2_2_html: OpenStreetMap, büyüteç logosu ve Harita Durumu %{registered_trademarks_link}
+        sayılmaktadır.
+      legal_2_2_registered_trademarks: OSMF'nin tescilli ticari markaları
       partners_title: Ortaklar
     copyright:
       foreign:
@@ -1966,18 +1996,63 @@ tr:
         mapping_link: harita çizmeye başla
       legal_babble:
         title_html: Telif Hakkı ve Lisans
+        introduction_1_html: OpenStreetMap%{registered_trademark_link} %{odc_odbl_link}
+          (ODbL) altında %{osm_foundation_link} (OSMF) tarafından lisanslanan %{open_data}dir.
+        introduction_1_open_data: açık veri
+        introduction_1_odc_odbl: Open Data Commons Açık Veritabanı Lisansı
+        introduction_1_osm_foundation: OpenStreetMap Vakfı
+        introduction_2_html: OpenStreetMap'e ve katkıda bulunanlara atıfta bulunduğunuz
+          sürece verilerimizi kopyalamakta, dağıtmakta, yaymakta ve uyarlamakta özgürsünüz.
+          Verilerimizi değiştirir veya verilerimizi geliştirirseniz sonucu yalnızca
+          aynı lisans altında paylaşabilirsiniz. Tam %{legal_code_link}, haklarınızı
+          ve sorumluluklarınızı açıklar.
+        introduction_2_legal_code: hukuk kuralları
+        introduction_3_html: Belgelerimiz %{creative_commons_link} lisansı (CC BY-SA
+          2.0) altında lisanslanmıştır.
+        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: OpenStreetMap'e nasıl atıfta bulunulur
         credit_1_html: 'OpenStreetMap verilerini kullandığınız yerde aşağıdaki iki
           şeyi yapmanız gerekiyor:'
+        credit_2_2: Verilerin Açık Veritabanı Lisansı kapsamında mevcut olduğunu açıkça
+          belirtin.
+        credit_4_1_this_copyright_page: bu telif hakkı sayfası
         attribution_example:
           alt: Web sayfasıında OpenStreetMap atıf etmek için bir örnek
           title: Atıf örneği
         more_title_html: Daha fazlasını öğrenin
+        more_1_1_osmf_licence_page: OSMF Lisans sayfası
+        more_2_1_api_usage_policy: API Kullanım Politikası
         contributors_title_html: Katkıda Bulunanlar
         contributors_intro_html: |-
           Binlerce kişi projemize katkıda bulunmaktadır. Ulusal
           haritalama ajanslarından ve diğer kaynaklardan
           açık-lisanslı veriler de içeriyoruz:
+        contributors_at_austria: Avusturya
+        contributors_at_stadt_wien: Stadt Wien
+        contributors_at_cc_by: CC-BY
+        contributors_at_land_vorarlberg: |-
+          Land
+           Vorarlberg
+        contributors_au_australia: Avustralya
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Creative Commons Atıf 4.0 Uluslararası lisansı
+          (CC BY 4.0)
+        contributors_ca_canada: Kanada
+        contributors_fi_finland: Finlandiya
+        contributors_fi_nlsfi_license: NLSFI Lisansı
+        contributors_fr_france: Fransa
+        contributors_nl_netherlands: Hollanda
+        contributors_nz_new_zealand: Yeni Zelanda
+        contributors_nz_linz_data_service: LINZ Veri Hizmeti
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_slovenia: Slovenya
+        contributors_si_mkgp: Tarım, Orman ve Gıda Bakanlığı
+        contributors_es_spain: İspanya
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_south_africa: Güney Afrika
+        contributors_gb_united_kingdom: Birleşik Krallık
+        contributors_2_contributors_page: Katkıda bulunanlar sayfası
         contributors_footer_2_html: |-
           Verilerin OpenStreetMap'e dahil edilmesi, orijinal
           veri sağlayıcının OpenStreetMap'i onayladığını,
@@ -1989,6 +2064,8 @@ tr:
           açık izni olmadan telif hakkıyla korunan kaynaklardan
           (ör. Google Haritalar veya basılı haritalar) hiçbir zaman
           veri eklememeleri hatırlatılır.
+        trademarks_title: Ticari markalar
+        trademarks_1_1_trademark_policy: Ticari Marka Politikası
     index:
       js_1: JavaScript desteklemeyen bir tarayıcı kullanıyorsunuz ya da JavaScript
         devre dışı bırakılmış.
@@ -2539,6 +2616,7 @@ tr:
         ancak bazı ek araçlar veya sunucu için yine de bir parola gerekebilir.
       continue: Kaydol
       terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!
+      privacy_policy: gizlilik politikası
     terms:
       title: Koşullar
       heading: Koşullar
@@ -2884,6 +2962,10 @@ tr:
         gps: Herkese Açık GPS İzleri
         overlays: Haritanın sorununu gidermek için katmanları etkinleştir
         title: Katmanlar
+      openstreetmap_contributors: OpenStreetMap'e katkıda bulunanlar
+      make_a_donation: Bağış Yapın
+      website_and_api_terms: Web sitesi ve API koşulları
+      osm_france: OpenStreetMap Fransa
     site:
       edit_tooltip: Haritayı düzenle
       edit_disabled_tooltip: Haritayı düzenlemek için yakınlaştırın

@@ -406,7 +406,10 @@ et:
         tag: Sildi %{key}=%{value} kirjelduse leht vikis
       wikidata_link: '%{page} Wikidatas'
       wikipedia_link: Artikkel %{page} Vikipeedias
+      wikimedia_commons_link: Üksus "%{page}" Wikimedia Commonsis
       telephone_link: Helista %{phone_number}
+      colour_preview: 'Värvuse eelvaade: %{colour_value}'
+      email_link: Kirjuta e-kiri aadressil %{email}
     query:
       title: Info objektide kohta
       introduction: Klõpsa kaardil, et leida läheduses asuvad objektid.
@@ -508,6 +511,7 @@ et:
         sisestatud lingi õigekirja. Võimalik, et link, millele klõpsasid, on vigane.
     diary_entry:
       posted_by_html: Postitas %{link_user} kuupäeval %{created} – %{language_link}.
+      updated_at_html: 'Viimati uuendatud: %{updated}.'
       comment_link: Kommenteeri seda sissekannet
       reply_link: Saada autorile sõnum
       comment_count:
@@ -1104,11 +1108,19 @@ et:
       hi: Tere, %{to_user}!
       header: '%{from_user} kommenteeris hiljutist OpenStreetMapi päevikusissekannet
         pealkirjaga %{subject}:'
+      header_html: '%{from_user} kommenteeris hiljutist OpenStreetMapi päevikusissekannet
+        pealkirjaga %{subject}:'
       footer: Saad lugeda kommentaari aadressil %{readurl}. Samuti saad lisada kommentaari
         aadressil %{commenturl} või saata autorile sõnumi aadressil %{replyurl}.
+      footer_html: Saad lugeda kommentaari aadressil %{readurl}. Samuti saad lisada
+        kommentaari aadressil %{commenturl} või saata autorile sõnumi aadressil %{replyurl}.
     message_notification:
       hi: Tere, %{to_user}
       header: '%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga %{subject}:'
+      header_html: '%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga
+        %{subject}:'
+      footer: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
+        aadressil %{replyurl}.
       footer_html: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
         aadressil %{replyurl}.
     friendship_notification:
@@ -1116,16 +1128,21 @@ et:
       subject: '[OpenStreetMap] %{user} lisas sind oma sõbraks'
       had_added_you: '%{user} lisas sind OpenStreetMapis sõbraks.'
       see_their_profile: Tema profiiliga võid tutvuda aadressil %{userurl}.
+      see_their_profile_html: Tema profiiliga saad tutvuda aadressil %{userurl}.
       befriend_them: Sa võid ta lisada oma sõbraks aadressil %{befriendurl}.
+      befriend_them_html: Saad ta ka enda sõbraks lisada aadressil %{befriendurl}.
     gpx_failure:
+      hi: Tere, %{to_user}
       failed_to_import: 'importimine ebaõnnestus. Siin on viga:'
-      subject: '[OpenStreetMap] GPX importimine nurjus'
+      more_info_html: Rohkem teavet GPX-failide importimise funktsiooni ja nende vältimise
+        kohta leiad aadressilt %{url}.
+      subject: '[OpenStreetMap] GPX-faili importimine nurjus'
     gpx_success:
+      hi: Tere, %{to_user}
       loaded:
-        one: laaditi üles edukalt %{trace_points} punkt võimalikust ühest punktist.
-        other: laaditi üles edukalt %{trace_points} punkti võimalikust %{count}
-          punktist.
-      subject: '[OpenStreetMap] GPX Importimine õnnestus'
+        one: laaditi üles edukalt %{trace_points} punkt võimalikust %{count} punktist.
+        other: laaditi üles edukalt %{trace_points} punkti võimalikust %{count} punktist.
+      subject: '[OpenStreetMap] GPX-faili importimine õnnestus'
     signup_confirm:
       subject: '[OpenStreetMap] Tere tulemast OpenStreetMapi'
       greeting: Tere!
@@ -1533,6 +1550,13 @@ et:
         more_1_1_html: Loe %{osmf_licence_page_link} veel andmete kasutamise kohta
           ja sellest, kuidas meile viidata.
         more_1_1_osmf_licence_page: OSMF-i litsentsileheküljelt
+        more_2_1_html: |-
+          Kuigi OpenStreetMapi andmed on avaandmed, ei saa me pakkuda
+          kaardi juures tasuta API-t kolmandatele osapooltele.
+          Vaata meie %{api_usage_policy_link}, %{tile_usage_policy_link} ja %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: API kasutusreegleid
+        more_2_1_tile_usage_policy: kaardipaanide kasutusreegleid
+        more_2_1_nominatim_usage_policy: Nominatimi kasutusreegleid
         contributors_title_html: Meie kaastöölised
         contributors_intro_html: |-
           Meie kaastöölised on tuhanded üksikisikud. Samuti oleme kaasanud
@@ -1905,8 +1929,8 @@ et:
     create:
       upload_trace: GPS-raja üleslaadimine
       trace_uploaded: Sinu GPX-fail on üles laaditud ja ootab andmebaasi sisestamist.
-        See võtab aega tavaliselt pool tundi kuni tund. Peale lõpetamist saadetakse
-        sulle meil.
+        See võtab aega tavaliselt pool tundi kuni tund. Pärast lõpetamist saadetakse
+        sulle e-kiri.
       upload_failed: Kahjuks ei õnnestunud GPX-faili üles laadida. Sellest tõrkest
         on antud märku administraatorile. Palun proovi uuesti.
     edit:
@@ -2443,7 +2467,7 @@ et:
         transport_map: Transpordikaart
         hot: Humanitaarabi
       layers:
-        header: Kaardi kihid
+        header: Kaardikihid
         notes: Kaardi märkused
         data: Kaardi andmed
         gps: Avalikud GPS-rajad
@@ -2472,10 +2496,15 @@ et:
       kliki siia.
     directions:
       engines:
+        fossgis_osrm_bike: Rattaga (OSRM)
         fossgis_osrm_car: Autoga (OSRM)
+        fossgis_osrm_foot: Jalgsi (OSRM)
         graphhopper_bicycle: Rattaga (GraphHopper)
         graphhopper_car: Autoga (GraphHopper)
         graphhopper_foot: Jalgsi (GraphHopper)
+        fossgis_valhalla_bicycle: Rattaga (Valhalla)
+        fossgis_valhalla_car: Autoga (Valhalla)
+        fossgis_valhalla_foot: Jalgsi (Valhalla)
       directions: Juhised
       distance: Vahemaa
       errors:

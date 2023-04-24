@@ -376,6 +376,12 @@ nl:
   browse:
     created: Aangemaakt
     closed: Gesloten
+    created_ago_html: Gemaakt %{time_ago}
+    closed_ago_html: Gesloten %{time_ago}
+    created_ago_by_html: '%{time_ago} gemaakt door %{user}'
+    closed_ago_by_html: '%{time_ago} gesloten door %{user}'
+    deleted_ago_by_html: '%{time_ago} verwijderd door %{user}'
+    edited_ago_by_html: '%{time_ago} bewerkt door %{user}'
     version: Versie
     in_changeset: Wijzigingenset
     anonymous: anoniem
@@ -401,6 +407,8 @@ nl:
       relation: Relaties (%{count})
       relation_paginated: Relaties (%{x}-%{y} van %{count})
       comment: Reacties (%{count})
+      hidden_comment_by_html: Verborgen reactie van %{user}, %{time_ago}
+      comment_by_html: Reactie van %{user}, %{time_ago}
       changesetxml: Wijzigingenset-XML
       osmchangexml: osmChange-XML
       feed:
@@ -672,6 +680,12 @@ nl:
       success: '%{name} is verwijderd uit uw vriendenlijst.'
       not_a_friend: '%{name} staat niet in uw vriendelijst.'
   geocoder:
+    search:
+      title:
+        results_from_html: Resultaten van %{results_link}
+        latlon: Intern
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1464,6 +1478,7 @@ nl:
       status: Status
       reports: Rapportages
       last_updated: Laatst Bijgewerkt
+      last_updated_time_ago_user_html: '%{time_ago} door %{user}'
       link_to_reports: Rapporten weergeven
       reports_count:
         one: '%{count} rapport'
@@ -1640,6 +1655,9 @@ nl:
       subject: '[OpenStreetMap] GPX-import mislukt'
     gpx_success:
       hi: Hallo %{to_user},
+      loaded:
+        one: goed ontvangen, met %{trace_points} van %{count} mogelijk punt.
+        other: goed ontvangen; met %{trace_points} van %{count} mogelijke punten.
       subject: '[OpenStreetMap] GPX-import afgerond'
     signup_confirm:
       subject: '[OpenStreetMap] Welkom bij OpenStreetMap'
@@ -1955,6 +1973,7 @@ nl:
   site:
     about:
       next: Volgende
+      heading_html: '%{copyright}OpenStreetMap- %{br} bijdragers'
       used_by_html: '%{name} levert kaartgegevens aan duizenden websites, mobiele
         apps en hardware-apparaten'
       lede_text: OpenStreetMap wordt gemaakt door een gemeenschap van mappers die
@@ -1965,8 +1984,40 @@ nl:
         gebruiken luchtfoto's, gps-apparaten en low-tech veldkaarten om te controleren
         of OSM accuraat en up-to-date is.
       community_driven_title: Communitygedreven
+      community_driven_1_html: "De gemeenschap van OpenStreetMap is divers, gepassioneerd
+        en wordt elke dag groter. Onder onze bijdragers zitten mensen die kaarten
+        maken als hobby, GIS-professionals, IT-specialisten die de servers van OSM
+        draaiende houden, filantropen die rampgebieden in kaart brengen en nog veel
+        meer.\nBekijk de %{osm_blog_link},\n%{user_diaries_link}, %{community_blogs_link}
+        en de \nwebsite van de %{osm_foundation_link} voor meer informatie over de
+        gemeenschap."
+      community_driven_osm_blog: OpenStreetMap-blog
+      community_driven_user_diaries: gebruikersdagboeken
+      community_driven_community_blogs: gemeenschapsblogs
+      community_driven_osm_foundation: OSM Foundation
       open_data_title: Open data
+      open_data_1_html: 'OpenStreetMap is %{open_data}: u mag de gegevens gebruiken
+        voor ieder doel, als u de naam van OpenStreetMap en haar bijdragers maar vermeldt.
+        Als u de gegevens wijzigt of uitbouwt, dan mag u het resultaat alleen onder
+        dezelfde licentie verder verspreiden. Zie voor details de %{copyright_license_link}.'
+      open_data_open_data: open data
+      open_data_copyright_license: auteursrechten- en licentiepagina
       legal_title: Juridisch
+      legal_1_1_html: "Deze site en gerelateerde diensten worden namens de OpenStreetMap
+        community beheerd door de \n%{openstreetmap_foundation_link} (OSMF). Het gebruik
+        van deze website en diensten is onderworpen\naan ons %{terms_of_use_link},
+        %{aup_link} en ons %{privacy_policy_link}."
+      legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
+      legal_1_1_terms_of_use: gebruiksvoorwaarden
+      legal_1_1_aup: beleid voor acceptabel gebruik
+      legal_1_1_privacy_policy: privacybeleid
+      legal_2_1_html: |-
+        %{contact_the_osmf_link}
+        als u licentie-, copyright- of andere juridische vragen heeft.
+      legal_2_1_contact_the_osmf: Neem contact op met de OSMF
+      legal_2_2_html: OpenStreetMap, het vergrootglaslogo en State of the Map zijn
+        %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: geregistreerde handelsmerken van de OSMF
       partners_title: Partners
     copyright:
       foreign:
@@ -1983,19 +2034,133 @@ nl:
         mapping_link: begin met mappen
       legal_babble:
         title_html: Auteursrechten en licentie
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} is %{open_data}, in licentie gegeven onder de
+          %{odc_odbl_link} (ODbL) door de %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: open data
+        introduction_1_odc_odbl: Open Data Commons Open Database-licentie
+        introduction_1_osm_foundation: OpenStreetMap Foundation
+        introduction_2_html: |-
+          Het staat u vrij onze gegevens te kopiëren, te distribueren,
+          weer te geven en aan te passen, zo lang u OpenStreetMap en haar
+          bijdragers vermeldt. Als u onze kaarten of gegevens wijzigt of erop verder bouwt,
+          mag u het resultaat enkel onder dezelfde licentie distribueren. In de
+          volledige %{legal_code_link} worden uw rechten en verantwoordelijkheden uitgelegd.
+        introduction_2_legal_code: juridische tekst
+        introduction_3_html: Onze documentatie is te gebruiken onder de %{creative_commons_link}-licentie
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Naamsvermelding-GelijkDelen
+          2.0
         credit_title_html: Hoe OpenStreetMap te vermelden
         credit_1_html: 'Wanneer u OpenStreetMap-gegevens gebruikt, bent u verplicht
           de volgende twee dingen te doen:'
+        credit_2_1: Vermeld OpenStreetMap door onze copyrightmelding te tonen.
+        credit_2_2: Maak duidelijk dat de data beschikbaar is onder de Open Database-licentie.
+        credit_3_html: Voor de auteursrechtelijke vermelding hanteren wij verschillende
+          voorschriften ten aanzien van de manier waarop deze moet worden weergegeven,
+          afhankelijk van de wijze waarop u onze gegevens gebruikt. Zo gelden er verschillende
+          regels voor het weergeven van de auteursrechtelijke vermelding, afhankelijk
+          van of u een doorbladerbare kaart, een afgedrukte kaart of een statische
+          afbeelding hebt gemaakt. Alle details over de vereisten zijn te vinden in
+          de %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: richtlijnen voor naamsvermelding
+        credit_4_1_html: Om duidelijk te maken dat de gegevens beschikbaar zijn onder
+          de Open Database-licentie, kunt u een koppeling maken naar %{this_copyright_page_link}.
+          Een andere mogelijkheid, en een vereiste als u OSM in de vorm van gegevens
+          verspreidt, is dat u de licentie(s) noemt en er een rechtstreekse koppeling
+          naar maakt. Bij dragers waar koppelingen niet mogelijk zijn (bijv. gedrukte
+          werken), stellen we voor dat u uw lezers verwijst naar openstreetmap.org
+          (wellicht door 'OpenStreetMap' om te zetten in dit volledige adres) en naar
+          opendatacommons.org. In dit voorbeeld staat de naamsvermelding op de hoek
+          van de kaart.
+        credit_4_1_this_copyright_page: deze auteursrechtpagina
         attribution_example:
           alt: Voorbeeld van hoe de naamsvermelding voor OpenStreetMap toe te passen
             op een webpagina
           title: Voorbeeld naamsvermelding
         more_title_html: Meer informatie
+        more_1_1_html: Lees meer over het gebruik van onze gegevens en hoe u ons kunt
+          vermelden op %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: OSMF-licentiepagina
+        more_2_1_html: |-
+          Hoewel OpenStreetMap open data is, kunnen we geen
+          gratis kaart-API voor derden aanbieden.
+          Zie onze %{api_usage_policy_link}, %{tile_usage_policy_link} en %{nominatim_usage_policy_link}.
+        more_2_1_api_usage_policy: API-gebruiksbeleid
+        more_2_1_tile_usage_policy: gebruiksbeleid voor kaarttegels
+        more_2_1_nominatim_usage_policy: gebruiksbeleid voor Nominatim
         contributors_title_html: Onze bijdragers
         contributors_intro_html: |-
           Onze bijdragers zijn duizenden individuen. OSM bevat ook
           open gelicenseerde gegevens van nationale kaartenbureaus
           en andere bronnen, waaronder:
+        contributors_at_credit_html: |-
+          %{austria}: Bevat gegevens van %{stadt_wien_link} (onder %{cc_by_link}), %{land_vorarlberg_link}
+          en Land Tirol (onder %{cc_by_at_with_amendments_link}).
+        contributors_at_austria: Oostenrijk
+        contributors_at_stadt_wien: Stad Wenen
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Deelstaat Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT met aanpassingen
+        contributors_au_credit_html: |-
+          %{australia}: Bevat of bouwt voort op Administratieve Grenzen &copy; %{geoscape_australia_link}
+          verstrekt door het Gemenebest van Australië onder %{cc_licence_link}.
+        contributors_au_australia: Australië
+        contributors_au_geoscape_australia: Geoscape Australië
+        contributors_au_cc_licence: Creative Commons Naamsvermelding 4.0 Internationaal
+          (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: Bevat gegevens van
+          GeoBase&reg;, GeoGratis (&copy; Afdeling voor natuurlijke
+          rijkdommen Canada), CanVec (&copy; Afdeling voor natuurlijke
+          rijkdommen Canada), en StatCan (Afdeling geografie,
+          Statistiek Canada).
+        contributors_ca_canada: Canada
+        contributors_fi_credit_html: |-
+          %{finland}: Bevat gegevens uit de Nationale Landopmeting
+          van Finlands Topografische Database
+          en andere datasets, onder de %{nlsfi_license_link}.
+        contributors_fi_finland: Finland
+        contributors_fi_nlsfi_license: NLSFI-licentie
+        contributors_fr_credit_html: |-
+          %{france}: Bevat gegevens van de
+          Direction Générale des Impôts.
+        contributors_fr_france: Frankrijk
+        contributors_nl_credit_html: '%{netherlands}: Bevat gegevens &copy; AND, 2007
+          (%{and_link})'
+        contributors_nl_netherlands: Nederland
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Bevat gegevens uit de %{linz_data_service_link}
+          beschikbaar voor hergebruik onder %{cc_by_link}.
+        contributors_nz_new_zealand: Nieuw-Zeeland
+        contributors_nz_linz_data_service: LINZ-datadienst
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_credit_html: |-
+          %{slovenia}: Bevat gegevens van de %{gu_link} en %{mkgp_link}
+          (publieke informatie van Slovenië).
+        contributors_si_slovenia: Slovenië
+        contributors_si_gu: Landmeetkundige en karteringsautoriteit
+        contributors_si_mkgp: Ministerie van Landbouw, Bosbouw en Voedselvoorziening
+        contributors_es_credit_html: |-
+          %{spain}: Bevat gegevens van het
+          Spaans Nationaal Geografisch Instituut (%{ign_link}) en
+          Nationaal Cartografisch Systeem (%{scne_link})
+          beschikbaar voor hergebruik onder %{cc_by_link}.
+        contributors_es_spain: Spanje
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Bevat gegevens van %{ngi_link},
+          staatsauteursrecht voorbehouden.'
+        contributors_za_south_africa: Zuid-Afrika
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: Bevat gegevens van Ordnance Survey
+          &copy; Auteursrecht van de Kroon en databaserechten 2010-2023.
+        contributors_gb_united_kingdom: Verenigd Koninkrijk
+        contributors_2_html: |-
+          Voor meer informatie over deze en andere bronnen die zijn gebruikt
+          om OpenStreetMap te helpen verbeteren, zie de %{contributors_page_link} op de OpenStreetMap-wiki.
+        contributors_2_contributors_page: bijdragerspagina
         contributors_footer_2_html: |-
           Opname van gegevens in OpenStreetMap betekent niet dat de originele
           gegevensverstrekker OpenStreetMap ondersteunt, enige vorm van garantie geeft, of
@@ -2005,6 +2170,19 @@ nl:
           OSM-bijdragers horen nooit gegevens toe te voegen
           uit bronnen waarvan de licentie niet vrij is (bijvoorbeeld Google Maps of gedrukte kaarten)
           zonder expliciete toestemming van de auteursrechtenhouders.
+        infringement_2_1_html: |-
+          Als u van mening bent dat auteursrechtelijk beschermd materiaal ongepast
+           is toegevoegd aan de OpenStreetMap-database of deze site, raadpleeg
+           dan onze %{takedown_procedure_link} of maak rechtstreeks een melding op onze
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: verwijderingsprocedure
+        infringement_2_1_online_filing_page: online meldingspagina
+        trademarks_title: Handelsmerken
+        trademarks_1_1_html: |-
+          OpenStreetMap, het vergrootglaslogo en State of the Map zijn geregistreerde handelsmerken van de
+          OpenStreetMap Foundation. Als u vragen heeft over uw gebruik van de merken, zie dan ons
+          %{trademark_policy_link}.
+        trademarks_1_1_trademark_policy: handelsmerkbeleid
     index:
       js_1: U gebruikt een browser die JavaScript niet ondersteunt, of u hebt JavaScript
         uitgeschakeld.
@@ -2078,6 +2256,11 @@ nl:
             (er ontbreekt bijvoorbeeld een weg of uw adres staat er niet in) dan kunt
             u zich het best bij OpenStreetMap inschrijven en de gegevens zelf toevoegen
             of corrigeren.
+        add_a_note:
+          instructions_1_html: |-
+            Klik op %{note_icon} of hetzelfde pictogram op de kaartweergave.
+            Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen
+            door haar te verslepen. Voeg uw bericht toe, klik op "opslaan" en andere mappers zullen uw melding nagaan.
       other_concerns:
         title: Andere aangelegenheden
         concerns_html: |-
@@ -2576,6 +2759,10 @@ nl:
         maar sommige extra hulpmiddelen of servers kunnen het nog steeds nodig hebben.
       continue: Registreren
       terms accepted: Dank u wel voor het aanvaarden van de nieuwe bijdragersovereenkomst!
+      email_confirmation_help_html: Uw adres wordt niet openbaar gemaakt, zie ons
+        %{privacy_policy_link} voor meer informatie.
+      privacy_policy: privacybeleid
+      privacy_policy_title: OSMF-privacybeleid, met een kopje over e-mailadressen
     terms:
       title: Voorwaarden
       heading: Voorwaarden
@@ -2843,6 +3030,15 @@ nl:
       open_title: 'Onopgeloste opmerking #%{note_name}'
       closed_title: 'Opgeloste opmerking #%{note_name}'
       hidden_title: 'Verborgen opmerking #%{note_name}'
+      event_opened_by_html: '%{time_ago} aangemaakt door %{user}'
+      event_opened_by_anonymous_html: '%{time_ago} anoniem aangemaakt'
+      event_commented_by_html: Reactie van %{user}, %{time_ago}
+      event_commented_by_anonymous_html: Anonieme reactie, %{time_ago}
+      event_closed_by_html: '%{time_ago} opgelost door %{user}'
+      event_closed_by_anonymous_html: '%{time_ago} anoniem opgelost'
+      event_reopened_by_html: '%{time_ago} opnieuw geactiveerd door %{user}'
+      event_reopened_by_anonymous_html: '%{time_ago} anoniem opnieuw geactiveerd'
+      event_hidden_by_html: '%{time_ago} verborgen door %{user}'
       report: deze opmerking rapporteren
       coordinates_html: '%{latitude}; %{longitude}'
       anonymous_warning: In deze opmerking staan reacties van anonieme gebruikers
@@ -2922,6 +3118,17 @@ nl:
         gps: Openbare gps-trajecten
         overlays: Overlays inschakelen om fouten in de kaart te helpen identificeren
         title: Lagen
+      openstreetmap_contributors: OpenStreetMap-bijdragers
+      make_a_donation: Doe een gift
+      website_and_api_terms: Website- en API-voorwaarden
+      cyclosm_credit: Kaartstijl door %{cyclosm_link} gehost door %{osm_france_link}
+      osm_france: OpenStreetMap Frankrijk
+      thunderforest_credit: Tegels met dank aan %{thunderforest_link}
+      andy_allan: Andy Allan
+      opnvkarte_credit: Tegels met dank aan %{memomaps_link}
+      memomaps: MeMoMaps
+      hotosm_credit: Kaartstijl door %{hotosm_link} gehost door %{osm_france_link}
+      hotosm_name: Humanitair OpenStreetMap-team
     site:
       edit_tooltip: Kaart bewerken
       edit_disabled_tooltip: Inzoomen om de kaart te bewerken

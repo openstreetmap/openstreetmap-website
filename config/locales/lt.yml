@@ -322,6 +322,7 @@ lt:
       public editing:
         heading: Viešas keitimas
         enabled: Įjungtas. Nėra anoniminis ir gali keisti duomenis.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: kas tai?
         disabled: Išjungtas ir negali keisti duomenų, visi ankstesni pakeitimai yra
           anonimiški.
@@ -334,6 +335,7 @@ lt:
           talkininkų sąlygas.
         agreed_with_pd: Jūs taip pat pareiškėte, kad visi jūsų pakeitimai yra viešo
           naudojimo.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: kas tai?
       save changes button: Įrašyti pakeitimus
       delete_account: Ištrinti paskyrą...
@@ -360,6 +362,12 @@ lt:
   browse:
     created: Sukurtas
     closed: Uždarytas
+    created_ago_html: Sukurta %{time_ago}
+    closed_ago_html: Uždaryta %{time_ago}
+    created_ago_by_html: Sukurta %{user} %{time_ago}
+    closed_ago_by_html: Uždaryta %{user} %{time_ago}
+    deleted_ago_by_html: Ištrinta %{user} %{time_ago}
+    edited_ago_by_html: Redaguota %{user} %{time_ago}
     version: Versija
     in_changeset: Pakeitimas
     anonymous: anonimas
@@ -389,6 +397,8 @@ lt:
       relation: Ryšiai (%{count})
       relation_paginated: Ryšiai (%{x}-%{y} iš %{count})
       comment: Komentarai (%{count})
+      hidden_comment_by_html: Paslėptas komentaras nuo %{user} %{time_ago}
+      comment_by_html: Komentaras nuo %{user} %{time_ago}
       changesetxml: Pakeitimo XML
       osmchangexml: osmChange XML
       feed:
@@ -659,6 +669,12 @@ lt:
       success: '%{name} pašalintas iš jūsų draugų sąrašo.'
       not_a_friend: '%{name} nėra jūsų draugas.'
   geocoder:
+    search:
+      title:
+        results_from_html: Rezultatai iš %{results_link}
+        latlon: Vidinis
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -668,12 +684,14 @@ lt:
           gondola: Gondola
           pylon: Stulpas
           station: Lyno stotis
+          "yes": Lyninis keltuvas
         aeroway:
           aerodrome: Aerodromas
           apron: Oro uosto aikštelė
           gate: Oro uosto vartai
           hangar: Angaras
           helipad: Sraigtasparnių aikštelė
+          holding_position: Užlaikymo pozicija
           parking_position: Stovėjimo Pozicija
           runway: Pakilimo takas
           taxiway: Riedėjimo takas
@@ -733,6 +751,7 @@ lt:
           kindergarten: Vaikų darželis
           language_school: Kalbų mokykla
           library: Biblioteka
+          loading_dock: Pakrovimo dokas
           love_hotel: Meilės Viešbutis
           marketplace: Turgavietė
           monastery: Vienuolynas
@@ -777,11 +796,14 @@ lt:
           waste_basket: Atliekų krepšelis
           waste_disposal: Atliekų šalinimas
           water_point: Vandens Punktas
+          weighbridge: Svarstyklės
         boundary:
           administrative: Administracinė riba
           census: Gyventojų surašymo teritorijos riba
           national_park: Nacionalinis parkas
+          political: Rinkiminė riba
           protected_area: Saugoma teritorija
+          "yes": Riba
         bridge:
           aqueduct: Akvedukas
           suspension: Kabantis tiltas
@@ -796,7 +818,10 @@ lt:
           church: Bažnyčios Pastatas
           college: Koledžo Pastatas
           commercial: Komercinės paskirties pastatas
+          construction: Statomas pastatas
+          detached: Individualus namas
           dormitory: Bendrabutis
+          duplex: Dvibutis
           farm: Ūkinis Namas
           garage: Garažas
           garages: Garažai
@@ -815,13 +840,16 @@ lt:
           roof: Stogas
           ruins: Sugriuvęs pastatas
           school: Mokyklos pastatas
+          shed: Pašiūrė
           stable: Arklidė
+          static_caravan: Karavanas
           terrace: Terasos Pastatas
           train_station: Traukinių Stoties Pastatas
           university: Universiteto pastatas
           warehouse: Sandėlis
           "yes": Pastatas
         club:
+          sport: Sporto klubas
           "yes": Klubas
         craft:
           beekeeper: Bitininkas
@@ -1856,6 +1884,17 @@ lt:
         contributors_intro_html: Mūsų autoriai yra tūkstančiai įvairių žmonių. Taip
           pat įtrauktas ir laisvai prieinamas turinys iš valstybinių kartografijos
           agentūrų bei įvairių kitų šaltinių.
+        contributors_at_austria: Austrija
+        contributors_au_australia: Australija
+        contributors_ca_canada: Kanada
+        contributors_fi_finland: Suomija
+        contributors_fr_france: Prancūzija
+        contributors_nl_netherlands: Nyderlandai
+        contributors_nz_new_zealand: Naujoji Zelandija
+        contributors_si_slovenia: Slovėnija
+        contributors_es_spain: Ispanija
+        contributors_za_south_africa: Pietų Afrika
+        contributors_gb_united_kingdom: Jungtinė Karalystė
         contributors_footer_2_html: Duomenų įtraukimas į OpenStreetMap nereiškia,
           kad originalių duomenų tiekėjas remia OpenStreetMap. Nenumatomos jokios
           garantijos ir neprisiimama jokia atsakomybė.
@@ -2092,11 +2131,15 @@ lt:
         tag: žyma
       rules:
         title: Taisyklės!
+        automated_edits: Automatizuoti pakeitimai
       start_mapping: Pradėti žymėti
       add_a_note:
         title: Neturite laiko redaguoti? Pridėkite pastabą!
         para_1: Jei norite pataisyti kažką nedidelio ir neturite laiko registruotis
           ir mokytis redaguoti - labai paprasta tiesiog palikti pastabą.
+        the_map: žemėlapis
+    communities:
+      title: Bendruomenės
   traces:
     visibility:
       private: Privatus (dalinamas tik kaip anonimiškas, taškai nesurikiuoti)
@@ -2630,6 +2673,15 @@ lt:
       open_title: 'Neišspręsta pastaba: %{note_name}'
       closed_title: 'Išspręsta pastaba: %{note_name}'
       hidden_title: 'Paslėpta pastaba #%{note_name}'
+      event_opened_by_html: Sukūrė %{user} %{time_ago}
+      event_opened_by_anonymous_html: Sukūrė anonimas %{time_ago}
+      event_commented_by_html: Komentaras nuo %{user} %{time_ago}
+      event_commented_by_anonymous_html: Komentaras nuo anonimo %{time_ago}
+      event_closed_by_html: Išsprendė %{user} %{time_ago}
+      event_closed_by_anonymous_html: Išsprendė anonimas %{time_ago}
+      event_reopened_by_html: Iš naujo suaktyvino %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Iš naujo suaktyvino anonimas %{time_ago}
+      event_hidden_by_html: Paslėpė %{user} %{time_ago}
       report: pranešti apie šią pastabą
       anonymous_warning: Ši pastaba turi komentarų nuo anoniminių naudotojų, kurie
         turėtų būti nepriklausomai patikrinti.
@@ -2708,6 +2760,7 @@ lt:
         gps: Vieši GPS pėdsakai
         overlays: Įjungti papildomus sluoksnius problemų pranešimui
         title: Sluoksniai
+      osm_france: OpenStreetMap Prancūzija
     site:
       edit_tooltip: Redaguoti žemėlapį
       edit_disabled_tooltip: Norėdami redaguoti, priartinkite
