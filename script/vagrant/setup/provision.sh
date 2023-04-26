@@ -18,7 +18,7 @@ apt-get upgrade -y
 # install packages as explained in INSTALL.md
 apt-get install -y ruby2.7 libruby2.7 ruby2.7-dev \
                      libxml2-dev libxslt1-dev nodejs yarnpkg \
-                     apache2 apache2-dev build-essential git-core firefox-geckodriver \
+                     build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libvips-dev \
                      libsasl2-dev libffi-dev libgd-dev libarchive-dev libbz2-dev
 gem2.7 install rake
