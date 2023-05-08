@@ -406,6 +406,12 @@ ar:
   browse:
     created: تم الإنشاء
     closed: تم الإغلاق
+    created_ago_html: تم إنشاء %{time_ago}
+    closed_ago_html: مغلق %{time_ago}
+    created_ago_by_html: تم إنشاء %{time_ago} بواسطة %{user}
+    closed_ago_by_html: مغلق %{time_ago} بواسطة %{user}
+    deleted_ago_by_html: تم حذف %{time_ago} بواسطة %{user}
+    edited_ago_by_html: تم تحرير %{time_ago} بواسطة %{user}
     version: الإصدار
     in_changeset: مجموعة التغييرات
     anonymous: مجهول
@@ -432,6 +438,8 @@ ar:
       relation: الصلات (%{count})
       relation_paginated: الصلات (%{x}-%{y} من %{count})
       comment: التعليقات (%{count})
+      hidden_comment_by_html: تعليق مخفي من%{time_ago} %{user}
+      comment_by_html: تعليق من %{user}%{time_ago}
       changesetxml: حزمة التغييرات XML
       osmchangexml: osmChange XML
       feed:
@@ -505,6 +513,7 @@ ar:
       wikimedia_commons_link: العنصر %{page} في ويكيميديا ​​كومنز
       telephone_link: اتصل بـ%{phone_number}
       colour_preview: معاينة اللون %{colour_value}
+      email_link: إرسال بريد إلكتروني %{email}
     query:
       title: ميزات الاستفهام
       introduction: اضغط على الخريطة لمعرفة النقاط القريبة
@@ -528,6 +537,7 @@ ar:
     index:
       title: حزم التغييرات
       title_user: حزم التغييرات بواسطة %{user}
+      title_user_link_html: التغييرات بواسطة %{user_link}
       title_friend: مجموعات تغييرات بواسطة أصدقائي
       title_nearby: تغييرات مِن قِبَل مستخدمين قريبين
       empty: لم يُعثَر على أية مجموعات تغييرات.
@@ -561,6 +571,8 @@ ar:
       friend: صديق
     show:
       title: لوحة بياناتي
+      no_home_location_html: '%{edit_profile_link} وعيّن موقع منزلك لمشاهدة المستخدمين
+        القريبين.'
       edit_your_profile: عدل ملفك
       my friends: أصدقائي
       no friends: لم تقم بإضافة أي أصدقاء بعد.
@@ -638,6 +650,10 @@ ar:
         title: مدخلات اليومية في خريطة الشارع المفتوحة
         description: المدخلات الحديثة في يومية مستخدمي خريطة الشارع المفتوحة
     comments:
+      title: تمت إضافة تعليقات اليوميات بواسطة %{user}
+      heading: تعليقات يوميات %{user}
+      subheading_html: تمت إضافة تعليقات اليوميات بواسطة %{user}
+      no_comments: لا توجد تعليقات اليوميات
       post: إرسال
       when: متى
       comment: التعليق
@@ -650,9 +666,20 @@ ar:
           notice: تم تسجيل التطبيق.
   errors:
     contact:
+      contact_url_title: أوضحت قنوات الاتصال المختلفة
       contact: اتصال
+    forbidden:
+      title: ممنوع
+      description: العملية التي طلبتها على خادم OpenStreetMap متاحة فقط للمسؤولين
+        (HTTP 403)
+    internal_server_error:
+      title: عطل في التطبيق
+      description: واجه خادم OpenStreetMap حالة غير متوقعة منعته من تلبية الطلب (HTTP
+        500)
     not_found:
       title: لم يتم العثور على الملف
+      description: تعذر العثور على ملف / دليل / عملية API بهذا الاسم على خادم OpenStreetMap
+        (HTTP 404)
   friendships:
     make_friend:
       heading: إضافة %{user} كصديق؟
@@ -660,6 +687,8 @@ ar:
       success: '%{name} الآن صديقك.'
       failed: عفوًا، تعذرت إضافة %{name} كصديق.
       already_a_friend: حاليًا أنت و%{name} أصدقاء.
+      limit_exceeded: لقد انضممت إلى الكثير من المستخدمين مؤخرًا. يرجى الانتظار قليلاً
+        قبل محاولة الصداقة بعد الآن.
     remove_friend:
       heading: إلغاء صداقة %{user}؟
       button: إلغاء الصداقة
@@ -668,7 +697,10 @@ ar:
   geocoder:
     search:
       title:
+        results_from_html: نتائج من %{results_link}
         latlon: داخلي
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -676,6 +708,7 @@ ar:
           chair_lift: كرسي تلفريك
           drag_lift: اسحب لليسار
           gondola: تلفريك
+          magic_carpet: رفع السجاد السحري
           platter: مصعد تزلج
           pylon: نقطة تعليق
           station: محطة قطار هوائي
@@ -749,6 +782,7 @@ ar:
           kindergarten: حضانة أطفال
           language_school: مدرسة لغات
           library: مكتبة
+          loading_dock: رصيف التحميل
           marketplace: سوق
           mobile_money_agent: وكيل موبايل موني
           monastery: دير
@@ -828,6 +862,7 @@ ar:
           farm: مبنى مزرعة
           farm_auxiliary: بيت المزرعة المساعدة
           garage: مرآب
+          garages: مرائب
           hangar: حظيرة
           hospital: مبنى مستشفى
           hotel: مبنى فندق
@@ -862,12 +897,14 @@ ar:
           blacksmith: حداد
           brewery: مصنع الجعة
           carpenter: نجار
+          caterer: متعهد
           confectionery: محل حلوى
           dressmaker: خياطة
           electrician: كهربائي
           electronics_repair: إصلاح إلكترونيات
           gardener: بستاني
           handicraft: ' حرفة يدوية'
+          metal_construction: مقاول المعادن
           painter: رسام
           photographer: مصور
           plumber: سباك
@@ -879,6 +916,7 @@ ar:
           window_construction: بناء النوافذ
           "yes": محل بيع الحرفيات
         emergency:
+          access_point: نقطة الوصول
           ambulance_station: محطة إسعاف
           assembly_point: ملتقى
           defibrillator: رجفان
@@ -1075,6 +1113,7 @@ ar:
           snow_fence: سياج الثلج
           storage_tank: خزان
           surveillance: مراقبة
+          telescope: تلسكوب
           tower: برج
           wastewater_plant: محطة صرف صحي
           watermill: طاحونة مائية
@@ -1470,6 +1509,7 @@ ar:
   issue_comments:
     create:
       comment_created: تم إنشاء تعليقك بنجاح
+      issue_reassigned: تم إنشاء تعليقك وأعيد تعيين المشكلة
   reports:
     new:
       title_html: بلاغ %{link}
@@ -1535,6 +1575,7 @@ ar:
     hosting_partners_html: يتم دعم الاستضافة بواسطة %{ucl} و%{fastly} و%{bytemark}
       و%{partners} آخرين.
     partners_ucl: UCL
+    partners_fastly: بسرعة
     partners_bytemark: استضافة Bytemark
     partners_partners: الشركاء
     tou: شروط الاستخدام
@@ -1546,6 +1587,7 @@ ar:
     help: مساعدة
     about: حول
     copyright: حقوق النسخ
+    communities: مجتمعات
     community: مجتمع
     community_blogs: مدونات المجتمع
     community_blogs_title: مدونات لأعضاء من مجتمع خريطة الشارع المفتوحة
@@ -1559,23 +1601,38 @@ ar:
       subject: '[خريطة الشارع المفتوحة] %{user} علق على مدخلتك في اليومية'
       hi: مرحبًا %{to_user}،
       header: '%{from_user} علق على مدخلة يومية خريطة الشارع المفتوحة بالعنوان %{subject}:'
+      header_html: '%{from_user} علق على إدخال يوميات OpenStreetMap بالموضوع %{subject}:'
       footer: يمكنك أيضًا قراءة التعليق على %{readurl} ويمكنك التعليق على %{commenturl}
         أو الرد على %{replyurl}
+      footer_html: يمكنك أيضًا قراءة التعليق على %{readurl} ويمكنك التعليق على %{commenturl}
+        أو إرسال رسالة إلى المؤلف على %{replyurl}
     message_notification:
       subject: '[خريطة الشارع المفتوحة] %{message_title}'
       hi: مرحبًا %{to_user}،
       header: '%{from_user} قام بإرسال رسالة لك عبر خريطة الشارع المفتوحة بالعنوان
         %{subject}:'
+      header_html: '%{from_user} أرسل إليك رسالة عبر OpenStreetMap بالموضوع %{subject}:'
+      footer: يمكنك أيضًا قراءة الرسالة على %{readurl} ويمكنك إرسال رسالة إلى المؤلف
+        على %{replyurl}
       footer_html: يمكنك أيضا قراءة الرسالة في %{readurl} ويمكنك الرد في %{replyurl}
     friendship_notification:
       hi: مرحبًا %{to_user}،
       subject: '[خريطة الشارع المفتوحة] %{user} أضافك كصديق.'
       had_added_you: '%{user} قام بإضافتك كصديق على خريطة الشارع المفتوحة.'
       see_their_profile: يمكنك أن تشاهد ملفهم الشخصي على %{userurl}.
+      see_their_profile_html: يمكنك مشاهدة ملفهم الشخصي على %{userurl}.
       befriend_them: "\uFEFFيمكنك أيضًا إضافتهم كصديق على %{befriendurl}."
+      befriend_them_html: يمكنك أيضًا إضافتهم كصديق على %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'يبدو أن ملف GPX الخاص بك %{trace_name} مع الوصف
+        %{trace_description} والعلامات التالية: %{tags}'
+      description_with_no_tags_html: يبدو أن ملف GPX الخاص بك %{trace_name} مع الوصف
+        %{trace_description} وبدون وسوم
     gpx_failure:
       hi: مرحبًا %{to_user}،
       failed_to_import: 'فشل الاستيراد، الخطأ هو:'
+      more_info_html: يمكن العثور على مزيد من المعلومات حول إخفاقات استيراد GPX وكيفية
+        تجنبها على %{url}.
       subject: '[خريطة الشارع المفتوحة] فشل استيراد جي بي إكس'
     gpx_success:
       hi: مرحبًا %{to_user}،
@@ -1608,22 +1665,33 @@ ar:
         subject_other: '[خريطة الشارع المفتوحة] علق %{commenter} على ملاحظة تههتم
           بها'
         your_note: علق %{commenter} على إحدى ملاحظات خريطتك بالقرب من %{place}.
+        your_note_html: ترك %{commenter} تعليقًا على إحدى ملاحظات الخريطة بالقرب من
+          %{place}.
         commented_note: علق %{commenter} على ملاحظة الخريطة التي علقت عليها، كانت
           الملاحظة بالقرب من %{place}.
+        commented_note_html: ترك %{commenter} تعليقًا على ملاحظة الخريطة التي علقت
+          عليها. الملاحظة قريبة من %{place}.
       closed:
         subject_own: '[خريطة الشارع المفتوحة] حل %{commenter} إحدى ملاحظاتك'
         subject_other: '[خريطة الشارع المفتوحة] حل %{commenter} ملاحظة تهتم بها'
         your_note: حل %{commenter} إحدى ملاحظات خريطتك بالقرب من %{place}.
+        your_note_html: حل %{commenter} إحدى ملاحظات الخريطة بالقرب من %{place}.
         commented_note: حل %{commenter} ملاحظة الخريطة التي علقت عليها، الملاحظة بالقرب
           من %{place}.
+        commented_note_html: قام %{commenter} بحل ملاحظة الخريطة التي قمت بالتعليق
+          عليها. الملاحظة قريبة من %{place}.
       reopened:
         subject_own: لقد أعاد [خريطة الشارع المفتوحة] %{commenter} تنشيط إحدى ملاحظاتك
         subject_other: لقد أعاد [خريطة الشارع المفتوحة] %{commenter} تنشيط ملاحظة
           كنت مهتما بها
         your_note: لقد أعاد %{commenter} تنشيط إحدى ملاحظات الخريطة بالقرب من %{place}.
+        your_note_html: أعاد %{commenter} تنشيط إحدى ملاحظات الخريطة بالقرب من %{place}.
         commented_note: لقد أعاد %{commenter} تنشيط ملاحظة الخريطة التي علقت عليها،
           الملاحظة بالقرب من %{place}.
+        commented_note_html: أعاد %{commenter} تنشيط ملاحظة الخريطة التي علقت عليها.
+          الملاحظة قريبة من %{place}.
       details: يمكن العثور على مزيد من التفاصيل حول هذه الملاحظة في %{url}.
+      details_html: يمكن العثور على مزيد من التفاصيل حول الملاحظة على %{url}.
     changeset_comment_notification:
       hi: أهلا %{to_user}،
       greeting: مرحبا،
@@ -1633,13 +1701,21 @@ ar:
         subject_other: '[خريطة الشارع المفتوحة] علق %{commenter} على مجموعة تغييرات
           تهتم بها'
         your_changeset: '%{commenter} علق على إحدى مجموعات تغييراتك في %{time}'
+        your_changeset_html: ترك %{commenter} تعليقًا في %{time} على إحدى مجموعات
+          تغييراتك
         commented_changeset: ترك %{commenter} تعليقا في %{time} على مجموعة تغييرات
           تراقبها أنشأها %{changeset_author}
+        commented_changeset_html: ترك %{commenter} تعليقًا في %{time} على مجموعة التغييرات
+          التي تشاهدها والتي تم إنشاؤها بواسطة %{changeset_author}
         partial_changeset_with_comment: مع تعليق '%{changeset_comment}'
+        partial_changeset_with_comment_html: مع التعليق " %{changeset_comment}"
         partial_changeset_without_comment: بدون تعليق
       details: يمكن العثور على مزيد من التفاصيل حول مجموعة التغييرات في %{url}.
+      details_html: يمكن العثور على مزيد من التفاصيل حول مجموعة التغييرات على %{url}.
       unsubscribe: لإلغاء الاشتراك من التحديثات لهذه التغييرات؛ قم بزيارة %{url} وانقر
         على "إلغاء الاشتراك".
+      unsubscribe_html: لإلغاء الاشتراك في تحديثات هذه المجموعة ، قم بزيارة %{url}
+        وانقر فوق "إلغاء الاشتراك".
   confirmations:
     confirm:
       heading: تحقق من بريدك الإلكتروني
@@ -1651,6 +1727,9 @@ ar:
       success: تم تأكيد حسابك، شكرًا للاشتراك!
       already active: هذا الحساب سبق أن تم تأكيده.
       unknown token: رمز التأكيد انتهت صلاحيته أو غير موجود.
+      resend_html: إذا كنت تريد منا إعادة إرسال رسالة التأكيد عبر البريد الإلكتروني
+        ، %{reconfirm_link}.
+      click_here: انقر هنا
     confirm_resend:
       failure: المستخدم %{name} غير موجود.
     confirm_email:
@@ -1661,10 +1740,17 @@ ar:
       success: تم تأكيد عنوان بريدك الإلكتروني!
       failure: عنوان بريد إلكتروني تم تفعيله مسبقًا بهذا الرمز.
       unknown_token: رمز التأكيد انتهت صلاحيته أو غير موجود.
+    resend_success_flash:
+      confirmation_sent: لقد أرسلنا ملاحظة تأكيد جديدة إلى %{email} وبمجرد تأكيد حسابك
+        ، ستتمكن من التعيين.
+      whitelist: إذا كنت تستخدم نظام مكافحة البريد العشوائي الذي يرسل طلبات تأكيد
+        ، فيرجى التأكد من إدراج %{sender} في القائمة البيضاء حيث يتعذر علينا الرد
+        على أي طلبات تأكيد.
   messages:
     inbox:
       title: الوارد
       my_inbox: الوارد
+      my_outbox: صندوق الصادر الخاص بي
       messages: لديك %{new_messages} و%{old_messages}
       new_messages:
         one: '%{count} رسالة جديدة'
@@ -1696,6 +1782,8 @@ ar:
       body: عذرًا لا توجد رسالة بذلك المعرف.
     outbox:
       title: صندوق الصادر
+      my_inbox: صندوق البريد الوارد الخاص بي
+      my_outbox: صندوق البريد الصادر الخاص بي
       messages:
         one: لديك %{count} رسالة مبعوثة
         other: لديك %{count} رسائل مبعوثة
@@ -1742,6 +1830,7 @@ ar:
       flash token bad: لم نجد هذا النموذج، تحقق من المسار ربما؟
   preferences:
     show:
+      title: تفضيلاتي
       preferred_editor: المحرر المفضل
       preferred_languages: اللغات المفضلة
       edit_preferences: عدل التفضيلات
@@ -1749,9 +1838,14 @@ ar:
       title: تفضيلات التحرير
       save: حدث التفضيلات
       cancel: إلغاء
+    update:
+      failure: تعذر تحديث التفضيلات.
+    update_success_flash:
+      message: تم تحديث التفضيلات.
   profiles:
     edit:
       title: عدل الملف
+      save: تحديث الملف الشخصي
       cancel: إلغاء
       image: "\uFEFFالصورة"
       gravatar:
@@ -1766,6 +1860,9 @@ ar:
       home location: موقع المنزل
       no home location: لم تدخل موقع منزلك.
       update home location on click: تحديث موقع المنزل عندما أنقر على الخريطة؟
+    update:
+      success: تم تحديث الملف الشخصي.
+      failure: تعذر تحديث الملف الشخصي.
   sessions:
     new:
       title: تسجيل الدخول
@@ -1810,11 +1907,23 @@ ar:
       title: تسجيل الخروج
       heading: الخروج من خريطة الشارع المفتوحة
       logout_button: تسجيل الخروج
+    suspended_flash:
+      suspended: عذرا ، لقد تم تعليق حسابك بسبب نشاط مشبوه.
+      contact_support_html: يرجى الاتصال بـ %{support_link} إذا كنت ترغب في مناقشة
+        هذا الأمر.
+      support: دعم
   shared:
     markdown_help:
+      heading_html: تحليل مع %{kramdown_link}
+      headings: عناوين
+      heading: عنوان
+      subheading: العنوان الفرعي
       unordered: قائمة غير مرتبة
       ordered: قائمة مرتبة
+      first: الصنف الأول
+      second: الصنف الثاني
       link: وصلة
+      text: نص
       image: الصورة
       alt: كل النص
       url: المسار
@@ -1824,6 +1933,7 @@ ar:
   site:
     about:
       next: التالي
+      heading_html: ٪ {copyright} OpenStreetMap٪ {br} من المساهمين%{copyright}%{br}
       used_by_html: '%{name} تدعم البيانات على آلالاف من مواقع الويب وتطبيقات الجوّال
         والأجهزة'
       lede_text: تم بناء خريطة الشارع المفتوحة من قبل مجتمع من مصممي الخرائط، وتساهم
@@ -1835,8 +1945,27 @@ ar:
         الصور الجوية وأجهزة GPS والخرائط الميدانية ذات التقنية المنخفضة للتحقق من ذلك خريطة الشارع المفتوحة
         دقيقة وحديثة.
       community_driven_title: نابعة من المجتمع المحلي
+      community_driven_osm_blog: مدونة OpenStreetMap
+      community_driven_user_diaries: يوميات المستخدم
+      community_driven_community_blogs: مدونات المجتمع
+      community_driven_osm_foundation: مؤسسة OSM
       open_data_title: البيانات المفتوحة
+      open_data_1_html: 'OpenStreetMap هو %{open_data}: أنت حر في استخدامه لأي غرض!
+        N! طالما أنك تنسب إلى OpenStreetMap والمساهمين فيه. إذا قمت بتعديل أو! N!
+        بناء على البيانات بطرق معينة ، فيجوز لك توزيع النتيجة فقط! N! تحت نفس الترخيص.
+        راجع %{copyright_license_link} للحصول على التفاصيل.'
+      open_data_open_data: البيانات المفتوحة
+      open_data_copyright_license: صفحة حقوق النشر والترخيص
       legal_title: قانوني
+      legal_1_1_openstreetmap_foundation: مؤسسة خريطة الشارع المفتوحة
+      legal_1_1_terms_of_use: شروط الاستخدام
+      legal_1_1_aup: سياسات الاستخدام المقبولة
+      legal_1_1_privacy_policy: سياسة الخصوصية
+      legal_2_1_html: من فضلك %{contact_the_osmf_link} إذا كان لديك ترخيص أو حقوق
+        طبع ونشر أو أسئلة قانونية أخرى.
+      legal_2_1_contact_the_osmf: اتصل بـ OSMF
+      legal_2_2_html: OpenStreetMap وشعار العدسة المكبرة وحالة الخريطة هي %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: العلامات التجارية المسجلة لـ OSMF
       partners_title: الشركاء
     copyright:
       foreign:
@@ -1853,6 +1982,15 @@ ar:
         mapping_link: ابدأ التخطيط
       legal_babble:
         title_html: حقوق النشر والترخيص
+        introduction_1_open_data: البيانات المفتوحة
+        introduction_1_osm_foundation: مؤسسة خريطة الشارع المفتوحة
+        introduction_2_html: "أنت حر في نسخ، وتوزيع، ونقل وتطويع بياناتنا، \nطالما
+          أنك تقيد خريطة الشارع المفتوحة\nوالمساهمين فيها، إذا عدلت أو بنيت على بياناتنا،
+          \nفلا يحق لك توزيع النتيجة إلا تحت نفس الترخيص، و\n<a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">الكود
+          القانوني</a> الكامل يشرح حقوقك ومسؤولياتك.%{legal_code_link}"
+        introduction_2_legal_code: شفرة قانونية
+        introduction_3_html: وثائقنا مرخصة بموجب ترخيص٪ {creative_commons_link} (CC
+          BY-SA 2.0).%{creative_commons_link}
         credit_title_html: كيفية النسبة لخريطة الشارع المفتوحة
         credit_1_html: 'عندما تستخدم بيانات OpenStreetMap، فأنت مطالب بالقيام بالأمرين
           التاليين:'
@@ -1863,6 +2001,46 @@ ar:
         contributors_title_html: المساهمين
         contributors_intro_html: "مساهمونا هم آلاف الأفراد، نوفر أيضا \nبيانات مرخصة
           بشكلٍ مفتوح من وكالات الخرائط الوطنية \nوغيرها من المصادر، من بينها:"
+        contributors_at_austria: أستراليا
+        contributors_au_australia: أستراليا
+        contributors_au_geoscape_australia: جيوسكيب أستراليا
+        contributors_ca_credit_html: |-
+          <strong> كندا </ strong>: يحتوي على بيانات من
+          GeoBase & reg ؛، GeoGratis (& copy؛ Department of Natural
+          موارد كندا) ، CanVec (& نسخ ؛ قسم الطبيعية
+          الموارد الكندية) ، و StatCan (قسم الجغرافيا ،
+          إحصائيات كندا).%{canada}&copy;&reg;
+        contributors_ca_canada: كندا
+        contributors_fi_credit_html: |-
+          ٪ {finland}: يحتوي على بيانات من
+           المسح الوطني للأراضي لقاعدة البيانات الطبوغرافية لفنلندا
+           ومجموعات البيانات الأخرى ضمن٪ {nlsfi_license_link}.%{finland}%{nlsfi_license_link}
+        contributors_fi_finland: فنلندا
+        contributors_fi_nlsfi_license: ترخيص NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: يحتوي على بيانات مصدرها
+           Direction Générale des Impôts.
+        contributors_fr_france: فرنسا
+        contributors_nl_netherlands: هولندا
+        contributors_nz_new_zealand: نيوزيلندا
+        contributors_nz_linz_data_service: خدمة بيانات LINZ
+        contributors_si_slovenia: سلوفينيا
+        contributors_si_gu: هيئة المساحة ورسم الخرائط
+        contributors_si_mkgp: وزارة الزراعة والغابات والأغذية
+        contributors_es_spain: إسبانيا
+        contributors_za_credit_html: '%{south_africa}: يحتوي على بيانات مصدرها %{ngi_link}
+          ، حقوق الطبع والنشر محفوظة للولاية.'
+        contributors_za_south_africa: جنوب أفريقيا
+        contributors_za_ngi: 'المديرية الرئيسية: المعلومات الجغرافية المكانية الوطنية'
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: يحتوي على Ordnance
+           بيانات المسح &copy; حقوق النشر محفوظة لشركة Crown وقاعدة البيانات
+           2010-2023.
+        contributors_gb_united_kingdom: المملكة المتحدة
+        contributors_2_html: |-
+          لمزيد من التفاصيل حول هذه المصادر ، وغيرها من المصادر التي تم استخدامها
+           للمساعدة في تحسين OpenStreetMap ، يرجى الاطلاع على %{contributors_page_link} على OpenStreetMap Wiki.
+        contributors_2_contributors_page: صفحة المساهمين
         contributors_footer_2_html: |-
           إدراج البيانات في OpenStreetMap لا يعني أن الأصلي
           مزود البيانات يؤيد OpenStreetMap ، يوفر أي ضمان ، أو
@@ -1872,6 +2050,16 @@ ar:
           يتم تذكير المساهمين OSM لا لإضافة البيانات من أي
           المصادر المحمية بحقوق الطبع والنشر (مثل خرائط Google أو الخرائط المطبوعة) بدون
           إذن صريح من أصحاب حقوق النشر.
+        infringement_2_1_html: |-
+          إذا كنت تعتقد أن المواد المحمية بحقوق الطبع والنشر قد تم بشكل غير لائق
+           المضافة إلى قاعدة بيانات OpenStreetMap أو هذا الموقع ، يرجى الرجوع
+           إلى %{takedown_procedure_link} أو ملف مباشرة على موقعنا
+            %{online_filing_page_link}.
+        trademarks_title: العلامات التجارية
+        trademarks_1_1_html: |-
+          OpenStreetMap وشعار العدسة المكبرة وحالة الخريطة هي علامات تجارية مسجلة لـ
+           مؤسسة OpenStreetMap.  إذا كانت لديك أسئلة حول استخدامك للعلامات ، فيرجى الاطلاع على
+            %{trademark_policy_link}.
     index:
       js_1: إما أنك تستخدم متصفحا لا يدعم جافا سكريبت، أو أنك عطلت استعمال جافا سكريبت.
       js_2: خريطة الشارع المفتوحة تستخدم جافا سكريبت لخريطتها المنزلقة.
