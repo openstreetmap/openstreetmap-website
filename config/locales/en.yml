@@ -295,12 +295,12 @@ en:
   browse:
     created: "Created"
     closed: "Closed"
-    created_html: "Created <abbr title='%{title}'>%{time}</abbr>"
-    closed_html: "Closed <abbr title='%{title}'>%{time}</abbr>"
-    created_by_html: "Created <abbr title='%{title}'>%{time}</abbr> by %{user}"
-    deleted_by_html: "Deleted <abbr title='%{title}'>%{time}</abbr> by %{user}"
-    edited_by_html: "Edited <abbr title='%{title}'>%{time}</abbr> by %{user}"
-    closed_by_html: "Closed <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    created_ago_html: "Created %{time_ago}"
+    closed_ago_html: "Closed %{time_ago}"
+    created_ago_by_html: "Created %{time_ago} by %{user}"
+    closed_ago_by_html: "Closed %{time_ago} by %{user}"
+    deleted_ago_by_html: "Deleted %{time_ago} by %{user}"
+    edited_ago_by_html: "Edited %{time_ago} by %{user}"
     version: "Version"
     in_changeset: "Changeset"
     anonymous: "anonymous"
@@ -2449,12 +2449,14 @@ en:
       contact_support_html: 'Please contact <a href="%{support}">support</a> to arrange for an account to be created - we will try and deal with the request as quickly as possible.'
       about:
         header: Free and editable
-        html: |
-          <p>Unlike other maps, OpenHistoricalMap is completely created by people like you,
-          and it's free for anyone to fix, update, download and use.</p>
-          <p>Sign up to get started contributing. We'll send an email to confirm your account.</p>
+        paragraph_1: |
+          Unlike other maps, OpenHistoricalMap is completely created by people like you,
+          and it's free for anyone to fix, update, download and use.
+        paragraph_2: |
+          Sign up to get started contributing. We'll send an email to confirm your account.
       email address: "Email Address:"
       confirm email address: "Confirm Email Address:"
+      email_confirmation_help_html: "Enter your email again to be sure it's correct. It will not be displayed publicly."
       display name: "Display Name:"
       display name description: "Your publicly displayed username. You can change this later in the preferences."
       external auth: "Third Party Authentication:"
@@ -2721,6 +2723,38 @@ en:
       description: "Description"
       created_at: "Created at"
       last_changed: "Last changed"
+    show:
+      title: "Note: %{id}"
+      description: "Description"
+      open_title: "Unresolved note #%{note_name}"
+      closed_title: "Resolved note #%{note_name}"
+      hidden_title: "Hidden note #%{note_name}"
+      event_opened_by_html: "Created by %{user} %{time_ago}"
+      event_opened_by_anonymous_html: "Created by anonymous %{time_ago}"
+      event_commented_by_html: "Comment from %{user} %{time_ago}"
+      event_commented_by_anonymous_html: "Comment from anonymous %{time_ago}"
+      event_closed_by_html: "Resolved by %{user} %{time_ago}"
+      event_closed_by_anonymous_html: "Resolved by anonymous %{time_ago}"
+      event_reopened_by_html: "Reactivated by %{user} %{time_ago}"
+      event_reopened_by_anonymous_html: "Reactivated by anonymous %{time_ago}"
+      event_hidden_by_html: "Hidden by %{user} %{time_ago}"
+      report: report this note
+      coordinates_html: "%{latitude}, %{longitude}"
+      anonymous_warning: This note includes comments from anonymous users which should be independently verified.
+      hide: Hide
+      resolve: Resolve
+      reactivate: Reactivate
+      comment_and_resolve: Comment & Resolve
+      comment: Comment
+      report_link_html: "If this note contains sensitive information that needs to be removed, you can %{link}."
+      other_problems_resolve: "For all other problems with the note, please resolve it yourself with a comment."
+      other_problems_resolved: "For all other problems, resolving is sufficient."
+      disappear_date_html: "This resolved note will disappear from the map in %{disappear_in}."
+    new:
+      title: "New Note"
+      intro: "Spotted a mistake or something missing? Let other mappers know so we can fix it. Move the marker to the correct position and type a note to explain the problem."
+      advice: "Your note is public and may be used to update the map, so don't enter personal information, or information from copyrighted maps or directory listings."
+      add: Add Note
   javascripts:
     close: Close
     share:
