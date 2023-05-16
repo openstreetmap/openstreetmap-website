@@ -9,7 +9,7 @@ are two alternatives which make it easier to get a consistent development enviro
 * **Vagrant** This installs the software into a virtual machine. For Vagrant instructions see [VAGRANT.md](VAGRANT.md).
 * **Docker** This installs the software using containerization. For Docker instructions see [DOCKER.md](DOCKER.md).
 
-These instructions are based on Ubuntu 20.04 LTS, which is the platform used by the OSMF servers.
+These instructions are based on Ubuntu 22.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
 We don't recommend attempting to develop or deploy this software on Windows. Some Ruby gems may not be supported. If you need to use Windows the easiest solutions in order are [Docker](DOCKER.md), [Vagrant](VAGRANT.md), and Ubuntu in a virtual machine.
@@ -22,21 +22,21 @@ of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
-* Ruby 2.7+
+* Ruby 3.0+
 * PostgreSQL 9.1+
 * Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
-These can be installed on Ubuntu 20.04 or later with:
+These can be installed on Ubuntu 22.04 or later with:
 
 ```
 sudo apt-get update
-sudo apt-get install ruby2.7 libruby2.7 ruby2.7-dev \
+sudo apt-get install ruby3.0 libruby3.0 ruby3.0-dev \
                      libvips-dev libxml2-dev libxslt1-dev nodejs \
                      build-essential git-core firefox-geckodriver \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
                      libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
-sudo gem2.7 install bundler
+sudo gem3.0 install bundler
 ```
 
 ### Alternative platforms
@@ -230,7 +230,7 @@ For simplicity, this document explains how to install all the website dependenci
 
 If you choose to install Ruby and Bundler via `rbenv`, then you do not need to install the system libraries for Ruby:
 
-* For Ubuntu, you do not need to install the following packages: `ruby2.7 libruby2.7 ruby2.7-dev bundler`,
+* For Ubuntu, you do not need to install the following packages: `ruby3.0 libruby3.0 ruby3.0-dev bundler`,
 * For Fedora, you do not need to install the following packages: `ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems`
 * For MacOSX, you do not need to `brew install ruby` - but make sure you've installed a version of Ruby using `rbenv` before running `gem install bundler`!
 
