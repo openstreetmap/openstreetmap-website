@@ -200,41 +200,41 @@ el:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: περίπου μία ώρα πριν
+        one: περίπου %{count} ώρα πριν
         other: περίπου %{count} ώρες πριν
       about_x_months:
-        one: περίπου έναν μήνα πριν
+        one: περίπου %{count} μήνα πριν
         other: περίπου %{count} μήνες πριν
       about_x_years:
-        one: περίπου έναν χρόνο πριν
+        one: περίπου %{count} χρόνο πριν
         other: περίπου %{count} χρόνια πριν
       almost_x_years:
-        one: σχεδόν ένα χρόνο πριν
+        one: σχεδόν %{count} χρόνο πριν
         other: σχεδόν %{count} χρόνια πριν
       half_a_minute: πριν μισό λεπτό
       less_than_x_seconds:
-        one: λιγότερο από ένα δευτερόλεπτο πριν
+        one: λιγότερο από %{count} δευτερόλεπτο πριν
         other: λιγότερο από %{count} δευτερόλεπτα πριν
       less_than_x_minutes:
-        one: λιγότερο από ένα λεπτό πριν
+        one: λιγότερο από %{count} λεπτό πριν
         other: λιγότερο από %{count} λεπτά πριν
       over_x_years:
-        one: πάνω από έναν χρόνο πριν
+        one: πάνω από %{count} χρόνο πριν
         other: πάνω από %{count} χρόνια πριν
       x_seconds:
-        one: ένα δευτερόλεπτο πριν
+        one: '%{count} δευτερόλεπτο πριν'
         other: '%{count} δευτερόλεπτα πριν'
       x_minutes:
-        one: ένα λεπτό πριν
+        one: '%{count} λεπτό πριν'
         other: '%{count} λεπτά πριν'
       x_days:
-        one: μία ημέρα πριν
+        one: '%{count} ημέρα πριν'
         other: '%{count} ημέρες πριν'
       x_months:
-        one: ένα μήνα πριν
+        one: '%{count} μήνα πριν'
         other: '%{count} μήνες πριν'
       x_years:
-        one: ένα χρόνο πριν
+        one: '%{count} χρόνο πριν'
         other: '%{count} χρόνια πριν'
   editor:
     default: Προεπιλογή (τώρα είναι %{name})
@@ -338,6 +338,8 @@ el:
         να επεξεργάζονται τα δεδομένα χάρτη.
       find_out_why: μάθετε γιατί
       email_not_revealed: Η διεύθυνση email σας δεν θα αποκαλυφθεί αν γίνει δημόσια.
+      not_reversible: Αυτή η ενέργεια δεν μπορεί να αντιστραφεί και όλοι οι νέοι χρήστες
+        είναι πλέον δημόσιοι από προεπιλογή.
       make_edits_public_button: Να γίνουν όλες οι επεξεργασίες μου δημόσιες
     update:
       success_confirm_needed: Οι πληροφορίες του χρήστη ενημερώθηκαν επιτυχώς. Ελέγξτε
@@ -349,16 +351,22 @@ el:
   browse:
     created: Δημιουργήθηκε
     closed: Έκλεισε
+    created_ago_html: Δημιουργήθηκε %{time_ago}
+    closed_ago_html: Έκλεισε %{time_ago}
+    created_ago_by_html: Δημιουργήθηκε %{time_ago} από %{user}
+    closed_ago_by_html: Έκλεισε %{time_ago} από %{user}
+    deleted_ago_by_html: Διαγράφηκε %{time_ago} από %{user}
+    edited_ago_by_html: Επεξεργάστηκε %{time_ago} από %{user}
     version: Έκδοση
     in_changeset: Ομάδα αλλαγών
     anonymous: ανώνυμος
     no_comment: (χωρίς σχόλιο)
     part_of: Μέρος του
     part_of_relations:
-      one: 1 σχέση
+      one: '%{count} σχέση'
       other: '%{count} σχέσεις'
     part_of_ways:
-      one: 1 διαδρομή
+      one: '%{count} διαδρομή'
       other: '%{count} διαδρομές'
     download_xml: Λήψη XML
     view_history: Προβολή ιστορικού
@@ -374,6 +382,8 @@ el:
       relation: Σχέσεις (%{count})
       relation_paginated: Σχέσεις (%{x}-%{y} από %{count})
       comment: Σχόλια (%{count})
+      hidden_comment_by_html: Κρυφό σχόλιο από %{user} %{time_ago}
+      comment_by_html: Σχόλιο από %{user} %{time_ago}
       changesetxml: Ομάδας αλλαγών XML
       osmchangexml: osmChange XML
       feed:
@@ -401,7 +411,7 @@ el:
       history_title_html: 'Ιστορικό σχέσης: %{name}'
       members: Μέλη
       members_count:
-        one: 1 μέλος
+        one: '%{count} μέλος'
         other: '%{count} μέλη'
     relation_member:
       entry_role_html: '%{type} %{name} ως %{role}'
@@ -610,6 +620,24 @@ el:
       applications:
         create:
           notice: Η εφαρμογή καταχωρήθηκε.
+  errors:
+    contact:
+      contact: επικοινωνία
+      contact_the_community_html: Μη διστάσετε να %{contact_link} με την κοινότητα
+        του OpenStreetMap εάν έχετε βρει έναν κατεστραμμένο σύνδεσμο / σφάλμα. Σημειώστε
+        την ακριβή διεύθυνση URL του αιτήματός σας.
+    forbidden:
+      title: Απαγορευμένο
+      description: Η λειτουργία που ζητήσατε στο διακομιστή OpenStreetMap είναι διαθέσιμη
+        μόνο σε διαχειριστές (HTTP 403)
+    internal_server_error:
+      title: Σφάλμα εφαρμογής
+      description: Ο διακομιστής OpenStreetMap αντιμετώπισε μια απροσδόκητη συνθήκη
+        που τον εμπόδισε να εκπληρώσει το αίτημα (HTTP 500)
+    not_found:
+      title: Το αρχείο δε βρέθηκε
+      description: Δεν ήταν δυνατή η εύρεση αρχείου/καταλόγου/λειτουργίας API με αυτό
+        το όνομα στο διακομιστή OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: Προσθήκη του %{user} ως φίλου;
@@ -625,6 +653,11 @@ el:
       success: Ο χρήστης %{name} αφαιρέθηκε από τους φίλους.
       not_a_friend: Ο χρήστης %{name} δεν είναι ένας από τους φίλους σας.
   geocoder:
+    search:
+      title:
+        results_from_html: Αποτελέσματα από %{results_link}
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1416,9 +1449,10 @@ el:
       status: Κατάσταση
       reports: Αναφορές
       last_updated: Τελευταία ενημέρωση
+      last_updated_time_ago_user_html: '%{time_ago} από %{user}'
       link_to_reports: Προβολή αναφορών
       reports_count:
-        one: 1 Αναφορά
+        one: '%{count} Αναφορά'
         other: '%{count} Αναφορές'
       reported_item: Αναφερόμενο στοιχείο
       states:
@@ -1701,6 +1735,8 @@ el:
       success: Επιβεβαιώθηκε ο λογαριασμός σας, ευχαριστούμε για την εγγραφή σας!
       already active: Αυτός ο λογαριασμός έχει ήδη επιβεβαιωθεί.
       unknown token: Ο κωδικός επιβεβαίωσης έληξε ή δεν υπάρχει.
+      resend_html: Εάν θέλετε να στείλουμε ξανά το email επιβεβαίωσης, %{reconfirm_link}.
+      click_here: κάντε κλικ εδώ
     confirm_resend:
       failure: Ο χρήστης %{name} δεν βρέθηκε.
     confirm_email:
@@ -1895,6 +1931,7 @@ el:
       support: υποστήριξη
   shared:
     markdown_help:
+      heading_html: Αναλύθηκε με %{kramdown_link}
       headings: Επικεφαλίδες
       heading: Καφαλίδα
       subheading: Υποκεφαλίδα
@@ -1913,6 +1950,7 @@ el:
   site:
     about:
       next: Επόμενη
+      heading_html: '%{copyright}OpenStreetMap %{br} συνεισφέροντες'
       used_by_html: Το %{name} προσφέρει δεδομένα χάρτη σε χιλιάδες ιστότοπους, εφαρμογές
         κινητού και συσκευές υλισμικού
       lede_text: Το OpenStreetMap αναπτύσσεται από μια κοινότητα χαρτογράφων που συνεισφέρουν
@@ -1923,8 +1961,18 @@ el:
         χρησιμοποιούν αεροφωτογραφίες, συσκευές GPS και τοπικούς χάρτες χαμηλής τεχνολογίας
         για να σιγουρευτούν πως το OSM είναι ακριβής και ενημερωμένο.
       community_driven_title: Βασίζεται στην κοινότητα
+      community_driven_osm_blog: Ιστολόγιο OpenStreetMap
+      community_driven_user_diaries: ημερολόγια χρηστών
+      community_driven_community_blogs: ιστολόγια κοινότητας
+      community_driven_osm_foundation: Ίδρυμα OSM
       open_data_title: Ανοικτά Δεδομένα
+      open_data_open_data: ανοιχτά δεδομένα
       legal_title: Νομικό
+      legal_1_1_openstreetmap_foundation: Ίδρυμα OpenStreetMap
+      legal_1_1_terms_of_use: Όροι Χρήσης
+      legal_1_1_aup: Αποδεκτές Πολιτικές Χρήσης
+      legal_1_1_privacy_policy: Πολιτική Απορρήτου
+      legal_2_1_contact_the_osmf: επικοινωνήστε με το OSMF
       partners_title: Συνεργάτες
     copyright:
       foreign:
@@ -1941,6 +1989,9 @@ el:
         mapping_link: αρχίστε τη χαρτογράφηση
       legal_babble:
         title_html: Πνευματικά δικαιώματα και άδεια χρήσης
+        introduction_1_open_data: ανοιχτά δεδομένα
+        introduction_1_osm_foundation: Ίδρυμα OpenStreetMap
+        introduction_2_legal_code: νομικός κώδικας
         credit_title_html: Πως να κάνετε αναφορά στο OpenStreetMap
         credit_1_html: 'Όπου χρησιμοποιήσετε δεδομένα του OpenStreetMap, χρειάζεται
           από σας να κάνετε τα παρακάτω πράγματα:'
@@ -1948,10 +1999,32 @@ el:
           alt: Παράδειγμα του πως αναφέρεται το OpenStreetMap σε μια ιστοσελίδα
           title: Παράδειγμα αναφοράς δημιουργού
         more_title_html: Μαθαίνοντας περισσότερα
+        more_2_1_api_usage_policy: Πολιτική Χρήσης API
+        more_2_1_tile_usage_policy: Πολιτική Χρήσης Πλακιδίων
+        more_2_1_nominatim_usage_policy: Πολιτική Χρήσης Nominatim
         contributors_title_html: Οι συνεισφέροντές μας
         contributors_intro_html: 'Οι συνεισφέροντες μας είναι χιλιάδες άτομα. Επίσης
           έχουμε περιλάβει δεδομένα ανοικτής άδειας από εθνικές υπηρεσίες χαρτογράφησης
           και άλλες πηγές, μεταξύ αυτών:'
+        contributors_at_austria: Αυστρία
+        contributors_at_cc_by: CC BY
+        contributors_au_australia: Αυστραλία
+        contributors_ca_canada: Καναδάς
+        contributors_fi_finland: Φινλανδία
+        contributors_fi_nlsfi_license: Άδεια NLSFI
+        contributors_fr_france: Γαλλία
+        contributors_nl_netherlands: Κάτω Χώρες
+        contributors_nz_new_zealand: Νέα Ζηλανδία
+        contributors_nz_linz_data_service: Υπηρεσία Δεδομένων LINZ
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_slovenia: Σλοβενία
+        contributors_si_mkgp: Υπουργείο Γεωργίας, Δασών και Τροφίμων
+        contributors_es_spain: Ισπανία
+        contributors_es_ign: IGN
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_south_africa: Νότια Αφρική
+        contributors_gb_united_kingdom: Ηνωμένο Βασίλειο
+        contributors_2_contributors_page: Σελίδα συνεισφερόντων
         contributors_footer_2_html: Η συμπερίληψη δεδομένων στο OpenStreetMap δεν
           συνεπάγεται ότι ο αρχικός πάροχος δεδομένων εγκρίνει το OpenStreetMap, παρέχει
           οποιαδήποτε εγγύηση ή αποδέχεται καμία ευθύνη.
@@ -2035,6 +2108,11 @@ el:
             μας, παραδείγματος χάριν ένας δρόμος που λείπει στη διεύθυνσή σας, ο καλύτερος
             τρόπος να προχωρήσετε είναι να ενταχθείτε στην κοινότητα του OpenStreetMap
             και να προσθέσετε ή να επισκευάσετε τα δεδομένα από μόνοι σας.
+        add_a_note:
+          instructions_1_html: Απλώς κάντε κλικ στο %{note_icon} ή στο ίδιο εικονίδιο
+            στην εμφάνιση του χάρτη. Αυτό θα προσθέσει ένα δείκτη στο χάρτη, τον οποίο
+            μπορείτε να μετακινήσετε σύροντας. Προσθέστε το μήνυμά σας, κάντε κλικ
+            στην αποθήκευση και άλλοι χαρτογράφοι θα το ερευνήσουν.
       other_concerns:
         title: Άλλες ανησυχίες
     help:
@@ -2081,9 +2159,20 @@ el:
       removed: Ο προεπιλεγμένος σας επεξεργαστής του OpenStreetMap έχει τεθεί ως Potlatch.
         Επειδή το Adobe Flash Player έχει αποσυρθεί, ο Potlatch δεν είναι πια διαθέσιμος
         για χρήση σε πρόγραμμα περιήγησης ιστού.
+      desktop_application_html: Μπορείτε να χρησιμοποιήσετε ακόμα το Potlatch από
+        %{download_link}.
+      download: λήψη της εφαρμογής επιφάνειας εργασίας για Mac και Windows
+      id_editor_html: Εναλλακτικά, μπορείτε να ορίσετε το προεπιλεγμένο πρόγραμμα
+        επεξεργασίας σε iD, το οποίο εκτελείται στο πρόγραμμα περιήγησής σας όπως
+        έκανε στο παρελθόν το Potlatch. %{change_preferences_link}.
+      change_preferences: Αλλάξτε τις προτιμήσεις σας εδώ
     any_questions:
       title: Ερωτήσεις;
+      paragraph_1_html: |-
+        Το OpenStreetMap διαθέτει αρκετές πηγές για να μάθετε για το έργο, να ρωτάτε και να απαντάτε
+        ερωτήσεις, και συλλογικά να συζητάτε και να τεκμηριώνετε θέματα χαρτογράφησης. %{help_link}. Είστε με έναν οργανισμό που κάνει σχέδια για το OpenStreetMap; %{welcome_mat_link}.
       get_help_here: Λάβετε βοήθεια εδώ
+      welcome_mat: Δείτε το Χαλάκι Καλωσορίσματος
     sidebar:
       search_results: Αποτελέσματα Αναζήτησης
       close: Κλείσιμο
@@ -2176,31 +2265,52 @@ el:
         που πρέπει να ξέρετε.
       whats_on_the_map:
         title: Τι είναι στον Χάρτη
+        on_the_map_html: Το OpenStreetMap είναι ένα μέρος για τη χαρτογράφηση πραγμάτων
+          που είναι %{real_and_current} - περιλαμβάνει εκατομμύρια κτίρια, δρόμους
+          και άλλες λεπτομέρειες σχετικά με μέρη. Μπορείτε να χαρτογραφήσετε οποιαδήποτε
+          χαρακτηριστικά του πραγματικού κόσμου σας ενδιαφέρουν.
+        real_and_current: πραγματικά και τρέχοντα
+        off_the_map_html: Αυτό που %{doesnt} περιλαμβάνει είναι δεδομένα με γνώμη
+          όπως αξιολογήσεις, ιστορικά ή υποθετικά χαρακτηριστικά, καθώς και δεδομένα
+          από πηγές που προστατεύονται από πνευματικά δικαιώματα. Εκτός αν έχετε ειδική
+          άδεια, μην αντιγράφετε από διαδικτυακούς ή έντυπους χάρτες.
+        doesnt: δεν
       basic_terms:
         title: Βασικοί όροι για τη Χαρτογράφηση
         paragraph_1: Η κοινότητα OpenStreetMap έχει δικό της γλωσσάρι. Παρακάτω είναι
           μερικές λέξεις που μπορεί να σας φανούν χρήσιμες.
-        an_editor_html: Το %{editor} είναι ένα πρόγραμμα ή ένας ιστότοπος που μπορείτε
+        an_editor_html: Ο %{editor} είναι ένα πρόγραμμα ή ένας ιστότοπος που μπορείτε
           να χρησιμοποιήσετε για να επεξεργαστείτε τον χάρτη.
-        a_node_html: Το %{node} είναι ένα σημείο στον χάρτη, όπως ένα μεμονωμένο εστιατόριο
+        a_node_html: Ο %{node} είναι ένα σημείο στο χάρτη, όπως ένα μεμονωμένο εστιατόριο
           ή ένα δέντρο.
-        a_way_html: Το %{way} είναι μια γραμμή ή περιοχή, όπως δρόμος, ρέμα, λίμνη
+        a_way_html: Μια %{way} είναι μια γραμμή ή περιοχή, όπως δρόμος, ρέμα, λίμνη
           ή κτίριο.
-        a_tag_html: Οι %{tag} είναι δεδομένα που σχετίζονται με κόμβους ή διαδρομές,
-          όπως τα ονόματα εστιατορίων ή τα όρια ταχύτητας διάφορων δρόμων.
+        a_tag_html: Η %{tag} είναι δεδομένα που σχετίζονται με κόμβους ή διαδρομές,
+          όπως το όνομα ενός εστιατορίου ή το όριο ταχύτητας του δρόμου.
+        editor: επεξεργαστής
         node: κόμβος
         way: διαδρομή
         tag: ετικέτα
       rules:
         title: Κανόνες!
+        para_1_html: Το OpenStreetMap έχει λίγους επίσημους κανόνες, αλλά αναμένουμε
+          από όλους τους συμμετέχοντες να συνεργαστούν με και να επικοινωνήσουν με
+          την κοινότητα. Εάν σκέφτεστε οποιεσδήποτε άλλες δραστηριότητες εκτός από
+          την επεξεργασία με το χέρι, παρακαλούμε διαβάστε και ακολουθήστε τις οδηγίες
+          για %{imports_link} και %{automated_edits_link}.
         imports: Εισαγωγές
+        automated_edits: Αυτοματοποιημένες Επεξεργασίες
       start_mapping: Ξεκινήστε τη Χαρτογράφηση
       add_a_note:
         title: Δεν έχετε χρόνο για χαρτογράφηση; Προσθέστε μια σημείωση!
         para_1: Εάν θέλετε κάτι μικρό να διορθωθεί και δεν έχετε χρόνο να εγγραφείτε
           και να μάθετε πως να επεξεργάζεστε τον χάρτη, είναι εύκολο να προσθέσετε
-          σημειώσεις.
-        the_map: ο χάρτης
+          μια σημείωση.
+        para_2_html: 'Απλώς μεταβείτε %{map_link} και κάντε κλικ στο εικονίδιο σημείωσης:
+          %{note_icon}. Αυτό θα προσθέσει ένα δείκτη στο χάρτη, τον οποίο μπορείτε
+          να μετακινήσετε σύροντας. Προσθέστε το μήνυμά σας, μετά κάντε κλικ στην
+          αποθήκευση και άλλοι χαρτογράφοι θα το ερευνήσουν.'
+        the_map: στο χάρτη
     communities:
       title: Κοινότητες
       lede_text: "Άνθρωποι από όλο τον κόσμο συνεισφέρουν ή χρησιμοποιούν το OpenStreetMap.\nΕνώ
@@ -2218,6 +2328,7 @@ el:
         list_text: 'Οι ακόλουθες κοινότητες έχουν συσταθεί επίσημα ως Τοπικά Παραρτήματα:'
       other_groups:
         title: Άλλες Ομάδες
+        communities_wiki: Wiki σελίδα κοινοτήτων
   traces:
     visibility:
       private: Προσωπικό (διαμοιρασμός μόνο σαν ανώνυμος, μη χρονοσημασμένα σημεία)
@@ -2282,7 +2393,7 @@ el:
     trace:
       pending: ΕΚΚΡΕΜΕΙ
       count_points:
-        one: 1 σημείο
+        one: '%{count} σημείο'
         other: '%{count} σημεία'
       more: περισσότερα
       trace_details: Προβολή λεπτομερειών ίχνους
@@ -2300,6 +2411,7 @@ el:
       public_traces_from: Δημόσια ίχνη GPS από τον %{user}
       description: Προβολή πρόσφατων μεταφορτωμένων ιχνών GPS
       tagged_with: χαρακτηρίστηκαν με %{tags}
+      empty_title: Τίποτα εδώ ακόμα
       empty_upload_html: '%{upload_link} ή μάθετε περισσότερα για την ανίχνευση GPS
         στο %{wiki_link}.'
       upload_new: Μεταφόρτωση νέας διαδρομής
@@ -2502,6 +2614,9 @@ el:
         μερικά ειδικά εργαλεία αλλιώς ο διακομιστής μπορεί να χρειάζεται ένα.
       continue: Εγγραφή
       terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
+      email_confirmation_help_html: Η διεύθυνσή σας δεν εμφανίζεται δημόσια, ανατρέξτε
+        στην %{privacy_policy_link} για περισσότερες πληροφορίες.
+      privacy_policy: πολιτική απορρήτου
     terms:
       title: Όροι
       heading: Όροι
@@ -2519,6 +2634,7 @@ el:
       consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, καταστώ τις συνεισφορές
         μου στο κοινό κτήμα (για ελεύθερη χρήση)
       consider_pd_why: τι είναι αυτό;
+      informal_translations: ανεπίσημες μεταφράσεις
       continue: Συνέχεια
       decline: Διαφωνώ
       you need to accept or decline: Παρακαλούμε διαβάστε και αποδεχτείτε ή απορρίψτε
@@ -2701,19 +2817,19 @@ el:
       time_past_html: Τελείωσε %{time}.
       block_duration:
         hours:
-          one: 1 ώρα
+          one: '%{count} ώρα'
           other: '%{count} ώρες'
         days:
-          one: 1 ημέρα
+          one: '%{count} ημέρα'
           other: '%{count} ημέρες'
         weeks:
-          one: 1 εβδομάδα
+          one: '%{count} εβδομάδα'
           other: '%{count} εβδομάδες'
         months:
-          one: 1 μήνας
+          one: '%{count} μήνας'
           other: '%{count} μήνες'
         years:
-          one: 1 χρόνος
+          one: '%{count} χρόνος'
           other: '%{count} χρόνια'
     blocks_on:
       title: Φραγές στον %{name}
@@ -2768,6 +2884,15 @@ el:
       open_title: 'Ανοικτή σημείωση #%{note_name}'
       closed_title: 'Επιλυμένη σημείωση #%{note_name}'
       hidden_title: 'Κρυφή σημείωση #%{note_name}'
+      event_opened_by_html: Δημιουργήθηκε από %{user} %{time_ago}
+      event_opened_by_anonymous_html: Δημιουργήθηκε από ανώνυμο %{time_ago}
+      event_commented_by_html: Σχολιάστηκε από %{user} %{time_ago}
+      event_commented_by_anonymous_html: Σχολιάστηκε από ανώνυμο %{time_ago}
+      event_closed_by_html: Επιλύθηκε από %{user} %{time_ago}
+      event_closed_by_anonymous_html: Επιλύθηκε από ανώνυμο %{time_ago}
+      event_reopened_by_html: Επανενεργοποιήθηκε από %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Επανενεργοποιήθηκε από ανώνυμο %{time_ago}
+      event_hidden_by_html: Αποκρύφθηκε από %{user} %{time_ago}
       report: αναφορά αυτής της σημείωσης
       anonymous_warning: Αυτό η σημείωση περιλαμβάνει σχόλια από ανώνυμους χρήστες
         που πρέπει να επαληθεύονται ανεξάρτητα.
@@ -2827,11 +2952,11 @@ el:
       locate:
         title: Προβολή της Τοποθεσίας μου
         metersPopup:
-          one: Είστε εντός ενός μέτρου από το σημείο
-          other: Είστε μεταξύ %{count} μέτρων από το σημείο
+          one: Είστε εντός %{count} μέτρου από το σημείο
+          other: Είστε εντός %{count} μέτρων από το σημείο
         feetPopup:
-          one: Είστε εντός ενός ποδός από το σημείο
-          other: Είστε μεταξύ %{count} ποδιών από το σημείο
+          one: Είστε εντός %{count} ποδός από το σημείο
+          other: Είστε εντός %{count} ποδιών από το σημείο
       base:
         standard: Κανονικός
         cyclosm: CyclOSM
@@ -2846,6 +2971,13 @@ el:
         gps: Δημόσια ίχνη GPS
         overlays: Ενεργοποίηση επικαλύψεων για την αντιμετώπιση προβλημάτων του χάρτη
         title: Στρώματα
+      openstreetmap_contributors: Συνεισφέροντες OpenStreetMap
+      make_a_donation: Κάντε μια δωρεά
+      website_and_api_terms: Όροι ιστότοπου και API
+      osm_france: OpenStreetMap Γαλλίας
+      andy_allan: Andy Allan
+      memomaps: MeMoMaps
+      hotosm_name: Humanitarian OpenStreetMap Team
     site:
       edit_tooltip: Επεξεργασία του χάρτη
       edit_disabled_tooltip: Κάντε μεγέθυνση για να επεξεργαστείτε το χάρτη
