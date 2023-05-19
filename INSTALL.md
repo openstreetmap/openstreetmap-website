@@ -39,6 +39,34 @@ sudo apt-get install ruby3.0 libruby3.0 ruby3.0-dev \
 sudo gem3.0 install bundler
 ```
 
+For Ubuntu 23.04:
+
+```
+sudo apt-get install ruby libruby ruby-dev ruby-bundler \
+                     libvips-dev libxml2-dev libxslt1-dev \
+                     build-essential git-core pngcrush \
+                     postgresql postgresql-contrib libpq-dev libsasl2-dev \
+                     libffi-dev libgd-dev libarchive-dev libbz2-dev \
+                     libjpeg-turbo-progs advancecomp optipng pngquant jhead \
+                     jpegoptim gifsicle
+
+snap install svgo
+
+# geckodriver APT package no longer exists, so install maually:
+
+wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
+tar xzvf geckodriver-v0.33.0-linux64.tar.gz 
+sudo cp geckodriver /usr/local/bin
+
+# install nvm, node and yarn since the Ubuntu packages are older and throw errors:
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+nvm install node
+nvm use node
+npm install -g yarn
+
+```
+
 ### Alternative platforms
 
 #### Fedora
