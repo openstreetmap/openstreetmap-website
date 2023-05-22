@@ -10,6 +10,7 @@
 # Author: Korrawit
 # Author: Patsagorn Y.
 # Author: Pon44695
+# Author: Ppnplus
 # Author: Ruila
 # Author: TMo3289
 # Author: Trisorn Triboon
@@ -36,6 +37,9 @@ th:
       client_application:
         create: ลงทะเบียน
         update: ปรับปรุง
+      oauth2_application:
+        create: ลงทะเบียน
+        update: อัปเดต
       redaction:
         create: สร้างการตรวจทาน
         update: บันทึกการตรวจทาน
@@ -103,11 +107,14 @@ th:
       diary_entry:
         user: ผู้ใช้งาน
         title: หัวเรื่อง
+        body: เนื้อหา
         latitude: ละติจูด
         longitude: ลองติจูด
         language_code: ภาษา
       doorkeeper/application:
         name: ชื่อ
+        confidential: แอปพลิเคชันลับ?
+        scopes: การอนุญาต
       friend:
         user: ผู้ใช้งาน
         friend: เพื่อน
@@ -233,6 +240,11 @@ th:
   account:
     deletions:
       show:
+        title: ลบบัญชีของฉัน
+        warning: คำเตือน! ขั้นตอนการลบบัญชีถือเป็นที่สิ้นสุด และไม่สามารถย้อนกลับได้
+        delete_account: ลบบัญชี
+        delete_introduction: 'คุณสามารถลบบัญชี OpenStreetMap ของคุณโดยใช้ปุ่มด้านล่าง
+          โปรดทราบรายละเอียดต่อไปนี้:'
         confirm_delete: คุณแน่ใจหรือไม่?
         cancel: ยกเลิก
   accounts:
@@ -248,18 +260,29 @@ th:
         enabled: 'เปิดใช้: สามารถแก้ไขแผนที่ได้ แต่ทำโดยเปิดเผยนาม'
         enabled link text: นี้คืออะไร?
         disabled: 'ปิดใช้: ไม่สามารถแก้ไขแผนที่ได้อีก, โดยการแก้ไขในอดีตจะยังคงความนิรนามไว้'
+        disabled link text: ทำไมฉันถึงแก้ไขไม่ได้?
       contributor terms:
+        heading: ข้อกำหนดผู้มีส่วนร่วม
         link text: นี้คืออะไร?
       save changes button: บันทึกการเปลี่ยนแปลง
+      delete_account: ลบบัญชี...
     go_public:
-      heading: 'แก้ไขโดยเปิดเผย:'
+      heading: แก้ไขโดยเปิดเผย
       make_edits_public_button: ทำให้การแก้ไขของข้าพเจ้าเป็นสาธารณะเห็นได้ทั่วไป
     update:
       success_confirm_needed: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย โปรดตรวจสอบอีเมลของท่านเพื่อยืนยันที่อยู่อีเมลใหม่
       success: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
+    destroy:
+      success: ลบบัญชีแล้ว
   browse:
     created: สร้างเมื่อ
     closed: ปิดเมื่อ
+    created_ago_html: สร้างเมื่อ %{time_ago}
+    closed_ago_html: ปิดเมื่อ %{time_ago}
+    created_ago_by_html: สร้างเมื่อ %{time_ago} โดย %{user}
+    closed_ago_by_html: ปิดเมื่อ %{time_ago} โดย %{user}
+    deleted_ago_by_html: ลบเมื่อ %{time_ago} โดย %{user}
+    edited_ago_by_html: แก้ไขเมื่อ %{time_ago} โดย %{user}
     version: รุ่นที่
     in_changeset: ชุดการเปลี่ยนแปลง
     anonymous: ไม่ระบุตัวตน
@@ -283,6 +306,8 @@ th:
       relation: ความสัมพันธ์ (%{count})
       relation_paginated: ความสัมพันธ์ (%{x}-%{y} จาก %{count})
       comment: ความคิดเห็น (%{count})
+      hidden_comment_by_html: ความคิดเห็นที่ซ่อนอยู่จาก %{user} %{time_ago}
+      comment_by_html: ความคิดเห็นจาก %{user} %{time_ago}
       changesetxml: ชุดการเปลี่ยนแปลง XML
       osmchangexml: เอ็กซ์เอ็มแอลของ osmChange
       feed:
@@ -298,6 +323,8 @@ th:
       title_html: 'เส้นทาง: %{name}'
       history_title_html: 'ประวัติเส้นทาง: %{name}'
       nodes: หมุด
+      nodes_count:
+        other: '%{count} หมุด'
       also_part_of_html:
         one: ส่วนของเส้นทาง %{related_ways}
         other: ส่วนของเส้นทาง %{related_ways}
@@ -2088,6 +2115,7 @@ th:
         gps: รอยทาง GPS สาธารณะ
         overlays: 'ซ้อนชั้นข้อมูลพิเศษเพื่อช่วยในการแก้ปัญหาแผนที่:'
         title: ชั้นแผนที่
+      openstreetmap_contributors: ผู้มีส่วนร่วม OpenStreetMap
     site:
       edit_tooltip: แก้ไขแผนที่
       edit_disabled_tooltip: ขยายเพื่อแก้ไขแผนที่
