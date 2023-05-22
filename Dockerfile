@@ -9,6 +9,7 @@ RUN apt-get update \
       curl \
       default-jre-headless \
       file \
+      gpg-agent \
       libarchive-dev \
       libffi-dev \
       libgd-dev \
@@ -18,13 +19,21 @@ RUN apt-get update \
       libxml2-dev \
       libxslt1-dev \
       locales \
-      nodejs \
       postgresql-client \
       ruby3.0 \
       ruby3.0-dev \
+      software-properties-common \
       tzdata \
       unzip \
-      yarnpkg \
+ && curl https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
+ && add-apt-repository -y -U https://deb.nodesource.com/node_18.x \
+ && apt-get install --no-install-recommends -y \
+      nodejs \
+ && npm install --global yarn \
+ && add-apt-repository -y ppa:mozillateam/ppa \
+ && echo "Package: *\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox \
+ && apt-get install --no-install-recommends -y \
+      firefox-geckodriver \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
