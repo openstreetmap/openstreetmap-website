@@ -170,7 +170,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "N 50° 4′ 03.828″, E 14° 22′ 38.712″",
       "N50 4 03.828 E14 22 38.712",
       "N50 4 03.828, E14 22 38.712",
-      "50°4'3.828\"N 14°22'38.712\"E"
+      "50°4'3.828\"N 14°22'38.712\"E",
+      "50 deg 4' 3.828\" N, 14 deg 22' 38.712\" E"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
     end
@@ -185,7 +186,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "N 50° 4′ 03.828″, W 14° 22′ 38.712″",
       "N50 4 03.828 W14 22 38.712",
       "N50 4 03.828, W14 22 38.712",
-      "50°4'3.828\"N 14°22'38.712\"W"
+      "50°4'3.828\"N 14°22'38.712\"W",
+      "50 deg 4' 3.828\" N, 14 deg 22' 38.712\" W"
     ].each do |code|
       latlon_check code, 50.06773, -14.37742
     end
@@ -200,7 +202,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "S 50° 4′ 03.828″, E 14° 22′ 38.712″",
       "S50 4 03.828 E14 22 38.712",
       "S50 4 03.828, E14 22 38.712",
-      "50°4'3.828\"S 14°22'38.712\"E"
+      "50°4'3.828\"S 14°22'38.712\"E",
+      "50 deg 4' 3.828\" S, 14 deg 22' 38.712\" E"
     ].each do |code|
       latlon_check code, -50.06773, 14.37742
     end
@@ -215,7 +218,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "S 50° 4′ 03.828″, W 14° 22′ 38.712″",
       "S50 4 03.828 W14 22 38.712",
       "S50 4 03.828, W14 22 38.712",
-      "50°4'3.828\"S 14°22'38.712\"W"
+      "50°4'3.828\"S 14°22'38.712\"W",
+      "50 deg 4' 3.828\" S, 14 deg 22' 38.712\" W"
     ].each do |code|
       latlon_check code, -50.06773, -14.37742
     end
