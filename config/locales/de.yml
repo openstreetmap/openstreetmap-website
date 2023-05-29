@@ -95,6 +95,7 @@
 # Author: The Evil IP address
 # Author: ThePiscin
 # Author: Thomas Bohn
+# Author: Timonade
 # Author: Umherirrender
 # Author: Unkn0wnCat
 # Author: Vrifox
@@ -420,7 +421,9 @@ de:
   browse:
     created: Erstellt
     closed: Geschlossen
+    created_ago_html: Erstellt %{time_ago}
     closed_ago_html: Geschlossen %{time_ago}
+    created_ago_by_html: Erstellt %{time_ago} von %{user}
     closed_ago_by_html: Geschlossen %{time_ago} von %{user}
     deleted_ago_by_html: Gelöscht %{time_ago} von %{user}
     edited_ago_by_html: Bearbeitet %{time_ago} von %{user}
@@ -449,6 +452,8 @@ de:
       relation: Relationen (%{count})
       relation_paginated: Relationen (%{x}–%{y} von %{count})
       comment: Kommentare (%{count})
+      hidden_comment_by_html: Versteckter Kommentar von %{user} %{time_ago}
+      comment_by_html: Kommentar von %{user} %{time_ago}
       changesetxml: Änderungssatz-XML
       osmchangexml: osmChange-XML
       feed:
@@ -717,6 +722,10 @@ de:
       success: '%{name} wurde als Freund entfernt.'
       not_a_friend: '%{name} ist nicht dein Freund.'
   geocoder:
+    search:
+      title:
+        results_from_html: Ergebnisse von %{results_link}
+        latlon: Intern
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1509,6 +1518,7 @@ de:
       status: Status
       reports: Meldungen
       last_updated: Zuletzt aktualisiert
+      last_updated_time_ago_user_html: '%{time_ago} von %{user}'
       link_to_reports: Meldungen ansehen
       reports_count:
         one: Eine Meldung
@@ -2007,6 +2017,7 @@ de:
   site:
     about:
       next: Nächste
+      heading_html: '%{copyright}OpenStreetMap %{br} Mitwirkende'
       used_by_html: '%{name} stellt Kartendaten für tausende von Webseiten, Apps und
         andere Geräte zur Verfügung'
       lede_text: |-
@@ -2018,11 +2029,42 @@ de:
         Luftbilder, GPS-Geräte und Feldkarten zur Verifizierung, sodass OSM
         korrekt und aktuell ist.
       community_driven_title: Gemeinschaftsbetrieben
+      community_driven_1_html: |-
+        Die OpenStreetMap-Gemeinschaft ist vielfältig, leidenschaftlich und wächst jeden Tag.
+        Unsere Mitwirkenden sind begeisterte Kartierer, GIS-Fachleute, Ingenieure
+        die die OSM-Server betreiben, humanitäre Helfer, die von Katastrophen betroffene Gebiete kartieren,
+        und vieles mehr.
+        Um mehr über die Gemeinschaft zu erfahren, besuchen Sie den %{osm_blog_link},
+        %{user_diaries_link}, %{community_blogs_link}, und die
+        Website der %{osm_foundation_link}.
+      community_driven_osm_blog: OpenStreetMap Blog
+      community_driven_user_diaries: Benutzertagebücher
+      community_driven_community_blogs: Community-Blogs
+      community_driven_osm_foundation: OSM-Stiftung
       open_data_title: Open Data
+      open_data_1_html: |-
+        OpenStreetMap ist %{open_data}: Es steht Ihnen frei, es für jeden Zweck zu verwenden
+        solange Sie OpenStreetMap und seine Mitwirkenden nennen. Wenn Sie die Daten
+        oder auf den Daten in bestimmter Weise aufbauen, dürfen Sie das Ergebnis nur
+        unter der gleichen Lizenz weitergeben. Siehe den %{copyright_license_link} für weitere Details.
+      open_data_open_data: offene Daten
+      open_data_copyright_license: Copyright und Lizenz Seite
       legal_title: Rechtliche Hinweise
+      legal_1_1_html: |-
+        Diese Website und viele andere damit zusammenhängende Dienste werden formell von der
+        %{openstreetmap_foundation_link} (OSMF)
+        im Namen der Gemeinschaft betrieben. Die Nutzung aller von der OSMF betriebenen Dienste unterliegt
+        unseren %{terms_of_use_link}, %{aup_link} und unserer %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: OpenStreetMap Stiftung
       legal_1_1_terms_of_use: Nutzungsbedingungen
       legal_1_1_aup: Richtlinien für die akzeptable Nutzung
       legal_1_1_privacy_policy: Datenschutzrichtlinie
+      legal_2_1_html: |-
+        Bitte %{contact_the_osmf_link}
+        wenn Sie lizenzrechtliche, urheberrechtliche oder andere rechtliche Fragen haben.
+      legal_2_1_contact_the_osmf: OSMF kontaktieren
+      legal_2_2_html: OpenStreetMap, das Lupenlogo und State of the Map sind %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: eingetragenes Markenzeichen der OSMF
       partners_title: Partner
     copyright:
       foreign:
@@ -2416,6 +2458,8 @@ de:
       description: Letzte GPS-Track-Uploads durchsuchen
       tagged_with: ' gekennzeichnet mit %{tags}'
       empty_title: Noch nichts vorhanden
+      empty_upload_html: '%{upload_link} oder erfahren Sie mehr über GPS-Tracks auf
+        der %{wiki_link}.'
       upload_trace: Lade einen Track hoch
       all_traces: Alle Tracks
       my_traces: Meine Tracks
@@ -2884,7 +2928,15 @@ de:
       open_title: Ungelöster Hinweis Nr. %{note_name}
       closed_title: Erledigter Hinweis Nr. %{note_name}
       hidden_title: Versteckter Hinweis Nr. %{note_name}
+      event_opened_by_html: Erstellt von %{user} %{time_ago}
+      event_opened_by_anonymous_html: Erstellt von anonyn %{time_ago}
+      event_commented_by_html: Kommentar von %{user} %{time_ago}
+      event_commented_by_anonymous_html: Kommentar von anonyn %{time_ago}
       event_closed_by_html: Erledigt von %{user} %{time_ago}
+      event_closed_by_anonymous_html: Gelöst von anonym %{time_ago}
+      event_reopened_by_html: Reaktiviert von %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Reaktiviert durch anonym %{time_ago}
+      event_hidden_by_html: Versteckt von %{user} %{time_ago}
       report: diesen Hinweis melden
       anonymous_warning: Dieser Hinweis enthält Kommentare von anonymen Benutzern,
         die unabhängig geprüft werden sollten.
@@ -2964,6 +3016,13 @@ de:
         gps: Öffentliche GPS-Tracks
         overlays: Overlays zur Fehlersuche aktivieren
         title: Ebenen
+      openstreetmap_contributors: OpenStreetMap Mitwirkende
+      make_a_donation: Spenden
+      website_and_api_terms: Website und API-Bedingungen
+      osm_france: OpenStreetMap Frankreich
+      andy_allan: Andy Allan
+      memomaps: MeMoMaps
+      hotosm_name: Humanitäres OpenStreetMap Team
     site:
       edit_tooltip: Karte bearbeiten
       edit_disabled_tooltip: Zum Bearbeiten muss eine höhere Zoomstufe gewählt werden
