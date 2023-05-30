@@ -137,6 +137,7 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem "debug_inspector"
+  gem "i18n-tasks"
   gem "listen"
   gem "vendorer"
 end
@@ -151,6 +152,7 @@ group :test do
   gem "puma", "~> 5.6"
   gem "rails-controller-testing"
   gem "rubocop"
+  gem "rubocop-capybara"
   gem "rubocop-minitest"
   gem "rubocop-performance"
   gem "rubocop-rails"

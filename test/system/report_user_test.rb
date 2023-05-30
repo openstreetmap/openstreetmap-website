@@ -3,7 +3,7 @@ require "application_system_test_case"
 class ReportUserTest < ApplicationSystemTestCase
   def test_no_link_when_not_logged_in
     note = create(:note_with_comments)
-    visit browse_note_path(note)
+    visit note_path(note)
     assert_content note.comments.first.body
 
     assert_no_content I18n.t("users.show.report")

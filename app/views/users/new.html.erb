@@ -13,7 +13,8 @@
 <div class="row">
   <div class='text-muted col-sm order-sm-2'>
     <h4><%= t ".about.header" %></h4>
-    <%= t ".about.html" %>
+    <p><%= t ".about.paragraph_1" %></p>
+    <p><%= t ".about.paragraph_2" %></p>
   </div>
 
   <div class="col-sm">
@@ -21,7 +22,11 @@
       <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
 
       <%= f.email_field :email, :tabindex => 1 %>
-      <%= f.email_field :email_confirmation, :tabindex => 2 %>
+      <%= f.email_field :email_confirmation, :help => t(".email_confirmation_help_html",
+                                                        :privacy_policy_link => link_to(t(".privacy_policy"),
+                                                                                        t(".privacy_policy_url"),
+                                                                                        :title => t(".privacy_policy_title"))),
+                                             :tabindex => 2 %>
 
       <%= f.text_field :display_name, :help => t(".display name description"), :tabindex => 3 %>
 

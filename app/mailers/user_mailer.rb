@@ -123,7 +123,7 @@ class UserMailer < ApplicationMailer
 
   def note_comment_notification(comment, recipient)
     with_recipient_locale recipient do
-      @noteurl = browse_note_url(comment.note)
+      @noteurl = note_url(comment.note)
       @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, I18n.locale)
       @comment = comment.body
       @owner = recipient == comment.note.author

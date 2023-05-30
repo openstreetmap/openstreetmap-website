@@ -50,7 +50,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("colour", "#f00")
     assert_dom_equal %(<span class="colour-preview-box" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
 
-    html = format_value("contact", "foo@example.com")
+    html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
 
     html = format_value("source", "https://example.com")
@@ -132,6 +132,10 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
     assert_equal "Q24", links[0][:title]
 
+    links = wikidata_links("species:wikidata", "Q26899")
+    assert_equal "//www.wikidata.org/entity/Q26899?uselang=en", links[0][:url]
+    assert_equal "Q26899", links[0][:title]
+
     # Another allowed key, this time with multiple values and I18n
     I18n.with_locale "dsb" do
       links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
@@ -193,6 +197,10 @@ class BrowseTagsHelperTest < ActionView::TestCase
       assert_equal "https://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]
       assert_equal "zh-classical:Test#Section", link[:title]
     end
+
+    link = wikipedia_link("subject:wikipedia", "en:Catherine McAuley")
+    assert_equal "https://en.wikipedia.org/wiki/en:Catherine McAuley?uselang=en", link[:url]
+    assert_equal "en:Catherine McAuley", link[:title]
 
     link = wikipedia_link("foo", "Test")
     assert_nil link
@@ -269,6 +277,12 @@ class BrowseTagsHelperTest < ActionView::TestCase
     # Strips whitespace at ends
     email = email_link("email", " test@email.com ")
     assert_equal "test@email.com", email
+
+    email = email_link("contact:email", "example@example.com")
+    assert_equal "example@example.com", email
+
+    email = email_link("maxweight:conditional", "none@agricultural")
+    assert_nil email
   end
 
   def test_telephone_links

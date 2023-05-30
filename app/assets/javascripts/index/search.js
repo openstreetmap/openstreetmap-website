@@ -62,13 +62,23 @@ OSM.Search = function (map) {
     e.preventDefault();
     e.stopPropagation();
 
-    var div = $(this).parents(".search_more");
+    var div = $(this).parents(".search_more"),
+        csrf_param = $("meta[name=csrf-param]").attr("content"),
+        csrf_token = $("meta[name=csrf-token]").attr("content"),
+        params = {};
 
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function (data) {
-      div.replaceWith(data);
+    params[csrf_param] = csrf_token;
+
+    $.ajax({
+      url: $(this).attr("href"),
+      method: "POST",
+      data: params,
+      success: function (data) {
+        div.replaceWith(data);
+      }
     });
   }
 
@@ -127,22 +137,26 @@ OSM.Search = function (map) {
     OSM.loadSidebarContent(path, page.load);
   };
 
-  page.load = function() {
+  page.load = function () {
     // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
     // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
     function originalLoadFunction () {
-    $(".search_results_entry").each(function(index) {
-      var entry = $(this);
+    $(".search_results_entry").each(function (index) {
+      var entry = $(this),
+          csrf_param = $("meta[name=csrf-param]").attr("content"),
+          csrf_token = $("meta[name=csrf-token]").attr("content"),
+          params = {
+            zoom: map.getZoom(),
+            minlon: map.getBounds().getWest(),
+            minlat: map.getBounds().getSouth(),
+            maxlon: map.getBounds().getEast(),
+            maxlat: map.getBounds().getNorth()
+          };
+      params[csrf_param] = csrf_token;
       $.ajax({
         url: entry.data("href"),
-        method: "GET",
-        data: {
-          zoom: map.getZoom(),
-          minlon: map.getBounds().getWest(),
-          minlat: map.getBounds().getSouth(),
-          maxlon: map.getBounds().getEast(),
-          maxlat: map.getBounds().getNorth()
-        },
+        method: "POST",
+        data: params,
         success: function (html) {
           entry.html(html);
           // go to first result of first geocoder

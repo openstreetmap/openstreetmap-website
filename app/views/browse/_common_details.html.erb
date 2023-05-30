@@ -13,10 +13,10 @@
 
 <ul class="list-unstyled">
   <li>
-    <%= t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
-          :time => time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
-          :user => changeset_user_link(common_details.changeset),
-          :title => l(common_details.timestamp) %>
+    <%= t "browse.#{common_details.visible? ? :edited : :deleted}_ago_by_html",
+          :time_ago => tag.abbr(time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
+                                :title => l(common_details.timestamp)),
+          :user => changeset_user_link(common_details.changeset) %>
   </li>
   <li>
     <%= t "browse.in_changeset" %>
