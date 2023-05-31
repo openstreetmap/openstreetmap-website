@@ -25,11 +25,10 @@ RUN apt-get update \
       software-properties-common \
       tzdata \
       unzip \
- && curl https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
- && add-apt-repository -y -U https://deb.nodesource.com/node_18.x \
- && apt-get install --no-install-recommends -y \
       nodejs \
+      npm \
  && npm install --global yarn \
+ # We can't use snap packages for firefox inside a container, so we need to get firefox+geckodriver elsewhere
  && add-apt-repository -y ppa:mozillateam/ppa \
  && echo "Package: *\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox \
  && apt-get install --no-install-recommends -y \
