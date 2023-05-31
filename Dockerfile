@@ -20,8 +20,9 @@ RUN apt-get update \
       libxslt1-dev \
       locales \
       postgresql-client \
-      ruby3.0 \
-      ruby3.0-dev \
+      ruby \
+      ruby-dev \
+      ruby-bundler \
       software-properties-common \
       tzdata \
       unzip \
@@ -49,8 +50,7 @@ WORKDIR /app
 
 # Install Ruby packages
 ADD Gemfile Gemfile.lock /app/
-RUN gem install bundler \
- && bundle install
+RUN bundle install
 
 # Install NodeJS packages using yarn
 ADD package.json yarn.lock /app/

@@ -16,12 +16,11 @@ apt-get update
 apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
-apt-get install -y ruby3.0 libruby3.0 ruby3.0-dev \
+apt-get install -y ruby ruby-dev ruby-bundler \
                      libxml2-dev libxslt1-dev nodejs npm \
                      build-essential git-core \
                      postgresql postgresql-contrib libpq-dev libvips-dev \
                      libsasl2-dev libffi-dev libgd-dev libarchive-dev libbz2-dev
-gem3.0 install --version "~> 2.1.4" bundler
 npm install --global yarn
 
 ## install the bundle necessary for openstreetmap-website
