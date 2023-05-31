@@ -9239,8 +9239,8 @@
           function createRelationalOperation(operator) {
             return function(value, other) {
               if (!(typeof value == "string" && typeof other == "string")) {
-                value = toNumber2(value);
-                other = toNumber2(other);
+                value = toNumber3(value);
+                other = toNumber3(other);
               }
               return operator(value, other);
             };
@@ -9274,7 +9274,7 @@
           function createRound(methodName) {
             var func = Math2[methodName];
             return function(number3, precision2) {
-              number3 = toNumber2(number3);
+              number3 = toNumber3(number3);
               precision2 = precision2 == null ? 0 : nativeMin2(toInteger(precision2), 292);
               if (precision2 && nativeIsFinite(number3)) {
                 var pair2 = (toString2(number3) + "e").split("e"), value = func(pair2[0] + "e" + (+pair2[1] + precision2));
@@ -10632,11 +10632,11 @@
             if (typeof func != "function") {
               throw new TypeError2(FUNC_ERROR_TEXT3);
             }
-            wait = toNumber2(wait) || 0;
+            wait = toNumber3(wait) || 0;
             if (isObject3(options2)) {
               leading = !!options2.leading;
               maxing = "maxWait" in options2;
-              maxWait = maxing ? nativeMax2(toNumber2(options2.maxWait) || 0, wait) : maxWait;
+              maxWait = maxing ? nativeMax2(toNumber3(options2.maxWait) || 0, wait) : maxWait;
               trailing = "trailing" in options2 ? !!options2.trailing : trailing;
             }
             function invokeFunc(time) {
@@ -10712,7 +10712,7 @@
             return baseDelay(func, 1, args);
           });
           var delay = baseRest(function(func, wait, args) {
-            return baseDelay(func, toNumber2(wait) || 0, args);
+            return baseDelay(func, toNumber3(wait) || 0, args);
           });
           function flip(func) {
             return createWrap(func, WRAP_FLIP_FLAG);
@@ -11009,7 +11009,7 @@
             if (!value) {
               return value === 0 ? value : 0;
             }
-            value = toNumber2(value);
+            value = toNumber3(value);
             if (value === INFINITY2 || value === -INFINITY2) {
               var sign2 = value < 0 ? -1 : 1;
               return sign2 * MAX_INTEGER;
@@ -11023,7 +11023,7 @@
           function toLength(value) {
             return value ? baseClamp(toInteger(value), 0, MAX_ARRAY_LENGTH) : 0;
           }
-          function toNumber2(value) {
+          function toNumber3(value) {
             if (typeof value == "number") {
               return value;
             }
@@ -11286,14 +11286,14 @@
               lower2 = undefined2;
             }
             if (upper !== undefined2) {
-              upper = toNumber2(upper);
+              upper = toNumber3(upper);
               upper = upper === upper ? upper : 0;
             }
             if (lower2 !== undefined2) {
-              lower2 = toNumber2(lower2);
+              lower2 = toNumber3(lower2);
               lower2 = lower2 === lower2 ? lower2 : 0;
             }
-            return baseClamp(toNumber2(number3), lower2, upper);
+            return baseClamp(toNumber3(number3), lower2, upper);
           }
           function inRange(number3, start2, end) {
             start2 = toFinite(start2);
@@ -11303,7 +11303,7 @@
             } else {
               end = toFinite(end);
             }
-            number3 = toNumber2(number3);
+            number3 = toNumber3(number3);
             return baseInRange(number3, start2, end);
           }
           function random(lower2, upper, floating) {
@@ -12089,7 +12089,7 @@
           lodash.toInteger = toInteger;
           lodash.toLength = toLength;
           lodash.toLower = toLower;
-          lodash.toNumber = toNumber2;
+          lodash.toNumber = toNumber3;
           lodash.toSafeInteger = toSafeInteger;
           lodash.toString = toString2;
           lodash.toUpper = toUpper;
@@ -13800,6 +13800,568 @@
     }
   });
 
+  // node_modules/name-suggestion-index/node_modules/quickselect/quickselect.js
+  var require_quickselect2 = __commonJS({
+    "node_modules/name-suggestion-index/node_modules/quickselect/quickselect.js"(exports2, module2) {
+      (function(global3, factory) {
+        typeof exports2 === "object" && typeof module2 !== "undefined" ? module2.exports = factory() : typeof define === "function" && define.amd ? define(factory) : global3.quickselect = factory();
+      })(exports2, function() {
+        "use strict";
+        function quickselect2(arr, k, left, right, compare) {
+          quickselectStep(arr, k, left || 0, right || arr.length - 1, compare || defaultCompare);
+        }
+        function quickselectStep(arr, k, left, right, compare) {
+          while (right > left) {
+            if (right - left > 600) {
+              var n2 = right - left + 1;
+              var m = k - left + 1;
+              var z = Math.log(n2);
+              var s = 0.5 * Math.exp(2 * z / 3);
+              var sd = 0.5 * Math.sqrt(z * s * (n2 - s) / n2) * (m - n2 / 2 < 0 ? -1 : 1);
+              var newLeft = Math.max(left, Math.floor(k - m * s / n2 + sd));
+              var newRight = Math.min(right, Math.floor(k + (n2 - m) * s / n2 + sd));
+              quickselectStep(arr, k, newLeft, newRight, compare);
+            }
+            var t = arr[k];
+            var i2 = left;
+            var j2 = right;
+            swap2(arr, left, k);
+            if (compare(arr[right], t) > 0)
+              swap2(arr, left, right);
+            while (i2 < j2) {
+              swap2(arr, i2, j2);
+              i2++;
+              j2--;
+              while (compare(arr[i2], t) < 0)
+                i2++;
+              while (compare(arr[j2], t) > 0)
+                j2--;
+            }
+            if (compare(arr[left], t) === 0)
+              swap2(arr, left, j2);
+            else {
+              j2++;
+              swap2(arr, j2, right);
+            }
+            if (j2 <= k)
+              left = j2 + 1;
+            if (k <= j2)
+              right = j2 - 1;
+          }
+        }
+        function swap2(arr, i2, j2) {
+          var tmp = arr[i2];
+          arr[i2] = arr[j2];
+          arr[j2] = tmp;
+        }
+        function defaultCompare(a, b) {
+          return a < b ? -1 : a > b ? 1 : 0;
+        }
+        return quickselect2;
+      });
+    }
+  });
+
+  // node_modules/name-suggestion-index/node_modules/rbush/index.js
+  var require_rbush2 = __commonJS({
+    "node_modules/name-suggestion-index/node_modules/rbush/index.js"(exports2, module2) {
+      "use strict";
+      module2.exports = rbush;
+      module2.exports.default = rbush;
+      var quickselect2 = require_quickselect2();
+      function rbush(maxEntries, format2) {
+        if (!(this instanceof rbush))
+          return new rbush(maxEntries, format2);
+        this._maxEntries = Math.max(4, maxEntries || 9);
+        this._minEntries = Math.max(2, Math.ceil(this._maxEntries * 0.4));
+        if (format2) {
+          this._initFormat(format2);
+        }
+        this.clear();
+      }
+      rbush.prototype = {
+        all: function() {
+          return this._all(this.data, []);
+        },
+        search: function(bbox2) {
+          var node = this.data, result = [], toBBox = this.toBBox;
+          if (!intersects(bbox2, node))
+            return result;
+          var nodesToSearch = [], i2, len, child, childBBox;
+          while (node) {
+            for (i2 = 0, len = node.children.length; i2 < len; i2++) {
+              child = node.children[i2];
+              childBBox = node.leaf ? toBBox(child) : child;
+              if (intersects(bbox2, childBBox)) {
+                if (node.leaf)
+                  result.push(child);
+                else if (contains(bbox2, childBBox))
+                  this._all(child, result);
+                else
+                  nodesToSearch.push(child);
+              }
+            }
+            node = nodesToSearch.pop();
+          }
+          return result;
+        },
+        collides: function(bbox2) {
+          var node = this.data, toBBox = this.toBBox;
+          if (!intersects(bbox2, node))
+            return false;
+          var nodesToSearch = [], i2, len, child, childBBox;
+          while (node) {
+            for (i2 = 0, len = node.children.length; i2 < len; i2++) {
+              child = node.children[i2];
+              childBBox = node.leaf ? toBBox(child) : child;
+              if (intersects(bbox2, childBBox)) {
+                if (node.leaf || contains(bbox2, childBBox))
+                  return true;
+                nodesToSearch.push(child);
+              }
+            }
+            node = nodesToSearch.pop();
+          }
+          return false;
+        },
+        load: function(data) {
+          if (!(data && data.length))
+            return this;
+          if (data.length < this._minEntries) {
+            for (var i2 = 0, len = data.length; i2 < len; i2++) {
+              this.insert(data[i2]);
+            }
+            return this;
+          }
+          var node = this._build(data.slice(), 0, data.length - 1, 0);
+          if (!this.data.children.length) {
+            this.data = node;
+          } else if (this.data.height === node.height) {
+            this._splitRoot(this.data, node);
+          } else {
+            if (this.data.height < node.height) {
+              var tmpNode = this.data;
+              this.data = node;
+              node = tmpNode;
+            }
+            this._insert(node, this.data.height - node.height - 1, true);
+          }
+          return this;
+        },
+        insert: function(item) {
+          if (item)
+            this._insert(item, this.data.height - 1);
+          return this;
+        },
+        clear: function() {
+          this.data = createNode([]);
+          return this;
+        },
+        remove: function(item, equalsFn) {
+          if (!item)
+            return this;
+          var node = this.data, bbox2 = this.toBBox(item), path = [], indexes = [], i2, parent, index, goingUp;
+          while (node || path.length) {
+            if (!node) {
+              node = path.pop();
+              parent = path[path.length - 1];
+              i2 = indexes.pop();
+              goingUp = true;
+            }
+            if (node.leaf) {
+              index = findItem(item, node.children, equalsFn);
+              if (index !== -1) {
+                node.children.splice(index, 1);
+                path.push(node);
+                this._condense(path);
+                return this;
+              }
+            }
+            if (!goingUp && !node.leaf && contains(node, bbox2)) {
+              path.push(node);
+              indexes.push(i2);
+              i2 = 0;
+              parent = node;
+              node = node.children[0];
+            } else if (parent) {
+              i2++;
+              node = parent.children[i2];
+              goingUp = false;
+            } else
+              node = null;
+          }
+          return this;
+        },
+        toBBox: function(item) {
+          return item;
+        },
+        compareMinX: compareNodeMinX,
+        compareMinY: compareNodeMinY,
+        toJSON: function() {
+          return this.data;
+        },
+        fromJSON: function(data) {
+          this.data = data;
+          return this;
+        },
+        _all: function(node, result) {
+          var nodesToSearch = [];
+          while (node) {
+            if (node.leaf)
+              result.push.apply(result, node.children);
+            else
+              nodesToSearch.push.apply(nodesToSearch, node.children);
+            node = nodesToSearch.pop();
+          }
+          return result;
+        },
+        _build: function(items, left, right, height) {
+          var N = right - left + 1, M = this._maxEntries, node;
+          if (N <= M) {
+            node = createNode(items.slice(left, right + 1));
+            calcBBox(node, this.toBBox);
+            return node;
+          }
+          if (!height) {
+            height = Math.ceil(Math.log(N) / Math.log(M));
+            M = Math.ceil(N / Math.pow(M, height - 1));
+          }
+          node = createNode([]);
+          node.leaf = false;
+          node.height = height;
+          var N2 = Math.ceil(N / M), N1 = N2 * Math.ceil(Math.sqrt(M)), i2, j2, right2, right3;
+          multiSelect(items, left, right, N1, this.compareMinX);
+          for (i2 = left; i2 <= right; i2 += N1) {
+            right2 = Math.min(i2 + N1 - 1, right);
+            multiSelect(items, i2, right2, N2, this.compareMinY);
+            for (j2 = i2; j2 <= right2; j2 += N2) {
+              right3 = Math.min(j2 + N2 - 1, right2);
+              node.children.push(this._build(items, j2, right3, height - 1));
+            }
+          }
+          calcBBox(node, this.toBBox);
+          return node;
+        },
+        _chooseSubtree: function(bbox2, node, level, path) {
+          var i2, len, child, targetNode, area, enlargement, minArea, minEnlargement;
+          while (true) {
+            path.push(node);
+            if (node.leaf || path.length - 1 === level)
+              break;
+            minArea = minEnlargement = Infinity;
+            for (i2 = 0, len = node.children.length; i2 < len; i2++) {
+              child = node.children[i2];
+              area = bboxArea(child);
+              enlargement = enlargedArea(bbox2, child) - area;
+              if (enlargement < minEnlargement) {
+                minEnlargement = enlargement;
+                minArea = area < minArea ? area : minArea;
+                targetNode = child;
+              } else if (enlargement === minEnlargement) {
+                if (area < minArea) {
+                  minArea = area;
+                  targetNode = child;
+                }
+              }
+            }
+            node = targetNode || node.children[0];
+          }
+          return node;
+        },
+        _insert: function(item, level, isNode) {
+          var toBBox = this.toBBox, bbox2 = isNode ? item : toBBox(item), insertPath = [];
+          var node = this._chooseSubtree(bbox2, this.data, level, insertPath);
+          node.children.push(item);
+          extend2(node, bbox2);
+          while (level >= 0) {
+            if (insertPath[level].children.length > this._maxEntries) {
+              this._split(insertPath, level);
+              level--;
+            } else
+              break;
+          }
+          this._adjustParentBBoxes(bbox2, insertPath, level);
+        },
+        // split overflowed node into two
+        _split: function(insertPath, level) {
+          var node = insertPath[level], M = node.children.length, m = this._minEntries;
+          this._chooseSplitAxis(node, m, M);
+          var splitIndex = this._chooseSplitIndex(node, m, M);
+          var newNode = createNode(node.children.splice(splitIndex, node.children.length - splitIndex));
+          newNode.height = node.height;
+          newNode.leaf = node.leaf;
+          calcBBox(node, this.toBBox);
+          calcBBox(newNode, this.toBBox);
+          if (level)
+            insertPath[level - 1].children.push(newNode);
+          else
+            this._splitRoot(node, newNode);
+        },
+        _splitRoot: function(node, newNode) {
+          this.data = createNode([node, newNode]);
+          this.data.height = node.height + 1;
+          this.data.leaf = false;
+          calcBBox(this.data, this.toBBox);
+        },
+        _chooseSplitIndex: function(node, m, M) {
+          var i2, bbox1, bbox2, overlap, area, minOverlap, minArea, index;
+          minOverlap = minArea = Infinity;
+          for (i2 = m; i2 <= M - m; i2++) {
+            bbox1 = distBBox(node, 0, i2, this.toBBox);
+            bbox2 = distBBox(node, i2, M, this.toBBox);
+            overlap = intersectionArea(bbox1, bbox2);
+            area = bboxArea(bbox1) + bboxArea(bbox2);
+            if (overlap < minOverlap) {
+              minOverlap = overlap;
+              index = i2;
+              minArea = area < minArea ? area : minArea;
+            } else if (overlap === minOverlap) {
+              if (area < minArea) {
+                minArea = area;
+                index = i2;
+              }
+            }
+          }
+          return index;
+        },
+        // sorts node children by the best axis for split
+        _chooseSplitAxis: function(node, m, M) {
+          var compareMinX = node.leaf ? this.compareMinX : compareNodeMinX, compareMinY = node.leaf ? this.compareMinY : compareNodeMinY, xMargin = this._allDistMargin(node, m, M, compareMinX), yMargin = this._allDistMargin(node, m, M, compareMinY);
+          if (xMargin < yMargin)
+            node.children.sort(compareMinX);
+        },
+        // total margin of all possible split distributions where each node is at least m full
+        _allDistMargin: function(node, m, M, compare) {
+          node.children.sort(compare);
+          var toBBox = this.toBBox, leftBBox = distBBox(node, 0, m, toBBox), rightBBox = distBBox(node, M - m, M, toBBox), margin = bboxMargin(leftBBox) + bboxMargin(rightBBox), i2, child;
+          for (i2 = m; i2 < M - m; i2++) {
+            child = node.children[i2];
+            extend2(leftBBox, node.leaf ? toBBox(child) : child);
+            margin += bboxMargin(leftBBox);
+          }
+          for (i2 = M - m - 1; i2 >= m; i2--) {
+            child = node.children[i2];
+            extend2(rightBBox, node.leaf ? toBBox(child) : child);
+            margin += bboxMargin(rightBBox);
+          }
+          return margin;
+        },
+        _adjustParentBBoxes: function(bbox2, path, level) {
+          for (var i2 = level; i2 >= 0; i2--) {
+            extend2(path[i2], bbox2);
+          }
+        },
+        _condense: function(path) {
+          for (var i2 = path.length - 1, siblings; i2 >= 0; i2--) {
+            if (path[i2].children.length === 0) {
+              if (i2 > 0) {
+                siblings = path[i2 - 1].children;
+                siblings.splice(siblings.indexOf(path[i2]), 1);
+              } else
+                this.clear();
+            } else
+              calcBBox(path[i2], this.toBBox);
+          }
+        },
+        _initFormat: function(format2) {
+          var compareArr = ["return a", " - b", ";"];
+          this.compareMinX = new Function("a", "b", compareArr.join(format2[0]));
+          this.compareMinY = new Function("a", "b", compareArr.join(format2[1]));
+          this.toBBox = new Function(
+            "a",
+            "return {minX: a" + format2[0] + ", minY: a" + format2[1] + ", maxX: a" + format2[2] + ", maxY: a" + format2[3] + "};"
+          );
+        }
+      };
+      function findItem(item, items, equalsFn) {
+        if (!equalsFn)
+          return items.indexOf(item);
+        for (var i2 = 0; i2 < items.length; i2++) {
+          if (equalsFn(item, items[i2]))
+            return i2;
+        }
+        return -1;
+      }
+      function calcBBox(node, toBBox) {
+        distBBox(node, 0, node.children.length, toBBox, node);
+      }
+      function distBBox(node, k, p, toBBox, destNode) {
+        if (!destNode)
+          destNode = createNode(null);
+        destNode.minX = Infinity;
+        destNode.minY = Infinity;
+        destNode.maxX = -Infinity;
+        destNode.maxY = -Infinity;
+        for (var i2 = k, child; i2 < p; i2++) {
+          child = node.children[i2];
+          extend2(destNode, node.leaf ? toBBox(child) : child);
+        }
+        return destNode;
+      }
+      function extend2(a, b) {
+        a.minX = Math.min(a.minX, b.minX);
+        a.minY = Math.min(a.minY, b.minY);
+        a.maxX = Math.max(a.maxX, b.maxX);
+        a.maxY = Math.max(a.maxY, b.maxY);
+        return a;
+      }
+      function compareNodeMinX(a, b) {
+        return a.minX - b.minX;
+      }
+      function compareNodeMinY(a, b) {
+        return a.minY - b.minY;
+      }
+      function bboxArea(a) {
+        return (a.maxX - a.minX) * (a.maxY - a.minY);
+      }
+      function bboxMargin(a) {
+        return a.maxX - a.minX + (a.maxY - a.minY);
+      }
+      function enlargedArea(a, b) {
+        return (Math.max(b.maxX, a.maxX) - Math.min(b.minX, a.minX)) * (Math.max(b.maxY, a.maxY) - Math.min(b.minY, a.minY));
+      }
+      function intersectionArea(a, b) {
+        var minX = Math.max(a.minX, b.minX), minY = Math.max(a.minY, b.minY), maxX = Math.min(a.maxX, b.maxX), maxY = Math.min(a.maxY, b.maxY);
+        return Math.max(0, maxX - minX) * Math.max(0, maxY - minY);
+      }
+      function contains(a, b) {
+        return a.minX <= b.minX && a.minY <= b.minY && b.maxX <= a.maxX && b.maxY <= a.maxY;
+      }
+      function intersects(a, b) {
+        return b.minX <= a.maxX && b.minY <= a.maxY && b.maxX >= a.minX && b.maxY >= a.minY;
+      }
+      function createNode(children2) {
+        return {
+          children: children2,
+          height: 1,
+          leaf: true,
+          minX: Infinity,
+          minY: Infinity,
+          maxX: -Infinity,
+          maxY: -Infinity
+        };
+      }
+      function multiSelect(arr, left, right, n2, compare) {
+        var stack = [left, right], mid;
+        while (stack.length) {
+          right = stack.pop();
+          left = stack.pop();
+          if (right - left <= n2)
+            continue;
+          mid = left + Math.ceil((right - left) / n2 / 2) * n2;
+          quickselect2(arr, mid, left, right, compare);
+          stack.push(left, mid, mid, right);
+        }
+      }
+    }
+  });
+
+  // node_modules/name-suggestion-index/node_modules/which-polygon/index.js
+  var require_which_polygon2 = __commonJS({
+    "node_modules/name-suggestion-index/node_modules/which-polygon/index.js"(exports2, module2) {
+      "use strict";
+      var rbush = require_rbush2();
+      var lineclip2 = require_lineclip();
+      module2.exports = whichPolygon5;
+      function whichPolygon5(data) {
+        var bboxes = [];
+        for (var i2 = 0; i2 < data.features.length; i2++) {
+          var feature3 = data.features[i2];
+          if (!feature3.geometry)
+            continue;
+          var coords = feature3.geometry.coordinates;
+          if (feature3.geometry.type === "Polygon") {
+            bboxes.push(treeItem(coords, feature3.properties));
+          } else if (feature3.geometry.type === "MultiPolygon") {
+            for (var j2 = 0; j2 < coords.length; j2++) {
+              bboxes.push(treeItem(coords[j2], feature3.properties));
+            }
+          }
+        }
+        var tree = rbush().load(bboxes);
+        function query(p, multi) {
+          var output = [], result = tree.search({
+            minX: p[0],
+            minY: p[1],
+            maxX: p[0],
+            maxY: p[1]
+          });
+          for (var i3 = 0; i3 < result.length; i3++) {
+            if (insidePolygon(result[i3].coords, p)) {
+              if (multi)
+                output.push(result[i3].props);
+              else
+                return result[i3].props;
+            }
+          }
+          return multi && output.length ? output : null;
+        }
+        query.tree = tree;
+        query.bbox = function queryBBox(bbox2) {
+          var output = [];
+          var result = tree.search({
+            minX: bbox2[0],
+            minY: bbox2[1],
+            maxX: bbox2[2],
+            maxY: bbox2[3]
+          });
+          for (var i3 = 0; i3 < result.length; i3++) {
+            if (polygonIntersectsBBox(result[i3].coords, bbox2)) {
+              output.push(result[i3].props);
+            }
+          }
+          return output;
+        };
+        return query;
+      }
+      function polygonIntersectsBBox(polygon2, bbox2) {
+        var bboxCenter = [
+          (bbox2[0] + bbox2[2]) / 2,
+          (bbox2[1] + bbox2[3]) / 2
+        ];
+        if (insidePolygon(polygon2, bboxCenter))
+          return true;
+        for (var i2 = 0; i2 < polygon2.length; i2++) {
+          if (lineclip2(polygon2[i2], bbox2).length > 0)
+            return true;
+        }
+        return false;
+      }
+      function insidePolygon(rings, p) {
+        var inside = false;
+        for (var i2 = 0, len = rings.length; i2 < len; i2++) {
+          var ring = rings[i2];
+          for (var j2 = 0, len2 = ring.length, k = len2 - 1; j2 < len2; k = j2++) {
+            if (rayIntersect(p, ring[j2], ring[k]))
+              inside = !inside;
+          }
+        }
+        return inside;
+      }
+      function rayIntersect(p, p1, p2) {
+        return p1[1] > p[1] !== p2[1] > p[1] && p[0] < (p2[0] - p1[0]) * (p[1] - p1[1]) / (p2[1] - p1[1]) + p1[0];
+      }
+      function treeItem(coords, props) {
+        var item = {
+          minX: Infinity,
+          minY: Infinity,
+          maxX: -Infinity,
+          maxY: -Infinity,
+          coords,
+          props
+        };
+        for (var i2 = 0; i2 < coords[0].length; i2++) {
+          var p = coords[0][i2];
+          item.minX = Math.min(item.minX, p[0]);
+          item.minY = Math.min(item.minY, p[1]);
+          item.maxX = Math.max(item.maxX, p[0]);
+          item.maxY = Math.max(item.maxY, p[1]);
+        }
+        return item;
+      }
+    }
+  });
+
   // node_modules/fast-json-stable-stringify/index.js
   var require_fast_json_stable_stringify = __commonJS({
     "node_modules/fast-json-stable-stringify/index.js"(exports2, module2) {
@@ -15301,6 +15863,9 @@
         _defineProperties(Constructor.prototype, protoProps);
       if (staticProps)
         _defineProperties(Constructor, staticProps);
+      Object.defineProperty(Constructor, "prototype", {
+        writable: false
+      });
       return Constructor;
     }
     function _inherits(subClass, superClass) {
@@ -15314,17 +15879,20 @@
           configurable: true
         }
       });
+      Object.defineProperty(subClass, "prototype", {
+        writable: false
+      });
       if (superClass)
         _setPrototypeOf(subClass, superClass);
     }
     function _getPrototypeOf(o) {
-      _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o2) {
+      _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf2(o2) {
         return o2.__proto__ || Object.getPrototypeOf(o2);
       };
       return _getPrototypeOf(o);
     }
     function _setPrototypeOf(o, p) {
-      _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o2, p2) {
+      _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o2, p2) {
         o2.__proto__ = p2;
         return o2;
       };
@@ -15354,6 +15922,8 @@
     function _possibleConstructorReturn(self2, call) {
       if (call && (typeof call === "object" || typeof call === "function")) {
         return call;
+      } else if (call !== void 0) {
+        throw new TypeError("Derived constructors may only return object or undefined");
       }
       return _assertThisInitialized(self2);
     }
@@ -15378,22 +15948,22 @@
       }
       return object;
     }
-    function _get(target, property, receiver) {
+    function _get() {
       if (typeof Reflect !== "undefined" && Reflect.get) {
-        _get = Reflect.get;
+        _get = Reflect.get.bind();
       } else {
-        _get = function _get2(target2, property2, receiver2) {
-          var base = _superPropBase(target2, property2);
+        _get = function _get2(target, property, receiver) {
+          var base = _superPropBase(target, property);
           if (!base)
             return;
-          var desc = Object.getOwnPropertyDescriptor(base, property2);
+          var desc = Object.getOwnPropertyDescriptor(base, property);
           if (desc.get) {
-            return desc.get.call(receiver2);
+            return desc.get.call(arguments.length < 3 ? target : receiver);
           }
           return desc.value;
         };
       }
-      return _get(target, property, receiver || target);
+      return _get.apply(this, arguments);
     }
     var Emitter = /* @__PURE__ */ function() {
       function Emitter2() {
@@ -15475,6 +16045,11 @@
           writable: true,
           configurable: true
         });
+        Object.defineProperty(_assertThisInitialized(_this), "reason", {
+          value: void 0,
+          writable: true,
+          configurable: true
+        });
         return _this;
       }
       _createClass(AbortSignal2, [{
@@ -15507,7 +16082,7 @@
       }
       _createClass(AbortController3, [{
         key: "abort",
-        value: function abort() {
+        value: function abort(reason) {
           var event;
           try {
             event = new Event("abort");
@@ -15528,6 +16103,21 @@
               };
             }
           }
+          var signalReason = reason;
+          if (signalReason === void 0) {
+            if (typeof document === "undefined") {
+              signalReason = new Error("This operation was aborted");
+              signalReason.name = "AbortError";
+            } else {
+              try {
+                signalReason = new DOMException("signal is aborted without reason");
+              } catch (err) {
+                signalReason = new Error("This operation was aborted");
+                signalReason.name = "AbortError";
+              }
+            }
+          }
+          this.signal.reason = signalReason;
           this.signal.dispatchEvent(event);
         }
       }, {
@@ -16644,52 +17234,66 @@
   var e10 = Math.sqrt(50);
   var e5 = Math.sqrt(10);
   var e2 = Math.sqrt(2);
-  function ticks(start2, stop, count) {
-    var reverse, i2 = -1, n2, ticks2, step;
-    stop = +stop, start2 = +start2, count = +count;
-    if (start2 === stop && count > 0)
-      return [start2];
-    if (reverse = stop < start2)
-      n2 = start2, start2 = stop, stop = n2;
-    if ((step = tickIncrement(start2, stop, count)) === 0 || !isFinite(step))
-      return [];
-    if (step > 0) {
-      let r0 = Math.round(start2 / step), r1 = Math.round(stop / step);
-      if (r0 * step < start2)
-        ++r0;
-      if (r1 * step > stop)
-        --r1;
-      ticks2 = new Array(n2 = r1 - r0 + 1);
-      while (++i2 < n2)
-        ticks2[i2] = (r0 + i2) * step;
+  function tickSpec(start2, stop, count) {
+    const step = (stop - start2) / Math.max(0, count), power = Math.floor(Math.log10(step)), error = step / Math.pow(10, power), factor = error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1;
+    let i1, i2, inc;
+    if (power < 0) {
+      inc = Math.pow(10, -power) / factor;
+      i1 = Math.round(start2 * inc);
+      i2 = Math.round(stop * inc);
+      if (i1 / inc < start2)
+        ++i1;
+      if (i2 / inc > stop)
+        --i2;
+      inc = -inc;
     } else {
-      step = -step;
-      let r0 = Math.round(start2 * step), r1 = Math.round(stop * step);
-      if (r0 / step < start2)
-        ++r0;
-      if (r1 / step > stop)
-        --r1;
-      ticks2 = new Array(n2 = r1 - r0 + 1);
-      while (++i2 < n2)
-        ticks2[i2] = (r0 + i2) / step;
+      inc = Math.pow(10, power) * factor;
+      i1 = Math.round(start2 / inc);
+      i2 = Math.round(stop / inc);
+      if (i1 * inc < start2)
+        ++i1;
+      if (i2 * inc > stop)
+        --i2;
     }
-    if (reverse)
-      ticks2.reverse();
+    if (i2 < i1 && 0.5 <= count && count < 2)
+      return tickSpec(start2, stop, count * 2);
+    return [i1, i2, inc];
+  }
+  function ticks(start2, stop, count) {
+    stop = +stop, start2 = +start2, count = +count;
+    if (!(count > 0))
+      return [];
+    if (start2 === stop)
+      return [start2];
+    const reverse = stop < start2, [i1, i2, inc] = reverse ? tickSpec(stop, start2, count) : tickSpec(start2, stop, count);
+    if (!(i2 >= i1))
+      return [];
+    const n2 = i2 - i1 + 1, ticks2 = new Array(n2);
+    if (reverse) {
+      if (inc < 0)
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i2 - i3) / -inc;
+      else
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i2 - i3) * inc;
+    } else {
+      if (inc < 0)
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i1 + i3) / -inc;
+      else
+        for (let i3 = 0; i3 < n2; ++i3)
+          ticks2[i3] = (i1 + i3) * inc;
+    }
     return ticks2;
   }
   function tickIncrement(start2, stop, count) {
-    var step = (stop - start2) / Math.max(0, count), power = Math.floor(Math.log(step) / Math.LN10), error = step / Math.pow(10, power);
-    return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
+    stop = +stop, start2 = +start2, count = +count;
+    return tickSpec(start2, stop, count)[2];
   }
   function tickStep(start2, stop, count) {
-    var step0 = Math.abs(stop - start2) / Math.max(0, count), step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)), error = step0 / step1;
-    if (error >= e10)
-      step1 *= 10;
-    else if (error >= e5)
-      step1 *= 5;
-    else if (error >= e2)
-      step1 *= 2;
-    return stop < start2 ? -step1 : step1;
+    stop = +stop, start2 = +start2, count = +count;
+    const reverse = stop < start2, inc = reverse ? tickIncrement(stop, start2, count) : tickIncrement(start2, stop, count);
+    return (reverse ? -1 : 1) * (inc < 0 ? 1 / -inc : inc);
   }
 
   // node_modules/d3-array/src/max.js
@@ -16733,7 +17337,12 @@
   }
 
   // node_modules/d3-array/src/quickselect.js
-  function quickselect(array2, k, left = 0, right = array2.length - 1, compare) {
+  function quickselect(array2, k, left = 0, right = Infinity, compare) {
+    k = Math.floor(k);
+    left = Math.floor(Math.max(0, left));
+    right = Math.floor(Math.min(array2.length - 1, right));
+    if (!(left <= k && k <= right))
+      return array2;
     compare = compare === void 0 ? ascendingDefined : compareDefined(compare);
     while (right > left) {
       if (right - left > 600) {
@@ -16779,9 +17388,9 @@
   // node_modules/d3-array/src/quantile.js
   function quantile(values, p, valueof) {
     values = Float64Array.from(numbers(values, valueof));
-    if (!(n2 = values.length))
+    if (!(n2 = values.length) || isNaN(p = +p))
       return;
-    if ((p = +p) <= 0 || n2 < 2)
+    if (p <= 0 || n2 < 2)
       return min(values);
     if (p >= 1)
       return max(values);
@@ -17176,7 +17785,9 @@
 
   // node_modules/d3-geo/src/rotation.js
   function rotationIdentity(lambda, phi) {
-    return [abs(lambda) > pi ? lambda + Math.round(-lambda / tau) * tau : lambda, phi];
+    if (abs(lambda) > pi)
+      lambda -= Math.round(lambda / tau) * tau;
+    return [lambda, phi];
   }
   rotationIdentity.invert = rotationIdentity;
   function rotateRadians(deltaLambda, deltaPhi, deltaGamma) {
@@ -17184,7 +17795,10 @@
   }
   function forwardRotationLambda(deltaLambda) {
     return function(lambda, phi) {
-      return lambda += deltaLambda, [lambda > pi ? lambda - tau : lambda < -pi ? lambda + tau : lambda, phi];
+      lambda += deltaLambda;
+      if (abs(lambda) > pi)
+        lambda -= Math.round(lambda / tau) * tau;
+      return [lambda, phi];
     };
   }
   function rotationLambda(deltaLambda) {
@@ -18167,67 +18781,98 @@
   var measure_default = lengthStream2;
 
   // node_modules/d3-geo/src/path/string.js
-  function PathString() {
-    this._string = [];
-  }
-  PathString.prototype = {
-    _radius: 4.5,
-    _circle: circle(4.5),
-    pointRadius: function(_) {
-      if ((_ = +_) !== this._radius)
-        this._radius = _, this._circle = null;
+  var cacheDigits;
+  var cacheAppend;
+  var cacheRadius;
+  var cacheCircle;
+  var PathString = class {
+    constructor(digits) {
+      this._append = digits == null ? append : appendRound(digits);
+      this._radius = 4.5;
+      this._ = "";
+    }
+    pointRadius(_) {
+      this._radius = +_;
       return this;
-    },
-    polygonStart: function() {
+    }
+    polygonStart() {
       this._line = 0;
-    },
-    polygonEnd: function() {
+    }
+    polygonEnd() {
       this._line = NaN;
-    },
-    lineStart: function() {
+    }
+    lineStart() {
       this._point = 0;
-    },
-    lineEnd: function() {
+    }
+    lineEnd() {
       if (this._line === 0)
-        this._string.push("Z");
+        this._ += "Z";
       this._point = NaN;
-    },
-    point: function(x, y) {
+    }
+    point(x, y) {
       switch (this._point) {
         case 0: {
-          this._string.push("M", x, ",", y);
+          this._append`M${x},${y}`;
           this._point = 1;
           break;
         }
         case 1: {
-          this._string.push("L", x, ",", y);
+          this._append`L${x},${y}`;
           break;
         }
         default: {
-          if (this._circle == null)
-            this._circle = circle(this._radius);
-          this._string.push("M", x, ",", y, this._circle);
+          this._append`M${x},${y}`;
+          if (this._radius !== cacheRadius || this._append !== cacheAppend) {
+            const r = this._radius;
+            const s = this._;
+            this._ = "";
+            this._append`m0,${r}a${r},${r} 0 1,1 0,${-2 * r}a${r},${r} 0 1,1 0,${2 * r}z`;
+            cacheRadius = r;
+            cacheAppend = this._append;
+            cacheCircle = this._;
+            this._ = s;
+          }
+          this._ += cacheCircle;
           break;
         }
       }
-    },
-    result: function() {
-      if (this._string.length) {
-        var result = this._string.join("");
-        this._string = [];
-        return result;
-      } else {
-        return null;
-      }
+    }
+    result() {
+      const result = this._;
+      this._ = "";
+      return result.length ? result : null;
     }
   };
-  function circle(radius) {
-    return "m0," + radius + "a" + radius + "," + radius + " 0 1,1 0," + -2 * radius + "a" + radius + "," + radius + " 0 1,1 0," + 2 * radius + "z";
+  function append(strings) {
+    let i2 = 1;
+    this._ += strings[0];
+    for (const j2 = strings.length; i2 < j2; ++i2) {
+      this._ += arguments[i2] + strings[i2];
+    }
+  }
+  function appendRound(digits) {
+    const d = Math.floor(digits);
+    if (!(d >= 0))
+      throw new RangeError(`invalid digits: ${digits}`);
+    if (d > 15)
+      return append;
+    if (d !== cacheDigits) {
+      const k = 10 ** d;
+      cacheDigits = d;
+      cacheAppend = function append2(strings) {
+        let i2 = 1;
+        this._ += strings[0];
+        for (const j2 = strings.length; i2 < j2; ++i2) {
+          this._ += Math.round(arguments[i2] * k) / k + strings[i2];
+        }
+      };
+    }
+    return cacheAppend;
   }
 
   // node_modules/d3-geo/src/path/index.js
   function path_default(projection2, context) {
-    var pointRadius = 4.5, projectionStream, contextStream;
+    let digits = 3, pointRadius = 4.5, projectionStream, contextStream;
     function path(object) {
       if (object) {
         if (typeof pointRadius === "function")
@@ -18253,12 +18898,15 @@
       return centroid_default.result();
     };
     path.projection = function(_) {
-      return arguments.length ? (projectionStream = _ == null ? (projection2 = null, identity_default) : (projection2 = _).stream, path) : projection2;
+      if (!arguments.length)
+        return projection2;
+      projectionStream = _ == null ? (projection2 = null, identity_default) : (projection2 = _).stream;
+      return path;
     };
     path.context = function(_) {
       if (!arguments.length)
         return context;
-      contextStream = _ == null ? (context = null, new PathString()) : new PathContext(context = _);
+      contextStream = _ == null ? (context = null, new PathString(digits)) : new PathContext(context = _);
       if (typeof pointRadius !== "function")
         contextStream.pointRadius(pointRadius);
       return path;
@@ -18269,7 +18917,22 @@
       pointRadius = typeof _ === "function" ? _ : (contextStream.pointRadius(+_), +_);
       return path;
     };
-    return path.projection(projection2).context(context);
+    path.digits = function(_) {
+      if (!arguments.length)
+        return digits;
+      if (_ == null)
+        digits = null;
+      else {
+        const d = Math.floor(_);
+        if (!(d >= 0))
+          throw new RangeError(`invalid digits: ${_}`);
+        digits = d;
+      }
+      if (context === null)
+        contextStream = new PathString(digits);
+      return path;
+    };
+    return path.projection(projection2).digits(digits).context(context);
   }
 
   // node_modules/d3-geo/src/transform.js
@@ -26031,11 +26694,17 @@
       return score;
     };
     _this.t = (scope, options2) => {
-      const textID = `_tagging.presets.presets.${presetID}.${scope}`;
+      const textID = _mainLocalizer.coalesceStringIds([
+        `custom_presets.presets.${presetID}.${scope}`,
+        `_tagging.presets.presets.${presetID}.${scope}`
+      ]);
       return _t(textID, options2);
     };
     _this.t.append = (scope, options2) => {
-      const textID = `_tagging.presets.presets.${presetID}.${scope}`;
+      const textID = _mainLocalizer.coalesceStringIds([
+        `custom_presets.presets.${presetID}.${scope}`,
+        `_tagging.presets.presets.${presetID}.${scope}`
+      ]);
       return _t.append(textID, options2);
     };
     function resolveReference(which) {
@@ -26059,7 +26728,10 @@
       if (_this.suggestion) {
         let path = presetID.split("/");
         path.pop();
-        return _t("_tagging.presets.presets." + path.join("/") + ".name");
+        return _t(_mainLocalizer.coalesceStringIds([
+          `custom_presets.presets.${path.join("/")}.name`,
+          `_tagging.presets.presets.${path.join("/")}.name`
+        ]));
       }
       return null;
     };
@@ -26067,7 +26739,10 @@
       if (_this.suggestion) {
         let path = presetID.split("/");
         path.pop();
-        return _t.append("_tagging.presets.presets." + path.join("/") + ".name");
+        return _t.append(
+          `custom_presets.presets.${path.join("/")}.name`,
+          `_tagging.presets.presets.${path.join("/")}.name`
+        );
       }
       return null;
     };
@@ -26225,6 +26900,19 @@
 
   // modules/presets/index.js
   var _mainPresetIndex = presetIndex();
+  function setHistoricalDefaults(defaults2) {
+    defaults2.relation.unshift("type/chronology");
+  }
+  function addHistoricalPresets(presets) {
+    presets["type/chronology"] = {
+      icon: "temaki-clock",
+      fields: ["name"],
+      geometry: ["relation"],
+      tags: {
+        type: "chronology"
+      }
+    };
+  }
   function addHistoricalFields(fields) {
     fields.end_date = {
       ...fields.start_date,
@@ -26272,6 +26960,8 @@
         _mainFileFetcher.get("preset_presets"),
         _mainFileFetcher.get("preset_fields")
       ]).then((vals) => {
+        setHistoricalDefaults(vals[1]);
+        addHistoricalPresets(vals[2]);
         addHistoricalFields(vals[3]);
         _this.merge({
           categories: vals[0],
@@ -39151,7 +39841,7 @@ ${content}</tr>
   };
 
   // node_modules/name-suggestion-index/lib/matcher.js
-  var import_which_polygon3 = __toESM(require_which_polygon(), 1);
+  var import_which_polygon3 = __toESM(require_which_polygon2(), 1);
 
   // node_modules/name-suggestion-index/lib/simplify.js
   var import_diacritics2 = __toESM(require_diacritics(), 1);
@@ -39170,6 +39860,11 @@ ${content}</tr>
         "amenity/casino",
         "amenity/gambling",
         "leisure/adult_gaming_centre"
+      ],
+      bar: [
+        "amenity/bar",
+        "amenity/pub",
+        "amenity/restaurant"
       ],
       beauty: [
         "shop/beauty",
@@ -39266,11 +39961,9 @@ ${content}</tr>
         "leisure/sports_center"
       ],
       food: [
-        "amenity/bar",
         "amenity/cafe",
         "amenity/fast_food",
         "amenity/ice_cream",
-        "amenity/pub",
         "amenity/restaurant",
         "shop/bakery",
         "shop/candy",
@@ -39382,7 +40075,9 @@ ${content}</tr>
         "amenity/truck_rental",
         "amenity/vehicle_rental",
         "shop/kiosk",
-        "shop/rental"
+        "shop/plant_hire",
+        "shop/rental",
+        "shop/tool_hire"
       ],
       school: [
         "amenity/childcare",
@@ -39409,6 +40104,11 @@ ${content}</tr>
         "shop/grocery",
         "shop/supermarket",
         "shop/wholesale"
+      ],
+      thrift: [
+        "shop/charity",
+        "shop/clothes",
+        "shop/second_hand"
       ],
       variety_store: [
         "shop/variety_store",
@@ -47701,6 +48401,14 @@ ${content}</tr>
   function getColor(node, output) {
     return get3(node, "color", (elem) => fixColor(nodeVal(elem), output));
   }
+  function extractIconHref(node) {
+    return get3(node, "Icon", (icon2, properties) => {
+      val1(icon2, "href", (href) => {
+        properties.icon = href;
+      });
+      return properties;
+    });
+  }
   function extractIcon(node) {
     return get3(node, "IconStyle", (iconStyle) => {
       return Object.assign(getColor(iconStyle, "icon"), numericProperty(iconStyle, "scale", "icon-scale"), numericProperty(iconStyle, "heading", "icon-heading"), get3(iconStyle, "hotSpot", (hotspot) => {
@@ -47714,12 +48422,7 @@ ${content}</tr>
             "icon-offset-units": [xunits, yunits]
           };
         return {};
-      }), get3(iconStyle, "Icon", (icon2, properties) => {
-        val1(icon2, "href", (href) => {
-          properties.icon = href;
-        });
-        return properties;
-      }));
+      }), extractIconHref(iconStyle));
     });
   }
   function extractLabel(node) {
@@ -47745,6 +48448,68 @@ ${content}</tr>
   }
   function extractStyle(node) {
     return Object.assign({}, extractPoly(node), extractLine(node), extractLabel(node), extractIcon(node));
+  }
+  var toNumber2 = (x) => Number(x);
+  var typeConverters = {
+    string: (x) => x,
+    int: toNumber2,
+    uint: toNumber2,
+    short: toNumber2,
+    ushort: toNumber2,
+    float: toNumber2,
+    double: toNumber2,
+    bool: (x) => Boolean(x)
+  };
+  function extractExtendedData(node, schema) {
+    return get3(node, "ExtendedData", (extendedData, properties) => {
+      for (const data of $(extendedData, "Data")) {
+        properties[data.getAttribute("name") || ""] = nodeVal(get1(data, "value"));
+      }
+      for (const simpleData of $(extendedData, "SimpleData")) {
+        const name = simpleData.getAttribute("name") || "";
+        const typeConverter = schema[name] || typeConverters.string;
+        properties[name] = typeConverter(nodeVal(simpleData));
+      }
+      return properties;
+    });
+  }
+  function getMaybeHTMLDescription(node) {
+    const descriptionNode = get1(node, "description");
+    for (const c of Array.from(descriptionNode?.childNodes || [])) {
+      if (c.nodeType === 4) {
+        return {
+          description: {
+            "@type": "html",
+            value: nodeVal(c)
+          }
+        };
+      }
+    }
+    return {};
+  }
+  function extractTimeSpan(node) {
+    return get3(node, "TimeSpan", (timeSpan) => {
+      return {
+        timespan: {
+          begin: nodeVal(get1(timeSpan, "begin")),
+          end: nodeVal(get1(timeSpan, "end"))
+        }
+      };
+    });
+  }
+  function extractTimeStamp(node) {
+    return get3(node, "TimeStamp", (timeStamp) => {
+      return { timestamp: nodeVal(get1(timeStamp, "when")) };
+    });
+  }
+  function extractCascadedStyle(node, styleMap) {
+    return val1(node, "styleUrl", (styleUrl) => {
+      styleUrl = normalizeId(styleUrl);
+      if (styleMap[styleUrl]) {
+        return Object.assign({ styleUrl }, styleMap[styleUrl]);
+      }
+      return { styleUrl };
+    });
   }
   var removeSpace = /\s*/g;
   var trimSpace = /^\s*|\s*$/g;
@@ -47796,30 +48561,26 @@ ${content}</tr>
     }
     return ring;
   }
-  var GEO_TYPES = [
-    "Polygon",
-    "LineString",
-    "Point",
-    "Track",
-    "gx:Track"
-  ];
   function getCoordinates(node) {
     return nodeVal(get1(node, "coordinates"));
   }
   function getGeometry(node) {
-    const geometries = [];
-    const coordTimes = [];
-    for (const t of ["MultiGeometry", "MultiTrack", "gx:MultiTrack"]) {
-      const elem = get1(node, t);
-      if (elem) {
-        return getGeometry(elem);
-      }
-    }
-    for (const geoType of GEO_TYPES) {
-      for (const geomNode of $(node, geoType)) {
-        switch (geoType) {
+    let geometries = [];
+    let coordTimes = [];
+    for (let i2 = 0; i2 < node.childNodes.length; i2++) {
+      const child = node.childNodes.item(i2);
+      if (isElement(child)) {
+        switch (child.tagName) {
+          case "MultiGeometry":
+          case "MultiTrack":
+          case "gx:MultiTrack": {
+            const childGeometries = getGeometry(child);
+            geometries = geometries.concat(childGeometries.geometries);
+            coordTimes = coordTimes.concat(childGeometries.coordTimes);
+            break;
+          }
           case "Point": {
-            const coordinates = coord1(getCoordinates(geomNode));
+            const coordinates = coord1(getCoordinates(child));
             if (coordinates.length >= 2) {
               geometries.push({
                 type: "Point",
@@ -47828,8 +48589,9 @@ ${content}</tr>
             }
             break;
           }
+          case "LinearRing":
           case "LineString": {
-            const coordinates = coord(getCoordinates(geomNode));
+            const coordinates = coord(getCoordinates(child));
             if (coordinates.length >= 2) {
               geometries.push({
                 type: "LineString",
@@ -47840,7 +48602,7 @@ ${content}</tr>
           }
           case "Polygon": {
             const coords = [];
-            for (const linearRing of $(geomNode, "LinearRing")) {
+            for (const linearRing of $(child, "LinearRing")) {
               const ring = fixRing(coord(getCoordinates(linearRing)));
               if (ring.length >= 4) {
                 coords.push(ring);
@@ -47856,7 +48618,7 @@ ${content}</tr>
           }
           case "Track":
           case "gx:Track": {
-            const gx = gxCoords(geomNode);
+            const gx = gxCoords(child);
             if (!gx)
               break;
             const { times, geometry } = gx;
@@ -47873,62 +48635,13 @@ ${content}</tr>
       coordTimes
     };
   }
-  function extractExtendedData(node) {
-    return get3(node, "ExtendedData", (extendedData, properties) => {
-      for (const data of $(extendedData, "Data")) {
-        properties[data.getAttribute("name") || ""] = nodeVal(get1(data, "value"));
-      }
-      for (const simpleData of $(extendedData, "SimpleData")) {
-        properties[simpleData.getAttribute("name") || ""] = nodeVal(simpleData);
-      }
-      return properties;
-    });
-  }
   function geometryListToGeometry(geometries) {
     return geometries.length === 0 ? null : geometries.length === 1 ? geometries[0] : {
       type: "GeometryCollection",
       geometries
     };
   }
-  function extractTimeSpan(node) {
-    return get3(node, "TimeSpan", (timeSpan) => {
-      return {
-        timespan: {
-          begin: nodeVal(get1(timeSpan, "begin")),
-          end: nodeVal(get1(timeSpan, "end"))
-        }
-      };
-    });
-  }
-  function extractTimeStamp(node) {
-    return get3(node, "TimeStamp", (timeStamp) => {
-      return { timestamp: nodeVal(get1(timeStamp, "when")) };
-    });
-  }
-  function extractCascadedStyle(node, styleMap) {
-    return val1(node, "styleUrl", (styleUrl) => {
-      styleUrl = normalizeId(styleUrl);
-      if (styleMap[styleUrl]) {
-        return Object.assign({ styleUrl }, styleMap[styleUrl]);
-      }
-      return { styleUrl };
-    });
-  }
-  function getMaybeHTMLDescription(node) {
-    const descriptionNode = get1(node, "description");
-    for (const c of Array.from(descriptionNode?.childNodes || [])) {
-      if (c.nodeType === 4) {
-        return {
-          description: {
-            "@type": "html",
-            value: nodeVal(c)
-          }
-        };
-      }
-    }
-    return {};
-  }
-  function getPlacemark(node, styleMap) {
+  function getPlacemark(node, styleMap, schema) {
     const { coordTimes, geometries } = getGeometry(node);
     const feature3 = {
       type: "Feature",
@@ -47940,11 +48653,105 @@ ${content}</tr>
         "open",
         "phoneNumber",
         "description"
-      ]), getMaybeHTMLDescription(node), extractCascadedStyle(node, styleMap), extractStyle(node), extractExtendedData(node), extractTimeSpan(node), extractTimeStamp(node), coordTimes.length ? {
+      ]), getMaybeHTMLDescription(node), extractCascadedStyle(node, styleMap), extractStyle(node), extractExtendedData(node, schema), extractTimeSpan(node), extractTimeStamp(node), coordTimes.length ? {
         coordinateProperties: {
           times: coordTimes.length === 1 ? coordTimes[0] : coordTimes
         }
       } : {})
+    };
+    if (feature3.properties?.visibility !== void 0) {
+      feature3.properties.visibility = feature3.properties.visibility !== "0";
+    }
+    const id2 = node.getAttribute("id");
+    if (id2 !== null && id2 !== "")
+      feature3.id = id2;
+    return feature3;
+  }
+  function getGroundOverlayBox(node) {
+    const latLonQuad = get1(node, "gx:LatLonQuad");
+    if (latLonQuad) {
+      const ring = fixRing(coord(getCoordinates(node)));
+      return {
+        type: "Polygon",
+        coordinates: [ring]
+      };
+    }
+    return getLatLonBox(node);
+  }
+  var DEGREES_TO_RADIANS = Math.PI / 180;
+  function rotateBox(bbox2, coordinates, rotation) {
+    const center = [(bbox2[0] + bbox2[2]) / 2, (bbox2[1] + bbox2[3]) / 2];
+    return [
+      coordinates[0].map((coordinate) => {
+        const dy = coordinate[1] - center[1];
+        const dx = coordinate[0] - center[0];
+        const distance = Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2));
+        const angle2 = Math.atan2(dy, dx) - rotation * DEGREES_TO_RADIANS;
+        return [
+          center[0] + Math.cos(angle2) * distance,
+          center[1] + Math.sin(angle2) * distance
+        ];
+      })
+    ];
+  }
+  function getLatLonBox(node) {
+    const latLonBox = get1(node, "LatLonBox");
+    if (latLonBox) {
+      const north = num1(latLonBox, "north");
+      const west = num1(latLonBox, "west");
+      const east = num1(latLonBox, "east");
+      const south = num1(latLonBox, "south");
+      const rotation = num1(latLonBox, "rotation");
+      if (typeof north === "number" && typeof south === "number" && typeof west === "number" && typeof east === "number") {
+        const bbox2 = [west, south, east, north];
+        let coordinates = [
+          [
+            [west, north],
+            [east, north],
+            [east, south],
+            [west, south],
+            [west, north]
+            // top left (again)
+          ]
+        ];
+        if (typeof rotation === "number") {
+          coordinates = rotateBox(bbox2, coordinates, rotation);
+        }
+        return {
+          type: "Polygon",
+          coordinates
+        };
+      }
+    }
+    return null;
+  }
+  function getGroundOverlay(node, styleMap, schema) {
+    const geometry = getGroundOverlayBox(node);
+    const feature3 = {
+      type: "Feature",
+      geometry,
+      properties: Object.assign(
+        /**
+         * Related to
+         * https://gist.github.com/tmcw/037a1cb6660d74a392e9da7446540f46
+         */
+        { "@geometry-type": "groundoverlay" },
+        getMulti(node, [
+          "name",
+          "address",
+          "visibility",
+          "open",
+          "phoneNumber",
+          "description"
+        ]),
+        getMaybeHTMLDescription(node),
+        extractCascadedStyle(node, styleMap),
+        extractStyle(node),
+        extractIconHref(node),
+        extractExtendedData(node, schema),
+        extractTimeSpan(node),
+        extractTimeStamp(node)
+      )
     };
     if (feature3.properties?.visibility !== void 0) {
       feature3.properties.visibility = feature3.properties.visibility !== "0";
@@ -47978,10 +48785,23 @@ ${content}</tr>
     }
     return styleMap;
   }
+  function buildSchema(node) {
+    const schema = {};
+    for (const field of $(node, "SimpleField")) {
+      schema[field.getAttribute("name") || ""] = typeConverters[field.getAttribute("type") || ""] || typeConverters["string"];
+    }
+    return schema;
+  }
   function* kmlGen(node) {
     const styleMap = buildStyleMap(node);
+    const schema = buildSchema(node);
     for (const placemark of $(node, "Placemark")) {
-      const feature3 = getPlacemark(placemark, styleMap);
+      const feature3 = getPlacemark(placemark, styleMap, schema);
+      if (feature3)
+        yield feature3;
+    }
+    for (const groundOverlay of $(node, "GroundOverlay")) {
+      const feature3 = getGroundOverlay(groundOverlay, styleMap, schema);
       if (feature3)
         yield feature3;
     }
@@ -74258,9 +75078,15 @@ ${content}</tr>
         return acc;
       }, {});
     },
-    toSitelink: function(key, value) {
-      var result = value ? "Tag:" + key + "=" + value : "Key:" + key;
-      return result.replace(/_/g, " ").trim();
+    toSitelink: function(key, value, isHistorical) {
+      var type2 = value ? "Tag" : "Key";
+      var prefix = "";
+      if (isHistorical) {
+        prefix = `Open Historical Map/Tags/${type2}/`;
+      } else {
+        prefix = type2 + ":";
+      }
+      return prefix + (value ? `${key}=${value}` : key).replace(/_/g, " ").trim();
     },
     //
     // Pass params object of the form:
@@ -74276,8 +75102,11 @@ ${content}</tr>
       var titles = [];
       var result = {};
       var rtypeSitelink = params.key === "type" && params.value ? ("Relation:" + params.value).replace(/_/g, " ").trim() : false;
+      var rtypeSitelinkHistorical = params.key === "type" && params.value ? "Open Historical Map/Tags/Relation/" + params.value.replace(/_/g, " ").trim() : false;
       var keySitelink = params.key ? this.toSitelink(params.key) : false;
+      var keySitelinkHistorical = params.key ? this.toSitelink(params.key, null, true) : false;
       var tagSitelink = params.key && params.value ? this.toSitelink(params.key, params.value) : false;
+      var tagSitelinkHistorical = params.key && params.value ? this.toSitelink(params.key, params.value, true) : false;
       var localeSitelink;
       if (params.langCodes) {
         params.langCodes.forEach(function(langCode) {
@@ -74288,24 +75117,30 @@ ${content}</tr>
         });
       }
       if (rtypeSitelink) {
-        if (_wikibaseCache[rtypeSitelink]) {
+        if (_wikibaseCache[rtypeSitelinkHistorical]) {
+          result.rtype = _wikibaseCache[rtypeSitelinkHistorical];
+        } else if (_wikibaseCache[rtypeSitelink]) {
           result.rtype = _wikibaseCache[rtypeSitelink];
         } else {
-          titles.push(rtypeSitelink);
+          titles.push(rtypeSitelink, rtypeSitelinkHistorical);
         }
       }
       if (keySitelink) {
-        if (_wikibaseCache[keySitelink]) {
+        if (_wikibaseCache[keySitelinkHistorical]) {
+          result.key = _wikibaseCache[keySitelinkHistorical];
+        } else if (_wikibaseCache[keySitelink]) {
           result.key = _wikibaseCache[keySitelink];
         } else {
-          titles.push(keySitelink);
+          titles.push(keySitelink, keySitelinkHistorical);
         }
       }
       if (tagSitelink) {
-        if (_wikibaseCache[tagSitelink]) {
+        if (_wikibaseCache[tagSitelinkHistorical]) {
+          result.tag = _wikibaseCache[tagSitelinkHistorical];
+        } else if (_wikibaseCache[tagSitelink]) {
           result.tag = _wikibaseCache[tagSitelink];
         } else {
-          titles.push(tagSitelink);
+          titles.push(tagSitelink, tagSitelinkHistorical);
         }
       }
       if (!titles.length) {
@@ -74336,12 +75171,21 @@ ${content}</tr>
           Object.values(d.entities).forEach(function(res) {
             if (res.missing !== "") {
               var title = res.sitelinks.wiki.title;
-              if (title === rtypeSitelink) {
+              if (title === rtypeSitelinkHistorical) {
+                _wikibaseCache[rtypeSitelinkHistorical] = res;
+                result.rtype = res;
+              } else if (title === rtypeSitelink) {
                 _wikibaseCache[rtypeSitelink] = res;
                 result.rtype = res;
+              } else if (title === keySitelinkHistorical) {
+                _wikibaseCache[keySitelinkHistorical] = res;
+                result.key = res;
               } else if (title === keySitelink) {
                 _wikibaseCache[keySitelink] = res;
                 result.key = res;
+              } else if (title === tagSitelinkHistorical) {
+                _wikibaseCache[tagSitelinkHistorical] = res;
+                result.tag = res;
               } else if (title === tagSitelink) {
                 _wikibaseCache[tagSitelink] = res;
                 result.tag = res;
