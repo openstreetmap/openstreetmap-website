@@ -34,8 +34,6 @@ bundle exec bin/yarn install
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
     sudo -u postgres createuser -s vagrant
-    sudo -u vagrant createdb -E UTF-8 -O vagrant openstreetmap
-    sudo -u vagrant createdb -E UTF-8 -O vagrant osm_test
 fi
 
 # set up sample configs
@@ -46,6 +44,8 @@ if [ ! -f config/storage.yml ]; then
     cp config/example.storage.yml config/storage.yml
 fi
 touch config/settings.local.yml
+# create the databases
+sudo -u vagrant bundle exec rails db:create
 # migrate the database to the latest version
 sudo -u vagrant bundle exec rails db:migrate
 popd
