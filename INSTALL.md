@@ -33,10 +33,11 @@ These can be installed on Ubuntu 22.04 or later with:
 sudo apt-get update
 sudo apt-get install ruby3.0 libruby3.0 ruby3.0-dev \
                      libvips-dev libxml2-dev libxslt1-dev nodejs \
-                     build-essential git-core firefox-geckodriver \
+                     build-essential git-core \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
-                     libffi-dev libgd-dev libarchive-dev libbz2-dev yarnpkg
+                     libffi-dev libgd-dev libarchive-dev libbz2-dev npm
 sudo gem3.0 install bundler
+sudo npm install --global yarn
 ```
 
 ### Alternative platforms
