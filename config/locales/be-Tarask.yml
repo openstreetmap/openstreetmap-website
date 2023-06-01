@@ -18,7 +18,7 @@ be-Tarask:
       prompt: Абярыце файл
     submit:
       diary_comment:
-        create: Захаваць
+        create: Камэнтар
       diary_entry:
         create: Апублікаваць
         update: Абнавіць
@@ -99,12 +99,14 @@ be-Tarask:
       diary_entry:
         user: Удзельнік
         title: Тэма
+        body: Тэкст
         latitude: Шырата
         longitude: Даўгата
         language_code: Мова
       doorkeeper/application:
         name: Назва
         redirect_uri: URI перанакіраваньняў
+        confidential: Канфідэнцыйная праграма?
         scopes: Дазволы
       friend:
         user: Удзельнік
@@ -162,41 +164,41 @@ be-Tarask:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: каля 1 гадзіны таму
+        one: каля %{count} гадзіны таму
         other: каля %{count} гадзінаў таму
       about_x_months:
-        one: каля 1 месяца таму
+        one: каля %{count} месяца таму
         other: каля %{count} месяцаў таму
       about_x_years:
-        one: каля 1 году таму
+        one: каля %{count} году таму
         other: каля %{count} гадоў таму
       almost_x_years:
-        one: амаль 1 год таму
+        one: амаль %{count} год таму
         other: амаль %{count} гадоў таму
       half_a_minute: паўхвіліны таму
       less_than_x_seconds:
-        one: менш за 1 сэкунду таму
+        one: менш за %{count} сэкунду таму
         other: менш за %{count} сэкундаў таму
       less_than_x_minutes:
-        one: менш за 1 хвіліну таму
+        one: менш за %{count} хвіліну таму
         other: менш за %{count} хвілінаў таму
       over_x_years:
-        one: больш за 1 год таму
+        one: больш за %{count} год таму
         other: больш за %{count} гадоў таму
       x_seconds:
-        one: 1 сэкунда таму
+        one: '%{count} сэкунда таму'
         other: '%{count} сэкундаў таму'
       x_minutes:
-        one: 1 хвіліна таму
+        one: '%{count} хвіліна таму'
         other: '%{count} хвілінаў таму'
       x_days:
-        one: 1 дзень таму
+        one: '%{count} дзень таму'
         other: '%{count} дзён таму'
       x_months:
-        one: 1 месяц таму
+        one: '%{count} месяц таму'
         other: '%{count} месяцы таму'
       x_years:
-        one: 1 год таму
+        one: '%{count} год таму'
         other: '%{count} гады таму'
   editor:
     default: Па змоўчваньні (цяпер %{name})
@@ -279,12 +281,12 @@ be-Tarask:
     no_comment: (без камэнтароў)
     part_of: Частка
     part_of_relations:
-      one: 1 сувязь
+      one: '%{count} сувязь'
       few: '%{count} сувязі'
       many: '%{count} сувязяў'
       other: '%{count} сувязяў'
     part_of_ways:
-      one: 1 лінія
+      one: '%{count} лінія'
       few: '%{count} лініі'
       many: '%{count} лініяў'
       other: '%{count} лініяў'
@@ -317,7 +319,7 @@ be-Tarask:
     relation:
       members: Удзельнікі
       members_count:
-        one: 1 удзельнік
+        one: '%{count} удзельнік'
         few: '%{count} удзельнікі'
         many: '%{count} удзельнікаў'
         other: '%{count} удзельнікаў'
@@ -346,6 +348,7 @@ be-Tarask:
         way: дарога
         relation: адносіны
         changeset: набор зьменаў
+        note: заўвага
     redacted:
       redaction: Рэдакцыя %{id}
       message_html: Вэрсія %{version} гэтага %{type} ня можа быць паказаная, бо яна
@@ -363,6 +366,9 @@ be-Tarask:
         key: Старонка вікі, якая апісвае тэг %{key}
         tag: Старонка вікі, якая апісвае тэг %{key}=%{value}
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
+    query:
+      nearby: Аб’екты паблізу
+      enclosing: Навакольныя аб’екты
   changesets:
     changeset_paging_nav:
       showing_page: Старонка %{page}
@@ -1266,7 +1272,7 @@ be-Tarask:
     trace:
       pending: ЧАКАЕ
       count_points:
-        one: 1 пункт
+        one: '%{count} пункт'
         other: '%{count} пункты'
       more: болей
       trace_details: Паказаць падрабязнасьці трэку
