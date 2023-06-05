@@ -60,7 +60,7 @@ sv:
       prompt: Välj fil
     submit:
       diary_comment:
-        create: Spara
+        create: Kommentera
       diary_entry:
         create: Publicera
         update: Uppdatera
@@ -141,6 +141,7 @@ sv:
       diary_entry:
         user: Användare
         title: Ämne
+        body: Innehåll
         latitude: Latitud
         longitude: Longitud
         language_code: Språk
@@ -208,41 +209,41 @@ sv:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: omkring 1 timme sedan
+        one: omkring %{count} timme sedan
         other: omkring %{count} timmar sedan
       about_x_months:
-        one: omkring 1 månad sedan
+        one: omkring %{count} månad sedan
         other: omkring %{count} månader sedan
       about_x_years:
-        one: omkring 1 år sedan
+        one: omkring %{count} år sedan
         other: omkring %{count} år sedan
       almost_x_years:
-        one: nästan 1 år sedan
+        one: nästan %{count} år sedan
         other: nästan %{count} år sedan
       half_a_minute: en halv minut sedan
       less_than_x_seconds:
-        one: mindre än 1 sekund sedan
+        one: mindre än %{count} sekund sedan
         other: mindre än %{count} sekunder sedan
       less_than_x_minutes:
-        one: mindre än en minut sedan
+        one: mindre än %{count} minut sedan
         other: mindre än %{count} minuter sedan
       over_x_years:
-        one: över 1 år sedan
+        one: över %{count} år sedan
         other: över %{count} år sedan
       x_seconds:
-        one: 1 sekund sedan
+        one: '%{count} sekund sedan'
         other: '%{count} sekunder sedan'
       x_minutes:
-        one: 1 minut sedan
+        one: '%{count} minut sedan'
         other: '%{count} minuter sedan'
       x_days:
-        one: 1 dag sedan
+        one: '%{count} dag sedan'
         other: '%{count} dagar sedan'
       x_months:
-        one: 1 månad sedan
+        one: '%{count} månad sedan'
         other: '%{count} månader sedan'
       x_years:
-        one: 1 år sedan
+        one: '%{count} år sedan'
         other: '%{count} år sedan'
   editor:
     default: Standard (för närvarande %{name})
@@ -338,6 +339,7 @@ sv:
       delete_account: Radera konto...
     go_public:
       heading: Offentlig redigering
+      find_out_why: ta reda på varför
       make_edits_public_button: Gör alla mina redigeringar offentliga
     update:
       success_confirm_needed: Användarinformation uppdaterades. Kontrollera din e-post
@@ -348,13 +350,19 @@ sv:
   browse:
     created: Skapad
     closed: Stängd
+    created_ago_html: Skapades %{time_ago}
+    closed_ago_html: Stängdes %{time_ago}
+    created_ago_by_html: Skapades %{time_ago} av %{user}
+    closed_ago_by_html: Stängdes %{time_ago} av %{user}
+    deleted_ago_by_html: Raderades %{time_ago} av %{user}
+    edited_ago_by_html: Redigerades %{time_ago} av %{user}
     version: Version
     in_changeset: Ändringsuppsättning
     anonymous: anonym
     no_comment: (inga kommentarer)
     part_of: Del av
     part_of_relations:
-      one: 1 relation
+      one: '%{count} relation'
       other: '%{count} relationer'
     part_of_ways:
       one: 1 sätt
@@ -373,6 +381,8 @@ sv:
       relation: Förbindelser (%{count})
       relation_paginated: Förbindelser (%{x}-%{y} av %{count})
       comment: Kommentarer (%{count})
+      hidden_comment_by_html: Dolde kommentar från %{user} %{time_ago}
+      comment_by_html: Kommenterades från %{user} %{time_ago}
       changesetxml: XML för ändringsuppsättning
       osmchangexml: osmChange XML
       feed:
@@ -400,7 +410,7 @@ sv:
       history_title_html: 'Förbindelsehistorik: %{name}'
       members: Medlemmar
       members_count:
-        one: 1 medlem
+        one: '%{count} medlem'
         other: '%{count} medlemmar'
     relation_member:
       entry_role_html: '%{type} %{name} som %{role}'
@@ -453,6 +463,7 @@ sv:
       wikimedia_commons_link: Sidan %{page} finner du på Wikimedia Commons
       telephone_link: Ring %{phone_number}
       colour_preview: Förhandsgranskning av färgen %{colour_value}
+      email_link: E-posta %{email}
     query:
       title: Undersök kartobjekt
       introduction: Klicka på kartan för att hitta funktioner i närheten.
@@ -476,6 +487,7 @@ sv:
     index:
       title: Ändringsuppsättningar
       title_user: Ändringsuppsättningar av %{user}
+      title_user_link_html: Ändringsuppsättningar av %{user_link}
       title_friend: Ändringsuppsättningar av mina vänner
       title_nearby: Ändringsuppsättningar av närbelägna användare
       empty: Inga ändringsuppsättningar hittades.
@@ -605,6 +617,15 @@ sv:
       applications:
         create:
           notice: Applikation registrerad.
+  errors:
+    contact:
+      contact: kontakta
+    forbidden:
+      title: Förbjudet
+    internal_server_error:
+      title: Applikationsfel
+    not_found:
+      title: Filen hittades inte
   friendships:
     make_friend:
       heading: Lägg till %{user} som en vän?
@@ -620,6 +641,10 @@ sv:
       success: '%{name} togs bort från dina vänner.'
       not_a_friend: '%{name} är inte en av dina vänner.'
   geocoder:
+    search:
+      title:
+        results_from_html: Resultat från %{results_link}
+        latlon: Intern
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1412,9 +1437,10 @@ sv:
       status: Status
       reports: Rapporter
       last_updated: Senast uppdaterad
+      last_updated_time_ago_user_html: '%{time_ago} av %{user}'
       link_to_reports: Visa rapporter
       reports_count:
-        one: 1 rapport
+        one: '%{count} rapport'
         other: '%{count} rapporter'
       reported_item: Rapporterat objekt
       states:
@@ -1532,6 +1558,7 @@ sv:
     help: Hjälp
     about: Om
     copyright: Upphovsrätt
+    communities: Gemenskaper
     community: Gemenskap
     community_blogs: Gemenskapens bloggar
     community_blogs_title: Bloggar från medlemmar i OpenStreetMap-gemenskapen
@@ -1684,6 +1711,8 @@ sv:
       success: Ditt konto är bekräftat, tack för att du registrerade dig!
       already active: Detta konto har redan bekräftats.
       unknown token: Denna bekräftelsekod har gått ut eller finns inte.
+      resend_html: Om du vill att vi skickar e-postbekräftelse igen, %{reconfirm_link}.
+      click_here: klicka här
     confirm_resend:
       failure: Användaren %{name} hittades inte.
     confirm_email:
@@ -1863,6 +1892,10 @@ sv:
       title: Logga ut
       heading: Logga ut från OpenStreetMap
       logout_button: Logga ut
+    suspended_flash:
+      suspended: Tyvärr, ditt konto har stängts av på grund av misstänkt aktivitet.
+      contact_support_html: Kontakta %{support_link} om du vill diskutera detta.
+      support: supporten
   shared:
     markdown_help:
       headings: Rubriker
@@ -1893,8 +1926,12 @@ sv:
         flygbilder, GPS-enheter och lågteknologiska fältkartor för att kontrollera
         att OSM är korrekt och uppdaterad.
       community_driven_title: Gemenskapsdriven
+      community_driven_osm_blog: OpenStreetMaps blogg
+      community_driven_community_blogs: gemenskapsbloggar
       open_data_title: Öppna data
       legal_title: Juridik
+      legal_1_1_terms_of_use: Användarvillkor
+      legal_1_1_privacy_policy: Integritetspolicy
       partners_title: Partners
     copyright:
       foreign:
@@ -1923,6 +1960,20 @@ sv:
           Våra bidragsgivare är tusentals individer. Vi inkluderar också
           öppna data från nationella karttjänster,
           bland annat från:
+        contributors_at_austria: Österrike
+        contributors_at_cc_by: CC BY
+        contributors_au_australia: Australien
+        contributors_ca_canada: Kanada
+        contributors_fi_finland: Finland
+        contributors_fr_france: Frankrike
+        contributors_nl_netherlands: Nederländerna
+        contributors_nz_new_zealand: Nya Zeeland
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_si_slovenia: Slovenien
+        contributors_es_spain: Spanien
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_south_africa: Sydafrika
+        contributors_gb_united_kingdom: Storbritannien
         contributors_footer_2_html: "Införandet av uppgifter i OpenStreetMap innebär
           inte att den ursprungliga \ndatagivaren stödjer OpenStreetMap, \nger någon
           som helst garanti eller \ntar på sig något ansvar."
@@ -2045,8 +2096,10 @@ sv:
       removed: Din standardredigerare på OpenStreetMat är Potlatch. På grund av att
         Adobe Flash Player har dragits tillbaka, kan inte Potlatch längre användas
         i webbläsaren.
+      change_preferences: Ändra dina inställningar här
     any_questions:
       title: Några frågor?
+      get_help_here: Skaffa hjälp här
     sidebar:
       search_results: Sökresultat
       close: Stäng
@@ -2142,13 +2195,26 @@ sv:
         title: Grundläggande termer för kartering
         paragraph_1: OpenStreetMap har en del egen jargong. Här är några begrepp som
           kan vara bra att förstå.
+        editor: redigerare
+        node: nod
       rules:
         title: Regler!
+        imports: Importer
+        automated_edits: Automatiserade redigeringar
       start_mapping: Börja kartlägga
       add_a_note:
         title: Ingen tid att redigera? Lägg till en kommentar!
         para_1: Om du bara vill ha ett litet problem fixat och inte har tid att registrera
           dig så är det lätt att lämna en kartanteckning.
+        para_2_html: |-
+          Gå till %{map_link} och tryck på anteckningsikonen: %{note_icon}.
+          En markör, som du kan dra omkring, kommer att läggas till på kartan.
+          Lägg till ett meddelande och spara. Någon annan kommer att undersöka frågan.
+        the_map: kartan
+    communities:
+      title: Gemenskaper
+      other_groups:
+        title: Andra grupper
   traces:
     visibility:
       private: Privat (spåret delas anonymt och utan ordning)
@@ -2213,7 +2279,7 @@ sv:
     trace:
       pending: VÄNTANDE
       count_points:
-        one: 1 punkt
+        one: '%{count} punkt'
         other: '%{count} punkter'
       more: mer
       trace_details: Visa detaljer för GPS-spår
@@ -2231,6 +2297,8 @@ sv:
       public_traces_from: Publika GPS-spår från %{user}
       description: Bläddra bland nyligen uppladdade GPS-spår
       tagged_with: ' taggad med %{tags}'
+      empty_title: Inget här ännu
+      wiki_page: wikisida
       upload_trace: Ladda upp GPS-spår
       all_traces: Alla spår
       my_traces: Mina spår
@@ -2417,6 +2485,7 @@ sv:
       continue: Registrera
       terms accepted: Tack för att du accepterat de nya villkoren för bidrag till
         kartan!
+      privacy_policy: integritetspolicy
     terms:
       title: Villkor för deltagare
       heading: Villkor för deltagare
@@ -2522,6 +2591,8 @@ sv:
       title: Kontot avstängt
       heading: Kontot avstängt
       support: support
+      automatically_suspended: Tyvärr, ditt konto har stängts av automatiskt på grund
+        av misstänkt aktivitet.
     auth_failure:
       connection_failed: Anslutning till autentiseringsleverantören misslyckades
       invalid_credentials: Ogiltiga autentiseringsuppgifter
@@ -2613,16 +2684,16 @@ sv:
           one: 1 timme
           other: '%{count} timmar'
         days:
-          one: 1 dag
+          one: '%{count} dag'
           other: '%{count} dagar'
         weeks:
-          one: 1 vecka
+          one: '%{count} vecka'
           other: '%{count} veckor'
         months:
-          one: 1 månad
+          one: '%{count} månad'
           other: '%{count} månader'
         years:
-          one: 1 år
+          one: '%{count} år'
           other: '%{count} år'
     blocks_on:
       title: Blockeringar på %{name}
@@ -2677,6 +2748,15 @@ sv:
       open_title: 'Ej avklarad anteckning #%{note_name}'
       closed_title: 'Avklarad anteckning #%{note_name}'
       hidden_title: 'Dold anteckning #%{note_name}'
+      event_opened_by_html: Skapades av %{user} %{time_ago}
+      event_opened_by_anonymous_html: Skapades av anonym %{time_ago}
+      event_commented_by_html: Kommenterades från %{user} %{time_ago}
+      event_commented_by_anonymous_html: Kommentar från anonym %{time_ago}
+      event_closed_by_html: Löstes av %{user} %{time_ago}
+      event_closed_by_anonymous_html: Löstes av anonym %{time_ago}
+      event_reopened_by_html: Återaktiverades av %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Återaktiverades av anonym %{time_ago}
+      event_hidden_by_html: Doldes av %{user} %{time_ago}
       report: rapportera denna anteckning
       anonymous_warning: Denna anteckning innehåller kommentarer från anonyma användare
         vilka bör bekräftas oberoende av varandra.
@@ -2685,6 +2765,10 @@ sv:
       reactivate: Återaktivera
       comment_and_resolve: Kommentera och Avklara
       comment: Kommentera
+      report_link_html: Om denna anteckning innehåller känslig information som måste
+        tas bort kan du %{link}.
+      other_problems_resolve: För alla andra problem med anteckningen, lös det själv
+        med en kommentar.
     new:
       title: Ny anteckning
       intro: Upptäckt ett misstag eller något som saknas? Låt andra karterare veta
@@ -2729,10 +2813,10 @@ sv:
       locate:
         title: Visa min position
         metersPopup:
-          one: Du är inom en meter av denna punkt
+          one: Du är inom %{count} meter av denna punkt
           other: Du är inom %{count} meter av denna punkt
         feetPopup:
-          one: Du är inom en fot av denna punkt
+          one: Du är inom %{count} fot av denna punkt
           other: Du är inom %{count} fot av denna punkt
       base:
         standard: Standard
@@ -2748,6 +2832,11 @@ sv:
         gps: Offentliga GPS-spår
         overlays: Aktivera lager för felsökning av kartan
         title: Lager
+      openstreetmap_contributors: OpenStreetMap-bidragsgivare
+      make_a_donation: Gör en donation
+      website_and_api_terms: Webbplats och API-villkor
+      andy_allan: Andy Allan
+      memomaps: MeMoMaps
     site:
       edit_tooltip: Redigera kartan
       edit_disabled_tooltip: Zooma in för att redigera kartan
@@ -2778,6 +2867,8 @@ sv:
       descend: Fallande
       directions: Vägbeskrivning
       distance: Avstånd
+      distance_m: '%{distance} m'
+      distance_km: '%{distance} km'
       errors:
         no_route: Kunde inte hitta en väg mellan dessa två platser.
         no_place: Ledsen - kunde inte hitta %{place}.
