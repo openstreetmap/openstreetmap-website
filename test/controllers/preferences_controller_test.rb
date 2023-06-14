@@ -29,8 +29,8 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     put preferences_path, :params => { :user => user.attributes }
     assert_response :success
     assert_template :edit
-    assert_select ".notice", false
-    assert_select ".error", true
+    assert_select ".alert-success", false
+    assert_select ".alert-danger", true
     assert_select "form > div > select#user_preferred_editor > option[selected]", false
 
     # Changing to a valid editor should work
@@ -40,7 +40,7 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to preferences_path
     follow_redirect!
     assert_template :show
-    assert_select ".notice", /^Preferences updated/
+    assert_select ".alert-success", /^Preferences updated/
     assert_select "dd", "iD (in-browser editor)"
 
     # Changing to the default editor should work
@@ -50,7 +50,7 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to preferences_path
     follow_redirect!
     assert_template :show
-    assert_select ".notice", /^Preferences updated/
+    assert_select ".alert-success", /^Preferences updated/
     assert_select "dd", "Default (currently iD)"
   end
 end

@@ -113,7 +113,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -125,7 +125,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -137,7 +137,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -270,7 +270,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -282,7 +282,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -294,7 +294,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -409,7 +409,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -457,7 +457,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "div.alert.alert-danger", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
 
@@ -482,7 +482,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "div.alert.alert-danger", "Invalid authentication credentials"
     assert_select "span.username", false
   end
 
@@ -572,7 +572,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -621,7 +621,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "div.alert.alert-danger", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
 
@@ -645,7 +645,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "div.alert.alert-danger", "Invalid authentication credentials"
     assert_select "span.username", false
   end
 
@@ -758,7 +758,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -805,7 +805,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "div.alert.alert-danger", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
 
@@ -829,7 +829,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "div.alert.alert-danger", "Invalid authentication credentials"
     assert_select "span.username", false
   end
 
@@ -913,7 +913,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -960,7 +960,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "div.alert.alert-danger", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
 
@@ -984,7 +984,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "div.alert.alert-danger", "Invalid authentication credentials"
     assert_select "span.username", false
   end
 
@@ -1068,7 +1068,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -1115,7 +1115,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "div.alert.alert-danger", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
 
@@ -1139,7 +1139,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "div.alert.alert-danger", "Invalid authentication credentials"
     assert_select "span.username", false
   end
 
@@ -1223,7 +1223,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/ do
+    assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
   end
@@ -1270,7 +1270,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "div.alert.alert-danger", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
 
@@ -1294,7 +1294,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "div.alert.alert-danger", "Invalid authentication credentials"
     assert_select "span.username", false
   end
 

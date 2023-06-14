@@ -113,7 +113,14 @@ class SiteController < ApplicationController
 
   def export; end
 
-  def offline; end
+  def offline
+    flash.now[:warning] = if Settings.status == "database_offline"
+                            t("layouts.osm_offline")
+                          else
+                            t("layouts.osm_read_only")
+                          end
+    render :html => nil, :layout => true
+  end
 
   def preview
     render :html => RichText.new(params[:type], params[:text]).to_html
