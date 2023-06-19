@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $(".inbox-mark-unread").on("ajax:success", function (event, data) {
     $("#inboxanchor").remove();
-    $("#user_profile_picture").after(data.inboxanchor);
+    $(".profile_photo").append(data.inboxanchor);
 
     $("#inbox-count").replaceWith(data.inbox_count);
 
@@ -10,7 +10,7 @@ $(document).ready(function () {
 
   $(".inbox-mark-read").on("ajax:success", function (event, data) {
     $("#inboxanchor").remove();
-    $("#user_profile_picture").after(data.inboxanchor);
+    $(".profile_photo").append(data.inboxanchor);
 
     $("#inbox-count").replaceWith(data.inbox_count);
 
@@ -19,7 +19,7 @@ $(document).ready(function () {
 
   $(".inbox-destroy").on("ajax:success", function (event, data) {
     $("#inboxanchor").remove();
-    $("#user_profile_picture").after(data.inboxanchor);
+    $(".profile_photo").append(data.inboxanchor);
 
     $("#inbox-count").replaceWith(data.inbox_count);
 

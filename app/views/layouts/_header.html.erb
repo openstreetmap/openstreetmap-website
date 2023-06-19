@@ -85,15 +85,15 @@
     <% if current_user && current_user.id %>
       <div class='d-inline-flex dropdown user-menu logged-in clearfix'>
         <button class='dropdown-toggle btn btn-outline-secondary px-2 py-1 flex-grow-1' type='button' data-bs-toggle='dropdown'>
-          <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-1", :id => "user_profile_picture") %>
-          <div class="d-inline position-relative">
+          <div id="profile_photo" class="d-inline position-relative">
+            <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-1") %>
             <%= render :partial => "layouts/inbox" %>
-            <span class="user-button ms-1">
-              <span class='username'>
-                <%= current_user.display_name %>
-              </span>
-            </span>
           </div>
+          <span class="user-button ms-1">
+            <span class='username'>
+              <%= current_user.display_name %>
+            </span>
+          </span>
         </button>
         <div class='dropdown-menu dropdown-menu-end'>
           <%= link_to t("users.show.my_dashboard"), dashboard_path, :class => "dropdown-item" %>
