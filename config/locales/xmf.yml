@@ -5,9 +5,12 @@
 # Author: Silovan
 ---
 xmf:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%დ %თ %წ at %ს:%წ'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: ფაილიშ გიშაგორუა
@@ -206,7 +209,7 @@ xmf:
       openid: OpenID
       google: Google
       facebook: Facebook
-      windowslive: Windows Live
+      windowslive: Windows
       github: GitHub
       wikipedia: ვიკიპედია
   api:
@@ -236,26 +239,47 @@ xmf:
         title: ჩქიმი ანგარიშიშ ლასუა
         warning: გურ გუჩით! ანგარიშიშ ლასუა ფინალურ პროცესის რე, ნამუშ დორთინაფა ვეშილებე.
         delete_account: ანგარიშიშ ლასუა
+        delete_introduction: 'შეილებჷნა თქვან OpenStreetMap ანგარიშიშ ლასუა გიმე მოჩამილ
+          კონჭით ქორთხინთ, გურ გუჩით გეჸვენჯ დეტალეფს:'
+        delete_profile: თქვანი პროფილიშ ინფორმაცია, თქვანი ავატარით, ეჭარუათ დო ჸუდეშური
+          ლოკაციათ დილასუ.
+        delete_display_name: თქვანი ოძირაფონი მახვარებუშ ჯოხო დილასუ დო შილებე თიქ
+          კჷნ გჷმორინაფილქ იჸუას შხვა ანგარიშეფს.
+        retain_caveats: 'თეშ უმკუჯინალო, თქვან გეშა კანკალე ინფორმაციაქ შილებე ქჷდოსქიდას
+          OpenStreetMap-ის, თქვან ანგარიშიშ ლასუაშ უკულით:'
+        retain_edits: რუკაშ მუნაჩემეფიშ ბაზაშა თქვან მიშნაღელ რედაქტირაფეფი, ქო რე
+          თეჯგურა მუთუნ-და, დიჩუალუაფუ.
+        retain_traces: რუკაშ ენახარგა შარეფი, ქო რე თეჯგურა მუთუნ-და, დიჩუალუაფუ.
+        retain_email: თქვან ელ-ფოშტა დიჩუალუაფუ.
         confirm_delete: დასურო გონებჷნანო?
         cancel: გოუქვაფა
   accounts:
     edit:
+      title: ანგარიშიშ რედაქტირაფა
       my settings: ჩქიმი პარამეტრეფი
       current email address: ელ-ფოსტაშ ასეიანი მიოწურაფუ
+      external auth: გალენი აუთენტიფიკაცია
       openid:
+        link: http://wiki.openstreetmap.org/wiki/KA:OpenID
         link text: მუ რე თენა?
       public editing:
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: მუ რე თენა?
         disabled link text: მუშენ ვეშემლებუ რედაქტირაფა?
       contributor terms:
         link text: მუ რე თენა?
       save changes button: თირუეფიშ ჩუალა
       delete_account: ანგარიშიშ ლასუა...
+    go_public:
+      find_out_why: ქიგეგით მუშენ
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
     destroy:
       success: ანგარიშიქ დილასჷ.
   browse:
     created: აკიქიმინუ
     closed: კილერი
+    created_ago_html: გიჭყჷ %{time_ago}
+    closed_ago_html: გიჭყჷ %{time_ago}
     version: ვერსია
     in_changeset: თირაფეფიშ პაკეტი
     anonymous: ანონიმი
@@ -479,6 +503,13 @@ xmf:
       comment: კომენტარი
       newer_comments: უახალაში კომენტარეფი
       older_comments: ჯვეში კომენტარეფი
+  errors:
+    contact:
+      contact: კონტაქტი
+    internal_server_error:
+      title: აპლიკაციაშ ჩილათა
+    not_found:
+      title: ფაილქ ვეგორჷ
   friendships:
     make_friend:
       heading: ქეგუძინაო %{user} მაჸალეთ?
@@ -498,14 +529,14 @@ xmf:
         aeroway:
           aerodrome: აეროდრომი
           airstrip: ეიოფურჷნალ-დაფურჷნალი საროტი
-          gate: გიშაულარი
+          gate: აერიპორტიშ კარმინალი
           hangar: საფიში
           helipad: ვერტფურინჯიშ დახუნალი
           parking_position: პარკინგიშ აბანი
           runway: ეიოფურჷნალ-დაფურჷნალი ღოზი
           taxilane: ტაქსიშ ღოზი
           taxiway: ტაქსიშ რზა
-          terminal: ტერმინალი
+          terminal: აეროპორტიშ ტერმინალი
           windsock: ბორიამაძირაფალი
         amenity:
           arts_centre: ხელუანაფაშ ცენტრი
@@ -545,7 +576,7 @@ xmf:
           fast_food: ბიწორი ჭკომუ
           ferry_terminal: ბონარიშ დგჷმილი
           fire_station: მედაჩხირე გჷმნართი
-          fuel: ოჭუაშე
+          fuel: ოჭუაშეშ დგჷმილი
           gambling: აზარტული ლაჸაფეფი
           grave_yard: საფულა
           hospital: ოსქილადე
@@ -615,14 +646,22 @@ xmf:
           viaduct: ვიადუკი
           "yes": ხინჯი
         building:
+          apartment: ბინა
+          apartments: ბინეფი
+          barn: ფარღია
           bungalow: ბუნგალო
+          cabin: ქოხი
           chapel: ოხვამერი
           church: ოხვამეშ დგჷმილი
           civic: ომენოღალე დგჷმილი
           college: კოლეჯიშ დგჷმილი
           commercial: კომერციული დგჷმილი
           construction: აკმაგაფე დგჷმილი
+          detached: ზოხოთ დგჷმილი ჸუდე
           dormitory: ართამი ოხორუე
+          duplex: დუპლექსი
+          farm: ფერმა
+          farm_auxiliary: დჷმახვარე ფერმაშ ჸუდე
           greenhouse: სათბური
           hangar: საფიში
           hospital: ოსქილადე
@@ -659,6 +698,7 @@ xmf:
           confectionery: საკონდიტერე
           dressmaker: მაჭალი
           electrician: ელექტრიკოსი
+          electronics_repair: ელეტრონიკაშ რემონტი
           gardener: მებაღე
           glaziery: მესარკე
           painter: ხანტუ
@@ -700,9 +740,13 @@ xmf:
           rest_area: მასვანჯაფალი ტერიტორია
           road: რზა
           speed_camera: ბიწორიშ მაკონტროლაფალი კამერა
+          steps: ბიჯგეფი
+          stop: სტოპ შანი
           street_lamp: შოშეშ მასინთე
           tertiary: მასუმა კლასიშ რზა
           tertiary_link: მასუმა კლასიშ რზა
+          track: შუკა
+          traffic_mirror: შარაშ სარკე
           unclassified: აბანობური რზა
           "yes": რზა
         historic:
@@ -786,6 +830,7 @@ xmf:
           communications_tower: ოკომუნიკაციე ყორში
           cross: ჯვარი
           lighthouse: ოსინთაფუ
+          pipeline: სვიროლი
           storage_tank: რეზერვუარი
           telescope: ტელესკოპი
           tower: ყორში
@@ -793,8 +838,11 @@ xmf:
           water_tower: წყარიშ ყორში
           water_well: ინჭა
           windmill: ბორიაშ ოქუმი
+          works: ქარხანა
+          "yes": ხელუანური
         military:
           airfield: ოურდუმე აეროდრომი
+          barracks: კაზარმა
           bunker: ბუნკერი
           checkpoint: საკონტროლე-გჷმატებელი პუნქტი
           "yes": ოურდუმე
@@ -835,9 +883,11 @@ xmf:
           stone: ქუა
           strait: საროტი
           tree: ჯა
+          tundra: ტუნდრა
           valley: ვე
           volcano: ვულკანი
           water: წყარი
+          wetland: სუჯონა ტერიტორია
           wood: ტყა
         office:
           accountant: ბუღალტერი
@@ -888,7 +938,9 @@ xmf:
           funicular: ფუნიკულიორი
           monorail: მონორელსი
           narrow_gauge: ინწროლიანდაგამი რკინაშარა
+          platform: რკინაშარაშ პლატფორმა
           preserved: ისტორიული რკინაშარა
+          proposed: გეგმარაფილი რკინაშარა
           station: რკინაშარაშ დგჷმილი
           subway: მეტრო
           subway_entrance: მეტროშ მინაულარი
@@ -902,11 +954,17 @@ xmf:
           books: წინგიშ მაღაზია
           boutique: ბუტიკი
           car: ავტოსალონი
+          car_parts: ავტონორთეფი
+          car_repair: ავტოორსანტიე
           carpet: ნოხეფიშ მაღაზია
+          charity: მაჟირული მუკაქუნალი
+          cheese: ჸვალიშ მაღაზია
+          chemist: ქიმია
           chocolate: შოკოლადი
           clothes: მუკაქუნალიშ მაღაზია
           coffee: ყავაშ მაღაზია
           computer: კომპიუტერეფიშ მაღაზია
+          confectionery: საკონდიტრე
           cosmetics: კოსმეტიკაშ მაღაზია
           dairy: ბჟაშ პროდუქტეფიშ მაღაზია
           deli: დელიკატესეფი
@@ -921,9 +979,12 @@ xmf:
           fashion: მოდური მუკაქუნალიშ მაღაზია
           florist: პეულეფიშ მაღაზია
           food: ოჭკომალიშ მაღაზია
+          furniture: ავეჯი
           garden_centre: ბაღიშ ცენტრი
           gift: ოჩუქებელეფიშ მაღაზია
           greengrocer: ხილ-ორტვინობაშ მაღაზია
+          lottery: ლატარია
+          mall: მოლი
           massage: მასაჟი
           mobile_phone: მობილური ტელეფონეფიშ მაღაზია
           money_lender: კრედიტორი
@@ -976,9 +1037,37 @@ xmf:
           theme_park: თემატური პარკი
           viewpoint: გინაჯინუ
           zoo: ზოოპარკი
+        tunnel:
+          "yes": გვირაბი
         waterway:
           artificial: ხელუანური წყაროლინი
           canal: არხი
+          river: წყარმალუ
+          stream: სქურია
+          wadi: გესქირაფილი კალაპოტი
+          waterfall: წყარგელაფუ
+      admin_levels:
+        level2: ქიანაშ ხურგი
+        level3: რეგიონიშ ხურგი
+        level4: შტატიშ ხურგი
+        level5: რეგიონიშ ხურგი
+        level6: ოლქიშ ხურგი
+        level7: მუნიციპალიტეტიშ ხურგი
+        level8: ნოღაშ ხურგი
+        level9: ოფუტეშ ხურგი
+        level11: სამეძობოშ ხურგი
+      types:
+        cities: ნოღეფი
+        towns: დაბეფი
+        places: აბანეფი
+    results:
+      no_results: შედეგიქ ვეგორჷ
+      more_results: უმოსი შედეგი
+  layouts:
+    intro_header: მოზოჯით OpenStreetMap-შა!
+    intro_2_create_account: მახვარებუეფიშ ანგარიშიშ გოჭყაფა
+    tou: გჷმორინაფაშ წესეფი
+    about: გეშა
   users:
     auth_failure:
       unknown_error: ავთენტიფიკაციაქ ვეგშართჷ
