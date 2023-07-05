@@ -72,6 +72,15 @@ class I18nTest < ActiveSupport::TestCase
     end
   end
 
+  # We should avoid using the key `zero:` in English, since that key
+  # is used for "numbers ending in zero" in other languages.
+  def test_en_for_zero_key
+    en = YAML.load_file(Rails.root.join("config/locales/en.yml"))
+    assert_nothing_raised do
+      check_keys_for_zero(en)
+    end
+  end
+
   private
 
   def translation_keys(scope = nil)
@@ -116,6 +125,16 @@ class I18nTest < ActiveSupport::TestCase
         check_values_for_nil(v)
       else
         raise "Avoid nil values in '#{k}: nil'" if v.nil?
+      end
+    end
+  end
+
+  def check_keys_for_zero(hash)
+    hash.each_pair do |k, v|
+      if v.is_a? Hash
+        check_keys_for_zero(v)
+      else
+        raise "Avoid using 'zero' key in '#{k}: #{v}'" if k.to_s == "zero"
       end
     end
   end
