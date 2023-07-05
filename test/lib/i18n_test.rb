@@ -55,10 +55,13 @@ class I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_en_for_raw_html
-    en = YAML.load_file(Rails.root.join("config/locales/en.yml"))
-    assert_nothing_raised do
-      check_values_for_raw_html(en)
+  Rails.root.glob("config/locales/*.yml").each do |filename|
+    lang = File.basename(filename, ".yml")
+    define_method("test_#{lang}_for_raw_html".to_sym) do
+      yml = YAML.load_file(filename)
+      assert_nothing_raised do
+        check_values_for_raw_html(yml)
+      end
     end
   end
 
@@ -101,7 +104,7 @@ class I18nTest < ActiveSupport::TestCase
       if v.is_a? Hash
         check_values_for_raw_html(v)
       else
-        next unless k.end_with?("_html")
+        next unless k.to_s.end_with?("_html")
         raise "Avoid using raw html in '#{k}: #{v}'" if v.include? "<"
       end
     end
