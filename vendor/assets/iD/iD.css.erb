@@ -5085,10 +5085,14 @@
     display: none;
 }
 
-.ideditor .form-field-input-combo input.raw-value {
+.ideditor .form-field-input-combo input.raw-value,
+.ideditor .form-field-input-semicombo input.raw-value,
+.ideditor .form-field-input-multicombo input.raw-value {
     font-family: monospace;
 }
-.ideditor .form-field-input-combo input.known-value {
+.ideditor .form-field-input-combo input.known-value,
+.ideditor .form-field-input-semicombo input.known-value,
+.ideditor .form-field-input-multicombo input.known-value {
     color: #7092ff;
 }
 
@@ -5128,6 +5132,12 @@
     max-width: 100%;
     color: #7092ff;
 }
+.ideditor .form-field-input-multicombo li.chip.negated span {
+    text-decoration: line-through;
+}
+.ideditor .form-field-input-multicombo li.chip input {
+    width: 1em;
+}
 .ideditor[dir='ltr'] .form-field-input-multicombo li.chip {
     padding: 2px 0px 2px 5px;
 }
@@ -5154,7 +5164,7 @@
     font-style: italic;
 }
 
-.ideditor .form-field-input-multicombo li.chip span {
+.ideditor .form-field-input-multicombo li.chip > span {
     display: block;
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
@@ -5197,7 +5207,9 @@
     width: auto;
 }
 
-.ideditor .form-field-input-combo .tag-value-icon {
+.ideditor .form-field-input-combo .tag-value-icon,
+.ideditor .form-field-input-semicombo .input-wrap .tag-value-icon,
+.ideditor .form-field-input-multicombo .input-wrap .tag-value-icon {
     display: inline-block;
     position: relative;
     height: 24px;
@@ -5209,7 +5221,9 @@
     z-index: 1;
     padding-left: 11px;
 }
-.ideditor[dir='rtl'] .form-field-input-combo .tag-value-icon {
+.ideditor[dir='rtl'] .form-field-input-combo .tag-value-icon,
+.ideditor[dir='rtl'] .form-field-input-semicombo .input-wrap .tag-value-icon,
+.ideditor[dir='rtl'] .form-field-input-multicombo .input-wrap .tag-value-icon  {
     margin-right: 0;
     margin-left: -30px;
     padding-left: 0;
@@ -5220,15 +5234,29 @@
     height: 21px;
     margin: auto;
 }
-.ideditor[dir='ltr'] .form-field-input-combo .tag-value-icon + input {
+.ideditor[dir='ltr'] .form-field-input-combo .tag-value-icon + input,
+.ideditor[dir='ltr'] .form-field-input-semicombo .input-wrap .tag-value-icon + input,
+.ideditor[dir='ltr'] .form-field-input-multicombo .input-wrap .tag-value-icon + input {
     padding-left: 40px;
 }
-.ideditor[dir='rtl'] .form-field-input-combo .tag-value-icon + input {
+.ideditor[dir='rtl'] .form-field-input-combo .tag-value-icon + input,
+.ideditor[dir='rtl'] .form-field-input-semicombo .input-wrap .tag-value-icon + input,
+.ideditor[dir='rtl'] .form-field-input-multicombo .input-wrap .tag-value-icon + input {
     padding-right: 40px;
 }
 .ideditor .combobox-option .tag-value-icon {
     display: inline-block;
     width: 28px;
+}
+.ideditor .form-field-input-multicombo li.chip .tag-value-icon .icon {
+    margin: 0;
+    margin-right: 6px;
+    display: inline-block;
+    vertical-align: center;
+}
+.ideditor[dir='rtl'] .form-field-input-multicombo li.chip .tag-value-icon .icon {
+    margin-right: 6px;
+    margin-left: 0;
 }
 
 
@@ -5608,6 +5636,19 @@
 }
 .ideditor[dir='rtl'] .addr-row:last-of-type input:last-of-type {
     border-radius: 0 0 0 4px;
+}
+.ideditor .combobox-address-street-place .combobox-option.address-street,
+.ideditor .combobox-address-street-place .combobox-option.address-place {
+    padding-right: 20px;
+}
+.ideditor .combobox-address-street-place .combobox-option.address-street::after,
+.ideditor .combobox-address-street-place .combobox-option.address-place::after {
+    position: absolute;
+    right: 2px;
+    opacity: 0.4;
+}
+.ideditor .combobox-address-street-place .combobox-option.address-place::after {
+    content: url(data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMCIgeT0iMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiB2aWV3Qm94PSIwIDAgMjAgMjAiPg0KICAgIDxwYXRoIGQ9Ik0xMCwzIEM2LjY4NiwzIDQsNS42MTIgNCw4LjgzMyBDNCwxMi4wNTUgMTAsMTcgMTAsMTcgQzEwLDE3IDE2LDEyLjA1NSAxNiw4LjgzMyBDMTYsNS42MTIgMTMuMzE0LDMgMTAsMyB6IE0xMC4xODcsNi41IEMxMS41MTMsNi41IDEyLjU4Nyw3LjU0NSAxMi41ODcsOC44MzMgQzEyLjU4NywxMC4xMjIgMTEuNTEzLDExLjE2NyAxMC4xODcsMTEuMTY3IEM4Ljg2MiwxMS4xNjcgNy43ODcsMTAuMTIyIDcuNzg3LDguODMzIEM3Ljc4Nyw3LjU0NSA4Ljg2Miw2LjUgMTAuMTg3LDYuNSB6IiBmaWxsPSJjdXJyZW50Q29sb3IiLz4NCjwvc3ZnPg==);
 }
 
 
