@@ -8,7 +8,7 @@
       </li>
       <% if params[:tag] %>
         <li>
-          <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :display_name => nil, :tag => nil, :page => nil } %>
+          <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :tag => nil } %>
         </li>
       <% end %>
     </ul>
@@ -17,33 +17,33 @@
     <% if @target_user.blank? %>
       <!-- public traces -->
       <li class="nav-item">
-        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil, :page => nil }, { :class => "nav-link active" } %>
+        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link active" } %>
       </li>
       <% if current_user %>
         <li class="nav-item">
-          <%= link_to t(".my_traces"), { :action => "mine", :page => nil }, { :class => "nav-link" } %>
+          <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
         </li>
       <% end %>
     <% elsif current_user && current_user == @target_user %>
       <li class="nav-item">
-        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil, :page => nil }, { :class => "nav-link" } %>
+        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
       </li>
       <!-- my traces -->
       <li class="nav-item">
-        <%= link_to t(".my_traces"), { :action => "mine", :page => nil }, { :class => "nav-link active" } %>
+        <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link active" } %>
       </li>
     <% else %>
       <!-- public_traces_from @target_user -->
       <li class="nav-item">
-        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil, :page => nil }, { :class => "nav-link" } %>
+        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
       </li>
       <% if current_user && current_user != @target_user %>
         <li class="nav-item">
-          <%= link_to t(".my_traces"), { :action => "mine", :page => nil }, { :class => "nav-link" } %>
+          <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
         </li>
       <% end %>
       <li class="nav-item">
-        <%= link_to t(".public_traces_from", :user => @target_user&.display_name), { :action => "mine", :page => nil }, { :class => "nav-link active" } %>
+        <%= link_to t(".public_traces_from", :user => @target_user&.display_name), { :action => "mine" }, { :class => "nav-link active" } %>
       </li>
     <% end %>
 
@@ -66,7 +66,7 @@
 <% end %>
 
 <% if @traces.size > 0 %>
-  <%= render "trace_paging_nav", :page => @page, :page_size => @page_size, :traces => @traces, :params => @params %>
+  <%= render "trace_paging_nav", :older_traces => @older_traces, :newer_traces => @newer_traces, :traces => @traces, :params => @params %>
 
   <table id="trace_list" class="table table-borderless table-striped">
     <tbody>
@@ -74,7 +74,7 @@
     </tbody>
   </table>
 
-  <%= render "trace_paging_nav", :page => @page, :page_size => @page_size, :traces => @traces, :params => @params %>
+  <%= render "trace_paging_nav", :older_traces => @older_traces, :newer_traces => @newer_traces, :traces => @traces, :params => @params %>
 <% else %>
   <h2><%= t ".empty_title" %></h2>
   <p><%= t ".empty_upload_html", :upload_link => link_to(t(".upload_new"), new_trace_path),

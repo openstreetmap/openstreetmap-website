@@ -1,8 +1,8 @@
 <nav>
   <ul class="pagination">
-    <% if page > 1 %>
+    <% if newer_traces %>
       <li class="page-item">
-        <%= link_to t(".newer"), params.merge(:page => page - 1), :class => "page-link" %>
+        <%= link_to t(".newer"), params.merge(:before => nil, :after => traces.first.id), :class => "page-link" %>
       </li>
     <% else %>
       <li class="page-item disabled">
@@ -10,17 +10,13 @@
       </li>
     <% end %>
 
-    <li class="page-item disabled">
-      <span class="page-link"><%= t(".showing_page", :page => page) %></span>
-    </li>
-
-    <% if traces.size < page_size %>
-      <li class="page-item disabled">
-        <span class="page-link"><%= t(".older") %></span>
+    <% if older_traces %>
+      <li class="page-item">
+        <%= link_to t(".older"), params.merge(:before => traces.last.id, :after => nil), :class => "page-link" %>
       </li>
     <% else %>
-      <li class="page-item">
-        <%= link_to t(".older"), params.merge(:page => page + 1), :class => "page-link" %>
+      <li class="page-item disabled">
+        <span class="page-link"><%= t(".older") %></span>
       </li>
     <% end %>
   </ul>
