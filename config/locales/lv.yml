@@ -19,6 +19,7 @@
 # Author: Raitisx
 # Author: Ruila
 # Author: Silraks
+# Author: Treisijs
 # Author: Ttdnet
 ---
 lv:
@@ -26,18 +27,23 @@ lv:
     formats:
       friendly: '%e %B %Y @ %H:%M'
   helpers:
+    file:
+      prompt: Izvēlēties datni
     submit:
       diary_comment:
-        create: Saglabāt
+        create: Komentārs
       diary_entry:
         create: Publicēt
+        update: Atjaunināt
       issue_comment:
         create: Pievienot komentāru
       message:
         create: Sūtīt
       client_application:
         create: Reģistrēties
-        update: Labot
+        update: Atjaunināt
+      oauth2_application:
+        update: Atjaunināt
       redaction:
         create: Izveidot redakciju
         update: Saglabāt redakciju
@@ -87,8 +93,11 @@ lv:
       way_tag: Līnijas apzīmējums
     attributes:
       client_application:
+        name: Nosaukums (obligāts)
         callback_url: Atzvanīšanas URL
         support_url: Atbalsta URL
+        allow_write_api: mainīt karti
+        allow_write_notes: mainīt piezīmes
       diary_comment:
         body: Teksts
       diary_entry:
@@ -97,6 +106,9 @@ lv:
         latitude: Platums
         longitude: Garums
         language_code: Valoda
+      doorkeeper/application:
+        name: Nosaukums
+        scopes: Atļaujas
       friend:
         user: Lietotājs
         friend: Draugs
@@ -109,7 +121,7 @@ lv:
         longitude: Garums
         public: Publisks
         description: Apraksts
-        gpx_file: 'Augšupielādēt GPX failu:'
+        gpx_file: Augšupielādējiet GPX datni
         visibility: Redzamība
         tagstring: Iezīmes
       message:
@@ -119,16 +131,21 @@ lv:
         recipient: Saņēmējs
       redaction:
         description: Apraksts
+      report:
+        category: Izvēlieties tava ziņojuma iemeslu
+        details: Lūdzu, sniedziet sīkāku informāciju par problēmu (obligāti).
       user:
         email: E-pasts
-        new_email: 'Jauna e-pasta adrese:'
+        email_confirmation: E-pasta apstiprinājums
+        new_email: Jauna e-pasta adrese
         active: Aktīvs
         display_name: Rādāmais vārds
-        description: Apraksts
-        home_lat: 'Platums:'
-        home_lon: 'Garums:'
-        languages: Valodas
+        description: Profila apraksts
+        home_lat: Ģeogrāfiskais platums
+        home_lon: Ģeogrāfiskais garums
+        languages: Vēlamās valodas
         pass_crypt: Parole
+        pass_crypt_confirmation: Apstipriniet paroli
     help:
       trace:
         tagstring: atdalīts ar komatiem
@@ -136,6 +153,9 @@ lv:
         needs_view: Vai lietotājam ir nepieciešams ieiet pirms šis bloks tiks noņemts?
       user:
         new_email: (nekad netiek rādīta publiski)
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: pirms pusminūtes
   editor:
     default: Noklusējuma (pašlaik %{name})
     id:
@@ -143,13 +163,14 @@ lv:
       description: iD (pārlūka redaktors)
     remote:
       name: Attālinātā palaišana
-      description: Attālinātā palaišana  (JOSM vai Merkaartor)
+      description: Attālinātā palaišana  (JOSM, Potlatch vai Merkaartor)
   auth:
     providers:
+      none: Nav
       openid: OpenID
       google: Google
       facebook: Facebook
-      windowslive: Windows Live
+      windowslive: Microsoft
       github: GitHub
       wikipedia: Vikipēdija
   api:
@@ -175,12 +196,20 @@ lv:
       entry:
         comment: Komentārs
         full: Pilna piezīme
+  account:
+    deletions:
+      show:
+        title: Dzēst manu kontu
+        warning: Brīdinājums! Konta dzēšanas process ir galīgs, un to nevar atsaukt.
+        delete_account: Dzēst kontu
+        confirm_delete: Vai esat pārliecināts?
+        cancel: Atcelt
   accounts:
     edit:
       title: Rediģēt kontu
       my settings: Mani iestatījumi
-      current email address: 'Pašreizējā e-pasta adrese:'
-      external auth: 'Ārējā autentifikācija:'
+      current email address: Pašreizējā e-pasta adrese
+      external auth: Ārējā autentifikācija
       openid:
         link text: Kas tas ir?
       public editing:
@@ -190,7 +219,7 @@ lv:
         disabled: Atspējots un nevar labot datus, visi iepriekšējie labojumi ir anonīmi.
         disabled link text: Kāpēc nevar rediģēt?
       contributor terms:
-        heading: 'Devuma Noteikumi:'
+        heading: Devuma noteikumi
         agreed: Tu esi pieņēmis jaunos Veidotāju Noteikumus.
         not yet agreed: Tu vēl neesi piekritis jaunajiem Veidotāju Noteikumiem
         review link text: Lūdzu sekojiet šai saitei un izskatiet un pieņemiet jaunos
@@ -200,15 +229,26 @@ lv:
         link text: kas tas ir?
       save changes button: Saglabāt izmaiņas
     go_public:
-      heading: 'Publiska rediģēšana:'
+      heading: Publiska rediģēšana
+      currently_not_public: Pašlaik jūsu labojumi ir anonīmi, un cilvēki nevar jums
+        nosūtīt ziņojumus vai redzēt jūsu atrašanās vietu. Lai parādītu, ko rediģējāt,
+        un ļautu citiem ar jums sazināties, izmantojot vietni, noklikšķiniet uz zemāk
+        esošo pogu.
+      find_out_why: uzzini, kāpēc
+      not_reversible: Šo darbību nevar atsaukt, un visi jaunie lietotāji tagad pēc
+        noklusējuma ir publiski.
       make_edits_public_button: Padarīt visus manus labojumus publiskus
     update:
       success_confirm_needed: Lietotāja informācija veiksmīgi atjaunota. Pārbaudi
         e-pastu, lai apstiprinātu savu jauno e-pasta adresi.
       success: Lietotāja informācija veiksmīgi atjaunināta.
+    destroy:
+      success: Konts dzēsts.
   browse:
     created: Izveidots
     closed: Aizvērts
+    created_ago_html: Izveidots %{time_ago}
+    closed_ago_html: Slēgts %{time_ago}
     version: Versija
     in_changeset: Izmaiņu kopa
     anonymous: anonīms
@@ -447,16 +487,18 @@ lv:
           drag_lift: Vilkšanas Pacēlājs
           gondola: Gondola Lifts
           station: Pacēlāja Stacija
+          "yes": Gaisa ceļš
         aeroway:
           aerodrome: Lidlauks
-          apron: Perons
-          gate: Vārti
+          apron: Lidostas perons
+          gate: Lidostas vārti
           hangar: Angārs
           helipad: Helikopteru nolaišanās laukums
           runway: Skrejceļš
           taxiway: Manevrēšanas ceļš
-          terminal: Terminālis
+          terminal: Lidostas terminālis
         amenity:
+          animal_boarding: Dzīvnieku iekāpšana
           animal_shelter: Dzīvnieku patversme
           arts_centre: Mākslas centrs
           atm: Bankomāts
@@ -466,7 +508,9 @@ lv:
           bench: Soliņš
           bicycle_parking: Velosipēdu novietne
           bicycle_rental: Velosipēdu noma
+          bicycle_repair_station: Velosipēdu remonta stacija
           biergarten: Alus dārzs
+          blood_bank: Asins banka
           boat_rental: Laivu noma
           brothel: Bordelis
           bureau_de_change: Valūtas maiņas punkts
@@ -483,6 +527,7 @@ lv:
           clock: Pulkstenis
           college: Koledža
           community_centre: Sabiedriskais centrs
+          conference_centre: Konferenču centrs
           courthouse: Tiesa
           crematorium: Krematorija
           dentist: Zobārsts
@@ -490,27 +535,33 @@ lv:
           drinking_water: Dzeramais ūdens
           driving_school: Braukšanas skola
           embassy: Vēstniecība
+          events_venue: Pasākumu norises vieta
           fast_food: Bistro
           ferry_terminal: Prāmju termināls
           fire_station: Ugunsdzēsēju depo
           food_court: Ēstuves
           fountain: Strūklaka
-          fuel: Degviela
+          fuel: Uzpildes stacija
           gambling: Azartspēles
           grave_yard: Kapsēta
           hospital: Slimnīca
           hunting_stand: Medību tornis
           ice_cream: Saldējums
+          internet_cafe: Interneta kafejnīca
           kindergarten: Bērnudārzs
+          language_school: Valodas skola
           library: Bibliotēka
+          loading_dock: Iekraušanas doks
           marketplace: Tirgus
           monastery: Klosteris
+          money_transfer: Naudas pārvedums
           motorcycle_parking: Motociklu stāvvieta
           music_school: Mūzikas skola
           nightclub: Naktsklubs
           nursing_home: Pansionāts
           parking: Autostāvvieta
           parking_entrance: Autostāvvietas iebrauktuve
+          payment_terminal: Maksājumu terminālis
           pharmacy: Aptieka
           place_of_worship: Dievnams
           police: Policija
@@ -519,6 +570,7 @@ lv:
           prison: Cietums
           pub: Krogs
           public_bath: Publiskā pirts
+          public_bookcase: Publiskais grāmatu skapis
           public_building: Sabiedriskā ēka
           recycling: Pārstrādes punkts
           restaurant: Restorāns
@@ -540,6 +592,7 @@ lv:
           village_hall: Pagastmāja
           waste_basket: Atkritumu grozs
           waste_disposal: Atkritumu izgāztuve
+          water_point: Ūdens punkts
         boundary:
           administrative: Administratīvā robeža
           census: Skaitīšanas robeža
@@ -552,48 +605,76 @@ lv:
           viaduct: Viadukts
           "yes": Tilts
         building:
+          apartment: Dzīvoklis
+          apartments: Dzīvokļi
+          barn: Kūts
+          bungalow: Bungalo
+          cabin: Kajīte
           chapel: Kapela
-          church: Baznīca
+          church: Baznīcas ēka
+          civic: Sabiedriskā ēka
+          college: Koledžas ēka
           commercial: Tirdzniecības ēka
+          construction: Ēka būvniecības stadijā
           dormitory: Kopmītnes
           farm: Saimniecības ēka
           garage: Garāža
           garages: Garāžas
+          greenhouse: Siltumnīca
           hangar: Angārs
           hospital: Slimnīcas ēka
-          hotel: Viesnīca
+          hotel: Viesnīcas ēka
           house: Māja
+          hut: Būda
           industrial: Ražošanas ēka
+          kindergarten: Bērnudārza ēka
+          manufacture: Ražošanas ēka
           office: Biroju ēka
           public: Sabiedriskā ēka
           residential: Dzīvojamā ēka
           retail: Mazumtirdzniecības ēka
           roof: Jumts
+          ruins: Izpostīta ēka
           school: Skolas ēka
-          terrace: Terase
-          train_station: Dzelzceļa stacija
+          shed: Šķūnis
+          stable: Stallis
+          static_caravan: Karavāna
+          temple: Tempļa ēka
+          terrace: Terases ēka
+          train_station: Dzelzceļa stacijas ēka
           university: Universitātes ēka
           warehouse: Noliktava
           "yes": Ēka
         club:
+          scout: Skautu grupas bāze
           sport: Sporta klubs
           "yes": Klubs
         craft:
+          beekeeper: Biškopis
+          blacksmith: Kalējs
           brewery: Alus darītava
           carpenter: Galdnieks
+          dressmaker: Drēbnieks
           electrician: Elektriķis
+          electronics_repair: Elektronikas remonts
           gardener: Dārznieks
+          handicraft: Rokdarbi
           painter: Krāsotājs
           photographer: Fotogrāfs
           plumber: Santehniķis
           roofer: Jumiķis
           sawmill: Kokzāģētava
           shoemaker: Kurpnieks
+          stonemason: Akmeņkalējs
           tailor: Drēbnieks
+          window_construction: Logu konstrukcija
+          winery: Vīna darītava
           "yes": Amatnieks
         emergency:
+          access_point: Piekļuves punkts
           ambulance_station: Ātrās Palīdzības staciija
           defibrillator: Defibrilators
+          fire_extinguisher: Ugunsdzēšamais aparāts
           landing_site: Avārijas nosēšanās vieta
           phone: Telefons ārkārtas situācijai
         highway:
@@ -630,6 +711,7 @@ lv:
           services: Ceļa Atpūtas Vieta
           speed_camera: Ātruma kamera
           steps: Pakāpieni
+          stop: Stop zīme
           street_lamp: Ielas Laterna
           tertiary: Pašvaldību autoceļi
           tertiary_link: Pašvaldību autoceļš
@@ -641,11 +723,13 @@ lv:
           unclassified: Neklasificēts ceļš
           "yes": Ceļš
         historic:
+          aircraft: Vēsturisks lidaparāts
           archaeological_site: Arheoloģisku izrakumu vieta
           battlefield: Kaujas lauks
           boundary_stone: Robežstabs
           building: Vēsturiska ēka
           bunker: Bunkurs
+          cannon: Vēsturisks lielgabals
           castle: Pils
           church: Baznīca
           city_gate: Pilsētas vārti
@@ -657,23 +741,27 @@ lv:
           memorial: Memoriāls
           mine: Raktuves
           monument: Piemineklis
+          railway: Vēsturisks dzelzceļš
           roman_road: Romiešu ceļš
           ruins: Drupas
+          rune_stone: Rūnas akmens
           stone: Akmens
           tomb: Kaps
           tower: Tornis
           wayside_cross: Krusts ceļmalā
           wayside_shrine: Ceļmalas svētnīca
           wreck: Vraks
+          "yes": Vēsturiska vieta
         junction:
           "yes": Krustojums
         landuse:
           allotments: Mazdārziņi
+          aquaculture: Akvakultūra
           basin: Rezervuārs
           brownfield: Attīrīts būvlaukums
           cemetery: Kapsēta
           commercial: Tirdzniecības zona
-          conservation: Saglabāšanas zona
+          conservation: Aizsargājamā teritorija
           construction: Būvlaukums
           farmland: Saimniecības zeme
           farmyard: Saimniecības pagalms
@@ -687,31 +775,35 @@ lv:
           military: Militārā zona
           mine: Raktuves
           orchard: Dārza zona
+          plant_nursery: Stādu audzētava
           quarry: Karjers
           railway: Dzelzceļš
           recreation_ground: Atpūtas Zona
           reservoir: Ūdenskrātuve
           reservoir_watershed: Rezervuāru ūdensšķirtne
           residential: Dzīvojamā zona
-          retail: Mazumtirdzniecība
+          retail: Mazumtirdzniecības zona
           village_green: Ciema Centrālais Parks
           vineyard: Vīna dārzs
           "yes": Zemes izmantojums
         leisure:
           beach_resort: Pludmales kūrorts
           bird_hide: Putnu Slēptuve
+          bowling_alley: Boulinga zāle
           common: Koplietošanas zeme
+          dance: Deju zāle
           dog_park: Suņu laukums
           fishing: Zvejas apgabals
           fitness_centre: Fitnesa centrs
           fitness_station: Fitnesa Stacija
           garden: Dārzs
           golf_course: Golfa laukums
-          horse_riding: Zirgu izjādes
+          horse_riding: Zirgu izjāžu centrs
           ice_rink: Ledus halle
           marina: Osta
           miniature_golf: Minigolfs
           nature_reserve: Dabas rezervāts
+          outdoor_seating: Āra sēdvietas
           park: Parks
           picnic_table: Piknika galds
           pitch: Sporta laukums
@@ -727,17 +819,32 @@ lv:
           water_park: Ūdens atrakciju parks
           "yes": Atpūtas vieta
         man_made:
+          antenna: Antena
+          avalanche_protection: Aizsardzība pret lavīnu
+          beacon: Bāka
           beehive: Bišu strops
+          breakwater: Mols
           bridge: Tilts
           bunker_silo: Bunkurs
           chimney: Skurstenis
+          communications_tower: Sakaru tornis
+          crane: Celtnis
+          cross: Krusts
           flagpole: Karoga masts
+          kiln: Ceplis
           lighthouse: Bāka
           mine: Raktuves
+          mineshaft: Raktuves šahta
+          monitoring_station: Uzraudzības stacija
+          pier: Piestātne
           pipeline: Cauruļvads
+          pumping_station: Sūkņu stacija
+          reservoir_covered: Nosegts rezervuārs
           snow_cannon: Sniega lielgabals
           surveillance: Novērošana
+          telescope: Teleskops
           tower: Tornis
+          wastewater_plant: Notekūdeņu stacija
           watermill: Ūdens dzirnavas
           water_tower: Ūdens tornis
           water_well: Aka
@@ -748,9 +855,11 @@ lv:
           airfield: Militārais lidlauks
           barracks: Barakas
           bunker: Bunkurs
+          checkpoint: Kontrolpunkts
         mountain_pass:
           "yes": Kalnu ieleja
         natural:
+          atoll: Atols
           bay: Līcis
           beach: Pludmale
           cape: Zemesrags
@@ -767,12 +876,15 @@ lv:
           grassland: Pļava
           heath: Tīrelis
           hill: Kalns
+          hot_spring: Karstais avots
           island: Sala
+          isthmus: Zemesšaurums
           land: Zeme
           marsh: Purvs
           moor: Tīrelis
           mud: Dubļi
           peak: Smaile
+          peninsula: Pussala
           point: Punkts
           reef: Rifs
           ridge: Grēda
@@ -785,6 +897,8 @@ lv:
           stone: Akmens
           strait: Jūras šaurums
           tree: Koks
+          tree_row: Koku rinda
+          tundra: Tundra
           valley: Ieleja
           volcano: Vulkāns
           water: Ūdens
@@ -793,19 +907,31 @@ lv:
         office:
           accountant: Grāmatvedis
           administrative: Administrācija
+          advertising_agency: Reklāmas aģentūra
           architect: Arhitekts
+          association: Asociācija
           company: Uzņēmums
+          diplomatic: Diplomātiskais birojs
+          educational_institution: Izglītības iestāde
           employment_agency: Nodarbinātības aģentūra
           estate_agent: Nekustamā īpašuma aģents
+          financial: Finanšu birojs
           government: Valsts birojs
           insurance: Apdrošināšanas birojs
+          it: IT birojs
           lawyer: Jurists
+          logistics: Loģistikas birojs
+          newspaper: Laikrakstu birojs
           ngo: NGO Ofiss
+          notary: Notārs
+          research: Pētniecības birojs
+          tax_advisor: Nodokļu konsultants
           telecommunication: Telekomunikāciju Ofiss
           travel_agent: Tūrisma aģentūra
           "yes": Birojs
         place:
           allotments: Mazdārziņi
+          archipelago: Arhipelāgs
           city: Pilsēta
           city_block: Pilsētas kvartāls
           country: Valsts
@@ -820,6 +946,7 @@ lv:
           locality: Vieta
           municipality: Pašvaldība
           neighbourhood: Pilsētas rajons
+          plot: Sižets
           postcode: Pasta indekss
           region: Reģions
           sea: Jūra
@@ -856,11 +983,15 @@ lv:
         shop:
           alcohol: Alkohola Veikals
           antiques: Senlietas
+          appliance: Sadzīves tehnikas veikals
           art: Mākslas salons
+          baby_goods: Bērnu preces
           bakery: Maiznīca
           beauty: Kosmētiskais salons
+          bed: Gultas piederumi
           beverages: Dzērienu veikals
           bicycle: Velosipēdu veikals
+          bookmaker: Bukmeikers
           books: Grāmatu veikals
           boutique: Mazs elitārs veikals
           butcher: Miesnieks
@@ -871,21 +1002,30 @@ lv:
           charity: Labdarības veikals
           cheese: Siera veikals
           chemist: Ķīmiķis
+          chocolate: Šokolāde
           clothes: Apģērbu veikals
+          coffee: Kafejnīca
           computer: Datorveikals
           confectionery: Konditorejas veikals
           convenience: Stūra Veikals
           copyshop: Kopētava
           cosmetics: Kosmētikas veikals
+          craft: Amatniecības piederumu veikals
+          curtain: Aizkaru veikals
+          dairy: Piena produktu veikals
           deli: Delikatešu veikals
           department_store: Universālveikals
           discount: Atlaižu Veikals
-          doityourself: Dari-pats
+          doityourself: Veikals “dari pats”.
           dry_cleaning: Ķīmiskā tīrīšana
+          e-cigarette: E-cigarešu veikals
           electronics: Elektronikas veikals
+          erotic: Erotiskais veikals
           estate_agent: Nekustamā īpašuma aģents
+          fabric: Audumu veikals
           farm: Saimniecības Veikals
           fashion: Modes veikals
+          fishing: Makšķerēšanas piederumu veikals
           florist: Florists
           food: Pārtikas veikals
           funeral_directors: Apbedīšanas birojs
@@ -897,14 +1037,19 @@ lv:
           grocery: Pārtikas preču veikals
           hairdresser: Frizētava
           hardware: Saimniecības veikals
-          hifi: Hi-Fi
+          hifi: Hi-Fi veikals
+          houseware: Mājsaimniecības preču veikals
+          ice_cream: Saldējuma veikals
           jewelry: Juvelierizstrādājumu veikals
           kiosk: Kiosks
           laundry: Veļas mazgātava
+          locksmith: Atslēdznieks
           lottery: Loterija
           mall: Tirdzniecības centrs
           massage: Masāža
+          medical_supply: Medicīnas preču veikals
           mobile_phone: Mobilo telefonu veikals
+          money_lender: Naudas aizdevējs
           motorcycle: Motociklu veikals
           music: Mūzikas veikals
           newsagent: Laikrakstu Pārdevējs
@@ -912,29 +1057,37 @@ lv:
           organic: Bioloģiskās pārtikas veikals
           outdoor: Ārtelpu Veikals
           paint: Krāsas veikals
+          pastry: Konditorejas veikals
+          pawnbroker: Lombards
           pet: Zooveikals
           photo: Fotoveikals
           seafood: Jūras veltes
           second_hand: Lietoto preču veikals
+          sewing: Šūšanas veikals
           shoes: Apavu veikals
           sports: Sporta veikals
           stationery: Kancelejas preču veikals
           supermarket: Lielveikals
           tailor: Drēbnieks
+          tea: Tējas veikals
+          ticket: Biļešu veikals
           tobacco: Tabakas veikals
           toys: Rotaļlietu veikals
           travel_agency: Tūrisma aģentūra
           tyres: Riepu veikals
           video: Video veikals
+          video_games: Videospēļu veikals
+          wholesale: Vairumtirdzniecības veikals
           wine: Vīna veikals
           "yes": Veikals
         tourism:
           alpine_hut: Kalnu būda
-          apartment: Dzīvokļi
+          apartment: Brīvdienu dzīvoklis
           artwork: Mākslas darbs
           attraction: Atrakcija
           bed_and_breakfast: Guļamvieta un brokastis
-          cabin: Kabīne
+          cabin: Tūristu mājiņa
+          camp_pitch: Nometnes laukums
           camp_site: Nometnes vieta
           caravan_site: Kempings
           chalet: Kotedža
@@ -981,6 +1134,7 @@ lv:
         level8: Pilsētas robeža
         level9: Ciema robeža
         level10: Priekšpilsētas robeža
+        level11: Apkaimes robeža
       types:
         cities: Pilsētas
         towns: Pilsētas
@@ -990,15 +1144,23 @@ lv:
       more_results: Vairāk rezultātu
   issues:
     index:
+      select_type: Izvēlēties veidu
+      not_updated: Nav atjaunināts
       search: Meklēt
+      search_guidance: 'Meklēšanas problēmas:'
+      user_not_found: Šis lietotājs neeksistē
+      issues_not_found: Šādas problēmas netika atrastas
       status: Statuss
       reports: Ziņojumi
+      last_updated: Pēdējais labojums
       link_to_reports: Skatīt ziņojumus
       states:
         ignored: Ignorēts
         open: Atvērt
     show:
+      resolve: Atrisināt
       ignore: Ignorēt
+      reopen: Atkārtoti atvērt
   layouts:
     logo:
       alt_text: OpenStreetMap logo
@@ -1025,6 +1187,7 @@ lv:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partneri
+    tou: Lietošanas noteikumi
     osm_offline: OpenStreetMap datubāze šobrīd nav pieejama, tiek veikti svarīgi datubāzes
       apkalpošanas darbi.
     osm_read_only: OpenStreetMap datubāze šobrīd ir pieejama tikai-lasāmā režīmā,
@@ -1160,6 +1323,7 @@ lv:
     inbox:
       title: iesūtne
       my_inbox: Mana iesūtne
+      my_outbox: Mana izsūtne
       messages: Jums ir %{new_messages} un  %{old_messages}
       new_messages:
         one: '%{count} jauna ziņa'
@@ -1192,6 +1356,8 @@ lv:
       body: Atvainojiet, ziņa ar norādīto identifikatoru nav atrodama.
     outbox:
       title: izsūtne
+      my_inbox: Mana iesūtne
+      my_outbox: Mana izsūtne
       messages:
         one: Tev ir %{count} nosūtīta ziņa
         other: Tev ir %{count} nosūtītas ziņas
@@ -1238,9 +1404,24 @@ lv:
       reset: Atcelt paroli
       flash changed: Jūsu parole ir nomainīta.
       flash token bad: Neatradu to pilnvaru, varbūt pārbaudi URL?
+  preferences:
+    show:
+      title: Mani uzstādījumi
+      preferred_languages: Vēlamās valodas
+      edit_preferences: Labot uzstādījumus
+    edit:
+      title: Labot uzstādījumus
+      save: Atjaunināt uzstādījumus
+      cancel: Atcelt
+    update:
+      failure: Nevarēja atjaunināt uzstādījumus.
+    update_success_flash:
+      message: Uzstādījumi saglabāti
   profiles:
     edit:
-      image: 'Attēls:'
+      save: Atjaunot profilu
+      cancel: Atcelt
+      image: Attēls
       gravatar:
         gravatar: Izmantot Gravatar
         disabled: Gravatar ir atspējots.
@@ -1250,10 +1431,13 @@ lv:
       delete image: Novākt pašreizējo attēlu
       replace image: Aizstāt pašreizējo attēlu
       image size hint: (vislabāk der kvadrātveida attēli vismaz 100x100 izmērā)
-      home location: 'Māju atrašanās vieta:'
+      home location: Māju atrašanās vieta
       no home location: Jūs neesat norādījis mājas atrašanās vietu.
       update home location on click: Atjaunināt māju atrašanās vietu, noklikšķinot
         uz kartes?
+    update:
+      success: Profils atjaunināts.
+      failure: Nevarēja atjaunināt profilu.
   sessions:
     new:
       title: Pieslēgties
@@ -1280,8 +1464,8 @@ lv:
           title: Pieslēgties ar Facebook
           alt: Pieslēgties ar Facebook kontu
         windowslive:
-          title: Pieslēgties ar Windows Live
-          alt: Pieslēgties ar Windows Live kontu
+          title: Pieslēgties ar Microsoft
+          alt: Pieslēgties ar Microsoft kontu
         github:
           title: Pieslēgties ar GitHub
           alt: Pieslēgties ar GitHub kontu
@@ -1298,6 +1482,11 @@ lv:
       title: Iziet
       heading: Iziet no OpenStreetMap
       logout_button: Iziet
+    suspended_flash:
+      suspended: Atvainojiet, jūsu konta darbība ir apturēta aizdomīgu darbību dēļ.
+      contact_support_html: Lūdzu, sazinieties ar %{support_link}, ja vēlaties to
+        apspriest.
+      support: atbalsts
   site:
     about:
       next: Tālāk
@@ -1341,6 +1530,22 @@ lv:
           Mūsu veidotāji ir tūkstošiem cilvēku. Mēs arī ievietojam
           atvērti-licencētus datus no nacionālajām kartēšanas aģentūrām
           un citiem avotiem, to skaitā:
+        contributors_at_austria: Austrija
+        contributors_at_stadt_wien: Vīnes pilsēta
+        contributors_at_cc_by: CC BY
+        contributors_au_australia: Austrālija
+        contributors_ca_canada: Kanāda
+        contributors_fi_finland: Somija
+        contributors_fr_france: Francija
+        contributors_nl_netherlands: Nīderlande
+        contributors_nz_new_zealand: Jaunzēlande
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_serbia: Serbija
+        contributors_si_slovenia: Slovēnija
+        contributors_es_spain: Spānija
+        contributors_es_cc_by: CC BY 4.0
+        contributors_za_south_africa: Dienvidāfrika
+        contributors_gb_united_kingdom: Apvienotā Karaliste
         contributors_footer_2_html: |2-
             Datu ievietošana OpenStreetMap nenozīmē ka oriģinālais
             datu avots sniedz atbalstu OpenStreetMap, dod garantiju, vai
@@ -1426,7 +1631,7 @@ lv:
         un atbildētu uz jautājumiem, un diskutētu un dokumentētu kartēšanas tēmas.
       welcome:
         url: /sveicināts
-        title: Laipni lūgti iekš OSM
+        title: Laipni lūgti OpenStreetMap
         description: Sāc ar šo īso ceļvedi, kurš aptver OpenStreetMap pamatus.
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Lv:Beginners%27_guide
@@ -1441,6 +1646,8 @@ lv:
         title: Adresātu Saraksti
         description: Uzdodiet jautājumu vai apspriediet interesējošās tēmas par vispārējajiem
           vai reģionālajiem adresātu sarakstiem.
+      community:
+        title: Kopienas forums
       irc:
         title: IRC
         description: Interaktīvais čats dažādās valodās par dažādām tēmām.
@@ -1451,10 +1658,13 @@ lv:
       welcomemat:
         title: Organizācijām
       wiki:
-        title: wiki.openstreetmap.org
-        description: Caurlūko wiki priekš padziļinātas OSM dokumentācijas.
+        title: OpenStreetMap Wiki
+        description: Pārlūkojiet wiki, lai iegūtu padziļinātu OpenStreetMap dokumentāciju.
+    potlatch:
+      change_preferences: Mainiet savus uzstādījumus šeit
     any_questions:
       title: Kādi jautājumi?
+      get_help_here: Saņemiet palīdzību šeit
     sidebar:
       search_results: Meklēšanas rezultāti
       close: Aizvērt
@@ -1506,6 +1716,7 @@ lv:
           common:
           - Koplietošanas zeme
           - Pļava
+          - dārzs
           retail: Mazumtirdzniecības zona
           industrial: Rūpniecības zona
           commercial: Tirdzniecības zona
@@ -1548,6 +1759,8 @@ lv:
         title: Pamatnoteikumi kartēšanai
         paragraph_1: OpenStreetMap ir pašai savs profesionālais žargons. Šeit ir daži
           atslēgvārdi, kas var noderēt.
+        node: punkts
+        way: ceļš
       rules:
         title: Noteikumi!
         automated_edits: Automatizēti labojumi
@@ -1683,6 +1896,8 @@ lv:
       invalid: Autorizācijas kods nav derīgs.
     revoke:
       flash: Tu esi atsaucis pilnvaru priekš %{application}
+    scopes:
+      write_api: Mainīt karti
   oauth_clients:
     new:
       title: Jaunas aplikācijas reģistrēšana
@@ -2073,6 +2288,17 @@ lv:
         roundabout_with_exit: Pēc apkārtceļa nogriezieties uz izejas %{exit} pie %{name}
         unnamed: nenosaukts ceļš
         courtesy: Virzienos, pieklājīgi no %{link}
+        exit_counts:
+          first: "1."
+          second: "2."
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
       time: Laiks
     query:
       node: Punkts
