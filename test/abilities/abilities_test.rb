@@ -26,6 +26,18 @@ class GuestAbilityTest < AbilityTest
     end
   end
 
+  test "community permissions for a guest" do
+    ability = Ability.new nil
+
+    [:index, :show].each do |action|
+      assert ability.can?(action, Community), "should be able to #{action} Communities"
+    end
+
+    [:edit].each do |action|
+      assert ability.cannot?(action, Community), "should not be able to #{action} Communities"
+    end
+  end
+
   test "note permissions for a guest" do
     ability = Ability.new nil
 
@@ -57,6 +69,15 @@ class UserAbilityTest < AbilityTest
 
     [:index, :show, :resolve, :ignore, :reopen].each do |action|
       assert ability.cannot?(action, Issue), "should not be able to #{action} Issues"
+    end
+  end
+
+  # This does not take into account object level access control.
+  test "community permissions for a user" do
+    ability = Ability.new create(:user)
+
+    [:create, :edit].each do |action|
+      assert ability.can?(action, Community), "should be able to #{action} Communities"
     end
   end
 end

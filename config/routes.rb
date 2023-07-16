@@ -147,7 +147,7 @@ OpenStreetMap::Application.routes.draw do
   get "/help" => "site#help"
   get "/about/:about_locale" => "site#about"
   get "/about" => "site#about"
-  get "/communities" => "site#communities"
+  get "/community_index" => "site#communities"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
@@ -320,6 +320,26 @@ OpenStreetMap::Application.routes.draw do
 
   # redactions
   resources :redactions
+
+  # user nested resources
+  resources :users, :path => "user", :param => :display_name do
+    resources :communities, :only => [:index]
+  end
+
+  # communities
+  resources :communities do
+    resources :community_links, :only => [:create, :index, :new]
+    # TODO: Shorten these path names, like :event.
+    get :community_members, :to => "community_members#index"
+    get :community_events, :to => "events#index"
+    resources :events, :only => [:show]
+  end
+  post "/communities/:id/step_up" => "communities#step_up", :as => :step_up, :id => /\d+/
+  resources :community_links, :only => [:destroy, :edit, :update]
+  resources :community_members, :only => [:create, :destroy, :edit, :new, :update]
+  get "/community_members" => "community_members#create", :as => "login_to_join"
+  resources :events
+  resources :event_attendances
 
   # errors
   match "/403", :to => "errors#forbidden", :via => :all
