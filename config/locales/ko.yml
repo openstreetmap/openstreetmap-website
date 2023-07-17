@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: A Retired User
+# Author: Adreamy
 # Author: Alattalatta
 # Author: Alex00728
 # Author: Apzp79
@@ -298,12 +299,6 @@ ko:
   browse:
     created: 만들어짐
     closed: 닫힘
-    created_html: <abbr title='%{title}'>%{time}</abbr>에 만들어짐
-    closed_html: <abbr title='%{title}'>%{time}</abbr>에 닫힘
-    created_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 만듦
-    deleted_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user} 님이 삭제함
-    edited_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 편집함
-    closed_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 닫음
     version: 버전
     in_changeset: 변경 집합
     anonymous: 익명
@@ -567,6 +562,13 @@ ko:
       applications:
         create:
           notice: 애플리케이션을 등록했습니다.
+  errors:
+    forbidden:
+      title: 접근 거부됨
+    internal_server_error:
+      title: 애플리케이션 오류
+    not_found:
+      title: 파일을 찾을 수 없습니다
   friendships:
     make_friend:
       heading: '%{user} 님을 친구로 추가할까요?'
@@ -582,15 +584,7 @@ ko:
   geocoder:
     search:
       title:
-        latlon_html: <a href="https://openstreetmap.org/">내부</a> 결과
-        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a>에서의 결과
-        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>에서의 결과
-        geonames_html: <a href="http://www.geonames.org/">GeoNames</a>에서의 결과
-        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>에서의 결과
-        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a>에서의
-          결과
+        latlon: 내부
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -842,7 +836,7 @@ ko:
           trunk: 간선 도로
           trunk_link: 간선 도로
           turning_loop: 방향전환 운전용 루프선
-          unclassified: 분류되지 않은 도로
+          unclassified: 4차 도로(연결 도로)
           "yes": 도로
         historic:
           aircraft: 역사적인 항공기
@@ -1541,8 +1535,8 @@ ko:
   messages:
     inbox:
       title: 받은 쪽지함
-      my_inbox: 내 받은 쪽지함
-      my_outbox: 내 보낸 쪽지함
+      my_inbox: 받은 쪽지함
+      my_outbox: 보낸 쪽지함
       messages: '%{new_messages}와 %{old_messages}가 있습니다'
       new_messages:
         one: 새 메시지 %{count}개
@@ -1576,8 +1570,8 @@ ko:
       body: 죄송합니다 해당 id로 된 메시지가 없습니다.
     outbox:
       title: 보낸 쪽지함
-      my_inbox: 내 받은 쪽지함
-      my_outbox: 내 보낸 쪽지함
+      my_inbox: 받은 쪽지함
+      my_outbox: 보낸 쪽지함
       messages:
         one: 메시지 %{count}개를 보냈습니다
         other: 메시지 %{count}개를 보냈습니다
@@ -1735,7 +1729,7 @@ ko:
   site:
     about:
       next: 다음
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>기여자
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>기여자
       used_by_html: OpenHistoricalMap은 수많은 웹사이트와 모바일 앱, 하드웨어 장치를 위해 지도 자료를 제공합니다
       lede_text: OpenHistoricalMap은 도로나 오솔길, 카페, 기차역 등에 대한 전세계에 있는 자료를 유지하고 기여하는 지도
         제작자 공동체로부터 제작됩니다.
@@ -1924,12 +1918,12 @@ ko:
         매핑 주제를 협력하여 토론하고 문서하기 위한 여러 자료가 있습니다.
       welcome:
         url: /welcome
-        title: OpenHistoricalMap에 오신 것을 환영합니다
-        description: OpenHistoricalMap 기초를 다루는 이 퀵 가이드로 시작합니다.
+        title: 오픈히스트로맵에 잘 오셨습니다.
+        description: 오픈히스토리맵의 기본 사항을 다루는 이 빠른 길라잡이로 시작하세요.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Ko:%EC%B4%88%EB%B3%B4%EC%9E%90_%EC%95%88%EB%82%B4%EC%84%9C
-        title: 초보자 가이드
-        description: 커뮤니티에서 유지하는 초보자 가이드
+        title: OHM 기본 사항
+        description: 커뮤니티에서 관리하는 초보자 길라잡이
       help:
         url: https://help.openstreetmap.org/
         title: 도움말 포럼
@@ -1975,7 +1969,7 @@ ko:
           trunk: 고속화도로
           primary: 1차 도로
           secondary: 2차 도로
-          unclassified: 분류되지 않은 도로
+          unclassified: 4차 도로(연결 도로)
           track: 농·임도
           bridleway: 승마로
           cycleway: 자전거 도로
@@ -2038,13 +2032,11 @@ ko:
           bicycle_parking: 자전거 주차장
           toilets: 화장실
     welcome:
-      title: 환영합니다!
-      introduction_html: |-
-        세계의 자유롭고 편집할 수 있는 지도인, OpenHistoricalMap에 오신 것을 환영합니다. 지금 가입하면,
-        시작된 매핑을 얻도록 모두 설정됩니다. 여기에서 알아야 하는 가장 중요한 것들로 된
-        빠른 가이드가 있습니다.
+      title: 어서 오십시오.
+      introduction_html: 편집 가능한 무료 세계 지도인 오픈히스토리맵에 잘 오셨습니다. 이제 가입을 하셨으니 지도 제작을 할 준비가
+        되었습니다. 다음은 여러분이 알아야 할 가장 중요한 사항을 담은 빠른 길라잡이입니다.
       whats_on_the_map:
-        title: 지도는 무엇입니까
+        title: 지도의 내용
         on_html: |-
           OpenHistoricalMap은 <em>현실과 현재</em>를 전부 매핑하기 위한 장소입니다 -
           장소에 대한 건물, 도로, 그리고 그밖의 자세한 수백만 가지 정보를 포함합니다. 흥미있는
@@ -2054,36 +2046,37 @@ ko:
           독단적인 데이터는 들어갈 수 <em>없습니다</em>. 특별히 허용받지 않으셨다면
           온라인 지도나 종이 지도에서 복사해오지 마십시오.
       basic_terms:
-        title: 매핑하는데 필요한 기본 용어
-        paragraph_1_html: OpenHistoricalMap에서는 자체 용어가 몇 가지 사용됩니다. 여기에 편리하게 사용할 수 있는
-          몇 가지 핵심 단어가 있습니다.
-        editor_html: <strong>편집기</strong>는 지도를 편집하는 데 사용할 수 있는 프로그램이나 웹사이트입니다.
-        node_html: <strong>점</strong>은 지도상의 한 점으로, 한 군데의 음식점이나 나무 한 그루가 이에 속합니다.
-        way_html: <strong>길</strong>은 지도상의 선이나 구역을 말하며, 도로, 개울, 호수나 건물을 나타냅니다.
-        tag_html: <strong>태그</strong>는 노드나 길을 보충하는 데이터로, 음식점의 이름이나 도로의 속도 제한 같은 것을
-          말합니다.
+        title: 매핑하는데 필요한 기본 낱말
+        paragraph_1_html: |-
+          오픈히스토리맵은 오픈스트리트맵(OSM)과 같은 용어를 사용합니다. 일반적으로 궁금한 점이 있으면 OSM과 같은 방법으로 답을 구할 수 있습니다.
+          다음은 유용하게 사용할 수 있는 몇 가지 키워드입니다.
+        editor_html: <strong>편집기(Editor)</strong>는 지도를 편집하는 데 사용할 수 있는 프로그램이나 웹사이트입니다.
+        node_html: '''''''[https://wiki.openstreetmap.org/wiki/Ko:용어사전#ㄴ 노드(Node)]''''''
+          지도 위에 표시된 한 점으로, 한 군데의 음식점이나 나무 한 그루가 이에 속합니다.'
+        way_html: <strong>길(Way)</strong>은 도로, 하천, 호수 또는 건물과 같은 선 또는 영역입니다.
+        tag_html: <strong>태그(Tag)]</strong>는 식당에서 이름이나 도로에서 제한 속도 같이 어떤 지물의 속성을 나타내는
+          낱 값입니다.
       rules:
-        title: 여기서 규칙!
+        title: 규칙?! 소통! 합의!!
         paragraph_1_html: "OpenHistoricalMap은 몇 가지 형식적인 규칙이 있지만 우리는 모든 참가자가 협력하고,
           공동체와 소통하기를 바랍니다.\n여러분이 직접 편집하지 않는 다른 활동을 고려한다면, \n<a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>가져오기</a>와
           \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>자동화된
           편집</a>에서의\n다음 가이드라인을 읽고 따라주시기 바랍니다."
       questions:
-        title: 질문이 있습니까?
+        title: 궁금한 점이 있으신가요?
         paragraph_1_html: |-
-          OpenHistoricalMap에는 프로젝트에 대해 배우고, 질문을 묻고 답하고,
-          매핑 주제를 협력하여 토론하고 문서화하기 위한 여러 자료가 있습니다.
-          <a href='%{help_url}'>여기서 도움을 얻으세요</a>. OpenHistoricalMap에 기여할 계획을 가진 조직에 속해 있나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
-      start_mapping: 매핑 시작
+          오픈스트리트맵에는 프로젝트에 대해 배우고, 질문하고, 답변하고, 매핑 주제에 대해 토론하고 질문하고, 매핑 주제에 대해 공동으로 토론하고 문서화할 수 있는 여러 리소스가 있습니다.
+          <a href='%{help_url}'>여기서 도움을 받드세요.</a>.
+          OpenHistoricalMap에 기여할 계획을 가진 조직에 속해 있나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
+      start_mapping: 매핑 시작하기
       add_a_note:
-        title: 편집할 시간이 없습니까? 참고를 추가하세요!
+        title: 편집할 짬을 내기가 어려우신가요? 손쉽게 '노트'(참고)를 덧붙이세요!
         paragraph_1_html: |-
           그냥 한 가지 간단한 것이 고칠 게 있다거나 가입하면서 편집하는 방법을 배우기에 시간이 없다면,
           참고를 추가하는 것이 낫습니다.
         paragraph_2_html: |-
-          <a href='%{map_url}'>지도</a>로 가고 나서 참고 아이콘을 클릭하세요:
-          <span class='icon note'></span>. 드래그하여 이동할 수 있는 표시가 지도에 추가됩니다.
-          메시지를 추가하고 나서, 저장을 클릭하면, 다른 매퍼가 조사할 것입니다.
+          <a href='%{map_url}'>지도</a>로 가서 '노트' 아이콘을 누르세요:<span class='icon note'></span>. 끌어서 움직일 수 있는 표지가 지도에 추가됩니다.
+          내용을 추가하고 나서, 저장하면, 다른 매퍼가 조사할 것입니다.
   traces:
     visibility:
       private: 비공개(익명으로 공유됨, 정렬되지 않은 점)
@@ -2157,14 +2150,11 @@ ko:
       in: 위치
     index:
       public_traces: 공개 GPS 궤적
-      my_traces: 내 발자취
       public_traces_from: '%{user}님의 공개 GPS 궤적'
       description: 최근의 GPS 궤적 업로드 항목 둘러보기
       tagged_with: '%{tags}(으)로 태그함'
-      empty_html: 여기에는 아직 아무것도 없습니다. <a href='%{upload_link}'>새 궤적 올리기</a>를 사용하거나
-        <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>위키 문서</a>에서
-        GPS 궤적에 대해 더 알아보세요.
       upload_trace: 궤적 올리기
+      my_traces: 내 발자취
       remove_tag_filter: 태그 필터 제거
     destroy:
       scheduled_for_deletion: 삭제 계획중인 궤적
@@ -2312,10 +2302,6 @@ ko:
         대응하기 위해 노력하고 가능한 빨리 요청을 처리합니다.
       about:
         header: 자유롭게 편집 가능
-        html: |-
-          <p>다른 지도와는 달리, OpenHistoricalMap은 완전히 여러분과 같은 사람들이 만들어,
-          누구나 자유롭게 고치고, 갱신하며, 내려받아 사용할 수 있습니다.</p>
-          <p>기여를 시작하려면 가입하세요. 계정 확인용 이메일을 보내드립니다.</p>
       email address: '이메일 주소:'
       confirm email address: '이메일 주소 확인:'
       display name: '표시 이름:'
@@ -2576,6 +2562,11 @@ ko:
       description: 설명
       created_at: 만든 날짜
       last_changed: 마지막으로 바뀜
+    show:
+      description: 설명
+      hide: 숨기기
+    new:
+      add: 노트 추가
   javascripts:
     close: 닫기
     share:
@@ -2618,7 +2609,6 @@ ko:
           other: 이 지점까지 %{count}피트
       base:
         standard: 표준
-        cyclosm: CyclOSM
         cycle_map: 사이클 지도
         transport_map: 교통 지도
         hot: 인도주의

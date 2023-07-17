@@ -340,12 +340,12 @@ zh-TW:
   browse:
     created: 建立於
     closed: 關閉於
-    created_html: 於<abbr title='%{title}'>%{time}</abbr>建立
-    closed_html: 於<abbr title='%{title}'>%{time}</abbr>關閉
-    created_by_html: 於<abbr title='%{title}'>%{time}</abbr>由%{user}建立
-    deleted_by_html: 於<abbr title='%{title}'>%{time}</abbr>由%{user}刪除
-    edited_by_html: 於<abbr title='%{title}'>%{time}</abbr>由%{user}編輯
-    closed_by_html: 於<abbr title='%{title}'>%{time}</abbr>由%{user}關閉
+    created_ago_html: 於%{time_ago}建立
+    closed_ago_html: 於%{time_ago}關閉
+    created_ago_by_html: 由%{user}於%{time_ago}建立
+    closed_ago_by_html: 由%{user}於%{time_ago}關閉
+    deleted_ago_by_html: 由%{user}於%{time_ago}刪除
+    edited_ago_by_html: 由%{user}於%{time_ago}編輯
     version: 版本
     in_changeset: 變更集
     anonymous: 匿名
@@ -492,6 +492,7 @@ zh-TW:
     index:
       title: 變更集
       title_user: '%{user} 的變更集'
+      title_user_link_html: '%{user_link}的變更集'
       title_friend: 好友的變更集
       title_nearby: 附近使用者的變更集
       empty: 查無變更集。
@@ -616,6 +617,22 @@ zh-TW:
       applications:
         create:
           notice: 應用程式已註冊。
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: 各種聯絡管道說明
+      contact: 聯絡
+      contact_the_community_html: 如果您發現有損壞的連結/錯誤，請隨時%{contact_link} OpenHistoricalMap
+        社群。並請記下您的請求的確切 URL 位址。
+    forbidden:
+      title: 禁止
+      description: 您在 OpenHistoricalMap 伺服器上請求的運作僅限管理員使用（HTTP 403）
+    internal_server_error:
+      title: 應用程式錯誤
+      description: OpenHistoricalMap 伺服器遇到意外情況，而無法滿足請求（HTTP 500）
+    not_found:
+      title: 找不到檔案
+      description: 在 OpenHistoricalMap 伺服器上找不到該名稱的檔案/目錄/API 操作（HTTP 404）
   friendships:
     make_friend:
       heading: 將 %{user} 加入為好友？
@@ -632,14 +649,13 @@ zh-TW:
   geocoder:
     search:
       title:
-        latlon_html: 來自<a href="https://openstreetmap.org/">內部</a>的結果
-        ca_postcode_html: 來自 <a href="https://geocoder.ca/">Geocoder.CA</a> 的結果
-        osm_nominatim_html: 來自 <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a> 的結果
-        geonames_html: 來自<a href="http://www.geonames.org/">GeoNames</a>的結果
-        osm_nominatim_reverse_html: 來自 <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a> 的結果
-        geonames_reverse_html: 來自<a href="http://www.geonames.org/">GeoNames</a>的結果
+        results_from_html: 來自%{results_link}的結果
+        latlon: 內部
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -1365,7 +1381,7 @@ zh-TW:
           camp_site: 營地
           caravan_site: RV 宿營區
           chalet: 小木屋
-          gallery: 藝廏
+          gallery: 圖庫
           guest_house: 賓館
           hostel: 旅舍
           hotel: 酒店
@@ -1884,7 +1900,7 @@ zh-TW:
   site:
     about:
       next: 下一頁
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>貢獻者
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>貢獻者
       used_by_html: OpenHistoricalMap 為數以千計的網站、行動應用程式和硬體提供地圖資料
       lede_text: OpenHistoricalMap 是由製圖者社群所建立，他們提供及不斷更新包括有關世界各地的道路、路徑、咖啡館、火車站等等的資料。
       local_knowledge_title: 地方知識
@@ -2262,14 +2278,18 @@ zh-TW:
       in: 於
     index:
       public_traces: 公開 GPS 軌跡
-      my_traces: 我的軌跡
+      my_gps_traces: 我的 GPS 軌跡
       public_traces_from: '%{user} 的公開 GPS 軌跡'
       description: 瀏覽最近的 GPS 軌跡上傳
       tagged_with: 有如下標籤：%{tags}
-      empty_html: 還沒有軌跡。<a href='%{upload_link}'>上傳新的軌跡</a>或在 <a href='https://wiki.openstreetmap.org/wiki/Zh-hant:Beginners_Guide_1.2'>wiki
-        頁面</a>上瞭解更多有關 GPS 軌跡的資訊。
+      empty_title: 這裡還沒有東西
+      empty_upload_html: '%{upload_link}或是在%{wiki_link}學習更多與GPS軌跡相關的資訊。'
+      upload_new: 上傳新軌跡
+      wiki_page: wiki 頁面
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Zh-hant:Beginners_Guide_1.2
       upload_trace: 上傳軌跡
       all_traces: 所有軌跡
+      my_traces: 我的軌跡
       traces_from: 來自 %{user} 的公開軌跡
       remove_tag_filter: 移除標籤篩選
     destroy:
@@ -2431,11 +2451,11 @@ zh-TW:
       contact_support_html: 請聯絡<a href="%{support}">支援人員</a>來排定帳號建立，我們會儘快嘗試並處理這項要求。
       about:
         header: 自由及可編輯
-        html: |-
-          <p>與其他地圖不同，OpenHistoricalMap 是完全由像你一樣的人們建立的，而且任何人都可自由地修正、更新、下載和使用。</p>
-          <p>請註冊以開始貢獻吧。我們將發出電子郵件以確認你的帳號。</p>
+        paragraph_1: 不像其他地圖，OpenHistoricalMap 是完全由像你我這類的人創建，而且任何人都能修正、更新、下載與使用。
+        paragraph_2: 註冊以開始貢獻，我們會寄送電子郵件來確認您的帳號。
       email address: 電子郵件地址：
       confirm email address: 確認電子郵件地址：
+      email_confirmation_help_html: 再次輸入您的電子郵件以確保其正確無誤。這不會公開顯示您的電子郵件。
       display name: 顯示名稱：
       display name description: 您公開顯示的使用者名稱。您可以稍後在偏好設定中改變它。
       external auth: 第三方身份認證
@@ -2690,6 +2710,38 @@ zh-TW:
       description: 說明
       created_at: 建立於：
       last_changed: 最新變更
+    show:
+      title: 註記：%{id}
+      description: 描述
+      open_title: 未解決的註記：#%{note_name}
+      closed_title: 已解決的註記：#%{note_name}
+      hidden_title: 已隱藏的註記：#%{note_name}
+      event_opened_by_html: 由%{user}於%{time_ago}建立
+      event_opened_by_anonymous_html: 由匿名使用者於%{time_ago}建立
+      event_commented_by_html: 來自%{user}於%{time_ago}的評論
+      event_commented_by_anonymous_html: 來自匿名使用者於%{time_ago}的評論
+      event_closed_by_html: 由%{user}於%{time_ago}解決
+      event_closed_by_anonymous_html: 由匿名使用者於%{time_ago}解決
+      event_reopened_by_html: 由%{user}於%{time_ago}重新開啟
+      event_reopened_by_anonymous_html: 由匿名使用者於%{time_ago}重新開啟
+      event_hidden_by_html: 由%{user}於%{time_ago}隱藏
+      report: 回報此註記
+      coordinates_html: '%{latitude}, %{longitude}'
+      anonymous_warning: 此項註記包含來自匿名使用者的評論，應作獨立核實。
+      hide: 隱藏
+      resolve: 解決
+      reactivate: 重新開啟
+      comment_and_resolve: 評論並解決
+      comment: 評論
+      report_link_html: 如果此註記含有需要移除的敏感資訊，您可以%{link}。
+      other_problems_resolve: 對於註記的所有其他問題，您可以依據評論內容來自行處理。
+      other_problems_resolved: 對於其他類型回報，解決已足夠。
+      disappear_date_html: 已經解決的註記會從地圖的%{disappear_in}消失
+    new:
+      title: 新註記
+      intro: 發現錯誤或缺少些什麼東西嗎？請告訴其他地圖製作者以便於我們處理。將標記移動到正確的位置並輸入註記，以解釋問題。
+      advice: 您的註記已公開並可用於更新地圖，因此請不要輸入個人訊息，或是來自於具版權保護地圖的訊息以及目錄清單。
+      add: 新增註記
   javascripts:
     close: 關閉
     share:
@@ -2735,7 +2787,6 @@ zh-TW:
         woodblock: 木版
         japanesescroll: 日本掛軸
         standard: 標準
-        cyclosm: CyclOSM
         cycle_map: 自行車地圖
         transport_map: 交通運輸地圖
         hot: 人道救援

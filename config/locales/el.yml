@@ -7,6 +7,8 @@
 # Author: Consta
 # Author: Crazymadlover
 # Author: Danieldegroot2
+# Author: Dogogos123
+# Author: Ellentilav
 # Author: Evropi
 # Author: FocalPoint
 # Author: Geraki
@@ -16,6 +18,7 @@
 # Author: KATRINE1993
 # Author: Kiriakos
 # Author: Kongr43gpen
+# Author: Lilfret
 # Author: Logictheo
 # Author: Macofe
 # Author: Michail Angelos Georgoulas
@@ -28,6 +31,7 @@
 # Author: Ruila
 # Author: Shirayuki
 # Author: SkarmoutsosV
+# Author: Spyridon Eftychios Kokotos
 # Author: Stam.nikos
 # Author: SucreRouge
 # Author: Tgkarounos
@@ -51,7 +55,7 @@ el:
       issue_comment:
         create: Προσθήκη σχολίου
       message:
-        create: Στείλε
+        create: Αποστολή
       client_application:
         create: Εγγραφή
         update: Ενημέρωση
@@ -59,8 +63,8 @@ el:
         create: Εγγραφή
         update: Ενημέρωση
       redaction:
-        create: Δημιουργία παράλειψης
-        update: Αποθήκευση παράλειψης
+        create: Δημιουργία επιμέλειας
+        update: Αποθήκευση επιμέλειας
       trace:
         create: Μεταφόρτωση
         update: Αποθήκευση αλλαγών
@@ -114,12 +118,12 @@ el:
         url: URL κύριας εφαρμογής (απαιτείται)
         callback_url: URL Επανάκλησης
         support_url: URL Υποστήριξης
-        allow_read_prefs: ανάγνωση των προτιμήσεων χρήστη
-        allow_write_prefs: τροποποίηση των προτιμήσεων χρήστη
+        allow_read_prefs: να διαβάσουν τις προτιμήσεις χρήστη τους
+        allow_write_prefs: να τροποποιήσουν τις προτιμήσεις χρήστη τους
         allow_write_diary: δημιουργία καταχωρήσεων ημερολογίου, σχόλια και δημιουργία
           φίλων
         allow_write_api: τροποποίηση του χάρτη
-        allow_read_gpx: ανάγνωση των προσωπικών ιχνών GPS
+        allow_read_gpx: ανάγνωση των προσωπικών τους ιχνών GPS
         allow_write_gpx: μεταφόρτωση ιχνών GPS
         allow_write_notes: τροποποίηση σημειώσεων
       diary_comment:
@@ -147,7 +151,7 @@ el:
         longitude: Γεωγραφικό μήκος
         public: Δημόσιο
         description: Περιγραφή
-        gpx_file: Ανέβασμα GPX αρχείου
+        gpx_file: Μεταφόρτωση GPX αρχείου
         visibility: Ορατότητα
         tagstring: Ετικέτες
       message:
@@ -166,11 +170,11 @@ el:
         auth_provider: Πάροχος αυθεντικοποίησης
         auth_uid: UID αυθεντικοποίησης
         email: Ηλεκτρονικό ταχυδρομείο
-        email_confirmation: Επιβεβαίωση διεύθυνσης email
-        new_email: Νέα διεύθυνση email
+        email_confirmation: Επιβεβαίωση διεύθυνσης ηλ. ταχυδρομείου
+        new_email: Νέα διεύθυνση ηλ. ταχυδρομείου
         active: Ενεργό
-        display_name: Εμφάνιση ονόματος
-        description: Περιγραφή προφίλ
+        display_name: Εμφανιζόμενο Όνομα
+        description: Περιγραφή Προφίλ
         home_lat: Γεωγραφικό πλάτος
         home_lon: Γεωγραφικό μήκος
         languages: Προτιμώμενες γλώσσες
@@ -179,9 +183,9 @@ el:
         pass_crypt_confirmation: Επιβεβαίωση κωδικού
     help:
       doorkeeper/application:
-        confidential: Η εφαρμογή θα χρησιμοποιηθεί όπου το μυστικό πελάτη μπορεί να
-          κρατηθεί έμπιστο (οι εγγενείς εφαρμογές κινητών και οι εφαρμογές μονής σελίδας
-          δεν είναι έμπιστες)
+        confidential: Η εφαρμογή θα χρησιμοποιηθεί εκεί όπου το μυστικό κλειδί του
+          πελάτη μπορεί να διατηρηθεί εμπιστευτικό (οι εφαρμογές φυσικών κινητών και
+          μονής σελίδας δεν είναι εμπιστευτικές)
         redirect_uri: Χρήση μίας σειράς ανά URI
       trace:
         tagstring: διαχωρισμένο με κόμμα
@@ -191,12 +195,12 @@ el:
           για την κατάσταση και σκεπτόμενος/-η ότι το μήνυμα θα είναι δημόσια ορατό.
           Λάβετε υπόψη σας ότι δεν κατανοούν όλοι οι χρήστες την ορολογία της κοινότητας,
           γι' αυτό προσπαθήστε να χρησιμοποιήσετε απλούς και κατανοητούς όρους.
-        needs_view: Πρέπει ο χρήστης να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή;
+        needs_view: Χρειάζεται ο χρήστης να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή;
       user:
-        email_confirmation: Η διεύθυνση σας δεν προβάλλεται δημόσια,  για περισσότερες
-          πληροφορίες δείτε την <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">πολιτική
-          ιδιωτικότητας</a> μας.
+        email_confirmation: Η διεύθυνση σας δεν προβάλλεται δημόσια, δείτε την <a
+          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
+          policy including section on email addresses">privacy policy</a> μας, για
+          περισσότερες πληροφορίες.
         new_email: (να μην εμφανίζεται ποτέ δημόσια)
   datetime:
     distance_in_words_ago:
@@ -274,7 +278,7 @@ el:
         description_item: Μια τροφοδοσία rss για τη σημείωση %{id}
         opened: νέα σημείωση (κοντά στο %{place})
         commented: νέο σχόλιο (κοντά στο %{place})
-        closed: κλείσιμο σημείωσης (κοντά στο %{place})
+        closed: επιλυμένη σημείωση (κοντά στο %{place})
         reopened: επανενεργοποίηση σημείωσης (κοντά στο %{place})
       entry:
         comment: Σχόλιο
@@ -289,7 +293,7 @@ el:
         delete_introduction: 'Μπορείτε να διαγράψετε τον λογαριασμό σας στο OpenHistoricalMap
           χρησιμοποιώντας το παρακάτω κουμπί. Παρακαλώ σημειώστε τις εξής λεπτομέρειες:'
         delete_profile: Οι πληροφορίες του προφίλ, συμπεριλαμβανομένου του άβαταρ,
-          την περιγραφή και την τοποθεσία σπιτιού σας, θα καταργηθούν.
+          την περιγραφή και την τοποθεσία  σας, θα καταργηθούν.
         delete_display_name: Το εμφανιζόμενο όνομα σας θα καταργηθεί και μπορεί να
           χρησιμοποιηθεί από άλλους λογαριασμούς.
         retain_caveats: 'Ωστόσο, ορισμένες πληροφορίες για εσάς θα διατηρηθούν στο
@@ -299,8 +303,8 @@ el:
         retain_traces: Τα ίχνη που έχετε μεταφορτώσει, εάν υπάρχουν, θα διατηρηθούν.
         retain_diary_entries: Οι καταχωρίσεις του ημερολογίου σας και τα σχόλια του
           ημερολογίου σας, εάν υπάρχουν, θα διατηρηθούν αλλά δεν θα εμφανίζονται.
-        retain_notes: Οι σημειώσεις στον χάρτη και τα σχόλια των σημειώσεων, εάν υπάρχουν,
-          θα διατηρηθούν αλλά δεν θα εμφανίζονται.
+        retain_notes: Οι σημειώσεις στον χάρτη και τα σχόλια των σημειώσεων σας, εάν
+          υπάρχουν, θα διατηρηθούν αλλά δεν θα εμφανίζονται.
         retain_changeset_discussions: Οι συζητήσεις σας στις ομάδες αλλαγών, εάν υπάρχουν,
           θα διατηρηθούν.
         retain_email: Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας θα διατηρηθεί.
@@ -323,16 +327,16 @@ el:
         enabled link text: τι είναι αυτό;
         disabled: Απενεργοποιήθηκε και δεν μπορείτε να επεξεργαστείτε δεδομένα, όλες
           οι προηγούμενες επεξεργασίες είναι ανώνυμες.
-        disabled link text: γιατί δεν μπορώ να επεξεργαστώ τον χάρτη;
+        disabled link text: γιατί δεν μπορώ να κάνω επεξεργασία;
       public editing note:
         heading: Δημόσια επεξεργασία
         html: Αυτήν τη στιγμή οι επεξεργασίες σας είναι ανώνυμες και δεν μπορεί κανείς
           να σας στείλει μήνυμα ή να δει την τοποθεσία σας. Για να δείξετε τι έχετε
-          επεξεργαστεί και να επιτρέψετε στους άλλους έρθουν σε επαφή μαζί σας μέσω
-          του ιστοχώρου, πατήστε το κουμπί από κάτω. <b>Μετά την αλλαγή σε API 0.6,
-          μόνο οι επώνυμοι χρήστες μπορούν να επεξεργαστούν δεδομένα του χάρτη.</b>.
+          επεξεργαστεί και να επιτρέψετε στους άλλους να έρθουν σε επαφή μαζί σας
+          μέσω του ιστοχώρου, πατήστε το κουμπί από κάτω. <b>Μετά την αλλαγή σε API
+          0.6, μόνο οι δημόσιοι χρήστες μπορούν να επεξεργαστούν δεδομένα του χάρτη.</b>.
           (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">μάθετε γιατί</a>).
-          <ul><li>Η διεύθυνσή σας ηλεκτρονικού ταχυδρομείου δεν θα αποκαλυφθεί δημόσια.
+          <ul><li>Η διεύθυνσή ηλεκτρονικού ταχυδρομείου σας δεν θα αποκαλυφθεί δημόσια.
           </li><li> Αυτή η ενέργεια δεν μπορεί να αναιρεθεί και όλοι οι νέοι χρήστες
           είναι επώνυμοι εξ' αρχής.</li></ul>
       contributor terms:
@@ -358,12 +362,12 @@ el:
   browse:
     created: Δημιουργήθηκε
     closed: Έκλεισε
-    created_html: Δημιουργήθηκε <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Έκλεισε <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Δημιουργήθηκε <abbr title='%{title}'>%{time}</abbr> από τον %{user}
-    deleted_by_html: Διεγράφη <abbr title='%{title}'>%{time}</abbr> από τον %{user}
-    edited_by_html: Τροποποιήθηκε <abbr title='%{title}'>%{time}</abbr> από τον %{user}
-    closed_by_html: Έκλεισε <abbr title='%{title}'>%{time}</abbr> από τον %{user}
+    created_ago_html: Δημιουργήθηκε %{time_ago}
+    closed_ago_html: Έκλεισε %{time_ago}
+    created_ago_by_html: Δημιουργήθηκε %{time_ago} από %{user}
+    closed_ago_by_html: Έκλεισε %{time_ago} από %{user}
+    deleted_ago_by_html: Διαγράφηκε %{time_ago} από %{user}
+    edited_ago_by_html: Επεξεργάστηκε %{time_ago} από %{user}
     version: Έκδοση
     in_changeset: Ομάδα αλλαγών
     anonymous: ανώνυμος
@@ -450,7 +454,7 @@ el:
         changeset: ομάδα αλλαγών
         note: σημείωση
     redacted:
-      redaction: Αναθεώρηση %{id}
+      redaction: Απάλειψη %{id}
       message_html: Η έκδοση %{version} του %{type} δε μπορεί να εμφανιστεί, δεδομένου
         ότι έχει αναθεωρηθεί. Παρακαλούμε δείτε %{redaction_link} για λεπτομέρειες.
       type:
@@ -503,7 +507,7 @@ el:
     changeset:
       anonymous: Ανώνυμος
       no_edits: (χωρίς επεξεργασίες)
-      view_changeset_details: Προβολή λεπτομερειών αλλαγών
+      view_changeset_details: Προβολή ομάδας αλλαγών λεπτομερειών
     changesets:
       id: ID
       saved_at: Αποθηκεύτηκε στις
@@ -511,15 +515,16 @@ el:
       comment: Σχόλιο
       area: Περιοχή
     index:
-      title: Αλλαγές
-      title_user: Αλλαγές από τον %{user}
-      title_friend: Αλλαγές από τους φίλους μου
-      title_nearby: Αλλαγές από κοντινούς χρήστες
-      empty: Δε βρέθηκαν αλλαγές.
-      empty_area: Χωρίς αλλαγές σε αυτήν την περιοχή.
-      empty_user: Χωρίς αλλαγές από αυτόν τον χρήστη.
-      no_more: Δεν βρέθηκαν άλλες αλλαγές.
-      no_more_area: Δεν υπάρχουν άλλες αλλαγές για αυτήν την περιοχή.
+      title: Ομάδες αλλαγών
+      title_user: Ομάδες αλλαγών από τον %{user}
+      title_user_link_html: Σύνολα αλλαγών από %{user_link}
+      title_friend: Ομάδες αλλαγών από τους φίλους μου
+      title_nearby: Ομάδες αλλαγών από κοντινούς χρήστες
+      empty: Δε βρέθηκαν ομάδες αλλαγών.
+      empty_area: Χωρίς ομάδες αλλαγών σε αυτήν την περιοχή.
+      empty_user: Χωρίς ομάδες αλλαγών από αυτόν τον χρήστη.
+      no_more: Δεν βρέθηκαν άλλες ομάδες αλλαγών.
+      no_more_area: Δεν υπάρχουν άλλες ομάδες αλλαγών για αυτήν την περιοχή.
       no_more_user: Δεν υπάρχουν άλλες αλλαγές από αυτόν τον χρήστη.
       load_more: Φόρτωση περισσότερων
     timeout:
@@ -546,7 +551,7 @@ el:
       nearby mapper: Κοντινός χαρτογράφος
       friend: Φίλος
     show:
-      title: Το ταμπλό μου
+      title: Ο πίνακάς μου
       no_home_location_html: '%{edit_profile_link} και βάλτε την τοποθεσία σας για
         να δείτε κοντινούς χρήστες.'
       edit_your_profile: Επεξεργαστείτε το προφίλ σας
@@ -569,7 +574,7 @@ el:
       title: Ημερολόγια χρηστών
       title_friends: Ημερολόγια φίλων
       title_nearby: Ημερολόγια κοντινών χρηστών
-      user_title: Ημερολόγιο του/των %{user}
+      user_title: Ημερολόγιο του %{user}
       in_language_title: Καταχωρήσεις ημερολογίων στα %{language}
       new: Νέα καταχώρηση ημερολογίου
       new_title: Σύνταξη νέας καταχώρησης στο ημερολόγιό μου
@@ -630,9 +635,11 @@ el:
         title: Καταχωρήσεις ημερολογίου OpenHistoricalMap
         description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenHistoricalMap
     comments:
+      title: Προστέθηκαν σχόλια ημερολογίου από %{user}
       heading: Σχόλια Ημερολογίου %{user}
+      subheading_html: Προστέθηκαν σχόλια ημερολογίου από τον χρήστη %{user}
       no_comments: Χωρίς σχόλια ημερολογίου
-      post: Καταχώρηση
+      post: Δημοσίευση
       when: Πότε
       comment: Σχόλιο
       newer_comments: Νεότερα σχόλια
@@ -642,59 +649,81 @@ el:
       applications:
         create:
           notice: Η εφαρμογή καταχωρήθηκε.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Επεξηγήθηκαν διάφορα κανάλια επικοινωνίας
+      contact: Επικοινωνία
+      contact_the_community_html: Μη διστάσετε να %{contact_link} την κοινότητα του
+        OpenHistoricalMap εάν έχετε βρει έναν κατεστραμμένο σύνδεσμο / σφάλμα. Σημειώστε
+        την ακριβή διεύθυνση URL του αιτήματός σας.
+    forbidden:
+      title: Απαγορευμένο
+      description: H διεργασία που ζητήσατε στο διακομιστή του OpenHistoricalMap είναι
+        μόνο διαθέσιμη σε διαχειριστές (HTTP 403)
+    internal_server_error:
+      title: Σφάλμα εφαρμογής
+      description: Ο διακομιστής του OpenHistoricalMap αντιμετώπισε μια απροσδόκητη
+        συνθήκη που τον εμπόδισε να εκπληρώσει το αίτημα (HTTP 500)
+    not_found:
+      title: Το αρχείο δεν βρέθηκε
+      description: Αδύνατη η εύρεση αρχείου/καταλόγου/διεργασίας API, με αυτό το όνομα
+        στο ΟpenHistoricalMap server (HTTP 404)
   friendships:
     make_friend:
       heading: Προσθήκη του %{user} ως φίλου;
-      button: Προσθήκη ως φίλο
+      button: Προσθήκη ως φίλου
       success: Ο %{name} είναι τώρα φίλος σου!
       failed: Λυπούμαστε, απέτυχε η προσθήκη του χρήστη %{name} ως φίλου.
       already_a_friend: Είστε ήδη φίλοι με τον χρήστη %{name}.
-      limit_exceeded: Έκανες πολλούς φίλους τελευταία. Παρακαλώ περίμενε λίγο πριν
-        προσπαθήσεις να κάνεις περισσότερους φίλους.
+      limit_exceeded: Έχετε κάνει πολλούς φίλους τελευταία. Παρακαλώ περιμένετε λίγο
+        πριν προσπαθήσετε να κάνετε περισσότερους φίλους.
     remove_friend:
-      heading: Αφαίρεση φίλου %{user};
+      heading: Αφαίρεση φίλου τον %{user};
       button: Αφαίρεση φίλου
-      success: Ο χρήστης %{name} αφαιρέθηκε από τους φίλους.
+      success: Ο χρήστης %{name} αφαιρέθηκε από τους φίλους σας.
       not_a_friend: Ο χρήστης %{name} δεν είναι ένας από τους φίλους σας.
   geocoder:
     search:
       title:
-        latlon_html: Αποτελέσματα από την <a href="https://openstreetmap.org/">εσωτερική</a>
-          βάση δεδομένων
-        ca_postcode_html: Αποτελέσματα από <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Αποτελέσματα από το <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Αποτελέσματα από το <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Αποτελέσματα από το <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Αποτελέσματα από το <a href="http://www.geonames.org/">GeoNames</a>
+        results_from_html: Αποτελέσματα από %{results_link}
+        latlon: Εσωτερικό
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Τελεφερίκ
-          chair_lift: Αναβατήρας με κάθισμα
-          drag_lift: Συρόμενος αναβατήρας
+          chair_lift: Ανελκυστήρας με κάθισμα
+          drag_lift: Συρόμενος Ανελκυστήρας
           gondola: Τελεφερίκ-Γόνδολα
+          magic_carpet: Ανελκυστήρας για σκι/σνόουμπορντ
           platter: Πιατέλα ανύψωσης
           pylon: Πυλώνας
           station: Σταθμός εναέριου δρόμου
-          t-bar: T-Bar Ασανσέρ
+          t-bar: Ανελκυστήρας T-Bar
+          "yes": Τελεφερίκ
         aeroway:
           aerodrome: Αεροδρόμιο
           airstrip: Διάδρομος προσγειώσεως
           apron: Χώρος ελιγμών
-          gate: Πύλη
+          gate: Πύλη Αεροδρομίου
           hangar: Υπόστεγο για αεροπλάνα
           helipad: Ελικοδρόμιο
           holding_position: κράτηση θέσης
+          navigationaid: Βοήθημα πλοήγησης αεροναυτιλίας
           parking_position: Θέση στάθμευσης
           runway: Διάδρομος
           taxilane: Λωρίδα ταξί
           taxiway: Τροχιόδρομος
-          terminal: Τερματικός σταθμός
+          terminal: Τερματικός σταθμός αεροδρομίου
           windsock: Ανεμούριο
         amenity:
+          animal_boarding: Επιβίβαση Ζώων
           animal_shelter: Καταφύγιο ζώων
           arts_centre: Κέντρο τεχνών
           atm: ΑΤΜ
@@ -713,7 +742,7 @@ el:
           bus_station: Σταθμός λεωφορείου
           cafe: Καφετέρια
           car_rental: Ενοικίαση αυτοκινήτων
-          car_sharing: Συνεπιβατισμός
+          car_sharing: Κοινή χρήση αυτοκινήτου
           car_wash: Πλυντήριο αυτοκινήτων
           casino: Καζίνο
           charging_station: Σταθμός Φόρτισης
@@ -731,6 +760,7 @@ el:
           drinking_water: Πόσιμο νερό
           driving_school: Σχολή οδηγών
           embassy: Πρεσβεία
+          events_venue: Χώρος Διεξαγωγής Εκδηλώσεων
           fast_food: Ταχυφαγείο
           ferry_terminal: Σταθμός πορθμείων
           fire_station: Πυροσβεστικός σταθμός
@@ -747,7 +777,10 @@ el:
           kindergarten: Νηπιαγωγείο
           language_school: Σχολείο γλώσσας
           library: Βιβλιοθήκη
+          loading_dock: Αποβάθρα Φόρτωσης-Εκφόρτωσης
+          love_hotel: Ξενοδοχείο Έρωτα
           marketplace: Αγορά
+          mobile_money_agent: Πρακτορείο Κινητού Χρήματος
           monastery: Μοναστήρι
           money_transfer: Μεταφορά χρημάτων
           motorcycle_parking: Χώρος στάθμευσης μοτοσικλετών
@@ -756,7 +789,7 @@ el:
           nursing_home: Οίκος ευγηρίας
           parking: Χώρος στάθμευσης
           parking_entrance: Είσοδος χώρου στάθμευσης
-          parking_space: Χώρος στάθμευσης
+          parking_space: Θέση στάθμευσης
           payment_terminal: Τερματικό πληρωμών
           pharmacy: Φαρμακείο
           place_of_worship: Τόπος λατρείας
@@ -770,6 +803,7 @@ el:
           public_building: Δημόσιο κτήριο
           recycling: Σημείο ανακύκλωσης
           restaurant: Εστιατόριο
+          sanitary_dump_station: Υγειονομικός Σταθμός Αποχέτευσης
           school: Σχολείο
           shelter: Καταφύγιο
           shower: Ντους
@@ -782,6 +816,7 @@ el:
           theatre: Θέατρο
           toilets: Τουαλέτες
           townhall: Δημαρχείο
+          training: Εκπαιδευτήριο
           university: Πανεπιστήμιο
           vehicle_inspection: Επιθεώρηση οχήματος
           vending_machine: Μηχάνημα αυτόματης πώλησης
@@ -790,8 +825,12 @@ el:
           waste_basket: Καλάθι απορριμμάτων
           waste_disposal: Διάθεση αποβλήτων
           waste_dump_site: Χώρος απόρριψης απορριμάτων
+          watering_place: Γούρνα
           water_point: Σημείο ανεφοδιασμού νερού
+          weighbridge: Γέφυρα ζυγοστάθμισης
+          "yes": Υποδομή
         boundary:
+          aboriginal_lands: Γη των Αβορίγινων
           administrative: Διοικητικό όριο
           census: Όριο απογραφής
           national_park: Εθνικό πάρκο
@@ -817,7 +856,9 @@ el:
           college: Πανεπιστημιακό κτήριο
           commercial: Εμπορικό κτήριο
           construction: Κτήριο υπό κατασκευή
+          detached: Μονοκατοικία
           dormitory: Κοιτώνας
+          duplex: Μεζονέτα
           farm: Αγροικία
           farm_auxiliary: Βοηθητική αγροικία
           garage: Γκαράζ
@@ -827,6 +868,7 @@ el:
           hospital: Κτήριο Νοσοκομείου
           hotel: Ξενοδοχείο
           house: Σπίτι
+          houseboat: Πλωτή κατοικία
           hut: Καλύβα
           industrial: Βιομηχανικό Κτήριο
           kindergarten: Κτήριο νηπιαγωγείου
@@ -837,10 +879,13 @@ el:
           roof: Οροφή
           ruins: Ερειπωμένο Κτήριο
           school: Σχολικό Κτήριο
+          semidetached_house: Ημιμονοκατοικία
+          service: Κτήριο Υπηρεσιών
           shed: Υπόστεγο
           stable: Στάβλος
           static_caravan: Τροχόσπιτο
           temple: Κτήριο ναού
+          terrace: Κτίριο με ταράτσα
           train_station: Κτήριο Σιδηροδρομικού Σταθμού
           university: Κτήριο Πανεπιστημίου
           warehouse: Αποθήκη
@@ -848,21 +893,31 @@ el:
         club:
           scout: Βάση Ομάδας Προσκόπων
           sport: Αθλητικός σύλλογος
+          "yes": Λέσχη
         craft:
           beekeeper: Μελισσοκόμος
           blacksmith: Σιδηρουργός
           brewery: Ζυθοποιείο
           carpenter: Ξυλουργός
+          caterer: Προμηθευτής
+          confectionery: Ζαχαροπλαστείο
+          dressmaker: Μοδίστρα
           electrician: Ηλεκτρολόγος
           electronics_repair: Επισκευή ηλεκτρονικών
           gardener: Κηπουρός
+          glaziery: Υαλουργείο
           handicraft: Χειροκατασκευές
+          hvac: Μηχανουργείο HVAC
           metal_construction: Κατασκευαστής Μετάλλων
           painter: Ζωγράφος
           photographer: Φωτογράφος
           plumber: Υδραυλικός
+          roofer: Στεγαστής
+          sawmill: Πριονιστήριο ξυλείας
           shoemaker: Τσαγκάρης
+          stonemason: Λιθοξόος
           tailor: Ράφτης
+          window_construction: Κατασκευή παραθύρων
           winery: Οινοποιείο
           "yes": Κατάστημα τεχνών
         crossing: Διάβαση
@@ -872,8 +927,12 @@ el:
           assembly_point: Σημείο συγκέντρωσης
           defibrillator: Απινιδωτής
           fire_extinguisher: Πυροσβεστήρας
+          fire_water_pond: Πυροσβεστική Λίμνη Νερού
           landing_site: Τοποθεσία έκτακτης προσγείωσης
+          life_ring: Σωσίβιο Έκτακτης Ανάγκης
           phone: Τηλέφωνο έκτακτης ανάγκης
+          siren: Σειρήνα έκτακτης ανάγκης
+          suction_point: Σημείο Άντλησης Έκτακτης Ανάγκης
           water_tank: Δεξαμενή νερού έκτακτης ανάγκης
         highway:
           abandoned: Εγκαταλελειμμένος αυτοκινητόδρομος
@@ -917,8 +976,10 @@ el:
           track: Χωματόδρομος
           traffic_mirror: Καθρέφτης κυκλοφορίας
           traffic_signals: Σήματα κυκλοφορίας
+          trailhead: Άκρη μονοπατιού
           trunk: Εθνική οδός
           trunk_link: Εθνική οδός
+          turning_circle: Κύκλος Αναστροφής
           turning_loop: Κυκλικός Κόμβος
           unclassified: Αταξινόμητη οδός
           "yes": Δρόμος
@@ -940,14 +1001,18 @@ el:
           house: Σπίτι
           manor: Έπαυλη
           memorial: Μνημείο
+          milestone: Ιστορικό ορόσημο
           mine: Ορυχείο
           mine_shaft: Φρεάτιο ορυχείου
           monument: Μνημείο
+          railway: Ιστορικός Σιδηρόδρομος
           roman_road: Ρωμαϊκός δρόμος
           ruins: Ερείπιο
+          rune_stone: Πέτρα με γράμματα ρουνικού αλφαβήτου
           stone: Πέτρα
           tomb: Τάφος
           tower: Πύργος
+          wayside_chapel: Παρεκκλήσι δίπλα στο δρόμο
           wayside_cross: Σταυρός στην άκρη του δρόμου
           wayside_shrine: Εικονοστάσιο στην άκρη του δρόμου
           wreck: Ναυάγιο
@@ -956,6 +1021,7 @@ el:
           "yes": Διασταύρωση
         landuse:
           allotments: Λαχανόκηποι
+          aquaculture: Υδατοκαλλιέργεια
           basin: Λεκανοπέδιο
           brownfield: Πρώην βιομηχανική περιοχή
           cemetery: Κοιμητήριο
@@ -974,6 +1040,7 @@ el:
           military: Στρατιωτική περιοχή
           mine: Ορυχείο
           orchard: Περιβόλι
+          plant_nursery: Φυτώριο
           quarry: Λατομείο
           railway: Σιδηρόδρομος
           recreation_ground: Χώρος αναψυχής
@@ -986,6 +1053,9 @@ el:
           vineyard: Αμπελώνας
           "yes": Χρήση γης
         leisure:
+          adult_gaming_centre: Κέντρο Παιχνιδιών για Ενήλικες
+          amusement_arcade: Ψυχαγωγική Στοά
+          bandstand: Εξέδρα Συναυλιών
           beach_resort: Παραθαλάσσιο θέρετρο
           bird_hide: Καταφύγιο πουλιών
           bleachers: Εξέδρα χωρίς στέγαστρο
@@ -1025,11 +1095,15 @@ el:
           antenna: Κεραία
           avalanche_protection: Προστασία χιονοστιβάδας
           beacon: φάρος
+          beam: Ακτίνα
           beehive: Κυψέλη
           breakwater: Κυματοθραύστης
           bridge: Γέφυρα
           bunker_silo: Οχυρό
+          cairn: Σωρός από πέτρες
           chimney: Καμινάδα
+          clearcut: Σαφής
+          communications_tower: Πύργος Επικοινωνιών
           crane: Γερανός
           cross: Σταυρός
           dolphin: Δέστρα
@@ -1049,13 +1123,16 @@ el:
           pier: Αποβάθρα
           pipeline: Αγωγός
           pumping_station: Αντλιοστάσιο
+          reservoir_covered: Σκεπαστή Δεξαμενή
           silo: Σιλό
           snow_cannon: Κανόνι χιονιού
           snow_fence: Χιονοφράχτης
           storage_tank: Δεξαμενή αποθήκευσης
+          street_cabinet: Καμπίνα δρόμου (καφάο)
           surveillance: Επιτήρηση
           telescope: Τηλεσκόπιο
           tower: Πύργος
+          utility_pole: Πόλος χρησιμότητας
           wastewater_plant: Μονάδα επεξεργασίας λυμάτων
           watermill: Νερόμυλος
           water_tap: Βρύση
@@ -1074,6 +1151,8 @@ el:
         mountain_pass:
           "yes": Ορεινό πέρασμα
         natural:
+          atoll: Κοραλλιογενές νησί
+          bare_rock: Γυμνός βράχος
           bay: Κόλπος
           beach: Παραλία
           cape: Ακρωτήριο
@@ -1090,6 +1169,7 @@ el:
           grassland: Λιβάδι
           heath: Ακαλλιέργητη γη
           hill: Λόφος
+          hot_spring: Θερμές Πηγές
           island: Νησί
           isthmus: Ισθμός
           land: Ξηρά
@@ -1106,6 +1186,7 @@ el:
           sand: Άμμος
           scree: Σάρα
           scrub: Θαμνότοπος
+          shingle: Βότσαλο
           spring: Πηγή
           stone: Πέτρα
           strait: Πορθμός
@@ -1117,9 +1198,11 @@ el:
           water: Νερό
           wetland: Υγρότοπος
           wood: Δάσος
+          "yes": Φυσικό χαρακτηριστικό
         office:
           accountant: Λογιστής
           administrative: Διαχείριση
+          advertising_agency: Διαφημιστική Εταιρεία
           architect: Αρχιτέκτονας
           association: Σύλλογος
           company: Εταιρεία
@@ -1134,6 +1217,7 @@ el:
           it: Γραφείο πληροφορικής
           lawyer: Δικηγόρος
           logistics: Λογιστικό γραφείο
+          newspaper: Γραφείο εφημερίδας
           ngo: Γραφείο ΜΚΟ
           notary: Συμβολαιογράφος
           religion: Θρησκευτικό γραφείο
@@ -1173,6 +1257,7 @@ el:
           "yes": Μέρος
         railway:
           abandoned: Εγκαταλελειμμένος σιδηρόδρομος
+          buffer_stop: Ταμπονιέρα
           construction: Σιδηρόδρομος υπό κατασκευή
           disused: Σιδηρόδρομος εκτός χρήσης
           funicular: Τελεφερίκ σε ράγες
@@ -1186,6 +1271,7 @@ el:
           platform: Πλατφόρμα σιδηροδρόμου
           preserved: Διατηρητέος σιδηρόδρομος
           proposed: Προτεινόμενος σιδηρόδρομος
+          rail: Ράγες
           spur: Παρακλάδι σιδηροδρόμου
           station: Σιδηροδρομικός σταθμός
           stop: Σιδηροδρομική στάση
@@ -1194,15 +1280,20 @@ el:
           switch: Σιδηροδρομικά σημεία
           tram: Γραμμή τραμ
           tram_stop: Στάση τραμ
+          turntable: Περιστροφική πλάκα ραγών
           yard: Σιδηροδρομικός Σταθμός Διαλογής
         shop:
+          agrarian: Κατάστημα Αγροτικών Προμηθειών
           alcohol: Εκτός άδειας
           antiques: Αντίκες
+          appliance: Κατάστημα Λευκών Συσκευών
           art: Κατάστημα τέχνης
           baby_goods: Βρεφικά είδη
+          bag: Κατάστημα με Τσάντες
           bakery: Φούρνος
           bathroom_furnishing: Εξοπλισμός μπάνιου
           beauty: Σαλόνι ομορφιάς
+          bed: Κατάστημα Κλινοσκεπασμάτων
           beverages: Κατάστημα ποτών
           bicycle: Κατάστημα ποδηλάτων
           bookmaker: Πράκτορας στοιχημάτων
@@ -1223,6 +1314,7 @@ el:
           convenience: Παντοπωλείο
           copyshop: Κατάστημα φωτοαντιγράφων
           cosmetics: Κατάστημα καλλυντικών
+          craft: Κατάστημα Ειδών Χειροτεχνίας
           curtain: Κατάστημα κουρτίνων
           dairy: Κατάστημα γαλακτοκομικών
           deli: Ντελικατέσεν
@@ -1240,6 +1332,7 @@ el:
           fishing: Κατάστημα ειδών αλιείας
           florist: Ανθοπώλης
           food: Κατάστημα τροφίμων
+          frame: Κατάστημα κορνίζων
           funeral_directors: Γραφείο κηδειών
           furniture: Έπιπλα
           garden_centre: Κέντρο κήπου
@@ -1249,7 +1342,9 @@ el:
           grocery: Οπωροπωλείο
           hairdresser: Κομμωτήριο
           hardware: Κατάστημα με χρώματα-σιδηρικά
+          health_food: Κατάστημα Υγιεινών Τροφίμων
           hearing_aids: Βοηθήματα ακοής
+          herbalist: Βοτανολόγος
           hifi: Hi-Fi
           houseware: Μαγαζί με οικιακά είδη
           ice_cream: Παγωτατζίδικο
@@ -1278,14 +1373,19 @@ el:
           pawnbroker: Ενεχυροδανειστής
           perfumery: Αρωματοπωλείο
           pet: Κατάστημα κατοικίδιων
+          pet_grooming: Περιποίηση κατοικίδιων ζώων
           photo: Φωτογραφείο
           seafood: Θαλασσινό φαγητό
           second_hand: Κατάστημα μεταχειρισμένων
+          sewing: Ραπτοπωλείο
           shoes: Κατάστημα υποδημάτων
           sports: Κατάστημα αθλητικών
           stationery: Κατάστημα χαρτικών/ειδών γραφείου
+          storage_rental: Ενοικίαση αποθηκευτικού χώρου
           supermarket: Σουπερμάρκετ
           tailor: Ράφτης
+          tattoo: Κατάστημα Τατουάζ
+          tea: Κατάστημα για τσάι
           ticket: Μαγαζί εισιτηρίων
           tobacco: Μαγαζί προϊόντων καπνού
           toys: Κατάστημα παιχνιδιών
@@ -1294,6 +1394,7 @@ el:
           vacant: Κενό κατάστημα
           variety_store: Κατάστημα ποικιλιών
           video: Κατάστημα βίντεο
+          video_games: Κατάστημα βιντεοπαιχνιδιών
           wholesale: Κατάστημα χονδρικής
           wine: Κατάστημα κρασιών
           "yes": Κατάστημα
@@ -1304,6 +1405,7 @@ el:
           attraction: Αξιοθέατο
           bed_and_breakfast: Ενοικιαζόμενα δωμάτια
           cabin: Καμπίνα
+          camp_pitch: Μέρος για κατασκήνωση
           camp_site: Χώρος κατασκήνωσης
           caravan_site: Χώρος τροχόσπιτων
           chalet: Σαλέ
@@ -1490,7 +1592,13 @@ el:
     intro_header: Καλώς ήρθατε στο OpenHistoricalMap!
     intro_text: Το OpenHistoricalMap είναι χάρτης του κόσμου, που δημιουργήθηκε από
       ανθρώπους σαν κι εσάς και είναι δωρεάν, υπό άδεια ελεύθερης χρήσης.
+    intro_1: Το OpenHistoricalMap είναι ένα έργο που έχει σχεδιαστεί για την αποθήκευση
+      και εμφάνιση δεδομένων χάρτη καθ' όλη τη διάρκεια της ιστορίας του κόσμου. Αυτό
+      είναι ένα έργο σε εξέλιξη, θα παίζουμε με πολλές νέες δυνατότητες καθώς ενεργοποιούμε
+      τον χρόνο στον ιστότοπο. Σας ενθαρρύνουμε να αρχίσετε να παίζετε και να επεξεργάζεστε
+      δεδομένα επίσης.
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
+    partners_title: Συνεργάτες
     hosting_partners_html: Η φιλοξενία υποστηρίζεται από %{ucl}, %{fastly}, %{bytemark},
       και άλλους %{partners}.
     partners_partners: συνεργάτες
@@ -1609,6 +1717,8 @@ el:
           Η σημείωση είναι κοντά σε %{place}.
       details: Περισσότερες λεπτομέρειες σχετικά με τη σημείωση μπορούν να βρεθούν
         στο %{url}.
+      details_html: Περισσότερες λεπτομέρειες σχετικά με τη σημείωση μπορείτε να βρείτε
+        στο %{url}.
     changeset_comment_notification:
       hi: Γεια σας, %{to_user},
       greeting: Γεια,
@@ -1619,13 +1729,20 @@ el:
           σχολίασε μια ομάδα αλλαγών που σας ενδιαφέρει.'
         your_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
           στις %{time} σε μία από τις ομάδες αλλαγών σας.'
+        your_changeset_html: Ο/Η %{commenter} άφησε ένα σχόλιο στις %{time} σε ένα
+          από τα σετ αλλαγών σας
         commented_changeset: '{{GENDER:%{commenter}|Ο|Η}} %{commenter} άφησε ένα σχόλιο
           στις %{time}, σε μία ομάδα αλλαγών που παρακολουθείτε, δημιουργημένη από
           {{GENDER:%{changeset_author}|τον|την}} %{changeset_author}.'
+        commented_changeset_html: Ο/Η %{commenter} άφησε ένα σχόλιο στις %{time} σε
+          ένα σύνολο αλλαγών που παρακολουθείτε που δημιουργήθηκε από τον/την %{changeset_author}
         partial_changeset_with_comment: με το σχόλιο «%{changeset_comment}»
+        partial_changeset_with_comment_html: με σχόλιο '%{changeset_comment}'
         partial_changeset_without_comment: χωρίς σχόλιο
       details: Περισσότερες λεπτομέρειες για την ομάδα αλλαγών μπορούν να βρεθούν
         στο %{url}.
+      details_html: Περισσότερες λεπτομέρειες σχετικά με το σύνολο αλλαγών μπορείτε
+        να βρείτε στο %{url}.
       unsubscribe: Για να διαγραφείτε από τις ενημερώσεις αυτής της ομάδας αλλαγών,
         επισκεφθείτε το %{url} και πατήστε "Διαγραφή".
   confirmations:
@@ -1862,7 +1979,7 @@ el:
   site:
     about:
       next: Επόμενη
-      copyright_html: Συνεισφέροντες του <span>&copy;</span>OpenHistoricalMap<br>
+      heading_html: Συνεισφέροντες του <span>&copy;</span>OpenHistoricalMap<br>
       used_by_html: Το %{name} προσφέρει δεδομένα χάρτη σε χιλιάδες ιστότοπους, εφαρμογές
         κινητού και συσκευές υλισμικού
       lede_text: Το OpenHistoricalMap αναπτύσσεται από μια κοινότητα χαρτογράφων που
@@ -2283,6 +2400,7 @@ el:
       uploaded: 'Μεταφορτώθηκε:'
       points: 'Σημεία:'
       start_coordinates: 'Συντεταγμένες αρχής:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: χάρτης
       edit: επεξεργασία
       owner: 'Ιδιοκτήτης:'
@@ -2315,15 +2433,20 @@ el:
       in: σε
     index:
       public_traces: Δημόσια ίχνη GPS
-      my_traces: Τα ίχνη μου
+      my_gps_traces: Τα ίχνη GPS μου
       public_traces_from: Δημόσια ίχνη GPS από τον %{user}
       description: Προβολή πρόσφατων μεταφορτωμένων ιχνών GPS
       tagged_with: χαρακτηρίστηκαν με %{tags}
-      empty_html: Τίποτα ακόμα εδώ. <a href='%{upload_link}'>Ανεβάστε ένα νέο ίχνος</a>
-        ή μάθετε περισσότερα για την καταγραφή ιχνών με GPS στη <a href='https://wiki.openstreetmap.org/wiki/El:Beginners_Guide_1.2'>σελίδα
-        wiki</a>.
+      empty_title: Τίποτα εδώ ακόμα
+      empty_upload_html: '%{upload_link} ή μάθετε περισσότερα σχετικά με την καταγραφή
+        GPS στο %{wiki_link}.'
+      upload_new: Ανεβάστε ένα νέο ίχνος
+      wiki_page: Σελίδα βίκι
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Αποστολή ίχνους
       all_traces: Όλα τα ίχνη
+      my_traces: Τα ίχνη μου
+      traces_from: Δημόσια ίχνη από %{user}
     destroy:
       scheduled_for_deletion: Το ίχνος προγραμματίστηκε για διαγραφή
     make_public:
@@ -2473,11 +2596,15 @@ el:
       introduction: Εξουσιοδότηση %{application} για πρόσβαση στον λογαριασμό σας
         με τις ακόλουθες άδειες;
       authorize: Εξουσιοδότηση
+      deny: Άρνηση
+    error:
+      title: Παρουσιάστηκε σφάλμα
     show:
       title: Κωδικός εξουσιοδότησης
   oauth2_authorized_applications:
     index:
       title: Οι Εξουσιοδοτημένες Εφαρμογές μου
+      application: Εφαρμογή
       permissions: Άδειες
       no_applications_html: Δεν έχετε εξουσιοδοτήσει ακόμη %{oauth2} εφαρμογές.
     application:
@@ -2493,12 +2620,15 @@ el:
         ικανοποιήσουμε το αίτημά σας το συντομότερο δυνατόν.
       about:
         header: Ελεύθερος και επεξεργάσιμος
-        html: |-
-          <p>Σε αντίθεση με άλλους χάρτες, το OpenHistoricalMap έχει ολοκληρωτικά φτιαχτεί από ανθρώπους σαν κι εσάς,
-          και είναι ανοικτός στον καθένα να τον διορθώσει, αναβαθμίσει, κατεβάσει και χρησιμοποιήσει.</p>
-          <p>Εγγραφείτε για να αρχίσετε να συνεισφέρετε. Θα σας στείλουμε ένα email για να επιβεβαιώσουμε τον λογαριασμό σας.</p>
+        paragraph_1: |-
+          Σε αντίθεση με άλλους χάρτες, το OpenHistoricalMap δημιουργείται εξ ολοκλήρου από ανθρώπους σαν εσάς,
+          και είναι δωρεάν για οποιονδήποτε να το διορθώσει, να ενημερώσει, να το κατεβάσει και να το χρησιμοποιήσει.
+        paragraph_2: Εγγραφείτε για να ξεκινήσετε να συνεισφέρετε. Θα στείλουμε ένα
+          email για να επιβεβαιώσουμε τον λογαριασμό σας.
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       confirm email address: 'Επιβεβαίωση Διεύθυνσης Ηλ. Ταχυδρομείου:'
+      email_confirmation_help_html: Εισαγάγετε ξανά το email σας για να βεβαιωθείτε
+        ότι είναι σωστό. Δε θα εμφανίζεται δημόσια.
       display name: 'Εμφανιζόμενο όνομα:'
       display name description: Το δημόσια εμφανιζόμενο όνομα χρήστη. Μπορείτε να
         το αλλάξετε αργότερα από τις προτιμήσεις.
@@ -2540,6 +2670,7 @@ el:
         italy: Ιταλία
         rest_of_world: Υπόλοιπος κόσμος
     terms_declined_flash:
+      terms_declined_link: αυτή η σελίδα wiki
       terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Άγνωστος χρήστης
@@ -2597,6 +2728,8 @@ el:
       activate_user: Ενεργοποίηση αυτού του λογαριασμού Χρήστη
       deactivate_user: Απενεργοποίηση αυτού του λογαριασμού Χρήστη
       confirm_user: Επιβεβαίωση αυτού του λογαριασμού Χρήστη
+      unconfirm_user: Καταργήση της επιβεβαίωσης αυτού του χρήστη
+      unsuspend_user: Κατάργηση αναστολής αυτού του χρήστη
       hide_user: Απόκρυψη αυτού του λογαριασμού Χρήστη
       unhide_user: Επανεμφάνιση αυτού του λογαριασμού Χρήστη
       delete_user: Διαγραφή αυτού του Χρήστη
@@ -2638,6 +2771,7 @@ el:
       no_authorization_code: Δεν υπάρχει κωδικός πιστοποίησης
       unknown_signature_algorithm: Άγνωστος αλγόριθμος υπογραφής
       invalid_scope: Μη έγκυρο φάσμα
+      unknown_error: Η αυθεντικοποίηση απέτυχε
     auth_association:
       heading: Το ID σας δεν σχετίζεται ακόμα με λογαριασμό στο OpenHistoricalMap.
       option_1: |-
@@ -2751,6 +2885,7 @@ el:
       title: Ο %{block_on} έχει φραχτεί από τον %{block_by}
       heading_html: Ο %{block_on} έχει φραχτεί από τον %{block_by}
       created: 'Δημιουργήθηκε:'
+      duration: 'Διάρκεια:'
       status: 'Κατάσταση:'
       show: Εμφάνιση
       edit: Επεξεργασία
@@ -2785,6 +2920,46 @@ el:
       description: Περιγραφή
       created_at: Δημιουργήθηκε στις
       last_changed: Τελευταία αλλαγή
+    show:
+      title: 'Σημείωση: %{id}'
+      description: Περιγραφή
+      open_title: 'Ανοικτή σημείωση #%{note_name}'
+      closed_title: 'Επιλυμένη σημείωση #%{note_name}'
+      hidden_title: 'Κρυφή σημείωση #%{note_name}'
+      event_opened_by_html: Δημιουργήθηκε από %{user} %{time_ago}
+      event_opened_by_anonymous_html: Δημιουργήθηκε από ανώνυμο %{time_ago}
+      event_commented_by_html: Σχολιάστηκε από %{user} %{time_ago}
+      event_commented_by_anonymous_html: Σχολιάστηκε από ανώνυμο %{time_ago}
+      event_closed_by_html: Επιλύθηκε από %{user} %{time_ago}
+      event_closed_by_anonymous_html: Επιλύθηκε από ανώνυμο %{time_ago}
+      event_reopened_by_html: Επανενεργοποιήθηκε από %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Επανενεργοποιήθηκε από ανώνυμο %{time_ago}
+      event_hidden_by_html: Αποκρύφθηκε από %{user} %{time_ago}
+      report: αναφορά αυτής της σημείωσης
+      coordinates_html: '%{latitude}, %{longitude}'
+      anonymous_warning: Αυτό η σημείωση περιλαμβάνει σχόλια από ανώνυμους χρήστες
+        που πρέπει να επαληθεύονται ανεξάρτητα.
+      hide: Απόκρυψη
+      resolve: Επίλυση
+      reactivate: Επανενεργοποίηση
+      comment_and_resolve: Σχολιάστε και Επιλύστε
+      comment: Σχόλιο
+      report_link_html: Εάν αυτή η σημείωση περιέχει ευαίσθητες πληροφορίες που πρέπει
+        να αφαιρεθούν, μπορείτε %{link}.
+      other_problems_resolve: Για όλα τα άλλα προβλήματα με τη σημείωση, επιλύστε
+        το μόνοι σας με ένα σχόλιο.
+      other_problems_resolved: Για όλα τα άλλα προβλήματα, αρκεί η επίλυση.
+      disappear_date_html: Αυτή η επιλυμένη σημείωση θα εξαφανιστεί από τον χάρτη
+        στις %{disappear_in}.
+    new:
+      title: Νέα σημείωση
+      intro: Εντοπίσατε λάθος ή κάτι που λείπει; Πείτε το στους άλλους χαρτογράφους
+        ώστε να λυθεί το πρόβλημα. Μετακινείστε το δείκτη στη σωστή θέση και γράψτε
+        μια σημείωση για να εξηγήσετε το πρόβλημα.
+      advice: Η σημείωση σας είναι δημόσια και μπορεί να χρησιμοποιηθεί για την ενημέρωση
+        του χάρτη, γι'αυτό μην προστέθετε προσωπικές πληροφορίες, ή πληροφορίες από
+        χάρτες που καλύπτονται από πνευματικά δικαιώματα ή καταχωρήσεις καταλόγου.
+      add: Προσθήκη Σημείωσης
   javascripts:
     close: Κλείσιμο
     share:
@@ -3007,17 +3182,17 @@ el:
       heading: Εμφάνιση παράληψης «%{title}»
       title: Εμφανίζεται η παράληψη
       user: 'Δημιουργός:'
-      edit: Επεξεργασία αυτής της παράληψης
-      destroy: Κατάργηση αυτής της παράληψης
+      edit: Επεξεργασία αυτής της σύνταξης
+      destroy: Κατάργηση αυτής της σύνταξης
       confirm: Είσαι σίγουρος?
     create:
-      flash: Η παράληψη δημιουργήθηκε.
+      flash: Η σύνταξη δημιουργήθηκε.
     update:
       flash: Οι αλλαγές αποθηκεύτηκαν.
     destroy:
       not_empty: Η σύνταξη δεν είναι κενή. Παρακαλούμε απο-συντάξτε όλες τις εκδόσεις
         σε αυτή τη σύνταξη πριν την καταστρέψετε.
-      flash: Η παράληψη καταστραφεί.
+      flash: Η σύνταξη καταστράφηκε.
       error: Εμφανίστηκε ένα σφάλμα που καταστρέφει αυτή τη σύνταξη.
   validations:
     leading_whitespace: περιέχει κενό διάστημα στην αρχή

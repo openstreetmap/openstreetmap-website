@@ -411,12 +411,12 @@ fr:
   browse:
     created: Créé
     closed: Fermé
-    created_html: Créé à <abbr title="%{title}">%{time}</abbr>
-    closed_html: Fermé <abbr title="%{title}">%{time}</abbr>
-    created_by_html: Créé à <abbr title="%{title}">%{time}</abbr> par %{user}
-    deleted_by_html: Supprimé <abbr title="%{title}">%{time}</abbr> par %{user}
-    edited_by_html: Modifié <abbr title="%{title}">%{time}</abbr> par %{user}
-    closed_by_html: Fermé <abbr title="%{title}">%{time}</abbr> par %{user}
+    created_ago_html: Créé %{time_ago}
+    closed_ago_html: Fermé %{time_ago}
+    created_ago_by_html: Créé %{time_ago} par %{user}
+    closed_ago_by_html: Fermé %{time_ago} par %{user}
+    deleted_ago_by_html: Supprimé %{time_ago} par %{user}
+    edited_ago_by_html: Modifié %{time_ago} par %{user}
     version: Version
     in_changeset: Groupe de modifications
     anonymous: anonyme
@@ -433,7 +433,7 @@ fr:
     view_details: Afficher les détails
     location: 'Emplacement :'
     common_details:
-      coordinates_html: '%{latitude}, %{longitude}'
+      coordinates_html: '%{latitude} ; %{longitude}'
     changeset:
       title: 'Groupe de modifications : %{id}'
       belongs_to: Auteur
@@ -545,7 +545,7 @@ fr:
       reopened_by_anonymous_html: Réactivée par un utilisateur anonyme, <abbr title="%{exact_time}">%{when}</abbr>
       hidden_by_html: Masquée par %{user}, <abbr title="%{exact_time}">%{when}</abbr>
       report: Signaler cette note
-      coordinates_html: '%{latitude}, %{longitude}'
+      coordinates_html: '%{latitude} ; %{longitude}'
     query:
       title: Interroger les objets
       introduction: Cliquer sur la carte pour trouver des objets à proximité.
@@ -569,6 +569,7 @@ fr:
     index:
       title: Groupes de modifications
       title_user: Groupes de modifications par %{user}
+      title_user_link_html: Groupes de modifications par %{user_link}
       title_friend: Groupes de modifications par mes amis
       title_nearby: Groupes de modifications par des utilisateurs à proximité
       empty: Aucun groupe de modifications trouvé.
@@ -702,6 +703,26 @@ fr:
       applications:
         create:
           notice: Application inscrite.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Différents canaux de contact expliqués
+      contact: contact
+      contact_the_community_html: N’hésitez pas à %{contact_link} la communauté OpenHistoricalMap
+        si vous avez trouvé un lien cassé ou une anomalie. Notez l’URL exact de votre
+        demande.
+    forbidden:
+      title: Interdit
+      description: L’opération que vous avez demandée sur le serveur OpenHistoricalMap
+        n’est disponible que pour les administrateurs (HTTP 403)
+    internal_server_error:
+      title: Erreur de l’application
+      description: Le serveur OpenHistoricalMap a rencontré une condition inattendue
+        qui l’a empêché de traiter la requête (HTTP 500)
+    not_found:
+      title: Fichier non trouvé
+      description: Impossible de trouver un fichier, un répertoire ou une opération
+        API de ce nom sur le serveur OpenHistoricalMap (HTTP 404)
   friendships:
     make_friend:
       heading: Ajouter %{user} en tant qu’ami(e) ?
@@ -719,14 +740,13 @@ fr:
   geocoder:
     search:
       title:
-        latlon_html: Résultats <a href="https://openstreetmap.org/">internes</a>
-        ca_postcode_html: Résultats venant de <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Résultats venant de <a href="https://nominatim.openstreetmap.org/">Nominatim
-          sur OpenHistoricalMap</a>
-        geonames_html: Résultats venant de <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Résultats venant de <a href="https://nominatim.openstreetmap.org/">Nominatim
-          sur OpenHistoricalMap</a>
-        geonames_reverse_html: Résultats venant de <a href="http://www.geonames.org/">GeoNames</a>
+        results_from_html: Résultats de %{results_link}
+        latlon: Interne
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: Nominatim pour OpenHistoricalMap
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: Nominatim pour OpenHistoricalMap
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -2055,7 +2075,7 @@ fr:
   site:
     about:
       next: Suivant
-      copyright_html: <span>©</span> Contributeurs<br /> d’OpenHistoricalMap
+      heading_html: <span>©</span> Contributeurs<br /> d’OpenHistoricalMap
       used_by_html: OpenHistoricalMap stocke et affiche de manière collaborative des
         données cartographiques tout au long de l’histoire du monde.
       lede_text: OpenHistoricalMap est construit par une communauté de cartographes
@@ -2533,16 +2553,19 @@ fr:
       in: dans
     index:
       public_traces: Traces GPS publiques
-      my_traces: Mes traces
+      my_gps_traces: Mes traces GPS
       public_traces_from: Traces GPS publiques de %{user}
       description: Parcourir les téléversements récents de traces GPS
       tagged_with: balisée avec %{tags}
-      empty_html: Il n’y a encore rien ici. <a href="%{upload_link}">Téléverser une
-        nouvelle trace</a> ou pour en savoir plus sur le traçage GPS, consultez la
-        <a href="https://wiki.openstreetmap.org/wiki/FR:Beginners_Guide_1.2">page
-        wiki</a>.
+      empty_title: Rien ici encore
+      empty_upload_html: '%{upload_link} ou apprenez-en plus au sujet des traces GPS
+        sur la %{wiki_link}.'
+      upload_new: Téléversez une nouvelle trace
+      wiki_page: page wiki
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/FR:Beginners_Guide_1.2
       upload_trace: Téléverser une trace
       all_traces: Toutes les traces
+      my_traces: Mes traces
       traces_from: Traces publiques de %{user}
       remove_tag_filter: Retirer le filtre de balises
     destroy:
@@ -2724,12 +2747,15 @@ fr:
         le plus rapidement possible.
       about:
         header: Libre et modifiable
-        html: |-
-          <p>À la différence d’autres cartes, OpenHistoricalMap est entièrement créé par des gens comme vous,
-          et chacun est libre de le modifier, le mettre à jour, le télécharger et l’utiliser.</p>
-          <p>Inscrivez-vous pour commencer à participer. Nous vous enverrons un courriel pour confirmer votre compte.</p>
+        paragraph_1: Contrairement à d’autres cartes, OpenhistoricalMap est entièrement
+          créée par des personnes comme vous et il permet à quiconque de librement
+          la réparer, la mettre à jour, la télécharger et l’utiliser.
+        paragraph_2: Inscrivez-vous pour commencer à contribuer. Nous vous enverrons
+          un courriel pour confirmer votre compte.
       email address: 'Adresse de courriel :'
       confirm email address: 'Confirmez l’adresse de courriel :'
+      email_confirmation_help_html: Saisissez à nouveau votre adresse de courriel
+        pour vous assurer qu’elle est correcte. Elle ne sera pas affichée publiquement.
       display name: 'Nom affiché :'
       display name description: Votre nom d’utilisateur affiché publiquement. Vous
         pouvez changer ceci ultérieurement dans les préférences.
@@ -3020,6 +3046,45 @@ fr:
       description: Description
       created_at: Créée le
       last_changed: Dernière modification
+    show:
+      title: 'Note : %{id}'
+      description: Description
+      open_title: Note non résolue nº %{note_name}
+      closed_title: Note résolue nº %{note_name}
+      hidden_title: Note masquée nº %{note_name}
+      event_opened_by_html: Créé par %{user} %{time_ago}
+      event_opened_by_anonymous_html: Créé par un anonyme %{time_ago}
+      event_commented_by_html: Commentaire de %{user} %{time_ago}
+      event_commented_by_anonymous_html: Commentaire d’un anonyme %{time_ago}
+      event_closed_by_html: Résolu par %{user} %{time_ago}
+      event_closed_by_anonymous_html: Résolu par un anonyme %{time_ago}
+      event_reopened_by_html: Réactivé par %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Réactivé par un anonyme %{time_ago}
+      event_hidden_by_html: Masqué par %{user} %{time_ago}
+      report: signaler cette note
+      coordinates_html: '%{latitude} ; %{longitude}'
+      anonymous_warning: Cette note comprend des commentaires d’utilisateurs anonymes,
+        qui devraient être vérifiés de façon indépendante.
+      hide: Masquer
+      resolve: Résoudre
+      reactivate: Réactiver
+      comment_and_resolve: Commenter et résoudre
+      comment: Commentaire
+      report_link_html: Si cette note contient des informations sensibles qui doivent
+        être supprimées, vous pouvez %{link}.
+      other_problems_resolve: Pour tout autre problème avec la note, veuillez le résoudre
+        vous-même avec un commentaire.
+      other_problems_resolved: Pour tous les autres problèmes, la résolution suffit.
+      disappear_date_html: Cette note résolue disparaîtra de la carte dans %{disappear_in}.
+    new:
+      title: Nouvelle note
+      intro: Vous avez repéré une erreur ou un manque ? Faites-le savoir aux autres
+        cartographes afin qu’ils puissent y remédier. Déplacez le marqueur à la position
+        exacte et écrivez une note pour expliquer le problème.
+      advice: Votre note est publique et peut être utilisée pour mettre à jour la
+        carte, aussi n’entrez aucune information personnelle, ni aucune information
+        venant de cartes protégées, ni aucune entrée de répertoire ou d’annuaire.
+      add: Ajouter une note
   javascripts:
     close: Fermer
     share:
@@ -3065,7 +3130,6 @@ fr:
         woodblock: Bloc de bois
         japanesescroll: Rouleau japonais
         standard: Standard
-        cyclosm: CyclOSM
         cycle_map: Carte cyclable
         transport_map: Carte de transport
         hot: Humanitaire

@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Ali1
+# Author: Asma
 # Author: Aude
 # Author: Ayatun
 # Author: Azouz.anis
@@ -404,12 +405,12 @@ ar:
   browse:
     created: تم الإنشاء
     closed: تم الإغلاق
-    created_html: تم الإغلاق <abbr title='%{title}'>%{time}</abbr>
-    closed_html: تم الإغلاق <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: تم الإنشاء <abbr title='%{title}'>%{time}</abbr> على يد %{user}
-    deleted_by_html: تم الحذف <abbr title='%{title}'>%{time}</abbr> على يد %{user}
-    edited_by_html: تم التعديل <abbr title='%{title}'>%{time}</abbr> على يد %{user}
-    closed_by_html: تم الإغلاق <abbr title='%{title}'>%{time}</abbr> على يد %{user}
+    created_ago_html: تم إنشاء %{time_ago}
+    closed_ago_html: مغلق %{time_ago}
+    created_ago_by_html: تم إنشاء %{time_ago} بواسطة %{user}
+    closed_ago_by_html: مغلق %{time_ago} بواسطة %{user}
+    deleted_ago_by_html: تم حذف %{time_ago} بواسطة %{user}
+    edited_ago_by_html: تم تحرير %{time_ago} بواسطة %{user}
     version: الإصدار
     in_changeset: مجموعة التغييرات
     anonymous: مجهول
@@ -560,6 +561,7 @@ ar:
     index:
       title: حزم التغييرات
       title_user: حزم التغييرات بواسطة %{user}
+      title_user_link_html: تغييرات بواسطة %{user_link}
       title_friend: مجموعات تغييرات بواسطة أصدقائي
       title_nearby: تغييرات مِن قِبَل مستخدمين قريبين
       empty: لم يُعثَر على أية مجموعات تغييرات.
@@ -676,6 +678,25 @@ ar:
       comment: التعليق
       newer_comments: التعليقات الأحدث
       older_comments: التعليقات الأقدم
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: شرح مختلف قنوات الاتصال
+      contact: اتصال
+      contact_the_community_html: لا تتردد في ٪{contact_link} مجتمع OpenHistoricalMap
+        إذا وجدت ارتباطًا / خطأً معطلاً. قم بتدوين عنوان URL الدقيق لطلبك.%{contact_link}
+    forbidden:
+      title: ممنوع
+      description: العملية التي طلبتها على خادم OpenHistoricalMap متاحة فقط للمسؤولين
+        (HTTP 403)
+    internal_server_error:
+      title: خطأ في تطبيق
+      description: واجه خادم OpenHistoricalMap حالة غير متوقعة منعته من تلبية الطلب
+        (HTTP 500)
+    not_found:
+      title: لم يتم العثور على الملف
+      description: تعذر العثور على ملف / دليل / عملية API بهذا الاسم على خادم OpenHistoricalMap
+        (HTTP 404)
   friendships:
     make_friend:
       heading: إضافة %{user} كصديق؟
@@ -691,14 +712,13 @@ ar:
   geocoder:
     search:
       title:
-        latlon_html: نتائج من  <a href="https://openstreetmap.org/">الداخلية</a>
-        ca_postcode_html: نتائج من <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: نتائج من <a href="https://nominatim.openstreetmap.org/">Nominatim
-          خريطة الشارع المفتوحة</a>
-        geonames_html: نتائج من <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: نتائج من <a href="https://nominatim.openstreetmap.org/">Nominatim
-          خريطة الشارع المفتوحة</a>
-        geonames_reverse_html: نتائج من <a href="http://www.geonames.org/">GeoNames</a>
+        results_from_html: نتائج من %{results_link}
+        latlon: داخلي
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: مؤسسة خريطة الشارع المفتوحة
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -1780,7 +1800,7 @@ ar:
   site:
     about:
       next: التالي
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
       used_by_html: OpenHistoricalMap تدعم البيانات على آلالاف من مواقع الويب وتطبيقات
         الجوّال والأجهزة
       lede_text: تم بناء خريطة الشارع المفتوحة من قبل مجتمع من مصممي الخرائط، وتساهم
@@ -2231,14 +2251,18 @@ ar:
       in: في
     index:
       public_traces: آثار جي بي إس عمومية
-      my_traces: أثري في GPS
+      my_gps_traces: آثار GPS الخاصة بي
       public_traces_from: آثار جي بي إس عمومية من %{user}
       description: تصفح أحدث مسارات GPS المرفوعة
       tagged_with: بالوسم %{tags}
-      empty_html: ليس هناك شيء بعد. <a href='%{upload_link}'>رفع أثر جديد</a> أو تعلم
-        المزيد تتبع GPS على <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki
-        page</a>.
+      empty_title: لا شيء هنا حتى الآن
+      empty_upload_html: '%{upload_link} أو تعرف على المزيد حول تتبع نظام تحديد المواقع
+        العالمي (GPS) على %{wiki_link}.'
+      upload_new: رفع ملف جديد
+      wiki_page: صفحة ويكي
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: حمل أثر
+      my_traces: أثري في GPS
     destroy:
       scheduled_for_deletion: تم جدولة الأثر للحذف
     make_public:
@@ -2368,11 +2392,14 @@ ar:
         إنشاء حساب، سنحاول التعامل مع الطلب بأسرع وقت ممكن.
       about:
         header: حًرَّة وقابلة للتحرير
-        html: |-
-          <p>على عكس الخرائط الأخرى تماما، يتم إنشاء خريطة الشارع المفتوحة من قبل الناس مثلك، وهي حرة ويمكن لأي أحد الإصلاح والتحديث والتنزيل والاستخدام.</p>
-          <P> أنشىء حسابا لبدء المساهمة.سنقوم بإرسال بريد إلكتروني لتأكيد حسابك.</p>
+        paragraph_1: |-
+          على عكس الخرائط الأخرى ، تم إنشاء OpenHistoricalMap بالكامل بواسطة أشخاص مثلك ،
+          وهو مجاني لأي شخص لإصلاحه وتحديثه وتنزيله واستخدامه.
+        paragraph_2: سجل لتبدأ المساهمة. سنرسل بريدًا إلكترونيًا لتأكيد حسابك.
       email address: 'عنوان البريد الإلكتروني:'
       confirm email address: 'تأكيد عنوان البريد الإلكتروني:'
+      email_confirmation_help_html: أدخل بريدك الإلكتروني مرة أخرى للتأكد من صحته.
+        لن يتم عرضها علنا.
       display name: 'اسم العرض:'
       display name description: اسم المستخدم الخاص بك الظاهر علنًا، يمكنك تغيير هذا
         في التفضيلات في وقت لاحق.
@@ -2662,6 +2689,43 @@ ar:
       description: الوصف
       created_at: أنشأ في
       last_changed: أحدث تغيير
+    show:
+      title: 'ملاحظة: %{id}'
+      description: الوصف
+      open_title: 'ملاحظة لم يتم حلها #%{note_name}'
+      closed_title: 'ملحوظة محلولة: %{note_name}'
+      hidden_title: 'ملاحظة مخفيّة #%{note_name}'
+      event_opened_by_html: تم إنشاؤه بواسطة %{user}, %{time_ago}
+      event_opened_by_anonymous_html: تم إنشاؤه بواسطة مجهول %{time_ago}
+      event_commented_by_html: تعليق من %{user}%{time_ago}
+      event_commented_by_anonymous_html: تعليق مجهول من %{time_ago}
+      event_closed_by_html: تم الحل بواسطة %{user} %{time_ago}
+      event_closed_by_anonymous_html: تم الحل بواسطة مجهول %{time_ago}
+      event_reopened_by_html: تم الحل بواسطة %{user} %{time_ago}
+      event_reopened_by_anonymous_html: أعاد التنشيط بواسطة مجهول %{time_ago}
+      event_hidden_by_html: مخفي بواسطة %{user} %{time_ago}
+      report: أبلغ عن هذه الملاحظة
+      coordinates_html: '%{latitude}, %{longitude}'
+      anonymous_warning: تتضمن هذه المذكرة تعليقات المستخدمين المجهولين التي ينبغي
+        التحقق منها بشكل مستقل.
+      hide: إخفاء
+      resolve: حل
+      reactivate: نشط
+      comment_and_resolve: علِّق و حلّ
+      comment: تعليق
+      report_link_html: إذا كانت هذه الملاحظة تحتوي على معلومات حساسة يجب إزالتها
+        ، فيمكنك %{link}
+      other_problems_resolve: بالنسبة لجميع المشكلات الأخرى المتعلقة بالملاحظة ، يرجى
+        حلها بنفسك من خلال التعليق.
+      other_problems_resolved: لجميع المشاكل الأخرى ، الحل كاف.
+      disappear_date_html: ستختفي هذه الملاحظة التي تم حلها من الخريطة في %{disappear_in}.
+    new:
+      title: ملاحظة جديدة
+      intro: رصدت خطأ أو شيء مفقود؟ دع مصممي الخرائط الآخرين يعرفون حتى نتمكن من إصلاحها.
+        انقل العلامة إلى الموضع الصحيح واكتب ملاحظة لشرح المشكلة.
+      advice: ملاحظتك عامة ويمكن استخدامها لتحديث الخريطة ، لذلك لا تدخل معلومات شخصية
+        أو معلومات من الخرائط أو قوائم الدليل المحمية بحقوق النشر.
+      add: أضف ملاحظة
   javascripts:
     close: أغلق
     share:
@@ -2711,7 +2775,6 @@ ar:
           other: أنت على بعد %{count} قدم من هذه النقطة
       base:
         standard: قياسي
-        cyclosm: CyclOSM
         cycle_map: خريطة الدراجات
         transport_map: خريطة النقل و المواصلات
         hot: الخريطة الإنسانية

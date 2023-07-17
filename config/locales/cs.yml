@@ -214,41 +214,65 @@ cs:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: asi před 1 hodinou
+        one: asi před hodinou
+        few: asi před %{count} hodinami
+        many: asi před %{count} hodiny
         other: asi před %{count} hodinami
       about_x_months:
         one: asi před měsícem
+        few: asi před %{count} měsíci
+        many: asi před %{count} měsíce
         other: asi před %{count} měsíci
       about_x_years:
         one: asi před rokem
-        other: asi před %{count} roky
+        few: asi před %{count} lety
+        many: asi před %{count} roku
+        other: asi před %{count} lety
       almost_x_years:
         one: skoro před rokem
-        other: skoro před %{count} roky
+        few: skoro před %{count} lety
+        many: skoro před %{count} roku
+        other: skoro před %{count} lety
       half_a_minute: před půl minutou
       less_than_x_seconds:
-        one: před méně než vteřinou
-        other: před méně než %{count} vteřinami
+        one: před méně než sekundou
+        few: před méně než %{count} sekundami
+        many: před méně než %{count} sekundy
+        other: před méně než %{count} sekundami
       less_than_x_minutes:
         one: před méně než minutou
+        few: před méně než %{count} minutami
+        many: před méně než %{count} minuty
         other: před méně než %{count} minutami
       over_x_years:
-        one: více než před rokem
+        one: před více než před rokem
+        few: před více než %{count} lety
+        many: před více než %{count} roku
         other: před více než %{count} lety
       x_seconds:
         one: před sekundou
+        few: před %{count} sekundami
+        many: před %{count} sekundy
         other: před %{count} sekundami
       x_minutes:
         one: před minutou
+        few: před %{count} minutami
+        many: před %{count} minuty
         other: před %{count} minutami
       x_days:
-        one: den nazpět
+        one: před %{count} dnem
+        few: před %{count} dny
+        many: před %{count} dne
         other: před %{count} dny
       x_months:
         one: před měsícem
+        few: před %{count} měsíci
+        many: před %{count} měsíce
         other: před %{count} měsíci
       x_years:
         one: před rokem
+        few: před %{count} lety
+        many: před %{count} roku
         other: před %{count} lety
   editor:
     default: Výchozí (aktuálně %{name})
@@ -362,12 +386,6 @@ cs:
   browse:
     created: Vytvořeno
     closed: Uzavřeno
-    created_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Vytvořeno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
-    deleted_by_html: Smazáno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
-    edited_by_html: Upraveno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
-    closed_by_html: Uzavřeno <abbr title='%{title}'>%{time}</abbr> uživatelem %{user}
     version: Verze
     in_changeset: Sada změn
     anonymous: anonym
@@ -673,16 +691,6 @@ cs:
       success: '%{name} byl odstraněn z vašich přátel.'
       not_a_friend: '%{name} není mezi vašimi přáteli.'
   geocoder:
-    search:
-      title:
-        latlon_html: Výsledky z <a href="https://openstreetmap.org/">interní databáze</a>
-        ca_postcode_html: Výsledky z <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Výsledky z <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Výsledky z <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1587,6 +1595,7 @@ cs:
     intro_text: OpenHistoricalMap je mapa světa, vytvořená lidmi jako vy a volně využitelná
       pod otevřenou licencí.
     intro_2_create_account: Vytvořit uživatelský účet
+    partners_title: Partneři
     hosting_partners_html: Hosting podporují %{ucl}, %{fastly}, %{bytemark} a další
       %{partners}.
     partners_partners: partneři
@@ -1984,7 +1993,7 @@ cs:
   site:
     about:
       next: Další
-      copyright_html: <span>&copy;</span>přispěvatelé<br>OpenHistoricalMap
+      heading_html: <span>&copy;</span>přispěvatelé<br>OpenHistoricalMap
       used_by_html: OpenHistoricalMap poskytuje mapová data pro tisíce webových stránek,
         mobilních aplikací a hardwarových zařízení
       lede_text: OpenHistoricalMap tvoří komunita uživatelů, kteří přidávají a udržují
@@ -2220,7 +2229,7 @@ cs:
       where_am_i: Kde je toto?
       where_am_i_title: Popsat právě zobrazované místo pomocí vyhledávače
       submit_text: Hledat
-      reverse_directions_text: Opačné směry
+      reverse_directions_text: Obrátit směr
     key:
       table:
         entry:
@@ -2407,8 +2416,9 @@ cs:
     trace:
       pending: ZPRACOVÁVÁ SE
       count_points:
-        one: 1 bod
+        one: '%{count} bod'
         few: '%{count} body'
+        many: '%{count} bodu'
         other: '%{count} bodů'
       more: více
       trace_details: Zobrazit podrobnosti stopy
@@ -2422,14 +2432,12 @@ cs:
       in: v
     index:
       public_traces: Veřejné GPS stopy
-      my_traces: Moje stopy
       public_traces_from: Veřejné GPS stopy uživatele %{user}
       description: Procházení nedávno nahraných GPS stop
       tagged_with: se štítky %{tags}
-      empty_html: Nic tu ještě není. <a href='%{upload_link}'>Nahrajte novou stopu</a>
-        nebo si něco o GPS stopách přečtěte na <a href='https://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide_1.2?uselang=cs'>wiki</a>.
       upload_trace: Nahrát stopu
       all_traces: Všechny stopy
+      my_traces: Moje stopy
       traces_from: Veřejné stopy uživatele %{user}
       remove_tag_filter: Vymazat filtr tagů
     destroy:
@@ -2604,9 +2612,6 @@ cs:
         – pokusíme se vaši žádost vyřídit co možná nejrychleji.
       about:
         header: Svobodná a editovatelná
-        html: |-
-          <p>Na rozdíl od ostatních map je OpenHistoricalMap vytvořena lidmi jako vy a kdokoli ji může volně opravovat, aktualizovat, stáhnout a používat.</p>
-          <p>Zaregistrujte se, abyste mohli začít přispívat. K potvrzení vašeho účtu vám pošleme e-mail.</p>
       email address: 'E-mailová adresa:'
       confirm email address: 'Potvrdit e-mailovou adresu:'
       display name: 'Zobrazované jméno:'
@@ -2931,12 +2936,15 @@ cs:
           few: Od tohoto bodu jste vzdáleni %{count} metry
           other: Od tohoto bodu jste vzdáleni %{count} metrů
         feetPopup:
-          one: Od tohoto bodu jste vzdáleni jednu stopu
-          few: Od tohoto bodu jste vzdáleni %{count} stopy
-          other: Od tohoto bodu jste vzdáleni %{count} stop
+          one: Od tohoto bodu jste méně než %{count} stopu
+          few: Od tohoto bodu jste méně než %{count} stopy
+          many: Od tohoto bodu jste méně než %{count} stopy
+          other: Od tohoto bodu jste méně než %{count} stop
       base:
+        historical: Historická
+        woodblock: Dřevořez
+        japanesescroll: Japonský svitek
         standard: Standardní
-        cyclosm: CyclOSM
         cycle_map: Cyklomapa
         transport_map: Dopravní mapa
         hot: Humanitární
