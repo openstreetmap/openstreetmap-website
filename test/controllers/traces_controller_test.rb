@@ -756,7 +756,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_template "index"
 
     if traces.empty?
-      assert_select "h4", /Nothing here yet/
+      assert_select "h2", /Nothing here yet/
     else
       assert_select "table#trace_list tbody", :count => 1 do
         assert_select "tr", :count => traces.length do |rows|

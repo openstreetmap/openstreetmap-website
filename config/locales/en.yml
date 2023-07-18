@@ -295,12 +295,12 @@ en:
   browse:
     created: "Created"
     closed: "Closed"
-    created_html: "Created <abbr title='%{title}'>%{time}</abbr>"
-    closed_html: "Closed <abbr title='%{title}'>%{time}</abbr>"
-    created_by_html: "Created <abbr title='%{title}'>%{time}</abbr> by %{user}"
-    deleted_by_html: "Deleted <abbr title='%{title}'>%{time}</abbr> by %{user}"
-    edited_by_html: "Edited <abbr title='%{title}'>%{time}</abbr> by %{user}"
-    closed_by_html: "Closed <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    created_ago_html: "Created %{time_ago}"
+    closed_ago_html: "Closed %{time_ago}"
+    created_ago_by_html: "Created %{time_ago} by %{user}"
+    closed_ago_by_html: "Closed %{time_ago} by %{user}"
+    deleted_ago_by_html: "Deleted %{time_ago} by %{user}"
+    edited_ago_by_html: "Edited %{time_ago} by %{user}"
     version: "Version"
     in_changeset: "Changeset"
     anonymous: "anonymous"
@@ -346,6 +346,7 @@ en:
       history_title_html: "Way History: %{name}"
       nodes: "Nodes"
       nodes_count:
+        one: "%{count} node"
         other: "%{count} nodes"
       also_part_of_html:
         one: "part of way %{related_ways}"
@@ -447,6 +448,7 @@ en:
     index:
       title: "Changesets"
       title_user: "Changesets by %{user}"
+      title_user_link_html: "Changesets by %{user_link}"      
       title_friend: "Changesets by my friends"
       title_nearby: "Changesets by nearby users"
       empty: "No changesets found."
@@ -527,7 +529,6 @@ en:
       comment_link: Comment on this entry
       reply_link: Send a message to the author
       comment_count:
-        zero: No comments
         one: "%{count} comment"
         other: "%{count} comments"
       edit_link: Edit this entry
@@ -571,6 +572,21 @@ en:
       applications:
         create:
           notice: Application Registered.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Various contact channels explained
+      contact: contact
+      contact_the_community_html: Feel free to %{contact_link} the OpenHistoricalMap community if you have found a broken link / bug. Make a note of the exact URL of your request.
+    forbidden:
+      title: Forbidden
+      description: The operation you requested on the OpenHistoricalMap server is only available to administrators (HTTP 403)
+    internal_server_error:
+      title: Application error
+      description: The OpenHistoricalMap server encountered an unexpected condition that prevented it from fulfilling the request (HTTP 500)
+    not_found:
+      title: File not found
+      description: Couldn't find a file/directory/API operation by that name on the OpenHistoricalMap server (HTTP 404)
   friendships:
     make_friend:
       heading: "Add %{user} as a friend?"
@@ -587,12 +603,13 @@ en:
   geocoder:
     search:
       title:
-        latlon_html: 'Results from <a href="https://openstreetmap.org/">Internal</a>'
-        ca_postcode_html: 'Results from <a href="https://geocoder.ca/">Geocoder.CA</a>'
-        osm_nominatim_html: 'Results from <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap Nominatim</a>'
-        geonames_html: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
-        osm_nominatim_reverse_html: 'Results from <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap Nominatim</a>'
-        geonames_reverse_html: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
+        results_from_html: 'Results from %{results_link}'
+        latlon: Internal
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: "%{name}"
       prefix:
@@ -1405,7 +1422,6 @@ en:
     show:
       title: "%{status} Issue #%{issue_id}"
       reports:
-        zero: No reports
         one: 1 report
         other: "%{count} reports"
       report_created_at: "First reported at %{datetime}"
@@ -1841,7 +1857,7 @@ en:
   site:
     about:
       next: Next
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
       used_by_html: "OpenHistoricalMap collaboratively stores and displays map data throughout the history of the world."
       lede_text: |
         OpenHistoricalMap is built by a community of mappers and historians that contribute and maintain data
@@ -2284,11 +2300,15 @@ en:
       in: "in"
     index:
       public_traces: "Public GPS Traces"
-      my_traces: "My GPS Traces"
+      my_gps_traces: "My GPS Traces"
       public_traces_from: "Public GPS Traces from %{user}"
       description: "Browse recent GPS trace uploads"
       tagged_with: " tagged with %{tags}"
-      empty_html: "Nothing here yet. <a href='%{upload_link}'>Upload a new trace</a> or learn more about GPS tracing on the <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki page</a>."
+      empty_title: Nothing here yet
+      empty_upload_html: "%{upload_link} or learn more about GPS tracing on the %{wiki_link}."
+      upload_new: Upload a new trace
+      wiki_page: wiki page
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: "Upload a trace"
       all_traces: "All Traces"
       my_traces: "My Traces"
@@ -2452,12 +2472,14 @@ en:
       contact_support_html: 'Please contact <a href="%{support}">support</a> to arrange for an account to be created - we will try and deal with the request as quickly as possible.'
       about:
         header: Free and editable
-        html: |
-          <p>Unlike other maps, OpenHistoricalMap is completely created by people like you,
-          and it's free for anyone to fix, update, download and use.</p>
-          <p>Sign up to get started contributing. We'll send an email to confirm your account.</p>
+        paragraph_1: |
+          Unlike other maps, OpenHistoricalMap is completely created by people like you,
+          and it's free for anyone to fix, update, download and use.
+        paragraph_2: |
+          Sign up to get started contributing. We'll send an email to confirm your account.
       email address: "Email Address:"
       confirm email address: "Confirm Email Address:"
+      email_confirmation_help_html: "Enter your email again to be sure it's correct. It will not be displayed publicly."
       display name: "Display Name:"
       display name description: "Your publicly displayed username. You can change this later in the preferences."
       external auth: "Third Party Authentication:"
@@ -2724,6 +2746,38 @@ en:
       description: "Description"
       created_at: "Created at"
       last_changed: "Last changed"
+    show:
+      title: "Note: %{id}"
+      description: "Description"
+      open_title: "Unresolved note #%{note_name}"
+      closed_title: "Resolved note #%{note_name}"
+      hidden_title: "Hidden note #%{note_name}"
+      event_opened_by_html: "Created by %{user} %{time_ago}"
+      event_opened_by_anonymous_html: "Created by anonymous %{time_ago}"
+      event_commented_by_html: "Comment from %{user} %{time_ago}"
+      event_commented_by_anonymous_html: "Comment from anonymous %{time_ago}"
+      event_closed_by_html: "Resolved by %{user} %{time_ago}"
+      event_closed_by_anonymous_html: "Resolved by anonymous %{time_ago}"
+      event_reopened_by_html: "Reactivated by %{user} %{time_ago}"
+      event_reopened_by_anonymous_html: "Reactivated by anonymous %{time_ago}"
+      event_hidden_by_html: "Hidden by %{user} %{time_ago}"
+      report: report this note
+      coordinates_html: "%{latitude}, %{longitude}"
+      anonymous_warning: This note includes comments from anonymous users which should be independently verified.
+      hide: Hide
+      resolve: Resolve
+      reactivate: Reactivate
+      comment_and_resolve: Comment & Resolve
+      comment: Comment
+      report_link_html: "If this note contains sensitive information that needs to be removed, you can %{link}."
+      other_problems_resolve: "For all other problems with the note, please resolve it yourself with a comment."
+      other_problems_resolved: "For all other problems, resolving is sufficient."
+      disappear_date_html: "This resolved note will disappear from the map in %{disappear_in}."
+    new:
+      title: "New Note"
+      intro: "Spotted a mistake or something missing? Let other mappers know so we can fix it. Move the marker to the correct position and type a note to explain the problem."
+      advice: "Your note is public and may be used to update the map, so don't enter personal information, or information from copyrighted maps or directory listings."
+      add: Add Note
   javascripts:
     close: Close
     share:

@@ -7,13 +7,13 @@ end
 
 json.properties do
   json.id note.id
-  json.url note_url(note, :format => params[:format])
+  json.url api_note_url(note, :format => params[:format])
 
   if note.closed?
-    json.reopen_url reopen_note_url(note, :format => params[:format])
+    json.reopen_url reopen_api_note_url(note, :format => params[:format])
   else
-    json.comment_url comment_note_url(note, :format => params[:format])
-    json.close_url close_note_url(note, :format => params[:format])
+    json.comment_url comment_api_note_url(note, :format => params[:format])
+    json.close_url close_api_note_url(note, :format => params[:format])
   end
 
   json.date_created note.created_at.to_s

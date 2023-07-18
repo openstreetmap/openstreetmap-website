@@ -9,8 +9,8 @@ xml.item do
     xml.title t("api.notes.rss.opened", :place => location)
   end
 
-  xml.link browse_note_url(note)
-  xml.guid note_url(note)
+  xml.link note_url(note)
+  xml.guid api_note_url(note)
   xml.description render(:partial => "description", :object => note, :formats => [:html])
 
   xml.dc :creator, note.author.display_name if note.author

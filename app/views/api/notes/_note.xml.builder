@@ -1,12 +1,12 @@
 xml.note("lon" => note.lon, "lat" => note.lat) do
   xml.id note.id
-  xml.url note_url(note, :format => params[:format])
+  xml.url api_note_url(note, :format => params[:format])
 
   if note.closed?
-    xml.reopen_url reopen_note_url(note, :format => params[:format])
+    xml.reopen_url reopen_api_note_url(note, :format => params[:format])
   else
-    xml.comment_url comment_note_url(note, :format => params[:format])
-    xml.close_url close_note_url(note, :format => params[:format])
+    xml.comment_url comment_api_note_url(note, :format => params[:format])
+    xml.close_url close_api_note_url(note, :format => params[:format])
   end
 
   xml.date_created note.created_at

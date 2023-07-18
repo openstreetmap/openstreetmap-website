@@ -1,4 +1,8 @@
 module BrowseTagsHelper
+  # https://wiki.openstreetmap.org/wiki/Key:wikipedia#Secondary_Wikipedia_links
+  # https://wiki.openstreetmap.org/wiki/Key:wikidata#Secondary_Wikidata_links
+  SECONDARY_WIKI_PREFIXES = "architect|artist|brand|flag|genus|name:etymology|network|operator|species|subject".freeze
+
   def format_key(key)
     if url = wiki_link("key", key)
       link_to h(key), url, :title => t("browse.tag_details.wiki_link.key", :key => key)
@@ -60,7 +64,7 @@ module BrowseTagsHelper
     return nil if %r{^https?://}.match?(value)
 
     case key
-    when "wikipedia"
+    when "wikipedia", /^(#{SECONDARY_WIKI_PREFIXES}):wikipedia/o
       # This regex should match Wikipedia language codes, everything
       # from de to zh-classical
       lang = if value =~ /^([a-z-]{2,12}):(.+)$/i
@@ -104,7 +108,7 @@ module BrowseTagsHelper
         :title => value
       }]
     # Key has to be one of the accepted wikidata-tags
-    elsif key =~ /(architect|artist|brand|name:etymology|network|operator|subject):wikidata/ &&
+    elsif key =~ /(#{SECONDARY_WIKI_PREFIXES}):wikidata/o &&
           # Value has to be a semicolon-separated list of wikidata-IDs (whitespaces allowed before and after semicolons)
           value =~ /^[Qq][1-9][0-9]*(\s*;\s*[Qq][1-9][0-9]*)*$/
       # Splitting at every semicolon to get a separate hash for each wikidata-ID
@@ -125,7 +129,10 @@ module BrowseTagsHelper
     nil
   end
 
-  def email_link(_key, value)
+  def email_link(key, value)
+    # Avoid converting conditional tags into emails, since EMAIL_REGEXP is quite permissive
+    return nil unless %w[email contact:email].include? key
+
     # Does the value look like an email? eg "someone@domain.tld"
 
     #  Uses Ruby built-in regexp to validate email.
