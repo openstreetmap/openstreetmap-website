@@ -357,12 +357,12 @@ sl:
   browse:
     created: Ustvarjeno
     closed: Zaprto
-    created_html: Ustvarjeno <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Zaprto <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Ustvaril_a %{user} <abbr title='%{title}'>%{time}</abbr>
-    deleted_by_html: Izbrisal_a %{user} <abbr title='%{title}'>%{time}</abbr>
-    edited_by_html: Uredil_a %{user} <abbr title='%{title}'>%{time}</abbr>
-    closed_by_html: Zaprl_a %{user} <abbr title='%{title}'>%{time}</abbr>
+    created_ago_html: Ustvaril_a %{time_ago}
+    closed_ago_html: Zaprto %{time_ago}
+    created_ago_by_html: Ustvaril %{user} %{time_ago}
+    closed_ago_by_html: Zaprl_a %{time_ago} %{user}
+    deleted_ago_by_html: Izbrisal_a %{time_ago} %{user}
+    edited_ago_by_html: Uredil_a %{user} %{time_ago}
     version: Različica
     in_changeset: Sklop sprememb
     anonymous: anonimni
@@ -473,8 +473,8 @@ sl:
     tag_details:
       tags: Oznake
       wiki_link:
-        key: Wiki stran z opisom oznake %{key}
-        tag: Wiki stran z opisom oznake %{key}=%{value}
+        key: Viki stran z opisom oznake %{key}
+        tag: Viki stran z opisom oznake %{key}=%{value}
       wikidata_link: Predmet %{page} v Wikipodatkih
       wikipedia_link: Članek %{page} v Wikipediji
       wikimedia_commons_link: Predmet %{page} v Wikimedijini zbirki
@@ -521,7 +521,8 @@ sl:
       area: Območje
     index:
       title: Sklopi sprememb
-      title_user: Sklopi sprememb uporabnika %{user}
+      title_user: Sklopi sprememb uporabnika_ce %{user}
+      title_user_link_html: Sklopi sprememb uporabnika_ce %{user_link}
       title_friend: Sklopi sprememb mojih prijateljev
       title_nearby: Sklopi sprememb bližnjih uporabnikov
       empty: Ni najdenih sklopov sprememb.
@@ -650,6 +651,26 @@ sl:
       applications:
         create:
           notice: Aplikacija registrirana.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Razloženi so različni kanali za stik
+      contact: kontakt
+      contact_the_community_html: Če ste našli nedelujočo povezavo/hrošča, ne oklevajte
+        %{contact_link} skupnosti OpenHistoricalMap. Zabeležite si točen URL vašega
+        zahtevka.
+    forbidden:
+      title: Prepovedano
+      description: Operacija, ki ste jo zahtevali v strežniku OpenHistoricalMap, je
+        na voljo samo administratorjem (HTTP&nbsp;403)
+    internal_server_error:
+      title: Napaka aplikacije
+      description: Strežnik OpenHistoricalMap je naletel na nepričakovano stanje,
+        ki mu je preprečilo izpolnitev zahteve (HTTP 500).
+    not_found:
+      title: Datoteka ni bila najdena
+      description: Datoteke/imenika/API-operacije s tem imenom v strežniku OpenHistoricalMap
+        ni bilo mogoče najti (HTTP 404)
   friendships:
     make_friend:
       heading: Dodaj %{user} med prijatelje?
@@ -667,14 +688,13 @@ sl:
   geocoder:
     search:
       title:
-        latlon_html: <a href="https://openstreetmap.org/">Interni</a> zadetki
-        ca_postcode_html: Zadetki iz <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Zadetki iz <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Zadetki iz <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Zadetki iz <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>-a
-        geonames_reverse_html: Zadetki iz <a href="http://www.geonames.org/">GeoNames</a>
+        results_from_html: Zadetki iz %{results_link}
+        latlon: Notranji
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: Nominatim za OpenHistoricalMap
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: Nominatim za OpenStreetMap
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1579,7 +1599,7 @@ sl:
     user_diaries: Dnevnik
     user_diaries_tooltip: Pregled dnevnikov uporabnikov
     edit_with: Za urejanje uporabi %{editor}
-    tag_line: Prost wiki zemljevid sveta
+    tag_line: Prosti viki zemljevid sveta
     intro_header: Pozdravljeni v OpenHistoricalMap!
     intro_text: OpenHistoricalMap je zemljevid sveta, ki ga ustvarjajo ljudje kot
       ste vi, brezplačen za uporabo z odprto licenco.
@@ -1614,7 +1634,7 @@ sl:
     foundation_title: Fundacija OpenHistoricalMap
     make_a_donation:
       title: Podprite OpenHistoricalMap z denarnim prispevkom
-      text: Prispevajte finančna sredstva
+      text: Donirajte
     learn_more: Več o tem
     more: Več
   user_mailer:
@@ -2008,7 +2028,7 @@ sl:
   site:
     about:
       next: Naprej
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br> sodelavci
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br> sodelavci
       used_by_html: OpenHistoricalMap sodelovalno shranjuje in prikazuje kartografske
         podatke za vso zgodovino sveta.
       lede_text: |-
@@ -2109,7 +2129,7 @@ sl:
         infringement_title_html: Kršitev avtorskih pravic
         infringement_1_html: |-
           Sodelavce OSM opozarjamo, naj nikoli ne dodajajo podatkov iz nobenega
-          avtorsko zavarovanega vira (npr. Google Zemljevidov ali tiskanih zemljevidov) brez
+          avtorsko varovanega vira (npr. Google Zemljevidov ali tiskanih zemljevidov) brez
           izrecnega dovoljenja imetnikov avtorskih pravic.
         infringement_2_html: Če menite, da je bilo avtorsko gradivo v podatkovno zbirko
           OpenHistoricalMap ali to spletišče dodano neupravičeno, nam na naslov historic@openstreetmap.org
@@ -2166,8 +2186,8 @@ sl:
           description: Redno posodabljane kopije celotne podatkovne zbirke OpenHistoricalMap
         overpass:
           title: Overpass API
-          description: Prenos izbranega območja iz zrcalnega strežnika podatkovne
-            zbirke OpenHistoricalMap
+          description: Prenos izbranega omejevalnega polja iz zrcalnega strežnika
+            podatkovne zbirke OpenHistoricalMap
         geofabrik:
           title: Prenosi Geofabrik
           description: Redno posodabljani izvlečki celin, držav in izbranih mest
@@ -2183,7 +2203,7 @@ sl:
       max: največ
       image_size: Velikost slike
       zoom: Povečava
-      add_marker: Dodaj zaznamek na zemljevid
+      add_marker: Dodaj označevalec na zemljevid
       latitude: 'Šir:'
       longitude: 'Dol:'
       output: Rezultat
@@ -2202,8 +2222,7 @@ sl:
         add_a_note:
           instructions_html: |-
             Preprosto kliknite <a class='icon note'></a> ali isto ikono na prikazu zemljevida.
-            To bo na zemljevid dodalo oznako, ki jo lahko premikate
-            z vlečenjem. Dodajte svojo sporočilo, nato kliknite »Shrani« in ga bodo drugi kartografi pregledali.
+            To bo na zemljevid dodalo označevalec, ki ga lahko premikate z vlečenjem. Dodajte svojo sporočilo in nato kliknite »Shrani«, drugi kartografi pa bodo to pregledali.
       other_concerns:
         title: Drugi pomisleki
         explanation_html: |-
@@ -2250,7 +2269,8 @@ sl:
       wiki:
         url: https://wiki.openstreetmap.org/
         title: Wiki OpenHistoricalMap
-        description: Prebrskajte wiki za poglobljeno dokumentacijo OSM.
+        description: Prebrskajte viki za poglobljene informacije o OHM in zelo koristne
+          informacije o OSM, z dovoljenjem vikija OSM.
     sidebar:
       search_results: Iskalni zadetki
       close: Zapri
@@ -2346,9 +2366,9 @@ sl:
           vključuje stavbe, ceste in druge podatke o krajih. Kartirate lahko
           katero koli resnično značilnost, ki je za vas zanimiva. Prosimo, kartirajte iz katerega koli
           starega ali avtorsko prostega zemljevida, ki ga lahko najdete. Poleg tega smo zelo prijazni za uvoz.
-        off_html: To, kar <em>ne</em> vključuje mnenjskih podatkov kot so ocene, zgodovinske
-          ali hipotetične značilnosti in podatke iz avtorsko zaščitenih virov. Razen
-          če nimate posebnega dovoljenja, ne kopirajte iz spletnih ali tiskanih zemljevidov.
+        off_html: |-
+          Česar <em>ne</em> vključuje, so mnenjski podatki, kot so ocene, in podatki
+          iz avtorsko varovanih virov.
       basic_terms:
         title: Osnovni pogoji za kartiranje
         paragraph_1_html: OpenHistoricalMap ima tudi svoj žargon. Tukaj je nekaj ključnih
@@ -2379,8 +2399,8 @@ sl:
           dodati opombo.
         paragraph_2_html: 'Samo pojdite na <a href=''%{map_url}''>zemljevid</a> in
           kliknite ikono opombe: <span class=''icon note''></span>. Tako boste na
-          zemljevid dodali oznako, ki jo lahko premaknete z vlečenjem. Dodajte vašo
-          opombo in nato kliknite Shrani. Drugi kartografi bodo to preiskali.'
+          zemljevid dodali označevalec, ki ga lahko premikate z vlečenjem. Dodajte
+          svojo opombo in kliknite »Shrani«, drugi kartografi pa bodo to pregledali.'
   traces:
     visibility:
       private: Zasebna (v skupni rabi kot anonimna, neurejene točke)
@@ -2465,15 +2485,18 @@ sl:
       in: v
     index:
       public_traces: Javne sledi GPS
-      my_traces: Moje sledi GPS
+      my_gps_traces: Moje GPS-sledi
       public_traces_from: Javne sledi GPS uporabnika %{user}
       description: Prebrskaj nedavno poslane sledi GPS
       tagged_with: z oznako %{tags}
-      empty_html: Prazno. <a href='%{upload_link}'>Naložite novo sled</a> oziroma
-        izvedete več o GPS sledeh na <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki
-        strani</a>.
+      empty_title: Tu ni še ničesar
+      empty_upload_html: '%{upload_link} ali izvedite več o sledenju GPS na %{wiki_link}.'
+      upload_new: Naloži novo sled
+      wiki_page: vikistran
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Sl:Beginners%27_guide
       upload_trace: Naloži sled GPS
       all_traces: Vse sledi
+      my_traces: Moje sledi GPS
       traces_from: Javne sledi uporabnika %{user}
       remove_tag_filter: Odstrani filter oznak
     destroy:
@@ -2652,11 +2675,15 @@ sl:
         čimprejšnjo obravnavo vašega zahtevka.
       about:
         header: Brezplačen, ki ga je mogoče urejati
-        html: |-
-          <p>Za razliko od drugih zemljevidov so OpenHistoricalMap v celoti ustvarili ljudje, kot ste vi, in ga lahko vsakdo prosto popravlja, posodablja, prenaša in uporablja.</p>
-          <p>Če želite začeti prispevati, se registrirajte. Poslali vam bomo e-poštno sporočilo za potrditev računa.</p>
+        paragraph_1: Za razliko od drugih zemljevidov so OpenHistoricalMap v celoti
+          ustvarili ljudje, kot ste vi, in ga lahko brezplačno popravi, posodobi,
+          prenese in uporablja vsakdo.
+        paragraph_2: Če želite začeti prispevati, se prijavite. Poslali vam bomo e-pošto
+          za potrditev vašega računa.
       email address: 'E-poštni naslov:'
       confirm email address: 'Potrdite e-poštni naslov:'
+      email_confirmation_help_html: Znova vnesite svoj e-poštni naslov, da zagotovite,
+        da je pravilen. Ne bo javno prikazan.
       display name: 'Prikazno ime:'
       display name description: Javno prikazano uporabniško ime. To lahko spremenite
         pozneje v prilagoditvah.
@@ -2687,9 +2714,9 @@ sl:
         povzetek</a> in nekaj <a href="%{translations}">neuradnih prevodov</a>'
       continue: Nadaljuj
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      decline: Zavrni
-      you need to accept or decline: Prosimo preberite in nato sprejmite ali zavrnite
-        nove "Contributor Terms".
+      decline: Odkloni
+      you need to accept or decline: Prosimo, preberite in nato sprejmite ali odklonite
+        nove Pogoje za sodelovanje.
       legale_select: 'Izberite državo stalnega prebivališča:'
       legale_names:
         france: Francija
@@ -2941,6 +2968,44 @@ sl:
       description: Opis
       created_at: Ustvarjeno
       last_changed: Zadnja sprememba
+    show:
+      title: 'Opomba: %{id}'
+      description: Opis
+      open_title: 'Nerazrešena opomba #%{note_name}'
+      closed_title: 'Razrešena opomba #%{note_name}'
+      hidden_title: 'Skrita opomba #%{note_name}'
+      event_opened_by_html: Ustvaril_a %{user} %{time_ago}
+      event_opened_by_anonymous_html: Ustvaril anonimni %{time_ago}
+      event_commented_by_html: Komentar %{user} %{time_ago}
+      event_commented_by_anonymous_html: Komentar anonima %{time_ago}
+      event_closed_by_html: Razrešil_a %{user} %{time_ago}
+      event_closed_by_anonymous_html: Razrešil anonimni %{time_ago}
+      event_reopened_by_html: Znova aktiviral_a %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Znova aktiviral anonim %{time_ago}
+      event_hidden_by_html: Skril_a %{user} %{time_ago}
+      report: prijavi to opombo
+      coordinates_html: '%{latitude}, %{longitude}'
+      anonymous_warning: To opomba vključuje komentarje anonimnih uporabnikov, ki
+        bi morali biti neodvisno preverjeni.
+      hide: Skrij
+      resolve: Razreši
+      reactivate: Znova aktiviraj
+      comment_and_resolve: Komentiraj in razreši
+      comment: Komentar
+      report_link_html: Če ta opomba vsebuje občutljive podatke, ki jih je treba odstraniti,
+        lahko %{link}.
+      other_problems_resolve: Vse preostale težave z opombo rešite sami s komentarjem.
+      other_problems_resolved: Za vse druge težave zadostuje razrešitev.
+      disappear_date_html: Ta razrešena opomba bo z zemljevida izginila čez %{disappear_in}.
+    new:
+      title: Nova opomba
+      intro: Ste opazili napako ali pomanjkljivost? Obvestite druge kartografe o tem,
+        da lahko to popravimo. Premaknite označevalec na pravo mesto in vpišite opombo,
+        v kateri pojasnite težavo.
+      advice: Vaša opomba je javna in se lahko uporabi za posodobitev zemljevida.
+        Ne vnašajte osebnih podatkov ali podatkov iz avtorsko varovanih zemljevidov
+        ali imenikov.
+      add: Dodaj opombo
   javascripts:
     close: Zapri
     share:
@@ -2959,8 +3024,8 @@ sl:
         %{height}
       download: Prenesi
       short_url: Kratek URL
-      include_marker: Vključi oznako
-      center_marker: Osredini zemljevid na oznako
+      include_marker: Vključi označevalec
+      center_marker: Osredini zemljevid na označevalec
       paste_html: Prilepite HTML za vdelavo v spletno mesto
       view_larger_map: Prikaži večji zemljevid
       only_standard_layer: Kot sliko je mogoče izvoziti samo standardni sloj
@@ -2991,7 +3056,6 @@ sl:
         woodblock: Leseni blok
         japanesescroll: Japonski svitek
         standard: Privzeta karta
-        cyclosm: CyclOSM
         cycle_map: Kolesarska karta
         transport_map: Transportna karta
         hot: Človekoljub
@@ -3033,11 +3097,11 @@ sl:
         unhide_comment: razkrij
     notes:
       new:
-        intro: Ste opazili napako ali da kaj manjka? Obvestite druge kartografe o
-          tem, da lahko to popravimo. Premaknite oznako na pravilno lokacijo in vpišite
-          opombo, v kateri pojasnite problem.
+        intro: Ste opazili napako ali pomanjkljivost? Obvestite druge kartografe o
+          tem, da lahko to popravimo. Premaknite označevalec na pravo mesto in vpišite
+          opombo, v kateri pojasnite težavo.
         advice: Vaša opomba je javna in se lahko uporabi za posodobitev zemljevida.
-          Ne vnašajte osebnih podatkov ali podatkov iz avtorsko zaščitenih zemljevidov
+          Ne vnašajte osebnih podatkov ali podatkov iz avtorsko varovanih zemljevidov
           ali imenikov.
         add: Dodaj opombo
       show:

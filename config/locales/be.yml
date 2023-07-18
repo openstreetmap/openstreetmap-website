@@ -38,6 +38,9 @@ be:
       client_application:
         create: Зарэгістравацца
         update: Абнавіць
+      doorkeeper_application:
+        create: Зарэгістравацца
+        update: Абнавіць
       redaction:
         create: Стварыць рэдакцыю
         update: Захаваць рэдакцыю
@@ -247,6 +250,10 @@ be:
       entry:
         comment: Каментар
         full: Тлумачэнне
+  account:
+    deletions:
+      show:
+        cancel: Адмена
   accounts:
     edit:
       title: Рэдагаваць уліковы запіс
@@ -292,14 +299,6 @@ be:
   browse:
     created: Створаны
     closed: Зачынены
-    created_html: Створаны <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Закрыты <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Створаны <abbr title='%{title}'>%{time}</abbr> карыстальнікам
-      %{user}
-    deleted_by_html: Выдалены <abbr title='%{title}'>%{time}</abbr> карыстальнікам
-      %{user}
-    edited_by_html: Зменены <abbr title='%{title}'>%{time}</abbr> карыстальнікам %{user}
-    closed_by_html: Закрыты <abbr title='%{title}'>%{time}</abbr> карыстальнікам %{user}
     version: Версія
     in_changeset: Пакет правак
     anonymous: ананімны
@@ -562,16 +561,6 @@ be:
       success: '%{name} выдалены са спіса сяброў.'
       not_a_friend: '%{name} не з’яўляецца вашым сябрам.'
   geocoder:
-    search:
-      title:
-        latlon_html: Вынікі з <a href="http://openstreetmap.org/">Internal</a>
-        ca_postcode_html: Вынікі з <a href="http://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Вынікі з <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Вынікі з <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Вынікі з <a href="http://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Вынікі з <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -693,19 +682,38 @@ be:
           viaduct: Віядук
           "yes": Мост
         building:
+          garage: Гараж
+          garages: Гаражы
+          greenhouse: Цяпліца
+          hangar: Ангар
+          hospital: Будынак бальніцы
+          roof: Страха
+          school: Будынак школы
           "yes": Будынак
+        club:
+          sport: Спартыўны клуб
+          "yes": Клуб
         craft:
+          beekeeper: Пчаляр
+          blacksmith: Каваль
           brewery: Бровар
           carpenter: Цясляр
+          confectionery: Кандытарская
+          dressmaker: Атэлье
           electrician: Электрык
+          electronics_repair: Ремонт электронікі
           gardener: Садоўнік
+          handicraft: Рамяство
           painter: Мастак
           photographer: Фатограф
           plumber: Сантэхнік
+          sawmill: Лесапілка
           shoemaker: Шавец
           tailor: Кравец
+          winery: Вінаробня
           "yes": Майстэрня
         emergency:
+          access_point: Кропка доступу
           ambulance_station: Станцыя хуткай медыцынскай дапамогі
           assembly_point: Месца збору
           defibrillator: Дэфібрылятар
@@ -776,11 +784,14 @@ be:
           mine: Шахта
           mine_shaft: Шахтавы стаўбур
           monument: Помнік
+          railway: Гістарычная жалезная дарога
           roman_road: Рымская дарога
           ruins: Руіны
+          rune_stone: Рунічны камень
           stone: Камень
           tomb: Магіла
           tower: Вежа
+          wayside_chapel: Прыдарожная капліца
           wayside_cross: Прыдарожны крыж
           wayside_shrine: Прыдарожная каплічка
           wreck: Месца аварыі
@@ -821,6 +832,7 @@ be:
           beach_resort: Пляжны курорт
           bird_hide: Засада
           common: Агульная зямля
+          dance: Танцавальны зал
           dog_park: Пляцоўка для сабак
           firepit: Кастрышча
           fishing: Раён рыбалоўства
@@ -834,6 +846,7 @@ be:
           miniature_golf: Міні-Гольф
           nature_reserve: Запаведнік
           park: Парк
+          picnic_table: Стол для пікніка
           pitch: Спартыўная пляцоўка
           playground: Дзіцячая пляцоўка
           recreation_ground: Зона адпачынку
@@ -848,6 +861,8 @@ be:
           "yes": Забавы
         man_made:
           adit: Штольня
+          antenna: Антэна
+          avalanche_protection: Абарона ад лавін
           beacon: Бакен
           beehive: Борць
           breakwater: Хвалярэз
@@ -871,8 +886,10 @@ be:
           pier: Пірс
           pipeline: Трубаправод
           silo: Сілас
+          snow_fence: Снегаахоўная загарода
           storage_tank: Крыты рэзервуар
           surveillance: Камера назірання
+          telescope: Тэлескоп
           tower: Вежа
           wastewater_plant: Станцыя ачысткі сцёкавых вод
           watermill: Вадзяны млын
@@ -890,11 +907,13 @@ be:
         mountain_pass:
           "yes": Перавал
         natural:
+          atoll: Атол
           bay: Заліў
           beach: Пляж
           cape: Мыс
           cave_entrance: Уваход у пячору
           cliff: Мяжа скалы
+          coastline: Берагавая лінія
           crater: Кратэр
           dune: Дзюна
           fell: Неапрацаваная зямля
@@ -906,11 +925,13 @@ be:
           heath: Здароўе
           hill: Пагорак
           island: Востраў
+          isthmus: Перашыек
           land: Зямля
           marsh: Марш
           moor: Швартоўка
           mud: Бруд
           peak: Пік
+          peninsula: Паўвостраў
           point: Кропка
           reef: Рыф
           ridge: Хрыбет
@@ -923,6 +944,8 @@ be:
           stone: Камень
           strait: Праліў
           tree: Дрэва
+          tree_row: Рад дрэў
+          tundra: Тундра
           valley: Даліна
           volcano: Вулкан
           water: Вада
@@ -942,11 +965,13 @@ be:
           it: IT-офіс
           lawyer: Юрыст
           ngo: Офіс НДА
+          notary: Натарыус
           telecommunication: Аддзяленне сувязі
           travel_agent: Турыстычнае агенцтва
           "yes": Офіс
         place:
           allotments: Сады-агароды
+          archipelago: Архіпелаг
           city: Горад
           city_block: Гарадскі квартал
           country: Краіна
@@ -1000,8 +1025,11 @@ be:
           alcohol: Алкагольная крама
           antiques: Антыкварыят
           art: Арт-Крама
+          baby_goods: Тавары для дзяцей
           bakery: Пякарня
+          bathroom_furnishing: Мэбля для ваннай
           beauty: Салон прыгажосці
+          bed: Пасцельныя належнасці
           beverages: Крама напояў
           bicycle: Крама ровараў
           bookmaker: Букмекер
@@ -1013,22 +1041,31 @@ be:
           car_repair: Рамонт аўтамабіляў
           carpet: Крама дываноў
           charity: Дабрачынная крама
+          cheese: Сырная крама
           chemist: Аптэкар
+          chocolate: Шакалад
           clothes: Крама вопраткі
+          coffee: Кафейная крама
           computer: Крама кампутарнай тэхнікі
           confectionery: Кандытарская крама
           convenience: Крама крокавай даступнасці
           copyshop: Капіравальны цэнтр
           cosmetics: Крама касметыкі
+          curtain: Крама штор
+          dairy: Малочная крама
           deli: Гастраном
           department_store: Універмаг
           discount: Крама тавараў са зніжкай
           doityourself: Крама будаўнічых матэр'ялаў
           dry_cleaning: Хімчыстка
+          e-cigarette: Крама электронных цыгарэт
           electronics: Крама электронікі
+          erotic: Крама эратычных тавараў
           estate_agent: Агент па нерухомасці
+          fabric: Крама тканін
           farm: Фермерская крама
           fashion: Крама моднай вопраткі
+          fishing: Рыбалоўная крама
           florist: Фларыст
           food: Прадуктовая крама
           funeral_directors: Рытуальныя паслугі
@@ -1040,26 +1077,34 @@ be:
           grocery: Бакалея
           hairdresser: Цырульнік
           hardware: Гаспадарчая крама
+          health_food: Крама здаровага пажытку
           hifi: Аўдыётэхніка
           houseware: Крама посуду
+          ice_cream: Крама мороженного
           interior_decoration: Афармленне інтэр'еру
           jewelry: Ювелірная крама
           kiosk: Кіёск
           kitchen: Крама кухань
           laundry: Пральня
+          locksmith: Слесар
           lottery: Латарэя
           mall: Гандлёвы цэнтр
           massage: Паведамленне
           mobile_phone: Салон мабільнай сувязі
           motorcycle: Крама матацыклаў
+          motorcycle_repair: Ремонт матацыклаў
           music: Музычная крама
+          musical_instrument: Музыкальныя інструменты
           newsagent: Газетны кіёск
           optician: Оптыка
           organic: Арганічныя прадукты
           outdoor: Турыстычная крама
           paint: Крама мастака
+          pastry: Кандытарская
           pawnbroker: Ламбард
+          perfumery: Парфума
           pet: Заалагічная крама
+          pet_grooming: Дагляданне за дамашнімі жывёламі
           photo: Фота майстэрня
           seafood: Морапрадукты
           second_hand: Крама патрыманых рэчаў
@@ -1068,6 +1113,7 @@ be:
           stationery: Крама канцылярскіх тавараў
           supermarket: Супермаркет
           tailor: Кравец
+          tea: Чайная крама
           ticket: Каса
           tobacco: Тытунёвая крама
           toys: Крама цацак
@@ -1076,6 +1122,7 @@ be:
           vacant: Пустуючая крама
           variety_store: Крама адной цаны
           video: Відэа крама
+          video_games: Крама видеоигр
           wine: Алкагольная крама
           "yes": Крама
         tourism:
@@ -1124,9 +1171,11 @@ be:
           "yes": Водны маршрут
       admin_levels:
         level2: Мяжа краіны
+        level3: Мяжа рэгіёна
         level4: Мяжа сталіцы і абласцей
         level5: Мяжа рэгіёна
         level6: Мяжа райцэнтра і раёна
+        level7: Мяжа муніцыпалітэта
         level8: Мяжа горада
         level9: Мяжа раёну н/п
         level10: Мяжа прыгараду
@@ -1266,6 +1315,7 @@ be:
     intro_text: OpenHistoricalMap - гэта карта свету, створаная людзьмі, як вы, і
       бясплатная для выкарыстання на ўмовах адкрытай ліцэнзіі.
     intro_2_create_account: Стварыць уліковы запіс удзельніка
+    partners_title: Партнёры
     hosting_partners_html: Хостынг падтрымліваецца %{ucl}, %{bytemark}, і іншымі %{partners}.
     partners_partners: партнёрамi
     tou: Умовы карыстання
@@ -1580,7 +1630,7 @@ be:
   site:
     about:
       next: Далей
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
       used_by_html: OpenHistoricalMap забяспечвае картаграфічнымі дадзенымі тысячы
         сайтаў, мабільных праграм і прыстасаванняў
       lede_text: OpenHistoricalMap створаны супольнасцю картографаў, якія дадаюць
@@ -2030,14 +2080,11 @@ be:
       in: у
     index:
       public_traces: Агульныя GPS-сляды
-      my_traces: Мае GPS-сляды
       public_traces_from: Агульныя GPS-сляды карыстальніка %{user}
       description: Агляд нядаўна дададзеных GPS-слядоў
       tagged_with: ' з тэгамі: %{tags}'
-      empty_html: Пакуль тут нічога няма. <a href='%{upload_link}'>Загрузіце новы
-        след</a> або пачытайце пра GPS-сляды на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вікі-старонцы</
-        a>.
       upload_trace: Адаслаць GPS-след
+      my_traces: Мае GPS-сляды
     destroy:
       scheduled_for_deletion: След запланаваны на выдаленне
     make_public:
@@ -2147,10 +2194,6 @@ be:
         хутчэй.
       about:
         header: Свабодная і даступная для рэдагавання
-        html: "<p>У адрозненне ад іншых карт, карты OpenHistoricalMap цалкам ствараюцца
-          такімі ж людзьмі як вы, яны даступныя ўсім для праўкі, абнаўлення, спампоўвання
-          і выкарыстання.</p> \n<p>Зарэгіструйцеся, каб зрабіць свой ​​уклад. Мы вышлем
-          вам ліст для пацверджання ўліковага запісу.</p>"
       email address: 'Паштовы адрас:'
       confirm email address: 'Пацвердзіце электронны адрас:'
       display name: 'Бачнае імя:'

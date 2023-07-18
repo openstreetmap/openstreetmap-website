@@ -6,6 +6,7 @@
 # Author: Alidemirtas
 # Author: Alpkant
 # Author: Archaeodontosaurus
+# Author: Asma
 # Author: BaRaN6161 TURK
 # Author: Captantrips
 # Author: Cobija
@@ -366,12 +367,12 @@ tr:
   browse:
     created: Oluşturuldu
     closed: Kapandı
-    created_html: <abbr title='%{title}'>%{time}</abbr> oluşturuldu
-    closed_html: <abbr title='%{title}'>%{time}</abbr> kapandı
-    created_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından oluşturuldu
-    deleted_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından silindi
-    edited_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından düzenlendi
-    closed_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından kapandı
+    created_ago_html: '%{time_ago} oluşturuldu'
+    closed_ago_html: '%{time_ago} kapatıldı'
+    created_ago_by_html: '%{user} tarafından %{time_ago} oluşturuldu'
+    closed_ago_by_html: '%{user} tarafından %{time_ago} kapatıldı'
+    deleted_ago_by_html: '%{user} tarafından %{time_ago} silindi'
+    edited_ago_by_html: '%{user} tarafından %{time_ago} düzenlendi'
     version: Sürüm
     in_changeset: Değişiklik Kaydı
     anonymous: anonim
@@ -664,6 +665,13 @@ tr:
       applications:
         create:
           notice: Uygulama Kayıtlı.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+    forbidden:
+      title: Yasaklı
+    not_found:
+      title: Dosya bulunamadı
   friendships:
     make_friend:
       heading: '%{user}, arkadaş olarak eklensin mi?'
@@ -681,14 +689,10 @@ tr:
   geocoder:
     search:
       title:
-        latlon_html: <a href="https://openstreetmap.org/">OSM</a> sonuçları
-        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a> sonuçları
-        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OSM Nominatim</a>
-          sonuçları
-        geonames_html: <a href="http://www.geonames.org/">GeoNames</a> sonuçları
-        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a> sonuçları
-        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a> sonuçları
+        results_from_html: '%{results_link} sonuçları'
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -883,7 +887,7 @@ tr:
           stable: Ahır
           static_caravan: Karavan
           temple: Tapınak Binası
-          terrace: Teras Binası
+          terrace: Sıra Ev
           train_station: Tren İstasyon Binası
           university: Üniversite Binası
           warehouse: Depo
@@ -970,8 +974,8 @@ tr:
           steps: Merdiven
           stop: Dur işareti
           street_lamp: Sokak Lambası
-          tertiary: Köy arası yolu
-          tertiary_link: Köy arası yolu
+          tertiary: Üçüncül Yol
+          tertiary_link: Üçüncül Yol
           track: Toprak yol
           traffic_mirror: Trafik Aynası
           traffic_signals: Trafik İşaretleri
@@ -980,7 +984,7 @@ tr:
           trunk_link: Bölünmüş anayol bağlantısı
           turning_circle: Dönüş Dairesi
           turning_loop: Dönüş
-          unclassified: Sınıflandırılmamış yolu
+          unclassified: Sınıflandırılmamış Yol
           "yes": Yol
         historic:
           aircraft: Tarihi Uçak
@@ -2010,7 +2014,7 @@ tr:
   site:
     about:
       next: İleri
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>katkıda bulunanları
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>katkıda bulunanları
       used_by_html: OpenHistoricalMap, dünya tarihi boyunca harita verilerini işbirliği
         içinde depolar ve görüntüler.
       lede_text: OpenHistoricalMap; tüm dünyada yollar, patikalar, kafeler, tren istasyonları
@@ -2483,15 +2487,15 @@ tr:
       in: 'etiketler:'
     index:
       public_traces: Herkese açık GPS izleri
-      my_traces: GPS İzlerim
       public_traces_from: '%{user} tarafından gelen herkese açık GPS izleri'
       description: Son GPS izi güncellemelerine göz at
       tagged_with: ' %{tags} ile etiketlendi'
-      empty_html: Burada henüz bir şey yok. <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>Wiki
-        sayfasında</a> <a href='%{upload_link}'>yeni bir iz yükle</a> veya GPS iz
-        hakkında daha fazla bilgi edinin
+      empty_title: Burada henüz bir şey yok
+      wiki_page: viki sayfası
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: GPS izi gönder
       all_traces: Tüm İzler
+      my_traces: GPS İzlerim
       traces_from: '%{user} kullanıcısına ait herkese açık izler'
       remove_tag_filter: Etiket Filtresini Kaldır
     destroy:
@@ -2666,9 +2670,6 @@ tr:
         ile iletişime geçin - isteğinizi en kısa sürede çözmeye çalışacağız.
       about:
         header: Ücretsiz ve düzenlenebilir
-        html: |-
-          <p>Diğer haritaların aksine, OpenHistoricalMap tamamıyla sizin gibi insanlar tarafından oluşturulur ve düzeltme, güncelleme, indirme ve kullanma herkes için ücretsizdir.</p>
-          <p>Katkıda bulunmaya başlamak için kaydolun. Hesabınızın onaylanması için size bir e-posta göndereceğiz.</p>
       email address: 'E-posta Adresi:'
       confirm email address: E-posta Adresini Onayla
       display name: 'Görünen Ad:'
@@ -2956,6 +2957,22 @@ tr:
       description: Açıklama
       created_at: Oluşturulma tarihi
       last_changed: Son değişiklik
+    show:
+      title: 'Not: %{id}'
+      open_title: 'çözülmemiş not #%{note_name}'
+      hidden_title: 'Gizli not #%{note_name}'
+      event_opened_by_html: '%{user} %{time_ago} tarafından oluşturuldu'
+      event_closed_by_html: '%{user} %{time_ago} tarafından çözüldü'
+      event_hidden_by_html: '%{user} %{time_ago} tarafından gizlendi'
+      report: bu notu bildir
+      coordinates_html: '%{latitude}, %{longitude}'
+      hide: Gizle
+      resolve: çözmek
+      comment_and_resolve: Yorum ve Çözüm
+      comment: Yorum
+    new:
+      title: Yeni Not
+      add: Not Ekle
   javascripts:
     close: Kapat
     share:
@@ -3000,7 +3017,6 @@ tr:
         historical: Tarihi
         woodblock: Ahşap blok
         standard: Standart
-        cyclosm: CyclOSM
         cycle_map: Bisiklet Haritası
         transport_map: Ulaşım Haritası
         hot: İnsancıl

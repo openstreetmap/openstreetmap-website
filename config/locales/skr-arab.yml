@@ -27,7 +27,7 @@ skr-arab:
       client_application:
         create: رجسٹر
         update: اپ ݙیٹ
-      oauth2_application:
+      doorkeeper_application:
         create: رجسٹر
         update: اپ ݙیٹ
       redaction:
@@ -57,6 +57,7 @@ skr-arab:
       message: سنیہہ
       node: نوڈ
       node_tag: نوڈ ٹیگ
+      notifier: نوٹیفائر
       old_node: پراݨا نوڈ
       old_node_tag: پراݨا نوڈ ٹیگ
       old_relation: پراݨا رشتہ
@@ -82,16 +83,17 @@ skr-arab:
     attributes:
       client_application:
         name: ناں (ضروری)
+        url: مین ایپ یوآرایل (ضروری)
+        callback_url: کال بیک یوآرایل
         support_url: سہارا یوآرایل
       diary_comment:
         body: باڈی
       diary_entry:
         user: ورتݨ آلا
         title: موضوع
-        body: باڈی
         latitude: عرض البلد
         longitude: طول البلد
-        language_code: زبان
+        language: زبان
       doorkeeper/application:
         name: ناں
         scopes: اجازتاں
@@ -152,6 +154,7 @@ skr-arab:
     notes:
       comment:
         opened_at_html: ایہ %{when} بݨیا
+        commented_at_html: ایہ %{when} اپ ڈیٹ تھیا
       entry:
         comment: رائے
         full: پورا نوٹ
@@ -169,6 +172,7 @@ skr-arab:
       current email address: موجودہ ای میل پتہ
       external auth: باہرلی تصدیق
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ایہ کیا ہے؟
       public editing:
         enabled link text: ایہ کیا ہے؟
@@ -176,9 +180,13 @@ skr-arab:
         link text: ایہ کیا ہے؟
       save changes button: تبدیلیاں محفوظ کرو
       delete_account: کھاتہ مٹاؤ۔۔۔
+    destroy:
+      success: کھاتہ مٹ ڳیا۔
   browse:
     created: بݨ ڳیا
     closed: بند تھیا
+    created_ago_html: '%{time_ago} خلقیا'
+    closed_ago_html: '%{time_ago} بند تھیا'
     version: ورژن
     in_changeset: تبدیلیاں
     anonymous: گمنام
@@ -201,6 +209,8 @@ skr-arab:
     way:
       title_html: رستہ:%{name}
       nodes: نوڈاں
+      nodes_count:
+        other: '%{count} نوڈاں'
     relation:
       title_html: تعلق:%{name}
       members: ممبراں
@@ -234,7 +244,10 @@ skr-arab:
       loading: لوڈ تھیندا پئے
     tag_details:
       tags: ٹیگ
-      email_link: ای میل %{email}
+    note:
+      title: نوٹ:%{id}
+      new_note: نواں نوٹ
+      description: تفصیل
   changesets:
     changeset_paging_nav:
       showing_page: ورقہ %{page}
@@ -300,10 +313,13 @@ skr-arab:
       contact: رابطہ
     forbidden:
       title: ممنوع
+    not_found:
+      title: فائل کائنی لبھی
   geocoder:
     search:
       title:
         latlon: اندرونی
+        latlon_url: https://openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -374,6 +390,7 @@ skr-arab:
           post_box: پوسٹ بکس
           post_office: ڈاکخانہ
           prison: جیل
+          pub: پب
           public_bath: عوامی غسل خانہ
           public_building: عوامی عمارت
           ranger_station: رینجر ٹیشݨ
@@ -432,6 +449,7 @@ skr-arab:
         club:
           "yes": کلب
         craft:
+          beekeeper: ماکھی پال
           carpenter: درکھاݨ
           dressmaker: درزی
           electrician: اِلَیکٹریشن
@@ -447,7 +465,6 @@ skr-arab:
         highway:
           bus_stop: بساں دا اݙا
           corridor: راہداری
-          crossing: کراسنگ
           cycleway: سائیکل راہ
           elevator: لِفٹ
           footway: فٹ پاتھ
@@ -476,6 +493,8 @@ skr-arab:
           "yes": سڑک
         historic:
           battlefield: جنگ دا میدان
+          building: تاریخی عمارت
+          bunker: بنکر
           castle: قلعہ
           church: گرجاگھر
           city_gate: شہر دا دروازہ
@@ -494,6 +513,7 @@ skr-arab:
           cemetery: قبرستان
           commercial: کمرشل ایریا
           forest: جنگل
+          garages: گیراج
           grass: گھا
           meadow: چراگاہ
           military: فوجی علاقہ
@@ -519,7 +539,7 @@ skr-arab:
           crane: کرین
           cross: کراس
           lighthouse: لائٹ ہاؤس
-          mineshaft: میݙا شافٹ
+          mineshaft: کھاݨ دی سرنگ
           pipeline: پائپ لائن
           surveillance: نگرانی
           telescope: دور بین
@@ -670,7 +690,10 @@ skr-arab:
       select_type: قسم چُݨو
       search: ڳولو
       status: حیثیت
+      reports: رپورٹاں
       last_updated: چھیکڑی تبدیلی
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> منجانب %{user}
       link_to_reports: رپوٹاں ݙیکھو
       states:
         open: کھولو
@@ -700,13 +723,15 @@ skr-arab:
     issues: مسئلے
     data: ڈیٹا
     export_data: ڈَیٹا برامد کرو
-    partners_ucl: یو سی ایل
+    partners_title: بھائیوال
+    partners_partners: بھائیوال
+    tou: ورتݨ شرطاں
     help: مدد
     about: تعارف
     copyright: نقل حقوق
-    communities: برادریاں
     community: برادری
     community_blogs: برادری بلاگ
+    foundation: فاؤنڈیشن
     learn_more: ٻیا سِکھو
     more: ٻئے
   user_mailer:
@@ -728,7 +753,6 @@ skr-arab:
   confirmations:
     confirm:
       button: تصدیق
-      click_here: اِتھ کلک کرو
     confirm_email:
       button: تصدیق
   messages:
@@ -820,36 +844,13 @@ skr-arab:
   site:
     about:
       next: اڳلا
-      community_driven_community_blogs: برادری بلاگ
-      community_driven_osm_foundation: او ایس ایم فاؤنڈیشن
-      open_data_open_data: کھلا ڈیٹا
       legal_title: قنونی
-      legal_1_1_terms_of_use: ورتݨ شرطاں
-      legal_1_1_privacy_policy: رازداری پالیسی
       partners_title: بھائیوال
     copyright:
       foreign:
         title: ایں ترجمے بارے
       native:
         title: ایں ورقے بارے
-      legal_babble:
-        introduction_1_open_data: کھلا ڈیٹا
-        introduction_2_legal_code: قنونی کوڈ
-        contributors_at_austria: آسٹریا
-        contributors_at_cc_by: سی سی۔بی وائی
-        contributors_au_australia: آسٹریلیا
-        contributors_ca_canada: کنیڈا
-        contributors_fi_finland: فِن لینڈ
-        contributors_fr_france: فرانس
-        contributors_nl_netherlands: نیدرلینڈز
-        contributors_nz_new_zealand: نیوزی لینڈ
-        contributors_nz_cc_by: سی سی بی وائی ٤.٠
-        contributors_si_slovenia: سلووینیا
-        contributors_es_spain: سپین
-        contributors_es_cc_by: سی سی بی وائی ٤.٠
-        contributors_za_south_africa: جنوبی افریقہ
-        trademarks_title: ٹریڈ مارک
-        trademarks_1_1_trademark_policy: ٹریڈمارک پالیسی
     index:
       permalink: پکا لنک
       shortlink: مختصر لنک
@@ -873,8 +874,6 @@ skr-arab:
     help:
       irc:
         title: آئی آر سی
-    any_questions:
-      title: کوئی سوال؟
     sidebar:
       close: بند کرو
     search:
@@ -898,7 +897,6 @@ skr-arab:
           common:
           - وقف
           - چراگاہ
-          - باغ
           retail: پرچون علاقہ
           industrial: صنعتی علاقہ
           commercial: کمرشل ایریا
@@ -911,13 +909,6 @@ skr-arab:
           station: ریلوے ٹیشݨ
     welcome:
       title: ست بسم اللہ!
-      basic_terms:
-        node: نوڈ
-        tag: ٹیگ
-      add_a_note:
-        the_map: نقشہ
-    communities:
-      title: برادریاں
   traces:
     new:
       help: مدد
@@ -942,6 +933,7 @@ skr-arab:
       view_map: نقشہ ݙیکھو
       private: نجی
     index:
+      empty_title: اڄݨ اتھاں کائی شئے کائنی
       wiki_page: وکی ورقہ
   application:
     settings_menu:
@@ -967,9 +959,7 @@ skr-arab:
   users:
     new:
       title: سائن اپ
-      support: سہارا
       continue: سائن اپ
-      privacy_policy: رازداری پالیسی
     terms:
       title: شرطاں
       heading: شرطاں
@@ -980,6 +970,7 @@ skr-arab:
         italy: اِٹلی
         rest_of_world: باقی دنیا
     show:
+      my messages: میݙے سنیہے
       my profile: میݙی پروفائل
       my settings: میݙیاں ترتیباں
       my comments: میݙے تبصرے
@@ -1025,12 +1016,6 @@ skr-arab:
         hide_comment: لُکاؤ
         unhide_comment: ݙکھاؤ
     directions:
-      engines:
-        fossgis_valhalla_bicycle: سائیکل (ول ہلا)
-        fossgis_valhalla_car: کار (ول ہلا)
-        fossgis_valhalla_foot: پیدل (ول ہلا)
-      distance_m: '%{distance}م'
-      distance_km: '%{distance}ک م'
       instructions:
         exit_counts:
           first: پہلا

@@ -8,6 +8,7 @@
 # Author: CmplstofB
 # Author: Danieldegroot2
 # Author: Endres
+# Author: Ffff23
 # Author: Foomin10
 # Author: Fryed-peach
 # Author: Hayashi
@@ -34,6 +35,7 @@
 # Author: Ruila
 # Author: Rxy
 # Author: Schu
+# Author: Shapez
 # Author: Shirayuki
 # Author: Suchichi02
 # Author: Sudachi
@@ -331,12 +333,12 @@ ja:
   browse:
     created: 作成
     closed: クローズ
-    created_html: <abbr title='%{title}'>%{time}</abbr>に作成
-    closed_html: <abbr title='%{title}'>%{time}</abbr>にクローズ
-    created_by_html: '%{user}さんが<abbr title=''%{title}''>%{time}</abbr>に作成'
-    deleted_by_html: '%{user}さんが<abbr title=''%{title}''>%{time}</abbr>に削除'
-    edited_by_html: '%{user}さんが<abbr title=''%{title}''>%{time}</abbr>に編集'
-    closed_by_html: '%{user}さんが<abbr title=''%{title}''>%{time}</abbr>にクローズ'
+    created_ago_html: '%{time_ago}に作成されました'
+    closed_ago_html: '%{time_ago}に閉じられました'
+    created_ago_by_html: '%{user}によって%{time_ago}に作成されました'
+    closed_ago_by_html: '%{time_ago}に%{user}によって閉じられました'
+    deleted_ago_by_html: '%{time_ago}に%{user}によって削除されました'
+    edited_ago_by_html: '%{time_ago}に%{user}によって編集されました'
     version: バージョン
     in_changeset: 変更セット
     anonymous: 匿名
@@ -601,6 +603,11 @@ ja:
       applications:
         create:
           notice: アプリケーションが登録されています。
+  errors:
+    internal_server_error:
+      title: アプリケーションエラー
+    not_found:
+      title: ファイルが見つかりません
   friendships:
     make_friend:
       heading: '%{user} を友達に追加しますか?'
@@ -615,16 +622,6 @@ ja:
       success: '%{name} との友達を解除しました。'
       not_a_friend: '%{name} は友達ではありません。'
   geocoder:
-    search:
-      title:
-        latlon_html: <a href="https://openstreetmap.org/">Internal</a>からの結果
-        ca_postcode_html: <a href="https://geocoder.ca/">Geocoder.CA</a>からの結果
-        osm_nominatim_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a> からの結果
-        geonames_html: <a href="http://www.geonames.org/">GeoNames</a> からの結果
-        osm_nominatim_reverse_html: <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a> からの結果
-        geonames_reverse_html: <a href="http://www.geonames.org/">GeoNames</a> からの結果
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -723,7 +720,7 @@ ja:
           parking_space: 駐車場
           payment_terminal: 決済端末
           pharmacy: 薬局
-          place_of_worship: 神社仏閣
+          place_of_worship: 宗教施設
           police: 警察署
           post_box: 郵便ポスト
           post_office: 郵便局
@@ -1852,7 +1849,7 @@ ja:
   site:
     about:
       next: 次へ
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>協力者
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>協力者
       used_by_html: OpenHistoricalMap は数多くのウェブ サイト、モバイル アプリ、ハードウェア機器に地図データを提供しています
       lede_text: OpenHistoricalMapは、道路、通路、カフェ、鉄道駅など、世界中にあるすべてのものに関するデータを提供・メンテナンスしているマッパーのコミュニティによって構築されました。
       local_knowledge_title: 地元の情報
@@ -2215,14 +2212,12 @@ ja:
       in: 'タグ:'
     index:
       public_traces: 公開GPSトレース
-      my_traces: 私の痕跡
       public_traces_from: '%{user}さんによる公開GPSトレース'
       description: 最近のGPSトレースのアップロードを参照
       tagged_with: (タグ %{tags} が付いているもの)
-      empty_html: ここにはまだ何もありません。<a href='%{upload_link}'>新しくトレースをアップロード</a>するか、<a
-        href='https://wiki.openstreetmap.org/wiki/JA:Beginners_Guide_1.2?uselang=ja'>ウィキページ</a>でGPSトレースの詳細情報をお読みください。
       upload_trace: トレースをアップロード
       all_traces: 全ての痕跡
+      my_traces: 私の痕跡
       traces_from: '%{user}さんによる公開GPSトレース'
       remove_tag_filter: タグフィルターの削除
     destroy:
@@ -2288,7 +2283,7 @@ ja:
       read_gpx: 非公開GPSトレースを読む
       write_gpx: GPSトレースをアップロードする。
       write_notes: メモを変更する。
-      read_email: ユーザーの電子メールアドレスを読む
+      read_email: ユーザーのメールアドレスを読む
       skip_authorization: 自動的に申請を承認する
   oauth_clients:
     new:
@@ -2383,9 +2378,6 @@ ja:
         - 可能な限り迅速に対応させていただきます。
       about:
         header: フリー、編集可能
-        html: |-
-          <p>他の地図とは異なり、OpenHistoricalMapは完全にあなたのような人々によって作成され、だれでも自由に修正、更新、ダウンロード、利用することができます。</p>
-          <p>協力を始めるにはサインアップしてください。あなたのアカウントの確認メールが送信されます。</p>
       email address: 'メール アドレス:'
       confirm email address: 'メール アドレスの確認:'
       display name: '表示名:'
@@ -2645,6 +2637,8 @@ ja:
       description: 説明
       created_at: 作成日時
       last_changed: 最近の変更
+    show:
+      comment: コメント
   javascripts:
     close: 閉じる
     share:
@@ -2688,7 +2682,6 @@ ja:
       base:
         japanesescroll: 日本の巻物
         standard: 標準
-        cyclosm: CyclOSM
         cycle_map: サイクリングマップ
         transport_map: 交通マップ
         hot: Humanitarian

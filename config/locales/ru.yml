@@ -449,13 +449,6 @@ ru:
   browse:
     created: Создано
     closed: Закрыто
-    created_html: Создано <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Закрыто <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Создано <abbr title='%{title}'>%{time}</abbr> пользователем %{user}
-    deleted_by_html: Удалено <abbr title='%{title}'>%{time}</abbr> пользователем %{user}
-    edited_by_html: Отредактировано <abbr title='%{title}'>%{time}</abbr> пользователем
-      %{user}
-    closed_by_html: Закрыто <abbr title='%{title}'>%{time}</abbr> пользователем %{user}
     version: Версия
     in_changeset: Пакет правок
     anonymous: аноним
@@ -744,6 +737,9 @@ ru:
       applications:
         create:
           notice: Приложение зарегистрировано.
+  errors:
+    forbidden:
+      title: Запрещено
   friendships:
     make_friend:
       heading: Добавить %{user} в друзья?
@@ -759,16 +755,6 @@ ru:
       success: '%{name} удалён из друзей.'
       not_a_friend: '%{name} не является вашим другом.'
   geocoder:
-    search:
-      title:
-        latlon_html: <a href="https://openstreetmap.org/">Внутренние результаты</a>
-        ca_postcode_html: Результаты от <a href="http://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Результаты от <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Результаты от <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Результаты от <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Результаты от <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -994,7 +980,9 @@ ru:
           tailor: Портной
           winery: Винодельня
           "yes": Мастерская
+        crossing: Перекрёсток
         emergency:
+          access_point: Точка доступа
           ambulance_station: Станция скорой медицинской помощи
           assembly_point: Место сбора
           defibrillator: Дефибриллятор
@@ -2024,7 +2012,7 @@ ru:
   site:
     about:
       next: Далее
-      copyright_html: <span>&copy;</span>Участники<br />OpenHistoricalMap
+      heading_html: <span>&copy;</span>Участники<br />OpenHistoricalMap
       used_by_html: OpenHistoricalMap предоставляет данные для тысяч сайтов, мобильных
         приложений и устройств
       lede_text: OpenHistoricalMap создан сообществом картографов, которые добавляют
@@ -2476,14 +2464,12 @@ ru:
       in: 'с тегами:'
     index:
       public_traces: Общедоступные GPS-треки
-      my_traces: Мои треки
       public_traces_from: Общедоступные треки пользователя %{user}
       description: Просмотр последних загруженных GPS-треков
       tagged_with: 'с тегами: %{tags}'
-      empty_html: Пока здесь ничего нет. <a href='%{upload_link}'>Загрузите новый
-        трек</a> или почитайте про GPS-треки на <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики-странице</a>.
       upload_trace: Загрузить треки
       all_traces: Все треки
+      my_traces: Мои треки
       traces_from: Общедоступные трассировки от %{user}
       remove_tag_filter: Удалить фильтр тегов
     destroy:
@@ -2662,10 +2648,6 @@ ru:
         настолько быстро, насколько сможем.
       about:
         header: Свободно редактируемая
-        html: |-
-          <p>В отличие от других карт, OpenHistoricalMap полностью создаются такими же людьми, как и вы,
-          и они открыты для исправления, обновления, скачивания и использования каждым.</p>
-          <p>Зарегистрируйтесь, чтобы сделать свой вклад. Мы отправим вам письмо, чтобы подтвердить ваш аккаунт.</p>
       email address: 'Адрес эл. почты:'
       confirm email address: 'Подтвердите адрес эл. почты:'
       display name: 'Отображаемое имя:'
@@ -2969,6 +2951,9 @@ ru:
       description: Описание
       created_at: Создана
       last_changed: Изменена
+    show:
+      description: Описание
+      hide: Скрыть
   javascripts:
     close: Закрыть
     share:
@@ -3017,7 +3002,6 @@ ru:
           other: Вы находитесь в %{count} футах от этой точки
       base:
         standard: Стандартный
-        cyclosm: CyclOSM
         cycle_map: Велосипедная карта
         transport_map: Карта транспорта
         hot: Гуманитарная

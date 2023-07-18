@@ -322,12 +322,12 @@ mk:
   browse:
     created: Создадено
     closed: Затворено
-    created_html: Создадено <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Затворено <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Создадено <abbr title='%{title}'>%{time}</abbr> од %{user}
-    deleted_by_html: Избришано <abbr title='%{title}'>%{time}</abbr> од %{user}
-    edited_by_html: Изменето <abbr title='%{title}'>%{time}</abbr> од %{user}
-    closed_by_html: Затворено <abbr title='%{title}'>%{time}</abbr> од %{user}
+    created_ago_html: Создадено %{time_ago}
+    closed_ago_html: Затворено %{time_ago}
+    created_ago_by_html: Создадено %{time_ago} од %{user}
+    closed_ago_by_html: Затворено %{time_ago} од %{user}
+    deleted_ago_by_html: Избришано %{time_ago} од %{user}
+    edited_ago_by_html: Изменето %{time_ago} од %{user}
     version: Верзија
     in_changeset: Измени
     anonymous: анонимен
@@ -453,7 +453,7 @@ mk:
       reopened_by_html: Преактивирано од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous_html: Преактивирано од анонимен <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Скриено од %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      report: Пријави го јазолов
+      report: Пријави ја белешкава
       coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Пребарување на елементи
@@ -478,6 +478,7 @@ mk:
     index:
       title: Измени
       title_user: Измени на %{user}
+      title_user_link_html: Промени од %{user_link}
       title_friend: Измени од мои пријатели
       title_nearby: Измени од соседни корисници
       empty: Не пронајдов промени.
@@ -608,6 +609,26 @@ mk:
       applications:
         create:
           notice: Прилогот е пријавен.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Објаснување на разните контактни канали
+      contact: контакт
+      contact_the_community_html: Слободно стапете во %{contact_link} со заедницата
+        на OpenStreetMap ако имате најдено расипана врска или грешка. Забележете ја
+        точната URL на вашето барање.
+    forbidden:
+      title: Забрането
+      description: Постапката која ја побаравте на опслужувачот на OpenStreetMap е
+        достапна само за администратори (HTTP 403)
+    internal_server_error:
+      title: Грешка во прилогот
+      description: Опслужувачот на OpenStreetMap наиде на неочекуван услов кој го
+        спречи исполнувањето на барањето (HTTP 500)
+    not_found:
+      title: Податотеката не е пронајдена
+      description: Не можев да најдам постапка со податотека/папка/приложник со тоа
+        име на опслужувачот на OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: Да го додадам корисникот %{user} како пријател?
@@ -625,14 +646,13 @@ mk:
   geocoder:
     search:
       title:
-        latlon_html: <a href="https://openstreetmap.org/">Внатрешни</a> исходни ставки
-        ca_postcode_html: Исход од <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Исход од <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Исход од <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Исход од <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Исход од <a href="http://www.geonames.org/">GeoNames</a>
+        results_from_html: Исход од %{results_link}
+        latlon: Внатрешни
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: Nominatim за OpenHistoricalMap
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: Nominatim за OpenStreetMap
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -1946,7 +1966,7 @@ mk:
   site:
     about:
       next: Следно
-      copyright_html: <span>&copy;</span>Учесници на<br>OpenHistoricalMap
+      heading_html: <span>&copy;</span>Учесници на<br>OpenHistoricalMap
       used_by_html: OpenHistoricalMap обезбедува картографски податоци на илјадници
         мрежни места, мобилни прилози и сметачки уреди
       lede_text: |-
@@ -1997,7 +2017,7 @@ mk:
     copyright:
       foreign:
         title: За овој превод
-        html: Во случај на спротиставеност помеѓу оваа преведена страница и %{english_original_link},
+        html: Во случај на спротивставеност помеѓу оваа преведена страница и %{english_original_link},
           предност има англиската страница
         english_link: англискиот оригинал
       native:
@@ -2415,15 +2435,19 @@ mk:
       in: во
     index:
       public_traces: Јавни ГПС-траги
-      my_traces: Мои траги
+      my_gps_traces: Мои ГПС-траги
       public_traces_from: Јавни ГПС-траги од %{user}
       description: Прелистување на скороподигнати ГПС-траги
       tagged_with: '  означено со %{tags}'
-      empty_html: Тука сè уште нема ништо. <a href='%{upload_link}'>Подигнете нова
-        трага</a> или дознајте повеќе за ГПС-трагите на <a href='https://wiki.openstreetmap.org/wiki/Mk:Beginners_Guide_1.2'>нивната
-        викстраница</a>.
+      empty_title: Тука сè уште нема ништо
+      empty_upload_html: '%{upload_link} или дознајте повеќе за исцртувањето со ГПС-траги
+        на %{wiki_link}.'
+      upload_new: Подигни нова трага
+      wiki_page: викистраница
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Подигни трага
       all_traces: Сите траги
+      my_traces: Мои траги
       traces_from: Јавни траги од %{user}
       remove_tag_filter: Отстрани филтер за ознаки
     destroy:
@@ -2599,11 +2623,15 @@ mk:
         можен рок.
       about:
         header: Слободна и уредлива
-        html: |-
-          <p>За разлика од некои други карти, OpenHistoricalMap во целост ја изработуваат луѓе како вас. Секој слободно може да врши поправки, да ја подновува, да ја презема и користи.</p>
-          <p>Зачленете се за да почнете со ваше учество. Ќе ви испратиме потврда за сметката по е-пошта.</p>
+        paragraph_1: |-
+          За разлика од други карти, OpenStreetMap наполно е дело на луѓе како вас.
+          Секој слободно може да ја поправа, подновува, презема и користи.
+        paragraph_2: Зачленете се за да почнете со учество. Ќе ви испратиме е-пошта
+          за потврда на сметката.
       email address: 'Е-пошта:'
       confirm email address: 'Потврдете ја е-поштата:'
+      email_confirmation_help_html: Повторно внесете ја вашата е-пошта за да се осигураме
+        дека е точна. Нема да се прикажува јавно.
       display name: 'Име за приказ:'
       display name description: Вашето јавно прикажано име. Можете да го смените подоцна
         во прилагодувањата.
@@ -2888,6 +2916,45 @@ mk:
       description: Опис
       created_at: Создадена
       last_changed: Изменета
+    show:
+      title: 'Белешка: %{id}'
+      description: Опис
+      open_title: Нерешена белешка бр. %{note_name}
+      closed_title: Решена белешка бр. %{note_name}
+      hidden_title: 'Скриена белешка бр. #%{note_name}'
+      event_opened_by_html: Создадено од %{user} %{time_ago}
+      event_opened_by_anonymous_html: Создадено од анонимец %{time_ago}
+      event_commented_by_html: Коментар од %{user} %{time_ago}
+      event_commented_by_anonymous_html: Коментар од анонимец %{time_ago}
+      event_closed_by_html: Решено од %{user} %{time_ago}
+      event_closed_by_anonymous_html: Решено од аномимец %{time_ago}
+      event_reopened_by_html: Преактивирано од %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Преактивирано од анонимец %{time_ago}
+      event_hidden_by_html: Скриено од %{user} %{time_ago}
+      report: пријави ја белешкава
+      coordinates_html: '%{latitude}, %{longitude}'
+      anonymous_warning: Оваа белешка има коментари од анонимни корисници што треба
+        независно да се проверат.
+      hide: Скриј
+      resolve: Реши
+      reactivate: Преактивирај
+      comment_and_resolve: Коментирај и реши
+      comment: Коментар
+      report_link_html: Доколку оваа белешка содржи чувствителни информации кои треба
+        да се остранат, можете да %{link}.
+      other_problems_resolve: За сите други проблеми со белешката, решете ги самите
+        со коментар.
+      other_problems_resolved: За сите други проблеми, решението е доволно.
+      disappear_date_html: Оваа решена белешка ќе исчезне од картата за %{disappear_in}.
+    new:
+      title: Нова белешка
+      intro: Забележавте некоја грешка или нешто недостасува? Дајте им на знаење на
+        другите картографи за да ја средиме работата. Поместете го бележникот на исправното
+        место и внесете порака, објаснувајќи го проблемот.
+      advice: Вашата белешка е јавна и може да се употреби за поднова на картата.
+        Затоа, не внесувајте лични податоци, или пак податоци од карти или именици
+        заштитени со авторски права.
+      add: Додај белешка
   javascripts:
     close: Затвори
     share:
@@ -2933,7 +3000,6 @@ mk:
         woodblock: Дрвен блок
         japanesescroll: Јапонски свиток
         standard: Стандардна
-        cyclosm: CyclOSM
         cycle_map: Велосипедска
         transport_map: Сообраќајна
         hot: Хуманитарна
@@ -2986,7 +3052,7 @@ mk:
           независно да се проверат.
         hide: Скриј
         resolve: Решена
-        reactivate: Реактивирај
+        reactivate: Преактивирај
         comment_and_resolve: Коментирај и реши
         comment: Коментирај
     edit_help: Поместете ја картата и приближете во местото што сакате да го уредите,

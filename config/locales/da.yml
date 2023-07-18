@@ -30,6 +30,7 @@
 # Author: Nemo bis
 # Author: OleLaursen
 # Author: Peter Alberti
+# Author: Peterleth
 # Author: Ruila
 # Author: Saederup92
 # Author: The real emj
@@ -348,12 +349,6 @@ da:
   browse:
     created: Oprettet
     closed: Lukket
-    created_html: Oprettet <abbr title='%{title}'>%{time} siden</abbr>
-    closed_html: Lukket <abbr title='%{title}'>%{time} siden</abbr>
-    created_by_html: Oprettet <abbr title='%{title}'>%{time} siden</abbr> af %{user}
-    deleted_by_html: Slettet <abbr title='%{title}'>%{time}</abbr> af %{user}
-    edited_by_html: Redigeret <abbr title='%{title}'>%{time} siden</abbr> af %{user}
-    closed_by_html: Lukket <abbr title='%{title}'>%{time} siden</abbr> af %{user}
     version: Version
     in_changeset: Ændringssæt
     anonymous: anonym
@@ -645,16 +640,6 @@ da:
       success: '%{name} blev fjernet fra din liste af venner.'
       not_a_friend: '%{name} er ikke en af dine venner.'
   geocoder:
-    search:
-      title:
-        latlon_html: Resultater fra <a href="https://openstreetmap.org/">interne</a>
-        ca_postcode_html: Resultater fra <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Resultater fra <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Resultater fra <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Resultater fra <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Resultater fra <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1559,7 +1544,12 @@ da:
     intro_header: Velkommen til OpenHistoricalMap!
     intro_text: OpenHistoricalMap er et kort over verden, skabt af folk som dig og
       gratis at bruge under en åben licens.
+    intro_1: OpenHistoricalMap er et projekt designet til at gemme og vise kortdata
+      gennem hele verdens historie. Dette er et igangværende arbejde, vi vil eksperimentere
+      med mange nye funktioner, efterhånden som vi tidsaktiverer siden. Vi opfordrer
+      dig til også at begynde at eksperimentere og redigere data.
     intro_2_create_account: Opret en brugerkonto
+    partners_title: Partnere
     hosting_partners_html: Driften støttes af %{ucl}, %{fastly}, %{bytemark} og andre
       %{partners}.
     partners_partners: partnere
@@ -1623,6 +1613,7 @@ da:
       failed_to_import: 'kunne ikke importeres. Her er fejlen:'
       more_info_html: Yderligere information vedrørende fejl i forbindelse med GPX-import
         og hvordan de kan undgås, kan findes på %{url}
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenHistoricalMap] GPX-importering mislykkedes'
     gpx_success:
       hi: Hej %{to_user},
@@ -1954,7 +1945,7 @@ da:
   site:
     about:
       next: Næste
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>bidragsydere
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>bidragsydere
       used_by_html: OpenHistoricalMap leverer kortdata til tusindvis af websteder,
         mobile apps og hardware-enheder
       lede_text: OpenHistoricalMap er bygget af et fællesskab af kortlæggere, der
@@ -2038,6 +2029,14 @@ da:
           Vores bidragsydere er tusinder af individer. Vi medtager også
           åbent licenseret data fra nationale kortlægningsagenturer
           og andre kilder, blandt dem:
+        contributors_cambridge-anr_html: Indeholder data skabt af <a href="https://www.campop.geog.cam.ac.uk/research/projects/internationaloccupations/enchpopgos/france/">The
+          Cambridge Group for History of Population and Social Structures</a> <a href="https://anrcommunes.hypotheses.org/">ANR
+          Communes-</a> projektet.
+        contributors_ned_html: Indeholder data fra forskellige <a href="https://www.naturalearthdata.com/">Natural
+          Earth Data-</a> datasæt.
+        contributors_newberry_html: Indeholder data fra <a href="https://www.newberry.org/">Newberry
+          Library</a> 's <a href-"https://digital.newberry.org/ahcb/">Atlas of Historical
+          County Boundaries</a> .
         contributors_footer_1_html: |-
           For yderligere oplysninger om disse og andre kilder, der er blevet brugt for at hjælpe med at forbedre OpenHistoricalMap, se venligst <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">siden med bidragsydere</a> på OpenStreetMap Wiki.
@@ -2402,14 +2401,12 @@ da:
       in: i
     index:
       public_traces: Offentlige GPS-spor
-      my_traces: Mine spor
       public_traces_from: Offentlige GPS-spor fra %{user}
       description: Gennemse de seneste overførsler af GPS-spor
       tagged_with: ' med egenskaberne %{tags}'
-      empty_html: Der er ingenting her endnu. <a href='%{upload_link}'>Overfør et
-        nyt spor</a> eller lær mere om optagelse af GPS-spor på <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikisiden</a>.
       upload_trace: Overfør et spor
       all_traces: Alle GPS-spor
+      my_traces: Mine spor
       traces_from: Offentlige GPS-spor fra %{user}
       remove_tag_filter: Fjern tag-filter
     destroy:
@@ -2587,9 +2584,6 @@ da:
         som muligt.
       about:
         header: Fri og redigerbar
-        html: |-
-          <p>I modsætning til andre kort, er OpenHistoricalMap helt lavet af folk som dig, og det er frit for alle at rette, opdatere, downloade og bruge.</p>
-          <p>Tilmeld dig for at komme i gang med at bidrage. Vi vil sende en e-mail for at bekræfte din konto.</p>
       email address: 'E-mailadresse:'
       confirm email address: 'Bekræft e-mailadresse:'
       display name: 'Vist navn:'
@@ -2917,8 +2911,8 @@ da:
           one: Du er indenfor en fod fra dette punkt
           other: Du er indenfor %{count} fod fra dette punkt
       base:
+        historical: Historisk
         standard: Standard
-        cyclosm: CyclOSM
         cycle_map: Cykelkort
         transport_map: Transportkort
         hot: Humanitær

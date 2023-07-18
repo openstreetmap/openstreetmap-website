@@ -377,12 +377,6 @@ it:
   browse:
     created: Creato
     closed: Chiuso
-    created_html: Creato <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Chiuso <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Creato <abbr title='%{title}'>%{time}</abbr> da %{user}
-    deleted_by_html: Cancellato <abbr title='%{title}'>%{time}</abbr> da %{user}
-    edited_by_html: Modificato <abbr title='%{title}'>%{time}</abbr> da %{user}
-    closed_by_html: Chiuso <abbr title='%{title}'>%{time}</abbr> da %{user}
     version: Versione
     in_changeset: Gruppo di modifiche
     anonymous: anonimo
@@ -665,6 +659,22 @@ it:
       applications:
         create:
           notice: Applicazione registrata.
+  errors:
+    contact:
+      contact: contattare
+      contact_the_community_html: Se hai trovato un link non funzionante o un bug,
+        sentiti libero di %{contact_link} la comunità OpenHistoricalMap. Prendi nota
+        dell'indirizzo URL esatto della tua richiesta.
+    forbidden:
+      title: Vietato
+    internal_server_error:
+      title: Errore dell'applicazione
+      description: Il server OpenHistoricalMap ha rilevato una condizione imprevista
+        che gli ha impedito di soddisfare la richiesta (HTTP 500)
+    not_found:
+      title: File non trovato
+      description: Impossibile trovare un file/cartella/operazione API con questo
+        nome sul server OpenHistoricalMap (HTTP 404)
   friendships:
     make_friend:
       heading: Aggiungere %{user} agli amici?
@@ -675,21 +685,11 @@ it:
       limit_exceeded: Recentemente hai aggiunto un sacco di utenti come amici. Aspetta
         un po’ di tempo prima di aggiungerne altri.
     remove_friend:
-      heading: Rimuovere ${user} dagli amici?
+      heading: Rimuovere %{user} dagli amici?
       button: Rimuovi dagli amici
       success: '%{name} è stato rimosso dai tuoi amici.'
       not_a_friend: '%{name} non è uno dei tuoi amici.'
   geocoder:
-    search:
-      title:
-        latlon_html: Risultati da <a href="https://openstreetmap.org/">Internal</a>
-        ca_postcode_html: Risultati da <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Risultati restituiti da <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Risultati da <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Risultati restituiti da <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Risultati da <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1958,7 +1958,7 @@ it:
           alt: Accedi con un OpenID di Google
         facebook:
           title: Accedi con Facebook
-          alt: Accedi con un Account Facebook
+          alt: Accedi con un account Facebook
         windowslive:
           title: Accedi con Windows Live
           alt: Accedi con un Account Windows Live
@@ -1999,7 +1999,7 @@ it:
   site:
     about:
       next: Successivo
-      copyright_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br>contributors
       used_by_html: OpenHistoricalMap fornisce dati geografici per migliaia di siti
         web, applicazioni mobili e dispositivi hardware
       lede_text: OpenHistoricalMap è costruito da una comunità di mappatori che contribuiscono
@@ -2456,15 +2456,13 @@ it:
       in: in
     index:
       public_traces: Tracciati GPS pubblici
-      my_traces: I miei tracciati
       public_traces_from: Tracciati GPS pubblici di %{user}
       description: Naviga fra i tracciati GPS caricati recentemente
       tagged_with: ' etichettati con %{tags}'
-      empty_html: Ancora niente qui. <a href='%{upload_link}'>Carica una nuova traccia</a>
-        o leggi ulteriori informazioni sul tracciamento GPS nella <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pagina
-        wiki</a>.
+      empty_title: Per ora non c'è niente
       upload_trace: Carica un tracciato
       all_traces: Tutti i tracciati
+      my_traces: I miei tracciati
       traces_from: Tracciati pubblici di %{user}
       remove_tag_filter: Rimuovi filtro delle etichette
     destroy:
@@ -2640,10 +2638,6 @@ it:
         il più rapidamente possibile.
       about:
         header: Libero ed editabile
-        html: |-
-          <p>A differenza di altre mappe, OpenHistoricalMap è completamente creato da persone come te
-           ed è libero per chiunque per correggerlo, aggiornarlo, scaricarlo ed usarlo.</p>
-          <p>Registrati per iniziare a contribuire. Ti invieremo un'email per confermare il tuo account.</p>
       email address: 'Indirizzo email:'
       confirm email address: 'Conferma indirizzo email:'
       display name: 'Nome visualizzato:'
@@ -2929,6 +2923,8 @@ it:
       description: Descrizione
       created_at: Creata il
       last_changed: Modificata per l'ultima volta
+    show:
+      hide: Nascondi
   javascripts:
     close: Chiudi
     share:
@@ -2971,7 +2967,6 @@ it:
           other: Ti trovi entro %{count} piedi da questo punto
       base:
         standard: Standard
-        cyclosm: CyclOSM
         cycle_map: Mappa ciclabile
         transport_map: Mappa dei trasporti
         hot: Umanitario

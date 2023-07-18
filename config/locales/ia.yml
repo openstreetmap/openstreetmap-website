@@ -323,12 +323,12 @@ ia:
   browse:
     created: Create a
     closed: Claudite a
-    created_html: Create <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Claudite <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Create <abbr title='%{title}'>%{time}</abbr> per %{user}
-    deleted_by_html: Delite <abbr title='%{title}'>%{time}</abbr> per %{user}
-    edited_by_html: Modificate <abbr title='%{title}'>%{time}</abbr> per %{user}
-    closed_by_html: Claudite <abbr title='%{title}'>%{time}</abbr> per %{user}
+    created_ago_html: Create %{time_ago}
+    closed_ago_html: Claudite %{time_ago}
+    created_ago_by_html: Create %{time_ago} per %{user}
+    closed_ago_by_html: Claudite %{time_ago} per %{user}
+    deleted_ago_by_html: Delite %{time_ago} per %{user}
+    edited_ago_by_html: Modificate %{time_ago} per %{user}
     version: Version
     in_changeset: Gruppo de modificationes
     anonymous: anonyme
@@ -476,6 +476,7 @@ ia:
     index:
       title: Gruppos de modificationes
       title_user: Gruppos de modificationes facite per %{user}
+      title_user_link_html: Gruppos de modificationes facite per %{user_link}
       title_friend: Gruppos de modificationes facite per mi amicos
       title_nearby: Gruppos de modificationes facite per usatores vicin
       empty: Nulle gruppo de modificationes trovate.
@@ -606,6 +607,26 @@ ia:
       applications:
         create:
           notice: Application registrate.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Varie canales de contacto explicate
+      contact: contactar
+      contact_the_community_html: Sia libere de %{contact_link} le communitate de
+        OpenHistoricalMap si tu ha trovate un ligamine rupte o qualcunque anomalia.
+        Nota le URL exacte de tu requesta.
+    forbidden:
+      title: Prohibite
+      description: Le operation que tu ha requestate sur le servitor de OpenHistoricalMap
+        es disponibile solmente pro le administratores (HTTP 403)
+    internal_server_error:
+      title: Error del application
+      description: Le servitor de OpenHistoricalMap ha incontrate un condition inexpectate
+        que lo ha impedite de satisfacer le requesta (HTTP 500)
+    not_found:
+      title: File non trovate
+      description: Non poteva trovar un file, directorio o operation API con iste
+        nomine sur le servitor de OpenHistoricalMap (HTTP 404)
   friendships:
     make_friend:
       heading: Adder %{user} como amico?
@@ -623,14 +644,13 @@ ia:
   geocoder:
     search:
       title:
-        latlon_html: Resultatos <a href="https://openstreetmap.org/">interne</a>
-        ca_postcode_html: Resultatos de <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Resultatos de <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Resultatos de <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Resultatos de <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Resultatos ab <a href="http://www.geonames.org/">GeoNames</a>
+        results_from_html: Resultatos de %{results_link}
+        latlon: Interne
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1641,7 +1661,7 @@ ia:
       greeting: Salute,
       hopefully_you: Alcuno (probabilemente tu) ha demandate que le contrasigno del
         conto openstreetmap.org associate con iste adresse de e-mail sia reinitialisate.
-      click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro
+      click_the_link: Si isto es tu, per favor clicca sur le ligamine hic infra pro
         reinitialisar tu contrasigno.
     note_comment_notification:
       anonymous: Un usator anonyme
@@ -1866,7 +1886,7 @@ ia:
       home location: Position de origine
       no home location: Tu non ha entrate tu position de origine.
       update home location on click: Actualisar le position de origine quando io clicca
-        super le carta?
+        sur le carta?
     update:
       success: Profilo actualisate.
       failure: Non poteva actualisar le profilo.
@@ -1889,9 +1909,9 @@ ia:
         es necessari haber un conto.
       create account minute: Crea un conto. Isto dura solmente un minuta.
       no account: Non ha un conto?
-      account not active: Pardono, tu conto non es ancora active.<br />Per favor clicca
-        super le ligamine in le e-mail de confirmation pro activar tu conto, o <a
-        href="%{reconfirm}">requesta un nove message de confirmation.</a>.
+      account not active: Guai, tu conto non es ancora active.<br />Per favor clicca
+        sur le ligamine in le e-mail de confirmation pro activar tu conto, o <a href="%{reconfirm}">requesta
+        un nove message de confirmation.</a>.
       account is suspended: Guai, tu conto ha essite suspendite a causa de activitate
         suspecte.<br />Per favor contacta le <a href="%{webmaster}">servicio de assistentia</a>
         si tu vole discuter isto.
@@ -1947,7 +1967,7 @@ ia:
   site:
     about:
       next: Sequente
-      copyright_html: <span>&copy;</span>Contributores de<br>OpenHistoricalMap
+      heading_html: <span>&copy;</span>Contributores de<br>OpenHistoricalMap
       used_by_html: OpenHistoricalMap forni datos cartographic a milles de sitos web,
         applicationes mobile e dispositivos physic
       lede_text: OpenHistoricalMap es construite per un communitate de cartographos
@@ -2008,8 +2028,10 @@ ia:
           Si vos altera o extende nostre datos, vos pote distribuer le resultato solmente
           sub le mesme licentia. Le <a href="https://opendatacommons.org/licenses/odbl/1.0/">codice
           juridic</a> complete explica vostre derectos e responsabilitates.
-        intro_3_1_html: Nostre documentation es publicate sub licentia <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA 2.0).
+        intro_3_1_html: Le cartographia in nostre tegulas de carta es licentiate sub
+          le terminos del objectos que le tegulas contine. Nostre stilos de carta
+          e documentation es licentiate sub le licentia Creative Commons Attribution
+          "Nulle derectos reservate" Dominio Public (CC0).
         credit_title_html: Como dar recognoscentia a OpenHistoricalMap
         credit_1_html: |-
           Nos require que vos usa le recognoscentia &ldquo;&copy; OpenHistoricalMap
@@ -2401,15 +2423,19 @@ ia:
       in: in
     index:
       public_traces: Tracias GPS public
-      my_traces: Mi tracias
+      my_gps_traces: Mi tracias GPS
       public_traces_from: Tracias GPS public de %{user}
       description: Percurrer le tracias GPS incargate recentemente
       tagged_with: '  etiquettate con %{tags}'
-      empty_html: Ancora nihil a vider hic. <a href='%{upload_link}'>Incarga un nove
-        tracia</a> o lege plus sur le traciamento GPS in le <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pagina
-        wiki</a>.
+      empty_title: Nihil hic ancora
+      empty_upload_html: '%{upload_link} o apprende plus sur le traciamento GPS sur
+        le %{wiki_link}.'
+      upload_new: Incargar un nove tracia
+      wiki_page: pagina wiki
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Incargar un tracia
       all_traces: Tote le tracias
+      my_traces: Mi tracias
       traces_from: Tracias public de %{user}
       remove_tag_filter: Remover filtro de etiquettas
     destroy:
@@ -2586,12 +2612,15 @@ ia:
         le requesta le plus rapidemente possibile.
       about:
         header: Libere e modificabile
-        html: |-
-          <p>A differentia de altere cartas, OpenHistoricalMap es completemente create per gente como tu,
-          e cata uno es libere de modificar, actualisar, discargar e usar lo.</p>
-          <p>Crea un conto pro comenciar a contribuer. Nos te inviara un e-mail pro confirmar tu conto.</p>
+        paragraph_1: Contrarimente a altere cartas, OpenHistoricalMap es completemente
+          create per gente como tu, e permitte que omnes liberemente lo corrige, actualisa,
+          discarga e usa.
+        paragraph_2: Inscribe te pro comenciar a contribuer. Nos inviara un e-mail
+          pro confirmar tu conto.
       email address: 'Adresse de e-mail:'
       confirm email address: 'Confirmar adresse de e-mail:'
+      email_confirmation_help_html: Repete tu adresse de e-mail pro assecurar que
+        illo es correcte. Illo non essera monstrate publicamente.
       display name: 'Nomine public:'
       display name description: Tu nomine de usator monstrate publicamente. Tu pote
         cambiar lo plus tarde in le preferentias.
@@ -2771,8 +2800,8 @@ ia:
         communicationes.
       back: Vider tote le blocadas
     edit:
-      title: Modification de un blocada super %{name}
-      heading_html: Modification de un blocada super %{name}
+      title: Modification de un blocada sur %{name}
+      heading_html: Modification de un blocada sur %{name}
       period: Quante tempore, a partir de ora, essera le usator blocate del API?
       show: Examinar iste blocada
       back: Examinar tote le blocadas
@@ -2871,6 +2900,45 @@ ia:
       description: Description
       created_at: Create a
       last_changed: Ultime modification
+    show:
+      title: 'Nota: %{id}'
+      description: Description
+      open_title: Nota non resolvite №%{note_name}
+      closed_title: Nota resolvite №%{note_name}
+      hidden_title: Nota celate №%{note_name}
+      event_opened_by_html: Create per %{user} %{time_ago}
+      event_opened_by_anonymous_html: Create anonymemente %{time_ago}
+      event_commented_by_html: Commento de %{user} %{time_ago}
+      event_commented_by_anonymous_html: Commento anonyme %{time_ago}
+      event_closed_by_html: Resolvite per %{user} %{time_ago}
+      event_closed_by_anonymous_html: Resolvite anonymemente %{time_ago}
+      event_reopened_by_html: Reactivate per %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Reactivate anonymemente %{time_ago}
+      event_hidden_by_html: Celate per %{user} %{time_ago}
+      report: signalar iste nota
+      coordinates_html: '%{latitude}; %{longitude}'
+      anonymous_warning: Iste nota include commentos de usatores anonyme que debe
+        esser verificate independentemente.
+      hide: Celar
+      resolve: Resolver
+      reactivate: Reactivar
+      comment_and_resolve: Commentar e resolver
+      comment: Commento
+      report_link_html: Si iste nota contine information sensibile que debe esser
+        removite, tu pote %{link}.
+      other_problems_resolve: Pro tote altere problema con le nota, per favor resolve
+        lo tu mesme con un commento.
+      other_problems_resolved: Pro tote altere problemas, suffice resolver.
+      disappear_date_html: Iste nota resolvite disparera del carta in %{disappear_in}.
+    new:
+      title: Nove nota
+      intro: Tu ha trovate un error? Qualcosa manca? Face lo saper al altere cartographos
+        a fin que nos pote corriger lo. Displacia le marcator al position correcte
+        e scribe un nota pro explicar le problema.
+      advice: Tu nota es public e pote esser usate pro actualisar le carta. Dunque,
+        non insere alcun information personal, ni datos ab cartas o catalogos protegite
+        per derectos de autor.
+      add: Adder nota
   javascripts:
     close: Clauder
     share:
@@ -2916,7 +2984,6 @@ ia:
         woodblock: Bloco de ligno
         japanesescroll: Rolo de pergamena japonese
         standard: Standard
-        cyclosm: CyclOSM
         cycle_map: Carta cyclista
         transport_map: Carta de transporto
         hot: Humanitario

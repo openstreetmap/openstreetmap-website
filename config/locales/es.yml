@@ -37,6 +37,7 @@
 # Author: JanKlaaseen
 # Author: Javiersanp
 # Author: Jelou
+# Author: Jemily1
 # Author: Jlrb+
 # Author: Joanmp17
 # Author: Johnarupire
@@ -59,6 +60,7 @@
 # Author: Nah omy
 # Author: Nancystodd
 # Author: Nemo bis
+# Author: No se
 # Author: Nunte
 # Author: Ovruni
 # Author: Pantareje
@@ -82,6 +84,7 @@
 # Author: Vivaelcelta
 # Author: Xuacu
 # Author: Yllelder
+# Author: Zmhang
 ---
 es:
   time:
@@ -402,12 +405,12 @@ es:
   browse:
     created: Creado
     closed: Cerrado
-    created_html: Creado <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Cerrado <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Creado <abbr title='%{title}'>%{time}</abbr> por %{user}
-    deleted_by_html: Eliminado <abbr title='%{title}'>%{time}</abbr> por %{user}
-    edited_by_html: Editado <abbr title='%{title}'>%{time}</abbr> por %{user}
-    closed_by_html: Cerrado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    created_ago_html: Creado %{time_ago}
+    closed_ago_html: Cerrado %{time_ago}
+    created_ago_by_html: Creado %{time_ago} por %{user}
+    closed_ago_by_html: Cerrado %{time_ago} por %{user}
+    deleted_ago_by_html: Eliminado %{time_ago} por %{user}
+    edited_ago_by_html: Editado %{time_ago} por %{user}
     version: Versión
     in_changeset: Conjunto de cambios
     anonymous: anónimo
@@ -556,6 +559,7 @@ es:
     index:
       title: Conjuntos de cambios
       title_user: Conjunto de cambios de %{user}
+      title_user_link_html: Conjunto de cambios de %{user_link}
       title_friend: Conjuntos de cambios realizados por mis amigos
       title_nearby: Conjuntos de cambios realizados por usuarios cercanos
       empty: No se han encontrado conjuntos de cambios.
@@ -686,6 +690,10 @@ es:
       applications:
         create:
           notice: Solicitud registrada.
+  errors:
+    contact:
+      contact_url_title: Varios canales de contacto explicados
+      contact: contacto
   friendships:
     make_friend:
       heading: ¿Añadir a %{user} como un amigo?
@@ -703,14 +711,7 @@ es:
   geocoder:
     search:
       title:
-        latlon_html: Resultados <a href="https://openstreetmap.org/">internos</a>
-        ca_postcode_html: Resultados de <a href="https://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim_html: Resultados de <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_html: Resultados de <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse_html: Resultados de <a href="https://nominatim.openstreetmap.org/">OpenHistoricalMap
-          Nominatim</a>
-        geonames_reverse_html: Resultados de <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Interno
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -2019,7 +2020,7 @@ es:
   site:
     about:
       next: Siguiente
-      copyright_html: <span>&copy;</span>Colaboradores de<br>OpenHistoricalMap
+      heading_html: <span>&copy;</span>Colaboradores de<br>OpenHistoricalMap
       used_by_html: OpenHistoricalMap proporciona datos de mapas para miles de sitios
         web, aplicaciones móviles y dispositivos de hardware
       lede_text: OpenHistoricalMap lo crea una gran comunidad de colaboradores que
@@ -2443,10 +2444,10 @@ es:
       tags: 'Etiquetas:'
       none: Ninguna
       edit_trace: Editar esta traza
-      delete_trace: Borrar esta traza
+      delete_trace: Eliminar esta traza
       trace_not_found: ¡No se ha encontrado la traza!
       visibility: 'Visibilidad:'
-      confirm_delete: ¿Eliminar esta traza?
+      confirm_delete: ¿Quiere eliminar esta traza?
     trace_paging_nav:
       showing_page: Página %{page}
       older: Trazas más antiguas
@@ -2468,15 +2469,13 @@ es:
       in: en
     index:
       public_traces: Trazas GPS públicas
-      my_traces: Mis rastros
       public_traces_from: Trazas GPS públicas de %{user}
       description: Explorar los itinerarios GPS recién subidos
       tagged_with: etiquetado con %{tags}
-      empty_html: Todavía no hay nada aquí. <a href='%{upload_link}'>Sube una nueva
-        traza</a> o aprende más sobre trazas GPS en la <a href='https://wiki.openstreetmap.org/wiki/ES:Gu%C3%ADa_del_principiante_1.2'>página
-        wiki</a>.
+      wiki_page: wiki página
       upload_trace: Subir una traza
       all_traces: Todos los trazos
+      my_traces: Mis rastros
       traces_from: Trazos Públicos de %{user}
       remove_tag_filter: Eliminar Filtro de Etiquetas
     destroy:
@@ -2626,7 +2625,7 @@ es:
       sorry: Lo sentimos, no se pudo encontrar esa aplicación.
   oauth2_authorizations:
     new:
-      title: Falló la solicitud de autorización
+      title: Se necesita autorización
       introduction: ¿Autorizar a %{application} a acceder a su cuenta con los siguientes
         permisos?
       authorize: Autorizar →
@@ -2653,9 +2652,6 @@ es:
         solicitud lo antes posible.'
       about:
         header: Libre y editable
-        html: |-
-          <p>A diferencia de otros mapas, OpenHistoricalMap está completamente creado por gente como usted, y cualquiera puede corregirlo, actualizarlo, descargarlo y usarlo.</p>
-          <p>Regístrese para comenzar a colaborar. Le enviaremos un correo electrónico para confirmar su cuenta.</p>
       email address: 'Dirección de correo electrónico:'
       confirm email address: 'Confirmar la dirección de correo electrónico:'
       display name: 'Nombre en pantalla:'
@@ -2948,6 +2944,10 @@ es:
       description: Descripción
       created_at: Creado el
       last_changed: Última modificación
+    show:
+      description: Descripción
+    new:
+      add: Agregar Nota
   javascripts:
     close: Cerrar
     share:
@@ -2990,7 +2990,6 @@ es:
           other: Estás dentro de una distancia de %{count} pies desde este punto
       base:
         standard: Estándar
-        cyclosm: CyclOSM
         cycle_map: Mapa ciclista
         transport_map: Mapa de transporte
         hot: Humanitario
@@ -3173,7 +3172,7 @@ es:
       title: Mostrando redacción
       user: 'Creador:'
       edit: Editar esta redacción
-      destroy: Eliminar esta redacción
+      destroy: Eliminar esta censura
       confirm: ¿Está seguro?
     create:
       flash: Se creó la censura.
