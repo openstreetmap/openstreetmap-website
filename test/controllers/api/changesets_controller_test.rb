@@ -272,7 +272,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal(-5, js["changeset"]["min_lat"])
-      assert_equal  5, js["changeset"]["min_lon"]
+      assert_equal 5, js["changeset"]["min_lon"]
       assert_equal 15, js["changeset"]["max_lat"]
       assert_equal 12, js["changeset"]["max_lon"]
     end
