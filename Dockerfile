@@ -28,6 +28,7 @@ RUN apt-get update \
       unzip \
       nodejs \
       npm \
+      ca-certificates \
  && npm install --global yarn \
  # We can't use snap packages for firefox inside a container, so we need to get firefox+geckodriver elsewhere
  && add-apt-repository -y ppa:mozillateam/ppa \
