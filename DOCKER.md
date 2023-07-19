@@ -37,30 +37,30 @@ This is a workaround. [See issues/2185 for details](https://github.com/openstree
 
 To build local Docker images run from the root directory of the repository:
 
-    docker-compose build
+    docker compose build
 
 If this is your first time running or you have removed cache this will take some time to complete. Once the Docker images have finished building you can launch the images as containers.
 
 To launch the app run:
 
-    docker-compose up -d
+    docker compose up -d
 
 This will launch one Docker container for each 'service' specified in `docker-compose.yml` and run them in the background. There are two options for inspecting the logs of these running containers:
 
-- You can tail logs of a running container with a command like this: `docker-compose logs -f web` or `docker-compose logs -f db`.
-- Instead of running the containers in the background with the `-d` flag, you can launch the containers in the foreground with `docker-compose up`. The downside of this is that the logs of all the 'services' defined in `docker-compose.yml` will be intermingled. If you don't want this you can mix and match - for example, you can run the database in background with `docker-compose up -d db` and then run the Rails app in the foreground via `docker-compose up web`.
+- You can tail logs of a running container with a command like this: `docker compose logs -f web` or `docker compose logs -f db`.
+- Instead of running the containers in the background with the `-d` flag, you can launch the containers in the foreground with `docker compose up`. The downside of this is that the logs of all the 'services' defined in `docker-compose.yml` will be intermingled. If you don't want this you can mix and match - for example, you can run the database in background with `docker compose up -d db` and then run the Rails app in the foreground via `docker compose up web`.
 
 ### Migrations
 
 Run the Rails database migrations:
 
-    docker-compose run --rm web bundle exec rails db:migrate
+    docker compose run --rm web bundle exec rails db:migrate
 
 ### Tests
 
 Run the test suite by running:
 
-    docker-compose run --rm web bundle exec rails test:all
+    docker compose run --rm web bundle exec rails test:all
 
 ### Loading an OSM extract
 
@@ -72,7 +72,7 @@ For example, let's download the District of Columbia from Geofabrik or [any othe
 
 You can now use Docker to load this extract into your local Docker-based OSM instance:
 
-    docker-compose run --rm web osmosis \
+    docker compose run --rm web osmosis \
         -verbose    \
         --read-pbf district-of-columbia-latest.osm.pbf \
         --log-progress \
@@ -104,12 +104,12 @@ See [`CONFIGURE.md`](CONFIGURE.md) for information on how to manage users and en
 
 If you want to get into a web container and run specific commands you can fire up a throwaway container to run bash in via:
 
-    docker-compose run --rm web bash
+    docker compose run --rm web bash
 
 Alternatively, if you want to use the already-running `web` container then you can `exec` into it via:
 
-    docker-compose exec web bash
+    docker compose exec web bash
 
 Similarly, if you want to `exec` in the db container use:
 
-    docker-compose exec db bash
+    docker compose exec db bash
