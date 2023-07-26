@@ -9,32 +9,16 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       { :controller => "traces", :action => "index" }
     )
     assert_routing(
-      { :path => "/traces/page/1", :method => :get },
-      { :controller => "traces", :action => "index", :page => "1" }
-    )
-    assert_routing(
       { :path => "/traces/tag/tagname", :method => :get },
       { :controller => "traces", :action => "index", :tag => "tagname" }
-    )
-    assert_routing(
-      { :path => "/traces/tag/tagname/page/1", :method => :get },
-      { :controller => "traces", :action => "index", :tag => "tagname", :page => "1" }
     )
     assert_routing(
       { :path => "/user/username/traces", :method => :get },
       { :controller => "traces", :action => "index", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/user/username/traces/page/1", :method => :get },
-      { :controller => "traces", :action => "index", :display_name => "username", :page => "1" }
-    )
-    assert_routing(
       { :path => "/user/username/traces/tag/tagname", :method => :get },
       { :controller => "traces", :action => "index", :display_name => "username", :tag => "tagname" }
-    )
-    assert_routing(
-      { :path => "/user/username/traces/tag/tagname/page/1", :method => :get },
-      { :controller => "traces", :action => "index", :display_name => "username", :tag => "tagname", :page => "1" }
     )
 
     assert_routing(
@@ -42,16 +26,8 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       { :controller => "traces", :action => "mine" }
     )
     assert_routing(
-      { :path => "/traces/mine/page/1", :method => :get },
-      { :controller => "traces", :action => "mine", :page => "1" }
-    )
-    assert_routing(
       { :path => "/traces/mine/tag/tagname", :method => :get },
       { :controller => "traces", :action => "mine", :tag => "tagname" }
-    )
-    assert_routing(
-      { :path => "/traces/mine/tag/tagname/page/1", :method => :get },
-      { :controller => "traces", :action => "mine", :tag => "tagname", :page => "1" }
     )
 
     assert_routing(
@@ -112,6 +88,24 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       { :path => "/traces/1", :method => :delete },
       { :controller => "traces", :action => "destroy", :id => "1" }
     )
+
+    get "/traces/page/1"
+    assert_redirected_to "/traces"
+
+    get "/traces/tag/tagname/page/1"
+    assert_redirected_to "/traces/tag/tagname"
+
+    get "/user/username/traces/page/1"
+    assert_redirected_to "/user/username/traces"
+
+    get "/user/username/traces/tag/tagname/page/1"
+    assert_redirected_to "/user/username/traces/tag/tagname"
+
+    get "/traces/mine/page/1"
+    assert_redirected_to "/traces/mine"
+
+    get "/traces/mine/tag/tagname/page/1"
+    assert_redirected_to "/traces/mine/tag/tagname"
   end
 
   # Check that the index of traces is displayed

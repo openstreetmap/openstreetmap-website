@@ -189,23 +189,23 @@ OpenStreetMap::Application.routes.draw do
 
   # traces
   resources :traces, :except => [:show]
-  get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces/tag/%{tag}")
   get "/user/:display_name/traces/tag/:tag" => "traces#index"
-  get "/user/:display_name/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces")
   get "/user/:display_name/traces" => "traces#index"
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/:id" => "traces#show", :as => "show_trace"
   get "/user/:display_name/traces/:id/picture" => "traces#picture", :as => "trace_picture"
   get "/user/:display_name/traces/:id/icon" => "traces#icon", :as => "trace_icon"
-  get "/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/tag/%{tag}")
   get "/traces/tag/:tag" => "traces#index"
-  get "/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces")
   get "/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/traces/rss" => "traces#georss", :defaults => { :format => :rss }
-  get "/traces/mine/tag/:tag/page/:page" => "traces#mine", :page => /[1-9][0-9]*/
+  get "/traces/mine/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine/tag/%{tag}")
   get "/traces/mine/tag/:tag" => "traces#mine"
-  get "/traces/mine/page/:page" => "traces#mine"
+  get "/traces/mine/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine")
   get "/traces/mine" => "traces#mine"
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"

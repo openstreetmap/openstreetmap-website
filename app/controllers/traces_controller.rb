@@ -40,30 +40,38 @@ class TracesController < ApplicationController
     # 2 - all traces, not logged in = all public traces
     # 3 - user's traces, logged in as same user = all user's traces
     # 4 - user's traces, not logged in as that user = all user's public traces
-    @traces = if target_user.nil? # all traces
-                if current_user
-                  Trace.visible_to(current_user) # 1
-                else
-                  Trace.visible_to_all # 2
-                end
-              elsif current_user && current_user == target_user
-                current_user.traces # 3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+    traces = if target_user.nil? # all traces
+               if current_user
+                 Trace.visible_to(current_user) # 1
+               else
+                 Trace.visible_to_all # 2
+               end
+             elsif current_user && current_user == target_user
+               current_user.traces # 3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+             else
+               target_user.traces.visible_to_all # 4
+             end
+
+    traces = traces.tagged(params[:tag]) if params[:tag]
+
+    traces = traces.visible
+
+    @params = params.permit(:display_name, :tag, :before, :after)
+
+    @traces = if params[:before]
+                traces.where("id < ?", params[:before]).order(:id => :desc)
+              elsif params[:after]
+                traces.where("id > ?", params[:after]).order(:id => :asc)
               else
-                target_user.traces.visible_to_all # 4
+                traces.order(:id => :desc)
               end
 
-    @traces = @traces.tagged(params[:tag]) if params[:tag]
-
-    @params = params.permit(:display_name, :tag)
-
-    @page = (params[:page] || 1).to_i
-    @page_size = 20
-
-    @traces = @traces.visible
-    @traces = @traces.order(:id => :desc)
-    @traces = @traces.offset((@page - 1) * @page_size)
-    @traces = @traces.limit(@page_size)
+    @traces = @traces.limit(20)
     @traces = @traces.includes(:user, :tags)
+    @traces = @traces.sort.reverse
+
+    @newer_traces = @traces.count.positive? && traces.exists?(["gpx_files.id > ?", @traces.first.id])
+    @older_traces = @traces.count.positive? && traces.exists?(["gpx_files.id < ?", @traces.last.id])
 
     # final helper vars for view
     @target_user = target_user
