@@ -1939,6 +1939,31 @@ module Api
     end
 
     ##
+    # test the query functionality of changesets with the limit parameter
+    def test_query_limit
+      user = create(:user)
+      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
+      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 2, 1, 0, 0, 0), :closed_at => Time.utc(2008, 2, 2, 0, 0, 0))
+      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 3, 1, 0, 0, 0), :closed_at => Time.utc(2008, 3, 2, 0, 0, 0))
+      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
+      changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
+
+      get changesets_path
+      assert_response :success
+      assert_changesets [changeset5, changeset4, changeset3, changeset2, changeset1]
+
+      get changesets_path(:limit => "3")
+      assert_response :success
+      assert_changesets [changeset5, changeset4, changeset3]
+
+      get changesets_path(:limit => "0")
+      assert_response :bad_request
+
+      get changesets_path(:limit => "101")
+      assert_response :bad_request
+    end
+
+    ##
     # check that errors are returned if garbage is inserted
     # into query strings
     def test_query_invalid

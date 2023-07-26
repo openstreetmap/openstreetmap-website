@@ -19,6 +19,9 @@ module Api
     # Helper methods for checking consistency
     include ConsistencyValidations
 
+    DEFAULT_QUERY_LIMIT = 100
+    MAX_QUERY_LIMIT = 100
+
     ##
     # Return XML giving the basic info about the changeset. Does not
     # return anything about the nodes, ways and relations in the changeset.
@@ -171,7 +174,7 @@ module Api
       changesets = conditions_ids(changesets, params["changesets"])
 
       # sort and limit the changesets
-      changesets = changesets.order("created_at DESC").limit(100)
+      changesets = changesets.order("created_at DESC").limit(result_limit)
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
@@ -381,6 +384,20 @@ module Api
       else
         ids = ids.split(",").collect(&:to_i)
         changesets.where(:id => ids)
+      end
+    end
+
+    ##
+    # Get the maximum number of results to return
+    def result_limit
+      if params[:limit]
+        if params[:limit].to_i.positive? && params[:limit].to_i <= MAX_QUERY_LIMIT
+          params[:limit].to_i
+        else
+          raise OSM::APIBadUserInput, "Changeset limit must be between 1 and #{MAX_QUERY_LIMIT}"
+        end
+      else
+        DEFAULT_QUERY_LIMIT
       end
     end
   end
