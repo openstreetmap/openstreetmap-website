@@ -564,11 +564,36 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_entries_path
     assert_response :success
     assert_select "div.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
 
     # Try and get the second page
-    get diary_entries_path(:page => 2)
+    get css_select("li.page-item a.page-link").first["href"]
     assert_response :success
     assert_select "div.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+
+    # Try and get the third page
+    get css_select("li.page-item a.page-link").first["href"]
+    assert_response :success
+    assert_select "div.diary_post", :count => 10
+    assert_select "li.page-item.disabled span.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+
+    # Go back to the second page
+    get css_select("li.page-item a.page-link").last["href"]
+    assert_response :success
+    assert_select "div.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+
+    # Go back to the first page
+    get css_select("li.page-item a.page-link").last["href"]
+    assert_response :success
+    assert_select "div.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
   end
 
   def test_rss

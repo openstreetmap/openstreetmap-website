@@ -38,9 +38,9 @@
 
   <nav>
     <ul class="pagination">
-      <% if @entries.size >= @page_size -%>
+      <% if @older_entries -%>
         <li class="page-item">
-          <%= link_to t(".older_entries"), @params.merge(:page => @page + 1), :class => "page-link" %>
+          <%= link_to t(".older_entries"), @params.merge(:before => @entries.last.id), :class => "page-link" %>
         </li>
       <% else -%>
         <li class="page-item disabled">
@@ -48,9 +48,9 @@
         </li>
       <% end -%>
 
-      <% if @page > 1 -%>
+      <% if @newer_entries -%>
         <li class="page-item">
-          <%= link_to t(".newer_entries"), @params.merge(:page => @page - 1), :class => "page-link" %>
+          <%= link_to t(".newer_entries"), @params.merge(:after => @entries.first.id), :class => "page-link" %>
         </li>
       <% else -%>
         <li class="page-item disabled">
