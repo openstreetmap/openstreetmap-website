@@ -62,7 +62,9 @@ class DiaryEntriesController < ApplicationController
   end
 
   def show
-    @entry = @user.diary_entries.visible.where(:id => params[:id]).first
+    entries = @user.diary_entries
+    entries = entries.visible unless can? :unhide, DiaryEntry
+    @entry = entries.where(:id => params[:id]).first
     if @entry
       @title = t ".title", :user => params[:display_name], :title => @entry.title
       @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments

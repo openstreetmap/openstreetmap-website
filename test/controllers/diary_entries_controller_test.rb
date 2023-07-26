@@ -680,14 +680,20 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
 
     # Try an entry by a suspended user
-    diary_entry_suspended = create(:diary_entry, :user => suspended_user)
-    get diary_entry_path(:display_name => suspended_user.display_name, :id => diary_entry_suspended)
+    diary_entry_suspended_user = create(:diary_entry, :user => suspended_user)
+    get diary_entry_path(:display_name => suspended_user.display_name, :id => diary_entry_suspended_user)
     assert_response :not_found
 
     # Try an entry by a deleted user
-    diary_entry_deleted = create(:diary_entry, :user => deleted_user)
-    get diary_entry_path(:display_name => deleted_user.display_name, :id => diary_entry_deleted)
+    diary_entry_deleted_user = create(:diary_entry, :user => deleted_user)
+    get diary_entry_path(:display_name => deleted_user.display_name, :id => diary_entry_deleted_user)
     assert_response :not_found
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    get diary_entry_path(:display_name => user.display_name, :id => diary_entry_deleted)
+    assert_response :success
+    assert_template :show
   end
 
   def test_show_hidden_comments
