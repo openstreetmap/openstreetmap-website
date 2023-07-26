@@ -15,23 +15,23 @@ services:
     ports:
       - "3000:3000"
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
 
-  db:
-    build:
-      context: .
-      dockerfile: docker/postgres/Dockerfile
-    ports:
-      - "54321:5432"
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_DB: openstreetmap
-    volumes:
-      # Mount the Postgres data directory so it persists between runs
-      - db-data:/var/lib/postgresql/data
+  # db:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/postgres/Dockerfile
+  #   ports:
+  #     - "54321:5432"
+  #   environment:
+  #     POSTGRES_HOST_AUTH_METHOD: trust
+  #     POSTGRES_DB: openstreetmap
+  #   volumes:
+  #     # Mount the Postgres data directory so it persists between runs
+  #     - db-data:/var/lib/postgresql/data
 
 volumes:
   web-traces:
   web-images:
-  db-data:
+  # db-data:
