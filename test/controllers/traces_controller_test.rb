@@ -221,13 +221,97 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
 
     # Try and get the second page
-    get traces_path(:page => 2)
+    get css_select("li.page-item a.page-link").last["href"]
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
+    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+
+    # Try and get the third page
+    get css_select("li.page-item a.page-link").last["href"]
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 10
+    end
+    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item.disabled span.page-link", :text => "Older Traces", :count => 2
+
+    # Go back to the second page
+    get css_select("li.page-item a.page-link").first["href"]
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+
+    # Go back to the first page
+    get css_select("li.page-item a.page-link").first["href"]
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+  end
+
+  # Check a multi-page index of tagged traces
+  def test_index_tagged_paged
+    # Create several pages worth of traces
+    create_list(:trace, 100) do |trace, index|
+      create(:tracetag, :trace => trace, :tag => "London") if index.even?
+    end
+
+    # Try and get the index
+    get traces_path(:tag => "London")
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+
+    # Try and get the second page
+    get css_select("li.page-item a.page-link").last["href"]
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+
+    # Try and get the third page
+    get css_select("li.page-item a.page-link").last["href"]
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 10
+    end
+    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item.disabled span.page-link", :text => "Older Traces", :count => 2
+
+    # Go back to the second page
+    get css_select("li.page-item a.page-link").first["href"]
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+
+    # Go back to the first page
+    get css_select("li.page-item a.page-link").first["href"]
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
+    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
   end
 
   # Check the RSS feed
