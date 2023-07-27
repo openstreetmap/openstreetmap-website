@@ -689,6 +689,12 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_entry_path(:display_name => deleted_user.display_name, :id => diary_entry_deleted_user)
     assert_response :not_found
 
+    # Now try as a moderator
+    session_for(create(:moderator_user))
+    get diary_entry_path(:display_name => user.display_name, :id => diary_entry_deleted)
+    assert_response :success
+    assert_template :show
+
     # Finally try as an administrator
     session_for(create(:administrator_user))
     get diary_entry_path(:display_name => user.display_name, :id => diary_entry_deleted)
@@ -770,8 +776,11 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :redirect
-    assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_not DiaryEntry.find(diary_entry.id).visible
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
@@ -837,8 +846,11 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
     assert_response :redirect
-    assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_not DiaryComment.find(diary_comment.id).visible
+    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert DiaryComment.find(diary_comment.id).visible
+
+    # Reset
+    diary_comment.reload.update(:visible => true)
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
