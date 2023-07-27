@@ -59,9 +59,9 @@ class TracesController < ApplicationController
     @params = params.permit(:display_name, :tag, :before, :after)
 
     @traces = if params[:before]
-                traces.where("id < ?", params[:before]).order(:id => :desc)
+                traces.where("gpx_files.id < ?", params[:before]).order(:id => :desc)
               elsif params[:after]
-                traces.where("id > ?", params[:after]).order(:id => :asc)
+                traces.where("gpx_files.id > ?", params[:after]).order(:id => :asc)
               else
                 traces.order(:id => :desc)
               end
