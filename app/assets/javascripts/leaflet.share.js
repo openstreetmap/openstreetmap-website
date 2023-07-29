@@ -315,7 +315,7 @@ L.OSM.share = function (options) {
       }
 
       $("#embed_html").val(
-        "<iframe width=\"425\" height=\"350\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"" +
+        "<iframe width=\"425\" height=\"350\" src=\"" +
           escapeHTML(OSM.SERVER_PROTOCOL + "://" + OSM.SERVER_URL + "/export/embed.html?" + $.param(params)) +
           "\" style=\"border: 1px solid black\"></iframe><br/>" +
           "<small><a href=\"" + escapeHTML(map.getUrl(marker)) + "\">" +
