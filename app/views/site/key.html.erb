@@ -1,16 +1,16 @@
 <div id="mapkey">
-  <table class="table table-sm table-borderless mapkey-table mb-0">
+  <table class="table table-sm table-borderless mb-0 align-middle">
     <% @key.each do |layer_name, layer_data| %>
       <% layer_data.each do |entry| %>
         <%= tag.tr :class => "mapkey-table-entry", :data => { :layer => layer_name, :zoom_min => entry["min_zoom"], :zoom_max => entry["max_zoom"] } do %>
-          <td class="mapkey-table-key align-middle">
+          <td>
             <% if entry["width"] && entry["height"] && entry["fill"] %>
-              <%= image_tag "data:image/svg+xml,#{u("<svg xmlns='http://www.w3.org/2000/svg' width='#{entry['width']}' height='#{entry['height']}'><rect width='100%' height='100%' fill='#{entry['fill']}' /></svg>")}" %>
+              <%= image_tag "data:image/svg+xml,#{u("<svg xmlns='http://www.w3.org/2000/svg' width='#{entry['width']}' height='#{entry['height']}'><rect width='100%' height='100%' fill='#{entry['fill']}' /></svg>")}", :class => "d-block mx-auto" %>
             <% else %>
-              <%= image_tag "key/#{layer_name}/#{entry['image']}" %>
+              <%= image_tag "key/#{layer_name}/#{entry['image']}", :class => "d-block mx-auto" %>
             <% end %>
           </td>
-          <td class="mapkey-table-value">
+          <td>
             <%= Array(t(".table.entry.#{entry['name']}")).to_sentence %>
           </td>
         <% end %>
