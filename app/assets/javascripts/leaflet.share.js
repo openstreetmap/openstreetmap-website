@@ -66,7 +66,6 @@ L.OSM.share = function (options) {
 
     $("<div>")
       .attr("class", "share-tab")
-      .css("display", "block")
       .appendTo($form)
       .append($("<input>")
         .attr("id", "long_input")
@@ -75,6 +74,7 @@ L.OSM.share = function (options) {
 
     $("<div>")
       .attr("class", "share-tab")
+      .hide()
       .appendTo($form)
       .append($("<input>")
         .attr("id", "short_input")
@@ -83,6 +83,7 @@ L.OSM.share = function (options) {
 
     $("<div>")
       .attr("class", "share-tab")
+      .hide()
       .appendTo($form)
       .append(
         $("<textarea>")
