@@ -4,7 +4,7 @@
   </td>
   <td class="align-middle">
     <ul class="list-unstyled mb-0">
-      <% application.scopes.each do |scope| -%>
+      <% application.authorized_scopes_for(current_user).each do |scope| -%>
         <li><%= t "oauth.scopes.#{scope}" %></li>
       <% end -%>
     </ul>
