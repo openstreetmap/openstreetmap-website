@@ -237,6 +237,16 @@ class ApplicationController < ActionController::Base
     render :action => "timeout", :status => :gateway_timeout
   end
 
+  def render_blocked_from_trace_writes
+    respond_to do |format|
+      format.html do
+        flash[:warning] = t(".index.blocked")
+        redirect_to :action => :index, :display_name => current_user.display_name
+      end
+      format.all { head :not_found }
+    end
+  end
+
   ##
   # Unfortunately if a PUT or POST request that has a body fails to
   # read it then Apache will sometimes fail to return the response it
@@ -297,15 +307,19 @@ class ApplicationController < ActionController::Base
     Ability.new(current_user)
   end
 
-  def deny_access(_exception)
+  def deny_access(exception)
     if doorkeeper_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       set_locale
-      respond_to do |format|
-        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
-        format.any { report_error t("application.permission_denied"), :forbidden }
+      if exception.subject == Trace && !current_user.blocks.active.empty?
+        render_blocked_from_trace_writes
+      else
+        respond_to do |format|
+          format.html { redirect_to :controller => "/errors", :action => "forbidden" }
+          format.any { report_error t("application.permission_denied"), :forbidden }
+        end
       end
     elsif request.get?
       respond_to do |format|
