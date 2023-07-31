@@ -237,10 +237,10 @@ class ApplicationController < ActionController::Base
     render :action => "timeout", :status => :gateway_timeout
   end
 
-  def render_blocked_from_trace_writes
+  def render_blocked_from_trace_writes(user_block)
     respond_to do |format|
       format.html do
-        flash[:warning] = t(".index.blocked")
+        flash[:warning] = { :partial => "traces/blocked_flash", :locals => { :block_link => user_block_path(user_block) } }
         redirect_to :action => :index, :display_name => current_user.display_name
       end
       format.all { head :not_found }
@@ -313,13 +313,14 @@ class ApplicationController < ActionController::Base
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       set_locale
-      if exception.subject == Trace && !current_user.blocks.active.empty?
-        render_blocked_from_trace_writes
-      else
-        respond_to do |format|
-          format.html { redirect_to :controller => "/errors", :action => "forbidden" }
-          format.any { report_error t("application.permission_denied"), :forbidden }
-        end
+      if exception.subject == Trace
+        user_block = current_user.blocks.active.take
+        render_blocked_from_trace_writes user_block unless user_block.nil?
+        return
+      end
+      respond_to do |format|
+        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
+        format.any { report_error t("application.permission_denied"), :forbidden }
       end
     elsif request.get?
       respond_to do |format|
