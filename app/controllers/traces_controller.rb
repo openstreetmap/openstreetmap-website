@@ -205,6 +205,25 @@ class TracesController < ApplicationController
 
   private
 
+  def deny_access_for_current_user
+    user_block = current_user.blocks.active.take
+    if action_name == "new" || action_name == "create"
+      render_blocked_from_writes user_block, :index unless user_block.nil?
+    else
+      render_blocked_from_writes user_block, :show unless user_block.nil?
+    end
+  end
+
+  def render_blocked_from_writes(user_block, action)
+    respond_to do |format|
+      format.html do
+        flash[:warning] = { :partial => "traces/blocked_flash", :locals => { :action => action, :block_link => user_block_path(user_block) } }
+        redirect_to :action => action, :display_name => current_user.display_name
+      end
+      format.all { head :not_found }
+    end
+  end
+
   def do_create(file, tags, description, visibility)
     # Sanitise the user's filename
     name = file.original_filename.gsub(/[^a-zA-Z0-9.]/, "_")

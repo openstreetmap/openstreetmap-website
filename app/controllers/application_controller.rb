@@ -237,16 +237,6 @@ class ApplicationController < ActionController::Base
     render :action => "timeout", :status => :gateway_timeout
   end
 
-  def render_blocked_from_trace_writes(user_block, action)
-    respond_to do |format|
-      format.html do
-        flash[:warning] = { :partial => "traces/blocked_flash", :locals => { :action => action, :block_link => user_block_path(user_block) } }
-        redirect_to :action => action, :display_name => current_user.display_name
-      end
-      format.all { head :not_found }
-    end
-  end
-
   ##
   # Unfortunately if a PUT or POST request that has a body fails to
   # read it then Apache will sometimes fail to return the response it
@@ -307,25 +297,13 @@ class ApplicationController < ActionController::Base
     Ability.new(current_user)
   end
 
-  def deny_access(exception)
+  def deny_access(_exception)
     if doorkeeper_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       set_locale
-      if exception.subject == Trace
-        user_block = current_user.blocks.active.take
-        if exception.action == :new || exception.action == :create
-          render_blocked_from_trace_writes user_block, :index unless user_block.nil?
-        else
-          render_blocked_from_trace_writes user_block, :show unless user_block.nil?
-        end
-        return
-      end
-      respond_to do |format|
-        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
-        format.any { report_error t("application.permission_denied"), :forbidden }
-      end
+      deny_access_for_current_user
     elsif request.get?
       respond_to do |format|
         format.html { redirect_to login_path(:referer => request.fullpath) }
@@ -333,6 +311,13 @@ class ApplicationController < ActionController::Base
       end
     else
       head :forbidden
+    end
+  end
+
+  def deny_access_for_current_user
+    respond_to do |format|
+      format.html { redirect_to :controller => "/errors", :action => "forbidden" }
+      format.any { report_error t("application.permission_denied"), :forbidden }
     end
   end
 
