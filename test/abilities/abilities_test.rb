@@ -72,6 +72,30 @@ class UserAbilityTest < AbilityTest
       assert ability.cannot?(action, Issue), "should not be able to #{action} Issues"
     end
   end
+
+  test "Trace permissions" do
+    ability = Ability.new create(:user)
+
+    [:mine, :new, :create, :edit, :update, :destroy].each do |action|
+      assert ability.can?(action, Trace), "should be able to #{action} Trace"
+    end
+  end
+end
+
+class BlockedUserAbilityTest < AbilityTest
+  test "Trace permissions" do
+    user = create(:user)
+    create(:user_block, :needs_view, :user => user, :ends_at => Time.now.utc)
+    ability = Ability.new user
+
+    [:mine].each do |action|
+      assert ability.can?(action, Trace), "should be able to #{action} Trace"
+    end
+
+    [:new, :create, :edit, :update, :destroy].each do |action|
+      assert ability.cannot?(action, Trace), "should not be able to #{action} Trace"
+    end
+  end
 end
 
 class ModeratorAbilityTest < AbilityTest
