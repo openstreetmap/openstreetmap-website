@@ -303,7 +303,10 @@ class ApplicationController < ActionController::Base
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       set_locale
-      deny_access_for_current_user
+      respond_to do |format|
+        format.html { deny_html_access_for_current_user }
+        format.any { report_error t("application.permission_denied"), :forbidden }
+      end
     elsif request.get?
       respond_to do |format|
         format.html { redirect_to login_path(:referer => request.fullpath) }
@@ -314,11 +317,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def deny_access_for_current_user
-    respond_to do |format|
-      format.html { redirect_to :controller => "/errors", :action => "forbidden" }
-      format.any { report_error t("application.permission_denied"), :forbidden }
-    end
+  # override to show a custom 'access denied' page to a logged in user
+  def deny_html_access_for_current_user
+    redirect_to :controller => "/errors", :action => "forbidden"
   end
 
   def invalid_parameter(_exception)

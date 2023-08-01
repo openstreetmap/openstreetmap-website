@@ -205,7 +205,7 @@ class TracesController < ApplicationController
 
   private
 
-  def deny_access_for_current_user
+  def deny_html_access_for_current_user
     user_block = current_user.blocks.active.take
     if action_name == "new" || action_name == "create"
       render_blocked_from_writes user_block, :index unless user_block.nil?
