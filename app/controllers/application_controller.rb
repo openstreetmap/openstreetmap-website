@@ -237,11 +237,11 @@ class ApplicationController < ActionController::Base
     render :action => "timeout", :status => :gateway_timeout
   end
 
-  def render_blocked_from_trace_writes(user_block)
+  def render_blocked_from_trace_writes(user_block, action)
     respond_to do |format|
       format.html do
-        flash[:warning] = { :partial => "traces/blocked_flash", :locals => { :block_link => user_block_path(user_block) } }
-        redirect_to :action => :index, :display_name => current_user.display_name
+        flash[:warning] = { :partial => "traces/blocked_flash", :locals => { :action => action, :block_link => user_block_path(user_block) } }
+        redirect_to :action => action, :display_name => current_user.display_name
       end
       format.all { head :not_found }
     end
@@ -315,7 +315,11 @@ class ApplicationController < ActionController::Base
       set_locale
       if exception.subject == Trace
         user_block = current_user.blocks.active.take
-        render_blocked_from_trace_writes user_block unless user_block.nil?
+        if exception.action == :new || exception.action == :create
+          render_blocked_from_trace_writes user_block, :index unless user_block.nil?
+        else
+          render_blocked_from_trace_writes user_block, :show unless user_block.nil?
+        end
         return
       end
       respond_to do |format|
