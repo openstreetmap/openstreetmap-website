@@ -192,11 +192,11 @@ $(document).ready(function () {
   });
 
   if (Cookies.get("_osm_welcome") !== "hide") {
-    $(".welcome").addClass("visible");
+    $(".welcome").removeAttr("hidden");
   }
 
   $(".welcome .btn-close").on("click", function () {
-    $(".welcome").removeClass("visible");
+    $(".welcome").hide();
     Cookies.set("_osm_welcome", "hide", { secure: true, expires: expiry, path: "/", samesite: "lax" });
   });
 
