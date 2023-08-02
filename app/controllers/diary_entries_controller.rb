@@ -17,7 +17,7 @@ class DiaryEntriesController < ApplicationController
 
       if @user
         @title = t ".user_title", :user => @user.display_name
-        @entries = @user.diary_entries
+        entries = @user.diary_entries
       else
         render_unknown_user params[:display_name]
         return
@@ -25,7 +25,7 @@ class DiaryEntriesController < ApplicationController
     elsif params[:friends]
       if current_user
         @title = t ".title_friends"
-        @entries = DiaryEntry.where(:user_id => current_user.friends)
+        entries = DiaryEntry.where(:user_id => current_user.friends)
       else
         require_user
         return
@@ -33,32 +33,40 @@ class DiaryEntriesController < ApplicationController
     elsif params[:nearby]
       if current_user
         @title = t ".title_nearby"
-        @entries = DiaryEntry.where(:user_id => current_user.nearby)
+        entries = DiaryEntry.where(:user_id => current_user.nearby)
       else
         require_user
         return
       end
     else
-      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
+      entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
         @title = t ".in_language_title", :language => Language.find(params[:language]).english_name
-        @entries = @entries.where(:language_code => params[:language])
+        entries = entries.where(:language_code => params[:language])
       else
         @title = t ".title"
       end
     end
 
+    entries = entries.visible unless can? :unhide, DiaryEntry
+
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @page = (params[:page] || 1).to_i
-    @page_size = 20
+    @entries = if params[:before]
+                 entries.where("diary_entries.id < ?", params[:before]).order(:id => :desc)
+               elsif params[:after]
+                 entries.where("diary_entries.id > ?", params[:after]).order(:id => :asc)
+               else
+                 entries.order(:id => :desc)
+               end
 
-    @entries = @entries.visible unless can? :unhide, DiaryEntry
-    @entries = @entries.order("created_at DESC")
-    @entries = @entries.offset((@page - 1) * @page_size)
-    @entries = @entries.limit(@page_size)
+    @entries = @entries.limit(20)
     @entries = @entries.includes(:user, :language)
+    @entries = @entries.sort.reverse
+
+    @newer_entries = @entries.count.positive? && entries.exists?(["diary_entries.id > ?", @entries.first.id])
+    @older_entries = @entries.count.positive? && entries.exists?(["diary_entries.id < ?", @entries.last.id])
   end
 
   def show
