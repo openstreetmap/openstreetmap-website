@@ -56,7 +56,7 @@ class Ability
         can [:account, :go_public], User
 
         if user.moderator?
-          can [:hide, :hidecomment], DiaryEntry
+          can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:new, :create, :edit, :update, :destroy], Redaction
