@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def authorize_web
     if session[:user]
-      self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
+      self.current_user = User.where(:id => session[:user], :status => %w[active confirmed suspended]).first
 
       if session[:fingerprint] &&
          session[:fingerprint] != current_user.fingerprint
