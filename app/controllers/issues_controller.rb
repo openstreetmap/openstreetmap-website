@@ -42,6 +42,7 @@ class IssuesController < ApplicationController
   end
 
   def show
+    @title = t ".title", :status => @issue.status.humanize, :issue_id => @issue.id
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
