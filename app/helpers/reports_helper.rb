@@ -3,8 +3,8 @@ require "ostruct"
 module ReportsHelper
   Category = Struct.new(:id, :label)
 
-  def report_link(name, reportable)
-    link_to name, new_report_url(:reportable_id => reportable.id, :reportable_type => reportable.class.name)
+  def report_link(name, reportable, html_options = nil)
+    link_to name, new_report_url(:reportable_id => reportable.id, :reportable_type => reportable.class.name), html_options
   end
 
   # Convert a list of strings into objects with methods that the collection_radio_buttons helper expects
