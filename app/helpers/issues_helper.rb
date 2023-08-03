@@ -9,6 +9,8 @@ module IssuesHelper
       diary_entry_url(reportable.diary_entry.user, reportable.diary_entry, :anchor => "comment#{reportable.id}")
     when Note
       note_url(reportable)
+    when Changeset
+      changeset_url(reportable)
     end
   end
 
@@ -22,6 +24,8 @@ module IssuesHelper
       I18n.t("issues.helper.reportable_title.diary_comment", :entry_title => reportable.diary_entry.title, :comment_id => reportable.id)
     when Note
       I18n.t("issues.helper.reportable_title.note", :note_id => reportable.id)
+    when Changeset
+      I18n.t("issues.helper.reportable_title.changeset", :changeset_id => reportable.id)
     end
   end
 
