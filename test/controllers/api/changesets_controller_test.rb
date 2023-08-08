@@ -1959,7 +1959,11 @@ module Api
       get changesets_path(:limit => "0")
       assert_response :bad_request
 
-      get changesets_path(:limit => "101")
+      get changesets_path(:limit => Settings.max_changeset_query_limit)
+      assert_response :success
+      assert_changesets [changeset5, changeset4, changeset3, changeset2, changeset1]
+
+      get changesets_path(:limit => Settings.max_changeset_query_limit + 1)
       assert_response :bad_request
     end
 
