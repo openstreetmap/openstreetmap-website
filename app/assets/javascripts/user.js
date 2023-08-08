@@ -54,7 +54,7 @@ $(document).ready(function () {
               precision = OSM.zoomPrecision(zoom),
               location = e.latlng.wrap();
 
-          $("#homerow").removeClass();
+          $("#home_message").hide();
           $("#home_lat").val(location.lat.toFixed(precision));
           $("#home_lon").val(location.lng.toFixed(precision));
 
