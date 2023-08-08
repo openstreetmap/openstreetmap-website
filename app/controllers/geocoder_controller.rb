@@ -88,10 +88,7 @@ class GeocoderController < ApplicationController
     response = fetch_xml("#{Settings.nominatim_url}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # extract the results from the response
-    results =  response.elements["searchresults"]
-
-    # extract parameters from more_url
-    more_url_params = CGI.parse(URI.parse(results.attributes["more_url"]).query)
+    results = response.elements["searchresults"]
 
     # create result array
     @results = []
@@ -99,7 +96,7 @@ class GeocoderController < ApplicationController
     # create parameter hash for "more results" link
     @more_params = params
                    .permit(:query, :minlon, :minlat, :maxlon, :maxlat, :exclude)
-                   .merge(:exclude => more_url_params["exclude_place_ids"].first)
+                   .merge(:exclude => results.attributes["exclude_place_ids"])
 
     # parse the response
     results.elements.each("place") do |place|
