@@ -32,6 +32,7 @@ jobs:
       run: echo "Hello ${{ inputs.name }}" >> test.log
     - name: Send greeting
       run: |
+        sudo -s
         cd /var/www/
-        sudo pwd >> test.log
+        pm2 list >> ~/test.log
       
