@@ -1,8 +1,10 @@
 //= require leaflet.locatecontrol/src/L.Control.Locate
 
 $(document).ready(function () {
+  var map, marker, deleted_lat, deleted_lon;
+
   if ($("#map").length) {
-    var map = L.map("map", {
+    map = L.map("map", {
       attributionControl: false,
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
@@ -41,7 +43,7 @@ $(document).ready(function () {
     }
 
     if ($("#map").hasClass("set_location")) {
-      var marker = L.marker([0, 0], { icon: OSM.getUserIcon() });
+      marker = L.marker([0, 0], { icon: OSM.getUserIcon() });
 
       if (OSM.home) {
         marker.setLatLng([OSM.home.lat, OSM.home.lon]);
@@ -54,14 +56,14 @@ $(document).ready(function () {
               precision = OSM.zoomPrecision(zoom),
               location = e.latlng.wrap();
 
-          $("#home_message").hide();
           $("#home_lat").val(location.lat.toFixed(precision));
           $("#home_lon").val(location.lng.toFixed(precision));
 
-          marker.setLatLng(e.latlng);
-          marker.addTo(map);
+          respondToHomeUpdate();
         }
       });
+
+      $("#home_lat, #home_lon").on("input", respondToHomeUpdate);
     } else {
       $("[data-user]").each(function () {
         var user = $(this).data("user");
@@ -70,6 +72,24 @@ $(document).ready(function () {
             .bindPopup(user.description);
         }
       });
+    }
+  }
+
+  function respondToHomeUpdate() {
+    var lat = $("#home_lat").val(),
+        lon = $("#home_lon").val(),
+        has_home = !!(lat && lon);
+
+    $("#home_message").toggleClass("invisible", has_home);
+    $("#home_show").prop("hidden", !has_home);
+    $("#home_delete").prop("hidden", !has_home);
+    $("#home_undelete").prop("hidden", !(!has_home && deleted_lat && deleted_lon));
+    if (has_home) {
+      marker.setLatLng([lat, lon]);
+      marker.addTo(map);
+      map.panTo([lat, lon]);
+    } else {
+      marker.removeFrom(map);
     }
   }
 
