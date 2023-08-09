@@ -51,25 +51,41 @@ $(document).ready(function () {
       }
 
       map.on("click", function (e) {
-        if ($("#updatehome").is(":checked")) {
-          var zoom = map.getZoom(),
-              precision = OSM.zoomPrecision(zoom),
-              location = e.latlng.wrap();
+        if (!$("#updatehome").is(":checked")) return;
 
-          $("#home_lat").val(location.lat.toFixed(precision));
-          $("#home_lon").val(location.lng.toFixed(precision));
+        var zoom = map.getZoom(),
+            precision = OSM.zoomPrecision(zoom),
+            location = e.latlng.wrap();
 
-          respondToHomeUpdate();
-        }
+        $("#home_lat").val(location.lat.toFixed(precision));
+        $("#home_lon").val(location.lng.toFixed(precision));
+
+        deleted_lat = null;
+        deleted_lon = null;
+        respondToHomeUpdate();
       });
 
-      $("#home_lat, #home_lon").on("input", respondToHomeUpdate);
+      $("#home_lat, #home_lon").on("input", function () {
+        deleted_lat = null;
+        deleted_lon = null;
+        respondToHomeUpdate();
+      });
 
       $("#home_show").click(function () {
         var lat = $("#home_lat").val(),
             lon = $("#home_lon").val();
 
         map.panTo([lat, lon]);
+      });
+
+      $("#home_delete").click(function () {
+        var lat = $("#home_lat").val(),
+            lon = $("#home_lon").val();
+
+        $("#home_lat, #home_lon").val("");
+        deleted_lat = lat;
+        deleted_lon = lon;
+        respondToHomeUpdate();
       });
     } else {
       $("[data-user]").each(function () {
