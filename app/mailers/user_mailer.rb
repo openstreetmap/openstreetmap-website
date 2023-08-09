@@ -187,7 +187,25 @@ class UserMailer < ApplicationMailer
   end
 
   def attach_user_avatar(user)
-    attachments.inline["avatar.png"] = user_avatar_file(user)
+    @avatar = user_avatar_filename(user)
+    attachments.inline[@avatar] = user_avatar_file(user)
+  end
+
+  def user_avatar_filename(user)
+    avatar = user&.avatar
+    if avatar&.attached?
+      case avatar.content_type
+      when "image/png" then "avatar.png"
+      when "image/jpeg" then "avatar.jpg"
+      when "image/gif" then "avatar.gif"
+      when "image/bmp" then "avatar.bmp"
+      when "image/tiff" then "avatar.tif"
+      when "image/svg+xml" then "avatar.svg"
+      else "avatar"
+      end
+    else
+      "avatar.png"
+    end
   end
 
   def user_avatar_file(user)
