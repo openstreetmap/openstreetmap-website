@@ -87,6 +87,14 @@ $(document).ready(function () {
         deleted_lon = lon;
         respondToHomeUpdate();
       });
+
+      $("#home_undelete").click(function () {
+        $("#home_lat").val(deleted_lat);
+        $("#home_lon").val(deleted_lon);
+        deleted_lat = null;
+        deleted_lon = null;
+        respondToHomeUpdate();
+      });
     } else {
       $("[data-user]").each(function () {
         var user = $(this).data("user");
