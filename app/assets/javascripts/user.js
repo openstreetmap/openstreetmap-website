@@ -64,6 +64,13 @@ $(document).ready(function () {
       });
 
       $("#home_lat, #home_lon").on("input", respondToHomeUpdate);
+
+      $("#home_show").click(function () {
+        var lat = $("#home_lat").val(),
+            lon = $("#home_lon").val();
+
+        map.panTo([lat, lon]);
+      });
     } else {
       $("[data-user]").each(function () {
         var user = $(this).data("user");
