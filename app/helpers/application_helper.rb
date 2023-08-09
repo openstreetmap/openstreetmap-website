@@ -54,7 +54,7 @@ module ApplicationHelper
     if current_user
       data[:user] = current_user.id.to_json
 
-      data[:user_home] = { :lat => current_user.home_lat, :lon => current_user.home_lon } unless current_user.home_lon.nil? || current_user.home_lat.nil?
+      data[:user_home] = { :lat => current_user.home_lat, :lon => current_user.home_lon } if current_user.has_home?
     end
 
     data[:location] = session[:location] if session[:location]

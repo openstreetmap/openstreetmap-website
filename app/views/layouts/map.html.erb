@@ -4,7 +4,7 @@
 
 <% content_for(:body_class) { "map-layout" } %>
 
-<% if current_user and !current_user.home_lon.nil? and !current_user.home_lat.nil? %>
+<% if current_user&.has_home? %>
   <% content_for :greeting do %>
     <%= link_to t("layouts.home"),
                 "#",

@@ -238,8 +238,12 @@ class User < ApplicationRecord
     @preferred_languages ||= Locale.list(languages)
   end
 
+  def has_home?
+    home_lat && home_lon
+  end
+
   def nearby(radius = Settings.nearby_radius, num = Settings.nearby_users)
-    if home_lon && home_lat
+    if has_home?
       gc = OSM::GreatCircle.new(home_lat, home_lon)
       sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
@@ -401,6 +405,6 @@ class User < ApplicationRecord
   end
 
   def update_tile
-    self.home_tile = QuadTile.tile_for_point(home_lat, home_lon) if home_lat && home_lon
+    self.home_tile = QuadTile.tile_for_point(home_lat, home_lon) if has_home?
   end
 end
