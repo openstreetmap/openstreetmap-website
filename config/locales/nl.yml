@@ -379,6 +379,12 @@ nl:
   browse:
     created: Aangemaakt
     closed: Gesloten
+    created_ago_html: '%{time_ago} gemaakt'
+    closed_ago_html: '%{time_ago} gesloten'
+    created_ago_by_html: '%{time_ago} gemaakt door %{user}'
+    closed_ago_by_html: '%{time_ago} gesloten door %{user}'
+    deleted_ago_by_html: '%{time_ago} verwijderd door %{user}'
+    edited_ago_by_html: '%{time_ago} bewerkt door %{user}'
     version: Versie
     in_changeset: Wijzigingenset
     anonymous: anoniem
@@ -423,7 +429,7 @@ nl:
       history_title_html: 'Weggeschiedenis: %{name}'
       nodes: Knooppunten
       nodes_count:
-        one: 1 knooppunt
+        one: '%{count} knooppunt'
         other: '%{count} knooppunten'
       also_part_of_html:
         one: onderdeel van weg %{related_ways}
@@ -533,6 +539,7 @@ nl:
     index:
       title: Wijzigingensets
       title_user: Wijzigingensets door %{user}
+      title_user_link_html: Wijzigingensets van %{user_link}
       title_friend: Wijzigingensets van mijn vrienden
       title_nearby: Wijzigingensets van gebruikers in de buurt
       empty: Geen wijzigingensets gevonden.
@@ -661,6 +668,26 @@ nl:
       applications:
         create:
           notice: Toepassing geregistreerd.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Diverse contactkanalen toegelicht
+      contact: contact
+      contact_the_community_html: Neem gerust %{contact_link} op met de OpenHistoricalMap-community
+        als u een niet-werkende link of een bug hebt gevonden. Noteer de exacte URL
+        van uw verzoek.
+    forbidden:
+      title: Verboden
+      description: De door u gevraagde bewerking op de OpenHistoricalMap-server is
+        alleen beschikbaar voor beheerders (HTTP 403)
+    internal_server_error:
+      title: Programmafout
+      description: De OpenHistoricalMap-server heeft een onverwachte situatie aangetroffen
+        waardoor het verzoek niet kon worden uitgevoerd (HTTP 500)
+    not_found:
+      title: Bestand niet gevonden
+      description: Kon een bestand/directory/API-bewerking met die naam niet vinden
+        op de OpenHistoricalMap-server (HTTP 404)
   friendships:
     make_friend:
       heading: '%{user} als vriend toevoegen?'
@@ -676,6 +703,15 @@ nl:
       success: '%{name} is verwijderd uit uw vriendenlijst.'
       not_a_friend: '%{name} staat niet in uw vriendelijst.'
   geocoder:
+    search:
+      title:
+        results_from_html: Resultaten van %{results_link}
+        latlon: Intern
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: OpenStreetMap Nominatim
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -2245,6 +2281,15 @@ nl:
         title: OHM Wiki
         description: Blader door de wiki voor diepgaande OHM-informatie en zeer nuttige
           OSM-informatie, met dank aan de OSM Wiki.
+    any_questions:
+      title: Nog vragen?
+      paragraph_1_html: OpenHistoricalMap biedt verschillende bronnen voor het leren
+        over het project, het stellen en beantwoorden van vragen, en het gezamenlijk
+        bespreken en documenteren van cartografische onderwerpen. <a href='%{help_url}'>Hier
+        vindt u hulp</a>.
+      get_help_here: Zoek hier hulp
+      welcome_mat: Bekijk de welkomstmat
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Zoekresultaten
       close: Sluiten
@@ -2330,52 +2375,51 @@ nl:
           toilets: Toiletten
     welcome:
       title: Welkom!
-      introduction_html: Welkom bij OpenHistoricalMap, de vrije en bewerkbare kaart
-        van de wereldgeschiedenis. Nu u bent aangemeld, kunt u de kaarten gaan bewerken.
+      introduction: Welkom bij OpenHistoricalMap, de vrije en bewerkbare kaart van
+        de wereldgeschiedenis. Nu u bent aangemeld, kunt u de kaarten gaan bewerken.
         Hier is een korte handleiding met de belangrijkste dingen die u moet weten.
       whats_on_the_map:
         title: Wat is er op de kaart?
-        on_html: OpenHistoricalMap is een plaats voor het in kaart brengen van dingen
-          die <em>in het verleden</em> liggen - bijvoorbeeld gebouwen, wegen, en andere
-          details over plaatsen. U kunt alle historische kenmerken die u interessant
-          vindt in kaart brengen. Gebruik alle oude kaarten of kaarten zonder copyright
-          die u kunt vinden. We zijn ook erg import-vriendelijk.
-        off_html: <em>Geen onderdeel</em> van de kaart zijn subjectieve gegevens zoals
-          waarderingen, en gegevens uit bronnen die auteursrechtelijk beschermd zijn.
+        on_the_map_html: OpenHistoricalMap is een plaats voor het in kaart brengen
+          van dingen die <em>in het verleden</em> liggen - bijvoorbeeld gebouwen,
+          wegen, en andere details over plaatsen. U kunt alle historische kenmerken
+          die u interessant vindt in kaart brengen. Gebruik alle oude kaarten of kaarten
+          zonder copyright die u kunt vinden. We zijn ook erg import-vriendelijk.
+        off_the_map_html: <em>Geen onderdeel</em> van de kaart zijn subjectieve gegevens
+          zoals waarderingen, en gegevens uit bronnen die auteursrechtelijk beschermd
+          zijn.
       basic_terms:
         title: Basisbegrippen voor cartografie
-        paragraph_1_html: OpenHistoricalMap gebruikt hetzelfde jargon als OpenStreetMap
+        paragraph_1: OpenHistoricalMap gebruikt hetzelfde jargon als OpenStreetMap
           (OSM). Hebt u vragen, dan hebben die vaak dezelfde antwoorden als bij OSM.
           Hier zijn een paar sleutelwoorden die van pas kunnen komen.
-        editor_html: Een <strong>editor</strong> is een programma of website die u
-          kunt gebruiken om de kaart te bewerken.
-        node_html: Een <strong>knooppunt</strong> is een punt op de kaart, zoals een
-          enkel restaurant of een boom.
-        way_html: Een <strong>weg</strong> (way) is een lijn of gebied, zoals een
-          weg, een rivier, een meer of een gebouw.
-        tag_html: Een <strong>label</strong> is een eigenschap over een knooppunt
-          of een weg, zoals de naam van een restaurant of de maximumsnelheid op een
-          weg.
+        an_editor_html: Een %{editor} is een programma of een website waarmee u de
+          kaart kunt bewerken.
+        a_node_html: Een %{node} is een punt op de kaart, zoals een enkel restaurant
+          of een boom.
+        a_way_html: Een %{way} is een lijn of een gebied, zoals een weg, beek, meer
+          of gebouw.
+        a_tag_html: Een %{tag} is een gegeven over een knooppunt of weg, zoals de
+          naam van een restaurant of de maximumsnelheid van een weg.
+        editor: editor
+        node: knooppunt
+        way: weg
+        tag: label
       rules:
         title: Regels!
-        paragraph_1_html: OpenHistoricalMap heeft weinig formele regels. Wel verwachten
+        para_1_html: OpenHistoricalMap heeft weinig formele regels. Wel verwachten
           we van alle deelnemers dat ze beleefd en respectvol samenwerken en communiceren
           met de gemeenschap.
-      questions:
-        title: Nog vragen?
-        paragraph_1_html: OpenHistoricalMap biedt verschillende bronnen voor het leren
-          over het project, het stellen en beantwoorden van vragen, en het gezamenlijk
-          bespreken en documenteren van cartografische onderwerpen. <a href='%{help_url}'>Hier
-          vindt u hulp</a>.
       start_mapping: Beginnen met kaarten maken
       add_a_note:
         title: Geen tijd om te bewerken? Voeg een opmerking toe!
-        paragraph_1_html: Als u gewoon iets kleins wilt verbeteren en niet de tijd
-          hebt om u in te schrijven en om te leren hoe te bewerken, kunt u eenvoudig
-          een opmerking toevoegen.
-        paragraph_2_html: |-
-          Ga naar <a href='%{map_url}'>de kaart</a> en klik op het opmerkingssymbool:
-          <span class='icon note'></span>. Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen door te slepen. Voeg uw bericht toe en klik dan op Opslaan, zodat andere mappers het kunnen onderzoeken.
+        para_1: Als u gewoon iets kleins wilt verbeteren en niet de tijd hebt om u
+          in te schrijven en om te leren hoe te bewerken, kunt u eenvoudig een opmerking
+          toevoegen.
+        para_2_html: |-
+          Ga naar %{map_link} en klik op het opmerkingssymbool:
+          %{note_icon}. Er wordt een markering toegevoegd aan de kaart die u kunt verplaatsen door te slepen. Voeg uw bericht toe en klik dan op Opslaan, zodat andere mappers het kunnen onderzoeken.
+        the_map: de kaart
   traces:
     visibility:
       private: Persoonlijk (alleen gedeeld als anoniem; ongeordende punten)
@@ -2455,9 +2499,15 @@ nl:
       in: in
     index:
       public_traces: Openbare gps-trajecten
+      my_gps_traces: Mijn GPS-traces
       public_traces_from: Openbare gps-trajecten van %{user}
       description: Door recente gps-traject-uploads bladeren
       tagged_with: ' gelabeld met %{tags}'
+      empty_title: Hier nog niets
+      empty_upload_html: '%{upload_link} of lees meer over GPS-tracering op de %{wiki_link}.'
+      upload_new: Upload een nieuwe tracering
+      wiki_page: wikipagina
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Traject uploaden
       all_traces: Alle trajecten
       my_traces: Mijn trajecten
@@ -2637,8 +2687,15 @@ nl:
         af te handelen.
       about:
         header: Open en te bewerken
+        paragraph_1: In tegenstelling tot andere kaarten wordt OpenHistoricalMap volledig
+          gemaakt door mensen zoals u, en is het voor iedereen gratis te verbeteren,
+          bij te werken, te downloaden en te gebruiken.
+        paragraph_2: Schrijf u in om te beginnen met bijdragen. We sturen een e-mail
+          om uw account te bevestigen.
       email address: 'E-mailadres:'
       confirm email address: 'E-mailadres bevestigen:'
+      email_confirmation_help_html: Voer uw e-mailadres opnieuw in om er zeker van
+        te zijn dat het correct is. Het zal niet openbaar worden getoond.
       display name: 'Weergavenaam:'
       display name description: Uw openbare gebruikersnaam. U kunt deze later in uw
         voorkeuren wijzigen.
@@ -2922,6 +2979,9 @@ nl:
       description: Beschrijving
       created_at: Aangemaakt op
       last_changed: Laatste wijziging
+    show:
+      title: 'Opmerking: %{id}'
+      description: Beschrijving
   javascripts:
     close: Sluiten
     share:
@@ -2978,18 +3038,6 @@ nl:
         gps: Openbare gps-trajecten
         overlays: Overlays inschakelen om fouten in de kaart te helpen identificeren
         title: Lagen
-      copyright: <a href='%{copyright_url}'>Auteursrechten vermeld in de onderliggende
-        gegevens</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doneer nu</a>
-      terms: <a href='%{terms_url}' target='_blank'>Website en API-voorwaarden</a>
-      cyclosm: Rasterkaart in de stijl van <a href='%{cyclosm_url}' target='_blank'>CyclOSM</a>
-        gehost door <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap Frankrijk</a>
-      thunderforest: Rasterkaart met dank aan <a href='%{thunderforest_url}' target='_blank'>Andy
-        Allan</a>
-      opnvkarte: Rasterkaart met dank aan <a href='%{memomaps_url}' target='_blank'>MeMoMaps</a>
-      hotosm: Rasterkaart in de stijl van <a href='%{hotosm_url}' target='_blank'>Humanitarian
-        OpenStreetMap Team</a> gehost door <a href='%{osmfrance_url}' target='_blank'>OpenStreetMap
-        Frankrijk</a>
     site:
       edit_tooltip: Kaart bewerken
       edit_disabled_tooltip: Inzoomen om de kaart te bewerken
