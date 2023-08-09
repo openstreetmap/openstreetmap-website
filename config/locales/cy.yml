@@ -9,14 +9,16 @@
 cy:
   time:
     formats:
-      friendly: '%e %B %Y at %H:%M'
+      friendly: '%e %B %Y am %H:%M'
   helpers:
+    file:
+      prompt: Dewiswch ffeil
     submit:
       diary_comment:
         create: Cadw
       diary_entry:
         create: Cyhoeddi
-        update: Uwchraddio
+        update: Diweddaru
       issue_comment:
         create: Ychwanegu sylw
       message:
@@ -24,6 +26,9 @@ cy:
       client_application:
         create: Cofrestru
         update: Golygu
+      doorkeeper_application:
+        create: Cofrestru
+        update: Diweddaru
       redaction:
         create: Creu golygiadau
         update: Cadw golygiadau
@@ -32,11 +37,11 @@ cy:
         update: Cadw Newidiadau
       user_block:
         create: Creu bloc
-        update: Uwchraddio'r bloc
+        update: Diweddaru bloc
   activerecord:
     errors:
       messages:
-        invalid_email_address: nid yw'n ymddangos ei fod yn gyfeiriad ebost dilys
+        invalid_email_address: nid yw'n ymddangos yn gyfeiriad e-bost dilys
     models:
       acl: Rhestr Rheoli Mynediad
       changeset: Changeset
@@ -72,6 +77,8 @@ cy:
       way_node: Cwgn Llwybr
       way_tag: Tag Llwybr
     attributes:
+      client_application:
+        name: Enw (Gofynnol)
       diary_comment:
         body: Corff
       diary_entry:
@@ -101,13 +108,14 @@ cy:
         body: Corff
         recipient: Derbyniwr
       redaction:
+        title: Teitl
         description: Disgrifiad
       user:
-        email: Ebost
-        new_email: 'Cyfeiriad Ebost Newydd:'
+        email: E-bost
+        new_email: Cyfeiriad E-bost Newydd
         active: Gweithredol
-        display_name: Dangos Enw
-        description: Disgrifiad
+        display_name: Enw Defnyddiwr
+        description: Disgrifiad Proffil
         home_lat: 'Lledred:'
         home_lon: 'Hydred:'
         languages: Ieithoedd
@@ -141,6 +149,15 @@ cy:
     remote:
       name: Rheolaeth o bell
       description: Pellreolwr (JOSM neu Merkaartor)
+  auth:
+    providers:
+      none: Dim
+      openid: OpenID
+      google: Google
+      facebook: Facebook
+      windowslive: Windows Live
+      github: GitHub
+      wikipedia: Wicipedia
   api:
     notes:
       comment:
@@ -155,9 +172,9 @@ cy:
         full: Nodyn llawn
   accounts:
     edit:
-      title: Golygu'r cyfrif
+      title: Golygu cyfrif
       my settings: Fy ngosodiadau
-      current email address: 'Cyfeiriad Ebost Presenol:'
+      current email address: Cyfeiriad E-bost Cyfredol
       openid:
         link text: beth yw hwn?
       public editing:
@@ -174,10 +191,10 @@ cy:
         review link text: Dilynwch y ddolen hon i adolygu a derbyn y telerau cyfranwyr
           newydd.
         link text: beth yw hwn?
-      save changes button: Cadw'r Newidiadau
+      save changes button: Cadw Newidiadau
       make edits public button: Gwneud fy holl olygiadau yn gyhoeddus
   browse:
-    created: Crewyd
+    created: Crëwyd
     closed: Wedi cau
     version: Fersiwn
     in_changeset: Set-newid
@@ -185,7 +202,7 @@ cy:
     no_comment: (dim sylw)
     part_of: Rhan o
     download_xml: Lawrlwytho XML
-    view_history: Gweld yr Hanes
+    view_history: Gweld hanes
     view_details: Gweld Manylion
     location: Lleoliadː
     changeset:
@@ -431,9 +448,11 @@ cy:
           chair_lift: Cadair godi
           drag_lift: Cadair lusg
           gondola: Lifft Gondola
+          magic_carpet: Lifft Carped Hud
           pylon: Peilon
           station: Gorsaf Awyr
           t-bar: Lifft T-Bar
+          "yes": Awyrffordd
         aeroway:
           aerodrome: Maesawyr
           airstrip: Llain Codi
@@ -446,7 +465,9 @@ cy:
           runway: Rhedfa Awyr
           taxiway: Safle tacsi
           terminal: Terfynell
+          windsock: Hosan wynt
         amenity:
+          animal_boarding: Lletya Anifeiliaid
           animal_shelter: Cysgod Anifeiliaid
           arts_centre: Canolfan Grefftau
           atm: Peiriant Codi Arian
@@ -456,7 +477,9 @@ cy:
           bench: Mainc
           bicycle_parking: Man Cadw Beic
           bicycle_rental: Man Llogi Beic
+          bicycle_repair_station: Gorsaf Atgyweirio Beiciau
           biergarten: Gardd Gwrw
+          blood_bank: Banc Gwaed
           boat_rental: Llogi Cychod
           brothel: Puteindy
           bureau_de_change: Bureau de Change
@@ -473,6 +496,7 @@ cy:
           clock: Cloc
           college: Coleg
           community_centre: Canolfan Cymunedol
+          conference_centre: Canolfan Gynadledda
           courthouse: Llys
           crematorium: Amlosgfa
           dentist: Deintydd
@@ -480,6 +504,7 @@ cy:
           drinking_water: Dŵr Yfed
           driving_school: Ysgol Yrru
           embassy: Llysgenhadaeth
+          events_venue: Lleoliad Digwyddiadau
           fast_food: Bwyd Parod
           ferry_terminal: Terfynell Fferi
           fire_station: Gorsaf Dân
@@ -492,8 +517,12 @@ cy:
           hospital: Ysbyty
           hunting_stand: Llwyfan Hela
           ice_cream: Hufen Iâ
+          internet_cafe: Caffi Rhyngrwyd
           kindergarten: Meithrinfa
+          language_school: Ysgol Iaith
           library: Llyfrgell
+          loading_dock: Doc Llwytho
+          love_hotel: Gwesty Cariad
           marketplace: Marchnad
           monastery: Mynachdy
           motorcycle_parking: Man Parcio Beiciau Modur
@@ -1149,7 +1178,7 @@ cy:
     new:
       title: Mewngofnodi
       heading: Mewngofnodi
-      email or username: 'Cyfeiriad Ebost neu Enw Defnyddiwr:'
+      email or username: 'Cyfeiriad E-bost neu Enw Defnyddiwr:'
       password: 'Cyfrinair:'
       openid_html: '%{logo} OpenID:'
       remember: Fy nghofio i
@@ -1184,7 +1213,7 @@ cy:
         english_link: y Saesneg gwreiddiol
       native:
         title: Ynghylch y dudalen hon
-        native_link: Cymraeg
+        native_link: fersiwn Cymraeg
         mapping_link: dechrau mapio
       legal_babble:
         title_html: Hawlfraint a Thrwydded
@@ -1249,7 +1278,7 @@ cy:
     help:
       title: Cael Cymorth
       welcome:
-        url: /croeso
+        url: /welcome
         title: Croeso i OpenHistoricalMap
       beginners_guide:
         title: Llawlyfr Dechreuwyr
@@ -1258,7 +1287,7 @@ cy:
         url: https://help.openstreetmap.org/
         title: Fforwm Cymorth
       mailing_lists:
-        title: Rhestr Gohebiaeth
+        title: Rhestr Newyddlen OHM
       forums:
         title: Fforymau
     any_questions:
@@ -1341,9 +1370,9 @@ cy:
           private: Mynediad preifat
           destination: Mynediad cyrchfan
           construction: Ffyrdd wrthi'n cael eu hadeiladu
-          bicycle_shop: Siop feics
-          bicycle_parking: Man parcio beics
-          toilets: Lle chwech
+          bicycle_shop: Siop feiciau
+          bicycle_parking: Man parcio beiciau
+          toilets: Toiledau
     welcome:
       title: Croeso!
       whats_on_the_map:
@@ -1505,7 +1534,7 @@ cy:
       status: Statws
       show: Dangos
       edit: Golygu
-      confirm: Ydych yn sicr?
+      confirm: Ydych chi'n siŵr?
     block:
       show: Dangos
       edit: Golygu
@@ -1572,7 +1601,7 @@ cy:
         resolve: Datrys
         reactivate: Ail roi ar waith
         comment_and_resolve: Sylw a Datrys
-        comment: Adweithio
+        comment: Sylw
     query:
       way: Llwybr
       nothing_found: Ni ddarganfuwyd nodweddion
@@ -1580,5 +1609,5 @@ cy:
   redactions:
     show:
       description: 'Disgrifiad:'
-      confirm: Ydych yn sicr?
+      confirm: Ydych chi'n siŵr?
 ...
