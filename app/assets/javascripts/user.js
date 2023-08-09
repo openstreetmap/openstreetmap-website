@@ -1,6 +1,7 @@
 //= require leaflet.locatecontrol/src/L.Control.Locate
 
 $(document).ready(function () {
+  var defaultHomeZoom = 12;
   var map, marker, deleted_lat, deleted_lon;
 
   if ($("#map").length) {
@@ -37,7 +38,7 @@ $(document).ready(function () {
       .addClass("control-button");
 
     if (OSM.home) {
-      map.setView([OSM.home.lat, OSM.home.lon], 12);
+      map.setView([OSM.home.lat, OSM.home.lon], defaultHomeZoom);
     } else {
       map.setView([0, 0], 0);
     }
@@ -75,7 +76,7 @@ $(document).ready(function () {
         var lat = $("#home_lat").val(),
             lon = $("#home_lon").val();
 
-        map.panTo([lat, lon]);
+        map.setView([lat, lon], defaultHomeZoom);
       });
 
       $("#home_delete").click(function () {
