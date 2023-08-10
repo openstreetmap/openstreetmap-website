@@ -69,8 +69,8 @@ $(document).ready(function () {
         deleted_lon = null;
         respondToHomeUpdate();
       }).on("moveend", function () {
-        var lat = $("#home_lat").val(),
-            lon = $("#home_lon").val(),
+        var lat = $("#home_lat").val().trim(),
+            lon = $("#home_lon").val().trim(),
             location;
 
         try {
@@ -128,15 +128,19 @@ $(document).ready(function () {
   }
 
   function respondToHomeUpdate() {
-    var lat = $("#home_lat").val(),
-        lon = $("#home_lon").val(),
+    var lat = $("#home_lat").val().trim(),
+        lon = $("#home_lon").val().trim(),
         location;
 
     try {
       if (lat && lon) {
         location = L.latLng(lat, lon);
       }
-    } catch (error) {}
+      $("#home_lat, #home_lon").removeClass("is-invalid");
+    } catch (error) {
+      if (lat && isNaN(lat)) $("#home_lat").addClass("is-invalid");
+      if (lon && isNaN(lon)) $("#home_lon").addClass("is-invalid");
+    }
 
     $("#home_message").toggleClass("invisible", Boolean(location));
     $("#home_show").prop("hidden", !location);
