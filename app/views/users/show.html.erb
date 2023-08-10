@@ -118,12 +118,12 @@
 
       <div class='text-muted'>
         <small>
-          <dl class="dl-inline">
-            <dt><%= t ".mapper since" %></dt>
-            <dd><%= l @user.created_at.to_date, :format => :long %></dd>
+          <dl class="list-inline">
+            <dt class="list-inline-item m-0"><%= t ".mapper since" %></dt>
+            <dd class="list-inline-item"><%= l @user.created_at.to_date, :format => :long %></dd>
             <% unless @user.terms_agreed %>
-              <dt><%= t ".ct status" %></dt>
-              <dd>
+              <dt class="list-inline-item m-0"><%= t ".ct status" %></dt>
+              <dd class="list-inline-item">
                 <% if @user.terms_seen? -%>
                   <%= t ".ct declined" %>
                 <% else -%>
@@ -188,17 +188,17 @@
       <% if current_user and current_user.administrator? -%>
         <div class='text-muted'>
           <small>
-            <dl class='dl-inline'>
-              <dt><%= t ".email address" %></dt>
-              <dd><%= @user.email %></dd>
+            <dl class="list-inline">
+              <dt class="list-inline-item m-0"><%= t ".email address" %></dt>
+              <dd class="list-inline-item"><%= @user.email %></dd>
               <% unless @user.creation_ip.nil? -%>
-                <dt><%= t ".created from" %></dt>
-                <dd><%= @user.creation_ip %></dd>
+                <dt class="list-inline-item m-0"><%= t ".created from" %></dt>
+                <dd class="list-inline-item"><%= @user.creation_ip %></dd>
               <% end -%>
-              <dt><%= t ".status" %></dt>
-              <dd><%= @user.status.capitalize %></dd>
-              <dt><%= t ".spam score" %></dt>
-              <dd><%= @user.spam_score %></dd>
+              <dt class="list-inline-item m-0"><%= t ".status" %></dt>
+              <dd class="list-inline-item"><%= @user.status.capitalize %></dd>
+              <dt class="list-inline-item m-0"><%= t ".spam score" %></dt>
+              <dd class="list-inline-item"><%= @user.spam_score %></dd>
             </dl>
           </small>
         </div>
