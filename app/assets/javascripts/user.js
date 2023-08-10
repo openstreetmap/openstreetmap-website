@@ -96,6 +96,7 @@ $(document).ready(function () {
         deleted_lat = lat;
         deleted_lon = lon;
         respondToHomeUpdate();
+        $("#home_undelete").trigger("focus");
       });
 
       $("#home_undelete").click(function () {
@@ -104,6 +105,7 @@ $(document).ready(function () {
         deleted_lat = null;
         deleted_lon = null;
         respondToHomeUpdate();
+        $("#home_delete").trigger("focus");
       });
     } else {
       $("[data-user]").each(function () {
