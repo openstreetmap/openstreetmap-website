@@ -44,7 +44,11 @@ $(document).ready(function () {
     }
 
     if ($("#map").hasClass("set_location")) {
-      marker = L.marker([0, 0], { icon: OSM.getUserIcon() });
+      marker = L.marker([0, 0], {
+        icon: OSM.getUserIcon(),
+        keyboard: false,
+        interactive: false
+      });
 
       if (OSM.home) {
         marker.setLatLng([OSM.home.lat, OSM.home.lon]);
