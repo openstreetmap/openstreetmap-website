@@ -437,6 +437,8 @@ es:
       relation: Relaciones (%{count})
       relation_paginated: Relaciones (%{x}-%{y} de %{count})
       comment: Comentarios (%{count})
+      hidden_comment_by_html: Comentario ocultado por %{user} %{time_ago}
+      comment_by_html: Comentario de %{user} %{time_ago}
       changesetxml: XML del conjunto de cambios
       osmchangexml: XML en formato osmChange
       feed:
@@ -454,7 +456,7 @@ es:
       history_title_html: 'Historial de vía: %{name}'
       nodes: Nodos
       nodes_count:
-        one: 1 nodo
+        one: '%{count} nodo'
         other: '%{count} nodos'
       also_part_of_html:
         one: parte de la vía %{related_ways}
@@ -464,7 +466,7 @@ es:
       history_title_html: 'Historial de relación: %{name}'
       members: Miembros
       members_count:
-        one: 1 miembro
+        one: '%{count} miembro'
         other: '%{count} miembros'
     relation_member:
       entry_role_html: '%{type} %{name} como %{role}'
@@ -629,9 +631,9 @@ es:
       comment_link: Comentar esta entrada
       reply_link: Enviar un mensaje al autor
       comment_count:
-        zero: No hay comentarios
         one: '%{count} comentario'
         other: '%{count} comentarios'
+      no_comments: Sin comentarios
       edit_link: Editar esta entrada
       hide_link: Ocultar esta entrada
       unhide_link: Mostrar esta entrada
@@ -1506,10 +1508,11 @@ es:
       status: Estado
       reports: Reportes
       last_updated: Última actualización
+      last_updated_time_ago_user_html: '%{time_ago} por %{user}'
       link_to_reports: Ver informes
       reports_count:
-        one: 1 informe
-        other: '%{count} informes'
+        one: '%{count} reporte'
+        other: '%{count} reportes'
       reported_item: Elemento denunciado
       states:
         ignored: Ignorado
@@ -1518,9 +1521,9 @@ es:
     show:
       title: '%{status} Informe n.º %{issue_id}'
       reports:
-        zero: Sin informes
-        one: 1 informe
-        other: '%{count} informes'
+        one: '%{count} reporte'
+        other: '%{count} reportes'
+      no_reports: Sin reportes
       report_created_at: Reportado por primera vez el %{datetime}
       last_resolved_at: Resuelto por última vez el %{datetime}
       last_updated_at: Actualizado por última vez el %{datetime} por %{displayname}
@@ -1954,8 +1957,8 @@ es:
           title: Inicia sesión con Facebook
           alt: Inicia sesión con una cuenta de Facebook
         windowslive:
-          title: Inicia sesión con Windows Live
-          alt: Iniciar sesión con una cuenta de Windows Live
+          title: Inicia sesión con Microsoft
+          alt: Iniciar sesión con una cuenta Microsoft
         github:
           title: Iniciar sesión con GitHub
           alt: Iniciar sesión con una cuenta de GitHub
@@ -1998,6 +2001,7 @@ es:
   site:
     about:
       next: Siguiente
+      heading_html: Contribuidores %{copyright}OpenStreetMap %{br}
       used_by_html: '%{name} proporciona datos de mapas para miles de sitios web,
         aplicaciones móviles y dispositivos de hardware'
       lede_text: OpenStreetMap lo crea una gran comunidad de colaboradores que aportan
@@ -2009,7 +2013,15 @@ es:
         de datos libres para verificar que los datos de OSM sean precisos y estén
         actualizados.
       community_driven_title: Impulsado por la comunidad
+      community_driven_1_html: "La comunidad de OpenStreetMap es diversa, apasionada
+        y crece cada día. \nNuestros colaboradores incluyen aficionados a los mapas,
+        profesionales de los SIG, ingenieros asegurando \nel funcionamiento de los
+        servidores de OSM, personal humanitario que mapean las zonas afectadas por
+        desastres, \ny muchos más. \nPara obtener más información sobre la comunidad,
+        mira el %{osm_blog_link}, \n%{user_diaries_link}, %{community_blogs_link}
+        y el sitio web de %{osm_foundation_link}."
       community_driven_osm_blog: Blog de OpenStreetMap
+      community_driven_user_diaries: diarios de usuario
       community_driven_community_blogs: blogs comunitarios
       community_driven_osm_foundation: OSM Foundation
       open_data_title: Datos abiertos
@@ -2021,9 +2033,20 @@ es:
       open_data_open_data: datos abiertos
       open_data_copyright_license: Página de derechos de autor y licencia
       legal_title: Legal
+      legal_1_1_html: "Este sitio y muchos otros servicios relacionados son operados
+        formalmente por la \n%{openstreetmap_foundation_link} (OSMF)  \nen nombre
+        de la comunidad. El uso de todos los servicios operados por el OSMF está sujeto
+        a nuestors %{terms_of_use_link}, %{aup_link} y nuestra %{privacy_policy_link}."
       legal_1_1_openstreetmap_foundation: Fundación OpenStreetMap
+      legal_1_1_terms_of_use: Términos de uso
       legal_1_1_aup: Normativas de uso aceptable
       legal_1_1_privacy_policy: Normativa de privacidad
+      legal_2_1_html: Sí tienes alguna pregunta sobre licencias, derechos de autor
+        u otras cuestiones legales, por favor %{contact_the_osmf_link}.
+      legal_2_1_contact_the_osmf: contacta la OSMF
+      legal_2_2_html: OpenStreetMap, el logotipo de la lupa y el estado del mapa son
+        %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: marcas registradas de la OSMF
       partners_title: Socios
     copyright:
       foreign:
@@ -2040,9 +2063,17 @@ es:
         mapping_link: comenzar a cartografiar
       legal_babble:
         title_html: Derechos de autor y licencia
+        introduction_1_html: "OpenStreetMap%{registered_trademark_link} es %{open_data},
+          licenciada bajo los términos de \n%{odc_odbl_link} (ODbL) por la %{osm_foundation_link}"
         introduction_1_open_data: datos abiertos
         introduction_1_odc_odbl: Licencia de bases de datos abiertas de Open Data
           Commons
+        introduction_1_osm_foundation: Fundación OpenStreetMap
+        introduction_2_html: Eres libre de copiar, distribuir, transmitir y adaptar
+          nuestros datos libremente siempre y cuando des reconocimiento a OpenStreetMap
+          y sus colaboradores. Si modificas o te basas en nuestros datos, sólo podrás
+          distribuir el resultado bajo la misma licencia. El %{legal_code_link} completo
+          explica tus derechos y responsabilidades.
         introduction_2_legal_code: código legal
         introduction_3_html: Nuestra documentación tiene la licencia %{creative_commons_link}
           (CC BY-SA 2.0).
@@ -2055,26 +2086,78 @@ es:
           derechos de autor.
         credit_2_2: Especifique que los datos están disponibles bajo la Licencia de
           base de datos abierta.
+        credit_3_html: Para el aviso de derechos de autor, tenemos diferentes requisitos
+          sobre cómo debe mostrarse en función del uso que se haga de nuestros datos.
+          Por ejemplo, se aplican diferentes normas sobre cómo mostrar el aviso de
+          copyright dependiendo de si ha creado un mapa navegable, un mapa impreso
+          o una imagen estática. Encontrarás todos los detalles sobre los requisitos
+          en la %{attribution_guidelines_link}.
         credit_3_attribution_guidelines: Directrices de atribución
+        credit_4_1_html: |-
+          Para dejar claro que los datos están disponibles bajo la licencia Open
+          Database License, puedes enlazar hacia %{this_copyright_page_link}.
+          Alternativamente, y como requisito si estás distribuyendo OSM en forma de datos, puedes nombrar y enlazar directamente a la(s) licencia(s). En los medios donde los enlaces no son posibles (por ejemplo, obras impresas), te sugerimos que dirijas a tus lectores a openstreetmap.org (quizás ampliando 'OpenStreetMap' a esta dirección completa) y a opendatacommons.org.
+          En este ejemplo, el crédito aparece en la esquina del mapa.
+        credit_4_1_this_copyright_page: esta página de derechos de autor
         attribution_example:
           alt: Ejemplo de como dar reconocimiento a OpenStreetMap en una página web
           title: Ejemplo de atribución
         more_title_html: Para saber más...
+        more_1_1_html: Lee más sobre el uso de nuestros datos y cómo acreditarnos
+          en el %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: página de licencia de la OSMF
+        more_2_1_html: "Aunque OpenStreetMap es un sistema de datos abiertos, no podemos
+          proporcionar una \nAPI de mapas gratuita para terceros. \nMira nuestra %{api_usage_policy_link},
+          %{tile_usage_policy_link} y %{nominatim_usage_policy_link}."
         more_2_1_api_usage_policy: Normativa de uso de la API
+        more_2_1_tile_usage_policy: Política de uso de teselas
         more_2_1_nominatim_usage_policy: Normativa de uso de Nominatim
         contributors_title_html: Nuestros colaboradores
         contributors_intro_html: 'Nuestros colaboradores son miles de personas. Incluimos
           también datos con licencia abierta de organismos cartográficos nacionales
           y otras fuentes, entre ellas:'
+        contributors_at_credit_html: "%{austria}: Contiene datos de %{stadt_wien_link}
+          (en el apartado %{cc_by_link}), %{land_vorarlberg_link} \ny Land Tirol (en
+          el %{cc_by_at_with_amendments_link})."
         contributors_at_austria: Austria
+        contributors_at_stadt_wien: Ciudad de Viena
+        contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: El territorio de Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY-AT con modificaciones
+        contributors_au_credit_html: "%{australia}: Incorpora o desarrolla usando
+          Fronteras Administrativas &copy; %{geoscape_australia_link} \nlicenciadas
+          por la Mancomunidad de Australia bajo el %{cc_licence_link}."
         contributors_au_australia: Australia
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Licencia internacional Creative Commons Attribution
+          4.0 (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: Contiene datos de GeoBase&reg;, GeoGratis
+          (&copy; Departmento de recursos naturales de Canadá), CanVec (&copy; Departmento
+          de recursos naturales de Canadá) y StatCan (División Geográfica, Estadísticas
+          de Canadá).'
         contributors_ca_canada: Canadá
+        contributors_fi_credit_html: "%{finland}: Contiene datos de la \nBase de datos
+          topográficos del Estudio Nacional de Tierras de Finlandia \ny otros conjuntos
+          de datos, bajo el enlace %{nlsfi_license_link}."
         contributors_fi_finland: Finlandia
         contributors_fi_nlsfi_license: Licencia NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: Contiene datos de la
+          Dirección General de Impuestos.
         contributors_fr_france: Francia
+        contributors_nl_credit_html: '%{netherlands}: Contiene &copy; y datos, 2007
+          (%{and_link})'
         contributors_nl_netherlands: Países Bajos
+        contributors_nz_credit_html: "%{new_zealand}: Contiene datos del %{linz_data_service_link}
+          \ny licenciados para su reutilización bajo %{cc_by_link}."
         contributors_nz_new_zealand: Nueva Zelanda
         contributors_nz_linz_data_service: Servicio de datos de LINZ
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: "%{serbia}: Contiene datos del %{rgz_link} y
+          %{open_data_portal} \n (información pública de Serbia), 2018."
+        contributors_rs_serbia: Serbia
+        contributors_rs_rgz: Autoridad geodética serbia
+        contributors_rs_open_data_portal: Portal Nacional de Datos Abiertos
         contributors_si_slovenia: Eslovenia
         contributors_si_mkgp: Ministerio de Agricultura, Silvicultura y Alimentación
         contributors_es_spain: España
@@ -2665,6 +2748,7 @@ es:
       consider_pd: Además del acuerdo anterior, considero que mis contribuciones se
         encuentran en Dominio Público.
       consider_pd_why: ¿Qué es esto?
+      informal_translations: traducciones informales
       continue: Continuar
       declined: https://wiki.openstreetmap.org/wiki/ES:Contributor_Terms_Declined
       decline: Declinar
