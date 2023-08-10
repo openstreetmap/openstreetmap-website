@@ -3,12 +3,12 @@
 <% end %>
 
 <% if current_user == @message.recipient %>
-  <div class='info-line clearfix'>
+  <div class='info-line d-flex gap-1 flex-wrap'>
     <%= user_thumbnail_tiny @message.sender %>
     <%= link_to @message.sender.display_name, user_path(@message.sender) %></td>
-    <div class='right'>
+    <span class="ms-auto">
       <%= l @message.sent_on, :format => :friendly %>
-    </div>
+    </span>
   </div>
 
   <div class="richtext text-break"><%= @message.body.to_html %></div>
@@ -20,12 +20,12 @@
     <%= link_to t(".back"), inbox_messages_path, :class => "btn btn-link" %>
   </div>
 <% else %>
-  <div class='info-line clearfix'>
+  <div class='info-line d-flex gap-1 flex-wrap'>
     <%= user_thumbnail_tiny @message.recipient %>
     <%= link_to @message.recipient.display_name, user_path(@message.recipient) %></td>
-    <div class='right'>
+    <span class="ms-auto">
       <%= l @message.sent_on, :format => :friendly %>
-    </div>
+    </span>
   </div>
 
   <div class="richtext text-break"><%= @message.body.to_html %></div>
