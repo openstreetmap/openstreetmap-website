@@ -64,6 +64,11 @@ $(document).ready(function () {
         deleted_lat = null;
         deleted_lon = null;
         respondToHomeUpdate();
+      }).on("moveend", function () {
+        var lat = $("#home_lat").val(),
+            lon = $("#home_lon").val();
+
+        $("#home_show").prop("disabled", isCloseEnoughToMapCenter(lat, lon));
       });
 
       $("#home_lat, #home_lon").on("input", function () {
@@ -123,6 +128,13 @@ $(document).ready(function () {
     } else {
       marker.removeFrom(map);
     }
+  }
+
+  function isCloseEnoughToMapCenter(lat, lon) {
+    var inputPt = map.latLngToContainerPoint([lat, lon]),
+        centerPt = map.latLngToContainerPoint(map.getCenter());
+
+    return centerPt.distanceTo(inputPt) < 10;
   }
 
   function updateAuthUID() {
