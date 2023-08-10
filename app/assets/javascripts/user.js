@@ -70,9 +70,18 @@ $(document).ready(function () {
         respondToHomeUpdate();
       }).on("moveend", function () {
         var lat = $("#home_lat").val(),
-            lon = $("#home_lon").val();
+            lon = $("#home_lon").val(),
+            location;
 
-        $("#home_show").prop("disabled", isCloseEnoughToMapCenter(lat, lon));
+        try {
+          if (lat && lon) {
+            location = L.latLng(lat, lon);
+          }
+        } catch (error) {
+          // keep location undefined
+        }
+
+        $("#home_show").prop("disabled", !location || isCloseEnoughToMapCenter(location));
       });
 
       $("#home_lat, #home_lon").on("input", function () {
@@ -121,13 +130,19 @@ $(document).ready(function () {
   function respondToHomeUpdate() {
     var lat = $("#home_lat").val(),
         lon = $("#home_lon").val(),
-        has_home = !!(lat && lon);
+        location;
 
-    $("#home_message").toggleClass("invisible", has_home);
-    $("#home_show").prop("hidden", !has_home);
-    $("#home_delete").prop("hidden", !has_home);
-    $("#home_undelete").prop("hidden", !(!has_home && deleted_lat && deleted_lon));
-    if (has_home) {
+    try {
+      if (lat && lon) {
+        location = L.latLng(lat, lon);
+      }
+    } catch (error) {}
+
+    $("#home_message").toggleClass("invisible", Boolean(location));
+    $("#home_show").prop("hidden", !location);
+    $("#home_delete").prop("hidden", !location);
+    $("#home_undelete").prop("hidden", !(!location && deleted_lat && deleted_lon));
+    if (location) {
       marker.setLatLng([lat, lon]);
       marker.addTo(map);
       map.panTo([lat, lon]);
@@ -136,8 +151,8 @@ $(document).ready(function () {
     }
   }
 
-  function isCloseEnoughToMapCenter(lat, lon) {
-    var inputPt = map.latLngToContainerPoint([lat, lon]),
+  function isCloseEnoughToMapCenter(location) {
+    var inputPt = map.latLngToContainerPoint(location),
         centerPt = map.latLngToContainerPoint(map.getCenter());
 
     return centerPt.distanceTo(inputPt) < 10;
