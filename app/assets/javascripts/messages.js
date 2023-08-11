@@ -27,6 +27,8 @@ $(document).ready(function () {
   function updateReadState(target, isRead) {
     $(target).closest("tr")
       .toggleClass("inbox-row", isRead)
-      .toggleClass("inbox-row-unread", !isRead);
+      .toggleClass("inbox-row-unread", !isRead)
+      .find(".inbox-mark-unread button").prop("hidden", !isRead).end()
+      .find(".inbox-mark-read button").prop("hidden", isRead);
   }
 });
