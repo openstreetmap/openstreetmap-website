@@ -2,9 +2,9 @@
   <td><%= link_to message_summary.sender.display_name, user_path(message_summary.sender) %></td>
   <td><%= link_to message_summary.title, message_path(message_summary) %></td>
   <td class="text-nowrap"><%= l message_summary.sent_on, :format => :friendly %></td>
-  <td class="text-nowrap text-end">
-    <%= button_to t(".unread_button"), message_mark_path(message_summary, :mark => "unread"), :remote => true, :class => "btn btn-sm btn-primary", :form_class => "d-inline-block inbox-mark-unread", :hidden => !message_summary.message_read? %>
-    <%= button_to t(".read_button"), message_mark_path(message_summary, :mark => "read"), :remote => true, :class => "btn btn-sm btn-primary", :form_class => "d-inline-block inbox-mark-read", :hidden => message_summary.message_read? %>
-    <%= button_to t(".destroy_button"), message_path(message_summary, :referer => request.fullpath), :method => :delete, :remote => true, :class => "btn btn-sm btn-danger", :form_class => "d-inline-block inbox-destroy" %>
+  <td class="text-nowrap d-flex justify-content-end gap-1">
+    <%= button_to t(".unread_button"), message_mark_path(message_summary, :mark => "unread"), :remote => true, :class => "btn btn-sm btn-primary", :form => { :class => "inbox-mark-unread", :hidden => !message_summary.message_read? } %>
+    <%= button_to t(".read_button"), message_mark_path(message_summary, :mark => "read"), :remote => true, :class => "btn btn-sm btn-primary", :form => { :class => "inbox-mark-read", :hidden => message_summary.message_read? } %>
+    <%= button_to t(".destroy_button"), message_path(message_summary, :referer => request.fullpath), :method => :delete, :remote => true, :class => "btn btn-sm btn-danger", :form_class => "inbox-destroy" %>
   </td>
 </tr>

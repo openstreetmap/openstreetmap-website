@@ -2,7 +2,7 @@
   <td><%= link_to sent_message_summary.recipient.display_name, user_path(sent_message_summary.recipient) %></td>
   <td><%= link_to sent_message_summary.title, message_path(sent_message_summary) %></td>
   <td class="text-nowrap"><%= l sent_message_summary.sent_on, :format => :friendly %></td>
-  <td class="text-nowrap text-end">
-    <%= button_to t(".destroy_button"), message_path(sent_message_summary, :referer => request.fullpath), :method => :delete, :remote => true, :class => "btn btn-sm btn-danger", :form_class => "d-inline-block inbox-destroy" %>
+  <td class="text-nowrap d-flex justify-content-end gap-1">
+    <%= button_to t(".destroy_button"), message_path(sent_message_summary, :referer => request.fullpath), :method => :delete, :remote => true, :class => "btn btn-sm btn-danger", :form_class => "inbox-destroy" %>
   </td>
 </tr>
