@@ -151,7 +151,7 @@ module Api
       get changeset_show_path(changeset)
       assert_response :success, "cannot get first changeset"
 
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
       assert_select "osm>changeset[id='#{changeset.id}']", 1
       assert_select "osm>changeset>@open", "true"
       assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
@@ -161,7 +161,7 @@ module Api
       get changeset_show_path(changeset), :params => { :include_discussion => true }
       assert_response :success, "cannot get first changeset with comments"
 
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
       assert_select "osm>changeset[id='#{changeset.id}']", 1
       assert_select "osm>changeset>@open", "true"
       assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
@@ -175,7 +175,7 @@ module Api
       get changeset_show_path(changeset), :params => { :include_discussion => true }
       assert_response :success, "cannot get closed changeset with comments"
 
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
       assert_select "osm>changeset[id='#{changeset.id}']", 1
       assert_select "osm>changeset>@open", "false"
       assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
@@ -194,7 +194,7 @@ module Api
       assert_not_nil js
 
       assert_equal Settings.api_version, js["version"]
-      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal Settings.generator, js["generator"]
       assert_equal changeset.id, js["changeset"]["id"]
       assert js["changeset"]["open"]
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
@@ -210,7 +210,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal Settings.api_version, js["version"]
-      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal Settings.generator, js["generator"]
       assert_equal changeset.id, js["changeset"]["id"]
       assert js["changeset"]["open"]
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
@@ -247,7 +247,7 @@ module Api
 
       assert_not_nil js
       assert_equal Settings.api_version, js["version"]
-      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal Settings.generator, js["generator"]
       assert_equal changeset.id, js["changeset"]["id"]
       assert_not js["changeset"]["open"]
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
@@ -521,7 +521,7 @@ module Api
                       "can't upload a simple valid creation to changeset: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
       assert_select "diffResult>node", 1
       assert_select "diffResult>way", 1
       assert_select "diffResult>relation", 1
@@ -759,7 +759,7 @@ module Api
                       "can't do a conditional delete of in use objects: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
       assert_select "diffResult>node", 1
       assert_select "diffResult>way", 1
       assert_select "diffResult>relation", 1
@@ -1430,7 +1430,7 @@ module Api
                       "failed to return error in XML format"
 
       # check the returned payload
-      assert_select "osmError[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osmError[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
       assert_select "osmError>status", 1
       assert_select "osmError>message", 1
     end
@@ -1890,7 +1890,7 @@ module Api
       assert_not_nil js
 
       assert_equal Settings.api_version, js["version"]
-      assert_equal "OpenStreetMap server", js["generator"]
+      assert_equal Settings.generator, js["generator"]
       assert_equal 2, js["changesets"].count
 
       # check that the correct error is given when we provide both UID and name
