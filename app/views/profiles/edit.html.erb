@@ -42,13 +42,18 @@
 
   <fieldset>
     <legend><%= t ".home location" -%></legend>
-    <p id="home_message" class="text-muted"<% if current_user.home_lat and current_user.home_lon %> hidden<% end %>><%= t ".no home location" %></p>
+    <p id="home_message" class="text-muted m-0<% if current_user.has_home? %> invisible<% end %>"><%= t ".no home location" %></p>
     <div class="row">
       <%= f.text_field :home_lat, :wrapper_class => "col-sm-4", :id => "home_lat" %>
       <%= f.text_field :home_lon, :wrapper_class => "col-sm-4", :id => "home_lon" %>
+      <div class="col-sm-4 pt-2 align-self-end">
+        <button type="button" id="home_show" class="btn btn-outline-primary"<% unless current_user.has_home? %> hidden<% end %> disabled><%= t ".show" %></button>
+        <button type="button" id="home_delete" class="btn btn-outline-primary"<% unless current_user.has_home? %> hidden<% end %>><%= t ".delete" %></button>
+        <button type="button" id="home_undelete" class="btn btn-outline-primary" hidden><%= t ".undelete" %></button>
+      </div>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="updatehome" value="1" <% unless current_user.home_lat and current_user.home_lon %> checked="checked" <% end %> id="updatehome" />
+      <input class="form-check-input" type="checkbox" name="updatehome" value="1" <% unless current_user.has_home? %> checked <% end %> id="updatehome" />
       <label class="form-check-label" for="updatehome"><%= t ".update home location on click" %></label>
     </div>
     <%= tag.div "", :id => "map", :class => "content_map set_location border border-grey rounded" %>

@@ -1,8 +1,11 @@
 //= require leaflet.locatecontrol/src/L.Control.Locate
 
 $(document).ready(function () {
+  var defaultHomeZoom = 12;
+  var map, marker, deleted_lat, deleted_lon;
+
   if ($("#map").length) {
-    var map = L.map("map", {
+    map = L.map("map", {
       attributionControl: false,
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
@@ -35,13 +38,17 @@ $(document).ready(function () {
       .addClass("control-button");
 
     if (OSM.home) {
-      map.setView([OSM.home.lat, OSM.home.lon], 12);
+      map.setView([OSM.home.lat, OSM.home.lon], defaultHomeZoom);
     } else {
       map.setView([0, 0], 0);
     }
 
     if ($("#map").hasClass("set_location")) {
-      var marker = L.marker([0, 0], { icon: OSM.getUserIcon() });
+      marker = L.marker([0, 0], {
+        icon: OSM.getUserIcon(),
+        keyboard: false,
+        interactive: false
+      });
 
       if (OSM.home) {
         marker.setLatLng([OSM.home.lat, OSM.home.lon]);
@@ -49,18 +56,65 @@ $(document).ready(function () {
       }
 
       map.on("click", function (e) {
-        if ($("#updatehome").is(":checked")) {
-          var zoom = map.getZoom(),
-              precision = OSM.zoomPrecision(zoom),
-              location = e.latlng.wrap();
+        if (!$("#updatehome").is(":checked")) return;
 
-          $("#home_message").hide();
-          $("#home_lat").val(location.lat.toFixed(precision));
-          $("#home_lon").val(location.lng.toFixed(precision));
+        var zoom = map.getZoom(),
+            precision = OSM.zoomPrecision(zoom),
+            location = e.latlng.wrap();
 
-          marker.setLatLng(e.latlng);
-          marker.addTo(map);
+        $("#home_lat").val(location.lat.toFixed(precision));
+        $("#home_lon").val(location.lng.toFixed(precision));
+
+        deleted_lat = null;
+        deleted_lon = null;
+        respondToHomeUpdate();
+      }).on("moveend", function () {
+        var lat = $("#home_lat").val().trim(),
+            lon = $("#home_lon").val().trim(),
+            location;
+
+        try {
+          if (lat && lon) {
+            location = L.latLng(lat, lon);
+          }
+        } catch (error) {
+          // keep location undefined
         }
+
+        $("#home_show").prop("disabled", !location || isCloseEnoughToMapCenter(location));
+      });
+
+      $("#home_lat, #home_lon").on("input", function () {
+        deleted_lat = null;
+        deleted_lon = null;
+        respondToHomeUpdate();
+      });
+
+      $("#home_show").click(function () {
+        var lat = $("#home_lat").val(),
+            lon = $("#home_lon").val();
+
+        map.setView([lat, lon], defaultHomeZoom);
+      });
+
+      $("#home_delete").click(function () {
+        var lat = $("#home_lat").val(),
+            lon = $("#home_lon").val();
+
+        $("#home_lat, #home_lon").val("");
+        deleted_lat = lat;
+        deleted_lon = lon;
+        respondToHomeUpdate();
+        $("#home_undelete").trigger("focus");
+      });
+
+      $("#home_undelete").click(function () {
+        $("#home_lat").val(deleted_lat);
+        $("#home_lon").val(deleted_lon);
+        deleted_lat = null;
+        deleted_lon = null;
+        respondToHomeUpdate();
+        $("#home_delete").trigger("focus");
       });
     } else {
       $("[data-user]").each(function () {
@@ -71,6 +125,41 @@ $(document).ready(function () {
         }
       });
     }
+  }
+
+  function respondToHomeUpdate() {
+    var lat = $("#home_lat").val().trim(),
+        lon = $("#home_lon").val().trim(),
+        location;
+
+    try {
+      if (lat && lon) {
+        location = L.latLng(lat, lon);
+      }
+      $("#home_lat, #home_lon").removeClass("is-invalid");
+    } catch (error) {
+      if (lat && isNaN(lat)) $("#home_lat").addClass("is-invalid");
+      if (lon && isNaN(lon)) $("#home_lon").addClass("is-invalid");
+    }
+
+    $("#home_message").toggleClass("invisible", Boolean(location));
+    $("#home_show").prop("hidden", !location);
+    $("#home_delete").prop("hidden", !location);
+    $("#home_undelete").prop("hidden", !(!location && deleted_lat && deleted_lon));
+    if (location) {
+      marker.setLatLng([lat, lon]);
+      marker.addTo(map);
+      map.panTo([lat, lon]);
+    } else {
+      marker.removeFrom(map);
+    }
+  }
+
+  function isCloseEnoughToMapCenter(location) {
+    var inputPt = map.latLngToContainerPoint(location),
+        centerPt = map.latLngToContainerPoint(map.getCenter());
+
+    return centerPt.distanceTo(inputPt) < 10;
   }
 
   function updateAuthUID() {
