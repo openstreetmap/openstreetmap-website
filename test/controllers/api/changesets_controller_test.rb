@@ -2003,6 +2003,25 @@ module Api
     end
 
     ##
+    # test the query functionality of overlapping changesets with the order parameter
+    def test_query_order_overlapping
+      user = create(:user)
+      changeset11 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 17, 0, 0), :closed_at => Time.utc(2015, 6, 4, 17, 0, 0))
+      changeset12 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 16, 0, 0), :closed_at => Time.utc(2015, 6, 4, 18, 0, 0))
+      changeset13 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 14, 0, 0), :closed_at => Time.utc(2015, 6, 4, 20, 0, 0))
+      changeset14 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 3, 23, 0, 0), :closed_at => Time.utc(2015, 6, 4, 23, 0, 0))
+      create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 2, 23, 0, 0), :closed_at => Time.utc(2015, 6, 3, 23, 0, 0))
+
+      get changesets_path(:order => "oldest", :time => "2015-06-04T00:00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset14, changeset13, changeset12, changeset11]
+
+      get changesets_path(:order => "oldest", :time => "2015-06-04T16:00:00Z,2015-06-04T16:30:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset14, changeset13, changeset12]
+    end
+
+    ##
     # check that errors are returned if garbage is inserted
     # into query strings
     def test_query_invalid

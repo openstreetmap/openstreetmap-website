@@ -165,7 +165,7 @@ module Api
       changesets = Changeset.all
       changesets = conditions_bbox(changesets, bbox)
       changesets = conditions_user(changesets, params["user"], params["display_name"])
-      changesets = conditions_time(changesets, params["time"])
+      changesets = conditions_time(changesets, params["time"], params[:order] == "oldest")
       changesets = conditions_open(changesets, params["open"])
       changesets = conditions_closed(changesets, params["closed"])
       changesets = conditions_ids(changesets, params["changesets"])
@@ -328,7 +328,7 @@ module Api
 
     ##
     # restrict changes to those closed during a particular time period
-    def conditions_time(changesets, time)
+    def conditions_time(changesets, time, lower_bound_created_condition)
       if time.nil?
         changesets
       elsif time.count(",") == 1
@@ -340,10 +340,19 @@ module Api
         raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
         from, to = times.collect { |t| Time.parse(t).utc }
-        changesets.where("closed_at >= ? and created_at <= ?", from, to)
+        if lower_bound_created_condition
+          changesets.where("closed_at >= ? and created_at <= ? and created_at >= ?", from, to, from - (2 * Changeset::MAX_TIME_OPEN))
+        else
+          changesets.where("closed_at >= ? and created_at <= ?", from, to)
+        end
       else
         # if there is no comma, assume its a lower limit on time
-        changesets.where("closed_at >= ?", Time.parse(time).utc)
+        from = Time.parse(time).utc
+        if lower_bound_created_condition
+          changesets.where("closed_at >= ? and created_at >= ?", from, from - (2 * Changeset::MAX_TIME_OPEN))
+        else
+          changesets.where("closed_at >= ?", from)
+        end
       end
       # stupid Time seems to throw both of these for bad parsing, so
       # we have to catch both and ensure the correct code path is taken.
