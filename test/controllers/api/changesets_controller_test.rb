@@ -1950,21 +1950,56 @@ module Api
 
       get changesets_path
       assert_response :success
-      assert_changesets [changeset5, changeset4, changeset3, changeset2, changeset1]
+      assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
 
       get changesets_path(:limit => "3")
       assert_response :success
-      assert_changesets [changeset5, changeset4, changeset3]
+      assert_changesets_in_order [changeset5, changeset4, changeset3]
 
       get changesets_path(:limit => "0")
       assert_response :bad_request
 
       get changesets_path(:limit => Settings.max_changeset_query_limit)
       assert_response :success
-      assert_changesets [changeset5, changeset4, changeset3, changeset2, changeset1]
+      assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
 
       get changesets_path(:limit => Settings.max_changeset_query_limit + 1)
       assert_response :bad_request
+    end
+
+    ##
+    # test the query functionality of changesets with the order parameter
+    def test_query_order
+      user = create(:user)
+      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
+      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 2, 1, 0, 0, 0), :closed_at => Time.utc(2008, 2, 2, 0, 0, 0))
+      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 3, 1, 0, 0, 0), :closed_at => Time.utc(2008, 3, 2, 0, 0, 0))
+      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
+      changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
+
+      get changesets_path(:order => "oldest")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5]
+
+      get changesets_path(:order => "oldest", :time => "2008-01-01T00:00Z,2018-01-01T00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5]
+
+      get changesets_path(:order => "oldest", :time => "2008-01-02T00:00Z,2018-01-01T00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5]
+
+      get changesets_path(:order => "oldest", :time => "2008-01-02T00:01Z,2018-01-01T00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset2, changeset3, changeset4, changeset5]
+
+      get changesets_path(:order => "oldest", :time => "2008-04-01T00:00Z,2018-01-01T00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset4, changeset5]
+
+      get changesets_path(:order => "oldest", :time => "2008-06-01T00:00Z,2018-01-01T00:00Z")
+      assert_response :success
+      assert_changesets_in_order []
     end
 
     ##
@@ -2247,12 +2282,20 @@ module Api
     private
 
     ##
-    # boilerplate for checking that certain changesets exist in the
-    # output.
+    # check that certain changesets exist in the output
     def assert_changesets(changesets)
       assert_select "osm>changeset", changesets.size
       changesets.each do |changeset|
         assert_select "osm>changeset[id='#{changeset.id}']", 1
+      end
+    end
+
+    ##
+    # check that certain changesets exist in the output in the specified order
+    def assert_changesets_in_order(changesets)
+      assert_select "osm>changeset", changesets.size
+      changesets.each_with_index do |changeset, index|
+        assert_select "osm>changeset:nth-child(#{index + 1})[id='#{changeset.id}']", 1
       end
     end
 
