@@ -9,9 +9,17 @@ module Api
         { :path => "/api/capabilities", :method => :get },
         { :controller => "api/capabilities", :action => "show" }
       )
+      assert_routing(
+        { :path => "/api/capabilities.json", :method => :get },
+        { :controller => "api/capabilities", :action => "show", :format => "json" }
+      )
       assert_recognizes(
         { :controller => "api/capabilities", :action => "show" },
         { :path => "/api/0.6/capabilities", :method => :get }
+      )
+      assert_recognizes(
+        { :controller => "api/capabilities", :action => "show", :format => "json" },
+        { :path => "/api/0.6/capabilities.json", :method => :get }
       )
     end
 
@@ -31,6 +39,29 @@ module Api
           assert_select "status[gpx='online']", :count => 1
         end
       end
+    end
+
+    def test_capabilities_json
+      get api_capabilities_path, :params => { :format => "json" }
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_equal Settings.api_version, js["api"]["version"]["minimum"]
+      assert_equal Settings.api_version, js["api"]["version"]["maximum"]
+      assert_equal Settings.max_request_area, js["api"]["area"]["maximum"]
+      assert_equal Settings.max_note_request_area, js["api"]["note_area"]["maximum"]
+      assert_equal Settings.tracepoints_per_page, js["api"]["tracepoints"]["per_page"]
+      assert_equal Changeset::MAX_ELEMENTS, js["api"]["changesets"]["maximum_elements"]
+      assert_equal Settings.default_changeset_query_limit, js["api"]["changesets"]["default_query_limit"]
+      assert_equal Settings.max_changeset_query_limit, js["api"]["changesets"]["maximum_query_limit"]
+      assert_equal Settings.max_number_of_relation_members, js["api"]["relationmembers"]["maximum"]
+      assert_equal "online", js["api"]["status"]["database"]
+      assert_equal "online", js["api"]["status"]["api"]
+      assert_equal "online", js["api"]["status"]["gpx"]
+      assert_equal Settings.imagery_blacklist.length, js["policy"]["imagery"]["blacklist"].length
     end
   end
 end

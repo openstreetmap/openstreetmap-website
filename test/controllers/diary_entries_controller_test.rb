@@ -563,35 +563,35 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Try and get the index
     get diary_entries_path
     assert_response :success
-    assert_select "div.diary_post", :count => 20
+    assert_select "article.diary_post", :count => 20
     assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
     assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
 
     # Try and get the second page
     get css_select("li.page-item a.page-link").first["href"]
     assert_response :success
-    assert_select "div.diary_post", :count => 20
+    assert_select "article.diary_post", :count => 20
     assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
     assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
 
     # Try and get the third page
     get css_select("li.page-item a.page-link").first["href"]
     assert_response :success
-    assert_select "div.diary_post", :count => 10
+    assert_select "article.diary_post", :count => 10
     assert_select "li.page-item.disabled span.page-link", :text => "Older Entries", :count => 1
     assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
 
     # Go back to the second page
     get css_select("li.page-item a.page-link").last["href"]
     assert_response :success
-    assert_select "div.diary_post", :count => 20
+    assert_select "article.diary_post", :count => 20
     assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
     assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
 
     # Go back to the first page
     get css_select("li.page-item a.page-link").last["href"]
     assert_response :success
-    assert_select "div.diary_post", :count => 20
+    assert_select "article.diary_post", :count => 20
     assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
     assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
   end
@@ -997,7 +997,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
     assert_no_missing_translations
-    assert_select "div.diary_post", entries.count
+    assert_select "article.diary_post", entries.count
 
     entries.each do |entry|
       assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"

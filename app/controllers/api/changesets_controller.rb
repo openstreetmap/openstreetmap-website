@@ -170,8 +170,15 @@ module Api
       changesets = conditions_closed(changesets, params["closed"])
       changesets = conditions_ids(changesets, params["changesets"])
 
-      # sort and limit the changesets
-      changesets = changesets.order("created_at DESC").limit(result_limit)
+      # sort the changesets
+      changesets = if params[:order] == "oldest"
+                     changesets.order(:closed_at => :asc)
+                   else
+                     changesets.order(:closed_at => :desc)
+                   end
+
+      # limit the result
+      changesets = changesets.limit(result_limit)
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
