@@ -17,6 +17,10 @@ module Api
         { :controller => "api/capabilities", :action => "show" },
         { :path => "/api/0.6/capabilities", :method => :get }
       )
+      assert_recognizes(
+        { :controller => "api/capabilities", :action => "show", :format => "json" },
+        { :path => "/api/0.6/capabilities.json", :method => :get }
+      )
     end
 
     def test_capabilities
