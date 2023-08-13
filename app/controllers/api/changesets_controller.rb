@@ -172,9 +172,9 @@ module Api
 
       # sort the changesets
       changesets = if params[:order] == "oldest"
-                     changesets.order("created_at ASC")
+                     changesets.order(:closed_at => :asc)
                    else
-                     changesets.order("created_at DESC")
+                     changesets.order(:closed_at => :desc)
                    end
 
       # limit the result
