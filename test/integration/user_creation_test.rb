@@ -11,7 +11,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:openid] = nil
     OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.mock_auth[:facebook] = nil
-    OmniAuth.config.mock_auth[:windowslive] = nil
+    OmniAuth.config.mock_auth[:microsoft_graph] = nil
     OmniAuth.config.mock_auth[:github] = nil
     OmniAuth.config.mock_auth[:wikipedia] = nil
     OmniAuth.config.test_mode = false
@@ -689,12 +689,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_template "site/welcome"
   end
 
-  def test_user_create_windowslive_success
-    new_email = "newtester-windowslive@osm.org"
-    display_name = "new_tester-windowslive"
+  def test_user_create_microsoft_graph_success
+    new_email = "newtester-microsoft_graph@osm.org"
+    display_name = "new_tester-microsoft_graph"
     password = "testtest"
 
-    OmniAuth.config.add_mock(:windowslive, :uid => "123454321", :info => { "email" => new_email })
+    OmniAuth.config.add_mock(:microsoft_graph, :uid => "123454321", :info => { "email" => new_email })
 
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
@@ -703,14 +703,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
-                                       :auth_provider => "windowslive",
+                                       :auth_provider => "microsoft_graph",
                                        :pass_crypt => "",
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
-          assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
+          assert_redirected_to auth_path(:provider => "microsoft_graph", :origin => "/user/new")
           post response.location
           assert_response :redirect
-          assert_redirected_to auth_success_path(:provider => "windowslive")
+          assert_redirected_to auth_success_path(:provider => "microsoft_graph")
           follow_redirect!
           assert_response :redirect
           assert_redirected_to "/user/terms"
@@ -718,7 +718,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
-                                       :auth_provider => "windowslive",
+                                       :auth_provider => "microsoft_graph",
                                        :auth_uid => "123454321",
                                        :pass_crypt => password,
                                        :pass_crypt_confirmation => password },
@@ -737,11 +737,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
-  def test_user_create_windowslive_failure
-    OmniAuth.config.mock_auth[:windowslive] = :connection_failed
+  def test_user_create_microsoft_graph_failure
+    OmniAuth.config.mock_auth[:microsoft_graph] = :connection_failed
 
-    new_email = "newtester-windowslive2@osm.org"
-    display_name = "new_tester-windowslive2"
+    new_email = "newtester-microsoft_graph2@osm.org"
+    display_name = "new_tester-microsoft_graph2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
@@ -749,17 +749,17 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
-                                       :auth_provider => "windowslive",
+                                       :auth_provider => "microsoft_graph",
                                        :pass_crypt => "",
                                        :pass_crypt_confirmation => "" } }
           assert_response :redirect
-          assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
+          assert_redirected_to auth_path(:provider => "microsoft_graph", :origin => "/user/new")
           post response.location
           assert_response :redirect
-          assert_redirected_to auth_success_path(:provider => "windowslive")
+          assert_redirected_to auth_success_path(:provider => "microsoft_graph")
           follow_redirect!
           assert_response :redirect
-          assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/user/new")
+          assert_redirected_to auth_failure_path(:strategy => "microsoft_graph", :message => "connection_failed", :origin => "/user/new")
           follow_redirect!
           assert_response :redirect
           follow_redirect!
@@ -772,11 +772,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
-  def test_user_create_windowslive_redirect
-    OmniAuth.config.add_mock(:windowslive, :uid => "123454321")
+  def test_user_create_microsoft_graph_redirect
+    OmniAuth.config.add_mock(:microsoft_graph, :uid => "123454321")
 
-    new_email = "redirect_tester_windowslive@osm.org"
-    display_name = "redirect_tester_windowslive"
+    new_email = "redirect_tester_microsoft_graph@osm.org"
+    display_name = "redirect_tester_microsoft_graph"
     # nothing special about this page, just need a protected page to redirect back to.
     referer = "/traces/mine"
     assert_difference("User.count") do
@@ -786,15 +786,15 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
-                                       :auth_provider => "windowslive",
+                                       :auth_provider => "microsoft_graph",
                                        :pass_crypt => "",
                                        :pass_crypt_confirmation => "" },
                             :referer => referer }
           assert_response :redirect
-          assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
+          assert_redirected_to auth_path(:provider => "microsoft_graph", :origin => "/user/new")
           post response.location
           assert_response :redirect
-          assert_redirected_to auth_success_path(:provider => "windowslive")
+          assert_redirected_to auth_success_path(:provider => "microsoft_graph")
           follow_redirect!
           assert_response :redirect
           assert_redirected_to "/user/terms"
@@ -802,7 +802,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email,
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
-                                       :auth_provider => "windowslive",
+                                       :auth_provider => "microsoft_graph",
                                        :auth_uid => "http://localhost:1123/new.tester",
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "testtest" },
@@ -817,7 +817,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     assert_equal register_email.to.first, new_email
     # Check that the confirm account url is correct
-    confirm_regex = Regexp.new("/user/redirect_tester_windowslive/confirm\\?confirm_string=([a-zA-Z0-9]*)")
+    confirm_regex = Regexp.new("/user/redirect_tester_microsoft_graph/confirm\\?confirm_string=([a-zA-Z0-9]*)")
     email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
