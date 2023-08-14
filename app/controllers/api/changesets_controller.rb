@@ -174,7 +174,7 @@ module Api
       changesets = if params[:order] == "oldest"
                      changesets.order(:closed_at => :asc)
                    else
-                     changesets.order(:closed_at => :desc)
+                     changesets.order(:created_at => :desc)
                    end
 
       # limit the result
