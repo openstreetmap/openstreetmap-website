@@ -24,7 +24,7 @@ end
 openid_options = { :name => "openid", :store => openid_store }
 google_options = { :name => "google", :scope => "email", :access_type => "online" }
 facebook_options = { :name => "facebook", :scope => "email", :client_options => { :site => "https://graph.facebook.com/v4.0", :authorize_url => "https://www.facebook.com/v4.0/dialog/oauth" } }
-microsoft_graph_options = { :name => "windowslive", :scope => "openid User.Read" }
+microsoft_graph_options = { :name => "microsoft_graph", :scope => "openid User.Read" }
 github_options = { :name => "github", :scope => "user:email" }
 wikipedia_options = { :name => "wikipedia", :client_options => { :site => "https://meta.wikimedia.org" } }
 
