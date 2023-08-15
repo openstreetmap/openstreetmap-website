@@ -357,7 +357,7 @@ class UsersController < ApplicationController
   # get list of MX servers for a domains
   def domain_mx_servers(domain)
     Resolv::DNS.open do |dns|
-      dns.getresources(domain, Resolv::DNS::Resource::IN::MX).collect(&:exchange).collect(&:to_s)
+      dns.getresources(domain, Resolv::DNS::Resource::IN::MX).collect { |mx| mx.exchange.to_s }
     end
   end
 end
