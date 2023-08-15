@@ -157,6 +157,8 @@ module Api
     ##
     # query changesets by bounding box, time, user or open/closed status.
     def query
+      raise OSM::APIBadUserInput, "cannot use order=oldest with time" if params[:time] && params[:order] == "oldest"
+
       # find any bounding box
       bbox = BoundingBox.from_bbox_params(params) if params["bbox"]
 
