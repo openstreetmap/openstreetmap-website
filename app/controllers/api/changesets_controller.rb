@@ -168,6 +168,7 @@ module Api
       changesets = conditions_bbox(changesets, bbox)
       changesets = conditions_user(changesets, params["user"], params["display_name"])
       changesets = conditions_time(changesets, params["time"])
+      changesets = conditions_from_to(changesets, params["from"], params["to"])
       changesets = conditions_open(changesets, params["open"])
       changesets = conditions_closed(changesets, params["closed"])
       changesets = conditions_ids(changesets, params["changesets"])
@@ -351,6 +352,33 @@ module Api
       # we have to catch both and ensure the correct code path is taken.
     rescue ArgumentError, RuntimeError => e
       raise OSM::APIBadUserInput, e.message.to_s
+    end
+
+    ##
+    # restrict changesets to those opened during a particular time period
+    # works similar to from..to of notes controller, including the requirement of 'from' when specifying 'to'
+    def conditions_from_to(changesets, from, to)
+      if from
+        begin
+          from = Time.parse(from).utc
+        rescue ArgumentError
+          raise OSM::APIBadUserInput, "Date #{from} is in a wrong format"
+        end
+
+        begin
+          to = if to
+                 Time.parse(to).utc
+               else
+                 Time.now.utc
+               end
+        rescue ArgumentError
+          raise OSM::APIBadUserInput, "Date #{to} is in a wrong format"
+        end
+
+        changesets.where(:created_at => from..to)
+      else
+        changesets
+      end
     end
 
     ##
