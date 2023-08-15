@@ -251,7 +251,7 @@ ohmVectorStyles.Original = {
                 "zoom": 0,
                 "value": "industrial"
               },
-              "rgba(204, 197, 197, 1)"
+              "rgba(245, 230, 230, 1)"
             ]
           ],
           "default": "transparent"
@@ -340,14 +340,14 @@ ohmVectorStyles.Original = {
                 "zoom": 0,
                 "value": "commercial"
               },
-              "rgba(215, 200, 203, 1)"
+              "rgba(245, 237, 231, 1)"
             ],
             [
               {
                 "zoom": 0,
                 "value": "construction"
               },
-              "rgba(235, 235, 235, 1)"
+              "rgba(242, 242, 235, 1)"
             ],
             [
               {
@@ -430,7 +430,7 @@ ohmVectorStyles.Original = {
                 "zoom": 0,
                 "value": "grassland"
               },
-              "rgba(183, 214, 96, 0.81)"
+              "rgba(223, 234, 178, 0.81)"
             ],
             [
               {
@@ -480,6 +480,40 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "landuse_areas_z12_park_outlines",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "landuse_areas",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "park"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-width": {
+          "stops": [
+            [
+              12,
+              0.75
+            ],
+            [
+              16,
+              1.25
+            ]
+          ]
+        },
+        "line-color": "rgba(200, 210, 163, 1)"
+      }
+    },
+    {
       "id": "landuse_areas_z12_landcover_tall",
       "type": "fill",
       "source": "osm",
@@ -502,21 +536,21 @@ ohmVectorStyles.Original = {
                 "zoom": 0,
                 "value": "forest"
               },
-              "rgba(178, 194, 157, 1)"
+              "rgba(193, 208, 158, 1)"
             ],
             [
               {
                 "zoom": 0,
                 "value": "wood"
               },
-              "rgba(178, 194, 157, 1)"
+              "#C1D09E"
             ],
             [
               {
                 "zoom": 0,
                 "value": "scrub"
               },
-              "rgba(166, 185, 162, 1)"
+              "rgba(199, 222, 194, 1)"
             ]
           ],
           "default": "transparent"
@@ -528,7 +562,7 @@ ohmVectorStyles.Original = {
       "type": "fill",
       "source": "osm",
       "source-layer": "landuse_areas",
-      "minzoom": 12,
+      "minzoom": 9,
       "maxzoom": 24,
       "layout": {
         "visibility": "visible"
@@ -592,14 +626,14 @@ ohmVectorStyles.Original = {
                 "zoom": 0,
                 "value": "farmland"
               },
-              "rgba(232, 219, 126, 0.61)"
+              "rgba(239, 234, 182, 0.61)"
             ],
             [
               {
                 "zoom": 0,
                 "value": "farm"
               },
-              "rgba(222, 221, 190, 1)"
+              "rgba(239, 234, 182, 0.61)"
             ],
             [
               {
@@ -613,7 +647,7 @@ ohmVectorStyles.Original = {
                 "zoom": 0,
                 "value": "farmyard"
               },
-              "rgba(232, 219, 126, 1)"
+              "rgba(239, 234, 182, 0.61)"
             ],
             [
               {
@@ -778,14 +812,14 @@ ohmVectorStyles.Original = {
                 "zoom": 0,
                 "value": "forest"
               },
-              "rgba(178, 194, 157, 1)"
+              "rgba(193, 208, 158, 1)"
             ],
             [
               {
                 "zoom": 0,
                 "value": "wood"
               },
-              "rgba(178, 194, 157, 1)"
+              "rgba(193, 208, 158, 1)"
             ],
             [
               {
@@ -1118,11 +1152,11 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "water_lines_stream",
+      "id": "water_lines_stream_no_name",
       "type": "line",
       "source": "osm",
       "source-layer": "water_lines",
-      "minzoom": 13,
+      "minzoom": 14,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -1130,6 +1164,11 @@ ohmVectorStyles.Original = {
           "==",
           "type",
           "stream"
+        ],
+        [
+          "in",
+          "name",
+          ""
         ]
       ],
       "paint": {
@@ -1137,16 +1176,60 @@ ohmVectorStyles.Original = {
         "line-width": {
           "stops": [
             [
-              13,
-              0.5
+              14,
+              1
             ],
             [
               15,
-              0.8
+              2
             ],
             [
               20,
-              2
+              4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "water_lines_stream_name",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        [
+          "==",
+          "type",
+          "stream"
+        ],
+        [
+          "!in",
+          "name",
+          ""
+        ]
+      ],
+      "paint": {
+        "line-color": "rgba(144, 204, 203, 1)",
+        "line-width": {
+          "stops": [
+            [
+              12,
+              0.75
+            ],
+            [
+              13,
+              1.25
+            ],
+            [
+              15,
+              3
+            ],
+            [
+              20,
+              5
             ]
           ]
         }
@@ -2605,11 +2688,11 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "roads_other_construction",
+      "id": "roads_roadscase_z13_construction",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 14,
+      "minzoom": 13,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -2619,30 +2702,37 @@ ohmVectorStyles.Original = {
           "construction"
         ],
         [
+          "==",
+          "bridge",
+          0
+        ],
+        [
           "in",
           "construction",
-          "unclassified",
-          "living_street",
-          "raceway"
+          "road"
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(255, 207, 0, 1)",
-        "line-width": {
-          "stops": [
-            [
-              14,
-              4
-            ],
-            [
-              18,
-              16
-            ]
-          ]
-        }
+        "line-color": "#E6E6E6",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.5
+          ],
+          [
+            "zoom"
+          ],
+          13,
+          3,
+          18,
+          15
+        ]
       }
     },
     {
@@ -3038,12 +3128,12 @@ ohmVectorStyles.Original = {
         ]
       ],
       "layout": {
-        "visibility": "none",
+        "visibility": "visible",
         "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(255, 0, 0, 1)",
+        "line-color": "#ffffff",
         "line-width": [
           "interpolate",
           [
@@ -3054,9 +3144,9 @@ ohmVectorStyles.Original = {
             "zoom"
           ],
           12,
-          0.5,
+          1.5,
           18,
-          5
+          12
         ],
         "line-dasharray": [
           3,
@@ -4914,42 +5004,6 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "roads_other",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 14,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        [
-          "in",
-          "type",
-          "unclassified",
-          "living_street",
-          "raceway"
-        ]
-      ],
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "rgba(255, 207, 0, 1)",
-        "line-width": {
-          "stops": [
-            [
-              14,
-              4
-            ],
-            [
-              18,
-              16
-            ]
-          ]
-        }
-      }
-    },
-    {
       "id": "roads_residentialcase_z13",
       "type": "line",
       "source": "osm",
@@ -5283,44 +5337,6 @@ ohmVectorStyles.Original = {
           2,
           18,
           46
-        ]
-      }
-    },
-    {
-      "id": "roads_roads",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 12,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        [
-          "in",
-          "type",
-          "road"
-        ]
-      ],
-      "layout": {
-        "visibility": "none",
-        "line-cap": "round",
-        "line-join": "round"
-      },
-      "paint": {
-        "line-color": "rgba(255, 0, 0, 1)",
-        "line-width": [
-          "interpolate",
-          [
-            "exponential",
-            1.5
-          ],
-          [
-            "zoom"
-          ],
-          12,
-          0.5,
-          18,
-          5
         ]
       }
     },
@@ -5898,11 +5914,40 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
-        "line-width": 4,
-        "line-dasharray": [
-          0.2,
-          2
-        ]
+        "line-width": {
+          "stops": [
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              12,
+              4
+            ]
+          ]
+        },
+        "line-dasharray": {
+          "stops": [
+            [
+              7,
+              [
+                0.2,
+                1
+              ]
+            ],
+            [
+              12,
+              [
+                0.2,
+                2
+              ]
+            ]
+          ]
+        }
       }
     },
     {
@@ -5985,11 +6030,40 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
-        "line-width": 6,
-        "line-dasharray": [
-          0.2,
-          2
-        ]
+        "line-width": {
+          "stops": [
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              12,
+              5
+            ]
+          ]
+        },
+        "line-dasharray": {
+          "stops": [
+            [
+              7,
+              [
+                0.2,
+                1
+              ]
+            ],
+            [
+              12,
+              [
+                0.2,
+                2
+              ]
+            ]
+          ]
+        }
       }
     },
     {
@@ -6073,27 +6147,37 @@ ohmVectorStyles.Original = {
         "line-width": {
           "stops": [
             [
-              6,
-              2
-            ],
-            [
               7,
-              3
+              0
             ],
             [
               9,
               3
             ],
             [
-              10,
+              12,
               5
             ]
           ]
         },
-        "line-dasharray": [
-          0.2,
-          1
-        ]
+        "line-dasharray": {
+          "stops": [
+            [
+              7,
+              [
+                0.2,
+                1
+              ]
+            ],
+            [
+              12,
+              [
+                0.2,
+                2
+              ]
+            ]
+          ]
+        }
       }
     },
     {
@@ -6170,11 +6254,40 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "line-color": "rgba(215, 215, 215, 1)",
-        "line-width": 6,
-        "line-dasharray": [
-          0.2,
-          2
-        ]
+        "line-width": {
+          "stops": [
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              12,
+              5
+            ]
+          ]
+        },
+        "line-dasharray": {
+          "stops": [
+            [
+              7,
+              [
+                0.2,
+                1
+              ]
+            ],
+            [
+              12,
+              [
+                0.2,
+                2
+              ]
+            ]
+          ]
+        }
       }
     },
     {
@@ -6684,148 +6797,6 @@ ohmVectorStyles.Original = {
             ]
           ]
         }
-      }
-    },
-    {
-      "id": "roads_secondary_z8",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 8,
-      "maxzoom": 9,
-      "filter": [
-        "all",
-        [
-          "in",
-          "type",
-          "secondary"
-        ]
-      ],
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": {
-          "stops": [
-            [
-              7,
-              "#b3b3b3"
-            ],
-            [
-              8,
-              "rgba(210, 210, 210, 1)"
-            ]
-          ]
-        },
-        "line-width": [
-          "interpolate",
-          [
-            "exponential",
-            1.5
-          ],
-          [
-            "zoom"
-          ],
-          7,
-          0.1,
-          9,
-          0.6
-        ]
-      }
-    },
-    {
-      "id": "roads_trunk_z7",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 7,
-      "maxzoom": 9,
-      "filter": [
-        "all",
-        [
-          "in",
-          "type",
-          "trunk",
-          "primary"
-        ]
-      ],
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": {
-          "stops": [
-            [
-              7,
-              "#b3b3b3"
-            ],
-            [
-              9,
-              "#EAEAEA"
-            ]
-          ]
-        },
-        "line-width": [
-          "interpolate",
-          [
-            "exponential",
-            1.5
-          ],
-          [
-            "zoom"
-          ],
-          7,
-          0.25,
-          9,
-          1
-        ]
-      }
-    },
-    {
-      "id": "roads_motorway_z7",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 6,
-      "maxzoom": 9,
-      "filter": [
-        "all",
-        [
-          "==",
-          "type",
-          "motorway"
-        ]
-      ],
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": {
-          "stops": [
-            [
-              6,
-              "#b3b3b3"
-            ],
-            [
-              9,
-              "#EAEAEA"
-            ]
-          ]
-        },
-        "line-width": [
-          "interpolate",
-          [
-            "exponential",
-            1.5
-          ],
-          [
-            "zoom"
-          ],
-          6,
-          0.5,
-          9,
-          1.5
-        ]
       }
     },
     {
@@ -7607,6 +7578,8 @@ ohmVectorStyles.Original = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "water_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
       "filter": [
         "all",
         [
@@ -7629,11 +7602,11 @@ ohmVectorStyles.Original = {
         "text-size": {
           "stops": [
             [
-              11,
+              12,
               11
             ],
             [
-              13,
+              14,
               13
             ]
           ]
@@ -8043,7 +8016,7 @@ ohmVectorStyles.Original = {
       ],
       "layout": {
         "icon-image": "{type}-18",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
@@ -8741,6 +8714,54 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "county_labels_z11",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "place_points",
+      "minzoom": 9,
+      "maxzoom": 20,
+      "filter": [
+        "all",
+        [
+          "in",
+          "type",
+          "county"
+        ]
+      ],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": [
+          "OpenHistorical"
+        ],
+        "text-size": {
+          "stops": [
+            [
+              6,
+              5
+            ],
+            [
+              10,
+              11
+            ],
+            [
+              16,
+              13
+            ]
+          ]
+        },
+        "visibility": "visible",
+        "text-transform": "uppercase",
+        "symbol-spacing": 250,
+        "text-letter-spacing": 0
+      },
+      "paint": {
+        "text-color": "rgba(128, 128, 128, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-blur": 2,
+        "text-halo-width": 1
+      }
+    },
+    {
       "id": "city_labels_other_z11",
       "type": "symbol",
       "source": "osm",
@@ -8756,7 +8777,8 @@ ohmVectorStyles.Original = {
           "suburb",
           "locality",
           "hamlet",
-          "islet"
+          "islet",
+          "neighborhood"
         ]
       ],
       "layout": {
@@ -8994,47 +9016,6 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "state_labels",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "state_label_points",
-      "minzoom": 5,
-      "maxzoom": 10,
-      "filter": [
-        "all",
-        [
-          "==",
-          "scalerank",
-          2
-        ]
-      ],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [
-          "OpenHistorical"
-        ],
-        "text-size": {
-          "stops": [
-            [
-              4,
-              7
-            ],
-            [
-              10,
-              16
-            ]
-          ]
-        },
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(166, 166, 170, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
       "id": "state_points_labels",
       "type": "symbol",
       "source": "osm",
@@ -9088,57 +9069,6 @@ ohmVectorStyles.Original = {
       }
     },
     {
-      "id": "state_lines_labels",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "land_ohm",
-      "minzoom": 4,
-      "maxzoom": 20,
-      "filter": [
-        "all",
-        [
-          "==",
-          "admin_level",
-          4
-        ],
-        [
-          "==",
-          "type",
-          "administrative"
-        ]
-      ],
-      "layout": {
-        "visibility": "none",
-        "text-field": "{name}",
-        "text-font": [
-          "OpenHistorical"
-        ],
-        "text-size": {
-          "stops": [
-            [
-              6,
-              10
-            ],
-            [
-              10,
-              14
-            ]
-          ]
-        },
-        "text-line-height": 1,
-        "text-transform": "uppercase",
-        "symbol-spacing": 25,
-        "symbol-avoid-edges": true,
-        "symbol-placement": "point"
-      },
-      "paint": {
-        "text-color": "rgba(101, 108, 108, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 2,
-        "text-halo-color": "rgba(220, 231, 232, 1)"
-      }
-    },
-    {
       "id": "statecapital_labels_z10",
       "type": "symbol",
       "source": "osm",
@@ -9160,167 +9090,13 @@ ohmVectorStyles.Original = {
         ],
         "text-size": 10,
         "text-transform": "uppercase",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "rgba(68, 51, 85, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 1,
         "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "statecapital_labels_z4",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "populated_places",
-      "minzoom": 4,
-      "maxzoom": 10,
-      "filter": [
-        "all",
-        [
-          "==",
-          "featurecla",
-          "Admin-1 capital"
-        ]
-      ],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [
-          "OpenHistorical Bold"
-        ],
-        "text-size": {
-          "stops": [
-            [
-              4,
-              7
-            ],
-            [
-              10,
-              10
-            ]
-          ]
-        },
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(68, 51, 85, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "capital_labels_z10",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "populated_places",
-      "minzoom": 10,
-      "maxzoom": 20,
-      "filter": [
-        "all",
-        [
-          "==",
-          "featurecla",
-          "Admin-0 capital"
-        ]
-      ],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [
-          "OpenHistorical Bold"
-        ],
-        "text-size": 11,
-        "text-transform": "uppercase",
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(68, 51, 85, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "capital_labels_z3",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "populated_places",
-      "minzoom": 3,
-      "maxzoom": 10,
-      "filter": [
-        "all",
-        [
-          "==",
-          "featurecla",
-          "Admin-0 capital"
-        ]
-      ],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [
-          "OpenHistorical Bold"
-        ],
-        "text-size": {
-          "stops": [
-            [
-              3,
-              9
-            ],
-            [
-              10,
-              11
-            ]
-          ]
-        },
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(68, 51, 85, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "country_labels",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "country_label_points",
-      "minzoom": 3,
-      "maxzoom": 7,
-      "filter": [
-        "all",
-        [
-          "==",
-          "scalerank",
-          0
-        ]
-      ],
-      "layout": {
-        "text-field": "{sr_subunit}",
-        "text-font": [
-          "OpenHistorical Bold"
-        ],
-        "text-size": {
-          "stops": [
-            [
-              3,
-              11
-            ],
-            [
-              7,
-              13
-            ]
-          ]
-        },
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(68, 51, 85, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 1,
-        "text-halo-blur": 5
       }
     },
     {
@@ -9358,56 +9134,6 @@ ohmVectorStyles.Original = {
             [
               10,
               22
-            ]
-          ]
-        },
-        "text-font": [
-          "OpenHistorical Bold"
-        ],
-        "symbol-placement": "point",
-        "text-justify": "center",
-        "symbol-avoid-edges": false
-      },
-      "paint": {
-        "text-color": "rgba(101, 108, 108, 1)",
-        "text-halo-width": 1,
-        "text-halo-color": "rgba(220, 231, 232, 1)",
-        "text-halo-blur": 2,
-        "text-opacity": 1,
-        "text-translate-anchor": "map"
-      }
-    },
-    {
-      "id": "admin_countryl_labels",
-      "type": "symbol",
-      "source": "osm",
-      "source-layer": "land_ohm",
-      "minzoom": 0,
-      "maxzoom": 14,
-      "filter": [
-        "all",
-        [
-          "==",
-          "admin_level",
-          2
-        ]
-      ],
-      "layout": {
-        "visibility": "none",
-        "text-field": "{name}",
-        "text-size": {
-          "stops": [
-            [
-              4,
-              10
-            ],
-            [
-              6,
-              12
-            ],
-            [
-              8,
-              14
             ]
           ]
         },
