@@ -1968,7 +1968,7 @@ module Api
     end
 
     ##
-    # test the query functionality of changesets with the order parameter
+    # test the query functionality of sequential changesets with order and time parameters
     def test_query_order
       user = create(:user)
       changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
@@ -1976,30 +1976,77 @@ module Api
       changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 3, 1, 0, 0, 0), :closed_at => Time.utc(2008, 3, 2, 0, 0, 0))
       changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 4, 1, 0, 0, 0), :closed_at => Time.utc(2008, 4, 2, 0, 0, 0))
       changeset5 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 5, 1, 0, 0, 0), :closed_at => Time.utc(2008, 5, 2, 0, 0, 0))
+      changeset6 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 6, 1, 0, 0, 0), :closed_at => Time.utc(2008, 6, 2, 0, 0, 0))
+
+      get changesets_path
+      assert_response :success
+      assert_changesets_in_order [changeset6, changeset5, changeset4, changeset3, changeset2, changeset1]
 
       get changesets_path(:order => "oldest")
       assert_response :success
-      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5]
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5, changeset6]
 
-      get changesets_path(:order => "oldest", :time => "2008-01-01T00:00Z,2018-01-01T00:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5]
+      [
+        # lower time bound at the opening time of a changeset
+        ["2008-02-01T00:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3, changeset2]],
+        # lower time bound in the middle of a changeset
+        ["2008-02-01T12:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3]],
+        # lower time bound at the closing time of a changeset
+        ["2008-02-02T00:00:00Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3, changeset2], [changeset5, changeset4, changeset3]],
+        # lower time bound after the closing time of a changeset
+        ["2008-02-02T00:00:01Z", "2008-05-15T00:00:00Z", [changeset5, changeset4, changeset3], [changeset5, changeset4, changeset3]],
+        # upper time bound in the middle of a changeset
+        ["2007-09-09T12:00:00Z", "2008-04-01T12:00:00Z", [changeset4, changeset3, changeset2, changeset1], [changeset4, changeset3, changeset2, changeset1]],
+        # empty range
+        ["2009-02-02T00:00:01Z", "2018-05-15T00:00:00Z", [], []]
+      ].each do |from, to, interval_changesets, point_changesets|
+        get changesets_path(:time => "#{from},#{to}")
+        assert_response :success
+        assert_changesets_in_order interval_changesets
 
-      get changesets_path(:order => "oldest", :time => "2008-01-02T00:00Z,2018-01-01T00:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4, changeset5]
+        get changesets_path(:from => from, :to => to)
+        assert_response :success
+        assert_changesets_in_order point_changesets
 
-      get changesets_path(:order => "oldest", :time => "2008-01-02T00:01Z,2018-01-01T00:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset2, changeset3, changeset4, changeset5]
+        get changesets_path(:from => from, :to => to, :order => "oldest")
+        assert_response :success
+        assert_changesets_in_order point_changesets.reverse
+      end
+    end
 
-      get changesets_path(:order => "oldest", :time => "2008-04-01T00:00Z,2018-01-01T00:00Z")
-      assert_response :success
-      assert_changesets_in_order [changeset4, changeset5]
+    ##
+    # test the query functionality of overlapping changesets with order and time parameters
+    def test_query_order_overlapping
+      user = create(:user)
+      changeset1 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 17, 0, 0), :closed_at => Time.utc(2015, 6, 4, 17, 0, 0))
+      changeset2 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 16, 0, 0), :closed_at => Time.utc(2015, 6, 4, 18, 0, 0))
+      changeset3 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 4, 14, 0, 0), :closed_at => Time.utc(2015, 6, 4, 20, 0, 0))
+      changeset4 = create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 3, 23, 0, 0), :closed_at => Time.utc(2015, 6, 4, 23, 0, 0))
+      create(:changeset, :closed, :user => user, :created_at => Time.utc(2015, 6, 2, 23, 0, 0), :closed_at => Time.utc(2015, 6, 3, 23, 0, 0))
 
-      get changesets_path(:order => "oldest", :time => "2008-06-01T00:00Z,2018-01-01T00:00Z")
+      get changesets_path(:time => "2015-06-04T00:00:00Z")
       assert_response :success
-      assert_changesets_in_order []
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
+
+      get changesets_path(:from => "2015-06-04T00:00:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3]
+
+      get changesets_path(:from => "2015-06-04T00:00:00Z", :order => "oldest")
+      assert_response :success
+      assert_changesets_in_order [changeset3, changeset2, changeset1]
+
+      get changesets_path(:time => "2015-06-04T16:00:00Z,2015-06-04T17:30:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2, changeset3, changeset4]
+
+      get changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z")
+      assert_response :success
+      assert_changesets_in_order [changeset1, changeset2]
+
+      get changesets_path(:from => "2015-06-04T16:00:00Z", :to => "2015-06-04T17:30:00Z", :order => "oldest")
+      assert_response :success
+      assert_changesets_in_order [changeset2, changeset1]
     end
 
     ##
@@ -2029,6 +2076,9 @@ module Api
         get changesets_path(:user => uid)
         assert_response :bad_request, "'#{uid}' isn't a valid user ID"
       end
+
+      get changesets_path(:order => "oldest", :time => "2008-01-01T00:00Z,2018-01-01T00:00Z")
+      assert_response :bad_request, "cannot use order=oldest with time"
     end
 
     ##
