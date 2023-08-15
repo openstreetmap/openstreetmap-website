@@ -329,7 +329,7 @@ module Api
     end
 
     ##
-    # restrict changes to those closed during a particular time period
+    # restrict changesets to those during a particular time period
     def conditions_time(changesets, time)
       if time.nil?
         changesets
