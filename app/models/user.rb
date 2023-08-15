@@ -238,12 +238,12 @@ class User < ApplicationRecord
     @preferred_languages ||= Locale.list(languages)
   end
 
-  def has_home?
+  def home_location?
     home_lat && home_lon
   end
 
   def nearby(radius = Settings.nearby_radius, num = Settings.nearby_users)
-    if has_home?
+    if home_location?
       gc = OSM::GreatCircle.new(home_lat, home_lon)
       sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
@@ -282,18 +282,18 @@ class User < ApplicationRecord
   ##
   # returns true if the user has the moderator role, false otherwise
   def moderator?
-    has_role? "moderator"
+    role? "moderator"
   end
 
   ##
   # returns true if the user has the administrator role, false otherwise
   def administrator?
-    has_role? "administrator"
+    role? "administrator"
   end
 
   ##
   # returns true if the user has the requested role
-  def has_role?(role)
+  def role?(role)
     roles.any? { |r| r.role == role }
   end
 
@@ -405,6 +405,6 @@ class User < ApplicationRecord
   end
 
   def update_tile
-    self.home_tile = QuadTile.tile_for_point(home_lat, home_lon) if has_home?
+    self.home_tile = QuadTile.tile_for_point(home_lat, home_lon) if home_location?
   end
 end

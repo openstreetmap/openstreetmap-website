@@ -11,7 +11,7 @@
   <div class="col">
     <p class='text-muted mb-0'>
       <%= link_to contact.display_name, user_path(contact) %>
-      <% if @user.has_home? and contact.has_home? %>
+      <% if @user.home_location? and contact.home_location? %>
         <% distance = @user.distance(contact) %>
         <% if distance < 1 %>
           (<%= t ".m away", :count => (distance * 1000).round %>)

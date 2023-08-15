@@ -280,7 +280,7 @@ class DiaryEntriesController < ApplicationController
       @lon = @diary_entry.longitude
       @lat = @diary_entry.latitude
       @zoom = 12
-    elsif !current_user.has_home?
+    elsif !current_user.home_location?
       @lon = params[:lon] || -0.1
       @lat = params[:lat] || 51.5
       @zoom = params[:zoom] || 4

@@ -41,7 +41,7 @@ class UserRolesController < ApplicationController
   ##
   # checks that the user doesn't already have this role
   def not_in_role
-    if @user.has_role? @role
+    if @user.role? @role
       flash[:error] = t("user_role.filter.already_has_role", :role => @role)
       redirect_to user_path(@user)
     end
@@ -50,7 +50,7 @@ class UserRolesController < ApplicationController
   ##
   # checks that the user already has this role
   def in_role
-    unless @user.has_role? @role
+    unless @user.role? @role
       flash[:error] = t("user_role.filter.doesnt_have_role", :role => @role)
       redirect_to user_path(@user)
     end
