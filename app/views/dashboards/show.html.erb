@@ -5,7 +5,7 @@
 <div class="row">
   <% if current_user and @user.id == current_user.id %>
     <div class="col-md order-md-last">
-      <% if !@user.has_home? %>
+      <% if !@user.home_location? %>
         <div id="map" class="content_map border border-grey">
           <p class="m-3"><%= t(".no_home_location_html", :edit_profile_link => link_to(t(".edit_your_profile"), edit_profile_path)) %></p>
         </div>

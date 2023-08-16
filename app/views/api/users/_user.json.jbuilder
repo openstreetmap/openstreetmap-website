@@ -46,7 +46,7 @@ json.user do
   end
 
   if current_user && current_user == user && can?(:details, User)
-    if user.has_home?
+    if user.home_location?
       json.home do
         json.lat user.home_lat
         json.lon user.home_lon

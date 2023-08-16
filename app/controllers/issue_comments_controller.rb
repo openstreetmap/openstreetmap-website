@@ -19,7 +19,7 @@ class IssueCommentsController < ApplicationController
       reassign_issue(@issue)
       flash[:notice] = t ".issue_reassigned"
 
-      if current_user.has_role? @issue.assigned_role
+      if current_user.role? @issue.assigned_role
         redirect_to @issue
       else
         redirect_to issues_path(:status => "open")

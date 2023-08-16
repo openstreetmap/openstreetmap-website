@@ -25,7 +25,7 @@ xml.tag! "user", :id => user.id,
     end
   end
   if current_user && current_user == user && can?(:details, User)
-    if user.has_home?
+    if user.home_location?
       xml.tag! "home", :lat => user.home_lat,
                        :lon => user.home_lon,
                        :zoom => user.home_zoom
