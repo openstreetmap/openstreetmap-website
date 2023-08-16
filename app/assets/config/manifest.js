@@ -12,8 +12,8 @@
 //= link_directory ../../../vendor/assets/iD/iD/locales .json
 //= link_directory ../../../vendor/assets/iD/iD/mapillary-js .css
 //= link_directory ../../../vendor/assets/iD/iD/mapillary-js .js
-//= link_directory ../../../vendor/assets/iD/iD/pannellum-streetside .js
-//= link_directory ../../../vendor/assets/iD/iD/pannellum-streetside .css
+//= link_directory ../../../vendor/assets/iD/iD/pannellum .js
+//= link_directory ../../../vendor/assets/iD/iD/pannellum .css
 
 //= link_tree ../../../vendor/assets/leaflet .png
 

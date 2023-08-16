@@ -405,7 +405,6 @@
     font-weight: bold;
     fill: #333;
     -webkit-transition: opacity 100ms linear;
-    -o-transition: opacity 100ms linear;
     transition: opacity 100ms linear;
 }
 
@@ -2524,13 +2523,10 @@
 }
 
 
-.ideditor .photo-wrapper,
-.ideditor .photo-wrapper img {
+.ideditor .photo-wrapper {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    -o-object-fit: cover;
-       object-fit: cover;
 }
 
 .ideditor .photo-wrapper .photo-attribution {
@@ -2644,6 +2640,18 @@
     stroke-opacity: 0.85;  /* bump opacity - only one per road */
 }
 
+/* Vegbilder Image Layer */
+.ideditor .layer-vegbilder {
+    pointer-events: none;
+}
+.ideditor .layer-vegbilder .viewfield-group * {
+    fill: #ed9300;
+}
+.ideditor .layer-vegbilder .sequence {
+    stroke: #ed9300;
+    stroke-opacity: 0.85;  /* bump opacity - only one per road */
+}
+
 
 /* Mapillary Image Layer */
 .ideditor .layer-mapillary {
@@ -2703,6 +2711,54 @@
     stroke: #20c4ff;
 }
 
+/* Mapilio Image Layer */
+.ideditor .layer-mapilio {
+    pointer-events: none;
+}
+.ideditor .layer-mapilio .viewfield-group * {
+    fill: #0056f1;
+    stroke: #ffffff;
+    stroke-opacity: .6;
+    fill-opacity: .6;
+}
+.ideditor .layer-mapilio .sequence {
+    stroke: #0056f1;
+}
+.ideditor .photo-controls-mapilio {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    gap: 4px;
+}
+
+.ideditor .photo-controls-mapilio button {
+    padding:0 6px;
+    pointer-events: initial;
+}
+
+.ideditor .mapilio-wrapper {
+    position: relative;
+    background-color: #000;
+    background-image: url(<%= asset_path("iD/img/loader-black.gif") %>);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.ideditor #ideditor-viewer-mapilio-simple-wrap {
+    height: 100%;
+}
+.ideditor #ideditor-viewer-mapilio-simple {
+    width: 100%;
+    height: 100%;
+    -webkit-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+            transform-origin: 0 0;
+}
 
 /* Streetside Viewer (pannellum) */
 .ideditor .ms-wrapper .photo-attribution .image-link {
@@ -2741,7 +2797,8 @@
     }
 }
 
-.ideditor .ms-wrapper .pnlm-compass.pnlm-control {
+.ideditor .ms-wrapper .pnlm-compass.pnlm-control,
+.ideditor .vegbilder-wrapper  .pnlm-compass.pnlm-control {
     width: 26px;
     height: 26px;
     left: 4px;
@@ -2761,6 +2818,10 @@
     width: 12px;
     height: 12px;
     margin: 0 5px;
+}
+
+.ideditor .pnlm-zoom-controls {
+    margin-top: 6px;
 }
 
 
@@ -2808,6 +2869,14 @@
     background-repeat: no-repeat;
 }
 
+.ideditor .kartaview-wrapper img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
 .ideditor .kartaview-wrapper .photo-attribution a:active {
     color: #20c4ff;
 }
@@ -2820,11 +2889,33 @@
 .ideditor .kartaview-image-wrap {
     width: 100%;
     height: 100%;
-    -webkit-transform-origin:0 0;
-        -ms-transform-origin:0 0;
-            transform-origin:0 0;
+    -webkit-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+            transform-origin: 0 0;
 }
 
+.ideditor .photo-wrapper {
+    position: relative;
+    background-color: #000;
+}
+
+.ideditor .photoviewer .plane-frame {
+    display: block;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-image: url(<%= asset_path("iD/img/loader-black.gif") %>);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.ideditor .photoviewer .plane-frame > img.plane-photo{
+    width: auto;
+    height: 100%;
+    -webkit-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+            transform-origin: 0 0;
+}
 
 /* photo-controls (step forward, back, rotate) */
 .ideditor .photo-controls-wrap {
@@ -2846,6 +2937,7 @@
 .ideditor .photo-controls button:focus {
     height: 18px;
     width: 18px;
+    line-height: 18px;
     background: rgba(0,0,0,0.65);
     color: #eee;
     border-radius: 0;
@@ -2867,6 +2959,109 @@
     }
 }
 
+/* local georeferenced photos */
+.ideditor .layer-local-photos {
+    pointer-events: none;
+}
+.ideditor .layer-local-photos .viewfield-group * {
+    fill: #ed00d9;
+}
+.ideditor .local-photos {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.ideditor .local-photos > div {
+    width: 50%;
+}
+.ideditor .local-photos > div:first-child {
+    margin-right: 20px;
+}
+
+.ideditor .list-local-photos {
+    max-height: 40vh;
+    overflow-y: scroll;
+    overflow-x: auto;
+    /* workaround for something like "overflow-x: visible"
+       see https://stackoverflow.com/a/39554003 */
+    margin-left: -100px;
+    padding-left: 100px;
+}
+.ideditor .list-local-photos::-webkit-scrollbar {
+    border-left: none;
+}
+.ideditor .list-local-photos li {
+    list-style: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    height: 30px;
+}
+.ideditor .list-local-photos span.filename {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 30px;
+    padding-left: 8px;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.ideditor .list-local-photos li:first-child span.filename {
+    border-top: 1px solid #ccc;
+    border-top-left-radius: 4px;
+}
+.ideditor .list-local-photos li:first-child button {
+    border-top: 1px solid #ccc;
+}
+.ideditor .list-local-photos li:first-child button.remove {
+    border-top-right-radius: 4px;
+}
+.ideditor .list-local-photos li:last-child span.filename {
+    border-bottom-left-radius: 4px;
+}
+.ideditor .list-local-photos li:last-child button.remove {
+    border-bottom-right-radius: 4px;
+}
+.ideditor .list-local-photos li.invalid span.filename {
+    color: #ccc;
+}
+.ideditor .list-local-photos li.invalid button.zoom-to-data {
+    display: none;
+}
+.ideditor .list-local-photos li button.no-geolocation {
+    display: none;
+}
+.ideditor .list-local-photos li.invalid button.no-geolocation {
+    display: block;
+}
+.ideditor .list-local-photos .placeholder div {
+    display: block;
+    height: 40px;
+    width: 40px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(<%= asset_path("iD/img/loader-black.gif") %>);
+    -webkit-filter: invert(1);
+            filter: invert(1);
+}
+.ideditor .local-photos label.button {
+    background: #7092ff;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 25px;
+    text-align: center;
+    font-size: 12px;
+    display: inline-block;
+    border-radius: 4px;
+    cursor: pointer;
+}
 /* OSM Notes and QA Layers */
 
 .ideditor .qa-header-icon .qaItem-fill,
@@ -3247,7 +3442,6 @@
     -webkit-filter: none !important;
             filter: none !important;
     -webkit-transition-duration: 200ms;
-         -o-transition-duration: 200ms;
             transition-duration: 200ms;
 }
 
@@ -3255,7 +3449,6 @@
     -webkit-filter: grayscale(80%) brightness(80%);
             filter: grayscale(80%) brightness(80%);
     -webkit-transition-duration: 200ms;
-         -o-transition-duration: 200ms;
             transition-duration: 200ms;
 }
 
@@ -3416,8 +3609,7 @@
     border: 1px solid #ccc;
     padding: 0px 10px 0px 10px;
     border-radius: 4px;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
     overflow: auto;
 }
 .ideditor input[type=text],
@@ -3990,8 +4182,7 @@
 .ideditor .header h3 {
     text-align: center;
     margin-bottom: 0;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
     overflow: hidden;
     padding: 0;
 }
@@ -4306,8 +4497,7 @@
     text-align: left;
     padding: 10px;
     white-space: nowrap;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
     overflow: hidden;
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
@@ -4630,8 +4820,7 @@
     line-height: 1.35em;
 }
 .ideditor .preset-list-button .label-inner .namepart {
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 .ideditor .preset-list-button .label-inner .namepart:nth-child(1) {
     font-weight: bold;
@@ -4787,7 +4976,6 @@
     margin-bottom: 10px;
     width: 100%;
     -webkit-transition: margin-bottom 200ms;
-    -o-transition: margin-bottom 200ms;
     transition: margin-bottom 200ms;
 }
 
@@ -4818,8 +5006,7 @@
 }
 .ideditor .field-label .label-text {
     overflow: hidden;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
@@ -5458,8 +5645,7 @@
             flex: 1 1 auto;
     overflow: hidden;
     white-space: nowrap;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 /* Hide placeholder for radio buttons if another is active, or not in hover state */
@@ -5849,8 +6035,7 @@
     display: block;
     padding: 5px 10px;
     border-top: 1px solid #ccc;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -6299,13 +6484,18 @@
 }
 .ideditor .tag-reference-body.expanded {
     padding-bottom: 10px;
-    display: inline-block;
+    padding-left: 10px;
+    display: block;
 }
-.ideditor .tag-reference-description {
-
+.ideditor[dir='rtl'] .tag-reference-body.expanded {
+    padding-left: 0;
+    padding-right: 10px;
 }
 .ideditor .tag-reference-link {
     display: block;
+}
+.ideditor .tag-reference-link .icon:first-child {
+    margin-left: 0;
 }
 
 .ideditor img.tag-reference-wiki-image {
@@ -7994,8 +8184,6 @@
 
     -webkit-transition: opacity 200ms linear;
 
-    -o-transition: opacity 200ms linear;
-
     transition: opacity 200ms linear;
 }
 
@@ -8359,14 +8547,12 @@
 .ideditor .footer-show {
     bottom: 0px;
     -webkit-transition: bottom 75ms linear;
-    -o-transition: bottom 75ms linear;
     transition: bottom 75ms linear;
 }
 
 .ideditor .footer-hide {
     bottom: -100%;
     -webkit-transition: bottom 75ms linear;
-    -o-transition: bottom 75ms linear;
     transition: bottom 75ms linear;
 }
 
@@ -9515,7 +9701,7 @@
 /* Scrollbars
  ----------------------------------------------------- */
 .ideditor ::-webkit-scrollbar {
-    height: 20px;
+    height: 10px;
     overflow: visible;
     width: 10px;
     border-left: 1px solid #DDD;
@@ -9541,6 +9727,9 @@
     .ideditor ::-webkit-scrollbar-track:hover {
         background-color: rgba(0,0,0,.05);
     }
+}
+body {
+    scrollbar-width: 10px;
 }
 
 
