@@ -1,6 +1,9 @@
 <% content_for :heading do %>
   <h1><%= t ".heading", :user => @user.display_name %></h1>
-  <p><%= t ".subheading_html", :user => link_to(@user.display_name, user_path(@user)) %></p>
+  <p><%= t ".subheading_html",
+           :user => link_to(@user.display_name, user_path(@user)),
+           :submitted => tag.span(t(".subheading_submitted"), :class => "px-2 py-1 bg-primary bg-opacity-25"),
+           :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-white") %></p>
 <% end %>
 
 <% if @notes.empty? %>
