@@ -18,6 +18,7 @@ class Ability
       can :index, ChangesetComment
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show, :comments], DiaryEntry
+      can [:index], CommunityLink
       can [:index], Note
       can [:lost_password, :reset_password], :password
       can [:index, :show], Redaction
@@ -31,6 +32,7 @@ class Ability
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
+      can [:index, :show], Community
     end
 
     if user&.active?
@@ -54,6 +56,9 @@ class Ability
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
+        can [:create, :new], Community
+        can [:edit, :update], Community, :organizer_id => user.id
+        can [:edit, :create, :destroy, :new, :update], CommunityLink, :community => { :organizer_id => user.id }
 
         if user.moderator?
           can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
