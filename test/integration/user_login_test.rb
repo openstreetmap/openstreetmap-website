@@ -9,7 +9,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:openid] = nil
     OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.mock_auth[:facebook] = nil
-    OmniAuth.config.mock_auth[:microsoft_graph] = nil
+    OmniAuth.config.mock_auth[:microsoft] = nil
     OmniAuth.config.mock_auth[:github] = nil
     OmniAuth.config.mock_auth[:wikipedia] = nil
     OmniAuth.config.test_mode = false
@@ -853,9 +853,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", false
   end
 
-  def test_login_microsoft_graph_success
-    user = create(:user, :auth_provider => "microsoft_graph", :auth_uid => "1234567890")
-    OmniAuth.config.add_mock(:microsoft_graph, :uid => user.auth_uid)
+  def test_login_microsoft_success
+    user = create(:user, :auth_provider => "microsoft", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:microsoft, :uid => user.auth_uid)
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
@@ -863,9 +863,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    post auth_path(:provider => "microsoft_graph", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "microsoft_graph")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -874,9 +874,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", user.display_name
   end
 
-  def test_login_microsoft_graph_pending
-    user = create(:user, :pending, :auth_provider => "microsoft_graph", :auth_uid => "1234567890")
-    OmniAuth.config.add_mock(:microsoft_graph, :uid => user.auth_uid)
+  def test_login_microsoft_pending
+    user = create(:user, :pending, :auth_provider => "microsoft", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:microsoft, :uid => user.auth_uid)
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
@@ -884,9 +884,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    post auth_path(:provider => "microsoft_graph", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "microsoft_graph")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -894,9 +894,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "confirm"
   end
 
-  def test_login_microsoft_graph_suspended
-    user = create(:user, :suspended, :auth_provider => "microsoft_graph", :auth_uid => "1234567890")
-    OmniAuth.config.add_mock(:microsoft_graph, :uid => user.auth_uid)
+  def test_login_microsoft_suspended
+    user = create(:user, :suspended, :auth_provider => "microsoft", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:microsoft, :uid => user.auth_uid)
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
@@ -904,9 +904,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    post auth_path(:provider => "microsoft_graph", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "microsoft_graph")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -918,10 +918,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_login_microsoft_graph_blocked
-    user = create(:user, :auth_provider => "microsoft_graph", :auth_uid => "1234567890")
+  def test_login_microsoft_blocked
+    user = create(:user, :auth_provider => "microsoft", :auth_uid => "1234567890")
     create(:user_block, :needs_view, :user => user)
-    OmniAuth.config.add_mock(:microsoft_graph, :uid => user.auth_uid)
+    OmniAuth.config.add_mock(:microsoft, :uid => user.auth_uid)
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
@@ -929,9 +929,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    post auth_path(:provider => "microsoft_graph", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "microsoft_graph")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -940,8 +940,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", user.display_name
   end
 
-  def test_login_microsoft_graph_connection_failed
-    OmniAuth.config.mock_auth[:microsoft_graph] = :connection_failed
+  def test_login_microsoft_connection_failed
+    OmniAuth.config.mock_auth[:microsoft] = :connection_failed
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
@@ -949,12 +949,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    post auth_path(:provider => "microsoft_graph", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "microsoft_graph")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "microsoft_graph", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
+    assert_redirected_to auth_failure_path(:strategy => "microsoft", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -964,8 +964,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", false
   end
 
-  def test_login_microsoft_graph_invalid_credentials
-    OmniAuth.config.mock_auth[:microsoft_graph] = :invalid_credentials
+  def test_login_microsoft_invalid_credentials
+    OmniAuth.config.mock_auth[:microsoft] = :invalid_credentials
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
@@ -973,12 +973,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    post auth_path(:provider => "microsoft_graph", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "microsoft_graph")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "microsoft_graph", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
+    assert_redirected_to auth_failure_path(:strategy => "microsoft", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -988,8 +988,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", false
   end
 
-  def test_login_microsoft_graph_unknown
-    OmniAuth.config.add_mock(:microsoft_graph, :uid => "987654321")
+  def test_login_microsoft_unknown
+    OmniAuth.config.add_mock(:microsoft, :uid => "987654321")
 
     get "/login", :params => { :referer => "/history" }
     assert_response :redirect
@@ -997,9 +997,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
-    post auth_path(:provider => "microsoft_graph", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "microsoft_graph")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
