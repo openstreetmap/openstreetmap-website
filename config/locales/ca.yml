@@ -407,7 +407,7 @@ ca:
       history_title_html: 'Historial de la via: %{name}'
       nodes: Nodes
       nodes_count:
-        one: 1 node
+        one: '%{count} node'
         other: '%{count} nodes'
       also_part_of_html:
         one: part de la via %{related_ways}
@@ -580,9 +580,9 @@ ca:
       comment_link: Comenta aquesta entrada
       reply_link: Enviar un missatge a l'autor
       comment_count:
-        zero: Cap comentari
         one: '%{count} comentari'
         other: '%{count} comentaris'
+      no_comments: Cap comentari
       edit_link: Edita aquesta entrada
       hide_link: Amaga aquesta entrada
       unhide_link: Mostra aquesta entrada
@@ -1468,9 +1468,9 @@ ca:
     show:
       title: '%{status} Incidència #%{issue_id}'
       reports:
-        zero: Cap informe
-        one: 1 informe
+        one: '%{count} informe'
         other: '%{count} informes'
+      no_reports: Cap informe
       report_created_at: Denunciat per primer cop a %{datetime}
       last_resolved_at: Resolt per darrer cop a %{datetime}
       last_updated_at: Actualitzat per darrer cop a %{datetime} per %{displayname}
@@ -1630,6 +1630,11 @@ ca:
       subject: '[OpenStreetMap] Error d''importació de GPX'
     gpx_success:
       hi: Hola %{to_user},
+      loaded:
+        one: carregat correctament amb %{trace_points} d'un total d'%{count} punt
+          possible.
+        other: carregat correctament amb %{trace_points} d'un total de %{count} punts
+          possibles.
       subject: '[OpenStreetMap] Importació de GPX correcta'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMap us dona la benvinguda'
@@ -1730,6 +1735,8 @@ ca:
       success: Heu confirmat el vostre compte, gràcies per registrar-vos!
       already active: Aquest compte ja ha estat confirmat.
       unknown token: Aquest codi de confirmació ha expirat o no existeix.
+      resend_html: Si necessiteu que us tornem a enviar el correu electrònic de confirmació,
+        %{reconfirm_link}.
       click_here: cliqueu aquí
     confirm_resend:
       failure: L'usuari %{name} no s'ha trobat.
@@ -1865,6 +1872,9 @@ ca:
       no home location: No heu especificat la ubicació d'origen.
       update home location on click: Voleu actualitzar la ubicació d'inici en fer
         clic al mapa?
+      show: Mostra
+      delete: Esborra
+      undelete: Desfés l'esborrat
     update:
       success: S'ha actualitzat el perfil.
       failure: No s'ha pogut actualitzar el perfil.
@@ -1894,8 +1904,8 @@ ca:
           title: Inicieu la sessió amb Facebook
           alt: Inicieu la sessió amb un compte de Facebook
         windowslive:
-          title: Inicieu la sessió amb Windows Live
-          alt: Inicieu de sessió amb un compte de Windows Live
+          title: Inicieu la sessió amb Windows
+          alt: Inicieu de sessió amb un compte de Windows
         github:
           title: Inicieu la sessió amb GitHub
           alt: Inicieu la sessió amb un compte de GitHub
@@ -1918,6 +1928,7 @@ ca:
       support: assistència
   shared:
     markdown_help:
+      heading_html: Analitzat amb %{kramdown_link}
       headings: Encapçalaments
       heading: Encapçalament
       subheading: Subtítol
@@ -2003,10 +2014,16 @@ ca:
           podreu distribuir l'obra \nresultant amb la mateixa llicència. El %{legal_code_link}
           complet explica detalladament els vostres drets i responsabilitats."
         introduction_2_legal_code: codi legal
+        introduction_3_html: La documentació està sota llicència %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Reconeixement-CompartirIgual
+          2.0
         credit_title_html: Com atribuir autoria a OpenStreetMap
         credit_1_html: 'Allà on utilitzeu les dades de l''OpenStreetMap, cal que feu
           les dues coses següents:'
         credit_2_1: Doneu reconeixement a OpenstreetMap mostrant l'avís de copyright.
+        credit_2_2: Deixeu clar que les dades estan disponibles sota la llicència
+          de base de dades oberta (ODbL).
         credit_3_html: Per a l'avís de copyright, tenim diferents requisits sobre
           com cal mostrar-lo depenent de com feu servir les nostres dades. Per exemple,
           s'apliquen diferents regles depenent de si heu creat un mapa navegable,
@@ -2064,7 +2081,11 @@ ca:
           d'afegir dades de cap font amb drets d'autor registrats (com Google Maps
           o mapes impresos per exemple) sense tenir una autorització explícita dels
           titulars dels drets d'autor.
+        infringement_2_1_html: Si creieu que s'ha afegit material amb drets d'autor
+          de forma inapropiada a la base de dades d'OpenstreetMap o en aquest lloc,
+          dirigiu-vos al %{takedown_procedure_link} o ompliu directament a la %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: procediment de retirada
+        infringement_2_1_online_filing_page: pàgina del formulari en línia
         trademarks_title: Marques registrades
         trademarks_1_1_html: OpenStreetMap, el logo de la lupa i Estat del Mapa són
           marques registrades de la Fundació OpenStreetMap. Si teniu dubtes sobre
@@ -2146,8 +2167,15 @@ ca:
             carretera que falta o bé la vostra adreça, la millor forma d'arreglar-ho
             és unint-vos a la comunitat d'OpenStreetMap i afegir o bé corregir les
             dades vós mateix.
+        add_a_note:
+          instructions_1_html: |-
+            Feu clic a %{note_icon} o a la mateixa icona sobre el mapa.
+            Això afegirà un marcador al mapa, que podeu desplaçar arrossegant-lo. Afegiu el vostre missatge, deseu-lo i altres usuaris ho investigaran.
       other_concerns:
         title: Altres qüestions
+        concerns_html: Si us preocupa com s'usen les dades o dubteu dels continguts,
+          consulteu %{copyright_link} per a més informació legal, o contacteu amb
+          el %{working_group_link} adient.
         copyright: pàgina de copyright
         working_group: Grup de treball de l'OSMF
     help:
@@ -2193,6 +2221,7 @@ ca:
       removed: El vostre editor d'OpenStreetMap per defecte és el Potlatch. Atès que
         s'ha discontinuat l'Adobe Flash Player, el Potlach deixarà d'estar disponible
         des del navegador web.
+      desktop_application_html: Encara podeu utilitzar Potlatch %{download_link}.
       download: baixant l'aplicació d'escriptori per a Mac i Windows
       id_editor_html: Alternativament, podeu establir iD com al vostre editor per
         defecte, el qual s'executa en el vostre navegador de web com Potlatch feia
@@ -2354,6 +2383,10 @@ ca:
           locals:'
       other_groups:
         title: Altres grups
+        other_groups_html: |-
+          No cal establir formalment un grup en la mateixa mesura que els capítols locals.
+          De fet, molts grups existeixen amb molt d'èxit com a reunió informal de persones o com a
+          grup comunitari. Qualsevol pot configurar o unir-se a aquests. Més informació a la %{communities_wiki_link}.
         communities_wiki: Pàgina wiki de les comunitats
   traces:
     visibility:
@@ -2439,6 +2472,8 @@ ca:
       description: Navega per les traces pujades recentment
       tagged_with: etiquetat amb %{tags}
       empty_title: Aquí encara no hi ha res
+      empty_upload_html: '%{upload_link} o obteniu més informació sobre les traces
+        de GPS a la %{wiki_link}.'
       upload_new: Puja una traça nova
       wiki_page: pàgina wiki
       upload_trace: Puja una traça
@@ -2616,9 +2651,17 @@ ca:
     new:
       title: Registreu-vos-hi
       no_auto_account_create: No us podem crear un compte automàticament.
+      please_contact_support_html: Contacteu amb l'%{support_link} per gestionar la
+        creació d'un compte - intentarem tractar la sol·licitud tan aviat com sigui
+        possible.
       support: assistència
       about:
         header: Lliure i editable
+        paragraph_1: A diferència d'altres mapes, OpenStreetMap està completament
+          creat per persones com tu, i és lliure per tal que qualsevol persona pugui
+          arreglar-lo, actualitzar-lo, descarregar-lo i utilitzar-lo.
+        paragraph_2: Registreu-vos per començar a contribuir. Us enviarem un correu
+          electrònic per confirmar el vostre compte.
       display name description: El nom d'usuari que es mostrarà públicament. El podeu
         canviar més endavant a les preferències.
       external auth: 'Autenticació mitjançant tercers:'
@@ -2627,7 +2670,11 @@ ca:
         servidors o eines extres sí que en poden demanar una.
       continue: Registreu-vos-hi
       terms accepted: Gràcies per acceptar els nous termes de col·laboració.
+      email_confirmation_help_html: La vostra adreça no es mostrarà públicament, consulteu
+        la nostra %{privacy_policy_link} per obtenir més informació.
       privacy_policy: política de privadesa
+      privacy_policy_title: Política de privadesa de l'OSMF incloent la secció sobre
+        adreces de correu electrònic
     terms:
       title: Termes
       heading: Termes
@@ -2643,6 +2690,8 @@ ca:
       consider_pd: A més de tot l'anterior, accepto que les meves contribucions siguin
         de domini públic
       consider_pd_why: què és això?
+      guidance_info_html: 'Informació per ajudar a entendre aquests termes: un %{readable_summary_link}
+        i algunes %{informal_translations_link}'
       readable_summary: resum llegible per humans
       informal_translations: traduccions informals
       continue: Continua
@@ -2736,6 +2785,8 @@ ca:
       support: assistència
       automatically_suspended: Ho sentim, s'ha suspès el vostre compte automàticament
         per activitat sospitosa.
+      contact_support_html: Un administrador revisarà aquesta decisió ben aviat, o
+        podeu contactar amb %{support_link} si voleu parlar-ne.
     auth_failure:
       connection_failed: La connexió al proveïdor d'autenticació ha fallat
       invalid_credentials: Credencials d'autenticació no vàlides
@@ -2894,6 +2945,7 @@ ca:
       event_closed_by_anonymous_html: Resolt per un anònim %{time_ago}
       event_reopened_by_html: Reactivat per %{user} %{time_ago}
       event_reopened_by_anonymous_html: Reactivat per un anònim %{time_ago}
+      event_hidden_by_html: Amagat per %{user} %{time_ago}
       report: informa d'aquesta nota
       anonymous_warning: Aquesta nota inclou comentaris d'usuaris anònims que haurien
         de ser verificats independentment.
@@ -2904,6 +2956,8 @@ ca:
       comment: Comenta
       report_link_html: Si aquesta nota conté informació delicada que cal eliminar,
         podeu %{link}.
+      other_problems_resolve: Per la resta de problemes amb la nota, si us plau, resoleu-ho
+        vós mateix amb un comentari.
       other_problems_resolved: Per a tots els altres problemes, la resolució és suficient.
       disappear_date_html: Aquesta nota resolta desapareixerà del mapa en %{disappear_in}.
     new:
@@ -2972,6 +3026,13 @@ ca:
       openstreetmap_contributors: Els col·laboradors de l'OpenStreetMap
       make_a_donation: Feu una donació
       website_and_api_terms: Condicions del lloc web i de l'API
+      cyclosm_credit: Estil de tessel·les per %{cyclosm_link}, hostatjades per %{osm_france_link}
+      osm_france: OpenStreetMap França
+      thunderforest_credit: Tessel·les cortesia de %{thunderforest_link}
+      andy_allan: Andy Allan
+      opnvkarte_credit: Tessel·les cortesia de %{memomaps_link}
+      memomaps: MeMoMaps
+      hotosm_credit: Estil de tessel·les per %{hotosm_link}, hostatjades per %{osm_france_link}
       hotosm_name: Equip humanitari de l'OpenStreetMap
     site:
       edit_tooltip: Modifica el mapa

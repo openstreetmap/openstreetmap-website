@@ -57,7 +57,7 @@ fa:
       prompt: انتخاب پرونده
     submit:
       diary_comment:
-        create: ذخیره
+        create: نظردهی
       diary_entry:
         create: انتشار
         update: به‌روز رسانی
@@ -138,6 +138,7 @@ fa:
       diary_entry:
         user: کاربر
         title: عنوان
+        body: متن
         latitude: عرض جغرافیایی
         longitude: طول جغرافیایی
         language_code: زبان
@@ -205,39 +206,41 @@ fa:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: حدود ۱ ساعت پیش
+        one: حدود %{count} ساعت پیش
         other: حدود %{count} ساعت پیش
       about_x_months:
-        one: حدود ۱ ماه پیش
+        one: حدود %{count} ماه پیش
         other: حدود %{count} ماه پیش
       about_x_years:
-        one: حدود ۱ سال پیش
+        one: حدود %{count} سال پیش
         other: حدود %{count} سال پیش
       almost_x_years:
-        one: نزدیک به ۱ سال پیش
+        one: نزدیک به %{count} سال پیش
         other: نزدیک به %{count} سال پیش
       half_a_minute: نیم دقیقه پیش
       less_than_x_seconds:
-        one: کمتر از ۱ ثانیه پیش
+        one: کمتر از %{count} ثانیه پیش
         other: کمتر از %{count} ثانیه پیش
       less_than_x_minutes:
-        one: کمتر از ۱ دقیقه پیش
+        one: کمتر از %{count} دقیقه پیش
         other: کمتر از %{count} دقیقه پیش
-      over_x_years: بیش از %{count} سال پیش
+      over_x_years:
+        one: بیش از %{count} سال پیش
+        other: بیش از %{count} سال پیش
       x_seconds:
-        one: ۱ ثانیه پیش
+        one: '%{count} ثانیه پیش'
         other: '%{count} ثانیه پیش'
       x_minutes:
-        one: ۱ دقیقه پیش
+        one: '%{count} دقیقه پیش'
         other: '%{count} دقیقه پیش'
       x_days:
         one: '%{count} روز پیش'
         other: '%{count} روز پیش'
       x_months:
-        one: ۱ ماه پیش
+        one: '%{count} ماه پیش'
         other: '%{count} ماه پیش'
       x_years:
-        one: ۱ سال پیش
+        one: '%{count} سال پیش'
         other: '%{count} سال پیش'
   editor:
     default: پیش‌فرض (در حال حاضر %{name})
@@ -253,20 +256,20 @@ fa:
       openid: OpenID
       google: گوگل
       facebook: فیس‌بوک
-      windowslive: ویندوز لایو
+      windowslive: مایکروسافت
       github: گیت‌هاب
       wikipedia: ویکی‌پدیا
   api:
     notes:
       comment:
         opened_at_html: '%{when} ایجاد شد'
-        opened_at_by_html: '%{when} %{user} آن را ایجاد کرد'
+        opened_at_by_html: '%{when} %{user} ایجادش کرد'
         commented_at_html: '%{when} روزآمد شد'
-        commented_at_by_html: '%{when} %{user} آن را روزآمد کرد'
+        commented_at_by_html: '%{when} %{user} روزآمدش کرد'
         closed_at_html: '%{when} حل شد'
-        closed_at_by_html: '%{when} %{user} آن را حل کرد'
+        closed_at_by_html: '%{when} %{user} حلش کرد'
         reopened_at_html: '%{when} دوباره فعال شد'
-        reopened_at_by_html: '%{when} %{user} دوباره آن را فعال کرد'
+        reopened_at_by_html: '%{when} %{user} به جریانش انداخت'
       rss:
         title: یادداشت‌های OpenStreetMap
         description_area: فهرستی از یادداشت‌های گزارش‌شده، نظردار یا بسته‌شده در منطقهٔ
@@ -332,6 +335,15 @@ fa:
       delete_account: حذف حساب...
     go_public:
       heading: ویرایش عمومی
+      currently_not_public: هم‌اکنون ویرایش‌های شما گمنام هستند و مردم نمی‌توانند
+        برایتان پیام بفرستند یا مکان شما را ببینند. برای نمایش آنچه ویرایش کرده‌اید
+        و اجازه به مردم برای تماس با شما از طریق وبگاه، روی دکمهٔ زیر کلیک کنید.
+      only_public_can_edit: از زمان روی کار آمدن 0.6 API، فقط کاربران عمومی می‌توانند
+        نقشه را ویرایش کنند.
+      find_out_why: بفهمید چرا این‌طور است
+      email_not_revealed: رایانامهٔ شما از طریق عمومی‌شدن فاش نمی‌شود.
+      not_reversible: این عملیات برگشت‌پذیر نیست و هم‌اکنون همهٔ کاربرانِ تازه به‌طور
+        پیش‌فرض عمومی هستند.
       make_edits_public_button: همهٔ ویرایش‌های من را عمومی کن
     update:
       success_confirm_needed: اطلاعات کاربر با موفقیت به‌روز شد. برای تأیید نشانی
@@ -342,16 +354,22 @@ fa:
   browse:
     created: ایجاد شد
     closed: بسته شد
+    created_ago_html: ایجاد شد %{time_ago}
+    closed_ago_html: بسته شد %{time_ago}
+    created_ago_by_html: '%{time_ago} %{user} ایجادش کرد'
+    closed_ago_by_html: '%{time_ago} %{user} بستش'
+    deleted_ago_by_html: '%{time_ago} %{user} حذفش کرد'
+    edited_ago_by_html: '%{time_ago} %{user} ویرایشش کرد'
     version: نسخهٔ
     in_changeset: بستهٔ تغییر
     anonymous: گمنام
     no_comment: (بدون توضیح)
     part_of: بخشی از
     part_of_relations:
-      one: 1 رابطه
+      one: '%{count} رابطه'
       other: '%{count} رابطه'
     part_of_ways:
-      one: 1 راه
+      one: '%{count} راه'
       other: '%{count} راه'
     download_xml: بارگیری XML
     view_history: نمایش تاریخچه
@@ -367,6 +385,8 @@ fa:
       relation: رابطه‌ها (%{count})
       relation_paginated: رابطه‌ها (%{x}-%{y} از %{count})
       comment: نظرها (%{count})
+      hidden_comment_by_html: نظر پنهان؛ نوشتهٔ %{user}‏ %{time_ago}
+      comment_by_html: نظر از %{user}‏ %{time_ago}
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
@@ -383,6 +403,7 @@ fa:
       history_title_html: 'تاریخچهٔ راه: %{name}'
       nodes: گره‌ها
       nodes_count:
+        one: '%{count} گره'
         other: '%{count} گره'
       also_part_of_html:
         one: بخشی از راه %{related_ways}
@@ -392,7 +413,7 @@ fa:
       history_title_html: 'تاریخچهٔ رابطه: %{name}'
       members: اعضا
       members_count:
-        one: 1 عضو
+        one: '%{count} عضو'
         other: '%{count} عضو'
     relation_member:
       entry_role_html: '%{type} %{name} با نقش %{role}'
@@ -433,7 +454,7 @@ fa:
     start_rjs:
       feature_warning: در حال بارکردن %{num_features} عارضه. این کار ممکن است مرورگرتان
         را کُند یا ناپاسخگو کند. با این حال، داده نمایش داده شود؟
-      load_data: بارگیری داده
+      load_data: بارکردن داده
       loading: در حال بارکردن...
     tag_details:
       tags: برچسب‌ها
@@ -445,6 +466,7 @@ fa:
       wikimedia_commons_link: آیتم %{page} در ویکی‌انبار
       telephone_link: ' تماس با %{phone_number}'
       colour_preview: پیش‌نمایش رنگ %{colour_value}
+      email_link: فرستادن رایانامه به %{email}
     query:
       title: پرس‌وجوی عارضه‌ها
       introduction: روی نقشه کلیک کنید تا عارضه‌های نزدیک را بیابید
@@ -467,7 +489,8 @@ fa:
       area: منطقه
     index:
       title: بسته‌های تغییر
-      title_user: بسته‌های تغییر از %{user}
+      title_user: بسته‌های تغییر %{user}
+      title_user_link_html: بسته‌های تغییر %{user_link}
       title_friend: بسته‌های تغییر دوستان من
       title_nearby: بسته‌های تغییر کاربران نزدیک
       empty: هیچ بستۀ تغییری یافت نشد.
@@ -482,7 +505,7 @@ fa:
   changeset_comments:
     comment:
       comment: نظر جدید روی بستهٔ تغییر %{changeset_id} از %{author}
-      commented_at_by_html: '%{when} %{user} آن را روزآمد کرد'
+      commented_at_by_html: '%{when} %{user} روزآمدش کرد'
     comments:
       comment: نظر جدید روی بستهٔ تغییر %{changeset_id} از %{author}
     index:
@@ -552,8 +575,8 @@ fa:
       reply_link: به نویسنده پیام بفرستید
       comment_count:
         one: '%{count} نظر'
-        zero: بدون نظر
         other: '%{count} نظر'
+      no_comments: بدون نظر
       edit_link: ویرایش این روزنوشت
       hide_link: پنهان‌سازی این روزنوشت
       unhide_link: آشکارسازی این روزنوشت
@@ -594,9 +617,28 @@ fa:
       applications:
         create:
           notice: برنامه ثبت شد.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/fa:Contact
+      contact_url_title: راه‌های ارتباطی متنوعی شرح داده شده
+      contact: تماس بگیرید
+      contact_the_community_html: اگر متوجه پیوند شکسته یا اشکالی شده‌اید لطفاً با
+        جامعهٔ OpenStreetMap %{contact_link}. نشانی دقیق درخواست خود را یادداشت کنید.
+    forbidden:
+      title: ممنوع
+      description: عملیاتی که در سرور OpenStreetMap درخواست کردید فقط برای مدیران
+        در دسترس است (HTTP 403)
+    internal_server_error:
+      title: خطای برنامه
+      description: سرور OpenStreetMap با وضعیت غیرمنتظره‌ای روبه‌رو شد که آن را از
+        انجام درخواست باز داشت (HTTP 500)
+    not_found:
+      title: پرونده پیدا نشد
+      description: پرونده/پوشه/عملیات API با آن نام در سرور OpenStreetMap پیدا نشد
+        (HTTP 404)
   friendships:
     make_friend:
-      heading: افزودن %{user} به‌عنوان دوست؟
+      heading: '%{user} به‌عنوان دوست افزوده شود؟'
       button: افزودن به‌عنوان دوست
       success: '%{name} اکنون دوست شماست!'
       failed: پوزش، افزودن %{name} به دوستان شما انجام نشد.
@@ -611,7 +653,10 @@ fa:
   geocoder:
     search:
       title:
+        results_from_html: نتایج %{results_link}
         latlon: داخلی
+        osm_nominatim: OpenStreetMap Nominatim
+        osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -969,7 +1014,7 @@ fa:
           fitness_station: ایستگاه تناسب اندام
           garden: باغ
           golf_course: زمین گلف
-          horse_riding: اسب سواری
+          horse_riding: مرکز اسب‌سواری
           ice_rink: رینک یخ
           marina: لنگرگاه
           miniature_golf: گلف کوچک
@@ -1102,6 +1147,7 @@ fa:
           lawyer: وکیل
           newspaper: دفتر روزنامه
           ngo: دفتر سازمان غیر دولتی
+          religion: دفتر مذهبی
           research: دفتر خدمات مشاوره‌ای
           tax_advisor: مشاور مالیاتی
           telecommunication: دفتر مخابرات
@@ -1161,9 +1207,11 @@ fa:
           turntable: صفحه‌گردان
           yard: محوطه راه آهن
         shop:
+          agrarian: فروشگاه کشاورزی
           alcohol: Off License
           antiques: عتیقه‌جات
           art: فروشگاه لوازم هنری
+          baby_goods: کالای کودک
           bakery: نانوایی
           beauty: فروشگاه زیبایی
           beverages: فروشگاه نوشیدنی‌ها و عرقیات
@@ -1334,7 +1382,7 @@ fa:
       last_updated: آخرین روزآمدسازی
       link_to_reports: دیدن گزارش‌ها
       reports_count:
-        one: 1 گزارش
+        one: '%{count} گزارش'
         other: '%{count} گزارش'
       reported_item: مورد گزارش‌شده
       states:
@@ -1344,9 +1392,9 @@ fa:
     show:
       title: '%{status} موضوع #%{issue_id}'
       reports:
-        zero: گزارشی یافت نشد
-        one: ۱ گزارش
+        one: '%{count} گزارش'
         other: '%{count} گزارش'
+      no_reports: گزارشی پیدا نشد
       report_created_at: اولین بار %{datetime} گزارش شد
       last_resolved_at: آخرین بار %{datetime} حل شد
       last_updated_at: آخرین روزآمدسازی در %{datetime} به دست %{displayname}
@@ -1369,8 +1417,7 @@ fa:
       comment_from_html: نظر از %{user_link} در %{comment_created_at}
       reassign_param: مشکل تخصیص مجدد؟
     reports:
-      reported_by_html: در %{updated_at}،‏ %{user} آن را به‌عنوان %{category} گزارش
-        کرد
+      reported_by_html: در %{updated_at}،‏ %{user} به‌عنوان %{category} گزارشش کرد
     helper:
       reportable_title:
         diary_comment: '%{entry_title}، نظر #%{comment_id}'
@@ -1626,8 +1673,10 @@ fa:
       success: ' تشکر بابت ثبت نام! حساب کاربری شما تایید شد.'
       already active: این حساب کاربری قبلاً تأیید شده است.
       unknown token: کد تأیید منقضی شده یا وجود ندارد.
+      resend_html: اگر لازم است ذوباره رایانامهٔ تأیید را بفرستیم، %{reconfirm_link}.
+      click_here: اینجا کلیک کنید
     confirm_resend:
-      failure: کاربر %{name} یافت نشد.
+      failure: کاربر %{name} پیدا نشد.
     confirm_email:
       heading: تأیید تغییر نشانی رایانامه
       press confirm button: برای تأیید رایانامهٔ جدیدتان دکمهٔ تأیید زیر را فشار دهید.
@@ -1789,8 +1838,8 @@ fa:
           title: ورود با فیسبوک
           alt: ورود با حساب فیسبوک
         windowslive:
-          title: ورود با Windows Live
-          alt: ورود با حساب Windows Live
+          title: ورود با مایکروسافت
+          alt: ورود با حساب مایکروسافت
         github:
           title: ورود با GitHub
           alt: ورود با حساب GitHub
@@ -1807,8 +1856,14 @@ fa:
       title: خروج
       heading: خروج از OpenStreetMap
       logout_button: خروج
+    suspended_flash:
+      suspended: پوزش، حساب شما به دلیل فعالیت مشکوک تعلیق شده است.
+      contact_support_html: اگر مایلید در این باره بحث کنید، لطفاً با %{support_link}
+        تماس بگیرید.
+      support: پشتیبانی
   shared:
     markdown_help:
+      heading_html: تجزیه‌شده با %{kramdown_link}
       headings: عنوان‌‌بندی
       heading: عنوان
       subheading: عنوان فرعی
@@ -1827,6 +1882,7 @@ fa:
   site:
     about:
       next: بعدی
+      heading_html: مشارکت‌کنندگان %{br} %{copyright}OpenStreetMap
       used_by_html: '%{name} برای هزاران وبگاه، کارهٔ تلفن همراه و افزارهٔ سخت‌افزاری
         دادهٔ نقشه فراهم می‌کند.'
       lede_text: OpenStreetMap را جامعه‌ای از نقشه‌کشان ساخته‌اند که در ایجاد و نگهداری
@@ -1837,6 +1893,14 @@ fa:
         با استفاده از تصاویر هوایی، دستگاه‌های GPS و نقشه‌های میدانی با فناوری سطح
         پایین، درستی و روزآمدی OSM را می‌سنجند.
       community_driven_title: حرکت جامعه‌محور
+      community_driven_1_html: |2-
+         جامعهٔ OpenStreetMap متنوع، پرشور و هر روز در حال رشد است.
+        افراد بسیاری در این پروژه با ما همکاری می‌کنند؛ شامل نقشه‌کشان علاقه‌مند، متخصصان GIS، مهندسانی که سرورهای OSM را بر پا می‌دارند، بشردوستانی که مناطق فاجعه‌زده را نقشه‌کشی می‌کنند و بسیاری دیگر.
+        برای آنکه از جامعه بیشتر بدانید، %{osm_blog_link}، %{user_diaries_link}، %{community_blogs_link} و وبگاه %{osm_foundation_link} را ببینید.
+      community_driven_osm_blog: وبلاگ OpenStreetMap
+      community_driven_user_diaries: روزنوشت‌های کاربران
+      community_driven_community_blogs: وبلاگ‌های جامعه
+      community_driven_osm_foundation: بنیاد OSM
       open_data_title: دادهٔ آزاد
       legal_title: قانونی
       legal_1_1_terms_of_use: شرایط استفاده
