@@ -22820,7 +22820,7 @@
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.27.0",
+    version: "2.27.1",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -22897,7 +22897,7 @@
       "@fortawesome/free-regular-svg-icons": "~6.4.2",
       "@fortawesome/free-solid-svg-icons": "~6.4.2",
       "@mapbox/maki": "^8.0.1",
-      "@openstreetmap/id-tagging-schema": "^6.3.0",
+      "@openstreetmap/id-tagging-schema": "^6.4.1",
       "@rapideditor/temaki": "~5.4.0",
       "@transifex/api": "^5.4.0",
       autoprefixer: "^10.4.15",
@@ -22931,7 +22931,7 @@
       "node-fetch": "^2.6.12",
       "npm-run-all": "^4.0.0",
       "osm-community-index": "~5.5.4",
-      postcss: "^8.4.27",
+      postcss: "^8.4.28",
       "postcss-selector-prepend": "^0.5.0",
       shelljs: "^0.8.0",
       shx: "^0.3.0",
@@ -25869,24 +25869,13 @@
       }
       return value2 === null || value2 === void 0 ? valueNull : typeof value2 === "function" ? valueFunction : valueConstant;
     }
-    function stickyCursor(func) {
-      const supportedTypes = ["text", "search", "url", "tel", "password"];
-      if (!supportedTypes.includes(selection2.node()?.type)) {
-        return func;
-      }
-      return function() {
-        const cursor = { start: this.selectionStart, end: this.selectionEnd };
-        func.apply(this, arguments);
-        this.setSelectionRange(cursor.start, cursor.end);
-      };
-    }
     if (arguments.length === 1) {
       return selection2.property("value");
     }
     if (shouldUpdate === void 0) {
       shouldUpdate = (a2, b2) => a2 !== b2;
     }
-    return selection2.each(stickyCursor(setValue(value, shouldUpdate)));
+    return selection2.each(setValue(value, shouldUpdate));
   }
 
   // modules/util/keybinding.js
