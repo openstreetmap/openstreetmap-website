@@ -307,7 +307,7 @@ module Api
               # user input checking, we don't have any UIDs < 1
               raise OSM::APIBadUserInput, "invalid user ID" if user.to_i < 1
 
-              u = User.find(user.to_i)
+              u = User.find_by(:id => user.to_i)
             else
               u = User.find_by(:display_name => name)
             end
