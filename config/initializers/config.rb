@@ -85,5 +85,13 @@ Config.setup do |config|
     required(:trace_file_storage).filled(:str?)
     required(:trace_image_storage).filled(:str?)
     required(:trace_icon_storage).filled(:str?)
+    required(:changesets).schema do
+      required(:default_query_limit).filled(:int?)
+      required(:max_query_limit).filled(:int?)
+    end
+    required(:notes).schema do
+      required(:default_query_limit).filled(:int?)
+      required(:max_query_limit).filled(:int?)
+    end
   end
 end
