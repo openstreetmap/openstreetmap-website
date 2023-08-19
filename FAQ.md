@@ -15,7 +15,7 @@ drive.  This is a great way to reach a lot of people!
    * Edit [`config/banners.yml`](https://github.com/openstreetmap/openstreetmap-website/blob/master/config/banners.yml) to contain an entry for the event banner.  It should contain the following:
      * `id` - a unique identifier (e.g. `donate2017`)
      * `alt` - alt name for the image (e.g. `OpenStreetMap Funding Drive 2017`)
-     * `link` - URL for your event page (e.g. `https://donate.openstreetmap.org/`)
+     * `link` - URL for your event page (e.g. `https://supporting.openstreetmap.org/`)
      * `img` - the filename for the banner image (e.g. `banners/donate-2017.jpg`)
      * `enddate` - the final date that the banner will be shown (e.g. `2017-oct-31`)
    * (optional) Feel free to cleanup the old images from the `app/assets/images/banners/` folder and old entries in the `config/banners.yml` file.
