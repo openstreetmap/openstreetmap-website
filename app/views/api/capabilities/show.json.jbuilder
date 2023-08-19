@@ -25,6 +25,10 @@ json.api do
     json.default_query_limit Settings.default_changeset_query_limit
     json.maximum_query_limit Settings.max_changeset_query_limit
   end
+  json.notes do
+    json.default_query_limit Settings.default_note_query_limit
+    json.maximum_query_limit Settings.max_note_query_limit
+  end
   json.timeout do
     json.seconds Settings.api_timeout
   end

@@ -10,6 +10,8 @@ xml.osm(OSM::API.new.xml_root_attributes) do |osm|
     api.changesets(:maximum_elements => Changeset::MAX_ELEMENTS,
                    :default_query_limit => Settings.default_changeset_query_limit,
                    :maximum_query_limit => Settings.max_changeset_query_limit)
+    api.notes(:default_query_limit => Settings.default_note_query_limit,
+              :maximum_query_limit => Settings.max_note_query_limit)
     api.timeout(:seconds => Settings.api_timeout)
     api.status(:database => @database_status,
                :api => @api_status,

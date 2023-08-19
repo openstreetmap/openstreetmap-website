@@ -345,13 +345,13 @@ module Api
     # Get the maximum number of results to return
     def result_limit
       if params[:limit]
-        if params[:limit].to_i.positive? && params[:limit].to_i <= 10000
+        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_note_query_limit
           params[:limit].to_i
         else
-          raise OSM::APIBadUserInput, "Note limit must be between 1 and 10000"
+          raise OSM::APIBadUserInput, "Note limit must be between 1 and #{Settings.max_note_query_limit}"
         end
       else
-        100
+        Settings.default_note_query_limit
       end
     end
 
