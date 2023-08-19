@@ -32,7 +32,10 @@ module Api
           assert_select "area[maximum='#{Settings.max_request_area}']", :count => 1
           assert_select "note_area[maximum='#{Settings.max_note_request_area}']", :count => 1
           assert_select "tracepoints[per_page='#{Settings.tracepoints_per_page}']", :count => 1
-          assert_select "changesets[maximum_elements='#{Changeset::MAX_ELEMENTS}']", :count => 1
+          assert_select "changesets" \
+                        "[maximum_elements='#{Changeset::MAX_ELEMENTS}']" \
+                        "[default_query_limit='#{Settings.default_changeset_query_limit}']" \
+                        "[maximum_query_limit='#{Settings.max_changeset_query_limit}']", :count => 1
           assert_select "relationmembers[maximum='#{Settings.max_number_of_relation_members}']", :count => 1
           assert_select "status[database='online']", :count => 1
           assert_select "status[api='online']", :count => 1
