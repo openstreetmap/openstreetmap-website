@@ -37,6 +37,9 @@ module Api
                         "[default_query_limit='#{Settings.default_changeset_query_limit}']" \
                         "[maximum_query_limit='#{Settings.max_changeset_query_limit}']", :count => 1
           assert_select "relationmembers[maximum='#{Settings.max_number_of_relation_members}']", :count => 1
+          assert_select "notes" \
+                        "[default_query_limit='#{Settings.default_note_query_limit}']" \
+                        "[maximum_query_limit='#{Settings.max_note_query_limit}']", :count => 1
           assert_select "status[database='online']", :count => 1
           assert_select "status[api='online']", :count => 1
           assert_select "status[gpx='online']", :count => 1
@@ -61,6 +64,8 @@ module Api
       assert_equal Settings.default_changeset_query_limit, js["api"]["changesets"]["default_query_limit"]
       assert_equal Settings.max_changeset_query_limit, js["api"]["changesets"]["maximum_query_limit"]
       assert_equal Settings.max_number_of_relation_members, js["api"]["relationmembers"]["maximum"]
+      assert_equal Settings.default_note_query_limit, js["api"]["notes"]["default_query_limit"]
+      assert_equal Settings.max_note_query_limit, js["api"]["notes"]["maximum_query_limit"]
       assert_equal "online", js["api"]["status"]["database"]
       assert_equal "online", js["api"]["status"]["api"]
       assert_equal "online", js["api"]["status"]["gpx"]
