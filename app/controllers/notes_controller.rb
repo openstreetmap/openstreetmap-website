@@ -27,10 +27,7 @@ class NotesController < ApplicationController
 
         render :layout => "site"
       else
-        @title = t "users.no_such_user.title"
-        @not_found_user = params[:display_name]
-
-        render :template => "users/no_such_user", :status => :not_found, :layout => "site"
+        render_unknown_user params[:display_name]
       end
     end
   end

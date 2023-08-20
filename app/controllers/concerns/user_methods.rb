@@ -18,7 +18,7 @@ module UserMethods
     @not_found_user = name
 
     respond_to do |format|
-      format.html { render :template => "users/no_such_user", :status => :not_found }
+      format.html { render :template => "users/no_such_user", :status => :not_found, :layout => "site" }
       format.all { head :not_found }
     end
   end
