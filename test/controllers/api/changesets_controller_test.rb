@@ -1863,8 +1863,10 @@ module Api
       # not found when looking for changesets of non-existing users
       get changesets_path(:user => User.maximum(:id) + 1)
       assert_response :not_found
+      assert_equal "text/plain", @response.media_type
       get changesets_path(:display_name => " ")
       assert_response :not_found
+      assert_equal "text/plain", @response.media_type
 
       # can't get changesets of user 1 without authenticating
       get changesets_path(:user => private_user.id)
