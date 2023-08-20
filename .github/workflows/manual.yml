@@ -5,9 +5,6 @@ name: Manual workflow
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
-  # push:
-  #   branches:
-  #     - 'dev'
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
@@ -35,7 +32,11 @@ jobs:
       run: echo "Hello ${{ inputs.name }}" >> test.log
     - name: Send greeting
       run: |
-        cd /var/www/backend-v5
-        git pull 
-        npm i 
+        # sudo -s
+        # cd /var/www/
+        # pm2 list >> ~/test.log
+        # sudo /usr/bin/pm2 list >> ~/test.log
+        /var/www/backend-v5
+        git pull
+        
       
