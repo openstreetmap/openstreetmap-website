@@ -1,4 +1,6 @@
 class NotesController < ApplicationController
+  include UserMethods
+
   layout :map_layout
 
   before_action :check_api_readable
