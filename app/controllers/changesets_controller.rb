@@ -26,8 +26,8 @@ class ChangesetsController < ApplicationController
     end
 
     if @params[:display_name]
-      user = User.find_by(:display_name => @params[:display_name])
-      if !user || !user.active?
+      user = User.active.find_by(:display_name => @params[:display_name])
+      unless user
         render_unknown_user @params[:display_name]
         return
       end
