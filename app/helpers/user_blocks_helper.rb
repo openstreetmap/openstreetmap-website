@@ -25,6 +25,44 @@ module UserBlocksHelper
     end
   end
 
+  def block_short_status(block)
+    if block.active?
+      if block.needs_view?
+        if block.ends_at > Time.now.utc
+          t("user_blocks.helper.short.until_end_and_login")
+        else
+          t("user_blocks.helper.short.until_login")
+        end
+      else
+        t("user_blocks.helper.short.until_end")
+      end
+    else
+      if block.revoker_id.nil?
+        t("user_blocks.helper.short.ended")
+      else
+        t("user_blocks.helper.short.revoked_html", :name => link_to(block.revoker.display_name, block.revoker,
+                                                                    :class => "username d-inline-block text-truncate text-wrap align-bottom",
+                                                                    :dir => "auto"))
+      end
+    end
+  end
+
+  def block_short_time_in_future(time)
+    tag.time l(time.to_date),
+             :datetime => time.xmlschema,
+             :title => t("user_blocks.helper.short.time_in_future_title",
+                         :time_absolute => l(time, :format => :friendly),
+                         :time_relative => time_ago_in_words(time))
+  end
+
+  def block_short_time_in_past(time)
+    tag.time l(time.to_date),
+             :datetime => time.xmlschema,
+             :title => t("user_blocks.helper.short.time_in_past_title",
+                         :time_absolute => l(time, :format => :friendly),
+                         :time_relative => time_ago_in_words(time, :scope => :"datetime.distance_in_words_ago"))
+  end
+
   def block_duration_in_words(duration)
     # Ensure the requested duration isn't negative, even by a millisecond
     duration = 0 if duration.negative?
