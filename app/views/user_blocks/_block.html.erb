@@ -7,10 +7,10 @@
   <% end %>
   <td><%= h truncate(block.reason) %></td>
   <td><%= block_short_time_in_past(block.created_at) %></td>
-  <% if block.active? %>
+  <% if block.ends_at > Time.now.utc %>
   <td><%= block_short_time_in_future(block.ends_at) %></td>
   <% else %>
-  <td><%= block_short_time_in_past([block.ends_at, block.updated_at].max) %></td>
+  <td><%= block_short_time_in_past(block.ends_at) %></td>
   <% end %>
   <td><%= h block_short_status(block) %></td>
   <td><%= link_to t(".show"), block %></td>

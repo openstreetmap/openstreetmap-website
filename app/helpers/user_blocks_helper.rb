@@ -29,16 +29,20 @@ module UserBlocksHelper
     if block.active?
       if block.needs_view?
         if block.ends_at > Time.now.utc
-          t("user_blocks.helper.short.until_end_and_login")
+          t("user_blocks.helper.short.active_unread")
         else
-          t("user_blocks.helper.short.until_login")
+          t("user_blocks.helper.short.expired_unread")
         end
       else
-        t("user_blocks.helper.short.until_end")
+        t("user_blocks.helper.short.active")
       end
     else
       if block.revoker_id.nil?
-        t("user_blocks.helper.short.ended")
+        if block.updated_at > block.ends_at
+          t("user_blocks.helper.short.read_html", :time => block_short_time_in_past(block.updated_at))
+        else
+          t("user_blocks.helper.short.ended")
+        end
       else
         t("user_blocks.helper.short.revoked_html", :name => link_to(block.revoker.display_name, block.revoker,
                                                                     :class => "username d-inline-block text-truncate text-wrap align-bottom",
