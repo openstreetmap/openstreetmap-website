@@ -91,6 +91,18 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/gpx/2", :oauth => { :token => token }
     assert_response :forbidden
 
+    token.user.suspend!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :success
+
     session_for(token.user)
 
     post "/oauth/revoke", :params => { :token => token.token }
@@ -174,6 +186,18 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/user/details", :oauth => { :token => token }
     assert_response :forbidden
 
+    token.user.suspend!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :success
+
     session_for(token.user)
 
     post "/oauth/revoke", :params => { :token => token.token }
@@ -237,6 +261,18 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :forbidden
 
+    token.user.suspend!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :success
+
     session_for(token.user)
 
     post "/oauth/revoke", :params => { :token => token.token }
@@ -291,6 +327,18 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     signed_get "/api/0.6/user/details", :oauth => { :token => token }
     assert_response :forbidden
+
+    token.user.suspend!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :success
 
     session_for(token.user)
 
