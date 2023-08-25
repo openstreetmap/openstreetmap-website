@@ -5,10 +5,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
     get "/login"
     follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    post "/login", :params => { :username => user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 
@@ -19,10 +20,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
     get "/login"
     follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    post "/login", :params => { :username => user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 
@@ -32,10 +34,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10a_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
     get "/login"
     follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    post "/login", :params => { :username => user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 
@@ -46,10 +49,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10a_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
     get "/login"
     follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
+    post "/login", :params => { :username => user.email, :password => "test" }
     follow_redirect!
     assert_response :success
 
@@ -173,7 +177,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    trace = create(:trace, :user => client.user)
+    trace = create(:trace, :user => token.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :success
 
@@ -235,7 +239,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
     assert_response :success
 
-    trace = create(:trace, :user => client.user)
+    trace = create(:trace, :user => token.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :forbidden
 
@@ -283,7 +287,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    trace = create(:trace, :user => client.user)
+    trace = create(:trace, :user => token.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :success
 
