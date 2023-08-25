@@ -19,7 +19,7 @@ module Api
 
       raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
 
-      @users = User.visible.find(ids)
+      @users = User.visible.where(:id => ids)
 
       # Render the result
       respond_to do |format|
