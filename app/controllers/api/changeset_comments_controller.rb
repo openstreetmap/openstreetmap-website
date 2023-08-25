@@ -17,6 +17,7 @@ module Api
       # Check the arguments are sane
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
+      raise OSM::APIRateLimitExceeded if current_user.changeset_comments.where("created_at >= ?", Time.now.utc - 1.hour).count >= current_user.max_changeset_comments_per_hour
 
       # Extract the arguments
       id = params[:id].to_i

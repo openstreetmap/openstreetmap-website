@@ -133,6 +133,27 @@ module Api
     end
 
     ##
+    # create comment rate limit
+    def test_create_comment_rate_limit
+      changeset = create(:changeset, :closed)
+      user = create(:user)
+
+      auth_header = basic_authorization_header user.email, "test"
+
+      assert_difference "ChangesetComment.count", Settings.min_changeset_comments_per_hour do
+        1.upto(Settings.min_changeset_comments_per_hour) do |count|
+          post changeset_comment_path(:id => changeset, :text => "Comment #{count}"), :headers => auth_header
+          assert_response :success
+        end
+      end
+
+      assert_no_difference "ChangesetComment.count" do
+        post changeset_comment_path(:id => changeset, :text => "One comment too many"), :headers => auth_header
+        assert_response :too_many_requests
+      end
+    end
+
+    ##
     # test hide comment fail
     def test_destroy_comment_fail
       # unauthorized

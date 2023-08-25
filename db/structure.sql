@@ -2371,6 +2371,13 @@ CREATE UNIQUE INDEX index_active_storage_variant_records_uniqueness ON public.ac
 
 
 --
+-- Name: index_changeset_comments_on_author_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_changeset_comments_on_author_id_and_created_at ON public.changeset_comments USING btree (author_id, created_at);
+
+
+--
 -- Name: index_changeset_comments_on_changeset_id_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3396,6 +3403,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220201183346'),
 ('20220223140543'),
 ('20230816135800'),
+('20230825162137'),
 ('21'),
 ('22'),
 ('23'),
