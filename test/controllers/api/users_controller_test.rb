@@ -419,13 +419,15 @@ module Api
       check_json_details(js["users"][1], user3, false, false)
 
       get api_users_path, :params => { :users => create(:user, :suspended).id }
-      assert_response :not_found
+      assert_response :success
 
       get api_users_path, :params => { :users => create(:user, :deleted).id }
-      assert_response :not_found
+      assert_response :success
 
       get api_users_path, :params => { :users => 0 }
-      assert_response :not_found
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 0
     end
 
     def test_index_oauth1
@@ -506,13 +508,15 @@ module Api
       check_json_details(js["users"][1], user3, false, false)
 
       signed_get api_users_path, :params => { :users => create(:user, :suspended).id }, :oauth => { :token => good_token }
-      assert_response :not_found
+      assert_response :success
 
       signed_get api_users_path, :params => { :users => create(:user, :deleted).id }, :oauth => { :token => good_token }
-      assert_response :not_found
+      assert_response :success
 
       signed_get api_users_path, :params => { :users => 0 }, :oauth => { :token => good_token }
-      assert_response :not_found
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 0
     end
 
     def test_index_oauth2
@@ -593,13 +597,15 @@ module Api
       check_json_details(js["users"][1], user3, false, false)
 
       get api_users_path, :params => { :users => create(:user, :suspended).id }, :headers => bearer_authorization_header(good_token.token)
-      assert_response :not_found
+      assert_response :success
 
       get api_users_path, :params => { :users => create(:user, :deleted).id }, :headers => bearer_authorization_header(good_token.token)
-      assert_response :not_found
+      assert_response :success
 
       get api_users_path, :params => { :users => 0 }, :headers => bearer_authorization_header(good_token.token)
-      assert_response :not_found
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 0
     end
 
     def test_gpx_files
