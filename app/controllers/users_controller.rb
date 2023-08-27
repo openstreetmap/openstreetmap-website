@@ -186,6 +186,9 @@ class UsersController < ApplicationController
         end
 
         if current_user.save
+          SIGNUP_IP_LIMITER&.update(request.remote_ip)
+          SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
+
           flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
           referer = welcome_path
@@ -344,13 +347,33 @@ class UsersController < ApplicationController
                    domain_mx_servers(domain)
                  end
 
-    if blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
+    blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
+
+    blocked ||= SIGNUP_IP_LIMITER && !SIGNUP_IP_LIMITER.allow?(request.remote_ip)
+
+    blocked ||= email && SIGNUP_EMAIL_LIMITER && !SIGNUP_EMAIL_LIMITER.allow?(canonical_email(email))
+
+    if blocked
       logger.info "Blocked signup from #{request.remote_ip} for #{email}"
 
       render :action => "blocked"
     end
 
     !blocked
+  end
+
+  def canonical_email(email)
+    local_part, domain = if email.nil?
+                           nil
+                         else
+                           email.split("@")
+                         end
+
+    local_part.sub!(/\+.*$/, "")
+
+    local_part.delete!(".") if %w[gmail.com googlemail.com].include?(domain)
+
+    "#{local_part}@#{domain}"
   end
 
   ##
