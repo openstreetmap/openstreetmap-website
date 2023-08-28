@@ -69,6 +69,7 @@ OpenStreetMap::Application.routes.draw do
     get "user/details" => "api/users#details"
     get "user/gpx_files" => "api/users#gpx_files"
     get "users" => "api/users#index", :as => :api_users
+    get "users/search" => "api/users#search", :as => :api_users_search
 
     resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "api/user_preferences" do
       collection do

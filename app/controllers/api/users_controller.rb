@@ -19,12 +19,28 @@ module Api
 
       raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
 
-      @users = User.visible.where(:id => ids).in_order_of(:id, ids)
+      @users = User.visible.find(ids)
 
       # Render the result
       respond_to do |format|
         format.xml
         format.json
+      end
+    end
+
+    def search
+      raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
+
+      ids = params["users"].split(",").collect(&:to_i)
+
+      raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
+
+      @users = User.visible.where(:id => ids)
+
+      # Render the result
+      respond_to do |format|
+        format.xml { render :action => :index }
+        format.json { render :action => :index }
       end
     end
 

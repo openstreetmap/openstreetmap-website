@@ -33,6 +33,14 @@ module Api
         { :path => "/api/0.6/users.json", :method => :get },
         { :controller => "api/users", :action => "index", :format => "json" }
       )
+      assert_routing(
+        { :path => "/api/0.6/users/search", :method => :get },
+        { :controller => "api/users", :action => "search" }
+      )
+      assert_routing(
+        { :path => "/api/0.6/users/search.json", :method => :get },
+        { :controller => "api/users", :action => "search", :format => "json" }
+      )
     end
 
     def test_show
@@ -419,16 +427,83 @@ module Api
       check_json_details(js["users"][1], user3, false, false)
 
       get api_users_path, :params => { :users => create(:user, :suspended).id }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
+      assert_response :not_found
 
       get api_users_path, :params => { :users => create(:user, :deleted).id }
+      assert_response :not_found
+
+      get api_users_path, :params => { :users => 0 }
+      assert_response :not_found
+    end
+
+    def test_search
+      user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
+      user2 = create(:user, :description => "test2", :terms_agreed => Date.yesterday)
+      user3 = create(:user, :description => "test3", :terms_agreed => Date.yesterday)
+
+      get api_users_search_path, :params => { :users => user1.id }
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 1 do
+        check_xml_details(user1, false, false)
+        assert_select "user[id='#{user2.id}']", :count => 0
+        assert_select "user[id='#{user3.id}']", :count => 0
+      end
+
+      get api_users_search_path, :params => { :users => user2.id }
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 1 do
+        assert_select "user[id='#{user1.id}']", :count => 0
+        check_xml_details(user2, false, false)
+        assert_select "user[id='#{user3.id}']", :count => 0
+      end
+
+      get api_users_search_path, :params => { :users => "#{user1.id},#{user3.id}" }
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 2 do
+        check_xml_details(user1, false, false)
+        assert_select "user[id='#{user2.id}']", :count => 0
+        check_xml_details(user3, false, false)
+      end
+
+      get api_users_search_path, :params => { :users => user1.id, :format => "json" }
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["users"].count
+      check_json_details(js["users"][0], user1, false, false)
+
+      get api_users_search_path, :params => { :users => user2.id, :format => "json" }
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["users"].count
+      check_json_details(js["users"][0], user2, false, false)
+
+      get api_users_search_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }
+      assert_response :success
+      assert_equal "application/json", response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 2, js["users"].count
+      check_json_details(js["users"][0], user1, false, false)
+      check_json_details(js["users"][1], user3, false, false)
+
+      get api_users_search_path, :params => { :users => create(:user, :suspended).id }
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
 
-      get api_users_path, :params => { :users => 0 }
+      get api_users_search_path, :params => { :users => create(:user, :deleted).id }
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 0
+
+      get api_users_search_path, :params => { :users => 0 }
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
@@ -512,16 +587,30 @@ module Api
       check_json_details(js["users"][1], user3, false, false)
 
       signed_get api_users_path, :params => { :users => create(:user, :suspended).id }, :oauth => { :token => good_token }
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
+      assert_response :not_found
 
       signed_get api_users_path, :params => { :users => create(:user, :deleted).id }, :oauth => { :token => good_token }
+      assert_response :not_found
+
+      signed_get api_users_path, :params => { :users => 0 }, :oauth => { :token => good_token }
+      assert_response :not_found
+    end
+
+    def test_search_oauth1
+      user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
+      good_token = create(:access_token, :user => user1, :allow_read_prefs => true)
+
+      signed_get api_users_search_path, :params => { :users => create(:user, :suspended).id }, :oauth => { :token => good_token }
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
 
-      signed_get api_users_path, :params => { :users => 0 }, :oauth => { :token => good_token }
+      signed_get api_users_search_path, :params => { :users => create(:user, :deleted).id }, :oauth => { :token => good_token }
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 0
+
+      signed_get api_users_search_path, :params => { :users => 0 }, :oauth => { :token => good_token }
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
@@ -605,16 +694,30 @@ module Api
       check_json_details(js["users"][1], user3, false, false)
 
       get api_users_path, :params => { :users => create(:user, :suspended).id }, :headers => bearer_authorization_header(good_token.token)
-      assert_response :success
-      assert_equal "application/xml", response.media_type
-      assert_select "user", :count => 0
+      assert_response :not_found
 
       get api_users_path, :params => { :users => create(:user, :deleted).id }, :headers => bearer_authorization_header(good_token.token)
+      assert_response :not_found
+
+      get api_users_path, :params => { :users => 0 }, :headers => bearer_authorization_header(good_token.token)
+      assert_response :not_found
+    end
+
+    def test_search_oauth2
+      user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
+      good_token = create(:oauth_access_token, :resource_owner_id => user1.id, :scopes => %w[read_prefs])
+
+      get api_users_search_path, :params => { :users => create(:user, :suspended).id }, :headers => bearer_authorization_header(good_token.token)
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
 
-      get api_users_path, :params => { :users => 0 }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_search_path, :params => { :users => create(:user, :deleted).id }, :headers => bearer_authorization_header(good_token.token)
+      assert_response :success
+      assert_equal "application/xml", response.media_type
+      assert_select "user", :count => 0
+
+      get api_users_search_path, :params => { :users => 0 }, :headers => bearer_authorization_header(good_token.token)
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0

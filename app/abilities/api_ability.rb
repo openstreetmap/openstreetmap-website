@@ -14,7 +14,7 @@ class ApiAbility
       can [:show, :download, :query], Changeset
       can [:index, :create, :comment, :feed, :show, :search], Note
       can :index, Tracepoint
-      can [:index, :show], User
+      can [:index, :search, :show], User
       can [:index, :show], Node
       can [:index, :show, :full, :ways_for_node], Way
       can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
