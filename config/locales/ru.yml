@@ -425,6 +425,7 @@ ru:
     closed: Закрыто
     created_ago_html: Создано %{time_ago}
     closed_ago_html: Закрыто %{time_ago}
+    created_ago_by_html: Создал %{time_ago} %{user}
     edited_ago_by_html: Редактировал %{time_ago} %{user}
     version: Версия
     in_changeset: Пакет правок
@@ -455,6 +456,7 @@ ru:
       relation: Отношения (%{count})
       relation_paginated: Отношения (%{x}-%{y} из %{count})
       comment: Комментарии (%{count})
+      comment_by_html: Комментарий от %{user} %{time_ago}
       changesetxml: XML пакета правок
       osmchangexml: osmChange XML
       feed:
@@ -653,6 +655,7 @@ ru:
         one: '%{count} комментарий'
         zero: Нет комментариев
         other: '%{count} комментариев'
+      no_comments: Нет комментариев
       edit_link: Изменить запись
       hide_link: Скрыть эту запись
       unhide_link: Отобразить эту запись
@@ -730,6 +733,7 @@ ru:
     search:
       title:
         results_from_html: Результаты из %{results_link}
+        latlon: Внутренний
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -960,6 +964,7 @@ ru:
           ambulance_station: Станция скорой медицинской помощи
           assembly_point: Место сбора
           defibrillator: Дефибриллятор
+          fire_water_pond: Пожарный водоём
           landing_site: Место аварийной посадки
           phone: Телефон экстренной связи
           water_tank: Пожарный водоём/резервуар
@@ -1009,6 +1014,7 @@ ru:
           trailhead: Тропа
           trunk: Трасса
           trunk_link: Развязка
+          turning_circle: Разворотное кольцо
           turning_loop: Дорога для разворота
           unclassified: Дорога местного значения
           "yes": Дорога
@@ -1146,6 +1152,7 @@ ru:
           pier: Пирс
           pipeline: Трубопровод
           pumping_station: Насосная станция
+          reservoir_covered: Крытый резервуар
           silo: Силос
           snow_cannon: Снежная пушка
           snow_fence: Снегозащитное заграждение
@@ -1154,6 +1161,7 @@ ru:
           surveillance: Камера наблюдения
           telescope: Телескоп
           tower: Башня
+          utility_pole: Электрический столб
           wastewater_plant: Станция очистки сточных вод
           watermill: Водяная мельница
           water_tap: Водопроводный кран
@@ -1220,6 +1228,7 @@ ru:
           water: Водоём
           wetland: Заболоченная территория
           wood: Лес
+          "yes": Природный объект
         office:
           accountant: Бухгалтер
           administrative: Администрация
@@ -1358,6 +1367,7 @@ ru:
           funeral_directors: Похоронное бюро
           furniture: Мебель
           garden_centre: Садовый центр
+          gas: Магазин газового оборудования
           general: Магазин
           gift: Магазин подарков
           greengrocer: Овощной магазин
@@ -1500,6 +1510,7 @@ ru:
       status: Статус
       reports: Сообщения
       last_updated: Последнее изменение
+      last_updated_time_ago_user_html: '%{time_ago} %{user}'
       link_to_reports: Просмотр сообщений
       reports_count:
         one: 1 сообщение
@@ -1924,6 +1935,9 @@ ru:
       no home location: Вы не обозначили свое домашнее местоположение.
       update home location on click: Обновлять моё местоположение, когда я нажимаю
         на карту?
+      show: Показать
+      delete: Удалить
+      undelete: Отменить удаление
     update:
       success: Профиль обновлён.
       failure: Не удалось обновить профиль.
@@ -1953,8 +1967,8 @@ ru:
           title: Войти с помощью Facebook
           alt: Войти с помощью учётной записи в Facebook
         microsoft:
-          title: Войти с помощью Windows Live
-          alt: Войти с помощью учётной записи Windows Live
+          title: Войти с помощью Microsoft
+          alt: Войти с помощью учётной записи Microsoft
         github:
           title: Войти с GitHub
           alt: Войти с учётной записи на GitHub
@@ -2054,10 +2068,29 @@ ru:
       legal_babble:
         title_html: Авторские права и лицензирование
         introduction_1_open_data: открытые данные
+        introduction_2_html: Вы можете свободно копировать, распространять, передавать
+          и дорабатывать наши данные до тех пор, пока вы ссылаетесь на OpenStreetMap
+          и его участников. Если вы изменяете или берёте наши данные за основу, то
+          вы должны распространять результат только по такой же лицензии. Полный %{legal_code_link}
+          юридический текст лицензии разъясняет ваши права и обязанности.
         credit_title_html: Как сослаться на OpenStreetMap
         credit_1_html: 'Если вы используете данные OpenStreetMap, вы должны выполнить
           следующие два условия:'
+        credit_2_1: Отдайте должное OpenStreetMap, поместив наше уведомление об авторских
+          правах.
+        credit_2_2: Дайте понять, что данные доступны по лицензии открытой базы данных.
+        credit_3_html: 'У нас есть различные требования к тому, как должно отображаться
+          наше уведомление об авторских правах: всё зависит от того, как вы используете
+          наши данные. Например, действуют разные правила при отображении уведомления
+          об авторских правах в разных случаях: создали ли вы просматриваемую карту,
+          печатную карту или статичное изображение. Полную информацию о требованиях
+          можно найти в %{attribution_guidelines_link}.'
         credit_3_attribution_guidelines: Руководство по атрибуции
+        credit_4_1_html: |-
+          Чтобы явно указать, что данные доступны по лицензии Open Database License, вы можете сослаться на %{this_copyright_page_link}.
+          В качестве альтернативы, а также в качестве требования, если вы распространяете OSM в виде набора данных, вы можете назвать лицензию(и) и дать на неё(них) прямую ссылку.
+          В СМИ, где ссылки физически невозможны (например, в печатных изданиях), мы предлагаем вам направлять читателей на сайт openstreetmap.org (возможно, расширив написание «OpenStreetMap» до полного веб-адреса) и на opendatacommons.org.
+          В этом примере, упоминание находится в углу карты.
         attribution_example:
           alt: Пример того, как сослаться на OpenStreetMap с веб-страницы
           title: Пример указания авторства
@@ -2085,6 +2118,7 @@ ru:
         contributors_2_html: |-
           Для получения дополнительной информации об этих и других источниках, которые использовались
           для улучшения OpenStreetMap, см. %{contributors_page_link} на OpenStreetMap Wiki.
+        contributors_2_contributors_page: Страница авторов
         contributors_footer_2_html: Включение данных в OpenStreetMap не означает,
           что поставщик первичных данных каким-либо образом поддерживает OpenStreetMap,
           предоставляет гарантии или принимает на себя какую-любую ответственность.
@@ -2333,6 +2367,7 @@ ru:
           с сообществом и общаться с ним. Если вы планируете
           какие-либо действия, кроме редактирования вручную, прочтите и следуйте инструкциям:
           %{imports_link} и %{automated_edits_link}.
+        imports: Импорты
         automated_edits: Автоматические правки
       start_mapping: Начать картографировать
       add_a_note:

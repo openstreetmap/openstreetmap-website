@@ -172,7 +172,7 @@ el:
       user:
         auth_provider: Πάροχος αυθεντικοποίησης
         auth_uid: UID αυθεντικοποίησης
-        email: Ηλεκτρονικό ταχυδρομείο
+        email: Διεύθυνση ηλεκτρονικού ταχυδρομείου
         email_confirmation: Επιβεβαίωση διεύθυνσης email
         new_email: Νέα διεύθυνση email
         active: Ενεργό
@@ -254,6 +254,7 @@ el:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Βικιπαίδεια
   api:
@@ -580,6 +581,7 @@ el:
         zero: Χωρίς σχόλια
         one: '%{count} σχόλιο'
         other: '%{count} σχόλια'
+      no_comments: Κανένα σχόλιο
       edit_link: Επεξεργασία καταχώρησης
       hide_link: Απόκρυψη καταχώρησης
       unhide_link: Επανεμφάνιση καταχώρησης
@@ -941,7 +943,7 @@ el:
           street_lamp: Λάμπα δρόμου
           tertiary: Τριτεύων δρόμος
           tertiary_link: Τριτεύων δρόμος
-          track: Χωματόδρομος
+          track: Αγροτικός / Δασικός δρόμος
           traffic_mirror: Καθρέφτης κυκλοφορίας
           traffic_signals: Σήματα κυκλοφορίας
           trailhead: Άκρη μονοπατιού
@@ -1466,6 +1468,7 @@ el:
         zero: Καμία αναφορά
         one: 1 αναφορά
         other: '%{count} αναφορές'
+      no_reports: Καμία αναφορά
       report_created_at: Αναφέρθηκε για πρώτη φορά στις %{datetime}
       last_resolved_at: Επιλύθηκε για τελευταία φορά στις %{datetime}
       last_updated_at: Ενημερώθηκε για τελευταία φορά στις %{datetime} από τον %{displayname}
@@ -1877,6 +1880,9 @@ el:
       no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
       update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
         χάρτη;
+      show: Εμφάνιση
+      delete: Διαγραφή
+      undelete: Αναίρεση διαγραφής
     update:
       success: Το προφίλ ενημερώθηκε.
       failure: Δεν μπόρεσε να ενημερωθεί το προφίλ.
@@ -1968,12 +1974,14 @@ el:
       community_driven_osm_foundation: Ίδρυμα OSM
       open_data_title: Ανοικτά Δεδομένα
       open_data_open_data: ανοιχτά δεδομένα
+      open_data_copyright_license: Σελίδα Πνευματικών Δικαιωμάτων και Άδειας Χρήσης
       legal_title: Νομικό
       legal_1_1_openstreetmap_foundation: Ίδρυμα OpenStreetMap
       legal_1_1_terms_of_use: Όροι Χρήσης
       legal_1_1_aup: Αποδεκτές Πολιτικές Χρήσης
       legal_1_1_privacy_policy: Πολιτική Απορρήτου
       legal_2_1_contact_the_osmf: επικοινωνήστε με το OSMF
+      legal_2_2_registered_trademarks: εγγεγραμμένα εμπορικά σήματα του OSMF
       partners_title: Συνεργάτες
     copyright:
       foreign:
@@ -1993,13 +2001,18 @@ el:
         introduction_1_open_data: ανοιχτά δεδομένα
         introduction_1_osm_foundation: Ίδρυμα OpenStreetMap
         introduction_2_legal_code: νομικός κώδικας
+        introduction_3_creative_commons: Creative Commons Αναφορά Δημιουργού-Παρόμοια
+          Διανομή 2.0
         credit_title_html: Πως να κάνετε αναφορά στο OpenStreetMap
         credit_1_html: 'Όπου χρησιμοποιήσετε δεδομένα του OpenStreetMap, χρειάζεται
           από σας να κάνετε τα παρακάτω πράγματα:'
+        credit_3_attribution_guidelines: Οδηγίες Αναφοράς
+        credit_4_1_this_copyright_page: αυτή τη σελίδα πνευματικών δικαιωμάτων
         attribution_example:
           alt: Παράδειγμα του πως αναφέρεται το OpenStreetMap σε μια ιστοσελίδα
           title: Παράδειγμα αναφοράς δημιουργού
         more_title_html: Μαθαίνοντας περισσότερα
+        more_1_1_osmf_licence_page: Σελίδα Άδειας Χρήσης OSMF
         more_2_1_api_usage_policy: Πολιτική Χρήσης API
         more_2_1_tile_usage_policy: Πολιτική Χρήσης Πλακιδίων
         more_2_1_nominatim_usage_policy: Πολιτική Χρήσης Nominatim
@@ -2008,8 +2021,12 @@ el:
           έχουμε περιλάβει δεδομένα ανοικτής άδειας από εθνικές υπηρεσίες χαρτογράφησης
           και άλλες πηγές, μεταξύ αυτών:'
         contributors_at_austria: Αυστρία
+        contributors_at_stadt_wien: Stadt Wien
         contributors_at_cc_by: CC BY
+        contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT με τροποποιήσεις
         contributors_au_australia: Αυστραλία
+        contributors_au_geoscape_australia: Geoscape Australia
         contributors_ca_canada: Καναδάς
         contributors_fi_finland: Φινλανδία
         contributors_fi_nlsfi_license: Άδεια NLSFI
@@ -2024,7 +2041,11 @@ el:
         contributors_rs_serbia: Σερβία
         contributors_rs_rgz: Σερβική Γεωδαιτική Αρχή
         contributors_rs_open_data_portal: Εθνική Πύλη Ανοικτών Δεδομένων
+        contributors_si_credit_html: |-
+          %{slovenia}: Περιέχει δεδομένα από την %{gu_link} και το %{mkgp_link}
+          (δημόσιες πληροφορίες της Σλοβενίας).
         contributors_si_slovenia: Σλοβενία
+        contributors_si_gu: Αρχή Χωρομέτρησης και Χαρτογράφησης
         contributors_si_mkgp: Υπουργείο Γεωργίας, Δασών και Τροφίμων
         contributors_es_spain: Ισπανία
         contributors_es_ign: IGN
@@ -2039,6 +2060,8 @@ el:
         infringement_1_html: Υπενθυμίζουμε στους συνεισφέροντες του OSM να μην προσθέτουν
           δεδομένα από πηγές με πνευματικά δικαιώματα (π.χ. Google Maps η έντυπους
           χάρτες) χωρίς την προηγούμενη άδεια από τους ιδιοκτήτες των δικαιωμάτων.
+        trademarks_title: Εμπορικά σήματα
+        trademarks_1_1_trademark_policy: Πολιτική Εμπορικών Σημάτων
     index:
       js_1: Είτε χρησιμοποιείτε πρόγραμμα περιήγησης που δεν υποστηρίζει JavaScript
         ή έχετε απενεργοποιήσει την JavaScript.
@@ -2122,6 +2145,8 @@ el:
             στην αποθήκευση και άλλοι χαρτογράφοι θα το ερευνήσουν.
       other_concerns:
         title: Άλλες ανησυχίες
+        copyright: σελίδα πνευματικών δικαιωμάτων
+        working_group: Ομάδα εργασίας OSMF
     help:
       title: Βοήθεια
       introduction: Το OpenStreetMap έχει πολλαπλούς πόρους για να μάθετε για το εγχείρημα,
@@ -2202,7 +2227,7 @@ el:
           primary: Κύρια Οδός
           secondary: Δευτερεύουσα Οδός
           unclassified: Αταξινόμητη Οδός
-          track: Χωματόδρομος
+          track: Αγροτικός / Δασικός δρόμος
           bridleway: Μονοπάτι για Άλογα
           cycleway: Ποδηλατόδρομος
           cycleway_national: Εθνικός ποδηλατόδρομος
@@ -2842,12 +2867,12 @@ el:
       heading_html: Κατάλογος φραγών στον %{name}
       empty: Ο %{name} δεν έχει φραχτεί ακόμα.
     blocks_by:
-      title: Φραγές από τον %{name}
-      heading_html: Κατάλογος φραγών από τον %{name}
-      empty: Ο %{name} δεν έχει κάνει φραγή ακόμα.
+      title: Φραγές από %{name}
+      heading_html: Κατάλογος φραγών από %{name}
+      empty: Ο/Η %{name} δεν έχει κάνει φραγή ακόμα.
     show:
-      title: Ο %{block_on} έχει φραχτεί από τον %{block_by}
-      heading_html: Ο %{block_on} έχει φραχτεί από τον %{block_by}
+      title: Ο/Η %{block_on} έχει φραχτεί από τον/την %{block_by}
+      heading_html: Ο/Η %{block_on} έχει φραχτεί από τον/την %{block_by}
       created: 'Δημιουργήθηκε:'
       duration: 'Διάρκεια:'
       status: 'Κατάσταση:'
