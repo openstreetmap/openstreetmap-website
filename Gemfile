@@ -79,6 +79,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 # Doorkeeper for OAuth2
 gem "doorkeeper"
 gem "doorkeeper-i18n"
+gem "doorkeeper-openid_connect"
 
 # Markdown formatting support
 gem "kramdown"

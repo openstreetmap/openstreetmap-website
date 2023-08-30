@@ -1153,6 +1153,36 @@ ALTER SEQUENCE public.oauth_nonces_id_seq OWNED BY public.oauth_nonces.id;
 
 
 --
+-- Name: oauth_openid_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.oauth_openid_requests (
+    id bigint NOT NULL,
+    access_grant_id bigint NOT NULL,
+    nonce character varying NOT NULL
+);
+
+
+--
+-- Name: oauth_openid_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.oauth_openid_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: oauth_openid_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.oauth_openid_requests_id_seq OWNED BY public.oauth_openid_requests.id;
+
+
+--
 -- Name: oauth_tokens; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1705,6 +1735,13 @@ ALTER TABLE ONLY public.oauth_nonces ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: oauth_openid_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_openid_requests ALTER COLUMN id SET DEFAULT nextval('public.oauth_openid_requests_id_seq'::regclass);
+
+
+--
 -- Name: oauth_tokens id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2031,6 +2068,14 @@ ALTER TABLE ONLY public.oauth_applications
 
 ALTER TABLE ONLY public.oauth_nonces
     ADD CONSTRAINT oauth_nonces_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_openid_requests oauth_openid_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_openid_requests
+    ADD CONSTRAINT oauth_openid_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -2574,6 +2619,13 @@ CREATE UNIQUE INDEX index_oauth_nonces_on_nonce_and_timestamp ON public.oauth_no
 
 
 --
+-- Name: index_oauth_openid_requests_on_access_grant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_openid_requests_on_access_grant_id ON public.oauth_openid_requests USING btree (access_grant_id);
+
+
+--
 -- Name: index_oauth_tokens_on_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2987,6 +3039,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 ALTER TABLE ONLY public.oauth_access_tokens
     ADD CONSTRAINT fk_rails_732cb83ab7 FOREIGN KEY (application_id) REFERENCES public.oauth_applications(id) NOT VALID;
+
+
+--
+-- Name: oauth_openid_requests fk_rails_77114b3b09; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_openid_requests
+    ADD CONSTRAINT fk_rails_77114b3b09 FOREIGN KEY (access_grant_id) REFERENCES public.oauth_access_grants(id) ON DELETE CASCADE;
 
 
 --
@@ -3404,6 +3464,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220223140543'),
 ('20230816135800'),
 ('20230825162137'),
+('20230830115219'),
+('20230830115220'),
 ('21'),
 ('22'),
 ('23'),
