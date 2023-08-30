@@ -140,8 +140,8 @@ module Api
 
       auth_header = basic_authorization_header user.email, "test"
 
-      assert_difference "ChangesetComment.count", Settings.min_changeset_comments_per_hour do
-        1.upto(Settings.min_changeset_comments_per_hour) do |count|
+      assert_difference "ChangesetComment.count", Settings.initial_changeset_comments_per_hour do
+        1.upto(Settings.initial_changeset_comments_per_hour) do |count|
           post changeset_comment_path(:id => changeset, :text => "Comment #{count}"), :headers => auth_header
           assert_response :success
         end
