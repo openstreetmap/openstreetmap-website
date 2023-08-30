@@ -17,7 +17,7 @@ module Api
       # Check the arguments are sane
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
-      raise OSM::APIRateLimitExceeded if current_user.changeset_comments.where("created_at >= ?", Time.now.utc - 1.hour).count >= current_user.max_changeset_comments_per_hour
+      raise OSM::APIRateLimitExceeded if rate_limit_exceeded?
 
       # Extract the arguments
       id = params[:id].to_i
@@ -98,6 +98,16 @@ module Api
         format.xml
         format.json
       end
+    end
+
+    private
+
+    ##
+    # Check if the current user has exceed the rate limit for comments
+    def rate_limit_exceeded?
+      recent_comments = current_user.changeset_comments.where("created_at >= ?", Time.now.utc - 1.hour).count
+
+      recent_comments >= current_user.max_changeset_comments_per_hour
     end
   end
 end
