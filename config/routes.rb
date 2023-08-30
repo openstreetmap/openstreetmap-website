@@ -1,10 +1,11 @@
 OpenStreetMap::Application.routes.draw do
-  use_doorkeeper_openid_connect
   use_doorkeeper :scope => "oauth2" do
     controllers :authorizations => "oauth2_authorizations",
                 :applications => "oauth2_applications",
                 :authorized_applications => "oauth2_authorized_applications"
   end
+
+  use_doorkeeper_openid_connect :scope => "oauth2" if Settings.key?(:doorkeeper_signing_key)
 
   # API
   namespace :api do
