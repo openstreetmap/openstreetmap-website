@@ -1,4 +1,5 @@
 OpenStreetMap::Application.routes.draw do
+  use_doorkeeper_openid_connect
   use_doorkeeper :scope => "oauth2" do
     controllers :authorizations => "oauth2_authorizations",
                 :applications => "oauth2_applications",
