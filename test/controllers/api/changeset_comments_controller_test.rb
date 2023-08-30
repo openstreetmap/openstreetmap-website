@@ -133,8 +133,8 @@ module Api
     end
 
     ##
-    # create comment rate limit
-    def test_create_comment_rate_limit
+    # create comment rate limit for new users
+    def test_create_comment_new_user_rate_limit
       changeset = create(:changeset, :closed)
       user = create(:user)
 
@@ -142,6 +142,71 @@ module Api
 
       assert_difference "ChangesetComment.count", Settings.initial_changeset_comments_per_hour do
         1.upto(Settings.initial_changeset_comments_per_hour) do |count|
+          post changeset_comment_path(:id => changeset, :text => "Comment #{count}"), :headers => auth_header
+          assert_response :success
+        end
+      end
+
+      assert_no_difference "ChangesetComment.count" do
+        post changeset_comment_path(:id => changeset, :text => "One comment too many"), :headers => auth_header
+        assert_response :too_many_requests
+      end
+    end
+
+    ##
+    # create comment rate limit for experienced users
+    def test_create_comment_experienced_user_rate_limit
+      changeset = create(:changeset, :closed)
+      user = create(:user)
+      create_list(:changeset_comment, 200, :author_id => user.id, :created_at => Time.now.utc - 1.day)
+
+      auth_header = basic_authorization_header user.email, "test"
+
+      assert_difference "ChangesetComment.count", Settings.max_changeset_comments_per_hour do
+        1.upto(Settings.max_changeset_comments_per_hour) do |count|
+          post changeset_comment_path(:id => changeset, :text => "Comment #{count}"), :headers => auth_header
+          assert_response :success
+        end
+      end
+
+      assert_no_difference "ChangesetComment.count" do
+        post changeset_comment_path(:id => changeset, :text => "One comment too many"), :headers => auth_header
+        assert_response :too_many_requests
+      end
+    end
+
+    ##
+    # create comment rate limit for reported users
+    def test_create_comment_reported_user_rate_limit
+      changeset = create(:changeset, :closed)
+      user = create(:user)
+      create(:issue_with_reports, :reportable => user, :reported_user => user)
+
+      auth_header = basic_authorization_header user.email, "test"
+
+      assert_difference "ChangesetComment.count", Settings.initial_changeset_comments_per_hour / 2 do
+        1.upto(Settings.initial_changeset_comments_per_hour / 2) do |count|
+          post changeset_comment_path(:id => changeset, :text => "Comment #{count}"), :headers => auth_header
+          assert_response :success
+        end
+      end
+
+      assert_no_difference "ChangesetComment.count" do
+        post changeset_comment_path(:id => changeset, :text => "One comment too many"), :headers => auth_header
+        assert_response :too_many_requests
+      end
+    end
+
+    ##
+    # create comment rate limit for moderator users
+    def test_create_comment_moderator_user_rate_limit
+      changeset = create(:changeset, :closed)
+      user = create(:moderator_user)
+
+      auth_header = basic_authorization_header user.email, "test"
+
+      assert_difference "ChangesetComment.count", Settings.moderator_changeset_comments_per_hour do
+        1.upto(Settings.moderator_changeset_comments_per_hour) do |count|
           post changeset_comment_path(:id => changeset, :text => "Comment #{count}"), :headers => auth_header
           assert_response :success
         end
