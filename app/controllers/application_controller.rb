@@ -216,24 +216,6 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # ensure that there is a "user" instance variable
-  def lookup_user
-    render_unknown_user params[:display_name] unless @user = User.active.find_by(:display_name => params[:display_name])
-  end
-
-  ##
-  # render a "no such user" page
-  def render_unknown_user(name)
-    @title = t "users.no_such_user.title"
-    @not_found_user = name
-
-    respond_to do |format|
-      format.html { render :template => "users/no_such_user", :status => :not_found }
-      format.all { head :not_found }
-    end
-  end
-
-  ##
   # Unfortunately if a PUT or POST request that has a body fails to
   # read it then Apache will sometimes fail to return the response it
   # is given to the client properly, instead erroring:

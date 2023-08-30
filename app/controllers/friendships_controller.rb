@@ -1,4 +1,6 @@
 class FriendshipsController < ApplicationController
+  include UserMethods
+
   layout "site"
 
   before_action :authorize_web

@@ -1,4 +1,6 @@
 class TracesController < ApplicationController
+  include UserMethods
+
   layout "site", :except => :georss
 
   before_action :authorize_web
