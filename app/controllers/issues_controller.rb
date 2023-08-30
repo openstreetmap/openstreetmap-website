@@ -24,7 +24,7 @@ class IssuesController < ApplicationController
     if params[:search_by_user].present?
       @find_user = User.find_by(:display_name => params[:search_by_user])
       if @find_user
-        @issues = @issues.where(:reported_user_id => @find_user.id)
+        @issues = @issues.where(:reported_user => @find_user)
       else
         @issues = @issues.none
         flash.now[:warning] = t(".user_not_found")

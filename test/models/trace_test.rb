@@ -193,16 +193,16 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_import_creates_tracepoints
     trace = create(:trace, :fixture => "a")
-    assert_equal 0, Tracepoint.where(:gpx_id => trace.id).count
+    assert_equal 0, Tracepoint.where(:trace => trace).count
 
     trace.import
 
     trace.reload
-    assert_equal 1, Tracepoint.where(:gpx_id => trace.id).count
+    assert_equal 1, Tracepoint.where(:trace => trace).count
 
     # Check that the tile has been set prior to the bulk import
     # i.e. that the callbacks have been run correctly
-    assert_equal 3221331576, Tracepoint.where(:gpx_id => trace.id).first.tile
+    assert_equal 3221331576, Tracepoint.where(:trace => trace).first.tile
   end
 
   def test_import_creates_icon

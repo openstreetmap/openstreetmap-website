@@ -22,7 +22,7 @@ class UserRolesController < ApplicationController
     if current_user == @user && @role == "administrator"
       flash[:error] = t("user_role.filter.not_revoke_admin_current_user")
     else
-      UserRole.where(:user_id => @user.id, :role => @role).delete_all
+      UserRole.where(:user => @user, :role => @role).delete_all
     end
     redirect_to user_path(@user)
   end

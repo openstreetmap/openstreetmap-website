@@ -325,7 +325,7 @@ module Api
           raise OSM::APINotFoundError if current_user.nil? || current_user != u
         end
 
-        changesets.where(:user_id => u.id)
+        changesets.where(:user => u)
       end
     end
 

@@ -164,7 +164,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :new
 
-    assert_nil UserPreference.where(:user_id => user.id, :k => "diary.default_language").first
+    assert_nil UserPreference.where(:user => user, :k => "diary.default_language").first
   end
 
   def test_create
@@ -189,7 +189,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal "en", UserPreference.where(:user_id => user.id, :k => "diary.default_language").first.v
+    assert_equal "en", UserPreference.where(:user => user, :k => "diary.default_language").first.v
   end
 
   def test_create_german
@@ -216,7 +216,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal "de", UserPreference.where(:user_id => user.id, :k => "diary.default_language").first.v
+    assert_equal "de", UserPreference.where(:user => user, :k => "diary.default_language").first.v
   end
 
   def test_new_spammy
