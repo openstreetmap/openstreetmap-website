@@ -28,9 +28,9 @@ module IssuesHelper
   def open_issues_count
     count = Issue.visible_to(current_user).open.limit(100).size
     if count > 99
-      tag.span("99+", :class => "count-number")
+      tag.span("99+", :class => "badge count-number")
     elsif count.positive?
-      tag.span(count, :class => "count-number")
+      tag.span(count, :class => "badge count-number")
     end
   end
 end

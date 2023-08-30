@@ -11,18 +11,18 @@
           <ul class='clearfix'>
             <li>
               <%= link_to t(".my edits"), :controller => "changesets", :action => "index", :display_name => current_user.display_name %>
-              <span class='count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
+              <span class='badge count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
             </li>
             <li>
               <%= link_to t(".my notes"), user_notes_path(@user) %>
             </li>
             <li>
               <%= link_to t(".my traces"), :controller => "traces", :action => "mine" %>
-              <span class='count-number'><%= number_with_delimiter(current_user.traces.size) %></span>
+              <span class='badge count-number'><%= number_with_delimiter(current_user.traces.size) %></span>
             </li>
             <li>
               <%= link_to t(".my diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %>
-              <span class='count-number'><%= number_with_delimiter(current_user.diary_entries.size) %></span>
+              <span class='badge count-number'><%= number_with_delimiter(current_user.diary_entries.size) %></span>
             </li>
             <li>
               <%= link_to t(".my comments"), diary_comments_path(current_user) %>
@@ -34,14 +34,14 @@
             <% if current_user.blocks.exists? %>
               <li>
                 <%= link_to t(".blocks on me"), user_blocks_on_path(current_user) %>
-                <span class='count-number'><%= number_with_delimiter(current_user.blocks.active.size) %></span>
+                <span class='badge count-number'><%= number_with_delimiter(current_user.blocks.active.size) %></span>
               </li>
             <% end %>
 
             <% if can?(:create, UserBlock) and current_user.blocks_created.exists? %>
               <li>
                 <%= link_to t(".blocks by me"), user_blocks_by_path(current_user) %>
-                <span class='count-number'><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
+                <span class='badge count-number'><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
               </li>
             <% end %>
 
@@ -55,14 +55,14 @@
 
             <li>
               <%= link_to t(".edits"), :controller => "changesets", :action => "index", :display_name => @user.display_name %>
-              <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
+              <span class='badge count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
             </li>
             <li>
               <%= link_to t(".notes"), user_notes_path(@user) %>
             </li>
             <li>
               <%= link_to t(".traces"), :controller => "traces", :action => "index", :display_name => @user.display_name %>
-              <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
+              <span class='badge count-number'><%= number_with_delimiter(@user.traces.size) %></span>
             </li>
 
             <!-- Displaying another user's profile page -->
@@ -72,7 +72,7 @@
             </li>
             <li>
               <%= link_to t(".diary"), :controller => "diary_entries", :action => "index", :display_name => @user.display_name %>
-              <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
+              <span class='badge count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
             </li>
             <li>
               <%= link_to t(".comments"), diary_comments_path(@user) %>
@@ -90,14 +90,14 @@
             <% if @user.blocks.exists? %>
               <li>
                 <%= link_to t(".block_history"), user_blocks_on_path(@user) %>
-                <span class='count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
+                <span class='badge count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
               </li>
             <% end %>
 
             <% if @user.moderator? and @user.blocks_created.exists? %>
               <li>
                 <%= link_to t(".moderator_history"), user_blocks_by_path(@user) %>
-                <span class='count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
+                <span class='badge count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
               </li>
             <% end %>
 
