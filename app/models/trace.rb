@@ -209,7 +209,7 @@ class Trace < ApplicationRecord
       first = true
 
       # If there are any existing points for this trace then delete them
-      Tracepoint.where(:gpx_id => id).delete_all
+      Tracepoint.where(:trace => id).delete_all
 
       gpx.points.each_slice(1_000) do |points|
         # Gather the trace points together for a bulk import
@@ -242,10 +242,10 @@ class Trace < ApplicationRecord
       end
 
       if gpx.actual_points.positive?
-        max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
-        min_lat = Tracepoint.where(:gpx_id => id).minimum(:latitude)
-        max_lon = Tracepoint.where(:gpx_id => id).maximum(:longitude)
-        min_lon = Tracepoint.where(:gpx_id => id).minimum(:longitude)
+        max_lat = Tracepoint.where(:trace => id).maximum(:latitude)
+        min_lat = Tracepoint.where(:trace => id).minimum(:latitude)
+        max_lon = Tracepoint.where(:trace => id).maximum(:longitude)
+        min_lon = Tracepoint.where(:trace => id).minimum(:longitude)
 
         max_lat = max_lat.to_f / 10000000
         min_lat = min_lat.to_f / 10000000
