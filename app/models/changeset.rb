@@ -170,7 +170,7 @@ class Changeset < ApplicationRecord
       save!
 
       tags = self.tags
-      ChangesetTag.where(:changeset_id => id).delete_all
+      ChangesetTag.where(:changeset => id).delete_all
 
       tags.each do |k, v|
         tag = ChangesetTag.new

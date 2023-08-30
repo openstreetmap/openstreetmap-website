@@ -27,7 +27,7 @@ class DiaryEntriesController < ApplicationController
     elsif params[:friends]
       if current_user
         @title = t ".title_friends"
-        entries = DiaryEntry.where(:user_id => current_user.friends)
+        entries = DiaryEntry.where(:user => current_user.friends)
       else
         require_user
         return
@@ -35,7 +35,7 @@ class DiaryEntriesController < ApplicationController
     elsif params[:nearby]
       if current_user
         @title = t ".title_nearby"
-        entries = DiaryEntry.where(:user_id => current_user.nearby)
+        entries = DiaryEntry.where(:user => current_user.nearby)
       else
         require_user
         return
