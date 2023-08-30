@@ -29,6 +29,7 @@ OSM.Changeset = function (map) {
   function updateChangeset(form, method, url, include_data) {
     var data;
 
+    $(form).find("#comment-error").prop("hidden", true);
     $(form).find("input[type=submit]").prop("disabled", true);
 
     if (include_data) {
@@ -44,6 +45,11 @@ OSM.Changeset = function (map) {
       data: data,
       success: function () {
         OSM.loadSidebarContent(window.location.pathname, page.load);
+      },
+      error: function (xhr, xhr_status, http_status) {
+        $(form).find("#comment-error").text(http_status);
+        $(form).find("#comment-error").prop("hidden", false);
+        $(form).find("input[type=submit]").prop("disabled", false);
       }
     });
   }

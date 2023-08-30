@@ -353,6 +353,13 @@ module OSM
     end
   end
 
+  # Raised when a rate limit is exceeded
+  class APIRateLimitExceeded < APIError
+    def status
+      :too_many_requests
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math
