@@ -171,41 +171,41 @@ ku-Latn:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: teqrîben berî saetekê
+        one: teqrîben berî %{count} saetê
         other: teqrîben berî %{count} saetan
       about_x_months:
-        one: teqrîben berî mehekê
+        one: teqrîben berî %{count} mehê
         other: teqrîben berî %{count} mehan
       about_x_years:
-        one: teqrîben berî salekê
+        one: teqrîben berî %{count} salê
         other: teqrîben berî %{count} salan
       almost_x_years:
-        one: hema bêje berî salekê
-        other: hema bêja berî %{count} salan
+        one: hema bêje berî %{count} salê
+        other: hema bêje berî %{count} salan
       half_a_minute: berî nîv deqeyê
       less_than_x_seconds:
-        one: kêmtirî saniyeyekê
-        other: kêmtirî berî %{count} saniyeyan
+        one: Berî kêmtirî %{count} saniyeyê
+        other: Berî kêmtirî %{count} saniyeyan
       less_than_x_minutes:
-        one: berî kêmtir deqeyekê
+        one: berî kêmtir %{count} deqeyê
         other: berî kêmtir ji %{count} deqeyan
       over_x_years:
-        one: berî zêdetirî salekê
+        one: berî zêdetirî %{count} salê
         other: berî zêdetirî %{count} salan
       x_seconds:
-        one: berî saniyeyekê
+        one: berî %{count} saniyeyê
         other: Berî %{count} saniyeyan
       x_minutes:
-        one: Berî deqeyekê
+        one: Berî %{count} deqeyê
         other: Berî %{count} deqeyan
       x_days:
-        one: berî rojekê
+        one: berî %{count} rojê
         other: berî %{count} rojan
       x_months:
-        one: berî mehekê
-        other: beî %{count} mehan
+        one: berî %{count} mehê
+        other: berî %{count} mehan
       x_years:
-        one: berî salekê
+        one: berî %{count} salê
         other: berî %{count} salan
   editor:
     default: Standard (vêga %{name})
@@ -221,6 +221,7 @@ ku-Latn:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wîkîpediya
   api:
@@ -316,10 +317,10 @@ ku-Latn:
     no_comment: (bêşirove)
     part_of: Perçeyek ji
     part_of_relations:
-      one: 1 pêwendî
+      one: '%{count} pêwendî'
       other: '%{count} pêwendî'
     part_of_ways:
-      one: 1 rê
+      one: '%{count} rê'
       other: '%{count} rê'
     download_xml: XMLê daxe
     view_history: Dîrokê Bibîne
@@ -335,6 +336,8 @@ ku-Latn:
       relation: Eleqe (%{count})
       relation_paginated: Eleqe (%{x}-%{y} bi tevahî %{count})
       comment: Şîrove (%{count})
+      hidden_comment_by_html: Şîroveya veşartî ji %{user} %{time_ago}
+      comment_by_html: Şîroveya ji %{user} %{time_ago}
       changesetxml: Desteya guhartinan a XML
       osmchangexml: osmChange XML
       feed:
@@ -361,7 +364,7 @@ ku-Latn:
       history_title_html: Dîroka Eleqeyêː %{name}
       members: Endam
       members_count:
-        one: 1 endam
+        one: '%{count} endam'
         other: '%{count} endam'
     relation_member:
       entry_role_html: '%{type} %{name} bi rola %{role}'
@@ -529,9 +532,9 @@ ku-Latn:
       comment_link: Vê nivîsê şîrove bike
       reply_link: Peyamekî bişînê nivîserê
       comment_count:
-        zero: Bêşîrove
         one: '%{count} şîrove'
         other: '%{count} şîrove'
+      no_comments: Ti şîrove tine
       edit_link: Vê nivîsê biguherîne
       hide_link: Vê nivîsê veşêre
       unhide_link: Veşartina vê nivîsê rake
@@ -607,6 +610,10 @@ ku-Latn:
       success: '%{name} ji hevalên te hate derxistin.'
       not_a_friend: '%{name} ne hevalekî/eke te ye.'
   geocoder:
+    search:
+      title:
+        results_from_html: Netîceyên ji %{results_link}
+        latlon: Daxilî
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -987,7 +994,7 @@ ku-Latn:
           fitness_station: Navenda Sporê
           garden: Baxçe
           golf_course: Cihê Golfê
-          horse_riding: Ajotina Hespê
+          horse_riding: Merkeza Ajotina Hespê
           ice_rink: Şemitandina li ser cemedê
           marina: Marîna
           miniature_golf: Golfa Mînyatûr
@@ -1399,10 +1406,11 @@ ku-Latn:
       status: Rewş
       reports: Rapor
       last_updated: Rojanekirina dawî
+      last_updated_time_ago_user_html: '%{time_ago} ji aliyê %{user} ve'
       link_to_reports: Raporan Bibîne
       reports_count:
-        one: 1 Rapor
-        other: '%{count} Raporan'
+        one: '%{count} Rapor'
+        other: '%{count} Rapor'
       reported_item: Hêmanê Raporkirî
       states:
         ignored: Guh nedê
@@ -1411,9 +1419,9 @@ ku-Latn:
     show:
       title: '%{status} Pirsgirêk #%{issue_id}'
       reports:
-        zero: Rapor tune ye
-        one: 1 rapor
+        one: '%{count} rapor'
         other: '%{count} raporan'
+      no_reports: Ti raporekî tine
       report_created_at: Pêşî di %{datetime} de hatiye raporkirin
       last_resolved_at: Herî dawî di %{datetime} de hat çareserkirin
       last_updated_at: Ji aliyê %{displayname} ve herî dawî di %{datetime} de hat
@@ -1824,6 +1832,9 @@ ku-Latn:
       no home location: Te cihê malê xwe diyar nekir.
       update home location on click: Gava ku tu bitikînî ser nexşeyê bila cihê malê
         te were rojanekirin?
+      show: Nîşan bide
+      delete: Jê bibe
+      undelete: Jêbirinê vegerîne
     update:
       success: Profîl hate rojanekirin.
       failure: Profîlê nikare rojane bike.
@@ -1853,8 +1864,8 @@ ku-Latn:
           title: Bi Facebookê têkeve
           alt: Bi hesabekî Facebookê têkeve
         microsoft:
-          title: Bi Windows Live'ê têkeve
-          alt: Bi hesabê xwe yê Windows Liveê têkeve
+          title: Bi Microsoftê têkeve
+          alt: Bi hesabê xwe yê Microsoftê têkeve
         github:
           title: Bi GitHub'ê têkeve
           alt: Bi hesabekî GitHubê têbikeve
@@ -1936,6 +1947,7 @@ ku-Latn:
         contributors_intro_html: 'Bi hezaran beşdarên me hene. Herwiha em ji ajansên
           nexşekirinê yên netewî û çavkaniyên din jî daneyên bi lîsansa-vekirî îhtîwa
           dikin, hinek ji wan ev in:'
+        contributors_2_contributors_page: Rûpela beşdaran
         contributors_footer_2_html: Daxilbûna daneyan a di OpenStreetMapê de nayê
           maneya ku peydakera daneyan yê eslî OpenStreetMapê teswîb dike, garantiyekî
           temîn dike an jî berpirsîyariyekê qebûl dike.
@@ -2470,6 +2482,8 @@ ku-Latn:
       consider_pd: Tevî evên li jorê, tu dikarî bibijêrî ku beşdariyên te wek Malê
         Giştî (malê ku ne aîdî şexsekî ye) were qebûlkirin.
       consider_pd_why: Ev çi ye?
+      readable_summary: kurteya xwendinbar ê li gor însanan
+      informal_translations: tercimeyên nefermî
       continue: Dewam bike
       decline: Red bike
       you need to accept or decline: Ji bo ku dewam bikî, xêra xwe şertên beşdariyê
@@ -2650,19 +2664,19 @@ ku-Latn:
       time_past_html: '%{time} qediya.'
       block_duration:
         hours:
-          one: 1 saetê
+          one: '%{count} saet'
           other: '%{count} saetan'
         days:
-          one: 1 roj
+          one: '%{count} roj'
           other: '%{count} rojan'
         weeks:
-          one: 1 heftî
+          one: '%{count} heftî'
           other: '%{count} heftiyan'
         months:
-          one: 1 meh
+          one: '%{count} meh'
           other: '%{count} mehan'
         years:
-          one: 1 sal
+          one: '%{count} sal'
           other: '%{count} salan'
     blocks_on:
       title: Astengiyên ser %{name}
@@ -2704,7 +2718,9 @@ ku-Latn:
     index:
       title: Notên ku ji aliyê %{user} ve hatine şandin an jî şirovekirin
       heading: Notên %{user}
-      subheading_html: Notên ku ji aliyê %{user} ve hatine şandin an jî şirovekirin
+      subheading_html: Notên ku ji aliyê %{user} ve %{submitted} an %{commented}
+      subheading_submitted: hatiye şandin
+      subheading_commented: şîrovekirî li ser
       no_notes: Not tine
       id: Id
       creator: Çêker
@@ -2717,6 +2733,16 @@ ku-Latn:
       open_title: 'Nota ku nehatiye çarekirin #%{note_name}'
       closed_title: 'Nota ku hatiye çarekirin #%{note_name}'
       hidden_title: 'Notê veşartî #%{note_name}'
+      event_opened_by_html: Ji aliyê %{user} ve %{time_ago} hatiye çêkirin
+      event_opened_by_anonymous_html: Ji aliyê anonîmekî ve %{time_ago} hatiye çêkirin
+      event_commented_by_html: Şîrove ji %{user} %{time_ago}
+      event_commented_by_anonymous_html: Şîroveya ji anonîm %{time_ago}
+      event_closed_by_html: Ji aliyê %{user} ve %{time_ago} hate çareserkirin
+      event_closed_by_anonymous_html: Ji aliyê anonîmekî ve %{time_ago} hatiye çareserkirin
+      event_reopened_by_html: Ji aliyê %{user} ve %{time_ago} cardin hatiye aktîvkirin
+      event_reopened_by_anonymous_html: Ji aliyê anonîmekî ve %{time_ago} cardin hatiye
+        aktîvkirin
+      event_hidden_by_html: Hatiye veşartin ji aliyê %{user} ve %{time_ago}
       report: vê nîşeyê gilî bike
       anonymous_warning: Ji ber ku di vê notê de ji bikarhênerên anonîm şirove hene,
         divê bi awayekî serbixwe were teyîdkirin.
@@ -2776,11 +2802,11 @@ ku-Latn:
       locate:
         title: Cihê min nîşan bide
         metersPopup:
-          one: Tu di nava 1 metreya vê nuqteyê de yî
+          one: Tu di nava %{count} metreya vê nuqteyê de yî
           other: Tu di nava %{count} metreyên vê nuqteyê de yî
         feetPopup:
-          one: Tu 1 gav di nava vê nuqteyê de yî
-          other: Tu d nava %{count} gavên vê nuqteyê de yî
+          one: Tu %{count} gav di nava vê nuqteyê de yî
+          other: Tu di nava %{count} gavên vê nuqteyê de yî
       base:
         standard: Standard
         cyclosm: CyclOSM
@@ -2795,6 +2821,10 @@ ku-Latn:
         gps: Şopên GPSê yên giştî
         overlays: Ji bo ku pirsgirêkan çareser bikî tebeqeyan bide aktîvkirin
         title: Tebeqeyên nexşeyê
+      openstreetmap_contributors: Beşdarên OpenStreetMapê
+      make_a_donation: Bexş bike
+      website_and_api_terms: Malper û şertên APIyê
+      osm_france: OpenStreetMap Fransa
     site:
       edit_tooltip: Nexşeyê sererast bike
       edit_disabled_tooltip: Ji bo sererastkirina nexşeyê nêzîk bike
