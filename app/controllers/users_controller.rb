@@ -34,7 +34,7 @@ class UsersController < ApplicationController
       if @user && (@user.visible? || current_user&.administrator?)
         redirect_to user_path(@user)
       else
-        render_unknown_user params[:id]
+        render_unknown_user_id params[:id]
       end
     end
   end
