@@ -118,3 +118,11 @@ psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval
     psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval('current_ways_id_seq', (select max(way_id) from ways));"
     psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval('current_relations_id_seq', (select max(relation_id) from relations));"
 ```
+
+## Updating iD
+
+To update the version of iD that we run on openhistoricalmap.org, do the following:
+* Make sure the `staging` branch of [our iD fork](https://github.com/OpenHistoricalMap/iD/commits/staging) contains the final `dist` output of `npm run all`. If you don't commit that there, you won't pull in the latest changes over here.
+* Open a bash session in your local Docker container for the website and do `rm -rf vendor/assets/iD/* && vendorer`
+* This will pull in the latest and allow you to test locally before you commit and push. See above for importing local data, which is handy for testing.
+* Commit and push the outcome of that in a PR against the `staging` branch of this repo, and then we can merge and deploy that.
