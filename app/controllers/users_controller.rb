@@ -19,13 +19,23 @@ class UsersController < ApplicationController
   allow_social_login :only => :new
 
   def show
-    @user = User.find_by(:display_name => params[:display_name])
+    if params[:display_name]
+      @user = User.find_by(:display_name => params[:display_name])
 
-    if @user && (@user.visible? || current_user&.administrator?)
-      @title = @user.display_name
-      @heatmap_frame = true
+      if @user && (@user.visible? || current_user&.administrator?)
+        @title = @user.display_name
+        @heatmap_frame = true
+      else
+        render_unknown_user params[:display_name]
+      end
     else
-      render_unknown_user params[:display_name]
+      @user = User.find_by(:id => params[:id])
+
+      if @user && (@user.visible? || current_user&.administrator?)
+        redirect_to user_path(@user)
+      else
+        render_unknown_user params[:id]
+      end
     end
   end
 
