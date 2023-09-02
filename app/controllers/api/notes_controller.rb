@@ -251,7 +251,9 @@ module Api
       end
 
       # Find the comments we want to return
-      @comments = NoteComment.where(:note => notes).order("created_at DESC").limit(result_limit).preload(:note)
+      @comments = NoteComment.where(:note => notes)
+                             .order(:created_at => :desc).limit(result_limit)
+                             .preload(:author, :note => { :comments => :author })
 
       # Render the result
       respond_to do |format|
