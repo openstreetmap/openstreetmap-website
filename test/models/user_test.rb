@@ -91,6 +91,28 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_display_name_user_id_new
+    existing_user = create(:user)
+    user = build(:user)
+
+    user.display_name = "user_#{existing_user.id}"
+    assert_not user.valid?, "user_<id> name is valid for existing user id when it shouldn't be"
+
+    user.display_name = "user_#{existing_user.id + 1}"
+    assert_not user.valid?, "user_<id> name is valid for new user id when it shouldn't be"
+  end
+
+  def test_display_name_user_id_rename
+    existing_user = create(:user)
+    user = create(:user)
+
+    user.display_name = "user_#{existing_user.id}"
+    assert_not user.valid?, "user_<id> name is valid for existing user id when it shouldn't be"
+
+    user.display_name = "user_#{user.id}"
+    assert_predicate user, :valid?, "user_<id> name is invalid for own id, when it should be"
+  end
+
   def test_friends_with
     alice = create(:user, :active)
     bob = create(:user, :active)
