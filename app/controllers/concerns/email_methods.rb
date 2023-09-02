@@ -4,11 +4,7 @@ module EmailMethods
   private
 
   def canonical_email(email)
-    local_part, domain = if email.nil?
-                           nil
-                         else
-                           email.split("@")
-                         end
+    local_part, domain = email.split("@")
 
     local_part.sub!(/\+.*$/, "")
 
