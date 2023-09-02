@@ -6,7 +6,11 @@ xml.rss("version" => "2.0",
         "xmlns:georss" => "http://www.georss.org/georss") do
   xml.channel do
     xml.title t("api.notes.rss.title")
-    xml.description t("api.notes.rss.description_area", :min_lat => @min_lat, :min_lon => @min_lon, :max_lat => @max_lat, :max_lon => @max_lon)
+    if @min_lat.nil? && @min_lon.nil? && @max_lat.nil? && @max_lon.nil?
+      xml.description t("api.notes.rss.description_all")
+    else
+      xml.description t("api.notes.rss.description_area", :min_lat => @min_lat, :min_lon => @min_lon, :max_lat => @max_lat, :max_lon => @max_lon)
+    end
     xml.link url_for(:controller => "/site", :action => "index", :only_path => false)
 
     @comments.each do |comment|
