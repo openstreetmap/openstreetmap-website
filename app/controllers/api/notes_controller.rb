@@ -232,20 +232,7 @@ module Api
     def feed
       # Get any conditions that need to be applied
       notes = closed_condition(Note.all)
-
-      # Process any bbox
-      if params[:bbox]
-        bbox = BoundingBox.from_bbox_params(params)
-
-        bbox.check_boundaries
-        bbox.check_size(Settings.max_note_request_area)
-
-        notes = notes.bbox(bbox)
-        @min_lon = bbox.min_lon
-        @min_lat = bbox.min_lat
-        @max_lon = bbox.max_lon
-        @max_lat = bbox.max_lat
-      end
+      notes = bbox_condition(notes)
 
       # Find the comments we want to return
       @comments = NoteComment.where(:note => notes)
@@ -263,6 +250,7 @@ module Api
     def search
       # Get the initial set of notes
       @notes = closed_condition(Note.all)
+      @notes = bbox_condition(@notes)
 
       # Add any user filter
       if params[:display_name] || params[:user]
@@ -372,6 +360,27 @@ module Api
                       .where(notes.arel_table[:closed_at].gt(Time.now.utc - closed_since)))
       else
         notes.where(:status => "open")
+      end
+    end
+
+    ##
+    # Generate a condition to choose which notes we want based
+    # on the user's bounding box request parameters
+    def bbox_condition(notes)
+      if params[:bbox]
+        bbox = BoundingBox.from_bbox_params(params)
+
+        bbox.check_boundaries
+        bbox.check_size(Settings.max_note_request_area)
+
+        @min_lon = bbox.min_lon
+        @min_lat = bbox.min_lat
+        @max_lon = bbox.max_lon
+        @max_lat = bbox.max_lat
+
+        notes.bbox(bbox)
+      else
+        notes
       end
     end
 
