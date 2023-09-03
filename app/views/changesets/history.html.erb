@@ -4,8 +4,8 @@
   <% end -%>
 <% end -%>
 
-<% set_title(changeset_index_title(params, current_user))
-   @heading = if params[:display_name]
+<% set_title(changeset_index_title(params, @user))
+   @heading = if params[:display_name] && @user.status != "deleted"
                 t("changesets.index.title_user_link_html", :user_link => link_to(params[:display_name], user_path(params[:display_name])))
               else
                 @title

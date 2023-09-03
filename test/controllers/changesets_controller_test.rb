@@ -250,9 +250,35 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "history"
     assert_template :layout => "map"
+    assert_select "title", :text => "Changesets by #{user.display_name} | OpenStreetMap", :count => 1
     assert_select "h2", :text => "Changesets by #{user.display_name}", :count => 1 do
       assert_select "a[href=?]", user_path(user)
     end
+    assert_select "link[rel='alternate'][type='application/atom+xml']", :count => 1 do
+      assert_select "[href=?]", "http://www.example.com/user/#{ERB::Util.url_encode(user.display_name)}/history/feed"
+    end
+
+    get history_path(:format => "html", :display_name => user.display_name, :list => "1"), :xhr => true
+    assert_response :success
+    assert_template "index"
+
+    check_index_result(user.changesets)
+  end
+
+  ##
+  # Checks the display of the deleted user changesets listing
+  def test_index_deleted_user
+    user = create(:user)
+    create(:changeset, :user => user)
+    create(:changeset, :closed, :user => user)
+    user.hide!
+
+    get history_path(:format => "html", :display_name => user.display_name)
+    assert_response :success
+    assert_template "history"
+    assert_template :layout => "map"
+    assert_select "title", :text => "Changesets by deleted | OpenStreetMap", :count => 1
+    assert_select "h2", :text => "Changesets by deleted", :count => 1
     assert_select "link[rel='alternate'][type='application/atom+xml']", :count => 1 do
       assert_select "[href=?]", "http://www.example.com/user/#{ERB::Util.url_encode(user.display_name)}/history/feed"
     end

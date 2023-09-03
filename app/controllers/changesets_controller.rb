@@ -31,8 +31,8 @@ class ChangesetsController < ApplicationController
     end
 
     if @params[:display_name]
-      user = User.find_by(:display_name => @params[:display_name])
-      if !user || !user.active?
+      @user = User.find_by(:display_name => @params[:display_name])
+      unless @user
         render_unknown_user @params[:display_name]
         return
       end
@@ -50,8 +50,8 @@ class ChangesetsController < ApplicationController
       changesets = conditions_nonempty(Changeset.all)
 
       if @params[:display_name]
-        changesets = if user.data_public? || user == current_user
-                       changesets.where(:user => user)
+        changesets = if @user.data_public? || @user == current_user
+                       changesets.where(:user => @user)
                      else
                        changesets.where("false")
                      end
