@@ -18,13 +18,10 @@ module Api
       # support the old, deprecated, method with four arguments
       if params[:bbox]
         bbox = BoundingBox.from_bbox_params(params)
-      else
-        raise OSM::APIBadUserInput, "No l was given" unless params[:l]
-        raise OSM::APIBadUserInput, "No r was given" unless params[:r]
-        raise OSM::APIBadUserInput, "No b was given" unless params[:b]
-        raise OSM::APIBadUserInput, "No t was given" unless params[:t]
-
+      elsif params[:l] && params[:r] && params[:b] && params[:t]
         bbox = BoundingBox.from_lrbt_params(params)
+      else
+        raise OSM::APIBadUserInput, "The parameter bbox is required"
       end
 
       # Get any conditions that need to be applied

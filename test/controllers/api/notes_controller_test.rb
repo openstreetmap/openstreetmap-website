@@ -786,6 +786,10 @@ module Api
     end
 
     def test_index_bad_params
+      get api_notes_path
+      assert_response :bad_request
+      assert_equal "The parameter bbox is required", @response.body
+
       get api_notes_path(:bbox => "-2.5,-2.5,2.5")
       assert_response :bad_request
 
