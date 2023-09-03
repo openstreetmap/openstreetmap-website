@@ -3,7 +3,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
           :root_url => url_for(@params.merge(:action => :index, :format => nil, :only_path => false)),
           "xmlns:xhtml" => "http://www.w3.org/1999/xhtml",
           "xmlns:georss" => "http://www.georss.org/georss") do |feed|
-  feed.title changeset_index_title(params, current_user)
+  feed.title changeset_index_title(params, @user)
 
   feed.updated @changesets.map { |e| [e.created_at, e.closed_at].max }.max
   feed.icon image_url("favicon.ico")
