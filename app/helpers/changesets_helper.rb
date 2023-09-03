@@ -41,12 +41,17 @@ module ChangesetsHelper
   end
 
   def changeset_index_title(params, user)
-    if params[:friends] && user
+    if params[:friends] && current_user
       t "changesets.index.title_friend"
-    elsif params[:nearby] && user
+    elsif params[:nearby] && current_user
       t "changesets.index.title_nearby"
     elsif params[:display_name]
-      t "changesets.index.title_user", :user => params[:display_name]
+      name = if user.status == "deleted"
+               t("users.no_such_user.deleted")
+             else
+               params[:display_name]
+             end
+      t "changesets.index.title_user", :user => name
     else
       t "changesets.index.title"
     end
