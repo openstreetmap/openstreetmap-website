@@ -278,7 +278,7 @@ module Api
     def test_map_without_bbox
       get map_path
       assert_response :bad_request
-      assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "A bbox param was expected"
+      assert_equal "The parameter bbox is required", @response.body, "A bbox param was expected"
     end
 
     def test_bbox_too_big
@@ -293,7 +293,7 @@ module Api
       @badmalformedbbox.each do |bbox|
         get map_path(:bbox => bbox)
         assert_response :bad_request, "The bbox:#{bbox} was expected to be malformed"
-        assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "bbox: #{bbox}"
+        assert_equal "The parameter bbox must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "bbox: #{bbox}"
       end
     end
 

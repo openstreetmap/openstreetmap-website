@@ -22,6 +22,8 @@ module Api
       # check boundary is sane and area within defined
       # see /config/application.yml
       begin
+        raise OSM::APIBadUserInput, "The parameter bbox is required" unless params[:bbox]
+
         @bounds = BoundingBox.from_bbox_params(params)
         @bounds.check_boundaries
         @bounds.check_size
