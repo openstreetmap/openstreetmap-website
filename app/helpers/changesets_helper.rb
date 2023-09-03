@@ -9,6 +9,16 @@ module ChangesetsHelper
     end
   end
 
+  def changeset_user_history_link(changeset)
+    if changeset.user.status == "deleted"
+      link_to(t("users.no_such_user.deleted"), user_history_path(changeset.user))
+    elsif changeset.user.data_public?
+      link_to(tag.bdi(changeset.user.display_name), user_history_path(changeset.user))
+    else
+      t("browse.anonymous")
+    end
+  end
+
   def changeset_details(changeset)
     if changeset.closed_at > Time.now.utc
       action = :created

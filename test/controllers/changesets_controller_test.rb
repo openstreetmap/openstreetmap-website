@@ -453,13 +453,39 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_show_adjacent_changesets
-    user = create(:user)
-    changesets = create_list(:changeset, 3, :user => user, :num_changes => 1)
+  [
+    ["active", proc { |user| }],
+    ["inactive", proc { |user| user.hide! }]
+  ].each do |type, modifier|
+    test "link to other changesets of #{type} user" do
+      user = create(:user)
+      changeset1 = create(:changeset, :user => user, :num_changes => 1)
+      changeset2 = create(:changeset, :user => user, :num_changes => 1)
+      changeset3 = create(:changeset, :user => user, :num_changes => 1)
+      modifier.call(user)
 
-    sidebar_browse_check :changeset_path, changesets[1].id, "changesets/show"
-    assert_dom "a[href='#{changeset_path changesets[0]}']", :count => 1
-    assert_dom "a[href='#{changeset_path changesets[2]}']", :count => 1
+      get changeset_path(changeset1)
+      assert_response :success
+      assert_select "#sidebar_content .secondary-actions" do
+        assert_select "a[href='#{user_history_path user}']"
+        assert_select "a[href='#{changeset_path changeset2}']"
+      end
+
+      get changeset_path(changeset2)
+      assert_response :success
+      assert_select "#sidebar_content .secondary-actions" do
+        assert_select "a[href='#{changeset_path changeset1}']"
+        assert_select "a[href='#{user_history_path user}']"
+        assert_select "a[href='#{changeset_path changeset3}']"
+      end
+
+      get changeset_path(changeset3)
+      assert_response :success
+      assert_select "#sidebar_content .secondary-actions" do
+        assert_select "a[href='#{changeset_path changeset2}']"
+        assert_select "a[href='#{user_history_path user}']"
+      end
+    end
   end
 
   def test_show_adjacent_nonempty_changesets

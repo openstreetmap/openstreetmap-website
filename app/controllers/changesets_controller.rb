@@ -100,7 +100,7 @@ class ChangesetsController < ApplicationController
       load_nodes
       load_ways
       load_relations
-      if @changeset.user.active? && @changeset.user.data_public?
+      if @changeset.user.data_public?
         changesets = conditions_nonempty(@changeset.user.changesets)
         @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
         @prev_by_user = changesets.where(:id => ...@changeset.id).reorder(:id => :desc).first
