@@ -614,6 +614,28 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :feed
   end
 
+  ##
+  # Checks if author fields are visible only for non-deleted users
+  def test_feed_author
+    user = create(:user)
+    create(:changeset, :user => user, :num_changes => 1)
+
+    get history_feed_path(:format => :atom, :display_name => user.display_name)
+    assert_response :success
+    assert_select "feed entry", :count => 1 do
+      assert_select "author", :count => 1
+      assert_select "content xhtml|table xhtml|th", :text => "Author", :count => 1
+    end
+
+    user.hide!
+    get history_feed_path(:format => :atom, :display_name => user.display_name)
+    assert_response :success
+    assert_select "feed entry", :count => 1 do
+      assert_select "author", :count => 0
+      assert_select "content xhtml|table xhtml|th", :text => "Author", :count => 0
+    end
+  end
+
   private
 
   ##
