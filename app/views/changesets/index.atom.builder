@@ -30,7 +30,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         entry.title t(".feed.title", :id => changeset.id)
       end
 
-      if changeset.user.data_public?
+      if changeset.user.data_public? && changeset.user.status != "deleted"
         entry.author do |author|
           author.name changeset.user.display_name
           author.uri user_url(changeset.user, :only_path => false)
@@ -48,7 +48,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
             tr.th t(".feed.closed")
             tr.td l(changeset.closed_at)
           end
-          if changeset.user.data_public?
+          if changeset.user.data_public? && changeset.user.status != "deleted"
             table.tr do |tr|
               tr.th t(".feed.belongs_to")
               tr.td do |td|
