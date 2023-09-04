@@ -238,7 +238,7 @@ class DiaryEntriesController < ApplicationController
     comments = DiaryComment.where(:users => @user)
     comments = comments.visible unless can? :unhidecomment, DiaryEntry
 
-    @params = params.permit(:display_name)
+    @params = params.permit(:display_name, :before, :after)
 
     @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, [:user])
   end

@@ -36,10 +36,11 @@
 
   <%= render @entries %>
 
-  <%= render "pagination", :newer_key => "diary_entries.index.newer_entries",
-                           :older_key => "diary_entries.index.older_entries",
-                           :newer_id => @newer_entries_id,
-                           :older_id => @older_entries_id %>
+  <%= render "shared/pagination",
+             :newer_key => "diary_entries.index.newer_entries",
+             :older_key => "diary_entries.index.older_entries",
+             :newer_id => @newer_entries_id,
+             :older_id => @older_entries_id %>
 <% end %>
 
 <% unless params[:friends] or params[:nearby] -%>
