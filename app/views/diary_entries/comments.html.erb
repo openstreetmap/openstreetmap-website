@@ -24,27 +24,5 @@
     <% end -%>
   </table>
 
-  <nav>
-    <ul class="pagination">
-      <% if @older_comments -%>
-        <li class="page-item">
-          <%= link_to t(".older_comments"), @params.merge(:before => @comments.last.id), :class => "page-link" %>
-        </li>
-      <% else -%>
-        <li class="page-item disabled">
-          <span class="page-link"><%= t(".older_comments") %></span>
-        </li>
-      <% end -%>
-
-      <% if @newer_comments -%>
-        <li class="page-item">
-          <%= link_to t(".newer_comments"), @params.merge(:after => @comments.first.id), :class => "page-link" %>
-        </li>
-      <% else -%>
-        <li class="page-item disabled">
-          <span class="page-link"><%= t(".newer_comments") %></span>
-        </li>
-      <% end -%>
-    </ul>
-  </nav>
+  <%= render "pagination", :name => "comments", :scope => "diary_entries.comments" %>
 <% end -%>

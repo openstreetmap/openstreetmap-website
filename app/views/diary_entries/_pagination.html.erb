@@ -1,0 +1,23 @@
+<nav>
+  <ul class="pagination">
+    <% if instance_variable_get("@newer_#{name}") -%>
+      <li class="page-item">
+        <%= link_to t("newer_#{name}", :scope => scope), @params.merge(:after => instance_variable_get("@#{name}").first.id), :class => "page-link" %>
+      </li>
+    <% else -%>
+      <li class="page-item disabled">
+        <span class="page-link"><%= t("newer_#{name}", :scope => scope) %></span>
+      </li>
+    <% end -%>
+    
+    <% if instance_variable_get("@older_#{name}") -%>
+      <li class="page-item">
+        <%= link_to t("older_#{name}", :scope => scope), @params.merge(:before => instance_variable_get("@#{name}").last.id), :class => "page-link" %>
+      </li>
+    <% else -%>
+      <li class="page-item disabled">
+        <span class="page-link"><%= t("older_#{name}", :scope => scope) %></span>
+      </li>
+    <% end -%>
+  </ul>
+</nav>
