@@ -55,7 +55,7 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @entries, @newer_entries, @older_entries = get_page_items(entries, [:user, :language])
+    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, [:user, :language])
   end
 
   def show
@@ -240,7 +240,7 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name)
 
-    @comments, @newer_comments, @older_comments = get_page_items(comments, [:user])
+    @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, [:user])
   end
 
   private
@@ -291,9 +291,9 @@ class DiaryEntriesController < ApplicationController
     page_items = page_items.includes(includes)
     page_items = page_items.sort.reverse
 
-    newer_items = page_items.count.positive? && items.exists?(["#{id_column} > ?", page_items.first.id])
-    older_items = page_items.count.positive? && items.exists?(["#{id_column} < ?", page_items.last.id])
+    newer_items_id = page_items.first.id if page_items.count.positive? && items.exists?(["#{id_column} > ?", page_items.first.id])
+    older_items_id = page_items.last.id if page_items.count.positive? && items.exists?(["#{id_column} < ?", page_items.last.id])
 
-    [page_items, newer_items, older_items]
+    [page_items, newer_items_id, older_items_id]
   end
 end

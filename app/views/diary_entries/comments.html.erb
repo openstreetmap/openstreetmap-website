@@ -24,5 +24,8 @@
     <% end -%>
   </table>
 
-  <%= render "pagination", :name => "comments", :scope => "diary_entries.comments" %>
+  <%= render "pagination", :newer_key => "diary_entries.comments.newer_comments",
+                           :older_key => "diary_entries.comments.older_comments",
+                           :newer_id => @newer_comments_id,
+                           :older_id => @older_comments_id %>
 <% end -%>
