@@ -24,9 +24,27 @@
     <% end -%>
   </table>
 
-  <div class='secondary-actions clearfix'>
-    <span><%= link_to t(".older_comments"), :page => @comment_pages.current.next if @comment_pages.current.next %>
-    <%= link_to t(".newer_comments"), :page => @comment_pages.current.previous if @comment_pages.current.previous %></span>
-  </div>
+  <nav>
+    <ul class="pagination">
+      <% if @older_comments -%>
+        <li class="page-item">
+          <%= link_to t(".older_comments"), @params.merge(:before => @comments.last.id), :class => "page-link" %>
+        </li>
+      <% else -%>
+        <li class="page-item disabled">
+          <span class="page-link"><%= t(".older_comments") %></span>
+        </li>
+      <% end -%>
 
+      <% if @newer_comments -%>
+        <li class="page-item">
+          <%= link_to t(".newer_comments"), @params.merge(:after => @comments.first.id), :class => "page-link" %>
+        </li>
+      <% else -%>
+        <li class="page-item disabled">
+          <span class="page-link"><%= t(".newer_comments") %></span>
+        </li>
+      <% end -%>
+    </ul>
+  </nav>
 <% end -%>

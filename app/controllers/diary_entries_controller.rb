@@ -248,15 +248,25 @@ class DiaryEntriesController < ApplicationController
   def comments
     @title = t ".title", :user => @user.display_name
 
-    conditions = { :user_id => @user }
+    comments = DiaryComment.where(:users => @user)
+    comments = comments.visible unless can? :unhidecomment, DiaryEntry
 
-    conditions[:visible] = true unless can? :unhidecomment, DiaryEntry
+    @params = params.permit(:display_name)
 
-    @comment_pages, @comments = paginate(:diary_comments,
-                                         :conditions => conditions,
-                                         :order => "created_at DESC",
-                                         :per_page => 20)
-    @page = (params[:page] || 1).to_i
+    @comments = if params[:before]
+                 comments.where("diary_comments.id < ?", params[:before]).order(:id => :desc)
+               elsif params[:after]
+                 comments.where("diary_comments.id > ?", params[:after]).order(:id => :asc)
+               else
+                 comments.order(:id => :desc)
+               end
+
+    @comments = @comments.limit(20)
+    @comments = @comments.includes(:user)
+    @comments = @comments.sort.reverse
+
+    @newer_comments = @comments.count.positive? && comments.exists?(["diary_comments.id > ?", @comments.first.id])
+    @older_comments = @comments.count.positive? && comments.exists?(["diary_comments.id < ?", @comments.last.id])
   end
 
   private
