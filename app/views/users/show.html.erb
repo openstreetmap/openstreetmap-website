@@ -131,6 +131,10 @@
                 <% end -%>
               </dd>
             <% end -%>
+            <% if current_user&.moderator? || current_user&.administrator? %>
+              <dt class="list-inline-item m-0"><%= t ".uid" %></dt>
+              <dd class="list-inline-item"><%= link_to @user.id, api_user_path(:id => @user.id) %></dd>
+            <% end -%>
           </dl>
         </small>
       </div>
