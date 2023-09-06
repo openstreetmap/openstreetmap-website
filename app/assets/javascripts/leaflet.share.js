@@ -68,6 +68,7 @@ L.OSM.share = function (options) {
       .append($("<input>")
         .attr("id", "long_input")
         .attr("type", "text")
+        .attr("class", "form-control form-control-sm font-monospace")
         .on("click", select));
 
     $("<div>")
@@ -77,6 +78,7 @@ L.OSM.share = function (options) {
       .append($("<input>")
         .attr("id", "short_input")
         .attr("type", "text")
+        .attr("class", "form-control form-control-sm font-monospace")
         .on("click", select));
 
     $("<div>")
@@ -86,6 +88,7 @@ L.OSM.share = function (options) {
       .append(
         $("<textarea>")
           .attr("id", "embed_html")
+          .attr("class", "form-control form-control-sm font-monospace")
           .on("click", select))
       .append(
         $("<p>")
