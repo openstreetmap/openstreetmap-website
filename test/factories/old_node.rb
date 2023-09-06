@@ -4,7 +4,7 @@ FactoryBot.define do
     longitude { 1 * GeoRecord::SCALE }
 
     changeset
-    association :current_node, :factory => :node
+    current_node :factory => :node
 
     visible { true }
     timestamp { Time.now.utc }
