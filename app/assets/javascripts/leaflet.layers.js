@@ -13,6 +13,7 @@ L.OSM.layers = function (options) {
 
     layers.forEach(function (layer) {
       var item = $("<li>")
+        .attr("class", "rounded-3")
         .appendTo(baseLayers);
 
       if (map.hasLayer(layer)) {
