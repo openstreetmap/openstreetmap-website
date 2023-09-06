@@ -3,6 +3,6 @@ FactoryBot.define do
     sequence(:name) { |n| "OAuth application #{n}" }
     sequence(:redirect_uri) { |n| "https://example.com/app/#{n}" }
 
-    association :owner, :factory => :user
+    owner :factory => :user
   end
 end
