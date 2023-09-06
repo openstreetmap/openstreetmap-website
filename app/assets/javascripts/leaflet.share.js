@@ -23,17 +23,15 @@ L.OSM.share = function (options) {
     $("<div>")
       .attr("class", "form-check mb-3")
       .appendTo($form)
-      .append(
-        $("<label>")
-          .attr("for", "link_marker")
-          .attr("class", "form-check-label")
-          .append(
-            $("<input>")
-              .attr("id", "link_marker")
-              .attr("type", "checkbox")
-              .attr("class", "form-check-input")
-              .bind("change", toggleMarker))
-          .append(I18n.t("javascripts.share.include_marker")));
+      .append($("<label>")
+        .attr("for", "link_marker")
+        .attr("class", "form-check-label")
+        .text(I18n.t("javascripts.share.include_marker")))
+      .append($("<input>")
+        .attr("id", "link_marker")
+        .attr("type", "checkbox")
+        .attr("class", "form-check-input")
+        .bind("change", toggleMarker));
 
     $("<div class='btn-group btn-group-sm mb-2'>")
       .appendTo($form)
@@ -70,6 +68,8 @@ L.OSM.share = function (options) {
       .append($("<input>")
         .attr("id", "long_input")
         .attr("type", "text")
+        .attr("class", "form-control form-control-sm font-monospace")
+        .attr("readonly", true)
         .on("click", select));
 
     $("<div>")
@@ -79,6 +79,8 @@ L.OSM.share = function (options) {
       .append($("<input>")
         .attr("id", "short_input")
         .attr("type", "text")
+        .attr("class", "form-control form-control-sm font-monospace")
+        .attr("readonly", true)
         .on("click", select));
 
     $("<div>")
@@ -88,6 +90,8 @@ L.OSM.share = function (options) {
       .append(
         $("<textarea>")
           .attr("id", "embed_html")
+          .attr("class", "form-control form-control-sm font-monospace")
+          .attr("readonly", true)
           .on("click", select))
       .append(
         $("<p>")
@@ -132,45 +136,60 @@ L.OSM.share = function (options) {
       .appendTo($imageSection);
 
     $("<div>")
-      .attr("class", "mb-3 form-check")
       .appendTo($form)
-      .append(
-        $("<label>")
-          .attr("for", "image_filter")
-          .attr("class", "form-check-label")
-          .append(
-            $("<input>")
-              .attr("id", "image_filter")
-              .attr("type", "checkbox")
-              .attr("class", "form-check-input")
-              .bind("change", toggleFilter))
-          .append(I18n.t("javascripts.share.custom_dimensions")));
+      .attr("class", "row mb-3")
+      .append($("<label>")
+        .attr("for", "mapnik_format")
+        .attr("class", "col-auto col-form-label")
+        .text(I18n.t("javascripts.share.format")))
+      .append($("<div>")
+        .attr("class", "col-auto")
+        .append($("<select>")
+          .attr("name", "mapnik_format")
+          .attr("id", "mapnik_format")
+          .attr("class", "form-select w-auto")
+          .append($("<option>").val("png").text("PNG").prop("selected", true))
+          .append($("<option>").val("jpeg").text("JPEG"))
+          .append($("<option>").val("svg").text("SVG"))
+          .append($("<option>").val("pdf").text("PDF"))));
 
     $("<div>")
       .appendTo($form)
-      .append(
-        $("<label>")
-          .attr("for", "mapnik_format")
-          .text(I18n.t("javascripts.share.format")))
-      .append($("<select>")
-        .attr("name", "mapnik_format")
-        .attr("id", "mapnik_format")
-        .append($("<option>").val("png").text("PNG").prop("selected", true))
-        .append($("<option>").val("jpeg").text("JPEG"))
-        .append($("<option>").val("svg").text("SVG"))
-        .append($("<option>").val("pdf").text("PDF")));
-
-    $("<div>")
-      .appendTo($form)
+      .attr("class", "row mb-3")
       .append($("<label>")
         .attr("for", "mapnik_scale")
+        .attr("class", "col-auto col-form-label")
         .text(I18n.t("javascripts.share.scale")))
-      .append("1 : ")
-      .append($("<input>")
-        .attr("name", "mapnik_scale")
-        .attr("id", "mapnik_scale")
-        .attr("type", "text")
-        .on("change", update));
+      .append($("<div>")
+        .attr("class", "col-auto")
+        .append($("<div>")
+          .attr("class", "input-group flex-nowrap")
+          .append($("<span>")
+            .attr("class", "input-group-text")
+            .text("1 : "))
+          .append($("<input>")
+            .attr("name", "mapnik_scale")
+            .attr("id", "mapnik_scale")
+            .attr("type", "text")
+            .attr("class", "form-control")
+            .on("change", update))));
+
+    $("<div>")
+      .attr("class", "row mb-3")
+      .appendTo($form)
+      .append($("<div>")
+        .attr("class", "col-auto")
+        .append($("<div>")
+          .attr("class", "form-check")
+          .append($("<label>")
+            .attr("for", "image_filter")
+            .attr("class", "form-check-label")
+            .text(I18n.t("javascripts.share.custom_dimensions")))
+          .append($("<input>")
+            .attr("id", "image_filter")
+            .attr("type", "checkbox")
+            .attr("class", "form-check-input")
+            .bind("change", toggleFilter))));
 
     ["minlon", "minlat", "maxlon", "maxlat"].forEach(function (name) {
       $("<input>")
