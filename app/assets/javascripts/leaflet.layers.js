@@ -8,7 +8,7 @@ L.OSM.layers = function (options) {
       .attr("class", "section base-layers")
       .appendTo($ui);
 
-    var baseLayers = $("<ul class='list-unstyled'>")
+    var baseLayers = $("<ul class='list-unstyled mb-0'>")
       .appendTo(baseSection);
 
     layers.forEach(function (layer) {
