@@ -11,6 +11,7 @@
 # Author: Gunnernett
 # Author: Harald Khan
 # Author: Macofe
+# Author: Maddy from Celeste
 # Author: McDutchie
 # Author: Nemo bis
 # Author: Nghtwlkr
@@ -26,9 +27,11 @@ nn:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
   helpers:
+    file:
+      prompt: Vel fil
     submit:
       diary_comment:
-        create: Lagre
+        create: Kommenter
       diary_entry:
         create: Publiser
         update: Oppdater
@@ -37,6 +40,9 @@ nn:
       message:
         create: Send
       client_application:
+        create: Registrer
+        update: Oppdater
+      oauth2_application:
         create: Registrer
         update: Oppdater
       redaction:
@@ -127,26 +133,32 @@ nn:
         description: Skildring
       user:
         email: E-post
-        new_email: 'Ny e-postadresse:'
+        email_confirmation: Stadfesting av e-post
+        new_email: Ny e-postadresse
         active: Aktive
         display_name: Visningsnamn
-        description: Skildring
-        home_lat: 'Breiddegrad:'
-        home_lon: 'Lengdegrad:'
-        languages: Språk
+        description: Skildring profilen
+        home_lat: Breiddegrad
+        home_lon: Lengdegrad
+        languages: Føretrekte språk
+        preferred_editor: Føretrekt redigeringsprogram
         pass_crypt: Passord
         pass_crypt_confirmation: Stadfest passord
     help:
       trace:
         tagstring: kommaseparert
       user_block:
+        reason: Årsaka for at brukaren vert blokkert. Ver venleg og ver so sindig
+          og fornuftig som mogleg, gje so mykje opplysingar om situasjonen som du
+          kan med tanke på at meldinga vil vera synleg for ålmenta. Hugs på at ikkje
+          alle brukarar har kjennskap til sjargongen, so prøv å bruka ålmenne omgrep.
         needs_view: Må brukaren logge inn før denne blokkeringa vert fjerna?
       user:
         new_email: ' (vis aldri offentleg)'
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: omkring 1 time sidan
+        one: omkring %{count} time sidan
         other: omkring %{count} timar sidan
       about_x_months:
         one: omkring 1 månad sidan
@@ -157,6 +169,7 @@ nn:
       almost_x_years:
         one: nesten 1 år sidan
         other: nesten %{count} år sidan
+      half_a_minute: for eit halvminutt sidan
       less_than_x_seconds:
         one: mindre enn 1 sekund sidan
         other: mindre enn %{count} sekund sidan
@@ -188,16 +201,18 @@ nn:
       description: Lokalt installert program (JOSM eller Merkaartor)
   auth:
     providers:
+      none: Ingen
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
     notes:
       comment:
-        opened_at_html: Oppretta for %{when} sidan
-        opened_at_by_html: Oppretta for %{when} sidan av %{user}
+        opened_at_html: Oppretta %{when}
+        opened_at_by_html: Oppretta %{when} av %{user}
         commented_at_html: Oppdatert %{when}
         commented_at_by_html: Oppdatert %{when} av %{user}
         closed_at_html: Løyst %{when}
@@ -210,11 +225,37 @@ nn:
       entry:
         comment: Kommentar
         full: Fullstendig merknad
+  account:
+    deletions:
+      show:
+        title: Slett kontoen min
+        warning: Åtvaring! Sletting av konto er endeleg, og kan ikkje gjerast om.
+        delete_account: Slett konto
+        delete_introduction: 'Du kan sletta kontoen din hjå OpenStreetMap med knappen
+          under. Merk fylgjande:'
+        delete_profile: Profilinformasjonen din, medrekna profilbilde, skildring og
+          heimestad vil fjernast.
+        delete_display_name: Det viste namnet ditt vil fjernast, og kan brukast av
+          andre kontoar.
+        retain_caveats: Somme opplysingar vil verte tatt vare på, til og med etter
+          at kontoen din er sletta.
+        retain_edits: Eventuelle redigeringer av kartdatabasen vil behaldast.
+        retain_traces: Spor du har lasta opp vil behaldast.
+        retain_diary_entries: Innlegg og kommentarar frå deg i brukardagboken vil
+          verte tekne vare på, men skylte frå ålmenta.
+        retain_notes: Merknadane og kommentarane dine vil verte tekne vare på, men
+          skylt frå ålmenta.
+        retain_changeset_discussions: Tilskota dine til diskusjonar om endringssett
+          vil behaldast.
+        retain_email: E-postadressa di vil behaldast.
+        confirm_delete: Er du sikker?
+        cancel: Bryt av
   accounts:
     edit:
       title: Rediger konto
       my settings: Innstellingane mine
-      current email address: 'Noverande e-postadresse:'
+      current email address: Noverande e-postadresse
+      external auth: Ekstern autentisering
       openid:
         link text: kva er dette?
       public editing:
@@ -225,7 +266,7 @@ nn:
           er anonyme.
         disabled link text: kvifor can eg ikkje redigere?
       contributor terms:
-        heading: 'Bidragsytervilkår:'
+        heading: Vilkår for bidragsytarar
         agreed: Du har godkjent dei nye bidragsytervilkåra
         not yet agreed: Du har endå ikkje godkjent dei nye bidragsytervilkåra.
         review link text: Vennligst følg denne lenkja når det passar deg, for å sjå
@@ -234,20 +275,46 @@ nn:
           offentleg eigedom (Public Domain).
         link text: kva er dette?
       save changes button: Lagre endringar
+      delete_account: Slett konto...
     go_public:
-      heading: 'Offentleg redigering:'
+      heading: Offentleg redigering
+      currently_not_public: Nett no er redigeringane dine anonyme, og folk kan ikkje
+        senda deg meldingar eller sjå kor du er. For å visa kva du har redigert og
+        la folk kontakta deg gjennom nettstaden, klikk på knappen nedanfor.
+      only_public_can_edit: Sidan overgangen til 0.6-API-et, kan berre offentlege
+        brukarar redigera kartdata.
+      find_out_why: finn ut kvifor
+      email_not_revealed: E-postadressa di vil ikkje verte synleg for ålmenta når
+        kontoen din vert offentleg.
+      not_reversible: Denne handlinga kan ikkje omgjerast, og alle nye brukarar er
+        no offentlege frå byrjinga.
       make_edits_public_button: Gjer alle redigeringane mine offentleg
     update:
       success_confirm_needed: Brukerinformasjon oppdatert. Sjekk eposten din for å
         stadfeste din epostadresse.
       success: Brukerinformasjon oppdatert.
+    destroy:
+      success: Kontoen er sletta.
   browse:
     created: Oppretta
     closed: Attlaten
+    created_ago_html: Oppretta %{time_ago}
+    closed_ago_html: Lukka %{time_ago}
+    created_ago_by_html: Oppretta %{time_ago} av %{user}
+    closed_ago_by_html: Lukka %{time_ago} av %{user}
+    deleted_ago_by_html: Sletta %{time_ago} av %{user}
+    edited_ago_by_html: Redigert %{time_ago} av %{user}
     version: 'Versjon:'
+    in_changeset: Endringssett
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del av
+    part_of_relations:
+      one: '%{count} samhøve'
+      other: '%{count} samhøve'
+    part_of_ways:
+      one: 1 line
+      other: '%{count} liner'
     download_xml: Last ned XML
     view_history: Vis historikk
     view_details: Vis detaljar
@@ -259,7 +326,11 @@ nn:
       node_paginated: Punkt (%{x}-%{y} av %{count})
       way: Strekningar (%{count})
       way_paginated: Strekningar (%{x}-%{y} av %{count})
+      relation: Samhøve (%{count})
+      relation_paginated: Samhøve (%{x}–%{y} av %{count})
       comment: Kommentarar (%{count})
+      hidden_comment_by_html: Skylt kommentar frå %{user} %{time_ago}
+      comment_by_html: Kommentar frå %{user} %{time_ago}
       changesetxml: XML for endringssett
       osmchangexml: osmChange XML
       feed:
@@ -267,6 +338,8 @@ nn:
         title_comment: 'Endringssett: %{id} - %{comment}'
       join_discussion: Logg inn for å vere med i diskusjonen
       discussion: Ordskifte
+      still_open: Endringssettet er framleis ope – det vert opna for diskusjon når
+        endringssettet vert lukka.
     node:
       title_html: 'Punkt: %{name}'
       history_title_html: 'Punkthistorikk: %{name}'
@@ -274,11 +347,19 @@ nn:
       title_html: 'Strekning: %{name}'
       history_title_html: 'Strekningshistorikk: %{name}'
       nodes: Punkt
+      nodes_count:
+        one: '%{count} punkt'
+        other: '%{count} punkt'
       also_part_of_html:
         one: delstrekning %{related_ways}
         other: delstrekningar %{related_ways}
     relation:
+      title_html: 'Samhøve: %{name}'
+      history_title_html: 'Samhøvehistorikk: %{name}'
       members: Medlemmar
+      members_count:
+        one: '%{count} medlem'
+        other: '%{count} medlemar'
     relation_member:
       entry_role_html: '%{type} %{name} som %{role}'
       type:
@@ -289,6 +370,7 @@ nn:
       entry_html: Relasjon %{relation_name}
       entry_role_html: Relasjon %{relation_name} (som %{relation_role})
     not_found:
+      title: Ikkje funne
       sorry: Beklagar, klarte ikkje å finne %{type}-en med ID %{id}.
       type:
         node: node
@@ -297,6 +379,7 @@ nn:
         changeset: endringssett
         note: merknad
     timeout:
+      title: Tida gjekk ut
       sorry: Beklagar, data for %{type} med id %{id} tok for lang tid å hente.
       type:
         node: punkt
@@ -313,6 +396,8 @@ nn:
         way: vegen
         relation: relasjonen
     start_rjs:
+      feature_warning: Hentar %{num_features} kartobjekt, noe som kan gjera at nettlesaren
+        vert treg eller stoppar heilt. Er du sikker på at du vil visa desse datuma?
       load_data: Last inn data
       loading: Lastar...
     tag_details:
@@ -322,10 +407,14 @@ nn:
         tag: Wiki-beskrivelsessiden for %{key}=%{value}-elementet
       wikidata_link: Elementet %{page} på Wikidata
       wikipedia_link: Artikkelen %{page} på Wikipedia
+      wikimedia_commons_link: Sida %{page} på Wikimedia Commons
       telephone_link: Ring %{phone_number}
+      colour_preview: Førehandsvising av farga %{colour_value}
     query:
       title: Førespurnadsfunksjonar
+      introduction: Klikk på kartet for å visa objekt i nærleiken.
       nearby: Nærliggjande funksjonar
+      enclosing: Omgjevande objekt
   changesets:
     changeset_paging_nav:
       showing_page: Side %{page}
@@ -344,6 +433,7 @@ nn:
     index:
       title: Endringssett
       title_user: Endringssett av %{user}
+      title_user_link_html: Endringssett av %{user_link}
       title_friend: Endringssett av venene dine
       title_nearby: Endringssett av brukarar i nærleiken
       empty: Fann ingen endringssett.
@@ -354,10 +444,18 @@ nn:
       no_more_user: Ingen fleire endringssett av denne brukaren.
       load_more: Last inn meir
     timeout:
-      sorry: Lista over endringssett tok for lang tid å hente.
+      sorry: Lista over endringssett du ba om tok for lang tid å hente.
   changeset_comments:
     comment:
-      commented_at_by_html: Oppdatert for %{when} sidan av %{user}
+      comment: 'Ny kommentar til endringssett #%{changeset_id} av %{author}'
+      commented_at_by_html: Oppdatert %{when} av %{user}
+    comments:
+      comment: 'Ny kommentar til endringssett #%{changeset_id} av %{author}'
+    index:
+      title_all: Endringssettdiskusjon hjå OpenStreetMap
+      title_particular: Diskusjon om endringssett %{changeset_id} hjå OpenStreetMap
+    timeout:
+      sorry: Lista over kommentarar til endringssett tok for lang tid å henta.
   dashboards:
     contact:
       km away: '%{count}km unna'
@@ -367,6 +465,10 @@ nn:
       nearby mapper: Brukarar i nærleiken
       friend: Ven
     show:
+      title: Kontrollpanelet mitt
+      no_home_location_html: '%{edit_profile_link} og set heimestaden din for å sjå
+        brukarar i nærleiken.'
+      edit_your_profile: Endra profilen din
       my friends: Mine vener
       no friends: Du har ikkje lagt til nokon venner enno.
       nearby users: Andre brukarar i nærleiken
@@ -380,66 +482,75 @@ nn:
     new:
       title: Ny dagbokoppføring
     form:
-      location: 'Posisjon:'
-      use_map_link: bruk kart
+      location: Stad
+      use_map_link: Bruk kart
     index:
-      title: Brukarane sine dagbøker
-      title_friends: Dagbøkene til venene dine
-      title_nearby: Dagbøkene til naboar
+      title: Brukardagbøker
+      title_friends: Dagbøkene til venane dine
+      title_nearby: Dagbøkene til brukarar i nærleiken
       user_title: '%{user} si dagbok'
       in_language_title: Dagbokoppføringar på %{language}
       new: Ny dagbokoppføring
       new_title: Skriv ei ny oppføring i dagboka di
+      my_diary: Dagboka mi
       no_entries: Ingen oppføringar i dagboka
       recent_entries: Nye oppføringer i dagboka
       older_entries: Eldre oppføringar
       newer_entries: Nyare oppføringar
     edit:
-      title: Rediger oppføring i dagboka
-      marker_text: Lokasjon for dagbokoppføring
+      title: Rediger dagbokoppføring
+      marker_text: Stad for dagbokoppføring
     show:
-      title: '%{user} sin dagbok | %{title}'
+      title: '%{user} si dagbok | %{title}'
       user_title: '%{user} si dagbok'
       leave_a_comment: Legg igjen ein kommentar
       login_to_leave_a_comment_html: '%{login_link} for å legge igjen ein kommentar'
       login: Logg inn
     no_such_entry:
       title: Inga slik dagbokoppføring
-      heading: Inga oppføring med %{id}
-      body: Det er ingen dagbokinnlegg eller kommentar med ID %{id}. Sjekk om du har
-        skrive feil eller om lenkja er riktig.
+      heading: 'Inga oppføring med ID: %{id}'
+      body: Det finst inkje dagbokinnlegg eller kommentar med ID %{id}. Sjekk om du
+        har skrive feil eller om lenkja er feil.
     diary_entry:
       posted_by_html: Skrive av %{link_user} %{created} på %{language_link}
+      updated_at_html: Sist oppdatert %{updated}.
       comment_link: Kommenter denne oppføringa
-      reply_link: Svar på denne oppføringa
+      reply_link: Send ei melding til forfattaren
       comment_count:
         one: '%{count} kommentar'
-        zero: Ingen kommentarar
         other: '%{count} kommentarar'
+      no_comments: Ingen kommentarar
       edit_link: Rediger denne oppføringa
       hide_link: Skjul denne oppføringa
+      unhide_link: Slutta å skjule denne oppføringa
       confirm: Stadfest
+      report: Melda denne oppføringa
     diary_comment:
       comment_from_html: Kommentar frå %{link_user}, %{comment_created_at}
       hide_link: Skjul denne kommentaren
+      unhide_link: Slutta å skjula denne kommentaren
       confirm: Stadfest
       report: Rapporter denne kommentaren
     location:
-      location: 'Posisjon:'
+      location: 'Stad:'
       view: Vis
-      edit: Rediger
+      edit: Endra
     feed:
       user:
-        title: Oppføringar i OpenStreetMap-dagboka for %{user}
+        title: Oppføringar i OpenStreetMap-dagboka frå %{user}
         description: Nye oppføringar i OpenStreetMap-dagboka til %{user}
       language:
         title: Oppføringar i OpenStreetMap-dagbøker på %{language_name}
         description: Nye oppføringar i dagbøkene til OpenStreetMap-brukarar på %{language_name}
       all:
         title: Oppføringar OpenStreetMap-dagboka
-        description: Nye oppføringar i dagbøkene til OpenStreetMap-brukarar
+        description: Nylege oppføringar i dagbøkene til OpenStreetMap-brukarar
     comments:
-      post: Post
+      title: Kommentarar i dagboka frå %{user}
+      heading: '%{user} sine kommentarar til dagboksoppføringar'
+      subheading_html: Kommentarar i dagboka frå %{user}
+      no_comments: Ingen kommentarar i dagboka
+      post: Oppføring
       when: Når
       comment: Kommentar
       newer_comments: Nyare kommentarar
@@ -457,6 +568,9 @@ nn:
       success: '%{name} vart fjerna frå venene dine'
       not_a_friend: '%{name} er ikkje ein av venene dine.'
   geocoder:
+    search:
+      title:
+        latlon: Intern
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -464,16 +578,29 @@ nn:
           chair_lift: Stolheis
           drag_lift: Skitrekk
           gondola: Gondolheis
+          magic_carpet: skiband
+          platter: Tallerkenheis
+          pylon: Mast
           station: Fjellheisstasjon
+          t-bar: Ankerheis
+          "yes": Taubane
         aeroway:
           aerodrome: Flyplass
+          airstrip: Landingsstripe
           apron: Flyrampe
           gate: Gate
+          hangar: Hangar
           helipad: Helikopterplass
+          holding_position: Venteposisjon
+          navigationaid: Luftnavigasjonshjelp
+          parking_position: Parkeringsposisjon
           runway: Rullebane
+          taxilane: Taxifelt
           taxiway: Taksebane
-          terminal: Terminal
+          terminal: Flyplassterminal
+          windsock: Vindpose
         amenity:
+          animal_boarding: Dyrepensjonat
           animal_shelter: Dyrehospits
           arts_centre: Kunstsenter
           atm: Minibank
@@ -483,7 +610,9 @@ nn:
           bench: Benk
           bicycle_parking: Sykkelparkering
           bicycle_rental: Sykkelutleige
+          bicycle_repair_station: Sjølvbetent sykkelreparasjonsstad
           biergarten: Uteservering
+          blood_bank: Blodbank
           boat_rental: Båtutleige
           brothel: Bordell
           bureau_de_change: Vekslingskontor
@@ -500,6 +629,7 @@ nn:
           clock: Klokke
           college: Høgskule
           community_centre: Samfunnshus
+          conference_centre: Konferansesenter
           courthouse: Rettsbygning
           crematorium: Krematorium
           dentist: Tannlege
@@ -507,26 +637,37 @@ nn:
           drinking_water: Drikkevatn
           driving_school: Køyreskule
           embassy: Ambassade
+          events_venue: Samlingslokale
           fast_food: Hurtigmat
           ferry_terminal: Ferjeterminal
           fire_station: Brannstasjon
           food_court: Serveringsstadar
           fountain: Fontene
-          fuel: Drivstoff
+          fuel: Bensinstation
           gambling: Gambling
           grave_yard: Gravlund
+          grit_bin: Strøsandkasse
           hospital: Sjukehus
           hunting_stand: Jaktbod
           ice_cream: Iskrem
+          internet_cafe: Internettkafe
           kindergarten: Barnehage
+          language_school: Språkskule
           library: Bibliotek
+          loading_dock: Lastekai
+          love_hotel: Kjærleikshotell
           marketplace: Marknadsplass
+          mobile_money_agent: Mobil pengeagent
           monastery: Kloster
+          money_transfer: Valutaoverføring
           motorcycle_parking: Motorsykkelparkering
+          music_school: Musikkskule
           nightclub: Nattklubb
           nursing_home: Pleieheim
           parking: Parkeringsplass
           parking_entrance: Innkøyring til parkeringsgarasje
+          parking_space: Parkeingsplass
+          payment_terminal: Betalingsterminal
           pharmacy: Apotek
           place_of_worship: Religiøst hus
           police: Politi
@@ -534,9 +675,13 @@ nn:
           post_office: Postkontor
           prison: Fengsel
           pub: Pub
+          public_bath: Badehus
+          public_bookcase: Offentleg bokkasse
           public_building: Offentleg bygning
+          ranger_station: Skogvaktarpost
           recycling: Resirkuleringspunkt
           restaurant: Restaurant
+          sanitary_dump_station: Toalettømmingsstasjon
           school: Skule
           shelter: Tilfluktsrom
           shower: Dusj
@@ -549,76 +694,142 @@ nn:
           theatre: Teater
           toilets: Toalett
           townhall: Rådhus
+          training: Treningsanlegg
           university: Universitet
+          vehicle_inspection: Køyretøykontroll
           vending_machine: Vareautomat
           veterinary: Veterinærklinikk
           village_hall: Forsamlingshus
           waste_basket: Søppelkasse
           waste_disposal: Avfallshandtering
+          waste_dump_site: Avfallsdeponi
+          watering_place: Vatntrau
+          water_point: Vatnpunkt
+          weighbridge: Køyretøyvekt
+          "yes": Fasilitet
         boundary:
+          aboriginal_lands: Urfolksområde
           administrative: Administrativ grense
           census: Folketeljingsgrense
           national_park: Nationalpark
+          political: Valdistriktsgrense
           protected_area: Verna område
+          "yes": Grense
         bridge:
           aqueduct: Akvadukt
+          boardwalk: Strandpromenade
           suspension: Hengebru
           swing: Svingbru
           viaduct: Viadukt
           "yes": Bru
         building:
-          apartments: Bustadblokk
+          apartment: Leilegheit
+          apartments: Leilegheiter
+          barn: Låve
+          bungalow: Bungalow
+          cabin: Hytte
           chapel: Kapell
-          church: Kyrkje
+          church: Kyrkjebygg
+          civic: Offentleg bygnad
+          college: Universitetsbygnad
           commercial: Kommersiell bygning
+          construction: Bygning under bygging
+          detached: Frittståande hus
           dormitory: Sovesal
-          farm: Gårdsbygg
+          duplex: Tomannshus
+          farm: Gardshus
+          farm_auxiliary: Ytterleg gardsbygg
           garage: Garasje
+          garages: Garasjar
+          greenhouse: Drivhus
+          hangar: Hangar
           hospital: Sykehusbygg
-          hotel: Hotell
+          hotel: Hotellbygg
           house: Hus
+          houseboat: Husbåt
+          hut: Hytte
           industrial: Industribygg
+          kindergarten: Barnehagebygnad
           office: Kontorbygg
           public: Offentleg bygg
           residential: Boligbygg
           retail: Detaljsalgbygg
+          ruins: Bygnadsruin
           school: Skulebygg
-          terrace: Terrasse
-          train_station: Jernbanestasjon
+          semidetached_house: Rekkjehus
+          service: Tenestebygg
+          shed: Skur
+          stable: Stall
+          static_caravan: Husvogn
+          temple: Tempelbygg
+          terrace: Terrassebygning
+          train_station: Stasjonsbygg
           university: Universitetsbygg
+          warehouse: Lagerhall
           "yes": Bygning
+        club:
+          scout: Speidarklubbhus
+          sport: Idrettslag
+          "yes": Samskipnad
         craft:
+          beekeeper: Bierøktar
+          blacksmith: Smed
           brewery: Bryggeri
           carpenter: Tømrar
+          caterer: Catering
+          confectionery: Godtebutikk
+          dressmaker: Syar
           electrician: Elektrikar
+          electronics_repair: Elektronikkreparatør
           gardener: Gartnar
+          glaziery: Glasmeister
+          handicraft: Kunsthandverkar
+          hvac: Klimakontrollverksemd
+          metal_construction: Metallverkstad
           painter: Målar
           photographer: Fotograf
           plumber: Røyrleggjar
+          roofer: Taktekkjar
+          sawmill: Sagbruk
           shoemaker: Skomakar
+          stonemason: Steinhoggar
           tailor: Skreddar
+          window_construction: Vindaugsnikkar
+          winery: Vingard
           "yes": Handverkbutikk
         emergency:
+          access_point: Tilgjengepunkt
           ambulance_station: Ambulansestasjon
+          assembly_point: Samlingsplass
           defibrillator: Hjartestartar
+          fire_extinguisher: Brannsløkkjar
+          fire_water_pond: Branndam
           landing_site: Nødlandingsplass
+          life_ring: Livbøye
           phone: Nødtelefon
+          siren: Varselsiren
+          suction_point: Naudsugepunkt for brannslange
+          water_tank: Naudvasstank for brannslange
         highway:
           abandoned: Forlaten motorveg
           bridleway: Rideveg
           bus_guideway: Leidde bussfelt
           bus_stop: Busstopp
           construction: Motorveg under konstruksjon
+          corridor: Korridor
+          crossing: Fotgjengarfelt
           cycleway: Sykkelsti
           elevator: Heis
           emergency_access_point: Nødtilgangspunkt
           footway: Gangsti
           ford: Vadestad
+          give_way: Vikeskilt
           living_street: Gatetun
           milestone: Milestolpe
           motorway: Motorveg
           motorway_junction: Motorvegkryss
           motorway_link: Veg til motorveg
+          passing_place: Møteplass
           path: Sti
           pedestrian: Gangveg
           platform: Perrong
@@ -635,50 +846,67 @@ nn:
           services: Motorveitjenester
           speed_camera: Fotoboks
           steps: Trapper
+          stop: Stoppskilt
           street_lamp: Gatelykt
           tertiary: Tertiær veg
           tertiary_link: Kommunal veg
           track: Sti
+          traffic_mirror: Trafikkspeil
           traffic_signals: Trafikklys
+          trailhead: Ende på sti
           trunk: Hovedveg
           trunk_link: Hovedveg
+          turning_circle: Snuplass
+          turning_loop: Vendesløyfe
           unclassified: Uklassifisert veg
           "yes": Veg
         historic:
+          aircraft: Historisk fly
           archaeological_site: Arkeologisk plass
+          bomb_crater: Historisk bombekrater
           battlefield: Slagmark
           boundary_stone: Grensestein
           building: Historisk bygning
           bunker: Bunker
+          cannon: Historisk kanon
           castle: Slott
+          charcoal_pile: Historisk kolmile
           church: Kyrkje
           city_gate: Byport
           citywalls: Bymurar
           fort: Fort
           heritage: Verdsarvsstad
+          hollow_way: Hol veg
           house: Hus
           manor: Herregard
           memorial: Minne
+          milestone: Historisk milepæl
           mine: Gruve
+          mine_shaft: Gruvesjakt
           monument: Monument
+          railway: Historisk jarnveg
           roman_road: Romersk veg
           ruins: Ruinar
+          rune_stone: Runestein
           stone: Stein
           tomb: Grav
           tower: Tårn
+          wayside_chapel: Vegkyrkje
           wayside_cross: Vegkant kross
           wayside_shrine: Vegkant alter
           wreck: Vrak
+          "yes": Historisk stad
         junction:
           "yes": Kryss
         landuse:
           allotments: Kolonihagar
+          aquaculture: Akvakultur
           basin: Elveområde
           brownfield: Tidlegare industriområde
           cemetery: Gravplass
           commercial: Kommersielt område
-          conservation: Freda
-          construction: Kontruksjon
+          conservation: Freda område
+          construction: Byggjeplass
           farmland: Jordbruksland
           farmyard: Gardstun
           forest: Skog
@@ -691,32 +919,43 @@ nn:
           military: Militært område
           mine: Gruve
           orchard: Frukthage
+          plant_nursery: Planteskule
           quarry: Steinbrot
           railway: Jernbane
           recreation_ground: Idrettsplass
+          religious: Religiøs mark
           reservoir: Reservoar
           reservoir_watershed: Nedbørfelt
           residential: Boligområde
-          retail: Detaljsalg
+          retail: Detaljsalområde
           village_green: Landsbypark
           vineyard: Vingård
           "yes": Arealbruk
         leisure:
+          adult_gaming_centre: Vaksenspelehall
+          amusement_arcade: Spillehall
+          bandstand: Musikkpaviljong
           beach_resort: Badestrand
           bird_hide: Fugletårn
+          bleachers: Tilskodarplassar
+          bowling_alley: Bowlinghall
           common: Allmenning
+          dance: Dansesal
           dog_park: Hundepark
+          firepit: Bålgrop
           fishing: Fiskeområde
           fitness_centre: Treningssenter
           fitness_station: Trenings studio
           garden: Hage
           golf_course: Golfbane
-          horse_riding: Riding
+          horse_riding: Ridesenter
           ice_rink: Skøytebane
           marina: Båthavn
           miniature_golf: Minigolf
           nature_reserve: Naturreservat
+          outdoor_seating: Utandørs sitjeplass
           park: Park
+          picnic_table: Piknikbord
           pitch: Sportsarena
           playground: Leikeplass
           recreation_ground: Idrettsplass
@@ -730,24 +969,75 @@ nn:
           water_park: Vannpark
           "yes": Fritid
         man_made:
+          adit: Stoll
+          advertising: Reklame
+          antenna: Antenne
+          avalanche_protection: Skredvern
+          beacon: Fyr
+          beam: Bjelke
+          beehive: Bikube
+          breakwater: Molo
+          bunker_silo: Bunker
+          cairn: Varde
+          chimney: Skorstein
+          clearcut: Snauhogst
+          communications_tower: Kommunikasjonstårn
+          crane: Kran
+          cross: Kors
+          dolphin: Fortøyingspåle
+          dyke: Dike
+          embankment: Voll
+          flagpole: Flaggstong
+          gasometer: Gassklokke
+          groyne: Høfde
+          kiln: Omn
           lighthouse: Fyr
+          manhole: Kum
+          mast: Mast
+          mine: Gruve
+          mineshaft: Gruvesjakt
+          monitoring_station: Overvakingsstasjon
+          petroleum_well: Oljebrønn
+          pier: Pir
           pipeline: Røyrleidning
+          pumping_station: Pumpestasjon
+          reservoir_covered: Overdekt reservoar
+          silo: Silo
+          snow_cannon: Snøkanon
+          snow_fence: Snøskjerm
+          storage_tank: Lagringstank
+          street_cabinet: Gatekabinett
+          surveillance: Overvaking
+          telescope: Teleskop
           tower: Tårn
+          utility_pole: Straummast
+          wastewater_plant: Kloakkanlegg
+          watermill: Vassmylne
+          water_tap: Vasskran
+          water_tower: Vasstårn
+          water_well: Brønn
+          water_works: Vassverk
+          windmill: Vindmylne
           works: Fabrikk
           "yes": Menneskeskapt
         military:
           airfield: Militær flyplass
           barracks: Kaserner
           bunker: Bunker
+          checkpoint: Kontrollpost
+          trench: Skyttargrav
+          "yes": Militær
         mountain_pass:
           "yes": Fjellovergang
         natural:
+          atoll: Atoll
+          bare_rock: Klippe
           bay: Bukt
           beach: Strand
           cape: Nes
           cave_entrance: Holeinngang
           cliff: Klippe
-          coastline: Kystlinje
+          coastline: Kystline
           crater: Krater
           dune: Sanddyne
           fell: Fjellskrent
@@ -758,12 +1048,15 @@ nn:
           grassland: Grasslette
           heath: Vidde
           hill: Ås
+          hot_spring: Varm kjelde
           island: Øy
+          isthmus: Eid
           land: Land
           marsh: Sump
           moor: Myr
           mud: Gjørme
           peak: Topp
+          peninsula: Halvøy
           point: Punkt
           reef: Rev
           ridge: Rygg
@@ -772,32 +1065,51 @@ nn:
           sand: Sand
           scree: Ur
           scrub: Kratt
+          shingle: Steinstrand
           spring: Kjelde
           stone: Stein
           strait: Stred
           tree: Tre
+          tree_row: Trerekkje
+          tundra: Tundra
           valley: Dal
           volcano: Vulkan
           water: Vatn
           wetland: Våtmark
           wood: Skog
+          "yes": Naturelement
         office:
           accountant: Revisor
           administrative: Administrasjon
+          advertising_agency: Reklamebyrå
           architect: Arkitekt
+          association: Samband
           company: Bedrift
+          diplomatic: Diplomatkontor
+          educational_institution: Utdanningsinstitusjon
           employment_agency: Bemanningsbedrift
+          energy_supplier: Kontor til energiselskap
           estate_agent: Eiendomsmeglar
+          financial: Finanskontor
           government: Statlig kontor
           insurance: Forsikringskontor
+          it: IKT-kontor
           lawyer: Advokat
+          logistics: Logistikkontor
+          newspaper: Avisredaksjon
           ngo: Ikkje-statlig kontor
+          notary: Notarus publicus
+          religion: Religiøst kontor
+          research: Forskingskontor
+          tax_advisor: Skatterådgjevar
           telecommunication: Telefonkontor
           travel_agent: Reisebyrå
           "yes": Kontor
         place:
           allotments: Kolonihagar
+          archipelago: Arkipel
           city: By
+          city_block: Byblokk
           country: Land
           county: Fylke
           farm: Gard
@@ -810,9 +1122,12 @@ nn:
           locality: Plass
           municipality: Kommune
           neighbourhood: Nabolag
+          plot: Tomt
           postcode: Postnummer
+          quarter: Kvartal
           region: Område
           sea: Hav
+          square: Torg
           state: Delstat
           subdivision: Underavdeling
           suburb: Forstad
@@ -821,6 +1136,7 @@ nn:
           "yes": Stad
         railway:
           abandoned: Forlatt jernbane
+          buffer_stop: Sporstoppar
           construction: Jernbane under konstruksjon
           disused: Nedlagt jernbane
           funicular: Kabelbane
@@ -834,6 +1150,7 @@ nn:
           platform: Jernbaneperrong
           preserved: Verna jernbane
           proposed: Føreslått jernbane
+          rail: Jarnveg
           spur: Jernbaneforgrening
           station: Jernbanestasjon
           stop: Jernbanestopp
@@ -842,15 +1159,23 @@ nn:
           switch: Sporveksel
           tram: Sporveg
           tram_stop: Trikkestopp
+          turntable: Dreieskive
           yard: Skiftetomt
         shop:
+          agrarian: Landbruksbutikk
           alcohol: Utanfor lisens
           antiques: Antikviteter
+          appliance: Kvitvareforretning
           art: Kunstbutikk
+          baby_goods: Babybutikk
+          bag: Veskebutikk
           bakery: Bakeri
+          bathroom_furnishing: Badmøbelforretning
           beauty: Skjønnheitssalong
+          bed: Sengetøyforretning
           beverages: Drikkevarebutikk
           bicycle: Sykkelbutikk
+          bookmaker: Bookmaker
           books: Bokhandel
           boutique: Luksusforretning
           butcher: Slaktar
@@ -859,65 +1184,109 @@ nn:
           car_repair: Bilverkstad
           carpet: Teppebutikk
           charity: Veldedighetsbutikk
+          cheese: Ostbutikk
           chemist: Kjemiker
+          chocolate: Sjokolade
           clothes: Klesbutikk
+          coffee: Kaffebutikk
           computer: Databutikk
           confectionery: Konditori
           convenience: Nærbutikk
           copyshop: Kopieringsbutikk
           cosmetics: Kosmetikkforretning
+          craft: Hobbybutikk
+          curtain: Gardinebutikk
+          dairy: Meieributikk
           deli: Delikatessebutikk
           department_store: Varehus
           discount: Tilbudsbutikk
-          doityourself: Gjer-det-sjølv
+          doityourself: Gjer-det-sjølv-butikk
           dry_cleaning: Renseri
+          e-cigarette: E-sigarettbutikk
           electronics: Elektronikkforretning
+          erotic: Sexbutikk
           estate_agent: Eiendomsmegler
+          fabric: Stoffbutikk
           farm: Gardsbutikk
           fashion: Motebutikk
+          fishing: Fiskebutikk
           florist: Blomsterbutikk
           food: Matbutikk
+          frame: Rammeverkstad
           funeral_directors: Begravelsesforretning
           furniture: Møbler
           garden_centre: Hagesenter
+          gas: Gassbutikk
           general: Landhandel
           gift: Gåvebutikk
           greengrocer: Grønsakshandel
           grocery: Daglegvarebutikk
           hairdresser: Frisør
           hardware: Jernvarehandel
-          hifi: Hi-fi
+          health_food: Helsekostforretning
+          hearing_aids: Høyreapparat
+          herbalist: Urtehandel
+          hifi: Hi-fi-butikk
+          houseware: Kjøkkenutstyrsbutikk
+          ice_cream: Iskrembutikk
+          interior_decoration: Innreiingsbutikk
           jewelry: Gullsmed
           kiosk: Kiosk
+          kitchen: Kjøkkenbutikk
           laundry: Vaskeri
+          locksmith: Låsesmed
+          lottery: Lotteri
           mall: Kjøpesenter
+          massage: Massasje
+          medical_supply: Forhandlar av medisinsk utstyr
           mobile_phone: Mobiltelefonbutikk
+          money_lender: Pengeutlånar
           motorcycle: Motorsykkelbutikk
+          motorcycle_repair: Motorsykkelverkstad
           music: Musikkbutikk
+          musical_instrument: Musikkinstrument
           newsagent: Nyhetsbyrå
+          nutrition_supplements: Kosttilskot
           optician: Optikar
           organic: Organisk matbutikk
           outdoor: Utandørs butikk
+          paint: Fargehandel
+          pastry: Bakeri
+          pawnbroker: Pantelånar
+          perfumery: Parfymeri
           pet: Dyrebutikk
+          pet_grooming: Kjæledyrfrisør
           photo: Fotobutikk
+          seafood: Sjømat
           second_hand: Bruktbutikk
+          sewing: Saumforretning
           shoes: Skobutikk
           sports: Sportsbutikk
           stationery: Papirbutikk
+          storage_rental: Lagerhotell
           supermarket: Supermarked
           tailor: Skreddar
+          tattoo: Tatoveringsstudio
+          tea: Tehandel
+          ticket: Billettformidlar
+          tobacco: Tobakksbutikk
           toys: Leikebutikk
           travel_agency: Reisebyrå
+          tyres: Dekkforhandlar
+          vacant: Ledig forretningslokale
           video: Videobutikk
-          wine: Utanfor lisens
+          video_games: Videospelbutikk
+          wholesale: Grosserar
+          wine: Vinforretning
           "yes": Butikk
         tourism:
           alpine_hut: Fjellhytte
-          apartment: Leilegheit
+          apartment: Feriehusvære
           artwork: Kunstverk
           attraction: Attraksjon
           bed_and_breakfast: Bed and breakfast
-          cabin: Hytte
+          cabin: Turisthytte
+          camp_pitch: Teltplass
           camp_site: Teltplass
           caravan_site: Campingplass
           chalet: Fjellhytte
@@ -931,8 +1300,10 @@ nn:
           picnic_site: Piknikplass
           theme_park: Fornøyelsespark
           viewpoint: Utsiktspunkt
+          wilderness_hut: Villmarksstove
           zoo: Dyrepark
         tunnel:
+          building_passage: Bygnadspassasje
           culvert: Stikkrenne
           "yes": Tunnel
         waterway:
@@ -956,11 +1327,15 @@ nn:
           "yes": Vassveg
       admin_levels:
         level2: Riksgrense
+        level3: Regiongrense
         level4: Statsgrense
         level5: Regiongrense
+        level6: Fylkesgrense
+        level7: Kommunegrense
         level8: Bygrense
         level9: Landsbygrense
         level10: Forstadsgrense
+        level11: Grannelagsgrense
       types:
         cities: Byar
         towns: Småbyar
@@ -968,9 +1343,88 @@ nn:
     results:
       no_results: Ingen resultat funne
       more_results: Fleire resultat
+  issues:
+    index:
+      title: Saker
+      select_status: Vel stode
+      select_type: Vel type
+      select_last_updated_by: Vel Sist oppdatert av
+      reported_user: Meld brukar
+      not_updated: Ikkje oppdatert
+      search: Søk
+      search_guidance: 'Søk blant saker:'
+      user_not_found: Brukaren finst ikkje
+      issues_not_found: Ingen slike saker funne
+      status: Stode
+      reports: Meldingar
+      last_updated: Sist oppdatert
+      last_updated_time_ago_user_html: '%{time_ago} av %{user}'
+      link_to_reports: Sjå meldingar
+      reports_count:
+        one: '%{count} melding'
+        other: '%{count} meldingar'
+      reported_item: Meld objekt
+      states:
+        ignored: Sett bort frå
+        open: Open
+        resolved: Løyst
+    show:
+      title: '%{status} Sak #%{issue_id}'
+      reports:
+        one: '%{count} melding'
+        other: '%{count} meldingar'
+      no_reports: Ingen meldingar
+      report_created_at: Fyrst meld %{datetime}
+      last_resolved_at: Sist løyst %{datetime}
+      last_updated_at: Sis oppdatert %{datetime} av %{displayname}
+      resolve: Løys
+      ignore: Sjå bort frå
+      reopen: Opna att
+      reports_of_this_issue: Meldingar om denne saka
+      read_reports: Les meldingar
+      new_reports: Nye meldingar
+      other_issues_against_this_user: Andre saker mot denne brukaren
+      no_other_issues: Ingen andre saker mot denne brukaren.
+      comments_on_this_issue: Kommentarar om denne saka
+    resolve:
+      resolved: Stoda på saka har vorte sett til «Løyst»
+    ignore:
+      ignored: Stoda på saka har vorte sett til «Sett bort frå»
+    reopen:
+      reopened: Stoda på saka har vorte sett til «Open»
+    comments:
+      comment_from_html: Kommentar frå %{user_link}, skriven %{comment_created_at}
+      reassign_param: Omdeleger saka?
+    reports:
+      reported_by_html: Meld som %{category} av %{user}, %{updated_at}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommentar #%{comment_id}'
+        note: 'Merknad #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Kommentaren din vart oppretta
+      issue_reassigned: Kommentaren din vart oppretta og saka vart delegert om
   reports:
     new:
+      title_html: Meld %{link}
+      missing_params: Kan ikkje oppretta ei ny melding
+      disclaimer:
+        intro: 'Før du sender inn meldinga til moderatorane, pass på at:'
+        not_just_mistake: Du er sikker på at problemet ikkje berre er eit uhell
+        unable_to_fix: Du ikkje kan fikse problemet sjølv eller med hjelp av andre
+        resolve_with_user: Du alt har prød å løyse problemet med brukaren
       categories:
+        diary_entry:
+          spam_label: Dette dagbokinnlegget inneheld spam
+          offensive_label: Dette dagbokinnlegget er usømeleg
+          threat_label: Dette dagbokinnlegget inneheld ein trugsel
+          other_label: Anna
+        diary_comment:
+          spam_label: Denne dagbokskommentaren er eller inneheld spam
+          offensive_label: Denne dagbokskommentaren er usømeleg
+          threat_label: Denne dagbokskommentaren inneheld ein trugsel
+          other_label: Anna
         note:
           spam_label: Denne merknaden er søppel
           abusive_label: Denne merknaden er støytande
