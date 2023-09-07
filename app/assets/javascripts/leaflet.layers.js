@@ -15,11 +15,11 @@ L.OSM.layers = function (options) {
         .prop("checked", map.hasLayer(layer))
         .appendTo(baseSection);
 
-      var mapContainer = $("<div class='position-absolute top-0 start-0 bottom-0 end-0 m-1'>");
+      var mapContainer = $("<div class='position-absolute top-0 start-0 bottom-0 end-0 m-1 rounded-2'>");
 
       var item = $("<div class='btn btn-outline-primary mx-n1 border-0 position-relative text-start'>").append(
         mapContainer,
-        $("<label class='position-absolute top-0 start-0 bottom-0 end-0 m-1 overflow-hidden'>")
+        $("<label class='position-absolute top-0 start-0 bottom-0 end-0 m-1 rounded-2 overflow-hidden'>")
           .prop("for", id)
           .append($("<span class='position-absolute top-0 start-0 ps-2 pe-1 pt-1 m-n1 rounded-1 bg-white' style='--bs-bg-opacity:.9'>").append(layer.options.name)))
         .appendTo(baseSection);
