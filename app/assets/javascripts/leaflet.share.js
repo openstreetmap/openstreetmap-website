@@ -68,7 +68,7 @@ L.OSM.share = function (options) {
       .append($("<input>")
         .attr("id", "long_input")
         .attr("type", "text")
-        .attr("class", "form-control form-control-sm font-monospace")
+        .attr("class", "form-control form-control-sm")
         .attr("readonly", true)
         .on("click", select));
 
@@ -79,7 +79,7 @@ L.OSM.share = function (options) {
       .append($("<input>")
         .attr("id", "short_input")
         .attr("type", "text")
-        .attr("class", "form-control form-control-sm font-monospace")
+        .attr("class", "form-control form-control-sm")
         .attr("readonly", true)
         .on("click", select));
 
