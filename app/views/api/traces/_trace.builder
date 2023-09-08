@@ -3,6 +3,7 @@
 attrs = {
   "id" => trace.id,
   "name" => trace.name,
+  "uid" => trace.user_id,
   "user" => trace.user.display_name,
   "visibility" => trace.visibility,
   "pending" => trace.inserted ? "false" : "true",
