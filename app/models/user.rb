@@ -52,9 +52,10 @@ class User < ApplicationRecord
   has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_entry_subscriptions, :class_name => "DiaryEntrySubscription"
   has_many :diary_subscriptions, :through => :diary_entry_subscriptions, :source => :diary_entry
-  has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
-  has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
+  has_many :messages, -> { where(:to_user_visible => true, :muted => false).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
+  has_many :new_messages, -> { where(:to_user_visible => true, :muted => false, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
+  has_many :muted_messages, -> { where(:to_user_visible => true, :muted => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
   has_many :friends, :through => :friendships, :source => :befriendee
   has_many :tokens, :class_name => "UserToken", :dependent => :destroy
@@ -75,6 +76,8 @@ class User < ApplicationRecord
   has_many :blocks, :class_name => "UserBlock"
   has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id, :inverse_of => :creator
   has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id, :inverse_of => :revoker
+
+  has_many :mutes, :class_name => "UserMute", :foreign_key => :creator_id, :inverse_of => :creator
 
   has_many :roles, :class_name => "UserRole"
 

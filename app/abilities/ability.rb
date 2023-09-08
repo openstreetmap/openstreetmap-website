@@ -47,13 +47,14 @@ class Ability
         can [:show], :dashboard
         can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
         can [:make_friend, :remove_friend], Friendship
-        can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
+        can [:new, :create, :reply, :show, :inbox, :outbox, :muted, :mark, :destroy], Message
         can [:close, :reopen], Note
         can [:show, :edit, :update], :preference
         can [:edit, :update], :profile
         can [:new, :create], Report
         can [:mine, :new, :create, :edit, :update, :destroy], Trace
         can [:account, :go_public], User
+        can [:create, :destroy], UserMute
 
         if user.moderator?
           can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry

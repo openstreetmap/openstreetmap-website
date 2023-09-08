@@ -1647,8 +1647,6 @@ en:
   messages:
     inbox:
       title: "Inbox"
-      my_inbox: "My Inbox"
-      my_outbox: "My Outbox"
       messages: "You have %{new_messages} and %{old_messages}"
       new_messages:
         one: "%{count} new message"
@@ -1656,11 +1654,12 @@ en:
       old_messages:
         one: "%{count} old message"
         other: "%{count} old messages"
+      no_messages_yet_html: "You have no messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
+      people_mapping_nearby: "people mapping nearby"
+    messages_table:
       from: "From"
       subject: "Subject"
       date: "Date"
-      no_messages_yet_html: "You have no messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
-      people_mapping_nearby: "people mapping nearby"
     message_summary:
       unread_button: "Mark as unread"
       read_button: "Mark as read"
@@ -1679,8 +1678,6 @@ en:
       body: "Sorry there is no message with that id."
     outbox:
       title: "Outbox"
-      my_inbox: "My Inbox"
-      my_outbox: "My Outbox"
       messages:
         one: "You have %{count} sent message"
         other: "You have %{count} sent messages"
@@ -1689,6 +1686,11 @@ en:
       date: "Date"
       no_sent_messages_html: "You have no sent messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
       people_mapping_nearby: "people mapping nearby"
+    muted:
+      title: "Muted Messages"
+      messages:
+        one: "%{count} muted message"
+        other: "You have %{count} muted messages"
     reply:
       wrong_user: "You are logged in as `%{user}' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply."
     show:
@@ -1700,6 +1702,10 @@ en:
       wrong_user: "You are logged in as `%{user}' but the message you have asked to read was not sent by or to that user. Please login as the correct user in order to read it."
     sent_message_summary:
       destroy_button: "Delete"
+    heading: 
+      my_inbox: "My Inbox"
+      my_outbox: "My Outbox"
+      my_muted: "My Muted"
     mark:
       as_read: "Message marked as read"
       as_unread: "Message marked as unread"
@@ -2687,6 +2693,8 @@ en:
       my_dashboard: My Dashboard
       blocks on me: Blocks on Me
       blocks by me: Blocks by Me
+      create_mute: Mute
+      destroy_mute: Unmute
       edit_profile: Edit Profile
       send message: Send Message
       diary: Diary
@@ -2874,6 +2882,13 @@ en:
       showing_page: "Page %{page}"
       next: "Next »"
       previous: "« Previous"
+  user_mutes:
+    create:
+      notice: "You muted %{name}."
+      error: "Something went wrong."
+    destroy:
+      notice: "You unmuted %{name}."
+      error: "Something went wrong."
   notes:
     index:
       title: "Notes submitted or commented on by %{user}"

@@ -12,6 +12,7 @@
 #  to_user_visible   :boolean          default(TRUE), not null
 #  from_user_visible :boolean          default(TRUE), not null
 #  body_format       :enum             default("markdown"), not null
+#  muted             :boolean          default(FALSE), not null
 #
 # Indexes
 #
@@ -32,6 +33,8 @@ class Message < ApplicationRecord
   validates :body, :sent_on, :presence => true
   validates :title, :body, :characters => true
 
+  scope :muted, -> { where(:muted => true) }
+
   def self.from_mail(mail, from, to)
     if mail.multipart?
       if mail.text_part
@@ -45,7 +48,7 @@ class Message < ApplicationRecord
       body = mail.decoded
     end
 
-    Message.new(
+    message = Message.new(
       :sender => from,
       :recipient => to,
       :sent_on => mail.date.new_offset(0),
@@ -53,6 +56,8 @@ class Message < ApplicationRecord
       :body => body,
       :body_format => "text"
     )
+    message.muted = UserMute.for_message?(message)
+    message
   end
 
   def body

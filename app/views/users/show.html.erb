@@ -112,6 +112,16 @@
                 <%= report_link(t(".report"), @user) %>
               </li>
             <% end %>
+
+            <% if UserMute.active_for?(current_user: current_user, other_user: @user) %>
+              <li>
+              <%= link_to t(".destroy_mute"), unmute_user_path(@user), :method => :delete %>
+              </li>
+            <% elsif can?(:create, UserMute) %>
+              <li>
+              <%= link_to t(".create_mute"), mute_user_path(@user), :method => :post %>
+              </li>
+            <% end %>
           </ul>
         </nav>
       <% end %>
@@ -121,6 +131,9 @@
           <dl class="list-inline">
             <dt class="list-inline-item m-0"><%= t ".mapper since" %></dt>
             <dd class="list-inline-item"><%= l @user.created_at.to_date, :format => :long %></dd>
+            <% if UserMute.active_for?(current_user: current_user, other_user: @user) %>
+            <dt class="list-inline-item m-0">Muted</dt>
+            <% end %>
             <% unless @user.terms_agreed %>
               <dt class="list-inline-item m-0"><%= t ".ct status" %></dt>
               <dd class="list-inline-item">

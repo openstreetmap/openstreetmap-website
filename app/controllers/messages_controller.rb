@@ -41,13 +41,14 @@ class MessagesController < ApplicationController
     @message.recipient = @user
     @message.sender = current_user
     @message.sent_on = Time.now.utc
+    @message.muted = UserMute.for_message?(@message)
 
     if current_user.sent_messages.where("sent_on >= ?", Time.now.utc - 1.hour).count >= current_user.max_messages_per_hour
       flash.now[:error] = t ".limit_exceeded"
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
-      UserMailer.message_notification(@message).deliver_later
+      UserMailer.message_notification(@message).deliver_later unless @message.muted?
       redirect_to :action => :inbox
     else
       @title = t "messages.new.title"
@@ -105,6 +106,13 @@ class MessagesController < ApplicationController
   # Display the list of messages that the user has sent to other users.
   def outbox
     @title = t ".title"
+  end
+
+  # Display the list of muted messages received by the user.
+  def muted
+    @title = t ".title"
+
+    redirect_to inbox_messages_path if current_user.muted_messages.none?
   end
 
   # Set the message as being read or unread.

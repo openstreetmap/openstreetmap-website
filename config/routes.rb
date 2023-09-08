@@ -240,6 +240,8 @@ OpenStreetMap::Application.routes.draw do
   resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy]
   get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
+  post "/user/:display_name/mute" => "user_mutes#create", :as => :mute_user
+  delete "/user/:display_name/mute" => "user_mutes#destroy", :as => :unmute_user
 
   resource :account, :only => [:edit, :update, :destroy]
 
@@ -277,6 +279,7 @@ OpenStreetMap::Application.routes.draw do
     match :reply, :via => [:get, :post]
     collection do
       get :inbox
+      get :muted
       get :outbox
     end
   end
@@ -284,6 +287,11 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
   get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
+
+  # muting users
+  scope "/user/:display_name" do
+    resources :user_mutes, :param => :display_name, :only => [:index]
+  end
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do
