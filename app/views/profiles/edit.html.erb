@@ -44,8 +44,8 @@
     <legend><%= t ".home location" -%></legend>
     <p id="home_message" class="text-muted m-0<% if current_user.home_location? %> invisible<% end %>"><%= t ".no home location" %></p>
     <div class="row">
-      <%= f.text_field :home_lat, :wrapper_class => "col-sm-4", :id => "home_lat" %>
-      <%= f.text_field :home_lon, :wrapper_class => "col-sm-4", :id => "home_lon" %>
+      <%= f.text_field :home_lat, :wrapper_class => "col-sm-4 d-flex flex-column", :class => "mt-auto", :id => "home_lat" %>
+      <%= f.text_field :home_lon, :wrapper_class => "col-sm-4 d-flex flex-column", :class => "mt-auto", :id => "home_lon" %>
       <div class="col-sm-4 pt-2 align-self-end">
         <button type="button" id="home_show" class="btn btn-outline-primary"<% unless current_user.home_location? %> hidden<% end %> disabled><%= t ".show" %></button>
         <button type="button" id="home_delete" class="btn btn-outline-primary"<% unless current_user.home_location? %> hidden<% end %>><%= t ".delete" %></button>
