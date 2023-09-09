@@ -2,7 +2,6 @@ module Api
   class TracesController < ApiController
     before_action :check_database_readable, :except => [:show, :data]
     before_action :check_database_writable, :only => [:create, :update, :destroy]
-    before_action :authorize_web
     before_action :set_locale
     before_action :authorize
 
