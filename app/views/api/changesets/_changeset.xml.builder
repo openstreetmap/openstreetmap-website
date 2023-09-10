@@ -28,6 +28,7 @@ xml.changeset(attrs) do |changeset_xml_node|
     changeset_xml_node.discussion do |discussion_xml_node|
       changeset.comments.includes(:author).each do |comment|
         cattrs = {
+          "id" => comment.id,
           "date" => comment.created_at.xmlschema
         }
         if comment.author.data_public?
