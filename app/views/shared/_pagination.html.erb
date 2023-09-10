@@ -1,0 +1,23 @@
+<nav>
+  <ul class="pagination">
+    <% if newer_id -%>
+      <li class="page-item">
+        <%= link_to t(newer_key), @params.merge(:before => nil, :after => newer_id), :class => "page-link" %>
+      </li>
+    <% else -%>
+      <li class="page-item disabled">
+        <span class="page-link"><%= t(newer_key) %></span>
+      </li>
+    <% end -%>
+
+    <% if older_id -%>
+      <li class="page-item">
+        <%= link_to t(older_key), @params.merge(:before => older_id, :after => nil), :class => "page-link" %>
+      </li>
+    <% else -%>
+      <li class="page-item disabled">
+        <span class="page-link"><%= t(older_key) %></span>
+      </li>
+    <% end -%>
+  </ul>
+</nav>

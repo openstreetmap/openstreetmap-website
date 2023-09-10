@@ -24,9 +24,9 @@
     <% end -%>
   </table>
 
-  <div class='secondary-actions clearfix'>
-    <span><%= link_to t(".older_comments"), :page => @comment_pages.current.next if @comment_pages.current.next %>
-    <%= link_to t(".newer_comments"), :page => @comment_pages.current.previous if @comment_pages.current.previous %></span>
-  </div>
-
+  <%= render "shared/pagination",
+             :newer_key => "diary_entries.comments.newer_comments",
+             :older_key => "diary_entries.comments.older_comments",
+             :newer_id => @newer_comments_id,
+             :older_id => @older_comments_id %>
 <% end -%>

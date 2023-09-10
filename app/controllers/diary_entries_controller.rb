@@ -55,20 +55,7 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @entries = if params[:before]
-                 entries.where("diary_entries.id < ?", params[:before]).order(:id => :desc)
-               elsif params[:after]
-                 entries.where("diary_entries.id > ?", params[:after]).order(:id => :asc)
-               else
-                 entries.order(:id => :desc)
-               end
-
-    @entries = @entries.limit(20)
-    @entries = @entries.includes(:user, :language)
-    @entries = @entries.sort.reverse
-
-    @newer_entries = @entries.count.positive? && entries.exists?(["diary_entries.id > ?", @entries.first.id])
-    @older_entries = @entries.count.positive? && entries.exists?(["diary_entries.id < ?", @entries.last.id])
+    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, [:user, :language])
   end
 
   def show
@@ -248,15 +235,12 @@ class DiaryEntriesController < ApplicationController
   def comments
     @title = t ".title", :user => @user.display_name
 
-    conditions = { :user_id => @user }
+    comments = DiaryComment.where(:users => @user)
+    comments = comments.visible unless can? :unhidecomment, DiaryEntry
 
-    conditions[:visible] = true unless can? :unhidecomment, DiaryEntry
+    @params = params.permit(:display_name, :before, :after)
 
-    @comment_pages, @comments = paginate(:diary_comments,
-                                         :conditions => conditions,
-                                         :order => "created_at DESC",
-                                         :per_page => 20)
-    @page = (params[:page] || 1).to_i
+    @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, [:user])
   end
 
   private
@@ -291,5 +275,25 @@ class DiaryEntriesController < ApplicationController
       @lat = current_user.home_lat
       @zoom = 12
     end
+  end
+
+  def get_page_items(items, includes)
+    id_column = "#{items.table_name}.id"
+    page_items = if params[:before]
+                   items.where("#{id_column} < ?", params[:before]).order(:id => :desc)
+                 elsif params[:after]
+                   items.where("#{id_column} > ?", params[:after]).order(:id => :asc)
+                 else
+                   items.order(:id => :desc)
+                 end
+
+    page_items = page_items.limit(20)
+    page_items = page_items.includes(includes)
+    page_items = page_items.sort.reverse
+
+    newer_items_id = page_items.first.id if page_items.count.positive? && items.exists?(["#{id_column} > ?", page_items.first.id])
+    older_items_id = page_items.last.id if page_items.count.positive? && items.exists?(["#{id_column} < ?", page_items.last.id])
+
+    [page_items, newer_items_id, older_items_id]
   end
 end

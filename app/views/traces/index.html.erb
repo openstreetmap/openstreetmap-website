@@ -66,7 +66,11 @@
 <% end %>
 
 <% if @traces.size > 0 %>
-  <%= render "trace_paging_nav", :older_traces => @older_traces, :newer_traces => @newer_traces, :traces => @traces, :params => @params %>
+  <%= render "shared/pagination",
+             :newer_key => "traces.trace_paging_nav.newer",
+             :older_key => "traces.trace_paging_nav.older",
+             :newer_id => @newer_traces && @traces.first.id,
+             :older_id => @older_traces && @traces.last.id %>
 
   <table id="trace_list" class="table table-borderless table-striped">
     <tbody>
@@ -74,7 +78,11 @@
     </tbody>
   </table>
 
-  <%= render "trace_paging_nav", :older_traces => @older_traces, :newer_traces => @newer_traces, :traces => @traces, :params => @params %>
+  <%= render "shared/pagination",
+             :newer_key => "traces.trace_paging_nav.newer",
+             :older_key => "traces.trace_paging_nav.older",
+             :newer_id => @newer_traces && @traces.first.id,
+             :older_id => @older_traces && @traces.last.id %>
 <% else %>
   <h2><%= t ".empty_title" %></h2>
   <p><%= t ".empty_upload_html", :upload_link => link_to(t(".upload_new"), new_trace_path),

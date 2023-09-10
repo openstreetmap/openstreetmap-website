@@ -36,29 +36,11 @@
 
   <%= render @entries %>
 
-  <nav>
-    <ul class="pagination">
-      <% if @newer_entries -%>
-        <li class="page-item">
-          <%= link_to t(".newer_entries"), @params.merge(:after => @entries.first.id), :class => "page-link" %>
-        </li>
-      <% else -%>
-        <li class="page-item disabled">
-          <span class="page-link"><%= t(".newer_entries") %></span>
-        </li>
-      <% end -%>
-
-      <% if @older_entries -%>
-        <li class="page-item">
-          <%= link_to t(".older_entries"), @params.merge(:before => @entries.last.id), :class => "page-link" %>
-        </li>
-      <% else -%>
-        <li class="page-item disabled">
-          <span class="page-link"><%= t(".older_entries") %></span>
-        </li>
-      <% end -%>
-    </ul>
-  </nav>
+  <%= render "shared/pagination",
+             :newer_key => "diary_entries.index.newer_entries",
+             :older_key => "diary_entries.index.older_entries",
+             :newer_id => @newer_entries_id,
+             :older_id => @older_entries_id %>
 <% end %>
 
 <% unless params[:friends] or params[:nearby] -%>
