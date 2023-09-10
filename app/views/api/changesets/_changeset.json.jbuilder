@@ -23,6 +23,7 @@ json.tags changeset.tags unless changeset.tags.empty?
 
 if @include_discussion
   json.comments(changeset.comments) do |comment|
+    json.id comment.id
     json.date comment.created_at.xmlschema
     if comment.author.data_public?
       json.uid comment.author.id

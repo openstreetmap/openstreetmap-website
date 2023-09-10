@@ -170,7 +170,7 @@ module Api
       assert_select "osm>changeset>discussion>comment", 0
 
       changeset = create(:changeset, :closed)
-      create_list(:changeset_comment, 3, :changeset_id => changeset.id)
+      comment1, comment2, comment3 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
       get changeset_show_path(changeset), :params => { :include_discussion => true }
       assert_response :success, "cannot get closed changeset with comments"
@@ -182,6 +182,9 @@ module Api
       assert_select "osm>changeset>@closed_at", changeset.closed_at.xmlschema
       assert_select "osm>changeset>discussion", 1
       assert_select "osm>changeset>discussion>comment", 3
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@id", comment1.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@id", comment2.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(3)>@id", comment3.id.to_s
     end
 
     def test_show_json
@@ -221,6 +224,25 @@ module Api
       assert_nil js["changeset"]["max_lat"]
       assert_nil js["changeset"]["max_lon"]
       assert_equal 0, js["changeset"]["comments"].count
+
+      changeset = create(:changeset, :closed)
+      comment0, comment1, comment2 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
+
+      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      assert_response :success, "cannot get closed changeset with comments"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_equal changeset.id, js["changeset"]["id"]
+      assert_not js["changeset"]["open"]
+      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
+      assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
+      assert_equal 3, js["changeset"]["comments"].count
+      assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
+      assert_equal comment1.id, js["changeset"]["comments"][1]["id"]
+      assert_equal comment2.id, js["changeset"]["comments"][2]["id"]
     end
 
     def test_show_tag_and_discussion_json
