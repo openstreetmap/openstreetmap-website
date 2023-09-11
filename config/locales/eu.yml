@@ -6,6 +6,7 @@
 # Author: Amaia
 # Author: An13sa
 # Author: Asieriko
+# Author: Atzerritik
 # Author: EukeneFL
 # Author: Garaolaza
 # Author: Gorkaazk
@@ -112,8 +113,8 @@ eu:
         user: Erabiltzailea
         title: Gaia
         body: Testua
-        latitude: Latitude
-        longitude: Longitude
+        latitude: Latitudea
+        longitude: Longitudea
         language_code: Hizkuntza
       doorkeeper/application:
         name: Izena
@@ -122,14 +123,14 @@ eu:
         scopes: Baimenak
       friend:
         user: Erabiltzailea
-        friend: Lagun
+        friend: Laguna
       trace:
         user: Erabiltzailea
         visible: Ikusgai
         name: Fitxategi izena
         size: Tamaina
-        latitude: Latitude
-        longitude: Longitude
+        latitude: Latitudea
+        longitude: Longitudea
         public: Publikoa
         description: Deskribapena
         gpx_file: 'GPX fitxategia igo:'
@@ -152,20 +153,20 @@ eu:
         email: Eposta
         email_confirmation: 'E-posta egiaztapena:'
         new_email: 'E-posta helbide berria:'
-        active: Aktibo
+        active: Aktiboa
         display_name: Erakusteko izena
         description: 'Profilaren deskribapena:'
         home_lat: Latitudea
-        home_lon: 'Longitudea:'
+        home_lon: Longitudea
         languages: Hizkuntza lehenetsiak
         preferred_editor: 'Lehenetsitako editorea:'
         pass_crypt: Pasahitza
-        pass_crypt_confirmation: 'Berretsi pasahitza:'
+        pass_crypt_confirmation: Pasahitza berretsi
     help:
       doorkeeper/application:
-        confidential: Bezeroaren sekretua isilpean manten daitekeenean erabiliko da
-          aplikazioa (telefono mugikorretako aplikazio natiboak eta orrialde bakarreko
-          aplikazioak ez dira isilpekoak)
+        confidential: Bezeroaren sekretua isilpean gorde daitekeenean erabiliko da
+          aplikazioa (jatorrizko aplikazio mugikorrak eta orri bakarreko aplikazioak
+          ez dira konfidentzialak)
         redirect_uri: Erabili lerro bat URI bakoitzeko
       trace:
         tagstring: koma mugatua
@@ -230,6 +231,7 @@ eu:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -245,6 +247,7 @@ eu:
         reopened_at_by_html: '%{user}k %{when} berraktibatua'
       rss:
         title: OpenStreetMap oharrak
+        description_all: Jakinarazitako, iruzkindutako edo itxitako oharren zerrenda
         description_area: Iruzkinak dituzten, itxi diren edota iragarki diren oharren
           zerrenda [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Rss feed bat %{id} oharrarentzako
@@ -306,13 +309,13 @@ eu:
         agreed_with_pd: Zure aldaketak domeinu publikoan egongo direla adierazi duzu.
         link text: zer da hau?
       save changes button: Aldaketak gorde
-      delete_account: Ezabatu kontua...
+      delete_account: Kontua ezabatu
     go_public:
       heading: Aldaketa publikoak
       currently_not_public: Une honetan, zure aldaketak anonimoak dira eta jendeak
         ezin dizu mezurik bidali edo zure kokapena ikusi. Editatu duzuna erakusteko
         eta jendeari webgunearen bidez zurekin harremanetan jarri izan ahal dadin
-        baimentzeko, egin klik beheko botoian.
+        baimentzeko, sakatu beheko botoia.
       only_public_can_edit: 0.6 APIa aldatu zenetik, erabiltzaile publikoek soilik
         edita ditzakete maparen datuak.
       find_out_why: jakin zergatik
@@ -329,6 +332,12 @@ eu:
   browse:
     created: Sortua
     closed: Itxita
+    created_ago_html: Sortua orain dela %{time_ago}
+    closed_ago_html: Itxia orain dela %{time_ago}
+    created_ago_by_html: '%{user}-ek %{time_ago} sortua'
+    closed_ago_by_html: '%{user}-ek %{time_ago} itxia'
+    deleted_ago_by_html: '%{user}-ek %{time_ago} ezabatua'
+    edited_ago_by_html: '%{user}-ek %{time_ago} editatua'
     version: Bertsioa
     in_changeset: Aldaketak
     anonymous: anonimoa
@@ -523,7 +532,7 @@ eu:
       no_entries: Eguneroko sarrerarik ez
       recent_entries: Azkenengoko eguneroko sarrerak
       older_entries: Sarrera zaharragoak
-      newer_entries: Sarrera berriagoak
+      newer_entries: kSarrera berriagoak
     edit:
       title: Eguneroko sarrera aldatu
       marker_text: Eguneroko sarrera kokapena
@@ -548,6 +557,7 @@ eu:
         one: iruzkin %{count}
         zero: Iruzkinik ez
         other: '%{count} iruzkin'
+      no_comments: Iruzkin gabe
       edit_link: Sarrera hau editatu
       hide_link: Sarrera hau ezkutatu
       unhide_link: Erakutsi sarrera hau
@@ -623,6 +633,9 @@ eu:
       success: '%{name} kendu duzu zure adiskide zerrendatik.'
       not_a_friend: '%{name} ez da zure laguna.'
   geocoder:
+    search:
+      title:
+        results_from_html: '%{results_link} ren emaitzak'
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1691,6 +1704,7 @@ eu:
       success: Zure kontua berretsi du, erregistratzeagatik milesker!
       already active: Kontu hau dagoeneko berretsi da.
       unknown token: Berrespen-kodea iraungi egin da edo ez da existitzen.
+      click_here: sakatu hemen
     confirm_resend:
       failure: '%{name} erabiltzailea ez da aurkitu.'
     confirm_email:
@@ -1826,6 +1840,8 @@ eu:
       no home location: Zure etxe-helbidea ez duzu txertatu.
       update home location on click: Eguneratu etxeko kokalekua mapan klik egiten
         dudanean?
+      show: Erakutsi
+      delete: Ezabatu
     update:
       success: Profila eguneratu da.
       failure: Ezin izan da profila eguneratu.
@@ -1855,8 +1871,8 @@ eu:
           title: Saioa hasi Facebookekin
           alt: Saioa hasi Facebookekin
         microsoft:
-          title: Saioa hasi Windows Livekin
-          alt: Windows Live kontu batekin saioa hasi
+          title: Saioa hasi Microsoftekin
+          alt: Microsoft kontu batekin saioa hasi
         github:
           title: GitHub-rekin saioa hasi
           alt: GitHub kontuarekin saioa hasi
@@ -2669,7 +2685,7 @@ eu:
     index:
       title: '%{user}k igotako edo iruzkinak utzitako oharrak'
       heading: '%{user} erabiltzailearen oharrak'
-      subheading_html: '%{user}k igotako edo iruzkinak utzitako oharrak'
+      subheading_html: '%{user}k %{submitted} edo%{commented} notak'
       no_notes: Oharrik ez
       id: Id-a
       creator: Sortzailea
