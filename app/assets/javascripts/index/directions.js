@@ -268,7 +268,8 @@ OSM.Directions = function (map) {
           I18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
       }
 
-      var turnByTurnTable = $("<table class='mb-3'>");
+      var turnByTurnTable = $("<table class='table table-sm mb-3'>")
+        .append($("<tbody>"));
       var directionsCloseButton = $("<button type='button' class='btn-close'>")
         .attr("aria-label", I18n.t("javascripts.close"));
 
@@ -304,8 +305,8 @@ OSM.Directions = function (map) {
         }
 
         var row = $("<tr class='turn'/>");
-        row.append("<td><div class='direction i" + direction + "'/></td> ");
-        row.append("<td class='instruction'>" + instruction);
+        row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
+        row.append("<td>" + instruction);
         row.append("<td class='distance'>" + dist);
 
         row.on("click", function () {
