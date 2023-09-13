@@ -34,7 +34,9 @@
         <% @note_comments.drop(1).each do |comment| %>
           <li id="c<%= comment.id %>">
             <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
-            <%= comment.body.to_html %>
+            <div class="mx-2">
+              <%= comment.body.to_html %>
+            </div>
           </li>
         <% end %>
       </ul>

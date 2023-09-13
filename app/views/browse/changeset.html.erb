@@ -46,7 +46,9 @@
                     — <span class="action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
                   <% end %>
                 </small>
-                <%= comment.body.to_html %>
+                <div class="mx-2">
+                  <%= comment.body.to_html %>
+                </div>
               </li>
             <% elsif current_user and current_user.moderator? %>
               <li id="c<%= comment.id %>">
@@ -57,7 +59,9 @@
                         :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   — <span class="action-button text-muted" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
                  </small>
-                <%= comment.body.to_html %>
+                <div class="mx-2">
+                  <%= comment.body.to_html %>
+                </div>
               </li>
             <% end %>
           <% end %>
