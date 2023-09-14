@@ -1,6 +1,15 @@
+<% content_for :heading_class, "pb-0" %>
+
 <% content_for :heading do %>
-  <h1><%= t ".heading", :user => @user.display_name %></h1>
-  <p><%= t ".subheading_html", :user => link_to(@user.display_name, @user) %></p>
+  <h1><%= t ".heading_html", :user => link_to(@user.display_name, @user) %></h1>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active"><%= t ".diary_entries" %></a>
+    </li>
+    <li class="nav-item">
+      <%= link_to t(".changesets"), changeset_comments_path(@user), :class => "nav-link" %>
+    </li>
+  </ul>
 <% end %>
 
 <% if @comments.empty? %>
