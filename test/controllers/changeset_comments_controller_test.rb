@@ -6,11 +6,11 @@ class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/changeset/1/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "index", :id => "1", :format => "rss" }
+      { :controller => "changeset_comments", :action => "feed", :id => "1", :format => "rss" }
     )
     assert_routing(
       { :path => "/history/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "index", :format => "rss" }
+      { :controller => "changeset_comments", :action => "feed", :format => "rss" }
     )
   end
 
