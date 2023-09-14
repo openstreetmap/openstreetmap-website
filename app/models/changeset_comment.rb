@@ -25,6 +25,8 @@ class ChangesetComment < ApplicationRecord
   belongs_to :changeset
   belongs_to :author, :class_name => "User"
 
+  scope :visible, -> { where(:visible => true) }
+
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :only_integer => true }
   validates :changeset, :associated => true
