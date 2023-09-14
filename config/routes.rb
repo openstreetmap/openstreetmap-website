@@ -102,6 +102,8 @@ OpenStreetMap::Application.routes.draw do
     post "notes/editPOIexec" => "api/notes#comment"
     get "notes/getGPX" => "api/notes#index", :format => "gpx"
     get "notes/getRSSfeed" => "api/notes#feed", :format => "rss"
+
+    resources :user_blocks, :only => [:show], :constraints => { :id => /\d+/ }, :controller => "api/user_blocks", :as => :api_user_blocks
   end
 
   # Data browsing
