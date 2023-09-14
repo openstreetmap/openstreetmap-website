@@ -27,22 +27,12 @@
     <div class="mb-3">
       <label class="form-label"><%= t ".with external" %></label>
 
-      <ul class='list-unstyled' id="login_auth_buttons">
-        <li><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
-        <% if Settings.key?(:google_auth_id) -%>
-        <li><%= auth_button "google", "google" %></li>
-        <% end -%>
-        <% if Settings.key?(:facebook_auth_id) -%>
-        <li><%= auth_button "facebook", "facebook" %></li>
-        <% end -%>
-        <% if Settings.key?(:microsoft_auth_id) -%>
-        <li><%= auth_button "microsoft", "microsoft" %></li>
-        <% end -%>
-        <% if Settings.key?(:github_auth_id) -%>
-        <li><%= auth_button "github", "github" %></li>
-        <% end -%>
-        <% if Settings.key?(:wikipedia_auth_id) -%>
-        <li><%= auth_button "wikipedia", "wikipedia" %></li>
+      <ul class='list-inline' id="login_auth_buttons">
+        <li class="list-inline-item me-3"><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
+        <% %w[google facebook microsoft github wikipedia].each do |provider| %>
+          <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
+            <li class="list-inline-item me-3"><%= auth_button provider, provider %></li>
+          <% end -%>
         <% end -%>
       </ul>
 
