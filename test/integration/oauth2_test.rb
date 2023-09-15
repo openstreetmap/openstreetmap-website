@@ -1,4 +1,5 @@
 require "test_helper"
+require "jwt"
 
 class OAuth2Test < ActionDispatch::IntegrationTest
   def test_oauth2
@@ -12,7 +13,8 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     token = request_token(client, code)
 
-    test_token(token, user, client)
+    assert_equal "read_prefs", token["scope"]
+    test_token(token["access_token"], user, client)
   end
 
   def test_oauth2_oob
@@ -30,7 +32,8 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     token = request_token(client, code)
 
-    test_token(token, user, client)
+    assert_equal "read_prefs", token["scope"]
+    test_token(token["access_token"], user, client)
   end
 
   def test_oauth2_pkce_plain
@@ -46,7 +49,8 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     token = request_token(client, code, verifier)
 
-    test_token(token, user, client)
+    assert_equal "read_prefs", token["scope"]
+    test_token(token["access_token"], user, client)
   end
 
   def test_oauth2_pkce_s256
@@ -62,16 +66,67 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     token = request_token(client, code, verifier)
 
-    test_token(token, user, client)
+    assert_equal "read_prefs", token["scope"]
+    test_token(token["access_token"], user, client)
+  end
+
+  def test_openid_connect
+    user = create(:user)
+    client = create(:oauth_application, :redirect_uri => "https://some.web.app.example.org/callback", :scopes => "openid read_prefs")
+    state = SecureRandom.urlsafe_base64(16)
+    verifier = SecureRandom.urlsafe_base64(48)
+    challenge = Base64.urlsafe_encode64(Digest::SHA256.digest(verifier), :padding => false)
+
+    authorize_client(user, client, :state => state, :code_challenge => challenge, :code_challenge_method => "S256", :scope => "openid read_prefs")
+    assert_response :redirect
+    code = validate_redirect(client, state)
+
+    token = request_token(client, code, verifier)
+
+    assert_equal "openid read_prefs", token["scope"]
+
+    access_token = token["access_token"]
+    assert_not_nil access_token
+
+    id_token = token["id_token"]
+    assert_not_nil id_token
+
+    data, _headers = JWT.decode id_token, Doorkeeper::OpenidConnect.signing_key.keypair, true, {
+      :algorithm => [Doorkeeper::OpenidConnect.signing_algorithm.to_s],
+      :verify_iss => true,
+      :iss => "#{Settings.server_protocol}://#{Settings.server_url}",
+      :verify_sub => true,
+      :sub => user.id,
+      :verify_aud => true,
+      :aud => client.uid
+    }
+
+    assert_equal user.id.to_s, data["sub"]
+    assert_not data.key?("preferred_username")
+
+    get oauth_userinfo_path
+    assert_response :unauthorized
+
+    auth_header = bearer_authorization_header(access_token)
+    get oauth_userinfo_path, :headers => auth_header
+    assert_response :success
+
+    userinfo = response.parsed_body
+
+    assert_not_nil userinfo
+    assert_equal user.id.to_s, userinfo["sub"]
+    assert_equal user.display_name, userinfo["preferred_username"]
   end
 
   private
 
   def authorize_client(user, client, options = {})
-    options = options.merge(:client_id => client.uid,
-                            :redirect_uri => client.redirect_uri,
-                            :response_type => "code",
-                            :scope => "read_prefs")
+    options = {
+      :client_id => client.uid,
+      :redirect_uri => client.redirect_uri,
+      :response_type => "code",
+      :scope => "read_prefs"
+    }.merge(options)
 
     get oauth_authorization_path(options)
     assert_response :redirect
@@ -135,9 +190,8 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     assert_response :success
     token = response.parsed_body
     assert_equal "Bearer", token["token_type"]
-    assert_equal "read_prefs", token["scope"]
 
-    token["access_token"]
+    token
   end
 
   def test_token(token, user, client)
