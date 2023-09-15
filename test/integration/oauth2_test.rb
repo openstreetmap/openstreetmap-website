@@ -91,7 +91,7 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     id_token = token["id_token"]
     assert_not_nil id_token
 
-    data, _headers = JWT.decode id_token, Doorkeeper::OpenidConnect.signing_key.keypair, true, {
+    data, _headers = JWT.decode id_token, Doorkeeper::OpenidConnect.signing_key.public_key, true, {
       :algorithm => [Doorkeeper::OpenidConnect.signing_algorithm.to_s],
       :verify_iss => true,
       :iss => "#{Settings.server_protocol}://#{Settings.server_url}",
@@ -116,6 +116,28 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     assert_not_nil userinfo
     assert_equal user.id.to_s, userinfo["sub"]
     assert_equal user.display_name, userinfo["preferred_username"]
+  end
+
+  def test_openid_discovery
+    get oauth_discovery_provider_path
+    assert_response :success
+    openid_config = response.parsed_body
+
+    assert_equal "#{Settings.server_protocol}://#{Settings.server_url}", openid_config["issuer"]
+
+    assert_equal oauth_authorization_path, URI(openid_config["authorization_endpoint"]).path
+    assert_equal oauth_token_path, URI(openid_config["token_endpoint"]).path
+    assert_equal oauth_userinfo_path, URI(openid_config["userinfo_endpoint"]).path
+    assert_equal oauth_discovery_keys_path, URI(openid_config["jwks_uri"]).path
+  end
+
+  def test_openid_key
+    get oauth_discovery_keys_path
+    assert_response :success
+    key_info = response.parsed_body
+    assert key_info.key?("keys")
+    assert_equal 1, key_info["keys"].size
+    assert_equal Doorkeeper::OpenidConnect.signing_key.kid, key_info["keys"][0]["kid"]
   end
 
   private
