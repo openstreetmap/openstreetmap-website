@@ -152,23 +152,20 @@ module Api
       assert_response :success, "cannot get first changeset"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-      assert_select "osm>changeset[id='#{changeset.id}']", 1
-      assert_select "osm>changeset>@open", "true"
-      assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
-      assert_select "osm>changeset>@closed_at", 0
+      assert_single_changeset changeset
       assert_select "osm>changeset>discussion", 0
 
       get changeset_show_path(changeset), :params => { :include_discussion => true }
       assert_response :success, "cannot get first changeset with comments"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-      assert_select "osm>changeset[id='#{changeset.id}']", 1
-      assert_select "osm>changeset>@open", "true"
-      assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
-      assert_select "osm>changeset>@closed_at", 0
+      assert_single_changeset changeset
       assert_select "osm>changeset>discussion", 1
       assert_select "osm>changeset>discussion>comment", 0
+    end
 
+    def test_show_comments
+      # all comments visible
       changeset = create(:changeset, :closed)
       comment1, comment2, comment3 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
@@ -176,15 +173,62 @@ module Api
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-      assert_select "osm>changeset[id='#{changeset.id}']", 1
-      assert_select "osm>changeset>@open", "false"
-      assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
-      assert_select "osm>changeset>@closed_at", changeset.closed_at.xmlschema
+      assert_single_changeset changeset
       assert_select "osm>changeset>discussion", 1
       assert_select "osm>changeset>discussion>comment", 3
       assert_select "osm>changeset>discussion>comment:nth-child(1)>@id", comment1.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@visible", "true"
       assert_select "osm>changeset>discussion>comment:nth-child(2)>@id", comment2.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@visible", "true"
       assert_select "osm>changeset>discussion>comment:nth-child(3)>@id", comment3.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(3)>@visible", "true"
+
+      # one hidden comment not included because not asked for
+      comment2.update(:visible => false)
+
+      get changeset_show_path(changeset), :params => { :include_discussion => true }
+      assert_response :success, "cannot get closed changeset with comments"
+
+      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
+      assert_single_changeset changeset
+      assert_select "osm>changeset>discussion", 1
+      assert_select "osm>changeset>discussion>comment", 2
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@id", comment1.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@visible", "true"
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@id", comment3.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@visible", "true"
+
+      # one hidden comment not included because no permissions
+      get changeset_show_path(changeset), :params => { :include_discussion => true, :show_hidden_comments => true }
+      assert_response :success, "cannot get closed changeset with comments"
+
+      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
+      assert_single_changeset changeset
+      assert_select "osm>changeset>discussion", 1
+      assert_select "osm>changeset>discussion>comment", 2
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@id", comment1.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@visible", "true"
+      # maybe will show an empty comment element with visible=false in the future
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@id", comment3.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@visible", "true"
+
+      # one hidden comment shown to moderators
+      moderator_user = create(:moderator_user)
+      auth_header = basic_authorization_header moderator_user.email, "test"
+      get changeset_show_path(changeset), :params => { :include_discussion => true, :show_hidden_comments => true },
+                                          :headers => auth_header
+      assert_response :success, "cannot get closed changeset with comments"
+
+      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
+      assert_single_changeset changeset
+      assert_select "osm>changeset>discussion", 1
+      assert_select "osm>changeset>discussion>comment", 3
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@id", comment1.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(1)>@visible", "true"
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@id", comment2.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(2)>@visible", "false"
+      assert_select "osm>changeset>discussion>comment:nth-child(3)>@id", comment3.id.to_s
+      assert_select "osm>changeset>discussion>comment:nth-child(3)>@visible", "true"
     end
 
     def test_show_json
@@ -198,10 +242,7 @@ module Api
 
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
-      assert_equal changeset.id, js["changeset"]["id"]
-      assert_operator js["changeset"], :[], "open"
-      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
-      assert_nil js["changeset"]["closed_at"]
+      assert_single_changeset_json changeset, js
       assert_nil js["changeset"]["tags"]
       assert_nil js["changeset"]["comments"]
       assert_equal changeset.user.id, js["changeset"]["uid"]
@@ -214,17 +255,17 @@ module Api
       assert_not_nil js
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
-      assert_equal changeset.id, js["changeset"]["id"]
-      assert_operator js["changeset"], :[], "open"
-      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
-      assert_nil js["changeset"]["closed_at"]
+      assert_single_changeset_json changeset, js
       assert_nil js["changeset"]["tags"]
       assert_nil js["changeset"]["min_lat"]
       assert_nil js["changeset"]["min_lon"]
       assert_nil js["changeset"]["max_lat"]
       assert_nil js["changeset"]["max_lon"]
       assert_equal 0, js["changeset"]["comments"].count
+    end
 
+    def test_show_comments_json
+      # all comments visible
       changeset = create(:changeset, :closed)
       comment0, comment1, comment2 = create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
@@ -235,14 +276,67 @@ module Api
       assert_not_nil js
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
-      assert_equal changeset.id, js["changeset"]["id"]
-      assert_not js["changeset"]["open"]
-      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
-      assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
+      assert_single_changeset_json changeset, js
       assert_equal 3, js["changeset"]["comments"].count
       assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
       assert_equal comment1.id, js["changeset"]["comments"][1]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][1]["visible"]
       assert_equal comment2.id, js["changeset"]["comments"][2]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][2]["visible"]
+
+      # one hidden comment not included because not asked for
+      comment1.update(:visible => false)
+
+      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true }
+      assert_response :success, "cannot get closed changeset with comments"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_single_changeset_json changeset, js
+      assert_equal 2, js["changeset"]["comments"].count
+      assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
+      assert_equal comment2.id, js["changeset"]["comments"][1]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][1]["visible"]
+
+      # one hidden comment not included because no permissions
+      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true }
+      assert_response :success, "cannot get closed changeset with comments"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_single_changeset_json changeset, js
+      assert_equal 2, js["changeset"]["comments"].count
+      assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
+      # maybe will show an empty comment element with visible=false in the future
+      assert_equal comment2.id, js["changeset"]["comments"][1]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][1]["visible"]
+
+      # one hidden comment shown to moderators
+      moderator_user = create(:moderator_user)
+      auth_header = basic_authorization_header moderator_user.email, "test"
+      get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true },
+                                          :headers => auth_header
+      assert_response :success, "cannot get closed changeset with comments"
+
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal Settings.api_version, js["version"]
+      assert_equal Settings.generator, js["generator"]
+      assert_single_changeset_json changeset, js
+      assert_equal 3, js["changeset"]["comments"].count
+      assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
+      assert_equal comment1.id, js["changeset"]["comments"][1]["id"]
+      assert_operator false, :==, js["changeset"]["comments"][1]["visible"]
+      assert_equal comment2.id, js["changeset"]["comments"][2]["id"]
+      assert_operator true, :==, js["changeset"]["comments"][2]["visible"]
     end
 
     def test_show_tag_and_discussion_json
@@ -270,10 +364,7 @@ module Api
       assert_not_nil js
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
-      assert_equal changeset.id, js["changeset"]["id"]
-      assert_not js["changeset"]["open"]
-      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
-      assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
+      assert_single_changeset_json changeset, js
       assert_equal 2, js["changeset"]["tags"].count
       assert_equal 3, js["changeset"]["comments"].count
       assert_equal 3, js["changeset"]["comments_count"]
@@ -2354,6 +2445,33 @@ module Api
     end
 
     private
+
+    ##
+    # check that the output consists of one specific changeset
+    def assert_single_changeset(changeset)
+      assert_select "osm>changeset", 1
+      assert_select "osm>changeset>@id", changeset.id.to_s
+      assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
+      if changeset.open?
+        assert_select "osm>changeset>@open", "true"
+        assert_select "osm>changeset>@closed_at", 0
+      else
+        assert_select "osm>changeset>@open", "false"
+        assert_select "osm>changeset>@closed_at", changeset.closed_at.xmlschema
+      end
+    end
+
+    def assert_single_changeset_json(changeset, js)
+      assert_equal changeset.id, js["changeset"]["id"]
+      assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
+      if changeset.open?
+        assert_operator true, :==, js["changeset"]["open"]
+        assert_nil js["changeset"]["closed_at"]
+      else
+        assert_operator false, :==, js["changeset"]["open"]
+        assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
+      end
+    end
 
     ##
     # check that certain changesets exist in the output

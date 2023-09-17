@@ -6,6 +6,7 @@ module Api
 
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
     before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
+    before_action :setup_user_auth, :only => [:show]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
 
     authorize_resource
@@ -24,7 +25,11 @@ module Api
     # return anything about the nodes, ways and relations in the changeset.
     def show
       @changeset = Changeset.find(params[:id])
-      @include_discussion = params[:include_discussion].presence
+      if params[:include_discussion].presence
+        @comments = @changeset.comments
+        @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:restore, ChangesetComment)
+        @comments = @comments.includes(:author)
+      end
       render "changeset"
 
       respond_to do |format|
