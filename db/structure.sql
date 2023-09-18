@@ -17,6 +17,13 @@ CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
 
 
 --
+-- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
+
+
+--
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -107,9 +114,8 @@ CREATE TYPE public.user_status_enum AS ENUM (
     'deleted'
 );
 
-SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_tablespace = '';
 
 --
 -- Name: acls; Type: TABLE; Schema: public; Owner: -
@@ -522,7 +528,7 @@ CREATE TABLE public.current_way_tags (
 CREATE TABLE public.current_ways (
     id bigint NOT NULL,
     changeset_id bigint NOT NULL,
-    "timestamp" timestamp without time zone NOT NULL,
+    "timestamp" timestamp(6) without time zone NOT NULL,
     visible boolean NOT NULL,
     version bigint NOT NULL
 );
@@ -630,8 +636,8 @@ CREATE TABLE public.diary_entries (
     user_id bigint NOT NULL,
     title character varying NOT NULL,
     body text NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     latitude double precision,
     longitude double precision,
     language_code character varying DEFAULT 'en'::character varying NOT NULL,
@@ -757,7 +763,7 @@ CREATE TABLE public.gpx_files (
     size bigint,
     latitude double precision,
     longitude double precision,
-    "timestamp" timestamp without time zone NOT NULL,
+    "timestamp" timestamp(6) without time zone NOT NULL,
     description character varying DEFAULT ''::character varying NOT NULL,
     inserted boolean NOT NULL,
     visibility public.gpx_visibility_enum DEFAULT 'public'::public.gpx_visibility_enum NOT NULL
@@ -877,7 +883,7 @@ CREATE TABLE public.messages (
     from_user_id bigint NOT NULL,
     title character varying NOT NULL,
     body text NOT NULL,
-    sent_on timestamp without time zone NOT NULL,
+    sent_on timestamp(6) without time zone NOT NULL,
     message_read boolean DEFAULT false NOT NULL,
     to_user_id bigint NOT NULL,
     to_user_visible boolean DEFAULT true NOT NULL,
@@ -1443,7 +1449,7 @@ CREATE TABLE public.users (
     email character varying NOT NULL,
     id bigint NOT NULL,
     pass_crypt character varying NOT NULL,
-    creation_time timestamp without time zone NOT NULL,
+    creation_time timestamp(6) without time zone NOT NULL,
     display_name character varying DEFAULT ''::character varying NOT NULL,
     data_public boolean DEFAULT false NOT NULL,
     description text DEFAULT ''::text NOT NULL,
@@ -1522,7 +1528,7 @@ CREATE TABLE public.way_tags (
 CREATE TABLE public.ways (
     way_id bigint NOT NULL,
     changeset_id bigint NOT NULL,
-    "timestamp" timestamp without time zone NOT NULL,
+    "timestamp" timestamp(6) without time zone NOT NULL,
     version bigint NOT NULL,
     visible boolean DEFAULT true NOT NULL,
     redaction_id integer
@@ -3448,3 +3454,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('7'),
 ('8'),
 ('9');
+
+
