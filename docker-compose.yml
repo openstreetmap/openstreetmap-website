@@ -2,6 +2,7 @@ version: "3"
 
 services:
   web:
+    image: 192.168.9.234/yuehai/openstreetmap-website-web:${WEB_TAG}
     build:
       context: .
     environment:
@@ -23,6 +24,7 @@ services:
       - db
 
   db:
+    image: 192.168.9.234/yuehai/openstreetmap-website-db:${DB_TAG}
     build:
       context: .
       dockerfile: docker/postgres/Dockerfile
