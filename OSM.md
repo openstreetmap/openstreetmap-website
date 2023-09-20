@@ -1,6 +1,8 @@
 # openstreetmap
 
-github代理配置：`git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"`
+github代理配置 :`git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"`
+
+取消代理 : `git config --global --unset http.https://github.com.proxy`
 
 ## docker
 
@@ -29,7 +31,7 @@ ubuntu需要的构建环境，参考[INSTALL steps](INSTALL.md)
 
 ## 注意
 
-    edit页面需要部署时执行命令： rake i18n:js:export 和 rails assets:precompile
+    edit页面需要执行： rake i18n:js:export 和 rails assets:precompile
 
 ### 注册成功或者找回密码时候，表单提交后，控制台会打印邮件内容，点击链接即可
 
