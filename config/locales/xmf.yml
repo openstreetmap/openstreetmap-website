@@ -27,7 +27,7 @@ xmf:
       client_application:
         create: რეგისტრაცია
         update: გოახალაფა
-      oauth2_application:
+      doorkeeper_application:
         create: რეგისტრაცია
         update: გოახალაფა
       redaction:
@@ -57,6 +57,7 @@ xmf:
       message: გინაფა
       node: ჭურჭული
       node_tag: ჭურჭულიშ ხინტკი
+      notifier: გჷმართხილებერი
       old_node: ჯვეში ჭურჭული
       old_node_tag: ჭურჭულიშ ჯვეში ხინტკი
       old_relation: ჯვეში ურთიართობა
@@ -101,7 +102,7 @@ xmf:
         body: ტექსტი
         latitude: განედი
         longitude: გრძედი
-        language_code: ნინა
+        language: ნინა
       doorkeeper/application:
         name: ჯოხო
         redirect_uri: URIs გინოწურაფა
@@ -223,7 +224,7 @@ xmf:
         reopened_at_html: ახალშო ეინწყჷ %{when}
         reopened_at_by_html: ახალშე ეიონწყჷ %{when} მახვარებუქ %{user}
       rss:
-        title: OpenStreetMap ხვილაფეფი
+        title: OpenHistoricalMap ხვილაფეფი
         description_item: Rss-არხი მოღანკუაშო %{id}
         opened: ახალი მოღამკუა (%{place} გოხოლუას)
         commented: ახალი კომენტარი (%{place} გოხოლუას)
@@ -303,6 +304,10 @@ xmf:
       relation: ურთიართობეფი (%{count})
       relation_paginated: ურთიართობეფი (%{x}-%{y} %{count}-შე)
       comment: კომენტარეფი (%{count})
+      hidden_commented_by_html: ტყობინელი კომენტარეფი %{user}-შე <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      commented_by_html: კომენატარი %{user}-შე <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
       changesetxml: თირუეფიშ პაკეტიშ XML
       osmchangexml: osmChange XML
       feed:
@@ -382,6 +387,31 @@ xmf:
       wikimedia_commons_link: ელემენტი %{page} ვიკიოწკარუეს
       telephone_link: რეკუა %{phone_number}
       colour_preview: ფერი %{colour_value} გიწოთოლორაფა
+    note:
+      title: 'ხვილაფა: %{id}'
+      new_note: ახალი ხვილაფა
+      description: ეჭარუა
+      open_title: 'უდუმუშებუ ხვილაფა #%{note_name}'
+      closed_title: 'დამუშებული ხვილაფა #%{note_name}'
+      hidden_title: 'ტყობინაფილი ხვილაფა #%{note_name}'
+      opened_by_html: აკოქიმინუ მახვარებუქ %{user} <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      opened_by_anonymous_html: აკოქიმინუ ანონიმქ <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      commented_by_html: მახვარებუ %{user}-შ კომენტარი <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      commented_by_anonymous_html: ანონიმიშ კომენტარი <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      closed_by_html: დამუშებული რე მახვარებუ %{user}-შით <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      closed_by_anonymous_html: დამუშებული რე ანონიმურო <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      reopened_by_html: მახვარებუ %{user}-ქ ახალშე გონწყუ <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      reopened_by_anonymous_html: ახალშე გონწყუმილი რე ანონიმურო <abbr title='%{exact_time}'>%{when}
+        კინოხ</abbr>
+      hidden_by_html: დატყობინუ %{user}-ქ <abbr title='%{exact_time}'>%{when} კინოხ</abbr>
+      report: ქჷმოგინაფეთ თე მეღანკუაშ გეშა
     query:
       title: მუ რე თაქ?
       introduction: უახოლაში ობიექტეფიშ ოგორალო ქეგუნჭირით რუკა.
@@ -424,8 +454,8 @@ xmf:
     comments:
       comment: 'ახალი კომენტარი თირუეფიშ პაკეტშო #%{changeset_id} %{author}-შე'
     index:
-      title_all: OpenStreetMap-შ თირუეფიშ პაკეტიშ სხუნუა
-      title_particular: 'OpenStreetMap თირუეფიშ პაკეტიშ სხუნუა #%{changeset_id}'
+      title_all: OpenHistoricalMap-შ თირუეფიშ პაკეტიშ სხუნუა
+      title_particular: 'OpenHistoricalMap თირუეფიშ პაკეტიშ სხუნუა #%{changeset_id}'
   dashboards:
     contact:
       km away: თქვანდე %{count}კმ.
@@ -489,11 +519,11 @@ xmf:
       edit: რედაქტირაფა
     feed:
       user:
-        title: OpenStreetMap დღარიშ დინნაჭარეფი მახვარებუშო %{user}
+        title: OpenHistoricalMap დღარიშ დინნაჭარეფი მახვარებუშო %{user}
       language:
-        title: OpenStreetMap დღარიშ დინნაჭარეფი გეჸვენჯი ნინაშა %{language_name}
+        title: OpenHistoricalMap დღარიშ დინნაჭარეფი გეჸვენჯი ნინაშა %{language_name}
       all:
-        title: OpenStreetMap დღარიშ დინნაჭარეფი
+        title: OpenHistoricalMap დღარიშ დინნაჭარეფი
     comments:
       no_comments: დღარი კომენტარეფი ვა რე
       post: პოსტი

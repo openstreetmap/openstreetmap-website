@@ -8,7 +8,6 @@
 # Author: Cevamihnea
 # Author: EddyPetrisor
 # Author: GabiBil
-# Author: Gravitystorm
 # Author: Kyouko
 # Author: Lucdrei
 # Author: MSClaudiu
@@ -24,12 +23,13 @@ ro:
   time:
     formats:
       friendly: '%e %B %Y la %H:%M'
+      blog: '%e %B %Y'
   helpers:
     file:
       prompt: Selectează fișier
     submit:
       diary_comment:
-        create: Comentariu
+        create: Salvează
       diary_entry:
         create: Publică
         update: Actualizează
@@ -40,7 +40,7 @@ ro:
       client_application:
         create: Înregistrează
         update: Actualizează
-      oauth2_application:
+      doorkeeper_application:
         create: Înregistrare
         update: Actualizează
       redaction:
@@ -70,6 +70,7 @@ ro:
       message: Mesaj
       node: Nod
       node_tag: Etichetă nod
+      notifier: Notificator
       old_node: Nod vechi
       old_node_tag: Etichetă nod vechi
       old_relation: Relație veche
@@ -110,10 +111,9 @@ ro:
       diary_entry:
         user: Utilizator
         title: Subiect
-        body: Textul mesajului
         latitude: Latitudine
         longitude: Longitudine
-        language_code: Limbă
+        language: Limbă
       doorkeeper/application:
         name: Nume
         redirect_uri: Redirectează URI-uri
@@ -177,58 +177,53 @@ ro:
         needs_view: Utilizatorul trebuie să se conecteze înainte ca această blocare
           să fie ștearsă?
       user:
+        email_confirmation: Adresa dumneavoastră nu este afișată public, vezi <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses">politica
+          de confidențialitate</a> pentru mai multe informații.
         new_email: (nu a fost afișată în mod public)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: aproximativ 1 oră în urmă}}
-        few: aproximativ %{count} ore în urmă}}
-        other: …}}
+        one: aproximativ 1 oră în urmă
+        other: aproximativ %{count} ore în urmă
       about_x_months:
-        one: aproximativ o lună în urmă
-        few: aproximativ %{count} luni în urmă
-        other: aproximativ %{count} de luni în urmă
+        one: aproximativ 1 lună în urmă
+        other: aproximativ %{count} luni în urmă
       about_x_years:
-        one: aproximativ un an în urmă
-        few: aproximativ %{count} ani în urmă
-        other: aproximativ %{count} de ani în urmă
+        one: aproximativ 1 an în urmă
+        other: aproximativ %{count} ani în urmă
       almost_x_years:
-        one: aproape un an în urmă
-        few: aproape %{count} ani în urmă
-        other: aproape %{count} de ani în urmă
+        one: aproape 1 an în urmă
+        few: acum câțiva ani
+        other: aproape %{count} ani în urmă
       half_a_minute: o jumătate de minut în urmă
       less_than_x_seconds:
-        one: mai puțin de o secundă în urmă
-        few: mai puțin de %{count} secunde în urmă
-        other: mai puțin de %{count} de secunde în urmă
+        one: mai puțin de 1 secundă în urmă
+        other: aproximativ acum %{count} luni în urmă
       less_than_x_minutes:
         one: mai puțin de un minut în urmă
-        few: mai puțin de %{count} minute în urmă
-        other: mai puțin de %{count} de minute în urmă
+        other: mai puțin de %{count} minute în urmă
       over_x_years:
-        one: mai mult de un an în urmă
-        few: mai mult de %{count} ani în urmă
-        other: mai mult de %{count} de ani în urmă
+        one: acum peste 1 an
+        other: peste %{count} ani în urmă
       x_seconds:
-        one: acum o secundă
-        few: cu %{count} secunde în urmă
-        other: cu %{count} de secunde în urmă
+        one: acum 1 secundă
+        other: cu %{count} secunde în urmă
       x_minutes:
-        one: acum un minut
-        few: cu %{count} minute în urmă
-        other: cu %{count} de minute în urmă
+        one: acum 1 minut
+        other: cu %{count} minute în urmă
       x_days:
-        one: acum o zi
-        few: cu %{count} zile în urmă
-        other: cu %{count} de zile în urmă
+        one: acum 1 zi
+        other: cu %{count} zile în urmă
       x_months:
-        one: acum o lună
-        few: cu %{count} luni în urmă
-        other: cu %{count} de luni în urmă
+        one: acum 1 lună
+        other: cu %{count} luni în urmă
       x_years:
-        one: acum un an
-        few: cu %{count} ani în urmă
-        other: cu %{count} de ani în urmă
+        one: acum 1 an
+        other: cu %{count} ani în urmă
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Implicit (în prezent %{name})
     id:
@@ -243,7 +238,7 @@ ro:
       openid: OpenID
       google: OpenID
       facebook: OpenID
-      microsoft: Microsoft
+      windowslive: Windows Live
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -258,7 +253,7 @@ ro:
         reopened_at_html: Reactivat %{when}
         reopened_at_by_html: Reactivat %{when} de %{user}
       rss:
-        title: Note OpenStreetMap
+        title: Note OpenHistoricalMap
         description_area: O listă de note, raportate, comentate sau închise în zona
           dvs. [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Un feed RSS pentru nota %{id}
@@ -269,33 +264,6 @@ ro:
       entry:
         comment: Comentariu
         full: Notă completă
-  account:
-    deletions:
-      show:
-        title: Șterge Contul Meu
-        warning: Atenție! Procesul de ștergere al contului este final și nu se poate
-          reveni.
-        delete_account: Șterge Cont
-        delete_introduction: 'Vă puteți șterge contul OpenStreetMap folosind butonul
-          de mai jos. Vă rugăm să rețineți următoarele detalii:'
-        delete_profile: Informațiile de profil, inclusiv avatarul, descrierea și locația
-          de acasă vor fi șterse.
-        delete_display_name: Numele dvs. afișat va fi eliminat și poate fi reutilizat
-          de alte conturi.
-        retain_caveats: 'Cu toate acestea, unele informații despre dvs. vor fi păstrate
-          pe OpenStreetMap, chiar și după ștergerea contului:'
-        retain_edits: Editările dvs. la baza de date a hărții, dacă există, vor fi
-          păstrate.
-        retain_traces: Înregistrările încărcate, dacă există, vor fi păstrate.
-        retain_diary_entries: Înregistrările și comentariile din jurnal, dacă există,
-          vor fi păstrate, dar ascunse.
-        retain_notes: Notele dvs. de hartă și comentariile notelor, dacă există, vor
-          fi reținute, dar ascunse pentru vedere.
-        retain_changeset_discussions: Discuțiile dvs. privind setul de modificări,
-          dacă există, vor fi păstrate.
-        retain_email: Adresa dvs. de e-mail va fi păstrată.
-        confirm_delete: Sunteți sigur(ă)?
-        cancel: Anulează
   accounts:
     edit:
       title: Modificare cont
@@ -303,14 +271,26 @@ ro:
       current email address: Adresa de e-mail actuală
       external auth: Autentificare externă
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: Ce este aceasta?
       public editing:
         heading: 'Editarea publică:'
         enabled: Activat. Nu este anonim și poate edita date.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Ce este aceasta?
         disabled: Dezactivat și nu poate edita date, toate editările anterioare sunt
           anonime.
         disabled link text: de ce nu pot edita?
+      public editing note:
+        heading: Editare publică
+        html: În prezent, editările dvs. sunt anonime, iar utilizatorii nu vă pot
+          trimite mesaje sau să vă vadă locația. Pentru a arăta ceea ce ați editat
+          și a permite oamenilor să vă contacteze prin intermediul site-ului, faceți
+          clic pe butonul de mai jos. <b>De la schimbarea cu 0,6 API, numai utilizatorii
+          publici pot edita date de hartă</b>. (<a href="https://wiki.openstreetmap.org/wiki/Anonymous_edits">find
+          out why</a>).<ul><li>Adresa dvs. de e-mail nu va fi dezvăluită prin faptul
+          că devine publică.</li><li> Această acțiune nu poate fi inversată și toți
+          utilizatorii noi sunt acum publici în mod implicit.</li></ul>
       contributor terms:
         heading: Termenii contribuitorului
         agreed: Ați fost de acord cu noii Termeni ai Contributorului.
@@ -319,37 +299,17 @@ ro:
           a revizui și accepta noii Termeni de Contributor.
         agreed_with_pd: De asemenea, ați declarat că considerați că editările dvs.
           sunt în Domeniul Public.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Ce este aceasta?
       save changes button: Salvează modificările
-      delete_account: Șterge Cont...
-    go_public:
-      heading: Editare publică
-      currently_not_public: Momentan, editările dvs. sunt anonime și oamenii nu vă
-        pot trimite mesaje sau vă pot vedea locația. Pentru a afișa ceea ce ați editat
-        și pentru a le permite oamenilor să vă contacteze prin intermediul site-ului
-        web, faceți clic pe butonul de mai jos.
-      only_public_can_edit: De la trecerea la 0.6 API, numai utilizatorii publici
-        pot edita datele hărții.
-      find_out_why: află de ce
-      email_not_revealed: Adresa ta de e-mail nu va fi dezvăluită devenind public.
-      not_reversible: Această acțiune nu poate fi anulată și toți utilizatorii noi
-        sunt acum publici în mod implicit.
-      make_edits_public_button: Faceți toate editările mele publice
+      make edits public button: Faceți toate editările mele publice
     update:
       success_confirm_needed: Informațiile despre utilizator s-au actualizat cu succes.
         Verificați e-mailul pentru o notă pentru a confirma noua adresă de e-mail.
       success: Informațiile despre utilizator s-au actualizat cu succes.
-    destroy:
-      success: Contul Este Șters.
   browse:
     created: Creat
     closed: Închis
-    created_ago_html: Creat %{time_ago}
-    closed_ago_html: Închis %{time_ago}
-    created_ago_by_html: Creat %{time_ago} de %{user}
-    closed_ago_by_html: Închis %{time_ago} de către %{user}
-    deleted_ago_by_html: Șters %{time_ago} de %{user}
-    edited_ago_by_html: Editat %{time_ago} de %{user}
     version: Versiune
     in_changeset: Set de modificări
     anonymous: anonim
@@ -360,13 +320,15 @@ ro:
       few: '%{count} relații'
       other: ""
     part_of_ways:
-      one: '%{count} cale}}'
-      few: '%{count} căi}}'
-      other: '}}'
+      one: 1 relație
+      few: '%{count} relații'
+      other: ""
     download_xml: Descarcă XML
     view_history: Vezi istoric
     view_details: Vezi detalii
     location: 'Amplasament:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Set de modificări: %{id}'
       belongs_to: Autor
@@ -377,8 +339,8 @@ ro:
       relation: Comunicații (%{count})
       relation_paginated: Comunicații (%{x}-%{y} din %{count})
       comment: Comentarii (%{count})
-      hidden_comment_by_html: Comentariu ascuns de la %{user} %{time_ago}
-      comment_by_html: Comentariu de la %{user} %{time_ago}
+      hidden_commented_by_html: Ascuns comentariu de la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentariu de la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Set de modificări XML
       osmchangexml: XML osmChange
       feed:
@@ -396,9 +358,9 @@ ro:
       history_title_html: 'Istoricul căii: %{name}'
       nodes: Noduri
       nodes_count:
-        one: un nod
+        one: 1 nod
         few: '%{count} noduri'
-        other: '%{count} de noduri'
+        other: ""
       also_part_of_html:
         one: parte a liniei de %{related_ways}
         other: parte din liniile de %{related_ways}
@@ -407,10 +369,11 @@ ro:
       history_title_html: 'Istoricul relației: %{name}'
       members: Membri
       members_count:
-        one: un membru
+        one: 1 membru
         few: '%{count} membri'
-        other: '%{count} de membri'
+        other: ""
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} ca %{role}'
       type:
         node: Nod
@@ -462,7 +425,24 @@ ro:
       wikimedia_commons_link: Item-ul %{page} pe Wikimedia Commons
       telephone_link: Sună %{phone_number}
       colour_preview: Previzualizează %{colour_value} culoare
-      email_link: Email %{email}
+    note:
+      title: 'Notă: %{id}'
+      new_note: Notă nouă
+      description: Descriere
+      open_title: 'Notă nerezolvată #%{note_name}'
+      closed_title: 'Notă rezolvată #%{note_name}'
+      hidden_title: 'Notă ascunsă #%{note_name}'
+      opened_by_html: Creat de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      opened_by_anonymous_html: Creat de anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_html: Comentariu de la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous_html: Comentariu de la anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_html: Rezolvat de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous_html: Rezolvat de anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_html: Reactivat de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous_html: Reactivat de anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by_html: Ascunsă de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Raportează această notă
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Interogări ale funcțiilor
       introduction: Dați clic pe hartă pentru a găsi obiectivele din apropiere.
@@ -486,7 +466,6 @@ ro:
     index:
       title: Set de modificări
       title_user: Seturi de modificări făcute de %{user}
-      title_user_link_html: Seturi de modificări făcute de %{user_link}
       title_friend: Seturi de modificări făcute de prietenii mei
       title_nearby: Modificări făcute de utilizatori din apropiere
       empty: Niciun set de modificări găsit.
@@ -506,8 +485,8 @@ ro:
     comments:
       comment: 'Comentariu nou făcut la #%{changeset_id} de %{author}'
     index:
-      title_all: Discuție set de schimbări OpenStreetMap
-      title_particular: 'Set de schimbări OpenStreetMap discuție #%{changeset_id}'
+      title_all: Discuție set de schimbări OpenHistoricalMap
+      title_particular: 'Set de schimbări OpenHistoricalMap discuție #%{changeset_id}'
     timeout:
       sorry: Ne pare rău, lista de comenzi modificate pe care le-ați solicitat a durat
         prea mult timp pentru a fi preluate.
@@ -521,8 +500,6 @@ ro:
       friend: Prieten
     show:
       title: Dashboardul meu
-      no_home_location_html: '%{edit_profile_link} și setați locația de acasă pentru
-        a vedea utilizatorii din apropiere.'
       edit_your_profile: Editați-vă profilul
       my friends: Prietenii mei
       no friends: Nu ați adăugat încă niciun prieten.
@@ -573,10 +550,9 @@ ro:
       comment_link: Comentează la această înregistrare
       reply_link: Trimite un mesaj autorului
       comment_count:
-        one: Un comentariu
-        few: '%{count} comentarii'
-        other: '%{count} de comentarii'
-      no_comments: Fără comentarii
+        zero: Niciun comentariu
+        one: '%{count} comentariu'
+        other: '%{count} comentarii'
       edit_link: Editează această înregistrare
       hide_link: Ascunde această înregistrare
       unhide_link: Arată această intrare
@@ -592,21 +568,19 @@ ro:
       location: 'Localizare:'
       view: Vizualizează
       edit: Modifică
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: Înregistrări în jurnalul OpenStreetMap pentru %{user}
-        description: Înregistrări recente în jurnalul OpenStreetMap de la %{user}
+        title: Înregistrări în jurnalul OpenHistoricalMap pentru %{user}
+        description: Înregistrări recente în jurnalul OpenHistoricalMap de la %{user}
       language:
-        title: Înregistrări recente în jurnalul OpenStreetMap în %{language_name}
-        description: Înregistrări recente în jurnale de la utilizatorii OpenStreetMap
+        title: Înregistrări recente în jurnalul OpenHistoricalMap în %{language_name}
+        description: Înregistrări recente în jurnale de la utilizatorii OpenHistoricalMap
           în limba %{language_name}
       all:
-        title: Înregistrări în jurnalul OpenStreetMap
-        description: Înregistrări recente în jurnale de la utilizatorii OpenStreetMap
+        title: Înregistrări în jurnalul OpenHistoricalMap
+        description: Înregistrări recente în jurnale de la utilizatorii OpenHistoricalMap
     comments:
-      title: Comentarii din jurnal adăugate de %{user}
-      heading: Comentariile la jurnal a lui %{user}
-      subheading_html: Comentarii din jurnal adăugate de %{user}
       no_comments: Fără comentarii din jurnal
       post: Postează
       when: Când
@@ -618,25 +592,6 @@ ro:
       applications:
         create:
           notice: Aplicație înregistrată.
-  errors:
-    contact:
-      contact_url_title: Diferite metode de contact explicate
-      contact: contact
-      contact_the_community_html: Simțiți-vă liber să %{contact_link} comunitatea
-        OpenStreetMap dacă ați găsit un link invalid/o eroare. Notați adresa URL exactă
-        a solicitării dvs.
-    forbidden:
-      title: Interzis
-      description: Operația pe care ați solicitat-o pe serverul OpenStreetMap este
-        disponibilă numai pentru administratori (HTTP 403)
-    internal_server_error:
-      title: Eroare aplicație
-      description: Serverul OpenStreetMap a întâlnit o condiție neașteptată care l-a
-        împiedicat să îndeplinească cererea (HTTP 500)
-    not_found:
-      title: Fișierul nu a fost găsit
-      description: Nu s-a putut găsi o operație de file/directory/API operation cu
-        acest nume pe serverul OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: Adăugați %{user} ca prieten?
@@ -652,11 +607,8 @@ ro:
       success: '%{name} a fost scos de la lista de prieteni.'
       not_a_friend: '%{name} nu este unul din prietenii tăi.'
   geocoder:
-    search:
-      title:
-        results_from_html: Rezultate de la %{results_link}
-        latlon: Intern
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Tramvai tras de cablu
@@ -672,17 +624,17 @@ ro:
         aeroway:
           aerodrome: Aerodrom
           airstrip: Pistă de aterizare
-          apron: Peron Aeroport
-          gate: Poartă Aeroport
+          apron: Peron de aeroport
+          gate: Poartă de aeroport
           hangar: Hangar
           helipad: Helipad
           holding_position: Păstrează poziția
-          navigationaid: Ajutor Navigație Aviație
+          navigationaid: Ajutor de navigație aeriană
           parking_position: Poziția de parcare
           runway: Pistă
           taxilane: Banda de taxi
           taxiway: Pistă de manevră
-          terminal: Terminal Aeroport
+          terminal: Terminal
           windsock: Con de vânt
         amenity:
           animal_boarding: Îmbarcarea animalelor
@@ -728,7 +680,7 @@ ro:
           fire_station: Stație de pompieri
           food_court: Sală de mese
           fountain: Fântână
-          fuel: Stație de alimentare
+          fuel: Benzinărie
           gambling: Jocuri de noroc
           grave_yard: Cimitir
           grit_bin: Coș de gunoi
@@ -737,7 +689,7 @@ ro:
           ice_cream: Înghețată
           internet_cafe: Internet Cafe
           kindergarten: Grădiniță
-          language_school: Școală Lingvistică
+          language_school: Școală de limbi
           library: Bibliotecă
           loading_dock: Doc de încărcare
           love_hotel: Hotel de dragoste
@@ -816,7 +768,7 @@ ro:
           chapel: Capelă
           church: Clădire de Biserică
           civic: Clădire Municipală
-          college: Clădire Colegiu
+          college: Clădirea colegiu
           commercial: Clădire comercială
           construction: Clădire în construcție
           detached: Casă decomandată
@@ -884,6 +836,7 @@ ro:
           window_construction: Construcție ferestre
           winery: Domeniu viticol
           "yes": Magazin de artizanat
+        crossing: Trecere de pietoni
         emergency:
           access_point: Punct de acces
           ambulance_station: Stație de ambulanță
@@ -904,7 +857,6 @@ ro:
           bus_stop: Stație de autobuz
           construction: Drum în construcție
           corridor: Coridor
-          crossing: Trecere de pietoni
           cycleway: Pistă de biciclete
           elevator: Lift
           emergency_access_point: Punct de acces de urgență
@@ -944,7 +896,6 @@ ro:
           trailhead: Punct pornire traseu
           trunk: Drum strategic
           trunk_link: Drum strategic
-          turning_circle: Loc de întoarcere
           turning_loop: Buclă de întoarcere
           unclassified: Drum neclasificat
           "yes": Drum
@@ -975,7 +926,6 @@ ro:
           railway: Cale ferată istorică
           roman_road: Drumul roman
           ruins: Ruine
-          rune_stone: Piatra Rune
           stone: Piatră
           tomb: Mormânt
           tower: Turn
@@ -993,8 +943,8 @@ ro:
           brownfield: Teren brun
           cemetery: Cimitir
           commercial: Zonă comercială
-          conservation: Zonă Conservare
-          construction: Șantier în lucru
+          conservation: Conservare
+          construction: Construcție
           farmland: Teren agricol
           farmyard: Curte țărănească
           forest: Pădure
@@ -1015,7 +965,7 @@ ro:
           reservoir: Rezervor
           reservoir_watershed: Cumpăna apelor
           residential: Zonă rezidențială
-          retail: Vânzare cu amănuntul
+          retail: Amănuntul
           village_green: Village Green
           vineyard: Podgorie
           "yes": Utilizarea terenului
@@ -1036,7 +986,7 @@ ro:
           fitness_station: Stație de fitness
           garden: Grădină
           golf_course: Teren de golf
-          horse_riding: Centru de echitație
+          horse_riding: Călărie de cai
           ice_rink: Patinoar
           marina: Marina
           miniature_golf: Minigolf
@@ -1067,9 +1017,7 @@ ro:
           breakwater: Dig
           bridge: Pod
           bunker_silo: Buncăr
-          cairn: Movilă
           chimney: Șemineu
-          clearcut: Cioturi de copac
           communications_tower: Turn de Comunicații
           crane: Macara
           cross: Cruce
@@ -1092,14 +1040,12 @@ ro:
           pumping_station: Stație de Pompare
           reservoir_covered: Rezervor Acoperit
           silo: Siloz
-          snow_cannon: Tun de Zăpadă
           snow_fence: Gard zăpadă
           storage_tank: Rezervor de depozitare
           street_cabinet: Cabinet stradal
           surveillance: Supraveghere
           telescope: Telescop
           tower: Turn
-          utility_pole: Stâlp Utilitar
           wastewater_plant: Stație de epurare a apei
           watermill: Fântână de apă
           water_tap: Robinet de apă
@@ -1120,7 +1066,6 @@ ro:
           "yes": Trecătoare prin munți
         natural:
           atoll: Atol
-          bare_rock: Stânci
           bay: Golf
           beach: Plajă
           cape: Cap
@@ -1154,7 +1099,6 @@ ro:
           sand: Nisip
           scree: Grohotiș
           scrub: Tufăriș
-          shingle: Plajă cu scoici și pietre
           spring: Izvor
           stone: Piatră
           strait: Strâmtoare
@@ -1225,7 +1169,6 @@ ro:
           "yes": Loc
         railway:
           abandoned: Cale ferată abandonată
-          buffer_stop: Tampon tren
           construction: Cale ferată în construcție
           disused: Cale ferată dezafectată
           funicular: Cale Ferată Funicular
@@ -1239,7 +1182,6 @@ ro:
           platform: Platformă feroviară
           preserved: Cale ferată rezervată
           proposed: Cale ferată propusă
-          rail: Șină
           spur: Cale ferată privată
           station: Gară
           stop: Stop la calea ferată
@@ -1248,7 +1190,6 @@ ro:
           switch: Macazul de cale ferată
           tram: Tramvai
           tram_stop: Stație de tramvai
-          turntable: Placă turnantă
           yard: Depou
         shop:
           agrarian: Magazin agricol
@@ -1289,7 +1230,7 @@ ro:
           deli: Deli
           department_store: Magazin specializat
           discount: Magazin cu itemuri la discount
-          doityourself: Magazin de bricolaj
+          doityourself: Bricolaj
           dry_cleaning: Curățătorie chimică
           e-cigarette: Magazin de țigări electronice
           electronics: Magazin de electronice
@@ -1315,7 +1256,7 @@ ro:
           health_food: Magazin de produse naturiste
           hearing_aids: Aparate Auditive
           herbalist: Herbalist
-          hifi: Magazin Hi-Fi
+          hifi: Hi-Fi
           houseware: Magazinul de electrocasnice
           ice_cream: Magazin de înghețate
           interior_decoration: Decoeațiuni interioare
@@ -1375,7 +1316,7 @@ ro:
           artwork: Operă de artă
           attraction: Atracție
           bed_and_breakfast: Cazare și mic dejun
-          cabin: Cabană Turistică
+          cabin: Cabină
           camp_pitch: Teren pentru camping
           camp_site: Loc de campare
           caravan_site: Parc de rulote
@@ -1448,24 +1389,27 @@ ro:
       status: Stare
       reports: Rapoarte
       last_updated: Ultima actualizare
-      last_updated_time_ago_user_html: '%{time_ago} de %{user}'
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> de %{user}
       link_to_reports: Vizualizați rapoartele
       reports_count:
-        one: '%{count} Raport'
-        few: '%{count} Raporturi'
-        other: ""
+        one: 1 Report
+        other: '%{count} Rapoarte'
       reported_item: Articol raportat
       states:
         ignored: Ignorat
         open: Deschis
         resolved: Rezolvat
+    update:
+      new_report: Raportul dvs. a fost înregistrat cu succes
+      successful_update: Raportul dvs. a fost actualizat cu succes
+      provide_details: Furnizați detaliile necesare
     show:
       title: '%{status} Problema #%{issue_id}'
       reports:
-        one: '%{count} raport'
-        few: '%{count} raporturi'
-        other: ""
-      no_reports: Fara rapoarte
+        zero: Nu există rapoarte
+        one: 1 report
+        other: '%{count} rapoarte'
       report_created_at: Prima dată raportată la %{datetime}
       last_resolved_at: Ultima rezolvată la %{datetime}
       last_updated_at: Ultima actualizare la %{datetime} de către %{displayname}
@@ -1496,7 +1440,6 @@ ro:
   issue_comments:
     create:
       comment_created: Comentariul dvs. a fost creat cu succes
-      issue_reassigned: Comentariul dvs. a fost creat și problema a fost reatribuită
   reports:
     new:
       title_html: '%{link} raport'
@@ -1535,12 +1478,14 @@ ro:
       provide_details: Furnizați detaliile necesare
   layouts:
     logo:
-      alt_text: Logoul OpenStreetMap
+      alt_text: Logoul OpenHistoricalMap
     home: Mergi la locul de reședință
     logout: Închide sesiunea
     log_in: Autentificare
+    log_in_tooltip: Autentificare cu un cont existent
     sign_up: Înregistrare
     start_mapping: Start la cartografiere
+    sign_up_tooltip: Creați un cont pentru editare
     edit: Modificare
     history: Istoric
     export: Exportă
@@ -1553,83 +1498,74 @@ ro:
     user_diaries_tooltip: Vizualizați jurnalele de utilizatori
     edit_with: Modificare cu %{editor}
     tag_line: Harta liberă Wiki World Map
-    intro_header: Bine ați venit la OpenStreetMap!
-    intro_text: OpenStreetMap este o hartă a lumii, creată de oameni ca tine și liberă
-      pentru utilizare sub o licență deschisă.
+    intro_header: Bine ați venit la OpenHistoricalMap!
+    intro_text: OpenHistoricalMap este o hartă a lumii, creată de oameni ca tine și
+      liberă pentru utilizare sub o licență deschisă.
     intro_2_create_account: Creează un cont de utilizator
     hosting_partners_html: Gazduirea este susținută de %{ucl}, %{fastly}, %{bytemark}
       și alți %{partners}.
-    partners_ucl: UCL
-    partners_fastly: Fastly
-    partners_bytemark: Găzduire Bytemark
     partners_partners: parteneri
     tou: Termeni de Utilizare
-    osm_offline: Baza de date OpenStreetMap este în prezent offline, în timp ce se
-      efectuează lucrări esențiale de întreținere a bazelor de date.
-    osm_read_only: Baza de date OpenStreetMap este în prezent în modul read-only,
+    osm_offline: Baza de date OpenHistoricalMap este în prezent offline, în timp ce
+      se efectuează lucrări esențiale de întreținere a bazelor de date.
+    osm_read_only: Baza de date OpenHistoricalMap este în prezent în modul read-only,
       în timp ce se efectuează lucrări de întreținere a bazei de date.
-    donate: Sprijiniți OpenStreetMap cu %{link} la Fondul de Upgrade Hardware.
+    donate: Sprijiniți OpenHistoricalMap cu %{link} la Fondul de Upgrade Hardware.
     help: Ajutor
     about: Despre
     copyright: Drepturi de autor
-    communities: Comunități
     community: Comunitate
     community_blogs: Bloguri ale comunității
-    community_blogs_title: Bloguri ale membrilor comunității OpenStreetMap
+    community_blogs_title: Bloguri ale membrilor comunității OpenHistoricalMap
+    foundation: Fundația
+    foundation_title: Fundația OpenHistoricalMap
     make_a_donation:
-      title: Sprijiniți OpenStreetMap printr-o donație în bani
+      title: Sprijiniți OpenHistoricalMap printr-o donație în bani
       text: Faceți o donație
     learn_more: Aflați mai multe
     more: Mai multe
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} a comentat o intrare în jurnal'
+      subject: '[OpenHistoricalMap] %{user} a comentat o intrare în jurnal'
       hi: Salut %{to_user},
-      header: '%{from_user} a comentat intrarea jurnalului OpenStreetMap cu subiectul
+      header: '%{from_user} a comentat intrarea jurnalului OpenHistoricalMap cu subiectul
         %{subject}:'
-      header_html: '%{from_user} a comentat intrarea jurnalului OpenStreetMap cu subiectul
-        %{subject}:'
+      header_html: '%{from_user} a comentat intrarea jurnalului OpenHistoricalMap
+        cu subiectul %{subject}:'
       footer: De asemenea, puteți citi comentariul la %{readurl} și puteți să comentați
         la %{commenturl} sau să răspundeți la %{replyurl}
       footer_html: De asemenea, puteți citi comentariul la %{readurl} și puteți comenta
         la %{commenturl} sau să trimiteți un mesaj autorului la %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Salut, %{to_user},
-      header: '%{from_user} v-a trimis un mesaj prin OpenStreetMap cu subiectul %{subject}:'
-      header_html: '%{from_user} v-a trimis un mesaj OpenStreetMap cu subiectul %{subject}:'
+      header: '%{from_user} v-a trimis un mesaj prin OpenHistoricalMap cu subiectul
+        %{subject}:'
+      header_html: '%{from_user} v-a trimis un mesaj OpenHistoricalMap cu subiectul
+        %{subject}:'
       footer: De asemenea, puteți citi mesajul la %{readurl} și trimite unul autorului
         la %{replyurl}
       footer_html: De asemenea, puteți citi mesajul la %{readurl} și puteți răspunde
         la %{replyurl}
     friendship_notification:
       hi: Salut %{to_user},
-      subject: '[OpenStreetMap] %{user} te-a adaugat ca prieten'
-      had_added_you: '%{user} te-a adăugat ca prieten pe OpenStreetMap.'
+      subject: '[OpenHistoricalMap] %{user} te-a adaugat ca prieten'
+      had_added_you: '%{user} te-a adăugat ca prieten pe OpenHistoricalMap.'
       see_their_profile: Puteți vedea profilul lor la %{userurl}.
       see_their_profile_html: Puteți vedea profilul respectiv la %{userurl}.
       befriend_them: De asemenea, îi puteți adăuga ca prieten la %{befriendurl}
       befriend_them_html: Le puteți adăuga și ca prieten la %{befriendurl}.
-    gpx_description:
-      description_with_tags_html: 'Se pare că fișierul dvs. GPX %{trace_name} cu descrierea
-        %{trace_description} și următoarele etichete: %{tags}'
-      description_with_no_tags_html: Se pare că fișierul dvs. GPX %{trace_name} cu
-        descrierea %{trace_description} și fără etichete
     gpx_failure:
       hi: Salut %{to_user},
       failed_to_import: 'nu a reușit să importe. Iată eroarea:'
-      more_info_html: Mai multe informații despre eșecurile de import GPX și despre
-        cum să le evitați pot fi găsite la %{url}.
-      subject: '[OpenStreetMap] eșec import fișier GPX'
+      subject: '[OpenHistoricalMap] eșec import fișier GPX'
     gpx_success:
       hi: Salut %{to_user},
-      loaded:
-        one: încărcat cu succes cu %{trace_points} dintr-un posibil %{count} punct.
-        few: încărcat cu succes cu %{trace_points} dintr-un posibil %{count} puncte.
-        other: ""
-      subject: '[OpenStreetMap] succes import fișier GPX'
+      loaded_successfully:
+        other: încărcat cu succes cu %{trace_points} din 1 punct posibil.
+      subject: '[OpenHistoricalMap] succes import fișier GPX'
     signup_confirm:
-      subject: '[OpenStreetMap] Bun venit la OpenStreetMap'
+      subject: '[OpenHistoricalMap] Bun venit la OpenHistoricalMap'
       greeting: Salut!
       created: Cineva (sperăm că tu) tocmai a creat un cont la %{site_url}.
       confirm: 'Înainte de a face orice altceva, trebuie să confirmați că această
@@ -1638,14 +1574,14 @@ ro:
       welcome: După ce vă confirmați contul, vă vom oferi câteva informații suplimentare
         pentru a începe.
     email_confirm:
-      subject: '[OpenStreetMap] Confirmați adresa de e-mail'
+      subject: '[OpenHistoricalMap] Confirmați adresa de e-mail'
       greeting: Salut,
       hopefully_you: Cineva (sperăm că tu) dorește să schimbe adresa de e-mail de
         la %{server_url} la %{new_address}.
       click_the_link: Dacă sunteți dumneavoastră, vă rugăm să faceți click pe linkul
         de mai jos pentru a confirma modificarea.
     lost_password:
-      subject: '[OpenStreetMap] Solicitare de resetare a parolei'
+      subject: '[OpenHistoricalMap] Solicitare de resetare a parolei'
       greeting: Salut,
       hopefully_you: Cineva (posibil tu) a cerut resetarea parolei în contul openstreetmap.org
         al acestei adrese de e-mail.
@@ -1655,55 +1591,44 @@ ro:
       anonymous: Un utilizator anonim
       greeting: Salut,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} a comentat una dintre notele tale'
-        subject_other: '[OpenStreetMap] %{commenter} a comentat o notă care vă interesează'
+        subject_own: '[OpenHistoricalMap] %{commenter} a comentat una dintre notele
+          tale'
+        subject_other: '[OpenHistoricalMap] %{commenter} a comentat o notă care vă
+          interesează'
         your_note: '%{commenter} a lăsat un comentariu pe o notă de pe hartă lângă
           %{place}.'
-        your_note_html: '%{commenter} a lăsat un comentariu la una dintre notele dvs.
-          de hartă lângă %{place}.'
         commented_note: '%{commenter} a lăsat un comentariu pe o notă de hartă pe
           care ați comentat-o. Nota este aproape de %{place}.'
-        commented_note_html: '%{commenter} a lăsat un comentariu pe o notă de hartă
-          pe care ați comentat-o. Nota este aproape de %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter}a rezolvat una dintre notele tale'
-        subject_other: '[OpenStreetMap] %{commenter} a rezolvat o notă care vă interesează'
+        subject_own: '[OpenHistoricalMap] %{commenter}a rezolvat una dintre notele
+          tale'
+        subject_other: '[OpenHistoricalMap] %{commenter} a rezolvat o notă care vă
+          interesează'
         your_note: '%{commenter} a rezolvat una dintre notele dvs. de hartă lângă
-          %{place}.'
-        your_note_html: '%{commenter} a rezolvat una dintre notele dvs. de hartă lângă
           %{place}.'
         commented_note: '%{commenter} a rezolvat o notă de hartă pe care ați comentat-o.
           Nota este aproape de %{place}.'
-        commented_note_html: '%{commenter} a rezolvat o notă de hartă pe care ați
-          comentat-o. Nota este aproape de %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} a reactivat una dintre notele tale'
-        subject_other: '[OpenStreetMap] %{commenter} a reactivat o notă care vă interesează'
+        subject_own: '[OpenHistoricalMap] %{commenter} a reactivat una dintre notele
+          tale'
+        subject_other: '[OpenHistoricalMap] %{commenter} a reactivat o notă care vă
+          interesează'
         your_note: '%{commenter} a reactivat una din notele dvs. de hartă lângă %{place}.'
-        your_note_html: '%{commenter} a reactivat una dintre notele dvs. de hartă
-          lângă %{place}.'
         commented_note: '%{commenter} a reactivat o notă de hartă pe care ați comentat-o.
           Nota este aproape de %{place}.'
-        commented_note_html: '%{commenter} a reactivat o notă de hartă pe care ați
-          comentat-o. Nota este aproape de %{place}.'
       details: Mai multe detalii despre notă pot fi găsite la adresa %{url}.
-      details_html: Mai multe detalii despre notă pot fi găsite la %{url}.
     changeset_comment_notification:
       hi: Salut %{to_user},
       greeting: Salut,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} a comentat unul dintre seturile
+        subject_own: '[OpenHistoricalMap] %{commenter} a comentat unul dintre seturile
           de modificări'
-        subject_other: '[OpenStreetMap] %{commenter} a comentat un set de modificări
+        subject_other: '[OpenHistoricalMap] %{commenter} a comentat un set de modificări
           care vă interesează'
         your_changeset: '%{commenter} a lăsat un comentariu la %{time} asupra unui
           set de modificări ale dvs.'
-        your_changeset_html: '%{commenter} a lăsat un comentariu la %{time} la unul
-          dintre seturile dvs. de modificări'
         commented_changeset: '%{commenter} a lăsat un comentariu %{time} cu privire
           la un set de modificări pe care îl urmăriți creat de %{changeset_author}'
-        commented_changeset_html: '%{commenter} a lăsat un comentariu la %{time} la
-          un set de modificări pe care îl vizionați, creat de %{changeset_author}'
         partial_changeset_with_comment: cu comentariul '%{changeset_comment}'
         partial_changeset_with_comment_html: cu comentariul '%{changeset_comment}'
         partial_changeset_without_comment: fără comentarii
@@ -1727,8 +1652,8 @@ ro:
       success: Confirmat contul dvs., vă mulțumim pentru înscrierea!
       already active: Acest cont a fost deja confirmat.
       unknown token: Codul de confirmare a expirat sau nu există.
-      resend_html: Dacă aveți nevoie să retrimitem e-mailul de confirmare, %{reconfirm_link}.
-      click_here: click aici
+      reconfirm_html: Dacă aveți nevoie să retrimitem e-mailul de confirmare, <a href="%{reconfirm}">faceți
+        clic aici</a>.
     confirm_resend:
       failure: Utilizatorul %{name} nu a fost găsit.
     confirm_email:
@@ -1739,12 +1664,6 @@ ro:
       success: Ați confirmat schimbarea adresei de e-mail!
       failure: O adresă de e-mail a fost deja confirmată cu acest token.
       unknown_token: Codul de confirmare a expirat sau nu există.
-    resend_success_flash:
-      confirmation_sent: Am trimis o nouă notă de confirmare către %{email} și, de
-        îndată ce vă confirmați contul, veți putea obține cartografierea.
-      whitelist: Dacă utilizați un sistem antispam care trimite cereri de confirmare,
-        vă rugăm să vă asigurați că ați plasat pe lista albă %{sender}, deoarece nu
-        putem răspunde la nicio solicitare de confirmare.
   messages:
     inbox:
       title: Mesaje primite
@@ -1771,6 +1690,8 @@ ro:
     new:
       title: Trimite mesajul
       send_message_to_html: Trimiteți un mesaj nou către %{name}
+      subject: Subiect
+      body: Textul mesajului
       back_to_inbox: Înapoi la mesaje primite
     create:
       message_sent: Mesaj trimis
@@ -1799,10 +1720,14 @@ ro:
         corect pentru a răspunde.
     show:
       title: Citire mesaj
+      from: De la
+      subject: Subiect
+      date: Dată
       reply_button: Răspunde
       unread_button: Marchează ca necitit
       destroy_button: Ștergeți
       back: Înapoi
+      to: Către
       wrong_user: Sunteți conectat ca `%{user}', dar mesajul pe care ați solicitat
         să îl citiți nu a fost trimis de către sau către respectivul utilizator. Conectați-vă
         ca utilizatorul corect pentru a-l citi.
@@ -1838,7 +1763,6 @@ ro:
       edit_preferences: Editare preferințe
     edit:
       title: Editare preferințe
-      save: Actualizare Preferințe
       cancel: Revocare
     update:
       failure: Nu se pot salva preferințele.
@@ -1846,12 +1770,11 @@ ro:
       message: Preferințele au fost salvate.
   profiles:
     edit:
-      title: Editare Profil
-      save: Actualizează Profil
       cancel: Revocare
       image: Imagine
       gravatar:
         gravatar: Utilizați Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Ce este Gravatar?
         disabled: Gravatar a fost dezactivat.
         enabled: Afișarea Gravatarului dvs. a fost activată.
@@ -1864,12 +1787,6 @@ ro:
       no home location: Nu ați introdus locația dvs. de domiciliu.
       update home location on click: Actualizați locația locuinței dvs. când faceți
         click pe hartă?
-      show: Arată
-      delete: Șterge
-      undelete: Anulează ștergerea
-    update:
-      success: Profil actualizat.
-      failure: Nu s-a putut actualiza profilul.
   sessions:
     new:
       title: Autentificare
@@ -1881,8 +1798,20 @@ ro:
       lost password link: Parolă pierdută/uitată?
       login_button: Autentificare
       register now: Formular de inregistrare
+      with username: 'Aveți deja un cont OpenHistoricalMap? Vă rugăm să vă conectați
+        cu numele dvs. de utilizator și parola:'
       with external: 'Alternativ, utilizați o terță parte pentru a vă conecta:'
+      new to osm: Nou pentru OpenHistoricalMap?
+      to make changes: Pentru a face schimbări în datele OpenHistoricalMap, trebuie
+        să aveți un cont.
+      create account minute: Creează un cont. E nevoie doar de un minut.
       no account: Nu aveți cont încă?
+      account not active: Ne pare rău, contul dvs. nu este încă activ.<br />Utilizați
+        linkul din e-mailul de confirmare a contului pentru a vă activa contul sau<a
+        href="%{reconfirm}">solicitați un nou e-mail de confirmare </a>.
+      account is suspended: Ne pare rău, contul dvs. a fost suspendat din cauza unei
+        activități suspecte.<br />Vă rugăm să contactați <a href="%{webmaster}"> webmasterul</a>  dacă
+        doriți să discutați acest lucru.
       auth failure: Ne pare rău, nu v-am putut conecta la aceste detalii.
       openid_logo_alt: Conectați-vă cu un OpenID
       auth_providers:
@@ -1895,9 +1824,9 @@ ro:
         facebook:
           title: Autentificare cu Facebook
           alt: Conectați-vă cu un cont Facebook
-        microsoft:
-          title: Conectare cu Microsoft
-          alt: Conectare cu un Cont Microsoft
+        windowslive:
+          title: Conectați-vă cu Windows Live
+          alt: Conectați-vă cu un cont Windows Live
         github:
           title: Conectați-vă cu GitHub
           alt: Conectați-vă cu un cont GitHub
@@ -1912,16 +1841,10 @@ ro:
           alt: Conectați-vă cu un AOL OpenID
     destroy:
       title: Ieșire
-      heading: Deconectare din OpenStreetMap
+      heading: Deconectare din OpenHistoricalMap
       logout_button: Ieșire
-    suspended_flash:
-      suspended: Ne pare rău, contul dvs. a fost suspendat din cauza activității suspecte.
-      contact_support_html: Vă rugăm să contactați %{support_link} dacă doriți să
-        discutați acest lucru.
-      support: suport
   shared:
     markdown_help:
-      heading_html: Parsează cu %{kramdown_link}
       headings: Titluri
       heading: Titlu
       subheading: Subtitlu
@@ -1940,54 +1863,41 @@ ro:
   site:
     about:
       next: Înainte
-      heading_html: '%{copyright}OpenStreetMap %{br} contributori'
-      used_by_html: '%{name} furnizează date de hărți pentru mii de site-uri web,
-        aplicații mobile și dispozitive hardware'
+      heading_html: <span>&copy;</span>Contributori<br>OpenHistoricalMap
+      used_by_html: OpenHistoricalMap oferă datele hărților pe mii de site-uri web,
+        aplicații mobile și dispozitive hardware
       lede_text: |-
-        OpenStreetMap este construit de o comunitate de cartografi care contribuie și întrețin datele
+        OpenHistoricalMap este construit de o comunitate de cartografi care contribuie și întrețin datele
         despre drumuri, trasee, cafenele, stații de cale ferată și multe altele din întreaga lume.
       local_knowledge_title: Cunoaștere locală
       local_knowledge_html: |-
-        OpenStreetMap îndrăgește cunoștințele locale. Colaboratorii folosesc imaginile aeriene, dispozitivele GPS și hărțile câmpurilor de joasă tehnologie pentru a verifica faptul că OSM
+        OpenHistoricalMap îndrăgește cunoștințele locale. Colaboratorii folosesc imaginile aeriene, dispozitivele GPS și hărțile câmpurilor de joasă tehnologie pentru a verifica faptul că OSM
         este exactă și actualizată.
       community_driven_title: Condusă de comunitate
-      community_driven_1_html: |-
-        Comunitatea OpenStreetMap este diversă, pasionată și în creștere în fiecare zi.
-        Contribuitorii noștri includ cartografii entuziaști, profesioniști GIS, ingineri
-        rulează serverele OSM, umanitarii cartografiază zonele afectate de dezastre,
-        si multe altele.
-        Pentru a afla mai multe despre comunitate, consultați %{osm_blog_link},
-        %{user_diaries_link}, %{community_blogs_link} și
-        site-ul web %{osm_foundation_link}.
-      community_driven_osm_blog: OpenStreetMap Blog
-      community_driven_user_diaries: jurnale utilizatori
-      community_driven_community_blogs: blogurile comunității
-      community_driven_osm_foundation: Fundația OSM
+      community_driven_html: |-
+        comunitatea OpenHistoricalMap este diversă, pasionată și în creștere în fiecare zi.
+        Contribuitorii noștri includ cartografii entuziasti, profesioniști GIS, ingineri care mențin serverele OSM, maparea umanitară a zonelor afectate de dezastre și multe altele.
+        Pentru a afla mai multe despre comunitate, consultați
+        <a href='https://blog.openstreetmap.org'>OpenHistoricalMap Blog</a>,
+        <a href='%{diary_path}'>user diaries</a>,
+        <a href='https://blogs.openstreetmap.org/'>community blogs</a> și
+        site-ul <a href='https://www.osmfoundation.org/'>Fundației OSM</a> </a>.
       open_data_title: Deschideți datele
-      open_data_1_html: |-
-        OpenStreetMap este %{open_data}: sunteți liber să îl utilizați în orice scop
-        atâta timp cât creditați OpenStreetMap și colaboratorii săi. Dacă modificați sau
-        construiți pe date în anumite moduri, puteți distribui numai rezultatul
-        sub aceeași licență. Consultați %{copyright_license_link} pentru detalii.
-      open_data_open_data: date deschise
-      open_data_copyright_license: Pagina Drepturi de autor și licență
+      open_data_html: 'OpenHistoricalMap este <i>open data</i>: aveți libertatea să
+        o utilizați în orice scop atâta timp cât creditați OpenHistoricalMap și contribuitorii
+        săi. Dacă modificați sau se bazează pe date în anumite moduri, puteți distribui
+        rezultatul numai sub aceeași licență. Consultați <a href=''%{copyright_path}''>
+        Drepturi de autor și Pagina de licență</a> pentru detalii.'
       legal_title: Legal
-      legal_1_1_html: |-
-        Acest site și multe alte servicii conexe sunt operate oficial de către
-        %{openstreetmap_foundation_link} (OSMF)
-        în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă
-        la %{terms_of_use_link}, %{aup_link} și %{privacy_policy_link}.
-        ​Căutați detalii
-      legal_1_1_openstreetmap_foundation: Fundația OpenStreetMap
-      legal_1_1_terms_of_use: Termeni de Utilizare
-      legal_1_1_aup: Politica de Utilizare Acceptabilă
-      legal_1_1_privacy_policy: Politica de Confidențialitate
-      legal_2_1_html: |-
-        Vă rugăm %{contact_the_osmf_link}
-        dacă aveți întrebări legate de licență, drepturi de autor sau alte întrebări legale.
-      legal_2_1_contact_the_osmf: contactați OSMF
-      legal_2_2_html: OpenStreetMap, logo-ul lupei și starea hărții sunt %{registered_trademarks_link}.
-      legal_2_2_registered_trademarks: mărci înregistrate ale OSMF
+      legal_1_html: |-
+        Acest site și multe alte servicii conexe sunt operate în mod formal de <a href='https://osmfoundation.org/'>Fundația OpenHistoricalMap</a> (OSMF)
+        în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termeni de utilizare</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politici de utilizare acceptabile</a> și a <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politica de confidențialitate</a>.
+      legal_2_html: |-
+        Vă rugăm să <a href='https://osmfoundation.org/Contact'>contactați OSMF</a>
+        dacă aveți licență, drepturi de autor sau alte întrebări legale.
+        <br>
+        OpenHistoricalMap, logo-ul lupa și starea hărții sunt <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">mărci înregistrate ale OSMF</a>.
       partners_title: Parteneri
     copyright:
       foreign:
@@ -2004,169 +1914,71 @@ ro:
         mapping_link: Începeți să cartografiați
       legal_babble:
         title_html: Drepturi de autor și licență
-        introduction_1_html: |-
-          OpenStreetMap%{registered_trademark_link} este %{open_data}, licențiat în conformitate cu
-          %{odc_odbl_link} (ODbL) de către %{osm_foundation_link} (OSMF).
-        introduction_1_open_data: date deschise
-        introduction_1_odc_odbl: Open Data Commons Licență pentru baze de date deschise
-        introduction_1_osm_foundation: Fundația OpenStreetMap
-        introduction_2_html: |-
-          Sunteți liber să copiați, să distribuiți, să transmiteți și să adaptați datele noastre,
-          atâta timp cât creditați OpenStreetMap și a acestuia
-          contribuabili. Dacă modificați sau construiți pe baza datelor noastre, dvs
-          poate distribui rezultatul numai sub aceeași licență. The
-          %{legal_code_link} complet explică drepturile și responsabilitățile dvs.
-        introduction_2_legal_code: cod juridic
-        introduction_3_html: Documentația noastră este licențiată sub licența %{creative_commons_link}
-          (CC BY-SA 2.0).
-        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
-        credit_title_html: Cum se creditează OpenStreetMap
-        credit_1_html: 'Acolo unde utilizați datele OpenStreetMap, vi se cere să faceți
-          următoarele două lucruri:'
-        credit_2_1: Oferiți credit OpenStreetMap afișând notificarea noastră privind
-          drepturile de autor.
-        credit_2_2: Asigurați-vă că datele sunt disponibile în baza licenței pentru
-          baze de date deschise.
-        credit_3_html: |-
-          Pentru notificarea privind drepturile de autor, avem cerințe diferite despre cum ar trebui să fie
-          afișate, în funcție de modul în care utilizați datele noastre. De exemplu, diferit
-          se aplică reguli cu privire la modul de afișare a notificării privind drepturile de autor, în funcție de faptul că aveți
-          a creat o hartă navigabilă, o hartă tipărită sau o imagine statică. Detalii complete pe
-          cerințele pot fi găsite în %{attribution_guidelines_link}.
-        credit_3_attribution_guidelines: Orientări Privind Atribuirea
-        credit_4_1_html: |-
-          Pentru a clarifica faptul că datele sunt disponibile în cadrul Open
-          Licență pentru baze de date, puteți face link la %{this_copyright_page_link}.
-          Alternativ, și ca o cerință dacă distribuiți OSM într-un
-          formular de date, puteți numi și conecta direct la licență(e). În media
-          unde link-urile nu sunt posibile (de exemplu, lucrări tipărite), vă sugerăm
-          direcționați-vă cititorii către openstreetmap.org (poate prin extinderea
-          „OpenStreetMap” la această adresă completă) și la opendatacommons.org.
-          În acest exemplu, creditul apare în colțul hărții.
-        credit_4_1_this_copyright_page: această pagină de drepturi de autor
+        intro_1_html: |-
+          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> este <i>open data</i>, licențiat sub licență <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) by the  <a
+          href="https://osmfoundation.org/">Fundația OpenHistoricalMap</a> (OSMF).
+        intro_2_html: Sunteți liber să copiați, să distribuiți, să transmiteți și
+          să vă adaptați datele, atâta timp cât creditați OpenHistoricalMap și contribuitorii
+          ei. Dacă modificați sau folosiți datele noastre, puteți distribui rezultatul
+          doar sub aceeași licență. Aici  <a href="https://opendatacommons.org/licenses/odbl/1.0/">codul
+          legal</a> sunt explicate drepturile și responsabilitățile.
+        intro_3_1_html: |-
+          Documentația noastră este licențiată sub <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).
+        credit_title_html: Cum se creditează OpenHistoricalMap
+        credit_1_html: Noi cerem să utilizați creditul&copy; contribuitori OpenHistoricalMap&
+          rdquo;.
+        credit_2_1_html: |-
+          De asemenea, trebuie să clarificați faptul că datele sunt disponibile în cadrul licenței libere a bazei de date și, dacă folosim bucăți de hartă, atunci cartografierea este licențiată de CC BY-SA. Puteți face acest lucru prin conectarea la
+          <a href="https://www.openstreetmap.org/copyright"> această pagină de copyright</a>.
+          Alternativ, și ca o cerință dacă distribuim OSM într-un
+          formularul de date, puteți numi și să vă conectați direct la licența (licențele). Acolo unde legăturile nu sunt posibile (de exemplu lucrări tipărite), vă sugerăm să direcționați cititorii dvs. la openstreetmap.org (probabil prin extinderea "OpenHistoricalMap" la această adresă completă), la opendatacommons.org, și dacă este cazul, la creativecommons.org.
         attribution_example:
-          alt: Exemplu de atribuire a OpenStreetMap pe o pagină Web
+          alt: Exemplu de atribuire a OpenHistoricalMap pe o pagină Web
           title: Exemplul de atribuire
         more_title_html: Aflați mai multe.
-        more_1_1_html: Citiți mai multe despre utilizarea datelor noastre și despre
-          cum să ne creditați, la %{osmf_licence_page_link}.
-        more_1_1_osmf_licence_page: Pagina de licență OSMF
-        more_2_1_html: |-
-          Deși OpenStreetMap este date deschise, nu putem oferi o
-          API gratuit pentru hărți pentru terți.
-          Consultați %{api_usage_policy_link}, %{tile_usage_policy_link} și %{nominatim_usage_policy_link}.
-        more_2_1_api_usage_policy: Politica de utilizare API
-        more_2_1_tile_usage_policy: Politica de Utilizare a Plăcilor
-        more_2_1_nominatim_usage_policy: Politica Utilizare Nominatim
+        more_1_html: |-
+          Citiți mai multe despre utilizarea datelor noastre și despre cum să ne creditați la <a
+          href="https://osmfoundation.org/Licence">Pagina de licență OSMF</a>.
         contributors_title_html: Contribuitorii noștri
         contributors_intro_html: |-
           Contribuitorii noștri sunt mii de indivizi. De asemenea, includem
           date cu licență de la agențiile naționale de cartografiere
           și alte surse, printre care:
-        contributors_at_credit_html: |-
-          %{austria}: conține date de la %{stadt_wien_link} (sub %{cc_by_link}), %{land_vorarlberg_link}
-          și Land Tirol (sub %{cc_by_at_with_amendments_link}).
-        contributors_at_austria: Austria
-        contributors_at_stadt_wien: Stadt Wien
-        contributors_at_cc_by: CC BY
-        contributors_at_land_vorarlberg: Land Vorarlberg
-        contributors_at_cc_by_at_with_amendments: CC BY AT cu amendamente
-        contributors_au_credit_html: |-
-          %{australia}: Încorporează sau dezvoltat folosind limite administrative &copy; %{geoscape_australia_link}
-          licențiat de Commonwealth of Australia sub %{cc_licence_link}.
-        contributors_au_australia: Australia
-        contributors_au_geoscape_australia: Geoscape Australia
-        contributors_au_cc_licence: Creative Commons Attribution 4.0 International
-          licence (CC BY 4.0)
-        contributors_ca_credit_html: |-
-          %{canada}: Conține date de la
-          GeoBase&reg;, GeoGratis (&copy; Departamentul de Natură
-          Resources Canada), CanVec (&copy; Department of Natural
-          Resources Canada) și StatCan (Divizia de Geografie,
-          Statistics Canada).
-        contributors_ca_canada: Canada
-        contributors_fi_credit_html: |-
-          %{finland}: Conține date din
-          National Land Survey of Finland's Topographic Database
-          și alte seturi de date, sub %{nlsfi_license_link}.
-        contributors_fi_finland: Finlanda
-        contributors_fi_nlsfi_license: Licența NLSFI
-        contributors_fr_credit_html: |-
-          %{france}: Conține date provenite din
-          Direction Générale des Impôts.
-        contributors_fr_france: Franța
-        contributors_nl_credit_html: '%{netherlands}: Conține &copy; AND data, 2007
-          (%{and_link})'
-        contributors_nl_netherlands: Țările de Jos
-        contributors_nz_credit_html: |-
-          %{new_zealand}: Conține date provenite din %{linz_data_service_link}
-          și licențiate pentru reutilizare sub %{cc_by_link}.
-        contributors_nz_new_zealand: Noua Zeelandă
-        contributors_nz_linz_data_service: Serviciul de date LINZ
-        contributors_nz_cc_by: CC BY 4.0
-        contributors_rs_credit_html: |-
-          %{serbia}: conține date din %{rgz_link} și %{open_data_portal}
-          (informații publice din Serbia), 2018.
-        contributors_rs_serbia: Serbia
-        contributors_rs_rgz: Autoritatea Geodetică a Serbiei
-        contributors_rs_open_data_portal: Portalul Național de Date Deschise
-        contributors_si_credit_html: |-
-          %{slovenia}: conține date din %{gu_link} și %{mkgp_link}
-          (informații publice din Slovenia).
-        contributors_si_slovenia: Slovenia
-        contributors_si_gu: Autoritatea de Topografie și Cartografiere
-        contributors_si_mkgp: Ministerul Agriculturii, Pădurilor și Alimentației
-        contributors_es_credit_html: |-
-          %{spain}: Conține date provenite din
-          Institutul Geografic Național Spaniol (%{ign_link}) și
-          Sistemul Cartografic Național (%{scne_link})
-          licențiat pentru reutilizare sub %{cc_by_link}.
-        contributors_es_spain: Spania
-        contributors_es_cc_by: CC BY 4.0
-        contributors_za_credit_html: '%{south_africa}: Conține date provenite de la
-          %{ngi_link}, drepturi de autor de stat rezervate.'
-        contributors_za_south_africa: Africa de Sud
-        contributors_za_ngi: 'Directoratul Șef: Informații Geo-Spațiale Naționale'
-        contributors_gb_credit_html: |-
-          %{united_kingdom}: Contains Ordnance
-          Datele sondajului &copy; Dreptul de autor al coroanei și dreptul de bază de date
-          2010-2023.
-        contributors_gb_united_kingdom: Regatul Unit
-        contributors_2_html: |-
-          Pentru mai multe detalii despre acestea și despre alte surse care au fost folosite
-          pentru a ajuta la îmbunătățirea OpenStreetMap, vă rugăm să consultați %{contributors_page_link} de pe Wiki OpenStreetMap.
-        contributors_2_contributors_page: Pagina contribuitorilor
+        contributors_footer_1_html: |-
+          Pentru detalii suplimentare despre acestea și despre alte surse care au fost utilizate
+          pentru a vă ajuta să îmbunătățiți OpenHistoricalMap, consultați <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">Pagina contribuitorilor</a> pe Wiki-ul OpenHistoricalMap.
         contributors_footer_2_html: |-
-          Includerea datelor în OpenStreetMap nu implică faptul că originalul
-          furnizor de date acceptă OpenStreetMap, oferă orice garanție sau
+          Includerea datelor în OpenHistoricalMap nu implică faptul că originalul
+          furnizor de date acceptă OpenHistoricalMap, oferă orice garanție sau
           acceptă orice răspundere.
         infringement_title_html: Încălcarea drepturilor de autor
         infringement_1_html: Responsabilii OSM sunt reamintiți să nu adauge niciodată
           date de la nici una dintre sursele protejate de drepturi de autor (de ex.,
           Hărți Google sau hărți tipărite) fără permisiunea explicită din partea deținătorilor
           drepturilor de autor.
-        infringement_2_1_html: |-
-          Dacă credeți că materialul protejat prin drepturi de autor a fost inadecvat
-          adăugat la baza de date OpenStreetMap sau la acest site, vă rugăm să consultați
-          la %{takedown_procedure_link} sau un fișier direct la nostru
-          %{online_filing_page_link}.
-        infringement_2_1_takedown_procedure: procedura de eliminare
-        infringement_2_1_online_filing_page: pagina de depunere online
-        trademarks_title: Mărci înregistrate
-        trademarks_1_1_html: |-
-          OpenStreetMap, logo-ul lupei și State of the Map sunt mărci comerciale înregistrate ale
-          Fundația OpenStreetMap. Dacă aveți întrebări despre utilizarea mărcilor, vă rugăm să consultați
-          %{trademark_policy_link}.
-        trademarks_1_1_trademark_policy: Politica Mărcilor Înregistrate
+        infringement_2_html: |-
+          Dacă credeți că materialul protejat prin drepturi de autor a fost necorespunzător adăugați la baza de date OpenHistoricalMap sau la acest site, vă rugăm să consultați la <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">takedown
+          procedure</a> procedura noastră de retragere</a> sau fișier direct la adresa noastră
+          <a href="https://dmca.openstreetmap.org/">on-line filing page</a>.
+        trademarks_title_html: <span id="trademarks"></span>Mărci înregistrate
+        trademarks_1_html: OpenHistoricalMap, sigla cu lupă și starea hărții sunt
+          mărci comerciale înregistrate ale Fundației OpenHistoricalMap. Dacă aveți
+          întrebări cu privire la utilizarea mărcilor, consultați <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Trademark
+          Policy</a>.
     index:
       js_1: Utilizați fie un browser care nu acceptă JavaScript, fie aveți JavaScript
         dezactivat.
-      js_2: OpenStreetMap folosește JavaScript pentru hărțile goale.
+      js_2: OpenHistoricalMap folosește JavaScript pentru hărțile goale.
       permalink: Legătură permanentă
       shortlink: Legătură scurtată
       createnote: Adaugă o notă
       license:
-        copyright: Drepturi de autor OpenStreetMap și contribuitori, sub licență deschisă
+        copyright: Drepturi de autor OpenHistoricalMap și contribuitori, sub licență
+          deschisă
       remote_failed: Editarea a eșuat - asigurați-vă că JOSM sau Merkaartor este încărcat
         și că opțiunea de control de la distanță este activată
     edit:
@@ -2183,33 +1995,37 @@ ro:
       area_to_export: Zona pentru export
       manually_select: Selectați manual o altă zonă
       format_to_export: Format de exportat
-      osm_xml_data: Date XML OpenStreetMap
+      osm_xml_data: Date XML OpenHistoricalMap
       map_image: Imagine hartă (arată stratul standard)
       embeddable_html: HTML încorporabil
       licence: Licență
-      licence_details_html: Datele OpenStreetMap sunt licențiate sub %{odbl_link}
-        (ODbL).
-      odbl: Open Data Commons Open Database License
+      export_details_html: Datele OpenHistoricalMap sunt licențiate sub licență <a
+        href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
+        Database License</a> (ODbL).
       too_large:
         advice: 'Dacă exportul de mai sus nu reușește, vă recomandăm să utilizați
           una dintre sursele de mai jos:'
-        body: Această zonă este prea mare pentru a fi exportată ca date XML OpenStreetMap.
+        body: Această zonă este prea mare pentru a fi exportată ca date XML OpenHistoricalMap.
           Vă rugăm să măriți sau să selectați o zonă mai mică sau să utilizați una
           dintre sursele enumerate mai jos pentru descărcarea de date în bloc.
         planet:
           title: Planeta OSM
-          description: Copii actualizate periodic ale bazei de date complete OpenStreetMap
+          description: Copii actualizate periodic ale bazei de date complete OpenHistoricalMap
         overpass:
           title: Overpass API
           description: Descărcați această casetă de restricționare dintr-o oglindă
-            a bazei de date OpenStreetMap
+            a bazei de date OpenHistoricalMap
         geofabrik:
           title: Descărcări Geofabrik
           description: Extracte actualizate periodic de continente, țări și orașe
             selectate
+        metro:
+          title: Extracte Metro
+          description: Extrase pentru principalele orașe ale lumii și zonele înconjurătoare
+            ale acestora
         other:
           title: Alte surse
-          description: Surse suplimentare listate pe wiki-ul OpenStreetMap
+          description: Surse suplimentare listate pe wiki-ul OpenHistoricalMap
       options: Opțiuni
       format: Format
       scale: Scară
@@ -2225,81 +2041,73 @@ ro:
     fixthemap:
       title: Raportați o problemă / Reparați harta
       how_to_help:
-        title: Cum poți ajuta
+        title: <h3>Cum poți ajuta<h3>
         join_the_community:
           title: Alăturați-vă comunității
           explanation_html: Dacă ați observat o problemă cu datele noastre de pe hartă,
             de exemplu un drum care lipsește sau adresa dvs., cel mai bun mod de a
-            rezolva această problemă este să vă alăturați comunității OpenStreetMap
+            rezolva această problemă este să vă alăturați comunității OpenHistoricalMap
             și să adăugați sau să reparați singuri datele.
         add_a_note:
-          instructions_1_html: |-
-            Doar faceți clic pe %{note_icon} sau pe aceeași pictogramă de pe afișajul hărții.
-            Aceasta va adăuga un marcator pe hartă, pe care îl puteți muta
+          instructions_html: |-
+            Doar faceți clic pe <a class='icon note'></a> sau pe aceeași pictogramă pe hartă.
+            Acest lucru va adăuga un marcator pe hartă, pe care îl puteți muta
             prin tragere. Adăugați mesajul dvs., apoi faceți clic pe Salvați, iar alți cartografi vor investiga.
       other_concerns:
         title: Alte preocupări
-        concerns_html: |-
-          Dacă aveți nelămuriri cu privire la modul în care sunt utilizate datele noastre sau cu privire la conținut, vă rugăm să consultați
-          %{copyright_link} pentru mai multe informații legale sau contactați %{working_group_link} corespunzător.
-        copyright: Pagina de drepturi de autor
-        working_group: Grup de lucru al OSMF
+        explanation_html: |-
+          Dacă aveți nelămuriri cu privire la modul în care datele noastre sunt utilizate sau despre conținut, vă rugăm să consultați site-ul nostru
+          <a href='/copyright'>pagina de copyright</a> pentru mai multe informații juridice sau contactați persoana potrivită
+          <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>Grupul de lucru OSMF</a>.
     help:
       title: Obținerea de ajutor
-      introduction: OpenStreetMap are mai multe resurse pentru a învăța despre proiect,
-        pentru a răspunde și pune întrebări și pentru a colaborara și documenta subiectele
-        legate de cartografiere.
+      introduction: OpenHistoricalMap are mai multe resurse pentru a învăța despre
+        proiect, pentru a răspunde și pune întrebări și pentru a colaborara și documenta
+        subiectele legate de cartografiere.
       welcome:
         url: Bun venit
-        title: Bine ați venit la OpenStreetMap
+        title: Bine ați venit la OpenHistoricalMap
         description: Începeți cu acest ghid rapid care acoperă elementele de bază
-          OpenStreetMap.
+          OpenHistoricalMap.
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Ro:Beginners%27_guide
         title: Ghidul începătorilor
         description: Ghid menținut de comunitate pentru începători.
       help:
+        url: https://help.openstreetmap.org/
         title: Ajutor Forum
-        description: Adresează o întrebare sau caută răspunsuri pe site-ul OpenStreetMap
+        description: Adresează o întrebare sau caută răspunsuri pe site-ul OpenHistoricalMap
           de întrebări și răspunsuri.
       mailing_lists:
         title: Lista de e-mail-uri
         description: Adresați o întrebare sau discutați despre probleme interesante
           pe o gamă largă de liste de discuții de actualitate sau regionale.
-      community:
-        title: Forumul Comunității
-        description: Un loc comun pentru discuții despre OpenStreetMap.
+      forums:
+        title: Forum
+        description: Întrebări și discuții pentru cei care preferă o interfață stil
+          de bord.
       irc:
         title: IRC
         description: Chat interactiv în multe limbi diferite și pe mai multe subiecte.
       switch2osm:
         title: switch2osm
         description: Ajutați companiile și organizațiile să treacă la hărți bazate
-          pe OpenStreetMap și la alte servicii.
+          pe OpenHistoricalMap și la alte servicii.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Pentru organizații
-        description: Cu o organizație care face planuri pentru OpenStreetMap? Găsiți
-          ce trebuie să știți în Matricea de întâmpinare.
+        description: Cu o organizație care face planuri pentru OpenHistoricalMap?
+          Găsiți ce trebuie să știți în Matricea de întâmpinare.
       wiki:
+        url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
-        description: Caută pe wiki pentru o documentație OpenStreetMap detaliată.
-    potlatch:
-      removed: Editorul dvs. implicit OpenStreetMap este setat ca Potlatch. Deoarece
-        Adobe Flash Player a fost retras, Potlatch nu mai este disponibil pentru utilizare
-        într-un browser web.
-      desktop_application_html: Puteți utiliza în continuare Potlatch %{download_link}.
-      download: descărcând aplicația desktop pentru Mac și Windows
-      id_editor_html: Alternativ, puteți seta editorul implicit la iD, care rulează
-        în browserul dvs. web așa cum a făcut anterior Potlatch. %{change_preferences_link}.
-      change_preferences: Schimbați-vă preferințele aici
+        description: Caută pe wiki pentru o documentație OpenHistoricalMap detaliată.
     any_questions:
       title: Întrebări?
       paragraph_1_html: |-
-        OpenStreetMap vă pune la dispoziție resurse pentru a afla despre proiect, pentru a pune și a răspunde la
-        întrebări și pentru a discuta și a documenta colaborativ despre cartografiere.
-        %{help_link}. Ești o organizație care are planuri pentru OpenStreetMap? %{welcome_mat_link}.
-      get_help_here: Obțineți ajutor aici
-      welcome_mat: Consultați Pagina de Bun Venit
+        OpenHistoricalMap dispune de mai multe resurse pentru a învăța despre proiect, a cere și a răspunde la
+        întrebări și discuta în colaborare și pentru a documenta subiecte de cartografiere.
+        <a href='%{help_url}'>Obțineți ajutor aici</a>.
     sidebar:
       search_results: Rezultatele căutării
       close: Închide
@@ -2352,7 +2160,6 @@ ro:
           common:
           - Comun
           - luncă
-          - grădină
           retail: Spațiul de retail
           industrial: Zonă industrială
           commercial: Zonă comercială
@@ -2387,76 +2194,37 @@ ro:
     welcome:
       title: Bun venit!
       introduction: |-
-        Bun venit la OpenStreetMap, harta liberă și editabilă a lumii. Acum că sunteți autentificat
+        Bun venit la OpenHistoricalMap, harta liberă și editabilă a lumii. Acum că sunteți autentificat
         , ești pregătit să începi cartografierea. Iată un ghid rapid cu cele mai importante
         lucruri pe care trebuie să le cunoașteți.
       whats_on_the_map:
         title: Ce este pe Hartă
         on_the_map_html: |-
-          OpenStreetMap este un loc pentru cartografierea lucrurilor care sunt %{real_and_current} -
-          include milioane de clădiri, drumuri și alte detalii despre locații. Puteți pune pe hartă orice caracteristici ale limii reale de care sunteți interesați.
-        real_and_current: reale și curente
-        off_the_map_html: Ce %{doesnt} include sunt date subiective cum ar fi recenzii,
-          date istorice sau ipotetice și date provenite din surse protejate prin drepturi
-          de autor. Dacă nu aveți permisiune, nu copiați de pe hărți online sau hărți
-          clasice.
-        doesnt: nu
+          OpenHistoricalMap este un loc pentru cartografierea lucrurilor care sunt ambele <em>reale și curente</em> -
+          include milioane de clădiri, drumuri și alte detalii despre locații. Puteți pune pe hartă
+          indiferent de caracteristicile lumii reale caracteristicile care sunt interesante pentru tine.
+        off_the_map_html: "Ceea ce <em>nu include</em> include date cum ar fi evaluări,
+          date istorice sau\ncaracteristici ipotetice și date provenite din surse
+          protejate prin drepturi de autor. Dacă nu aveți \npermisiune, nu copiați
+          din hărți online sau hărți de hârtie."
       basic_terms:
         title: Termeni de bază pentru cartografiere
-        paragraph_1: OpenStreetMap are propriul jargon. Iată câteva cuvinte cheie
+        paragraph_1: OpenHistoricalMap are propriul jargon. Iată câteva cuvinte cheie
           care vă vor veni în ajutor.
-        an_editor_html: Un %{editor} este un program sau un website pe care îl puteți
-          utiliza pentru a edita harta.
-        a_node_html: Un %{node} este un punct de pe hartă, de exemplu un singur restaurant
-          sau copac.
-        a_way_html: O %{way} este o linie sau o zonă, cum ar fi un drum, un curs de
-          apă, un lac sau o clădire.
-        a_tag_html: O %{tag} este un atribut al unui nod sau a unei căi, de exemplu
-          numele restaurantului sau limita de viteză a unui drum.
-        editor: editor
-        node: nod
-        way: cale
-        tag: etichetă
       rules:
         title: Reguli!
         para_1_html: |-
-          OpenStreetMap are puține reguli formale, dar ne așteptăm ca toți participanții să colaboreze și să comunice cu comunitatea. Dacă vă gândiți la
-          orice activități, altele decât editarea manuală, vă rugăm să citiți și să urmați instrucțiunile de pe
-          %{imports_link} și %{automated_edits_link}.
-        imports: Importurile
-        automated_edits: Editări automate
+          OpenHistoricalMap are câteva reguli formale, dar ne așteptăm ca toți participanții să colaboreze
+          și să comunice cu comunitatea. Dacă aveți în vedere
+          orice alte activități, altele decât editarea manuală, citiți și urmați liniile directoare cu privire la <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'></a>
+          <a href='https://wiki.openstreetmap.org/wiki/Import/Guidelines'>Importurile</a> și
+          <a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Editări automate</a>.
       start_mapping: Începeți să cartografiați
       add_a_note:
-        title: Nu aveți timp pentru editare? Adaugați o notă!
+        title: <h3>Nu aveți timp pentru editare? Adaugați o notă!<h3>
         para_1: |-
           Dacă doriți doar ceva îndreptați o eroare minoră și nu aveți timp să vă înscrieți și să învățați cum să editați, este
           ușor să adăugați o notă.
-        para_2_html: |-
-          Accesați %{map_link} și faceți clic pe pictograma notă: %{note_icon}.
-          Acest lucru va adăuga un marcator pe hartă, pe care îl puteți muta prin glisare.
-          Adăugați mesajul dvs., apoi faceți clic pe Salvare și alți cartografi vor investiga.
-        the_map: harta
-    communities:
-      title: Comunitățile
-      lede_text: "Oameni din întreaga lume contribuie sau folosesc OpenStreetMap.\nÎn
-        timp ce mulți participă ca indivizi, alții au format comunități.\nAceste grupuri
-        au o gamă largă de dimensiuni și reprezintă zone geografice de la orașe mici
-        până la regiuni mari cu mai multe țări. \nDe asemenea, pot fi formale sau
-        informale."
-      local_chapters:
-        title: Capitolele locale
-        about_text: |-
-          Capitolele locale sunt grupuri la nivel de țară sau la nivel de regiune care au făcut pasul oficial de
-          înființarea de entități juridice non-profit. Ele reprezintă harta și cartografii zonei atunci când au de-a face cu administrația locală, firme și mass-media. Ei și-au format, de asemenea, o afiliere
-          cu Fundația OpenStreetMap (OSMF), oferindu-le o legăturăa către organismul de conducere legal și de drepturi de autor.
-        list_text: 'Următoarele comunități sunt înființate oficial drept capitole
-          locale:'
-      other_groups:
-        title: Alte Grupuri
-        other_groups_html: |-
-          Nu este nevoie să se înființeze în mod oficial un grup în aceeași măsură ca și Capitolele locale.
-          Într-adevăr, multe grupuri există cu mare succes ca o adunare informală de oameni sau ca un grup comunitar. Oricine le poate configura sau se poate alătura. Citiți mai multe pe %{communities_wiki_link}.
-        communities_wiki: Pagina wiki comunități
   traces:
     visibility:
       private: Privat (partajat ca puncte anonime, neordonate)
@@ -2468,6 +2236,7 @@ ro:
     new:
       upload_trace: Încărcați Urma GPS
       visibility_help: ce înseamnă asta?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Ajutor
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2515,14 +2284,15 @@ ro:
       visibility: 'Vizibilitate:'
       confirm_delete: Șterge această urmă?
     trace_paging_nav:
+      showing_page: Pagina %{page}
       older: Urme mai vechi
       newer: Urme mai noi
     trace:
       pending: ÎN AȘTEPTARE
       count_points:
-        one: un punct
+        one: 1 punct
         few: '%{count} puncte'
-        other: '%{count} de puncte'
+        other: ""
       more: mai multe
       trace_details: Vezi detaliile urmei
       view_map: Vezi hartă
@@ -2535,20 +2305,11 @@ ro:
       in: în
     index:
       public_traces: Trasee GPS publice
-      my_gps_traces: Track-uri GPS
       public_traces_from: Traseele GPS publice de la %{user}
       description: Căutați încărcări recente din traseul GPS
       tagged_with: etichetat cu %{tags}
-      empty_title: Nimic aici încă
-      empty_upload_html: '%{upload_link} sau aflați mai multe despre înregistrările
-        GPS pe %{wiki_link}.'
-      upload_new: Încărcați un track nou
-      wiki_page: pagina wiki
       upload_trace: Încărcați urma
-      all_traces: Toate track-urile
       my_traces: Înregistrările mele GPS
-      traces_from: Traseele GPS publice de la %{user}
-      remove_tag_filter: Eliminați filtrul de etichete
     destroy:
       scheduled_for_deletion: Traseul este programat pentru ștergere
     make_public:
@@ -2560,7 +2321,7 @@ ro:
       message: În prezent, sistemul de stocare și încărcare a fișierelor GPX nu este
         disponibil.
     georss:
-      title: Urmele GPS OpenStreetMap
+      title: Urmele GPS OpenHistoricalMap
     description:
       description_with_count:
         one: Fișier GPX cu %{count} puncte de la %{user}
@@ -2574,18 +2335,13 @@ ro:
     require_admin:
       not_an_admin: Trebuie să fii administrator pentru a efectua acea acțiune.
     setup_user_auth:
-      blocked_zero_hour: Aveți un mesaj urgent pe site-ul OpenStreetMap. Trebuie să
-        citiți mesajul înainte de a putea salva editările.
+      blocked_zero_hour: Aveți un mesaj urgent pe site-ul web OpenHistoricalMap. Trebuie
+        să citiți mesajul înainte de a vă putea salva modificările.
       blocked: Accesul la API a fost blocat. Conectați-vă la interfața web pentru
         a afla mai multe.
       need_to_see_terms: Accesul dvs. la API este suspendat temporar. Conectați-vă
         la interfața web pentru a vedea Termenii colaboratorului. Nu trebuie să fiți
         de acord, dar trebuie să le vizualizați.
-    settings_menu:
-      account_settings: Setările contului
-      oauth1_settings: Setări OAuth 1
-      oauth2_applications: Aplicații OAuth 2
-      oauth2_authorizations: Autorizări OAuth 2
   oauth:
     authorize:
       title: Autorizați accesul la contul dvs.
@@ -2613,16 +2369,6 @@ ro:
       flash: Ați revocat tokenul pentru %{application}
     permissions:
       missing: Nu ați permis accesul aplicației la această facilitate
-    scopes:
-      read_prefs: Citiți preferințele utilizatorului
-      write_prefs: Modificați preferințele utilizatorului
-      write_diary: Creează înregistrări în jurnal, comentarii și fă-ți prieteni
-      write_api: Modificați harta
-      read_gpx: Citiți track-urile GPS private
-      write_gpx: Încărcați track-uri GPS
-      write_notes: Modificați notele
-      read_email: Citiți adresa de e-mail a utilizatorului
-      skip_authorization: Aprobare automată a cererii
   oauth_clients:
     new:
       title: Înregistrare aplicație nouă
@@ -2665,40 +2411,8 @@ ro:
       flash: Actualizarea informațiilor despre client cu succes
     destroy:
       flash: A distrus înregistrarea aplicației clientului
-  oauth2_applications:
-    index:
-      title: Aplicațiile mele client
-      no_applications_html: Aveți o aplicație pe care doriți să o înregistrați pentru
-        a fi utilizată la noi folosind standardul %{oauth2}? Trebuie să vă înregistrați
-        aplicația înainte ca aceasta să poată face solicitări OAuth către acest serviciu.
-      new: Înregistrați o nouă aplicație
-      name: Nume
-      permissions: Permisiuni
-    application:
-      edit: Editați
-      delete: Șterge
-      confirm_delete: Ștergeți această aplicație?
-    new:
-      title: Înregistrați o nouă aplicație
-    edit:
-      title: Editați-vă aplicația
-    show:
-      edit: Editați
-      delete: Șterge
-      confirm_delete: Ștergeți această aplicație?
-      client_id: ID client
-      client_secret: Secretul clientului
-      client_secret_warning: Asigurați-vă că salvați acest secret - nu va fi accesibil
-        din nou
-      permissions: Permisiuni
-      redirect_uris: Redirecționați URI-uri
-    not_found:
-      sorry: Ne pare rău, acea aplicație nu a putut fi găsită.
   oauth2_authorizations:
     new:
-      title: Este necesară autorizarea
-      introduction: Autorizați %{application} să vă acceseze contul cu următoarele
-        permisiuni?
       authorize: Autorizează
       deny: Respinge
     error:
@@ -2707,10 +2421,8 @@ ro:
       title: Code de autorizare
   oauth2_authorized_applications:
     index:
-      title: Aplicațiile mele autorizate
       application: Aplicație
       permissions: Permisiuni
-      no_applications_html: Nu ați autorizat încă nicio aplicație %{oauth2}.
     application:
       revoke: Revocă accesul
       confirm_revoke: Revocați accesul acestei aplicații?
@@ -2719,17 +2431,14 @@ ro:
       title: Înregistrare
       no_auto_account_create: Din păcate, în prezent nu putem crea automat un cont
         pentru dvs.
-      please_contact_support_html: Vă rugăm să contactați %{support_link} pentru a
-        aranja crearea unui cont - vom încerca să rezolvăm solicitarea cât mai repede
-        posibil.
-      support: suport
+      contact_support_html: Vă rugăm să contactați <a href="%{support}">suportul</a>
+        pentru a organiza crearea unui cont - vom încerca să soluționăm cererea cât
+        mai repede posibil.
       about:
         header: Liberă și editabilă
-        paragraph_1: Spre deosebire de alte hărți, OpenStreetMap este creat complet
-          de oameni ca tine și este gratuit pentru oricine să repare, să actualizeze,
-          să descarce și să folosească.
-        paragraph_2: Înscrie-te pentru a începe să contribui. Vă vom trimite un e-mail
-          pentru a vă confirma contul.
+      email address: 'Adresa de e-mail:'
+      confirm email address: 'Confirmați adresa de e-mail:'
+      display name: 'Numele afișat:'
       display name description: Numele dvs. de utilizator afișat public. Puteți schimba
         acest lucru mai târziu în preferințe.
       external auth: 'Verificarea terță parte:'
@@ -2738,11 +2447,6 @@ ro:
         dar unele instrumente suplimentare sau serverul pot avea nevoie de una.
       continue: Înregistrare
       terms accepted: Vă mulțumim pentru acceptarea noilor termeni de contribuire!
-      email_confirmation_help_html: Adresa dvs. nu este afișată public, consultați
-        %{privacy_policy_link} pentru mai multe informații.
-      privacy_policy: Politica de confidențialitate
-      privacy_policy_title: Politica de confidențialitate OSMF, inclusiv secțiunea
-        privind adresele de e-mail
     terms:
       title: Termeni
       heading: Termeni
@@ -2761,11 +2465,11 @@ ro:
         în Domeniul Public
       consider_pd_why: Ce este aceasta?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
-        un %{readable_summary_link} și câteva %{informal_translations_link}'
-      readable_summary: rezumat care poate fi citit de om
-      informal_translations: traduceri informale
+      guidance_html: 'Informații care vă ajută să înțelegeți acești termeni: un <a
+        href="%{summary}"> rezumat lizibil pentru oameni</a> și câteva <a href="%{translations}">traduceri
+        informale</a>'
       continue: Continuă
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Declină
       you need to accept or decline: Citiți și apoi acceptați sau refuzați continuarea
         noilor Termeni de contribuire.
@@ -2778,6 +2482,7 @@ ro:
       terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni de
         Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
       terms_declined_link: această pagină wiki
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Nici un utilizator găsit
       heading: Utilizatorul %{user} nu există
@@ -2786,6 +2491,7 @@ ro:
       deleted: șters
     show:
       my diary: Jurnalul meu
+      new diary entry: O nouă înregistrare în jurnal
       my edits: Modificările mele
       my traces: Traseele mele
       my notes: Notițele mele
@@ -2797,7 +2503,6 @@ ro:
       my_dashboard: Dashboardul meu
       blocks on me: Blochează pe mine
       blocks by me: Blochează de mine
-      edit_profile: Editează profilul
       send message: Trimite mesajul
       diary: Jurnal
       edits: Modificare
@@ -2814,6 +2519,8 @@ ro:
       created from: 'Creat de la:'
       status: 'Statut:'
       spam score: 'Scorul spam:'
+      description: Descriere
+      user location: Locația utilizatorului
       role:
         administrator: Acest utilizator este un administrator
         moderator: Acest utilizator este un moderator
@@ -2828,14 +2535,15 @@ ro:
       comments: Comentarii
       create_block: Blochează acest utilizator
       activate_user: Activează acest utilizator
+      deactivate_user: Deactivează acest utilizator
       confirm_user: Confirmă acest utilizator
-      unconfirm_user: Deconfirmați acest utilizator
-      unsuspend_user: Anulați suspendarea acestui utilizator
       hide_user: Ascunde acest utilizator
       unhide_user: Descoperă acest utilizator
       delete_user: Șterge acest utilizator
       confirm: Confirmă
       report: Reclamă acest utilizator
+    set_home:
+      flash success: Locația locuinței a fost salvată cu succes
     go_public:
       flash success: Toate editările dvs. sunt acum publice, iar acum vi se permite
         să editați.
@@ -2853,23 +2561,25 @@ ro:
     suspended:
       title: Cont Suspendat
       heading: Cont Suspendat
-      support: suport
-      automatically_suspended: Ne pare rău, contul dvs. a fost suspendat automat din
-        cauza activității suspecte.
-      contact_support_html: Această decizie va fi examinată de un administrator în
-        curând sau puteți contacta %{support_link} dacă doriți să discutați despre
-        acest lucru.
+      body_html: |-
+        <p>
+          Ne pare rău, contul dvs. a fost suspendat automat din cauza
+           activității suspicioase.
+        </p>
+        <p>
+          Această decizie va fi revizuită de un administrator în scurt timp sau
+           puteți contacta %{webmaster} dacă doriți să discutați acest lucru.
+        </p>
     auth_failure:
       connection_failed: Conectarea la furnizorul de autentificare a eșuat
       invalid_credentials: Autentificări nevalide de autentificare
       no_authorization_code: Nu există cod de autorizare
       unknown_signature_algorithm: Algoritm de semnătură necunoscut
       invalid_scope: Domeniu nevalid
-      unknown_error: Autentificare eșuată
     auth_association:
-      heading: ID-ul dvs. nu este încă asociat cu un cont OpenStreetMap.
+      heading: ID-ul dvs. nu este încă asociat cu un cont OpenHistoricalMap.
       option_1: |-
-        Dacă sunteți nou în OpenStreetMap, vă rugăm să creați un cont nou
+        Dacă sunteți nou în OpenHistoricalMap, vă rugăm să creați un cont nou
         utilizând formularul de mai jos.
       option_2: |-
         Dacă aveți deja un cont, vă puteți conecta la contul dvs.
@@ -2908,6 +2618,9 @@ ro:
       title: Crearea blocului pe %{name}
       heading_html: Crearea blocului pe %{name}
       period: Cât timp, începând acum, utilizatorul va fi blocat de la API.
+      tried_contacting: Am contactat utilizatorul și i-am cerut să se oprească.
+      tried_waiting: Am dat o perioadă rezonabilă de timp pentru ca utilizatorul să
+        răspundă la aceste comunicări.
       back: Vezi toate blocările
     edit:
       title: Crearea blocării pe %{name}
@@ -2920,6 +2633,10 @@ ro:
       block_period: Perioada de blocare trebuie să fie una dintre valorile selectabile
         din lista derulată.
     create:
+      try_contacting: Încercați să contactați utilizatorul înainte de a-i bloca și
+        a le oferi un timp rezonabil pentru a răspunde.
+      try_waiting: Încercați să dați utilizatorului un timp rezonabil de reacție înainte
+        de a-l bloca.
       flash: A creat o blocare pe utilizator %{name}.
     update:
       only_creator_can_edit: Doar moderatorul care a creat acest bloc poate să îl
@@ -2946,25 +2663,20 @@ ro:
       time_past_html: Terminat în urmă cu %{time}.
       block_duration:
         hours:
-          one: o oră
-          few: '%{count} ore'
-          other: '%{count} de ore'
+          one: 1 oră
+          other: '%{count} ore'
         days:
-          one: o zi
-          few: '%{count} zile'
-          other: '%{count} de zile'
+          one: 1 zi
+          other: '%{count} zile'
         weeks:
-          one: o săptămână
-          few: '%{count} săptămâni'
-          other: '%{count} de săptămâni'
+          one: 1 săptămână
+          other: '%{count} săptămâni'
         months:
-          one: o lună
-          few: '%{count} luni'
-          other: '%{count} de luni'
+          one: 1 lună
+          other: '%{count} luni'
         years:
-          one: un an
-          few: '%{count} ani'
-          other: '%{count} de ani'
+          one: 1 an
+          other: '%{count} ani'
     blocks_on:
       title: Blocări pe %{name}
       heading_html: Lista blocărilor pe %{name}
@@ -3006,53 +2718,13 @@ ro:
     index:
       title: Notele trimise sau comentate de %{user}
       heading: Notele %{user}
-      subheading_html: Note %{submitted} sau %{commented} de %{user}
-      subheading_submitted: trimise
-      subheading_commented: comentate
+      subheading_html: Notele trimise sau comentate de %{user}
       no_notes: Nicio notă
       id: Id
       creator: Creator
       description: Descriere
       created_at: Creat  la
       last_changed: Ultima modificare
-    show:
-      title: 'Notă: %{id}'
-      description: Descriere
-      open_title: 'Notă nerezolvată #%{note_name}'
-      closed_title: 'Notă rezolvată #%{note_name}'
-      hidden_title: 'Notă ascunsă #%{note_name}'
-      event_opened_by_html: Creat de %{user} %{time_ago}
-      event_opened_by_anonymous_html: Creat anonim %{time_ago}
-      event_commented_by_html: Comentariu de la %{user} %{time_ago}
-      event_commented_by_anonymous_html: Comentariu anonim %{time_ago}
-      event_closed_by_html: Rezolvată de %{user} %{time_ago}
-      event_closed_by_anonymous_html: Rezolvată anonim %{time_ago}
-      event_reopened_by_html: Reactivată de %{user} %{time_ago}
-      event_reopened_by_anonymous_html: Reactivată anonim %{time_ago}
-      event_hidden_by_html: Ascunsă de %{user} %{time_ago}
-      report: Raportează această notă
-      anonymous_warning: Această notă include comentarii de la utilizatori anonimi,
-        care ar trebui verificați independent.
-      hide: Ascunde
-      resolve: Rezolvă
-      reactivate: Reactivează
-      comment_and_resolve: Comentariu & Rezolvare
-      comment: Comentariu
-      report_link_html: Dacă această notă conține informații sensibile care trebuie
-        eliminate, puteți %{link}.
-      other_problems_resolve: Pentru toate celelalte probleme legate de notă, vă rugăm
-        să o rezolvați singur printr-un comentariu.
-      other_problems_resolved: Pentru toate celelalte probleme, rezolvarea este suficientă.
-      disappear_date_html: Această notă rezolvată va dispărea de pe hartă în %{disappear_in}.
-    new:
-      title: Notă nouă
-      intro: A apărut o greșeală sau lipsește ceva? Lăsați alți cartografi să știe
-        pentru că putem rezolva asta. Deplasați marcatorul în poziția corectă și introduceți
-        o notă pentru a explica problema.
-      advice: Notația dvs. este publică și poate fi utilizată pentru actualizarea
-        hărții, astfel încât să nu introduceți informații personale sau informații
-        din hărți protejate prin drepturi de autor sau listări de directoare.
-      add: Adaugă notație
   javascripts:
     close: Închide
     share:
@@ -3090,14 +2762,13 @@ ro:
         metersPopup:
           one: Sunteți la un metru de acest punct
           few: Sunteți la %{count} metri de acest punct
-          other: Sunteți la %{count} de metri de acest punct
+          other: ""
         feetPopup:
-          one: Sunteți la un picior de acest punct
-          few: Sunteți la %{count} picioare de acest punct
-          other: Sunteți la %{count} de picioare de acest punct
+          one: Sunteți la un picior unitate de măsură de acest punct
+          few: Sunteți la %{count} picioare unitate de măsură de acest punct
+          other: ""
       base:
         standard: Standard
-        cyclosm: CyclOSM
         cycle_map: Hartă de ciclism
         transport_map: Hartă de transport
         hot: Umanitară
@@ -3109,17 +2780,8 @@ ro:
         gps: Urmele GPS publice
         overlays: Activați suprapuneri pentru depanarea hărții
         title: Straturi
-      openstreetmap_contributors: OpenStreetMap contribuitori
-      make_a_donation: Faceți o Donație
-      website_and_api_terms: Termenii site-ului web și API
-      cyclosm_credit: Stil de plăci de %{cyclosm_link} găzduit de %{osm_france_link}
-      osm_france: OpenStreetMap Franța
-      thunderforest_credit: Plăci prin amabilitatea lui %{thunderforest_link}
-      andy_allan: Andy Allan
-      opnvkarte_credit: Tile-uri prin amabilitatea lui %{memomaps_link}
-      memomaps: MeMoMaps
-      hotosm_credit: Stilul tile-urilor creat de %{hotosm_link} găzduit de %{osm_france_link}
-      hotosm_name: Echipa Umanitară OpenStreetMap
+      cyclosm_name: CyclOSM
+      hotosm_credit: Stil Tiles de %{hotosm_link} găzduit de %{osm_france_link}
     site:
       edit_tooltip: Modifică harta
       edit_disabled_tooltip: Măriți pentru a edita harta
@@ -3136,6 +2798,23 @@ ro:
         unsubscribe: Dezabonare
         hide_comment: ascunde
         unhide_comment: arată
+    notes:
+      new:
+        intro: A apărut o greșeală sau lipsește ceva? Lăsați alți cartografi să știe
+          pentru că putem rezolva asta. Deplasați marcatorul în poziția corectă și
+          introduceți o notă pentru a explica problema.
+        advice: Notația dvs. este publică și poate fi utilizată pentru actualizarea
+          hărții, astfel încât să nu introduceți informații personale sau informații
+          din hărți protejate prin drepturi de autor sau listări de directoare.
+        add: Adaugă notație
+      show:
+        anonymous_warning: Această notă include comentarii de la utilizatori anonimi,
+          care ar trebui verificați independent.
+        hide: Ascunde
+        resolve: Rezolvă
+        reactivate: Reactivează
+        comment_and_resolve: Comentariu & Rezolvare
+        comment: Comentariu
     edit_help: Deplasați harta și măriți o locație pe care doriți să o editați, apoi
       faceți click aici.
     directions:
@@ -3147,14 +2826,9 @@ ro:
         graphhopper_bicycle: Bicicletă (GraphHopper)
         graphhopper_car: Mașină (GraphHopper)
         graphhopper_foot: Mers (GraphHopper)
-        fossgis_valhalla_bicycle: Bicicletă (Valhalla)
-        fossgis_valhalla_car: Maşina (Valhalla)
-        fossgis_valhalla_foot: Mers (Valhalla)
       descend: Coborâre
       directions: Direcții
       distance: Distanță
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
       errors:
         no_route: Nu s-a putut găsi un traseu între cele două locuri.
         no_place: Scuze - nu am găsit '%{place}'.

@@ -2,7 +2,6 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Durga Soren
-# Author: Gravitystorm
 # Author: Manik Soren
 # Author: Prakash Baski
 # Author: Rocky 734
@@ -24,7 +23,7 @@ sat:
       client_application:
         create: ᱧᱩᱛᱩᱢ ᱚᱞ
         update: ᱦᱟᱹᱞᱤᱭᱟᱹᱜ
-      oauth2_application:
+      doorkeeper_application:
         update: ᱟᱹᱨᱩ ᱯᱷᱮᱨᱟᱣ
       trace:
         create: ᱞᱟᱫᱮ
@@ -70,7 +69,7 @@ sat:
         title: ᱥᱟᱛᱚᱢ
         latitude: ᱚᱠᱷᱟᱝᱥᱚ
         longitude: ᱫᱨᱟᱜᱷᱤᱢᱟᱝᱥᱚ
-        language_code: ᱯᱟᱹᱨᱥᱤ
+        language: ᱯᱟᱹᱨᱥᱤ
       doorkeeper/application:
         name: ᱧᱩᱛᱩᱢ
       friend:
@@ -116,6 +115,7 @@ sat:
       openid: OpenID
       google: ᱜᱩᱜᱟᱹᱞ
       facebook: ᱯᱷᱮᱥᱵᱩᱠ
+      windowslive: Windows Live
       github: ᱜᱤᱴᱦᱚᱵ
       wikipedia: ᱣᱤᱠᱤᱯᱤᱰᱤᱭᱟ
   api:
@@ -124,7 +124,7 @@ sat:
         opened_at_html: '%{when} ᱵᱮᱱᱟᱣ ᱦᱚᱭᱟᱠᱟᱱᱟ'
         opened_at_by_html: '%{when} ᱵᱮᱱᱟᱣ ᱦᱚᱭᱟᱠᱟᱱᱟ %{user}ᱫᱟᱨᱟᱭᱛᱮ'
       rss:
-        title: OpenStreetMap ᱠᱷᱟᱴᱟᱹ ᱚᱞᱠᱚ
+        title: OpenHistoricalMap ᱠᱷᱟᱴᱟᱹ ᱚᱞᱠᱚ
       entry:
         comment: ᱚᱠᱛᱟ
         full: ᱜᱚᱴᱟ ᱠᱷᱟᱴᱟᱹ ᱚᱞ
@@ -200,6 +200,11 @@ sat:
     tag_details:
       tags: ᱴᱮᱜᱠᱚ
       telephone_link: '%{phone_number}ᱠᱟᱸᱞ ᱢᱮ'
+    note:
+      title: '%{id} :ᱠᱷᱟᱴᱟᱹ ᱚᱞ'
+      new_note: ᱱᱟᱶᱟ ᱠᱷᱟᱴᱚ ᱚᱞ
+      description: ᱵᱤᱵᱨᱚᱱ
+      report: ᱱᱚᱶᱟ ᱠᱷᱟᱴᱚ ᱚᱞ ᱨᱤᱯᱚᱴ ᱢᱮ
     query:
       introduction: ᱱᱚᱠᱥᱟ ᱨᱮ ᱚᱛᱟᱭ ᱢᱮ ᱥᱩᱨᱠᱚᱣᱟ ᱜᱩᱱᱠᱚ ᱧᱟᱢ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱾
       nearby: ᱥᱩᱨᱠᱚᱣᱟ ᱜᱩᱱᱠᱚ
@@ -207,7 +212,7 @@ sat:
     changeset_paging_nav:
       showing_page: ᱥᱟᱦᱴᱟ %{page}
       next: ᱤᱱᱟ ᱛᱟᱭᱚᱢ >>
-      previous: « ᱛᱟᱭᱚᱢ
+      previous: << ᱛᱟᱭᱚᱢ
     changeset:
       anonymous: ᱵᱟᱝ ᱵᱟᱰᱟᱭ
       no_edits: (ᱥᱟᱯᱲᱟᱣ ᱵᱟᱝ)
@@ -480,6 +485,7 @@ sat:
     log_in: ᱵᱚᱞᱚᱜ ᱢᱮ
     sign_up: ᱧᱩᱛᱩᱢ ᱚᱞ
     start_mapping: ᱱᱚᱠᱥᱟ ᱛᱮᱭᱟᱨ ᱮᱦᱚᱵ ᱢᱮ
+    sign_up_tooltip: ᱥᱟᱯᱲᱟᱣ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱠᱷᱟᱛᱟ ᱵᱮᱱᱟᱣ ᱢᱮ
     edit: ᱥᱟᱯᱲᱟᱣ
     history: ᱱᱟᱜᱟᱢ
     export: ᱵᱷᱮᱡᱟ
@@ -488,7 +494,7 @@ sat:
     user_diaries: ᱵᱮᱵᱷᱟᱨᱤᱡ ᱠᱚᱣᱟ ᱰᱟᱭᱨᱤᱠᱚ
     user_diaries_tooltip: ᱵᱮᱵᱷᱟᱨᱤᱡ ᱰᱟᱭᱨᱤᱠᱚ ᱧᱮᱞ ᱢᱮ
     edit_with: '%{editor} ᱛᱮ ᱥᱟᱯᱲᱟᱣ ᱢᱮ'
-    intro_header: OpenStreetMap ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ!
+    intro_header: OpenHistoricalMap ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ!
     intro_2_create_account: ᱢᱤᱫ ᱵᱮᱵᱷᱟᱨᱤᱭᱟᱹ ᱠᱷᱟᱛᱟ ᱛᱮᱭᱟᱨ ᱛᱟᱢ
     help: ᱜᱚᱸᱲᱚᱸ
     about: ᱵᱟᱵᱚᱛ
@@ -512,10 +518,14 @@ sat:
       destroy_button: ᱜᱮᱫ ᱜᱤᱰᱤ
     new:
       title: ᱠᱷᱚᱵᱚᱨ ᱠᱩᱞ ᱢᱮ
+      subject: ᱵᱤᱥᱚᱭ
+      body: ᱦᱚᱲᱢᱚ
     outbox:
       subject: ᱵᱤᱥᱚᱭ
       date: ᱢᱟᱹᱦᱤᱛ
     show:
+      subject: ᱵᱤᱥᱚᱭ
+      date: ᱢᱟᱹᱦᱤᱛ
       destroy_button: ᱜᱮᱫ ᱜᱤᱰᱤ
       back: ᱛᱟᱭᱚᱢ
     sent_message_summary:
@@ -540,6 +550,7 @@ sat:
       lost password link: ᱟᱢᱟᱜ ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫᱽ ᱟᱫᱟᱠᱟᱫᱟᱢ?
       login_button: ᱵᱚᱞᱚᱜ ᱢᱮ
       register now: ᱱᱤᱛᱜᱮ ᱚᱞ ᱦᱚᱪᱚᱜ ᱢᱮ
+      new to osm: OpenHistoricalMap ᱨᱮ ᱱᱟᱶᱟ ᱜᱮᱭᱟᱢ?
       no account: ᱠᱷᱟᱛᱟ ᱵᱟᱱᱩᱜ ᱛᱟᱢᱟ?
       auth_providers:
         github:
@@ -574,7 +585,7 @@ sat:
       export_button: ᱵᱷᱮᱡᱟ
     help:
       welcome:
-        title: OpenStreetMap ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ
+        title: OpenHistoricalMap ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ
     sidebar:
       close: ᱵᱚᱸᱫᱚ
     search:
@@ -615,6 +626,8 @@ sat:
       edit: ᱥᱟᱯᱲᱟᱣ
       owner: 'ᱢᱟᱹᱞᱤᱠ:'
       description: 'ᱵᱤᱵᱨᱚᱱ:'
+    trace_paging_nav:
+      showing_page: ᱥᱟᱦᱴᱟ %{page}
     trace:
       more: ᱵᱟᱹᱲᱛᱤ
       view_map: ᱱᱚᱠᱥᱟ ᱧᱮᱞ ᱢᱮ
@@ -635,6 +648,9 @@ sat:
   users:
     new:
       title: ᱧᱩᱛᱩᱢ ᱚᱞ
+      email address: 'ᱤᱢᱮᱞ ᱴᱷᱤᱠᱟᱹᱬᱟ:'
+      confirm email address: 'ᱤᱢᱮᱞ ᱴᱷᱤᱠᱟᱹᱬᱟ ᱜᱚᱴᱟᱭ ᱢᱮ:'
+      display name: ᱩᱫᱩᱜᱟ ᱧᱩᱠᱩᱢ
       continue: ᱧᱩᱛᱩᱢ ᱚᱞ
     terms:
       consider_pd_why: ᱱᱤᱭᱟᱹ ᱫᱚ ᱪᱮᱫ?
@@ -654,6 +670,8 @@ sat:
       add as friend: ᱜᱟᱛᱮ ᱥᱮᱞᱮᱫᱮᱢ
       email address: 'ᱤᱢᱮᱞ ᱴᱷᱤᱠᱟᱹᱬᱟ:'
       status: 'ᱫᱚᱥᱟ:'
+      description: ᱵᱤᱵᱨᱚᱱ
+      user location: ᱵᱮᱵᱷᱟᱨᱤᱡ-ᱟ ᱡᱟᱭᱜᱟ
       comments: ᱚᱠᱛᱟᱠᱚ
       confirm: ᱜᱚᱴᱟᱭ ᱢᱮ
     index:
@@ -677,17 +695,7 @@ sat:
       status: ᱫᱚᱥᱟ
       showing_page: ᱥᱟᱦᱴᱟ %{page}
       next: ᱤᱱᱟ ᱛᱟᱭᱚᱢ >>
-      previous: « ᱛᱟᱭᱚᱢ
-  notes:
-    show:
-      title: '%{id} :ᱠᱷᱟᱴᱟᱹ ᱚᱞ'
-      description: ᱵᱤᱵᱨᱚᱱ
-      report: ᱱᱚᱶᱟ ᱠᱷᱟᱴᱚ ᱚᱞ ᱨᱤᱯᱚᱴ ᱢᱮ
-      hide: ᱩᱠᱩ
-      comment: ᱚᱠᱛᱟ
-    new:
-      title: ᱱᱟᱶᱟ ᱠᱷᱟᱴᱚ ᱚᱞ
-      add: ᱠᱷᱟᱴᱟᱹ ᱚᱞ ᱥᱮᱞᱮᱫ ᱢᱮ
+      previous: << ᱛᱟᱭᱚᱢ
   javascripts:
     close: ᱵᱚᱸᱫᱚ
     share:
@@ -721,6 +729,12 @@ sat:
       show:
         comment: ᱚᱠᱛᱟ
         hide_comment: ᱫᱟᱱᱟᱝ
+    notes:
+      new:
+        add: ᱠᱷᱟᱴᱟᱹ ᱚᱞ ᱥᱮᱞᱮᱫ ᱢᱮ
+      show:
+        hide: ᱩᱠᱩ
+        comment: ᱚᱠᱛᱟ
     directions:
       engines:
         fossgis_osrm_bike: ᱵᱟᱭᱥᱟᱭᱠᱤᱞ (OSRM)

@@ -27,6 +27,7 @@ mo:
       message: Mесаж
       node: Нод
       node_tag: Нод таг
+      notifier: Нотификатор
       old_node: Нод векь
       old_node_tag: Таг нод векь
       old_relation: Релацие веке
@@ -47,7 +48,7 @@ mo:
         title: Субьект
         latitude: Латитудине
         longitude: Лонӂитудине
-        language_code: Лимбэ
+        language: Лимбэ
       friend:
         user: Утилизатор
         friend: Приетен
@@ -87,11 +88,11 @@ mo:
         link text: че май есте ши аста?
       public editing:
         enabled link text: че май есте ши аста?
+      public editing note:
+        heading: 'Редактаря публикэ:'
       contributor terms:
         link text: че май есте ши аста?
       save changes button: Апликаря модификэрилор
-    go_public:
-      heading: 'Редактаря публикэ:'
   browse:
     created: Креат
     closed: Ынкис
@@ -112,6 +113,10 @@ mo:
       relation: Релаций (%{count})
       relation_paginated: Релаций (%{x}-%{y} дин %{count})
       comment: Коментарий (%{count})
+      hidden_commented_by_html: Коментариу аскунс скрис де %{user} <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      commented_by_html: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
       join_discussion: Вэ ругэм сэ ынтраць ын конт пентру а вэ алэтура дискуцией
       discussion: Дискуцие
     node:
@@ -146,6 +151,31 @@ mo:
       loading: Се ынкаркэ...
     tag_details:
       tags: Маркаже
+    note:
+      title: 'Нотэ: %{id}'
+      new_note: Нотэ ноуэ
+      description: Дескриере
+      open_title: 'Нотэ нерезолватэ #%{note_name}'
+      closed_title: 'Нотэ резолватэ #%{note_name}'
+      hidden_title: 'Нотэ аскунсэ #%{note_name}'
+      opened_by_html: Креатэ де %{user} <abbr title='%{exact_time}'>ку %{when} ын
+        урмэ</abbr>
+      opened_by_anonymous_html: Креатэ аноним <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
+      commented_by_html: Коментариу скрис де %{user} <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      commented_by_anonymous_html: Коментариу аноним <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      closed_by_html: Резолватэ де %{user} <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
+      closed_by_anonymous_html: Резолватэ аноним <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
+      reopened_by_html: Редескисэ де %{user} <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
+      reopened_by_anonymous_html: Редескисэ аноним <abbr title='%{exact_time}'>ку
+        %{when} ын урмэ</abbr>
+      hidden_by_html: Аскунсэ де кэтре %{user} <abbr title='%{exact_time}'>ку %{when}
+        ын урмэ</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: Паӂина %{page}
@@ -515,11 +545,12 @@ mo:
       search: Кэутаре
   layouts:
     logo:
-      alt_text: Логотипул OpenStreetMap
+      alt_text: Логотипул OpenHistoricalMap
     logout: Ынкееря сесиуний
     log_in: Ынтраря ын конт
     sign_up: Креаря контулуй
     start_mapping: Ынчепець картографиеря
+    sign_up_tooltip: Креаць ун конт пентру а ынчепе редактаря
     edit: Редактаре
     history: Историк
     export: Експортаре
@@ -529,18 +560,18 @@ mo:
     gps_traces: Трасаре-GPS
     user_diaries: Журналеле утилизаторилор
     edit_with: Редактаря ку ажуторул %{editor}
-    intro_header: Бине аць венит ла OpenStreetMap!
-    intro_text: OpenStreetMap есте о хартэ а лумий, креатэ де оамень ка ши думнявоастрэ,
+    intro_header: Бине аць венит ла OpenHistoricalMap!
+    intro_text: OpenHistoricalMap есте о хартэ а лумий, креатэ де оамень ка ши думнявоастрэ,
       ши поате фи утилизатэ ын мод либер суб о личенцэ дескисэ.
     intro_2_create_account: Креаць ун конт де утилизатор
-    partners_ucl: Колеӂиул Университар дин Лондра (UCL)
-    partners_bytemark: Хостингул Bytemark
     partners_partners: партенерь
     help: Ажутор
     about: Деспре проект
     copyright: Дрепт де аутор
     community: Комунитате
     community_blogs: Блогуриле комунитэций
+    foundation: Фондул
+    foundation_title: Фондул OpenHistoricalMap
     make_a_donation:
       text: Фачець о донацие
     learn_more: Афлаць май мулте
@@ -568,6 +599,8 @@ mo:
       lost password link: Аць уйтат парола?
       login_button: Ынтраря ын конт
       register now: Ынреӂистраци-вэ акум
+      create account minute: Креаць ун конт де утилизатор. Ачест лукру ну вэ ва луа
+        мулт тимп.
       no account: Ну авець ун конт де утилизатор?
       openid_logo_alt: Ынтраря ку ажуторул OpenID
       auth_providers:
@@ -597,25 +630,18 @@ mo:
           alt: Ынтраря ку ажуторул AOL OpenID
     destroy:
       title: Ынкееря сесиуний
-      heading: Ешире дин OpenStreetMap
+      heading: Ешире дин OpenHistoricalMap
       logout_button: Ынкееря сесиуний
   site:
     export:
       title: Експортаре
   users:
+    new:
+      display name: 'Нумеле афишат:'
     show:
       my diary: Журналул меу
       my messages: Месажеле меле
       my profile: Профилул меу
       my settings: Реглажеле меле
       my comments: Коментарииле меле
-  notes:
-    show:
-      title: 'Нотэ: %{id}'
-      description: Дескриере
-      open_title: 'Нотэ нерезолватэ #%{note_name}'
-      closed_title: 'Нотэ резолватэ #%{note_name}'
-      hidden_title: 'Нотэ аскунсэ #%{note_name}'
-    new:
-      title: Нотэ ноуэ
 ...

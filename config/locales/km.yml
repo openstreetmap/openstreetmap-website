@@ -51,6 +51,7 @@ km:
       message: សារ​
       node: ខ្នែង
       node_tag: ផ្លាកខ្នែង
+      notifier: ជូនដំណឹង
       old_node: ខ្នែងចាស់
       old_node_tag: ផ្លាកខ្នែងចាស់
       old_relation: ទំនាក់ទំនង​ចាស់​
@@ -74,7 +75,7 @@ km:
         title: ប្រធានបទ​
         latitude: រយៈកម្ពស់
         longitude: រយៈបណ្ដោយ
-        language_code: ភាសា​
+        language: ភាសា​
       friend:
         user: អ្នកប្រើប្រាស់​
         friend: មិត្ត​
@@ -180,6 +181,16 @@ km:
     tag_details:
       tags: ស្លាក​
       wikipedia_link: អត្ថបទ %{page} នៅលើវិគីភីឌា
+    note:
+      title: កំណត់សម្គាល់៖ %{id}
+      new_note: កំណត់សម្គាល់ថ្មី
+      description: ការពិពណ៌នា
+      opened_by_html: បង្កើតដោយ %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
+      opened_by_anonymous_html: បង្កើតឡើងដោយជនអនាមិក <abbr title='%{exact_time}'>%{when}
+        មុន</abbr>
+      commented_by_html: មតិពី %{user} <abbr title='%{exact_time}'>%{when} មុន</abbr>
+      commented_by_anonymous_html: មតិពីជនអនាមិក <abbr title='%{exact_time}'>%{when}
+        មុន</abbr>
   changesets:
     changeset_paging_nav:
       showing_page: ទំព័រ %{page}
@@ -611,6 +622,7 @@ km:
   layouts:
     logout: កត់ឈ្មោះចេញ
     log_in: កត់ឈ្មោះចូល
+    log_in_tooltip: កត់ឈ្មោះចូលជាមួយគណនីមានហើយ
     sign_up: ចុះឈ្មោះ​ចូល
     edit: កែប្រែ​
     history: ប្រវត្តិ​
@@ -630,13 +642,13 @@ km:
     message_notification:
       hi: សួស្ដី %{to_user},
     friendship_notification:
-      subject: '[OpenStreetMap] %{user} បានបន្ថែមអ្នកជា​មិត្ត​'
-      had_added_you: '%{user} បានបន្ថែមអ្នកជា​មិត្ត​នៅ [OpenStreetMap] ។'
+      subject: '[OpenHistoricalMap] %{user} បានបន្ថែមអ្នកជា​មិត្ត​'
+      had_added_you: '%{user} បានបន្ថែមអ្នកជា​មិត្ត​នៅ [OpenHistoricalMap] ។'
       see_their_profile: អ្នកអាចមើល​ប្រវត្តិរូប​របស់ពួកគេនៅ %{userurl} និងបន្ថែម​ពួកគេជាមិត្តរបស់អ្នកវិញបើអ្នកចង់​។
     signup_confirm:
-      subject: '[OpenStreetMap] សូមស្វាគមន៍មកកាន់ OpenStreetMap'
+      subject: '[OpenHistoricalMap] សូមស្វាគមន៍មកកាន់ OpenHistoricalMap'
     email_confirm:
-      subject: '[OpenStreetMap] បញ្ជាក់​អាសយដ្ឋាន​អ៊ីមែលរបស់អ្នក​'
+      subject: '[OpenHistoricalMap] បញ្ជាក់​អាសយដ្ឋាន​អ៊ីមែលរបស់អ្នក​'
       greeting: សួស្ដី,
     lost_password:
       greeting: សួស្ដី​,
@@ -655,11 +667,17 @@ km:
       subject: ប្រធានបទ​
       date: កាលបរិច្ឆេទ​
     new:
+      subject: ប្រធានបទ​
       back_to_inbox: ត្រឡប់ទៅប្រអប់សំបុត្រ​
     outbox:
       to: ទៅ​
       subject: ប្រធានបទ​
       date: កាលបរិច្ឆេទ​
+    show:
+      from: ពី​
+      subject: ប្រធានបទ​
+      date: កាលបរិច្ឆេទ​
+      to: ទៅ​
   sessions:
     new:
       title: កត់ឈ្មោះចូល
@@ -786,12 +804,7 @@ km:
       edits: កំណែប្រែ​
       remove as friend: ដកចេញជាមិត្ត​
       add as friend: បន្ថែមជាមិត្ត​
-  notes:
-    show:
-      title: កំណត់សម្គាល់៖ %{id}
-      description: ការពិពណ៌នា
-    new:
-      title: កំណត់សម្គាល់ថ្មី
+      description: បរិយាយ​
   javascripts:
     embed:
       report_problem: រាយការណ៍​បញ្ហា

@@ -43,7 +43,7 @@ OSM.Export = function (map) {
     $("#maxlat").val(bounds.getNorth().toFixed(precision));
 
     $("#export_overpass").attr("href",
-                               "https://overpass-api.de/api/map?bbox=" +
+                               "https://overpass-api.openhistoricalmap.org/api/map?bbox=" +
                                $("#minlon").val() + "," + $("#minlat").val() + "," +
                                $("#maxlon").val() + "," + $("#maxlat").val());
   }
@@ -62,7 +62,10 @@ OSM.Export = function (map) {
     OSM.loadSidebarContent(path, page.load);
   };
 
-  page.load = function () {
+  page.load = function() {
+    // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+    // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+    function originalLoadFunction () {
     map
       .addLayer(locationFilter)
       .on("moveend", update);
@@ -72,7 +75,18 @@ OSM.Export = function (map) {
     $(".export_form").on("submit", checkSubmit);
 
     update();
+
     return map.getState();
+    }  // end originalLoadFunction
+
+    // "if map.timeslider" only try to add the timeslider if we don't already have it
+    if (map.timeslider) {
+      originalLoadFunction();
+    }
+    else {
+      var params = querystring.parse(location.hash ? location.hash.substring(1) : location.search.substring(1));
+      addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+    }
   };
 
   page.unload = function () {

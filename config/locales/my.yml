@@ -8,8 +8,6 @@
 ---
 my:
   helpers:
-    file:
-      prompt: ဖိုင်ရွေးပါ
     submit:
       diary_comment:
         create: သိမ်းရန်
@@ -23,9 +21,6 @@ my:
       client_application:
         create: မှတ်ပုံတင်ရန်
         update: မွမ်းမံ
-      oauth2_application:
-        create: မှတ်ပုံတင်ရန်
-        update: မွမ်းမံ
       trace:
         create: တင်ရန်
         update: ပြောင်းလဲမှုများကို သိမ်းရန်
@@ -35,6 +30,7 @@ my:
       friend: သူငယ်ချင်း
       language: ဘာသာစကား
       message: စာသား
+      notifier: အသိပေးသူ
       trace: သဲလွန်စ
       user: အသုံးပြုသူ
       user_preference: အသုံးပြုသူ အပြင်အဆင်
@@ -44,7 +40,7 @@ my:
         title: အကြောင်းအရာ
         latitude: လတ္တီကျု
         longitude: လောင်ဂျီကျု
-        language_code: ဘာသာစကား
+        language: ဘာသာစကား
       friend:
         user: အသုံးပြုသူ
         friend: သူငယ်ချင်း
@@ -111,28 +107,16 @@ my:
   editor:
     remote:
       name: အဝေး ထိန်းချုပ်
-  auth:
-    providers:
-      none: တစ်ခုမှမဟုတ်
-      google: ဂူဂဲလ်
-      facebook: ဖေ့ဘုတ်
-      wikipedia: ဝီကီပီးဒီးယား
   api:
     notes:
       comment:
         opened_at_html: '%{when} အကြာက ဖန်တီးခဲ့သည်'
-        commented_at_html: '%{when} အသစ်ပြင်ဆင်ထားတဲ့'
+        commented_at_html: '%{when} အကြာက မွမ်းမံခဲ့သည်'
       entry:
         comment: မှတ်ချက်
         full: မှတ်စု အပြည့်အစုံ
-  account:
-    deletions:
-      show:
-        confirm_delete: သေချာပါသလား
-        cancel: မလုပ်တော့ပါ
   accounts:
     edit:
-      title: အကောင့်ကို ပြင်ဆင်ရန်
       current email address: လက်ရှိ အီးမေးလ်လိပ်စာ
       save changes button: ပြောင်းလဲမှုများကို သိမ်းရန်
   browse:
@@ -164,6 +148,11 @@ my:
       tags: အမည်တွဲများ
       wikidata_link: ဝီကီဒေတာပေါ်ရှိ %{page} item
       wikipedia_link: ဝီကီပီးဒီးယားပေါ်ရှိ %{page} ဆောင်းပါး
+    note:
+      title: 'မှတ်စု: %{id}'
+      new_note: မှတ်စု အသစ်
+      description: ဖော်ပြချက်
+      hidden_title: 'ဝှက်ထားသော မှတ်စု #%{note_name}'
   changesets:
     changeset_paging_nav:
       showing_page: စာမျက်နှာ %{page}
@@ -262,9 +251,7 @@ my:
           grave_yard: သုဿန်
           hospital: ဆေးရုံ
           ice_cream: ရေခဲမုန့်
-          internet_cafe: အင်တာနက်ကဖေး
           kindergarten: မူလတန်းကျောင်း
-          language_school: ဘာသာစကားကျောင်း
           library: စာကြည့်တိုက်
           marketplace: စျေးတန်း
           monastery: ဘုန်းကြီးကျောင်း
@@ -295,8 +282,6 @@ my:
           viaduct: တောင်ကြားလမ်း
           "yes": တံတား
         building:
-          house: အိမ်
-          roof: ခေါင်မိုး
           "yes": အဆောက်ဦး
         craft:
           brewery: ဘီယာချက်စက်ရုံ
@@ -363,7 +348,6 @@ my:
           embankment: တာရိုး
           lighthouse: မီးပြတိုက်
           pipeline: ပိုက်လိုင်း
-          telescope: အဝေးကြည့်မှန်ပြောင်း
           tower: မျှော်စင်
           watermill: ရေဒလက်စက်
           water_well: ရေတွင်း
@@ -480,6 +464,7 @@ my:
       status: အခြေအနေ
       reports: အစီရင်ခံစာများ
       last_updated: နောက်ဆုံး မွမ်းမံခဲ့သည်
+      last_updated_time_html: <abbr title='%{title}'>%{time} အကြာက</abbr>
       link_to_reports: အစီရင်ခံစာများကို ကြည့်ရန်
       reports_count:
         one: 1 အစီရင်ခံစာ
@@ -512,8 +497,10 @@ my:
     home: အိမ်တည်နေရာသို့ သွားရန်
     logout: ထွက်ရန်
     log_in: အကောင့်ဝင်ရန်
+    log_in_tooltip: ရှိနှင့်ပြီးသား အကောင့်တစ်ခုနှင့်ဝင်ရန်
     sign_up: မှတ်ပုံတင်ရန်
     start_mapping: မြေပုံ စတင်ရေးဆွဲရန်
+    sign_up_tooltip: တည်းဖြတ်ရန် အကောင့်တစ်ခု ဖန်တီးပါ
     edit: ပြင်ဆင်
     history: ရာဇဝင်
     export: တင်ပို့ရန်
@@ -522,14 +509,14 @@ my:
     user_diaries: အသုံးပြုသူများ၏ နေ့စဉ်မှတ်တမ်းများ
     user_diaries_tooltip: အသုံးပြုသူများ၏ နေ့စဉ်မှတ်တမ်းများကို ကြည့်ရန်
     edit_with: '%{editor} ဖြင့် ပြင်ဆင်ရန်'
-    intro_header: OpenStreetMap မှ ကြိုဆိုပါ၏
-    partners_fastly: မြန်မြန်ဆန်ဆန်
+    intro_header: OpenHistoricalMap မှ ကြိုဆိုပါ၏
     tou: အသုံးပြုခြင်းဆိုင်ရာ သတ်မှတ်ချက်များ
     help: အ​ကူ​အ​ညီ​
     about: အကြောင်း
     copyright: မူပိုင်ခွင့်
     community: အသိုက်အဝိုင်း
     community_blogs: အသိုက်အဝိုင်း ဘလော့များ
+    foundation: ဖောင်ဒေးရှင်း
     make_a_donation:
       text: အလှူတစ်ခု ပြုလုပ်ရန်
     learn_more: ပိုမို လေ့လာရန်
@@ -571,6 +558,8 @@ my:
       destroy_button: ဖျက်​ပါ​
     new:
       title: မက်ဆေ့ ပို့ရန်
+      subject: အကြောင်းအရာ
+      body: စာကိုယ်
     create:
       message_sent: မက်ဆေ့ ပို့လိုက်ပြီ
     no_such_message:
@@ -583,9 +572,13 @@ my:
       date: နေ့စွဲ
     show:
       title: မက်ဆေ့ ဖတ်ရန်
+      from: မှ
+      subject: အကြောင်းအရာ
+      date: နေ့စွဲ
       reply_button: အကြောင်းပြန်ရန်
       destroy_button: ဖျက်​ပါ​
       back: နောက်သို့
+      to: သို့
     sent_message_summary:
       destroy_button: ဖျက်​ပါ​
   passwords:
@@ -633,6 +626,7 @@ my:
   site:
     about:
       next: ရှေ့
+      heading_html: <span>&copy;</span>OpenHistoricalMap<br> ပံ့ပိုးသူများ
       local_knowledge_title: ဒေသန္တရ ဗဟုသုတ
       legal_title: တရားဝင်
       partners_title: လုပ်ဖော်ကိုင်ဖက်များ
@@ -665,11 +659,18 @@ my:
       how_to_help:
         title: မည်ကဲ့သို့ ကူညီမည်
     help:
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       help:
+        url: https://help.openstreetmap.org/
         title: အကူညီဖိုရမ်
+      forums:
+        title: ဖိုရမ်များ
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: အဖွဲ့အစည်းများအတွက်
       wiki:
+        url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
     any_questions:
       title: မေးစရာ ရှိသေးလား
@@ -707,12 +708,10 @@ my:
       rules:
         title: စည်းကမ်းချက်များ
       start_mapping: မြေပုံ စတင်ရေးဆွဲရန်
-    communities:
-      other_groups:
-        title: အခြားအုပ်စုများ
   traces:
     new:
       visibility_help: ဒါက ဘာကိုဆိုလိုတာပါလိမ့်
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: အ​ကူ​အ​ညီ​
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     edit:
@@ -732,6 +731,9 @@ my:
   users:
     new:
       title: မှတ်ပုံတင်ရန်
+      email address: 'အီးမေး လိပ်စာ :'
+      confirm email address: 'အီးမေးလ်ကို အတည်ပြုပါ:'
+      display name: ဖော်ပြမည့်အမည်
       continue: မှတ်ပုံတင်ရန်
     terms:
       title: သတ်မှတ်ချက်များ
@@ -748,6 +750,8 @@ my:
       notes: မြေပုံ မှတ်စုများ
       email address: 'အီးမေးလ် လိပ်စာ:'
       status: 'အခြေအနေ:'
+      description: ဖော်ပြချက်
+      user location: အသုံးပြုသူ တည်နေရာ
       role:
         administrator: ဤအသုံးပြုသူသည် အက်ဒမိန်တစ်ဦးဖြစ်သည်
       comments: မှတ်ချက်များ
@@ -794,13 +798,6 @@ my:
     index:
       creator: ဖန်တီးသူ
       description: ဖော်ပြချက်
-    show:
-      title: 'မှတ်စု: %{id}'
-      description: ဖော်ပြချက်
-      hidden_title: 'ဝှက်ထားသော မှတ်စု #%{note_name}'
-      hide: ဝှက်ရန်
-    new:
-      title: မှတ်စု အသစ်
   javascripts:
     close: ပိတ်ရန်
     share:
@@ -813,6 +810,9 @@ my:
       show:
         hide_comment: ဝှက်
         unhide_comment: မဝှက်တော့ရန်
+    notes:
+      show:
+        hide: ဝှက်ရန်
     directions:
       distance: အကွာအဝေး
       time: အချိန်

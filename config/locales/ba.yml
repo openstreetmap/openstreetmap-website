@@ -2,7 +2,6 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: AiseluRB
-# Author: Amire80
 # Author: Lizalizaufa
 # Author: MR973
 # Author: Roustammr
@@ -35,7 +34,7 @@ ba:
       client_application:
         create: Теркәлеү
         update: Яңыртырға
-      oauth2_application:
+      doorkeeper_application:
         create: Теркәлеү
         update: Яңыртырға
       redaction:
@@ -63,8 +62,9 @@ ba:
       issue: бурыс
       language: Тел
       message: Хәбәр
-      node: Төп технологик элемент
-      node_tag: Төп технологик элемент тамғаһы
+      node: Төйөн
+      node_tag: Төйөн тегы
+      notifier: Белдереүсе
       old_node: Иҫке нөктә
       old_node_tag: Нөктәнең иҫке тегы
       old_relation: Иҫке сағыштырма
@@ -108,7 +108,7 @@ ba:
         title: Тема
         latitude: Киңлек
         longitude: Оҙонлоҡ
-        language_code: Тел
+        language: Тел
       doorkeeper/application:
         name: Исем
         redirect_uri: Яңынан йүнәлтеү
@@ -170,6 +170,10 @@ ba:
           ҡулланып ҡарағыҙ.
         needs_view: Ҡулланыусыға блоктан сыҡҡансы системаға инергә рөхсәт итергәме?
       user:
+        email_confirmation: Һеҙҙең адресығыҙ асыҡ күренмәйәсәк, тулыраҡ мәғлүмәт алыу
+          өсөн беҙҙең <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+          title="OSMF privacy policy including section on email addresses"> конфиденциаллек
+          сәйәсәтен</a> ҡарағыҙ.
         new_email: (күрһәтелмәй)
   datetime:
     distance_in_words_ago:
@@ -224,7 +228,7 @@ ba:
       openid: OpenID
       google: Google
       facebook: Facebook
-      microsoft: Майкрософт
+      windowslive: Windows Live
       github: GitHub
       wikipedia: Википедия
   api:
@@ -239,7 +243,7 @@ ba:
         reopened_at_html: Кире асылды %{when}
         reopened_at_by_html: Кире асылды %{when} ҡулланыусы %{user}
       rss:
-        title: OpenStreetMap Яҙмалары
+        title: OpenHistoricalMap Яҙмалары
         description_area: Һеҙҙең өлкәлә яһалған, комментарий бирелгән йәки ябылған
           яҙмалар исемлеге [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS-яҙмалар ағымы %{id}
@@ -278,6 +282,10 @@ ba:
       relation: Мөнәсәбәттәр (%{count})
       relation_paginated: Мөнәсәбәттәр (%{x}-%{y} %{count}нан)
       comment: Комментарийҙар (%{count})
+      hidden_commented_by_html: ' %{user} <abbr title=''%{exact_time}''>%{when}тан
+        йәшерен комментарий, кирегә</abbr>'
+      commented_by_html: Ҡулланыусы комментарийы %{user} <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
       changesetxml: Төҙәтеүҙәр пакетының XML-ы
       osmchangexml: osmChange XML
       feed:
@@ -356,6 +364,31 @@ ba:
       wikimedia_commons_link: Wikimedia Commonsта %{page} элемент
       telephone_link: Шылтыратырға %{phone_number}
       colour_preview: Төҫтәрҙе ҡарау %{colour_value}
+    note:
+      title: ' %{id} искәрмәһе'
+      new_note: Яңы мәҡәлә
+      description: Тасуирлама
+      open_title: 'Эшкәртелмәгән мәҡәлә #%{note_name}'
+      closed_title: 'Эшкәртелгән мәҡәләа #%{note_name}'
+      hidden_title: 'Йәшерелгән яҙма #%{note_name}'
+      opened_by_html: Ҡулланыусы тарафынан булдырылған %{user} <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      opened_by_anonymous_html: Аноним тарафынан булдырылған <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      commented_by_html: Ҡулланыусы комментарийы %{user} <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      commented_by_anonymous_html: Аноним комментарийы  <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      closed_by_html: Ҡулланыусы тарафынан эшкәртелгән %{user} <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      closed_by_anonymous_html: Аноним тарафынан рөхсәт ителгән <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      reopened_by_html: Ҡулланыусы тарафынан ҡабаттан асылған %{user} <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      reopened_by_anonymous_html: Аноним тарафынан ҡабаттан асылған <abbr title='%{exact_time}'>%{when}
+        кирегә</abbr>
+      hidden_by_html: Йәшерелгән %{user} <abbr title='%{exact_time}'>%{when} кирегә</abbr>
+      report: Был яҙма тураһында хәбәр итеү
     query:
       title: Объекттар тураһында мәғлүмәт
       introduction: Яҡындағы объекттарҙы табыу өсөн картаға баҫығыҙ
@@ -398,8 +431,8 @@ ba:
     comments:
       comment: '%{author} тарафынан төҙәтмәләр пакетына %{changeset_id} яңы комментарий'
     index:
-      title_all: OpenStreetMap төҙәтмәләр пакеты буйынса фекерләшеү
-      title_particular: ' OpenStreetMap #%{changeset_id} төҙәтмәләр пакеты буйынса
+      title_all: OpenHistoricalMap төҙәтмәләр пакеты буйынса фекерләшеү
+      title_particular: ' OpenHistoricalMap #%{changeset_id} төҙәтмәләр пакеты буйынса
         фекерләшеү'
     timeout:
       sorry: Ҡыҙғанысҡа ҡаршы, һеҙ һораған төҙәтмә пакеттары исемлеген алыу өсөн күп
@@ -458,9 +491,9 @@ ba:
       comment_link: Комментарий ҡалдырыу
       reply_link: Авторға яҙыу
       comment_count:
+        zero: Крмментарийҙар юҡ
         one: '%{count} комментарий'
         other: '%{count} комментарийҙар'
-      no_comments: Комментарий юҡ
       edit_link: Яҙманы үҙгәртеү
       hide_link: Был яҙманы йәшереү
       unhide_link: Был яҙманы күрһәтеү
@@ -478,14 +511,15 @@ ba:
       edit: Төҙәтмә
     feed:
       user:
-        title: '%{user} OpenStreetMap көндәлеге яҙмаһы'
-        description: '%{user}  OpenStreetMap көндәлек яҙмаһының һуңғыһы'
+        title: '%{user} OpenHistoricalMap көндәлеге яҙмаһы'
+        description: '%{user}  OpenHistoricalMap көндәлек яҙмаһының һуңғыһы'
       language:
-        title: '%{language_name} OpenStreetMap көндәлек яҙмаһы'
-        description: OpenStreetMap ҡулланыусыларының %{language_name}тағы һуңғы яҙмалары
+        title: '%{language_name} OpenHistoricalMap көндәлек яҙмаһы'
+        description: OpenHistoricalMap ҡулланыусыларының %{language_name}тағы һуңғы
+          яҙмалары
       all:
-        title: OpenStreetMap көндәлек яҙмаһы
-        description: OpenStreetMap ҡулланысыларының һуңғы көндәлек яҙмалары
+        title: OpenHistoricalMap көндәлек яҙмаһы
+        description: OpenHistoricalMap ҡулланысыларының һуңғы көндәлек яҙмалары
     comments:
       no_comments: Көндәлектә комментарийҙар юҡ
       post: Post
@@ -967,7 +1001,7 @@ ba:
       area_to_export: Сығарыу яланы
       manually_select: Башҡа өлкәне ҡулдан һайларға
       format_to_export: Сығарыу форматы
-      osm_xml_data: Биремдең OpenStreetMap XML форматы
+      osm_xml_data: Биремдең OpenHistoricalMap XML форматы
       map_image: Карта һүрәте (стандарт ҡатламды күрһәтә)
       embeddable_html: Ҡуйылған HTML
       licence: Лицензия
@@ -980,16 +1014,6 @@ ba:
       latitude: 'Киңлек:'
       longitude: 'Оҙонлоҡ:'
       paste_html: Сайтҡа индереп ҡуйыу өсөн HTML-код
-  notes:
-    show:
-      title: ' %{id} искәрмәһе'
-      description: Тасуирлама
-      open_title: 'Эшкәртелмәгән мәҡәлә #%{note_name}'
-      closed_title: 'Эшкәртелгән мәҡәләа #%{note_name}'
-      hidden_title: 'Йәшерелгән яҙма #%{note_name}'
-      report: Был яҙма тураһында хәбәр итеү
-    new:
-      title: Яңы мәҡәлә
   javascripts:
     share:
       only_standard_layer: Бары стандарт ҡатлам ғына һүрәт кеүек экспортлана ала

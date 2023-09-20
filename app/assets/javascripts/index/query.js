@@ -355,6 +355,9 @@ OSM.Query = function (map) {
     var params = Qs.parse(path.substring(path.indexOf("?") + 1)),
         latlng = L.latLng(params.lat, params.lon);
 
+    // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
+    // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
+    function originalLoadFunction () {
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
       OSM.router.withoutMoveListener(function () {
         map.setView(latlng, 15);
@@ -362,6 +365,16 @@ OSM.Query = function (map) {
     }
 
     queryOverpass(params.lat, params.lon);
+    }  // end originalLoadFunction
+
+    // "if map.timeslider" only try to add the timeslider if we don't already have it
+    if (map.timeslider) {
+      originalLoadFunction();
+    }
+    else {
+      var params = querystring.parse(location.hash.substring(1));
+      addOpenHistoricalMapTimeSlider(map, params, originalLoadFunction);
+    }
   };
 
   page.unload = function (sameController) {

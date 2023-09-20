@@ -1,7 +1,6 @@
 # Messages for Nepali (नेपाली)
 # Exported from translatewiki.net
 # Export driver: phpyaml
-# Author: Bada Kaji
 # Author: Danieldegroot2
 # Author: Drjpoudel
 # Author: Haribanshi
@@ -21,11 +20,9 @@ ne:
     formats:
       friendly: '%e %B %Y मा %H:%M'
   helpers:
-    file:
-      prompt: फाइल छान्नुहोस्
     submit:
       diary_comment:
-        create: टिप्पणी
+        create: सङ्ग्रह गर्नुहोस्
       diary_entry:
         create: प्रकाशन गर्नुहोस्
         update: अद्यावधिक गर्नुहोस्
@@ -35,10 +32,7 @@ ne:
         create: पठाउनुहोस्
       client_application:
         create: दर्ता गर्नुहाेस्
-        update: अद्यावधिक गर्नुहोस्
-      oauth2_application:
-        create: दर्ता गर्नुहाेस्
-        update: अद्यावधिक गर्नुहोस्
+        update: सम्पादन
       trace:
         create: अपलोड गर्ने
         update: परिवर्तनहरू संग्रह गर्ने
@@ -55,6 +49,7 @@ ne:
       message: सन्देश
       node: नोड
       node_tag: नोड चिनो
+      notifier: सुचक
       old_node: पूरानो नोड
       old_node_tag: पूरानो नोड ट्याग
       old_relation: पूरानो रिलेशन
@@ -84,7 +79,7 @@ ne:
         title: विषय
         latitude: अक्षांश
         longitude: देशान्तर
-        language_code: भाषा
+        language: भाषा
       friend:
         user: प्रयोगकर्ता
         friend: साथी
@@ -119,6 +114,9 @@ ne:
     help:
       trace:
         tagstring: अल्पविरामले छुट्याएको
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: पूर्वस्थापित(अहिलेको %{name})
     id:
@@ -140,11 +138,11 @@ ne:
         heading: सार्वजनिक सम्पादन
         enabled link text: यो के हो ?
         disabled link text: म किन सम्पादन गर्न सक्दिन?
+      public editing note:
+        heading: 'सार्वजनिक सम्पादन:'
       contributor terms:
         link text: यो के हो ?
       save changes button: परिवर्तनहरू संग्रह गर्नुहोस्
-    go_public:
-      heading: 'सार्वजनिक सम्पादन:'
     update:
       success_confirm_needed: प्रयोगकर्ताको जानकारीहरू सफलतापूर्वक अध्यावधिक गरियो।
         Check your email for a note to confirm your new email address.
@@ -171,6 +169,10 @@ ne:
       relation: सम्बन्धहरू (%{count})
       relation_paginated: सम्बन्धहरू (जम्मा %{count} मध्येबाट %{x}-%{y})
       comment: टिप्पणीहरू (%{count})
+      hidden_commented_by_html: ' %{user} द्वारा गरिएको लुकाइएको टिप्पणी <abbr title=''%{exact_time}''>%{when}
+        पहिले</abbr>'
+      commented_by_html: '%{user}द्वारा <abbr title=''%{exact_time}''>%{when} अगाडि</abbr>
+        गरिएको टिप्पणी'
       changesetxml: चेन्जसेट XML
       osmchangexml: osmChange XML
       feed:
@@ -240,6 +242,32 @@ ne:
       wikidata_link: '%{page} वस्तु विकिडेटा मा'
       wikipedia_link: '%{page}को बारेमा विकिपीडियामा भएको लेख'
       telephone_link: '%{phone_number} मा फोन गर्नुहोस्'
+    note:
+      title: 'टिप्पणी: %{id}'
+      new_note: नयाँ टिप्पणी
+      description: विवरण
+      open_title: 'समाधान नगरिएको टिप्पणी #%{note_name}'
+      closed_title: 'समाधान गरिएको टिप्पणी #%{note_name}'
+      hidden_title: 'लुकाइएको टिप्पणी #%{note_name}'
+      opened_by_html: '%{user}द्वारा <abbr title=''%{exact_time}''>%{when} अगाडि</abbr>
+        सिर्जना गरिएको'
+      opened_by_anonymous_html: <abbr title='%{exact_time}'>%{when} अगाडि</abbr> अज्ञात
+        व्यक्तिद्वारा सिर्जना गरिएको
+      commented_by_html: '%{user}द्वारा <abbr title=''%{exact_time}''>%{when} अगाडि</abbr>
+        गरिएको टिप्पणी'
+      commented_by_anonymous_html: अज्ञात व्यक्तिद्वारा <abbr title='%{exact_time}'>%{when}
+        अगाडि</abbr> गरिएको टिप्पणी
+      closed_by_html: '%{user}द्वारा <abbr title=''%{exact_time}''>%{when} अगाडि</abbr>
+        समाधान गरिएको'
+      closed_by_anonymous_html: अज्ञात व्यक्तिद्वारा <abbr title='%{exact_time}'>%{when}
+        अगाडि</abbr> समाधान गरिएको
+      reopened_by_html: '%{user}द्वारा <abbr title=''%{exact_time}''>%{when} अगाडि</abbr>
+        पुनःसक्रिय गरिएको'
+      reopened_by_anonymous_html: अज्ञात व्यक्तिद्वारा <abbr title='%{exact_time}'>%{when}
+        अगाडि</abbr> पुनःसक्रिय गरिएको
+      hidden_by_html: '%{user}द्वारा <abbr title=''%{exact_time}''>%{when} अगाडि</abbr>
+        लुकाइएको'
+      report: यस टिपोटलाई उजुरी गर्नुहोस्
     query:
       title: क्वेरी गुणहरू
       introduction: नजिकैका फिचरहरू भेटाउन नक्सामा क्लिक गर्नुहोस्
@@ -264,7 +292,7 @@ ne:
       title: परिवर्नहरू
       title_user: '%{user}द्वरा गरिएका परिवर्तनहरू'
       title_friend: तपाईको मित्रहरूद्वारा गरिएका परिवर्तनहरू
-      title_nearby: तपाईं नजिक हुनुभएका प्रयोगकर्ताहरूद्वारा गरिएका परिवर्तनहरू
+      title_nearby: तपाई नजिक हुनुभएका प्रयोगकर्ताहरूद्वारा गरिएका परिवर्तनहरू
       empty: कुनै पनि परिवर्तनहरू भेटिएनन्।
       empty_area: यो क्षेत्रमा कुनै परिवर्तनहरू छैनन्।
       empty_user: यस प्रयोगकर्ताद्वारा कुनै परिवर्तनहरू गरिएका छैनन्।
@@ -274,14 +302,14 @@ ne:
       load_more: अझै बढी खोल्नुहोस्
     timeout:
       sorry: माफ गर्नुहोला, तपाईंले खोज्नुभएको परिवर्तनहरूको सूची प्राप्त गर्न निकै
-        समय लाग्यो ।
+        समय लाग्यो।
   changeset_comments:
     comment:
       comment: ' %{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
       commented_at_by_html: ' %{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
     index:
-      title_all: OpenStreetMap परिवर्वतन सूची छलफल
-      title_particular: 'OpenStreetMap परिवर्तन सूची #%{changeset_id} छलफल'
+      title_all: OpenHistoricalMap परिवर्वतन सूची छलफल
+      title_particular: 'OpenHistoricalMap परिवर्तन सूची #%{changeset_id} छलफल'
   dashboards:
     contact:
       km away: '%{count}किमि टाढा'
@@ -312,7 +340,7 @@ ne:
       older_entries: पुराना अभिलेखहरू
       newer_entries: नयाँ अभिलेखहरू
     edit:
-      title: दैनिकी प्रविष्ठी सम्पादन गर्ने
+      title: दैनिकी प्रविष्ठी सम्पादन गर्नुहोस्
       marker_text: दैनिकी प्रविष्ठी स्थान
     show:
       title: '%{user}को डायरी | %{title}'
@@ -336,7 +364,7 @@ ne:
         other: '%{count} टिप्पणीहरू'
       edit_link: यो प्रविष्टी सम्पादन गर्ने
       hide_link: यो प्रविष्टी लुकाउने
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
       report: यो प्रविष्टीको उजुरी गर्ने
     diary_comment:
       comment_from_html: '%{link_user}द्वारा %{comment_created_at}मा गरिएको टिप्पणी'
@@ -351,7 +379,7 @@ ne:
         title: '%{user}को लागि ओपनस्ट्रीटम्याप दैनिकी'
         description: '%{user}को लागि हालैका ओपनस्ट्रीटम्याप दैनिकीहरू'
       language:
-        title: '%{language_name} भाषामा OpenStreetMap दैनिकी'
+        title: '%{language_name} भाषामा OpenHistoricalMap दैनिकी'
         description: '%{language_name} भाषामा ओपनस्ट्रीटम्याप प्रयोगकर्ताहरूका हालैका
           दैनिकी'
       all:
@@ -589,6 +617,7 @@ ne:
           mine: खानी
           pipeline: पाइपरेखा
           tower: टावर
+          windmill: पवन मिल
           works: कारखाना
         military:
           barracks: सैनिक घर
@@ -753,6 +782,7 @@ ne:
       status: स्थिति
       states:
         open: खोल्नुहोस्
+        resolved: समाधान गरियो
     show:
       ignore: वेवास्ता गर्नुहाेस्
       new_reports: नयाँ प्रतिवेदनहरू
@@ -763,9 +793,9 @@ ne:
           other_label: अन्य
   layouts:
     logo:
-      alt_text: OpenStreetMap लोगो
+      alt_text: OpenHistoricalMap लोगो
     logout: निर्गमन
-    log_in: प्रवेश गर्नुहोस्
+    log_in: प्रवेश
     sign_up: खाता खाेल्नुहाेस्
     start_mapping: म्यापिङ गर्न सुरु गर्नुहोस्
     edit: सम्पादन
@@ -786,6 +816,7 @@ ne:
     copyright: प्रतिलिपि अधिकार
     community: समुदाय
     community_blogs: समूदाय ब्लगहरू
+    foundation: फाउन्डेसन
     make_a_donation:
       text: दान गर्नुहोस्
     learn_more: थप जान्नुहोस्
@@ -797,7 +828,7 @@ ne:
       hi: नमस्ते %{to_user},
     friendship_notification:
       hi: नमस्ते %{to_user},
-      subject: '[OpenStreetMap] %{user} ले तपाईँलाई मित्रको रूपमा थप्नु भयो'
+      subject: '[OpenHistoricalMap] %{user} ले तपाईँलाई मित्रको रूपमा थप्नु भयो'
     signup_confirm:
       greeting: नमस्ते!
     email_confirm:
@@ -812,7 +843,7 @@ ne:
       greeting: नमस्ते,
   confirmations:
     confirm:
-      button: निश्चित गर्नुहोस्
+      button: निश्चित गर्ने
     confirm_email:
       heading: इमेल परिवर्तन भएको निश्चित गर्नुहोस्
       press confirm button: इमेल निश्चित गर्नको लागि निश्चितमा क्लिक गर्नुहोस् ।
@@ -834,6 +865,8 @@ ne:
     new:
       title: सान्देस पठाउ
       send_message_to_html: '%{name} लाई नयाँ सन्देश पठाउनुहोस्'
+      subject: विषय
+      body: मुख्य भाग
       back_to_inbox: इनबक्समा फर्कनुहोस्
     create:
       message_sent: सन्देश पठाइयो
@@ -847,10 +880,14 @@ ne:
       date: मिति
     show:
       title: सन्देश पढ्नुहोस्
+      from: बाट
+      subject: विषय
+      date: मिति
       reply_button: जवाफ दिने
       unread_button: नपढिएको रूपमा चिनो लगाउनुहोस्
       destroy_button: मेट्नुहोस्
       back: पछाडि
+      to: लाई
     sent_message_summary:
       destroy_button: हटाउनुहोस्
     destroy:
@@ -868,6 +905,7 @@ ne:
       flash changed: तपाईंको प्रवेश शब्द परिवर्तन गरिएको छ।
   profiles:
     edit:
+      cancel: रद्द गर्नुहोस्
       image: 'चित्र:'
       home location: 'गृह स्थान:'
       no home location: तपाईंले आफ्नो गृहस्थान प्रविष्ठ गर्नुभएको छैन।
@@ -911,10 +949,12 @@ ne:
       area_to_export: निर्यात गर्ने क्षेत्र
       manually_select: आफै अर्को क्षेत्र छान्नुहोस
       format_to_export: निर्यात गर्ने ढाँचा
-      osm_xml_data: OpenStreetMap XML डेटा
+      osm_xml_data: OpenHistoricalMap XML डेटा
       map_image: नक्साको तस्वीर (सर्वस्वीकृत सतहहरू देखाउँछ)
       embeddable_html: थप्नलायक HTML
       licence: इजाजतपत्र
+      export_details_html: ओपनस्ट्रीटम्यापका जानकारीहरू <a href="http://opendatacommons.org/licenses/odbl/1.0/">अोपन
+        डेटा कमन्स ओपन डेटाबेस लाइसेन्स</a> अनुज्ञप्तिसँग अाबद्ध छन् ।
       too_large:
         advice: निर्यात गर्ने प्रक्रिया असफल भएमा तल दिइएका स्रोतहरू प्रयोग गर्नुहोस्-
         body: यो क्षेत्र ओपनस्ट्रीटम्याप एक्स् एम् एल जानकारीको रूपमा निर्यात गर्नको
@@ -925,12 +965,15 @@ ne:
           description: नियमित रूपमा अपडेट गरिएका ओपनस्ट्रीटम्याप तथ्याङ्कका प्रतिहरू
         overpass:
           title: ओभरपास एपिअाइ
-          description: OpenStreetMap तथ्याङ्कको अर्को स्रोतबाट यो सिमारेखा प्राप्त
+          description: OpenHistoricalMap तथ्याङ्कको अर्को स्रोतबाट यो सिमारेखा प्राप्त
             गर्नुहोस्
         geofabrik:
           title: Geofabrik डाउनलोडहरू
           description: नियमित रूपमा अपडेट गरिएका महादेशहरू, देशहरू तथा चुनिएका सहरहरूका
             उद्धरणहरू
+        metro:
+          title: मेट्रो उद्धरणहरू
+          description: विश्वका प्रमुख सहर तथा वरिपरीका क्षेत्रहरूको उद्धरण
         other:
           title: अन्य स्रोतहरू
           description: ओपनस्ट्रीटम्याप विकिमा सूचीत थप स्रोतहरू
@@ -959,16 +1002,21 @@ ne:
         url: /welcome
         title: OSM मा स्वागत् छ
       beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: सुरुवातकर्ताहरूको लागि मार्गदर्शन
         description: सुरुवातकर्ताहरूको लागि समुदायद्वारा निर्मित निर्देशिका
       help:
         title: help.openstreetmap.org
       mailing_lists:
         title: मेलिङ्ग सूचीहरू
+      forums:
+        title: मञ्च
       irc:
         title: आईआरसि
       switch2osm:
         title: स्विचटु‍ओएसएम
+      wiki:
+        url: http://wiki.openstreetmap.org/
     sidebar:
       close: बन्द गर्नुहोस्
     search:
@@ -976,6 +1024,7 @@ ne:
       get_directions: दिशानिर्देशन प्राप्त गर्नुहोस्
       from: बाट
       to: लाई
+      where_am_i: यो कहाँ छ?
       submit_text: जानुहोस्
     key:
       table:
@@ -1025,6 +1074,7 @@ ne:
     create:
       upload_trace: GPS Trace अपलोड गर्ने
     edit:
+      cancel: रद्द गर्नुहोस्
       title: ट्रेस सम्पादन गर्दै %{name}
       heading: ट्रेस सम्पादन गर्दै %{name}
       visibility_help: यसको मतलब के हो ?
@@ -1055,7 +1105,7 @@ ne:
       more: थप
       trace_details: ट्रेसको विस्तृत जानकारी हेर्ने
       view_map: नक्सा हेर्ने
-      edit_map: नक्सा सम्पादन गर्ने
+      edit_map: नक्सा सम्पादन गर्नुहोस्
       public: सार्वजनिक
       private: निजी
       by: द्वारा
@@ -1072,6 +1122,8 @@ ne:
     show:
       confirm: निश्चित हुनुहुन्छ ?
   oauth2_applications:
+    application:
+      delete: मेट्ने
     show:
       delete: मेट्ने
   users:
@@ -1079,6 +1131,9 @@ ne:
       title: खाता खाेल्नुहाेस्
       about:
         header: खुल्ला र सम्पादन गर्न मिल्ने
+      email address: 'इमेल ठेगाना:'
+      confirm email address: 'इमेल ठेगाना पक्का गर्नुहोस्:'
+      display name: 'देखाउने नाम:'
       continue: खाता खाेल्नुहाेस्
     terms:
       consider_pd_why: यो के हो ?
@@ -1090,6 +1145,7 @@ ne:
       deleted: मेटाइयो
     show:
       my diary: मेरो डायरी
+      new diary entry: नयाँ दैनिकी प्रविष्टी
       my edits: मेरा सम्पादनहरू
       my traces: मेरा ट्रेसहरू
       my notes: मेरा टिपोटहरू
@@ -1101,10 +1157,11 @@ ne:
       traces: ट्रेसहरू
       add as friend: साथी जोड्नुहोस्
       status: 'स्थिति:'
+      description: वर्णन
       role:
         administrator: यी प्रयोगकर्ता प्रबन्धक हुनुहुन्छ
       comments: टिप्पणी
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
     go_public:
       flash success: तपाईंका सबै सम्पादनहरू सार्वाजनिक छन् , तपाईं अब सम्पादन लायक
         हुनु भयो ।
@@ -1121,7 +1178,7 @@ ne:
       heading: भूमिका प्रदान निश्चित गर्ने
       are_you_sure: भूमिका `%{role}' प्रयोगकर्ता `%{name}'लाई प्रदान गर्न निश्चित
         हुनुहुन्छ?
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
       fail: भूमिका `%{role}' प्रयोगकर्ता  `%{name}'लाई प्रदान गर्न सकिएन । कृपया प्रयोगकर्ता
         र भूमिका दुबै मान्य छन् भनि जाँच गर्नुहोस् ।
     revoke:
@@ -1129,7 +1186,7 @@ ne:
       heading: भूमिका फिर्ता निश्चित गर्ने
       are_you_sure: तपाईं भूमिका `%{role}' , `%{name} प्रोगकर्ताबाट फिर्ता लिने कुरामा
         निश्चित हुनुहुन्छ'?
-      confirm: निश्चित गर्नुहोस्
+      confirm: निश्चित गर्ने
       fail: भूमिका `%{role}' ,`%{name}'बाट फिर्ता लिन सकिएन । प्रोगकर्ता नाम र भूमिका
         दुबै मान्य छन् भन्ने खुलाउनु होस् ।
   user_blocks:
@@ -1153,17 +1210,6 @@ ne:
       id: आईडी
       creator: सर्जक
       description: वर्णन
-    show:
-      title: 'टिप्पणी: %{id}'
-      description: विवरण
-      open_title: 'समाधान नगरिएको टिप्पणी #%{note_name}'
-      closed_title: 'समाधान गरिएको टिप्पणी #%{note_name}'
-      hidden_title: 'लुकाइएको टिप्पणी #%{note_name}'
-      report: यस टिपोटलाई उजुरी गर्नुहोस्
-      hide: लुकाउनुहोस्
-      comment: टिप्पणी
-    new:
-      title: नयाँ टिप्पणी
   javascripts:
     close: बन्द गर्नुहोस्
     share:
@@ -1190,6 +1236,10 @@ ne:
         subscribe: सदस्यता लिनुहोस्
         unsubscribe: सदस्यता खारेज गर्नुहोस्
         hide_comment: लुकाउ
+    notes:
+      show:
+        hide: लुकाउनुहोस्
+        comment: टिप्पणी
     directions:
       instructions:
         exit_counts:

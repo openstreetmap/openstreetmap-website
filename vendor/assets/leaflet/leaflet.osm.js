@@ -28,6 +28,13 @@ L.OSM.CyclOSM = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.Historical = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://www.openhistoricalmap.org/ohm_tiles/{z}/{x}/{y}.png',
+    maxZoom: 20
+  }
+});
+
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
   options: {
     url: 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}',

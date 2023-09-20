@@ -42,6 +42,7 @@ ka:
       message: შეტყობინება
       node: კვანძი
       node_tag: წერტილის ტეგი
+      notifier: გამაფრთხილებელი
       old_node: ძველი კვანძი
       old_node_tag: წერტილის ძველი ტეგი
       old_relation: ძველი ურთიერთობა
@@ -71,7 +72,7 @@ ka:
         title: თემა
         latitude: განედი
         longitude: გრძედი
-        language_code: ენა
+        language: ენა
       friend:
         user: მომხმარებელი
         friend: მეგობარი
@@ -157,6 +158,10 @@ ka:
       relation: ურთიერთობები (%{count})
       relation_paginated: ურთიერთობები (%{x}-%{y} %{count}-დან)
       comment: კომენტარები (%{count})
+      hidden_commented_by_html: დამალული კომენტარები %{user}-სგან <abbr title='%{exact_time}'>%{when}
+        წინ</abbr>
+      commented_by_html: კომენატარი %{user}-სგან <abbr title='%{exact_time}'>%{when}
+        წინ</abbr>
       changesetxml: ცვლილებების პაკეტის XML
       osmchangexml: osmChange XML
       feed:
@@ -212,6 +217,13 @@ ka:
     tag_details:
       wikipedia_link: სტატია %{page} ვიკიპედიაში
       telephone_link: დარეკეთ %{phone_number}
+    note:
+      title: 'შენიშვნა: %{id}'
+      new_note: ახალი შენიშვნა
+      description: აღწერა
+      open_title: 'დაუმუშავებელი შენიშვნა #%{note_name}'
+      closed_title: 'დამუშავებული შენიშვნა #%{note_name}'
+      hidden_title: 'დამალული შენიშვნა #%{note_name}'
   changesets:
     changeset_paging_nav:
       showing_page: გვერდი %{page}
@@ -493,7 +505,7 @@ ka:
           brownfield: მიტოვებული ადგილი
           cemetery: სასაფლაო
           commercial: კომერციული ტერიტორია
-          conservation: ნაკრძალი
+          conservation: კონსერვაცია
           construction: მშენებლობა
           farmland: სავარგული
           forest: ტყე
@@ -741,7 +753,7 @@ ka:
       more_results: მეტი შედეგი
   layouts:
     logo:
-      alt_text: OpenStreetMap-ის ლოგო
+      alt_text: OpenHistoricalMap-ის ლოგო
     home: საწყის ადგილზე დაბრუნება
     logout: გასვლა
     log_in: შესვლა
@@ -760,22 +772,25 @@ ka:
     copyright: საავტორო უფლები
     community: თანასაზოგადოება
     community_blogs: თანასაზოგადოების ბლოგები
+    foundation: ფონდი
+    foundation_title: ფონდი OpenHistoricalMap
     make_a_donation:
       text: პროექტის დახმარება
     more: მეტი
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap]-ის მომხმარებელმა %{user} თქვენს დღიურში დატოვა კომენტარი'
+      subject: '[OpenHistoricalMap]-ის მომხმარებელმა %{user} თქვენს დღიურში დატოვა
+        კომენტარი'
       hi: გამარჯობა %{to_user},
     message_notification:
       hi: გამარჯობა %{to_user},
     friendship_notification:
-      subject: '[OpenStreetMap]-ის მომხმარებელმა %{user} დაგამატათ მეგობრებში'
+      subject: '[OpenHistoricalMap]-ის მომხმარებელმა %{user} დაგამატათ მეგობრებში'
     signup_confirm:
-      subject: '[OpenStreetMap] მოგესალმებით OpenStreetMap-ში'
+      subject: '[OpenHistoricalMap] მოგესალმებით OpenHistoricalMap-ში'
       greeting: გამარჯობა!
     email_confirm:
-      subject: '[OpenStreetMap] დაადასტურეთ თქვენი ელ.ფოსტის მისამართი'
+      subject: '[OpenHistoricalMap] დაადასტურეთ თქვენი ელ.ფოსტის მისამართი'
       greeting: გამარჯობა,
     lost_password:
       greeting: გამარჯობა,
@@ -816,6 +831,8 @@ ka:
     new:
       title: შეტყობინების გაგზავნა
       send_message_to_html: გაუგზავნეთ ახალი შეტყობინება %{name}
+      subject: თემა
+      body: ტექსტი
       back_to_inbox: მიღებულებში დაბრუნება
     create:
       message_sent: შეტყობინება გაიგზავნა
@@ -842,8 +859,12 @@ ka:
         გამკეთებელი მომხმარებელი, რათა იხილოთ პასუხი.
     show:
       title: შეტყობინების წაკითხვა
+      from: გამომგზავნი
+      subject: თემა
+      date: თარიღი
       reply_button: პასუხი
       unread_button: მონიშნეთ როგორც წაუკითხავი
+      to: ვის
       wrong_user: თქვენ შეხვედით როგორც `%{user}' მაგრამ შეტყობინება რომლის წაკითხვაც
         გსურთ, არ არის გაგზავნილი ამ მომხმარებელთან, ან მის მიერ. გთხოვთ, შეხვიდეთ,
         როგორც შესაბამისი მომხმარებელი, რათა წაიკითხოთ ის.
@@ -877,11 +898,13 @@ ka:
       lost password link: დაგავიწყდათ პაროლი?
       login_button: შესვლა
       register now: დარეგისტრირდით ახლავე
+      new to osm: ახალი ხართ OpenHistoricalMap-ზე?
+      create account minute: შექმნეით ანგარიში. ამისათვის მხოლოდ ერთი წუთია საჭირო.
       no account: არ გაქვთ ანგარიში?
       openid_logo_alt: შესვლა OpenID-ის საშუალებით
     destroy:
       title: გასვლა
-      heading: OpenStreetMap-დან გასვლა
+      heading: OpenHistoricalMap-დან გასვლა
       logout_button: გასვლა
   site:
     copyright:
@@ -904,7 +927,7 @@ ka:
       area_to_export: ტერიტორია ექსპორტისათვის
       manually_select: სხვა რეგიონის გამოყოფა ხელით
       format_to_export: ექსპორტის ფორმატი
-      osm_xml_data: OpenStreetMap XML–ის მონაცემები
+      osm_xml_data: OpenHistoricalMap XML–ის მონაცემები
       map_image: რუკის სურათი (სტანდარტული ფენის ჩვენება)
       licence: ლიცენზია
       too_large:
@@ -1015,6 +1038,9 @@ ka:
   users:
     new:
       title: რეგისტრაცია
+      email address: 'ელ. ფოსტის მისამართი:'
+      confirm email address: 'ელ. ფოსტის მისამართის დადასტურება:'
+      display name: 'სახელი ეკრანზე:'
       continue: რეგისტრაცია
     terms:
       consider_pd_why: რა არის ეს?
@@ -1028,6 +1054,7 @@ ka:
       heading: მომხმარებელი %{user} არ არსებობს
     show:
       my diary: ჩემი დღიური
+      new diary entry: დღიურში ახალი ჩანაწერის გაკეთება
       my edits: ჩემი რედაქტირება
       my settings: ჩემი პარამეტრები
       my comments: ჩემი კომენტარები
@@ -1041,11 +1068,14 @@ ka:
       created from: 'შექმნილია:'
       status: 'სტატუსი:'
       spam score: 'სპამის შეფასება:'
+      description: აღწერა
+      user location: მომხმარებლის ადგილმდებარეობა
       role:
         administrator: ეს მომხმარებელი ადმინისტრატორია
       comments: კომენტარები
       create_block: ამ მომხმარებლის დაბლოკვა
       activate_user: ამ მომხმარებლის აქტივაცია
+      deactivate_user: ამ მომხმარებლის დეაქტივაცია
       confirm_user: ამ მომხმარებლის დადასტურება
       hide_user: ამ მომხმარებლის დამალვა
       unhide_user: ამ მომხმარებლის გამოჩენა
@@ -1126,17 +1156,6 @@ ka:
     index:
       creator: შემქმნელი
       description: აღწერა
-    show:
-      title: 'შენიშვნა: %{id}'
-      description: აღწერა
-      open_title: 'დაუმუშავებელი შენიშვნა #%{note_name}'
-      closed_title: 'დამუშავებული შენიშვნა #%{note_name}'
-      hidden_title: 'დამალული შენიშვნა #%{note_name}'
-      hide: დამალვა
-      comment: კომენტარი
-    new:
-      title: ახალი შენიშვნა
-      add: შენიშვნის დამატება
   javascripts:
     map:
       base:
@@ -1147,6 +1166,12 @@ ka:
       edit_tooltip: რუკის რედაქტირება
       edit_disabled_tooltip: რედაქტირებისათვის გაზარდეთ რუკის მასშტაბი
       createnote_tooltip: რუკაზე შენიშვნის დამატება
+    notes:
+      new:
+        add: შენიშვნის დამატება
+      show:
+        hide: დამალვა
+        comment: კომენტარი
     context:
       show_address: მისამართის ჩვენება
   redactions:
