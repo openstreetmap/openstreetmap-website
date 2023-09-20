@@ -29,6 +29,8 @@ ubuntu需要的构建环境，参考[INSTALL steps](INSTALL.md)
 
 ## 注意
 
+    edit页面需要部署时执行命令： rake i18n:js:export 和 rails assets:precompile
+
 ### 注册成功或者找回密码时候，表单提交后，控制台会打印邮件内容，点击链接即可
 
 ```html
@@ -52,4 +54,3 @@ ubuntu需要的构建环境，参考[INSTALL steps](INSTALL.md)
 需要添加OAuth Consumer Keys，参考[configuration steps](CONFIGURE.md)
 
 
-docker run -p 3000:3000 192.168.9.234/yuehai/openstreetmap-website-web:v1.0.0 bundle exec rails s
