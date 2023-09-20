@@ -1,9 +1,5 @@
 # openstreetmap
 
-github代理配置 :`git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"`
-
-取消代理 : `git config --global --unset http.https://github.com.proxy`
-
 ## docker
 
 ubuntu需要的构建环境，参考[INSTALL steps](INSTALL.md)
