@@ -50,3 +50,6 @@ ubuntu需要的构建环境，参考[INSTALL steps](INSTALL.md)
 ### 编辑地图
 
 需要添加OAuth Consumer Keys，参考[configuration steps](CONFIGURE.md)
+
+
+docker run -p 3000:3000 192.168.9.234/yuehai/openstreetmap-website-web:v1.0.0 bundle exec rails s

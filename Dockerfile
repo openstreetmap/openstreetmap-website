@@ -28,36 +28,25 @@ RUN apt-get update \
       ruby-bundler \
       software-properties-common \
       tzdata \
-      unzip \
       nodejs \
       npm \
  && npm install --global yarn \
- # We can't use snap packages for firefox inside a container, so we need to get firefox+geckodriver elsewhere
- # && add-apt-repository -y ppa:mozillateam/ppa \
- # && echo "Package: *\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox \
- # && apt-get install --no-install-recommends -y \
- #      firefox-geckodriver \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  && gem sources -r https://rubygems.org/ -a https://gems.ruby-china.com/ \
  && bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
-# Install compatible Osmosis to help users import sample data in a new instance
-#RUN curl -OL https://github.com/openstreetmap/osmosis/releases/download/0.47.2/osmosis-0.47.2.tgz \
-# && tar -C /usr/local -xzf osmosis-0.47.2.tgz
-ADD docker/osmosis-0.47.2.tgz /usr/local
-
 ENV DEBIAN_FRONTEND=dialog
 
 # Setup app location
-RUN mkdir -p /app
+COPY ./ /app
 WORKDIR /app
 
 # Install Ruby packages
-ADD Gemfile Gemfile.lock /app/
 RUN bundle install
 
 # Install NodeJS packages using yarn
-ADD package.json yarn.lock /app/
-ADD bin/yarn /app/bin/
-RUN bundle exec bin/yarn install
+RUN bundle exec bin/yarn --ignore-engines install
+
+RUN bundle exec bin/rake i18n:js:export \
+ && bundle exec bin/rails assets:precompile
