@@ -63,3 +63,4 @@ RUN bundle install
 ADD package.json yarn.lock /app/
 ADD bin/yarn /app/bin/
 RUN bundle exec bin/yarn install
+RUN bundle exec bin/yarn global add svgo
