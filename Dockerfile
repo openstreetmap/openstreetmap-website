@@ -28,14 +28,6 @@ RUN apt-get update \
       unzip \
       nodejs \
       npm \
-      advancecomp \
-      gifsicle \
-      libjpeg-progs \
-      jhead \
-      jpegoptim \
-      optipng \
-      pngcrush \
-      pngquant \
  && npm install --global yarn \
  # We can't use snap packages for firefox inside a container, so we need to get firefox+geckodriver elsewhere
  && add-apt-repository -y ppa:mozillateam/ppa \
@@ -63,4 +55,3 @@ RUN bundle install
 ADD package.json yarn.lock /app/
 ADD bin/yarn /app/bin/
 RUN bundle exec bin/yarn install
-RUN bundle exec bin/yarn global add svgo
