@@ -9,6 +9,7 @@ RUN apt-get update \
       curl \
       default-jre-headless \
       file \
+      git-core \
       gpg-agent \
       libarchive-dev \
       libffi-dev \
