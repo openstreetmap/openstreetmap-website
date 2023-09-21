@@ -7,6 +7,7 @@
 # Author: Cuu508
 # Author: Danieldegroot2
 # Author: Edgars2007
+# Author: Edgarsdna
 # Author: GreenZeb
 # Author: Jmg.cmdi
 # Author: Karlis
@@ -156,6 +157,10 @@ lv:
   datetime:
     distance_in_words_ago:
       half_a_minute: pirms pusminūtes
+      less_than_x_minutes:
+        zero: pirms mazāk nekā %{count} minūtēm
+        one: pirms mazāk nekā %{count} minūtes
+        other: pirms mazāk nekā %{count} minūtēm
   editor:
     default: Noklusējuma (pašlaik %{name})
     id:
@@ -253,6 +258,10 @@ lv:
     anonymous: anonīms
     no_comment: (nav komentāru)
     part_of: Daļa no
+    part_of_relations:
+      zero: '%{count} attiecības'
+      one: '%{count} attiecība'
+      other: '%{count} attiecības'
     download_xml: Lejupielādēt XML
     view_history: Skatīt vēsturi
     view_details: Skatīt detaļas
@@ -385,6 +394,9 @@ lv:
       nearby mapper: Kartētājs tuvējā apkārtnē
       friend: Draugs
     show:
+      title: Mans vadības panelis
+      no_home_location_html: '%{edit_profile_link} un iestatiet savu atrašanās vietu,
+        lai redzētu tuvumā esošos lietotājus.'
       my friends: Mani draugi
       no friends: Tu  vēl neesi pievienojis draugus.
       nearby users: Citi tuvumā esoši lietotāji
@@ -1195,6 +1207,7 @@ lv:
     help: Palīdzība
     about: Par
     copyright: Autortiesības
+    communities: Kopienas
     community: Kopiena
     community_blogs: Kopienas emuāri
     community_blogs_title: OpenStreetMap kopienas locekļu emuāri
@@ -1489,6 +1502,7 @@ lv:
   site:
     about:
       next: Tālāk
+      heading_html: '%{copyright}OpenStreetMap %{br} datu sniedzēji'
       used_by_html: '%{name} darbina kartes datus simtiem mājaslapu, mobilajās aplikācijās
         un aparatūras ierīcēs'
       lede_text: OpenStreetMap būvē kartētāju kopiena, kuri iegulda un uztur datus
@@ -1676,6 +1690,7 @@ lv:
       where_am_i: Kur tas ir?
       where_am_i_title: Aprakstiet pašreizējo atrašanās vietu izmantojot meklētāju
       submit_text: OK
+      reverse_directions_text: Apgriezt virzienu
     key:
       table:
         entry:
@@ -1769,6 +1784,20 @@ lv:
         para_1: Ja tu vēlies labot ko mazu un nav laika lai piereģistrētos vai iemācītos
           kā rediģēt, ir iespējams vienkārši atstāt piezīmi.
         the_map: karte
+    communities:
+      title: Kopienas
+      lede_text: |-
+        OpenStreetMap veido vai izmanto cilvēki no visas pasaules.
+        Daudzi piedalās individuāli, bet citi ir izveidojuši kopienas.
+        Šīs grupas ir dažāda lieluma un pārstāv dažādas ģeogrāfiskās teritorijas - no mazām pilsētām līdz lieliem daudzvalstu reģioniem.
+        Tās var būt arī formālas vai neformālas.
+      local_chapters:
+        list_text: 'Šādas kopienas ir oficiāli izveidotas kā vietējās nodaļas:'
+      other_groups:
+        other_groups_html: |-
+          Nav nepieciešams formāli izveidot grupu tādā pašā apjomā kā vietējās nodaļas.
+          Patiešām, daudzas grupas ļoti veiksmīgi pastāv kā neformāla cilvēku pulcēšanās vai kā
+          kopienas grupa. Tās var izveidot vai pievienoties ikviens. Vairāk lasiet %{communities_wiki_link}.
   traces:
     visibility:
       private: Privāts (kopīgots kā anonīms, nesakārtoti punkti)
@@ -1981,6 +2010,8 @@ lv:
       my profile: Mans profils
       my settings: Mani iestatījumi
       my comments: Mani komentāri
+      my_preferences: Mani iestatījumi
+      my_dashboard: Mans vadības panelis
       blocks on me: Bloki uz mani
       blocks by me: Manis piešķirtie Bloki
       send message: Nosūtīt ziņojumu
@@ -2166,6 +2197,7 @@ lv:
       open_title: 'Neatrisināta piezīme: #%{note_name}'
       closed_title: 'Atrisināta piezīme: #%{note_name}'
       hidden_title: 'Paslēpta piezīme #%{note_name}'
+      event_opened_by_html: Izveidoja %{user} %{time_ago}
       report: Ziņot par šo piezīmi
       anonymous_warning: Šī piezīme ietver komentārus no anonīmiem lietotājiem, kurus
         nepieciešams pārbaudīt neatkarīgi.
@@ -2174,6 +2206,10 @@ lv:
       reactivate: Atkal aktivizēt
       comment_and_resolve: Komentēt un atrisināt
       comment: Komentēt
+      report_link_html: Ja šajā piezīmē ir konfidenciāla informācija, kas jādzēš,
+        varat %{link}.
+      other_problems_resolve: Visas pārējās problēmas, kas saistītas ar piezīmi, lūdzu,
+        atrisiniet paši, pievienojot komentāru.
     new:
       title: Jauna piezīme
       intro: Piezīmes domātas, lai norādītu uz kartes kļūdām. Ja vēlies pamēģināt
@@ -2182,6 +2218,9 @@ lv:
         precīzāk un detalizētāk visu izklāsti, kā arī marķieri novieto pēc iespējas
         pareizākajā pozīcijā. (Lūdzu neizmantojiet personīgo informāciju vai arī informāciju
         no citām ar autortiesībām aizsargātām kartēm.)
+      advice: Jūsu piezīme ir publiska, un to var izmantot kartes atjaunināšanai,
+        tāpēc neievadiet personisku informāciju vai informāciju no kartēm vai direktoriju
+        sarakstiem, uz kuriem attiecas autortiesības.
       add: Pievienot piezīmi
   javascripts:
     close: Aizvērt
@@ -2197,6 +2236,7 @@ lv:
       custom_dimensions: Uzstādīt pielāgotus izmērus
       format: 'Formāts:'
       scale: 'Mērogs:'
+      image_dimensions: Attēlā būs redzams standarta slānis %{width} x %{height}
       download: Lejupielādēt
       short_url: Īsais URL
       include_marker: Iekļaut marķieri
@@ -2228,6 +2268,8 @@ lv:
         data: Kartes dati
         overlays: Iespējot pārklājumus, lai novērstu trūkumus kartei
         title: Slāņi
+      make_a_donation: Veikt ziedojumu
+      website_and_api_terms: Tīmekļa vietnes un API noteikumi
     site:
       edit_tooltip: Rediģēt karti
       edit_disabled_tooltip: Pietuvini, lai rediģētu karti
@@ -2246,10 +2288,12 @@ lv:
         unhide_comment: parādīt
     edit_help: Pārvieto karti un pietuvini vietai, kuru vēlies labot, tad spied šeit.
     directions:
+      ascend: Kāpums
       engines:
         fossgis_osrm_car: Ar mašīnu (OSRM)
         graphhopper_bicycle: Ar velosipēdu (GraphHopper)
         graphhopper_foot: Ar kājām (GraphHopper)
+      descend: Kritums
       directions: Norādes
       distance: Attālums
       errors:
@@ -2285,7 +2329,7 @@ lv:
         end_oneway_without_exit: Vienvirziena ceļa beigas pie %{name}
         roundabout_with_exit: Pēc apkārtceļa nogriezieties uz izejas %{exit} pie %{name}
         unnamed: nenosaukts ceļš
-        courtesy: Virzienos, pieklājīgi no %{link}
+        courtesy: Norādes no %{link}
         exit_counts:
           first: "1."
           second: "2."
