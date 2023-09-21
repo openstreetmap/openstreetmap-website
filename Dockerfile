@@ -9,7 +9,6 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
 RUN apt-get update \
  && apt-get install --no-install-recommends -y \
       build-essential \
-      curl \
       default-jre-headless \
       file \
       gpg-agent \
@@ -32,9 +31,7 @@ RUN apt-get update \
       npm \
  && npm install --global yarn \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
- && gem sources -r https://rubygems.org/ -a https://gems.ruby-china.com/ \
- && bundle config mirror.https://rubygems.org https://gems.ruby-china.com
+ && rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND=dialog
 
@@ -43,10 +40,9 @@ COPY ./ /app
 WORKDIR /app
 
 # Install Ruby packages
-RUN bundle install
+RUN gem sources -r https://rubygems.org/ -a https://gems.ruby-china.com/ \
+ && bundle config mirror.https://rubygems.org https://gems.ruby-china.com \
+ && bundle install
 
 # Install NodeJS packages using yarn
-RUN bundle exec bin/yarn --ignore-engines install
-
-RUN bundle exec bin/rake i18n:js:export \
- && bundle exec bin/rails assets:precompile
+RUN bundle exec bin/yarn install

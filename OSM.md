@@ -25,9 +25,9 @@ ubuntu需要的构建环境，参考[INSTALL steps](INSTALL.md)
 
     docker-compose run --rm web bundle exec rails db:migrate
 
-## 注意
+## 注意edit打不开时（需要时）
 
-    edit页面需要执行： rake i18n:js:export 和 rails assets:precompile
+    可尝试执行： rake i18n:js:export 和 rails assets:precompile
 
 ### 注册成功或者找回密码时候，表单提交后，控制台会打印邮件内容，点击链接即可
 
