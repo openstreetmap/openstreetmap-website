@@ -91,7 +91,7 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     id_token = token["id_token"]
     assert_not_nil id_token
 
-    data, _headers = JWT.decode id_token, Doorkeeper::OpenidConnect.signing_key.public_key, true, {
+    data, _headers = JWT.decode id_token, nil, true, {
       :algorithm => [Doorkeeper::OpenidConnect.signing_algorithm.to_s],
       :verify_iss => true,
       :iss => "#{Settings.server_protocol}://#{Settings.server_url}",
@@ -99,7 +99,13 @@ class OAuth2Test < ActionDispatch::IntegrationTest
       :sub => user.id,
       :verify_aud => true,
       :aud => client.uid
-    }
+    } do |headers, _payload|
+      kid = headers["kid"]
+      get oauth_discovery_keys_path
+      keys = response.parsed_body["keys"]
+      jwk = keys&.detect { |e| e["kid"] == kid }
+      jwk && JWT::JWK::RSA.import(jwk).public_key
+    end
 
     assert_equal user.id.to_s, data["sub"]
     assert_not data.key?("preferred_username")
