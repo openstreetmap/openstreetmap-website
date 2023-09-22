@@ -115,6 +115,7 @@ L.OSM.Map = L.Map.extend({
         name: I18n.t("javascripts.map.base.tracestracktop_topo")
       }));
     }
+
     this.baseLayers.push(new L.OSM.OPNVKarte({
       attribution: copyright + ". " + memomaps + ". " + terms,
       code: "O",
