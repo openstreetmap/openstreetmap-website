@@ -61,6 +61,14 @@ L.OSM.HOT = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.TracestrackTopo = L.OSM.TileLayer.extend({
+  options: {
+    url: 'https://tile.tracestrack.com/topo__/{z}/{x}/{y}.png?key={apikey}',
+    maxZoom: 19,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="https://www.tracestrack.com/" target="_blank">Tracestrack Maps</a>'
+  }
+});
+
 L.OSM.GPS = L.OSM.TileLayer.extend({
   options: {
     url: 'https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
