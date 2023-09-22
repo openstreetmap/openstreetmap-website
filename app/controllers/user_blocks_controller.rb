@@ -24,8 +24,10 @@ class UserBlocksController < ApplicationController
 
   def show
     if current_user && current_user == @user_block.user
-      @user_block.needs_view = false
-      @user_block.save!
+      ActiveRecord::Base.connected_to(:role => :writing) do
+        @user_block.needs_view = false
+        @user_block.save!
+      end
     end
   end
 

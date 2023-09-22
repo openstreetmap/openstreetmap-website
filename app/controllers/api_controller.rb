@@ -115,7 +115,10 @@ class ApiController < ApplicationController
                           elsif username == "token"
                             User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
                           else
-                            User.authenticate(:username => username, :password => passwd) # basic auth
+                            # User.authenticate might try to update the saved password
+                            ActiveRecord::Base.connected_to(:role => :writing) do
+                              User.authenticate(:username => username, :password => passwd) # basic auth
+                            end
                           end
       # log if we have authenticated using basic auth
       logger.info "Authenticated as user #{current_user.id} using basic authentication" if current_user
