@@ -245,7 +245,7 @@ module ActiveSupport
       visit login_path
       fill_in "username", :with => user.email
       fill_in "password", :with => "test"
-      click_on "Login", :match => :first
+      click_button "Login", :match => :first
     end
 
     def session_for(user)

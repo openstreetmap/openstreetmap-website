@@ -10,7 +10,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit diary_entries_path
 
-    click_on "Send a message to the author"
+    click_link "Send a message to the author"
 
     assert_content "Send a new message"
     assert_equal "Re: #{@diary_entry.title}", page.find_field("Subject").value

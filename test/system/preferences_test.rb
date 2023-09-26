@@ -5,7 +5,7 @@ class PreferencesTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
 
     visit edit_preferences_path
-    click_on "Update Preferences"
+    click_button "Update Preferences"
 
     assert_content "Preferences updated"
   end
@@ -15,7 +15,7 @@ class PreferencesTest < ApplicationSystemTestCase
 
     visit edit_preferences_path
     fill_in "Preferred Languages", :with => "fr"
-    click_on "Update Preferences"
+    click_button "Update Preferences"
 
     assert_content "Préférences mises à jour"
   end

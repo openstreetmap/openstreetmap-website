@@ -14,14 +14,14 @@ class ReportUserTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit user_path(user)
 
-    click_on I18n.t("users.show.report")
+    click_link I18n.t("users.show.report")
     assert_content "Report"
     assert_content I18n.t("reports.new.disclaimer.intro")
 
     choose I18n.t("reports.new.categories.user.vandal_label")
     fill_in "report_details", :with => "This user is a vandal"
     assert_difference "Issue.count", 1 do
-      click_on "Create Report"
+      click_button "Create Report"
     end
 
     assert_content "Your report has been registered successfully"
@@ -35,14 +35,14 @@ class ReportUserTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit user_path(user)
 
-    click_on I18n.t("users.show.report")
+    click_link I18n.t("users.show.report")
     assert_content "Report"
     assert_content I18n.t("reports.new.disclaimer.intro")
 
     choose I18n.t("reports.new.categories.user.vandal_label")
     fill_in "report_details", :with => "This user is a vandal"
     assert_difference "Issue.count", 1 do
-      click_on "Create Report"
+      click_button "Create Report"
     end
 
     assert_content "Your report has been registered successfully"
@@ -52,14 +52,14 @@ class ReportUserTest < ApplicationSystemTestCase
 
     visit user_path(user)
 
-    click_on I18n.t("users.show.report")
+    click_link I18n.t("users.show.report")
     assert_content "Report"
     assert_content I18n.t("reports.new.disclaimer.intro")
 
     choose I18n.t("reports.new.categories.user.spam_label")
     fill_in "report_details", :with => "This user is a spammer"
     assert_no_difference "Issue.count" do
-      click_on "Create Report"
+      click_button "Create Report"
     end
 
     assert_content "Your report has been registered successfully"

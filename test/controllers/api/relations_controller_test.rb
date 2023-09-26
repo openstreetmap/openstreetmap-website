@@ -612,8 +612,7 @@ module Api
 
       # valid delete should return the new version number, which should
       # be greater than the old version number
-      assert @response.body.to_i > multi_tag_relation.version,
-             "delete request should return a new version number for relation"
+      assert_operator @response.body.to_i, :>, multi_tag_relation.version, "delete request should return a new version number for relation"
 
       # this won't work since the relation is already deleted
       xml = update_changeset(xml_for_relation(deleted_relation), changeset.id)

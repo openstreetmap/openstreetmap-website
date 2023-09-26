@@ -321,7 +321,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   ##
   # check the result of a feed
   def check_feed_result(changesets)
-    assert changesets.size <= 20
+    assert_operator changesets.size, :<=, 20
 
     assert_select "feed", :count => [changesets.size, 1].min do
       assert_select "> title", :count => 1, :text => /^Changesets/

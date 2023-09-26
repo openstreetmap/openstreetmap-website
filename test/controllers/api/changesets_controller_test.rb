@@ -199,7 +199,7 @@ module Api
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
       assert_equal changeset.id, js["changeset"]["id"]
-      assert js["changeset"]["open"]
+      assert_operator js["changeset"], :[], "open"
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
       assert_nil js["changeset"]["closed_at"]
       assert_nil js["changeset"]["tags"]
@@ -215,7 +215,7 @@ module Api
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
       assert_equal changeset.id, js["changeset"]["id"]
-      assert js["changeset"]["open"]
+      assert_operator js["changeset"], :[], "open"
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
       assert_nil js["changeset"]["closed_at"]
       assert_nil js["changeset"]["tags"]
@@ -697,10 +697,10 @@ module Api
 
       # check that the changeset bbox is within bounds
       cs = Changeset.find(changeset_id)
-      assert cs.min_lon >= -180 * GeoRecord::SCALE, "Minimum longitude (#{cs.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
-      assert cs.max_lon <= 180 * GeoRecord::SCALE, "Maximum longitude (#{cs.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
-      assert cs.min_lat >= -90 * GeoRecord::SCALE, "Minimum latitude (#{cs.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
-      assert cs.max_lat <= 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
+      assert_operator cs.min_lon, :>=, -180 * GeoRecord::SCALE, "Minimum longitude (#{cs.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
+      assert_operator cs.max_lon, :<=, 180 * GeoRecord::SCALE, "Maximum longitude (#{cs.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
+      assert_operator cs.min_lat, :>=, -90 * GeoRecord::SCALE, "Minimum latitude (#{cs.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
+      assert_operator cs.max_lat, :<=, 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
     end
 
     ##

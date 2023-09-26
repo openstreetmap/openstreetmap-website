@@ -9,9 +9,9 @@ class AccountDeletionTest < ApplicationSystemTestCase
   test "the status is deleted and the personal data removed" do
     visit edit_account_path
 
-    click_on "Delete Account..."
+    click_link "Delete Account..."
     accept_confirm do
-      click_on "Delete Account"
+      click_link "Delete Account"
     end
 
     assert_current_path root_path
@@ -23,9 +23,9 @@ class AccountDeletionTest < ApplicationSystemTestCase
   test "the user is signed out after deletion" do
     visit edit_account_path
 
-    click_on "Delete Account..."
+    click_link "Delete Account..."
     accept_confirm do
-      click_on "Delete Account"
+      click_link "Delete Account"
     end
 
     assert_content "Log In"
@@ -34,9 +34,9 @@ class AccountDeletionTest < ApplicationSystemTestCase
   test "the user is shown a confirmation flash message" do
     visit edit_account_path
 
-    click_on "Delete Account..."
+    click_link "Delete Account..."
     accept_confirm do
-      click_on "Delete Account"
+      click_link "Delete Account"
     end
 
     assert_content "Account Deleted"

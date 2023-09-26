@@ -258,8 +258,7 @@ module Api
 
       # valid delete should return the new version number, which should
       # be greater than the old version number
-      assert @response.body.to_i > node.version,
-             "delete request should return a new version number for node"
+      assert_operator @response.body.to_i, :>, node.version, "delete request should return a new version number for node"
 
       # deleting the same node twice doesn't work
       xml = xml_for_node(node)

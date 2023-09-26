@@ -731,7 +731,7 @@ module Api
     def check_json_details(js, user, include_private, include_email)
       assert_equal user.id, js["user"]["id"]
       assert_equal user.description, js["user"]["description"]
-      assert js["user"]["contributor_terms"]["agreed"]
+      assert_operator js["user"]["contributor_terms"], :[], "agreed"
 
       if include_private
         assert_not js["user"]["contributor_terms"]["pd"]

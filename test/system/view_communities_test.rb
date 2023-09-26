@@ -13,7 +13,7 @@ class ViewCommunitiesTest < ApplicationSystemTestCase
 
     visit edit_preferences_path
     fill_in "Preferred Languages", :with => "fr"
-    click_on "Update Preferences"
+    click_button "Update Preferences"
 
     visit "/communities"
     assert_link "OpenStreetMap États-Unis", :href => "https://www.openstreetmap.us/"

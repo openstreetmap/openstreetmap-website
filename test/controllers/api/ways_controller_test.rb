@@ -379,8 +379,7 @@ module Api
       # check the returned value - should be the new version number
       # valid delete should return the new version number, which should
       # be greater than the old version number
-      assert @response.body.to_i > way.version,
-             "delete request should return a new version number for way"
+      assert_operator @response.body.to_i, :>, way.version, "delete request should return a new version number for way"
 
       # this won't work since the way is already deleted
       xml = xml_for_way(deleted_way)
