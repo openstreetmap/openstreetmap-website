@@ -24,3 +24,13 @@ $link-hover-decoration: underline;
 $table-striped-bg: $offwhite;
 
 $enable-negative-margins: true;
+
+// Workaround for a dartsass bug with bootstrap 5.1
+// This can be removed after upgrading to bootstrap 5.2
+// This copies definitions straight from bootstrap, but uses the sass-native
+// version of the subtract function.
+$border-width: 2px;
+$border-radius: .35rem;
+$card-border-radius: $border-radius;
+$card-border-width: $border-width;
+$card-inner-border-radius: subtract($card-border-radius, $card-border-width);
