@@ -5,6 +5,7 @@ services:
     image: 192.168.9.234/yuehai/openstreetmap-website-web:${WEB_TAG}
     build:
       context: .
+    restart: always
     environment:
       PIDFILE: /tmp/pids/server.pid
     volumes:
@@ -28,6 +29,7 @@ services:
     build:
       context: .
       dockerfile: docker/postgres/Dockerfile
+    restart: always
     ports:
       - "54321:5432"
     environment:
