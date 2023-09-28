@@ -35,14 +35,14 @@ ubuntu需要的构建环境，参考[INSTALL steps](INSTALL.md)
  <h1>注册验证链接：</h1>
 <p style="color: black; margin: 0.75em 0; font-family: 'Helvetica Neue', Arial, sans-serif">
   <a
-    href="http://localhost:3000/user/zhaoyuehai5282/confirm?confirm_string=kDyMhbLOKvm3jzUQeYD19Z6ePz9PYH">
-    http://localhost:3000/user/zhaoyuehai5282/confirm?confirm_string=kDyMhbLOKvm3jzUQeYD19Z6ePz9PYH
+    href="http://127.0.0.1:3000/user/zhaoyuehai5282/confirm?confirm_string=kDyMhbLOKvm3jzUQeYD19Z6ePz9PYH">
+    http://127.0.0.1:3000/user/zhaoyuehai5282/confirm?confirm_string=kDyMhbLOKvm3jzUQeYD19Z6ePz9PYH
   </a>
 </p>
 <h1>找回密码验证链接：</h1>
 <p style="color: black; margin: 0.75em 0; font-family: 'Helvetica Neue', Arial, sans-serif">
-  <a href="http://localhost:3000/user/reset-password?token=wAyq4Pgi7CiyXA407cc5JkJlCRugof">
-    http://localhost:3000/user/reset-password?token=wAyq4Pgi7CiyXA407cc5JkJlCRugof
+  <a href="http://127.0.0.1:3000/user/reset-password?token=wAyq4Pgi7CiyXA407cc5JkJlCRugof">
+    http://127.0.0.1:3000/user/reset-password?token=wAyq4Pgi7CiyXA407cc5JkJlCRugof
   </a>
 </p>
 ```

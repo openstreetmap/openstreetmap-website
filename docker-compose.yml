@@ -2,7 +2,7 @@ version: "3"
 
 services:
   web:
-    image: 192.168.9.234/yuehai/openstreetmap-website-web:${WEB_TAG}
+    image: 192.168.9.234/yuehai/openstreetmap-website-web:${IMAGE_TAG_WEB}
     build:
       context: .
     restart: always
@@ -25,7 +25,7 @@ services:
       - db
 
   db:
-    image: 192.168.9.234/yuehai/openstreetmap-website-db:${DB_TAG}
+    image: 192.168.9.234/yuehai/openstreetmap-website-db:${IMAGE_TAG_DB}
     build:
       context: .
       dockerfile: docker/postgres/Dockerfile
