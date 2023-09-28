@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/gravitystorm/bootstrap-rubygem.git
+  revision: 8c48a63412e0ef1a280b95ef5344667be92d374a
+  branch: dartsass_5_1_3
+  specs:
+    bootstrap (5.1.3)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 2.9.3, < 3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -117,10 +126,6 @@ GEM
       debug_inspector (>= 0.0.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
-    bootstrap (5.1.3)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 2.9.3, < 3)
-      sassc-rails (>= 2.0.0)
     bootstrap_form (5.3.2)
       actionpack (>= 6.1)
       activemodel (>= 6.1)
@@ -153,6 +158,14 @@ GEM
       rexml
     crass (1.0.6)
     dalli (3.2.6)
+    dartsass-ruby (3.0.1)
+      sass-embedded (~> 1.54)
+    dartsass-sprockets (3.0.0)
+      dartsass-ruby (~> 3.0)
+      railties (>= 4.0.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     date (3.3.3)
     debug_inspector (1.1.0)
     deep_merge (1.2.2)
@@ -231,6 +244,7 @@ GEM
       ffi (>= 1.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    google-protobuf (3.24.3)
     hashdiff (1.0.1)
     hashie (5.0.0)
     highline (2.1.0)
@@ -474,14 +488,9 @@ GEM
     sanitize (6.1.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    sassc (2.4.0)
-      ffi (~> 1.9)
-    sassc-rails (2.1.2)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
+    sass-embedded (1.55.0)
+      google-protobuf (~> 3.19)
+      rake (>= 10.0.0)
     secure_headers (6.5.0)
     selenium-webdriver (4.13.1)
       rexml (~> 3.2, >= 3.2.5)
@@ -551,7 +560,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap (>= 1.4.2)
-  bootstrap (~> 5.1.0)
+  bootstrap!
   bootstrap_form (~> 5.0)
   brakeman
   browser
@@ -563,6 +572,7 @@ DEPENDENCIES
   config
   connection_pool
   dalli
+  dartsass-sprockets
   debug_inspector
   delayed_job_active_record
   doorkeeper
@@ -619,7 +629,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rake
   sanitize
-  sassc-rails
+  sass-embedded (~> 1.55.0)
   secure_headers
   selenium-webdriver
   simplecov
@@ -632,4 +642,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.3.26
+   2.4.19
