@@ -151,21 +151,21 @@ module ActionView
         html << "<ul class='pagination pagination-sm'>"
 
         if always_show_anchors && !(wp_first = window_pages[0]).first?
-          html << bootstrap_page_item(first.number.to_s, yield(first.number))
-          html << bootstrap_page_item("...") if wp_first.number - first.number > 1
+          html << bootstrap_page_item_link(first.number.to_s, yield(first.number))
+          html << bootstrap_page_item_disabled("...") if wp_first.number - first.number > 1
         end
 
         window_pages.each do |page|
           html << if current_page == page && !link_to_current_page
-                    bootstrap_page_item(page.number.to_s)
+                    bootstrap_page_item_active(page.number.to_s)
                   else
-                    bootstrap_page_item(page.number.to_s, yield(page.number))
+                    bootstrap_page_item_link(page.number.to_s, yield(page.number))
                   end
         end
 
         if always_show_anchors && !(wp_last = window_pages[-1]).last?
-          html << bootstrap_page_item("...") if last.number - wp_last.number > 1
-          html << bootstrap_page_item(last.number.to_s, yield(last.number))
+          html << bootstrap_page_item_disabled("...") if last.number - wp_last.number > 1
+          html << bootstrap_page_item_link(last.number.to_s, yield(last.number))
         end
 
         html << "</ul>"
@@ -175,15 +175,21 @@ module ActionView
       
       private
 
-      def bootstrap_page_item(body, url = nil)
-        if url
-          content_tag "li", :class => "page-item" do
-            link_to body, url, :class => "page-link"
-          end
-        else
-          content_tag "li", :class => "page-item disabled" do
-            content_tag "a", body, :class => "page-link"
-          end
+      def bootstrap_page_item_disabled(body)
+        content_tag "li", :class => "page-item disabled" do
+          content_tag "span", body, :class => "page-link"
+        end
+      end
+
+      def bootstrap_page_item_active(body)
+        content_tag "li", :class => "page-item active", :'aria-current' => "page" do
+          content_tag "span", body, :class => "page-link"
+        end
+      end
+
+      def bootstrap_page_item_link(body, url)
+        content_tag "li", :class => "page-item" do
+          link_to body, url, :class => "page-link"
         end
       end
     end
