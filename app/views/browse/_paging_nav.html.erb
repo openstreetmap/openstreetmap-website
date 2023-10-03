@@ -2,7 +2,18 @@
   <h4 class="fs-5 mb-0"><%= heading %></h4>
   <% if pages.page_count > 1 %>
     <ul class="pagination pagination-sm mb-1 ms-auto">
-      <%= raw pagination_links_bootstrap(pages, {}) { |n| url_for(page_param => n) } %>
+    <% pagination_items(pages, {}).each do |body, n| %>
+      <% linked = !(n.is_a? String)
+         classes = ["page-item"]
+         classes.push(n) unless linked %>
+      <%= content_tag "li", :class => classes do
+        if linked
+          link_to(body, url_for(page_param => n), :class => "page-link")
+        else
+          content_tag("span", body, :class => "page-link")
+        end
+      end %>
+    <% end %>
     </ul>
   <% end %>
 </div>
