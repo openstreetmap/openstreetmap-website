@@ -2,18 +2,32 @@
   <h4 class="fs-5 mb-0"><%= heading %></h4>
   <% if pages.page_count > 1 %>
     <ul class="pagination pagination-sm mb-1 ms-auto">
-    <% pagination_items(pages, {}).each do |body, n| %>
-      <% linked = !(n.is_a? String)
-         classes = ["page-item"]
-         classes.push(n) unless linked %>
-      <%= content_tag "li", :class => classes do
-        if linked
-          link_to(body, url_for(page_param => n), :class => "page-link")
-        else
-          content_tag("span", body, :class => "page-link")
-        end
-      end %>
-    <% end %>
+    <%
+      max_width_for_default_padding = 35
+
+      width = 0
+      pagination_items(pages, {}).each do |body, n|
+        width += 2 # padding width
+        width += body.length
+      end
+      link_classes = ["page-link"]
+      link_classes.push("px-1") if width > max_width_for_default_padding
+
+      pagination_items(pages, {}).each do |body, n|
+        linked = !(n.is_a? String)
+        item_classes = ["page-item"]
+        item_classes.push(n) unless linked
+    %>
+    <%= content_tag "li", :class => item_classes do
+          if linked
+            link_to(body, url_for(page_param => n), :class => link_classes)
+          else
+            content_tag("span", body, :class => link_classes)
+          end
+        end %>
+    <%
+      end
+    %>
     </ul>
   <% end %>
 </div>
