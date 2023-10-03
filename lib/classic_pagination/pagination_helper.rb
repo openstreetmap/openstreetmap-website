@@ -133,6 +133,7 @@ module ActionView
 
       # Same as above, but
       # - with bootstrap classes
+      # - no list wrapper
       # - invoked block returns the page url
       def pagination_links_bootstrap(paginator, options)
         options = DEFAULT_OPTIONS.merge(options)
@@ -147,8 +148,6 @@ module ActionView
         last = paginator.last
 
         html = ""
-
-        html << "<ul class='pagination pagination-sm mb-1'>"
 
         if always_show_anchors && !(wp_first = window_pages[0]).first?
           html << bootstrap_page_item_link(first.number.to_s, yield(first.number))
@@ -167,8 +166,6 @@ module ActionView
           html << bootstrap_page_item_disabled("...") if last.number - wp_last.number > 1
           html << bootstrap_page_item_link(last.number.to_s, yield(last.number))
         end
-
-        html << "</ul>"
 
         html
       end
