@@ -148,7 +148,7 @@ module ActionView
 
         html = ""
 
-        html << "<ul class='pagination pagination-sm'>"
+        html << "<ul class='pagination pagination-sm mb-1'>"
 
         if always_show_anchors && !(wp_first = window_pages[0]).first?
           html << bootstrap_page_item_link(first.number.to_s, yield(first.number))
