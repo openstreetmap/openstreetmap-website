@@ -130,6 +130,62 @@ module ActionView
 
         html
       end
+
+      # Same as above, but
+      # - with bootstrap classes
+      # - invoked block returns the page url
+      def pagination_links_bootstrap(paginator, options)
+        options = DEFAULT_OPTIONS.merge(options)
+        link_to_current_page = options[:link_to_current_page]
+        always_show_anchors = options[:always_show_anchors]
+
+        current_page = paginator.current_page
+        window_pages = current_page.window(options[:window_size]).pages
+        return unless link_to_current_page || window_pages.length > 1
+
+        first = paginator.first
+        last = paginator.last
+
+        html = ""
+
+        html << "<ul class='pagination pagination-sm'>"
+
+        if always_show_anchors && !(wp_first = window_pages[0]).first?
+          html << bootstrap_page_item(first.number.to_s, yield(first.number))
+          html << bootstrap_page_item("...") if wp_first.number - first.number > 1
+        end
+
+        window_pages.each do |page|
+          html << if current_page == page && !link_to_current_page
+                    bootstrap_page_item(page.number.to_s)
+                  else
+                    bootstrap_page_item(page.number.to_s, yield(page.number))
+                  end
+        end
+
+        if always_show_anchors && !(wp_last = window_pages[-1]).last?
+          html << bootstrap_page_item("...") if last.number - wp_last.number > 1
+          html << bootstrap_page_item(last.number.to_s, yield(last.number))
+        end
+
+        html << "</ul>"
+
+        html
+      end
+      
+      private
+
+      def bootstrap_page_item(body, url = nil)
+        if url
+          content_tag "li", :class => "page-item" do
+            link_to body, url, :class => "page-link"
+          end
+        else
+          content_tag "li", :class => "page-item disabled" do
+            content_tag "a", body, :class => "page-link"
+          end
+        end
+      end
     end
   end
 end
