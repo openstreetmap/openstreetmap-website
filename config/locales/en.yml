@@ -559,10 +559,31 @@ en:
       newer_comments: "Newer Comments"
       older_comments: "Older Comments"
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: "The authorization server requires end-user account selection"
+        consent_required: "The authorization server requires end-user consent"
+        interaction_required: "The authorization server requires end-user interaction"
+        login_required: "The authorization server requires end-user authentication"
     flash:
       applications:
         create:
           notice: Application Registered.
+    openid_connect:
+      errors:
+        messages:
+          # Configuration error messages
+          auth_time_from_resource_owner_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner missing configuration."
+          reauthenticate_resource_owner_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner missing configuration."
+          resource_owner_from_access_token_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token missing configuration."
+          select_account_for_resource_owner_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner missing configuration."
+          subject_not_configured: "ID Token generation failed due to Doorkeeper::OpenidConnect.configure.subject missing configuration."
+    scopes:
+      address: "View your physical address"
+      email: "View your email address"
+      openid: "Authenticate your account"
+      phone: "View your phone number"
+      profile: "View your profile information"
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Contact
@@ -2530,6 +2551,7 @@ en:
     permissions:
       missing: "You have not permitted the application access to this facility"
     scopes:
+      openid: Sign-in using OpenStreetMap
       read_prefs: Read user preferences
       write_prefs: Modify user preferences
       write_diary: Create diary entries, comments and make friends

@@ -81,6 +81,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 # Doorkeeper for OAuth2
 gem "doorkeeper"
 gem "doorkeeper-i18n"
+gem "doorkeeper-openid_connect"
 
 # Markdown formatting support
 gem "kramdown"
@@ -150,6 +151,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
+  gem "jwt"
   gem "minitest", "~> 5.1"
   gem "puma", "~> 5.6"
   gem "rails-controller-testing"
