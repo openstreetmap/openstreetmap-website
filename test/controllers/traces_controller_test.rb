@@ -658,7 +658,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # Now authenticated
     create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
-    assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+    assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
     session_for(user)
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }
     assert_response :redirect
@@ -672,7 +672,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_not trace.inserted
     assert_equal File.new(fixture).read, trace.file.blob.download
     trace.destroy
-    assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+    assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
   end
 
   # Test creating a trace with validation errors
@@ -684,7 +684,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # Now authenticated
     create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
-    assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+    assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
     session_for(user)
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "", :tagstring => "new,trace", :visibility => "trackable" } }
     assert_template :new

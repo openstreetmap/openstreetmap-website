@@ -61,7 +61,7 @@ class DiaryEntriesController < ApplicationController
   def show
     entries = @user.diary_entries
     entries = entries.visible unless can? :unhide, DiaryEntry
-    @entry = entries.where(:id => params[:id]).first
+    @entry = entries.find_by(:id => params[:id])
     if @entry
       @title = t ".title", :user => params[:display_name], :title => @entry.title
       @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
@@ -74,7 +74,7 @@ class DiaryEntriesController < ApplicationController
   def new
     @title = t ".title"
 
-    default_lang = current_user.preferences.where(:k => "diary.default_language").first
+    default_lang = current_user.preferences.find_by(:k => "diary.default_language")
     lang_code = default_lang ? default_lang.v : current_user.preferred_language
     @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
     set_map_location
@@ -99,7 +99,7 @@ class DiaryEntriesController < ApplicationController
     @diary_entry.user = current_user
 
     if @diary_entry.save
-      default_lang = current_user.preferences.where(:k => "diary.default_language").first
+      default_lang = current_user.preferences.find_by(:k => "diary.default_language")
       if default_lang
         default_lang.v = @diary_entry.language_code
         default_lang.save!

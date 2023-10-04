@@ -87,7 +87,7 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal node_template.timestamp.to_i, node.timestamp.to_i
 
     assert_equal(1, OldNode.where(:node_id => node_template.id).count)
-    old_node = OldNode.where(:node_id => node_template.id).first
+    old_node = OldNode.find_by(:node_id => node_template.id, :version => 1)
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
     assert_equal node_template.longitude, old_node.longitude
@@ -120,7 +120,7 @@ class NodeTest < ActiveSupport::TestCase
     # assert_equal node_template.tags, node.tags
 
     assert_equal(2, OldNode.where(:node_id => node_template.id).count)
-    old_node = OldNode.where(:node_id => node_template.id, :version => 2).first
+    old_node = OldNode.find_by(:node_id => node_template.id, :version => 2)
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
     assert_equal node_template.longitude, old_node.longitude
@@ -149,7 +149,7 @@ class NodeTest < ActiveSupport::TestCase
     # assert_equal node_template.tags, node.tags
 
     assert_equal(2, OldNode.where(:node_id => node_template.id).count)
-    old_node = OldNode.where(:node_id => node_template.id, :version => 2).first
+    old_node = OldNode.find_by(:node_id => node_template.id, :version => 2)
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
     assert_equal node_template.longitude, old_node.longitude
