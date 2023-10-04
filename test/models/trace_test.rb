@@ -202,7 +202,7 @@ class TraceTest < ActiveSupport::TestCase
 
     # Check that the tile has been set prior to the bulk import
     # i.e. that the callbacks have been run correctly
-    assert_equal 3221331576, Tracepoint.where(:trace => trace).first.tile
+    assert_equal 3221331576, Tracepoint.find_by(:trace => trace).tile
   end
 
   def test_import_creates_icon

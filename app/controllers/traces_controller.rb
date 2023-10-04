@@ -19,7 +19,7 @@ class TracesController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if display_name.present?
-      target_user = User.active.where(:display_name => display_name).first
+      target_user = User.active.find_by(:display_name => display_name)
       if target_user.nil?
         render_unknown_user display_name
         return
@@ -283,7 +283,7 @@ class TracesController < ApplicationController
     # Save the trace object
     if trace.save
       # Finally save the user's preferred privacy level
-      if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
+      if pref = current_user.preferences.find_by(:k => "gps.trace.visibility")
         pref.v = visibility
         pref.save
       else
@@ -303,11 +303,11 @@ class TracesController < ApplicationController
   end
 
   def default_visibility
-    visibility = current_user.preferences.where(:k => "gps.trace.visibility").first
+    visibility = current_user.preferences.find_by(:k => "gps.trace.visibility")
 
     if visibility
       visibility.v
-    elsif current_user.preferences.where(:k => "gps.trace.public", :v => "default").first.nil?
+    elsif current_user.preferences.find_by(:k => "gps.trace.public", :v => "default").nil?
       "private"
     else
       "public"
