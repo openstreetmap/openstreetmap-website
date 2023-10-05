@@ -63,6 +63,7 @@
 # Author: Wong128cn
 # Author: Wuqianye
 # Author: Xiaomingyan
+# Author: Xyb
 # Author: Yfdyh000
 # Author: Zazzzz
 # Author: Zfshuo
@@ -164,7 +165,7 @@ zh-CN:
         callback_url: 回调 URL
         support_url: 支持 URL
         allow_read_prefs: 读取其用户设置
-        allow_write_prefs: 修改其用户首选项
+        allow_write_prefs: 修改其用户偏好
         allow_write_diary: 创建日记文章、评论并结交朋友。
         allow_write_api: 修改地图
         allow_read_gpx: 读取他们的私人GPS轨迹
@@ -288,7 +289,7 @@ zh-CN:
   auth:
     providers:
       none: 无
-      openid: 开放式身份验证
+      openid: 开放式身份验证(OpenID)
       google: 谷歌
       facebook: 脸书
       microsoft: 微软
@@ -310,7 +311,7 @@ zh-CN:
         description_all: 已报告、评论或关闭的注记列表
         description_area: 在您的区域 [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
           报告、评论或关闭的注记列表
-        description_item: 注记 %{id} 的简易信息聚合馈送
+        description_item: 注记 %{id} 的简易信息聚合馈送(RSS)
         opened: 新注记(靠近 %{place})
         commented: 新评论(靠近 %{place})
         closed: 关闭的注记(靠近 %{place})
@@ -326,7 +327,7 @@ zh-CN:
         delete_account: 删除账户
         delete_introduction: 您可以通过下方的按钮删除您的OpenStreetMap账户。请注意如下细节：
         delete_profile: 您的个人简介，包括您的头像、介绍和家的位置，都将被移除。
-        delete_display_name: 您显示的用户名将被移除，并且可以被其他账户复用。
+        delete_display_name: 您的用户名将被移除，并且可以被其他账户重复使用。
         retain_caveats: 然而，部分关于您的信息仍将被保留在OpenStreetMap里，即使在您的账户被删除后：
         retain_edits: 您对地图数据库的编辑，如果有，将被保留。
         retain_traces: 您上传的轨迹，如果有，将被保留。
@@ -368,7 +369,7 @@ zh-CN:
       not_reversible: 此操作无法撤消，所有新用户现在默认都是公开的。
       make_edits_public_button: 公开我所有的编辑
     update:
-      success_confirm_needed: 成功更新用户信息。 查看您的邮箱以确认您的新邮箱地址。
+      success_confirm_needed: 成功更新用户信息。查看您邮箱中的通知以确认您的新邮箱地址。
       success: 成功更新用户信息。
     destroy:
       success: 账户已删除。
@@ -406,8 +407,8 @@ zh-CN:
       relation: 关系 (%{count})
       relation_paginated: 关系 (%{x}-%{y}，共 %{count})
       comment: 评论（%{count}）
-      hidden_comment_by_html: 隐藏来自 %{user} %{time_ago} 的评论
-      comment_by_html: 来自 %{user} %{time_ago} 的评论
+      hidden_comment_by_html: '%{user} 于 %{time_ago} 的隐藏评论'
+      comment_by_html: '%{user} 于 %{time_ago} 的评论'
       changesetxml: 变更集 XML
       osmchangexml: osmChange XML
       feed:
@@ -415,7 +416,7 @@ zh-CN:
         title_comment: 变更集 %{id} - %{comment}
       join_discussion: 登录以加入讨论
       discussion: 讨论
-      still_open: 变更集依然有效——一旦变更集关闭将打开讨论。
+      still_open: 变更集依然开放——一旦变更集关闭讨论将开放。
     node:
       title_html: 节点：%{name}
       history_title_html: 节点历史：%{name}
@@ -423,8 +424,7 @@ zh-CN:
       title_html: 路径：%{name}
       history_title_html: 路径历史：%{name}
       nodes: 节点
-      nodes_count:
-        other: '%{count}个节点'
+      nodes_count: '%{count}个节点'
       also_part_of_html:
         one: 属于路径 %{related_ways}
         other: 属于路径 %{related_ways}
@@ -463,14 +463,14 @@ zh-CN:
         changeset: 变更集
         note: 注记
     redacted:
-      redaction: 编辑 %{id}
-      message_html: 该 %{type} 版本 %{version} 无法显示，因为其已被编辑。详情请见%{redaction_link}。
+      redaction: 修订 %{id}
+      message_html: 该%{type}版本 %{version} 无法显示，因为其已被删改。详情请见%{redaction_link}。
       type:
         node: 节点
         way: 路径
         relation: 关系
     start_rjs:
-      feature_warning: 正在载入 %{num_features} 个要素，这可能使您的浏览器变慢或失去响应。您确定想要显示该数据吗？
+      feature_warning: 正在加载 %{num_features} 个要素，这可能会使您的浏览器变慢或无响应。确定要显示此数据吗？
       load_data: 加载数据
       loading: 加载中…
     tag_details:
@@ -515,7 +515,7 @@ zh-CN:
       empty_user: 无该用户的变更集。
       no_more: 未找到更多变更集。
       no_more_area: 该区域内没有更多变更集。
-      no_more_user: 无该用户的更多修改集合。
+      no_more_user: 该用户无更多变更集。
       load_more: 加载更多
     timeout:
       sorry: 抱歉，您所请求的变更集列表检索时间过长。
@@ -529,7 +529,7 @@ zh-CN:
       title_all: OpenStreetMap 变更集讨论
       title_particular: 'OpenStreetMap 变更集 #%{changeset_id} 讨论'
     timeout:
-      sorry: 抱歉，您所请求的变更集评论时间区间过长。
+      sorry: 抱歉，您请求的变更集评论列表检索时间过长。
   dashboards:
     contact:
       km away: '%{count}千米外'
@@ -580,10 +580,10 @@ zh-CN:
       login: 登录
     no_such_entry:
       title: 没有这篇日记文章
-      heading: 没有文章ID为：%{id}
+      heading: 没有ID为 %{id} 的文章
       body: 对不起，没有 id 为 %{id} 的日记文章或评论。请检查您的拼写，或是您可能点击了错误的链接。
     diary_entry:
-      posted_by_html: '%{link_user}在%{created}用%{language_link}发布'
+      posted_by_html: '%{link_user} 于 %{created} 以 %{language_link} 发布'
       updated_at_html: 最后一次更新于%{updated}。
       comment_link: 评论该文章
       reply_link: 向作者发送消息
@@ -591,13 +591,13 @@ zh-CN:
         one: '%{count} 个评论'
         other: '%{count} 个评论'
       no_comments: 没有评论
-      edit_link: 编辑该文章
-      hide_link: 隐藏该文章
-      unhide_link: 取消隐藏此项目
+      edit_link: 编辑此文章
+      hide_link: 隐藏此文章
+      unhide_link: 取消隐藏此文章
       confirm: 确认
       report: 举报此文章
     diary_comment:
-      comment_from_html: '%{link_user}在%{comment_created_at}的评论'
+      comment_from_html: '%{link_user} 于 %{comment_created_at} 的评论'
       hide_link: 隐藏此评论
       unhide_link: 显示此评论
       confirm: 确认
@@ -611,8 +611,8 @@ zh-CN:
         title: '%{user} 的 OpenStreetMap 日记文章'
         description: '%{user} 最近的 OpenStreetMap 日记文章'
       language:
-        title: '%{language_name} OpenStreetMap 日记文章'
-        description: 最近的 %{language_name} OpenStreetMap 用户日记文章
+        title: 以 %{language_name} 书写的 OpenStreetMap 日记文章
+        description: 最近的以 %{language_name} 书写的 OpenStreetMap 用户日记文章
       all:
         title: OpenStreetMap 日记文章
         description: 最近的 OpenStreetMap 用户日记文章
@@ -627,10 +627,35 @@ zh-CN:
       newer_comments: 较新评论
       older_comments: 较旧评论
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: 授权服务器需要最终用户帐户选择
+        consent_required: 授权服务器需要最终用户同意
+        interaction_required: 授权服务器需要最终用户交互
+        login_required: 授权服务器需要最终用户身份验证
     flash:
       applications:
         create:
           notice: 应用程序已注册。
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: 由于 Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            缺少配置而失败。
+          reauthenticate_resource_owner_not_configured: 由于 Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            缺少配置而失败。
+          resource_owner_from_access_token_not_configured: 由于 Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            缺少配置而失败。
+          select_account_for_resource_owner_not_configured: 由于 Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            缺少配置而失败。
+          subject_not_configured: 由于 Doorkeeper::OpenidConnect.configure.subject 缺少配置，ID
+            令牌生成失败。
+    scopes:
+      address: 查看您的实际地址
+      email: 查看您的电子邮件地址
+      openid: 验证您的帐户
+      phone: 查看您的电话号码
+      profile: 查看您的个人资料信息
   errors:
     contact:
       contact_url: http://wiki.openstreetmap.org/wiki/Contact
@@ -646,7 +671,7 @@ zh-CN:
       description: OpenStreetMap 服务器遇到意外情况，无法满足请求（HTTP 500）
     not_found:
       title: 文件未找到
-      description: 在 OpenStreetMap 服务器上找不到该名称的文件/目录/API 操作（HTTP 404）
+      description: 在 OpenStreetMap 服务器上找不到该名称的文件、目录或API 操作（HTTP 404）
   friendships:
     make_friend:
       heading: 添加 %{user} 为朋友？
@@ -677,7 +702,7 @@ zh-CN:
           pylon: 桥塔
           station: 索道站
           t-bar: T字形电梯
-          "yes": 航空
+          "yes": 空中通道
         aeroway:
           aerodrome: 飞机场
           airstrip: 飞机跑道
@@ -689,7 +714,7 @@ zh-CN:
           navigationaid: 航空导航辅助
           parking_position: 停车位置
           runway: 飞机跑道
-          taxilane: 滑行道
+          taxilane: 机坪滑行道
           taxiway: 滑行道
           terminal: 机场航站楼
           windsock: 风向袋
@@ -710,7 +735,7 @@ zh-CN:
           boat_rental: 租船处
           brothel: 妓院
           bureau_de_change: 外汇兑换点
-          bus_station: 公共汽车枢纽
+          bus_station: 公交场站
           cafe: 咖啡厅
           car_rental: 汽车租赁
           car_sharing: 汽车共享
@@ -749,8 +774,8 @@ zh-CN:
           language_school: 语言学校
           library: 图书馆
           loading_dock: 装卸码头
-          love_hotel: 爱情旅馆
-          marketplace: 商场
+          love_hotel: 情侣旅馆
+          marketplace: 市场
           mobile_money_agent: 移动货币代理
           monastery: 修道院
           money_transfer: 汇款处
@@ -797,7 +822,7 @@ zh-CN:
           waste_basket: 垃圾桶
           waste_disposal: 废物处理
           waste_dump_site: 垃圾倾倒场
-          watering_place: 动物饮水处
+          watering_place: 饮水处
           water_point: 引水点
           weighbridge: 地磅
           "yes": 便利设施
@@ -824,15 +849,15 @@ zh-CN:
           cabin: 小屋
           chapel: 教堂
           church: 教堂建筑
-          civic: 公共建筑
+          civic: 市政服务建筑
           college: 学院建筑
           commercial: 商业建筑物
           construction: 在建建筑
           detached: 独立式住宅
           dormitory: 宿舍
           duplex: 双拼住宅
-          farm: 农场屋
-          farm_auxiliary: 辅助农场建筑
+          farm: 农舍
+          farm_auxiliary: 辅助农舍
           garage: 车库
           garages: 车库
           greenhouse: 温室
@@ -852,7 +877,7 @@ zh-CN:
           roof: 屋顶
           ruins: 损毁建筑
           school: 学校建筑物
-          semidetached_house: 双拼住宅
+          semidetached_house: 半独立式住宅
           service: 服务建筑
           shed: 棚
           stable: 马厩
@@ -1710,7 +1735,7 @@ zh-CN:
       new_messages: '%{count} 条新消息'
       old_messages: '%{count} 条旧消息'
       from: 发件人
-      subject: 主题
+      subject: 标题
       date: 日期
       no_messages_yet_html: 您还没有消息，何不联系一些%{people_mapping_nearby_link}？
       people_mapping_nearby: 在附近绘制地图的人
@@ -1738,7 +1763,7 @@ zh-CN:
         one: 您有 %{count} 条已发送信息
         other: 您有 %{count} 条已发送信息
       to: 收件人
-      subject: 主题
+      subject: 标题
       date: 日期
       no_sent_messages_html: 您尚未发送信息。何不联系一些%{people_mapping_nearby_link}?
       people_mapping_nearby: 在附近绘制地图的人
@@ -2418,6 +2443,7 @@ zh-CN:
     permissions:
       missing: 您未给予应用访问此装置的权限
     scopes:
+      openid: 使用 OpenStreetMap 登录
       read_prefs: 阅读用户首选项
       write_prefs: 修改用户首选项
       write_diary: 创建日记、评论和交朋友
@@ -2991,7 +3017,7 @@ zh-CN:
       heading: 编辑修订
       title: 编辑修订
     index:
-      empty: 无可显示的修订。
+      empty: 无删改可显示。
       heading: 修订列表
       title: 修订列表
     new:

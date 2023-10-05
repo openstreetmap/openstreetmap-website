@@ -663,10 +663,36 @@ uk:
       newer_comments: Нові коментарі
       older_comments: Старіші коментарі
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Сервер авторизації вимагає вибору облікового запису
+          кінцевого користувача
+        consent_required: Сервер авторизації вимагає згоди кінцевого користувача
+        interaction_required: Сервер авторизації вимагає взаємодії з кінцевим користувачем
+        login_required: Сервер авторизації вимагає автентифікації кінцевого користувача
     flash:
       applications:
         create:
           notice: Запит зареєстровано.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Не вдалося створити маркер ідентифікатора через
+            відсутність конфігурації Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Перегляньте свою фізичну адресу
+      email: Перегляньте адресу електронної пошти
+      openid: Автентифікуйте свій обліковий запис
+      phone: Перегляньте свій номер телефону
+      profile: Перегляньте інформацію зі свого профілю
   errors:
     contact:
       contact_url_title: Тут ви можете знайти інформацію про відповідні канали спілкування
@@ -2662,6 +2688,7 @@ uk:
     permissions:
       missing: Ви не дозволили програмі отримати доступ до цієї функції
     scopes:
+      openid: Вхід за допомогою OpenStreetMap
       read_prefs: Отримувати налаштування
       write_prefs: Змінювати налаштування
       write_diary: Створювати записи у щоденнику, коментарі та надсилати запити на
@@ -2832,7 +2859,7 @@ uk:
       heading: Учасника %{user} не існує.
       body: Вибачте, учасника %{user} не існує. Будь ласка, перевірте правильність
         вводу. Можливо, ви перейшли з помилкового посилання.
-      deleted: вилучено
+      deleted: '''Профіль вилучено'''
     show:
       my diary: Мій щоденник
       my edits: Мої редагування

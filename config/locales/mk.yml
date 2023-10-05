@@ -582,10 +582,36 @@ mk:
       newer_comments: Понови коментари
       older_comments: Постари коментари
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Овластувачкиот опслужувач бара избор на сметка
+          на крајниот корисник
+        consent_required: Овластувачкиот опслужувач бара согласност од крајниот корисник
+        interaction_required: Овластувачкиот опслужувач бара дејство од крајниот корисник
+        login_required: Овластувачкиот опслужувач бара заверка на крајниот корисник
     flash:
       applications:
         create:
           notice: Прилогот е пријавен.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Не успеа бидејќи не е наместен
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Не успеа бидејќи не е наместен
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Не успеа бидејќи не е наместен
+            Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Не успеа бидејќи не е
+            наместен Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Создавањето на шифрената назнака не успеа бидејќи
+            не е наместен Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Ваша физичка адреса
+      email: Ваша е-поштенска адреса
+      openid: Заверете ја вашата сметка
+      phone: Ваш телефонски број
+      profile: Ваши профилни информации
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Contact?uselang=mk
@@ -2563,6 +2589,7 @@ mk:
     permissions:
       missing: Му немате дозволено пристап на прилогот до оваа можност
     scopes:
+      openid: Најава со OpenStreetMap
       read_prefs: Кориснички нагодувања за читање
       write_prefs: Менување на корисничките нагодувања
       write_diary: Создавање на дневнички ставки, коментирање и спријателување
