@@ -235,7 +235,7 @@ class DiaryEntriesController < ApplicationController
   def comments
     @title = t ".title", :user => @user.display_name
 
-    comments = DiaryComment.where(:users => @user)
+    comments = DiaryComment.where(:user => @user)
     comments = comments.visible unless can? :unhidecomment, DiaryEntry
 
     @params = params.permit(:display_name, :before, :after)
