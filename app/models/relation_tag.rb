@@ -13,7 +13,6 @@
 
 class RelationTag < ApplicationRecord
   self.table_name = "current_relation_tags"
-  self.primary_keys = "relation_id", "k"
 
   belongs_to :relation
 

@@ -9,14 +9,13 @@
 #
 # Foreign Keys
 #
-#  relation_tags_id_fkey  (relation_id => relations.relation_id)
+#  relation_tags_id_fkey  (["relation_id", "version"] => relations.["relation_id", "version"])
 #
 
 class OldRelationTag < ApplicationRecord
   self.table_name = "relation_tags"
-  self.primary_keys = "relation_id", "version", "k"
 
-  belongs_to :old_relation, :foreign_key => [:relation_id, :version], :inverse_of => :old_tags
+  belongs_to :old_relation, :query_constraints => [:relation_id, :version], :inverse_of => :old_tags
 
   validates :old_relation, :associated => true
   validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :characters => true

@@ -13,14 +13,13 @@
 #
 # Foreign Keys
 #
-#  way_nodes_id_fkey  (way_id => ways.way_id)
+#  way_nodes_id_fkey  (["way_id", "version"] => ways.["way_id", "version"])
 #
 
 class OldWayNode < ApplicationRecord
   self.table_name = "way_nodes"
-  self.primary_keys = "way_id", "version", "sequence_id"
 
-  belongs_to :old_way, :foreign_key => [:way_id, :version], :inverse_of => :old_nodes
+  belongs_to :old_way, :query_constraints => [:way_id, :version], :inverse_of => :old_nodes
   # A bit messy, referring to current nodes and ways, should do for the data browser for now
   belongs_to :node
   belongs_to :way

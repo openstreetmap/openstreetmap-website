@@ -12,8 +12,6 @@
 #
 
 class ChangesetTag < ApplicationRecord
-  self.primary_keys = "changeset_id", "k"
-
   belongs_to :changeset
 
   validates :changeset, :associated => true

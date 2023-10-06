@@ -13,7 +13,6 @@
 
 class WayTag < ApplicationRecord
   self.table_name = "current_way_tags"
-  self.primary_keys = "way_id", "k"
 
   belongs_to :way
 
