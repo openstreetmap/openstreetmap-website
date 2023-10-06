@@ -15,7 +15,7 @@ module RichText
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::OutputSafetyHelper
 
-    def sanitize(text)
+    def sanitize(text, _options = {})
       Sanitize.clean(text, Sanitize::Config::OSM).html_safe
     end
   end
