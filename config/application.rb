@@ -19,10 +19,6 @@ module OpenStreetMap
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W[#{config.root}/lib]
 
-    # Force requests from old versions of IE (<= IE8) to be UTF-8 encoded.
-    # This has defaulted to false since rails 6.0
-    config.action_view.default_enforce_utf8 = true
-
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types

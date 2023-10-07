@@ -135,7 +135,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         assert_select "input[name=commit][type=submit][value=Publish]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 7
+        assert_select "input", :count => 6
       end
     end
   end
@@ -294,7 +294,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         assert_select "input[name=commit][type=submit][value=Update]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 8
+        assert_select "input", :count => 7
       end
     end
 
