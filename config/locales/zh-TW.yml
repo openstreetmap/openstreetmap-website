@@ -593,10 +593,34 @@ zh-TW:
       newer_comments: 較新的評論
       older_comments: 較舊的評論
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: 授權伺服器需要終端使用者選擇
+        consent_required: 授權伺服器需要終端使用者同意
+        interaction_required: 授權伺服器需要終端使用者互動
+        login_required: 授權伺服器需要終端使用者身份驗證
     flash:
       applications:
         create:
           notice: 應用程式已註冊。
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            缺少設置導致失敗。
+          reauthenticate_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            缺少設置導致失敗。
+          resource_owner_from_access_token_not_configured: 因 Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            缺少設置導致失敗。
+          select_account_for_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner  缺少設置導致失敗。
+          subject_not_configured: 因 Doorkeeper::OpenidConnect.configure.subject 缺少配置，產生
+            ID 權杖失敗。
+    scopes:
+      address: 查看您的實際地址
+      email: 查看您的電子郵件位址
+      openid: 驗證您的帳號
+      phone: 查看您的電話號碼
+      profile: 查看您的個人資訊
   errors:
     contact:
       contact_url_title: 各種聯絡管道說明
@@ -2396,6 +2420,7 @@ zh-TW:
     permissions:
       missing: 您尚未允許應用程式來訪問此設施
     scopes:
+      openid: 使用 OpenStreetMap 登入
       read_prefs: 讀取使用者偏好設定
       write_prefs: 修改使用者偏好設定
       write_diary: 建立日記、評論和加入好友

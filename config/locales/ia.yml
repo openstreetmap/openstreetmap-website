@@ -12,8 +12,6 @@ ia:
   time:
     formats:
       friendly: '%e de %B %Y a %H:%M'
-  count:
-    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Selige file
@@ -585,10 +583,39 @@ ia:
       newer_comments: Commentos plus recente
       older_comments: Commentos plus ancian
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Le servitor de autorisation require le section
+          de un conto de usator
+        consent_required: Le servitor de autorisation require le consentimento del
+          usator
+        interaction_required: Le servitor de autorisation require un interaction del
+          usator
+        login_required: Le servitor de autorisation require le authentication del
+          usator
     flash:
       applications:
         create:
           notice: Application registrate.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Fallimento a causa del manco
+            de un configuration Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Fallimento a causa del manco
+            de un configuration Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Fallimento a causa del
+            manco de un configuration  Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Fallimento a causa del
+            manco de un configuration  Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Le generation del token identificator ha fallite
+            a causa del manco de un configuration  Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vider tu adresse physic
+      email: Vider tu adresse de e-mail
+      openid: Authenticar tu conto
+      phone: Vider tu numero de telephono
+      profile: Vider tu information de profilo
   errors:
     contact:
       contact_url_title: Varie canales de contacto explicate
@@ -2576,6 +2603,7 @@ ia:
     permissions:
       missing: Tu non ha permittite al application le accesso a iste facilitate
     scopes:
+      openid: Aperir session con OpenStreetMap
       read_prefs: Leger preferentias de usator
       write_prefs: Modificar preferentias de usator
       write_diary: Crear entratas de diario, commentos e adder amicos

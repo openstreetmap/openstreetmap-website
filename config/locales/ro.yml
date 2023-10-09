@@ -24,8 +24,6 @@ ro:
   time:
     formats:
       friendly: '%e %B %Y la %H:%M'
-  count:
-    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Selectează fișier
@@ -617,10 +615,36 @@ ro:
       newer_comments: Comentarii mai noi
       older_comments: Comentarii mai vechi
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Serverul de autorizare necesită selectarea contului
+          de utilizator
+        consent_required: Serverul de autorizare necesită consimțământul utilizatorului
+        interaction_required: Serverul de autorizare necesită interacțiunea utilizatorului
+        login_required: Serverul de autorizare necesită autentificarea utilizatorului
     flash:
       applications:
         create:
           notice: Aplicație înregistrată.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Eroare datorită lipsei configurației
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Eroare datorită lipsei configurației
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Eroare datorită lipsei
+            configurației Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Eroare datorită lipsei
+            configurației Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Generarea codului ID a eșuat din cauza lipsei configurației
+            Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vizualizați adresa dumneavoastră fizică
+      email: Vizualizați adresa dumneavoastră de e-mail
+      openid: Autentificați-vă contul
+      phone: Vizualizați numărul dumneavoastră de telefon
+      profile: Vizualizați informațiile de profil
   errors:
     contact:
       contact_url_title: Diferite metode de contact explicate
@@ -2617,6 +2641,7 @@ ro:
     permissions:
       missing: Nu ați permis accesul aplicației la această facilitate
     scopes:
+      openid: Conectați-vă folosind OpenStreetMap
       read_prefs: Citiți preferințele utilizatorului
       write_prefs: Modificați preferințele utilizatorului
       write_diary: Creează înregistrări în jurnal, comentarii și fă-ți prieteni
