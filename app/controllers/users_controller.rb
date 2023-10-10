@@ -70,6 +70,7 @@ class UsersController < ApplicationController
       # page, instead send them to the home page
       redirect_to @referer || { :controller => "site", :action => "index" }
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
+      @provider_email = params[:email]
       self.current_user = User.new(:email => params[:email],
                                    :email_confirmation => params[:email],
                                    :display_name => params[:nickname],
@@ -192,18 +193,24 @@ class UsersController < ApplicationController
 
           flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
-          referer = welcome_path
+          uri = session[:referer].present? ? URI(session[:referer]) : nil
+          authorization_in_progress = uri&.path == oauth_authorization_path
 
-          begin
-            uri = URI(session[:referer])
-            %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
-              editor = Rack::Utils.parse_query(uri.query).slice("editor")
-              referer = welcome_path({ "zoom" => m[1],
-                                       "lat" => m[2],
-                                       "lon" => m[3] }.merge(editor))
+          # Skip welcome screen if oauth2 authorization is in progress
+          if authorization_in_progress
+            referer = session[:referer]
+          else
+            referer = welcome_path
+            begin
+              %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
+                editor = Rack::Utils.parse_query(uri.query).slice("editor")
+                referer = welcome_path({ "zoom" => m[1],
+                                         "lat" => m[2],
+                                         "lon" => m[3] }.merge(editor))
+              end
+            rescue StandardError
+              # Use default
             end
-          rescue StandardError
-            # Use default
           end
 
           if current_user.status == "active"

@@ -20,6 +20,7 @@
   <div class="col-sm">
     <%= bootstrap_form_for current_user, :url => { :action => "create" } do |f| %>
       <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
+      <%= hidden_field_tag("provider_email", h(@provider_email)) unless @provider_email.nil? %>
 
       <%= f.email_field :email, :tabindex => 1 %>
       <%= f.email_field :email_confirmation, :help => t(".email_confirmation_help_html",
