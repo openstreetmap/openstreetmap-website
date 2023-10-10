@@ -19,7 +19,6 @@
 
 class RelationMember < ApplicationRecord
   self.table_name = "current_relation_members"
-  self.primary_key = %w[relation_id sequence_id]
 
   belongs_to :relation
   belongs_to :member, :polymorphic => true

@@ -1883,7 +1883,7 @@ ALTER TABLE ONLY public.current_nodes
 --
 
 ALTER TABLE ONLY public.current_relation_members
-    ADD CONSTRAINT current_relation_members_pkey PRIMARY KEY (relation_id, member_type, member_id, member_role, sequence_id);
+    ADD CONSTRAINT current_relation_members_pkey PRIMARY KEY (relation_id, sequence_id);
 
 
 --
@@ -2107,7 +2107,7 @@ ALTER TABLE ONLY public.redactions
 --
 
 ALTER TABLE ONLY public.relation_members
-    ADD CONSTRAINT relation_members_pkey PRIMARY KEY (relation_id, version, member_type, member_id, member_role, sequence_id);
+    ADD CONSTRAINT relation_members_pkey PRIMARY KEY (relation_id, version, sequence_id);
 
 
 --
@@ -3437,6 +3437,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20231010194809'),
 ('20231007141103'),
 ('20230830115220'),
 ('20230830115219'),
