@@ -73,6 +73,8 @@ jobs:
     - name: Run brakeman
       run: bundle exec brakeman -q
   annotate_models:
+    env:
+      RAILS_ENV: test
     name: Rails Annotate Models
     runs-on: ubuntu-22.04
     steps:
@@ -83,6 +85,13 @@ jobs:
       with:
         ruby-version: ${{ env.ruby }}
         bundler-cache: true
+    - name: Setup database
+      run: |
+        sudo systemctl start postgresql
+        sudo -u postgres createuser -s $(id -un)
+        createdb openstreetmap
+        cp config/github.database.yml config/database.yml
+        bundle exec rails db:test:load
     - name: Run Annotate Models
       run: bundle exec rails annotate_models
     - name: Fail if model annotations are out of date
