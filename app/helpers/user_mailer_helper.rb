@@ -3,6 +3,14 @@ module UserMailerHelper
     format_paragraph(text, 72, 0)
   end
 
+  def em(text)
+    "_#{text}_"
+  end
+
+  def strong(text)
+    "*#{text}*"
+  end
+
   def link_to_user(display_name)
     link_to(
       tag.strong(

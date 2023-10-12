@@ -70,7 +70,6 @@ class UsersController < ApplicationController
       # page, instead send them to the home page
       redirect_to @referer || { :controller => "site", :action => "index" }
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
-      @provider_email = params[:email]
       self.current_user = User.new(:email => params[:email],
                                    :email_confirmation => params[:email],
                                    :display_name => params[:nickname],
@@ -193,7 +192,7 @@ class UsersController < ApplicationController
 
           flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
-          uri = session[:referer].present? ? URI(session[:referer]) : nil
+          uri = URI(session[:referer]) if session[:referer].present?
           authorization_in_progress = uri&.path == oauth_authorization_path
 
           # Skip welcome screen if oauth2 authorization is in progress
@@ -214,6 +213,7 @@ class UsersController < ApplicationController
           end
 
           if current_user.status == "active"
+            UserMailer.welcome_email(current_user).deliver_later if authorization_in_progress
             session[:referer] = referer
             successful_login(current_user)
           else

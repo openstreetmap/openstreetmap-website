@@ -32,6 +32,17 @@ class UserMailer < ApplicationMailer
     end
   end
 
+  def welcome_email(user)
+    with_recipient_locale user do
+      @help_path = url_for(:controller => "site", :action => "help")
+      @root_path = url_for(:controller => "site", :action => "index")
+      @edit_path = url_for(:controller => "site", :action => "edit")
+
+      mail :to => user.email,
+           :subject => t(".subject")
+    end
+  end
+
   def lost_password(user, token)
     with_recipient_locale user do
       @url = url_for(:controller => "passwords", :action => "reset_password",
