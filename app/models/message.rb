@@ -12,6 +12,7 @@
 #  to_user_visible   :boolean          default(TRUE), not null
 #  from_user_visible :boolean          default(TRUE), not null
 #  body_format       :enum             default("markdown"), not null
+#  muted             :boolean          default(FALSE), not null
 #
 # Indexes
 #

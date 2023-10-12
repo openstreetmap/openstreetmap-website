@@ -2,7 +2,7 @@
 #
 # Table name: relation_members
 #
-#  relation_id :bigint(8)        default(0), not null, primary key
+#  relation_id :bigint(8)        not null, primary key
 #  member_type :enum             not null
 #  member_id   :bigint(8)        not null
 #  member_role :string           not null
