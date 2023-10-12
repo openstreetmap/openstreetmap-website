@@ -40,6 +40,8 @@ class ConfirmationsController < ApplicationController
           token = nil
         end
 
+        UserMailer.welcome_email(user).deliver_later
+
         if token.nil? || token.user != user
           flash[:notice] = t(".success")
           redirect_to login_path(:referer => referer)
