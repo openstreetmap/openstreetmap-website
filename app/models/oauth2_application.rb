@@ -3,6 +3,10 @@ class Oauth2Application < Doorkeeper::Application
 
   validate :allowed_scopes
 
+  def authorized_scopes_for(user)
+    authorized_tokens.where(:resource_owner_id => user).sum(Doorkeeper::OAuth::Scopes.new, &:scopes)
+  end
+
   private
 
   def allowed_scopes

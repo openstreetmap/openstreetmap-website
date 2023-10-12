@@ -23,7 +23,7 @@ small, aside {
 
 .small_icon {
   vertical-align: middle;
-  margin-right: $lineheight/4;
+  margin-right: $lineheight * 0.25;
 }
 
 [dir=rtl] { /* no-r2 */ text-align: right; }
@@ -80,11 +80,10 @@ small, aside {
 /* Rules for the header */
 
 #menu-icon {
-  display: none !important;
+  display: none;
   float: right;
   background: image-url("menu-icon.png") no-repeat;
   background-size: 30px 30px;
-  display: block;
   width: 30px;
   height: 30px;
   margin: 14px 10px 0 0;
@@ -103,7 +102,7 @@ header {
 
   > * {
     height: 100%;
-    padding: $lineheight/2;
+    padding: $lineheight * 0.5;
   }
 
   h1, nav.primary {
@@ -205,18 +204,7 @@ nav.secondary {
   }
 
   #inboxanchor {
-    display: inline-block;
-    height: 25px;
-    margin: 3px 0 3px 3px;
     background-color: lighten($grey, 10%);
-    line-height: 20px;
-    border-radius: 3;
-  }
-
-  .dropdown-menu {
-    .count-number {
-      font-size: 14px;
-    }
   }
 }
 
@@ -244,7 +232,7 @@ body.compact-nav {
 
 body.small-nav {
   #menu-icon {
-    display: inline-block !important;
+    display: block;
   }
 
   nav.primary,
@@ -305,7 +293,7 @@ body.small-nav {
   }
 
   nav.secondary {
-    .user-menu {
+    .user-menu, .login-menu {
       width: 100%;
     }
   }
@@ -318,28 +306,21 @@ body.small-nav {
     display: inline-block;
   }
 
-  .overlay-sidebar #sidebar .welcome.visible {
+  .overlay-sidebar #sidebar .welcome {
     display: none;
   }
 
   .overlay-sidebar #sidebar #banner {
     display: none;
   }
-
-  .leaflet-top.leaflet-right {
-    top: 10px !important;
-  }
 }
 
 /* Utility for styling notification numbers */
 
 .count-number {
-  padding: 2px $lineheight/4;
-  border-radius: 2px;
   background: lighten($green, 30%);
-  margin: 0 2px;
-  font-size: 11px;
-  color: #333;
+  color: $gray-800;
+  font-weight: $font-weight-normal;
 }
 
 /* Rules for the message shown in place of the map when javascript is disabled */
@@ -351,6 +332,15 @@ body.small-nav {
 }
 
 /* Rules for Leaflet maps */
+
+.leaflet-top.leaflet-right,
+.leaflet-top.leaflet-left {
+  height: 100%;
+  column-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap-reverse;
+}
 
 .leaflet-control .control-button {
   display: block;
@@ -423,9 +413,6 @@ body.small-nav {
 
     > div {
       position: relative;
-      float: left;
-      clear: both;
-      width: 100%;
     }
   }
 
@@ -440,11 +427,7 @@ body.small-nav {
     }
 
     .welcome {
-      display: none;
-
-      &.visible {
-        display: block;
-      }
+      display: block;
     }
 
     #sidebar_content {
@@ -467,6 +450,11 @@ body.small-nav {
     img {
       display: block;
       width: $sidebarWidth;
+    }
+
+    button.btn-close {
+      background-color: rgba(255, 255, 255, 0.5);
+      opacity: 1.0;
     }
   }
 
@@ -498,7 +486,7 @@ body.small-nav {
 
     .section {
       border-bottom: 1px solid $grey;
-      padding: 10px 20px;
+      padding: $spacer;
     }
   }
 }
@@ -531,13 +519,6 @@ body.small-nav {
         height: 100%;
       }
     }
-  }
-}
-
-.layers-ui,
-.share-ui {
-  li:last-child {
-    margin-bottom: 0;
   }
 }
 
@@ -592,37 +573,13 @@ body.small-nav {
 }
 
 .share-ui {
-  .share-tab {
-    display: none;
-  }
-
-  .share-link {
-    input[type=text],
-    textarea {
-      width: 100%;
-      font-family: monospace;
-      font-size: small;
-      line-height: 1.3;
-    }
-  }
-
-  .share-image {
-    label {
-      margin-right: 10px;
-    }
-  }
-
-  #embed_html {
-    resize: vertical;
-  }
-
   #mapnik_scale {
     width: 100px;
   }
 }
 
 .leaflet-top {
-  top: $lineheight/2 !important;
+  top: 10px !important;
   .leaflet-control {
     margin-right: 0px !important;
     margin-top: 0px !important;
@@ -643,31 +600,11 @@ body.small-nav {
 
 #attribution {
   display: none;
-
-  table {
-    width: 100%
-  }
-}
-
-.attribution_license,
-.attribution_project {
-  text-align: left;
-}
-
-.attribution_notice {
-  text-align: center;
 }
 
 .donate-attr { color: darken($green, 10%) !important; }
 
 /* Rules for the sidebar */
-
-.sidebar_heading {
-  position: relative;
-  padding: $lineheight/2 $lineheight;
-  // background: $offwhite;
-  // border-bottom: 1px solid $grey;
-}
 
 #browse_status {
   input {
@@ -685,6 +622,9 @@ body.small-nav {
 
 form {
   label {
+    font-size: 16px;
+  }
+  .col-form-label {
     font-size: 16px;
   }
 }
@@ -758,11 +698,6 @@ div.direction {
 div.direction.i#{$i} { background-position: #{($i)*-20}px 0px; }
 }
 
-td.instruction, td.distance {
-    padding-top: $lineheight/5;
-    padding-bottom: $lineheight/5;
-    border-bottom: 1px solid $grey;
-}
 td.distance {
     color: $darkgrey;
     text-align: right;
@@ -776,15 +711,6 @@ tr.turn:hover {
 }
 
 .routing_marker { width: 15px; cursor: move; }
-
-/* Rules for entity history */
-
-#sidebar_content {
-  .browse_details {
-    position: relative;
-    border-bottom: $keyline;
-  }
-}
 
 .browse_status {
   display: none;
@@ -878,15 +804,6 @@ tr.turn:hover {
     }
   }
 
-  .note-comments li, .changeset-comments li {
-    margin: $lineheight/2 0;
-
-    p {
-      margin: 10px 6px 0 6px;
-      line-height: 1.5;
-    }
-  }
-
   .subscribe-buttons input {
     font-size: 90%;
     line-height: 15px;
@@ -959,18 +876,6 @@ tr.turn:hover {
       /* no-r2 */ margin-right: -1px;
     }
     #minlat { margin-bottom: -1px; }
-  }
-
-  .export_bound {
-    margin: $lineheight/4;
-  }
-
-  dl {
-    padding-left: $lineheight/2;
-    dd {
-      margin-left: 0;
-      margin-bottom: 10px;
-    }
   }
 }
 
@@ -1071,7 +976,7 @@ tr.turn:hover {
 /* Rules for the user map */
 
 .content_map .leaflet-popup-content {
-  margin: $lineheight/2;
+  margin: $spacer;
   min-height: 50px;
 }
 
@@ -1092,60 +997,21 @@ tr.turn:hover {
   width: 100%;
 }
 
-/* Rules for the diary list page */
-
-.diary_post {
-  position: relative;
-  padding-top: $lineheight;
-  padding-bottom: $lineheight/2;
-  border-top: 1px solid $grey;
-
-  &.deleted {
-    background-color: #fee;
-  }
-}
-
 /* Rules for the diary entry page */
 
 .diary_entries {
   #map {
     height: 400px;
     display: none;
-    margin-bottom: $lineheight;
   }
   .comments {
     max-width: 740px;
   }
   .diary-comment {
     border-top: 1px dashed $grey;
-    padding-top: $lineheight/2;
-    padding-bottom: $lineheight/2;
     &:first-child {
-      margin-top: $lineheight/2;
-      padding-top: $lineheight;
       border-top: 1px solid $grey;
     }
-    &.deleted {
-      background-color: #fee;
-    }
-    p {
-      margin-bottom: $lineheight/2;
-    }
-    .comment-heading {
-      margin-bottom: 0;
-      margin-top: 0;
-    }
-  }
-}
-
-/* Rules for the log in page */
-
-#login_auth_buttons {
-  margin-bottom: 0;
-
-  li {
-    float: left;
-    padding: $lineheight/4 $lineheight/2;
   }
 }
 
@@ -1168,32 +1034,6 @@ tr.turn:hover {
   }
 }
 
-/* Rules for the account settings page */
-
-#accountForm .user_image {
-  margin-bottom: 0;
-}
-
-#accountForm #user_image {
-  margin-left: 20px;
-}
-
-#accountForm ul.accountImage-options {
-  margin-left: 120px;
-}
-
-.nohome .location {
-  display: none;
-}
-
-#homerow .message {
-  display: none;
-}
-
-.nohome .message {
-  display: inline !important;
-}
-
 /* Rules for the oauth authorization page */
 
 .oauth-authorize ul {
@@ -1203,107 +1043,12 @@ tr.turn:hover {
 /* Rules for messages pages */
 
 .messages {
-  button[type="submit"] {
-    margin: auto;
-    white-space: nowrap;
-  }
-
   .inbox-row {
     background: $offwhite;
   }
 
   .inbox-row-unread {
     background: #CBEEA7;
-  }
-
-  .right {
-    float: right;
-  }
-}
-
-.inbox-row .inbox-mark-read {
-  display: none;
-}
-
-.info-line {
-  margin-bottom: $lineheight;
-  padding: $lineheight/4 0px 4px 0px;
-  border-bottom: 1px solid $grey;
-
-  form, form div {
-    display: inline;
-  }
-}
-
-.info-line .user_thumbnail_tiny {
-  vertical-align: middle;
-}
-
-.inbox-sent {
-  white-space: nowrap;
-}
-
-.inbox-mark-unread,
-.inbox-mark-read,
-.inbox-delete {
-  width: 1%;
-}
-
-.inbox-row-unread .inbox-mark-unread {
-  display: none;
-}
-
-/* Rules for "flash" notice boxes shown at the top of the content area */
-
-.flash {
-  &.error {
-    background-color: #ff7070;
-  }
-
-  &.warning {
-    background-color: #ffe0cc;
-  }
-
-  &.notice {
-    background-color: #CBEEA7;
-  }
-}
-
-/* Rules for highlighting fields with rails validation errors */
-
-.formError {
-  display: inline-block;
-  padding: 5px 10px;
-  margin-top: 5px;
-  border-radius: 4px;
-  font-size: 12px;
-  color: #fff;
-  background-color: #ff7070;
-}
-
-/* Rules for rails validation error boxes */
-
-#errorExplanation {
-  width: 400px;
-  border: 2px solid #ff7070;
-  padding: 0 $lineheight/2;
-  margin-bottom: $lineheight;
-  background-color: #f0f0f0;
-
-  h2 {
-    margin: 0 -10px 10px -10px;
-    padding: $lineheight/4 $lineheight/4 $lineheight/4 15px;
-    font-weight: bold;
-    font-size: 12px;
-    background-color: #c00;
-    color: #fff;
-    text-align: left;
-  }
-
-  p {
-    color: #333;
-    margin-bottom: 0px;
-    padding: $lineheight/4;
   }
 }
 
@@ -1341,14 +1086,7 @@ img.user_thumbnail_tiny {
   max-height: 25px;
 }
 
-/* Rules for geo microformats */
-
-abbr.geo {
-  border-bottom: none;
-}
-
 /* General styles for action lists / subnavs */
-
 
 nav.secondary-actions {
   margin-left: -11px;
@@ -1364,9 +1102,9 @@ nav.secondary-actions {
       flex-basis: auto;
       list-style: none;
       border-left: 1px solid $grey;
-      padding-left: $lineheight/2;
-      margin-right: $lineheight/2;
-      margin-bottom: $lineheight/8;
+      padding-left: $lineheight * 0.5;
+      margin-right: $lineheight * 0.5;
+      margin-bottom: $lineheight * 0.125;
     }
   }
 }
@@ -1376,24 +1114,6 @@ div.secondary-actions {
   text-align: center;
 }
 
-/* Create a single-line dl */
-
-dl.dl-inline {
-  dt, dd {
-    display: inline-block;
-  }
-  dd {
-    margin-right: 1em;
-  }
-}
-
-/* Rules for OpenID logo */
-
-.openid_logo {
-  vertical-align: text-bottom;
-  border: 0;
-}
-
 /* Rules for rich text */
 
 .richtext,
@@ -1401,6 +1121,8 @@ dl.dl-inline {
   code {
     background: $lightgrey;
     padding: 2px 3px;
+    direction: inherit; /* fix for Bootstrap < 5.2 */
+    unicode-bidi: unset; /* fix for Bootstrap < 5.2 */
   }
 
   pre {
@@ -1426,14 +1148,6 @@ dl.dl-inline {
     padding-left: $lineheight;
     margin: 0;
     color: $darkgrey;
-  }
-}
-
-/* Rules for the user notes list */
-
-.note_list {
-  tr.creator {
-    background-color: $offwhite;
   }
 }
 

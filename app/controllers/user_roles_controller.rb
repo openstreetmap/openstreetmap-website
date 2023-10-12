@@ -1,4 +1,6 @@
 class UserRolesController < ApplicationController
+  include UserMethods
+
   layout "site"
 
   before_action :authorize_web
@@ -20,7 +22,7 @@ class UserRolesController < ApplicationController
     if current_user == @user && @role == "administrator"
       flash[:error] = t("user_role.filter.not_revoke_admin_current_user")
     else
-      UserRole.where(:user_id => @user.id, :role => @role).delete_all
+      UserRole.where(:user => @user, :role => @role).delete_all
     end
     redirect_to user_path(@user)
   end
@@ -41,7 +43,7 @@ class UserRolesController < ApplicationController
   ##
   # checks that the user doesn't already have this role
   def not_in_role
-    if @user.has_role? @role
+    if @user.role? @role
       flash[:error] = t("user_role.filter.already_has_role", :role => @role)
       redirect_to user_path(@user)
     end
@@ -50,7 +52,7 @@ class UserRolesController < ApplicationController
   ##
   # checks that the user already has this role
   def in_role
-    unless @user.has_role? @role
+    unless @user.role? @role
       flash[:error] = t("user_role.filter.doesnt_have_role", :role => @role)
       redirect_to user_path(@user)
     end

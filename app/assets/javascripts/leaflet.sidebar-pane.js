@@ -20,9 +20,9 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
     var $ui = $("<div>")
       .attr("class", uiClass + "-ui");
 
-    $("<div class='sidebar_heading d-flex'>")
+    $("<div class='d-flex p-3 pb-0'>")
       .appendTo($ui)
-      .append($("<h4 class='flex-grow-1 text-break'>")
+      .append($("<h2 class='flex-grow-1 text-break'>")
         .text(I18n.t(paneTitle)))
       .append($("<div>")
         .append($("<button type='button' class='btn-close'>")

@@ -239,11 +239,11 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate create(:administrator_user), :administrator?
   end
 
-  def test_has_role?
-    assert_not create(:user).has_role?("administrator")
-    assert_not create(:user).has_role?("moderator")
-    assert create(:administrator_user).has_role?("administrator")
-    assert create(:moderator_user).has_role?("moderator")
+  def test_role?
+    assert_not create(:user).role?("administrator")
+    assert_not create(:user).role?("moderator")
+    assert create(:administrator_user).role?("administrator")
+    assert create(:moderator_user).role?("moderator")
   end
 
   def test_soft_destroy

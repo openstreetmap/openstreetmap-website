@@ -5,12 +5,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
-    get "/login"
-    follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
-    follow_redirect!
-    assert_response :success
+    session_for(user)
 
     oauth10_without_callback(client)
     oauth10_with_callback(client, "http://another.web.app.example.org/callback")
@@ -19,12 +16,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
-    get "/login"
-    follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
-    follow_redirect!
-    assert_response :success
+    session_for(user)
 
     oauth10_without_callback(client)
     oauth10_refused(client)
@@ -32,12 +26,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10a_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
-    get "/login"
-    follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
-    follow_redirect!
-    assert_response :success
+    session_for(user)
 
     oauth10a_without_callback(client)
     oauth10a_with_callback(client, "http://another.web.app.example.org/callback")
@@ -46,12 +37,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   def test_oauth10a_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    user = create(:user)
 
-    get "/login"
-    follow_redirect!
-    post "/login", :params => { :username => client.user.email, :password => "test" }
-    follow_redirect!
-    assert_response :success
+    session_for(user)
 
     oauth10a_without_callback(client)
     oauth10a_refused(client)
@@ -95,11 +83,27 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_read_prefs]
 
+    post logout_path
+
     signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
     assert_response :success
 
     signed_get "/api/0.6/gpx/2", :oauth => { :token => token }
     assert_response :forbidden
+
+    token.user.suspend!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :success
+
+    session_for(token.user)
 
     post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)
@@ -173,12 +177,28 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    trace = create(:trace, :user => client.user)
+    post logout_path
+
+    trace = create(:trace, :user => token.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :success
 
     signed_get "/api/0.6/user/details", :oauth => { :token => token }
     assert_response :forbidden
+
+    token.user.suspend!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :success
+
+    session_for(token.user)
 
     post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)
@@ -232,12 +252,28 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_read_prefs]
 
+    post logout_path
+
     signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
     assert_response :success
 
-    trace = create(:trace, :user => client.user)
+    trace = create(:trace, :user => token.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :forbidden
+
+    token.user.suspend!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/user/preferences", :oauth => { :token => token }
+    assert_response :success
+
+    session_for(token.user)
 
     post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)
@@ -283,12 +319,28 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    trace = create(:trace, :user => client.user)
+    post logout_path
+
+    trace = create(:trace, :user => token.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
     assert_response :success
 
     signed_get "/api/0.6/user/details", :oauth => { :token => token }
     assert_response :forbidden
+
+    token.user.suspend!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.hide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :forbidden
+
+    token.user.unhide!
+    signed_get "/api/0.6/gpx/#{trace.id}", :oauth => { :token => token }
+    assert_response :success
+
+    session_for(token.user)
 
     post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)

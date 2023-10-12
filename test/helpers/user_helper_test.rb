@@ -111,7 +111,7 @@ class UserHelperTest < ActionView::TestCase
 
   def test_openid_logo
     logo = openid_logo
-    assert_match %r{^<img .* class="openid_logo" src="/images/openid_small.png" />$}, logo
+    assert_match %r{^<img .* src="/images/openid_small.png" />$}, logo
   end
 
   def test_auth_button

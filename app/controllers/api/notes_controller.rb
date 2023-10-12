@@ -18,13 +18,10 @@ module Api
       # support the old, deprecated, method with four arguments
       if params[:bbox]
         bbox = BoundingBox.from_bbox_params(params)
-      else
-        raise OSM::APIBadUserInput, "No l was given" unless params[:l]
-        raise OSM::APIBadUserInput, "No r was given" unless params[:r]
-        raise OSM::APIBadUserInput, "No b was given" unless params[:b]
-        raise OSM::APIBadUserInput, "No t was given" unless params[:t]
-
+      elsif params[:l] && params[:r] && params[:b] && params[:t]
         bbox = BoundingBox.from_lrbt_params(params)
+      else
+        raise OSM::APIBadUserInput, "The parameter bbox is required"
       end
 
       # Get any conditions that need to be applied
@@ -235,23 +232,12 @@ module Api
     def feed
       # Get any conditions that need to be applied
       notes = closed_condition(Note.all)
-
-      # Process any bbox
-      if params[:bbox]
-        bbox = BoundingBox.from_bbox_params(params)
-
-        bbox.check_boundaries
-        bbox.check_size(Settings.max_note_request_area)
-
-        notes = notes.bbox(bbox)
-        @min_lon = bbox.min_lon
-        @min_lat = bbox.min_lat
-        @max_lon = bbox.max_lon
-        @max_lat = bbox.max_lat
-      end
+      notes = bbox_condition(notes)
 
       # Find the comments we want to return
-      @comments = NoteComment.where(:note_id => notes).order("created_at DESC").limit(result_limit).preload(:note)
+      @comments = NoteComment.where(:note => notes)
+                             .order(:created_at => :desc).limit(result_limit)
+                             .preload(:author, :note => { :comments => :author })
 
       # Render the result
       respond_to do |format|
@@ -264,6 +250,7 @@ module Api
     def search
       # Get the initial set of notes
       @notes = closed_condition(Note.all)
+      @notes = bbox_condition(@notes)
 
       # Add any user filter
       if params[:display_name] || params[:user]
@@ -345,13 +332,13 @@ module Api
     # Get the maximum number of results to return
     def result_limit
       if params[:limit]
-        if params[:limit].to_i.positive? && params[:limit].to_i <= 10000
+        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_note_query_limit
           params[:limit].to_i
         else
-          raise OSM::APIBadUserInput, "Note limit must be between 1 and 10000"
+          raise OSM::APIBadUserInput, "Note limit must be between 1 and #{Settings.max_note_query_limit}"
         end
       else
-        100
+        Settings.default_note_query_limit
       end
     end
 
@@ -373,6 +360,27 @@ module Api
                       .where(notes.arel_table[:closed_at].gt(Time.now.utc - closed_since)))
       else
         notes.where(:status => "open")
+      end
+    end
+
+    ##
+    # Generate a condition to choose which notes we want based
+    # on the user's bounding box request parameters
+    def bbox_condition(notes)
+      if params[:bbox]
+        bbox = BoundingBox.from_bbox_params(params)
+
+        bbox.check_boundaries
+        bbox.check_size(Settings.max_note_request_area)
+
+        @min_lon = bbox.min_lon
+        @min_lat = bbox.min_lat
+        @max_lon = bbox.max_lon
+        @max_lat = bbox.max_lat
+
+        notes.bbox(bbox)
+      else
+        notes
       end
     end
 

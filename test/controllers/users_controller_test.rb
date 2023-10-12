@@ -495,6 +495,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
+      assert_select "a[href='/api/0.6/user/#{ERB::Util.u(user.id)}']", 0
     end
 
     # Login as a moderator
@@ -512,6 +513,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 1
+      assert_select "a[href='/api/0.6/user/#{ERB::Util.u(user.id)}']", 1
     end
   end
 

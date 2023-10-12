@@ -4,7 +4,7 @@ FactoryBot.define do
     ends_at { Time.now.utc + 1.day }
 
     user
-    association :creator, :factory => :moderator_user
+    creator :factory => :moderator_user
 
     trait :needs_view do
       needs_view { true }
@@ -15,7 +15,7 @@ FactoryBot.define do
     end
 
     trait :revoked do
-      association :revoker, :factory => :moderator_user
+      revoker :factory => :moderator_user
     end
   end
 end

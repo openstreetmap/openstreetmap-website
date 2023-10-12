@@ -4,8 +4,8 @@ FactoryBot.define do
     sequence(:body) { |n| "Body text for message #{n}" }
     sent_on { Time.now.utc }
 
-    association :sender, :factory => :user
-    association :recipient, :factory => :user
+    sender :factory => :user
+    recipient :factory => :user
 
     trait :unread do
       message_read { false }

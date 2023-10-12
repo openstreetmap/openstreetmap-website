@@ -157,7 +157,7 @@ class BoundingBox
     private
 
     def from_bbox_array(bbox_array)
-      raise OSM::APIBadUserInput, "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat" unless bbox_array
+      raise OSM::APIBadUserInput, "The parameter bbox must be of the form min_lon,min_lat,max_lon,max_lat" unless bbox_array
 
       # Take an array of length 4, create a bounding box with min_lon, min_lat, max_lon and
       # max_lat within their respective boundaries.

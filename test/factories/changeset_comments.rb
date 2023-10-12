@@ -5,6 +5,6 @@ FactoryBot.define do
 
     changeset
 
-    association :author, :factory => :user
+    author :factory => :user
   end
 end

@@ -4,7 +4,7 @@
 
 <% content_for(:body_class) { "map-layout" } %>
 
-<% if current_user and !current_user.home_lon.nil? and !current_user.home_lat.nil? %>
+<% if current_user&.home_location? %>
   <% content_for :greeting do %>
     <%= link_to t("layouts.home"),
                 "#",
@@ -41,7 +41,7 @@
     </div>
 
     <% unless current_user %>
-      <div class="welcome p-3">
+      <div class="welcome p-3" hidden>
         <%= render "sidebar_header", :title => t("layouts.intro_header") %>
         <div>
           <p><%= t "layouts.intro_text" %></p>

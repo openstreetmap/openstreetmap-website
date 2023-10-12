@@ -3,7 +3,7 @@ require "test_helper"
 class BoundingBoxTest < ActiveSupport::TestCase
   def setup
     @size_error_message = "The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
-    @malformed_error_message = "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat"
+    @malformed_error_message = "The parameter bbox must be of the form min_lon,min_lat,max_lon,max_lat"
     @lon_order_error_message = "The minimum longitude must be less than the maximum longitude, but it wasn't"
     @lat_order_error_message = "The minimum latitude must be less than the maximum latitude, but it wasn't"
     @bbox_out_of_limits_error_message = "The latitudes must be between -90.0 and 90.0, and longitudes between -180.0 and 180.0"

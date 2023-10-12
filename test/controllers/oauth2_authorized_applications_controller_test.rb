@@ -36,6 +36,32 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     assert_select "tbody tr", 2
   end
 
+  def test_index_scopes
+    user = create(:user)
+    application1 = create(:oauth_application, :scopes => %w[read_prefs write_prefs write_diary read_gpx write_gpx])
+    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_prefs])
+    create(:oauth_access_token, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_prefs])
+    create(:oauth_access_grant, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_diary])
+    create(:oauth_access_token, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_diary])
+
+    get oauth_authorized_applications_path
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => oauth_authorized_applications_path)
+
+    session_for(user)
+
+    get oauth_authorized_applications_path
+    assert_response :success
+    assert_template "oauth2_authorized_applications/index"
+    assert_select "tbody tr", 1
+    assert_select "tbody tr td ul" do
+      assert_select "li", :count => 3
+      assert_select "li", :text => "Read user preferences"
+      assert_select "li", :text => "Modify user preferences"
+      assert_select "li", :text => "Create diary entries, comments and make friends"
+    end
+  end
+
   def test_destroy
     user = create(:user)
     application1 = create(:oauth_application)

@@ -4,6 +4,6 @@ FactoryBot.define do
 
     relation
     # Default to creating nodes, but could be ways or relations as members
-    association :member, :factory => :node
+    member :factory => :node
   end
 end

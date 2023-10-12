@@ -60,7 +60,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     patch account_path, :params => { :user => new_attributes }
     assert_response :success
     assert_template :edit
-    assert_select ".notice", false
+    assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
@@ -68,7 +68,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     patch account_path, :params => { :user => new_attributes }
     assert_response :success
     assert_template :edit
-    assert_select ".notice", false
+    assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_display_name"
 
     # Changing name to one that doesn't exist should work
@@ -79,7 +79,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     get edit_account_path
     assert_response :success
     assert_template :edit
-    assert_select ".notice", /^User information updated successfully/
+    assert_select ".alert-success", /^User information updated successfully/
     assert_select "form#accountForm > div > input#user_display_name[value=?]", "new tester"
 
     # Record the change of name
@@ -94,7 +94,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :edit
-    assert_select ".notice", false
+    assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_new_email"
 
     # Changing email to one that exists should fail, regardless of case
@@ -106,7 +106,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :edit
-    assert_select ".notice", false
+    assert_select ".alert-success", false
     assert_select "form#accountForm > div > input.is-invalid#user_new_email"
 
     # Changing email to one that doesn't exist should work
@@ -121,7 +121,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     get edit_account_path
     assert_response :success
     assert_template :edit
-    assert_select ".notice", /^User information updated successfully/
+    assert_select ".alert-success", /^User information updated successfully/
     assert_select "form#accountForm > div > input#user_new_email[value=?]", user.new_email
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count

@@ -220,7 +220,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
                                :message => { :title => "Test Message", :body => "Test message body" })
             assert_response :success
             assert_template "new"
-            assert_select ".error", /wait a while/
+            assert_select ".alert.alert-danger", /wait a while/
           end
         end
       end

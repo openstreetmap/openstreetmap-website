@@ -5,7 +5,7 @@ class NoteHelperTest < ActionView::TestCase
   include ApplicationHelper
 
   def test_note_event
-    date = Time.new(2014, 3, 5, 21, 37, 45, "+00:00")
+    date = Time.utc(2014, 3, 5, 21, 37, 45)
     user = create(:user)
 
     assert_match %r{^Created by anonymous <abbr title="Wed, 05 Mar 2014 21:37:45 \+0000"><span title=" 5 March 2014 at 21:37">.* ago</span></abbr>$}, note_event("opened", date, nil)
@@ -23,7 +23,7 @@ class NoteHelperTest < ActionView::TestCase
   end
 
   def test_disappear_in
-    note_closed_date = Time.new(2022, 1, 1, 12, 0, 0, "+00:00")
+    note_closed_date = Time.utc(2022, 1, 1, 12, 0, 0)
     note = create(:note, :closed_at => note_closed_date)
 
     travel_to note_closed_date + 1.day do

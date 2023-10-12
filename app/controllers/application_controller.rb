@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def authorize_web
     if session[:user]
-      self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
+      self.current_user = User.where(:id => session[:user], :status => %w[active confirmed suspended]).first
 
       if session[:fingerprint] &&
          session[:fingerprint] != current_user.fingerprint
@@ -213,24 +213,6 @@ class ApplicationController < ActionController::Base
   rescue Timeout::Error
     ActiveRecord::Base.connection.raw_connection.cancel
     render :action => "timeout"
-  end
-
-  ##
-  # ensure that there is a "user" instance variable
-  def lookup_user
-    render_unknown_user params[:display_name] unless @user = User.active.find_by(:display_name => params[:display_name])
-  end
-
-  ##
-  # render a "no such user" page
-  def render_unknown_user(name)
-    @title = t "users.no_such_user.title"
-    @not_found_user = name
-
-    respond_to do |format|
-      format.html { render :template => "users/no_such_user", :status => :not_found }
-      format.all { head :not_found }
-    end
   end
 
   ##

@@ -16,13 +16,12 @@ apt-get update
 apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
-apt-get install -y ruby2.7 libruby2.7 ruby2.7-dev \
-                     libxml2-dev libxslt1-dev nodejs yarnpkg \
-                     apache2 apache2-dev build-essential git-core firefox-geckodriver \
+apt-get install -y ruby ruby-dev ruby-bundler \
+                     libxml2-dev libxslt1-dev nodejs npm \
+                     build-essential git-core \
                      postgresql postgresql-contrib libpq-dev libvips-dev \
                      libsasl2-dev libffi-dev libgd-dev libarchive-dev libbz2-dev
-gem2.7 install rake
-gem2.7 install --version "~> 2.1.4" bundler
+npm install --global yarn
 
 ## install the bundle necessary for openstreetmap-website
 pushd /srv/openstreetmap-website
@@ -34,8 +33,6 @@ bundle exec bin/yarn install
 db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
 if [ "$db_user_exists" != "1" ]; then
     sudo -u postgres createuser -s vagrant
-    sudo -u vagrant createdb -E UTF-8 -O vagrant openstreetmap
-    sudo -u vagrant createdb -E UTF-8 -O vagrant osm_test
 fi
 
 # set up sample configs
@@ -46,6 +43,8 @@ if [ ! -f config/storage.yml ]; then
     cp config/example.storage.yml config/storage.yml
 fi
 touch config/settings.local.yml
+# create the databases
+sudo -u vagrant bundle exec rails db:create
 # migrate the database to the latest version
-sudo -u vagrant bundle exec rake db:migrate
+sudo -u vagrant bundle exec rails db:migrate
 popd

@@ -2,22 +2,24 @@ require "test_helper"
 
 class OAuth2Test < ActionDispatch::IntegrationTest
   def test_oauth2
+    user = create(:user)
     client = create(:oauth_application, :redirect_uri => "https://some.web.app.example.org/callback", :scopes => "read_prefs write_api read_gpx")
     state = SecureRandom.urlsafe_base64(16)
 
-    authorize_client(client, :state => state)
+    authorize_client(user, client, :state => state)
     assert_response :redirect
     code = validate_redirect(client, state)
 
     token = request_token(client, code)
 
-    test_token(token, client)
+    test_token(token, user, client)
   end
 
   def test_oauth2_oob
+    user = create(:user)
     client = create(:oauth_application, :redirect_uri => "urn:ietf:wg:oauth:2.0:oob", :scopes => "read_prefs write_api read_gpx")
 
-    authorize_client(client)
+    authorize_client(user, client)
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -28,42 +30,44 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     token = request_token(client, code)
 
-    test_token(token, client)
+    test_token(token, user, client)
   end
 
   def test_oauth2_pkce_plain
+    user = create(:user)
     client = create(:oauth_application, :redirect_uri => "https://some.web.app.example.org/callback", :scopes => "read_prefs write_api read_gpx")
     state = SecureRandom.urlsafe_base64(16)
     verifier = SecureRandom.urlsafe_base64(48)
     challenge = verifier
 
-    authorize_client(client, :state => state, :code_challenge => challenge, :code_challenge_method => "plain")
+    authorize_client(user, client, :state => state, :code_challenge => challenge, :code_challenge_method => "plain")
     assert_response :redirect
     code = validate_redirect(client, state)
 
     token = request_token(client, code, verifier)
 
-    test_token(token, client)
+    test_token(token, user, client)
   end
 
   def test_oauth2_pkce_s256
+    user = create(:user)
     client = create(:oauth_application, :redirect_uri => "https://some.web.app.example.org/callback", :scopes => "read_prefs write_api read_gpx")
     state = SecureRandom.urlsafe_base64(16)
     verifier = SecureRandom.urlsafe_base64(48)
     challenge = Base64.urlsafe_encode64(Digest::SHA256.digest(verifier), :padding => false)
 
-    authorize_client(client, :state => state, :code_challenge => challenge, :code_challenge_method => "S256")
+    authorize_client(user, client, :state => state, :code_challenge => challenge, :code_challenge_method => "S256")
     assert_response :redirect
     code = validate_redirect(client, state)
 
     token = request_token(client, code, verifier)
 
-    test_token(token, client)
+    test_token(token, user, client)
   end
 
   private
 
-  def authorize_client(client, options = {})
+  def authorize_client(user, client, options = {})
     options = options.merge(:client_id => client.uid,
                             :redirect_uri => client.redirect_uri,
                             :response_type => "code",
@@ -72,8 +76,6 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     get oauth_authorization_path(options)
     assert_response :redirect
     assert_redirected_to login_path(:referer => request.fullpath)
-
-    user = create(:user)
 
     post login_path(:username => user.email, :password => "test")
     follow_redirect!
@@ -138,7 +140,7 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     token["access_token"]
   end
 
-  def test_token(token, client)
+  def test_token(token, user, client)
     get user_preferences_path
     assert_response :unauthorized
 
@@ -155,6 +157,21 @@ class OAuth2Test < ActionDispatch::IntegrationTest
 
     get api_trace_path(:id => 2), :headers => auth_header
     assert_response :forbidden
+
+    user.suspend!
+
+    get user_preferences_path, :headers => auth_header
+    assert_response :forbidden
+
+    user.hide!
+
+    get user_preferences_path, :headers => auth_header
+    assert_response :forbidden
+
+    user.unhide!
+
+    get user_preferences_path, :headers => auth_header
+    assert_response :success
 
     post oauth_revoke_path(:token => token)
     assert_response :forbidden

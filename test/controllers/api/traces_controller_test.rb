@@ -52,6 +52,7 @@ module Api
       auth_header = basic_authorization_header public_trace_file.user.display_name, "test"
       get api_trace_path(public_trace_file), :headers => auth_header
       assert_response :success
+      assert_select "gpx_file[id='#{public_trace_file.id}'][uid='#{public_trace_file.user.id}']", 1
     end
 
     # Check an anonymous trace can't be specifically fetched by another user
