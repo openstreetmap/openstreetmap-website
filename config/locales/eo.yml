@@ -596,10 +596,35 @@ eo:
       newer_comments: Pli novaj komentoj
       older_comments: Pli malnovaj komentoj
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: La rajtiga servilo postulas elekti konton de uzanto
+        consent_required: La rajtiga servilo postulas konsenton de uzanto
+        interaction_required: La rajtiga servilo postulas interagon de uzanton
+        login_required: La rajtiga servilo postulas rajtigon de uzanto
     flash:
       applications:
         create:
           notice: Registris aplikaĵon.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Malsukceso pro mankanta agordo
+            «Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner».
+          reauthenticate_resource_owner_not_configured: Malsukceso pro mankanta agordo
+            «Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner».
+          resource_owner_from_access_token_not_configured: Malsukceso pro mankanta
+            agordo «Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token».
+          select_account_for_resource_owner_not_configured: Malsukceso pro mankanta
+            agordo «Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner».
+          subject_not_configured: Generado de identigil-ĵetono mmalsukcesis pro mankanta
+            agordo «Doorkeeper::OpenidConnect.configure.subject».
+    scopes:
+      address: legi viajn real-mondajn adresojn
+      email: legi viajn retpoŝtajn adresojn
+      openid: aŭtentigi vian konton
+      phone: legi vian telefonnumeron
+      profile: legi informojn de via profilo
   errors:
     contact:
       contact_url_title: klarigo pri diversaj kontakt-kanaloj
@@ -2541,12 +2566,13 @@ eo:
     authorize_failure:
       title: Rajtiga peto malakceptita
       denied: Vi malpermesis al aplikaĵo %{app_name} aliron al via konto
-      invalid: La rajtiga ĵeto ne plu validas.
+      invalid: La rajtiga ĵetono ne plu validas.
     revoke:
       flash: Vi malvalidigis la ĵetonon por %{application}
     permissions:
       missing: Vi ne permesis al aplikaĵo aliri al ĉi tiu eblo
     scopes:
+      openid: ensaluti uzante OpenStreetMap
       read_prefs: legi preferojn de uzanto
       write_prefs: modifi preferojn de uzanto
       write_diary: afiŝi en taglibro, komenti kaj aldoni amikojn
