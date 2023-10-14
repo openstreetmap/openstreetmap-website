@@ -12,7 +12,6 @@
 #  home_lat            :float
 #  home_lon            :float
 #  home_zoom           :integer          default(3)
-#  nearby              :integer          default(50)
 #  pass_salt           :string
 #  email_valid         :boolean          default(FALSE), not null
 #  new_email           :string

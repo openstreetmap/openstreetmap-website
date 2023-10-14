@@ -5,11 +5,12 @@
 #  id             :bigint(8)        not null, primary key
 #  user_id        :bigint(8)        not null
 #  friend_user_id :bigint(8)        not null
+#  created_at     :datetime
 #
 # Indexes
 #
-#  friends_user_id_idx  (user_id)
-#  user_id_idx          (friend_user_id)
+#  index_friends_on_user_id_and_created_at  (user_id,created_at)
+#  user_id_idx                              (friend_user_id)
 #
 # Foreign Keys
 #

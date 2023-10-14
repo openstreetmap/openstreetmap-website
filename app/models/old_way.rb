@@ -2,7 +2,7 @@
 #
 # Table name: ways
 #
-#  way_id       :bigint(8)        default(0), not null, primary key
+#  way_id       :bigint(8)        not null, primary key
 #  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
 #  version      :bigint(8)        not null, primary key
