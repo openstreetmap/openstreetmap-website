@@ -90,7 +90,7 @@
   <% end %>
 
   <% unless @ways.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("way", @way_pages), :pages => @way_pages, :page_param => "way_page" } %>
+    <%= render :partial => "paging_nav", :locals => { :type => "way", :pages => @way_pages } %>
     <ul class="list-unstyled">
       <% @ways.each do |way| %>
         <li><%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s }, { :class => link_class("way", way), :title => link_title(way) } %></li>
@@ -99,7 +99,7 @@
   <% end %>
 
   <% unless @relations.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("relation", @relation_pages), :pages => @relation_pages, :page_param => "relation_page" } %>
+    <%= render :partial => "paging_nav", :locals => { :type => "relation", :pages => @relation_pages } %>
     <ul class="list-unstyled">
       <% @relations.each do |relation| %>
         <li><%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s }, { :class => link_class("relation", relation), :title => link_title(relation) } %></li>
@@ -108,7 +108,7 @@
   <% end %>
 
   <% unless @nodes.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("node", @node_pages), :pages => @node_pages, :page_param => "node_page" } %>
+    <%= render :partial => "paging_nav", :locals => { :type => "node", :pages => @node_pages } %>
     <ul class="list-unstyled">
       <% @nodes.each do |node| %>
         <li><%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :class => link_class("node", node), :title => link_title(node), :rel => link_follow(node) } %></li>
