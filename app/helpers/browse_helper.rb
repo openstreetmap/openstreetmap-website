@@ -64,6 +64,29 @@ module BrowseHelper
     end
   end
 
+  def sidebar_classic_pagination(pages, page_param)
+    max_width_for_default_padding = 35
+
+    width = 0
+    pagination_items(pages, {}).each do |body|
+      width += 2 # padding width
+      width += body.length
+    end
+    link_classes = ["page-link", { "px-1" => width > max_width_for_default_padding }]
+
+    tag.ul :class => "pagination pagination-sm mb-1 ms-auto" do
+      pagination_items(pages, {}).each do |body, n|
+        linked = !(n.is_a? String)
+        link = if linked
+                 link_to body, url_for(page_param => n), :class => link_classes
+               else
+                 tag.span body, :class => link_classes
+               end
+        concat tag.li link, :class => ["page-item", { n => !linked }]
+      end
+    end
+  end
+
   private
 
   ICON_TAGS = %w[aeroway amenity barrier building highway historic landuse leisure man_made natural railway shop tourism waterway].freeze
