@@ -10,15 +10,12 @@
         width += 2 # padding width
         width += body.length
       end
-      link_classes = ["page-link"]
-      link_classes.push("px-1") if width > max_width_for_default_padding
+      link_classes = ["page-link", {"px-1" => width > max_width_for_default_padding}]
 
       pagination_items(pages, {}).each do |body, n|
         linked = !(n.is_a? String)
-        item_classes = ["page-item"]
-        item_classes.push(n) unless linked
     %>
-    <%= content_tag "li", :class => item_classes do
+    <%= content_tag "li", :class => ["page-item", {n => !linked}] do
           if linked
             link_to(body, url_for(page_param => n), :class => link_classes)
           else
