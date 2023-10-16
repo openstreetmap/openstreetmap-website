@@ -109,7 +109,9 @@ time[title] {
 
 #menu-icon {
   display: none;
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
   background: image-url("menu-icon.png") no-repeat;
   background-size: 30px 30px;
   width: 30px;
@@ -133,10 +135,6 @@ header {
     padding: $lineheight * 0.5;
   }
 
-  h1, nav.primary {
-    float: left;
-  }
-
   img.logo {
     margin-top: -2px;
   }
@@ -150,8 +148,11 @@ header {
   .btn {
     font-size: 14px;
   }
-}
 
+  nav.primary {
+    margin-right: auto;
+  }
+}
 
 nav.primary {
   & > .btn-group .btn-outline-primary {
@@ -186,9 +187,6 @@ nav.primary {
 }
 
 nav.secondary {
-  position: absolute;
-  right: 0;
-
   .nav-link {
     padding: 0.2rem;
     color: $darkgrey;
@@ -230,15 +228,8 @@ body.small-nav {
     display: block;
   }
 
-  nav.primary,
-  nav.secondary {
-    float: none !important;
-    position: relative;
-    display: block;
-    clear: both;
-  }
-
   header {
+    flex-direction: column;
     height: auto;
     min-height: $headerHeight;
     background: #fff;
@@ -259,6 +250,7 @@ body.small-nav {
   }
 
   nav.primary {
+    margin-right: 0;
     padding: 0;
 
     ul, li {
