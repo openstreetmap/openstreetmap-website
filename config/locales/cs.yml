@@ -288,6 +288,7 @@ cs:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedie
   api:
@@ -657,10 +658,36 @@ cs:
       newer_comments: Novější komentáře
       older_comments: Starší komentáře
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Autorizační server vyžaduje výběr účtu koncového
+          uživatele
+        consent_required: Autorizační server vyžaduje souhlas koncového uživatele
+        interaction_required: Autorizační server vyžaduje interakci koncového uživatele
+        login_required: Autorizační server vyžaduje ověření koncového uživatele
     flash:
       applications:
         create:
           notice: Aplikace zaregistrována.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Selhání z důvodu chybějící
+            konfigurace Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Generování tokenu ID se nezdařilo kvůli chybějící
+            konfiguraci Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Zobrazit svou fyzickou adresu
+      email: Zobrazit svou e-mailovou adresu
+      openid: Ověřte svůj účet
+      phone: Zobrazit své telefonní číslo
+      profile: Zobrazit informace o svém profilu
   errors:
     contact:
       contact_url_title: Vysvětlení různých komunikačních kanálů
@@ -2642,6 +2669,7 @@ cs:
     permissions:
       missing: Aplikaci jste nedovolili přístup k této funkci
     scopes:
+      openid: Přihlaste se pomocí OpenStreetMap
       read_prefs: Číst preference uživatele
       write_prefs: Měnit preference uživatele
       write_diary: Vytvářet deníkové záznamy, komentovat a navazovat přátelství
@@ -3122,6 +3150,7 @@ cs:
         cyclosm: CyclOSM
         cycle_map: Cyklomapa
         transport_map: Dopravní mapa
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitární
         opnvkarte: ÖPNVKarte
       layers:
@@ -3140,6 +3169,8 @@ cs:
       andy_allan: Andyho Allana
       opnvkarte_credit: Dlaždice s laskavým svolením %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Dlaždice s laskavým svolením %{tracestrack_link}
+      tracestrack: Tracetrack
       hotosm_credit: Styl dlaždic od %{hotosm_link} hostuje %{osm_france_link}
       hotosm_name: Humanitárního týmu OpenStreetMap
     site:
