@@ -60,7 +60,7 @@
         <%= link_to t("layouts.about"), about_path, :class => "nav-link" %>
       </li>
       <li id="compact-secondary-nav" class="dropdown nav-item">
-        <button class="dropdown-toggle nav-link btn" type="button" data-bs-toggle="dropdown"><%= t "layouts.more" %></button>
+        <button class="dropdown-toggle nav-link btn btn-outline-secondary border-0 bg-white text-secondary" type="button" data-bs-toggle="dropdown"><%= t "layouts.more" %></button>
         <ul class="dropdown-menu">
           <% if Settings.status != "database_offline" && can?(:index, Issue) %>
             <li class="<%= current_page_class(issues_path) %>">
@@ -81,7 +81,7 @@
     </ul>
     <% if current_user && current_user.id %>
       <div class='d-inline-flex dropdown user-menu logged-in clearfix'>
-        <button class='dropdown-toggle btn btn-outline-secondary px-2 py-1 flex-grow-1' type='button' data-bs-toggle='dropdown'>
+        <button class='dropdown-toggle btn btn-outline-secondary border-grey bg-white text-secondary px-2 py-1 flex-grow-1' type='button' data-bs-toggle='dropdown'>
           <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-1") %>
           <%= render :partial => "layouts/inbox" %>
           <span class="user-button">
