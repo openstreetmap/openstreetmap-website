@@ -175,8 +175,7 @@ $(document).ready(function () {
     }
   }
 
-  var placement = $("html").attr("dir") === "rtl" ? "right" : "left";
-  $(".leaflet-control .control-button").tooltip({ placement: placement, container: "body" });
+  $(".leaflet-control .control-button").tooltip({ placement: "left", container: "body" });
 
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
