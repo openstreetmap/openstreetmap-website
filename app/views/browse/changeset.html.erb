@@ -17,15 +17,11 @@
 
     <% if current_user %>
       <div class="col-auto">
-        <div class="subscribe-buttons">
-          <form action="#">
-            <% if @changeset.subscribers.exists?(current_user.id) %>
-              <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
-            <% else %>
-              <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
-            <% end %>
-          </form>
-        </div>
+        <% if @changeset.subscribers.exists?(current_user.id) %>
+          <button class="action-button btn btn-sm btn-primary" name="unsubscribe" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>"><%= t("javascripts.changesets.show.unsubscribe") %></button>
+        <% else %>
+          <button class="action-button btn btn-sm btn-primary" name="subscribe" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>"><%= t("javascripts.changesets.show.subscribe") %></button>
+        <% end %>
       </div>
     <% end %>
   </div>
