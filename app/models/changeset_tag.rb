@@ -6,10 +6,6 @@
 #  k            :string           default(""), not null, primary key
 #  v            :string           default(""), not null
 #
-# Indexes
-#
-#  changeset_tags_id_idx  (changeset_id)
-#
 # Foreign Keys
 #
 #  changeset_tags_id_fkey  (changeset_id => changesets.id)
