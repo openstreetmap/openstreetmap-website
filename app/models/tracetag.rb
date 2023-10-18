@@ -2,7 +2,7 @@
 #
 # Table name: gpx_file_tags
 #
-#  gpx_id :bigint(8)        default(0), not null
+#  gpx_id :bigint(8)        not null
 #  tag    :string           not null
 #  id     :bigint(8)        not null, primary key
 #

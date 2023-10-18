@@ -2,7 +2,7 @@
 #
 # Table name: relations
 #
-#  relation_id  :bigint(8)        default(0), not null, primary key
+#  relation_id  :bigint(8)        not null, primary key
 #  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
 #  version      :bigint(8)        not null, primary key

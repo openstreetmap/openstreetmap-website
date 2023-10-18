@@ -136,7 +136,6 @@ gem "image_processing"
 
 # Gems useful for development
 group :development do
-  gem "annotate"
   gem "better_errors"
   gem "binding_of_caller"
   gem "debug_inspector"
@@ -166,4 +165,8 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
   gem "webmock"
+end
+
+group :development, :test do
+  gem "annotate"
 end
