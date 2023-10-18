@@ -134,12 +134,14 @@ module Api
 
     def test_create_wrong_method
       auth_header = basic_authorization_header create(:user).email, "test"
-      assert_raise ActionController::RoutingError do
-        get changeset_create_path, :headers => auth_header
-      end
-      assert_raise ActionController::RoutingError do
-        post changeset_create_path, :headers => auth_header
-      end
+
+      get changeset_create_path, :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
+
+      post changeset_create_path, :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
     end
 
     ##
@@ -361,13 +363,13 @@ module Api
 
       auth_header = basic_authorization_header user.email, "test"
 
-      assert_raise ActionController::RoutingError do
-        get changeset_close_path(changeset), :headers => auth_header
-      end
+      get changeset_close_path(changeset), :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
 
-      assert_raise ActionController::RoutingError do
-        post changeset_close_path(changeset), :headers => auth_header
-      end
+      post changeset_close_path(changeset), :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
     end
 
     ##

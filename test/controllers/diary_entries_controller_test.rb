@@ -695,9 +695,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_template :show
 
     # Try a non-integer ID
-    assert_raise ActionController::RoutingError do
-      get "/user/#{CGI.escape(user.display_name)}/diary/#{diary_entry.id})"
-    end
+    get "/user/#{CGI.escape(user.display_name)}/diary/#{diary_entry.id})"
+    assert_response :not_found
+    assert_template "rescues/routing_error"
 
     # Try a deleted entry
     diary_entry_deleted = create(:diary_entry, :user => user, :visible => false)

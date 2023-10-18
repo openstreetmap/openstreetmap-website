@@ -138,7 +138,7 @@ module Api
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x' * 256}'/></node></osm>"
       put node_create_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "node upload did not return bad_request status"
-      assert_equal ["NodeTag ", " v: is too long (maximum is 255 characters) (\"#{'x' * 256}\")"], @response.body.split(/[0-9]+,foo:/)
+      assert_match(/ v: is too long \(maximum is 255 characters\) /, @response.body)
     end
 
     def test_show

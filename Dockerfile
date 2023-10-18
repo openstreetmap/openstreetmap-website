@@ -19,6 +19,7 @@ RUN apt-get update \
       libvips-dev \
       libxml2-dev \
       libxslt1-dev \
+      libyaml-dev \
       locales \
       postgresql-client \
       ruby \

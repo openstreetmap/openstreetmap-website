@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "~> 7.0.0"
+gem "rails", "~> 7.1.0"
 
 # Require json for multi_json
 gem "json"
@@ -48,7 +48,6 @@ gem "active_record_union"
 gem "bootstrap", :github => "gravitystorm/bootstrap-rubygem", :branch => "dartsass_5_2_3"
 gem "bootstrap_form", "~> 5.0"
 gem "cancancan"
-gem "composite_primary_keys", "~> 14.0.0"
 gem "config"
 gem "delayed_job_active_record"
 gem "frozen_record"
@@ -114,7 +113,7 @@ gem "kgio"
 gem "secure_headers"
 
 # Load canonical-rails to generate canonical URLs
-gem "canonical-rails"
+gem "canonical-rails", :github => "tomhughes/canonical-rails", :branch => "rails71"
 
 # Used to generate logstash friendly log files
 gem "logstasher"
