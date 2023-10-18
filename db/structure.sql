@@ -1839,6 +1839,14 @@ ALTER TABLE ONLY public.changeset_comments
 
 
 --
+-- Name: changeset_tags changeset_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changeset_tags
+    ADD CONSTRAINT changeset_tags_pkey PRIMARY KEY (changeset_id, k);
+
+
+--
 -- Name: changesets changesets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2203,13 +2211,6 @@ ALTER TABLE ONLY public.ways
 --
 
 CREATE INDEX acls_k_idx ON public.acls USING btree (k);
-
-
---
--- Name: changeset_tags_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX changeset_tags_id_idx ON public.changeset_tags USING btree (changeset_id);
 
 
 --
@@ -3466,6 +3467,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230825162137'),
 ('20230830115219'),
 ('20230830115220'),
+('20231007141103'),
 ('21'),
 ('22'),
 ('23'),

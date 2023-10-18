@@ -1,31 +1,46 @@
 if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
   module OpenStreetMap
-    module ActiveRecord
-      module PostgreSQLAdapter
+    module PostgreSQL
+      module Quoting
         def quote_column_name(name)
           Array(name).map { |n| super(n) }.join(", ")
         end
+      end
 
-        def add_primary_key(table_name, column_name, _options = {})
-          table_name = quote_table_name(table_name)
-          column_name = quote_column_name(column_name)
+      module SchemaStatements
+        def add_primary_key(table_name, column_name, options = {})
+          constraint_name = "#{table_name}_pkey"
 
-          execute "ALTER TABLE #{table_name} ADD PRIMARY KEY (#{column_name})"
+          options = options.merge(:name => constraint_name, :unique => true)
+
+          add_index(table_name, column_name, **options)
+          set_primary_key table_name, constraint_name
         end
 
         def remove_primary_key(table_name)
-          table_name = quote_table_name(table_name)
-
-          execute "ALTER TABLE #{table_name} DROP PRIMARY KEY"
-        end
-
-        def alter_primary_key(table_name, new_columns)
           constraint_name = quote_table_name("#{table_name}_pkey")
           table_name = quote_table_name(table_name)
-          new_columns = quote_column_name(new_columns)
 
           execute "ALTER TABLE #{table_name} DROP CONSTRAINT #{constraint_name}"
-          execute "ALTER TABLE #{table_name} ADD PRIMARY KEY (#{new_columns})"
+        end
+
+        def alter_primary_key(table_name, column_name, options = {})
+          constraint_name = "#{table_name}_pkey"
+          tmp_constraint_name = "#{table_name}_pkey_tmp"
+
+          options = options.merge(:name => tmp_constraint_name, :unique => true)
+
+          add_index(table_name, column_name, **options)
+          remove_primary_key table_name
+          set_primary_key table_name, tmp_constraint_name
+          rename_index table_name, tmp_constraint_name, constraint_name
+        end
+
+        def set_primary_key(table_name, constraint_name)
+          constraint_name = quote_table_name(constraint_name)
+          table_name = quote_table_name(table_name)
+
+          execute "ALTER TABLE #{table_name} ADD PRIMARY KEY USING INDEX #{constraint_name}"
         end
 
         def create_enumeration(enumeration_name, values)
@@ -46,5 +61,6 @@ if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
     end
   end
 
-  ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(OpenStreetMap::ActiveRecord::PostgreSQLAdapter)
+  ActiveRecord::ConnectionAdapters::PostgreSQL::Quoting.prepend(OpenStreetMap::PostgreSQL::Quoting)
+  ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaStatements.prepend(OpenStreetMap::PostgreSQL::SchemaStatements)
 end
