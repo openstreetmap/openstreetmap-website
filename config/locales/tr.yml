@@ -627,10 +627,37 @@ tr:
       newer_comments: Daha Yeni Yorumlar
       older_comments: Daha Eski Yorumlar
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Yetkilendirme sunucusu son kullanıcı hesabı seçimini
+          gerektiriyor
+        consent_required: Yetkilendirme sunucusu son kullanıcının onayını gerektiriyor
+        interaction_required: Yetkilendirme sunucusu son kullanıcı etkileşimini gerektiriyor
+        login_required: Yetkilendirme sunucusu son kullanıcı kimlik doğrulamasını
+          gerektiriyor
     flash:
       applications:
         create:
           notice: Uygulama Kayıtlı.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            eksik yapılandırmasından kaynaklanan hata.
+          reauthenticate_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            eksik yapılandırmasından kaynaklanan hata.
+          resource_owner_from_access_token_not_configured: Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            eksik yapılandırmasından kaynaklanan hata.
+          select_account_for_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            eksik yapılandırmasından kaynaklanan hata.
+          subject_not_configured: Kimlik Belirteci oluşturma, Doorkeeper::OpenidConnect.configure.subject
+            eksik yapılandırması nedeniyle başarısız oldu.
+    scopes:
+      address: Fiziksel adresinizi görüntüleyin
+      email: E-posta adresinizi görüntüleyin
+      openid: Hesabınızı doğrulayın
+      phone: Telefon numaranızı görüntüleyin
+      profile: Profil bilgilerinizi görüntüleyin
   errors:
     contact:
       contact_url_title: Çeşitli iletişim kanalları açıklandı
@@ -2616,6 +2643,7 @@ tr:
     permissions:
       missing: Uygulamanın bu özelliğe erişimine izin vermediniz
     scopes:
+      openid: OpenStreetMap'i kullanarak oturum açın
       read_prefs: Kullanıcı tercihlerini oku
       write_prefs: Kullanıcı tercihlerini değiştir
       write_diary: Günlük girdiler, yorumlar oluştur ve arkadaşlar edin
@@ -3094,6 +3122,7 @@ tr:
         cyclosm: CyclOSM
         cycle_map: Bisiklet Haritası
         transport_map: Ulaşım Haritası
+        tracestracktop_topo: Tracestrack Topo
         hot: İnsancıl
         opnvkarte: ÖPNVKarte
       layers:
@@ -3113,6 +3142,8 @@ tr:
       andy_allan: Andy Allan
       opnvkarte_credit: Döşemeler, %{memomaps_link} katkılarıyla
       memomaps: MeMo Haritaları
+      tracestrack_credit: Döşemeler, %{tracestrack_link} katkılarıyla
+      tracestrack: Tracestrack
       hotosm_credit: '%{osm_france_link} tarafından barındırılan %{hotosm_link} döşeme
         tarzı'
       hotosm_name: İnsani OpenStreetMap Ekibi
