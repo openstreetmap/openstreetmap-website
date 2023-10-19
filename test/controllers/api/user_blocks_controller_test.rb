@@ -14,11 +14,22 @@ module Api
     end
 
     def test_show
-      block = create(:user_block)
+      blocked_user = create(:user)
+      creator_user = create(:moderator_user)
+      block = create(:user_block, :user => blocked_user, :creator => creator_user, :reason => "because running tests")
 
       get api_user_block_path(:id => block)
       assert_response :success
-      assert_select "user_block[id='#{block.id}']", 1
+      assert_select "osm>user_block", 1 do
+        assert_select ">@id", block.id.to_s
+        assert_select ">user", 1
+        assert_select ">user>@uid", blocked_user.id.to_s
+        assert_select ">creator", 1
+        assert_select ">creator>@uid", creator_user.id.to_s
+        assert_select ">revoker", 0
+        assert_select ">reason", 1
+        assert_select ">reason", "because running tests"
+      end
 
       get api_user_block_path(:id => block, :format => "json")
       assert_response :success
