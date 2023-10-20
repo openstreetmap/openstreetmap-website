@@ -415,6 +415,6 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :error
     assert_template :layout => nil
-    assert_select "p.search_results_error", error
+    assert_select ".alert.alert-danger", error
   end
 end

@@ -244,7 +244,7 @@ OSM.Directions = function (map) {
         map.removeLayer(polyline);
 
         if (reportErrors) {
-          $("#sidebar_content").html("<p class=\"search_results_error\">" + I18n.t("javascripts.directions.errors.no_route") + "</p>");
+          $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
         }
 
         return;
@@ -307,7 +307,7 @@ OSM.Directions = function (map) {
         var row = $("<tr class='turn'/>");
         row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
         row.append("<td>" + instruction);
-        row.append("<td class='distance'>" + dist);
+        row.append("<td class='distance text-muted text-end'>" + dist);
 
         row.on("click", function () {
           popup
