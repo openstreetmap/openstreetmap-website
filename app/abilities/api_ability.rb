@@ -43,7 +43,9 @@ class ApiAbility
 
           can :destroy, Note if scope?(token, :write_notes)
 
-          can :redact, [OldNode, OldWay, OldRelation] if user&.terms_agreed? && scope?(token, :write_redactions)
+          can :redact, [OldNode, OldWay, OldRelation] if user.terms_agreed? && scope?(token, :write_redactions)
+
+          can :create, UserBlock if scope?(token, :write_blocks)
         end
       end
     end
