@@ -105,7 +105,7 @@ OpenStreetMap::Application.routes.draw do
     get "notes/getGPX" => "notes#index", :format => "gpx"
     get "notes/getRSSfeed" => "notes#feed", :format => "rss"
 
-    resources :user_blocks, :only => [:show], :constraints => { :id => /\d+/ }, :controller => "user_blocks", :as => :api_user_blocks
+    resources :user_blocks, :only => [:show, :create], :constraints => { :id => /\d+/ }, :controller => "user_blocks", :as => :api_user_blocks
   end
 
   # Data browsing
