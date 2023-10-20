@@ -121,7 +121,7 @@ OpenStreetMap::Application.routes.draw do
       resource :subscription, :only => [:create, :destroy], :controller => "note_subscriptions"
     end
 
-    resources :user_blocks, :only => :show, :id => /\d+/, :controller => "user_blocks"
+    resources :user_blocks, :only => [:show, :create], :id => /\d+/, :controller => "user_blocks"
     namespace :user_blocks, :path => "user/blocks" do
       resource :active_list, :path => "active", :only => :show
     end
