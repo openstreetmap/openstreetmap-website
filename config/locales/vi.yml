@@ -4,6 +4,7 @@
 # Author: A Retired User
 # Author: Anewplayer
 # Author: Dinhxuanduyet
+# Author: Flyplanevn27
 # Author: Ioe2015
 # Author: JohnsonLee01
 # Author: Keo010122
@@ -327,6 +328,12 @@ vi:
   browse:
     created: Tạo
     closed: Đóng
+    created_ago_html: Tạo %{time_ago}
+    closed_ago_html: Đóng %{time_ago}
+    created_ago_by_html: Tạo %{time_ago} bởi %{user}
+    closed_ago_by_html: Đóng %{time_ago} bởi %{user}
+    deleted_ago_by_html: Xóa %{time_ago} bởi %{user}
+    edited_ago_by_html: Sửa đổi %{time_ago} bởi %{user}
     version: Phiên bản
     in_changeset: Bộ thay đổi
     anonymous: vô danh
@@ -474,6 +481,7 @@ vi:
     index:
       title: Bộ thay đổi
       title_user: Những bộ thay đổi bởi %{user}
+      title_user_link_html: Những bộ thay đổi bởi %{user_link}
       title_friend: Những bộ thay đổi bởi bạn bè của bạn
       title_nearby: Những bộ thay đổi bởi người dùng ở gần
       empty: Không tìm thấy bộ thay đổi.
@@ -557,7 +565,6 @@ vi:
       comment_link: Nhận xét về mục này
       reply_link: Nhắn tin cho tác giả
       comment_count:
-        zero: Chưa có bình luận
         other: '%{count} bình luận'
       edit_link: Sửa đổi mục này
       hide_link: Ẩn mục này
@@ -601,6 +608,15 @@ vi:
       applications:
         create:
           notice: Ứng dụng được đăng ký.
+  errors:
+    contact:
+      contact: liên lạc
+    forbidden:
+      title: Cấm
+    internal_server_error:
+      title: Lỗi ứng dụng
+    not_found:
+      title: Không tìm thấy tập tin
   friendships:
     make_friend:
       heading: Kết bạn với %{user}?
@@ -616,6 +632,14 @@ vi:
       success: '%{name} đã được xóa khỏi danh sách bạn của bạn.'
       not_a_friend: '%{name} đã không phải người bạn.'
   geocoder:
+    search:
+      title:
+        latlon: Nội bộ
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim: Nominatim OpenHistoricalMap
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse: Nominatim OpenStreetMap
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -1342,8 +1366,6 @@ vi:
     show:
       title: 'Vấn đề %{status} #%{issue_id}'
       reports:
-        zero: Không có báo cáo
-        one: 1 báo cáo
         other: '%{count} báo cáo'
       report_created_at: Báo cáo lần đầu tiên vào %{datetime}
       last_resolved_at: Giải quyết lần cuối cùng vào %{datetime}
@@ -2086,6 +2108,7 @@ vi:
         OpenHistoricalMap có nhiều tài nguyên để cho bạn tìm hiểu về dự án, hỏi đáp, và cộng tác soạn thảo tài liệu về các đề tài bản đồ.
         <a href='%{help_url}'>Nhận trợ giúp tại đây</a>. Nếu bạn thuộc về một tổ chức đang lập kế hoạch về OpenHistoricalMap, <a href='https://welcome.openstreetmap.org/'>hãy xem phần Thảm cửa Chào mừng</a>.
       get_help_here: Nhận trợ giúp tại đây
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Kết quả Tìm kiếm
       close: Đóng
@@ -2190,6 +2213,8 @@ vi:
         paragraph_1: 'Đây là những thuật ngữ thường gặp khi sử dụng và đóng góp vào
           OpenHistoricalMap:'
         editor: người sửa đổi
+        node: nốt
+        way: lối
         tag: thẻ
       rules:
         title: Quy định!
@@ -2204,6 +2229,7 @@ vi:
         title: Không có Thì giờ Sửa đổi? Thêm một Ghi chú!
         para_1: Nếu bạn chỉ muốn sửa một chi tiết nhỏ và không có thì giờ tập sửa
           đổi, bạn có thể thêm một ghi chú dễ dàng.
+        the_map: bản đồ
   traces:
     visibility:
       private: Bí mật (chỉ hiển thị các điểm vô danh không có thứ tự)
@@ -2280,9 +2306,11 @@ vi:
       in: trong
     index:
       public_traces: Tuyến đường GPS công khai
+      my_gps_traces: Tuyến GPS của Tôi
       public_traces_from: Tuyến đường GPS công khai của %{user}
       description: Xem những tuyến đường GPS được tải lên gần đây
       tagged_with: ' có thẻ %{tags}'
+      wiki_page: trang wiki
       upload_trace: Tải lên tuyến đường
       all_traces: Tất cả các Tuyến đường
       my_traces: Tuyến đường của Tôi
@@ -2578,7 +2606,6 @@ vi:
       title: Người dùng
       heading: Người dùng
       showing:
-        one: Trang %{page} (%{first_item} trên tổng %{items})
         other: Trang %{page} (%{first_item}–%{last_item} trên tổng %{items})
       summary_html: '%{name} do %{ip_address} mở ngày %{date}'
       summary_no_ip_html: '%{name} mở ngày %{date}'
@@ -2745,6 +2772,38 @@ vi:
       description: Miêu tả
       created_at: Lúc tạo
       last_changed: Thay đổi gần đây nhất
+    show:
+      title: 'Ghi chú: %{id}'
+      description: Miêu tả
+      open_title: 'Ghi chú chưa giải quyết #%{note_name}'
+      closed_title: 'Ghi chú đã giải quyết #%{note_name}'
+      hidden_title: 'Ghi chú ẩn #%{note_name}'
+      event_commented_by_html: Nhận xét của %{user} từ %{time_ago}
+      report: báo cáo ghi chú này
+      coordinates_html: '%{latitude}, %{longitude}'
+      anonymous_warning: Ghi chú này có bình luận của người dùng vô danh đóng góp;
+        các bình luận này cần được xác nhận lại.
+      hide: Ẩn
+      resolve: Giải quyết
+      reactivate: Mở lại
+      comment_and_resolve: Bình luận & Giải quyết
+      comment: Bình luận
+      report_link_html: Nếu ghi chú này chứa thông tin nhạy cảm có thể cần xóa, bạn
+        có thể %{link}.
+      other_problems_resolve: Còn nếu ghi chú có vấn đề khác, xin vui lòng giải quyết
+        lấy bằng cách để lại lời bình luận.
+      other_problems_resolved: Còn nếu có vấn đề khác, chỉ việc giải quyết ghi chú.
+      disappear_date_html: Ghi chú được giải quyết sẽ được ẩn khỏi bản đồ trong vòng
+        %{disappear_in} nữa.
+    new:
+      title: Ghi chú Mới
+      intro: Bản đồ có thiếu gì hay sai lầm không? Hãy báo cho chúng tôi để chúng
+        tôi sửa chữa bản đồ. Chỉ việc kéo ghim vào vị trí đúng và viết lời giải thích
+        vấn đề.
+      advice: Ghi chú của bạn được hiển thị công khai và có thể được sử dụng để cập
+        nhật bản đồ. Xin đừng ghi thông tin cá nhân hoặc thông tin lấy từ bản đồ hay
+        danh bạ có bản quyền.
+      add: Thêm ghi chú
   javascripts:
     close: Đóng
     share:
@@ -2800,7 +2859,9 @@ vi:
         title: Lớp
       openstreetmap_contributors: Cộng tác viên OpenStreetMap
       make_a_donation: Quyên góp
+      osm_france: OpenStreetMap Pháp
       andy_allan: Andy Allan
+      memomaps: MeMoMaps
     site:
       edit_tooltip: Sửa đổi bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ

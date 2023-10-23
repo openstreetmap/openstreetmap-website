@@ -915,7 +915,7 @@ module Api
       assert_response :success
 
       # count one osm element
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
 
       # we should have only the expected number of relations
       assert_select "osm>relation", expected_relations.size

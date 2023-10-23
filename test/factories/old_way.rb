@@ -5,6 +5,6 @@ FactoryBot.define do
     version { 1 }
 
     changeset
-    association :current_way, :factory => :way
+    current_way :factory => :way
   end
 end

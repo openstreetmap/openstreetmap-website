@@ -1,4 +1,4 @@
-<div class='diary_post<%= " text-muted px-3 deleted" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
+<article class='diary_post border-top border-grey py-3<%= " text-muted px-3 bg-danger bg-opacity-10" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
   <div class='mb-3'>
     <% if @user %>
       <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
@@ -35,7 +35,13 @@
       <% if params[:action] == 'index' %>
         <li><%= link_to t(".comment_link"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "newcomment") %></li>
         <li><%= link_to t(".reply_link"), new_message_path(diary_entry.user, :message => { :title => "Re: #{diary_entry.title}" }) %></li>
-        <li><%= link_to t(".comment_count", :count => diary_entry.visible_comments.count), diary_entry_path(diary_entry.user, diary_entry, :anchor => "comments") %></li>
+        <li>
+          <% if diary_entry.visible_comments.count > 0 %>
+            <%= link_to t(".comment_count", :count => diary_entry.visible_comments.count), diary_entry_path(diary_entry.user, diary_entry, :anchor => "comments") %>
+          <% else %>
+            <%= link_to t(".no_comments"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "comments") %>
+          <% end %>
+        </li>
       <% end %>
 
       <% if current_user && current_user == diary_entry.user %>
@@ -59,4 +65,4 @@
       <% end %>
     </ul>
   </nav>
-</div>
+</article>

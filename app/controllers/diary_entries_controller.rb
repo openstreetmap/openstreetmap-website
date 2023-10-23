@@ -1,4 +1,6 @@
 class DiaryEntriesController < ApplicationController
+  include UserMethods
+
   layout "site", :except => :rss
 
   before_action :authorize_web
@@ -17,7 +19,7 @@ class DiaryEntriesController < ApplicationController
 
       if @user
         @title = t ".user_title", :user => @user.display_name
-        @entries = @user.diary_entries
+        entries = @user.diary_entries
       else
         render_unknown_user params[:display_name]
         return
@@ -25,7 +27,7 @@ class DiaryEntriesController < ApplicationController
     elsif params[:friends]
       if current_user
         @title = t ".title_friends"
-        @entries = DiaryEntry.where(:user_id => current_user.friends)
+        entries = DiaryEntry.where(:user => current_user.friends)
       else
         require_user
         return
@@ -33,36 +35,33 @@ class DiaryEntriesController < ApplicationController
     elsif params[:nearby]
       if current_user
         @title = t ".title_nearby"
-        @entries = DiaryEntry.where(:user_id => current_user.nearby)
+        entries = DiaryEntry.where(:user => current_user.nearby)
       else
         require_user
         return
       end
     else
-      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
+      entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
         @title = t ".in_language_title", :language => Language.find(params[:language]).english_name
-        @entries = @entries.where(:language_code => params[:language])
+        entries = entries.where(:language_code => params[:language])
       else
         @title = t ".title"
       end
     end
 
+    entries = entries.visible unless can? :unhide, DiaryEntry
+
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @page = (params[:page] || 1).to_i
-    @page_size = 20
-
-    @entries = @entries.visible unless can? :unhide, DiaryEntry
-    @entries = @entries.order("created_at DESC")
-    @entries = @entries.offset((@page - 1) * @page_size)
-    @entries = @entries.limit(@page_size)
-    @entries = @entries.includes(:user, :language)
+    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, [:user, :language])
   end
 
   def show
-    @entry = @user.diary_entries.visible.where(:id => params[:id]).first
+    entries = @user.diary_entries
+    entries = entries.visible unless can? :unhide, DiaryEntry
+    @entry = entries.where(:id => params[:id]).first
     if @entry
       @title = t ".title", :user => params[:display_name], :title => @entry.title
       @comments = can?(:unhidecomment, DiaryEntry) ? @entry.comments : @entry.visible_comments
@@ -236,15 +235,12 @@ class DiaryEntriesController < ApplicationController
   def comments
     @title = t ".title", :user => @user.display_name
 
-    conditions = { :user_id => @user }
+    comments = DiaryComment.where(:users => @user)
+    comments = comments.visible unless can? :unhidecomment, DiaryEntry
 
-    conditions[:visible] = true unless can? :unhidecomment, DiaryEntry
+    @params = params.permit(:display_name, :before, :after)
 
-    @comment_pages, @comments = paginate(:diary_comments,
-                                         :conditions => conditions,
-                                         :order => "created_at DESC",
-                                         :per_page => 20)
-    @page = (params[:page] || 1).to_i
+    @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, [:user])
   end
 
   private
@@ -270,7 +266,7 @@ class DiaryEntriesController < ApplicationController
       @lon = @diary_entry.longitude
       @lat = @diary_entry.latitude
       @zoom = 12
-    elsif current_user.home_lat.nil? || current_user.home_lon.nil?
+    elsif !current_user.home_location?
       @lon = params[:lon] || -0.1
       @lat = params[:lat] || 51.5
       @zoom = params[:zoom] || 4
@@ -279,5 +275,25 @@ class DiaryEntriesController < ApplicationController
       @lat = current_user.home_lat
       @zoom = 12
     end
+  end
+
+  def get_page_items(items, includes)
+    id_column = "#{items.table_name}.id"
+    page_items = if params[:before]
+                   items.where("#{id_column} < ?", params[:before]).order(:id => :desc)
+                 elsif params[:after]
+                   items.where("#{id_column} > ?", params[:after]).order(:id => :asc)
+                 else
+                   items.order(:id => :desc)
+                 end
+
+    page_items = page_items.limit(20)
+    page_items = page_items.includes(includes)
+    page_items = page_items.sort.reverse
+
+    newer_items_id = page_items.first.id if page_items.count.positive? && items.exists?(["#{id_column} > ?", page_items.first.id])
+    older_items_id = page_items.last.id if page_items.count.positive? && items.exists?(["#{id_column} < ?", page_items.last.id])
+
+    [page_items, newer_items_id, older_items_id]
   end
 end

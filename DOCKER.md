@@ -5,7 +5,7 @@ These instructions are designed for setting up `openstreetmap-website` for devel
 - [Install Docker](https://docs.docker.com/install/)
 - [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-**Windows users: You must enable symlinks before cloning the repository.** This repository uses symbolic links that are not enabled by default on Windows. To enable them, [turn on Developer Mode](https://windowsreport.com/windows-11-developer-mode/) on Windows and run `git config --global core.symlinks true` to enable symlinks in Git. See [this StackOverflow question](https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows) for more information.
+**Windows users: You must enable git symlinks before cloning the repository.** This repository uses symbolic links that are not enabled by default on Windows git. To enable them, [turn on Developer Mode](https://windowsreport.com/windows-11-developer-mode/) on Windows and run `git config --global core.symlinks true` to enable symlinks in Git. See [this StackOverflow question](https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows) for more information.
 
 The first step is to fork/clone the repo to your local machine:
 

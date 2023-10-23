@@ -5,7 +5,7 @@ module UserRolesHelper
 
   def role_icon(user, role)
     if current_user&.administrator?
-      if user.has_role?(role)
+      if user.role?(role)
         image = "roles/#{role}"
         alt = t("users.show.role.revoke.#{role}")
         title = t("users.show.role.revoke.#{role}")
@@ -18,7 +18,7 @@ module UserRolesHelper
         url = grant_role_path(:display_name => user.display_name, :role => role)
         confirm = t("user_role.grant.are_you_sure", :name => user.display_name, :role => role)
       end
-    elsif user.has_role?(role)
+    elsif user.role?(role)
       image = "roles/#{role}"
       alt = t("users.show.role.#{role}")
       title = t("users.show.role.#{role}")
@@ -28,7 +28,7 @@ module UserRolesHelper
       svg_icon = tag.source(:srcset => image_path("#{image}.svg"), :type => "image/svg+xml")
       png_icon = image_tag("#{image}.png", :srcset => image_path("#{image}.svg"), :size => "20x20", :border => 0, :alt => alt, :title => title)
       icon = tag.picture(svg_icon + png_icon)
-      icon = link_to(icon, url, :method => :post, :confirm => confirm) if url
+      icon = link_to(icon, url, :method => :post, :data => { :confirm => confirm }) if url
     end
 
     icon

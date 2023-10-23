@@ -39,6 +39,7 @@
 
 <% I18n.with_locale @locale do %>
   <%= tag.div :lang => @locale, :dir => t("html.dir") do %>
+
   <h3><%= t ".legal_babble.credit_title_html", :locale => @locale %></h3>
   <p><%= t ".legal_babble.credit_1_html", :locale => @locale %></p>
   <p><%= t ".legal_babble.credit_2_1_html", :locale => @locale %></p>
@@ -53,7 +54,7 @@
   <h3><%= t ".legal_babble.contributors_title_html", :locale => @locale %></h3>
   <p><%= t ".legal_babble.contributors_intro_html", :locale => @locale %></p>
   <ul id="contributors">
-    <li><%= t ".legal_babble.contributors_ned_html", :locale => @locale %></li>  
+    <li><%= t ".legal_babble.contributors_ned_html", :locale => @locale %></li>
     <li><%= t ".legal_babble.contributors_newberry_html", :locale => @locale %></li>
     <li><%= t ".legal_babble.contributors_cambridge-anr_html", :locale => @locale %></li>
   </ul>
@@ -63,5 +64,13 @@
     <h3><%= t ".legal_babble.infringement_title_html" %></h3>
     <p><%= t ".legal_babble.infringement_1_html" %></p>
 
+    <h3 id="trademarks">
+      <%= t ".legal_babble.trademarks_title_html" %>
+    </h3>
+    <p>
+      <%= t ".legal_babble.trademarks_1_html",
+            :trademark_policy_link => link_to(t(".legal_babble.trademarks_1_1_trademark_policy"),
+                                              t(".legal_babble.trademarks_1_1_trademark_policy_url")) %>
+    </p>
   <% end %>
 <% end %>

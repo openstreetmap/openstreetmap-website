@@ -21,6 +21,7 @@ class ApiAbility
       can [:history, :version], OldNode
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
+      can [:show], UserBlock
     end
 
     if user&.active?

@@ -157,6 +157,8 @@ module Api
     ##
     # query changesets by bounding box, time, user or open/closed status.
     def query
+      raise OSM::APIBadUserInput, "cannot use order=oldest with time" if params[:time] && params[:order] == "oldest"
+
       # find any bounding box
       bbox = BoundingBox.from_bbox_params(params) if params["bbox"]
 
@@ -166,12 +168,20 @@ module Api
       changesets = conditions_bbox(changesets, bbox)
       changesets = conditions_user(changesets, params["user"], params["display_name"])
       changesets = conditions_time(changesets, params["time"])
+      changesets = conditions_from_to(changesets, params["from"], params["to"])
       changesets = conditions_open(changesets, params["open"])
       changesets = conditions_closed(changesets, params["closed"])
       changesets = conditions_ids(changesets, params["changesets"])
 
-      # sort and limit the changesets
-      changesets = changesets.order("created_at DESC").limit(100)
+      # sort the changesets
+      changesets = if params[:order] == "oldest"
+                     changesets.order(:created_at => :asc)
+                   else
+                     changesets.order(:created_at => :desc)
+                   end
+
+      # limit the result
+      changesets = changesets.limit(result_limit)
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
@@ -297,7 +307,7 @@ module Api
               # user input checking, we don't have any UIDs < 1
               raise OSM::APIBadUserInput, "invalid user ID" if user.to_i < 1
 
-              u = User.find(user.to_i)
+              u = User.find_by(:id => user.to_i)
             else
               u = User.find_by(:display_name => name)
             end
@@ -315,12 +325,12 @@ module Api
           raise OSM::APINotFoundError if current_user.nil? || current_user != u
         end
 
-        changesets.where(:user_id => u.id)
+        changesets.where(:user => u)
       end
     end
 
     ##
-    # restrict changes to those closed during a particular time period
+    # restrict changesets to those during a particular time period
     def conditions_time(changesets, time)
       if time.nil?
         changesets
@@ -342,6 +352,33 @@ module Api
       # we have to catch both and ensure the correct code path is taken.
     rescue ArgumentError, RuntimeError => e
       raise OSM::APIBadUserInput, e.message.to_s
+    end
+
+    ##
+    # restrict changesets to those opened during a particular time period
+    # works similar to from..to of notes controller, including the requirement of 'from' when specifying 'to'
+    def conditions_from_to(changesets, from, to)
+      if from
+        begin
+          from = Time.parse(from).utc
+        rescue ArgumentError
+          raise OSM::APIBadUserInput, "Date #{from} is in a wrong format"
+        end
+
+        begin
+          to = if to
+                 Time.parse(to).utc
+               else
+                 Time.now.utc
+               end
+        rescue ArgumentError
+          raise OSM::APIBadUserInput, "Date #{to} is in a wrong format"
+        end
+
+        changesets.where(:created_at => from..to)
+      else
+        changesets
+      end
     end
 
     ##
@@ -381,6 +418,20 @@ module Api
       else
         ids = ids.split(",").collect(&:to_i)
         changesets.where(:id => ids)
+      end
+    end
+
+    ##
+    # Get the maximum number of results to return
+    def result_limit
+      if params[:limit]
+        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_changeset_query_limit
+          params[:limit].to_i
+        else
+          raise OSM::APIBadUserInput, "Changeset limit must be between 1 and #{Settings.max_changeset_query_limit}"
+        end
+      else
+        Settings.default_changeset_query_limit
       end
     end
   end

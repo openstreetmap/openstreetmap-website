@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include EmailMethods
   include SessionMethods
   include UserMethods
 
@@ -186,6 +187,9 @@ class UsersController < ApplicationController
         end
 
         if current_user.save
+          SIGNUP_IP_LIMITER&.update(request.remote_ip)
+          SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
+
           flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
           referer = welcome_path
@@ -250,7 +254,7 @@ class UsersController < ApplicationController
                      when "openid"
                        uid.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
                        uid.match(%r{https://me.yahoo.com/(.*)})
-                     when "google", "facebook"
+                     when "google", "facebook", "microsoft"
                        true
                      else
                        false
@@ -344,20 +348,18 @@ class UsersController < ApplicationController
                    domain_mx_servers(domain)
                  end
 
-    if blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
+    blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
+
+    blocked ||= SIGNUP_IP_LIMITER && !SIGNUP_IP_LIMITER.allow?(request.remote_ip)
+
+    blocked ||= email && SIGNUP_EMAIL_LIMITER && !SIGNUP_EMAIL_LIMITER.allow?(canonical_email(email))
+
+    if blocked
       logger.info "Blocked signup from #{request.remote_ip} for #{email}"
 
       render :action => "blocked"
     end
 
     !blocked
-  end
-
-  ##
-  # get list of MX servers for a domains
-  def domain_mx_servers(domain)
-    Resolv::DNS.open do |dns|
-      dns.getresources(domain, Resolv::DNS::Resource::IN::MX).collect(&:exchange).collect(&:to_s)
-    end
   end
 end

@@ -4,7 +4,11 @@
 <p class="text-muted">
   <small>
     <%= @issue.assigned_role %>
-    | <%= t ".reports", :count => @issue.reports.count %>
+    <% if @issue.reports.count > 0 %>
+      | <%= t ".reports", :count => @issue.reports.count %>
+    <% else %>
+      | <%= t ".no_reports" %>
+    <% end %>
     | <%= t ".report_created_at", :datetime => l(@issue.created_at.to_datetime, :format => :friendly) %>
     <%= " | #{t('.last_resolved_at', :datetime => l(@issue.resolved_at.to_datetime, :format => :friendly))}" if @issue.resolved_at? %>
     <%= " | #{t('.last_updated_at', :datetime => l(@issue.updated_at.to_datetime, :format => :friendly), :displayname => @issue.user_updated.display_name)}" if @issue.user_updated %>

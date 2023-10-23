@@ -56,7 +56,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_friendly_date
-    date = friendly_date(Time.new(2014, 3, 5, 18, 58, 23).utc)
+    date = friendly_date(Time.utc(2014, 3, 5, 18, 58, 23))
     assert_match %r{^<span title=" *5 March 2014 at 18:58">.*</span>$}, date
 
     date = friendly_date(Time.now.utc - 1.hour)

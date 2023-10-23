@@ -81,7 +81,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :lost_password
-    assert_select ".error", /^Could not find that email address/
+    assert_select ".alert.alert-danger", /^Could not find that email address/
 
     # Test resetting using the address as recorded for a user that has an
     # address which is case insensitively unique

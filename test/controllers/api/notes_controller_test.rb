@@ -695,6 +695,9 @@ module Api
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
+
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.max_note_query_limit, :format => "rss")
+      assert_response :success
     end
 
     def test_index_empty_area
@@ -783,6 +786,10 @@ module Api
     end
 
     def test_index_bad_params
+      get api_notes_path
+      assert_response :bad_request
+      assert_equal "The parameter bbox is required", @response.body
+
       get api_notes_path(:bbox => "-2.5,-2.5,2.5")
       assert_response :bad_request
 
@@ -804,7 +811,7 @@ module Api
       get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => "0", :format => "json")
       assert_response :bad_request
 
-      get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => "10001", :format => "json")
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => Settings.max_note_query_limit + 1, :format => "json")
       assert_response :bad_request
     end
 
@@ -841,6 +848,9 @@ module Api
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
+
+      get search_api_notes_path(:q => "note comment", :limit => Settings.max_note_query_limit, :format => "xml")
+      assert_response :success
     end
 
     def test_search_by_display_name_success
@@ -921,6 +931,28 @@ module Api
       end
     end
 
+    def test_search_by_bbox_success
+      notes = Array.new(5) do |i|
+        position = ((1.0 + (i * 0.1)) * GeoRecord::SCALE).to_i
+        create(:note_with_comments, :created_at => Time.parse("2020-01-01T00:00:00Z") + i.day, :latitude => position, :longitude => position)
+      end
+
+      get search_api_notes_path(:bbox => "1.0,1.0,1.6,1.6", :sort => "created_at", :order => "oldest", :format => "xml")
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_notes_in_order notes
+
+      get search_api_notes_path(:bbox => "1.25,1.25,1.45,1.45", :sort => "created_at", :order => "oldest", :format => "xml")
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_notes_in_order [notes[3], notes[4]]
+
+      get search_api_notes_path(:bbox => "2.0,2.0,2.5,2.5", :sort => "created_at", :order => "oldest", :format => "xml")
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_notes_in_order []
+    end
+
     def test_search_no_match
       create(:note_with_comments)
 
@@ -995,7 +1027,7 @@ module Api
       get search_api_notes_path(:q => "no match", :limit => "0", :format => "json")
       assert_response :bad_request
 
-      get search_api_notes_path(:q => "no match", :limit => "10001", :format => "json")
+      get search_api_notes_path(:q => "no match", :limit => Settings.max_note_query_limit + 1, :format => "json")
       assert_response :bad_request
 
       get search_api_notes_path(:display_name => "non-existent")
@@ -1037,6 +1069,9 @@ module Api
           assert_select "item", :count => 2
         end
       end
+
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.max_note_query_limit, :format => "rss")
+      assert_response :success
     end
 
     def test_feed_fail
@@ -1049,8 +1084,17 @@ module Api
       get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => "0", :format => "rss")
       assert_response :bad_request
 
-      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => "10001", :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.max_note_query_limit + 1, :format => "rss")
       assert_response :bad_request
+    end
+
+    private
+
+    def assert_notes_in_order(notes)
+      assert_select "osm>note", notes.size
+      notes.each_with_index do |note, index|
+        assert_select "osm>note:nth-child(#{index + 1})>id", :text => note.id.to_s, :count => 1
+      end
     end
   end
 end

@@ -6,7 +6,7 @@ module OsmCommunityIndex
     files = Rails.root.glob("node_modules/osm-community-index/i18n/*.yaml")
     files.each do |file|
       locale = File.basename(file, ".yaml")
-      community_locale_yaml = YAML.safe_load(File.read(file))[locale]
+      community_locale_yaml = YAML.safe_load_file(file)[locale]
       # rails wants language-COUNTRY but osm-community-index uses underscores
       locale_rails = locale.tr("_", "-")
 

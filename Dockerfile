@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -9,7 +9,7 @@ RUN apt-get update \
       curl \
       default-jre-headless \
       file \
-      firefox-geckodriver \
+      gpg-agent \
       libarchive-dev \
       libffi-dev \
       libgd-dev \
@@ -19,14 +19,21 @@ RUN apt-get update \
       libxml2-dev \
       libxslt1-dev \
       locales \
-      nodejs \
       postgresql-client \
-      ruby2.7 \
-      ruby2.7-dev \
+      ruby \
+      ruby-dev \
+      ruby-bundler \
+      software-properties-common \
       tzdata \
       unzip \
-      yarnpkg \
-      git \
+      nodejs \
+      npm \
+ && npm install --global yarn \
+ # We can't use snap packages for firefox inside a container, so we need to get firefox+geckodriver elsewhere
+ && add-apt-repository -y ppa:mozillateam/ppa \
+ && echo "Package: *\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox \
+ && apt-get install --no-install-recommends -y \
+      firefox-geckodriver \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -42,14 +49,9 @@ WORKDIR /app
 
 # Install Ruby packages
 ADD Gemfile Gemfile.lock /app/
-RUN gem install bundler \
- && bundle install
+RUN bundle install
 
 # Install NodeJS packages using yarn
 ADD package.json yarn.lock /app/
 ADD bin/yarn /app/bin/
 RUN bundle exec bin/yarn install
-
-# Update vendor assets
-ADD Vendorfile /app/
-RUN vendorer update

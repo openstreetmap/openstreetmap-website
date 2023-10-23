@@ -11,14 +11,14 @@ jobs:
     strategy:
       matrix:
         ubuntu: [20.04, 22.04]
-        ruby: ['2.7', '3.0', '3.1']
+        ruby: ['3.0', '3.1']
     runs-on: ubuntu-${{ matrix.ubuntu }}
     env:
       RAILS_ENV: test
       OPENSTREETMAP_MEMCACHE_SERVERS: 127.0.0.1
     steps:
     - name: Checkout source
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Setup ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -60,10 +60,11 @@ jobs:
     - name: Run tests
       run: bundle exec rails test:all
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.1.0
+      uses: coverallsapp/github-action@v2.2.3
       with:
         github-token: ${{ secrets.github_token }}
         flag-name: ubuntu-${{ matrix.ubuntu }}-ruby-${{ matrix.ruby }}
+        format: lcov
         parallel: true
   finish:
     name: Finalise
@@ -71,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.1.0
+      uses: coverallsapp/github-action@v2.2.3
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true

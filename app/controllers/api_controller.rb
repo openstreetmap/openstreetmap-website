@@ -178,6 +178,16 @@ class ApiController < ApplicationController
   # wrap an api call in a timeout
   def api_call_timeout(&block)
     Timeout.timeout(Settings.api_timeout, Timeout::Error, &block)
+  rescue ActionView::Template::Error => e
+    e = e.cause
+
+    if e.is_a?(Timeout::Error) ||
+       (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
+      ActiveRecord::Base.connection.raw_connection.cancel
+      raise OSM::APITimeoutError
+    else
+      raise
+    end
   rescue Timeout::Error
     ActiveRecord::Base.connection.raw_connection.cancel
     raise OSM::APITimeoutError

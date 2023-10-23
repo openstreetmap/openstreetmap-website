@@ -9,9 +9,17 @@ module Api
         { :path => "/api/versions", :method => :get },
         { :controller => "api/versions", :action => "show" }
       )
+      assert_routing(
+        { :path => "/api/versions.json", :method => :get },
+        { :controller => "api/versions", :action => "show", :format => "json" }
+      )
       assert_recognizes(
         { :controller => "api/versions", :action => "show" },
         { :path => "/api/versions", :method => :get }
+      )
+      assert_recognizes(
+        { :controller => "api/versions", :action => "show", :format => "json" },
+        { :path => "/api/versions.json", :method => :get }
       )
     end
 
@@ -23,6 +31,14 @@ module Api
           assert_select "version", Settings.api_version
         end
       end
+    end
+
+    def test_versions_json
+      get api_versions_path, :params => { :format => "json" }
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal [Settings.api_version], js["api"]["versions"]
     end
 
     def test_no_version_in_root_element

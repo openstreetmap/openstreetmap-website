@@ -500,7 +500,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   def test_offline
     get offline_path
     assert_response :success
-    assert_template "offline"
+    assert_select ".alert-warning"
   end
 
   # Test the rich text preview

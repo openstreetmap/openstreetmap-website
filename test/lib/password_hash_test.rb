@@ -28,16 +28,18 @@ class PasswordHashTest < ActiveSupport::TestCase
     assert PasswordHash.upgrade?("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=")
   end
 
-  def test_argon2_upgradeable
-    assert PasswordHash.check("$argon2id$v=19$m=65536,t=1,p=1$KXGHWfWMf5H5kY4uU3ua8A$YroVvX6cpJpljTio62k19C6UpuIPtW7me2sxyU2dyYg", nil, "password")
-    assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=1,p=1$KXGHWfWMf5H5kY4uU3ua8A$YroVvX6cpJpljTio62k19C6UpuIPtW7me2sxyU2dyYg", nil, "wrong")
-    assert PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=1,p=1$KXGHWfWMf5H5kY4uU3ua8A$YroVvX6cpJpljTio62k19C6UpuIPtW7me2sxyU2dyYg", nil)
-  end
-
-  def test_argon2
+  def test_argon2_t2_m16_p1
     assert PasswordHash.check("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil, "password")
     assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil, "wrong")
-    assert_not PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil)
+    assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvwrong5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil, "password")
+    assert PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil)
+  end
+
+  def test_argon2_t3_m16_p4
+    assert PasswordHash.check("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYTEDTRr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil, "password")
+    assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYTEDTRr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil, "wrong")
+    assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYwrongr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil, "password")
+    assert_not PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYTEDTRr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil)
   end
 
   def test_default

@@ -1,5 +1,6 @@
 class ConfirmationsController < ApplicationController
   include SessionMethods
+  include UserMethods
 
   layout "site"
 

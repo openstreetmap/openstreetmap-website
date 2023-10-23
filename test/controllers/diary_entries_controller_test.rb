@@ -164,7 +164,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :new
 
-    assert_nil UserPreference.where(:user_id => user.id, :k => "diary.default_language").first
+    assert_nil UserPreference.where(:user => user, :k => "diary.default_language").first
   end
 
   def test_create
@@ -189,7 +189,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal "en", UserPreference.where(:user_id => user.id, :k => "diary.default_language").first.v
+    assert_equal "en", UserPreference.where(:user => user, :k => "diary.default_language").first.v
   end
 
   def test_create_german
@@ -216,7 +216,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal "de", UserPreference.where(:user_id => user.id, :k => "diary.default_language").first.v
+    assert_equal "de", UserPreference.where(:user => user, :k => "diary.default_language").first.v
   end
 
   def test_new_spammy
@@ -563,12 +563,37 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Try and get the index
     get diary_entries_path
     assert_response :success
-    assert_select "div.diary_post", :count => 20
+    assert_select "article.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
 
     # Try and get the second page
-    get diary_entries_path(:page => 2)
+    get css_select("li.page-item .page-link").last["href"]
     assert_response :success
-    assert_select "div.diary_post", :count => 20
+    assert_select "article.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+
+    # Try and get the third page
+    get css_select("li.page-item .page-link").last["href"]
+    assert_response :success
+    assert_select "article.diary_post", :count => 10
+    assert_select "li.page-item.disabled span.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+
+    # Go back to the second page
+    get css_select("li.page-item .page-link").first["href"]
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+
+    # Go back to the first page
+    get css_select("li.page-item .page-link").first["href"]
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
+    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
   end
 
   def test_rss
@@ -680,14 +705,26 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
 
     # Try an entry by a suspended user
-    diary_entry_suspended = create(:diary_entry, :user => suspended_user)
-    get diary_entry_path(:display_name => suspended_user.display_name, :id => diary_entry_suspended)
+    diary_entry_suspended_user = create(:diary_entry, :user => suspended_user)
+    get diary_entry_path(:display_name => suspended_user.display_name, :id => diary_entry_suspended_user)
     assert_response :not_found
 
     # Try an entry by a deleted user
-    diary_entry_deleted = create(:diary_entry, :user => deleted_user)
-    get diary_entry_path(:display_name => deleted_user.display_name, :id => diary_entry_deleted)
+    diary_entry_deleted_user = create(:diary_entry, :user => deleted_user)
+    get diary_entry_path(:display_name => deleted_user.display_name, :id => diary_entry_deleted_user)
     assert_response :not_found
+
+    # Now try as a moderator
+    session_for(create(:moderator_user))
+    get diary_entry_path(:display_name => user.display_name, :id => diary_entry_deleted)
+    assert_response :success
+    assert_template :show
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    get diary_entry_path(:display_name => user.display_name, :id => diary_entry_deleted)
+    assert_response :success
+    assert_template :show
   end
 
   def test_show_hidden_comments
@@ -764,8 +801,11 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :redirect
-    assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_not DiaryEntry.find(diary_entry.id).visible
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
@@ -831,8 +871,11 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
     assert_response :redirect
-    assert_redirected_to :controller => :errors, :action => :forbidden
-    assert_not DiaryComment.find(diary_comment.id).visible
+    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert DiaryComment.find(diary_comment.id).visible
+
+    # Reset
+    diary_comment.reload.update(:visible => true)
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
@@ -954,7 +997,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "index"
     assert_no_missing_translations
-    assert_select "div.diary_post", entries.count
+    assert_select "article.diary_post", entries.count
 
     entries.each do |entry|
       assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"
