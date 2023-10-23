@@ -246,6 +246,7 @@ da:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -261,6 +262,7 @@ da:
         reopened_at_by_html: Genaktiveret %{when} af %{user}
       rss:
         title: OpenStreetMap-bemærkninger
+        description_all: En liste over rapporterede, kommenterede eller lukkede noter
         description_area: En liste over bemærkninger, rapporteret, kommenteret på
           eller lukket i dit område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Et RSS-feed for bemærkning %{id}
@@ -569,8 +571,8 @@ da:
       reply_link: Send en besked til forfatteren
       comment_count:
         one: '%{count} kommentar'
-        zero: Ingen kommentarer
         other: '%{count} kommentarer'
+      no_comments: Ingen kommentarer
       edit_link: Rediger dette indlæg
       hide_link: Skjul dette indlæg
       unhide_link: Skjul ikke længere dette indlæg
@@ -607,10 +609,35 @@ da:
       newer_comments: Nyere kommentarer
       older_comments: Ældre kommentarer
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Autorisationsserveren kræver valg af slutbrugerkonto
+        consent_required: Autorisationsserveren kræver slutbrugerens samtykke
+        interaction_required: Autorisationsserveren kræver slutbrugerinteraktion
+        login_required: Autorisationsserveren kræver slutbrugergodkendelse
     flash:
       applications:
         create:
           notice: Applikation registrerad.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Fejl på grund af at Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            mangler konfiguration.
+          reauthenticate_resource_owner_not_configured: Fejl på grund af at Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            mangler konfiguration.
+          resource_owner_from_access_token_not_configured: Fejl på grund af at Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            mangler konfiguration.
+          select_account_for_resource_owner_not_configured: Fejl på grund af at Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            mangler konfiguration.
+          subject_not_configured: Generering af ID-Token fejlede på grund af at Doorkeeper::OpenidConnect.configure.subject
+            mangler konfiguration.
+    scopes:
+      address: Se din fysiske adresse
+      email: Se din e-mailadresse
+      openid: Verificer din konto
+      phone: Se dit telefonnummer
+      profile: Se dine profiloplysninger
   errors:
     contact:
       contact_url_title: Forklaring af forskellige kontaktkanaler
@@ -1458,6 +1485,7 @@ da:
       reports:
         one: '%{count} rapport'
         other: '%{count} rapporter'
+      no_reports: Ingen rapporter
       report_created_at: Rapporteret første gang %{datetime}
       last_resolved_at: Sidst løst %{datetime}
       last_updated_at: Sidst opdateret %{datetime} af %{displayname}
@@ -1856,6 +1884,9 @@ da:
       home location: Hjemmeposition
       no home location: Du har ikke angivet din hjemmeposition.
       update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
+      show: Vis
+      delete: Slet
+      undelete: Fortryd sletning
     update:
       success: Profil opdateret.
       failure: Kunne ikke opdatere profil.
@@ -1885,8 +1916,8 @@ da:
           title: Log på med Facebook
           alt: Log på med en Facebook-konto
         microsoft:
-          title: Log på med Windows Live
-          alt: Log på med en Windows Live-konto
+          title: Log ind med Microsoft
+          alt: Log ind med en Microsoft-konto
         github:
           title: Log ind med GitHub
           alt: Log ind med en GitHub-konto
@@ -2076,6 +2107,12 @@ da:
         contributors_nz_new_zealand: New Zealand
         contributors_nz_linz_data_service: LINZ Data Service
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: |-
+          %{serbia}: Indeholder data fra %{rgz_link} og %{open_data_portal}
+          (offentlig information fra Serbien), 2018.
+        contributors_rs_serbia: Serbien
+        contributors_rs_rgz: Den serbiske geodetiske myndighed
+        contributors_rs_open_data_portal: National Open Data Portal
         contributors_si_credit_html: '%{slovenia}: Indeholder data fra %{gu_link}
           og %{mkgp_link} (offentlig information Slovenien).'
         contributors_si_slovenia: Slovenien
@@ -2569,6 +2606,7 @@ da:
     permissions:
       missing: Du har ikke givet applikationen adgang til denne facilitet
     scopes:
+      openid: Log ind med OpenStreetMap
       read_prefs: Læse brugerpræferencer
       write_prefs: Ændre brugeralternativer
       write_diary: Udgiv brugerblogs, kommenter og få venner
@@ -2756,6 +2794,7 @@ da:
       remove as friend: Fjern som ven
       add as friend: Tilføj som ven
       mapper since: 'Kortlægger siden:'
+      uid: 'Bruger-ID:'
       ct status: 'Vilkår for bidragsydere:'
       ct undecided: Uafklaret
       ct declined: Afslået
@@ -2949,7 +2988,9 @@ da:
     index:
       title: Bemærkninger indsendt eller kommenteret af %{user}
       heading: '%{user}s bemærkninger'
-      subheading_html: Bemærkninger indsendt eller kommenteret af %{user}
+      subheading_html: Bemærkninger %{submitted} eller %{commented} af %{user}
+      subheading_submitted: indsendt
+      subheading_commented: kommenteret på
       no_notes: Ingen bemærkninger
       id: Id
       creator: Oprettet af
@@ -3040,6 +3081,7 @@ da:
         cyclosm: CyclOSM
         cycle_map: Cykelkort
         transport_map: Transportkort
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitær
         opnvkarte: Offentlig transport
       layers:
@@ -3058,6 +3100,8 @@ da:
       andy_allan: Andy Allan
       opnvkarte_credit: Kortfliser stillet til rådighed af %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Kortfliser stillet til rådighed af %{tracestrack_link}
+      tracestrack: Tracestrack
       hotosm_credit: Kortflise-stil af %{hotosm_link} hostet af %{osm_france_link}
       hotosm_name: Humanitarian OpenStreetMap Team
     site:
