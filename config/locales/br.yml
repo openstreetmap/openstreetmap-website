@@ -347,6 +347,12 @@ br:
   browse:
     created: Krouet
     closed: Serret
+    created_ago_html: Krouet %{time_ago}
+    closed_ago_html: Serret %{time_ago}
+    created_ago_by_html: Bet krouet %{time_ago} gant %{user}
+    closed_ago_by_html: Bet serret %{time_ago} gant %{user}
+    deleted_ago_by_html: Bet dilamet %{time_ago} gant %{user}
+    edited_ago_by_html: Bet aozet %{time_ago} gant %{user}
     version: Stumm
     in_changeset: Hollad cheñchamantoù
     anonymous: dizanv
@@ -518,6 +524,7 @@ br:
     index:
       title: Hollad cheñchamantoù
       title_user: Hollad cheñchamantoù %{user}
+      title_user_link_html: Holladoù cheñchamantoù %{user_link}
       title_friend: Hollad cheñchamantoù degaset gant ma mignoned
       title_nearby: Hollad cheñchamantoù graet gant implijerien a-dost
       empty: N'eus bet kavet hollad cheñchamant ebet.
@@ -648,6 +655,13 @@ br:
       applications:
         create:
           notice: Goulenn marilhet.
+  errors:
+    contact:
+      contact: darempred
+    forbidden:
+      title: Difennet
+    not_found:
+      title: N'eo ket bet kavet ar restr
   friendships:
     make_friend:
       heading: ↓Ouzhpennañ %{user} evel mignon ?
@@ -661,6 +675,12 @@ br:
       success: '%{name} zo bet lamet eus ho mignoned.'
       not_a_friend: '%{name} n''eo ket unan eus ho mignoned.'
   geocoder:
+    search:
+      title:
+        latlon: Diabarzh
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -700,6 +720,7 @@ br:
           bench: Skaoñ
           bicycle_parking: Parklec'h beloioù
           bicycle_rental: Lec'h feurmiñ beloioù
+          bicycle_repair_station: Atalier dresañ marc'hoù-houarn
           biergarten: Braeerezh en aer vras
           blood_bank: Bank gwad
           boat_rental: Lec'h feurmiñ bagoù
@@ -766,6 +787,7 @@ br:
           public_bath: Kibelldi foran
           public_bookcase: Levraoueg foran
           public_building: Savadur foran
+          ranger_station: Post gward-koad
           recycling: Lec'h adaozañ
           restaurant: Preti
           school: Skol
@@ -780,7 +802,9 @@ br:
           theatre: C'hoariva
           toilets: Privezioù
           townhall: Ti-kêr
+          training: Diazezadur pleustriñ
           university: Skol-veur
+          vehicle_inspection: Kontroll teknikel
           vending_machine: Mekanik gwerzhañ
           veterinary: Surjianerezh evit al loened
           village_hall: Sal ar gumun
@@ -820,7 +844,9 @@ br:
           construction: Savadur war sevel
           detached: Pennti
           dormitory: Kouskva
+          duplex: Ti duplex
           farm: Atant
+          farm_auxiliary: Eilti-feurm
           garage: Karrdi
           garages: Karrdioù
           greenhouse: Ti-gwer
@@ -832,6 +858,7 @@ br:
           hut: Logenn
           industrial: Savadur greantel
           kindergarten: Savadur skol-vamm
+          manufacture: Labouradeg
           office: Savadur burevioù
           public: Savadur foran
           residential: Savadur annez
@@ -864,6 +891,7 @@ br:
           gardener: Liorzhour
           glaziery: Gweraerezh
           handicraft: Artizanerezh
+          hvac: Stal aerreizherioù
           painter: Liver
           photographer: Luc'hskeudenner
           plumber: Plomer
@@ -948,6 +976,7 @@ br:
           bunker: Bunker
           cannon: Kanol istorel
           castle: Kastell
+          charcoal_pile: Krugell vengleuzerezh istorel
           church: Iliz
           city_gate: Porzh kêr
           citywalls: Murioù kêr
@@ -1011,6 +1040,7 @@ br:
         leisure:
           adult_gaming_centre: Kreizenn c'hoari evit oadourien
           amusement_arcade: Sal-c'hoari-video
+          bandstand: Kledour-seniñ
           beach_resort: Kêr-gouronkañ
           bird_hide: Bod evned
           bleachers: Derezioù
@@ -1213,6 +1243,7 @@ br:
           "yes": Lec'h
         railway:
           abandoned: Hent-houarn dilezet
+          buffer_stop: Harz penn-linenn
           construction: Hent-houarn war sevel
           disused: Hent-houarn dilezet
           funicular: Hent-houarn fundren
@@ -1670,6 +1701,7 @@ br:
         commented_note: '%{commenter} en deus adweredekaet un notenn war ur gartenn
           hoc''h eus addispleget. Emañ an notenn tost da %{place}.'
       details: Munudoù ouzhpenn diwar-benn an notenn a c'hall bezañ kavet e %{url}.
+      details_html: Muioc'h a ditouroù diwar-bann an notenn e %{url}.
     changeset_comment_notification:
       hi: Demat %{to_user},
       greeting: Demat,
@@ -1680,12 +1712,19 @@ br:
           eus ho notennoù a sell ouzhoc''h'
         your_changeset: '%{commenter} en deus skrivet un evezhiadenn d''an/ar %{time}
           war unan eus ho hollad cheñchamantoù'
+        your_changeset_html: '%{commenter} en deus skrivet un evezhiadenn d''an/ar
+          %{time} war unan eus ho hollad cheñchamantoù'
         commented_changeset: '%{commenter} en deus skrivet un evezhiadenn d''an/ar
           %{time} war un hollad cheñchamantoù emaoc''h o sellet outañ hag a zo bet
           krouet gant %{changeset_author}'
+        commented_changeset_html: '%{commenter} en deus skrivet un evezhiadenn d''an/ar
+          %{time} war un hollad cheñchamantoù emaoc''h o sellet outañ hag a zo bet
+          krouet gant %{changeset_author}'
         partial_changeset_with_comment: gant an addispleg '%{changeset_comment}'
+        partial_changeset_with_comment_html: gant an evezhiadenn '%{changeset_comment}'
         partial_changeset_without_comment: Hep evezhiadenn
       details: Muioc'h a ditouroù war an holl cheñchamantoù e %{url}.
+      details_html: Muioc'h a ditouroù diwar-benn an hollad cheñchamantoù e %{url}.
       unsubscribe: Evit digoumanantiñ diouzh hizivadurioù an holl gemmoù, gweladennit
         %{url} ha klikit war « Digoumanantiñ ».
   confirmations:
@@ -2370,13 +2409,20 @@ br:
       in: e-barzh
     index:
       public_traces: Roudoù GPS foran
+      my_gps_traces: Ma Roudoù GPS
       public_traces_from: Roudoù GPS foran gant %{user}
       description: Furchal ar roud GPS pellgarget nevez zo
       tagged_with: ' balizennet gant %{tags}'
+      empty_title: Netra da welet c'hoazh
+      empty_upload_html: '%{upload_link} pe lennit hiroc''h diwar-benn ar roudoù GPS
+        war %{wiki_link}.'
+      wiki_page: pajenn wiki
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Kas ur roud
       all_traces: An holl roudoù
       my_traces: Ma roudoù
       traces_from: Roudoù GPS foran gant %{user}
+      remove_tag_filter: Lemel ar sil tikedennoù
     destroy:
       scheduled_for_deletion: Roudenn da vezañ dilamet
     make_public:
@@ -2833,6 +2879,24 @@ br:
       description: Deskrivadur
       created_at: Krouet e
       last_changed: Kemm diwezhañ
+    show:
+      title: 'Notenn: %{id}'
+      description: Deskrivadur
+      event_opened_by_html: Krouet gant %{user} %{time_ago}
+      event_opened_by_anonymous_html: Krouet gant un implijer/ez dianav %{time_ago}
+      event_commented_by_html: Kemennadenn skrivet gant %{user} %{time_ago}
+      event_commented_by_anonymous_html: Kemennadenn skrivet gant un implijer dizanv
+        %{time_ago}
+      event_closed_by_html: Diskoulmet gant %{user} %{time_ago}
+      event_closed_by_anonymous_html: Diskoulmet gant un implijer/ez dianav %{time_ago}
+      report: danevelliñ an notenn-mañ
+      coordinates_html: '%{latitude}, %{longitude}'
+      hide: Kuzhat
+      resolve: Diskoulmañ
+      reactivate: Gweredekaat en-dro
+    new:
+      title: Notenn nevez
+      add: Ouzhpennañ un notenn
   javascripts:
     close: Serriñ
     share:
@@ -2899,7 +2963,10 @@ br:
       make_a_donation: Ober un donezon
       website_and_api_terms: Termenoù-implij al lec'hien hag an API
       cyclosm_name: CyclOSM
+      osm_france: OpenStreetMap Frañs
+      thunderforest_credit: Teol pourchaset gant %{thunderforest_link}
       andy_allan: Andy Allan
+      opnvkarte_credit: Teol pourchaset gant %{memomaps_link}
       memomaps: MeMoMaps
     site:
       edit_tooltip: Kemmañ ar gartenn

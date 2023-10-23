@@ -5,11 +5,13 @@
 # Author: Amaia
 # Author: An13sa
 # Author: Asieriko
+# Author: Atzerritik
 # Author: EukeneFL
 # Author: Garaolaza
 # Author: Gorkaazk
 # Author: Ibai
 # Author: Iñaki LL
+# Author: Juele
 # Author: Maite
 # Author: McDutchie
 # Author: Mikel Ibaiba
@@ -39,6 +41,9 @@ eu:
         create: Bidali
       client_application:
         create: Erregistratu
+        update: Eguneratu
+      doorkeeper_application:
+        create: Izena eman
         update: Eguneratu
       redaction:
         create: Erredakzioa sortu
@@ -111,6 +116,11 @@ eu:
         latitude: Latitude
         longitude: Longitude
         language: Hizkuntza
+      doorkeeper/application:
+        name: Izena
+        redirect_uri: Birbideratu URIak
+        confidential: Isilpeko aplikazioa?
+        scopes: Baimenak
       friend:
         user: Erabiltzailea
         friend: Lagun
@@ -138,6 +148,7 @@ eu:
         category: 'Aukeratu arrazoi bat zure txostenerako:'
         details: Mesedez, eman arazoaren inguruko xehetasun gehiago (beharrezkoa).
       user:
+        auth_provider: Autentifikazio-hornitzailea
         auth_uid: Autentikazio UID
         email: Eposta
         email_confirmation: 'E-posta egiaztapena:'
@@ -152,6 +163,11 @@ eu:
         pass_crypt: Pasahitza
         pass_crypt_confirmation: 'Berretsi pasahitza:'
     help:
+      doorkeeper/application:
+        confidential: Bezeroaren sekretua isilpean gorde daitekeenean erabiliko da
+          aplikazioa (jatorrizko aplikazio mugikorrak eta orri bakarreko aplikazioak
+          ez dira konfidentzialak)
+        redirect_uri: URI bakoitzeko lerro bat erabili
       trace:
         tagstring: koma mugatua
       user_block:
@@ -168,6 +184,9 @@ eu:
         new_email: (inoiz ez da publikoki bistaratuko)
   datetime:
     distance_in_words_ago:
+      about_x_months:
+        one: duela hilabete %{count} ingueu
+        other: duela %{count} hilabete inguru
       half_a_minute: duela minutu erdi
   editor:
     default: Lehenetsia (orain %{name})
@@ -1130,7 +1149,7 @@ eu:
           "yes": Denda
         tourism:
           alpine_hut: Aterpe alpinoa
-          apartment: Apartamentua
+          apartment: Oporretako apartamentua
           artwork: Artelana
           attraction: Atrakzioa
           bed_and_breakfast: Ohe eta gosari (B&B)
@@ -1319,7 +1338,16 @@ eu:
     intro_text: OpenHistoricalMap munduko mapa da, zu bezalako jendeak sortutakoa
       eta doako lizentzia irekiarekin erabiltzeko dagoena.
     intro_2_create_account: Erabiltzaile kontua sortu
-    hosting_partners_html: '%{ucl}, %{bytemark} eta beste %{partners}-k babestua.'
+    hosting_partners_html: "<p>\n <a href='https://greeninfo.org'>GreenInfo Network</a>
+      irabazi-asmorik gabeko gizarte-onaren mapak eta komunikazio-erakunde bat da,
+      irabazi-asmorik gabeko erakundeei eta gobernu-agentziari gizarte-, ingurumen-
+      eta bestelako helburuak lortzen laguntzen diena, hainbat tresna erabiliz, besteak
+      beste, gizakiarengan oinarritutako diseinu-praktikak, lankidetza-garapena eta
+      kode irekiko web eta geoespazio-tresnak. \n</p> \n<p> \n <a href='https://developmentseed.org/'>Development
+      Seed</a> ingeniaritza eta produktuen enpresa bat da, lurraren datuen aplikazioa
+      azkartzen ari den gure erronka global handienetarako. Development Seed-ek lurraren
+      datu masiboak, hodeiko informatika, AI geoespaziala eta produktuen garapen pentsakorra
+      erabiltzen ditu.\n</p>"
     partners_partners: bazkideak
     tou: Erabilera-baldintzak
     osm_offline: OpenHistoricalMap datu-basea orain konexiorik gabe dago funtsezko
@@ -1368,8 +1396,9 @@ eu:
       subject: '[OpenHistoricalMap] GPX Inportazioan porrota'
     gpx_success:
       hi: Kaixo %{to_user},
-      loaded_successfully: '%{trace_points} puntuekin %{possible_points} puntuetatik
-        arrakastaz kargatu da.'
+      loaded_successfully:
+        one: behar bezala kargatu da %{trace_points} puntu posible batetik.
+        other: behar bezala kargatu da %{possible_points} puntu posibleetatik %{trace_points}.
       subject: '[OpenHistoricalMap] GPX Inportazioan arrakasta'
     signup_confirm:
       subject: '[OpenHistoricalMap] Ongi etorri OpenHistoricalMap-era'
@@ -1660,9 +1689,17 @@ eu:
         blogak</a> eta <a href='http://www.osmfoundation.org/'>OSM Fundazioaren</a>
         webgunea."
       open_data_title: Datu Irekiak
-      open_data_html: |-
-        OpenHistoricalMap <i> datu irekiak </i> ditu: edozein gauzarako erabil dezakezu betiere OpenHistoricalMap-ek eta bere kolaboratzaileek aipatzen badituzu. Moduren batean datuen gainean edukia eraikiz, emaitza bakarrik banatu ahal izango duzu lizentzia beraren azpian. Ikusi <a href='%{copyright_path}'> Copyright eta
-        Lizentzia orria </a> xehetasunak lortzeko.
+      open_data_html: "<p>OpenHistoricalMap <i>datu irekiak</i> dira: edozein helburutarako
+        erabiltzeko libre zara\nerabili dituzun datuen baldintzen arabera. OpenHistoricalMap-ek
+        lizentzia\neta aipamen-eskakizunak identifikatzen ditu objektu mailan (halakorik
+        badago). Datu hauek bateratzeko\nOpenHistoricalMap-i kreditua edo aipamena
+        eskertzen da, baina ez da beharrezkoa.\nDatuak modu jakin batean aldatzen
+        edo eraikitzen badituzu, emaitza lizentzia berarekin bakarrik bana dezakezu\n.
+        Ikus <a href='%{copyright_path}'>Copyright eta\nLizentzien orria</a> xehetasunetarako.</p>
+        \n<p> OHMko datuak hainbat zerbitzuren bidez atzi ditzakezu, webgune honetatik
+        haratago.\nIkusi eskuragarri dauden ekoizpen- eta eszenatze-webguneen eta
+        APIen zerrenda\n <a href='https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_Web_Services'>gure
+        Wiki orria</a> .</p>"
       legal_title: Legala
       legal_1_html: |-
         Gune hau eta beste hainbat zerbitzu lotzen dira formalki
