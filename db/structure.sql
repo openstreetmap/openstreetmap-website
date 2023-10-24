@@ -2500,6 +2500,13 @@ CREATE INDEX index_changeset_comments_on_created_at ON public.changeset_comments
 
 
 --
+-- Name: index_changesets_on_user_id_and_closed_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_changesets_on_user_id_and_closed_at ON public.changesets USING btree (user_id, closed_at);
+
+
+--
 -- Name: index_changesets_subscribers_on_changeset_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3499,6 +3506,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20231117170422'),
 ('20231101222146'),
 ('20231029151516'),
 ('20231010194809'),

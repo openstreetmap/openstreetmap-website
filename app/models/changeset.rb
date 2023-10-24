@@ -14,11 +14,12 @@
 #
 # Indexes
 #
-#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon) USING gist
-#  changesets_closed_at_idx           (closed_at)
-#  changesets_created_at_idx          (created_at)
-#  changesets_user_id_created_at_idx  (user_id,created_at)
-#  changesets_user_id_id_idx          (user_id,id)
+#  changesets_bbox_idx                        (min_lat,max_lat,min_lon,max_lon) USING gist
+#  changesets_closed_at_idx                   (closed_at)
+#  changesets_created_at_idx                  (created_at)
+#  changesets_user_id_created_at_idx          (user_id,created_at)
+#  changesets_user_id_id_idx                  (user_id,id)
+#  index_changesets_on_user_id_and_closed_at  (user_id,closed_at)
 #
 # Foreign Keys
 #
