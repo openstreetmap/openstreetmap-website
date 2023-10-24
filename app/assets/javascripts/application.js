@@ -124,6 +124,7 @@ $(document).ready(function () {
   I18n.fallbacks = true;
 
   OSM.preferred_editor = application_data.preferredEditor;
+  OSM.preferred_languages = application_data.preferredLanguages;
 
   if (application_data.user) {
     OSM.user = application_data.user;
