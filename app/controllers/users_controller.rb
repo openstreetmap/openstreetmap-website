@@ -20,6 +20,13 @@ class UsersController < ApplicationController
   allow_thirdparty_images :only => :show
   allow_social_login :only => :new
 
+  content_security_policy(:only => :new) do |policy|
+    if Settings.turnstile_site_key
+      policy.frame_src(*policy.frame_src, "challenges.cloudflare.com")
+      policy.script_src(*policy.script_src, "challenges.cloudflare.com")
+    end
+  end
+
   def show
     @user = User.find_by(:display_name => params[:display_name])
 
@@ -74,6 +81,10 @@ class UsersController < ApplicationController
 
       if current_user.invalid?
         # Something is wrong with a new user, so rerender the form
+        render :action => "new"
+      elsif Settings.turnstile_site_key && !valid_turnstile_response?(params["cf-turnstile-response"])
+        # Invalid turnstile response, so rerender the form
+        flash.now[:error] = t ".not_human"
         render :action => "new"
       else
         # Save the user record
@@ -256,5 +267,21 @@ class UsersController < ApplicationController
     logger.info "Blocked signup from #{request.remote_ip} for #{email}" if blocked
 
     !blocked
+  end
+
+  ##
+  # check if a turnstile response is valid
+  def valid_turnstile_response?(turnstile_response)
+    response = OSM.http_client.post("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+                                      :secret => Settings.turnstile_secret_key,
+                                      :response => turnstile_response,
+                                      :remoteip => request.remote_ip
+                                    })
+
+    return false unless response.success?
+
+    parsed_response = JSON.parse(response.body)
+
+    parsed_response["success"]
   end
 end
