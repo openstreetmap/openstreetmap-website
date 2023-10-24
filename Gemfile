@@ -113,7 +113,7 @@ gem "kgio"
 gem "secure_headers"
 
 # Load canonical-rails to generate canonical URLs
-gem "canonical-rails", :github => "tomhughes/canonical-rails", :branch => "rails71"
+gem "canonical-rails"
 
 # Used to generate logstash friendly log files
 gem "logstasher"
