@@ -371,5 +371,16 @@ module ActiveSupport
         el << tag_el
       end
     end
+
+    def with_user_account_deletion_delay(value)
+      freeze_time
+      default_value = Settings.user_account_deletion_delay
+      Settings.user_account_deletion_delay = value
+
+      yield
+
+      Settings.user_account_deletion_delay = default_value
+      unfreeze_time
+    end
   end
 end
