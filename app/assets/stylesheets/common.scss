@@ -2,6 +2,34 @@
 @import "bootstrap";
 @import "rails_bootstrap_forms";
 
+/* Bootstrap + r2 fixes */
+
+:root[dir=rtl] {
+  .bs-tooltip-auto[data-popper-placement^="right"] .tooltip-arrow {
+    /* no-r2 */
+    right: unset !important;
+    left: calc(-1 * var(--bs-tooltip-arrow-height)) !important;
+
+    &::before {
+      /* no-r2 */
+      left: unset !important;
+      right: -1px !important;
+    }
+  }
+
+  .bs-tooltip-auto[data-popper-placement^="left"] .tooltip-arrow {
+    /* no-r2 */
+    left: unset !important;
+    right: calc(-1 * var(--bs-tooltip-arrow-height)) !important;
+
+    &::before {
+      /* no-r2 */
+      right: unset !important;
+      left: -1px !important;
+    }
+  }
+}
+
 /* Styles common to large and small screens */
 
 /* Default rules for the body of every page */
