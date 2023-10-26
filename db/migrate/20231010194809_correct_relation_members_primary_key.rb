@@ -1,4 +1,6 @@
 class CorrectRelationMembersPrimaryKey < ActiveRecord::Migration[7.0]
+  disable_ddl_transaction!
+
   def up
     alter_primary_key :current_relation_members, [:relation_id, :sequence_id]
     alter_primary_key :relation_members, [:relation_id, :version, :sequence_id]
