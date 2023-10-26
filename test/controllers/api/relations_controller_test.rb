@@ -102,7 +102,7 @@ module Api
       second_relation = create(:relation_member, :member => node).relation
       _super_relation = create(:relation_member, :member => second_relation).relation
       # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => node, :relation => relation_with_node, :sequence_id => 2)
+      create(:relation_member, :member => node, :relation => relation_with_node)
       # should not include deleted relations
       deleted_relation = create(:relation, :deleted)
       create(:relation_member, :member => node, :relation => deleted_relation)
@@ -122,7 +122,7 @@ module Api
       second_relation = create(:relation_member, :member => way).relation
       _super_relation = create(:relation_member, :member => second_relation).relation
       # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => way, :relation => relation_with_way, :sequence_id => 2)
+      create(:relation_member, :member => way, :relation => relation_with_way)
       # should not include deleted relations
       deleted_relation = create(:relation, :deleted)
       create(:relation_member, :member => way, :relation => deleted_relation)
@@ -142,7 +142,7 @@ module Api
       second_relation = create(:relation_member, :member => relation).relation
       _super_relation = create(:relation_member, :member => second_relation).relation
       # should combine multiple relation_member references into just one relation entry
-      create(:relation_member, :member => relation, :relation => relation_with_relation, :sequence_id => 2)
+      create(:relation_member, :member => relation, :relation => relation_with_relation)
       # should not include deleted relations
       deleted_relation = create(:relation, :deleted)
       create(:relation_member, :member => relation, :relation => deleted_relation)

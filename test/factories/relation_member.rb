@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :relation_member do
+    sequence(:sequence_id)
     member_role { "" }
 
     relation
