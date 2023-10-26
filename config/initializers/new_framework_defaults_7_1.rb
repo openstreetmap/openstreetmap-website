@@ -70,7 +70,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # replicas will not be able to deserialize `BigDecimal` arguments from this
 # serializer. Therefore, this setting should only be enabled after all replicas
 # have been successfully upgraded to Rails 7.1.
-# Rails.application.config.active_job.use_big_decimal_serializer = true
+Rails.application.config.active_job.use_big_decimal_serializer = true
 
 # Specify if an `ArgumentError` should be raised if `Rails.cache` `fetch` or
 # `write` are given an invalid `expires_at` or `expires_in` time.
@@ -163,7 +163,7 @@ Rails.application.config.active_record.default_column_serializer = nil
 # not yet been upgraded must be able to read caches from upgraded servers,
 # leave this optimization off on the first deploy, then enable it on a
 # subsequent deploy.
-# Rails.application.config.active_record.marshalling_format_version = 7.1
+Rails.application.config.active_record.marshalling_format_version = 7.1
 
 # Run `after_commit` and `after_*_commit` callbacks in the order they are defined in a model.
 # This matches the behaviour of all other callbacks.

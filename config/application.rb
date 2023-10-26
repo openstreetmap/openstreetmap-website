@@ -29,6 +29,9 @@ module OpenStreetMap
     # like if you have constraints or database-specific column types
     config.active_record.schema_format = :sql unless Settings.status == "database_offline"
 
+    # Use rails 7.1 cache format
+    config.active_support.cache_format_version = 7.1
+
     # Use memcached for caching if required
     config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
 
