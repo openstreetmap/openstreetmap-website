@@ -48,7 +48,7 @@ Rails.application.config.active_record.encryption.support_sha1_for_non_determini
 # Instead, run these callbacks on the instance most likely to have internal
 # state which matches what was committed to the database, typically the last
 # instance to save.
-# Rails.application.config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction = false
+Rails.application.config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction = false
 
 # Configures SQLite with a strict strings mode, which disables double-quoted string literals.
 #
@@ -148,7 +148,7 @@ Rails.application.config.precompile_filter_parameters = true
 # Enable before_committed! callbacks on all enrolled records in a transaction.
 # The previous behavior was to only run the callbacks on the first copy of a record
 # if there were multiple copies of the same record enrolled in the transaction.
-# Rails.application.config.active_record.before_committed_on_all_records = true
+Rails.application.config.active_record.before_committed_on_all_records = true
 
 # Disable automatic column serialization into YAML.
 # To keep the historic behavior, you can set it to `YAML`, however it is
@@ -168,7 +168,7 @@ Rails.application.config.active_record.marshalling_format_version = 7.1
 # Run `after_commit` and `after_*_commit` callbacks in the order they are defined in a model.
 # This matches the behaviour of all other callbacks.
 # In previous versions of Rails, they ran in the inverse order.
-# Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = true
+Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = true
 
 # Whether a `transaction` block is committed or rolled back when exited via `return`, `break` or `throw`.
 #
