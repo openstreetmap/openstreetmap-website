@@ -41,7 +41,7 @@
 #
 # If you don't currently have data encrypted with Active Record encryption, you can disable this setting to
 # configure the default behavior starting 7.1+:
-# Rails.application.config.active_record.encryption.support_sha1_for_non_deterministic_encryption = false
+Rails.application.config.active_record.encryption.support_sha1_for_non_deterministic_encryption = false
 
 # No longer run after_commit callbacks on the first of multiple Active Record
 # instances to save changes to the same database row within a transaction.
@@ -57,7 +57,7 @@
 # it then considers them as string literals. Because of this, typos can silently go unnoticed.
 # For example, it is possible to create an index for a non existing column.
 # See https://www.sqlite.org/quirks.html#double_quoted_string_literals_are_accepted for more details.
-# Rails.application.config.active_record.sqlite3_adapter_strict_strings_by_default = true
+Rails.application.config.active_record.sqlite3_adapter_strict_strings_by_default = true
 
 # Disable deprecated singular associations names
 Rails.application.config.active_record.allow_deprecated_singular_associations_name = false
@@ -76,12 +76,12 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # `write` are given an invalid `expires_at` or `expires_in` time.
 # Options are `true`, and `false`. If `false`, the exception will be reported
 # as `handled` and logged instead.
-# Rails.application.config.active_support.raise_on_invalid_cache_expiration_time = true
+Rails.application.config.active_support.raise_on_invalid_cache_expiration_time = true
 
 # Specify whether Query Logs will format tags using the SQLCommenter format
 # (https://open-telemetry.github.io/opentelemetry-sqlcommenter/), or using the legacy format.
 # Options are `:legacy` and `:sqlcommenter`.
-# Rails.application.config.active_record.query_log_tags_format = :sqlcommenter
+Rails.application.config.active_record.query_log_tags_format = :sqlcommenter
 
 # Specify the default serializer used by `MessageEncryptor` and `MessageVerifier`
 # instances.
@@ -109,7 +109,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # that have not yet been upgraded must be able to read messages from upgraded
 # servers, first deploy without changing the serializer, then set the serializer
 # in a subsequent deploy.
-# Rails.application.config.active_support.message_serializer = :json_allow_marshal
+Rails.application.config.active_support.message_serializer = :json_allow_marshal
 
 # Enable a performance optimization that serializes message data and metadata
 # together. This changes the message format, so messages serialized this way
@@ -120,7 +120,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # not yet been upgraded must be able to read messages from upgraded servers,
 # leave this optimization off on the first deploy, then enable it on a
 # subsequent deploy.
-# Rails.application.config.active_support.use_message_serializer_for_metadata = true
+Rails.application.config.active_support.use_message_serializer_for_metadata = true
 
 # Set the maximum size for Rails log files.
 #
@@ -134,7 +134,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # Enable raising on assignment to attr_readonly attributes. The previous
 # behavior would allow assignment but silently not persist changes to the
 # database.
-# Rails.application.config.active_record.raise_on_assign_to_attr_readonly = true
+Rails.application.config.active_record.raise_on_assign_to_attr_readonly = true
 
 # Enable validating only parent-related columns for presence when the parent is mandatory.
 # The previous behavior was to validate the presence of the parent record, which performed an extra query
@@ -154,7 +154,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # To keep the historic behavior, you can set it to `YAML`, however it is
 # recommended to explicitly define the serialization method for each column
 # rather than to rely on a global default.
-# Rails.application.config.active_record.default_column_serializer = nil
+Rails.application.config.active_record.default_column_serializer = nil
 
 # Enable a performance optimization that serializes Active Record models
 # in a faster and more compact way.
@@ -176,7 +176,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 
 # Controls when to generate a value for <tt>has_secure_token</tt> declarations.
 #
-# Rails.application.config.active_record.generate_secure_token_on = :initialize
+Rails.application.config.active_record.generate_secure_token_on = :initialize
 
 # ** Please read carefully, this must be configured in config/application.rb **
 # Change the format of the cache entry.
