@@ -127,9 +127,7 @@ Rails.application.config.active_support.use_message_serializer_for_metadata = tr
 # `config.load_defaults 7.1` does not set this value for environments other than
 # development and test.
 #
-# if Rails.env.local?
-#   Rails.application.config.log_file_size = 100 * 1024 * 1024
-# end
+Rails.application.config.log_file_size = 100 * 1024 * 1024 if %w[development test].include?(Rails.env)
 
 # Enable raising on assignment to attr_readonly attributes. The previous
 # behavior would allow assignment but silently not persist changes to the
