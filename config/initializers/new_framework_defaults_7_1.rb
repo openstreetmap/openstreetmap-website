@@ -218,4 +218,4 @@ Rails.application.config.action_text.sanitizer_vendor = Rails::HTML::Sanitizer.b
 #
 # In previous versions of Rails, these test helpers always used an HTML4 parser.
 #
-# Rails.application.config.dom_testing_default_html_version = :html5
+Rails.application.config.dom_testing_default_html_version = :html5
