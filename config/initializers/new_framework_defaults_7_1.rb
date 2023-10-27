@@ -27,7 +27,7 @@ Rails.application.config.action_dispatch.default_headers = {
 
 # Do not treat an `ActionController::Parameters` instance
 # as equal to an equivalent `Hash` by default.
-# Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
+Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
 
 # Active Record Encryption now uses SHA-256 as its hash digest algorithm. Important: If you have
 # data encrypted with previous Rails versions, there are two scenarios to consider:
