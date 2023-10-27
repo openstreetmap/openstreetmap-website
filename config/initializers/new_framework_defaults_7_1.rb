@@ -170,7 +170,7 @@ Rails.application.config.active_record.run_after_transaction_callbacks_in_order_
 
 # Whether a `transaction` block is committed or rolled back when exited via `return`, `break` or `throw`.
 #
-# Rails.application.config.active_record.commit_transaction_on_non_local_return = true
+Rails.application.config.active_record.commit_transaction_on_non_local_return = true
 
 # Controls when to generate a value for <tt>has_secure_token</tt> declarations.
 #
