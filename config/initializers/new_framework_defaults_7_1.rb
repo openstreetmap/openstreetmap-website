@@ -17,13 +17,13 @@ Rails.application.config.add_autoload_paths_to_load_path = false
 
 # Remove the default X-Download-Options headers since it is used only by Internet Explorer.
 # If you need to support Internet Explorer, add back `"X-Download-Options" => "noopen"`.
-# Rails.application.config.action_dispatch.default_headers = {
-#   "X-Frame-Options" => "SAMEORIGIN",
-#   "X-XSS-Protection" => "0",
-#   "X-Content-Type-Options" => "nosniff",
-#   "X-Permitted-Cross-Domain-Policies" => "none",
-#   "Referrer-Policy" => "strict-origin-when-cross-origin"
-# }
+Rails.application.config.action_dispatch.default_headers = {
+  "X-Frame-Options" => "SAMEORIGIN",
+  "X-XSS-Protection" => "0",
+  "X-Content-Type-Options" => "nosniff",
+  "X-Permitted-Cross-Domain-Policies" => "none",
+  "Referrer-Policy" => "strict-origin-when-cross-origin"
+}
 
 # Do not treat an `ActionController::Parameters` instance
 # as equal to an equivalent `Hash` by default.
