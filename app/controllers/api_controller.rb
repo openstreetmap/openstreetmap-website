@@ -192,4 +192,14 @@ class ApiController < ApplicationController
     ActiveRecord::Base.connection.raw_connection.cancel
     raise OSM::APITimeoutError
   end
+
+  ##
+  # check the api change rate limit
+  def check_rate_limit(new_changes = 1)
+    max_changes = ActiveRecord::Base.connection.select_value(
+      "SELECT api_rate_limit($1)", "api_rate_limit", [current_user.id]
+    )
+
+    raise OSM::APIRateLimitExceeded if new_changes > max_changes
+  end
 end

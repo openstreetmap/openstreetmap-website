@@ -2183,7 +2183,11 @@ module Api
     # check that a changeset can contain a certain max number of changes.
     ## FIXME should be changed to an integration test due to the with_controller
     def test_changeset_limits
-      auth_header = basic_authorization_header create(:user).email, "test"
+      user = create(:user)
+      auth_header = basic_authorization_header user.email, "test"
+
+      # create an old changeset to ensure we have the maximum rate limit
+      create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
 
       # open a new changeset
       xml = "<osm><changeset/></osm>"

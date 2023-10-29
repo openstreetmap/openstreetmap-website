@@ -12,6 +12,7 @@ module Api
     around_action :api_call_handle_error, :api_call_timeout
 
     before_action :set_request_formats, :except => [:create, :update, :delete]
+    before_action :check_rate_limit, :only => [:create, :update, :delete]
 
     def index
       raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
