@@ -1607,6 +1607,107 @@ module Api
     end
 
     ##
+    # test initial rate limit
+    def test_upload_initial_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some objects to use
+      node = create(:node)
+      way = create(:way_with_nodes, :nodes_count => 2)
+      relation = create(:relation)
+
+      # create a changeset that puts us near the initial rate limit
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 5.minutes,
+                                     :num_changes => Settings.initial_changes_per_hour - 2)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node way and relation using placeholders
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+          <way id='-1' changeset='#{changeset.id}'>
+           <nd ref='#{node.id}'/>
+          </way>
+         </create>
+         <create>
+          <relation id='-1' changeset='#{changeset.id}'>
+           <member type='way' role='some' ref='#{way.id}'/>
+           <member type='node' role='some' ref='#{node.id}'/>
+           <member type='relation' role='some' ref='#{relation.id}'/>
+          </relation>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :too_many_requests, "upload did not hit rate limit"
+    end
+
+    ##
+    # test maximum rate limit
+    def test_upload_maximum_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some objects to use
+      node = create(:node)
+      way = create(:way_with_nodes, :nodes_count => 2)
+      relation = create(:relation)
+
+      # create a changeset to establish our initial edit time
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 28.days)
+
+      # create changeset to put us near the maximum rate limit
+      total_changes = Settings.max_changes_per_hour - 2
+      while total_changes.positive?
+        changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => changes)
+        total_changes -= changes
+      end
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node way and relation using placeholders
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+          <way id='-1' changeset='#{changeset.id}'>
+           <nd ref='#{node.id}'/>
+          </way>
+         </create>
+         <create>
+          <relation id='-1' changeset='#{changeset.id}'>
+           <member type='way' role='some' ref='#{way.id}'/>
+           <member type='node' role='some' ref='#{node.id}'/>
+           <member type='relation' role='some' ref='#{relation.id}'/>
+          </relation>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :too_many_requests, "upload did not hit rate limit"
+    end
+
+    ##
     # when we make some simple changes we get the same changes back from the
     # diff download.
     def test_diff_download_simple
