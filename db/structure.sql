@@ -91,7 +91,8 @@ CREATE TYPE public.nwr_enum AS ENUM (
 
 CREATE TYPE public.user_role_enum AS ENUM (
     'administrator',
-    'moderator'
+    'moderator',
+    'importer'
 );
 
 
@@ -3437,6 +3438,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20231029151516'),
 ('20231010194809'),
 ('20231007141103'),
 ('20230830115220'),

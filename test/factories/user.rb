@@ -47,6 +47,12 @@ FactoryBot.define do
       end
     end
 
+    factory :importer_user do
+      after(:create) do |user, _evaluator|
+        create(:user_role, :role => "importer", :user => user)
+      end
+    end
+
     factory :moderator_user do
       after(:create) do |user, _evaluator|
         create(:user_role, :role => "moderator", :user => user)
