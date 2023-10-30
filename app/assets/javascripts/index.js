@@ -422,7 +422,7 @@ $(document).ready(function () {
         onFeatureLoaded: function (type, id, xmldoc) {
             console.log([ 'loaded feature', type, id, xmldoc ]);
         },
-        apiBaseUrl: "/api/"
+        apiBaseUrl: "/api",  // no trailing /
     });
     inspector.selectFeatureFromUrl();
   }
