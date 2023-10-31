@@ -130,8 +130,12 @@ cy:
         description: Disgrifiad
       report:
         category: Dewiswch reswm dros eich adroddiad
+        details: Rhowch mwy o fanylion am y broblem (gofynnol).
       user:
+        auth_provider: Darparwr Dilysu
+        auth_uid: UID Dilysu
         email: E-bost
+        email_confirmation: Cadarnhad e-bost
         new_email: Cyfeiriad E-bost Newydd
         active: Gweithredol
         display_name: Enw Defnyddiwr
@@ -139,6 +143,7 @@ cy:
         home_lat: 'Lledred:'
         home_lon: 'Hydred:'
         languages: Ieithoedd
+        preferred_editor: Hoff Olygydd
         pass_crypt: Cyfrinair
     help:
       user:
@@ -153,18 +158,83 @@ cy:
         many: tua %{count} awr yn ôl
         other: tua %{count} awr yn ôl
       about_x_months:
-        one: tuag un fis yn ôl
+        zero: tua %{count} mis yn ôl
+        one: tua %{count} mis yn ôl
+        two: tua %{count} fis yn ôl
+        few: tua %{count} mis yn ôl
+        many: tua %{count} mis yn ôl
         other: tua %{count} mis yn ôl
       about_x_years:
-        one: tuag un blynedd yn ôl
-        other: tua %{count} blynedd yn ôl ago
+        zero: tua %{count} blynedd yn ôl
+        one: tuag %{count} blynedd yn ôl
+        two: tua %{count} flynedd yn ôl
+        few: tua %{count} blynedd yn ôl
+        many: tua %{count} blynedd yn ôl
+        other: tua %{count} blynedd yn ôl
       almost_x_years:
-        one: oddeutu un mlynedd yn ôl
-        other: bron i %{count} blynedd yn ôl
+        zero: bron %{count} blynedd yn ôl
+        one: bron %{count} blynedd yn ôl
+        two: bron %{count} flynedd yn ôl
+        few: bron %{count} blynedd yn ôl
+        many: bron %{count} blynedd yn ôl
+        other: bron %{count} blynedd yn ôl
       half_a_minute: hanner munud yn ôl
       less_than_x_seconds:
-        one: llai nag eiliad yn ôl
-        other: llai nag %{count} eiliad yn ôl
+        zero: llai nag eiliad yn ôl
+        one: llai nag %{count} eiliad yn ôl
+        two: llai na %{count} eiliad yn ôl
+        few: llai na %{count} eiliad yn ôl
+        many: llai na %{count} eiliad yn ôl
+        other: llai na %{count} eiliad yn ôl
+      less_than_x_minutes:
+        zero: llai na munud yn ôl
+        one: llai nag %{count} munud yn ôl
+        two: llai na %{count} funud yn ôl
+        few: llai na %{count} munud yn ôl
+        many: llai na %{count} munud yn ôl
+        other: llai na %{count} munud yn ôl
+      over_x_years:
+        zero: dros %{count} blynedd yn ôl
+        one: dros %{count} blynedd yn ôl
+        two: dros %{count} flynedd yn ôl
+        few: dros %{count} blynedd yn ôl
+        many: dros %{count} blynedd yn ôl
+        other: dros %{count} blynedd yn ôl
+      x_seconds:
+        zero: '%{count} eiliad yn ôl'
+        one: '%{count} eiliad yn ôl'
+        two: '%{count} eiliad yn ôl'
+        few: '%{count} eiliad yn ôl'
+        many: '%{count} eiliad yn ôl'
+        other: '%{count} eiliad yn ôl'
+      x_minutes:
+        zero: '%{count} munud yn ôl'
+        one: '%{count} munud yn ôl'
+        two: '%{count} funud yn ôl'
+        few: '%{count} munud yn ôl'
+        many: '%{count} munud yn ôl'
+        other: '%{count} munud yn ôl'
+      x_days:
+        zero: '%{count} diwrnod yn ôl'
+        one: '%{count} diwrnod yn ôl'
+        two: '%{count} ddiwrnod yn ôl'
+        few: '%{count} diwrnod yn ôl'
+        many: '%{count} diwrnod yn ôl'
+        other: '%{count} diwrnod yn ôl'
+      x_months:
+        zero: '%{count} mis yn ôl'
+        one: '%{count} mis yn ôl'
+        two: '%{count} fis yn ôl'
+        few: '%{count} mis yn ôl'
+        many: '%{count} mis yn ôl'
+        other: '%{count} mis yn ôl'
+      x_years:
+        zero: '%{count} blynedd yn ôl'
+        one: '%{count} blynedd yn ôl'
+        two: '%{count} flynedd yn ôl'
+        few: '%{count} blynedd yn ôl'
+        many: '%{count} blynedd yn ôl'
+        other: '%{count} blynedd yn ôl'
   editor:
     default: (currently %{name}) diofyn
     id:
@@ -189,14 +259,28 @@ cy:
         opened_at_by_html: Crëwyd %{when} gan %{user}
         commented_at_html: Diweddarwyd %{when}
         commented_at_by_html: Diweddarwyd %{when} gan %{user}
+        closed_at_html: Wedi datrys %{when}
+        closed_at_by_html: Wedi datrys %{when} gan %{user}
+        reopened_at_html: Wedi ailysgogi %{when}
+        reopened_at_by_html: Wedi ailysgogi %{when} gan %{user}
       rss:
         title: Nodiadau OpenHistoricalMap
+        description_item: Ffrwd RSS ar gyfer nodyn %{id}
+        opened: nodyn newydd (ger %{place})
+        commented: sylw newydd (ger %{place})
+        closed: nodyn wedi'i gau (ger %{place})
+        reopened: nodyn wedi'i ailysgogi (ger %{place})
       entry:
         comment: Sylw
         full: Nodyn llawn
   account:
     deletions:
       show:
+        title: Dileu fy nghyfrif
+        warning: Rhybudd! Mae'r broses dileu cyfrif yn derfynol, ac ni ellir ei gwrthdroi.
+        delete_account: Dileu cyfrif
+        delete_introduction: 'Gallwch ddileu eich cyfrif OpenHistoricalMap gan ddefnyddio''r
+          botwm isod. Nodwch y manylion canlynol:'
         confirm_delete: Ydych chi'n siŵr?
         cancel: Canslo
   accounts:
@@ -222,6 +306,7 @@ cy:
         not yet agreed: Nid ydych eto wedi cytuno i'r telerau cyfranwyr newydd.
         review link text: Dilynwch y ddolen hon i adolygu a derbyn y telerau cyfranwyr
           newydd.
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: beth yw hwn?
       save changes button: Cadw Newidiadau
       make edits public button: Gwneud fy holl olygiadau yn gyhoeddus
@@ -488,11 +573,23 @@ cy:
         title: Cofnodion dyddiadur OpenHistoricalMap
         description: Cofnodion dyddiadur diweddar gan ddefnyddwyr OpenHistoricalMap
     comments:
+      heading: Sylwadau Dyddiadur %{user}
+      subheading_html: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
+      no_comments: Dim sylwadau dyddiadur
       post: Post
       when: Pryd
       comment: Sylw
       newer_comments: Sylwadau Diweddarach
       older_comments: Sylwadau Hŷn
+  doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Cais wedi'i Gofrestru.
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact: cysylltu
   friendships:
     make_friend:
       heading: Ychwanegu %{user} fel ffrind?
@@ -508,6 +605,7 @@ cy:
   geocoder:
     search:
       title:
+        latlon: Mewnol
         latlon_url: https://openhistoricalmap.org/
         osm_nominatim: OpenHistoricalMap Nominatim
         osm_nominatim_url: https://nominatim.openhistoricalmap.org/
@@ -638,28 +736,90 @@ cy:
           townhall: Neuadd Dref
           training: Cyfleuster Hyfforddi
           university: Prifysgol
+          vehicle_inspection: Archwilio Cerbydau
           vending_machine: Peiriant Gwerthu
           veterinary: Milfeddygfa
           village_hall: Neuadd Bentref
           waste_basket: Bin sbwriel
           waste_disposal: Gwaredu Sbwriel
+          waste_dump_site: Safle Dympio Gwastraff
+          watering_place: Lle Dyfrhau
           water_point: Cyflenwad Dŵr
+          weighbridge: Pont Bwyso
+          "yes": Amwynder
         boundary:
+          aboriginal_lands: Tiroedd Brodorol
           administrative: Ffin Gweinyddol
           census: Ffin Cyfrifiad
           national_park: Parc Cenedlaethol
+          political: Ffin Etholiadol
           protected_area: Ardal Warchodol
+          "yes": Ffin
         bridge:
           aqueduct: Dyfrbont
+          boardwalk: Rhodfa Estyll
           suspension: Pont Grog
           swing: Pont Droelli
           viaduct: Pont Trenau
           "yes": Pont
         building:
+          apartment: Fflat
+          apartments: Fflatiau
+          barn: Ysgubor
+          bungalow: Bynglo
+          cabin: Caban
+          chapel: Capel
+          church: Adeilad Eglwys
+          civic: Adeilad Dinesig
+          college: Adeilad Coleg
+          commercial: Adeilad Masnachol
+          construction: Adeilad yn cael ei Adeiladu
+          detached: Tŷ Datgysylltiedig
+          dormitory: Ystafell Gysgu
+          duplex: Tŷ Deublyg
+          farm: Ffermdy
+          farm_auxiliary: Tŷ Fferm Ategol
+          garage: Garej
+          garages: Garejis
+          greenhouse: Tŷ Gwydr
+          hangar: Hangar
+          hospital: Adeilad Ysbyty
+          hotel: Adeilad Gwesty
+          house: Tŷ
+          houseboat: Cwch Preswyl
+          hut: Cwt
+          industrial: Adeilad Diwydiannol
+          kindergarten: Adeilad Meithrinfa
+          manufacture: Adeilad Gweithgynhyrchu
+          office: Adeilad Swyddfa
+          public: Adeilad Cyhoeddus
+          residential: Adeilad Preswyl
+          retail: Adeilad Adwerthu
+          roof: To
+          ruins: Adeilad Adfeiliedig
+          school: Adeilad Ysgol
+          service: Adeilad Gwasanaeth
+          shed: Sied
+          stable: Stabl
+          static_caravan: Carafan
+          temple: Adeilad Teml
+          terrace: Adeilad Teras
+          train_station: Adeilad Gorsaf Drenau
+          university: Adeilad Prifysgol
+          warehouse: Warws
           "yes": Adeilad
+        club:
+          scout: Canolfan Grŵp Sgowtiaid
+          sport: Clwb Chwaraeon
+          "yes": Clwb
         craft:
+          beekeeper: Gwenynwr
+          blacksmith: Gof
           brewery: Bragdy
           carpenter: Saer
+          caterer: Arlwywr
+          confectionery: Melysion
+          dressmaker: Gwneuthurwr Ffrog
           electrician: Trydanydd
           gardener: Garddwr
           painter: Peintiwr
@@ -1703,7 +1863,23 @@ cy:
       previous: « Blaenorol
   notes:
     index:
+      no_notes: Dim nodiadau
       id: Id
+      creator: Crëwr
+      description: Disgrifiad
+      created_at: Crëwyd am
+      last_changed: Newidiwyd ddiwethaf
+    show:
+      title: 'Nodyn: %{id}'
+      description: Disgrifiad
+      hide: Cuddio
+      resolve: Datrys
+      reactivate: Ail-ysgogi
+      comment_and_resolve: Sylw a Datrys
+      comment: Sylw
+    new:
+      title: Nodyn Newydd
+      add: Ychwanegu Nodyn
   javascripts:
     close: Cau
     share:
@@ -1713,11 +1889,16 @@ cy:
       link: Dolen neu HTML
       long_link: Dolen
       short_link: Dolen Fer
+      geo_uri: URI Geo
       embed: HTML
       format: 'Fformat:'
       scale: 'Graddfa:'
       download: Lawrlwytho
       short_url: URL Byr
+      include_marker: Cynnwys marciwr
+      center_marker: Canoli'r map ar y marciwr
+    embed:
+      report_problem: Adrodd am broblem
     key:
       title: Allwedd Map
       tooltip: Allwedd Map
@@ -1728,15 +1909,29 @@ cy:
       locate:
         title: Dangos Fy Lleoliad
       base:
+        historical: Hanesyddol
+        woodblock: Bloc Pren
+        japanesescroll: Sgrol Japaneaidd
         standard: Safonol
         cycle_map: Map Beicio
         transport_map: Map Trafnidiaeth
         hot: Dyngarol
+        opnvkarte: ÖPNVKarte
       layers:
         header: Haenau Mapiau
         notes: Nodiadau Map
         data: Data Map
+        gps: Arllwybrau GPS Cyhoeddus
+        overlays: Galluogi troshaenau i ddatrys problemau map
         title: Haenau
+      copyright_text: © %{copyright_link}
+      openstreetmap_contributors: Cyfranwyr OpenStreetMap
+      make_a_donation: Rhoi arian
+      website_and_api_terms: Telerau'r gwefan ac API
+      cyclosm_name: CyclOSM
+      osm_france: OpenStreetMap France
+      andy_allan: Andy Allan
+      memomaps: MeMoMaps
     site:
       edit_tooltip: Golygu'r map
       edit_disabled_tooltip: Chwyddwch mewn i olygu'r map
@@ -1744,6 +1939,7 @@ cy:
       createnote_disabled_tooltip: Chwyddwch mewn i ychwanegu nodyn i'r map
       map_notes_zoom_in_tooltip: Chwyddwch mewn i weld nodiadau'r map
       map_data_zoom_in_tooltip: Chwyddwch mewn i weld data'r map
+      queryfeature_tooltip: Manylion nodweddion
     changesets:
       show:
         comment: Sylw
@@ -1760,12 +1956,57 @@ cy:
         reactivate: Ail-ysgogi
         comment_and_resolve: Sylw a Datrys
         comment: Sylw
+    directions:
+      instructions:
+        start_without_exit: Dechreuwch ar %{name}
+        destination_without_exit: Wedi cyrraedd cyrchfan
+        exit_counts:
+          first: 1af
+          second: 2il
+          third: 3ydd
+          fourth: 4ydd
+          fifth: 5ed
+          sixth: 6ed
+          seventh: 7fed
+          eighth: 8fed
+          ninth: 9fed
+          tenth: 10fed
+      time: Amser
     query:
+      node: Nod
       way: Llwybr
+      relation: Perthynas
       nothing_found: Ni chanfuwyd unrhyw nodweddion
       error: 'Gwall wrth gysylltu â %{server}: %{error}'
+      timeout: Goramser wrth gysylltu â %{server}
+    context:
+      directions_from: Cyfarwyddiadau oddi yma
+      directions_to: Cyfarwyddiadau i yma
+      add_note: Ychwanegu nodyn yma
+      show_address: Dangos cyfeiriad
+      query_features: Manylion nodweddion
+      centre_map: Canoli'r map yma
   redactions:
+    edit:
+      heading: Golygu Gorchuddiad
+      title: Golygu Gorchuddiad
+    index:
+      empty: Dim gorchuddiadau i'w dangos.
+      heading: Rhestr Orchuddiadau
+      title: Rhestr Orchuddiadau
+    new:
+      heading: Mewnbynnu Gwybodaeth ar gyfer Gorchuddiad Newydd
+      title: Wrthi'n Creu Gorchuddiad Newydd
     show:
       description: 'Disgrifiad:'
+      heading: Gorchuddiad "%{title}"
+      title: Gorchuddiad
+      user: 'Crëwr:'
+      edit: Golygu'r gorchuddiad hwn
+      destroy: Dileu'r gorchuddiad hwn
       confirm: Ydych chi'n siŵr?
+    create:
+      flash: Gorchuddiad wedi'i greu.
+    update:
+      flash: Newidiadau wedi'u cadw.
 ...
