@@ -355,6 +355,10 @@ module OSM
 
   # Raised when a rate limit is exceeded
   class APIRateLimitExceeded < APIError
+    def initialize
+      super "Rate limit exceeded"
+    end
+
     def status
       :too_many_requests
     end
