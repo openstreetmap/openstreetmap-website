@@ -376,11 +376,18 @@ class User < ApplicationRecord
     digest.hexdigest
   end
 
+  def active_reports
+    issues
+      .with_status(:open)
+      .joins(:reports)
+      .where("reports.updated_at >= COALESCE(issues.resolved_at, '1970-01-01')")
+      .count
+  end
+
   def max_messages_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_messages = messages.where("sent_on >= ?", Time.now.utc - 3600).count
-    active_reports = issues.with_status(:open).sum(:reports_count)
     max_messages = account_age_in_hours.ceil + recent_messages - (active_reports * 10)
     max_messages.clamp(0, Settings.max_messages_per_hour)
   end
@@ -389,7 +396,6 @@ class User < ApplicationRecord
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_friends = Friendship.where(:befriendee => self).where("created_at >= ?", Time.now.utc - 3600).count
-    active_reports = issues.with_status(:open).sum(:reports_count)
     max_friends = account_age_in_hours.ceil + recent_friends - (active_reports * 10)
     max_friends.clamp(0, Settings.max_friends_per_hour)
   end
@@ -399,7 +405,6 @@ class User < ApplicationRecord
       Settings.moderator_changeset_comments_per_hour
     else
       previous_comments = changeset_comments.limit(200).count
-      active_reports = issues.with_status(:open).sum(:reports_count)
       max_comments = previous_comments / 200.0 * Settings.max_changeset_comments_per_hour
       max_comments = max_comments.floor.clamp(Settings.initial_changeset_comments_per_hour, Settings.max_changeset_comments_per_hour)
       max_comments /= 2**active_reports
