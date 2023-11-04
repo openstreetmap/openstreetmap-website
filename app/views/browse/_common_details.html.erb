@@ -1,5 +1,9 @@
 <h4>
-  <%= t "browse.version" %>
+  <%= if common_details.redacted?
+        t "browse.redacted_version"
+      else
+        t "browse.version"
+      end %>
   #<%= link_to_unless_current common_details.version, :controller => "old_#{@type.pluralize}", :action => :show, :version => common_details.version %>
 </h4>
 

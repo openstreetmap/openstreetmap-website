@@ -193,6 +193,21 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select ".browse-section.browse-node .longitude", 0
   end
 
+  def test_redacted_node_unredacted_history
+    session_for(create(:moderator_user))
+    node = create(:node, :with_history, :deleted, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v1.redact!(create(:redaction))
+
+    get node_history_path(:id => node, :params => { :show_redactions => true })
+    assert_response :success
+    assert_template "browse/history"
+
+    assert_select ".browse-section", 2
+    assert_select ".browse-section.browse-redacted", 0
+    assert_select ".browse-section.browse-node", 2
+  end
+
   def test_redacted_way_history
     way = create(:way, :with_history, :version => 4)
     way_v1 = way.old_ways.find_by(:version => 1)
@@ -211,6 +226,23 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select ".browse-section.browse-way", 2
   end
 
+  def test_redacted_way_unredacted_history
+    session_for(create(:moderator_user))
+    way = create(:way, :with_history, :version => 4)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    way_v1.redact!(create(:redaction))
+    way_v3 = way.old_ways.find_by(:version => 3)
+    way_v3.redact!(create(:redaction))
+
+    get way_history_path(:id => way, :params => { :show_redactions => true })
+    assert_response :success
+    assert_template "browse/history"
+
+    assert_select ".browse-section", 4
+    assert_select ".browse-section.browse-redacted", 0
+    assert_select ".browse-section.browse-way", 4
+  end
+
   def test_redacted_relation_history
     relation = create(:relation, :with_history, :version => 4)
     relation_v1 = relation.old_relations.find_by(:version => 1)
@@ -227,6 +259,23 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select ".browse-section", 4
     assert_select ".browse-section.browse-redacted", 2
     assert_select ".browse-section.browse-relation", 2
+  end
+
+  def test_redacted_relation_unredacted_history
+    session_for(create(:moderator_user))
+    relation = create(:relation, :with_history, :version => 4)
+    relation_v1 = relation.old_relations.find_by(:version => 1)
+    relation_v1.redact!(create(:redaction))
+    relation_v3 = relation.old_relations.find_by(:version => 3)
+    relation_v3.redact!(create(:redaction))
+
+    get relation_history_path(:id => relation, :params => { :show_redactions => true })
+    assert_response :success
+    assert_template "browse/history"
+
+    assert_select ".browse-section", 4
+    assert_select ".browse-section.browse-redacted", 0
+    assert_select ".browse-section.browse-relation", 4
   end
 
   def test_query
