@@ -6,6 +6,7 @@ class BrowseController < ApplicationController
   before_action -> { check_database_readable(:need_api => true) }
   before_action :require_oauth
   before_action :update_totp, :only => [:query]
+  before_action :require_moderator_for_unredacted_history, :only => [:relation_history, :way_history, :node_history]
   around_action :web_timeout
   authorize_resource :class => false
 
@@ -77,4 +78,10 @@ class BrowseController < ApplicationController
   end
 
   def query; end
+
+  private
+
+  def require_moderator_for_unredacted_history
+    deny_access(nil) if params[:show_redactions] && !current_user&.moderator?
+  end
 end

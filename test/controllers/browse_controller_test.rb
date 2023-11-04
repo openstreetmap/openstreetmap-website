@@ -235,6 +235,87 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_template "browse/query"
   end
 
+  def test_anonymous_user_feature_page_secondary_actions
+    node = create(:node, :with_history)
+    get node_path(:id => node)
+    assert_response :success
+    assert_select ".secondary-actions a", :text => "View Details", :count => 0
+    assert_select ".secondary-actions a", :text => "View History", :count => 1
+    assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 0
+  end
+
+  def test_regular_user_feature_page_secondary_actions
+    session_for(create(:user))
+    node = create(:node, :with_history)
+    get node_path(:id => node)
+    assert_response :success
+    assert_select ".secondary-actions a", :text => "View Details", :count => 0
+    assert_select ".secondary-actions a", :text => "View History", :count => 1
+    assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 0
+  end
+
+  def test_moderator_user_feature_page_secondary_actions
+    session_for(create(:moderator_user))
+    node = create(:node, :with_history)
+    get node_path(:id => node)
+    assert_response :success
+    assert_select ".secondary-actions a", :text => "View Details", :count => 0
+    assert_select ".secondary-actions a", :text => "View History", :count => 1
+    assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 1
+  end
+
+  def test_anonymous_user_history_page_secondary_actions
+    node = create(:node, :with_history)
+    get node_history_path(:id => node)
+    assert_response :success
+    assert_select ".secondary-actions a", :text => "View Details", :count => 1
+    assert_select ".secondary-actions a", :text => "View History", :count => 0
+    assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 0
+  end
+
+  def test_regular_user_history_page_secondary_actions
+    session_for(create(:user))
+    node = create(:node, :with_history)
+    get node_history_path(:id => node)
+    assert_response :success
+    assert_select ".secondary-actions a", :text => "View Details", :count => 1
+    assert_select ".secondary-actions a", :text => "View History", :count => 0
+    assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 0
+  end
+
+  def test_moderator_user_history_page_secondary_actions
+    session_for(create(:moderator_user))
+    node = create(:node, :with_history)
+    get node_history_path(:id => node)
+    assert_response :success
+    assert_select ".secondary-actions a", :text => "View Details", :count => 1
+    assert_select ".secondary-actions a", :text => "View History", :count => 0
+    assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 1
+  end
+
+  def test_anonymous_user_unredacted_history_page_secondary_actions
+    node = create(:node, :with_history)
+    get node_history_path(:id => node, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  def test_regular_user_unredacted_history_page_secondary_actions
+    session_for(create(:user))
+    node = create(:node, :with_history)
+    get node_history_path(:id => node, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  def test_moderator_user_unredacted_history_page_secondary_actions
+    session_for(create(:moderator_user))
+    node = create(:node, :with_history)
+    get node_history_path(:id => node, :params => { :show_redactions => true })
+    assert_response :success
+    assert_select ".secondary-actions a", :text => "View Details", :count => 1
+    assert_select ".secondary-actions a", :text => "View History", :count => 1
+    assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 0
+  end
+
   private
 
   # This is a convenience method for most of the above checks
