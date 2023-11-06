@@ -60,7 +60,13 @@
 </div>
 
 <div class='clearfix text-center'>
-  <p class="display-5"><a href="<%= edit_path %>" class="button start-mapping"><%= t ".start_mapping" %></a></p>
+  <p class="display-5">
+<% if params[:oauth_return_url] %>
+  <a class="btn btn-primary" href="<%= params[:oauth_return_url] %>"><%= t ".continue_authorization" %></a>
+<% else %>
+  <a class="button btn btn-primary start-mapping" href="<%= edit_path %>"><%= t ".start_mapping" %></a>
+<% end %>
+  </p>
 </div>
 
 <div class='alert alert-primary'>

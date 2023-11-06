@@ -199,8 +199,9 @@ class UsersController < ApplicationController
 
           referer = welcome_path
 
+          uri = URI(session[:referer]) if session[:referer].present?
+
           begin
-            uri = URI(session[:referer])
             %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
               editor = Rack::Utils.parse_query(uri.query).slice("editor")
               referer = welcome_path({ "zoom" => m[1],
@@ -212,6 +213,7 @@ class UsersController < ApplicationController
           end
 
           if current_user.status == "active"
+            referer = welcome_path({"oauth_return_url" => uri.to_s}) if uri&.path == oauth_authorization_path
             session[:referer] = referer
             successful_login(current_user)
           else
