@@ -197,23 +197,23 @@ class UsersController < ApplicationController
 
           flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
-          referer = welcome_path
-
           uri = URI(session[:referer]) if session[:referer].present?
+          welcome_options = {}
+          welcome_options["oauth_return_url"] = uri&.to_s if uri&.path == oauth_authorization_path
 
           begin
             %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
               editor = Rack::Utils.parse_query(uri.query).slice("editor")
-              referer = welcome_path({ "zoom" => m[1],
-                                       "lat" => m[2],
-                                       "lon" => m[3] }.merge(editor))
+              welcome_options = { "zoom" => m[1],
+                                  "lat" => m[2],
+                                  "lon" => m[3] }.merge(editor).merge(welcome_options)
             end
           rescue StandardError
             # Use default
           end
+          referer = welcome_path(welcome_options)
 
           if current_user.status == "active"
-            referer = welcome_path({"oauth_return_url" => uri.to_s}) if uri&.path == oauth_authorization_path
             session[:referer] = referer
             successful_login(current_user)
           else
