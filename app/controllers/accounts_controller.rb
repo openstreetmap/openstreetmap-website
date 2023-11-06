@@ -35,7 +35,7 @@ class AccountsController < ApplicationController
       :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
     )
 
-    user_params = params.require(:user).permit(:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider)
+    user_params = params.require(:user).permit(:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider, :auth_uid)
 
     if params[:user][:auth_provider].blank? ||
        (params[:user][:auth_provider] == current_user.auth_provider &&
