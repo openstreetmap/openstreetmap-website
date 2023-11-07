@@ -59,13 +59,10 @@ class Message < ApplicationRecord
     RichText.new(self[:body_format], self[:body])
   end
 
-  def digest
-    md5 = Digest::MD5.new
-    md5 << from_user_id.to_s
-    md5 << to_user_id.to_s
-    md5 << sent_on.xmlschema
-    md5 << title
-    md5 << body
-    md5.hexdigest
+  def notification_token
+    sha256 = Digest::SHA256.new
+    sha256 << Rails.application.key_generator.generate_key("openstreetmap/message")
+    sha256 << id.to_s
+    sha256.base64digest[0, 8]
   end
 end

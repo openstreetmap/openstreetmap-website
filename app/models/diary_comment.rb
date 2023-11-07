@@ -37,13 +37,12 @@ class DiaryComment < ApplicationRecord
     RichText.new(self[:body_format], self[:body])
   end
 
-  def digest
-    md5 = Digest::MD5.new
-    md5 << diary_entry_id.to_s
-    md5 << user_id.to_s
-    md5 << created_at.xmlschema
-    md5 << body
-    md5.hexdigest
+  def notification_token(subscriber)
+    sha256 = Digest::SHA256.new
+    sha256 << Rails.application.key_generator.generate_key("openstreetmap/diary_comment")
+    sha256 << id.to_s
+    sha256 << subscriber.to_s
+    sha256.base64digest[0, 8]
   end
 
   private
