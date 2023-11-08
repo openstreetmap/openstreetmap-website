@@ -63,6 +63,6 @@ class Message < ApplicationRecord
     sha256 = Digest::SHA256.new
     sha256 << Rails.application.key_generator.generate_key("openstreetmap/message")
     sha256 << id.to_s
-    sha256.base64digest[0, 8]
+    Base64.urlsafe_encode64(sha256.digest)[0, 8]
   end
 end
