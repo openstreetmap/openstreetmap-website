@@ -416,10 +416,16 @@ OSM.Share = function (map) {
   };
 
   page.unload = function () {
+    map.off("moveend layeradd layerremove", update);
+    map.off("moveend", updateOnce);
+    map.off("move", movedMap);
+    marker.off("dragend", movedMarker);
+
     map.removeLayer(marker);
     map.options.scrollWheelZoom = map.options.doubleClickZoom = true;
-    locationFilter.disable();
-    update();
+    locationFilter
+      .off("change", update)
+      .disable();
 
     shareButton.removeClass("active");
   };
