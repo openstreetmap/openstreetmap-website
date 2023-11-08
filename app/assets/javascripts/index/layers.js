@@ -35,14 +35,7 @@ OSM.Layers = function (map) {
   page.load = function () {
     layersButton.addClass("active");
 
-    var $ui = $("#layers_contents");
-
-    var baseSection = $("<div>")
-      .attr("class", "section base-layers")
-      .appendTo($ui);
-
-    var baseLayers = $("<ul class='list-unstyled mb-0'>")
-      .appendTo(baseSection);
+    var baseLayers = $("#layers_contents .base-layers ul");
 
     layers.forEach(function (layer) {
       var item = $("<li>")
@@ -101,17 +94,7 @@ OSM.Layers = function (map) {
     map.on("moveend", updateMiniMaps);
 
     if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
-      var overlaySection = $("<div>")
-        .attr("class", "section overlay-layers")
-        .appendTo($ui);
-
-      $("<p>")
-        .text(I18n.t("javascripts.map.layers.overlays"))
-        .attr("class", "text-muted")
-        .appendTo(overlaySection);
-
-      var overlays = $("<ul class='list-unstyled form-check'>")
-        .appendTo(overlaySection);
+      var overlays = $("#layers_contents .overlay-layers ul");
 
       var addOverlay = function (layer, name, maxArea) {
         var item = $("<li>")
