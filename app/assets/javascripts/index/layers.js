@@ -2,7 +2,8 @@ OSM.Layers = function (map) {
   var page = {},
       layersButton = $(".control-layers .control-button"),
       layers = map.baseLayers,
-      miniMaps = [];
+      miniMaps = [],
+      baseLayerSwitchListeners = [];
 
   layersButton.on("click", function (e) {
     e.preventDefault();
@@ -125,10 +126,12 @@ OSM.Layers = function (map) {
         OSM.router.route("/" + OSM.formatHash(map));
       });
 
-      map.on("layeradd layerremove", function () {
+      var baseLayerSwitchListener = function () {
         item.toggleClass("active", map.hasLayer(layer));
         input.prop("checked", map.hasLayer(layer));
-      });
+      };
+      baseLayerSwitchListeners.push(baseLayerSwitchListener);
+      map.on("layeradd layerremove", baseLayerSwitchListener);
     });
 
     map.whenReady(initMiniMaps);
@@ -174,6 +177,10 @@ OSM.Layers = function (map) {
     map.off("moveend", updateMiniMaps);
     map.off("load", initMiniMaps);
 
+    baseLayerSwitchListeners.forEach(function (baseLayerSwitchListener) {
+      map.off("layeradd layerremove", baseLayerSwitchListener);
+    });
+    baseLayerSwitchListeners = [];
     miniMaps.forEach(function (miniMap) {
       miniMap.remove();
     });
