@@ -13,8 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     var idContext = iD.coreContext();
     idContext.connection().apiConnections([]);
+    var url = location.protocol + "//" + location.host;
     idContext.preauth({
-      url: location.protocol + "//" + location.host,
+      url: url,
+      apiUrl: url === "https://www.openstreetmap.org" ? "https://api.openstreetmap.org" : url,
       access_token: container.dataset.token
     });
 
