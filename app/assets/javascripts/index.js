@@ -23,6 +23,7 @@
 //= require index/query
 //= require index/mapkey
 //= require index/layers
+//= require index/share
 //= require router
 //= require qs/dist/qs
 
@@ -128,11 +129,7 @@ $(document).ready(function () {
   addControlGroup([
     L.OSM.layers({ position: position }),
     L.OSM.key({ position: position }),
-    L.OSM.share({
-      "position": position,
-      "sidebar": sidebar,
-      "short": true
-    })
+    L.OSM.share({ position: position })
   ]);
 
   addControlGroup([
@@ -373,7 +370,8 @@ $(document).ready(function () {
     "/changeset/:id": OSM.Changeset(map),
     "/query": OSM.Query(map),
     "/mapkey": OSM.MapKey(map),
-    "/layers": OSM.Layers(map)
+    "/layers": OSM.Layers(map),
+    "/share": OSM.Share(map)
   });
 
   if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {

@@ -165,6 +165,7 @@ OpenStreetMap::Application.routes.draw do
   get "/query" => "browse#query"
   get "/mapkey" => "site#mapkey"
   get "/layers" => "site#layers"
+  get "/share" => "site#share"
   get "/user/new" => "users#new"
   post "/user/new" => "users#create"
   get "/user/terms" => "users#terms"

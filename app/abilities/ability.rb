@@ -9,7 +9,7 @@ class Ability
     can [:show, :new], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id,
-         :mapkey, :layers], :site
+         :mapkey, :layers, :share], :site
     can [:finish, :embed], :export
     can [:search, :search_latlon, :search_osm_nominatim, :search_osm_nominatim_reverse], :geocoder
     can [:token, :request_token, :access_token, :test_request], :oauth
