@@ -9,7 +9,26 @@
   <% if Settings.status != "api_offline" && Settings.status != "database_offline" %>
   <div class="overlay-layers py-3 border-top border-grey">
     <p class="text-muted"><%= t "javascripts.map.layers.overlays" %></p>
-    <ul class="list-unstyled form-check"></ul>
+    <ul class="list-unstyled form-check">
+      <li data-name="notes" title="<%= t "javascripts.site.map_notes_zoom_in_tooltip" %>">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input">
+          <%= t "javascripts.map.layers.notes" %>
+        </label>
+      </li>
+      <li data-name="data" title="<%= t "javascripts.site.map_data_zoom_in_tooltip" %>">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input">
+          <%= t "javascripts.map.layers.data" %>
+        </label>
+      </li>
+      <li data-name="gps">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input">
+          <%= t "javascripts.map.layers.gps" %>
+        </label>
+      </li>
+    </ul>
   </div>
   <% end %>
 </div>

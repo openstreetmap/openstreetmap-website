@@ -28,6 +28,38 @@ OSM.Layers = function (map) {
     setViewOfMiniMaps();
   }
 
+  function toggleDisableOverlayCheckboxes(item, disabled) {
+    var input = item.find("input");
+    input.prop("disabled", disabled);
+
+    if (disabled && input.prop("checked")) {
+      input
+        .prop("checked", false)
+        .data("checked", true)
+        .trigger("change");
+    } else if (!disabled && input.data("checked")) {
+      input
+        .prop("checked", true)
+        .removeData("checked")
+        .trigger("change");
+    }
+
+    item
+      .attr("class", disabled ? "disabled" : "")
+      .tooltip(disabled ? "enable" : "disable");
+  }
+
+  function updateOverlayCheckboxes() {
+    toggleDisableOverlayCheckboxes(
+      $("#layers_contents .overlay-layers ul li[data-name=notes]"),
+      map.getBounds().getSize() >= OSM.MAX_NOTE_REQUEST_AREA
+    );
+    toggleDisableOverlayCheckboxes(
+      $("#layers_contents .overlay-layers ul li[data-name=data]"),
+      map.getBounds().getSize() >= OSM.MAX_REQUEST_AREA
+    );
+  }
+
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, page.load);
   };
@@ -96,29 +128,19 @@ OSM.Layers = function (map) {
     if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
       var overlays = $("#layers_contents .overlay-layers ul");
 
-      var addOverlay = function (layer, name, maxArea) {
-        var item = $("<li>")
-          .appendTo(overlays);
+      var addOverlay = function (layer, name) {
+        var item = overlays.find("li[data-name='"+ name + "']");
 
         if (name === "notes" || name === "data") {
-          item
-            .attr("title", I18n.t("javascripts.site.map_" + name + "_zoom_in_tooltip"))
-            .tooltip("disable");
+          item.tooltip("disable");
         }
 
-        var label = $("<label>")
-          .attr("class", "form-check-label")
-          .appendTo(item);
+        var label = item.find("label");
 
         var checked = map.hasLayer(layer);
 
-        var input = $("<input>")
-          .attr("type", "checkbox")
-          .attr("class", "form-check-input")
-          .prop("checked", checked)
-          .appendTo(label);
-
-        label.append(I18n.t("javascripts.map.layers." + name));
+        var input = label.find("input")
+          .prop("checked", checked);
 
         input.on("change", function () {
           checked = input.is(":checked");
@@ -133,35 +155,24 @@ OSM.Layers = function (map) {
         map.on("layeradd layerremove", function () {
           input.prop("checked", map.hasLayer(layer));
         });
-
-        map.on("zoomend", function () {
-          var disabled = map.getBounds().getSize() >= maxArea;
-          $(input).prop("disabled", disabled);
-
-          if (disabled && $(input).is(":checked")) {
-            $(input).prop("checked", false)
-              .trigger("change");
-            checked = true;
-          } else if (!disabled && !$(input).is(":checked") && checked) {
-            $(input).prop("checked", true)
-              .trigger("change");
-          }
-
-          $(item)
-            .attr("class", disabled ? "disabled" : "")
-            .tooltip(disabled ? "enable" : "disable");
-        });
       };
 
-      addOverlay(map.noteLayer, "notes", OSM.MAX_NOTE_REQUEST_AREA);
-      addOverlay(map.dataLayer, "data", OSM.MAX_REQUEST_AREA);
-      addOverlay(map.gpsLayer, "gps", Number.POSITIVE_INFINITY);
+      addOverlay(map.noteLayer, "notes");
+      addOverlay(map.dataLayer, "data");
+      addOverlay(map.gpsLayer, "gps");
+
+      map.on("zoomend", updateOverlayCheckboxes);
+      updateOverlayCheckboxes();
     }
   };
 
   page.unload = function () {
+    if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
+      map.off("zoomend", updateOverlayCheckboxes);
+    }
     map.off("moveend", updateMiniMaps);
     map.off("load", initMiniMaps);
+
     miniMaps.forEach(function (miniMap) {
       miniMap.remove();
     });
