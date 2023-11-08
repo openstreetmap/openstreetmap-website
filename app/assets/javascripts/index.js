@@ -21,6 +21,7 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require index/mapkey
 //= require router
 //= require qs/dist/qs
 
@@ -129,10 +130,7 @@ $(document).ready(function () {
       layers: map.baseLayers,
       sidebar: sidebar
     }),
-    L.OSM.key({
-      position: position,
-      sidebar: sidebar
-    }),
+    L.OSM.key({ position: position }),
     L.OSM.share({
       "position": position,
       "sidebar": sidebar,
@@ -376,7 +374,8 @@ $(document).ready(function () {
     "/way/:id(/history)": OSM.Browse(map, "way"),
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
     "/changeset/:id": OSM.Changeset(map),
-    "/query": OSM.Query(map)
+    "/query": OSM.Query(map),
+    "/mapkey": OSM.MapKey(map)
   });
 
   if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {

@@ -1,6 +1,6 @@
 class SiteController < ApplicationController
   layout "site"
-  layout :map_layout, :only => [:index, :export]
+  layout :map_layout, :only => [:index, :export, :mapkey]
 
   before_action :authorize_web
   before_action :set_locale
@@ -142,6 +142,8 @@ class SiteController < ApplicationController
 
     render :layout => false
   end
+
+  def mapkey; end
 
   private
 
