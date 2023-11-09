@@ -2065,6 +2065,8 @@ cy:
       traces_from: Arllwybrau Cyhoeddus gan %{user}
       remove_tag_filter: Dileu Hidlydd Tagiau
   application:
+    require_admin:
+      not_an_admin: Mae rhaid ichi fod yn weinyddwr i gyflawni'r weithred honno.
     settings_menu:
       account_settings: Gosodiadau Cyfrif
       oauth1_settings: Gosodiadau OAuth 1
@@ -2081,6 +2083,7 @@ cy:
       allow_read_gpx: ddarllen eich arllwybrau GPS.
       allow_write_gpx: uwchlwytho arllwybrau GPS.
       allow_write_notes: addasu nodiadau.
+      grant_access: Awdurdodi
     authorize_success:
       title: Caniatawyd y cais awdurdodiad.
       allowed_html: Rydych wedi caniatáu mynediad i'ch cyfrif gan y rhaglen %{app_name}.
@@ -2092,14 +2095,23 @@ cy:
     revoke:
       flash: Rydych wedi diddymu'r tocyn ar gyfer %{application}.
     scopes:
+      openid: Mewngofnodi ag OpenStreetMap
+      read_prefs: Darllen dewisiadau defnyddwyr
+      write_prefs: Addasu dewisiadau defnyddwyr
       write_api: Golygu'r map
+      write_gpx: Uwchlwytho arllwybrau GPS
       write_notes: Addasu nodiadau
+      read_email: Darllen cyfeiriad e-bost defnyddwyr
+      skip_authorization: Cymeradwyo cais yn awtomatig
   oauth_clients:
     new:
       title: Cofrestru rhaglen newydd
     edit:
       title: Golygu'ch rhaglen
     show:
+      title: Manylion OAuth ar gyfer %{app_name}
+      key: 'Allwedd Defnyddiwr:'
+      secret: 'Cyfrinach Defnyddiwr:'
       url: 'URL Cais Tocyn:'
       access_url: URL Tocyn Mynediad
       authorize_url: 'URL Awdurdodi:'
@@ -2157,6 +2169,7 @@ cy:
       title: Telerau
       heading: Telerau
       heading_ct: Telerau Cyfranwyr
+      read_tou: Rwyf wedi darllen ac yn cytuno â'r Telerau Defnyddio
       consider_pd_why: beth yw hwn?
       readable_summary: crynodeb darllenadwy
       informal_translations: cyfieithiadau anffurfiol
@@ -2314,6 +2327,7 @@ cy:
       back: Gweld pob bloc
       revoker: 'Dad-flociwr:'
     block:
+      not_revoked: (heb ei ddirymu)
       show: Dangos
       edit: Golygu
       revoke: Dad-flocio!
@@ -2322,12 +2336,15 @@ cy:
       creator_name: Crëwr
       reason: Rheswm dros flocio
       status: Statws
+      revoker_name: Dirymwyd gan
       showing_page: Tudalen %{page}
       next: Nesaf »
       previous: « Blaenorol
   notes:
     index:
       heading: Nodiadau %{user}
+      subheading_submitted: cyflwynwyd
+      subheading_commented: rhoddwyd sylw
       no_notes: Dim nodiadau
       id: Id
       creator: Crëwr
@@ -2337,28 +2354,40 @@ cy:
     show:
       title: 'Nodyn: %{id}'
       description: Disgrifiad
-      open_title: '#%{note_name} heb ei ddatrys'
-      closed_title: '#%{note_name} wedi''i ddatrys'
-      hidden_title: Nodyn cudd %{note_name}
+      open_title: 'Nodyn heb ei ddatrys #%{note_name}'
+      closed_title: 'Nodyn wedi''i ddatrys #%{note_name}'
+      hidden_title: 'Nodyn cudd #%{note_name}'
       event_opened_by_html: Crëwyd gan %{user} %{time_ago}
       event_opened_by_anonymous_html: Crëwyd gan berson ddienw %{time_ago}
       event_commented_by_html: Sylw gan %{user} %{time_ago}
       event_commented_by_anonymous_html: Sylw gan berson ddienw %{time_ago}
       event_closed_by_html: Datryswyd gan %{user} %{time_ago}
       event_closed_by_anonymous_html: Datryswyd gan berson ddienw %{time_ago}
-      event_reopened_by_html: Wedi'i ailysgogi gan %{user} %{time_ago}
-      event_reopened_by_anonymous_html: Wedi'i ailysgogi gan berson ddienw %{time_ago}
+      event_reopened_by_html: Ailysgogwyd gan %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Ailysgogwyd gan berson ddienw %{time_ago}
       event_hidden_by_html: Cuddiwyd gan %{user} %{time_ago}
-      report: riportio'r nodyn hwn
+      report: adrodd y nodyn hwn
       anonymous_warning: Mae'r nodyn hwn yn cynnwys sylwadau gan ddefnyddwyr dienw
         y dylid eu gwirio'n annibynnol.
       hide: Cuddio
       resolve: Datrys
-      reactivate: Ail-ysgogi
+      reactivate: Ailysgogi
       comment_and_resolve: Sylw a Datrys
       comment: Sylw
+      report_link_html: Os yw'r nodyn hwn yn cynnwys gwybodaeth sensitif sydd angen
+        ei ddileu, gallwch chi %{link}.
+      other_problems_resolve: Ar gyfer pob problem arall gyda'r nodyn, dylech chi
+        ei ddatrys gyda sylw perthnasol.
+      other_problems_resolved: Ar gyfer pob problem arall, mae datrys yn ddigon.
+      disappear_date_html: Bydd y nodyn hwn yn diflannu o'r map o fewn %{disappear_in}.
     new:
       title: Nodyn Newydd
+      intro: Ydych chi wedi sylwi ar gamgymeriad neu rywbeth sydd ar goll? Rhowch
+        wybod i fapwyr eraill fel y gallwn ei ddatrys. Symudwch y marciwr i'r safle
+        cywir ac ysgrifennwch nodyn i esbonio'r broblem.
+      advice: Mae eich nodyn yn gyhoeddus a gellid ei ddefnyddio i ddiweddaru'r map,
+        felly peidiwch ag ysgrifennu gwybodaeth bersonol, na gwybodaeth o fapiau hawlfreintiedig
+        neu gyfeiriaduron.
       add: Ychwanegu Nodyn
   javascripts:
     close: Cau
@@ -2369,13 +2398,15 @@ cy:
       link: Dolen neu HTML
       long_link: Dolen
       short_link: Dolen Fer
-      geo_uri: URI Geo
+      geo_uri: Geo-URI
       embed: HTML
+      custom_dimensions: Gosod dimensiynau addas
       format: 'Fformat:'
       scale: 'Graddfa:'
       download: Lawrlwytho
       short_url: URL Byr
       include_marker: Cynnwys marciwr
+      center_marker: Canoli'r map ar y marciwr
     embed:
       report_problem: Adrodd am broblem
     key:
@@ -2393,7 +2424,7 @@ cy:
         transport_map: Map Trafnidiaeth
         hot: Dyngarol
       layers:
-        header: Haenau Mapiau
+        header: Haenau Map
         notes: Nodiadau Map
         data: Data Map
         gps: Arllwybrau GPS Cyhoeddus
@@ -2402,9 +2433,14 @@ cy:
       openstreetmap_contributors: Cyfranwyr OpenStreetMap
       make_a_donation: Rhoi arian
       website_and_api_terms: Telerau'r gwefan ac API
+      cyclosm_credit: Arddull teils gan %{cyclosm_link} a gynhelir gan %{osm_france_link}
       osm_france: OpenStreetMap Ffrainc
+      thunderforest_credit: Teils trwy garedigrwydd %{thunderforest_link}
       andy_allan: Andy Allan
+      opnvkarte_credit: Teils trwy garedigrwydd %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Teils trwy garedigrwydd %{tracestrack_link}
+      hotosm_credit: Arddull teils gan %{hotosm_link} a gynhelir gan %{osm_france_link}
       hotosm_name: Tîm Dyngarol OpenStreetMap
     site:
       edit_tooltip: Golygu'r map
@@ -2414,6 +2450,7 @@ cy:
       map_notes_zoom_in_tooltip: Chwyddwch mewn i weld nodiadau'r map
       map_data_zoom_in_tooltip: Chwyddwch mewn i weld data'r map
       queryfeature_tooltip: Manylion nodweddion
+      queryfeature_disabled_tooltip: Chwyddwch i mewn i gael manylion nodweddion
     changesets:
       show:
         comment: Sylw
@@ -2432,6 +2469,8 @@ cy:
         fossgis_valhalla_bicycle: Beic (Valhalla)
         fossgis_valhalla_car: Car (Valhalla)
         fossgis_valhalla_foot: Troed (Valhalla)
+      directions: Cyfeiriadau
+      distance: Pellter
       distance_m: '%{distance}m'
       distance_km: '%{distance}km'
       instructions:
@@ -2445,6 +2484,7 @@ cy:
         start_without_exit: Dechreuwch ar %{name}
         destination_without_exit: Wedi cyrraedd cyrchfan
         unnamed: ffordd heb enw
+        courtesy: Cyfarwyddiadau trwy garedigrwydd %{link}
         exit_counts:
           first: 1af
           second: 2il
@@ -2463,6 +2503,7 @@ cy:
       relation: Perthynas
       nothing_found: Heb ganfod nodweddion
       error: 'Gwall wrth gysylltu â %{server}: %{error}'
+      timeout: Goramser wrth gysylltu â %{server}
     context:
       directions_from: Cyfarwyddiadau oddi yma
       directions_to: Cyfarwyddiadau i yma
@@ -2479,6 +2520,7 @@ cy:
       heading: Rhestr Orchuddiadau
       title: Rhestr Orchuddiadau
     new:
+      heading: Rhoi Gwybodaeth ar gyfer Gorchuddiad Newydd
       title: Gorchuddiad Newydd
     show:
       description: 'Disgrifiad:'
@@ -2492,4 +2534,14 @@ cy:
       flash: Gorchuddiad wedi'i greu.
     update:
       flash: Newidiadau wedi'u cadw.
+    destroy:
+      not_empty: Nid yw'r gorchuddiad yn wag. Dad-orchuddiwch bob fersiwn sy'n perthyn
+        i'r gorchuddiad hwn cyn ei ddinistrio.
+      flash: Dinistriwyd y gorchuddiad.
+      error: Gwall wrth ddinistrio'r golygiad hwn.
+  validations:
+    leading_whitespace: ceir gofod gwyn o'i flaen
+    trailing_whitespace: ceir gofod gwyn llusg
+    invalid_characters: ceir nodau annilys
+    url_characters: ceir nodau URL arbennig (%{characters})
 ...
