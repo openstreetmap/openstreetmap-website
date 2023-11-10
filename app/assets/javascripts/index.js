@@ -1,5 +1,4 @@
 //= require_self
-//= require leaflet.sidebar
 //= require leaflet.locatecontrol/src/L.Control.Locate
 //= require leaflet.locate
 //= require leaflet.layers
@@ -101,9 +100,6 @@ $(document).ready(function () {
     }
   });
 
-  var sidebar = L.OSM.sidebar("#map-ui")
-    .addTo(map);
-
   var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
   function addControlGroup(controls) {
@@ -132,17 +128,11 @@ $(document).ready(function () {
   ]);
 
   addControlGroup([
-    L.OSM.note({
-      position: position,
-      sidebar: sidebar
-    })
+    L.OSM.note({ position: position })
   ]);
 
   addControlGroup([
-    L.OSM.query({
-      position: position,
-      sidebar: sidebar
-    })
+    L.OSM.query({ position: position })
   ]);
 
   L.control.scale()
