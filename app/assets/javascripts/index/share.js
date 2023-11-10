@@ -177,41 +177,11 @@ OSM.Share = function (map) {
 
     // Link / Embed
 
-    var $linkSection = $("#share_contents .share-link");
+    var $linkSectionForm = $("#share_contents .share-link form");
 
-    var $form = $("<form>")
-      .appendTo($linkSection);
+    $("#link_marker").bind("change", toggleMarker);
 
-    $("<div>")
-      .attr("class", "form-check mb-3")
-      .appendTo($form)
-      .append($("<label>")
-        .attr("for", "link_marker")
-        .attr("class", "form-check-label")
-        .text(I18n.t("javascripts.share.include_marker")))
-      .append($("<input>")
-        .attr("id", "link_marker")
-        .attr("type", "checkbox")
-        .attr("class", "form-check-input")
-        .bind("change", toggleMarker));
-
-    $("<div class='btn-group btn-group-sm mb-2'>")
-      .appendTo($form)
-      .append($("<a class='btn btn-primary'>")
-        .addClass("active")
-        .attr("for", "long_input")
-        .attr("id", "long_link")
-        .text(I18n.t("javascripts.share.long_link")))
-      .append($("<a class='btn btn-primary'>")
-        .attr("for", "short_input")
-        .attr("id", "short_link")
-        .text(I18n.t("javascripts.share.short_link")))
-      .append($("<a class='btn btn-primary'>")
-        .attr("for", "embed_html")
-        .attr("id", "embed_link")
-        .attr("data-bs-title", I18n.t("javascripts.site.embed_html_disabled"))
-        .attr("href", "#")
-        .text(I18n.t("javascripts.share.embed")))
+    $linkSectionForm.find(".btn-group")
       .on("click", "a", function (e) {
         e.preventDefault();
         if (!$(this).hasClass("btn-primary")) return;
@@ -219,169 +189,24 @@ OSM.Share = function (map) {
         $(this).siblings("a")
           .removeClass("active");
         $(this).addClass("active");
-        $linkSection.find(".share-tab")
+        $linkSectionForm.find(".share-tab")
           .hide();
-        $linkSection.find(".share-tab:has(" + id + ")")
+        $linkSectionForm.find(".share-tab:has(" + id + ")")
           .show()
           .find("input, textarea")
           .select();
       });
 
-    $("<div>")
-      .attr("class", "share-tab")
-      .appendTo($form)
-      .append($("<input>")
-        .attr("id", "long_input")
-        .attr("type", "text")
-        .attr("class", "form-control form-control-sm font-monospace")
-        .attr("readonly", true)
-        .on("click", select));
+    $linkSectionForm.find(".share-tab").slice(1).hide();
 
-    $("<div>")
-      .attr("class", "share-tab")
-      .hide()
-      .appendTo($form)
-      .append($("<input>")
-        .attr("id", "short_input")
-        .attr("type", "text")
-        .attr("class", "form-control form-control-sm font-monospace")
-        .attr("readonly", true)
-        .on("click", select));
-
-    $("<div>")
-      .attr("class", "share-tab")
-      .hide()
-      .appendTo($form)
-      .append(
-        $("<textarea>")
-          .attr("id", "embed_html")
-          .attr("class", "form-control form-control-sm font-monospace")
-          .attr("readonly", true)
-          .on("click", select))
-      .append(
-        $("<p>")
-          .attr("class", "text-muted")
-          .text(I18n.t("javascripts.share.paste_html")));
-
-    // Geo URI
-
-    var $geoUriSection = $("#share_contents .share-geo-uri");
-
-    $("<div>")
-      .appendTo($geoUriSection)
-      .append($("<a>")
-        .attr("id", "geo_uri"));
+    $("#long_input, #short_input, #embed_html")
+      .on("click", select);
 
     // Image
 
-    var $imageSection = $("#share_contents .share-image");
+    $("#mapnik_scale").on("change", update);
 
-    $("<div>")
-      .attr("id", "export-warning")
-      .attr("class", "text-muted")
-      .text(I18n.t("javascripts.share.only_standard_layer"))
-      .appendTo($imageSection);
-
-    $form = $("<form>")
-      .attr("id", "export-image")
-      .attr("action", "/export/finish")
-      .attr("method", "post")
-      .appendTo($imageSection);
-
-    $("<div>")
-      .appendTo($form)
-      .attr("class", "row mb-3")
-      .append($("<label>")
-        .attr("for", "mapnik_format")
-        .attr("class", "col-auto col-form-label")
-        .text(I18n.t("javascripts.share.format")))
-      .append($("<div>")
-        .attr("class", "col-auto")
-        .append($("<select>")
-          .attr("name", "mapnik_format")
-          .attr("id", "mapnik_format")
-          .attr("class", "form-select w-auto")
-          .append($("<option>").val("png").text("PNG").prop("selected", true))
-          .append($("<option>").val("jpeg").text("JPEG"))
-          .append($("<option>").val("svg").text("SVG"))
-          .append($("<option>").val("pdf").text("PDF"))));
-
-    $("<div>")
-      .appendTo($form)
-      .attr("class", "row mb-3")
-      .append($("<label>")
-        .attr("for", "mapnik_scale")
-        .attr("class", "col-auto col-form-label")
-        .text(I18n.t("javascripts.share.scale")))
-      .append($("<div>")
-        .attr("class", "col-auto")
-        .append($("<div>")
-          .attr("class", "input-group flex-nowrap")
-          .append($("<span>")
-            .attr("class", "input-group-text")
-            .text("1 : "))
-          .append($("<input>")
-            .attr("name", "mapnik_scale")
-            .attr("id", "mapnik_scale")
-            .attr("type", "text")
-            .attr("class", "form-control")
-            .on("change", update))));
-
-    $("<div>")
-      .attr("class", "row mb-3")
-      .appendTo($form)
-      .append($("<div>")
-        .attr("class", "col-auto")
-        .append($("<div>")
-          .attr("class", "form-check")
-          .append($("<label>")
-            .attr("for", "image_filter")
-            .attr("class", "form-check-label")
-            .text(I18n.t("javascripts.share.custom_dimensions")))
-          .append($("<input>")
-            .attr("id", "image_filter")
-            .attr("type", "checkbox")
-            .attr("class", "form-check-input")
-            .bind("change", toggleFilter))));
-
-    ["minlon", "minlat", "maxlon", "maxlat"].forEach(function (name) {
-      $("<input>")
-        .attr("id", "mapnik_" + name)
-        .attr("name", name)
-        .attr("type", "hidden")
-        .appendTo($form);
-    });
-
-    $("<input>")
-      .attr("name", "format")
-      .attr("value", "mapnik")
-      .attr("type", "hidden")
-      .appendTo($form);
-
-    var csrf_param = $("meta[name=csrf-param]").attr("content"),
-        csrf_token = $("meta[name=csrf-token]").attr("content");
-
-    $("<input>")
-      .attr("name", csrf_param)
-      .attr("value", csrf_token)
-      .attr("type", "hidden")
-      .appendTo($form);
-
-    var args = {
-      width: "<span id=\"mapnik_image_width\"></span>",
-      height: "<span id=\"mapnik_image_height\"></span>"
-    };
-
-    $("<p>")
-      .attr("class", "text-muted")
-      .html(I18n.t("javascripts.share.image_dimensions", args))
-      .appendTo($form);
-
-    $("<input>")
-      .attr("type", "submit")
-      .attr("class", "btn btn-primary")
-      .attr("value", I18n.t("javascripts.share.download"))
-      .appendTo($form);
+    $("#image_filter").bind("change", toggleFilter);
 
     locationFilter
       .on("change", update)

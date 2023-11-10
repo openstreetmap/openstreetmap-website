@@ -5,13 +5,82 @@
 <div id="share_contents" class="share-ui">
   <div class="share-link mx-n3 p-3 border-bottom border-grey">
     <h4><%= t "javascripts.share.link" %></h4>
+    <form>
+      <div class="form-check mb-3">
+        <label for="link_marker" class="form-check-label"><%= t "javascripts.share.include_marker" %></label>
+        <input id="link_marker" type="checkbox" class="form-check-input">
+      </div>
+      <div class="btn-group btn-group-sm mb-2">
+        <a class="btn btn-primary active" for="long_input" id="long_link"><%= t "javascripts.share.long_link" %></a>
+        <a class="btn btn-primary" for="short_input" id="short_link"><%= t "javascripts.share.short_link" %></a>
+        <a class="btn btn-primary" for="embed_html" id="embed_link" href="#" data-bs-title="<%= t "javascripts.site.embed_html_disabled" %>"><%= t "javascripts.share.embed" %></a>
+      </div>
+
+      <div class="share-tab">
+        <input id="long_input" type="text" class="form-control form-control-sm font-monospace" autocomplete="off" readonly>
+      </div>
+      <div class="share-tab">
+        <input id="short_input" type="text" class="form-control form-control-sm font-monospace" autocomplete="off" readonly>
+      </div>
+      <div class="share-tab">
+        <textarea id="embed_html" class="form-control form-control-sm font-monospace" autocomplete="off" readonly></textarea>
+        <p class="text-muted"><%= t "javascripts.share.paste_html" %></p>
+      </div>
+    </form>
   </div>
 
   <div class="share-geo-uri mx-n3 p-3 border-bottom border-grey">
     <h4><%= t "javascripts.share.geo_uri" %></h4>
+    <div>
+      <a id="geo_uri"></a>
+    </div>
   </div>
 
   <div class="share-image mx-n3 p-3 border-bottom border-grey">
     <h4><%= t "javascripts.share.image" %></h4>
+    <div id="export-warning" class="text-muted"><%= t "javascripts.share.only_standard_layer" %></div>
+    <%= form_tag({ :controller => "export", :action => "finish" }, :id => "export-image") do %>
+      <div class="row mb-3">
+        <label for="mapnik_format" class="col-auto col-form-label"><%= t "javascripts.share.format" %></label>
+        <div class="col-auto">
+          <select name="mapnik_format" id="mapnik_format" class="form-select w-auto">
+            <option value="png" selected>PNG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="svg">SVG</option>
+            <option value="pdf">PDF</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="mapnik_scale" class="col-auto col-form-label"><%= t "javascripts.share.scale" %></label>
+        <div class="col-auto">
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text">1 : </span>
+            <input name="mapnik_scale" id="mapnik_scale" type="text" class="form-control" autocomplete="off">
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-auto">
+          <div class="form-check">
+            <label for="image_filter" class="form-check-label"><%= t "javascripts.share.custom_dimensions" %></label>
+            <input id="image_filter" type="checkbox" class="form-check-input">
+          </div>
+        </div>
+      </div>
+
+      <% %w[minlon minlat maxlon maxlat].each do |name| %>
+        <input id="mapnik_<%= name %>" name="<%= name %>" type="hidden">
+      <% end %>
+      <input name="format" value="mapnik" type="hidden">
+
+      <p class="text-muted"><%= t "javascripts.share.image_dimensions_html",
+                                  :width => tag.span(:id => "mapnik_image_width"),
+                                  :height => tag.span(:id => "mapnik_image_height") %></p>
+
+      <input type="submit" class="btn btn-primary" value="<%= t "javascripts.share.download" %>">
+    <% end %>
   </div>
 </div>
