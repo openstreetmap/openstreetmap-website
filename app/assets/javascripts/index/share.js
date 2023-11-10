@@ -180,7 +180,7 @@ OSM.Share = function (map) {
     // Link / Embed
 
     var $linkSection = $("<div>")
-      .attr("class", "section share-link")
+      .attr("class", "share-link mx-n3 p-3 border-bottom border-grey")
       .appendTo($ui);
 
     $("<h4>")
@@ -274,7 +274,7 @@ OSM.Share = function (map) {
     // Geo URI
 
     var $geoUriSection = $("<div>")
-      .attr("class", "section share-geo-uri")
+      .attr("class", "share-geo-uri mx-n3 p-3 border-bottom border-grey")
       .appendTo($ui);
 
     $("<h4>")
@@ -289,7 +289,7 @@ OSM.Share = function (map) {
     // Image
 
     var $imageSection = $("<div>")
-      .attr("class", "section share-image")
+      .attr("class", "share-image mx-n3 p-3 border-bottom border-grey")
       .appendTo($ui);
 
     $("<h4>")
