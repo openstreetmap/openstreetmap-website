@@ -175,17 +175,9 @@ OSM.Share = function (map) {
   page.load = function () {
     shareButton.addClass("active");
 
-    var $ui = $("#share_contents");
-
     // Link / Embed
 
-    var $linkSection = $("<div>")
-      .attr("class", "share-link mx-n3 p-3 border-bottom border-grey")
-      .appendTo($ui);
-
-    $("<h4>")
-      .text(I18n.t("javascripts.share.link"))
-      .appendTo($linkSection);
+    var $linkSection = $("#share_contents .share-link");
 
     var $form = $("<form>")
       .appendTo($linkSection);
@@ -273,13 +265,7 @@ OSM.Share = function (map) {
 
     // Geo URI
 
-    var $geoUriSection = $("<div>")
-      .attr("class", "share-geo-uri mx-n3 p-3 border-bottom border-grey")
-      .appendTo($ui);
-
-    $("<h4>")
-      .text(I18n.t("javascripts.share.geo_uri"))
-      .appendTo($geoUriSection);
+    var $geoUriSection = $("#share_contents .share-geo-uri");
 
     $("<div>")
       .appendTo($geoUriSection)
@@ -288,13 +274,7 @@ OSM.Share = function (map) {
 
     // Image
 
-    var $imageSection = $("<div>")
-      .attr("class", "share-image mx-n3 p-3 border-bottom border-grey")
-      .appendTo($ui);
-
-    $("<h4>")
-      .text(I18n.t("javascripts.share.image"))
-      .appendTo($imageSection);
+    var $imageSection = $("#share_contents .share-image");
 
     $("<div>")
       .attr("id", "export-warning")
