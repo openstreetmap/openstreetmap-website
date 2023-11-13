@@ -68,14 +68,6 @@ window.updateLinks = function (loc, zoom, layers, object) {
     .toggleClass("disabled", editDisabled);
 };
 
-window.maximiseMap = function () {
-  $("#content").addClass("maximised");
-};
-
-window.minimiseMap = function () {
-  $("#content").removeClass("maximised");
-};
-
 $(document).ready(function () {
   var headerWidth = 0,
       compactWidth = 0;
