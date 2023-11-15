@@ -2,6 +2,8 @@
 
 module Api
   class ChangesetsController < ApiController
+    include QueryMethods
+
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
     before_action :setup_user_auth, :only => [:show]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
@@ -44,7 +46,7 @@ module Api
                    end
 
       # limit the result
-      changesets = changesets.limit(result_limit)
+      changesets = query_limit(changesets)
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
@@ -402,20 +404,6 @@ module Api
       else
         ids = ids.split(",").collect(&:to_i)
         changesets.where(:id => ids)
-      end
-    end
-
-    ##
-    # Get the maximum number of results to return
-    def result_limit
-      if params[:limit]
-        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_changeset_query_limit
-          params[:limit].to_i
-        else
-          raise OSM::APIBadUserInput, "Changeset limit must be between 1 and #{Settings.max_changeset_query_limit}"
-        end
-      else
-        Settings.default_changeset_query_limit
       end
     end
   end
