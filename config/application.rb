@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module OpenStreetMap
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -28,9 +28,6 @@ module OpenStreetMap
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
     config.active_record.schema_format = :sql unless Settings.status == "database_offline"
-
-    # Use rails 7.1 cache format
-    config.active_support.cache_format_version = 7.1
 
     # Use memcached for caching if required
     config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
