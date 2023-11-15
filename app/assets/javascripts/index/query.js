@@ -125,7 +125,7 @@ OSM.Query = function (map) {
 
   function featureName(feature) {
     var tags = feature.tags,
-        locales = I18n.locales.get();
+        locales = OSM.preferred_languages;
 
     for (var i = 0; i < locales.length; i++) {
       if (tags["name:" + locales[i]]) {

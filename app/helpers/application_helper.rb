@@ -48,7 +48,8 @@ module ApplicationHelper
   def application_data
     data = {
       :locale => I18n.locale,
-      :preferred_editor => preferred_editor
+      :preferred_editor => preferred_editor,
+      :preferred_languages => preferred_languages.expand.map(&:to_s)
     }
 
     if current_user
