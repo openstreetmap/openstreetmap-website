@@ -4,12 +4,10 @@ module NoteHelper
   def note_event(event, at, by)
     if by.nil?
       t("notes.show.event_#{event}_by_anonymous_html",
-        :time_ago => tag.abbr(friendly_date_ago(at),
-                              :title => l(at)))
+        :time_ago => friendly_date_ago(at))
     else
       t("notes.show.event_#{event}_by_html",
-        :time_ago => tag.abbr(friendly_date_ago(at),
-                              :title => l(at)),
+        :time_ago => friendly_date_ago(at),
         :user => note_author(by))
     end
   end
