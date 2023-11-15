@@ -191,7 +191,7 @@ sr:
       none: Ниједан
       openid: OpenID
       google: Google
-      facebook: Facebook
+      facebook: Фејсбук
       windowslive: Windows Live
       github: GitHub
       wikipedia: Википедија
@@ -218,6 +218,12 @@ sr:
       entry:
         comment: Коментар
         full: Потпуна белешка
+  account:
+    deletions:
+      show:
+        delete_account: Обриши налог
+        confirm_delete: Јесте ли сигурни?
+        cancel: Откажи
   accounts:
     edit:
       title: Уреди налог
@@ -259,9 +265,17 @@ sr:
       success_confirm_needed: Подаци о кориснику су успешно ажурирани. Проверите имејл
         да бисте потврдили Вашу нову имејл адресу.
       success: Подаци о кориснику су успешно ажурирани.
+    destroy:
+      success: Налог је обрисан.
   browse:
     created: Направљено
     closed: Затворено
+    created_ago_html: Направљено пре %{time_ago}
+    closed_ago_html: Затворено пре %{time_ago}
+    created_ago_by_html: Направљено пре %{time_ago} од стране %{user}
+    closed_ago_by_html: Затворено пре %{time_ago} од стране %{user}
+    deleted_ago_by_html: Обрисано пре %{time_ago} од стране %{user}
+    edited_ago_by_html: Измењено пре %{time_ago} од стране %{user}
     version: Верзија
     in_changeset: Скуп промена
     anonymous: анониман
@@ -424,6 +438,7 @@ sr:
       nearby mapper: Оближњи картограф
       friend: Пријатељ
     show:
+      title: Моја управљачка табла
       my friends: Моји пријатељи
       no friends: Нисте додали ниједног пријатеља.
       nearby users: 'Остали оближњи корисници:'
@@ -505,6 +520,11 @@ sr:
       comment: Коментар
       newer_comments: Новији коментари
       older_comments: Старији коментари
+  errors:
+    forbidden:
+      title: Забрањено
+    not_found:
+      title: Датотека није пронађена
   friendships:
     make_friend:
       heading: Додати корисника %{user} као пријатеља?
@@ -880,6 +900,7 @@ sr:
           pumping_station: Црпна станица
           silo: Силос
           surveillance: Присмотра
+          telescope: Телескоп
           tower: Кула
           watermill: Водени млин
           water_tower: Водени торањ
@@ -1281,10 +1302,12 @@ sr:
       see_their_profile: Можете видети његов/њен профил на %{userurl}.
       befriend_them: Можете га/је додати и као пријатеља на %{befriendurl}.
     gpx_failure:
+      hi: Здарво %{to_user},
       failed_to_import: 'Увоз није успео. Грешка:'
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
       subject: '[OpenHistoricalMap] Неуспешан увоз GPX датотека'
     gpx_success:
+      hi: Здарво %{to_user},
       loaded_successfully: успешно учитано са %{trace_points} од могућих %{possible_points}
         тачака.
       subject: '[OpenHistoricalMap] Успешан увод GPX датотека'
@@ -1466,12 +1489,28 @@ sr:
       reset: Поништи лозинку
       flash changed: Ваша лозинка је промењена.
       flash token bad: Такав новчић није пронађен. Проверите адресу.
+  preferences:
+    show:
+      title: Моја подешавања
+      preferred_editor: Жељени уређивач
+      preferred_languages: Жељени језици
+      edit_preferences: Измени подешавања
+    edit:
+      title: Измена подешавања
+      save: Сачувај подешавања
+      cancel: Откажи
+    update_success_flash:
+      message: Подешавања су ажурирана.
   profiles:
     edit:
+      title: Уређивање профила
+      save: Уреди профил
+      cancel: Откажи
       image: Слика
       gravatar:
         gravatar: Користи Граватар
         link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=sr
+        what_is_gravatar: Шта је Gravatar?
         disabled: Граватар је онемогућен.
         enabled: Приказ Вашег Граватара је омогућен.
       new image: Додај слику
@@ -1482,6 +1521,8 @@ sr:
       home location: Место становања
       no home location: Нисте унели место становања.
       update home location on click: Ажурирати место становања када кликнем на мапу?
+    update:
+      success: Профил је измењен.
   sessions:
     new:
       title: Пријава
@@ -1536,6 +1577,21 @@ sr:
       title: Одјава
       heading: Одјава
       logout_button: Одјави ме
+  shared:
+    markdown_help:
+      headings: Наслови
+      heading: Наслов
+      subheading: Поднаслов
+      first: Прва ставка
+      second: Друга ставка
+      link: Веза
+      text: Текст
+      image: Слика
+      alt: Алтернативни текст
+      url: Адреса
+    richtext_field:
+      edit: Уреди
+      preview: Преглед
   site:
     about:
       next: Следеће
@@ -1880,6 +1936,7 @@ sr:
         title: Основни картографски термини
         paragraph_1: ОпенСтритМап има свој жаргон. Ево пар кључних речи које могу
           да буду корисне.
+        editor: уређивач
       rules:
         title: Правила!
         para_1_html: "OpenHistoricalMap има мало формалних правила, али очекујемо
@@ -1893,6 +1950,7 @@ sr:
         title: Немаш времена да уредиш? Додај белешку!
         para_1: Ако хоћеш нешто ситно да поправиш а немаш времена да се пријавиш или
           да научиш да уређујеш, једноставно додај белешку.
+        the_map: мапа
   traces:
     visibility:
       private: Приватни (приказује се као анонимне, непоређане тачке)
@@ -2068,6 +2126,22 @@ sr:
       flash: Подаци о клијенту су успешно ажурирани
     destroy:
       flash: Уништена је регистрација клијентског програма
+  oauth2_applications:
+    index:
+      name: Име
+      permissions: Дозволе
+    application:
+      edit: Уреди
+      delete: Обриши
+    show:
+      client_id: ID клијента
+      permissions: Дозволе
+  oauth2_authorizations:
+    new:
+      title: Потребна потврда идентитета
+  oauth2_authorized_applications:
+    index:
+      permissions: Дозволе
   users:
     new:
       title: Регистрација
@@ -2097,6 +2171,7 @@ sr:
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
       guidance_html: 'Подаци који ће вам помоћи да разумете ове услове: <a href="%{summary}">кратак
         опис</a> и неки <a href="%{translations}">неформални преводи</a>'
+      continue: Настави
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
       decline: Одбаци
       you need to accept or decline: Молимо вас да прочитате уговор пре него што га
@@ -2107,6 +2182,7 @@ sr:
         italy: Италија
         rest_of_world: Остатак света
     terms_declined_flash:
+      terms_declined_link: ова вики страница
       terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
     no_such_user:
       title: Нема таквог корисника
@@ -2124,8 +2200,11 @@ sr:
       my profile: Мој профил
       my settings: Моје поставке
       my comments: Моји коментари
+      my_preferences: Моја подешавања
+      my_dashboard: Моја управљачка табла
       blocks on me: Мени забрањено
       blocks by me: Моје забране
+      edit_profile: Уреди профил
       send message: Пошаљи поруку
       diary: Дневник
       edits: Измене
@@ -2183,6 +2262,7 @@ sr:
     suspended:
       title: Суспендован налог
       heading: Суспендован налог
+      support: подршка
       body_html: |-
         <p>
           Жао нам је, ваш налог је привремено укинут
@@ -2293,6 +2373,7 @@ sr:
       title: '%{block_on} је блокиран/а од %{block_by}'
       heading_html: '%{block_on} је блокиран/а од %{block_by}'
       created: 'Направљено:'
+      duration: 'Трајање:'
       status: 'Стање:'
       show: Прикажи
       edit: Уреди
@@ -2321,11 +2402,19 @@ sr:
       title: Белешке послао или коментарисао %{user}
       heading: Белешке корисника %{user}
       subheading_html: Белешке послао или коментарисао %{user}
+      no_notes: Нема белешки
       id: Id
       creator: Творац
       description: Опис
       created_at: Направљено
       last_changed: Последња промена
+    show:
+      title: Белешкаː %{id}
+      description: Опис
+      comment: Коментар
+    new:
+      title: Нова белешка
+      add: Додај белешку
   javascripts:
     close: Затвори
     share:
