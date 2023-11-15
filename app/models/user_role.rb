@@ -23,7 +23,7 @@ class UserRole < ApplicationRecord
   belongs_to :user
   belongs_to :granter, :class_name => "User"
 
-  ALL_ROLES = %w[administrator moderator].freeze
+  ALL_ROLES = %w[administrator moderator importer].freeze
 
   validates :role, :inclusion => ALL_ROLES, :uniqueness => { :scope => :user_id }
 end

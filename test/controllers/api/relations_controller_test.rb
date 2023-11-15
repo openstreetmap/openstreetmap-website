@@ -906,6 +906,117 @@ module Api
       end
     end
 
+    ##
+    # test initial rate limit
+    def test_initial_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset that puts us near the initial rate limit
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 5.minutes,
+                                     :num_changes => Settings.initial_changes_per_hour - 1)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # try creating a relation
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "relation create did not return success status"
+
+      # get the id of the relation we created
+      relationid = @response.body
+
+      # try updating the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation update did not hit rate limit"
+
+      # try deleting the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation delete did not hit rate limit"
+
+      # try creating a relation, which should be rate limited
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation create did not hit rate limit"
+    end
+
+    ##
+    # test maximum rate limit
+    def test_maximum_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset to establish our initial edit time
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 28.days)
+
+      # create changeset to put us near the maximum rate limit
+      total_changes = Settings.max_changes_per_hour - 1
+      while total_changes.positive?
+        changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => changes)
+        total_changes -= changes
+      end
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # try creating a relation
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "relation create did not return success status"
+
+      # get the id of the relation we created
+      relationid = @response.body
+
+      # try updating the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='1' changeset='#{changeset.id}'>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation update did not hit rate limit"
+
+      # try deleting the relation, which should be rate limited
+      xml = "<osm><relation id='#{relationid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_relation_path(relationid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation delete did not hit rate limit"
+
+      # try creating a relation, which should be rate limited
+      xml = "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node1.id}' type='node' role='some'/>" \
+            "<member  ref='#{node2.id}' type='node' role='some'/>" \
+            "<tag k='test' v='yes' /></relation></osm>"
+      put relation_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "relation create did not hit rate limit"
+    end
+
     private
 
     def check_relations_for_element(path, type, id, expected_relations)

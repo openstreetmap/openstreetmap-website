@@ -51,6 +51,10 @@ if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
           execute "DROP TYPE #{enumeration_name}"
         end
 
+        def add_enumeration_value(enumeration_name, value)
+          execute "ALTER TYPE #{enumeration_name} ADD VALUE '#{value}'"
+        end
+
         def rename_enumeration(old_name, new_name)
           old_name = quote_table_name(old_name)
           new_name = quote_table_name(new_name)

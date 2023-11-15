@@ -92,6 +92,10 @@ module Api
       diff_reader = DiffReader.new(request.raw_post, changeset)
       Changeset.transaction do
         result = diff_reader.commit
+        # the number of changes in this changeset has already been
+        # updated and is visible in this transaction so we don't need
+        # to allow for any more when checking the limit
+        check_rate_limit(0)
         render :xml => result.to_s
       end
     end

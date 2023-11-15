@@ -753,6 +753,111 @@ module Api
       end
     end
 
+    ##
+    # test initial rate limit
+    def test_initial_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset that puts us near the initial rate limit
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 5.minutes,
+                                     :num_changes => Settings.initial_changes_per_hour - 1)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # try creating a way
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "way create did not return success status"
+
+      # get the id of the way we created
+      wayid = @response.body
+
+      # try updating the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='1' changeset='#{changeset.id}'>" \
+            "<nd ref='#{node2.id}'/><nd ref='#{node1.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way update did not hit rate limit"
+
+      # try deleting the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way delete did not hit rate limit"
+
+      # try creating a way, which should be rate limited
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way create did not hit rate limit"
+    end
+
+    ##
+    # test maximum rate limit
+    def test_maximum_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some nodes
+      node1 = create(:node)
+      node2 = create(:node)
+
+      # create a changeset to establish our initial edit time
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 28.days)
+
+      # create changeset to put us near the maximum rate limit
+      total_changes = Settings.max_changes_per_hour - 1
+      while total_changes.positive?
+        changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => changes)
+        total_changes -= changes
+      end
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # try creating a way
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "way create did not return success status"
+
+      # get the id of the way we created
+      wayid = @response.body
+
+      # try updating the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='1' changeset='#{changeset.id}'>" \
+            "<nd ref='#{node2.id}'/><nd ref='#{node1.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way update did not hit rate limit"
+
+      # try deleting the way, which should be rate limited
+      xml = "<osm><way id='#{wayid}' version='2' changeset='#{changeset.id}'/></osm>"
+      delete api_way_path(wayid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way delete did not hit rate limit"
+
+      # try creating a way, which should be rate limited
+      xml = "<osm><way changeset='#{changeset.id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+            "<tag k='test' v='yes' /></way></osm>"
+      put way_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "way create did not hit rate limit"
+    end
+
     private
 
     ##
