@@ -29,9 +29,7 @@
       </li>
     </ul>
     <p class="text-muted mb-0">
-      <span title="<%= trace.timestamp %>">
-        <%= time_ago_in_words(trace.timestamp, :scope => :"datetime.distance_in_words_ago") %>
-      </span>
+      <%= friendly_date_ago(trace.timestamp) %>
       <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
       <% if !trace.tags.empty? %>
         <%= t ".in" %>
