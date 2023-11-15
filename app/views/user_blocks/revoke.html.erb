@@ -12,7 +12,7 @@
 
 <% if @user_block.ends_at > Time.now %>
   <p>
-    <%= t(".time_future", :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
+    <%= t(".time_future_html", :time => friendly_date(@user_block.ends_at)) %>
   </p>
 
   <%= bootstrap_form_for :revoke, :url => { :action => "revoke" } do |f| %>
@@ -28,6 +28,6 @@
 
 <% else %>
   <p>
-    <%= t(".past", :time => time_ago_in_words(@user_block.ends_at, :scope => :"datetime.distance_in_words_ago")) %>
+    <%= t(".past_html", :time => friendly_date_ago(@user_block.ends_at)) %>
   </p>
 <% end %>
