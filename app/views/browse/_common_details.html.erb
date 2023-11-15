@@ -14,8 +14,7 @@
 <ul class="list-unstyled">
   <li>
     <%= t "browse.#{common_details.visible? ? :edited : :deleted}_ago_by_html",
-          :time_ago => tag.abbr(time_ago_in_words(common_details.timestamp, :scope => :"datetime.distance_in_words_ago"),
-                                :title => l(common_details.timestamp)),
+          :time_ago => friendly_date_ago(common_details.timestamp),
           :user => changeset_user_link(common_details.changeset) %>
   </li>
   <li>

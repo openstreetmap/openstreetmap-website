@@ -61,13 +61,11 @@
           <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
           <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user) if issue.reported_user %></td>
           <td>
-            <% time_ago_tag = tag.abbr(time_ago_in_words(issue.updated_at, :scope => :"datetime.distance_in_words_ago"),
-                                       :title => l(issue.updated_at)) %>
             <% if issue.user_updated %>
               <%= t ".last_updated_time_ago_user_html", :user => link_to(issue.user_updated.display_name, user_path(issue.user_updated)),
-                                                        :time_ago => time_ago_tag %>
+                                                        :time_ago => friendly_date_ago(issue.updated_at) %>
             <% else %>
-              <%= time_ago_tag %>
+              <%= friendly_date_ago(issue.updated_at) %>
             <% end %>
           </td>
         </tr>
