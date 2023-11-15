@@ -42,25 +42,6 @@ if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
 
           execute "ALTER TABLE #{table_name} ADD PRIMARY KEY USING INDEX #{constraint_name}"
         end
-
-        def create_enumeration(enumeration_name, values)
-          execute "CREATE TYPE #{enumeration_name} AS ENUM ('#{values.join '\',\''}')"
-        end
-
-        def drop_enumeration(enumeration_name)
-          execute "DROP TYPE #{enumeration_name}"
-        end
-
-        def add_enumeration_value(enumeration_name, value)
-          execute "ALTER TYPE #{enumeration_name} ADD VALUE '#{value}'"
-        end
-
-        def rename_enumeration(old_name, new_name)
-          old_name = quote_table_name(old_name)
-          new_name = quote_table_name(new_name)
-
-          execute "ALTER TYPE #{old_name} RENAME TO #{new_name}"
-        end
       end
     end
   end

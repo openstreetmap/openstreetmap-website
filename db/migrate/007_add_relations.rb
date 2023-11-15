@@ -1,7 +1,7 @@
 class AddRelations < ActiveRecord::Migration[4.2]
   def self.up
     # enums work like strings but are more efficient
-    create_enumeration :nwr_enum, %w[Node Way Relation]
+    create_enum :nwr_enum, %w[Node Way Relation]
 
     # a relation can have members much like a way can have nodes.
     # differences:
