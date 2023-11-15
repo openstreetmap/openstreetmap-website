@@ -8,10 +8,10 @@ class UserBlocksHelperTest < ActionView::TestCase
     assert_equal "Active until the user logs in.", block_status(block)
 
     block = create(:user_block, :needs_view, :ends_at => Time.now.utc + 1.hour)
-    assert_match %r{^Ends in <span title=".*">about 1 hour</span> and after the user has logged in\.$}, block_status(block)
+    assert_match %r{^Ends in <time title=".*" datetime=".*">about 1 hour</time> and after the user has logged in\.$}, block_status(block)
 
     block = create(:user_block, :ends_at => Time.now.utc + 1.hour)
-    assert_match %r{^Ends in <span title=".*">about 1 hour</span>\.$}, block_status(block)
+    assert_match %r{^Ends in <time title=".* datetime=".*">about 1 hour</time>\.$}, block_status(block)
   end
 
   def test_block_duration_in_words
