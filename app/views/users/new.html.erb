@@ -1,5 +1,8 @@
 <% content_for :head do %>
   <%= javascript_include_tag "user" %>
+  <% if Settings.turnstile_site_key -%>
+    <%= javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js", :async => true, :defer => true %>
+  <% end -%>
 <% end %>
 
 <% content_for :heading_class, "pb-0" %>
@@ -41,6 +44,13 @@
 
       <%= f.password_field :pass_crypt, :tabindex => 6 %>
       <%= f.password_field :pass_crypt_confirmation, :tabindex => 7 %>
+
+      <% if Settings.turnstile_site_key -%>
+        <div class="mb-3">
+          <label class="form_label"><%= t ".verify_human" %></label>
+          <div class="pt-2 cf-turnstile" data-sitekey="<%= Settings.turnstile_site_key %>"></div>
+        </div>
+      <% end %>
 
       <div id="auth_prompt">
         <p><%= link_to t(".use external auth"), "#", :id => "auth_enable" %></p>

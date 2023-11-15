@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   before_action :require_cookies, :only => [:new]
   before_action :lookup_user_by_name, :only => [:set_status, :destroy]
   before_action :allow_thirdparty_images, :only => [:show]
+  before_action :set_content_security_policy, :only => [:new, :create]
 
   ##
   # display a list of users matching specified criteria
@@ -61,10 +62,6 @@ class UsersController < ApplicationController
                  session[:referer]
                end
 
-    append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
-    )
-
     if current_user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
@@ -101,6 +98,10 @@ class UsersController < ApplicationController
 
       if current_user.invalid?
         # Something is wrong with a new user, so rerender the form
+        render :action => "new"
+      elsif Settings.turnstile_site_key && !valid_turnstile_response?(params["cf-turnstile-response"])
+        # Invalid turnstile response, so rerender the form
+        flash.now[:error] = t ".not_human"
         render :action => "new"
       elsif current_user.auth_provider.present?
         # Verify external authenticator before moving on
@@ -365,5 +366,36 @@ class UsersController < ApplicationController
     end
 
     !blocked
+  end
+
+  ##
+  # add additional CSP rules for signup page
+  def set_content_security_policy
+    append_content_security_policy_directives(
+      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+    )
+
+    if Settings.turnstile_site_key
+      append_content_security_policy_directives(
+        :frame_src => %w[challenges.cloudflare.com],
+        :script_src => %w[challenges.cloudflare.com]
+      )
+    end
+  end
+
+  ##
+  # check if a turnstile response is valid
+  def valid_turnstile_response?(turnstile_response)
+    response = OSM.http_client.post("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+                                      :secret => Settings.turnstile_secret_key,
+                                      :response => turnstile_response,
+                                      :remoteip => request.remote_ip
+                                    })
+
+    return false unless response.success?
+
+    parsed_response = JSON.parse(response.body)
+
+    parsed_response["success"]
   end
 end
