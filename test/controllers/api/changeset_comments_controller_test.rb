@@ -6,6 +6,10 @@ module Api
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
+        { :path => "/api/0.6/changeset_comments", :method => :get },
+        { :controller => "api/changeset_comments", :action => "index" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/1/comment", :method => :post },
         { :controller => "api/changeset_comments", :action => "create", :id => "1" }
       )
@@ -29,6 +33,40 @@ module Api
         { :path => "/api/0.6/changeset/comment/1/unhide.json", :method => :post },
         { :controller => "api/changeset_comments", :action => "restore", :id => "1", :format => "json" }
       )
+    end
+
+    ##
+    # view comments
+    def test_index
+      user1 = create(:user)
+      user2 = create(:user)
+      changeset1 = create(:changeset, :closed, :user => user2)
+      comment11 = create(:changeset_comment, :changeset => changeset1, :author => user1, :created_at => "2023-01-01", :body => "changeset 1 question")
+      comment12 = create(:changeset_comment, :changeset => changeset1, :author => user2, :created_at => "2023-02-01", :body => "changeset 1 answer")
+      changeset2 = create(:changeset, :closed, :user => user1)
+      comment21 = create(:changeset_comment, :changeset => changeset2, :author => user1, :created_at => "2023-03-01", :body => "changeset 2 note")
+      comment22 = create(:changeset_comment, :changeset => changeset2, :author => user1, :created_at => "2023-04-01", :body => "changeset 2 extra note")
+      comment23 = create(:changeset_comment, :changeset => changeset2, :author => user2, :created_at => "2023-05-01", :body => "changeset 2 review")
+
+      get api_changeset_comments_path
+      assert_response :success
+      assert_comments_in_order [comment23, comment22, comment21, comment12, comment11]
+
+      get api_changeset_comments_path(:limit => 3)
+      assert_response :success
+      assert_comments_in_order [comment23, comment22, comment21]
+
+      get api_changeset_comments_path(:from => "2023-03-15T00:00:00Z")
+      assert_response :success
+      assert_comments_in_order [comment23, comment22]
+
+      get api_changeset_comments_path(:from => "2023-01-15T00:00:00Z", :to => "2023-04-15T00:00:00Z")
+      assert_response :success
+      assert_comments_in_order [comment22, comment21, comment12]
+
+      get api_changeset_comments_path(:user => user1.id)
+      assert_response :success
+      assert_comments_in_order [comment22, comment21, comment11]
     end
 
     ##
@@ -319,6 +357,22 @@ module Api
         post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => auth_header
       end
       assert_response :success
+    end
+
+    private
+
+    ##
+    # check that certain comments exist in the output in the specified order
+    def assert_comments_in_order(comments)
+      assert_select "osm>comment", comments.size
+      comments.each_with_index do |comment, index|
+        assert_select "osm>comment:nth-child(#{index + 1})", 1 do
+          assert_select ">@id", comment.id.to_s
+          assert_select ">@uid", comment.author.id.to_s
+          assert_select ">@user", comment.author.display_name
+          assert_select ">text", comment.body
+        end
+      end
     end
   end
 end
