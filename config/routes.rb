@@ -38,6 +38,8 @@ OpenStreetMap::Application.routes.draw do
   end
 
   namespace :api, :path => "api/0.6" do
+    resources :changeset_comments, :only => :index
+
     resources :nodes, :only => [:index, :create]
     resources :nodes, :path => "node", :id => /\d+/, :only => [:show, :update, :destroy] do
       scope :module => :nodes do
