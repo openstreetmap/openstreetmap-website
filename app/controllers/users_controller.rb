@@ -104,11 +104,11 @@ class UsersController < ApplicationController
         render :action => "new"
       elsif current_user.auth_provider.present?
         # Verify external authenticator before moving on
-        session[:new_user] = current_user.attributes.slice("email", "display_name", "pass_crypt")
+        session[:new_user] = current_user.attributes.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation")
         redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
       else
         # Save the user record
-        session[:new_user] = current_user.attributes.slice("email", "display_name", "pass_crypt")
+        session[:new_user] = current_user.attributes.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation")
         redirect_to :action => :terms
       end
     end
