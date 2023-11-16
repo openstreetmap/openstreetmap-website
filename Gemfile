@@ -26,8 +26,8 @@ gem "jbuilder", "~> 2.7"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", :require => false
 
-# Use R2 for RTL conversion
-gem "r2", "~> 0.2.7"
+# Use rtlcss for RTL conversion
+gem "rtlcss"
 
 # Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
