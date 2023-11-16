@@ -27,18 +27,7 @@ xml.changeset(attrs) do |changeset_xml_node|
   if @comments
     changeset_xml_node.discussion do |discussion_xml_node|
       @comments.each do |comment|
-        cattrs = {
-          "id" => comment.id,
-          "date" => comment.created_at.xmlschema,
-          "visible" => comment.visible
-        }
-        if comment.author.data_public?
-          cattrs["uid"] = comment.author.id
-          cattrs["user"] = comment.author.display_name
-        end
-        discussion_xml_node.comment(cattrs) do |comment_xml_node|
-          comment_xml_node.text(comment.body)
-        end
+        discussion_xml_node << render(comment)
       end
     end
   end
