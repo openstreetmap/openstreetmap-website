@@ -285,6 +285,12 @@ cy:
         title: Dileu fy nghyfrif
         warning: Rhybudd! Mae'r broses dileu cyfrif yn derfynol, ac ni ellir ei gwrthdroi.
         delete_account: Dileu cyfrif
+        delete_introduction: 'Gallwch chi ddileu eich cyfrif OpenStreetMap gan ddefnyddio''r
+          botwm isod. Nodwch y manylion canlynol:'
+        delete_profile: Bydd eich gwybodaeth broffil, gan gynnwys eich afatar, disgrifiad
+          a lleoliad cartref yn cael eu dileu.
+        delete_display_name: Bydd eich enw defnyddiwr yn cael ei ddileu, a gellir
+          ei ailddefnyddio gan gyfrifon eraill.
         retain_edits: Bydd eich golygiadau i'r gronfa ddata mapiau, os ydynt yn bodoli,
           yn cael eu cadw.
         retain_changeset_discussions: Bydd eich trafodaethau grwpiau newid, os ydynt
@@ -337,6 +343,20 @@ cy:
     anonymous: dienw
     no_comment: (dim sylw)
     part_of: Rhan o
+    part_of_relations:
+      zero: '%{count} perthnasoedd'
+      one: '%{count} perthynas'
+      two: '%{count} berthynas'
+      few: '%{count} pherthynas'
+      many: '%{count} perthynas'
+      other: '%{count} perthynas'
+    part_of_ways:
+      zero: '%{count} llwybr'
+      one: '%{count} llwybr'
+      two: '%{count} lwybr'
+      few: '%{count} llwybr'
+      many: '%{count} llwybr'
+      other: '%{count} llwybr'
     download_xml: Lawrlwytho XML
     view_history: Gweld hanes
     view_details: Gweld manylion
@@ -348,8 +368,8 @@ cy:
       node_paginated: Nodau (%{x}-%{y} o %{count})
       way: Llwybrau %{count}
       way_paginated: Llwybrau (%{x}-%{y} o %{count})
-      relation: Perthynas %{count}
-      relation_paginated: Perthynas (%{x}-%{y} o %{count})
+      relation: Perthnasoedd (%{count})
+      relation_paginated: Perthnasoedd (%{x}-%{y} o %{count})
       comment: Sylwadau (%{count})
       hidden_comment_by_html: Sylw cudd gan %{user} %{time_ago}
       comment_by_html: Sylw gan %{user} %{time_ago}
@@ -490,6 +510,7 @@ cy:
     contact:
       km away: '%{count}km i ffwrdd'
       m away: '%{count}m i ffwrdd'
+      latest_edit_html: 'Golygiad diweddaraf (%{ago}):'
     popup:
       your location: Eich lleoliad
       nearby mapper: Mapiwr gerllaw
@@ -1457,6 +1478,7 @@ cy:
     more: Mwy
   user_mailer:
     diary_comment_notification:
+      subject: '[OpenStreetMap] Gwnaeth %{user} sylw ar gofnod dyddiadur'
       hi: Helo %{to_user},
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
@@ -1493,6 +1515,10 @@ cy:
       commented:
         subject_own: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar un o''ch nodiadau'
         subject_other: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar nodyn y mae gennych
+          ddiddordeb ynddo'
+      reopened:
+        subject_own: '[OpenStreetMap] Ailgychwynodd %{commenter} un o''ch nodiadau'
+        subject_other: '[OpenStreetMap] Ailgychwynodd %{commenter} nodyn y mae gennych
           ddiddordeb ynddo'
     changeset_comment_notification:
       hi: Helo %{to_user},
@@ -1803,6 +1829,7 @@ cy:
       map_image: Delwedd y Map (dangoser yr haen safonol)
       embeddable_html: Mewnosod HTML
       licence: Trwydded
+      licence_details_html: Trwyddedir data OpenStreetMap o dan y %{odbl_link} (ODbL).
       odbl: Open Data Commons Open Database License
       too_large:
         advice: 'Os yw''r allforio''n methu, ystyriwch un o''r canlynol:'
@@ -1810,6 +1837,8 @@ cy:
           title: Planet OSM
         overpass:
           title: Overpass API
+        geofabrik:
+          title: Lawrlwythiadau Geofabrik
         other:
           title: Ffynonellau eraill
           description: Ffynonellau ychwanegol a nodir ar wici OpenStreetMap
@@ -1863,6 +1892,7 @@ cy:
     any_questions:
       title: Unrhyw gwestiynau?
       get_help_here: Cael cymorth yma
+      welcome_mat: Edrychwch ar y Mat Croeso
     sidebar:
       search_results: Canlyniadau Chwilio
       close: Cau
@@ -1988,6 +2018,16 @@ cy:
         the_map: map
     communities:
       title: Cymunedau
+      local_chapters:
+        title: Siapteri Lleol
+        about_text: Mae Siapteri Lleol yn grwpiau ar lefel gwlad neu ranbarth sydd
+          wedi cymryd y cam ffurfiol o sefydlu cyrff cyfreithiol nid-er-elw. Maen
+          nhw'n cynrychioli map a mapwyr yr ardal wrth ddelio â llywodraeth leol,
+          busnes, a chyfryngau. Maen nhw hefyd wedi ffurfio cysylltiad â'r OpenStreetMap
+          Foundation (OSMF), gan roi dolen iddynt i'r corff llywodraethu cyfreithiol
+          a hawlfraint.
+        list_text: 'Mae''r cymunedau canlynol wedi''u sefydlu''n ffurfiol fel Siapteri
+          Lleol:'
       other_groups:
         title: Grwpiau Eraill
         communities_wiki: Tudalen wici cymunedau
@@ -2064,6 +2104,10 @@ cy:
       my_traces: Fy Arllwybrau
       traces_from: Arllwybrau Cyhoeddus gan %{user}
       remove_tag_filter: Dileu Hidlydd Tagiau
+    georss:
+      title: Arllwybrau GPS OpenStreetMap
+    description:
+      description_without_count: Ffeil GPX gan %{user}
   application:
     require_admin:
       not_an_admin: Mae rhaid ichi fod yn weinyddwr i gyflawni'r weithred honno.
@@ -2099,6 +2143,7 @@ cy:
       read_prefs: Darllen dewisiadau defnyddwyr
       write_prefs: Addasu dewisiadau defnyddwyr
       write_api: Golygu'r map
+      read_gpx: Darllen arllwybrau GPS preifat
       write_gpx: Uwchlwytho arllwybrau GPS
       write_notes: Addasu nodiadau
       read_email: Darllen cyfeiriad e-bost defnyddwyr
@@ -2212,7 +2257,6 @@ cy:
       ct status: 'Telerau cyfrannwr:'
       ct undecided: Heb Benderfynu
       ct declined: Wedi Gwrthod
-      latest edit: 'Golygiad diweddaraf (%{ago}):'
       email address: 'Cyfeiriad ebost:'
       created from: 'Crëwyd o:'
       status: 'Statws:'
@@ -2237,6 +2281,7 @@ cy:
     index:
       title: Defnyddwyr
       heading: Defnyddwyr
+      summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal
@@ -2375,11 +2420,11 @@ cy:
       comment_and_resolve: Sylw a Datrys
       comment: Sylw
       report_link_html: Os yw'r nodyn hwn yn cynnwys gwybodaeth sensitif sydd angen
-        ei ddileu, gallwch chi %{link}.
+        ei dileu, gallwch chi %{link}.
       other_problems_resolve: Ar gyfer pob problem arall gyda'r nodyn, dylech chi
         ei ddatrys gyda sylw perthnasol.
-      other_problems_resolved: Ar gyfer pob problem arall, mae datrys yn ddigon.
-      disappear_date_html: Bydd y nodyn hwn yn diflannu o'r map o fewn %{disappear_in}.
+      other_problems_resolved: Ar gyfer pob problem arall, mae dim ond datrys yn ddigon.
+      disappear_date_html: Bydd y nodyn hwn yn diflannu o'r map mewn %{disappear_in}.
     new:
       title: Nodyn Newydd
       intro: Ydych chi wedi sylwi ar gamgymeriad neu rywbeth sydd ar goll? Rhowch
@@ -2420,9 +2465,12 @@ cy:
         title: Dangos Fy Lleoliad
       base:
         standard: Safonol
+        cyclosm: CyclOSM
         cycle_map: Map Beicio
         transport_map: Map Trafnidiaeth
+        tracestracktop_topo: Tracestrack Topo
         hot: Dyngarol
+        opnvkarte: ÖPNVKarte
       layers:
         header: Haenau Map
         notes: Nodiadau Map
@@ -2473,6 +2521,8 @@ cy:
       distance: Pellter
       distance_m: '%{distance}m'
       distance_km: '%{distance}km'
+      errors:
+        no_place: Ymddiheuriadau - ni ellir canfod '%{place}'.
       instructions:
         continue_without_exit: Parhau ar %{name}
         slight_right_without_exit: Ychydig i'r dde i %{name}
@@ -2481,8 +2531,11 @@ cy:
         offramp_right_with_exit_name: Cymerwch allanfa %{exit} ar y dde i %{name}
         via_point_without_exit: (trwy bwynt)
         follow_without_exit: Dilynwch %{name}
+        leave_roundabout_without_exit: Gadael cylchfan - %{name}
+        stay_roundabout_without_exit: Aros ar gylchfan - %{name}
         start_without_exit: Dechreuwch ar %{name}
         destination_without_exit: Wedi cyrraedd cyrchfan
+        exit_roundabout: Gadael y gylchfan i %{name}
         unnamed: ffordd heb enw
         courtesy: Cyfarwyddiadau trwy garedigrwydd %{link}
         exit_counts:
