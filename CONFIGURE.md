@@ -47,8 +47,6 @@ $ bundle exec rails console
 => #[ ... ]
 >> user.roles.create(:role => "moderator", :granter_id => user.id)
 => #[ ... ]
->> user.save!
-=> true
 >> quit
 ```
 
