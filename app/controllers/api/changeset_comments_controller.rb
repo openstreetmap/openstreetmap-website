@@ -1,7 +1,9 @@
 module Api
   class ChangesetCommentsController < ApiController
-    before_action :check_api_writable
-    before_action :authorize
+    include QueryMethods
+
+    before_action :check_api_writable, :except => [:index]
+    before_action :authorize, :except => [:index]
 
     authorize_resource
 
@@ -9,6 +11,15 @@ module Api
     before_action :set_request_formats
     around_action :api_call_handle_error
     around_action :api_call_timeout
+
+    ##
+    # show all comments or search for a subset
+    def index
+      @comments = ChangesetComment.includes(:author).where(:visible => true).order("created_at DESC")
+      @comments = query_conditions_time(@comments)
+      @comments = query_conditions_user(@comments, :author)
+      @comments = query_limit(@comments)
+    end
 
     ##
     # Add a comment to a changeset
