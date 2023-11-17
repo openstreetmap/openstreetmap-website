@@ -19,6 +19,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
+        rubygems: 3.4.10
         bundler-cache: true
     - name: Run rubocop
       run: bundle exec rubocop --format fuubar
@@ -32,6 +33,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
+        rubygems: 3.4.10
         bundler-cache: true
     - name: Run erblint
       run: bundle exec erblint .
@@ -45,6 +47,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
+        rubygems: 3.4.10
         bundler-cache: true
     - name: Cache node modules
       uses: actions/cache@v3
@@ -69,6 +72,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
+        rubygems: 3.4.10
         bundler-cache: true
     - name: Run brakeman
       run: bundle exec brakeman -q
@@ -84,6 +88,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.ruby }}
+        rubygems: 3.4.10
         bundler-cache: true
     - name: Setup database
       run: |
