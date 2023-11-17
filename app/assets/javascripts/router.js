@@ -18,6 +18,10 @@
        as arguments the URL path plus any matching arguments for placeholders
        in the path template.
 
+     * The `reload` method, when defined, is called by the router when a page
+       reload is requested by the user. When not defined, the `load` method is
+       called instead.
+
      * The `pushstate` method is called when a page which matches the route's path
        template is loaded via pushState. It is passed the same arguments as `load`.
 
@@ -81,6 +85,10 @@ OSM.Router = function (map, rts) {
       return (controller[action] || $.noop).apply(controller, params);
     };
 
+    route.has = function (action) {
+      return action in controller;
+    };
+
     return route;
   }
 
@@ -101,8 +109,16 @@ OSM.Router = function (map, rts) {
 
   var router = {};
 
+  $("#sidebar").scroll(function () {
+    var state = window.history.state;
+    if (!state) state = {};
+    state.sidebarScroll = this.scrollTop;
+    window.history.replaceState(state, document.title, window.location); // TODO don't replace state too often, browsers complain about that
+  });
+
   $(window).on("popstate", function (e) {
-    if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
+    var state = e.originalEvent.state;
+    if (!state) return; // Is it a real popstate event or just a hash change?
     var path = window.location.pathname + window.location.search,
         route = routes.recognize(path);
     if (path === currentPath) return;
@@ -110,7 +126,10 @@ OSM.Router = function (map, rts) {
     currentPath = path;
     currentRoute = route;
     currentRoute.run("popstate", currentPath);
-    map.setState(e.originalEvent.state, { animate: false });
+    map.setState(state, { animate: false });
+    if ("sidebarScroll" in state) {
+      $("#sidebar").scrollTop(state.sidebarScroll);
+    }
   });
 
   router.route = function (url) {
@@ -143,7 +162,14 @@ OSM.Router = function (map, rts) {
     var hash = OSM.formatHash(map);
     if (hash === currentHash) return;
     currentHash = hash;
-    router.stateChange(OSM.parseHash(hash));
+    var state = OSM.parseHash(hash);
+    if (window.history) {
+      var oldState = window.history.state;
+      if (oldState && "sidebarScroll" in oldState) {
+        state.sidebarScroll = oldState.sidebarScroll;
+      }
+    }
+    router.stateChange(state);
   };
 
   router.hashUpdated = function () {
@@ -169,8 +195,20 @@ OSM.Router = function (map, rts) {
   };
 
   router.load = function () {
-    var loadState = currentRoute.run("load", currentPath);
+    var loadState = loadOrReload();
     router.stateChange(loadState || {});
+
+    function loadOrReload() {
+      if (currentRoute.has("reload") && window.performance) {
+        var wasReloaded = window.performance.getEntriesByType("navigation").some(function (entry) {
+          return entry.type === "reload";
+        });
+        if (wasReloaded) {
+          return currentRoute.run("reload", currentPath);
+        }
+      }
+      return currentRoute.run("load", currentPath);
+    }
   };
 
   router.setCurrentPath = function (path) {

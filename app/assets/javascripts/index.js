@@ -34,6 +34,36 @@ $(document).ready(function () {
     worldCopyJump: true
   });
 
+  OSM.setSidebarContent = function (sidebarContent) {
+    var title = sidebarContent[0];
+    var html = sidebarContent[1];
+
+    map.setSidebarOverlaid(false);
+    $("#flash").empty();
+
+    var content = $(html);
+
+    if (title) {
+      document.title = decodeURIComponent(title);
+    }
+
+    $("head")
+      .find("link[type=\"application/atom+xml\"]")
+      .remove();
+
+    $("head")
+      .append(content.filter("link[type=\"application/atom+xml\"]"));
+
+    $("#sidebar_content").html(content.not("link[type=\"application/atom+xml\"]"));
+  };
+
+  OSM.getSidebarContent = function () {
+    var html = $("#sidebar_content").html();
+    var link = $("head link[type=\"application/atom+xml\"]").prop("outerHTML");
+    if (link) html = link + html;
+    return [document.title, html];
+  };
+
   OSM.loadSidebarContent = function (path, callback) {
     var content_path = path;
 
@@ -61,25 +91,8 @@ $(document).ready(function () {
       dataType: "html",
       complete: function (xhr) {
         clearTimeout(loaderTimeout);
-        $("#flash").empty();
         $("#sidebar_loader").hide();
-
-        var content = $(xhr.responseText);
-
-        if (xhr.getResponseHeader("X-Page-Title")) {
-          var title = xhr.getResponseHeader("X-Page-Title");
-          document.title = decodeURIComponent(title);
-        }
-
-        $("head")
-          .find("link[type=\"application/atom+xml\"]")
-          .remove();
-
-        $("head")
-          .append(content.filter("link[type=\"application/atom+xml\"]"));
-
-        $("#sidebar_content").html(content.not("link[type=\"application/atom+xml\"]"));
-
+        OSM.setSidebarContent([xhr.getResponseHeader("X-Page-Title"), xhr.responseText]);
         if (callback) {
           callback();
         }

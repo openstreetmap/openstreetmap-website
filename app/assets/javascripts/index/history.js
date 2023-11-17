@@ -55,25 +55,134 @@ OSM.History = function (map) {
     newList.remove();
   }
 
+  function getBBoxParameter() {
+    return map.getBounds().wrap().toBBoxString();
+  }
+
+  // returns [item, saveFunction]; item.key is undefined if no save is going to happen
+  function getStoreItemAndSaver() {
+    var storeNameAndKey = getStoreNameAndKey();
+    if (!storeNameAndKey) {
+      return [{ lists: [] }, function () {}];
+    }
+    var storeName = storeNameAndKey[0];
+    var storeKey = storeNameAndKey[1];
+    var store = loadStore(storeName);
+    var storeItem = getStoreItem(store, storeKey);
+    return [storeItem, function () {
+      saveStore(storeName, store);
+    }];
+
+    function getStoreNameAndKey() {
+      if (window.location.pathname === "/history/friends") {
+        return null; // depends on current login - don't store for now
+      } else if (window.location.pathname === "/history/nearby") {
+        return null; // depends on current login - don't store for now
+      } else if (window.location.pathname === "/history") {
+        return ["history-place", getBBoxParameter()]; // separate store for places because bbox is too volatile
+      } else {
+        return ["history-user", window.location.pathname]; // has display_name inside pathname
+      }
+    }
+
+    function loadStore(storeName) {
+      var requiredSchema = 2;
+      var storeString = sessionStorage[storeName];
+      var store = {
+        schema: requiredSchema,
+        locale: I18n.locale, // required as long as html with i18n strings is cached
+        items: []
+      };
+      try {
+        if (storeString) {
+          var readStore = JSON.parse(storeString);
+          if (readStore.schema === requiredSchema && readStore.locale === I18n.locale) {
+            store = readStore;
+          }
+        }
+      } catch (ex) {
+        // reset store if it's damaged
+      }
+      return store;
+    }
+
+    function saveStore(storeName, store) {
+      sessionStorage[storeName] = JSON.stringify(store);
+    }
+
+    function getStoreItem(store, storeKey) {
+      var maxStoreSize = 10;
+      var maxAge = 60 * 60 * 1000;
+      var now = Date.now();
+      var storeItem;
+      for (var i = 0; i < store.items.length; i++) {
+        if (store.items[i].key !== storeKey) continue;
+        storeItem = store.items[i];
+        store.items.splice(i, 1);
+        if (!storeItem.timestamp || storeItem.timestamp < now - maxAge) break;
+        store.items.unshift(storeItem);
+        return storeItem;
+      }
+      storeItem = {
+        key: storeKey,
+        timestamp: now,
+        lists: []
+      };
+      store.items.splice(maxStoreSize - 1);
+      store.items.unshift(storeItem);
+      return storeItem;
+    }
+  }
+
+  function saveDataToStore(html, rewrite) {
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    if (!storeItem.key) return;
+    if (rewrite) storeItem.lists = [];
+    storeItem.lists.push(html);
+    storeSaver();
+  }
+
+  function loadDataFromStore() {
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    if (storeItem.lists.length === 0) return false;
+    for (var i = 0; i < storeItem.lists.length; i++) {
+      var html = storeItem.lists[i];
+      if (i === 0) {
+        displayFirstChangesets(html);
+      } else {
+        displayMoreChangesets(html);
+      }
+    }
+    updateMap();
+    return true;
+  }
+
   function update() {
     var data = { list: "1" };
 
     if (window.location.pathname === "/history") {
-      data.bbox = map.getBounds().wrap().toBBoxString();
+      data.bbox = getBBoxParameter();
       var feedLink = $("link[type=\"application/atom+xml\"]"),
           feedHref = feedLink.attr("href").split("?")[0];
       feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
     }
 
-    $.ajax({
-      url: window.location.pathname,
-      method: "GET",
-      data: data,
-      success: function (html) {
-        displayFirstChangesets(html);
-        updateMap();
-      }
-    });
+    var loadedDataFromStore = loadDataFromStore();
+    if (!loadedDataFromStore) {
+      $.ajax({
+        url: window.location.pathname,
+        method: "GET",
+        data: data,
+        success: function (html) {
+          saveDataToStore(html, true);
+          displayFirstChangesets(html);
+          updateMap();
+        }
+      });
+    }
   }
 
   function loadMore(e) {
@@ -86,6 +195,7 @@ OSM.History = function (map) {
     div.find(".loader").show();
 
     $.get($(this).attr("href"), function (html) {
+      saveDataToStore(html, false);
       displayMoreChangesets(html);
       updateMap();
     });
@@ -145,21 +255,51 @@ OSM.History = function (map) {
     }
   }
 
-  page.pushstate = page.popstate = function (path) {
-    $("#history_tab").addClass("current");
-    OSM.loadSidebarContent(path, page.load);
-  };
-
-  page.load = function () {
+  function finishLoad() {
     map.addLayer(group);
 
     if (window.location.pathname === "/history") {
       map.on("moveend", update);
     }
-
     map.on("zoomend", updateBounds);
 
     update();
+  }
+
+  page.pushstate = page.popstate = function (path) {
+    $("#history_tab").addClass("current");
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    if (storeItem.sidebar) {
+      OSM.setSidebarContent(storeItem.sidebar);
+      finishLoad();
+    } else {
+      OSM.loadSidebarContent(path, function () {
+        storeItem.sidebar = OSM.getSidebarContent();
+        storeSaver();
+        finishLoad();
+      });
+    }
+  };
+
+  page.load = function () {
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    storeItem.sidebar = OSM.getSidebarContent();
+    storeSaver();
+    finishLoad();
+  };
+
+  page.reload = function () {
+    var storeItemAndSaver = getStoreItemAndSaver();
+    var storeItem = storeItemAndSaver[0];
+    var storeSaver = storeItemAndSaver[1];
+    storeItem.sidebar = OSM.getSidebarContent();
+    storeItem.lists = []; // clear cached changesets
+    storeSaver();
+    finishLoad();
   };
 
   page.unload = function () {
