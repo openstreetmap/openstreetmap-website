@@ -346,7 +346,12 @@ sv:
         kan inte skicka meddelanden till dig eller se din plats. För att visa vad
         du redigerade och tillåta andra att kontakta dig via webbplatsen, klicka på
         knappen nedan.
+      only_public_can_edit: Sedan övergången till 0.6-API:n kan bara offentliga användare
+        redigera kartdata.
       find_out_why: ta reda på varför
+      email_not_revealed: Din e-postadress kommer inte avslöjas när du blir offentlig.
+      not_reversible: Denna åtgärd kan inte ångras och alla nya användare är nu offentliga
+        som standard.
       make_edits_public_button: Gör alla mina redigeringar offentliga
     update:
       success_confirm_needed: Användarinformation uppdaterades. Kontrollera din e-post
@@ -654,6 +659,8 @@ sv:
     contact:
       contact_url_title: Olika kontaktkanaler förklaras
       contact: kontakta
+      contact_the_community_html: Gå gärna till %{contact_link} OpenStreetMap-gemenskapen
+        om du har hittat en trasig länk/bugg. Anteckna din förfrågas exakta webbadress.
     forbidden:
       title: Förbjudet
       description: Åtgärden du begärde på OpenStreetMap-servern är endast tillgänglig
@@ -2031,10 +2038,18 @@ sv:
           OpenStreetMap%{registered_trademark_link} är %{open_data}, licensierad under
           %{odc_odbl_link} (ODbL) av %{osm_foundation_link} (OSMF).
         introduction_1_open_data: öppna data
+        introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: OpenStreetMap-stiftelsen
+        introduction_2_html: |-
+          Du är fri att kopiera, distribuera, överföra och anpassa vår data,
+          så länge du anger OpenStreetMap och dess bidragsgivare som källa.
+          Om du ändrar eller bygger vidare på vår data kan du
+          endast distribuera resultatet under samma licens. Den
+          fullständiga %{legal_code_link} förklarar dina rättigheter och skyldigheter.
         introduction_2_legal_code: juridiska texten
         introduction_3_html: Vår dokumentation är licensierad under licensen %{creative_commons_link}
           (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Erkännande-DelaLika 2.0
         credit_title_html: Hur du anger OpenStreetMap som källa
         credit_1_html: 'När du använder OpenStreetMap-data, måste du göra dessa två
           saker:'
@@ -2045,6 +2060,7 @@ sv:
           regler för hur upphovsrättsmeddelandet ska visas beroende på om du har
           skapat en bläddringsbar karta, en utskriven karta eller en statisk bild. Fullständig information om
           -kraven finns i %{attribution_guidelines_link}.
+        credit_3_attribution_guidelines: Riktlinjer för tillskrivning
         credit_4_1_html: "För att tydliggöra att data är tillgänglig under Öppen\nDatabase
           Licensen kan du länka till %{this_copyright_page_link}.\nAlternativt, och
           som ett krav om du distribuerar OSM i en\ndataform kan du namn och länk
@@ -2076,7 +2092,9 @@ sv:
         contributors_at_stadt_wien: Staden Wien
         contributors_at_cc_by: CC BY
         contributors_at_land_vorarlberg: Förbundsland Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT med tillägg
         contributors_au_australia: Australien
+        contributors_au_geoscape_australia: Geoscape Australien
         contributors_ca_canada: Kanada
         contributors_cz_czechia: Tjeckien
         contributors_fi_finland: Finland
@@ -2166,6 +2184,7 @@ sv:
       embeddable_html: Inbäddad HTML
       licence: Licens
       licence_details_html: OpenStreetMap-data licensieras under %{odbl_link} (ODbL).
+      odbl: Open Data Commons Open Database License
       too_large:
         advice: 'Om ovanstående export misslyckas, vänligen överväg att använda en
           av de källor som anges nedan:'
@@ -2389,6 +2408,7 @@ sv:
         editor: redigerare
         node: nod
         way: sträcka
+        tag: tagg
       rules:
         title: Regler!
         para_1_html: |-
@@ -2785,12 +2805,15 @@ sv:
       role:
         administrator: Den här användaren är en administratör
         moderator: Den här användaren är en moderator
+        importer: Denna användare är en importör
         grant:
           administrator: Tilldela administratörsrättigheter
           moderator: Tilldela moderatorrättigheter
+          importer: Ge importåtkomst
         revoke:
           administrator: Återkalla administratörsrättigheter
           moderator: Återkalla moderatorrättigheter
+          importer: Återkalla importåtkomst
       block_history: Aktiva blockeringar
       moderator_history: Utdelade blockeringar
       comments: Kommentarer

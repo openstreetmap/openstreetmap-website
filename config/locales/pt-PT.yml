@@ -29,6 +29,7 @@
 # Author: Malafaya
 # Author: Mansil
 # Author: Mansil alfalb
+# Author: Matheusgomesms
 # Author: McDutchie
 # Author: MokaAkashiyaPT
 # Author: Nemo bis
@@ -268,6 +269,7 @@ pt-PT:
         reopened_at_by_html: Reaberto %{when} por %{user}
       rss:
         title: Notas OpenStreetMap
+        description_all: Uma lista de notas denunciadas, comentadas ou fechadas.
         description_area: Lista de notas reportadas, comentadas ou resolvidas na tua
           área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Um feed RSS para a nota %{id} reportada
@@ -624,10 +626,39 @@ pt-PT:
       newer_comments: Comentários mais recentes
       older_comments: Comentários mais antigos
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: O servidor de autorização requer seleção de conta
+          de utilizador final
+        consent_required: O servidor de autorização requer o consentimento do utilizador
+          final
+        interaction_required: O servidor de autorização requer interação com o utilizador
+          final
+        login_required: O servidor de autorização requer autenticação do utilizador
+          final
     flash:
       applications:
         create:
           notice: Aplicação registada.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Falha devido a ausência de
+            configuração de Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Falha devido a ausência de
+            configuração de Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Falha devido a ausência
+            de configuração de Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Falha devido a ausência
+            de configuração de Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Falha na geração de token ID devido a ausência de
+            configuração de Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Ver o teu endereço físico
+      email: Ver o teu endereço eletrónico
+      openid: Autenticar a tua conta
+      phone: Ver o teu número de telefone
+      profile: Ver a tua informação de perfil
   errors:
     contact:
       contact_url_title: Vários canais de contacto explicados
@@ -2078,6 +2109,11 @@ pt-PT:
           de Recursos Naturais do Canadá) e StatCan (Divisão de Geografia, Estatísticas
           do Canadá).'
         contributors_ca_canada: Canadá
+        contributors_cz_credit_html: '%{czechia}: contém dados da Administração Estatal
+          de Topografia e Cadastro sob licença %{cc_licence_link}'
+        contributors_cz_czechia: Chéquia
+        contributors_cz_cc_licence: Atribuição Creative Commons 4.0 Licença Internacional
+          (CC BY 4.0)
         contributors_fi_credit_html: '%{finland}: Contém dados do Serviço Topográfico
           Nacional da Base de Dados Topográfica da Finlândia e outros conjuntos de
           dados, sob a %{nlsfi_license_link}.'
@@ -2597,6 +2633,7 @@ pt-PT:
     permissions:
       missing: Não deste permissão à aplicação para aceder a este serviço
     scopes:
+      openid: Iniciar sessão com OpenStreetMap
       read_prefs: Ler preferências de utilizador
       write_prefs: Modificar preferências de utilizador
       write_diary: Criar entradas de diário, comentar e fazer amigos
@@ -2791,6 +2828,7 @@ pt-PT:
       remove as friend: Remover amigo
       add as friend: Adicionar aos amigos
       mapper since: 'A mapear desde:'
+      uid: 'Id de utilizador:'
       ct status: 'Termos do Contribuidor:'
       ct undecided: Por decidir
       ct declined: Rejeitado
@@ -2801,12 +2839,15 @@ pt-PT:
       role:
         administrator: Este utilizador é um administrador
         moderator: Este utilizador é um moderador
+        importer: Este utilizador é importador
         grant:
           administrator: Dar acesso de administrador
           moderator: Dar acesso de moderador
+          importer: Conceder acesso de importador
         revoke:
           administrator: Retirar acesso de administrador
           moderator: Retirar acesso de moderador
+          importer: Revogar acesso de importador
       block_history: Bloqueios ativos
       moderator_history: Bloqueios aplicados
       comments: Comentários
@@ -3075,6 +3116,7 @@ pt-PT:
         cyclosm: CyclOSM
         cycle_map: Mapa de Ciclismo
         transport_map: Transportes Públicos
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitário
         opnvkarte: ÖPNVKarte
       layers:
@@ -3093,6 +3135,7 @@ pt-PT:
       andy_allan: Andy Allan
       opnvkarte_credit: Mosaicos cortesia de %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Mosaicos cortesia de %{tracestrack_link}
       hotosm_credit: Estilo de mosaicos por %{hotosm_link} hospedado por %{osm_france_link}
       hotosm_name: Equipa Humanitária do OpenStreetMap
     site:
@@ -3122,7 +3165,7 @@ pt-PT:
         graphhopper_car: Carro (GraphHopper)
         graphhopper_foot: A pé (GraphHopper)
         fossgis_valhalla_bicycle: Bicicleta (Valhalla)
-        fossgis_valhalla_car: Automóvel (Valhalla)
+        fossgis_valhalla_car: Carro (Valhalla)
         fossgis_valhalla_foot: Pé (Valhalla)
       descend: Descida
       directions: Direções
