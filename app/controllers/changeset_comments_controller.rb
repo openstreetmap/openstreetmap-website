@@ -1,4 +1,6 @@
 class ChangesetCommentsController < ApplicationController
+  include QueryMethods
+
   before_action :authorize_web
   before_action :set_locale
 
@@ -18,10 +20,13 @@ class ChangesetCommentsController < ApplicationController
       changeset = Changeset.find(id)
 
       # Return comments for this changeset only
-      @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
+      @comments = changeset.comments.includes(:author, :changeset)
+      @comments = query_limit(@comments)
     else
       # Return comments
-      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order("created_at DESC").limit(comments_limit).preload(:changeset)
+      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order("created_at DESC")
+      @comments = query_limit(@comments)
+      @comments = @comments.preload(:changeset)
     end
 
     # Render the result
@@ -30,21 +35,5 @@ class ChangesetCommentsController < ApplicationController
     end
   rescue OSM::APIBadUserInput
     head :bad_request
-  end
-
-  private
-
-  ##
-  # Get the maximum number of comments to return
-  def comments_limit
-    if params[:limit]
-      if params[:limit].to_i.positive? && params[:limit].to_i <= 10000
-        params[:limit].to_i
-      else
-        raise OSM::APIBadUserInput, "Comments limit must be between 1 and 10000"
-      end
-    else
-      100
-    end
   end
 end
