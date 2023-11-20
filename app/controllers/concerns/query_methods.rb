@@ -12,8 +12,9 @@ module QueryMethods
   ##
   # Get query limit value from request parameters and settings
   def query_limit_value
-    max_limit = Settings["max_#{controller_name.singularize}_query_limit"]
-    default_limit = Settings["default_#{controller_name.singularize}_query_limit"]
+    name = controller_path.sub(%r{^api/}, "").tr("/", "_").singularize
+    max_limit = Settings["max_#{name}_query_limit"]
+    default_limit = Settings["default_#{name}_query_limit"]
     if params[:limit]
       if params[:limit].to_i.positive? && params[:limit].to_i <= max_limit
         params[:limit].to_i
