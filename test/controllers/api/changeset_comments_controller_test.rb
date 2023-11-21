@@ -10,6 +10,10 @@ module Api
         { :controller => "api/changeset_comments", :action => "index" }
       )
       assert_routing(
+        { :path => "/api/0.6/changeset_comments.json", :method => :get },
+        { :controller => "api/changeset_comments", :action => "index", :format => "json" }
+      )
+      assert_routing(
         { :path => "/api/0.6/changeset/1/comment", :method => :post },
         { :controller => "api/changeset_comments", :action => "create", :id => "1" }
       )
@@ -67,6 +71,14 @@ module Api
       get api_changeset_comments_path(:user => user1.id)
       assert_response :success
       assert_comments_in_order [comment22, comment21, comment11]
+
+      get api_changeset_comments_path(:from => "2023-03-15T00:00:00Z", :format => "json")
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 2, js["comments"].count
+      assert_equal comment23.id, js["comments"][0]["id"]
+      assert_equal comment22.id, js["comments"][1]["id"]
     end
 
     ##
