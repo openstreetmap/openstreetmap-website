@@ -283,7 +283,6 @@ module Api
     ##
     # if a bounding box was specified do some sanity checks.
     # restrict changesets to those enclosed by a bounding box
-    # we need to return both the changesets and the bounding box
     def conditions_bbox(changesets, bbox)
       if bbox
         bbox.check_boundaries
