@@ -4,6 +4,33 @@ module QueryMethods
   private
 
   ##
+  # Filter the resulting items by user
+  def query_conditions_user(items, filter_property)
+    user = query_conditions_user_value
+    items = items.where(filter_property => user) if user
+    items
+  end
+
+  ##
+  # Get user value for query filtering by user
+  # Raises OSM::APIBadUserInput if user not found like notes api does, changesets api raises OSM::APINotFoundError instead
+  def query_conditions_user_value
+    if params[:display_name] || params[:user]
+      if params[:display_name]
+        user = User.find_by(:display_name => params[:display_name])
+
+        raise OSM::APIBadUserInput, "User #{params[:display_name]} not known" unless user
+      else
+        user = User.find_by(:id => params[:user])
+
+        raise OSM::APIBadUserInput, "User #{params[:user]} not known" unless user
+      end
+
+      user
+    end
+  end
+
+  ##
   # Restrict the resulting items to those created during a particular time period
   # Using 'to' requires specifying 'from' as well for historical reasons
   def query_conditions_time(items, filter_property = :created_at)
