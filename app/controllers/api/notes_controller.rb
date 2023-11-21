@@ -272,29 +272,12 @@ module Api
       @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) if params[:q]
 
       # Add any date filter
-      if params[:from]
-        begin
-          from = Time.parse(params[:from]).utc
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
-        end
-
-        begin
-          to = if params[:to]
-                 Time.parse(params[:to]).utc
-               else
-                 Time.now.utc
-               end
-        rescue ArgumentError
-          raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
-        end
-
-        @notes = if params[:sort] == "updated_at"
-                   @notes.where(:updated_at => from..to)
-                 else
-                   @notes.where(:created_at => from..to)
-                 end
-      end
+      time_filter_property = if params[:sort] == "updated_at"
+                               :updated_at
+                             else
+                               :created_at
+                             end
+      @notes = query_conditions_time(@notes, time_filter_property)
 
       # Choose the sort order
       @notes = if params[:sort] == "created_at"
