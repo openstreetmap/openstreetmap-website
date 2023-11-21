@@ -254,19 +254,8 @@ module Api
       @notes = bbox_condition(@notes)
 
       # Add any user filter
-      if params[:display_name] || params[:user]
-        if params[:display_name]
-          @user = User.find_by(:display_name => params[:display_name])
-
-          raise OSM::APIBadUserInput, "User #{params[:display_name]} not known" unless @user
-        else
-          @user = User.find_by(:id => params[:user])
-
-          raise OSM::APIBadUserInput, "User #{params[:user]} not known" unless @user
-        end
-
-        @notes = @notes.joins(:comments).where(:note_comments => { :author_id => @user })
-      end
+      user = query_conditions_user_value
+      @notes = @notes.joins(:comments).where(:note_comments => { :author_id => user }) if user
 
       # Add any text filter
       @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) if params[:q]

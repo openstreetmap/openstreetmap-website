@@ -908,6 +908,14 @@ module Api
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
+
+      user2 = create(:user)
+      get search_api_notes_path(:user => user2.id, :format => "xml")
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm", :count => 1 do
+        assert_select "note", :count => 0
+      end
     end
 
     def test_search_by_time_success
