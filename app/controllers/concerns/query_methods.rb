@@ -4,6 +4,43 @@ module QueryMethods
   private
 
   ##
+  # Restrict the resulting items to those created during a particular time period
+  # Using 'to' requires specifying 'from' as well for historical reasons
+  def query_conditions_time(items, filter_property = :created_at)
+    interval = query_conditions_time_value
+
+    if interval
+      items.where(filter_property => interval)
+    else
+      items
+    end
+  end
+
+  ##
+  # Get query time interval from request parameters or nil
+  def query_conditions_time_value
+    if params[:from]
+      begin
+        from = Time.parse(params[:from]).utc
+      rescue ArgumentError
+        raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
+      end
+
+      begin
+        to = if params[:to]
+               Time.parse(params[:to]).utc
+             else
+               Time.now.utc
+             end
+      rescue ArgumentError
+        raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
+      end
+
+      from..to
+    end
+  end
+
+  ##
   # Limit the result according to request parameters and settings
   def query_limit(items)
     items.limit(query_limit_value)
