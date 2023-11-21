@@ -311,20 +311,17 @@ class UsersController < ApplicationController
 
   def welcome_options
     uri = URI(session[:referer]) if session[:referer].present?
-    welcome_options = {}
-    welcome_options["oauth_return_url"] = uri&.to_s if uri&.path == oauth_authorization_path
+
+    return { "oauth_return_url" => uri&.to_s } if uri&.path == oauth_authorization_path
 
     begin
       %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
         editor = Rack::Utils.parse_query(uri.query).slice("editor")
-        welcome_options = { "zoom" => m[1],
-                            "lat" => m[2],
-                            "lon" => m[3] }.merge(editor).merge(welcome_options)
+        return { "zoom" => m[1], "lat" => m[2], "lon" => m[3] }.merge(editor)
       end
     rescue StandardError
       # Use default
     end
-    welcome_options
   end
 
   ##
