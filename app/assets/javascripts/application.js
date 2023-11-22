@@ -103,6 +103,8 @@ $(document).ready(function () {
 
     $("body").removeClass("compact-nav");
 
+    $("header").removeClass("text-nowrap");
+
     updateHeader();
 
     $(window).resize(updateHeader);

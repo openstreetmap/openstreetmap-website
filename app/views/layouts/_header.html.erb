@@ -1,4 +1,4 @@
-<header class="closed clearfix">
+<header class="d-flex text-nowrap closed">
   <h1 class="m-0 fw-semibold">
     <a href="<%= root_path %>" class="text-black text-decoration-none geolink">
       <%= image_tag "osm_logo.png", :srcset => image_path("osm_logo.svg"), :alt => t("layouts.logo.alt_text"), :width => 30, :height => 30, :class => "logo" %>
@@ -80,7 +80,7 @@
       </li>
     </ul>
     <% if current_user && current_user.id %>
-      <div class='d-inline-flex dropdown user-menu logged-in clearfix'>
+      <div class='d-inline-flex dropdown user-menu logged-in'>
         <button class='dropdown-toggle btn btn-outline-secondary border-grey bg-white text-secondary px-2 py-1 flex-grow-1' type='button' data-bs-toggle='dropdown'>
           <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-1") %>
           <%= render :partial => "layouts/inbox" %>
