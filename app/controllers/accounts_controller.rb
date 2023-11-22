@@ -53,12 +53,16 @@ class AccountsController < ApplicationController
   end
 
   def destroy
-    current_user.soft_destroy!
+    if current_user.deletion_allowed?
+      current_user.soft_destroy!
 
-    session.delete(:user)
-    session_expires_automatically
+      session.delete(:user)
+      session_expires_automatically
 
-    flash[:notice] = t ".success"
-    redirect_to root_path
+      flash[:notice] = t ".success"
+      redirect_to root_path
+    else
+      head :bad_request
+    end
   end
 end

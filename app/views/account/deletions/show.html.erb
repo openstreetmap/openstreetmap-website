@@ -31,5 +31,13 @@
   <li><%= t ".retain_email" %></li>
 </ul>
 
-<%= link_to t(".delete_account"), account_path, { :method => :delete, :class => "btn btn-danger", :data => { :confirm => t(".confirm_delete") } } %>
+<% if current_user.deletion_allowed? %>
+  <%= link_to t(".delete_account"), account_path, { :method => :delete, :class => "btn btn-danger", :data => { :confirm => t(".confirm_delete") } } %>
+<% else %>
+  <div class="alert alert-warning">
+    <%= t ".recent_editing_html", :time => friendly_date(current_user.deletion_allowed_at) %>
+  </div>
+  <button class="btn btn-secondary" disabled><%= t(".delete_account") %></button>
+<% end %>
+
 <%= link_to t(".cancel"), edit_account_path, :class => "btn btn-link" %>

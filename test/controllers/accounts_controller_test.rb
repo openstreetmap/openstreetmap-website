@@ -152,4 +152,23 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     # Make sure we have a button to "go public"
     assert_select "form.button_to[action='/user/go_public']", true
   end
+
+  def test_destroy_allowed
+    user = create(:user)
+    session_for(user)
+
+    delete account_path
+    assert_response :redirect
+  end
+
+  def test_destroy_not_allowed
+    with_user_account_deletion_delay(24) do
+      user = create(:user)
+      create(:changeset, :user => user, :created_at => Time.now.utc)
+      session_for(user)
+
+      delete account_path
+      assert_response :bad_request
+    end
+  end
 end

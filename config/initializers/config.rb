@@ -79,6 +79,7 @@ Config.setup do |config|
     required(:max_number_of_relation_members).filled(:int?)
     required(:max_issues_count).filled(:int?)
     required(:api_timeout).filled(:int?)
+    required(:user_account_deletion_delay).maybe(:number?)
     required(:imagery_blacklist).maybe(:array?)
     required(:status).filled(:str?, :included_in? => ALLOWED_STATUS)
     required(:avatar_storage).filled(:str?)

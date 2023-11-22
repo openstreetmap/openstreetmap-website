@@ -282,4 +282,62 @@ class UserTest < ActiveSupport::TestCase
     oauth_access_token.reload
     assert_predicate oauth_access_token, :revoked?
   end
+
+  def test_deletion_allowed_when_no_changesets
+    with_user_account_deletion_delay(10000) do
+      user = create(:user)
+      assert_predicate user, :deletion_allowed?
+    end
+  end
+
+  def test_deletion_allowed_without_delay
+    with_user_account_deletion_delay(nil) do
+      user = create(:user)
+      create(:changeset, :user => user)
+      user.reload
+      assert_predicate user, :deletion_allowed?
+    end
+  end
+
+  def test_deletion_allowed_past_delay
+    with_user_account_deletion_delay(10) do
+      user = create(:user)
+      create(:changeset, :user => user, :created_at => Time.now.utc - 12.hours, :closed_at => Time.now.utc - 10.hours)
+      user.reload
+      assert_predicate user, :deletion_allowed?
+    end
+  end
+
+  def test_deletion_allowed_during_delay
+    with_user_account_deletion_delay(10) do
+      user = create(:user)
+      create(:changeset, :user => user, :created_at => Time.now.utc - 11.hours, :closed_at => Time.now.utc - 9.hours)
+      user.reload
+      assert_not_predicate user, :deletion_allowed?
+      assert_equal Time.now.utc + 1.hour, user.deletion_allowed_at
+    end
+  end
+
+  def test_deletion_allowed_past_zero_delay
+    with_user_account_deletion_delay(0) do
+      user = create(:user)
+      create(:changeset, :user => user, :created_at => Time.now.utc, :closed_at => Time.now.utc + 1.hour)
+      travel 90.minutes do
+        user.reload
+        assert_predicate user, :deletion_allowed?
+      end
+    end
+  end
+
+  def test_deletion_allowed_during_zero_delay
+    with_user_account_deletion_delay(0) do
+      user = create(:user)
+      create(:changeset, :user => user, :created_at => Time.now.utc, :closed_at => Time.now.utc + 1.hour)
+      travel 30.minutes do
+        user.reload
+        assert_not_predicate user, :deletion_allowed?
+        assert_equal Time.now.utc + 30.minutes, user.deletion_allowed_at
+      end
+    end
+  end
 end
