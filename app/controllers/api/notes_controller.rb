@@ -389,8 +389,14 @@ module Api
     def add_comment(note, text, event, notify: true)
       attributes = { :visible => true, :event => event, :body => text }
 
-      if current_user
-        attributes[:author_id] = current_user.id
+      if doorkeeper_token || current_token
+        author = current_user if scope_enabled?(:write_notes)
+      else
+        author = current_user
+      end
+
+      if author
+        attributes[:author_id] = author.id
       else
         attributes[:author_ip] = request.remote_ip
       end
