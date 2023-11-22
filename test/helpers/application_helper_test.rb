@@ -57,36 +57,36 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_friendly_date
     date = friendly_date(Time.utc(2014, 3, 5, 18, 58, 23))
-    assert_match %r{^<time title=" *5 March 2014 at 18:58" datetime="2014-03-05T18:58:23Z">.*</time>$}, date
+    assert_match %r{^<time title=" *5 March 2014 at 18:58" datetime="2014-03-05T18:58:23Z" tabindex="0">.*</time>$}, date
 
     date = friendly_date(Time.now.utc - 1.hour)
-    assert_match %r{^<time title=".*">about 1 hour</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">about 1 hour</time>$}, date
 
     date = friendly_date(Time.now.utc - 2.days)
-    assert_match %r{^<time title=".*">2 days</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">2 days</time>$}, date
 
     date = friendly_date(Time.now.utc - 3.weeks)
-    assert_match %r{^<time title=".*">21 days</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">21 days</time>$}, date
 
     date = friendly_date(Time.now.utc - 4.months)
-    assert_match %r{^<time title=".*">4 months</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">4 months</time>$}, date
   end
 
   def test_friendly_date_ago
     date = friendly_date_ago(Time.utc(2014, 3, 5, 18, 58, 23))
-    assert_match %r{^<time title=" *5 March 2014 at 18:58" datetime="2014-03-05T18:58:23Z">.*</time>$}, date
+    assert_match %r{^<time title=" *5 March 2014 at 18:58" datetime="2014-03-05T18:58:23Z" tabindex="0">.*</time>$}, date
 
     date = friendly_date_ago(Time.now.utc - 1.hour)
-    assert_match %r{^<time title=".*">about 1 hour ago</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">about 1 hour ago</time>$}, date
 
     date = friendly_date_ago(Time.now.utc - 2.days)
-    assert_match %r{^<time title=".*">2 days ago</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">2 days ago</time>$}, date
 
     date = friendly_date_ago(Time.now.utc - 3.weeks)
-    assert_match %r{^<time title=".*">21 days ago</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">21 days ago</time>$}, date
 
     date = friendly_date_ago(Time.now.utc - 4.months)
-    assert_match %r{^<time title=".*">4 months ago</time>$}, date
+    assert_match %r{^<time title=".*" tabindex="0">4 months ago</time>$}, date
   end
 
   def test_body_class; end
