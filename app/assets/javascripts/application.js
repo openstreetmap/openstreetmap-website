@@ -115,8 +115,8 @@ $(document).ready(function () {
     $("header").toggleClass("closed");
   });
 
-  $("nav.primary li a").on("click", function () {
-    $("header").toggleClass("closed");
+  $("nav.primary a").on("click", function () {
+    $("header").addClass("closed");
   });
 
   var application_data = $("head").data();
