@@ -138,9 +138,6 @@ module Api
     ##
     # Add a comment to an existing note
     def comment
-      # Check the ACLs
-      raise OSM::APIAccessDenied if current_user.nil? && Acl.no_note_comment(request.remote_ip)
-
       # Check the arguments are sane
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
