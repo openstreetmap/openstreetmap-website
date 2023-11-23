@@ -120,11 +120,7 @@ $(document).ready(function () {
     $(window).resize(updateHeader);
   }, 0);
 
-  $("#menu-icon").on("click", function (e) {
-    e.preventDefault();
-    toggleMenu();
-  });
-
+  $("#menu-icon").on("click", toggleMenu);
   $("nav.primary a").on("click", toggleMenu);
 
   var application_data = $("head").data();
