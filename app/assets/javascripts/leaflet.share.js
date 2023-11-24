@@ -46,6 +46,7 @@ L.OSM.share = function (options) {
         .text(I18n.t("javascripts.share.short_link")))
       .append($("<a class='btn btn-primary'>")
         .attr("for", "embed_html")
+        .attr("id", "embed_link")
         .attr("href", "#")
         .text(I18n.t("javascripts.share.embed")))
       .on("click", "a", function (e) {
@@ -309,6 +310,7 @@ L.OSM.share = function (options) {
     }
 
     function update() {
+      var canEmbed = map.getMapBaseLayerId() !== "tracestracktopo";
       var bounds = map.getBounds();
 
       $("#link_marker")
@@ -332,6 +334,11 @@ L.OSM.share = function (options) {
       if (map.hasLayer(marker)) {
         var latLng = marker.getLatLng().wrap();
         params.marker = latLng.lat + "," + latLng.lng;
+      }
+
+      $("#embed_link").toggleClass("disabled", !canEmbed);
+      if (!canEmbed && $("#embed_link").hasClass("active")) {
+        $("#long_link").click();
       }
 
       $("#embed_html").val(
