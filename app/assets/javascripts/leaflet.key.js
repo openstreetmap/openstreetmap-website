@@ -24,7 +24,7 @@ L.OSM.key = function (options) {
     }
 
     function updateButton() {
-      var disabled = ["mapnik", "cyclemap"].indexOf(map.getMapBaseLayerId()) === -1;
+      var disabled = OSM.LAYERS_WITH_MAP_KEY.indexOf(map.getMapBaseLayerId()) === -1;
       button
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
