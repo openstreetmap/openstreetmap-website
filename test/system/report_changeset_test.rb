@@ -41,5 +41,12 @@ class ReportChangesetTest < ApplicationSystemTestCase
 
     assert_equal @changeset, Issue.last.reportable
     assert_equal "moderator", Issue.last.assigned_role
+
+    sign_in_as(create(:moderator_user))
+    visit issues_path(:status => "open")
+    assert_link :href => changeset_url(@changeset)
+
+    click_on "1 Report"
+    assert_content "This is advertising"
   end
 end
