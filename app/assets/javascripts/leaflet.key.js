@@ -39,11 +39,11 @@ L.OSM.key = function (options) {
 
       $(".mapkey-table-entry").each(function () {
         var data = $(this).data();
-        if (layer === data.layer && zoom >= data.zoomMin && zoom <= data.zoomMax) {
-          $(this).show();
-        } else {
-          $(this).hide();
-        }
+        $(this).toggle(
+          layer === data.layer &&
+          (!data.zoomMin || zoom >= data.zoomMin) &&
+          (!data.zoomMax || zoom <= data.zoomMax)
+        );
       });
     }
   };
