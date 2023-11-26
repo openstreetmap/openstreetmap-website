@@ -1,5 +1,6 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
+//= depend_on key.yml
 //= require qs/dist/qs
 
 OSM = {
@@ -28,6 +29,8 @@ OSM = {
 <% if Settings.key?(:tracestrack_key) %>
   TRACESTRACK_KEY:         <%= Settings.tracestrack_key.to_json %>,
 <% end %>
+
+  LAYERS_WITH_MAP_KEY:     <%= YAML.load_file(Rails.root.join("config/key.yml")).keys.to_json %>,
 
   MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
   MARKER_RED:              <%= image_path("marker-red.png").to_json %>,
