@@ -75,7 +75,7 @@ sc:
       tracetag: Eticheta de su sestadu
       user: Utente
       user_preference: Preferèntzias de s'utente
-      user_token: Còdighe de s'utente
+      user_token: Getone de s'utente
       way: Lìnia
       way_node: Nodu de su caminu
       way_tag: Eticheta de sa lìnia
@@ -274,6 +274,8 @@ sc:
         retain_changeset_discussions: Sos arresonos tuos in sos annantos de modìficas,
           si bi nd'at, s'ant a cunservare.
         retain_email: S'indiritzu tuo de posta eletrònica s'at a cunservare.
+        recent_editing_html: Sende chi as modificadu dae pagu su contu tuo non si
+          podet iscantzellare. Sa cantzelladura at a èssere possìbile in %{time}.
         confirm_delete: Seguru ses?
         cancel: Annulla
   accounts:
@@ -601,10 +603,31 @@ sc:
           de s'utente finale
         interaction_required: Su serbidore de autorizatzione tenet bisòngiu de s'interatzione
           de s'utente finale
+        login_required: Su serbidore de autorizatzione tenet bisòngiu de s'autenticatzione
+          de s'utente finale
     flash:
       applications:
         create:
           notice: Aplicatzione registrada.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Errore pro neghe de sa cunfiguratzione
+            mancante de Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Errore pro neghe de sa cunfiguratzione
+            mancante de Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Errore pro neghe de sa
+            cunfiguratzione mancante de Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Errore pro neghe de sa
+            cunfiguratzione mancante de Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Sa generatzione de su getone ID est fallida pro
+            neghe de sa cunfiguratzione mancante de Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Pòmpia s'indiritzu fìsicu tuo
+      email: Pòmpia s'indiritzu de posta eletrònica tuo
+      openid: Autèntica su contu tuo
+      phone: Pòmpia su nùmeru tuo de telèfonu
+      profile: Pòmpia sas informatziones de su profilu tuo
   errors:
     contact:
       contact_url_title: Canales de cuntatu diferentes ispiegados
@@ -2084,6 +2107,12 @@ sc:
           Naturales de su Cànada), e StatCan (Divisione de Geografia,
           Istatìsticas de su Cànada).
         contributors_ca_canada: Cànada
+        contributors_cz_credit_html: '%{czechia}: Cuntenet datos de s''Amministratzione
+          Istatale pro sa Medida de su Terrinu e de su Catastu cun litzèntzia suta
+          de sa %{cc_licence_link}'
+        contributors_cz_czechia: Tzèchia
+        contributors_cz_cc_licence: Litzèntzia internatzionale Creative Commons Atributzione
+          4.0 (CC BY 4.0)
         contributors_fi_credit_html: |-
           %{finland}: Cuntenet datos dae sa
           base de datos topogràficos de su Servìtziu Natzionale de su Territòriu Finlandesu e àteros annantos de datos, suta de sa %{nlsfi_license_link}.
@@ -2622,6 +2651,7 @@ sc:
     permissions:
       missing: No as cuntzèdidu s'atzessu a custa caraterìstica  a s'aplicatzione
     scopes:
+      openid: Intra impreende OpenStreetMap
       read_prefs: Leghe sas preferèntzias de utente
       write_prefs: Modìfica sas preferèntzias de utente
       write_diary: Crea intradas de su diàriu, cummentos e faghe amistades
@@ -2827,12 +2857,15 @@ sc:
       role:
         administrator: Custu utente est un'amministradore
         moderator: Custu utente est unu moderadore
+        importer: Custu impitadore est un'importadore
         grant:
           administrator: Cuntzede s'atzessu comente amministradore
           moderator: Cuntzede s'atzessu comente moderadore
+          importer: Cuntzede s'atzessu comente importadore
         revoke:
           administrator: Rèvoca s'atzessu comente amministradore
           moderator: Rèvoca s'atzessu comente moderadore
+          importer: Rèvoca s'atzessu comente importadore
       block_history: Blocos ativos
       moderator_history: Blocos fatos
       comments: Cummentos
@@ -3104,6 +3137,7 @@ sc:
         cyclosm: CyclOSM
         cycle_map: Mapa tziclìstica
         transport_map: Mapa de sos trasportos
+        tracestracktop_topo: Tracestrack Topo
         hot: Umanitàriu
         opnvkarte: ÖPNVKarte
       layers:
@@ -3123,6 +3157,7 @@ sc:
       andy_allan: Andy Allan
       opnvkarte_credit: Tasseddos frunidos pro cortesia dae %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Tasseddos frunidos pro cortesia dae %{tracestrack_link}
       hotosm_credit: Istile de sos tasseddos de %{hotosm_link} acasagiadu dae %{osm_france_link}
       hotosm_name: Iscuadra umanitària de OpenStreetMap
     site:

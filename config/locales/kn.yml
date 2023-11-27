@@ -39,6 +39,7 @@ kn:
         update: ನವೀಕರಿಸಿ
       trace:
         create: ಅಪ್ಲೋಡ್
+        update: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
   activerecord:
     errors:
       messages:
@@ -121,6 +122,7 @@ kn:
         home_lon: ರೇಖಾಂಶ
         languages: ಅದ್ಯತೆಯ ಭಾಷೆಗಳು
         pass_crypt: ಪ್ರವೇಶಪದ
+        pass_crypt_confirmation: ಪ್ರವೇಶಪದವನ್ನು ಧೃಡೀಕರಿಸಿ
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -146,8 +148,8 @@ kn:
         one: ೧ ಸೆಕೆಂಡ್ ಹಿಂದೆ
         other: '%{count} ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ'
       x_minutes:
-        one: ೧ ಮಿನಿಟ್ ಹಿಂದೆ
-        other: '%{count} ಮಿನಿಟುಗಳ ಹಿಂದೆ'
+        one: '%{count} ನಿಮಿಷದ ಹಿಂದೆ'
+        other: '%{count} ನಿಮಿಷಗಳ ಹಿಂದೆ'
       x_days:
         one: ೧ ದಿನದ ಹಿಂದೆ
         other: '%{count} ದಿನಗಳ ಹಿಂದೆ'
@@ -168,9 +170,10 @@ kn:
   auth:
     providers:
       none: ಯಾವುದೂ ಇಲ್ಲ
+      openid: ಓಪನ್ ಐಡಿ
       google: ಗೂಗಲ್
       facebook: ಫೇಸ್‍ಬುಕ್
-      microsoft: ವಿಂಡೋಸ್ ಲೈವ್
+      microsoft: ಮೈಕ್ರೋಸಾಫ್ಟ್
       github: ಗಿಟ್‌ಹಬ್
       wikipedia: ವಿಕಿಪೀಡಿಯ
   api:
@@ -204,6 +207,16 @@ kn:
       external auth: ಬಾಹ್ಯ ದೃಢೀಕರಣ
       openid:
         link text: ಇದು ಏನು?
+      public editing:
+        enabled link text: ಇದು ಏನು?
+      contributor terms:
+        link text: ಇದು ಏನು?
+      save changes button: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
+      delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
+    go_public:
+      heading: ಸಾರ್ವಜನಿಕ ಸಂಪಾದನೆ
+    destroy:
+      success: ಖಾತೆಯನ್ನು ಅಳಿಸಲಾಗಿದೆ.
   browse:
     created: ಸೃಷ್ಟಿಸಲ್ಪಟ್ಟ
     closed: ಮುಚ್ಚಲಾಗಿದೆ
@@ -319,6 +332,7 @@ kn:
       km away: '%{count} ಕಿಮೀ ದೂರ'
       m away: '%{count} ಮೀ ದೂರ'
     popup:
+      your location: ನಿಮ್ಮ ಸ್ಥಳ
       friend: ಗೆಳೆಯ
     show:
       my friends: ನನ್ನ ಗೆಳೆಯರು
@@ -337,6 +351,7 @@ kn:
       in_language_title: ದಿನಚರಿ ದಾಖಲಾತಿ %{language}ನಲ್ಲಿ
       new: ಹೊಸದಾದ ದಿನಚರಿ ದಾಖಲು
       new_title: ನನ್ನ ಬಳಕೆದಾರ ದಿನಚರಿಯಲ್ಲಿ ಹೊಸ ದಾಖಲಾತಿ ನಿರ್ಮಿಸಿ
+      my_diary: ನನ್ನ ಡೈರಿ
       no_entries: ದಿನಚರಿ ದಾಖಲಾತಿಗಳಿಲ್ಲ
       recent_entries: ಇತ್ತೀಚೆಗಿನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು
       older_entries: ಹಳೆಯ ದಾಖಲಾತಿಗಳು
@@ -382,15 +397,22 @@ kn:
       comment: ಟಿಪ್ಪಣಿ
       newer_comments: ಹೊಸ ಟಿಪ್ಪಣಿಗಳು
       older_comments: ಹಳೆ ಟಿಪ್ಪಣಿಗಳು
+  friendships:
+    make_friend:
+      button: ಸ್ನೇಹಿತರಾಗಿ ಸೇರಿಸಿ
   geocoder:
     search_osm_nominatim:
       prefix:
+        aeroway:
+          helipad: ಹೆಲಿಪ್ಯಾಡ್
         amenity:
+          arts_centre: ಕಲಾ ಕೇಂದ್ರ
           atm: ಎಟಿಎಂ
           bank: ಬ್ಯಾಂಕ್
           bar: ಬಾರ್
           bench: ‍ಬೆಂಚ್
           bicycle_parking: ‍‍ಸೈಕಲ್ ನಿಲುಗಡೆ
+          brothel: ವೇಶ್ಯಾಗೃಹ
           bus_station: ಬಸ್ ನಿಲ್ದಾಣ
           cafe: ಕೆಫೆ
           car_rental: ಬಾಡಿಗೆ ಕಾರು
@@ -410,7 +432,8 @@ kn:
           ferry_terminal: ‍‍ಹಾಯಿದೋಣಿ ನಿಲ್ದಾಣ
           fire_station: ‍‍ಅಗ್ನಿಶಾಮಕ ಠಾಣೆ
           fountain: ‍ಕಾರಂಜಿ
-          fuel: ‍ಇಂಧನ
+          fuel: ಪೆಟ್ರೊಲ್ ಪಂಪ್
+          gambling: ಜೂಜಾಟ
           grave_yard: ಸ್ಮಾಶಾನ
           hospital: ಆಸ್ಪತ್ರೆ
           ice_cream: ‍ಐಸ್ ಕ್ರೀಂ
@@ -418,17 +441,20 @@ kn:
           library: ಗ್ರಂಥಾಲಯ
           marketplace: ‍‍ಮಾರುಕಟ್ಟೆ
           monastery: ‍‍ಮಠ
+          parking: ಪಾರ್ಕಿಂಗ್
           pharmacy: ‍‍ಔ‍ಷಧಾಲಯ
           place_of_worship: ‍‍ಆರಾಧನಾ ಮಂದಿರ
           police: ಆರಕ್ಷಕ
           post_box: ಟಪಾಲು
           post_office: ಅಂಚೆ ಕಛೇರಿ
           prison: ಕಾರಾಗೃಹ
+          pub: ಪಬ್
           public_building: ಸಾರ್ವಜನಿಕ ಕಟ್ಟಡ
           restaurant: ‍‍ರೆಸ್ಟೋರೆಂಟ್
           school: ಶಾಲೆ
           social_centre: ಸಾಮಾಜಿಕ ತಾಣ
           swimming_pool: ಈಜು ಕೊಳ
+          taxi: ಟ್ಯಾಕ್ಸಿ
           theatre: ಕಲಾಭವನ
           toilets: ಶೌಚಾಲಯ
           townhall: ‍‍‍‍ಪುರಭವನ
@@ -444,12 +470,24 @@ kn:
         bridge:
           "yes": ಸೇತುವೆ
         building:
+          bungalow: ಬಂಗಲೆ
+          hospital: ಆಸ್ಪತ್ರೆ ಕಟ್ಟಡ
+          hotel: ಹೋಟೆಲ್ ಕಟ್ಟಡ
+          house: ಮನೆ
+          houseboat: ಹೌಸ್ ಬೋಟ್
+          hut: ಗುಡಿಸಲು
+          industrial: ಕೈಗಾರಿಕಾ ಕಟ್ಟಡ
+          kindergarten: ಶಿಶುವಿಹಾರ ಕಟ್ಟಡ
+          manufacture: ಉತ್ಪಾದನಾ ಕಟ್ಟಡ
+          office: ಕಚೇರಿ ಕಟ್ಟಡ
           public: ಸಾರ್ವಜನಿಕ ಕಟ್ಟಡ
+          residential: ವಸತಿ ಕಟ್ಟಡ
           roof: ಛಾವಣಿ
           school: ಶಾಲಾ ಕಟ್ಟಡ
           "yes": ಕಟ್ಟಡ
         craft:
           carpenter: ಬಡಗಿ
+          electrician: ಎಲೆಕ್ಟ್ರಿಷಿಯನ್
           photographer: ಛಾಯಾಗ್ರಾಹಕ
           tailor: ‍‍‍ದರ್ಜಿ
           "yes": ‍‍‍‍ಕರಕುಶಲ ಅಂಗಡಿಯು
@@ -478,13 +516,17 @@ kn:
           railway: ಐತಿಹಾಸಿಕ ರೈಲ್ವೆ
           roman_road: ರೋಮನ್ ರಸ್ತೆ
           stone: ಕಲ್ಲು
+          tomb: ಸಮಾಧಿ
           tower: ಗೋಪುರ
+        junction:
+          "yes": ಜಂಕ್ಷನ್
         landuse:
           cemetery: ಸ್ಮಶಾನ
           forest: ಅರಣ್ಯ
           grass: ‍ಹುಲ್ಲು
           mine: ಗಣಿ
           orchard: ತೋಟ
+          reservoir: ಜಲಾಶಯ
         leisure:
           dog_park: ಶ್ವಾನ ಉದ್ಯಾನ
           garden: ತೋಟ
@@ -527,9 +569,12 @@ kn:
           administrative: ಆಡಳಿತ
           architect: ವಾಸ್ತುಶಿಲ್ಪಿ
           company: ಕಂಪನಿ
+          educational_institution: ಶೈಕ್ಷಣಿಕ ಸಂಸ್ಥೆ
+          employment_agency: ಉದ್ಯೋಗ ಸಂಸ್ಥೆ
           government: ಸರ್ಕಾರಿ ಕಛೇರಿ
           lawyer: ವಕೀಲ
           ngo: ಸರ್ಕಾರೇತರ ಕಛೇರಿ
+          tax_advisor: ತೆರಿಗೆ ಸಲಹೆಗಾರರು
           "yes": ಕಛೇರಿ
         place:
           archipelago: ದ್ವೀಪ ಸಮೂಹ
@@ -549,6 +594,7 @@ kn:
           halt: ರೈಲು ನಿಲ್ದಾಣ
           junction: ರೈಲು ಜಂಕ್ಷನ್
           monorail: ಮೊನೊರೈಲು
+          rail: ರೈಲು
           station: ರೈಲು ನಿಲ್ದಾಣ
           stop: ರೈಲು ನಿಲ್ದಾಣ
         shop:
@@ -562,11 +608,13 @@ kn:
           chocolate: ಚಾಕೊಲೇಟ್
           clothes: ಬಟ್ಟೆಯ ಅಂಗಡಿ
           computer: ಗಣಕಯಂತ್ರದ ಅಂಗಡಿ
+          dairy: ಡೈರಿ ಅಂಗಡಿ
           florist: ಹೂವಿನಂಗಡಿ
           furniture: ‍‍‍‍‍ಪೀಠೋಪಕರಣ
           general: ಕಿರಾಣಿ ಅಂಗಡಿ
           gift: ಉಡುಗೊರೆ ಅಂಗಡಿ
           jewelry: ಆಭರಣಗಳ ಆಂಗಡಿ
+          kitchen: ಅಡುಗೆ ಅಂಗಡಿ
           "yes": ಅಂಗಡಿ
         tourism:
           hostel: ‍ವಸತಿ ನಿಲಯ
@@ -599,8 +647,15 @@ kn:
     index:
       search: ಹುಡುಕು
       user_not_found: ಬಳಕೆದಾರ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ
+      status: ಸ್ಥಿತಿಗತಿ
       reports: ವರದಿಗಳು
+      last_updated: ಕೊನೆಯ ಬದಲಾವಣೆ
+      states:
+        open: ತೆರೆ
+        resolved: ಪರಿಹರಿಸಲಾಗಿದೆ
     show:
+      resolve: ಪರಿಹರಿಸಿ
+      ignore: ನಿರ್ಲಕ್ಷಿಸಿ
       new_reports: ಹೊಸ ವರದಿಗಳು
   reports:
     new:
@@ -625,10 +680,13 @@ kn:
     export_data: ದತ್ತಾಂಶ ರಫ್ತುಮಾಡು
     intro_header: ಒಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಗೆ  ಸುಸ್ವಾಗತ!
     intro_2_create_account: ಹೊಸ ಬಳಕೆದಾರ ಖಾತೆಯನ್ನು ರಚಿಸಿ
+    partners_ucl: ಯುಸಿಎಲ್
+    partners_bytemark: ಬೈಟ್ಮಾರ್ಕ್ ಹೋಸ್ಟಿಂಗ್
     tou: ಬಳಕೆಯ ನಿಬಂಧನೆಗಳು
     help: ಸಹಾಯ
     about: ನಮ್ಮ ಬಗ್ಗೆ
     copyright: ಕಾಯ್ದಿರಿಸಿದ ಹಕ್ಕುಗಳು
+    communities: ಸಮುದಾಯಗಳು
     community: ಸಮುದಾಯ
     community_blogs: ಸಮುದಾಯದ ಬ್ಲಾಗ್ ಗಳು
     make_a_donation:
@@ -651,6 +709,11 @@ kn:
       greeting: ನಮಸ್ತೆ,
     changeset_comment_notification:
       greeting: ನಮಸ್ತೆ,
+  confirmations:
+    confirm:
+      button: ಧೃಡಪಡಿಸಿ
+    confirm_email:
+      button: ಧೃಡಪಡಿಸಿ
   messages:
     inbox:
       from: ಇಂದ
@@ -662,6 +725,9 @@ kn:
     new:
       title: ಸಂದೇಶ ಕಳುಹಿಸಿ
       send_message_to_html: ಹೊಸ ಸಂದೇಶವನ್ನು %{name} ಗೆ ಕಳುಹಿಸಿ
+    no_such_message:
+      title: ಅಂತಹ ಯಾವುದೇ ಸಂದೇಶವಿಲ್ಲ
+      heading: ಅಂತಹ ಯಾವುದೇ ಸಂದೇಶವಿಲ್ಲ
     outbox:
       to: ಗೆ
       subject: ವಿಷಯ
@@ -688,15 +754,35 @@ kn:
   preferences:
     show:
       title: ನನ್ನ ಪ್ರಾಶಸ್ತ್ಯಗಳು
+      preferred_languages: ಅದ್ಯತೆಯ ಭಾಷೆಗಳು
+      edit_preferences: ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು ಸಂಪಾದಿಸಿ
+    edit:
+      title: ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು ಸಂಪಾದಿಸಿ
   profiles:
     edit:
       image: ಚಿತ್ರ
+      show: ತೋರಿಸಿ
+      delete: ಅಳಿಸಿ
   sessions:
     new:
       title: ಲಾಗ್ ಇನ್
       heading: ಲಾಗಿನ್
       password: 'ಪ್ರವೇಶಪದ:'
       login_button: ಲಾಗಿನ್
+      auth_providers:
+        google:
+          title: ಗೂಗಲ್ ಮೂಲಕ ಲಾಗಿನ್ ಆಗಿರಿ
+          alt: ಗೂಗಲ್ ಓಪನ್ ಐಡಿಯೊಂದಿಗೆ ಲಾಗಿನ್ ಮಾಡಿ
+        facebook:
+          title: ಫೇಸ್ಬುಕ್ ಮೂಲಕ ಲಾಗಿನ್ ಆಗಿರಿ
+          alt: ಫೇಸ್ಬುಕ್ ಖಾತೆಯೊಂದಿಗೆ ಲಾಗಿನ್ ಮಾಡಿ
+        microsoft:
+          alt: ಮೈಕ್ರೋಸಾಫ್ಟ್ ಖಾತೆಯೊಂದಿಗೆ ಪ್ರವೇಶಿಸಿ
+        github:
+          alt: ಗಿಟ್ಹಬ್ ಖಾತೆಯೊಂದಿಗೆ ಲಾಗಿನ್ ಮಾಡಿ
+        wikipedia:
+          title: ವಿಕಿಪೀಡಿಯದೊಂದಿಗೆ ಪ್ರವೇಶಿಸಿ
+          alt: ವಿಕಿಪೀಡಿಯ ಖಾತೆಯೊಂದಿಗೆ ಪ್ರವೇಶಿಸಿ
     destroy:
       title: ಲಾಗ್ ಔಟ್
       logout_button: ಲಾಗ್ ಔಟ್
@@ -717,6 +803,7 @@ kn:
   site:
     about:
       next: ಮುಂದಿನ
+      local_knowledge_title: ಸ್ಥಳೀಯ ಜ್ಞಾನ
       open_data_title: ಮುಕ್ತ ದತ್ತಾಂಶ
     copyright:
       foreign:
@@ -727,6 +814,19 @@ kn:
         mapping_link: ನಕ್ಷೆಯನ್ನು ಸಂಪಾದಿಸಿಲು ಪ್ರಾರಂಭಿಸಿ
       legal_babble:
         title_html: ಕೃತಿಸ್ವಾಮ್ಯ ಮತ್ತು ಪರವಾನಗಿ
+        contributors_at_austria: ಆಸ್ಟ್ರಿಯಾ
+        contributors_au_australia: ಆಸ್ಟ್ರೇಲಿಯಾ
+        contributors_ca_canada: ಕೆನಡಾ
+        contributors_cz_czechia: ಜೆಕಿಯಾ
+        contributors_fi_finland: ಫಿನ್ಲ್ಯಾಂಡ್
+        contributors_fr_france: ಫ಼್ರಾನ್ಸ್
+        contributors_nl_netherlands: ನೆದರ್ಲೆಂಡ್
+        contributors_nz_new_zealand: ನ್ಯೂಜಿಲ್ಯಾಂಡ್
+        contributors_rs_serbia: ಸರ್ಬಿಯಾ
+        contributors_si_slovenia: ಸ್ಲೊವೆನಿಯಾ
+        contributors_es_spain: ಸ್ಪೇನ್
+        contributors_za_south_africa: ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ
+        contributors_gb_united_kingdom: ಯುನೈಟೆಡ್ ಕಿಂಗ್ಡಮ್
     export:
       title: ರಫ್ತು ಮಾಡು
       licence: ಪರವಾನಗಿ
@@ -792,11 +892,23 @@ kn:
   traces:
     new:
       help: ಸಹಾಯ
+  oauth_clients:
+    show:
+      edit: ವಿವರಗಳನ್ನು ಸಂಪಾದಿಸಿ
+  oauth2_applications:
+    application:
+      edit: ಸಂಪಾದಿಸಿ
+      delete: ಅಳಿಸಿ
+    show:
+      edit: ಸಂಪಾದಿಸಿ
   users:
     terms:
       legale_names:
         france: ಫ಼್ರಾನ್ಸ್
         italy: ಇಟಲಿ
+    show:
+      my messages: ನನ್ನ ಸಂದೇಶಗಳು
+      edits: ಸಂಪಾದನೆಗಳು
   user_blocks:
     show:
       created: 'ಸೃಷ್ಟಿಸಲ್ಪಟ್ಟಿದೆ:'
