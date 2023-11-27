@@ -17,15 +17,11 @@
 
     <% if current_user %>
       <div class="col-auto">
-        <div class="subscribe-buttons">
-          <form action="#">
-            <% if @changeset.subscribers.exists?(current_user.id) %>
-              <input class="action-button btn btn-sm btn-primary" type="submit" name="unsubscribe" value="<%= t("javascripts.changesets.show.unsubscribe") %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
-            <% else %>
-              <input class="action-button btn btn-sm btn-primary" type="submit" name="subscribe" value="<%= t("javascripts.changesets.show.subscribe") %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
-            <% end %>
-          </form>
-        </div>
+        <% if @changeset.subscribers.exists?(current_user.id) %>
+          <button class="action-button btn btn-sm btn-primary" name="unsubscribe" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>"><%= t("javascripts.changesets.show.unsubscribe") %></button>
+        <% else %>
+          <button class="action-button btn btn-sm btn-primary" name="subscribe" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>"><%= t("javascripts.changesets.show.subscribe") %></button>
+        <% end %>
       </div>
     <% end %>
   </div>
@@ -39,8 +35,7 @@
               <li id="c<%= comment.id %>">
                 <small class='text-muted'>
                   <%= t(".comment_by_html",
-                        :time_ago => tag.abbr(friendly_date_ago(comment.created_at),
-                                              :title => l(comment.created_at)),
+                        :time_ago => friendly_date_ago(comment.created_at),
                         :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   <% if current_user and current_user.moderator? %>
                     — <span class="action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></span>
@@ -54,8 +49,7 @@
               <li id="c<%= comment.id %>">
                 <small class='text-muted'>
                   <%= t(".hidden_comment_by_html",
-                        :time_ago => tag.abbr(friendly_date_ago(comment.created_at),
-                                              :title => l(comment.created_at)),
+                        :time_ago => friendly_date_ago(comment.created_at),
                         :user => link_to(comment.author.display_name, user_path(comment.author))) %>
                   — <span class="action-button text-muted" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>
                  </small>
@@ -82,7 +76,7 @@
         <div class="mb-3">
           <textarea class="form-control" name="text" cols="40" rows="5"></textarea>
         </div>
-        <div id="comment-error" class="alert-danger p-2 mb-3" hidden>
+        <div id="comment-error" class="alert alert-danger p-2 mb-3" hidden>
         </div>
         <div>
           <input type="submit" name="comment" value="<%= t("javascripts.changesets.show.comment") %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1" class="btn btn-sm btn-primary" />

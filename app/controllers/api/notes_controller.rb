@@ -138,9 +138,6 @@ module Api
     ##
     # Add a comment to an existing note
     def comment
-      # Check the ACLs
-      raise OSM::APIAccessDenied if current_user.nil? && Acl.no_note_comment(request.remote_ip)
-
       # Check the arguments are sane
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
@@ -389,8 +386,14 @@ module Api
     def add_comment(note, text, event, notify: true)
       attributes = { :visible => true, :event => event, :body => text }
 
-      if current_user
-        attributes[:author_id] = current_user.id
+      if doorkeeper_token || current_token
+        author = current_user if scope_enabled?(:write_notes)
+      else
+        author = current_user
+      end
+
+      if author
+        attributes[:author_id] = author.id
       else
         attributes[:author_ip] = request.remote_ip
       end

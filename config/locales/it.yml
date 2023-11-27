@@ -288,6 +288,7 @@ it:
         reopened_at_by_html: Riaperta %{when} da %{user}
       rss:
         title: Note di OpenStreetMap
+        description_all: Un elenco di note segnalate, commentate o chiuse
         description_area: Una lista di note inserite, commentate o chiuse nella tua
           area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Feed rss per la nota %{id}
@@ -542,6 +543,7 @@ it:
     contact:
       km away: distante %{count} km
       m away: '%{count}m di distanza'
+      latest_edit_html: 'Ultima modifica (%{ago}):'
     popup:
       your location: Propria posizione
       nearby mapper: Mappatore vicino
@@ -639,10 +641,39 @@ it:
       newer_comments: Commenti più recenti
       older_comments: Commenti più vecchi
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Il server di autorizzazione richiede la selezione
+          dell'account dell'utente finale
+        consent_required: Il server di autorizzazione richiede il consenso dell'utente
+          finale
+        interaction_required: Il server di autorizzazione richiede un'interazione
+          da parte dell'utente finale
+        login_required: Il server di autorizzazione richiede l'autenticazione dell'utente
+          finale
     flash:
       applications:
         create:
           notice: Applicazione registrata.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: La generazione del token ID è fallita a causa della
+            configurazione mancante di Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vedi il tuo indirizzo fisico
+      email: Vedi il tuo indirizzo e-mail
+      openid: Autentica la tua utenza
+      phone: Vedi il tuo numero di telefono
+      profile: Vedi le informazioni del tuo profilo
   errors:
     contact:
       contact_url_title: Sommario dei vari canali di contatto
@@ -2103,6 +2134,9 @@ it:
           Resources Canada), e della StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Canada
+        contributors_cz_cc_licence: Licenza internazionale Creative Commons Attribuzione
+          4.0 (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.it
         contributors_fi_credit_html: '%{finland}: Contiene i dati del database topografico
           del National Land Survey della Finlandia e altri dataset, rilasciati con
           %{nlsfi_license_link}.'
@@ -2126,6 +2160,7 @@ it:
           (informazioni pubbliche della Serbia), 2018.
         contributors_rs_serbia: Serbia
         contributors_rs_rgz: Autorità geodetica serba
+        contributors_rs_open_data_portal: Portale nazionale degli open data
         contributors_si_credit_html: |-
           %{slovenia}: Contiene i dati provenienti dall'%{gu_link} e dal %{mkgp_link}
           (informazioni pubbliche della Slovenia).
@@ -2631,6 +2666,7 @@ it:
     permissions:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
     scopes:
+      openid: Accedi utilizzando OpenStreetMap
       read_prefs: Leggi preferenze utente
       write_prefs: Modifica le preferenze utente
       write_diary: Crea voci del diario, commenti e fai amicizia
@@ -2824,7 +2860,6 @@ it:
       ct status: 'Termini di collaborazione:'
       ct undecided: Indeciso
       ct declined: Non accetto
-      latest edit: 'Ultima modifica (%{ago}):'
       email address: 'Indirizzo email:'
       created from: 'Creato da:'
       status: 'Stato:'
@@ -2832,12 +2867,15 @@ it:
       role:
         administrator: Questo utente è un amministratore
         moderator: Questo utente è un moderatore
+        importer: Questo utente è un importatore
         grant:
           administrator: Assegna l'accesso come amministratore
           moderator: Assegna l'accesso come moderatore
+          importer: Concedi l'accesso come importatore
         revoke:
           administrator: Revoca l'accesso come amministratore
           moderator: Revoca l'accesso come moderatore
+          importer: Revoca l'accesso come importatore
       block_history: Blocchi attivi
       moderator_history: Blocchi applicati
       comments: Commenti
@@ -2944,8 +2982,8 @@ it:
     revoke:
       title: Revoca del blocco su %{block_on}
       heading_html: Revoca del blocco su %{block_on} imposto da %{block_by}
-      time_future: Questo blocco terminerà fra %{time}.
-      past: Questo blocco è terminato %{time} e non può essere revocato ora.
+      time_future_html: Questo blocco terminerà fra %{time}.
+      past_html: Questo blocco è terminato %{time} e non può essere revocato ora.
       confirm: Sei sicuro di voler revocare questo blocco?
       revoke: Revoca!
       flash: Questo blocco è stato revocato.
@@ -3103,6 +3141,7 @@ it:
         cyclosm: CyclOSM
         cycle_map: Mappa ciclabile
         transport_map: Mappa dei trasporti
+        tracestracktop_topo: Tracestrack Topo
         hot: Umanitario
         opnvkarte: ÖPNVKarte
       layers:
@@ -3121,6 +3160,7 @@ it:
       andy_allan: Andy Allan
       opnvkarte_credit: Tasselli per gentile concessione di %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Tasselli per gentile concessione di %{tracestrack_link}
       hotosm_credit: Stile tasselli di %{hotosm_link} ospitato da %{osm_france_link}
       hotosm_name: La squadra di OpenStreetMap Humanitarian
     site:
@@ -3136,7 +3176,7 @@ it:
       show:
         comment: Commenta
         subscribe: Iscriviti
-        unsubscribe: Cancella iscrizione
+        unsubscribe: Annulla iscrizione
         hide_comment: nascondi
         unhide_comment: Rendi visibile
     edit_help: Sposta la mappa e usa lo zoom sulla posizione che vuoi modificare,

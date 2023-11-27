@@ -104,11 +104,11 @@ class UsersController < ApplicationController
         render :action => "new"
       elsif current_user.auth_provider.present?
         # Verify external authenticator before moving on
-        session[:new_user] = current_user
+        session[:new_user] = current_user.attributes.slice("email", "display_name", "pass_crypt")
         redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
       else
         # Save the user record
-        session[:new_user] = current_user
+        session[:new_user] = current_user.attributes.slice("email", "display_name", "pass_crypt")
         redirect_to :action => :terms
       end
     end
@@ -170,7 +170,10 @@ class UsersController < ApplicationController
 
       redirect_to referer || edit_account_path
     else
-      self.current_user = session.delete(:new_user)
+      new_user = session.delete(:new_user)
+      verified_email = new_user.delete("verified_email")
+
+      self.current_user = User.new(new_user)
 
       if check_signup_allowed(current_user.email)
         current_user.data_public = true
@@ -184,6 +187,8 @@ class UsersController < ApplicationController
         if current_user.auth_uid.blank?
           current_user.auth_provider = nil
           current_user.auth_uid = nil
+        elsif current_user.email == verified_email
+          current_user.activate
         end
 
         if current_user.save
@@ -272,10 +277,9 @@ class UsersController < ApplicationController
 
       redirect_to edit_account_path
     elsif session[:new_user]
-      session[:new_user].auth_provider = provider
-      session[:new_user].auth_uid = uid
-
-      session[:new_user].activate if email_verified && email == session[:new_user].email
+      session[:new_user]["auth_provider"] = provider
+      session[:new_user]["auth_uid"] = uid
+      session[:new_user]["verified_email"] = email if email_verified
 
       redirect_to :action => "terms"
     else

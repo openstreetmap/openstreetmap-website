@@ -501,6 +501,7 @@ eo:
     contact:
       km away: '%{count} km for'
       m away: '%{count} m for'
+      latest_edit_html: 'Lasta redakto (%{ago}):'
     popup:
       your location: Via loko
       nearby mapper: Proksima uzanto
@@ -596,10 +597,35 @@ eo:
       newer_comments: Pli novaj komentoj
       older_comments: Pli malnovaj komentoj
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: La rajtiga servilo postulas elekti konton de uzanto
+        consent_required: La rajtiga servilo postulas konsenton de uzanto
+        interaction_required: La rajtiga servilo postulas interagon de uzanton
+        login_required: La rajtiga servilo postulas rajtigon de uzanto
     flash:
       applications:
         create:
           notice: Registris aplikaĵon.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Malsukceso pro mankanta agordo
+            «Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner».
+          reauthenticate_resource_owner_not_configured: Malsukceso pro mankanta agordo
+            «Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner».
+          resource_owner_from_access_token_not_configured: Malsukceso pro mankanta
+            agordo «Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token».
+          select_account_for_resource_owner_not_configured: Malsukceso pro mankanta
+            agordo «Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner».
+          subject_not_configured: Generado de identigil-ĵetono mmalsukcesis pro mankanta
+            agordo «Doorkeeper::OpenidConnect.configure.subject».
+    scopes:
+      address: legi viajn real-mondajn adresojn
+      email: legi viajn retpoŝtajn adresojn
+      openid: aŭtentigi vian konton
+      phone: legi vian telefonnumeron
+      profile: legi informojn de via profilo
   errors:
     contact:
       contact_url_title: klarigo pri diversaj kontakt-kanaloj
@@ -2038,6 +2064,11 @@ eo:
           Ministerio pri Naturaj Rimedoj de Kanado) kaj StatCan (Geografia Divido,
           Statistikoj Kanado).'
         contributors_ca_canada: Kanado
+        contributors_cz_credit_html: '%{czechia}: enhavas datumojn el Ŝtata Ofico
+          de Termezurado kaj Kadastro laŭ la permesilo %{cc_licence_link}.'
+        contributors_cz_czechia: Ĉeĥujo
+        contributors_cz_cc_licence: Krea Komunaĵo Atribuite 4.0 Tutmonda (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.eo
         contributors_fi_credit_html: '%{finland}: enhavas datumojn el la topografia
           datumbazo de Termezurada Ofico de Finnlando «Maanmittauslaitos» kaj el aliaj
           ĝiaj datumaroj laŭ la permesilo %{nlsfi_license_link}.'
@@ -2541,12 +2572,13 @@ eo:
     authorize_failure:
       title: Rajtiga peto malakceptita
       denied: Vi malpermesis al aplikaĵo %{app_name} aliron al via konto
-      invalid: La rajtiga ĵeto ne plu validas.
+      invalid: La rajtiga ĵetono ne plu validas.
     revoke:
       flash: Vi malvalidigis la ĵetonon por %{application}
     permissions:
       missing: Vi ne permesis al aplikaĵo aliri al ĉi tiu eblo
     scopes:
+      openid: ensaluti uzante OpenStreetMap
       read_prefs: legi preferojn de uzanto
       write_prefs: modifi preferojn de uzanto
       write_diary: afiŝi en taglibro, komenti kaj aldoni amikojn
@@ -2739,7 +2771,6 @@ eo:
       ct status: 'Interkonsento pri kontribuado:'
       ct undecided: ne decidita
       ct declined: malakceptita
-      latest edit: 'Lasta redakto (%{ago}):'
       email address: 'Retpoŝtadreso:'
       created from: 'Kreita de:'
       status: 'Stato:'
@@ -2747,12 +2778,15 @@ eo:
       role:
         administrator: Ĉi tiu uzanto estas administranto
         moderator: Ĉi tiu uzanto estas kontrolanto
+        importer: Tiu ĉi uzanto estas enportisto
         grant:
           administrator: Permesi aliron de administranto
           moderator: Permesi aliron de kontrolanto
+          importer: Permesi aliron de enportisto
         revoke:
           administrator: Nuligi aliron de administranto
           moderator: Nuligi aliron de kontrolanto
+          importer: Nuligi aliron de enportisto
       block_history: Blokadoj aktivaj
       moderator_history: Blokadoj eldonitaj
       comments: Komentoj
@@ -2855,8 +2889,8 @@ eo:
     revoke:
       title: Nuligado de blokado por %{block_on}
       heading_html: Nuligado de blokado por %{block_on} kreitaj de %{block_by}
-      time_future: Ĉi tiu blokado finiĝos je %{time}.
-      past: La blokado finiĝis %{time} kaj ĝi ne povas esti nuligita nun.
+      time_future_html: Ĉi tiu blokado finiĝos je %{time}.
+      past_html: La blokado finiĝis %{time} kaj ĝi ne povas esti nuligita nun.
       confirm: Ĉu vi certe volas nuligi ĉi tiun blokadon?
       revoke: Malbloki!
       flash: Ĉi tiu blokado estas nuligita.
@@ -3014,6 +3048,7 @@ eo:
         cyclosm: CyclOSM
         cycle_map: Biciklada mapo
         transport_map: Transporta mapo
+        tracestracktop_topo: Topografia mapo
         hot: Hom-helpa mapo
         opnvkarte: ÖPNVKarte
       layers:
@@ -3032,6 +3067,7 @@ eo:
       andy_allan: Andy ALLAN
       opnvkarte_credit: Kaheloj danke al %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Kaheloj danke al %{tracestrack_link}
       hotosm_credit: 'Stilo de kaheloj: %{hotosm_link}, retgastigo: %{osm_france_link}'
       hotosm_name: HOTOSM
     site:

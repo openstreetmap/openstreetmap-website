@@ -17,13 +17,6 @@ CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
-
-
---
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -98,7 +91,8 @@ CREATE TYPE public.nwr_enum AS ENUM (
 
 CREATE TYPE public.user_role_enum AS ENUM (
     'administrator',
-    'moderator'
+    'moderator',
+    'importer'
 );
 
 
@@ -115,7 +109,69 @@ CREATE TYPE public.user_status_enum AS ENUM (
 );
 
 
+--
+-- Name: api_rate_limit(bigint); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.api_rate_limit(user_id bigint) RETURNS integer
+    LANGUAGE plpgsql STABLE
+    AS $$
+    DECLARE
+      min_changes_per_hour int4 := 100;
+      initial_changes_per_hour int4 := 1000;
+      max_changes_per_hour int4 := 100000;
+      days_to_max_changes int4 := 7;
+      importer_changes_per_hour int4 := 1000000;
+      moderator_changes_per_hour int4 := 1000000;
+      roles text[];
+      last_block timestamp without time zone;
+      first_change timestamp without time zone;
+      active_reports int4;
+      time_since_first_change double precision;
+      max_changes double precision;
+      recent_changes int4;
+    BEGIN
+      SELECT ARRAY_AGG(user_roles.role) INTO STRICT roles FROM user_roles WHERE user_roles.user_id = api_rate_limit.user_id;
+
+      IF 'moderator' = ANY(roles) THEN
+        max_changes := moderator_changes_per_hour;
+      ELSIF 'importer' = ANY(roles) THEN
+        max_changes := importer_changes_per_hour;
+      ELSE
+        SELECT user_blocks.created_at INTO last_block FROM user_blocks WHERE user_blocks.user_id = api_rate_limit.user_id ORDER BY user_blocks.created_at DESC LIMIT 1;
+
+        IF FOUND THEN
+          SELECT changesets.created_at INTO first_change FROM changesets WHERE changesets.user_id = api_rate_limit.user_id AND changesets.created_at > last_block ORDER BY changesets.created_at LIMIT 1;
+        ELSE
+          SELECT changesets.created_at INTO first_change FROM changesets WHERE changesets.user_id = api_rate_limit.user_id ORDER BY changesets.created_at LIMIT 1;
+        END IF;
+
+        IF NOT FOUND THEN
+          first_change := CURRENT_TIMESTAMP AT TIME ZONE 'UTC';
+        END IF;
+
+        SELECT COUNT(*) INTO STRICT active_reports
+        FROM issues INNER JOIN reports ON reports.issue_id = issues.id
+        WHERE issues.reported_user_id = api_rate_limit.user_id AND issues.status = 'open' AND reports.updated_at >= COALESCE(issues.resolved_at, '1970-01-01');
+
+        time_since_first_change := EXTRACT(EPOCH FROM CURRENT_TIMESTAMP AT TIME ZONE 'UTC' - first_change);
+
+        max_changes := max_changes_per_hour * POWER(time_since_first_change, 2) / POWER(days_to_max_changes * 24 * 60 * 60, 2);
+        max_changes := GREATEST(initial_changes_per_hour, LEAST(max_changes_per_hour, FLOOR(max_changes)));
+        max_changes := max_changes / POWER(2, active_reports);
+        max_changes := GREATEST(min_changes_per_hour, LEAST(max_changes_per_hour, max_changes));
+      END IF;
+
+      SELECT COALESCE(SUM(changesets.num_changes), 0) INTO STRICT recent_changes FROM changesets WHERE changesets.user_id = api_rate_limit.user_id AND changesets.created_at >= CURRENT_TIMESTAMP AT TIME ZONE 'UTC' - '1 hour'::interval;
+
+      RETURN max_changes - recent_changes;
+    END;
+    $$;
+
+
 SET default_tablespace = '';
+
+SET default_table_access_method = heap;
 
 --
 -- Name: acls; Type: TABLE; Schema: public; Owner: -
@@ -528,7 +584,7 @@ CREATE TABLE public.current_way_tags (
 CREATE TABLE public.current_ways (
     id bigint NOT NULL,
     changeset_id bigint NOT NULL,
-    "timestamp" timestamp(6) without time zone NOT NULL,
+    "timestamp" timestamp without time zone NOT NULL,
     visible boolean NOT NULL,
     version bigint NOT NULL
 );
@@ -636,8 +692,8 @@ CREATE TABLE public.diary_entries (
     user_id bigint NOT NULL,
     title character varying NOT NULL,
     body text NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     latitude double precision,
     longitude double precision,
     language_code character varying DEFAULT 'en'::character varying NOT NULL,
@@ -763,7 +819,7 @@ CREATE TABLE public.gpx_files (
     size bigint,
     latitude double precision,
     longitude double precision,
-    "timestamp" timestamp(6) without time zone NOT NULL,
+    "timestamp" timestamp without time zone NOT NULL,
     description character varying DEFAULT ''::character varying NOT NULL,
     inserted boolean NOT NULL,
     visibility public.gpx_visibility_enum DEFAULT 'public'::public.gpx_visibility_enum NOT NULL
@@ -883,7 +939,7 @@ CREATE TABLE public.messages (
     from_user_id bigint NOT NULL,
     title character varying NOT NULL,
     body text NOT NULL,
-    sent_on timestamp(6) without time zone NOT NULL,
+    sent_on timestamp without time zone NOT NULL,
     message_read boolean DEFAULT false NOT NULL,
     to_user_id bigint NOT NULL,
     to_user_visible boolean DEFAULT true NOT NULL,
@@ -1156,6 +1212,36 @@ CREATE SEQUENCE public.oauth_nonces_id_seq
 --
 
 ALTER SEQUENCE public.oauth_nonces_id_seq OWNED BY public.oauth_nonces.id;
+
+
+--
+-- Name: oauth_openid_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.oauth_openid_requests (
+    id bigint NOT NULL,
+    access_grant_id bigint NOT NULL,
+    nonce character varying NOT NULL
+);
+
+
+--
+-- Name: oauth_openid_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.oauth_openid_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: oauth_openid_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.oauth_openid_requests_id_seq OWNED BY public.oauth_openid_requests.id;
 
 
 --
@@ -1449,7 +1535,7 @@ CREATE TABLE public.users (
     email character varying NOT NULL,
     id bigint NOT NULL,
     pass_crypt character varying NOT NULL,
-    creation_time timestamp(6) without time zone NOT NULL,
+    creation_time timestamp without time zone NOT NULL,
     display_name character varying DEFAULT ''::character varying NOT NULL,
     data_public boolean DEFAULT false NOT NULL,
     description text DEFAULT ''::text NOT NULL,
@@ -1528,7 +1614,7 @@ CREATE TABLE public.way_tags (
 CREATE TABLE public.ways (
     way_id bigint NOT NULL,
     changeset_id bigint NOT NULL,
-    "timestamp" timestamp(6) without time zone NOT NULL,
+    "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
     visible boolean DEFAULT true NOT NULL,
     redaction_id integer
@@ -1711,6 +1797,13 @@ ALTER TABLE ONLY public.oauth_nonces ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: oauth_openid_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_openid_requests ALTER COLUMN id SET DEFAULT nextval('public.oauth_openid_requests_id_seq'::regclass);
+
+
+--
 -- Name: oauth_tokens id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1808,6 +1901,14 @@ ALTER TABLE ONLY public.changeset_comments
 
 
 --
+-- Name: changeset_tags changeset_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changeset_tags
+    ADD CONSTRAINT changeset_tags_pkey PRIMARY KEY (changeset_id, k);
+
+
+--
 -- Name: changesets changesets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1844,7 +1945,7 @@ ALTER TABLE ONLY public.current_nodes
 --
 
 ALTER TABLE ONLY public.current_relation_members
-    ADD CONSTRAINT current_relation_members_pkey PRIMARY KEY (relation_id, member_type, member_id, member_role, sequence_id);
+    ADD CONSTRAINT current_relation_members_pkey PRIMARY KEY (relation_id, sequence_id);
 
 
 --
@@ -2040,6 +2141,14 @@ ALTER TABLE ONLY public.oauth_nonces
 
 
 --
+-- Name: oauth_openid_requests oauth_openid_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_openid_requests
+    ADD CONSTRAINT oauth_openid_requests_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: oauth_tokens oauth_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2060,7 +2169,7 @@ ALTER TABLE ONLY public.redactions
 --
 
 ALTER TABLE ONLY public.relation_members
-    ADD CONSTRAINT relation_members_pkey PRIMARY KEY (relation_id, version, member_type, member_id, member_role, sequence_id);
+    ADD CONSTRAINT relation_members_pkey PRIMARY KEY (relation_id, version, sequence_id);
 
 
 --
@@ -2164,13 +2273,6 @@ ALTER TABLE ONLY public.ways
 --
 
 CREATE INDEX acls_k_idx ON public.acls USING btree (k);
-
-
---
--- Name: changeset_tags_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX changeset_tags_id_idx ON public.changeset_tags USING btree (changeset_id);
 
 
 --
@@ -2398,6 +2500,13 @@ CREATE INDEX index_changeset_comments_on_created_at ON public.changeset_comments
 
 
 --
+-- Name: index_changesets_on_user_id_and_closed_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_changesets_on_user_id_and_closed_at ON public.changesets USING btree (user_id, closed_at);
+
+
+--
 -- Name: index_changesets_subscribers_on_changeset_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2577,6 +2686,13 @@ CREATE UNIQUE INDEX index_oauth_applications_on_uid ON public.oauth_applications
 --
 
 CREATE UNIQUE INDEX index_oauth_nonces_on_nonce_and_timestamp ON public.oauth_nonces USING btree (nonce, "timestamp");
+
+
+--
+-- Name: index_oauth_openid_requests_on_access_grant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_openid_requests_on_access_grant_id ON public.oauth_openid_requests USING btree (access_grant_id);
 
 
 --
@@ -2996,6 +3112,14 @@ ALTER TABLE ONLY public.oauth_access_tokens
 
 
 --
+-- Name: oauth_openid_requests fk_rails_77114b3b09; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_openid_requests
+    ADD CONSTRAINT fk_rails_77114b3b09 FOREIGN KEY (access_grant_id) REFERENCES public.oauth_access_grants(id) ON DELETE CASCADE;
+
+
+--
 -- Name: active_storage_variant_records fk_rails_993965df05; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3338,121 +3462,126 @@ ALTER TABLE ONLY public.ways
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('1'),
-('10'),
-('11'),
-('12'),
-('13'),
-('14'),
-('15'),
-('16'),
-('17'),
-('18'),
-('19'),
-('2'),
-('20'),
-('20100513171259'),
-('20100516124737'),
-('20100910084426'),
-('20101114011429'),
-('20110322001319'),
-('20110508145337'),
-('20110521142405'),
-('20110925112722'),
-('20111116184519'),
-('20111212183945'),
-('20120123184321'),
-('20120208122334'),
-('20120208194454'),
-('20120214210114'),
-('20120219161649'),
-('20120318201948'),
-('20120328090602'),
-('20120404205604'),
-('20120808231205'),
-('20121005195010'),
-('20121012044047'),
-('20121119165817'),
-('20121202155309'),
-('20121203124841'),
-('20130328184137'),
-('20131212124700'),
-('20140115192822'),
-('20140117185510'),
-('20140210003018'),
-('20140507110937'),
-('20140519141742'),
-('20150110152606'),
-('20150111192335'),
-('20150222101847'),
-('20150818224516'),
-('20160822153055'),
-('20161002153425'),
-('20161011010929'),
-('20170222134109'),
-('20180204153242'),
-('20181020114000'),
-('20181031113522'),
-('20190518115041'),
-('20190623093642'),
-('20190702193519'),
-('20190716173946'),
-('20191120140058'),
-('20201004105659'),
-('20201006213836'),
-('20201006220807'),
-('20201214144017'),
-('20210510083027'),
-('20210510083028'),
-('20210511104518'),
-('20211216185316'),
-('20220201183346'),
-('20220223140543'),
-('20230816135800'),
-('20230825162137'),
-('21'),
-('22'),
-('23'),
-('24'),
-('25'),
-('26'),
-('27'),
-('28'),
-('29'),
-('3'),
-('30'),
-('31'),
-('32'),
-('33'),
-('34'),
-('35'),
-('36'),
-('37'),
-('38'),
-('39'),
-('4'),
-('40'),
-('41'),
-('42'),
-('43'),
-('44'),
-('45'),
-('46'),
-('47'),
-('48'),
-('49'),
-('5'),
-('50'),
-('51'),
-('52'),
-('53'),
-('54'),
-('55'),
-('56'),
-('57'),
-('6'),
-('7'),
+('9'),
 ('8'),
-('9');
-
-
+('7'),
+('6'),
+('57'),
+('56'),
+('55'),
+('54'),
+('53'),
+('52'),
+('51'),
+('50'),
+('5'),
+('49'),
+('48'),
+('47'),
+('46'),
+('45'),
+('44'),
+('43'),
+('42'),
+('41'),
+('40'),
+('4'),
+('39'),
+('38'),
+('37'),
+('36'),
+('35'),
+('34'),
+('33'),
+('32'),
+('31'),
+('30'),
+('3'),
+('29'),
+('28'),
+('27'),
+('26'),
+('25'),
+('24'),
+('23'),
+('22'),
+('21'),
+('20231117170422'),
+('20231101222146'),
+('20231029151516'),
+('20231010194809'),
+('20231007141103'),
+('20230830115220'),
+('20230830115219'),
+('20230825162137'),
+('20230816135800'),
+('20220223140543'),
+('20220201183346'),
+('20211216185316'),
+('20210511104518'),
+('20210510083028'),
+('20210510083027'),
+('20201214144017'),
+('20201006220807'),
+('20201006213836'),
+('20201004105659'),
+('20191120140058'),
+('20190716173946'),
+('20190702193519'),
+('20190623093642'),
+('20190518115041'),
+('20181031113522'),
+('20181020114000'),
+('20180204153242'),
+('20170222134109'),
+('20161011010929'),
+('20161002153425'),
+('20160822153055'),
+('20150818224516'),
+('20150222101847'),
+('20150111192335'),
+('20150110152606'),
+('20140519141742'),
+('20140507110937'),
+('20140210003018'),
+('20140117185510'),
+('20140115192822'),
+('20131212124700'),
+('20130328184137'),
+('20121203124841'),
+('20121202155309'),
+('20121119165817'),
+('20121012044047'),
+('20121005195010'),
+('20120808231205'),
+('20120404205604'),
+('20120328090602'),
+('20120318201948'),
+('20120219161649'),
+('20120214210114'),
+('20120208194454'),
+('20120208122334'),
+('20120123184321'),
+('20111212183945'),
+('20111116184519'),
+('20110925112722'),
+('20110521142405'),
+('20110508145337'),
+('20110322001319'),
+('20101114011429'),
+('20100910084426'),
+('20100516124737'),
+('20100513171259'),
+('20'),
+('2'),
+('19'),
+('18'),
+('17'),
+('16'),
+('15'),
+('14'),
+('13'),
+('12'),
+('11'),
+('10'),
+('1');

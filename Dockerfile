@@ -11,6 +11,7 @@ RUN apt-get update \
       build-essential \
       default-jre-headless \
       file \
+      git-core \
       gpg-agent \
       libarchive-dev \
       libffi-dev \
@@ -20,6 +21,7 @@ RUN apt-get update \
       libvips-dev \
       libxml2-dev \
       libxslt1-dev \
+      libyaml-dev \
       locales \
       postgresql-client \
       ruby \

@@ -245,7 +245,7 @@ module ActiveSupport
       visit login_path
       fill_in "username", :with => user.email
       fill_in "password", :with => "test"
-      click_on "Login", :match => :first
+      click_button "Login", :match => :first
     end
 
     def session_for(user)
@@ -370,6 +370,17 @@ module ActiveSupport
 
         el << tag_el
       end
+    end
+
+    def with_user_account_deletion_delay(value)
+      freeze_time
+      default_value = Settings.user_account_deletion_delay
+      Settings.user_account_deletion_delay = value
+
+      yield
+
+      Settings.user_account_deletion_delay = default_value
+      unfreeze_time
     end
   end
 end

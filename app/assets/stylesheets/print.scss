@@ -1,42 +1,64 @@
-header,
-#sidebar,
-#permalink,
-.leaflet-control {
-  display: none;
-}
-
 html {
   height: 100%;
 }
 
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#content {
+  height: 100%;
+}
+
+header,
+.leaflet-control {
+  display: none;
+}
+
+.map-layout .overlay-sidebar #sidebar {
+  display: none;
+}
+
+.map-layout #sidebar {
+  page-break-after: always;
+
+  & > * {
+    display: none;
+  }
+  #sidebar_content {
+    display: unset;
+  }
+
+  button,
+  input,
+  textarea,
+  .secondary-actions {
+    display: none;
+  }
+}
+
+#map-ui {
+  display: none !important;
+}
+
 #map {
-  position: absolute !important;
-  top: 0;
-  bottom: 40px;
-  left: 0;
-  right: 0;
+  position: relative;
+  height: calc(100% - 40px);
+  box-sizing: border-box;
   border: 1px solid black;
 }
 
 /* Rules for attribution text under the main map shown on printouts */
 
 #attribution {
-  position: absolute !important;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  page-break-inside: avoid;
   height: 40px;
   font-size: 12px;
-  text-align: center;
 
   table {
     width: 100%
   }
-}
-
-.attribution_license,
-.attribution_project {
-  text-align: left;
 }
 
 .attribution_notice {

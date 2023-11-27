@@ -135,7 +135,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         assert_select "input[name=commit][type=submit][value=Publish]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 7
+        assert_select "input", :count => 6
       end
     end
   end
@@ -164,7 +164,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template :new
 
-    assert_nil UserPreference.where(:user => user, :k => "diary.default_language").first
+    assert_nil UserPreference.find_by(:user => user, :k => "diary.default_language")
   end
 
   def test_create
@@ -189,7 +189,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal "en", UserPreference.where(:user => user, :k => "diary.default_language").first.v
+    assert_equal "en", UserPreference.find_by(:user => user, :k => "diary.default_language").v
   end
 
   def test_create_german
@@ -216,7 +216,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal "de", UserPreference.where(:user => user, :k => "diary.default_language").first.v
+    assert_equal "de", UserPreference.find_by(:user => user, :k => "diary.default_language").v
   end
 
   def test_new_spammy
@@ -294,7 +294,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         assert_select "input[name=commit][type=submit][value=Update]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 8
+        assert_select "input", :count => 7
       end
     end
 
@@ -695,9 +695,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_template :show
 
     # Try a non-integer ID
-    assert_raise ActionController::RoutingError do
-      get "/user/#{CGI.escape(user.display_name)}/diary/#{diary_entry.id})"
-    end
+    get "/user/#{CGI.escape(user.display_name)}/diary/#{diary_entry.id})"
+    assert_response :not_found
+    assert_template "rescues/routing_error"
 
     # Try a deleted entry
     diary_entry_deleted = create(:diary_entry, :user => user, :visible => false)

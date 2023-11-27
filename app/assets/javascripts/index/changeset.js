@@ -46,8 +46,8 @@ OSM.Changeset = function (map) {
       success: function () {
         OSM.loadSidebarContent(window.location.pathname, page.load);
       },
-      error: function (xhr, xhr_status, http_status) {
-        $(form).find("#comment-error").text(http_status);
+      error: function (xhr) {
+        $(form).find("#comment-error").text(xhr.responseText);
         $(form).find("#comment-error").prop("hidden", false);
         $(form).find("input[type=submit]").prop("disabled", false);
       }

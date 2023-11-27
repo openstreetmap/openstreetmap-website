@@ -138,7 +138,7 @@ module Api
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x' * 256}'/></node></osm>"
       put node_create_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "node upload did not return bad_request status"
-      assert_equal ["NodeTag ", " v: is too long (maximum is 255 characters) (\"#{'x' * 256}\")"], @response.body.split(/[0-9]+,foo:/)
+      assert_match(/ v: is too long \(maximum is 255 characters\) /, @response.body)
     end
 
     def test_show
@@ -258,8 +258,7 @@ module Api
 
       # valid delete should return the new version number, which should
       # be greater than the old version number
-      assert @response.body.to_i > node.version,
-             "delete request should return a new version number for node"
+      assert_operator @response.body.to_i, :>, node.version, "delete request should return a new version number for node"
 
       # deleting the same node twice doesn't work
       xml = xml_for_node(node)
@@ -557,6 +556,91 @@ module Api
       # check the tags are not corrupted
       assert_equal checknode.tags, apinode.tags
       assert_includes apinode.tags, "\#{@user.inspect}"
+    end
+
+    ##
+    # test initial rate limit
+    def test_initial_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create a changeset that puts us near the initial rate limit
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 5.minutes,
+                                     :num_changes => Settings.initial_changes_per_hour - 1)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # try creating a node
+      xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+      put node_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "node create did not return success status"
+
+      # get the id of the node we created
+      nodeid = @response.body
+
+      # try updating the node, which should be rate limited
+      xml = "<osm><node id='#{nodeid}' version='1' lat='1' lon='1' changeset='#{changeset.id}'/></osm>"
+      put api_node_path(nodeid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "node update did not hit rate limit"
+
+      # try deleting the node, which should be rate limited
+      xml = "<osm><node id='#{nodeid}' version='2' lat='1' lon='1' changeset='#{changeset.id}'/></osm>"
+      delete api_node_path(nodeid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "node delete did not hit rate limit"
+
+      # try creating a node, which should be rate limited
+      xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+      put node_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "node create did not hit rate limit"
+    end
+
+    ##
+    # test maximum rate limit
+    def test_maximum_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create a changeset to establish our initial edit time
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 28.days)
+
+      # create changeset to put us near the maximum rate limit
+      total_changes = Settings.max_changes_per_hour - 1
+      while total_changes.positive?
+        changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => changes)
+        total_changes -= changes
+      end
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # try creating a node
+      xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+      put node_create_path, :params => xml, :headers => auth_header
+      assert_response :success, "node create did not return success status"
+
+      # get the id of the node we created
+      nodeid = @response.body
+
+      # try updating the node, which should be rate limited
+      xml = "<osm><node id='#{nodeid}' version='1' lat='1' lon='1' changeset='#{changeset.id}'/></osm>"
+      put api_node_path(nodeid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "node update did not hit rate limit"
+
+      # try deleting the node, which should be rate limited
+      xml = "<osm><node id='#{nodeid}' version='2' lat='1' lon='1' changeset='#{changeset.id}'/></osm>"
+      delete api_node_path(nodeid), :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "node delete did not hit rate limit"
+
+      # try creating a node, which should be rate limited
+      xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
+      put node_create_path, :params => xml, :headers => auth_header
+      assert_response :too_many_requests, "node create did not hit rate limit"
     end
 
     private

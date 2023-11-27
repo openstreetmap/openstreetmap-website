@@ -259,6 +259,7 @@ ro:
         reopened_at_by_html: Reactivat %{when} de %{user}
       rss:
         title: Note OpenStreetMap
+        description_all: O listă de note raportate, comentate sau închise
         description_area: O listă de note, raportate, comentate sau închise în zona
           dvs. [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Un feed RSS pentru nota %{id}
@@ -515,6 +516,7 @@ ro:
     contact:
       km away: '%{count} km depărtare'
       m away: '%{count} m depărtare'
+      latest_edit_html: 'Ultima modificare %{ago}:'
     popup:
       your location: Locația utilizatorului
       nearby mapper: Cartograful din apropiere
@@ -614,10 +616,36 @@ ro:
       newer_comments: Comentarii mai noi
       older_comments: Comentarii mai vechi
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Serverul de autorizare necesită selectarea contului
+          de utilizator
+        consent_required: Serverul de autorizare necesită consimțământul utilizatorului
+        interaction_required: Serverul de autorizare necesită interacțiunea utilizatorului
+        login_required: Serverul de autorizare necesită autentificarea utilizatorului
     flash:
       applications:
         create:
           notice: Aplicație înregistrată.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Eroare datorită lipsei configurației
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Eroare datorită lipsei configurației
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Eroare datorită lipsei
+            configurației Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Eroare datorită lipsei
+            configurației Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Generarea codului ID a eșuat din cauza lipsei configurației
+            Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vizualizați adresa dumneavoastră fizică
+      email: Vizualizați adresa dumneavoastră de e-mail
+      openid: Autentificați-vă contul
+      phone: Vizualizați numărul dumneavoastră de telefon
+      profile: Vizualizați informațiile de profil
   errors:
     contact:
       contact_url_title: Diferite metode de contact explicate
@@ -2614,6 +2642,7 @@ ro:
     permissions:
       missing: Nu ați permis accesul aplicației la această facilitate
     scopes:
+      openid: Conectați-vă folosind OpenStreetMap
       read_prefs: Citiți preferințele utilizatorului
       write_prefs: Modificați preferințele utilizatorului
       write_diary: Creează înregistrări în jurnal, comentarii și fă-ți prieteni
@@ -2806,10 +2835,10 @@ ro:
       remove as friend: Scoate din lista de prieteni
       add as friend: Adaugă Prieten
       mapper since: 'Cartograf din:'
+      uid: 'ID-ul de utilizator:'
       ct status: 'Termenii colaboratorului:'
       ct undecided: Nedefinit
       ct declined: Declinat
-      latest edit: 'Ultima modificare %{ago}:'
       email address: 'Adresa de e-mail:'
       created from: 'Creat de la:'
       status: 'Statut:'
@@ -2932,8 +2961,8 @@ ro:
     revoke:
       title: Revocarea blocării pe %{block_on}
       heading_html: Revocarea blocării pe %{block_on} de %{block_by}
-      time_future: Această blocare se va termina pe %{time}.
-      past: Această blocare s-a încheiat în urmă cu %{time} și nu poate fi revocată
+      time_future_html: Această blocare se va termina pe %{time}.
+      past_html: Această blocare s-a încheiat în urmă cu %{time} și nu poate fi revocată
         acum.
       confirm: Sigur doriți să revocați această blocare?
       revoke: Revocă!
@@ -3100,6 +3129,7 @@ ro:
         cyclosm: CyclOSM
         cycle_map: Hartă de ciclism
         transport_map: Hartă de transport
+        tracestracktop_topo: Tracestrack Topo
         hot: Umanitară
         opnvkarte: ÖPNVKarte
       layers:
@@ -3118,6 +3148,7 @@ ro:
       andy_allan: Andy Allan
       opnvkarte_credit: Tile-uri prin amabilitatea lui %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Tile-uri prin amabilitatea lui %{tracestrack_link}
       hotosm_credit: Stilul tile-urilor creat de %{hotosm_link} găzduit de %{osm_france_link}
       hotosm_name: Echipa Umanitară OpenStreetMap
     site:

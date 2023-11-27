@@ -19,7 +19,7 @@ apt-get upgrade -y
 apt-get install -y ruby ruby-dev ruby-bundler \
                      libxml2-dev libxslt1-dev nodejs npm \
                      build-essential git-core \
-                     postgresql postgresql-contrib libpq-dev libvips-dev \
+                     postgresql postgresql-contrib libpq-dev libvips-dev libyaml-dev \
                      libsasl2-dev libffi-dev libgd-dev libarchive-dev libbz2-dev
 npm install --global yarn
 

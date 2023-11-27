@@ -21,6 +21,8 @@ br:
   time:
     formats:
       friendly: '%e %B %Y da %H:%M'
+  count:
+    at_least_pattern: Ouzhpenn %{count}
   helpers:
     file:
       prompt: Dibab ur restr
@@ -272,6 +274,8 @@ br:
         reopened_at_by_html: Adenaouet %{when} gant %{user}
       rss:
         title: Notennoù OpenStreetMap
+        description_all: Ul listenn notennoù danevellet, bet skrivet kemennadennoù
+          warno pe serret
         description_area: Ur roll notennoù, addispleget, gant evezhiadennoù pe serret
           en ho takad [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Ur froud rss evit an notenn %{id}
@@ -297,6 +301,7 @@ br:
         retain_caveats: 'Koulskoude, miret e vo un nebeut titouroù diwar ho penn e
           OpenStreetMap goude ma vefe bet dilamet ho kont:'
         retain_edits: Ho kemmoù degaset d'ar gartenn, ma'z eus anezho, a vo dalc'het.
+        retain_traces: Ar roudoù ho peus enporzhiet, ma'z eus anezho, a vo dalc'het.
         retain_diary_entries: Hoc'h enmonedoù hag evezhiadennoù en deiz-levr, ma'z
           eus anezho, a vo miret met kuzhet e vint.
         retain_changeset_discussions: Ho kaozeadennoù, ma'z eus anezho, a vo miret.
@@ -521,12 +526,15 @@ br:
     contact:
       km away: war-hed %{count} km
       m away: war-hed %{count} m
+      latest_edit_html: 'Kemm diwezhañ (%{ago}) :'
     popup:
       your location: Ho lec'hiadur
       nearby mapper: Kartennour en ardremez
       friend: Mignon
     show:
       title: Ma zaolenn-vourzh
+      no_home_location_html: '%{edit_profile_link} ha termenit ho chomlec''h evit
+        gwelout an implijerien en ardremez.'
       edit_your_profile: Aozañ ho profil
       my friends: Ma mignoned
       no friends: N'hoc'h eus ouzhpennet mignon ebet c'hoazh.
@@ -623,7 +631,13 @@ br:
     flash:
       applications:
         create:
-          notice: Arload marilhet.
+          notice: Goulenn marilhet.
+    scopes:
+      address: Gwelet ho chomlec'h
+      email: Gwelet ho chomlec'h postel
+      openid: Gwiriekaat ho kont
+      phone: Gwelet ho niverenn bellgomz
+      profile: Gwelet ho titouroù ho profil
   errors:
     contact:
       contact: darempred
@@ -640,6 +654,8 @@ br:
       success: '%{name} eo ho mignon bremañ !'
       failed: Ho tigarez, n'eus ket bet gallet ouzhpennañ %{name} evel mignon.
       already_a_friend: Mignon oc'h gant %{name} dija.
+      limit_exceeded: Graet ho peus kalz a vignoned nevez zo. Gortozit ur pennadig
+        a-raok klask kavout re all.
     remove_friend:
       heading: Lemel %{user} eus ar vignoned ?
       button: Lemel eus ar vignoned
@@ -757,8 +773,10 @@ br:
           public_bath: Kibelldi foran
           public_bookcase: Levraoueg foran
           public_building: Savadur foran
+          ranger_station: Post gward-koad
           recycling: Lec'h adaozañ
           restaurant: Preti
+          sanitary_dump_station: Savlec'h pompañ an dourioù lous
           school: Skol
           shelter: Gwasked
           shower: Strinkadenn
@@ -835,6 +853,7 @@ br:
           roof: Toenn
           ruins: Savadur dismantret
           school: Savadur skol
+          semidetached_house: Ti stag
           service: Savadur servij
           shed: Lochenn
           stable: Marchosi
@@ -846,6 +865,7 @@ br:
           warehouse: Sanailh
           "yes": Savadur
         club:
+          scout: Diazlec'h ur strollad skout
           sport: Kleub sport
           "yes": Klub
         craft:
@@ -857,6 +877,7 @@ br:
           confectionery: Koñfizerezh
           dressmaker: Kemener
           electrician: Tredanour
+          electronics_repair: Dreser dafar tredanek
           gardener: Liorzhour
           glaziery: Gweraerezh
           handicraft: Artizanerezh
@@ -1958,6 +1979,9 @@ br:
       legal_1_1_terms_of_use: Termenoù implij
       legal_1_1_privacy_policy: Politikerezh prevezded
       legal_2_1_contact_the_osmf: mont e darempred gant diazezadur OSM
+      legal_2_2_html: OpenStreetMap, al logo gant al loupenn hag ar State of the Map
+        a zo %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: merkoù marilhet an OSMF
       partners_title: Kevelerien
     copyright:
       foreign:
@@ -1987,6 +2011,8 @@ br:
           title: Skouer deverkadur
         more_title_html: Titouroù ouzhpenn
         more_1_1_osmf_licence_page: Pajenn aotre-implijout diazezadur OSM
+        more_2_1_api_usage_policy: Politikerezh implij an API
+        more_2_1_tile_usage_policy: Politikerezh implij an teol
         contributors_title_html: Hor c'henlabourerien
         contributors_intro_html: 'Miliadoù a hiniennoù a labour ganimp. Ebarzhiñ a
           reomp ivez roadennoù digor eus ajañsoù kartennañ hag eus mamennoù all, hag
@@ -2007,6 +2033,9 @@ br:
           Resources Canada), ha StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Kanada
+        contributors_cz_czechia: Tchekia
+        contributors_cz_cc_licence: Aotre-implijout etrebroadel Creative Commons Attribution
+          4.0 (CC BY 4.0)
         contributors_fi_finland: Finland
         contributors_fi_nlsfi_license: Aotreegezh NLSFI
         contributors_fr_credit_html: '%{france}: Ennañ roadennoù eus Renerezh Hollek
@@ -2448,6 +2477,7 @@ br:
     permissions:
       missing: N'eo ket bet aotreet an arload ganeoc'h d'ober gan an arc'hwel-mañ
     scopes:
+      openid: Kennaskañ gant OpenStreetMap
       read_prefs: Lenn penndibaboù an implijer
       write_prefs: Kemmañ ho penndibaboù implijer
       write_diary: Krouiñ enmonedoù en deizlevr, kemennadennoù ha kavout mignoned
@@ -2572,6 +2602,7 @@ br:
       consider_pd: Ouzhpenn an asant amañ a-us, ez anavezan emañ ma zegasadennoù en
         domani foran
       consider_pd_why: petra eo se ?
+      readable_summary: diverrañ a c'hall bezañ lennet gant tud
       informal_translations: troidigezhioù diofisiel
       continue: Kenderc'hel
       decline: Nac'h
@@ -2612,10 +2643,10 @@ br:
       remove as friend: Lemel eus ar vignoned
       add as friend: Ouzhpennañ d'ar vignoned
       mapper since: 'Kartennour abaoe :'
+      uid: 'Kod anaout an implijer:'
       ct status: 'Diferadennoù ar c''henlabourer :'
       ct undecided: En entremar
       ct declined: Nac'het
-      latest edit: 'Kemm diwezhañ (%{ago}) :'
       email address: 'Chomlec''h postel :'
       created from: 'Krouet diwar :'
       status: 'Statud :'
@@ -2660,6 +2691,8 @@ br:
       title: Kont arsavet
       heading: Kont arsavet
       support: Skor
+      automatically_suspended: Hon digarezit, ehanet eo bet ho kont abalamour d'un
+        obererezh arvarus.
     auth_failure:
       connection_failed: C'hwitet eo ar gevreadenn ouzh ur pourchaser dilesa
       invalid_credentials: Titouroù dilesa direizh
@@ -2733,9 +2766,9 @@ br:
     revoke:
       title: O tisteurel ur stankadur evit %{block_on}
       heading_html: O lemel ur stankadur war %{block_on} gant %{block_by}
-      time_future: Echu e vo ar stankadur-mañ a-benn %{time}.
-      past: Aet eo ar stankadur-mañ d'e dermen d'an %{time} ha ne c'hall ket bezañ
-        torret bremañ.
+      time_future_html: Echu e vo ar stankadur-mañ a-benn %{time}.
+      past_html: Aet eo ar stankadur-mañ d'e dermen d'an %{time} ha ne c'hall ket
+        bezañ torret bremañ.
       confirm: Ha sur oc'h hoc'h eus c'hoant da derriñ ar stankadur-mañ ?
       revoke: Disteuler !
       flash: Torret eo bet ar stankadur-mañ.
@@ -2816,7 +2849,7 @@ br:
     index:
       title: Notennoù kaset pe addispleget gant %{user}
       heading: notennoù %{user}
-      subheading_html: Notennoù kaset pe addispleget gant %{user}
+      subheading_html: Notennoù %{submitted} pe %{commented} gant %{user}
       subheading_submitted: kaset
       subheading_commented: skrivet war
       no_notes: Notenn ebet
@@ -2849,6 +2882,7 @@ br:
       reactivate: Adweredekaat
       comment_and_resolve: Addisplegañ & Diskoulmañ
       comment: Evezhiadenn
+      other_problems_resolved: Evit an holl gudennoù all ez eo a-walc'h d'o diskoulmañ.
     new:
       title: Notenn nevez
       intro: Gwelet ho peus ur fazi pe un dra a vank ? Roit an dra-se da c'houzout
@@ -2924,8 +2958,11 @@ br:
       make_a_donation: Ober un donezon
       website_and_api_terms: Termenoù-implij al lec'hien hag an API
       osm_france: OpenStreetMap Frañs
+      thunderforest_credit: Teol pourchaset gant %{thunderforest_link}
       andy_allan: Andy Allan
+      opnvkarte_credit: Teol pourchaset gant %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Teol pourchaset gant %{tracestrack_link}
     site:
       edit_tooltip: Kemmañ ar gartenn
       edit_disabled_tooltip: Zoumañ da zegas kemmoù war ar gartenn

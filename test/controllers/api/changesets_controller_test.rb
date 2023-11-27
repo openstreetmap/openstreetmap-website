@@ -134,12 +134,14 @@ module Api
 
     def test_create_wrong_method
       auth_header = basic_authorization_header create(:user).email, "test"
-      assert_raise ActionController::RoutingError do
-        get changeset_create_path, :headers => auth_header
-      end
-      assert_raise ActionController::RoutingError do
-        post changeset_create_path, :headers => auth_header
-      end
+
+      get changeset_create_path, :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
+
+      post changeset_create_path, :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
     end
 
     ##
@@ -199,7 +201,7 @@ module Api
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
       assert_equal changeset.id, js["changeset"]["id"]
-      assert js["changeset"]["open"]
+      assert_operator js["changeset"], :[], "open"
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
       assert_nil js["changeset"]["closed_at"]
       assert_nil js["changeset"]["tags"]
@@ -215,7 +217,7 @@ module Api
       assert_equal Settings.api_version, js["version"]
       assert_equal Settings.generator, js["generator"]
       assert_equal changeset.id, js["changeset"]["id"]
-      assert js["changeset"]["open"]
+      assert_operator js["changeset"], :[], "open"
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
       assert_nil js["changeset"]["closed_at"]
       assert_nil js["changeset"]["tags"]
@@ -361,13 +363,13 @@ module Api
 
       auth_header = basic_authorization_header user.email, "test"
 
-      assert_raise ActionController::RoutingError do
-        get changeset_close_path(changeset), :headers => auth_header
-      end
+      get changeset_close_path(changeset), :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
 
-      assert_raise ActionController::RoutingError do
-        post changeset_close_path(changeset), :headers => auth_header
-      end
+      post changeset_close_path(changeset), :headers => auth_header
+      assert_response :not_found
+      assert_template "rescues/routing_error"
     end
 
     ##
@@ -697,10 +699,10 @@ module Api
 
       # check that the changeset bbox is within bounds
       cs = Changeset.find(changeset_id)
-      assert cs.min_lon >= -180 * GeoRecord::SCALE, "Minimum longitude (#{cs.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
-      assert cs.max_lon <= 180 * GeoRecord::SCALE, "Maximum longitude (#{cs.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
-      assert cs.min_lat >= -90 * GeoRecord::SCALE, "Minimum latitude (#{cs.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
-      assert cs.max_lat <= 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
+      assert_operator cs.min_lon, :>=, -180 * GeoRecord::SCALE, "Minimum longitude (#{cs.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
+      assert_operator cs.max_lon, :<=, 180 * GeoRecord::SCALE, "Maximum longitude (#{cs.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
+      assert_operator cs.min_lat, :>=, -90 * GeoRecord::SCALE, "Minimum latitude (#{cs.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
+      assert_operator cs.max_lat, :<=, 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
     end
 
     ##
@@ -1605,6 +1607,107 @@ module Api
     end
 
     ##
+    # test initial rate limit
+    def test_upload_initial_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some objects to use
+      node = create(:node)
+      way = create(:way_with_nodes, :nodes_count => 2)
+      relation = create(:relation)
+
+      # create a changeset that puts us near the initial rate limit
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 5.minutes,
+                                     :num_changes => Settings.initial_changes_per_hour - 2)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node way and relation using placeholders
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+          <way id='-1' changeset='#{changeset.id}'>
+           <nd ref='#{node.id}'/>
+          </way>
+         </create>
+         <create>
+          <relation id='-1' changeset='#{changeset.id}'>
+           <member type='way' role='some' ref='#{way.id}'/>
+           <member type='node' role='some' ref='#{node.id}'/>
+           <member type='relation' role='some' ref='#{relation.id}'/>
+          </relation>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :too_many_requests, "upload did not hit rate limit"
+    end
+
+    ##
+    # test maximum rate limit
+    def test_upload_maximum_rate_limit
+      # create a user
+      user = create(:user)
+
+      # create some objects to use
+      node = create(:node)
+      way = create(:way_with_nodes, :nodes_count => 2)
+      relation = create(:relation)
+
+      # create a changeset to establish our initial edit time
+      changeset = create(:changeset, :user => user,
+                                     :created_at => Time.now.utc - 28.days)
+
+      # create changeset to put us near the maximum rate limit
+      total_changes = Settings.max_changes_per_hour - 2
+      while total_changes.positive?
+        changes = [total_changes, Changeset::MAX_ELEMENTS].min
+        changeset = create(:changeset, :user => user,
+                                       :created_at => Time.now.utc - 5.minutes,
+                                       :num_changes => changes)
+        total_changes -= changes
+      end
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node way and relation using placeholders
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+          <way id='-1' changeset='#{changeset.id}'>
+           <nd ref='#{node.id}'/>
+          </way>
+         </create>
+         <create>
+          <relation id='-1' changeset='#{changeset.id}'>
+           <member type='way' role='some' ref='#{way.id}'/>
+           <member type='node' role='some' ref='#{node.id}'/>
+           <member type='relation' role='some' ref='#{relation.id}'/>
+          </relation>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :too_many_requests, "upload did not hit rate limit"
+    end
+
+    ##
     # when we make some simple changes we get the same changes back from the
     # diff download.
     def test_diff_download_simple
@@ -2181,7 +2284,11 @@ module Api
     # check that a changeset can contain a certain max number of changes.
     ## FIXME should be changed to an integration test due to the with_controller
     def test_changeset_limits
-      auth_header = basic_authorization_header create(:user).email, "test"
+      user = create(:user)
+      auth_header = basic_authorization_header user.email, "test"
+
+      # create an old changeset to ensure we have the maximum rate limit
+      create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
 
       # open a new changeset
       xml = "<osm><changeset/></osm>"

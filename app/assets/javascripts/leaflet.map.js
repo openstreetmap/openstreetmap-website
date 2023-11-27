@@ -51,6 +51,13 @@ L.OSM.Map = L.Map.extend({
     }).prop("outerHTML");
     var thunderforest = I18n.t("javascripts.map.thunderforest_credit", { thunderforest_link: thunderforest_link });
 
+    var tracestrack_link = $("<a>", {
+      href: "https://www.tracestrack.com/",
+      target: "_blank",
+      text: I18n.t("javascripts.map.tracestrack")
+    }).prop("outerHTML");
+    var tracestrack = I18n.t("javascripts.map.tracestrack_credit", { tracestrack_link: tracestrack_link });
+
     var memomaps_link = $("<a>", {
       href: "https://memomaps.de/",
       target: "_blank",
@@ -96,6 +103,16 @@ L.OSM.Map = L.Map.extend({
         code: "T",
         keyid: "transportmap",
         name: I18n.t("javascripts.map.base.transport_map")
+      }));
+    }
+
+    if (OSM.TRACESTRACK_KEY) {
+      this.baseLayers.push(new L.OSM.TracestrackTopo({
+        attribution: copyright + ". " + tracestrack + ". " + terms,
+        apikey: OSM.TRACESTRACK_KEY,
+        code: "P",
+        keyid: "tracestracktopo",
+        name: I18n.t("javascripts.map.base.tracestracktop_topo")
       }));
     }
 

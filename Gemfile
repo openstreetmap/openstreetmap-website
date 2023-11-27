@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "~> 7.0.0"
+gem "rails", "~> 7.1.0"
 
 # Require json for multi_json
 gem "json"
@@ -10,7 +10,9 @@ gem "json"
 gem "pg"
 
 # Use SCSS for stylesheets
-gem "sassc-rails"
+gem "dartsass-sprockets"
+# Pin the dependentent sass-embedded to avoid deprecation warnings in bootstrap
+gem "sass-embedded", "~> 1.64.0"
 
 # Use Terser as compressor for JavaScript assets
 gem "terser"
@@ -24,8 +26,8 @@ gem "jbuilder", "~> 2.7"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", :require => false
 
-# Use R2 for RTL conversion
-gem "r2", "~> 0.2.7"
+# Use rtlcss for RTL conversion
+gem "rtlcss"
 
 # Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
@@ -43,10 +45,9 @@ gem "sprockets-exporters_pack"
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
 gem "active_record_union"
-gem "bootstrap", "~> 5.1.0"
+gem "bootstrap", "~> 5.3.2"
 gem "bootstrap_form", "~> 5.0"
 gem "cancancan"
-gem "composite_primary_keys", "~> 14.0.0"
 gem "config"
 gem "delayed_job_active_record"
 gem "frozen_record"
@@ -79,6 +80,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 # Doorkeeper for OAuth2
 gem "doorkeeper"
 gem "doorkeeper-i18n"
+gem "doorkeeper-openid_connect"
 
 # Markdown formatting support
 gem "kramdown"
@@ -133,7 +135,6 @@ gem "image_processing"
 
 # Gems useful for development
 group :development do
-  gem "annotate"
   gem "better_errors"
   gem "binding_of_caller"
   gem "debug_inspector"
@@ -148,6 +149,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
+  gem "jwt"
   gem "minitest", "~> 5.1"
   gem "puma", "~> 5.6"
   gem "rails-controller-testing"
@@ -162,4 +164,8 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
   gem "webmock"
+end
+
+group :development, :test do
+  gem "annotate"
 end

@@ -6,8 +6,8 @@ class UserLogoutTest < ApplicationSystemTestCase
     sign_in_as(user)
     assert_no_content "Log In"
 
-    click_on user.display_name
-    click_on "Log Out"
+    click_button user.display_name
+    click_link "Log Out"
     assert_content "Log In"
   end
 
@@ -17,8 +17,8 @@ class UserLogoutTest < ApplicationSystemTestCase
     visit traces_path
     assert_no_content "Log In"
 
-    click_on user.display_name
-    click_on "Log Out"
+    click_button user.display_name
+    click_link "Log Out"
     assert_content "Log In"
     assert_content "Public GPS Traces"
   end

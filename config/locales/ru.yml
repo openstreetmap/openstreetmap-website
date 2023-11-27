@@ -79,6 +79,7 @@
 # Author: Putnik
 # Author: Pvwww
 # Author: Redredsonia
+# Author: Rich Flight22
 # Author: Riliam
 # Author: Rivka Silinsky
 # Author: Ruila
@@ -412,6 +413,8 @@ ru:
       delete_account: Удалить учётную запись…
     go_public:
       heading: Общедоступная правка
+      only_public_can_edit: С момента перехода на API 0.6, только публичные пользователи
+        могут редактировать данные карты.
       find_out_why: узнать почему
       make_edits_public_button: Сделать все мои правки доступными
     update:
@@ -594,6 +597,7 @@ ru:
     contact:
       km away: '%{count} км от вас'
       m away: '%{count} м от вас'
+      latest_edit_html: 'Последняя правка (%{ago}):'
     popup:
       your location: Ваше местоположение
       nearby mapper: Ближайший картограф
@@ -887,7 +891,7 @@ ru:
           "yes": Мост
         building:
           apartment: Квартира
-          apartments: Квартиры
+          apartments: Многоквартирный дом
           barn: Амбар
           bungalow: Бунгало
           cabin: Хижина
@@ -897,7 +901,7 @@ ru:
           college: Здание колледжа
           commercial: Офисное здание
           construction: Строящееся здание
-          detached: Особняк
+          detached: Отдельностоящий жилой дом
           dormitory: Общежитие
           duplex: Дуплекс
           farm: Ферма
@@ -917,7 +921,7 @@ ru:
           office: Офисное здание
           public: Общественное здание
           residential: Жилой дом
-          retail: Здание на продажу
+          retail: Торговое здание
           roof: Крыша
           ruins: Разрушенное здание
           school: Здание школы
@@ -927,7 +931,7 @@ ru:
           stable: Конюшня
           static_caravan: Передвижной дом
           temple: Здание храма
-          terrace: Здание с террасой
+          terrace: Ряд домов
           train_station: Железнодорожный вокзал
           university: Университет
           warehouse: Склад
@@ -964,6 +968,7 @@ ru:
           ambulance_station: Станция скорой медицинской помощи
           assembly_point: Место сбора
           defibrillator: Дефибриллятор
+          fire_extinguisher: Огнетушитель
           fire_water_pond: Пожарный водоём
           landing_site: Место аварийной посадки
           phone: Телефон экстренной связи
@@ -1019,6 +1024,7 @@ ru:
           unclassified: Дорога местного значения
           "yes": Дорога
         historic:
+          aircraft: Историческое воздушное судно
           archaeological_site: Раскопки
           battlefield: Поле боя
           boundary_stone: Пограничный камень
@@ -2067,6 +2073,9 @@ ru:
         mapping_link: начать картографирование
       legal_babble:
         title_html: Авторские права и лицензирование
+        introduction_1_html: "OpenStreetMap%{registered_trademark_link} — это %{open_data},
+          лицензированные по \n%{odc_odbl_link} (ODbL), разработанной %{osm_foundation_link}
+          (OSMF)."
         introduction_1_open_data: открытые данные
         introduction_2_html: Вы можете свободно копировать, распространять, передавать
           и дорабатывать наши данные до тех пор, пока вы ссылаетесь на OpenStreetMap
@@ -2104,11 +2113,13 @@ ru:
         contributors_at_land_vorarlberg: Земля Форарльберг
         contributors_au_australia: Австралия
         contributors_ca_canada: Канада
+        contributors_cz_czechia: Чехия
         contributors_fi_finland: Финляндия
         contributors_fr_france: Франция
         contributors_nl_netherlands: Нидерланды
         contributors_nz_new_zealand: Новая Зеландия
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_serbia: Сербия
         contributors_si_slovenia: Словения
         contributors_es_spain: Испания
         contributors_es_ign: IGN
@@ -2205,6 +2216,11 @@ ru:
             отсутствие дороги или вашего адреса, лучший способ для дальнейших действий
             — вступить в сообщество OpenStreetMap и добавить или восстановить данные
             самостоятельно.
+        add_a_note:
+          instructions_1_html: |-
+            Просто нажмите %{note_icon} или тот же значок на экране карты.
+            Это добавит на карту маркер, который вы сможете перемещать
+            перетаскиванием. Добавьте свое сообщение, затем нажмите «Сохранить», и другие картографы проведут расследование.
       other_concerns:
         title: Другие проблемы
         copyright: страница авторского права
@@ -2258,6 +2274,11 @@ ru:
       change_preferences: Измените свои предпочтения здесь
     any_questions:
       title: Остались вопросы?
+      paragraph_1_html: |-
+        В OpenStreetMap имеется несколько ресурсов для изучения проекта, вопросов и ответов на них, а также для совместного обсуждения и документирования тем, относящихся к картографированию.
+        %{help_link}. Вы из организации, которая планирует использовать OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Обратитесь за помощью сюда
+      welcome_mat: Шагните на приветственный коврик
     sidebar:
       search_results: Результаты поиска
       close: Закрыть
@@ -2350,12 +2371,27 @@ ru:
         Вот небольшая инструкция по самым важным вещам, которые необходимо знать.
       whats_on_the_map:
         title: Что находится на карте
+        on_the_map_html: OpenStreetMap — это место для картографирования объектов
+          (%{real_and_current}); сайт содержит миллионы зданий, дорог и других сведений
+          о различных местах. Вы можете нанести на карту любые особенности реального
+          мира, которые вам интересны.
+        real_and_current: реальных и актуальных
+        off_the_map_html: Чего здесь %{doesnt}, так это субъективных данных, таких
+          как рейтинги, исторические или гипотетические характеристики, а также данных
+          из источников, защищённых авторским правом. Не копируйте карты с онлайн-
+          или бумажных карт, если у вас нет специального разрешения.
+        doesnt: нету
       basic_terms:
         title: Небольшой словарь картографа
         paragraph_1: У OpenStreetMap выработался локальный сленг. Вот несколько понятий,
-          которые стоит иметь ввиду.
+          которые стоит иметь в виду.
         an_editor_html: '%{editor} – это программа или веб-сайт, который вы можете
           использовать для редактирования карты.'
+        a_node_html: '%{node} — это точка на карте, например ресторан или дерево.'
+        a_way_html: '%{way} — это линия или область, например дорога, ручей, озеро
+          или здание.'
+        a_tag_html: '%{tag} — это часть данных о точке (узле) или пути, например название
+          ресторана или ограничение скорости на дороге.'
         editor: редактор
         node: точка
         way: линия
@@ -2375,6 +2411,10 @@ ru:
         para_1: Если нужно сделать небольшое уточнение, ради которого слишком долго
           регистрироваться и изучать правила правки, можно просто добавить заметку
           на карту.
+        para_2_html: |-
+          Просто перейдите к %{map_link} и кликните по значку заметки: %{note_icon}.
+          Это добавит на карту маркер, который вы можете перемещать перетаскиванием.
+          Добавьте свое сообщение, затем нажмите «Сохранить» и другие картографы проведут расследование.
         the_map: карта
     communities:
       title: Сообщества
@@ -2748,7 +2788,6 @@ ru:
       ct status: 'Условия участия:'
       ct undecided: Неопределено
       ct declined: Отклонены
-      latest edit: 'Последняя правка (%{ago}):'
       email address: 'Адрес Email:'
       created from: 'Создано из:'
       status: 'Статус:'
@@ -2871,8 +2910,8 @@ ru:
       title: Снять блокировку для %{block_on}
       heading_html: Отмена блокировки для пользователя %{block_on}, которую создал
         %{block_by}
-      time_future: Эта блокировка закончится через %{time}.
-      past: Эта блокировка закончилась %{time} и уже не может быть отменена.
+      time_future_html: Эта блокировка закончится через %{time}.
+      past_html: Эта блокировка закончилась %{time} и уже не может быть отменена.
       confirm: Вы уверены, что хотите снять эту блокировку?
       revoke: Снять блокировку!
       flash: Эта блокировка была снята.

@@ -267,6 +267,8 @@ mk:
         retain_notes: Вашите белешки и коментари на картата (но нема да бидат видливи).
         retain_changeset_discussions: Вашите разговори за збировите промени.
         retain_email: Вашите е-поштенски адреси.
+        recent_editing_html: Бидејќи неодамна уредувавте, вашата сметка засега не
+          може да се избрише. Бришењето ќе може да се изведе за %{time}.
         confirm_delete: Дали сте сигурни?
         cancel: Откажи
   accounts:
@@ -483,6 +485,7 @@ mk:
     contact:
       km away: '%{count} км од вас'
       m away: '%{count} м од вас'
+      latest_edit_html: 'Последно уредување (%{ago}):'
     popup:
       your location: Ваша местоположба
       nearby mapper: Соседен картограф
@@ -580,10 +583,36 @@ mk:
       newer_comments: Понови коментари
       older_comments: Постари коментари
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Овластувачкиот опслужувач бара избор на сметка
+          на крајниот корисник
+        consent_required: Овластувачкиот опслужувач бара согласност од крајниот корисник
+        interaction_required: Овластувачкиот опслужувач бара дејство од крајниот корисник
+        login_required: Овластувачкиот опслужувач бара заверка на крајниот корисник
     flash:
       applications:
         create:
           notice: Прилогот е пријавен.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Не успеа бидејќи не е наместен
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Не успеа бидејќи не е наместен
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Не успеа бидејќи не е наместен
+            Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Не успеа бидејќи не е
+            наместен Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Создавањето на шифрената назнака не успеа бидејќи
+            не е наместен Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Ваша физичка адреса
+      email: Ваша е-поштенска адреса
+      openid: Заверете ја вашата сметка
+      phone: Ваш телефонски број
+      profile: Ваши профилни информации
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Contact?uselang=mk
@@ -2041,6 +2070,12 @@ mk:
           %{canada}: Содржи податоци од
           GeoBase&reg;, GeoGratis (&copy; Министерство за природни ресурси), CanVec (&copy; Министерство за природни ресурси) и StatCan (Географски оддел, Статистичка служба на Канада).
         contributors_ca_canada: Канада
+        contributors_cz_credit_html: '%{czechia}: Содржи податоциц од Земјомерно-катастарската
+          управа на Чешка  лиценцирани под %{cc_licence_link}'
+        contributors_cz_czechia: Чешка
+        contributors_cz_cc_licence: Криејтив комонс Наведи извор 4.0 Меѓународна (CC
+          BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.mk
         contributors_fi_credit_html: |-
           %{finland}: Содржи податоци од
           Националниот земјомер на Финската топографска база на податоци и други податочни збирови под лиценцата %{nlsfi_license_link}.
@@ -2561,6 +2596,7 @@ mk:
     permissions:
       missing: Му немате дозволено пристап на прилогот до оваа можност
     scopes:
+      openid: Најава со OpenStreetMap
       read_prefs: Кориснички нагодувања за читање
       write_prefs: Менување на корисничките нагодувања
       write_diary: Создавање на дневнички ставки, коментирање и спријателување
@@ -2753,7 +2789,6 @@ mk:
       ct status: 'Услови за учество:'
       ct undecided: Неодлучено
       ct declined: Одбиен
-      latest edit: 'Последно уредување (%{ago}):'
       email address: Е-пошта
       created from: 'Создадено од:'
       status: 'Статус:'
@@ -2761,12 +2796,15 @@ mk:
       role:
         administrator: Овој корисник е администратор
         moderator: Овој корисник е модератор
+        importer: Овој корисник е увозник
         grant:
           administrator: Додели администраторски пристап
           moderator: Додели модераторски пристап
+          importer: Дај увознички пристап
         revoke:
           administrator: Лиши од администраторски пристап
           moderator: Лиши од модераторски пристап
+          importer: Одземи увознички пристап
       block_history: Активни блокови
       moderator_history: Зададени блокови
       comments: Коментари
@@ -2873,8 +2911,8 @@ mk:
     revoke:
       title: Поништување на блок за %{block_on}
       heading_html: Поништување на блок за %{block_on} од %{block_by}
-      time_future: Овој блок истекува за %{time}.
-      past: Овој блок истекол %{time} и сега не може да се отповика.
+      time_future_html: Овој блок истекува за %{time}.
+      past_html: Овој блок истекол %{time} и сега не може да се отповика.
       confirm: Дали сигурно дакате да го поништите овој блок?
       revoke: Поништи!
       flash: Овој блок е поништен.
@@ -3032,6 +3070,7 @@ mk:
         cyclosm: CyclOSM
         cycle_map: Велосипедска
         transport_map: Сообраќајна
+        tracestracktop_topo: Tracestrack Топо
         hot: Хуманитарна
         opnvkarte: ÖPNVKarte
       layers:
@@ -3050,6 +3089,7 @@ mk:
       andy_allan: Енди Алан
       opnvkarte_credit: Полињата се доставени од %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Полињата се доставени од %{tracestrack_link}
       hotosm_credit: Стилот на полињата е од %{hotosm_link} вдомен од %{osm_france_link}
       hotosm_name: Екипа на Хуманитарната OpenStreetMap
     site:

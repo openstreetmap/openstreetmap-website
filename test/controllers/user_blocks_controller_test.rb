@@ -356,7 +356,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "revoke"
     b = UserBlock.find(active_block.id)
-    assert b.ends_at - Time.now.utc > 100
+    assert_operator b.ends_at - Time.now.utc, :>, 100
 
     # Check that revoking a block works using POST
     post revoke_user_block_path(:id => active_block, :confirm => true)

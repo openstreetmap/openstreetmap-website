@@ -10,7 +10,7 @@ class UserStatusChangeTest < ApplicationSystemTestCase
     user = create(:user, :suspended)
     visit user_path(user)
     accept_confirm do
-      click_on "Unsuspend"
+      click_link "Unsuspend"
     end
 
     assert_no_content "Unsuspend"
@@ -22,7 +22,7 @@ class UserStatusChangeTest < ApplicationSystemTestCase
     user = create(:user, :suspended)
     visit user_path(user)
     accept_confirm do
-      click_on "Confirm"
+      click_link "Confirm"
     end
 
     assert_no_content "Unsuspend"

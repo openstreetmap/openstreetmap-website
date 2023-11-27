@@ -1,6 +1,6 @@
 module GeocoderHelper
   def result_to_html(result)
-    html_options = { :class => "set_position", :data => {} }
+    html_options = { :class => "set_position stretched-link", :data => {} }
 
     url = if result[:type] && result[:id]
             url_for(:controller => :browse, :action => result[:type], :id => result[:id])

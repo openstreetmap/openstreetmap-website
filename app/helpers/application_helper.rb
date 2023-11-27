@@ -26,11 +26,11 @@ module ApplicationHelper
   end
 
   def friendly_date(date)
-    tag.span(time_ago_in_words(date), :title => l(date, :format => :friendly))
+    tag.time(time_ago_in_words(date), :title => l(date, :format => :friendly), :datetime => date.xmlschema)
   end
 
   def friendly_date_ago(date)
-    tag.span(time_ago_in_words(date, :scope => :"datetime.distance_in_words_ago"), :title => l(date, :format => :friendly))
+    tag.time(time_ago_in_words(date, :scope => :"datetime.distance_in_words_ago"), :title => l(date, :format => :friendly), :datetime => date.xmlschema)
   end
 
   def body_class
@@ -48,7 +48,8 @@ module ApplicationHelper
   def application_data
     data = {
       :locale => I18n.locale,
-      :preferred_editor => preferred_editor
+      :preferred_editor => preferred_editor,
+      :preferred_languages => preferred_languages.expand.map(&:to_s)
     }
 
     if current_user

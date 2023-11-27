@@ -3,17 +3,15 @@
     <div class="row gx-2 mx-0">
       <div class="col">
         <div class="input-group flex-nowrap">
-          <div class='query_wrapper position-relative flex-grow-1'>
-            <%= link_to t("site.search.where_am_i"), "#", :class => "describe_location position-absolute", :title => t("site.search.where_am_i_title") %>
-            <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
+          <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control form-control-sm", :dir => "auto" %>
+          <div class="input-group-text border-start-0 p-0 position-relative">
+            <%= button_tag t("site.search.where_am_i"), :type => "button", :class => "describe_location position-absolute end-0 me-1 btn btn-sm btn-outline-primary border-0 bg-transparent", :title => t("site.search.where_am_i_title") %>
           </div>
-          <div class="input-group-append">
-            <%= submit_tag t("site.search.submit_text"), :class => "btn btn-sm btn-primary", :data => { :disable_with => false } %>
-          </div>
+          <%= submit_tag t("site.search.submit_text"), :class => "btn btn-sm btn-primary", :data => { :disable_with => false } %>
         </div>
       </div>
       <div class="col-auto">
-        <%= link_to image_tag("directions.png", :width => "20", :height => "20"), directions_path, :class => "btn btn-sm btn-primary switch_link", :title => t("site.search.get_directions_title") %>
+        <%= link_to image_tag("directions.png", :width => "20", :height => "20", :class => "align-bottom"), directions_path, :class => "btn btn-sm btn-primary switch_link", :title => t("site.search.get_directions_title") %>
       </div>
     </div>
   </form>

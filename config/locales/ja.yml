@@ -20,6 +20,7 @@
 # Author: Iwai.masaharu
 # Author: Kkairri
 # Author: Kokage si
+# Author: LaMagiaaa
 # Author: Los688
 # Author: Macofe
 # Author: Mage Whopper
@@ -217,41 +218,29 @@ ja:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: 約1時間前
         other: 約%{count}時間前
       about_x_months:
-        one: 約1ヶ月前
         other: 約%{count}ヶ月前
       about_x_years:
-        one: 約1年前
         other: 約%{count}年前
       almost_x_years:
-        one: ほぼ1年前
         other: ほぼ%{count}年前
       half_a_minute: 30秒前
       less_than_x_seconds:
-        one: 1秒以内
         other: '%{count}秒以内'
       less_than_x_minutes:
-        one: 1分以内
         other: '%{count}分以内'
       over_x_years:
-        one: 1年以上前
         other: '%{count}年以上前'
       x_seconds:
-        one: 1秒前
         other: '%{count}秒前'
       x_minutes:
-        one: 1分前
         other: '%{count}分前'
       x_days:
-        one: 1日前
         other: '%{count}日前'
       x_months:
-        one: 1ヶ月前
         other: '%{count}ヶ月前'
       x_years:
-        one: 1年前
         other: '%{count}年前'
   printable_name:
     with_version: '%{id}、第%{version}版'
@@ -362,10 +351,8 @@ ja:
     no_comment: (コメントなし)
     part_of: 以下の一部
     part_of_relations:
-      one: 1件のリレーション
       other: '%{count}件のリレーション'
     part_of_ways:
-      one: 1件のウェイ
       other: '%{count}件のウェイ'
     download_xml: XMLをダウンロード
     view_history: 履歴を表示
@@ -405,7 +392,6 @@ ja:
       history_title_html: 'リレーション: %{name} の履歴'
       members: メンバー
       members_count:
-        one: 1名
         other: '%{count}名'
     relation_member:
       entry_role_html: '%{type} %{name} (%{role} として)'
@@ -507,6 +493,7 @@ ja:
     contact:
       km away: 距離 %{count} km
       m away: 距離 %{count} m
+      latest_edit_html: '最終編集 %{ago}:'
     popup:
       your location: 自分の位置
       nearby mapper: 周辺のマッパー
@@ -561,8 +548,6 @@ ja:
       comment_link: このエントリにコメント
       reply_link: 筆者にメッセージを送る
       comment_count:
-        zero: コメントなし
-        one: '%{count} コメント'
         other: '%{count} コメント'
       no_comments: (コメントなし)
       edit_link: この記事の編集
@@ -609,6 +594,8 @@ ja:
     contact:
       contact: 連絡
       contact_the_community_html: リンク切れ / バグを見つけたら、遠慮なくOpenStreetMapコミュニティに%{contact_link}してください。リクエストの正確なURLを書き留めてください。
+    forbidden:
+      title: 閲覧禁止
     internal_server_error:
       title: アプリケーションエラー
     not_found:
@@ -722,7 +709,7 @@ ja:
           nursing_home: 老人ホーム
           parking: 駐車場
           parking_entrance: 駐車場の入口
-          parking_space: 駐車場
+          parking_space: 駐車区画
           payment_terminal: 決済端末
           pharmacy: 薬局
           place_of_worship: 宗教施設
@@ -1421,7 +1408,6 @@ ja:
       last_updated: 最近の更新
       link_to_reports: レポートを表示
       reports_count:
-        one: 1件のレポート
         other: '%{count}件のレポート'
       reported_item: レポートした項目
       states:
@@ -1431,8 +1417,6 @@ ja:
     show:
       title: '%{status} 問題 #%{issue_id}'
       reports:
-        zero: レポート0件
-        one: 1件のレポート
         other: '%{count}件のレポート'
       no_reports: 報告はありません
       report_created_at: 最初の通報は%{datetime}です
@@ -2112,12 +2096,14 @@ ja:
         the_map: マップ
     communities:
       title: コミュニティ
+      local_chapters:
+        title: 地域支部
       other_groups:
         title: その他のグループ
         other_groups_html: |-
-          地方支部と同じように公式にグループを設立する必要はありません.
-          実際に多くのグループが非公式な人々の集まりとして、または
-          コミュニティグループとして非常にうまく存在しています.誰でもこれらを設定または参加できます。 %{communities_wiki_link} で詳細をお読みください。
+          国・地域別協会と同等の公式なグループを設立する必要はありません。
+          実際に多くのグループが非公式な集まりとして、または
+          コミュニティグループとして非常にうまく存続しています。誰でもこれらを設定または参加できます。 %{communities_wiki_link} で詳細をお読みください。
   traces:
     visibility:
       private: 非公開 (匿名、点は順不同)
@@ -2173,7 +2159,6 @@ ja:
     trace:
       pending: 処理中
       count_points:
-        one: 1個の点
         other: '%{count}個の点'
       more: 詳細
       trace_details: トレースの詳細表示
@@ -2418,7 +2403,6 @@ ja:
       ct status: '協力者規約:'
       ct undecided: 未決定
       ct declined: 拒否
-      latest edit: '最終編集 %{ago}:'
       email address: 'メール アドレス:'
       created from: '作成日:'
       status: '状態:'
@@ -2525,8 +2509,8 @@ ja:
     revoke:
       title: '%{block_on} のブロックの取り消し'
       heading_html: ブロックは %{block_on} に %{block_by} によって取り消されました。
-      time_future: このブロックは %{time} に終了します。
-      past: このブロックは%{time}に終了したため、もう取り消せません。
+      time_future_html: このブロックは %{time} に終了します。
+      past_html: このブロックは%{time}に終了したため、もう取り消せません。
       confirm: このブロックを本当に取り消しますか?
       revoke: 取り消す!
       flash: このブロックは取り消されました。
@@ -2536,18 +2520,15 @@ ja:
       time_future_and_until_login_html: 利用者のログイン後%{time}で終了します。
       time_past_html: '%{time}に終了しました。'
       block_duration:
-        hours: '%{count}時間'
+        hours:
+          other: '%{count}時間'
         days:
-          one: 1日
           other: '%{count}日'
         weeks:
-          one: 1週間
           other: '%{count}週間'
         months:
-          one: 1か月
           other: '%{count}か月'
         years:
-          one: 1年
           other: '%{count}年'
     blocks_on:
       title: '%{name} がされたブロック'
@@ -2589,7 +2570,7 @@ ja:
     index:
       title: '%{user} さんが投稿またはコメントしたメモ'
       heading: '%{user}さんのメモ'
-      subheading_html: '%{user}さんが投稿またはコメントしたメモ'
+      subheading_html: '%{user}さんが%{submitted}または%{commented}したメモ'
       no_notes: メモなし
       id: ID
       creator: 作成者

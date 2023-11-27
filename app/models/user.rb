@@ -12,7 +12,6 @@
 #  home_lat            :float
 #  home_lon            :float
 #  home_zoom           :integer          default(3)
-#  nearby              :integer          default(50)
 #  pass_salt           :string
 #  email_valid         :boolean          default(FALSE), not null
 #  new_email           :string
@@ -116,6 +115,7 @@ class User < ApplicationRecord
 
   alias_attribute :created_at, :creation_time
 
+  after_initialize :encrypt_password
   before_save :encrypt_password
   before_save :update_tile
   after_save :spam_check
@@ -292,6 +292,12 @@ class User < ApplicationRecord
   end
 
   ##
+  # returns true if the user has the importer role, false otherwise
+  def importer?
+    role? "importer"
+  end
+
+  ##
   # returns true if the user has the requested role
   def role?(role)
     roles.any? { |r| r.role == role }
@@ -377,11 +383,18 @@ class User < ApplicationRecord
     digest.hexdigest
   end
 
+  def active_reports
+    issues
+      .with_status(:open)
+      .joins(:reports)
+      .where("reports.updated_at >= COALESCE(issues.resolved_at, '1970-01-01')")
+      .count
+  end
+
   def max_messages_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_messages = messages.where("sent_on >= ?", Time.now.utc - 3600).count
-    active_reports = issues.with_status(:open).sum(:reports_count)
     max_messages = account_age_in_hours.ceil + recent_messages - (active_reports * 10)
     max_messages.clamp(0, Settings.max_messages_per_hour)
   end
@@ -390,7 +403,6 @@ class User < ApplicationRecord
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
     recent_friends = Friendship.where(:befriendee => self).where("created_at >= ?", Time.now.utc - 3600).count
-    active_reports = issues.with_status(:open).sum(:reports_count)
     max_friends = account_age_in_hours.ceil + recent_friends - (active_reports * 10)
     max_friends.clamp(0, Settings.max_friends_per_hour)
   end
@@ -400,12 +412,23 @@ class User < ApplicationRecord
       Settings.moderator_changeset_comments_per_hour
     else
       previous_comments = changeset_comments.limit(200).count
-      active_reports = issues.with_status(:open).sum(:reports_count)
       max_comments = previous_comments / 200.0 * Settings.max_changeset_comments_per_hour
       max_comments = max_comments.floor.clamp(Settings.initial_changeset_comments_per_hour, Settings.max_changeset_comments_per_hour)
       max_comments /= 2**active_reports
       max_comments.floor.clamp(Settings.min_changeset_comments_per_hour, Settings.max_changeset_comments_per_hour)
     end
+  end
+
+  def deletion_allowed_at
+    unless Settings.user_account_deletion_delay.nil?
+      last_changeset = changesets.reorder(:closed_at => :desc).first
+      return last_changeset.closed_at.utc + Settings.user_account_deletion_delay.hours if last_changeset
+    end
+    creation_time.utc
+  end
+
+  def deletion_allowed?
+    deletion_allowed_at <= Time.now.utc
   end
 
   private

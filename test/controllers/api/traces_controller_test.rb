@@ -194,7 +194,7 @@ module Api
 
       # Now authenticated
       create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
-      assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+      assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
       auth_header = basic_authorization_header user.display_name, "test"
       post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
       assert_response :success
@@ -206,13 +206,13 @@ module Api
       assert_not trace.inserted
       assert_equal File.new(fixture).read, trace.file.blob.download
       trace.destroy
-      assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+      assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
 
       # Rewind the file
       file.rewind
 
       # Now authenticated, with the legacy public flag
-      assert_not_equal "public", user.preferences.where(:k => "gps.trace.visibility").first.v
+      assert_not_equal "public", user.preferences.find_by(:k => "gps.trace.visibility").v
       auth_header = basic_authorization_header user.display_name, "test"
       post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
       assert_response :success
@@ -224,14 +224,14 @@ module Api
       assert_not trace.inserted
       assert_equal File.new(fixture).read, trace.file.blob.download
       trace.destroy
-      assert_equal "public", user.preferences.where(:k => "gps.trace.visibility").first.v
+      assert_equal "public", user.preferences.find_by(:k => "gps.trace.visibility").v
 
       # Rewind the file
       file.rewind
 
       # Now authenticated, with the legacy private flag
       second_user = create(:user)
-      assert_nil second_user.preferences.where(:k => "gps.trace.visibility").first
+      assert_nil second_user.preferences.find_by(:k => "gps.trace.visibility")
       auth_header = basic_authorization_header second_user.display_name, "test"
       post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
       assert_response :success
@@ -243,7 +243,7 @@ module Api
       assert_not trace.inserted
       assert_equal File.new(fixture).read, trace.file.blob.download
       trace.destroy
-      assert_equal "private", second_user.preferences.where(:k => "gps.trace.visibility").first.v
+      assert_equal "private", second_user.preferences.find_by(:k => "gps.trace.visibility").v
     end
 
     # Check updating a trace through the api

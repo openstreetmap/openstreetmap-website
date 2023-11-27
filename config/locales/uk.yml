@@ -40,6 +40,7 @@
 # Author: Shirayuki
 # Author: SteveR
 # Author: TomH
+# Author: Vil4ckc
 # Author: Vlad5250
 # Author: Ypryima
 # Author: Yurkoy
@@ -51,7 +52,7 @@
 uk:
   time:
     formats:
-      friendly: '%e %B %Y о %H:%M'
+      friendly: '%e %B %Y в %H:%M'
   helpers:
     file:
       prompt: Обрати файл
@@ -93,7 +94,7 @@ uk:
       diary_comment: Коментарі щоденника
       diary_entry: Запис щоденника
       friend: Друг
-      issue: Звернення
+      issue: Звіт
       language: Мова
       message: Повідомлення
       node: Точка
@@ -564,6 +565,7 @@ uk:
     contact:
       km away: '%{count} км від вас'
       m away: '%{count} м від вас'
+      latest_edit_html: 'Останнє редагування (%{ago}):'
     popup:
       your location: Ваше місце розташування
       nearby mapper: Мапери поруч з вами
@@ -661,10 +663,36 @@ uk:
       newer_comments: Нові коментарі
       older_comments: Старіші коментарі
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Сервер авторизації вимагає вибору облікового запису
+          кінцевого користувача
+        consent_required: Сервер авторизації вимагає згоди кінцевого користувача
+        interaction_required: Сервер авторизації вимагає взаємодії з кінцевим користувачем
+        login_required: Сервер авторизації вимагає автентифікації кінцевого користувача
     flash:
       applications:
         create:
           notice: Запит зареєстровано.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Помилка через відсутність
+            конфігурації Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Не вдалося створити маркер ідентифікатора через
+            відсутність конфігурації Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Перегляньте свою фізичну адресу
+      email: Перегляньте адресу електронної пошти
+      openid: Автентифікуйте свій обліковий запис
+      phone: Перегляньте свій номер телефону
+      profile: Перегляньте інформацію зі свого профілю
   errors:
     contact:
       contact_url_title: Тут ви можете знайти інформацію про відповідні канали спілкування
@@ -2660,6 +2688,7 @@ uk:
     permissions:
       missing: Ви не дозволили програмі отримати доступ до цієї функції
     scopes:
+      openid: Вхід за допомогою OpenStreetMap
       read_prefs: Отримувати налаштування
       write_prefs: Змінювати налаштування
       write_diary: Створювати записи у щоденнику, коментарі та надсилати запити на
@@ -2830,7 +2859,7 @@ uk:
       heading: Учасника %{user} не існує.
       body: Вибачте, учасника %{user} не існує. Будь ласка, перевірте правильність
         вводу. Можливо, ви перейшли з помилкового посилання.
-      deleted: вилучено
+      deleted: '''Профіль вилучено'''
     show:
       my diary: Мій щоденник
       my edits: Мої редагування
@@ -2857,7 +2886,6 @@ uk:
       ct status: 'Умови співпраці:'
       ct undecided: Не визначились
       ct declined: Відхилили
-      latest edit: 'Останнє редагування (%{ago}):'
       email address: 'Адреса електронної пошти:'
       created from: 'Створено з:'
       status: 'Статус:'
@@ -2978,8 +3006,8 @@ uk:
     revoke:
       title: Зняти блокування з %{block_on}
       heading_html: Зняття блокування з %{block_on}, яке наклав %{block_by}
-      time_future: Це блокування закінчиться в %{time}.
-      past: Це блокування закінчилося %{time} тому і вже не може бути скасовано.
+      time_future_html: Це блокування закінчиться в %{time}.
+      past_html: Це блокування закінчилося %{time} тому і вже не може бути скасовано.
       confirm: Ви впевнені, що бажаєте зняти це блокування?
       revoke: Зняти блокування!
       flash: Це блокування було знято.
@@ -3152,6 +3180,7 @@ uk:
         cyclosm: ЦиклОСМ
         cycle_map: ВелоМапа
         transport_map: Мапа Транспорту
+        tracestracktop_topo: Tracestrack Топо
         hot: Humanitarian‎
         opnvkarte: ÖPNVKarte
       layers:
@@ -3170,6 +3199,7 @@ uk:
       andy_allan: Енді Аллан
       opnvkarte_credit: Тайли %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Тайли надаються %{tracestrack_link}
       hotosm_credit: Тайли %{hotosm_link} з %{osm_france_link}
       hotosm_name: Humanitarian OpenStreetMap Team
     site:

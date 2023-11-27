@@ -73,7 +73,7 @@ module UserHelper
     if user.avatar.variable?
       variant = user.avatar.variant(variant_options)
       # https://stackoverflow.com/questions/61893089/get-metadata-of-active-storage-variant/67228171
-      if variant.processed?
+      if variant.send(:processed?)
         metadata = variant.processed.send(:record).image.blob.metadata
         if metadata["width"]
           options[:width] = metadata["width"]

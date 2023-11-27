@@ -18,14 +18,14 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert_content @diary_entry.title
 
-    click_on I18n.t("diary_entries.diary_entry.report")
+    click_link I18n.t("diary_entries.diary_entry.report")
     assert_content "Report"
     assert_content I18n.t("reports.new.disclaimer.intro")
 
     choose I18n.t("reports.new.categories.diary_entry.spam_label")
     fill_in "report_details", :with => "This is advertising"
     assert_difference "Issue.count", 1 do
-      click_on "Create Report"
+      click_button "Create Report"
     end
 
     assert_content "Your report has been registered successfully"
@@ -42,14 +42,14 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert_content @diary_entry.title
 
-    click_on I18n.t("diary_entries.diary_entry.report")
+    click_link I18n.t("diary_entries.diary_entry.report")
     assert_content "Report"
     assert_content I18n.t("reports.new.disclaimer.intro")
 
     choose I18n.t("reports.new.categories.diary_entry.spam_label")
     fill_in "report_details", :with => "This is advertising"
     assert_no_difference "Issue.count" do
-      click_on "Create Report"
+      click_button "Create Report"
     end
 
     issue.reload

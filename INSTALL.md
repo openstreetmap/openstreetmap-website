@@ -35,7 +35,7 @@ sudo apt-get install ruby ruby-dev ruby-bundler \
                      libvips-dev libxml2-dev libxslt1-dev nodejs \
                      build-essential git-core \
                      postgresql postgresql-contrib libpq-dev libsasl2-dev \
-                     libffi-dev libgd-dev libarchive-dev libbz2-dev npm
+                     libffi-dev libgd-dev libarchive-dev libyaml-dev libbz2-dev npm
 sudo npm install --global yarn
 ```
 
@@ -51,7 +51,7 @@ sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib libpq-devel \
                  perl-podlators libffi-devel gd-devel libarchive-devel \
-                 bzip2-devel nodejs-yarn vips-devel
+                 libyaml-devel bzip2-devel nodejs-yarn vips-devel
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:

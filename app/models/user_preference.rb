@@ -12,8 +12,6 @@
 #
 
 class UserPreference < ApplicationRecord
-  self.primary_keys = "user_id", "k"
-
   belongs_to :user
 
   validates :user, :associated => true

@@ -22,6 +22,8 @@ gl:
     formats:
       friendly: '%e de %B de %Y ás %H:%M'
       blog: '%e de %B de %Y'
+  count:
+    at_least_pattern: máis de %{count}
   helpers:
     file:
       prompt: Escoller un ficheiro
@@ -281,6 +283,8 @@ gl:
         retain_changeset_discussions: Conservaremos os teus conxuntos de modificacións,
           se os hai.
         retain_email: Conservaremos o teu enderezo de correo electrónico.
+        recent_editing_html: Como editaches hai pouco, a túa conta non se pode eliminar
+          nestes intres. A eliminación será posible en %{time}.
         confirm_delete: Queres continuar?
         cancel: Cancelar
   accounts:
@@ -499,6 +503,7 @@ gl:
     contact:
       km away: a %{count}km de distancia
       m away: a %{count}m de distancia
+      latest_edit_html: 'Última edición (%{ago}):'
     popup:
       your location: A súa localización
       nearby mapper: Cartógrafo preto de ti
@@ -596,10 +601,39 @@ gl:
       newer_comments: Comentarios máis recentes
       older_comments: Comentarios máis vellos
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: O servidor de autorización necesita a selección
+          da conta do usuario final
+        consent_required: O servidor de autorización necesita o consentimento do usuario
+          final
+        interaction_required: O servidor de autorización necesita a interacción do
+          usuario final
+        login_required: O servidor de autorización necesita a autenticación do usuario
+          final
     flash:
       applications:
         create:
           notice: Aplicación rexistrada.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Fallo debido a que falta a
+            configuración de Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Fallo debido a que falta a
+            configuración de Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Fallo debido a que falta
+            a configuración de Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Fallo debido a que falta
+            a configuración de Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Produciuse un erro na xeración do identificador
+            debido a que falta a configuración de Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Consulta o teu enderezo físico
+      email: Consulta o teu enderezo de correo electrónico
+      openid: Autentica a túa conta
+      phone: Consulta o teu número de teléfono
+      profile: Consulta a túa información privada
   errors:
     contact:
       contact_url_title: Explícanse varias canles de contacto
@@ -2070,6 +2104,13 @@ gl:
           Resources Canada) e StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Canadá
+        contributors_cz_credit_html: |-
+          %{czechia}: Contén datos da administración estatal de topografía
+          e catastro, licenciados baixo a %{cc_licence_link}
+        contributors_cz_czechia: Chequia
+        contributors_cz_cc_licence: licenza Creative Commons recoñecemento 4.0 international
+          (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.gl
         contributors_fi_credit_html: |-
           %{finland}: Contén datos da
           base de datos topográfica do servizo nacional cartográfico de Finlandia
@@ -2595,6 +2636,7 @@ gl:
     permissions:
       missing: Non permitiu á aplicación acceder a esta instalación
     scopes:
+      openid: Iniciar sesión usando OpenStreetMap
       read_prefs: Ler preferencias de usuario
       write_prefs: Modificar preferencias de usuario
       write_diary: Crear entradas de diario, comentarios e amizades
@@ -2788,7 +2830,6 @@ gl:
       ct status: 'Termos do colaborador:'
       ct undecided: Indeciso
       ct declined: Rexeitou
-      latest edit: 'Última edición (%{ago}):'
       email address: 'Enderezo de correo electrónico:'
       created from: 'Creado a partir de:'
       status: 'Estado:'
@@ -2796,12 +2837,15 @@ gl:
       role:
         administrator: Este usuario é administrador
         moderator: Este usuario é moderador
+        importer: Este usuario é importador
         grant:
           administrator: Conceder o acceso de administrador
           moderator: Conceder o acceso de moderador
+          importer: Conceder o acceso de importador
         revoke:
           administrator: Revogar o acceso de administrador
           moderator: Revogar o acceso de moderador
+          importer: Revogar o acceso de importador
       block_history: Bloqueos activos
       moderator_history: Bloqueos impostos
       comments: Comentarios
@@ -2908,8 +2952,8 @@ gl:
     revoke:
       title: Revogando o bloqueo en %{block_on}
       heading_html: Revogando o bloqueo en %{block_on} por %{block_by}
-      time_future: Este bloqueo rematará en %{time}.
-      past: Este bloqueo rematou %{time} e xa non se pode revogar.
+      time_future_html: Este bloqueo rematará en %{time}.
+      past_html: Este bloqueo rematou %{time} e xa non se pode revogar.
       confirm: Ten a certeza de querer revogar este bloqueo?
       revoke: Revogar!
       flash: Revogouse o bloqueo.
@@ -3068,6 +3112,7 @@ gl:
         cyclosm: CyclOSM (Ciclista)
         cycle_map: Ciclista
         transport_map: Transporte
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitario
         opnvkarte: ÖPNVKarte (Transporte)
       layers:
@@ -3086,6 +3131,7 @@ gl:
       andy_allan: Andy Allan
       opnvkarte_credit: Mosaicos cortesía de %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Mosaicos cortesía de %{tracestrack_link}
       hotosm_credit: Estilo de mosaicos do %{hotosm_link} aloxado por %{osm_france_link}
       hotosm_name: equipo humanitario do OpenStreetMap
     site:

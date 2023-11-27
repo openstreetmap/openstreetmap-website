@@ -13,9 +13,10 @@
 #
 # Indexes
 #
-#  index_note_comments_on_body        (to_tsvector('english'::regconfig, body)) USING gin
-#  index_note_comments_on_created_at  (created_at)
-#  note_comments_note_id_idx          (note_id)
+#  index_note_comments_on_author_id_and_created_at  (author_id,created_at)
+#  index_note_comments_on_body                      (to_tsvector('english'::regconfig, body)) USING gin
+#  index_note_comments_on_created_at                (created_at)
+#  note_comments_note_id_idx                        (note_id)
 #
 # Foreign Keys
 #

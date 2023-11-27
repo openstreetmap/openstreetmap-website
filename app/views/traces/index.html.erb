@@ -47,15 +47,14 @@
       </li>
     <% end %>
 
-    <li class="nav-item flex-sm-grow-1"></li>
-    <li class="nav-item">
-      <div class="px-3 py-2 py-sm-0">
-        <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] }, { :class => "btn btn-secondary btn-sm" }) do %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 16 16">
-            <path d="M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-3-8.5a1 1 0 0 1 1-1c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1 6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1-1-1z" />
-          </svg>
-        <% end -%>
-        <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm" %>
+    <li class="nav-item ms-auto">
+      <div class="nav-link pe-0">
+        <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] }, { :class => "btn btn-secondary btn-sm my-n2 align-baseline border-0" }) do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="align-text-bottom">
+            <circle cx="2" cy="14" r="2" fill="white" />
+            <path d="M 8 14 a 6 6 0 0 0 -6 -6 M 14 14 a 12 12 0 0 0 -12 -12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" />
+          </svg><% end -%>
+        <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm my-n2 align-baseline border-0" %>
       </div>
     </li>
   </ul>

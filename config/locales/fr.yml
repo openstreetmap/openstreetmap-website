@@ -7,6 +7,7 @@
 # Author: Alno
 # Author: Amire80
 # Author: Antimuonium
+# Author: BlueCamille
 # Author: Boniface
 # Author: Cantons-de-l'Est
 # Author: Cquoi
@@ -34,6 +35,7 @@
 # Author: Gileri
 # Author: Gomoko
 # Author: Gravitystorm
+# Author: Guilhelma
 # Author: Hashar
 # Author: IAlex
 # Author: JB
@@ -593,6 +595,7 @@ fr:
     contact:
       km away: à %{count} km
       m away: à %{count} m
+      latest_edit_html: 'Dernière modification (%{ago}) :'
     popup:
       your location: Votre emplacement
       nearby mapper: Cartographe à proximité
@@ -692,10 +695,39 @@ fr:
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Le serveur d'autorisation nécessite la sélection
+          du compte de l'utilisateur final
+        consent_required: Le serveur d'autorisation nécessite le consentement de l'utilisateur
+          final
+        interaction_required: Le serveur d'autorisation nécessite une interaction
+          de l'utilisateur final
+        login_required: Le serveur d'autorisation nécessite l'authentification de
+          l'utilisateur final
     flash:
       applications:
         create:
           notice: Application inscrite.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Échec à cause de la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Échec à cause de la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Échec à cause de la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Échec à cause de la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Génération du jeton d’identification en échec à
+            cause de la configuration manquante Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Afficher votre adresse physique
+      email: Afficher votre adresse e-mail
+      openid: Authentifier votre compte
+      phone: Voir votre numéro de téléphone
+      profile: Voir les informations de votre profil
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/FR:Canaux_de_contact
@@ -2077,7 +2109,7 @@ fr:
         si vous avez des questions sur les conditions de licence, les droits d’auteur ou d’autres questions juridiques.
       legal_2_1_contact_the_osmf: contacter l’OSMF
       legal_2_2_html: OpenStreetMap, le logo avec la loupe, ainsi que State of the
-        Map are %{registered_trademarks_link}.
+        Map sont des %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: marques commerciales enregistrées de l’OSMF
       partners_title: Partenaires
     copyright:
@@ -2177,6 +2209,12 @@ fr:
           CanVec (© Ministère des Ressources naturelles Canada) et
           StatCan (Division de la géographie, Statistiques Canada).
         contributors_ca_canada: Canada
+        contributors_cz_credit_html: '%{czechia} : Contient des données de l’Administration
+          d’état de l’enregistrement des terrains et du cadastre, sous la licence
+          %{cc_licence_link}'
+        contributors_cz_czechia: Tchéquie
+        contributors_cz_cc_licence: Licence Creative Commons Attribution 4.0 International
+          (CC BY 4.0)
         contributors_fi_credit_html: |-
           %{finland} : contient des données de la 
           Base de données topographiques de l’Arpentage du territoire national de la Finlande
@@ -2729,6 +2767,7 @@ fr:
     permissions:
       missing: Vous n’avez pas autorisé l’application à accéder à cette fonctionnalité
     scopes:
+      openid: Se connecter avec OpenStreetMap
       read_prefs: Lire les préférences de l’utilisateur
       write_prefs: Modifier les préférences de l’utilisateur
       write_diary: Créer des entrées de journal, des commentaires et se faire des
@@ -2931,7 +2970,6 @@ fr:
       ct status: 'Conditions de contribution :'
       ct undecided: Indécis
       ct declined: Refusées
-      latest edit: 'Dernière modification (%{ago}) :'
       email address: 'Adresse de courriel :'
       created from: 'Créé depuis :'
       status: 'État :'
@@ -2939,12 +2977,15 @@ fr:
       role:
         administrator: C’est un administrateur ou une administratrice
         moderator: C’est un modérateur ou une modératrice
+        importer: Cet utilisateur est un importateur
         grant:
           administrator: Octroyer l’accès administrateur
           moderator: Octroyer l’accès modérateur
+          importer: Accorder le droit d’importation
         revoke:
           administrator: Révoquer l’accès administrateur
           moderator: Révoquer l’accès modérateur
+          importer: Supprimer le droit d’importation
       block_history: Blocages actifs
       moderator_history: Blocages donnés
       comments: Commentaires
@@ -3054,8 +3095,8 @@ fr:
     revoke:
       title: Annulation d’un blocage sur « %{block_on} »
       heading_html: Annulation d’un blocage sur « %{block_on} » par « %{block_by} »
-      time_future: Ce blocage se terminera dans %{time}.
-      past: Ce blocage s’est terminé à %{time} et ne peut plus être annulé.
+      time_future_html: Ce blocage se terminera dans %{time}.
+      past_html: Ce blocage s’est terminé à %{time} et ne peut plus être annulé.
       confirm: Êtes-vous sûr(e) de vouloir annuler ce blocage ?
       revoke: Révoquer !
       flash: Ce blocage a été annulé.
@@ -3215,6 +3256,7 @@ fr:
         cyclosm: CyclOSM
         cycle_map: Carte cyclable
         transport_map: Carte de transport
+        tracestracktop_topo: Topo de Tracestack
         hot: Humanitaire
         opnvkarte: ÖPNVKarte
       layers:
@@ -3233,6 +3275,7 @@ fr:
       andy_allan: Andy Allan
       opnvkarte_credit: Carreaux fournis aimablement par %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Carreaux fournis aimablement par %{tracestrack_link}
       hotosm_credit: Style de carreaux par %{hotosm_link} hébergé par %{osm_france_link}
       hotosm_name: L’Équipe OpenStreetMap Humanitaire
     site:

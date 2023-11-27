@@ -43,6 +43,8 @@ max_note_request_area: 25
 default_note_query_limit: 100
 # Maximum limit on the number of notes returned by the note search api method
 max_note_query_limit: 10000
+# Maximum value of open issues counter for moderators, anything equal or greater to this value "n" is shown as "n+"
+max_issues_count: 99
 # Zoom level to use for postcode results from the geocoder
 postcode_zoom: 15
 # Timeout for API calls in seconds
@@ -51,6 +53,8 @@ api_timeout: 300
 web_timeout: 30
 # Periods (in hours) which are allowed for user blocks
 user_block_periods: [0, 1, 3, 6, 12, 24, 48, 96, 168, 336, 731, 4383, 8766, 87660]
+# Account deletion cooldown period (in hours) since last changeset close; null to disable, 0 to make sure there aren't any open changesets when the deletion happens
+user_account_deletion_delay: null
 # Rate limit for message sending
 max_messages_per_hour: 60
 # Rate limit for friending
@@ -60,6 +64,13 @@ min_changeset_comments_per_hour: 1
 initial_changeset_comments_per_hour: 6
 max_changeset_comments_per_hour: 60
 moderator_changeset_comments_per_hour: 36000
+# Rate limit for changes
+min_changes_per_hour: 100
+initial_changes_per_hour: 1000
+max_changes_per_hour: 100000
+days_to_max_changes: 7
+importer_changes_per_hour: 1000000
+moderator_changes_per_hour: 1000000
 # Domain for handling message replies
 #messages_domain: "messages.openstreetmap.org"
 # MaxMind GeoIPv2 database
@@ -117,6 +128,8 @@ fossgis_valhalla_url: "https://valhalla1.openstreetmap.de/route"
 #wikipedia_auth_secret: ""
 # Thunderforest authentication details
 #thunderforest_key: ""
+# Tracestrack authentication details
+#tracestrack_key: ""
 # Key for generating TOTP tokens
 #totp_key: ""
 # Enforce Content-Security-Policy
@@ -150,3 +163,8 @@ smtp_password: null
 #signup_ip_max_burst:
 #signup_email_per_day:
 #signup_email_max_burst:
+# Private key for signing id_tokens
+#doorkeeper_signing_key: |
+#  -----BEGIN PRIVATE KEY-----
+#  ...
+#  -----END PRIVATE KEY-----

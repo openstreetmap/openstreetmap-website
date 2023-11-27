@@ -4,7 +4,7 @@ class UserSignupTest < ApplicationSystemTestCase
   test "Sign up from login page" do
     visit login_path
 
-    click_on "Register now"
+    click_link "Register now"
 
     assert_content "Confirm Password"
   end
@@ -13,7 +13,7 @@ class UserSignupTest < ApplicationSystemTestCase
     user = build(:user)
 
     visit root_path
-    click_on "Sign Up"
+    click_link "Sign Up"
     fill_in "Email", :with => user.email
     fill_in "Email Confirmation", :with => user.email
     fill_in "Display Name", :with => user.display_name
@@ -22,7 +22,7 @@ class UserSignupTest < ApplicationSystemTestCase
     click_button "Sign Up"
 
     assert_content "Contributor terms"
-    click_on "Cancel"
+    click_button "Cancel"
 
     assert_current_path "https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined"
   end

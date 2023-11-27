@@ -115,7 +115,7 @@ module Api
       trace.save!
 
       # Finally save the user's preferred privacy level
-      if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
+      if pref = current_user.preferences.find_by(:k => "gps.trace.visibility")
         pref.v = visibility
         pref.save
       else

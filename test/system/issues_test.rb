@@ -80,21 +80,21 @@ class IssuesTest < ApplicationSystemTestCase
     # No issues against the user
     visit issues_path
     fill_in "search_by_user", :with => good_user.display_name
-    click_on "Search"
+    click_button "Search"
     assert_no_content I18n.t("issues.index.user_not_found")
     assert_content I18n.t("issues.index.issues_not_found")
 
     # User doesn't exist
     visit issues_path
     fill_in "search_by_user", :with => "Nonexistent User"
-    click_on "Search"
+    click_button "Search"
     assert_content I18n.t("issues.index.user_not_found")
     assert_content I18n.t("issues.index.issues_not_found")
 
     # Find Issue against bad_user
     visit issues_path
     fill_in "search_by_user", :with => bad_user.display_name
-    click_on "Search"
+    click_button "Search"
     assert_no_content I18n.t("issues.index.user_not_found")
     assert_no_content I18n.t("issues.index.issues_not_found")
   end
@@ -106,7 +106,7 @@ class IssuesTest < ApplicationSystemTestCase
     visit issue_path(issue)
 
     fill_in :issue_comment_body, :with => "test comment"
-    click_on "Add Comment"
+    click_button "Add Comment"
     assert_content I18n.t("issue_comments.create.comment_created")
     assert_content "test comment"
 
@@ -123,7 +123,7 @@ class IssuesTest < ApplicationSystemTestCase
 
     fill_in :issue_comment_body, :with => "reassigning to moderators"
     check :reassign
-    click_on "Add Comment"
+    click_button "Add Comment"
 
     assert_content "and the issue was reassigned"
     assert_current_path issues_path(:status => "open")
@@ -140,7 +140,7 @@ class IssuesTest < ApplicationSystemTestCase
 
     fill_in :issue_comment_body, :with => "reassigning to moderators"
     check :reassign
-    click_on "Add Comment"
+    click_button "Add Comment"
 
     assert_content "and the issue was reassigned"
     assert_current_path issue_path(issue)

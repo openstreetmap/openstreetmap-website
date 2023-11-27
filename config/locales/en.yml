@@ -5,6 +5,8 @@ en:
     formats:
       friendly: "%e %B %Y at %H:%M"
       blog: "%e %B %Y"
+  count:
+    at_least_pattern: "%{count}+"
   helpers:
     file:
       prompt: Choose file
@@ -254,6 +256,7 @@ en:
         retain_notes: Your map notes and note comments, if any, will be retained but hidden from view.
         retain_changeset_discussions: Your changeset discussions, if any, will be retained.
         retain_email: Your email address will be retained.
+        recent_editing_html: "As you have edited recently your account cannot currently be deleted. Deletion will be possible in %{time}."
         confirm_delete: Are you sure?
         cancel: Cancel
   accounts:
@@ -463,6 +466,7 @@ en:
     contact:
       km away: "%{count}km away"
       m away: "%{count}m away"
+      latest_edit_html: "Latest edit (%{ago}):"
     popup:
       your location: "Your location"
       nearby mapper: "Nearby mapper"
@@ -557,10 +561,31 @@ en:
       newer_comments: "Newer Comments"
       older_comments: "Older Comments"
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: "The authorization server requires end-user account selection"
+        consent_required: "The authorization server requires end-user consent"
+        interaction_required: "The authorization server requires end-user interaction"
+        login_required: "The authorization server requires end-user authentication"
     flash:
       applications:
         create:
           notice: Application Registered.
+    openid_connect:
+      errors:
+        messages:
+          # Configuration error messages
+          auth_time_from_resource_owner_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner missing configuration."
+          reauthenticate_resource_owner_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner missing configuration."
+          resource_owner_from_access_token_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token missing configuration."
+          select_account_for_resource_owner_not_configured: "Failure due to Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner missing configuration."
+          subject_not_configured: "ID Token generation failed due to Doorkeeper::OpenidConnect.configure.subject missing configuration."
+    scopes:
+      address: "View your physical address"
+      email: "View your email address"
+      openid: "Authenticate your account"
+      phone: "View your phone number"
+      profile: "View your profile information"
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Contact
@@ -1996,6 +2021,12 @@ en:
           Resources Canada), and StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Canada
+        contributors_cz_credit_html: |
+          %{czechia}: Contains data from the State Administration of Land Surveying
+          and Cadastre licensed under %{cc_licence_link}
+        contributors_cz_czechia: Czechia
+        contributors_cz_cc_licence: Creative Commons Attribution 4.0 International licence (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
         contributors_fi_credit_html: |
           %{finland}: Contains data from the
           National Land Survey of Finland's Topographic Database
@@ -2528,6 +2559,7 @@ en:
     permissions:
       missing: "You have not permitted the application access to this facility"
     scopes:
+      openid: Sign-in using OpenStreetMap
       read_prefs: Read user preferences
       write_prefs: Modify user preferences
       write_diary: Create diary entries, comments and make friends
@@ -2701,7 +2733,6 @@ en:
       ct status: "Contributor terms:"
       ct undecided: Undecided
       ct declined: Declined
-      latest edit: "Latest edit (%{ago}):"
       email address: "Email address:"
       created from: "Created from:"
       status: "Status:"
@@ -2709,12 +2740,15 @@ en:
       role:
         administrator: "This user is an administrator"
         moderator: "This user is a moderator"
+        importer: "This user is a importer"
         grant:
           administrator: "Grant administrator access"
           moderator: "Grant moderator access"
+          importer: "Grant importer access"
         revoke:
           administrator: "Revoke administrator access"
           moderator: "Revoke moderator access"
+          importer: "Revoke importer access"
       block_history: "Active Blocks"
       moderator_history: "Blocks Given"
       comments: "Comments"
@@ -2814,8 +2848,8 @@ en:
     revoke:
       title: "Revoking block on %{block_on}"
       heading_html: "Revoking block on %{block_on} by %{block_by}"
-      time_future: "This block will end in %{time}."
-      past: "This block ended %{time} and cannot be revoked now."
+      time_future_html: "This block will end in %{time}."
+      past_html: "This block ended %{time} and cannot be revoked now."
       confirm: "Are you sure you wish to revoke this block?"
       revoke: "Revoke!"
       flash: "This block has been revoked."
@@ -2966,6 +3000,7 @@ en:
         cyclosm: CyclOSM
         cycle_map: Cycle Map
         transport_map: Transport Map
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitarian
         opnvkarte: ÖPNVKarte
       layers:
@@ -2986,6 +3021,8 @@ en:
       andy_allan: Andy Allan
       opnvkarte_credit: "Tiles courtesy of %{memomaps_link}"
       memomaps: MeMoMaps
+      tracestrack_credit: "Tiles courtesy of %{tracestrack_link}"
+      tracestrack: Tracestrack
       hotosm_credit: "Tiles style by %{hotosm_link} hosted by %{osm_france_link}"
       hotosm_name: Humanitarian OpenStreetMap Team
     site:
@@ -2997,6 +3034,7 @@ en:
       map_data_zoom_in_tooltip: Zoom in to see map data
       queryfeature_tooltip: Query features
       queryfeature_disabled_tooltip: Zoom in to query features
+      embed_html_disabled: HTML embedding is not available for this map layer
     changesets:
       show:
         comment: "Comment"

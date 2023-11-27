@@ -16,13 +16,13 @@ module PasswordHash
     if Argon2::HashFormat.valid_hash?(hash)
       Argon2::Password.verify_password(candidate, hash)
     elsif salt.nil?
-      hash == Digest::MD5.hexdigest(candidate)
+      ActiveSupport::SecurityUtils.secure_compare(hash, Digest::MD5.hexdigest(candidate))
     elsif salt.include?("!")
       algorithm, iterations, salt = salt.split("!")
       size = Base64.strict_decode64(hash).length
-      hash == pbkdf2(candidate, salt, iterations.to_i, size, algorithm)
+      ActiveSupport::SecurityUtils.secure_compare(hash, pbkdf2(candidate, salt, iterations.to_i, size, algorithm))
     else
-      hash == Digest::MD5.hexdigest(salt + candidate)
+      ActiveSupport::SecurityUtils.secure_compare(hash, Digest::MD5.hexdigest(salt + candidate))
     end
   end
 

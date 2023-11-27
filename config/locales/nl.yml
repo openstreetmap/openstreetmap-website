@@ -364,8 +364,8 @@ nl:
       find_out_why: lees waarom
       email_not_revealed: Door uw account openbaar te maken wordt uw e-mailadres niet
         onthuld.
-      not_reversible: Deze actie kan niet ongedaan worden gemaakt en alle nieuwe gebruikers
-        zijn nu standaard openbaar.
+      not_reversible: Deze handeling kan niet ongedaan worden gemaakt en alle nieuwe
+        gebruikers zijn nu standaard openbaar.
       make_edits_public_button: Al mijn wijzigingen  openbaar maken
     update:
       success_confirm_needed: Gebruikersinformatie succesvol bijgewerkt. Controleer
@@ -544,6 +544,7 @@ nl:
     contact:
       km away: '%{count} km verwijderd'
       m away: '%{count} m verwijderd'
+      latest_edit_html: 'Laatste bewerking (%{ago}):'
     popup:
       your location: Uw locatie
       nearby mapper: Dichtbijzijnde mapper
@@ -641,10 +642,36 @@ nl:
       newer_comments: Nieuwere reacties
       older_comments: Oudere reacties
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Voor de autorisatieserver is de selectie van een
+          eindgebruikersaccount vereist
+        consent_required: De autorisatieserver vereist toestemming van de eindgebruiker
+        interaction_required: De autorisatieserver vereist interactie van de eindgebruiker
+        login_required: De autorisatieserver vereist authenticatie van de eindgebruiker
     flash:
       applications:
         create:
           notice: Toepassing geregistreerd.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Fout vanwege ontbrekende configuratie
+            van Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Fout vanwege ontbrekende configuratie
+            van Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Fout vanwege ontbrekende
+            configuratie van Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Fout vanwege ontbrekende
+            configuratie van Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          subject_not_configured: Het genereren van het ID-token is mislukt vanwege
+            een ontbrekende configuratie van Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Uw fysieke adres bekijken
+      email: Uw e-mailadres bekijken
+      openid: Uw account authenticeren
+      phone: Uw telefoonnummer bekijken
+      profile: Uw profielgegevens bekijken
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/NL:Contact_channels
@@ -2121,6 +2148,12 @@ nl:
           rijkdommen Canada), en StatCan (Afdeling geografie,
           Statistiek Canada).
         contributors_ca_canada: Canada
+        contributors_cz_credit_html: '%{czechia}: Bevat gegevens van de Staatsdienst
+          voor Landmeting en Kadaster met licentie %{cc_licence_link}'
+        contributors_cz_czechia: Tsjechië
+        contributors_cz_cc_licence: Licentie Creative Commons Naamsvermelding 4.0
+          Internationaal (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.nl
         contributors_fi_credit_html: |-
           %{finland}: Bevat gegevens uit de Nationale Landopmeting
           van Finlands Topografische Database
@@ -2600,12 +2633,12 @@ nl:
         other: GPX-bestand met %{count} punten van %{user}
       description_without_count: GPX-bestand van %{user}
   application:
-    permission_denied: U hebt geen toestemming om toegang te krijgen tot die actie
+    permission_denied: U hebt geen toestemming om toegang te krijgen tot die handeling
     require_cookies:
       cookies_needed: U hebt cookies waarschijnlijk uitgeschakeld in uw browser. Schakel
         cookies in voordat u verder gaat.
     require_admin:
-      not_an_admin: U moet admin zijn om deze handeling uit te kunnen voeren.
+      not_an_admin: U moet moderator zijn om deze handeling te kunnen verrichten.
     setup_user_auth:
       blocked_zero_hour: U heeft een urgente melding op de website van OpenStreetMap.
         U moet het bericht lezen voordat u uw wijzigingen op kunt slaan.
@@ -2647,6 +2680,7 @@ nl:
     permissions:
       missing: U heeft niet toegestaan dat de toepassing toegang heeft tot dit kenmerk.
     scopes:
+      openid: Aanmelden met OpenStreetMap
       read_prefs: Gebruikersvoorkeuren lezen
       write_prefs: Gebruikersvoorkeuren wijzigen
       write_diary: Dagboekberichten schrijven, reacties geven en vrienden maken
@@ -2839,7 +2873,6 @@ nl:
       ct status: 'Voorwaarden voor bijdragen:'
       ct undecided: Onbeslist
       ct declined: Afgewezen
-      latest edit: 'Laatste bewerking (%{ago}):'
       email address: 'E-mailadres:'
       created from: 'Aangemaakt door:'
       status: 'Status:'
@@ -2961,8 +2994,8 @@ nl:
     revoke:
       title: Blokkade voor %{block_on} intrekken
       heading_html: Blokkade voor %{block_on} door %{block_by} intrekken
-      time_future: Deze blokkade vervalt over %{time}.
-      past: De blokkade is %{time} vervallen en kan nu niet ingetrokken worden.
+      time_future_html: Deze blokkade vervalt over %{time}.
+      past_html: De blokkade is %{time} vervallen en kan nu niet ingetrokken worden.
       confirm: Weet u zeker dat u deze blokkade wilt intrekken?
       revoke: Intrekken
       flash: Deze blokkade is ingetrokken.
@@ -3122,6 +3155,7 @@ nl:
         cyclosm: CyclOSM
         cycle_map: Fietskaart
         transport_map: Transportkaart
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitair
         opnvkarte: ÖPNVKarte
       layers:
@@ -3140,6 +3174,7 @@ nl:
       andy_allan: Andy Allan
       opnvkarte_credit: Tegels met dank aan %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Tegels met dank aan %{tracestrack_link}
       hotosm_credit: Kaartstijl door %{hotosm_link} gehost door %{osm_france_link}
       hotosm_name: Humanitair OpenStreetMap-team
     site:

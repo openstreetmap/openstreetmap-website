@@ -37,6 +37,7 @@
 # Author: StarrySky
 # Author: StephDC
 # Author: SupaplexTW
+# Author: Tntchn
 # Author: TongcyDai
 # Author: Wehwei
 # Author: Winston Sung
@@ -60,7 +61,7 @@ zh-TW:
       diary_comment:
         create: 評論
       diary_entry:
-        create: 發佈
+        create: 發布
         update: 更新
       issue_comment:
         create: 添加評論
@@ -297,6 +298,7 @@ zh-TW:
         retain_notes: 若有您的地圖註記與註記評論內容，這將會繼續保留；不過會隱藏起來。
         retain_changeset_discussions: 若有您的變更集討論，這將會繼續保留。
         retain_email: 您的電子郵件地址將會繼續保留。
+        recent_editing_html: 因為您最近有作過編輯，目前無法刪除您的帳號。在 %{time} 後才可刪除。
         confirm_delete: 您確定嗎？
         cancel: 取消
   accounts:
@@ -499,6 +501,7 @@ zh-TW:
     contact:
       km away: '%{count} 公里遠'
       m away: '%{count} 公尺遠'
+      latest_edit_html: 上次編輯於%{ago}：
     popup:
       your location: 您的位置
       nearby mapper: 附近的製圖者
@@ -592,10 +595,34 @@ zh-TW:
       newer_comments: 較新的評論
       older_comments: 較舊的評論
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: 授權伺服器需要終端使用者選擇
+        consent_required: 授權伺服器需要終端使用者同意
+        interaction_required: 授權伺服器需要終端使用者互動
+        login_required: 授權伺服器需要終端使用者身份驗證
     flash:
       applications:
         create:
           notice: 應用程式已註冊。
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            缺少設置導致失敗。
+          reauthenticate_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            缺少設置導致失敗。
+          resource_owner_from_access_token_not_configured: 因 Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            缺少設置導致失敗。
+          select_account_for_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner  缺少設置導致失敗。
+          subject_not_configured: 因 Doorkeeper::OpenidConnect.configure.subject 缺少配置，產生
+            ID 權杖失敗。
+    scopes:
+      address: 查看您的實際地址
+      email: 查看您的電子郵件位址
+      openid: 驗證您的帳號
+      phone: 查看您的電話號碼
+      profile: 查看您的個人資訊
   errors:
     contact:
       contact_url_title: 各種聯絡管道說明
@@ -1249,7 +1276,7 @@ zh-TW:
           carpet: 地毯店
           charity: 慈善商店
           cheese: 起士店鋪
-          chemist: 化學材料行
+          chemist: 藥妝店
           chocolate: 巧克力店鋪
           clothes: 服飾店
           coffee: 咖啡店
@@ -1698,7 +1725,7 @@ zh-TW:
       send_message_to_html: 寄出新訊息給 %{name}
       back_to_inbox: 回到收件匣
     create:
-      message_sent: 訊息已寄出
+      message_sent: 已傳送訊息
       limit_exceeded: 您最近寄出了大量的訊息。在嘗試寄出其他訊息之前請稍候。
     no_such_message:
       title: 沒有這個訊息
@@ -1931,7 +1958,7 @@ zh-TW:
           儘管 OpenStreetMap 是開放資料，我們不對第三方提供免費的地圖 API。
           請參閱我們的%{api_usage_policy_link}、%{tile_usage_policy_link}、和%{nominatim_usage_policy_link}。
         more_2_1_api_usage_policy: API 使用方針
-        more_2_1_tile_usage_policy: 影像塊使用方針
+        more_2_1_tile_usage_policy: 圖磚使用方針
         more_2_1_nominatim_usage_policy: 提名使用方針
         contributors_title_html: 我們的貢獻者
         contributors_intro_html: 我們的貢獻者為成千上萬的人。我們也收納了從國家測繪機構及其他來源等取得的開放版權資料，其中包括：
@@ -1951,6 +1978,10 @@ zh-TW:
         contributors_ca_credit_html: '%{canada}：包含來自 GeoBase&reg;、GeoGratis（&copy;加拿大自然資源處）、CanVec（&copy;加拿大自然資源處）、和
           StatCan（地理部，加拿大統計局）的資料。'
         contributors_ca_canada: 加拿大
+        contributors_cz_credit_html: '%{czechia}：包含來自土地測量局與依據%{cc_licence_link}許可的地籍資料'
+        contributors_cz_czechia: 捷克
+        contributors_cz_cc_licence: 創用 CC 姓名標示 4.0 國際授權條款（CC BY 4.0）
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.zh-hant
         contributors_fi_credit_html: '%{finland}：包含來自芬蘭測量局地形資料庫與其他資料集的資料，依據%{nlsfi_license_link}授權。'
         contributors_fi_finland: 芬蘭
         contributors_fi_nlsfi_license: NLSFI 授權條款
@@ -2395,6 +2426,7 @@ zh-TW:
     permissions:
       missing: 您尚未允許應用程式來訪問此設施
     scopes:
+      openid: 使用 OpenStreetMap 登入
       read_prefs: 讀取使用者偏好設定
       write_prefs: 修改使用者偏好設定
       write_diary: 建立日記、評論和加入好友
@@ -2564,7 +2596,6 @@ zh-TW:
       ct status: 貢獻者條款：
       ct undecided: 未決定
       ct declined: 已拒絕
-      latest edit: 上次編輯於%{ago}：
       email address: 電子郵件地址：
       created from: 建立於：
       status: 狀態：
@@ -2572,12 +2603,15 @@ zh-TW:
       role:
         administrator: 這個使用者是一個管理員
         moderator: 這個使用者是一個仲裁員
+        importer: 此名使用者是匯入者
         grant:
           administrator: 授予管理員權限
           moderator: 授予仲裁員權限
+          importer: 授予匯入權限
         revoke:
           administrator: 撤銷管理員權限
           moderator: 撤銷仲裁員權限
+          importer: 撤銷匯入權限
       block_history: 已封鎖
       moderator_history: 給予封鎖
       comments: 評論
@@ -2672,8 +2706,8 @@ zh-TW:
     revoke:
       title: 正在撤銷對 %{block_on} 的封鎖
       heading_html: 正在撤銷 %{block_by} 對 %{block_on} 的封鎖
-      time_future: 這項封鎖將於 %{time} 結束。
-      past: 這項封鎖已在%{time}結束，現在不能撤銷。
+      time_future_html: 這項封鎖將於 %{time} 結束。
+      past_html: 這項封鎖已在%{time}結束，現在不能撤銷。
       confirm: 你確定要撤銷這項封鎖？
       revoke: 撤銷！
       flash: 這項封鎖已被撤銷。
@@ -2823,6 +2857,7 @@ zh-TW:
         cyclosm: CyclOSM
         cycle_map: 自行車地圖
         transport_map: 交通運輸地圖
+        tracestracktop_topo: 蹤跡地圖地形
         hot: 人道救援
         opnvkarte: 公共交通地圖
       layers:
@@ -2835,13 +2870,15 @@ zh-TW:
       openstreetmap_contributors: OpenStreetMap 貢獻者
       make_a_donation: 捐款
       website_and_api_terms: 網站和 API 條款
-      cyclosm_credit: 由 %{osm_france_link} 代管的 %{cyclosm_link} 所提供影像塊樣式
+      cyclosm_credit: 由 %{osm_france_link} 代管的 %{cyclosm_link} 所提供圖磚樣式
       osm_france: OpenStreetMap 法國
-      thunderforest_credit: '%{thunderforest_link} 提供的影像塊'
+      thunderforest_credit: '%{thunderforest_link} 提供的圖磚'
       andy_allan: Andy Allan
-      opnvkarte_credit: '%{memomaps_link} 提供的影像塊'
+      opnvkarte_credit: '%{memomaps_link} 提供的圖磚'
       memomaps: MeMoMaps
-      hotosm_credit: 由 %{osm_france_link} 代管的 %{hotosm_link} 所提供影像塊樣式
+      tracestrack_credit: '%{tracestrack_link} 提供的圖磚'
+      tracestrack: 蹤跡地圖
+      hotosm_credit: 由 %{osm_france_link} 代管的 %{hotosm_link} 所提供圖磚樣式
       hotosm_name: OpenStreetMap 人道主義團隊
     site:
       edit_tooltip: 編輯地圖

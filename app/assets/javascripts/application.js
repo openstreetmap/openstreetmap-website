@@ -68,14 +68,6 @@ window.updateLinks = function (loc, zoom, layers, object) {
     .toggleClass("disabled", editDisabled);
 };
 
-window.maximiseMap = function () {
-  $("#content").addClass("maximised");
-};
-
-window.minimiseMap = function () {
-  $("#content").removeClass("maximised");
-};
-
 $(document).ready(function () {
   var headerWidth = 0,
       compactWidth = 0;
@@ -111,6 +103,8 @@ $(document).ready(function () {
 
     $("body").removeClass("compact-nav");
 
+    $("header").removeClass("text-nowrap");
+
     updateHeader();
 
     $(window).resize(updateHeader);
@@ -132,6 +126,7 @@ $(document).ready(function () {
   I18n.fallbacks = true;
 
   OSM.preferred_editor = application_data.preferredEditor;
+  OSM.preferred_languages = application_data.preferredLanguages;
 
   if (application_data.user) {
     OSM.user = application_data.user;

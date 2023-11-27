@@ -8,8 +8,6 @@
 #
 
 class Language < ApplicationRecord
-  self.primary_key = "code"
-
   has_many :diary_entries, :foreign_key => "language", :inverse_of => :language
 
   def self.load(file)

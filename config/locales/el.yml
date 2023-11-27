@@ -21,6 +21,7 @@
 # Author: Kongr43gpen
 # Author: Logictheo
 # Author: Macofe
+# Author: McDutchie
 # Author: Michail Angelos Georgoulas
 # Author: Mixasgr
 # Author: NikosLikomitros
@@ -270,6 +271,7 @@ el:
         reopened_at_by_html: Επανενεργοποιήθηκε %{when} από τον %{user}
       rss:
         title: Σημειώσεις OpenStreetMap
+        description_all: Μια λίστα με αναφερόμενες, σχολιασμένες ή κλειστές σημειώσεις
         description_area: Μια λίστα με σημειώσεις, που αναφέρθηκαν, σχολιάστηκαν ή
           επιλύθηκαν στην περιοχή σας [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Μια τροφοδοσία rss για τη σημείωση %{id}
@@ -336,6 +338,10 @@ el:
       delete_account: Διαγραφή λογαριασμού...
     go_public:
       heading: Δημόσια επεξεργασία
+      currently_not_public: Προς το παρόν, οι αλλαγές σας είναι ανώνυμες και οι άνθρωποι
+        δεν μπορούν να σας στείλουν μηνύματα ή να δουν την τοποθεσία σας. Για να δείξετε
+        τι επεξεργαστήκατε και να επιτρέψετε στους άλλους να επικοινωνήσουν μαζί σας
+        μέσω του ιστότοπου, κάντε κλικ στο παρακάτω κουμπί.
       only_public_can_edit: Από την αλλαγή του API 0.6, μόνο οι δημόσιοι χρήστες μπορούν
         να επεξεργάζονται τα δεδομένα χάρτη.
       find_out_why: μάθετε γιατί
@@ -520,6 +526,7 @@ el:
     contact:
       km away: '%{count}km μακριά'
       m away: '%{count}m μακριά'
+      latest_edit_html: 'Τελευταία επεξεργασία (%{ago}):'
     popup:
       your location: Η τοποθεσία σας
       nearby mapper: Κοντινός χαρτογράφος
@@ -578,7 +585,6 @@ el:
       comment_link: Σχολιάστε την καταχώρηση
       reply_link: Αποστολή μηνύματος στον συγγραφέα
       comment_count:
-        zero: Χωρίς σχόλια
         one: '%{count} σχόλιο'
         other: '%{count} σχόλια'
       no_comments: Κανένα σχόλιο
@@ -1465,8 +1471,7 @@ el:
     show:
       title: '%{status} Ζήτημα #%{issue_id}'
       reports:
-        zero: Καμία αναφορά
-        one: 1 αναφορά
+        one: '%{count} αναφορά'
         other: '%{count} αναφορές'
       no_reports: Καμία αναφορά
       report_created_at: Αναφέρθηκε για πρώτη φορά στις %{datetime}
@@ -1540,7 +1545,7 @@ el:
   layouts:
     logo:
       alt_text: Λογότυπο OpenStreetMap
-    home: Μετάβαση στο Σπίτι
+    home: Δείξε το σπίτι μου
     logout: Αποσύνδεση
     log_in: Σύνδεση
     sign_up: Εγγραφή
@@ -1876,7 +1881,7 @@ el:
       delete image: Αφαίρεση της τρέχουσας εικόνας
       replace image: Αντικατάσταση της τρέχουσας εικόνας
       image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
-      home location: Τοποθεσία Σπιτιού
+      home location: Τοποθεσία σπιτιού
       no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
       update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
         χάρτη;
@@ -1968,11 +1973,22 @@ el:
         χρησιμοποιούν αεροφωτογραφίες, συσκευές GPS και τοπικούς χάρτες χαμηλής τεχνολογίας
         για να σιγουρευτούν πως το OSM είναι ακριβής και ενημερωμένο.
       community_driven_title: Βασίζεται στην κοινότητα
+      community_driven_1_html: |-
+        Η κοινότητα του OpenStreetMap είναι ποικίλη, παθιασμένη και αυξάνεται καθημερινά.
+        Οι συνεισφέροντες μας, περιλαμβάνουν ενθουσιώδεις χαρτογράφους, επαγγελματίες GIS, μηχανικούς
+        που τρέχουν τους διακομιστές OSM, ανθρωπιστές που χαρτογραφούν περιοχές που έχουν πληγεί από καταστροφές,
+        και πολλά άλλα.
+        Για να μάθετε περισσότερα σχετικά με την κοινότητα, δείτε στον ιστότοπο %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link} και στο %{osm_foundation_link}.
       community_driven_osm_blog: Ιστολόγιο OpenStreetMap
       community_driven_user_diaries: ημερολόγια χρηστών
       community_driven_community_blogs: ιστολόγια κοινότητας
       community_driven_osm_foundation: Ίδρυμα OSM
       open_data_title: Ανοικτά Δεδομένα
+      open_data_1_html: 'Το OpenStreetMap είναι %{open_data}: είστε ελεύθεροι να την
+        χρησιμοποιήστε για οποιονδήποτε σκοπό, εφόσον μνημονεύετε το OpenStreetMap
+        και τους συνεισφέροντές του. Εάν προσαρμόσετε ή αξιοποιήσετε αυτά τα δεδομένα
+        με συγκεκριμένους τρόπους, πρέπει να διανείμετε το αποτέλεσμα μόνο υπό την
+        ίδια άδεια χρήσης. Δείτε τη σελίδα %{copyright_license_link} για λεπτομέρειες.'
       open_data_open_data: ανοιχτά δεδομένα
       open_data_copyright_license: Σελίδα Πνευματικών Δικαιωμάτων και Άδειας Χρήσης
       legal_title: Νομικό
@@ -2704,14 +2720,13 @@ el:
       diary: Ημερολόγιο
       edits: Επεξεργασίες
       traces: Ίχνη
-      notes: Σημειώσεις Χάρτη
+      notes: Σημειώσεις χάρτη
       remove as friend: Αφαίρεση Φίλου
       add as friend: Προσθήκη Φίλου
       mapper since: 'Χαρτογράφος από:'
       ct status: 'Όροι συνεισφοράς:'
       ct undecided: Αναποφάσιστος
       ct declined: Απορρίφθηκε
-      latest edit: 'Τελευταία επεξεργασία (%{ago}):'
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       created from: 'Δημιουργήθηκε από:'
       status: 'Κατάσταση:'
@@ -2835,8 +2850,8 @@ el:
     revoke:
       title: Ανάκληση φραγής του/της %{block_on}
       heading_html: Ανάκληση φραγής του/της %{block_on} από τον/την %{block_by}
-      time_future: Αυτή η φραγή θα λήξει στις %{time}.
-      past: Αυτή η φραγή τελείωσε %{time} και δεν μπορεί να ανακληθεί τώρα.
+      time_future_html: Αυτή η φραγή θα λήξει στις %{time}.
+      past_html: Αυτή η φραγή τελείωσε %{time} και δεν μπορεί να ανακληθεί τώρα.
       confirm: Είστε σίγουρος πως επιθυμείτε να ανακαλέσετε αυτή τη φραγή;
       revoke: Ανακαλέστε!
       flash: Αυτή η φραγή έχει ανακληθεί.
@@ -2902,7 +2917,7 @@ el:
     index:
       title: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον %{user}
       heading: σημειώσεις του %{user}
-      subheading_html: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον %{user}
+      subheading_html: Σημειώσεις που %{submitted} ή %{commented} από τον %{user}
       no_notes: Χωρίς σημειώσεις
       id: Αναγνωριστικό
       creator: Δημιουργός
@@ -2937,8 +2952,8 @@ el:
       other_problems_resolve: Για όλα τα άλλα προβλήματα με τη σημείωση, επιλύστε
         το μόνοι σας με ένα σχόλιο.
       other_problems_resolved: Για όλα τα άλλα προβλήματα, αρκεί η επίλυση.
-      disappear_date_html: Αυτή η επιλυμένη σημείωση θα εξαφανιστεί από τον χάρτη
-        στις %{disappear_in}.
+      disappear_date_html: Αυτή η επιλυμένη σημείωση θα εξαφανιστεί από το χάρτη σε
+        %{disappear_in}.
     new:
       title: Νέα σημείωση
       intro: Εντοπίσατε λάθος ή κάτι που λείπει; Πείτε το στους άλλους χαρτογράφους
@@ -2981,7 +2996,7 @@ el:
         in: Μεγέθυνση
         out: Σμίκρυνση
       locate:
-        title: Προβολή της Τοποθεσίας μου
+        title: Προβολή της τοποθεσίας μου
         metersPopup:
           one: Είστε εντός %{count} μέτρου από το σημείο
           other: Είστε εντός %{count} μέτρων από το σημείο
@@ -2990,18 +3005,18 @@ el:
           other: Είστε εντός %{count} ποδιών από το σημείο
       base:
         standard: Κανονικός
-        cyclosm: CyclOSM
-        cycle_map: Χάρτης Ποδηλασίας
-        transport_map: Συγκοινωνιακός Χάρτης
+        cyclosm: CyclOSM ποδηλασία
+        cycle_map: Ποδηλασία
+        transport_map: Συγκοινωνία
         hot: Ανθρωπιστικός
-        opnvkarte: ÖPNVKarte
+        opnvkarte: ÖPNVKarte συγκοινωνίες
       layers:
-        header: Στρώματα Χάρτη
-        notes: Σημειώσεις Χάρτη
-        data: Δεδομένα Χάρτη
+        header: Στρώματα
+        notes: Σημειώσεις χάρτη
+        data: Δεδομένα χάρτη
         gps: Δημόσια ίχνη GPS
         overlays: Ενεργοποίηση επικαλύψεων για την αντιμετώπιση προβλημάτων του χάρτη
-        title: Στρώματα
+        title: Στρώματα χάρτη
       openstreetmap_contributors: Συνεισφέροντες OpenStreetMap
       make_a_donation: Κάντε μια δωρεά
       website_and_api_terms: Όροι ιστότοπου και API

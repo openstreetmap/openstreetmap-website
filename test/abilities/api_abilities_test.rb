@@ -9,11 +9,11 @@ class GuestApiAbilityTest < ApiAbilityTest
   test "note permissions for a guest" do
     ability = ApiAbility.new nil
 
-    [:index, :create, :comment, :feed, :show, :search].each do |action|
+    [:index, :create, :feed, :show, :search].each do |action|
       assert ability.can?(action, Note), "should be able to #{action} Notes"
     end
 
-    [:close, :reopen, :destroy].each do |action|
+    [:comment, :close, :reopen, :destroy].each do |action|
       assert ability.cannot?(action, Note), "should not be able to #{action} Notes"
     end
   end

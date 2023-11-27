@@ -316,6 +316,7 @@ de:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -331,6 +332,8 @@ de:
         reopened_at_by_html: '%{when} von %{user} reaktiviert'
       rss:
         title: OpenStreetMap-Hinweise
+        description_all: Eine Liste der gemeldeten, kommentierten oder geschlossenen
+          Notizen
         description_area: Übersicht der gemeldeten, kommentierten oder geschlossen
           Hinweise im Bereich [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})].
         description_item: Ein RSS-Feed für Hinweis %{id}
@@ -585,6 +588,7 @@ de:
     contact:
       km away: '%{count} km entfernt'
       m away: '%{count} m entfernt'
+      latest_edit_html: 'Letzte Änderung (%{ago}):'
     popup:
       your location: Standort
       nearby mapper: Mapper in der Nähe
@@ -682,10 +686,29 @@ de:
       newer_comments: Neuere Kommentare
       older_comments: Ältere Kommentare
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Der Autorisierungsserver erfordert die Auswahl
+          eines Endbenutzerkontos
+        consent_required: Der Autorisierungsserver erfordert die Zustimmung des Endbenutzers
+        interaction_required: Der Autorisierungsserver erfordert eine Interaktion
+          des Endbenutzers
+        login_required: Der Autorisierungsserver erfordert eine Endbenutzerauthentifizierung
     flash:
       applications:
         create:
           notice: Anwendung registriert.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Fehler aufgrund fehlender
+            Konfiguration Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Fehler aufgrund fehlender
+            Konfiguration Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+    scopes:
+      address: Physische Adresse anzeigen
+      email: E-Mail-Adresse anzeigen
+      openid: Account authentifizieren
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/DE:Kommunikationskan%C3%A4le
@@ -1248,7 +1271,7 @@ de:
           employment_agency: Arbeitsamt
           energy_supplier: Büro eines Energieversorgers
           estate_agent: Immobilienhändler
-          financial: Finanzamt
+          financial: Finanzdienstleister
           government: Amt
           insurance: Versicherungsbüro
           it: IT-Büro
@@ -1946,6 +1969,9 @@ de:
       home location: Heimatstandort
       no home location: Du hast noch keinen Standort angegeben.
       update home location on click: Standort beim Klick auf die Karte aktualisieren
+      show: Anzeigen
+      delete: Löschen
+      undelete: Löschen rückgängig machen
     update:
       success: Profil aktualisiert.
       failure: Profil konnte nicht aktualisiert werden.
@@ -2112,6 +2138,14 @@ de:
         credit_2_2: Mache deutlich, dass die Daten unter der Open Database-Lizenz
           verfügbar sind.
         credit_3_attribution_guidelines: Richtlinien für Namensnennungen
+        credit_4_1_html: Um klarzustellen, dass die Daten unter der Open Database
+          License verfügbar sind, kannst Du auf %{this_copyright_page_link} verlinken.
+          Alternativ und als Anforderung, wenn Du OSM in einer Datenform verbreitest,
+          kannst Du die Lizenz(en) direkt benennen und verlinken. In Medien, in denen
+          Links nicht möglich sind (z. B. gedruckte Werke), empfehlen wir, Leser auf
+          openstreetmap.org (vielleicht durch das Erweitern von 'OpenStreetMap' auf
+          diese vollständige Adresse) und auf opendatacommons.org zu verweisen. In
+          diesem Beispiel erscheint der Hinweis in der Ecke der Karte.
         attribution_example:
           alt: Beispiel, wie man auf OpenStreetMap auf einer Webseite hinweist
           title: Namensnennung-Beispiel
@@ -2337,7 +2371,13 @@ de:
       change_preferences: Einstellungen hier ändern
     any_questions:
       title: Fragen?
+      paragraph_1_html: 'OpenStreetMap bietet verschiedene Ressourcen, um mehr über
+        das Projekt zu erfahren, Fragen zu stellen und zu beantworten sowie gemeinsam
+        Themen rund um das Kartieren zu diskutieren und zu dokumentieren. Schau mal
+        hier: %{help_link}. Planst Du, OpenStreetMap in einer Organisation zu verwenden?
+        Dann findest Du hier auch das Willkommenspaket: %{welcome_mat_link}.'
       get_help_here: Hilfe hier erhalten
+      welcome_mat: Schau Dir das Willkommenspaket an
     sidebar:
       search_results: Suchergebnisse
       close: Schließen
@@ -2429,6 +2469,10 @@ de:
         Hier sind noch eine paar nützliche zusätzliche Informationen.
       whats_on_the_map:
         title: Was gehört in die Karte?
+        on_the_map_html: OpenStreetMap ist ein Ort, um Dinge zu kartieren, die sowohl
+          %{real_and_current} sind. Hier findest Du Millionen von Gebäuden, Straßen
+          und anderen Details über Orte. Du kannst diejenigen Merkmale kartieren,
+          die für Dich interessant sind.
       basic_terms:
         title: Grundbegriffe fürs Mapping
         paragraph_1: OpenStreetMap nutzt ein paar spezifische Begriffe. Hier sind
@@ -2448,6 +2492,11 @@ de:
           fehlt, dich einzuarbeiten, wie man in OSM Daten editiert, so gib einfach
           einen Hinweis/melde einen Fehler, dann kann sich ein anderer Mapper darum
           kümmern.
+        para_2_html: 'Gehe einfach zu %{map_link} und klicke dort auf das Notiz-Symbol:
+          %{note_icon}. Dadurch wird ein Marker auf der Karte hinzugefügt, den Du
+          verschieben kannst, indem Du ihn ziehst. Füge Deine Nachricht hinzu, klicke
+          dann auf Speichern, und andere Mapper werden Deinem Hinweis nachgehen.'
+        the_map: die Karte
     communities:
       title: Gemeinschaften
       lede_text: |-
@@ -2459,13 +2508,14 @@ de:
         about_text: Lokale Verbände sind Gruppen auf Landesebene oder Regionsebene,
           die den formellen Schritt unternommen haben, einen gemeinnützigen Rechtskörper
           zu gründen. Sie repräsentieren die Karte und Kartographen der Region, wenn
-          Sie mit der örtlichen Regierung, Wirtschaft oder den Medien zu tun haben.
+          sie mit der örtlichen Regierung, Wirtschaft oder den Medien zu tun haben.
           Sie haben auch eine Zusammengehörigkeit mit der OpenStreetMap Foundation
           (OSMF) gebildet, was ihnen eine Verbindung zu der Rechts- und Urheberrechtsabteilung
           gibt.
         list_text: 'Folgende Gemeinschaften sind offiziell als lokale Verbände eingetragen:'
       other_groups:
         title: Andere Gruppen
+        communities_wiki: Community-Wiki-Seite
   traces:
     visibility:
       private: Privat (werden nur als anonyme, unsortierte Punkte ohne Zeitangaben
@@ -2552,6 +2602,7 @@ de:
       empty_title: Noch nichts vorhanden
       empty_upload_html: '%{upload_link} oder erfahren Sie mehr über GPS-Tracks auf
         der %{wiki_link}.'
+      upload_new: Einen neuen Track hochladen
       wiki_page: Wiki-Seite
       upload_trace: Lade einen Track hoch
       all_traces: Alle Tracks
@@ -2625,6 +2676,7 @@ de:
     permissions:
       missing: Du hast den Anwendungszugriff auf diese Einrichtung nicht zugelassen.
     scopes:
+      openid: Melde Dich mit OpenStreetMap an
       read_prefs: Benutzereinstellungen lesen
       write_prefs: Benutzereinstellungen verändern
       write_diary: Tagebucheinträge und Kommentare erstellen und Freunde finden
@@ -2820,10 +2872,10 @@ de:
       remove as friend: Freund entfernen
       add as friend: Freund hinzufügen
       mapper since: 'Mapper seit:'
+      uid: 'Benutzer-ID:'
       ct status: 'Bedingungen für Mitwirkende:'
       ct undecided: Unentschlossen
       ct declined: Abgelehnt
-      latest edit: 'Letzte Änderung (%{ago}):'
       email address: 'E-Mail-Adresse:'
       created from: 'erstellt aus:'
       status: 'Status:'
@@ -2952,8 +3004,8 @@ de:
     revoke:
       title: Sperre für %{block_on} aufheben
       heading_html: Sperre für %{block_on} durch %{block_by} aufgehoben
-      time_future: 'Blockablaufdatum: %{time}.'
-      past: Diese Sperre endete %{time} und kann nicht mehr aufgehoben werden.
+      time_future_html: 'Blockablaufdatum: %{time}.'
+      past_html: Diese Sperre endete %{time} und kann nicht mehr aufgehoben werden.
       confirm: Bist du sicher, dass du diese Sperre aufheben möchtest?
       revoke: Aufheben
       flash: Die Sperre wurde aufgehoben.
@@ -3020,7 +3072,9 @@ de:
     index:
       title: Hinweise/Fehler erstellt oder kommentiert von %{user}
       heading: Hinweise von %{user}
-      subheading_html: Hinweise/Fehler erstellt oder kommentiert von %{user}
+      subheading_html: Hinweise/Fehler %{submitted} oder %{commented} von %{user}
+      subheading_submitted: eingereicht
+      subheading_commented: kommentiert
       no_notes: Keine Hinweise
       id: ID
       creator: Ersteller
@@ -3112,6 +3166,7 @@ de:
         cyclosm: CyclOSM
         cycle_map: Radfahrerkarte
         transport_map: Verkehrskarte
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitär
         opnvkarte: ÖPNVKarte
       layers:
@@ -3130,6 +3185,7 @@ de:
       andy_allan: Andy Allan
       opnvkarte_credit: Kacheln mit freundlicher Genehmigung von %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Kacheln mit freundlicher Genehmigung von %{tracestrack_link}
       hotosm_credit: Kachelstil von %{hotosm_link}, gehostet von %{osm_france_link}
       hotosm_name: Humanitäres OpenStreetMap Team
     site:

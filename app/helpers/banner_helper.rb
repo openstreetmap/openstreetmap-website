@@ -1,13 +1,19 @@
 module BannerHelper
   def active_banners
     BANNERS.reject do |_k, v|
-      enddate = v[:enddate]
       begin
-        parsed = enddate && Date.parse(enddate)
+        startdate = v[:startdate] && Date.parse(v[:startdate])
       rescue StandardError
-        parsed = nil
+        startdate = nil
       end
-      !parsed.is_a?(Date) || (parsed.is_a?(Date) && parsed.past?)
+
+      begin
+        enddate = v[:enddate] && Date.parse(v[:enddate])
+      rescue StandardError
+        enddate = nil
+      end
+
+      startdate&.future? || enddate&.past?
     end
   end
 

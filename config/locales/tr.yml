@@ -5,6 +5,7 @@
 # Author: Alerque
 # Author: Alidemirtas
 # Author: Alpkant
+# Author: Amire80
 # Author: Archaeodontosaurus
 # Author: Asma
 # Author: BaRaN6161 TURK
@@ -529,6 +530,7 @@ tr:
     contact:
       km away: '%{count} km uzak'
       m away: '%{count} metre yakın'
+      latest_edit_html: 'Son değişiklik (%{ago}):'
     popup:
       your location: Konumum
       nearby mapper: Komşu haritacı
@@ -627,10 +629,37 @@ tr:
       newer_comments: Daha Yeni Yorumlar
       older_comments: Daha Eski Yorumlar
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Yetkilendirme sunucusu son kullanıcı hesabı seçimini
+          gerektiriyor
+        consent_required: Yetkilendirme sunucusu son kullanıcının onayını gerektiriyor
+        interaction_required: Yetkilendirme sunucusu son kullanıcı etkileşimini gerektiriyor
+        login_required: Yetkilendirme sunucusu son kullanıcı kimlik doğrulamasını
+          gerektiriyor
     flash:
       applications:
         create:
           notice: Uygulama Kayıtlı.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            eksik yapılandırmasından kaynaklanan hata.
+          reauthenticate_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            eksik yapılandırmasından kaynaklanan hata.
+          resource_owner_from_access_token_not_configured: Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            eksik yapılandırmasından kaynaklanan hata.
+          select_account_for_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            eksik yapılandırmasından kaynaklanan hata.
+          subject_not_configured: Kimlik Belirteci oluşturma, Doorkeeper::OpenidConnect.configure.subject
+            eksik yapılandırması nedeniyle başarısız oldu.
+    scopes:
+      address: Fiziksel adresinizi görüntüleyin
+      email: E-posta adresinizi görüntüleyin
+      openid: Hesabınızı doğrulayın
+      phone: Telefon numaranızı görüntüleyin
+      profile: Profil bilgilerinizi görüntüleyin
   errors:
     contact:
       contact_url_title: Çeşitli iletişim kanalları açıklandı
@@ -2097,6 +2126,12 @@ tr:
           of Natural Resources Canada), CanVec (&copy; Department of Natural Resources
           Canada), and StatCan (Geography Division, Statistics Canada) verileri içerir.'
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: '%{czechia}: %{cc_licence_link} kapsamında lisanslı
+          Devlet Kadastro İdaresinden veriler içerir'
+        contributors_cz_czechia: Çekya
+        contributors_cz_cc_licence: Creative Commons Atıf 4.0 Uluslararası lisansı
+          (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.tr
         contributors_fi_credit_html: '%{finland}: Finlandiya Topografik Veritabanı
           Ulusal Arazi Araştırması''ndan ve diğer veri kümelerinden veriler içerir
           ve %{nlsfi_license_link} ile lisanslanmıştır.'
@@ -2616,6 +2651,7 @@ tr:
     permissions:
       missing: Uygulamanın bu özelliğe erişimine izin vermediniz
     scopes:
+      openid: OpenStreetMap'i kullanarak oturum açın
       read_prefs: Kullanıcı tercihlerini oku
       write_prefs: Kullanıcı tercihlerini değiştir
       write_diary: Günlük girdiler, yorumlar oluştur ve arkadaşlar edin
@@ -2731,7 +2767,7 @@ tr:
         paragraph_2: Katkıda bulunmaya başlamak için kaydolun. Hesabınızı onaylamak
           için bir e-posta göndereceğiz.
       display name description: Herkes tarafından görünecek bir kullanıcı adı. Bu
-        adı istediğin zaman 'tercihlerim' bölümünde değiştirebilirsin.
+        adı istediğiniz zaman ayarlar bölümünde değiştirebilirsiniz.
       external auth: 'Üçüncü Taraf Kimlik Doğrulaması:'
       use external auth: 'Alternatif olarak bir üçüncü parti uygulaması kullanarak
         oturum aç:'
@@ -2812,7 +2848,6 @@ tr:
       ct status: 'Katılımcının şartları:'
       ct undecided: Kararsız
       ct declined: Reddetti
-      latest edit: 'Son değişiklik (%{ago}):'
       email address: 'E-posta adresi:'
       created from: 'Kullanıldı yazılım:'
       status: 'Durum:'
@@ -2933,8 +2968,8 @@ tr:
       title: '%{block_on} engellerini iptal etme'
       heading_html: '%{block_by} tarafından yapılan %{block_on} engellerini iptal
         etme'
-      time_future: Engellenme %{time} içerisinde bitecek.
-      past: Bu engelleme %{time} bitmiş ve artık iptal edilemez.
+      time_future_html: Engellenme %{time} içerisinde bitecek.
+      past_html: Bu engelleme %{time} bitmiş ve artık iptal edilemez.
       confirm: Bu engeli kaldırmak istediğine emin misin?
       revoke: İptal!
       flash: Bu engelleme iptal edildi.
@@ -3094,6 +3129,7 @@ tr:
         cyclosm: CyclOSM
         cycle_map: Bisiklet Haritası
         transport_map: Ulaşım Haritası
+        tracestracktop_topo: Tracestrack Topo
         hot: İnsancıl
         opnvkarte: ÖPNVKarte
       layers:
@@ -3113,6 +3149,7 @@ tr:
       andy_allan: Andy Allan
       opnvkarte_credit: Döşemeler, %{memomaps_link} katkılarıyla
       memomaps: MeMo Haritaları
+      tracestrack_credit: Döşemeler, %{tracestrack_link} katkılarıyla
       hotosm_credit: '%{osm_france_link} tarafından barındırılan %{hotosm_link} döşeme
         tarzı'
       hotosm_name: İnsani OpenStreetMap Ekibi

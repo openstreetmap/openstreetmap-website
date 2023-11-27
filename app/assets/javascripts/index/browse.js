@@ -48,7 +48,7 @@ OSM.initializeBrowse = function (map) {
 
   function displayFeatureWarning(count, limit, add, cancel) {
     $("#browse_status").html(
-      $("<div>").append(
+      $("<div class='p-3'>").append(
         $("<div class='d-flex'>").append(
           $("<h2 class='flex-grow-1 text-break'>")
             .text(I18n.t("browse.start_rjs.load_data")),

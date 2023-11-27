@@ -81,7 +81,7 @@ class UserMailer < ApplicationMailer
 
       attach_user_avatar(message.sender)
 
-      mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
+      mail :from => from_address(message.sender.display_name, "m", message.id, message.notification_token),
            :to => message.recipient.email,
            :subject => t(".subject", :message_title => message.title)
     end
@@ -102,7 +102,7 @@ class UserMailer < ApplicationMailer
 
       set_references("diary", comment.diary_entry)
 
-      mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
+      mail :from => from_address(comment.user.display_name, "c", comment.id, comment.notification_token(recipient.id), recipient.id),
            :to => recipient.email,
            :subject => t(".subject", :user => comment.user.display_name)
     end
@@ -225,12 +225,12 @@ class UserMailer < ApplicationMailer
     I18n.with_locale(Locale.available.preferred(recipient.preferred_languages), &block)
   end
 
-  def from_address(name, type, id, digest, user_id = nil)
+  def from_address(name, type, id, token, user_id = nil)
     if Settings.key?(:messages_domain) && domain = Settings.messages_domain
       if user_id
-        "#{name} <#{type}-#{id}-#{user_id}-#{digest[0, 6]}@#{domain}>"
+        "#{name} <#{type}-#{id}-#{user_id}-#{token}@#{domain}>"
       else
-        "#{name} <#{type}-#{id}-#{digest[0, 6]}@#{domain}>"
+        "#{name} <#{type}-#{id}-#{token}@#{domain}>"
       end
     else
       Settings.email_from
