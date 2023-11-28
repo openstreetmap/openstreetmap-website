@@ -67,4 +67,7 @@ Rails.application.configure do
 
   # Use the test adapter for ActiveJob during testing.
   config.active_job.queue_adapter = :test
+
+  # Allow FactoryBot to set primary key attributes
+  config.factory_bot.reject_primary_key_attributes = false
 end
