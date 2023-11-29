@@ -53,7 +53,7 @@ function FOSSGISValhallaEngine(id, costing) {
         data: {
           json: JSON.stringify({
             locations: points.map(function (p) {
-              return { lat: p.lat, lon: p.lng };
+              return { lat: p.lat, lon: p.lng, radius: 5 };
             }),
             costing: costing,
             directions_options: {
