@@ -307,6 +307,9 @@ el:
         retain_changeset_discussions: Οι συζητήσεις σας στις ομάδες αλλαγών, εάν υπάρχουν,
           θα διατηρηθούν.
         retain_email: Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας θα διατηρηθεί.
+        recent_editing_html: Καθώς έχετε κάνει πρόσφατα επεξεργασία, δεν μπορείτε
+          να διαγράψετε ακόμη τον λογαριασμό σας. Η διαγραφή του λογαριασμού θα είναι
+          δυνατή σε %{time}.
         confirm_delete: Είσαστε σίγουροι;
         cancel: Ακύρωση
   accounts:
@@ -625,12 +628,46 @@ el:
       newer_comments: Νεότερα σχόλια
       older_comments: Παλαιότερα σχόλια
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Ο διακομιστής εξουσιοδότησης απαιτεί επιλογή λογαριασμού
+          τελικού χρήστη
+        consent_required: Ο διακομιστής εξουσιοδότησης απαιτεί τη συναίνεση του τελικού
+          χρήστη
+        interaction_required: Ο διακομιστής εξουσιοδότησης απαιτεί αλληλεπίδραση από
+          τον τελικό χρήστη
+        login_required: Ο διακομιστής εξουσιοδότησης απαιτεί αυθεντικοποίηση του τελικού
+          χρήστη
     flash:
       applications:
         create:
           notice: Η εφαρμογή καταχωρήθηκε.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Αποτυχία λόγω ελλιπούς διαμόρφωσης
+            του Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            .
+          reauthenticate_resource_owner_not_configured: Αποτυχία λόγω ελλιπούς διαμόρφωσης
+            του Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            .
+          resource_owner_from_access_token_not_configured: Αποτυχία λόγω ελλιπούς
+            διαμόρφωσης του Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            .
+          select_account_for_resource_owner_not_configured: Αποτυχία λόγω ελλιπούς
+            διαμόρφωσης του Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            .
+          subject_not_configured: Η παραγωγή του ID Token απέτυχε λόγω ελλιπούς διαμόρφωσης
+            του Doorkeeper::OpenidConnect.configure.subject .
+    scopes:
+      address: Προβολή της φυσικής διεύθυνσης σας
+      email: Προβολή της διεύθυνσης email σας
+      openid: Αυθεντικοποιήστε τον λογαριασμό σας
+      phone: Προβολή του αριθμού τηλεφώνου σας
+      profile: Προβολή των πληροφοριών του προφίλ σας
   errors:
     contact:
+      contact_url_title: Επεξήγηση διαφόρων καναλιών επικοινωνίας
       contact: επικοινωνία
       contact_the_community_html: Μη διστάσετε να %{contact_link} με την κοινότητα
         του OpenStreetMap εάν έχετε βρει έναν κατεστραμμένο σύνδεσμο / σφάλμα. Σημειώστε
@@ -665,6 +702,7 @@ el:
     search:
       title:
         results_from_html: Αποτελέσματα από %{results_link}
+        latlon: Internal
         osm_nominatim: OpenStreetMap Nominatim
         osm_nominatim_reverse: OpenStreetMap Nominatim
     search_osm_nominatim:
@@ -975,6 +1013,7 @@ el:
           citywalls: Τείχη της πόλης
           fort: Οχυρό
           heritage: Μνημείο πολιτιστικής κληρονομιάς
+          hollow_way: Κοίλο μονοπάτι
           house: Σπίτι
           manor: Έπαυλη
           memorial: Μνημείο
@@ -1996,6 +2035,9 @@ el:
       legal_1_1_terms_of_use: Όροι Χρήσης
       legal_1_1_aup: Αποδεκτές Πολιτικές Χρήσης
       legal_1_1_privacy_policy: Πολιτική Απορρήτου
+      legal_2_1_html: |-
+        Παρακαλούμε %{contact_the_osmf_link}
+        εάν έχετε ερωτήσεις για αδειοδότηση, πνευματικά δικαιώματα ή άλλα νομικά.
       legal_2_1_contact_the_osmf: επικοινωνήστε με το OSMF
       legal_2_2_registered_trademarks: εγγεγραμμένα εμπορικά σήματα του OSMF
       partners_title: Συνεργάτες
@@ -2014,21 +2056,34 @@ el:
         mapping_link: αρχίστε τη χαρτογράφηση
       legal_babble:
         title_html: Πνευματικά δικαιώματα και άδεια χρήσης
+        introduction_1_html: |-
+          Το OpenStreetMap%{registered_trademark_link} είναι %{open_data}, με άδεια χρήσης υπό το
+          %{odc_odbl_link} (ODbL) από το %{osm_foundation_link} (OSMF).
         introduction_1_open_data: ανοιχτά δεδομένα
+        introduction_1_odc_odbl: Open Data Commons Άδεια Ανοικτής Βάσης Δεδομένων
         introduction_1_osm_foundation: Ίδρυμα OpenStreetMap
         introduction_2_legal_code: νομικός κώδικας
         introduction_3_creative_commons: Creative Commons Αναφορά Δημιουργού-Παρόμοια
           Διανομή 2.0
-        credit_title_html: Πως να κάνετε αναφορά στο OpenStreetMap
-        credit_1_html: 'Όπου χρησιμοποιήσετε δεδομένα του OpenStreetMap, χρειάζεται
-          από σας να κάνετε τα παρακάτω πράγματα:'
+        credit_title_html: Πως να κάνετε αναφορά δημιουργού προς το OpenStreetMap
+        credit_1_html: 'Όπου χρησιμοποιείτε δεδομένα του OpenStreetMap, υποχρεούστε
+          να κάνετε τα ακόλουθα δύο πράγματα:'
+        credit_2_1: Δώσετε τα εύσημα στο OpenStreetMap εμφανίζοντας τη σημείωση πνευματικών
+          δικαιωμάτων μας.
+        credit_2_2: Διευκρινίσετε ότι τα δεδομένα είναι διαθέσιμα υπό την Άδεια Ανοιχτής
+          Βάσης Δεδομένων.
         credit_3_attribution_guidelines: Οδηγίες Αναφοράς
         credit_4_1_this_copyright_page: αυτή τη σελίδα πνευματικών δικαιωμάτων
         attribution_example:
           alt: Παράδειγμα του πως αναφέρεται το OpenStreetMap σε μια ιστοσελίδα
           title: Παράδειγμα αναφοράς δημιουργού
         more_title_html: Μαθαίνοντας περισσότερα
+        more_1_1_html: Διαβάστε περισσότερα σχετικά με τη χρήση των δεδομένων μας
+          και πως να μας δώσετε τα εύσημα, στη %{osmf_licence_page_link}.
         more_1_1_osmf_licence_page: Σελίδα Άδειας Χρήσης OSMF
+        more_2_1_html: |-
+          Παρόλο που το OpenStreetMap είναι ανοιχτά δεδομένα, δεν μπορούμε να παρέχουμε API χάρτη για τρίτα μέρη χωρίς χρέωση.
+          Δείτε την %{api_usage_policy_link}, %{tile_usage_policy_link} και %{nominatim_usage_policy_link}.
         more_2_1_api_usage_policy: Πολιτική Χρήσης API
         more_2_1_tile_usage_policy: Πολιτική Χρήσης Πλακιδίων
         more_2_1_nominatim_usage_policy: Πολιτική Χρήσης Nominatim
@@ -2043,16 +2098,29 @@ el:
         contributors_at_cc_by_at_with_amendments: CC BY AT με τροποποιήσεις
         contributors_au_australia: Αυστραλία
         contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: άδεια Creative Commons Αναφορά Δημιουργού 4.0
+          Διεθνές (CC BY 4.0)
         contributors_ca_canada: Καναδάς
+        contributors_cz_czechia: Τσεχία
+        contributors_cz_cc_licence: άδεια Creative Commons Αναφορά Δημιουργού 4.0
+          Διεθνές (CC BY 4.0)
         contributors_fi_finland: Φινλανδία
         contributors_fi_nlsfi_license: Άδεια NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: Περιέχει δεδομένα που προέρχονται από
+          Direction Générale des Impôts.
         contributors_fr_france: Γαλλία
+        contributors_nl_credit_html: '%{netherlands}: Περιέχει δεδομένα &copy; AND
+          (Automotive Navigation Data), 2007 (%{and_link})'
         contributors_nl_netherlands: Κάτω Χώρες
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Περιέχει δεδομένα που προέρχονται από την %{linz_data_service_link}
+          και με άδεια για επαναχρησιμοποίηση υπό %{cc_by_link}.
         contributors_nz_new_zealand: Νέα Ζηλανδία
         contributors_nz_linz_data_service: Υπηρεσία Δεδομένων LINZ
         contributors_nz_cc_by: CC BY 4.0
         contributors_rs_credit_html: |-
-          %{serbia}: Περιέχει δεδομένα από το %{rgz_link} και το %{open_data_portal}
+          %{serbia}: Περιέχει δεδομένα από τη %{rgz_link} και την %{open_data_portal}
           (δημόσιες πληροφορίες της Σερβίας), 2018.
         contributors_rs_serbia: Σερβία
         contributors_rs_rgz: Σερβική Γεωδαιτική Αρχή
@@ -2063,10 +2131,20 @@ el:
         contributors_si_slovenia: Σλοβενία
         contributors_si_gu: Αρχή Χωρομέτρησης και Χαρτογράφησης
         contributors_si_mkgp: Υπουργείο Γεωργίας, Δασών και Τροφίμων
+        contributors_es_credit_html: '%{spain}: Περιέχει δεδομένα που προέρχονται
+          από το Εθνικό Γεωγραφικό Ινστιτούτο της Ισπανίας (%{ign_link}) και το Εθνικό
+          Χαρτογραφικό Σύστημα (%{scne_link}) με άδεια για επαναχρησιμοποίηση υπό
+          %{cc_by_link}.'
         contributors_es_spain: Ισπανία
         contributors_es_ign: IGN
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Περιέχει δεδομένα που προέρχονται
+          από την %{ngi_link}, με την επιφύλαξη κρατικών πνευματικών δικαιωμάτων.'
         contributors_za_south_africa: Νότια Αφρική
+        contributors_za_ngi: 'Προϊσταμένη Διεύθυνση: Εθνικές Γεω-Χωρικές Πληροφορίες'
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: Περιέχει δεδομένα Χαρτογραφικής Υπηρεσίας &copy; Crown πνευματικά δικαιώματα και δικαιώματα βάσης δεδομένων
+          2010-2023.
         contributors_gb_united_kingdom: Ηνωμένο Βασίλειο
         contributors_2_contributors_page: Σελίδα συνεισφερόντων
         contributors_footer_2_html: Η συμπερίληψη δεδομένων στο OpenStreetMap δεν
@@ -2076,6 +2154,13 @@ el:
         infringement_1_html: Υπενθυμίζουμε στους συνεισφέροντες του OSM να μην προσθέτουν
           δεδομένα από πηγές με πνευματικά δικαιώματα (π.χ. Google Maps η έντυπους
           χάρτες) χωρίς την προηγούμενη άδεια από τους ιδιοκτήτες των δικαιωμάτων.
+        infringement_2_1_html: |-
+          Εάν πιστεύετε ότι υλικό με πνευματικά δικαιώματα έχει προστεθεί ακατάλληλα
+          στη βάση δεδομένων του OpenStreetMap ή σε αυτόν τον ιστότοπο,
+          παρακαλούμε ανατρέξτε στη %{takedown_procedure_link} ή συμπληρώστε απευθείας την
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: διαδικασία αφαίρεσης
+        infringement_2_1_online_filing_page: ηλεκτρονική φόρμα
         trademarks_title: Εμπορικά σήματα
         trademarks_1_1_trademark_policy: Πολιτική Εμπορικών Σημάτων
     index:
@@ -2538,6 +2623,7 @@ el:
     permissions:
       missing: Δεν έχετε επιτρέψει την πρόσβαση εφαρμογής σε αυτήν την λειτουργία
     scopes:
+      openid: Συνδεθείτε χρησιμοποιώντας το OpenStreetMap
       read_prefs: Διαβάζει τις προτιμήσεις χρήστη
       write_prefs: Τροποποιεί τις προτιμήσεις χρήστη
       write_diary: Δημιουργήστε καταχωρήσεις ημερολογίου, σχόλια και κάντε φίλους
@@ -2554,11 +2640,11 @@ el:
       title: Επεξεργασία της αίτησής σας
     show:
       title: Λεπτομέρειες OAuth για το %{app_name}
-      key: 'Κωδικός Καταναλωτή :'
-      secret: 'Μυστικό του Καταναλωτή:'
+      key: 'Κλειδί Καταναλωτή:'
+      secret: 'Μυστικό Καταναλωτή:'
       url: 'URL αιτήματος αδειοδότησης:'
       access_url: 'URL πρόσβασης αδειοδότησης:'
-      authorize_url: 'Εξουσιοδοτήστε το URL:'
+      authorize_url: 'URL εξουσιοδότησης:'
       support_notice: Υποστηρίζουμε τις υπογραφές HMAC-SHA1 (συνιστάται) και RSA-SHA1.
       edit: Επεξεργασία λεπτομερειών
       delete: Διαγραφή Πελάτη
@@ -2664,6 +2750,8 @@ el:
       email_confirmation_help_html: Η διεύθυνσή σας δεν εμφανίζεται δημόσια, ανατρέξτε
         στην %{privacy_policy_link} για περισσότερες πληροφορίες.
       privacy_policy: πολιτική απορρήτου
+      privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
+        για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
     terms:
       title: Όροι
       heading: Όροι
@@ -2681,6 +2769,9 @@ el:
       consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, καταστώ τις συνεισφορές
         μου στο κοινό κτήμα (για ελεύθερη χρήση)
       consider_pd_why: τι είναι αυτό;
+      guidance_info_html: 'Πληροφορίες για να βοηθήσουν να κατανοήσετε αυτούς τους
+        όρους: a %{readable_summary_link} και μερικά %{informal_translations_link}'
+      readable_summary: περίληψη αναγνώσιμη από τον άνθρωπο
       informal_translations: ανεπίσημες μεταφράσεις
       continue: Συνέχεια
       decline: Διαφωνώ
@@ -2724,6 +2815,7 @@ el:
       remove as friend: Αφαίρεση Φίλου
       add as friend: Προσθήκη Φίλου
       mapper since: 'Χαρτογράφος από:'
+      uid: 'Id χρήστη:'
       ct status: 'Όροι συνεισφοράς:'
       ct undecided: Αναποφάσιστος
       ct declined: Απορρίφθηκε
@@ -2734,12 +2826,15 @@ el:
       role:
         administrator: Αυτός ο χρήστης είναι διαχειριστής
         moderator: Αυτός ο χρήστης είναι συντονιστής
+        importer: Αυτός ο χρήστης είναι εισαγωγέας
         grant:
           administrator: Χορήγηση πρόσβασης διαχειριστή
           moderator: Χορήγηση πρόσβασης συντονιστή
+          importer: Παραχήρηση πρόσβασης για εισαγωγέα
         revoke:
           administrator: Ανακαλέστε την πρόσβαση διαχειριστή
           moderator: Ανάκληση πρόσβασης συντονιστή
+          importer: Ανάκληση πρόσβασης εισαγωγέα
       block_history: Ενεργές Φραγές
       moderator_history: Φραγές που Επιβλήθηκαν
       comments: Σχόλια
@@ -2918,6 +3013,8 @@ el:
       title: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον %{user}
       heading: σημειώσεις του %{user}
       subheading_html: Σημειώσεις που %{submitted} ή %{commented} από τον %{user}
+      subheading_submitted: υποβλήθηκε
+      subheading_commented: σχολιάστηκε
       no_notes: Χωρίς σημειώσεις
       id: Αναγνωριστικό
       creator: Δημιουργός
@@ -3008,6 +3105,7 @@ el:
         cyclosm: CyclOSM ποδηλασία
         cycle_map: Ποδηλασία
         transport_map: Συγκοινωνία
+        tracestracktop_topo: Tracetrack Topo
         hot: Ανθρωπιστικός
         opnvkarte: ÖPNVKarte συγκοινωνίες
       layers:
@@ -3020,9 +3118,14 @@ el:
       openstreetmap_contributors: Συνεισφέροντες OpenStreetMap
       make_a_donation: Κάντε μια δωρεά
       website_and_api_terms: Όροι ιστότοπου και API
+      cyclosm_credit: Στυλ πλακιδίων από %{cyclosm_link} φιλοξενημένο από %{osm_france_link}
       osm_france: OpenStreetMap Γαλλίας
+      thunderforest_credit: Πλακίδια ευγενική προσφορά του %{thunderforest_link}
       andy_allan: Andy Allan
+      opnvkarte_credit: Πλακίδια ευγενική προσφορά του %{memomaps_link}
       memomaps: MeMoMaps
+      tracestrack_credit: Πλακίδια ευγενική προσφορά του %{tracestrack_link}
+      hotosm_credit: Στυλ πλακιδίων από %{hotosm_link} φιλοξενημένο από %{osm_france_link}
       hotosm_name: Humanitarian OpenStreetMap Team
     site:
       edit_tooltip: Επεξεργασία του χάρτη
@@ -3035,6 +3138,8 @@ el:
       queryfeature_tooltip: Πληροφορίες χαρακτηριστικών
       queryfeature_disabled_tooltip: Μεγεθύνετε τον χάρτη για να μάθετε περισσότερα
         για διάφορα χαρακτηριστικά
+      embed_html_disabled: Η ενσωμάτωση HTML δεν είναι διαθέσιμη γι' αυτό το στρώμα
+        χάρτη
     changesets:
       show:
         comment: Σχολιάζω
