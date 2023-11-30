@@ -5,7 +5,7 @@
     </div>
     <div class="col">
       <p class="text-body-secondary">
-        <%= t ".reported_by_html", :category => report.category,
+        <%= t ".reported_by_html", :category => tag.strong(report.category, :data => { :category => report.category }),
                                    :user => link_to(report.user.display_name, report.user),
                                    :updated_at => tag.time(l(report.updated_at.to_datetime, :format => :friendly),
                                                            :datetime => report.updated_at.xmlschema) %>
