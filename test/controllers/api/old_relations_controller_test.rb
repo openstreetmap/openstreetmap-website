@@ -77,6 +77,43 @@ module Api
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
 
+    def test_redact_relation_by_regular_with_read_prefs_scope
+      auth_header = create_bearer_auth_header(create(:user), %w[read_prefs])
+      do_redact_redactable_relation(auth_header)
+      assert_response :forbidden, "should need to be moderator to redact."
+    end
+
+    def test_redact_relation_by_regular_with_write_api_scope
+      auth_header = create_bearer_auth_header(create(:user), %w[write_api])
+      do_redact_redactable_relation(auth_header)
+      assert_response :forbidden, "should need to be moderator to redact."
+    end
+
+    def test_redact_relation_by_regular_with_write_redactions_scope
+      auth_header = create_bearer_auth_header(create(:user), %w[write_redactions])
+      do_redact_redactable_relation(auth_header)
+      assert_response :forbidden, "should need to be moderator to redact."
+    end
+
+    def test_redact_relation_by_moderator_with_read_prefs_scope
+      auth_header = create_bearer_auth_header(create(:moderator_user), %w[read_prefs])
+      do_redact_redactable_relation(auth_header)
+      assert_response :forbidden, "should need to have write_redactions scope to redact."
+    end
+
+    def test_redact_relation_by_moderator_with_write_api_scope
+      auth_header = create_bearer_auth_header(create(:moderator_user), %w[write_api])
+      do_redact_redactable_relation(auth_header)
+      assert_response :success, "should be OK to redact old version as moderator with write_api scope."
+      # assert_response :forbidden, "should need to have write_redactions scope to redact."
+    end
+
+    def test_redact_relation_by_moderator_with_write_redactions_scope
+      auth_header = create_bearer_auth_header(create(:moderator_user), %w[write_redactions])
+      do_redact_redactable_relation(auth_header)
+      assert_response :success, "should be OK to redact old version as moderator with write_redactions scope."
+    end
+
     ##
     # test that redacted relations aren't visible, regardless of
     # authorisation except as moderator...
@@ -276,6 +313,19 @@ module Api
 
         assert_relations_are_equal history_relation, version_relation
       end
+    end
+
+    def create_bearer_auth_header(user, scopes)
+      token = create(:oauth_access_token,
+                     :resource_owner_id => user.id,
+                     :scopes => scopes)
+      bearer_authorization_header(token.token)
+    end
+
+    def do_redact_redactable_relation(headers = {})
+      relation = create(:relation, :with_history, :version => 4)
+      relation_v3 = relation.old_relations.find_by(:version => 3)
+      do_redact_relation(relation_v3, create(:redaction), headers)
     end
 
     def do_redact_relation(relation, redaction, headers = {})

@@ -32,9 +32,9 @@ class ApiCapability
           can [:destroy, :restore], ChangesetComment if scope?(token, :write_api)
           can :destroy, Note if scope?(token, :write_notes)
           if user&.terms_agreed?
-            can :redact, OldNode if scope?(token, :write_api)
-            can :redact, OldWay if scope?(token, :write_api)
-            can :redact, OldRelation if scope?(token, :write_api)
+            can :redact, OldNode if scope?(token, :write_api) || scope?(token, :write_redactions)
+            can :redact, OldWay if scope?(token, :write_api) || scope?(token, :write_redactions)
+            can :redact, OldRelation if scope?(token, :write_api) || scope?(token, :write_redactions)
           end
         end
       end
