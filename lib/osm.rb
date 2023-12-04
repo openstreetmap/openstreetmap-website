@@ -502,15 +502,8 @@ module OSM
   end
 
   # Construct a random token of a given length
-  def self.make_token(length = 30)
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    token = ""
-
-    length.times do
-      token += chars[(rand * chars.length).to_i].chr
-    end
-
-    token
+  def self.make_token(length = 24)
+    SecureRandom.urlsafe_base64(length)
   end
 
   # Return an SQL fragment to select a given area of the globe
