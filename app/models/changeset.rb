@@ -72,7 +72,7 @@ class Changeset < ApplicationRecord
     # note that this may not be a hard limit - due to timing changes and
     # concurrency it is possible that some changesets may be slightly
     # longer than strictly allowed or have slightly more changes in them.
-    ((closed_at > Time.now.utc) && (num_changes <= MAX_ELEMENTS))
+    (closed_at > Time.now.utc) && (num_changes <= MAX_ELEMENTS)
   end
 
   def set_closed_time_now

@@ -332,7 +332,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
         assert_select "> entry > content > xhtml|div > xhtml|table" do
           assert_select "> xhtml|tr > xhtml|td > xhtml|table" do
-            changeset.tags.each do |key, _|
+            changeset.tags.each_key do |key|
               assert_select "> xhtml|tr > xhtml|td", :text => /^#{key} = /
             end
           end

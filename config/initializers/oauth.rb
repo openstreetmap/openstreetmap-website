@@ -40,12 +40,12 @@ module OpenStreetMap
     def render(options = {})
       text = options.delete(:text)
       if text
-        super options.merge(:plain => text)
+        super(options.merge(:plain => text))
       elsif options.delete(:nothing)
         status = options.delete(:status) || :ok
         head status, options
       else
-        super options
+        super(options)
       end
     end
 
@@ -61,7 +61,7 @@ module OpenStreetMap
           end
         end
 
-        super controller
+        super(controller)
       end
     end
   end

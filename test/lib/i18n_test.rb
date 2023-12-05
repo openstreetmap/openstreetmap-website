@@ -2,7 +2,7 @@ require "test_helper"
 
 class I18nTest < ActiveSupport::TestCase
   I18n.available_locales.each do |locale|
-    define_method("test_#{locale.to_s.underscore}".to_sym) do
+    define_method(:"test_#{locale.to_s.underscore}") do
       without_i18n_exceptions do
         # plural_keys = plural_keys(locale)
 
@@ -57,7 +57,7 @@ class I18nTest < ActiveSupport::TestCase
 
   Rails.root.glob("config/locales/*.yml").each do |filename|
     lang = File.basename(filename, ".yml")
-    define_method("test_#{lang}_for_raw_html".to_sym) do
+    define_method(:"test_#{lang}_for_raw_html") do
       yml = YAML.load_file(filename)
       assert_nothing_raised do
         check_values_for_raw_html(yml)
