@@ -9,34 +9,50 @@ class PasswordsController < ApplicationController
 
   authorize_resource :class => false
 
-  before_action :check_database_writable, :only => [:lost_password, :reset_password]
+  before_action :check_database_writable
 
-  def lost_password
+  def new
+    @title = t ".title"
+  end
+
+  def edit
     @title = t ".title"
 
-    if request.post?
-      user = User.visible.find_by(:email => params[:email])
+    if params[:token]
+      token = UserToken.find_by(:token => params[:token])
 
-      if user.nil?
-        users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
-
-        user = users.first if users.count == 1
-      end
-
-      if user
-        token = user.tokens.create
-        UserMailer.lost_password(user, token).deliver_later
-        flash[:notice] = t ".notice email on way"
-        redirect_to login_path
+      if token
+        self.current_user = token.user
       else
-        flash.now[:error] = t ".notice email cannot find"
+        flash[:error] = t ".flash token bad"
+        redirect_to :action => "new"
       end
+    else
+      head :bad_request
     end
   end
 
-  def reset_password
-    @title = t ".title"
+  def create
+    user = User.visible.find_by(:email => params[:email])
 
+    if user.nil?
+      users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
+
+      user = users.first if users.count == 1
+    end
+
+    if user
+      token = user.tokens.create
+      UserMailer.lost_password(user, token).deliver_later
+      flash[:notice] = t ".notice email on way"
+      redirect_to login_path
+    else
+      flash.now[:error] = t ".notice email cannot find"
+      render :new
+    end
+  end
+
+  def update
     if params[:token]
       token = UserToken.find_by(:token => params[:token])
 
@@ -54,11 +70,13 @@ class PasswordsController < ApplicationController
             session[:fingerprint] = current_user.fingerprint
             flash[:notice] = t ".flash changed"
             successful_login(current_user)
+          else
+            render :edit
           end
         end
       else
         flash[:error] = t ".flash token bad"
-        redirect_to :action => "lost_password"
+        redirect_to :action => "new"
       end
     else
       head :bad_request

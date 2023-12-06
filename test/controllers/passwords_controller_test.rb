@@ -6,19 +6,19 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/user/forgot-password", :method => :get },
-      { :controller => "passwords", :action => "lost_password" }
+      { :controller => "passwords", :action => "new" }
     )
     assert_routing(
       { :path => "/user/forgot-password", :method => :post },
-      { :controller => "passwords", :action => "lost_password" }
+      { :controller => "passwords", :action => "create" }
     )
     assert_routing(
       { :path => "/user/reset-password", :method => :get },
-      { :controller => "passwords", :action => "reset_password" }
+      { :controller => "passwords", :action => "edit" }
     )
     assert_routing(
       { :path => "/user/reset-password", :method => :post },
-      { :controller => "passwords", :action => "reset_password" }
+      { :controller => "passwords", :action => "update" }
     )
   end
 
@@ -26,7 +26,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     # Test fetching the lost password page
     get user_forgot_password_path
     assert_response :success
-    assert_template :lost_password
+    assert_template :new
     assert_select "div#notice", false
 
     # Test resetting using the address as recorded for a user that has an
@@ -41,7 +41,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :success
-    assert_template :lost_password
+    assert_template :new
 
     # Resetting with POST should work
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
@@ -80,7 +80,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :success
-    assert_template :lost_password
+    assert_template :new
     assert_select ".alert.alert-danger", /^Could not find that email address/
 
     # Test resetting using the address as recorded for a user that has an
@@ -124,7 +124,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     # Test a request with a bogus token
     get user_reset_password_path, :params => { :token => "made_up_token" }
     assert_response :redirect
-    assert_redirected_to :action => :lost_password
+    assert_redirected_to :action => :new
 
     # Create a valid token for a user
     token = user.tokens.create
@@ -132,12 +132,12 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     # Test a request with a valid token
     get user_reset_password_path, :params => { :token => token.token }
     assert_response :success
-    assert_template :reset_password
+    assert_template :edit
 
     # Test that errors are reported for erroneous submissions
     post user_reset_password_path, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "different_password" } }
     assert_response :success
-    assert_template :reset_password
+    assert_template :edit
     assert_select "div.invalid-feedback"
 
     # Test setting a new password
