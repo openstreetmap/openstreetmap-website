@@ -60,6 +60,8 @@ class UsersController < ApplicationController
                  session[:referer]
                end
 
+    parse_oauth_referer @referer
+
     append_content_security_policy_directives(
       :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
     )

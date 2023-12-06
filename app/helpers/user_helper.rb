@@ -60,11 +60,25 @@ module UserHelper
     link_to(
       image_tag("#{name}.svg",
                 :alt => t("application.auth_providers.#{name}.alt"),
-                :class => "rounded-3",
-                :size => "36"),
+                :class => "rounded-1",
+                :size => "24"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button",
+      :class => "auth_button p-2 d-block",
+      :title => t("application.auth_providers.#{name}.title")
+    )
+  end
+
+  def auth_button_preferred(name, provider, options = {})
+    link_to(
+      image_tag("#{name}.svg",
+                :alt => t("application.auth_providers.#{name}.alt"),
+                :class => "rounded-1 me-3",
+                :width => "24px",
+                :height => "24px") + t("application.auth_providers.#{name}.title"),
+      auth_path(options.merge(:provider => provider)),
+      :method => :post,
+      :class => "auth_button fs-6 border rounded text-muted text-decoration-none py-2 px-4 d-flex justify-content-center align-items-center",
       :title => t("application.auth_providers.#{name}.title")
     )
   end

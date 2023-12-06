@@ -6,6 +6,10 @@
 <% content_for :heading_class, "p-0 mw-100" %>
 
 <% content_for :heading do %>
+  <% if @client_app_name %>
+    <p class="text-center text-muted fs-6 py-2 mb-0 bg-white"><%= t(".login_to_authorize_html", :client_app_name => @client_app_name) %></p>
+  <% end %>
+
   <div class="header-illustration new-user-main auth-container mx-auto">
     <ul class="nav nav-tabs position-absolute bottom-0 px-3 fs-6 w-100">
       <li class="nav-item">
@@ -19,7 +23,14 @@
 <% end %>
 
 <div id="login_login" class="auth-container mx-auto my-0">
-  <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), user_new_path(:referer => params[:referer]) %></p>
+  <% if @preferred_auth_provider %>
+    <%= render :partial => "auth_providers" %>
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="border-bottom border-1 flex-grow-1"></div>
+      <div class="text-secondary mx-3"><%= t ".or" %></div>
+      <div class="border-bottom border-1 flex-grow-1"></div>
+    </div>
+  <% end %>
 
   <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
     <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
@@ -40,10 +51,17 @@
       <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
     <% end %>
 
-    <%= f.primary t(".login_button"), :tabindex => 4 %>
+    <div class="mb-3">
+      <%= f.primary t(".login_button"), :tabindex => 4 %>
+    </div>
   <% end %>
 
-  <hr>
-
-  <%= render :partial => "auth_providers" %>
+  <% unless @preferred_auth_provider %>
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="border-bottom border-1 flex-grow-1"></div>
+      <div class="text-secondary mx-3"><%= t ".with external" %></div>
+      <div class="border-bottom border-1 flex-grow-1"></div>
+    </div>
+    <%= render :partial => "auth_providers" %>
+  <% end %>
 </div>

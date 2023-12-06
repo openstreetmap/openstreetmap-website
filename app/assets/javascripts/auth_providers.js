@@ -12,7 +12,7 @@ $(document).ready(function () {
   $("#openid_open_url").click(function (e) {
     e.preventDefault();
     $("#openid_url").val("http://");
-    $("#login_auth_buttons").hide();
+    $("#login_auth_buttons").hide().removeClass("d-flex");
     $("#login_openid_url").show();
     $("#openid_login_button").show();
   });

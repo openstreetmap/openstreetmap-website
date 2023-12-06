@@ -4,7 +4,7 @@ class UserSignupTest < ApplicationSystemTestCase
   test "Sign up from login page" do
     visit login_path
 
-    click_on "Register now"
+    click_on "Sign up"
 
     assert_content "Confirm Password"
   end

@@ -6,6 +6,10 @@
 <% content_for :heading_class, "p-0 mw-100" %>
 
 <% content_for :heading do %>
+  <% if @client_app_name %>
+    <p class="text-center text-muted fs-6 py-2 mb-0 bg-white"><%= t(".signup_to_authorize_html", :client_app_name => @client_app_name) %></p>
+  <% end %>
+
   <div class="header-illustration new-user-main auth-container mx-auto">
     <ul class="nav nav-tabs position-absolute bottom-0 px-3 fs-6 w-100">
       <li class="nav-item">
@@ -24,6 +28,15 @@
       <p><strong><%= t ".about.header" %></strong> <%= t ".about.paragraph_1" %></p>
       <p><%= t ".about.paragraph_2" %></p>
     </div>
+
+    <% unless @preferred_auth_provider.nil? %>
+      <%= render :partial => "auth_providers" %>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="border-bottom border-1 flex-grow-1"></div>
+        <div class="text-secondary mx-3"><%= t ".or" %></div>
+        <div class="border-bottom border-1 flex-grow-1"></div>
+      </div>
+    <% end %>
   <% else %>
     <h4><%= t ".about.welcome" %></h4>
   <% end %>
@@ -34,7 +47,7 @@
     <%= f.hidden_field :auth_provider unless current_user.auth_provider.nil? %>
     <%= f.hidden_field :auth_uid unless current_user.auth_uid.nil? %>
 
-    <% if current_user.auth_uid.nil? or not current_user.errors[:email].empty? %>
+    <% if current_user.auth_uid.nil? or @verified_email.nil? or not current_user.errors[:email].empty? %>
       <%= f.email_field :email, :help => t(".email_help_html",
                                            :privacy_policy_link => link_to(t(".privacy_policy"),
                                                                            t(".privacy_policy_url"),
@@ -58,18 +71,17 @@
       </div>
     <% end %>
 
-    <p class="mb-3 text-muted"><%= t(".by_signing_up_html",
-                                     :tou_link => link_to(t("layouts.tou"),
-                                                          "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
-                                                          :target => :new),
-                                     :privacy_policy_link => link_to(t(".privacy_policy"),
-                                                                     t(".privacy_policy_url"),
-                                                                     :title => t(".privacy_policy_title"),
-                                                                     :target => :new),
-                                     :contributor_terms_link => link_to(t(".contributor_terms"),
-                                                                        t(".contributor_terms_url"),
-                                                                        :target => :new)) %></p>
-
+    <p class="mb-3 text-muted fs-6"><%= t(".by_signing_up_html",
+                                          :tou_link => link_to(t("layouts.tou"),
+                                                               "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
+                                                               :target => :new),
+                                          :privacy_policy_link => link_to(t(".privacy_policy"),
+                                                                          t(".privacy_policy_url"),
+                                                                          :title => t(".privacy_policy_title"),
+                                                                          :target => :new),
+                                          :contributor_terms_link => link_to(t(".contributor_terms"),
+                                                                             t(".contributor_terms_url"),
+                                                                             :target => :new)) %></p>
     <%= f.form_group do %>
       <%= f.check_box :consider_pd,
                       :tabindex => 5,
@@ -84,8 +96,12 @@
     </div>
   <% end %>
 
-  <% if current_user.auth_uid.nil? %>
-    <hr>
+  <% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? %>
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="border-bottom border-1 flex-grow-1"></div>
+      <div class="text-secondary mx-3"><%= t ".use external auth" %></div>
+      <div class="border-bottom border-1 flex-grow-1"></div>
+    </div>
     <%= render :partial => "auth_providers" %>
   <% end %>
 </div>
