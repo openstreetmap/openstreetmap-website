@@ -4,7 +4,11 @@
       <% data.each do |entry| %>
         <tr class="mapkey-table-entry" data-layer="<%= name %>" data-zoom-min="<%= entry["min_zoom"] %>" data-zoom-max="<%= entry["max_zoom"] %>">
           <td class="mapkey-table-key align-middle">
-            <%= image_tag "key/#{name}/#{entry['image']}" %>
+            <% if entry["width"] && entry["height"] && entry["fill"] %>
+              <%= image_tag "data:image/svg+xml,#{u("<svg xmlns='http://www.w3.org/2000/svg' width='#{entry['width']}' height='#{entry['height']}'><rect width='100%' height='100%' fill='#{entry['fill']}' /></svg>")}" %>
+            <% else %>
+              <%= image_tag "key/#{name}/#{entry['image']}" %>
+            <% end %>
           </td>
           <td class="mapkey-table-value">
             <%= Array(t(".table.entry.#{entry['name']}")).to_sentence %>
