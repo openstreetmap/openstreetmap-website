@@ -1024,7 +1024,6 @@ CREATE TABLE public.note_comments (
 --
 
 CREATE SEQUENCE public.note_comments_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1060,7 +1059,6 @@ CREATE TABLE public.notes (
 --
 
 CREATE SEQUENCE public.notes_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1206,7 +1204,6 @@ CREATE TABLE public.oauth_nonces (
 --
 
 CREATE SEQUENCE public.oauth_nonces_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3513,6 +3510,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20231206141457'),
 ('20231117170422'),
 ('20231101222146'),
 ('20231029151516'),
