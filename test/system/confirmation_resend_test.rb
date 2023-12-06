@@ -13,10 +13,6 @@ class ConfirmationResendSystemTest < ApplicationSystemTestCase
       fill_in "Confirm Password", :with => "testtest"
       click_on "Sign Up"
     end
-
-    check "I have read and agree to the above contributor terms"
-    check "I have read and agree to the Terms of Use"
-    click_on "Continue"
   end
 
   test "flash message should not contain raw html" do

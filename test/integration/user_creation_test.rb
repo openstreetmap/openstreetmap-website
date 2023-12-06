@@ -35,7 +35,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => dup_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" } }
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" } }
         end
       end
     end
@@ -89,26 +90,18 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     new_email = "newtester@osm.org"
     display_name = "new_tester"
 
-    assert_difference("User.count", 0) do
-      assert_difference("ActionMailer::Base.deliveries.size", 0) do
+    assert_difference("User.count", 1) do
+      assert_difference("ActionMailer::Base.deliveries.size", 1) do
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" } }
-        end
-      end
-    end
-
-    assert_redirected_to "/user/terms"
-
-    assert_difference("User.count") do
-      assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        perform_enqueued_jobs do
-          post "/user/save",
-               :params => { :read_ct => 1, :read_tou => 1 }
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" } }
+          assert_response :redirect
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -138,33 +131,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal user, User.authenticate(:username => new_email, :password => "testtest")
   end
 
-  def test_user_create_no_tou_failure
-    new_email = "#newtester@osm.org"
-    display_name = "new_tester"
-
-    assert_difference("User.count", 0) do
-      assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        perform_enqueued_jobs do
-          post "/user/new",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" } }
-        end
-      end
-    end
-
-    assert_redirected_to "/user/terms"
-
-    perform_enqueued_jobs do
-      post "/user/save"
-      assert_redirected_to "/user/terms"
-    end
-
-    ActionMailer::Base.deliveries.clear
-  end
-
   # Check that the user can successfully recover their password
   def test_lost_password_recovery_success
     # Open the lost password form
@@ -188,16 +154,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
+                                       :pass_crypt_confirmation => password,
+                                       :consider_pd => "1" },
                             :referer => referer }
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
-                            :read_ct => 1, :read_tou => 1 }
+          assert_response(:redirect)
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -247,23 +208,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "openid",
                                        :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt => password,
+                                       :pass_crypt_confirmation => password,
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "openid",
-                                       :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
-                            :read_ct => 1, :read_tou => 1 }
-          assert_response :redirect
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -290,8 +242,9 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "openid",
                                        :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
@@ -325,23 +278,15 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "openid",
                                        :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" },
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" },
                             :referer => referer }
           assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "openid",
-                                       :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" },
-                            :read_ct => 1, :read_tou => 1 }
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -391,22 +336,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt => password,
+                                       :pass_crypt_confirmation => password,
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "google",
-                                       :auth_uid => "123454321",
-                                       :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
-                            :read_ct => 1, :read_tou => 1 }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -434,7 +370,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "google",
                                        :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt_confirmation => "",
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "google")
@@ -469,23 +406,15 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" },
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" },
                             :referer => referer }
           assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "google",
-                                       :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" },
-                            :read_ct => 1, :read_tou => 1 }
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -535,22 +464,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt => password,
+                                       :pass_crypt_confirmation => password,
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "facebook",
-                                       :auth_uid => "123454321",
-                                       :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
-                            :read_ct => 1, :read_tou => 1 }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -578,7 +498,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
                                        :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt_confirmation => "",
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "facebook")
@@ -611,23 +532,15 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" },
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" },
                             :referer => referer }
           assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "facebook",
-                                       :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" },
-                            :read_ct => 1, :read_tou => 1 }
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -677,22 +590,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt => password,
+                                       :pass_crypt_confirmation => password,
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "microsoft", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "microsoft")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "microsoft",
-                                       :auth_uid => "123454321",
-                                       :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
-                            :read_ct => 1, :read_tou => 1 }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -720,7 +624,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
                                        :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt_confirmation => "",
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "microsoft", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "microsoft")
@@ -753,23 +658,15 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" },
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" },
                             :referer => referer }
           assert_redirected_to auth_path(:provider => "microsoft", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "microsoft")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "microsoft",
-                                       :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" },
-                            :read_ct => 1, :read_tou => 1 }
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -819,23 +716,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "github",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt => password,
+                                       :pass_crypt_confirmation => password,
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "github",
-                                       :auth_uid => "123454321",
-                                       :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
-                            :read_ct => 1,
-                            :read_tou => 1 }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -863,7 +750,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "github",
                                        :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt_confirmation => "",
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "github")
@@ -896,24 +784,15 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "github",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" },
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" },
                             :referer => referer }
           assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "github",
-                                       :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" },
-                            :read_ct => 1,
-                            :read_tou => 1 }
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -963,23 +842,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt => password,
+                                       :pass_crypt_confirmation => password,
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "wikipedia",
-                                       :auth_uid => "123454321",
-                                       :pass_crypt => password,
-                                       :pass_crypt_confirmation => password },
-                            :read_ct => 1,
-                            :read_tou => 1 }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -1007,7 +876,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
                                        :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" } }
+                                       :pass_crypt_confirmation => "",
+                                       :consider_pd => "1" } }
           assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
@@ -1040,24 +910,15 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
-                                       :pass_crypt => "",
-                                       :pass_crypt_confirmation => "" },
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :consider_pd => "1" },
                             :referer => referer }
           assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
           post response.location
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
-          assert_redirected_to "/user/terms"
-          post "/user/save",
-               :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
-                                       :display_name => display_name,
-                                       :auth_provider => "wikipedia",
-                                       :auth_uid => "http://localhost:1123/new.tester",
-                                       :pass_crypt => "testtest",
-                                       :pass_crypt_confirmation => "testtest" },
-                            :read_ct => 1,
-                            :read_tou => 1 }
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
