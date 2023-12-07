@@ -124,6 +124,10 @@ class User < ApplicationRecord
   before_save :update_tile
   after_save :spam_check
 
+  generates_token_for :password_reset, :expires_in => 1.week do
+    fingerprint
+  end
+
   def display_name_cannot_be_user_id_with_other_id
     display_name&.match(/^user_(\d+)$/i) do |m|
       errors.add :display_name, I18n.t("activerecord.errors.messages.display_name_is_user_n") unless m[1].to_i == id
