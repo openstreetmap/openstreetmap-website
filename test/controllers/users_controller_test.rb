@@ -312,14 +312,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        perform_enqueued_jobs do
-          post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
-        end
+        post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+        assert_enqueued_with :job => ActionMailer::MailDeliveryJob,
+                             :args => proc { |args| args[3][:args][2] == welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3) }
+        perform_enqueued_jobs
       end
     end
-
-    assert_equal welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3),
-                 User.find_by(:email => user.email).tokens.order("id DESC").first.referer
 
     ActionMailer::Base.deliveries.clear
   end
