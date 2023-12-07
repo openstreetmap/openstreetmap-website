@@ -172,8 +172,12 @@ OpenStreetMap::Application.routes.draw do
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm-email" => "confirmations#confirm_email", :via => [:get, :post]
   post "/user/go_public" => "users#go_public"
-  match "/user/reset-password" => "passwords#reset_password", :via => [:get, :post], :as => :user_reset_password
-  match "/user/forgot-password" => "passwords#lost_password", :via => [:get, :post], :as => :user_forgot_password
+  scope :user, :as => "user" do
+    get "forgot-password" => "passwords#new"
+    post "forgot-password" => "passwords#create"
+    get "reset-password" => "passwords#edit"
+    post "reset-password" => "passwords#update"
+  end
   get "/user/suspended" => "users#suspended"
 
   get "/index.html", :to => redirect(:path => "/")

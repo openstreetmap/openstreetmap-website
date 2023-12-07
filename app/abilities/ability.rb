@@ -19,7 +19,7 @@ class Ability
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show, :comments], DiaryEntry
       can [:index], Note
-      can [:lost_password, :reset_password], :password
+      can [:new, :create, :edit, :update], :password
       can [:index, :show], Redaction
       can [:new, :create, :destroy], :session
       can [:index, :show, :data, :georss, :picture, :icon], Trace
