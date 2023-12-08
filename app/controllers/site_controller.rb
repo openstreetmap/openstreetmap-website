@@ -48,6 +48,7 @@ class SiteController < ApplicationController
 
   def key
     expires_in 7.days, :public => true
+    @key = YAML.load_file(Rails.root.join("config/key.yml"))
     render :layout => false
   end
 
