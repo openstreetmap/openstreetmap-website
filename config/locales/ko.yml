@@ -197,19 +197,31 @@ ko:
         new_email: (절대 공개하지 않습니다)
   datetime:
     distance_in_words_ago:
-      about_x_hours: 약 %{count}시간 전
-      about_x_months: 약 %{count}개월 전
-      about_x_years: 약 %{count}년 전
-      almost_x_years: 거의 %{count}년 전
+      about_x_hours:
+        other: 약 %{count}시간 전
+      about_x_months:
+        other: 약 %{count}개월 전
+      about_x_years:
+        other: 약 %{count}년 전
+      almost_x_years:
+        other: 근 %{count}년 전
       half_a_minute: 30초 전
-      less_than_x_seconds: '%{count}초 미만 전'
-      less_than_x_minutes: '%{count}분 미만 전'
-      over_x_years: '%{count}년 이상 전'
-      x_seconds: '%{count}초 전'
-      x_minutes: '%{count}분 전'
-      x_days: '%{count}일 전'
-      x_months: '%{count}개월 전'
-      x_years: '%{count}년 전'
+      less_than_x_seconds:
+        other: '%{count}초 미만 전'
+      less_than_x_minutes:
+        other: '%{count}분 미만 전'
+      over_x_years:
+        other: '%{count}년 이상 전'
+      x_seconds:
+        other: '%{count}초 전'
+      x_minutes:
+        other: '%{count}분 전'
+      x_days:
+        other: '%{count}일 전'
+      x_months:
+        other: '%{count}개월 전'
+      x_years:
+        other: '%{count}년 전'
   editor:
     default: 기본값 (현재 %{name})
     id:
@@ -254,7 +266,18 @@ ko:
     deletions:
       show:
         title: 내 계정 삭제
+        warning: 경고! 계속 진행하면 계정이 삭제되며 되돌릴 수 없습니다.
         delete_account: 계정 삭제
+        delete_introduction: 아래 버튼을 눌러 오픈히스토리컬맵 계정을 삭제할 수 있습니다. 다음 세부 사항을 참고하시기 바랍니다.
+        delete_profile: 아바타, 설명, 집 위치를 포함한 프로필 정보가 삭제됩니다.
+        delete_display_name: 표시되는 이름이 삭제되며 다른 계정에서 재사용할 수 있습니다.
+        retain_caveats: 하지만 귀하의 계정이 삭제된 이후에도 오픈히스토리컬맵에서 일부 정보가 유지될 수 있습니다.
+        retain_edits: 지도 데이터베이스에 편집 내역이 있을 경우 그대로 유지됩니다.
+        retain_traces: 업로드된 경로가 있는 경우 그대로 유지됩니다.
+        retain_diary_entries: 일기 항목과 일기에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
+        retain_notes: 지도 메모와 메모에 달린 댓글이 있는 경우 유지되지만 보기에서 숨겨집니다.
+        retain_changeset_discussions: 바뀜집합 토론이 있는 경우 유지됩니다.
+        retain_email: 이메일 주소는 그대로 유지됩니다.
         confirm_delete: 확실합니까?
         cancel: 취소
   accounts:
@@ -299,14 +322,21 @@ ko:
   browse:
     created: 만들어짐
     closed: 닫힘
+    created_ago_html: '%{time_ago}에 생성됨'
+    closed_ago_html: '%{time_ago}에 닫힘'
+    created_ago_by_html: '%{time_ago}에 %{user}님이 생성함'
+    closed_ago_by_html: '%{time_ago}에 %{user}님이 닫음'
+    deleted_ago_by_html: '%{time_ago}에 %{user}님이 삭제함'
+    edited_ago_by_html: '%{time_ago}에 %{user}님이 편집함'
     version: 버전
     in_changeset: 변경 집합
     anonymous: 익명
     no_comment: (댓글 없음)
     part_of: '다음의 일부:'
     part_of_relations:
-      one: 관계 1건
       other: 관계 %{count}건
+    part_of_ways:
+      other: 길 %{count}건
     download_xml: XML 다운로드
     view_history: 역사 보기
     view_details: 자세한 내용 보기
@@ -321,6 +351,8 @@ ko:
       relation: 관계(%{count})
       relation_paginated: 관계(%{count}개 중 %{x}-%{y})
       comment: 의견(%{count}개)
+      hidden_comment_by_html: '%{time_ago} %{user}님의 비밀 의견'
+      comment_by_html: '%{time_ago} %{user}님의 의견'
       changesetxml: 변경 집합 XML
       osmchangexml: osmChange XML
       feed:
@@ -339,15 +371,13 @@ ko:
       nodes_count:
         other: 교점 %{count}개
       also_part_of_html:
-        one: '%{related_ways} 길의 일부'
         other: '%{related_ways} 길의 일부'
     relation:
       title_html: '관계: %{name}'
       history_title_html: '관계 역사: %{name}'
       members: 구성 요소
       members_count:
-        one: 구성 항목 1개
-        other: 구성 항목 %{count}개
+        other: 구성 요소 %{count}개
     relation_member:
       entry_role_html: '%{type}에서 %{role}의 %{name}'
       type:
@@ -441,6 +471,7 @@ ko:
     index:
       title: 바뀜집합
       title_user: '%{user}님의 변경 집합'
+      title_user_link_html: '%{user_link}님의 바뀜집합'
       title_friend: 내 친구의 변경 집합
       title_nearby: 근처 사용자의 변경 집합
       empty: 찾는 변경 집합이 없습니다.
@@ -473,6 +504,7 @@ ko:
       friend: 친구
     show:
       title: 내 대시보드
+      no_home_location_html: '%{edit_profile_link}을 하여 집 위치를 설정하면 주변 사용자를 볼 수 있습니다.'
       edit_your_profile: 내 프로파일 편집
       my friends: 내 친구
       no friends: 아직 어떠한 친구도 추가하지 않았습니다.
@@ -520,9 +552,7 @@ ko:
       comment_link: 이 항목에 의견 남기기
       reply_link: 저자에게 메시지 보내기
       comment_count:
-        zero: 댓글 없음
-        one: 댓글 %{count}개
-        other: 댓글 %{count}개
+        other: 의견 %{count}개
       edit_link: 이 항목 편집
       hide_link: 이 항목 숨기기
       unhide_link: 이 항목 숨기기 취소
@@ -549,6 +579,10 @@ ko:
         title: 오픈스트리트맵 일기 항목
         description: 오픈스트리트맵 사용자의 최근 일기 항목
     comments:
+      title: '%{user}님이 추가한 일기 댓글'
+      heading: '%{user}의 일기 댓글'
+      subheading_html: '%{user}님이 추가한 일기 댓글'
+      no_comments: 일기 댓글이 없습니다.
       post: 게시물
       when: 날짜
       comment: 의견
@@ -560,12 +594,21 @@ ko:
         create:
           notice: 애플리케이션을 등록했습니다.
   errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: 다양한 연락처가 설명되어 있습니다.
+      contact: 연락하기
+      contact_the_community_html: 끊어진 링크나 버그를 발견했다면 언제든지 %{contact_link}를 통해 오픈히스토리컬맵
+        커뮤니티에 알려주세요. 요청시 정확한 URL을 밝혀 주세요.
     forbidden:
       title: 접근 거부됨
+      description: 오픈히스토리컬맵 서버에 요청한 이 작업은 관리자만 사용할 수 있습니다(HTTP 403).
     internal_server_error:
       title: 애플리케이션 오류
+      description: 오픈히스토리컬맵 서버가 예상치 못한 상태에 빠져 요청을 수행하지 못했습니다 (HTTP 500)
     not_found:
       title: 파일을 찾을 수 없습니다
+      description: 오픈히스토리컬맵 서버에서 해당 이름으로 파일/디렉토리/API 작업을 찾을 수 없습니다(HTTP 404).
   friendships:
     make_friend:
       heading: '%{user} 님을 친구로 추가할까요?'
@@ -573,6 +616,7 @@ ko:
       success: '%{name}님은 이제 친구입니다!'
       failed: 죄송합니다, %{name}님을 친구로 추가하는 데 실패했습니다.
       already_a_friend: 이미 %{name}님과 친구입니다.
+      limit_exceeded: 최근에 많은 사용자와 친구가 되었습니다. 친구를 더 추가하려면 잠시 기다려주세요.
     remove_friend:
       heading: '%{user}님을 친구 제거할까요?'
       button: 친구 제거
@@ -581,6 +625,7 @@ ko:
   geocoder:
     search:
       title:
+        results_from_html: '%{results_link}의 결과'
         latlon: 내부
     search_osm_nominatim:
       prefix:
@@ -936,12 +981,15 @@ ko:
         man_made:
           adit: 갱도
           advertising: 광고
+          antenna: 안테나
+          avalanche_protection: 눈사태 보호 시설
           beacon: 신호등
           beehive: 벌통
           breakwater: 방파제
           bridge: 다리
           bunker_silo: 벙커
           chimney: 굴뚝
+          communications_tower: 통신탑
           crane: 기중기
           cross: 교차로
           dolphin: 계선주
@@ -1047,7 +1095,10 @@ ko:
           insurance: 보험 회사 사옥
           it: IT 오피스
           lawyer: 변호사 사무실
+          logistics: 물류사무소
+          newspaper: 신문사
           ngo: 비정부 기구 사무실
+          research: 연구실
           tax_advisor: 세무사
           telecommunication: 통신 회사 사옥
           travel_agent: 여행사
@@ -1153,6 +1204,7 @@ ko:
           fishing: 낚시용품점
           florist: 꽃집
           food: 음식 가게
+          frame: 액자 가게
           funeral_directors: 장례식장
           furniture: 가구점
           garden_centre: 원예 용품점
@@ -1215,6 +1267,7 @@ ko:
           variety_store: 잡화점
           video: 비디오 가게
           video_games: 게임 판매점
+          wholesale: 도매점
           wine: 와인 상점
           "yes": 상점
         tourism:
@@ -1409,7 +1462,13 @@ ko:
     intro_text: OpenHistoricalMap은 여러분과 같은 사람들이 만들어, 개방형 라이선스에 따라 자유롭게 사용할 수 있는 세계
       지도입니다.
     intro_2_create_account: 사용자 계정을 만드세요
-    hosting_partners_html: 호스팅은 %{ucl}, %{bytemark}, 다른 %{partners}에서 지원합니다.
+    partners_title: 파트너
+    hosting_partners_html: "<p>\n <a href='https://greeninfo.org'>그린인포 네트워크 (GreenInfo
+      Network)</a>는 인간 중심 디자인 실천, 협업 개발, 오픈 소스 웹 및 지리공간 툴을 포함한 다양한 수단를 사용하여, 비영리 단체와
+      정부 기관에서 사회적, 환경적, 기타 목표를 달성하도록 돕는 비영리 사회복지 매핑 및 커뮤니케이션 기관입니다. \n</p> \n<p> \n
+      <a href='https://developmentseed.org/'>디벨롭먼트 시드 (Development Seed)</a>는 우리에게
+      있어 가장 큰 세계적 과제에 지구 데이터의 응용을 가속화하는 엔지니어링 및 제품 회사입니다. 디벨롭먼트 시드 대규모 지구 데이터, 클라우드
+      컴퓨팅, 지리공간 AI 및 신중한 제품 개발을 활용합니다.\n</p>"
     partners_partners: 협력단체
     tou: 이용 약관
     osm_offline: 데이터베이스 점검을 위해 OpenHistoricalMap의 데이터가 현재 오프라인입니다.
@@ -1433,13 +1492,17 @@ ko:
       subject: '[오픈스트리트맵] %{user}님이 일기 항목에 덧글을 남겼습니다'
       hi: 안녕하세요 %{to_user}님,
       header: '%{from_user}님이 오픈스트리트맵 일기 항목 내 %{subject} 주제에 덧글을 남겼습니다:'
+      header_html: '%{from_user}님이 오픈히스토리컬맵 일기 항목 내 %{subject} 주제에 덧글을 남겼습니다:'
       footer: '%{readurl}에서 댓글을 읽을 수가 있으며, %{commenturl}에서 댓글을 남기거나 %{replyurl}에서
+        저자에게 메시지를 보낼 수 있습니다.'
+      footer_html: '%{readurl}에서 댓글을 읽을 수가 있으며, %{commenturl}에서 댓글을 남기거나 %{replyurl}에서
         저자에게 메시지를 보낼 수 있습니다.'
     message_notification:
       subject: '[오픈스트리트맵] %{message_title}'
       hi: 안녕하세요 %{to_user}님,
       header: '%{from_user}님이 OpenHistoricalMap을 통해 %{subject} 제목으로 된 메시지를 보냈습니다:'
       header_html: '%{from_user}님이 OpenHistoricalMap을 통해 %{subject} 제목으로 된 메시지를 보냈습니다:'
+      footer: 또한 %{readurl}에서 메시지를 읽을 수 있고 %{replyurl}에서 저자에게 메시지를 보낼 수 있습니다.
       footer_html: 또한 %{readurl}에서 메시지를 읽을 수 있고 %{replyurl}에서 저자에게 메시지를 보낼 수 있습니다.
     friendship_notification:
       hi: 안녕하세요 %{to_user}님,
@@ -1448,6 +1511,7 @@ ko:
       see_their_profile: '%{userurl}에서 그들의 프로필을 볼 수 있습니다.'
       see_their_profile_html: '%{userurl}에서 그들의 프로필을 볼 수 있습니다.'
       befriend_them: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
+      befriend_them_html: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
     gpx_failure:
       hi: 안녕하세요 %{to_user}님,
       failed_to_import: '가져오기에 실패했습니다. 오류는 다음과 같습니다:'
@@ -1938,7 +2002,6 @@ ko:
         title: switch2osm
         description: 회사나 단체가 OpenHistoricalMap와 다른 서비스를 기반으로 전환하는 것에 도움을 주십시오.
       welcomemat:
-        url: https://welcome.openstreetmap.org/
         title: 조직에 대해
         description: 단체와의 오픈스트리트맵에 제작 계획이 있습니까? 환영판에서 알아야 할 것을 찾아보세요.
       wiki:
@@ -1951,6 +2014,9 @@ ko:
         오픈스트리트맵에는 프로젝트에 대해 배우고, 질문하고, 답변하고, 매핑 주제에 대해 토론하고 질문하고, 매핑 주제에 대해 공동으로 토론하고 문서화할 수 있는 여러 리소스가 있습니다.
         <a href='%{help_url}'>여기서 도움을 받드세요.</a>.
         OpenHistoricalMap에 기여할 계획을 가진 조직에 속해 있나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
+      get_help_here: 여기에서 도움을 받으세요
+      welcome_mat: '''환영 매트''를 확인하세요'
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: 검색 결과
       close: 닫기
@@ -2053,6 +2119,13 @@ ko:
         paragraph_1: |-
           오픈히스토리맵은 오픈스트리트맵(OSM)과 같은 용어를 사용합니다. 일반적으로 궁금한 점이 있으면 OSM과 같은 방법으로 답을 구할 수 있습니다.
           다음은 유용하게 사용할 수 있는 몇 가지 키워드입니다.
+        a_node_html: '%{node}는 지물의 위치를 나타내는 점입니다 (예: 식당, 나무).'
+        a_way_html: '%{way}은 선 또는 영역입니다 (예:도로, 하천, 호수, 건물).'
+        a_tag_html: '%{tag}는 노드(node)나 길(way)의 속성으로 담긴 데이터입니다 (예: 식당 이름, 도로 제한속도).'
+        editor: 편집자
+        node: 교점
+        way: 길
+        tag: 태그
       rules:
         title: 규칙?! 소통! 합의!!
         para_1_html: "OpenHistoricalMap은 몇 가지 형식적인 규칙이 있지만 우리는 모든 참가자가 협력하고, 공동체와
@@ -2065,6 +2138,11 @@ ko:
         para_1: |-
           그냥 한 가지 간단한 것이 고칠 게 있다거나 가입하면서 편집하는 방법을 배우기에 시간이 없다면,
           참고를 추가하는 것이 낫습니다.
+        para_2_html: |-
+          %{map_link}로 가서 '노트' 아이콘(%{note_icon})을 누르세요.
+          그러면 지도에 표지가 추가되고 끌어서 옮길 수 있습니다.
+          내용을 추가한 다음 저장하면 다른 매퍼가 조사할 것입니다.
+        the_map: 지도
   traces:
     visibility:
       private: 비공개(익명으로 공유됨, 정렬되지 않은 점)
@@ -2083,8 +2161,6 @@ ko:
         완료되면 이메일을 보낼 것입니다.
       upload_failed: 죄송합니다. GPX 업로드를 실패했습니다. 관리자는 해당 오류에 대해 알림을 받았습니다. 다시 시도해 주십시오
       traces_waiting:
-        one: 올리기를 기다리는 궤적 %{count}개가 있습니다. 대기중인 다른 사용자의 올리기를 막지 않도록 올리기가 끝날 때까지 더
-          기다려주십시오.
         other: 올리기를 기다리는 궤적 %{count}개가 있습니다. 대기중인 다른 사용자의 올리기를 막지 않도록 올리기가 끝날 때까지
           더 기다려주십시오.
     edit:
@@ -2124,7 +2200,6 @@ ko:
     trace:
       pending: 보류 중
       count_points:
-        one: 점 1개
         other: 점 %{count}개
       more: 더 보기
       trace_details: 궤적 상세보기
@@ -2138,10 +2213,15 @@ ko:
       in: 위치
     index:
       public_traces: 공개 GPS 궤적
+      my_gps_traces: 내 GPS 궤적
       public_traces_from: '%{user}님의 공개 GPS 궤적'
       description: 최근의 GPS 궤적 업로드 항목 둘러보기
       tagged_with: '%{tags}(으)로 태그함'
+      empty_title: 아직 아무것도 없습니다
+      wiki_page: 위키 문서
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Ko:%EC%B4%88%EB%B3%B4%EC%9E%90_%EC%95%88%EB%82%B4%EC%84%9C
       upload_trace: 궤적 올리기
+      all_traces: 모든 궤적
       my_traces: 내 발자취
       remove_tag_filter: 태그 필터 제거
     destroy:
@@ -2208,6 +2288,8 @@ ko:
       write_api: 지도 수정
       read_gpx: 비공개 GPS 궤적 읽기
       write_gpx: GPS 궤적 업로드
+      write_notes: 참고 수정
+      read_email: 사용자 이메일 주소 읽기
       skip_authorization: 애플리케이션 자동 승인
   oauth_clients:
     new:
@@ -2252,6 +2334,8 @@ ko:
   oauth2_applications:
     index:
       title: 내 클라이언트 애플리케이션
+      no_applications_html: '%{oauth2} 표준을 사용하여 등록하려는 애플리케이션이 있습니까? 이 서비스에 OAuth 요청을
+        하려면 먼저 애플리케이션을 등록해야 합니다.'
       new: 새 애플리케이션 등록
       name: 이름
       permissions: 권한
@@ -2269,8 +2353,13 @@ ko:
       confirm_delete: 이 애플리케이션을 삭제하시겠습니까?
       client_id: 클라이언트 ID
       permissions: 권한
+      redirect_uris: URI 리다이렉트
+    not_found:
+      sorry: 죄송합니다. 해당 애플리케이션을 찾을 수 없습니다.
   oauth2_authorizations:
     new:
+      title: 승인 필요
+      introduction: 다음 권한으로 계정에 액세스할 수 있도록 %{application}을(를) 승인하시겠습니까?
       authorize: 인가
       deny: 거부
     error:
@@ -2282,6 +2371,7 @@ ko:
       title: 내 인증한 애플리케이션
       application: 애플리케이션
       permissions: 권한
+      no_applications_html: 아직 %{oauth2} 애플리케이션을 승인하지 않았습니다.
   users:
     new:
       title: 가입하기
@@ -2378,6 +2468,8 @@ ko:
       activate_user: 이 사용자 활성화
       deactivate_user: 이 사용자 비활성화
       confirm_user: 이 사용자 확인
+      unconfirm_user: 이 사용자 확인
+      unsuspend_user: 이 사용자 정지 해제
       hide_user: 이 사용자를 숨기기
       unhide_user: 이 사용자를 숨기기 취소
       delete_user: 이 사용자를 삭제
@@ -2391,7 +2483,6 @@ ko:
       title: 사용자
       heading: 사용자
       showing:
-        one: '%{page}쪽(%{items} 중 %{first_item} 부분)'
         other: '%{page}쪽(%{items} 중 %{first_item}-%{last_item} 부분)'
       summary_html: '%{name}님이 %{date}에 %{ip_address}에서 만들어짐'
       summary_no_ip_html: '%{name}이(가) %{date}에 만들어짐'
@@ -2490,19 +2581,14 @@ ko:
       time_past_html: '%{time}에 끝났습니다.'
       block_duration:
         hours:
-          one: 1시간
           other: '%{count}시간'
         days:
-          one: 1일
           other: '%{count}일'
         weeks:
-          one: 1주
           other: '%{count}주'
         months:
-          one: 1개월
           other: '%{count}개월'
         years:
-          one: 1년
           other: '%{count}년'
     blocks_on:
       title: '%{name}님에 대해 차단'
@@ -2545,15 +2631,43 @@ ko:
       title: '%{user} 님이 제출했거나 덧글을 남긴 참고'
       heading: '%{user}의 참고'
       subheading_html: '%{user} 님이 제출했거나 덧글을 남긴 참고'
+      no_notes: 메모 없음
       id: ID
       creator: 만든이
       description: 설명
       created_at: 만든 날짜
       last_changed: 마지막으로 바뀜
     show:
+      title: '참고: %{id}'
       description: 설명
+      open_title: '해결되지 않은 참고 #%{note_name}'
+      closed_title: '해결된 참고 #%{note_name}'
+      hidden_title: '숨겨진 참고 #%{note_name}'
+      event_opened_by_html: '%{time_ago} %{user}님이 생성함'
+      event_opened_by_anonymous_html: '%{time_ago} 익명의 사용자가 생성함'
+      event_commented_by_html: '%{time_ago} %{user}님의 의견'
+      event_commented_by_anonymous_html: '%{time_ago} 익명 사용자의 의견'
+      event_closed_by_html: '%{time_ago} %{user}님이 해결 처리함'
+      event_closed_by_anonymous_html: '%{time_ago} 익명의 사용자가 해결 처리함'
+      event_reopened_by_html: '%{time_ago} %{user}님이 재활성화함'
+      event_reopened_by_anonymous_html: '%{time_ago} 익명 사용자가 재활성화함'
+      event_hidden_by_html: '%{time_ago} %{user}님이 숨김 처리함'
+      report: 이 참고 신고하기
+      coordinates_html: '%{latitude}; %{longitude}'
+      anonymous_warning: 이 참고에는 익명 사용자의 의견도 있으므로 별도로 확인해야 합니다.
       hide: 숨기기
+      resolve: 해결
+      reactivate: 재활성화
+      comment_and_resolve: 의견 및 해결
+      comment: 의견
+      report_link_html: 이 참고에 삭제해야 하는 민감한 정보가 포함되어 있으면 %{link}할 수 있습니다.
+      other_problems_resolve: 참고의 다른 모든 문제는 댓글로 직접 해결하시기 바랍니다.
+      disappear_date_html: 이 해결된 참고는 %{disappear_in}에 지도에서 사라집니다.
     new:
+      title: 새로운 참고
+      intro: 실수했거나 없는 무언가를 발견했나요? 다른 매퍼에게 알려주어 고칠 수 있게 해주세요. 마커를 올바른 위치로 이동하고, 참고를
+        남겨 문제를 설명해주세요.
+      advice: 참고는 공개되어 지도 업데이트에 쓰일 수 있으므로 개인정보 또는 저작권이 있는 지도나 디렉터리 리스팅의 정보를 입력하지 마십시오.
       add: 노트 추가
   javascripts:
     close: 닫기
@@ -2590,12 +2704,13 @@ ko:
       locate:
         title: 내 위치 보기
         metersPopup:
-          one: 이 지점은 1미터 이내
-          other: 이 지점까지 %{count}미터
+          other: 이 지점까지 %{count}미터 이내에 있음
         feetPopup:
-          one: 이 지점에서 1피트
-          other: 이 지점까지 %{count}피트
+          other: 이 지점까지 %{count}피트 이내에 있음
       base:
+        historical: 역사 지도
+        woodblock: 목판 지도
+        japanesescroll: 일본풍 지도
         standard: 표준
         cycle_map: 사이클 지도
         transport_map: 교통 지도
@@ -2608,6 +2723,11 @@ ko:
         gps: 공개 GPS 궤적
         overlays: 지도 문제를 해결하기 위해 오버레이를 활성화
         title: 레이어
+      openstreetmap_contributors: 오픈스트리트맵 기여자
+      make_a_donation: 기부하기
+      website_and_api_terms: 웹사이트 및 API 용어
+      osm_france: 오픈스트리트맵 프랑스
+      andy_allan: 앤디 앨런
     site:
       edit_tooltip: 지도 편집
       edit_disabled_tooltip: 지도를 편집하려면 확대
