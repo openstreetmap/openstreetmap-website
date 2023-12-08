@@ -36,7 +36,14 @@ ohmVectorStyles.Original = {
       "maxzoom": 20,
       "filter": ["all"],
       "layout": {"visibility": "visible"},
-      "paint": {"background-color": "rgba(192, 234, 234, 1)"}
+      "paint": {
+        "background-color": {
+          "stops": [
+            [0, "rgba(185, 228, 228, 1)"],
+            [10, "rgba(126, 218, 218, 1)"]
+          ]
+        }
+      }
     },
     {
       "id": "land",
@@ -46,7 +53,7 @@ ohmVectorStyles.Original = {
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(248, 247, 242, 1)"}
+      "paint": {"fill-color": "rgba(255, 255, 255, 1)"}
     },
     {
       "id": "landuse_areas_earth",
@@ -531,7 +538,14 @@ ohmVectorStyles.Original = {
       "minzoom": 0,
       "maxzoom": 24,
       "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(192, 234, 234, 1)"}
+      "paint": {
+        "fill-color": {
+          "stops": [
+            [0, "rgba(185, 228, 228, 1)"],
+            [10, "rgba(126, 218, 218, 1)"]
+          ]
+        }
+      }
     },
     {
       "id": "place_areas_islet",
@@ -554,7 +568,7 @@ ohmVectorStyles.Original = {
       "maxzoom": 24,
       "filter": ["all", ["==", "type", "stream"], ["in", "name", ""]],
       "paint": {
-        "line-color": "rgba(192, 234, 234, 1)",
+        "line-color": "#7EDADA",
         "line-width": {"stops": [[14, 1], [15, 2], [20, 4]]}
       }
     },
@@ -567,7 +581,7 @@ ohmVectorStyles.Original = {
       "maxzoom": 24,
       "filter": ["all", ["==", "type", "stream"], ["!in", "name", ""]],
       "paint": {
-        "line-color": "rgba(192, 234, 234, 1)",
+        "line-color": "#7EDADA",
         "line-width": {"stops": [[12, 0.75], [13, 1.25], [15, 3], [20, 5]]}
       }
     },
@@ -681,7 +695,9 @@ ohmVectorStyles.Original = {
       "maxzoom": 24,
       "filter": ["all", ["==", "type", "river"]],
       "paint": {
-        "line-color": "rgba(192, 234, 234, 1)",
+        "line-color": {
+          "stops": [[0, "#B9E4E4"], [10, "rgba(126, 218, 218, 1)"]]
+        },
         "line-width": {"stops": [[8, 1], [13, 2], [14, 5], [20, 12]]}
       }
     },
@@ -2834,6 +2850,38 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_secondarylink-case",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        ["==", "type", "secondary_link"],
+        ["!=", "tunnel", 1],
+        ["!=", "bridge", 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#D2D2D5",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          10,
+          0.5,
+          11,
+          3,
+          18,
+          39
+        ]
+      }
+    },
+    {
       "id": "roads_primarylink-case",
       "type": "line",
       "source": "osm",
@@ -2892,7 +2940,7 @@ ohmVectorStyles.Original = {
           9,
           2,
           11,
-          3,
+          3.5,
           18,
           40
         ]
@@ -2917,13 +2965,13 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "#ffffff",
+        "line-color": "rgba(230, 143, 124, 1)",
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
           ["zoom"],
-          6,
-          2,
+          10,
+          3,
           18,
           46
         ]
@@ -3060,9 +3108,7 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(240, 240, 240, 1)"], [12, "#ffffff"]]
-        },
+        "line-color": "rgba(255, 255, 255, 1)",
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -3123,13 +3169,15 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(240, 197, 188, 1)",
+        "line-color": "rgba(254, 224, 217, 1)",
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
           ["zoom"],
-          5,
-          1,
+          6,
+          1.5,
+          7,
+          2.5,
           18,
           36
         ]
@@ -3186,9 +3234,7 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [[10, "rgba(240, 240, 240, 1)"], [12, "#ffffff"]]
-        },
+        "line-color": "#ffffff",
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -3233,8 +3279,8 @@ ohmVectorStyles.Original = {
           ["exponential", 1.5],
           ["zoom"],
           6,
-          1.5,
-          7,
+          0.5,
+          8,
           2,
           18,
           32
@@ -3263,7 +3309,7 @@ ohmVectorStyles.Original = {
         "line-color": [
           "step",
           ["zoom"],
-          "rgba(252, 194, 182, 1)",
+          "rgba(254, 194, 182, 1)",
           9,
           "rgba(254, 224, 217, 1)"
         ],
@@ -3272,8 +3318,10 @@ ohmVectorStyles.Original = {
           ["exponential", 1.5],
           ["zoom"],
           6,
-          1.5,
-          7,
+          1,
+          9,
+          2,
+          10,
           2.5,
           18,
           36
@@ -3316,7 +3364,7 @@ ohmVectorStyles.Original = {
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(128, 153, 184, 1)",
+        "line-color": "rgba(162, 175, 191, 1)",
         "line-width": [
           "interpolate",
           ["linear"],
@@ -3325,11 +3373,38 @@ ohmVectorStyles.Original = {
           0.5,
           13,
           0.75,
-          14,
-          1,
           20,
-          1.5
+          1
         ]
+      }
+    },
+    {
+      "id": "roads_rail_mini-dash",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "miniature", "narrow_gauge"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          0.5,
+          13,
+          0.75,
+          20,
+          1
+        ],
+        "line-dasharray": [2, 2]
       }
     },
     {
@@ -3344,9 +3419,9 @@ ohmVectorStyles.Original = {
         ["in", "type", "miniature", "narrow_gauge"],
         ["!in", "service", "yard", "siding"]
       ],
-      "layout": {"visibility": "visible", "line-cap": "square"},
+      "layout": {"visibility": "none", "line-cap": "square"},
       "paint": {
-        "line-color": "rgba(128, 153, 184, 1)",
+        "line-color": "#A2AFBF",
         "line-width": {"stops": [[7, 0], [11, 1.5], [15, 4]]},
         "line-dasharray": {"stops": [[7, [0.2, 2]], [12, [0.2, 4]]]}
       }
@@ -3382,6 +3457,37 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_rail_old-dash",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "dismantled", "abandoned", "disused", "razed"],
+        ["!in", "service", "yard", "siding"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          0.5,
+          13,
+          0.75,
+          14,
+          1,
+          20,
+          1.5
+        ],
+        "line-dasharray": [2, 2]
+      }
+    },
+    {
       "id": "roads_rail_old_cross",
       "type": "line",
       "source": "osm",
@@ -3393,7 +3499,7 @@ ohmVectorStyles.Original = {
         ["in", "type", "dismantled", "abandoned", "disused", "razed"],
         ["!in", "service", "yard", "siding"]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(210, 190, 190, 1)",
         "line-width": [
@@ -3425,6 +3531,77 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_rail-main",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "light_rail", "preserved"],
+        ["!in", "service", "yard", "siding"],
+        ["==", "name", "usage=main"]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(148, 159, 168, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          1,
+          13,
+          1.5,
+          14,
+          2,
+          20,
+          3
+        ]
+      }
+    },
+    {
+      "id": "roads_rail-main-dash",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "light_rail", "preserved"],
+        ["!in", "service", "yard", "siding"],
+        ["==", "name", "usage=main"]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          1,
+          13,
+          1.5,
+          14,
+          2,
+          20,
+          3
+        ],
+        "line-dasharray": [2, 2]
+      }
+    },
+    {
       "id": "roads_rail",
       "type": "line",
       "source": "osm",
@@ -3434,7 +3611,8 @@ ohmVectorStyles.Original = {
       "filter": [
         "all",
         ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"]
+        ["!in", "service", "yard", "siding"],
+        ["!=", "name", "usage=main"]
       ],
       "layout": {
         "visibility": "visible",
@@ -3442,19 +3620,75 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(194, 210, 222, 1)",
+        "line-color": "rgba(167, 179, 188, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 20, 1.5]
+      }
+    },
+    {
+      "id": "roads_rail-dash",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "light_rail", "preserved"],
+        ["!in", "service", "yard", "siding"],
+        ["!=", "name", "usage=main"]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 20, 1.5],
+        "line-dasharray": [3, 2]
+      }
+    },
+    {
+      "id": "roads_rail_cross-main",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "light_rail", "preserved"],
+        ["!in", "service", "yard", "siding"],
+        ["==", "name", "usage=main"]
+      ],
+      "layout": {"visibility": "none", "line-cap": "square"},
+      "paint": {
+        "line-color": "#949FA8",
         "line-width": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          12,
-          0.5,
-          13,
-          0.75,
-          14,
+          7,
           1,
-          20,
-          1.5
+          9,
+          1,
+          12,
+          4,
+          15,
+          6,
+          17,
+          7
+        ],
+        "line-dasharray": [
+          "step",
+          ["zoom"],
+          ["literal", [0.2, 2.5]],
+          12,
+          ["literal", [0.2, 4]],
+          13,
+          ["literal", [0.2, 6]],
+          14,
+          ["literal", [0.2, 8]]
         ]
       }
     },
@@ -3468,11 +3702,12 @@ ohmVectorStyles.Original = {
       "filter": [
         "all",
         ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"]
+        ["!in", "service", "yard", "siding"],
+        ["!=", "name", "usage=main"]
       ],
-      "layout": {"visibility": "visible", "line-cap": "square"},
+      "layout": {"visibility": "none", "line-cap": "square"},
       "paint": {
-        "line-color": "rgba(194, 210, 222, 1)",
+        "line-color": "rgba(167, 179, 188, 1)",
         "line-width": [
           "interpolate",
           ["linear"],
@@ -3536,6 +3771,41 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_rail_construction-dash",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "construction", "proposed"],
+        ["in", "class", "railway"]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          0.5,
+          13,
+          0.75,
+          14,
+          1,
+          20,
+          1.5
+        ],
+        "line-dasharray": [2, 2]
+      }
+    },
+    {
       "id": "roads_rail_construction_cross",
       "type": "line",
       "source": "osm",
@@ -3547,7 +3817,7 @@ ohmVectorStyles.Original = {
         ["in", "type", "construction", "proposed"],
         ["in", "class", "railway"]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": {"visibility": "none"},
       "paint": {
         "line-color": "rgba(199, 204, 213, 1)",
         "line-width": [
@@ -3890,7 +4160,7 @@ ohmVectorStyles.Original = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(177, 186, 203, 1)",
+        "line-color": "rgba(167, 179, 188, 1)",
         "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]}
       }
     },
@@ -3949,13 +4219,13 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["in", "admin_level", 7, 8]],
       "layout": {
         "visibility": "visible",
-        "line-cap": "square",
+        "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(193, 193, 193, 1)",
-        "line-dasharray": [2, 2],
-        "line-width": {"stops": [[10, 1], [12, 1.5]]}
+        "line-color": "rgba(177, 181, 176, 1)",
+        "line-dasharray": [3],
+        "line-width": {"stops": [[10, 0.3], [12, 0.5]]}
       }
     },
     {
@@ -3968,13 +4238,14 @@ ohmVectorStyles.Original = {
       "filter": ["all", ["in", "admin_level", 5, 6]],
       "layout": {
         "visibility": "visible",
-        "line-cap": "square",
-        "line-join": "round"
+        "line-cap": "round",
+        "line-join": "round",
+        "line-miter-limit": 2
       },
       "paint": {
         "line-color": "rgba(179, 179, 179, 1)",
-        "line-dasharray": {"stops": [[6, [1, 1]], [10, [2, 2]]]},
-        "line-width": {"stops": [[6, 0.25], [10, 1.5]]}
+        "line-dasharray": [],
+        "line-width": {"stops": [[6, 0.25], [10, 2]]}
       }
     },
     {
@@ -4025,10 +4296,10 @@ ohmVectorStyles.Original = {
         "line-color": {
           "stops": [
             [4, "rgba(142, 170, 148, 1)"],
-            [7, "rgba(191, 191, 191, 1)"]
+            [7, "rgba(189, 191, 189, 1)"]
           ]
         },
-        "line-width": {"stops": [[2, 0.4], [12, 2], [15, 4]]}
+        "line-width": {"stops": [[2, 0.4], [12, 2], [15, 3]]}
       }
     },
     {
@@ -4190,7 +4461,7 @@ ohmVectorStyles.Original = {
       "paint": {
         "text-color": "rgba(83, 147, 147, 1)",
         "text-halo-width": 1,
-        "text-halo-color": "rgba(207, 230, 230, 1)"
+        "text-halo-color": "rgba(158, 240, 240, 1)"
       }
     },
     {
@@ -4233,7 +4504,7 @@ ohmVectorStyles.Original = {
       "paint": {
         "text-color": "rgba(68, 135, 135, 1)",
         "text-halo-width": 1,
-        "text-halo-color": "rgba(207, 230, 230, 1)"
+        "text-halo-color": "rgba(173, 244, 244, 1)"
       }
     },
     {
@@ -4304,12 +4575,7 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "text-color": "rgba(83, 147, 147, 1)",
-        "text-halo-color": {
-          "stops": [
-            [10, "rgba(255, 255, 255, 1)"],
-            [12, "rgba(207, 230, 230, 1)"]
-          ]
-        },
+        "text-halo-color": "rgba(231, 251, 251, 1)",
         "text-halo-width": 1
       }
     },
