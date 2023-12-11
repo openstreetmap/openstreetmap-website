@@ -41,6 +41,9 @@ gem "argon2"
 # Support brotli compression for assets
 gem "sprockets-exporters_pack"
 
+# Restore File.exists? for oauth gem
+gem "file_exists"
+
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
