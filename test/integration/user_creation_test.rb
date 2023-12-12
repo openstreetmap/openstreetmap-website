@@ -32,7 +32,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => dup_email,
-                                       :email_confirmation => dup_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "testtest",
@@ -54,7 +53,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => email,
-                                       :email_confirmation => email,
                                        :display_name => dup_display_name,
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "testtest" } }
@@ -74,7 +72,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => email,
-                                       :email_confirmation => email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "blahblah" } }
@@ -95,7 +92,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "testtest",
@@ -151,7 +147,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :pass_crypt => password,
                                        :pass_crypt_confirmation => password,
@@ -204,7 +199,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "openid",
                                        :auth_uid => "http://localhost:1123/new.tester",
@@ -238,7 +232,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "openid",
                                        :auth_uid => "http://localhost:1123/new.tester",
@@ -274,7 +267,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "openid",
                                        :auth_uid => "http://localhost:1123/new.tester",
@@ -333,7 +325,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
                                        :pass_crypt => password,
@@ -366,7 +357,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
                                        :pass_crypt => "",
@@ -403,7 +393,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "google",
                                        :pass_crypt => "testtest",
@@ -461,7 +450,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
                                        :pass_crypt => password,
@@ -494,7 +482,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
                                        :pass_crypt => "",
@@ -529,7 +516,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
                                        :pass_crypt => "testtest",
@@ -587,7 +573,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
                                        :pass_crypt => password,
@@ -620,7 +605,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
                                        :pass_crypt => "",
@@ -655,7 +639,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
                                        :pass_crypt => "testtest",
@@ -713,7 +696,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "github",
                                        :pass_crypt => password,
@@ -746,7 +728,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "github",
                                        :pass_crypt => "",
@@ -781,7 +762,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "github",
                                        :pass_crypt => "testtest",
@@ -839,7 +819,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
                                        :pass_crypt => password,
@@ -872,7 +851,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
                                        :pass_crypt => "",
@@ -907,7 +885,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :email_confirmation => new_email,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
                                        :pass_crypt => "testtest",

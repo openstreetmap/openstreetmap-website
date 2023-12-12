@@ -70,7 +70,6 @@ class UsersController < ApplicationController
       redirect_to @referer || { :controller => "site", :action => "index" }
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
       self.current_user = User.new(:email => params[:email],
-                                   :email_confirmation => params[:email],
                                    :display_name => params[:nickname],
                                    :auth_provider => params[:auth_provider],
                                    :auth_uid => params[:auth_uid])
@@ -336,7 +335,7 @@ class UsersController < ApplicationController
   ##
   # return permitted user parameters
   def user_params
-    params.require(:user).permit(:email, :email_confirmation, :display_name,
+    params.require(:user).permit(:email, :display_name,
                                  :auth_provider, :auth_uid,
                                  :pass_crypt, :pass_crypt_confirmation,
                                  :consider_pd)

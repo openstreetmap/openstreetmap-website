@@ -82,7 +82,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         assert_select "div#content", :count => 1 do
           assert_select "form[action='/user/new'][method='post']", :count => 1 do
             assert_select "input[id='user_email']", :count => 1
-            assert_select "input[id='user_email_confirmation']", :count => 1
             assert_select "input[id='user_display_name']", :count => 1
             assert_select "input[id='user_pass_crypt'][type='password']", :count => 1
             assert_select "input[id='user_pass_crypt_confirmation'][type='password']", :count => 1

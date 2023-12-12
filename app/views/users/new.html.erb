@@ -19,26 +19,25 @@
   <%= bootstrap_form_for current_user, :url => { :action => "create" } do |f| %>
     <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
 
-    <%= f.email_field :email, :tabindex => 1 %>
-    <%= f.email_field :email_confirmation, :help => t(".email_confirmation_help_html",
-                                                      :privacy_policy_link => link_to(t(".privacy_policy"),
-                                                                                      t(".privacy_policy_url"),
-                                                                                      :title => t(".privacy_policy_title"))),
-                                           :tabindex => 2 %>
+    <%= f.email_field :email, :help => t(".email_help_html",
+                                         :privacy_policy_link => link_to(t(".privacy_policy"),
+                                                                         t(".privacy_policy_url"),
+                                                                         :title => t(".privacy_policy_title"))),
+                              :tabindex => 1 %>
 
-    <%= f.text_field :display_name, :help => t(".display name description"), :tabindex => 3 %>
+    <%= f.text_field :display_name, :help => t(".display name description"), :tabindex => 2 %>
 
     <fieldset class="mb-3" id="auth_field">
       <label for="user_auth_provider" class="form-label"><%= t(".external auth") %></label>
       <div class="row">
-        <%= f.select(:auth_provider, Auth.providers, :default => "", :hide_label => true, :wrapper => { :class => "col-auto mb-0" }, :tabindex => 4) %>
-        <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }, :tabindex => 5) %>
+        <%= f.select(:auth_provider, Auth.providers, :default => "", :hide_label => true, :wrapper => { :class => "col-auto mb-0" }, :tabindex => 3) %>
+        <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }, :tabindex => 4) %>
       </div>
       <small class="form-text text-muted"><%= t ".auth no password" %></small>
     </fieldset>
 
-    <%= f.password_field :pass_crypt, :tabindex => 6 %>
-    <%= f.password_field :pass_crypt_confirmation, :tabindex => 7 %>
+    <%= f.password_field :pass_crypt, :tabindex => 5 %>
+    <%= f.password_field :pass_crypt_confirmation, :tabindex => 6 %>
 
     <p class="mb-3 text-muted"><%= t(".by_signing_up_html",
                                      :tou_link => link_to(t("layouts.tou"),
@@ -49,7 +48,7 @@
                                                                         :target => :new)) %></p>
 
     <div class="mb-3">
-      <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :class => "btn btn-primary", :tabindex => 8) %>
+      <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :class => "btn btn-primary", :tabindex => 7) %>
     </div>
 
     <div class="mb-3">
