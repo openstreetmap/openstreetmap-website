@@ -6,7 +6,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require osm
-//= require mapbox-gl
+//= require maplibre-gl
 //= require leaflet
 //= require leaflet.osm
 //= require ohm.style
