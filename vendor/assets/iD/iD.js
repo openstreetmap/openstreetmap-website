@@ -27571,10 +27571,35 @@
     }
   }
   function utilDisplayName(entity) {
+    let dateRange;
+    if (entity.tags.start_date || entity.tags.end_date) {
+      let start2 = entity.tags.start_date && utilNormalizeDateString(entity.tags.start_date);
+      let end = entity.tags.end_date && utilNormalizeDateString(entity.tags.end_date);
+      let options2 = { timeZone: "UTC" };
+      if (end) {
+        options2.year = end.localeOptions.year;
+        options2.era = end.localeOptions.era;
+      }
+      if (start2) {
+        options2.year = start2.localeOptions.year;
+        options2.era = start2.localeOptions.era;
+      }
+      let format2 = new Intl.DateTimeFormat(_mainLocalizer.languageCode(), options2);
+      let lateDate = new Date(Date.UTC(9999));
+      let parts = format2.formatRangeToParts(start2 ? start2.date : lateDate, end ? end.date : lateDate);
+      if (!start2) {
+        parts = parts.filter((p) => p.source !== "startRange");
+      }
+      if (!end) {
+        parts = parts.filter((p) => p.source !== "endRange");
+      }
+      dateRange = parts.map((p) => p.value).join("");
+    }
     var localizedNameKey = "name:" + _mainLocalizer.languageCode().toLowerCase();
     var name = entity.tags[localizedNameKey] || entity.tags.name || "";
-    if (name)
-      return name;
+    if (name) {
+      return dateRange ? `${name} [${dateRange}]` : name;
+    }
     var tags = {
       direction: entity.tags.direction,
       from: entity.tags.from,
@@ -27604,7 +27629,7 @@
     if (keyComponents.length) {
       name = _t("inspector.display_name." + keyComponents.join("_"), tags);
     }
-    return name;
+    return dateRange ? `${name} [${dateRange}]` : name;
   }
   function utilDisplayNameForPath(entity) {
     var name = utilDisplayName(entity);
@@ -43211,7 +43236,7 @@ ${content}</tr>
     var validation = function(entity) {
       var issues = [];
       function showReferenceDate(selection2) {
-        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").text(_t.append("issues.invalid_format.date.reference"));
+        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.invalid_format.date.reference"));
       }
       function validateDate(key, msgKey) {
         if (!entity.tags[key])
@@ -43247,7 +43272,7 @@ ${content}</tr>
                     var newTags = Object.assign({}, entityInGraph.tags);
                     newTags[key] = normalized.value;
                     return actionChangeTags(entityInGraph.id, newTags)(graph);
-                  }, _t.append("issues.fix.reformat_date.annotation"));
+                  }, _t("issues.fix.reformat_date.annotation"));
                 }
               }));
             }
@@ -43262,7 +43287,7 @@ ${content}</tr>
                   var newTags = Object.assign({}, entityInGraph.tags);
                   delete newTags[key];
                   return actionChangeTags(entityInGraph.id, newTags)(graph);
-                }, _t.append("issues.fix.remove_tag.annotation"));
+                }, _t("issues.fix.remove_tag.annotation"));
               }
             }));
             return fixes;
@@ -67881,8 +67906,32 @@ ${content}</tr>
         if (vals[0] && Array.isArray(vals[0].features)) {
           _sharedLocationManager.mergeCustomGeoJSON(vals[0]);
         }
-        let ociResources = Object.values(vals[1].resources);
+        let ociResourcesById = vals[1].resources;
+        delete ociResourcesById["OSM-Facebook"];
+        delete ociResourcesById["OSM-Twitter"];
+        delete ociResourcesById["OSM-Mastodon"];
+        delete ociResourcesById["OSM-help"];
+        if (ociResourcesById["OSM-IRC"]) {
+          ociResourcesById["OSM-IRC"].account = "ohm";
+          ociResourcesById["OSM-IRC"].strings.community = "OpenHistoricalMap";
+          ociResourcesById["OSM-IRC"].strings.communityID = "openhistoricalmap";
+        }
+        let ociResources = Object.values(ociResourcesById);
         if (ociResources.length) {
+          ociResources = ociResources.filter((res) => res.type !== "discourse");
+          ociResources.push({
+            id: "forum",
+            type: "discourse",
+            locationSet: {
+              include: ["001"]
+            },
+            order: 7,
+            strings: {
+              name: "OpenHistoricalMap Forum",
+              description: "A shared place for conversations about OpenHistoricalMap",
+              url: "https://forum.openhistoricalmap.org/"
+            }
+          });
           return _sharedLocationManager.mergeLocationSets(ociResources).then(() => {
             _oci = {
               resources: ociResources,
@@ -67940,8 +67989,11 @@ ${content}</tr>
           let area = validHere[resource.locationSetID];
           if (!area)
             return;
-          const localizer = (stringID) => _t.html(`community.${stringID}`);
-          resource.resolved = resolveStrings(resource, oci.defaults, localizer);
+          if (resource.id === "forum") {
+            area = 0;
+          }
+          const ociLocalizer = (stringID) => _t.html(_mainLocalizer.coalesceStringIds([`custom_community.${stringID}`, `community.${stringID}`]));
+          resource.resolved = resolveStrings(resource, oci.defaults, ociLocalizer);
           communities.push({
             area,
             order: resource.order || 0,
