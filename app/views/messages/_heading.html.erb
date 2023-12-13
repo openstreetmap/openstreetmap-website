@@ -1,0 +1,16 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t("users.show.my messages") %></h1>
+  <ul class="nav nav-tabs">
+    <% { ".my_inbox" => inbox_messages_path, ".my_outbox" => outbox_messages_path }.each do |i18n_key, path| %>
+    <li class="nav-item">
+      <% if path == active_link_path %>
+        <a class="nav-link active"><%= t(i18n_key) %></a>
+      <% else %>
+        <%= link_to t(i18n_key), path, :class => "nav-link" %>
+      <% end %>
+    </li>
+    <% end %>
+  </ul>
+<% end %>
