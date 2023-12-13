@@ -223,4 +223,63 @@ $(document).ready(function () {
   $("#read_tou").on("click", function () {
     $("#continue").prop("disabled", !($(this).prop("checked") && $("#read_ct").prop("checked")));
   });
+
+
+  const isTaken /* Record<string, string> */ = {}
+
+  function indicateInvalidDisplayName(isValid /* boolean | undefined*/) {
+    $("#user_display_name").toggleClass("is-valid", isValid === true)
+    $("#user_display_name").toggleClass("is-invalid", isValid === false)
+
+  }
+
+  function checkDisplayName(){
+    const displayName = $("#user_display_name").val()
+    console.log("Checking display name", displayName)
+    if(displayName === ""){
+      indicateInvalidDisplayName(false)
+      return;
+    }
+    if(displayName.match(/[\/;.,?%#]/)!== null) {
+      // We detected an invalid character
+      indicateInvalidDisplayName(false)
+      return
+    }
+    indicateInvalidDisplayName(!isTaken[displayName])
+    if(isTaken[displayName] !== undefined){
+      return
+    }
+
+    // We fetch the userpage, as it is the only endpoint where we can use the display name
+    // All (proper) API-calls use the user ID number
+    // To lighten the load, we use the HEAD method
+    fetch("./" + encodeURIComponent(displayName), {method: "HEAD"}).then(
+      response => {
+        if (response.status === 404) {
+          isTaken[displayName] = false
+        }
+        if (response.status === 200) {
+          isTaken[displayName] = true
+        }
+
+        if(isTaken[displayName] === undefined){
+          return
+        }
+        // The input field value might have changed by now, so we check if the current value is still the value we did the request for
+        if(displayName === $("#user_display_name").val()){
+          indicateInvalidDisplayName(!isTaken[displayName])
+        }
+      },
+    ).catch(reason => console.warn("Could not fetch info about", displayName))
+  }
+
+  $("#user_display_name").on("change", function () {
+    checkDisplayName()
+  })
+
+  $("#user_display_name").on("input", function () {
+    checkDisplayName()
+  })
+
 });
+
