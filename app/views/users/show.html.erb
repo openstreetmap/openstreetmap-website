@@ -112,6 +112,16 @@
                 <%= report_link(t(".report"), @user) %>
               </li>
             <% end %>
+
+            <% if current_user and UserMute.exists?(owner: current_user, subject: @user) %>
+              <li>
+              <%= link_to t(".destroy_mute"), user_mute_path(@user), :method => :delete %>
+              </li>
+            <% elsif current_user %>
+              <li>
+              <%= link_to t(".create_mute"), user_mute_path(@user), :method => :post, :title => t("user_mutes.index.user_mute_explainer") %>
+              </li>
+            <% end %>
           </ul>
         </nav>
       <% end %>

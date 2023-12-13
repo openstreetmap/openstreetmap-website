@@ -14,5 +14,10 @@
     <li class="nav-item">
       <%= link_to t(".oauth2_authorizations"), oauth_authorized_applications_path, :class => "nav-link #{'active' if controller_name == 'oauth2_authorized_applications'}" %>
     </li>
+    <% if current_user.muted_users.any? %>
+      <li class="nav-item">
+        <%= link_to t(".muted_users"), user_mutes_path, :class => "nav-link #{'active' if controller_name == 'user_mutes'}" %>
+      </li>
+    <% end %>
   </ul>
 <% end %>

@@ -951,7 +951,8 @@ CREATE TABLE public.messages (
     to_user_id bigint NOT NULL,
     to_user_visible boolean DEFAULT true NOT NULL,
     from_user_visible boolean DEFAULT true NOT NULL,
-    body_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL
+    body_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL,
+    muted boolean DEFAULT false NOT NULL
 );
 
 
@@ -1455,6 +1456,38 @@ ALTER SEQUENCE public.user_blocks_id_seq OWNED BY public.user_blocks.id;
 
 
 --
+-- Name: user_mutes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_mutes (
+    id bigint NOT NULL,
+    owner_id bigint NOT NULL,
+    subject_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: user_mutes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_mutes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_mutes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_mutes_id_seq OWNED BY public.user_mutes.id;
+
+
+--
 -- Name: user_preferences; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1836,6 +1869,13 @@ ALTER TABLE ONLY public.user_blocks ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: user_mutes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_mutes ALTER COLUMN id SET DEFAULT nextval('public.user_mutes_id_seq'::regclass);
+
+
+--
 -- Name: user_roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2214,6 +2254,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.user_blocks
     ADD CONSTRAINT user_blocks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_mutes user_mutes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_mutes
+    ADD CONSTRAINT user_mutes_pkey PRIMARY KEY (id);
 
 
 --
@@ -2735,6 +2783,13 @@ CREATE INDEX index_user_blocks_on_user_id ON public.user_blocks USING btree (use
 
 
 --
+-- Name: index_user_mutes_on_owner_id_and_subject_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_user_mutes_on_owner_id_and_subject_id ON public.user_mutes USING btree (owner_id, subject_id);
+
+
+--
 -- Name: messages_from_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3108,6 +3163,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 
 --
+-- Name: user_mutes fk_rails_591dad3359; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_mutes
+    ADD CONSTRAINT fk_rails_591dad3359 FOREIGN KEY (owner_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_tokens fk_rails_732cb83ab7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3153,6 +3216,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 ALTER TABLE ONLY public.oauth_applications
     ADD CONSTRAINT fk_rails_cc886e315a FOREIGN KEY (owner_id) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- Name: user_mutes fk_rails_e9dd4fb6c3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_mutes
+    ADD CONSTRAINT fk_rails_e9dd4fb6c3 FOREIGN KEY (subject_id) REFERENCES public.users(id);
 
 
 --
@@ -3514,6 +3585,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20231117170422'),
 ('20231101222146'),
 ('20231029151516'),
+('20231010203028'),
+('20231010201451'),
 ('20231010194809'),
 ('20231007141103'),
 ('20230830115220'),
