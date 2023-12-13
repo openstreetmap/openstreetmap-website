@@ -230,12 +230,10 @@ $(document).ready(function () {
   function indicateInvalidDisplayName(isValid /* boolean | undefined*/) {
     $("#user_display_name").toggleClass("is-valid", isValid === true)
     $("#user_display_name").toggleClass("is-invalid", isValid === false)
-
   }
 
   function checkDisplayName(){
     const displayName = $("#user_display_name").val()
-    console.log("Checking display name", displayName)
     if(displayName === ""){
       indicateInvalidDisplayName(false)
       return;
