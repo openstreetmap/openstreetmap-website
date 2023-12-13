@@ -225,60 +225,59 @@ $(document).ready(function () {
   });
 
 
-  const isTaken /* Record<string, string> */ = {}
+  var isTaken /* Record<string, string> */ = {};
 
   function indicateInvalidDisplayName(isValid /* boolean | undefined*/) {
     // isValid might also be 'undefined', hence we check explicitly for 'true' and 'false'
-    $("#user_display_name").toggleClass("is-valid", isValid === true)
-    $("#user_display_name").toggleClass("is-invalid", isValid === false)
+    $("#user_display_name").toggleClass("is-valid", isValid === true);
+    $("#user_display_name").toggleClass("is-invalid", isValid === false);
   }
 
-  function checkDisplayName(){
-    const displayName = $("#user_display_name").val()
-    if(displayName === ""){
-      indicateInvalidDisplayName(false)
+  function checkDisplayName() {
+    var displayName = $("#user_display_name").val();
+    if (displayName === "") {
+      indicateInvalidDisplayName(false);
       return;
     }
-    if(displayName.match(/[\/;.,?%#]/)!== null) {
+    if (displayName.match(/[/;.,?%#]/) !== null) {
       // We detected an invalid character
-      indicateInvalidDisplayName(false)
-      return
+      indicateInvalidDisplayName(false);
+      return;
     }
-    indicateInvalidDisplayName(!isTaken[displayName])
-    if(isTaken[displayName] !== undefined){
-      return
+    indicateInvalidDisplayName(!isTaken[displayName]);
+    if (isTaken[displayName] === true || isTaken[displayName] === false) {
+      return;
     }
 
     // We fetch the userpage, as it is the only endpoint where we can use the display name
     // All (proper) API-calls use the user ID number
     // To lighten the load, we use the HEAD method
-    fetch("./" + encodeURIComponent(displayName), {method: "HEAD"}).then(
-      response => {
+    fetch("./" + encodeURIComponent(displayName), { method: "HEAD" }).then(
+      function (response) {
         if (response.status === 404) {
-          isTaken[displayName] = false
+          isTaken[displayName] = false;
         }
         if (response.status === 200) {
-          isTaken[displayName] = true
+          isTaken[displayName] = true;
         }
 
-        if(isTaken[displayName] === undefined){
-          return
+        if (isTaken[displayName] !== true && isTaken[displayName] !== false) {
+          return;
         }
         // The input field value might have changed by now, so we check if the current value is still the value we did the request for
-        if(displayName === $("#user_display_name").val()){
-          indicateInvalidDisplayName(!isTaken[displayName])
+        if (displayName === $("#user_display_name").val()) {
+          indicateInvalidDisplayName(!isTaken[displayName]);
         }
-      },
-    ).catch(reason => console.warn("Could not fetch info about", displayName))
+      }
+    );
   }
 
   $("#user_display_name").on("change", function () {
-    checkDisplayName()
-  })
+    checkDisplayName();
+  });
 
   $("#user_display_name").on("input", function () {
-    checkDisplayName()
-  })
-
+    checkDisplayName();
+  });
 });
 
