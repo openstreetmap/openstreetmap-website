@@ -228,6 +228,7 @@ $(document).ready(function () {
   const isTaken /* Record<string, string> */ = {}
 
   function indicateInvalidDisplayName(isValid /* boolean | undefined*/) {
+    // isValid might also be 'undefined', hence we check explicitly for 'true' and 'false'
     $("#user_display_name").toggleClass("is-valid", isValid === true)
     $("#user_display_name").toggleClass("is-invalid", isValid === false)
   }
