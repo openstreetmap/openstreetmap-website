@@ -27,10 +27,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_unique_display_name
-    existing_user = create(:user)
-    new_user = build(:user, :display_name => existing_user.display_name)
-    assert_not new_user.save
-    assert_includes new_user.errors[:display_name], "has already been taken"
+    create(:user, :display_name => "H\u{e9}nryIV")
+
+    %W[H\u{e9}nryIV he\u{301}nryiv H\u{c9}nry\u2163 he\u{301}nry\u2173].each do |name|
+      new_user = build(:user, :display_name => name)
+      assert_not new_user.save
+      assert_includes new_user.errors[:display_name], "has already been taken"
+    end
   end
 
   def test_email_valid
