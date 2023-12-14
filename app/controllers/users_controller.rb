@@ -355,6 +355,8 @@ class UsersController < ApplicationController
                    domain_mx_servers(domain)
                  end
 
+    return true if Acl.allow_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
+
     blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
 
     blocked ||= SIGNUP_IP_LIMITER && !SIGNUP_IP_LIMITER.allow?(request.remote_ip)

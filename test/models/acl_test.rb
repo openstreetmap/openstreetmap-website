@@ -27,4 +27,17 @@ class AclTest < ActiveSupport::TestCase
     create(:acl, :mx => "mail.example.com", :k => "no_account_creation")
     assert Acl.no_account_creation("192.168.1.1", :mx => "mail.example.com")
   end
+
+  def test_allowed_account_creation
+    assert_not Acl.allow_account_creation("192.168.1.1", :domain => "example.com", :mx => "mail.example.com")
+    create(:acl, :address => "192.168.1.1", :domain => "example.com", :mx => "mail.example.com", :k => "allow_account_creation")
+
+    assert_not Acl.allow_account_creation("192.168.1.2")
+    assert Acl.allow_account_creation("192.168.1.1")
+
+    assert_not Acl.allow_account_creation("192.168.1.2", :domain => "example.com", :mx => "mail.example.com")
+    assert_not Acl.allow_account_creation("192.168.1.1", :domain => "example1.com", :mx => "mail.example.com")
+    assert_not Acl.allow_account_creation("192.168.1.1", :domain => "example.com", :mx => "mail1.example.com")
+    assert Acl.allow_account_creation("192.168.1.1", :domain => "example.com", :mx => "mail.example.com")
+  end
 end

@@ -41,6 +41,15 @@ class Acl < ApplicationRecord
     match(address, options).exists?(:k => "no_account_creation")
   end
 
+  def self.allow_account_creation(address, options = {})
+    acls = Acl.where("address >>= ?", address)
+              .and(Acl.where(:k => "allow_account_creation"))
+    acls = acls.and(Acl.where(:domain => options[:domain])) if options[:domain]
+    acls = acls.and(Acl.where(:mx => options[:mx])) if options[:mx]
+
+    !acls.empty?
+  end
+
   def self.no_note_comment(address, domain = nil)
     match(address, :domain => domain).exists?(:k => "no_note_comment")
   end
