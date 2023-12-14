@@ -191,7 +191,7 @@ nl:
         details: Geef wat meer details over het probleem (verplicht).
       user:
         auth_provider: Authenticatiedienst
-        auth_uid: Authenticatie UID
+        auth_uid: Authenticatie-UID
         email: E-mail
         email_confirmation: E-mailbevestiging
         new_email: Nieuw e-mailadres
@@ -206,8 +206,9 @@ nl:
         pass_crypt_confirmation: Wachtwoord bevestigen
     help:
       doorkeeper/application:
-        confidential: Toepassing wordt gebruikt waar het clientgeheim vertrouwelijk
-          kan worden gehouden (native mobiele apps en éénpagina-apps zijn niet vertrouwelijk)
+        confidential: De applicatie wordt gebruikt waar het clientgeheim vertrouwelijk
+          kan worden gehouden (voor mobiele apparaten ontworpen apps en éénpagina-apps
+          zijn niet vertrouwelijk)
         redirect_uri: Gebruik één regel per URI
       trace:
         tagstring: kommagescheiden
@@ -1881,7 +1882,7 @@ nl:
     destroy:
       destroyed: Het bericht is verwijderd
   passwords:
-    lost_password:
+    new:
       title: Wachtwoord vergeten
       heading: Wachtwoord vergeten?
       email address: 'E-mailadres:'
@@ -1889,13 +1890,16 @@ nl:
       help_text: Voer het e-mailadres in dat u hebt opgegeven bij uw registratie.
         We sturen u dan een webkoppeling die u kunt gebruiken om uw wachtwoord opnieuw
         in te stellen.
+    create:
       notice email on way: Spijtig om te horen dat u het vergeten bent, maar er is
         een e-mail onderweg zodat u uw wachtwoord opnieuw kunt instellen.
       notice email cannot find: Dat e-mailadres kon helaas niet worden gevonden.
-    reset_password:
+    edit:
       title: Wachtwoord opnieuw instellen
       heading: Wachtwoord voor %{user} opnieuw instellen
       reset: Wachtwoord opnieuw instellen
+      flash token bad: Het token kon niet gevonden worden. Controleer de URL.
+    update:
       flash changed: Uw wachtwoord is gewijzigd.
       flash token bad: Het token kon niet gevonden worden. Controleer de URL.
   preferences:
@@ -2402,10 +2406,13 @@ nl:
           cycleway_local: Lokale fietsroute
           footway: Voetpad
           rail: Spoorweg
+          train: Trein
           subway: Metro
-          tram:
-          - Lightrail
-          - tram
+          ferry: Veerboot
+          light_rail: Lightrail
+          tram_only: Tram
+          trolleybus: Trolleybus
+          bus: Bus
           cable:
           - Kabelbaan
           - stoeltjeslift
@@ -2416,22 +2423,35 @@ nl:
           - Luchthavenplatform
           - terminal
           admin: Bestuurlijke grens
-          forest: Bos
-          wood: Bos
+          orchard:
+          - Boomgaard
+          - wijngaard
+          forest:
+          - Bos
+          - bos
+          farmland: Landbouwgrond
+          grass:
+          - Gras
+          - weide
+          bare_rock: Kale rots
+          sand: Zand
           golf: Golfbaan
           park: Park
-          resident: Woongebied
           common:
           - Gemene grond
           - weide
           - tuin
+          built_up: Bebouwde kom
+          resident: Woongebied
           retail: Winkelgebied
           industrial: Industriegebied
           commercial: Commercieel gebied
           heathland: Heide
+          scrubland: Struikgewas
           lake:
           - Meer
           - reservoir
+          glacier: Gletsjer
           farm: Boerderij
           brownfield: Braakliggend terrein
           cemetery: Begraafplaats
@@ -2453,6 +2473,8 @@ nl:
           private: Privétoegang
           destination: Bestemmingsverkeer
           construction: Weg in aanleg
+          bus_stop: Bushalte
+          stop: Halte
           bicycle_shop: Fietsenwinkel
           bicycle_parking: Fietsenstalling
           toilets: Toiletten
@@ -2498,6 +2520,7 @@ nl:
         imports: Importeringen
         automated_edits: Geautomatiseerde bewerkingen
       start_mapping: Beginnen met kaarten maken
+      continue_authorization: Doorgaan met autoriseren
       add_a_note:
         title: Geen tijd om te bewerken? Voeg een opmerking toe!
         para_1: Als u gewoon iets kleins wilt verbeteren en niet de tijd hebt om u

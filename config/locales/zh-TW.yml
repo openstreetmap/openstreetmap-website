@@ -1693,7 +1693,7 @@ zh-TW:
       press confirm button: 按下確認按鈕以確認您的新電子郵件地址。
       button: 確認
       success: 已確認您變更的電子郵件地址！
-      failure: 電子郵件地址已使用此密鑰確認過。
+      failure: 電子郵件地址已使用此權杖確認過。
       unknown_token: 確認碼已經過期或不存在。
     resend_success_flash:
       confirmation_sent: 我們已發送新的確認通知到 %{email}，一旦您確認您的帳號後，就能取得製圖。
@@ -1760,20 +1760,23 @@ zh-TW:
     destroy:
       destroyed: 訊息已刪除
   passwords:
-    lost_password:
+    new:
       title: 遺失密碼
       heading: 忘記密碼？
       email address: 電子郵件地址：
       new password button: 重設密碼
       help_text: 輸入您的電子郵件地址來註冊，我們會將連結送至該地址，而您可以用它來重設密碼。
+    create:
       notice email on way: 很遺憾您忘了它 :-( 不過讓您可以重設它的電子郵件已經寄出，您待會便可重設。
       notice email cannot find: 很抱歉，找不到該電子郵件地址。
-    reset_password:
+    edit:
       title: 重設密碼
       heading: 重設 %{user} 的密碼
       reset: 重設密碼
+      flash token bad: 找不到該權杖，可能要檢查一下 URL？
+    update:
       flash changed: 您的密碼已經變更。
-      flash token bad: 找不到該密鑰，可能要檢查一下 URL？
+      flash token bad: 找不到該權杖，可能要檢查一下 URL？
   preferences:
     show:
       title: 我的偏好設定
@@ -2177,10 +2180,13 @@ zh-TW:
           cycleway_local: 地區自行車道
           footway: 步道
           rail: 鐵路
+          train: 列車
           subway: 地下鐵
-          tram:
-          - 輕軌
-          - 電車軌道
+          ferry: 渡輪
+          light_rail: 輕軌
+          tram_only: 路面電車
+          trolleybus: 無軌電車
+          bus: 公車
           cable:
           - 大型纜車
           - 升降吊椅
@@ -2191,22 +2197,38 @@ zh-TW:
           - 機場停機坪
           - 航廈
           admin: 行政區邊界
-          forest: 森林
-          wood: 樹木
+          orchard:
+          - 果園
+          - 葡萄園
+          forest:
+          - 森林
+          - 森林
+          farmland: 農地
+          grass:
+          - 草坪
+          - 牧草地
+          bare_rock: 裸岩
+          sand: 沙地
           golf: 高爾夫球場
           park: 公園
-          resident: 住宅區
           common:
           - 共有地
           - 野草地
           - 花園
+          built_up: 組成面積
+          resident: 住宅區
           retail: 商店區
           industrial: 工業區
           commercial: 商業區
           heathland: 石楠荒地
+          scrubland: 灌木叢林地
           lake:
           - 湖泊
           - 水庫
+          intermittent_water: 間歇性水體
+          glacier: 冰河
+          reef: 礁
+          wetland: 濕地
           farm: 農田
           brownfield: 低污染再利用地
           cemetery: 公墓
@@ -2218,6 +2240,7 @@ zh-TW:
           school:
           - 學校
           - 大學
+          - 醫院
           building: 重要建築
           station: 鐵路車站
           summit:
@@ -2228,6 +2251,8 @@ zh-TW:
           private: 私人進出
           destination: 目的地進出
           construction: 建造中道路
+          bus_stop: 公車站
+          stop: 停車站
           bicycle_shop: 自行車店
           bicycle_parking: 自行車停車場
           toilets: 廁所
@@ -2457,7 +2482,7 @@ zh-TW:
     index:
       title: 我的 OAuth 詳細資料
       my_tokens: 我授權的應用程式
-      list_tokens: 下列密鑰已核發給您名下的應用程式：
+      list_tokens: 下列權杖已核發給您名下的應用程式：
       application: 應用程式名稱
       issued_at: 已發於
       revoke: 撤銷！
