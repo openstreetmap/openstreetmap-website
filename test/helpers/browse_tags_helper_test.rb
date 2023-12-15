@@ -22,6 +22,12 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("unknown", "unknown")
     assert_dom_equal "unknown", html
 
+    html = format_value("unknown", "abc;def")
+    assert_dom_equal "abc;def", html
+
+    html = format_value("unknown", "foo;")
+    assert_dom_equal "foo;", html
+
     html = format_value("addr:street", "Rue de l'Amigo")
     assert_dom_equal "Rue de l&#39;Amigo", html
 
