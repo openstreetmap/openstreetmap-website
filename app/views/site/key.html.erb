@@ -5,7 +5,7 @@
         <%= tag.tr :class => "mapkey-table-entry", :data => { :layer => layer_name, :zoom_min => entry["min_zoom"], :zoom_max => entry["max_zoom"] } do %>
           <td>
             <% if entry["width"] && entry["height"] && entry["fill"] %>
-              <%= image_tag "data:image/svg+xml,#{u("<svg xmlns='http://www.w3.org/2000/svg' width='#{entry['width']}' height='#{entry['height']}'><rect width='100%' height='100%' fill='#{entry['fill']}' /></svg>")}", :class => "d-block mx-auto" %>
+              <%= solid_svg_image_tag entry["width"], entry["height"], entry["fill"], :class => "d-block mx-auto" %>
             <% else %>
               <%= image_tag "key/#{layer_name}/#{entry['image']}", :class => "d-block mx-auto" %>
             <% end %>
