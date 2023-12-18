@@ -4,6 +4,6 @@ module SvgHelper
           "<rect width='100%' height='100%' fill='#{fill}' />" \
           "</svg>"
     escaped_svg = svg.gsub(/[\r\n%#()<>?\[\\\]^`{|}]/) { |c| u(c) }
-    image_tag "data:image/svg+xml,#{escaped_svg}"
+    tag.img :src => "data:image/svg+xml,#{escaped_svg}", :escape => false
   end
 end
