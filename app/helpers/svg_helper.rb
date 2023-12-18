@@ -3,6 +3,7 @@ module SvgHelper
     svg = "<svg xmlns='http://www.w3.org/2000/svg' width='#{width}' height='#{height}'>" \
           "<rect width='100%' height='100%' fill='#{fill}' />" \
           "</svg>"
-    image_tag "data:image/svg+xml,#{u(svg)}"
+    escaped_svg = svg.gsub(/[\r\n%#()<>?\[\\\]^`{|}]/) { |c| u(c) }
+    image_tag "data:image/svg+xml,#{escaped_svg}"
   end
 end
