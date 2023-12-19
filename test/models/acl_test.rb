@@ -55,4 +55,12 @@ class AclTest < ActiveSupport::TestCase
     assert Acl.no_note_comment("192.168.1.1", "example.com")
     assert Acl.no_note_comment("192.168.1.1", "test.example.com")
   end
+
+  def test_no_trace_download_by_domain
+    assert_not Acl.no_trace_download("192.168.1.1", "example.com")
+    assert_not Acl.no_trace_download("192.168.1.1", "test.example.com")
+    create(:acl, :domain => "example.com", :k => "no_trace_download")
+    assert Acl.no_trace_download("192.168.1.1", "example.com")
+    assert Acl.no_trace_download("192.168.1.1", "test.example.com")
+  end
 end
