@@ -47,4 +47,12 @@ class AclTest < ActiveSupport::TestCase
     create(:acl, :mx => "mail.example.com", :k => "allow_account_creation")
     assert Acl.allow_account_creation("192.168.1.1", :mx => "mail.example.com")
   end
+
+  def test_no_note_comment_by_domain
+    assert_not Acl.no_note_comment("192.168.1.1", "example.com")
+    assert_not Acl.no_note_comment("192.168.1.1", "test.example.com")
+    create(:acl, :domain => "example.com", :k => "no_note_comment")
+    assert Acl.no_note_comment("192.168.1.1", "example.com")
+    assert Acl.no_note_comment("192.168.1.1", "test.example.com")
+  end
 end
