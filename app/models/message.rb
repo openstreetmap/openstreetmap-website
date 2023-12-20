@@ -12,6 +12,7 @@
 #  to_user_visible   :boolean          default(TRUE), not null
 #  from_user_visible :boolean          default(TRUE), not null
 #  body_format       :enum             default("markdown"), not null
+#  muted             :boolean          default(FALSE), not null
 #
 # Indexes
 #
@@ -31,6 +32,10 @@ class Message < ApplicationRecord
   validates :title, :presence => true, :utf8 => true, :length => 1..255
   validates :body, :sent_on, :presence => true
   validates :title, :body, :characters => true
+
+  scope :muted, -> { where(:muted => true) }
+
+  before_create :set_muted
 
   def self.from_mail(mail, from, to)
     if mail.multipart?
@@ -64,5 +69,19 @@ class Message < ApplicationRecord
     sha256 << Rails.application.key_generator.generate_key("openstreetmap/message")
     sha256 << id.to_s
     Base64.urlsafe_encode64(sha256.digest)[0, 8]
+  end
+
+  def notify_recipient?
+    !muted?
+  end
+
+  def unmute
+    update(:muted => false)
+  end
+
+  private
+
+  def set_muted
+    self.muted ||= UserMute.active?(:owner => recipient, :subject => sender)
   end
 end

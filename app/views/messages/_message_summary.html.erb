@@ -6,5 +6,8 @@
     <%= button_to t(".unread_button"), message_mark_path(message_summary, :mark => "unread"), :remote => true, :class => "btn btn-sm btn-primary", :form => { :class => "inbox-mark-unread", :hidden => !message_summary.message_read? } %>
     <%= button_to t(".read_button"), message_mark_path(message_summary, :mark => "read"), :remote => true, :class => "btn btn-sm btn-primary", :form => { :class => "inbox-mark-read", :hidden => message_summary.message_read? } %>
     <%= button_to t(".destroy_button"), message_path(message_summary, :referer => request.fullpath), :method => :delete, :remote => true, :class => "btn btn-sm btn-danger", :form_class => "inbox-destroy" %>
+    <% if message_summary.muted? %>
+      <%= button_to t(".unmute_button"), message_unmute_path(message_summary), :method => :patch, :class => "btn btn-sm btn-secondary" %>
+    <% end %>
   </td>
 </tr>

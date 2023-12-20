@@ -47,7 +47,7 @@ class MessagesController < ApplicationController
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
-      UserMailer.message_notification(@message).deliver_later
+      UserMailer.message_notification(@message).deliver_later if @message.notify_recipient?
       redirect_to :action => :inbox
     else
       @title = t "messages.new.title"
@@ -107,6 +107,13 @@ class MessagesController < ApplicationController
     @title = t ".title"
   end
 
+  # Display the list of muted messages received by the user.
+  def muted
+    @title = t ".title"
+
+    redirect_to inbox_messages_path if current_user.muted_messages.none?
+  end
+
   # Set the message as being read or unread.
   def mark
     @message = Message.where(:recipient => current_user).or(Message.where(:sender => current_user)).find(params[:message_id])
@@ -125,6 +132,23 @@ class MessagesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
+  end
+
+  # Moves message into Inbox by unsetting the muted-flag
+  def unmute
+    message = current_user.muted_messages.find(params[:message_id])
+
+    if message.unmute
+      flash[:notice] = t(".notice")
+    else
+      flash[:error] = t(".error")
+    end
+
+    if current_user.muted_messages.none?
+      redirect_to inbox_messages_path
+    else
+      redirect_to muted_messages_path
+    end
   end
 
   private

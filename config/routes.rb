@@ -282,9 +282,12 @@ OpenStreetMap::Application.routes.draw do
   # messages
   resources :messages, :only => [:create, :show, :destroy] do
     post :mark
+    patch :unmute
+
     match :reply, :via => [:get, :post]
     collection do
       get :inbox
+      get :muted
       get :outbox
     end
   end
@@ -292,6 +295,12 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
   get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
+
+  # muting users
+  scope "/user/:display_name" do
+    resource :user_mute, :only => [:create, :destroy], :path => "mute"
+  end
+  resources :user_mutes, :only => [:index]
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do

@@ -40,6 +40,12 @@ en:
       messages:
         invalid_email_address: does not appear to be a valid e-mail address
         email_address_not_routable: is not routable
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: "%{message}"
+          is_already_muted: "is already muted"
     # Translates all the model names, which is used in error handling on the website
     models:
       acl: "Access Control List"
@@ -1673,8 +1679,6 @@ en:
   messages:
     inbox:
       title: "Inbox"
-      my_inbox: "My Inbox"
-      my_outbox: "My Outbox"
       messages: "You have %{new_messages} and %{old_messages}"
       new_messages:
         one: "%{count} new message"
@@ -1682,16 +1686,20 @@ en:
       old_messages:
         one: "%{count} old message"
         other: "%{count} old messages"
-      from: "From"
-      subject: "Subject"
-      date: "Date"
       no_messages_yet_html: "You have no messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
       people_mapping_nearby: "people mapping nearby"
+    messages_table:
+      from: "From"
+      to: "To"
+      subject: "Subject"
+      date: "Date"
+      actions: "Actions"
     message_summary:
       unread_button: "Mark as unread"
       read_button: "Mark as read"
       reply_button: "Reply"
       destroy_button: "Delete"
+      unmute_button: "Move to Inbox"
     new:
       title: "Send message"
       send_message_to_html: "Send a new message to %{name}"
@@ -1705,16 +1713,17 @@ en:
       body: "Sorry there is no message with that id."
     outbox:
       title: "Outbox"
-      my_inbox: "My Inbox"
-      my_outbox: "My Outbox"
+      actions: "Actions"
       messages:
         one: "You have %{count} sent message"
         other: "You have %{count} sent messages"
-      to: "To"
-      subject: "Subject"
-      date: "Date"
       no_sent_messages_html: "You have no sent messages yet. Why not get in touch with some of the %{people_mapping_nearby_link}?"
       people_mapping_nearby: "people mapping nearby"
+    muted:
+      title: "Muted Messages"
+      messages:
+        one: "%{count} muted message"
+        other: "You have %{count} muted messages"
     reply:
       wrong_user: "You are logged in as `%{user}' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply."
     show:
@@ -1726,9 +1735,16 @@ en:
       wrong_user: "You are logged in as `%{user}' but the message you have asked to read was not sent by or to that user. Please login as the correct user in order to read it."
     sent_message_summary:
       destroy_button: "Delete"
+    heading: 
+      my_inbox: "My Inbox"
+      my_outbox: "My Outbox"
+      muted_messages: "Muted messages"
     mark:
       as_read: "Message marked as read"
       as_unread: "Message marked as unread"
+    unmute:
+      notice: "Message has been moved to Inbox"
+      error: "The message could not be moved to the Inbox."
     destroy:
       destroyed: "Message deleted"
   passwords:
@@ -2558,6 +2574,7 @@ en:
       oauth1_settings: OAuth 1 settings
       oauth2_applications: OAuth 2 applications
       oauth2_authorizations: OAuth 2 authorizations
+      muted_users: Muted Users
   oauth:
     authorize:
       title: "Authorize access to your account"
@@ -2745,6 +2762,8 @@ en:
       my_dashboard: My Dashboard
       blocks on me: Blocks on Me
       blocks by me: Blocks by Me
+      create_mute: Mute this User
+      destroy_mute: Unmute this User
       edit_profile: Edit Profile
       send message: Send Message
       diary: Diary
@@ -2935,6 +2954,29 @@ en:
       showing_page: "Page %{page}"
       next: "Next »"
       previous: "« Previous"
+  user_mutes:
+    index:
+      title: "Muted Users"
+      my_muted_users: "My muted users"
+      you_have_muted_n_users:
+        one: "You have muted %{count} User"
+        other: "You have muted %{count} users"
+      user_mute_explainer: "Messages of muted users are moved into a separate Inbox and you won't receive email notifications."
+      user_mute_admins_and_moderators: "You can mute Admins and Moderators but their messages will not be muted."
+      table:
+        thead:
+          muted_user: "Muted User"
+          actions: "Actions"
+        tbody:
+          unmute: "Unmute"
+          send_message: "Send message"
+
+    create:
+      notice: "You muted %{name}."
+      error: "%{name} could not be muted. %{full_message}."
+    destroy:
+      notice: "You unmuted %{name}."
+      error: "User could not be unmuted. Please try again."
   notes:
     index:
       title: "Notes submitted or commented on by %{user}"
