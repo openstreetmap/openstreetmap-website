@@ -11,7 +11,7 @@
             <% end %>
           </td>
           <td>
-            <%= Array(t(".table.entry.#{entry['name']}")).to_sentence %>
+            <%= entry["name"].map { |feature_name| t ".table.entry.#{feature_name}" }.join(" · ") %>
           </td>
         <% end %>
       <% end %>
