@@ -1751,8 +1751,6 @@ ar:
   messages:
     inbox:
       title: الوارد
-      my_inbox: الوارد
-      my_outbox: صندوق الصادر الخاص بي
       messages: لديك %{new_messages} و%{old_messages}
       new_messages:
         one: '%{count} رسالة جديدة'
@@ -1760,11 +1758,14 @@ ar:
       old_messages:
         one: '%{count} رسالة قديمة'
         other: '%{count} رسائل قديمة'
-      from: من
-      subject: الموضوع
-      date: التاريخ
       no_messages_yet_html: ليست لديك رسائل بعد، لماذا لا تقوم بالاتصال ببعض %{people_mapping_nearby_link}؟
       people_mapping_nearby: مخططون في جواري
+    messages_table:
+      from: من
+      to: إلى
+      subject: الموضوع
+      date: التاريخ
+      actions: الإجراءات
     message_summary:
       unread_button: التعليم كغير مقروءة
       read_button: التعليم كمقروءة
@@ -1784,17 +1785,15 @@ ar:
       body: عذرًا لا توجد رسالة بذلك المعرف.
     outbox:
       title: صندوق الصادر
-      my_inbox: صندوق البريد الوارد الخاص بي
-      my_outbox: صندوق البريد الصادر الخاص بي
+      actions: الإجراءات
       messages:
         one: لديك %{count} رسالة مبعوثة
         other: لديك %{count} رسائل مبعوثة
-      to: إلى
-      subject: الموضوع
-      date: التاريخ
       no_sent_messages_html: ليست لديك رسائل مرسلة بعد، لماذا لا تقوم بالاتصال ببعض
         %{people_mapping_nearby_link}؟
       people_mapping_nearby: مخططون في جواري
+    muted:
+      title: الرسائل المخفية
     reply:
       wrong_user: "\uFEFFأنت مسجل للدخول باسم '%{user}' ولكن الرسالة التي طلبت الرد
         عليها لم تكن مرسلة لذلك المستخدم؛ يُرجَى تسجيل الدخول كمستخدم صحيح للرد."
@@ -1808,9 +1807,14 @@ ar:
         لم تكن من أو إلى ذلك المستخدم؛ يُرجَى تسجيل الدخول كمستخدم صحيح للرد."
     sent_message_summary:
       destroy_button: حذف
+    heading:
+      my_inbox: الوارد
+      my_outbox: صندوق الصادر الخاص بي
     mark:
       as_read: عُلِّمت الرسالة كمقروءة
       as_unread: عُلِّمت الرسالة كغير مقروءة
+    unmute:
+      error: لم يتم نقل الرسالة إلى صندوق البريد
     destroy:
       destroyed: حُذِفت الرسالة
   passwords:
@@ -2702,6 +2706,21 @@ ar:
       showing_page: الصفحة %{page}
       next: التالي »
       previous: « السابق
+  user_mutes:
+    index:
+      title: المستخدمون الممنوعون
+      user_mute_admins_and_moderators: يمكنك أن تُخفي الرسائل من المديرين والمُديرين
+        لكن رسائلهم لن تُخفى
+      table:
+        thead:
+          actions: الإجراءات
+        tbody:
+          send_message: أرسل رسالة
+    create:
+      error: لا يمكن كتم صوت %{name}. %{full_message}.
+    destroy:
+      notice: لقد قمت بإلغاء كتم صوت %{name}.
+      error: لا يمكن أن يكون الصوت غير مكتوم. رجاءً حاول مرة أخرى
   notes:
     index:
       title: ملاحظات مقدمة أو علق عليها %{user}

@@ -123,6 +123,9 @@ zh-CN:
       messages:
         invalid_email_address: 似乎不是有效的电子邮件地址
         email_address_not_routable: 不可路由
+      models:
+        user_mute:
+          is_already_muted: 已禁言
     models:
       acl: 访问控制列表
       changeset: 变更集
@@ -1730,16 +1733,17 @@ zh-CN:
   messages:
     inbox:
       title: 收件箱
-      my_inbox: 我的收件箱
-      my_outbox: 我的发件箱
       messages: 您有 %{new_messages}和 %{old_messages}
       new_messages: '%{count} 条新消息'
       old_messages: '%{count} 条旧消息'
-      from: 发件人
-      subject: 标题
-      date: 日期
       no_messages_yet_html: 您还没有消息，何不联系一些%{people_mapping_nearby_link}？
       people_mapping_nearby: 在附近绘制地图的人
+    messages_table:
+      from: 发件人
+      to: 收件人
+      subject: 标题
+      date: 日期
+      actions: 操作
     message_summary:
       unread_button: 标记为未读
       read_button: 标记为已读
@@ -1758,14 +1762,9 @@ zh-CN:
       body: 对不起，没有具有该 id 的消息。
     outbox:
       title: 发件箱
-      my_inbox: 我的收件箱
-      my_outbox: 我的发件箱
       messages:
         one: 您有 %{count} 条已发送信息
         other: 您有 %{count} 条已发送信息
-      to: 收件人
-      subject: 标题
-      date: 日期
       no_sent_messages_html: 您尚未发送信息。何不联系一些%{people_mapping_nearby_link}?
       people_mapping_nearby: 在附近绘制地图的人
     reply:
@@ -1779,6 +1778,9 @@ zh-CN:
       wrong_user: 您已经以 '%{user}' 的身份登录，但是您想要阅读的消息并非寄给这个用户。请以正确的用户身份登录以阅读这个消息。
     sent_message_summary:
       destroy_button: 删除
+    heading:
+      my_inbox: 我的收件箱
+      my_outbox: 我的发件箱
     mark:
       as_read: 标记消息为已读
       as_unread: 标记消息为未读
@@ -2250,6 +2252,7 @@ zh-CN:
           school:
           - 学校
           - 大学
+          - 医院
           building: 特殊建筑物
           station: 火车站
           summit:
@@ -2606,6 +2609,7 @@ zh-CN:
       my_dashboard: 我的综合面板
       blocks on me: 我的封禁
       blocks by me: 被我封禁
+      create_mute: 禁言此用户
       edit_profile: 编辑个人资料
       send message: 发送消息
       diary: 日记
@@ -2788,6 +2792,9 @@ zh-CN:
       showing_page: 第 %{page} 页
       next: 下一页 »
       previous: « 上一页
+  user_mutes:
+    destroy:
+      error: 无法解除用户禁言。请再试一次。
   notes:
     index:
       title: '%{user} 提交或评论的注记'

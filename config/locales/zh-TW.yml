@@ -87,6 +87,12 @@ zh-TW:
       messages:
         invalid_email_address: 似乎不是有效的電子郵件信箱地址。
         email_address_not_routable: 不可繞送
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: 已忽視
     models:
       acl: 存取控制清單
       changeset: 變更集
@@ -1701,8 +1707,6 @@ zh-TW:
   messages:
     inbox:
       title: 收件匣
-      my_inbox: 我的收件匣
-      my_outbox: 我的寄件匣
       messages: 您有 %{new_messages} 及 %{old_messages}。
       new_messages:
         one: '%{count} 項新訊息'
@@ -1710,16 +1714,20 @@ zh-TW:
       old_messages:
         one: '%{count} 項舊訊息'
         other: '%{count} 項舊訊息'
-      from: 寄件者
-      subject: 主旨
-      date: 日期
       no_messages_yet_html: 您還沒有訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
       people_mapping_nearby: 在附近製圖的人
+    messages_table:
+      from: 寄件者
+      to: 收件者
+      subject: 主旨
+      date: 日期
+      actions: 操作
     message_summary:
       unread_button: 標記為未讀
       read_button: 標記為已讀
       reply_button: 回覆
       destroy_button: 刪除
+      unmute_button: 移至收件匣
     new:
       title: 寄出訊息
       send_message_to_html: 寄出新訊息給 %{name}
@@ -1733,16 +1741,17 @@ zh-TW:
       body: 抱歉，並沒有這個 id 的訊息。
     outbox:
       title: 寄件匣
-      my_inbox: 我的收件匣
-      my_outbox: 我的寄件匣
+      actions: 操作
       messages:
         one: 您有 %{count} 項已寄訊息
         other: 您有 %{count} 項已寄訊息
-      to: 收件者
-      subject: 主旨
-      date: 日期
       no_sent_messages_html: 您還沒有已寄訊息。何不跟一些 %{people_mapping_nearby_link} 接觸看看？
       people_mapping_nearby: 附近製作地圖的使用者
+    muted:
+      title: 已忽視訊息
+      messages:
+        one: 1 條忽視訊息
+        other: 您有 %{count} 條忽視訊息
     reply:
       wrong_user: 您已經以 "%{user}" 的身份登入，但是您想要回覆的訊息並非寄給這個使用者。請以正確的使用者身份登入以回覆這個訊息。
     show:
@@ -1754,9 +1763,16 @@ zh-TW:
       wrong_user: 您已經以 "%{user}" 的身份登入，但是您想要閱讀的訊息並非寄給那個使用者。請以正確的使用者身份登入以閱讀它。
     sent_message_summary:
       destroy_button: 刪除
+    heading:
+      my_inbox: 我的收件匣
+      my_outbox: 我的寄件匣
+      muted_messages: 已忽視訊息
     mark:
       as_read: 訊息標記為已讀
       as_unread: 訊息標記為未讀
+    unmute:
+      notice: 訊息已移至收件匣
+      error: 無法將訊息移至收件匣。
     destroy:
       destroyed: 訊息已刪除
   passwords:
@@ -2425,6 +2441,7 @@ zh-TW:
       oauth1_settings: OAuth 1 設定
       oauth2_applications: OAuth 2 應用程式
       oauth2_authorizations: OAuth 2 授權
+      muted_users: 已忽視使用者
   oauth:
     authorize:
       title: 授權使用您的帳號
@@ -2608,6 +2625,8 @@ zh-TW:
       my_dashboard: 我的功能面板
       blocks on me: 對我的封鎖
       blocks by me: 我所設的封鎖
+      create_mute: 忽視這名使用者
+      destroy_mute: 取消忽視這名使用者
       edit_profile: 編輯個人資料
       send message: 傳送訊息
       diary: 日記
@@ -2793,6 +2812,28 @@ zh-TW:
       showing_page: 第 %{page} 頁
       next: 下一頁 »
       previous: « 上一頁
+  user_mutes:
+    index:
+      title: 已忽視使用者
+      my_muted_users: 我忽視的使用者
+      you_have_muted_n_users:
+        one: 您已忽視 1 名使用者
+        other: 您已忽視 %{count} 名使用者
+      user_mute_explainer: 已忽視使用者的訊息會移至單獨的收件匣中，您將不會收到電子郵件通知。
+      user_mute_admins_and_moderators: 您可以忽視管理員和仲裁員，但仍會收到他們的訊息通知。
+      table:
+        thead:
+          muted_user: 已忽視使用者
+          actions: 操作
+        tbody:
+          unmute: 取消忽視
+          send_message: 寄送訊息
+    create:
+      notice: 您已忽視%{name}。
+      error: 無法忽視%{name}。%{full_message}。
+    destroy:
+      notice: 您取消了忽視%{name}。
+      error: 無法忽視使用者。請再試一次。
   notes:
     index:
       title: 由 %{user} 送出或評論的註記

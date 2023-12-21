@@ -58,6 +58,12 @@ sl:
       messages:
         invalid_email_address: ni videti veljaven e-poštni naslov
         email_address_not_routable: ni preusmerljiv
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: je že utišan
     models:
       acl: Seznam nadzora dostopa
       changeset: Nabor sprememb
@@ -265,7 +271,7 @@ sl:
         opened_at_html: Ustvarjeno %{when}
         opened_at_by_html: Ustvaril_a %{user} %{when}
         commented_at_html: Posodobljeno %{when}
-        commented_at_by_html: Posodobil/a %{user} %{when}
+        commented_at_by_html: Posodobil_a %{user} %{when}
         closed_at_html: Razrešeno %{when}
         closed_at_by_html: Razrešil_a %{user} %{when}
         reopened_at_html: Znova aktivirano %{when}
@@ -503,7 +509,7 @@ sl:
     index:
       title: Sklopi sprememb
       title_user: Sklopi sprememb od %{user}
-      title_user_link_html: Sklopi sprememb uporabnika/ce %{user_link}
+      title_user_link_html: Sklopi sprememb uporabnika_ce %{user_link}
       title_friend: Množice sprememb mojih prijateljev
       title_nearby: Sklopi sprememb bližnjih uporabnikov
       empty: Ni najdenih množic sprememb.
@@ -518,7 +524,7 @@ sl:
   changeset_comments:
     comment:
       comment: 'Nov komentar o naboru sprememb #%{changeset_id} uporabnika %{author}'
-      commented_at_by_html: Posodobil/a %{user} %{when}
+      commented_at_by_html: Posodobil_a %{user} %{when}
     comments:
       comment: 'Nov komentar o naboru sprememb #%{changeset_id} uporabnika %{author}'
     index:
@@ -1514,7 +1520,7 @@ sl:
       no_reports: Ni prijav
       report_created_at: Prvič prijavljeno %{datetime}
       last_resolved_at: Zadnjič razrešeno %{datetime}
-      last_updated_at: Zadnjič %{datetime} posodobil/a %{displayname}
+      last_updated_at: Zadnjič %{datetime} posodobil_a %{displayname}
       resolve: Razreši
       ignore: Prezri
       reopen: Znova odpri
@@ -1807,8 +1813,6 @@ sl:
   messages:
     inbox:
       title: Prejeta pošta
-      my_inbox: Prejeta pošta
-      my_outbox: Poslana pošta
       messages: Imate %{new_messages} in %{old_messages}.
       new_messages:
         few: '%{count} nova sporočila'
@@ -1820,17 +1824,21 @@ sl:
         one: '%{count} staro sporočilo'
         two: '%{count} stari sporočili'
         other: '%{count} starih sporočil'
-      from: Od
-      subject: Zadeva
-      date: Datum
       no_messages_yet_html: Prejeli niste še nobenih sporočil. Zakaj ne bi stopili
         v stik z %{people_mapping_nearby_link}?
       people_mapping_nearby: ljudmi, ki kartirajo blizu vas
+    messages_table:
+      from: Od
+      to: Za
+      subject: Zadeva
+      date: Datum
+      actions: Dejanja
     message_summary:
       unread_button: Označi kot neprebrano
       read_button: Označi kot prebrano
       reply_button: Odgovori
       destroy_button: Izbriši
+      unmute_button: Prestavi v mapo »Prejeto«.
     new:
       title: Pošiljanje sporočila
       send_message_to_html: Pošlji novo sporočilo uporabniku %{name}
@@ -1845,19 +1853,22 @@ sl:
       body: Žal ni sporočila s tem id-jem.
     outbox:
       title: Poslana pošta
-      my_inbox: Prejeta pošta
-      my_outbox: Poslana pošta
+      actions: Dejanja
       messages:
         few: Imate %{count} poslana sporočila
         one: Imate %{count} poslano sporočilo
         two: Imate %{count} poslani sporočili
         other: Imate %{count} poslanih sporočil
-      to: Za
-      subject: Zadeva
-      date: Datum
       no_sent_messages_html: Poslali niste še nobenih sporočil. Zakaj ne bi stopili
         v stik z %{people_mapping_nearby_link}?
       people_mapping_nearby: ljudmi, ki kartirajo blizu vas
+    muted:
+      title: Utišana sporočila
+      messages:
+        one: '%{count} novo sporočilo'
+        two: '%{count} novi sporočili'
+        few: '%{count} novih sporočil'
+        other: '%{count} novih sporočil'
     reply:
       wrong_user: Prijavljeni ste kot '%{user}', toda sporočilo, na katerega odgovarjate,
         ni bilo poslano temu uporabniku. Za odgovor se prijavite kot pravi uporabnik.
@@ -1871,9 +1882,16 @@ sl:
         ni bilo poslano vam. Prosimo, prijavite se, kot pravi uporabnik za branje.
     sent_message_summary:
       destroy_button: Izbriši
+    heading:
+      my_inbox: Prejeta pošta
+      my_outbox: Poslana pošta
+      muted_messages: Utišana sporočila
     mark:
       as_read: Sporočilo označeno kot prebrano
       as_unread: Sporočilo označeno kot neprebrano
+    unmute:
+      notice: Sporočilo je bilo prestavljeno v mapo »Prejeto«.
+      error: Sporočila ni bilo mogoče premakniti v mapo »Prejeto«.
     destroy:
       destroyed: Sporočilo izbrisano
   passwords:
@@ -2670,6 +2688,7 @@ sl:
       oauth1_settings: Nastavitve OAuth 1
       oauth2_applications: Aplikacije OAuth 2
       oauth2_authorizations: Pooblastila OAuth 2
+      muted_users: Utišani uporabniki
   oauth:
     authorize:
       title: Dovoli dostop do vašega računa
@@ -2881,6 +2900,8 @@ sl:
       my_dashboard: Moja nadzorna plošča
       blocks on me: Blokiranja mene
       blocks by me: Moja blokiranja
+      create_mute: Utišaj tega uporabnika
+      destroy_mute: Vklopi zvok tega uporabnika
       edit_profile: Uredi profil
       send message: Pošlji sporočilo
       diary: Dnevnik
@@ -3052,7 +3073,7 @@ sl:
       heading_html: Seznam blokiranj uporabnika %{name}
       empty: Uporabnik/ca %{name} še ni bil/a blokiran/a.
     blocks_by:
-      title: Dana blokiranja uporabnika/ce %{name}
+      title: Dana blokiranja uporabnika_ce %{name}
       heading_html: Seznam izvedenih blokiranj uporabnika %{name}
       empty: Uporabnik/ca %{name} ni blokiral/a še nikogar.
     show:
@@ -3083,6 +3104,32 @@ sl:
       showing_page: Stran %{page}
       next: Naprej »
       previous: « Prejšnja
+  user_mutes:
+    index:
+      title: Utišani uporabniki
+      my_muted_users: Moji utišani uporabniki
+      you_have_muted_n_users:
+        one: Utišali ste %{count} uporabnika
+        two: Utišali ste %{count} uproabnika
+        few: Utišali ste %{count} uporabnikov
+        other: Utišali ste %{count} uporabnikov
+      user_mute_explainer: Sporočila utišanih uporabnikov so premaknjena v ločeno
+        mapo »Prejeto« in ne boste prejemali e-poštnih obvestil.
+      user_mute_admins_and_moderators: Administratorje in moderatorje lahko utišate,
+        vendar njihova sporočila ne bodo utišana.
+      table:
+        thead:
+          muted_user: Utišani uporabnik
+          actions: Dejanja
+        tbody:
+          unmute: Vklopi zvok
+          send_message: Pošlji sporočilo
+    create:
+      notice: Utišali ste %{name}.
+      error: '%{name} ni bilo mogoče utišati. %{full_message}.'
+    destroy:
+      notice: Vklopili ste zvok %{name}.
+      error: Zvoka uporabnika ni bilo mogoče vklopiti. Prosimo, poskusite znova.
   notes:
     index:
       title: Opombe, ki jih je posredoval_a ali komentiral_a %{user}

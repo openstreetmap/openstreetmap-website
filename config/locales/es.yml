@@ -47,6 +47,7 @@
 # Author: Javiersanp
 # Author: Jelou
 # Author: Jlrb+
+# Author: Jmabel
 # Author: Joanmp17
 # Author: Johnarupire
 # Author: Josuert
@@ -1849,8 +1850,6 @@ es:
   messages:
     inbox:
       title: Buzón de entrada
-      my_inbox: Mi buzón
-      my_outbox: Mi buzón de salida
       messages: Tienes %{new_messages} y %{old_messages}
       new_messages:
         one: '%{count} nuevo mensaje'
@@ -1858,17 +1857,21 @@ es:
       old_messages:
         one: '%{count} mensaje antiguo'
         other: '%{count} mensajes antiguos'
-      from: De
-      subject: Asunto
-      date: Fecha
       no_messages_yet_html: Aún no tienes mensajes. ¿Por qué no ponerte en contacto
         con algunas de las %{people_mapping_nearby_link}?
       people_mapping_nearby: gente mapeando cerca
+    messages_table:
+      from: De
+      to: Para
+      subject: Asunto
+      date: Fecha
+      actions: Acciones
     message_summary:
       unread_button: Marcar como no leído
       read_button: Marcar como leí­do
       reply_button: Responder
       destroy_button: Eliminar
+      unmute_button: Trasladar a la bandeja de entrada
     new:
       title: Enviar mensaje
       send_message_to_html: Enviar un mensaje nuevo a %{name}
@@ -1883,14 +1886,10 @@ es:
       body: Lo sentimos, no hay mensaje alguno con este identificador.
     outbox:
       title: Bandeja de salida
-      my_inbox: Mi Bandeja de entrada
-      my_outbox: Mi Bandeja de salida
+      actions: Acciones
       messages:
         one: Tiene %{count} mensaje enviado
         other: Tiene %{count} mensajes enviados
-      to: Para
-      subject: Asunto
-      date: Fecha
       no_sent_messages_html: Aún no tienes mensajes enviados. ¿Por qué no ponerte
         en contacto con algunas de las %{people_mapping_nearby_link}?
       people_mapping_nearby: personas mapeando cerca
@@ -1909,9 +1908,15 @@ es:
         correcto para leer el mensaje.
     sent_message_summary:
       destroy_button: Eliminar
+    heading:
+      my_inbox: Mi buzón
+      my_outbox: Mi buzón de salida
     mark:
       as_read: Mensaje marcado como leído
       as_unread: Mensaje marcado como no leído
+    unmute:
+      notice: El mensaje se ha trasladado a la bandeja de entrada
+      error: No se pudo trasladar el mensaje a la bandeja de entrada.
     destroy:
       destroyed: Mensaje eliminado
   passwords:
@@ -2436,6 +2441,8 @@ es:
           footway: Vía peatonal
           rail: Ferrocarril
           subway: Metro
+          tram_only: Tranvía
+          bus: Autobús
           cable:
           - Telecabina
           - Telesilla
@@ -2444,9 +2451,12 @@ es:
           - Calle de rodaje
           apron_only: Rampa aeroportuaria
           admin: Límite administrativo
+          orchard:
+          - Huerta
           forest:
           - Bosque
           - Bosque
+          sand: Arena
           golf: Campo de golf
           park: Parque
           common:
@@ -2482,6 +2492,8 @@ es:
           private: Acceso privado
           destination: Acceso a destino
           construction: Vías en construcción
+          bus_stop: Parada de autobuses
+          stop: Parada
           bicycle_shop: Tienda de bicicletas
           bicycle_parking: Estacionamiento de bicicletas
           toilets: Baños
@@ -3108,6 +3120,13 @@ es:
       showing_page: Página %{page}
       next: Siguiente »
       previous: « Anterior
+  user_mutes:
+    index:
+      table:
+        thead:
+          actions: Acciones
+        tbody:
+          send_message: Enviar mensaje
   notes:
     index:
       title: Notas creadas o comentadas por %{user}

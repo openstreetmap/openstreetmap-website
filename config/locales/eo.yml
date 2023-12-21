@@ -65,6 +65,12 @@ eo:
       messages:
         invalid_email_address: ŝajnas ne estas ĝusta retpoŝta adreso
         email_address_not_routable: ne estas enkursigebla
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: jam estas silentigita
     models:
       acl: Listo de kontrolo de akiroj
       changeset: Ŝanĝaro
@@ -1745,8 +1751,6 @@ eo:
   messages:
     inbox:
       title: Ricevujo
-      my_inbox: Ricevujo
-      my_outbox: Senditujo
       messages: Vi havas %{new_messages} kaj %{old_messages}
       new_messages:
         one: '%{count} novan mesaĝon'
@@ -1754,17 +1758,21 @@ eo:
       old_messages:
         one: '%{count} malnovan mesaĝon'
         other: '%{count} malnovajn mesaĝojn'
-      from: De
-      subject: Temo
-      date: Dato
       no_messages_yet_html: Vi ankoraŭ ne havas iun mesaĝon. Eble kontaktu kun iu
         el %{people_mapping_nearby_link}?
       people_mapping_nearby: proksimaj mapigistoj
+    messages_table:
+      from: De
+      to: Al
+      subject: Temo
+      date: Dato
+      actions: Agoj
     message_summary:
       unread_button: Marki kiel nelegitan
       read_button: Marki kiel legitan
       reply_button: Respondi
       destroy_button: Forigi
+      unmute_button: Movi al ricevujo
     new:
       title: Sendi mesaĝon
       send_message_to_html: Sendi novan mesaĝon al %{name}
@@ -1779,17 +1787,18 @@ eo:
       body: Bedaŭrinde ne ekzistas mesaĝo kun tiu ĉi identigilo.
     outbox:
       title: Elirkesto
-      my_inbox: Ricevujo
-      my_outbox: Senditujo
+      actions: Agoj
       messages:
         one: Vi havas %{count} senditan mesaĝon
         other: Vi havas %{count} senditajn mesaĝojn
-      to: Al
-      subject: Temo
-      date: Dato
       no_sent_messages_html: Vi ankoraŭ ne sendis iun mesaĝon. Eble kontaktu kun iu
         el %{people_mapping_nearby_link}?
       people_mapping_nearby: proksimaj mapigistoj
+    muted:
+      title: Silentigitaj mesaĝoj
+      messages:
+        one: Vi havas %{count} silentigitan mesaĝon
+        other: Vi havas %{count} silentigitajn mesaĝojn
     reply:
       wrong_user: Vi estas ensalutinta kiel '%{user}', sed la mesaĝo, kiun vi volas
         respondi, ne estas sendita al tiu uzanto. Bonvolu ensaluti kiel propra uzanto
@@ -1805,6 +1814,10 @@ eo:
         legi ĝin.
     sent_message_summary:
       destroy_button: Forigi
+    heading:
+      my_inbox: Ricevujo
+      my_outbox: Senditujo
+      muted_messages: Silentigitaj mesaĝoj
     mark:
       as_read: Mesaĝo markita kiel legitan
       as_unread: Mesaĝo markita kiel nelegitan

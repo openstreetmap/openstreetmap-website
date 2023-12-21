@@ -41,6 +41,11 @@ fur:
       messages:
         invalid_email_address: nol samee jessi une direzion di pueste eletroniche
           valide
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
     models:
       acl: Liste di control des jentradis
       changeset: Grup di cambiaments
@@ -146,41 +151,41 @@ fur:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: cirche 1 ore indaûr
+        one: cirche %{count} ore indaûr
         other: cirche %{count} oris indaûr
       about_x_months:
-        one: cirche 1 mês indaûr
+        one: cirche %{count} mês indaûr
         other: cirche %{count} mês indaûr
       about_x_years:
-        one: cirche 1 an indaûr
+        one: cirche %{count} an indaûr
         other: cirche %{count} agns indaûr
       almost_x_years:
-        one: scuasit 1 an indaûr
+        one: scuasit %{count} an indaûr
         other: scuasit %{count} agns indaûr
       half_a_minute: mieç minût indaûr
       less_than_x_seconds:
-        one: mancul di 1 secont indaûr
+        one: mancul di %{count} secont indaûr
         other: mancul di %{count} seconts indaûr
       less_than_x_minutes:
-        one: mancul di 1 minût indaûr
+        one: mancul di %{count} minût indaûr
         other: mancul di %{count} minûts indaûr
       over_x_years:
-        one: plui di 1 an indaûr
+        one: plui di %{count} an indaûr
         other: plui di %{count} agns indaûr
       x_seconds:
-        one: 1 secont indaûr
+        one: '%{count} secont indaûr'
         other: '%{count} seconts indaûr'
       x_minutes:
-        one: 1 minût indaûr
+        one: '%{count} minût indaûr'
         other: '%{count} minûts indaûr'
       x_days:
-        one: 1 zornade indaûr
+        one: '%{count} zornade indaûr'
         other: '%{count} zornadis indaûr'
       x_months:
-        one: 1 mês indaûr
+        one: '%{count} mês indaûr'
         other: '%{count} mês indaûr'
       x_years:
-        one: 1 an indaûr
+        one: '%{count} an indaûr'
         other: '%{count} agns indaûr'
   editor:
     default: Predeterminât (par cumò %{name})
@@ -196,6 +201,7 @@ fur:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Vichipedie
   api:
@@ -266,16 +272,22 @@ fur:
   browse:
     created: Creât
     closed: Sierât
+    created_ago_html: Creât %{time_ago}
+    closed_ago_html: Sierât %{time_ago}
+    created_ago_by_html: Creât di %{user} %{time_ago}
+    closed_ago_by_html: Sierât di %{user} %{time_ago}
+    deleted_ago_by_html: Eliminât di %{user} %{time_ago}
+    edited_ago_by_html: Modificât di %{user} %{time_ago}
     version: Version
     in_changeset: Grup di cambiaments
     anonymous: anonim
     no_comment: (nissun coment)
     part_of: Part di
     part_of_relations:
-      one: 1 relazion
+      one: '%{count} relazion'
       other: '%{count} relazions'
     part_of_ways:
-      one: 1 vie
+      one: '%{count} vie'
       other: '%{count} viis'
     download_xml: Discjame XML
     view_history: Cjale il storic
@@ -291,6 +303,8 @@ fur:
       relation: Relazions (%{count})
       relation_paginated: Relazions (%{x}-%{y} su %{count})
       comment: Coments (%{count})
+      hidden_comment_by_html: Coment platât di %{user} %{time_ago}
+      comment_by_html: Comentât di %{user} %{time_ago}
       changesetxml: Grup di cambiaments XML
       osmchangexml: XML in formât osmChange
       feed:
@@ -306,7 +320,7 @@ fur:
       history_title_html: 'Storic de vie: %{name}'
       nodes: Grops
       nodes_count:
-        one: 1 grop
+        one: '%{count} grop'
         other: '%{count} grops'
       also_part_of_html:
         one: part de vie %{related_ways}
@@ -316,7 +330,7 @@ fur:
       history_title_html: 'Storic de relazion: %{name}'
       members: Membris
       members_count:
-        one: 1 membri
+        one: '%{count} membri'
         other: '%{count} membris'
     relation_member:
       entry_role_html: '%{type} %{name} come %{role}'
@@ -471,8 +485,9 @@ fur:
       comment_link: Scrîf un coment su cheste vôs
       reply_link: Mande un messaç al autôr
       comment_count:
-        one: 1 coment
+        one: '%{count} coment'
         other: '%{count} coments'
+      no_comments: Nissun coment
       edit_link: Cambie cheste vôs
       hide_link: Plate cheste vôs
       confirm: Conferme
@@ -511,6 +526,11 @@ fur:
       applications:
         create:
           notice: Aplicazion regjistrade.
+  errors:
+    forbidden:
+      title: Proibît
+    not_found:
+      title: File no cjatât
   friendships:
     make_friend:
       heading: Zontâ %{user} ai amîs?
@@ -523,9 +543,14 @@ fur:
       success: '%{name} al è stât gjavât dai tiei amîs.'
       not_a_friend: '%{name} nol è un dai tiei amîs.'
   geocoder:
+    search:
+      title:
+        results_from_html: Risultâts di %{results_link}
+        latlon: Interni
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Funivie
           pylon: Pilon
         aeroway:
           gate: Puarte di aeropuart
@@ -539,6 +564,7 @@ fur:
           bench: Bancjute
           bicycle_parking: Parc pes bicicletis
           bicycle_rental: Nauli di bicicletis
+          brothel: Bordel
           bureau_de_change: Ufizi di cambi
           bus_station: Stazion des corieris
           car_rental: Nauli di machinis
@@ -567,6 +593,7 @@ fur:
           kindergarten: Scuelute
           language_school: Scuele di lenghis
           library: Biblioteche
+          monastery: Monastîr
           music_school: Scuele di musiche
           nightclub: Club noturni
           parking: Parcament
@@ -595,6 +622,7 @@ fur:
           veterinary: Veterinari
           village_hall: Centri civic
           waste_basket: Scovacere
+          weighbridge: Pese
         boundary:
           administrative: Confin aministratîf
           national_park: Parc nazionâl
@@ -644,6 +672,7 @@ fur:
           shoemaker: Cjaliâr
           tailor: Sartôr
         emergency:
+          fire_extinguisher: Estintôr
           phone: Telefon di emergjence
         highway:
           bus_stop: Fermade autobus
@@ -651,6 +680,7 @@ fur:
           cycleway: Percors ciclabil
           emergency_access_point: Pont di acès di emergjence
           footway: Percors pedonâl
+          give_way: Cartel di precedenze
           motorway: Autostrade
           motorway_junction: Svincul autostradâl
           motorway_link: Autostrade
@@ -683,6 +713,8 @@ fur:
           battlefield: Cjamp di bataie
           boundary_stone: Piere di confin
           building: Edifici storic
+          bunker: Bunker
+          cannon: Canon storic
           castle: Cjiscjel
           church: Glesie
           city_gate: Puarte de citât
@@ -721,6 +753,7 @@ fur:
           vineyard: Vigne
         leisure:
           common: Comugnâi (UK)
+          dog_park: Parc pai cjans
           fishing: Riserve par pescjâ
           garden: Zardin
           golf_course: Troi di golf
@@ -728,6 +761,7 @@ fur:
           miniature_golf: Minigolf
           nature_reserve: Riserve naturâl
           park: Parc
+          picnic_table: Taule pal picnic
           pitch: Cjamp sportîf
           sauna: Saune
           sports_centre: Centri sportîf
@@ -739,7 +773,9 @@ fur:
           bridge: Puint
           bunker_silo: Bunker
           tower: Tor
+          water_tower: Tor pe aghe
           water_well: Poç
+          works: Fabriche
         military:
           airfield: Cjamp di aviazion militâr
           barracks: Caserme
@@ -763,18 +799,29 @@ fur:
           peak: Pic
           peninsula: Penisule
           point: Pont
+          sand: Savalon
+          strait: Stret
           tree: Arbul
+          tree_row: Rie di arbui
           valley: Val
           volcano: Vulcan
           water: Aghe
           "yes": Element naturâl
         office:
           architect: Architet
+          association: Associazion
+          company: Aziende
+          diplomatic: Ufici diplomatic
           employment_agency: Agjenzie di ocupazion
           estate_agent: Agjent imobiliâr
+          financial: Ufici finanziari
           government: Ufizi governatîf
           insurance: Agjenzie di assicurazions
+          it: Ufici informatic
           lawyer: Avocat
+          logistics: Ufici di logjistiche
+          newspaper: Ufici di gjornâl
+          notary: Nodâr
           travel_agent: Agjenzie di viaçs
           "yes": Ufizi
         place:
@@ -826,6 +873,7 @@ fur:
           hairdresser: Piruchîr o barbîr
           jewelry: Buteghe dal oresin
           laundry: Lavandarie
+          massage: Massaç
           newsagent: Buteghe dai gjornâi
           optician: Otic
           pet: Buteghe di animâi
@@ -876,7 +924,7 @@ fur:
       reports: Segnalazions
       link_to_reports: Viôt lis segnalazions
       reports_count:
-        one: 1 segnalazion
+        one: '%{count} segnalazion'
         other: '%{count} segnalazions'
       states:
         ignored: Ignorât
@@ -884,7 +932,7 @@ fur:
         resolved: Risolt
     show:
       reports:
-        one: 1 segnalazion
+        one: '%{count} segnalazion'
         other: '%{count} segnalazions'
       resolve: Risolf
       ignore: Ignore
@@ -999,8 +1047,6 @@ fur:
   messages:
     inbox:
       title: In jentrade
-      my_inbox: I miei messaçs in jentrade
-      my_outbox: I miei messaçs in jessude
       messages: Tu âs %{new_messages} e %{old_messages}
       new_messages:
         one: '%{count} messaç gnûf'
@@ -1008,12 +1054,15 @@ fur:
       old_messages:
         one: '%{count} messaç vieli'
         other: '%{count} messaçs vielis'
-      from: Di
-      subject: Sogjet
-      date: Date
       no_messages_yet_html: No tu âs ancjemò nissun messaç. Parcè no tu contatis cualchidun
         de %{people_mapping_nearby_link}?
       people_mapping_nearby: int che e je daûr a mapâ dongje di te
+    messages_table:
+      from: Di
+      to: A
+      subject: Sogjet
+      date: Date
+      actions: Azions
     message_summary:
       unread_button: Segne come no let
       read_button: Segne come let
@@ -1030,14 +1079,10 @@ fur:
       heading: Messaç no cjatât
     outbox:
       title: In jessude
-      my_inbox: I miei messaçs in jentrade
-      my_outbox: I miei messaçs in jessude
+      actions: Azions
       messages:
         one: Tu âs %{count} messaç in jessude
         other: Tu âs %{count} messaçs in jessude
-      to: A
-      subject: Sogjet
-      date: Date
       no_sent_messages_html: No tu âs ancjemò mandât nissun messaç. Parcè no tu contatis
         cualchidun de %{people_mapping_nearby_link}?
       people_mapping_nearby: int che e je daûr a mapâ dongje di te
@@ -1049,6 +1094,9 @@ fur:
       back: Indaûr
     sent_message_summary:
       destroy_button: Elimine
+    heading:
+      my_inbox: I miei messaçs in jentrade
+      my_outbox: I miei messaçs in jessude
     mark:
       as_read: Messaç segnât come za let
       as_unread: Messaç segnât come di lei
@@ -1100,6 +1148,8 @@ fur:
       no home location: No tu âs configurât il lûc iniziâl.
       update home location on click: Aio di inzornâ il lûc iniziâl cuant che o frachi
         parsore de mape?
+      show: Mostre
+      delete: Elimine
     update:
       success: Profîl inzornât
   sessions:
@@ -1127,8 +1177,8 @@ fur:
           title: Jentre cun Facebook
           alt: Jentre cuntun un cont Facebook
         microsoft:
-          title: Jentre cun Windows Live
-          alt: Jentre cuntun cont di Windows Live
+          title: Jentre cun Microsoft
+          alt: Jentre cuntun cont di Microsoft
         github:
           title: Jentre cun GitHub
           alt: Jentre cuntun cont GitHub
@@ -1145,6 +1195,8 @@ fur:
       title: Jes
       heading: Va fûr di OpenStreetMap
       logout_button: Jes
+    suspended_flash:
+      support: assistence
   shared:
     markdown_help:
       link: Leam
@@ -1159,7 +1211,13 @@ fur:
     about:
       next: Prossim
       local_knowledge_title: Cognossince locâl
+      community_driven_user_diaries: diaris dai utents
+      community_driven_osm_foundation: Fondazion OSM
       open_data_title: Dâts vierts
+      open_data_open_data: dâts vierts
+      legal_title: Legâl
+      legal_1_1_terms_of_use: Cundizions pal ûs
+      legal_2_1_contact_the_osmf: contate il OSMF
       partners_title: Associâts
     copyright:
       foreign:
@@ -1173,6 +1231,13 @@ fur:
           title: Esempli di atribuzion
         more_title_html: Par savênt di plui
         contributors_title_html: Nestris colaboradôrs
+        contributors_at_austria: Austrie
+        contributors_au_australia: Australie
+        contributors_fr_france: France
+        contributors_nz_new_zealand: Gnove Zelande
+        contributors_si_slovenia: Slovenie
+        contributors_es_spain: Spagne
+        contributors_gb_united_kingdom: Ream Unît
     index:
       js_1: Tu stâs doprant un sgarfadôr che nol supuarte JavaScript o ben JavaScript
         al è stât disativât.
@@ -1268,18 +1333,24 @@ fur:
           primary: Strade primarie
           secondary: Strade secondarie
           unclassified: Strade no classificade
+          pedestrian: Strade pedonâl
+          track: Piste
           rail: Ferade
           subway: Metropolitane
+          ferry: Traghet
+          tram_only: Tram
           runway:
           - Piste dal aeropuart
           admin: Confin aministratîf
           forest:
           - Bosc
+          sand: Savalon
           golf: Troi di golf
           park: Parc
           common:
           - Comugnâi
           - prâts
+          - zardin
           resident: Zone residenziâl
           retail: Zone di buteghis
           industrial: Zone industriâl
@@ -1294,6 +1365,7 @@ fur:
           school:
           - Scuele
           - universitât
+          - ospedâl
           station: stazion de ferade
           tunnel: Rie a trats = galarie
           bridge: Rie nere = puint
@@ -1303,13 +1375,22 @@ fur:
       title: Benvignût!
       whats_on_the_map:
         title: Ce ch'al è su la mape
+      basic_terms:
+        node: grop
+        way: vie
+        tag: etichete
+      rules:
+        title: Regulis!
       start_mapping: Scomence a mapâ
       add_a_note:
         title: No tu âs timp par fâ i cambiaments? Zonte une note!
     communities:
       title: Comunitâts
+      other_groups:
+        title: Altris grups
   traces:
     new:
+      upload_trace: Cjame percors GPS
       visibility_help: ce vuelial dî?
       help: Jutori
     create:
@@ -1335,6 +1416,7 @@ fur:
       uploaded: 'Cjamât ai:'
       points: 'Ponts:'
       start_coordinates: 'Coordenadis iniziâls:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: mape
       edit: cambie
       owner: 'Paron:'
@@ -1352,7 +1434,7 @@ fur:
     trace:
       pending: IN SPIETE
       count_points:
-        one: 1 pont
+        one: '%{count} pont'
         other: '%{count} ponts'
       more: plui
       trace_details: Cjale i detais dal percors
@@ -1365,9 +1447,12 @@ fur:
       in: in
     index:
       public_traces: Percors GPS publics
+      my_gps_traces: I miei percors GPS
       public_traces_from: Percors GPS publics di %{user}
       description: Viôt i percors GPS cjamâts sù tai ultins timps
       tagged_with: ' etichetât cun %{tags}'
+      empty_title: Ancjemò nuie par culì
+      upload_new: Cjame un gnûf percors
       upload_trace: Cjame un percors
       all_traces: Ducj i percors
       my_traces: I miei percors
@@ -1594,7 +1679,7 @@ fur:
       time_past_html: Finît %{time} indaûr.
       block_duration:
         hours:
-          one: 1 ore
+          one: '%{count} ore'
           other: '%{count} oris'
     blocks_on:
       title: Blocs su %{name}
@@ -1631,11 +1716,18 @@ fur:
       showing_page: Pagjine %{page}
       next: Sucessîf »
       previous: « Precedent
+  user_mutes:
+    index:
+      table:
+        tbody:
+          send_message: Mande messaç
   notes:
     index:
       title: Note inseride o comentade di %{user}
       heading: Lis notis di %{user}
-      subheading_html: Lis notis inseridis o comentadis di %{user}
+      subheading_html: Lis notis %{submitted} o %{commented} di %{user}
+      subheading_submitted: inseridis
+      subheading_commented: comentadis
       no_notes: Nissune note
       id: Identificatîf
       creator: Creadôr
@@ -1648,6 +1740,15 @@ fur:
       open_title: 'Note no risolte #%{note_name}'
       closed_title: 'Note risolte #%{note_name}'
       hidden_title: 'Note platade #%{note_name}'
+      event_opened_by_html: Creât di %{user} %{time_ago}
+      event_opened_by_anonymous_html: Creât di un anonim %{time_ago}
+      event_commented_by_html: Comentât di %{user} %{time_ago}
+      event_commented_by_anonymous_html: Comentât di un anonim %{time_ago}
+      event_closed_by_html: Risolt di %{user} %{time_ago}
+      event_closed_by_anonymous_html: Risolt di un anonim %{time_ago}
+      event_reopened_by_html: Tornât a ativâ di %{user}%{time_ago}
+      event_reopened_by_anonymous_html: Tornât a ativâ di un anonim %{time_ago}
+      event_hidden_by_html: Platât di %{user} %{time_ago}
       report: segnale cheste note
       anonymous_warning: Cheste note e inclût coments di utents anonims che a varessin
         di jessi verificâts in mût indipendent.
@@ -1696,6 +1797,12 @@ fur:
         out: Diminuìs zoom
       locate:
         title: Mostre la mê posizion
+        metersPopup:
+          one: Tu sês a mancul di %{count} metri di chest pont
+          other: Tu sês a mancul di %{count} metris di chest pont
+        feetPopup:
+          one: Tu sês a mancul di %{count} pît di chest pont
+          other: Tu sês a mancul di %{count} pîts di chest pont
       base:
         standard: Standard
         cycle_map: Cycle Map
@@ -1708,6 +1815,17 @@ fur:
         gps: Percors GPS publics
         overlays: Ative i nivei utii par risolvi i problemis de mape
         title: Nivei
+      make_a_donation: Done alc
+      website_and_api_terms: Tiermins di ûs dal sît e des APIs
+      cyclosm_credit: Stîl dai tassei di %{cyclosm_link} ospitât di %{osm_france_link}
+      osm_france: OpenStreetMap France
+      thunderforest_credit: Tassei par gentîl concession di %{thunderforest_link}
+      andy_allan: Andy Allan
+      opnvkarte_credit: Tassei par gentîl concession di %{memomaps_link}
+      memomaps: MeMoMaps
+      tracestrack_credit: Tassei par gentîl concession di %{tracestrack_link}
+      hotosm_credit: Stîl dai tassei di %{hotosm_link} ospitât di %{osm_france_link}
+      hotosm_name: La clape umanitare di OpenStreetMap
     site:
       edit_tooltip: Cambie la mape
       edit_disabled_tooltip: Cres il zoom par cambiâ la mape
@@ -1731,13 +1849,18 @@ fur:
       engines:
         fossgis_osrm_bike: Biciclete (OSRM)
         fossgis_osrm_car: Machine (OSRM)
-        fossgis_osrm_foot: A pit (OSRM)
+        fossgis_osrm_foot: A pît (OSRM)
         graphhopper_bicycle: Biciclete (OSRM)
         graphhopper_car: Machine (GraphHopper)
-        graphhopper_foot: A pit (GraphHopper)
+        graphhopper_foot: A pît (GraphHopper)
+        fossgis_valhalla_bicycle: Biciclete (Valhalla)
+        fossgis_valhalla_car: Machine (Valhalla)
+        fossgis_valhalla_foot: A pît (Valhalla)
       descend: Disnivel negatîf
       directions: Indicazions
       distance: Distance
+      distance_m: '%{distance}m'
+      distance_km: '%{distance}km'
       errors:
         no_route: No si à rivât a cjatâ une strade tra chescj doi puescj.
         no_place: No si à rivât a cjatâ "%{place}".

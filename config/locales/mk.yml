@@ -46,6 +46,12 @@ mk:
       messages:
         invalid_email_address: не претставува важечка е-пошта
         email_address_not_routable: не е насочлива
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: е веќе замолкнат
     models:
       acl: Список за контрола на пристап
       changeset: Измени
@@ -1742,8 +1748,6 @@ mk:
   messages:
     inbox:
       title: Примени
-      my_inbox: Моето сандаче
-      my_outbox: Моја излезна пошта
       messages: Имате %{new_messages} и %{old_messages}
       new_messages:
         one: '%{count} нова порака'
@@ -1751,21 +1755,25 @@ mk:
       old_messages:
         one: '%{count} стара порака'
         other: '%{count} стари пораки'
-      from: Од
-      subject: Наслов
-      date: Датум
       no_messages_yet_html: Сè уште немате пораки. Зошто не се поврзете со некој од
         %{people_mapping_nearby_link}?
       people_mapping_nearby: картографите во вашата близина
+    messages_table:
+      from: Од
+      to: До
+      subject: Наслов
+      date: Датум
+      actions: Дејства
     message_summary:
       unread_button: Означи како непрочитано
       read_button: Означи како прочитано
       reply_button: Одговори
       destroy_button: Избриши
+      unmute_button: Премести во Примени
     new:
       title: Испрати ја пораката
       send_message_to_html: Испрати нова порака за %{name}
-      back_to_inbox: Назад во примени
+      back_to_inbox: Назад на примените
     create:
       message_sent: Пораката е испратена
       limit_exceeded: Во последно време имате испратено многу пораки. Почекајте малку,
@@ -1776,17 +1784,18 @@ mk:
       body: За жал, нема порака со таа назнака.
     outbox:
       title: За праќање
-      my_inbox: Мое сандаче
-      my_outbox: Моја излезна пошта
+      actions: Дејства
       messages:
         one: Имате %{count} испратена порака
         other: Имате %{count} испратени пораки
-      to: До
-      subject: Наслов
-      date: Датум
       no_sent_messages_html: Сè уште немате испратено пораки. Зошто да не исконтактирате
         некои %{people_mapping_nearby_link}?
       people_mapping_nearby: картографите во вашата близина
+    muted:
+      title: Замолкнати пораки
+      messages:
+        one: '%{count} замолкната порака'
+        other: Имате %{count} замолкнати пораки
     reply:
       wrong_user: Најавени сте како „%{user}“, но пораката на којашто побаравте да
         одговорите не е испратена до тој корисник. Најавете се под правилно корисничко
@@ -1802,9 +1811,16 @@ mk:
         име за да ја прочитате.
     sent_message_summary:
       destroy_button: Избриши
+    heading:
+      my_inbox: Примени
+      my_outbox: Моја излезна пошта
+      muted_messages: Замолкнати пораки
     mark:
       as_read: Пораката е означена како прочитана
       as_unread: Пораката е означена како непрочитана
+    unmute:
+      notice: Пораката е преместена во Примени
+      error: Пораката не можеше да се премести во Примени.
     destroy:
       destroyed: Пораката е избришана
   passwords:
@@ -2593,6 +2609,7 @@ mk:
       oauth1_settings: Поставки за OAuth 1
       oauth2_applications: Поставки за OAuth 2
       oauth2_authorizations: Овластувања за OAuth 2
+      muted_users: Замолкнати корисници
   oauth:
     authorize:
       title: Овластете пристап до вашата сметка
@@ -2801,6 +2818,8 @@ mk:
       my_dashboard: Моја управувачница
       blocks on me: Добиени блокови
       blocks by me: Извршени болокови
+      create_mute: Замолкни го корисников
+      destroy_mute: Одмолкни го корисников
       edit_profile: Уреди профил
       send message: Испрати порака
       diary: Дневник
@@ -2999,6 +3018,30 @@ mk:
       showing_page: Страница %{page}
       next: Следна »
       previous: « Претходна
+  user_mutes:
+    index:
+      title: Замолкнати корисници
+      my_muted_users: Мои замолкнати корисници
+      you_have_muted_n_users:
+        one: Имате замолкнато %{count} корисник
+        other: Имате замолкнато %{count} корисници
+      user_mute_explainer: Пораките на замолкнатите корисници се преместуваат во посебно
+        сандаче Примени, и за нив нема да добивате известувања по е-пошта.
+      user_mute_admins_and_moderators: Можете да замолкнувате администратори и модератори,
+        но нивните пораки нема да бидат замолкнати.
+      table:
+        thead:
+          muted_user: Замолкнат корисник
+          actions: Дејства
+        tbody:
+          unmute: Одмолкни
+          send_message: Испрати порака
+    create:
+      notice: Го замолкнавте %{name}.
+      error: '%{name} не можеше да се замолкне. %{full_message}.'
+    destroy:
+      notice: Го одмолкнавте %{name}.
+      error: Корисникот не можеше да се одмолкне. Обидете се повторно.
   notes:
     index:
       title: Белешки создадени или коментирани од %{user}
