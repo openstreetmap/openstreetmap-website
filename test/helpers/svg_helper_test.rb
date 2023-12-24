@@ -52,20 +52,30 @@ class SvgHelperTest < ActionView::TestCase
   end
 
   def test_key_line
-    svg = key_svg_tag("width" => 80, "height" => 20, "line" => "blue")
+    svg = key_svg_tag("width" => 80, "height" => 15, "line" => "blue")
     expected = <<~HTML.gsub(/\n\s*/, "")
-      <svg width="80" height="20">
-        <line x2="100%" y1="50%" y2="50%" stroke="blue" />
+      <svg width="80" height="15">
+        <path d="M0,7.5 H80" stroke="blue" />
       </svg>
     HTML
     assert_dom_equal expected, svg
   end
 
   def test_key_line_width
-    svg = key_svg_tag("width" => 80, "height" => 20, "line" => "blue", "line-width" => 3)
+    svg = key_svg_tag("width" => 80, "height" => 15, "line" => "blue", "line-width" => 3)
+    expected = <<~HTML.gsub(/\n\s*/, "")
+      <svg width="80" height="15">
+        <path d="M0,7.5 H80" stroke="blue" stroke-width="3" />
+      </svg>
+    HTML
+    assert_dom_equal expected, svg
+  end
+
+  def test_key_line_with_integer_coords
+    svg = key_svg_tag("width" => 80, "height" => 20, "line" => "blue")
     expected = <<~HTML.gsub(/\n\s*/, "")
       <svg width="80" height="20">
-        <line x2="100%" y1="50%" y2="50%" stroke="blue" stroke-width="3" />
+        <path d="M0,10 H80" stroke="blue" />
       </svg>
     HTML
     assert_dom_equal expected, svg
@@ -75,10 +85,7 @@ class SvgHelperTest < ActionView::TestCase
     svg = key_svg_tag("width" => 80, "height" => 20, "casing" => "yellow")
     expected = <<~HTML.gsub(/\n\s*/, "")
       <svg width="80" height="20">
-        <g stroke="yellow">
-          <line x2="100%" y1="0.5" y2="0.5" />
-          <line x2="100%" y1="19.5" y2="19.5" />
-        </g>
+        <path d="M0,0.5 H80 M0,19.5 H80" stroke="yellow" />
       </svg>
     HTML
     assert_dom_equal expected, svg
@@ -88,10 +95,17 @@ class SvgHelperTest < ActionView::TestCase
     svg = key_svg_tag("width" => 80, "height" => 20, "casing" => "yellow", "casing-width" => 5)
     expected = <<~HTML.gsub(/\n\s*/, "")
       <svg width="80" height="20">
-        <g stroke="yellow" stroke-width="5">
-          <line x2="100%" y1="2.5" y2="2.5" />
-          <line x2="100%" y1="17.5" y2="17.5" />
-        </g>
+        <path d="M0,2.5 H80 M0,17.5 H80" stroke="yellow" stroke-width="5" />
+      </svg>
+    HTML
+    assert_dom_equal expected, svg
+  end
+
+  def test_key_casing_with_integer_coords
+    svg = key_svg_tag("width" => 80, "height" => 20, "casing" => "yellow", "casing-width" => 2)
+    expected = <<~HTML.gsub(/\n\s*/, "")
+      <svg width="80" height="20">
+        <path d="M0,1 H80 M0,19 H80" stroke="yellow" stroke-width="2" />
       </svg>
     HTML
     assert_dom_equal expected, svg
