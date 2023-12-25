@@ -10,4 +10,15 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, :using => :headless_firefox do |options|
     options.add_preference("intl.accept_languages", "en")
   end
+
+  def before_setup
+    super
+    osm_website_app = create(:oauth_application, :name => "OpenStreetMap Web Site", :scopes => "write_api write_notes")
+    Settings.oauth_application = osm_website_app.uid
+  end
+
+  def after_teardown
+    Settings.reload!
+    super
+  end
 end
