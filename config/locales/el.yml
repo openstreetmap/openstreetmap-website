@@ -80,6 +80,12 @@ el:
       messages:
         invalid_email_address: δεν φαίνεται να είναι έγκυρη διεύθυνση ηλ. ταχυδρομείου
         email_address_not_routable: δεν είναι δρομολογητέο
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: είναι ήδη σε σίγαση
     models:
       acl: Λίστα ελέγχου πρόσβασης
       changeset: Ομάδα αλλαγών
@@ -1822,11 +1828,13 @@ el:
       to: Προς
       subject: Θέμα
       date: Ημερομηνία
+      actions: Ενέργειες
     message_summary:
       unread_button: Σήμανση ως αδιάβαστο
       read_button: Σήμανση ως διαβασμένο
       reply_button: Απάντηση
       destroy_button: Διαγραφή
+      unmute_button: Μετακίνηση στα Εισερχόμενα
     new:
       title: Αποστολή μηνύματος
       send_message_to_html: Αποστολή νέου μηνύματος προς %{name}
@@ -1841,12 +1849,15 @@ el:
       body: Λυπάμαι δεν υπάρχει μήνυμα με αυτό το αναγνωριστικό.
     outbox:
       title: Εξερχόμενα
+      actions: Ενέργειες
       messages:
         one: Έχετε %{count} απεσταλμένο μήνυμα
         other: Έχετε %{count} απεσταλμένα μηνύματα
       no_sent_messages_html: Δεν έχετε στείλει κανένα μήνυμα ακόμα. Γιατί δεν έρχεστε
         σε επαφή με μερικά %{people_mapping_nearby_link}?
       people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
+    muted:
+      title: Μηνύματα σε Σίγαση
     reply:
       wrong_user: Έχετε συνδεθεί ως «%{user}» αλλά το μήνυμα που ζητάτε να απαντήσετε
         δεν έχει σταλεί σε αυτόν το χρήστη. Παρακαλούμε συνδεθείτε με το σωστό όνομα
@@ -1865,9 +1876,13 @@ el:
     heading:
       my_inbox: Τα εισερχόμενα μου
       my_outbox: Τα εξερχόμενα μου
+      muted_messages: Μηνύματα σε Σίγαση
     mark:
       as_read: Το μήνυμα σημειώθηκε ως αναγνωσμένο
       as_unread: Το μήνυμα σημειώθηκε ως μη αναγνωσμένο
+    unmute:
+      notice: Το μήνυμα μετακινήθηκε στα Εισερχόμενα
+      error: Δεν ήταν δυνατή η μετακίνηση του μηνύματος στα Εισερχόμενα.
     destroy:
       destroyed: Το μήνυμα διαγράφηκε
   passwords:
@@ -1891,6 +1906,7 @@ el:
       flash token bad: Δεν βρήκατε αυτό το κομμάτι, μήπως πρέπει να ελέγξετε το URL;
     update:
       flash changed: Το συνθηματικό σας άλλαξε!
+      flash token bad: Δεν βρέθηκε αυτό το token, ελέγξτε ίσως τη διεύθυνση URL;
   preferences:
     show:
       title: Οι προτιμήσεις μου
@@ -2329,6 +2345,7 @@ el:
           primary: Κύρια Οδός
           secondary: Δευτερεύουσα Οδός
           unclassified: Αταξινόμητη Οδός
+          pedestrian: Πεζόδρομος
           track: Αγροτικός / Δασικός δρόμος
           bridleway: Μονοπάτι για Άλογα
           cycleway: Ποδηλατόδρομος
@@ -2337,32 +2354,30 @@ el:
           cycleway_local: Τοπικός ποδηλατόδρομος
           footway: Μονοπάτι
           rail: Σιδηρόδρομος
+          train: Τρένο
           subway: Υπόγειος Σιδηρόδρομος
-          cable:
-          - Τελεφερίκ
-          - τελεφερίκ με καθίσματα
-          runway:
-          - Διάδρομος Αεροδρομίου
-          - τροχόδρομος
+          bus: Λεωφορείο
+          cable_car: Τελεφερίκ
+          chair_lift: τελεφερίκ με καθίσματα
+          runway_only: Διάδρομος Αεροδρομίου
+          taxiway: τροχόδρομος
           apron_only: Πίστα προσγείωσης αεροδρομίου
           admin: Διοικητικό όριο
-          forest:
-          - Δάσος
-          - Φυσικό δάσος
+          forest_only: Δάσος
+          wood: Φυσικό δάσος
+          bare_rock: Γυμνός βράχος
+          sand: Άμμος
           golf: Γήπεδο γκολφ
           park: Πάρκο
-          common:
-          - Κοινόχρηστο
-          - λιβάδι
-          - κήπος
+          common_only: Κοινόχρηστο
           resident: Κατοικημένη περιοχή
           retail: Περιοχή λιανικού εμπορίου
           industrial: Βιομηχανική περιοχή
           commercial: Εμπορική περιοχή
           heathland: Φρυγανότοπος
-          lake:
-          - Λίμνη
-          - ταμιευτήρας
+          lake_only: Λίμνη
+          reservoir: ταμιευτήρας
+          glacier: Παγετώνας
           farm: Αγρόκτημα
           brownfield: Πρώην βιομηχανική περιοχή
           cemetery: Κοιμητήριο
@@ -2371,14 +2386,12 @@ el:
           centre: Αθλητικό κέντρο
           reserve: Φυσικό καταφύγιο
           military: Στρατιωτική περιοχή
-          school:
-          - Σχολείο
-          - πανεπιστήμιο
+          school_only: Σχολείο
+          university: πανεπιστήμιο
           building: Σημαντικό κτήριο
           station: Σιδηροδρομικός σταθμός
-          summit:
-          - Κορυφή
-          - κορυφή
+          summit_only: Κορυφή
+          peak: κορυφή
           tunnel: Διακεκομμένο περίβλημα = σήραγγα
           bridge: Μαύρο περίβλημα = γέφυρα
           private: Ιδιωτική πρόσβαση
@@ -2431,6 +2444,7 @@ el:
         imports: Εισαγωγές
         automated_edits: Αυτοματοποιημένες Επεξεργασίες
       start_mapping: Ξεκινήστε τη Χαρτογράφηση
+      continue_authorization: Συνέχιση Εξουσιοδότησης
       add_a_note:
         title: Δεν έχετε χρόνο για χαρτογράφηση; Προσθέστε μια σημείωση!
         para_1: Εάν θέλετε κάτι μικρό να διορθωθεί και δεν έχετε χρόνο να εγγραφείτε
@@ -2589,6 +2603,7 @@ el:
       oauth1_settings: Ρυθμίσεις OAuth 1
       oauth2_applications: Εφαρμογές OAuth 2
       oauth2_authorizations: Εξουσιοδοτήσεις OAuth 2
+      muted_users: Χρήστες σε Σίγαση
   oauth:
     authorize:
       title: Επιτρέψτε την πρόσβαση στο λογαριασμό σας
@@ -2803,6 +2818,8 @@ el:
       my_dashboard: Το ταμπλό μου
       blocks on me: Φραγές σε Εμένα
       blocks by me: Φραγές από Εμένα
+      create_mute: Σίγαση αυτού του χρήστη
+      destroy_mute: Κατάργηση σίγασης αυτού του χρήστη
       edit_profile: Επεξεργασία προφίλ
       send message: Αποστολή Μηνύματος
       diary: Ημερολόγιο
@@ -3005,6 +3022,24 @@ el:
       showing_page: Σελίδα %{page}
       next: Επόμενη »
       previous: « Προηγούμενη
+  user_mutes:
+    index:
+      title: Χρήστες σε Σίγαση
+      my_muted_users: Οι χρήστες μου σε σίγαση
+      table:
+        thead:
+          muted_user: Χρήστης σε Σίγαση
+          actions: Ενέργειες
+        tbody:
+          unmute: Κατάργηση σίγασης
+          send_message: Αποστολή μηνύματος
+    create:
+      notice: Θέσατε σε σίγαση τον χρήστη %{name}.
+      error: Ο χρήστης %{name} δεν μπόρεσε να τεθεί σε σίγαση. %{full_message}.
+    destroy:
+      notice: Καταργήσατε τη σίγαση του χρήστη %{name}.
+      error: Δεν ήταν δυνατή η κατάργηση της σίγασης του χρήστη. Παρακαλούμε προσπαθήστε
+        ξανά.
   notes:
     index:
       title: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον χρήστη %{user}

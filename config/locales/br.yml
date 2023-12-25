@@ -57,6 +57,12 @@ br:
       messages:
         invalid_email_address: ne ziskouez ket bezañ ur chomlec'h postel mat
         email_address_not_routable: n'haller ket routañ
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: a zo tavet dija
     models:
       acl: Listenn kontroll moned
       changeset: Hollad cheñchamantoù
@@ -1768,6 +1774,7 @@ br:
       to: Da
       subject: Danvez
       date: Deiziad
+      actions: Oberoù
     message_summary:
       unread_button: Merkañ evel anlennet
       read_button: Merkañ evel lennet
@@ -1787,12 +1794,15 @@ br:
       body: Ho tigarez, n'eus kemennadenn ebet gant an id-se.
     outbox:
       title: Boest kas
+      actions: Oberoù
       messages:
         one: Kaset hoc'h eus %{count} gemennadenn
         other: Kaset hoc'h eus %{count} kemennadenn
       no_sent_messages_html: N'hoc'h eus kaset kemennadenn ebet c'hoazh. Ha ma'z afec'h
         a darempred gant darn eus an %{people_mapping_nearby_link}?
       people_mapping_nearby: tud o kartennañ en ardremez
+    muted:
+      title: Kemennadennoù tavet
     reply:
       wrong_user: Kevreet oc'h evel "%{user}", met ar gemennadenn a fell deoc'h respont
         outi n'eo ket bet kaset d'an implijer-se. Mar plij kevreit gant ar gont reizh
@@ -1811,6 +1821,7 @@ br:
     heading:
       my_inbox: Ma boest resev
       my_outbox: Ma boest kas
+      muted_messages: Kemennadennoù tavet
     mark:
       as_read: Kemennadenn merket evel lennet
       as_unread: Merkañ evel anlennet
@@ -2233,32 +2244,24 @@ br:
           tram_only: Tramgarr
           trolleybus: Trollebus
           bus: Karr-boutin
-          cable:
-          - Teleferik
-          - fungador
-          runway:
-          - Roudenn evit an taksioù
-          - Roudenn evit an taksioù
+          cable_car: Teleferik
+          chair_lift: Fungador
+          runway_only: Roudenn evit an taksioù
+          taxiway: Hent evit an taksioù
           apron_only: Roudenn aerborzh
           admin: Bevenn velestradurel
-          orchard:
-          - Gwerje
-          - gwinieg
-          forest:
-          - Koad
-          - koad
+          orchard_only: Gwerje
+          vineyard: Gwinieg
+          forest_only: Koad
+          wood: Koad
           farmland: Tachenn labour-douar
-          grass:
-          - Geot
-          - prad
+          grass_only: Geot
+          meadow: Prad
           bare_rock: Roc'h noazh
           sand: Traezh
           golf: Tachenn golf
           park: Park
-          common:
-          - prad
-          - prad
-          - liorzh
+          common_only: prad
           built_up: Takad savet
           resident: Takad annez
           retail: Takad kenwerzh
@@ -2266,9 +2269,8 @@ br:
           commercial: Takad kenwerzhel
           heathland: Lanneier
           scrubland: Strouezheg
-          lake:
-          - Lenn
-          - mirlec'h
+          lake_only: Lenn
+          reservoir: Mirlenn
           glacier: Skorneg
           reef: Karreg
           wetland: Takad gleborek
@@ -2280,15 +2282,13 @@ br:
           centre: Kreizenn sport
           reserve: Gwarezva natur
           military: Takad milourel
-          school:
-          - Skol
-          - skol-veur
-          - ospital
+          school_only: Skol
+          university: Skol-veur
+          hospital: Ospital
           building: Savadur pouezus
           station: Porzh-houarn
-          summit:
-          - Lein
-          - pikern
+          summit_only: Lein
+          peak: Pikern
           tunnel: Bord poentoùigoù = riboul
           bridge: Bord du = pont
           private: Moned prevez
@@ -2336,6 +2336,7 @@ br:
         imports: Enporzhiadurioù
         automated_edits: Kemmoù emgefre
       start_mapping: Kregiñ da gartennaouiñ
+      continue_authorization: Kenderc'hel gant an aotre
       add_a_note:
         title: N'ho peus ket amzer da aozañ ? Ouzhpennit un notenn !
         para_1: Ma fell deoc'h ober ur reizhadennig hepken ha ma n'ho peus ket amzer
@@ -2479,6 +2480,7 @@ br:
       oauth1_settings: Arventennoù OAuth 1
       oauth2_applications: Arloadoù OAuth 2
       oauth2_authorizations: Aotreoù OAuth 2
+      muted_users: Implijerien tavet
   oauth:
     authorize:
       title: Aotren mont d'ho kont
@@ -2664,6 +2666,7 @@ br:
       my_dashboard: Ma zaolenn-vourzh
       blocks on me: Stankadurioù evidon
       blocks by me: stankadurioù graet ganin
+      create_mute: Tevel an implijer-mañ
       edit_profile: Aozañ ar profil
       send message: Kas ur gemennadenn
       diary: deizlevr
@@ -2688,9 +2691,11 @@ br:
         grant:
           administrator: Reiñ ar moned merour
           moderator: Reiñ ar moned habaskaer
+          importer: Grataat gwirioù enporzhiañ
         revoke:
           administrator: Disteurel ar moned merour
           moderator: Disteurel ar moned habaskaer
+          importer: Lemel ar gwirioù enporzhiañ
       block_history: stankadurioù oberiant
       moderator_history: Stankadurioù roet
       comments: evezhiadennoù
@@ -2876,6 +2881,19 @@ br:
       showing_page: Page %{page}
       next: ↓War-lerc'h »
       previous: ↓« Kent
+  user_mutes:
+    index:
+      title: Implijerien tavet
+      my_muted_users: Ma implijerien tavet
+      table:
+        thead:
+          muted_user: Implijer/ez tavet
+          actions: Oberoù
+        tbody:
+          send_message: Kas ur gemennadenn
+    create:
+      notice: Tavet ho peus %{name}.
+      error: Ne c'haller ket tevel %{name}. %{full_message}.
   notes:
     index:
       title: Notennoù kaset pe addispleget gant %{user}

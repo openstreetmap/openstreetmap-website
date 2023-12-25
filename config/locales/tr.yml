@@ -91,6 +91,12 @@ tr:
       messages:
         invalid_email_address: geçerli bir e-posta adresi gibi görünmüyor
         email_address_not_routable: yönlendirilebilir değil
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: zaten sessize alındı
     models:
       acl: Erişim Kontrol Listesi
       changeset: Değişiklik Kaydı
@@ -1813,11 +1819,13 @@ tr:
       to: Alıcı
       subject: Konu
       date: Tarih
+      actions: Eylemler
     message_summary:
       unread_button: Okunmadı olarak işaretle
       read_button: Okundu olarak işaretle
       reply_button: Yanıtla
       destroy_button: Sil
+      unmute_button: Gelen Kutusuna Taşı
     new:
       title: Mesaj gönder
       send_message_to_html: '%{name} kullanıcısına yeni bir mesaj gönder'
@@ -1832,12 +1840,18 @@ tr:
       body: Üzgünüz, bu kimlik ile bir mesaj yok.
     outbox:
       title: Giden kutusu
+      actions: Eylemler
       messages:
         one: '%{count} mesaj gönderdiniz'
         other: ' %{count} mesaj gönderdiniz'
       no_sent_messages_html: 'Henüz kimseye mesaj göndermediniz. Yakındaki insanlarla
         iletişime geçmeye ne dersiniz? Deneyin: %{people_mapping_nearby_link}'
       people_mapping_nearby: yakın çevredeki haritacılar
+    muted:
+      title: Sessize Alınan Mesajlar
+      messages:
+        one: '%{count} sessize alınan mesaj'
+        other: '%{count} sessize alınan mesajınız var'
     reply:
       wrong_user: '`%{user}'' olarak oturum açtınız fakat yanıtlamasını istediğiniz
         mesaj kullanıcıya gönderilmedi. Yanıtlamak için lütfen doğru kullanıcı olarak
@@ -1856,9 +1870,13 @@ tr:
     heading:
       my_inbox: Gelen kutusu
       my_outbox: Giden Kutum
+      muted_messages: Sessize alınan mesajlar
     mark:
       as_read: Mesaj okundu olarak işaretlendi
       as_unread: Mesaj okunmadı olarak işaretlendi
+    unmute:
+      notice: Mesaj, gelen kutusuna taşındı
+      error: Mesaj, gelen kutusuna taşınamadı.
     destroy:
       destroyed: Mesaj silindi
   passwords:
@@ -2379,32 +2397,24 @@ tr:
           tram_only: Tramvay
           trolleybus: Troleybüs
           bus: Otobüs
-          cable:
-          - Teleferik
-          - gondol
-          runway:
-          - Uçuş pisti
-          - Uçak pisti
+          cable_car: Teleferik
+          chair_lift: Telesiyej
+          runway_only: Uçuş pisti
+          taxiway: Taksi yolu
           apron_only: Havaalanı apronu
           admin: İdari sınırı
-          orchard:
-          - Meyve bahçesi
-          - üzüm bağı
-          forest:
-          - Orman
-          - orman
+          orchard_only: Meyve bahçesi
+          vineyard: Üzüm bağı
+          forest_only: Orman
+          wood: Koru
           farmland: Tarım arazisi
-          grass:
-          - Çimen
-          - çayır
+          grass_only: Çimen
+          meadow: Çayır
           bare_rock: Çıplak kaya
           sand: Kum
           golf: Golf sahası
           park: Park
-          common:
-          - Çimen
-          - mera
-          - bahçe
+          common_only: Çimen
           built_up: İnşa alanı
           resident: Yerleşim bölgesi
           retail: Alışveriş merkezi
@@ -2412,9 +2422,8 @@ tr:
           commercial: Ticari ve hizmet alanı
           heathland: Fundalık
           scrubland: Çalılık
-          lake:
-          - Göl
-          - rezervuar
+          lake_only: Göl
+          reservoir: Rezervuar
           intermittent_water: Aralıklı su birikintisi
           glacier: Buzul
           reef: Resif
@@ -2427,15 +2436,13 @@ tr:
           centre: Spor merkezi
           reserve: Doğa koruma alanı
           military: Askeri bölge
-          school:
-          - Okul
-          - Üniversite
-          - hastane
+          school_only: Okul
+          university: Üniversite
+          hospital: Hastane
           building: Önemli yapı
           station: Gar
-          summit:
-          - Zirve
-          - Dağ
+          summit_only: Zirve
+          peak: Zirve
           tunnel: çizgili kenar = tünel
           bridge: Siyah kenar = köprü
           private: Özel giriş
@@ -2648,6 +2655,7 @@ tr:
       oauth1_settings: OAuth 1 ayarları
       oauth2_applications: OAuth 2 uygulamaları
       oauth2_authorizations: OAuth 2 yetkilendirmeleri
+      muted_users: Sessize Alınan Kullanıcılar
   oauth:
     authorize:
       title: Hesabınıza erişimi yetkilendirin
@@ -2684,6 +2692,7 @@ tr:
       read_gpx: Özel GPS izlerini oku
       write_gpx: GPS izlerini yükle
       write_notes: Notları değiştir
+      write_redactions: Harita verilerini düzelt
       read_email: Kullanıcı e-posta adresini oku
       skip_authorization: Başvuruyu otomatik onayla
   oauth_clients:
@@ -2860,6 +2869,8 @@ tr:
       my_dashboard: Gösterge Panelim
       blocks on me: Engellendiklerim
       blocks by me: Engellediklerim
+      create_mute: Bu kullanıcıyı sessize al
+      destroy_mute: Bu kullanıcının sesini aç
       edit_profile: Profili Düzenle
       send message: Mesaj Gönder
       diary: Günlük
@@ -3059,6 +3070,30 @@ tr:
       showing_page: '%{page}. sayfa'
       next: Sonraki »
       previous: « Önceki
+  user_mutes:
+    index:
+      title: Sessize Alınan Kullanıcılar
+      my_muted_users: Sessize alınan kullanıcılarım
+      you_have_muted_n_users:
+        one: '%{count} kullanıcıyı sessize aldınız'
+        other: '%{count} kullanıcıyı sessize aldınız'
+      user_mute_explainer: Sessize alınan kullanıcıların mesajları ayrı bir gelen
+        kutusuna taşınır ve e-posta bildirimleri almazsınız.
+      user_mute_admins_and_moderators: Yöneticileri ve moderatörleri sessize alabilirsiniz
+        ancak mesajları sessize alınmayacaktır.
+      table:
+        thead:
+          muted_user: Sessize Alınan Kullanıcı
+          actions: Eylemler
+        tbody:
+          unmute: Sesi Aç
+          send_message: Mesaj gönder
+    create:
+      notice: '%{name} kullanıcısını sessize aldınız.'
+      error: '%{name} sessize alınamadı. %{full_message}.'
+    destroy:
+      notice: '%{name} kullanıcısının sesini açtınız.'
+      error: Kullanıcının sesi açılamadı. Lütfen tekrar deneyin.
   notes:
     index:
       title: '%{user} tarafından gönderilen veya yorumlanan notlar'

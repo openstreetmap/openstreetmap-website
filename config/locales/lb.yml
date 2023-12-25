@@ -49,6 +49,11 @@ lb:
       messages:
         invalid_email_address: schéngt keng valabel E-Mail-Adress ze sinn
         email_address_not_routable: ass net routingfäeg
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
     models:
       acl: Zougrëffssteierlëscht
       changeset: Set vun Ännerungen
@@ -1706,6 +1711,7 @@ lb:
       to: Un
       subject: Sujet
       date: Datum
+      actions: Aktiounen
     message_summary:
       unread_button: Als net gelies markéieren
       read_button: Als gelies markéieren
@@ -1725,6 +1731,7 @@ lb:
       body: Leider gëtt et kee Message mat där ID.
     outbox:
       title: Outbox
+      actions: Aktiounen
       messages:
         one: Du hues %{count} Noriicht gesent
         other: Du hues %{count} Noriichte gesent
@@ -2038,34 +2045,25 @@ lb:
           ferry: Fär
           tram_only: Tram
           bus: Bus
-          cable:
-          - Seelbunn
-          - Sessellift
-          runway:
-          - Start- a Landebunn
-          - Rullbunn
+          cable_car: Seelbunn
+          chair_lift: Sessellift
+          runway_only: Start- a Landebunn
+          taxiway: Rullbunn
           admin: Verwaltungsgrenz
-          orchard:
-          - Bongert
-          - Wéngert
-          forest:
-          - Bësch
-          - Bësch
-          grass:
-          - Wiss
+          orchard_only: Bongert
+          vineyard: Wéngert
+          forest_only: Bësch
+          wood: Bësch
+          grass_only: Wiss
           sand: Sand
           golf: Golfterrain
           park: Park
-          common:
-          - ëffentlech Gréngfläch (brit.)
-          - Wiss
-          - Gaart
+          common_only: ëffentlech Gréngfläch (brit.)
           retail: Akaafszentrum
           industrial: Industriezone
           commercial: Commercëgebitt
           heathland: Heed
-          lake:
-          - Séi
+          lake_only: Séi
           glacier: Gletscher
           farm: Bauerenhaff
           brownfield: Broochland
@@ -2075,14 +2073,12 @@ lb:
           centre: Sportszenter
           reserve: Naturschutzgebitt
           military: Militärgebitt
-          school:
-          - Schoul
-          - Universitéit
-          - Spidol
+          school_only: Schoul
+          university: Universitéit
+          hospital: Spidol
           building: Bedeitend Gebai
           station: Gare (Eisebunn)
-          summit:
-          - Spëtzt
+          summit_only: Spëtzt
           private: Privaten Terrain
           destination: Nëmme fir Leit mat Uleies
           construction: Stroossen am Bau
@@ -2419,6 +2415,13 @@ lb:
       showing_page: Säit %{page}
       next: Nächst »
       previous: « Vireg
+  user_mutes:
+    index:
+      table:
+        thead:
+          actions: Aktiounen
+        tbody:
+          send_message: Message schécken
   notes:
     index:
       no_notes: Keng Notizen

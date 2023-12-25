@@ -1786,7 +1786,7 @@ eo:
       heading: Tiu ĉi mesaĝo ne ekzistas
       body: Bedaŭrinde ne ekzistas mesaĝo kun tiu ĉi identigilo.
     outbox:
-      title: Elirkesto
+      title: Senditujo
       actions: Agoj
       messages:
         one: Vi havas %{count} senditan mesaĝon
@@ -1821,6 +1821,9 @@ eo:
     mark:
       as_read: Mesaĝo markita kiel legitan
       as_unread: Mesaĝo markita kiel nelegitan
+    unmute:
+      notice: Movis mesaĝon al ricevujo
+      error: La mesaĝo ne povis esti movita al la ricevujo.
     destroy:
       destroyed: Mesaĝo forigita
   passwords:
@@ -2327,32 +2330,24 @@ eo:
           tram_only: Tramo
           trolleybus: Trolebuso
           bus: Aŭtobuso
-          cable:
-          - Kablovojo
-          - seĝtelfero
-          runway:
-          - Avia dromo
-          - aŭtokur-strato
+          cable_car: Kablovojo
+          chair_lift: Telfero seĝa
+          runway_only: Avia dromo
+          taxiway: Aŭtokur-strato
           apron_only: Aviadil-parkumejo
           admin: Administra limo
-          orchard:
-          - Fruktoĝardeno
-          - vinberĝardeno
-          forest:
-          - Kultiv-arbaro
-          - arbaro
+          orchard_only: Fruktoĝardeno
+          vineyard: Vinberĝardeno
+          forest_only: Kultiv-arbaro
+          wood: Arbaro
           farmland: Agrokultura tereno
-          grass:
-          - Herbotapiŝo
-          - herbejo
+          grass_only: Herbotapiŝo
+          meadow: Herbejo
           bare_rock: Roka areo
           sand: Sabla tereno
           golf: Golfejo
           park: Parko
-          common:
-          - Publika ripoza tereno
-          - herbejo
-          - ĝardeno
+          common_only: Publika ripoza tereno
           built_up: Konstruaĵ-kovrita tereno
           resident: Privatdoma tereno
           retail: Komercejo
@@ -2360,9 +2355,8 @@ eo:
           commercial: Oficeja tereno
           heathland: Erikejo
           scrubland: Arbustaro
-          lake:
-          - Lago
-          - akvorezervujo
+          lake_only: Lago
+          reservoir: Lago artefarita
           intermittent_water: Sezona akvujo
           glacier: Glacirivero
           reef: Rifo
@@ -2375,15 +2369,13 @@ eo:
           centre: Sporta centro
           reserve: Naturrezervejo
           military: Armea tereno
-          school:
-          - Lernejo
-          - universitato
-          - malsanulejo
+          school_only: Lernejo
+          university: Universitato
+          hospital: Malsanulejo
           building: Grava konstruaĵo
           station: Stacidomo
-          summit:
-          - Montosupro
-          - montpinto
+          summit_only: Montosupro
+          peak: Montpinto
           tunnel: Strekumita konturo - tunelo
           bridge: Nigra konturo - ponto
           private: Privata aliro
@@ -2523,8 +2515,8 @@ eo:
       visibility: 'Videbleco:'
       confirm_delete: Ĉu forigi tiun ĉi spuron?
     trace_paging_nav:
-      older: Antaŭaj spuroj
-      newer: Postaj spuroj
+      older: Pli malnovaj spuroj
+      newer: Pli novaj spuroj
     trace:
       pending: OKAZONTA
       count_points:
@@ -2591,6 +2583,7 @@ eo:
       oauth1_settings: Agordoj OAuth 1
       oauth2_applications: Aplikaĵoj OAuth 2
       oauth2_authorizations: Rajtigoj OAuth 2
+      muted_users: Silentigitaj uzantoj
   oauth:
     authorize:
       title: Rajtigi aliron al via konto
@@ -2627,6 +2620,7 @@ eo:
       read_gpx: legi privatajn GPS-spurojn
       write_gpx: alŝuti GPS-spurojn
       write_notes: modifi rimarkojn
+      write_redactions: Redakti map-datumojn
       read_email: legi retpoŝtan adreson de uzanto
       skip_authorization: Aŭtomate akcepti aplikaĵojn
   oauth_clients:
@@ -2797,8 +2791,10 @@ eo:
       my comments: Miaj komentoj
       my_preferences: Preferoj
       my_dashboard: Panelo
-      blocks on me: Blokas min
+      blocks on me: Ricevitaj blokadoj
       blocks by me: Blokitaj de mi
+      create_mute: Silentigi tiun ĉi uzanton
+      destroy_mute: Malsilentigi tiun ĉi uzanton
       edit_profile: Redakti profilon
       send message: Sendi mesaĝon
       diary: Taglibro
@@ -2992,6 +2988,30 @@ eo:
       showing_page: Paĝo %{page}
       next: Sekva »
       previous: « Antaŭa
+  user_mutes:
+    index:
+      title: Silentigitaj uzantoj
+      my_muted_users: Miaj silentigitaj uzantoj
+      you_have_muted_n_users:
+        one: Vi silentigis %{count} uzanton
+        other: Vi silentigis %{count} uzantojn
+      user_mute_explainer: Mesaĝoj de silentigitaj uzantoj estos movitaj al aparta
+        mesaĝujo kaj vi ne ricevos retpoŝtajn sciigojn pri ili.
+      user_mute_admins_and_moderators: Vi povas silentigi administrantojn kaj kontrolantojn,
+        tamen iliaj mesaĝoj ne estos silentigitaj.
+      table:
+        thead:
+          muted_user: Silentigita uzanto
+          actions: Agoj
+        tbody:
+          unmute: Malsilentigi
+          send_message: Sendi mesaĝon
+    create:
+      notice: Vi silentigis la uzanton %{name}.
+      error: Uzanto %{name} ne povas esti silentigita. %{full_message}.
+    destroy:
+      notice: Vi malsilentigis la uzanton %{name}.
+      error: Ne povis malsilentigi la uzanton. Reprovu.
   notes:
     index:
       title: Rimarkoj kreitaj aŭ komentitaj de %{user}

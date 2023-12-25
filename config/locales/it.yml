@@ -98,6 +98,9 @@ it:
       messages:
         invalid_email_address: non sembra essere un indirizzo e-mail valido
         email_address_not_routable: non è instradabile
+      models:
+        user_mute:
+          is_already_muted: è già silenziato
     models:
       acl: Lista di controllo degli accessi
       changeset: Gruppo di modifiche
@@ -324,6 +327,9 @@ it:
         retain_changeset_discussions: Le discussioni su tuoi gruppi di modifiche e
           i commenti inseriti su altri gruppi di modifiche, se presenti, saranno mantenute.
         retain_email: Il tuo indirizzo e-mail sarà conservato.
+        recent_editing_html: Dato che hai effettuato delle modifiche di recente, al
+          momento la tua utenza non può essere eliminata. Sarà possibile farlo tra
+          %{time}.
         confirm_delete: Sei sicuro?
         cancel: Annulla
   accounts:
@@ -1831,6 +1837,7 @@ it:
       read_button: Segna come già letto
       reply_button: Rispondi
       destroy_button: Cancella
+      unmute_button: Sposta nella Posta in arrivo
     new:
       title: Invia messaggio
       send_message_to_html: Spedisci un nuovo messaggio a %{name}
@@ -1852,6 +1859,11 @@ it:
       no_sent_messages_html: Non ci sono ancora messaggi inviati. Perché non contatti
         qualcuno di questi %{people_mapping_nearby_link}?
       people_mapping_nearby: persone che mappano nelle vicinanze
+    muted:
+      title: Messaggi silenziati
+      messages:
+        one: '%{count} messaggio silenziato'
+        other: Hai %{count} messaggi silenziati
     reply:
       wrong_user: Hai effettuato l'accesso come '%{user}', ma il messaggio al quale
         hai chiesto di rispondere non era diretto a quell'utente. Se vuoi rispondere,
@@ -1870,9 +1882,13 @@ it:
     heading:
       my_inbox: Posta in arrivo
       my_outbox: Posta in uscita
+      muted_messages: Messaggi silenziati
     mark:
       as_read: Messaggio marcato come già letto
       as_unread: Messaggio marcato come non letto
+    unmute:
+      notice: Il messaggio è stato spostato nella Posta in arrivo
+      error: Non è stato possibile spostare il messaggio nella Posta in arrivo.
     destroy:
       destroyed: Messaggio eliminato
   passwords:
@@ -2137,6 +2153,10 @@ it:
           Resources Canada), e della StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Canada
+        contributors_cz_credit_html: '%{czechia}: contiene dati dell''Amministrazione
+          statale dei rilevamenti topografici e del Catasto pubblicati con licenza
+          %{cc_licence_link}'
+        contributors_cz_czechia: Repubblica Ceca
         contributors_cz_cc_licence: Licenza internazionale Creative Commons Attribuzione
           4.0 (CC BY 4.0)
         contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/deed.it
@@ -2370,6 +2390,7 @@ it:
           primary: Strada primaria
           secondary: Strada secondaria
           unclassified: Strada non classificata
+          pedestrian: Percorso pedonale
           track: Strada forestale o agricola
           bridleway: Percorso per equitazione
           cycleway: Pista ciclabile
@@ -2380,34 +2401,41 @@ it:
           rail: Ferrovia
           train: Treno
           subway: Metropolitana
+          ferry: Traghetto
+          light_rail: Metropolitana leggera
           tram_only: Tram
+          trolleybus: Filobus
           bus: Autobus
-          cable:
-          - Funivia
-          - seggiovia
-          runway:
-          - Pista di decollo/atterraggio
-          - pista di rullaggio
+          cable_car: Funivia
+          chair_lift: Seggiovia
+          runway_only: Pista di decollo/atterraggio
+          taxiway: Pista di rullaggio
           apron_only: Area di parcheggio aeroportuale
           admin: Confine amministrativo
-          forest:
-          - Foresta
-          - bosco
+          orchard_only: Frutteto
+          vineyard: Vigneto
+          forest_only: Foresta
+          wood: Bosco
+          farmland: Terreno agricolo
+          grass_only: Prato
+          meadow: Prato
+          bare_rock: Roccia nuda
+          sand: Sabbia
           golf: Campo da golf
           park: Parco
-          common:
-          - Area comune
-          - prato
-          - giardino
+          common_only: Area comune
           resident: Zona residenziale
           retail: Zona con negozi
           industrial: Zona industriale
           commercial: Zona di uffici
           heathland: Brughiera
-          lake:
-          - Lago
-          - riserva d'acqua
+          scrubland: Macchia
+          lake_only: Lago
+          reservoir: Riserva idrica
+          intermittent_water: Corpo idrico intermittente
           glacier: Ghiacciaio
+          reef: Scogliera
+          wetland: Zona umida
           farm: Azienda agricola
           brownfield: Area soggetta ad interventi di ridestinazione d'uso
           cemetery: Cimitero
@@ -2416,19 +2444,19 @@ it:
           centre: Centro sportivo
           reserve: Riserva naturale
           military: Area militare
-          school:
-          - Scuola
-          - università
+          school_only: Scuola
+          university: Università
+          hospital: Ospedale
           building: Edificio significativo
           station: Stazione ferroviaria
-          summit:
-          - Vetta
-          - picco montuoso
+          summit_only: Vetta
+          peak: Picco montuoso
           tunnel: Linea tratteggiata = tunnel
           bridge: Quadrettatura nera = ponte
           private: Accesso privato
           destination: Servitù di passaggio
           construction: Strade in costruzione
+          bus_stop: Fermata dell'autobus
           stop: Fermata
           bicycle_shop: Negozio di biciclette
           bicycle_parking: Parcheggio per biciclette
@@ -2475,6 +2503,7 @@ it:
         imports: Importazioni
         automated_edits: Contributi automatici
       start_mapping: Inizia a mappare
+      continue_authorization: Continua l'autorizzazione
       add_a_note:
         title: Non hai tempo per editare? Aggiungi una nota!
         para_1: Se vuoi fare solo una piccola correzione, ma non hai abbastanza tempo
@@ -2642,6 +2671,7 @@ it:
       oauth1_settings: Impostazioni OAuth
       oauth2_applications: Applicazioni OAuth 2
       oauth2_authorizations: Autorizzazioni OAuth 2
+      muted_users: Utenti silenziati
   oauth:
     authorize:
       title: Autorizzare l'accesso al tuo account
@@ -2851,6 +2881,8 @@ it:
       my_dashboard: La mia dashboard
       blocks on me: Blocchi su di me
       blocks by me: Blocchi applicati da me
+      create_mute: Silenzia questo utente
+      destroy_mute: Non silenziare più questo utente
       edit_profile: Modifica profilo
       send message: Invia messaggio
       diary: Diario
@@ -3051,11 +3083,29 @@ it:
       previous: « Precedente
   user_mutes:
     index:
+      title: Utenti silenziati
+      my_muted_users: I miei utenti silenziati
+      you_have_muted_n_users:
+        one: Hai silenziato %{count} utente
+        other: Hai silenziato %{count} utenti
+      user_mute_explainer: I messaggi degli utenti silenziati vengono spostati in
+        una Posta in arrivo separata e non riceverai le notifiche via e-mail.
+      user_mute_admins_and_moderators: Puoi silenziare amministratori e moderatori
+        ma i loro messaggi non saranno silenziati.
       table:
         thead:
+          muted_user: Utente silenziato
           actions: Azioni
         tbody:
+          unmute: Non silenziare
           send_message: Invia messaggio
+    create:
+      notice: Hai silenziato %{name}.
+      error: Non è stato possibile silenziare %{name}. %{full_message}.
+    destroy:
+      notice: Non rimosso %{name} dagli utenti silenziati.
+      error: Non è stato possibile rimuovere dagli utenti silenziati. Riprova più
+        tardi.
   notes:
     index:
       title: Note inserite o commentate da %{user}

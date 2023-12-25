@@ -125,7 +125,10 @@ zh-CN:
         email_address_not_routable: 不可路由
       models:
         user_mute:
-          is_already_muted: 已禁言
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: 已弱化
     models:
       acl: 访问控制列表
       changeset: 变更集
@@ -338,6 +341,7 @@ zh-CN:
         retain_notes: 您的地图注记与注记中的评论，如果有，将被保留，但不可见。
         retain_changeset_discussions: 您在变更集下的讨论，如果有，将被保留。
         retain_email: 您的电子邮件地址将被保留。
+        recent_editing_html: 因为您最近有做出编辑，目前无法删除您的账号。%{time} 后才可删除。
         confirm_delete: 您确定吗？
         cancel: 取消
   accounts:
@@ -1538,7 +1542,7 @@ zh-CN:
       title_html: 举报%{link}
       missing_params: 不能创建新的举报
       disclaimer:
-        intro: 在发送您的举报至网站版主前，请确保：
+        intro: 在发送您的举报至网站仲裁员前，请确保：
         not_just_mistake: 您确信这个问题不只是失误
         unable_to_fix: 您无法自行修复问题，或通过您的伙伴社群成员帮助下修复
         resolve_with_user: 您已尝试与有关用户解决问题
@@ -1749,6 +1753,7 @@ zh-CN:
       read_button: 标记为已读
       reply_button: 回复
       destroy_button: 删除
+      unmute_button: 移至收件箱
     new:
       title: 发消息
       send_message_to_html: 发送新信息给%{name}
@@ -1762,15 +1767,21 @@ zh-CN:
       body: 对不起，没有具有该 id 的消息。
     outbox:
       title: 发件箱
+      actions: 操作
       messages:
         one: 您有 %{count} 条已发送信息
         other: 您有 %{count} 条已发送信息
       no_sent_messages_html: 您尚未发送信息。何不联系一些%{people_mapping_nearby_link}?
       people_mapping_nearby: 在附近绘制地图的人
+    muted:
+      title: 已弱化消息
+      messages:
+        one: 1 条弱化消息
+        other: 您有 %{count} 条弱化消息
     reply:
       wrong_user: 您已经以 '%{user}' 的身份登录，但是您想要回复的消息并非寄给这个用户。请以正确的用户身份登录以回复这个消息。
     show:
-      title: 阅读信息
+      title: 阅读消息
       reply_button: 回复
       unread_button: 标记为未读
       destroy_button: 删除
@@ -1781,9 +1792,13 @@ zh-CN:
     heading:
       my_inbox: 我的收件箱
       my_outbox: 我的发件箱
+      muted_messages: 已弱化消息
     mark:
       as_read: 标记消息为已读
       as_unread: 标记消息为未读
+    unmute:
+      notice: 消息已移至收件箱
+      error: 无法将消息移至收件箱。
     destroy:
       destroyed: 消息已删除
   passwords:
@@ -1963,8 +1978,8 @@ zh-CN:
         introduction_1_osm_foundation: OpenStreetMap 基金会
         introduction_2_html: 只要你表明来源为OpenStreetMap及其贡献者，你就可以自由地复制、分发、传送和改编我们的数据。如果你想转换或者以我们的数据为基础进行创作，你只能采用相同的许可协议发表你的作品。完整的%{legal_code_link}阐明了你的权利和义务。
         introduction_2_legal_code: 法律条款
-        introduction_3_html: 我们的文档根据 %{creative_commons_link} 许可 (CC BY-SA 2.0) 获得许可。
-        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
+        introduction_3_html: 我们的文档根据 %{creative_commons_link} 许可协议（CC BY-SA 2.0）获得许可。
+        introduction_3_creative_commons: 知识共享署名-相同方式共享 2.0
         credit_title_html: 如何表明作者是 OpenStreetMap
         credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
         credit_2_1: 通过显示我们的版权声明为 OpenStreetMap 提供署名。
@@ -2002,12 +2017,13 @@ zh-CN:
            行政边界合并或开发，由澳大利亚联邦根据 %{cc_licence_link} 许可。
         contributors_au_australia: 澳大利亚
         contributors_au_geoscape_australia: Geoscape Australia
-        contributors_au_cc_licence: Creative Commons Attribution 4.0 International
-          licence (CC BY 4.0)
+        contributors_au_cc_licence: 知识共享署名-相同方式共享 4.0 国际许可协议（CC BY 4.0）
         contributors_ca_credit_html: '%{canada}：含有来自GeoBase&reg;，GeoGratis（&copy;
           加拿大自然资源部），CanVec（&copy; 加拿大自然资源部）和StatCan（加拿大统计局地理处）的数据。'
         contributors_ca_canada: 加拿大
-        contributors_cz_cc_licence: 知识共享署名-相同方式共享4.0国际（CC BY 4.0）
+        contributors_cz_credit_html: '%{czechia}：含有来自国家土地测量与地籍管理局依据%{cc_licence_link}许可的数据'
+        contributors_cz_czechia: 捷克
+        contributors_cz_cc_licence: 知识共享署名-相同方式共享 4.0 国际许可协议（CC BY 4.0）
         contributors_fi_credit_html: |-
           %{finland}：包含来自芬兰地形数据库的
           国家土地调查
@@ -2201,6 +2217,7 @@ zh-CN:
           primary: 一级道路
           secondary: 二级道路
           unclassified: 无等级道路
+          pedestrian: 人行道
           track: 小路
           bridleway: 马道
           cycleway: 自行车道
@@ -2209,38 +2226,44 @@ zh-CN:
           cycleway_local: 本地自行车道
           footway: 步道
           rail: 铁路
+          train: 火车
           subway: 地铁
-          cable:
-          - 缆车
-          - 吊椅缆车
-          runway:
-          - 机场跑道
-          - 滑行道
+          ferry: 渡船
+          light_rail: 轻轨
+          tram_only: 有轨电车
+          trolleybus: 无轨电车
+          bus: 公共汽车
+          cable_car: 缆车
+          chair_lift: 吊椅缆车
+          runway_only: 机场跑道
+          taxiway: 滑行道
           apron_only: 机场停机坪
           admin: 行政区边界
-          orchard:
-          - 果园
-          - 葡萄园
-          forest:
-          - 森林
-          - 林
-          grass:
-          - 草坪
+          orchard_only: 果园
+          vineyard: 葡萄园
+          forest_only: 森林
+          wood: 树林
+          farmland: 农田
+          grass_only: 草坪
+          meadow: 草甸
           bare_rock: 裸岩
+          sand: 沙地
           golf: 高尔夫球场
           park: 公园
-          common:
-          - 公地
-          - 草甸
-          - 花园
+          common_only: 公地
+          built_up: 建成区
           resident: 居住区
           retail: 零售区
           industrial: 工业区
           commercial: 商业区
           heathland: 荒原
-          lake:
-          - 湖
-          - 水库
+          scrubland: 灌木丛林地
+          lake_only: 湖
+          reservoir: 水库
+          intermittent_water: 间歇性水体
+          glacier: 冰川
+          reef: 礁
+          wetland: 湿地
           farm: 农场
           brownfield: 棕地
           cemetery: 坟场
@@ -2249,20 +2272,20 @@ zh-CN:
           centre: 体育馆
           reserve: 自然保护区
           military: 军事区
-          school:
-          - 学校
-          - 大学
-          - 医院
+          school_only: 学校
+          university: 大学
+          hospital: 医院
           building: 特殊建筑物
           station: 火车站
-          summit:
-          - 山峰
-          - 高峰
+          summit_only: 山峰
+          peak: 山峰
           tunnel: 双虚线=隧道
           bridge: 双实线=桥
-          private: 私人
-          destination: 目的地进入权
+          private: 私人通行
+          destination: 目的地通行
           construction: 在建道路
+          bus_stop: 公共汽车站
+          stop: 停车站
           bicycle_shop: 自行车店
           bicycle_parking: 自行车停车场
           toilets: 厕所
@@ -2295,6 +2318,7 @@ zh-CN:
         imports: 导入
         automated_edits: 自动化编辑
       start_mapping: 开始绘制地图
+      continue_authorization: 继续授权
       add_a_note:
         title: 没有时间编辑？添加注记！
         para_1: 如果您这是想做一些微小改动而没有时间登录来学习如何编辑，那添加注记是非常容易的。
@@ -2427,6 +2451,7 @@ zh-CN:
       oauth1_settings: OAuth 1设置
       oauth2_applications: OAuth 2应用程序
       oauth2_authorizations: OAuth 2授权
+      muted_users: 已弱化用户
   oauth:
     authorize:
       title: 授权访问您的账户
@@ -2461,6 +2486,7 @@ zh-CN:
       read_gpx: 读取私人GPS轨迹
       write_gpx: 上传GPS轨迹
       write_notes: 修改备注
+      write_redactions: 编写地图数据
       read_email: 查看用户邮箱地址
       skip_authorization: 自动核准应用
   oauth_clients:
@@ -2609,7 +2635,8 @@ zh-CN:
       my_dashboard: 我的综合面板
       blocks on me: 我的封禁
       blocks by me: 被我封禁
-      create_mute: 禁言此用户
+      create_mute: 弱化此用户
+      destroy_mute: 取消弱化此用户
       edit_profile: 编辑个人资料
       send message: 发送消息
       diary: 日记
@@ -2629,13 +2656,16 @@ zh-CN:
       spam score: 垃圾邮件评分：
       role:
         administrator: 此用户是管理员
-        moderator: 此用户是版主
+        moderator: 此用户是仲裁员
+        importer: 此用户是导入者
         grant:
           administrator: 授予管理员权限
-          moderator: 授予管理员权限
+          moderator: 授予仲裁员权限
+          importer: 授予导入者权限
         revoke:
           administrator: 撤销管理员权限
-          moderator: 撤销管理员权限
+          moderator: 撤销仲裁员权限
+          importer: 撤销导入者权限
       block_history: 激活的封禁
       moderator_history: 执行封禁者
       comments: 评论
@@ -2699,8 +2729,8 @@ zh-CN:
       fail: 无法吊销用户 '%{name}' 角色 '%{role}'。请检查用户和角色是否都正确。
   user_blocks:
     model:
-      non_moderator_update: 必须为管理员才能创建或更新一个封禁。
-      non_moderator_revoke: 必须为管理员才能撤消块。
+      non_moderator_update: 必须为仲裁员才能创建或更新一个封禁。
+      non_moderator_revoke: 必须为仲裁员才能撤消封禁。
     not_found:
       sorry: 对不起，未找到 ID 为 %{id} 的用户封禁。
       back: 返回索引
@@ -2721,7 +2751,7 @@ zh-CN:
     create:
       flash: 已建立对用户 %{name} 的封禁
     update:
-      only_creator_can_edit: 只有执行封禁的管理员能编辑它。
+      only_creator_can_edit: 只有执行此封禁的仲裁员才能编辑。
       success: 封禁已更新。
     index:
       title: 用户的封禁
@@ -2793,8 +2823,27 @@ zh-CN:
       next: 下一页 »
       previous: « 上一页
   user_mutes:
+    index:
+      title: 已弱化用户
+      my_muted_users: 我已弱化的用户
+      you_have_muted_n_users:
+        one: 您已弱化 1 名用户
+        other: 您已弱化 %{count} 名用户
+      user_mute_explainer: 已弱化用户的消息会被移至单独的收件箱，您不会收到电子邮件通知。
+      user_mute_admins_and_moderators: 您可以弱化管理员和仲裁员，但仍会收到他们的消息通知。
+      table:
+        thead:
+          muted_user: 已弱化用户
+          actions: 操作
+        tbody:
+          unmute: 取消弱化
+          send_message: 发送消息
+    create:
+      notice: 您已弱化%{name}。
+      error: 无法弱化%{name}。%{full_message}。
     destroy:
-      error: 无法解除用户禁言。请再试一次。
+      notice: 您取消弱化了%{name}。
+      error: 无法取消弱化用户。请再试一次。
   notes:
     index:
       title: '%{user} 提交或评论的注记'
@@ -2916,6 +2965,7 @@ zh-CN:
       map_data_zoom_in_tooltip: 放大地图以查看数据
       queryfeature_tooltip: 查询特征
       queryfeature_disabled_tooltip: 放大以查询特征
+      embed_html_disabled: HTML 嵌入不适用于此地图图层
     changesets:
       show:
         comment: 评论

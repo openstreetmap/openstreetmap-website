@@ -81,6 +81,12 @@ pt-PT:
       messages:
         invalid_email_address: não parece ser um endereço de correio eletrónico válido
         email_address_not_routable: não é atingível
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: já está silenciado
     models:
       acl: Aceder à lista de controlo
       changeset: Conjunto de alterações
@@ -1809,11 +1815,13 @@ pt-PT:
       to: Para
       subject: Assunto
       date: Data
+      actions: Ações
     message_summary:
       unread_button: Marcar como não lida
       read_button: Marcar como lida
       reply_button: Responder
       destroy_button: Eliminar
+      unmute_button: Mover para caixa de entrada
     new:
       title: Enviar mensagem
       send_message_to_html: Enviar uma nova mensagem para %{name}
@@ -1828,12 +1836,18 @@ pt-PT:
       body: Lamentamos, não existe nenhuma mensagem com esse identificador (id).
     outbox:
       title: Caixa de saída
+      actions: Ações
       messages:
         one: Tens %{count} mensagem enviada
         other: Tens %{count} mensagens enviadas
       no_sent_messages_html: Ainda não tens mensagens enviadas. Porque não entras
         em contacto com algumas %{people_mapping_nearby_link}?
       people_mapping_nearby: pessoas que mapeiam perto de ti
+    muted:
+      title: Mensagens Silenciadas
+      messages:
+        one: '%{count} mensagem silenciada'
+        other: Tens %{count} mensagens silenciadas
     reply:
       wrong_user: Estás autenticado como `%{user}', mas a mensagem a que pretendes
         responder não foi enviada para esse utilizador. Por favor, entra na conta
@@ -1852,9 +1866,13 @@ pt-PT:
     heading:
       my_inbox: Caixa de entrada
       my_outbox: Caixa de saída
+      muted_messages: Mensagens silenciadas
     mark:
       as_read: Mensagem marcada como lida
       as_unread: Mensagem marcada como não lida
+    unmute:
+      notice: A mensagem foi movida para a caixa de entrada
+      error: A mensagem não pôde ser movida para a caixa de entrada.
     destroy:
       destroyed: Mensagem eliminada
   passwords:
@@ -2347,6 +2365,7 @@ pt-PT:
           primary: Estrada primária
           secondary: Estrada secundária
           unclassified: Estrada sem classificação
+          pedestrian: Caminho pedestre
           track: Estrada florestal ou agrícola
           bridleway: Via equestre
           cycleway: Ciclovia
@@ -2362,31 +2381,37 @@ pt-PT:
           tram_only: Elétrico
           trolleybus: Troleicarro
           bus: Autocarro
-          cable:
-          - Teleférico
-          - telecadeira
-          runway:
-          - Pista de aviação
-          - Via de circulação
+          cable_car: Teleférico
+          chair_lift: Teleférico
+          runway_only: Pista de aviação
+          taxiway: Via de circulação
           apron_only: Estacionamento de aviões
           admin: Fronteira administrativa
-          forest:
-          - Floresta gerida
-          - Bosque
+          orchard_only: Pomar
+          vineyard: Vinha
+          forest_only: Floresta gerida
+          wood: Bosque
+          farmland: Terreno agrícola
+          grass_only: Relva
+          meadow: Prado
+          bare_rock: Rocha exposta
+          sand: Areia
           golf: Campo de golfe
           park: Parque público
-          common:
-          - Terrenos comunitários
-          - prado
-          - Jardim
+          common_only: Terrenos comunitários
+          built_up: Zona edificada
           resident: Área residencial
           retail: Área de retalho
           industrial: Área industrial
           commercial: Área comercial
           heathland: Charneca
-          lake:
-          - Lago
-          - reservatório hidrográfico
+          scrubland: Matagal
+          lake_only: Lago
+          reservoir: Reservatório
+          intermittent_water: Corpo de água intermitente
+          glacier: Glaciar
+          reef: Recife
+          wetland: Zona húmida
           farm: Quinta
           brownfield: Baldio industrial
           cemetery: Cemitério
@@ -2395,14 +2420,13 @@ pt-PT:
           centre: Centro desportivo
           reserve: Reserva natural
           military: Área militar
-          school:
-          - Escola
-          - universidade
+          school_only: Escola
+          university: Universidade
+          hospital: Hospital
           building: Edifício importante
           station: Estação ferroviária
-          summit:
-          - Cume
-          - pico
+          summit_only: Cume
+          peak: Pico
           tunnel: Linha tracejada = túnel
           bridge: Linha cheia = ponte
           private: Acesso privado
@@ -2613,6 +2637,7 @@ pt-PT:
       oauth1_settings: Definições OAuth 1
       oauth2_applications: Aplicações OAuth 2
       oauth2_authorizations: Autorizações OAuth 2
+      muted_users: Utilizadores Silenciados
   oauth:
     authorize:
       title: Autorizar Acesso À Tua Conta
@@ -2650,6 +2675,7 @@ pt-PT:
       read_gpx: Ler rotas GPS privadas
       write_gpx: Enviar rotas GPS
       write_notes: Modificar notas
+      write_redactions: Rever dados do mapa
       read_email: ‎Ler e-mail de utilizador
       skip_authorization: Aprovar a aplicação automaticamente
   oauth_clients:
@@ -2828,6 +2854,8 @@ pt-PT:
       my_dashboard: Painel de Controlo
       blocks on me: Quem me bloqueou
       blocks by me: Os meus bloqueios
+      create_mute: Silenciar este utilizador
+      destroy_mute: Ativar este utilizador
       edit_profile: Editar Perfil
       send message: Enviar mensagem
       diary: Diário
@@ -3028,6 +3056,32 @@ pt-PT:
       showing_page: Página %{page}
       next: Seguinte »
       previous: « Anterior
+  user_mutes:
+    index:
+      title: Utilizadores Silenciados
+      my_muted_users: Os meus utilizadores silenciados
+      you_have_muted_n_users:
+        one: Silenciaste %{count} utilizador
+        other: Silenciaste %{count} utilizadores
+      user_mute_explainer: As mensagens de utilizadores silenciados são movidas para
+        uma caixa de entrada separada e não receberás notificações por e-mail.
+      user_mute_admins_and_moderators: Podes silenciar administradores e moderadores,
+        mas as suas mensagens não serão silenciadas.
+      table:
+        thead:
+          muted_user: Utilizador Silenciado
+          actions: Ações
+        tbody:
+          unmute: Ativar
+          send_message: Enviar mensagem
+    create:
+      notice: Silenciaste %{name}.
+      error: |-
+        %{name} não pôde ser silenciado.
+        %{full_message}.
+    destroy:
+      notice: Ativaste %{name}.
+      error: O utilizador não pôde ser silenciado. Por favor, tenta novamente.
   notes:
     index:
       title: Notas submetidas ou comentadas por %{user}

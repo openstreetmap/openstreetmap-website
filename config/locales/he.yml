@@ -79,6 +79,9 @@ he:
       messages:
         invalid_email_address: זאת אינה כתובת דוא״ל תקנית
         email_address_not_routable: לא בר־ניתוב
+      models:
+        user_mute:
+          is_already_muted: כבר מושתק
     models:
       acl: רשימת בקרת גישה
       changeset: ערכת שינויים
@@ -1798,11 +1801,13 @@ he:
       to: אל
       subject: נושא
       date: תאריך
+      actions: פעולות
     message_summary:
       unread_button: סימון כ„לא נקרא”
       read_button: סימון כ„נקרא”
       reply_button: להשיב
       destroy_button: מחיקה
+      unmute_button: העברה לדואר הנכנס
     new:
       title: שליחת הודעה
       send_message_to_html: לשליחת הודעה חדשה אל %{name}
@@ -1816,11 +1821,19 @@ he:
       body: אנו מצטערים, אין הודעה עם מזהה זה.
     outbox:
       title: תיבת דואר יוצא
+      actions: פעולות
       messages:
         one: יש לך הודעה אחת שנשלחה
         other: יש לך %{count} הודעות שנשלחו
       no_sent_messages_html: אין לך הודעות נשלחו עד כה. מה דעתך ליצור קשר עם %{people_mapping_nearby_link}?
       people_mapping_nearby: משתתפים הממפים בקרבת מקום
+    muted:
+      title: הודעות מושתקות
+      messages:
+        one: הודעה מושתקת
+        two: יש לך שתי הודעות מושתקות
+        many: יש לך %{count} הודעות מושתקות
+        other: יש לך %{count} הודעות מושתקות
     reply:
       wrong_user: נכנסת בשם „%{user}”, אבל ההודעה שביקשת להשיב עליה לא נשלחה לאותו
         המשתמש. נא להיכנס בחשבון הנכון כדי להשיב.
@@ -1837,9 +1850,13 @@ he:
     heading:
       my_inbox: תיבת הדואר הנכנס שלי
       my_outbox: תיבת הדואר היוצא שלי
+      muted_messages: הודעות מושתקות
     mark:
       as_read: ההודעה סומנה כהודעה שנקראה
       as_unread: ההודעה סומנה כהודעה שלא נקראה
+    unmute:
+      notice: הודעה הועברה לדואר הנכנס
+      error: אי אפשר להעביר את ההודעה לדואר הנכנס.
     destroy:
       destroyed: ההודעה נמחקה
   passwords:
@@ -2343,6 +2360,7 @@ he:
           primary: כביש ראשי
           secondary: כביש משני
           unclassified: דרך לא מסווגת
+          pedestrian: דרך להולכי רגל
           track: מסלול
           bridleway: מסלול לרכיבת סוסים
           cycleway: דרך לאופניים
@@ -2358,32 +2376,24 @@ he:
           tram_only: חשמלית
           trolleybus: טרוליבוס
           bus: אוטובוס
-          cable:
-          - רכבל
-          - מעלית סקי
-          runway:
-          - מסלול נחיתה
-          - דרך למוניות
+          cable_car: רכבל
+          chair_lift: רכבל מושבים
+          runway_only: מסלול נחיתה
+          taxiway: מסלול הסעה
           apron_only: רחבת חניה למטוסים
           admin: גבול שטח שיפוט
-          orchard:
-          - מטע
-          - כרם
-          forest:
-          - יער
-          - חורשה
+          orchard_only: מטע
+          vineyard: כרם
+          forest_only: יער
+          wood: חורשה
           farmland: שטח חקלאי
-          grass:
-          - דשא
-          - מרעה
+          grass_only: דשא
+          meadow: אחו
           bare_rock: סלע חשוף
           sand: חול
           golf: מסלול גולף
           park: פארק
-          common:
-          - מרעה
-          - מרעה
-          - גן
+          common_only: מרעה
           built_up: שטח בנוי
           resident: אזור מגורים
           retail: אזור קמעונאי
@@ -2391,9 +2401,8 @@ he:
           commercial: אזור מסחרי
           heathland: שדה פרא
           scrubland: בתה
-          lake:
-          - אגם
-          - מאגר
+          lake_only: אגם
+          reservoir: מאגר
           intermittent_water: גוף מים תקופתי
           glacier: קרחון יבשתי
           reef: שונית
@@ -2406,15 +2415,13 @@ he:
           centre: מרכז ספורט
           reserve: שמורת טבע
           military: שטח צבאי
-          school:
-          - בית ספר
-          - אוניברסיטה
-          - בית חולים
+          school_only: בית ספר
+          university: אוניברסיטה
+          hospital: בית חולים
           building: בניין בעל חשיבות
           station: תחנת רכבת
-          summit:
-          - פסגה
-          - פסגה
+          summit_only: פסגה
+          peak: פסגה
           tunnel: קו מקווקו = מנהרה
           bridge: קו שחור = גשר
           private: גישה פרטית
@@ -2611,6 +2618,7 @@ he:
       oauth1_settings: הגדרות OAuth 1
       oauth2_applications: יישומי OAuth 2
       oauth2_authorizations: אישורי OAuth 2
+      muted_users: משתמשים מושתקים
   oauth:
     authorize:
       title: אישור הגישה לחשבון שלך
@@ -2647,6 +2655,7 @@ he:
       read_gpx: לקרוא את מסלולי ה־GPS הפרטיים שלך
       write_gpx: להעלות מסלולי GPS
       write_notes: לשנות הערות
+      write_redactions: שינוי נתוני המפה
       read_email: לקרוא את כתובת הדוא"ל של המשתמש
       skip_authorization: לאשר את היישום אוטומטית
   oauth_clients:
@@ -2811,6 +2820,8 @@ he:
       my_dashboard: לוח הבקרה שלי
       blocks on me: מתי חסמו אותי
       blocks by me: מתי חסמתי
+      create_mute: השתקת המשתמש הזה
+      destroy_mute: ביטול השתקת המשתמש הזה
       edit_profile: עריכת פרופיל
       send message: שליחת הודעה
       diary: יומן
@@ -3011,6 +3022,32 @@ he:
       showing_page: הדף %{page}
       next: הבא »
       previous: « הקודם
+  user_mutes:
+    index:
+      title: משתמשים מושתקים
+      my_muted_users: המשתמשים המושתקים שלי
+      you_have_muted_n_users:
+        one: השתקת משתמש אחד
+        two: השתקת שני משתמשים
+        many: השתקת %{count} משתמשים
+        other: השתקת %{count} משתמשים
+      user_mute_explainer: הודעות של משתמשים מושתקים מועברות לתיבת דואר נפרדת ולא
+        תישלחנה אליך התראות בדוא״ל.
+      user_mute_admins_and_moderators: אפשר להשתיק מנהלים ומפקחים אבל ההודעות שלהם
+        לא יושתקו.
+      table:
+        thead:
+          muted_user: משתמש מושתק
+          actions: פעולות
+        tbody:
+          unmute: ביטול השתקה
+          send_message: שליחת הודעה
+    create:
+      notice: השתקת את %{name}.
+      error: אי אפשר להשתיק את %{name}.‏ %{full_message}
+    destroy:
+      notice: ביטלת את ההשתקה של %{name}.
+      error: אי אפשר לבטל את השתקת המשתמש. נא לנסות שוב.
   notes:
     index:
       title: הערות ותגובות של %{user}
