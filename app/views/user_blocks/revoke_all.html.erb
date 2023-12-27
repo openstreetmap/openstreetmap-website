@@ -6,3 +6,22 @@
             :block_on => link_to(@user.display_name,
                                  user_path(@user)) %></h1>
 <% end %>
+
+<% unless @user.blocks.active.empty? %>
+
+  <%= bootstrap_form_for :revoke_all, :url => { :action => "revoke_all" } do |f| %>
+    <div class="mb-3">
+      <div class="form-check">
+        <%= check_box_tag "confirm", "yes", false, { :class => "form-check-input" } %>
+        <%= label_tag "confirm", t(".confirm",
+                                   :active_blocks => t(".active_blocks",
+                                                       :count => @user.blocks.active.count)), { :class => "form-check-label" } %>
+      </div>
+    </div>
+
+    <%= f.primary t(".revoke") %>
+  <% end %>
+
+<% else %>
+<p><%= t ".empty", :name => @user.display_name %></p>
+<% end %>
