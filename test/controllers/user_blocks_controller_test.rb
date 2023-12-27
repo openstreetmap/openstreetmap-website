@@ -54,6 +54,14 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username/blocks_by", :method => :get },
       { :controller => "user_blocks", :action => "blocks_by", :display_name => "username" }
     )
+    assert_routing(
+      { :path => "/user/username/blocks/revoke_all", :method => :get },
+      { :controller => "user_blocks", :action => "revoke_all", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/blocks/revoke_all", :method => :post },
+      { :controller => "user_blocks", :action => "revoke_all", :display_name => "username" }
+    )
   end
 
   ##
