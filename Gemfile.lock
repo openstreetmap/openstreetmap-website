@@ -121,10 +121,10 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 2.9.3, < 3)
       sassc-rails (>= 2.0.0)
-    bootstrap_form (5.3.2)
-      actionpack (>= 6.1)
-      activemodel (>= 6.1)
-    brakeman (6.0.1)
+    bootstrap_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
+    brakeman (5.4.1)
     brotli (0.4.0)
     browser (5.3.1)
     builder (3.2.4)
@@ -153,6 +153,14 @@ GEM
       rexml
     crass (1.0.6)
     dalli (3.2.5)
+    dartsass-ruby (3.0.2)
+      sass-embedded (~> 1.54, < 1.67)
+    dartsass-sprockets (3.0.0)
+      dartsass-ruby (~> 3.0)
+      railties (>= 4.0.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     date (3.3.3)
     debug_inspector (1.1.0)
     deep_merge (1.2.2)
@@ -166,10 +174,10 @@ GEM
       railties (>= 5)
     doorkeeper-i18n (5.2.6)
       doorkeeper (>= 5.2)
-    dry-configurable (1.1.0)
+    dry-configurable (1.0.1)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
-    dry-core (1.0.1)
+    dry-core (1.0.0)
       concurrent-ruby (~> 1.0)
       zeitwerk (~> 2.6)
     dry-inflector (1.0.0)
@@ -224,6 +232,7 @@ GEM
       rake
     ffi-libarchive (1.1.13)
       ffi (~> 1.0)
+    file_exists (0.2.0)
     frozen_record (0.27.0)
       activemodel
     fspath (3.1.2)
@@ -231,6 +240,7 @@ GEM
       ffi (>= 1.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    google-protobuf (3.25.1-x86_64-darwin)
     hashdiff (1.0.1)
     hashie (5.0.0)
     highline (2.1.0)
@@ -301,7 +311,6 @@ GEM
     method_source (1.0.0)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.4)
     minitest (5.20.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
@@ -316,8 +325,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.15.4)
-      mini_portile2 (~> 2.8.2)
+    nokogiri (1.15.4-x86_64-darwin)
       racc (~> 1.4)
     oauth (0.4.7)
     oauth-plugin (0.5.1)
@@ -474,6 +482,8 @@ GEM
     sanitize (6.1.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
+    sass-embedded (1.64.2-x86_64-darwin)
+      google-protobuf (~> 3.23)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -483,7 +493,7 @@ GEM
       sprockets-rails
       tilt
     secure_headers (6.5.0)
-    selenium-webdriver (4.12.0)
+    selenium-webdriver (4.9.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -537,7 +547,7 @@ GEM
     zeitwerk (2.6.11)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-21
 
 DEPENDENCIES
   aasm
@@ -563,6 +573,7 @@ DEPENDENCIES
   config
   connection_pool
   dalli
+  dartsass-sprockets
   debug_inspector
   delayed_job_active_record
   doorkeeper
@@ -571,6 +582,7 @@ DEPENDENCIES
   factory_bot_rails
   faraday
   ffi-libarchive
+  file_exists
   frozen_record
   gd2-ffij (>= 0.4.0)
   htmlentities
@@ -619,7 +631,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rake
   sanitize
-  sassc-rails
+  sass-embedded (~> 1.64.0)
   secure_headers
   selenium-webdriver
   simplecov
