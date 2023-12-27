@@ -8,7 +8,7 @@ class UserBlocksController < ApplicationController
 
   authorize_resource
 
-  before_action :lookup_user, :only => [:new, :create, :blocks_on, :blocks_by]
+  before_action :lookup_user, :only => [:new, :create, :revoke_all, :blocks_on, :blocks_by]
   before_action :lookup_user_block, :only => [:show, :edit, :update, :revoke]
   before_action :require_valid_params, :only => [:create, :update]
   before_action :check_database_readable
