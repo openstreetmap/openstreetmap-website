@@ -3105,13 +3105,13 @@
       module2.exports = rbush;
       module2.exports.default = rbush;
       var quickselect2 = require_quickselect();
-      function rbush(maxEntries, format2) {
+      function rbush(maxEntries, format3) {
         if (!(this instanceof rbush))
-          return new rbush(maxEntries, format2);
+          return new rbush(maxEntries, format3);
         this._maxEntries = Math.max(4, maxEntries || 9);
         this._minEntries = Math.max(2, Math.ceil(this._maxEntries * 0.4));
-        if (format2) {
-          this._initFormat(format2);
+        if (format3) {
+          this._initFormat(format3);
         }
         this.clear();
       }
@@ -3399,13 +3399,13 @@
               calcBBox(path[i2], this.toBBox);
           }
         },
-        _initFormat: function(format2) {
+        _initFormat: function(format3) {
           var compareArr = ["return a", " - b", ";"];
-          this.compareMinX = new Function("a", "b", compareArr.join(format2[0]));
-          this.compareMinY = new Function("a", "b", compareArr.join(format2[1]));
+          this.compareMinX = new Function("a", "b", compareArr.join(format3[0]));
+          this.compareMinY = new Function("a", "b", compareArr.join(format3[1]));
           this.toBBox = new Function(
             "a",
-            "return {minX: a" + format2[0] + ", minY: a" + format2[1] + ", maxX: a" + format2[2] + ", maxY: a" + format2[3] + "};"
+            "return {minX: a" + format3[0] + ", minY: a" + format3[1] + ", maxX: a" + format3[2] + ", maxY: a" + format3[3] + "};"
           );
         }
       };
@@ -3980,12 +3980,12 @@
         }
         function _defineProperties(target, props) {
           for (var i2 = 0; i2 < props.length; i2++) {
-            var descriptor = props[i2];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor)
-              descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
+            var descriptor2 = props[i2];
+            descriptor2.enumerable = descriptor2.enumerable || false;
+            descriptor2.configurable = true;
+            if ("value" in descriptor2)
+              descriptor2.writable = true;
+            Object.defineProperty(target, descriptor2.key, descriptor2);
           }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -4097,7 +4097,7 @@
             right
           };
         }
-        function merge3(left, right, comparator) {
+        function merge4(left, right, comparator) {
           if (right === null)
             return left;
           if (left === null)
@@ -4273,12 +4273,12 @@
               return this;
             };
             Tree2.prototype.keys = function() {
-              var keys = [];
+              var keys2 = [];
               this.forEach(function(_a) {
                 var key = _a.key;
-                return keys.push(key);
+                return keys2.push(key);
               });
-              return keys;
+              return keys2;
             };
             Tree2.prototype.values = function() {
               var values = [];
@@ -4395,22 +4395,22 @@
             Tree2.prototype.toList = function() {
               return toList(this._root);
             };
-            Tree2.prototype.load = function(keys, values, presort) {
+            Tree2.prototype.load = function(keys2, values, presort) {
               if (values === void 0) {
                 values = [];
               }
               if (presort === void 0) {
                 presort = false;
               }
-              var size = keys.length;
+              var size = keys2.length;
               var comparator = this._comparator;
               if (presort)
-                sort(keys, values, 0, size - 1, comparator);
+                sort(keys2, values, 0, size - 1, comparator);
               if (this._root === null) {
-                this._root = loadRecursive(keys, values, 0, size);
+                this._root = loadRecursive(keys2, values, 0, size);
                 this._size = size;
               } else {
-                var mergedList = mergeLists(this.toList(), createList(keys, values), comparator);
+                var mergedList = mergeLists(this.toList(), createList(keys2, values), comparator);
                 size = this._size + size;
                 this._root = sortedListToBST({
                   head: mergedList
@@ -4455,7 +4455,7 @@
               } else {
                 left = insert(newKey, newData, left, comparator);
               }
-              this._root = merge3(left, right, comparator);
+              this._root = merge4(left, right, comparator);
             };
             Tree2.prototype.split = function(key) {
               return split(key, this._root, this._comparator);
@@ -4463,24 +4463,24 @@
             return Tree2;
           }()
         );
-        function loadRecursive(keys, values, start2, end) {
+        function loadRecursive(keys2, values, start2, end) {
           var size = end - start2;
           if (size > 0) {
             var middle = start2 + Math.floor(size / 2);
-            var key = keys[middle];
+            var key = keys2[middle];
             var data = values[middle];
             var node = new Node(key, data);
-            node.left = loadRecursive(keys, values, start2, middle);
-            node.right = loadRecursive(keys, values, middle + 1, end);
+            node.left = loadRecursive(keys2, values, start2, middle);
+            node.right = loadRecursive(keys2, values, middle + 1, end);
             return node;
           }
           return null;
         }
-        function createList(keys, values) {
+        function createList(keys2, values) {
           var head = new Node(null, null);
           var p = head;
-          for (var i2 = 0; i2 < keys.length; i2++) {
-            p = p.next = new Node(keys[i2], values[i2]);
+          for (var i2 = 0; i2 < keys2.length; i2++) {
+            p = p.next = new Node(keys2[i2], values[i2]);
           }
           p.next = null;
           return head.next;
@@ -4506,15 +4506,15 @@
           p.next = null;
           return head.next;
         }
-        function sortedListToBST(list, start2, end) {
+        function sortedListToBST(list2, start2, end) {
           var size = end - start2;
           if (size > 0) {
             var middle = start2 + Math.floor(size / 2);
-            var left = sortedListToBST(list, start2, middle);
-            var root3 = list.head;
+            var left = sortedListToBST(list2, start2, middle);
+            var root3 = list2.head;
             root3.left = left;
-            list.head = list.head.next;
-            root3.right = sortedListToBST(list, middle + 1, end);
+            list2.head = list2.head.next;
+            root3.right = sortedListToBST(list2, middle + 1, end);
             return root3;
           }
           return null;
@@ -4541,30 +4541,30 @@
           }
           return head.next;
         }
-        function sort(keys, values, left, right, compare) {
+        function sort(keys2, values, left, right, compare) {
           if (left >= right)
             return;
-          var pivot = keys[left + right >> 1];
+          var pivot = keys2[left + right >> 1];
           var i2 = left - 1;
           var j2 = right + 1;
           while (true) {
             do {
               i2++;
-            } while (compare(keys[i2], pivot) < 0);
+            } while (compare(keys2[i2], pivot) < 0);
             do {
               j2--;
-            } while (compare(keys[j2], pivot) > 0);
+            } while (compare(keys2[j2], pivot) > 0);
             if (i2 >= j2)
               break;
-            var tmp = keys[i2];
-            keys[i2] = keys[j2];
-            keys[j2] = tmp;
+            var tmp = keys2[i2];
+            keys2[i2] = keys2[j2];
+            keys2[j2] = tmp;
             tmp = values[i2];
             values[i2] = values[j2];
             values[j2] = tmp;
           }
-          sort(keys, values, left, j2, compare);
-          sort(keys, values, j2 + 1, right, compare);
+          sort(keys2, values, left, j2, compare);
+          sort(keys2, values, j2 + 1, right, compare);
         }
         var isInBbox = function isInBbox2(bbox2, point2) {
           return bbox2.ll.x <= point2.x && point2.x <= bbox2.ur.x && bbox2.ll.y <= point2.y && point2.y <= bbox2.ur.y;
@@ -5995,7 +5995,7 @@
   var require_geojson_precision = __commonJS({
     "node_modules/geojson-precision/index.js"(exports2, module2) {
       (function() {
-        function parse(t, coordinatePrecision, extrasPrecision) {
+        function parse2(t, coordinatePrecision, extrasPrecision) {
           function point2(p) {
             return p.map(function(e, index) {
               if (index < 2) {
@@ -6073,8 +6073,8 @@
               return t;
           }
         }
-        module2.exports = parse;
-        module2.exports.parse = parse;
+        module2.exports = parse2;
+        module2.exports.parse = parse2;
       })();
     }
   });
@@ -6322,7 +6322,7 @@
         }();
         var numberOfRounds = { 16: 10, 24: 12, 32: 14 };
         var rcon = [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47, 94, 188, 99, 198, 151, 53, 106, 212, 179, 125, 250, 239, 197, 145];
-        var S = [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22];
+        var S2 = [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22];
         var Si = [82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47, 255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66, 250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246, 100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94, 21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6, 208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234, 151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28, 117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75, 198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18, 16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160, 224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38, 225, 105, 20, 99, 85, 33, 12, 125];
         var T1 = [3328402341, 4168907908, 4000806809, 4135287693, 4294111757, 3597364157, 3731845041, 2445657428, 1613770832, 33620227, 3462883241, 1445669757, 3892248089, 3050821474, 1303096294, 3967186586, 2412431941, 528646813, 2311702848, 4202528135, 4026202645, 2992200171, 2387036105, 4226871307, 1101901292, 3017069671, 1604494077, 1169141738, 597466303, 1403299063, 3832705686, 2613100635, 1974974402, 3791519004, 1033081774, 1277568618, 1815492186, 2118074177, 4126668546, 2211236943, 1748251740, 1369810420, 3521504564, 4193382664, 3799085459, 2883115123, 1647391059, 706024767, 134480908, 2512897874, 1176707941, 2646852446, 806885416, 932615841, 168101135, 798661301, 235341577, 605164086, 461406363, 3756188221, 3454790438, 1311188841, 2142417613, 3933566367, 302582043, 495158174, 1479289972, 874125870, 907746093, 3698224818, 3025820398, 1537253627, 2756858614, 1983593293, 3084310113, 2108928974, 1378429307, 3722699582, 1580150641, 327451799, 2790478837, 3117535592, 0, 3253595436, 1075847264, 3825007647, 2041688520, 3059440621, 3563743934, 2378943302, 1740553945, 1916352843, 2487896798, 2555137236, 2958579944, 2244988746, 3151024235, 3320835882, 1336584933, 3992714006, 2252555205, 2588757463, 1714631509, 293963156, 2319795663, 3925473552, 67240454, 4269768577, 2689618160, 2017213508, 631218106, 1269344483, 2723238387, 1571005438, 2151694528, 93294474, 1066570413, 563977660, 1882732616, 4059428100, 1673313503, 2008463041, 2950355573, 1109467491, 537923632, 3858759450, 4260623118, 3218264685, 2177748300, 403442708, 638784309, 3287084079, 3193921505, 899127202, 2286175436, 773265209, 2479146071, 1437050866, 4236148354, 2050833735, 3362022572, 3126681063, 840505643, 3866325909, 3227541664, 427917720, 2655997905, 2749160575, 1143087718, 1412049534, 999329963, 193497219, 2353415882, 3354324521, 1807268051, 672404540, 2816401017, 3160301282, 369822493, 2916866934, 3688947771, 1681011286, 1949973070, 336202270, 2454276571, 201721354, 1210328172, 3093060836, 2680341085, 3184776046, 1135389935, 3294782118, 965841320, 831886756, 3554993207, 4068047243, 3588745010, 2345191491, 1849112409, 3664604599, 26054028, 2983581028, 2622377682, 1235855840, 3630984372, 2891339514, 4092916743, 3488279077, 3395642799, 4101667470, 1202630377, 268961816, 1874508501, 4034427016, 1243948399, 1546530418, 941366308, 1470539505, 1941222599, 2546386513, 3421038627, 2715671932, 3899946140, 1042226977, 2521517021, 1639824860, 227249030, 260737669, 3765465232, 2084453954, 1907733956, 3429263018, 2420656344, 100860677, 4160157185, 470683154, 3261161891, 1781871967, 2924959737, 1773779408, 394692241, 2579611992, 974986535, 664706745, 3655459128, 3958962195, 731420851, 571543859, 3530123707, 2849626480, 126783113, 865375399, 765172662, 1008606754, 361203602, 3387549984, 2278477385, 2857719295, 1344809080, 2782912378, 59542671, 1503764984, 160008576, 437062935, 1707065306, 3622233649, 2218934982, 3496503480, 2185314755, 697932208, 1512910199, 504303377, 2075177163, 2824099068, 1841019862, 739644986];
         var T2 = [2781242211, 2230877308, 2582542199, 2381740923, 234877682, 3184946027, 2984144751, 1418839493, 1348481072, 50462977, 2848876391, 2102799147, 434634494, 1656084439, 3863849899, 2599188086, 1167051466, 2636087938, 1082771913, 2281340285, 368048890, 3954334041, 3381544775, 201060592, 3963727277, 1739838676, 4250903202, 3930435503, 3206782108, 4149453988, 2531553906, 1536934080, 3262494647, 484572669, 2923271059, 1783375398, 1517041206, 1098792767, 49674231, 1334037708, 1550332980, 4098991525, 886171109, 150598129, 2481090929, 1940642008, 1398944049, 1059722517, 201851908, 1385547719, 1699095331, 1587397571, 674240536, 2704774806, 252314885, 3039795866, 151914247, 908333586, 2602270848, 1038082786, 651029483, 1766729511, 3447698098, 2682942837, 454166793, 2652734339, 1951935532, 775166490, 758520603, 3000790638, 4004797018, 4217086112, 4137964114, 1299594043, 1639438038, 3464344499, 2068982057, 1054729187, 1901997871, 2534638724, 4121318227, 1757008337, 0, 750906861, 1614815264, 535035132, 3363418545, 3988151131, 3201591914, 1183697867, 3647454910, 1265776953, 3734260298, 3566750796, 3903871064, 1250283471, 1807470800, 717615087, 3847203498, 384695291, 3313910595, 3617213773, 1432761139, 2484176261, 3481945413, 283769337, 100925954, 2180939647, 4037038160, 1148730428, 3123027871, 3813386408, 4087501137, 4267549603, 3229630528, 2315620239, 2906624658, 3156319645, 1215313976, 82966005, 3747855548, 3245848246, 1974459098, 1665278241, 807407632, 451280895, 251524083, 1841287890, 1283575245, 337120268, 891687699, 801369324, 3787349855, 2721421207, 3431482436, 959321879, 1469301956, 4065699751, 2197585534, 1199193405, 2898814052, 3887750493, 724703513, 2514908019, 2696962144, 2551808385, 3516813135, 2141445340, 1715741218, 2119445034, 2872807568, 2198571144, 3398190662, 700968686, 3547052216, 1009259540, 2041044702, 3803995742, 487983883, 1991105499, 1004265696, 1449407026, 1316239930, 504629770, 3683797321, 168560134, 1816667172, 3837287516, 1570751170, 1857934291, 4014189740, 2797888098, 2822345105, 2754712981, 936633572, 2347923833, 852879335, 1133234376, 1500395319, 3084545389, 2348912013, 1689376213, 3533459022, 3762923945, 3034082412, 4205598294, 133428468, 634383082, 2949277029, 2398386810, 3913789102, 403703816, 3580869306, 2297460856, 1867130149, 1918643758, 607656988, 4049053350, 3346248884, 1368901318, 600565992, 2090982877, 2632479860, 557719327, 3717614411, 3697393085, 2249034635, 2232388234, 2430627952, 1115438654, 3295786421, 2865522278, 3633334344, 84280067, 33027830, 303828494, 2747425121, 1600795957, 4188952407, 3496589753, 2434238086, 1486471617, 658119965, 3106381470, 953803233, 334231800, 3005978776, 857870609, 3151128937, 1890179545, 2298973838, 2805175444, 3056442267, 574365214, 2450884487, 550103529, 1233637070, 4289353045, 2018519080, 2057691103, 2399374476, 4166623649, 2148108681, 387583245, 3664101311, 836232934, 3330556482, 3100665960, 3280093505, 2955516313, 2002398509, 287182607, 3413881008, 4238890068, 3597515707, 975967766];
@@ -6378,7 +6378,7 @@
           var t = KC, tt;
           while (t < roundKeyCount) {
             tt = tk[KC - 1];
-            tk[0] ^= S[tt >> 16 & 255] << 24 ^ S[tt >> 8 & 255] << 16 ^ S[tt & 255] << 8 ^ S[tt >> 24 & 255] ^ rcon[rconpointer] << 24;
+            tk[0] ^= S2[tt >> 16 & 255] << 24 ^ S2[tt >> 8 & 255] << 16 ^ S2[tt & 255] << 8 ^ S2[tt >> 24 & 255] ^ rcon[rconpointer] << 24;
             rconpointer += 1;
             if (KC != 8) {
               for (var i2 = 1; i2 < KC; i2++) {
@@ -6389,7 +6389,7 @@
                 tk[i2] ^= tk[i2 - 1];
               }
               tt = tk[KC / 2 - 1];
-              tk[KC / 2] ^= S[tt & 255] ^ S[tt >> 8 & 255] << 8 ^ S[tt >> 16 & 255] << 16 ^ S[tt >> 24 & 255] << 24;
+              tk[KC / 2] ^= S2[tt & 255] ^ S2[tt >> 8 & 255] << 8 ^ S2[tt >> 16 & 255] << 16 ^ S2[tt >> 24 & 255] << 24;
               for (var i2 = KC / 2 + 1; i2 < KC; i2++) {
                 tk[i2] ^= tk[i2 - 1];
               }
@@ -6429,10 +6429,10 @@
           var result = createArray(16), tt;
           for (var i2 = 0; i2 < 4; i2++) {
             tt = this._Ke[rounds][i2];
-            result[4 * i2] = (S[t[i2] >> 24 & 255] ^ tt >> 24) & 255;
-            result[4 * i2 + 1] = (S[t[(i2 + 1) % 4] >> 16 & 255] ^ tt >> 16) & 255;
-            result[4 * i2 + 2] = (S[t[(i2 + 2) % 4] >> 8 & 255] ^ tt >> 8) & 255;
-            result[4 * i2 + 3] = (S[t[(i2 + 3) % 4] & 255] ^ tt) & 255;
+            result[4 * i2] = (S2[t[i2] >> 24 & 255] ^ tt >> 24) & 255;
+            result[4 * i2 + 1] = (S2[t[(i2 + 1) % 4] >> 16 & 255] ^ tt >> 16) & 255;
+            result[4 * i2 + 2] = (S2[t[(i2 + 2) % 4] >> 8 & 255] ^ tt >> 8) & 255;
+            result[4 * i2 + 3] = (S2[t[(i2 + 3) % 4] & 255] ^ tt) & 255;
           }
           return result;
         };
@@ -6764,23 +6764,602 @@
     }
   });
 
+  // node_modules/nearley/lib/nearley.js
+  var require_nearley = __commonJS({
+    "node_modules/nearley/lib/nearley.js"(exports2, module2) {
+      (function(root3, factory) {
+        if (typeof module2 === "object" && module2.exports) {
+          module2.exports = factory();
+        } else {
+          root3.nearley = factory();
+        }
+      })(exports2, function() {
+        function Rule(name, symbols, postprocess) {
+          this.id = ++Rule.highestId;
+          this.name = name;
+          this.symbols = symbols;
+          this.postprocess = postprocess;
+          return this;
+        }
+        Rule.highestId = 0;
+        Rule.prototype.toString = function(withCursorAt) {
+          var symbolSequence = typeof withCursorAt === "undefined" ? this.symbols.map(getSymbolShortDisplay).join(" ") : this.symbols.slice(0, withCursorAt).map(getSymbolShortDisplay).join(" ") + " \u25CF " + this.symbols.slice(withCursorAt).map(getSymbolShortDisplay).join(" ");
+          return this.name + " \u2192 " + symbolSequence;
+        };
+        function State(rule, dot, reference, wantedBy) {
+          this.rule = rule;
+          this.dot = dot;
+          this.reference = reference;
+          this.data = [];
+          this.wantedBy = wantedBy;
+          this.isComplete = this.dot === rule.symbols.length;
+        }
+        State.prototype.toString = function() {
+          return "{" + this.rule.toString(this.dot) + "}, from: " + (this.reference || 0);
+        };
+        State.prototype.nextState = function(child) {
+          var state = new State(this.rule, this.dot + 1, this.reference, this.wantedBy);
+          state.left = this;
+          state.right = child;
+          if (state.isComplete) {
+            state.data = state.build();
+            state.right = void 0;
+          }
+          return state;
+        };
+        State.prototype.build = function() {
+          var children2 = [];
+          var node = this;
+          do {
+            children2.push(node.right.data);
+            node = node.left;
+          } while (node.left);
+          children2.reverse();
+          return children2;
+        };
+        State.prototype.finish = function() {
+          if (this.rule.postprocess) {
+            this.data = this.rule.postprocess(this.data, this.reference, Parser2.fail);
+          }
+        };
+        function Column(grammar, index) {
+          this.grammar = grammar;
+          this.index = index;
+          this.states = [];
+          this.wants = {};
+          this.scannable = [];
+          this.completed = {};
+        }
+        Column.prototype.process = function(nextColumn) {
+          var states = this.states;
+          var wants = this.wants;
+          var completed = this.completed;
+          for (var w = 0; w < states.length; w++) {
+            var state = states[w];
+            if (state.isComplete) {
+              state.finish();
+              if (state.data !== Parser2.fail) {
+                var wantedBy = state.wantedBy;
+                for (var i2 = wantedBy.length; i2--; ) {
+                  var left = wantedBy[i2];
+                  this.complete(left, state);
+                }
+                if (state.reference === this.index) {
+                  var exp2 = state.rule.name;
+                  (this.completed[exp2] = this.completed[exp2] || []).push(state);
+                }
+              }
+            } else {
+              var exp2 = state.rule.symbols[state.dot];
+              if (typeof exp2 !== "string") {
+                this.scannable.push(state);
+                continue;
+              }
+              if (wants[exp2]) {
+                wants[exp2].push(state);
+                if (completed.hasOwnProperty(exp2)) {
+                  var nulls = completed[exp2];
+                  for (var i2 = 0; i2 < nulls.length; i2++) {
+                    var right = nulls[i2];
+                    this.complete(state, right);
+                  }
+                }
+              } else {
+                wants[exp2] = [state];
+                this.predict(exp2);
+              }
+            }
+          }
+        };
+        Column.prototype.predict = function(exp2) {
+          var rules = this.grammar.byName[exp2] || [];
+          for (var i2 = 0; i2 < rules.length; i2++) {
+            var r = rules[i2];
+            var wantedBy = this.wants[exp2];
+            var s = new State(r, 0, this.index, wantedBy);
+            this.states.push(s);
+          }
+        };
+        Column.prototype.complete = function(left, right) {
+          var copy2 = left.nextState(right);
+          this.states.push(copy2);
+        };
+        function Grammar(rules, start2) {
+          this.rules = rules;
+          this.start = start2 || this.rules[0].name;
+          var byName = this.byName = {};
+          this.rules.forEach(function(rule) {
+            if (!byName.hasOwnProperty(rule.name)) {
+              byName[rule.name] = [];
+            }
+            byName[rule.name].push(rule);
+          });
+        }
+        Grammar.fromCompiled = function(rules, start2) {
+          var lexer2 = rules.Lexer;
+          if (rules.ParserStart) {
+            start2 = rules.ParserStart;
+            rules = rules.ParserRules;
+          }
+          var rules = rules.map(function(r) {
+            return new Rule(r.name, r.symbols, r.postprocess);
+          });
+          var g = new Grammar(rules, start2);
+          g.lexer = lexer2;
+          return g;
+        };
+        function StreamLexer() {
+          this.reset("");
+        }
+        StreamLexer.prototype.reset = function(data, state) {
+          this.buffer = data;
+          this.index = 0;
+          this.line = state ? state.line : 1;
+          this.lastLineBreak = state ? -state.col : 0;
+        };
+        StreamLexer.prototype.next = function() {
+          if (this.index < this.buffer.length) {
+            var ch = this.buffer[this.index++];
+            if (ch === "\n") {
+              this.line += 1;
+              this.lastLineBreak = this.index;
+            }
+            return { value: ch };
+          }
+        };
+        StreamLexer.prototype.save = function() {
+          return {
+            line: this.line,
+            col: this.index - this.lastLineBreak
+          };
+        };
+        StreamLexer.prototype.formatError = function(token, message) {
+          var buffer = this.buffer;
+          if (typeof buffer === "string") {
+            var lines = buffer.split("\n").slice(
+              Math.max(0, this.line - 5),
+              this.line
+            );
+            var nextLineBreak = buffer.indexOf("\n", this.index);
+            if (nextLineBreak === -1)
+              nextLineBreak = buffer.length;
+            var col = this.index - this.lastLineBreak;
+            var lastLineDigits = String(this.line).length;
+            message += " at line " + this.line + " col " + col + ":\n\n";
+            message += lines.map(function(line, i2) {
+              return pad3(this.line - lines.length + i2 + 1, lastLineDigits) + " " + line;
+            }, this).join("\n");
+            message += "\n" + pad3("", lastLineDigits + col) + "^\n";
+            return message;
+          } else {
+            return message + " at index " + (this.index - 1);
+          }
+          function pad3(n2, length) {
+            var s = String(n2);
+            return Array(length - s.length + 1).join(" ") + s;
+          }
+        };
+        function Parser2(rules, start2, options2) {
+          if (rules instanceof Grammar) {
+            var grammar = rules;
+            var options2 = start2;
+          } else {
+            var grammar = Grammar.fromCompiled(rules, start2);
+          }
+          this.grammar = grammar;
+          this.options = {
+            keepHistory: false,
+            lexer: grammar.lexer || new StreamLexer()
+          };
+          for (var key in options2 || {}) {
+            this.options[key] = options2[key];
+          }
+          this.lexer = this.options.lexer;
+          this.lexerState = void 0;
+          var column = new Column(grammar, 0);
+          var table = this.table = [column];
+          column.wants[grammar.start] = [];
+          column.predict(grammar.start);
+          column.process();
+          this.current = 0;
+        }
+        Parser2.fail = {};
+        Parser2.prototype.feed = function(chunk) {
+          var lexer2 = this.lexer;
+          lexer2.reset(chunk, this.lexerState);
+          var token;
+          while (true) {
+            try {
+              token = lexer2.next();
+              if (!token) {
+                break;
+              }
+            } catch (e) {
+              var nextColumn = new Column(this.grammar, this.current + 1);
+              this.table.push(nextColumn);
+              var err = new Error(this.reportLexerError(e));
+              err.offset = this.current;
+              err.token = e.token;
+              throw err;
+            }
+            var column = this.table[this.current];
+            if (!this.options.keepHistory) {
+              delete this.table[this.current - 1];
+            }
+            var n2 = this.current + 1;
+            var nextColumn = new Column(this.grammar, n2);
+            this.table.push(nextColumn);
+            var literal = token.text !== void 0 ? token.text : token.value;
+            var value = lexer2.constructor === StreamLexer ? token.value : token;
+            var scannable = column.scannable;
+            for (var w = scannable.length; w--; ) {
+              var state = scannable[w];
+              var expect = state.rule.symbols[state.dot];
+              if (expect.test ? expect.test(value) : expect.type ? expect.type === token.type : expect.literal === literal) {
+                var next = state.nextState({ data: value, token, isToken: true, reference: n2 - 1 });
+                nextColumn.states.push(next);
+              }
+            }
+            nextColumn.process();
+            if (nextColumn.states.length === 0) {
+              var err = new Error(this.reportError(token));
+              err.offset = this.current;
+              err.token = token;
+              throw err;
+            }
+            if (this.options.keepHistory) {
+              column.lexerState = lexer2.save();
+            }
+            this.current++;
+          }
+          if (column) {
+            this.lexerState = lexer2.save();
+          }
+          this.results = this.finish();
+          return this;
+        };
+        Parser2.prototype.reportLexerError = function(lexerError) {
+          var tokenDisplay, lexerMessage;
+          var token = lexerError.token;
+          if (token) {
+            tokenDisplay = "input " + JSON.stringify(token.text[0]) + " (lexer error)";
+            lexerMessage = this.lexer.formatError(token, "Syntax error");
+          } else {
+            tokenDisplay = "input (lexer error)";
+            lexerMessage = lexerError.message;
+          }
+          return this.reportErrorCommon(lexerMessage, tokenDisplay);
+        };
+        Parser2.prototype.reportError = function(token) {
+          var tokenDisplay = (token.type ? token.type + " token: " : "") + JSON.stringify(token.value !== void 0 ? token.value : token);
+          var lexerMessage = this.lexer.formatError(token, "Syntax error");
+          return this.reportErrorCommon(lexerMessage, tokenDisplay);
+        };
+        Parser2.prototype.reportErrorCommon = function(lexerMessage, tokenDisplay) {
+          var lines = [];
+          lines.push(lexerMessage);
+          var lastColumnIndex = this.table.length - 2;
+          var lastColumn = this.table[lastColumnIndex];
+          var expectantStates = lastColumn.states.filter(function(state) {
+            var nextSymbol = state.rule.symbols[state.dot];
+            return nextSymbol && typeof nextSymbol !== "string";
+          });
+          if (expectantStates.length === 0) {
+            lines.push("Unexpected " + tokenDisplay + ". I did not expect any more input. Here is the state of my parse table:\n");
+            this.displayStateStack(lastColumn.states, lines);
+          } else {
+            lines.push("Unexpected " + tokenDisplay + ". Instead, I was expecting to see one of the following:\n");
+            var stateStacks = expectantStates.map(function(state) {
+              return this.buildFirstStateStack(state, []) || [state];
+            }, this);
+            stateStacks.forEach(function(stateStack) {
+              var state = stateStack[0];
+              var nextSymbol = state.rule.symbols[state.dot];
+              var symbolDisplay = this.getSymbolDisplay(nextSymbol);
+              lines.push("A " + symbolDisplay + " based on:");
+              this.displayStateStack(stateStack, lines);
+            }, this);
+          }
+          lines.push("");
+          return lines.join("\n");
+        };
+        Parser2.prototype.displayStateStack = function(stateStack, lines) {
+          var lastDisplay;
+          var sameDisplayCount = 0;
+          for (var j2 = 0; j2 < stateStack.length; j2++) {
+            var state = stateStack[j2];
+            var display = state.rule.toString(state.dot);
+            if (display === lastDisplay) {
+              sameDisplayCount++;
+            } else {
+              if (sameDisplayCount > 0) {
+                lines.push("    ^ " + sameDisplayCount + " more lines identical to this");
+              }
+              sameDisplayCount = 0;
+              lines.push("    " + display);
+            }
+            lastDisplay = display;
+          }
+        };
+        Parser2.prototype.getSymbolDisplay = function(symbol) {
+          return getSymbolLongDisplay(symbol);
+        };
+        Parser2.prototype.buildFirstStateStack = function(state, visited) {
+          if (visited.indexOf(state) !== -1) {
+            return null;
+          }
+          if (state.wantedBy.length === 0) {
+            return [state];
+          }
+          var prevState = state.wantedBy[0];
+          var childVisited = [state].concat(visited);
+          var childResult = this.buildFirstStateStack(prevState, childVisited);
+          if (childResult === null) {
+            return null;
+          }
+          return [state].concat(childResult);
+        };
+        Parser2.prototype.save = function() {
+          var column = this.table[this.current];
+          column.lexerState = this.lexerState;
+          return column;
+        };
+        Parser2.prototype.restore = function(column) {
+          var index = column.index;
+          this.current = index;
+          this.table[index] = column;
+          this.table.splice(index + 1);
+          this.lexerState = column.lexerState;
+          this.results = this.finish();
+        };
+        Parser2.prototype.rewind = function(index) {
+          if (!this.options.keepHistory) {
+            throw new Error("set option `keepHistory` to enable rewinding");
+          }
+          this.restore(this.table[index]);
+        };
+        Parser2.prototype.finish = function() {
+          var considerations = [];
+          var start2 = this.grammar.start;
+          var column = this.table[this.table.length - 1];
+          column.states.forEach(function(t) {
+            if (t.rule.name === start2 && t.dot === t.rule.symbols.length && t.reference === 0 && t.data !== Parser2.fail) {
+              considerations.push(t);
+            }
+          });
+          return considerations.map(function(c) {
+            return c.data;
+          });
+        };
+        function getSymbolLongDisplay(symbol) {
+          var type2 = typeof symbol;
+          if (type2 === "string") {
+            return symbol;
+          } else if (type2 === "object") {
+            if (symbol.literal) {
+              return JSON.stringify(symbol.literal);
+            } else if (symbol instanceof RegExp) {
+              return "character matching " + symbol;
+            } else if (symbol.type) {
+              return symbol.type + " token";
+            } else if (symbol.test) {
+              return "token matching " + String(symbol.test);
+            } else {
+              throw new Error("Unknown symbol type: " + symbol);
+            }
+          }
+        }
+        function getSymbolShortDisplay(symbol) {
+          var type2 = typeof symbol;
+          if (type2 === "string") {
+            return symbol;
+          } else if (type2 === "object") {
+            if (symbol.literal) {
+              return JSON.stringify(symbol.literal);
+            } else if (symbol instanceof RegExp) {
+              return symbol.toString();
+            } else if (symbol.type) {
+              return "%" + symbol.type;
+            } else if (symbol.test) {
+              return "<" + String(symbol.test) + ">";
+            } else {
+              throw new Error("Unknown symbol type: " + symbol);
+            }
+          }
+        }
+        return {
+          Parser: Parser2,
+          Grammar,
+          Rule
+        };
+      });
+    }
+  });
+
+  // node_modules/edtf/locale-data/en-US.json
+  var require_en_US = __commonJS({
+    "node_modules/edtf/locale-data/en-US.json"(exports2, module2) {
+      module2.exports = {
+        locale: "en-US",
+        date: {
+          approximate: {
+            long: "circa %D",
+            medium: "ca. %D",
+            short: "c. %D"
+          },
+          uncertain: {
+            long: "%D (unspecified)",
+            medium: "%D (?)",
+            short: "%D (?)"
+          }
+        }
+      };
+    }
+  });
+
+  // node_modules/edtf/locale-data/es-ES.json
+  var require_es_ES = __commonJS({
+    "node_modules/edtf/locale-data/es-ES.json"(exports2, module2) {
+      module2.exports = {
+        locale: "es-ES",
+        date: {
+          approximate: {
+            long: "circa %D",
+            medium: "ca. %D",
+            short: "c. %D"
+          },
+          uncertain: {
+            long: "%D (?)",
+            medium: "%D (?)",
+            short: "%D (?)"
+          }
+        }
+      };
+    }
+  });
+
+  // node_modules/edtf/locale-data/de-DE.json
+  var require_de_DE = __commonJS({
+    "node_modules/edtf/locale-data/de-DE.json"(exports2, module2) {
+      module2.exports = {
+        locale: "de-DE",
+        date: {
+          approximate: {
+            long: "circa %D",
+            medium: "ca. %D",
+            short: "ca. %D"
+          },
+          uncertain: {
+            long: "%D (?)",
+            medium: "%D (?)",
+            short: "%D (?)"
+          }
+        }
+      };
+    }
+  });
+
+  // node_modules/edtf/locale-data/fr-FR.json
+  var require_fr_FR = __commonJS({
+    "node_modules/edtf/locale-data/fr-FR.json"(exports2, module2) {
+      module2.exports = {
+        locale: "fr-FR",
+        date: {
+          approximate: {
+            long: "circa %D",
+            medium: "ca. %D",
+            short: "c. %D"
+          },
+          uncertain: {
+            long: "%D (?)",
+            medium: "%D (?)",
+            short: "%D (?)"
+          }
+        }
+      };
+    }
+  });
+
+  // node_modules/edtf/locale-data/it-IT.json
+  var require_it_IT = __commonJS({
+    "node_modules/edtf/locale-data/it-IT.json"(exports2, module2) {
+      module2.exports = {
+        locale: "it-IT",
+        date: {
+          approximate: {
+            long: "circa %D",
+            medium: "ca. %D",
+            short: "c. %D"
+          },
+          uncertain: {
+            long: "%D (?)",
+            medium: "%D (?)",
+            short: "%D (?)"
+          }
+        }
+      };
+    }
+  });
+
+  // node_modules/edtf/locale-data/ja-JA.json
+  var require_ja_JA = __commonJS({
+    "node_modules/edtf/locale-data/ja-JA.json"(exports2, module2) {
+      module2.exports = {
+        locale: "ja-JA",
+        date: {
+          approximate: {
+            long: "%D\u9803",
+            medium: "%D\u9803",
+            short: "%D\u9803"
+          },
+          uncertain: {
+            long: "%D\u9803",
+            medium: "%D\u9803",
+            short: "%D\u9803"
+          }
+        }
+      };
+    }
+  });
+
+  // node_modules/edtf/locale-data/index.cjs
+  var require_locale_data = __commonJS({
+    "node_modules/edtf/locale-data/index.cjs"(exports2, module2) {
+      var en = require_en_US();
+      var es = require_es_ES();
+      var de = require_de_DE();
+      var fr = require_fr_FR();
+      var it = require_it_IT();
+      var ja = require_ja_JA();
+      var alias = (lang, ...regions) => {
+        for (let region of regions)
+          data[`${lang}-${region}`] = data[lang];
+      };
+      var data = { en, es, de, fr, it, ja };
+      alias("en", "AU", "CA", "GB", "NZ", "SA", "US");
+      alias("de", "AT", "CH", "DE");
+      alias("fr", "CH", "FR");
+      module2.exports = data;
+    }
+  });
+
   // node_modules/fast-deep-equal/index.js
   var require_fast_deep_equal = __commonJS({
     "node_modules/fast-deep-equal/index.js"(exports2, module2) {
       "use strict";
-      module2.exports = function equal(a, b) {
+      module2.exports = function equal2(a, b) {
         if (a === b)
           return true;
         if (a && b && typeof a == "object" && typeof b == "object") {
           if (a.constructor !== b.constructor)
             return false;
-          var length, i2, keys;
+          var length, i2, keys2;
           if (Array.isArray(a)) {
             length = a.length;
             if (length != b.length)
               return false;
             for (i2 = length; i2-- !== 0; )
-              if (!equal(a[i2], b[i2]))
+              if (!equal2(a[i2], b[i2]))
                 return false;
             return true;
           }
@@ -6790,16 +7369,16 @@
             return a.valueOf() === b.valueOf();
           if (a.toString !== Object.prototype.toString)
             return a.toString() === b.toString();
-          keys = Object.keys(a);
-          length = keys.length;
+          keys2 = Object.keys(a);
+          length = keys2.length;
           if (length !== Object.keys(b).length)
             return false;
           for (i2 = length; i2-- !== 0; )
-            if (!Object.prototype.hasOwnProperty.call(b, keys[i2]))
+            if (!Object.prototype.hasOwnProperty.call(b, keys2[i2]))
               return false;
           for (i2 = length; i2-- !== 0; ) {
-            var key = keys[i2];
-            if (!equal(a[key], b[key]))
+            var key = keys2[i2];
+            if (!equal2(a[key], b[key]))
               return false;
           }
           return true;
@@ -7500,7 +8079,7 @@
         }
         var runInContext = function runInContext2(context) {
           context = context == null ? root3 : _.defaults(root3.Object(), context, _.pick(root3, contextProps));
-          var Array2 = context.Array, Date2 = context.Date, Error2 = context.Error, Function2 = context.Function, Math2 = context.Math, Object2 = context.Object, RegExp2 = context.RegExp, String2 = context.String, TypeError2 = context.TypeError;
+          var Array2 = context.Array, Date3 = context.Date, Error2 = context.Error, Function2 = context.Function, Math2 = context.Math, Object2 = context.Object, RegExp2 = context.RegExp, String2 = context.String, TypeError2 = context.TypeError;
           var arrayProto = Array2.prototype, funcProto = Function2.prototype, objectProto3 = Object2.prototype;
           var coreJsData = context["__core-js_shared__"];
           var funcToString = funcProto.toString;
@@ -7525,15 +8104,15 @@
             } catch (e) {
             }
           }();
-          var ctxClearTimeout = context.clearTimeout !== root3.clearTimeout && context.clearTimeout, ctxNow = Date2 && Date2.now !== root3.Date.now && Date2.now, ctxSetTimeout = context.setTimeout !== root3.setTimeout && context.setTimeout;
-          var nativeCeil = Math2.ceil, nativeFloor = Math2.floor, nativeGetSymbols = Object2.getOwnPropertySymbols, nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : undefined2, nativeIsFinite = context.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object2.keys, Object2), nativeMax2 = Math2.max, nativeMin2 = Math2.min, nativeNow = Date2.now, nativeParseInt = context.parseInt, nativeRandom = Math2.random, nativeReverse = arrayProto.reverse;
-          var DataView2 = getNative(context, "DataView"), Map2 = getNative(context, "Map"), Promise2 = getNative(context, "Promise"), Set2 = getNative(context, "Set"), WeakMap = getNative(context, "WeakMap"), nativeCreate = getNative(Object2, "create");
-          var metaMap = WeakMap && new WeakMap();
+          var ctxClearTimeout = context.clearTimeout !== root3.clearTimeout && context.clearTimeout, ctxNow = Date3 && Date3.now !== root3.Date.now && Date3.now, ctxSetTimeout = context.setTimeout !== root3.setTimeout && context.setTimeout;
+          var nativeCeil = Math2.ceil, nativeFloor = Math2.floor, nativeGetSymbols = Object2.getOwnPropertySymbols, nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : undefined2, nativeIsFinite = context.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object2.keys, Object2), nativeMax2 = Math2.max, nativeMin2 = Math2.min, nativeNow = Date3.now, nativeParseInt = context.parseInt, nativeRandom = Math2.random, nativeReverse = arrayProto.reverse;
+          var DataView2 = getNative(context, "DataView"), Map2 = getNative(context, "Map"), Promise2 = getNative(context, "Promise"), Set3 = getNative(context, "Set"), WeakMap2 = getNative(context, "WeakMap"), nativeCreate = getNative(Object2, "create");
+          var metaMap = WeakMap2 && new WeakMap2();
           var realNames = {};
-          var dataViewCtorString = toSource(DataView2), mapCtorString = toSource(Map2), promiseCtorString = toSource(Promise2), setCtorString = toSource(Set2), weakMapCtorString = toSource(WeakMap);
+          var dataViewCtorString = toSource(DataView2), mapCtorString = toSource(Map2), promiseCtorString = toSource(Promise2), setCtorString = toSource(Set3), weakMapCtorString = toSource(WeakMap2);
           var symbolProto2 = Symbol3 ? Symbol3.prototype : undefined2, symbolValueOf = symbolProto2 ? symbolProto2.valueOf : undefined2, symbolToString2 = symbolProto2 ? symbolProto2.toString : undefined2;
           function lodash(value) {
-            if (isObjectLike2(value) && !isArray2(value) && !(value instanceof LazyWrapper)) {
+            if (isObjectLike2(value) && !isArray4(value) && !(value instanceof LazyWrapper)) {
               if (value instanceof LodashWrapper) {
                 return value;
               }
@@ -7648,7 +8227,7 @@
             return result2;
           }
           function lazyValue() {
-            var array2 = this.__wrapped__.value(), dir = this.__dir__, isArr = isArray2(array2), isRight = dir < 0, arrLength = isArr ? array2.length : 0, view = getView(0, arrLength, this.__views__), start2 = view.start, end = view.end, length = end - start2, index = isRight ? end : start2 - 1, iteratees = this.__iteratees__, iterLength = iteratees.length, resIndex = 0, takeCount = nativeMin2(length, this.__takeCount__);
+            var array2 = this.__wrapped__.value(), dir = this.__dir__, isArr = isArray4(array2), isRight = dir < 0, arrLength = isArr ? array2.length : 0, view = getView(0, arrLength, this.__views__), start2 = view.start, end = view.end, length = end - start2, index = isRight ? end : start2 - 1, iteratees = this.__iteratees__, iterLength = iteratees.length, resIndex = 0, takeCount = nativeMin2(length, this.__takeCount__);
             if (!isArr || !isRight && arrLength == length && takeCount == length) {
               return baseWrapperValue(array2, this.__actions__);
             }
@@ -7857,7 +8436,7 @@
           Stack.prototype.has = stackHas;
           Stack.prototype.set = stackSet;
           function arrayLikeKeys(value, inherited) {
-            var isArr = isArray2(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result2 = skipIndexes ? baseTimes(value.length, String2) : [], length = result2.length;
+            var isArr = isArray4(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result2 = skipIndexes ? baseTimes(value.length, String2) : [], length = result2.length;
             for (var key in value) {
               if ((inherited || hasOwnProperty2.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
               (key == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
@@ -7906,7 +8485,7 @@
             return accumulator;
           }
           function baseAssign(object, source) {
-            return object && copyObject(source, keys(source), object);
+            return object && copyObject(source, keys2(source), object);
           }
           function baseAssignIn(object, source) {
             return object && copyObject(source, keysIn(source), object);
@@ -7952,7 +8531,7 @@
             if (!isObject3(value)) {
               return value;
             }
-            var isArr = isArray2(value);
+            var isArr = isArray4(value);
             if (isArr) {
               result2 = initCloneArray(value);
               if (!isDeep) {
@@ -7990,7 +8569,7 @@
                 result2.set(key2, baseClone(subValue, bitmask, customizer, key2, value, stack));
               });
             }
-            var keysFunc = isFull ? isFlat ? getAllKeysIn : getAllKeys : isFlat ? keysIn : keys;
+            var keysFunc = isFull ? isFlat ? getAllKeysIn : getAllKeys : isFlat ? keysIn : keys2;
             var props = isArr ? undefined2 : keysFunc(value);
             arrayEach(props || value, function(subValue, key2) {
               if (props) {
@@ -8002,7 +8581,7 @@
             return result2;
           }
           function baseConforms(source) {
-            var props = keys(source);
+            var props = keys2(source);
             return function(object) {
               return baseConformsTo(object, source, props);
             };
@@ -8129,10 +8708,10 @@
           var baseFor = createBaseFor();
           var baseForRight = createBaseFor(true);
           function baseForOwn(object, iteratee2) {
-            return object && baseFor(object, iteratee2, keys);
+            return object && baseFor(object, iteratee2, keys2);
           }
           function baseForOwnRight(object, iteratee2) {
-            return object && baseForRight(object, iteratee2, keys);
+            return object && baseForRight(object, iteratee2, keys2);
           }
           function baseFunctions(object, props) {
             return arrayFilter(props, function(key) {
@@ -8149,7 +8728,7 @@
           }
           function baseGetAllKeys(object, keysFunc, symbolsFunc) {
             var result2 = keysFunc(object);
-            return isArray2(object) ? result2 : arrayPush(result2, symbolsFunc(object));
+            return isArray4(object) ? result2 : arrayPush(result2, symbolsFunc(object));
           }
           function baseGetTag2(value) {
             if (value == null) {
@@ -8232,7 +8811,7 @@
             return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
           }
           function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
-            var objIsArr = isArray2(object), othIsArr = isArray2(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
+            var objIsArr = isArray4(object), othIsArr = isArray4(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
             objTag = objTag == argsTag ? objectTag : objTag;
             othTag = othTag == argsTag ? objectTag : othTag;
             var objIsObj = objTag == objectTag, othIsObj = othTag == objectTag, isSameTag = objTag == othTag;
@@ -8319,7 +8898,7 @@
               return identity4;
             }
             if (typeof value == "object") {
-              return isArray2(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
+              return isArray4(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
             }
             return property(value);
           }
@@ -8401,10 +8980,10 @@
             var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : undefined2;
             var isCommon = newValue === undefined2;
             if (isCommon) {
-              var isArr = isArray2(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
+              var isArr = isArray4(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
               newValue = srcValue;
               if (isArr || isBuff || isTyped) {
-                if (isArray2(objValue)) {
+                if (isArray4(objValue)) {
                   newValue = objValue;
                 } else if (isArrayLikeObject(objValue)) {
                   newValue = copyArray(objValue);
@@ -8446,7 +9025,7 @@
           function baseOrderBy(collection, iteratees, orders) {
             if (iteratees.length) {
               iteratees = arrayMap2(iteratees, function(iteratee2) {
-                if (isArray2(iteratee2)) {
+                if (isArray4(iteratee2)) {
                   return function(value) {
                     return baseGet(value, iteratee2.length === 1 ? iteratee2[0] : iteratee2);
                   };
@@ -8691,7 +9270,7 @@
             if (typeof value == "string") {
               return value;
             }
-            if (isArray2(value)) {
+            if (isArray4(value)) {
               return arrayMap2(value, baseToString2) + "";
             }
             if (isSymbol2(value)) {
@@ -8794,7 +9373,7 @@
             return typeof value == "function" ? value : identity4;
           }
           function castPath(value, object) {
-            if (isArray2(value)) {
+            if (isArray4(value)) {
               return value;
             }
             return isKey(value, object) ? [value] : stringToPath(toString2(value));
@@ -8805,8 +9384,8 @@
             end = end === undefined2 ? length : end;
             return !start2 && end >= length ? array2 : baseSlice(array2, start2, end);
           }
-          var clearTimeout2 = ctxClearTimeout || function(id2) {
-            return root3.clearTimeout(id2);
+          var clearTimeout2 = ctxClearTimeout || function(id3) {
+            return root3.clearTimeout(id3);
           };
           function cloneBuffer(buffer, isDeep) {
             if (isDeep) {
@@ -8929,7 +9508,7 @@
           }
           function createAggregator(setter, initializer) {
             return function(collection, iteratee2) {
-              var func = isArray2(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
+              var func = isArray4(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
               return func(collection, setter, getIteratee(iteratee2, 2), accumulator);
             };
           }
@@ -9060,7 +9639,7 @@
               var iterable = Object2(collection);
               if (!isArrayLike(collection)) {
                 var iteratee2 = getIteratee(predicate, 3);
-                collection = keys(collection);
+                collection = keys2(collection);
                 predicate = function(key) {
                   return iteratee2(iterable[key], key, iterable);
                 };
@@ -9096,7 +9675,7 @@
               }
               return function() {
                 var args = arguments, value = args[0];
-                if (wrapper && args.length == 1 && isArray2(value)) {
+                if (wrapper && args.length == 1 && isArray4(value)) {
                   return wrapper.plant(value).value();
                 }
                 var index2 = 0, result2 = length ? funcs[index2].apply(this, args) : value;
@@ -9284,8 +9863,8 @@
               return func(number3);
             };
           }
-          var createSet = !(Set2 && 1 / setToArray(new Set2([, -0]))[1] == INFINITY2) ? noop3 : function(values2) {
-            return new Set2(values2);
+          var createSet = !(Set3 && 1 / setToArray(new Set3([, -0]))[1] == INFINITY2) ? noop3 : function(values2) {
+            return new Set3(values2);
           };
           function createToPairs(keysFunc) {
             return function(object) {
@@ -9506,7 +10085,7 @@
             return setToString(overRest(func, undefined2, flatten2), func + "");
           }
           function getAllKeys(object) {
-            return baseGetAllKeys(object, keys, getSymbols);
+            return baseGetAllKeys(object, keys2, getSymbols);
           }
           function getAllKeysIn(object) {
             return baseGetAllKeys(object, keysIn, getSymbolsIn);
@@ -9538,7 +10117,7 @@
             return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
           }
           function getMatchData(object) {
-            var result2 = keys(object), length = result2.length;
+            var result2 = keys2(object), length = result2.length;
             while (length--) {
               var key = result2[length], value = object[key];
               result2[length] = [key, value, isStrictComparable(value)];
@@ -9584,7 +10163,7 @@
             return result2;
           };
           var getTag = baseGetTag2;
-          if (DataView2 && getTag(new DataView2(new ArrayBuffer(1))) != dataViewTag || Map2 && getTag(new Map2()) != mapTag || Promise2 && getTag(Promise2.resolve()) != promiseTag || Set2 && getTag(new Set2()) != setTag || WeakMap && getTag(new WeakMap()) != weakMapTag) {
+          if (DataView2 && getTag(new DataView2(new ArrayBuffer(1))) != dataViewTag || Map2 && getTag(new Map2()) != mapTag || Promise2 && getTag(Promise2.resolve()) != promiseTag || Set3 && getTag(new Set3()) != setTag || WeakMap2 && getTag(new WeakMap2()) != weakMapTag) {
             getTag = function(value) {
               var result2 = baseGetTag2(value), Ctor = result2 == objectTag ? value.constructor : undefined2, ctorString = Ctor ? toSource(Ctor) : "";
               if (ctorString) {
@@ -9643,7 +10222,7 @@
               return result2;
             }
             length = object == null ? 0 : object.length;
-            return !!length && isLength(length) && isIndex(key, length) && (isArray2(object) || isArguments(object));
+            return !!length && isLength(length) && isIndex(key, length) && (isArray4(object) || isArguments(object));
           }
           function initCloneArray(array2) {
             var length = array2.length, result2 = new array2.constructor(length);
@@ -9700,7 +10279,7 @@
             return source.replace(reWrapComment, "{\n/* [wrapped with " + details + "] */\n");
           }
           function isFlattenable(value) {
-            return isArray2(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
+            return isArray4(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
           }
           function isIndex(value, length) {
             var type2 = typeof value;
@@ -9718,7 +10297,7 @@
             return false;
           }
           function isKey(value, object) {
-            if (isArray2(value)) {
+            if (isArray4(value)) {
               return false;
             }
             var type2 = typeof value;
@@ -9965,7 +10544,7 @@
             }
             return result2;
           }
-          function concat() {
+          function concat2() {
             var length = arguments.length;
             if (!length) {
               return [];
@@ -9974,7 +10553,7 @@
             while (index--) {
               args[index - 1] = arguments[index];
             }
-            return arrayPush(isArray2(array2) ? copyArray(array2) : [array2], baseFlatten(args, 1));
+            return arrayPush(isArray4(array2) ? copyArray(array2) : [array2], baseFlatten(args, 1));
           }
           var difference = baseRest(function(array2, values2) {
             return isArrayLikeObject(array2) ? baseDifference(array2, baseFlatten(values2, 1, isArrayLikeObject, true)) : [];
@@ -10113,7 +10692,7 @@
             }
             return mapped.length && mapped[0] === arrays[0] ? baseIntersection(mapped, undefined2, comparator) : [];
           });
-          function join(array2, separator) {
+          function join2(array2, separator) {
             return array2 == null ? "" : nativeJoin.call(array2, separator);
           }
           function last(array2) {
@@ -10425,14 +11004,14 @@
             }
           });
           function every(collection, predicate, guard) {
-            var func = isArray2(collection) ? arrayEvery : baseEvery;
+            var func = isArray4(collection) ? arrayEvery : baseEvery;
             if (guard && isIterateeCall(collection, predicate, guard)) {
               predicate = undefined2;
             }
             return func(collection, getIteratee(predicate, 3));
           }
           function filter2(collection, predicate) {
-            var func = isArray2(collection) ? arrayFilter : baseFilter;
+            var func = isArray4(collection) ? arrayFilter : baseFilter;
             return func(collection, getIteratee(predicate, 3));
           }
           var find2 = createFind(findIndex);
@@ -10448,11 +11027,11 @@
             return baseFlatten(map2(collection, iteratee2), depth);
           }
           function forEach(collection, iteratee2) {
-            var func = isArray2(collection) ? arrayEach : baseEach;
+            var func = isArray4(collection) ? arrayEach : baseEach;
             return func(collection, getIteratee(iteratee2, 3));
           }
           function forEachRight(collection, iteratee2) {
-            var func = isArray2(collection) ? arrayEachRight : baseEachRight;
+            var func = isArray4(collection) ? arrayEachRight : baseEachRight;
             return func(collection, getIteratee(iteratee2, 3));
           }
           var groupBy = createAggregator(function(result2, value, key) {
@@ -10482,18 +11061,18 @@
             baseAssignValue(result2, key, value);
           });
           function map2(collection, iteratee2) {
-            var func = isArray2(collection) ? arrayMap2 : baseMap;
+            var func = isArray4(collection) ? arrayMap2 : baseMap;
             return func(collection, getIteratee(iteratee2, 3));
           }
           function orderBy(collection, iteratees, orders, guard) {
             if (collection == null) {
               return [];
             }
-            if (!isArray2(iteratees)) {
+            if (!isArray4(iteratees)) {
               iteratees = iteratees == null ? [] : [iteratees];
             }
             orders = guard ? undefined2 : orders;
-            if (!isArray2(orders)) {
+            if (!isArray4(orders)) {
               orders = orders == null ? [] : [orders];
             }
             return baseOrderBy(collection, iteratees, orders);
@@ -10504,19 +11083,19 @@
             return [[], []];
           });
           function reduce(collection, iteratee2, accumulator) {
-            var func = isArray2(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
+            var func = isArray4(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
             return func(collection, getIteratee(iteratee2, 4), accumulator, initAccum, baseEach);
           }
           function reduceRight(collection, iteratee2, accumulator) {
-            var func = isArray2(collection) ? arrayReduceRight : baseReduce, initAccum = arguments.length < 3;
+            var func = isArray4(collection) ? arrayReduceRight : baseReduce, initAccum = arguments.length < 3;
             return func(collection, getIteratee(iteratee2, 4), accumulator, initAccum, baseEachRight);
           }
           function reject(collection, predicate) {
-            var func = isArray2(collection) ? arrayFilter : baseFilter;
+            var func = isArray4(collection) ? arrayFilter : baseFilter;
             return func(collection, negate(getIteratee(predicate, 3)));
           }
           function sample(collection) {
-            var func = isArray2(collection) ? arraySample : baseSample;
+            var func = isArray4(collection) ? arraySample : baseSample;
             return func(collection);
           }
           function sampleSize(collection, n2, guard) {
@@ -10525,11 +11104,11 @@
             } else {
               n2 = toInteger(n2);
             }
-            var func = isArray2(collection) ? arraySampleSize : baseSampleSize;
+            var func = isArray4(collection) ? arraySampleSize : baseSampleSize;
             return func(collection, n2);
           }
           function shuffle(collection) {
-            var func = isArray2(collection) ? arrayShuffle : baseShuffle;
+            var func = isArray4(collection) ? arrayShuffle : baseShuffle;
             return func(collection);
           }
           function size(collection) {
@@ -10546,7 +11125,7 @@
             return baseKeys(collection).length;
           }
           function some(collection, predicate, guard) {
-            var func = isArray2(collection) ? arraySome : baseSome;
+            var func = isArray4(collection) ? arraySome : baseSome;
             if (guard && isIterateeCall(collection, predicate, guard)) {
               predicate = undefined2;
             }
@@ -10757,7 +11336,7 @@
             return before(2, func);
           }
           var overArgs = castRest(function(func, transforms) {
-            transforms = transforms.length == 1 && isArray2(transforms[0]) ? arrayMap2(transforms[0], baseUnary(getIteratee())) : arrayMap2(baseFlatten(transforms, 1), baseUnary(getIteratee()));
+            transforms = transforms.length == 1 && isArray4(transforms[0]) ? arrayMap2(transforms[0], baseUnary(getIteratee())) : arrayMap2(baseFlatten(transforms, 1), baseUnary(getIteratee()));
             var funcsLength = transforms.length;
             return baseRest(function(args) {
               var index = -1, length = nativeMin2(args.length, funcsLength);
@@ -10824,7 +11403,7 @@
               return [];
             }
             var value = arguments[0];
-            return isArray2(value) ? value : [value];
+            return isArray4(value) ? value : [value];
           }
           function clone(value) {
             return baseClone(value, CLONE_SYMBOLS_FLAG);
@@ -10841,7 +11420,7 @@
             return baseClone(value, CLONE_DEEP_FLAG | CLONE_SYMBOLS_FLAG, customizer);
           }
           function conformsTo(object, source) {
-            return source == null || baseConformsTo(object, source, keys(source));
+            return source == null || baseConformsTo(object, source, keys2(source));
           }
           function eq(value, other) {
             return value === other || value !== value && other !== other;
@@ -10855,7 +11434,7 @@
           }()) ? baseIsArguments : function(value) {
             return isObjectLike2(value) && hasOwnProperty2.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
           };
-          var isArray2 = Array2.isArray;
+          var isArray4 = Array2.isArray;
           var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
           function isArrayLike(value) {
             return value != null && isLength(value.length) && !isFunction(value);
@@ -10875,7 +11454,7 @@
             if (value == null) {
               return true;
             }
-            if (isArrayLike(value) && (isArray2(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
+            if (isArrayLike(value) && (isArray4(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
               return !value.length;
             }
             var tag = getTag(value);
@@ -10973,7 +11552,7 @@
           }
           var isSet = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
           function isString(value) {
-            return typeof value == "string" || !isArray2(value) && isObjectLike2(value) && baseGetTag2(value) == stringTag;
+            return typeof value == "string" || !isArray4(value) && isObjectLike2(value) && baseGetTag2(value) == stringTag;
           }
           function isSymbol2(value) {
             return typeof value == "symbol" || isObjectLike2(value) && baseGetTag2(value) == symbolTag2;
@@ -11050,9 +11629,9 @@
           function toString2(value) {
             return value == null ? "" : baseToString2(value);
           }
-          var assign = createAssigner(function(object, source) {
+          var assign3 = createAssigner(function(object, source) {
             if (isPrototype(source) || isArrayLike(source)) {
-              copyObject(source, keys(source), object);
+              copyObject(source, keys2(source), object);
               return;
             }
             for (var key in source) {
@@ -11068,14 +11647,14 @@
             copyObject(source, keysIn(source), object, customizer);
           });
           var assignWith = createAssigner(function(object, source, srcIndex, customizer) {
-            copyObject(source, keys(source), object, customizer);
+            copyObject(source, keys2(source), object, customizer);
           });
           var at = flatRest(baseAt);
           function create2(prototype, properties) {
             var result2 = baseCreate(prototype);
             return properties == null ? result2 : baseAssign(result2, properties);
           }
-          var defaults2 = baseRest(function(object, sources) {
+          var defaults3 = baseRest(function(object, sources) {
             object = Object2(object);
             var index = -1;
             var length = sources.length;
@@ -11121,7 +11700,7 @@
             return object && baseForOwnRight(object, getIteratee(iteratee2, 3));
           }
           function functions(object) {
-            return object == null ? [] : baseFunctions(object, keys(object));
+            return object == null ? [] : baseFunctions(object, keys2(object));
           }
           function functionsIn(object) {
             return object == null ? [] : baseFunctions(object, keysIn(object));
@@ -11130,7 +11709,7 @@
             var result2 = object == null ? undefined2 : baseGet(object, path);
             return result2 === undefined2 ? defaultValue : result2;
           }
-          function has(object, path) {
+          function has2(object, path) {
             return object != null && hasPath(object, path, baseHas);
           }
           function hasIn(object, path) {
@@ -11153,7 +11732,7 @@
             }
           }, getIteratee);
           var invoke = baseRest(baseInvoke);
-          function keys(object) {
+          function keys2(object) {
             return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
           }
           function keysIn(object) {
@@ -11175,7 +11754,7 @@
             });
             return result2;
           }
-          var merge3 = createAssigner(function(object, source, srcIndex) {
+          var merge4 = createAssigner(function(object, source, srcIndex) {
             baseMerge(object, source, srcIndex);
           });
           var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
@@ -11205,7 +11784,7 @@
           function omitBy(object, predicate) {
             return pickBy(object, negate(getIteratee(predicate)));
           }
-          var pick = flatRest(function(object, paths) {
+          var pick2 = flatRest(function(object, paths) {
             return object == null ? {} : basePick(object, paths);
           });
           function pickBy(object, predicate) {
@@ -11244,10 +11823,10 @@
             customizer = typeof customizer == "function" ? customizer : undefined2;
             return object == null ? object : baseSet(object, path, value, customizer);
           }
-          var toPairs = createToPairs(keys);
+          var toPairs = createToPairs(keys2);
           var toPairsIn = createToPairs(keysIn);
           function transform2(object, iteratee2, accumulator) {
-            var isArr = isArray2(object), isArrLike = isArr || isBuffer(object) || isTypedArray(object);
+            var isArr = isArray4(object), isArrLike = isArr || isBuffer(object) || isTypedArray(object);
             iteratee2 = getIteratee(iteratee2, 4);
             if (accumulator == null) {
               var Ctor = object && object.constructor;
@@ -11275,7 +11854,7 @@
             return object == null ? object : baseUpdate(object, path, castFunction(updater), customizer);
           }
           function values(object) {
-            return object == null ? [] : baseValues(object, keys(object));
+            return object == null ? [] : baseValues(object, keys2(object));
           }
           function valuesIn(object) {
             return object == null ? [] : baseValues(object, keysIn(object));
@@ -11377,7 +11956,7 @@
             return result2 + (index ? " " : "") + word.toLowerCase();
           });
           var lowerFirst = createCaseFirst("toLowerCase");
-          function pad2(string, length, chars) {
+          function pad3(string, length, chars) {
             string = toString2(string);
             length = toInteger(length);
             var strLength = length ? stringSize(string) : 0;
@@ -11422,22 +12001,22 @@
           var snakeCase = createCompounder(function(result2, word, index) {
             return result2 + (index ? "_" : "") + word.toLowerCase();
           });
-          function split(string, separator, limit) {
-            if (limit && typeof limit != "number" && isIterateeCall(string, separator, limit)) {
-              separator = limit = undefined2;
+          function split(string, separator, limit2) {
+            if (limit2 && typeof limit2 != "number" && isIterateeCall(string, separator, limit2)) {
+              separator = limit2 = undefined2;
             }
-            limit = limit === undefined2 ? MAX_ARRAY_LENGTH : limit >>> 0;
-            if (!limit) {
+            limit2 = limit2 === undefined2 ? MAX_ARRAY_LENGTH : limit2 >>> 0;
+            if (!limit2) {
               return [];
             }
             string = toString2(string);
             if (string && (typeof separator == "string" || separator != null && !isRegExp(separator))) {
               separator = baseToString2(separator);
               if (!separator && hasUnicode(string)) {
-                return castSlice(stringToArray(string), 0, limit);
+                return castSlice(stringToArray(string), 0, limit2);
               }
             }
-            return string.split(separator, limit);
+            return string.split(separator, limit2);
           }
           var startCase = createCompounder(function(result2, word, index) {
             return result2 + (index ? " " : "") + upperFirst(word);
@@ -11455,7 +12034,7 @@
             }
             string = toString2(string);
             options2 = assignInWith({}, options2, settings, customDefaultsAssignIn);
-            var imports = assignInWith({}, options2.imports, settings.imports, customDefaultsAssignIn), importsKeys = keys(imports), importsValues = baseValues(imports, importsKeys);
+            var imports = assignInWith({}, options2.imports, settings.imports, customDefaultsAssignIn), importsKeys = keys2(imports), importsValues = baseValues(imports, importsKeys);
             var isEscaping, isEvaluating, index = 0, interpolate = options2.interpolate || reNoMatch, source = "__p += '";
             var reDelimiters = RegExp2(
               (options2.escape || reNoMatch).source + "|" + interpolate.source + "|" + (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + "|" + (options2.evaluate || reNoMatch).source + "|$",
@@ -11666,13 +12245,13 @@
               return baseInvoke(object, path, args);
             };
           });
-          function mixin(object, source, options2) {
-            var props = keys(source), methodNames = baseFunctions(source, props);
+          function mixin2(object, source, options2) {
+            var props = keys2(source), methodNames = baseFunctions(source, props);
             if (options2 == null && !(isObject3(source) && (methodNames.length || !props.length))) {
               options2 = source;
               source = object;
               object = this;
-              methodNames = baseFunctions(source, keys(source));
+              methodNames = baseFunctions(source, keys2(source));
             }
             var chain2 = !(isObject3(options2) && "chain" in options2) || !!options2.chain, isFunc = isFunction(object);
             arrayEach(methodNames, function(methodName) {
@@ -11750,14 +12329,14 @@
             return result2;
           }
           function toPath(value) {
-            if (isArray2(value)) {
+            if (isArray4(value)) {
               return arrayMap2(value, toKey);
             }
             return isSymbol2(value) ? [value] : copyArray(stringToPath(toString2(value)));
           }
           function uniqueId(prefix) {
-            var id2 = ++idCounter;
-            return toString2(prefix) + id2;
+            var id3 = ++idCounter;
+            return toString2(prefix) + id3;
           }
           var add = createMathOperation(function(augend, addend) {
             return augend + addend;
@@ -11766,8 +12345,8 @@
           var divide = createMathOperation(function(dividend, divisor) {
             return dividend / divisor;
           }, 1);
-          var floor = createRound("floor");
-          function max3(array2) {
+          var floor4 = createRound("floor");
+          function max4(array2) {
             return array2 && array2.length ? baseExtremum(array2, identity4, baseGt) : undefined2;
           }
           function maxBy(array2, iteratee2) {
@@ -11779,7 +12358,7 @@
           function meanBy(array2, iteratee2) {
             return baseMean(array2, getIteratee(iteratee2, 2));
           }
-          function min3(array2) {
+          function min4(array2) {
             return array2 && array2.length ? baseExtremum(array2, identity4, baseLt) : undefined2;
           }
           function minBy(array2, iteratee2) {
@@ -11800,7 +12379,7 @@
           }
           lodash.after = after;
           lodash.ary = ary;
-          lodash.assign = assign;
+          lodash.assign = assign3;
           lodash.assignIn = assignIn;
           lodash.assignInWith = assignInWith;
           lodash.assignWith = assignWith;
@@ -11813,7 +12392,7 @@
           lodash.chain = chain;
           lodash.chunk = chunk;
           lodash.compact = compact;
-          lodash.concat = concat;
+          lodash.concat = concat2;
           lodash.cond = cond;
           lodash.conforms = conforms;
           lodash.constant = constant;
@@ -11822,7 +12401,7 @@
           lodash.curry = curry;
           lodash.curryRight = curryRight;
           lodash.debounce = debounce2;
-          lodash.defaults = defaults2;
+          lodash.defaults = defaults3;
           lodash.defaultsDeep = defaultsDeep;
           lodash.defer = defer;
           lodash.delay = delay;
@@ -11857,7 +12436,7 @@
           lodash.invokeMap = invokeMap;
           lodash.iteratee = iteratee;
           lodash.keyBy = keyBy;
-          lodash.keys = keys;
+          lodash.keys = keys2;
           lodash.keysIn = keysIn;
           lodash.map = map2;
           lodash.mapKeys = mapKeys;
@@ -11865,11 +12444,11 @@
           lodash.matches = matches;
           lodash.matchesProperty = matchesProperty;
           lodash.memoize = memoize;
-          lodash.merge = merge3;
+          lodash.merge = merge4;
           lodash.mergeWith = mergeWith;
           lodash.method = method;
           lodash.methodOf = methodOf;
-          lodash.mixin = mixin;
+          lodash.mixin = mixin2;
           lodash.negate = negate;
           lodash.nthArg = nthArg;
           lodash.omit = omit;
@@ -11883,7 +12462,7 @@
           lodash.partial = partial;
           lodash.partialRight = partialRight;
           lodash.partition = partition;
-          lodash.pick = pick;
+          lodash.pick = pick2;
           lodash.pickBy = pickBy;
           lodash.property = property;
           lodash.propertyOf = propertyOf;
@@ -11951,7 +12530,7 @@
           lodash.entriesIn = toPairsIn;
           lodash.extend = assignIn;
           lodash.extendWith = assignInWith;
-          mixin(lodash, lodash);
+          mixin2(lodash, lodash);
           lodash.add = add;
           lodash.attempt = attempt;
           lodash.camelCase = camelCase;
@@ -11977,7 +12556,7 @@
           lodash.findLast = findLast;
           lodash.findLastIndex = findLastIndex;
           lodash.findLastKey = findLastKey;
-          lodash.floor = floor;
+          lodash.floor = floor4;
           lodash.forEach = forEach;
           lodash.forEachRight = forEachRight;
           lodash.forIn = forIn;
@@ -11987,7 +12566,7 @@
           lodash.get = get4;
           lodash.gt = gt;
           lodash.gte = gte;
-          lodash.has = has;
+          lodash.has = has2;
           lodash.hasIn = hasIn;
           lodash.head = head;
           lodash.identity = identity4;
@@ -11996,7 +12575,7 @@
           lodash.inRange = inRange;
           lodash.invoke = invoke;
           lodash.isArguments = isArguments;
-          lodash.isArray = isArray2;
+          lodash.isArray = isArray4;
           lodash.isArrayBuffer = isArrayBuffer;
           lodash.isArrayLike = isArrayLike;
           lodash.isArrayLikeObject = isArrayLikeObject;
@@ -12032,7 +12611,7 @@
           lodash.isUndefined = isUndefined;
           lodash.isWeakMap = isWeakMap;
           lodash.isWeakSet = isWeakSet;
-          lodash.join = join;
+          lodash.join = join2;
           lodash.kebabCase = kebabCase;
           lodash.last = last;
           lodash.lastIndexOf = lastIndexOf;
@@ -12040,11 +12619,11 @@
           lodash.lowerFirst = lowerFirst;
           lodash.lt = lt;
           lodash.lte = lte;
-          lodash.max = max3;
+          lodash.max = max4;
           lodash.maxBy = maxBy;
           lodash.mean = mean;
           lodash.meanBy = meanBy;
-          lodash.min = min3;
+          lodash.min = min4;
           lodash.minBy = minBy;
           lodash.stubArray = stubArray;
           lodash.stubFalse = stubFalse;
@@ -12056,7 +12635,7 @@
           lodash.noConflict = noConflict;
           lodash.noop = noop3;
           lodash.now = now3;
-          lodash.pad = pad2;
+          lodash.pad = pad3;
           lodash.padEnd = padEnd;
           lodash.padStart = padStart;
           lodash.parseInt = parseInt2;
@@ -12104,7 +12683,7 @@
           lodash.each = forEach;
           lodash.eachRight = forEachRight;
           lodash.first = head;
-          mixin(lodash, function() {
+          mixin2(lodash, function() {
             var source = {};
             baseForOwn(lodash, function(func, methodName) {
               if (!hasOwnProperty2.call(lodash.prototype, methodName)) {
@@ -12208,7 +12787,7 @@
               return;
             }
             lodash.prototype[methodName] = function() {
-              var value = this.__wrapped__, args = isTaker ? [1] : arguments, isLazy = value instanceof LazyWrapper, iteratee2 = args[0], useLazy = isLazy || isArray2(value);
+              var value = this.__wrapped__, args = isTaker ? [1] : arguments, isLazy = value instanceof LazyWrapper, iteratee2 = args[0], useLazy = isLazy || isArray4(value);
               var interceptor = function(value2) {
                 var result3 = lodashFunc.apply(lodash, arrayPush([value2], args));
                 return isTaker && chainAll ? result3[0] : result3;
@@ -12236,10 +12815,10 @@
               var args = arguments;
               if (retUnwrapped && !this.__chain__) {
                 var value = this.value();
-                return func.apply(isArray2(value) ? value : [], args);
+                return func.apply(isArray4(value) ? value : [], args);
               }
               return this[chainName](function(value2) {
-                return func.apply(isArray2(value2) ? value2 : [], args);
+                return func.apply(isArray4(value2) ? value2 : [], args);
               });
             };
           });
@@ -12704,8 +13283,8 @@
           return this.readVarint(true);
         },
         readSVarint: function() {
-          var num = this.readVarint();
-          return num % 2 === 1 ? (num + 1) / -2 : num / 2;
+          var num2 = this.readVarint();
+          return num2 % 2 === 1 ? (num2 + 1) / -2 : num2 / 2;
         },
         readBoolean: function() {
           return Boolean(this.readVarint());
@@ -12824,9 +13403,9 @@
         writeTag: function(tag, type2) {
           this.writeVarint(tag << 3 | type2);
         },
-        realloc: function(min3) {
+        realloc: function(min4) {
           var length = this.length || 16;
-          while (length < this.pos + min3)
+          while (length < this.pos + min4)
             length *= 2;
           if (length !== this.length) {
             var buf = new Uint8Array(length);
@@ -13547,13 +14126,13 @@
       "use strict";
       var Point = require_point_geometry();
       module2.exports = VectorTileFeature;
-      function VectorTileFeature(pbf, end, extent, keys, values) {
+      function VectorTileFeature(pbf, end, extent, keys2, values) {
         this.properties = {};
         this.extent = extent;
         this.type = 0;
         this._pbf = pbf;
         this._geometry = -1;
-        this._keys = keys;
+        this._keys = keys2;
         this._values = values;
         pbf.readFields(readFeature, this, end);
       }
@@ -13869,13 +14448,13 @@
       module2.exports = rbush;
       module2.exports.default = rbush;
       var quickselect2 = require_quickselect2();
-      function rbush(maxEntries, format2) {
+      function rbush(maxEntries, format3) {
         if (!(this instanceof rbush))
-          return new rbush(maxEntries, format2);
+          return new rbush(maxEntries, format3);
         this._maxEntries = Math.max(4, maxEntries || 9);
         this._minEntries = Math.max(2, Math.ceil(this._maxEntries * 0.4));
-        if (format2) {
-          this._initFormat(format2);
+        if (format3) {
+          this._initFormat(format3);
         }
         this.clear();
       }
@@ -14163,13 +14742,13 @@
               calcBBox(path[i2], this.toBBox);
           }
         },
-        _initFormat: function(format2) {
+        _initFormat: function(format3) {
           var compareArr = ["return a", " - b", ";"];
-          this.compareMinX = new Function("a", "b", compareArr.join(format2[0]));
-          this.compareMinY = new Function("a", "b", compareArr.join(format2[1]));
+          this.compareMinX = new Function("a", "b", compareArr.join(format3[0]));
+          this.compareMinY = new Function("a", "b", compareArr.join(format3[1]));
           this.toBBox = new Function(
             "a",
-            "return {minX: a" + format2[0] + ", minY: a" + format2[1] + ", maxX: a" + format2[2] + ", maxY: a" + format2[3] + "};"
+            "return {minX: a" + format3[0] + ", minY: a" + format3[1] + ", maxX: a" + format3[2] + ", maxY: a" + format3[3] + "};"
           );
         }
       };
@@ -14410,10 +14989,10 @@
             throw new TypeError("Converting circular structure to JSON");
           }
           var seenIndex = seen.push(node) - 1;
-          var keys = Object.keys(node).sort(cmp && cmp(node));
+          var keys2 = Object.keys(node).sort(cmp && cmp(node));
           out = "";
-          for (i2 = 0; i2 < keys.length; i2++) {
-            var key = keys[i2];
+          for (i2 = 0; i2 < keys2.length; i2++) {
+            var key = keys2[i2];
             var value = stringify3(node[key]);
             if (!value)
               continue;
@@ -14433,7 +15012,7 @@
     "node_modules/@mapbox/sexagesimal/index.js"(exports2, module2) {
       module2.exports = element;
       module2.exports.pair = pair2;
-      module2.exports.format = format2;
+      module2.exports.format = format3;
       module2.exports.formatPair = formatPair;
       module2.exports.coordToDMS = coordToDMS;
       function element(input, dims) {
@@ -14441,18 +15020,18 @@
         return result === null ? null : result.val;
       }
       function formatPair(input) {
-        return format2(input.lat, "lat") + " " + format2(input.lon, "lon");
+        return format3(input.lat, "lat") + " " + format3(input.lon, "lon");
       }
-      function format2(input, dim) {
+      function format3(input, dim) {
         var dms = coordToDMS(input, dim);
         return dms.whole + "\xB0 " + (dms.minutes ? dms.minutes + "' " : "") + (dms.seconds ? dms.seconds + '" ' : "") + dms.dir;
       }
       function coordToDMS(input, dim) {
         var dirs = { lat: ["N", "S"], lon: ["E", "W"] }[dim] || "";
         var dir = dirs[input >= 0 ? 0 : 1];
-        var abs3 = Math.abs(input);
-        var whole = Math.floor(abs3);
-        var fraction = abs3 - whole;
+        var abs7 = Math.abs(input);
+        var whole = Math.floor(abs7);
+        var fraction = abs7 - whole;
         var fractionMinutes = fraction * 60;
         var minutes = Math.floor(fractionMinutes);
         var seconds = Math.floor((fractionMinutes - minutes) * 60);
@@ -14484,13 +15063,13 @@
         if (dim && dims.indexOf(dim) === -1)
           return null;
         var deg = m[2] ? parseFloat(m[2]) : 0;
-        var min3 = m[3] ? parseFloat(m[3]) / 60 : 0;
+        var min4 = m[3] ? parseFloat(m[3]) / 60 : 0;
         var sec = m[4] ? parseFloat(m[4]) / 3600 : 0;
         var sign2 = deg < 0 ? -1 : 1;
         if (dim === "S" || dim === "W")
           sign2 *= -1;
         return {
-          val: (Math.abs(deg) + min3 + sec) * sign2,
+          val: (Math.abs(deg) + min4 + sec) * sign2,
           dim,
           matched,
           remain: input.slice(matched.length)
@@ -14523,19 +15102,19 @@
   // node_modules/store/src/util.js
   var require_util = __commonJS({
     "node_modules/store/src/util.js"(exports2, module2) {
-      var assign = make_assign();
+      var assign3 = make_assign();
       var create2 = make_create();
       var trim = make_trim();
       var Global = typeof window !== "undefined" ? window : global;
       module2.exports = {
-        assign,
+        assign: assign3,
         create: create2,
         trim,
         bind,
         slice,
         each,
         map: map2,
-        pluck,
+        pluck: pluck2,
         isList,
         isFunction,
         isObject: isObject3,
@@ -14559,7 +15138,7 @@
         if (Object.create) {
           return function create3(obj, assignProps1, assignProps2, etc) {
             var assignArgsList = slice(arguments, 1);
-            return assign.apply(this, [Object.create(obj)].concat(assignArgsList));
+            return assign3.apply(this, [Object.create(obj)].concat(assignArgsList));
           };
         } else {
           let F2 = function() {
@@ -14568,7 +15147,7 @@
           return function create3(obj, assignProps1, assignProps2, etc) {
             var assignArgsList = slice(arguments, 1);
             F2.prototype = obj;
-            return assign.apply(this, [new F2()].concat(assignArgsList));
+            return assign3.apply(this, [new F2()].concat(assignArgsList));
           };
         }
       }
@@ -14592,20 +15171,20 @@
         return Array.prototype.slice.call(arr, index || 0);
       }
       function each(obj, fn) {
-        pluck(obj, function(val, key) {
+        pluck2(obj, function(val, key) {
           fn(val, key);
           return false;
         });
       }
       function map2(obj, fn) {
         var res = isList(obj) ? [] : {};
-        pluck(obj, function(v, k) {
+        pluck2(obj, function(v, k) {
           res[k] = fn(v, k);
           return false;
         });
         return res;
       }
-      function pluck(obj, fn) {
+      function pluck2(obj, fn) {
         if (isList(obj)) {
           for (var i2 = 0; i2 < obj.length; i2++) {
             if (fn(obj[i2], i2)) {
@@ -14639,7 +15218,7 @@
     "node_modules/store/src/store-engine.js"(exports2, module2) {
       var util = require_util();
       var slice = util.slice;
-      var pluck = util.pluck;
+      var pluck2 = util.pluck;
       var each = util.each;
       var bind = util.bind;
       var create2 = util.create;
@@ -14790,7 +15369,7 @@
               });
               return;
             }
-            var seenPlugin = pluck(this.plugins, function(seenPlugin2) {
+            var seenPlugin = pluck2(this.plugins, function(seenPlugin2) {
               return plugin === seenPlugin2;
             });
             if (seenPlugin) {
@@ -15850,12 +16429,12 @@
     }
     function _defineProperties(target, props) {
       for (var i2 = 0; i2 < props.length; i2++) {
-        var descriptor = props[i2];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor)
-          descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
+        var descriptor2 = props[i2];
+        descriptor2.enumerable = descriptor2.enumerable || false;
+        descriptor2.configurable = true;
+        if ("value" in descriptor2)
+          descriptor2.writable = true;
+        Object.defineProperty(target, descriptor2.key, descriptor2);
       }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -16498,6 +17077,7 @@
     uiFieldCheck: () => uiFieldCheck,
     uiFieldColour: () => uiFieldText,
     uiFieldCombo: () => uiFieldCombo,
+    uiFieldDate: () => uiFieldDate,
     uiFieldDefaultCheck: () => uiFieldCheck,
     uiFieldDirectionalCombo: () => uiFieldDirectionalCombo,
     uiFieldEmail: () => uiFieldText,
@@ -16625,6 +17205,7 @@
     utilDisplayName: () => utilDisplayName,
     utilDisplayNameForPath: () => utilDisplayNameForPath,
     utilDisplayType: () => utilDisplayType,
+    utilEDTFFromOSMDateString: () => utilEDTFFromOSMDateString,
     utilEditDistance: () => utilEditDistance,
     utilEntityAndDeepMemberIDs: () => utilEntityAndDeepMemberIDs,
     utilEntityOrDeepMemberSelector: () => utilEntityOrDeepMemberSelector,
@@ -16668,6 +17249,7 @@
     validationImpossibleOneway: () => validationImpossibleOneway,
     validationIncompatibleSource: () => validationIncompatibleSource,
     validationMaprules: () => validationMaprules,
+    validationMismatchedDates: () => validationMismatchedDates,
     validationMismatchedGeometry: () => validationMismatchedGeometry,
     validationMissingRole: () => validationMissingRole,
     validationMissingTag: () => validationMissingTag,
@@ -17236,28 +17818,28 @@
   var e2 = Math.sqrt(2);
   function tickSpec(start2, stop, count) {
     const step = (stop - start2) / Math.max(0, count), power = Math.floor(Math.log10(step)), error = step / Math.pow(10, power), factor = error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1;
-    let i1, i2, inc;
+    let i1, i2, inc2;
     if (power < 0) {
-      inc = Math.pow(10, -power) / factor;
-      i1 = Math.round(start2 * inc);
-      i2 = Math.round(stop * inc);
-      if (i1 / inc < start2)
+      inc2 = Math.pow(10, -power) / factor;
+      i1 = Math.round(start2 * inc2);
+      i2 = Math.round(stop * inc2);
+      if (i1 / inc2 < start2)
         ++i1;
-      if (i2 / inc > stop)
+      if (i2 / inc2 > stop)
         --i2;
-      inc = -inc;
+      inc2 = -inc2;
     } else {
-      inc = Math.pow(10, power) * factor;
-      i1 = Math.round(start2 / inc);
-      i2 = Math.round(stop / inc);
-      if (i1 * inc < start2)
+      inc2 = Math.pow(10, power) * factor;
+      i1 = Math.round(start2 / inc2);
+      i2 = Math.round(stop / inc2);
+      if (i1 * inc2 < start2)
         ++i1;
-      if (i2 * inc > stop)
+      if (i2 * inc2 > stop)
         --i2;
     }
     if (i2 < i1 && 0.5 <= count && count < 2)
       return tickSpec(start2, stop, count * 2);
-    return [i1, i2, inc];
+    return [i1, i2, inc2];
   }
   function ticks(start2, stop, count) {
     stop = +stop, start2 = +start2, count = +count;
@@ -17265,24 +17847,24 @@
       return [];
     if (start2 === stop)
       return [start2];
-    const reverse = stop < start2, [i1, i2, inc] = reverse ? tickSpec(stop, start2, count) : tickSpec(start2, stop, count);
+    const reverse = stop < start2, [i1, i2, inc2] = reverse ? tickSpec(stop, start2, count) : tickSpec(start2, stop, count);
     if (!(i2 >= i1))
       return [];
     const n2 = i2 - i1 + 1, ticks2 = new Array(n2);
     if (reverse) {
-      if (inc < 0)
+      if (inc2 < 0)
         for (let i3 = 0; i3 < n2; ++i3)
-          ticks2[i3] = (i2 - i3) / -inc;
+          ticks2[i3] = (i2 - i3) / -inc2;
       else
         for (let i3 = 0; i3 < n2; ++i3)
-          ticks2[i3] = (i2 - i3) * inc;
+          ticks2[i3] = (i2 - i3) * inc2;
     } else {
-      if (inc < 0)
+      if (inc2 < 0)
         for (let i3 = 0; i3 < n2; ++i3)
-          ticks2[i3] = (i1 + i3) / -inc;
+          ticks2[i3] = (i1 + i3) / -inc2;
       else
         for (let i3 = 0; i3 < n2; ++i3)
-          ticks2[i3] = (i1 + i3) * inc;
+          ticks2[i3] = (i1 + i3) * inc2;
     }
     return ticks2;
   }
@@ -17292,48 +17874,48 @@
   }
   function tickStep(start2, stop, count) {
     stop = +stop, start2 = +start2, count = +count;
-    const reverse = stop < start2, inc = reverse ? tickIncrement(stop, start2, count) : tickIncrement(start2, stop, count);
-    return (reverse ? -1 : 1) * (inc < 0 ? 1 / -inc : inc);
+    const reverse = stop < start2, inc2 = reverse ? tickIncrement(stop, start2, count) : tickIncrement(start2, stop, count);
+    return (reverse ? -1 : 1) * (inc2 < 0 ? 1 / -inc2 : inc2);
   }
 
   // node_modules/d3-array/src/max.js
   function max(values, valueof) {
-    let max3;
+    let max4;
     if (valueof === void 0) {
       for (const value of values) {
-        if (value != null && (max3 < value || max3 === void 0 && value >= value)) {
-          max3 = value;
+        if (value != null && (max4 < value || max4 === void 0 && value >= value)) {
+          max4 = value;
         }
       }
     } else {
       let index = -1;
       for (let value of values) {
-        if ((value = valueof(value, ++index, values)) != null && (max3 < value || max3 === void 0 && value >= value)) {
-          max3 = value;
+        if ((value = valueof(value, ++index, values)) != null && (max4 < value || max4 === void 0 && value >= value)) {
+          max4 = value;
         }
       }
     }
-    return max3;
+    return max4;
   }
 
   // node_modules/d3-array/src/min.js
   function min(values, valueof) {
-    let min3;
+    let min4;
     if (valueof === void 0) {
       for (const value of values) {
-        if (value != null && (min3 > value || min3 === void 0 && value >= value)) {
-          min3 = value;
+        if (value != null && (min4 > value || min4 === void 0 && value >= value)) {
+          min4 = value;
         }
       }
     } else {
       let index = -1;
       for (let value of values) {
-        if ((value = valueof(value, ++index, values)) != null && (min3 > value || min3 === void 0 && value >= value)) {
-          min3 = value;
+        if ((value = valueof(value, ++index, values)) != null && (min4 > value || min4 === void 0 && value >= value)) {
+          min4 = value;
         }
       }
     }
-    return min3;
+    return min4;
   }
 
   // node_modules/d3-array/src/quickselect.js
@@ -18268,13 +18850,13 @@
       var n1 = [1, 0, 0], n2 = cartesianCross(pa, pb), n2n2 = cartesianDot(n2, n2), n1n2 = n2[0], determinant = n2n2 - n1n2 * n1n2;
       if (!determinant)
         return !two && a;
-      var c1 = cr * n2n2 / determinant, c2 = -cr * n1n2 / determinant, n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, c1), B = cartesianScale(n2, c2);
-      cartesianAddInPlace(A, B);
-      var u = n1xn2, w = cartesianDot(A, u), uu = cartesianDot(u, u), t2 = w * w - uu * (cartesianDot(A, A) - 1);
+      var c1 = cr * n2n2 / determinant, c2 = -cr * n1n2 / determinant, n1xn2 = cartesianCross(n1, n2), A2 = cartesianScale(n1, c1), B = cartesianScale(n2, c2);
+      cartesianAddInPlace(A2, B);
+      var u = n1xn2, w = cartesianDot(A2, u), uu = cartesianDot(u, u), t2 = w * w - uu * (cartesianDot(A2, A2) - 1);
       if (t2 < 0)
         return;
       var t = sqrt(t2), q = cartesianScale(u, (-w - t) / uu);
-      cartesianAddInPlace(q, A);
+      cartesianAddInPlace(q, A2);
       q = spherical(q);
       if (!two)
         return q;
@@ -18286,7 +18868,7 @@
         z = phi02, phi02 = phi12, phi12 = z;
       if (meridian ? polar ? phi02 + phi12 > 0 ^ q[1] < (abs(q[0] - lambda04) < epsilon ? phi02 : phi12) : phi02 <= q[1] && q[1] <= phi12 : delta2 > pi ^ (lambda04 <= q[0] && q[0] <= lambda12)) {
         var q1 = cartesianScale(u, (-w + t) / uu);
-        cartesianAddInPlace(q1, A);
+        cartesianAddInPlace(q1, A2);
         return [q, spherical(q1)];
       }
     }
@@ -19372,17 +19954,17 @@
   }
 
   // modules/geo/extent.js
-  function geoExtent(min3, max3) {
+  function geoExtent(min4, max4) {
     if (!(this instanceof geoExtent)) {
-      return new geoExtent(min3, max3);
-    } else if (min3 instanceof geoExtent) {
-      return min3;
-    } else if (min3 && min3.length === 2 && min3[0].length === 2 && min3[1].length === 2) {
-      this[0] = min3[0];
-      this[1] = min3[1];
+      return new geoExtent(min4, max4);
+    } else if (min4 instanceof geoExtent) {
+      return min4;
+    } else if (min4 && min4.length === 2 && min4[0].length === 2 && min4[1].length === 2) {
+      this[0] = min4[0];
+      this[1] = min4[1];
     } else {
-      this[0] = min3 || [Infinity, Infinity];
-      this[1] = max3 || min3 || [-Infinity, -Infinity];
+      this[0] = min4 || [Infinity, Infinity];
+      this[1] = max4 || min4 || [-Infinity, -Infinity];
     }
   }
   geoExtent.prototype = new Array(2);
@@ -19597,7 +20179,7 @@
     return p[0] * q[1] - p[1] * q[0];
   }
   function geoVecProject(a, points) {
-    var min3 = Infinity;
+    var min4 = Infinity;
     var idx;
     var target;
     for (var i2 = 0; i2 < points.length - 1; i2++) {
@@ -19614,14 +20196,14 @@
         p = [o[0] + proj * s[0], o[1] + proj * s[1]];
       }
       var dist = geoVecLength(p, a);
-      if (dist < min3) {
-        min3 = dist;
+      if (dist < min4) {
+        min4 = dist;
         idx = i2 + 1;
         target = p;
       }
     }
     if (idx !== void 0) {
-      return { index: idx, distance: min3, target };
+      return { index: idx, distance: min4, target };
     } else {
       return null;
     }
@@ -19651,7 +20233,7 @@
     var ids = nodes.map(function(n2) {
       return n2.id;
     });
-    var min3 = Infinity;
+    var min4 = Infinity;
     var idx;
     var loc;
     for (var i2 = 0; i2 < points.length - 1; i2++) {
@@ -19670,14 +20252,14 @@
         p = [o[0] + proj * s[0], o[1] + proj * s[1]];
       }
       var d = dist(p, point2);
-      if (d < min3) {
-        min3 = d;
+      if (d < min4) {
+        min4 = d;
         idx = i2 + 1;
         loc = projection2.invert(p);
       }
     }
     if (idx !== void 0) {
-      return { index: idx, distance: min3, loc };
+      return { index: idx, distance: min4, loc };
     } else {
       return null;
     }
@@ -19854,19 +20436,19 @@
     return length;
   }
   function geoViewportEdge(point2, dimensions) {
-    var pad2 = [80, 20, 50, 20];
+    var pad3 = [80, 20, 50, 20];
     var x = 0;
     var y = 0;
-    if (point2[0] > dimensions[0] - pad2[1]) {
+    if (point2[0] > dimensions[0] - pad3[1]) {
       x = -10;
     }
-    if (point2[0] < pad2[3]) {
+    if (point2[0] < pad3[3]) {
       x = 10;
     }
-    if (point2[1] > dimensions[1] - pad2[2]) {
+    if (point2[1] > dimensions[1] - pad3[2]) {
       y = -10;
     }
-    if (point2[1] < pad2[0]) {
+    if (point2[1] < pad3[0]) {
       y = 10;
     }
     if (x || y) {
@@ -20260,9 +20842,9 @@
   function merge_default(context) {
     var selection2 = context.selection ? context.selection() : context;
     for (var groups0 = this._groups, groups1 = selection2._groups, m0 = groups0.length, m1 = groups1.length, m = Math.min(m0, m1), merges = new Array(m0), j2 = 0; j2 < m; ++j2) {
-      for (var group0 = groups0[j2], group1 = groups1[j2], n2 = group0.length, merge3 = merges[j2] = new Array(n2), node, i2 = 0; i2 < n2; ++i2) {
+      for (var group0 = groups0[j2], group1 = groups1[j2], n2 = group0.length, merge4 = merges[j2] = new Array(n2), node, i2 = 0; i2 < n2; ++i2) {
         if (node = group0[i2] || group1[i2]) {
-          merge3[i2] = node;
+          merge4[i2] = node;
         }
       }
     }
@@ -20491,14 +21073,14 @@
     }
   };
   function classedAdd(node, names) {
-    var list = classList(node), i2 = -1, n2 = names.length;
+    var list2 = classList(node), i2 = -1, n2 = names.length;
     while (++i2 < n2)
-      list.add(names[i2]);
+      list2.add(names[i2]);
   }
   function classedRemove(node, names) {
-    var list = classList(node), i2 = -1, n2 = names.length;
+    var list2 = classList(node), i2 = -1, n2 = names.length;
     while (++i2 < n2)
-      list.remove(names[i2]);
+      list2.remove(names[i2]);
   }
   function classedTrue(names) {
     return function() {
@@ -20518,9 +21100,9 @@
   function classed_default(name, value) {
     var names = classArray(name + "");
     if (arguments.length < 2) {
-      var list = classList(this.node()), i2 = -1, n2 = names.length;
+      var list2 = classList(this.node()), i2 = -1, n2 = names.length;
       while (++i2 < n2)
-        if (!list.contains(names[i2]))
+        if (!list2.contains(names[i2]))
           return false;
       return true;
     }
@@ -21256,10 +21838,10 @@
   function color_formatRgb() {
     return this.rgb().formatRgb();
   }
-  function color(format2) {
+  function color(format3) {
     var m, l;
-    format2 = (format2 + "").trim().toLowerCase();
-    return (m = reHex.exec(format2)) ? (l = m[1].length, m = parseInt(m[1], 16), l === 6 ? rgbn(m) : l === 3 ? new Rgb(m >> 8 & 15 | m >> 4 & 240, m >> 4 & 15 | m & 240, (m & 15) << 4 | m & 15, 1) : l === 8 ? rgba(m >> 24 & 255, m >> 16 & 255, m >> 8 & 255, (m & 255) / 255) : l === 4 ? rgba(m >> 12 & 15 | m >> 8 & 240, m >> 8 & 15 | m >> 4 & 240, m >> 4 & 15 | m & 240, ((m & 15) << 4 | m & 15) / 255) : null) : (m = reRgbInteger.exec(format2)) ? new Rgb(m[1], m[2], m[3], 1) : (m = reRgbPercent.exec(format2)) ? new Rgb(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, 1) : (m = reRgbaInteger.exec(format2)) ? rgba(m[1], m[2], m[3], m[4]) : (m = reRgbaPercent.exec(format2)) ? rgba(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, m[4]) : (m = reHslPercent.exec(format2)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) : (m = reHslaPercent.exec(format2)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) : named.hasOwnProperty(format2) ? rgbn(named[format2]) : format2 === "transparent" ? new Rgb(NaN, NaN, NaN, 0) : null;
+    format3 = (format3 + "").trim().toLowerCase();
+    return (m = reHex.exec(format3)) ? (l = m[1].length, m = parseInt(m[1], 16), l === 6 ? rgbn(m) : l === 3 ? new Rgb(m >> 8 & 15 | m >> 4 & 240, m >> 4 & 15 | m & 240, (m & 15) << 4 | m & 15, 1) : l === 8 ? rgba(m >> 24 & 255, m >> 16 & 255, m >> 8 & 255, (m & 255) / 255) : l === 4 ? rgba(m >> 12 & 15 | m >> 8 & 240, m >> 8 & 15 | m >> 4 & 240, m >> 4 & 15 | m & 240, ((m & 15) << 4 | m & 15) / 255) : null) : (m = reRgbInteger.exec(format3)) ? new Rgb(m[1], m[2], m[3], 1) : (m = reRgbPercent.exec(format3)) ? new Rgb(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, 1) : (m = reRgbaInteger.exec(format3)) ? rgba(m[1], m[2], m[3], m[4]) : (m = reRgbaPercent.exec(format3)) ? rgba(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, m[4]) : (m = reHslPercent.exec(format3)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) : (m = reHslaPercent.exec(format3)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) : named.hasOwnProperty(format3) ? rgbn(named[format3]) : format3 === "transparent" ? new Rgb(NaN, NaN, NaN, 0) : null;
   }
   function rgbn(n2) {
     return new Rgb(n2 >> 16 & 255, n2 >> 8 & 255, n2 & 255, 1);
@@ -21350,15 +21932,15 @@
     if (o instanceof Hsl)
       return o;
     o = o.rgb();
-    var r = o.r / 255, g = o.g / 255, b = o.b / 255, min3 = Math.min(r, g, b), max3 = Math.max(r, g, b), h = NaN, s = max3 - min3, l = (max3 + min3) / 2;
+    var r = o.r / 255, g = o.g / 255, b = o.b / 255, min4 = Math.min(r, g, b), max4 = Math.max(r, g, b), h = NaN, s = max4 - min4, l = (max4 + min4) / 2;
     if (s) {
-      if (r === max3)
+      if (r === max4)
         h = (g - b) / s + (g < b) * 6;
-      else if (g === max3)
+      else if (g === max4)
         h = (b - r) / s + 2;
       else
         h = (r - g) / s + 4;
-      s /= l < 0.5 ? max3 + min3 : 2 - max3 - min3;
+      s /= l < 0.5 ? max4 + min4 : 2 - max4 - min4;
       h *= 60;
     } else {
       s = l > 0 && l < 1 ? 0 : h;
@@ -21676,7 +22258,7 @@
   }
 
   // node_modules/d3-interpolate/src/transform/index.js
-  function interpolateTransform(parse, pxComma, pxParen, degParen) {
+  function interpolateTransform(parse2, pxComma, pxParen, degParen) {
     function pop(s) {
       return s.length ? s.pop() + " " : "";
     }
@@ -21716,7 +22298,7 @@
     }
     return function(a, b) {
       var s = [], q = [];
-      a = parse(a), b = parse(b);
+      a = parse2(a), b = parse2(b);
       translate(a.translateX, a.translateY, b.translateX, b.translateY, s, q);
       rotate(a.rotate, b.rotate, s, q);
       skewX(a.skewX, b.skewX, s, q);
@@ -21746,21 +22328,21 @@
   }
   var zoom_default = function zoomRho(rho, rho2, rho4) {
     function zoom(p02, p1) {
-      var ux0 = p02[0], uy0 = p02[1], w0 = p02[2], ux1 = p1[0], uy1 = p1[1], w1 = p1[2], dx = ux1 - ux0, dy = uy1 - uy0, d2 = dx * dx + dy * dy, i2, S;
+      var ux0 = p02[0], uy0 = p02[1], w0 = p02[2], ux1 = p1[0], uy1 = p1[1], w1 = p1[2], dx = ux1 - ux0, dy = uy1 - uy0, d2 = dx * dx + dy * dy, i2, S2;
       if (d2 < epsilon22) {
-        S = Math.log(w1 / w0) / rho;
+        S2 = Math.log(w1 / w0) / rho;
         i2 = function(t) {
           return [
             ux0 + t * dx,
             uy0 + t * dy,
-            w0 * Math.exp(rho * t * S)
+            w0 * Math.exp(rho * t * S2)
           ];
         };
       } else {
         var d1 = Math.sqrt(d2), b0 = (w1 * w1 - w0 * w0 + rho4 * d2) / (2 * w0 * rho2 * d1), b1 = (w1 * w1 - w0 * w0 - rho4 * d2) / (2 * w1 * rho2 * d1), r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0), r1 = Math.log(Math.sqrt(b1 * b1 + 1) - b1);
-        S = (r1 - r0) / rho;
+        S2 = (r1 - r0) / rho;
         i2 = function(t) {
-          var s = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (coshr0 * tanh(rho * s + r0) - sinh(r0));
+          var s = t * S2, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (coshr0 * tanh(rho * s + r0) - sinh(r0));
           return [
             ux0 + u * dx,
             uy0 + u * dy,
@@ -21768,7 +22350,7 @@
           ];
         };
       }
-      i2.duration = S * 1e3 * rho / Math.SQRT2;
+      i2.duration = S2 * 1e3 * rho / Math.SQRT2;
       return i2;
     }
     zoom.rho = function(_) {
@@ -21920,13 +22502,13 @@
   var RUNNING = 4;
   var ENDING = 5;
   var ENDED = 6;
-  function schedule_default(node, name, id2, index, group, timing) {
+  function schedule_default(node, name, id3, index, group, timing) {
     var schedules = node.__transition;
     if (!schedules)
       node.__transition = {};
-    else if (id2 in schedules)
+    else if (id3 in schedules)
       return;
-    create(node, id2, {
+    create(node, id3, {
       name,
       index,
       // For context during callback.
@@ -21942,27 +22524,27 @@
       state: CREATED
     });
   }
-  function init(node, id2) {
-    var schedule = get2(node, id2);
+  function init(node, id3) {
+    var schedule = get2(node, id3);
     if (schedule.state > CREATED)
       throw new Error("too late; already scheduled");
     return schedule;
   }
-  function set2(node, id2) {
-    var schedule = get2(node, id2);
+  function set2(node, id3) {
+    var schedule = get2(node, id3);
     if (schedule.state > STARTED)
       throw new Error("too late; already running");
     return schedule;
   }
-  function get2(node, id2) {
+  function get2(node, id3) {
     var schedule = node.__transition;
-    if (!schedule || !(schedule = schedule[id2]))
+    if (!schedule || !(schedule = schedule[id3]))
       throw new Error("transition not found");
     return schedule;
   }
-  function create(node, id2, self2) {
+  function create(node, id3, self2) {
     var schedules = node.__transition, tween;
-    schedules[id2] = self2;
+    schedules[id3] = self2;
     self2.timer = timer(schedule, 0, self2.time);
     function schedule(elapsed) {
       self2.state = SCHEDULED;
@@ -21985,7 +22567,7 @@
           o.timer.stop();
           o.on.call("interrupt", node, node.__data__, o.index, o.group);
           delete schedules[i2];
-        } else if (+i2 < id2) {
+        } else if (+i2 < id3) {
           o.state = ENDED;
           o.timer.stop();
           o.on.call("cancel", node, node.__data__, o.index, o.group);
@@ -22025,7 +22607,7 @@
     function stop() {
       self2.state = ENDED;
       self2.timer.stop();
-      delete schedules[id2];
+      delete schedules[id3];
       for (var i2 in schedules)
         return;
       delete node.__transition;
@@ -22061,10 +22643,10 @@
   }
 
   // node_modules/d3-transition/src/transition/tween.js
-  function tweenRemove(id2, name) {
+  function tweenRemove(id3, name) {
     var tween0, tween1;
     return function() {
-      var schedule = set2(this, id2), tween = schedule.tween;
+      var schedule = set2(this, id3), tween = schedule.tween;
       if (tween !== tween0) {
         tween1 = tween0 = tween;
         for (var i2 = 0, n2 = tween1.length; i2 < n2; ++i2) {
@@ -22078,12 +22660,12 @@
       schedule.tween = tween1;
     };
   }
-  function tweenFunction(id2, name, value) {
+  function tweenFunction(id3, name, value) {
     var tween0, tween1;
     if (typeof value !== "function")
       throw new Error();
     return function() {
-      var schedule = set2(this, id2), tween = schedule.tween;
+      var schedule = set2(this, id3), tween = schedule.tween;
       if (tween !== tween0) {
         tween1 = (tween0 = tween).slice();
         for (var t = { name, value }, i2 = 0, n2 = tween1.length; i2 < n2; ++i2) {
@@ -22099,10 +22681,10 @@
     };
   }
   function tween_default(name, value) {
-    var id2 = this._id;
+    var id3 = this._id;
     name += "";
     if (arguments.length < 2) {
-      var tween = get2(this.node(), id2).tween;
+      var tween = get2(this.node(), id3).tween;
       for (var i2 = 0, n2 = tween.length, t; i2 < n2; ++i2) {
         if ((t = tween[i2]).name === name) {
           return t.value;
@@ -22110,16 +22692,16 @@
       }
       return null;
     }
-    return this.each((value == null ? tweenRemove : tweenFunction)(id2, name, value));
+    return this.each((value == null ? tweenRemove : tweenFunction)(id3, name, value));
   }
   function tweenValue(transition2, name, value) {
-    var id2 = transition2._id;
+    var id3 = transition2._id;
     transition2.each(function() {
-      var schedule = set2(this, id2);
+      var schedule = set2(this, id3);
       (schedule.value || (schedule.value = {}))[name] = value.apply(this, arguments);
     });
     return function(node) {
-      return get2(node, id2).value[name];
+      return get2(node, id3).value[name];
     };
   }
 
@@ -22227,57 +22809,57 @@
   }
 
   // node_modules/d3-transition/src/transition/delay.js
-  function delayFunction(id2, value) {
+  function delayFunction(id3, value) {
     return function() {
-      init(this, id2).delay = +value.apply(this, arguments);
+      init(this, id3).delay = +value.apply(this, arguments);
     };
   }
-  function delayConstant(id2, value) {
+  function delayConstant(id3, value) {
     return value = +value, function() {
-      init(this, id2).delay = value;
+      init(this, id3).delay = value;
     };
   }
   function delay_default(value) {
-    var id2 = this._id;
-    return arguments.length ? this.each((typeof value === "function" ? delayFunction : delayConstant)(id2, value)) : get2(this.node(), id2).delay;
+    var id3 = this._id;
+    return arguments.length ? this.each((typeof value === "function" ? delayFunction : delayConstant)(id3, value)) : get2(this.node(), id3).delay;
   }
 
   // node_modules/d3-transition/src/transition/duration.js
-  function durationFunction(id2, value) {
+  function durationFunction(id3, value) {
     return function() {
-      set2(this, id2).duration = +value.apply(this, arguments);
+      set2(this, id3).duration = +value.apply(this, arguments);
     };
   }
-  function durationConstant(id2, value) {
+  function durationConstant(id3, value) {
     return value = +value, function() {
-      set2(this, id2).duration = value;
+      set2(this, id3).duration = value;
     };
   }
   function duration_default(value) {
-    var id2 = this._id;
-    return arguments.length ? this.each((typeof value === "function" ? durationFunction : durationConstant)(id2, value)) : get2(this.node(), id2).duration;
+    var id3 = this._id;
+    return arguments.length ? this.each((typeof value === "function" ? durationFunction : durationConstant)(id3, value)) : get2(this.node(), id3).duration;
   }
 
   // node_modules/d3-transition/src/transition/ease.js
-  function easeConstant(id2, value) {
+  function easeConstant(id3, value) {
     if (typeof value !== "function")
       throw new Error();
     return function() {
-      set2(this, id2).ease = value;
+      set2(this, id3).ease = value;
     };
   }
   function ease_default(value) {
-    var id2 = this._id;
-    return arguments.length ? this.each(easeConstant(id2, value)) : get2(this.node(), id2).ease;
+    var id3 = this._id;
+    return arguments.length ? this.each(easeConstant(id3, value)) : get2(this.node(), id3).ease;
   }
 
   // node_modules/d3-transition/src/transition/easeVarying.js
-  function easeVarying(id2, value) {
+  function easeVarying(id3, value) {
     return function() {
       var v = value.apply(this, arguments);
       if (typeof v !== "function")
         throw new Error();
-      set2(this, id2).ease = v;
+      set2(this, id3).ease = v;
     };
   }
   function easeVarying_default(value) {
@@ -22305,9 +22887,9 @@
     if (transition2._id !== this._id)
       throw new Error();
     for (var groups0 = this._groups, groups1 = transition2._groups, m0 = groups0.length, m1 = groups1.length, m = Math.min(m0, m1), merges = new Array(m0), j2 = 0; j2 < m; ++j2) {
-      for (var group0 = groups0[j2], group1 = groups1[j2], n2 = group0.length, merge3 = merges[j2] = new Array(n2), node, i2 = 0; i2 < n2; ++i2) {
+      for (var group0 = groups0[j2], group1 = groups1[j2], n2 = group0.length, merge4 = merges[j2] = new Array(n2), node, i2 = 0; i2 < n2; ++i2) {
         if (node = group0[i2] || group1[i2]) {
-          merge3[i2] = node;
+          merge4[i2] = node;
         }
       }
     }
@@ -22326,26 +22908,26 @@
       return !t || t === "start";
     });
   }
-  function onFunction(id2, name, listener) {
+  function onFunction(id3, name, listener) {
     var on0, on1, sit = start(name) ? init : set2;
     return function() {
-      var schedule = sit(this, id2), on = schedule.on;
+      var schedule = sit(this, id3), on = schedule.on;
       if (on !== on0)
         (on1 = (on0 = on).copy()).on(name, listener);
       schedule.on = on1;
     };
   }
   function on_default2(name, listener) {
-    var id2 = this._id;
-    return arguments.length < 2 ? get2(this.node(), id2).on.on(name) : this.each(onFunction(id2, name, listener));
+    var id3 = this._id;
+    return arguments.length < 2 ? get2(this.node(), id3).on.on(name) : this.each(onFunction(id3, name, listener));
   }
 
   // node_modules/d3-transition/src/transition/remove.js
-  function removeFunction(id2) {
+  function removeFunction(id3) {
     return function() {
       var parent = this.parentNode;
       for (var i2 in this.__transition)
-        if (+i2 !== id2)
+        if (+i2 !== id3)
           return;
       if (parent)
         parent.removeChild(this);
@@ -22357,7 +22939,7 @@
 
   // node_modules/d3-transition/src/transition/select.js
   function select_default3(select) {
-    var name = this._name, id2 = this._id;
+    var name = this._name, id3 = this._id;
     if (typeof select !== "function")
       select = selector_default(select);
     for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j2 = 0; j2 < m; ++j2) {
@@ -22366,24 +22948,24 @@
           if ("__data__" in node)
             subnode.__data__ = node.__data__;
           subgroup[i2] = subnode;
-          schedule_default(subgroup[i2], name, id2, i2, subgroup, get2(node, id2));
+          schedule_default(subgroup[i2], name, id3, i2, subgroup, get2(node, id3));
         }
       }
     }
-    return new Transition(subgroups, this._parents, name, id2);
+    return new Transition(subgroups, this._parents, name, id3);
   }
 
   // node_modules/d3-transition/src/transition/selectAll.js
   function selectAll_default3(select) {
-    var name = this._name, id2 = this._id;
+    var name = this._name, id3 = this._id;
     if (typeof select !== "function")
       select = selectorAll_default(select);
     for (var groups = this._groups, m = groups.length, subgroups = [], parents = [], j2 = 0; j2 < m; ++j2) {
       for (var group = groups[j2], n2 = group.length, node, i2 = 0; i2 < n2; ++i2) {
         if (node = group[i2]) {
-          for (var children2 = select.call(node, node.__data__, i2, group), child, inherit2 = get2(node, id2), k = 0, l = children2.length; k < l; ++k) {
+          for (var children2 = select.call(node, node.__data__, i2, group), child, inherit3 = get2(node, id3), k = 0, l = children2.length; k < l; ++k) {
             if (child = children2[k]) {
-              schedule_default(child, name, id2, k, children2, inherit2);
+              schedule_default(child, name, id3, k, children2, inherit3);
             }
           }
           subgroups.push(children2);
@@ -22391,7 +22973,7 @@
         }
       }
     }
-    return new Transition(subgroups, parents, name, id2);
+    return new Transition(subgroups, parents, name, id3);
   }
 
   // node_modules/d3-transition/src/transition/selection.js
@@ -22429,10 +23011,10 @@
       return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
     };
   }
-  function styleMaybeRemove(id2, name) {
+  function styleMaybeRemove(id3, name) {
     var on0, on1, listener0, key = "style." + name, event = "end." + key, remove2;
     return function() {
-      var schedule = set2(this, id2), on = schedule.on, listener = schedule.value[key] == null ? remove2 || (remove2 = styleRemove2(name)) : void 0;
+      var schedule = set2(this, id3), on = schedule.on, listener = schedule.value[key] == null ? remove2 || (remove2 = styleRemove2(name)) : void 0;
       if (on !== on0 || listener0 !== listener)
         (on1 = (on0 = on).copy()).on(event, listener0 = listener);
       schedule.on = on1;
@@ -22521,12 +23103,12 @@
     for (var groups = this._groups, m = groups.length, j2 = 0; j2 < m; ++j2) {
       for (var group = groups[j2], n2 = group.length, node, i2 = 0; i2 < n2; ++i2) {
         if (node = group[i2]) {
-          var inherit2 = get2(node, id0);
+          var inherit3 = get2(node, id0);
           schedule_default(node, name, id1, i2, group, {
-            time: inherit2.time + inherit2.delay + inherit2.duration,
+            time: inherit3.time + inherit3.delay + inherit3.duration,
             delay: 0,
-            duration: inherit2.duration,
-            ease: inherit2.ease
+            duration: inherit3.duration,
+            ease: inherit3.ease
           });
         }
       }
@@ -22536,14 +23118,14 @@
 
   // node_modules/d3-transition/src/transition/end.js
   function end_default() {
-    var on0, on1, that = this, id2 = that._id, size = that.size();
+    var on0, on1, that = this, id3 = that._id, size = that.size();
     return new Promise(function(resolve, reject) {
       var cancel = { value: reject }, end = { value: function() {
         if (--size === 0)
           resolve();
       } };
       that.each(function() {
-        var schedule = set2(this, id2), on = schedule.on;
+        var schedule = set2(this, id3), on = schedule.on;
         if (on !== on0) {
           on1 = (on0 = on).copy();
           on1._.cancel.push(cancel);
@@ -22559,11 +23141,11 @@
 
   // node_modules/d3-transition/src/transition/index.js
   var id = 0;
-  function Transition(groups, parents, name, id2) {
+  function Transition(groups, parents, name, id3) {
     this._groups = groups;
     this._parents = parents;
     this._name = name;
-    this._id = id2;
+    this._id = id3;
   }
   function transition(name) {
     return selection_default().transition(name);
@@ -22621,30 +23203,30 @@
     duration: 250,
     ease: cubicInOut
   };
-  function inherit(node, id2) {
+  function inherit(node, id3) {
     var timing;
-    while (!(timing = node.__transition) || !(timing = timing[id2])) {
+    while (!(timing = node.__transition) || !(timing = timing[id3])) {
       if (!(node = node.parentNode)) {
-        throw new Error(`transition ${id2} not found`);
+        throw new Error(`transition ${id3} not found`);
       }
     }
     return timing;
   }
   function transition_default2(name) {
-    var id2, timing;
+    var id3, timing;
     if (name instanceof Transition) {
-      id2 = name._id, name = name._name;
+      id3 = name._id, name = name._name;
     } else {
-      id2 = newId(), (timing = defaultTiming).time = now(), name = name == null ? null : name + "";
+      id3 = newId(), (timing = defaultTiming).time = now(), name = name == null ? null : name + "";
     }
     for (var groups = this._groups, m = groups.length, j2 = 0; j2 < m; ++j2) {
       for (var group = groups[j2], n2 = group.length, node, i2 = 0; i2 < n2; ++i2) {
         if (node = group[i2]) {
-          schedule_default(node, name, id2, i2, group, timing || inherit(node, id2));
+          schedule_default(node, name, id3, i2, group, timing || inherit(node, id3));
         }
       }
     }
-    return new Transition(groups, this._parents, name, id2);
+    return new Transition(groups, this._parents, name, id3);
   }
 
   // node_modules/d3-transition/src/selection/index.js
@@ -23164,7 +23746,7 @@
     return score;
   }
   function geoOrthoMaxOffsetAngle(coords, isClosed, lessThan) {
-    var max3 = -Infinity;
+    var max4 = -Infinity;
     var first = isClosed ? 0 : 1;
     var last = isClosed ? coords.length : coords.length - 1;
     for (var i2 = first; i2 < last; i2++) {
@@ -23177,12 +23759,12 @@
         angle2 = 90 - angle2;
       if (angle2 >= lessThan)
         continue;
-      if (angle2 > max3)
-        max3 = angle2;
+      if (angle2 > max4)
+        max4 = angle2;
     }
-    if (max3 === -Infinity)
+    if (max4 === -Infinity)
       return null;
-    return max3;
+    return max4;
   }
   function geoOrthoCanOrthogonalize(coords, isClosed, epsilon3, threshold, allowStraightAngles) {
     var score = null;
@@ -23435,6 +24017,7 @@
       "alif-toolkit": "^1.2.9",
       "core-js-bundle": "^3.19.0",
       diacritics: "1.3.0",
+      edtf: "^4.5.1",
       "fast-deep-equal": "~3.1.1",
       "fast-json-stable-stringify": "2.1.0",
       "lodash-es": "~4.17.15",
@@ -23466,7 +24049,6 @@
       d3: "~7.8.1",
       esbuild: "^0.17.3",
       "esbuild-visualizer": "^0.4.0",
-      "ohm-editor-layer-index": "github:openhistoricalmap/ohm-editor-layer-index#dist",
       eslint: "^8.8.0",
       "fetch-mock": "^9.11.0",
       gaze: "^1.1.3",
@@ -23486,6 +24068,7 @@
       "name-suggestion-index": "~6.0",
       "node-fetch": "^2.6.1",
       "npm-run-all": "^4.0.0",
+      "ohm-editor-layer-index": "github:openhistoricalmap/ohm-editor-layer-index#dist",
       "osm-community-index": "~5.5.0",
       postcss: "^8.1.1",
       "postcss-selector-prepend": "^0.5.0",
@@ -24011,8 +24594,8 @@
   var whichPolygonGetter = {};
   var featuresByCode = {};
   var idFilterRegex = /(?=(?!^(and|the|of|el|la|de)$))(\b(and|the|of|el|la|de)\b)|[-_ .,'()&[\]/]/gi;
-  function canonicalID(id2) {
-    const s = id2 || "";
+  function canonicalID(id3) {
+    const s = id3 || "";
     if (s.charAt(0) === ".") {
       return s.toUpperCase();
     } else {
@@ -24067,10 +24650,10 @@
         return levels.indexOf(featuresByCode[groupID1].properties.level) - levels.indexOf(featuresByCode[groupID2].properties.level);
       });
       if (feature22.properties.members)
-        feature22.properties.members.sort((id1, id2) => {
-          const diff = levels.indexOf(featuresByCode[id1].properties.level) - levels.indexOf(featuresByCode[id2].properties.level);
+        feature22.properties.members.sort((id1, id22) => {
+          const diff = levels.indexOf(featuresByCode[id1].properties.level) - levels.indexOf(featuresByCode[id22].properties.level);
           if (diff === 0) {
-            return borders2.features.indexOf(featuresByCode[id1]) - borders2.features.indexOf(featuresByCode[id2]);
+            return borders2.features.indexOf(featuresByCode[id1]) - borders2.features.indexOf(featuresByCode[id22]);
           }
           return diff;
         });
@@ -24159,8 +24742,8 @@
       } else if (props.members) {
         const vals = Array.from(
           new Set(
-            props.members.map((id2) => {
-              const member = featuresByCode[id2];
+            props.members.map((id3) => {
+              const member = featuresByCode[id3];
               if (member.geometry)
                 return member.properties.roadSpeedUnit || "km/h";
             }).filter(Boolean)
@@ -24178,8 +24761,8 @@
       } else if (props.members) {
         const vals = Array.from(
           new Set(
-            props.members.map((id2) => {
-              const member = featuresByCode[id2];
+            props.members.map((id3) => {
+              const member = featuresByCode[id3];
               if (member.geometry)
                 return member.properties.roadHeightUnit || "m";
             }).filter(Boolean)
@@ -24197,8 +24780,8 @@
       } else if (props.members) {
         const vals = Array.from(
           new Set(
-            props.members.map((id2) => {
-              const member = featuresByCode[id2];
+            props.members.map((id3) => {
+              const member = featuresByCode[id3];
               if (member.geometry)
                 return member.properties.driveSide || "right";
             }).filter(Boolean)
@@ -24213,8 +24796,8 @@
       if (!feature22.geometry && props.members) {
         props.callingCodes = Array.from(
           new Set(
-            props.members.reduce((array2, id2) => {
-              const member = featuresByCode[id2];
+            props.members.reduce((array2, id3) => {
+              const member = featuresByCode[id3];
               if (member.geometry && member.properties.callingCodes) {
                 return array2.concat(member.properties.callingCodes);
               }
@@ -24244,15 +24827,15 @@
     function cacheFeatureByIDs(feature22) {
       let ids = [];
       identifierProps.forEach((prop) => {
-        const id2 = feature22.properties[prop];
-        if (id2)
-          ids.push(id2);
+        const id3 = feature22.properties[prop];
+        if (id3)
+          ids.push(id3);
       });
       (feature22.properties.aliases || []).forEach((alias) => {
         ids.push(alias);
       });
-      ids.forEach((id2) => {
-        let cid = canonicalID(id2);
+      ids.forEach((id3) => {
+        let cid = canonicalID(id3);
         featuresByCode[cid] = feature22;
       });
     }
@@ -24316,17 +24899,17 @@
     });
     return match || null;
   }
-  function featureForID(id2) {
+  function featureForID(id3) {
     let stringID;
-    if (typeof id2 === "number") {
-      stringID = id2.toString();
+    if (typeof id3 === "number") {
+      stringID = id3.toString();
       if (stringID.length === 1) {
         stringID = "00" + stringID;
       } else if (stringID.length === 2) {
         stringID = "0" + stringID;
       }
     } else {
-      stringID = canonicalID(id2);
+      stringID = canonicalID(id3);
     }
     return featuresByCode[stringID] || null;
   }
@@ -24379,8 +24962,8 @@
     });
     return returnFeatures;
   }
-  function featuresIn(id2, strict) {
-    const feature22 = featureForID(id2);
+  function featuresIn(id3, strict) {
+    const feature22 = featureForID(id3);
     if (!feature22)
       return [];
     let features = [];
@@ -24393,8 +24976,8 @@
     });
     return features;
   }
-  function aggregateFeature(id2) {
-    const features = featuresIn(id2, false);
+  function aggregateFeature(id3) {
+    const features = featuresIn(id3, false);
     if (features.length === 0)
       return null;
     let aggregateCoordinates = [];
@@ -24453,17 +25036,17 @@
         fc.features.forEach((feature3) => {
           feature3.properties = feature3.properties || {};
           let props = feature3.properties;
-          let id2 = feature3.id || props.id;
-          if (!id2 || !/^\S+\.geojson$/i.test(id2))
+          let id3 = feature3.id || props.id;
+          if (!id3 || !/^\S+\.geojson$/i.test(id3))
             return;
-          id2 = id2.toLowerCase();
-          feature3.id = id2;
-          props.id = id2;
+          id3 = id3.toLowerCase();
+          feature3.id = id3;
+          props.id = id3;
           if (!props.area) {
             const area = import_geojson_area.default.geometry(feature3.geometry) / 1e6;
             props.area = Number(area.toFixed(2));
           }
-          this._cache[id2] = feature3;
+          this._cache[id3] = feature3;
         });
       }
       let world = _cloneDeep(feature("Q2"));
@@ -24495,19 +25078,19 @@
         const lat = location[1];
         const radius = location[2];
         if (Number.isFinite(lon) && lon >= -180 && lon <= 180 && Number.isFinite(lat) && lat >= -90 && lat <= 90 && (location.length === 2 || Number.isFinite(radius) && radius > 0)) {
-          const id2 = "[" + location.toString() + "]";
-          return { type: "point", location, id: id2 };
+          const id3 = "[" + location.toString() + "]";
+          return { type: "point", location, id: id3 };
         }
       } else if (typeof location === "string" && /^\S+\.geojson$/i.test(location)) {
-        const id2 = location.toLowerCase();
-        if (this._cache[id2]) {
-          return { type: "geojson", location, id: id2 };
+        const id3 = location.toLowerCase();
+        if (this._cache[id3]) {
+          return { type: "geojson", location, id: id3 };
         }
       } else if (typeof location === "string" || typeof location === "number") {
         const feature3 = feature(location);
         if (feature3) {
-          const id2 = feature3.properties.wikidata;
-          return { type: "countrycoder", location, id: id2 };
+          const id3 = feature3.properties.wikidata;
+          return { type: "countrycoder", location, id: id3 };
         }
       }
       if (this._strict) {
@@ -24534,9 +25117,9 @@
       const valid = this.validateLocation(location);
       if (!valid)
         return null;
-      const id2 = valid.id;
-      if (this._cache[id2]) {
-        return Object.assign(valid, { feature: this._cache[id2] });
+      const id3 = valid.id;
+      if (this._cache[id3]) {
+        return Object.assign(valid, { feature: this._cache[id3] });
       }
       if (valid.type === "point") {
         const lon = location[0];
@@ -24545,20 +25128,20 @@
         const EDGES = 10;
         const PRECISION = 3;
         const area = Math.PI * radius * radius;
-        const feature3 = this._cache[id2] = (0, import_geojson_precision.default)({
+        const feature3 = this._cache[id3] = (0, import_geojson_precision.default)({
           type: "Feature",
-          id: id2,
-          properties: { id: id2, area: Number(area.toFixed(2)) },
+          id: id3,
+          properties: { id: id3, area: Number(area.toFixed(2)) },
           geometry: (0, import_circle_to_polygon.default)([lon, lat], radius * 1e3, EDGES)
           // km to m
         }, PRECISION);
         return Object.assign(valid, { feature: feature3 });
       } else if (valid.type === "geojson") {
       } else if (valid.type === "countrycoder") {
-        let feature3 = _cloneDeep(feature(id2));
+        let feature3 = _cloneDeep(feature(id3));
         let props = feature3.properties;
         if (Array.isArray(props.members)) {
-          let aggregate = aggregateFeature(id2);
+          let aggregate = aggregateFeature(id3);
           aggregate.geometry.coordinates = _clip([aggregate], "UNION").geometry.coordinates;
           feature3.geometry = aggregate.geometry;
         }
@@ -24566,9 +25149,9 @@
           const area = import_geojson_area.default.geometry(feature3.geometry) / 1e6;
           props.area = Number(area.toFixed(2));
         }
-        feature3.id = id2;
-        props.id = id2;
-        this._cache[id2] = feature3;
+        feature3.id = id3;
+        props.id = id3;
+        this._cache[id3] = feature3;
         return Object.assign(valid, { feature: feature3 });
       }
       if (this._strict) {
@@ -24608,12 +25191,12 @@
         }
       }
       include.sort(_sortLocations);
-      let id2 = "+[" + include.map((d) => d.id).join(",") + "]";
+      let id3 = "+[" + include.map((d) => d.id).join(",") + "]";
       if (exclude.length) {
         exclude.sort(_sortLocations);
-        id2 += "-[" + exclude.map((d) => d.id).join(",") + "]";
+        id3 += "-[" + exclude.map((d) => d.id).join(",") + "]";
       }
-      return { type: "locationset", locationSet, id: id2 };
+      return { type: "locationset", locationSet, id: id3 };
     }
     // resolveLocationSet
     // `locationSet`  the locationSet to resolve
@@ -24638,9 +25221,9 @@
       const valid = this.validateLocationSet(locationSet);
       if (!valid)
         return null;
-      const id2 = valid.id;
-      if (this._cache[id2]) {
-        return Object.assign(valid, { feature: this._cache[id2] });
+      const id3 = valid.id;
+      if (this._cache[id3]) {
+        return Object.assign(valid, { feature: this._cache[id3] });
       }
       const resolver = this.resolveLocation.bind(this);
       const includes = (locationSet.include || []).map(resolver).filter(Boolean);
@@ -24652,9 +25235,9 @@
       const excludeGeoJSON = _clip(excludes.map((d) => d.feature), "UNION");
       let resultGeoJSON = excludeGeoJSON ? _clip([includeGeoJSON, excludeGeoJSON], "DIFFERENCE") : includeGeoJSON;
       const area = import_geojson_area.default.geometry(resultGeoJSON.geometry) / 1e6;
-      resultGeoJSON.id = id2;
-      resultGeoJSON.properties = { id: id2, area: Number(area.toFixed(2)) };
-      this._cache[id2] = resultGeoJSON;
+      resultGeoJSON.id = id3;
+      resultGeoJSON.properties = { id: id3, area: Number(area.toFixed(2)) };
+      this._cache[id3] = resultGeoJSON;
       return Object.assign(valid, { feature: resultGeoJSON });
     }
     // strict
@@ -24851,17 +25434,17 @@
       fc.features.forEach((feature3) => {
         feature3.properties = feature3.properties || {};
         let props = feature3.properties;
-        let id2 = feature3.id || props.id;
-        if (!id2 || !/^\S+\.geojson$/i.test(id2))
+        let id3 = feature3.id || props.id;
+        if (!id3 || !/^\S+\.geojson$/i.test(id3))
           return;
-        id2 = id2.toLowerCase();
-        feature3.id = id2;
-        props.id = id2;
+        id3 = id3.toLowerCase();
+        feature3.id = id3;
+        props.id = id3;
         if (!props.area) {
           const area = import_geojson_area2.default.geometry(feature3.geometry) / 1e6;
           props.area = Number(area.toFixed(2));
         }
-        _loco._cache[id2] = feature3;
+        _loco._cache[id3] = feature3;
       });
     }
     /**
@@ -25437,6 +26020,2221 @@
     }
   }
 
+  // node_modules/edtf/src/types.js
+  var types_exports = {};
+  __export(types_exports, {
+    Century: () => Century,
+    Date: () => Date2,
+    Decade: () => Decade,
+    Interval: () => Interval,
+    List: () => List,
+    Season: () => Season,
+    Set: () => Set2,
+    Year: () => Year
+  });
+
+  // node_modules/edtf/src/assert.js
+  function assert(value, message) {
+    return equal(!!value, true, message || `expected "${value}" to be ok`);
+  }
+  function equal(actual, expected, message) {
+    if (actual == expected)
+      return true;
+    if (Number.isNaN(actual) && Number.isNaN(expected))
+      return true;
+    throw new Error(message || `expected "${actual}" to equal "${expected}"`);
+  }
+  assert.equal = equal;
+  var assert_default = assert;
+
+  // node_modules/edtf/src/bitmask.js
+  var DAY = /^days?$/i;
+  var MONTH = /^months?$/i;
+  var YEAR = /^years?$/i;
+  var SYMBOL = /^[xX]$/;
+  var SYMBOLS = /[xX]/g;
+  var PATTERN = /^[0-9xXdDmMyY]{8}$/;
+  var YYYYMMDD = "YYYYMMDD".split("");
+  var MAXDAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  var { floor, pow, max: max2, min: min2 } = Math;
+  var Bitmask = class {
+    static test(a, b) {
+      return this.convert(a) & this.convert(b);
+    }
+    static convert(value = 0) {
+      value = value || 0;
+      if (value instanceof Bitmask)
+        return value.value;
+      switch (typeof value) {
+        case "number":
+          return value;
+        case "boolean":
+          return value ? Bitmask.YMD : 0;
+        case "string":
+          if (DAY.test(value))
+            return Bitmask.DAY;
+          if (MONTH.test(value))
+            return Bitmask.MONTH;
+          if (YEAR.test(value))
+            return Bitmask.YEAR;
+          if (PATTERN.test(value))
+            return Bitmask.compute(value);
+        default:
+          throw new Error(`invalid value: ${value}`);
+      }
+    }
+    static compute(value) {
+      return value.split("").reduce((memo, c, idx) => memo | (SYMBOL.test(c) ? pow(2, idx) : 0), 0);
+    }
+    static values(mask2, digit = 0) {
+      let num2 = Bitmask.numbers(mask2, digit).split("");
+      let values = [Number(num2.slice(0, 4).join(""))];
+      if (num2.length > 4)
+        values.push(Number(num2.slice(4, 6).join("")));
+      if (num2.length > 6)
+        values.push(Number(num2.slice(6, 8).join("")));
+      return Bitmask.normalize(values);
+    }
+    static numbers(mask2, digit = 0) {
+      return mask2.replace(SYMBOLS, digit);
+    }
+    static normalize(values) {
+      if (values.length > 1)
+        values[1] = min2(11, max2(0, values[1] - 1));
+      if (values.length > 2)
+        values[2] = min2(MAXDAYS[values[1]] || NaN, max2(1, values[2]));
+      return values;
+    }
+    constructor(value = 0) {
+      this.value = Bitmask.convert(value);
+    }
+    test(value = 0) {
+      return this.value & Bitmask.convert(value);
+    }
+    bit(k) {
+      return this.value & pow(2, k);
+    }
+    get day() {
+      return this.test(Bitmask.DAY);
+    }
+    get month() {
+      return this.test(Bitmask.MONTH);
+    }
+    get year() {
+      return this.test(Bitmask.YEAR);
+    }
+    add(value) {
+      return this.value = this.value | Bitmask.convert(value), this;
+    }
+    set(value = 0) {
+      return this.value = Bitmask.convert(value), this;
+    }
+    mask(input = YYYYMMDD, offset = 0, symbol = "X") {
+      return input.map((c, idx) => this.bit(offset + idx) ? symbol : c);
+    }
+    masks(values, symbol = "X") {
+      let offset = 0;
+      return values.map((value) => {
+        let mask2 = this.mask(value.split(""), offset, symbol);
+        offset = offset + mask2.length;
+        return mask2.join("");
+      });
+    }
+    // eslint-disable-next-line complexity
+    max([year2, month, day]) {
+      if (!year2)
+        return [];
+      year2 = Number(
+        this.test(Bitmask.YEAR) ? this.masks([year2], "9")[0] : year2
+      );
+      if (!month)
+        return [year2];
+      month = Number(month) - 1;
+      switch (this.test(Bitmask.MONTH)) {
+        case Bitmask.MONTH:
+          month = 11;
+          break;
+        case Bitmask.MX:
+          month = month < 9 ? 8 : 11;
+          break;
+        case Bitmask.XM:
+          month = (month + 1) % 10;
+          month = month < 3 ? month + 9 : month - 1;
+          break;
+      }
+      if (!day)
+        return [year2, month];
+      day = Number(day);
+      switch (this.test(Bitmask.DAY)) {
+        case Bitmask.DAY:
+          day = MAXDAYS[month];
+          break;
+        case Bitmask.DX:
+          day = min2(MAXDAYS[month], day + (9 - day % 10));
+          break;
+        case Bitmask.XD:
+          day = day % 10;
+          if (month === 1) {
+            day = day === 9 && !leap(year2) ? day + 10 : day + 20;
+          } else {
+            day = day < 2 ? day + 30 : day + 20;
+            if (day > MAXDAYS[month])
+              day = day - 10;
+          }
+          break;
+      }
+      if (month === 1 && day > 28 && !leap(year2)) {
+        day = 28;
+      }
+      return [year2, month, day];
+    }
+    // eslint-disable-next-line complexity
+    min([year2, month, day]) {
+      if (!year2)
+        return [];
+      year2 = Number(
+        this.test(Bitmask.YEAR) ? this.masks([year2], "0")[0] : year2
+      );
+      if (month == null)
+        return [year2];
+      month = Number(month) - 1;
+      switch (this.test(Bitmask.MONTH)) {
+        case Bitmask.MONTH:
+        case Bitmask.XM:
+          month = 0;
+          break;
+        case Bitmask.MX:
+          month = month < 9 ? 0 : 9;
+          break;
+      }
+      if (!day)
+        return [year2, month];
+      day = Number(day);
+      switch (this.test(Bitmask.DAY)) {
+        case Bitmask.DAY:
+          day = 1;
+          break;
+        case Bitmask.DX:
+          day = max2(1, floor(day / 10) * 10);
+          break;
+        case Bitmask.XD:
+          day = max2(1, day % 10);
+          break;
+      }
+      return [year2, month, day];
+    }
+    marks(values, symbol = "?") {
+      return values.map((value, idx) => [
+        this.qualified(idx * 2) ? symbol : "",
+        value,
+        this.qualified(idx * 2 + 1) ? symbol : ""
+      ].join(""));
+    }
+    qualified(idx) {
+      switch (idx) {
+        case 1:
+          return this.value === Bitmask.YEAR || this.value & Bitmask.YEAR && !(this.value & Bitmask.MONTH);
+        case 2:
+          return this.value === Bitmask.MONTH || this.value & Bitmask.MONTH && !(this.value & Bitmask.YEAR);
+        case 3:
+          return this.value === Bitmask.YM;
+        case 4:
+          return this.value === Bitmask.DAY || this.value & Bitmask.DAY && this.value !== Bitmask.YMD;
+        case 5:
+          return this.value === Bitmask.YMD;
+        default:
+          return false;
+      }
+    }
+    qualify(idx) {
+      return this.value = this.value | Bitmask.UA[idx], this;
+    }
+    toJSON() {
+      return this.value;
+    }
+    toString(symbol = "X") {
+      return this.masks(["YYYY", "MM", "DD"], symbol).join("-");
+    }
+  };
+  Bitmask.prototype.is = Bitmask.prototype.test;
+  function leap(year2) {
+    if (year2 % 4 > 0)
+      return false;
+    if (year2 % 100 > 0)
+      return true;
+    if (year2 % 400 > 0)
+      return false;
+    return true;
+  }
+  Bitmask.DAY = Bitmask.D = Bitmask.compute("yyyymmxx");
+  Bitmask.MONTH = Bitmask.M = Bitmask.compute("yyyyxxdd");
+  Bitmask.YEAR = Bitmask.Y = Bitmask.compute("xxxxmmdd");
+  Bitmask.MD = Bitmask.M | Bitmask.D;
+  Bitmask.YMD = Bitmask.Y | Bitmask.MD;
+  Bitmask.YM = Bitmask.Y | Bitmask.M;
+  Bitmask.YYXX = Bitmask.compute("yyxxmmdd");
+  Bitmask.YYYX = Bitmask.compute("yyyxmmdd");
+  Bitmask.XXXX = Bitmask.compute("xxxxmmdd");
+  Bitmask.DX = Bitmask.compute("yyyymmdx");
+  Bitmask.XD = Bitmask.compute("yyyymmxd");
+  Bitmask.MX = Bitmask.compute("yyyymxdd");
+  Bitmask.XM = Bitmask.compute("yyyyxmdd");
+  Bitmask.UA = [
+    Bitmask.YEAR,
+    Bitmask.YEAR,
+    // YEAR !DAY
+    Bitmask.MONTH,
+    Bitmask.YM,
+    Bitmask.DAY,
+    // YEARDAY
+    Bitmask.YMD
+  ];
+
+  // node_modules/edtf/src/parser.js
+  var import_nearley = __toESM(require_nearley(), 1);
+
+  // node_modules/edtf/src/util.js
+  var { assign } = Object;
+  function num(data) {
+    return Number(Array.isArray(data) ? data.join("") : data);
+  }
+  function join(data) {
+    return data.join("");
+  }
+  function zero3() {
+    return 0;
+  }
+  function nothing() {
+    return null;
+  }
+  function pick(...args) {
+    return args.length === 1 ? (data) => data[args[0]] : (data) => concat(data, args);
+  }
+  function pluck(...args) {
+    return (data) => args.map((i2) => data[i2]);
+  }
+  function concat(data, idx = data.keys()) {
+    return Array.from(idx).reduce((memo, i2) => data[i2] !== null ? memo.concat(data[i2]) : memo, []);
+  }
+  function merge2(...args) {
+    if (typeof args[args.length - 1] === "object")
+      var extra = args.pop();
+    return (data) => assign(args.reduce((a, i2) => assign(a, data[i2]), {}), extra);
+  }
+  function interval2(level) {
+    return (data) => ({
+      values: [data[0], data[2]],
+      type: "Interval",
+      level
+    });
+  }
+  function masked(type2 = "unspecified", symbol = "X") {
+    return (data, _, reject) => {
+      data = data.join("");
+      let negative = data.startsWith("-");
+      let mask2 = data.replace(/-/g, "");
+      if (mask2.indexOf(symbol) === -1)
+        return reject;
+      let values = Bitmask.values(mask2, 0);
+      if (negative)
+        values[0] = -values[0];
+      return {
+        values,
+        [type2]: Bitmask.compute(mask2)
+      };
+    };
+  }
+  function date(values, level = 0, extra = null) {
+    return assign({
+      type: "Date",
+      level,
+      values: Bitmask.normalize(values.map(Number))
+    }, extra);
+  }
+  function year(values, level = 1, extra = null) {
+    return assign({
+      type: "Year",
+      level,
+      values: values.map(Number)
+    }, extra);
+  }
+  function century(value, level = 0) {
+    return {
+      type: "Century",
+      level,
+      values: [value]
+    };
+  }
+  function decade(value, level = 2) {
+    return {
+      type: "Decade",
+      level,
+      values: [value]
+    };
+  }
+  function datetime(data) {
+    let offset = data[3];
+    if (offset == null)
+      offset = (/* @__PURE__ */ new Date()).getTimezoneOffset();
+    return {
+      values: Bitmask.normalize(data[0].map(Number)).concat(data[2]),
+      offset,
+      type: "Date",
+      level: 0
+    };
+  }
+  function season(data, level = 1) {
+    return {
+      type: "Season",
+      level,
+      values: [Number(data[0]), Number(data[2])]
+    };
+  }
+  function list(data) {
+    return assign({ values: data[1], level: 2 }, data[0], data[2]);
+  }
+  function qualify([parts], _, reject) {
+    let q = {
+      uncertain: new Bitmask(),
+      approximate: new Bitmask()
+    };
+    let values = parts.map(([lhs, part, rhs], idx) => {
+      for (let ua in lhs)
+        q[ua].qualify(idx * 2);
+      for (let ua in rhs)
+        q[ua].qualify(1 + idx * 2);
+      return part;
+    });
+    return !q.uncertain.value && !q.approximate.value ? reject : {
+      ...date(values, 2),
+      uncertain: q.uncertain.value,
+      approximate: q.approximate.value
+    };
+  }
+
+  // node_modules/edtf/src/grammar.js
+  function id2(x) {
+    return x[0];
+  }
+  var {
+    DAY: DAY2,
+    MONTH: MONTH2,
+    YEAR: YEAR2,
+    YMD,
+    YM,
+    MD,
+    YYXX,
+    YYYX,
+    XXXX
+  } = Bitmask;
+  var Lexer = void 0;
+  var ParserRules = [
+    { "name": "edtf", "symbols": ["L0"], "postprocess": id2 },
+    { "name": "edtf", "symbols": ["L1"], "postprocess": id2 },
+    { "name": "edtf", "symbols": ["L2"], "postprocess": id2 },
+    { "name": "edtf", "symbols": ["L3"], "postprocess": id2 },
+    { "name": "L0", "symbols": ["date_time"], "postprocess": id2 },
+    { "name": "L0", "symbols": ["century"], "postprocess": id2 },
+    { "name": "L0", "symbols": ["L0i"], "postprocess": id2 },
+    { "name": "L0i", "symbols": ["date_time", { "literal": "/" }, "date_time"], "postprocess": interval2(0) },
+    { "name": "century", "symbols": ["positive_century"], "postprocess": (data) => century(data[0]) },
+    { "name": "century$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner(d) {
+      return d.join("");
+    } },
+    { "name": "century", "symbols": ["century$string$1"], "postprocess": (data) => century(0) },
+    { "name": "century", "symbols": [{ "literal": "-" }, "positive_century"], "postprocess": (data) => century(-data[1]) },
+    { "name": "positive_century", "symbols": ["positive_digit", "digit"], "postprocess": num },
+    { "name": "positive_century", "symbols": [{ "literal": "0" }, "positive_digit"], "postprocess": num },
+    { "name": "date_time", "symbols": ["date"], "postprocess": id2 },
+    { "name": "date_time", "symbols": ["datetime"], "postprocess": id2 },
+    { "name": "date", "symbols": ["year"], "postprocess": (data) => date(data) },
+    { "name": "date", "symbols": ["year_month"], "postprocess": (data) => date(data[0]) },
+    { "name": "date", "symbols": ["year_month_day"], "postprocess": (data) => date(data[0]) },
+    { "name": "year", "symbols": ["positive_year"], "postprocess": id2 },
+    { "name": "year", "symbols": ["negative_year"], "postprocess": id2 },
+    { "name": "year$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }, { "literal": "0" }, { "literal": "0" }], "postprocess": function joiner2(d) {
+      return d.join("");
+    } },
+    { "name": "year", "symbols": ["year$string$1"], "postprocess": join },
+    { "name": "positive_year", "symbols": ["positive_digit", "digit", "digit", "digit"], "postprocess": join },
+    { "name": "positive_year", "symbols": [{ "literal": "0" }, "positive_digit", "digit", "digit"], "postprocess": join },
+    { "name": "positive_year$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner3(d) {
+      return d.join("");
+    } },
+    { "name": "positive_year", "symbols": ["positive_year$string$1", "positive_digit", "digit"], "postprocess": join },
+    { "name": "positive_year$string$2", "symbols": [{ "literal": "0" }, { "literal": "0" }, { "literal": "0" }], "postprocess": function joiner4(d) {
+      return d.join("");
+    } },
+    { "name": "positive_year", "symbols": ["positive_year$string$2", "positive_digit"], "postprocess": join },
+    { "name": "negative_year", "symbols": [{ "literal": "-" }, "positive_year"], "postprocess": join },
+    { "name": "year_month", "symbols": ["year", { "literal": "-" }, "month"], "postprocess": pick(0, 2) },
+    { "name": "year_month_day", "symbols": ["year", { "literal": "-" }, "month_day"], "postprocess": pick(0, 2) },
+    { "name": "month", "symbols": ["d01_12"], "postprocess": id2 },
+    { "name": "month_day", "symbols": ["m31", { "literal": "-" }, "day"], "postprocess": pick(0, 2) },
+    { "name": "month_day", "symbols": ["m30", { "literal": "-" }, "d01_30"], "postprocess": pick(0, 2) },
+    { "name": "month_day$string$1", "symbols": [{ "literal": "0" }, { "literal": "2" }], "postprocess": function joiner5(d) {
+      return d.join("");
+    } },
+    { "name": "month_day", "symbols": ["month_day$string$1", { "literal": "-" }, "d01_29"], "postprocess": pick(0, 2) },
+    { "name": "day", "symbols": ["d01_31"], "postprocess": id2 },
+    { "name": "datetime$ebnf$1$subexpression$1", "symbols": ["timezone"], "postprocess": id2 },
+    { "name": "datetime$ebnf$1", "symbols": ["datetime$ebnf$1$subexpression$1"], "postprocess": id2 },
+    { "name": "datetime$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "datetime", "symbols": ["year_month_day", { "literal": "T" }, "time", "datetime$ebnf$1"], "postprocess": datetime },
+    { "name": "time", "symbols": ["hours", { "literal": ":" }, "minutes", { "literal": ":" }, "seconds", "milliseconds"], "postprocess": pick(0, 2, 4, 5) },
+    { "name": "time", "symbols": ["hours", { "literal": ":" }, "minutes"], "postprocess": pick(0, 2) },
+    { "name": "time$string$1", "symbols": [{ "literal": "2" }, { "literal": "4" }, { "literal": ":" }, { "literal": "0" }, { "literal": "0" }], "postprocess": function joiner6(d) {
+      return d.join("");
+    } },
+    { "name": "time$ebnf$1$string$1", "symbols": [{ "literal": ":" }, { "literal": "0" }, { "literal": "0" }], "postprocess": function joiner7(d) {
+      return d.join("");
+    } },
+    { "name": "time$ebnf$1", "symbols": ["time$ebnf$1$string$1"], "postprocess": id2 },
+    { "name": "time$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "time", "symbols": ["time$string$1", "time$ebnf$1"], "postprocess": () => [24, 0, 0] },
+    { "name": "hours", "symbols": ["d00_23"], "postprocess": num },
+    { "name": "minutes", "symbols": ["d00_59"], "postprocess": num },
+    { "name": "seconds", "symbols": ["d00_59"], "postprocess": num },
+    { "name": "milliseconds", "symbols": [] },
+    { "name": "milliseconds", "symbols": [{ "literal": "." }, "d3"], "postprocess": (data) => num(data.slice(1)) },
+    { "name": "timezone", "symbols": [{ "literal": "Z" }], "postprocess": zero3 },
+    { "name": "timezone$subexpression$1", "symbols": [{ "literal": "-" }] },
+    { "name": "timezone$subexpression$1", "symbols": [{ "literal": "\u2212" }] },
+    { "name": "timezone", "symbols": ["timezone$subexpression$1", "offset"], "postprocess": (data) => -data[1] },
+    { "name": "timezone", "symbols": [{ "literal": "+" }, "positive_offset"], "postprocess": pick(1) },
+    { "name": "positive_offset", "symbols": ["offset"], "postprocess": id2 },
+    { "name": "positive_offset$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner8(d) {
+      return d.join("");
+    } },
+    { "name": "positive_offset$ebnf$1", "symbols": [{ "literal": ":" }], "postprocess": id2 },
+    { "name": "positive_offset$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "positive_offset$string$2", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner9(d) {
+      return d.join("");
+    } },
+    { "name": "positive_offset", "symbols": ["positive_offset$string$1", "positive_offset$ebnf$1", "positive_offset$string$2"], "postprocess": zero3 },
+    { "name": "positive_offset$subexpression$1$string$1", "symbols": [{ "literal": "1" }, { "literal": "2" }], "postprocess": function joiner10(d) {
+      return d.join("");
+    } },
+    { "name": "positive_offset$subexpression$1", "symbols": ["positive_offset$subexpression$1$string$1"] },
+    { "name": "positive_offset$subexpression$1$string$2", "symbols": [{ "literal": "1" }, { "literal": "3" }], "postprocess": function joiner11(d) {
+      return d.join("");
+    } },
+    { "name": "positive_offset$subexpression$1", "symbols": ["positive_offset$subexpression$1$string$2"] },
+    { "name": "positive_offset$ebnf$2", "symbols": [{ "literal": ":" }], "postprocess": id2 },
+    { "name": "positive_offset$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "positive_offset", "symbols": ["positive_offset$subexpression$1", "positive_offset$ebnf$2", "minutes"], "postprocess": (data) => num(data[0]) * 60 + data[2] },
+    { "name": "positive_offset$string$3", "symbols": [{ "literal": "1" }, { "literal": "4" }], "postprocess": function joiner12(d) {
+      return d.join("");
+    } },
+    { "name": "positive_offset$ebnf$3", "symbols": [{ "literal": ":" }], "postprocess": id2 },
+    { "name": "positive_offset$ebnf$3", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "positive_offset$string$4", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner13(d) {
+      return d.join("");
+    } },
+    { "name": "positive_offset", "symbols": ["positive_offset$string$3", "positive_offset$ebnf$3", "positive_offset$string$4"], "postprocess": () => 840 },
+    { "name": "positive_offset", "symbols": ["d00_14"], "postprocess": (data) => num(data[0]) * 60 },
+    { "name": "offset$ebnf$1", "symbols": [{ "literal": ":" }], "postprocess": id2 },
+    { "name": "offset$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "offset", "symbols": ["d01_11", "offset$ebnf$1", "minutes"], "postprocess": (data) => num(data[0]) * 60 + data[2] },
+    { "name": "offset$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner14(d) {
+      return d.join("");
+    } },
+    { "name": "offset$ebnf$2", "symbols": [{ "literal": ":" }], "postprocess": id2 },
+    { "name": "offset$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "offset", "symbols": ["offset$string$1", "offset$ebnf$2", "d01_59"], "postprocess": (data) => num(data[2]) },
+    { "name": "offset$string$2", "symbols": [{ "literal": "1" }, { "literal": "2" }], "postprocess": function joiner15(d) {
+      return d.join("");
+    } },
+    { "name": "offset$ebnf$3", "symbols": [{ "literal": ":" }], "postprocess": id2 },
+    { "name": "offset$ebnf$3", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "offset$string$3", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner16(d) {
+      return d.join("");
+    } },
+    { "name": "offset", "symbols": ["offset$string$2", "offset$ebnf$3", "offset$string$3"], "postprocess": () => 720 },
+    { "name": "offset", "symbols": ["d01_12"], "postprocess": (data) => num(data[0]) * 60 },
+    { "name": "L1", "symbols": ["L1d"], "postprocess": id2 },
+    { "name": "L1", "symbols": ["L1Y"], "postprocess": id2 },
+    { "name": "L1", "symbols": ["L1S"], "postprocess": id2 },
+    { "name": "L1", "symbols": ["L1i"], "postprocess": id2 },
+    { "name": "L1d", "symbols": ["date_ua"], "postprocess": id2 },
+    { "name": "L1d", "symbols": ["L1X"], "postprocess": merge2(0, { type: "Date", level: 1 }) },
+    { "name": "date_ua", "symbols": ["date", "UA"], "postprocess": merge2(0, 1, { level: 1 }) },
+    { "name": "L1i", "symbols": ["L1i_date", { "literal": "/" }, "L1i_date"], "postprocess": interval2(1) },
+    { "name": "L1i", "symbols": ["date_time", { "literal": "/" }, "L1i_date"], "postprocess": interval2(1) },
+    { "name": "L1i", "symbols": ["L1i_date", { "literal": "/" }, "date_time"], "postprocess": interval2(1) },
+    { "name": "L1i_date", "symbols": [], "postprocess": nothing },
+    { "name": "L1i_date", "symbols": ["date_ua"], "postprocess": id2 },
+    { "name": "L1i_date", "symbols": ["INFINITY"], "postprocess": id2 },
+    { "name": "INFINITY$string$1", "symbols": [{ "literal": "." }, { "literal": "." }], "postprocess": function joiner17(d) {
+      return d.join("");
+    } },
+    { "name": "INFINITY", "symbols": ["INFINITY$string$1"], "postprocess": () => Infinity },
+    { "name": "L1X$string$1", "symbols": [{ "literal": "-" }, { "literal": "X" }, { "literal": "X" }], "postprocess": function joiner18(d) {
+      return d.join("");
+    } },
+    { "name": "L1X", "symbols": ["nd4", { "literal": "-" }, "md", "L1X$string$1"], "postprocess": masked() },
+    { "name": "L1X$string$2", "symbols": [{ "literal": "-" }, { "literal": "X" }, { "literal": "X" }, { "literal": "-" }, { "literal": "X" }, { "literal": "X" }], "postprocess": function joiner19(d) {
+      return d.join("");
+    } },
+    { "name": "L1X", "symbols": ["nd4", "L1X$string$2"], "postprocess": masked() },
+    { "name": "L1X$string$3", "symbols": [{ "literal": "X" }, { "literal": "X" }, { "literal": "X" }, { "literal": "X" }, { "literal": "-" }, { "literal": "X" }, { "literal": "X" }, { "literal": "-" }, { "literal": "X" }, { "literal": "X" }], "postprocess": function joiner20(d) {
+      return d.join("");
+    } },
+    { "name": "L1X", "symbols": ["L1X$string$3"], "postprocess": masked() },
+    { "name": "L1X$string$4", "symbols": [{ "literal": "-" }, { "literal": "X" }, { "literal": "X" }], "postprocess": function joiner21(d) {
+      return d.join("");
+    } },
+    { "name": "L1X", "symbols": ["nd4", "L1X$string$4"], "postprocess": masked() },
+    { "name": "L1X$string$5", "symbols": [{ "literal": "X" }, { "literal": "X" }, { "literal": "X" }, { "literal": "X" }, { "literal": "-" }, { "literal": "X" }, { "literal": "X" }], "postprocess": function joiner22(d) {
+      return d.join("");
+    } },
+    { "name": "L1X", "symbols": ["L1X$string$5"], "postprocess": masked() },
+    { "name": "L1X$string$6", "symbols": [{ "literal": "X" }, { "literal": "X" }], "postprocess": function joiner23(d) {
+      return d.join("");
+    } },
+    { "name": "L1X", "symbols": ["nd2", "L1X$string$6"], "postprocess": masked() },
+    { "name": "L1X", "symbols": ["nd3", { "literal": "X" }], "postprocess": masked() },
+    { "name": "L1X$string$7", "symbols": [{ "literal": "X" }, { "literal": "X" }, { "literal": "X" }, { "literal": "X" }], "postprocess": function joiner24(d) {
+      return d.join("");
+    } },
+    { "name": "L1X", "symbols": ["L1X$string$7"], "postprocess": masked() },
+    { "name": "L1Y", "symbols": [{ "literal": "Y" }, "d5+"], "postprocess": (data) => year([num(data[1])], 1) },
+    { "name": "L1Y$string$1", "symbols": [{ "literal": "Y" }, { "literal": "-" }], "postprocess": function joiner25(d) {
+      return d.join("");
+    } },
+    { "name": "L1Y", "symbols": ["L1Y$string$1", "d5+"], "postprocess": (data) => year([-num(data[1])], 1) },
+    { "name": "UA", "symbols": [{ "literal": "?" }], "postprocess": () => ({ uncertain: true }) },
+    { "name": "UA", "symbols": [{ "literal": "~" }], "postprocess": () => ({ approximate: true }) },
+    { "name": "UA", "symbols": [{ "literal": "%" }], "postprocess": () => ({ approximate: true, uncertain: true }) },
+    { "name": "L1S", "symbols": ["year", { "literal": "-" }, "d21_24"], "postprocess": (data) => season(data, 1) },
+    { "name": "L2", "symbols": ["L2d"], "postprocess": id2 },
+    { "name": "L2", "symbols": ["L2Y"], "postprocess": id2 },
+    { "name": "L2", "symbols": ["L2S"], "postprocess": id2 },
+    { "name": "L2", "symbols": ["L2D"], "postprocess": id2 },
+    { "name": "L2", "symbols": ["L2C"], "postprocess": id2 },
+    { "name": "L2", "symbols": ["L2i"], "postprocess": id2 },
+    { "name": "L2", "symbols": ["set"], "postprocess": id2 },
+    { "name": "L2", "symbols": ["list"], "postprocess": id2 },
+    { "name": "L2d", "symbols": ["ua_date"], "postprocess": id2 },
+    { "name": "L2d", "symbols": ["L2X"], "postprocess": merge2(0, { type: "Date", level: 2 }) },
+    { "name": "L2D", "symbols": ["decade"], "postprocess": id2 },
+    { "name": "L2D", "symbols": ["decade", "UA"], "postprocess": merge2(0, 1) },
+    { "name": "L2C", "symbols": ["century"], "postprocess": id2 },
+    { "name": "L2C", "symbols": ["century", "UA"], "postprocess": merge2(0, 1, { level: 2 }) },
+    { "name": "ua_date", "symbols": ["ua_year"], "postprocess": qualify },
+    { "name": "ua_date", "symbols": ["ua_year_month"], "postprocess": qualify },
+    { "name": "ua_date", "symbols": ["ua_year_month_day"], "postprocess": qualify },
+    { "name": "ua_year", "symbols": ["UA", "year"], "postprocess": (data) => [data] },
+    { "name": "ua_year_month$macrocall$2", "symbols": ["year"] },
+    { "name": "ua_year_month$macrocall$1$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_year_month$macrocall$1$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_year_month$macrocall$1$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_year_month$macrocall$1$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_year_month$macrocall$1", "symbols": ["ua_year_month$macrocall$1$ebnf$1", "ua_year_month$macrocall$2", "ua_year_month$macrocall$1$ebnf$2"] },
+    { "name": "ua_year_month$macrocall$4", "symbols": ["month"] },
+    { "name": "ua_year_month$macrocall$3$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_year_month$macrocall$3$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_year_month$macrocall$3$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_year_month$macrocall$3$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_year_month$macrocall$3", "symbols": ["ua_year_month$macrocall$3$ebnf$1", "ua_year_month$macrocall$4", "ua_year_month$macrocall$3$ebnf$2"] },
+    { "name": "ua_year_month", "symbols": ["ua_year_month$macrocall$1", { "literal": "-" }, "ua_year_month$macrocall$3"], "postprocess": pluck(0, 2) },
+    { "name": "ua_year_month_day$macrocall$2", "symbols": ["year"] },
+    { "name": "ua_year_month_day$macrocall$1$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_year_month_day$macrocall$1$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_year_month_day$macrocall$1$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_year_month_day$macrocall$1$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_year_month_day$macrocall$1", "symbols": ["ua_year_month_day$macrocall$1$ebnf$1", "ua_year_month_day$macrocall$2", "ua_year_month_day$macrocall$1$ebnf$2"] },
+    { "name": "ua_year_month_day", "symbols": ["ua_year_month_day$macrocall$1", { "literal": "-" }, "ua_month_day"], "postprocess": (data) => [data[0], ...data[2]] },
+    { "name": "ua_month_day$macrocall$2", "symbols": ["m31"] },
+    { "name": "ua_month_day$macrocall$1$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$1$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$1$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$1$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$1", "symbols": ["ua_month_day$macrocall$1$ebnf$1", "ua_month_day$macrocall$2", "ua_month_day$macrocall$1$ebnf$2"] },
+    { "name": "ua_month_day$macrocall$4", "symbols": ["day"] },
+    { "name": "ua_month_day$macrocall$3$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$3$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$3$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$3$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$3", "symbols": ["ua_month_day$macrocall$3$ebnf$1", "ua_month_day$macrocall$4", "ua_month_day$macrocall$3$ebnf$2"] },
+    { "name": "ua_month_day", "symbols": ["ua_month_day$macrocall$1", { "literal": "-" }, "ua_month_day$macrocall$3"], "postprocess": pluck(0, 2) },
+    { "name": "ua_month_day$macrocall$6", "symbols": ["m30"] },
+    { "name": "ua_month_day$macrocall$5$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$5$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$5$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$5$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$5", "symbols": ["ua_month_day$macrocall$5$ebnf$1", "ua_month_day$macrocall$6", "ua_month_day$macrocall$5$ebnf$2"] },
+    { "name": "ua_month_day$macrocall$8", "symbols": ["d01_30"] },
+    { "name": "ua_month_day$macrocall$7$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$7$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$7$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$7$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$7", "symbols": ["ua_month_day$macrocall$7$ebnf$1", "ua_month_day$macrocall$8", "ua_month_day$macrocall$7$ebnf$2"] },
+    { "name": "ua_month_day", "symbols": ["ua_month_day$macrocall$5", { "literal": "-" }, "ua_month_day$macrocall$7"], "postprocess": pluck(0, 2) },
+    { "name": "ua_month_day$macrocall$10$string$1", "symbols": [{ "literal": "0" }, { "literal": "2" }], "postprocess": function joiner26(d) {
+      return d.join("");
+    } },
+    { "name": "ua_month_day$macrocall$10", "symbols": ["ua_month_day$macrocall$10$string$1"] },
+    { "name": "ua_month_day$macrocall$9$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$9$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$9$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$9$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$9", "symbols": ["ua_month_day$macrocall$9$ebnf$1", "ua_month_day$macrocall$10", "ua_month_day$macrocall$9$ebnf$2"] },
+    { "name": "ua_month_day$macrocall$12", "symbols": ["d01_29"] },
+    { "name": "ua_month_day$macrocall$11$ebnf$1", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$11$ebnf$1", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$11$ebnf$2", "symbols": ["UA"], "postprocess": id2 },
+    { "name": "ua_month_day$macrocall$11$ebnf$2", "symbols": [], "postprocess": function(d) {
+      return null;
+    } },
+    { "name": "ua_month_day$macrocall$11", "symbols": ["ua_month_day$macrocall$11$ebnf$1", "ua_month_day$macrocall$12", "ua_month_day$macrocall$11$ebnf$2"] },
+    { "name": "ua_month_day", "symbols": ["ua_month_day$macrocall$9", { "literal": "-" }, "ua_month_day$macrocall$11"], "postprocess": pluck(0, 2) },
+    { "name": "L2X", "symbols": ["dx4"], "postprocess": masked() },
+    { "name": "L2X", "symbols": ["dx4", { "literal": "-" }, "mx"], "postprocess": masked() },
+    { "name": "L2X", "symbols": ["dx4", { "literal": "-" }, "mdx"], "postprocess": masked() },
+    { "name": "mdx", "symbols": ["m31x", { "literal": "-" }, "d31x"], "postprocess": join },
+    { "name": "mdx", "symbols": ["m30x", { "literal": "-" }, "d30x"], "postprocess": join },
+    { "name": "mdx$string$1", "symbols": [{ "literal": "0" }, { "literal": "2" }, { "literal": "-" }], "postprocess": function joiner27(d) {
+      return d.join("");
+    } },
+    { "name": "mdx", "symbols": ["mdx$string$1", "d29x"], "postprocess": join },
+    { "name": "L2i", "symbols": ["L2i_date", { "literal": "/" }, "L2i_date"], "postprocess": interval2(2) },
+    { "name": "L2i", "symbols": ["date_time", { "literal": "/" }, "L2i_date"], "postprocess": interval2(2) },
+    { "name": "L2i", "symbols": ["L2i_date", { "literal": "/" }, "date_time"], "postprocess": interval2(2) },
+    { "name": "L2i_date", "symbols": [], "postprocess": nothing },
+    { "name": "L2i_date", "symbols": ["ua_date"], "postprocess": id2 },
+    { "name": "L2i_date", "symbols": ["L2X"], "postprocess": id2 },
+    { "name": "L2i_date", "symbols": ["INFINITY"], "postprocess": id2 },
+    { "name": "L2Y", "symbols": ["exp_year"], "postprocess": id2 },
+    { "name": "L2Y", "symbols": ["exp_year", "significant_digits"], "postprocess": merge2(0, 1) },
+    { "name": "L2Y", "symbols": ["L1Y", "significant_digits"], "postprocess": merge2(0, 1, { level: 2 }) },
+    { "name": "L2Y", "symbols": ["year", "significant_digits"], "postprocess": (data) => year([data[0]], 2, data[1]) },
+    { "name": "significant_digits", "symbols": [{ "literal": "S" }, "positive_digit"], "postprocess": (data) => ({ significant: num(data[1]) }) },
+    { "name": "exp_year", "symbols": [{ "literal": "Y" }, "exp"], "postprocess": (data) => year([data[1]], 2) },
+    { "name": "exp_year$string$1", "symbols": [{ "literal": "Y" }, { "literal": "-" }], "postprocess": function joiner28(d) {
+      return d.join("");
+    } },
+    { "name": "exp_year", "symbols": ["exp_year$string$1", "exp"], "postprocess": (data) => year([-data[1]], 2) },
+    { "name": "exp", "symbols": ["digits", { "literal": "E" }, "digits"], "postprocess": (data) => num(data[0]) * Math.pow(10, num(data[2])) },
+    { "name": "L2S", "symbols": ["year", { "literal": "-" }, "d25_41"], "postprocess": (data) => season(data, 2) },
+    { "name": "decade", "symbols": ["positive_decade"], "postprocess": (data) => decade(data[0]) },
+    { "name": "decade$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }, { "literal": "0" }], "postprocess": function joiner29(d) {
+      return d.join("");
+    } },
+    { "name": "decade", "symbols": ["decade$string$1"], "postprocess": () => decade(0) },
+    { "name": "decade", "symbols": [{ "literal": "-" }, "positive_decade"], "postprocess": (data) => decade(-data[1]) },
+    { "name": "positive_decade", "symbols": ["positive_digit", "digit", "digit"], "postprocess": num },
+    { "name": "positive_decade", "symbols": [{ "literal": "0" }, "positive_digit", "digit"], "postprocess": num },
+    { "name": "positive_decade$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner30(d) {
+      return d.join("");
+    } },
+    { "name": "positive_decade", "symbols": ["positive_decade$string$1", "positive_digit"], "postprocess": num },
+    { "name": "set", "symbols": ["LSB", "OL", "RSB"], "postprocess": list },
+    { "name": "list", "symbols": ["LLB", "OL", "RLB"], "postprocess": list },
+    { "name": "LSB", "symbols": [{ "literal": "[" }], "postprocess": () => ({ type: "Set" }) },
+    { "name": "LSB$string$1", "symbols": [{ "literal": "[" }, { "literal": "." }, { "literal": "." }], "postprocess": function joiner31(d) {
+      return d.join("");
+    } },
+    { "name": "LSB", "symbols": ["LSB$string$1"], "postprocess": () => ({ type: "Set", earlier: true }) },
+    { "name": "LLB", "symbols": [{ "literal": "{" }], "postprocess": () => ({ type: "List" }) },
+    { "name": "LLB$string$1", "symbols": [{ "literal": "{" }, { "literal": "." }, { "literal": "." }], "postprocess": function joiner32(d) {
+      return d.join("");
+    } },
+    { "name": "LLB", "symbols": ["LLB$string$1"], "postprocess": () => ({ type: "List", earlier: true }) },
+    { "name": "RSB", "symbols": [{ "literal": "]" }], "postprocess": nothing },
+    { "name": "RSB$string$1", "symbols": [{ "literal": "." }, { "literal": "." }, { "literal": "]" }], "postprocess": function joiner33(d) {
+      return d.join("");
+    } },
+    { "name": "RSB", "symbols": ["RSB$string$1"], "postprocess": () => ({ later: true }) },
+    { "name": "RLB", "symbols": [{ "literal": "}" }], "postprocess": nothing },
+    { "name": "RLB$string$1", "symbols": [{ "literal": "." }, { "literal": "." }, { "literal": "}" }], "postprocess": function joiner34(d) {
+      return d.join("");
+    } },
+    { "name": "RLB", "symbols": ["RLB$string$1"], "postprocess": () => ({ later: true }) },
+    { "name": "OL", "symbols": ["LI"], "postprocess": (data) => [data[0]] },
+    { "name": "OL", "symbols": ["OL", "_", { "literal": "," }, "_", "LI"], "postprocess": (data) => [...data[0], data[4]] },
+    { "name": "LI", "symbols": ["date"], "postprocess": id2 },
+    { "name": "LI", "symbols": ["ua_date"], "postprocess": id2 },
+    { "name": "LI", "symbols": ["L2X"], "postprocess": id2 },
+    { "name": "LI", "symbols": ["consecutives"], "postprocess": id2 },
+    { "name": "consecutives$string$1", "symbols": [{ "literal": "." }, { "literal": "." }], "postprocess": function joiner35(d) {
+      return d.join("");
+    } },
+    { "name": "consecutives", "symbols": ["year_month_day", "consecutives$string$1", "year_month_day"], "postprocess": (d) => [date(d[0]), date(d[2])] },
+    { "name": "consecutives$string$2", "symbols": [{ "literal": "." }, { "literal": "." }], "postprocess": function joiner36(d) {
+      return d.join("");
+    } },
+    { "name": "consecutives", "symbols": ["year_month", "consecutives$string$2", "year_month"], "postprocess": (d) => [date(d[0]), date(d[2])] },
+    { "name": "consecutives$string$3", "symbols": [{ "literal": "." }, { "literal": "." }], "postprocess": function joiner37(d) {
+      return d.join("");
+    } },
+    { "name": "consecutives", "symbols": ["year", "consecutives$string$3", "year"], "postprocess": (d) => [date([d[0]]), date([d[2]])] },
+    { "name": "L3", "symbols": ["L3i"], "postprocess": id2 },
+    { "name": "L3i", "symbols": ["L3S", { "literal": "/" }, "L3S"], "postprocess": interval2(3) },
+    { "name": "L3S", "symbols": ["L1S"], "postprocess": id2 },
+    { "name": "L3S", "symbols": ["L2S"], "postprocess": id2 },
+    { "name": "digit", "symbols": ["positive_digit"], "postprocess": id2 },
+    { "name": "digit", "symbols": [{ "literal": "0" }], "postprocess": id2 },
+    { "name": "digits", "symbols": ["digit"], "postprocess": id2 },
+    { "name": "digits", "symbols": ["digits", "digit"], "postprocess": join },
+    { "name": "nd4", "symbols": ["d4"] },
+    { "name": "nd4", "symbols": [{ "literal": "-" }, "d4"], "postprocess": join },
+    { "name": "nd3", "symbols": ["d3"] },
+    { "name": "nd3", "symbols": [{ "literal": "-" }, "d3"], "postprocess": join },
+    { "name": "nd2", "symbols": ["d2"] },
+    { "name": "nd2", "symbols": [{ "literal": "-" }, "d2"], "postprocess": join },
+    { "name": "d4", "symbols": ["d2", "d2"], "postprocess": join },
+    { "name": "d3", "symbols": ["d2", "digit"], "postprocess": join },
+    { "name": "d2", "symbols": ["digit", "digit"], "postprocess": join },
+    { "name": "d5+", "symbols": ["positive_digit", "d3", "digits"], "postprocess": num },
+    { "name": "d1x", "symbols": [/[1-9X]/], "postprocess": id2 },
+    { "name": "dx", "symbols": ["d1x"], "postprocess": id2 },
+    { "name": "dx", "symbols": [{ "literal": "0" }], "postprocess": id2 },
+    { "name": "dx2", "symbols": ["dx", "dx"], "postprocess": join },
+    { "name": "dx4", "symbols": ["dx2", "dx2"], "postprocess": join },
+    { "name": "dx4", "symbols": [{ "literal": "-" }, "dx2", "dx2"], "postprocess": join },
+    { "name": "md", "symbols": ["m31"], "postprocess": id2 },
+    { "name": "md", "symbols": ["m30"], "postprocess": id2 },
+    { "name": "md$string$1", "symbols": [{ "literal": "0" }, { "literal": "2" }], "postprocess": function joiner38(d) {
+      return d.join("");
+    } },
+    { "name": "md", "symbols": ["md$string$1"], "postprocess": id2 },
+    { "name": "mx", "symbols": [{ "literal": "0" }, "d1x"], "postprocess": join },
+    { "name": "mx", "symbols": [/[1X]/, /[012X]/], "postprocess": join },
+    { "name": "m31x", "symbols": [/[0X]/, /[13578X]/], "postprocess": join },
+    { "name": "m31x", "symbols": [/[1X]/, /[02]/], "postprocess": join },
+    { "name": "m31x$string$1", "symbols": [{ "literal": "1" }, { "literal": "X" }], "postprocess": function joiner39(d) {
+      return d.join("");
+    } },
+    { "name": "m31x", "symbols": ["m31x$string$1"], "postprocess": id2 },
+    { "name": "m30x", "symbols": [/[0X]/, /[469]/], "postprocess": join },
+    { "name": "m30x$string$1", "symbols": [{ "literal": "1" }, { "literal": "1" }], "postprocess": function joiner40(d) {
+      return d.join("");
+    } },
+    { "name": "m30x", "symbols": ["m30x$string$1"], "postprocess": join },
+    { "name": "d29x", "symbols": [{ "literal": "0" }, "d1x"], "postprocess": join },
+    { "name": "d29x", "symbols": [/[1-2X]/, "dx"], "postprocess": join },
+    { "name": "d30x", "symbols": ["d29x"], "postprocess": join },
+    { "name": "d30x$string$1", "symbols": [{ "literal": "3" }, { "literal": "0" }], "postprocess": function joiner41(d) {
+      return d.join("");
+    } },
+    { "name": "d30x", "symbols": ["d30x$string$1"], "postprocess": id2 },
+    { "name": "d31x", "symbols": ["d30x"], "postprocess": id2 },
+    { "name": "d31x", "symbols": [{ "literal": "3" }, /[1X]/], "postprocess": join },
+    { "name": "positive_digit", "symbols": [/[1-9]/], "postprocess": id2 },
+    { "name": "m31$subexpression$1$string$1", "symbols": [{ "literal": "0" }, { "literal": "1" }], "postprocess": function joiner42(d) {
+      return d.join("");
+    } },
+    { "name": "m31$subexpression$1", "symbols": ["m31$subexpression$1$string$1"] },
+    { "name": "m31$subexpression$1$string$2", "symbols": [{ "literal": "0" }, { "literal": "3" }], "postprocess": function joiner43(d) {
+      return d.join("");
+    } },
+    { "name": "m31$subexpression$1", "symbols": ["m31$subexpression$1$string$2"] },
+    { "name": "m31$subexpression$1$string$3", "symbols": [{ "literal": "0" }, { "literal": "5" }], "postprocess": function joiner44(d) {
+      return d.join("");
+    } },
+    { "name": "m31$subexpression$1", "symbols": ["m31$subexpression$1$string$3"] },
+    { "name": "m31$subexpression$1$string$4", "symbols": [{ "literal": "0" }, { "literal": "7" }], "postprocess": function joiner45(d) {
+      return d.join("");
+    } },
+    { "name": "m31$subexpression$1", "symbols": ["m31$subexpression$1$string$4"] },
+    { "name": "m31$subexpression$1$string$5", "symbols": [{ "literal": "0" }, { "literal": "8" }], "postprocess": function joiner46(d) {
+      return d.join("");
+    } },
+    { "name": "m31$subexpression$1", "symbols": ["m31$subexpression$1$string$5"] },
+    { "name": "m31$subexpression$1$string$6", "symbols": [{ "literal": "1" }, { "literal": "0" }], "postprocess": function joiner47(d) {
+      return d.join("");
+    } },
+    { "name": "m31$subexpression$1", "symbols": ["m31$subexpression$1$string$6"] },
+    { "name": "m31$subexpression$1$string$7", "symbols": [{ "literal": "1" }, { "literal": "2" }], "postprocess": function joiner48(d) {
+      return d.join("");
+    } },
+    { "name": "m31$subexpression$1", "symbols": ["m31$subexpression$1$string$7"] },
+    { "name": "m31", "symbols": ["m31$subexpression$1"], "postprocess": id2 },
+    { "name": "m30$subexpression$1$string$1", "symbols": [{ "literal": "0" }, { "literal": "4" }], "postprocess": function joiner49(d) {
+      return d.join("");
+    } },
+    { "name": "m30$subexpression$1", "symbols": ["m30$subexpression$1$string$1"] },
+    { "name": "m30$subexpression$1$string$2", "symbols": [{ "literal": "0" }, { "literal": "6" }], "postprocess": function joiner50(d) {
+      return d.join("");
+    } },
+    { "name": "m30$subexpression$1", "symbols": ["m30$subexpression$1$string$2"] },
+    { "name": "m30$subexpression$1$string$3", "symbols": [{ "literal": "0" }, { "literal": "9" }], "postprocess": function joiner51(d) {
+      return d.join("");
+    } },
+    { "name": "m30$subexpression$1", "symbols": ["m30$subexpression$1$string$3"] },
+    { "name": "m30$subexpression$1$string$4", "symbols": [{ "literal": "1" }, { "literal": "1" }], "postprocess": function joiner52(d) {
+      return d.join("");
+    } },
+    { "name": "m30$subexpression$1", "symbols": ["m30$subexpression$1$string$4"] },
+    { "name": "m30", "symbols": ["m30$subexpression$1"], "postprocess": id2 },
+    { "name": "d01_11", "symbols": [{ "literal": "0" }, "positive_digit"], "postprocess": join },
+    { "name": "d01_11", "symbols": [{ "literal": "1" }, /[0-1]/], "postprocess": join },
+    { "name": "d01_12", "symbols": ["d01_11"], "postprocess": id2 },
+    { "name": "d01_12$string$1", "symbols": [{ "literal": "1" }, { "literal": "2" }], "postprocess": function joiner53(d) {
+      return d.join("");
+    } },
+    { "name": "d01_12", "symbols": ["d01_12$string$1"], "postprocess": id2 },
+    { "name": "d01_13", "symbols": ["d01_12"], "postprocess": id2 },
+    { "name": "d01_13$string$1", "symbols": [{ "literal": "1" }, { "literal": "3" }], "postprocess": function joiner54(d) {
+      return d.join("");
+    } },
+    { "name": "d01_13", "symbols": ["d01_13$string$1"], "postprocess": id2 },
+    { "name": "d00_14$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner55(d) {
+      return d.join("");
+    } },
+    { "name": "d00_14", "symbols": ["d00_14$string$1"], "postprocess": id2 },
+    { "name": "d00_14", "symbols": ["d01_13"], "postprocess": id2 },
+    { "name": "d00_14$string$2", "symbols": [{ "literal": "1" }, { "literal": "4" }], "postprocess": function joiner56(d) {
+      return d.join("");
+    } },
+    { "name": "d00_14", "symbols": ["d00_14$string$2"], "postprocess": id2 },
+    { "name": "d00_23$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner57(d) {
+      return d.join("");
+    } },
+    { "name": "d00_23", "symbols": ["d00_23$string$1"], "postprocess": id2 },
+    { "name": "d00_23", "symbols": ["d01_23"], "postprocess": id2 },
+    { "name": "d01_23", "symbols": [{ "literal": "0" }, "positive_digit"], "postprocess": join },
+    { "name": "d01_23", "symbols": [{ "literal": "1" }, "digit"], "postprocess": join },
+    { "name": "d01_23", "symbols": [{ "literal": "2" }, /[0-3]/], "postprocess": join },
+    { "name": "d01_29", "symbols": [{ "literal": "0" }, "positive_digit"], "postprocess": join },
+    { "name": "d01_29", "symbols": [/[1-2]/, "digit"], "postprocess": join },
+    { "name": "d01_30", "symbols": ["d01_29"], "postprocess": id2 },
+    { "name": "d01_30$string$1", "symbols": [{ "literal": "3" }, { "literal": "0" }], "postprocess": function joiner58(d) {
+      return d.join("");
+    } },
+    { "name": "d01_30", "symbols": ["d01_30$string$1"], "postprocess": id2 },
+    { "name": "d01_31", "symbols": ["d01_30"], "postprocess": id2 },
+    { "name": "d01_31$string$1", "symbols": [{ "literal": "3" }, { "literal": "1" }], "postprocess": function joiner59(d) {
+      return d.join("");
+    } },
+    { "name": "d01_31", "symbols": ["d01_31$string$1"], "postprocess": id2 },
+    { "name": "d00_59$string$1", "symbols": [{ "literal": "0" }, { "literal": "0" }], "postprocess": function joiner60(d) {
+      return d.join("");
+    } },
+    { "name": "d00_59", "symbols": ["d00_59$string$1"], "postprocess": id2 },
+    { "name": "d00_59", "symbols": ["d01_59"], "postprocess": id2 },
+    { "name": "d01_59", "symbols": ["d01_29"], "postprocess": id2 },
+    { "name": "d01_59", "symbols": [/[345]/, "digit"], "postprocess": join },
+    { "name": "d21_24", "symbols": [{ "literal": "2" }, /[1-4]/], "postprocess": join },
+    { "name": "d25_41", "symbols": [{ "literal": "2" }, /[5-9]/], "postprocess": join },
+    { "name": "d25_41", "symbols": [{ "literal": "3" }, "digit"], "postprocess": join },
+    { "name": "d25_41", "symbols": [{ "literal": "4" }, /[01]/], "postprocess": join },
+    { "name": "_$ebnf$1", "symbols": [] },
+    { "name": "_$ebnf$1", "symbols": ["_$ebnf$1", { "literal": " " }], "postprocess": function arrpush(d) {
+      return d[0].concat([d[1]]);
+    } },
+    { "name": "_", "symbols": ["_$ebnf$1"] }
+  ];
+  var ParserStart = "edtf";
+  var grammar_default = { Lexer, ParserRules, ParserStart };
+
+  // node_modules/edtf/src/parser.js
+  var defaults = {
+    level: 2,
+    types: [],
+    seasonIntervals: false
+  };
+  function byLevel(a, b) {
+    return a.level < b.level ? -1 : a.level > b.level ? 1 : 0;
+  }
+  function limit(results, constraints = {}) {
+    if (!results.length)
+      return results;
+    let {
+      level,
+      types,
+      seasonIntervals
+    } = { ...defaults, ...constraints };
+    return results.filter((res) => {
+      if (seasonIntervals && isSeasonInterval(res))
+        return true;
+      if (res.level > level)
+        return false;
+      if (types.length && !types.includes(res.type))
+        return false;
+      return true;
+    });
+  }
+  function isSeasonInterval({ type: type2, values }) {
+    return type2 === "Interval" && values[0].type === "Season";
+  }
+  function best(results) {
+    if (results.length < 2)
+      return results[0];
+    return results.sort(byLevel)[0];
+  }
+  function parse(input, constraints = {}) {
+    try {
+      let nep = parser();
+      let res = best(limit(nep.feed(input).results, constraints));
+      if (!res)
+        throw new Error("edtf: No possible parsings (@EOS)");
+      return res;
+    } catch (error) {
+      error.message += ` for "${input}"`;
+      throw error;
+    }
+  }
+  function parser() {
+    return new import_nearley.default.Parser(grammar_default.ParserRules, grammar_default.ParserStart);
+  }
+
+  // node_modules/edtf/src/interface.js
+  var ExtDateTime = class {
+    static get type() {
+      return this.name;
+    }
+    static parse(input) {
+      return parse(input, { types: [this.type] });
+    }
+    static from(input) {
+      return input instanceof this ? input : new this(input);
+    }
+    static UTC(...args) {
+      let time = Date.UTC(...args);
+      if (args[0] >= 0 && args[0] < 100)
+        time = adj(new Date(time));
+      return time;
+    }
+    get type() {
+      return this.constructor.type;
+    }
+    get edtf() {
+      return this.toEDTF();
+    }
+    get isEDTF() {
+      return true;
+    }
+    toJSON() {
+      return this.toEDTF();
+    }
+    toString() {
+      return this.toEDTF();
+    }
+    toLocaleString(...args) {
+      return this.localize(...args);
+    }
+    inspect() {
+      return this.toEDTF();
+    }
+    valueOf() {
+      return this.min;
+    }
+    [Symbol.toPrimitive](hint) {
+      return hint === "number" ? this.valueOf() : this.toEDTF();
+    }
+    covers(other) {
+      return this.min <= other.min && this.max >= other.max;
+    }
+    compare(other) {
+      if (other.min == null || other.max == null)
+        return null;
+      let [a, x, b, y] = [this.min, this.max, other.min, other.max];
+      if (a !== b)
+        return a < b ? -1 : 1;
+      if (x !== y)
+        return x < y ? -1 : 1;
+      return 0;
+    }
+    includes(other) {
+      let covered = this.covers(other);
+      if (!covered || !this[Symbol.iterator])
+        return covered;
+      for (let cur of this) {
+        if (cur.edtf === other.edtf)
+          return true;
+      }
+      return false;
+    }
+    *until(then) {
+      yield this;
+      if (this.compare(then))
+        yield* this.between(then);
+    }
+    *through(then) {
+      yield* this.until(then);
+      if (this.compare(then))
+        yield then;
+    }
+    *between(then) {
+      then = this.constructor.from(then);
+      let cur = this;
+      let dir = this.compare(then);
+      if (!dir)
+        return;
+      for (; ; ) {
+        cur = cur.next(-dir);
+        if (cur.compare(then) !== dir)
+          break;
+        yield cur;
+      }
+    }
+  };
+  function adj(date2, by = 1900) {
+    date2.setUTCFullYear(date2.getUTCFullYear() - by);
+    return date2.getTime();
+  }
+
+  // node_modules/edtf/src/mixin.js
+  var keys = Reflect.ownKeys.bind(Reflect);
+  var descriptor = Object.getOwnPropertyDescriptor.bind(Object);
+  var define2 = Object.defineProperty.bind(Object);
+  var has = Object.prototype.hasOwnProperty;
+  function mixin(target, ...mixins) {
+    for (let source of mixins) {
+      inherit2(target, source);
+      inherit2(target.prototype, source.prototype);
+    }
+    return target;
+  }
+  function inherit2(target, source) {
+    for (let key of keys(source)) {
+      if (!has.call(target, key)) {
+        define2(target, key, descriptor(source, key));
+      }
+    }
+  }
+
+  // node_modules/edtf/src/format.js
+  var import_locale_data = __toESM(require_locale_data(), 1);
+  var { assign: assign2 } = Object;
+  var noTime = {
+    timeZone: "UTC",
+    timeZoneName: void 0,
+    hour: void 0,
+    minute: void 0,
+    second: void 0
+  };
+  var DEFAULTS = [
+    {},
+    assign2({ weekday: void 0, day: void 0, month: void 0 }, noTime),
+    assign2({ weekday: void 0, day: void 0 }, noTime),
+    assign2({}, noTime)
+  ];
+  function getCacheId(...args) {
+    let id3 = [];
+    for (let arg of args) {
+      if (arg && typeof arg === "object") {
+        id3.push(getOrderedProps(arg));
+      } else {
+        id3.push(arg);
+      }
+    }
+    return JSON.stringify(id3);
+  }
+  function getOrderedProps(obj) {
+    let props = [];
+    let keys2 = Object.getOwnPropertyNames(obj);
+    for (let key of keys2.sort()) {
+      props.push({ [key]: obj[key] });
+    }
+    return props;
+  }
+  function getFormat(date2, locale2, options2) {
+    let opts = {};
+    switch (date2.precision) {
+      case 3:
+        opts.day = "numeric";
+      case 2:
+        opts.month = "numeric";
+      case 1:
+        opts.year = "numeric";
+        break;
+    }
+    assign2(opts, options2, DEFAULTS[date2.precision]);
+    let id3 = getCacheId(locale2, opts);
+    if (!format.cache.has(id3)) {
+      format.cache.set(id3, new Intl.DateTimeFormat(locale2, opts));
+    }
+    return format.cache.get(id3);
+  }
+  function getPatternsFor(fmt) {
+    const { locale: locale2, weekday, month, year: year2 } = fmt.resolvedOptions();
+    const lc = import_locale_data.default[locale2];
+    if (lc == null)
+      return null;
+    const variant = weekday || month === "long" ? "long" : !month || year2 === "2-digit" ? "short" : "medium";
+    return {
+      approximate: lc.date.approximate[variant],
+      uncertain: lc.date.uncertain[variant]
+    };
+  }
+  function isDMY(type2) {
+    return type2 === "day" || type2 === "month" || type2 === "year";
+  }
+  function mask(date2, parts) {
+    let string = "";
+    for (let { type: type2, value } of parts) {
+      string += isDMY(type2) && date2.unspecified.is(type2) ? value.replace(/./g, "X") : value;
+    }
+    return string;
+  }
+  function format(date2, locale2 = "en-US", options2 = {}) {
+    const fmt = getFormat(date2, locale2, options2);
+    const pat = getPatternsFor(fmt);
+    if (!date2.isEDTF || pat == null) {
+      return fmt.format(date2);
+    }
+    let string = !date2.unspecified.value || !fmt.formatToParts ? fmt.format(date2) : mask(date2, fmt.formatToParts(date2));
+    if (date2.approximate.value) {
+      string = pat.approximate.replace("%D", string);
+    }
+    if (date2.uncertain.value) {
+      string = pat.uncertain.replace("%D", string);
+    }
+    return string;
+  }
+  format.cache = /* @__PURE__ */ new Map();
+
+  // node_modules/edtf/src/date.js
+  var { abs: abs2 } = Math;
+  var { isArray: isArray2 } = Array;
+  var P = /* @__PURE__ */ new WeakMap();
+  var U = /* @__PURE__ */ new WeakMap();
+  var A = /* @__PURE__ */ new WeakMap();
+  var X = /* @__PURE__ */ new WeakMap();
+  var PM = [Bitmask.YMD, Bitmask.Y, Bitmask.YM, Bitmask.YMD];
+  var Date2 = class extends globalThis.Date {
+    constructor(...args) {
+      let precision2 = 0;
+      let uncertain, approximate, unspecified;
+      switch (args.length) {
+        case 0:
+          break;
+        case 1:
+          switch (typeof args[0]) {
+            case "number":
+              break;
+            case "string":
+              args = [Date2.parse(args[0])];
+            case "object":
+              if (isArray2(args[0]))
+                args[0] = { values: args[0] };
+              {
+                let obj = args[0];
+                assert_default(obj != null);
+                if (obj.type)
+                  assert_default.equal("Date", obj.type);
+                if (obj.values && obj.values.length) {
+                  precision2 = obj.values.length;
+                  args = obj.values.slice();
+                  if (args.length < 2)
+                    args.push(0);
+                  if (obj.offset) {
+                    if (args.length < 3)
+                      args.push(1);
+                    while (args.length < 5)
+                      args.push(0);
+                    args[4] = args[4] + obj.offset;
+                  }
+                  args = [ExtDateTime.UTC(...args)];
+                }
+                ({ uncertain, approximate, unspecified } = obj);
+              }
+              break;
+            default:
+              throw new RangeError("Invalid time value");
+          }
+          break;
+        default:
+          precision2 = args.length;
+      }
+      super(...args);
+      this.precision = precision2;
+      this.uncertain = uncertain;
+      this.approximate = approximate;
+      this.unspecified = unspecified;
+    }
+    set precision(value) {
+      P.set(this, value > 3 ? 0 : Number(value));
+    }
+    get precision() {
+      return P.get(this);
+    }
+    set uncertain(value) {
+      U.set(this, this.bits(value));
+    }
+    get uncertain() {
+      return U.get(this);
+    }
+    set approximate(value) {
+      A.set(this, this.bits(value));
+    }
+    get approximate() {
+      return A.get(this);
+    }
+    set unspecified(value) {
+      X.set(this, new Bitmask(value));
+    }
+    get unspecified() {
+      return X.get(this);
+    }
+    get atomic() {
+      return !(this.precision || this.unspecified.value);
+    }
+    get min() {
+      if (this.unspecified.value && this.year < 0) {
+        let values = this.unspecified.max(this.values.map(Date2.pad));
+        values[0] = -values[0];
+        return new Date2({ values }).getTime();
+      }
+      return this.getTime();
+    }
+    get max() {
+      return this.atomic ? this.getTime() : this.next().getTime() - 1;
+    }
+    get year() {
+      return this.getUTCFullYear();
+    }
+    get month() {
+      return this.getUTCMonth();
+    }
+    get date() {
+      return this.getUTCDate();
+    }
+    get hours() {
+      return this.getUTCHours();
+    }
+    get minutes() {
+      return this.getUTCMinutes();
+    }
+    get seconds() {
+      return this.getUTCSeconds();
+    }
+    get values() {
+      switch (this.precision) {
+        case 1:
+          return [this.year];
+        case 2:
+          return [this.year, this.month];
+        case 3:
+          return [this.year, this.month, this.date];
+        default:
+          return [
+            this.year,
+            this.month,
+            this.date,
+            this.hours,
+            this.minutes,
+            this.seconds
+          ];
+      }
+    }
+    /**
+     * Returns the next second, day, month, or year, depending on
+     * the current date's precision. Uncertain, approximate and
+     * unspecified masks are copied.
+     */
+    next(k = 1) {
+      let { values, unspecified, uncertain, approximate } = this;
+      if (unspecified.value) {
+        let bc = values[0] < 0;
+        values = k < 0 ^ bc ? unspecified.min(values.map(Date2.pad)) : unspecified.max(values.map(Date2.pad));
+        if (bc)
+          values[0] = -values[0];
+      }
+      values.push(values.pop() + k);
+      return new Date2({ values, unspecified, uncertain, approximate });
+    }
+    prev(k = 1) {
+      return this.next(-k);
+    }
+    *[Symbol.iterator]() {
+      let cur = this;
+      while (cur <= this.max) {
+        yield cur;
+        cur = cur.next();
+      }
+    }
+    toEDTF() {
+      if (!this.precision)
+        return this.toISOString();
+      let sign2 = this.year < 0 ? "-" : "";
+      let values = this.values.map(Date2.pad);
+      if (this.unspecified.value)
+        return sign2 + this.unspecified.masks(values).join("-");
+      if (this.uncertain.value)
+        values = this.uncertain.marks(values, "?");
+      if (this.approximate.value) {
+        values = this.approximate.marks(values, "~").map((value) => value.replace(/(~\?)|(\?~)/, "%"));
+      }
+      return sign2 + values.join("-");
+    }
+    format(...args) {
+      return format(this, ...args);
+    }
+    static pad(number3, idx = 0) {
+      if (!idx) {
+        let k = abs2(number3);
+        if (k < 10)
+          return `000${k}`;
+        if (k < 100)
+          return `00${k}`;
+        if (k < 1e3)
+          return `0${k}`;
+        return `${k}`;
+      }
+      if (idx === 1)
+        number3 = number3 + 1;
+      return number3 < 10 ? `0${number3}` : `${number3}`;
+    }
+    bits(value) {
+      if (value === true)
+        value = PM[this.precision];
+      return new Bitmask(value);
+    }
+  };
+  mixin(Date2, ExtDateTime);
+  var pad = Date2.pad;
+
+  // node_modules/edtf/src/year.js
+  var { abs: abs3 } = Math;
+  var V = /* @__PURE__ */ new WeakMap();
+  var S = /* @__PURE__ */ new WeakMap();
+  var Year = class extends ExtDateTime {
+    constructor(input) {
+      super();
+      V.set(this, []);
+      switch (typeof input) {
+        case "number":
+          this.year = input;
+          break;
+        case "string":
+          input = Year.parse(input);
+        case "object":
+          if (Array.isArray(input))
+            input = { values: input };
+          {
+            assert_default(input !== null);
+            if (input.type)
+              assert_default.equal("Year", input.type);
+            assert_default(input.values);
+            assert_default(input.values.length);
+            this.year = input.values[0];
+            this.significant = input.significant;
+          }
+          break;
+        case "undefined":
+          this.year = (/* @__PURE__ */ new Date()).getUTCFullYear();
+          break;
+        default:
+          throw new RangeError("Invalid year value");
+      }
+    }
+    get year() {
+      return this.values[0];
+    }
+    set year(year2) {
+      this.values[0] = Number(year2);
+    }
+    get significant() {
+      return S.get(this);
+    }
+    set significant(digits) {
+      S.set(this, Number(digits));
+    }
+    get values() {
+      return V.get(this);
+    }
+    get min() {
+      return ExtDateTime.UTC(this.year, 0);
+    }
+    get max() {
+      return ExtDateTime.UTC(this.year + 1, 0) - 1;
+    }
+    toEDTF() {
+      let y = abs3(this.year);
+      let s = this.significant ? `S${this.significant}` : "";
+      if (y <= 9999)
+        return `${this.year < 0 ? "-" : ""}${pad(this.year)}${s}`;
+      return `Y${this.year}${s}`;
+    }
+  };
+
+  // node_modules/edtf/src/decade.js
+  var { abs: abs4, floor: floor2 } = Math;
+  var V2 = /* @__PURE__ */ new WeakMap();
+  var Decade = class extends ExtDateTime {
+    constructor(input) {
+      super();
+      V2.set(this, []);
+      this.uncertain = false;
+      this.approximate = false;
+      switch (typeof input) {
+        case "number":
+          this.decade = input;
+          break;
+        case "string":
+          input = Decade.parse(input);
+        case "object":
+          if (Array.isArray(input))
+            input = { values: input };
+          {
+            assert_default(input !== null);
+            if (input.type)
+              assert_default.equal("Decade", input.type);
+            assert_default(input.values);
+            assert_default(input.values.length === 1);
+            this.decade = input.values[0];
+            this.uncertain = !!input.uncertain;
+            this.approximate = !!input.approximate;
+          }
+          break;
+        case "undefined":
+          this.year = (/* @__PURE__ */ new Date()).getUTCFullYear();
+          break;
+        default:
+          throw new RangeError("Invalid decade value");
+      }
+    }
+    get decade() {
+      return this.values[0];
+    }
+    set decade(decade2) {
+      decade2 = floor2(Number(decade2));
+      assert_default(abs4(decade2) < 1e3, `invalid decade: ${decade2}`);
+      this.values[0] = decade2;
+    }
+    get year() {
+      return this.values[0] * 10;
+    }
+    set year(year2) {
+      this.decade = year2 / 10;
+    }
+    get values() {
+      return V2.get(this);
+    }
+    get min() {
+      return Date2.UTC(this.year, 0);
+    }
+    get max() {
+      return Date2.UTC(this.year + 10, 0) - 1;
+    }
+    toEDTF() {
+      let decade2 = Decade.pad(this.decade);
+      if (this.uncertain)
+        decade2 = decade2 + "?";
+      if (this.approximate)
+        decade2 = (decade2 + "~").replace(/\?~/, "%");
+      return decade2;
+    }
+    static pad(number3) {
+      let k = abs4(number3);
+      let sign2 = k === number3 ? "" : "-";
+      if (k < 10)
+        return `${sign2}00${k}`;
+      if (k < 100)
+        return `${sign2}0${k}`;
+      return `${number3}`;
+    }
+  };
+
+  // node_modules/edtf/src/century.js
+  var { abs: abs5, floor: floor3 } = Math;
+  var V3 = /* @__PURE__ */ new WeakMap();
+  var Century = class extends ExtDateTime {
+    constructor(input) {
+      super();
+      V3.set(this, []);
+      this.uncertain = false;
+      this.approximate = false;
+      switch (typeof input) {
+        case "number":
+          this.century = input;
+          break;
+        case "string":
+          input = Century.parse(input);
+        case "object":
+          if (Array.isArray(input))
+            input = { values: input };
+          {
+            assert_default(input !== null);
+            if (input.type)
+              assert_default.equal("Century", input.type);
+            assert_default(input.values);
+            assert_default(input.values.length === 1);
+            this.century = input.values[0];
+            this.uncertain = !!input.uncertain;
+            this.approximate = !!input.approximate;
+          }
+          break;
+        case "undefined":
+          this.year = (/* @__PURE__ */ new Date()).getUTCFullYear();
+          break;
+        default:
+          throw new RangeError("Invalid century value");
+      }
+    }
+    get century() {
+      return this.values[0];
+    }
+    set century(century2) {
+      century2 = floor3(Number(century2));
+      assert_default(abs5(century2) < 100, `invalid century: ${century2}`);
+      this.values[0] = century2;
+    }
+    get year() {
+      return this.values[0] * 100;
+    }
+    set year(year2) {
+      this.century = year2 / 100;
+    }
+    get values() {
+      return V3.get(this);
+    }
+    get min() {
+      return Date2.UTC(this.year, 0);
+    }
+    get max() {
+      return Date2.UTC(this.year + 100, 0) - 1;
+    }
+    toEDTF() {
+      let century2 = Century.pad(this.century);
+      if (this.uncertain)
+        century2 = century2 + "?";
+      if (this.approximate)
+        century2 = (century2 + "~").replace(/\?~/, "%");
+      return century2;
+    }
+    static pad(number3) {
+      let k = abs5(number3);
+      let sign2 = k === number3 ? "" : "-";
+      if (k < 10)
+        return `${sign2}0${k}`;
+      return `${number3}`;
+    }
+  };
+
+  // node_modules/edtf/src/season.js
+  var V4 = /* @__PURE__ */ new WeakMap();
+  var Season = class extends ExtDateTime {
+    constructor(input) {
+      super();
+      V4.set(this, []);
+      switch (typeof input) {
+        case "number":
+          this.year = input;
+          this.season = arguments[1] || 21;
+          break;
+        case "string":
+          input = Season.parse(input);
+        case "object":
+          if (Array.isArray(input))
+            input = { values: input };
+          {
+            assert_default(input !== null);
+            if (input.type)
+              assert_default.equal("Season", input.type);
+            assert_default(input.values);
+            assert_default.equal(2, input.values.length);
+            this.year = input.values[0];
+            this.season = input.values[1];
+          }
+          break;
+        case "undefined":
+          this.year = (/* @__PURE__ */ new Date()).getUTCFullYear();
+          this.season = 21;
+          break;
+        default:
+          throw new RangeError("Invalid season value");
+      }
+    }
+    get year() {
+      return this.values[0];
+    }
+    set year(year2) {
+      this.values[0] = Number(year2);
+    }
+    get season() {
+      return this.values[1];
+    }
+    set season(season2) {
+      this.values[1] = validate(Number(season2));
+    }
+    get values() {
+      return V4.get(this);
+    }
+    next(k = 1) {
+      let { season: season2, year: year2 } = this;
+      switch (true) {
+        case (season2 >= 21 && season2 <= 36):
+          [year2, season2] = inc(year2, season2, k, season2 - (season2 - 21) % 4, 4);
+          break;
+        case (season2 >= 37 && season2 <= 39):
+          [year2, season2] = inc(year2, season2, k, 37, 3);
+          break;
+        case (season2 >= 40 && season2 <= 41):
+          [year2, season2] = inc(year2, season2, k, 40, 2);
+          break;
+        default:
+          throw new RangeError(`Cannot compute next/prev for season ${season2}`);
+      }
+      return new Season(year2, season2);
+    }
+    prev(k = 1) {
+      return this.next(-k);
+    }
+    get min() {
+      switch (this.season) {
+        case 21:
+        case 25:
+        case 32:
+        case 33:
+        case 40:
+        case 37:
+          return ExtDateTime.UTC(this.year, 0);
+        case 22:
+        case 26:
+        case 31:
+        case 34:
+          return ExtDateTime.UTC(this.year, 3);
+        case 23:
+        case 27:
+        case 30:
+        case 35:
+        case 41:
+          return ExtDateTime.UTC(this.year, 6);
+        case 24:
+        case 28:
+        case 29:
+        case 36:
+          return ExtDateTime.UTC(this.year, 9);
+        case 38:
+          return ExtDateTime.UTC(this.year, 4);
+        case 39:
+          return ExtDateTime.UTC(this.year, 8);
+        default:
+          return ExtDateTime.UTC(this.year, 0);
+      }
+    }
+    get max() {
+      switch (this.season) {
+        case 21:
+        case 25:
+        case 32:
+        case 33:
+          return ExtDateTime.UTC(this.year, 3) - 1;
+        case 22:
+        case 26:
+        case 31:
+        case 34:
+        case 40:
+          return ExtDateTime.UTC(this.year, 6) - 1;
+        case 23:
+        case 27:
+        case 30:
+        case 35:
+          return ExtDateTime.UTC(this.year, 9) - 1;
+        case 24:
+        case 28:
+        case 29:
+        case 36:
+        case 41:
+        case 39:
+          return ExtDateTime.UTC(this.year + 1, 0) - 1;
+        case 37:
+          return ExtDateTime.UTC(this.year, 5) - 1;
+        case 38:
+          return ExtDateTime.UTC(this.year, 9) - 1;
+        default:
+          return ExtDateTime.UTC(this.year + 1, 0) - 1;
+      }
+    }
+    toEDTF() {
+      return `${this.year < 0 ? "-" : ""}${pad(this.year)}-${this.season}`;
+    }
+  };
+  function validate(season2) {
+    if (isNaN(season2) || season2 < 21 || season2 === Infinity)
+      throw new RangeError(`invalid division of year: ${season2}`);
+    return season2;
+  }
+  function inc(year2, season2, by, base, size) {
+    const m = season2 + by - base;
+    return [
+      year2 + Math.floor(m / size),
+      validate(base + (m % size + size) % size)
+    ];
+  }
+
+  // node_modules/edtf/src/interval.js
+  var V5 = /* @__PURE__ */ new WeakMap();
+  var Interval = class extends ExtDateTime {
+    constructor(...args) {
+      super();
+      V5.set(this, [null, null]);
+      switch (args.length) {
+        case 2:
+          this.lower = args[0];
+          this.upper = args[1];
+          break;
+        case 1:
+          switch (typeof args[0]) {
+            case "string":
+              args[0] = Interval.parse(args[0]);
+            case "object":
+              if (Array.isArray(args[0]))
+                args[0] = { values: args[0] };
+              {
+                let [obj] = args;
+                assert_default(obj !== null);
+                if (obj.type)
+                  assert_default.equal("Interval", obj.type);
+                assert_default(obj.values);
+                assert_default(obj.values.length < 3);
+                this.lower = obj.values[0];
+                this.upper = obj.values[1];
+                this.earlier = obj.earlier;
+                this.later = obj.later;
+              }
+              break;
+            default:
+              this.lower = args[0];
+          }
+          break;
+        case 0:
+          break;
+        default:
+          throw new RangeError(`invalid interval value: ${args}`);
+      }
+    }
+    get lower() {
+      return this.values[0];
+    }
+    set lower(value) {
+      if (value == null)
+        return this.values[0] = null;
+      if (value === Infinity || value === -Infinity)
+        return this.values[0] = Infinity;
+      value = getDateOrSeasonFrom(value);
+      if (value >= this.upper && this.upper != null)
+        throw new RangeError(`invalid lower bound: ${value}`);
+      this.values[0] = value;
+    }
+    get upper() {
+      return this.values[1];
+    }
+    set upper(value) {
+      if (value == null)
+        return this.values[1] = null;
+      if (value === Infinity)
+        return this.values[1] = Infinity;
+      value = getDateOrSeasonFrom(value);
+      if (this.lower !== null && this.lower !== Infinity && value <= this.lower)
+        throw new RangeError(`invalid upper bound: ${value}`);
+      this.values[1] = value;
+    }
+    get finite() {
+      return this.lower != null && this.lower !== Infinity && (this.upper != null && this.upper !== Infinity);
+    }
+    *[Symbol.iterator]() {
+      if (!this.finite)
+        throw Error("cannot iterate infinite interval");
+      yield* this.lower.through(this.upper);
+    }
+    get values() {
+      return V5.get(this);
+    }
+    get min() {
+      let v = this.lower;
+      return !v ? null : v === Infinity ? -Infinity : v.min;
+    }
+    get max() {
+      let v = this.upper;
+      return !v ? null : v === Infinity ? Infinity : v.max;
+    }
+    toEDTF() {
+      return this.values.map((v) => {
+        if (v === Infinity)
+          return "..";
+        if (!v)
+          return "";
+        return v.edtf;
+      }).join("/");
+    }
+  };
+  function getDateOrSeasonFrom(value) {
+    try {
+      return Date2.from(value);
+    } catch (de) {
+      return Season.from(value);
+    }
+  }
+
+  // node_modules/edtf/src/list.js
+  var { isArray: isArray3 } = Array;
+  var V6 = /* @__PURE__ */ new WeakMap();
+  var List = class extends ExtDateTime {
+    constructor(...args) {
+      super();
+      V6.set(this, []);
+      if (args.length > 1)
+        args = [args];
+      if (args.length) {
+        switch (typeof args[0]) {
+          case "string":
+            args[0] = new.target.parse(args[0]);
+          case "object":
+            if (isArray3(args[0]))
+              args[0] = { values: args[0] };
+            {
+              let [obj] = args;
+              assert_default(obj !== null);
+              if (obj.type)
+                assert_default.equal(this.type, obj.type);
+              assert_default(obj.values);
+              this.concat(...obj.values);
+              this.earlier = !!obj.earlier;
+              this.later = !!obj.later;
+            }
+            break;
+          default:
+            throw new RangeError(`invalid ${this.type} value: ${args}`);
+        }
+      }
+    }
+    get values() {
+      return V6.get(this);
+    }
+    get length() {
+      return this.values.length;
+    }
+    get empty() {
+      return this.length === 0;
+    }
+    get first() {
+      let value = this.values[0];
+      return isArray3(value) ? value[0] : value;
+    }
+    get last() {
+      let value = this.values[this.length - 1];
+      return isArray3(value) ? value[0] : value;
+    }
+    clear() {
+      return this.values.length = 0, this;
+    }
+    concat(...args) {
+      for (let value of args)
+        this.push(value);
+      return this;
+    }
+    push(value) {
+      if (isArray3(value)) {
+        assert_default.equal(2, value.length);
+        return this.values.push(value.map((v) => Date2.from(v)));
+      }
+      return this.values.push(Date2.from(value));
+    }
+    *[Symbol.iterator]() {
+      for (let value of this.values) {
+        if (isArray3(value))
+          yield* value[0].through(value[1]);
+        else
+          yield value;
+      }
+    }
+    get min() {
+      return this.earlier ? -Infinity : this.empty ? 0 : this.first.min;
+    }
+    get max() {
+      return this.later ? Infinity : this.empty ? 0 : this.last.max;
+    }
+    content() {
+      return this.values.map((v) => isArray3(v) ? v.map((d) => d.edtf).join("..") : v.edtf).join(",");
+    }
+    toEDTF() {
+      return this.wrap(
+        this.empty ? "" : `${this.earlier ? ".." : ""}${this.content()}${this.later ? ".." : ""}`
+      );
+    }
+    wrap(content) {
+      return `{${content}}`;
+    }
+  };
+
+  // node_modules/edtf/src/set.js
+  var Set2 = class extends List {
+    static parse(input) {
+      return parse(input, { types: ["Set"] });
+    }
+    get type() {
+      return "Set";
+    }
+    wrap(content) {
+      return `[${content}]`;
+    }
+  };
+
+  // node_modules/edtf/src/edtf.js
+  var UNIX_TIME = /^\d{5,}$/;
+  function edtf(...args) {
+    if (!args.length)
+      return new Date2();
+    if (args.length === 1) {
+      switch (typeof args[0]) {
+        case "object":
+          return new (types_exports[args[0].type] || Date2)(args[0]);
+        case "number":
+          return new Date2(args[0]);
+        case "string":
+          if (UNIX_TIME.test(args[0]))
+            return new Date2(Number(args[0]));
+      }
+    }
+    let res = parse(...args);
+    return new types_exports[res.type](res);
+  }
+
+  // modules/util/date.js
+  function isSameDate(date1, date2) {
+    if (date1[1] !== date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] !== date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] !== date2[3])
+      return false;
+    return true;
+  }
+  function isBefore(date1, date2) {
+    if (date1[1] > date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] > date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] > date2[3])
+      return false;
+    return true;
+  }
+  function isAfter(date1, date2) {
+    if (date1[1] < date2[1])
+      return false;
+    if (date1[2] && date2[2] && date1[2] < date2[2])
+      return false;
+    if (date1[3] && date2[3] && date1[3] < date2[3])
+      return false;
+    return true;
+  }
+  function utilDatesOverlap(tags1, tags2, touchIsOverlap) {
+    var dateRegex = /^(-?\d{1,4})(?:-(\d\d))?(?:-(\d\d))?$/;
+    var minDate = ["-9999", "-9999"], maxDate = ["9999", "9999"], start1 = (tags1.start_date || "").match(dateRegex) || minDate, start2 = (tags2.start_date || "").match(dateRegex) || minDate, end1 = (tags1.end_date || "").match(dateRegex) || maxDate, end2 = (tags2.end_date || "").match(dateRegex) || maxDate;
+    if (isSameDate(end1, start2) || isSameDate(end2, start1)) {
+      return touchIsOverlap === true;
+    }
+    return isAfter(start1, start2) && isBefore(start1, end2) || isAfter(start2, start1) && isBefore(start2, end1) || isAfter(end1, start2) && isBefore(end1, end2) || isAfter(end2, start1) && isBefore(end2, end1);
+  }
+  function utilNormalizeDateString(raw) {
+    if (!raw)
+      return null;
+    var date2;
+    var dateRegex = /^(-)?(\d+)(?:-(\d\d?)(?:-(\d\d?))?)?$/;
+    var match = raw.match(dateRegex);
+    if (match !== null) {
+      date2 = /* @__PURE__ */ new Date(0);
+      date2.setUTCFullYear(parseInt((match[1] || "") + match[2], 10));
+      if (match[3])
+        date2.setUTCMonth(parseInt(match[3], 10) - 1);
+      if (match[4])
+        date2.setUTCDate(parseInt(match[4], 10));
+    } else {
+      date2 = new Date(raw);
+      try {
+        date2.toISOString();
+      } catch (exc) {
+        return null;
+      }
+    }
+    var normalized = "";
+    if (match !== null && date2.getUTCFullYear() < 0) {
+      var absYear = Math.abs(date2.getUTCFullYear());
+      normalized += "-" + String(absYear).padStart(4, "0");
+    } else {
+      normalized += String(date2.getUTCFullYear()).padStart(4, "0");
+    }
+    if (match === null || match[3]) {
+      normalized += "-" + String(date2.getUTCMonth() + 1).padStart(2, "0");
+    }
+    if (match === null || match[4]) {
+      normalized += "-" + String(date2.getUTCDate()).padStart(2, "0");
+    }
+    return {
+      date: date2,
+      value: normalized,
+      localeOptions: {
+        year: "numeric",
+        era: date2.getUTCFullYear() < 1 ? "short" : void 0,
+        month: match === null || match[3] ? "long" : void 0,
+        day: match === null || match[4] ? "numeric" : void 0,
+        timeZone: "UTC"
+      }
+    };
+  }
+  function utilEDTFFromOSMDateString(osm) {
+    let [match, start2, end, bc] = osm.match(/^(.+)\.\.(.+)( BCE?)?$/) || [];
+    if (match) {
+      if (!bc)
+        bc = "";
+      let startEDTF = utilEDTFFromOSMDateString(start2 + bc);
+      if (startEDTF) {
+        let parsed = edtf(startEDTF);
+        if (parsed instanceof Set) {
+          startEDTF = parsed.earlier ? "" : parsed.first.edtf;
+        }
+        if (parsed instanceof Interval) {
+          startEDTF = parsed.earlier ? "" : parsed.lower.edtf;
+        }
+      }
+      let endEDTF = utilEDTFFromOSMDateString(end + bc);
+      if (endEDTF) {
+        let parsed = edtf(endEDTF);
+        if (parsed instanceof Set) {
+          endEDTF = parsed.later ? "" : parsed.last.edtf;
+        }
+        if (parsed instanceof Interval) {
+          endEDTF = parsed.later ? "" : parsed.upper.edtf;
+        }
+      }
+      if (startEDTF && endEDTF) {
+        if (startEDTF.match(/[~?%]/) || endEDTF.match(/[~?%]/)) {
+          return `${startEDTF}/${endEDTF}`;
+        } else {
+          return `[${startEDTF}..${endEDTF}]`;
+        }
+      }
+    }
+    let year2, circa, monthDay;
+    [match, circa, year2, monthDay, bc] = osm.match(/^(~)?(\d+)(-\d\d(?:-\d\d)?)?( BCE?)?$/) || [];
+    if (match) {
+      if (!circa)
+        circa = "";
+      if (!monthDay)
+        monthDay = "";
+      if (bc) {
+        year2 = "-" + String(parseInt(year2, 10) - 1).padStart(4, "0");
+      } else {
+        year2 = year2.padStart(4, "0");
+      }
+      return `${year2}${monthDay}${circa}`;
+    }
+    let decade2;
+    [match, circa, decade2, bc] = osm.match(/^(~)?(\d+)0s( BCE?)?$/) || [];
+    if (match) {
+      if (!circa)
+        circa = "";
+      if (!bc) {
+        return `${decade2.padStart(3, "0")}X${circa}`;
+      }
+      let startYear = String(parseInt(decade2, 10) * 10 + 8).padStart(4, "0");
+      let endYear = String(parseInt(decade2, 10) * 10 - 1).padStart(4, "0");
+      return `-${startYear}${circa}/-${endYear}${circa}`;
+    }
+    let century2;
+    [match, circa, century2, bc] = osm.match(/^(~)?C(\d+)( BCE?)?$/) || [];
+    if (match) {
+      if (!circa)
+        circa = "";
+      if (!bc) {
+        return `${String(parseInt(century2, 10) - 1).padStart(2, "0")}XX${circa}`;
+      }
+      let startYear = String((parseInt(century2, 10) - 1) * 100 + 98).padStart(4, "0");
+      let endYear = String((parseInt(century2, 10) - 1) * 100 - 1).padStart(4, "0");
+      return `-${startYear}${circa}/-${endYear}${circa}`;
+    }
+    let third;
+    [match, third, decade2, bc] = osm.match(/^(early|mid|late) (\d+)0s( BCE?)?$/) || [];
+    if (match) {
+      const offsetsByThird = {
+        early: [0, 3],
+        mid: [3, 7],
+        late: [7, 9]
+      };
+      let startYear = decade2 * 10 + offsetsByThird[third][bc ? 1 : 0];
+      let endYear = decade2 * 10 + offsetsByThird[third][bc ? 0 : 1];
+      if (bc) {
+        startYear = startYear + 1;
+        endYear = endYear + 1;
+        return `-${String(startYear).padStart(4, "0")}~/-${String(endYear).padStart(4, "0")}~`;
+      } else {
+        return `${String(startYear).padStart(4, "0")}~/${String(endYear).padStart(4, "0")}~`;
+      }
+    }
+    [match, third, century2, bc] = osm.match(/^(early|mid|late) C(\d+)( BCE?)?$/) || [];
+    if (match) {
+      const offsetsByThird = {
+        early: [0, 30],
+        mid: [30, 70],
+        late: [70, 99]
+      };
+      century2 = parseInt(century2, 10) - 1;
+      let startYear = century2 * 100 + offsetsByThird[third][bc ? 1 : 0];
+      let endYear = century2 * 100 + offsetsByThird[third][bc ? 0 : 1];
+      if (bc) {
+        startYear = startYear + 1;
+        endYear = endYear + 1;
+        return `-${String(startYear).padStart(4, "0")}~/-${String(endYear).padStart(4, "0")}~`;
+      } else {
+        return `${String(startYear).padStart(4, "0")}~/${String(endYear).padStart(4, "0")}~`;
+      }
+    }
+    [match, end] = osm.match(/^before (\d{4}(?:-\d\d)?(?:-\d\d)?)$/) || [];
+    if (match) {
+      return `[..${end}]`;
+    }
+    [match, start2] = osm.match(/^after (\d{4}(?:-\d\d)?(?:-\d\d)?)$/) || [];
+    if (match) {
+      return `[${start2}..]`;
+    }
+  }
+
   // modules/util/get_set_value.js
   function utilGetSetValue(selection2, value) {
     function d3_selection_value(value2) {
@@ -25469,8 +28267,8 @@
     var _keybindings = {};
     function testBindings(d3_event, isCapturing) {
       var didMatch = false;
-      var bindings = Object.keys(_keybindings).map(function(id2) {
-        return _keybindings[id2];
+      var bindings = Object.keys(_keybindings).map(function(id3) {
+        return _keybindings[id3];
       });
       var i2, binding;
       for (i2 = 0; i2 < bindings.length; i2++) {
@@ -25567,8 +28365,8 @@
     keybinding.off = function(codes, capture2) {
       var arr = utilArrayUniq([].concat(codes));
       for (var i2 = 0; i2 < arr.length; i2++) {
-        var id2 = arr[i2] + (capture2 ? "-capture" : "-bubble");
-        delete _keybindings[id2];
+        var id3 = arr[i2] + (capture2 ? "-capture" : "-bubble");
+        delete _keybindings[id3];
       }
       return keybinding;
     };
@@ -25578,9 +28376,9 @@
       }
       var arr = utilArrayUniq([].concat(codes));
       for (var i2 = 0; i2 < arr.length; i2++) {
-        var id2 = arr[i2] + (capture2 ? "-capture" : "-bubble");
+        var id3 = arr[i2] + (capture2 ? "-capture" : "-bubble");
         var binding = {
-          id: id2,
+          id: id3,
           capture: capture2,
           callback,
           event: {
@@ -25596,10 +28394,10 @@
             }
           }
         };
-        if (_keybindings[id2]) {
-          console.warn('warning: duplicate keybinding for "' + id2 + '"');
+        if (_keybindings[id3]) {
+          console.warn('warning: duplicate keybinding for "' + id3 + '"');
         }
-        _keybindings[id2] = binding;
+        _keybindings[id3] = binding;
         var matches = arr[i2].toLowerCase().match(/(?:(?:[^+⇧⌃⌥⌘])+|[⇧⌃⌥⌘]|\+\+|^\+$)/g);
         for (var j2 = 0; j2 < matches.length; j2++) {
           if (matches[j2] === "++")
@@ -25996,8 +28794,8 @@
     var _translate = [_size[0] / 2, _size[1] / 2];
     var _margin = 0;
     var _skipNullIsland = false;
-    function clamp3(num, min3, max3) {
-      return Math.max(min3, Math.min(num, max3));
+    function clamp3(num2, min4, max4) {
+      return Math.max(min4, Math.min(num2, max4));
     }
     function nearNullIsland(tile) {
       var x = tile[0];
@@ -26006,9 +28804,9 @@
       if (z >= 7) {
         var center = Math.pow(2, z - 1);
         var width = Math.pow(2, z - 6);
-        var min3 = center - width / 2;
-        var max3 = center + width / 2 - 1;
-        return x >= min3 && x <= max3 && y >= min3 && y <= max3;
+        var min4 = center - width / 2;
+        var max4 = center + width / 2 - 1;
+        return x >= min4 && x <= max4 && y >= min4 && y <= max4;
       }
       return false;
     }
@@ -26369,7 +29167,7 @@
     localizer.hasTextForStringId = function(stringId) {
       return !!localizer.tInfo(stringId, { default: "nothing found" }).locale;
     };
-    localizer.coalesceStringIds = (stringIds) => stringIds.find((id2) => localizer.hasTextForStringId(id2)) || stringIds[stringIds.length - 1];
+    localizer.coalesceStringIds = (stringIds) => stringIds.find((id3) => localizer.hasTextForStringId(id3)) || stringIds[stringIds.length - 1];
     localizer.t = function(stringId, replacements, locale2) {
       return localizer.tInfo(stringId, replacements, locale2).text;
     };
@@ -26430,15 +29228,15 @@
     let _this = {};
     let _memo = {};
     _this.collection = collection;
-    _this.item = (id2) => {
-      if (_memo[id2])
-        return _memo[id2];
-      const found = _this.collection.find((d) => d.id === id2);
+    _this.item = (id3) => {
+      if (_memo[id3])
+        return _memo[id3];
+      const found = _this.collection.find((d) => d.id === id3);
       if (found)
-        _memo[id2] = found;
+        _memo[id3] = found;
       return found;
     };
-    _this.index = (id2) => _this.collection.findIndex((d) => d.id === id2);
+    _this.index = (id3) => _this.collection.findIndex((d) => d.id === id3);
     _this.matchGeometry = (geometry) => {
       return presetCollection(
         _this.collection.filter((d) => d.matchGeometry(geometry))
@@ -26455,10 +29253,10 @@
       );
     };
     _this.fallback = (geometry) => {
-      let id2 = geometry;
-      if (id2 === "vertex")
-        id2 = "point";
-      return _this.item(id2);
+      let id3 = geometry;
+      if (id3 === "vertex")
+        id3 = "point";
+      return _this.item(id3);
     };
     _this.search = (value, geometry, loc) => {
       if (!value)
@@ -26900,8 +29698,8 @@
 
   // modules/presets/index.js
   var _mainPresetIndex = presetIndex();
-  function setHistoricalDefaults(defaults2) {
-    defaults2.relation.unshift("type/chronology");
+  function setHistoricalDefaults(defaults3) {
+    defaults3.relation.unshift("type/chronology");
   }
   function addHistoricalPresets(presets) {
     presets["type/chronology"] = {
@@ -26914,6 +29712,7 @@
     };
   }
   function addHistoricalFields(fields) {
+    fields.start_date.type = "date";
     fields.end_date = {
       ...fields.start_date,
       key: "end_date"
@@ -27026,7 +29825,7 @@
           const def = d.defaults[geometry];
           if (Array.isArray(def)) {
             _defaults[geometry] = presetCollection(
-              def.map((id2) => _presets[id2] || _categories[id2]).filter(Boolean)
+              def.map((id3) => _presets[id3] || _categories[id3]).filter(Boolean)
             );
           } else {
             delete _defaults[geometry];
@@ -27148,8 +29947,8 @@
       let areaKeys = {};
       const presets = _this.collection.filter((p) => !p.suggestion && !p.replacement);
       presets.forEach((p) => {
-        const keys = p.tags && Object.keys(p.tags);
-        const key = keys && keys.length && keys[0];
+        const keys2 = p.tags && Object.keys(p.tags);
+        const key = keys2 && keys2.length && keys2[0];
         if (!key)
           return;
         if (ignore[key])
@@ -27175,8 +29974,8 @@
       return _this.collection.filter((lineTags, d) => {
         if (d.suggestion || d.replacement || d.searchable === false)
           return lineTags;
-        const keys = d.tags && Object.keys(d.tags);
-        const key = keys && keys.length && keys[0];
+        const keys2 = d.tags && Object.keys(d.tags);
+        const key = keys2 && keys2.length && keys2[0];
         if (!key)
           return lineTags;
         if (d.geometry.indexOf("line") !== -1) {
@@ -27190,8 +29989,8 @@
       return _this.collection.reduce((pointTags, d) => {
         if (d.suggestion || d.replacement || d.searchable === false)
           return pointTags;
-        const keys = d.tags && Object.keys(d.tags);
-        const key = keys && keys.length && keys[0];
+        const keys2 = d.tags && Object.keys(d.tags);
+        const key = keys2 && keys2.length && keys2[0];
         if (!key)
           return pointTags;
         if (d.geometry.indexOf("point") !== -1) {
@@ -27205,8 +30004,8 @@
       return _this.collection.reduce((vertexTags, d) => {
         if (d.suggestion || d.replacement || d.searchable === false)
           return vertexTags;
-        const keys = d.tags && Object.keys(d.tags);
-        const key = keys && keys.length && keys[0];
+        const keys2 = d.tags && Object.keys(d.tags);
+        const key = keys2 && keys2.length && keys2[0];
         if (!key)
           return vertexTags;
         if (d.geometry.indexOf("vertex") !== -1) {
@@ -27216,26 +30015,26 @@
         return vertexTags;
       }, {});
     };
-    _this.field = (id2) => _fields[id2];
+    _this.field = (id3) => _fields[id3];
     _this.universal = () => _universal;
     _this.defaults = (geometry, n2, startWithRecents, loc, extraPresets) => {
       let recents = [];
       if (startWithRecents) {
         recents = _this.recent().matchGeometry(geometry).collection.slice(0, 4);
       }
-      let defaults2;
+      let defaults3;
       if (_addablePresetIDs) {
-        defaults2 = Array.from(_addablePresetIDs).map(function(id2) {
-          var preset = _this.item(id2);
+        defaults3 = Array.from(_addablePresetIDs).map(function(id3) {
+          var preset = _this.item(id3);
           if (preset && preset.matchGeometry(geometry))
             return preset;
           return null;
         }).filter(Boolean);
       } else {
-        defaults2 = _defaults[geometry].collection.concat(_this.fallback(geometry));
+        defaults3 = _defaults[geometry].collection.concat(_this.fallback(geometry));
       }
       let result = presetCollection(
-        utilArrayUniq(recents.concat(defaults2).concat(extraPresets || [])).slice(0, n2 - 1)
+        utilArrayUniq(recents.concat(defaults3).concat(extraPresets || [])).slice(0, n2 - 1)
       );
       if (Array.isArray(loc)) {
         const validHere = _sharedLocationManager.locationSetsAt(loc);
@@ -27287,13 +30086,13 @@
       return null;
     }
     _this.getGenericRibbonItems = () => {
-      return ["point", "line", "area"].map((id2) => RibbonItem(_this.item(id2), "generic"));
+      return ["point", "line", "area"].map((id3) => RibbonItem(_this.item(id3), "generic"));
     };
     _this.getAddable = () => {
       if (!_addablePresetIDs)
         return [];
-      return _addablePresetIDs.map((id2) => {
-        const preset = _this.item(id2);
+      return _addablePresetIDs.map((id3) => {
+        const preset = _this.item(id3);
         if (preset)
           return RibbonItem(preset, "addable");
         return null;
@@ -27459,8 +30258,8 @@
   }
   function utilTagDiff(oldTags, newTags) {
     var tagDiff = [];
-    var keys = utilArrayUnion(Object.keys(oldTags), Object.keys(newTags)).sort();
-    keys.forEach(function(k) {
+    var keys2 = utilArrayUnion(Object.keys(oldTags), Object.keys(newTags)).sort();
+    keys2.forEach(function(k) {
       var oldVal = oldTags[k];
       var newVal = newTags[k];
       if ((oldVal || oldVal === "") && (newVal === void 0 || newVal !== oldVal)) {
@@ -27491,14 +30290,14 @@
     var seen = new Set(ids);
     ids.forEach(collectShallowDescendants);
     return utilEntitySelector(Array.from(seen));
-    function collectShallowDescendants(id2) {
-      var entity = graph.hasEntity(id2);
+    function collectShallowDescendants(id3) {
+      var entity = graph.hasEntity(id3);
       if (!entity || entity.type !== "relation")
         return;
       entity.members.map(function(member) {
         return member.id;
-      }).forEach(function(id3) {
-        seen.add(id3);
+      }).forEach(function(id4) {
+        seen.add(id4);
       });
     }
   }
@@ -27509,11 +30308,11 @@
     var seen = /* @__PURE__ */ new Set();
     ids.forEach(collectDeepDescendants);
     return Array.from(seen);
-    function collectDeepDescendants(id2) {
-      if (seen.has(id2))
+    function collectDeepDescendants(id3) {
+      if (seen.has(id3))
         return;
-      seen.add(id2);
-      var entity = graph.hasEntity(id2);
+      seen.add(id3);
+      var entity = graph.hasEntity(id3);
       if (!entity || entity.type !== "relation")
         return;
       entity.members.map(function(member) {
@@ -27527,14 +30326,14 @@
     var returners = /* @__PURE__ */ new Set();
     ids.forEach(collectDeepDescendants);
     return utilEntitySelector(Array.from(returners));
-    function collectDeepDescendants(id2) {
-      if (seen.has(id2))
+    function collectDeepDescendants(id3) {
+      if (seen.has(id3))
         return;
-      seen.add(id2);
-      if (!idsSet.has(id2)) {
-        returners.add(id2);
+      seen.add(id3);
+      if (!idsSet.has(id3)) {
+        returners.add(id3);
       }
-      var entity = graph.hasEntity(id2);
+      var entity = graph.hasEntity(id3);
       if (!entity || entity.type !== "relation")
         return;
       if (skipMultipolgonMembers && entity.isMultipolygon())
@@ -27552,11 +30351,11 @@
     var nodes = /* @__PURE__ */ new Set();
     ids.forEach(collectNodes);
     return Array.from(nodes);
-    function collectNodes(id2) {
-      if (seen.has(id2))
+    function collectNodes(id3) {
+      if (seen.has(id3))
         return;
-      seen.add(id2);
-      var entity = graph.hasEntity(id2);
+      seen.add(id3);
+      var entity = graph.hasEntity(id3);
       if (!entity)
         return;
       if (entity.type === "node") {
@@ -27584,9 +30383,9 @@
         options2.year = start2.localeOptions.year;
         options2.era = start2.localeOptions.era;
       }
-      let format2 = new Intl.DateTimeFormat(_mainLocalizer.languageCode(), options2);
+      let format3 = new Intl.DateTimeFormat(_mainLocalizer.languageCode(), options2);
       let lateDate = new Date(Date.UTC(9999));
-      let parts = format2.formatRangeToParts(start2 ? start2.date : lateDate, end ? end.date : lateDate);
+      let parts = format3.formatRangeToParts(start2 ? start2.date : lateDate, end ? end.date : lateDate);
       if (!start2) {
         parts = parts.filter((p) => p.source !== "startRange");
       }
@@ -27640,12 +30439,12 @@
     }
     return name;
   }
-  function utilDisplayType(id2) {
+  function utilDisplayType(id3) {
     return {
       n: _t("inspector.node"),
       w: _t("inspector.way"),
       r: _t("inspector.relation")
-    }[id2.charAt(0)];
+    }[id3.charAt(0)];
   }
   function utilDisplayLabel(entity, graphOrGeometry, verbose) {
     var result;
@@ -27674,8 +30473,8 @@
       return graph.hasEntity(entityID);
     }).filter(Boolean);
     entities.forEach(function(entity) {
-      var keys = Object.keys(entity.tags).filter(Boolean);
-      keys.forEach(function(key2) {
+      var keys2 = Object.keys(entity.tags).filter(Boolean);
+      keys2.forEach(function(key2) {
         allKeys.add(key2);
       });
     });
@@ -27875,11 +30674,11 @@
   function utilUnicodeCharsCount(str2) {
     return Array.from(str2).length;
   }
-  function utilUnicodeCharsTruncated(str2, limit) {
-    return Array.from(str2).slice(0, limit).join("");
+  function utilUnicodeCharsTruncated(str2, limit2) {
+    return Array.from(str2).slice(0, limit2).join("");
   }
-  function toNumericID(id2) {
-    var match = id2.match(/^[cnwr](-?\d+)$/);
+  function toNumericID(id3) {
+    var match = id3.match(/^[cnwr](-?\d+)$/);
     if (match) {
       return parseInt(match[1], 10);
     }
@@ -27908,10 +30707,10 @@
     var oldestIDIndex = 0;
     var oldestID = toNumericID(ids[0]);
     for (var i2 = 1; i2 < ids.length; i2++) {
-      var num = toNumericID(ids[i2]);
-      if (compareNumericIDs(oldestID, num) === 1) {
+      var num2 = toNumericID(ids[i2]);
+      if (compareNumericIDs(oldestID, num2) === 1) {
         oldestIDIndex = i2;
-        oldestID = num;
+        oldestID = num2;
       }
     }
     return ids[oldestIDIndex];
@@ -27926,87 +30725,6 @@
     if (val.normalize)
       val = val.normalize("NFC");
     return utilUnicodeCharsTruncated(val, maxChars);
-  }
-  function isSameDate(date1, date2) {
-    if (date1[1] !== date2[1])
-      return false;
-    if (date1[2] && date2[2] && date1[2] !== date2[2])
-      return false;
-    if (date1[3] && date2[3] && date1[3] !== date2[3])
-      return false;
-    return true;
-  }
-  function isBefore(date1, date2) {
-    if (date1[1] > date2[1])
-      return false;
-    if (date1[2] && date2[2] && date1[2] > date2[2])
-      return false;
-    if (date1[3] && date2[3] && date1[3] > date2[3])
-      return false;
-    return true;
-  }
-  function isAfter(date1, date2) {
-    if (date1[1] < date2[1])
-      return false;
-    if (date1[2] && date2[2] && date1[2] < date2[2])
-      return false;
-    if (date1[3] && date2[3] && date1[3] < date2[3])
-      return false;
-    return true;
-  }
-  function utilDatesOverlap(tags1, tags2, touchIsOverlap) {
-    var dateRegex = /^(-?\d{1,4})(?:-(\d\d))?(?:-(\d\d))?$/;
-    var minDate = ["-9999", "-9999"], maxDate = ["9999", "9999"], start1 = (tags1.start_date || "").match(dateRegex) || minDate, start2 = (tags2.start_date || "").match(dateRegex) || minDate, end1 = (tags1.end_date || "").match(dateRegex) || maxDate, end2 = (tags2.end_date || "").match(dateRegex) || maxDate;
-    if (isSameDate(end1, start2) || isSameDate(end2, start1)) {
-      return touchIsOverlap === true;
-    }
-    return isAfter(start1, start2) && isBefore(start1, end2) || isAfter(start2, start1) && isBefore(start2, end1) || isAfter(end1, start2) && isBefore(end1, end2) || isAfter(end2, start1) && isBefore(end2, end1);
-  }
-  function utilNormalizeDateString(raw) {
-    if (!raw)
-      return null;
-    var date;
-    var dateRegex = /^(-)?(\d+)(?:-(\d\d?)(?:-(\d\d?))?)?$/;
-    var match = raw.match(dateRegex);
-    if (match !== null) {
-      date = /* @__PURE__ */ new Date(0);
-      date.setUTCFullYear(parseInt((match[1] || "") + match[2], 10));
-      if (match[3])
-        date.setUTCMonth(parseInt(match[3], 10) - 1);
-      if (match[4])
-        date.setUTCDate(parseInt(match[4], 10));
-    } else {
-      date = new Date(raw);
-      try {
-        date.toISOString();
-      } catch (exc) {
-        return null;
-      }
-    }
-    var normalized = "";
-    if (match !== null && date.getUTCFullYear() < 0) {
-      var absYear = Math.abs(date.getUTCFullYear());
-      normalized += "-" + String(absYear).padStart(4, "0");
-    } else {
-      normalized += String(date.getUTCFullYear()).padStart(4, "0");
-    }
-    if (match === null || match[3]) {
-      normalized += "-" + String(date.getUTCMonth() + 1).padStart(2, "0");
-    }
-    if (match === null || match[4]) {
-      normalized += "-" + String(date.getUTCDate()).padStart(2, "0");
-    }
-    return {
-      date,
-      value: normalized,
-      localeOptions: {
-        year: "numeric",
-        era: date.getUTCFullYear() < 1 ? "short" : void 0,
-        month: match === null || match[3] ? "long" : void 0,
-        day: match === null || match[4] ? "numeric" : void 0,
-        timeZone: "UTC"
-      }
-    };
   }
 
   // modules/osm/entity.js
@@ -28029,18 +30747,18 @@
     way: -1,
     relation: -1
   };
-  osmEntity.id.fromOSM = function(type2, id2) {
-    return type2[0] + id2;
+  osmEntity.id.fromOSM = function(type2, id3) {
+    return type2[0] + id3;
   };
-  osmEntity.id.toOSM = function(id2) {
-    var match = id2.match(/^[cnwr](-?\d+)$/);
+  osmEntity.id.toOSM = function(id3) {
+    var match = id3.match(/^[cnwr](-?\d+)$/);
     if (match) {
       return match[1];
     }
     return "";
   };
-  osmEntity.id.type = function(id2) {
-    return { "c": "changeset", "n": "node", "w": "way", "r": "relation" }[id2[0]];
+  osmEntity.id.type = function(id3) {
+    return { "c": "changeset", "n": "node", "w": "way", "r": "relation" }[id3[0]];
   };
   osmEntity.key = function(entity) {
     return entity.id + "v" + (entity.v || 0);
@@ -28456,8 +31174,8 @@
       if (copies[this.id])
         return copies[this.id];
       var copy2 = osmEntity.prototype.copy.call(this, resolver, copies);
-      var nodes = this.nodes.map(function(id2) {
-        return resolver.entity(id2).copy(resolver, copies).id;
+      var nodes = this.nodes.map(function(id3) {
+        return resolver.entity(id3).copy(resolver, copies).id;
       });
       copy2 = copy2.update({ nodes });
       copies[this.id] = copy2;
@@ -28749,15 +31467,15 @@
     //   or just before the final connecting node for circular ways.
     // Consecutive duplicates are eliminated including existing ones.
     // Circularity is always preserved when adding a node.
-    addNode: function(id2, index) {
+    addNode: function(id3, index) {
       var nodes = this.nodes.slice();
       var isClosed = this.isClosed();
-      var max3 = isClosed ? nodes.length - 1 : nodes.length;
+      var max4 = isClosed ? nodes.length - 1 : nodes.length;
       if (index === void 0) {
-        index = max3;
+        index = max4;
       }
-      if (index < 0 || index > max3) {
-        throw new RangeError("index " + index + " out of range 0.." + max3);
+      if (index < 0 || index > max4) {
+        throw new RangeError("index " + index + " out of range 0.." + max4);
       }
       if (isClosed) {
         var connector = this.first();
@@ -28775,7 +31493,7 @@
           i2 = nodes.length - 1;
         }
       }
-      nodes.splice(index, 0, id2);
+      nodes.splice(index, 0, id3);
       nodes = nodes.filter(noRepeatNodes);
       if (isClosed && (nodes.length === 1 || nodes[0] !== nodes[nodes.length - 1])) {
         nodes.push(nodes[0]);
@@ -28785,12 +31503,12 @@
     // Replaces the node which is currently at position index with the given node (id).
     // Consecutive duplicates are eliminated including existing ones.
     // Circularity is preserved when updating a node.
-    updateNode: function(id2, index) {
+    updateNode: function(id3, index) {
       var nodes = this.nodes.slice();
       var isClosed = this.isClosed();
-      var max3 = nodes.length - 1;
-      if (index === void 0 || index < 0 || index > max3) {
-        throw new RangeError("index " + index + " out of range 0.." + max3);
+      var max4 = nodes.length - 1;
+      if (index === void 0 || index < 0 || index > max4) {
+        throw new RangeError("index " + index + " out of range 0.." + max4);
       }
       if (isClosed) {
         var connector = this.first();
@@ -28808,7 +31526,7 @@
           i2 = nodes.length - 1;
         }
       }
-      nodes.splice(index, 1, id2);
+      nodes.splice(index, 1, id3);
       nodes = nodes.filter(noRepeatNodes);
       if (isClosed && (nodes.length === 1 || nodes[0] !== nodes[nodes.length - 1])) {
         nodes.push(nodes[0]);
@@ -28835,11 +31553,11 @@
     // Removes each occurrence of node id.
     // Consecutive duplicates are eliminated including existing ones.
     // Circularity is preserved.
-    removeNode: function(id2) {
+    removeNode: function(id3) {
       var nodes = this.nodes.slice();
       var isClosed = this.isClosed();
       nodes = nodes.filter(function(node) {
-        return node !== id2;
+        return node !== id3;
       }).filter(noRepeatNodes);
       if (isClosed && (nodes.length === 1 || nodes[0] !== nodes[nodes.length - 1])) {
         nodes.push(nodes[0]);
@@ -28851,8 +31569,8 @@
         way: {
           "@id": this.osmId(),
           "@version": this.version || 0,
-          nd: this.nodes.map(function(id2) {
-            return { keyAttributes: { ref: osmEntity.id.toOSM(id2) } };
+          nd: this.nodes.map(function(id3) {
+            return { keyAttributes: { ref: osmEntity.id.toOSM(id3) } };
           }, this),
           tag: Object.keys(this.tags).map(function(k) {
             return { keyAttributes: { k, v: this.tags[k] } };
@@ -29310,10 +32028,10 @@
       } else {
         val = (this.tags.direction || "").toLowerCase();
         var re2 = /:direction$/i;
-        var keys = Object.keys(this.tags);
-        for (i2 = 0; i2 < keys.length; i2++) {
-          if (re2.test(keys[i2])) {
-            val = this.tags[keys[i2]].toLowerCase();
+        var keys2 = Object.keys(this.tags);
+        for (i2 = 0; i2 < keys2.length; i2++) {
+          if (re2.test(keys2[i2])) {
+            val = this.tags[keys2[i2]].toLowerCase();
             break;
           }
         }
@@ -29361,9 +32079,9 @@
     },
     isEndpoint: function(resolver) {
       return resolver.transient(this, "isEndpoint", function() {
-        var id2 = this.id;
+        var id3 = this.id;
         return resolver.parentWays(this).filter(function(parent) {
-          return !parent.isClosed() && !!parent.affix(id2);
+          return !parent.isClosed() && !!parent.affix(id3);
         }).length > 0;
       });
     },
@@ -29529,12 +32247,12 @@
             centroid[0] + Math.cos(angle2) * radius,
             centroid[1] + Math.sin(angle2) * radius
           ]);
-          var min3 = Infinity;
+          var min4 = Infinity;
           for (var nodeId in nearNodes) {
             var nearAngle = nearNodes[nodeId];
             var dist = Math.abs(nearAngle - angle2);
-            if (dist < min3) {
-              min3 = dist;
+            if (dist < min4) {
+              min4 = dist;
               origNode = origNodes[nodeId];
             }
           }
@@ -29699,9 +32417,9 @@
       relation: actionDeleteRelation
     };
     var action = function(graph) {
-      ids.forEach(function(id2) {
-        if (graph.hasEntity(id2)) {
-          graph = actions[graph.entity(id2).type](id2)(graph);
+      ids.forEach(function(id3) {
+        if (graph.hasEntity(id3)) {
+          graph = actions[graph.entity(id3).type](id3)(graph);
         }
       });
       return graph;
@@ -29985,11 +32703,11 @@
   function actionCopyEntities(ids, fromGraph) {
     var _copies = {};
     var action = function(graph) {
-      ids.forEach(function(id3) {
-        fromGraph.entity(id3).copy(fromGraph, _copies);
+      ids.forEach(function(id4) {
+        fromGraph.entity(id4).copy(fromGraph, _copies);
       });
-      for (var id2 in _copies) {
-        graph = graph.replace(_copies[id2]);
+      for (var id3 in _copies) {
+        graph = graph.replace(_copies[id3]);
       }
       return graph;
     };
@@ -30019,11 +32737,11 @@
       difference.created().forEach(checkTags);
       return graph;
       function checkTags(entity) {
-        const keys = Object.keys(entity.tags);
+        const keys2 = Object.keys(entity.tags);
         let didDiscard = false;
         let tags = {};
-        for (let i2 = 0; i2 < keys.length; i2++) {
-          const k = keys[i2];
+        for (let i2 = 0; i2 < keys2.length; i2++) {
+          const k = keys2[i2];
           if (discardTags[k] || !entity.tags[k]) {
             didDiscard = true;
           } else {
@@ -30205,8 +32923,8 @@
   // modules/actions/join.js
   function actionJoin(ids) {
     function groupEntitiesByGeometry(graph) {
-      var entities = ids.map(function(id2) {
-        return graph.entity(id2);
+      var entities = ids.map(function(id3) {
+        return graph.entity(id3);
       });
       return Object.assign(
         { line: [] },
@@ -30276,8 +32994,8 @@
       return graph;
     };
     action.resultingWayNodesLength = function(graph) {
-      return ids.reduce(function(count, id2) {
-        return count + graph.entity(id2).nodes.length;
+      return ids.reduce(function(count, id3) {
+        return count + graph.entity(id3).nodes.length;
       }, 0) - ids.length - 1;
     };
     action.disabled = function(graph) {
@@ -30290,8 +33008,8 @@
         return "not_adjacent";
       }
       var i2;
-      var sortedParentRelations = function(id2) {
-        return graph.parentRelations(graph.entity(id2)).filter((rel) => !rel.isRestriction() && !rel.isConnectivity()).sort((a, b) => a.id - b.id);
+      var sortedParentRelations = function(id3) {
+        return graph.parentRelations(graph.entity(id3)).filter((rel) => !rel.isRestriction() && !rel.isConnectivity()).sort((a, b) => a.id - b.id);
       };
       var relsA = sortedParentRelations(ids[0]);
       for (i2 = 1; i2 < ids.length; i2++) {
@@ -30358,8 +33076,8 @@
   // modules/actions/merge.js
   function actionMerge(ids) {
     function groupEntitiesByGeometry(graph) {
-      var entities = ids.map(function(id2) {
-        return graph.entity(id2);
+      var entities = ids.map(function(id3) {
+        return graph.entity(id3);
       });
       return Object.assign(
         { point: [], area: [], line: [], relation: [] },
@@ -30719,18 +33437,18 @@
     },
     // Return the first member with the given id. A copy of the member object
     // is returned, extended with an 'index' property whose value is the member index.
-    memberById: function(id2) {
+    memberById: function(id3) {
       for (var i2 = 0; i2 < this.members.length; i2++) {
-        if (this.members[i2].id === id2) {
+        if (this.members[i2].id === id3) {
           return Object.assign({}, this.members[i2], { index: i2 });
         }
       }
     },
     // Return the first member with the given id and role. A copy of the member object
     // is returned, extended with an 'index' property whose value is the member index.
-    memberByIdAndRole: function(id2, role) {
+    memberByIdAndRole: function(id3, role) {
       for (var i2 = 0; i2 < this.members.length; i2++) {
-        if (this.members[i2].id === id2 && this.members[i2].role === role) {
+        if (this.members[i2].id === id3 && this.members[i2].role === role) {
           return Object.assign({}, this.members[i2], { index: i2 });
         }
       }
@@ -30750,9 +33468,9 @@
       members.splice(index, 1);
       return this.update({ members });
     },
-    removeMembersWithID: function(id2) {
+    removeMembersWithID: function(id3) {
       var members = this.members.filter(function(m) {
-        return m.id !== id2;
+        return m.id !== id3;
       });
       return this.update({ members });
     },
@@ -30949,23 +33667,23 @@
 
   // modules/osm/qa_item.js
   var QAItem = class {
-    constructor(loc, service, itemType, id2, props) {
+    constructor(loc, service, itemType, id3, props) {
       this.loc = loc;
       this.service = service.title;
       this.itemType = itemType;
-      this.id = id2 ? id2 : `${QAItem.id()}`;
+      this.id = id3 ? id3 : `${QAItem.id()}`;
       this.update(props);
       if (service && typeof service.getIcon === "function") {
         this.icon = service.getIcon(itemType);
       }
     }
     update(props) {
-      const { loc, service, itemType, id: id2 } = this;
+      const { loc, service, itemType, id: id3 } = this;
       Object.keys(props).forEach((prop) => this[prop] = props[prop]);
       this.loc = loc;
       this.service = service;
       this.itemType = itemType;
-      this.id = id2;
+      this.id = id3;
       return this;
     }
     // Generic handling for newly created QAItems
@@ -30992,7 +33710,7 @@
       var lengths = new Array(nodes.length);
       var length;
       var i2;
-      var best = 0;
+      var best2 = 0;
       var idxB;
       function wrap2(index) {
         return utilWrap(index, nodes.length);
@@ -31011,9 +33729,9 @@
       }
       for (i2 = 0; i2 < nodes.length; i2++) {
         var cost = lengths[i2] / dist(graph, nodes[idxA], nodes[i2]);
-        if (cost > best) {
+        if (cost > best2) {
           idxB = i2;
-          best = cost;
+          best2 = cost;
         }
       }
       return idxB;
@@ -31242,25 +33960,25 @@
     this.frozen = !mutable;
   }
   coreGraph.prototype = {
-    hasEntity: function(id2) {
-      return this.entities[id2];
+    hasEntity: function(id3) {
+      return this.entities[id3];
     },
-    entity: function(id2) {
-      var entity = this.entities[id2];
+    entity: function(id3) {
+      var entity = this.entities[id3];
       if (!entity) {
-        entity = this.entities.__proto__[id2];
+        entity = this.entities.__proto__[id3];
       }
       if (!entity) {
-        throw new Error("entity " + id2 + " not found");
+        throw new Error("entity " + id3 + " not found");
       }
       return entity;
     },
-    geometry: function(id2) {
-      return this.entity(id2).geometry(this);
+    geometry: function(id3) {
+      return this.entity(id3).geometry(this);
     },
     transient: function(entity, key, fn) {
-      var id2 = entity.id;
-      var transients = this.transients[id2] || (this.transients[id2] = {});
+      var id3 = entity.id;
+      var transients = this.transients[id3] || (this.transients[id3] = {});
       if (transients[key] !== void 0) {
         return transients[key];
       }
@@ -31271,8 +33989,8 @@
       var parents = this._parentWays[entity.id];
       var result = [];
       if (parents) {
-        parents.forEach(function(id2) {
-          result.push(this.entity(id2));
+        parents.forEach(function(id3) {
+          result.push(this.entity(id3));
         }, this);
       }
       return result;
@@ -31289,8 +34007,8 @@
       var parents = this._parentRels[entity.id];
       var result = [];
       if (parents) {
-        parents.forEach(function(id2) {
-          result.push(this.entity(id2));
+        parents.forEach(function(id3) {
+          result.push(this.entity(id3));
         }, this);
       }
       return result;
@@ -31327,7 +34045,7 @@
     // graph always contained the newly downloaded data.
     rebase: function(entities, stack, force) {
       var base = this.base();
-      var i2, j2, k, id2;
+      var i2, j2, k, id3;
       for (i2 = 0; i2 < entities.length; i2++) {
         var entity = entities[i2];
         if (!entity.visible || !force && base.entities[entity.id])
@@ -31336,11 +34054,11 @@
         this._updateCalculated(void 0, entity, base.parentWays, base.parentRels);
         if (entity.type === "way") {
           for (j2 = 0; j2 < entity.nodes.length; j2++) {
-            id2 = entity.nodes[j2];
+            id3 = entity.nodes[j2];
             for (k = 1; k < stack.length; k++) {
               var ents = stack[k].entities;
-              if (ents.hasOwnProperty(id2) && ents[id2] === void 0) {
-                delete ents[id2];
+              if (ents.hasOwnProperty(id3) && ents[id3] === void 0) {
+                delete ents[id3];
               }
             }
           }
@@ -31354,18 +34072,18 @@
       var base = this.base();
       Object.keys(this._parentWays).forEach(function(child) {
         if (base.parentWays[child]) {
-          base.parentWays[child].forEach(function(id2) {
-            if (!this.entities.hasOwnProperty(id2)) {
-              this._parentWays[child].add(id2);
+          base.parentWays[child].forEach(function(id3) {
+            if (!this.entities.hasOwnProperty(id3)) {
+              this._parentWays[child].add(id3);
             }
           }, this);
         }
       }, this);
       Object.keys(this._parentRels).forEach(function(child) {
         if (base.parentRels[child]) {
-          base.parentRels[child].forEach(function(id2) {
-            if (!this.entities.hasOwnProperty(id2)) {
-              this._parentRels[child].add(id2);
+          base.parentRels[child].forEach(function(id3) {
+            if (!this.entities.hasOwnProperty(id3)) {
+              this._parentRels[child].add(id3);
             }
           }, this);
         }
@@ -31438,14 +34156,14 @@
         this.entities[entity.id] = void 0;
       });
     },
-    revert: function(id2) {
-      var baseEntity = this.base().entities[id2];
-      var headEntity = this.entities[id2];
+    revert: function(id3) {
+      var baseEntity = this.base().entities[id3];
+      var headEntity = this.entities[id3];
       if (headEntity === baseEntity)
         return this;
       return this.update(function() {
         this._updateCalculated(headEntity, baseEntity);
-        delete this.entities[id2];
+        delete this.entities[id3];
       });
     },
     update: function() {
@@ -31605,8 +34323,8 @@
     });
     vertices = [];
     ways = [];
-    vertexIds.forEach(function(id2) {
-      var vertex2 = vgraph.entity(id2);
+    vertexIds.forEach(function(id3) {
+      var vertex2 = vgraph.entity(id3);
       var parents2 = vgraph.parentWays(vertex2);
       vertices.push(vertex2);
       ways = ways.concat(parents2);
@@ -31636,8 +34354,8 @@
       });
     }
     ways = [];
-    wayIds.forEach(function(id2) {
-      var way2 = withMetadata(vgraph.entity(id2), vertexIds);
+    wayIds.forEach(function(id3) {
+      var way2 = withMetadata(vgraph.entity(id3), vertexIds);
       vgraph = vgraph.replace(way2);
       ways.push(way2);
     });
@@ -31967,8 +34685,8 @@
   // modules/actions/merge_polygon.js
   function actionMergePolygon(ids, newRelationId) {
     function groupEntities(graph) {
-      var entities = ids.map(function(id2) {
-        return graph.entity(id2);
+      var entities = ids.map(function(id3) {
+        return graph.entity(id3);
       });
       var geometryGroups = utilArrayGroupBy(entities, function(entity) {
         if (entity.type === "way" && entity.isClosed()) {
@@ -32263,11 +34981,11 @@
     return results;
   }
   function diff3Merge(a, o, b, options2) {
-    let defaults2 = {
+    let defaults3 = {
       excludeFalseConflicts: true,
       stringSeparator: /\s+/
     };
-    options2 = Object.assign(defaults2, options2);
+    options2 = Object.assign(defaults3, options2);
     if (typeof a === "string")
       a = a.split(options2.stringSeparator);
     if (typeof o === "string")
@@ -32319,7 +35037,7 @@
 
   // modules/actions/merge_remote_changes.js
   var import_lodash = __toESM(require_lodash());
-  function actionMergeRemoteChanges(id2, localGraph, remoteGraph, discardTags, formatUser) {
+  function actionMergeRemoteChanges(id3, localGraph, remoteGraph, discardTags, formatUser) {
     discardTags = discardTags || {};
     var _option = "safe";
     var _conflicts = [];
@@ -32380,16 +35098,16 @@
       }
       var ccount = _conflicts.length;
       for (var i2 = 0; i2 < children2.length; i2++) {
-        var id3 = children2[i2];
-        var node = graph.hasEntity(id3);
-        if (targetWay.nodes.indexOf(id3) === -1) {
+        var id4 = children2[i2];
+        var node = graph.hasEntity(id4);
+        if (targetWay.nodes.indexOf(id4) === -1) {
           if (node && !isUsed(node, targetWay)) {
-            updates.removeIds.push(id3);
+            updates.removeIds.push(id4);
           }
           continue;
         }
-        var local = localGraph.hasEntity(id3);
-        var remote = remoteGraph.hasEntity(id3);
+        var local = localGraph.hasEntity(id4);
+        var remote = remoteGraph.hasEntity(id4);
         var target;
         if (_option === "force_remote" && remote && remote.visible) {
           updates.replacements.push(remote);
@@ -32443,13 +35161,13 @@
       var o = base.tags || {};
       var a = target.tags || {};
       var b = remote.tags || {};
-      var keys = utilArrayUnion(utilArrayUnion(Object.keys(o), Object.keys(a)), Object.keys(b)).filter(function(k2) {
+      var keys2 = utilArrayUnion(utilArrayUnion(Object.keys(o), Object.keys(a)), Object.keys(b)).filter(function(k2) {
         return !discardTags[k2];
       });
       var tags = Object.assign({}, a);
       var changed = false;
-      for (var i2 = 0; i2 < keys.length; i2++) {
-        var k = keys[i2];
+      for (var i2 = 0; i2 < keys2.length; i2++) {
+        var k = keys2[i2];
         if (o[k] !== b[k] && a[k] !== b[k]) {
           if (o[k] !== a[k]) {
             _conflicts.push(_t.html(
@@ -32470,13 +35188,13 @@
     }
     var action = function(graph) {
       var updates = { replacements: [], removeIds: [] };
-      var base = graph.base().entities[id2];
-      var local = localGraph.entity(id2);
-      var remote = remoteGraph.entity(id2);
+      var base = graph.base().entities[id3];
+      var local = localGraph.entity(id3);
+      var remote = remoteGraph.entity(id3);
       var target = osmEntity(local, { version: remote.version });
       if (!remote.visible) {
         if (_option === "force_remote") {
-          return actionDeleteMultiple([id2])(graph);
+          return actionDeleteMultiple([id3])(graph);
         } else if (_option === "force_local") {
           if (target.type === "way") {
             target = mergeChildren(target, utilArrayUniq(local.nodes), updates, graph);
@@ -32532,18 +35250,18 @@
       }
       function cacheEntities(ids) {
         for (var i2 = 0; i2 < ids.length; i2++) {
-          var id2 = ids[i2];
-          if (cache.moving[id2])
+          var id3 = ids[i2];
+          if (cache.moving[id3])
             continue;
-          cache.moving[id2] = true;
-          var entity = graph.hasEntity(id2);
+          cache.moving[id3] = true;
+          var entity = graph.hasEntity(id3);
           if (!entity)
             continue;
           if (entity.type === "node") {
-            cache.nodes.push(id2);
-            cache.startLoc[id2] = entity.loc;
+            cache.nodes.push(id3);
+            cache.startLoc[id3] = entity.loc;
           } else if (entity.type === "way") {
-            cache.ways.push(id2);
+            cache.ways.push(id3);
             cacheEntities(entity.nodes);
           } else {
             cacheEntities(entity.members.map(function(member) {
@@ -32553,18 +35271,18 @@
         }
       }
       function cacheIntersections(ids) {
-        function isEndpoint(way2, id3) {
-          return !way2.isClosed() && !!way2.affix(id3);
+        function isEndpoint(way2, id4) {
+          return !way2.isClosed() && !!way2.affix(id4);
         }
         for (var i2 = 0; i2 < ids.length; i2++) {
-          var id2 = ids[i2];
-          var childNodes = graph.childNodes(graph.entity(id2));
+          var id3 = ids[i2];
+          var childNodes = graph.childNodes(graph.entity(id3));
           for (var j2 = 0; j2 < childNodes.length; j2++) {
             var node = childNodes[j2];
             var parents = graph.parentWays(node);
             if (parents.length !== 2)
               continue;
-            var moved = graph.entity(id2);
+            var moved = graph.entity(id3);
             var unmoved = null;
             for (var k = 0; k < parents.length; k++) {
               var way = parents[k];
@@ -33005,8 +35723,8 @@
       var fromWay = graph.entity(turn.from.way);
       var toWay = graph.entity(turn.to.way);
       var viaNode = turn.via.node && graph.entity(turn.via.node);
-      var viaWays = turn.via.ways && turn.via.ways.map(function(id2) {
-        return graph.entity(id2);
+      var viaWays = turn.via.ways && turn.via.ways.map(function(id3) {
+        return graph.entity(id3);
       });
       var members = [];
       members.push({ id: fromWay.id, type: "way", role: "from" });
@@ -33030,13 +35748,13 @@
   }
 
   // modules/actions/revert.js
-  function actionRevert(id2) {
+  function actionRevert(id3) {
     var action = function(graph) {
-      var entity = graph.hasEntity(id2), base = graph.base().entities[id2];
+      var entity = graph.hasEntity(id3), base = graph.base().entities[id3];
       if (entity && !base) {
         if (entity.type === "node") {
           graph.parentWays(entity).forEach(function(parent) {
-            parent = parent.removeNode(id2);
+            parent = parent.removeNode(id3);
             graph = graph.replace(parent);
             if (parent.isDegenerate()) {
               graph = actionDeleteWay(parent.id)(graph);
@@ -33044,14 +35762,14 @@
           });
         }
         graph.parentRelations(entity).forEach(function(parent) {
-          parent = parent.removeMembersWithID(id2);
+          parent = parent.removeMembersWithID(id3);
           graph = graph.replace(parent);
           if (parent.isDegenerate()) {
             graph = actionDeleteRelation(parent.id)(graph);
           }
         });
       }
-      return graph.revert(id2);
+      return graph.revert(id3);
     };
     return action;
   }
@@ -33111,8 +35829,8 @@
       if (t === null || !isFinite(t))
         t = 1;
       t = Math.min(Math.max(+t, 0), 1);
-      var nodes = nodeIDs.map(function(id2) {
-        return graph.entity(id2);
+      var nodes = nodeIDs.map(function(id3) {
+        return graph.entity(id3);
       });
       var points = nodes.map(function(n2) {
         return projection2(n2.loc);
@@ -33131,8 +35849,8 @@
       return graph;
     };
     action.disabled = function(graph) {
-      var nodes = nodeIDs.map(function(id2) {
-        return graph.entity(id2);
+      var nodes = nodeIDs.map(function(id3) {
+        return graph.entity(id3);
       });
       var points = nodes.map(function(n2) {
         return projection2(n2.loc);
@@ -34015,17 +36733,17 @@
     var group = locale2.grouping === void 0 || locale2.thousands === void 0 ? identity_default3 : formatGroup_default(map.call(locale2.grouping, Number), locale2.thousands + ""), currencyPrefix = locale2.currency === void 0 ? "" : locale2.currency[0] + "", currencySuffix = locale2.currency === void 0 ? "" : locale2.currency[1] + "", decimal = locale2.decimal === void 0 ? "." : locale2.decimal + "", numerals = locale2.numerals === void 0 ? identity_default3 : formatNumerals_default(map.call(locale2.numerals, String)), percent = locale2.percent === void 0 ? "%" : locale2.percent + "", minus = locale2.minus === void 0 ? "\u2212" : locale2.minus + "", nan = locale2.nan === void 0 ? "NaN" : locale2.nan + "";
     function newFormat(specifier) {
       specifier = formatSpecifier(specifier);
-      var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero3 = specifier.zero, width = specifier.width, comma = specifier.comma, precision2 = specifier.precision, trim = specifier.trim, type2 = specifier.type;
+      var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero4 = specifier.zero, width = specifier.width, comma = specifier.comma, precision2 = specifier.precision, trim = specifier.trim, type2 = specifier.type;
       if (type2 === "n")
         comma = true, type2 = "g";
       else if (!formatTypes_default[type2])
         precision2 === void 0 && (precision2 = 12), trim = true, type2 = "g";
-      if (zero3 || fill === "0" && align === "=")
-        zero3 = true, fill = "0", align = "=";
+      if (zero4 || fill === "0" && align === "=")
+        zero4 = true, fill = "0", align = "=";
       var prefix = symbol === "$" ? currencyPrefix : symbol === "#" && /[boxX]/.test(type2) ? "0" + type2.toLowerCase() : "", suffix = symbol === "$" ? currencySuffix : /[%p]/.test(type2) ? percent : "";
       var formatType = formatTypes_default[type2], maybeSuffix = /[defgprs%]/.test(type2);
       precision2 = precision2 === void 0 ? 6 : /[gprs]/.test(type2) ? Math.max(1, Math.min(21, precision2)) : Math.max(0, Math.min(20, precision2));
-      function format2(value) {
+      function format3(value) {
         var valuePrefix = prefix, valueSuffix = suffix, i2, n2, c;
         if (type2 === "c") {
           valueSuffix = formatType(value) + valueSuffix;
@@ -34051,10 +36769,10 @@
             }
           }
         }
-        if (comma && !zero3)
+        if (comma && !zero4)
           value = group(value, Infinity);
         var length = valuePrefix.length + value.length + valueSuffix.length, padding = length < width ? new Array(width - length + 1).join(fill) : "";
-        if (comma && zero3)
+        if (comma && zero4)
           value = group(padding + value, padding.length ? width - valueSuffix.length : Infinity), padding = "";
         switch (align) {
           case "<":
@@ -34072,10 +36790,10 @@
         }
         return numerals(value);
       }
-      format2.toString = function() {
+      format3.toString = function() {
         return specifier + "";
       };
-      return format2;
+      return format3;
     }
     function formatPrefix2(specifier, value) {
       var f2 = newFormat((specifier = formatSpecifier(specifier), specifier.type = "f", specifier)), e = Math.max(-8, Math.min(8, Math.floor(exponent_default(value) / 3))) * 3, k = Math.pow(10, -e), prefix = prefixes[8 + e / 3];
@@ -34091,7 +36809,7 @@
 
   // node_modules/d3-format/src/defaultLocale.js
   var locale;
-  var format;
+  var format2;
   var formatPrefix;
   defaultLocale({
     thousands: ",",
@@ -34100,7 +36818,7 @@
   });
   function defaultLocale(definition) {
     locale = locale_default(definition);
-    format = locale.format;
+    format2 = locale.format;
     formatPrefix = locale.formatPrefix;
     return locale;
   }
@@ -34116,9 +36834,9 @@
   }
 
   // node_modules/d3-format/src/precisionRound.js
-  function precisionRound_default(step, max3) {
-    step = Math.abs(step), max3 = Math.abs(max3) - step;
-    return Math.max(0, exponent_default(max3) - exponent_default(step)) + 1;
+  function precisionRound_default(step, max4) {
+    step = Math.abs(step), max4 = Math.abs(max4) - step;
+    return Math.max(0, exponent_default(max4) - exponent_default(step)) + 1;
   }
 
   // node_modules/d3-scale/src/tickFormat.js
@@ -34148,7 +36866,7 @@
         break;
       }
     }
-    return format(specifier);
+    return format2(specifier);
   }
 
   // node_modules/d3-scale/src/linear.js
@@ -34558,14 +37276,14 @@
       var nextSelectedID;
       var nextSelectedLoc;
       if (selectedIDs.length === 1) {
-        var id2 = selectedIDs[0];
-        var entity = context.entity(id2);
+        var id3 = selectedIDs[0];
+        var entity = context.entity(id3);
         var geometry = entity.geometry(context.graph());
         var parents = context.graph().parentWays(entity);
         var parent = parents[0];
         if (geometry === "vertex") {
           var nodes2 = parent.nodes;
-          var i2 = nodes2.indexOf(id2);
+          var i2 = nodes2.indexOf(id3);
           if (i2 === 0) {
             i2++;
           } else if (i2 === nodes2.length - 1) {
@@ -34627,23 +37345,23 @@
         }
         return false;
       }
-      function hasWikidataTag(id2) {
-        var entity = context.entity(id2);
+      function hasWikidataTag(id3) {
+        var entity = context.entity(id3);
         return entity.tags.wikidata && entity.tags.wikidata.trim().length > 0;
       }
-      function incompleteRelation(id2) {
-        var entity = context.entity(id2);
+      function incompleteRelation(id3) {
+        var entity = context.entity(id3);
         return entity.type === "relation" && !entity.isComplete(context.graph());
       }
-      function protectedMember(id2) {
-        var entity = context.entity(id2);
+      function protectedMember(id3) {
+        var entity = context.entity(id3);
         if (entity.type !== "way")
           return false;
         var parents = context.graph().parentRelations(entity);
         for (var i2 = 0; i2 < parents.length; i2++) {
           var parent = parents[i2];
           var type2 = parent.tags.type;
-          var role = parent.memberById(id2).role || "outer";
+          var role = parent.memberById(id3).role || "outer";
           if (type2 === "route" || type2 === "boundary" || type2 === "multipolygon" && role === "outer") {
             return true;
           }
@@ -34826,8 +37544,8 @@
         }
         return false;
       }
-      function incompleteRelation(id2) {
-        var entity = context.entity(id2);
+      function incompleteRelation(id3) {
+        var entity = context.entity(id3);
         return entity.type === "relation" && !entity.isComplete(context.graph());
       }
     };
@@ -34887,8 +37605,8 @@
         }
         return false;
       }
-      function incompleteRelation(id2) {
-        var entity = context.entity(id2);
+      function incompleteRelation(id3) {
+        var entity = context.entity(id3);
         return entity.type === "relation" && !entity.isComplete(context.graph());
       }
     };
@@ -35068,8 +37786,8 @@
         }
         return false;
       }
-      function incompleteRelation(id2) {
-        var entity = context.entity(id2);
+      function incompleteRelation(id3) {
+        var entity = context.entity(id3);
         return entity.type === "relation" && !entity.isComplete(context.graph());
       }
     };
@@ -35241,9 +37959,9 @@
       Object.values(copies).forEach(function(entity) {
         originals.add(entity.id);
       });
-      for (var id2 in copies) {
-        var oldEntity = oldGraph.entity(id2);
-        var newEntity = copies[id2];
+      for (var id3 in copies) {
+        var oldEntity = oldGraph.entity(id3);
+        var newEntity = copies[id3];
         extent._extend(oldEntity.extent(oldGraph));
         var parents = context.graph().parentWays(newEntity);
         var parentCopied = parents.some(function(parent) {
@@ -35671,8 +38389,8 @@
       if (wasPoint) {
         context.enter(modeSelect(context, [entity.id]));
       } else {
-        var reselection = _restoreSelectedIDs.filter(function(id2) {
-          return context.graph().hasEntity(id2);
+        var reselection = _restoreSelectedIDs.filter(function(id3) {
+          return context.graph().hasEntity(id3);
         });
         if (reselection.length) {
           context.enter(modeSelect(context, reselection));
@@ -35758,12 +38476,12 @@
   }
 
   // node_modules/d3-fetch/src/xml.js
-  function parser(type2) {
+  function parser2(type2) {
     return (input, init2) => text_default3(input, init2).then((text2) => new DOMParser().parseFromString(text2, type2));
   }
-  var xml_default = parser("application/xml");
-  var html = parser("text/html");
-  var svg = parser("image/svg+xml");
+  var xml_default = parser2("application/xml");
+  var html = parser2("text/html");
+  var svg = parser2("image/svg+xml");
 
   // modules/services/keepRight.js
   var tiler = utilTiler();
@@ -35954,8 +38672,8 @@
       let newList = [];
       const items = capture2.split(", ");
       items.forEach((item) => {
-        let id2 = linkEntity2("n" + item.slice(1));
-        newList.push(id2);
+        let id3 = linkEntity2("n" + item.slice(1));
+        newList.push(id3);
       });
       return newList.join(", ");
     }
@@ -35979,9 +38697,9 @@
         item = item.split(" ");
         const role = `"${item[0]}"`;
         const idType2 = item[1].slice(0, 1);
-        let id2 = item[2].slice(1);
-        id2 = linkEntity2(idType2 + id2);
-        newList.push(`${role} ${item[1]} ${id2}`);
+        let id3 = item[2].slice(1);
+        id3 = linkEntity2(idType2 + id3);
+        newList.push(`${role} ${item[1]} ${id3}`);
       });
       return newList.join(", ");
     }
@@ -35998,8 +38716,8 @@
       let newList = [];
       const items = capture2.split(",");
       items.forEach((item) => {
-        const id2 = linkEntity2("n" + item.slice(1));
-        newList.push(id2);
+        const id3 = linkEntity2("n" + item.slice(1));
+        newList.push(id3);
       });
       return newList.join(", ");
     }
@@ -36052,7 +38770,7 @@
             const {
               properties: {
                 error_type: itemType,
-                error_id: id2,
+                error_id: id3,
                 comment = null,
                 object_id: objectId,
                 object_type: objectType,
@@ -36099,7 +38817,7 @@
               let bbox2 = geoExtent(loc).bbox();
               coincident = _cache.rtree.search(bbox2).length;
             } while (coincident);
-            let d = new QAItem(loc, this, itemType, id2, {
+            let d = new QAItem(loc, this, itemType, id3, {
               comment,
               description,
               whichType,
@@ -36111,7 +38829,7 @@
               title
             });
             d.replacements = tokenReplacements(d);
-            _cache.data[id2] = d;
+            _cache.data[id3] = d;
             _cache.rtree.insert(encodeIssueRtree(d));
           });
           dispatch2.call("loaded");
@@ -36156,15 +38874,15 @@
     // Get all cached QAItems covering the viewport
     getItems(projection2) {
       const viewport = projection2.clipExtent();
-      const min3 = [viewport[0][0], viewport[1][1]];
-      const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const min4 = [viewport[0][0], viewport[1][1]];
+      const max4 = [viewport[1][0], viewport[0][1]];
+      const bbox2 = geoExtent(projection2.invert(min4), projection2.invert(max4)).bbox();
       return _cache.rtree.search(bbox2).map((d) => d.data);
     },
     // Get a QAItem from cache
     // NOTE: Don't change method name until UI v3 is merged
-    getError(id2) {
-      return _cache.data[id2];
+    getError(id3) {
+      return _cache.data[id3];
     },
     // Replace a single QAItem in the cache
     replaceItem(item) {
@@ -36389,16 +39107,16 @@
             }
             if (data.entities) {
               data.entities.forEach((feature3) => {
-                const { point: point2, id: id2, segments, numberOfPasses, turnType } = feature3;
-                const itemId = `${id2.replace(/[,:+#]/g, "_")}`;
+                const { point: point2, id: id3, segments, numberOfPasses, turnType } = feature3;
+                const itemId = `${id3.replace(/[,:+#]/g, "_")}`;
                 const loc = preventCoincident([point2.lon, point2.lat], true);
-                const ids = id2.split(",");
+                const ids = id3.split(",");
                 const from_way = ids[0];
                 const via_node = ids[3];
                 const to_way = ids[2].split(":")[1];
                 let d = new QAItem(loc, this, k, itemId, {
                   issueKey: k,
-                  identifier: id2,
+                  identifier: id3,
                   objectId: via_node,
                   objectType: "node"
                 });
@@ -36517,15 +39235,15 @@
     // Get all cached QAItems covering the viewport
     getItems(projection2) {
       const viewport = projection2.clipExtent();
-      const min3 = [viewport[0][0], viewport[1][1]];
-      const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const min4 = [viewport[0][0], viewport[1][1]];
+      const max4 = [viewport[1][0], viewport[0][1]];
+      const bbox2 = geoExtent(projection2.invert(min4), projection2.invert(max4)).bbox();
       return _cache2.rtree.search(bbox2).map((d) => d.data);
     },
     // Get a QAItem from cache
     // NOTE: Don't change method name until UI v3 is merged
-    getError(id2) {
-      return _cache2.data[id2];
+    getError(id3) {
+      return _cache2.data[id3];
     },
     // get the name of the icon to display for this item
     getIcon(itemType) {
@@ -36579,9 +39297,9 @@
       xhtml: false
     };
   }
-  var defaults = getDefaults();
+  var defaults2 = getDefaults();
   function changeDefaults(newDefaults) {
-    defaults = newDefaults;
+    defaults2 = newDefaults;
   }
   var escapeTest = /[&<>"']/;
   var escapeReplace = new RegExp(escapeTest.source, "g");
@@ -36690,7 +39408,7 @@
   }
   var noopTest = { exec: function noopTest2() {
   } };
-  function merge2(obj) {
+  function merge3(obj) {
     let i2 = 1, target, key;
     for (; i2 < arguments.length; i2++) {
       target = arguments[i2];
@@ -36833,7 +39551,7 @@
   }
   var Tokenizer = class {
     constructor(options2) {
-      this.options = options2 || defaults;
+      this.options = options2 || defaults2;
     }
     space(src) {
       const cap = this.rules.block.newline.exec(src);
@@ -36921,7 +39639,7 @@
         let raw, istask, ischecked, indent2, i2, blankLine, endsWithBlankLine, line, nextLine, rawLine, itemContents, endEarly;
         let bull = cap[1].trim();
         const isordered = bull.length > 1;
-        const list = {
+        const list2 = {
           type: "list",
           raw: "",
           ordered: isordered,
@@ -37012,9 +39730,9 @@
               line = nextLine.slice(indent2);
             }
           }
-          if (!list.loose) {
+          if (!list2.loose) {
             if (endsWithBlankLine) {
-              list.loose = true;
+              list2.loose = true;
             } else if (/\n *\n *$/.test(raw)) {
               endsWithBlankLine = true;
             }
@@ -37026,7 +39744,7 @@
               itemContents = itemContents.replace(/^\[[ xX]\] +/, "");
             }
           }
-          list.items.push({
+          list2.items.push({
             type: "list_item",
             raw,
             task: !!istask,
@@ -37034,27 +39752,27 @@
             loose: false,
             text: itemContents
           });
-          list.raw += raw;
+          list2.raw += raw;
         }
-        list.items[list.items.length - 1].raw = raw.trimRight();
-        list.items[list.items.length - 1].text = itemContents.trimRight();
-        list.raw = list.raw.trimRight();
-        const l = list.items.length;
+        list2.items[list2.items.length - 1].raw = raw.trimRight();
+        list2.items[list2.items.length - 1].text = itemContents.trimRight();
+        list2.raw = list2.raw.trimRight();
+        const l = list2.items.length;
         for (i2 = 0; i2 < l; i2++) {
           this.lexer.state.top = false;
-          list.items[i2].tokens = this.lexer.blockTokens(list.items[i2].text, []);
-          if (!list.loose) {
-            const spacers = list.items[i2].tokens.filter((t) => t.type === "space");
+          list2.items[i2].tokens = this.lexer.blockTokens(list2.items[i2].text, []);
+          if (!list2.loose) {
+            const spacers = list2.items[i2].tokens.filter((t) => t.type === "space");
             const hasMultipleLineBreaks = spacers.length > 0 && spacers.some((t) => /\n.*\n/.test(t.raw));
-            list.loose = hasMultipleLineBreaks;
+            list2.loose = hasMultipleLineBreaks;
           }
         }
-        if (list.loose) {
+        if (list2.loose) {
           for (i2 = 0; i2 < l; i2++) {
-            list.items[i2].loose = true;
+            list2.items[i2].loose = true;
           }
         }
-        return list;
+        return list2;
       }
     }
     html(src) {
@@ -37461,14 +40179,14 @@
   block.html = edit(block.html, "i").replace("comment", block._comment).replace("tag", block._tag).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex();
   block.paragraph = edit(block._paragraph).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
   block.blockquote = edit(block.blockquote).replace("paragraph", block.paragraph).getRegex();
-  block.normal = merge2({}, block);
-  block.gfm = merge2({}, block.normal, {
+  block.normal = merge3({}, block);
+  block.gfm = merge3({}, block.normal, {
     table: "^ *([^\\n ].*\\|.*)\\n {0,3}(?:\\| *)?(:?-+:? *(?:\\| *:?-+:? *)*)(?:\\| *)?(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)"
     // Cells
   });
   block.gfm.table = edit(block.gfm.table).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("blockquote", " {0,3}>").replace("code", " {4}[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
   block.gfm.paragraph = edit(block._paragraph).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("|lheading", "").replace("table", block.gfm.table).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
-  block.pedantic = merge2({}, block.normal, {
+  block.pedantic = merge3({}, block.normal, {
     html: edit(
       `^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`
     ).replace("comment", block._comment).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
@@ -37524,8 +40242,8 @@
   inline.reflink = edit(inline.reflink).replace("label", inline._label).replace("ref", block._label).getRegex();
   inline.nolink = edit(inline.nolink).replace("ref", block._label).getRegex();
   inline.reflinkSearch = edit(inline.reflinkSearch, "g").replace("reflink", inline.reflink).replace("nolink", inline.nolink).getRegex();
-  inline.normal = merge2({}, inline);
-  inline.pedantic = merge2({}, inline.normal, {
+  inline.normal = merge3({}, inline);
+  inline.pedantic = merge3({}, inline.normal, {
     strong: {
       start: /^__|\*\*/,
       middle: /^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,
@@ -37541,7 +40259,7 @@
     link: edit(/^!?\[(label)\]\((.*?)\)/).replace("label", inline._label).getRegex(),
     reflink: edit(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", inline._label).getRegex()
   });
-  inline.gfm = merge2({}, inline.normal, {
+  inline.gfm = merge3({}, inline.normal, {
     escape: edit(inline.escape).replace("])", "~|])").getRegex(),
     _extended_email: /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/,
     url: /^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,
@@ -37550,7 +40268,7 @@
     text: /^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/
   });
   inline.gfm.url = edit(inline.gfm.url, "i").replace("email", inline.gfm._extended_email).getRegex();
-  inline.breaks = merge2({}, inline.gfm, {
+  inline.breaks = merge3({}, inline.gfm, {
     br: edit(inline.br).replace("{2,}", "*").getRegex(),
     text: edit(inline.gfm.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
   });
@@ -37569,11 +40287,11 @@
     }
     return out;
   }
-  var Lexer = class {
+  var Lexer2 = class {
     constructor(options2) {
       this.tokens = [];
       this.tokens.links = /* @__PURE__ */ Object.create(null);
-      this.options = options2 || defaults;
+      this.options = options2 || defaults2;
       this.options.tokenizer = this.options.tokenizer || new Tokenizer();
       this.tokenizer = this.options.tokenizer;
       this.tokenizer.options = this.options;
@@ -37614,14 +40332,14 @@
      * Static Lex Method
      */
     static lex(src, options2) {
-      const lexer2 = new Lexer(options2);
+      const lexer2 = new Lexer2(options2);
       return lexer2.lex(src);
     }
     /**
      * Static Lex Inline Method
      */
     static lexInline(src, options2) {
-      const lexer2 = new Lexer(options2);
+      const lexer2 = new Lexer2(options2);
       return lexer2.inlineTokens(src);
     }
     /**
@@ -37941,7 +40659,7 @@
   };
   var Renderer = class {
     constructor(options2) {
-      this.options = options2 || defaults;
+      this.options = options2 || defaults2;
     }
     code(code, infostring, escaped) {
       const lang = (infostring || "").match(/\S*/)[0];
@@ -37977,8 +40695,8 @@ ${quote2}</blockquote>
      */
     heading(text2, level, raw, slugger) {
       if (this.options.headerIds) {
-        const id2 = this.options.headerPrefix + slugger.slug(raw);
-        return `<h${level} id="${id2}">${text2}</h${level}>
+        const id3 = this.options.headerPrefix + slugger.slug(raw);
+        return `<h${level} id="${id3}">${text2}</h${level}>
 `;
       }
       return `<h${level}>${text2}</h${level}>
@@ -38171,7 +40889,7 @@ ${content}</tr>
   };
   var Parser = class {
     constructor(options2) {
-      this.options = options2 || defaults;
+      this.options = options2 || defaults2;
       this.options.renderer = this.options.renderer || new Renderer();
       this.renderer = this.options.renderer;
       this.renderer.options = this.options;
@@ -38182,15 +40900,15 @@ ${content}</tr>
      * Static Parse Method
      */
     static parse(tokens, options2) {
-      const parser3 = new Parser(options2);
-      return parser3.parse(tokens);
+      const parser4 = new Parser(options2);
+      return parser4.parse(tokens);
     }
     /**
      * Static Parse Inline Method
      */
     static parseInline(tokens, options2) {
-      const parser3 = new Parser(options2);
-      return parser3.parseInline(tokens);
+      const parser4 = new Parser(options2);
+      return parser4.parseInline(tokens);
     }
     /**
      * Parse Loop
@@ -38412,13 +41130,13 @@ ${content}</tr>
       callback = opt;
       opt = null;
     }
-    opt = merge2({}, marked.defaults, opt || {});
+    opt = merge3({}, marked.defaults, opt || {});
     checkSanitizeDeprecation(opt);
     if (callback) {
       const highlight = opt.highlight;
       let tokens;
       try {
-        tokens = Lexer.lex(src, opt);
+        tokens = Lexer2.lex(src, opt);
       } catch (e) {
         return callback(e);
       }
@@ -38477,7 +41195,7 @@ ${content}</tr>
       throw e;
     }
     try {
-      const tokens = Lexer.lex(src, opt);
+      const tokens = Lexer2.lex(src, opt);
       if (opt.walkTokens) {
         if (opt.async) {
           return Promise.all(marked.walkTokens(tokens, opt.walkTokens)).then(() => {
@@ -38492,16 +41210,16 @@ ${content}</tr>
     }
   }
   marked.options = marked.setOptions = function(opt) {
-    merge2(marked.defaults, opt);
+    merge3(marked.defaults, opt);
     changeDefaults(marked.defaults);
     return marked;
   };
   marked.getDefaults = getDefaults;
-  marked.defaults = defaults;
+  marked.defaults = defaults2;
   marked.use = function(...args) {
     const extensions = marked.defaults.extensions || { renderers: {}, childTokens: {} };
     args.forEach((pack) => {
-      const opts = merge2({}, pack);
+      const opts = merge3({}, pack);
       opts.async = marked.defaults.async || opts.async;
       if (pack.extensions) {
         pack.extensions.forEach((ext) => {
@@ -38635,10 +41353,10 @@ ${content}</tr>
     if (typeof src !== "string") {
       throw new Error("marked.parseInline(): input parameter is of type " + Object.prototype.toString.call(src) + ", string expected");
     }
-    opt = merge2({}, marked.defaults, opt || {});
+    opt = merge3({}, marked.defaults, opt || {});
     checkSanitizeDeprecation(opt);
     try {
-      const tokens = Lexer.lexInline(src, opt);
+      const tokens = Lexer2.lexInline(src, opt);
       if (opt.walkTokens) {
         marked.walkTokens(tokens, opt.walkTokens);
       }
@@ -38655,8 +41373,8 @@ ${content}</tr>
   marked.parser = Parser.parse;
   marked.Renderer = Renderer;
   marked.TextRenderer = TextRenderer;
-  marked.Lexer = Lexer;
-  marked.lexer = Lexer.lex;
+  marked.Lexer = Lexer2;
+  marked.lexer = Lexer2.lex;
   marked.Tokenizer = Tokenizer;
   marked.Slugger = Slugger;
   marked.parse = marked;
@@ -38665,8 +41383,8 @@ ${content}</tr>
   var use = marked.use;
   var walkTokens = marked.walkTokens;
   var parseInline = marked.parseInline;
-  var parser2 = Parser.parse;
-  var lexer = Lexer.lex;
+  var parser3 = Parser.parse;
+  var lexer = Lexer2.lex;
 
   // modules/services/osmose.js
   var tiler3 = utilTiler();
@@ -38759,12 +41477,12 @@ ${content}</tr>
           _cache3.loadedTile[tile.id] = true;
           if (data.features) {
             data.features.forEach((issue) => {
-              const { item, class: cl, uuid: id2 } = issue.properties;
+              const { item, class: cl, uuid: id3 } = issue.properties;
               const itemType = `${item}-${cl}`;
               if (itemType in _osmoseData.icons) {
                 let loc = issue.geometry.coordinates;
                 loc = preventCoincident2(loc);
-                let d = new QAItem(loc, this, itemType, id2, { item });
+                let d = new QAItem(loc, this, itemType, id3, { item });
                 if (item === 8300 || item === 8360) {
                   d.elems = [];
                 }
@@ -38867,15 +41585,15 @@ ${content}</tr>
     // Get all cached QAItems covering the viewport
     getItems(projection2) {
       const viewport = projection2.clipExtent();
-      const min3 = [viewport[0][0], viewport[1][1]];
-      const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const min4 = [viewport[0][0], viewport[1][1]];
+      const max4 = [viewport[1][0], viewport[0][1]];
+      const bbox2 = geoExtent(projection2.invert(min4), projection2.invert(max4)).bbox();
       return _cache3.rtree.search(bbox2).map((d) => d.data);
     },
     // Get a QAItem from cache
     // NOTE: Don't change method name until UI v3 is merged
-    getError(id2) {
-      return _cache3.data[id2];
+    getError(id3) {
+      return _cache3.data[id3];
     },
     // get the name of the icon to display for this item
     getIcon(itemType) {
@@ -39085,10 +41803,10 @@ ${content}</tr>
       return tile.extent;
     });
   }
-  function searchLimited(limit, projection2, rtree) {
-    limit = limit || 5;
+  function searchLimited(limit2, projection2, rtree) {
+    limit2 = limit2 || 5;
     return partitionViewport(projection2).reduce(function(result, extent) {
-      const found = rtree.search(extent.bbox()).slice(0, limit).map(function(d) {
+      const found = rtree.search(extent.bbox()).slice(0, limit2).map(function(d) {
         return d.data;
       });
       return found.length ? result.concat(found) : result;
@@ -39121,18 +41839,18 @@ ${content}</tr>
     },
     // Get visible images
     images: function(projection2) {
-      const limit = 5;
-      return searchLimited(limit, projection2, _mlyCache.images.rtree);
+      const limit2 = 5;
+      return searchLimited(limit2, projection2, _mlyCache.images.rtree);
     },
     // Get visible traffic signs
     signs: function(projection2) {
-      const limit = 5;
-      return searchLimited(limit, projection2, _mlyCache.signs.rtree);
+      const limit2 = 5;
+      return searchLimited(limit2, projection2, _mlyCache.signs.rtree);
     },
     // Get visible map (point) features
     mapFeatures: function(projection2) {
-      const limit = 5;
-      return searchLimited(limit, projection2, _mlyCache.points.rtree);
+      const limit2 = 5;
+      return searchLimited(limit2, projection2, _mlyCache.points.rtree);
     },
     // Get cached image by id
     cachedImage: function(imageId) {
@@ -39141,9 +41859,9 @@ ${content}</tr>
     // Get visible sequences
     sequences: function(projection2) {
       const viewport = projection2.clipExtent();
-      const min3 = [viewport[0][0], viewport[1][1]];
-      const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const min4 = [viewport[0][0], viewport[1][1]];
+      const max4 = [viewport[1][0], viewport[0][1]];
+      const bbox2 = geoExtent(projection2.invert(min4), projection2.invert(max4)).bbox();
       const sequenceIds = {};
       let lineStrings = [];
       _mlyCache.images.rtree.search(bbox2).forEach(function(d) {
@@ -39376,8 +42094,8 @@ ${content}</tr>
       return _mlyActiveImage;
     },
     // Return a list of detection objects for the given id
-    getDetections: function(id2) {
-      return loadData(`${apiUrl}/${id2}/detections?access_token=${accessToken}&fields=id,value,image`);
+    getDetections: function(id3) {
+      return loadData(`${apiUrl}/${id3}/detections?access_token=${accessToken}&fields=id,value,image`);
     },
     // Set the currently visible image
     setActiveImage: function(image) {
@@ -40610,40 +43328,40 @@ ${content}</tr>
     var _changes = {};
     var _didChange = {};
     var _diff = {};
-    function checkEntityID(id2) {
-      var h = head.entities[id2];
-      var b = base.entities[id2];
+    function checkEntityID(id3) {
+      var h = head.entities[id3];
+      var b = base.entities[id3];
       if (h === b)
         return;
-      if (_changes[id2])
+      if (_changes[id3])
         return;
       if (!h && b) {
-        _changes[id2] = { base: b, head: h };
+        _changes[id3] = { base: b, head: h };
         _didChange.deletion = true;
         return;
       }
       if (h && !b) {
-        _changes[id2] = { base: b, head: h };
+        _changes[id3] = { base: b, head: h };
         _didChange.addition = true;
         return;
       }
       if (h && b) {
         if (h.members && b.members && !(0, import_fast_deep_equal3.default)(h.members, b.members)) {
-          _changes[id2] = { base: b, head: h };
+          _changes[id3] = { base: b, head: h };
           _didChange.geometry = true;
           _didChange.properties = true;
           return;
         }
         if (h.loc && b.loc && !geoVecEqual(h.loc, b.loc)) {
-          _changes[id2] = { base: b, head: h };
+          _changes[id3] = { base: b, head: h };
           _didChange.geometry = true;
         }
         if (h.nodes && b.nodes && !(0, import_fast_deep_equal3.default)(h.nodes, b.nodes)) {
-          _changes[id2] = { base: b, head: h };
+          _changes[id3] = { base: b, head: h };
           _didChange.geometry = true;
         }
         if (h.tags && b.tags && !(0, import_fast_deep_equal3.default)(h.tags, b.tags)) {
-          _changes[id2] = { base: b, head: h };
+          _changes[id3] = { base: b, head: h };
           _didChange.properties = true;
         }
       }
@@ -40664,12 +43382,12 @@ ${content}</tr>
     _diff.didChange = _didChange;
     _diff.extantIDs = function extantIDs(includeRelMembers) {
       var result = /* @__PURE__ */ new Set();
-      Object.keys(_changes).forEach(function(id2) {
-        if (_changes[id2].head) {
-          result.add(id2);
+      Object.keys(_changes).forEach(function(id3) {
+        if (_changes[id3].head) {
+          result.add(id3);
         }
-        var h = _changes[id2].head;
-        var b = _changes[id2].base;
+        var h = _changes[id3].head;
+        var b = _changes[id3].base;
         var entity = h || b;
         if (includeRelMembers && entity.type === "relation") {
           var mh = h ? h.members.map(function(m) {
@@ -40716,9 +43434,9 @@ ${content}</tr>
     };
     _diff.summary = function summary() {
       var relevant = {};
-      var keys = Object.keys(_changes);
-      for (var i2 = 0; i2 < keys.length; i2++) {
-        var change = _changes[keys[i2]];
+      var keys2 = Object.keys(_changes);
+      for (var i2 = 0; i2 < keys2.length; i2++) {
+        var change = _changes[keys2[i2]];
         if (change.head && change.head.geometry(head) !== "vertex") {
           addEntity(change.head, head, change.base ? "modified" : "created");
         } else if (change.base && change.base.geometry(base) !== "vertex") {
@@ -40758,9 +43476,9 @@ ${content}</tr>
     };
     _diff.complete = function complete(extent) {
       var result = {};
-      var id2, change;
-      for (id2 in _changes) {
-        change = _changes[id2];
+      var id3, change;
+      for (id3 in _changes) {
+        change = _changes[id3];
         var h = change.head;
         var b = change.base;
         var entity = h || b;
@@ -40768,7 +43486,7 @@ ${content}</tr>
         if (extent && (!h || !h.intersects(extent, head)) && (!b || !b.intersects(extent, base))) {
           continue;
         }
-        result[id2] = h;
+        result[id3] = h;
         if (entity.type === "way") {
           var nh = h ? h.nodes : [];
           var nb = b ? b.nodes : [];
@@ -41323,13 +44041,13 @@ ${content}</tr>
           var copy2 = copyIntroEntity(entity);
           baseEntities[copy2.id] = copy2;
         });
-        Object.keys(graph.entities).forEach(function(id2) {
-          var entity = graph.entities[id2];
+        Object.keys(graph.entities).forEach(function(id3) {
+          var entity = graph.entities[id3];
           if (entity) {
             var copy2 = copyIntroEntity(entity);
             baseEntities[copy2.id] = copy2;
           } else {
-            delete baseEntities[id2];
+            delete baseEntities[id3];
           }
         });
         Object.values(baseEntities).forEach(function(entity) {
@@ -41376,17 +44094,17 @@ ${content}</tr>
         var s = _stack.map(function(i2) {
           var modified = [];
           var deleted = [];
-          Object.keys(i2.graph.entities).forEach(function(id2) {
-            var entity = i2.graph.entities[id2];
+          Object.keys(i2.graph.entities).forEach(function(id3) {
+            var entity = i2.graph.entities[id3];
             if (entity) {
               var key = osmEntity.key(entity);
               allEntities[key] = entity;
               modified.push(key);
             } else {
-              deleted.push(id2);
+              deleted.push(id3);
             }
-            if (id2 in base.graph.entities) {
-              baseEntities[id2] = base.graph.entities[id2];
+            if (id3 in base.graph.entities) {
+              baseEntities[id3] = base.graph.entities[id3];
             }
             if (entity && entity.nodes) {
               entity.nodes.forEach(function(nodeID) {
@@ -41395,7 +44113,7 @@ ${content}</tr>
                 }
               });
             }
-            var baseParents = base.graph._parentWays[id2];
+            var baseParents = base.graph._parentWays[id3];
             if (baseParents) {
               baseParents.forEach(function(parentID) {
                 if (parentID in base.graph.entities) {
@@ -41507,8 +44225,8 @@ ${content}</tr>
               });
             }
             if (d.deleted) {
-              d.deleted.forEach(function(id2) {
-                entities[id2] = void 0;
+              d.deleted.forEach(function(id3) {
+                entities[id3] = void 0;
               });
             }
             return {
@@ -41601,6 +44319,7 @@ ${content}</tr>
     validationImpossibleOneway: () => validationImpossibleOneway,
     validationIncompatibleSource: () => validationIncompatibleSource,
     validationMaprules: () => validationMaprules,
+    validationMismatchedDates: () => validationMismatchedDates,
     validationMismatchedGeometry: () => validationMismatchedGeometry,
     validationMissingRole: () => validationMissingRole,
     validationMissingTag: () => validationMissingTag,
@@ -42608,8 +45327,8 @@ ${content}</tr>
             }
             var structEndNode1 = determineEndpoint(edge, edgeNodes[1], endpointLocGetter1);
             var structEndNode2 = determineEndpoint([edgeNodes[0].id, structEndNode1.id], edgeNodes[0], endpointLocGetter2);
-            var structureWay = resultWayIDs.map(function(id2) {
-              return graph.entity(id2);
+            var structureWay = resultWayIDs.map(function(id3) {
+              return graph.entity(id3);
             }).find(function(way) {
               return way.nodes.indexOf(structEndNode1.id) !== -1 && way.nodes.indexOf(structEndNode2.id) !== -1;
             });
@@ -43119,8 +45838,8 @@ ${content}</tr>
             title: _t.append("issues.fix.delete_feature.title"),
             entityIds: [singleEntity.id],
             onClick: function(context2) {
-              var id2 = this.issue.entityIds[0];
-              var operation = operationDelete(context2, [id2]);
+              var id3 = this.issue.entityIds[0];
+              var operation = operationDelete(context2, [id3]);
               if (!operation.disabled()) {
                 operation();
               }
@@ -43260,22 +45979,45 @@ ${content}</tr>
           hash: key + entity.tags[key],
           dynamicFixes: function() {
             var fixes = [];
+            let alternatives = [];
             if (normalized !== null) {
-              var localeDateString2 = normalized.date.toLocaleDateString(_mainLocalizer.languageCode(), normalized.localeOptions);
-              fixes.push(new validationIssueFix({
-                title: _t.append("issues.fix.reformat_date.title", { date: localeDateString2 }),
-                onClick: function(context) {
-                  context.perform(function(graph) {
-                    var entityInGraph = graph.hasEntity(entity.id);
-                    if (!entityInGraph)
-                      return graph;
-                    var newTags = Object.assign({}, entityInGraph.tags);
-                    newTags[key] = normalized.value;
-                    return actionChangeTags(entityInGraph.id, newTags)(graph);
-                  }, _t("issues.fix.reformat_date.annotation"));
-                }
-              }));
+              let label = normalized.date.toLocaleDateString(_mainLocalizer.languageCode(), normalized.localeOptions);
+              alternatives.push({
+                date: normalized.value,
+                label: label || normalized.value
+              });
             }
+            let edtfFromOSM = utilEDTFFromOSMDateString(entity.tags[key]);
+            if (edtfFromOSM) {
+              let label;
+              try {
+                label = edtf(edtfFromOSM).format(_mainLocalizer.languageCode());
+              } catch (e) {
+                label = edtfFromOSM;
+              }
+              alternatives.push({
+                edtf: edtfFromOSM,
+                label
+              });
+            }
+            fixes.push(...alternatives.map((alt) => new validationIssueFix({
+              title: _t.append("issues.fix.reformat_date.title", { date: alt.label }),
+              onClick: function(context) {
+                context.perform(function(graph) {
+                  var entityInGraph = graph.hasEntity(entity.id);
+                  if (!entityInGraph)
+                    return graph;
+                  var newTags = Object.assign({}, entityInGraph.tags);
+                  if (alt.date) {
+                    newTags[key] = alt.date;
+                  } else {
+                    delete newTags[key];
+                  }
+                  newTags[key + ":edtf"] = alt.edtf;
+                  return actionChangeTags(entityInGraph.id, newTags)(graph);
+                }, _t("issues.fix.reformat_date.annotation"));
+              }
+            })));
             fixes.push(new validationIssueFix({
               icon: "iD-operation-delete",
               title: _t.append("issues.fix.remove_tag.title"),
@@ -43296,6 +46038,68 @@ ${content}</tr>
       }
       validateDate("start_date", "start");
       validateDate("end_date", "end");
+      function showReferenceEDTF(selection2, parserError) {
+        let message;
+        if (parserError.offset && parserError.token) {
+          message = _t.append("issues.invalid_format.edtf.reference", {
+            token: parserError.token.value,
+            position: (parserError.offset + 1).toLocaleString(_mainLocalizer.languageCode())
+          });
+        } else if (parserError.message) {
+          message = (selection3) => selection3.append("span").attr("class", "localized-text").attr("lang", "en").text(parserError.message.replace(/^edtf: /, ""));
+        }
+        if (!message) {
+          return;
+        }
+        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(message);
+      }
+      function validateEDTF(key, msgKey) {
+        key += ":edtf";
+        if (!entity.tags[key])
+          return;
+        let parserError;
+        try {
+          parse(entity.tags[key]);
+          return;
+        } catch (e) {
+          parserError = e;
+        }
+        issues.push(new validationIssue({
+          type: type2,
+          subtype: "date",
+          severity: "warning",
+          message: function(context) {
+            var entity2 = context.hasEntity(this.entityIds[0]);
+            return entity2 ? _t.append(
+              "issues.invalid_format.edtf.message_" + msgKey,
+              { feature: utilDisplayLabel(entity2, context.graph()) }
+            ) : "";
+          },
+          reference: (selection2) => showReferenceEDTF(selection2, parserError),
+          entityIds: [entity.id],
+          hash: key + entity.tags[key],
+          dynamicFixes: function() {
+            var fixes = [];
+            fixes.push(new validationIssueFix({
+              icon: "iD-operation-delete",
+              title: _t.append("issues.fix.remove_tag.title"),
+              onClick: function(context) {
+                context.perform(function(graph) {
+                  var entityInGraph = graph.hasEntity(entity.id);
+                  if (!entityInGraph)
+                    return graph;
+                  var newTags = Object.assign({}, entityInGraph.tags);
+                  delete newTags[key];
+                  return actionChangeTags(entityInGraph.id, newTags)(graph);
+                }, _t("issues.fix.remove_tag.annotation"));
+              }
+            }));
+            return fixes;
+          }
+        }));
+      }
+      validateEDTF("start_date", "start");
+      validateEDTF("end_date", "end");
       function isValidEmail(email) {
         var valid_email = /^[^\(\)\\,":;<>@\[\]]+@[^\(\)\\,":;<>@\[\]\.]+(?:\.[a-z0-9-]+)*$/i;
         return !email || valid_email.test(email);
@@ -43527,8 +46331,8 @@ ${content}</tr>
                 title: _t.append("issues.fix.reverse_feature.title"),
                 entityIds: [way.id],
                 onClick: function(context) {
-                  var id2 = this.issue.entityIds[0];
-                  context.perform(actionReverse(id2), _t("operations.reverse.annotation.line", { n: 1 }));
+                  var id3 = this.issue.entityIds[0];
+                  context.perform(actionReverse(id3), _t("operations.reverse.annotation.line", { n: 1 }));
                 }
               }));
             }
@@ -43629,9 +46433,9 @@ ${content}</tr>
           }
         });
       }).filter(Boolean);
-      function getReference(id2) {
+      function getReference(id3) {
         return function showReference(selection2) {
-          selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append(`issues.incompatible_source.reference.${id2}`));
+          selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append(`issues.incompatible_source.reference.${id3}`));
         };
       }
     };
@@ -43651,6 +46455,99 @@ ${content}</tr>
         var rule = rules[i2];
         rule.findIssues(entity, graph, issues);
       }
+      return issues;
+    };
+    validation.type = type2;
+    return validation;
+  }
+
+  // modules/validations/mismatched_dates.js
+  function validationMismatchedDates() {
+    let type2 = "mismatched_dates";
+    let validation = function(entity) {
+      let issues = [];
+      function showReferenceEDTF(selection2) {
+        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.mismatched_dates.edtf.reference"));
+      }
+      function validateEDTF(key, msgKey) {
+        if (!entity.tags[key] || !entity.tags[key + ":edtf"])
+          return;
+        let parsed;
+        try {
+          parsed = edtf(entity.tags[key + ":edtf"]);
+        } catch (e) {
+          return;
+        }
+        if (parsed.covers(edtf(entity.tags[key])))
+          return;
+        issues.push(new validationIssue({
+          type: type2,
+          subtype: "date",
+          severity: "warning",
+          message: function(context) {
+            let entity2 = context.hasEntity(this.entityIds[0]);
+            return entity2 ? _t.append(
+              "issues.mismatched_dates.edtf.message_" + msgKey,
+              { feature: utilDisplayLabel(entity2, context.graph()) }
+            ) : "";
+          },
+          reference: showReferenceEDTF,
+          entityIds: [entity.id],
+          hash: key + entity.tags[key + ":edtf"],
+          dynamicFixes: function() {
+            let fixes = [];
+            let likelyDates = /* @__PURE__ */ new Set();
+            let valueFromDate = (date2) => {
+              date2.precision = (parsed.lower || parsed.first || parsed).precision;
+              return date2.edtf.split("T")[0];
+            };
+            if (Number.isFinite(parsed.min)) {
+              let min4 = edtf(parsed.min);
+              likelyDates.add(valueFromDate(min4));
+            }
+            if (Number.isFinite(parsed.max)) {
+              let max4 = edtf(parsed.max);
+              likelyDates.add(valueFromDate(max4));
+            }
+            let sortedDates = [...likelyDates];
+            sortedDates.sort();
+            fixes.push(...sortedDates.map((value) => {
+              let normalized = utilNormalizeDateString(value);
+              let localeDateString2 = normalized.date.toLocaleDateString(_mainLocalizer.languageCode(), normalized.localeOptions);
+              return new validationIssueFix({
+                title: _t.append("issues.fix.reformat_date.title", { date: localeDateString2 }),
+                onClick: function(context) {
+                  context.perform(function(graph) {
+                    var entityInGraph = graph.hasEntity(entity.id);
+                    if (!entityInGraph)
+                      return graph;
+                    var newTags = Object.assign({}, entityInGraph.tags);
+                    newTags[key] = normalized.value;
+                    return actionChangeTags(entityInGraph.id, newTags)(graph);
+                  }, _t("issues.fix.reformat_date.annotation"));
+                }
+              });
+            }));
+            fixes.push(new validationIssueFix({
+              icon: "iD-operation-delete",
+              title: _t.append("issues.fix.remove_tag.title"),
+              onClick: function(context) {
+                context.perform(function(graph) {
+                  var entityInGraph = graph.hasEntity(entity.id);
+                  if (!entityInGraph)
+                    return graph;
+                  var newTags = Object.assign({}, entityInGraph.tags);
+                  delete newTags[key];
+                  return actionChangeTags(entityInGraph.id, newTags)(graph);
+                }, _t("issues.fix.remove_tag.annotation"));
+              }
+            }));
+            return fixes;
+          }
+        }));
+      }
+      validateEDTF("start_date", "start");
+      validateEDTF("end_date", "end");
       return issues;
     };
     validation.type = type2;
@@ -44159,13 +47056,13 @@ ${content}</tr>
             }
           }));
           var deleteOnClick;
-          var id2 = this.entityIds[0];
-          var operation = operationDelete(context2, [id2]);
+          var id3 = this.entityIds[0];
+          var operation = operationDelete(context2, [id3]);
           var disabledReasonID = operation.disabled();
           if (!disabledReasonID) {
             deleteOnClick = function(context3) {
-              var id3 = this.issue.entityIds[0];
-              var operation2 = operationDelete(context3, [id3]);
+              var id4 = this.issue.entityIds[0];
+              var operation2 = operationDelete(context3, [id4]);
               if (!operation2.disabled()) {
                 operation2();
               }
@@ -44902,7 +47799,7 @@ ${content}</tr>
       let results = [];
       if (_headCache.graph && _headCache.graph !== _baseCache.graph) {
         Object.values(_headCache.issuesByIssueID).forEach((issue) => {
-          const userModified = (issue.entityIds || []).some((id2) => _completeDiff.hasOwnProperty(id2));
+          const userModified = (issue.entityIds || []).some((id3) => _completeDiff.hasOwnProperty(id3));
           if (opts.what === "edited" && !userModified)
             return;
           if (!filter2(issue))
@@ -44935,7 +47832,7 @@ ${content}</tr>
           return false;
         if (!opts.includeIgnored && _ignoredIssueIDs.has(issue.id))
           return false;
-        if ((issue.entityIds || []).some((id2) => !context.hasEntity(id2)))
+        if ((issue.entityIds || []).some((id3) => !context.hasEntity(id3)))
           return false;
         if (opts.where === "visible") {
           const extent = issue.extent(context.graph());
@@ -44960,9 +47857,9 @@ ${content}</tr>
         selectID = issue.entityIds[0];
         if (selectID && selectID.charAt(0) === "r") {
           const ids = utilEntityAndDeepMemberIDs([selectID], graph);
-          let nodeID = ids.find((id2) => id2.charAt(0) === "n" && graph.hasEntity(id2));
+          let nodeID = ids.find((id3) => id3.charAt(0) === "n" && graph.hasEntity(id3));
           if (!nodeID) {
-            const wayID = ids.find((id2) => id2.charAt(0) === "w" && graph.hasEntity(id2));
+            const wayID = ids.find((id3) => id3.charAt(0) === "w" && graph.hasEntity(id3));
             if (wayID) {
               nodeID = graph.entity(wayID).first();
             }
@@ -45040,9 +47937,9 @@ ${content}</tr>
       corePreferences("validate-disabledRules", Object.keys(_disabledRules).join(","));
       validator.validate();
     };
-    validator.disableRules = (keys) => {
+    validator.disableRules = (keys2) => {
       _disabledRules = {};
-      keys.forEach((k) => _disabledRules[k] = true);
+      keys2.forEach((k) => _disabledRules[k] = true);
       corePreferences("validate-disabledRules", Object.keys(_disabledRules).join(","));
       validator.validate();
     };
@@ -45149,7 +48046,7 @@ ${content}</tr>
           return;
         baseIssues.forEach((issueID) => {
           const issue = _baseCache.issuesByIssueID[issueID];
-          const userModified = (issue.entityIds || []).some((id2) => _completeDiff.hasOwnProperty(id2));
+          const userModified = (issue.entityIds || []).some((id3) => _completeDiff.hasOwnProperty(id3));
           if (userModified && !_headCache.issuesByIssueID[issueID]) {
             _resolvedIssueIDs.add(issueID);
           } else {
@@ -45378,8 +48275,8 @@ ${content}</tr>
       var _toLoadTotal = _toLoad.length;
       if (_toCheck.length) {
         dispatch10.call("progressChanged", this, _toLoadCount, _toLoadTotal);
-        _toLoad.forEach(function(id2) {
-          _loaded[id2] = false;
+        _toLoad.forEach(function(id3) {
+          _loaded[id3] = false;
         });
         osm.loadMultiple(_toLoad, loaded);
       } else {
@@ -45388,8 +48285,8 @@ ${content}</tr>
       return;
       function withChildNodes(ids, graph) {
         var s = new Set(ids);
-        ids.forEach(function(id2) {
-          var entity = graph.entity(id2);
+        ids.forEach(function(id3) {
+          var entity = graph.entity(id3);
           if (entity.type !== "way")
             return;
           graph.childNodes(entity).forEach(function(child) {
@@ -45419,21 +48316,21 @@ ${content}</tr>
             });
             if (!entity.visible)
               return;
-            var i3, id2;
+            var i3, id3;
             if (entity.type === "way") {
               for (i3 = 0; i3 < entity.nodes.length; i3++) {
-                id2 = entity.nodes[i3];
-                if (_loaded[id2] === void 0) {
-                  _loaded[id2] = false;
-                  loadMore.push(id2);
+                id3 = entity.nodes[i3];
+                if (_loaded[id3] === void 0) {
+                  _loaded[id3] = false;
+                  loadMore.push(id3);
                 }
               }
             } else if (entity.type === "relation" && entity.isMultipolygon()) {
               for (i3 = 0; i3 < entity.members.length; i3++) {
-                id2 = entity.members[i3].id;
-                if (_loaded[id2] === void 0) {
-                  _loaded[id2] = false;
-                  loadMore.push(id2);
+                id3 = entity.members[i3].id;
+                if (_loaded[id3] === void 0) {
+                  _loaded[id3] = false;
+                  loadMore.push(id3);
                 }
               }
             }
@@ -45452,9 +48349,9 @@ ${content}</tr>
         }
       }
       function detectConflicts() {
-        function choice(id2, text2, action) {
+        function choice(id3, text2, action) {
           return {
-            id: id2,
+            id: id3,
             text: text2,
             action: function() {
               history.replace(action);
@@ -45481,28 +48378,28 @@ ${content}</tr>
           }
           return true;
         }
-        _toCheck.forEach(function(id2) {
-          var local = localGraph.entity(id2);
-          var remote = remoteGraph.entity(id2);
+        _toCheck.forEach(function(id3) {
+          var local = localGraph.entity(id3);
+          var remote = remoteGraph.entity(id3);
           if (sameVersions(local, remote))
             return;
-          var merge3 = actionMergeRemoteChanges(id2, localGraph, remoteGraph, _discardTags, formatUser);
-          history.replace(merge3);
-          var mergeConflicts = merge3.conflicts();
+          var merge4 = actionMergeRemoteChanges(id3, localGraph, remoteGraph, _discardTags, formatUser);
+          history.replace(merge4);
+          var mergeConflicts = merge4.conflicts();
           if (!mergeConflicts.length)
             return;
-          var forceLocal = actionMergeRemoteChanges(id2, localGraph, remoteGraph, _discardTags).withOption("force_local");
-          var forceRemote = actionMergeRemoteChanges(id2, localGraph, remoteGraph, _discardTags).withOption("force_remote");
+          var forceLocal = actionMergeRemoteChanges(id3, localGraph, remoteGraph, _discardTags).withOption("force_local");
+          var forceRemote = actionMergeRemoteChanges(id3, localGraph, remoteGraph, _discardTags).withOption("force_remote");
           var keepMine = _t("save.conflict." + (remote.visible ? "keep_local" : "restore"));
           var keepTheirs = _t("save.conflict." + (remote.visible ? "keep_remote" : "delete"));
           _conflicts.push({
-            id: id2,
+            id: id3,
             name: entityName(local),
             details: mergeConflicts,
             chosen: 1,
             choices: [
-              choice(id2, keepMine, forceLocal),
-              choice(id2, keepTheirs, forceRemote)
+              choice(id3, keepMine, forceLocal),
+              choice(id3, keepTheirs, forceRemote)
             ]
           });
         });
@@ -45787,10 +48684,10 @@ ${content}</tr>
           var u = "";
           for (var zoom = coord2[2]; zoom > 0; zoom--) {
             var b = 0;
-            var mask = 1 << zoom - 1;
-            if ((coord2[0] & mask) !== 0)
+            var mask2 = 1 << zoom - 1;
+            if ((coord2[0] & mask2) !== 0)
               b++;
-            if ((coord2[1] & mask) !== 0)
+            if ((coord2[1] & mask2) !== 0)
               b += 2;
             u += b.toString();
           }
@@ -46714,9 +49611,9 @@ ${content}</tr>
         let brightness = number_default(1, 0.85)(_sharpness - 1);
         maskFilter += ` brightness(${brightness})`;
       }
-      let mask = base.selectAll(".layer-unsharp-mask").data(_sharpness > 1 ? [0] : []);
-      mask.exit().remove();
-      mask.enter().append("div").attr("class", "layer layer-mask layer-unsharp-mask").merge(mask).call(baseLayer).style("filter", maskFilter || null).style("mix-blend-mode", mixBlendMode || null);
+      let mask2 = base.selectAll(".layer-unsharp-mask").data(_sharpness > 1 ? [0] : []);
+      mask2.exit().remove();
+      mask2.enter().append("div").attr("class", "layer layer-mask layer-unsharp-mask").merge(mask2).call(baseLayer).style("filter", maskFilter || null).style("mix-blend-mode", mixBlendMode || null);
       let overlays = selection2.selectAll(".layer-overlay").data(_overlayLayers, (d) => d.source().name());
       overlays.exit().remove();
       overlays.enter().insert("div", ".layer-data").attr("class", "layer layer-overlay").merge(overlays).each((layer, i2, nodes) => select_default2(nodes[i2]).call(layer));
@@ -46731,12 +49628,12 @@ ${content}</tr>
       const x = +meters[0].toFixed(2);
       const y = +meters[1].toFixed(2);
       let hash = utilStringQs(window.location.hash);
-      let id2 = currSource.id;
-      if (id2 === "custom") {
-        id2 = `custom:${currSource.template()}`;
+      let id3 = currSource.id;
+      if (id3 === "custom") {
+        id3 = `custom:${currSource.template()}`;
       }
-      if (id2) {
-        hash.background = id2;
+      if (id3) {
+        hash.background = id3;
       } else {
         delete hash.background;
       }
@@ -46841,10 +49738,10 @@ ${content}</tr>
       background.updateImagery();
       return background;
     };
-    background.findSource = (id2) => {
-      if (!id2 || !_imageryIndex)
+    background.findSource = (id3) => {
+      if (!id3 || !_imageryIndex)
         return null;
-      return _imageryIndex.backgrounds.find((d) => d.id && d.id === id2);
+      return _imageryIndex.backgrounds.find((d) => d.id && d.id === id3);
     };
     background.bing = () => {
       background.baseLayerSource(background.findSource("Bing"));
@@ -46945,10 +49842,10 @@ ${content}</tr>
         const validBackgrounds = background.sources(extent).filter((d) => d.id !== "none" && d.id !== "custom");
         const first = validBackgrounds.length && validBackgrounds[0];
         const isLastUsedValid = !!validBackgrounds.find((d) => d.id && d.id === lastUsedBackground);
-        let best;
+        let best2;
         if (!requestedBackground && extent) {
           const viewArea = extent.area();
-          best = validBackgrounds.find((s) => {
+          best2 = validBackgrounds.find((s) => {
             if (!s.best() || s.overlay)
               return false;
             let bbox2 = es_default(bboxClip(
@@ -46966,7 +49863,7 @@ ${content}</tr>
           corePreferences("background-custom-template", template);
         } else {
           background.baseLayerSource(
-            background.findSource(requestedBackground) || best || isLastUsedValid && background.findSource(lastUsedBackground) || background.findSource("Bing") || first || background.findSource("none")
+            background.findSource(requestedBackground) || best2 || isLastUsedValid && background.findSource(lastUsedBackground) || background.findSource("Bing") || first || background.findSource("none")
           );
         }
         const locator = imageryIndex.backgrounds.find((d) => d.overlay && d.default);
@@ -47057,7 +49954,7 @@ ${content}</tr>
       dispatch10.call("change");
       dispatch10.call("redraw");
     }
-    function defineRule(k, filter2, max3) {
+    function defineRule(k, filter2, max4) {
       var isEnabled = true;
       _keys.push(k);
       _rules[k] = {
@@ -47065,8 +49962,8 @@ ${content}</tr>
         enabled: isEnabled,
         // whether the user wants it enabled..
         count: 0,
-        currentMax: max3 || Infinity,
-        defaultMax: max3 || Infinity,
+        currentMax: max4 || Infinity,
+        defaultMax: max4 || Infinity,
         enable: function() {
           this.enabled = true;
           this.currentMax = this.defaultMax;
@@ -47483,7 +50380,7 @@ ${content}</tr>
     if (activeID === node.id)
       return 0;
     var parents = graph.parentWays(node);
-    var i2, j2, nodes, isClosed, ix1, ix2, ix3, ix4, max3;
+    var i2, j2, nodes, isClosed, ix1, ix2, ix3, ix4, max4;
     for (i2 = 0; i2 < parents.length; i2++) {
       nodes = parents[i2].nodes;
       isClosed = parents[i2].isClosed();
@@ -47494,15 +50391,15 @@ ${content}</tr>
           ix3 = j2 + 1;
           ix4 = j2 + 2;
           if (isClosed) {
-            max3 = nodes.length - 1;
+            max4 = nodes.length - 1;
             if (ix1 < 0)
-              ix1 = max3 + ix1;
+              ix1 = max4 + ix1;
             if (ix2 < 0)
-              ix2 = max3 + ix2;
-            if (ix3 > max3)
-              ix3 = ix3 - max3;
-            if (ix4 > max3)
-              ix4 = ix4 - max3;
+              ix2 = max4 + ix2;
+            if (ix3 > max4)
+              ix3 = ix3 - max4;
+            if (ix4 > max4)
+              ix4 = ix4 - max4;
           }
           if (nodes[ix1] === activeID)
             return 0;
@@ -48134,8 +51031,8 @@ ${content}</tr>
   function $(element, tagName) {
     return Array.from(element.getElementsByTagName(tagName));
   }
-  function normalizeId(id2) {
-    return id2[0] === "#" ? id2 : `#${id2}`;
+  function normalizeId(id3) {
+    return id3[0] === "#" ? id3 : `#${id3}`;
   }
   function $ns(element, tagName, ns) {
     return Array.from(element.getElementsByTagNameNS(ns, tagName));
@@ -48229,8 +51126,8 @@ ${content}</tr>
     return ["heart", "gpxtpx:hr", "hr"].includes(name) ? "heart" : name;
   }
   function parseNumeric(val) {
-    const num = parseFloat(val);
-    return isNaN(num) ? val : num;
+    const num2 = parseFloat(val);
+    return isNaN(num2) ? val : num2;
   }
   function coordPair$1(node) {
     const ll = [
@@ -48540,7 +51437,7 @@ ${content}</tr>
   var trimSpace = /^\s*|\s*$/g;
   var splitSpace = /\s+/;
   function coord1(value) {
-    return value.replace(removeSpace, "").split(",").map(parseFloat).filter((num) => !isNaN(num)).slice(0, 3);
+    return value.replace(removeSpace, "").split(",").map(parseFloat).filter((num2) => !isNaN(num2)).slice(0, 3);
   }
   function coord(value) {
     return value.replace(trimSpace, "").split(splitSpace).map(coord1).filter((coord2) => {
@@ -48574,14 +51471,14 @@ ${content}</tr>
       return ring;
     const first = ring[0];
     const last = ring[ring.length - 1];
-    let equal = true;
+    let equal2 = true;
     for (let i2 = 0; i2 < Math.max(first.length, last.length); i2++) {
       if (first[i2] !== last[i2]) {
-        equal = false;
+        equal2 = false;
         break;
       }
     }
-    if (!equal) {
+    if (!equal2) {
       return ring.concat([ring[0]]);
     }
     return ring;
@@ -48687,9 +51584,9 @@ ${content}</tr>
     if (feature3.properties?.visibility !== void 0) {
       feature3.properties.visibility = feature3.properties.visibility !== "0";
     }
-    const id2 = node.getAttribute("id");
-    if (id2 !== null && id2 !== "")
-      feature3.id = id2;
+    const id3 = node.getAttribute("id");
+    if (id3 !== null && id3 !== "")
+      feature3.id = id3;
     return feature3;
   }
   function getGroundOverlayBox(node) {
@@ -48781,18 +51678,18 @@ ${content}</tr>
     if (feature3.properties?.visibility !== void 0) {
       feature3.properties.visibility = feature3.properties.visibility !== "0";
     }
-    const id2 = node.getAttribute("id");
-    if (id2 !== null && id2 !== "")
-      feature3.id = id2;
+    const id3 = node.getAttribute("id");
+    if (id3 !== null && id3 !== "")
+      feature3.id = id3;
     return feature3;
   }
   function getStyleId(style) {
-    let id2 = style.getAttribute("id");
+    let id3 = style.getAttribute("id");
     const parentNode = style.parentNode;
-    if (!id2 && isElement(parentNode) && parentNode.localName === "CascadingStyle") {
-      id2 = parentNode.getAttribute("kml:id") || parentNode.getAttribute("id");
+    if (!id3 && isElement(parentNode) && parentNode.localName === "CascadingStyle") {
+      id3 = parentNode.getAttribute("kml:id") || parentNode.getAttribute("id");
     }
-    return normalizeId(id2 || "");
+    return normalizeId(id3 || "");
   }
   function buildStyleMap(node) {
     const styleMap = {};
@@ -48800,11 +51697,11 @@ ${content}</tr>
       styleMap[getStyleId(style)] = extractStyle(style);
     }
     for (const map2 of $(node, "StyleMap")) {
-      const id2 = normalizeId(map2.getAttribute("id") || "");
+      const id3 = normalizeId(map2.getAttribute("id") || "");
       val1(map2, "styleUrl", (styleUrl) => {
         styleUrl = normalizeId(styleUrl);
         if (styleMap[styleUrl]) {
-          styleMap[id2] = styleMap[styleUrl];
+          styleMap[id3] = styleMap[styleUrl];
         }
       });
     }
@@ -49896,9 +52793,9 @@ ${content}</tr>
           for (var j3 = 0; j3 < sub.length - 1; j3++) {
             var a = sub[j3];
             var b = sub[j3 + 1];
-            var num = Math.max(1, Math.floor(geoVecLength(a, b) / boxsize / 2));
-            for (var box = 0; box < num; box++) {
-              var p2 = geoVecInterp(a, b, box / num);
+            var num2 = Math.max(1, Math.floor(geoVecLength(a, b) / boxsize / 2));
+            for (var box = 0; box < num2; box++) {
+              var p2 = geoVecInterp(a, b, box / num2);
               var x05 = p2[0] - boxsize - padding;
               var y05 = p2[1] - boxsize - padding;
               var x12 = p2[0] + boxsize + padding;
@@ -50015,20 +52912,20 @@ ${content}</tr>
           return false;
         }
       }
-      function doInsert(bbox3, id2) {
-        bbox3.id = id2;
-        var oldbox = _entitybboxes[id2];
+      function doInsert(bbox3, id3) {
+        bbox3.id = id3;
+        var oldbox = _entitybboxes[id3];
         if (oldbox) {
           _rdrawn.remove(oldbox);
         }
-        _entitybboxes[id2] = bbox3;
+        _entitybboxes[id3] = bbox3;
         _rdrawn.insert(bbox3);
       }
-      function tryInsert(bboxes, id2, saveSkipped) {
+      function tryInsert(bboxes, id3, saveSkipped) {
         var skipped = false;
         for (var i3 = 0; i3 < bboxes.length; i3++) {
           var bbox3 = bboxes[i3];
-          bbox3.id = id2;
+          bbox3.id = id3;
           if (bbox3.minX < 0 || bbox3.minY < 0 || bbox3.maxX > dimensions[0] || bbox3.maxY > dimensions[1]) {
             skipped = true;
             break;
@@ -50038,7 +52935,7 @@ ${content}</tr>
             break;
           }
         }
-        _entitybboxes[id2] = bboxes;
+        _entitybboxes[id3] = bboxes;
         if (skipped) {
           if (saveSkipped) {
             _rskipped.load(bboxes);
@@ -50076,10 +52973,10 @@ ${content}</tr>
       var graph = context.graph();
       var selectedIDs = context.selectedIDs();
       var ids = [];
-      var pad2, bbox2;
+      var pad3, bbox2;
       if (mouse) {
-        pad2 = 20;
-        bbox2 = { minX: mouse[0] - pad2, minY: mouse[1] - pad2, maxX: mouse[0] + pad2, maxY: mouse[1] + pad2 };
+        pad3 = 20;
+        bbox2 = { minX: mouse[0] - pad3, minY: mouse[1] - pad3, maxX: mouse[0] + pad3, maxY: mouse[1] + pad3 };
         var nearMouse = _rdrawn.search(bbox2).map(function(entity2) {
           return entity2.id;
         });
@@ -51077,8 +53974,8 @@ ${content}</tr>
       mapFeatures.exit().remove();
       const enter = mapFeatures.enter().append("g").attr("class", "icon-map-feature icon-detected").on("click", click);
       enter.append("title").text(function(d) {
-        var id2 = d.value.replace(/--/g, ".").replace(/-/g, "_");
-        return _t("mapillary_map_features." + id2);
+        var id3 = d.value.replace(/--/g, ".").replace(/-/g, "_");
+        return _t("mapillary_map_features." + id3);
       });
       enter.append("use").attr("width", "24px").attr("height", "24px").attr("x", "-12px").attr("y", "-12px").attr("xlink:href", function(d) {
         if (d.value === "object--billboard") {
@@ -51577,9 +54474,9 @@ ${content}</tr>
     drawLayers.all = function() {
       return _layers;
     };
-    drawLayers.layer = function(id2) {
+    drawLayers.layer = function(id3) {
       var obj = _layers.find(function(o) {
-        return o.id === id2;
+        return o.id === id3;
       });
       return obj && obj.layer;
     };
@@ -51592,9 +54489,9 @@ ${content}</tr>
     };
     drawLayers.remove = function(what) {
       var arr = [].concat(what);
-      arr.forEach(function(id2) {
+      arr.forEach(function(id3) {
         _layers = _layers.filter(function(o) {
-          return o.id !== id2;
+          return o.id !== id3;
         });
       });
       dispatch10.call("change");
@@ -51896,9 +54793,9 @@ ${content}</tr>
         for (var j2 = 0; j2 < nodes.length - 1; j2++) {
           var a = nodes[j2];
           var b = nodes[j2 + 1];
-          var id2 = [a.id, b.id].sort().join("-");
-          if (midpoints[id2]) {
-            midpoints[id2].parents.push(entity);
+          var id3 = [a.id, b.id].sort().join("-");
+          if (midpoints[id3]) {
+            midpoints[id3].parents.push(entity);
           } else if (geoVecLength(projection2(a.loc), projection2(b.loc)) > 40) {
             var point2 = geoVecInterp(a.loc, b.loc, 0.5);
             var loc = null;
@@ -51914,9 +54811,9 @@ ${content}</tr>
               }
             }
             if (loc) {
-              midpoints[id2] = {
+              midpoints[id3] = {
                 type: "midpoint",
-                id: id2,
+                id: id3,
                 loc,
                 edge: [a.id, b.id],
                 parents: [entity]
@@ -52318,8 +55215,8 @@ ${content}</tr>
           }
         }
       }
-      ids.forEach(function(id2) {
-        var entity = graph.hasEntity(id2);
+      ids.forEach(function(id3) {
+        var entity = graph.hasEntity(id3);
         if (!entity)
           return;
         if (entity.type === "node") {
@@ -52392,8 +55289,8 @@ ${content}</tr>
       _prevSelected = _currSelected || {};
       if (context.map().isInWideSelection()) {
         _currSelected = {};
-        context.selectedIDs().forEach(function(id2) {
-          var entity = graph.hasEntity(id2);
+        context.selectedIDs().forEach(function(id3) {
+          var entity = graph.hasEntity(id3);
           if (!entity)
             return;
           if (entity.type === "node") {
@@ -52776,8 +55673,8 @@ ${content}</tr>
   var maxZoom = 24;
   var kMin = geoZoomToScale(minZoom2, TILESIZE);
   var kMax = geoZoomToScale(maxZoom, TILESIZE);
-  function clamp(num, min3, max3) {
-    return Math.max(min3, Math.min(num, max3));
+  function clamp(num2, min4, max4) {
+    return Math.max(min4, Math.min(num2, max4));
   }
   function rendererMap(context) {
     var dispatch10 = dispatch_default(
@@ -52918,8 +55815,8 @@ ${content}</tr>
           return;
         var graph = context.graph();
         var selectedAndParents = {};
-        context.selectedIDs().forEach(function(id2) {
-          var entity = graph.hasEntity(id2);
+        context.selectedIDs().forEach(function(id3) {
+          var entity = graph.hasEntity(id3);
           if (entity) {
             selectedAndParents[entity.id] = entity;
             if (entity.type === "node") {
@@ -52980,8 +55877,8 @@ ${content}</tr>
       var applyFeatureLayerFilters = true;
       if (map2.isInWideSelection()) {
         data = [];
-        utilEntityAndDeepMemberIDs(mode.selectedIDs(), context.graph()).forEach(function(id2) {
-          var entity = context.hasEntity(id2);
+        utilEntityAndDeepMemberIDs(mode.selectedIDs(), context.graph()).forEach(function(id3) {
+          var entity = context.hasEntity(id3);
           if (entity)
             data.push(entity);
         });
@@ -53474,10 +56371,10 @@ ${content}</tr>
       if (!arguments.length) {
         var headerY = 71;
         var footerY = 30;
-        var pad2 = 10;
+        var pad3 = 10;
         return new geoExtent(
-          projection2.invert([pad2, _dimensions[1] - footerY - pad2]),
-          projection2.invert([_dimensions[0] - pad2, headerY + pad2])
+          projection2.invert([pad3, _dimensions[1] - footerY - pad3]),
+          projection2.invert([_dimensions[0] - pad3, headerY + pad3])
         );
       } else {
         var extent = geoExtent(val);
@@ -53608,9 +56505,9 @@ ${content}</tr>
       return val === _dateFilters[0] ? _fromDate : _toDate;
     };
     photos.setDateFilter = function(type2, val, updateUrl) {
-      var date = val && new Date(val);
-      if (date && !isNaN(date)) {
-        val = date.toISOString().slice(0, 10);
+      var date2 = val && new Date(val);
+      if (date2 && !isNaN(date2)) {
+        val = date2.toISOString().slice(0, 10);
       } else {
         val = null;
       }
@@ -53669,8 +56566,8 @@ ${content}</tr>
         window.location.replace("#" + utilQsString(hash, true));
       }
     }
-    function showsLayer(id2) {
-      var layer = context.layers().layer(id2);
+    function showsLayer(id3) {
+      var layer = context.layers().layer(id3);
       return layer && layer.supported() && layer.enabled();
     }
     photos.shouldFilterByDate = function() {
@@ -53724,10 +56621,10 @@ ${content}</tr>
       }
       if (hash.photo_overlay) {
         var hashOverlayIDs = hash.photo_overlay.replace(/;/g, ",").split(",");
-        hashOverlayIDs.forEach(function(id2) {
-          if (id2 === "openstreetcam")
-            id2 = "kartaview";
-          var layer2 = _layerIDs.indexOf(id2) !== -1 && context.layers().layer(id2);
+        hashOverlayIDs.forEach(function(id3) {
+          if (id3 === "openstreetcam")
+            id3 = "kartaview";
+          var layer2 = _layerIDs.indexOf(id3) !== -1 && context.layers().layer(id3);
           if (layer2 && !layer2.enabled())
             layer2.enabled(true);
         });
@@ -53882,7 +56779,7 @@ ${content}</tr>
   function uiContributors(context) {
     var osm = context.connection(), debouncedUpdate = debounce_default(function() {
       update();
-    }, 1e3), limit = 4, hidden = false, wrap2 = select_default2(null);
+    }, 1e3), limit2 = 4, hidden = false, wrap2 = select_default2(null);
     function update() {
       if (!osm)
         return;
@@ -53891,15 +56788,15 @@ ${content}</tr>
         if (entity && entity.user)
           users[entity.user] = true;
       });
-      var u = Object.keys(users), subset = u.slice(0, u.length > limit ? limit - 1 : limit);
+      var u = Object.keys(users), subset = u.slice(0, u.length > limit2 ? limit2 - 1 : limit2);
       wrap2.html("").call(svgIcon("#iD-icon-nearby", "pre-text light"));
       var userList = select_default2(document.createElement("span"));
       userList.selectAll().data(subset).enter().append("a").attr("class", "user-link").attr("href", function(d) {
         return osm.userURL(d);
       }).attr("target", "_blank").text(String);
-      if (u.length > limit) {
+      if (u.length > limit2) {
         var count = select_default2(document.createElement("span"));
-        var othersNum = u.length - limit + 1;
+        var othersNum = u.length - limit2 + 1;
         count.append("a").attr("target", "_blank").attr("href", function() {
           return osm.changesetsURL(context.map().center(), context.map().zoom());
         }).text(othersNum);
@@ -54221,7 +57118,7 @@ ${content}</tr>
     tooltip.content(function() {
       var heading = _heading.apply(this, arguments);
       var text2 = _title.apply(this, arguments);
-      var keys = _keys.apply(this, arguments);
+      var keys2 = _keys.apply(this, arguments);
       var headingCallback = typeof heading === "function" ? heading : (s) => s.text(heading);
       var textCallback = typeof text2 === "function" ? text2 : (s) => s.text(text2);
       return function(selection2) {
@@ -54231,12 +57128,12 @@ ${content}</tr>
         var textSelect = selection2.selectAll(".tooltip-text").data(text2 ? [text2] : []);
         textSelect.exit().remove();
         textSelect.enter().append("div").attr("class", "tooltip-text").merge(textSelect).text("").call(textCallback);
-        var keyhintWrap = selection2.selectAll(".keyhint-wrap").data(keys && keys.length ? [0] : []);
+        var keyhintWrap = selection2.selectAll(".keyhint-wrap").data(keys2 && keys2.length ? [0] : []);
         keyhintWrap.exit().remove();
         var keyhintWrapEnter = keyhintWrap.enter().append("div").attr("class", "keyhint-wrap");
         keyhintWrapEnter.append("span").call(_t.append("tooltip_keyhint"));
         keyhintWrap = keyhintWrapEnter.merge(keyhintWrap);
-        keyhintWrap.selectAll("kbd.shortcut").data(keys && keys.length ? keys : []).enter().append("kbd").attr("class", "shortcut").text(function(d) {
+        keyhintWrap.selectAll("kbd.shortcut").data(keys2 && keys2.length ? keys2 : []).enter().append("kbd").attr("class", "shortcut").text(function(d) {
           return d;
         });
       };
@@ -54582,8 +57479,8 @@ ${content}</tr>
       if (!isSupported())
         return;
       var detected = utilDetect();
-      var keys = detected.os === "mac" ? [uiCmd("\u2303\u2318F"), "f11"] : ["f11"];
-      context.keybinding().on(keys, fullScreen);
+      var keys2 = detected.os === "mac" ? [uiCmd("\u2303\u2318F"), "f11"] : ["f11"];
+      context.keybinding().on(keys2, fullScreen);
     };
   }
 
@@ -54687,12 +57584,12 @@ ${content}</tr>
         _metadata = {};
       }
       selection2.text("");
-      var list = selection2.append("ul").attr("class", "background-info");
-      list.append("li").call(_currSourceName);
+      var list2 = selection2.append("ul").attr("class", "background-info");
+      list2.append("li").call(_currSourceName);
       _metadataKeys.forEach(function(k) {
         if (isDG && k === "vintage")
           return;
-        list.append("li").attr("class", "background-info-list-" + k).classed("hide", !_metadata[k]).call(_t.append("info_panels.background." + k, { suffix: ":" })).append("span").attr("class", "background-info-span-" + k).text(_metadata[k]);
+        list2.append("li").attr("class", "background-info-list-" + k).classed("hide", !_metadata[k]).call(_t.append("info_panels.background." + k, { suffix: ":" })).append("span").attr("class", "background-info-span-" + k).text(_metadata[k]);
       });
       debouncedGetMetadata(selection2);
       var toggleTiles = context.getDebug("tile") ? "hide_tiles" : "show_tiles";
@@ -54843,11 +57740,11 @@ ${content}</tr>
         selection2.append("div").call(_t.append("info_panels.history.note_no_history"));
         return;
       }
-      var list = selection2.append("ul");
-      list.append("li").call(_t.append("info_panels.history.note_comments", { suffix: ":" })).append("span").text(note.comments.length);
+      var list2 = selection2.append("ul");
+      list2.append("li").call(_t.append("info_panels.history.note_comments", { suffix: ":" })).append("span").text(note.comments.length);
       if (note.comments.length) {
-        list.append("li").call(_t.append("info_panels.history.note_created_date", { suffix: ":" })).append("span").text(displayTimestamp(note.comments[0].date));
-        list.append("li").call(_t.append("info_panels.history.note_created_user", { suffix: ":" })).call(displayUser, note.comments[0].user);
+        list2.append("li").call(_t.append("info_panels.history.note_created_date", { suffix: ":" })).append("span").text(displayTimestamp(note.comments[0].date));
+        list2.append("li").call(_t.append("info_panels.history.note_created_user", { suffix: ":" })).call(displayUser, note.comments[0].user);
       }
       if (osm) {
         selection2.append("a").attr("class", "view-history-on-osm").attr("target", "_blank").attr("href", osm.noteURL(note)).call(svgIcon("#iD-icon-out-link", "inline")).append("span").call(_t.append("info_panels.history.note_link_text"));
@@ -54862,11 +57759,11 @@ ${content}</tr>
       if (osm) {
         links.append("a").attr("class", "view-history-on-osm").attr("href", osm.historyURL(entity)).attr("target", "_blank").call(_t.append("info_panels.history.history_link"));
       }
-      var list = selection2.append("ul");
-      list.append("li").call(_t.append("info_panels.history.version", { suffix: ":" })).append("span").text(entity.version);
-      list.append("li").call(_t.append("info_panels.history.last_edit", { suffix: ":" })).append("span").text(displayTimestamp(entity.timestamp));
-      list.append("li").call(_t.append("info_panels.history.edited_by", { suffix: ":" })).call(displayUser, entity.user);
-      list.append("li").call(_t.append("info_panels.history.changeset", { suffix: ":" })).call(displayChangeset, entity.changeset);
+      var list2 = selection2.append("ul");
+      list2.append("li").call(_t.append("info_panels.history.version", { suffix: ":" })).append("span").text(entity.version);
+      list2.append("li").call(_t.append("info_panels.history.last_edit", { suffix: ":" })).append("span").text(displayTimestamp(entity.timestamp));
+      list2.append("li").call(_t.append("info_panels.history.edited_by", { suffix: ":" })).call(displayUser, entity.user);
+      list2.append("li").call(_t.append("info_panels.history.changeset", { suffix: ":" })).call(displayChangeset, entity.changeset);
     }
     var panel = function(selection2) {
       selection2.call(redraw);
@@ -54962,30 +57859,30 @@ ${content}</tr>
       return area;
     }
   }
-  function wrap(x, min3, max3) {
-    var d = max3 - min3;
-    return ((x - min3) % d + d) % d + min3;
+  function wrap(x, min4, max4) {
+    var d = max4 - min4;
+    return ((x - min4) % d + d) % d + min4;
   }
-  function clamp2(x, min3, max3) {
-    return Math.max(min3, Math.min(x, max3));
+  function clamp2(x, min4, max4) {
+    return Math.max(min4, Math.min(x, max4));
   }
   function displayCoordinate(deg, pos, neg) {
     var locale2 = _mainLocalizer.localeCode();
-    var min3 = (Math.abs(deg) - Math.floor(Math.abs(deg))) * 60;
-    var sec = (min3 - Math.floor(min3)) * 60;
+    var min4 = (Math.abs(deg) - Math.floor(Math.abs(deg))) * 60;
+    var sec = (min4 - Math.floor(min4)) * 60;
     var displayDegrees = _t("units.arcdegrees", {
       quantity: Math.floor(Math.abs(deg)).toLocaleString(locale2)
     });
     var displayCoordinate2;
     if (Math.floor(sec) > 0) {
       displayCoordinate2 = displayDegrees + _t("units.arcminutes", {
-        quantity: Math.floor(min3).toLocaleString(locale2)
+        quantity: Math.floor(min4).toLocaleString(locale2)
       }) + _t("units.arcseconds", {
         quantity: Math.round(sec).toLocaleString(locale2)
       });
-    } else if (Math.floor(min3) > 0) {
+    } else if (Math.floor(min4) > 0) {
       displayCoordinate2 = displayDegrees + _t("units.arcminutes", {
-        quantity: Math.round(min3).toLocaleString(locale2)
+        quantity: Math.round(min4).toLocaleString(locale2)
       });
     } else {
       displayCoordinate2 = _t("units.arcdegrees", {
@@ -55019,12 +57916,12 @@ ${content}</tr>
     var currLocation = "";
     function redraw(selection2) {
       selection2.html("");
-      var list = selection2.append("ul");
+      var list2 = selection2.append("ul");
       var coord2 = context.map().mouseCoordinates();
       if (coord2.some(isNaN)) {
         coord2 = context.map().center();
       }
-      list.append("li").text(dmsCoordinatePair(coord2)).append("li").text(decimalCoordinatePair(coord2));
+      list2.append("li").text(dmsCoordinatePair(coord2)).append("li").text(decimalCoordinatePair(coord2));
       selection2.append("div").attr("class", "location-info").text(currLocation || " ");
       debouncedGetLocation(selection2, coord2);
     }
@@ -55090,11 +57987,11 @@ ${content}</tr>
         location = note.loc;
         geometry = "note";
       } else {
-        var selectedIDs = context.selectedIDs().filter(function(id2) {
-          return context.hasEntity(id2);
+        var selectedIDs = context.selectedIDs().filter(function(id3) {
+          return context.hasEntity(id3);
         });
-        var selected = selectedIDs.map(function(id2) {
-          return context.entity(id2);
+        var selected = selectedIDs.map(function(id3) {
+          return context.entity(id3);
         });
         heading = selected.length === 1 ? selected[0].id : _t.html("info_panels.selected", { n: selected.length });
         if (selected.length) {
@@ -55139,37 +58036,37 @@ ${content}</tr>
       if (heading) {
         selection2.append("h4").attr("class", "measurement-heading").html(heading);
       }
-      var list = selection2.append("ul");
+      var list2 = selection2.append("ul");
       var coordItem;
       if (geometry) {
-        list.append("li").call(_t.append("info_panels.measurement.geometry", { suffix: ":" })).append("span").html(
+        list2.append("li").call(_t.append("info_panels.measurement.geometry", { suffix: ":" })).append("span").html(
           closed ? _t.html("info_panels.measurement.closed_" + geometry) : _t.html("geometry." + geometry)
         );
       }
       if (totalNodeCount) {
-        list.append("li").call(_t.append("info_panels.measurement.node_count", { suffix: ":" })).append("span").text(totalNodeCount.toLocaleString(localeCode));
+        list2.append("li").call(_t.append("info_panels.measurement.node_count", { suffix: ":" })).append("span").text(totalNodeCount.toLocaleString(localeCode));
       }
       if (area) {
-        list.append("li").call(_t.append("info_panels.measurement.area", { suffix: ":" })).append("span").text(displayArea(area, _isImperial));
+        list2.append("li").call(_t.append("info_panels.measurement.area", { suffix: ":" })).append("span").text(displayArea(area, _isImperial));
       }
       if (length) {
-        list.append("li").call(_t.append("info_panels.measurement." + (closed ? "perimeter" : "length"), { suffix: ":" })).append("span").text(displayLength(length, _isImperial));
+        list2.append("li").call(_t.append("info_panels.measurement." + (closed ? "perimeter" : "length"), { suffix: ":" })).append("span").text(displayLength(length, _isImperial));
       }
       if (typeof distance === "number") {
-        list.append("li").call(_t.append("info_panels.measurement.distance", { suffix: ":" })).append("span").text(displayLength(distance, _isImperial));
+        list2.append("li").call(_t.append("info_panels.measurement.distance", { suffix: ":" })).append("span").text(displayLength(distance, _isImperial));
       }
       if (location) {
-        coordItem = list.append("li").call(_t.append("info_panels.measurement.location", { suffix: ":" }));
+        coordItem = list2.append("li").call(_t.append("info_panels.measurement.location", { suffix: ":" }));
         coordItem.append("span").text(dmsCoordinatePair(location));
         coordItem.append("span").text(decimalCoordinatePair(location));
       }
       if (centroid) {
-        coordItem = list.append("li").call(_t.append("info_panels.measurement.centroid", { suffix: ":" }));
+        coordItem = list2.append("li").call(_t.append("info_panels.measurement.centroid", { suffix: ":" }));
         coordItem.append("span").text(dmsCoordinatePair(centroid));
         coordItem.append("span").text(decimalCoordinatePair(centroid));
       }
       if (center) {
-        coordItem = list.append("li").call(_t.append("info_panels.measurement.center", { suffix: ":" }));
+        coordItem = list2.append("li").call(_t.append("info_panels.measurement.center", { suffix: ":" }));
         coordItem.append("span").text(dmsCoordinatePair(center));
         coordItem.append("span").text(decimalCoordinatePair(center));
       }
@@ -55309,7 +58206,7 @@ ${content}</tr>
       height: 90
     };
   }
-  function pad(locOrBox, padding, context) {
+  function pad2(locOrBox, padding, context) {
     var box;
     if (locOrBox instanceof Array) {
       var rect = context.surfaceRect();
@@ -55332,7 +58229,7 @@ ${content}</tr>
     return '<svg class="icon ' + (svgklass || "") + '"><use xlink:href="' + name + '"' + (useklass ? ' class="' + useklass + '"' : "") + "></use></svg>";
   }
   var helpStringReplacements;
-  function helpHtml(id2, replacements) {
+  function helpHtml(id3, replacements) {
     if (!helpStringReplacements) {
       helpStringReplacements = {
         // insert icons corresponding to various UI elements
@@ -55434,7 +58331,7 @@ ${content}</tr>
     } else {
       reps = helpStringReplacements;
     }
-    return _t.html(id2, reps).replace(/\`(.*?)\`/g, "<kbd>$1</kbd>");
+    return _t.html(id3, reps).replace(/\`(.*?)\`/g, "<kbd>$1</kbd>");
   }
   function slugify(text2) {
     return text2.toString().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
@@ -56275,11 +59172,11 @@ ${content}</tr>
       if (context.mode().id !== "add-point") {
         return chapter.restart();
       }
-      var pointBox2 = pad(building, 150, context);
+      var pointBox2 = pad2(building, 150, context);
       var textId = context.lastPointerType() === "mouse" ? "place_point" : "place_point_touch";
       reveal(pointBox2, helpHtml("intro.points." + textId));
       context.map().on("move.intro drawn.intro", function() {
-        pointBox2 = pad(building, 150, context);
+        pointBox2 = pad2(building, 150, context);
         reveal(pointBox2, helpHtml("intro.points." + textId), { duration: 0 });
       });
       context.on("enter.intro", function(mode) {
@@ -56644,7 +59541,7 @@ ${content}</tr>
     }
     function revealPlayground(center, text2, options2) {
       var padding = 180 * Math.pow(2, context.map().zoom() - 19.5);
-      var box = pad(center, padding, context);
+      var box = pad2(center, padding, context);
       reveal(box, text2, options2);
     }
     function addArea() {
@@ -57093,14 +59990,14 @@ ${content}</tr>
         return chapter.restart();
       _tulipRoadID = null;
       var padding = 70 * Math.pow(2, context.map().zoom() - 18);
-      var box = pad(tulipRoadStart, padding, context);
+      var box = pad2(tulipRoadStart, padding, context);
       box.height = box.height + 100;
       var textId = context.lastPointerType() === "mouse" ? "start_line" : "start_line_tap";
       var startLineString = helpHtml("intro.lines.missing_road") + "{br}" + helpHtml("intro.lines.line_draw_info") + helpHtml("intro.lines." + textId);
       reveal(box, startLineString);
       context.map().on("move.intro drawn.intro", function() {
         padding = 70 * Math.pow(2, context.map().zoom() - 18);
-        box = pad(tulipRoadStart, padding, context);
+        box = pad2(tulipRoadStart, padding, context);
         box.height = box.height + 100;
         reveal(box, startLineString, { duration: 0 });
       });
@@ -57122,7 +60019,7 @@ ${content}</tr>
       context.map().centerEase(tulipRoadMidpoint, 500);
       timeout2(function() {
         var padding = 200 * Math.pow(2, context.map().zoom() - 18.5);
-        var box = pad(tulipRoadMidpoint, padding, context);
+        var box = pad2(tulipRoadMidpoint, padding, context);
         box.height = box.height * 2;
         reveal(
           box,
@@ -57130,7 +60027,7 @@ ${content}</tr>
         );
         context.map().on("move.intro drawn.intro", function() {
           padding = 200 * Math.pow(2, context.map().zoom() - 18.5);
-          box = pad(tulipRoadMidpoint, padding, context);
+          box = pad2(tulipRoadMidpoint, padding, context);
           box.height = box.height * 2;
           reveal(
             box,
@@ -57174,7 +60071,7 @@ ${content}</tr>
     }
     function retryIntersect() {
       select_default2(window).on("pointerdown.intro mousedown.intro", eventCancel, true);
-      var box = pad(tulipRoadIntersection, 80, context);
+      var box = pad2(tulipRoadIntersection, 80, context);
       reveal(
         box,
         helpHtml("intro.lines.retry_intersect", { name: _t("intro.graph.name.flower-street") })
@@ -57325,7 +60222,7 @@ ${content}</tr>
       context.map().centerZoomEase(woodRoadDragMidpoint, 19, msec);
       timeout2(function() {
         var padding = 250 * Math.pow(2, context.map().zoom() - 19);
-        var box = pad(woodRoadDragMidpoint, padding, context);
+        var box = pad2(woodRoadDragMidpoint, padding, context);
         var advance = function() {
           continueTo(addNode);
         };
@@ -57336,7 +60233,7 @@ ${content}</tr>
         );
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 250 * Math.pow(2, context.map().zoom() - 19);
-          var box2 = pad(woodRoadDragMidpoint, padding2, context);
+          var box2 = pad2(woodRoadDragMidpoint, padding2, context);
           reveal(
             box2,
             helpHtml("intro.lines.update_line"),
@@ -57355,12 +60252,12 @@ ${content}</tr>
         return chapter.restart();
       }
       var padding = 40 * Math.pow(2, context.map().zoom() - 19);
-      var box = pad(woodRoadAddNode, padding, context);
+      var box = pad2(woodRoadAddNode, padding, context);
       var addNodeString = helpHtml("intro.lines.add_node" + (context.lastPointerType() === "mouse" ? "" : "_touch"));
       reveal(box, addNodeString);
       context.map().on("move.intro drawn.intro", function() {
         var padding2 = 40 * Math.pow(2, context.map().zoom() - 19);
-        var box2 = pad(woodRoadAddNode, padding2, context);
+        var box2 = pad2(woodRoadAddNode, padding2, context);
         reveal(box2, addNodeString, { duration: 0 });
       });
       context.history().on("change.intro", function(changed) {
@@ -57390,7 +60287,7 @@ ${content}</tr>
         return continueTo(updateLine);
       }
       var padding = 100 * Math.pow(2, context.map().zoom() - 19);
-      var box = pad(woodRoadDragEndpoint, padding, context);
+      var box = pad2(woodRoadDragEndpoint, padding, context);
       var startDragString = helpHtml("intro.lines.start_drag_endpoint" + (context.lastPointerType() === "mouse" ? "" : "_touch")) + helpHtml("intro.lines.drag_to_intersection");
       reveal(box, startDragString);
       context.map().on("move.intro drawn.intro", function() {
@@ -57398,7 +60295,7 @@ ${content}</tr>
           return continueTo(updateLine);
         }
         var padding2 = 100 * Math.pow(2, context.map().zoom() - 19);
-        var box2 = pad(woodRoadDragEndpoint, padding2, context);
+        var box2 = pad2(woodRoadDragEndpoint, padding2, context);
         reveal(box2, startDragString, { duration: 0 });
         var entity = context.entity(woodRoadEndID);
         if (geoSphericalDistance(entity.loc, woodRoadDragEndpoint) <= 4) {
@@ -57415,7 +60312,7 @@ ${content}</tr>
         return continueTo(updateLine);
       }
       var padding = 100 * Math.pow(2, context.map().zoom() - 19);
-      var box = pad(woodRoadDragEndpoint, padding, context);
+      var box = pad2(woodRoadDragEndpoint, padding, context);
       var finishDragString = helpHtml("intro.lines.spot_looks_good") + helpHtml("intro.lines.finish_drag_endpoint" + (context.lastPointerType() === "mouse" ? "" : "_touch"));
       reveal(box, finishDragString);
       context.map().on("move.intro drawn.intro", function() {
@@ -57423,7 +60320,7 @@ ${content}</tr>
           return continueTo(updateLine);
         }
         var padding2 = 100 * Math.pow(2, context.map().zoom() - 19);
-        var box2 = pad(woodRoadDragEndpoint, padding2, context);
+        var box2 = pad2(woodRoadDragEndpoint, padding2, context);
         reveal(box2, finishDragString, { duration: 0 });
         var entity = context.entity(woodRoadEndID);
         if (geoSphericalDistance(entity.loc, woodRoadDragEndpoint) > 4) {
@@ -57447,14 +60344,14 @@ ${content}</tr>
         context.enter(modeSelect(context, [woodRoadID]));
       }
       var padding = 80 * Math.pow(2, context.map().zoom() - 19);
-      var box = pad(woodRoadDragMidpoint, padding, context);
+      var box = pad2(woodRoadDragMidpoint, padding, context);
       reveal(box, helpHtml("intro.lines.start_drag_midpoint"));
       context.map().on("move.intro drawn.intro", function() {
         if (!context.hasEntity(woodRoadID) || !context.hasEntity(woodRoadEndID)) {
           return continueTo(updateLine);
         }
         var padding2 = 80 * Math.pow(2, context.map().zoom() - 19);
-        var box2 = pad(woodRoadDragMidpoint, padding2, context);
+        var box2 = pad2(woodRoadDragMidpoint, padding2, context);
         reveal(box2, helpHtml("intro.lines.start_drag_midpoint"), { duration: 0 });
       });
       context.history().on("change.intro", function(changed) {
@@ -57479,7 +60376,7 @@ ${content}</tr>
         return continueTo(updateLine);
       }
       var padding = 100 * Math.pow(2, context.map().zoom() - 19);
-      var box = pad(woodRoadDragEndpoint, padding, context);
+      var box = pad2(woodRoadDragEndpoint, padding, context);
       box.height += 400;
       var advance = function() {
         context.history().checkpoint("doneUpdateLine");
@@ -57495,7 +60392,7 @@ ${content}</tr>
           return continueTo(updateLine);
         }
         var padding2 = 100 * Math.pow(2, context.map().zoom() - 19);
-        var box2 = pad(woodRoadDragEndpoint, padding2, context);
+        var box2 = pad2(woodRoadDragEndpoint, padding2, context);
         box2.height += 400;
         reveal(
           box2,
@@ -57521,7 +60418,7 @@ ${content}</tr>
       context.map().centerZoomEase(deleteLinesLoc, 18, msec);
       timeout2(function() {
         var padding = 200 * Math.pow(2, context.map().zoom() - 18);
-        var box = pad(deleteLinesLoc, padding, context);
+        var box = pad2(deleteLinesLoc, padding, context);
         box.top -= 200;
         box.height += 400;
         var advance = function() {
@@ -57534,7 +60431,7 @@ ${content}</tr>
         );
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 200 * Math.pow(2, context.map().zoom() - 18);
-          var box2 = pad(deleteLinesLoc, padding2, context);
+          var box2 = pad2(deleteLinesLoc, padding2, context);
           box2.top -= 200;
           box2.height += 400;
           reveal(
@@ -57565,11 +60462,11 @@ ${content}</tr>
       }) + helpHtml("intro.lines." + (context.lastPointerType() === "mouse" ? "rightclick_intersection" : "edit_menu_intersection_touch"));
       timeout2(function() {
         var padding = 60 * Math.pow(2, context.map().zoom() - 18);
-        var box = pad(eleventhAvenueEnd, padding, context);
+        var box = pad2(eleventhAvenueEnd, padding, context);
         reveal(box, rightClickString);
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 60 * Math.pow(2, context.map().zoom() - 18);
-          var box2 = pad(eleventhAvenueEnd, padding2, context);
+          var box2 = pad2(eleventhAvenueEnd, padding2, context);
           reveal(
             box2,
             rightClickString,
@@ -57659,7 +60556,7 @@ ${content}</tr>
         continueTo(rightClickIntersection);
       };
       var padding = 60 * Math.pow(2, context.map().zoom() - 18);
-      var box = pad(eleventhAvenueEnd, padding, context);
+      var box = pad2(eleventhAvenueEnd, padding, context);
       reveal(
         box,
         helpHtml("intro.lines.retry_split"),
@@ -57667,7 +60564,7 @@ ${content}</tr>
       );
       context.map().on("move.intro drawn.intro", function() {
         var padding2 = 60 * Math.pow(2, context.map().zoom() - 18);
-        var box2 = pad(eleventhAvenueEnd, padding2, context);
+        var box2 = pad2(eleventhAvenueEnd, padding2, context);
         reveal(
           box2,
           helpHtml("intro.lines.retry_split"),
@@ -57687,7 +60584,7 @@ ${content}</tr>
       var string = "intro.lines.did_split_" + (ids.length > 1 ? "multi" : "single");
       var street = _t("intro.graph.name.washington-street");
       var padding = 200 * Math.pow(2, context.map().zoom() - 18);
-      var box = pad(twelfthAvenue, padding, context);
+      var box = pad2(twelfthAvenue, padding, context);
       box.width = box.width / 2;
       reveal(
         box,
@@ -57698,7 +60595,7 @@ ${content}</tr>
         context.map().centerZoomEase(twelfthAvenue, 18, 500);
         context.map().on("move.intro drawn.intro", function() {
           var padding2 = 200 * Math.pow(2, context.map().zoom() - 18);
-          var box2 = pad(twelfthAvenue, padding2, context);
+          var box2 = pad2(twelfthAvenue, padding2, context);
           box2.width = box2.width / 2;
           reveal(
             box2,
@@ -57744,13 +60641,13 @@ ${content}</tr>
           selected = _t("intro.graph.name.washington-street");
           other = _t("intro.graph.name.12th-avenue");
           padding = 60 * Math.pow(2, context.map().zoom() - 18);
-          box = pad(twelfthAvenueEnd, padding, context);
+          box = pad2(twelfthAvenueEnd, padding, context);
           box.width *= 3;
         } else {
           selected = _t("intro.graph.name.12th-avenue");
           other = _t("intro.graph.name.washington-street");
           padding = 200 * Math.pow(2, context.map().zoom() - 18);
-          box = pad(twelfthAvenue, padding, context);
+          box = pad2(twelfthAvenue, padding, context);
           box.width /= 2;
         }
         reveal(
@@ -57768,13 +60665,13 @@ ${content}</tr>
             selected = _t("intro.graph.name.washington-street");
             other = _t("intro.graph.name.12th-avenue");
             padding = 60 * Math.pow(2, context.map().zoom() - 18);
-            box = pad(twelfthAvenueEnd, padding, context);
+            box = pad2(twelfthAvenueEnd, padding, context);
             box.width *= 3;
           } else {
             selected = _t("intro.graph.name.12th-avenue");
             other = _t("intro.graph.name.washington-street");
             padding = 200 * Math.pow(2, context.map().zoom() - 18);
-            box = pad(twelfthAvenue, padding, context);
+            box = pad2(twelfthAvenue, padding, context);
             box.width /= 2;
           }
           reveal(
@@ -57810,12 +60707,12 @@ ${content}</tr>
         return continueTo(rightClickIntersection);
       }
       var padding = 200 * Math.pow(2, context.map().zoom() - 18);
-      var box = pad(twelfthAvenue, padding, context);
+      var box = pad2(twelfthAvenue, padding, context);
       var rightClickString = helpHtml("intro.lines.multi_select_success") + helpHtml("intro.lines.multi_" + (context.lastPointerType() === "mouse" ? "rightclick" : "edit_menu_touch"));
       reveal(box, rightClickString);
       context.map().on("move.intro drawn.intro", function() {
         var padding2 = 200 * Math.pow(2, context.map().zoom() - 18);
-        var box2 = pad(twelfthAvenue, padding2, context);
+        var box2 = pad2(twelfthAvenue, padding2, context);
         reveal(box2, rightClickString, { duration: 0 });
       });
       context.ui().editMenu().on("toggled.intro", function(open) {
@@ -57888,7 +60785,7 @@ ${content}</tr>
     function retryDelete() {
       context.enter(modeBrowse(context));
       var padding = 200 * Math.pow(2, context.map().zoom() - 18);
-      var box = pad(twelfthAvenue, padding, context);
+      var box = pad2(twelfthAvenue, padding, context);
       reveal(box, helpHtml("intro.lines.retry_delete"), {
         buttonText: _t.html("intro.ok"),
         buttonCallback: function() {
@@ -57955,12 +60852,12 @@ ${content}</tr>
     }
     function revealHouse(center, text2, options2) {
       var padding = 160 * Math.pow(2, context.map().zoom() - 20);
-      var box = pad(center, padding, context);
+      var box = pad2(center, padding, context);
       reveal(box, text2, options2);
     }
     function revealTank(center, text2, options2) {
       var padding = 190 * Math.pow(2, context.map().zoom() - 19.5);
-      var box = pad(center, padding, context);
+      var box = pad2(center, padding, context);
       reveal(box, text2, options2);
     }
     function addHouse() {
@@ -58658,9 +61555,9 @@ ${content}</tr>
     let _currChapter;
     function intro(selection2) {
       _mainFileFetcher.get("intro_graph").then((dataIntroGraph) => {
-        for (let id2 in dataIntroGraph) {
-          if (!_introGraph[id2]) {
-            _introGraph[id2] = osmEntity(localize(dataIntroGraph[id2]));
+        for (let id3 in dataIntroGraph) {
+          if (!_introGraph[id3]) {
+            _introGraph[id3] = osmEntity(localize(dataIntroGraph[id3]));
           }
         }
         selection2.call(startIntro);
@@ -59077,8 +61974,8 @@ ${content}</tr>
           }
           dispatch11.call(eventName, target, utilGetDimensions(target, true));
         }
-        function clamp3(num, min3, max3) {
-          return Math.max(min3, Math.min(num, max3));
+        function clamp3(num2, min4, max4) {
+          return Math.max(min4, Math.min(num2, max4));
         }
         function stopResize(d3_event) {
           if (pointerId !== (d3_event.pointerId || "mouse"))
@@ -59828,7 +62725,7 @@ ${content}</tr>
   }
 
   // modules/ui/section.js
-  function uiSection(id2, context) {
+  function uiSection(id3, context) {
     var _classes = utilFunctor("");
     var _shouldDisplay;
     var _content;
@@ -59839,7 +62736,7 @@ ${content}</tr>
     var _disclosureExpanded;
     var _containerSelection = select_default2(null);
     var section = {
-      id: id2
+      id: id3
     };
     section.classes = function(val) {
       if (!arguments.length)
@@ -59884,8 +62781,8 @@ ${content}</tr>
       return section;
     };
     section.render = function(selection2) {
-      _containerSelection = selection2.selectAll(".section-" + id2).data([0]);
-      var sectionEnter = _containerSelection.enter().append("div").attr("class", "section section-" + id2 + " " + (_classes && _classes() || ""));
+      _containerSelection = selection2.selectAll(".section-" + id3).data([0]);
+      var sectionEnter = _containerSelection.enter().append("div").attr("class", "section section-" + id3 + " " + (_classes && _classes() || ""));
       _containerSelection = sectionEnter.merge(_containerSelection);
       _containerSelection.call(renderContent);
     };
@@ -59909,7 +62806,7 @@ ${content}</tr>
       }
       if (_disclosureContent) {
         if (!_disclosure) {
-          _disclosure = uiDisclosure(context, id2.replace(/-/g, "_"), _expandedByDefault()).label(_label || "").content(_disclosureContent);
+          _disclosure = uiDisclosure(context, id3.replace(/-/g, "_"), _expandedByDefault()).label(_label || "").content(_disclosureContent);
         }
         if (_disclosureExpanded !== void 0) {
           _disclosure.expanded(_disclosureExpanded);
@@ -61000,8 +63897,8 @@ ${content}</tr>
       } else if (field.type === "number") {
         var rtl = _mainLocalizer.textDirection() === "rtl";
         input.attr("type", "text");
-        var inc = field.increment;
-        var buttons = wrap2.selectAll(".increment, .decrement").data(rtl ? [inc, -inc] : [-inc, inc]);
+        var inc2 = field.increment;
+        var buttons = wrap2.selectAll(".increment, .decrement").data(rtl ? [inc2, -inc2] : [-inc2, inc2]);
         buttons.enter().append("button").attr("class", function(d) {
           var which = d > 0 ? "increment" : "decrement";
           return "form-field-button " + which;
@@ -61016,22 +63913,22 @@ ${content}</tr>
           var raw_vals = input.node().value || "0";
           var vals = raw_vals.split(";");
           vals = vals.map(function(v) {
-            var num = Number(v);
+            var num2 = Number(v);
             if (isDirectionField) {
               const compassDir = cardinal[v.trim().toLowerCase()];
               if (compassDir !== void 0) {
-                num = compassDir;
+                num2 = compassDir;
               }
             }
-            if (!isFinite(num)) {
+            if (!isFinite(num2)) {
               return v.trim();
             }
-            num += d;
+            num2 += d;
             if (isDirectionField) {
-              num = (num % 360 + 360) % 360;
+              num2 = (num2 % 360 + 360) % 360;
             }
             const numDecimals = v.includes(".") ? v.split(".")[1].length : 0;
-            return clamped(num).toFixed(numDecimals);
+            return clamped(num2).toFixed(numDecimals);
           });
           input.node().value = vals.join(";");
           change()();
@@ -61103,9 +64000,9 @@ ${content}</tr>
         return;
       var extent = combinedEntityExtent();
       var countryCode = extent && iso1A2Code(extent.center());
-      var format2 = countryCode && _phoneFormats[countryCode.toLowerCase()];
-      if (format2)
-        input.attr("placeholder", format2);
+      var format3 = countryCode && _phoneFormats[countryCode.toLowerCase()];
+      if (format3)
+        input.attr("placeholder", format3);
     }
     function validIdentifierValueForLink() {
       const value = utilGetSetValue(input).trim();
@@ -61121,14 +64018,14 @@ ${content}</tr>
       }
       return null;
     }
-    function clamped(num) {
+    function clamped(num2) {
       if (field.minValue !== void 0) {
-        num = Math.max(num, field.minValue);
+        num2 = Math.max(num2, field.minValue);
       }
       if (field.maxValue !== void 0) {
-        num = Math.min(num, field.maxValue);
+        num2 = Math.min(num2, field.maxValue);
       }
-      return num;
+      return num2;
     }
     function change(onInput) {
       return function() {
@@ -61142,8 +64039,8 @@ ${content}</tr>
           if (field.type === "number" && val) {
             var vals = val.split(";");
             vals = vals.map(function(v) {
-              var num = Number(v);
-              return isFinite(num) ? clamped(num) : v.trim();
+              var num2 = Number(v);
+              return isFinite(num2) ? clamped(num2) : v.trim();
             });
             val = vals.join(";");
           }
@@ -61204,9 +64101,9 @@ ${content}</tr>
     function access(selection2) {
       var wrap2 = selection2.selectAll(".form-field-input-wrap").data([0]);
       wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
-      var list = wrap2.selectAll("ul").data([0]);
-      list = list.enter().append("ul").attr("class", "rows").merge(list);
-      items = list.selectAll("li").data(field.keys);
+      var list2 = wrap2.selectAll("ul").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "rows").merge(list2);
+      items = list2.selectAll("li").data(field.keys);
       var enter = items.enter().append("li").attr("class", function(d) {
         return "labeled-input preset-access-" + d;
       });
@@ -61558,11 +64455,11 @@ ${content}</tr>
         return;
       var addressFormat;
       for (var i2 = 0; i2 < _addressFormats.length; i2++) {
-        var format2 = _addressFormats[i2];
-        if (!format2.countryCodes) {
-          addressFormat = format2;
-        } else if (format2.countryCodes.indexOf(_countryCode) !== -1) {
-          addressFormat = format2;
+        var format3 = _addressFormats[i2];
+        if (!format3.countryCodes) {
+          addressFormat = format3;
+        } else if (format3.countryCodes.indexOf(_countryCode) !== -1) {
+          addressFormat = format3;
           break;
         }
       }
@@ -61702,6 +64599,262 @@ ${content}</tr>
     return utilRebind(address, dispatch10, "on");
   }
 
+  // modules/ui/fields/date.js
+  function uiFieldDate(field, context) {
+    let dispatch10 = dispatch_default("change");
+    let yearInput = select_default2(null);
+    let eraInput = select_default2(null);
+    let monthInput = select_default2(null);
+    let dayInput = select_default2(null);
+    let edtfInput = select_default2(null);
+    let _entityIDs = [];
+    let _tags;
+    let _selection = select_default2(null);
+    let _edtfValue;
+    let edtfKey = field.key + ":edtf";
+    let dateTimeFormat = new Intl.DateTimeFormat(_mainLocalizer.languageCode(), {
+      year: "numeric",
+      era: "short",
+      month: "long",
+      day: "numeric",
+      timeZone: "UTC"
+    });
+    let formatParts = dateTimeFormat.formatToParts(/* @__PURE__ */ new Date()).map((p) => p.type);
+    function getEraName(year2, format3) {
+      let longFormat = new Intl.DateTimeFormat(_mainLocalizer.languageCode(), {
+        year: "numeric",
+        era: format3,
+        timeZone: "UTC"
+      });
+      let eraDate = new Date(Date.UTC(0, 0, 1));
+      eraDate.setUTCFullYear(year2);
+      let parts = longFormat.formatToParts(eraDate);
+      let eraPart = parts.find((p) => p.type === "era");
+      return eraPart && eraPart.value;
+    }
+    let bceName = getEraName(0, "short");
+    let ceName = getEraName(1, "short");
+    let eraNames = [
+      {
+        id: "bce",
+        value: bceName,
+        title: bceName,
+        display: (selection2) => selection2.append("span").attr("class", "localized-text").text(bceName ? bceName : "BCE"),
+        terms: [getEraName(0, "long"), getEraName(0, "narrow")]
+      },
+      {
+        id: "ce",
+        value: ceName,
+        title: ceName,
+        display: (selection2) => selection2.append("span").attr("class", "localized-text").text(ceName ? ceName : "CE"),
+        terms: [getEraName(1, "long"), getEraName(1, "narrow")]
+      }
+    ];
+    let eraCombo = uiCombobox(context, "date-era").data(eraNames);
+    function getMonthName(month, format3) {
+      let longFormat = new Intl.DateTimeFormat(_mainLocalizer.languageCode(), {
+        month: format3,
+        timeZone: "UTC"
+      });
+      let parts = longFormat.formatToParts(new Date(Date.UTC(0, month, 1)));
+      let monthPart = parts.find((p) => p.type === "month");
+      return monthPart && monthPart.value;
+    }
+    let monthNames = Array.from({ length: 12 }, (_, i2) => getMonthName(i2, "long")).filter((m) => m);
+    let alternativeMonthNames = Array.from({ length: 12 }, (_, i2) => {
+      return ["numeric", "2-digit", "long", "short", "narrow"].map((format3) => getMonthName(i2, format3)).filter((m) => m);
+    });
+    let monthCombo = uiCombobox(context, "date-month").data(monthNames.map((monthName, i2) => {
+      return {
+        id: i2 + 1,
+        value: monthName,
+        title: monthName,
+        display: (selection2) => selection2.append("span").attr("class", "localized-text").text(monthName),
+        terms: alternativeMonthNames[i2]
+      };
+    }));
+    let buttonTip = uiTooltip().title(() => _t.append("inspector.date.edtf")).placement("left");
+    function calcEDTFValue(tags) {
+      if (_edtfValue && !tags[edtfKey]) {
+        _edtfValue = "";
+      } else {
+        _edtfValue = tags[edtfKey];
+      }
+    }
+    function date2(selection2) {
+      _selection = selection2;
+      let wrap2 = selection2.selectAll(".form-field-input-wrap").data([0]);
+      wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
+      yearInput = wrap2.selectAll("input.date-year").data([0]);
+      eraInput = wrap2.selectAll("input.date-era").data([0]);
+      monthInput = wrap2.selectAll("input.date-month").data([0]);
+      dayInput = wrap2.selectAll("input.date-day").data([0]);
+      formatParts.forEach((part) => {
+        switch (part) {
+          case "year":
+            yearInput = yearInput.enter().append("input").attr("type", "number").attr("class", "date-main date-year").attr("id", field.domId).call(utilNoAuto).merge(yearInput);
+            break;
+          case "era":
+            eraInput = eraInput.enter().append("input").attr("type", "text").attr("class", "date-main date-era").call(eraCombo).merge(eraInput);
+            break;
+          case "month":
+            monthInput = monthInput.enter().append("input").attr("type", "text").attr("class", "date-main date-month").call(monthCombo).merge(monthInput);
+            break;
+          case "day":
+            dayInput = dayInput.enter().append("input").attr("type", "number").attr("class", "date-main date-day").call(utilNoAuto).merge(dayInput);
+            break;
+        }
+      });
+      yearInput.on("change", change).on("blur", change);
+      eraInput.on("change", change).on("blur", change);
+      monthInput.on("change", change).on("blur", change);
+      dayInput.on("change", change).on("blur", change);
+      if (_tags && _edtfValue === void 0) {
+        calcEDTFValue(_tags);
+      }
+      let edtfButton = wrap2.selectAll(".date-add").data([0]);
+      edtfButton = edtfButton.enter().append("button").attr("class", "date-add form-field-button").attr("aria-label", _t("icons.plus")).call(svgIcon("#iD-icon-plus")).merge(edtfButton);
+      edtfButton.classed("disabled", typeof _edtfValue === "string" || Array.isArray(_edtfValue)).call(buttonTip).on("click", addEDTF);
+      edtfInput = selection2.selectAll(".date-edtf").data([0]);
+      edtfInput = edtfInput.enter().append("div").attr("class", "date-edtf").merge(edtfInput);
+      edtfInput.call(renderEDTF);
+    }
+    function addEDTF(d3_event) {
+      d3_event.preventDefault();
+      if (typeof _edtfValue !== "string" && !Array.isArray(_edtfValue)) {
+        _edtfValue = "";
+        edtfInput.call(renderEDTF);
+      }
+    }
+    function change() {
+      var tag = {};
+      var yearValue = utilGetSetValue(yearInput).trim();
+      var eraValue = utilGetSetValue(eraInput).trim();
+      var monthValue = utilGetSetValue(monthInput).trim();
+      var dayValue = utilGetSetValue(dayInput).trim();
+      if (!yearValue && Array.isArray(_tags[field.key]))
+        return;
+      if (!yearValue) {
+        tag[field.key] = void 0;
+      } else if (isNaN(yearValue)) {
+        tag[field.key] = context.cleanTagValue(yearValue);
+      } else {
+        let value = "";
+        let year2 = parseInt(context.cleanTagValue(yearValue), 10);
+        if (eraValue === bceName) {
+          value += "-" + String(year2 - 1).padStart(4, "0");
+        } else {
+          value += String(year2).padStart(4, "0");
+        }
+        let month = context.cleanTagValue(monthValue);
+        if (monthNames.includes(month)) {
+          month = monthNames.indexOf(month) + 1;
+          value += "-" + String(month).padStart(2, "0");
+          let day = parseInt(context.cleanTagValue(dayValue), 10);
+          if (!isNaN(day)) {
+            value += "-" + String(day).padStart(2, "0");
+          }
+        }
+        tag[field.key] = value;
+      }
+      dispatch10.call("change", this, tag);
+    }
+    function changeEDTFValue(d3_event, d) {
+      let value = context.cleanTagValue(utilGetSetValue(select_default2(this))) || void 0;
+      if (!value && Array.isArray(d.value))
+        return;
+      let t = {};
+      t[edtfKey] = value;
+      d.value = value;
+      dispatch10.call("change", this, t);
+    }
+    function renderEDTF(selection2) {
+      let entries = selection2.selectAll("div.entry").data(typeof _edtfValue === "string" || Array.isArray(_edtfValue) ? [_edtfValue] : []);
+      entries.exit().style("top", "0").style("max-height", "240px").transition().duration(200).style("opacity", "0").style("max-height", "0px").remove();
+      let entriesEnter = entries.enter().append("div").attr("class", "entry").each(function() {
+        var wrap2 = select_default2(this);
+        let domId = utilUniqueDomId("edtf");
+        let label = wrap2.append("label").attr("class", "field-label").attr("for", domId);
+        let text2 = label.append("span").attr("class", "label-text");
+        text2.append("span").attr("class", "label-textvalue").call(_t.append("inspector.date.edtf_label"));
+        text2.append("span").attr("class", "label-textannotation");
+        label.append("button").attr("class", "remove-icon-edtf").attr("title", _t("icons.remove")).on("click", function(d3_event) {
+          d3_event.preventDefault();
+          _edtfValue = void 0;
+          if (edtfKey && edtfKey in _tags) {
+            delete _tags[edtfKey];
+            let t = {};
+            t[edtfKey] = void 0;
+            dispatch10.call("change", this, t);
+            return;
+          }
+          renderEDTF(selection2);
+        }).call(svgIcon("#iD-operation-delete"));
+        wrap2.append("input").attr("type", "text").attr("class", "date-value").on("blur", changeEDTFValue).on("change", changeEDTFValue);
+      });
+      entriesEnter.style("margin-top", "0px").style("max-height", "0px").style("opacity", "0").transition().duration(200).style("margin-top", "10px").style("max-height", "240px").style("opacity", "1").on("end", function() {
+        select_default2(this).style("max-height", "").style("overflow", "visible");
+      });
+      entries = entries.merge(entriesEnter);
+      entries.order();
+      entries.classed("present", true);
+      utilGetSetValue(entries.select(".date-value"), function(d) {
+        return typeof d === "string" ? d : "";
+      }).attr("title", function(d) {
+        return Array.isArray(d) ? d.filter(Boolean).join("\n") : null;
+      }).attr("placeholder", function(d) {
+        return Array.isArray(d) ? _t("inspector.multiple_values") : _t("inspector.date.edtf_placeholder");
+      }).classed("mixed", function(d) {
+        return Array.isArray(d);
+      });
+    }
+    date2.tags = function(tags) {
+      _tags = tags;
+      var yearValue = tags[field.key];
+      var eraValue;
+      var monthValue;
+      var dayValue;
+      var isMixed = Array.isArray(yearValue);
+      if (!isMixed && yearValue) {
+        let parts = yearValue.match(/^(-?\d+)(?:-(\d\d))?(?:-(\d\d))?$/);
+        if (parts && parts[1]) {
+          yearValue = parseInt(parts[1], 10);
+          if (yearValue < 1) {
+            yearValue = -yearValue + 1;
+            eraValue = bceName;
+          } else {
+            eraValue = ceName;
+          }
+          if (parts[2]) {
+            monthValue = monthNames[parseInt(parts[2], 10) - 1] || parts[2];
+          }
+          if (parts[3]) {
+            dayValue = parseInt(parts[3], 10);
+          }
+        }
+      }
+      utilGetSetValue(yearInput, typeof yearValue === "number" ? yearValue : "").attr("title", isMixed ? yearValue.filter(Boolean).join("\n") : null).attr("placeholder", isMixed ? _t("inspector.multiple_values") : _t("inspector.date.year")).classed("mixed", isMixed);
+      utilGetSetValue(eraInput, typeof eraValue === "string" ? eraValue : "").attr("placeholder", _t("inspector.date.era"));
+      utilGetSetValue(monthInput, typeof monthValue === "string" ? monthValue : "").attr("placeholder", _t("inspector.date.month"));
+      utilGetSetValue(dayInput, typeof dayValue === "number" ? dayValue : "").attr("placeholder", _t("inspector.date.day"));
+      calcEDTFValue(tags);
+      _selection.call(date2);
+    };
+    date2.focus = function() {
+      let node = yearInput.selectAll("input").node();
+      if (node)
+        node.focus();
+    };
+    date2.entityIDs = function(val) {
+      if (!arguments.length)
+        return _entityIDs;
+      _entityIDs = val;
+      _edtfValue = void 0;
+      return date2;
+    };
+    return utilRebind(date2, dispatch10, "on");
+  }
+
   // modules/ui/fields/directional_combo.js
   function uiFieldDirectionalCombo(field, context) {
     var dispatch10 = dispatch_default("change");
@@ -61717,8 +64870,8 @@ ${content}</tr>
       wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
       var div = wrap2.selectAll("ul").data([0]);
       div = div.enter().append("ul").attr("class", "rows").merge(div);
-      var keys = field.keys.slice(1);
-      items = div.selectAll("li").data(keys);
+      var keys2 = field.keys.slice(1);
+      items = div.selectAll("li").data(keys2);
       var enter = items.enter().append("li").attr("class", function(d) {
         return "labeled-input preset-directionalcombo-" + stripcolon(d);
       });
@@ -62378,8 +65531,8 @@ ${content}</tr>
       var extrasWrap = selection2.selectAll(".structure-extras-wrap").data(selected ? [0] : []);
       extrasWrap.exit().remove();
       extrasWrap = extrasWrap.enter().append("div").attr("class", "structure-extras-wrap").merge(extrasWrap);
-      var list = extrasWrap.selectAll("ul").data([0]);
-      list = list.enter().append("ul").attr("class", "rows").merge(list);
+      var list2 = extrasWrap.selectAll("ul").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "rows").merge(list2);
       if (type2) {
         if (!typeField || typeField.id !== selected) {
           typeField = uiField(context, type2, _entityIDs, { wrap: false }).on("change", changeType);
@@ -62388,7 +65541,7 @@ ${content}</tr>
       } else {
         typeField = null;
       }
-      var typeItem = list.selectAll(".structure-type-item").data(typeField ? [typeField] : [], function(d) {
+      var typeItem = list2.selectAll(".structure-type-item").data(typeField ? [typeField] : [], function(d) {
         return d.id;
       });
       typeItem.exit().remove();
@@ -62411,7 +65564,7 @@ ${content}</tr>
           return k !== "layer";
         });
       }
-      var layerItem = list.selectAll(".structure-layer-item").data(layerField ? [layerField] : []);
+      var layerItem = list2.selectAll(".structure-layer-item").data(layerField ? [layerField] : []);
       layerItem.exit().remove();
       var layerEnter = layerItem.enter().append("li").attr("class", "labeled-input structure-layer-item");
       layerEnter.append("span").attr("class", "label structure-label-layer").attr("for", "preset-input-layer").call(_t.append("inspector.radio.structure.layer"));
@@ -62973,9 +66126,9 @@ ${content}</tr>
       _selection = selection2;
       var wrap2 = selection2.selectAll(".form-field-input-wrap").data([0]);
       wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
-      var list = wrap2.selectAll("ul").data([0]);
-      list = list.enter().append("ul").attr("class", "rows").merge(list);
-      var searchRow = list.selectAll("li.wikidata-search").data([0]);
+      var list2 = wrap2.selectAll("ul").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "rows").merge(list2);
+      var searchRow = list2.selectAll("li.wikidata-search").data([0]);
       var searchRowEnter = searchRow.enter().append("li").attr("class", "wikidata-search");
       searchRowEnter.append("input").attr("type", "text").attr("id", field.domId).style("flex", "1").call(utilNoAuto).on("focus", function() {
         var node = select_default2(this).node();
@@ -62999,7 +66152,7 @@ ${content}</tr>
       searchRow = searchRow.merge(searchRowEnter);
       _searchInput = searchRow.select("input");
       var wikidataProperties = ["description", "identifier"];
-      var items = list.selectAll("li.labeled-input").data(wikidataProperties);
+      var items = list2.selectAll("li.labeled-input").data(wikidataProperties);
       var enter = items.enter().append("li").attr("class", function(d) {
         return "labeled-input preset-wikidata-" + d;
       });
@@ -63318,7 +66471,7 @@ ${content}</tr>
         if (context.graph() !== initGraph)
           return;
         const qids = Object.keys(data);
-        const value2 = qids && qids.find((id2) => id2.match(/^Q\d+$/));
+        const value2 = qids && qids.find((id3) => id3.match(/^Q\d+$/));
         let actions = initEntityIDs.map((entityID) => {
           let entity = context.entity(entityID).tags;
           let currTags = Object.assign({}, entity);
@@ -63401,6 +66554,7 @@ ${content}</tr>
     colour: uiFieldText,
     combo: uiFieldCombo,
     cycleway: uiFieldDirectionalCombo,
+    date: uiFieldDate,
     defaultCheck: uiFieldCheck,
     directionalCombo: uiFieldDirectionalCombo,
     email: uiFieldText,
@@ -64618,9 +67772,9 @@ ${content}</tr>
         extent._extend(entity.extent(context.graph()));
       zoomToEntity(datum2.id, extent);
     }
-    function zoomToEntity(id2, extent) {
+    function zoomToEntity(id3, extent) {
       context.surface().selectAll(".hover").classed("hover", false);
-      var entity = context.graph().hasEntity(id2);
+      var entity = context.graph().hasEntity(id3);
       if (entity) {
         if (extent) {
           context.map().trimmedExtent(extent);
@@ -65188,8 +68342,8 @@ ${content}</tr>
         _fieldsArr.forEach(function(field) {
           field.on("change", function(t, onInput) {
             dispatch10.call("change", field, _entityIDs, t, onInput);
-          }).on("revert", function(keys) {
-            dispatch10.call("revert", field, keys);
+          }).on("revert", function(keys2) {
+            dispatch10.call("revert", field, keys2);
           });
         });
       }
@@ -65317,9 +68471,9 @@ ${content}</tr>
           domId: utilUniqueDomId(entityID + "-member-" + index)
         });
       });
-      var list = selection2.selectAll(".member-list").data([0]);
-      list = list.enter().append("ul").attr("class", "member-list").merge(list);
-      var items = list.selectAll("li").data(memberships, function(d) {
+      var list2 = selection2.selectAll(".member-list").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "member-list").merge(list2);
+      var items = list2.selectAll("li").data(memberships, function(d) {
         return osmEntity.key(d.relation) + "," + d.index + "," + (d.member ? osmEntity.key(d.member) : "incomplete");
       });
       items.exit().each(unbind).remove();
@@ -65697,9 +68851,9 @@ ${content}</tr>
     }
     function renderDisclosureContent(selection2) {
       var memberships = getMemberships();
-      var list = selection2.selectAll(".member-list").data([0]);
-      list = list.enter().append("ul").attr("class", "member-list").merge(list);
-      var items = list.selectAll("li.member-row-normal").data(memberships, function(d) {
+      var list2 = selection2.selectAll(".member-list").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "member-list").merge(list2);
+      var items = list2.selectAll("li.member-row-normal").data(memberships, function(d) {
         return d.hash;
       });
       items.exit().each(unbind).remove();
@@ -65737,13 +68891,13 @@ ${content}</tr>
       if (taginfo) {
         wrapEnter.each(bindTypeahead);
       }
-      var newMembership = list.selectAll(".member-row-new").data(_showBlank ? [0] : []);
+      var newMembership = list2.selectAll(".member-row-new").data(_showBlank ? [0] : []);
       newMembership.exit().remove();
       var newMembershipEnter = newMembership.enter().append("li").attr("class", "member-row member-row-new form-field");
       var newLabelEnter = newMembershipEnter.append("label").attr("class", "field-label");
       newLabelEnter.append("input").attr("placeholder", _t("inspector.choose_relation")).attr("type", "text").attr("class", "member-entity-input").call(utilNoAuto);
       newLabelEnter.append("button").attr("class", "remove member-delete").attr("title", _t("icons.remove")).call(svgIcon("#iD-operation-delete")).on("click", function() {
-        list.selectAll(".member-row-new").remove();
+        list2.selectAll(".member-row-new").remove();
       });
       var newWrapEnter = newMembershipEnter.append("div").attr("class", "form-field-input-wrap form-field-input-member");
       newWrapEnter.append("input").attr("class", "member-role").property("type", "text").attr("placeholder", _t("inspector.role")).call(utilNoAuto);
@@ -65762,7 +68916,7 @@ ${content}</tr>
       addRow.select(".add-relation").on("click", function() {
         _showBlank = true;
         section.reRender();
-        list.selectAll(".member-entity-input").node().focus();
+        list2.selectAll(".member-entity-input").node().focus();
       });
       function acceptEntity(d) {
         if (!d) {
@@ -65771,7 +68925,7 @@ ${content}</tr>
         }
         if (d.relation)
           utilHighlightEntities([d.relation.id], false, context);
-        var role = context.cleanRelationRole(list.selectAll(".member-row-new .member-role").property("value"));
+        var role = context.cleanRelationRole(list2.selectAll(".member-row-new .member-role").property("value"));
         addMembership(d, role);
       }
       function cancelEntity() {
@@ -65858,12 +69012,12 @@ ${content}</tr>
       }
     }
     function renderDisclosureContent(selection2) {
-      var list = selection2.selectAll(".feature-list").data([0]);
-      list = list.enter().append("ul").attr("class", "feature-list").merge(list);
-      var entities = _selectedIDs.map(function(id2) {
-        return context.hasEntity(id2);
+      var list2 = selection2.selectAll(".feature-list").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "feature-list").merge(list2);
+      var entities = _selectedIDs.map(function(id3) {
+        return context.hasEntity(id3);
       }).filter(Boolean);
-      var items = list.selectAll(".feature-list-item").data(entities, osmEntity.key);
+      var items = list2.selectAll(".feature-list-item").data(entities, osmEntity.key);
       items.exit().remove();
       var enter = items.enter().append("li").attr("class", "feature-list-item").each(function(d) {
         select_default2(this).on("mouseover", function() {
@@ -66018,14 +69172,14 @@ ${content}</tr>
         context.validator().validate();
       }
     }
-    function revertTags(keys) {
+    function revertTags(keys2) {
       var actions = [];
       for (var i2 in _entityIDs) {
         var entityID = _entityIDs[i2];
         var original = context.graph().base().entities[entityID];
         var changed = {};
-        for (var j2 in keys) {
-          var key = keys[j2];
+        for (var j2 in keys2) {
+          var key = keys2[j2];
           changed[key] = original ? original.tags[key] : void 0;
         }
         var entity = context.entity(entityID);
@@ -66135,7 +69289,7 @@ ${content}</tr>
       searchWrap.call(svgIcon("#iD-icon-search", "pre-text"));
       var search = searchWrap.append("input").attr("placeholder", _t("inspector.search")).attr("type", "search").call(utilNoAuto).on("keypress", keypress).on("keydown", keydown).on("input", inputevent);
       var listWrap = selection2.append("div").attr("class", "inspector-body");
-      var list = listWrap.append("div").attr("class", "feature-list");
+      var list2 = listWrap.append("div").attr("class", "feature-list");
       context.on("exit.feature-list", clearSearch);
       context.map().on("drawn.feature-list", mapDrawn);
       context.keybinding().on(uiCmd("\u2318F"), focusSearch);
@@ -66152,7 +69306,7 @@ ${content}</tr>
         }
       }
       function keypress(d3_event) {
-        var q = search.property("value"), items = list.selectAll(".feature-list-item");
+        var q = search.property("value"), items = list2.selectAll(".feature-list-item");
         if (d3_event.keyCode === 13 && // ↩ Return
         q.length && items.size()) {
           click(d3_event, items.datum());
@@ -66202,8 +69356,8 @@ ${content}</tr>
         }
         var allEntities = graph.entities;
         var localResults = [];
-        for (var id2 in allEntities) {
-          var entity = allEntities[id2];
+        for (var id3 in allEntities) {
+          var entity = allEntities[id3];
           if (!entity)
             continue;
           var name = utilDisplayName(entity) || "";
@@ -66230,17 +69384,17 @@ ${content}</tr>
         result = result.concat(localResults);
         (_geocodeResults || []).forEach(function(d) {
           if (d.osm_type && d.osm_id) {
-            var id3 = osmEntity.id.fromOSM(d.osm_type, d.osm_id);
+            var id4 = osmEntity.id.fromOSM(d.osm_type, d.osm_id);
             var tags = {};
             tags[d.class] = d.type;
-            var attrs = { id: id3, type: d.osm_type, tags };
+            var attrs = { id: id4, type: d.osm_type, tags };
             if (d.osm_type === "way") {
               attrs.nodes = ["a", "a"];
             }
             var tempEntity = osmEntity(attrs);
             var tempGraph = coreGraph([tempEntity]);
             var matched2 = _mainPresetIndex.match(tempEntity, tempGraph);
-            var type3 = matched2 && matched2.name() || utilDisplayType(id3);
+            var type3 = matched2 && matched2.name() || utilDisplayType(id4);
             result.push({
               id: tempEntity.id,
               geometry: tempEntity.geometry(tempGraph),
@@ -66278,17 +69432,17 @@ ${content}</tr>
       function drawList() {
         var value = search.property("value");
         var results = features();
-        list.classed("filtered", value.length);
-        var resultsIndicator = list.selectAll(".no-results-item").data([0]).enter().append("button").property("disabled", true).attr("class", "no-results-item").call(svgIcon("#iD-icon-alert", "pre-text"));
+        list2.classed("filtered", value.length);
+        var resultsIndicator = list2.selectAll(".no-results-item").data([0]).enter().append("button").property("disabled", true).attr("class", "no-results-item").call(svgIcon("#iD-icon-alert", "pre-text"));
         resultsIndicator.append("span").attr("class", "entity-name");
-        list.selectAll(".no-results-item .entity-name").html("").call(_t.append("geocoder.no_results_worldwide"));
+        list2.selectAll(".no-results-item .entity-name").html("").call(_t.append("geocoder.no_results_worldwide"));
         if (services.geocoder) {
-          list.selectAll(".geocode-item").data([0]).enter().append("button").attr("class", "geocode-item secondary-action").on("click", geocoderSearch).append("div").attr("class", "label").append("span").attr("class", "entity-name").call(_t.append("geocoder.search"));
+          list2.selectAll(".geocode-item").data([0]).enter().append("button").attr("class", "geocode-item secondary-action").on("click", geocoderSearch).append("div").attr("class", "label").append("span").attr("class", "entity-name").call(_t.append("geocoder.search"));
         }
-        list.selectAll(".no-results-item").style("display", value.length && !results.length ? "block" : "none");
-        list.selectAll(".geocode-item").style("display", value && _geocodeResults === void 0 ? "block" : "none");
-        list.selectAll(".feature-list-item").data([-1]).remove();
-        var items = list.selectAll(".feature-list-item").data(results, function(d) {
+        list2.selectAll(".no-results-item").style("display", value.length && !results.length ? "block" : "none");
+        list2.selectAll(".geocode-item").style("display", value && _geocodeResults === void 0 ? "block" : "none");
+        list2.selectAll(".feature-list-item").data([-1]).remove();
+        var items = list2.selectAll(".feature-list-item").data(results, function(d) {
           return d.id;
         });
         var enter = items.enter().insert("button", ".geocode-item").attr("class", "feature-list-item").on("mouseover", mouseover).on("mouseout", mouseout).on("click", click);
@@ -66615,7 +69769,7 @@ ${content}</tr>
         search.node().selectionStart === search.property("value").length) {
           d3_event.preventDefault();
           d3_event.stopPropagation();
-          var buttons = list.selectAll(".preset-list-button");
+          var buttons = list2.selectAll(".preset-list-button");
           if (!buttons.empty())
             buttons.nodes()[0].focus();
         }
@@ -66624,14 +69778,14 @@ ${content}</tr>
         var value = search.property("value");
         if (d3_event.keyCode === 13 && // ↩ Return
         value.length) {
-          list.selectAll(".preset-list-item:first-child").each(function(d) {
+          list2.selectAll(".preset-list-item:first-child").each(function(d) {
             d.choose.call(this);
           });
         }
       }
       function inputevent() {
         var value = search.property("value");
-        list.classed("filtered", value.length);
+        list2.classed("filtered", value.length);
         var results, messageText;
         if (value.length) {
           results = presets.search(value, entityGeometries()[0], _currLoc);
@@ -66644,7 +69798,7 @@ ${content}</tr>
           results = _mainPresetIndex.defaults(entityGeometries()[0], 36, !context.inIntro(), _currLoc, entityPresets2);
           messageText = _t.html("inspector.choose");
         }
-        list.call(drawList, results);
+        list2.call(drawList, results);
         message.html(messageText);
       }
       var searchWrap = selection2.append("div").attr("class", "search-header");
@@ -66658,10 +69812,10 @@ ${content}</tr>
       }
       var listWrap = selection2.append("div").attr("class", "inspector-body");
       var entityPresets = _entityIDs.map((entityID) => _mainPresetIndex.match(context.graph().entity(entityID), context.graph()));
-      var list = listWrap.append("div").attr("class", "preset-list").call(drawList, _mainPresetIndex.defaults(entityGeometries()[0], 36, !context.inIntro(), _currLoc, entityPresets));
+      var list2 = listWrap.append("div").attr("class", "preset-list").call(drawList, _mainPresetIndex.defaults(entityGeometries()[0], 36, !context.inIntro(), _currLoc, entityPresets));
       context.features().on("change.preset-list", updateForFeatureHiddenState);
     }
-    function drawList(list, presets) {
+    function drawList(list2, presets) {
       presets = presets.matchAllGeometry(entityGeometries());
       var collection = presets.collection.reduce(function(collection2, preset) {
         if (!preset)
@@ -66677,7 +69831,7 @@ ${content}</tr>
         }
         return collection2;
       }, []);
-      var items = list.selectAll(".preset-list-item").data(collection, function(d) {
+      var items = list2.selectAll(".preset-list-item").data(collection, function(d) {
         return d.preset.id;
       });
       items.order();
@@ -67641,7 +70795,7 @@ ${content}</tr>
 
   // modules/ui/source_switch.js
   function uiSourceSwitch(context) {
-    var keys;
+    var keys2;
     function click(d3_event) {
       d3_event.preventDefault();
       var osm = context.connection();
@@ -67657,15 +70811,15 @@ ${content}</tr>
       context.history().clearSaved();
       context.flush();
       select_default2(this).html(isLive ? _t.html("source_switch.live") : _t.html("source_switch.dev")).classed("live", isLive).classed("chip", isLive);
-      osm.switch(isLive ? keys[0] : keys[1]);
+      osm.switch(isLive ? keys2[0] : keys2[1]);
     }
     var sourceSwitch = function(selection2) {
       selection2.append("a").attr("href", "#").call(_t.append("source_switch.live")).attr("class", "live chip").on("click", click);
     };
     sourceSwitch.keys = function(_) {
       if (!arguments.length)
-        return keys;
-      keys = _;
+        return keys2;
+      keys2 = _;
       return sourceSwitch;
     };
     return sourceSwitch;
@@ -67809,9 +70963,9 @@ ${content}</tr>
   }
 
   // node_modules/osm-community-index/lib/resolve_strings.js
-  function resolveStrings(item, defaults2, localizerFn) {
+  function resolveStrings(item, defaults3, localizerFn) {
     let itemStrings = Object.assign({}, item.strings);
-    let defaultStrings = Object.assign({}, defaults2[item.type]);
+    let defaultStrings = Object.assign({}, defaults3[item.type]);
     const anyToken = new RegExp(/(\{\w+\})/, "gi");
     if (localizerFn) {
       if (itemStrings.community) {
@@ -68225,8 +71379,8 @@ ${content}</tr>
   }
 
   // modules/ui/sections/raw_tag_editor.js
-  function uiSectionRawTagEditor(id2, context) {
-    var section = uiSection(id2, context).classes("raw-tag-editor").label(function() {
+  function uiSectionRawTagEditor(id3, context) {
+    var section = uiSection(id3, context).classes("raw-tag-editor").label(function() {
       var count = Object.keys(_tags).filter(function(d) {
         return d;
       }).length;
@@ -68296,13 +71450,13 @@ ${content}</tr>
       var textarea = wrap2.selectAll(".tag-text").data([0]);
       textarea = textarea.enter().append("textarea").attr("class", "tag-text" + (_tagView !== "text" ? " hide" : "")).call(utilNoAuto).attr("placeholder", _t("inspector.key_value")).attr("spellcheck", "false").merge(textarea);
       textarea.call(utilGetSetValue, textData).each(setTextareaHeight).on("input", setTextareaHeight).on("focus", interacted).on("blur", textChanged).on("change", textChanged);
-      var list = wrap2.selectAll(".tag-list").data([0]);
-      list = list.enter().append("ul").attr("class", "tag-list" + (_tagView !== "list" ? " hide" : "")).merge(list);
+      var list2 = wrap2.selectAll(".tag-list").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "tag-list" + (_tagView !== "list" ? " hide" : "")).merge(list2);
       var addRowEnter = wrap2.selectAll(".add-row").data([0]).enter().append("div").attr("class", "add-row" + (_tagView !== "list" ? " hide" : ""));
       addRowEnter.append("button").attr("class", "add-tag").attr("aria-label", _t("inspector.add_to_tag")).call(svgIcon("#iD-icon-plus", "light")).call(uiTooltip().title(() => _t.append("inspector.add_to_tag")).placement(_mainLocalizer.textDirection() === "ltr" ? "right" : "left")).on("click", addTag);
       addRowEnter.append("div").attr("class", "space-value");
       addRowEnter.append("div").attr("class", "space-buttons");
-      var items = list.selectAll(".tag-row").data(rowData, function(d) {
+      var items = list2.selectAll(".tag-row").data(rowData, function(d) {
         return d.key;
       });
       items.exit().each(unbind).remove();
@@ -69460,10 +72614,10 @@ ${content}</tr>
     function cancel() {
       context.enter(modeBrowse(context));
     }
-    function showProgress(num, total) {
+    function showProgress(num2, total) {
       var modal = context.container().select(".loading-modal .modal-section");
       var progress = modal.selectAll(".progress").data([0]);
-      progress.enter().append("div").attr("class", "progress").merge(progress).text(_t("save.conflict_progress", { num, total }));
+      progress.enter().append("div").attr("class", "progress").merge(progress).text(_t("save.conflict_progress", { num: num2, total }));
     }
     function showConflicts(changeset, conflicts, origChanges) {
       var selection2 = context.container().select(".sidebar").append("div").attr("class", "sidebar-component");
@@ -70159,7 +73313,7 @@ ${content}</tr>
   }
 
   // modules/ui/pane.js
-  function uiPane(id2, context) {
+  function uiPane(id3, context) {
     var _key;
     var _label = "";
     var _description = "";
@@ -70168,7 +73322,7 @@ ${content}</tr>
     var _paneSelection = select_default2(null);
     var _paneTooltip;
     var pane = {
-      id: id2
+      id: id3
     };
     pane.label = function(val) {
       if (!arguments.length)
@@ -70226,7 +73380,7 @@ ${content}</tr>
       }
     };
     pane.renderPane = function(selection2) {
-      _paneSelection = selection2.append("div").attr("class", "fillL map-pane hide " + id2 + "-pane").attr("pane", id2);
+      _paneSelection = selection2.append("div").attr("class", "fillL map-pane hide " + id3 + "-pane").attr("pane", id3);
       var heading = _paneSelection.append("div").attr("class", "pane-heading");
       heading.append("h2").text("").call(_label);
       heading.append("button").attr("title", _t("icons.close")).on("click", hidePane).call(svgIcon("#iD-icon-close"));
@@ -70251,8 +73405,8 @@ ${content}</tr>
       saturation: 1,
       sharpness: 1
     };
-    function clamp3(x, min3, max3) {
-      return Math.max(min3, Math.min(x, max3));
+    function clamp3(x, min4, max4) {
+      return Math.max(min4, Math.min(x, max4));
     }
     function updateValue(d, val) {
       val = clamp3(val, _minVal, _maxVal);
@@ -71011,9 +74165,9 @@ ${content}</tr>
   }
 
   // modules/ui/sections/validation_issues.js
-  function uiSectionValidationIssues(id2, severity, context) {
+  function uiSectionValidationIssues(id3, severity, context) {
     var _issues = [];
-    var section = uiSection(id2, context).label(function() {
+    var section = uiSection(id3, context).label(function() {
       if (!_issues)
         return "";
       var issueCountText = _issues.length > 1e3 ? "1000+" : String(_issues.length);
@@ -71044,9 +74198,9 @@ ${content}</tr>
       selection2.call(drawIssuesList, issues);
     }
     function drawIssuesList(selection2, issues) {
-      var list = selection2.selectAll(".issues-list").data([0]);
-      list = list.enter().append("ul").attr("class", "layer-list issues-list " + severity + "s-list").merge(list);
-      var items = list.selectAll("li").data(issues, function(d) {
+      var list2 = selection2.selectAll(".issues-list").data([0]);
+      list2 = list2.enter().append("ul").attr("class", "layer-list issues-list " + severity + "s-list").merge(list2);
+      var items = list2.selectAll("li").data(issues, function(d) {
         return d.key;
       });
       items.exit().remove();
@@ -71071,14 +74225,14 @@ ${content}</tr>
         return d.message(context)(select_default2(this));
       });
     }
-    context.validator().on("validated.uiSectionValidationIssues" + id2, function() {
+    context.validator().on("validated.uiSectionValidationIssues" + id3, function() {
       window.requestIdleCallback(function() {
         reloadIssues();
         section.reRender();
       });
     });
     context.map().on(
-      "move.uiSectionValidationIssues" + id2,
+      "move.uiSectionValidationIssues" + id3,
       debounce_default(function() {
         window.requestIdleCallback(function() {
           if (getOptions().where === "visible") {
@@ -71698,8 +74852,8 @@ ${content}</tr>
     function clickFeature(d3_event, d) {
       context.features().toggle(d);
     }
-    function showsLayer(id2) {
-      var layer = context.layers().layer(id2);
+    function showsLayer(id3) {
+      var layer = context.layers().layer(id3);
       return layer && layer.enabled();
     }
     context.features().on("change.map_features", section.reRender);
@@ -71803,10 +74957,10 @@ ${content}</tr>
         toggleLayer(d.id);
       });
       labelEnter.append("span").html(function(d) {
-        var id2 = d.id;
-        if (id2 === "mapillary-signs")
-          id2 = "photo_overlays.traffic_signs";
-        return _t.html(id2.replace(/-/g, "_") + ".title");
+        var id3 = d.id;
+        if (id3 === "mapillary-signs")
+          id3 = "photo_overlays.traffic_signs";
+        return _t.html(id3.replace(/-/g, "_") + ".title");
       });
       li.merge(liEnter).classed("active", layerEnabled).selectAll("input").property("checked", layerEnabled);
     }
@@ -72515,8 +75669,8 @@ ${content}</tr>
           return;
         }
       } else {
-        canSave = context.selectedIDs().every((id2) => {
-          const entity = context.hasEntity(id2);
+        canSave = context.selectedIDs().every((id3) => {
+          const entity = context.hasEntity(id3);
           return entity && !entity.isDegenerate();
         });
       }
@@ -72535,8 +75689,8 @@ ${content}</tr>
         return result;
       };
     }
-    context.hasEntity = (id2) => _history.graph().hasEntity(id2);
-    context.entity = (id2) => _history.graph().entity(id2);
+    context.hasEntity = (id3) => _history.graph().hasEntity(id3);
+    context.entity = (id3) => _history.graph().entity(id3);
     let _mode;
     context.mode = () => _mode;
     context.enter = (newMode) => {
@@ -72587,9 +75741,9 @@ ${content}</tr>
     context.background = () => _background;
     let _features;
     context.features = () => _features;
-    context.hasHiddenConnections = (id2) => {
+    context.hasHiddenConnections = (id3) => {
       const graph = _history.graph();
-      const entity = graph.entity(id2);
+      const entity = graph.entity(id3);
       return _features.hasHiddenConnections(entity, graph);
     };
     let _photos;
@@ -73300,11 +76454,11 @@ ${content}</tr>
     }, true);
     if (nextPage > maxPages)
       return;
-    var id2 = tile.id + "," + String(nextPage);
-    if (cache.loaded[id2] || cache.inflight[id2])
+    var id3 = tile.id + "," + String(nextPage);
+    if (cache.loaded[id3] || cache.inflight[id3])
       return;
     var controller = new AbortController();
-    cache.inflight[id2] = controller;
+    cache.inflight[id3] = controller;
     var options2 = {
       method: "POST",
       signal: controller.signal,
@@ -73312,8 +76466,8 @@ ${content}</tr>
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     };
     json_default(url, options2).then(function(data) {
-      cache.loaded[id2] = true;
-      delete cache.inflight[id2];
+      cache.loaded[id3] = true;
+      delete cache.inflight[id3];
       if (!data || !data.currentPageItems || !data.currentPageItems.length) {
         throw new Error("No Data");
       }
@@ -73358,8 +76512,8 @@ ${content}</tr>
         dispatch6.call("loadedImages");
       }
     }).catch(function() {
-      cache.loaded[id2] = true;
-      delete cache.inflight[id2];
+      cache.loaded[id3] = true;
+      delete cache.inflight[id3];
     });
   }
   function partitionViewport2(projection2) {
@@ -73370,10 +76524,10 @@ ${content}</tr>
       return tile.extent;
     });
   }
-  function searchLimited2(limit, projection2, rtree) {
-    limit = limit || 5;
+  function searchLimited2(limit2, projection2, rtree) {
+    limit2 = limit2 || 5;
     return partitionViewport2(projection2).reduce(function(result, extent) {
-      var found = rtree.search(extent.bbox()).slice(0, limit).map(function(d) {
+      var found = rtree.search(extent.bbox()).slice(0, limit2).map(function(d) {
         return d.data;
       });
       return found.length ? result.concat(found) : result;
@@ -73397,14 +76551,14 @@ ${content}</tr>
       _oscSelectedImage = null;
     },
     images: function(projection2) {
-      var limit = 5;
-      return searchLimited2(limit, projection2, _oscCache.images.rtree);
+      var limit2 = 5;
+      return searchLimited2(limit2, projection2, _oscCache.images.rtree);
     },
     sequences: function(projection2) {
       var viewport = projection2.clipExtent();
-      var min3 = [viewport[0][0], viewport[1][1]];
-      var max3 = [viewport[1][0], viewport[0][1]];
-      var bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      var min4 = [viewport[0][0], viewport[1][1]];
+      var max4 = [viewport[1][0], viewport[0][1]];
+      var bbox2 = geoExtent(projection2.invert(min4), projection2.invert(max4)).bbox();
       var sequenceKeys = {};
       _oscCache.images.rtree.search(bbox2).forEach(function(d) {
         sequenceKeys[d.data.sequence_id] = true;
@@ -74073,8 +77227,8 @@ ${content}</tr>
     });
     _deferred.add(handle);
     function parseChild(child) {
-      var parser3 = jsonparsers[child.type];
-      if (!parser3)
+      var parser4 = jsonparsers[child.type];
+      if (!parser4)
         return null;
       var uid;
       uid = osmEntity.id.fromOSM(child.type, child.id);
@@ -74083,7 +77237,7 @@ ${content}</tr>
           return null;
         _tileCache.seen[uid] = true;
       }
-      return parser3(child, uid);
+      return parser4(child, uid);
     }
   }
   function parseUserJSON(payload, callback, options2) {
@@ -74245,8 +77399,8 @@ ${content}</tr>
     });
     _deferred.add(handle);
     function parseChild(child) {
-      var parser3 = parsers[child.nodeName];
-      if (!parser3)
+      var parser4 = parsers[child.nodeName];
+      if (!parser4)
         return null;
       var uid;
       if (child.nodeName === "user") {
@@ -74265,7 +77419,7 @@ ${content}</tr>
           _tileCache.seen[uid] = true;
         }
       }
-      return parser3(child, uid);
+      return parser4(child, uid);
     }
   }
   function updateRtree4(item, replace) {
@@ -74410,9 +77564,9 @@ ${content}</tr>
     // nodes and members). Parent relations are not included, see `loadEntityRelations`.
     // GET /api/0.6/node/#id
     // GET /api/0.6/[way|relation]/#id/full
-    loadEntity: function(id2, callback) {
-      var type2 = osmEntity.id.type(id2);
-      var osmID = osmEntity.id.toOSM(id2);
+    loadEntity: function(id3, callback) {
+      var type2 = osmEntity.id.type(id3);
+      var osmID = osmEntity.id.toOSM(id3);
       var options2 = { skipSeen: false };
       this.loadFromAPI(
         "/api/0.6/" + type2 + "/" + osmID + (type2 !== "node" ? "/full" : "") + ".json",
@@ -74425,9 +77579,9 @@ ${content}</tr>
     },
     // Load a single entity with a specific version
     // GET /api/0.6/[node|way|relation]/#id/#version
-    loadEntityVersion: function(id2, version, callback) {
-      var type2 = osmEntity.id.type(id2);
-      var osmID = osmEntity.id.toOSM(id2);
+    loadEntityVersion: function(id3, version, callback) {
+      var type2 = osmEntity.id.type(id3);
+      var osmID = osmEntity.id.toOSM(id3);
       var options2 = { skipSeen: false };
       this.loadFromAPI(
         "/api/0.6/" + type2 + "/" + osmID + "/" + version + ".json",
@@ -74440,9 +77594,9 @@ ${content}</tr>
     },
     // Load the relations of a single entity with the given.
     // GET /api/0.6/[node|way|relation]/#id/relations
-    loadEntityRelations: function(id2, callback) {
-      var type2 = osmEntity.id.type(id2);
-      var osmID = osmEntity.id.toOSM(id2);
+    loadEntityRelations: function(id3, callback) {
+      var type2 = osmEntity.id.type(id3);
+      var osmID = osmEntity.id.toOSM(id3);
       var options2 = { skipSeen: false };
       this.loadFromAPI(
         "/api/0.6/" + type2 + "/" + osmID + "/relations.json",
@@ -74462,8 +77616,8 @@ ${content}</tr>
       var groups = utilArrayGroupBy(utilArrayUniq(ids), osmEntity.id.type);
       Object.keys(groups).forEach(function(k) {
         var type2 = k + "s";
-        var osmIDs = groups[k].map(function(id2) {
-          return osmEntity.id.toOSM(id2);
+        var osmIDs = groups[k].map(function(id3) {
+          return osmEntity.id.toOSM(id3);
         });
         var options2 = { skipSeen: false };
         utilArrayChunk(osmIDs, 150).forEach(function(arr) {
@@ -74937,8 +78091,8 @@ ${content}</tr>
             target.rtree = new import_rbush9.default().fromJSON(source.rtree.toJSON());
           } else if (k === "note") {
             target.note = {};
-            Object.keys(source.note).forEach(function(id2) {
-              target.note[id2] = osmNote(source.note[id2]);
+            Object.keys(source.note).forEach(function(id3) {
+              target.note[id3] = osmNote(source.note[id3]);
             });
           } else {
             target[k] = JSON.parse(JSON.stringify(source[k]));
@@ -75021,16 +78175,16 @@ ${content}</tr>
     // get all cached notes covering the viewport
     notes: function(projection2) {
       var viewport = projection2.clipExtent();
-      var min3 = [viewport[0][0], viewport[1][1]];
-      var max3 = [viewport[1][0], viewport[0][1]];
-      var bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      var min4 = [viewport[0][0], viewport[1][1]];
+      var max4 = [viewport[1][0], viewport[0][1]];
+      var bbox2 = geoExtent(projection2.invert(min4), projection2.invert(max4)).bbox();
       return _noteCache.rtree.search(bbox2).map(function(d) {
         return d.data;
       });
     },
     // get a single note from the cache
-    getNote: function(id2) {
-      return _noteCache.note[id2];
+    getNote: function(id3) {
+      return _noteCache.note[id3];
     },
     // remove a single note from the cache
     removeNote: function(note) {
@@ -75473,12 +78627,12 @@ ${content}</tr>
   function loadNextTilePage2(which, url, tile) {
     const cache = _ssCache[which];
     const nextPage = cache.nextPage[tile.id] || 0;
-    const id2 = tile.id + "," + String(nextPage);
-    if (cache.loaded[id2] || cache.inflight[id2])
+    const id3 = tile.id + "," + String(nextPage);
+    if (cache.loaded[id3] || cache.inflight[id3])
       return;
-    cache.inflight[id2] = getBubbles(url, tile, (bubbles) => {
-      cache.loaded[id2] = true;
-      delete cache.inflight[id2];
+    cache.inflight[id3] = getBubbles(url, tile, (bubbles) => {
+      cache.loaded[id3] = true;
+      delete cache.inflight[id3];
       if (!bubbles)
         return;
       bubbles.shift();
@@ -75584,10 +78738,10 @@ ${content}</tr>
     let tiler8 = utilTiler().zoomExtent([z2, z2]);
     return tiler8.getTiles(projection2).map((tile) => tile.extent);
   }
-  function searchLimited3(limit, projection2, rtree) {
-    limit = limit || 5;
+  function searchLimited3(limit2, projection2, rtree) {
+    limit2 = limit2 || 5;
     return partitionViewport3(projection2).reduce((result, extent) => {
-      let found = rtree.search(extent.bbox()).slice(0, limit).map((d) => d.data);
+      let found = rtree.search(extent.bbox()).slice(0, limit2).map((d) => d.data);
       return found.length ? result.concat(found) : result;
     }, []);
   }
@@ -76023,17 +79177,17 @@ ${content}</tr>
      * bubbles()
      */
     bubbles: function(projection2) {
-      const limit = 5;
-      return searchLimited3(limit, projection2, _ssCache.bubbles.rtree);
+      const limit2 = 5;
+      return searchLimited3(limit2, projection2, _ssCache.bubbles.rtree);
     },
     cachedImage: function(imageKey) {
       return _ssCache.bubbles.points[imageKey];
     },
     sequences: function(projection2) {
       const viewport = projection2.clipExtent();
-      const min3 = [viewport[0][0], viewport[1][1]];
-      const max3 = [viewport[1][0], viewport[0][1]];
-      const bbox2 = geoExtent(projection2.invert(min3), projection2.invert(max3)).bbox();
+      const min4 = [viewport[0][0], viewport[1][1]];
+      const max4 = [viewport[1][0], viewport[0][1]];
+      const bbox2 = geoExtent(projection2.invert(min4), projection2.invert(max4)).bbox();
       let seen = {};
       let results = [];
       _ssCache.bubbles.rtree.search(bbox2).forEach((d) => {
@@ -77095,10 +80249,10 @@ ${content}</tr>
           throw new Error("No Results");
         }
         if (callback) {
-          var list = result.query.pages[Object.keys(result.query.pages)[0]];
+          var list2 = result.query.pages[Object.keys(result.query.pages)[0]];
           var translations = {};
-          if (list && list.langlinks) {
-            list.langlinks.forEach(function(d) {
+          if (list2 && list2.langlinks) {
+            list2.langlinks.forEach(function(d) {
               translations[d.lang] = d["*"];
             });
           }
@@ -77325,21 +80479,21 @@ ${content}</tr>
       }
     }
     function pointerdown(d3_event) {
-      var id2 = (d3_event.pointerId || "mouse").toString();
+      var id3 = (d3_event.pointerId || "mouse").toString();
       cancelLongPress();
       if (d3_event.buttons && d3_event.buttons !== 1)
         return;
       context.ui().closeEditMenu();
       if (d3_event.pointerType !== "mouse") {
-        _longPressTimeout = window.setTimeout(didLongPress, 500, id2, "longdown-" + (d3_event.pointerType || "mouse"));
+        _longPressTimeout = window.setTimeout(didLongPress, 500, id3, "longdown-" + (d3_event.pointerType || "mouse"));
       }
-      _downPointers[id2] = {
+      _downPointers[id3] = {
         firstEvent: d3_event,
         lastEvent: d3_event
       };
     }
-    function didLongPress(id2, interactionType) {
-      var pointer = _downPointers[id2];
+    function didLongPress(id3, interactionType) {
+      var pointer = _downPointers[id3];
       if (!pointer)
         return;
       for (var i2 in _downPointers) {
@@ -77348,12 +80502,12 @@ ${content}</tr>
       _longPressTimeout = null;
       _lastInteractionType = interactionType;
       _showMenu = true;
-      click(pointer.firstEvent, pointer.lastEvent, id2);
+      click(pointer.firstEvent, pointer.lastEvent, id3);
     }
     function pointermove(d3_event) {
-      var id2 = (d3_event.pointerId || "mouse").toString();
-      if (_downPointers[id2]) {
-        _downPointers[id2].lastEvent = d3_event;
+      var id3 = (d3_event.pointerId || "mouse").toString();
+      if (_downPointers[id3]) {
+        _downPointers[id3].lastEvent = d3_event;
       }
       if (!d3_event.pointerType || d3_event.pointerType === "mouse") {
         _lastMouseEvent = d3_event;
@@ -77363,24 +80517,24 @@ ${content}</tr>
       }
     }
     function pointerup(d3_event) {
-      var id2 = (d3_event.pointerId || "mouse").toString();
-      var pointer = _downPointers[id2];
+      var id3 = (d3_event.pointerId || "mouse").toString();
+      var pointer = _downPointers[id3];
       if (!pointer)
         return;
-      delete _downPointers[id2];
-      if (_multiselectionPointerId === id2) {
+      delete _downPointers[id3];
+      if (_multiselectionPointerId === id3) {
         _multiselectionPointerId = null;
       }
       if (pointer.done)
         return;
-      click(pointer.firstEvent, d3_event, id2);
+      click(pointer.firstEvent, d3_event, id3);
     }
     function pointercancel(d3_event) {
-      var id2 = (d3_event.pointerId || "mouse").toString();
-      if (!_downPointers[id2])
+      var id3 = (d3_event.pointerId || "mouse").toString();
+      if (!_downPointers[id3])
         return;
-      delete _downPointers[id2];
-      if (_multiselectionPointerId === id2) {
+      delete _downPointers[id3];
+      if (_multiselectionPointerId === id3) {
         _multiselectionPointerId = null;
       }
     }
@@ -77479,8 +80633,8 @@ ${content}</tr>
         } else {
           if (selectedIDs.indexOf(datum2.id) !== -1) {
             if (!showMenu) {
-              selectedIDs = selectedIDs.filter(function(id2) {
-                return id2 !== datum2.id;
+              selectedIDs = selectedIDs.filter(function(id3) {
+                return id3 !== datum2.id;
               });
               newMode = selectedIDs.length ? mode.selectedIDs(selectedIDs) : modeBrowse(context).selectBehavior(behavior);
               context.enter(newMode);
@@ -77563,8 +80717,8 @@ ${content}</tr>
 
   // modules/operations/continue.js
   function operationContinue(context, selectedIDs) {
-    var _entities = selectedIDs.map(function(id2) {
-      return context.graph().entity(id2);
+    var _entities = selectedIDs.map(function(id3) {
+      return context.graph().entity(id3);
     });
     var _geometries = Object.assign(
       { line: [], vertex: [] },
@@ -77656,16 +80810,16 @@ ${content}</tr>
       }
     };
     function groupEntities(ids, graph) {
-      var entities = ids.map(function(id2) {
-        return graph.entity(id2);
+      var entities = ids.map(function(id3) {
+        return graph.entity(id3);
       });
       return Object.assign(
         { relation: [], way: [], node: [] },
         utilArrayGroupBy(entities, "type")
       );
     }
-    function getDescendants(id2, graph, descendants) {
-      var entity = graph.entity(id2);
+    function getDescendants(id3, graph, descendants) {
+      var entity = graph.entity(id3);
       var children2;
       descendants = descendants || {};
       if (entity.type === "relation") {
@@ -77724,14 +80878,14 @@ ${content}</tr>
     var _wayIDs = [];
     var _otherIDs = [];
     var _actions = [];
-    selectedIDs.forEach(function(id2) {
-      var entity = context.entity(id2);
+    selectedIDs.forEach(function(id3) {
+      var entity = context.entity(id3);
       if (entity.type === "way") {
-        _wayIDs.push(id2);
+        _wayIDs.push(id3);
       } else if (entity.geometry(context.graph()) === "vertex") {
-        _vertexIDs.push(id2);
+        _vertexIDs.push(id3);
       } else {
-        _otherIDs.push(id2);
+        _otherIDs.push(id3);
       }
     });
     var _coords, _descriptionID = "", _annotationID = "features";
@@ -77751,8 +80905,8 @@ ${content}</tr>
         _actions.push(action);
         _disconnectingWayIds = _disconnectingWayIds.concat(context.graph().parentWays(context.graph().entity(vertexID)).map((d) => d.id));
       });
-      _disconnectingWayIds = utilArrayUniq(_disconnectingWayIds).filter(function(id2) {
-        return _wayIDs.indexOf(id2) === -1;
+      _disconnectingWayIds = utilArrayUniq(_disconnectingWayIds).filter(function(id3) {
+        return _wayIDs.indexOf(id3) === -1;
       });
       _descriptionID += _actions.length === 1 ? "single_point." : "multiple_points.";
       if (_wayIDs.length === 1) {
@@ -77761,8 +80915,8 @@ ${content}</tr>
         _descriptionID += _wayIDs.length === 0 ? "no_ways" : "multiple_ways";
       }
     } else if (_wayIDs.length > 0) {
-      var ways = _wayIDs.map(function(id2) {
-        return context.entity(id2);
+      var ways = _wayIDs.map(function(id3) {
+        return context.entity(id3);
       });
       var nodes = utilGetAllNodes(_wayIDs, context.graph());
       _coords = nodes.map(function(n2) {
@@ -77970,8 +81124,8 @@ ${content}</tr>
         return "has_wikidata_tag";
       }
       return false;
-      function hasWikidataTag(id2) {
-        var entity = context.entity(id2);
+      function hasWikidataTag(id3) {
+        var entity = context.entity(id3);
         return entity.tags.wikidata && entity.tags.wikidata.trim().length > 0;
       }
     };
@@ -78066,22 +81220,22 @@ ${content}</tr>
   function operationMerge(context, selectedIDs) {
     var _action = getAction();
     function getAction() {
-      var join = actionJoin(selectedIDs);
-      if (!join.disabled(context.graph()))
-        return join;
-      var merge3 = actionMerge(selectedIDs);
-      if (!merge3.disabled(context.graph()))
-        return merge3;
+      var join2 = actionJoin(selectedIDs);
+      if (!join2.disabled(context.graph()))
+        return join2;
+      var merge4 = actionMerge(selectedIDs);
+      if (!merge4.disabled(context.graph()))
+        return merge4;
       var mergePolygon = actionMergePolygon(selectedIDs);
       if (!mergePolygon.disabled(context.graph()))
         return mergePolygon;
       var mergeNodes = actionMergeNodes(selectedIDs);
       if (!mergeNodes.disabled(context.graph()))
         return mergeNodes;
-      if (join.disabled(context.graph()) !== "not_eligible")
-        return join;
-      if (merge3.disabled(context.graph()) !== "not_eligible")
-        return merge3;
+      if (join2.disabled(context.graph()) !== "not_eligible")
+        return join2;
+      if (merge4.disabled(context.graph()) !== "not_eligible")
+        return merge4;
       if (mergePolygon.disabled(context.graph()) !== "not_eligible")
         return mergePolygon;
       return mergeNodes;
@@ -78093,8 +81247,8 @@ ${content}</tr>
       context.validator().validate();
       var resultIDs = selectedIDs.filter(context.hasEntity);
       if (resultIDs.length > 1) {
-        var interestingIDs = resultIDs.filter(function(id2) {
-          return context.entity(id2).hasInterestingTags();
+        var interestingIDs = resultIDs.filter(function(id3) {
+          return context.entity(id3).hasInterestingTags();
         });
         if (interestingIDs.length)
           resultIDs = interestingIDs;
@@ -78160,9 +81314,9 @@ ${content}</tr>
       Object.values(copies).forEach(function(entity) {
         originals.add(entity.id);
       });
-      for (var id2 in copies) {
-        var oldEntity = oldGraph.entity(id2);
-        var newEntity = copies[id2];
+      for (var id3 in copies) {
+        var oldEntity = oldGraph.entity(id3);
+        var newEntity = copies[id3];
         extent._extend(oldEntity.extent(oldGraph));
         var parents = context.graph().parentWays(newEntity);
         var parentCopied = parents.some(function(parent) {
@@ -78268,11 +81422,11 @@ ${content}</tr>
 
   // modules/operations/split.js
   function operationSplit(context, selectedIDs) {
-    var _vertexIds = selectedIDs.filter(function(id2) {
-      return context.graph().geometry(id2) === "vertex";
+    var _vertexIds = selectedIDs.filter(function(id3) {
+      return context.graph().geometry(id3) === "vertex";
     });
-    var _selectedWayIds = selectedIDs.filter(function(id2) {
-      var entity = context.graph().hasEntity(id2);
+    var _selectedWayIds = selectedIDs.filter(function(id3) {
+      var entity = context.graph().hasEntity(id3);
       return entity && entity.type === "way";
     });
     var _isAvailable = _vertexIds.length > 0 && _vertexIds.length + _selectedWayIds.length === selectedIDs.length;
@@ -78296,8 +81450,8 @@ ${content}</tr>
     }
     var operation = function() {
       var difference = context.perform(_action, operation.annotation());
-      var idsToSelect = _vertexIds.concat(difference.extantIDs().filter(function(id2) {
-        return context.entity(id2).type === "way";
+      var idsToSelect = _vertexIds.concat(difference.extantIDs().filter(function(id3) {
+        return context.entity(id3).type === "way";
       }));
       context.enter(modeSelect(context, idsToSelect));
     };
@@ -78339,11 +81493,11 @@ ${content}</tr>
 
   // modules/operations/straighten.js
   function operationStraighten(context, selectedIDs) {
-    var _wayIDs = selectedIDs.filter(function(id2) {
-      return id2.charAt(0) === "w";
+    var _wayIDs = selectedIDs.filter(function(id3) {
+      return id3.charAt(0) === "w";
     });
-    var _nodeIDs = selectedIDs.filter(function(id2) {
-      return id2.charAt(0) === "n";
+    var _nodeIDs = selectedIDs.filter(function(id3) {
+      return id3.charAt(0) === "n";
     });
     var _amount = (_wayIDs.length ? _wayIDs : _nodeIDs).length === 1 ? "single" : "multiple";
     var _nodes = utilGetAllNodes(selectedIDs, context.graph());
@@ -78470,15 +81624,15 @@ ${content}</tr>
       }
     }
     function selectedEntities() {
-      return selectedIDs.map(function(id2) {
-        return context.hasEntity(id2);
+      return selectedIDs.map(function(id3) {
+        return context.hasEntity(id3);
       }).filter(Boolean);
     }
     function checkSelectedIDs() {
       var ids = [];
       if (Array.isArray(selectedIDs)) {
-        ids = selectedIDs.filter(function(id2) {
-          return context.hasEntity(id2);
+        ids = selectedIDs.filter(function(id3) {
+          return context.hasEntity(id3);
         });
       }
       if (!ids.length) {
@@ -78640,8 +81794,8 @@ ${content}</tr>
       if (_follow) {
         var extent = geoExtent();
         var graph = context.graph();
-        selectedIDs.forEach(function(id2) {
-          var entity = context.entity(id2);
+        selectedIDs.forEach(function(id3) {
+          var entity = context.entity(id3);
           extent._extend(entity.extent(graph));
         });
         var loc = extent.center();
@@ -78705,8 +81859,8 @@ ${content}</tr>
               }
               return false;
             }
-            function incompleteRelation(id2) {
-              let entity = context.entity(id2);
+            function incompleteRelation(id3) {
+              let entity = context.entity(id3);
               return entity.type === "relation" && !entity.isComplete(context.graph());
             }
           }
@@ -78880,7 +82034,7 @@ ${content}</tr>
       function selectChild(d3_event) {
         d3_event.preventDefault();
         var currentSelectedIds = mode.selectedIDs();
-        var childIds = _focusedVertexIds ? _focusedVertexIds.filter((id2) => context.hasEntity(id2)) : childNodeIdsOfSelection(true);
+        var childIds = _focusedVertexIds ? _focusedVertexIds.filter((id3) => context.hasEntity(id3)) : childNodeIdsOfSelection(true);
         if (!childIds || !childIds.length)
           return;
         if (currentSelectedIds.length === 1)
@@ -79111,8 +82265,8 @@ ${content}</tr>
       );
       var newParams = {};
       delete oldParams.id;
-      var selected = context.selectedIDs().filter(function(id2) {
-        return context.hasEntity(id2);
+      var selected = context.selectedIDs().filter(function(id3) {
+        return context.hasEntity(id3);
       });
       if (selected.length) {
         newParams.id = selected.join(",");
@@ -79128,8 +82282,8 @@ ${content}</tr>
       var contextual;
       var changeCount;
       var titleID;
-      var selected = context.selectedIDs().filter(function(id2) {
-        return context.hasEntity(id2);
+      var selected = context.selectedIDs().filter(function(id3) {
+        return context.hasEntity(id3);
       });
       if (selected.length) {
         var firstLabel = utilDisplayLabel(context.entity(selected[0]), context.graph());
@@ -79207,8 +82361,8 @@ ${content}</tr>
         var mode = context.mode();
         context.map().centerZoom([mapArgs[2], Math.min(_latitudeLimit, Math.max(-_latitudeLimit, mapArgs[1]))], mapArgs[0]);
         if (q.id && mode) {
-          var ids = q.id.split(",").filter(function(id2) {
-            return context.hasEntity(id2);
+          var ids = q.id.split(",").filter(function(id3) {
+            return context.hasEntity(id3);
           });
           if (ids.length && (mode.id === "browse" || mode.id === "select" && !utilArrayIdentical(mode.selectedIDs(), ids))) {
             context.enter(modeSelect(context, ids));
@@ -79259,14 +82413,14 @@ ${content}</tr>
   }
 
   // node_modules/d3-brush/src/brush.js
-  var { abs: abs2, max: max2, min: min2 } = Math;
+  var { abs: abs6, max: max3, min: min3 } = Math;
   function number1(e) {
     return [+e[0], +e[1]];
   }
   function number22(e) {
     return [number1(e[0]), number1(e[1])];
   }
-  var X = {
+  var X3 = {
     name: "x",
     handles: ["w", "e"].map(type),
     input: function(x, e) {
@@ -79325,8 +82479,8 @@ ${content}</tr>
       });
     });
   };
-  window.cancelIdleCallback = window.cancelIdleCallback || function(id2) {
-    window.cancelAnimationFrame(id2);
+  window.cancelIdleCallback = window.cancelIdleCallback || function(id3) {
+    window.cancelAnimationFrame(id3);
   };
   window.iD = modules_exports;
 })();
