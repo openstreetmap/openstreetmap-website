@@ -90,6 +90,12 @@ class UserBlocksController < ApplicationController
   end
 
   ##
+  # revokes all active blocks
+  def revoke_all
+    # TODO revoke
+  end
+
+  ##
   # shows a list of all the blocks on the given user
   def blocks_on
     @params = params.permit(:display_name)

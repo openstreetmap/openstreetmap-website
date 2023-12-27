@@ -395,6 +395,36 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the revoke all action
+  def test_revoke_all
+    blocked_user = create(:user)
+    create(:user_block, :user => blocked_user)
+
+    # Asking for the revoke all blocks page with a bogus user name should fail
+    get user_blocks_on_path(:display_name => "non_existent_user")
+    assert_response :not_found
+
+    # Check that the revoke all blocks page requires us to login
+    get revoke_all_user_blocks_path(blocked_user)
+    assert_redirected_to login_path(:referer => revoke_all_user_blocks_path(blocked_user))
+
+    # Login as a normal user
+    session_for(create(:user))
+
+    # Check that normal users can't load the revoke all blocks page
+    get revoke_all_user_blocks_path(blocked_user)
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
+
+    # Login as a moderator
+    session_for(create(:moderator_user))
+
+    # Check that the revoke all blocks page loads for moderators
+    get revoke_all_user_blocks_path(blocked_user)
+    assert_response :success
+  end
+
+  ##
   # test the blocks_on action
   def test_blocks_on
     blocked_user = create(:user)
