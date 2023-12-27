@@ -27,8 +27,7 @@ L.OSM.layers = function (options) {
         var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false, keyboard: false})
           .addLayer(new layer.constructor({
             apikey: layer.options.apikey,
-            style: layer.options.style,
-            accessToken: layer.options.accessToken
+            style: layer.options.style
           }));
 
         miniMap.dragging.disable();
