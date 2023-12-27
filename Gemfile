@@ -11,8 +11,8 @@ gem "pg"
 
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
-# Pin the dependentent sass-embedded to avoid deprecation warnings in bootstrap
-gem "sass-embedded", "~> 1.64.0"
+# Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
+gem "sass-embedded", "~> 1.64.2"
 
 # Use Terser as compressor for JavaScript assets
 gem "terser"

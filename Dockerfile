@@ -9,6 +9,7 @@ RUN apt-get update \
       curl \
       default-jre-headless \
       file \
+      git \
       gpg-agent \
       libarchive-dev \
       libffi-dev \
@@ -49,6 +50,7 @@ WORKDIR /app
 
 # Install Ruby packages
 ADD Gemfile Gemfile.lock /app/
+RUN gem update bundler
 RUN bundle install
 
 # Install NodeJS packages using yarn
