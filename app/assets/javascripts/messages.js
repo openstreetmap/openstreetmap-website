@@ -22,6 +22,8 @@ $(document).ready(function () {
     $(".user-button").before(data.inboxanchor);
 
     $("#inbox-count").replaceWith(data.inbox_count);
+    $("#outbox-count").replaceWith(data.outbox_count);
+    $("#muted-count").replaceWith(data.muted_count);
   }
 
   function updateReadState(target, isRead) {

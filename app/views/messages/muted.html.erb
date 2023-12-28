@@ -4,6 +4,6 @@
 
 <%= render :partial => "heading", :locals => { :active_link_path => muted_messages_path } %>
 
-<h4><%= t ".messages", :count => current_user.muted_messages.size %></h4>
+<%= render :partial => "muted_count" %>
 
 <%= render :partial => "messages_table", :locals => { :columns => %w[from subject date], :messages => current_user.muted_messages, :inner_partial => "message_summary" } %>
