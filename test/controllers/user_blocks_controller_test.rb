@@ -395,8 +395,8 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
-  # test the revoke all action
-  def test_revoke_all
+  # test the revoke all page
+  def test_revoke_all_page
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
 
@@ -422,6 +422,54 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Check that the revoke all blocks page loads for moderators
     get revoke_all_user_blocks_path(blocked_user)
     assert_response :success
+  end
+
+  ##
+  # test the revoke all action
+  def test_revoke_all_action
+    blocked_user = create(:user)
+    active_block1 = create(:user_block, :user => blocked_user)
+    active_block2 = create(:user_block, :user => blocked_user)
+    expired_block1 = create(:user_block, :expired, :user => blocked_user)
+    blocks = [active_block1, active_block2, expired_block1]
+    moderator_user = create(:moderator_user)
+
+    assert_predicate active_block1, :active?
+    assert_predicate active_block2, :active?
+    assert_not_predicate expired_block1, :active?
+
+    # Login as a normal user
+    session_for(create(:user))
+
+    # Check that normal users can't load the block revoke page
+    get revoke_all_user_blocks_path(:blocked_user)
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
+
+    # Login as a moderator
+    session_for(moderator_user)
+
+    # Check that revoking blocks using GET should fail
+    get revoke_all_user_blocks_path(blocked_user, :confirm => true)
+    assert_response :success
+    assert_template "revoke_all"
+
+    blocks.each(&:reload)
+    assert_predicate active_block1, :active?
+    assert_predicate active_block2, :active?
+    assert_not_predicate expired_block1, :active?
+
+    # Check that revoking blocks works using POST
+    post revoke_all_user_blocks_path(blocked_user, :confirm => true)
+    assert_redirected_to user_blocks_on_path(blocked_user)
+
+    blocks.each(&:reload)
+    assert_not_predicate active_block1, :active?
+    assert_not_predicate active_block2, :active?
+    assert_not_predicate expired_block1, :active?
+    assert_equal moderator_user, active_block1.revoker
+    assert_equal moderator_user, active_block2.revoker
+    assert_not_equal moderator_user, expired_block1.revoker
   end
 
   ##
