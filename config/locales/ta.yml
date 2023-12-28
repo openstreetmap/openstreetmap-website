@@ -53,6 +53,12 @@ ta:
       messages:
         invalid_email_address: செல்லுபடியாகும் மின்னஞ்சல் முகவரியாகத் தெரியவில்லை
         email_address_not_routable: திசைதிருப்பக்கூடியது அல்ல
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: ஏற்கனவே மௌனிக்கப்பட்டுள்ளார்
     models:
       acl: அனுமதிக் கட்டுப்பாட்டுப் பட்டியல்
       changeset: மாற்றங்கள்
@@ -597,14 +603,16 @@ ta:
       from: 'அனுப்புநர்:'
       subject: பொருள்
       date: நாள்
+      actions: செயல்கள்
     message_summary:
       unread_button: வாசிக்கப்படாததாக என குறியிடு
       read_button: வாசித்ததாக குறியிடு
       reply_button: பதிலளி
       destroy_button: நீக்கு
+      unmute_button: வருமஞ்சலுக்கு நகர்த்து
     new:
-      title: தகவல் அனுப்பு
-      send_message_to_html: '%{name} க்கு புதிய தகவல் அனுப்பு'
+      title: தகவலனுப்பு
+      send_message_to_html: '%{name} என்பவருக்கு ஒரு புதிய தகவலை அனுப்பு'
       back_to_inbox: உள்பெட்டிக்கு திரும்பவும்
     create:
       message_sent: செய்தி அனுப்பப்பட்டுவிட்டது
@@ -613,6 +621,12 @@ ta:
       heading: அப்படியொரு தகவல் இல்லை
     outbox:
       title: அனுப்பியவை
+      actions: செயல்கள்
+    muted:
+      title: மௌனித்த தகவல்கள்
+      messages:
+        one: '%{count} மௌனித்த தகவல்'
+        other: உமக்கு %{count} மௌனித்த தகவல்கள் உள்ளன
     show:
       title: தகவலை வாசிக்கவும்
       reply_button: பதிலளி
@@ -620,6 +634,10 @@ ta:
       destroy_button: நீக்கு
     sent_message_summary:
       destroy_button: நீக்கு
+    heading:
+      muted_messages: மௌனித்த தகவல்கள்
+    unmute:
+      notice: தகவல் வருமஞ்சலுக்கு நகர்த்தப்பட்டுள்ளது
     destroy:
       destroyed: தகவல் நீக்கப்பட்டது
   passwords:
@@ -692,23 +710,33 @@ ta:
           secondary: இரண்டாம் நிலை சாலை
           unclassified: வகைப்படுத்தாத சாலை
           rail: இரயில்வே
+          vineyard: திராட்சைத் தோட்டம்
           forest_only: காடு
           wood: விறகு
+          farmland: பண்ணை நிலம்
+          meadow: புல்வெளி
+          bare_rock: வெற்றுப் பாறை
+          sand: மணல்
           park: பூங்கா
           common_only: பொதுவான
+          built_up: கட்டடப் பகுதி
           industrial: தொழிற்சாலை பகுதி
           commercial: வணிக பகுதி
+          scrubland: புதர் நிலம்
           lake_only: ஏரி
-          reservoir: நீர்த்தேக்கம்
+          reservoir: நீர்நிலை
+          glacier: பனிப்பாறை
+          wetland: ஈரநிலம்
           farm: பண்ணை
           centre: விளையாட்டு மையம்
           military: ராணுவ பகுதி
           school_only: பள்ளி
           university: பல்கலைக்கழகம்
+          hospital: மருத்துவமனை
           building: குறிப்பிடத்தக்க கட்டிடம்
           station: தொடர்வண்டி நிலையம்
           summit_only: உச்சி மாநாடு
-          peak: உயரமான இடம்
+          peak: உச்சி
           private: தனியார் அனுமதி
           construction: சாலைகளில்  கட்டுமானப் பணிகள் நடந்து வருகின்றன.
           toilets: கழிவறைகள்
@@ -750,6 +778,9 @@ ta:
       in: உள்
     index:
       upload_trace: சுவடை பதிவேற்றவும்
+  application:
+    settings_menu:
+      muted_users: மௌனித்த பயனர்கள்
   oauth_clients:
     show:
       edit: தொகுப்பு விவரங்கள்
@@ -772,6 +803,8 @@ ta:
       my diary: எனது நாட்குறிப்பேடு
       my edits: என் திருத்தங்கள்
       my settings: என் அமைப்புகள்
+      create_mute: இப்பயனரை மௌனி
+      destroy_mute: இப்பயனரை ஓசையாக்கு
       diary: நாட்குறிப்பேடு
       edits: தொகுப்புகள்
       add as friend: நண்பராக சேர்
@@ -824,6 +857,25 @@ ta:
       display_name: தடைசெய்யப்பட்ட பயனர்
       creator_name: உருவாக்கியவர்
       status: நிலை
+  user_mutes:
+    index:
+      title: மௌனித்த பயனர்கள்
+      my_muted_users: எனது மௌனிக்கப்பட்ட பயனர்கள்
+      you_have_muted_n_users:
+        one: நீர் %{count} பயனரை மௌனித்துள்ளீர்
+        other: நீர் %{count} பயனர்களை மௌனித்துள்ளீர்
+      table:
+        thead:
+          muted_user: மௌனித்த பயனர்
+          actions: செயல்கள்
+        tbody:
+          unmute: ஓசையாக்கு
+          send_message: தகவலனுப்பு
+    create:
+      notice: நீர் %{name} என்பவரை மௌனித்தீர்.
+      error: '%{name} என்பவரை மௌனிக்க முடியவில்லை. %{full_message}.'
+    destroy:
+      notice: நீர் %{name} என்பவரை ஓசையாக்கினீர்.
   notes:
     show:
       description: விளக்கம்
