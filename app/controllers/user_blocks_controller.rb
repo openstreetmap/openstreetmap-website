@@ -39,11 +39,13 @@ class UserBlocksController < ApplicationController
 
   def create
     if @valid_params
+      now = Time.now.utc
       @user_block = UserBlock.new(
         :user => @user,
         :creator => current_user,
         :reason => params[:user_block][:reason],
-        :ends_at => Time.now.utc + @block_period.hours,
+        :created_at => now,
+        :ends_at => now + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
       )
 

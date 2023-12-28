@@ -262,6 +262,21 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the duration of a created block
+  def test_create_duration
+    target_user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    session_for(moderator_user)
+    post user_blocks_path(:display_name => target_user.display_name,
+                          :user_block_period => "336",
+                          :user_block => { :needs_view => false, :reason => "Vandalism" })
+
+    block = UserBlock.order(:id).last
+    assert_equal 1209600, block.ends_at - block.created_at
+  end
+
+  ##
   # test the update action
   def test_update
     moderator_user = create(:moderator_user)
