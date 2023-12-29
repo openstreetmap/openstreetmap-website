@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class NoteCommentsTest < ApplicationSystemTestCase
+class MessagesTest < ApplicationSystemTestCase
   def test_delete_received_message
     user = create(:user)
     create(:message, :recipient => user)
