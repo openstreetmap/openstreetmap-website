@@ -50,6 +50,16 @@ module UserHelper
     end
   end
 
+  def truncated_user_link(user, **options)
+    classes = %w[d-inline-block align-bottom text-truncate]
+    if options[:width]
+      style = "max-width: #{options[:width]}"
+    else
+      classes <<= "mw-100"
+    end
+    link_to user.display_name, user, :class => classes, :style => style
+  end
+
   # External authentication support
 
   def openid_logo
