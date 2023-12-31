@@ -65,6 +65,10 @@
                                                    :url => comment_api_note_url(@note, "json") } %>
         </div>
       </form>
+    <% else -%>
+      <p>
+        <%= link_to t(".log_in_to_comment"), login_path(:referer => request.fullpath) %>
+      </p>
     <% end -%>
   <% else %>
     <form class="mb-3" action="#">
