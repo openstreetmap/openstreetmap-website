@@ -9,6 +9,7 @@
 # Author: EddyPetrisor
 # Author: GabiBil
 # Author: Gravitystorm
+# Author: Heron702
 # Author: Kyouko
 # Author: Lucdrei
 # Author: MSClaudiu
@@ -57,6 +58,11 @@ ro:
       messages:
         invalid_email_address: nu pare a fi o adresă de e-mail validă
         email_address_not_routable: nu este rutabil
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
     models:
       acl: Lista de control al accesului
       changeset: Set de modificări
@@ -295,6 +301,8 @@ ro:
         retain_changeset_discussions: Discuțiile dvs. privind setul de modificări,
           dacă există, vor fi păstrate.
         retain_email: Adresa dvs. de e-mail va fi păstrată.
+        recent_editing_html: Deoarece ați editat recent, contul dvs. nu poate fi șters
+          în prezent. Ștergerea va fi posibilă în %{time}.
         confirm_delete: Sunteți sigur(ă)?
         cancel: Anulează
   accounts:
@@ -1791,6 +1799,7 @@ ro:
       to: Către
       subject: Subiect
       date: Dată
+      actions: Acțiuni
     message_summary:
       unread_button: Marchează ca necitit
       read_button: Marchează ca citit
@@ -1810,6 +1819,7 @@ ro:
       body: Ne pare rău că nu există niciun mesaj cu acel id.
     outbox:
       title: Mesaje trimise
+      actions: Acțiuni
       messages:
         one: Aveți %{count} mesaj trimis
         other: Aveți %{count} (de) mesaje trimise
@@ -1858,6 +1868,7 @@ ro:
       flash token bad: Nu ați găsit acel simbol, verificați adresa URL?
     update:
       flash changed: Parola dumneavoastră a fost schimbată.
+      flash token bad: Nu s-a găsit acel simbol, poate verificați adresa URL?
   preferences:
     show:
       title: Preferințe
@@ -1962,6 +1973,7 @@ ro:
       image: Imagine
       alt: Text alternativ
       url: URL
+      codeblock: Bloc cod sursă
     richtext_field:
       edit: Editează
       preview: Previzualizare
@@ -2113,6 +2125,9 @@ ro:
           Resources Canada) și StatCan (Divizia de Geografie,
           Statistics Canada).
         contributors_ca_canada: Canada
+        contributors_cz_czechia: Cehia
+        contributors_cz_cc_licence: Creative Commons Attribution 4.0 International
+          licence (CC BY 4.0)
         contributors_fi_credit_html: |-
           %{finland}: Conține date din
           National Land Survey of Finland's Topographic Database
@@ -2350,6 +2365,7 @@ ro:
           primary: Drum primar
           secondary: Drum secundar
           unclassified: Drum neclasificat
+          pedestrian: Cale pietonală
           track: Înregistrare GPS
           bridleway: Traseu de călărie
           cycleway: Pistă de biciclete
@@ -2358,18 +2374,31 @@ ro:
           cycleway_local: Rețeaua locală de ciclism
           footway: Trotuar
           rail: Cale ferată
+          train: Tren
           subway: Stație de metrou
+          ferry: Feribot
+          tram_only: Tramvai
+          trolleybus: Troleibuz
+          bus: Autobuz
           cable_car: Telecabină
           chair_lift: Telescaun
           runway_only: Pistă de Aeroport
           taxiway: taxiway
           apron_only: Aeronavă
           admin: Graniță administrativă
+          orchard_only: Livadă
+          vineyard: Podgorie
           forest_only: Pădure
           wood: Lemn
+          farmland: Teren agricol
+          grass_only: Iarbă
+          meadow: Luncă
+          bare_rock: Stâncă goală
+          sand: Nisip
           golf: Teren de golf
           park: Parc
           common_only: Comun
+          built_up: Zonă construită
           resident: Zonă rezidențială
           retail: Spațiul de retail
           industrial: Zonă industrială
@@ -2377,6 +2406,9 @@ ro:
           heathland: Landă
           lake_only: Lac
           reservoir: Rezervor
+          intermittent_water: Corp de apă intermitent
+          glacier: Ghețar
+          reef: Recif
           farm: Fermă
           brownfield: Terenuri industriale dezafectate
           cemetery: Cimitir
@@ -2387,6 +2419,7 @@ ro:
           military: Zonă militară
           school_only: Școală
           university: Universitate
+          hospital: Spital
           building: Clădire importantă
           station: Gară
           summit_only: Vârf de munte
@@ -2396,6 +2429,8 @@ ro:
           private: Acces privat
           destination: Accesul la destinație
           construction: Drumuri în construcție
+          bus_stop: Stație de autobuz
+          stop: Stație
           bicycle_shop: Magazin de biciclete
           bicycle_parking: Parcare pentru biciclete
           toilets: Toalete
@@ -2441,6 +2476,7 @@ ro:
         imports: Importurile
         automated_edits: Editări automate
       start_mapping: Începeți să cartografiați
+      continue_authorization: Continuați autorizarea
       add_a_note:
         title: Nu aveți timp pentru editare? Adaugați o notă!
         para_1: |-
@@ -2637,6 +2673,7 @@ ro:
       read_gpx: Citiți track-urile GPS private
       write_gpx: Încărcați track-uri GPS
       write_notes: Modificați notele
+      write_redactions: Redactați datele hărții
       read_email: Citiți adresa de e-mail a utilizatorului
       skip_authorization: Aprobare automată a cererii
   oauth_clients:
@@ -2727,6 +2764,7 @@ ro:
       application: Aplicație
       permissions: Permisiuni
       no_applications_html: Nu ați autorizat încă nicio aplicație %{oauth2}.
+      oauth_2: OAuth 2
     application:
       revoke: Revocă accesul
       confirm_revoke: Revocați accesul acestei aplicații?
@@ -2833,12 +2871,15 @@ ro:
       role:
         administrator: Acest utilizator este un administrator
         moderator: Acest utilizator este un moderator
+        importer: Acest utilizator este un importator
         grant:
           administrator: Acordați permisiunile de administrator
           moderator: Acordați accesul de moderator
+          importer: Acordați acces de importator
         revoke:
           administrator: Revocă accesul de administrator
           moderator: Revocă accesul de moderator
+          importer: Revocați accesul de importator
       block_history: Blocări active
       moderator_history: Blocări acordate
       comments: Comentarii
@@ -3018,6 +3059,13 @@ ro:
       showing_page: Pagina %{page}
       next: Următoarea »
       previous: « Precedenta
+  user_mutes:
+    index:
+      table:
+        thead:
+          actions: Acțiuni
+        tbody:
+          send_message: Trimite mesajul
   notes:
     index:
       title: Notele trimise sau comentate de %{user}
@@ -3147,6 +3195,8 @@ ro:
       map_data_zoom_in_tooltip: Mărește pentru a vedea datele hărții
       queryfeature_tooltip: Funcții de interogare
       queryfeature_disabled_tooltip: Mărește caracteristicile de interogare
+      embed_html_disabled: Încorporarea HTML nu este disponibilă pentru acest strat
+        de hartă
     changesets:
       show:
         comment: Comentariu

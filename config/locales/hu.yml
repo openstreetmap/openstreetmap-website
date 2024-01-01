@@ -73,6 +73,12 @@ hu:
       messages:
         invalid_email_address: nem tűnik érvényes e-mail-címnek
         email_address_not_routable: nem irányítható
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: már el van némítva
     models:
       acl: Hozzáférés-szabályzási lista
       changeset: Módosításcsomag
@@ -1761,11 +1767,13 @@ hu:
       to: Címzett
       subject: Tárgy
       date: Érkezett
+      actions: Műveletek
     message_summary:
       unread_button: Jelölés olvasatlanként
       read_button: Jelölés olvasottként
       reply_button: Válasz
       destroy_button: Törlés
+      unmute_button: Áthelyezés a Beérkezett üzenetek mappába
     new:
       title: Üzenet küldése
       send_message_to_html: 'Új üzenet küldése neki: %{name}'
@@ -1780,12 +1788,15 @@ hu:
       body: Sajnáljuk, nincs ilyen azonosítójú üzenet.
     outbox:
       title: Elküldött üzenetek
+      actions: Műveletek
       messages:
         one: Egy elküldött üzeneted van
         other: '%{count} elküldött üzeneted van'
       no_sent_messages_html: Nincs még elküldött üzeneted. Miért nem veszed fel a
         kapcsolatot néhány %{people_mapping_nearby_link}vel?
       people_mapping_nearby: közeli térképszerkesztő
+    muted:
+      title: Elnémított üzenetek
     reply:
       wrong_user: „%{user}” néven jelentkeztél be, de azt az üzenetet, amelyre válaszolni
         szeretnél, nem ez a felhasználó kapta. A válaszadáshoz jelentkezz be a helyes
@@ -1804,9 +1815,12 @@ hu:
     heading:
       my_inbox: Beérkezett üzenetek
       my_outbox: Elküldött üzenetek
+      muted_messages: Elnémított üzenetek
     mark:
       as_read: Üzenet megjelölve olvasottként
       as_unread: Üzenet megjelölve olvasatlanként
+    unmute:
+      notice: Az üzenet átkerült a Beérkezett üzenetek mappába
     destroy:
       destroyed: Üzenet törölve
   passwords:
@@ -1862,6 +1876,7 @@ hu:
       no home location: Nem adtad meg az otthonod helyét.
       update home location on click: Frissüljön-e az otthonom helye, amikor a térképre
         kattintok?
+      show: Megjelenítés
       delete: Törlés
       undelete: Törlés visszavonása
     update:
@@ -2062,9 +2077,17 @@ hu:
         contributors_au_australia: Ausztrália
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_ca_canada: Kanada
+        contributors_cz_czechia: Csehország
+        contributors_fi_finland: Finnország
+        contributors_fr_france: Franciaország
+        contributors_nl_netherlands: Hollandia
+        contributors_nz_new_zealand: Új-Zéland
+        contributors_rs_serbia: Szerbia
         contributors_si_slovenia: Szlovénia
+        contributors_si_mkgp: Mezőgazdasági, Erdészeti és Élelmiszerügyi Minisztérium
         contributors_es_spain: Spanyolország
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_south_africa: Dél-Afrika
         contributors_gb_united_kingdom: Egyesült Királyság
         contributors_footer_2_html: Az adatok befoglalása az OpenStreetMapbe nem jelenti
           azt, hogy az eredeti adatszolgáltató támogatja az OpenStreetMapet, garanciát
@@ -2223,6 +2246,7 @@ hu:
           primary: Főút
           secondary: Összekötő út
           unclassified: Egyéb út
+          pedestrian: Sétálóutca
           track: Mezőgazdasági/erdészeti út
           bridleway: Lovaglóút
           cycleway: Kerékpárút
@@ -2231,6 +2255,7 @@ hu:
           cycleway_local: Helyi kerékpárút
           footway: Gyalogút
           rail: Vasút
+          train: Vonat
           subway: Metró
           ferry: Komp
           light_rail: HÉV
@@ -2238,18 +2263,18 @@ hu:
           trolleybus: Trolibusz
           bus: Busz
           cable_car: Nagykabinos felvonó
-          chair_lift: függőszékes felvonó
+          chair_lift: Ülőlift
           runway_only: Kifutópálya
-          taxiway: gurulóút
+          taxiway: Gurulóút
           apron_only: Forgalmi előtér
           admin: Közigazgatási határ
           orchard_only: Gyümölcsös
-          vineyard: szőlő
+          vineyard: Szőlő
           forest_only: Erdő
-          wood: erdő
+          wood: Természetes erdő
           farmland: Mezőgazdasági terület
           grass_only: Fű
-          meadow: rét
+          meadow: Rét
           bare_rock: Csupasz szikla
           sand: Homok
           golf: Golfpálya
@@ -2262,8 +2287,11 @@ hu:
           commercial: Kereskedelmi terület
           heathland: Fenyér
           lake_only: Tó
-          reservoir: víztározó
+          reservoir: Víztározó
+          intermittent_water: Időszakos víztest
           glacier: Gleccser
+          reef: Zátony
+          wetland: Vizenyős terület
           farm: Tanya
           brownfield: Bontási terület
           cemetery: Temető
@@ -2273,17 +2301,19 @@ hu:
           reserve: Természetvédelmi terület
           military: Katonai terület
           school_only: Iskola
-          university: egyetem
+          university: Egyetem
+          hospital: Kórház
           building: Fontosabb épület
           station: Vasútállomás
           summit_only: Hegycsúcs
-          peak: magaslat
+          peak: Hegycsúcs
           tunnel: Szaggatott szegély = alagút
           bridge: Fekete szegély = híd
           private: Behajtás csak engedéllyel
           destination: Csak célforgalom
           construction: Épülő utak
           bus_stop: Buszmegálló
+          stop: Megálló
           bicycle_shop: Kerékpárbolt
           bicycle_parking: Kerékpártároló
           toilets: WC

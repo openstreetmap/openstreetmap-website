@@ -45,8 +45,8 @@ gl:
         create: Rexistrarse
         update: Actualizar
       redaction:
-        create: Crear a redacción
-        update: Gardar a redacción
+        create: Crear a censura
+        update: Gardar a censura
       trace:
         create: Subir
         update: Gardar as modificacións
@@ -58,6 +58,12 @@ gl:
       messages:
         invalid_email_address: non semella ser un enderezo de correo electrónico válido
         email_address_not_routable: non é atinxíbel
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: xa está silenciado
     models:
       acl: Listaxe do control de acceso
       changeset: Conxunto de modificacións
@@ -427,9 +433,10 @@ gl:
         changeset: conxunto de modificacións
         note: nota
     redacted:
-      redaction: Redacción %{id}
-      message_html: A versión %{version} deste %{type} non se pode amosar tal como
-        foi redactada. Consulte %{redaction_link} para obter máis detalles.
+      redaction: Censura %{id}
+      message_html: A versión %{version} deste elemento de tipo "%{type}" non se pode
+        amosar tal como foi censurada. Consulta a %{redaction_link} para obter máis
+        detalles.
       type:
         node: nó
         way: vía
@@ -1783,11 +1790,13 @@ gl:
       to: Para
       subject: Asunto
       date: Data
+      actions: Accións
     message_summary:
       unread_button: Marcar como non lido
       read_button: Marcar como lido
       reply_button: Responder
       destroy_button: Eliminar
+      unmute_button: Mover á caixa de entrada
     new:
       title: Enviar unha mensaxe
       send_message_to_html: Enviarlle unha nova mensaxe a %{name}
@@ -1802,15 +1811,21 @@ gl:
       body: Non hai ningunha mensaxe con esa ID.
     outbox:
       title: Caixa de saída
+      actions: Accións
       messages:
         one: Enviaches %{count} mensaxe
         other: Enviaches %{count} mensaxes
       no_sent_messages_html: Aínda non enviou ningunha mensaxe. Por que non se pon
         en contacto con algunhas das %{people_mapping_nearby_link}?
       people_mapping_nearby: persoas preto de ti
+    muted:
+      title: Mensaxes silenciadas
+      messages:
+        one: '%{count} mensaxe silenciada'
+        other: Tes %{count} mensaxes silenciadas
     reply:
-      wrong_user: Accedeu ó sistema coma "%{user}", pero a mensaxe que pediu respostar
-        non lla enviou a ese usuario. Acceda co usuario correcto para redactar a resposta.
+      wrong_user: Accediches ó sistema coma "%{user}", pero a mensaxe que pediu responder
+        non lla enviou a ese usuario. Accede co usuario correcto para redactar a resposta.
     show:
       title: Ler a mensaxe
       reply_button: Responder
@@ -1825,9 +1840,13 @@ gl:
     heading:
       my_inbox: A miña caixa de entrada
       my_outbox: Caixa de saída
+      muted_messages: Mensaxes silenciadas
     mark:
       as_read: Mensaxe marcada coma lida
       as_unread: Mensaxe marcada coma non lida
+    unmute:
+      notice: A mensaxe moveuse á caixa de entrada
+      error: Non se puido mover a mensaxe á caixa de entrada.
     destroy:
       destroyed: Mensaxe eliminada
   passwords:
@@ -1957,6 +1976,7 @@ gl:
       image: Imaxe
       alt: Texto alternativo
       url: URL
+      codeblock: Segmento de código
     richtext_field:
       edit: Editar
       preview: Vista previa
@@ -2368,18 +2388,18 @@ gl:
           trolleybus: Trolebús
           bus: Autobús
           cable_car: Teleférico
-          chair_lift: telecadeira
+          chair_lift: Telecadeira
           runway_only: Pista do aeroporto
-          taxiway: vía de circulación do aeroporto
+          taxiway: Vía de circulación do aeroporto
           apron_only: Plataforma do aeroporto
           admin: Límite administrativo
           orchard_only: Horta
-          vineyard: viñedo
+          vineyard: Viñedo
           forest_only: Bosque
-          wood: bosque
+          wood: Bosque
           farmland: Terra de labranza
           grass_only: Herba
-          meadow: pradaría
+          meadow: Pradaría
           bare_rock: Rocha núa
           sand: Area
           golf: Campo de golf
@@ -2393,7 +2413,7 @@ gl:
           heathland: Breixeira
           scrubland: Matogueira
           lake_only: Lagoa
-          reservoir: encoro
+          reservoir: Encoro
           intermittent_water: Masa de auga intermitente
           glacier: Glaciar
           reef: Arrecife
@@ -2407,12 +2427,12 @@ gl:
           reserve: Reserva natural
           military: Zona militar
           school_only: Escola
-          university: universidade
-          hospital: hospital
+          university: Universidade
+          hospital: Hospital
           building: Edificio significativo
           station: Estación de ferrocarrís
           summit_only: Cumio
-          peak: cume
+          peak: Cume
           tunnel: Bordo a raias = túnel
           bridge: Bordo negro = ponte
           private: Acceso privado
@@ -2622,6 +2642,7 @@ gl:
       oauth1_settings: Axustes OAuth 1
       oauth2_applications: Aplicacións OAuth 2
       oauth2_authorizations: Autorizacións OAuth 2
+      muted_users: Usuarios silenciados
   oauth:
     authorize:
       title: Autorizar o acceso á túa conta
@@ -2658,6 +2679,7 @@ gl:
       read_gpx: Ler pistas GPS privadas
       write_gpx: Subir pistas GPS
       write_notes: Modificar notas
+      write_redactions: Censurar datos do mapa
       read_email: Ver os enderezos de correo electrónico dos usuarios
       skip_authorization: Aprobar automaticamente aplicacións
   oauth_clients:
@@ -2747,6 +2769,7 @@ gl:
       application: Aplicación
       permissions: Permisos
       no_applications_html: Non autorizaches ningunha aplicación %{oauth2}.
+      oauth_2: OAuth 2
     application:
       revoke: Revogar acceso
       confirm_revoke: Revogar o acceso a esta aplicación?
@@ -2831,6 +2854,8 @@ gl:
       my_dashboard: O meu panel de control
       blocks on me: Os meus bloqueos
       blocks by me: Bloqueos efectuados
+      create_mute: Silenciar este usuario
+      destroy_mute: Deixar de silenciar este usuario
       edit_profile: Editar perfil
       send message: Enviar unha mensaxe
       diary: Diario
@@ -3030,6 +3055,30 @@ gl:
       showing_page: Páxina %{page}
       next: Seguinte »
       previous: « Anterior
+  user_mutes:
+    index:
+      title: Usuarios silenciados
+      my_muted_users: Os meus usuarios silenciados
+      you_have_muted_n_users:
+        one: Silenciaches %{count} usuario
+        other: Silenciaches %{count} usuarios
+      user_mute_explainer: As mensaxes dos usuarios silenciados móvense a unha caixa
+        de entrada independente e non recibirás notificacións por correo electrónico.
+      user_mute_admins_and_moderators: Podes silenciar os administradores e moderadores,
+        pero as súas mensaxes non se silenciarán.
+      table:
+        thead:
+          muted_user: Usuario silenciado
+          actions: Accións
+        tbody:
+          unmute: Deixar de silenciar
+          send_message: Enviar unha mensaxe
+    create:
+      notice: Silenciaches a %{name}.
+      error: Non se puido silenciar a %{name}. %{full_message}.
+    destroy:
+      notice: Deixaches de silenciar a %{name}.
+      error: Non se puido deixar de silenciar o usuario. Por favor, inténtao de novo.
   notes:
     index:
       title: Notas enviadas ou comentadas por %{user}
@@ -3187,71 +3236,70 @@ gl:
       distance_km: '%{distance} km'
       errors:
         no_route: Non se puido atopar unha ruta entre eses dous lugares.
-        no_place: Sentímolo - non foi posíbel atopar '%{place}'.
+        no_place: Sentímolo, non foi posíbel atopar "%{place}".
       instructions:
-        continue_without_exit: Continuar en %{name}
-        slight_right_without_exit: Xire un pouco cara á dereita en %{name}
-        offramp_right: Colla a rampla da dereita
-        offramp_right_with_exit: Tome a saída %{exit} cara á dereita
-        offramp_right_with_exit_name: Tome a saída %{exit} á dereita cara %{name}
-        offramp_right_with_exit_directions: Tome a saída %{exit} cara á dereita, en
-          dirección a %{directions}
-        offramp_right_with_exit_name_directions: Tome a saída %{exit} á dereita cara
-          %{name}, en dirección a %{directions}
-        offramp_right_with_name: Colla a rampla á dereita en %{name}
-        offramp_right_with_directions: Tome a vía de acceso cara á dereita en dirección
+        continue_without_exit: Continúa en %{name}
+        slight_right_without_exit: Xira lixeiramente á dereita cara a %{name}
+        offramp_right: Toma a rampla á dereita
+        offramp_right_with_exit: Toma a saída %{exit} á dereita
+        offramp_right_with_exit_name: Toma a saída %{exit} á dereita cara a %{name}
+        offramp_right_with_exit_directions: Toma a saída %{exit} á dereita, en dirección
           a %{directions}
-        offramp_right_with_name_directions: Tome a vía de acceso á dereita cara %{name},
+        offramp_right_with_exit_name_directions: Toma a saída %{exit} á dereita cara
+          a %{name}, en dirección a %{directions}
+        offramp_right_with_name: Toma a rampla á dereita cara a %{name}
+        offramp_right_with_directions: Toma a rampla á dereita en dirección a %{directions}
+        offramp_right_with_name_directions: Toma a rampla á dereita cara a %{name},
           en dirección a %{directions}
-        onramp_right_without_exit: Xire á dereita na rampla en %{name}
-        onramp_right_with_directions: Xire á dereita, cara á rampla en dirección a
+        onramp_right_without_exit: Xira á dereita na rampla cara a %{name}
+        onramp_right_with_directions: Xira á dereita, cara á rampla en dirección a
           %{directions}
-        onramp_right_with_name_directions: Xire á dereita na rampla cara %{name},
+        onramp_right_with_name_directions: Xira á dereita na rampla cara a %{name},
           en dirección a %{directions}
-        onramp_right_without_directions: Xire á dereita cara a rampla
-        onramp_right: Xire á dereita cara a rampla
-        endofroad_right_without_exit: Ó final da estrada xire á dereita en %{name}
-        merge_right_without_exit: Únase á dereita en %{name}
-        fork_right_without_exit: Na bifurcación xire á dereita en %{name}
-        turn_right_without_exit: Xire á dereita en %{name}
-        sharp_right_without_exit: Xiro brusco á dereita en %{name}
+        onramp_right_without_directions: Xira á dereita cara a rampla
+        onramp_right: Xira á dereita cara a rampla
+        endofroad_right_without_exit: Ó final da estrada xira á dereita cara a %{name}
+        merge_right_without_exit: Incorpórate á dereita cara a %{name}
+        fork_right_without_exit: Na bifurcación xira á dereita cara a %{name}
+        turn_right_without_exit: Xira á dereita cara a %{name}
+        sharp_right_without_exit: Xiro brusco á dereita cara a %{name}
         uturn_without_exit: Cambio de sentido en %{name}
-        sharp_left_without_exit: Xiro brusco á esquerda en %{name}
-        turn_left_without_exit: Xire á esquerda cara %{name}
-        offramp_left: Tome a rampla á esquerda
-        offramp_left_with_exit: Tome a saída %{exit} á esquerda
-        offramp_left_with_exit_name: Tome a saída %{exit} á esquerda cara %{name}
-        offramp_left_with_exit_directions: Tome a saída %{exit} á esquerda en dirección
+        sharp_left_without_exit: Xiro brusco á esquerda cara a %{name}
+        turn_left_without_exit: Xira á esquerda cara a %{name}
+        offramp_left: Toma a rampla á esquerda
+        offramp_left_with_exit: Toma a saída %{exit} á esquerda
+        offramp_left_with_exit_name: Toma a saída %{exit} á esquerda cara a %{name}
+        offramp_left_with_exit_directions: Toma a saída %{exit} á esquerda en dirección
           a %{directions}
-        offramp_left_with_exit_name_directions: Tome a saída %{exit} á esquerda cara
-          %{name}, en dirección a %{directions}
-        offramp_left_with_name: Colla a rampla á esquerda en %{name}
-        offramp_left_with_directions: Tome a rampla á esquerda en dirección a %{directions}
-        offramp_left_with_name_directions: Tome a rampla á esquerda cara %{name},
+        offramp_left_with_exit_name_directions: Toma a saída %{exit} á esquerda cara
+          a %{name}, en dirección a %{directions}
+        offramp_left_with_name: Toma a rampla á esquerda cara a %{name}
+        offramp_left_with_directions: Toma a rampla á esquerda en dirección a %{directions}
+        offramp_left_with_name_directions: Toma a rampla á esquerda cara a %{name},
           en dirección a %{directions}
-        onramp_left_without_exit: Xire á esquerda na rampla en %{name}
-        onramp_left_with_directions: Xire á esquerda na rampla en dirección a %{directions}
-        onramp_left_with_name_directions: Xire á esquerda na rampla cara %{name},
+        onramp_left_without_exit: Xira á esquerda na rampla cara a %{name}
+        onramp_left_with_directions: Xira á esquerda na rampla en dirección a %{directions}
+        onramp_left_with_name_directions: Xira á esquerda na rampla cara a %{name},
           en dirección a %{directions}
-        onramp_left_without_directions: Xire á esquerda cara a rampla
-        onramp_left: Xire á esquerda cara a rampla
-        endofroad_left_without_exit: Ó final da estrada xire á esquerda en %{name}
-        merge_left_without_exit: Únase á esquerda en %{name}
-        fork_left_without_exit: Na bifurcación xire á esquerda en %{name}
-        slight_left_without_exit: Xire un pouco cara á esquerda en %{name}
+        onramp_left_without_directions: Xira á esquerda cara a rampla
+        onramp_left: Xira á esquerda cara a rampla
+        endofroad_left_without_exit: Ó final da estrada xira á esquerda cara a %{name}
+        merge_left_without_exit: Incorpórate á esquerda cara a %{name}
+        fork_left_without_exit: Na bifurcación xira á esquerda cara a %{name}
+        slight_left_without_exit: Xira lixeiramente á esquerda cara a %{name}
         via_point_without_exit: (punto intermedio)
-        follow_without_exit: Siga %{name}
-        roundabout_without_exit: Na rotonda, tome a saída cara a %{name}
-        leave_roundabout_without_exit: Saír da rotonda - %{name}
-        stay_roundabout_without_exit: Permanecer na rotonda - %{name}
-        start_without_exit: Comezar en %{name}
-        destination_without_exit: Chegada ó destino
-        against_oneway_without_exit: Ir en contra dun só sentido en %{name}
+        follow_without_exit: Sigue %{name}
+        roundabout_without_exit: Na rotonda, toma a saída cara a %{name}
+        leave_roundabout_without_exit: Sae da rotonda - %{name}
+        stay_roundabout_without_exit: Permanece na rotonda - %{name}
+        start_without_exit: Comeza en %{name}
+        destination_without_exit: Chega ó destino
+        against_oneway_without_exit: Vai en contra do sentido en %{name}
         end_oneway_without_exit: Final dun só sentido en %{name}
-        roundabout_with_exit: Na rotonda coller saída %{exit} en %{name}
-        roundabout_with_exit_ordinal: Na rotonda coller saída %{exit} cara %{name}
-        exit_roundabout: Saír da rotonda cara %{name}
-        unnamed: sen nome
+        roundabout_with_exit: Na rotonda, toma a saída %{exit} cara a %{name}
+        roundabout_with_exit_ordinal: Na rotonda, toma a saída %{exit} cara a %{name}
+        exit_roundabout: Sae da rotonda cara a %{name}
+        unnamed: estrada sen nome
         courtesy: Indicacións cortesía de %{link}
         exit_counts:
           first: 1.ª
@@ -3270,8 +3318,8 @@ gl:
       way: Vía
       relation: Relación
       nothing_found: Non se atoparon elementos
-      error: 'Erro ó contactar a %{server}: %{error}'
-      timeout: Tempo de agarde esgotado ó contactar a %{server}
+      error: 'Erro ó contactar con %{server}: %{error}'
+      timeout: Tempo de agarda esgotado ó contactar con %{server}
     context:
       directions_from: Indicacións dende aquí
       directions_to: Indicacións até aquí
@@ -3281,32 +3329,32 @@ gl:
       centre_map: Centrar o mapa aquí
   redactions:
     edit:
-      heading: Editar a redacción
-      title: Editar a redacción
+      heading: Editar a censura
+      title: Editar a censura
     index:
-      empty: Non hai ningunha redacción que amosar.
-      heading: Listaxe das redaccións
-      title: Listaxe das redaccións
+      empty: Non hai ningunha censura que amosar.
+      heading: Listaxe de censuras
+      title: Listaxe de censuras
     new:
-      heading: Escriba a información da nova redacción
-      title: Creando unha nova redacción
+      heading: Escriba a información da nova censura
+      title: Creando unha nova censura
     show:
       description: 'Descrición:'
-      heading: Amosando a redacción "%{title}"
-      title: Amosando a redacción
+      heading: Amosando a censura "%{title}"
+      title: Amosando a censura
       user: 'Creador:'
-      edit: Editar esta redacción
-      destroy: Eliminar esta redacción
+      edit: Editar esta censura
+      destroy: Eliminar esta censura
       confirm: Queres continuar?
     create:
-      flash: Redacción creada.
+      flash: Censura creada.
     update:
       flash: Gardáronse as modificacións.
     destroy:
-      not_empty: A redacción non está baleira. Elimine tódalas versións previas pertencentes
-        a esta redacción antes de destruíla.
-      flash: Redacción destruída.
-      error: Houbo un erro ó destruír esta redacción.
+      not_empty: A censura non está baleira. Elimina tódalas versións previas pertencentes
+        a esta censura antes de destruíla.
+      flash: Censura destruída.
+      error: Houbo un erro ó destruír esta censura.
   validations:
     leading_whitespace: ten espazos no inicio
     trailing_whitespace: ten espazos ó final

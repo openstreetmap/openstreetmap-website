@@ -34,8 +34,8 @@ et:
         create: Registreeri
         update: Uuenda
       redaction:
-        create: Loo redaktsioon
-        update: Salvesta redaktsioon
+        create: Loo kinnikatmine
+        update: Salvesta kinnikatmine
       trace:
         create: Laadi üles
         update: Salvesta muudatused
@@ -387,9 +387,9 @@ et:
         changeset: muudatuskogumi
         note: märkuse
     redacted:
-      redaction: Redaktsioon %{id}
-      message_html: Selle %{type} versiooni %{version} ei saa kuvada, sest seda on
-        muudetud. Palun vaata üksikasju %{redaction_link}.
+      redaction: '%{id}. kinnikatmise'
+      message_html: Selle %{type} versiooni %{version} ei saa näidata, sest see on
+        kinni kaetud. Palun vaata %{redaction_link} üksikasju.
       type:
         node: sõlme
         way: joone
@@ -1275,11 +1275,13 @@ et:
       to: Kellele
       subject: Teema
       date: Kuupäev
+      actions: Toimingud
     message_summary:
       unread_button: Märgi mitteloetuks
       read_button: Märgi loetuks
       reply_button: Vasta
       destroy_button: Kustuta
+      unmute_button: Teisalda postkasti
     new:
       title: Saada sõnum
       send_message_to_html: Sõnumi saatmine kasutajale %{name}
@@ -1294,12 +1296,18 @@ et:
       body: Vabandust, kuid sellise ID-ga sõnum puudub.
     outbox:
       title: Saadetud sõnumid
+      actions: Toimingud
       messages:
         one: Sul on %{count} saadetud sõnum.
         other: Sul on %{count} saadetud sõnumit.
       no_sent_messages_html: Sul ei ole veel saadetud sõnumeid. Miks mitte kontakteeruda
         mõne %{people_mapping_nearby_link}?
       people_mapping_nearby: lähedaloleva kaardistajaga
+    muted:
+      title: Vaigistatud sõnumid
+      messages:
+        one: Üks vaigistatud sõnum.
+        other: Sul on %{count} vaigistatud sõnumit.
     reply:
       wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, millele soovid vastata
         ei olnud sellele kasutajale saadetud. Vastamiseks palun logi sisse õige kasutajana.
@@ -1317,9 +1325,13 @@ et:
     heading:
       my_inbox: Saabunud sõnumid
       my_outbox: Saadetud sõnumid
+      muted_messages: Vaigistatud sõnumid
     mark:
       as_read: Sõnum on märgitud loetud sõnumiks.
       as_unread: Sõnum on märgitud lugemata sõnumiks.
+    unmute:
+      notice: Sõnum on teisaldatud postkasti.
+      error: Sõnumit ei õnnestunud postkasti teisaldada.
     destroy:
       destroyed: Sõnum kustutatud.
   passwords:
@@ -1438,6 +1450,7 @@ et:
       text: Tekst
       image: Pilt
       alt: Asendustekst
+      codeblock: Koodiplokk
     richtext_field:
       edit: Muuda
       preview: Eelvaade
@@ -1806,9 +1819,9 @@ et:
           rail: Raudtee
           subway: Metroo
           cable_car: Köisraudtee
-          chair_lift: toolilift
+          chair_lift: Toolilift
           runway_only: Lennurada
-          taxiway: ruleerimistee
+          taxiway: Ruleerimistee
           apron_only: Lennujaama perroon
           admin: Halduspiir
           forest_only: Tulundusmets
@@ -1822,7 +1835,7 @@ et:
           commercial: Äripiirkond
           heathland: Nõmm
           lake_only: Järv
-          reservoir: veehoidla
+          reservoir: Veehoidla
           farm: Põllumajanduslik maa
           brownfield: Ehitusmaa
           cemetery: Surnuaed
@@ -1832,11 +1845,11 @@ et:
           reserve: Looduskaitseala
           military: Sõjaväe kasutuses
           school_only: Kool
-          university: ülikool
+          university: Ülikool
           building: Märkimisväärne hoone
           station: Raudteejaam
           summit_only: Mägi
-          peak: tipp
+          peak: Tipp
           tunnel: Katkendlik ümbris = tunnel
           bridge: Must ümbris = sild
           private: Üksnes omanikule
@@ -2040,6 +2053,7 @@ et:
       read_gpx: Lugeda isiklikke GPS-radu
       write_gpx: Laadida üles GPS-radu
       write_notes: Muuta märkusi
+      write_redactions: Katta kaardiandmed kinni
       read_email: Lugeda kasutaja e-posti aadressi
       skip_authorization: Kiita rakendus heaks automaatselt
   oauth_clients:
@@ -2190,6 +2204,8 @@ et:
       my_dashboard: Minu andmelaud
       blocks on me: Saadud blokeeringud
       blocks by me: Minu seatud blokeeringud
+      create_mute: Vaigista see kasutaja
+      destroy_mute: Tühista selle kasutaja vaigistamine
       edit_profile: Muuda profiili
       send message: Saada sõnum
       diary: Päevik
@@ -2375,6 +2391,30 @@ et:
       showing_page: Leht %{page}
       next: Järgmine »
       previous: « Eelmine
+  user_mutes:
+    index:
+      title: Vaigistatud kasutajad
+      my_muted_users: Minu vaigistatud kasutajad
+      you_have_muted_n_users:
+        one: Oled vaigistanud ühe kasutaja.
+        other: Oled vaigistanud %{count} kasutajat.
+      user_mute_explainer: Vaigistatud kasutajate sõnumid viiakse eraldi postkasti
+        ja sa ei saa e-posti teavitusi.
+      user_mute_admins_and_moderators: Saad vaigistada administraatoreid ja moderaatoreid,
+        aga nende sõnumeid ei vaigistata.
+      table:
+        thead:
+          muted_user: Vaigistatud kasutaja
+          actions: Toimingud
+        tbody:
+          unmute: Tühista vaigistamine
+          send_message: Saada sõnum
+    create:
+      notice: Vaigistasid kasutaja %{name}.
+      error: Kasutajat %{name} ei õnnestunud vaigistada. %{full_message}.
+    destroy:
+      notice: Tühistasid kasutaja %{name} vaigistamise.
+      error: Kasutaja vaigistamist ei õnnestunud tühistada. Palun proovi uuesti.
   notes:
     index:
       title: Kasutaja %{user} loodud või kommenteeritud märkused
@@ -2535,30 +2575,30 @@ et:
       centre_map: Kuva kaardi keskel
   redactions:
     edit:
-      heading: Redigeeri redaktsiooni
-      title: Redigeeri redaktsiooni
+      heading: Redigeeri kinnikatmist
+      title: Redigeeri kinnikatmist
     index:
-      empty: Redaktsioone pole näidata.
-      heading: Redaktsioonide loend
-      title: Redaktsioonide loend
+      empty: Pole ühtegi kinnikatmist, mida näidata.
+      heading: Kinnikatmiste loend
+      title: Kinnikatmiste loend
     new:
-      heading: Sisesta teave uue redaktsiooni kohta
-      title: Uue redaktsiooni loomine
+      heading: Sisesta teave uue kinnikatmise kohta
+      title: Uue kinnikatmise loomine
     show:
       description: 'Kirjeldus:'
-      heading: Näidatakse redaktsiooni "%{title}"
-      title: Nähtaval redaktsioon
+      heading: Kinnikatmine "%{title}"
+      title: Kinnikatmine
       user: 'Looja:'
-      edit: Muuda seda redaktsiooni
-      destroy: Kustuta see redaktsioon
+      edit: Muuda seda kinnikatmist
+      destroy: Eemalda see kinnikatmine
       confirm: Kas oled kindel?
     create:
-      flash: Redaktsioon on loodud.
+      flash: Kinnikatmine on loodud.
     update:
       flash: Salvestati muudatused.
     destroy:
-      not_empty: Redaktsioon ei ole tühi. Palun eemalda enne redaktsiooni hävitamist
-        kõik versioonid, mis selle alla kuuluvad.
-      flash: Redaktsioon hävitatud.
-      error: Viga selle redaktsiooni hävitamisel.
+      not_empty: Kinnikatmine ei ole tühi. Palun tühista kõigi sellesse kinnikatmisesse
+        kuuluvate versioonide kinnikatmine enne kui selle hävitad.
+      flash: Kinnikatmine hävitatud.
+      error: Viga selle kinnikatmise hävitamisel.
 ...

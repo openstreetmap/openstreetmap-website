@@ -47,6 +47,12 @@ ku-Latn:
       messages:
         invalid_email_address: ne weke navnîşaneke e-peyamê ya derbasdar e
         email_address_not_routable: nikare were alîkirin
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: jixwe bêdengkirî ne
     models:
       acl: Lîsteya kontrola têketinan
       changeset: Qeyda guhartinan
@@ -237,6 +243,7 @@ ku-Latn:
         reopened_at_by_html: '%{when} ji aliyê %{user} ve jinûve hate aktîvkirin'
       rss:
         title: Notên OpenStreetMapê
+        description_all: Lîsteyeke notên gilîkirî, şîrovekirî an girtî
         description_area: Lîsteya notên herêma te yên ku hatine raporkirin, şirovekirin
           an jî girtin [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Ji bo nota %{id} xwedîkirina rss'ê
@@ -271,6 +278,8 @@ ku-Latn:
         retain_changeset_discussions: Gotûbêjên te yên qeyda guhartinan, ger hebin,
           wê bêne muhafezekirin.
         retain_email: Adresa te ya epeyamê wê were muhafezekirin.
+        recent_editing_html: Ji ber ku te hesabê xwe vê talîyê guherandîye, vê gavê
+          nayê jêbirin. Jêbirin wê di %{time} de mimkin be.
         confirm_delete: Tu piştrast î?
         cancel: Betal bike
   accounts:
@@ -301,6 +310,9 @@ ku-Latn:
       delete_account: Hesabê Jê bibe...
     go_public:
       heading: Guherandina ji her kesê re vekirî
+      currently_not_public: Vê gavê guhertinên te anonîm in û însan nikarin mesaj
+        bişînin te an lokasyona te bibînin. Ji bo nîşandan guhertinên te kirî û îzin
+        bidî însanan ku bi rêya malperê bi te re îrtîbat deynin, li bûtona jêrî bitikîne.
       make_edits_public_button: Hemû guherandinên min bila ji her kesê re vekirî be
     update:
       success_confirm_needed: Agahiyên bikarhêner bi awayekî serkeftî hate nûkirin.
@@ -2111,13 +2123,13 @@ ku-Latn:
           rail: Rêhesin
           subway: Metro
           cable_car: Teleferîk
-          chair_lift: teleferîk
+          chair_lift: Teleferîk
           runway_only: Pîsta balafirgehê
-          taxiway: rêya balafirgehê yê çûnûhatinê
+          taxiway: Rêya balafirgehê yê çûnûhatinê
           apron_only: Aprona balafirgehê
           admin: Sînorê îdarî
           forest_only: Daristan
-          wood: Daristan
+          wood: Daristan (bêçavdêrî, wek-xwe-hêlayî)
           golf: Cihê golfê
           park: Park
           common_only: Erda mişterek
@@ -2127,7 +2139,7 @@ ku-Latn:
           commercial: Herêma bazirganiyê
           heathland: Erdê qeraç
           lake_only: Gol
-          reservoir: mexzen
+          reservoir: Gola sûnî
           farm: Cotgeh
           brownfield: Erdê vala
           cemetery: Gorristan
@@ -2137,11 +2149,11 @@ ku-Latn:
           reserve: Herêma muhefezekirî ya tebîetê
           military: Qada eskerî
           school_only: Dibistan
-          university: zanîngeh
+          university: Unîversîte
           building: Avahiya girîng
           station: Stasyona trênê
           summit_only: Lûtke
-          peak: lûtke
+          peak: Lûtke
           tunnel: Xeta qutqutî = tûnel
           bridge: Xeta reş = pir
           private: Têketina taybet
@@ -2245,8 +2257,8 @@ ku-Latn:
     trace:
       pending: LI BENDÊ YE
       count_points:
-        one: Nuqteyekê
-        other: '%{count} nuqte'
+        one: Niqteyekê
+        other: '%{count} niqte'
       more: dêtay
       trace_details: Dêtayên Şopê Bibîne
       view_map: Nexşeyê bibîne
