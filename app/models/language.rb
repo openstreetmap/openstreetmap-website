@@ -26,7 +26,7 @@ class Language < ApplicationRecord
 
   def name
     name = english_name
-    name += " (#{native_name})" unless native_name.nil?
+    name += " (#{native_name})" unless native_name.nil? || native_name == english_name
     name
   end
 end

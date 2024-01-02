@@ -6,6 +6,11 @@ class LanguageTest < ActiveSupport::TestCase
     assert_equal "Slovenian (slovenščina)", Language.find("sl").name
   end
 
+  def test_same_native_name
+    create(:language, :code => "af", :english_name => "Afrikaans", :native_name => "Afrikaans")
+    assert_equal "Afrikaans", Language.find("af").name
+  end
+
   def test_load
     assert_equal 0, Language.count
     assert_raise ActiveRecord::RecordNotFound do
