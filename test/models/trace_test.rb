@@ -108,26 +108,26 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_public?
     assert_predicate build(:trace, :visibility => "public"), :public?
-    assert_not build(:trace, :visibility => "private").public?
-    assert_not build(:trace, :visibility => "trackable").public?
+    assert_not_predicate build(:trace, :visibility => "private"), :public?
+    assert_not_predicate build(:trace, :visibility => "trackable"), :public?
     assert_predicate build(:trace, :visibility => "identifiable"), :public?
     assert_predicate build(:trace, :deleted, :visibility => "public"), :public?
   end
 
   def test_trackable?
-    assert_not build(:trace, :visibility => "public").trackable?
-    assert_not build(:trace, :visibility => "private").trackable?
+    assert_not_predicate build(:trace, :visibility => "public"), :trackable?
+    assert_not_predicate build(:trace, :visibility => "private"), :trackable?
     assert_predicate build(:trace, :visibility => "trackable"), :trackable?
     assert_predicate build(:trace, :visibility => "identifiable"), :trackable?
-    assert_not build(:trace, :deleted, :visibility => "public").trackable?
+    assert_not_predicate build(:trace, :deleted, :visibility => "public"), :trackable?
   end
 
   def test_identifiable?
-    assert_not build(:trace, :visibility => "public").identifiable?
-    assert_not build(:trace, :visibility => "private").identifiable?
-    assert_not build(:trace, :visibility => "trackable").identifiable?
+    assert_not_predicate build(:trace, :visibility => "public"), :identifiable?
+    assert_not_predicate build(:trace, :visibility => "private"), :identifiable?
+    assert_not_predicate build(:trace, :visibility => "trackable"), :identifiable?
     assert_predicate build(:trace, :visibility => "identifiable"), :identifiable?
-    assert_not build(:trace, :deleted, :visibility => "public").identifiable?
+    assert_not_predicate build(:trace, :deleted, :visibility => "public"), :identifiable?
   end
 
   def test_mime_type
@@ -208,7 +208,7 @@ class TraceTest < ActiveSupport::TestCase
   def test_import_creates_icon
     trace = create(:trace, :inserted => false, :fixture => "a")
 
-    assert_not trace.icon.attached?
+    assert_not_predicate trace.icon, :attached?
 
     trace.import
 
@@ -218,7 +218,7 @@ class TraceTest < ActiveSupport::TestCase
   def test_import_creates_large_picture
     trace = create(:trace, :inserted => false, :fixture => "a")
 
-    assert_not trace.image.attached?
+    assert_not_predicate trace.image, :attached?
 
     trace.import
 

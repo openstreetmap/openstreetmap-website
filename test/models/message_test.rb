@@ -5,7 +5,7 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_check_empty_message_fails
     message = build(:message, :title => nil, :body => nil, :sent_on => nil)
-    assert_not message.valid?
+    assert_not_predicate message, :valid?
     assert_predicate message.errors[:title], :any?
     assert_predicate message.errors[:body], :any?
     assert_predicate message.errors[:sent_on], :any?
@@ -23,7 +23,7 @@ class MessageTest < ActiveSupport::TestCase
     message = create(:message, :unread)
     message.sender = nil
     message.recipient = nil
-    assert_not message.valid?
+    assert_not_predicate message, :valid?
 
     assert_raise(ActiveRecord::RecordNotFound) { User.find(0) }
     message.from_user_id = 0

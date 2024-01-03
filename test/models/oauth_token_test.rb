@@ -5,7 +5,7 @@ class OauthTokenTest < ActiveSupport::TestCase
   # check that after calling invalidate! on a token, it is invalid.
   def test_token_invalidation
     tok = OauthToken.new
-    assert_not tok.invalidated?, "Token should be created valid."
+    assert_not_predicate tok, :invalidated?, "Token should be created valid."
     tok.invalidate!
     assert_predicate tok, :invalidated?, "Token should now be invalid."
   end
@@ -14,10 +14,10 @@ class OauthTokenTest < ActiveSupport::TestCase
   # check that an authorized token is authorised and can be invalidated
   def test_token_authorisation
     tok = RequestToken.create(:client_application => create(:client_application))
-    assert_not tok.authorized?, "Token should be created unauthorised."
+    assert_not_predicate tok, :authorized?, "Token should be created unauthorised."
     tok.authorize!(create(:user))
     assert_predicate tok, :authorized?, "Token should now be authorised."
     tok.invalidate!
-    assert_not tok.authorized?, "Token should now be invalid."
+    assert_not_predicate tok, :authorized?, "Token should now be invalid."
   end
 end

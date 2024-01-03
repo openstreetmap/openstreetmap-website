@@ -6,7 +6,7 @@ class IssueTest < ActiveSupport::TestCase
 
     assert_predicate issue, :valid?
     issue.assigned_role = "bogus"
-    assert_not issue.valid?
+    assert_not_predicate issue, :valid?
   end
 
   def test_reported_user

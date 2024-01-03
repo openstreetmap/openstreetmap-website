@@ -10,7 +10,7 @@ class UserTest < ActiveSupport::TestCase
                         :home_lat => nil,
                         :home_lon => nil,
                         :home_zoom => nil)
-    assert_not user.valid?
+    assert_not_predicate user, :valid?
     assert_predicate user.errors[:email], :any?
     assert_predicate user.errors[:pass_crypt], :any?
     assert_predicate user.errors[:display_name], :any?
@@ -57,11 +57,11 @@ class UserTest < ActiveSupport::TestCase
     user.display_name = "123"
     assert_predicate user, :valid?, "should allow 3 char name name"
     user.display_name = "12"
-    assert_not user.valid?, "should not allow 2 char name"
+    assert_not_predicate user, :valid?, "should not allow 2 char name"
     user.display_name = ""
-    assert_not user.valid?, "should not allow blank/0 char name"
+    assert_not_predicate user, :valid?, "should not allow blank/0 char name"
     user.display_name = nil
-    assert_not user.valid?, "should not allow nil value"
+    assert_not_predicate user, :valid?, "should not allow nil value"
   end
 
   def test_display_name_valid
@@ -87,7 +87,7 @@ class UserTest < ActiveSupport::TestCase
     bad.each do |display_name|
       user = build(:user)
       user.display_name = display_name
-      assert_not user.valid?, "#{display_name} is valid when it shouldn't be"
+      assert_not_predicate user, :valid?, "#{display_name} is valid when it shouldn't be"
     end
   end
 
@@ -217,25 +217,25 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate build(:user, :pending), :visible?
     assert_predicate build(:user, :active), :visible?
     assert_predicate build(:user, :confirmed), :visible?
-    assert_not build(:user, :suspended).visible?
-    assert_not build(:user, :deleted).visible?
+    assert_not_predicate build(:user, :suspended), :visible?
+    assert_not_predicate build(:user, :deleted), :visible?
   end
 
   def test_active?
-    assert_not build(:user, :pending).active?
+    assert_not_predicate build(:user, :pending), :active?
     assert_predicate build(:user, :active), :active?
     assert_predicate build(:user, :confirmed), :active?
-    assert_not build(:user, :suspended).active?
-    assert_not build(:user, :deleted).active?
+    assert_not_predicate build(:user, :suspended), :active?
+    assert_not_predicate build(:user, :deleted), :active?
   end
 
   def test_moderator?
-    assert_not create(:user).moderator?
+    assert_not_predicate create(:user), :moderator?
     assert_predicate create(:moderator_user), :moderator?
   end
 
   def test_administrator?
-    assert_not create(:user).administrator?
+    assert_not_predicate create(:user), :administrator?
     assert_predicate create(:administrator_user), :administrator?
   end
 
@@ -253,10 +253,10 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate user.description, :blank?
     assert_nil user.home_lat
     assert_nil user.home_lon
-    assert_not user.avatar.attached?
+    assert_not_predicate user.avatar, :attached?
     assert_equal "deleted", user.status
-    assert_not user.visible?
-    assert_not user.active?
+    assert_not_predicate user, :visible?
+    assert_not_predicate user, :active?
   end
 
   def test_soft_destroy_revokes_oauth1_tokens

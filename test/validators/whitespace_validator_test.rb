@@ -22,7 +22,7 @@ class WhitespaceValidatorTest < ActiveSupport::TestCase
 
     strings.each do |v|
       validator.string = v
-      assert_not validator.valid?, "'#{v}' should not be valid"
+      assert_not_predicate validator, :valid?, "'#{v}' should not be valid"
     end
   end
 
@@ -44,7 +44,7 @@ class WhitespaceValidatorTest < ActiveSupport::TestCase
 
     strings.each do |v|
       validator.string = v
-      assert_not validator.valid?, "'#{v}' should not be valid"
+      assert_not_predicate validator, :valid?, "'#{v}' should not be valid"
     end
   end
 
