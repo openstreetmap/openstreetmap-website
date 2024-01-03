@@ -5,7 +5,7 @@ class AclTest < ActiveSupport::TestCase
     acl = create(:acl)
     assert_predicate acl, :valid?
     acl.k = nil
-    assert_not acl.valid?
+    assert_not_predicate acl, :valid?
   end
 
   def test_no_account_creation_by_subnet

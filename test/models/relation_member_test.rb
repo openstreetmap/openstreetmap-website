@@ -9,7 +9,7 @@ class RelationMemberTest < ActiveSupport::TestCase
     node = create(:node)
     invalid.each do |r|
       member = build(:relation_member, :relation => relation, :member => node, :member_role => r)
-      assert_not member.valid?, "'#{r}' should not be valid"
+      assert_not_predicate member, :valid?, "'#{r}' should not be valid"
       assert_predicate member.errors[:member_role], :any?
     end
   end
@@ -18,7 +18,7 @@ class RelationMemberTest < ActiveSupport::TestCase
     relation = create(:relation)
     node = create(:node)
     member = build(:relation_member, :relation => relation, :member => node, :member_role => "r" * 256)
-    assert_not member.valid?, "Role should be too long"
+    assert_not_predicate member, :valid?, "Role should be too long"
     assert_predicate member.errors[:member_role], :any?
   end
 end

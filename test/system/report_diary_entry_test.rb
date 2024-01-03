@@ -53,7 +53,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     end
 
     issue.reload
-    assert_not issue.resolved?
+    assert_not_predicate issue, :resolved?
     assert_predicate issue, :open?
   end
 

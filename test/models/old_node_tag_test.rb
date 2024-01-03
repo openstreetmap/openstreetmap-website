@@ -20,21 +20,21 @@ class OldNodeTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     tag = create(:old_node_tag)
     tag.k = "k" * 256
-    assert_not tag.valid?
+    assert_not_predicate tag, :valid?
     assert_predicate tag.errors[:k], :any?
   end
 
   def test_length_value_invalid
     tag = create(:old_node_tag)
     tag.v = "v" * 256
-    assert_not tag.valid?, "Value should be too long"
+    assert_not_predicate tag, :valid?, "Value should be too long"
     assert_predicate tag.errors[:v], :any?
   end
 
   def test_orphaned_tag_invalid
     tag = create(:old_node_tag)
     tag.old_node = nil
-    assert_not tag.valid?, "Orphaned tag should be invalid"
+    assert_not_predicate tag, :valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:old_node], :any?
   end
 
@@ -42,7 +42,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
     existing = create(:old_node_tag)
     tag = build(:old_node_tag, :old_node => existing.old_node, :version => existing.version, :k => existing.k, :v => existing.v)
     assert_predicate tag, :new_record?
-    assert_not tag.valid?
+    assert_not_predicate tag, :valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert_predicate tag, :new_record?
   end
