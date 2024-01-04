@@ -22,3 +22,5 @@
 //= link leaflet/dist/images/marker-icon.png
 //= link leaflet/dist/images/marker-icon-2x.png
 //= link leaflet/dist/images/marker-shadow.png
+
+//= link @mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min.js

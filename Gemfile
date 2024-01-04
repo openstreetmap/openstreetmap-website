@@ -10,7 +10,9 @@ gem "json"
 gem "pg"
 
 # Use SCSS for stylesheets
-gem "sassc-rails"
+gem "dartsass-sprockets"
+# Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
+gem "sass-embedded", "~> 1.64.2"
 
 # Use Terser as compressor for JavaScript assets
 gem "terser"
@@ -39,11 +41,14 @@ gem "argon2"
 # Support brotli compression for assets
 gem "sprockets-exporters_pack"
 
+# Restore File.exists? for oauth gem
+gem "file_exists"
+
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
 gem "active_record_union"
-gem "bootstrap", "~> 5.1.0"
+gem "bootstrap", "~> 5.3.2"
 gem "bootstrap_form", "~> 5.0"
 gem "cancancan"
 gem "composite_primary_keys", "~> 14.0.0"

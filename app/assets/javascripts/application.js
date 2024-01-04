@@ -6,9 +6,10 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require osm
-//= require mapbox-gl
+//= require maplibre-gl
 //= require leaflet
 //= require leaflet.osm
+//= require @maplibre/maplibre-gl-leaflet
 //= require ohm.style
 //= require ohm.style.original
 //= require ohm.style.woodblock

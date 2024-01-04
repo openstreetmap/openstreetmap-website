@@ -2787,6 +2787,41 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_tertiarylink-case",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 10.01,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["==", "type", "tertiary_link"],
+        ["!=", "tunnel", 1],
+        ["!=", "bridge", 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#D2D2D5",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          10,
+          0.5,
+          11,
+          2.5,
+          16,
+          14,
+          18,
+          36
+        ]
+      }
+    },
+    {
       "id": "roads_tertiary-case",
       "type": "line",
       "source": "osm",
@@ -2811,9 +2846,13 @@ ohmVectorStyles.Original = {
           ["exponential", 1.5],
           ["zoom"],
           10,
+          0.5,
+          11,
           2.5,
+          16,
+          14,
           18,
-          30
+          36
         ]
       }
     },
@@ -3121,6 +3160,40 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "roads_tertiarylink",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["in", "type", "tertiary_link"],
+        ["!=", "tunnel", 1],
+        ["!=", "bridge", 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          8,
+          0.5,
+          16,
+          11,
+          18,
+          28
+        ],
+        "line-color": {
+          "stops": [[10, "rgba(240, 240, 240, 1)"], [12, "#ffffff"]]
+        }
+      }
+    },
+    {
       "id": "roads_primarylink",
       "type": "line",
       "source": "osm",
@@ -3209,10 +3282,12 @@ ohmVectorStyles.Original = {
           "interpolate",
           ["exponential", 1.5],
           ["zoom"],
-          9,
-          0.8,
+          8,
+          0.5,
+          16,
+          11,
           18,
-          24
+          28
         ]
       }
     },
@@ -3584,7 +3659,12 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
+        "line-color": {
+          "stops": [
+            [6, "rgba(223, 223, 223, 1)"],
+            [15, "rgba(255, 255, 255, 1)"]
+          ]
+        },
         "line-width": [
           "interpolate",
           ["linear"],
@@ -3598,7 +3678,50 @@ ohmVectorStyles.Original = {
           20,
           3
         ],
-        "line-dasharray": [2, 2]
+        "line-dasharray": {"stops": [[6, [7, 7]], [12, [5, 5]], [15, [4, 4]]]}
+      }
+    },
+    {
+      "id": "roads_rail-yard-siding",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "service", "yard", "siding"]],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(167, 179, 188, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.5, 20, 1.25]
+      }
+    },
+    {
+      "id": "roads_rail-yard-siding-dash",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "service", "yard", "siding"]],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [6, "rgba(196, 196, 197, 1)"],
+            [12, "rgba(238, 238, 238, 1)"],
+            [15, "rgba(244, 244, 244, 1)"]
+          ]
+        },
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.5, 20, 1.25],
+        "line-dasharray": {"stops": [[6, [7, 7]], [15, [5, 5]]]}
       }
     },
     {
@@ -3643,9 +3766,15 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
+        "line-color": {
+          "stops": [
+            [6, "rgba(196, 196, 197, 1)"],
+            [12, "rgba(238, 238, 238, 1)"],
+            [15, "rgba(255, 255, 255, 1)"]
+          ]
+        },
         "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 20, 1.5],
-        "line-dasharray": [3, 2]
+        "line-dasharray": {"stops": [[6, [7, 7]], [12, [5, 5]], [15, [4, 4]]]}
       }
     },
     {

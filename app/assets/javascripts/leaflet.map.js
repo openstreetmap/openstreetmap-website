@@ -67,37 +67,34 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers = [];
 
-    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
+    this.baseLayers.push(new L.MaplibreGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
       code: "O",
       keyid: "historical",
       name: I18n.t("javascripts.map.base.historical"),
       style: ohmVectorStyles.Original,
-      accessToken: "no-token",
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
       minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     }));
 
-    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
+    this.baseLayers.push(new L.MaplibreGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
       code: "W",
       keyid: "woodblock",
       name: I18n.t("javascripts.map.base.woodblock"),
       style: ohmVectorStyles.Woodblock,
-      accessToken: "no-token",
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
       minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     }));
 
-    this.baseLayers.push(new L.MapboxGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
+    this.baseLayers.push(new L.MaplibreGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
       code: "J",
       keyid: "japanese",
       name: I18n.t("javascripts.map.base.japanesescroll"),
       style: ohmVectorStyles.JapaneseScroll,
-      accessToken: "no-token",
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
       minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */

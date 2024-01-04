@@ -1,20 +1,63 @@
 # Messages for kréyòl Gwadloup (kréyòl Gwadloup)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Istwalezanti
 # Author: Léon973
 ---
 gcf:
   activerecord:
+    models:
+      country: Péyi
+      friend: Zanmi
+      language: Lang
+      message: Mésaj
     attributes:
+      client_application:
+        allow_write_api: Modifyé kat-la
+      diary_entry:
+        latitude: Latitid
+        longitude: Lonjitid
+        language: Lang
+      friend:
+        user: Itilizatè
+        friend: Sendika
+      trace:
+        user: Itilizatè
+        latitude: Latitid
+        longitude: Lonjitid
       user:
         home_lat: 'Latitid:'
         home_lon: 'Longitid:'
+        languages: Lang ou simyé
+        pass_crypt: Kòd
+        pass_crypt_confirmation: Konfimé kòd a-w la
     help:
       user:
         new_email: (Pa janmen maké piblikman)
+  api:
+    notes:
+      entry:
+        comment: Komantasyon
+  account:
+    deletions:
+      show:
+        title: Neyantizé kont a-w la
+        warning: Penga! Si-w ka néyantizé kont a-w, ou ka pèdi-y poubon é ou pé ké
+          pésa woutini-y ankò.
+        delete_introduction: |-
+          Ou pé NÉYANTIZÉ kont OpenHistoricalMap a-w èvè bouton-la.
+          Kanmensa ou pou sav sa:
+        delete_display_name: Tinon a-w la ké néyantizé, é nenpòt kimoun ké pé sèvi
+          épi-y èvè on dòt kont.
+        retain_caveats: 'Kanmenmsa, OpenHistoricalMap ké woutyenn dotwa kamo asi-w,
+          menmsi sé aprédavwa ou néyantizé kont a-w la:'
+        confirm_delete: Ès ou asiré?
   accounts:
     edit:
+      title: Modifyé kont a-w la
       my settings: Mes options
+      openid:
+        link text: Ka sa yé?
       public editing:
         enabled: Aktif. Y pa anonnim, y pé édité doné.
         enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
@@ -23,16 +66,25 @@ gcf:
         disabled link text: Poukwa an pé pa édité?
       public editing note:
         heading: 'Édision piblik:'
+      contributor terms:
+        link text: Ka yé sa?
       save changes button: Enrèjisré tout chanjman
       make edits public button: Mèt tou sa an fè piblik
+      delete_account: Néyantizé kont a-w
     update:
       success_confirm_needed: Enfowmasion asi itilisatè la bien anrèjistré. Gadé bwet
         imél aw pou konfirmé adres nouvo imél aw
       success: Efowmasion asi itilisatè la bien anrejistré.
+    destroy:
+      success: Kont néyantizé.
   browse:
     changeset:
+      comment: Komantasyon (%{count})
+      hidden_comment_by_html: Komantasyon ou dévwè a %{user} %{time_ago}
+      comment_by_html: Komantasyon a %{user} %{time_ago}
       changesetxml: Niméwo Chanjeman XML
       osmchangexml: osmChanjeman XML
+      discussion: Bokantaj
     containing_relation:
       entry_html: Rèlasion %{relation_name}
       entry_role_html: Rèlasion %{relation_name} (adan wol %{relation_role})
@@ -41,13 +93,24 @@ gcf:
     start_rjs:
       load_data: Chajé sé doné la
       loading: Y ka chajé...
+    tag_details:
+      telephone_link: Kriyé %{phone_number}
+    query:
+      introduction: Pijé asi kat-la pou jwenn biten toupréla.
+      nearby: Biten pa lwen
+  changesets:
+    changesets:
+      user: Itilizatè
+      comment: Komantasyon
   dashboards:
     contact:
       km away: '%{count} km'
     popup:
       your location: Koté ou yé
       nearby mapper: Arpantè owa aw
+      friend: Zanmi
     show:
+      my friends: Zanmi a-w
       no friends: Ou poko ni pon zanmi
       nearby users: 'Itilizatè owa aw :'
       no nearby users: Ou poko ni itilizatè owa aw.
@@ -66,6 +129,8 @@ gcf:
       newer_entries: Nouvel pi fré
     edit:
       marker_text: Ola jounal la ka koumansé
+    show:
+      leave_a_comment: Kité on komantasyon
     no_such_entry:
       heading: 'Pa ti ni nouvel èvè niméwo la sa : %{id}'
       body: Woy, pa ti ni pon nouvel adan jounal la ouben komantè èvè niméwo la sa
@@ -80,6 +145,169 @@ gcf:
       edit_link: Modifié nouvel la sa
     diary_comment:
       comment_from_html: Komantè a %{link_user} koté %{comment_created_at}
+      hide_link: Dévwè komantasyon-lasa
+      unhide_link: Woumontré-w komantasyon-lasa
+    location:
+      location: 'Ki koté:'
+      edit: Modifyé
+    comments:
+      comment: Komantasyon
+      older_comments: Pli vyé komantasyon
+  errors:
+    forbidden:
+      title: Défandi
+  friendships:
+    make_friend:
+      heading: Mèt %{user} adan sé zanmi a-w la?
+      button: Jouté on zanmi
+      success: Alè-la %{name} sé sendika a-w la!
+      failed: Malérèzsò, on zingchap rivé toupannan joutaj a %{name} adan sé zanmi
+        a-w la
+      already_a_friend: '%{name} ja zanmi a-w.'
+      limit_exceeded: |-
+        Pa ni enpé tan ou jwenn zanmi kon tilili.
+        Atann tibwen avan ou ka séyé trapé dòt ankò.
+    remove_friend:
+      heading: Kasé-lo èvè %{user}?
+      button: Woté on zanmi
+      success: '%{name} pa zanmi a-w ankò.'
+      not_a_friend: '%{name} pa zanmi a-w'
+  geocoder:
+    search_osm_nominatim:
+      prefix:
+        aeroway:
+          terminal: Tèminal a layopò
+        amenity:
+          boat_rental: Lwéyaj a bato
+          brothel: Kaz a bòbò
+          bus_station: Istòp a bis
+          cinema: Siléma
+          clock: Lòlòj
+          dentist: Dòktè a dan
+          doctors: Dòktè
+          hospital: Lopital
+          kindergarten: Tipoulayé
+          language_school: Lékòl a lang
+          library: Kaz a Liv
+          music_school: Lékòl a mizik
+          nightclub: Bwat
+          parking: Ga
+          pharmacy: Fanmasi
+          prison: Lahòl
+          school: Lékòl
+          townhall: Lanméri
+          waste_basket: Bwètazòdi
+        bridge:
+          "yes": Pon
+        building:
+          church: Batiman a Légliz
+          hospital: Batiman a lopital
+          hotel: Batiman a Lotèl
+          house: Kaz
+          roof: Fètay
+          ruins: Batiman Kanni
+          school: Batiman lékòl
+          "yes": Batiman
+        emergency:
+          defibrillator: Bouwèkyè
+          siren: Kòn
+        highway:
+          cycleway: Chimen a biskèt
+          motorway: Lotowout
+          motorway_junction: Britèl lotowout
+          motorway_link: Lotowout
+          primary: Chimen a gouvèlman
+          primary_link: Chimen a gouvèlman
+          road: Wout
+          speed_camera: Rada
+          street_lamp: Révèbè
+          trunk: Wokad
+          trunk_link: Wokad
+          unclassified: Chimen san kad
+          "yes": Wout
+        historic:
+          aircraft: Vyé avyon
+          bomb_crater: Tou a dyab fèt parapòt a bonm
+          cannon: Kannon
+          castle: Chato
+          church: Légliz
+          house: Kaz
+          railway: Chimen fè a listwa
+          ruins: Rèstan
+          tower: Tou
+        junction:
+          "yes": Fouchèt a Chimen
+        landuse:
+          cemetery: Senmityè
+          forest: Granbwa
+          grass: Zèb
+          reservoir: Rézèvwa
+        leisure:
+          garden: Haden
+        man_made:
+          bridge: Pon
+          snow_cannon: Kannon a lannèj
+          storage_tank: Sitèn
+          tower: Tou
+          works: Lizin
+        natural:
+          bay: Lans
+          beach: Bòdlanmè
+          cliff: Falèz
+          crater: Tou a dyab
+          forest: Granbwa
+          geyser: Tijaj
+          hill: Mòn
+          island: Lilèt
+          mud: Labou
+          rock: Wòch
+          tree: Pyébwa
+          volcano: Vòlkan
+          water: Dlo
+        place:
+          city: Vil prensipal
+          country: Péyi
+          house: Kaz
+          island: Lilèt
+          islet: Tililèt
+          isolated_dwelling: Koté a nòlfòk
+          locality: Koté
+          sea: Lanmè
+          town: Vil
+          village: Vilaj
+          "yes": Koté
+        railway:
+          level_crossing: Janbaj féwovyè
+          rail: Chimen fè
+        shop:
+          bicycle: Boutik a bisiklèt
+          books: Boutik a liv
+          cheese: Boutik a fomaj
+          florist: Boutik a flè
+          mall: bann-boutik
+          optician: Boutik a linèt
+          perfumery: Boutik a losyon
+          seafood: Manjé lanmè
+          shoes: Boutik a soulyé
+          "yes": Lolo
+        tourism:
+          hotel: Lotèl
+          information: Kamo
+          museum: Mizé
+        tunnel:
+          "yes": Tinèl
+        waterway:
+          drain: Dalo
+          river: Rivyè
+          stream: Ravin
+          waterfall: Sodo
+      types:
+        cities: Vil prensipal
+        towns: Vil
+  issues:
+    index:
+      states:
+        open: Ouvè
   layouts:
     logout: Chapé
     log_in: Rantré
@@ -108,11 +336,18 @@ gcf:
       press confirm button: Apiyé asi bouton la ki an ba pou konfirmé nouvo adres
         imél aw.
       button: Konfirmé
+  messages:
+    new:
+      title: Voyé on mésaj
+      send_message_to_html: Voyé on dòt mésaj ba %{name}
   passwords:
     lost_password:
       heading: Ou pèd kòd aw?
       email address: 'Adres imél aw :'
       new password button: Voyé on nouvo kòd
+  preferences:
+    show:
+      preferred_languages: Lang ou simyé
   profiles:
     edit:
       home location: 'La ou ka rété :'
@@ -127,6 +362,9 @@ gcf:
       lost password link: Ou pèd kòd aw?
       login_button: Konektéw
   site:
+    copyright:
+      native:
+        mapping_link: koumansé kataj-la
     index:
       js_1: Ou ka sèvi èvè on navigatè ki pa ka sipòté Javascript ouben Javascript
         éten.
@@ -138,6 +376,9 @@ gcf:
         rann édision aw piblik asi %{user_page}.
       user_page_link: paj_itilizatè
       anon_edits_link_text: Ka y ni la.
+    fixthemap:
+      how_to_help:
+        title: Kijan pou ba on pal
     sidebar:
       search_results: Rézilta a chèché aw
       close: Fèmé
@@ -145,6 +386,10 @@ gcf:
       search: Chèché
       where_am_i: Ki moun an yé?
       submit_text: Voyé
+  traces:
+    show:
+      download: chantyé
+      map: kat
   users:
     new:
       no_auto_account_create: Malérezman, alè kilé, nou pé pa ouvè kont automatikman.
