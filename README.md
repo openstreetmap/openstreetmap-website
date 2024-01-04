@@ -95,6 +95,10 @@ Search the network panel for BBOX and you’ll find an API call like this: https
 
 Putting that as the wget [URL] -O map.osm target of the following shell script would get you all the features in that BBOX.
 
+Alternatively, you can use the [NGMDB's Extent Helper](https://ngmdb.usgs.gov/extent/) to draw your bounding box and copy its corners from the __CSV OSM (Decimal Degrees - W, S, E, N)__ output field.
+
+Know that, however you do it, the bounding box must be smaller than 0.25 [square degrees (deg²)](https://en.wikipedia.org/wiki/Square_degree), contain less than 100,000 nodes, and possibly other limits.
+
 Run this inside the Docker container:
 
 ```bash
@@ -118,6 +122,32 @@ psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval
 psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval('current_ways_id_seq', (select max(way_id) from ways));"
 psql -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DATABASE -c "select setval('current_relations_id_seq', (select max(relation_id) from relations));"
 ```
+
+OHM does make its planet files available, daily, at http://planet.openhistoricalmap.org/?prefix=planet/; in Sep 2023 the size of these files hovers around 800Mb. The import process is identical to that outlined above with the exception that the `osmosis` call would be changed to something like
+
+```
+osmosis --read-pbf \
+        file=planet-230918_0002.osm.pbf \
+        --write-apidb \
+        host=$POSTGRES_HOST \
+        database=$POSTGRES_DATABASE \
+        user=$POSTGRES_USER \
+        password=$POSTGRES_PASSWORD \
+        validateSchemaVersion=no
+```
+but the default Docker configuration does not allow for that much data.
+
+If you find that you need to reset your database, the command to _truncate all current and history tables in an API database_ is:
+
+```
+osmosis --td \
+        host=$POSTGRES_HOST \
+        database=$POSTGRES_DATABASE \
+        user=$POSTGRES_USER \
+        password=$POSTGRES_PASSWORD \
+        validateSchemaVersion=no
+```
+
 
 ## Updating iD
 
