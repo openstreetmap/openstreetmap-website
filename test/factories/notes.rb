@@ -4,6 +4,15 @@ FactoryBot.define do
     longitude { 1 * GeoRecord::SCALE }
     # tile { QuadTile.tile_for_point(1,1) }
 
+    trait :closed do
+      status { "closed" }
+      closed_at { Time.now.utc }
+
+      after(:create) do |note|
+        create(:note_comment, :body => "Closing comment", :event => "closed", :note => note)
+      end
+    end
+
     factory :note_with_comments do
       transient do
         comments_count { 1 }
