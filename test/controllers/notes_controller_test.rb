@@ -144,9 +144,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   def test_read_closed_note
     user = create(:user)
-    closed_note = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc, :comments_count => 2) do |note|
-      create(:note_comment, :event => "closed", :note => note, :author => user)
-    end
+    closed_note = create(:note_with_comments, :closed, :closed_by => user, :comments_count => 2)
 
     browse_check :note_path, closed_note.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 2
