@@ -18,17 +18,25 @@ class NoteCommentsTest < ApplicationSystemTestCase
     assert_no_link "Log in to comment on this note"
   end
 
-  def test_action_text
+  def test_add_comment
     note = create(:note_with_comments)
-    sign_in_as(create(:user))
+    user = create(:user)
+    sign_in_as(user)
     visit note_path(note)
 
+    assert_no_content "Comment from #{user.display_name}"
+    assert_no_content "Some newly added note comment"
     assert_button "Resolve"
     assert_button "Comment", :disabled => true
 
-    fill_in "text", :with => "Some text"
+    fill_in "text", :with => "Some newly added note comment"
 
     assert_button "Comment & Resolve"
-    assert_button "Comment"
+    assert_button "Comment", :disabled => false
+
+    click_button "Comment"
+
+    assert_content "Comment from #{user.display_name}"
+    assert_content "Some newly added note comment"
   end
 end
