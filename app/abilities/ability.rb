@@ -61,7 +61,7 @@ class Ability
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:new, :create, :edit, :update, :destroy], Redaction
-          can [:new, :edit, :create, :update, :revoke], UserBlock
+          can [:new, :edit, :create, :update, :revoke, :revoke_all], UserBlock
         end
 
         if user.administrator?

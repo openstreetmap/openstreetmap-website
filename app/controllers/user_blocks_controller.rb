@@ -8,11 +8,11 @@ class UserBlocksController < ApplicationController
 
   authorize_resource
 
-  before_action :lookup_user, :only => [:new, :create, :blocks_on, :blocks_by]
+  before_action :lookup_user, :only => [:new, :create, :revoke_all, :blocks_on, :blocks_by]
   before_action :lookup_user_block, :only => [:show, :edit, :update, :revoke]
   before_action :require_valid_params, :only => [:create, :update]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:create, :update, :revoke]
+  before_action :check_database_writable, :only => [:create, :update, :revoke, :revoke_all]
 
   def index
     @params = params.permit
@@ -86,6 +86,16 @@ class UserBlocksController < ApplicationController
     if request.post? && params[:confirm] && @user_block.revoke!(current_user)
       flash[:notice] = t ".flash"
       redirect_to(@user_block)
+    end
+  end
+
+  ##
+  # revokes all active blocks
+  def revoke_all
+    if request.post? && params[:confirm]
+      @user.blocks.active.each { |block| block.revoke!(current_user) }
+      flash[:notice] = t ".flash"
+      redirect_to user_blocks_on_path(@user)
     end
   end
 
