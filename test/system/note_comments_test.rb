@@ -103,4 +103,26 @@ class NoteCommentsTest < ApplicationSystemTestCase
       assert_button "Comment", :disabled => true
     end
   end
+
+  test "can't reactivate a note when blocked" do
+    note = create(:note_with_comments, :closed)
+    user = create(:user)
+    sign_in_as(user)
+    visit note_path(note)
+    create(:user_block, :user => user)
+
+    within_sidebar do
+      assert_no_text "Unresolved note"
+      assert_text "Resolved note"
+      assert_no_text "Your access to the API has been blocked"
+      assert_button "Reactivate", :disabled => false
+
+      click_on "Reactivate"
+
+      assert_no_text "Unresolved note"
+      assert_text "Resolved note"
+      assert_text "Your access to the API has been blocked"
+      assert_button "Reactivate", :disabled => false
+    end
+  end
 end

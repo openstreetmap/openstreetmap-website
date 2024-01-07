@@ -83,7 +83,7 @@ OSM.Note = function (map) {
   }
 
   function updateButtons(form) {
-    $(form.close).prop("disabled", false);
+    $(form).find("input[type=submit]").prop("disabled", false);
     if ($(form.text).val() === "") {
       $(form.close).val($(form.close).data("defaultActionText"));
       $(form.comment).prop("disabled", true);

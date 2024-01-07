@@ -75,6 +75,8 @@
   <% else %>
     <form class="mb-3" action="#">
       <input type="hidden" name="text" value="" autocomplete="off">
+      <div id="comment-error" class="alert alert-danger p-2 mb-3" hidden>
+      </div>
       <div class="btn-wrapper">
         <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
           <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
