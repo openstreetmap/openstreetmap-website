@@ -45,4 +45,62 @@ class NoteCommentsTest < ApplicationSystemTestCase
       assert_content "Some newly added note comment"
     end
   end
+
+  test "can't add a comment when blocked" do
+    note = create(:note_with_comments)
+    user = create(:user)
+    sign_in_as(user)
+    visit note_path(note)
+    block = create(:user_block, :user => user)
+
+    within_sidebar do
+      fill_in "text", :with => "Comment that won't be added while blocked"
+
+      assert_no_text "Comment from #{user.display_name}"
+      assert_no_text "Comment that won't be added while blocked"
+      assert_no_text "Your access to the API has been blocked"
+      assert_button "Comment & Resolve", :disabled => false
+      assert_button "Comment", :disabled => false
+
+      click_on "Comment"
+
+      assert_no_text "Comment from #{user.display_name}"
+      assert_no_text "Comment that won't be added while blocked"
+      assert_text "Your access to the API has been blocked"
+      assert_button "Comment & Resolve", :disabled => false
+      assert_button "Comment", :disabled => false
+
+      block.revoke! block.creator
+
+      click_on "Comment"
+
+      assert_text "Comment from #{user.display_name}"
+      assert_text "Comment that won't be added while blocked"
+      assert_no_text "Your access to the API has been blocked"
+    end
+  end
+
+  test "can't resolve a note when blocked" do
+    note = create(:note_with_comments)
+    user = create(:user)
+    sign_in_as(user)
+    visit note_path(note)
+    create(:user_block, :user => user)
+
+    within_sidebar do
+      assert_text "Unresolved note"
+      assert_no_text "Resolved note"
+      assert_no_text "Your access to the API has been blocked"
+      assert_button "Resolve", :disabled => false
+      assert_button "Comment", :disabled => true
+
+      click_on "Resolve"
+
+      assert_text "Unresolved note"
+      assert_no_text "Resolved note"
+      assert_text "Your access to the API has been blocked"
+      assert_button "Resolve", :disabled => false
+      assert_button "Comment", :disabled => true
+    end
+  end
 end
