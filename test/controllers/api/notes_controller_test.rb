@@ -345,7 +345,7 @@ module Api
       end
       assert_response :gone
 
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
+      closed_note_with_comment = create(:note_with_comments, :closed)
 
       assert_no_difference "NoteComment.count" do
         post comment_api_note_path(:id => closed_note_with_comment, :text => "This is an additional comment"), :headers => auth_header
@@ -406,14 +406,14 @@ module Api
       post close_api_note_path(:id => hidden_note_with_comment), :headers => auth_header
       assert_response :gone
 
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
+      closed_note_with_comment = create(:note_with_comments, :closed)
 
       post close_api_note_path(:id => closed_note_with_comment), :headers => auth_header
       assert_response :conflict
     end
 
     def test_reopen_success
-      closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
+      closed_note_with_comment = create(:note_with_comments, :closed)
       user = create(:user)
 
       post reopen_api_note_path(:id => closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
@@ -428,7 +428,7 @@ module Api
       assert_equal "Feature", js["type"]
       assert_equal closed_note_with_comment.id, js["properties"]["id"]
       assert_equal "open", js["properties"]["status"]
-      assert_equal 2, js["properties"]["comments"].count
+      assert_equal 3, js["properties"]["comments"].count
       assert_equal "reopened", js["properties"]["comments"].last["action"]
       assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
@@ -440,7 +440,7 @@ module Api
       assert_equal "Feature", js["type"]
       assert_equal closed_note_with_comment.id, js["properties"]["id"]
       assert_equal "open", js["properties"]["status"]
-      assert_equal 2, js["properties"]["comments"].count
+      assert_equal 3, js["properties"]["comments"].count
       assert_equal "reopened", js["properties"]["comments"].last["action"]
       assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
@@ -752,8 +752,8 @@ module Api
     end
 
     def test_index_closed
-      create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc - 5.days)
-      create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc - 100.days)
+      create(:note_with_comments, :closed, :closed_at => Time.now.utc - 5.days)
+      create(:note_with_comments, :closed, :closed_at => Time.now.utc - 100.days)
       create(:note_with_comments, :status => "hidden")
       create(:note_with_comments)
 

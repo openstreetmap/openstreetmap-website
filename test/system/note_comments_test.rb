@@ -11,7 +11,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "closed note has no login notice" do
-    note = create(:note_with_comments, :status => "closed", :closed_at => Time.now.utc)
+    note = create(:note_with_comments, :closed)
     visit note_path(note)
 
     assert_no_button "Reactivate"
