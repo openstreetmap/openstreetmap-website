@@ -22,4 +22,26 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
       assert_link "Log in to join the discussion", :href => login_path(:referer => changeset_path(changeset))
     end
   end
+
+  test "can add a comment to a changeset" do
+    changeset = create(:changeset, :closed)
+    user = create(:user)
+    sign_in_as(user)
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_no_content "Comment from #{user.display_name}"
+      assert_no_content "Some newly added changeset comment"
+      assert_button "Comment", :disabled => true
+
+      fill_in "text", :with => "Some newly added changeset comment"
+
+      assert_button "Comment", :disabled => false
+
+      click_on "Comment"
+
+      assert_content "Comment from #{user.display_name}"
+      assert_content "Some newly added changeset comment"
+    end
+  end
 end
