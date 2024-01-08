@@ -87,6 +87,12 @@ uk:
       messages:
         invalid_email_address: не схоже на коректну адресу електронної пошти
         email_address_not_routable: недоступний
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: вже стишено
     models:
       acl: Список контролю доступу
       changeset: Набір змін
@@ -1021,7 +1027,7 @@ uk:
           track: Путівець
           traffic_mirror: Дорожнє дзеркало
           traffic_signals: Світлофор
-          trailhead: Трейлхед
+          trailhead: Початок маршруту
           trunk: Шосе
           trunk_link: З’їзд з/на шосе
           turning_circle: Місце для розвороту
@@ -1055,7 +1061,7 @@ uk:
           railway: Історична залізниця
           roman_road: Римська дорога
           ruins: Руїни
-          rune_stone: Рунний камінь
+          rune_stone: Рунічний камінь
           stone: Камінь
           tomb: Гробниця
           tower: Вежа
@@ -1428,7 +1434,7 @@ uk:
           photo: Фотомагазин
           seafood: Морепродукти
           second_hand: Комісійний магазин
-          sewing: Швейний цех
+          sewing: Швейне приладдя
           shoes: Взуття
           sports: Спортивні товари
           stationery: Канцтовари
@@ -1580,7 +1586,7 @@ uk:
   issue_comments:
     create:
       comment_created: Коментар створено
-      issue_reassigned: Ваш коментар створено, а питання перепризначено
+      issue_reassigned: Ваш коментар створено та перепризначено звернення
   reports:
     new:
       title_html: Скарга %{link}
@@ -1852,11 +1858,13 @@ uk:
       to: Кому
       subject: Тема
       date: Дата
+      actions: Дії
     message_summary:
       unread_button: Позначити як непрочитане
       read_button: Позначити як прочитане
       reply_button: Відповісти
       destroy_button: Вилучити
+      unmute_button: Перемістити до "Вхідних".
     new:
       title: Надіслати повідомлення
       send_message_to_html: Надіслати нове повідомлення до %{name}
@@ -1871,6 +1879,7 @@ uk:
       body: Вибачте, але повідомлення з цим ідентифікатором не існує.
     outbox:
       title: Вихідні
+      actions: Дії
       messages:
         one: У вас %{count} надіслане повідомлення
         few: У вас %{count} надісланих повідомлення
@@ -1879,6 +1888,13 @@ uk:
       no_sent_messages_html: У вас немає надісланих повідомлень. Чому б не поспілкуватись
         з кимось із %{people_mapping_nearby_link}?
       people_mapping_nearby: маперів поблизу вас
+    muted:
+      title: Стишені повідомлення
+      messages:
+        one: Ви маєте %{count} стишене повідомлення
+        few: Ви маєте %{count} стишені повідомлення
+        many: Ви маєте %{count} стишених повідомлень
+        other: ""
     reply:
       wrong_user: Ви увійшли як „%{user}“, але повідомлення, на яке ви хочете відповісти,
         було надіслане не вам. Будь ласка, увійдіть до відповідного облікового запису,
@@ -1897,9 +1913,13 @@ uk:
     heading:
       my_inbox: Вхідні
       my_outbox: Вихідні
+      muted_messages: Стишені повідомлення
     mark:
       as_read: Повідомлення позначене як прочитане
       as_unread: Повідомлення позначене як непрочитане
+    unmute:
+      notice: Повідомлення переміщено до "Вхідних".
+      error: Не вдалося перемістити повідомлення до "Вхідних".
     destroy:
       destroyed: Повідомлення вилучено
   passwords:
@@ -2026,6 +2046,7 @@ uk:
       image: Зображення
       alt: Alt текст
       url: URL
+      codeblock: Блок коду
     richtext_field:
       edit: Редагувати
       preview: Попередній перегляд
@@ -2402,6 +2423,7 @@ uk:
           cycleway_national: Національні велошляхи
           cycleway_regional: Регіональні велошляхи
           cycleway_local: Місцеві велошляхи
+          cycleway_mtb: Маршрут для гірських велосипедів
           footway: Пішохідна доріжка
           rail: Залізниця
           train: Поїзд
@@ -2412,23 +2434,38 @@ uk:
           trolleybus: Тролейбус
           bus: Автобус
           cable_car: Канатна дорога
-          chair_lift: крісельний підйомник
+          chair_lift: Крісельний підйомник
           runway_only: Злітно-посадкова смуга аеропорту
-          taxiway: руліжна доріжка
+          taxiway: Руліжна доріжка
           apron_only: Перон аеропорту
           admin: Адміністративна межа
+          capital: Столиця
+          city: Місто
+          orchard_only: Сад
+          vineyard: Виноградник
           forest_only: Ліс
           wood: Дерева
+          farmland: Поле
+          grass_only: Трава
+          meadow: Левада
+          bare_rock: Голі скелі
+          sand: Пісок
           golf: Поле для гольфу
           park: Парк
           common_only: Суспільні землі
+          built_up: Забудована територія
           resident: Жила зона
           retail: Торговельний район
           industrial: Промисловий район
           commercial: Бізнесова зона
           heathland: Пустище
+          scrubland: Чагарник
           lake_only: Озеро
-          reservoir: водосховище
+          reservoir: Водосховище
+          intermittent_water: Водойма, що пересихає
+          glacier: Льодовик
+          reef: Риф
+          wetland: Заболочені землі
           farm: Ферма
           brownfield: Покинута зона
           cemetery: Кладовище
@@ -2438,11 +2475,12 @@ uk:
           reserve: Заповідник
           military: Військова зона
           school_only: Школа
-          university: університет
+          university: Університет
+          hospital: Лікарня
           building: Значна споруда
           station: Залізнична станція
           summit_only: Вершина
-          peak: пік
+          peak: Пік
           tunnel: Тунель (пунктиром)
           bridge: Міст (жирна лінія)
           private: Приватний доступ
@@ -2665,6 +2703,7 @@ uk:
       oauth1_settings: налаштування OAuth 1
       oauth2_applications: застосунки OAuth 2
       oauth2_authorizations: авторизації OAuth 2
+      muted_users: Стишені учасники
   oauth:
     authorize:
       title: Авторизувати доступ до облікового запису
@@ -2703,6 +2742,7 @@ uk:
       read_gpx: Отримувати приватні GPS-треки
       write_gpx: Завантажувати GPS-треки
       write_notes: Змінювати нотатки
+      write_redactions: Виконувати очищення даних
       read_email: Отримувати адресу е-пошти
       skip_authorization: Автоматичне схвалення заявки
   oauth_clients:
@@ -2792,6 +2832,7 @@ uk:
       application: Застосунок
       permissions: Дозволи
       no_applications_html: У вас ще немає застосунків авторизованих через %{oauth2}.
+      oauth_2: OAuth 2
     application:
       revoke: Відкликати доступ
       confirm_revoke: Відкликати доступ у застосунку?
@@ -2879,6 +2920,8 @@ uk:
       my_dashboard: Інфо панель
       blocks on me: Мої блокування
       blocks by me: Заблоковано мною
+      create_mute: Стишити цього учасника
+      destroy_mute: Зняти стишення з цього учасника
       edit_profile: Редагувати профіль
       send message: Надіслати повідомлення
       diary: Щоденник
@@ -3088,6 +3131,32 @@ uk:
       showing_page: Сторінка %{page}
       next: Наступна →
       previous: ← Попередня
+  user_mutes:
+    index:
+      title: Стишені учасники
+      my_muted_users: Стишені учасники
+      you_have_muted_n_users:
+        one: У вас %{count} стишений учасник
+        few: У вас %{count} стишених учасників
+        many: У вас %{count} стишених учасників
+        other: ""
+      user_mute_explainer: Повідомлення стишених учасників було перемішено в окрему
+        теку. Ви не будете отримувати сповіщення про них на пошту.
+      user_mute_admins_and_moderators: Ви можете стишити Адміністраторів та Модераторів,
+        але повідомлення від них не будуть стишеними.
+      table:
+        thead:
+          muted_user: Стишені учасники
+          actions: Дії
+        tbody:
+          unmute: Розблокувати
+          send_message: Надіслати повідомлення
+    create:
+      notice: Ви стишили %{name}.
+      error: '%{name} не може бути стишеним. %{full_message}.'
+    destroy:
+      notice: Ви розблокували %{name}.
+      error: Не вдалося розблокувати учасника. Будь ласка, спробуйте ще раз.
   notes:
     index:
       title: Нотатки створені чи прокоментовані %{user}
@@ -3124,6 +3193,7 @@ uk:
       reactivate: Поновити
       comment_and_resolve: Прокоментувати та Опрацювати
       comment: Коментар
+      log_in_to_comment: Увійдіть, щоб прокоментувати цю нотатку
       report_link_html: Якщо ця нотатка містить конфіденційну інформацію, яку потрібно
         видалити, ви можете %{link}.
       other_problems_resolve: Всі інші проблеми з нотаткою вирішуйте самостійно в
