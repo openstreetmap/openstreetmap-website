@@ -158,7 +158,7 @@ module Api
     def test_create_comment_experienced_user_rate_limit
       changeset = create(:changeset, :closed)
       user = create(:user)
-      create_list(:changeset_comment, 200, :author_id => user.id, :created_at => Time.now.utc - 1.day)
+      create_list(:changeset_comment, Settings.comments_to_max_changeset_comments, :author_id => user.id, :created_at => Time.now.utc - 1.day)
 
       auth_header = bearer_authorization_header user
 
