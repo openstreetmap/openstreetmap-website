@@ -36,7 +36,7 @@
                 <%= t(".comment_by_html",
                       :time_ago => friendly_date_ago(comment.created_at),
                       :user => link_to(comment.author.display_name, user_path(comment.author))) %>
-                <% if current_user and current_user.moderator? %>
+                <% if current_user&.moderator? %>
                   — <button class="btn btn-sm small btn-link link-secondary p-0 align-baseline" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></button>
                 <% end %>
               </small>
@@ -44,7 +44,7 @@
                 <%= comment.body.to_html %>
               </div>
             </li>
-          <% elsif current_user and current_user.moderator? %>
+          <% elsif current_user&.moderator? %>
             <li id="c<%= comment.id %>">
               <small class='text-muted'>
                 <%= t(".hidden_comment_by_html",
