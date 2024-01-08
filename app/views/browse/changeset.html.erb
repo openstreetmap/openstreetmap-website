@@ -30,33 +30,24 @@
     <form action="#">
       <ul class="list-unstyled">
         <% @comments.each do |comment| %>
-          <% if comment.visible %>
-            <li id="c<%= comment.id %>">
-              <small class='text-muted'>
-                <%= t(".comment_by_html",
-                      :time_ago => friendly_date_ago(comment.created_at),
-                      :user => link_to(comment.author.display_name, user_path(comment.author))) %>
-                <% if current_user&.moderator? %>
-                  — <button class="btn btn-sm small btn-link link-secondary p-0 align-baseline" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t("javascripts.changesets.show.hide_comment") %></button>
-                <% end %>
-              </small>
-              <div class="mx-2">
-                <%= comment.body.to_html %>
-              </div>
-            </li>
-          <% elsif current_user&.moderator? %>
-            <li id="c<%= comment.id %>">
-              <small class='text-muted'>
-                <%= t(".hidden_comment_by_html",
-                      :time_ago => friendly_date_ago(comment.created_at),
-                      :user => link_to(comment.author.display_name, user_path(comment.author))) %>
-                — <button class="btn btn-sm small btn-link link-secondary p-0 align-baseline" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></button>
-                </small>
-              <div class="mx-2">
-                <%= comment.body.to_html %>
-              </div>
-            </li>
-          <% end %>
+          <% next unless comment.visible || current_user&.moderator? %>
+          <li id="c<%= comment.id %>">
+            <small class='text-muted'>
+              <%= t(comment.visible ? ".comment_by_html" : ".hidden_comment_by_html",
+                    :time_ago => friendly_date_ago(comment.created_at),
+                    :user => link_to(comment.author.display_name, user_path(comment.author))) %>
+              <% if current_user&.moderator? %>
+                —
+                <%= tag.button t("javascripts.changesets.show.#{comment.visible ? 'hide' : 'unhide'}_comment"),
+                               :class => "btn btn-sm small btn-link link-secondary p-0 align-baseline",
+                               :data => { :method => "POST",
+                                          :url => comment.visible ? changeset_comment_hide_url(comment) : changeset_comment_unhide_url(comment) } %>
+              <% end %>
+            </small>
+            <div class="mx-2">
+              <%= comment.body.to_html %>
+            </div>
+          </li>
         <% end %>
       </ul>
     </form>
