@@ -30,7 +30,7 @@ OSM.Changeset = function (map) {
     var data;
 
     $(form).find("#comment-error").prop("hidden", true);
-    $(form).find("input[type=submit]").prop("disabled", true);
+    $(form).find("button").prop("disabled", true);
 
     if (include_data) {
       data = { text: $(form.text).val() };
@@ -49,22 +49,17 @@ OSM.Changeset = function (map) {
       error: function (xhr) {
         $(form).find("#comment-error").text(xhr.responseText);
         $(form).find("#comment-error").prop("hidden", false);
-        $(form).find("input[type=submit]").prop("disabled", false);
+        $(form).find("button").prop("disabled", false);
       }
     });
   }
 
   function initialize() {
-    content.find("input[name=comment]").on("click", function (e) {
+    content.find("button").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
-      updateChangeset(e.target.form, data.method, data.url, true);
-    });
-
-    content.find(".action-button").on("click", function (e) {
-      e.preventDefault();
-      var data = $(e.target).data();
-      updateChangeset(e.target.form, data.method, data.url);
+      var include_data = e.target.name === "comment";
+      updateChangeset(e.target.form, data.method, data.url, include_data);
     });
 
     content.find("textarea").on("input", function (e) {

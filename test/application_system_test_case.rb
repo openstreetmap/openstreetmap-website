@@ -33,6 +33,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     end
   end
 
+  def sign_out
+    visit logout_path
+    click_on "Logout", :match => :first
+  end
+
   def within_sidebar(&block)
     within "#sidebar_content", &block
   end

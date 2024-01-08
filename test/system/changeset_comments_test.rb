@@ -44,4 +44,82 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
       assert_content "Some newly added changeset comment"
     end
   end
+
+  test "regular users can't hide comments" do
+    changeset = create(:changeset, :closed)
+    create(:changeset_comment, :changeset => changeset, :body => "Unwanted comment")
+    sign_in_as(create(:user))
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_text "Unwanted comment"
+      assert_no_button "hide"
+    end
+  end
+
+  test "moderators can hide comments" do
+    changeset = create(:changeset, :closed)
+    create(:changeset_comment, :changeset => changeset, :body => "Unwanted comment")
+
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_text "Unwanted comment"
+    end
+
+    sign_in_as(create(:moderator_user))
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_text "Unwanted comment"
+      assert_button "hide", :exact => true
+      assert_no_button "unhide", :exact => true
+
+      click_on "hide", :exact => true
+
+      assert_text "Unwanted comment"
+      assert_no_button "hide", :exact => true
+      assert_button "unhide", :exact => true
+    end
+
+    sign_out
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_no_text "Unwanted comment"
+    end
+  end
+
+  test "moderators can unhide comments" do
+    changeset = create(:changeset, :closed)
+    create(:changeset_comment, :changeset => changeset, :body => "Wanted comment", :visible => false)
+
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_no_text "Wanted comment"
+    end
+
+    sign_in_as(create(:moderator_user))
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_text "Wanted comment"
+      assert_no_button "hide", :exact => true
+      assert_button "unhide", :exact => true
+
+      click_on "unhide", :exact => true
+
+      assert_text "Wanted comment"
+      assert_button "hide", :exact => true
+      assert_no_button "unhide", :exact => true
+    end
+
+    sign_out
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_text "Wanted comment"
+    end
+  end
 end
