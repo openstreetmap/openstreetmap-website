@@ -26,14 +26,14 @@ OSM.Changeset = function (map) {
     });
   }
 
-  function updateChangeset(form, method, url, include_data) {
+  function updateChangeset(method, url, include_data) {
     var data;
 
-    $(form).find("#comment-error").prop("hidden", true);
-    $(form).find("button").prop("disabled", true);
+    content.find("#comment-error").prop("hidden", true);
+    content.find("button[data-method][data-url]").prop("disabled", true);
 
     if (include_data) {
-      data = { text: $(form.text).val() };
+      data = { text: content.find("textarea").val() };
     } else {
       data = {};
     }
@@ -47,19 +47,19 @@ OSM.Changeset = function (map) {
         OSM.loadSidebarContent(window.location.pathname, page.load);
       },
       error: function (xhr) {
-        $(form).find("#comment-error").text(xhr.responseText);
-        $(form).find("#comment-error").prop("hidden", false);
-        $(form).find("button").prop("disabled", false);
+        content.find("#comment-error").text(xhr.responseText);
+        content.find("#comment-error").prop("hidden", false);
+        content.find("button[data-method][data-url]").prop("disabled", false);
       }
     });
   }
 
   function initialize() {
-    content.find("button").on("click", function (e) {
+    content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
       var include_data = e.target.name === "comment";
-      updateChangeset(e.target.form, data.method, data.url, include_data);
+      updateChangeset(data.method, data.url, include_data);
     });
 
     content.find("textarea").on("input", function (e) {

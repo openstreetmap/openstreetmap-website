@@ -122,4 +122,41 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
       assert_text "Wanted comment"
     end
   end
+
+  test "can subscribe" do
+    changeset = create(:changeset, :closed)
+    user = create(:user)
+    sign_in_as(user)
+    visit changeset_path(changeset)
+
+    within_sidebar do
+      assert_button "Subscribe"
+      assert_no_button "Unsubscribe"
+
+      click_on "Subscribe"
+
+      assert_no_button "Subscribe"
+      assert_button "Unsubscribe"
+    end
+  end
+
+  test "can't subscribe when blocked" do
+    changeset = create(:changeset, :closed)
+    user = create(:user)
+    sign_in_as(user)
+    visit changeset_path(changeset)
+    create(:user_block, :user => user)
+
+    within_sidebar do
+      assert_no_text "Your access to the API has been blocked"
+      assert_button "Subscribe"
+      assert_no_button "Unsubscribe"
+
+      click_on "Subscribe"
+
+      assert_text "Your access to the API has been blocked"
+      assert_button "Subscribe"
+      assert_no_button "Unsubscribe"
+    end
+  end
 end
