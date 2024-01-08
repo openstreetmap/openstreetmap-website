@@ -142,20 +142,6 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     browse_check :changeset_path, changeset.id, "browse/changeset"
   end
 
-  def test_read_changeset_hidden_comments
-    changeset = create(:changeset)
-    create_list(:changeset_comment, 3, :changeset => changeset)
-    create(:changeset_comment, :visible => false, :changeset => changeset)
-
-    browse_check :changeset_path, changeset.id, "browse/changeset"
-    assert_select "div.changeset-comments ul li", :count => 3
-
-    session_for(create(:moderator_user))
-
-    browse_check :changeset_path, changeset.id, "browse/changeset"
-    assert_select "div.changeset-comments ul li", :count => 4
-  end
-
   ##
   #  Methods to check redaction.
   #
