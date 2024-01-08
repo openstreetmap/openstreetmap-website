@@ -47,9 +47,11 @@ OSM.Changeset = function (map) {
         OSM.loadSidebarContent(window.location.pathname, page.load);
       },
       error: function (xhr) {
-        content.find("#comment-error").text(xhr.responseText);
-        content.find("#comment-error").prop("hidden", false);
         content.find("button[data-method][data-url]").prop("disabled", false);
+        content.find("#comment-error")
+          .text(xhr.responseText)
+          .prop("hidden", false)
+          .get(0).scrollIntoView({ block: "nearest" });
       }
     });
   }
