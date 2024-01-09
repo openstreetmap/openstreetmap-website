@@ -10,14 +10,14 @@ class UserMutingTest < ApplicationSystemTestCase
     sign_in_as(user)
 
     visit user_path(other_user)
-    click_link "Mute this User"
+    click_on "Mute this User"
     assert_content "You muted #{other_user.display_name}"
 
     visit edit_account_path
     assert_content "Muted Users"
-    click_link "Muted Users"
+    click_on "Muted Users"
     assert_content "You have muted 1 User"
-    click_link "Unmute"
+    click_on "Unmute"
 
     assert_content "You unmuted #{other_user.display_name}"
     refute_content "Muted Users"
@@ -35,7 +35,7 @@ class UserMutingTest < ApplicationSystemTestCase
     fill_in "Body", :with => "some message"
 
     assert_no_emails do
-      click_button "Send"
+      click_on "Send"
     end
 
     message = Message.find_by(:sender => muted_user, :recipient => user)

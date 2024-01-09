@@ -45,7 +45,7 @@ class ReportNoteTest < ApplicationSystemTestCase
     visit user_path(blocked_user)
     assert_link "Revoke all blocks"
 
-    click_link "Revoke all blocks"
+    click_on "Revoke all blocks"
     assert_title "Revoking all blocks on #{blocked_user.display_name}"
     assert_text "Revoking all blocks on #{blocked_user.display_name}"
     assert_unchecked_field "Are you sure you wish to revoke 1 active block?"
@@ -62,7 +62,7 @@ class ReportNoteTest < ApplicationSystemTestCase
     visit user_path(blocked_user)
     assert_link "Revoke all blocks"
 
-    click_link "Revoke all blocks"
+    click_on "Revoke all blocks"
     assert_title "Revoking all blocks on #{blocked_user.display_name}"
     assert_text "Revoking all blocks on #{blocked_user.display_name}"
     assert_unchecked_field "Are you sure you wish to revoke 2 active blocks?"

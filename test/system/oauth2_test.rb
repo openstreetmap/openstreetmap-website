@@ -8,7 +8,7 @@ class Oauth2Test < ApplicationSystemTestCase
     assert_text "OpenStreetMap Web Site"
 
     accept_alert do
-      click_link "Revoke Access"
+      click_on "Revoke Access"
     end
 
     assert_text "You have not yet authorized any OAuth 2 applications."

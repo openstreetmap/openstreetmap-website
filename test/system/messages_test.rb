@@ -9,7 +9,7 @@ class MessagesTest < ApplicationSystemTestCase
     visit inbox_messages_path
     assert_text "You have 1 new message and 0 old messages"
 
-    click_button "Delete"
+    click_on "Delete"
     assert_text "You have 0 new messages and 0 old messages"
   end
 
@@ -21,7 +21,7 @@ class MessagesTest < ApplicationSystemTestCase
     visit outbox_messages_path
     assert_text "You have 1 sent message"
 
-    click_button "Delete"
+    click_on "Delete"
     assert_text "You have 0 sent messages"
   end
 
@@ -35,7 +35,7 @@ class MessagesTest < ApplicationSystemTestCase
     visit muted_messages_path
     assert_text "1 muted message"
 
-    click_button "Delete"
+    click_on "Delete"
     assert_text "0 muted messages"
   end
 end

@@ -9,9 +9,9 @@ class AccountDeletionTest < ApplicationSystemTestCase
   test "the status is deleted and the personal data removed" do
     visit edit_account_path
 
-    click_link "Delete Account..."
+    click_on "Delete Account..."
     accept_confirm do
-      click_link "Delete Account"
+      click_on "Delete Account"
     end
 
     assert_current_path root_path
@@ -23,9 +23,9 @@ class AccountDeletionTest < ApplicationSystemTestCase
   test "the user is signed out after deletion" do
     visit edit_account_path
 
-    click_link "Delete Account..."
+    click_on "Delete Account..."
     accept_confirm do
-      click_link "Delete Account"
+      click_on "Delete Account"
     end
 
     assert_content "Log In"
@@ -34,9 +34,9 @@ class AccountDeletionTest < ApplicationSystemTestCase
   test "the user is shown a confirmation flash message" do
     visit edit_account_path
 
-    click_link "Delete Account..."
+    click_on "Delete Account..."
     accept_confirm do
-      click_link "Delete Account"
+      click_on "Delete Account"
     end
 
     assert_content "Account Deleted"
@@ -47,7 +47,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
       travel 1.hour do
         visit edit_account_path
 
-        click_link "Delete Account..."
+        click_on "Delete Account..."
 
         assert_no_content "cannot currently be deleted"
       end
@@ -61,7 +61,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
       travel 1.hour do
         visit edit_account_path
 
-        click_link "Delete Account..."
+        click_on "Delete Account..."
 
         assert_no_content "cannot currently be deleted"
       end
@@ -75,7 +75,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
       travel 12.hours do
         visit edit_account_path
 
-        click_link "Delete Account..."
+        click_on "Delete Account..."
 
         assert_no_content "cannot currently be deleted"
       end
@@ -89,7 +89,7 @@ class AccountDeletionTest < ApplicationSystemTestCase
       travel 10.hours do
         visit edit_account_path
 
-        click_link "Delete Account..."
+        click_on "Delete Account..."
 
         assert_content "cannot currently be deleted"
         assert_content "in about 1 hour"

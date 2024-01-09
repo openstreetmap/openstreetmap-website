@@ -34,7 +34,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
     assert_button "Comment & Resolve"
     assert_button "Comment", :disabled => false
 
-    click_button "Comment"
+    click_on "Comment"
 
     assert_content "Comment from #{user.display_name}"
     assert_content "Some newly added note comment"
