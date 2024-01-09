@@ -9,15 +9,18 @@
     <% else %>
       | <%= t ".no_reports" %>
     <% end %>
-      | <%= t ".report_created_at",
-              :datetime => l(@issue.created_at.to_datetime, :format => :friendly) %>
+      | <%= t ".report_created_at_html",
+              :datetime => tag.time(l(@issue.created_at.to_datetime, :format => :friendly),
+                                    :datetime => @issue.created_at.xmlschema) %>
     <% if @issue.resolved_at? %>
-      | <%= t ".last_resolved_at",
-              :datetime => l(@issue.resolved_at.to_datetime, :format => :friendly) %>
+      | <%= t ".last_resolved_at_html",
+              :datetime => tag.time(l(@issue.resolved_at.to_datetime, :format => :friendly),
+                                    :datetime => @issue.resolved_at.xmlschema) %>
     <% end %>
     <% if @issue.user_updated %>
-      | <%= t ".last_updated_at",
-              :datetime => l(@issue.updated_at.to_datetime, :format => :friendly),
+      | <%= t ".last_updated_at_html",
+              :datetime => tag.time(l(@issue.updated_at.to_datetime, :format => :friendly),
+                                    :datetime => @issue.updated_at.xmlschema),
               :displayname => @issue.user_updated.display_name %>
     <% end %>
   </small>
