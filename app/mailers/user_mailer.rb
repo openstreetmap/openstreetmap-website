@@ -50,6 +50,7 @@ class UserMailer < ApplicationMailer
       @trace_description = trace.description
       @trace_tags = trace.tags
       @possible_points = possible_points
+      @my_traces_url = url_for(:controller => "traces", :action => "mine")
 
       mail :to => trace.user.email,
            :subject => t(".subject")
