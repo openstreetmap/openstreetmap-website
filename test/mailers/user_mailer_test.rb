@@ -18,6 +18,15 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/one two three/, email.html_part.body.to_s)
   end
 
+  def test_gpx_trace_link
+    trace = create(:trace)
+    email = UserMailer.gpx_success(trace, 100)
+    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+
+    url = Rails.application.routes.url_helpers.show_trace_url(trace.user, trace, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    assert_select body, "a[href='#{url}']", :text => trace.name
+  end
+
   def test_html_encoding
     user = create(:user, :display_name => "Jack & Jill <br>")
     message = create(:message, :sender => user)
