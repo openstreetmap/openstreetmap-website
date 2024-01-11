@@ -15,7 +15,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
     email = UserMailer.gpx_success(trace, 100)
 
-    assert_match(/one two three/, email.html_part.body.to_s)
+    assert_match("<em>one</em>, <em>two</em>, <em>three</em>", email.html_part.body.to_s)
   end
 
   def test_gpx_success_all_traces_link
