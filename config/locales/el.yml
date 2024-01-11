@@ -1520,9 +1520,10 @@ el:
         one: '%{count} αναφορά'
         other: '%{count} αναφορές'
       no_reports: Καμία αναφορά
-      report_created_at: Αναφέρθηκε για πρώτη φορά στις %{datetime}
-      last_resolved_at: Επιλύθηκε για τελευταία φορά στις %{datetime}
-      last_updated_at: Ενημερώθηκε για τελευταία φορά στις %{datetime} από τον %{displayname}
+      report_created_at_html: Αναφέρθηκε για πρώτη φορά στις %{datetime}
+      last_resolved_at_html: Επιλύθηκε για τελευταία φορά στις %{datetime}
+      last_updated_at_html: Ενημερώθηκε για τελευταία φορά στις %{datetime} από τον
+        %{displayname}
       resolve: Επίλυση
       ignore: Αγνόηση
       reopen: Ξανάνοιγμα
@@ -1858,6 +1859,9 @@ el:
       people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
     muted:
       title: Μηνύματα σε Σίγαση
+      messages:
+        one: '%{count} μήνυμα σε σίγαση'
+        other: Έχετε %{count} μηνύματα σε σίγαση
     reply:
       wrong_user: Έχετε συνδεθεί ως «%{user}» αλλά το μήνυμα που ζητάτε να απαντήσετε
         δεν έχει σταλεί σε αυτόν το χρήστη. Παρακαλούμε συνδεθείτε με το σωστό όνομα
@@ -2012,6 +2016,7 @@ el:
       image: Εικόνα
       alt: Εναλ. κείμενο
       url: URL
+      codeblock: Μπλοκ κώδικα
     richtext_field:
       edit: Επεξεργασία
       preview: Προεπισκόπηση
@@ -2056,6 +2061,8 @@ el:
         Παρακαλούμε %{contact_the_osmf_link}
         εάν έχετε ερωτήσεις για αδειοδότηση, πνευματικά δικαιώματα ή άλλα νομικά.
       legal_2_1_contact_the_osmf: επικοινωνήστε με το OSMF
+      legal_2_2_html: Το OpenStreetMap, το λογότυπο με τον μεγεθυντικό φακό και το
+        State of the Map είναι %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: εγγεγραμμένα εμπορικά σήματα του OSMF
       partners_title: Συνεργάτες
     copyright:
@@ -2080,6 +2087,8 @@ el:
         introduction_1_odc_odbl: Open Data Commons Άδεια Ανοικτής Βάσης Δεδομένων
         introduction_1_osm_foundation: Ίδρυμα OpenStreetMap
         introduction_2_legal_code: νομικός κώδικας
+        introduction_3_html: Η τεκμηρίωση μας αδειοδοτείται βάσει της άδειας %{creative_commons_link}
+          (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Αναφορά Δημιουργού-Παρόμοια
           Διανομή 2.0
         credit_title_html: Πως να κάνετε αναφορά δημιουργού προς το OpenStreetMap
@@ -2163,6 +2172,9 @@ el:
           %{united_kingdom}: Περιέχει δεδομένα Χαρτογραφικής Υπηρεσίας &copy; Crown πνευματικά δικαιώματα και δικαιώματα βάσης δεδομένων
           2010-2023.
         contributors_gb_united_kingdom: Ηνωμένο Βασίλειο
+        contributors_2_html: Για περισσότερες λεπτομέρειες για αυτές, και άλλες πηγές
+          που έχουν χρησιμοποιηθεί για να βοηθήσουν στην βελτίωση του OpenStreetMap,
+          παρακαλούμε δείτε την %{contributors_page_link} στο OpenStreetMap Wiki.
         contributors_2_contributors_page: Σελίδα συνεισφερόντων
         contributors_footer_2_html: Η συμπερίληψη δεδομένων στο OpenStreetMap δεν
           συνεπάγεται ότι ο αρχικός πάροχος δεδομένων εγκρίνει το OpenStreetMap, παρέχει
@@ -2179,6 +2191,10 @@ el:
         infringement_2_1_takedown_procedure: διαδικασία αφαίρεσης
         infringement_2_1_online_filing_page: ηλεκτρονική φόρμα
         trademarks_title: Εμπορικά σήματα
+        trademarks_1_1_html: Το OpenStreetMap, το λογότυπο με τον μεγεθυντικό φακό
+          και το State of the Map είναι σήματα κατατεθέντα του Ιδρύματος OpenStreetMap.
+          Αν έχετε ερωτήσεις σχετικά με την χρήση σας αυτών των σημάτων, παρακαλούμε
+          δείτε την %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Πολιτική Εμπορικών Σημάτων
     index:
       js_1: Είτε χρησιμοποιείτε πρόγραμμα περιήγησης που δεν υποστηρίζει JavaScript
@@ -2357,29 +2373,39 @@ el:
           rail: Σιδηρόδρομος
           train: Τρένο
           subway: Υπόγειος Σιδηρόδρομος
+          ferry: Πορθμείο
+          light_rail: Ελαφρύς σιδηρόδρομος
+          tram_only: Τραμ
+          trolleybus: Τρόλεϊ
           bus: Λεωφορείο
           cable_car: Τελεφερίκ
-          chair_lift: τελεφερίκ με καθίσματα
+          chair_lift: Αναβατήρας
           runway_only: Διάδρομος Αεροδρομίου
-          taxiway: τροχόδρομος
+          taxiway: Τροχόδρομος
           apron_only: Πίστα προσγείωσης αεροδρομίου
           admin: Διοικητικό όριο
+          capital: Πρωτεύουσα
+          city: Πόλη
+          vineyard: Αμπελώνας
           forest_only: Δάσος
           wood: Φυσικό δάσος
+          grass_only: Γρασίδι
           meadow: Λιβάδι
           bare_rock: Γυμνός βράχος
           sand: Άμμος
           golf: Γήπεδο γκολφ
           park: Πάρκο
           common_only: Κοινόχρηστο
+          built_up: Δομημένη περιοχή
           resident: Κατοικημένη περιοχή
           retail: Περιοχή λιανικού εμπορίου
           industrial: Βιομηχανική περιοχή
           commercial: Εμπορική περιοχή
           heathland: Φρυγανότοπος
           lake_only: Λίμνη
-          reservoir: ταμιευτήρας
+          reservoir: Ταμιευτήρας
           glacier: Παγετώνας
+          reef: Ύφαλος
           farm: Αγρόκτημα
           brownfield: Πρώην βιομηχανική περιοχή
           cemetery: Κοιμητήριο
@@ -2389,16 +2415,19 @@ el:
           reserve: Φυσικό καταφύγιο
           military: Στρατιωτική περιοχή
           school_only: Σχολείο
-          university: πανεπιστήμιο
+          university: Πανεπιστήμιο
+          hospital: Νοσοκομείο
           building: Σημαντικό κτήριο
           station: Σιδηροδρομικός σταθμός
           summit_only: Κορυφή
-          peak: κορυφή
+          peak: Κορυφή
           tunnel: Διακεκομμένο περίβλημα = σήραγγα
           bridge: Μαύρο περίβλημα = γέφυρα
           private: Ιδιωτική πρόσβαση
           destination: Πρόσβαση προορισμού
           construction: Δρόμοι υπό κατασκευή
+          bus_stop: Στάση λεωφορείου
+          stop: Στάση
           bicycle_shop: Κατάστημα ποδηλάτων
           bicycle_parking: Χώρος στάθμευσης ποδηλάτων
           toilets: Τουαλέτες
@@ -2645,6 +2674,7 @@ el:
       read_gpx: Ανάγνωση προσωπικών ιχνών GPS
       write_gpx: Μεταφόρτωση ιχνών GPS
       write_notes: Τροποποίηση σημειώσεων
+      write_redactions: Αφαίρεση και απόκρυψη δεδομένων χάρτη
       read_email: Διαβάζει τη διεύθυνση email χρήστη
       skip_authorization: Αυτόματη έγκριση εφαρμογής
   oauth_clients:
@@ -2734,6 +2764,7 @@ el:
       application: Εφαρμογή
       permissions: Άδειες
       no_applications_html: Δεν έχετε εξουσιοδοτήσει ακόμη %{oauth2} εφαρμογές.
+      oauth_2: OAuth 2
     application:
       revoke: Ανάκληση πρόσβασης
       confirm_revoke: Ανάκληση πρόσβασης για αυτήν την εφαρμογή;
@@ -2853,6 +2884,7 @@ el:
           importer: Ανάκληση πρόσβασης εισαγωγέα
       block_history: Ενεργές Φραγές
       moderator_history: Φραγές που Επιβλήθηκαν
+      revoke_all_blocks: Ανάκληση όλων των φραγών
       comments: Σχόλια
       create_block: Φραγή αυτού του Χρήστη
       activate_user: Ενεργοποίηση αυτού του λογαριασμού Χρήστη
@@ -2966,6 +2998,16 @@ el:
       confirm: Είστε σίγουρος πως επιθυμείτε να ανακαλέσετε αυτή τη φραγή;
       revoke: Ανακαλέστε!
       flash: Αυτή η φραγή έχει ανακληθεί.
+    revoke_all:
+      title: Ανάκληση όλων των φραγών σε %{block_on}
+      heading_html: Ανάκληση όλων των φραγών σε %{block_on}
+      empty: Ο χρήστης %{name} δεν έχει ενεργές φραγές.
+      confirm: Είστε σίγουροι ότι θέλετε να ανακαλέσετε %{active_blocks};
+      active_blocks:
+        one: '%{count} ενεργή φραγή'
+        other: '%{count} ενεργές φραγές'
+      revoke: Ανάκληση!
+      flash: Όλες οι ενεργές φραγές έχουν ανακληθεί.
     helper:
       time_future_html: Τελειώνει σε %{time}.
       until_login: Ενεργό έως ότου ο χρήστης συνδεθεί.
@@ -3028,6 +3070,13 @@ el:
     index:
       title: Χρήστες σε Σίγαση
       my_muted_users: Οι χρήστες μου σε σίγαση
+      you_have_muted_n_users:
+        one: Έχετε θέσει σε σίγαση %{count} χρήστη
+        other: Έχετε θέσει σε σίγαση %{count} χρήστες
+      user_mute_explainer: Τα μηνύματα των χρηστών σε σίγαση μετακινούνται σε ξεχωριστά
+        Εισερχόμενα και δεν θα λαμβάνετε ειδοποιήσεις μέσω email.
+      user_mute_admins_and_moderators: Μπορείτε να θέσετε σε σίγαση τους Διαχειριστές
+        και τους Συντονιστές αλλά δεν θα γίνει σίγαση των μηνυμάτων τους.
       table:
         thead:
           muted_user: Χρήστης σε Σίγαση
@@ -3078,6 +3127,7 @@ el:
       reactivate: Επανενεργοποίηση
       comment_and_resolve: Σχολιάστε και Επιλύστε
       comment: Σχολιάζω
+      log_in_to_comment: Συνδεθείτε για να σχολιάσετε σε αυτή την σημείωση
       report_link_html: Εάν αυτή η σημείωση περιέχει ευαίσθητες πληροφορίες που πρέπει
         να αφαιρεθούν, μπορείτε %{link}.
       other_problems_resolve: Για όλα τα άλλα προβλήματα με τη σημείωση, επιλύστε

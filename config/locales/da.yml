@@ -74,6 +74,9 @@ da:
       messages:
         invalid_email_address: ser ikke ud til at være en gyldig e-mailadresse
         email_address_not_routable: kan ikke rutes
+      models:
+        user_mute:
+          is_already_muted: er allerede gjort stille
     models:
       acl: Adgangskontrolliste
       changeset: Ændringssæt
@@ -1490,9 +1493,9 @@ da:
         one: '%{count} rapport'
         other: '%{count} rapporter'
       no_reports: Ingen rapporter
-      report_created_at: Rapporteret første gang %{datetime}
-      last_resolved_at: Sidst løst %{datetime}
-      last_updated_at: Sidst opdateret %{datetime} af %{displayname}
+      report_created_at_html: Rapporteret første gang %{datetime}
+      last_resolved_at_html: Sidst løst %{datetime}
+      last_updated_at_html: Sidst opdateret %{datetime} af %{displayname}
       resolve: Løs
       ignore: Ignorér
       reopen: Genåbn
@@ -1788,11 +1791,13 @@ da:
       to: Til
       subject: Emne
       date: Dato
+      actions: Handlinger
     message_summary:
       unread_button: Marker som ulæst
       read_button: Marker som læst
       reply_button: Svar
       destroy_button: Slet
+      unmute_button: Flyt til Indbakke
     new:
       title: Send besked
       send_message_to_html: Send en ny besked til %{name}
@@ -1807,12 +1812,18 @@ da:
       body: Beklager, der er ingen besked med det id.
     outbox:
       title: Udbakke
+      actions: Handlinger
       messages:
         one: Du har %{count} sendt besked
         other: Du har %{count} sendte beskeder
       no_sent_messages_html: Du har ingen sendte beskeder endnu. Hvorfor ikke komme
         i kontakt med nogle af de %{people_mapping_nearby_link}?
       people_mapping_nearby: folk som kortlægger i nærheden
+    muted:
+      title: Stillegjorte beskeder
+      messages:
+        one: '%{count} stillegjort besked'
+        other: Du har  %{count} stillegjorte beskeder
     reply:
       wrong_user: Du er logget på som '%{user}', men den besked du har bedt om at
         svare på blev ikke sendt til den bruger. Log venligst på som den korrekte
@@ -1831,9 +1842,13 @@ da:
     heading:
       my_inbox: Min indbakke
       my_outbox: Min udbakke
+      muted_messages: Stillegjorte beskeder
     mark:
       as_read: Besked markeret som læst
       as_unread: Besked markeret som ulæst
+    unmute:
+      notice: Beskeden er flyttet til Indbakke
+      error: Beskeden kunne ikke flyttes til Indbakke.
     destroy:
       destroyed: Besked slettet
   passwords:
@@ -1961,6 +1976,7 @@ da:
       image: Billede
       alt: Alt-tekst
       url: URL
+      codeblock: Kodeblok
     richtext_field:
       edit: Rediger
       preview: Forhåndsvisning
@@ -2098,6 +2114,10 @@ da:
           %{canada}: Indeholder data fra GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural
           Resources Canada) og StatCan (Geography Division, Statistics Canada).
         contributors_ca_canada: Canada
+        contributors_cz_credit_html: |-
+          %{czechia}: Indeholder data fra State Administration of Land Surveying
+          and Cadastre licenseret under %{cc_licence_link}
+        contributors_cz_czechia: Tjekkiet
         contributors_fi_credit_html: '%{finland}: Indeholder data fra National Land
           Survey af Finlands topografiske database og andre datasæt under %{nlsfi_license_link}.'
         contributors_fi_finland: Finland
@@ -2331,6 +2351,7 @@ da:
           cycleway_national: National cykelsti
           cycleway_regional: Regional cykelsti
           cycleway_local: Lokal cykelsti
+          cycleway_mtb: Mountainbikerute
           footway: Gangsti
           rail: Jernbane
           train: Tog
@@ -2341,18 +2362,20 @@ da:
           trolleybus: Trolleybus
           bus: Bus
           cable_car: Kabelvogn
-          chair_lift: stolelift
+          chair_lift: Stolelift
           runway_only: Landingsbane
-          taxiway: taxibane
+          taxiway: Rullevej
           apron_only: Lufthavnsforplads
           admin: Administrativ grænse
+          capital: Hovedstad
+          city: By
           orchard_only: Plantage
-          vineyard: vingård
+          vineyard: Vingård
           forest_only: Skov
-          wood: træ
+          wood: Træ
           farmland: Landbrugsjord
           grass_only: Græs
-          meadow: eng
+          meadow: Eng
           bare_rock: Blottet klippe
           sand: Sand
           golf: Golfbane
@@ -2366,7 +2389,7 @@ da:
           heathland: Hede
           scrubland: Buskads
           lake_only: Sø
-          reservoir: reservoir
+          reservoir: Reservoir
           intermittent_water: Periodisk vandmasse
           glacier: Gletsjer
           reef: Rev
@@ -2380,12 +2403,12 @@ da:
           reserve: Naturreservat
           military: Militært område
           school_only: Skole
-          university: universitet
-          hospital: sygehus
+          university: Universitet
+          hospital: Sygehus
           building: Vigtig bygning
           station: Togstation
           summit_only: Bjergtop
-          peak: højdepunkt
+          peak: Højdepunkt
           tunnel: Stiplet kant = tunnel
           bridge: Sort kant = bro
           private: Privat adgang
@@ -2437,6 +2460,7 @@ da:
         imports: Importering
         automated_edits: Automatiske Redigeringer
       start_mapping: Begynd at kortlægge
+      continue_authorization: Fortsæt autorisation
       add_a_note:
         title: Ikke tid til redigering? Tilføj en bemærkning!
         para_1: Hvis du bare vil have en lille detalje rettet, men ikke har tid til
@@ -2594,6 +2618,7 @@ da:
       oauth1_settings: OAuth 1-indstillinger
       oauth2_applications: OAuth 2-applikationer
       oauth2_authorizations: OAuth 2-autorisationer
+      muted_users: Stillegjorte Brugere
   oauth:
     authorize:
       title: Tillad adgang til din konto
@@ -2630,6 +2655,7 @@ da:
       read_gpx: Læse private GPS-spor
       write_gpx: Overføre GPS-spor
       write_notes: Ændre bemærkninger
+      write_redactions: Rediger kortdata
       read_email: Læse brugerens e-mailadresse
       skip_authorization: Godkend applikation automatisk
   oauth_clients:
@@ -2801,6 +2827,8 @@ da:
       my_dashboard: Mit kontrolpanel
       blocks on me: Mine blokeringer
       blocks by me: Blokeringer udført af mig
+      create_mute: Stillegør denne bruger
+      destroy_mute: Fjern stillegørelse fra denne bruger
       edit_profile: Rediger profil
       send message: Send besked
       diary: Blog
@@ -2821,14 +2849,18 @@ da:
       role:
         administrator: Denne bruger er en administrator
         moderator: Denne bruger er en moderator
+        importer: Denne bruger er en importør
         grant:
           administrator: Giv administrator-adgang
           moderator: Giv moderator-adgang
+          importer: Tildel adgang til at importere
         revoke:
           administrator: Fjern administrator-adgang
           moderator: Fjern moderator-adgang
+          importer: Tilbagetræk adgang til at importere
       block_history: Aktive blokeringer
       moderator_history: Uddelte blokeringer
+      revoke_all_blocks: Træk blokering tilbage
       comments: Kommentarer
       create_block: Blokér denne bruger
       activate_user: Aktivér denne bruger
@@ -2941,6 +2973,16 @@ da:
       confirm: Er du sikker på du vil tilbagekalde denne blokering?
       revoke: Tilbagekald!
       flash: Denne blokering er blevet tilbagekaldt.
+    revoke_all:
+      title: Træk alle blokeringer på %{block_on} tilbage
+      heading_html: Fjerner alle blokeringer på %{block_on}
+      empty: '%{name} har ingen aktive blokeringer.'
+      confirm: Er du sikker på at du vil trække %{active_blocks}?
+      active_blocks:
+        one: '%{count} aktiv blokering'
+        other: '%{count} aktive blokringer'
+      revoke: Træk tilbage!
+      flash: Alle aktive blokeringer er blevet tilbagetrukket.
     helper:
       time_future_html: Slutter om %{time}.
       until_login: Aktiv, indtil brugeren logger på.
@@ -2999,6 +3041,29 @@ da:
       showing_page: Side %{page}
       next: Næste »
       previous: « Forrige
+  user_mutes:
+    index:
+      title: Stillegjorte Brugere
+      my_muted_users: Mine stillegjorte brugere
+      you_have_muted_n_users: '{{PLURAL|one=Du har gjort %{count} bruger stille|Du
+        har gjort %{count} brugere stille.'
+      user_mute_explainer: Beskeder fra stillegjorte brugere flyttes ind i en separat
+        Indbox og du modtager ikke længere email notifikationer.
+      user_mute_admins_and_moderators: Du kan stillegøre Administratorer og Moderatorer,
+        men deres beskeder kan ikke stillegøres.
+      table:
+        thead:
+          muted_user: Stillegjort Bruger
+          actions: Handlinger
+        tbody:
+          unmute: Fjern stillegørelse
+          send_message: Din besked
+    create:
+      notice: Du stillegjorde %{name}.
+      error: '%{name} kunne ikke stillegøres. %{full_message}'
+    destroy:
+      notice: Du fjernede stillegørelsen fra %{name}
+      error: Brugeren kunne ikke stillegøres. Prøv venligst igen.
   notes:
     index:
       title: Bemærkninger indsendt eller kommenteret af %{user}
@@ -3035,6 +3100,7 @@ da:
       reactivate: Genaktiver
       comment_and_resolve: Kommentere på og løse
       comment: Kommenter
+      log_in_to_comment: Log ind for at kommentere på denne note
       report_link_html: Hvis denne bemærkning indeholder følsomme oplysninger, der
         skal fjernes, kan du %{link}.
       other_problems_resolve: For alle andre problemer med bemærkningen, bedes du
