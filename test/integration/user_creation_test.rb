@@ -65,6 +65,26 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_display_name"
   end
 
+  def test_user_create_submit_mismatched_passwords
+    email = "newtester@osm.org"
+    display_name = "new_tester"
+    assert_difference("User.count", 0) do
+      assert_difference("ActionMailer::Base.deliveries.size", 0) do
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => email,
+                                       :email_confirmation => email,
+                                       :display_name => display_name,
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "blahblah" } }
+        end
+      end
+    end
+    assert_response :success
+    assert_template "users/new"
+    assert_select "form > div > input.is-invalid#user_pass_crypt_confirmation"
+  end
+
   def test_user_create_success
     new_email = "newtester@osm.org"
     display_name = "new_tester"
