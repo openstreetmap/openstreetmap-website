@@ -94,18 +94,29 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       end
     end
 
-    # Check the e-mail
-    register_email = ActionMailer::Base.deliveries.first
-
-    assert_equal register_email.to.first, new_email
-    # Check that the confirm account url is correct
-    assert_match(/#{@url}/, register_email.body.to_s)
-
-    # Check the page
     assert_response :success
     assert_template "confirmations/confirm"
 
+    user = User.find_by(:email => "newtester@osm.org")
+    assert_not_nil user
+    assert_not_predicate user, :active?
+
+    register_email = ActionMailer::Base.deliveries.first
+    assert_equal register_email.to.first, new_email
+    found_confirmation_url = register_email.parts.first.parts.first.to_s =~ %r{\shttp://test.host(/\S+)\s}
+    assert found_confirmation_url
+    confirmation_url = Regexp.last_match(1)
     ActionMailer::Base.deliveries.clear
+
+    post confirmation_url
+
+    assert_response :redirect
+    assert_redirected_to welcome_path
+
+    user.reload
+    assert_predicate user, :active?
+
+    assert_equal user, User.authenticate(:username => new_email, :password => "testtest")
   end
 
   def test_user_create_no_tou_failure
