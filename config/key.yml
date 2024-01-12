@@ -22,16 +22,16 @@ mapnik:
   - { min_zoom:  8, name: light_rail, width: 52, height: 1, fill: "#ccc" }
   - { min_zoom: 10, name: light_rail, width: 52, height: 1, fill: "#aaa" }
   - { min_zoom: 13, name: light_rail, width: 52, height: 2, fill: "#666" }
-  - { min_zoom: 12, name: tram_only, width: 52, height: 1, line: "#6e6e6e", line-width: 0.75 }
-  - { min_zoom: 14, name: tram_only, width: 52, height: 3, line: "#6e6e6e", line-width: 1 }
-  - { min_zoom: 15, name: tram_only, width: 52, height: 3, line: "#6e6e6e", line-width: 1.5 }
-  - { min_zoom: 17, name: tram_only, width: 52, height: 2, line: "#6e6e6e", line-width: 2 }
+  - { min_zoom: 12, name: tram, width: 52, height: 1, line: "#6e6e6e", line-width: 0.75 }
+  - { min_zoom: 14, name: tram, width: 52, height: 3, line: "#6e6e6e", line-width: 1 }
+  - { min_zoom: 15, name: tram, width: 52, height: 3, line: "#6e6e6e", line-width: 1.5 }
+  - { min_zoom: 17, name: tram, width: 52, height: 2, line: "#6e6e6e", line-width: 2 }
   - { min_zoom: 12, name: [cable_car, chair_lift], image: cable.png }
-  - { min_zoom: 11, name: [runway_only, taxiway], image: runway11.svg }
-  - { min_zoom: 12, name: [runway_only, taxiway], image: runway12.svg }
-  - { min_zoom: 13, name: [runway_only, taxiway], image: runway13.svg }
-  - { min_zoom: 14, name: [runway_only, taxiway], image: runway14.svg }
-  - { min_zoom: 11, name: apron_only, width: 26, height: 10, fill: "#dadae0" } # landcover.mss
+  - { min_zoom: 11, name: [runway, taxiway], image: runway11.svg }
+  - { min_zoom: 12, name: [runway, taxiway], image: runway12.svg }
+  - { min_zoom: 13, name: [runway, taxiway], image: runway13.svg }
+  - { min_zoom: 14, name: [runway, taxiway], image: runway14.svg }
+  - { min_zoom: 11, name: apron, width: 26, height: 10, fill: "#dadae0" } # landcover.mss
   # administrative boundaries: admin.mss
   - { name: admin, width: 52, height: 2, fill: "#8d618b88" }
   # places: placenames.mss
@@ -40,18 +40,18 @@ mapnik:
   - { min_zoom: 4, max_zoom: 5, name: city, image: city4.svg }
   - { min_zoom: 6, max_zoom: 7, name: city, image: city6.svg }
   # landcover z5: landcover.mss, water.mss
-  - { name: [lake_only, reservoir], width: 26, height: 10, fill: "#aad3df" }
+  - { name: [lake, reservoir], width: 26, height: 10, fill: "#aad3df" }
   - { name: intermittent_water, image: intermittent_water.svg }
   - { min_zoom:  5, name: glacier, width: 26, height: 10, fill: "#ddecec", border: "#9cf" }
   - { min_zoom: 10, name: glacier, width: 26, height: 10, fill: "#ddecec", border: "#9cf", border-dasharray: "4 2" }
   - { min_zoom: 10, name: reef, image: reef.png }
   - { min_zoom: 10, name: wetland, image: wetland.png }
-  - { min_zoom:  5, name: [forest_only, wood], width: 26, height: 10, fill: "#bddab1" }
-  - { min_zoom: 12, name: [forest_only, wood], width: 26, height: 10, fill: "#add19e" }
-  - { min_zoom:  5, name: [orchard_only, vineyard], width: 26, height: 10, fill: "#bee5b5" }
-  - { min_zoom: 12, name: [orchard_only, vineyard], width: 26, height: 10, fill: "#aedfa3" }
-  - { min_zoom:  5, name: [grass_only, meadow], width: 26, height: 10, fill: "#d7efc0" }
-  - { min_zoom: 12, name: [grass_only, meadow], width: 26, height: 10, fill: "#cdebb0" }
+  - { min_zoom:  5, name: [forest, wood], width: 26, height: 10, fill: "#bddab1" }
+  - { min_zoom: 12, name: [forest, wood], width: 26, height: 10, fill: "#add19e" }
+  - { min_zoom:  5, name: [orchard, vineyard], width: 26, height: 10, fill: "#bee5b5" }
+  - { min_zoom: 12, name: [orchard, vineyard], width: 26, height: 10, fill: "#aedfa3" }
+  - { min_zoom:  5, name: [grass, meadow], width: 26, height: 10, fill: "#d7efc0" }
+  - { min_zoom: 12, name: [grass, meadow], width: 26, height: 10, fill: "#cdebb0" }
   - { min_zoom:  5, name: farmland, width: 26, height: 10, fill: "#f1f3dd" }
   - { min_zoom: 12, name: farmland, width: 26, height: 10, fill: "#eef0d5" }
   - { min_zoom:  5, name: heathland, width: 26, height: 10, fill: "#dee1b2" }
@@ -83,7 +83,7 @@ mapnik:
   - { min_zoom: 11, name: centre, width: 26, height: 10, fill: "#dffce2" }
   - { min_zoom: 10, name: reserve, image: reserve.svg } # admin.mss
   - { min_zoom:  8, name: military, image: military.svg }
-  - { min_zoom: 13, name: [school_only, university, hospital], image: school.svg }
+  - { min_zoom: 13, name: [school, university, hospital], image: school.svg }
   # buildings: buildings.mss
   - { min_zoom: 14, name: building, width: 10, height: 10, fill: "#ab9793" }
   - { min_zoom: 15, name: building, width: 10, height: 10, fill: "#b9a99c", border: "#a99a8d" }
@@ -93,7 +93,7 @@ mapnik:
   - { min_zoom: 13, name: station, width: 6, height: 6, fill: "#7981b0" }
   - { min_zoom: 15, name: station, width: 9, height: 9, fill: "#7981b0" }
   # other
-  - { min_zoom: 11, name: [summit_only, peak], image: summit.svg } # amenity-points.mss
+  - { min_zoom: 11, name: [summit, peak], image: summit.svg } # amenity-points.mss
   - { min_zoom: 13, name: tunnel, width: 50, height: 5, casing: grey, casing-dasharray: "4 2", casing-dashoffset: 1 } # roads.mss
   - { min_zoom: 13, name: bridge, width: 50, height: 5, casing: black } # roads.mss
   - { min_zoom: 15, name: private, image: private.png }
@@ -133,11 +133,11 @@ cyclemap:
   - { min_zoom: 13, name: footway, width: 50, height: 3, line: "#bd6d6e", line-width: 1.5, line-dasharray: "6 2" }
   - { min_zoom:  7, name: rail, width: 50, height: 3, line: "#999999", line-width: 1.5 }
   - { min_zoom: 14, name: rail, width: 50, height: 4, fill: "#999999", line: white, line-dasharray: 4, line-width: 2 }
-  - { min_zoom:  1, name: [lake_only, reservoir], width: 26, height: 10, fill: "#addeff" }
-  - { min_zoom:  9, name: [forest_only, wood], width: 26, height: 10, fill: "#b3d6a4" }
+  - { min_zoom:  1, name: [lake, reservoir], width: 26, height: 10, fill: "#addeff" }
+  - { min_zoom:  9, name: [forest, wood], width: 26, height: 10, fill: "#b3d6a4" }
   - { min_zoom: 10, name: meadow, width: 26, height: 10, fill: "#c0de9c" }
   - { min_zoom: 10, name: park, width: 26, height: 10, fill: "#cbe4c4" }
-  - { min_zoom: 10, name: common_only, width: 26, height: 10, fill: "#d4f0d1" }
+  - { min_zoom: 10, name: common, width: 26, height: 10, fill: "#d4f0d1" }
   - { min_zoom: 14, name: bicycle_shop, image: bicycle_shop.png }
   - { min_zoom: 15, name: bicycle_parking, image: bicycle_parking.png }
   - { min_zoom: 16, name: toilets, image: toilets.png }
@@ -156,10 +156,10 @@ opnvkarte:
   - { min_zoom: 12, name: light_rail, width: 52, height:  4, fill: "#66ff66" }
   - { min_zoom: 14, name: light_rail, width: 52, height:  8, fill: "#66ff66" }
   - { min_zoom: 16, name: light_rail, width: 52, height: 10, fill: "#66ff66" }
-  - { min_zoom: 10, name: tram_only, width: 52, height:  3, fill: "#3333fe" }
-  - { min_zoom: 12, name: tram_only, width: 52, height:  4, fill: "#3333fe" }
-  - { min_zoom: 14, name: tram_only, width: 52, height:  8, fill: "#3333fe" }
-  - { min_zoom: 16, name: tram_only, width: 52, height: 10, fill: "#3333fe" }
+  - { min_zoom: 10, name: tram, width: 52, height:  3, fill: "#3333fe" }
+  - { min_zoom: 12, name: tram, width: 52, height:  4, fill: "#3333fe" }
+  - { min_zoom: 14, name: tram, width: 52, height:  8, fill: "#3333fe" }
+  - { min_zoom: 16, name: tram, width: 52, height: 10, fill: "#3333fe" }
   - { min_zoom: 10, name: subway, width: 52, height:  3, fill: "#33339f" }
   - { min_zoom: 12, name: subway, width: 52, height:  4, fill: "#33339f" }
   - { min_zoom: 14, name: subway, width: 52, height:  8, fill: "#33339f" }
@@ -189,9 +189,9 @@ opnvkarte:
   - { min_zoom: 15, name: main_road, width: 52, height: 13, fill: "#dddddd", casing: "#a1968b" }
   - { min_zoom: 17, name: main_road, width: 52, height: 17, fill: "#dddddd", casing: "#a1968b" }
   # landcover
-  - { min_zoom:  0, name: [lake_only, reservoir], width: 26, height: 10, fill: "#a1cbea" }
-  - { min_zoom:  8, name: [lake_only, reservoir], width: 26, height: 10, fill: "#bfd3ef" }
-  - { min_zoom:  4, name: [forest_only, wood], width: 26, height: 10, fill: "#b9c5a3" }
+  - { min_zoom:  0, name: [lake, reservoir], width: 26, height: 10, fill: "#a1cbea" }
+  - { min_zoom:  8, name: [lake, reservoir], width: 26, height: 10, fill: "#bfd3ef" }
+  - { min_zoom:  4, name: [forest, wood], width: 26, height: 10, fill: "#b9c5a3" }
   - { min_zoom:  4, name: built_up, width: 26, height: 10, fill: "#d8d8d8" }
   - { min_zoom:  9, name: farmland, width: 26, height: 10, fill: "#eae8d6" }
   - { min_zoom: 12, name: [park, allotments], width: 26, height: 10, fill: "#c2d89a" }
