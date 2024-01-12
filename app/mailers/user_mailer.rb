@@ -44,11 +44,13 @@ class UserMailer < ApplicationMailer
   def gpx_success(trace, possible_points)
     with_recipient_locale trace.user do
       @to_user = trace.user.display_name
+      @trace_url = show_trace_url(trace.user, trace)
       @trace_name = trace.name
       @trace_points = trace.size
       @trace_description = trace.description
       @trace_tags = trace.tags
       @possible_points = possible_points
+      @my_traces_url = url_for(:controller => "traces", :action => "mine")
 
       mail :to => trace.user.email,
            :subject => t(".subject")

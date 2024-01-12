@@ -15,7 +15,34 @@ class UserMailerTest < ActionMailer::TestCase
     end
     email = UserMailer.gpx_success(trace, 100)
 
-    assert_match(/one two three/, email.html_part.body.to_s)
+    assert_match("<em>one</em>, <em>two</em>, <em>three</em>", email.html_part.body.to_s)
+  end
+
+  def test_gpx_success_all_traces_link
+    trace = create(:trace)
+    email = UserMailer.gpx_success(trace, 100)
+    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+
+    url = Rails.application.routes.url_helpers.url_for(:controller => "traces", :action => "mine", :host => Settings.server_url, :protocol => Settings.server_protocol)
+    assert_select body, "a[href='#{url}']"
+  end
+
+  def test_gpx_success_trace_link
+    trace = create(:trace)
+    email = UserMailer.gpx_success(trace, 100)
+    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+
+    url = Rails.application.routes.url_helpers.show_trace_url(trace.user, trace, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    assert_select body, "a[href='#{url}']", :text => trace.name
+  end
+
+  def test_gpx_failure_no_trace_link
+    trace = create(:trace)
+    email = UserMailer.gpx_failure(trace, "some error")
+    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+
+    url = Rails.application.routes.url_helpers.show_trace_url(trace.user, trace, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    assert_select body, "a[href='#{url}']", :count => 0
   end
 
   def test_html_encoding
