@@ -119,7 +119,6 @@ class User < ApplicationRecord
 
   alias_attribute :created_at, :creation_time
 
-  after_initialize :encrypt_password
   before_save :encrypt_password
   before_save :update_tile
   after_save :spam_check
