@@ -113,6 +113,7 @@ OpenStreetMap::Application.routes.draw do
   get "/way/:id/history" => "browse#way_history", :id => /\d+/, :as => :way_history
   get "/node/:id" => "browse#node", :id => /\d+/, :as => :node
   get "/node/:id/history" => "browse#node_history", :id => /\d+/, :as => :node_history
+  resources :old_nodes, :path => "/node/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
   get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
   get "/relation/:id/history" => "browse#relation_history", :id => /\d+/, :as => :relation_history
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/

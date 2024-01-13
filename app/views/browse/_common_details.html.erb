@@ -19,7 +19,7 @@
   </li>
   <li>
     <%= t "browse.in_changeset" %>
-    #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
+    #<%= link_to common_details.changeset_id, changeset_path(common_details.changeset) %>
   </li>
 
   <% if @type == "node" and common_details.visible? %>
@@ -33,4 +33,4 @@
   <% end %>
 </ul>
 
-<%= render :partial => "tag_details", :object => common_details.tags %>
+<%= render :partial => "browse/tag_details", :object => common_details.tags %>
