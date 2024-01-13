@@ -25,12 +25,6 @@ class Ability
       can [:index, :show, :data, :georss, :picture, :icon], Trace
       can [:terms, :new, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
       can [:index, :show, :blocks_on, :blocks_by], UserBlock
-      can [:index, :show], Node
-      can [:index, :show, :full, :ways_for_node], Way
-      can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
-      can [:history, :version], OldNode
-      can [:history, :version], OldWay
-      can [:history, :version], OldRelation
     end
 
     if user&.active?
