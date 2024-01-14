@@ -34,7 +34,11 @@ module BrowseTagsHelper
       end
       safe_join(phones, "; ")
     elsif colour_value = colour_preview(key, value)
-      tag.span("", :class => "colour-preview-box float-end m-1 border border-dark border-opacity-10", :"data-colour" => colour_value, :title => t("browse.tag_details.colour_preview", :colour_value => colour_value)) + colour_value
+      svg = tag.svg :width => 14, :height => 14, :class => "float-end m-1" do
+        concat tag.title t("browse.tag_details.colour_preview", :colour_value => colour_value)
+        concat tag.rect :x => 0.5, :y => 0.5, :width => 13, :height => 13, :fill => colour_value, :stroke => "#2222"
+      end
+      svg + colour_value
     else
       safe_join(value.split(";", -1).map { |x| linkify(h(x)) }, ";")
     end
