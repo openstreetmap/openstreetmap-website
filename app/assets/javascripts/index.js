@@ -383,6 +383,7 @@ $(document).ready(function () {
     "/way/:id(/history)": OSM.Browse(map, "way"),
     "/way/:id/history/:version": OSM.OldBrowse(),
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
+    "/relation/:id/history/:version": OSM.OldBrowse(),
     "/changeset/:id": OSM.Changeset(map),
     "/query": OSM.Query(map)
   });

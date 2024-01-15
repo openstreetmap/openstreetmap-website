@@ -8,7 +8,7 @@
   </div>
 <% else %>
   <div class="browse-section browse-relation">
-    <%= render :partial => "common_details", :object => relation %>
+    <%= render :partial => "browse/common_details", :object => relation %>
 
     <% unless relation.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
@@ -25,7 +25,7 @@
       <details <%= "open" if relation.relation_members.count < 10 %>>
         <summary><%= t ".members_count", :count => relation.relation_members.count %></summary>
         <ul class="list-unstyled">
-          <%= render :partial => "relation_member", :collection => relation.relation_members %>
+          <%= render :partial => "browse/relation_member", :collection => relation.relation_members %>
         </ul>
       </details>
     <% end %>

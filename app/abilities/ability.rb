@@ -8,6 +8,7 @@ class Ability
          :changeset, :query], :browse
     can [:show], OldNode
     can [:show], OldWay
+    can [:show], OldRelation
     can [:show, :new], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id], :site
