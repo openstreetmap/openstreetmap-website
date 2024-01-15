@@ -134,6 +134,12 @@ es:
       messages:
         invalid_email_address: no parece ser una dirección de correo electrónico válida
         email_address_not_routable: no es enrutable
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: ya esta silenciado
     models:
       acl: Lista de control de acceso
       changeset: Conjunto de cambios
@@ -1893,6 +1899,11 @@ es:
       no_sent_messages_html: Aún no tienes mensajes enviados. ¿Por qué no ponerte
         en contacto con algunas de las %{people_mapping_nearby_link}?
       people_mapping_nearby: personas mapeando cerca
+    muted:
+      title: Mensajes silenciados
+      messages:
+        one: '%{count} mensaje silenciado'
+        other: Tienes %{count} mensajes silenciados
     reply:
       wrong_user: Estás conectado como `%{user}' pero el mensaje que quieres responder
         no se ha enviado a dicho usuario. Por favor, inicia sesión con el usuario
@@ -1911,6 +1922,7 @@ es:
     heading:
       my_inbox: Mi buzón
       my_outbox: Mi buzón de salida
+      muted_messages: Mensajes silenciados
     mark:
       as_read: Mensaje marcado como leído
       as_unread: Mensaje marcado como no leído
@@ -1942,6 +1954,8 @@ es:
         URL?
     update:
       flash changed: Tu contraseña ha sido cambiada.
+      flash token bad: No se ha encontrado este token, ¿Quizá deberías comprobar la
+        URL?
   preferences:
     show:
       title: Mis preferencias
@@ -2432,37 +2446,56 @@ es:
           primary: Vía primaria
           secondary: Vía secundaria
           unclassified: Vía de menos nivel
+          pedestrian: Vía peatonal
           track: Pista
           bridleway: Vía ecuestre
           cycleway: Ciclovía
           cycleway_national: Ciclovía nacional
           cycleway_regional: Ciclovía regional
           cycleway_local: Ciclovía local
+          cycleway_mtb: Ruta de bicicleta de montaña
           footway: Vía peatonal
           rail: Ferrocarril
+          train: Tren
           subway: Metro
-          tram_only: Tranvía
+          ferry: Ferry
+          light_rail: Tren Ligero
+          tram: Tranvía
+          trolleybus: Trolebús
           bus: Autobús
           cable_car: Telecabina
           chair_lift: Telesilla
-          runway_only: Pista de aeropuerto
+          runway: Pista de aeropuerto
           taxiway: Calle de rodaje
-          apron_only: Rampa aeroportuaria
+          apron: Rampa aeroportuaria
           admin: Límite administrativo
-          orchard_only: Huerta
-          forest_only: Bosque
-          wood: Bosque
+          capital: Capital
+          city: Ciudad
+          orchard: Huerta
+          vineyard: Viñedo
+          forest: Bosque
+          wood: Bosque maderable
+          farmland: Tierras de cultivo
+          grass: Césped
+          meadow: Pradera
+          bare_rock: Roca desnuda
           sand: Arena
           golf: Campo de golf
           park: Parque
-          common_only: Común
+          common: Común
+          built_up: Área construida
           resident: Zona residencial
           retail: Zona de comercios
           industrial: Zona industrial
           commercial: Zona comercial
           heathland: Brezal
-          lake_only: Lago
-          reservoir: embalse
+          scrubland: Matorral
+          lake: Lago
+          reservoir: Embalse
+          intermittent_water: Cuerpo de agua intermitente
+          glacier: Glaciar
+          reef: Arrecife
+          wetland: Pantano
           farm: Granja
           brownfield: Sitio baldío
           cemetery: Cementerio
@@ -2471,12 +2504,13 @@ es:
           centre: Centro deportivo
           reserve: Reserva natural
           military: Área militar
-          school_only: Escuela
-          university: universidad
+          school: 'Escuela: universidad'
+          university: Universidad
+          hospital: Hospital
           building: Edificio significativo
           station: Estación de tren
-          summit_only: Cumbre
-          peak: pico
+          summit: Cumbre
+          peak: Pico
           tunnel: Borde a rayas = túnel
           bridge: Borde negro = puente
           private: Acceso privado
@@ -2695,6 +2729,7 @@ es:
       oauth1_settings: Otras configuraciones
       oauth2_applications: Aplicaciones de OAuth 2
       oauth2_authorizations: Autorizaciones de OAuth 2
+      muted_users: Usuarios silenciados
   oauth:
     authorize:
       title: Autorizar el acceso a tu cuenta
@@ -2821,6 +2856,7 @@ es:
       application: Solicitudes
       permissions: Permisos
       no_applications_html: Aún no has autorizado aplicaciones a %{oauth2}.
+      oauth_2: OAuth 2
     application:
       revoke: Revocar el acceso
       confirm_revoke: ¿Revocar el acceso a esta aplicación?
@@ -2906,6 +2942,8 @@ es:
       my_dashboard: Mi tablero
       blocks on me: Bloqueos sobre mí
       blocks by me: Bloqueados por mí
+      create_mute: Silenciar a este usuario
+      destroy_mute: Dejar de silenciar a este usuario
       edit_profile: Editar perfil
       send message: Enviar mensaje
       diary: Diario
@@ -2937,6 +2975,7 @@ es:
           importer: Revocar el acceso importador
       block_history: Bloqueos activos
       moderator_history: Bloqueos impuestos
+      revoke_all_blocks: Revocar todos los bloqueos
       comments: Comentarios
       create_block: Bloquear a este usuario
       activate_user: Activar este usuario
@@ -3051,6 +3090,16 @@ es:
       confirm: ¿Estás seguro de que deseas revocar este bloqueo?
       revoke: ¡Revocar!
       flash: Este bloqueo ha sido revocado.
+    revoke_all:
+      title: Revocando todos los bloqueos en %{block_on}
+      heading_html: Revocando todos los bloqueos en %{block_on}
+      empty: '%{name} no tiene bloqueos activos.'
+      confirm: ¿Estás seguro de que deseas revocar %{active_blocks}?
+      active_blocks:
+        one: '%{count} bloqueo activo'
+        other: '%{count} bloqueos activos'
+      revoke: ¡Revocar!
+      flash: Todos los bloqueos activos han sido revocados.
     helper:
       time_future_html: Termina en %{time}.
       until_login: Activo hasta que el usuario acceda.
@@ -3112,11 +3161,27 @@ es:
       previous: « Anterior
   user_mutes:
     index:
+      title: Usuarios silenciados
+      my_muted_users: Mis usuarios silenciados
+      you_have_muted_n_users:
+        one: Has silenciado %{count} usuario
+        other: Has silenciado %{count} usuarios
+      user_mute_explainer: Los mensajes de los usuarios silenciados se trasladan a
+        una bandeja de entrada separada y no recibirás notificaciones por correo electrónico.
+      user_mute_admins_and_moderators: Puedes silenciar a los administradores y moderadores
+        pero sus mensajes no serán silenciados.
       table:
         thead:
+          muted_user: Usuario silenciado
           actions: Acciones
         tbody:
+          unmute: Dejar de silenciar
           send_message: Enviar mensaje
+    create:
+      notice: Has silenciado a %{name}.
+      error: '%{name} no pudo ser silenciado. %{full_message}.'
+    destroy:
+      notice: Has dejado de silenciar a %{name}.
   notes:
     index:
       title: Notas creadas o comentadas por %{user}
@@ -3153,6 +3218,7 @@ es:
       reactivate: Reactivar
       comment_and_resolve: Comentar y resolver
       comment: Comentar
+      log_in_to_comment: Inicia sesión para comentar esta nota
       report_link_html: Si esta nota contiene información sensible que debe eliminarse,
         puedes %{link}.
       other_problems_resolve: Para todos los demás problemas con la nota, resuélvelo

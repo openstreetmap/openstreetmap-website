@@ -44,6 +44,11 @@ cy:
       messages:
         invalid_email_address: nid yw'n ymddangos ei fod yn gyfeiriad e-bost dilys
         email_address_not_routable: nid yw'n gyrchadwy
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
     models:
       acl: Rhestr Rheoli Mynediad
       changeset: Grŵp newid
@@ -819,11 +824,15 @@ cy:
           college: Adeilad Coleg
           commercial: Adeilad Masnachol
           construction: Adeilad yn cael ei Adeiladu
+          detached: Tŷ Datgysylltiedig
           dormitory: Dorm
+          duplex: Tŷ Deublyg
           farm: Ffermdy
+          farm_auxiliary: Tŷ Fferm Ategol
           garage: Garej
           garages: Garejis
           greenhouse: Tŷ Gwydr
+          hangar: Hangar
           hospital: Adeilad Ysbyty
           hotel: Adeilad Gwesty
           house: Tŷ
@@ -831,11 +840,13 @@ cy:
           hut: Cwt
           industrial: Adeilad Diwydiannol
           kindergarten: Adeilad Meithrinfa
+          manufacture: Adeilad Gweithgynhyrchu
           office: Adeilad Swyddfa
           public: Adeilad Cyhoeddus
           residential: Adeilad Preswyl
           retail: Adeilad Adwerthu
           roof: To
+          ruins: Adeilad Adfeiliedig
           school: Adeilad Ysgol
           shed: Sied
           stable: Stabl
@@ -1395,6 +1406,8 @@ cy:
       reopen: Ailagor
       read_reports: Darllen Adroddiadau
       new_reports: Adroddiadau Newydd
+    comments:
+      comment_from_html: Sylw gan %{user_link} ar %{comment_created_at}
     reports:
       reported_by_html: Adroddwyd fel %{category} gan %{user} ar %{updated_at}
     helper:
@@ -1524,12 +1537,15 @@ cy:
       hi: Helo %{to_user},
       greeting: Helo,
       commented:
+        subject_own: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar un o''ch grwpiau
+          newid'
         partial_changeset_with_comment: gyda sylw '%{changeset_comment}'
         partial_changeset_with_comment_html: gyda sylw '%{changeset_comment}'
         partial_changeset_without_comment: dim sylw
   confirmations:
     confirm:
       heading: Gwiriwch eich e-byst!
+      introduction_1: Rydym wedi anfon e-bost cadarnhau atoch.
       button: Cadarnhau
       click_here: cliciwch yma
     confirm_resend:
@@ -1563,11 +1579,13 @@ cy:
       to: I
       subject: Pwnc
       date: Dyddiad
+      actions: Gweithredoedd
     message_summary:
       unread_button: Marcio fel heb ei ddarllen
       read_button: Marcio fel wedi'i ddarllen
       reply_button: Ateb
       destroy_button: Dileu
+      unmute_button: Symud i'r Mewnflwch
     new:
       title: Anfon neges
       send_message_to_html: Anfon neges newydd at %{name}
@@ -1582,6 +1600,7 @@ cy:
       body: Sori, nid oes neges gyda'r id yno.
     outbox:
       title: Blwch Allan
+      actions: Gweithredoedd
       messages:
         one: Mae gennych %{count} neges wedi ei anfon
         other: Mae gennych %{count} neges wedi eu hanfon
@@ -1710,6 +1729,7 @@ cy:
       image: Delwedd
       alt: Testun amgen
       url: URL
+      codeblock: Bloc cod
     richtext_field:
       edit: Golygu
       preview: Rhagolwg
@@ -1924,25 +1944,45 @@ cy:
           cycleway_local: Llwybr beiciau lleol
           footway: Troedffordd
           rail: Rheilffordd
+          train: Trên
           subway: Trenau tanddaear
+          ferry: Fferi
+          light_rail: Rheilffordd ysgafn
+          tram: Tram
+          trolleybus: Bws Drydan
+          bus: Bws
           cable_car: Car cebl
-          chair_lift: lifft cadair
-          runway_only: Llwybr glanio
-          taxiway: thacsiffordd maes awyr
-          apron_only: Llain
+          chair_lift: Cadair godi
+          runway: Llwybr glanio
+          taxiway: Tacsiffordd
+          apron: Llain
           admin: Ffin gweinyddol
-          forest_only: Coedwig
+          capital: Prifddinas
+          city: Dinas
+          orchard: Perllan
+          vineyard: Gwinllan
+          forest: Coedwig
           wood: Coedlan
+          farmland: Tir Ffermio
+          grass: Gwair
+          meadow: Gwaun
+          bare_rock: Carreg Plaen
+          sand: Tywod
           golf: Maes golff
           park: Parc
-          common_only: Comin
+          common: Comin
+          built_up: Ardal Adeiledig
           resident: Ardal breswyl
           retail: Ardal adwerthu
           industrial: Ardal ddiwydiannol
           commercial: Ardal fasnachol
           heathland: Rhos
-          lake_only: Llyn
-          reservoir: chronfa ddŵr
+          scrubland: Prysgoed
+          lake: Llyn
+          reservoir: Cronfa Ddŵr
+          glacier: Rhewlif
+          reef: Riff
+          wetland: Gwlyptir
           farm: Fferm
           brownfield: Safle tir llwyd
           cemetery: Mynwent
@@ -1951,17 +1991,20 @@ cy:
           centre: Canolfan chwaraeon
           reserve: Gwarchodfa natur
           military: Ardal filwrol
-          school_only: Ysgol
-          university: phrifysgol
+          school: Ysgol
+          university: Prifysgol
+          hospital: Ysbyty
           building: Adeilad arwyddocâol
           station: Gorsaf drên
-          summit_only: Copa
-          peak: chrib
+          summit: Copa
+          peak: Copa
           tunnel: Border toredig = twnnel
           bridge: Border du = pont
           private: Mynediad preifat
           destination: Mynediad cyrchfan
           construction: Ffyrdd yn cael eu hadeiladu
+          bus_stop: Safle Bws
+          stop: Safle
           bicycle_shop: Siop feiciau
           bicycle_parking: Man parcio beiciau
           toilets: Toiledau
@@ -2133,6 +2176,7 @@ cy:
       read_gpx: Darllen arllwybrau GPS preifat
       write_gpx: Uwchlwytho arllwybrau GPS
       write_notes: Addasu nodiadau
+      write_redactions: Gorchuddio data map
       read_email: Darllen cyfeiriad e-bost defnyddwyr
       skip_authorization: Cymeradwyo cais yn awtomatig
   oauth_clients:
@@ -2185,6 +2229,7 @@ cy:
     index:
       application: Ap
       permissions: Caniatadau
+      oauth_2: OAuth 2
   users:
     new:
       title: Cofrestru
@@ -2193,6 +2238,7 @@ cy:
         header: Rhydd ac agored
       display name description: Eich enw defnyddiwr cyhoeddus. Gallwch newid hyn yn
         nes ymlaen yn eich dewisiadau.
+      external auth: 'Dilysu Trydydd Parti:'
       use external auth: Fel arall, defnyddiwch drydydd parti i fewngofnodi
       continue: Cofrestru
       terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
@@ -2231,6 +2277,8 @@ cy:
       my_dashboard: Dangosfwrdd
       blocks on me: Blociau arnaf i
       blocks by me: Blociau gennyf i
+      create_mute: Anwybyddu'r Defnyddiwr hwn
+      destroy_mute: Dad-anwybyddu'r Defnyddiwr hwn
       edit_profile: Golygu Proffil
       send message: Anfon Neges
       diary: Dyddiadur
@@ -2251,6 +2299,15 @@ cy:
       role:
         administrator: Mae'r defnyddiwr hwn yn weinyddwr.
         moderator: Mae'r defnyddiwr hwn yn gymedrolwr.
+        importer: Mae'r defnyddiwr hwn yn fewnforiwr
+        grant:
+          administrator: Rhoi statws gweinyddwr
+          moderator: Rhoi statws cymedrolwr
+          importer: Rhoi statws mewnforiwr
+        revoke:
+          administrator: Tynnu statws gweinyddwr
+          moderator: Tynnu statws cymedrolwr
+          importer: Tynnu statws mewnforiwr
       block_history: Blociau Gweithredol
       moderator_history: Blociau a roddwyd
       comments: Sylwadau
@@ -2372,6 +2429,15 @@ cy:
       showing_page: Tudalen %{page}
       next: Nesaf »
       previous: « Blaenorol
+  user_mutes:
+    index:
+      table:
+        thead:
+          actions: Gweithredoedd
+        tbody:
+          send_message: Anfon neges
+    create:
+      notice: Rydych chi wedi anwybyddu %{name}.
   notes:
     index:
       heading: Nodiadau %{user}
@@ -2439,6 +2505,7 @@ cy:
       short_url: URL Byr
       include_marker: Cynnwys marciwr
       center_marker: Canoli'r map ar y marciwr
+      view_larger_map: Gweld Map Mawr
     embed:
       report_problem: Adrodd am broblem
     key:
