@@ -111,6 +111,7 @@ OpenStreetMap::Application.routes.draw do
   # Data browsing
   get "/way/:id" => "browse#way", :id => /\d+/, :as => :way
   get "/way/:id/history" => "browse#way_history", :id => /\d+/, :as => :way_history
+  resources :old_ways, :path => "/way/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
   get "/node/:id" => "browse#node", :id => /\d+/, :as => :node
   get "/node/:id/history" => "browse#node_history", :id => /\d+/, :as => :node_history
   resources :old_nodes, :path => "/node/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show

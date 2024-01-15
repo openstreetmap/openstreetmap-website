@@ -7,6 +7,7 @@ class Ability
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
          :changeset, :query], :browse
     can [:show], OldNode
+    can [:show], OldWay
     can [:show, :new], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id], :site

@@ -381,6 +381,7 @@ $(document).ready(function () {
     "/node/:id(/history)": OSM.Browse(map, "node"),
     "/node/:id/history/:version": OSM.OldBrowse(),
     "/way/:id(/history)": OSM.Browse(map, "way"),
+    "/way/:id/history/:version": OSM.OldBrowse(),
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
     "/changeset/:id": OSM.Changeset(map),
     "/query": OSM.Query(map)
