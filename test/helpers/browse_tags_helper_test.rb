@@ -54,7 +54,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en\">File:Test.jpg</a>", html
 
     html = format_value("colour", "#f00")
-    assert_dom_equal %(<span class="colour-preview-box float-end m-1 border border-dark border-opacity-10" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
+    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    assert_select dom, "svg>rect>@fill", "#f00"
+    assert_match(/#f00$/, html)
 
     html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
