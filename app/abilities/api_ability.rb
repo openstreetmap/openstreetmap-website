@@ -5,7 +5,6 @@ class ApiAbility
 
   def initialize(user)
     can :show, :capability
-    can :index, :change
     can :index, :map
     can :show, :permission
     can :show, :version
@@ -22,17 +21,9 @@ class ApiAbility
       can [:history, :version], OldWay
       can [:history, :version], OldRelation
       can [:show], UserBlock
-    end
 
-    if user&.active?
-      can :welcome, :site
-      can [:revoke, :authorize], :oauth
-
-      if Settings.status != "database_offline"
-        can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
-        can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
+      if user&.active?
         can [:comment, :close, :reopen], Note
-        can [:new, :create], Report
         can [:create, :show, :update, :destroy, :data], Trace
         can [:details, :gpx_files], User
         can [:index, :show, :update, :update_all, :destroy], UserPreference
