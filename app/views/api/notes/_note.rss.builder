@@ -3,7 +3,7 @@ xml.item do
 
   if note.closed?
     xml.title t("api.notes.rss.closed", :place => location)
-  elsif note.comments.length > 1
+  elsif note.comments_with_extra_open_comment.any?
     xml.title t("api.notes.rss.commented", :place => location)
   else
     xml.title t("api.notes.rss.opened", :place => location)
