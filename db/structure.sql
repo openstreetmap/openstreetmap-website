@@ -1063,7 +1063,10 @@ CREATE TABLE public.notes (
     updated_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
     status public.note_status_enum NOT NULL,
-    closed_at timestamp without time zone
+    closed_at timestamp without time zone,
+    author_id bigint,
+    author_ip inet,
+    body text
 );
 
 
@@ -2962,6 +2965,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 
 --
+-- Name: notes fk_rails_36c9deba43; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT fk_rails_36c9deba43 FOREIGN KEY (author_id) REFERENCES public.users(id) NOT VALID;
+
+
+--
 -- Name: user_mutes fk_rails_591dad3359; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3369,6 +3380,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20240307180830'),
 ('20240228205723'),
 ('20240117185445'),
+('20240107144209'),
 ('20231213182102'),
 ('20231206141457'),
 ('20231117170422'),

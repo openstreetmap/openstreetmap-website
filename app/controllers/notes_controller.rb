@@ -39,6 +39,9 @@ class NotesController < ApplicationController
       @note = Note.visible.find(params[:id])
       @note_comments = @note.comments
     end
+
+    # FIXME: notes_refactoring remove this once the backfilling is completed
+    @note_comments = @note_comments.drop(1) unless @note.body_migrated?
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found
   end

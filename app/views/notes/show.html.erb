@@ -5,7 +5,7 @@
 <div>
   <h4><%= t(".description") %></h4>
   <div class="overflow-hidden ms-2">
-    <%= h(@note_comments.first.body.to_html) %>
+    <%= h(@note.body.to_html) %>
   </div>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">
@@ -28,10 +28,10 @@
     <p class='alert alert-warning'><%= t ".anonymous_warning" %></p>
   <% end -%>
 
-  <% if @note_comments.length > 1 %>
+  <% if @note_comments.any? %>
     <div class='note-comments'>
       <ul class="list-unstyled">
-        <% @note_comments.drop(1).each do |comment| %>
+        <% @note_comments.each do |comment| %>
           <li id="c<%= comment.id %>">
             <small class='text-body-secondary'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <div class="mx-2">
