@@ -39,35 +39,63 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_read_relation
-    browse_check :relation_path, create(:relation).id, "browse/feature"
+    relation = create(:relation)
+    browse_check :relation_path, relation.id, "browse/feature"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_relation_path relation, 1}']", :text => "1", :count => 1
+    end
+    assert_select "a[href='#{api_relation_path relation}']", :count => 1
   end
 
   def test_read_relation_history
-    browse_check :relation_history_path, create(:relation, :with_history).id, "browse/history"
+    relation = create(:relation, :with_history)
+    browse_check :relation_history_path, relation.id, "browse/history"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_relation_path relation, 1}']", :text => "1", :count => 1
+    end
   end
 
   def test_read_way
-    browse_check :way_path, create(:way).id, "browse/feature"
+    way = create(:way)
+    browse_check :way_path, way.id, "browse/feature"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_way_path way, 1}']", :text => "1", :count => 1
+    end
+    assert_select "a[href='#{api_way_path way}']", :count => 1
   end
 
   def test_read_way_history
-    browse_check :way_history_path, create(:way, :with_history).id, "browse/history"
+    way = create(:way, :with_history)
+    browse_check :way_history_path, way.id, "browse/history"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_way_path way, 1}']", :text => "1", :count => 1
+    end
   end
 
   def test_read_node
     node = create(:node)
     browse_check :node_path, node.id, "browse/feature"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_node_path node, 1}']", :text => "1", :count => 1
+    end
     assert_select "a[href='#{api_node_path node}']", :count => 1
   end
 
   def test_read_deleted_node
     node = create(:node, :visible => false)
     browse_check :node_path, node.id, "browse/feature"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_node_path node, 1}']", :text => "1", :count => 1
+    end
     assert_select "a[href='#{api_node_path node}']", :count => 0
   end
 
   def test_read_node_history
-    browse_check :node_history_path, create(:node, :with_history).id, "browse/history"
+    node = create(:node, :with_history)
+    browse_check :node_history_path, node.id, "browse/history"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_node_path node, 1}']", :text => "1", :count => 1
+    end
   end
 
   def test_read_changeset
