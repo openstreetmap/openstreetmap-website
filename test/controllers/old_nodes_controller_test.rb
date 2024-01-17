@@ -18,6 +18,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='#{old_node_path node, 1}']", :count => 0
     end
     assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
   end
 
@@ -31,6 +32,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='#{old_node_path node, 1}']", :count => 0
     end
     assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 2}']", :count => 1
 
@@ -42,6 +44,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='#{old_node_path node, 2}']", :count => 0
     end
     assert_select ".secondary-actions a[href='#{node_version_path node, 2}']", :count => 1
+    assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 1
   end
@@ -54,6 +57,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "old_nodes/show"
     assert_template :layout => "map"
+    assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
     assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 0
   end
