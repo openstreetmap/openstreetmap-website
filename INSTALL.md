@@ -23,7 +23,7 @@ of packages required before you can get the various gems installed.
 ## Minimum requirements
 
 * Ruby 3.0+
-* PostgreSQL 12+
+* PostgreSQL 13+
 * Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
