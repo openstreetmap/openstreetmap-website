@@ -8,7 +8,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
-  def test_visible
+  def test_visible_with_one_version
     way = create(:way, :with_history)
     get old_way_path(way, 1)
     assert_response :success
@@ -17,7 +17,33 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_way_path way, 1}']", :count => 0
     end
-    assert_select "a[href='#{way_version_path way, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
+  end
+
+  def test_visible_with_two_versions
+    way = create(:way, :with_history, :version => 2)
+    get old_way_path(way, 1)
+    assert_response :success
+    assert_template "old_ways/show"
+    assert_template :layout => "map"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_way_path way, 1}']", :count => 0
+    end
+    assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 2}']", :count => 1
+
+    get old_way_path(way, 2)
+    assert_response :success
+    assert_template "old_ways/show"
+    assert_template :layout => "map"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_way_path way, 2}']", :count => 0
+    end
+    assert_select ".secondary-actions a[href='#{way_version_path way, 2}']", :count => 1
+    assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 1
   end
 
   def test_visible_with_shared_nodes
@@ -42,8 +68,8 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "old_ways/show"
     assert_template :layout => "map"
-    assert_select "a[href='#{old_way_path way, 1}']", :count => 0
-    assert_select "a[href='#{way_version_path way, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 0
   end
 
   def test_not_found
