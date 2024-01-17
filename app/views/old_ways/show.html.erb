@@ -4,11 +4,13 @@
 
 <%= render :partial => "browse/way", :object => @feature %>
 
-<% unless @feature.redacted? %>
-  <div class='secondary-actions'>
+<div class='secondary-actions'>
+  <% unless @feature.redacted? %>
     <%= link_to t("browse.download_xml"), way_version_path(*@feature.id) %>
-  </div>
-<% end %>
+    &middot;
+  <% end %>
+  <%= link_to t("browse.view_details"), way_path(@feature.way_id) %>
+</div>
 
 <div class='secondary-actions'>
   <% if @feature.version > 1 %>

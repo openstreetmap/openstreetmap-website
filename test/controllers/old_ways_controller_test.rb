@@ -18,6 +18,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='#{old_way_path way, 1}']", :count => 0
     end
     assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
   end
 
@@ -31,6 +32,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='#{old_way_path way, 1}']", :count => 0
     end
     assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 2}']", :count => 1
 
@@ -42,6 +44,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='#{old_way_path way, 2}']", :count => 0
     end
     assert_select ".secondary-actions a[href='#{way_version_path way, 2}']", :count => 1
+    assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 1
   end
@@ -68,6 +71,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "old_ways/show"
     assert_template :layout => "map"
+    assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
     assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 0
   end
