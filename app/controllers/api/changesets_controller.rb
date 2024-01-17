@@ -428,13 +428,13 @@ module Api
     # Get the maximum number of results to return
     def result_limit
       if params[:limit]
-        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.max_changeset_query_limit
+        if params[:limit].to_i.positive? && params[:limit].to_i <= Settings.changesets.max_query_limit
           params[:limit].to_i
         else
-          raise OSM::APIBadUserInput, "Changeset limit must be between 1 and #{Settings.max_changeset_query_limit}"
+          raise OSM::APIBadUserInput, "Changeset limit must be between 1 and #{Settings.changesets.max_query_limit}"
         end
       else
-        Settings.default_changeset_query_limit
+        Settings.changesets.default_query_limit
       end
     end
   end

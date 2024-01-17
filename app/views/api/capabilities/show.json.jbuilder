@@ -22,12 +22,12 @@ json.api do
   end
   json.changesets do
     json.maximum_elements Changeset::MAX_ELEMENTS
-    json.default_query_limit Settings.default_changeset_query_limit
-    json.maximum_query_limit Settings.max_changeset_query_limit
+    json.default_query_limit Settings.changesets.default_query_limit
+    json.maximum_query_limit Settings.changesets.max_query_limit
   end
   json.notes do
-    json.default_query_limit Settings.default_note_query_limit
-    json.maximum_query_limit Settings.max_note_query_limit
+    json.default_query_limit Settings.notes.default_query_limit
+    json.maximum_query_limit Settings.notes.max_query_limit
   end
   json.timeout do
     json.seconds Settings.api_timeout

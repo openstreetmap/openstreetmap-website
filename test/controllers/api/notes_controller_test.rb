@@ -696,7 +696,7 @@ module Api
         assert_select "wpt", :count => 1
       end
 
-      get api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.max_note_query_limit, :format => "rss")
+      get api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.notes.max_query_limit, :format => "rss")
       assert_response :success
     end
 
@@ -811,7 +811,7 @@ module Api
       get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => "0", :format => "json")
       assert_response :bad_request
 
-      get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => Settings.max_note_query_limit + 1, :format => "json")
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :limit => Settings.notes.max_query_limit + 1, :format => "json")
       assert_response :bad_request
     end
 
@@ -849,8 +849,16 @@ module Api
         assert_select "wpt", :count => 1
       end
 
-      get search_api_notes_path(:q => "note comment", :limit => Settings.max_note_query_limit, :format => "xml")
+      get search_api_notes_path(:q => "note comment", :limit => Settings.notes.max_query_limit, :format => "xml")
       assert_response :success
+    end
+
+    def test_search_default_limit
+      create_list(:note, Settings.notes.default_query_limit + 1)
+
+      get search_api_notes_path
+      assert_response :success
+      assert_select "osm>note", Settings.changesets.default_query_limit
     end
 
     def test_search_by_display_name_success
@@ -1027,7 +1035,7 @@ module Api
       get search_api_notes_path(:q => "no match", :limit => "0", :format => "json")
       assert_response :bad_request
 
-      get search_api_notes_path(:q => "no match", :limit => Settings.max_note_query_limit + 1, :format => "json")
+      get search_api_notes_path(:q => "no match", :limit => Settings.notes.max_query_limit + 1, :format => "json")
       assert_response :bad_request
 
       get search_api_notes_path(:display_name => "non-existent")
@@ -1070,7 +1078,7 @@ module Api
         end
       end
 
-      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.max_note_query_limit, :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.notes.max_query_limit, :format => "rss")
       assert_response :success
     end
 
@@ -1084,7 +1092,7 @@ module Api
       get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => "0", :format => "rss")
       assert_response :bad_request
 
-      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.max_note_query_limit + 1, :format => "rss")
+      get feed_api_notes_path(:bbox => "1,1,1.2,1.2", :limit => Settings.notes.max_query_limit + 1, :format => "rss")
       assert_response :bad_request
     end
 

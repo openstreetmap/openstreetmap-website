@@ -2086,12 +2086,23 @@ module Api
       get changesets_path(:limit => "0")
       assert_response :bad_request
 
-      get changesets_path(:limit => Settings.max_changeset_query_limit)
+      get changesets_path(:limit => Settings.changesets.max_query_limit)
       assert_response :success
       assert_changesets_in_order [changeset5, changeset4, changeset3, changeset2, changeset1]
 
-      get changesets_path(:limit => Settings.max_changeset_query_limit + 1)
+      get changesets_path(:limit => Settings.changesets.max_query_limit + 1)
       assert_response :bad_request
+    end
+
+    ##
+    # test the query functionality of changesets with the default limit
+    def test_query_default_limit
+      user = create(:user)
+      create_list(:changeset, Settings.changesets.default_query_limit + 1, :user => user)
+
+      get changesets_path
+      assert_response :success
+      assert_select "osm>changeset", Settings.changesets.default_query_limit
     end
 
     ##
