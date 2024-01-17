@@ -17,6 +17,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 1}']", :count => 0
     end
+    assert_select "a[href='#{relation_version_path relation, 1}']", :count => 1
   end
 
   def test_visible_with_members

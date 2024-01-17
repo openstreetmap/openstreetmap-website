@@ -17,6 +17,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_node_path node, 1}']", :count => 0
     end
+    assert_select "a[href='#{node_version_path node, 1}']", :count => 1
   end
 
   def test_not_found

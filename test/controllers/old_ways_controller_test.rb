@@ -17,6 +17,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_way_path way, 1}']", :count => 0
     end
+    assert_select "a[href='#{way_version_path way, 1}']", :count => 1
   end
 
   def test_visible_with_shared_nodes
