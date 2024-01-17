@@ -21,4 +21,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     Settings.reload!
     super
   end
+
+  private
+
+  def within_sidebar(&block)
+    within "#sidebar_content", &block
+  end
 end
