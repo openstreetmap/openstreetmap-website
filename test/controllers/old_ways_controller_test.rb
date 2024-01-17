@@ -34,6 +34,18 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
   end
 
+  def test_redacted
+    way = create(:way, :with_history, :deleted, :version => 2)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    way_v1.redact!(create(:redaction))
+    get old_way_path(way, 1)
+    assert_response :success
+    assert_template "old_ways/show"
+    assert_template :layout => "map"
+    assert_select "a[href='#{old_way_path way, 1}']", :count => 0
+    assert_select "a[href='#{way_version_path way, 1}']", :count => 0
+  end
+
   def test_not_found
     get old_way_path(0, 0)
     assert_response :not_found

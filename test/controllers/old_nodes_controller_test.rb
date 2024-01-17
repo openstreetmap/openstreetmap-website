@@ -20,6 +20,18 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href='#{node_version_path node, 1}']", :count => 1
   end
 
+  def test_redacted
+    node = create(:node, :with_history, :deleted, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v1.redact!(create(:redaction))
+    get old_node_path(node, 1)
+    assert_response :success
+    assert_template "old_nodes/show"
+    assert_template :layout => "map"
+    assert_select "a[href='#{old_node_path node, 1}']", :count => 0
+    assert_select "a[href='#{node_version_path node, 1}']", :count => 0
+  end
+
   def test_not_found
     get old_node_path(0, 0)
     assert_response :not_found

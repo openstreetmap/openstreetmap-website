@@ -29,6 +29,18 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
   end
 
+  def test_redacted
+    relation = create(:relation, :with_history, :deleted, :version => 2)
+    relation_v1 = relation.old_relations.find_by(:version => 1)
+    relation_v1.redact!(create(:redaction))
+    get old_relation_path(relation, 1)
+    assert_response :success
+    assert_template "old_relations/show"
+    assert_template :layout => "map"
+    assert_select "a[href='#{old_relation_path relation, 1}']", :count => 0
+    assert_select "a[href='#{relation_version_path relation, 1}']", :count => 0
+  end
+
   def test_not_found
     get old_relation_path(0, 0)
     assert_response :not_found

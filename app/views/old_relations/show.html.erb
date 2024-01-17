@@ -4,6 +4,8 @@
 
 <%= render :partial => "browse/relation", :object => @feature %>
 
-<div class='secondary-actions'>
-  <%= link_to t("browse.download_xml"), relation_version_path(*@feature.id) %>
-</div>
+<% unless @feature.redacted? %>
+  <div class='secondary-actions'>
+    <%= link_to t("browse.download_xml"), relation_version_path(*@feature.id) %>
+  </div>
+<% end %>
