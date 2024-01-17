@@ -14,6 +14,9 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "old_nodes/show"
     assert_template :layout => "map"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_node_path node, 1}']", :count => 0
+    end
   end
 
   def test_not_found

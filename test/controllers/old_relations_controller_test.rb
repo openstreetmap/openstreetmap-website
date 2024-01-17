@@ -14,6 +14,9 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "old_relations/show"
     assert_template :layout => "map"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_relation_path relation, 1}']", :count => 0
+    end
   end
 
   def test_visible_with_members

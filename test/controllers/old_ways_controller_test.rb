@@ -14,6 +14,9 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "old_ways/show"
     assert_template :layout => "map"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_way_path way, 1}']", :count => 0
+    end
   end
 
   def test_visible_with_shared_nodes
