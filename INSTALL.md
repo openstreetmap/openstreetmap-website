@@ -226,11 +226,11 @@ After installing this software, you may need to carry out some [configuration st
 
 # Ruby development install and versions<a name="rbenv"></a> (optional)
 
-For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this is simpler, and usually faster, you might want more control over the process or the ability to install multiple different versions of software alongside eachother. For many developers, [`rbenv`](https://github.com/rbenv/rbenv) is the easiest way to manage multiple different Ruby versions on the same computer - with the added advantage that the installs are all in your home directory, so you don't need administrator permissions.
+For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this is simpler, and usually faster, you might want more control over the process or the ability to install multiple different versions of software alongside each other. For many developers, [`rbenv`](https://github.com/rbenv/rbenv) is the easiest way to manage multiple different Ruby versions on the same computer - with the added advantage that the installs are all in your home directory, so you don't need administrator permissions.
 
 If you choose to install Ruby and Bundler via `rbenv`, then you do not need to install the system libraries for Ruby:
 
-* For Ubuntu, you do not need to install the following packages: `ruby3.0 libruby3.0 ruby3.0-dev bundler`,
+* For Ubuntu, you do not need to install the following packages: `ruby ruby-dev ruby-bundler`,
 * For Fedora, you do not need to install the following packages: `ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems`
 * For MacOSX, you do not need to `brew install ruby` - but make sure you've installed a version of Ruby using `rbenv` before running `gem install bundler`!
 
