@@ -2923,6 +2923,13 @@ CREATE UNIQUE INDEX users_auth_idx ON public.users USING btree (auth_provider, a
 
 
 --
+-- Name: users_display_name_canonical_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_display_name_canonical_idx ON public.users USING btree (lower(NORMALIZE(display_name, NFKC)));
+
+
+--
 -- Name: users_display_name_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3581,6 +3588,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20231213182102'),
 ('20231206141457'),
 ('20231117170422'),
 ('20231101222146'),

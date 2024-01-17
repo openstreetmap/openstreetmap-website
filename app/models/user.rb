@@ -34,12 +34,13 @@
 #
 # Indexes
 #
-#  users_auth_idx                (auth_provider,auth_uid) UNIQUE
-#  users_display_name_idx        (display_name) UNIQUE
-#  users_display_name_lower_idx  (lower((display_name)::text))
-#  users_email_idx               (email) UNIQUE
-#  users_email_lower_idx         (lower((email)::text))
-#  users_home_idx                (home_tile)
+#  users_auth_idx                    (auth_provider,auth_uid) UNIQUE
+#  users_display_name_canonical_idx  (lower(NORMALIZE(display_name, NFKC)))
+#  users_display_name_idx            (display_name) UNIQUE
+#  users_display_name_lower_idx      (lower((display_name)::text))
+#  users_email_idx                   (email) UNIQUE
+#  users_email_lower_idx             (lower((email)::text))
+#  users_home_idx                    (home_tile)
 #
 
 class User < ApplicationRecord
@@ -95,7 +96,7 @@ class User < ApplicationRecord
   validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :uniqueness => { :case_sensitive => false }
+                           :normalized_uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :characters => { :url_safe => true },
                            :whitespace => { :leading => false, :trailing => false }
@@ -132,7 +133,7 @@ class User < ApplicationRecord
       user = find_by("email = ? OR display_name = ?", options[:username].strip, options[:username])
 
       if user.nil?
-        users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username].strip, options[:username])
+        users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", options[:username].strip, options[:username])
 
         user = users.first if users.count == 1
       end
