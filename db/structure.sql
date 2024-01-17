@@ -2937,13 +2937,6 @@ CREATE UNIQUE INDEX users_display_name_idx ON public.users USING btree (display_
 
 
 --
--- Name: users_display_name_lower_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX users_display_name_lower_idx ON public.users USING btree (lower((display_name)::text));
-
-
---
 -- Name: users_email_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3588,6 +3581,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240117185445'),
 ('20231213182102'),
 ('20231206141457'),
 ('20231117170422'),
