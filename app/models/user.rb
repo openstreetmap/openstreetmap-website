@@ -100,6 +100,7 @@ class User < ApplicationRecord
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :characters => { :url_safe => true },
                            :whitespace => { :leading => false, :trailing => false }
+  validate :display_name_cannot_be_user_id_with_other_id, :if => proc { |u| u.display_name_changed? }
   validates :email, :presence => true, :confirmation => true, :characters => true
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
@@ -123,6 +124,12 @@ class User < ApplicationRecord
   before_save :encrypt_password
   before_save :update_tile
   after_save :spam_check
+
+  def display_name_cannot_be_user_id_with_other_id
+    display_name&.match(/^user_(\d+)$/i) do |m|
+      errors.add :display_name, I18n.t("activerecord.errors.messages.display_name_is_user_n") unless m[1].to_i == id
+    end
+  end
 
   def to_param
     display_name
