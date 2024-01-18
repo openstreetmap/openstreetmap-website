@@ -60,6 +60,7 @@
 # Author: Kerosin
 # Author: Kghbln
 # Author: Killarnee
+# Author: KimKelting
 # Author: Kjon
 # Author: Lonvia
 # Author: MGChecker
@@ -375,6 +376,8 @@ de:
         retain_changeset_discussions: Die Diskussionen über deine Änderungssätze,
           sofern vorhanden, werden beibehalten.
         retain_email: Deine E-Mail-Adresse wird beibehalten.
+        recent_editing_html: Da du dein Konto kürzlich bearbeitet hast, kann es derzeit
+          nicht gelöscht werden. Das Löschen ist in %{time} möglich.
         confirm_delete: Bist du sicher?
         cancel: Abbrechen
   accounts:
@@ -715,6 +718,8 @@ de:
       address: Physische Adresse anzeigen
       email: E-Mail-Adresse anzeigen
       openid: Account authentifizieren
+      phone: Sieh dir deine Telefonnummer an
+      profile: Sieh dir deine Profilinformationen an
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/DE:Kommunikationskan%C3%A4le
@@ -1728,6 +1733,8 @@ de:
       loaded:
         one: mit %{trace_points} von einem möglichen Punkt erfolgreich geladen.
         other: mit %{trace_points} von %{count} möglichen Punkten erfolgreich geladen.
+      all_your_traces_html: Alle deiner erfolgreich hochgeladenen GPX-Traces findest
+        du unter %{url}.
       subject: '[OpenStreetMap] GPX-Import erfolgreich'
     signup_confirm:
       subject: '[OpenStreetMap] Willkommen bei OpenStreetMap'
@@ -1871,11 +1878,13 @@ de:
       to: An
       subject: Betreff
       date: Datum
+      actions: Aktionen
     message_summary:
       unread_button: Als ungelesen markieren
       read_button: Als gelesen markieren
       reply_button: Antworten
       destroy_button: Löschen
+      unmute_button: In den Posteingang verschieben
     new:
       title: Nachricht senden
       send_message_to_html: Eine Nachricht an %{name} senden
@@ -1890,12 +1899,18 @@ de:
       body: Leider gibt es keine Nachricht mit dieser ID.
     outbox:
       title: Gesendet
+      actions: Aktionen
       messages:
         one: Du hast %{count} Nachricht gesendet
         other: Du hast %{count} Nachrichten gesendet
       no_sent_messages_html: Du hast noch keine Nachrichten versendet. Möchtest du
         mit  %{people_mapping_nearby_link} Kontakt aufnehmen?
       people_mapping_nearby: Mappern in deiner Nähe
+    muted:
+      title: Stummgeschaltete Nachrichten
+      messages:
+        one: '%{count} stummgeschatete Nachricht'
+        other: '%{count} stummgeschatete Nachrichten'
     reply:
       wrong_user: Du bist angemeldet als '%{user}', aber die Nachricht, auf die du
         antworten wolltest, wurde an einen anderen Benutzer geschickt. Bitte melde
@@ -1914,9 +1929,13 @@ de:
     heading:
       my_inbox: Posteingang
       my_outbox: Mein Postausgang
+      muted_messages: Stummgeschaltete Nachrichten
     mark:
       as_read: Nachricht als gelesen markiert
       as_unread: Nachricht als ungelesen markiert
+    unmute:
+      notice: Die Nachricht wurde in den Posteingang verschoben
+      error: Die Nachricht konnte nicht in den Posteingang verschoben werden.
     destroy:
       destroyed: Nachricht gelöscht
   passwords:
@@ -2045,6 +2064,7 @@ de:
       image: Bild
       alt: Alternativer Text
       url: URL
+      codeblock: Code-Block
     richtext_field:
       edit: Bearbeiten
       preview: Vorschau
@@ -2152,10 +2172,13 @@ de:
           openstreetmap.org (vielleicht durch das Erweitern von 'OpenStreetMap' auf
           diese vollständige Adresse) und auf opendatacommons.org zu verweisen. In
           diesem Beispiel erscheint der Hinweis in der Ecke der Karte.
+        credit_4_1_this_copyright_page: diese Copyright-Seite
         attribution_example:
           alt: Beispiel, wie man auf OpenStreetMap auf einer Webseite hinweist
           title: Namensnennung-Beispiel
         more_title_html: Weitere Informationen
+        more_1_1_html: Weitere Informationen zur Nutzung unserer Daten und zur Gutschrift
+          findest du unter %{osmf_licence_page_link}.
         more_1_1_osmf_licence_page: OSMF-Lizenzseite
         more_2_1_html: |-
           Obwohl es sich bei OpenStreetMap um offene Daten handelt, können wir keine kostenlose Karten-API für Dritte bereitstellen.
@@ -2167,6 +2190,9 @@ de:
         contributors_intro_html: 'Unsere Mitwirkenden sind tausende einzelne Menschen.
           Wir beziehen auch offen lizenzierte Daten von nationalen Kartenagenturen
           und anderen Quellen ein, darunter:'
+        contributors_at_credit_html: |-
+          %{austria}: Enthält Daten aus %{stadt_wien_link} (unter %{cc_by_link}), %{land_vorarlberg_link}
+          und dem Land Tirol (unter %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Österreich
         contributors_at_stadt_wien: Stadt Wien
         contributors_at_cc_by: CC BY
@@ -2186,6 +2212,12 @@ de:
           Resources Canada) und StatCan (Geography Division,
           Statistics). Kanada).
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: |-
+          %{czechia}: Enthält Daten der staatlichen Verwaltung für Landvermessung
+          und Kataster, lizenziert unter %{cc_licence_link}
+        contributors_cz_czechia: Tschechien
+        contributors_cz_cc_licence: Creative Commons Namensnennung 4.0 Internationale
+          Lizenz (CC BY 4.0)
         contributors_fi_credit_html: |-
           %{finland}: Enthält Daten aus der
           Nationalen Landvermessung der Topografischen Datenbank Finnlands
@@ -2327,6 +2359,7 @@ de:
             ist der beste Weg zum Weitermachen der Beitritt zur OpenStreetMap-Gemeinschaft und das Beheben der Daten durch dich selbst.
       other_concerns:
         title: Andere Anliegen
+        copyright: Copyright-Seite
         working_group: OSMF-Arbeitsgruppe
     help:
       title: Hilfe erhalten
@@ -2374,6 +2407,7 @@ de:
         Nutzung im Browser verfügbar.
       desktop_application_html: Du kannst Potlatch von %{download_link} weiterhin
         verwenden.
+      download: Herunterladen der Desktop-Anwendung für Mac und Windows
       change_preferences: Einstellungen hier ändern
     any_questions:
       title: Fragen?
@@ -2413,17 +2447,28 @@ de:
           cycleway_national: Nationaler Radweg
           cycleway_regional: Regionaler Radweg
           cycleway_local: Lokaler Radweg
+          cycleway_mtb: Mountainbike-Route
           footway: Fußweg
           rail: Eisenbahn
           subway: U-Bahn
+          ferry: Fähre
+          light_rail: Stadtbahn
+          tram: Straßenbahn
+          bus: Bus
           cable_car: Seilbahn
           chair_lift: Sessellift
           runway: Start- und Landebahn
           taxiway: Rollbahn
           apron: Flughafenvorfeld
           admin: Landesgrenzen, sonstige Grenzen
+          capital: Hauptstadt
+          city: Stadt
+          vineyard: Weinberg
           forest: Wald
           wood: Wald
+          farmland: Ackerland
+          grass: Gras
+          sand: Sand
           golf: Golfplatz
           park: Park
           common: öffentliche Grünfläche (brit.)
@@ -2433,7 +2478,7 @@ de:
           commercial: Gewerbegebiet
           heathland: Heide
           lake: See
-          reservoir: Stausee
+          reservoir: Reservoir
           intermittent_water: Intermittierender Gewässer
           farm: Landwirtschaft
           brownfield: Brachfläche
@@ -2445,16 +2490,19 @@ de:
           military: Militärgebiet
           school: Schule, Universität
           university: Universität
+          hospital: Krankenhaus
           building: Bedeutendes Gebäude
           station: Bahnhof
           summit: Gipfel
-          peak: Bergspitze
+          peak: Gipfel
           tunnel: Gestrichelter Rand = Tunnel
           bridge: Schwarzer Rand = Brücke
           private: Privater Zugang
           destination: Nur für Anrainer
           construction: Straßen im Bau
+          bus_stop: Bushaltestelle
           bicycle_shop: Fahrradladen
+          bicycle_rental: Fahrradverleih
           bicycle_parking: Fahrradparkplatz
           toilets: Toiletten
     welcome:
@@ -2641,6 +2689,7 @@ de:
       oauth1_settings: OAuth 1-Einstellungen
       oauth2_applications: OAuth 2-Anwendungen
       oauth2_authorizations: OAuth 2-Berechtigungen
+      muted_users: Stummgeschaltete Benutzer
   oauth:
     authorize:
       title: Zugriff auf dein Benutzerkonto autorisieren
@@ -2704,7 +2753,7 @@ de:
       list_tokens: 'Die folgenden Token wurde an Anwendungen in Ihrem Namen vergeben:'
       application: Anwendungsname
       issued_at: Ausgestellt am
-      revoke: Widerrufen!
+      revoke: Aufheben!
       my_apps: Meine Client-Anwendungen
       no_apps_html: Wenn du mit einer Anwendung den %{oauth}-Standard verwenden möchtest,
         musst du sie hier registrieren.
@@ -2858,6 +2907,7 @@ de:
       my_dashboard: Meine Übersichtsseite
       blocks on me: Erhaltene Sperren
       blocks by me: Vergebene Sperren
+      destroy_mute: Hebe die Stummschaltung dieses Benutzers auf
       edit_profile: Profil bearbeiten
       send message: Nachricht senden
       diary: Blog
@@ -2884,8 +2934,10 @@ de:
         revoke:
           administrator: Administrator-Rechte entziehen
           moderator: Moderator-Rechte entziehen
+          importer: Importeurzugriff aufheben
       block_history: Aktive Sperren
       moderator_history: Vergebene Sperren
+      revoke_all_blocks: Alle Sperren aufheben
       comments: Kommentare
       create_block: Benutzer sperren
       activate_user: Benutzer aktivieren
@@ -3004,6 +3056,10 @@ de:
       confirm: Bist du sicher, dass du diese Sperre aufheben möchtest?
       revoke: Aufheben
       flash: Die Sperre wurde aufgehoben.
+    revoke_all:
+      confirm: Bist du sicher, dass du %{active_blocks} aufheben möchtest?
+      revoke: Aufheben!
+      flash: Alle aktiven Sperren wurden aufgehoben.
     helper:
       time_future_html: Endet in %{time}.
       until_login: Aktiv, bis der Benutzer sich anmeldet.
@@ -3063,6 +3119,29 @@ de:
       showing_page: Seite %{page}
       next: Nächste »
       previous: « Vorige
+  user_mutes:
+    index:
+      title: Stummgeschaltete Benutzer
+      my_muted_users: Meine stummgeschalteten Benutzer
+      you_have_muted_n_users:
+        one: Du hast %{count} Benutzer stummgeschaltet
+        other: Du hast %{count} Benutzer stummgeschaltet
+      user_mute_explainer: Nachrichten stummgeschalteter Benutzer werden in einen
+        separaten Posteingang verschoben und du erhältst keine E-Mail-Benachrichtigungen.
+      user_mute_admins_and_moderators: Du kannst Administratoren und Moderatoren stummschalten,
+        ihre Nachrichten werden jedoch nicht stummgeschaltet.
+      table:
+        thead:
+          muted_user: Stummgeschalteter Benutzer
+        tbody:
+          unmute: Stummschaltung aufheben
+    create:
+      notice: Du hast %{name} stummgeschaltet.
+      error: '%{name} konnte nicht stummgeschaltet werden. %{full_message}.'
+    destroy:
+      notice: Du hast die Stummschaltung von %{name} aufgehoben.
+      error: Die Stummschaltung des Benutzers konnte nicht aufgehoben werden. Bitte
+        versuche es erneut.
   notes:
     index:
       title: Hinweise/Fehler erstellt oder kommentiert von %{user}
