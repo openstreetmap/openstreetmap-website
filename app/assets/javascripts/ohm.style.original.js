@@ -4362,7 +4362,7 @@ ohmVectorStyles.Original = {
       "type": "line",
       "source": "osm",
       "source-layer": "land_ohm",
-      "minzoom": 7,
+      "minzoom": 8,
       "maxzoom": 20,
       "filter": ["all", ["in", "admin_level", 5, 6]],
       "layout": {
@@ -4372,9 +4372,8 @@ ohmVectorStyles.Original = {
         "line-miter-limit": 2
       },
       "paint": {
-        "line-color": "rgba(179, 179, 179, 1)",
-        "line-dasharray": [],
-        "line-width": {"stops": [[6, 0.25], [10, 2]]}
+        "line-color": "rgba(202, 202, 203, 1)",
+        "line-width": {"stops": [[8, 0.15], [10, 1.75]]}
       }
     },
     {
@@ -5296,7 +5295,7 @@ ohmVectorStyles.Original = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "place_points",
-      "minzoom": 9,
+      "minzoom": 8,
       "maxzoom": 20,
       "filter": ["all", ["in", "type", "county"]],
       "layout": {
