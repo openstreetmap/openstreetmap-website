@@ -37,7 +37,6 @@
 #  users_auth_idx                    (auth_provider,auth_uid) UNIQUE
 #  users_display_name_canonical_idx  (lower(NORMALIZE(display_name, NFKC)))
 #  users_display_name_idx            (display_name) UNIQUE
-#  users_display_name_lower_idx      (lower((display_name)::text))
 #  users_email_idx                   (email) UNIQUE
 #  users_email_lower_idx             (lower((email)::text))
 #  users_home_idx                    (home_tile)
