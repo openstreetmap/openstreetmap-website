@@ -113,6 +113,14 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate user, :valid?, "user_<id> name is invalid for own id, when it should be"
   end
 
+  def test_display_name_user_id_unchanged_is_valid
+    user = build(:user, :display_name => "user_0")
+    user.save(:validate => false)
+    user.reload
+
+    assert_predicate user, :valid?, "user_0 display_name is invalid but it hasn't been changed"
+  end
+
   def test_friends_with
     alice = create(:user, :active)
     bob = create(:user, :active)
