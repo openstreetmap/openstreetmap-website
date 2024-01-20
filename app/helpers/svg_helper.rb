@@ -1,4 +1,12 @@
 module SvgHelper
+  def previous_page_svg_tag(**options)
+    adjacent_page_svg_tag(dir == "rtl" ? 1 : -1, **options)
+  end
+
+  def next_page_svg_tag(**options)
+    adjacent_page_svg_tag(dir == "rtl" ? -1 : 1, **options)
+  end
+
   def key_svg_tag(**options)
     border_width = options["border"] ? (options["border-width"] || 1) : 0
     rect_attrs = {
@@ -30,6 +38,17 @@ module SvgHelper
   end
 
   private
+
+  # returns "<" shape if side == -1; ">" if side == 1
+  def adjacent_page_svg_tag(side, **options)
+    height = 15
+    pad = 2
+    segment = (0.5 * height) - pad
+    width = segment + (2 * pad)
+    path_data = "M#{side * (pad - (0.5 * width))},#{pad} l#{side * segment},#{segment} l#{-side * segment},#{segment}"
+    path_tag = tag.path :d => path_data, :fill => "none", :stroke => "currentColor", :"stroke-width" => 1.5
+    tag.svg path_tag, :width => width, :height => height, :viewBox => "-#{0.5 * width} 0 #{width} #{height}", :class => options[:class]
+  end
 
   def stroke_attrs(attrs, prefix)
     attrs.select { |key| key.start_with?(prefix) }.transform_keys { |key| key.delete_prefix(prefix).prepend("stroke") }
