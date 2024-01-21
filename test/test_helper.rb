@@ -243,9 +243,11 @@ module ActiveSupport
 
     def sign_in_as(user)
       visit login_path
-      fill_in "username", :with => user.email
-      fill_in "password", :with => "test"
-      click_on "Login", :match => :first
+      within "form", :text => "Email Address or Username" do
+        fill_in "username", :with => user.email
+        fill_in "password", :with => "test"
+        click_on "Login"
+      end
     end
 
     def session_for(user)
