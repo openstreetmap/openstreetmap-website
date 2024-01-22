@@ -134,11 +134,9 @@ es:
       messages:
         invalid_email_address: no parece ser una dirección de correo electrónico válida
         email_address_not_routable: no es enrutable
+        display_name_is_user_n: no puedes ser user_n a menos que n sea tu ID de usuario
       models:
         user_mute:
-          attributes:
-            subject:
-              format: '%{message}'
           is_already_muted: ya esta silenciado
     models:
       acl: Lista de control de acceso
@@ -623,7 +621,7 @@ es:
       user_title: Diario de %{user}
       in_language_title: Entradas de diario en %{language}
       new: Nueva entrada de diario
-      new_title: Redactar una nueva entrada en mi diario de usuario
+      new_title: Escribir una nueva entrada en mi diario de usuario
       my_diary: Mi diario
       no_entries: No hay entradas en el diario
       recent_entries: Entradas recientes en el diario
@@ -1735,6 +1733,8 @@ es:
       loaded:
         one: se cargó correctamente, con %{trace_points} de %{count} puntos posibles.
         other: se cargaron correctamente, con %{trace_points} de %{count} puntos posibles.
+      all_your_traces_html: Todas los trazas GPX cargadas correctamente se pueden
+        encontrar en %{url}.
       subject: '[OpenStreetMap] Éxito al importar GPX'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMap te da la bienvenida'
@@ -1935,7 +1935,7 @@ es:
     new:
       title: Contraseña perdida
       heading: ¿Contraseña olvidada?
-      email address: 'Dirección de correo electrónico:'
+      email address: Dirección de correo electrónico
       new password button: Restablecer contraseña
       help_text: Escribe la dirección de correo electrónico con la que te registraste,
         te enviaremos un enlace a esa dirección que podrás utilizar para restablecer
@@ -2002,7 +2002,7 @@ es:
       title: Iniciar sesión
       heading: Iniciar sesión
       email or username: 'Dirección de correo electrónico o nombre de usuario:'
-      password: 'Contraseña:'
+      password: Contraseña
       openid_html: '%{logo} OpenID:'
       remember: Recordarme
       lost password link: ¿Has perdido tu contraseña?
@@ -2062,6 +2062,7 @@ es:
       image: Imagen
       alt: Texto alternativo
       url: URL
+      codeblock: Bloque de código
     richtext_field:
       edit: Editar
       preview: Previsualizar
@@ -2302,12 +2303,7 @@ es:
         para esta funcionalidad.
     export:
       title: Exportar
-      area_to_export: Área a exportar
       manually_select: Seleccionar manualmente un área diferente
-      format_to_export: Formato de exportación
-      osm_xml_data: Datos de OpenStreetMap en formato XML
-      map_image: Imagen de mapa (muestra la capa estándar)
-      embeddable_html: HTML integrable
       licence: Licencia
       licence_details_html: Los datos de OpenStreetMap están registrados bajo %{odbl_link}
         (ODbL).
@@ -2333,17 +2329,6 @@ es:
         other:
           title: Otras fuentes
           description: Fuentes adicionales enumeradas en la wiki de OpenStreetMap
-      options: Opciones
-      format: Formato
-      scale: Escala
-      max: máx.
-      image_size: Tamaño de la imagen
-      zoom: Acercar
-      add_marker: Añadir un marcador al mapa
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Resultado
-      paste_html: Pegar HTML para insertar en sitio web
       export_button: Exportar
     fixthemap:
       title: Reportar un problema / corregir el mapa
@@ -2502,9 +2487,10 @@ es:
           allotments: Huertos de ocio
           pitch: Campo de juego
           centre: Centro deportivo
+          beach: Playa
           reserve: Reserva natural
           military: Área militar
-          school: 'Escuela: universidad'
+          school: Escuela
           university: Universidad
           hospital: Hospital
           building: Edificio significativo
@@ -2519,7 +2505,9 @@ es:
           bus_stop: Parada de autobuses
           stop: Parada
           bicycle_shop: Tienda de bicicletas
+          bicycle_rental: Alquiler de bicicletas
           bicycle_parking: Estacionamiento de bicicletas
+          bicycle_parking_small: Pequeño aparcamiento para bicicletas
           toilets: Baños
     welcome:
       title: ¡Bienvenido!
@@ -2766,6 +2754,7 @@ es:
       read_gpx: Leer trazas de GPS privadas
       write_gpx: Subir trazas de GPS
       write_notes: Modifica notas
+      write_redactions: Censurar datos del mapa
       read_email: Leer dirección de correo electrónico del usuario
       skip_authorization: Auto aprobar aplicación
   oauth_clients:
@@ -2815,7 +2804,6 @@ es:
       no_applications_html: ¿Tienes una aplicación que te gustaría registrar para
         usar con nosotros utilizando el estándar %{oauth2}? Debes registrar tu aplicación
         antes de que pueda hacer solicitudes OAuth a este servicio.
-      oauth_2: OAuth 2
       new: Registra tu aplicación
       name: Nombre
       permissions: Permisos
@@ -2856,7 +2844,6 @@ es:
       application: Solicitudes
       permissions: Permisos
       no_applications_html: Aún no has autorizado aplicaciones a %{oauth2}.
-      oauth_2: OAuth 2
     application:
       revoke: Revocar el acceso
       confirm_revoke: ¿Revocar el acceso a esta aplicación?
@@ -3182,6 +3169,7 @@ es:
       error: '%{name} no pudo ser silenciado. %{full_message}.'
     destroy:
       notice: Has dejado de silenciar a %{name}.
+      error: No se pudo quitar el silenciado del usuario. Inténtalo de nuevo.
   notes:
     index:
       title: Notas creadas o comentadas por %{user}
@@ -3443,7 +3431,7 @@ es:
       heading: Lista de censuras
       title: Lista de censuras
     new:
-      heading: Introduzca la información de la nueva censura
+      heading: Introduce la información de la nueva censura
       title: Creando nueva censura
     show:
       description: 'Descripción:'
@@ -3454,13 +3442,13 @@ es:
       destroy: Eliminar esta censura
       confirm: ¿Está seguro?
     create:
-      flash: Se creó la censura.
+      flash: Censura creada.
     update:
       flash: Cambios guardados.
     destroy:
       not_empty: La censura no está vacía. Elimina todas las versiones previas pertenecientes
         a esta censura antes de destruirla.
-      flash: Redacción destruida.
+      flash: Censura destruida.
       error: Se produjo un error al destruir esta censura.
   validations:
     leading_whitespace: tiene espacio en blanco delantero

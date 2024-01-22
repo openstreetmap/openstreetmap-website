@@ -81,11 +81,10 @@ pt-PT:
       messages:
         invalid_email_address: não parece ser um endereço de correio eletrónico válido
         email_address_not_routable: não é atingível
+        display_name_is_user_n: não pode ser user_n a não ser que n seja a tua id
+          de utilizador
       models:
         user_mute:
-          attributes:
-            subject:
-              format: '%{message}'
           is_already_muted: já está silenciado
     models:
       acl: Aceder à lista de controlo
@@ -1679,6 +1678,8 @@ pt-PT:
       loaded:
         one: carregado com sucesso com %{trace_points} de %{count} point possível.
         other: carregado com sucesso com %{trace_points} de %{count} pontos possíveis.
+      all_your_traces_html: Todos os trajetos GPX que enviaste podem ser encontrados
+        em %{url}.
       subject: '[OpenStreetMap] Importação de GPX bem-sucedida'
     signup_confirm:
       subject: '[OpenStreetMap] Bem-vind@ ao OpenStreetMap'
@@ -1986,7 +1987,7 @@ pt-PT:
       support: apoio
   shared:
     markdown_help:
-      heading_html: Analisado com %{kramdown_link}
+      heading_html: Processado com %{kramdown_link}
       headings: Títulos
       heading: Cabeçalho
       subheading: Subtítulo
@@ -1999,6 +2000,7 @@ pt-PT:
       image: Imagem
       alt: Texto alternativo
       url: URL
+      codeblock: Bloco de código
     richtext_field:
       edit: Editar
       preview: Pré-visualizar
@@ -2225,12 +2227,7 @@ pt-PT:
         são necessárias para esta funcionalidade.
     export:
       title: Exportar
-      area_to_export: Área a exportar
       manually_select: Selecionar manualmente outra área
-      format_to_export: Formato a exportar
-      osm_xml_data: Dados XML do OpenStreetMap
-      map_image: Imagem do mapa (mostra a camada padrão)
-      embeddable_html: HTML integrável
       licence: Licença
       licence_details_html: Os dados do OpenStreetMap são licenciados sob %{odbl_link}
         (ODbL).
@@ -2256,17 +2253,6 @@ pt-PT:
         other:
           title: Outras fontes
           description: Fontes adicionais listadas na wiki do OpenStreetMap
-      options: Opções
-      format: Formato
-      scale: Escala
-      max: máx
-      image_size: Tamanho da imagem
-      zoom: Zoom
-      add_marker: Adicionar marcador no mapa
-      latitude: 'Lat:'
-      longitude: 'Lon:'
-      output: Resultado
-      paste_html: Cole o HTML para incorporar no website
       export_button: Exportar
     fixthemap:
       title: Reportar um problema / Corrigir o mapa
@@ -2372,6 +2358,7 @@ pt-PT:
           cycleway_national: Ciclovia nacional
           cycleway_regional: Ciclovia regional
           cycleway_local: Ciclovia local
+          cycleway_mtb: Rota de bicicleta de montanha
           footway: Via pedonal
           rail: Ferrovia
           train: Comboio
@@ -2387,6 +2374,8 @@ pt-PT:
           taxiway: Via de circulação
           apron: Estacionamento de aviões
           admin: Fronteira administrativa
+          capital: Capital
+          city: Cidade
           orchard: Pomar
           vineyard: Vinha
           forest: Floresta gerida
@@ -2418,6 +2407,7 @@ pt-PT:
           allotments: Hortas urbanas
           pitch: Campo desportivo
           centre: Centro desportivo
+          beach: Praia
           reserve: Reserva natural
           military: Área militar
           school: Escola
@@ -2435,7 +2425,9 @@ pt-PT:
           bus_stop: Paragem de autocarro
           stop: Paragem
           bicycle_shop: Loja de bicicletas
+          bicycle_rental: Aluguer de bicicletas
           bicycle_parking: Estacionamento de bicicletas
+          bicycle_parking_small: Estacionamento para bicicletas
           toilets: Casas de banho
     welcome:
       title: Bem-vind@!
@@ -2887,6 +2879,7 @@ pt-PT:
           importer: Revogar acesso de importador
       block_history: Bloqueios ativos
       moderator_history: Bloqueios aplicados
+      revoke_all_blocks: Revogar todos os bloqueios
       comments: Comentários
       create_block: Bloquear este utilizador
       activate_user: Ativar este utilizador
@@ -2998,6 +2991,16 @@ pt-PT:
       confirm: Tens a certeza de que queres revogar este bloqueio?
       revoke: Revogar!
       flash: Este bloqueio foi revogado.
+    revoke_all:
+      title: A retirar o bloqueio de %{block_on}
+      heading_html: A retirar o bloqueio de %{block_on}
+      empty: '%{name} não tem bloqueios ativos.'
+      confirm: Tens a certeza de que queres revogar %{active_blocks}?
+      active_blocks:
+        one: '%{count} bloqueio ativo'
+        other: '%{count} bloqueios ativos'
+      revoke: Revogar!
+      flash: Todos os bloqueios ativos foram revogados.
     helper:
       time_future_html: Termina em %{time}.
       until_login: Ativo até o utilizador iniciar sessão.
@@ -3087,8 +3090,8 @@ pt-PT:
       title: Notas submetidas ou comentadas por %{user}
       heading: Notas de %{user}
       subheading_html: Notas %{submitted} ou %{commented} por %{user}
-      subheading_submitted: enviada
-      subheading_commented: comentada em
+      subheading_submitted: enviadas
+      subheading_commented: comentadas em
       no_notes: Sem notas
       id: Id
       creator: Criador
@@ -3118,6 +3121,7 @@ pt-PT:
       reactivate: Reabrir
       comment_and_resolve: Comentar e resolver
       comment: Comentar
+      log_in_to_comment: Inicia sessão para comentar esta nota
       report_link_html: Se esta nota contiver informações sensíveis que precisem de
         ser removidas, poderás %{link}.
       other_problems_resolve: Para qualquer outro problema com a nota, resolve-a pessoalmente

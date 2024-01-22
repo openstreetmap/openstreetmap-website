@@ -79,6 +79,8 @@ he:
       messages:
         invalid_email_address: זאת אינה כתובת דוא״ל תקנית
         email_address_not_routable: לא בר־ניתוב
+        display_name_is_user_n: זה לא יכול להיות user_n אלא אם כן n הוא מזהה המשתמש
+          שלך
       models:
         user_mute:
           is_already_muted: כבר מושתק
@@ -316,7 +318,7 @@ he:
         retain_caveats: 'אבל חלק מהמידע עליך יישמר ב־OpenStreetMap, אפילו אחרי מחיקת
           חשבונך:'
         retain_edits: העריכות שלך לבסיס הנתונים של המפה, אם קיימות, יישמרו.
-        retain_traces: ההקלטות (traces) שהעליתם, יישמרו.
+        retain_traces: ההקלטות שהעליתם, אם יש כאלו, יישמרו.
         retain_diary_entries: יומן הכניסות ויומן התגובות שלך, אם קיימים, יישמרו, אך
           לא ניתן יהיה לצפות בהם.
         retain_notes: הערות המפה ותגובות להערות, אם יש כאלה, יישמרו, אבל יוסתרו.
@@ -2228,12 +2230,7 @@ he:
         הזאת.
     export:
       title: יצוא
-      area_to_export: האזור לייצוא
       manually_select: בחירה ידנית של אזור אחר
-      format_to_export: תסדיר לייצוא
-      osm_xml_data: נתוני XML של OpenStreetMap
-      map_image: תמונת מפה (תצוגת שכבה תקנית)
-      embeddable_html: HTML שניתן להטמעה
       licence: רישיון
       licence_details_html: נתוני OpenStreetMap מתפרסמים עכשיו לפי רישיון %{odbl_link}
         (ODbL).
@@ -2255,17 +2252,6 @@ he:
         other:
           title: מקורות אחרים
           description: מקורות נוספים רשומים בוויקי של OpenStreetMap
-      options: אפשרויות
-      format: תסדיר
-      scale: קנה מידה
-      max: לכל היותר
-      image_size: גודל התמונה
-      zoom: מרחק מתצוגה
-      add_marker: הוספת סמן למפה
-      latitude: 'קווי אורך:'
-      longitude: 'קווי רוחב:'
-      output: פלט
-      paste_html: להדביק HTML להטמעה באתר
       export_button: יצוא
     fixthemap:
       title: לדווח על בעיה / לתקן את המפה
@@ -2417,6 +2403,7 @@ he:
           allotments: שטחים חקלאיים
           pitch: מגרש ספורט
           centre: מרכז ספורט
+          beach: חוף
           reserve: שמורת טבע
           military: שטח צבאי
           school: בית ספר
@@ -2434,7 +2421,9 @@ he:
           bus_stop: תחנת אוטובוס
           stop: עצירה
           bicycle_shop: חנות אופניים
+          bicycle_rental: השכרת אופניים
           bicycle_parking: חניית אופניים
+          bicycle_parking_small: חניית אופניים קטנה
           toilets: שירותים
     welcome:
       title: ברוך בואך!
@@ -2586,7 +2575,7 @@ he:
       upload_trace: העלאת מסלול
       all_traces: כל המסלולים
       my_traces: המסלולים שלי
-      traces_from: מסלולים ציבוריים מ-%{user}
+      traces_from: מסלולים ציבוריים מאת %{user}
       remove_tag_filter: הסרת סינון לפי תג
     destroy:
       scheduled_for_deletion: מסלול מיועד למחיקה
@@ -2961,6 +2950,18 @@ he:
       confirm: האם ברצונך לבטל את החסימה הזאת?
       revoke: לבטל!
       flash: החסימה הזאת בוטלה.
+    revoke_all:
+      title: הסרת כל החסימות של %{block_on}
+      heading_html: הסרת כל החסימות של %{block_on}
+      empty: אין חסימות של %{name}.
+      confirm: האם ברצונך להסיר %{active_blocks}?
+      active_blocks:
+        one: חסימה פעילה
+        two: שתי חסימות פעילות
+        many: '%{count} חסימות פעילות'
+        other: '%{count} חסימות פעילות'
+      revoke: להסיר!
+      flash: כל החסימות הפעילות הוסרו.
     helper:
       time_future_html: תסתיים בעוד %{time}
       until_login: פעילה עד שהמשתמש ייכנס לחשבון.

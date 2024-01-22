@@ -147,6 +147,7 @@ de:
       messages:
         invalid_email_address: scheint keine gültige E-Mail-Adresse zu sein
         email_address_not_routable: ist nicht routingfähig
+        display_name_is_user_n: kann nicht user_n sein, es sei denn, n ist deine Benutzer-ID
       models:
         user_mute:
           is_already_muted: ist bereits stummgeschaltet
@@ -714,6 +715,12 @@ de:
             Konfiguration Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
           reauthenticate_resource_owner_not_configured: Fehler aufgrund fehlender
             Konfiguration Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Fehler aufgrund fehlender
+            Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token-Konfiguration.
+          select_account_for_resource_owner_not_configured: Fehler aufgrund fehlender
+            Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner-Konfiguration.
+          subject_not_configured: Die Generierung des ID-Tokens ist aufgrund der fehlenden
+            Konfiguration von Doorkeeper::OpenidConnect.configure.subject fehlgeschlagen.
     scopes:
       address: Physische Adresse anzeigen
       email: E-Mail-Adresse anzeigen
@@ -1960,6 +1967,8 @@ de:
         möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
     update:
       flash changed: Dein Passwort wurde geändert.
+      flash token bad: Das Token konnte nicht gefundenw werden, überprüfe bitte die
+        URL.
   preferences:
     show:
       title: Benutzereinstellungen
@@ -2163,6 +2172,12 @@ de:
           anzeigst.
         credit_2_2: Mache deutlich, dass die Daten unter der Open Database-Lizenz
           verfügbar sind.
+        credit_3_html: Für den Urheberrechts-Hinweis haben wir unterschiedliche Anforderungen,
+          wie dieser angezeigt werden soll, je nachdem, wie du unsere Daten verwendest.
+          Beispielsweise gelten unterschiedliche Regeln für die Anzeige des Urheberrechtshinweises,
+          je nachdem, ob du eine durchsuchbare Karte, eine gedruckte Karte oder ein
+          statisches Bild erstellt hast. Ausführliche Informationen zu den Anforderungen
+          findest du unter %{attribution_guidelines_link}.
         credit_3_attribution_guidelines: Richtlinien für Namensnennungen
         credit_4_1_html: Um klarzustellen, dass die Daten unter der Open Database
           License verfügbar sind, kannst Du auf %{this_copyright_page_link} verlinken.
@@ -2268,6 +2283,7 @@ de:
         contributors_2_html: Weitere Einzelheiten zu diesen und anderen Quellen, die
           zur Verbesserung von OpenStreetMap verwendet wurden, findest du unter %{contributors_page_link}
           im OpenStreetMap-Wiki.
+        contributors_2_contributors_page: Seite der Benutzers
         contributors_footer_2_html: Die Einbeziehung von Daten bei OpenStreetMap bedeutet
           nicht, dass der ursprüngliche Datenlieferant OpenStreetMap unterstützt,
           Gewährleistung dafür gibt oder die Haftung dafür übernimmt.
@@ -2276,6 +2292,10 @@ de:
           hin, dass keinesfalls Daten aus urheberrechtlich geschützten Quellen verwendet
           werden dürfen (z. B. Google Maps oder gedruckte Kartenwerke), ohne vorher
           die ausdrückliche Erlaubnis des Rechteinhabers erhalten zu haben.
+        infringement_2_1_html: Wenn du glaubst, dass urheberrechtlich geschütztes
+          Material unangemessen zur OpenStreetMap-Datenbank oder dieser Website hinzugefügt
+          wurde, lies bitte %{takedown_procedure_link} oder reiche die Beschwerde
+          direkt bei über %{online_filing_page_link} ein.
         infringement_2_1_takedown_procedure: Takedown-Verfahren
         infringement_2_1_online_filing_page: Online-Einreichungsseite
         trademarks_title: Warenzeichen
@@ -2307,12 +2327,7 @@ de:
         die für diese Funktion notwendig sind.
     export:
       title: Exportieren
-      area_to_export: Bereich für den Export
       manually_select: Einen anderen Bereich manuell auswählen
-      format_to_export: Format für den Export
-      osm_xml_data: OpenStreetMap-XML-Daten
-      map_image: Karte (zeigt die Standardebene)
-      embeddable_html: HTML zum Einbinden
       licence: Lizenz
       licence_details_html: OpenStreetMap-Daten sind unter %{odbl_link} (ODbL) lizenziert.
       odbl: Open Data Commons Open Database-Lizenz
@@ -2336,17 +2351,6 @@ de:
         other:
           title: Andere Quellen
           description: Zusätzliche Quellen sind im OpenStreetMap-Wiki gelistet
-      options: Optionen
-      format: 'Format:'
-      scale: Maßstab
-      max: max.
-      image_size: 'Bildgröße:'
-      zoom: Zoom
-      add_marker: Markierung zur Karte hinzufügen
-      latitude: 'Breitengrad:'
-      longitude: 'Längengrad:'
-      output: Ausgabe
-      paste_html: HTML zur Einbettung in eine Webseite kopieren
       export_button: Export
     fixthemap:
       title: Ein Problem melden / Die Karte korrigieren
@@ -2357,8 +2361,16 @@ de:
           explanation_html: |-
             Falls du bei unseren Kartendaten ein Problem bemerkt hast wie das Fehlen einer Straße oder deiner Adresse,
             ist der beste Weg zum Weitermachen der Beitritt zur OpenStreetMap-Gemeinschaft und das Beheben der Daten durch dich selbst.
+        add_a_note:
+          instructions_1_html: |-
+            Klicke einfach auf %{note_icon} oder das gleiche Symbol in der Kartenanzeige.
+            Dadurch wird der Karte eine Markierung hinzugefügt, die du durch Ziehen verschieben kannst. Füge deine Nachricht hinzu und klicke dann auf Speichern. Andere Mapper werden sich dann um die Untersuchung kümmern.
       other_concerns:
         title: Andere Anliegen
+        concerns_html: "Wenn du Bedenken hinsichtlich der Verwendung unserer Daten
+          oder der Inhalte hast, konsultiere bitte unsere Seite \n%{copyright_link}
+          für weitere rechtliche Informationen oder wende dich an die entsprechende
+          %{working_group_link}."
         copyright: Copyright-Seite
         working_group: OSMF-Arbeitsgruppe
     help:
@@ -2408,6 +2420,8 @@ de:
       desktop_application_html: Du kannst Potlatch von %{download_link} weiterhin
         verwenden.
       download: Herunterladen der Desktop-Anwendung für Mac und Windows
+      id_editor_html: Alternativ kannst du deinen Standardeditor auf iD einstellen,
+        der wie zuvor Potlatch in deinem Webbrowser ausgeführt wird. %{change_preferences_link}.
       change_preferences: Einstellungen hier ändern
     any_questions:
       title: Fragen?
@@ -2450,10 +2464,12 @@ de:
           cycleway_mtb: Mountainbike-Route
           footway: Fußweg
           rail: Eisenbahn
+          train: Zug
           subway: U-Bahn
           ferry: Fähre
           light_rail: Stadtbahn
           tram: Straßenbahn
+          trolleybus: Oberleitungsbus
           bus: Bus
           cable_car: Seilbahn
           chair_lift: Sessellift
@@ -2463,29 +2479,38 @@ de:
           admin: Landesgrenzen, sonstige Grenzen
           capital: Hauptstadt
           city: Stadt
+          orchard: Obstplantage
           vineyard: Weinberg
           forest: Wald
           wood: Wald
           farmland: Ackerland
           grass: Gras
+          meadow: Wiese
+          bare_rock: Nackter Fels
           sand: Sand
           golf: Golfplatz
           park: Park
           common: öffentliche Grünfläche (brit.)
+          built_up: Bebautes Gebiet
           resident: Wohngebiet
           retail: Einkaufszentrum
           industrial: Industriegebiet
           commercial: Gewerbegebiet
           heathland: Heide
+          scrubland: Buschland
           lake: See
           reservoir: Reservoir
           intermittent_water: Intermittierender Gewässer
+          glacier: Gletscher
+          reef: Riff
+          wetland: Feuchtgebiet
           farm: Landwirtschaft
           brownfield: Brachfläche
           cemetery: Friedhof
           allotments: Kleingartenanlage
           pitch: Spielfeld
           centre: Sportzentrum
+          beach: Strand
           reserve: Naturschutzgebiet
           military: Militärgebiet
           school: Schule, Universität
@@ -2501,9 +2526,11 @@ de:
           destination: Nur für Anrainer
           construction: Straßen im Bau
           bus_stop: Bushaltestelle
+          stop: Stop
           bicycle_shop: Fahrradladen
           bicycle_rental: Fahrradverleih
           bicycle_parking: Fahrradparkplatz
+          bicycle_parking_small: Kleiner Fahrradabstellplatz
           toilets: Toiletten
     welcome:
       title: Willkommen!
@@ -2516,19 +2543,37 @@ de:
           %{real_and_current} sind. Hier findest Du Millionen von Gebäuden, Straßen
           und anderen Details über Orte. Du kannst diejenigen Merkmale kartieren,
           die für Dich interessant sind.
+        real_and_current: real und aktuell
+        off_the_map_html: Was es %{doesnt} enthält, sind Meinungsdaten wie Bewertungen,
+          historische oder hypothetische Merkmale und Daten aus urheberrechtlich geschützten
+          Quellen. Kopiere nicht von Online- oder Papierkarten, es sei denn, du haben
+          eine Sondergenehmigung.
+        doesnt: nicht
       basic_terms:
         title: Grundbegriffe fürs Mapping
         paragraph_1: OpenStreetMap nutzt ein paar spezifische Begriffe. Hier sind
           ein paar davon, die nützlich sein dürften.
+        an_editor_html: Ein %{editor} ist ein Programm oder eine Website, mit der
+          du die Karte bearbeiten kannst.
+        a_node_html: Ein %{node} ist ein Punkt auf der Karte, wie ein einzelnes Restaurant
+          oder ein Baum.
+        a_way_html: Ein %{way} ist eine Linie oder Fläche, wie eine Straße, ein Bach,
+          ein See oder ein Gebäude.
+        a_tag_html: Ein %{tag} ist ein Datenstück über einen Knoten oder Weg, etwa
+          der Name eines Restaurants oder die Geschwindigkeitsbegrenzung einer Straße.
         editor: Bearbeiter
         node: Knoten
         way: Weg
         tag: Etikett
       rules:
         title: Regeln!
+        para_1_html: |-
+          OpenStreetMap hat nur wenige formale Regeln, aber wir erwarten von allen Teilnehmern, dass sie mit der Community zusammenarbeiten und kommunizieren. Wenn du andere Aktivitäten als die manuelle Bearbeitung in Betracht ziehst, lies und befolge bitte die Richtlinien zu
+          %{imports_link} und %{automated_edits_link}.
         imports: Importe
         automated_edits: Automatisierte Bearbeitungen
       start_mapping: Beginne mit dem Bearbeiten der Karte
+      continue_authorization: Autorisierung fortsetzen
       add_a_note:
         title: Keine Zeit? Dann füge einen Hinweis ein!
         para_1: Falls du nur eine Kleinigkeit korrigieren möchtest und dir die Zeit
@@ -2558,6 +2603,9 @@ de:
         list_text: 'Folgende Gemeinschaften sind offiziell als lokale Verbände eingetragen:'
       other_groups:
         title: Andere Gruppen
+        other_groups_html: |-
+          Es besteht keine Notwendigkeit, eine Gruppe im gleichen Umfang wie die Local Chapters offiziell zu gründen.
+          Tatsächlich existieren viele Gruppen sehr erfolgreich als informelle Zusammenkunft von Menschen oder als Community-Gruppe. Jeder kann diese gründen oder beitreten. Lies mehr im %{communities_wiki_link}.
         communities_wiki: Community-Wiki-Seite
   traces:
     visibility:
@@ -2728,6 +2776,7 @@ de:
       read_gpx: Private GPS-Tracks lesen
       write_gpx: GPS-Tracks hochladen
       write_notes: Notizen bearbeiten
+      write_redactions: Kartendaten redigieren
       read_email: Lesen der Benutzer-E-Mail-Adresse
       skip_authorization: Antrag automatisch genehmigen
   oauth_clients:
@@ -2907,6 +2956,7 @@ de:
       my_dashboard: Meine Übersichtsseite
       blocks on me: Erhaltene Sperren
       blocks by me: Vergebene Sperren
+      create_mute: Diesen Benutzer stummschalten
       destroy_mute: Hebe die Stummschaltung dieses Benutzers auf
       edit_profile: Profil bearbeiten
       send message: Nachricht senden
@@ -2928,9 +2978,11 @@ de:
       role:
         administrator: Dieser Benutzer ist ein Administrator
         moderator: Dieser Benutzer ist ein Moderator
+        importer: Dieser Benutzer ist ein Importeur
         grant:
           administrator: Administrator-Rechte vergeben
           moderator: Moderator-Rechte vergeben
+          importer: Importeurzugriff genehmigne
         revoke:
           administrator: Administrator-Rechte entziehen
           moderator: Moderator-Rechte entziehen
@@ -3057,7 +3109,13 @@ de:
       revoke: Aufheben
       flash: Die Sperre wurde aufgehoben.
     revoke_all:
+      title: Alle Sperren auf %{block_on} aufheben
+      heading_html: Alle Sperren auf %{block_on} aufheben
+      empty: '%{name} hat keine aktiven Sperren.'
       confirm: Bist du sicher, dass du %{active_blocks} aufheben möchtest?
+      active_blocks:
+        one: '%{count} aktive Sperre'
+        other: '%{count} aktive Sperren'
       revoke: Aufheben!
       flash: Alle aktiven Sperren wurden aufgehoben.
     helper:
@@ -3133,8 +3191,10 @@ de:
       table:
         thead:
           muted_user: Stummgeschalteter Benutzer
+          actions: Aktionen
         tbody:
           unmute: Stummschaltung aufheben
+          send_message: Nachricht senden
     create:
       notice: Du hast %{name} stummgeschaltet.
       error: '%{name} konnte nicht stummgeschaltet werden. %{full_message}.'
@@ -3178,6 +3238,7 @@ de:
       reactivate: Reaktivieren
       comment_and_resolve: Kommentieren & Erledigen
       comment: Kommentieren
+      log_in_to_comment: Melden dich an, um diesen Hinweis zu kommentieren
       report_link_html: Wenn diese Notiz sensible Informationen enthält, die entfernt
         werden müssen, kannst du %{link}.
       other_problems_resolve: Für alle anderen Probleme mit dem Hinweis, erledige
@@ -3272,6 +3333,7 @@ de:
       map_data_zoom_in_tooltip: Vergrößere die Karte, um die Daten zu sehen.
       queryfeature_tooltip: Objektabfrage
       queryfeature_disabled_tooltip: Für Objektabfrage vergrößern
+      embed_html_disabled: Für diese Kartenebene ist keine HTML-Einbettung verfügbar
     changesets:
       show:
         comment: Kommentieren

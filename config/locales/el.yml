@@ -80,11 +80,10 @@ el:
       messages:
         invalid_email_address: δεν φαίνεται να είναι έγκυρη διεύθυνση ηλ. ταχυδρομείου
         email_address_not_routable: δεν είναι δρομολογητέο
+        display_name_is_user_n: δεν μπορεί να είναι user_n εκτός αν το n είναι το
+          αναγνωριστικό χρήστη σας
       models:
         user_mute:
-          attributes:
-            subject:
-              format: '%{message}'
           is_already_muted: είναι ήδη σε σίγαση
     models:
       acl: Λίστα ελέγχου πρόσβασης
@@ -1681,6 +1680,11 @@ el:
       subject: '[OpenStreetMap] Η εισαγωγή GPX απέτυχε'
     gpx_success:
       hi: Γεια σας %{to_user},
+      loaded:
+        one: φορτώθηκε επιτυχώς με %{trace_points} από πιθανό %{count} σημείο.
+        other: φορτώθηκε επιτυχώς με %{trace_points} από πιθανά %{count} σημεία.
+      all_your_traces_html: Όλα τα ίχνη GPX που ανεβάσατε με επιτυχία μπορούν να βρεθούν
+        στη διεύθυνση %{url}.
       subject: '[OpenStreetMap] Η εισαγωγή GPX πέτυχε'
     signup_confirm:
       subject: '[OpenStreetMap] Καλώς ήλθατε στο OpenStreetMap'
@@ -2117,6 +2121,9 @@ el:
         contributors_intro_html: 'Οι συνεισφέροντες μας είναι χιλιάδες άτομα. Επίσης
           έχουμε περιλάβει δεδομένα ανοικτής άδειας από εθνικές υπηρεσίες χαρτογράφησης
           και άλλες πηγές, μεταξύ αυτών:'
+        contributors_at_credit_html: |-
+          %{austria}: Περιέχει δεδομένα από %{stadt_wien_link} (under %{cc_by_link}), %{land_vorarlberg_link}
+          και Land Tirol (under %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Αυστρία
         contributors_at_stadt_wien: Stadt Wien
         contributors_at_cc_by: CC BY
@@ -2219,12 +2226,7 @@ el:
         που είναι απαραίτητο για αυτήν την λειτουργία.
     export:
       title: Εξαγωγή
-      area_to_export: Περιοχή προς εξαγωγή
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
-      format_to_export: Μορφή προς εξαγωγή
-      osm_xml_data: Δεδομένα OpenStreetMap σε μορφή XML
-      map_image: Εικόνα χάρτη (δείχνει τυπικό στρώμα)
-      embeddable_html: Ενσωματούμενη HTML
       licence: Άδεια
       licence_details_html: Τα δεδομένα OpenStreetMap αδειοδοτούνται με %{odbl_link}
         (ODbL).
@@ -2250,17 +2252,6 @@ el:
         other:
           title: Άλλες πηγές
           description: Επιπλέον πηγές απαριθμούνται στο wiki του OpenStreetMap
-      options: Επιλογές
-      format: Μορφοποίηση
-      scale: Κλίμακα
-      max: μέγιστο
-      image_size: Μέγεθος εικόνας
-      zoom: Εστίαση
-      add_marker: Προσθέστε ένα δείκτη στο χάρτη
-      latitude: 'Γεω. Πλ:'
-      longitude: 'Γεω. Μη.:'
-      output: Απόδοση
-      paste_html: Επικόλληση HTML για ενσωμάτωση στην ιστοσελίδα
       export_button: Εξαγωγή
     fixthemap:
       title: Αναφέρετε πρόβλημα / Διορθώστε τον χάρτη
@@ -2386,9 +2377,11 @@ el:
           admin: Διοικητικό όριο
           capital: Πρωτεύουσα
           city: Πόλη
+          orchard: Περιβόλι
           vineyard: Αμπελώνας
           forest: Δάσος
           wood: Φυσικό δάσος
+          farmland: Καλλιεργήσιμη έκταση
           grass: Γρασίδι
           meadow: Λιβάδι
           bare_rock: Γυμνός βράχος
@@ -2402,16 +2395,20 @@ el:
           industrial: Βιομηχανική περιοχή
           commercial: Εμπορική περιοχή
           heathland: Φρυγανότοπος
+          scrubland: Θαμνότοπος
           lake: Λίμνη
           reservoir: Ταμιευτήρας
+          intermittent_water: Σώμα νερού με διαλείπουσα ροή
           glacier: Παγετώνας
           reef: Ύφαλος
+          wetland: Έλος
           farm: Αγρόκτημα
           brownfield: Πρώην βιομηχανική περιοχή
           cemetery: Κοιμητήριο
           allotments: Παραχώρηση γης
           pitch: Γήπεδο αθλήματος
           centre: Αθλητικό κέντρο
+          beach: Παραλία
           reserve: Φυσικό καταφύγιο
           military: Στρατιωτική περιοχή
           school: Σχολείο
@@ -2429,7 +2426,9 @@ el:
           bus_stop: Στάση λεωφορείου
           stop: Στάση
           bicycle_shop: Κατάστημα ποδηλάτων
+          bicycle_rental: Ενοικίαση ποδηλάτων
           bicycle_parking: Χώρος στάθμευσης ποδηλάτων
+          bicycle_parking_small: Μικρό πάρκινγκ ποδηλάτων
           toilets: Τουαλέτες
     welcome:
       title: Καλώς ήρθατε!
@@ -2764,7 +2763,6 @@ el:
       application: Εφαρμογή
       permissions: Άδειες
       no_applications_html: Δεν έχετε εξουσιοδοτήσει ακόμη %{oauth2} εφαρμογές.
-      oauth_2: OAuth 2
     application:
       revoke: Ανάκληση πρόσβασης
       confirm_revoke: Ανάκληση πρόσβασης για αυτήν την εφαρμογή;
