@@ -42,7 +42,7 @@ class I18nTest < ActiveSupport::TestCase
 
             assert_includes value, :other, "#{key}.other plural key missing"
           else
-            assert value.is_a?(String), "#{key} is not a string"
+            assert_kind_of String, value, "#{key} is not a string"
 
             value.scan(/%\{(\w+)\}/) do
               assert_includes variables, Regexp.last_match(1), "#{key} uses unknown interpolation variable #{Regexp.last_match(1)}"
