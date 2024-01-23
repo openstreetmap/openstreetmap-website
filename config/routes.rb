@@ -111,10 +111,13 @@ OpenStreetMap::Application.routes.draw do
   # Data browsing
   get "/way/:id" => "browse#way", :id => /\d+/, :as => :way
   get "/way/:id/history" => "browse#way_history", :id => /\d+/, :as => :way_history
+  resources :old_ways, :path => "/way/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
   get "/node/:id" => "browse#node", :id => /\d+/, :as => :node
   get "/node/:id/history" => "browse#node_history", :id => /\d+/, :as => :node_history
+  resources :old_nodes, :path => "/node/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
   get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
   get "/relation/:id/history" => "browse#relation_history", :id => /\d+/, :as => :relation_history
+  resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   resources :notes, :path => "note", :only => [:show, :new]

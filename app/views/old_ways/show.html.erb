@@ -1,0 +1,25 @@
+<% set_title t("browse.way.title_html", :name => printable_name(@feature)) %>
+
+<%= render "sidebar_header", :title => t("browse.way.title_html", :name => printable_name(@feature)) %>
+
+<%= render :partial => "browse/way", :object => @feature %>
+
+<div class='secondary-actions'>
+  <% unless @feature.redacted? %>
+    <%= link_to t("browse.download_xml"), way_version_path(*@feature.id) %>
+    &middot;
+  <% end %>
+  <%= link_to t("browse.view_details"), way_path(@feature.way_id) %>
+</div>
+
+<div class='secondary-actions'>
+  <% if @feature.version > 1 %>
+    <%= link_to "<< #{t('browse.version')} ##{@feature.version - 1}", old_way_path(@feature.way_id, @feature.version - 1) %>
+    &middot;
+  <% end %>
+  <%= link_to t("browse.view_history"), way_history_path(@feature.way_id) %>
+  <% if @feature.version < @feature.current_way.version %>
+    &middot;
+    <%= link_to "#{t('browse.version')} ##{@feature.version + 1} >>", old_way_path(@feature.way_id, @feature.version + 1) %>
+  <% end %>
+</div>
