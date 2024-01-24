@@ -140,6 +140,11 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
     assert_equal "Q24", links[0][:title]
 
+    # This verified buried is working
+    links = wikidata_links("buried:wikidata", "Q24")
+    assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
+    assert_equal "Q24", links[0][:title]
+
     links = wikidata_links("species:wikidata", "Q26899")
     assert_equal "//www.wikidata.org/entity/Q26899?uselang=en", links[0][:url]
     assert_equal "Q26899", links[0][:title]

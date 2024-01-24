@@ -1,7 +1,7 @@
 module BrowseTagsHelper
   # https://wiki.openstreetmap.org/wiki/Key:wikipedia#Secondary_Wikipedia_links
   # https://wiki.openstreetmap.org/wiki/Key:wikidata#Secondary_Wikidata_links
-  SECONDARY_WIKI_PREFIXES = "architect|artist|brand|flag|genus|name:etymology|network|operator|species|subject".freeze
+  SECONDARY_WIKI_PREFIXES = "architect|artist|brand|buried|flag|genus|name:etymology|network|operator|species|subject".freeze
 
   def format_key(key)
     if url = wiki_link("key", key)
