@@ -106,7 +106,11 @@ class ApiController < ApplicationController
     if doorkeeper_token&.accessible?
       self.current_user = User.find(doorkeeper_token.resource_owner_id)
     elsif Authenticator.new(self, [:token]).allow?
-      # self.current_user setup by OAuth
+      if Settings.oauth_10a_support
+        # self.current_user setup by OAuth
+      else
+        report_error t("application.oauth_10a_disabled", :link => t("application.auth_disabled_link")), :forbidden
+      end
     else
       username, passwd = auth_data # parse from headers
       # authenticate per-scheme

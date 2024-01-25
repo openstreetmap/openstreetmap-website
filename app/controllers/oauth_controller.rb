@@ -5,6 +5,8 @@ class OauthController < ApplicationController
   # a login, but we want to check authorization on every action.
   authorize_resource :class => false
 
+  before_action :require_oauth_10a_support
+
   layout "site"
 
   def revoke
