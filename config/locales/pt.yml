@@ -100,6 +100,11 @@ pt:
       messages:
         invalid_email_address: não parece ser um endereço de e-mail válido
         email_address_not_routable: não é roteável
+        display_name_is_user_n: não pode ser user_n a não ser que n seja o seu ID
+          de usuário
+      models:
+        user_mute:
+          is_already_muted: já está silenciado
     models:
       acl: Lista de controle de acesso
       changeset: Conjunto de alterações
@@ -124,7 +129,7 @@ pt:
       relation: Relação
       relation_member: Membro da relação
       relation_tag: Etiqueta de relação
-      report: Reportar
+      report: Denúncia
       session: Sessão
       trace: Trilha
       tracepoint: Ponto de trilha
@@ -186,7 +191,7 @@ pt:
         title: Título
         description: Descrição
       report:
-        category: Seleciona um motivo para o seu relatório
+        category: Selecione um motivo para a sua denúncia
         details: Por favor, forneça mais alguns detalhes sobre o problema (obrigatório).
       user:
         auth_provider: Provedor de autenticação
@@ -222,42 +227,42 @@ pt:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: cerca de %{count} hora atrás
-        other: cerca de %{count} horas atrás
+        one: há cerca de %{count} hora
+        other: há cerca de %{count} horas
       about_x_months:
-        one: cerca de %{count} mês atrás
-        other: cerca de %{count} meses atrás
+        one: há cerca de %{count} mês
+        other: há cerca de %{count} meses
       about_x_years:
-        one: cerca de %{count} ano atrás
-        other: cerca de %{count} anos atrás
+        one: há cerca de %{count} ano
+        other: há cerca de %{count} anos
       almost_x_years:
-        one: quase %{count} ano atrás
-        other: quase %{count} anos atrás
-      half_a_minute: meio minuto atrás
+        one: há quase %{count} ano
+        other: há quase %{count} anos
+      half_a_minute: há meio minuto
       less_than_x_seconds:
-        one: menos de %{count} segundo atrás
-        other: menos de %{count} segundos atrás
+        one: há menos de %{count} segundo
+        other: há menos de %{count} segundos
       less_than_x_minutes:
-        one: menos de %{count} minuto atras
-        other: menos de %{count} minutos atrás
+        one: há menos de %{count} minuto
+        other: há menos de %{count} minutos
       over_x_years:
-        one: mais de %{count} ano atrás
-        other: mais de %{count} anos atrás
+        one: há mais de %{count} ano
+        other: há mais de %{count} anos
       x_seconds:
-        one: '%{count} segundo atrás'
-        other: '%{count} segundos atrás'
+        one: há %{count} segundo
+        other: há %{count} segundos
       x_minutes:
-        one: '%{count} minuto atrás'
-        other: '%{count} minutos atrás'
+        one: há %{count} minuto
+        other: há %{count} minutos
       x_days:
-        one: '%{count} dia atrás'
-        other: '%{count} dias atrás'
+        one: ontem
+        other: há %{count} dias
       x_months:
-        one: '%{count} mês atrás'
-        other: '%{count} meses atrás'
+        one: há %{count} mês
+        other: há %{count} meses
       x_years:
-        one: '%{count} ano atrás'
-        other: '%{count} anos atrás'
+        one: há %{count} ano
+        other: há %{count} anos
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -288,9 +293,9 @@ pt:
         reopened_at_by_html: Reativado %{when} por %{user}
       rss:
         title: Notas do OpenStreetMap
-        description_all: Uma lista de notas relatadas, comentadas ou fechadas
-        description_area: Uma lista de notas relatadas, comentadas ou encerradas na
-          sua área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_all: Uma lista de notas denunciadas, comentadas ou fechadas
+        description_area: Uma lista de notas reportadas, comentadas ou resolvidas
+          na sua área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Um feed RSS para a nota %{id}
         opened: nova nota (perto de %{place})
         commented: novo comentário (perto de %{place})
@@ -324,6 +329,8 @@ pt:
         retain_changeset_discussions: Suas discussões em conjuntos de edições, se
           existirem, serão retidas.
         retain_email: Seu endereço de e-mail será retido.
+        recent_editing_html: Como você editou recentemente, sua conta não pode ser
+          excluída no momento. A exclusão será possível em %{time}.
         confirm_delete: Tem certeza?
         cancel: Cancelar
   accounts:
@@ -376,9 +383,9 @@ pt:
     created: Criado
     closed: Fechado
     created_ago_html: Criado há %{time_ago}
-    closed_ago_html: Fechado há %{time_ago}
+    closed_ago_html: Fechado %{time_ago}
     created_ago_by_html: Criado há %{time_ago} por %{user}
-    closed_ago_by_html: Fechado há %{time_ago} por %{user}
+    closed_ago_by_html: Fechado %{time_ago} por %{user}
     deleted_ago_by_html: Excluído há %{time_ago} por %{user}
     edited_ago_by_html: Editado há %{time_ago} por %{user}
     version: Versão
@@ -1494,21 +1501,21 @@ pt:
       select_status: Selecionar status
       select_type: Selecione o tipo
       select_last_updated_by: Selecione a última atualização por
-      reported_user: Reportar usuário
+      reported_user: Usuário denunciado
       not_updated: Não atualizado
       search: Pesquisar
       search_guidance: 'Pesquisar problemas:'
       user_not_found: Usuário não existe
       issues_not_found: Nenhum problema foi encontrado
       status: Status
-      reports: Relatórios
+      reports: Denúncias
       last_updated: Última Atualização
       last_updated_time_ago_user_html: Há %{time_ago} por %{user}
-      link_to_reports: Ver Denúncias
+      link_to_reports: Ver denúncias
       reports_count:
-        one: '%{count} Relatório'
-        other: '%{count} Relatórios'
-      reported_item: Item Reportado
+        one: '%{count} denúncia'
+        other: '%{count} denúncias'
+      reported_item: Elemento denunciado
       states:
         ignored: Ignorado
         open: Aberto
@@ -1516,18 +1523,18 @@ pt:
     show:
       title: '%{status} Problema #%{issue_id}'
       reports:
-        one: '%{count} relatório'
-        other: '%{count} relatórios'
-      no_reports: Sem relatórios
-      report_created_at_html: Primeiro relatado em %{datetime}
+        one: '%{count} denúncia'
+        other: '%{count} denúncias'
+      no_reports: Sem denúncias
+      report_created_at_html: Denunciado pela primeira vez em %{datetime}
       last_resolved_at_html: Resolvido pela última vez em %{datetime}
       last_updated_at_html: Última atualização em %{datetime} por %{displayname}
       resolve: Resolvido
       ignore: Ignorar
       reopen: Reabrir
-      reports_of_this_issue: Denunciar este problema
-      read_reports: Ler Denúncia
-      new_reports: Novas Denúncias
+      reports_of_this_issue: Denúncias deste problema
+      read_reports: Ler denúncias
+      new_reports: Novas denúncias
       other_issues_against_this_user: Outros problemas contra este usuário
       no_other_issues: Nenhum outro problema contra este usuário.
       comments_on_this_issue: Comentários sobre este problema
@@ -1541,7 +1548,7 @@ pt:
       comment_from_html: Comentário de %{user_link} em %{comment_created_at}
       reassign_param: Reatribuir problema?
     reports:
-      reported_by_html: Reportado como %{category} por %{user} em %{updated_at}
+      reported_by_html: Denunciado como %{category} por %{user} em %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, comentário #%{comment_id}'
@@ -1552,8 +1559,8 @@ pt:
       issue_reassigned: O seu comentário foi criado e o problema foi reatribuído
   reports:
     new:
-      title_html: Denuncia %{link}
-      missing_params: Não é possível criar um novo relatório
+      title_html: Denunciar %{link}
+      missing_params: Não foi possível criar uma nova denúncia
       disclaimer:
         intro: 'Antes de enviar sua denúncia para os moderadores do site, certifique-se
           de que:'
@@ -1584,7 +1591,7 @@ pt:
           abusive_label: Esta nota é abusiva
           other_label: Outro
     create:
-      successful_report: Sua denúncia foi registrada com sucesso
+      successful_report: A sua denúncia foi registrada com sucesso
       provide_details: Por favor, forneça os detalhes necessários
   layouts:
     logo:
@@ -1818,11 +1825,13 @@ pt:
       to: Para
       subject: Assunto
       date: Data
+      actions: Ações
     message_summary:
       unread_button: Marcar como não lida
       read_button: Marcar como lida
       reply_button: Responder
       destroy_button: Apagar
+      unmute_button: Mover para caixa de entrada
     new:
       title: Enviar mensagem
       send_message_to_html: Enviar uma nova mensagem para %{name}
@@ -1837,12 +1846,18 @@ pt:
       body: Não existe uma mensagem com este id.
     outbox:
       title: Caixa de Saída
+      actions: Ações
       messages:
         one: Você tem %{count} mensagem enviada
         other: Você tem %{count} mensagens enviadas
       no_sent_messages_html: Você ainda não enviou nenhuma mensagem. Por que não entrar
         em contato com %{people_mapping_nearby_link}?
       people_mapping_nearby: alguém mapeando por perto
+    muted:
+      title: Mensagens silenciadas
+      messages:
+        one: '%{count} mensagem silenciada'
+        other: Você tem %{count} mensagens silenciadas
     reply:
       wrong_user: Você está conectado como `%{user}' mas a mensagem que você quer
         responder não foi enviada para este usuário. Faça o login com o usuário correto
@@ -1861,16 +1876,20 @@ pt:
     heading:
       my_inbox: Minha Caixa de Entrada
       my_outbox: Minha caixa de saída
+      muted_messages: Mensagens silenciadas
     mark:
       as_read: Mensagem marcada como lida
       as_unread: Mensagem marcada como não lida
+    unmute:
+      notice: A mensagem foi movida para a caixa de entrada
+      error: A mensagem não pôde ser movida para a caixa de entrada.
     destroy:
       destroyed: Mensagem apagada
   passwords:
     new:
       title: Senha esquecida
       heading: Esqueceu sua senha?
-      email address: 'Endereço de E-mail:'
+      email address: Endereço de e-mail
       new password button: Redefinir senha
       help_text: Digite o endereço de e-mail que você usou para se conectar e enviaremos
         um link que você poderá usar para redefinir a sua senha.
@@ -1885,6 +1904,7 @@ pt:
       flash token bad: O código não confere, verifique a URL.
     update:
       flash changed: Sua senha foi alterada.
+      flash token bad: O token não foi encontrado. Talvez deveria conferir o URL?
   preferences:
     show:
       title: Minhas preferências
@@ -1929,9 +1949,9 @@ pt:
     new:
       title: Entrar
       heading: Entrar
-      email or username: 'E-mail ou nome de usuário:'
-      password: 'Senha:'
-      openid_html: '%{logo} OpenID:'
+      email or username: E-mail ou nome de usuário
+      password: Senha
+      openid_html: '%{logo} OpenID'
       remember: Lembrar neste computador
       lost password link: Esqueceu sua senha?
       login_button: Entrar
@@ -1989,6 +2009,7 @@ pt:
       image: Imagem
       alt: Texto alternativo
       url: URL
+      codeblock: Bloco de código
     richtext_field:
       edit: Editar
       preview: Pré-visualizar
@@ -2351,41 +2372,63 @@ pt:
           primary: Via primária
           secondary: Via secundária
           unclassified: Via não classificada
+          pedestrian: Calçadão
           track: Estrada rústica
           bridleway: Hipovia
           cycleway: Ciclovia
           cycleway_national: Ciclovia nacional
           cycleway_regional: Ciclovia regional
           cycleway_local: Ciclovia local
+          cycleway_mtb: Rota de bicicleta de montanha
           footway: Caminho de pedestre
           rail: Ferrovia
+          train: Trem
           subway: Metrô
+          ferry: Balsa
+          light_rail: VLT
+          tram: Bonde
+          trolleybus: Trólebus
+          bus: Ônibus
           cable_car: Bonde aéreo
           chair_lift: Teleférico
           runway: Pista de Pouso
-          taxiway: pista de taxiamento
+          taxiway: Pista de taxiamento
           apron: Pátio de aeródromo
           admin: Limite administrativo
+          capital: Capital
+          city: Cidade
+          orchard: Pomar
           vineyard: Vinha
           forest: Floresta manejada
           wood: Bosque nativo
+          farmland: Terreno agrícola
+          grass: Grama
           meadow: Prado
+          bare_rock: Rocha exposta
+          sand: Areia
           golf: Campo de golfe
           park: Parque
           common: Baldio comunitário
+          built_up: Zona edificada
           resident: Área residencial
           retail: Área de varejo
           industrial: Área industrial
           commercial: Área de negócios
           heathland: Urzal
+          scrubland: Matagal
           lake: Lago
           reservoir: Reservatório
+          intermittent_water: Corpo de água intermitente
+          glacier: Geleira
+          reef: Recife
+          wetland: Pântano
           farm: Lavoura
           brownfield: Terreno abandonado
           cemetery: Cemitério secular
           allotments: Horta urbana
           pitch: Quadra esportiva
           centre: Centro/clube esportivo
+          beach: Praia
           reserve: Reserva ambiental
           military: Área militar
           school: Escola/Universidade
@@ -2400,8 +2443,12 @@ pt:
           private: Acesso restrito
           destination: Acesso local apenas
           construction: Vias em construção
+          bus_stop: Ponto de ônibus
+          stop: Parada
           bicycle_shop: Loja de bicicletas
+          bicycle_rental: Aluguel de bicicletas
           bicycle_parking: Bicicletário
+          bicycle_parking_small: Estacionamento pequeno para bicicletas
           toilets: Banheiros
     welcome:
       title: Bem-vindo(a)!
@@ -2444,6 +2491,7 @@ pt:
         imports: Importações
         automated_edits: Edições automáticas
       start_mapping: Começando a Mapear
+      continue_authorization: Continuar autorização
       add_a_note:
         title: Sem tempo para editar? Inclua uma nota!
         para_1: Se você só quer que algo pequeno seja arrumado, e não tem tempo para
@@ -2603,6 +2651,7 @@ pt:
       oauth1_settings: Configurações do OAuth 1
       oauth2_applications: Aplicações OAuth 2
       oauth2_authorizations: Autorizações do OAuth 2
+      muted_users: Usuários silenciados
   oauth:
     authorize:
       title: Autorizar acesso à sua conta
@@ -2814,6 +2863,8 @@ pt:
       my_dashboard: Meu painel
       blocks on me: Bloqueios sobre mim
       blocks by me: Bloqueios por mim
+      create_mute: Silenciar este usuário
+      destroy_mute: Deixar de silenciar este usuário
       edit_profile: Editar perfil
       send message: Enviar mensagem
       diary: Diário
@@ -2845,6 +2896,7 @@ pt:
           importer: Revogar o acesso de importador
       block_history: Bloqueios ativos
       moderator_history: Bloqueios aplicados
+      revoke_all_blocks: Revogar todos os bloqueios
       comments: Comentários
       create_block: Bloquear este usuário
       activate_user: Ativar este usuário
@@ -2945,7 +2997,7 @@ pt:
       success: Bloqueio atualizado.
     index:
       title: Bloqueios do usuário
-      heading: Lista de bloqueios do usuário.
+      heading: Lista de bloqueios de usuário
       empty: Nenhum bloqueio foi aplicado ainda.
     revoke:
       title: Retirando bloqueio de %{block_on}
@@ -2955,6 +3007,11 @@ pt:
       confirm: Deseja realmente retirar esse bloqueio?
       revoke: Cancelar!
       flash: Esse bloqueio foi retirado.
+    revoke_all:
+      title: Revogando todos os bloqueios em %{block_on}
+      heading_html: Revogando todos os bloqueios em %{block_on}
+      empty: '%{name} não tem bloqueios ativos.'
+      confirm: Você tem certeza de que quer revogar %{active_blocks}?
     helper:
       time_future_html: Termina em %{time}.
       until_login: Ativo até que o usuário se conecte.
@@ -3048,6 +3105,7 @@ pt:
       reactivate: Reativar
       comment_and_resolve: Comentar e resolver
       comment: Comentar
+      log_in_to_comment: Entre na sua conta para comentar esta nota
       report_link_html: Se esta nota contiver informação sensível que tenha de ser
         removida, podes %{link}.
       other_problems_resolve: Para qualquer outro problema com a nota, resolve-a pessoalmente
@@ -3110,7 +3168,6 @@ pt:
         transport_map: Transporte Público
         tracestracktop_topo: Tracestrack Topo
         hot: Humanitário
-        opnvkarte: ÖPNVKarte
       layers:
         header: Camadas do mapa
         notes: Notas de mapa
@@ -3125,8 +3182,6 @@ pt:
       osm_france: OpenStreetMap França
       thunderforest_credit: Mosaico cortesia de %{thunderforest_link}
       andy_allan: Andy Allan
-      opnvkarte_credit: Mosaico cortesia de %{memomaps_link}
-      memomaps: MeMoMaps
       tracestrack_credit: Mosaico cortesia de %{tracestrack_link}
       hotosm_credit: Estilo de mosaico por %{hotosm_link} hospedado por %{osm_france_link}
       hotosm_name: Humanitarian OpenStreetMap Team
@@ -3139,6 +3194,8 @@ pt:
       map_data_zoom_in_tooltip: Aproxime para ver dados do mapa
       queryfeature_tooltip: Consultar elementos
       queryfeature_disabled_tooltip: Aproxime para consultar elementos
+      embed_html_disabled: A incorporação de HTML não está disponível para esta camada
+        do mapa
     changesets:
       show:
         comment: Comentar

@@ -44,6 +44,10 @@ cy:
       messages:
         invalid_email_address: nid yw'n ymddangos ei fod yn gyfeiriad e-bost dilys
         email_address_not_routable: nid yw'n gyrchadwy
+        display_name_is_user_n: ni all fod yn user_n oni bai mai n yw eich rhif defnyddiwr
+      models:
+        user_mute:
+          is_already_muted: wedi anwybyddu yn barod
     models:
       acl: Rhestr Rheoli Mynediad
       changeset: Grŵp newid
@@ -63,8 +67,8 @@ cy:
       old_relation_member: Aelod o Hen Berthynas
       old_relation_tag: Tag Hen Berthynas
       old_way: Hen Lwybr
-      old_way_node: Nod Hen Ffordd
-      old_way_tag: Tag Hen Ffordd
+      old_way_node: Hen Nod Llwybr
+      old_way_tag: Tag Hen Lwybr
       relation: Perthynas
       relation_member: Aelod Perthynol
       relation_tag: Tag Perthynas
@@ -271,6 +275,8 @@ cy:
         reopened_at_by_html: Wedi ailgychwyn %{when} gan %{user}
       rss:
         title: Nodiadau OpenStreetMap
+        description_area: Rhestr o nodiadau, adroddwyd, gyda sylwadau, neu wedi cau
+          yn eich ardal [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Ffrwd RSS ar gyfer nodyn %{id}
         opened: Nodyn newydd (ger %{place})
         commented: Sylw newydd (ger %{place})
@@ -295,6 +301,7 @@ cy:
           yn cael eu cadw.
         retain_changeset_discussions: Bydd eich trafodaethau grwpiau newid, os ydynt
           yn bodoli, yn cael eu cadw.
+        retain_email: Bydd eich cyfeiriad e-bost yn cael ei gadw.
         confirm_delete: Ydych chi'n siŵr?
         cancel: Canslo
   accounts:
@@ -397,8 +404,12 @@ cy:
         many: '%{count} nod'
         other: '%{count} nod'
       also_part_of_html:
-        one: rhan o'r ffordd %{related_ways}
-        other: rhan o'r ffyrdd %{related_ways}
+        zero: rhan o lwybr %{related_ways}
+        one: rhan o lwybr %{related_ways}
+        two: rhan o lwybr %{related_ways}
+        few: rhan o lwybr %{related_ways}
+        many: rhan o lwybr %{related_ways}
+        other: rhan o lwybr %{related_ways}
     relation:
       title_html: 'Perthynas: %{name}'
       history_title_html: 'Hanes y Perthynas: %{name}'
@@ -521,7 +532,7 @@ cy:
       my friends: Fy ffrindiau
       no friends: Nid ydych wedi ychwanegu unrhyw ffrindiau eto.
       nearby users: Defnyddwyr eraill gerllaw
-      no nearby users: Nid oes defnyddwyr gerllaw sy'n datgelu eu bod yn mapio eto.
+      no nearby users: Nid oes defnyddwyr gerllaw sy'n dweud eu bod yn mapio eto.
       friends_changesets: Grwpiau newid eich ffrindiau
       friends_diaries: cofnodion dyddiaduron ffrindiau
       nearby_changesets: grwpiau newid defnyddwyr gerllaw
@@ -610,6 +621,10 @@ cy:
       newer_comments: Sylwadau Diweddarach
       older_comments: Sylwadau Hŷn
   doorkeeper:
+    flash:
+      applications:
+        create:
+          notice: Cofrestrwyd yr Ap.
     openid_connect:
       errors:
         messages:
@@ -908,7 +923,7 @@ cy:
           motorway_link: Ffordd Traffordd
           passing_place: Lle Pasio
           path: Llwybr
-          pedestrian: Llwybr Cerddwyr
+          pedestrian: Stryd Gerddwyr
           platform: Platfform
           primary: Priffordd
           primary_link: Priffordd
@@ -952,6 +967,7 @@ cy:
           citywalls: Waliau Ddinas
           fort: Caer
           heritage: Safle Dreftadaeth
+          hollow_way: Ceuffordd
           house: Tŷ
           manor: Maenor
           memorial: Cofeb
@@ -963,8 +979,9 @@ cy:
           stone: Carreg
           tomb: Beddrod
           tower: Tŵr
-          wayside_cross: Croes Min Ffordd
-          wayside_shrine: Cysegrfa Min Ffordd
+          wayside_chapel: Capel Min y Ffordd
+          wayside_cross: Croes Min y Ffordd
+          wayside_shrine: Cysegrfa Min y Ffordd
           wreck: Llongddrylliad
           "yes": Safle Hanesyddol
         junction:
@@ -1029,6 +1046,7 @@ cy:
           water_park: Parc Dŵr
           "yes": Hamdden
         man_made:
+          adit: Adit
           advertising: Hysbysebu
           antenna: Antena
           beacon: Goleufa
@@ -1098,6 +1116,7 @@ cy:
           moor: Gwaun
           mud: Mwd
           peak: Copa
+          peninsula: Penrhyn
           point: Pwynt
           reef: Riff
           ridge: Cefn
@@ -1502,7 +1521,7 @@ cy:
     gpx_failure:
       hi: Helo %{to_user},
       failed_to_import: 'methwyd â mewnforio. Dyma''r gwall:'
-      subject: Methwyd mewnforio GPX [OpenStreetMap]
+      subject: '[OpenStreetMap] Methiant Mewnforio GPX'
     gpx_success:
       hi: Helo %{to_user},
       subject: '[OpenStreetMap] Llwyddiant Mewnforio GPX'
@@ -1526,9 +1545,13 @@ cy:
         subject_own: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar un o''ch nodiadau'
         subject_other: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar nodyn y mae gennych
           ddiddordeb ynddo'
+      closed:
+        subject_own: '[OpenStreetMap] Datrysodd %{commenter} un o''ch nodiadau'
+        subject_other: '[OpenStreetMap] Datrysodd %{commenter} nodyn y mae gennych
+          ddiddordeb yndo'
       reopened:
-        subject_own: '[OpenStreetMap] Ailgychwynodd %{commenter} un o''ch nodiadau'
-        subject_other: '[OpenStreetMap] Ailgychwynodd %{commenter} nodyn y mae gennych
+        subject_own: '[OpenStreetMap] Ailysgogodd %{commenter} un o''ch nodiadau'
+        subject_other: '[OpenStreetMap] Ailysgogodd %{commenter} nodyn y mae gennych
           ddiddordeb ynddo'
     changeset_comment_notification:
       hi: Helo %{to_user},
@@ -1536,6 +1559,8 @@ cy:
       commented:
         subject_own: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar un o''ch grwpiau
           newid'
+        subject_other: '[OpenStreetMap] Gwnaeth %{commenter} sylw ar grŵp newydd y
+          mae gennych ddiddordeb ynddo'
         partial_changeset_with_comment: gyda sylw '%{changeset_comment}'
         partial_changeset_with_comment_html: gyda sylw '%{changeset_comment}'
         partial_changeset_without_comment: dim sylw
@@ -1570,7 +1595,9 @@ cy:
         few: '%{count} hen neges'
         many: '%{count} hen neges'
         other: '%{count} hen neges'
-      people_mapping_nearby: person yn mapio gerllaw
+      no_messages_yet_html: Nid oes gennych unrhyw negeseuon eto. Beth am gysylltu
+        â'r %{people_mapping_nearby_link}?
+      people_mapping_nearby: pobl yn mapio gerllaw
     messages_table:
       from: Gan
       to: I
@@ -1601,7 +1628,11 @@ cy:
       messages:
         one: Mae gennych %{count} neges wedi ei anfon
         other: Mae gennych %{count} neges wedi eu hanfon
+      no_sent_messages_html: Nid oes gennych unrhyw negeseuon wedi'u hanfon eto. Beth
+        am gysylltu â'r %{people_mapping_nearby_link}?
       people_mapping_nearby: pobl yn mapio gerllaw
+    muted:
+      title: Negeseuon ag Anwybyddwyd
     show:
       title: Darllen neges
       reply_button: Ateb
@@ -1613,6 +1644,7 @@ cy:
     heading:
       my_inbox: Fy Mewnflwch
       my_outbox: Fy Mlwch Allan
+      muted_messages: Negeseuon ag anwybyddwyd
     mark:
       as_read: Nodwyd fod y neges wedi ei ddarllen
       as_unread: Nodwyd nad yw'r neges wedi ei ddarllen
@@ -1622,9 +1654,11 @@ cy:
     new:
       title: Ailosod cyfrinair
       heading: Wedi anghofio'ch cyfrinair?
-      email address: 'Cyfeiriad e-bost:'
+      email address: Cyfeiriad E-bost
       new password button: Ailosod cyfrinair
     create:
+      notice email on way: Sori eich bod wedi ei golli :-( ond mae e-bost ar y ffordd
+        er mwyn ichi ei ailosod yn fuan.
       notice email cannot find: Methwyd dod o hyd i'r cyfeiriad ebost yno.
     edit:
       title: Ailosod cyfrinair
@@ -1673,9 +1707,9 @@ cy:
     new:
       title: Mewngofnodi
       heading: Mewngofnodi
-      email or username: 'Cyfeiriad e-bost neu enw defnyddiwr:'
-      password: 'Cyfrinair:'
-      openid_html: '%{logo} OpenID:'
+      email or username: Cyfeiriad E-Bost neu Enw Defnyddiwr
+      password: Cyfrinair
+      openid_html: '%{logo} OpenID'
       remember: Cofiwch fi
       lost password link: Wedi anghofio eich cyfrinair?
       login_button: Mewngofnodi
@@ -1716,9 +1750,12 @@ cy:
       support: cymorth
   shared:
     markdown_help:
+      heading_html: Wedi'i ddosrannu gyda %{kramdown_link}
       headings: Penawdau
       heading: Pennawd
       subheading: Is-bennawd
+      unordered: Rhestr heb ei threfnu
+      ordered: Rhestr wedi'i threfnu
       first: Eitem gyntaf
       second: Ail eitem
       link: Dolen
@@ -1918,6 +1955,7 @@ cy:
           primary: Priffordd
           secondary: Ffordd eilaidd
           unclassified: Ffordd annosbarthedig
+          pedestrian: Llwybr cerddwyr
           track: Trac
           bridleway: Llwybr ceffylau
           cycleway: Llwybr beiciau
@@ -1962,6 +2000,7 @@ cy:
           scrubland: Prysgoed
           lake: Llyn
           reservoir: Cronfa Ddŵr
+          intermittent_water: Dŵr ysbeidiol
           glacier: Rhewlif
           reef: Riff
           wetland: Gwlyptir
@@ -1971,6 +2010,7 @@ cy:
           allotments: Rhandiroedd
           pitch: Cae chwaraeon
           centre: Canolfan chwaraeon
+          beach: Traeth
           reserve: Gwarchodfa natur
           military: Ardal filwrol
           school: Ysgol
@@ -2013,8 +2053,8 @@ cy:
         an_editor_html: Mae %{editor} yn rhaglen neu wefan y gallwch chi ei defnyddio
           i olygu'r map.
         a_node_html: Mae %{node} yn bwynt ar y map, fel bwyty neu goeden.
-        a_way_html: Mae %{way} yn llinell neu ardal fel ffordd, nant, llyn neu adeilad.
-        a_tag_html: Mae %{tag} yn cynnwys data am nod neu ffordd, fel enw bwyty neu
+        a_way_html: Mae %{way} yn llinell neu ardal, fel ffordd, nant, llyn neu adeilad.
+        a_tag_html: Mae %{tag} yn cynnwys data am nod neu lwybr, fel enw bwyty neu
           derfyn cyflymder ffordd.
         editor: golygydd
         node: nod
@@ -2025,6 +2065,7 @@ cy:
         imports: Mewnforion
         automated_edits: Golygiadau Awtomatig
       start_mapping: Dechrau Mapio
+      continue_authorization: Parhau Awdurdodi
       add_a_note:
         title: Dim amser i olygu? Ychwanegwch nodyn!
         the_map: map
@@ -2126,7 +2167,7 @@ cy:
     settings_menu:
       account_settings: Gosodiadau Cyfrif
       oauth1_settings: Gosodiadau OAuth 1
-      oauth2_applications: Ceisiadau OAuth 2
+      oauth2_applications: Apiau OAuth 2
       oauth2_authorizations: Awdurdodiadau OAuth 2
   oauth:
     authorize:
@@ -2149,7 +2190,7 @@ cy:
       denied: Rydych wedi gwrthod mynediad i'ch cyfrif gan y rhaglen %{app_name}.
       invalid: Nid yw'r tocyn awdurdodiad yn ddilys.
     revoke:
-      flash: Rydych wedi diddymu'r tocyn ar gyfer %{application}.
+      flash: Rydych chi wedi dirymu'r tocyn ar gyfer %{application}.
     scopes:
       openid: Mewngofnodi ag OpenStreetMap
       read_prefs: Darllen dewisiadau defnyddwyr
@@ -2163,9 +2204,9 @@ cy:
       skip_authorization: Cymeradwyo cais yn awtomatig
   oauth_clients:
     new:
-      title: Cofrestru rhaglen newydd
+      title: Cofrestru ap newydd
     edit:
-      title: Golygu'ch rhaglen
+      title: Golygu eich ap
     show:
       title: Manylion OAuth ar gyfer %{app_name}
       key: 'Allwedd Defnyddiwr:'
@@ -2203,14 +2244,20 @@ cy:
       client_id: ID Cleient
       client_secret: Cyfrinach Cleient
       permissions: Caniatadau
+      redirect_uris: Ailgyfeirio URIs
   oauth2_authorizations:
     new:
       authorize: Awdurdodi
       deny: Gwrthod
+    show:
+      title: Cod awdurdodi
   oauth2_authorized_applications:
     index:
+      title: Fy Apiau Awdurdodedig
       application: Ap
       permissions: Caniatadau
+    application:
+      revoke: Dirymu Mynediad
   users:
     new:
       title: Cofrestru
@@ -2291,6 +2338,7 @@ cy:
           importer: Tynnu statws mewnforiwr
       block_history: Blociau Gweithredol
       moderator_history: Blociau a roddwyd
+      revoke_all_blocks: Dirymu pob bloc
       comments: Sylwadau
       create_block: Rhwystro'r Defnyddiwr hwn
       activate_user: Gwneud y cyfri'n fyw
@@ -2339,6 +2387,8 @@ cy:
       heading: Rhestr o flociau defnyddwyr
       empty: Dim blociau eto.
     revoke:
+      revoke: Dad-flocio!
+    revoke_all:
       revoke: Dad-flocio!
     helper:
       time_future_html: Yn dod i ben mewn %{time}.
@@ -2505,7 +2555,6 @@ cy:
         transport_map: Map Trafnidiaeth
         tracestracktop_topo: Tracestrack Topo
         hot: Dyngarol
-        opnvkarte: ÖPNVKarte
       layers:
         header: Haenau Map
         notes: Nodiadau Map
@@ -2520,8 +2569,6 @@ cy:
       osm_france: OpenStreetMap Ffrainc
       thunderforest_credit: Teils trwy garedigrwydd %{thunderforest_link}
       andy_allan: Andy Allan
-      opnvkarte_credit: Teils trwy garedigrwydd %{memomaps_link}
-      memomaps: MeMoMaps
       tracestrack_credit: Teils trwy garedigrwydd %{tracestrack_link}
       hotosm_credit: Arddull teils gan %{hotosm_link} a gynhelir gan %{osm_france_link}
       hotosm_name: Tîm Dyngarol OpenStreetMap
@@ -2570,6 +2617,8 @@ cy:
         stay_roundabout_without_exit: Aros ar gylchfan - %{name}
         start_without_exit: Dechreuwch ar %{name}
         destination_without_exit: Wedi cyrraedd cyrchfan
+        against_oneway_without_exit: Mynd yn erbyn unffordd ar %{name}
+        end_oneway_without_exit: Diwedd unffordd ar %{name}
         exit_roundabout: Gadael y gylchfan i %{name}
         unnamed: ffordd heb enw
         courtesy: Cyfarwyddiadau trwy garedigrwydd %{link}

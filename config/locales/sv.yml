@@ -92,6 +92,7 @@ sv:
       messages:
         invalid_email_address: verkar inte vara en giltig e-postadress.
         email_address_not_routable: kan inte ruttas
+        display_name_is_user_n: kan inte vara user_n om inte n är ditt användar-id
     models:
       acl: Tillgångskontrollista (ACL)
       changeset: Ändringsuppsättning
@@ -112,7 +113,7 @@ sv:
       old_relation_tag: Gammal relationstagg
       old_way: Gammal sträcka
       old_way_node: Gammal sträcknod
-      old_way_tag: Gammal sträcketagg
+      old_way_tag: Gammal sträcktagg
       relation: Relation
       relation_member: Relationsmedlem
       relation_tag: Relationstagg
@@ -314,6 +315,8 @@ sv:
         retain_changeset_discussions: Dina diskussioner på ändringsuppsätningar, om
           du gjort några, kommer bevaras.
         retain_email: Din e-postadress kommer bevaras.
+        recent_editing_html: Eftersom du nyligen har redigerat kan ditt konto för
+          närvarande inte raderas. Radering kommer att vara tillåtet om %{time}.
         confirm_delete: Är du säker?
         cancel: Avbryt
   accounts:
@@ -483,6 +486,12 @@ sv:
       introduction: Klicka på kartan för att hitta funktioner i närheten.
       nearby: Finns i närheten
       enclosing: Omgivande kartobjekt
+  old_nodes:
+    not_found:
+      sorry: 'Tyvärr, nod #%{id} version %{version} kunde inte hittas.'
+  old_ways:
+    not_found:
+      sorry: 'Tyvärr, sträckan #%{id} version %{version} kunde inte hittas.'
   changesets:
     changeset_paging_nav:
       showing_page: Sida %{page}
@@ -894,7 +903,7 @@ sv:
           "yes": Byggnad
         club:
           scout: Scoutklubbhus
-          sport: Sportklubb
+          sport: Idrottsförening
           "yes": Klubb
         craft:
           beekeeper: Biodlare
@@ -1088,7 +1097,7 @@ sv:
           resort: Resort
           sauna: Bastu
           slipway: Stapelbädd
-          sports_centre: Sporthall
+          sports_centre: Idrottsanläggning
           stadium: Stadium
           swimming_pool: Simbassäng
           track: Löparbana
@@ -1852,7 +1861,7 @@ sv:
     new:
       title: Förlorat lösenord
       heading: Glömt lösenord?
-      email address: 'E-postadress:'
+      email address: E-postadress
       new password button: Återställ lösenord
       help_text: Ange e-postadressen du använde för att registrera dig så skickar
         vi en länk till den som du kan använda för att återställa ditt lösenord.
@@ -1909,9 +1918,9 @@ sv:
     new:
       title: Logga in
       heading: Logga in
-      email or username: 'E-postadress eller användarnamn:'
-      password: 'Lösenord:'
-      openid_html: '%{logo} OpenID:'
+      email or username: E-postadress eller Användarnamn
+      password: Lösenord
+      openid_html: '%{logo} OpenID'
       remember: Kom ihåg mig
       lost password link: Glömt ditt lösenord?
       login_button: Logga in
@@ -2101,6 +2110,12 @@ sv:
         contributors_at_cc_by_at_with_amendments: CC BY AT med tillägg
         contributors_au_australia: Australien
         contributors_au_geoscape_australia: Geoscape Australien
+        contributors_ca_credit_html: |-
+          %{canada}: Innehåller data från
+          GeoBase&reg;, GeoGratis (&copy; Department of Natural
+          Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada), och StatCan (Geography Division,
+          Statistics Canada).
         contributors_ca_canada: Kanada
         contributors_cz_czechia: Tjeckien
         contributors_fi_finland: Finland
@@ -2134,6 +2149,8 @@ sv:
         contributors_za_credit_html: '%{south_africa}: Innehåller data från %{ngi_link},
           statens upphovsrätt förbehålls.'
         contributors_za_south_africa: Sydafrika
+        contributors_gb_credit_html: '%{united_kingdom}: Innehåller Ordnance Survey
+          data &copy; Crown copyright and database right 2010-2023.'
         contributors_gb_united_kingdom: Storbritannien
         contributors_2_html: |-
           För ytterligare information om dessa och andra källor som har använts
@@ -2304,26 +2321,41 @@ sv:
           primary: Primär väg (riksväg)
           secondary: Sekundär väg (större länsväg)
           unclassified: Oklassificerad väg
+          pedestrian: Gågata
           track: Traktorväg
           bridleway: Ridstig
           cycleway: Cykelväg
           cycleway_national: Nationell cykelväg
           cycleway_regional: Regional cykelväg
           cycleway_local: Lokal cykelväg
+          cycleway_mtb: Mountainbike-led
           footway: Gångväg
           rail: Järnväg
+          train: Tåg
           subway: Tunnelbana
+          ferry: Färja
+          bus: Buss
           cable_car: Linbana
           chair_lift: stollift
           runway: Landningsbana
           taxiway: taxibana
           apron: Flygplatsplatta
           admin: Administrativ gräns
+          capital: Huvudstad
+          city: Stad
+          orchard: Fruktträdgård
+          vineyard: Vingård
           forest: Kulturskog
           wood: Naturskog
+          farmland: Jordbruksmark
+          grass: Gräs
+          meadow: Äng
+          bare_rock: Klippa
+          sand: Sand
           golf: Golfbana
           park: Park
           common: Allmänning
+          built_up: Bebyggt område
           resident: Bostadsområde
           retail: Område för Detaljhandel
           industrial: Industriellt område
@@ -2331,27 +2363,36 @@ sv:
           heathland: Hed
           lake: Sjö
           reservoir: vattenmagasin
+          glacier: Glaciär
+          reef: Rev
+          wetland: Våtmark
           farm: Bondgård
           brownfield: Förfallen industritomt
           cemetery: Begravningsplats
           allotments: Koloniträdgårdar
-          pitch: Bollplan
+          pitch: Idrottsplan
           centre: Idrottsanläggning
+          beach: Strand
           reserve: Naturreservat
           military: Militärområde
           school: Skola
-          university: universitet
+          university: Universitet
+          hospital: Sjukhus
           building: Viktig byggnad
           station: Järnvägsstation
           summit: Höjd
-          peak: topp
+          peak: Topp
           tunnel: Streckade kanter = tunnel
           bridge: Svarta kanter = bro
           private: Privat tillgång
           destination: Förbjuden genomfart
           construction: Vägar under konstruktion
+          bus_stop: Busshållplats
+          stop: Hållplats
           bicycle_shop: Cykelaffär
+          bicycle_rental: Cykeluthyrning
           bicycle_parking: Cykelparkering
+          bicycle_parking_small: Liten cykelparkering
           toilets: Toaletter
     welcome:
       title: Välkommen!
@@ -2396,6 +2437,7 @@ sv:
         imports: Importer
         automated_edits: Automatiserade redigeringar
       start_mapping: Börja kartlägga
+      continue_authorization: Fortsätt auktorisering
       add_a_note:
         title: Ingen tid att redigera? Lägg till en kommentar!
         para_1: Om du bara vill ha ett litet problem fixat och inte har tid att registrera
@@ -2963,6 +3005,13 @@ sv:
       showing_page: Sida %{page}
       next: Nästa »
       previous: « Föregående
+  user_mutes:
+    index:
+      table:
+        thead:
+          actions: Åtgärder
+        tbody:
+          send_message: Skicka meddelande
   notes:
     index:
       title: Anteckningar skapade eller kommenterade av %{user}
@@ -2999,6 +3048,7 @@ sv:
       reactivate: Återaktivera
       comment_and_resolve: Kommentera och Avklara
       comment: Kommentera
+      log_in_to_comment: Logga in för att kommentera denna anteckning
       report_link_html: Om denna anteckning innehåller känslig information som måste
         tas bort kan du %{link}.
       other_problems_resolve: För alla andra problem med anteckningen, lös det själv
@@ -3060,7 +3110,6 @@ sv:
         cycle_map: Cykelkarta
         transport_map: Transportkarta
         hot: Humanitärt
-        opnvkarte: ÖPNVKarte
       layers:
         header: Kartskikt
         notes: Kartanteckningar
@@ -3073,7 +3122,6 @@ sv:
       website_and_api_terms: Webbplats och API-villkor
       osm_france: OpenStreetMap Frankrike
       andy_allan: Andy Allan
-      memomaps: MeMoMaps
       hotosm_name: Humanitärt OpenStreetMap-team
     site:
       edit_tooltip: Redigera kartan

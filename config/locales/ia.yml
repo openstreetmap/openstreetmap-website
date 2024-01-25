@@ -45,6 +45,10 @@ ia:
       messages:
         invalid_email_address: non pare esser un adresse de e-mail valide
         email_address_not_routable: non es attingibile
+        display_name_is_user_n: non pote esser user_n si n non es tu ID de usator
+      models:
+        user_mute:
+          is_already_muted: es ja silentiate
     models:
       acl: Lista de controlo de accesso
       changeset: Gruppo de modificationes
@@ -441,6 +445,15 @@ ia:
       introduction: Clicca sur le carta pro cercar objectos a proximitate.
       nearby: Objectos proxime
       enclosing: Objectos inglobante
+  old_nodes:
+    not_found:
+      sorry: Guai, le version %{version} del nodo №%{id} non pote esser trovate.
+  old_ways:
+    not_found:
+      sorry: Guai, le version %{version} del via №%{id} non pote esser trovate.
+  old_relations:
+    not_found:
+      sorry: Guai, le version %{version} del relation №%{id} non pote esser trovate.
   changesets:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -1635,6 +1648,8 @@ ia:
           puncto.
         other: ha essite cargate con successo con %{trace_points} ex un maximo de
           %{count} punctos.
+      all_your_traces_html: Tote le tracias GPX que tu ha incargate con successo pote
+        esser trovate a %{url}.
       subject: '[OpenStreetMap] Importation GPX succedite'
     signup_confirm:
       subject: '[OpenStreetMap] Benvenite a OpenStreetMap'
@@ -1773,11 +1788,13 @@ ia:
       to: A
       subject: Subjecto
       date: Data
+      actions: Actiones
     message_summary:
       unread_button: Marcar como non legite
       read_button: Marcar como legite
       reply_button: Responder
       destroy_button: Deler
+      unmute_button: Displaciar al cassa de entrata
     new:
       title: Inviar message
       send_message_to_html: Inviar un nove message a %{name}
@@ -1792,12 +1809,18 @@ ia:
       body: Non existe un message con iste ID.
     outbox:
       title: Cassa de exito
+      actions: Actiones
       messages:
         one: Tu ha %{count} message inviate
         other: Tu ha %{count} messages inviate
       no_sent_messages_html: Tu non ha ancora inviate alcun message. Proque non contactar
         alcun %{people_mapping_nearby_link}?
       people_mapping_nearby: cartographos vicin
+    muted:
+      title: Messages silentiate
+      messages:
+        one: '%{count message silentiate'
+        other: Tu ha %{count} messages silentiate
     reply:
       wrong_user: Tu es authenticate como "%{user}", ma le message al qual tu vole
         responder non ha essite inviate a iste usator. Per favor aperi un session
@@ -1816,16 +1839,20 @@ ia:
     heading:
       my_inbox: Mi cassa de entrata
       my_outbox: Mi cassa de exito
+      muted_messages: Messages silentiate
     mark:
       as_read: Message marcate como legite
       as_unread: Message marcate como non legite
+    unmute:
+      notice: Le message ha essite displaciate al cassa de entrata
+      error: Le message non poteva esser displaciate al cassa de entrata.
     destroy:
       destroyed: Message delite
   passwords:
     new:
       title: Contrasigno perdite
       heading: Contrasigno oblidate?
-      email address: 'Adresse de e-mail:'
+      email address: Adresse de e-mail
       new password button: Reinitialisar contrasigno
       help_text: Entra le adresse de e-mail que tu usava pro inscriber te, e nos te
         inviara un ligamine que tu pote usar pro reinitialisar tu contrasigno.
@@ -1885,9 +1912,9 @@ ia:
     new:
       title: Aperir session
       heading: Aperir session
-      email or username: 'Adresse de e-mail o nomine de usator:'
-      password: 'Contrasigno:'
-      openid_html: 'OpenID de %{logo}:'
+      email or username: Adresse de e-mail o nomine de usator
+      password: Contrasigno
+      openid_html: OpenID de %{logo}
       remember: Memorar me
       lost password link: Contrasigno perdite?
       login_button: Aperir session
@@ -1945,6 +1972,7 @@ ia:
       image: Imagine
       alt: Texto alternative
       url: URL
+      codeblock: Bloco de codice
     richtext_field:
       edit: Modificar
       preview: Previsualisar
@@ -2307,12 +2335,14 @@ ia:
           primary: Via primari
           secondary: Via secundari
           unclassified: Via non classificate
+          pedestrian: Via pro pedones
           track: Pista
           bridleway: Sentiero pro cavallos
           cycleway: Via cyclabile
           cycleway_national: Pista cyclabile national
           cycleway_regional: Pista cyclabile regional
           cycleway_local: Pista cyclabile local
+          cycleway_mtb: Percurso de bicycletta de montania
           footway: Sentiero pro pedones
           rail: Ferrovia
           train: Traino
@@ -2328,6 +2358,8 @@ ia:
           taxiway: Via de circulation pro aviones
           apron: Platteforma pro aviones
           admin: Limite administrative
+          capital: Capital
+          city: Citate
           orchard: Verdiero
           vineyard: Vinia
           forest: Foreste
@@ -2359,6 +2391,7 @@ ia:
           allotments: Jardines familial
           pitch: Campo de sport
           centre: Centro de sport
+          beach: Plagia
           reserve: Reserva natural
           military: Area militar
           school: Schola
@@ -2376,7 +2409,9 @@ ia:
           bus_stop: Halto de autobus
           stop: Halto
           bicycle_shop: Magazin de bicyclettas
+          bicycle_rental: Location de bicyclettas
           bicycle_parking: Parcamento de bicyclettas
+          bicycle_parking_small: Micre spatio de parcamento pro bicyclettas
           toilets: Toilettes
     welcome:
       title: Benvenite!
@@ -2579,6 +2614,7 @@ ia:
       oauth1_settings: Configuration OAuth 1
       oauth2_applications: Applicationes OAuth 2
       oauth2_authorizations: Autorisationes OAuth 2
+      muted_users: Usatores silentiate
   oauth:
     authorize:
       title: Autorisar accesso a tu conto
@@ -2615,6 +2651,7 @@ ia:
       read_gpx: Leger tracias GPS private
       write_gpx: Incargar tracias GPS
       write_notes: Modificar notas
+      write_redactions: Censurar datos del carta
       read_email: Leger le adresse de e-mail del usator
       skip_authorization: Approbar automaticamente le application
   oauth_clients:
@@ -2788,6 +2825,8 @@ ia:
       my_dashboard: Mi pannello
       blocks on me: Blocadas concernente me
       blocks by me: Blocadas facite per me
+      create_mute: Silentiar iste usator
+      destroy_mute: Non silentiar iste usator
       edit_profile: Modificar profilo
       send message: Inviar message
       diary: Diario
@@ -2819,6 +2858,7 @@ ia:
           importer: Revocar le accesso de importator
       block_history: Blocadas active
       moderator_history: Blocadas imponite
+      revoke_all_blocks: Revocar tote le blocadas
       comments: Commentos
       create_block: Blocar iste usator
       activate_user: Activar iste usator
@@ -2926,6 +2966,16 @@ ia:
       confirm: Es tu secur de voler revocar iste blocada?
       revoke: Revocar!
       flash: Iste blocada ha essite revocate.
+    revoke_all:
+      title: Revocation de tote le blocadas de %{block_on}
+      heading_html: Revocation de tote le blocadas de %{block_on}
+      empty: '%{name} non ha blocadas active.'
+      confirm: Es tu secur de voler revocar %{active_blocks}?
+      active_blocks:
+        one: '%{count} blocada active'
+        other: '%{count} blocadas active'
+      revoke: Revocar!
+      flash: Tote le blocadas active ha essite revocate.
     helper:
       time_future_html: Expira in %{time}.
       until_login: Active usque le usator aperi session.
@@ -2984,6 +3034,31 @@ ia:
       showing_page: Pagina %{page}
       next: Sequente »
       previous: « Precedente
+  user_mutes:
+    index:
+      title: Usatores silentiate
+      my_muted_users: Mi usatores silentiate
+      you_have_muted_n_users:
+        one: Tu ha silentiate %{count} usator
+        other: Tu ha silentiate %{count} usatores
+      user_mute_explainer: Le messages de usatores silentiate es displaciate a un
+        cassa de entrata separate e tu non recipera notificationes de e-mail.
+      user_mute_admins_and_moderators: Tu pote silentiar administratores e moderatores,
+        ma lor messages non essera silentiate.
+      table:
+        thead:
+          muted_user: Usator silentiate
+          actions: Actiones
+        tbody:
+          unmute: Non silentiar
+          send_message: Inviar message
+    create:
+      notice: Tu ha silentiate %{name}.
+      error: '%{name} non poteva esser silentiate. %{full_message}.'
+    destroy:
+      notice: Tu non plus silentia %{name}.
+      error: Non esseva possibile disfacer le silentiamento del usator. Per favor
+        essaya lo de novo.
   notes:
     index:
       title: Notas submittite o commentate per %{user}
@@ -3021,6 +3096,7 @@ ia:
       reactivate: Reactivar
       comment_and_resolve: Commentar e resolver
       comment: Commento
+      log_in_to_comment: Aperi session pro commentar iste nota
       report_link_html: Si iste nota contine information sensibile que debe esser
         removite, tu pote %{link}.
       other_problems_resolve: Pro tote altere problema con le nota, per favor resolve
@@ -3083,7 +3159,6 @@ ia:
         transport_map: Carta de transporto
         tracestracktop_topo: Tracestrack Topo
         hot: Humanitario
-        opnvkarte: ÖPNVKarte
       layers:
         header: Stratos de carta
         notes: Notas de carta
@@ -3098,8 +3173,6 @@ ia:
       osm_france: OpenStreetMap Francia
       thunderforest_credit: Tegulas fornite per %{thunderforest_link}
       andy_allan: Andy Allan
-      opnvkarte_credit: Tegulas fornite per %{memomaps_link}
-      memomaps: MeMoMaps
       tracestrack_credit: Tegulas fornite per %{tracestrack_link}
       hotosm_credit: Stilo de tegulas per %{hotosm_link} albergate per %{osm_france_link}
       hotosm_name: le Equipa Humanitari de OpenStreetMap
