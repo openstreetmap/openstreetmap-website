@@ -11,20 +11,13 @@
   <% sites.each do |site| %>
     <div class="col">
       <div class='<%= site %> help-item card h-100'>
+        <h6 class='card-header'>
+          <a href='<%= t ".#{site}.url" %>' class='stretched-link'>
+            <%= t ".#{site}.title" %>
+          </a>
+        </h6>
         <div class='card-body'>
-          <h6 class='card-title'>
-            <a href='<%= t ".#{site}.url" %>'>
-              <%= t ".#{site}.title" %>
-            </a>
-          </h6>
           <p class='card-text'><%= t ".#{site}.description" %></p>
-        </div>
-        <div class="card-footer">
-          <small>
-            <a href='<%= t ".#{site}.url" %>'>
-              <%= t ".#{site}.url" %>
-            </a>
-          </small>
         </div>
       </div>
     </div>
