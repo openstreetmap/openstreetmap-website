@@ -19,7 +19,12 @@ class OauthClientsController < ApplicationController
   end
 
   def new
-    @client_application = ClientApplication.new
+    if Settings.oauth_10_registration
+      @client_application = ClientApplication.new
+    else
+      flash[:error] = t ".disabled"
+      redirect_to :action => "index"
+    end
   end
 
   def edit
