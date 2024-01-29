@@ -111,8 +111,8 @@ zh-CN:
         create: 注册
         update: 更新
       redaction:
-        create: 创建修订
-        update: 保存修订
+        create: 创建隐删
+        update: 保存隐删
       trace:
         create: 上传
         update: 保存更改
@@ -124,9 +124,10 @@ zh-CN:
       messages:
         invalid_email_address: 似乎不是有效的电子邮件地址
         email_address_not_routable: 不可路由
+        display_name_is_user_n: 不能为“user_n”，除非“n”是您的用户ID
       models:
         user_mute:
-          is_already_muted: 已弱化
+          is_already_muted: 已忽视
     models:
       acl: 访问控制列表
       changeset: 变更集
@@ -468,8 +469,8 @@ zh-CN:
         changeset: 变更集
         note: 注记
     redacted:
-      redaction: 删改 %{id}
-      message_html: 该%{type}版本 %{version} 无法显示，因为其已被删改。详情请见%{redaction_link}。
+      redaction: 隐删 %{id}
+      message_html: 该%{type}版本 %{version} 无法显示，因为其已被隐删。详情请见%{redaction_link}。
       type:
         node: 节点
         way: 路径
@@ -494,6 +495,15 @@ zh-CN:
       introduction: 点击地图以查找附近要素。
       nearby: 附近要素
       enclosing: 封闭要素
+  old_nodes:
+    not_found:
+      sorry: '抱歉，无法找到节点 #%{id} 的版本 %{version}。'
+  old_ways:
+    not_found:
+      sorry: '抱歉，无法找到路径 #%{id} 的版本 %{version}。'
+  old_relations:
+    not_found:
+      sorry: '抱歉，无法找到关系 #%{id} 的版本 %{version}。'
   changesets:
     changeset_paging_nav:
       showing_page: 第 %{page} 页
@@ -1773,10 +1783,10 @@ zh-CN:
       no_sent_messages_html: 您尚未发送信息。何不联系一些%{people_mapping_nearby_link}?
       people_mapping_nearby: 在附近绘制地图的人
     muted:
-      title: 已弱化消息
+      title: 已忽视消息
       messages:
-        one: 1 条弱化消息
-        other: 您有 %{count} 条弱化消息
+        one: 1 条忽视消息
+        other: 您有 %{count} 条忽视消息
     reply:
       wrong_user: 您已经以 '%{user}' 的身份登录，但是您想要回复的消息并非寄给这个用户。请以正确的用户身份登录以回复这个消息。
     show:
@@ -1791,7 +1801,7 @@ zh-CN:
     heading:
       my_inbox: 我的收件箱
       my_outbox: 我的发件箱
-      muted_messages: 已弱化消息
+      muted_messages: 已忽视消息
     mark:
       as_read: 标记消息为已读
       as_unread: 标记消息为未读
@@ -2441,7 +2451,7 @@ zh-CN:
       oauth1_settings: OAuth 1设置
       oauth2_applications: OAuth 2应用程序
       oauth2_authorizations: OAuth 2授权
-      muted_users: 已弱化用户
+      muted_users: 已忽视用户
   oauth:
     authorize:
       title: 授权访问您的账户
@@ -2476,7 +2486,7 @@ zh-CN:
       read_gpx: 读取私人GPS轨迹
       write_gpx: 上传GPS轨迹
       write_notes: 修改备注
-      write_redactions: 编写地图数据
+      write_redactions: 隐删地图数据
       read_email: 查看用户邮箱地址
       skip_authorization: 自动核准应用
   oauth_clients:
@@ -2625,7 +2635,7 @@ zh-CN:
       my_dashboard: 我的综合面板
       blocks on me: 我的封禁
       blocks by me: 被我封禁
-      create_mute: 弱化此用户
+      create_mute: 忽视此用户
       destroy_mute: 取消弱化此用户
       edit_profile: 编辑个人资料
       send message: 发送消息
@@ -2825,23 +2835,23 @@ zh-CN:
       previous: « 上一页
   user_mutes:
     index:
-      title: 已弱化用户
-      my_muted_users: 我已弱化的用户
+      title: 已忽视用户
+      my_muted_users: 我已忽视的用户
       you_have_muted_n_users:
-        one: 您已弱化 1 名用户
-        other: 您已弱化 %{count} 名用户
-      user_mute_explainer: 已弱化用户的消息会被移至单独的收件箱，您不会收到电子邮件通知。
-      user_mute_admins_and_moderators: 您可以弱化管理员和仲裁员，但仍会收到他们的消息通知。
+        one: 您已忽视 1 名用户
+        other: 您已忽视 %{count} 名用户
+      user_mute_explainer: 已忽视用户的消息会被移至单独的收件箱，您不会收到电子邮件通知。
+      user_mute_admins_and_moderators: 您可以忽视管理员和仲裁员，但仍会收到他们的消息通知。
       table:
         thead:
-          muted_user: 已弱化用户
+          muted_user: 已忽视用户
           actions: 操作
         tbody:
           unmute: 取消弱化
           send_message: 发送消息
     create:
-      notice: 您已弱化%{name}。
-      error: 无法弱化%{name}。%{full_message}。
+      notice: 您已忽视 %{name}。
+      error: 无法忽视 %{name}。%{full_message}。
     destroy:
       notice: 您取消弱化了%{name}。
       error: 无法取消弱化用户。请再试一次。
@@ -3076,31 +3086,31 @@ zh-CN:
       centre_map: 将此处置于地图中间
   redactions:
     edit:
-      heading: 编辑修订
-      title: 编辑修订
+      heading: 编辑隐删
+      title: 编辑隐删
     index:
-      empty: 无删改可显示。
-      heading: 修订列表
-      title: 修订列表
+      empty: 无隐删可显示。
+      heading: 隐删列表
+      title: 隐删列表
     new:
-      heading: 请输入新修订的信息
-      title: 创建新修订
+      heading: 请输入新隐删的信息
+      title: 创建新隐删
     show:
       description: 描述：
-      heading: 显示修订“%{title}”
-      title: 显示修订
+      heading: 显示隐删“%{title}”
+      title: 显示隐删
       user: 创建者：
-      edit: 编辑该修订
-      destroy: 删除该修订
+      edit: 编辑该隐删
+      destroy: 删除该隐删
       confirm: 您确定吗？
     create:
-      flash: 修订已创建。
+      flash: 隐删已创建。
     update:
       flash: 更改已保存。
     destroy:
-      not_empty: 修订非空。请在销毁该修订前清除所有属于它的版本。
-      flash: 修订已销毁。
-      error: 销毁该修订时出错。
+      not_empty: 隐删非空。请在销毁该隐删前清除所有属于它的版本。
+      flash: 隐删已销毁。
+      error: 销毁该隐删时出错。
   validations:
     leading_whitespace: 有前导空格
     trailing_whitespace: 有尾随空格
