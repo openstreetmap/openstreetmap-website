@@ -337,7 +337,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :email_confirmation, :display_name,
                                  :auth_provider, :auth_uid,
-                                 :pass_crypt, :pass_crypt_confirmation)
+                                 :pass_crypt, :pass_crypt_confirmation).transform_values(&:strip)
   end
 
   ##
