@@ -677,7 +677,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_rss_path
     assert_select "rss>channel>item", :count => 2
 
-    with_diary_feed_delay(6) do
+    with_settings(:diary_feed_delay => 6) do
       get diary_rss_path
       assert_select "rss>channel>item", :count => 1
     end
@@ -1002,14 +1002,5 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     entries.each do |entry|
       assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"
     end
-  end
-
-  def with_diary_feed_delay(value)
-    diary_feed_delay = Settings.diary_feed_delay
-    Settings.diary_feed_delay = value
-
-    yield
-
-    Settings.diary_feed_delay = diary_feed_delay
   end
 end

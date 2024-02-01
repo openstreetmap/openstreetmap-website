@@ -214,7 +214,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     # Check that sending a message fails when the message limit is hit
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "Message.count" do
-        with_message_limit(0) do
+        with_settings(:max_messages_per_hour => 0) do
           perform_enqueued_jobs do
             post messages_path(:display_name => recipient_user.display_name,
                                :message => { :title => "Test Message", :body => "Test message body" })
@@ -471,16 +471,5 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     delete message_path(:id => 99999)
     assert_response :not_found
     assert_template "no_such_message"
-  end
-
-  private
-
-  def with_message_limit(value)
-    max_messages_per_hour = Settings.max_messages_per_hour
-    Settings.max_messages_per_hour = value
-
-    yield
-
-    Settings.max_messages_per_hour = max_messages_per_hour
   end
 end
