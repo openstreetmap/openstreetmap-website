@@ -74,6 +74,22 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_new_disabled
+    user = create(:user)
+
+    with_settings(:oauth_10_registration => false) do
+      get new_oauth_client_path(:display_name => user.display_name)
+      assert_response :redirect
+      assert_redirected_to login_path(:referer => new_oauth_client_path(:display_name => user.display_name))
+
+      session_for(user)
+
+      get new_oauth_client_path(:display_name => user.display_name)
+      assert_response :redirect
+      assert_redirected_to oauth_clients_path(:display_name => user.display_name)
+    end
+  end
+
   def test_create
     user = create(:user)
 

@@ -374,6 +374,16 @@ module ActiveSupport
       end
     end
 
+    def with_settings(settings)
+      saved_settings = Settings.to_hash.slice(*settings.keys)
+
+      Settings.merge!(settings)
+
+      yield
+    ensure
+      Settings.merge!(saved_settings)
+    end
+
     def with_user_account_deletion_delay(value)
       freeze_time
       default_value = Settings.user_account_deletion_delay
