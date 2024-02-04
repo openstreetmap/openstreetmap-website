@@ -41,7 +41,7 @@ class NotesController < ApplicationController
     end
 
     # FIXME: notes_refactoring remove this once the backfilling is completed
-    @note_comments = @note_comments.drop(1) unless @note.body_migrated?
+    @note_comments = @note_comments.reject { |comment| comment.event == "opened" } if @note.body_migrated?
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found
   end
