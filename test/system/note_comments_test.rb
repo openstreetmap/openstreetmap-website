@@ -47,7 +47,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "can't add a comment when blocked" do
-    note = create(:note_with_comments)
+    note = create(:note)
     user = create(:user)
     sign_in_as(user)
     visit note_path(note)
@@ -81,7 +81,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "can't resolve a note when blocked" do
-    note = create(:note_with_comments)
+    note = create(:note)
     user = create(:user)
     sign_in_as(user)
     visit note_path(note)
@@ -105,7 +105,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "can't reactivate a note when blocked" do
-    note = create(:note_with_comments, :closed)
+    note = create(:note, :closed)
     user = create(:user)
     sign_in_as(user)
     visit note_path(note)
