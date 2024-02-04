@@ -5,7 +5,11 @@
 <div>
   <h4><%= t(".description") %></h4>
   <div class="overflow-hidden ms-2">
-    <%= h(@note.body.to_html) %>
+    <% if @note.body_migrated? # FIXME: notes_refactoring drop if-clause & else-block after backfilling %>
+      <%= note_body(@note.body, @note.author) %>
+    <% else %>
+      <%= @note.body.to_html %>
+    <% end %>
   </div>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">
