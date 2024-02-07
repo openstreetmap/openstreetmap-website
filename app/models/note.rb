@@ -101,17 +101,21 @@ class Note < ApplicationRecord
 
   # FIXME: notes_refactoring remove this once the backfilling is completed
   def author
-    super || opened_note_comment&.author
+    return super if body_migrated?
+
+    opened_note_comment&.author
   end
 
   # FIXME: notes_refactoring remove this once the backfilling is completed
   def author_ip
-    super || opened_note_comment&.author_ip
+    return super if body_migrated?
+
+    opened_note_comment&.author_ip
   end
 
   # Return the note body
   def body
-    body = super || opened_note_comment&.body&.to_s
+    body = body_migrated? ? super : opened_note_comment&.body&.to_s
     RichText.new("text", body)
   end
 
