@@ -123,14 +123,13 @@ class Note < ApplicationRecord
 
   # FIXME: notes_refactoring remove this once the backfilling is completed
   def opened_note_comment
-    comments.find_by(:event => "opened")
+    @opened_note_comment ||= comments.find_by(:event => "opened")
   end
 
-  # NB: For API backwards compatibility the comments are prepended with an
-  # `open`-comment that was persisted but is not anymore.
+  # NB: For API backwards compatibility a synthetic `open`-comment is prepended.
   def build_comments_with_extra_open_comment
     # FIXME: notes_refactoring remove this guard once the backfilling is completed
-    return comments unless body_migrated?
+    return comments if opened_note_comment
 
     comments.to_a.unshift(NoteComment.new(
                             :created_at => created_at,
