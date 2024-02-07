@@ -23,10 +23,8 @@ module NoteHelper
   end
 
   def note_body(body, author)
-    if author.deleted?
-      I18n.t("notes.show.note_body_for_deleted_user")
-    else
-      body.to_html
-    end
+    return body.to_html unless author&.deleted?
+
+    t("notes.show.note_body_for_deleted_user")
   end
 end
