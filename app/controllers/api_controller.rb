@@ -107,7 +107,7 @@ class ApiController < ApplicationController
       self.current_user = User.find(doorkeeper_token.resource_owner_id)
     elsif Authenticator.new(self, [:token]).allow?
       # self.current_user setup by OAuth
-    elsif Settings.basic_auth_support
+    else
       username, passwd = auth_data # parse from headers
       # authenticate per-scheme
       self.current_user = if username.nil?
@@ -117,8 +117,14 @@ class ApiController < ApplicationController
                           else
                             User.authenticate(:username => username, :password => passwd) # basic auth
                           end
-      # log if we have authenticated using basic auth
-      logger.info "Authenticated as user #{current_user.id} using basic authentication" if current_user
+      if username && current_user
+        if Settings.basic_auth_support
+          # log if we have authenticated using basic auth
+          logger.info "Authenticated as user #{current_user.id} using basic authentication"
+        else
+          report_error t("application.basic_auth_disabled", :link => t("application.auth_disabled_link")), :forbidden
+        end
+      end
     end
 
     # have we identified the user?
