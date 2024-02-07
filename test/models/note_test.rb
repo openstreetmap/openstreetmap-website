@@ -65,13 +65,10 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   # FIXME: notes_refactoring
-  def test_author_remove_after_notes_refactoring_is_completed
-    comment = create(:note_comment, :event => "opened")
-    assert_nil comment.note.author
-
-    user = create(:user)
-    comment = create(:note_comment, :event => "opened", :author => user)
-    assert_equal user, comment.note.author
+  def test_author_from_opened_note_comment
+    note = create(:note, :author => nil, :body => nil)
+    comment = create(:note_comment, :note => note, :event => "opened", :author => create(:user))
+    assert_equal comment.author, note.author
   end
 
   def test_author
@@ -84,12 +81,10 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   # FIXME: notes_refactoring
-  def test_author_ip_remove_after_notes_refactoring_is_completed
-    comment = create(:note_comment, :event => "opened")
-    assert_nil comment.note.author_ip
-
-    comment = create(:note_comment, :event => "opened", :author_ip => IPAddr.new("192.168.1.1"))
-    assert_equal IPAddr.new("192.168.1.1"), comment.note.author_ip
+  def test_author_ip_from_opened_note_comment
+    note = create(:note, :author_ip => nil, :body => nil)
+    create(:note_comment, :note => note, :event => "opened", :author_ip => "192.168.1.1")
+    assert_equal IPAddr.new("192.168.1.1"), note.author_ip
   end
 
   def test_author_ip
