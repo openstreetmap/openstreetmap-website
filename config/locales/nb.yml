@@ -68,6 +68,11 @@ nb:
       messages:
         invalid_email_address: later ikke til å være en gyldig e-postadresse
         email_address_not_routable: kan ikke rutes
+        display_name_is_user_n: kan ikke være user_n med mindre n allerede er bruker-ID-en
+          din
+      models:
+        user_mute:
+          is_already_muted: er allerede dempet
     models:
       acl: Tilgangskontrolliste
       changeset: Endringssett
@@ -235,7 +240,6 @@ nb:
   auth:
     providers:
       none: Ingen
-      openid: OpenID
       google: Google
       facebook: Facebook
       github: GitHub
@@ -554,6 +558,13 @@ nb:
       comment: Kommentar
       newer_comments: Nyere kommentarer
       older_comments: Eldre kommentarer
+  errors:
+    contact:
+      contact: kontakt
+    forbidden:
+      title: Forbudt
+    not_found:
+      title: Fil ikke funnet
   friendships:
     make_friend:
       heading: Legge til %{user} som venn?
@@ -651,6 +662,7 @@ nb:
           library: Bibliotek
           marketplace: Markedsplass
           monastery: Kloster
+          money_transfer: Pengeoverføring
           motorcycle_parking: Motorsykkelparkering
           music_school: Musikkskole
           nightclub: Nattklubb
@@ -1028,22 +1040,27 @@ nb:
         office:
           accountant: Revisor
           administrative: Administrasjon
+          advertising_agency: Reklamebyrå
           architect: Arkitekt
           association: Forening
           company: Firma
           educational_institution: Utdanningsinstitusjon
           employment_agency: Bemanningsfirma
           estate_agent: Eiendomsmegler
+          financial: Finanskontor
           government: Statlig kontor
           insurance: Forsikringskontor
           it: IT-kontor
           lawyer: Advokat
+          logistics: Logistikkontor
+          newspaper: Aviskontor
           ngo: Ikke-statlig kontor
           telecommunication: Telekommunikasjonskontor
           travel_agent: Reisebyrå
           "yes": Kontor
         place:
           allotments: Jordlapper
+          archipelago: Øygruppe
           city: By
           city_block: Bykvartal
           country: Land
@@ -1058,6 +1075,7 @@ nb:
           locality: Plass
           municipality: Kommune
           neighbourhood: Naboskap
+          plot: Tomt
           postcode: Postnummer
           quarter: Kvartal
           region: Område
@@ -1262,9 +1280,11 @@ nb:
       status: Status
       reports: Rapporter
       last_updated: Sist oppdatert
+      last_updated_time_ago_user_html: '%{time_ago} av %{user}'
       link_to_reports: Se på rapporter
       reports_count:
-        other: 1 rapport
+        one: '%{count} rapport'
+        other: '%{count} rapporter'
       reported_item: Rapportert element
       states:
         ignored: Sett bort fra
@@ -1306,6 +1326,7 @@ nb:
   issue_comments:
     create:
       comment_created: Din kommentar ble feilfritt opprettet
+      issue_reassigned: Kommentaren din ble opprettet, og saken ble tildelt på nytt
   reports:
     new:
       title_html: Rapport %{link}
@@ -1365,7 +1386,8 @@ nb:
     intro_text: OpenStreetMap er et kart over verden, skapt av mennesker som deg,
       og gratis å bruke under en åpen lisens.
     intro_2_create_account: Opprett en brukerkonto
-    hosting_partners_html: Hosting støttes av %{ucl}, %{bytemark}, og andre %{partners}.
+    hosting_partners_html: Hosting støttes av %{ucl}, %{fastly}, %{bytemark}, og andre
+      %{partners}.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partnere
@@ -1406,11 +1428,15 @@ nb:
       subject: '[OpenStreetMap] %{user} la deg til som en venn'
       had_added_you: '%{user} har lagt deg til som venn på OpenStreetMap.'
       see_their_profile: Du kan se profilen deres på %{userurl}.
+      see_their_profile_html: Du kan se profilen hens på %{userurl}.
       befriend_them: Du kan også legge dem til som venn på %{befriendurl}.
+      befriend_them_html: Du kan også legge hen til som venn på %{befriendurl}.
     gpx_failure:
+      hi: Hei, %{to_user},
       failed_to_import: 'klarte ikke importere. Her er feilen:'
       subject: '[OpenStreetMap] Feil under import av GPX'
     gpx_success:
+      hi: Hei, %{to_user},
       subject: '[OpenStreetMap] Vellykket import av GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Velkommen til OpenStreetMap'
@@ -1485,6 +1511,7 @@ nb:
       success: Kontoen din er bekreftet - takk for at du registrerte deg.
       already active: Denne kontoen har allerede blitt bekreftet.
       unknown token: Denne bekreftelseskoden finnes ikke eller har utløpt.
+      click_here: trykk her
     confirm_resend:
       failure: Fant ikke brukeren %{name}.
     confirm_email:
@@ -1512,11 +1539,13 @@ nb:
       to: Til
       subject: Emne
       date: Dato
+      actions: Handlinger
     message_summary:
       unread_button: Marker som ulest
       read_button: Marker som lest
       reply_button: Svar
       destroy_button: Slett
+      unmute_button: Flytt til innboksen
     new:
       title: Send melding
       send_message_to_html: Send en ny melding til %{name}
@@ -1531,12 +1560,18 @@ nb:
       body: Det er ingen melding med den ID-en.
     outbox:
       title: Utboks
+      actions: Handlinger
       messages:
         one: Du har %{count} sendt melding
         other: Du har %{count} sendte meldinger
       no_sent_messages_html: Du har ikke sendt noen meldinger ennå. Hvorfor ikke bli
         kjent med noen %{people_mapping_nearby_link}?
       people_mapping_nearby: folk i nærheten som lager kart
+    muted:
+      title: Dempede meldinger
+      messages:
+        one: '%{count} dempet melding'
+        other: Du har %{count} dempede meldinger
     reply:
       wrong_user: Du er logget inn som «%{user}», men meldingen du ønsker å svare
         på ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å svare.
@@ -1552,16 +1587,21 @@ nb:
       destroy_button: Slett
     heading:
       my_inbox: Min innboks
+      my_outbox: Min utboks
+      muted_messages: Dempede meldinger
     mark:
       as_read: Melding markert som lest
       as_unread: Melding markert som ulest
+    unmute:
+      notice: Meldingen har blitt flyttet til innboksen
+      error: Meldingen kunne ikke flyttes til innboksen.
     destroy:
       destroyed: Melding slettet
   passwords:
     new:
       title: Glemt passord
       heading: Glemt passord?
-      email address: 'E-postadresse:'
+      email address: E-postadresse
       new password button: Nullstill passord
       help_text: Skriv inn e-postadressen du brukte for å registrere deg, og vi vil
         sende deg ei lenke som du kan bruke til å nullstille passordet ditt.
@@ -1578,14 +1618,22 @@ nb:
       flash changed: Ditt passord er endret.
   preferences:
     show:
+      title: Mine innstillinger
+      preferred_editor: Foretrukket redigeringsverktøy
       preferred_languages: Foretrukne språk
       edit_preferences: Endre innstillinger
     edit:
       title: Endre innstillinger
+      save: Oppdater innstillingene
       cancel: Avbryt
+    update:
+      failure: Kunne ikke oppdatere innstillingene.
+    update_success_flash:
+      message: Innstillinger oppdatert.
   profiles:
     edit:
       title: Rediger profil
+      save: Oppdater profil
       cancel: Avbryt
       image: Bilde
       gravatar:
@@ -1604,13 +1652,15 @@ nb:
       show: Vis
       delete: Slett
       undelete: Angre sletting
+    update:
+      success: Profil oppdatert.
+      failure: Kunne ikke oppdatere profil.
   sessions:
     new:
       title: Logg inn
       heading: Logg inn
-      email or username: 'E-postadresse eller brukernavn:'
-      password: 'Passord:'
-      openid_html: '%{logo} OpenID:'
+      email or username: E-postadresse eller brukernavn
+      password: Passord
       remember: Husk meg
       lost password link: Mistet passordet ditt?
       login_button: Logg inn
@@ -1692,6 +1742,19 @@ nb:
         contributors_intro_html: 'Vi har tusenvis av individuelle bidragsytere. Vi
           inkluderer også åpne datasett fra nasjonale karttjenester og andre kilder,
           blant annet fra:'
+        contributors_at_austria: Østerrike
+        contributors_au_australia: Australia
+        contributors_ca_canada: Canada
+        contributors_cz_czechia: Tsjekkia
+        contributors_fi_finland: Finland
+        contributors_fr_france: Frankrike
+        contributors_nl_netherlands: Nederland
+        contributors_nz_new_zealand: New Zealand
+        contributors_rs_serbia: Serbia
+        contributors_si_slovenia: Slovenia
+        contributors_es_spain: Spania
+        contributors_za_south_africa: Sør-Afrika
+        contributors_gb_united_kingdom: Storbritannia
         contributors_footer_2_html: |2-
             Inkludering av data i OpenStreetMap innebærer ikke at den opprinnelige
             dataleverandøren støtter OpenStreetMap, gir noen garanti eller
@@ -1769,10 +1832,6 @@ nb:
         url: http://wiki.openstreetmap.org/wiki/Nn:Beginners%27_guide
         title: Hjelp for nybegynnere
         description: Dugnadsbasert guide for nybegynnere.
-      help:
-        title: Hjelpeforum
-        description: Still spørsmål eller sjekk svar på OpenStreetMaps spørsmål- og
-          svar-sider.
       mailing_lists:
         title: E-postlister
         description: Still et spørsmål eller diskuter interessante tema på en rekke
@@ -1831,6 +1890,8 @@ nb:
           taxiway: taksebane
           apron: terminal
           admin: Administrativ grense
+          capital: Hovedstad
+          city: By
           forest: Skog
           wood: Ved
           golf: Golfbane
@@ -1843,27 +1904,36 @@ nb:
           heathland: Heilandskap
           lake: Innsjø
           reservoir: reservoar
+          glacier: Isbre
+          reef: Rev
+          wetland: Våtmark
           farm: Gård
           brownfield: Tidligere industriområde
           cemetery: Gravplass
           allotments: Kolonihager
           pitch: Sportsarena
           centre: Sportssenter
+          beach: Strand
           reserve: Naturreservat
           military: Militært område
           school: Skole
-          university: universitet
+          university: Universitet
+          hospital: Sykehus
           building: Viktig bygning
           station: Jernbanestasjon
           summit: Topp
-          peak: fjelltopp
+          peak: Fjelltopp
           tunnel: Streket kant = tunnel
           bridge: Sort kant = bru
           private: Privat tilgang
           destination: Destinasjonstilgang
           construction: Veier under konstruksjon
+          bus_stop: Busstopp
+          stop: Stopp
           bicycle_shop: Sykkelbutikk
+          bicycle_rental: Sykkelutleie
           bicycle_parking: Sykkelparkering
+          bicycle_parking_small: Liten sykkelparkering
           toilets: Toaletter
     welcome:
       title: Velkommen!

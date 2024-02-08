@@ -238,7 +238,6 @@ sr:
   auth:
     providers:
       none: Ниједан
-      openid: OpenID
       google: Google
       facebook: Фејсбук
       github: GitHub
@@ -272,6 +271,7 @@ sr:
         title: Обришите мој налог
         warning: Упозорење! Брисање налога је неповратан процес.
         delete_account: Обриши налог
+        retain_edits: Ваше измене картографске базе (ако их има), биће задржане.
         retain_email: Ваша имејл адреса ће бити задржана.
         confirm_delete: Јесте ли сигурни?
         cancel: Откажи
@@ -459,6 +459,7 @@ sr:
       nearby mapper: Оближњи картограф
       friend: Пријатељ
     show:
+      title: Tабла
       edit_your_profile: Уредите Ваш профил
       my friends: Моји пријатељи
       no friends: Нисте додали ниједног пријатеља.
@@ -540,7 +541,14 @@ sr:
       comment: Коментар
       newer_comments: Новији коментари
       older_comments: Старији коментари
+  doorkeeper:
+    scopes:
+      address: Види своју физичку адресу
+      email: Види своју имејл адресу
+      phone: Види своју број телефона
   errors:
+    contact:
+      contact: контакт
     forbidden:
       title: Забрањено
     internal_server_error:
@@ -675,6 +683,7 @@ sr:
           waste_basket: Корпа за отпатке
           waste_disposal: Контејнер
           waste_dump_site: Депонија
+          weighbridge: Теретна вага
         boundary:
           administrative: Административна граница
           census: Пописна граница
@@ -914,6 +923,7 @@ sr:
           chimney: Димњак
           communications_tower: Репетитор
           crane: Кран
+          cross: Крст
           dyke: Насип
           embankment: Насип
           flagpole: Јарбол за заставу
@@ -930,6 +940,7 @@ sr:
           pipeline: Цевовод
           pumping_station: Црпна станица
           silo: Силос
+          street_cabinet: Улични орман
           surveillance: Присмотра
           telescope: Телескоп
           tower: Кула
@@ -998,6 +1009,7 @@ sr:
           administrative: Администрација
           advertising_agency: Маркетиншка агенција
           architect: Архитекта
+          association: Удружење
           company: Предузеће
           diplomatic: Дипломатска канцеларија
           educational_institution: Образовна установа
@@ -1161,6 +1173,7 @@ sr:
           vacant: Упражњен локал
           video: Видеотека
           video_games: Продавница видео-игара
+          wholesale: Велепродаја
           wine: Винарија
           "yes": Продавница
         tourism:
@@ -1280,6 +1293,8 @@ sr:
           personal_label: Ова напомена садржи личне податке
           abusive_label: Ова белешка је увредљива
           other_label: Друго
+    create:
+      provide_details: Молимо наведите потребне детаље
   layouts:
     logo:
       alt_text: Логотип OpenStreetMap-а
@@ -1304,8 +1319,10 @@ sr:
     intro_text: OpenStreetMap је мапа света коју су направили људи попут вас. Слободна
       је за коришћење под отвореном лиценцом.
     intro_2_create_account: Отворите кориснички налог
+    hosting_partners_html: Хостинг пружају %{ucl}, %{fastly}, %{bytemark}, и други
+      %{partners}.
     partners_ucl: UCL
-    partners_bytemark: хостинг Bytemark
+    partners_bytemark: Bytemark Hosting
     partners_partners: партнери
     tou: Услови коришћења
     osm_offline: База OpenStreetMap-а је тренутно недоступна док се не заврше неопходни
@@ -1479,6 +1496,7 @@ sr:
       body: Нажалост, нема поруке с тим ИБ.
     outbox:
       title: Послате
+      actions: Радње
       messages:
         one: Имате %{count} послату поруку
         other: Имате %{count} послате поруке
@@ -1503,6 +1521,7 @@ sr:
       destroy_button: Обриши
     heading:
       my_inbox: Примљене
+      my_outbox: Послате
     mark:
       as_read: Порука је означена као прочитана
       as_unread: Порука је означена као непрочитана
@@ -1529,8 +1548,15 @@ sr:
   preferences:
     show:
       title: Моја подешавања
+      preferred_editor: Жељени уређивач
+      preferred_languages: Жељени језици
+      edit_preferences: Уреди подешавања
     edit:
+      title: Моја подешавања
+      save: Сачувај подешавања
       cancel: Откажи
+    update_success_flash:
+      message: Подешавања сачувана.
   profiles:
     edit:
       title: Уреди профил
@@ -1561,7 +1587,6 @@ sr:
       heading: Пријава
       email or username: Имејл адреса или корисничко име
       password: Лозинка
-      openid_html: '%{logo} OpenID'
       remember: Запамти ме
       lost password link: Заборавили сте лозинку?
       login_button: Пријави ме
@@ -1603,9 +1628,12 @@ sr:
       support: подршка
   shared:
     markdown_help:
+      first: Прва ставка
+      second: Друга ставка
       link: Веза
       text: Текст
       image: Слика
+      alt: Алтернативни текст
     richtext_field:
       edit: Уреди
       preview: Преглед
@@ -1622,6 +1650,7 @@ sr:
         користе снимке из ваздуха, GPS уређаје и обичне теренске мапе у циљу провере
         исправности и ажурности OSM-а.
       community_driven_title: Заједница је покретач
+      community_driven_osm_foundation: OSM фондација
       open_data_title: Отворени подаци
       legal_title: Правни аспекти
       legal_1_1_terms_of_use: Услови коришћења
@@ -1630,8 +1659,8 @@ sr:
     copyright:
       foreign:
         title: О овом преводу
-        html: У случају сукоба између преведене странице и %{english_original_link},
-          енглеска страница има предност
+        html: У случају неслагања између преведене странице и %{english_original_link},
+          енглеска страница има примат
         english_link: енглеског оригинала
       native:
         title: О овој страници
@@ -1643,7 +1672,9 @@ sr:
       legal_babble:
         title_html: Ауторска права и лиценца
         introduction_2_legal_code: правни текст
-        credit_title_html: Како да именујете OpenStreetMap
+        introduction_3_creative_commons: Creative Commons Ауторство-Делити под истим
+          условима 2.0
+        credit_title_html: Како да наведете OpenStreetMap
         credit_1_html: 'Када користите податке са OpenStreetMap-а, захтевамо да урадите
           две ствари:'
         credit_3_attribution_guidelines: Смернице за приписивање
@@ -1674,6 +1705,7 @@ sr:
         contributors_es_spain: Шпанија
         contributors_za_south_africa: Јужна Африка
         contributors_gb_united_kingdom: Уједињено Краљевство
+        contributors_2_contributors_page: доприносиоци
         contributors_footer_2_html: |2-
             Укључивање података у Опенстритмап не подразумева да изворни
             власник података прихвата Опенстритмап, обезбеђује било какву
@@ -1683,6 +1715,7 @@ sr:
           из извора заштићених ауторским правима (нпр. Гугл карте или штампане карте)
           без изричите дозволе власника ауторских права.
         trademarks_title: Заштитни знаци
+        trademarks_1_1_trademark_policy: Робне марке
     index:
       js_1: Користите прегледач који не подржава јаваскрипт или сте га онемогућили.
       js_2: OpenStreetMap користи јаваскрипт за приказивање мапа.
@@ -1749,10 +1782,8 @@ sr:
         url: http://wiki.openstreetmap.org/wiki/Sr:Beginners%27_guide
         title: Водич за почетничке
         description: Водич за почетнике
-      help:
-        title: Форум за помоћ
-        description: Постави питање или нађи одговор на OpenStreetMap страници за
-          питања и одговоре.
+      community:
+        title: Форум заједнице
       mailing_lists:
         title: Дописне листе
         description: Поставите питање или дискутујте о питањима од значаја која се
@@ -1881,6 +1912,11 @@ sr:
         title: Немаш времена да уредиш? Додај белешку!
         para_1: Ако хоћеш нешто ситно да поправиш а немаш времена да се пријавиш или
           да научиш да уређујеш, једноставно додај белешку.
+    communities:
+      local_chapters:
+        title: Локални огранци
+      other_groups:
+        title: Друге групе
   traces:
     visibility:
       private: Приватни (приказује се као анонимне, непоређане тачке)
@@ -1958,6 +1994,7 @@ sr:
       public_traces_from: Јавни GPS трагови корисника %{user}
       description: Претражите недавне аплоуде GPS путева
       tagged_with: ' означени са %{tags}'
+      empty_title: Нема ништа
       wiki_page: вики страница
       upload_trace: Отпреми траг
       my_traces: Моји трагови
@@ -2070,6 +2107,7 @@ sr:
     show:
       edit: Уреди
       delete: Обриши
+      permissions: Дозволе
   oauth2_authorizations:
     new:
       authorize: Одобри
@@ -2103,10 +2141,15 @@ sr:
     terms:
       title: Услови
       heading: Услови
+      read_ct: Прочитао сам и прихватам горе наведене услове
       read_tou: Прочитао сам и прихватам Услове коришћења
       consider_pd: Према горенаведеном, сматрам да моји доприноси припадају јавном
         власништву
       consider_pd_why: шта је ово?
+      guidance_info_html: 'Информације за разумевање ових услова: a %{readable_summary_link}
+        и %{informal_translations_link}'
+      readable_summary: сумарум
+      informal_translations: неформални преводи
       continue: Настави
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
       decline: Одбаци
@@ -2134,8 +2177,10 @@ sr:
       my profile: Мој профил
       my settings: Моје поставке
       my comments: Моји коментари
+      my_dashboard: Tабла
       blocks on me: Мени забрањено
       blocks by me: Моје забране
+      edit_profile: Уреди профил
       send message: Пошаљи поруку
       diary: Дневник
       edits: Измене
@@ -2162,6 +2207,7 @@ sr:
           moderator: Опозови овлашћења уредника
       block_history: Активне блокаде
       moderator_history: Извршене блокаде
+      revoke_all_blocks: Опозови све блокаде
       comments: Коментари
       create_block: Блокирај корисника
       activate_user: Активирај корисника
@@ -2264,6 +2310,9 @@ sr:
       confirm: Желите ли да опозовете ову блокаду?
       revoke: Опозови
       flash: Ова блокада је опозвана.
+    revoke_all:
+      heading_html: Опозивање свих блокада на %{block_on}
+      flash: Све активне блокаде су опозване.
     helper:
       time_future_html: Завршава се у %{time}.
       until_login: Активно све док се корисник не пријави.
@@ -2310,11 +2359,19 @@ sr:
       showing_page: Страница %{page}
       next: Следеће »
       previous: « Претходно
+  user_mutes:
+    index:
+      table:
+        thead:
+          actions: Радње
+        tbody:
+          send_message: Пошаљи поруку
   notes:
     index:
       title: Белешке послао или коментарисао %{user}
       heading: Белешке корисника %{user}
       subheading_html: Белешке послао или коментарисао %{user}
+      no_notes: Нема белешки
       id: Id
       creator: Творац
       description: Опис
@@ -2326,6 +2383,7 @@ sr:
       open_title: Нерешена белешка бр. %{note_name}
       closed_title: Решена белешка бр. %{note_name}
       hidden_title: Скривена белешка бр. %{note_name}
+      event_opened_by_html: Направио %{user} %{time_ago}
       report: пријави ову белешку
       anonymous_warning: Ова белешка садржи коментаре анонимних корисника које би
         требало посебно проверити.
@@ -2387,7 +2445,9 @@ sr:
         gps: Јавне GPS трасе
         overlays: Омогући преклапање за тражење грешака на карти
         title: Слојеви
+      openstreetmap_contributors: Творци OpenStreetMap
       make_a_donation: Донација
+      website_and_api_terms: Веб-сајт и API услови
     site:
       edit_tooltip: Уредите мапу
       edit_disabled_tooltip: Увећајте приказ да бисте уредили мапу

@@ -60,6 +60,7 @@
 # Author: Mathieu
 # Author: McDutchie
 # Author: Mdk
+# Author: Melimeli
 # Author: Metroitendo
 # Author: Momo50WM
 # Author: Mulcyber
@@ -141,6 +142,8 @@ fr:
       messages:
         invalid_email_address: ne semble pas être une adresse de courriel valide
         email_address_not_routable: n’est pas routable
+        display_name_is_user_n: ne peut pas être user_n à moins que n soit votre identifiant
+          d'utilisateur
       models:
         user_mute:
           is_already_muted: est déjà en sourdine
@@ -319,7 +322,6 @@ fr:
   auth:
     providers:
       none: Aucun
-      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -558,6 +560,15 @@ fr:
       introduction: Cliquer sur la carte pour trouver des objets à proximité.
       nearby: Objets à proximité
       enclosing: Objets englobants
+  old_nodes:
+    not_found:
+      sorry: 'Désolé, le nœud #%{id} version %{version} est introuvable.'
+  old_ways:
+    not_found:
+      sorry: 'Désolé, la façon #%{id} version %{version} ne pouvait pas être trouvée.'
+  old_relations:
+    not_found:
+      sorry: 'Désolé, la relation #%{id} version %{version} est introuvable.'
   changesets:
     changeset_paging_nav:
       showing_page: Page %{page}
@@ -1759,6 +1770,8 @@ fr:
         one: s’est chargé correctement avec %{trace_points} dd %{count} point possible.
         other: s’est chargé correctement avec %{trace_points} des %{count} points
           possibles.
+      all_your_traces_html: Toutes vos traces de GPX téléchargées avec succès peuvent
+        être trouvées à %{url}.
       subject: '[OpenStreetMap] Import GPX réussi'
     signup_confirm:
       subject: '[OpenStreetMap] Bienvenue dans OpenStreetMap'
@@ -1928,6 +1941,9 @@ fr:
       people_mapping_nearby: personnes proche de vous
     muted:
       title: Messages en sourdine
+      messages:
+        one: un ancien message
+        other: '%{count} anciens messages'
     reply:
       wrong_user: Vous êtes identifié(e) comme « %{user} » mais le message auquel
         vous souhaitez répondre n’a pas été envoyé à cet utilisateur. Veuillez vous
@@ -2024,7 +2040,6 @@ fr:
       heading: Se connecter
       email or username: 'Adresse de courriel ou nom d’utilisateur :'
       password: 'Mot de passe :'
-      openid_html: '%{logo} OpenID :'
       remember: Se souvenir de moi
       lost password link: Vous avez perdu votre mot de passe ?
       login_button: Se connecter
@@ -2402,17 +2417,13 @@ fr:
         url: https://wiki.openstreetmap.org/wiki/FR:Guide_du_d%C3%A9butant
         title: Guide du débutant
         description: Guide maintenu par la communauté pour les débutants.
-      help:
-        title: Forum d’aide
-        description: Poser une question ou chercher des réponses sur le site de questions-et-réponses
-          d’OpenStreetMap.
+      community:
+        title: Forum de la communauté
+        description: Un lieu partagé pour les conversations sur OpenStreetMap.
       mailing_lists:
         title: Listes de diffusion
         description: Poser une question ou discuter de questions intéressantes sur
           un large éventail de listes de diffusion thématiques ou régionales.
-      community:
-        title: Forum de la communauté
-        description: Un lieu partagé pour les conversations sur OpenStreetMap.
       irc:
         title: IRC
         description: Discussion interactive dans de nombreuses langues différentes
@@ -2801,6 +2812,7 @@ fr:
       read_gpx: Lire les traces GPC privées
       write_gpx: Mettre à jour les traces GPC
       write_notes: Modifier les notes
+      write_redactions: Rédiger les données cartographiques
       read_email: Lire l’adresse courriel de l’utilisateur
       skip_authorization: Demande d’approbation automatique
   oauth_clients:
@@ -2982,6 +2994,8 @@ fr:
       my_dashboard: Mon tableau de bord
       blocks on me: Blocages me concernant
       blocks by me: Blocages de ma part
+      create_mute: Désactiver cet utilisateur
+      destroy_mute: Réactiver le son de cet utilisateur
       edit_profile: Modifier le profil
       send message: Envoyer un message
       diary: Carnet
@@ -3013,6 +3027,7 @@ fr:
           importer: Supprimer le droit d’importation
       block_history: Blocages actifs
       moderator_history: Blocages donnés
+      revoke_all_blocks: Révoquer tous les blocs
       comments: Commentaires
       create_block: Bloquer cet utilisateur ou cette utilisatrice
       activate_user: Activer cet utilisateur ou cette utilisatrice
@@ -3125,6 +3140,15 @@ fr:
       confirm: Êtes-vous sûr(e) de vouloir annuler ce blocage ?
       revoke: Révoquer !
       flash: Ce blocage a été annulé.
+    revoke_all:
+      title: Révoquer tous les blocages sur %{block_on}
+      heading_html: Révoquer tous les blocages sur %{block_on}
+      empty: '%{name} n''a pas de blocs actifs.'
+      active_blocks:
+        one: '%{count} active block'
+        other: '%{count} active blocks'
+      revoke: Révoquer
+      flash: Tous les blocages actifs ont été révoqués.
     helper:
       time_future_html: Prends fin dans %{time}.
       until_login: Actif jusqu’à ce que l’utilisateur se connecte.
@@ -3186,11 +3210,27 @@ fr:
       previous: ◂ Précédent
   user_mutes:
     index:
+      title: Utilisateurs muets
+      my_muted_users: Mes utilisateurs désactivés
+      you_have_muted_n_users:
+        one: Vous avez désactivé %{count} utilisateurs
+        other: Vous avez désactivé %{count} utilisateurs
+      user_mute_explainer: Les messages des utilisateurs mis en sourdine sont déplacés
+        vers une boîte de réception distincte et vous ne recevrez pas de notifications
+        par e-mail.
+      user_mute_admins_and_moderators: Vous pouvez désactiver le son des administrateurs
+        et des modérateurs, mais leurs messages ne seront pas mis en sourdine.
       table:
         thead:
           actions: Actions
         tbody:
+          unmute: Activer le son
           send_message: Envoyer un message
+    create:
+      notice: Vous avez désactivé %{name}.
+      error: '%{name} n''a pas pu être mis en sourdine. %{full_message}.'
+    destroy:
+      notice: Vous avez rétabli le son de %{name}.
   notes:
     index:
       title: Notes soumises ou commentées par « %{user} »
@@ -3286,7 +3326,6 @@ fr:
           other: Vous êtes à moins de %{count} pieds de ce point
       base:
         standard: Standard
-        cyclosm: CyclOSM
         cycle_map: Carte cyclable
         transport_map: Carte de transport
         tracestracktop_topo: Topo de Tracestack

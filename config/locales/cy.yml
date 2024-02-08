@@ -256,7 +256,6 @@ cy:
   auth:
     providers:
       none: Dim
-      openid: OpenID
       google: Google
       facebook: Facebook
       microsoft: Microsoft
@@ -275,6 +274,7 @@ cy:
         reopened_at_by_html: Wedi ailgychwyn %{when} gan %{user}
       rss:
         title: Nodiadau OpenStreetMap
+        description_all: Rhestr o nodiadau newydd, gyda sylwadau, a wedi cau
         description_area: Rhestr o nodiadau, adroddwyd, gyda sylwadau, neu wedi cau
           yn eich ardal [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Ffrwd RSS ar gyfer nodyn %{id}
@@ -299,6 +299,8 @@ cy:
           ei ailddefnyddio gan gyfrifon eraill.
         retain_edits: Bydd eich golygiadau i'r gronfa ddata mapiau, os ydynt yn bodoli,
           yn cael eu cadw.
+        retain_traces: Cedwir unrhyw arllwybrau rydych chi wedi uwchlwytho os ydynt
+          yn bodoli.
         retain_changeset_discussions: Bydd eich trafodaethau grwpiau newid, os ydynt
           yn bodoli, yn cael eu cadw.
         retain_email: Bydd eich cyfeiriad e-bost yn cael ei gadw.
@@ -528,6 +530,8 @@ cy:
       friend: Ffrind
     show:
       title: Dangosfwrdd
+      no_home_location_html: '%{edit_profile_link} a gosodwch eich lleoliad i weld
+        defnyddwyr cyfagos.'
       edit_your_profile: Golygu eich proffil
       my friends: Fy ffrindiau
       no friends: Nid ydych wedi ychwanegu unrhyw ffrindiau eto.
@@ -647,7 +651,10 @@ cy:
   errors:
     contact:
       contact_url_title: Esboniad o sianeli cyswllt amrywiol
-      contact: cysylltu
+      contact: Cysylltwch
+      contact_the_community_html: '%{contact_link} â''r gymuned OpenStreetMap os ydych
+        chi wedi dod o hyd i nam neu ddolen sydd wedi torri. Nodwch yr URL cywir o''ch
+        cais.'
     forbidden:
       title: Gwaharddedig
     internal_server_error:
@@ -1418,10 +1425,12 @@ cy:
       resolve: Datrys
       ignore: Anwybyddu
       reopen: Ailagor
+      reports_of_this_issue: Adroddiadau o'r Mater hwn
       read_reports: Darllen Adroddiadau
       new_reports: Adroddiadau Newydd
     comments:
       comment_from_html: Sylw gan %{user_link} ar %{comment_created_at}
+      reassign_param: Ailbennu'r Mater?
     reports:
       reported_by_html: Adroddwyd fel %{category} gan %{user} ar %{updated_at}
     helper:
@@ -1709,7 +1718,6 @@ cy:
       heading: Mewngofnodi
       email or username: Cyfeiriad E-Bost neu Enw Defnyddiwr
       password: Cyfrinair
-      openid_html: '%{logo} OpenID'
       remember: Cofiwch fi
       lost password link: Wedi anghofio eich cyfrinair?
       login_button: Mewngofnodi
@@ -1778,8 +1786,15 @@ cy:
       community_driven_community_blogs: blogiau cymunedol
       community_driven_osm_foundation: OSM Foundation
       open_data_title: Data Agored
-      open_data_open_data: data agored
-      open_data_copyright_license: Tudalen Hawlfraint a Thrwydded
+      open_data_1_html: |-
+        Mae OpenStreetMap yn %{open_data}: mae modd i'w ddefnyddio at unrhyw ddiben
+        ond mae rhaid rhoi cydnabyddiaeth i OpenStreetMap a'i gyfranwyr. Os
+        ydych chi'n newid neu
+        adeiladu ar y ddata mewn rhai ffyrdd, gallwch chi
+        ddosbarthu'r canlyniad
+        o dan yr un drwydded yn unig. Gweler y %{copyright_license_link} am fanylion.
+      open_data_open_data: ddata agored
+      open_data_copyright_license: Dudalen Hawlfraint a Thrwydded
       legal_title: Cyfreithiol
       legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
       legal_1_1_terms_of_use: Telerau Gwasanaeth
@@ -1801,6 +1816,7 @@ cy:
       legal_babble:
         title_html: Hawlfraint a Thrwydded
         introduction_1_open_data: data agored
+        introduction_1_odc_odbl: Open Data Commons Open Database License
         introduction_1_osm_foundation: OpenStreetMap Foundation
         introduction_2_html: |-
           Rydych yn rhydd i gopïo, dosbarthu, trosglwyddo ac addasu ein data, cyn belled â'ch bod yn cydnabod OpenStreetMap a'i
@@ -1910,12 +1926,10 @@ cy:
       beginners_guide:
         title: Llawlyfr Dechreuwyr
         description: Canllaw'r gymuned i ddechreuwyr
-      help:
-        title: Fforwm Cymorth
-      mailing_lists:
-        title: Rhestrau Post
       community:
         title: Fforwm Cymunedol
+      mailing_lists:
+        title: Rhestrau Post
       irc:
         title: IRC
       switch2osm:
@@ -2169,6 +2183,7 @@ cy:
       oauth1_settings: Gosodiadau OAuth 1
       oauth2_applications: Apiau OAuth 2
       oauth2_authorizations: Awdurdodiadau OAuth 2
+      muted_users: Defnyddwyr ag Anwybyddwyd
   oauth:
     authorize:
       title: Awdurdodi mynediad i'ch cyfrif
@@ -2219,14 +2234,17 @@ cy:
       confirm: Ydych chi'n siŵr?
     index:
       title: Fy Manylion OAuth
+      my_tokens: Fy Apiau Awdurdodedig
       application: Enw'r Ap
       issued_at: Dyddiad awdurdodi
       revoke: Dirymu!
       my_apps: Fy Apiau Cleient
       oauth: OAuth
+      register_new: Cofrestru eich ap
   oauth2_applications:
     index:
       title: Fy Apiau Cleient
+      new: Cofrestru ap newydd
       name: Enw
       permissions: Caniatâd
     application:
@@ -2354,7 +2372,16 @@ cy:
     index:
       title: Defnyddwyr
       heading: Defnyddwyr
+      showing:
+        zero: Tudalen %{page} (%{first_item} o %{items})
+        one: Tudalen %{page} (%{first_item} o %{items})
+        two: Tudalen %{page} (%{first_item}-%{last_item} o %{items})
+        few: Tudalen %{page} (%{first_item}-%{last_item} o %{items})
+        many: Tudalen %{page} (%{first_item}-%{last_item} o %{items})
+        other: Tudalen %{page} (%{first_item}-%{last_item} o %{items})
       summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
+      confirm: Cadarnhau Defnyddwyr Dewisiedig
+      hide: Cuddio Defnyddwyr Dewisiedig
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal
@@ -2363,6 +2390,7 @@ cy:
         awtomatig oherwydd gweithgarwch amheus.
     auth_failure:
       no_authorization_code: Dim cod awdurdodi
+      invalid_scope: Sgop annilys
   user_role:
     grant:
       confirm: Cadarnhau
@@ -2464,13 +2492,16 @@ cy:
     index:
       table:
         thead:
+          muted_user: Defnyddiwr ag Anwybyddwyd
           actions: Gweithredoedd
         tbody:
+          unmute: Dad-anwybyddu
           send_message: Anfon neges
     create:
       notice: Rydych chi wedi anwybyddu %{name}.
   notes:
     index:
+      title: Nodiadau ag agorwyd neu y gwnaed sylw arnynt gan %{user}
       heading: Nodiadau %{user}
       subheading_submitted: cyflwynwyd
       subheading_commented: rhoddwyd sylw
@@ -2550,7 +2581,6 @@ cy:
         title: Dangos Fy Lleoliad
       base:
         standard: Safonol
-        cyclosm: CyclOSM
         cycle_map: Map Beicio
         transport_map: Map Trafnidiaeth
         tracestracktop_topo: Tracestrack Topo
