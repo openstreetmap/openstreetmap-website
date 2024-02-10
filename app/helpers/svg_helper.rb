@@ -44,7 +44,7 @@ module SvgHelper
     height = 15
     pad = 2
     segment = (0.5 * height) - pad
-    width = segment + (2 * pad)
+    width = (segment + (2 * pad)).ceil
     path_data = "M#{side * (pad - (0.5 * width))},#{pad} l#{side * segment},#{segment} l#{-side * segment},#{segment}"
     path_tag = tag.path :d => path_data, :fill => "none", :stroke => "currentColor", :"stroke-width" => 1.5
     tag.svg path_tag, :width => width, :height => height, :viewBox => "-#{0.5 * width} 0 #{width} #{height}", :class => options[:class]
