@@ -24,6 +24,15 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   private
 
+  def sign_in_as(user)
+    visit login_path
+    within "form", :text => "Email Address or Username" do
+      fill_in "username", :with => user.email
+      fill_in "password", :with => "test"
+      click_on "Login"
+    end
+  end
+
   def within_sidebar(&block)
     within "#sidebar_content", &block
   end
