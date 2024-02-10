@@ -14,12 +14,18 @@
 
 <div class='secondary-actions'>
   <% if @feature.version > 1 %>
-    <%= link_to "<< #{t('browse.version')} ##{@feature.version - 1}", old_way_path(@feature.way_id, @feature.version - 1) %>
+    <%= link_to old_way_path(@feature.way_id, @feature.version - 1), :class => "icon-link" do %>
+      <%= previous_page_svg_tag :height => 11 %>
+      <%= "#{t('browse.version')} ##{@feature.version - 1}" %>
+    <% end %>
     &middot;
   <% end %>
   <%= link_to t("browse.view_history"), way_history_path(@feature.way_id) %>
   <% if @feature.version < @feature.current_way.version %>
     &middot;
-    <%= link_to "#{t('browse.version')} ##{@feature.version + 1} >>", old_way_path(@feature.way_id, @feature.version + 1) %>
+    <%= link_to old_way_path(@feature.way_id, @feature.version + 1), :class => "icon-link" do %>
+      <%= "#{t('browse.version')} ##{@feature.version + 1}" %>
+      <%= next_page_svg_tag :height => 11 %>
+    <% end %>
   <% end %>
 </div>

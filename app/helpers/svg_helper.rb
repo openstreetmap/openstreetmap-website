@@ -41,7 +41,7 @@ module SvgHelper
 
   # returns "<" shape if side == -1; ">" if side == 1
   def adjacent_page_svg_tag(side, **options)
-    height = 15
+    height = options[:height] || 15
     pad = 2
     segment = (0.5 * height) - pad
     width = (segment + (2 * pad)).ceil
