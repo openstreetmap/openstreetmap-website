@@ -5,6 +5,10 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
+      { :path => "/changeset/1", :method => :get },
+      { :controller => "changesets", :action => "show", :id => "1" }
+    )
+    assert_routing(
       { :path => "/user/name/history", :method => :get },
       { :controller => "changesets", :action => "index", :display_name => "name" }
     )
@@ -250,6 +254,37 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     get history_path(:format => "html"), :xhr => true
     assert_response :success
+  end
+
+  def test_show
+    changeset = create(:changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "tested-changeset-comment")
+    commenting_user = create(:user)
+    changeset_comment = create(:changeset_comment, :changeset => changeset, :author => commenting_user, :body => "Unwanted comment")
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+    assert_dom "h2", :text => "Changeset: #{changeset.id}"
+    assert_dom "p", :text => "tested-changeset-comment"
+    assert_dom "li#c#{changeset_comment.id}" do
+      assert_dom "> small", :text => /^Comment from #{commenting_user.display_name}/
+    end
+  end
+
+  def test_show_private_changeset
+    user = create(:user)
+    changeset = create(:changeset, :user => create(:user, :data_public => false))
+    create(:changeset, :user => user)
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+  end
+
+  def test_show_element_links
+    changeset = create(:changeset)
+    node = create(:node, :with_history, :changeset => changeset)
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+    assert_dom "a[href='#{node_path node}']", :count => 1
+    assert_dom "a[href='#{old_node_path node, 1}']", :count => 1
   end
 
   ##
