@@ -30,8 +30,8 @@ cy:
         create: Cofrestru
         update: Diweddaru
       redaction:
-        create: Creu golygiadau
-        update: Cadw golygiadau
+        create: Creu gorchuddiad
+        update: Cadw gorchuddiad
       trace:
         create: Uwchlwytho
         update: Cadw Newidiadau
@@ -45,10 +45,10 @@ cy:
         email_address_not_routable: nid yw'n gyrchadwy
     models:
       acl: Rhestr Rheoli Mynediad
-      changeset: Changeset
-      changeset_tag: Tag Changeset
+      changeset: Grŵp newid
+      changeset_tag: Tag Grŵp newid
       country: Gwlad
-      diary_comment: Nodyn Dyddiadur
+      diary_comment: Sylw Dyddiadur
       diary_entry: Cofnod Dyddiadur
       friend: Ffrind
       issue: Gwall
@@ -145,7 +145,12 @@ cy:
         languages: Ieithoedd
         preferred_editor: Hoff Olygydd
         pass_crypt: Cyfrinair
+        pass_crypt_confirmation: Cadarnhau Cyfrinair
     help:
+      doorkeeper/application:
+        redirect_uri: Defnyddiwch un llinell fesul URI
+      trace:
+        tagstring: defnyddiwch goma i wahaniaethu
       user:
         new_email: (byth ei ddangos yn gyhoeddus)
   datetime:
@@ -334,6 +339,13 @@ cy:
       few: '%{count} pherthynas'
       many: '%{count} perthynas'
       other: '%{count} perthynas'
+    part_of_ways:
+      zero: '%{count} llwybr'
+      one: '%{count} llwybr'
+      two: '%{count} lwybr'
+      few: '%{count} llwybr'
+      many: '%{count} llwybr'
+      other: '%{count} llwybr'
     download_xml: Lawrlwytho XML
     view_history: Gweld hanes
     view_details: Gweld Manylion
@@ -348,6 +360,8 @@ cy:
       relation: Perthynas %{count}
       relation_paginated: Perthynas (%{x}-%{y} o %{count})
       comment: Sylwadau (%{count})
+      hidden_comment_by_html: Sylw cudd gan %{user} %{time_ago}
+      comment_by_html: Sylw gan %{user} %{time_ago}
       changesetxml: XML grŵp newid
       osmchangexml: XML osmChange
       feed:
@@ -355,6 +369,8 @@ cy:
         title_comment: Grŵp newid %{id} - %{comment}
       join_discussion: Mewngofnodwch i ymuno â'r sgwrs
       discussion: Sgwrs
+      still_open: Mae'r grŵp newid dal ar agor - bydd trafodaeth yn cychwyn unwaith
+        y bydd y grŵp newid wedi cau.
     node:
       title_html: 'Nod: %{name}'
       history_title_html: 'Hanes y Nod: %{name}'
@@ -362,6 +378,13 @@ cy:
       title_html: 'Llwybr: %{name}'
       history_title_html: 'Hanes Llwybr: %{name}'
       nodes: Nodau
+      nodes_count:
+        zero: '%{count} nod'
+        one: '%{count} nod'
+        two: '%{count} nod'
+        few: '%{count} nod'
+        many: '%{count} nod'
+        other: '%{count} nod'
       also_part_of_html:
         one: rhan o'r ffordd %{related_ways}
         other: rhan o'r ffyrdd %{related_ways}
@@ -369,6 +392,13 @@ cy:
       title_html: 'Perthynas: %{name}'
       history_title_html: 'Hanes y Perthynas: %{name}'
       members: Aelodau
+      members_count:
+        zero: '%{count} aelod'
+        one: '%{count} aelod'
+        two: '%{count} aelod'
+        few: '%{count} aelod'
+        many: '%{count} aelod'
+        other: '%{count} aelod'
     relation_member:
       entry_role_html: '%{type} %{name} fel %{role}'
       type:
@@ -385,7 +415,7 @@ cy:
         node: nod
         way: llwybr
         relation: perthynas
-        changeset: set-newid
+        changeset: grŵp newid
         note: nod
     timeout:
       title: Gwall Goramser
@@ -423,8 +453,8 @@ cy:
       title: 'Nodyn: %{id}'
       new_note: Nodyn Newydd
       description: Disgrifiad
-      open_title: '#%{note_name} heb ei ddatrus'
-      closed_title: '#%{note_name} wedi''i ddatrus'
+      open_title: 'Nodyn heb ei ddatrys #%{note_name}'
+      closed_title: 'Nodyn wedi''i ddatrys #%{note_name}'
       hidden_title: Nodyn cudd %{note_name}
       opened_by_html: Crëwyd gan %{user} <abbr title='%{exact_time}'>%{when} yn ôl</abbr>
       opened_by_anonymous_html: Crëwyd yn ddienw <abbr title='%{exact_time}'>%{when}
@@ -491,7 +521,7 @@ cy:
       nearby mapper: Mapiwr gerllaw
       friend: Ffrind
     show:
-      title: Fy Nangosfwrdd
+      title: Dangosfwrdd
       edit_your_profile: Golygu eich proffil
       my friends: Fy ffrindiau
       no friends: Nid ydych wedi ychwanegu unrhyw ffrindiau eto.
@@ -543,6 +573,9 @@ cy:
       comment_count:
         zero: Dim sylwadau
         one: '%{count} sylw'
+        two: '%{count} sylw'
+        few: '%{count} sylw'
+        many: '%{count} sylw'
         other: '%{count} sylw'
       edit_link: Golygu'r cofnod hwn
       hide_link: Cuddio'r cofnod hwn
@@ -571,6 +604,7 @@ cy:
         title: Cofnodion dyddiadur OpenHistoricalMap
         description: Cofnodion dyddiadur diweddar gan ddefnyddwyr OpenHistoricalMap
     comments:
+      title: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
       heading: Sylwadau Dyddiadur %{user}
       subheading_html: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
       no_comments: Dim sylwadau dyddiadur
@@ -587,7 +621,10 @@ cy:
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
+      contact_url_title: Esboniad o sianeli cyswllt amrywiol
       contact: cysylltu
+    forbidden:
+      title: Gwaharddedig
   friendships:
     make_friend:
       heading: Ychwanegu %{user} fel ffrind?
@@ -1268,8 +1305,12 @@ cy:
       last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> gan %{user}
       link_to_reports: Gweld yr Adroddiadau
       reports_count:
-        one: 1 Report
-        other: '%{count} Adroddiadau'
+        zero: '%{count} adroddiad'
+        one: '%{count} adroddiad'
+        two: '%{count} adroddiad'
+        few: '%{count} adroddiad'
+        many: '%{count} adroddiad'
+        other: '%{count} adroddiad'
       reported_item: Eitem dan sylw
       states:
         ignored: Anwybyddwyd
@@ -1278,6 +1319,7 @@ cy:
     update:
       new_report: Anfonwyd eich adroddiad yn llwyddiannus
       successful_update: Diweddarwyd eich adroddiad yn llwyddiannus
+      provide_details: Rhowch y manylion gofynnol os gwelwch yn dda
     show:
       title: '%{status} Gwall #%{issue_id}'
       reports:
@@ -1287,9 +1329,41 @@ cy:
         few: '%{count} adroddiad'
         many: '%{count} adroddiad'
         other: '%{count} adroddiad'
+      report_created_at: Adroddwyd gyntaf am %{datetime}
+      last_resolved_at: Datryswyd ddiwethaf am %{datetime}
+      last_updated_at: Diweddarwyd ddiwethaf am %{datetime} gan %{displayname}
       resolve: Datrys
       ignore: Anwybyddu
       reopen: Ailagor
+    helper:
+      reportable_title:
+        note: 'Nodyn #%{note_id}'
+  reports:
+    new:
+      title_html: Adrodd %{link}
+      missing_params: Ni ellir creu adroddiad newydd
+      categories:
+        diary_entry:
+          spam_label: Mae'r cofnod dyddiadur hwn yn / yn cynnwys sbam
+          offensive_label: Mae'r cofnod dyddiadur hwn yn anweddus / sarhaus
+          threat_label: Mae'r cofnod dyddiadur hwn yn cynnwys bygythiad
+          other_label: Arall
+        diary_comment:
+          spam_label: Mae'r sylw dyddiadur hwn yn / yn cynnwys sbam
+          offensive_label: Mae'r sylw dyddiadur hwn yn anweddus / sarhaus
+          threat_label: Mae'r sylw dyddiadur hwn yn cynnwys bygythiad
+          other_label: Arall
+        user:
+          spam_label: Mae'r proffil defnyddiwr hwn yn / yn cynnwys sbam
+          offensive_label: Mae'r proffil defnyddiwr hwn yn anweddus / sarhaus
+          threat_label: Mae'r proffil defnyddiwr hwn yn cynnwys bygythiad
+          vandal_label: Mae'r defnyddiwr hwn yn fandal
+          other_label: Arall
+        note:
+          spam_label: Mae'r nodyn hwn yn sbam
+          personal_label: Mae'r nodyn hwn yn cynnwys data personol
+          abusive_label: Mae'r nodyn hwn yn sarhaus
+          other_label: Arall
   layouts:
     logo:
       alt_text: Logo OpenHistoricalMap
@@ -1303,6 +1377,7 @@ cy:
     edit: Golygu
     history: Hanes
     export: Allforio
+    issues: Gwallau
     data: Data
     export_data: Allforio Data
     gps_traces: Dargopiadau GPS
@@ -1315,7 +1390,9 @@ cy:
     intro_text: Mae OpenHistoricalMap yn fap o'r byd, wedi'i greu gan bobl fel chi
       ac sydd ar gael i'w ddefnyddio am ddim a dan drwydded rydd.
     intro_2_create_account: Creu cyfrif defnyddiwr
+    partners_title: Partneriaid
     partners_partners: Partneriaid
+    tou: Telerau Gwasanaeth
     osm_offline: Mae cronfa ddata OpenHistoricalMap all-lein ar hyn o bryd er mwyn
       gwaith cynnal a chadw hanfodol.
     osm_read_only: Nid yw'n bosib golygu cronfa ddata OpenHistoricalMap ar hyn o bryd
@@ -1335,23 +1412,36 @@ cy:
     learn_more: Dysgu Mwy
     more: Mwy
   user_mailer:
+    diary_comment_notification:
+      hi: Helo %{to_user},
     message_notification:
       hi: Pa hwyl %{to_user}?
     friendship_notification:
       hi: Henffych %{to_user}!
     gpx_failure:
+      hi: Helo %{to_user},
       failed_to_import: 'methwyd a mewnforio. Dyma''r gwall:'
       subject: Methwyd mewnforio GPX [OpenHistoricalMap]
+    gpx_success:
+      hi: Helo %{to_user},
     signup_confirm:
       greeting: Pa hwyl!
       created: Mae rhywun (chi gobeithio!) newydd greu cyfrif yn %{site_url}.
     email_confirm:
       greeting: Pa hwyl,
+    lost_password:
+      greeting: Helo,
     note_comment_notification:
       anonymous: Defnyddiwr anhysbys
       greeting: Pa hwyl?
+    changeset_comment_notification:
+      hi: Helo %{to_user},
+      greeting: Helo,
+      commented:
+        partial_changeset_without_comment: heb sylw
   confirmations:
     confirm:
+      heading: Gwiriwch eich e-byst!
       button: Cadarnhau
     confirm_email:
       button: Cadarnhau
@@ -1361,6 +1451,7 @@ cy:
     inbox:
       title: Mewnflwch
       my_inbox: Fy Mewnflwch
+      my_outbox: Fy Mlwch Allan
       messages: Mae gennych %{new_messages} a %{old_messages}
       from: Gan
       subject: Pwnc
@@ -1387,6 +1478,8 @@ cy:
       body: Sori, nid oes neges gyda'r id yno.
     outbox:
       title: Allanflwch
+      my_inbox: Fy Mewnflwch
+      my_outbox: Fy Mlwch Allan
       messages:
         one: Mae gennych %{count} neges wedi ei anfon
         other: Mae gennych %{count} neges wedi eu hanfon
@@ -1422,9 +1515,32 @@ cy:
       heading: Ailosod Cyfinair ar gyfer %{user}
       reset: Ailosod Cyfrinair
       flash changed: Mae'ch cyfrinair wedi'i newid.
+  preferences:
+    show:
+      title: Dewisiadau
+      preferred_editor: Hoff Olygydd
+      preferred_languages: Ieithoedd
+      edit_preferences: Dewisiadau Golygu
+    edit:
+      title: Dewisiadau Golygu
+      save: Diweddaru Dewisiadau
+      cancel: Canslo
+    update:
+      failure: Ni ellir diweddaru'r dewisiadau.
+    update_success_flash:
+      message: Diweddarwyd eich dewisiadau.
   profiles:
     edit:
+      title: Golygu Proffil
+      save: Diweddaru Proffil
+      cancel: Canslo
       image: 'Delwedd:'
+      gravatar:
+        gravatar: Defnyddio Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
+        what_is_gravatar: Beth yw Gravatar?
+        disabled: Mae Gravatar wedi'i analluogi.
+        enabled: Mae arddangos eich Gravatar wedi'i alluogi.
       new image: Ychwanegu delwedd
       keep image: Cadw'r ddelwedd bresennol
       delete image: Tynnu'r ddelwedd bresennol
@@ -1531,6 +1647,7 @@ cy:
         more_title_html: Darganfod rhagor
         contributors_title_html: Ein cyfrannwyr
         infringement_title_html: Torrwyd yr hawlfraint
+        trademarks_title_html: <span id="trademarks"></span>Nodau masnach
     index:
       shortlink: Dolen Fyr
       createnote: Ychwanegu nodyn
@@ -1553,6 +1670,12 @@ cy:
         Data Agored (Open Data Commons Open Database License)</a> (ODbL).
       too_large:
         advice: 'Os yw''r allforio''n methu, ystyriwch un o''r canlynol:'
+        planet:
+          title: Planet OHM
+        overpass:
+          title: Overpass API
+        geofabrik:
+          title: Lawrlwythiadau Geofabrik
         other:
           title: Ffynonellau eraill
           description: Ffynonellau ychwanegol a nodir ar wici OpenHistoricalMap
@@ -1700,15 +1823,22 @@ cy:
       start_mapping: Dechrau Mapio
       add_a_note:
         title: Dim amser i olygu? Ychwanegwch nodyn!
+        para_2_html: |-
+          Ewch i'r %{map_link} a chliciwch ar yr eicon nodyn: %{note_icon}.
+          Bydd hyn yn ychwanegu marciwr i'r map y gallwch ei symud drwy lusgo.
+          Ychwanegwch eich neges, yna cliciwch gadw, ac fe fydd mapwyr eraill yn ymchwilio.
+        the_map: map
   traces:
     new:
       visibility_help: beth mae hyn yn golygu?
       help: Cymorth
     edit:
+      cancel: Canslo
       visibility_help: beth mae hyn yn golygu?
     trace_optionals:
       tags: Tagiau
     show:
+      pending: I DDOD
       filename: 'Enw ffeil:'
       download: lawrlwytho
       uploaded: 'Uwchlwythwyd:'
@@ -1724,8 +1854,13 @@ cy:
     trace_paging_nav:
       showing_page: Tudalen %{page}
     trace:
+      pending: I DDOD
       count_points:
-        one: 1 point
+        zero: '%{count} pwynt'
+        one: '%{count} pwynt'
+        two: '%{count} bwynt'
+        few: '%{count} phwynt'
+        many: '%{count} pwynt'
         other: '%{count} pwynt'
       more: mwy
       view_map: Gweld Map
@@ -1738,6 +1873,16 @@ cy:
       in: mewn
     index:
       tagged_with: tagiwyd gyda %{tags}
+      wiki_page: tudalen wici
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
+      upload_trace: Uwchlwytho arllwybr
+      all_traces: Pob Arllwybr
+      my_traces: Fy Arllwybrau
+  application:
+    settings_menu:
+      oauth1_settings: Gosodiadau OAuth 1
+      oauth2_applications: Apiau OAuth 2
+      oauth2_authorizations: Awdurdodiadau OAuth 2
   oauth:
     authorize:
       allow_to: 'Caniatáu''r rhaglen cleient i:'
@@ -1770,9 +1915,39 @@ cy:
       edit: Golygu Manylion
       delete: Dileu Cleient
       confirm: Ydych yn siŵr?
+    index:
+      oauth: OAuth
+  oauth2_applications:
+    index:
+      name: Enw
+      permissions: Caniatadau
+    application:
+      edit: Golygu
+      delete: Dileu
+      confirm_delete: Dileu'r ap hwn?
+    new:
+      title: Cofrestru ap newydd
+    edit:
+      title: Golygu eich ap
+    show:
+      edit: Golygu
+      delete: Dileu
+      confirm_delete: Dileu'r ap hwn?
+      client_id: ID Cleient
+      client_secret: Cyfrinach Cleient
+  oauth2_authorizations:
+    new:
+      authorize: Awdurdodi
+      deny: Gwrthod
+    error:
+      title: Digwyddodd gwall
+    show:
+      title: Cod awdurdodi
   users:
     new:
       title: Cofrestru
+      about:
+        header: Rhydd ac golygadwy
       email address: 'Cyfeiriad Ebost:'
       confirm email address: 'Cadarnhau''r Cyfeiriad Ebost:'
       continue: Cofrestru
@@ -1780,15 +1955,23 @@ cy:
     terms:
       title: Telerau cyfranwyr
       heading: Telerau cyfranwyr
+      heading_ct: Telerau Cyfranwyr
       consider_pd_why: beth yw hwn?
+      continue: Parhau
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Gwrthod
+      legale_select: 'Gwlad breswyl:'
       legale_names:
         france: Ffrainc
         italy: Yr Eidal
         rest_of_world: Gweddill y byd
+    terms_declined_flash:
+      terms_declined_link: y dudalen wici hon
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Dim defnyddiwr o'r fath
       heading: Nid yw'r defnyddiwr %{user} yn bodoli.
+      deleted: wedi'i ddileu
     show:
       my diary: Fy Nyddiadur
       new diary entry: cofnod dyddiadur newydd
@@ -1799,8 +1982,11 @@ cy:
       my profile: Fy Mhroffil
       my settings: Fy Ngosodiadau
       my comments: Fy Sylwadau
+      my_preferences: Dewisiadau
+      my_dashboard: Dangosfwrdd
       blocks on me: Blociau arnaf i
       blocks by me: Blociau gennyf i
+      edit_profile: Golygu Proffil
       send message: Anfon Neges
       diary: Dyddiadur
       edits: Golygiadau
@@ -1812,9 +1998,11 @@ cy:
       ct status: 'Telerau cyfrannwr:'
       ct undecided: Heb Benderfynu
       ct declined: Wedi Gwrthod
+      latest edit: 'Golygiad diweddaraf (%{ago}):'
       email address: 'Cyfeiriad e-bost:'
       created from: 'Crëwyd o:'
       status: 'Statws:'
+      spam score: 'Sgôr Sbam:'
       description: Disgrifiad
       user location: Lleoliad defnyddiwr
       role:
@@ -1837,12 +2025,16 @@ cy:
     index:
       title: Defnyddwyr
       heading: Defnyddwyr
+    suspended:
+      support: cymorth
   user_role:
     grant:
       confirm: Cadarnhau
     revoke:
       confirm: Cadarnhau
   user_blocks:
+    not_found:
+      back: Nôl i'r mynegai
     helper:
       time_future_html: Yn dod i ben mewn %{time}.
       time_past_html: Wedi dod i ben %{time} yn ôl.
@@ -1861,6 +2053,7 @@ cy:
       previous: « Blaenorol
   notes:
     index:
+      heading: Nodiadau %{user}
       no_notes: Dim nodiadau
       id: Id
       creator: Crëwr
@@ -1870,6 +2063,8 @@ cy:
     show:
       title: 'Nodyn: %{id}'
       description: Disgrifiad
+      report: adrodd y nodyn hwn
+      coordinates_html: '%{latitude}, %{longitude}'
       hide: Cuddio
       resolve: Datrys
       reactivate: Ail-ysgogi
@@ -1958,6 +2153,7 @@ cy:
       instructions:
         start_without_exit: Dechreuwch ar %{name}
         destination_without_exit: Wedi cyrraedd cyrchfan
+        unnamed: ffordd ddienw
         exit_counts:
           first: 1af
           second: 2il
