@@ -100,6 +100,17 @@ L.OSM.Map = L.Map.extend({
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
     }));
 
+    this.baseLayers.push(new L.MaplibreGL({  /* see also timeslider.js and viewreset/baselayerchange handlers */
+      attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+      code: "R",
+      keyid: "railway",
+      name: I18n.t("javascripts.map.base.railway"),
+      style: ohmVectorStyles.Railway,
+      localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
+      minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
+      maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
+    }));
+
     this.on('baselayerchange', function () {  /* MBGL layers can fall out of sync as they're swapped; this helps */
       this.panBy([0, 1]);
     });
