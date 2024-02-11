@@ -41,13 +41,16 @@ module SvgHelper
 
   # returns "<" shape if side == -1; ">" if side == 1
   def adjacent_page_svg_tag(side, **options)
-    height = 15
+    count = options[:count] || 1
+    height = options[:height] || 15
     pad = 2
     segment = (0.5 * height) - pad
-    width = segment + (2 * pad)
-    path_data = "M#{side * (pad - (0.5 * width))},#{pad} l#{side * segment},#{segment} l#{-side * segment},#{segment}"
+    width = (segment + (2 * count * pad)).ceil
+    angled_line_data = "l#{side * segment},#{segment} l#{-side * segment},#{segment}"
+    path_data = Array.new(count) { |i| "M#{side * ((2 * i) + 1) * pad},#{pad} #{angled_line_data}" }.join(" ")
     path_tag = tag.path :d => path_data, :fill => "none", :stroke => "currentColor", :"stroke-width" => 1.5
-    tag.svg path_tag, :width => width, :height => height, :viewBox => "-#{0.5 * width} 0 #{width} #{height}", :class => options[:class]
+    view_box = "#{-width} 0 #{width} #{height}" if side.negative?
+    tag.svg path_tag, :width => width, :height => height, :viewBox => view_box, :class => options[:class]
   end
 
   def stroke_attrs(attrs, prefix)

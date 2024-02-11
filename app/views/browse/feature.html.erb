@@ -11,12 +11,18 @@
 <% end %>
 <div class='secondary-actions'>
   <% if @feature.version > 1 %>
-    <%= link_to "<< #{t('browse.version')} #1", :controller => "old_#{@type.pluralize}", :action => :show, :version => 1 %>
+    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => 1 }, :class => "icon-link") do %>
+      <%= previous_page_svg_tag :height => 11, :count => 2 %>
+      <%= "#{t('browse.version')} #1" %>
+    <% end %>
     &middot;
   <% end %>
     <%= link_to t("browse.view_history"), :action => "#{@type}_history" %>
   <% if @feature.version > 1 %>
     &middot;
-    <%= link_to "#{t('browse.version')} ##{@feature.version} >>", :controller => "old_#{@type.pluralize}", :action => :show, :version => @feature.version %>
+    <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => @feature.version }, :class => "icon-link") do %>
+      <%= "#{t('browse.version')} ##{@feature.version}" %>
+      <%= next_page_svg_tag :height => 11, :count => 2 %>
+    <% end %>
   <% end %>
 </div>
