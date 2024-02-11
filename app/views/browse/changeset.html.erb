@@ -117,6 +117,12 @@
   <% end %>
 </div>
 
+<div class='secondary-actions'>
+  <%= link_to(t(".changesetxml"), :controller => "api/changesets", :action => "show") %>
+  &middot;
+  <%= link_to(t(".osmchangexml"), :controller => "api/changesets", :action => "download") %>
+</div>
+
 <% if @next_by_user || @prev_by_user %>
   <div class='secondary-actions'>
     <% if @prev_by_user %>
@@ -137,9 +143,3 @@
     <% end %>
   </div>
 <% end %>
-
-<div class='secondary-actions'>
-  <%= link_to(t(".changesetxml"), :controller => "api/changesets", :action => "show") %>
-  &middot;
-  <%= link_to(t(".osmchangexml"), :controller => "api/changesets", :action => "download") %>
-</div>
