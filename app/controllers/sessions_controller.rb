@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
   def create
     session[:remember_me] ||= params[:remember_me]
     session[:referer] = safe_referer(params[:referer]) if params[:referer]
-    password_authentication(params[:username], params[:password])
+    password_authentication(params[:username].strip, params[:password])
   end
 
   def destroy

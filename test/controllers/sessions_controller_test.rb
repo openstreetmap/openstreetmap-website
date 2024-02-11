@@ -48,6 +48,14 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     post login_path, :params => { :username => user.display_name, :password => "test" }
     assert_response :redirect
     assert_redirected_to root_path
+
+    post login_path, :params => { :username => " #{user.display_name}", :password => "test" }
+    assert_response :redirect
+    assert_redirected_to root_path
+
+    post login_path, :params => { :username => "#{user.display_name} ", :password => "test" }
+    assert_response :redirect
+    assert_redirected_to root_path
   end
 
   def test_logout_without_referer
