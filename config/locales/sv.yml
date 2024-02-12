@@ -93,6 +93,9 @@ sv:
         invalid_email_address: verkar inte vara en giltig e-postadress.
         email_address_not_routable: kan inte ruttas
         display_name_is_user_n: kan inte vara user_n om inte n är ditt användar-id
+      models:
+        user_mute:
+          is_already_muted: är redan tystad
     models:
       acl: Tillgångskontrollista (ACL)
       changeset: Ändringsuppsättning
@@ -489,6 +492,9 @@ sv:
     not_found:
       sorry: 'Tyvärr, nod #%{id} version %{version} kunde inte hittas.'
   old_ways:
+    not_found:
+      sorry: 'Tyvärr, sträckan #%{id} version %{version} kunde inte hittas.'
+  old_relations:
     not_found:
       sorry: 'Tyvärr, sträckan #%{id} version %{version} kunde inte hittas.'
   changesets:
@@ -1671,6 +1677,7 @@ sv:
       loaded:
         one: inläst med %{trace_points} av %{count} möjlig punkt.
         other: inläst med %{trace_points} av %{count} möjliga punkter.
+      all_your_traces_html: Alla dina framgångsrikt uppladdade GPX-spår finns på %{url}.
       subject: '[OpenStreetMap] Lyckades importera GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Välkommen till OpenStreetMap'
@@ -1834,6 +1841,11 @@ sv:
       no_sent_messages_html: Du har inte skickat några meddelanden ännu. Varför inte
         ta kontakt med någon av de %{people_mapping_nearby_link}?
       people_mapping_nearby: folk som kartlägger i närheten
+    muted:
+      title: Tystade meddelanden
+      messages:
+        one: '%{count} tystat meddelande'
+        other: '%{count} nya meddelanden'
     reply:
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
         besvara skickades inte till den användaren. Logga in med korrekt användare
@@ -1852,9 +1864,13 @@ sv:
     heading:
       my_inbox: Min inkorg
       my_outbox: Min utkorg
+      muted_messages: Tystade meddelanden
     mark:
       as_read: Meddelandet markerat som läst
       as_unread: Meddelandet markerat som oläst
+    unmute:
+      notice: Meddelandet har flyttats till inkorgen
+      error: Meddelandet kunde inte flyttas till inkorgen.
     destroy:
       destroyed: Meddelande raderat
   passwords:
@@ -1875,6 +1891,7 @@ sv:
       flash token bad: Hittade inte den nyckeln, kontrollera webbadressen.
     update:
       flash changed: Ditt lösenord har ändrats.
+      flash token bad: Hittade inte den nyckeln, kontrollera webbadressen kanske?
   preferences:
     show:
       title: Mina alternativ
@@ -2088,12 +2105,15 @@ sv:
           alt: Exempel på hur en webbsida kan ange OpenStreetMap som källa
           title: Exempel på attribuering.
         more_title_html: Mer information
+        more_1_1_html: Läs mer om hur du använder vår data och hur du krediterar oss
+          på %{osmf_licence_page_link}.
         more_1_1_osmf_licence_page: OSMF-licenssida
         more_2_1_html: |-
           Även om OpenStreetMap är öppen data kan vi inte tillhandahålla ett
           gratis kart-API för tredje part.
           Se våra %{api_usage_policy_link}, %{tile_usage_policy_link} och %{nominatim_usage_policy_link}.
         more_2_1_api_usage_policy: API-användningspolicy
+        more_2_1_nominatim_usage_policy: Nominativ användningspolicy
         contributors_title_html: Våra bidragsgivare
         contributors_intro_html: |-
           Våra bidragsgivare är tusentals individer. Vi inkluderar också
@@ -2257,8 +2277,9 @@ sv:
         title: Guide för nybörjare
         description: Guide för nybörjare som underhålls av gemenskapen.
       community:
-        title: Gemenskapsforum
-        description: En delad plats för konversationer om OpenStreetMap.
+        title: Hjälp- och gemenskapsforum
+        description: En gemensam plats för att söka hjälp och föra konversationer
+          om OpenStreetMap.
       mailing_lists:
         title: E-postlistor
         description: Ställ en fråga eller diskutera intressanta saker på ett brett
@@ -2329,12 +2350,14 @@ sv:
           train: Tåg
           subway: Tunnelbana
           ferry: Färja
+          light_rail: Snabbspårväg
           tram: Spårvagn
+          trolleybus: Trådbuss
           bus: Buss
           cable_car: Linbana
-          chair_lift: stollift
+          chair_lift: Stollift
           runway: Landningsbana
-          taxiway: taxibana
+          taxiway: Taxibana
           apron: Flygplatsplatta
           admin: Administrativ gräns
           capital: Huvudstad
@@ -2357,8 +2380,10 @@ sv:
           industrial: Industriellt område
           commercial: Kommersiellt område
           heathland: Hed
+          scrubland: Buskskog
           lake: Sjö
           reservoir: vattenmagasin
+          intermittent_water: Intermittent vattenkropp
           glacier: Glaciär
           reef: Rev
           wetland: Våtmark
@@ -2588,6 +2613,7 @@ sv:
       oauth1_settings: OAuth 1-inställningar
       oauth2_applications: OAuth 2-applikationer
       oauth2_authorizations: OAuth 2-auktoriseringar
+      muted_users: Tystade användare
   oauth:
     authorize:
       title: Auktorisera tillgång till ditt konto
@@ -2800,6 +2826,8 @@ sv:
       my_dashboard: Min kontrollpanel
       blocks on me: Blockeringar av mig
       blocks by me: Blockeringar lagda av mig
+      create_mute: Tysta denna användare
+      destroy_mute: Sluta tysta användaren
       edit_profile: Redigera profil
       send message: Skicka meddelande
       diary: Dagbok
@@ -2831,6 +2859,7 @@ sv:
           importer: Återkalla importåtkomst
       block_history: Aktiva blockeringar
       moderator_history: Utdelade blockeringar
+      revoke_all_blocks: Återkalla alla blockeringar
       comments: Kommentarer
       create_block: Blockera denna användare
       activate_user: Aktivera denna användare
@@ -2943,6 +2972,16 @@ sv:
       confirm: Är du säker på att du vill återkalla denna blockering?
       revoke: Upphäv!
       flash: Denna blockering har upphävts.
+    revoke_all:
+      title: Upphäv alla blockeringar av %{block_on}
+      heading_html: Upphäver alla blockeringar av %{block_on}
+      empty: '%{name} har inga aktiva blockeringar.'
+      confirm: Är du säker på att du vill upphäva %{active_blocks}?
+      active_blocks:
+        one: '%{count} aktiv blockering'
+        other: '%{count} aktiva blockeringar'
+      revoke: Upphäv!
+      flash: Alla aktiva blockningar har upphävts.
     helper:
       time_future_html: Slutar om %{time}.
       until_login: Aktiv till dess användaren loggar in.
@@ -3003,11 +3042,28 @@ sv:
       previous: « Föregående
   user_mutes:
     index:
+      title: Tystade användare
+      my_muted_users: Mina tystade användare
+      you_have_muted_n_users:
+        one: Du har tystat %{count} användare
+        other: Du har tystat {count} användare
+      user_mute_explainer: Meddelanden från tystade användare flyttas till en separat
+        inkorg och du kommer inte att få e-postaviseringar.
+      user_mute_admins_and_moderators: Du kan tysta administratörer och moderatorer
+        men deras meddelanden kommer inte att stängas av.
       table:
         thead:
+          muted_user: Tystad användare
           actions: Åtgärder
         tbody:
+          unmute: Ljud på
           send_message: Skicka meddelande
+    create:
+      notice: Du tystade %{name}.
+      error: '%{name} kunde inte tystas. %{full_message}.'
+    destroy:
+      notice: Du av-tystade %{name}.
+      error: Det gick inte att av-tysta användaren. Var god försök igen.
   notes:
     index:
       title: Anteckningar skapade eller kommenterade av %{user}
@@ -3127,6 +3183,7 @@ sv:
       map_data_zoom_in_tooltip: Zooma in för att se kartdata
       queryfeature_tooltip: Undersök kartobjekt
       queryfeature_disabled_tooltip: Zooma in för att undersöka kartobjekt
+      embed_html_disabled: HTML-inbäddning är inte tillgänglig för det här kartlagret
     changesets:
       show:
         comment: Kommentera

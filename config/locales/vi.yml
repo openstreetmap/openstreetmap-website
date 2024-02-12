@@ -532,7 +532,6 @@ vi:
       comment_link: Nhận xét về mục này
       reply_link: Nhắn tin cho tác giả
       comment_count:
-        zero: Chưa có bình luận
         other: '%{count} bình luận'
       edit_link: Sửa đổi mục này
       hide_link: Ẩn mục này
@@ -598,6 +597,10 @@ vi:
       success: '%{name} đã được xóa khỏi danh sách bạn của bạn.'
       not_a_friend: '%{name} đã không phải người bạn.'
   geocoder:
+    search:
+      title:
+        results_from_html: Kết quả từ %{results_link}
+        latlon: Nội bộ
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1318,8 +1321,6 @@ vi:
     show:
       title: 'Vấn đề %{status} #%{issue_id}'
       reports:
-        zero: Không có báo cáo
-        one: 1 báo cáo
         other: '%{count} báo cáo'
       report_created_at_html: Báo cáo lần đầu tiên vào %{datetime}
       last_resolved_at_html: Giải quyết lần cuối cùng vào %{datetime}
@@ -1611,6 +1612,7 @@ vi:
       to: Tới
       subject: Tiêu đề
       date: Ngày
+      actions: Tác vụ
     message_summary:
       unread_button: Đánh dấu là chưa đọc
       read_button: Đánh dấu là đã đọc
@@ -1630,6 +1632,7 @@ vi:
       body: Rất tiếc, không có thư nào với ID đó.
     outbox:
       title: Hộp thư đã gửi
+      actions: Tác vụ
       messages: Bạn có %{count} thư đã gửi
       no_sent_messages_html: Bạn chưa gửi thư cho người nào. Hãy thử liên lạc với
         %{people_mapping_nearby_link}?
@@ -1661,7 +1664,7 @@ vi:
     new:
       title: Quên mất mật khẩu
       heading: Quên mất Mật khẩu?
-      email address: 'Địa chỉ Thư điện tử:'
+      email address: Địa chỉ Thư điện tử
       new password button: Đặt lại mật khẩu
       help_text: Nhập địa chỉ thư điện tử mà bạn đã dùng để mở tài khoản, rồi chúng
         tôi sẽ gửi liên kết cho địa chỉ đó để cho bạn đặt lại mật khẩu.
@@ -1711,6 +1714,9 @@ vi:
       no home location: Bạn chưa định vị trí nhà.
       update home location on click: Cập nhật vị trí nhà khi tôi nhấn chuột vào bản
         đồ?
+      show: Hiện
+      delete: Xóa
+      undelete: Phục hồi
     update:
       success: Đã cập nhật hồ sơ.
       failure: Không thể cập nhật hồ sơ.
@@ -1718,8 +1724,8 @@ vi:
     new:
       title: Đăng nhập
       heading: Đăng nhập
-      email or username: 'Địa chỉ Thư điện tử hoặc Tên người dùng:'
-      password: 'Mật khẩu:'
+      email or username: Địa chỉ Thư điện tử hoặc Tên người dùng
+      password: Mật khẩu
       remember: Nhớ tôi
       lost password link: Quên mất Mật khẩu?
       login_button: Đăng nhập
@@ -1764,6 +1770,7 @@ vi:
       support: nhóm hỗ trợ
   shared:
     markdown_help:
+      heading_html: Được phân tích dưới dạng %{kramdown_link}
       headings: Đề mục
       heading: Đề mục
       subheading: Đề mục con
@@ -1776,6 +1783,7 @@ vi:
       image: Hình ảnh
       alt: Văn bản thay thế
       url: URL
+      codeblock: Đoạn mã
     richtext_field:
       edit: Sửa đổi
       preview: Xem trước
@@ -1810,8 +1818,19 @@ vi:
       open_data_open_data: dữ liệu mở
       open_data_copyright_license: trang Bản quyền và Giấy phép
       legal_title: Pháp luật
+      legal_1_1_html: |-
+        Trang này và nhiều dịch vụ có liên quan do
+        %{openstreetmap_foundation_link} (OSMF) hoạt động thay mặt cho cộng đồng. Việc sử dụng tất cả các dịch vụ do OSMF hoạt động phải tuân theo %{terms_of_use_link}, %{aup_link}, và %{privacy_policy_link} của chúng tôi.
+      legal_1_1_openstreetmap_foundation: Quỹ OpenStreetMap
       legal_1_1_terms_of_use: Điều khoản Sử dụng
+      legal_1_1_aup: Quy định Sử dụng Đàng hoàng
+      legal_1_1_privacy_policy: Quy định về Quyền riêng tư
+      legal_2_1_html: |-
+        Xin vui lòng %{contact_the_osmf_link}
+        nếu có thắc mắc về giấy phép, bản quyền, hoặc vấn đề pháp lý khác.
       legal_2_1_contact_the_osmf: liên lạc với Quỹ OSM
+      legal_2_2_html: OpenStreetMap, biểu trưng kính lúp, và State of the Map là %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: nhãn hiệu đăng ký của OSMF
       partners_title: Nhà bảo trợ
     copyright:
       foreign:
@@ -1827,42 +1846,104 @@ vi:
         mapping_link: bắt đầu vẽ bản đồ
       legal_babble:
         title_html: Bản quyền và Giấy phép
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} là %{open_data} được %{osm_foundation_link} (OSMF) phát hành theo
+          %{odc_odbl_link} (ODbL).
         introduction_1_open_data: dữ liệu mở
+        introduction_1_odc_odbl: Giấy phép Cơ sở dữ liệu Mở của Open Data Commons
         introduction_1_osm_foundation: Quỹ OpenStreetMap
+        introduction_2_html: Bạn được tự do sao chép, phân phối, truyền, và tạo ra
+          các tác phẩm phái sinh từ các dữ liệu của chúng ta, miễn là bạn ghi công
+          OpenStreetMap và những người đóng góp vào nó. Nếu bạn sửa đổi hoặc tạo sản
+          phẩm dựa trên các dữ liệu của chúng tôi, bạn chỉ được phép phân phối kết
+          quả theo cùng giấy phép. %{legal_code_link} đầy đủ giải thích các quyền
+          và trách nhiệm của bạn.
+        introduction_2_legal_code: Mã pháp lý
+        introduction_3_html: Tài liệu của chúng tôi được phát hành theo giấy phép
+          %{creative_commons_link} (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Ghi công–Chia sẻ tương tự
           2.0
         credit_title_html: Cách ghi công OpenStreetMap
         credit_1_html: 'Khi nào bạn sử dụng dữ liệu OpenStreetMap, bạn cần phải tuân
           tho hai quy tắc sau:'
-        credit_4_1_this_copyright_page: trang bản quyền
+        credit_2_1: Ghi công OpenStreetMap bằng cách hiển thị lời thông báo bản quyền
+          của chúng tôi.
+        credit_2_2: Làm rõ rằng dữ liệu được phát hành theo Giấy phép Cơ sở dữ liệu
+          Mở.
+        credit_3_html: "Việc hiển thị lời thông báo bản quyền có yêu cầu tùy theo
+          cách sử dụng dữ liệu của chúng tôi, ví dụ tùy bạn tạo ra bản đồ tương tác
+          trên mạng, bản đồ in ấn, hoặc hình ảnh tĩnh. Có chi tiết đầy đủ về các quy
+          tắc trong \n%{attribution_guidelines_link}."
+        credit_3_attribution_guidelines: Hướng dẫn ghi công
+        credit_4_1_html: "Để ghi rõ ràng rằng dữ liệu được phát hành theo Giấy phép
+          Cơ sở dữ liệu Mở, bạn có thể đặt liên kết đến \n%{this_copyright_page_link}.\nThay
+          thế, bạn có thể ghi tên giấy phép và đặt liên kết trực tiếp đến văn bản
+          giấy phép; bạn cần phải ghi công theo kiểu này nếu phân phối OSM dưới dạng
+          dữ liệu. Đối với các phương tiện không có khả năng liên kết (chẳng hạn tác
+          phẩm in ấn), gợi ý bạn chỉ dẫn đọc giả tới openstreetmap.org (thí dụ bằng
+          cách thay thế “OpenStreetMap” bằng địa chỉ đầy đủ) và tới opendatacommons.org.\nTrong
+          ví dụ này, lời ghi công xuất hiện ở góc bản đồ."
+        credit_4_1_this_copyright_page: trang bản quyền này
         attribution_example:
           alt: Ví dụ ghi công OpenStreetMap trên một trang Web
           title: Ví dụ ghi công
         more_title_html: Tìm hiểu thêm
+        more_1_1_html: Đọc thêm về cách sử dụng dữ liệu của chúng tôi và cách ghi
+          công chúng tôi tại %{osmf_licence_page_link}.
         more_1_1_osmf_licence_page: trang Giấy phép của Quỹ OSM
+        more_2_1_html: Mặc dù OpenStreetMap là dữ liệu mở, nhưng chúng tôi không thể
+          cung cấp một API bản đồ miễn phí để bên thứ ba sử dụng. Xem %{api_usage_policy_link},
+          %{tile_usage_policy_link}, và %{nominatim_usage_policy_link} của chúng tôi.
+        more_2_1_api_usage_policy: Quy định Sử dụng API
+        more_2_1_tile_usage_policy: Quy định Sử dụng Mảnh bản đồ
+        more_2_1_nominatim_usage_policy: Quy định Sử dụng Nominatim
         contributors_title_html: Những người đóng góp vào đây
         contributors_intro_html: 'Dự án này nhờ công sức đóng góp của hàng ngàn cá
           nhân và cũng bao gồm các dữ liệu có giấy phép mở từ các cơ quan khảo sát
           quốc gia và những nguồn gốc khác, chẳng hạn:'
+        contributors_at_credit_html: |-
+          %{austria}: Chứa dữ liệu từ %{stadt_wien_link} (theo %{cc_by_link}), %{land_vorarlberg_link}
+          và Bang Tirol (theo %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Áo
         contributors_at_stadt_wien: Thành phố Viên
         contributors_at_cc_by: CC BY
         contributors_at_land_vorarlberg: Bang Vorarlberg
         contributors_at_cc_by_at_with_amendments: CC BY AT sửa đổi
+        contributors_au_credit_html: |-
+          %{australia}: Bao gồm hoặc được phát triển dùng các Biên giới Hành chính &copy; %{geoscape_australia_link}
+          được Thịnh vượng chung Úc cấp phép theo %{cc_licence_link}.
         contributors_au_australia: Úc
+        contributors_au_geoscape_australia: Geoscape Úc
         contributors_au_cc_licence: giấy phép Creative Commons Ghi công 4.0 Quốc tế
           (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: Bao gồm dữ liệu từ GeoBase®, GeoGratis
+          (© Bộ Tài nguyên Canada), CanVec (© Bộ Tài nguyên Canada), và StatCan (Sở
+          Địa lý, Statistics Canada).'
         contributors_ca_canada: Canada
+        contributors_cz_czechia: Séc
+        contributors_cz_cc_licence: giấy phép Creative Commons Ghi công 4.0 Quốc tế
+          (CC BY 4.0)
         contributors_fi_finland: Phần Lan
+        contributors_fi_nlsfi_license: Giấy phép NLSFI
         contributors_fr_france: Pháp
+        contributors_nl_credit_html: '%{netherlands}: Chứa dữ liệu &copy; AND, 2007
+          (%{and_link})'
         contributors_nl_netherlands: Hà Lan
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Chứa dữ liệu bắt nguồn từ %{linz_data_service_link}
+          và được cấp phép để tái sử dụng theo %{cc_by_link}.
         contributors_nz_new_zealand: New Zealand
+        contributors_nz_linz_data_service: Dịch vụ Dữ liệu LINZ
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_serbia: Serbia
         contributors_si_slovenia: Slovenia
         contributors_es_spain: Tây Ban Nha
         contributors_es_cc_by: CC BY 4.0
         contributors_za_south_africa: Nam Phi
+        contributors_gb_credit_html: '%{united_kingdom}: Bao gồm dữ liệu Ordnance
+          Survey © bản quyền bản quyền Hoàng gia và quyền cơ sở dữ liệu 2010–2023.'
         contributors_gb_united_kingdom: Vương quốc Anh
+        contributors_2_contributors_page: Trang Người đóng góp
         contributors_footer_2_html: '  Việc bao gồm dữ liệu trong OpenStreetMap không
           ngụ ý rằng nhà cung cấp dữ liệu đầu tiên ủng hộ OpenStreetMap, biện hộ sự
           chính xác của nó, hoặc nhận trách nhiệm pháp lý nào.'
@@ -1871,6 +1952,10 @@ vi:
           bổ sung dữ liệu từ những nguồn có bản quyền (chẳng hạn Bản đồ Google hoặc
           các bản đồ trên giấy) trước khi các nhà giữ bản quyền cho phép rõ ràng.
         trademarks_title: Nhãn hiệu
+        trademarks_1_1_html: |-
+          OpenStreetMap, biểu trưng kính lúp, và State of the Map là các nhãn hiệu do Quỹ OpenStreetMap đăng ký. Nếu bạn có thắc mắc về việc sử dụng các nhãn hiệu, xin vui lòng xem
+          %{trademark_policy_link} của chúng tôi.
+        trademarks_1_1_trademark_policy: Quy định Nhãn hiệu
     index:
       js_1: Hoặc trình duyệt của bạn không hỗ trợ JavaScript, hoặc bạn đã tắt JavaScript.
       js_2: OpenStreetMap sử dụng JavaScript cho chức năng bản đồ trơn.
@@ -1895,6 +1980,9 @@ vi:
       title: Xuất
       manually_select: Chọn vùng khác thủ công
       licence: Giấy phép
+      licence_details_html: Dữ liệu OpenStreetMap được phát hành theo %{odbl_link}
+        (ODbL).
+      odbl: Giấy phép Cơ sở dữ liệu Mở của Open Data Commons
       too_large:
         advice: 'Nếu việc xuất dữ liệu ở trên bị thất bại, hãy nghĩ đến việc sử dụng
           một trong những nguồn bên dưới:'
@@ -1926,6 +2014,11 @@ vi:
             chúng tôi, chẳng hạn thiếu con đường hoặc địa chỉ của bạn, cách xử lý
             tốt nhất là tham gia cộng đồng OpenStreetMap để thêm hoặc sửa dữ liệu
             lấy.
+        add_a_note:
+          instructions_1_html: Chỉ việc bấm %{note_icon} hoặc hình này trên bản đồ.
+            Đinh ghim sẽ được thả trên bản đồ. Kéo ghim vào đúng vị trí, ghi lời miêu
+            tả vấn đề, và bấm “Thêm Ghi chú”. Cộng đồng sẽ cố gắng sửa theo ý của
+            bạn.
       other_concerns:
         title: Vấn đề khác
         copyright: trang bản quyền
@@ -1943,8 +2036,8 @@ vi:
         title: Hướng dẫn Bắt đầu
         description: Hướng dẫn bắt đầu do cộng đồng biên tập.
       community:
-        title: Diễn đàn cộng đồng
-        description: Trang thảo luận chung về OpenStreetMap.
+        title: Diễn đàn trợ giúp & cộng đồng
+        description: Trang nhận trợ giúp và thảo luận chung về OpenStreetMap.
       mailing_lists:
         title: Danh sách thư
         description: Hỏi han hoặc thảo luận về các chuyện quan trọng trên nhiều danh
@@ -1968,8 +2061,15 @@ vi:
       removed: Bạn đã đặt trình vẽ OpenStreetMap mặc định là Potlatch. Vì Adobe Flash
         Player không còn được hỗ trợ, Potlatch không còn hoạt động trong trình duyệt
         Web.
+      desktop_application_html: Bạn vẫn có thể sử dụng Potlatch bằng cách %{download_link}.
+      download: tải về ứng dụng dành cho macOS và Windows
+      id_editor_html: Thay thế, bạn có thể đổi trình vẽ mặc định thành iD, trình vẽ
+        này vẫn còn hoạt động trong trình duyệt Web của bạn giống như Potlatch trước
+        đây. %{change_preferences_link}.
+      change_preferences: Thay đổi tùy chọn của bạn tại đây
     any_questions:
       title: Có thắc mắc?
+      get_help_here: Nhận trợ giúp tại đây
     sidebar:
       search_results: Kết quả Tìm kiếm
       close: Đóng
@@ -1992,23 +2092,38 @@ vi:
           primary: Đường chính
           secondary: Đường lớn
           unclassified: Đường không phân loại
+          pedestrian: Đường dành cho người đi bộ
           track: Đường mòn
           bridleway: Đường cưỡi ngựa
           cycleway: Đường xe đạp
           cycleway_national: Quốc lộ xe đạp
           cycleway_regional: Xa lộ xe đạp
           cycleway_local: Đường xe đạp địa phương
+          cycleway_mtb: Tuyến đường xe đạp leo núi
           footway: Đường đi bộ
           rail: Đường sắt
+          train: Xe lửa
           subway: Đường ngầm
+          ferry: Phà
+          light_rail: Đường sắt nhẹ
+          tram: Xe điện
+          bus: Xe buýt
           cable_car: Đường xe cáp
-          chair_lift: ghế cáp treo
+          chair_lift: Ghế cáp treo
           runway: Đường băng
-          taxiway: đường băng
+          taxiway: Đường băng
           apron: Sân đậu máy bay
           admin: Biên giới hành chính
+          capital: Thủ đô
+          city: Thành phố
+          orchard: Vườn cây
+          vineyard: Vườn nho
           forest: Rừng trồng cây
           wood: Rừng
+          farmland: Trại
+          grass: Cỏ
+          meadow: Đồng cỏ
+          sand: Cát
           golf: Sân golf
           park: Công viên
           common: Đất công
@@ -2018,27 +2133,35 @@ vi:
           commercial: Khu vực thương mại
           heathland: Vùng cây bụi
           lake: Hồ
-          reservoir: hồ chứa nước
+          reservoir: Hồ chứa nước
+          glacier: Sông băng
+          reef: Rạn san hô
+          wetland: Đầm lầy
           farm: Ruộng
           brownfield: Cánh đồng nâu
           cemetery: Nghĩa địa
           allotments: Khu vườn gia đình
           pitch: Sân cỏ
           centre: Trung tâm thể thao
+          beach: Bãi biển
           reserve: Khu bảo tồn thiên niên
           military: Khu vực quân sự
           school: Trường học
-          university: đại học
+          university: Đại học
+          hospital: Bệnh viện
           building: Kiến trúc quan trọng
           station: Nhà ga
           summit: Đỉnh núi
-          peak: đồi
+          peak: Đỉnh
           tunnel: Đường đứt nét = đường hầm
           bridge: Đường rắn = cầu
           private: Đường riêng
           destination: Chỉ giao thông địa phương
           construction: Đường đang xây
+          bus_stop: Điểm dừng xe buýt
+          stop: Điểm dừng lại
           bicycle_shop: Tiệm xe đạp
+          bicycle_rental: Cho thuê xe đạp
           bicycle_parking: Chỗ đậu xe đạp
           toilets: Vệ sinh
     welcome:
@@ -2049,14 +2172,31 @@ vi:
         góp.
       whats_on_the_map:
         title: Mục đích của Bản đồ
+        on_the_map_html: OpenStreetMap là bản đồ chứa bất cứ những gì %{real_and_current}
+          – nó chứa biết bao tòa nhà, con đường, cửa hàng, cơ sở hạ tầng, cây cối…
+          đủ mọi thứ. Mời bạn bổ sung bất cứ những gì thu hút sự quan tâm của bạn.
+        real_and_current: hiện tại có thật
+        off_the_map_html: Nó %{doesnt} chứa các ý kiến như bài đánh giá, những gì
+          không hoặc không còn tồn tại, hoặc thông tin từ các nguồn giữ bản quyền.
+          Bạn phải xin phép của nhà giữ bản quyền mới được sao chép từ bản đồ giấy
+          hay bản đồ trực tuyến khác.
+        doesnt: không
       basic_terms:
         title: Thuật ngữ Cơ bản
         paragraph_1: 'Đây là những thuật ngữ thường gặp khi sử dụng và đóng góp vào
           OpenStreetMap:'
-        editor: trình vẽ
-        node: nốt
-        way: lối
-        tag: thẻ
+        an_editor_html: '%{editor} là một ứng dụng hoặc trang Web cho phép sửa đổi
+          bản đồ.'
+        a_node_html: '%{node} là một địa điểm trên bản đồ, thí dụ một nhà hàng hoặc
+          một cái cây.'
+        a_way_html: '%{way} là một đường kẻ hoặc vùng, thí dụ con đường, dòng nước,
+          hồ nước, hoặc tòa nhà.'
+        a_tag_html: '%{tag} là một chi tiết về một nốt hoặc lối, thí dụ tên của một
+          nhà hàng hoặc tốc độ tối đa của một con đường.'
+        editor: Trình vẽ
+        node: Nốt
+        way: Lối
+        tag: Thẻ
       rules:
         title: Quy định!
       start_mapping: Bắt đầu Đóng góp
@@ -2064,6 +2204,9 @@ vi:
         title: Không có Thì giờ Sửa đổi? Thêm một Ghi chú!
         para_1: Nếu bạn chỉ muốn sửa một chi tiết nhỏ và không có thì giờ tập sửa
           đổi, bạn có thể thêm một ghi chú dễ dàng.
+        para_2_html: 'Chỉ việc %{map_link} và bấm hình ghi chú: %{note_icon}. Đinh
+          ghim sẽ được thả trên bản đồ. Kéo ghim vào đúng vị trí, ghi lời miêu tả
+          vấn đề, và bấm “Thêm Ghi chú”. Cộng đồng sẽ cố gắng sửa theo ý của bạn.'
         the_map: bản đồ
     communities:
       title: Cộng đồng
@@ -2081,7 +2224,11 @@ vi:
           địa phương:'
       other_groups:
         title: Các Nhóm Khác
-        communities_wiki: trang wiki về cộng đồng
+        other_groups_html: Một nhóm cộng đồng không nhất thiết phải được công nhận
+          là chi nhánh địa phương để ủng hộ dự án OpenStreetMap. Thực ra nhiều nhóm
+          rất thành công tuy chỉ là cuộc họp mặt thoải mái. Ai có thể tổ chức một
+          nhóm cộng đồng bình thường như thế. Để biết thêm chi tiết, xem %{communities_wiki_link}.
+        communities_wiki: trang wiki về nhóm người dùng
   traces:
     visibility:
       private: Bí mật (chỉ hiển thị các điểm vô danh không có thứ tự)
@@ -2230,6 +2377,7 @@ vi:
     permissions:
       missing: Bạn chưa cấp phép cho ứng dụng sử dụng chức năng này
     scopes:
+      openid: Đăng nhập qua OpenStreetMap
       read_prefs: Đọc tùy chọn người dùng
       write_prefs: Thay đổi tùy chọn người dùng
       write_diary: Tạo mục nhật ký, bình luận, và kết bạn
@@ -2339,6 +2487,11 @@ vi:
       support: hỗ trợ
       about:
         header: Tự do sử dụng và sửa đổi
+        paragraph_1: Không giống như với các bản đồ kia, OpenStreetMap được xây dựng
+          hoàn toàn nhờ những người như bạn, và mọi người có thể tự do sửa chữa, cập
+          nhật, tải về, và sử dụng miễn phí.
+        paragraph_2: Hãy mở tài khoản để bắt đầu đóng góp. Chúng tôi sẽ gửi thư điện
+          tử cho bạn để xác nhận tài khoản của bạn.
       display name description: Tên người dùng của bạn được hiển thị công khai. Bạn
         có thể thay đổi tên này về sau trong tùy chọn.
       external auth: 'Xác minh qua Dịch vụ Bên thứ ba:'
@@ -2347,6 +2500,11 @@ vi:
         khẩu, nhưng một số công cụ hoặc máy chủ khác có thể vẫn yêu cầu mật khẩu.
       continue: Mở tài khoản
       terms accepted: Cám ơn bạn đã chấp nhận các điều khoản đóng góp mới!
+      email_confirmation_help_html: Địa chỉ thư điện tử không được hiển thị công khai,
+        xem thêm thông tin trong %{privacy_policy_link} của chúng tôi.
+      privacy_policy: quy định về quyền riêng tư
+      privacy_policy_title: Quy định về quyền riêng tư của OSMF, bao gồm phần về địa
+        chỉ thư điện tử
     terms:
       title: Điều khoản
       heading: Điều khoản
@@ -2364,6 +2522,9 @@ vi:
         thuộc về phạm vi công cộng
       consider_pd_why: đây là gì?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=vi
+      guidance_info_html: 'Thông tin giúp hiểu các thuật ngữ này: a %{readable_summary_link}
+        và một số %{informal_translations_link}'
+      readable_summary: bản tóm tắt dễ đọc
       informal_translations: bản dịch không chính thức
       continue: Tiếp tục
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
@@ -2408,6 +2569,7 @@ vi:
       remove as friend: Hủy Kết Bạn
       add as friend: Kết Bạn
       mapper since: 'Tham gia:'
+      uid: 'Số người dùng:'
       ct status: 'Điều khoản đóng góp:'
       ct undecided: Chưa quyết định
       ct declined: Từ chối
@@ -2593,7 +2755,9 @@ vi:
     index:
       title: Các ghi chú do %{user} lưu hoặc bình luận
       heading: Ghi chú của %{user}
-      subheading_html: Các ghi chú do %{user} lưu hoặc bình luận
+      subheading_html: Các ghi chú do %{user} %{submitted} hoặc %{commented}
+      subheading_submitted: lưu
+      subheading_commented: bình luận
       no_notes: Không có ghi chú
       id: Mã số
       creator: Người tạo
@@ -2606,6 +2770,15 @@ vi:
       open_title: 'Ghi chú chưa giải quyết #%{note_name}'
       closed_title: 'Ghi chú đã giải quyết #%{note_name}'
       hidden_title: 'Ghi chú ẩn #%{note_name}'
+      event_opened_by_html: Được %{user} tạo %{time_ago}
+      event_opened_by_anonymous_html: Được người vô danh tạo %{time_ago}
+      event_commented_by_html: Nhận xét của %{user} từ %{time_ago}
+      event_commented_by_anonymous_html: Nhận xét của người vô danh %{time_ago}
+      event_closed_by_html: Được %{user} giải quyết %{time_ago}
+      event_closed_by_anonymous_html: Được người vô danh giải quyết %{time_ago}
+      event_reopened_by_html: Được %{user} mở lại %{time_ago}
+      event_reopened_by_anonymous_html: Được người vô danh mở lại %{time_ago}
+      event_hidden_by_html: Được %{user} ẩn %{time_ago}
       report: báo cáo ghi chú này
       anonymous_warning: Ghi chú này có bình luận của người dùng vô danh đóng góp;
         các bình luận này cần được xác nhận lại.
@@ -2614,6 +2787,7 @@ vi:
       reactivate: Mở lại
       comment_and_resolve: Bình luận & Giải quyết
       comment: Bình luận
+      log_in_to_comment: Đăng nhập để nhận xét về ghi chú này
       report_link_html: Nếu ghi chú này chứa thông tin nhạy cảm có thể cần xóa, bạn
         có thể %{link}.
       other_problems_resolve: Còn nếu ghi chú có vấn đề khác, xin vui lòng giải quyết
@@ -2672,6 +2846,7 @@ vi:
         standard: Chuẩn
         cycle_map: Bản đồ Xe đạp
         transport_map: Bản đồ Giao thông
+        tracestracktop_topo: Tracestrack Địa hình
         hot: Nhân đạo Chủ nghĩa
       layers:
         header: Lớp Bản đồ
@@ -2680,6 +2855,18 @@ vi:
         gps: Tuyến đường GPS Công khai
         overlays: Bật lớp phủ để gỡ lỗi trên bản đồ
         title: Lớp
+      openstreetmap_contributors: Người đóng góp vào OpenStreetMap
+      make_a_donation: Quyên góp
+      website_and_api_terms: Điều khoản trang và API
+      cyclosm_credit: Kiểu mảnh bản đồ do %{cyclosm_link} cung cấp và %{osm_france_link}
+        lưu trữ
+      osm_france: OpenStreetMap Pháp
+      thunderforest_credit: Mảnh bản đồ do %{thunderforest_link} cung cấp
+      andy_allan: Andy Allan
+      tracestrack_credit: Mảnh bản đồ do %{tracestrack_link} cung cấp
+      hotosm_credit: Kiểu mảnh bản đồ do %{hotosm_link} cung cấp và %{osm_france_link}
+        lưu trữ
+      hotosm_name: Tổ chức Nhân đạo OpenStreetMap
     site:
       edit_tooltip: Sửa đổi bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
@@ -2689,6 +2876,7 @@ vi:
       map_data_zoom_in_tooltip: Phóng to để xem dữ liệu bản đồ
       queryfeature_tooltip: Thăm dò yếu tố
       queryfeature_disabled_tooltip: Phóng to để thăm dò yếu tố
+      embed_html_disabled: Chức năng nhúng HTML không có sẵn đối với lớp bản đồ này
     changesets:
       show:
         comment: Bình luận

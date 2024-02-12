@@ -105,6 +105,8 @@ pl:
       messages:
         invalid_email_address: nie wygląda na poprawny adres e-mail
         email_address_not_routable: nie jest routowalny
+        display_name_is_user_n: nie może mieć wartości user_n, chyba że n jest Twoim
+          identyfikatorem użytkownika
       models:
         user_mute:
           is_already_muted: jest już wyciszony
@@ -357,6 +359,8 @@ pl:
         retain_changeset_discussions: Twoje ewentualne komentarze pod zestawami zmian
           zostaną zachowane.
         retain_email: Twój adres e-mail zostanie zachowany.
+        recent_editing_html: Ponieważ niedawno edytowałeś, Twoje konto nie może zostać
+          obecnie usunięte. Usunięcie będzie możliwe za %{time}.
         confirm_delete: Na pewno?
         cancel: Anuluj
   accounts:
@@ -679,6 +683,10 @@ pl:
       newer_comments: Nowsze komentarze
       older_comments: Starsze komentarze
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Serwer autoryzacji wymaga wybrania konta użytkownika
+          końcowego
     flash:
       applications:
         create:
@@ -1841,6 +1849,7 @@ pl:
       to: Do
       subject: Temat
       date: Data
+      actions: Operacje
     message_summary:
       unread_button: Oznacz jako nieprzeczytaną
       read_button: Oznacz jako przeczytaną
@@ -1860,6 +1869,7 @@ pl:
       body: Niestety nie ma wiadomości o tym identyfikatorze.
     outbox:
       title: Wiadomości wysłane
+      actions: Operacje
       messages:
         one: '%{count} wysłana wiadomość'
         few: '%{count} wysłane wiadomości'
@@ -2032,6 +2042,7 @@ pl:
       community_driven_community_blogs: blogi społecznościowe
       community_driven_osm_foundation: Fundacja OSM
       open_data_title: Otwarte dane
+      open_data_open_data: otwarte dane
       open_data_copyright_license: Strona dotycząca praw autorskich i licencji
       legal_title: Pytania prawne
       legal_1_1_openstreetmap_foundation: Fundacja OpenStreetMap
@@ -2141,6 +2152,7 @@ pl:
         contributors_nz_linz_data_service: LINZ Data Service
         contributors_nz_cc_by: CC BY 4.0
         contributors_rs_serbia: Serbia
+        contributors_rs_open_data_portal: Krajowy Portal Otwartych Danych
         contributors_si_credit_html: '%{slovenia}: Zawiera dane %{gu_link} oraz %{mkgp_link}
           (informacja publiczna Słowenii).'
         contributors_si_slovenia: Słowenia
@@ -2257,8 +2269,9 @@ pl:
         title: Podręcznik dla początkujących
         description: Podręcznik dla początkujących tworzony przez społeczność.
       community:
-        title: Forum (nowe)
-        description: Wspólne miejsce do rozmów na temat OpenStreetMap.
+        title: Pomoc i forum społeczności
+        description: Wspólne miejsce, w którym można szukać pomocy i prowadzić rozmowy
+          na temat OpenStreetMap.
       mailing_lists:
         title: Listy dyskusyjne
         description: Zadaj pytanie lub przedyskutuj interesujący temat niezależnie
@@ -2281,6 +2294,8 @@ pl:
     potlatch:
       removed: Twój domyślny edytor OpenStreetMap to Potlatch. Ponieważ Adobe Flash
         Player został wycofany, Potlatch nie jest już dostępny w przeglądarce.
+      desktop_application_html: Nadal możesz używać Potlatch przez %{download_link}.
+      download: pobranie aplikacji komputerowej dla komputerów Mac i Windows
       change_preferences: Zmień swoje preferencje tutaj
     any_questions:
       title: Czy masz jakieś pytania?
@@ -2307,12 +2322,14 @@ pl:
           primary: Droga pierwszorzędna
           secondary: Droga drugorzędna
           unclassified: Droga czwartorzędna
+          pedestrian: Droga dla pieszych
           track: Droga polna lub leśna
           bridleway: Droga dla koni
           cycleway: Droga rowerowa
           cycleway_national: Droga rowerowa znaczenia państwowego
           cycleway_regional: Droga rowerowa znaczenia regionalnego
           cycleway_local: Droga rowerowa znaczenia lokalnego
+          cycleway_mtb: Górska trasa rowerowa
           footway: Droga dla pieszych
           rail: Tor kolejowy
           train: Kolej
@@ -2323,38 +2340,52 @@ pl:
           trolleybus: Trolejbus
           bus: Autobus
           cable_car: Kolej linowa
-          chair_lift: wyciąg krzesełkowy
+          chair_lift: Wyciąg krzesełkowy
           runway: Pas startowy
-          taxiway: kołowania
+          taxiway: Droga kołowania
           apron: Płyta lotniska
           admin: Granica
+          capital: Stolica
+          city: Miasto
+          orchard: Sad
+          vineyard: Winnica
           forest: Las
-          wood: Drzewa
+          wood: Drewno
+          farmland: Grunty rolne
+          grass: Trawnik
+          meadow: Łąka
+          sand: Piaski
           golf: Pole golfowe
           park: Park
           common: Pole
+          built_up: Obszar zabudowany
           resident: Teren mieszkalny
           retail: Zabudowa handlowo-usługowa
           industrial: Teren przemysłowy
           commercial: Teren komercyjny
           heathland: Wrzosowisko
+          scrubland: Zarośla
           lake: Jezioro
-          reservoir: zbiornik
+          reservoir: Zbiornik
           glacier: Lodowiec
+          reef: Rafa
+          wetland: Mokradła
           farm: Gospodarstwo rolne
           brownfield: Teren powyburzeniowy
           cemetery: Cmentarz
           allotments: Ogródki działkowe
           pitch: Boisko sportowe
           centre: Centrum sportowe
+          beach: Plaża
           reserve: Rezerwat przyrody
           military: Teren wojskowy
           school: Szkoła
-          university: uniwersytet
+          university: Uniwersytet
+          hospital: Szpital
           building: Ważny budynek
           station: Stacja kolejowa
           summit: Góra
-          peak: szczyt
+          peak: Szczyt
           tunnel: Kreskowany obrys – tunel
           bridge: Czarny obrys – most
           private: Dostęp za zezwoleniem
@@ -2363,6 +2394,7 @@ pl:
           bus_stop: Przystanek autobusowy
           stop: Stop
           bicycle_shop: Sklep rowerowy
+          bicycle_rental: Wypożyczalnia rowerów
           bicycle_parking: Parking dla rowerów
           toilets: Toalety
     welcome:
@@ -2392,6 +2424,7 @@ pl:
         imports: Import
         automated_edits: Zautomatyzowane edycje
       start_mapping: Rozpocznij mapowanie
+      continue_authorization: Kontynuuj autoryzację
       add_a_note:
         title: Nie masz czasu na edycję? Dodaj uwagę!
         para_1: Jeśli chcesz wprowadzić małą zmianę, ale nie masz czasu na rejestrację
@@ -2585,11 +2618,13 @@ pl:
       read_gpx: Odczytywanie ich prywatnych śladów GPS
       write_gpx: Przesyłanie śladów GPS
       write_notes: Modyfikowanie uwag
+      write_redactions: Redagowanie danych mapy
       read_email: Odczytywanie adresu e-mail użytkownika
       skip_authorization: Automatycznie akceptuj aplikację
   oauth_clients:
     new:
       title: Rejestrowanie nowej aplikacji
+      disabled: Rejestracja aplikacji OAuth 1 została wyłączona
     edit:
       title: Edycja aplikacji
     show:
@@ -2673,6 +2708,7 @@ pl:
       title: Moje upoważnione aplikacje
       application: Nazwa aplikacji
       permissions: Uprawnienia
+      last_authorized: Ostatnia autoryzacja
       no_applications_html: Nie upoważniłeś jeszcze żadnych aplikacji %{oauth2}.
     application:
       revoke: Odwołaj!
@@ -2961,11 +2997,19 @@ pl:
       showing_page: Strona %{page}
       next: Następna »
       previous: « Poprzednia
+  user_mutes:
+    index:
+      table:
+        tbody:
+          unmute: Wyłącz wyciszenie
+          send_message: Wyślij wiadomość
+    create:
+      notice: Wyciszyłeś %{name}.
   notes:
     index:
       title: Uwagi utworzone lub skomentowane przez %{user}
       heading: Uwagi użytkownika %{user}
-      subheading_html: Uwagi utworzone lub skomentowane przez %{user}
+      subheading_html: Uwagi %{submitted} lub %{commented} przez %{user}
       subheading_commented: skomentował
       no_notes: Brak uwag
       id: Identyfikator
