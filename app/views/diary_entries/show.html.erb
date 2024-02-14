@@ -12,11 +12,23 @@
 
 <%= render @entry %>
 
-<div id="comments" class="comments">
-<%= render :partial => "diary_comment", :collection => @comments %>
-</div>
+<div id="comments" class="comments mb-3">
+  <div class="row border-bottom border-grey">
+    <h2 class="col"><%= t(".discussion") %></h2>
 
-<hr>
+    <% if current_user %>
+      <div class="col-auto">
+        <% if @entry.subscribers.exists?(current_user.id) %>
+          <%= link_to t("javascripts.changesets.show.unsubscribe"), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-sm btn-primary" %>
+        <% else %>
+          <%= link_to t("javascripts.changesets.show.subscribe"), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-sm btn-primary" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render :partial => "diary_comment", :collection => @comments %>
+</div>
 
 <div>
   <% if current_user %>
@@ -25,11 +37,6 @@
     <%= bootstrap_form_for @entry.comments.new, :url => { :action => "comment" } do |f| %>
       <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
       <%= f.primary %>
-      <% if @entry.subscribers.exists?(current_user.id) %>
-        <%= link_to t("javascripts.changesets.show.unsubscribe"), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-light" %>
-      <% else %>
-        <%= link_to t("javascripts.changesets.show.subscribe"), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-light" %>
-      <% end %>
     <% end %>
   <% else %>
     <h3 id="newcomment"><%= t(".login_to_leave_a_comment_html", :login_link => link_to(t(".login"), login_path(:referer => request.fullpath))) %></h3>
