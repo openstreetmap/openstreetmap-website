@@ -243,6 +243,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     create(:changeset_tag, :changeset => changeset)
     create(:changeset_tag, :changeset => changeset, :k => "website", :v => "http://example.com/")
     closed_changeset = create(:changeset, :closed, :num_changes => 1)
+    create(:changeset_tag, :changeset => closed_changeset, :k => "website", :v => "https://osm.org/")
     _empty_changeset = create(:changeset, :num_changes => 0)
 
     get history_feed_path(:format => :atom)
@@ -250,7 +251,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_template "index"
     assert_equal "application/atom+xml", response.media_type
 
-    check_feed_result([changeset, closed_changeset])
+    check_feed_result([closed_changeset, changeset])
   end
 
   ##
@@ -268,7 +269,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_template "index"
     assert_equal "application/atom+xml", response.media_type
 
-    check_feed_result([changeset, closed_changeset])
+    check_feed_result([closed_changeset, changeset])
   end
 
   ##
@@ -286,7 +287,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_template "index"
     assert_equal "application/atom+xml", response.media_type
 
-    check_feed_result(changesets)
+    check_feed_result(changesets.reverse)
   end
 
   ##
@@ -325,15 +326,18 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "feed", :count => [changesets.size, 1].min do
       assert_select "> title", :count => 1, :text => /^Changesets/
-      assert_select "> entry", :count => changesets.size
-
-      changesets.each do |changeset|
-        assert_select "> entry > id", changeset_url(:id => changeset.id)
-
-        assert_select "> entry > content > xhtml|div > xhtml|table" do
-          assert_select "> xhtml|tr > xhtml|td > xhtml|table" do
-            changeset.tags.each_key do |key|
-              assert_select "> xhtml|tr > xhtml|td", :text => /^#{key} = /
+      assert_select "> entry", :count => changesets.size do |entries|
+        entries.zip(changesets) do |entry, changeset|
+          assert_select entry, "> id", :text => changeset_url(:id => changeset.id)
+          assert_select entry, "> content > xhtml|div > xhtml|table" do
+            if changeset.tags.empty?
+              assert_select "> xhtml|tr > xhtml|td > xhtml|table", :count => 0
+            else
+              assert_select "> xhtml|tr > xhtml|td > xhtml|table", :count => 1 do
+                changeset.tags.each_key do |key|
+                  assert_select "> xhtml|tr > xhtml|td", :text => /^#{key} = /
+                end
+              end
             end
           end
         end
