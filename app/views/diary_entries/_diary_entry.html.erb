@@ -1,26 +1,5 @@
 <article class='diary_post border-top border-grey py-3<%= " text-muted px-3 bg-danger bg-opacity-10" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
-  <div class='mb-3'>
-    <% if @user %>
-      <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
-    <% else %>
-      <div class="row">
-        <div class="col-auto">
-          <%= user_thumbnail diary_entry.user %>
-        </div>
-        <div class="col">
-          <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
-        </div>
-      </div>
-    <% end %>
-
-    <small class='text-muted'>
-      <%= t(".posted_by_html", :link_user => (link_to diary_entry.user.display_name, user_path(diary_entry.user)), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to diary_entry.language.name, :controller => "diary_entries", :action => "index", :display_name => nil, :language => diary_entry.language_code)) %>
-      <% if (l(diary_entry.updated_at, :format => :blog) != l(diary_entry.created_at, :format => :blog)) %>
-        <%= t(".updated_at_html", :updated => l(diary_entry.updated_at, :format => :blog)) %>
-      <% end %>
-    </small>
-
-  </div>
+  <%= render :partial => "diary_entry_heading", :object => diary_entry, :as => "diary_entry" %>
 
   <div class="richtext text-break" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
     <%= diary_entry.body.to_html %>

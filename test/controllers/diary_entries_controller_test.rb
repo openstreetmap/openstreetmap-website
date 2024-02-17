@@ -99,8 +99,16 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       { :controller => "diary_entries", :action => "unhidecomment", :display_name => "username", :id => "1", :comment => "2" }
     )
     assert_routing(
+      { :path => "/user/username/diary/1/subscribe", :method => :get },
+      { :controller => "diary_entries", :action => "subscribe", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
       { :path => "/user/username/diary/1/subscribe", :method => :post },
       { :controller => "diary_entries", :action => "subscribe", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/unsubscribe", :method => :get },
+      { :controller => "diary_entries", :action => "unsubscribe", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/unsubscribe", :method => :post },
@@ -916,6 +924,25 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  def test_subscribe_page
+    user = create(:user)
+    other_user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+    path = diary_entry_subscribe_path(:id => diary_entry, :display_name => user.display_name)
+
+    get path
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => path)
+
+    session_for(other_user)
+    get path
+    assert_response :success
+    assert_dom ".content-body" do
+      assert_dom "a[href='#{diary_entry_path(:id => diary_entry, :display_name => user.display_name)}']", :text => diary_entry.title
+      assert_dom "a[href='#{user_path(user)}']", :text => user.display_name
+    end
+  end
+
   def test_subscribe_success
     user = create(:user)
     other_user = create(:user)
@@ -950,6 +977,25 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     post diary_entry_subscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
     assert_no_difference "diary_entry.subscribers.count" do
       post diary_entry_subscribe_path(:id => diary_entry, :display_name => diary_entry.user.display_name)
+    end
+  end
+
+  def test_unsubscribe_page
+    user = create(:user)
+    other_user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+    path = diary_entry_unsubscribe_path(:id => diary_entry, :display_name => user.display_name)
+
+    get path
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => path)
+
+    session_for(other_user)
+    get path
+    assert_response :success
+    assert_dom ".content-body" do
+      assert_dom "a[href='#{diary_entry_path(:id => diary_entry, :display_name => user.display_name)}']", :text => diary_entry.title
+      assert_dom "a[href='#{user_path(user)}']", :text => user.display_name
     end
   end
 

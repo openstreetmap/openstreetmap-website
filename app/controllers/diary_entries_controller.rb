@@ -157,21 +157,25 @@ class DiaryEntriesController < ApplicationController
   end
 
   def subscribe
-    diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params[:id])
 
-    diary_entry.subscriptions.create(:user => current_user) unless diary_entry.subscribers.exists?(current_user.id)
+    if request.post?
+      @diary_entry.subscriptions.create(:user => current_user) unless @diary_entry.subscribers.exists?(current_user.id)
 
-    redirect_to diary_entry_path(diary_entry.user, diary_entry)
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
+    end
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
 
   def unsubscribe
-    diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params[:id])
 
-    diary_entry.subscriptions.where(:user => current_user).delete_all if diary_entry.subscribers.exists?(current_user.id)
+    if request.post?
+      @diary_entry.subscriptions.where(:user => current_user).delete_all if @diary_entry.subscribers.exists?(current_user.id)
 
-    redirect_to diary_entry_path(diary_entry.user, diary_entry)
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
+    end
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
