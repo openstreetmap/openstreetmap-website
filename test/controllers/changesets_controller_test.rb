@@ -254,9 +254,11 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     check_feed_result([closed_changeset, changeset])
   end
 
+  ##
+  # This should correctly escape XML special characters in the comment
   def test_feed_with_comment_tag
     changeset = create(:changeset, :num_changes => 1)
-    create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "tested-changeset-comment")
+    create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "tested<changeset>comment")
 
     get history_feed_path(:format => :atom)
     assert_response :success
