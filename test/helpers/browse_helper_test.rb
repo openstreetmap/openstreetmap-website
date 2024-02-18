@@ -58,6 +58,22 @@ class BrowseHelperTest < ActionView::TestCase
     end
   end
 
+  def test_element_strikethrough
+    node = create(:node, :with_history, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    node_v1.redact!(create(:redaction))
+
+    normal_output = element_strikethrough(node_v2) { "test" }
+    assert_equal "test", normal_output
+
+    redacted_output = element_strikethrough(node_v1) { "test" }
+    assert_equal "<s>test</s>", redacted_output
+
+    deleted_output = element_strikethrough(create(:node, :deleted)) { "test" }
+    assert_equal "<s>test</s>", deleted_output
+  end
+
   def test_element_class
     node = create(:node, :with_history, :version => 2)
     node_v1 = node.old_nodes.find_by(:version => 1)
@@ -69,11 +85,11 @@ class BrowseHelperTest < ActionView::TestCase
     add_old_tags_selection(node_v1)
 
     assert_equal "node", element_class("node", create(:node))
-    assert_equal "node deleted", element_class("node", create(:node, :deleted))
+    assert_equal "node", element_class("node", create(:node, :deleted))
 
     assert_equal "node building yes shop gift tourism museum", element_class("node", node)
     assert_equal "node building yes shop gift tourism museum", element_class("node", node_v2)
-    assert_equal "node deleted", element_class("node", node_v1)
+    assert_equal "node", element_class("node", node_v1)
   end
 
   def test_link_title

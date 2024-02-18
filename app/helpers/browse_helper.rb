@@ -1,4 +1,12 @@
 module BrowseHelper
+  def element_single_current_link(type, object, url)
+    link_to url, { :class => element_class(type, object), :title => link_title(object), :rel => (link_follow(object) if type == "node") } do
+      element_strikethrough object do
+        printable_name object
+      end
+    end
+  end
+
   def printable_name(object, version: false)
     id = if object.id.is_a?(Array)
            object.id[0]
@@ -27,16 +35,17 @@ module BrowseHelper
     name
   end
 
+  def element_strikethrough(object, &block)
+    if object.redacted? || !object.visible?
+      tag.s(&block)
+    else
+      yield
+    end
+  end
+
   def element_class(type, object)
     classes = [type]
-
-    if object.redacted?
-      classes << "deleted"
-    else
-      classes += icon_tags(object).flatten.map { |t| h(t) }
-      classes << "deleted" unless object.visible?
-    end
-
+    classes += icon_tags(object).flatten.map { |t| h(t) } unless object.redacted?
     classes.join(" ")
   end
 

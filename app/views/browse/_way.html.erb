@@ -27,10 +27,12 @@
         <ul class="list-unstyled">
           <% way.way_nodes.each do |wn| %>
             <li>
-              <%= link_to printable_name(wn.node), node_path(wn.node), { :class => element_class("node", wn.node), :title => link_title(wn.node), :rel => link_follow(wn.node) } %>
+              <%= element_single_current_link "node", wn.node, node_path(wn.node) %>
               <% related_ways = wn.node.ways.reject { |w| w.id == wn.way_id } %>
               <% if related_ways.size > 0 then %>
-                (<%= t ".also_part_of_html", :count => related_ways.size, :related_ways => to_sentence(related_ways.map { |w| link_to(printable_name(w), way_path(w), { :class => element_class("way", w), :title => link_title(w) }) }) %>)
+                (<%= t ".also_part_of_html",
+                       :count => related_ways.size,
+                       :related_ways => to_sentence(related_ways.map { |w| element_single_current_link "way", w, way_path(w) }) %>)
               <% end %>
             </li>
           <% end %>

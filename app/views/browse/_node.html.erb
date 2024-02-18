@@ -17,7 +17,7 @@
           <summary><%= t "browse.part_of_ways", :count => node.ways.uniq.count %></summary>
           <ul class="list-unstyled">
             <% node.ways.uniq.each do |way| %>
-              <li><%= link_to printable_name(way), way_path(way), { :class => element_class("way", way), :title => link_title(way) } %></li>
+              <li><%= element_single_current_link "way", way, way_path(way) %></li>
             <% end %>
           </ul>
         </details>

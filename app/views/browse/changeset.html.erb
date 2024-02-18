@@ -94,7 +94,9 @@
     <ul class="list-unstyled">
       <% @ways.each do |way| %>
         <li class="<%= element_class("way", way) %>">
-          <%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s }, { :title => link_title(way) } %>
+          <%= element_strikethrough way do %>
+            <%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s }, { :title => link_title(way) } %>
+          <% end %>
         </li>
       <% end %>
     </ul>
@@ -105,7 +107,9 @@
     <ul class="list-unstyled">
       <% @relations.each do |relation| %>
         <li class="<%= element_class("relation", relation) %>">
-          <%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s }, { :title => link_title(relation) } %>
+          <%= element_strikethrough relation do %>
+            <%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s }, { :title => link_title(relation) } %>
+          <% end %>
         </li>
       <% end %>
     </ul>
@@ -116,7 +120,9 @@
     <ul class="list-unstyled">
       <% @nodes.each do |node| %>
         <li class="<%= element_class("node", node) %>">
-          <%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :title => link_title(node), :rel => link_follow(node) } %>
+          <%= element_strikethrough node do %>
+            <%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :title => link_title(node), :rel => link_follow(node) } %>
+          <% end %>
         </li>
       <% end %>
     </ul>
