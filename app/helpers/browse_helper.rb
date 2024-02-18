@@ -7,6 +7,12 @@ module BrowseHelper
     end
   end
 
+  def element_list_item(type, object, &block)
+    tag.li :class => element_class(type, object) do
+      element_strikethrough object, &block
+    end
+  end
+
   def printable_name(object, version: false)
     id = if object.id.is_a?(Array)
            object.id[0]
