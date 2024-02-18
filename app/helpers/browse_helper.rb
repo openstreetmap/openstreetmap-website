@@ -27,7 +27,7 @@ module BrowseHelper
     name
   end
 
-  def link_class(type, object)
+  def element_class(type, object)
     classes = [type]
 
     if object.redacted?
