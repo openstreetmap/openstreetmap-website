@@ -92,7 +92,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "node", element_class("node", node_v1)
   end
 
-  def test_link_title
+  def test_element_title
     node = create(:node, :with_history, :version => 2)
     node_v1 = node.old_nodes.find_by(:version => 1)
     node_v2 = node.old_nodes.find_by(:version => 2)
@@ -102,12 +102,12 @@ class BrowseHelperTest < ActionView::TestCase
     add_old_tags_selection(node_v2)
     add_old_tags_selection(node_v1)
 
-    assert_equal "", link_title(create(:node))
-    assert_equal "", link_title(create(:node, :deleted))
+    assert_equal "", element_title(create(:node))
+    assert_equal "", element_title(create(:node, :deleted))
 
-    assert_equal "building=yes, shop=gift, and tourism=museum", link_title(node)
-    assert_equal "building=yes, shop=gift, and tourism=museum", link_title(node_v2)
-    assert_equal "", link_title(node_v1)
+    assert_equal "building=yes, shop=gift, and tourism=museum", element_title(node)
+    assert_equal "building=yes, shop=gift, and tourism=museum", element_title(node_v2)
+    assert_equal "", element_title(node_v1)
   end
 
   def test_icon_tags

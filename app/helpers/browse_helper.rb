@@ -1,6 +1,6 @@
 module BrowseHelper
   def element_single_current_link(type, object, url)
-    link_to url, { :class => element_class(type, object), :title => link_title(object), :rel => (link_follow(object) if type == "node") } do
+    link_to url, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
       element_strikethrough object do
         printable_name object
       end
@@ -8,7 +8,7 @@ module BrowseHelper
   end
 
   def element_list_item(type, object, &block)
-    tag.li :class => element_class(type, object) do
+    tag.li :class => element_class(type, object), :title => element_title(object) do
       element_strikethrough object, &block
     end
   end
@@ -55,7 +55,7 @@ module BrowseHelper
     classes.join(" ")
   end
 
-  def link_title(object)
+  def element_title(object)
     if object.redacted?
       ""
     else

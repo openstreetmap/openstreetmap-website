@@ -94,7 +94,7 @@
     <ul class="list-unstyled">
       <% @ways.each do |way| %>
         <%= element_list_item "way", way do %>
-          <%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s }, { :title => link_title(way) } %>
+          <%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s } %>
         <% end %>
       <% end %>
     </ul>
@@ -105,7 +105,7 @@
     <ul class="list-unstyled">
       <% @relations.each do |relation| %>
         <%= element_list_item "relation", relation do %>
-          <%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s }, { :title => link_title(relation) } %>
+          <%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s } %>
         <% end %>
       <% end %>
     </ul>
@@ -116,7 +116,7 @@
     <ul class="list-unstyled">
       <% @nodes.each do |node| %>
         <%= element_list_item "node", node do %>
-          <%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :title => link_title(node), :rel => link_follow(node) } %>
+          <%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :rel => link_follow(node) } %>
         <% end %>
       <% end %>
     </ul>
