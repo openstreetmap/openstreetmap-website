@@ -7,6 +7,7 @@
 # Author: Eitvys200
 # Author: Empers
 # Author: Garas
+# Author: Hugo.arg
 # Author: Kris2paz
 # Author: Macofe
 # Author: Mantak111
@@ -119,6 +120,7 @@ lt:
         language: Kalba
       doorkeeper/application:
         name: Vardas
+        redirect_uri: Nukreipimo adresai (URIs)
         confidential: Konfidenciali paraiška?
         scopes: Leidimai
       friend:
@@ -332,6 +334,12 @@ lt:
   browse:
     created: Sukurtas
     closed: Uždarytas
+    created_ago_html: Sukurta %{time_ago}
+    closed_ago_html: Uždaryta %{time_ago}
+    created_ago_by_html: Sukurta %{user} %{time_ago}
+    closed_ago_by_html: Uždaryta %{user} %{time_ago}
+    deleted_ago_by_html: Ištrinta %{user} %{time_ago}
+    edited_ago_by_html: Redaguota %{user} %{time_ago}
     version: Versija
     in_changeset: Pakeitimas
     anonymous: anonimas
@@ -351,6 +359,8 @@ lt:
       relation: Ryšiai (%{count})
       relation_paginated: Ryšiai (%{x}-%{y} iš %{count})
       comment: Komentarai (%{count})
+      hidden_comment_by_html: Paslėptas %{user} %{time_ago} komentaras
+      comment_by_html: '%{user} %{time_ago} komentaras'
       changesetxml: Pakeitimo XML
       osmchangexml: osmChange XML
       feed:
@@ -593,6 +603,25 @@ lt:
       applications:
         create:
           notice: Aplikacija užregistruota.
+  errors:
+    contact:
+      contact_url_title: Įvairių susisiekimo būdų paaiškinimas
+      contact: susisiekti
+      contact_the_community_html: Jei radote neveikiančią nuorodą ar klaidą, prašome
+        %{contact_link} su OpenStreetMap bendruomene. Prašome fiksuoti tikslų užklausos
+        adresą (URL).
+    forbidden:
+      title: Uždrausta
+      description: Jūsų prašomas veiksmas OpenStreetMap serveryje yra leidžiamas tik
+        administratoriams (HTTP 403)
+    internal_server_error:
+      title: Aplikacijos klaida
+      description: OpenStreetMap serveris susidūrė su netikėta sąlyga, kuri neleido
+        įvykdyti užklausos (HTTP 500)
+    not_found:
+      title: Failas nerastas
+      description: OpenStreetMap serveryje nepavyko rasti failo, katalogo ar API veiksmo
+        su nurodytu pavadinimu (HTTP 404)
   friendships:
     make_friend:
       heading: Pridėti „%{user}“ kaip draugą?
@@ -608,6 +637,10 @@ lt:
       success: '%{name} pašalintas iš jūsų draugų sąrašo.'
       not_a_friend: '%{name} nėra jūsų draugas.'
   geocoder:
+    search:
+      title:
+        results_from_html: Rezultatai iš %{results_link}
+        latlon: Vidaus
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -619,6 +652,7 @@ lt:
           station: Lyno stotis
         aeroway:
           aerodrome: Aerodromas
+          airstrip: Pakilimo takas
           apron: Oro uosto aikštelė
           gate: Vartai
           hangar: Angaras
@@ -725,7 +759,9 @@ lt:
           village_hall: Nedidelio miestelio valdžios būstinė
           waste_basket: Atliekų krepšelis
           waste_disposal: Atliekų šalinimas
+          waste_dump_site: Atliekų sąvartynas
           water_point: Vandens Punktas
+          weighbridge: Svarstyklės
           "yes": Patogumas
         boundary:
           aboriginal_lands: Aborigenų žemės
@@ -737,6 +773,7 @@ lt:
           "yes": Riba
         bridge:
           aqueduct: Akvedukas
+          boardwalk: Promenada
           suspension: Kabantis tiltas
           swing: Siūbuojantis tiltas
           viaduct: Viadukas
@@ -774,6 +811,8 @@ lt:
           roof: Stogas
           ruins: Sugriuvęs pastatas
           school: Mokyklos pastatas
+          service: Pagalbinis statinys
+          shed: Pašiūrė
           stable: Arklidė
           static_caravan: Karavanas
           temple: Šventyklos pastatas
@@ -981,6 +1020,7 @@ lt:
           crane: Kranas
           cross: Kryžius
           flagpole: Vėliavos stiebas
+          kiln: Krosnis
           lighthouse: Švyturys
           manhole: Šulinys
           mast: Stiebas
@@ -1150,6 +1190,7 @@ lt:
           bakery: Kepykla
           bathroom_furnishing: Vonios kambario baldų parduotuvė
           beauty: Grožio salonas
+          bed: Patalynės gaminiai
           beverages: Gėrimų parduotuvė
           bicycle: Dviračių parduotuvė
           bookmaker: Žymė
@@ -2043,43 +2084,33 @@ lt:
         url: /welcome
         title: Sveiki atvykę į OpenHistoricalMap
         description: Pradėkite šiuo greitu vadovu apie OpenHistoricalMap pagrindus.
-      beginners_guide:
-        url: http://wiki.openstreetmap.org/wiki/Lt:Beginners%27_guide
-        title: Pradedančiojo vadovas
-        description: Bendruomenės palaikomas vadovas pradedantiesiems.
-      help:
-        url: https://help.openstreetmap.org/
-        title: Pagalbos forumas
-        description: Užduokite klausimą arba ieškokite atsakymų OpenHistoricalMap
-          klausimų-ir-atsakymų svetainėje.
-      mailing_lists:
-        title: El. pašto grupės
-        description: Užduokite klausimą ar diskutuokite apie įdomius dalykus daugelyje
-          teminių ar regioninių el. pašto grupių.
-      forums:
-        title: Forumai
-        description: Klausimai ir diskusijos tiems, kas teikia pirmenybę el. skelbimų
-          lentos stiliaus sąsajai.
-      irc:
-        title: IRC
-        description: Interaktyvūs pokalbiai daugeliu kalbų, daugeliu temų.
-      switch2osm:
+      discord:
         title: switch2osm
-        description: Pagalba kompanijoms ir organizacijoms pereinant į OpenHistoricalMap
-          paremtus žemėlapius ir kitas paslaugas.
-      welcomemat:
-        title: Organizacijoms
-        description: Dirbate organizacijoje rengiančioje planus, skirtus OpenStreetMap?
-          Reikalingą informaciją rasite „Welcome Mat“.
+        description: 'Prisijunkite prie OpenStreetMap World Discord serverio ir gaukite
+          pagalbą #openhistoricalmap kanale.'
+      forum:
+        title: Forumas
+        description: Dalyvaukite ilgesnėse diskusijose ir neoficialiuose pokalbių
+          kambariuose naudodami savo OHM paskyrą.
+      mailing_list:
+        title: Naujienlaiškis
+        description: Prenumeruokite mūsų nedidelės apimties naujienlaiškį.
+      slack:
+        title: IRC
+        description: 'Pakvieskite save į OpenStreetMap US Slack darbo sritį ir prisijunkite
+          prie #openhistoricalmap kanalo.'
       wiki:
-        url: https://wiki.openstreetmap.org/
-        title: OpenStreetMap Wiki
-        description: Daugiau detalios informacijos apie OpenHistoricalMap rasite wiki.
+        url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap
+        title: Viki
+        description: Bendruomenės palaikomos OHM naudojimo instrukcijos ir gairės,
+          kaip prisidėti prie projekto.
     any_questions:
       title: Turite klausimų?
       paragraph_1_html: |-
         Yra kelios vietos, kur galima rasti informacijos apie OpenHistoricalMap, užduoti klausimus, diskutuoti ir dokumentuoti žymėjimo klausimus.
         <a href='%{help_url}'>Pagalbą rasite čia</a>. Organizacija turi planų su OpenHistoricalMap? <a href='https://welcome.openstreetmap.org/'>Perskaitykite įžanginę informaciją</a>.
+      get_help_here: Gaukite pagalbą čia
+      welcome_mat: Žiūrėkite pasveikinimą
     sidebar:
       search_results: Paieškos rezultatai
       close: Uždaryti
@@ -2181,6 +2212,12 @@ lt:
         title: Pagrindiniai žymėjimo terminai
         paragraph_1: OpenHistoricalMap turi savo žodyną. Čia keli pagrindiniai naudojami
           terminai/žodžiai.
+        an_editor_html: '%{editor} yra programa ar svetainėje, skirta redaguoti žemėlapį.'
+        a_node_html: '%{node} yra taškas žemėlapyje, pvz., vienas restoranas ar medis.'
+        a_way_html: '%{way} yra linija ar teritorija, pvz., kelias, upelis, ežeras
+          ar pastatas.'
+        editor: redaktorius
+        node: taškas
       rules:
         title: Taisyklės!
         para_1_html: "OpenHistoricalMap turi nedaug formalių taisyklių, bet mes tikimės,
