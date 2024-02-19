@@ -156,6 +156,15 @@ class BrowseControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.changeset-comments ul li", :count => 4
   end
 
+  def test_read_changeset_element_links
+    changeset = create(:changeset)
+    node = create(:node, :with_history, :changeset => changeset)
+
+    browse_check :changeset_path, changeset.id, "browse/changeset"
+    assert_dom "a[href='#{node_path node}']", :count => 1
+    assert_dom "a[href='#{old_node_path node, 1}']", :count => 1
+  end
+
   ##
   #  Methods to check redaction.
   #

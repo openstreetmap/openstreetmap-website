@@ -94,7 +94,9 @@
     <ul class="list-unstyled">
       <% @ways.each do |way| %>
         <%= element_list_item "way", way do %>
-          <%= link_to printable_name(way, :version => true), { :action => "way", :id => way.way_id.to_s } %>
+          <%= t "printable_name.current_and_old_links_html",
+                :current_link => link_to(printable_element_name(way), way_path(way.way_id)),
+                :old_link => link_to(printable_element_version(way), old_way_path(way.way_id, way.version)) %>
         <% end %>
       <% end %>
     </ul>
@@ -105,7 +107,9 @@
     <ul class="list-unstyled">
       <% @relations.each do |relation| %>
         <%= element_list_item "relation", relation do %>
-          <%= link_to printable_name(relation, :version => true), { :action => "relation", :id => relation.relation_id.to_s } %>
+          <%= t "printable_name.current_and_old_links_html",
+                :current_link => link_to(printable_element_name(relation), relation_path(relation.relation_id)),
+                :old_link => link_to(printable_element_version(relation), old_relation_path(relation.relation_id, relation.version)) %>
         <% end %>
       <% end %>
     </ul>
@@ -116,7 +120,9 @@
     <ul class="list-unstyled">
       <% @nodes.each do |node| %>
         <%= element_list_item "node", node do %>
-          <%= link_to printable_name(node, :version => true), { :action => "node", :id => node.node_id.to_s }, { :rel => link_follow(node) } %>
+          <%= t "printable_name.current_and_old_links_html",
+                :current_link => link_to(printable_element_name(node), node_path(node.node_id), { :rel => link_follow(node) }),
+                :old_link => link_to(printable_element_version(node), old_node_path(node.node_id, node.version), { :rel => link_follow(node) }) %>
         <% end %>
       <% end %>
     </ul>

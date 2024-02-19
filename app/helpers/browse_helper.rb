@@ -2,7 +2,7 @@ module BrowseHelper
   def element_single_current_link(type, object, url)
     link_to url, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
       element_strikethrough object do
-        printable_name object
+        printable_element_name object
       end
     end
   end
@@ -13,14 +13,13 @@ module BrowseHelper
     end
   end
 
-  def printable_name(object, version: false)
+  def printable_element_name(object)
     id = if object.id.is_a?(Array)
            object.id[0]
          else
            object.id
          end
-    name = t "printable_name.with_id", :id => id.to_s
-    name = t "printable_name.with_version", :id => name, :version => object.version.to_s if version
+    name = id.to_s
 
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
@@ -39,6 +38,10 @@ module BrowseHelper
     end
 
     name
+  end
+
+  def printable_element_version(object)
+    t "printable_name.version", :version => object.version
   end
 
   def element_strikethrough(object, &block)
