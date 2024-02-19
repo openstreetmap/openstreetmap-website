@@ -7,6 +7,7 @@
 # Author: Eitvys200
 # Author: Empers
 # Author: Garas
+# Author: Hugo.arg
 # Author: Kris2paz
 # Author: Macofe
 # Author: Mantak111
@@ -63,6 +64,10 @@ lt:
       messages:
         invalid_email_address: nepanašus į tinkamą e-pašto adresą
         email_address_not_routable: nemaršrutizuojamas
+        display_name_is_user_n: negali būti user_n, nebent n yra jūsų naudotojo id
+      models:
+        user_mute:
+          is_already_muted: jau nutildytas
     models:
       acl: Prieigos valdymo sąrašas
       changeset: Pakeitimas
@@ -274,6 +279,8 @@ lt:
         reopened_at_by_html: '%{user} iš naujo suaktyvino %{when}'
       rss:
         title: OpenStreetMap pastabos
+        description_all: Pastabų, apie kurias pranešta, kurios buvo pakomentuotos
+          ar uždarytos, sąrašas
         description_area: sąrašas pastabų, pranešta, pakomentuota arba uždaryta jūsų
           srityje (%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Rss kanalas pastabai %{id}
@@ -308,6 +315,8 @@ lt:
         retain_changeset_discussions: Jūsų pakeitimų diskusijos, jei tokių yra, bus
           išsaugotos.
         retain_email: Jūsų el. pašto adresas bus išsaugotas.
+        recent_editing_html: Kadangi neseniai redagavote, jūsų paskyros šiuo metu
+          ištrinti negalima. Ištrinti bus galima po %{time}.
         confirm_delete: Ar tikrai?
         cancel: Atšaukti
   accounts:
@@ -393,7 +402,6 @@ lt:
       way_paginated: Keliai (%{x}-%{y} iš %{count})
       relation: Ryšiai (%{count})
       relation_paginated: Ryšiai (%{x}-%{y} iš %{count})
-      comment: Komentarai (%{count})
       hidden_comment_by_html: Paslėptas komentaras nuo %{user} %{time_ago}
       comment_by_html: Komentaras nuo %{user} %{time_ago}
       changesetxml: Pakeitimo XML
@@ -486,6 +494,9 @@ lt:
       introduction: Spauskite ant žemėlapio, norėdami rasti gretimus objektus
       nearby: Artimi objektai
       enclosing: Gaubiantys objektai
+  old_relations:
+    not_found:
+      sorry: Atsiprašome, santykio %{id} versijos %{version} nepavyko rasti.
   changesets:
     changeset_paging_nav:
       showing_page: Puslapis %{page}
@@ -634,6 +645,12 @@ lt:
       applications:
         create:
           notice: Aplikacija užregistruota.
+    scopes:
+      address: Žiūrėti savo fizinį adresą
+      email: Žiūrėti savo el. pašto adresą
+      openid: Autentifikuokite savo paskyrą
+      phone: Žiūrėti savo telefono ryšio numerį
+      profile: Žiūrėti savo profilio informaciją
   errors:
     contact:
       contact_url_title: Įvairių susisiekimo būdų paaiškinimas
@@ -686,15 +703,19 @@ lt:
           "yes": Lyninis keltuvas
         aeroway:
           aerodrome: Aerodromas
+          airstrip: Pakilimo takas
           apron: Oro uosto aikštelė
           gate: Oro uosto vartai
           hangar: Angaras
           helipad: Sraigtasparnių aikštelė
           holding_position: Užlaikymo pozicija
+          navigationaid: Aviacijos navigacijos pagalba
           parking_position: Stovėjimo Pozicija
           runway: Pakilimo takas
+          taxilane: Taksi linija
           taxiway: Riedėjimo takas
           terminal: Oro uosto terminalas
+          windsock: Vėjarodis
         amenity:
           animal_boarding: Gyvūnų viešbutis
           animal_shelter: Gyvūnų prieglauda
@@ -773,8 +794,10 @@ lt:
           public_bath: Vieša Pirtis
           public_bookcase: Knygų dalinimosi lentyna
           public_building: Visuomeninis pastatas
+          ranger_station: Reindžerio stotis
           recycling: Perdirbimo punktas
           restaurant: Restoranas
+          sanitary_dump_station: Sanitarinis sąvartynas
           school: Mokykla
           shelter: Pastogė
           shower: Dušas
@@ -787,6 +810,7 @@ lt:
           theatre: Teatras
           toilets: Tualetas
           townhall: Rotušė
+          training: Mokymų įstaiga
           university: Universitetas
           vehicle_inspection: Automobilių Apžiūra
           vending_machine: Vendingas
@@ -794,9 +818,13 @@ lt:
           village_hall: Nedidelio miestelio valdžios būstinė
           waste_basket: Atliekų krepšelis
           waste_disposal: Atliekų šalinimas
+          waste_dump_site: Atliekų sąvartynas
+          watering_place: Laistymo vieta
           water_point: Vandens Punktas
           weighbridge: Svarstyklės
+          "yes": Patogumai
         boundary:
+          aboriginal_lands: Čiabuvių žemės
           administrative: Administracinė riba
           census: Gyventojų surašymo teritorijos riba
           national_park: Nacionalinis parkas
@@ -805,6 +833,7 @@ lt:
           "yes": Riba
         bridge:
           aqueduct: Akvedukas
+          boardwalk: Promenada
           suspension: Kabantis tiltas
           swing: Siūbuojantis tiltas
           viaduct: Viadukas
@@ -813,8 +842,11 @@ lt:
           apartment: Apartamentas
           apartments: Apartamentai
           barn: Tvartas
+          bungalow: Vila
+          cabin: Trobelė
           chapel: Koplyčia
           church: Bažnyčios Pastatas
+          civic: Civilinis statinys
           college: Koledžo Pastatas
           commercial: Komercinės paskirties pastatas
           construction: Statomas pastatas
@@ -822,6 +854,7 @@ lt:
           dormitory: Bendrabutis
           duplex: Dvibutis
           farm: Ūkinis Namas
+          farm_auxiliary: Pagalbinis ūkis
           garage: Garažas
           garages: Garažai
           greenhouse: Šiltnamis
@@ -829,9 +862,11 @@ lt:
           hospital: Ligoninės pastatas
           hotel: Viešbučio Pastatas
           house: Namas
+          houseboat: Plaukiojantis namas
           hut: Trobelė
           industrial: Pramoninis pastatas
           kindergarten: Darželio Pastatas
+          manufacture: Pramoninis statinys
           office: Biurų pastatas
           public: Visuomeninis pastatas
           residential: Gyvenamasis pastatas
@@ -839,15 +874,19 @@ lt:
           roof: Stogas
           ruins: Sugriuvęs pastatas
           school: Mokyklos pastatas
+          semidetached_house: Pusiau atskiras namas
+          service: Pagalbinis statinys
           shed: Pašiūrė
           stable: Arklidė
           static_caravan: Karavanas
+          temple: Šventyklos pastatas
           terrace: Terasos Pastatas
           train_station: Traukinių Stoties Pastatas
           university: Universiteto pastatas
           warehouse: Sandėlis
           "yes": Pastatas
         club:
+          scout: Skautų bazė
           sport: Sporto klubas
           "yes": Klubas
         craft:
@@ -855,28 +894,39 @@ lt:
           blacksmith: Kalvis
           brewery: Alaus darykla
           carpenter: Dailidė
+          caterer: Maisto tiekėjas
           confectionery: Konditerija
+          dressmaker: Siuvėjas
           electrician: Elektrikas
           electronics_repair: Elektronikos taisykla
           gardener: Sodininkas
+          glaziery: Stiklius
           handicraft: Rankdarbiai
+          metal_construction: Metalo gamykla
           painter: Dažytojas
           photographer: Fotografas
           plumber: Santechnikas
           roofer: Stogdengys
           sawmill: Lentpjūvė
           shoemaker: Batsiuvys
+          stonemason: Akmenskaldys
           tailor: Siuvėjas
+          window_construction: Langų gamintojas
           winery: Vyno darykla
           "yes": Amatų parduotuvė
         emergency:
+          access_point: Prieigos taškas
           ambulance_station: Greitosios medicinos pagalbos stotis
           assembly_point: Susirinkimo taškas
           defibrillator: Defibriliatorius
           fire_extinguisher: Gesintuvas
+          fire_water_pond: Priešgaisrinis telkinys
           landing_site: Avarinio nusileidimo aikštelė
           life_ring: Gelbėjimo ratas
           phone: Avarinis telefonas
+          siren: Avarinė sirena
+          suction_point: Avarinis siurbimo taškas
+          water_tank: Priešgaisrinis telkinys
         highway:
           abandoned: Apleistas kelias
           bridleway: Jodinėjimo takas
@@ -917,18 +967,23 @@ lt:
           tertiary: Trečios reikšmės kelias
           tertiary_link: Trečios reikšmės kelias
           track: Vėžės
+          traffic_mirror: Eismo veidrodis
           traffic_signals: Šviesoforas
           trunk: Magistralinis kelias
           trunk_link: Magistralinis kelias
           unclassified: Neklasifikuotas kelias
           "yes": Kelias
         historic:
+          aircraft: Istorinis lėktuvas
           archaeological_site: Archeologinė vieta
+          bomb_crater: Istorinis bombos krateris
           battlefield: Mūšio vieta
           boundary_stone: Pasienio akmuo
           building: Istorinis pastatas
           bunker: Bunkeris
+          cannon: Istorinė patranka
           castle: Pilis
+          charcoal_pile: Istorinė anglių krūva
           church: Bažnyčia
           city_gate: Miesto vartai
           citywalls: Miesto sienos
@@ -938,13 +993,16 @@ lt:
           manor: Dvaras
           memorial: Memorialas
           mine: Kasykla
+          mine_shaft: Kasyklos šachta
           monument: Paminklas
           railway: Istorinis geležinkelis
           roman_road: Romėnų kelias
           ruins: Griuvėsiai
+          rune_stone: Runų akmuo
           stone: Akmuo
           tomb: Kapas
           tower: Bokštas
+          wayside_chapel: Pakelės koplytėlė
           wayside_cross: Pakelės kryžius
           wayside_shrine: Koplytstulpis
           wreck: Nuskendęs laivas
@@ -953,6 +1011,7 @@ lt:
           "yes": Sandūra
         landuse:
           allotments: Sodai/sodininkų bendrijos
+          aquaculture: Akvakultūra
           basin: Baseinas
           brownfield: Apleista teritorija
           cemetery: Kapinės
@@ -971,9 +1030,11 @@ lt:
           military: Karinė zona
           mine: Kasykla
           orchard: vaisių sodas
+          plant_nursery: Daigynas
           quarry: Karjeras
           railway: Geležinkelis
           recreation_ground: Rekreacinė zona
+          religious: Šventvietė
           reservoir: Rezervuaras
           reservoir_watershed: Vandens rezervuaras
           residential: Gyvenamasis rajonas
@@ -982,8 +1043,12 @@ lt:
           vineyard: Vynuogynas
           "yes": Žemėnauda
         leisure:
+          adult_gaming_centre: Suaugusiųjų žaidimų centras
+          bandstand: Estrada
           beach_resort: Pajūrio kurortas
           bird_hide: paukščių stebėjimo vieta
+          bleachers: Tribūnos
+          bowling_alley: Boulingas
           common: Bendra žemė
           dance: Šokių salė
           dog_park: Šunų parkas
@@ -999,6 +1064,7 @@ lt:
           miniature_golf: Mini golfas
           nature_reserve: Gamtos draustinis
           park: Parkas
+          picnic_table: Pikniko stalas
           pitch: Sporto aikštė
           playground: Žaidimų aikštelė
           recreation_ground: Rekreacinis plotas
@@ -1027,25 +1093,32 @@ lt:
           cross: Kryžius
           dyke: Pylimas
           flagpole: Vėliavos stiebas
+          kiln: Krosnis
           lighthouse: Švyturys
+          manhole: Liukas
           mast: Stiebas
           mine: Kasykla
           mineshaft: Kasyklos šachta
           monitoring_station: Stebėjimo Stotis
           petroleum_well: Naftos šulinys
+          pier: Pirsas
           pipeline: Vamzdynas
           pumping_station: Siurblinė
           reservoir_covered: Uždengtas rezervuaras
           silo: Siloso bokštas
           snow_cannon: Sniego patranka
           snow_fence: Sniego tvora
+          storage_tank: Rezervuaras
           surveillance: Stebėjimas
           telescope: Teleskopas
           tower: Bokštas
+          utility_pole: Elektros stulpas
+          wastewater_plant: Vandenvalda
           watermill: Vandens Malūnas
           water_tap: Vandens čiaupas
           water_tower: Vandens Bokštas
           water_well: Šulinys
+          water_works: Vandentiekis
           windmill: Vėjo malūnas
           works: Gamykla
           "yes": Žmogaus sukurta
@@ -1053,11 +1126,14 @@ lt:
           airfield: Karinis aerodromas
           barracks: Kareivinės
           bunker: Bunkeris
+          checkpoint: Patikros punktas
+          trench: Tranšėja
           "yes": Karinis
         mountain_pass:
           "yes": Kalnų perėja
         natural:
           atoll: Atolas
+          bare_rock: Plikos uolos
           bay: Įlanka
           beach: Paplūdimys
           cape: Kyšulys
@@ -1102,6 +1178,7 @@ lt:
           water: Vanduo
           wetland: Pelkė
           wood: Medžiai
+          "yes": Gamtinis objektas
         office:
           accountant: Buhalteris
           administrative: Administracija
@@ -1123,7 +1200,9 @@ lt:
           newspaper: Laikraščio biuras
           ngo: NGO įstaiga
           notary: Notaro biuras
+          religion: Religinė įstaiga
           research: Tyrimų biuras
+          tax_advisor: Mokesčių patarėjas
           telecommunication: Telekomunikacijų tarnyba
           travel_agent: Kelionių agentūra
           "yes": Biuras
@@ -1146,6 +1225,7 @@ lt:
           neighbourhood: Rajonas
           plot: Sklypas
           postcode: Pašto kodas
+          quarter: Mikrorajonas
           region: Regionas
           sea: Jūra
           square: Aikštė
@@ -1183,12 +1263,14 @@ lt:
         shop:
           alcohol: Licencijuotos parduotuvės
           antiques: Antikvariniai daiktai
+          appliance: Buitinės technikos parduotuvė
           art: Meno parduotuvė
           baby_goods: Kūdikių prekių parduotuvė
           bag: Rankinių parduotuvė
           bakery: Kepykla
           bathroom_furnishing: Vonios kambario baldų parduotuvė
           beauty: Grožio salonas
+          bed: Patalynės gaminiai
           beverages: Gėrimų parduotuvė
           bicycle: Dviračių parduotuvė
           bookmaker: Žymė
@@ -1255,6 +1337,7 @@ lt:
           massage: Masažas
           medical_supply: Medicinos reikmenų parduotuvė
           mobile_phone: Mobiliųjų telefonų parduotuvė
+          money_lender: Pinigų skolintojas
           motorcycle: Motociklų parduotuvė
           motorcycle_repair: Motociklų remonto dirbtuvės
           music: Muzikos prekių parduotuvė
@@ -1269,6 +1352,7 @@ lt:
           pawnbroker: Lombardas
           perfumery: Parfumerijos parduotuvė
           pet: Naminių gyvūnėlių parduotuvė
+          pet_grooming: Naminių gyvūnėlių priežiūra
           photo: Foto prekių parduotuvė
           seafood: Jūros gėrybės
           second_hand: Dėvėtų parduotuvė
@@ -1276,6 +1360,7 @@ lt:
           shoes: Batų parduotuvė
           sports: Sporto prekių parduotuvė
           stationery: Raštinės reikmenys
+          storage_rental: Sandėliavimo nuoma
           supermarket: Prekybos centras
           tailor: Siuvėjas
           tattoo: Tatuiruočių salonas
@@ -1285,9 +1370,11 @@ lt:
           toys: Žaislų parduotuvė
           travel_agency: Kelionių agentūra
           tyres: Padangų Parduotuvė
+          vacant: Laisva parduotuvė
           variety_store: Įvairių prekių parduotuvė
           video: Video parduotuvė
           video_games: Vaizdo žaidimų parduotuvė
+          wholesale: Didmeninė parduotuvė
           wine: Vyno Parduotuvė
           "yes": Parduotuvė
         tourism:
@@ -1310,6 +1397,7 @@ lt:
           picnic_site: Poilsiavietė
           theme_park: Nuotykių parkas
           viewpoint: Apžvalgos aikštelė
+          wilderness_hut: Trobelė gamtoje
           zoo: Zoologijos sodas
         tunnel:
           building_passage: Praėjimas pro pastatą
@@ -1336,12 +1424,15 @@ lt:
           "yes": Vandens vektorius
       admin_levels:
         level2: Šalies sienos
+        level3: Regiono riba
         level4: Valstybės sienos
         level5: Regiono ribos
         level6: Apskrities ribos
+        level7: Savivaldybės riba
         level8: Miesto sienos
         level9: Kaimo riba
         level10: Priemiesčio riba
+        level11: Mikrorajono riba
       types:
         cities: Miestai
         towns: Miestai
@@ -1354,6 +1445,7 @@ lt:
       title: Problemos
       select_status: Parinkite būseną
       select_type: Pasirinkite tipą
+      reported_user: Pranešęs naudotojas
       not_updated: Neatnaujinta
       search: Ieškoti
       search_guidance: 'Problemų paieška:'
@@ -1362,6 +1454,7 @@ lt:
       status: Būsena
       reports: Pranešimai
       last_updated: Paskutinis atnaujinimas
+      last_updated_time_ago_user_html: '%{time_ago} %{user}'
       link_to_reports: Žiūrėti pranešimus
       reports_count:
         one: '{%count} pranešimas'
@@ -1673,11 +1766,13 @@ lt:
       to: Kam
       subject: Tema
       date: Data
+      actions: Veiksmai
     message_summary:
       unread_button: Žymėti neskaitytu
       read_button: Žymėti skaitytu
       reply_button: Atsakyti
       destroy_button: Ištrinti
+      unmute_button: Perkelti į gautuosius
     new:
       title: Siųsti žinutę
       send_message_to_html: Siųsti naują žinutę naudotojui %{name}
@@ -1692,12 +1787,15 @@ lt:
       body: Gaila, bet žinutės su tokiu id nėra.
     outbox:
       title: Išsiųstieji
+      actions: Veiksmai
       messages:
         one: Jūs %{count} nusiųstą pranešimą
         other: Jūs %{count} nusiųstus(-ų) pranešimus(-ų)
       no_sent_messages_html: Jūs dar negavote nei vienos žinutės. Kodėl gi nesusisiekus
         su %{people_mapping_nearby_link}?
       people_mapping_nearby: netoliese žyminčiais naudotojais
+    muted:
+      title: Nutildyti pranešimai
     reply:
       wrong_user: Jūs prisijungęs kaip „%{user}“, bet pranešimas, kuriuo jūsų prašyta
         atsakyti, nebuvo nusiųstas tam naudotojui. Prisijunkite prie teisingos naudotojo
@@ -1716,16 +1814,20 @@ lt:
     heading:
       my_inbox: Mano gauti
       my_outbox: Išsiųsti
+      muted_messages: Nutildyti pranešimai
     mark:
       as_read: Pranešimas pažymėtas kaip skaitytas
       as_unread: Pranešimas pažymėtas kaip neskaitytas
+    unmute:
+      notice: Žinutė perkelta į gautuosius
+      error: Žinutės nepavyko perkelti į gautuosius.
     destroy:
       destroyed: Pranešimas ištrintas
   passwords:
     new:
       title: Pamiršau slaptažodį
       heading: Pamiršote slaptažodį?
-      email address: 'E-pašto adresas:'
+      email address: El. pašto adresas
       new password button: Atstatyti slaptažodį
       help_text: Įveskite elektroninio pašto adresą, kurį naudojote užsiregistruodami.
         Mes atsiųsime nuorodą į elektroninį paštą, kurią galėsite naudoti norėdami
@@ -1741,6 +1843,7 @@ lt:
       flash token bad: Ženklas nerastas, galbūt bloga nuoroda?
     update:
       flash changed: Jūsų slaptažodis sėkmingai pakeistas.
+      flash token bad: Prieigos raktas nerastas, galbūt blogai nurodytas URL?
   preferences:
     show:
       title: Mano parinktys
@@ -1785,8 +1888,8 @@ lt:
     new:
       title: Prisijungti
       heading: Prisijungti
-      email or username: 'E-pašto adresas arba naudotojo vardas:'
-      password: 'Slaptažodis:'
+      email or username: 'El. pašto adresas ar naudotojo vardas:'
+      password: Slaptažodis
       remember: Prisiminti prisijungimą
       lost password link: Pamiršote slaptažodį?
       login_button: Prisijungti
@@ -1806,8 +1909,8 @@ lt:
           title: Prisijungti su Facebook
           alt: Prisijungti su Facebook paskyra
         microsoft:
-          title: Prisijungti su Windows Live
-          alt: Prisijungti su Windows Live paskyra
+          title: Prisijungti su Microsoft
+          alt: Prisijungti su Microsoft paskyra
         github:
           title: Prisijungti su GitHub
           alt: Prisijungti su GitHub Paskyra
@@ -1843,12 +1946,14 @@ lt:
       image: Paveikslėlis
       alt: Alternatyvusis tekstas
       url: Interneto adresas (URL)
+      codeblock: Kodo blokas
     richtext_field:
       edit: Redaguoti
       preview: Peržiūrėti
   site:
     about:
       next: Kitas
+      heading_html: '%{copyright}OpenStreetMap %{br} bendradarbiai'
       used_by_html: '%{name} pateikia žemėlapio duomenis tūkstančiams interneto puslapių,
         mobilių aplikacijų ir techninės įrangos įrenginių'
       lede_text: OpenStreetMap kuria bendruomenė žymėtojų, kuriančių ir prižiūrinčių
@@ -1858,6 +1963,8 @@ lt:
         orotofoto nuotraukas, GPS įrenginius ir paprastus lauko žemėlapius, tikrindami,
         kad OSM duomenys yra teisingi ir aktualūs.
       community_driven_title: Bendruomenės vystomas
+      community_driven_osm_blog: OpenStreetMap tinklaraštis
+      community_driven_user_diaries: naudotojų dienoraščiai
       community_driven_community_blogs: bendruomenių tinklaraščiai
       community_driven_osm_foundation: OSM fondas
       open_data_title: Atviri duomenys
@@ -1868,9 +1975,20 @@ lt:
       open_data_open_data: atviri duomenys
       open_data_copyright_license: Autorių teisių ir licencijos puslapis
       legal_title: Teisės
+      legal_1_1_html: |-
+        Ši svetainė ir daugelis susijusių paslaugų formaliai valdomi
+        %{openstreetmap_foundation_link} (OSMF)
+        bendruomenės vardu. Visų OSMF valdovų paslaugų naudojimui taikoma
+        %{terms_of_use_link}, %{aup_link} ir mūsų %{privacy_policy_link}.
       legal_1_1_openstreetmap_foundation: OpenStreetMap fondas
       legal_1_1_terms_of_use: Naudojimo sąlygos
+      legal_1_1_aup: Priimtino naudojimo politika
+      legal_1_1_privacy_policy: Privatumo politika
+      legal_2_1_html: |-
+        Prašome %{contact_the_osmf_link}
+        Jei turite licencijų, autorių teisių ar kitų teisinių klausimų.
       legal_2_1_contact_the_osmf: susisiekti su OSMF
+      legal_2_2_registered_trademarks: OSMF registruotie prekių ženklai
       partners_title: Partneriai
     copyright:
       foreign:
@@ -1887,28 +2005,97 @@ lt:
         mapping_link: pradėti žymėjimą
       legal_babble:
         title_html: Autorinės teisės ir licencija
+        introduction_1_html: |-
+          OpenStreetMap%{registered_trademark_link} yra %{open_data}, licencijuota pagal
+          %{odc_odbl_link} (ODbL) pagal %{osm_foundation_link} (OSMF).
+        introduction_1_open_data: atviri duomenys
+        introduction_1_odc_odbl: Open Data Commons Open Database licencija
+        introduction_1_osm_foundation: OpenStreetMap fondas
+        introduction_3_html: Mūsų dokumentai yra licencijuoti pagal %{creative_commons_link}
+          licenciją (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: Kaip paminėti OpenStreetMap
         credit_1_html: 'Naudodami OpenStreetMap duomenis, privalote atlikti šiuos
           du dalykus:'
+        credit_2_1: Nurodykite priskyrimą naudojant OpenStreetMap autorių teisių pranešimą.
+        credit_2_2: Paaiškinkite, kad duomenys yra prieinami pagal atviros duomenų
+          bazės licenciją.
+        credit_3_attribution_guidelines: Priskyrimo gairės
+        credit_4_1_this_copyright_page: šį autorių teisių puslapį
         attribution_example:
           alt: Pavyzdys kaip galima priskirti paskyrimus OpenStreetMap svetainėje
           title: Priskyrimo pavyzdys
         more_title_html: Papildoma informacija
+        more_1_1_html: Skaitykite daugiau apie mūsų duomenų naudojimą ir kaip mums
+          priskirti autorystę apsilankę %{osmf_licence_page_link}.
+        more_1_1_osmf_licence_page: OSMF licencijos puslapis
+        more_2_1_api_usage_policy: API naudojimo politika
         contributors_title_html: Mūsų autoriai
         contributors_intro_html: Mūsų autoriai yra tūkstančiai įvairių žmonių. Taip
           pat įtrauktas ir laisvai prieinamas turinys iš valstybinių kartografijos
           agentūrų bei įvairių kitų šaltinių.
         contributors_at_austria: Austrija
+        contributors_at_cc_by_at_with_amendments: CC BY AT su pakeitimais
         contributors_au_australia: Australija
+        contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Creative Commons Attribution 4.0 tarptautinė licencija
+          (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: yra duomenų iš
+          GeoBase&reg;, GeoGratis (&copy; Kanados gamtos
+          šaltinių departamentas), CanVec (&copy; Kanados gamtos
+          šaltinių departamentas), ir StatCan (Kanados statistikos
+          Geografijos skyriaus).
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: '%{czechia}: yra duomenų iš Valstybinės žemėtvarkos
+          administracijos ir kadastro, licencijuojama pagal %{cc_licence_link}'
+        contributors_cz_czechia: Čekija
+        contributors_cz_cc_licence: Creative Commons Attribution 4.0 tarptautinė licencija
+          (CC BY 4.0)
+        contributors_fi_credit_html: |-
+          %{finland}: yra duomenų iš
+          Suomijos topografinės duomenų bazės nacionalinės žemės tyrimo tarnybos
+          ir kitų duomenų rinkinių, pagal %{nlsfi_license_link}.
         contributors_fi_finland: Suomija
+        contributors_fi_nlsfi_license: NLSFI licencija
+        contributors_fr_credit_html: |-
+          %{france}: yra duomenų iš
+          Bendrojo mokesčių valdytojo.
         contributors_fr_france: Prancūzija
+        contributors_nl_credit_html: '%{netherlands}: Yra &copy; AND duomenų, 2007
+          (%{and_link})'
         contributors_nl_netherlands: Nyderlandai
+        contributors_nz_credit_html: |-
+          %{new_zealand}: yra duomenų iš %{linz_data_service_link}
+          licencijuojama antriniam panaudojimui pagal %{cc_by_link}.
         contributors_nz_new_zealand: Naujoji Zelandija
+        contributors_nz_linz_data_service: LINZ duomenų tarnyba
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: |-
+          %{serbia}: yra duomenų iš %{rgz_link} ir %{open_data_portal}
+          (vieša Serbijos informacija), 2018.
+        contributors_rs_serbia: Serbija
+        contributors_rs_rgz: Serbijos geodezijos tarnyba
+        contributors_rs_open_data_portal: Nacionalinis atvirų duomenų portalas
+        contributors_si_credit_html: |-
+          %{slovenia}: yra duomenų iš %{gu_link} ir %{mkgp_link}
+          (vieša Slovėnijos informacija).
         contributors_si_slovenia: Slovėnija
+        contributors_si_gu: Matavimo ir žemėlapių tarnyba
+        contributors_si_mkgp: Žemės ūkio, miškų ir maisto ministerija
+        contributors_es_credit_html: |-
+          %{spain}: yra duomenų iš
+          Ispanijos nacionalinio geografijos instituto (%{ign_link}) ir
+          Nacionalinės kartografinės sistemos (%{scne_link})
+          licenzijuojama pakartotiniam naudojimui pagal %{cc_by_link}.
         contributors_es_spain: Ispanija
+        contributors_za_credit_html: '%{south_africa}: yra duomenų iš %{ngi_link},
+          valstybės teisės saugomos.'
         contributors_za_south_africa: Pietų Afrika
+        contributors_za_ngi: 'Vyriausiasis direktoratas: Nacionalinė geografinė erdvinė
+          informacija'
         contributors_gb_united_kingdom: Jungtinė Karalystė
+        contributors_2_contributors_page: Pagalbininkų puslapis
         contributors_footer_2_html: Duomenų įtraukimas į OpenStreetMap nereiškia,
           kad originalių duomenų tiekėjas remia OpenStreetMap. Nenumatomos jokios
           garantijos ir neprisiimama jokia atsakomybė.
@@ -1916,6 +2103,8 @@ lt:
         infringement_1_html: OSM pildytojai primenami niekada nesinaudoti autorių
           teisėmis apsaugotų šaltinių (pvz. Google Maps ar spausdintų žemėlapių) be
           leidimo naudoti.
+        infringement_2_1_takedown_procedure: pašalinimo procedūra
+        infringement_2_1_online_filing_page: pildymo internetu puslapis
     index:
       js_1: Jūs arba naudojate naršyklę, nepalaikančią JavaScript, arba išjungėte
         JavaScript palaikymą.
@@ -2053,37 +2242,61 @@ lt:
           cycleway_national: Nacionalinis dviračių takas
           cycleway_regional: Regioninis dviračių takas
           cycleway_local: Vietinis dviračių takas
+          cycleway_mtb: Kalnų dviračių maršrutas
           footway: Pėsčiųjų takas
           rail: Geležinkelis
+          train: Traukinys
           subway: Metropoliteno linija
+          ferry: Keltas
+          light_rail: Greitasis traukinys
+          tram: Tramvajus
+          trolleybus: Troleibusas
+          bus: Autobusas
           cable_car: Lyno keltuvas
-          chair_lift: keltuvas
+          chair_lift: Keltuvas
           runway: Kilimo takas
           taxiway: Riedėjimo takas
           apron: Oro uosto lėktuvų aikštelė
           admin: Administracinės ribos
+          capital: Sostinė
+          city: Miestas
+          orchard: Vaismedžių plantacija
+          vineyard: Vynuogynas
           forest: Miškas
-          wood: Medžių teritorija
+          wood: Miškas
+          farmland: Pasėliai
+          grass: Žolės
+          meadow: Pieva
+          bare_rock: Plikos uolos
+          sand: Smėlynas
           golf: Golfo laukas
           park: Parkas
           common: Bendras
+          built_up: Užstatyta teritorija
           resident: Gyvenamoji zona
           retail: Mažmeninis rajonas
           industrial: Pramoninė zona
           commercial: Komericinis plotas
           heathland: Šilynas
+          scrubland: Krūmynai
           lake: Ežeras
-          reservoir: rezervuaras
+          reservoir: Tvenkinys
+          intermittent_water: Išdžiūstantis vandentakis
+          glacier: Ledynas
+          reef: Rifas
+          wetland: Šlapynė
           farm: Ūkis
           brownfield: Apleista teritorija
           cemetery: Kapinės
           allotments: Sodai
           pitch: Sportinis laukas
           centre: Sporto centras
+          beach: Paplūdimys
           reserve: Gamtos rezervatas
           military: Karinis rajonas
           school: Mokykla
-          university: universitetas
+          university: Universitetas
+          hospital: Ligoninė
           building: Didelis pastatas
           station: Geležinkelio stotis
           summit: Viršūnė
@@ -2093,8 +2306,12 @@ lt:
           private: Privati prieiga
           destination: Atvykimo susisiekimas
           construction: Statomi keliai
+          bus_stop: Autobusų stotelė
+          stop: Sustojimas
           bicycle_shop: Dviračių parduotuvė
+          bicycle_rental: Dviračių nuoma
           bicycle_parking: Dviračių stovėjimo aikštelė
+          bicycle_parking_small: Maža dviračių stovėjimo aikštelė
           toilets: Tualetai
     welcome:
       title: Sveiki atvykę!
@@ -2757,6 +2974,7 @@ lt:
         overlays: Įjungti papildomus sluoksnius problemų pranešimui
         title: Sluoksniai
       osm_france: OpenStreetMap Prancūzija
+      andy_allan: Endis Alanas
     site:
       edit_tooltip: Redaguoti žemėlapį
       edit_disabled_tooltip: Norėdami redaguoti, priartinkite

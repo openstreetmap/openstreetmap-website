@@ -313,6 +313,10 @@ sr:
   browse:
     created: Направљено
     closed: Затворено
+    created_ago_html: Направљено %{time_ago}
+    closed_ago_html: Затворено %{time_ago}
+    created_ago_by_html: Направљено %{time_ago} од %{user}
+    edited_ago_by_html: Уређено %{time_ago} од %{user}
     version: Верзија
     in_changeset: Скуп промена
     anonymous: анониман
@@ -331,7 +335,6 @@ sr:
       way_paginated: Линије (%{x}-%{y} од %{count})
       relation: Односи (%{count})
       relation_paginated: Односи (%{x}-%{y} од %{count})
-      comment: Коментари (%{count})
       hidden_comment_by_html: Сакривени коментар корисника %{user} %{time_ago}
       comment_by_html: '%{user} коментарисао(ла) пре %{time_ago}'
       changesetxml: XML скуп промена
@@ -494,6 +497,7 @@ sr:
     show:
       title: Дневник корисника/це %{user} | %{title}
       user_title: Дневник корисника/це %{user}
+      discussion: Дискусија
       leave_a_comment: Остави коментар
       login_to_leave_a_comment_html: '%{login_link} да бисте оставили коментар'
       login: Пријавите се
@@ -610,7 +614,7 @@ sr:
           car_sharing: Краткорочно изнајмљивање аутомобила
           car_wash: Ауто-перионица
           casino: Казино
-          charging_station: Акумулаторска станица
+          charging_station: Станица за пуњење ЕВ
           childcare: Агенција за чување деце
           cinema: Биоскоп
           clinic: Клиника
@@ -1137,6 +1141,7 @@ sr:
           hardware: Продавница алата
           health_food: Продавница здраве хране
           hifi: Продавница аудио-опреме
+          ice_cream: Сладоледџиница
           interior_decoration: Декорација ентеријера
           jewelry: Јувелирница
           kiosk: Трафика
@@ -1258,6 +1263,7 @@ sr:
         open: Отвори
         resolved: Решено
     show:
+      no_reports: Нема пријава
       resolve: Разреши
       ignore: Игнориши
       reopen: Поново отвори
@@ -1362,6 +1368,7 @@ sr:
       see_their_profile: Можете видети његов/њен профил на %{userurl}.
       befriend_them: Можете га/је додати и као пријатеља на %{befriendurl}.
     gpx_failure:
+      hi: Здарво %{to_user},
       failed_to_import: 'Увоз није успео. Грешка:'
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
       subject: '[OpenStreetMap] GPX увоз није успео'
@@ -1653,8 +1660,14 @@ sr:
       community_driven_osm_foundation: OSM фондација
       open_data_title: Отворени подаци
       legal_title: Правни аспекти
-      legal_1_1_terms_of_use: Услови коришћења
-      legal_1_1_privacy_policy: Политика приватности
+      legal_1_1_html: |-
+        Овим сајтом и многим другим сродним сервисима управља
+        %{openstreetmap_foundation_link} (OSMF)
+        а у име заједнице. Коришћење OSMF сервиса предмет је наших %{terms_of_use_link}, %{aup_link} и %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: OpenStreetMap фондација
+      legal_1_1_terms_of_use: услова коришћења
+      legal_1_1_aup: политике прихватљиве употребе
+      legal_1_1_privacy_policy: политике приватности
       partners_title: Партнери
     copyright:
       foreign:
@@ -1671,7 +1684,13 @@ sr:
         mapping_link: почни с уређивањем карте
       legal_babble:
         title_html: Ауторска права и лиценца
+        introduction_2_html: Можете да умножавате, делите, преносите и прилагођавате
+          наше податке, све док наводите OpenStreetMap и њене уреднике. Ако желите
+          да мењате и дограђујете наше податке, можете их делити само под истом лиценцом.
+          Овај %{legal_code_link} наводи Ваша права и обавезе.
         introduction_2_legal_code: правни текст
+        introduction_3_html: Наша документација је доступна под лиценцом %{creative_commons_link}
+          (CC BY-SA 2.0).
         introduction_3_creative_commons: Creative Commons Ауторство-Делити под истим
           условима 2.0
         credit_title_html: Како да наведете OpenStreetMap
@@ -1706,14 +1725,13 @@ sr:
         contributors_za_south_africa: Јужна Африка
         contributors_gb_united_kingdom: Уједињено Краљевство
         contributors_2_contributors_page: доприносиоци
-        contributors_footer_2_html: |2-
-            Укључивање података у Опенстритмап не подразумева да изворни
-            власник података прихвата Опенстритмап, обезбеђује било какву
-            гаранцију или прихвата одговорност.
+        contributors_footer_2_html: Укључивањем података у OpenStreetMap не значи
+          да изворни власник података подржава OpenStreetMap, обезбеђује било какву
+          гаранцију или прихвата одговорност.
         infringement_title_html: Кршење ауторских права
-        infringement_1_html: ОСМ сарадници се подсећају да никад не додају податке
-          из извора заштићених ауторским правима (нпр. Гугл карте или штампане карте)
-          без изричите дозволе власника ауторских права.
+        infringement_1_html: OSM сарадници се подсећају да никад не додају податке
+          из извора заштићених ауторским правима (нпр. Гугл мапе или штампане карте)
+          без изричите дозволе носиоца ауторских права.
         trademarks_title: Заштитни знаци
         trademarks_1_1_trademark_policy: Робне марке
     index:
@@ -1913,6 +1931,7 @@ sr:
         para_1: Ако хоћеш нешто ситно да поправиш а немаш времена да се пријавиш или
           да научиш да уређујеш, једноставно додај белешку.
     communities:
+      title: Заједнице
       local_chapters:
         title: Локални огранци
       other_groups:
@@ -2177,6 +2196,7 @@ sr:
       my profile: Мој профил
       my settings: Моје поставке
       my comments: Моји коментари
+      my_preferences: Моја подешавања
       my_dashboard: Tабла
       blocks on me: Мени забрањено
       blocks by me: Моје забране
@@ -2445,7 +2465,7 @@ sr:
         gps: Јавне GPS трасе
         overlays: Омогући преклапање за тражење грешака на карти
         title: Слојеви
-      openstreetmap_contributors: Творци OpenStreetMap
+      openstreetmap_contributors: OpenStreetMap сарадници
       make_a_donation: Донација
       website_and_api_terms: Веб-сајт и API услови
     site:

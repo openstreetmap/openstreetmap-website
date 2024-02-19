@@ -73,6 +73,8 @@ hu:
       messages:
         invalid_email_address: nem tűnik érvényes e-mail-címnek
         email_address_not_routable: nem irányítható
+        display_name_is_user_n: nem lehet user_n, hacsak nem az n a Te felhasználói
+          azonosítód
       models:
         user_mute:
           is_already_muted: már el van némítva
@@ -378,7 +380,6 @@ hu:
       way_paginated: 'Vonalak (%{x}-%{y} ennyiből: %{count})'
       relation: Kapcsolatok (%{count})
       relation_paginated: 'Kapcsolatok (%{x}-%{y} ennyiből: %{count})'
-      comment: Hozzászólások (%{count})
       hidden_comment_by_html: Rejtett hozzászólás %{user} felhasználótól %{time_ago}
       comment_by_html: Hozzászólt %{user} %{time_ago}
       changesetxml: Módosításcsomag adatai (XML)
@@ -614,10 +615,32 @@ hu:
       newer_comments: Újabb hozzászólások
       older_comments: Régebbi hozzászólások
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Az engedélyezési szerver megköveteli a végfelhasználói
+          fiók kiválasztását
+        consent_required: Az engedélyezési szerverhez a végfelhasználó beleegyezése
+          szükséges
+        interaction_required: Az engedélyezési szerver végfelhasználói interakciót
+          igényel
+        login_required: Az engedélyezési szerver végfelhasználói hitelesítést igényel
     flash:
       applications:
         create:
           notice: Alkalmazás regisztrálva.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: A Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            konfiguráció hiánya miatti hiba.
+          reauthenticate_resource_owner_not_configured: A Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            hiányzó konfiguráció miatt nem sikerült.
+          resource_owner_from_access_token_not_configured: A Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            hiányzó konfigurációja miatt nem sikerült.
+          select_account_for_resource_owner_not_configured: A Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            konfiguráció hiánya miatti hiba.
+          subject_not_configured: Az azonosítótoken generálása meghiúsult a Doorkeeper::OpenidConnect.configure.subject
+            konfiguráció hiánya miatt.
     scopes:
       address: Tartózkodási cím megtekintése
       email: Email cím megtekintése
@@ -1630,6 +1653,8 @@ hu:
         one: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points} ponttal.
         other: sikeresen betöltődött a lehetséges %{count} pontból %{trace_points}
           ponttal.
+      all_your_traces_html: 'Az összes sikeresen feltöltött GPX nyomkövetés megtalálható
+        itt: %{url}.'
       subject: '[OpenStreetMap] Sikeres GPX importálás'
     signup_confirm:
       subject: '[OpenStreetMap] Üdvözlünk az OpenStreetMapen'
@@ -1793,6 +1818,9 @@ hu:
       people_mapping_nearby: közeli térképszerkesztő
     muted:
       title: Elnémított üzenetek
+      messages:
+        one: '%{count} némított üzeneted van'
+        other: '%{count} némított üzeneted van'
     reply:
       wrong_user: „%{user}” néven jelentkeztél be, de azt az üzenetet, amelyre válaszolni
         szeretnél, nem ez a felhasználó kapta. A válaszadáshoz jelentkezz be a helyes
@@ -1817,13 +1845,14 @@ hu:
       as_unread: Üzenet megjelölve olvasatlanként
     unmute:
       notice: Az üzenet átkerült a Beérkezett üzenetek mappába
+      error: Az üzenetet nem sikerült áthelyezni a Beérkezett üzenetek mappába.
     destroy:
       destroyed: Üzenet törölve
   passwords:
     new:
       title: Elvesztett jelszó
       heading: Elfelejtetted jelszavad?
-      email address: 'E-mail-cím:'
+      email address: E-mail-cím
       new password button: Jelszó alaphelyzetbe állítása
       help_text: Add meg az e-mail-címed, amellyel regisztráltál. Küldeni fogunk egy
         hivatkozást, amellyel visszaállíthatod a jelszavad.
@@ -1838,6 +1867,7 @@ hu:
       flash token bad: Nem találtad meg a tokent? Esetleg ellenőrizd az URL-t.
     update:
       flash changed: Jelszavad megváltozott.
+      flash token bad: Nem találtad meg a tokent? Esetleg ellenőrizd az URL-t.
   preferences:
     show:
       title: Megjelenési beállítások
@@ -1882,8 +1912,8 @@ hu:
     new:
       title: Bejelentkezés
       heading: Bejelentkezés
-      email or username: 'E-mail-cím vagy felhasználónév:'
-      password: 'Jelszó:'
+      email or username: E-mail-cím vagy felhasználónév
+      password: Jelszó
       remember: Emlékezz rám
       lost password link: Elfelejtetted a jelszavad?
       login_button: Bejelentkezés
@@ -1941,6 +1971,7 @@ hu:
       image: Kép
       alt: Alternatív szöveg
       url: URL
+      codeblock: Kódblokk
     richtext_field:
       edit: Szerkesztés
       preview: Előnézet
@@ -2084,6 +2115,7 @@ hu:
         contributors_es_cc_by: CC BY 4.0
         contributors_za_south_africa: Dél-Afrika
         contributors_gb_united_kingdom: Egyesült Királyság
+        contributors_2_contributors_page: Közreműködők oldala
         contributors_footer_2_html: Az adatok befoglalása az OpenStreetMapbe nem jelenti
           azt, hogy az eredeti adatszolgáltató támogatja az OpenStreetMapet, garanciát
           nyújt vagy felelősséget vállal rá.
@@ -2092,7 +2124,9 @@ hu:
           ne adjanak hozzá adatokat egyetlen szerzői jogvédett forrásból se (pl. Google
           Térkép vagy nyomtatott térképek) a szerzői jog tulajdonosának kifejezett
           engedélye nélkül.
+        infringement_2_1_online_filing_page: on-line bejelentési oldal
         trademarks_title: Védjegyek
+        trademarks_1_1_trademark_policy: Védjegypolitika
     index:
       js_1: Vagy egy olyan böngészőt használsz, amely nem támogatja a JavaScriptet,
         vagy letiltottad a JavaScriptet.
