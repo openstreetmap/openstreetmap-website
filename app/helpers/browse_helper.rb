@@ -1,12 +1,25 @@
 module BrowseHelper
-  def printable_name(object, version: false)
+  def element_single_current_link(type, object, url)
+    link_to url, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
+      element_strikethrough object do
+        printable_element_name object
+      end
+    end
+  end
+
+  def element_list_item(type, object, &block)
+    tag.li :class => element_class(type, object), :title => element_title(object) do
+      element_strikethrough object, &block
+    end
+  end
+
+  def printable_element_name(object)
     id = if object.id.is_a?(Array)
            object.id[0]
          else
            object.id
          end
-    name = t "printable_name.with_id", :id => id.to_s
-    name = t "printable_name.with_version", :id => name, :version => object.version.to_s if version
+    name = id.to_s
 
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
@@ -27,20 +40,25 @@ module BrowseHelper
     name
   end
 
-  def link_class(type, object)
-    classes = [type]
+  def printable_element_version(object)
+    t "printable_name.version", :version => object.version
+  end
 
-    if object.redacted?
-      classes << "deleted"
+  def element_strikethrough(object, &block)
+    if object.redacted? || !object.visible?
+      tag.s(&block)
     else
-      classes += icon_tags(object).flatten.map { |t| h(t) }
-      classes << "deleted" unless object.visible?
+      yield
     end
+  end
 
+  def element_class(type, object)
+    classes = [type]
+    classes += icon_tags(object).flatten.map { |t| h(t) } unless object.redacted?
     classes.join(" ")
   end
 
-  def link_title(object)
+  def element_title(object)
     if object.redacted?
       ""
     else
