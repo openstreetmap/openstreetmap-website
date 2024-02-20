@@ -53,4 +53,19 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match("Jack & Jill <br>", email.text_part.body.to_s)
     assert_match("Jack &amp; Jill &lt;br&gt;", email.html_part.body.to_s)
   end
+
+  def test_diary_comment_notification
+    create(:language, :code => "en")
+    user = create(:user)
+    other_user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry)
+    email = UserMailer.diary_comment_notification(diary_comment, other_user)
+    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+
+    url = Rails.application.routes.url_helpers.diary_entry_url(user, diary_entry, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    unsubscribe_url = Rails.application.routes.url_helpers.diary_entry_unsubscribe_url(user, diary_entry, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    assert_select body, "a[href^='#{url}']"
+    assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
+  end
 end

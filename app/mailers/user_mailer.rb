@@ -97,6 +97,7 @@ class UserMailer < ApplicationMailer
       @readurl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "comment#{comment.id}")
       @commenturl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "newcomment")
       @replyurl = new_message_url(comment.user, :message => { :title => "Re: #{comment.diary_entry.title}" })
+      @unsubscribeurl = diary_entry_unsubscribe_url(comment.diary_entry.user, comment.diary_entry)
       @author = @from_user
 
       attach_user_avatar(comment.user)
