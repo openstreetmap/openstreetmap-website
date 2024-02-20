@@ -10,7 +10,11 @@
   <h4><%= t ".no_notes" %></h4>
 
 <% else %>
-  <%= render :partial => "notes_paging_nav" %>
+  <%= render "shared/pagination",
+             :newer_translation_key => "notes.index.newer_notes",
+             :older_translation_key => "notes.index.older_notes",
+             :newer_id => @newer_notes && @notes.first.id,
+             :older_id => @older_notes && @notes.last.id %>
 
   <table class="table table-sm note_list">
     <thead>
@@ -41,6 +45,10 @@
   <% end -%>
   </table>
 
-  <%= render :partial => "notes_paging_nav" %>
+  <%= render "shared/pagination",
+             :newer_translation_key => "notes.index.newer_notes",
+             :older_translation_key => "notes.index.older_notes",
+             :newer_id => @newer_notes && @notes.first.id,
+             :older_id => @older_notes && @notes.last.id %>
 
 <% end -%>

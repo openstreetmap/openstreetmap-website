@@ -16,13 +16,29 @@ class NotesController < ApplicationController
   ##
   # Display a list of notes by a specified user
   def index
-    @params = params.permit(:display_name)
     @title = t ".title", :user => @user.display_name
-    @page = (params[:page] || 1).to_i
-    @page_size = 10
-    @notes = @user.notes
-    @notes = @notes.visible unless current_user&.moderator?
-    @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)
+    @params = params.permit(:display_name, :before, :after)
+
+    notes = @user.notes
+    notes = notes.visible unless current_user&.moderator?
+
+    @notes = if params[:before]
+               cursor_note = Note.find(params[:before]) # TODO 404 or bad user input
+               notes.where("(updated_at, notes.id) < (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :desc, :id => :desc)
+             elsif params[:after]
+               cursor_note = Note.find(params[:after])
+               notes.where("(updated_at, notes.id) > (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :asc, :id => :asc)
+             else
+               notes.order(:updated_at => :desc, :id => :desc)
+             end
+
+    @notes = @notes.distinct
+    @notes = @notes.limit(10)
+    @notes = @notes.preload(:comments => :author)
+    @notes = @notes.sort_by { |note| [note.updated_at, note.id] }.reverse
+
+    @newer_notes = @notes.count.positive? && notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
+    @older_notes = @notes.count.positive? && notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
 
     render :layout => "site"
   end

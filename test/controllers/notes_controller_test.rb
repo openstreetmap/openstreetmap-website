@@ -70,17 +70,41 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   def test_index_paged
     user = create(:user)
 
-    create_list(:note, 50) do |note|
+    notes = create_list(:note, 20) do |note|
       create(:note_comment, :note => note, :author => user)
     end
 
-    get user_notes_path(user)
-    assert_response :success
-    assert_select "table.note_list tbody tr", :count => 10
+    next_path = user_notes_path(user)
 
-    get user_notes_path(user, :page => 2)
+    get next_path
     assert_response :success
-    assert_select "table.note_list tbody tr", :count => 10
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
+      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
+        next_path = buttons.first.attributes["href"].value
+      end
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[10..19]
+      assert_select "a.page-link", :text => /Older Notes/, :count => 0
+      assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
+        next_path = buttons.first.attributes["href"].value
+      end
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
+      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
+        next_path = buttons.first.attributes["href"].value
+      end
+    end
   end
 
   def test_empty_page
@@ -202,5 +226,13 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template template
     assert_template :layout => "xhr"
+  end
+
+  def check_note_table(notes)
+    assert_dom "table.note_list tbody tr", :count => notes.count do |rows|
+      rows.zip(notes).each do |row, note|
+        assert_dom row, "> td:nth-child(2)", :text => note.id.to_s
+      end
+    end
   end
 end
