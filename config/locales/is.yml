@@ -214,7 +214,6 @@ is:
         one: fyrir %{count} ári síðan
         other: fyrir %{count} árum síðan
   printable_name:
-    with_version: '%{id}, útgáfa %{version}'
     with_name_html: '%{name} (%{id})'
   editor:
     default: Sjálfgefið (núna %{name})
@@ -369,9 +368,6 @@ is:
       comment_by_html: Umsögn frá %{user} %{time_ago}
       changesetxml: XML breytingasetts
       osmchangexml: XML osmChange
-      feed:
-        title: Breytingasett %{id}
-        title_comment: Breytingasett %{id} - %{comment}
       join_discussion: Skráðu þig inn til að taka þátt í umræðunni
       discussion: Umræða
       still_open: Breytingasett er enn opið - Umræða mun opnast þegar breytingasettinu
@@ -483,6 +479,9 @@ is:
       no_more_area: Engin fleiri breytingasett á þessu svæði.
       no_more_user: Engin fleiri breytingasett eftir þennan notanda.
       load_more: Hlaða inn fleiri
+      feed:
+        title: Breytingasett %{id}
+        title_comment: Breytingasett %{id} - %{comment}
     timeout:
       sorry: Því miður, það tók of langan tíma að ná í listann yfir þau breytingasett
         sem þú baðst um.
@@ -1764,11 +1763,13 @@ is:
       to: Til
       subject: Viðfangsefni
       date: Dagsetning
+      actions: Aðgerðir
     message_summary:
       unread_button: Merkja sem ólesin
       read_button: Merkja sem lesin
       reply_button: Svara
       destroy_button: Eyða
+      unmute_button: Færa í innhólf
     new:
       title: Senda skilaboð
       send_message_to_html: Senda skilaboð til %{name}
@@ -1783,12 +1784,15 @@ is:
       body: Því miður er ekkert skilaboð með þetta auðkenni.
     outbox:
       title: Úthólf
+      actions: Aðgerðir
       messages:
         one: Þú hefur sent %{count} skilaboð
         other: Þú hefur sent %{count} skilaboð
       no_sent_messages_html: Þú hefur enn ekki seint nein skilaboð, því ekki að hafa
         samband við einhverja %{people_mapping_nearby_link}?
       people_mapping_nearby: nálæga notendur
+    muted:
+      title: Þögguð skilaboð
     reply:
       wrong_user: Þú hefur skráð þig inn sem `%{user}' en skilaboðin sem þú baðst
         um að svara voru ekki send til þess notanda. Skráðu þig inn sem réttan notanda
@@ -1816,7 +1820,7 @@ is:
     new:
       title: Glatað lykilorð
       heading: Gleymt lykilorð?
-      email address: 'Tölvupóstfang:'
+      email address: Tölvupóstfang
       new password button: Endurstilla lykilorð
       help_text: Sláðu inn netfangið sem þú skráðir þig með, við munum senda tengil
         á það sem þú getur notað til að breyta lykilorðinu þínu.
@@ -1873,8 +1877,8 @@ is:
     new:
       title: Innskrá
       heading: Innskrá
-      email or username: 'Netfang eða notandanafn:'
-      password: 'Lykilorð:'
+      email or username: Tölvupóstur eða notandanafn
+      password: Lykilorð
       remember: Muna innskráninguna
       lost password link: Gleymdirðu lykilorðinu þínu?
       login_button: Innskrá
@@ -2096,6 +2100,7 @@ is:
           Resources Canada), og StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Kanada
+        contributors_cz_czechia: Tékkland
         contributors_fi_credit_html: |-
           %{finland}: Inniheldur gögn frá
           landupplýsingagagnagrunni Landmælinga Finnlands
@@ -2271,8 +2276,8 @@ is:
         description: Leiðarvísir fyrir byrjendur sem haldið er við af samfélaginu.
       community:
         url: https://community.openstreetmap.org/
-        title: Samfélagsgátt
-        description: Sameiginlegur staður fyrir umræður um OpenStreetMap.
+        title: Aðstoð og samfélagsgátt
+        description: Sameiginlegur staður fyrir aðstoð og umræður um OpenStreetMap.
       mailing_lists:
         title: Póstlistar
         description: Spyrðu spurninga eða spjallaðu um áhugaverð málefni á einhverjum
@@ -2335,53 +2340,76 @@ is:
           primary: Stofnvegur
           secondary: Tengivegur
           unclassified: Héraðsvegur
+          pedestrian: Gönguleið
           track: Slóði
           bridleway: Reiðstígur
           cycleway: Hjólaleið
           cycleway_national: Hjólaleið á landsneti
           cycleway_regional: Svæðisbundin hjólaleið
           cycleway_local: Staðbundin hjólaleið
+          cycleway_mtb: Fjallahjólaleið
           footway: Gönguleið
           rail: Lestarteinar
+          train: Lest
           subway: Neðanjarðarlest
+          ferry: Ferja
+          light_rail: Léttlest
+          tram: Sporvagn
+          bus: Strætó
           cable_car: Kláflyfta
-          chair_lift: stólalyfta
+          chair_lift: Stólalyfta
           runway: Flugbraut
-          taxiway: akstursbraut
+          taxiway: Akbraut flugvéla
           apron: Flughlað
           admin: Stjórnsýslumörk
+          capital: Höfuðborg
+          city: Borg
+          vineyard: Vínekra
           forest: Ræktaður skógur
-          wood: Náttúrulegur skógur
+          wood: Skógur
+          farmland: Ræktarland
+          grass: Gras
+          bare_rock: Berar klappir
+          sand: Sandur
           golf: Golfvöllur
           park: Almenningsgarður
           common: Almenningur
+          built_up: Byggt svæði
           resident: Íbúðasvæði
           retail: Smásölusvæði
           industrial: Iðnaðarsvæði
           commercial: Verslunarsvæði
           heathland: Heiðalönd
+          scrubland: Kjarrlendi
           lake: Vatn
-          reservoir: uppistöðulón
+          reservoir: Uppistöðulón
+          glacier: Jökull
+          reef: Sker
+          wetland: Votlendi
           farm: Bóndabær
           brownfield: Nýbyggingarsvæði
           cemetery: Grafreitur
           allotments: Ræktuð svæði úthlutuð í einkaeigu
           pitch: Íþróttavöllur
           centre: Íþróttamiðstöð
+          beach: Strönd
           reserve: Náttúruverndarsvæði
           military: Hersvæði
           school: Skóli
           university: Háskóli
+          hospital: Sjúkrahús
           building: Merkisbygging
           station: Lestarstöð
           summit: Fjallstindur
-          peak: tindur
+          peak: Tindur
           tunnel: Umkringt punktalínum = göng
           bridge: Umkringt svartri línu = brú
           private: Einkaaðgangur
           destination: Umferð leyfileg á ákveðinn áfangastað
           construction: Vegir í byggingu
+          bus_stop: Strætisvagnabiðstöð
           bicycle_shop: Hjólaverslun
+          bicycle_rental: Reiðhjólaleiga
           bicycle_parking: Reiðhjólastæði
           toilets: Salerni
     welcome:
@@ -2590,6 +2618,7 @@ is:
       oauth1_settings: OAuth 1 stillingar
       oauth2_applications: OAuth 2 forrit
       oauth2_authorizations: OAuth 2 auðkenningar
+      muted_users: Þaggaðir notendur
   oauth:
     authorize:
       title: Auðkenndu aðgang að notandaaðganginum þínum
@@ -2622,6 +2651,7 @@ is:
     permissions:
       missing: Þú hefur ekki gefið forritinu heimild fyrir aðgang að þessum eiginleikum
     scopes:
+      openid: Skráðu þig inn með OpenStreetMap
       read_prefs: Lesa notandastillingar
       write_prefs: Breyta notandastillingum
       write_diary: Búa til bloggfærslur, setja inn athugasemdir og bæta við vinum
@@ -2805,6 +2835,7 @@ is:
       my_dashboard: Stjórnborðið mitt
       blocks on me: Bönn gegn mér
       blocks by me: Bönn eftir mig
+      create_mute: Þagga þennan notanda
       edit_profile: Breyta notandasíðu
       send message: Senda skilaboð
       diary: Blogg
@@ -2998,12 +3029,20 @@ is:
       showing_page: Síða %{page}
       next: Næsta »
       previous: « Fyrri
+  user_mutes:
+    index:
+      table:
+        thead:
+          muted_user: Þaggaður notandi
+          actions: Aðgerðir
+        tbody:
+          send_message: Senda skilaboð
   notes:
     index:
       title: Minnispunktar sem hafa verið sendir inn eða gerðar athugasemdir við af
         %{user}
       heading: Minnispunktar frá %{user}
-      subheading_html: Minnispunktar sem hafa verið sendir inn eða gerðar athugasemdir
+      subheading_html: Minnispunktar sem hafa verið %{submitted} eða gerð %{commented}
         við af %{user}
       no_notes: Engir minnispunktar
       id: Auðkenni (ID)

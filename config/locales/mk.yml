@@ -210,7 +210,8 @@ mk:
         one: пред %{count} година
         other: пред %{count} години
   printable_name:
-    with_version: '%{id}, вер. %{version}'
+    version: вер. %{version}
+    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: По основно (моментално %{name})
     id:
@@ -358,9 +359,6 @@ mk:
       comment_by_html: Коментар од %{user} %{time_ago}
       changesetxml: XML за измените
       osmchangexml: osmChange XML
-      feed:
-        title: Измени %{id}
-        title_comment: Измени %{id} - %{comment}
       join_discussion: Најавете се за да се приклучите во разговорот
       discussion: Разговор
       still_open: Измените сè уште се отворени — разговорот ќе се отвори штом ќе се
@@ -478,6 +476,9 @@ mk:
       no_more_area: Нема повеќе промени на ова подрчаје.
       no_more_user: Нема повеќе промени од овој корисник.
       load_more: Вчитај уште
+      feed:
+        title: Измени %{id}
+        title_comment: Измени %{id} - %{comment}
     timeout:
       sorry: За жал, на списокот на промени што го побаравте му требаше предолго за
         да се добие.
@@ -595,6 +596,12 @@ mk:
       comment: Коментар
       newer_comments: Понови коментари
       older_comments: Постари коментари
+    subscribe:
+      heading: Да ве претплатам на разговорот во следната дневничка ставка?
+      button: Претплати се на разговорот
+    unsubscribe:
+      heading: Да ве отпишам од претплатата на разговорот во следната дневничка ставка?
+      button: Отпиши се од разговорот
   doorkeeper:
     errors:
       messages:
@@ -1602,6 +1609,9 @@ mk:
         %{commenturl} или пак да му испратите порака на авторот на %{replyurl}
       footer_html: Можете и да го прочитате коментарот на %{readurl}, да коментирате
         на %{commenturl} или пак да му испратите порака на авторот на %{replyurl}
+      footer_unsubscribe: Можете да ја отпишете претплатата на разговорот на %{unsubscribeurl}
+      footer_unsubscribe_html: Можете да ја отпишете претплатата на разговорот на
+        %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Здраво %{to_user},
