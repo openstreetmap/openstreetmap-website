@@ -6,16 +6,18 @@
            :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-white") %></p>
 <% end %>
 
+<% if @newer_id || @older_id %>
+  <%= render "shared/pagination",
+             :newer_translation_key => "notes.index.newer_notes",
+             :older_translation_key => "notes.index.older_notes",
+             :newer_id => @newer_id,
+             :older_id => @older_id %>
+<% end %>
+
 <% if @notes.empty? %>
   <h4><%= t ".no_notes" %></h4>
 
 <% else %>
-  <%= render "shared/pagination",
-             :newer_translation_key => "notes.index.newer_notes",
-             :older_translation_key => "notes.index.older_notes",
-             :newer_id => @newer_notes && { :updated_at => @notes.first.updated_at.utc.strftime("%Y%m%dT%H%M%SZ"), :id => @notes.first.id },
-             :older_id => @older_notes && { :updated_at => @notes.last.updated_at.utc.strftime("%Y%m%dT%H%M%SZ"), :id => @notes.last.id } %>
-
   <table class="table table-sm note_list">
     <thead>
       <tr>
@@ -44,11 +46,12 @@
     </tr>
   <% end -%>
   </table>
+<% end -%>
 
+<% if @newer_id || @older_id %>
   <%= render "shared/pagination",
              :newer_translation_key => "notes.index.newer_notes",
              :older_translation_key => "notes.index.older_notes",
-             :newer_id => @newer_notes && { :updated_at => @notes.first.updated_at.utc.strftime("%Y%m%dT%H%M%SZ"), :id => @notes.first.id },
-             :older_id => @older_notes && { :updated_at => @notes.last.updated_at.utc.strftime("%Y%m%dT%H%M%SZ"), :id => @notes.last.id } %>
-
-<% end -%>
+             :newer_id => @newer_id,
+             :older_id => @older_id %>
+<% end %>

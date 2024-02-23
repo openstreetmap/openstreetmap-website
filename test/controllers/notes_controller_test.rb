@@ -101,6 +101,62 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_index_before_edge
+    user = create(:user)
+
+    notes = Array.new(11) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :before => "")
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes.reverse[10]]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+  end
+
+  def test_index_after_edge
+    user = create(:user)
+
+    notes = Array.new(11) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :after => "")
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[1..10]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes.reverse[0]]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+  end
+
   def test_index_before_id
     user = create(:user)
 
@@ -129,6 +185,34 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_index_before_id_empty_page
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :before => notes[0].id)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[0]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+  end
+
   def test_index_after_id
     user = create(:user)
 
@@ -154,6 +238,34 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       check_note_table [notes[0]]
       check_no_older_notes
       next_path = check_newer_notes
+    end
+  end
+
+  def test_index_after_id_empty_page
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :after => notes[1].id)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[0]]
+      check_no_older_notes
+      check_no_newer_notes
     end
   end
 
@@ -213,7 +325,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     get user_notes_path(user)
     assert_response :success
-    assert_select "h4", :html => "No notes"
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_newer_notes
+      check_no_older_notes
+    end
   end
 
   def test_index_invalid_cursor
@@ -359,8 +475,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "xhr"
   end
 
+  def check_no_note_table
+    assert_select "h4", :html => "No notes"
+  end
+
   def check_note_table(notes)
-    assert_dom "table.note_list tbody tr", :count => notes.count do |rows|
+    assert_dom "table.note_list tbody tr" do |rows|
       table_ids = rows.map do |row|
         cell = assert_dom row, "> td:nth-child(2)", :text => /^\d+$/
         cell.text.to_i
@@ -379,7 +499,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   def check_older_notes
     path = nil
-    assert_select "a.page-link", :text => /Older Notes/ do |buttons|
+    assert_select "a.page-link", { :text => /Older Notes/ }, "missing older notes link" do |buttons|
       path = buttons.first.attributes["href"].value
     end
     path
@@ -387,7 +507,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   def check_newer_notes
     path = nil
-    assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
+    assert_select "a.page-link", { :text => /Newer Notes/ }, "missing newer notes link" do |buttons|
       path = buttons.first.attributes["href"].value
     end
     path

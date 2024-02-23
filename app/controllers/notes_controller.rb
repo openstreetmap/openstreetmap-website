@@ -41,8 +41,13 @@ class NotesController < ApplicationController
     @notes = @notes.preload(:comments => :author)
     @notes = @notes.sort_by { |note| [note.updated_at, note.id] }.reverse
 
-    @newer_notes = @notes.count.positive? && notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
-    @older_notes = @notes.count.positive? && notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
+    if @notes.count.positive?
+      @newer_id = { :updated_at => time_param_value(@notes.first.updated_at), :id => @notes.first.id } if notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
+      @older_id = { :updated_at => time_param_value(@notes.last.updated_at), :id => @notes.last.id } if notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
+    else
+      @newer_id = "" if params[:before] && where_cursor(notes, ">", params[:before]).exists?
+      @older_id = "" if params[:after] && where_cursor(notes, "<", params[:after]).exists?
+    end
 
     render :layout => "site"
   end
@@ -74,9 +79,15 @@ class NotesController < ApplicationController
       else
         notes.where("updated_at #{op} ?", cursor_time)
       end
+    elsif param == ""
+      notes
     else
       cursor_note = notes.find(param)
       notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
     end
+  end
+
+  def time_param_value(time)
+    time.utc.strftime("%Y%m%dT%H%M%SZ")
   end
 end
