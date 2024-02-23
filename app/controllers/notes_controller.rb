@@ -24,11 +24,9 @@ class NotesController < ApplicationController
 
     begin
       @notes = if params[:before]
-                 cursor_note = notes.find(params[:before])
-                 notes.where("(updated_at, notes.id) < (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :desc, :id => :desc)
+                 where_cursor(notes, "<", params[:before]).order(:updated_at => :desc, :id => :desc)
                elsif params[:after]
-                 cursor_note = notes.find(params[:after])
-                 notes.where("(updated_at, notes.id) > (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :asc, :id => :asc)
+                 where_cursor(notes, ">", params[:after]).order(:updated_at => :asc, :id => :asc)
                else
                  notes.order(:updated_at => :desc, :id => :desc)
                end
@@ -64,4 +62,21 @@ class NotesController < ApplicationController
   end
 
   def new; end
+
+  private
+
+  def where_cursor(notes, op, param)
+    if param.respond_to?(:keys)
+      cursor_note = notes.find(param[:id])
+      cursor_time = Time.parse(param[:updated_at]).utc
+      if (cursor_time...(cursor_time + 1.second)).cover? cursor_note.updated_at
+        notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
+      else
+        notes.where("updated_at #{op} ?", cursor_time)
+      end
+    else
+      cursor_note = notes.find(param)
+      notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
+    end
+  end
 end

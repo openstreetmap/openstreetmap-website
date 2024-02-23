@@ -107,7 +107,95 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_empty_page
+  def test_index_before_id
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    get user_notes_path(user, :before => notes[1].id)
+    assert_response :success
+    check_note_table [notes[0]]
+  end
+
+  def test_index_after_id
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    get user_notes_path(user, :after => notes[0].id)
+    assert_response :success
+    check_note_table [notes[1]]
+  end
+
+  def test_index_updated_cursor
+    user = create(:user)
+
+    freeze_time
+    travel(-1.year)
+    notes = Array.new(20) do
+      travel 1.day
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+    unfreeze_time
+
+    next_path = user_notes_path(user)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
+      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
+        next_path = buttons.first.attributes["href"].value
+      end
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[10..19]
+      assert_select "a.page-link", :text => /Older Notes/, :count => 0
+      assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
+        next_path = buttons.first.attributes["href"].value
+      end
+    end
+
+    updated_note = notes.reverse[10]
+    updated_note.updated_at = Time.now.utc
+    updated_note.save!
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      assert_select "a.page-link", :text => /Older Notes/
+      assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
+        next_path = buttons.first.attributes["href"].value
+      end
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes.reverse[10]]
+      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
+      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
+        next_path = buttons.first.attributes["href"].value
+      end
+    end
+  end
+
+  def test_index_empty_page
     user = create(:user)
     get user_notes_path(user)
     assert_response :success
@@ -259,9 +347,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   def check_note_table(notes)
     assert_dom "table.note_list tbody tr", :count => notes.count do |rows|
-      rows.zip(notes).each do |row, note|
-        assert_dom row, "> td:nth-child(2)", :text => note.id.to_s
+      table_ids = rows.map do |row|
+        cell = assert_dom row, "> td:nth-child(2)", :text => /^\d+$/
+        cell.text.to_i
       end
+      assert_equal notes.map(&:id), table_ids, "notes table mismatch"
     end
   end
 end
