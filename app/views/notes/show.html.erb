@@ -3,14 +3,16 @@
 <%= render "sidebar_header", :title => t(".#{@note.status}_title", :note_name => @note.id) %>
 
 <div>
-  <h4><%= t(".description") %></h4>
-  <div class="note-description">
-    <%= h(@note_comments.first.body.to_html) %>
-  </div>
+  <% if @note_description_comments_count > 0 %>
+    <h4><%= t(".description") %></h4>
+    <div class="note-description">
+      <%= h(@note_comments.first.body.to_html) %>
+    </div>
+  <% end %>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">
     <ul class="list-unstyled">
-      <li><%= note_event("opened", @note.created_at, @note.author) %></li>
+      <li><%= note_event("opened", @note.created_at, @note.all_comments.first.author) %></li>
       <% if @note.status == "closed" %>
         <li><%= note_event(@note.status, @note.closed_at, @note.all_comments.last.author) %></li>
       <% end %>
@@ -28,10 +30,10 @@
     <p class='alert alert-warning'><%= t ".anonymous_warning" %></p>
   <% end -%>
 
-  <% if @note_comments.length > 1 %>
+  <% if @note_comments.length > @note_description_comments_count %>
     <div class='note-comments'>
       <ul class="list-unstyled">
-        <% @note_comments.drop(1).each do |comment| %>
+        <% @note_comments.drop(@note_description_comments_count).each do |comment| %>
           <li id="c<%= comment.id %>">
             <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <div class="mx-2">
@@ -88,7 +90,7 @@
     </form>
   <% end %>
 
-  <% if current_user && current_user != @note.author %>
+  <% if current_user && current_user != @note.all_comments.first.author %>
     <p>
       <small class="text-muted">
         <%= t ".report_link_html", :link => report_link(t(".report"), @note) %>
