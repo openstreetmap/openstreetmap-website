@@ -80,30 +80,24 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".content-body" do
       check_note_table notes.reverse[0..9]
-      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
-      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
-        next_path = buttons.first.attributes["href"].value
-      end
+      check_no_newer_notes
+      next_path = check_older_notes
     end
 
     get next_path
     assert_response :success
     assert_select ".content-body" do
       check_note_table notes.reverse[10..19]
-      assert_select "a.page-link", :text => /Older Notes/, :count => 0
-      assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
-        next_path = buttons.first.attributes["href"].value
-      end
+      check_no_older_notes
+      next_path = check_newer_notes
     end
 
     get next_path
     assert_response :success
     assert_select ".content-body" do
       check_note_table notes.reverse[0..9]
-      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
-      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
-        next_path = buttons.first.attributes["href"].value
-      end
+      check_no_newer_notes
+      next_path = check_older_notes
     end
   end
 
@@ -154,20 +148,16 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".content-body" do
       check_note_table notes.reverse[0..9]
-      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
-      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
-        next_path = buttons.first.attributes["href"].value
-      end
+      check_no_newer_notes
+      next_path = check_older_notes
     end
 
     get next_path
     assert_response :success
     assert_select ".content-body" do
       check_note_table notes.reverse[10..19]
-      assert_select "a.page-link", :text => /Older Notes/, :count => 0
-      assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
-        next_path = buttons.first.attributes["href"].value
-      end
+      check_no_older_notes
+      next_path = check_newer_notes
     end
 
     updated_note = notes.reverse[10]
@@ -178,20 +168,16 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".content-body" do
       check_note_table notes.reverse[0..9]
-      assert_select "a.page-link", :text => /Older Notes/
-      assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
-        next_path = buttons.first.attributes["href"].value
-      end
+      check_older_notes
+      next_path = check_newer_notes
     end
 
     get next_path
     assert_response :success
     assert_select ".content-body" do
       check_note_table [notes.reverse[10]]
-      assert_select "a.page-link", :text => /Newer Notes/, :count => 0
-      assert_select "a.page-link", :text => /Older Notes/ do |buttons|
-        next_path = buttons.first.attributes["href"].value
-      end
+      check_no_newer_notes
+      check_older_notes
     end
   end
 
@@ -353,5 +339,29 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       end
       assert_equal notes.map(&:id), table_ids, "notes table mismatch"
     end
+  end
+
+  def check_no_older_notes
+    assert_select "a.page-link", :text => /Older Notes/, :count => 0
+  end
+
+  def check_no_newer_notes
+    assert_select "a.page-link", :text => /Newer Notes/, :count => 0
+  end
+
+  def check_older_notes
+    path = nil
+    assert_select "a.page-link", :text => /Older Notes/ do |buttons|
+      path = buttons.first.attributes["href"].value
+    end
+    path
+  end
+
+  def check_newer_notes
+    path = nil
+    assert_select "a.page-link", :text => /Newer Notes/ do |buttons|
+      path = buttons.first.attributes["href"].value
+    end
+    path
   end
 end
