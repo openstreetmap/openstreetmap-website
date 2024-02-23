@@ -22,15 +22,21 @@ class NotesController < ApplicationController
     notes = @user.notes
     notes = notes.visible unless current_user&.moderator?
 
-    @notes = if params[:before]
-               cursor_note = Note.find(params[:before]) # TODO 404 or bad user input
-               notes.where("(updated_at, notes.id) < (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :desc, :id => :desc)
-             elsif params[:after]
-               cursor_note = Note.find(params[:after])
-               notes.where("(updated_at, notes.id) > (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :asc, :id => :asc)
-             else
-               notes.order(:updated_at => :desc, :id => :desc)
-             end
+    begin
+      @notes = if params[:before]
+                 cursor_note = notes.find(params[:before])
+                 notes.where("(updated_at, notes.id) < (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :desc, :id => :desc)
+               elsif params[:after]
+                 cursor_note = notes.find(params[:after])
+                 notes.where("(updated_at, notes.id) > (?, ?)", cursor_note.updated_at, cursor_note.id).order(:updated_at => :asc, :id => :asc)
+               else
+                 notes.order(:updated_at => :desc, :id => :desc)
+               end
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = t ".invalid_page"
+      redirect_to :action => "index"
+      return
+    end
 
     @notes = @notes.distinct
     @notes = @notes.limit(10)

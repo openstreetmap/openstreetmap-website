@@ -114,6 +114,35 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", :html => "No notes"
   end
 
+  def test_index_invalid_cursor
+    user = create(:user)
+    other_user = create(:user)
+    other_users_note = create(:note) do |note|
+      create(:note_comment, :note => note, :author => other_user)
+    end
+    hidden_note = create(:note, :status => "hidden") do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    get user_notes_path(user, :before => 0)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => 0)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :before => other_users_note.id)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => other_users_note.id)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :before => hidden_note.id)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => hidden_note.id)
+    assert_redirected_to :action => :index
+  end
+
   def test_read_note
     open_note = create(:note_with_comments)
 
