@@ -110,9 +110,23 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       note
     end
 
-    get user_notes_path(user, :before => notes[1].id)
+    next_path = user_notes_path(user, :before => notes[1].id)
+
+    get next_path
     assert_response :success
-    check_note_table [notes[0]]
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
   end
 
   def test_index_after_id
@@ -124,9 +138,23 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       note
     end
 
-    get user_notes_path(user, :after => notes[0].id)
+    next_path = user_notes_path(user, :after => notes[0].id)
+
+    get next_path
     assert_response :success
-    check_note_table [notes[1]]
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
   end
 
   def test_index_updated_cursor
