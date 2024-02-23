@@ -30,25 +30,25 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     second_user = create(:user)
     moderator_user = create(:moderator_user)
 
-    create(:note) do |note|
+    note1 = create(:note) do |note|
       create(:note_comment, :note => note, :author => first_user)
     end
-    create(:note) do |note|
+    note2 = create(:note) do |note|
       create(:note_comment, :note => note, :author => second_user)
     end
-    create(:note, :status => "hidden") do |note|
+    note3 = create(:note, :status => "hidden") do |note|
       create(:note_comment, :note => note, :author => second_user)
     end
 
     get user_notes_path(first_user)
     assert_response :success
     assert_select ".content-heading a[href='#{user_path first_user}']", :text => first_user.display_name
-    assert_select "table.note_list tbody tr", :count => 1
+    check_note_table [note1]
 
     get user_notes_path(second_user)
     assert_response :success
     assert_select ".content-heading a[href='#{user_path second_user}']", :text => second_user.display_name
-    assert_select "table.note_list tbody tr", :count => 1
+    check_note_table [note2]
 
     get user_notes_path("non-existent")
     assert_response :not_found
@@ -57,11 +57,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     get user_notes_path(first_user)
     assert_response :success
-    assert_select "table.note_list tbody tr", :count => 1
+    check_note_table [note1]
 
     get user_notes_path(second_user)
     assert_response :success
-    assert_select "table.note_list tbody tr", :count => 2
+    check_note_table [note3, note2]
 
     get user_notes_path("non-existent")
     assert_response :not_found
