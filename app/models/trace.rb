@@ -268,7 +268,7 @@ class Trace < ApplicationRecord
   end
 
   def schedule_import
-    TraceImporterJob.perform_later(self)
+    TraceImporterJob.new(self).enqueue(:priority => user.traces.where(:inserted => false).count)
   end
 
   def schedule_destruction
