@@ -267,6 +267,14 @@ class Trace < ApplicationRecord
     end
   end
 
+  def schedule_import
+    TraceImporterJob.perform_later(self)
+  end
+
+  def schedule_destruction
+    TraceDestroyerJob.perform_later(self)
+  end
+
   private
 
   def content_type(file)
