@@ -44,7 +44,7 @@ module Api
       cs.save_with_tags!
 
       # Subscribe user to changeset comments
-      cs.subscribers << current_user
+      cs.subscribe(current_user)
 
       render :plain => cs.id.to_s
     end
@@ -233,10 +233,10 @@ module Api
 
       # Find the changeset and check it is valid
       changeset = Changeset.find(id)
-      raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribers.exists?(current_user.id)
+      raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribed?(current_user)
 
       # Add the subscriber
-      changeset.subscribers << current_user
+      changeset.subscribe(current_user)
 
       # Return a copy of the updated changeset
       @changeset = changeset
@@ -259,10 +259,10 @@ module Api
 
       # Find the changeset and check it is valid
       changeset = Changeset.find(id)
-      raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribers.exists?(current_user.id)
+      raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribed?(current_user)
 
       # Remove the subscriber
-      changeset.subscribers.delete(current_user)
+      changeset.unsubscribe(current_user)
 
       # Return a copy of the updated changeset
       @changeset = changeset
