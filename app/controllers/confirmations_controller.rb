@@ -75,9 +75,12 @@ class ConfirmationsController < ApplicationController
 
   def confirm_email
     if request.post?
-      token = UserToken.find_by(:token => params[:confirm_string])
-      if token&.user&.new_email?
-        self.current_user = token.user
+      token = params[:confirm_string]
+
+      self.current_user = User.find_by_token_for(:new_email, token) ||
+                          UserToken.unexpired.find_by(:token => params[:confirm_string])&.user
+
+      if current_user&.new_email?
         current_user.email = current_user.new_email
         current_user.new_email = nil
         current_user.email_valid = true
@@ -94,7 +97,7 @@ class ConfirmationsController < ApplicationController
         current_user.tokens.delete_all
         session[:user] = current_user.id
         session[:fingerprint] = current_user.fingerprint
-      elsif token
+      elsif current_user
         flash[:error] = t ".failure"
       else
         flash[:error] = t ".unknown_token"

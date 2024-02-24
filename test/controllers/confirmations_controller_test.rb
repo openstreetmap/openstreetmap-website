@@ -269,7 +269,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_confirm_email_get
     user = create(:user)
-    confirm_string = user.tokens.create.token
+    confirm_string = user.generate_token_for(:new_email)
 
     get user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_response :success
@@ -279,7 +279,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_email_success
     user = create(:user, :new_email => "test-new@example.com")
     stub_gravatar_request(user.new_email)
-    confirm_string = user.tokens.create.token
+    confirm_string = user.generate_token_for(:new_email)
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -289,7 +289,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_confirm_email_already_confirmed
     user = create(:user)
-    confirm_string = user.tokens.create.token
+    confirm_string = user.generate_token_for(:new_email)
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -312,7 +312,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # switch to email that has a gravatar
     user = create(:user, :new_email => "test-new@example.com")
     stub_gravatar_request(user.new_email, 200)
-    confirm_string = user.tokens.create.token
+    confirm_string = user.generate_token_for(:new_email)
     # precondition gravatar should be turned off
     assert_not user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
@@ -327,7 +327,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # switch to email without a gravatar
     user = create(:user, :new_email => "test-new@example.com", :image_use_gravatar => true)
     stub_gravatar_request(user.new_email, 404)
-    confirm_string = user.tokens.create.token
+    confirm_string = user.generate_token_for(:new_email)
     # precondition gravatar should be turned on
     assert user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }

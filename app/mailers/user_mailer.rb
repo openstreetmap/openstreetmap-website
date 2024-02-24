@@ -25,7 +25,7 @@ class UserMailer < ApplicationMailer
     with_recipient_locale user do
       @address = user.new_email
       @url = url_for(:controller => "confirmations", :action => "confirm_email",
-                     :confirm_string => token.token)
+                     :confirm_string => token)
 
       mail :to => user.new_email,
            :subject => t(".subject")

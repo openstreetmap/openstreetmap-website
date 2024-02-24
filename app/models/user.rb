@@ -124,6 +124,10 @@ class User < ApplicationRecord
   before_save :update_tile
   after_save :spam_check
 
+  generates_token_for :new_email, :expires_in => 1.week do
+    fingerprint
+  end
+
   generates_token_for :password_reset, :expires_in => 1.week do
     fingerprint
   end
