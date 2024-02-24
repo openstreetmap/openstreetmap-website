@@ -2370,14 +2370,14 @@ module Api
       changeset = create(:changeset, :closed)
 
       assert_difference "changeset.subscribers.count", 1 do
-        post changeset_subscribe_path(changeset), :headers => auth_header
+        post api_changeset_subscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
 
       # not closed changeset
       changeset = create(:changeset)
       assert_difference "changeset.subscribers.count", 1 do
-        post changeset_subscribe_path(changeset), :headers => auth_header
+        post api_changeset_subscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
     end
@@ -2390,7 +2390,7 @@ module Api
       # unauthorized
       changeset = create(:changeset, :closed)
       assert_no_difference "changeset.subscribers.count" do
-        post changeset_subscribe_path(changeset)
+        post api_changeset_subscribe_path(changeset)
       end
       assert_response :unauthorized
 
@@ -2398,7 +2398,7 @@ module Api
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do
-        post changeset_subscribe_path(:id => 999111), :headers => auth_header
+        post api_changeset_subscribe_path(:id => 999111), :headers => auth_header
       end
       assert_response :not_found
 
@@ -2406,7 +2406,7 @@ module Api
       changeset = create(:changeset, :closed)
       changeset.subscribers.push(user)
       assert_no_difference "changeset.subscribers.count" do
-        post changeset_subscribe_path(changeset), :headers => auth_header
+        post api_changeset_subscribe_path(changeset), :headers => auth_header
       end
       assert_response :conflict
     end
@@ -2420,7 +2420,7 @@ module Api
       changeset.subscribers.push(user)
 
       assert_difference "changeset.subscribers.count", -1 do
-        post changeset_unsubscribe_path(changeset), :headers => auth_header
+        post api_changeset_unsubscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
 
@@ -2429,7 +2429,7 @@ module Api
       changeset.subscribers.push(user)
 
       assert_difference "changeset.subscribers.count", -1 do
-        post changeset_unsubscribe_path(changeset), :headers => auth_header
+        post api_changeset_unsubscribe_path(changeset), :headers => auth_header
       end
       assert_response :success
     end
@@ -2440,7 +2440,7 @@ module Api
       # unauthorized
       changeset = create(:changeset, :closed)
       assert_no_difference "changeset.subscribers.count" do
-        post changeset_unsubscribe_path(changeset)
+        post api_changeset_unsubscribe_path(changeset)
       end
       assert_response :unauthorized
 
@@ -2448,14 +2448,14 @@ module Api
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do
-        post changeset_unsubscribe_path(:id => 999111), :headers => auth_header
+        post api_changeset_unsubscribe_path(:id => 999111), :headers => auth_header
       end
       assert_response :not_found
 
       # trying to unsubscribe when not subscribed
       changeset = create(:changeset, :closed)
       assert_no_difference "changeset.subscribers.count" do
-        post changeset_unsubscribe_path(changeset), :headers => auth_header
+        post api_changeset_unsubscribe_path(changeset), :headers => auth_header
       end
       assert_response :not_found
     end

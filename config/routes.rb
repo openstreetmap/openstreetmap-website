@@ -21,8 +21,8 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/:id/upload" => "api/changesets#upload", :as => :changeset_upload, :id => /\d+/
     get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
     get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
-    post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
+    post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
     put "changeset/:id" => "api/changesets#update", :id => /\d+/
     put "changeset/:id/close" => "api/changesets#close", :as => :changeset_close, :id => /\d+/
     get "changesets" => "api/changesets#query"
