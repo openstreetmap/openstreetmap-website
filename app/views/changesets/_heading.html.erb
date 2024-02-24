@@ -1,0 +1,15 @@
+<% title = changeset.tags["comment"].to_s.presence || t(".title", :id => changeset.id) -%>
+<div class='mb-3'>
+  <div class="row">
+    <div class="col-auto">
+      <%= user_thumbnail changeset.user %>
+    </div>
+    <div class="col">
+      <h2><%= link_to title, changeset_path(changeset) %></h2>
+    </div>
+  </div>
+
+  <small class='text-muted'>
+    <%= t(".created_by_html", :link_user => link_to(changeset.user.display_name, user_path(changeset.user)), :created => l(changeset.created_at, :format => :blog)) %>
+  </small>
+</div>

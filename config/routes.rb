@@ -127,6 +127,8 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes
   get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
   get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  match "/changeset/:id/subscribe" => "changesets#subscribe", :via => [:get, :post], :as => "changeset_subscribe"
+  match "/changeset/:id/unsubscribe" => "changesets#unsubscribe", :via => [:get, :post], :as => "changeset_unsubscribe"
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")

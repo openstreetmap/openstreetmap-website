@@ -9,6 +9,7 @@ class ChangesetsController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action -> { check_database_readable(:need_api => true) }, :only => [:index, :feed]
+  before_action :check_database_writable, :only => [:subscribe, :unsubscribe]
 
   authorize_resource
 
@@ -72,6 +73,34 @@ class ChangesetsController < ApplicationController
   # list edits as an atom feed
   def feed
     index
+  end
+
+  ##
+  # subscribe to a changeset
+  def subscribe
+    @changeset = Changeset.find(params[:id])
+
+    if request.post?
+      @changeset.subscribe(current_user) unless @changeset.subscribed?(current_user)
+
+      redirect_to changeset_path(@changeset)
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
+  end
+
+  ##
+  # unsubscribe from a changeset
+  def unsubscribe
+    @changeset = Changeset.find(params[:id])
+
+    if request.post?
+      @changeset.unsubscribe(current_user)
+
+      redirect_to changeset_path(@changeset)
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
   end
 
   private

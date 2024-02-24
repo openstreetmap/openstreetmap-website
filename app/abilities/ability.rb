@@ -36,6 +36,7 @@ class Ability
       can [:show], :deletion
 
       if Settings.status != "database_offline"
+        can [:subscribe, :unsubscribe], Changeset
         can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
         can [:index, :new, :create, :show, :edit, :update, :destroy], :oauth2_application
         can [:index, :destroy], :oauth2_authorized_application

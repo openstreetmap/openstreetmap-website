@@ -162,6 +162,7 @@ class UserMailer < ApplicationMailer
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
+      @unsubscribe_url = changeset_unsubscribe_url(comment.changeset)
       @author = @commenter
 
       subject = if @owner
