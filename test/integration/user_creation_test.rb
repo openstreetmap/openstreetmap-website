@@ -852,7 +852,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     OmniAuth.config.add_mock(:github, :uid => "123454321", :info => { "email" => new_email })
 
     assert_difference("User.count") do
-      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
@@ -880,7 +880,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :read_ct => 1,
                             :read_tou => 1 }
           assert_response :redirect
-          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
+          assert_redirected_to welcome_path
           follow_redirect!
         end
       end
@@ -888,7 +888,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "confirmations/confirm"
+    assert_template "site/welcome"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -1006,7 +1006,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     OmniAuth.config.add_mock(:wikipedia, :uid => "123454321", :info => { "email" => new_email })
 
     assert_difference("User.count") do
-      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         perform_enqueued_jobs do
           post "/user/new",
                :params => { :user => { :email => new_email,
@@ -1034,7 +1034,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :read_ct => 1,
                             :read_tou => 1 }
           assert_response :redirect
-          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
+          assert_redirected_to welcome_path
           follow_redirect!
         end
       end
@@ -1042,7 +1042,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "confirmations/confirm"
+    assert_template "site/welcome"
 
     ActionMailer::Base.deliveries.clear
   end
