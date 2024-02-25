@@ -40,7 +40,7 @@ class Ability
         can :update, :account_terms
         can :read, :dashboard
         can [:create, :subscribe, :unsubscribe], DiaryEntry
-        can :update, DiaryEntry, :user => user
+        can [:update, :hide, :unhide], DiaryEntry, :user => user
         can [:create], DiaryComment
         can [:show, :create, :destroy], Follow
         can [:read, :create, :destroy], Message
