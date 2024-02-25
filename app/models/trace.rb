@@ -202,7 +202,7 @@ class Trace < ApplicationRecord
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
     file.open do |file|
-      gpx = GPX::File.new(file.path)
+      gpx = GPX::File.new(file.path, :maximum_points => Settings.max_trace_size)
 
       f_lat = 0
       f_lon = 0

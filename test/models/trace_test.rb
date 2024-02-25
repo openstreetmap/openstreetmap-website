@@ -289,6 +289,18 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal 2, trace.size
   end
 
+  def test_import_enforces_limit
+    trace = create(:trace, :inserted => false, :fixture => "f")
+
+    with_settings(:max_trace_size => 1) do
+      assert_raise GPX::FileTooBigError do
+        trace.import
+      end
+    end
+
+    assert_not trace.inserted
+  end
+
   private
 
   def check_query(query, traces)
