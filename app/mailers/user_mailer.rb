@@ -10,11 +10,12 @@ class UserMailer < ApplicationMailer
   before_action :set_shared_template_vars
   before_action :attach_project_logo
 
-  def signup_confirm(user, token)
+  def signup_confirm(user, token, referer = nil)
     with_recipient_locale user do
       @url = url_for(:controller => "confirmations", :action => "confirm",
                      :display_name => user.display_name,
-                     :confirm_string => token.token)
+                     :confirm_string => token,
+                     :referer => referer)
 
       mail :to => user.email,
            :subject => t(".subject")
@@ -25,7 +26,7 @@ class UserMailer < ApplicationMailer
     with_recipient_locale user do
       @address = user.new_email
       @url = url_for(:controller => "confirmations", :action => "confirm_email",
-                     :confirm_string => token.token)
+                     :confirm_string => token)
 
       mail :to => user.new_email,
            :subject => t(".subject")
@@ -34,7 +35,7 @@ class UserMailer < ApplicationMailer
 
   def lost_password(user, token)
     with_recipient_locale user do
-      @url = user_reset_password_url(:token => token.token)
+      @url = user_reset_password_url(:token => token)
 
       mail :to => user.email,
            :subject => t(".subject")

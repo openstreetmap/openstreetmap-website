@@ -27,12 +27,7 @@ class SessionsController < ApplicationController
     @title = t ".title"
 
     if request.post?
-      if session[:token]
-        token = UserToken.find_by(:token => session[:token])
-        token&.destroy
-        session.delete(:token)
-      end
-
+      session.delete(:pending_user)
       session.delete(:user)
       session_expires_automatically
 

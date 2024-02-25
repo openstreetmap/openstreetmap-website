@@ -15,41 +15,37 @@ class ConfirmationsController < ApplicationController
 
   def confirm
     if request.post?
-      token = UserToken.find_by(:token => params[:confirm_string])
-      if token&.user&.active?
-        flash[:error] = t(".already active")
-        redirect_to login_path
-      elsif !token || token.expired?
+      token = params[:confirm_string]
+
+      user = User.find_by_token_for(:new_user, token) ||
+             UserToken.unexpired.find_by(:token => token)&.user
+
+      if !user
         flash[:error] = t(".unknown token")
         redirect_to :action => "confirm"
-      elsif !token.user.visible?
-        render_unknown_user token.user.display_name
+      elsif user.active?
+        flash[:error] = t(".already active")
+        redirect_to login_path
+      elsif !user.visible?
+        render_unknown_user user.display_name
       else
-        user = token.user
         user.activate
         user.email_valid = true
         flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
         user.save!
-        referer = safe_referer(token.referer) if token.referer
-        token.destroy
+        referer = safe_referer(params[:referer]) if params[:referer]
+        UserToken.delete_by(:token => token)
 
-        if session[:token]
-          token = UserToken.find_by(:token => session[:token])
-          session.delete(:token)
-        else
-          token = nil
-        end
+        pending_user = session.delete(:pending_user)
 
-        if token.nil? || token.user != user
-          flash[:notice] = t(".success")
-          redirect_to login_path(:referer => referer)
-        else
-          token.destroy
-
+        if user.id == pending_user
           session[:user] = user.id
           session[:fingerprint] = user.fingerprint
 
           redirect_to referer || welcome_path
+        else
+          flash[:notice] = t(".success")
+          redirect_to login_path(:referer => referer)
         end
       end
     else
@@ -61,12 +57,11 @@ class ConfirmationsController < ApplicationController
 
   def confirm_resend
     user = User.visible.find_by(:display_name => params[:display_name])
-    token = UserToken.find_by(:token => session[:token])
 
-    if user.nil? || token.nil? || token.user != user
+    if user.nil? || user.id != session[:pending_user]
       flash[:error] = t ".failure", :name => params[:display_name]
     else
-      UserMailer.signup_confirm(user, user.tokens.create).deliver_later
+      UserMailer.signup_confirm(user, user.generate_token_for(:new_user)).deliver_later
       flash[:notice] = { :partial => "confirmations/resend_success_flash", :locals => { :email => user.email, :sender => Settings.email_from } }
     end
 
@@ -75,9 +70,12 @@ class ConfirmationsController < ApplicationController
 
   def confirm_email
     if request.post?
-      token = UserToken.find_by(:token => params[:confirm_string])
-      if token&.user&.new_email?
-        self.current_user = token.user
+      token = params[:confirm_string]
+
+      self.current_user = User.find_by_token_for(:new_email, token) ||
+                          UserToken.unexpired.find_by(:token => params[:confirm_string])&.user
+
+      if current_user&.new_email?
         current_user.email = current_user.new_email
         current_user.new_email = nil
         current_user.email_valid = true
@@ -94,7 +92,7 @@ class ConfirmationsController < ApplicationController
         current_user.tokens.delete_all
         session[:user] = current_user.id
         session[:fingerprint] = current_user.fingerprint
-      elsif token
+      elsif current_user
         flash[:error] = t ".failure"
       else
         flash[:error] = t ".unknown_token"

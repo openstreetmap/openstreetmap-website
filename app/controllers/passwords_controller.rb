@@ -19,11 +19,10 @@ class PasswordsController < ApplicationController
     @title = t ".title"
 
     if params[:token]
-      token = UserToken.find_by(:token => params[:token])
+      self.current_user = User.find_by_token_for(:password_reset, params[:token]) ||
+                          UserToken.unexpired.find_by(:token => params[:token])&.user
 
-      if token
-        self.current_user = token.user
-      else
+      if current_user.nil?
         flash[:error] = t ".flash token bad"
         redirect_to :action => "new"
       end
@@ -42,7 +41,7 @@ class PasswordsController < ApplicationController
     end
 
     if user
-      token = user.tokens.create
+      token = user.generate_token_for(:password_reset)
       UserMailer.lost_password(user, token).deliver_later
       flash[:notice] = t ".notice email on way"
       redirect_to login_path
@@ -54,11 +53,10 @@ class PasswordsController < ApplicationController
 
   def update
     if params[:token]
-      token = UserToken.find_by(:token => params[:token])
+      self.current_user = User.find_by_token_for(:password_reset, params[:token]) ||
+                          UserToken.unexpired.find_by(:token => params[:token])&.user
 
-      if token
-        self.current_user = token.user
-
+      if current_user
         if params[:user]
           current_user.pass_crypt = params[:user][:pass_crypt]
           current_user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
@@ -66,7 +64,7 @@ class PasswordsController < ApplicationController
           current_user.email_valid = true
 
           if current_user.save
-            token.destroy
+            UserToken.delete_by(:token => params[:token])
             session[:fingerprint] = current_user.fingerprint
             flash[:notice] = t ".flash changed"
             successful_login(current_user)

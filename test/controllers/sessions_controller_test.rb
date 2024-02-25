@@ -88,10 +88,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     post user_new_path, :params => { :user => user.attributes }
     post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
-
-    assert_difference "User.find_by(:email => user.email).tokens.count", -1 do
-      post logout_path
-    end
+    post logout_path
     assert_response :redirect
     assert_redirected_to root_path
   end

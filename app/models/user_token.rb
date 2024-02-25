@@ -21,6 +21,8 @@
 class UserToken < ApplicationRecord
   belongs_to :user
 
+  scope :unexpired, -> { where("expiry >= now()") }
+
   after_initialize :set_defaults
 
   def expired?

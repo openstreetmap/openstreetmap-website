@@ -127,21 +127,21 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :new
 
     # Create a valid token for a user
-    token = user.tokens.create
+    token = user.generate_token_for(:password_reset)
 
     # Test a request with a valid token
-    get user_reset_password_path, :params => { :token => token.token }
+    get user_reset_password_path, :params => { :token => token }
     assert_response :success
     assert_template :edit
 
     # Test that errors are reported for erroneous submissions
-    post user_reset_password_path, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "different_password" } }
+    post user_reset_password_path, :params => { :token => token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "different_password" } }
     assert_response :success
     assert_template :edit
     assert_select "div.invalid-feedback"
 
     # Test setting a new password
-    post user_reset_password_path, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" } }
+    post user_reset_password_path, :params => { :token => token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" } }
     assert_response :redirect
     assert_redirected_to root_path
     assert_equal user.id, session[:user]
