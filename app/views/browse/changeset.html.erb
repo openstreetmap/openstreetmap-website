@@ -77,7 +77,7 @@
   <% end %>
 
   <% unless @ways.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("way", @way_pages), :pages => @way_pages, :page_param => "way_page" } %>
+    <%= render :partial => "paging_nav", :locals => { :type => "way", :pages => @way_pages } %>
     <ul class="list-unstyled">
       <% @ways.each do |way| %>
         <%= element_list_item "way", way do %>
@@ -90,7 +90,7 @@
   <% end %>
 
   <% unless @relations.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("relation", @relation_pages), :pages => @relation_pages, :page_param => "relation_page" } %>
+    <%= render :partial => "paging_nav", :locals => { :type => "relation", :pages => @relation_pages } %>
     <ul class="list-unstyled">
       <% @relations.each do |relation| %>
         <%= element_list_item "relation", relation do %>
@@ -103,7 +103,7 @@
   <% end %>
 
   <% unless @nodes.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :heading => type_and_paginated_count("node", @node_pages), :pages => @node_pages, :page_param => "node_page" } %>
+    <%= render :partial => "paging_nav", :locals => { :type => "node", :pages => @node_pages } %>
     <ul class="list-unstyled">
       <% @nodes.each do |node| %>
         <%= element_list_item "node", node do %>
