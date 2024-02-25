@@ -21,8 +21,8 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/:id/upload" => "api/changesets#upload", :as => :changeset_upload, :id => /\d+/
     get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
     get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
-    post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
+    post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
     put "changeset/:id" => "api/changesets#update", :id => /\d+/
     put "changeset/:id/close" => "api/changesets#close", :as => :changeset_close, :id => /\d+/
     get "changesets" => "api/changesets#query"
@@ -127,6 +127,8 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes
   get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
   get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  match "/changeset/:id/subscribe" => "changesets#subscribe", :via => [:get, :post], :as => "changeset_subscribe"
+  match "/changeset/:id/unsubscribe" => "changesets#unsubscribe", :via => [:get, :post], :as => "changeset_unsubscribe"
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")

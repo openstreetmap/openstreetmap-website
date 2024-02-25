@@ -28,6 +28,22 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/history/feed", :method => :get },
       { :controller => "changesets", :action => "feed", :format => :atom }
     )
+    assert_routing(
+      { :path => "/changeset/1/subscribe", :method => :get },
+      { :controller => "changesets", :action => "subscribe", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/changeset/1/subscribe", :method => :post },
+      { :controller => "changesets", :action => "subscribe", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/changeset/1/unsubscribe", :method => :get },
+      { :controller => "changesets", :action => "unsubscribe", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/changeset/1/unsubscribe", :method => :post },
+      { :controller => "changesets", :action => "unsubscribe", :id => "1" }
+    )
   end
 
   ##
@@ -317,6 +333,123 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     get history_feed_path(:format => "atom", :max_id => 100)
     assert_response :redirect
     assert_redirected_to :action => :feed
+  end
+
+  def test_subscribe_page
+    user = create(:user)
+    other_user = create(:user)
+    changeset = create(:changeset, :user => user)
+    path = changeset_subscribe_path(changeset)
+
+    get path
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => path)
+
+    session_for(other_user)
+    get path
+    assert_response :success
+    assert_dom ".content-body" do
+      assert_dom "a[href='#{changeset_path(changeset)}']", :text => "Changeset #{changeset.id}"
+      assert_dom "a[href='#{user_path(user)}']", :text => user.display_name
+    end
+  end
+
+  def test_subscribe_success
+    user = create(:user)
+    other_user = create(:user)
+    changeset = create(:changeset, :user => user)
+
+    session_for(other_user)
+    assert_difference "changeset.subscribers.count", 1 do
+      post changeset_subscribe_path(changeset)
+    end
+    assert_response :redirect
+    assert_redirected_to changeset_path(changeset)
+    assert changeset.reload.subscribed?(other_user)
+  end
+
+  def test_subscribe_fail
+    user = create(:user)
+    other_user = create(:user)
+
+    changeset = create(:changeset, :user => user)
+
+    # not signed in
+    assert_no_difference "changeset.subscribers.count" do
+      post changeset_subscribe_path(changeset)
+    end
+    assert_response :forbidden
+
+    session_for(other_user)
+
+    # bad diary id
+    post changeset_subscribe_path(999111)
+    assert_response :not_found
+
+    # trying to subscribe when already subscribed
+    post changeset_subscribe_path(changeset)
+    assert_no_difference "changeset.subscribers.count" do
+      post changeset_subscribe_path(changeset)
+    end
+  end
+
+  def test_unsubscribe_page
+    user = create(:user)
+    other_user = create(:user)
+    changeset = create(:changeset, :user => user)
+    path = changeset_unsubscribe_path(changeset)
+
+    get path
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => path)
+
+    session_for(other_user)
+    get path
+    assert_response :success
+    assert_dom ".content-body" do
+      assert_dom "a[href='#{changeset_path(changeset)}']", :text => "Changeset #{changeset.id}"
+      assert_dom "a[href='#{user_path(user)}']", :text => user.display_name
+    end
+  end
+
+  def test_unsubscribe_success
+    user = create(:user)
+    other_user = create(:user)
+
+    changeset = create(:changeset, :user => user)
+    changeset.subscribers.push(other_user)
+
+    session_for(other_user)
+    assert_difference "changeset.subscribers.count", -1 do
+      post changeset_unsubscribe_path(changeset)
+    end
+    assert_response :redirect
+    assert_redirected_to changeset_path(changeset)
+    assert_not changeset.reload.subscribed?(other_user)
+  end
+
+  def test_unsubscribe_fail
+    user = create(:user)
+    other_user = create(:user)
+
+    changeset = create(:changeset, :user => user)
+
+    # not signed in
+    assert_no_difference "changeset.subscribers.count" do
+      post changeset_unsubscribe_path(changeset)
+    end
+    assert_response :forbidden
+
+    session_for(other_user)
+
+    # bad diary id
+    post changeset_unsubscribe_path(999111)
+    assert_response :not_found
+
+    # trying to unsubscribe when not subscribed
+    assert_no_difference "changeset.subscribers.count" do
+      post changeset_unsubscribe_path(changeset)
+    end
   end
 
   private

@@ -105,6 +105,14 @@ class UserMailer < ApplicationMailer
 
       set_references("diary", comment.diary_entry)
 
+      set_list_headers(
+        "#{comment.diary_entry.id}.diary.www.openstreetmap.org",
+        t(".description", :id => comment.diary_entry.id),
+        :archive => @readurl,
+        :subscribe => diary_entry_subscribe_url(comment.diary_entry.user, comment.diary_entry),
+        :unsubscribe => @unsubscribeurl
+      )
+
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.notification_token(recipient.id), recipient.id),
            :to => recipient.email,
            :subject => t(".subject", :user => comment.user.display_name)
@@ -143,6 +151,12 @@ class UserMailer < ApplicationMailer
 
       set_references("note", comment.note)
 
+      set_list_headers(
+        "#{comment.note.id}.note.www.openstreetmap.org",
+        t(".description", :id => comment.note.id),
+        :archive => @noteurl
+      )
+
       subject = if @owner
                   t(".#{@event}.subject_own", :commenter => @commenter)
                 else
@@ -163,6 +177,7 @@ class UserMailer < ApplicationMailer
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
+      @unsubscribe_url = changeset_unsubscribe_url(comment.changeset)
       @author = @commenter
 
       subject = if @owner
@@ -174,6 +189,14 @@ class UserMailer < ApplicationMailer
       attach_user_avatar(comment.author)
 
       set_references("changeset", comment.changeset)
+
+      set_list_headers(
+        "#{comment.changeset.id}.changeset.www.openstreetmap.org",
+        t(".description", :id => comment.changeset.id),
+        :subscribe => changeset_subscribe_url(comment.changeset),
+        :unsubscribe => @unsubscribe_url,
+        :archive => @changeset_url
+      )
 
       mail :to => recipient.email, :subject => subject
     end
@@ -246,5 +269,12 @@ class UserMailer < ApplicationMailer
     headers["X-Entity-Ref-ID"] = ref
     headers["In-Reply-To"] = ref
     headers["References"] = ref
+  end
+
+  def set_list_headers(id, description, options = {})
+    headers["List-ID"] = "#{description} <#{id}>"
+    headers["List-Archive"] = "<#{options[:archive]}>" if options[:archive]
+    headers["List-Subscribe"] = "<#{options[:subscribe]}>" if options[:subscribe]
+    headers["List-Unsubscribe"] = "<#{options[:unsubscribe]}>" if options[:unsubscribe]
   end
 end

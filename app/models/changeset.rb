@@ -213,4 +213,16 @@ class Changeset < ApplicationRecord
 
     save_with_tags!
   end
+
+  def subscribe(user)
+    subscribers << user
+  end
+
+  def unsubscribe(user)
+    subscribers.delete(user)
+  end
+
+  def subscribed?(user)
+    subscribers.exists?(user.id)
+  end
 end
