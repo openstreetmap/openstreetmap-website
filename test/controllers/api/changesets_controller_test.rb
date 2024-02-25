@@ -281,11 +281,11 @@ module Api
       assert_single_changeset_json changeset, js
       assert_equal 3, js["changeset"]["comments"].count
       assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
+      assert js["changeset"]["comments"][0]["visible"]
       assert_equal comment1.id, js["changeset"]["comments"][1]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][1]["visible"]
+      assert js["changeset"]["comments"][1]["visible"]
       assert_equal comment2.id, js["changeset"]["comments"][2]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][2]["visible"]
+      assert js["changeset"]["comments"][2]["visible"]
 
       # one hidden comment not included because not asked for
       comment1.update(:visible => false)
@@ -300,9 +300,9 @@ module Api
       assert_single_changeset_json changeset, js
       assert_equal 2, js["changeset"]["comments"].count
       assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
+      assert js["changeset"]["comments"][0]["visible"]
       assert_equal comment2.id, js["changeset"]["comments"][1]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][1]["visible"]
+      assert js["changeset"]["comments"][1]["visible"]
 
       # one hidden comment not included because no permissions
       get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true }
@@ -315,10 +315,10 @@ module Api
       assert_single_changeset_json changeset, js
       assert_equal 2, js["changeset"]["comments"].count
       assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
+      assert js["changeset"]["comments"][0]["visible"]
       # maybe will show an empty comment element with visible=false in the future
       assert_equal comment2.id, js["changeset"]["comments"][1]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][1]["visible"]
+      assert js["changeset"]["comments"][1]["visible"]
 
       # one hidden comment shown to moderators
       moderator_user = create(:moderator_user)
@@ -334,11 +334,11 @@ module Api
       assert_single_changeset_json changeset, js
       assert_equal 3, js["changeset"]["comments"].count
       assert_equal comment0.id, js["changeset"]["comments"][0]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][0]["visible"]
+      assert js["changeset"]["comments"][0]["visible"]
       assert_equal comment1.id, js["changeset"]["comments"][1]["id"]
-      assert_operator false, :==, js["changeset"]["comments"][1]["visible"]
+      assert_not js["changeset"]["comments"][1]["visible"]
       assert_equal comment2.id, js["changeset"]["comments"][2]["id"]
-      assert_operator true, :==, js["changeset"]["comments"][2]["visible"]
+      assert js["changeset"]["comments"][2]["visible"]
     end
 
     def test_show_tag_and_discussion_json
@@ -2572,10 +2572,10 @@ module Api
       assert_equal changeset.id, js["changeset"]["id"]
       assert_equal changeset.created_at.xmlschema, js["changeset"]["created_at"]
       if changeset.open?
-        assert_operator true, :==, js["changeset"]["open"]
+        assert js["changeset"]["open"]
         assert_nil js["changeset"]["closed_at"]
       else
-        assert_operator false, :==, js["changeset"]["open"]
+        assert_not js["changeset"]["open"]
         assert_equal changeset.closed_at.xmlschema, js["changeset"]["closed_at"]
       end
     end
