@@ -765,11 +765,21 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
-    session_for(user)
+    session_for(create(:user))
     post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert DiaryEntry.find(diary_entry.id).visible
+
+    # Now try as the author
+    session_for(user)
+    post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert_not DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
 
     # Now try as a moderator
     session_for(create(:moderator_user))
@@ -799,11 +809,21 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
-    session_for(user)
+    session_for(create(:user))
     post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
     assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_not DiaryEntry.find(diary_entry.id).visible
+
+    # Now try as the author
+    session_for(user)
+    post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
 
     # Now try as a moderator
     session_for(create(:moderator_user))

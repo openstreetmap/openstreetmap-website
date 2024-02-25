@@ -43,7 +43,7 @@ class Ability
         can [:new, :show, :create, :destroy], :oauth2_authorization
         can [:edit, :update, :destroy], :account
         can [:show], :dashboard
-        can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
+        can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe, :hide, :unhide], DiaryEntry
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
         can [:close, :reopen], Note
@@ -55,7 +55,7 @@ class Ability
         can [:index, :create, :destroy], UserMute
 
         if user.moderator?
-          can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
+          can [:hidecomment, :unhidecomment], DiaryEntry
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:new, :create, :edit, :update, :destroy], Redaction

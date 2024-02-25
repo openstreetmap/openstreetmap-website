@@ -47,11 +47,11 @@ class UserAbilityTest < AbilityTest
   test "Diary permissions" do
     ability = Ability.new create(:user)
 
-    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe].each do |action|
+    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :unhide].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
 
-    [:hide, :unhide, :hidecomment, :unhidecomment].each do |action|
+    [:hidecomment, :unhidecomment].each do |action|
       assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
     end
 
