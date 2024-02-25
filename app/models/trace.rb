@@ -267,6 +267,14 @@ class Trace < ApplicationRecord
     end
   end
 
+  def schedule_import
+    TraceImporterJob.new(self).enqueue(:priority => user.traces.where(:inserted => false).count)
+  end
+
+  def schedule_destruction
+    TraceDestroyerJob.perform_later(self)
+  end
+
   private
 
   def content_type(file)
