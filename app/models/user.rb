@@ -98,7 +98,8 @@ class User < ApplicationRecord
                            :normalized_uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :characters => { :url_safe => true },
-                           :whitespace => { :leading => false, :trailing => false }
+                           :whitespace => { :leading => false, :trailing => false },
+                           :width => { :minimum => 3 }
   validate :display_name_cannot_be_user_id_with_other_id, :if => proc { |u| u.display_name_changed? }
   validates :email, :presence => true, :confirmation => true, :characters => true
   validates :email, :if => proc { |u| u.email_changed? },

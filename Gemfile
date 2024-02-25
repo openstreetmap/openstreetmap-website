@@ -136,6 +136,9 @@ gem "aws-sdk-s3"
 # Used to resize user images
 gem "image_processing"
 
+# Used to validate widths
+gem "unicode-display_width"
+
 # Gems useful for development
 group :development do
   gem "better_errors"

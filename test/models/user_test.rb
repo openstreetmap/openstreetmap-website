@@ -67,6 +67,18 @@ class UserTest < ActiveSupport::TestCase
     assert_not_predicate user, :valid?, "should not allow nil value"
   end
 
+  def test_display_name_width
+    user = build(:user)
+    user.display_name = "123"
+    assert_predicate user, :valid?, "should allow 3 column name name"
+    user.display_name = "12"
+    assert_not_predicate user, :valid?, "should not allow 2 column name"
+    user.display_name = "1\u{200B}2"
+    assert_not_predicate user, :valid?, "should not allow 2 column name"
+    user.display_name = "\u{200B}\u{200B}\u{200B}"
+    assert_not_predicate user, :valid?, "should not allow 0 column name"
+  end
+
   def test_display_name_valid
     # Due to sanitisation in the view some of these that you might not
     # expect are allowed
