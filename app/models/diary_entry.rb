@@ -36,6 +36,7 @@ class DiaryEntry < ApplicationRecord
   has_many :subscribers, :through => :subscriptions, :source => :user
 
   scope :visible, -> { where(:visible => true) }
+  scope :visible_to, ->(user) { where(:visible => true).or(where(:user => user)) unless user&.moderator? || user&.administrator? }
 
   validates :title, :presence => true, :length => 1..255, :characters => true
   validates :body, :presence => true, :characters => true

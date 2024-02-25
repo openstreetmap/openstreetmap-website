@@ -298,7 +298,7 @@ class ApplicationController < ActionController::Base
     Ability.new(current_user)
   end
 
-  def deny_access(_exception)
+  def deny_access(_exception = nil)
     if current_user
       set_locale
       respond_to do |format|
