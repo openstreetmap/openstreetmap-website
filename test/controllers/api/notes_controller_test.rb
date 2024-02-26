@@ -851,35 +851,37 @@ module Api
       note = create(:note, :author => create(:user))
       note_comment = create(:note_comment, :note => note, :author => create(:user))
 
-      get search_api_notes_path(:user => [note.author, note_comment.author].sample.id, :format => "xml")
-      assert_response :success
-      assert_equal "application/xml", @response.media_type
-      assert_select "osm", :count => 1 do
-        assert_select "note", :count => 1
-      end
-
-      get search_api_notes_path(:user => [note.author, note_comment.author].sample.id, :format => "json")
-      assert_response :success
-      assert_equal "application/json", @response.media_type
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal "FeatureCollection", js["type"]
-      assert_equal 1, js["features"].count
-
-      get search_api_notes_path(:user => [note.author, note_comment.author].sample.id, :format => "rss")
-      assert_response :success
-      assert_equal "application/rss+xml", @response.media_type
-      assert_select "rss", :count => 1 do
-        assert_select "channel", :count => 1 do
-          assert_select "item", :count => 1
+      [note.author, note_comment.author].each do |user|
+        get search_api_notes_path(:user => user.id, :format => "xml")
+        assert_response :success
+        assert_equal "application/xml", @response.media_type
+        assert_select "osm", :count => 1 do
+          assert_select "note", :count => 1
         end
-      end
 
-      get search_api_notes_path(:user => [note.author, note_comment.author].sample.id, :format => "gpx")
-      assert_response :success
-      assert_equal "application/gpx+xml", @response.media_type
-      assert_select "gpx", :count => 1 do
-        assert_select "wpt", :count => 1
+        get search_api_notes_path(:user => user.id, :format => "json")
+        assert_response :success
+        assert_equal "application/json", @response.media_type
+        js = ActiveSupport::JSON.decode(@response.body)
+        assert_not_nil js
+        assert_equal "FeatureCollection", js["type"]
+        assert_equal 1, js["features"].count
+
+        get search_api_notes_path(:user => user.id, :format => "rss")
+        assert_response :success
+        assert_equal "application/rss+xml", @response.media_type
+        assert_select "rss", :count => 1 do
+          assert_select "channel", :count => 1 do
+            assert_select "item", :count => 1
+          end
+        end
+
+        get search_api_notes_path(:user => user.id, :format => "gpx")
+        assert_response :success
+        assert_equal "application/gpx+xml", @response.media_type
+        assert_select "gpx", :count => 1 do
+          assert_select "wpt", :count => 1
+        end
       end
     end
 
