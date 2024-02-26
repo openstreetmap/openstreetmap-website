@@ -24,6 +24,7 @@
 # Author: HanV
 # Author: Hansmuller
 # Author: Henke
+# Author: Iamthedutchdude
 # Author: JaapDeKleine
 # Author: Jillids
 # Author: Jochempluim
@@ -497,6 +498,15 @@ nl:
       introduction: Klik op de kaart om nabije objecten te vinden.
       nearby: Objecten in de buurt
       enclosing: Omsluitende objecten
+  old_nodes:
+    not_found:
+      sorry: 'Sorry, knooppunt #%{id} versie %{version} kon niet worden gevonden.'
+  old_ways:
+    not_found:
+      sorry: 'Sorry, weg #%{id} versie %{version} niet kon worden gevonden.'
+  old_relations:
+    not_found:
+      sorry: 'Sorry, relatie #%{id} versie %{version} kon niet worden gevonden.'
   changesets:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -1873,9 +1883,13 @@ nl:
     heading:
       my_inbox: Mijn Postvak IN
       my_outbox: Mijn Postvak UIT
+      muted_messages: Gedempte berichten
     mark:
       as_read: Gemarkeerd als gelezen
       as_unread: Gemarkeerd als ongelezen
+    unmute:
+      notice: Bericht is verplaatst naar Inbox
+      error: Het bericht kon niet naar de Inbox worden verplaatst.
     destroy:
       destroyed: Het bericht is verwijderd
   passwords:
@@ -2002,6 +2016,7 @@ nl:
       image: Afbeelding
       alt: Alternatieve tekst
       url: URL
+      codeblock: Codeblok
     richtext_field:
       edit: Bewerken
       preview: Voorvertoning
@@ -2375,6 +2390,7 @@ nl:
           primary: Primaire weg
           secondary: Secundaire weg
           unclassified: Lokale weg
+          pedestrian: Voetpad
           track: Veld- of bosweg
           bridleway: Ruiterpad
           cycleway: Fietspad
@@ -2418,16 +2434,19 @@ nl:
           lake: Meer
           reservoir: Reservoir
           glacier: Gletsjer
+          wetland: Moeras
           farm: Boerderij
           brownfield: Braakliggend terrein
           cemetery: Begraafplaats
           allotments: Volkstuinen
           pitch: Sportveld
           centre: Sportcentrum
+          beach: Strand
           reserve: Natuurreservaat
           military: Militair gebied
           school: School; universiteit
           university: Universiteit
+          hospital: Ziekenhuis
           building: Belangrijk gebouw
           station: Spoorwegstation
           summit: Top
@@ -2442,6 +2461,7 @@ nl:
           bicycle_shop: Fietsenwinkel
           bicycle_rental: Fietsverhuur
           bicycle_parking: Fietsenstalling
+          bicycle_parking_small: Kleine fietsenstalling
           toilets: Toiletten
     welcome:
       title: Welkom!
@@ -2643,6 +2663,7 @@ nl:
       oauth1_settings: OAuth 1 instellingen
       oauth2_applications: OAuth 2 toepassingen
       oauth2_authorizations: OAuth 2 autorisaties
+      muted_users: Gedempte gebruikers
   oauth:
     authorize:
       title: Geef toegang tot uw account
@@ -2853,6 +2874,8 @@ nl:
       my_dashboard: Mijn dashboard
       blocks on me: Blokkades voor u
       blocks by me: Blokkades door u
+      create_mute: Demp deze gebruiker
+      destroy_mute: Hef het dempen van deze gebruiker op
       edit_profile: Profiel wijzigen
       send message: Bericht verzenden
       diary: Dagboek
@@ -3053,6 +3076,28 @@ nl:
       showing_page: Pagina %{page}
       next: Volgende »
       previous: « Vorige
+  user_mutes:
+    index:
+      title: Gedempte gebruikers
+      my_muted_users: Mijn gedempte gebruikers
+      you_have_muted_n_users:
+        one: Je hebt %{count} gebruiker gedempt
+        other: Je hebt %{count} gebruikers gedempt
+      user_mute_explainer: Berichten van gedempte gebruikers worden naar een aparte
+        inbox verplaatst en u ontvangt geen e-mailmeldingen.
+      user_mute_admins_and_moderators: U kunt beheerders en moderators dempen, maar
+        hun berichten worden niet gedempt.
+      table:
+        thead:
+          muted_user: Gedempte gebruiker
+        tbody:
+          unmute: Dempen opheffen
+    create:
+      notice: Je hebt %{name} gedempt.
+      error: '%{name} kan niet worden gedempt. %{full_message}.'
+    destroy:
+      notice: Je hebt het dempen van %{name} opgeheven.
+      error: Het dempen van de gebruiker kan niet worden opgeheven. Probeer het opnieuw.
   notes:
     index:
       title: Opmerkingen gemaakt door %{user}
@@ -3090,6 +3135,7 @@ nl:
       reactivate: Opnieuw activeren
       comment_and_resolve: Reageren en oplossen
       comment: Reageren
+      log_in_to_comment: Log in om op deze notitie te reageren
       report_link_html: Als deze opmerking gevoelige informatie bevat die verwijderd
         moet worden, kunt u %{link}.
       other_problems_resolve: Voor alle andere problemen met de notitie, gelieve deze

@@ -622,8 +622,15 @@ sk:
       applications:
         create:
           notice: Aplikácia bola zaregistrovaná.
+    scopes:
+      address: Zobraziť vašu fyzickú adresu
+      email: Zobraziť vašu emailovú adresu
+      openid: Overte svoj účet
+      phone: Zobraziť vaše telefónne číslo
+      profile: Zobraziť vaše profilové údaje
   errors:
     contact:
+      contact_url_title: Vysvetlenie rôznych kontaktných kanálov
       contact: kontaktovať
       contact_the_community_html: Neváhajte %{contact_link} komunitu OpenStreetMap,
         ak ste našli nefunkčný odkaz/chybu. Poznačte si presnú adresu URL vašej žiadosti.
@@ -1742,6 +1749,10 @@ sk:
       title: Upraviť preferencie
       save: Aktualizovať preferencie
       cancel: Zrušiť
+    update:
+      failure: Nepodarilo sa aktualizovať predvoľby.
+    update_success_flash:
+      message: Predvoľby aktualizované.
   profiles:
     edit:
       title: Upraviť profil
@@ -1751,6 +1762,8 @@ sk:
       gravatar:
         gravatar: Používať Gravatar
         what_is_gravatar: Čo je Gravatar?
+        disabled: Gravatar bol vypnutý.
+        enabled: Zobrazenie vášho Gravatara bolo zapnuté.
       new image: 'Pridať obrázok:'
       keep image: Ponechať aktuálny obrázok
       delete image: Odstrániť aktuálny obrázok
@@ -1759,7 +1772,11 @@ sk:
       home location: Domovské miesto
       no home location: Nezadali ste svoje domovské miesto.
       update home location on click: Aktualizovať domovské miesto kliknutím na mapu?
+      show: Zobraziť
+      delete: Zmazať
+      undelete: Vrátiť späť odstránenie
     update:
+      success: Profil aktualizovaný.
       failure: Nepodarilo sa upraviť profil.
   sessions:
     new:
@@ -1793,6 +1810,7 @@ sk:
           alt: Prihlásiť sa pomocou účtu na GitHube
         wikipedia:
           title: Prihlásiť sa pomocou Wikipédie
+          alt: Prihláste sa pomocou účtu Wikipedia
         wordpress:
           title: Prihlásenie sa pomocou Wordpress
           alt: Prihlásenie sa pomocou Wordpress OpenID
@@ -2033,7 +2051,16 @@ sk:
           explanation_html: Ak ste si všimli problém s našimi mapovými údajmi, napríklad
             chýba cesta alebo vaša adresa, najlepší spôsob, ako postupovať, je pripojiť
             sa ku komunite OpenStreetMap a pridať alebo opraviť údaje sami.
+        add_a_note:
+          instructions_1_html: |-
+            Stačí kliknúť na %{note_icon} alebo na rovnakú ikonu v zobrazení mapy.
+            Týmto sa pridá značka na mapu, ktorú môžete presúvať
+            ťahaním. Pridajte svoju správu, kliknite na tlačidlo Uložiť a ostatní tvorcovia máp to preskúmajú.
       other_concerns:
+        title: Ostatné obavy
+        concerns_html: "Ak máte obavy týkajúce sa spôsobu používania našich údajov
+          alebo obsahu, mnohé vysvetľuje \n%{copyright_link}, kde nájdete ďalšie právne
+          informácie, alebo vám pomôže príslušná %{working_group_link}, ak ju kontaktujete."
         copyright: stránka o autorských právach
         working_group: pracovná skupina OSMF
     help:
@@ -2051,6 +2078,7 @@ sk:
         description: Komunitou spravovaná príručka pre začiatočníkov.
       community:
         title: Pomoc & Komunitné fórum
+        description: Zdieľané miesto pre hľadanie pomoci a konverzácie o OpenStreetMap.
       mailing_lists:
         title: E-mailové konferencie
         description: Spýtajte sa otázku alebo diskutuje zaujímavé témy v tematických
@@ -2069,8 +2097,22 @@ sk:
       wiki:
         title: OpenStreetMap Wiki
         description: Podrobnú dokumentáciu OpenStreetMap nájdete na wiki.
+    potlatch:
+      removed: Váš prednastavená editor je nastavený na Potlatch. Pretože však Adobe
+        Flash Player bol už stiahnutý z používania, Potlatch už nie je možné používať
+        vo webovom prehliadači.
+      desktop_application_html: Naďalej môžete Potlatch používať %{download_link}.
+      download: stiahnutím aplikácie do počítača pre Mac a Windows.
+      id_editor_html: Na druhej strane, môžete nastaviť svoj predvolený editor na
+        iD, ktorý beží vo webovom prehliadači podobne ako kedysi Potlatch . %{change_preferences_link}.
+      change_preferences: Zmeňte svoje predvoľby tu
     any_questions:
       title: Akékoľvek otázky?
+      paragraph_1_html: |-
+        OpenStreetMap má viacero zdrojov pre získanie informácií o projekte, pýtanie sa a zodpovenia otázok a spoločné diskutovanie a dokumentovanie mapovacích tém.
+        %{help_link}. Ste v organizácii s plánmi pre OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Získajte pomoc tu
+      welcome_mat: Pozrite sa na Welcome Mat
     sidebar:
       search_results: Výsledky vyhľadávania
       close: Zavrieť
@@ -2149,10 +2191,29 @@ sk:
         najdôležitejších, ktoré potrebujete vedieť.
       whats_on_the_map:
         title: Čo patrí do mapy
+        on_the_map_html: OpenStreetMap je miesto pre mapovanie vecí, ktoré sú %{real_and_current}
+          – zahŕňa milióny budov, ciest a ďalších detailov o miestach. Môžete mapovať
+          čokoľvek zo skutočného sveta čo vás zaujíma.
+        real_and_current: skutočné a aktuálne
+        off_the_map_html: |-
+          To, čo %{doesnt}, sú subjektívne údaje ako hodnotenia, historické alebo
+          hypotetické prvky a údaje zo zdrojov chránených autorskými právami. Ak nemáte špeciálne povolenie, nekopírujte z online alebo papierových máp.
+        doesnt: neobsahuje
       basic_terms:
         title: Základné pojmy pre mapovanie
         paragraph_1: OpenStreetMap má svoj vlastný žargón. Tu je niekoľko kľúčových
           slov, ktoré vám prídu vhod.
+        an_editor_html: '%{editor} je program alebo webová stránka, ktorú môžete použiť
+          na úpravu mapy.'
+        a_node_html: '%{node} je bod na mape, napríklad jedna reštaurácia alebo strom.'
+        a_way_html: '%{way} je čiara alebo oblasť, ako je cesta, potok, jazero alebo
+          budova.'
+        a_tag_html: '%{tag} je časť údajov o uzle alebo ceste, napríklad názov reštaurácie
+          alebo rýchlostný limit cesty.'
+        editor: Editor
+        node: Uzol
+        way: Cesta
+        tag: Značka
       rules:
         title: Pravidlá!
         para_1_html: OpenStreetMap má len niekoľko formálnych pravidiel, ale očakávame,
@@ -2272,6 +2333,8 @@ sk:
     offline:
       heading: GPX úložisko je offline
       message: GPX úložisko a nahrávanie GPX súborov je momentálne nedostupné.
+    georss:
+      title: OpenStreetMap GPS Stopy
     description:
       description_without_count: GPX súbor od používateľa %{user}
   application:
