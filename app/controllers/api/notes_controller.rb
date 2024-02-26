@@ -230,7 +230,13 @@ module Api
                    .order(:created_at => :desc, :note_comments => :desc).limit(result_limit)
                    .preload(:author, :comments => :author)
 
-      @comments = notes.flat_map(&:comments_with_extra_open_comment)
+      @comments = notes.flat_map do |note|
+        if note.body_migrated?
+          note.comments_with_extra_open_comment
+        else
+          note.comments
+        end
+      end
 
       # Render the result
       respond_to do |format|
