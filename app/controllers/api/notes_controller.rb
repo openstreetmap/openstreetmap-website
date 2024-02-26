@@ -236,7 +236,12 @@ module Api
         else
           note.comments
         end
-      end
+      end.take(result_limit)
+      # FIXME: notes_refactoring
+      # Migrated and new Note records do not have the extra `open`-NoteComment
+      # so these are synthesized by calling Note#comments_with_extra_open_comment
+      # thus we might be ending up with more NoteComment-objects than asked for
+      # for with result_limit.
 
       # Render the result
       respond_to do |format|
