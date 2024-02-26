@@ -26,11 +26,11 @@ module ApplicationHelper
   end
 
   def friendly_date(date)
-    tag.time(time_ago_in_words(date), :title => l(date, :format => :friendly), :datetime => date.xmlschema)
+    tag.time(time_ago_in_words(date), :title => l(date, :format => :friendly), :datetime => date.xmlschema, :tabindex => 0)
   end
 
   def friendly_date_ago(date)
-    tag.time(time_ago_in_words(date, :scope => :"datetime.distance_in_words_ago"), :title => l(date, :format => :friendly), :datetime => date.xmlschema)
+    tag.time(time_ago_in_words(date, :scope => :"datetime.distance_in_words_ago"), :title => l(date, :format => :friendly), :datetime => date.xmlschema, :tabindex => 0)
   end
 
   def body_class

@@ -23,9 +23,9 @@ module ChangesetsHelper
     end
 
     if params.key?(:display_name)
-      t "browse.#{action}_ago_html", :time_ago => tag.time(time, :title => title, :datetime => datetime)
+      t "browse.#{action}_ago_html", :time_ago => tag.time(time, :title => title, :datetime => datetime, :tabindex => 0)
     else
-      t "browse.#{action}_ago_by_html", :time_ago => tag.time(time, :title => title, :datetime => datetime),
+      t "browse.#{action}_ago_by_html", :time_ago => tag.time(time, :title => title, :datetime => datetime, :tabindex => 0),
                                         :user => changeset_user_link(changeset)
     end
   end
