@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@example.com" }
     sequence(:display_name) { |n| "User #{n}" }
-    pass_crypt { Digest::MD5.hexdigest("test") }
+    pass_crypt { PasswordHash.create("test").first }
 
     # These attributes are not the defaults, but in most tests we want
     # a 'normal' user who can log in without being redirected etc.
