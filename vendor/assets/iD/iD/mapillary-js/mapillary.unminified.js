@@ -79294,7 +79294,7 @@ void main()
             };
         }
         spatialImage(source) {
-            var _a, _b, _c, _d;
+            var _a, _b, _c, _d, _e;
             source.camera_type = convertCameraType(source.camera_type);
             source.merge_id = source.merge_cc ? source.merge_cc.toString() : null;
             source.private = null;
@@ -79302,9 +79302,9 @@ void main()
                 source.thumb_2048_url : source.thumb_1024_url;
             source.thumb = (_a = source.thumb) !== null && _a !== void 0 ? _a : { id: null, url: thumbUrl };
             source.cluster = (_b = source.sfm_cluster) !== null && _b !== void 0 ? _b : { id: null, url: null };
-            source.creator = { id: null, username: null };
-            source.owner = (_c = source.organization) !== null && _c !== void 0 ? _c : { id: null };
-            source.mesh = (_d = source.mesh) !== null && _d !== void 0 ? _d : { id: null, url: null };
+            source.creator = (_c = source.creator) !== null && _c !== void 0 ? _c : { id: null, username: null };
+            source.owner = (_d = source.organization) !== null && _d !== void 0 ? _d : { id: null };
+            source.mesh = (_e = source.mesh) !== null && _e !== void 0 ? _e : { id: null, url: null };
             return source;
         }
         _geometry(geometry) {
@@ -79335,6 +79335,7 @@ void main()
                 'computed_altitude',
                 'computed_compass_angle',
                 'computed_rotation',
+                'creator',
                 'exif_orientation',
                 'height',
                 'merge_cc',
