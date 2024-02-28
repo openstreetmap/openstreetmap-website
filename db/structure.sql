@@ -1533,38 +1533,6 @@ ALTER SEQUENCE public.user_roles_id_seq OWNED BY public.user_roles.id;
 
 
 --
--- Name: user_tokens; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.user_tokens (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    token character varying NOT NULL,
-    expiry timestamp without time zone NOT NULL,
-    referer text
-);
-
-
---
--- Name: user_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.user_tokens_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: user_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.user_tokens_id_seq OWNED BY public.user_tokens.id;
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1880,13 +1848,6 @@ ALTER TABLE ONLY public.user_mutes ALTER COLUMN id SET DEFAULT nextval('public.u
 --
 
 ALTER TABLE ONLY public.user_roles ALTER COLUMN id SET DEFAULT nextval('public.user_roles_id_seq'::regclass);
-
-
---
--- Name: user_tokens id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_tokens ALTER COLUMN id SET DEFAULT nextval('public.user_tokens_id_seq'::regclass);
 
 
 --
@@ -2278,14 +2239,6 @@ ALTER TABLE ONLY public.user_preferences
 
 ALTER TABLE ONLY public.user_roles
     ADD CONSTRAINT user_roles_pkey PRIMARY KEY (id);
-
-
---
--- Name: user_tokens user_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_tokens
-    ADD CONSTRAINT user_tokens_pkey PRIMARY KEY (id);
 
 
 --
@@ -2902,20 +2855,6 @@ CREATE UNIQUE INDEX user_roles_id_role_unique ON public.user_roles USING btree (
 
 
 --
--- Name: user_tokens_token_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX user_tokens_token_idx ON public.user_tokens USING btree (token);
-
-
---
--- Name: user_tokens_user_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX user_tokens_user_id_idx ON public.user_tokens USING btree (user_id);
-
-
---
 -- Name: users_auth_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3491,14 +3430,6 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- Name: user_tokens user_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_tokens
-    ADD CONSTRAINT user_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: way_nodes way_nodes_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3581,6 +3512,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240228205723'),
 ('20240117185445'),
 ('20231213182102'),
 ('20231206141457'),

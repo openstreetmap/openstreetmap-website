@@ -112,8 +112,6 @@ class ApiController < ApplicationController
       # authenticate per-scheme
       self.current_user = if username.nil?
                             nil # no authentication provided - perhaps first connect (client should retry after 401)
-                          elsif username == "token"
-                            User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
                           else
                             User.authenticate(:username => username, :password => passwd) # basic auth
                           end

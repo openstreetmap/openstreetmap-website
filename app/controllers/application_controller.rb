@@ -44,8 +44,6 @@ class ApplicationController < ActionController::Base
           redirect_to :controller => "users", :action => "terms", :referer => request.fullpath
         end
       end
-    elsif session[:token]
-      session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
 
     session[:fingerprint] = current_user.fingerprint if current_user && session[:fingerprint].nil?
