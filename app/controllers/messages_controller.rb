@@ -60,12 +60,12 @@ class MessagesController < ApplicationController
     @message = Message.where(:recipient => current_user).or(Message.where(:sender => current_user.id)).find(params[:id])
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
-    if @message.save && !request.xhr?
+    if @message.save
       flash[:notice] = t ".destroyed"
 
       referer = safe_referer(params[:referer]) if params[:referer]
 
-      redirect_to referer || { :action => :inbox }
+      redirect_to referer || { :action => :inbox }, :status => :see_other
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
@@ -125,9 +125,9 @@ class MessagesController < ApplicationController
       notice = t ".as_read"
     end
     @message.message_read = message_read
-    if @message.save && !request.xhr?
+    if @message.save
       flash[:notice] = notice
-      redirect_to :action => :inbox
+      redirect_back_or_to inbox_messages_path, :status => :see_other
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"

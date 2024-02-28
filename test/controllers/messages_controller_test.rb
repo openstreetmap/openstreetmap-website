@@ -408,15 +408,13 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_not Message.find(unread_message.id).message_read
 
     # Check that the marking a message read via XHR works
-    post message_mark_path(:message_id => unread_message, :mark => "read"), :xhr => true
-    assert_response :success
-    assert_template "mark"
+    post message_mark_path(:message_id => unread_message, :mark => "read")
+    assert_response :see_other
     assert Message.find(unread_message.id).message_read
 
     # Check that the marking a message unread via XHR works
-    post message_mark_path(:message_id => unread_message, :mark => "unread"), :xhr => true
-    assert_response :success
-    assert_template "mark"
+    post message_mark_path(:message_id => unread_message, :mark => "unread")
+    assert_response :see_other
     assert_not Message.find(unread_message.id).message_read
 
     # Asking to mark a message with no ID should fail
