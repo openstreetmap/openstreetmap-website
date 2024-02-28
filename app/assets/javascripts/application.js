@@ -18,6 +18,9 @@
 //= require qs/dist/qs
 //= require bs-custom-file-input
 //= require bs-custom-file-input-init
+//= require @hotwired/turbo
+
+Turbo.session.drive = false
 
 /*
  * Called as the user scrolls/zooms around to manipulate hrefs of the
