@@ -5,6 +5,8 @@ OpenStreetMap::Application.routes.draw do
                 :authorized_applications => "oauth2_authorized_applications"
   end
 
+  use_doorkeeper_openid_connect :scope => "oauth2" if Settings.key?(:doorkeeper_signing_key)
+
   # API
   namespace :api do
     get "capabilities" => "capabilities#show" # Deprecated, remove when 0.6 support is removed
