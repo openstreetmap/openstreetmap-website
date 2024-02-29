@@ -661,10 +661,39 @@ it:
       newer_comments: Commenti più recenti
       older_comments: Commenti più vecchi
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Il server di autorizzazione richiede la selezione
+          dell'account dell'utente finale
+        consent_required: Il server di autorizzazione richiede il consenso dell'utente
+          finale
+        interaction_required: Il server di autorizzazione richiede un'interazione
+          da parte dell'utente finale
+        login_required: Il server di autorizzazione richiede l'autenticazione dell'utente
+          finale
     flash:
       applications:
         create:
           notice: Applicazione registrata.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: La generazione del token ID è fallita a causa della
+            configurazione mancante di Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vedi il tuo indirizzo fisico
+      email: Vedi il tuo indirizzo e-mail
+      openid: Autentica la tua utenza
+      phone: Vedi il tuo numero di telefono
+      profile: Vedi le informazioni del tuo profilo
   errors:
     contact:
       contact: contattare
@@ -2218,38 +2247,15 @@ it:
         url: /welcome
         title: Benvenuti in OpenHistoricalMap
         description: Inizia con questa guida rapida che copre le basi di OpenHistoricalMap.
-      beginners_guide:
-        url: https://wiki.openstreetmap.org/wiki/IT:Beginners%27_guide
-        title: Guida per Principianti
-        description: Guida per i principianti gestita dalla community.
-      help:
-        url: https://help.openstreetmap.org/
-        title: Forum di aiuto
-        description: Fai una domanda o cerca risposte sul sito di domande e risposte
-          di OpenHistoricalMap.
-      mailing_lists:
-        title: Mailing List
-        description: Poni la tua domanda o discuti questioni di interesse su una vasta
-          gamma di mailing list tematiche o regionali.
-      forums:
-        title: Forum
-        description: Domande e discussioni per coloro che preferiscono un'interfaccia
-          in stile bacheca (BBS).
-      irc:
-        title: IRC
-        description: Chat interattiva in molte lingue diverse e su molti argomenti.
-      switch2osm:
+      discord:
         title: switch2osm
-        description: Aiuto per imprese e organizzazioni che intendono migrare a mappe
-          e altri servizi basati su OpenHistoricalMap.
-      welcomemat:
-        title: Per le organizzazioni
-        description: Pensi che OpenHistoricalMap non sia utile per la tua Organizzazione?
-          Consulta il Welcome Mat e scoprirai che lo è!
+      slack:
+        title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/
-        title: Wiki OpenHistoricalMap
-        description: Sfoglia il wiki per la documentazione approfondita di OpenHistoricalMap.
+        url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap
+        title: Wiki
+        description: Istruzioni mantenute dalla comunità per l'utilizzo dell'OHM e
+          linee guida per contribuire al progetto.
     any_questions:
       title: Domande?
       paragraph_1_html: OpenHistoricalMap ha diverse risorse per imparare a conoscere
@@ -2547,6 +2553,7 @@ it:
     permissions:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
     scopes:
+      openid: Accedi utilizzando OpenStreetMap
       read_prefs: Leggi preferenze utente
       write_prefs: Modifica le preferenze utente
       write_diary: Crea voci del diario, commenti e fai amicizia
