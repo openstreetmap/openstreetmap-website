@@ -3711,18 +3711,8 @@ ohmVectorStyles.Railway = {
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(125, 164, 121, 1)",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          12,
-          0.5,
-          13,
-          0.75,
-          20,
-          1
-        ]
+        "line-color": "rgba(90, 96, 100, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 2, 7, 3, 20, 7]
       }
     },
     {
@@ -3740,18 +3730,8 @@ ohmVectorStyles.Railway = {
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          12,
-          0.5,
-          13,
-          0.75,
-          20,
-          1
-        ],
-        "line-dasharray": [2, 2]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 1, 20, 5],
+        "line-dasharray": {"stops": [[6, [1.15, 3]], [10, [1.25, 4]]]}
       }
     },
     {
