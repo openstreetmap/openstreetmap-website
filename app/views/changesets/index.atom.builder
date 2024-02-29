@@ -41,11 +41,11 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         xhtml.style "th { text-align: left } tr { vertical-align: top }"
         xhtml.table do |table|
           table.tr do |tr|
-            tr.th t("browse.created")
+            tr.th t(".feed.created")
             tr.td l(changeset.created_at)
           end
           table.tr do |tr|
-            tr.th t("browse.closed")
+            tr.th t(".feed.closed")
             tr.td l(changeset.closed_at)
           end
           if changeset.user.data_public?

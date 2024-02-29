@@ -125,8 +125,9 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   # Checks the display of the user changesets listing
   def test_index_user
     user = create(:user)
-    create(:changeset, :user => user)
-    create(:changeset, :closed, :user => user)
+    create(:changeset, :user => user, :num_changes => 1)
+    create(:changeset, :closed, :user => user, :num_changes => 1)
+    user.reload
 
     get history_path(:format => "html", :display_name => user.display_name)
     assert_response :success
@@ -268,6 +269,12 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_dom "li#c#{changeset_comment.id}" do
       assert_dom "> small", :text => /^Comment from #{commenting_user.display_name}/
     end
+  end
+
+  def test_show_closed_changeset
+    changeset = create(:changeset, :closed)
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
   end
 
   def test_show_private_changeset
