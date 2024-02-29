@@ -22289,7 +22289,7 @@
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.28.0",
+    version: "2.28.1",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -30102,8 +30102,6 @@
           if (_this.tags[k2] || !tags[k2]) {
             tags[k2] = "yes";
           }
-        } else if (addTags[k2] === "") {
-          delete tags[k2];
         } else {
           tags[k2] = addTags[k2];
         }
@@ -78303,13 +78301,13 @@
       Object.values(vals[0].presets).forEach((preset) => preset.suggestion = true);
       Object.values(vals[0].presets).forEach((preset) => {
         if (preset.tags["brand:wikidata"]) {
-          preset.addTags["brand:wikipedia"] = "";
+          preset.removeTags = { "brand:wikipedia": "*", ...preset.removeTags || preset.addTags || preset.tags };
         }
         if (preset.tags["operator:wikidata"]) {
-          preset.addTags["operator:wikipedia"] = "";
+          preset.removeTags = { "operator:wikipedia": "*", ...preset.removeTags || preset.addTags || preset.tags };
         }
         if (preset.tags["network:wikidata"]) {
-          preset.addTags["network:wikipedia"] = "";
+          preset.removeTags = { "network:wikipedia": "*", ...preset.removeTags || preset.addTags || preset.tags };
         }
       });
       _mainPresetIndex.merge({
