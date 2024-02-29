@@ -91,6 +91,9 @@ fi:
       messages:
         invalid_email_address: '"%s" ei näytä olevan kelvollinen sähköpostiosoite.'
         email_address_not_routable: reittiohjeet eivät ole saatavilla
+      models:
+        user_mute:
+          is_already_muted: on jo hiljennetty
     models:
       acl: Pääsyoikeuslista
       changeset: Muutoskokoelma
@@ -1677,9 +1680,9 @@ fi:
       details: 'Lisätietoja muutoskokoelmasta: %{url}'
       details_html: 'Lisätietoja muutoskokoelmasta: %{url}'
       unsubscribe: Peru tämän muutoskokoelman sähköposti-ilmoitukset siirtymällä osoitteeseen
-        %{url} ja napsauttamalla Lopeta tilaus.
+        %{url}.
       unsubscribe_html: Peru tämän muutoskokoelman sähköposti-ilmoitukset siirtymällä
-        osoitteeseen %{url} ja napsauttamalla Lopeta tilaus.
+        osoitteeseen %{url}.
   confirmations:
     confirm:
       heading: Tarkista sähköpostisi!
@@ -2118,8 +2121,9 @@ fi:
         title: Aloitusopas
         description: Yhteisön ylläpitämä opas aloittelijoille.
       community:
-        title: Yhteisön keskustelupalsta
-        description: Jaettu paikka OpenStreetMapiin liittyville keskusteluille.
+        title: Ohje- ja yhteisöfoorumi
+        description: Yhteinen paikka avun hakemiselle ja OpenStreetMapiin liittyville
+          keskusteluille.
       mailing_lists:
         title: Postituslistat
         description: Esitä kysymyksiä tai keskustele laajalti kiinnostavista aiheista
@@ -2412,6 +2416,7 @@ fi:
       oauth1_settings: OAuth 1 -asetukset
       oauth2_applications: OAuth 2 -sovellukset
       oauth2_authorizations: OAuth 2 -käyttöoikeudet
+      muted_users: Hiljennetyt käyttäjät
   oauth:
     authorize:
       title: Salli tilisi käyttö
@@ -2440,6 +2445,7 @@ fi:
     permissions:
       missing: Et ole sallinut sovelluksen käyttöoikeutta tähän palveluun
     scopes:
+      openid: Kirjaudu sisään OpenStreetMapin avulla
       read_prefs: Käyttäjäasetusten käsittely
       write_prefs: Käyttäjäasetusten muuttaminen
       write_diary: Päiväkirjamerkintöjen luonti, kommentointi ja kavereiden lisääminen
@@ -2795,11 +2801,14 @@ fi:
   user_mutes:
     index:
       table:
+        thead:
+          muted_user: Hiljennetty käyttäjä
+          actions: Toiminnot
         tbody:
           send_message: Lähetä viesti
     create:
-      notice: Mykistit käyttäjän %{name}.
-      error: Käyttäjää %{name} ei voitu mykistää. %{full_message}.
+      notice: Hiljensit käyttäjän %{name}.
+      error: Käyttäjää %{name} ei voitu hiljentää. %{full_message}.
     destroy:
       notice: Poistit mykistyksen käyttäjältä %{name}.
   notes:

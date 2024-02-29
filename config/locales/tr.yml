@@ -254,9 +254,6 @@ tr:
       x_years:
         one: '%{count} yıl önce'
         other: '%{count} yıl önce'
-  printable_name:
-    version: v%{version}
-    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: Varsayılan (şu anda %{name})
     id:
@@ -527,6 +524,20 @@ tr:
       feed:
         title: Değişiklik kaydı %{id}
         title_comment: Değişiklik takımı %{id} - %{comment}
+    subscribe:
+      heading: Aşağıdaki değişiklik kaydı tartışmasına abone olmak ister misiniz?
+      button: Tartışmaya abone ol
+    unsubscribe:
+      heading: Aşağıdaki değişiklik kaydı tartışmasının aboneliği iptal edilsin mi?
+      button: Tartışma aboneliğinden çık
+    heading:
+      title: Değişiklik Kaydı %{id}
+      created_by_html: '%{link_user} tarafından %{created} tarihinde oluşturuldu.'
+    no_such_entry:
+      title: Böyle bir değişiklik kaydı yok
+      heading: 'Şu kimliğe sahip girdi yok: %{id}'
+      body: Üzgünüz, %{id} kimliğine sahip herhangi bir değişiklik kaydı yok. Lütfen
+        yazımınızı kontrol edin ya da tıkladığınız bağlantı yanlış olabilir.
     timeout:
       sorry: Üzgünüz, değişiklik kayıtlarının listelenmesi fazla sürdü.
   changeset_comments:
@@ -601,7 +612,7 @@ tr:
         kontrol edin ya da tıkladığınız bağlantı hatalı olabilir.
     diary_entry:
       posted_by_html: '%{link_user} tarafından %{created} tarihinde %{language_link}
-        dilinde gönderildi.'
+        olarak gönderildi.'
       updated_at_html: En son %{updated} tarihinde güncellendi.
       comment_link: Bu girdiyi yorumla
       reply_link: Yazara mesaj gönder
@@ -615,7 +626,7 @@ tr:
       confirm: Onayla
       report: Bu girdiyi bildir
     diary_comment:
-      comment_from_html: '%{comment_created_at} tarihinde %{link_user} tarafından
+      comment_from_html: '%{link_user} tarafından %{comment_created_at} tarihinde
         yapılan yorum'
       hide_link: Bu yorumu gizle
       unhide_link: Bu yorumu göster
@@ -630,9 +641,9 @@ tr:
         title: '%{user} için OpenStreetMap günlük girdileri'
         description: '%{user} kullanıcısının en yeni OpenStreetMap günlük girdileri'
       language:
-        title: '%{language_name} dillindeki OpenStreetMap günlük girdileri'
-        description: OpenStreetMap kullanıcılarının %{language_name} dillindeki en
-          son günlük girdileri
+        title: '%{language_name} OpenStreetMap günlük girdileri'
+        description: OpenStreetMap kullanıcılarının en son %{language_name} günlük
+          girdileri
       all:
         title: OpenStreetMap günlük girdileri
         description: OpenStreetMap kullanıcıların en son günlük girdileri
@@ -1650,6 +1661,7 @@ tr:
     more: Daha fazla
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap Günlük Girdisi #%{id}'
       subject: '[OpenStreetMap] %{user}, bir günlük girdisi hakkında yorum yaptı.'
       hi: Merhaba %{to_user},
       header: '%{from_user}, %{subject} konulu OpenStreetMap günlük girdisi hakkında
@@ -1725,6 +1737,7 @@ tr:
       click_the_link: Bu sizseniz, lütfen parolanızı sıfırlamak için aşağıdaki bağlantıya
         tıklayın.
     note_comment_notification:
+      description: 'OpenStreetMap Notu #%{id}'
       anonymous: Anonim kullanıcı
       greeting: Merhaba,
       commented:
@@ -1767,6 +1780,7 @@ tr:
       details: Not hakkındaki ayrıntılı bilgiler %{url} bağlantısında görülebilir.
       details_html: Notla ilgili daha fazla ayrıntı %{url} adresinde bulunabilir.
     changeset_comment_notification:
+      description: 'OpenStreetMap Değişiklik Kaydı #%{id}'
       hi: Merhaba %{to_user},
       greeting: Merhaba,
       commented:
@@ -1788,10 +1802,10 @@ tr:
       details: Değişiklik kaydıyla ilgili daha fazla bilgi %{url} sayfasından edinebilirsiniz.
       details_html: Değişiklik kümesiyle ilgili daha fazla ayrıntı %{url} adresinde
         bulunabilir.
-      unsubscribe: Bu değişiklik kaydının güncellemelerini aboneliğinizden çıkarmak
-        için %{url} sayfasını ziyaret edin ve "Aboneliği iptal et"i tıklayın.
-      unsubscribe_html: Bu değişiklik kümesiyle ilgili güncellemelerden çıkmak için
-        %{url} adresini ziyaret edin ve "Abonelikten çık" seçeneğine tıklayın.
+      unsubscribe: Bu değişiklik kaydındaki güncellemelere ilişkin aboneliğinizi %{url}
+        adresinden iptal edebilirsiniz.
+      unsubscribe_html: Bu değişiklik kaydındaki güncellemelere ilişkin aboneliğinizi
+        %{url} adresinden iptal edebilirsiniz.
   confirmations:
     confirm:
       heading: E-postalarını kontrol et!

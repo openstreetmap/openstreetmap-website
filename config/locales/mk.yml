@@ -209,9 +209,6 @@ mk:
       x_years:
         one: пред %{count} година
         other: пред %{count} години
-  printable_name:
-    version: вер. %{version}
-    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: По основно (моментално %{name})
     id:
@@ -479,6 +476,20 @@ mk:
       feed:
         title: Измени %{id}
         title_comment: Измени %{id} - %{comment}
+    subscribe:
+      heading: Да ве претплатам на слединов разговор за измени?
+      button: Претплати се на разговорот
+    unsubscribe:
+      heading: Да ве отпишам од претплатата на следниов разговор за измени?
+      button: Отпиши се од разговорот
+    heading:
+      title: Измени %{id}
+      created_by_html: Создадено од %{link_user} на %{created}.
+    no_such_entry:
+      title: Нема такви измени
+      heading: 'Нема ставка со назнаката: %{id}'
+      body: Жалиме, но не постојат измени со назнаката %{id}. Проверете да не сте
+        згрешиле во пишувањето, или пак да не сте стиснале на погрешна врска.
     timeout:
       sorry: За жал, на списокот на промени што го побаравте му требаше предолго за
         да се добие.
@@ -1599,6 +1610,7 @@ mk:
     more: Повеќе
   user_mailer:
     diary_comment_notification:
+      description: Дневничка ставка бр. %{id} во OpenStreetMap
       subject: '[OpenStreetMap] %{user} коментираше на дневничка ставка'
       hi: Здраво %{to_user},
       header: '%{from_user} коментираше на дневничката ставка на OpenStreetMap со
@@ -1673,6 +1685,7 @@ mk:
       click_the_link: Ако ова сте вие, стиснете на врската подолу за да си ја смените
         лозинката.
     note_comment_notification:
+      description: Белешка бр. %{id} во OpenStreetMap
       anonymous: Анонимен корисник
       greeting: Здраво,
       commented:
@@ -1711,6 +1724,7 @@ mk:
       details: Поподробно за белешката на %{url}.
       details_html: Поподробно за белешката на %{url}.
     changeset_comment_notification:
+      description: Измени бр. %{id} во OpenStreetMap
       hi: Здраво %{to_user},
       greeting: Здраво,
       commented:
@@ -1729,10 +1743,8 @@ mk:
         partial_changeset_without_comment: без коментар
       details: Поподробно за промената на %{url}.
       details_html: Поподробно за промената на %{url}.
-      unsubscribe: За да се отпишете од подновите на овие промени, посетете ја страницата
-        %{url} и стиснете на „Отпиши се“.
-      unsubscribe_html: За да се отпишете од подновите на овие промени, посетете ја
-        страницата %{url} и стиснете на „Отпиши се“.
+      unsubscribe: Можете да се отпишете од подновите за овие измени на %{url}.
+      unsubscribe_html: Можете да се отпишете од подновите за овие измени на %{url}.
   confirmations:
     confirm:
       heading: Проверете си ја е-поштата
