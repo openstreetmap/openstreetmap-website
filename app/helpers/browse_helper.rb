@@ -72,10 +72,10 @@ module BrowseHelper
 
   def type_and_paginated_count(type, pages)
     if pages.page_count == 1
-      t "browse.changeset.#{type}",
+      t ".#{type.pluralize}",
         :count => pages.item_count
     else
-      t "browse.changeset.#{type}_paginated",
+      t ".#{type.pluralize}_paginated",
         :x => pages.current_page.first_item,
         :y => pages.current_page.last_item,
         :count => pages.item_count

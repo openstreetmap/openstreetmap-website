@@ -281,10 +281,34 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def test_show_element_links
     changeset = create(:changeset)
     node = create(:node, :with_history, :changeset => changeset)
+    way = create(:way, :with_history, :changeset => changeset)
+    relation = create(:relation, :with_history, :changeset => changeset)
 
     sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
     assert_dom "a[href='#{node_path node}']", :count => 1
     assert_dom "a[href='#{old_node_path node, 1}']", :count => 1
+    assert_dom "a[href='#{way_path way}']", :count => 1
+    assert_dom "a[href='#{old_way_path way, 1}']", :count => 1
+    assert_dom "a[href='#{relation_path relation}']", :count => 1
+    assert_dom "a[href='#{old_relation_path relation, 1}']", :count => 1
+  end
+
+  def test_show_paginated_element_links
+    page_size = 20
+    changeset = create(:changeset)
+    nodes = create_list(:node, page_size + 1, :with_history, :changeset => changeset)
+    ways = create_list(:way, page_size + 1, :with_history, :changeset => changeset)
+    relations = create_list(:relation, page_size + 1, :with_history, :changeset => changeset)
+
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+    page_size.times do |i|
+      assert_dom "a[href='#{node_path nodes[i]}']", :count => 1
+      assert_dom "a[href='#{old_node_path nodes[i], 1}']", :count => 1
+      assert_dom "a[href='#{way_path ways[i]}']", :count => 1
+      assert_dom "a[href='#{old_way_path ways[i], 1}']", :count => 1
+      assert_dom "a[href='#{relation_path relations[i]}']", :count => 1
+      assert_dom "a[href='#{old_relation_path relations[i], 1}']", :count => 1
+    end
   end
 
   ##
