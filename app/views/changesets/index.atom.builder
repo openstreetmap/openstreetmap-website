@@ -50,7 +50,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
           end
           if changeset.user.data_public?
             table.tr do |tr|
-              tr.th t("browse.changeset.belongs_to")
+              tr.th t(".feed.belongs_to")
               tr.td do |td|
                 td.a changeset.user.display_name, :href => user_url(changeset.user, :only_path => false)
               end
