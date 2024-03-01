@@ -5,11 +5,18 @@
 <%= render :partial => "browse/way", :object => @feature %>
 
 <div class='secondary-actions'>
-  <% unless @feature.redacted? %>
-    <%= link_to t("browse.download_xml"), way_version_path(*@feature.id) %>
-    &middot;
-  <% end %>
   <%= link_to t("browse.view_details"), way_path(@feature.way_id) %>
+  <% if !@feature.redacted? %>
+    &middot;
+    <%= link_to t("browse.download_xml"), way_version_path(*@feature.id) %>
+  <% elsif current_user&.moderator? %>
+    &middot;
+    <% if !params[:show_redactions] %>
+      <%= link_to t("browse.view_redacted_data"), old_way_path(*@feature.id, :params => { :show_redactions => true }) %>
+    <% else %>
+      <%= link_to t("browse.view_redaction_message"), old_way_path(*@feature.id) %>
+    <% end %>
+  <% end %>
 </div>
 
 <div class='secondary-actions'>

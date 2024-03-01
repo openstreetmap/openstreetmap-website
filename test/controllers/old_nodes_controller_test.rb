@@ -19,6 +19,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{node_history_path node}']", :count => 1
   end
 
@@ -49,35 +50,67 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 1
   end
 
-  def test_redacted
+  test "show unrevealed redacted versions to anonymous users" do
     node = create_redacted_node
     get old_node_path(node, 1)
     assert_response :success
     assert_template "old_nodes/show"
     assert_template :layout => "map"
+    assert_select "td", :text => "TOP SECRET", :count => 0
     assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
     assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 0
   end
 
-  test "don't show redacted versions to anonymous users" do
+  test "show unrevealed redacted versions to regular users" do
+    session_for(create(:user))
+    node = create_redacted_node
+    get old_node_path(node, 1)
+    assert_response :success
+    assert_template "old_nodes/show"
+    assert_template :layout => "map"
+    assert_select "td", :text => "TOP SECRET", :count => 0
+    assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 0
+    assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 0
+  end
+
+  test "show unrevealed redacted versions to moderators" do
+    session_for(create(:moderator_user))
+    node = create_redacted_node
+    get old_node_path(node, 1)
+    assert_response :success
+    assert_template "old_nodes/show"
+    assert_template :layout => "map"
+    assert_select "td", :text => "TOP SECRET", :count => 0
+    assert_select ".secondary-actions a[href='#{node_path node}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_node_path node, 1, :params => { :show_redactions => true }}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 0
+  end
+
+  test "don't reveal redacted versions to anonymous users" do
     node = create_redacted_node
     get old_node_path(node, 1, :params => { :show_redactions => true })
     assert_response :redirect
   end
 
-  test "don't show redacted versions to regular users" do
+  test "don't reveal redacted versions to regular users" do
     session_for(create(:user))
     node = create_redacted_node
     get old_node_path(node, 1, :params => { :show_redactions => true })
     assert_response :redirect
   end
 
-  test "show redacted versions to moderators" do
+  test "reveal redacted versions to moderators" do
     session_for(create(:moderator_user))
     node = create_redacted_node
     get old_node_path(node, 1, :params => { :show_redactions => true })
     assert_response :success
+    assert_select "td", :text => "TOP SECRET", :count => 1
+    assert_select ".secondary-actions a[href='#{old_node_path node, 1}']", :count => 1
   end
 
   def test_not_found
@@ -91,8 +124,9 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
   private
 
   def create_redacted_node
-    create(:node, :with_history, :deleted, :version => 2) do |node|
+    create(:node, :with_history, :version => 2) do |node|
       node_v1 = node.old_nodes.find_by(:version => 1)
+      create(:old_node_tag, :old_node => node_v1, :k => "name", :v => "TOP SECRET")
       node_v1.redact!(create(:redaction))
     end
   end

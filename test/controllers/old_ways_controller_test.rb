@@ -19,6 +19,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{way_history_path way}']", :count => 1
   end
 
@@ -63,35 +64,67 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
   end
 
-  def test_redacted
+  test "show unrevealed redacted versions to anonymous users" do
     way = create_redacted_way
     get old_way_path(way, 1)
     assert_response :success
     assert_template "old_ways/show"
     assert_template :layout => "map"
+    assert_select "td", :text => "TOP SECRET", :count => 0
     assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
     assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 0
   end
 
-  test "don't show redacted versions to anonymous users" do
+  test "show unrevealed redacted versions to regular users" do
+    session_for(create(:user))
+    way = create_redacted_way
+    get old_way_path(way, 1)
+    assert_response :success
+    assert_template "old_ways/show"
+    assert_template :layout => "map"
+    assert_select "td", :text => "TOP SECRET", :count => 0
+    assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 0
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 0
+  end
+
+  test "show unrevealed redacted versions to moderators" do
+    session_for(create(:moderator_user))
+    way = create_redacted_way
+    get old_way_path(way, 1)
+    assert_response :success
+    assert_template "old_ways/show"
+    assert_template :layout => "map"
+    assert_select "td", :text => "TOP SECRET", :count => 0
+    assert_select ".secondary-actions a[href='#{way_path way}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1, :params => { :show_redactions => true }}']", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 0
+  end
+
+  test "don't reveal redacted versions to anonymous users" do
     way = create_redacted_way
     get old_way_path(way, 1, :params => { :show_redactions => true })
     assert_response :redirect
   end
 
-  test "don't show redacted versions to regular users" do
+  test "don't reveal redacted versions to regular users" do
     session_for(create(:user))
     way = create_redacted_way
     get old_way_path(way, 1, :params => { :show_redactions => true })
     assert_response :redirect
   end
 
-  test "show redacted versions to moderators" do
+  test "reveal redacted versions to moderators" do
     session_for(create(:moderator_user))
     way = create_redacted_way
     get old_way_path(way, 1, :params => { :show_redactions => true })
     assert_response :success
+    assert_select "td", :text => "TOP SECRET", :count => 1
+    assert_select ".secondary-actions a[href='#{old_way_path way, 1}']", :count => 1
   end
 
   def test_not_found
@@ -105,8 +138,9 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
   private
 
   def create_redacted_way
-    create(:way, :with_history, :deleted, :version => 2) do |way|
+    create(:way, :with_history, :version => 2) do |way|
       way_v1 = way.old_ways.find_by(:version => 1)
+      create(:old_way_tag, :old_way => way_v1, :k => "name", :v => "TOP SECRET")
       way_v1.redact!(create(:redaction))
     end
   end
