@@ -25,7 +25,7 @@ cy:
         create: Anfon
       client_application:
         create: Cofrestru
-        update: Golygu
+        update: Diweddaru
       doorkeeper_application:
         create: Cofrestru
         update: Diweddaru
@@ -241,7 +241,7 @@ cy:
         many: '%{count} blynedd yn ôl'
         other: '%{count} blynedd yn ôl'
   editor:
-    default: (currently %{name}) diofyn
+    default: (%{name} yn gyfredol) diofyn
     id:
       name: iD
       description: iD (golygydd y porwr)
@@ -357,8 +357,8 @@ cy:
       node_paginated: Nodau (%{x}-%{y} o %{count})
       way: Llwybrau %{count}
       way_paginated: Llwybrau (%{x}-%{y} o %{count})
-      relation: Perthynas %{count}
-      relation_paginated: Perthynas (%{x}-%{y} o %{count})
+      relation: Perthnasoedd (%{count})
+      relation_paginated: Perthnasoedd (%{x}-%{y} o %{count})
       comment: Sylwadau (%{count})
       hidden_comment_by_html: Sylw cudd gan %{user} %{time_ago}
       comment_by_html: Sylw gan %{user} %{time_ago}
@@ -369,8 +369,8 @@ cy:
         title_comment: Grŵp newid %{id} - %{comment}
       join_discussion: Mewngofnodwch i ymuno â'r sgwrs
       discussion: Sgwrs
-      still_open: Mae'r grŵp newid dal ar agor - bydd trafodaeth yn cychwyn unwaith
-        y bydd y grŵp newid wedi cau.
+      still_open: Mae'r grŵp newid dal ar agor - bydd trafodaeth yn agor pan fydd
+        y grŵp newid wedi cau.
     node:
       title_html: 'Nod: %{name}'
       history_title_html: 'Hanes y Nod: %{name}'
@@ -625,6 +625,10 @@ cy:
       contact: cysylltu
     forbidden:
       title: Gwaharddedig
+    internal_server_error:
+      title: Gwall ap
+    not_found:
+      title: Heb ganfod ffeil
   friendships:
     make_friend:
       heading: Ychwanegu %{user} fel ffrind?
@@ -934,6 +938,7 @@ cy:
           mine: Mwynfa
           mine_shaft: Siafft y Mwynglawdd
           monument: Cofadail
+          railway: Rheilffordd Hanesyddol
           roman_road: Ffordd Rufeinig
           ruins: Adfeilion
           stone: Carreg
@@ -1703,24 +1708,12 @@ cy:
       welcome:
         url: /welcome
         title: Croeso i OpenHistoricalMap
-      beginners_guide:
-        title: Llawlyfr Dechreuwyr
-        description: Canllaw'r gymuned i ddechreuwyr
-      help:
-        url: https://help.openstreetmap.org/
-        title: Fforwm Cymorth
-      mailing_lists:
-        title: Rhestr Newyddlen OHM
-      forums:
-        title: Fforymau
-      irc:
-        title: Slack
-      switch2osm:
+      discord:
         title: Discord
-      welcomemat:
-        title: Ar gyfer Sefydliadau
+      slack:
+        title: Slack
       wiki:
-        title: Wici OHM
+        title: Wici
     any_questions:
       title: Unrhyw gwestiwn?
       welcome_mat_url: https://welcome.openstreetmap.org/
@@ -2039,10 +2032,16 @@ cy:
       time_future_html: Yn dod i ben mewn %{time}.
       time_past_html: Wedi dod i ben %{time} yn ôl.
     show:
+      created: 'Crëwyd:'
+      duration: 'Cyfnod:'
       status: 'Statws:'
       show: Dangos
       edit: Golygu
+      revoke: Dad-flocio!
       confirm: Ydych chi'n siŵr?
+      reason: Rheswm dros flocio
+      back: Gweld pob bloc
+      revoker: 'Dad-flociwr:'
     block:
       show: Dangos
       edit: Golygu
@@ -2095,6 +2094,7 @@ cy:
     key:
       title: Allwedd Map
       tooltip: Allwedd Map
+      tooltip_disabled: Nid yw Allwedd Map ar gael ar gyfer yr haenen hon
     map:
       zoom:
         in: Chwyddo Mewn
@@ -2105,13 +2105,14 @@ cy:
         historical: Hanesyddol
         woodblock: Bloc Pren
         japanesescroll: Sgrol Japaneaidd
+        railway: Rheilffordd
         standard: Safonol
         cycle_map: Map Beicio
         transport_map: Map Trafnidiaeth
         hot: Dyngarol
         opnvkarte: ÖPNVKarte
       layers:
-        header: Haenau Mapiau
+        header: Haenau Map
         notes: Nodiadau Map
         data: Data Map
         gps: Arllwybrau GPS Cyhoeddus
