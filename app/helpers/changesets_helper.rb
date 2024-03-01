@@ -18,15 +18,15 @@ module ChangesetsHelper
     else
       action = :closed
       time = time_ago_in_words(changeset.closed_at, :scope => :"datetime.distance_in_words_ago")
-      title = safe_join([t("browse.created"), ": ", l(changeset.created_at), "&#10;".html_safe, t("browse.closed"), ": ", l(changeset.closed_at)])
+      title = safe_join([t("changesets.show.created", :when => l(changeset.created_at)), "&#10;".html_safe, t("changesets.show.closed", :when => l(changeset.closed_at))])
       datetime = changeset.closed_at.xmlschema
     end
 
     if params.key?(:display_name)
-      t "browse.#{action}_ago_html", :time_ago => tag.time(time, :title => title, :datetime => datetime)
+      t "changesets.show.#{action}_ago_html", :time_ago => tag.time(time, :title => title, :datetime => datetime)
     else
-      t "browse.#{action}_ago_by_html", :time_ago => tag.time(time, :title => title, :datetime => datetime),
-                                        :user => changeset_user_link(changeset)
+      t "changesets.show.#{action}_ago_by_html", :time_ago => tag.time(time, :title => title, :datetime => datetime),
+                                                 :user => changeset_user_link(changeset)
     end
   end
 

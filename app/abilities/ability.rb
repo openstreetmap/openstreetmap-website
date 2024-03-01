@@ -4,8 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:relation, :relation_history, :way, :way_history, :node, :node_history,
-         :changeset, :query], :browse
+    can [:relation, :relation_history, :way, :way_history, :node, :node_history, :query], :browse
     can [:show], OldNode
     can [:show], OldWay
     can [:show], OldRelation
@@ -17,7 +16,7 @@ class Ability
     can [:token, :request_token, :access_token, :test_request], :oauth
 
     if Settings.status != "database_offline"
-      can [:index, :feed], Changeset
+      can [:index, :feed, :show], Changeset
       can :index, ChangesetComment
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show, :comments], DiaryEntry

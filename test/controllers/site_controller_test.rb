@@ -147,7 +147,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
 
     get permalink_path(:code => "wBz3--", :changeset => 4)
     assert_response :redirect
-    assert_redirected_to :controller => :browse, :action => :changeset, :id => 4, :anchor => "map=3/4.8779296875/3.955078125"
+    assert_redirected_to changeset_path(:id => 4, :anchor => "map=3/4.8779296875/3.955078125")
   end
 
   # Test the key page

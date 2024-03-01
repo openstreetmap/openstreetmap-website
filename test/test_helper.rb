@@ -383,5 +383,41 @@ module ActiveSupport
     ensure
       unfreeze_time
     end
+
+    # This is a convenience method for checks of resources rendered in a map view sidebar
+    # First we check that when we don't have an id, it will correctly return a 404
+    # then we check that we get the correct 404 when a non-existant id is passed
+    # then we check that it will get a successful response, when we do pass an id
+    def sidebar_browse_check(path, id, template)
+      path_method = method(path)
+
+      assert_raise ActionController::UrlGenerationError do
+        get path_method.call
+      end
+
+      assert_raise ActionController::UrlGenerationError do
+        get path_method.call(:id => -10) # we won't have an id that's negative
+      end
+
+      get path_method.call(:id => 0)
+      assert_response :not_found
+      assert_template "browse/not_found"
+      assert_template :layout => "map"
+
+      get path_method.call(:id => 0), :xhr => true
+      assert_response :not_found
+      assert_template "browse/not_found"
+      assert_template :layout => "xhr"
+
+      get path_method.call(:id => id)
+      assert_response :success
+      assert_template template
+      assert_template :layout => "map"
+
+      get path_method.call(:id => id), :xhr => true
+      assert_response :success
+      assert_template template
+      assert_template :layout => "xhr"
+    end
   end
 end
