@@ -661,10 +661,39 @@ it:
       newer_comments: Commenti più recenti
       older_comments: Commenti più vecchi
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Il server di autorizzazione richiede la selezione
+          dell'account dell'utente finale
+        consent_required: Il server di autorizzazione richiede il consenso dell'utente
+          finale
+        interaction_required: Il server di autorizzazione richiede un'interazione
+          da parte dell'utente finale
+        login_required: Il server di autorizzazione richiede l'autenticazione dell'utente
+          finale
     flash:
       applications:
         create:
           notice: Applicazione registrata.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Errore dovuto alla configurazione
+            mancante di Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: La generazione del token ID è fallita a causa della
+            configurazione mancante di Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vedi il tuo indirizzo fisico
+      email: Vedi il tuo indirizzo e-mail
+      openid: Autentica la tua utenza
+      phone: Vedi il tuo numero di telefono
+      profile: Vedi le informazioni del tuo profilo
   errors:
     contact:
       contact: contattare
@@ -2524,6 +2553,7 @@ it:
     permissions:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
     scopes:
+      openid: Accedi utilizzando OpenStreetMap
       read_prefs: Leggi preferenze utente
       write_prefs: Modifica le preferenze utente
       write_diary: Crea voci del diario, commenti e fai amicizia
