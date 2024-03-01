@@ -3440,17 +3440,7 @@ ohmVectorStyles.Original = {
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(162, 175, 191, 1)",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          12,
-          0.5,
-          13,
-          0.75,
-          20,
-          1
-        ]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 7, 2, 12, 3, 20, 4]
       }
     },
     {
@@ -3472,14 +3462,14 @@ ohmVectorStyles.Original = {
           "interpolate",
           ["linear"],
           ["zoom"],
-          12,
-          0.5,
-          13,
+          7,
           0.75,
+          12,
+          1,
           20,
-          1
+          2
         ],
-        "line-dasharray": [2, 2]
+        "line-dasharray": {"stops": [[6, [7, 7]], [12, [6, 6]]]}
       }
     },
     {
@@ -3625,19 +3615,7 @@ ohmVectorStyles.Original = {
       },
       "paint": {
         "line-color": "rgba(148, 159, 168, 1)",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          12,
-          1,
-          13,
-          1.5,
-          14,
-          2,
-          20,
-          3
-        ]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 7, 3, 12, 4, 20, 5]
       }
     },
     {
@@ -3669,11 +3647,9 @@ ohmVectorStyles.Original = {
           "interpolate",
           ["linear"],
           ["zoom"],
-          12,
-          1,
-          13,
+          7,
           1.5,
-          14,
+          12,
           2,
           20,
           3
@@ -3743,8 +3719,13 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(167, 179, 188, 1)",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 20, 1.5]
+        "line-color": {
+          "stops": [
+            [7, "rgba(193, 203, 211, 1)"],
+            [12, "rgba(167, 179, 188, 1)"]
+          ]
+        },
+        "line-width": ["interpolate", ["linear"], ["zoom"], 7, 3, 12, 4, 20, 5]
       }
     },
     {
@@ -3766,15 +3747,19 @@ ohmVectorStyles.Original = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [
-            [6, "rgba(196, 196, 197, 1)"],
-            [12, "rgba(238, 238, 238, 1)"],
-            [15, "rgba(255, 255, 255, 1)"]
-          ]
-        },
-        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 20, 1.5],
-        "line-dasharray": {"stops": [[6, [7, 7]], [12, [5, 5]], [15, [4, 4]]]}
+        "line-color": "rgba(241, 246, 246, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          7,
+          1.5,
+          12,
+          2,
+          20,
+          3
+        ],
+        "line-dasharray": {"stops": [[6, [6, 6]], [9, [5, 5]], [13, [4, 4]]]}
       }
     },
     {
@@ -4372,7 +4357,12 @@ ohmVectorStyles.Original = {
         "line-miter-limit": 2
       },
       "paint": {
-        "line-color": "rgba(202, 202, 203, 1)",
+        "line-color": {
+          "stops": [
+            [7, "rgba(205, 205, 207, 1)"],
+            [10, "rgba(202, 202, 203, 1)"]
+          ]
+        },
         "line-width": {"stops": [[8, 0.15], [10, 1.75]]}
       }
     },
@@ -4423,8 +4413,8 @@ ohmVectorStyles.Original = {
       "paint": {
         "line-color": {
           "stops": [
-            [4, "rgba(142, 170, 148, 1)"],
-            [7, "rgba(189, 191, 189, 1)"]
+            [0, "rgba(168, 193, 183, 1)"],
+            [6, "rgba(157, 164, 164, 1)"]
           ]
         },
         "line-width": {"stops": [[2, 0.4], [12, 2], [15, 3]]}
@@ -5338,7 +5328,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 4], [10, 10], [16, 12]]},
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5359,7 +5349,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 7], [10, 12], [16, 14]]},
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5380,7 +5370,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 8], [10, 15], [16, 16]]},
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5401,7 +5391,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 12], [10, 15]]},
-        "visibility": "visible",
+        "visibility": "none",
         "icon-image": "capital-18",
         "icon-offset": [0, 0],
         "icon-size": 1,
@@ -5461,10 +5451,22 @@ ohmVectorStyles.Original = {
         "symbol-placement": "point"
       },
       "paint": {
-        "text-color": "rgba(82, 74, 74, 1)",
+        "text-color": "rgba(51, 63, 59, 1)",
         "text-halo-width": 1.5,
         "text-halo-blur": 2,
-        "text-halo-color": "rgba(255, 255, 255, 0.75)",
+        "text-halo-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          0,
+          "rgba(252, 255, 254, 0.75)",
+          3,
+          "rgba(240, 244, 216, 1)",
+          5,
+          "rgba(246,247,227, 1)",
+          7,
+          "rgba(255, 255, 255, 1)"
+        ],
         "text-translate-anchor": "map",
         "icon-translate-anchor": "map"
       }
@@ -5502,17 +5504,33 @@ ohmVectorStyles.Original = {
       "layout": {
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": {"stops": [[0, 8], [3, 16], [6, 20], [10, 22]]},
+        "text-size": {"stops": [[0, 8], [3, 12], [6, 20], [10, 22]]},
         "text-font": ["OpenHistorical Bold"],
         "symbol-placement": "point",
         "text-justify": "center",
-        "symbol-avoid-edges": false
+        "symbol-avoid-edges": false,
+        "text-max-width": 7,
+        "text-line-height": 1
       },
       "paint": {
-        "text-color": "rgba(101, 108, 108, 1)",
+        "text-color": {
+          "stops": [[0, "rgba(79, 86, 86, 1)"], [10, "rgba(101, 108, 108, 1)"]]
+        },
         "text-halo-width": 1.5,
-        "text-halo-color": "rgba(255, 255, 255, 0.75)",
-        "text-halo-blur": 2,
+        "text-halo-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          0,
+          "rgba(252, 255, 254, 0.75)",
+          3,
+          "rgba(240, 244, 216, 1)",
+          5,
+          "rgba(246,247,227, 1)",
+          7,
+          "rgba(255, 255, 255, 1)"
+        ],
+        "text-halo-blur": 1,
         "text-opacity": 1,
         "text-translate-anchor": "map"
       }
