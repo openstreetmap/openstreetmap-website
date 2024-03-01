@@ -1,4 +1,4 @@
-<% if relation.redacted? %>
+<% if relation.redacted? && !params[:show_redactions] %>
   <div class="browse-section browse-redacted">
     <%= t "browse.redacted.message_html",
           :type => t("browse.redacted.type.relation"),
@@ -7,7 +7,7 @@
                                        :id => relation.redaction.id), relation.redaction) %>
   </div>
 <% else %>
-  <div class="browse-section browse-relation">
+  <%= tag.div :class => ["browse-section", "browse-relation", { "text-muted" => relation.redacted? }] do %>
     <%= render :partial => "browse/common_details", :object => relation %>
 
     <% unless relation.containing_relation_members.empty? %>
@@ -29,5 +29,5 @@
         </ul>
       </details>
     <% end %>
-  </div>
+  <% end %>
 <% end %>

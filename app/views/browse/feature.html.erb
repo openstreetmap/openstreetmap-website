@@ -18,6 +18,10 @@
     &middot;
   <% end %>
     <%= link_to t("browse.view_history"), :action => "#{@type}_history" %>
+  <% if current_user&.moderator? %>
+    &middot;
+    <%= link_to(t("browse.view_unredacted_history"), :action => "#{@type}_history", :params => { :show_redactions => true }) %>
+  <% end %>
   <% if @feature.version > 1 %>
     &middot;
     <%= link_to({ :controller => "old_#{@type.pluralize}", :action => :show, :version => @feature.version }, :class => "icon-link") do %>

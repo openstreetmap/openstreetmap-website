@@ -4,28 +4,4 @@
 
 <%= render :partial => "browse/node", :object => @feature %>
 
-<div class='secondary-actions'>
-  <% unless @feature.redacted? %>
-    <%= link_to t("browse.download_xml"), node_version_path(*@feature.id) %>
-    &middot;
-  <% end %>
-  <%= link_to t("browse.view_details"), node_path(@feature.node_id) %>
-</div>
-
-<div class='secondary-actions'>
-  <% if @feature.version > 1 %>
-    <%= link_to old_node_path(@feature.node_id, @feature.version - 1), :class => "icon-link" do %>
-      <%= previous_page_svg_tag :height => 11 %>
-      <%= "#{t('browse.version')} ##{@feature.version - 1}" %>
-    <% end %>
-    &middot;
-  <% end %>
-  <%= link_to t("browse.view_history"), node_history_path(@feature.node_id) %>
-  <% if @feature.version < @feature.current_node.version %>
-    &middot;
-    <%= link_to old_node_path(@feature.node_id, @feature.version + 1), :class => "icon-link" do %>
-      <%= "#{t('browse.version')} ##{@feature.version + 1}" %>
-      <%= next_page_svg_tag :height => 11 %>
-    <% end %>
-  <% end %>
-</div>
+<%= render :partial => "browse/version_actions" %>

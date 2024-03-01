@@ -8,4 +8,11 @@
   <%= link_to(t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => "history") %>
   &middot;
   <%= link_to(t("browse.view_details"), :action => @type) %>
+  <% if params[:show_redactions] %>
+    &middot;
+    <%= link_to(t("browse.view_history"), :action => "#{@type}_history") %>
+  <% elsif current_user&.moderator? %>
+    &middot;
+    <%= link_to(t("browse.view_unredacted_history"), :action => "#{@type}_history", :params => { :show_redactions => true }) %>
+  <% end %>
 </div>
