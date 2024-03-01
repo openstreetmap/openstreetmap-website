@@ -50,9 +50,7 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_redacted
-    node = create(:node, :with_history, :deleted, :version => 2)
-    node_v1 = node.old_nodes.find_by(:version => 1)
-    node_v1.redact!(create(:redaction))
+    node = create_redacted_node
     get old_node_path(node, 1)
     assert_response :success
     assert_template "old_nodes/show"
@@ -62,11 +60,40 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{node_version_path node, 1}']", :count => 0
   end
 
+  test "don't show redacted versions to anonymous users" do
+    node = create_redacted_node
+    get old_node_path(node, 1, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  test "don't show redacted versions to regular users" do
+    session_for(create(:user))
+    node = create_redacted_node
+    get old_node_path(node, 1, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  test "show redacted versions to moderators" do
+    session_for(create(:moderator_user))
+    node = create_redacted_node
+    get old_node_path(node, 1, :params => { :show_redactions => true })
+    assert_response :success
+  end
+
   def test_not_found
     get old_node_path(0, 0)
     assert_response :not_found
     assert_template "old_nodes/not_found"
     assert_template :layout => "map"
     assert_select "#sidebar_content", /node #0 version 0 could not be found/
+  end
+
+  private
+
+  def create_redacted_node
+    create(:node, :with_history, :deleted, :version => 2) do |node|
+      node_v1 = node.old_nodes.find_by(:version => 1)
+      node_v1.redact!(create(:redaction))
+    end
   end
 end

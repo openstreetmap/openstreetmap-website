@@ -64,9 +64,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_redacted
-    way = create(:way, :with_history, :deleted, :version => 2)
-    way_v1 = way.old_ways.find_by(:version => 1)
-    way_v1.redact!(create(:redaction))
+    way = create_redacted_way
     get old_way_path(way, 1)
     assert_response :success
     assert_template "old_ways/show"
@@ -76,11 +74,40 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{way_version_path way, 1}']", :count => 0
   end
 
+  test "don't show redacted versions to anonymous users" do
+    way = create_redacted_way
+    get old_way_path(way, 1, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  test "don't show redacted versions to regular users" do
+    session_for(create(:user))
+    way = create_redacted_way
+    get old_way_path(way, 1, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  test "show redacted versions to moderators" do
+    session_for(create(:moderator_user))
+    way = create_redacted_way
+    get old_way_path(way, 1, :params => { :show_redactions => true })
+    assert_response :success
+  end
+
   def test_not_found
     get old_way_path(0, 0)
     assert_response :not_found
     assert_template "old_ways/not_found"
     assert_template :layout => "map"
     assert_select "#sidebar_content", /way #0 version 0 could not be found/
+  end
+
+  private
+
+  def create_redacted_way
+    create(:way, :with_history, :deleted, :version => 2) do |way|
+      way_v1 = way.old_ways.find_by(:version => 1)
+      way_v1.redact!(create(:redaction))
+    end
   end
 end

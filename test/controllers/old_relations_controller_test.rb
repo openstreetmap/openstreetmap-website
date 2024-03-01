@@ -59,9 +59,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_redacted
-    relation = create(:relation, :with_history, :deleted, :version => 2)
-    relation_v1 = relation.old_relations.find_by(:version => 1)
-    relation_v1.redact!(create(:redaction))
+    relation = create_redacted_relation
     get old_relation_path(relation, 1)
     assert_response :success
     assert_template "old_relations/show"
@@ -71,11 +69,40 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{relation_version_path relation, 1}']", :count => 0
   end
 
+  test "don't show redacted versions to anonymous users" do
+    relation = create_redacted_relation
+    get old_relation_path(relation, 1, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  test "don't show redacted versions to regular users" do
+    session_for(create(:user))
+    relation = create_redacted_relation
+    get old_relation_path(relation, 1, :params => { :show_redactions => true })
+    assert_response :redirect
+  end
+
+  test "show redacted versions to moderators" do
+    session_for(create(:moderator_user))
+    relation = create_redacted_relation
+    get old_relation_path(relation, 1, :params => { :show_redactions => true })
+    assert_response :success
+  end
+
   def test_not_found
     get old_relation_path(0, 0)
     assert_response :not_found
     assert_template "old_relations/not_found"
     assert_template :layout => "map"
     assert_select "#sidebar_content", /relation #0 version 0 could not be found/
+  end
+
+  private
+
+  def create_redacted_relation
+    create(:relation, :with_history, :deleted, :version => 2) do |relation|
+      relation_v1 = relation.old_relations.find_by(:version => 1)
+      relation_v1.redact!(create(:redaction))
+    end
   end
 end

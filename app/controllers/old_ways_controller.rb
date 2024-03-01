@@ -8,6 +8,7 @@ class OldWaysController < ApplicationController
 
   authorize_resource
 
+  before_action :require_moderator_for_unredacted_history
   around_action :web_timeout
 
   def show
@@ -15,5 +16,11 @@ class OldWaysController < ApplicationController
     @feature = OldWay.preload(:old_tags, :changeset => [:changeset_tags, :user], :old_nodes => { :node => [:node_tags, :ways] }).find([params[:id], params[:version]])
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
+  end
+
+  private
+
+  def require_moderator_for_unredacted_history
+    deny_access(nil) if params[:show_redactions] && !current_user&.moderator?
   end
 end
