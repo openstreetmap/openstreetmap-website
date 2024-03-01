@@ -4,35 +4,4 @@
 
 <%= render :partial => "browse/way", :object => @feature %>
 
-<div class='secondary-actions'>
-  <%= link_to t("browse.view_details"), way_path(@feature.way_id) %>
-  <% if !@feature.redacted? %>
-    &middot;
-    <%= link_to t("browse.download_xml"), way_version_path(*@feature.id) %>
-  <% elsif current_user&.moderator? %>
-    &middot;
-    <% if !params[:show_redactions] %>
-      <%= link_to t("browse.view_redacted_data"), old_way_path(*@feature.id, :params => { :show_redactions => true }) %>
-    <% else %>
-      <%= link_to t("browse.view_redaction_message"), old_way_path(*@feature.id) %>
-    <% end %>
-  <% end %>
-</div>
-
-<div class='secondary-actions'>
-  <% if @feature.version > 1 %>
-    <%= link_to old_way_path(@feature.way_id, @feature.version - 1), :class => "icon-link" do %>
-      <%= previous_page_svg_tag :height => 11 %>
-      <%= "#{t('browse.version')} ##{@feature.version - 1}" %>
-    <% end %>
-    &middot;
-  <% end %>
-  <%= link_to t("browse.view_history"), way_history_path(@feature.way_id) %>
-  <% if @feature.version < @feature.current_way.version %>
-    &middot;
-    <%= link_to old_way_path(@feature.way_id, @feature.version + 1), :class => "icon-link" do %>
-      <%= "#{t('browse.version')} ##{@feature.version + 1}" %>
-      <%= next_page_svg_tag :height => 11 %>
-    <% end %>
-  <% end %>
-</div>
+<%= render :partial => "browse/version_actions" %>
