@@ -43,12 +43,10 @@ class PasswordsController < ApplicationController
     if user
       token = user.generate_token_for(:password_reset)
       UserMailer.lost_password(user, token).deliver_later
-      flash[:notice] = t ".notice email on way"
-      redirect_to login_path
-    else
-      flash.now[:error] = t ".notice email cannot find"
-      render :new
     end
+
+    flash[:notice] = t ".send_paranoid_instructions"
+    redirect_to login_path
   end
 
   def update

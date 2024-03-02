@@ -51,11 +51,22 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :redirect
     assert_redirected_to login_path
-    assert_match(/^Sorry you lost it/, flash[:notice])
+    assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal user.email, email.to.first
     ActionMailer::Base.deliveries.clear
+
+    # Test resetting using an address that does not exist
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      perform_enqueued_jobs do
+        post user_forgot_password_path, :params => { :email => "nobody@example.com" }
+      end
+    end
+    # Be paranoid about revealing there was no match
+    assert_response :redirect
+    assert_redirected_to login_path
+    assert_match(/^If your email address exists/, flash[:notice])
 
     # Test resetting using an address that matches a different user
     # that has the same address in a different case
@@ -66,7 +77,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :redirect
     assert_redirected_to login_path
-    assert_match(/^Sorry you lost it/, flash[:notice])
+    assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal uppercase_user.email, email.to.first
@@ -79,9 +90,10 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
         post user_forgot_password_path, :params => { :email => user.email.titlecase }
       end
     end
-    assert_response :success
-    assert_template :new
-    assert_select ".alert.alert-danger", /^Could not find that email address/
+    # Be paranoid about revealing there was no match
+    assert_response :redirect
+    assert_redirected_to login_path
+    assert_match(/^If your email address exists/, flash[:notice])
 
     # Test resetting using the address as recorded for a user that has an
     # address which is case insensitively unique
@@ -93,7 +105,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :redirect
     assert_redirected_to login_path
-    assert_match(/^Sorry you lost it/, flash[:notice])
+    assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal third_user.email, email.to.first
@@ -108,7 +120,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :redirect
     assert_redirected_to login_path
-    assert_match(/^Sorry you lost it/, flash[:notice])
+    assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal third_user.email, email.to.first
