@@ -1,4 +1,6 @@
 class OldRelationsController < OldElementsController
+  before_action -> { authorize! :show_redactions, OldRelation if params[:show_redactions] }
+
   def index
     @type = "relation"
     @feature = Relation.preload(:relation_tags, :old_relations => [:old_tags, { :changeset => [:changeset_tags, :user], :old_members => :member }]).find(params[:id])

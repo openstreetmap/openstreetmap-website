@@ -1,4 +1,6 @@
 class OldNodesController < OldElementsController
+  before_action -> { authorize! :show_redactions, OldNode if params[:show_redactions] }
+
   def index
     @type = "node"
     @feature = Node.preload(:node_tags, :old_nodes => [:old_tags, { :changeset => [:changeset_tags, :user] }]).find(params[:id])

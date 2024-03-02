@@ -1,4 +1,6 @@
 class OldWaysController < OldElementsController
+  before_action -> { authorize! :show_redactions, OldWay if params[:show_redactions] }
+
   def index
     @type = "way"
     @feature = Way.preload(:way_tags, :old_ways => [:old_tags, { :changeset => [:changeset_tags, :user], :old_nodes => { :node => [:node_tags, :ways] } }]).find(params[:id])

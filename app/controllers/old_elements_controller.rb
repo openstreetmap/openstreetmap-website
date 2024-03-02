@@ -8,12 +8,5 @@ class OldElementsController < ApplicationController
 
   authorize_resource
 
-  before_action :require_moderator_for_unredacted_history
   around_action :web_timeout
-
-  private
-
-  def require_moderator_for_unredacted_history
-    deny_access(nil) if params[:show_redactions] && !current_user&.moderator?
-  end
 end
