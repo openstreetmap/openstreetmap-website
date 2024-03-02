@@ -23,9 +23,18 @@ module Api
     ##
     # return the value for a single preference
     def show
-      pref = UserPreference.find([current_user.id, params[:preference_key]])
-
-      render :plain => pref.v.to_s
+      @preference = UserPreference.find([current_user.id, params[:preference_key]])
+      # We are setting the default format to xml in api_controller, but this api call used to only return plain text,
+      # so the default xml result is incorrect
+      if request.format == "application/xml" && (!request.headers["Accept"] || request.headers["Accept"].exclude?("application/xml"))
+        render :plain => @preference.v.to_s
+      else
+        respond_to do |format|
+          format.all { render :plain => @preference.v.to_s }
+          format.xml
+          format.json
+        end
+      end
     end
 
     # update the entire set of preferences

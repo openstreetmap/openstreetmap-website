@@ -32,6 +32,95 @@ module Api
     end
 
     ##
+    # Test special key routes. Specifically routes with `.` and URL encoded keys.
+    def test_special_routes
+      # authenticate as a user with no preferences
+      auth_header = basic_authorization_header create(:user).email, "test"
+      text_header = auth_header.merge({ "Accept" => "text/plain" })
+
+      put "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => text_header, :params => "private"
+      get "#{user_preferences_path}/gps.trace.visibility", :headers => text_header
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "private", @response.body
+      put "#{user_preferences_path}/gps.trace.visibility", :headers => text_header, :params => "public"
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility", :headers => text_header
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "public", @response.body
+
+      put "#{user_preferences_path}/apikey%2E%23%3Ahttps%3A%2F%2Fsome%2eones%2Fapi", :headers => text_header, :params => "test_url_encode"
+      get "#{user_preferences_path}/apikey%2E%23%3Ahttps%3A%2F%2Fsome%2eones%2Fapi", :headers => text_header
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "test_url_encode", @response.body
+
+      # Make certain that the key was stored in non-url-encoded form
+      # This is necessary just in case the .ones%2Fapi was interpreted as a format (e.g., `.json`)
+      get user_preferences_path, :headers => auth_header
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm" do
+        assert_select "preferences", :count => 1 do
+          assert_select "preference", :count => 2
+          assert_select "preference[k=\"apikey.#:https://some.ones/api\"][v=\"test_url_encode\"]", :count => 1
+          assert_select "preference[k=\"gps.trace.visibility\"][v=\"public\"]", :count => 1
+        end
+      end
+    end
+
+    def test_request_format
+      # authenticate as a user with no preferences
+      auth_header = basic_authorization_header create(:user).email, "test"
+
+      put "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => auth_header, :params => "public"
+      put "#{user_preferences_path}/gps%2etrace%2Ejson", :headers => auth_header, :params => "invalid"
+      # Make certain we only return json/xml if requested
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility", :headers => { "Accept" => "*/*" }.merge(auth_header)
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "public", @response.body
+
+      # Check that XML is returned properly
+      get "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => { "Accept" => "application/xml" }.merge(auth_header)
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm" do
+        assert_select "preferences", :count => 1 do
+          assert_select "preference", :count => 1
+          assert_select "preference[k=\"gps.trace.visibility\"][v=\"public\"]", :count => 1
+        end
+      end
+
+      # Check that JSON is returned properly
+      get "#{user_preferences_path}/gps%2etrace%2Evisibility", :headers => { "Accept" => "application/json" }.merge(auth_header)
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["preferences"].count
+      assert_equal "public", js["preferences"]["gps.trace.visibility"]
+
+      # Support for .fmt is mandatory
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility.json", :headers => auth_header
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 1, js["preferences"].count
+      assert_equal "public", js["preferences"]["gps.trace.visibility"]
+      get "#{user_preferences_path}/gps%2Etrace%2evisibility.xml", :headers => auth_header
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm" do
+        assert_select "preferences", :count => 1 do
+          assert_select "preference", :count => 1
+          assert_select "preference[k=\"gps.trace.visibility\"][v=\"public\"]", :count => 1
+        end
+      end
+    end
+
+    ##
     # test showing all preferences
     def test_index
       # first try without auth
@@ -92,7 +181,7 @@ module Api
       auth_header = basic_authorization_header user.email, "test"
 
       # try the read again
-      get user_preference_path(:preference_key => "key"), :headers => auth_header
+      get user_preference_path(:preference_key => "key"), :headers => { "Accept" => "text/plain" }.merge(auth_header)
       assert_response :success
       assert_equal "text/plain", @response.media_type
       assert_equal "value", @response.body
