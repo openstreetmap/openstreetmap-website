@@ -4,13 +4,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
   def test_index
     # Access issues list without login
     get issues_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => issues_path)
 
     # Access issues list as normal user
     session_for(create(:user))
     get issues_path
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issues list as administrator
@@ -30,13 +28,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
 
     # Access issue without login
     get issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => issue_path(issue))
 
     # Access issue as normal user
     session_for(create(:user))
     get issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issue as administrator
@@ -56,13 +52,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
 
     # Access issue without login
     get issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => issue_path(issue))
 
     # Access issue as normal user
     session_for(create(:user))
     get issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issue as moderator
@@ -87,7 +81,6 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     # Resolve issue as normal user
     session_for(create(:user))
     post resolve_issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Resolve issue as administrator
@@ -114,7 +107,6 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     # Resolve issue as normal user
     session_for(create(:user))
     post resolve_issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Resolve issue as moderator
@@ -141,7 +133,6 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     # Ignore issue as normal user
     session_for(create(:user))
     post ignore_issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Ignore issue as administrator
@@ -168,7 +159,6 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     # Ignore issue as normal user
     session_for(create(:user))
     post ignore_issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Ignore issue as moderator
@@ -197,7 +187,6 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     # Reopen issue as normal user
     session_for(create(:user))
     post reopen_issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Reopen issue as administrator
@@ -226,7 +215,6 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     # Reopen issue as normal user
     session_for(create(:user))
     post reopen_issue_path(:id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Reopen issue as moderator

@@ -8,7 +8,6 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     get "/login"
-    assert_response :redirect
     assert_redirected_to login_path(:cookie_test => "true")
     follow_redirect!
     assert_response :success

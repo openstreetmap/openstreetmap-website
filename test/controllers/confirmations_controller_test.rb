@@ -64,7 +64,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Now try to get the confirmation page again
     get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_response :redirect
     assert_redirected_to root_path
   end
 
@@ -191,7 +190,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Get the confirmation page
     get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_response :redirect
     assert_redirected_to root_path
 
     # Confirm the user
@@ -211,7 +209,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_response :redirect
     assert_redirected_to login_path
     assert_equal("confirmations/resend_success_flash", flash[:notice][:partial])
     assert_equal({ :email => user.email, :sender => Settings.email_from }, flash[:notice][:locals])
@@ -234,7 +231,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match "User #{user.display_name} not found.", flash[:error]
   end
@@ -252,7 +248,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match "User #{user.display_name} not found.", flash[:error]
   end
@@ -264,7 +259,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match "User No Such User not found.", flash[:error]
   end
@@ -284,7 +278,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     confirm_string = user.generate_token_for(:new_email)
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_response :redirect
     assert_redirected_to edit_account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
   end
@@ -294,14 +287,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     confirm_string = user.generate_token_for(:new_email)
 
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_response :redirect
     assert_redirected_to edit_account_path
     assert_match(/already been confirmed/, flash[:error])
   end
 
   def test_confirm_email_bad_token
     post user_confirm_email_path, :params => { :confirm_string => "XXXXX" }
-    assert_response :redirect
     assert_redirected_to edit_account_path
     assert_match(/confirmation code has expired or does not exist/, flash[:error])
   end
@@ -318,7 +309,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # precondition gravatar should be turned off
     assert_not user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_response :redirect
     assert_redirected_to edit_account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be enabled
@@ -333,7 +323,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # precondition gravatar should be turned on
     assert user.image_use_gravatar
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
-    assert_response :redirect
     assert_redirected_to edit_account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be disabled

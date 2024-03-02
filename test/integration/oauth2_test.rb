@@ -157,7 +157,6 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     }.merge(options)
 
     get oauth_authorization_path(options)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => request.fullpath)
 
     post login_path(:username => user.email, :password => "test")

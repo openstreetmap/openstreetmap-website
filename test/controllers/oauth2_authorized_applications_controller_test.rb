@@ -25,7 +25,6 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     create(:oauth_application)
 
     get oauth_authorized_applications_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_authorized_applications_path)
 
     session_for(user)
@@ -45,7 +44,6 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     create(:oauth_access_token, :resource_owner_id => user.id, :application => application1, :scopes => %w[read_prefs write_diary])
 
     get oauth_authorized_applications_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_authorized_applications_path)
 
     session_for(user)
@@ -78,7 +76,6 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     session_for(user)
 
     delete oauth_authorized_application_path(:id => application1.id)
-    assert_response :redirect
     assert_redirected_to oauth_authorized_applications_path
 
     get oauth_authorized_applications_path
