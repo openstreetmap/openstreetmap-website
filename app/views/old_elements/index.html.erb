@@ -11,7 +11,7 @@
   <% if params[:show_redactions] %>
     &middot;
     <%= link_to t("browse.view_history") %>
-  <% elsif current_user&.moderator? %>
+  <% elsif can? :show_redactions, @feature %>
     &middot;
     <%= link_to t("browse.view_unredacted_history"), :params => { :show_redactions => true } %>
   <% end %>
