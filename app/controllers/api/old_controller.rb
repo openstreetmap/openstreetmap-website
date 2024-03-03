@@ -7,7 +7,7 @@ module Api
 
     before_action :check_api_readable
     before_action :check_api_writable, :only => [:redact]
-    before_action :setup_user_auth, :only => [:history, :version]
+    before_action :setup_user_auth, :only => [:history, :show]
     before_action :authorize, :only => [:redact]
 
     authorize_resource
@@ -38,7 +38,7 @@ module Api
       end
     end
 
-    def version
+    def show
       if @old_element.redacted? && !show_redactions?
         head :forbidden
 

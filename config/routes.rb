@@ -35,7 +35,7 @@ OpenStreetMap::Application.routes.draw do
     get "node/:id/relations" => "api/relations#relations_for_node", :as => :node_relations, :id => /\d+/
     get "node/:id/history" => "api/old_nodes#history", :as => :api_node_history, :id => /\d+/
     post "node/:id/:version/redact" => "api/old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "api/old_nodes#version", :as => :node_version, :id => /\d+/, :version => /\d+/
+    get "node/:id/:version" => "api/old_nodes#show", :as => :node_version, :id => /\d+/, :version => /\d+/
     get "node/:id" => "api/nodes#show", :as => :api_node, :id => /\d+/
     put "node/:id" => "api/nodes#update", :id => /\d+/
     delete "node/:id" => "api/nodes#delete", :id => /\d+/
@@ -46,7 +46,7 @@ OpenStreetMap::Application.routes.draw do
     get "way/:id/full" => "api/ways#full", :as => :way_full, :id => /\d+/
     get "way/:id/relations" => "api/relations#relations_for_way", :as => :way_relations, :id => /\d+/
     post "way/:id/:version/redact" => "api/old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "api/old_ways#version", :as => :way_version, :id => /\d+/, :version => /\d+/
+    get "way/:id/:version" => "api/old_ways#show", :as => :way_version, :id => /\d+/, :version => /\d+/
     get "way/:id" => "api/ways#show", :as => :api_way, :id => /\d+/
     put "way/:id" => "api/ways#update", :id => /\d+/
     delete "way/:id" => "api/ways#delete", :id => /\d+/
@@ -57,7 +57,7 @@ OpenStreetMap::Application.routes.draw do
     get "relation/:id/history" => "api/old_relations#history", :as => :api_relation_history, :id => /\d+/
     get "relation/:id/full" => "api/relations#full", :as => :relation_full, :id => /\d+/
     post "relation/:id/:version/redact" => "api/old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "api/old_relations#version", :as => :relation_version, :id => /\d+/, :version => /\d+/
+    get "relation/:id/:version" => "api/old_relations#show", :as => :relation_version, :id => /\d+/, :version => /\d+/
     get "relation/:id" => "api/relations#show", :as => :api_relation, :id => /\d+/
     put "relation/:id" => "api/relations#update", :id => /\d+/
     delete "relation/:id" => "api/relations#delete", :id => /\d+/

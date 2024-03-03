@@ -17,9 +17,7 @@ class ApiAbility
       can [:index, :show], Node
       can [:index, :show, :full, :ways_for_node], Way
       can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
-      can [:history, :version], OldNode
-      can [:history, :version], OldWay
-      can [:history, :version], OldRelation
+      can [:history, :show], [OldNode, OldWay, OldRelation]
       can [:show], UserBlock
 
       if user&.active?

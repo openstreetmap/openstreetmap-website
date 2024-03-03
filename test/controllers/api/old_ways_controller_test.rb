@@ -11,7 +11,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/way/1/2", :method => :get },
-        { :controller => "api/old_ways", :action => "version", :id => "1", :version => "2" }
+        { :controller => "api/old_ways", :action => "show", :id => "1", :version => "2" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1/history.json", :method => :get },
@@ -19,7 +19,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/way/1/2.json", :method => :get },
-        { :controller => "api/old_ways", :action => "version", :id => "1", :version => "2", :format => "json" }
+        { :controller => "api/old_ways", :action => "show", :id => "1", :version => "2", :format => "json" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1/2/redact", :method => :post },
