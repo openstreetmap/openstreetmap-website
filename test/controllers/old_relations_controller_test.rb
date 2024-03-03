@@ -17,7 +17,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{relation_version_path relation, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{relation_history_path relation}']", :count => 1
@@ -32,7 +32,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 1}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{relation_version_path relation, 1}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_history_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 2}']", :count => 1
@@ -44,7 +44,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4", /^Version/ do
       assert_select "a[href='#{old_relation_path relation, 2}']", :count => 0
     end
-    assert_select ".secondary-actions a[href='#{relation_version_path relation, 2}']", :count => 1
+    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 2}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{relation_history_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 1
@@ -69,7 +69,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{relation_version_path relation, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to regular users" do
@@ -83,7 +83,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 0
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{relation_version_path relation, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 0
   end
 
   test "show unrevealed redacted versions to moderators" do
@@ -97,7 +97,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{relation_path relation}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1, :params => { :show_redactions => true }}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 0
-    assert_select ".secondary-actions a[href='#{relation_version_path relation, 1}']", :count => 0
+    assert_select ".secondary-actions a[href='#{api_old_relation_path relation, 1}']", :count => 0
   end
 
   test "don't reveal redacted versions to anonymous users" do

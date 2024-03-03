@@ -122,12 +122,12 @@ module Api
       relation_v1 = relation.old_relations.find_by(:version => 1)
       relation_v1.redact!(create(:redaction))
 
-      get relation_version_path(:id => relation_v1.relation_id, :version => relation_v1.version)
+      get api_old_relation_path(:id => relation_v1.relation_id, :version => relation_v1.version)
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
 
       # not even to a logged-in user
       auth_header = basic_authorization_header create(:user).email, "test"
-      get relation_version_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
+      get api_old_relation_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
     end
 
@@ -145,7 +145,7 @@ module Api
 
       # not even to a logged-in user
       auth_header = basic_authorization_header create(:user).email, "test"
-      get relation_version_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
+      get api_old_relation_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
       get api_relation_history_path(:id => relation_v1.relation_id), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0,
@@ -166,9 +166,9 @@ module Api
 
       # check moderator can still see the redacted data, when passing
       # the appropriate flag
-      get relation_version_path(:id => relation_v3.relation_id, :version => relation_v3.version), :headers => auth_header
+      get api_old_relation_path(:id => relation_v3.relation_id, :version => relation_v3.version), :headers => auth_header
       assert_response :forbidden, "After redaction, relation should be gone for moderator, when flag not passed."
-      get relation_version_path(:id => relation_v3.relation_id, :version => relation_v3.version), :params => { :show_redactions => "true" }, :headers => auth_header
+      get api_old_relation_path(:id => relation_v3.relation_id, :version => relation_v3.version), :params => { :show_redactions => "true" }, :headers => auth_header
       assert_response :success, "After redaction, relation should not be gone for moderator, when flag passed."
 
       # and when accessed via history
@@ -197,7 +197,7 @@ module Api
       auth_header = basic_authorization_header create(:user).email, "test"
 
       # check can't see the redacted data
-      get relation_version_path(:id => relation_v3.relation_id, :version => relation_v3.version), :headers => auth_header
+      get api_old_relation_path(:id => relation_v3.relation_id, :version => relation_v3.version), :headers => auth_header
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
 
       # and when accessed via history
@@ -248,7 +248,7 @@ module Api
 
       # check moderator can still see the redacted data, without passing
       # the appropriate flag
-      get relation_version_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
+      get api_old_relation_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
       assert_response :success, "After unredaction, relation should not be gone for moderator."
 
       # and when accessed via history
@@ -260,7 +260,7 @@ module Api
       auth_header = basic_authorization_header create(:user).email, "test"
 
       # check normal user can now see the redacted data
-      get relation_version_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
+      get api_old_relation_path(:id => relation_v1.relation_id, :version => relation_v1.version), :headers => auth_header
       assert_response :success, "After redaction, node should not be gone for normal user."
 
       # and when accessed via history
@@ -329,7 +329,7 @@ module Api
     end
 
     def do_redact_relation(relation, redaction, headers = {})
-      get relation_version_path(:id => relation.relation_id, :version => relation.version)
+      get api_old_relation_path(:id => relation.relation_id, :version => relation.version)
       assert_response :success, "should be able to get version #{relation.version} of relation #{relation.relation_id}."
 
       # now redact it
