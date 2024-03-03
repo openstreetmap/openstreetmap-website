@@ -69,7 +69,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   # The user creation page loads
   def test_new_view
     get user_new_path
-    assert_response :redirect
     assert_redirected_to user_new_path(:cookie_test => "true")
 
     get user_new_path, :params => { :cookie_test => "true" }
@@ -98,11 +97,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     get user_new_path
-    assert_response :redirect
     assert_redirected_to root_path
 
     get user_new_path, :params => { :referer => "/test" }
-    assert_response :redirect
     assert_redirected_to "/test"
   end
 
@@ -346,7 +343,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
 
     get user_terms_path
-    assert_response :redirect
     assert_redirected_to edit_account_path
   end
 
@@ -360,7 +356,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_template :terms
 
     post user_save_path, :params => { :user => { :consider_pd => true }, :read_ct => 1, :read_tou => 1 }
-    assert_response :redirect
     assert_redirected_to edit_account_path
     assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
 
@@ -381,7 +376,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_template :terms
 
     post user_save_path, :params => { :user => { :consider_pd => true }, :referer => "/test", :read_ct => 1, :read_tou => 1 }
-    assert_response :redirect
     assert_redirected_to "/test"
     assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
 
@@ -399,7 +393,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
 
     get edit_account_path
-    assert_response :redirect
     assert_redirected_to :controller => :users, :action => :terms, :referer => "/account/edit"
   end
 
@@ -415,7 +408,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     post user_go_public_path
 
-    assert_response :redirect
     assert_redirected_to edit_account_path
     assert User.find(user.id).data_public
   end
@@ -552,13 +544,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     post set_status_user_path(user), :params => { :event => "confirm" }
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
     post set_status_user_path(user), :params => { :event => "confirm" }
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
     assert_equal "confirmed", User.find(user.id).status
   end
@@ -573,13 +563,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     delete user_path(user)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
     delete user_path(user)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name
 
     # Check that the user was deleted properly
@@ -609,21 +597,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # Shouldn't work when not logged in
     get users_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => users_path)
 
     session_for(user)
 
     # Shouldn't work when logged in as a normal user
     get users_path
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     session_for(moderator_user)
 
     # Shouldn't work when logged in as a moderator
     get users_path
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
 
     session_for(administrator_user)
@@ -695,7 +680,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "User.active.count" do
       post users_path, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
@@ -706,7 +690,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "User.active.count" do
       post users_path, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
@@ -717,7 +700,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference "User.active.count", 2 do
       post users_path, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
-    assert_response :redirect
     assert_redirected_to :action => :index
     assert_equal "confirmed", inactive_user.reload.status
     assert_equal "confirmed", suspended_user.reload.status
@@ -742,7 +724,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "User.active.count" do
       post users_path, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
@@ -753,7 +734,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "User.active.count" do
       post users_path, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
@@ -764,7 +744,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference "User.active.count", -2 do
       post users_path, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
-    assert_response :redirect
     assert_redirected_to :action => :index
     assert_equal "deleted", normal_user.reload.status
     assert_equal "deleted", confirmed_user.reload.status
@@ -772,15 +751,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_auth_failure_callback
     get auth_failure_path
-    assert_response :redirect
     assert_redirected_to login_path
 
     get auth_failure_path, :params => { :origin => "/" }
-    assert_response :redirect
     assert_redirected_to root_path
 
     get auth_failure_path, :params => { :origin => "http://www.google.com" }
-    assert_response :redirect
     assert_redirected_to login_path
   end
 end

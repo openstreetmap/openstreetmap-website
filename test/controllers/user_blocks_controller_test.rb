@@ -148,7 +148,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't load the block creation page
     get new_user_block_path(:display_name => target_user.display_name)
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
@@ -186,7 +185,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't load the block edit page
     get edit_user_block_path(:id => active_block)
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
@@ -224,7 +222,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't create blocks
     post user_blocks_path
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
@@ -300,7 +297,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't update blocks
     put user_block_path(:id => active_block)
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as the wrong moderator
@@ -359,7 +355,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't load the block revoke page
     get revoke_user_block_path(:id => active_block)
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
@@ -413,7 +408,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't load the revoke all blocks page
     get revoke_all_user_blocks_path(blocked_user)
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
@@ -443,7 +437,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't load the block revoke page
     get revoke_all_user_blocks_path(:blocked_user)
-    assert_response :redirect
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator

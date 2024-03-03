@@ -58,7 +58,6 @@ class OAuthTest < ActionDispatch::IntegrationTest
          :params => { :oauth_token => token.token,
                       :allow_read_prefs => "1", :allow_write_prefs => "1" }
     if client.callback_url
-      assert_response :redirect
       assert_redirected_to "#{client.callback_url}?oauth_token=#{token.token}"
     else
       assert_response :success
@@ -156,7 +155,6 @@ class OAuthTest < ActionDispatch::IntegrationTest
     post "/oauth/authorize",
          :params => { :oauth_token => token.token, :oauth_callback => callback_url,
                       :allow_write_api => "1", :allow_read_gpx => "1" }
-    assert_response :redirect
     assert_redirected_to "#{callback_url}?oauth_token=#{token.token}"
     token.reload
     assert_not_nil token.created_at

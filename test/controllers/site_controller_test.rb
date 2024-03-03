@@ -122,31 +122,24 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   # Test the permalink redirect
   def test_permalink
     get permalink_path(:code => "wBz3--")
-    assert_response :redirect
     assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125"
 
     get permalink_path(:code => "wBz3--", :m => "")
-    assert_response :redirect
     assert_redirected_to :controller => :site, :action => :index, :mlat => "4.8779296875", :mlon => "3.955078125", :anchor => "map=3/4.8779296875/3.955078125"
 
     get permalink_path(:code => "wBz3--", :layers => "T")
-    assert_response :redirect
     assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125&layers=T"
 
     get permalink_path(:code => "wBz3--", :node => 1)
-    assert_response :redirect
     assert_redirected_to :controller => :browse, :action => :node, :id => 1, :anchor => "map=3/4.8779296875/3.955078125"
 
     get permalink_path(:code => "wBz3--", :way => 2)
-    assert_response :redirect
     assert_redirected_to :controller => :browse, :action => :way, :id => 2, :anchor => "map=3/4.8779296875/3.955078125"
 
     get permalink_path(:code => "wBz3--", :relation => 3)
-    assert_response :redirect
     assert_redirected_to :controller => :browse, :action => :relation, :id => 3, :anchor => "map=3/4.8779296875/3.955078125"
 
     get permalink_path(:code => "wBz3--", :changeset => 4)
-    assert_response :redirect
     assert_redirected_to changeset_path(:id => 4, :anchor => "map=3/4.8779296875/3.955078125")
   end
 
@@ -163,7 +156,6 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   def test_edit
     get edit_path
 
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/edit")
   end
 
@@ -437,7 +429,6 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   # Test the welcome page
   def test_welcome
     get welcome_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/welcome")
 
     session_for(create(:user))
@@ -530,7 +521,6 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   def test_id_without_login
     get id_path
 
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/id")
   end
 end

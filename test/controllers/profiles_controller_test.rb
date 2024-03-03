@@ -21,7 +21,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     # Updating the description should work
     put profile_path, :params => { :user => { :description => "new description" } }
-    assert_response :redirect
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success
@@ -32,7 +31,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
     put profile_path, :params => { :avatar_action => "new", :user => { :avatar => image, :description => user.description } }
-    assert_response :redirect
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success
@@ -43,7 +41,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     # Changing to a gravatar image should work
     put profile_path, :params => { :avatar_action => "gravatar", :user => { :description => user.description } }
-    assert_response :redirect
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success
@@ -54,7 +51,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     # Removing the image should work
     put profile_path, :params => { :avatar_action => "delete", :user => { :description => user.description } }
-    assert_response :redirect
     assert_redirected_to user_path(user)
     follow_redirect!
     assert_response :success

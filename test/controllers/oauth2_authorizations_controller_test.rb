@@ -29,7 +29,6 @@ class Oauth2AuthorizationsControllerTest < ActionDispatch::IntegrationTest
                                  :redirect_uri => application.redirect_uri,
                                  :response_type => "code",
                                  :scope => "write_api")
-    assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_authorization_path(:client_id => application.uid,
                                                                          :redirect_uri => application.redirect_uri,
                                                                          :response_type => "code",
@@ -52,7 +51,6 @@ class Oauth2AuthorizationsControllerTest < ActionDispatch::IntegrationTest
                                  :redirect_uri => application.redirect_uri,
                                  :response_type => "code",
                                  :scope => "write_api")
-    assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_authorization_path(:client_id => application.uid,
                                                                          :redirect_uri => application.redirect_uri,
                                                                          :response_type => "code",
@@ -119,7 +117,6 @@ class Oauth2AuthorizationsControllerTest < ActionDispatch::IntegrationTest
                                   :redirect_uri => application.redirect_uri,
                                   :response_type => "code",
                                   :scope => "write_api")
-    assert_response :redirect
     assert_redirected_to(/^#{Regexp.escape(application.redirect_uri)}\?code=/)
   end
 
@@ -160,7 +157,6 @@ class Oauth2AuthorizationsControllerTest < ActionDispatch::IntegrationTest
                                     :redirect_uri => application.redirect_uri,
                                     :response_type => "code",
                                     :scope => "write_api")
-    assert_response :redirect
     assert_redirected_to(/^#{Regexp.escape(application.redirect_uri)}\?error=access_denied/)
   end
 

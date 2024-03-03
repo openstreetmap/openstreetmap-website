@@ -40,7 +40,6 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
     create_list(:access_token, 2, :user => user)
 
     get oauth_clients_path(:display_name => user.display_name)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_clients_path(:display_name => user.display_name))
 
     session_for(user)
@@ -55,7 +54,6 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     get new_oauth_client_path(:display_name => user.display_name)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => new_oauth_client_path(:display_name => user.display_name))
 
     session_for(user)
@@ -79,13 +77,11 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
 
     with_settings(:oauth_10_registration => false) do
       get new_oauth_client_path(:display_name => user.display_name)
-      assert_response :redirect
       assert_redirected_to login_path(:referer => new_oauth_client_path(:display_name => user.display_name))
 
       session_for(user)
 
       get new_oauth_client_path(:display_name => user.display_name)
-      assert_response :redirect
       assert_redirected_to oauth_clients_path(:display_name => user.display_name)
     end
   end
@@ -112,7 +108,6 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
                               :client_application => { :name => "Test Application",
                                                        :url => "http://test.example.com/" })
     end
-    assert_response :redirect
     assert_redirected_to oauth_client_path(:id => ClientApplication.find_by(:name => "Test Application").id)
   end
 
@@ -122,7 +117,6 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
     other_client = create(:client_application)
 
     get oauth_client_path(:display_name => user.display_name, :id => client)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_client_path(:display_name => user.display_name, :id => client.id))
 
     session_for(user)
@@ -142,7 +136,6 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
     other_client = create(:client_application)
 
     get edit_oauth_client_path(:display_name => user.display_name, :id => client)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => edit_oauth_client_path(:display_name => user.display_name, :id => client.id))
 
     session_for(user)
@@ -186,7 +179,6 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
 
     put oauth_client_path(:display_name => user.display_name, :id => client,
                           :client_application => { :name => "New Name", :url => "http://new.example.com/url" })
-    assert_response :redirect
     assert_redirected_to oauth_client_path(:id => client.id)
   end
 
@@ -211,7 +203,6 @@ class OauthClientsControllerTest < ActionDispatch::IntegrationTest
     assert_difference "ClientApplication.count", -1 do
       delete oauth_client_path(:display_name => user.display_name, :id => client)
     end
-    assert_response :redirect
     assert_redirected_to oauth_clients_path(:display_name => user.display_name)
   end
 end

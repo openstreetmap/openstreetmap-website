@@ -413,7 +413,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     # Asking to mark a message with no ID should fail
     post message_mark_path
-    assert_response :redirect
     assert_redirected_to inbox_messages_path
 
     # Asking to mark a message with a bogus ID should fail
@@ -464,7 +463,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     # Asking to destroy a message with no ID should fail
     delete message_path
-    assert_response :redirect
     assert_redirected_to inbox_messages_path
 
     # Asking to destroy a message with a bogus ID should fail

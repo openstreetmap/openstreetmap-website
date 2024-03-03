@@ -120,7 +120,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Make sure that you are redirected to the login page when you
     # are not logged in
     get new_diary_entry_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/diary/new")
   end
 
@@ -184,7 +183,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
                               :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                                 :longitude => "2.2", :language_code => "en" })
     end
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     entry = DiaryEntry.order(:id).last
     assert_equal user.id, entry.user_id
@@ -211,7 +209,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
                               :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                                 :longitude => "2.2", :language_code => "de" })
     end
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     entry = DiaryEntry.order(:id).last
     assert_equal user.id, entry.user_id
@@ -240,7 +237,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       post diary_entries_path(:commit => "save",
                               :diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" })
     end
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     entry = DiaryEntry.order(:id).last
     assert_equal user.id, entry.user_id
@@ -251,7 +247,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Follow the redirect
     get diary_entries_path(:display_name => user.display_name)
-    assert_response :redirect
     assert_redirected_to :controller => :users, :action => :suspended
   end
 
@@ -264,7 +259,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Make sure that you are redirected to the login page when you are
     # not logged in, without and with the id of the entry you want to edit
     get edit_diary_entry_path(:display_name => entry.user.display_name, :id => entry)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit")
 
     session_for(other_user)
@@ -272,7 +266,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Verify that you get redirected to show if you are not the user
     # that created the entry
     get edit_diary_entry_path(:display_name => entry.user.display_name, :id => entry)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
 
     session_for(entry.user)
@@ -315,7 +308,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     put diary_entry_path(:display_name => entry.user.display_name, :id => entry, :commit => "save",
                          :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
                                            :longitude => new_longitude, :language_code => new_language_code })
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
 
     # Now check that the new data is rendered, when logged in
@@ -407,7 +399,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
     email = ActionMailer::Base.deliveries.first
     assert_equal [user.email], email.to
@@ -450,7 +441,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
     email = ActionMailer::Base.deliveries.first
     assert_equal [user.email], email.to
@@ -466,7 +456,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Follow the redirect
     get diary_entries_path(:display_name => user.display_name)
-    assert_response :redirect
     assert_redirected_to :controller => :users, :action => :suspended
 
     # Now show the diary entry, and check the new comment is not present
@@ -512,7 +501,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Try a list of diary entries for your friends when not logged in
     get friends_diary_entries_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/diary/friends")
 
     # Try a list of diary entries for your friends when logged in
@@ -532,7 +520,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Try a list of diary entries for nearby users when not logged in
     get nearby_diary_entries_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/diary/nearby")
 
     # Try a list of diary entries for nearby users when logged in
@@ -767,14 +754,12 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a moderator
     session_for(create(:moderator_user))
     post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     assert_not DiaryEntry.find(diary_entry.id).visible
 
@@ -784,7 +769,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Finally try as an administrator
     session_for(create(:administrator_user))
     post hide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     assert_not DiaryEntry.find(diary_entry.id).visible
   end
@@ -801,14 +785,12 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a moderator
     session_for(create(:moderator_user))
     post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     assert DiaryEntry.find(diary_entry.id).visible
 
@@ -818,7 +800,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Finally try as an administrator
     session_for(create(:administrator_user))
     post unhide_diary_entry_path(:display_name => user.display_name, :id => diary_entry)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     assert DiaryEntry.find(diary_entry.id).visible
   end
@@ -836,14 +817,12 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     post hide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert DiaryComment.find(diary_comment.id).visible
 
     # Try as a moderator
     session_for(create(:moderator_user))
     post hide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
     assert_not DiaryComment.find(diary_comment.id).visible
 
@@ -853,7 +832,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Finally try as an administrator
     session_for(create(:administrator_user))
     post hide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
     assert_not DiaryComment.find(diary_comment.id).visible
   end
@@ -871,14 +849,12 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_not DiaryComment.find(diary_comment.id).visible
 
     # Now try as a moderator
     session_for(create(:moderator_user))
     post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
     assert DiaryComment.find(diary_comment.id).visible
 
@@ -888,7 +864,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Finally try as an administrator
     session_for(create(:administrator_user))
     post unhide_diary_comment_path(:display_name => user.display_name, :id => diary_entry, :comment => diary_comment)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
     assert DiaryComment.find(diary_comment.id).visible
   end
@@ -931,7 +906,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     path = diary_entry_subscribe_path(:id => diary_entry, :display_name => user.display_name)
 
     get path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => path)
 
     session_for(other_user)
@@ -987,7 +961,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     path = diary_entry_unsubscribe_path(:id => diary_entry, :display_name => user.display_name)
 
     get path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => path)
 
     session_for(other_user)

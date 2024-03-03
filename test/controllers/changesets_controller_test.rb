@@ -184,7 +184,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     _changeset2 = create(:changeset, :user => create(:user), :num_changes => 1)
 
     get friend_changesets_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => friend_changesets_path)
 
     session_for(private_user)
@@ -210,7 +209,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     _changeset2 = create(:changeset, :user => far_away_user, :num_changes => 1)
 
     get nearby_changesets_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => nearby_changesets_path)
 
     session_for(private_user)
@@ -397,7 +395,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   # Check that we can't request later pages of the changesets feed
   def test_feed_max_id
     get history_feed_path(:format => "atom", :max_id => 100)
-    assert_response :redirect
     assert_redirected_to :action => :feed
   end
 
@@ -408,7 +405,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     path = changeset_subscribe_path(changeset)
 
     get path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => path)
 
     session_for(other_user)
@@ -429,7 +425,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_difference "changeset.subscribers.count", 1 do
       post changeset_subscribe_path(changeset)
     end
-    assert_response :redirect
     assert_redirected_to changeset_path(changeset)
     assert changeset.reload.subscribed?(other_user)
   end
@@ -466,7 +461,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     path = changeset_unsubscribe_path(changeset)
 
     get path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => path)
 
     session_for(other_user)
@@ -489,7 +483,6 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_difference "changeset.subscribers.count", -1 do
       post changeset_unsubscribe_path(changeset)
     end
-    assert_response :redirect
     assert_redirected_to changeset_path(changeset)
     assert_not changeset.reload.subscribed?(other_user)
   end

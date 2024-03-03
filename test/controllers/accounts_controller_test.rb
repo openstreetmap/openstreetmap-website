@@ -25,7 +25,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     # Make sure that you are redirected to the login page when
     # you are not logged in
     get edit_account_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/account/edit")
 
     # Make sure we get the page when we are logged in as the right user
@@ -49,10 +48,8 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
     # Adding external authentication should redirect to the auth provider
     patch account_path, :params => { :user => user.attributes.merge(:auth_provider => "google") }
-    assert_response :redirect
     assert_redirected_to auth_path(:provider => "google", :origin => "/account")
     follow_redirect!
-    assert_response :redirect
     assert_redirected_to %r{^https://accounts.google.com/o/oauth2/auth\?.*}
 
     # Changing name to one that exists should fail
@@ -74,7 +71,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
     patch account_path, :params => { :user => new_attributes }
-    assert_response :redirect
     assert_redirected_to edit_account_url
     get edit_account_path
     assert_response :success
@@ -116,7 +112,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
         patch account_path, :params => { :user => user.attributes }
       end
     end
-    assert_response :redirect
     assert_redirected_to edit_account_url
     get edit_account_path
     assert_response :success
@@ -135,7 +130,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     # Make sure that you are redirected to the login page when
     # you are not logged in
     get edit_account_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => "/account/edit")
 
     # Make sure we get the page when we are logged in as the right user

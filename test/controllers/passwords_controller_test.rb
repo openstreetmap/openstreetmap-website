@@ -49,7 +49,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
         post user_forgot_password_path, :params => { :email => user.email }
       end
     end
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
@@ -64,7 +63,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
       end
     end
     # Be paranoid about revealing there was no match
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match(/^If your email address exists/, flash[:notice])
 
@@ -75,7 +73,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
         post user_forgot_password_path, :params => { :email => user.email.upcase }
       end
     end
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
@@ -91,7 +88,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
       end
     end
     # Be paranoid about revealing there was no match
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match(/^If your email address exists/, flash[:notice])
 
@@ -103,7 +99,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
         post user_forgot_password_path, :params => { :email => third_user.email }
       end
     end
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
@@ -118,7 +113,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
         post user_forgot_password_path, :params => { :email => third_user.email.upcase }
       end
     end
-    assert_response :redirect
     assert_redirected_to login_path
     assert_match(/^If your email address exists/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
@@ -135,7 +129,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
 
     # Test a request with a bogus token
     get user_reset_password_path, :params => { :token => "made_up_token" }
-    assert_response :redirect
     assert_redirected_to :action => :new
 
     # Create a valid token for a user
@@ -154,7 +147,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
 
     # Test setting a new password
     post user_reset_password_path, :params => { :token => token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" } }
-    assert_response :redirect
     assert_redirected_to root_path
     assert_equal user.id, session[:user]
     user.reload

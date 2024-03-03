@@ -394,13 +394,11 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # First with no auth
     get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :redirect
     assert_redirected_to :action => :index
 
     # Now with some other user, which should not work since the trace is anon
     session_for(create(:user))
     get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
-    assert_response :redirect
     assert_redirected_to :action => :index
 
     # And finally we should be able to do it with the owner of the trace
@@ -415,13 +413,11 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # First with a trace that has never existed
     get show_trace_path(:display_name => create(:user).display_name, :id => 0)
-    assert_response :redirect
     assert_redirected_to :action => :index
 
     # Now with a trace that has been deleted
     session_for(deleted_trace_file.user)
     get show_trace_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
-    assert_response :redirect
     assert_redirected_to :action => :index
   end
 
@@ -612,7 +608,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   def test_new_get
     # First with no auth
     get new_trace_path
-    assert_response :redirect
     assert_redirected_to login_path(:referer => new_trace_path)
 
     # Now authenticated as a user with gps.trace.visibility set
@@ -661,7 +656,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
     session_for(user)
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
     assert_match(/file has been uploaded/, flash[:notice])
     trace = Trace.order(:id => :desc).first
@@ -698,7 +692,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     # First with no auth
     get edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    assert_response :redirect
     assert_redirected_to login_path(:referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id))
 
     # Now with some other user, which should fail
@@ -752,7 +745,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # Finally with a trace that we are allowed to edit
     session_for(public_trace_file.user)
     put trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file, :trace => new_details)
-    assert_response :redirect
     assert_redirected_to :action => :show, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal new_details[:description], trace.description
@@ -787,7 +779,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # Now with a trace that we are allowed to delete
     session_for(public_trace_file.user)
     delete trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_not trace.visible
@@ -797,7 +788,6 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     admin = create(:administrator_user)
     session_for(admin)
     delete trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
-    assert_response :redirect
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_not trace.visible

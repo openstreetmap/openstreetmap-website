@@ -8,7 +8,6 @@ class IssueCommentsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     post issue_comments_path(:issue_id => issue)
-    assert_response :redirect
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal 0, issue.comments.length
   end
@@ -20,7 +19,6 @@ class IssueCommentsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:administrator_user))
 
     post issue_comments_path(:issue_id => issue, :issue_comment => { :body => "test comment" })
-    assert_response :redirect
     assert_redirected_to issue
     assert_equal 1, issue.comments.length
   end
