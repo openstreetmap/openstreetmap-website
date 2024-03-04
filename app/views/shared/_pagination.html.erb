@@ -1,3 +1,4 @@
+<% reset_params = { :from => nil, :to => nil, :before => nil, :after => nil } %>
 <nav>
   <% link_class = "page-link d-flex align-items-center gap-2 text-center" %>
   <ul class="pagination">
@@ -5,9 +6,9 @@
       <%= previous_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
       <%= t(newer_translation_key) %>
     <% end %>
-    <% if newer_id -%>
+    <% if newer_param -%>
       <li class="page-item d-flex">
-        <%= link_to newer_link_content, @params.merge(:before => nil, :after => newer_id), :class => link_class %>
+        <%= link_to newer_link_content, @params.merge(reset_params).merge(newer_param), :class => link_class %>
       </li>
     <% else -%>
       <li class="page-item d-flex disabled">
@@ -19,9 +20,9 @@
       <%= t(older_translation_key) %>
       <%= next_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
     <% end %>
-    <% if older_id -%>
+    <% if older_param -%>
       <li class="page-item d-flex">
-        <%= link_to older_link_content, @params.merge(:before => older_id, :after => nil), :class => link_class %>
+        <%= link_to older_link_content, @params.merge(reset_params).merge(older_param), :class => link_class %>
       </li>
     <% else -%>
       <li class="page-item d-flex disabled">

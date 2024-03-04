@@ -42,11 +42,11 @@ class NotesController < ApplicationController
     @notes = @notes.sort_by { |note| [note.updated_at, note.id] }.reverse
 
     if @notes.count.positive?
-      @newer_id = { :updated_at => time_param_value(@notes.first.updated_at), :id => @notes.first.id } if notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
-      @older_id = { :updated_at => time_param_value(@notes.last.updated_at), :id => @notes.last.id } if notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
+      @newer_param = { :after => updated_at_and_id_param_value(@notes.first) } if notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
+      @older_param = { :before => updated_at_and_id_param_value(@notes.last) } if notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
     else
-      @newer_id = "" if params[:before] && where_cursor(notes, ">", params[:before]).exists?
-      @older_id = "" if params[:after] && where_cursor(notes, "<", params[:after]).exists?
+      @newer_param = { :after => "" } if params[:before] && where_cursor(notes, ">", params[:before]).exists?
+      @older_param = { :before => "" } if params[:after] && where_cursor(notes, "<", params[:after]).exists?
     end
 
     render :layout => "site"
@@ -85,6 +85,10 @@ class NotesController < ApplicationController
       cursor_note = notes.find(param)
       notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
     end
+  end
+
+  def updated_at_and_id_param_value(note)
+    { :updated_at => time_param_value(note.updated_at), :id => note.id }
   end
 
   def time_param_value(time)

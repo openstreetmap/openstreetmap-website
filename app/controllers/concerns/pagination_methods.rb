@@ -19,9 +19,9 @@ module PaginationMethods
     page_items = page_items.includes(includes)
     page_items = page_items.sort.reverse
 
-    newer_items_id = page_items.first.id if page_items.count.positive? && items.exists?(["#{id_column} > ?", page_items.first.id])
-    older_items_id = page_items.last.id if page_items.count.positive? && items.exists?(["#{id_column} < ?", page_items.last.id])
+    newer_param = { :after => page_items.first.id } if page_items.count.positive? && items.exists?(["#{id_column} > ?", page_items.first.id])
+    older_param = { :before => page_items.last.id } if page_items.count.positive? && items.exists?(["#{id_column} < ?", page_items.last.id])
 
-    [page_items, newer_items_id, older_items_id]
+    [page_items, newer_param, older_param]
   end
 end
