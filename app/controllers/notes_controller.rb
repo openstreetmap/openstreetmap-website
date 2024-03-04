@@ -23,13 +23,7 @@ class NotesController < ApplicationController
     notes = notes.visible unless current_user&.moderator?
 
     begin
-      @notes = if params[:before]
-                 where_cursor(notes, "<", params[:before]).order(:updated_at => :desc, :id => :desc)
-               elsif params[:after]
-                 where_cursor(notes, ">", params[:after]).order(:updated_at => :asc, :id => :asc)
-               else
-                 notes.order(:updated_at => :desc, :id => :desc)
-               end
+      @notes = start_reading_at_params(notes)
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t ".invalid_page"
       redirect_to :action => "index"
@@ -45,8 +39,8 @@ class NotesController < ApplicationController
       @newer_param = { :after => updated_at_and_id_param_value(@notes.first) } if notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
       @older_param = { :before => updated_at_and_id_param_value(@notes.last) } if notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
     else
-      @newer_param = { :after => "" } if params[:before] && where_cursor(notes, ">", params[:before]).exists?
-      @older_param = { :before => "" } if params[:after] && where_cursor(notes, "<", params[:after]).exists?
+      @newer_param = { :from => "oldest" } if params[:before] && where_cursor(notes, ">", params[:before]).exists?
+      @older_param = { :to => "newest" } if params[:after] && where_cursor(notes, "<", params[:after]).exists?
     end
 
     render :layout => "site"
@@ -70,6 +64,20 @@ class NotesController < ApplicationController
 
   private
 
+  def start_reading_at_params(notes)
+    if params[:before]
+      where_cursor(notes, "<", params[:before]).order(:updated_at => :desc, :id => :desc)
+    elsif params[:after]
+      where_cursor(notes, ">", params[:after]).order(:updated_at => :asc, :id => :asc)
+    elsif params[:to]
+      where_cursor(notes, "<=", params[:to]).order(:updated_at => :desc, :id => :desc)
+    elsif params[:from]
+      where_cursor(notes, ">=", params[:from]).order(:updated_at => :asc, :id => :asc)
+    else
+      notes.order(:updated_at => :desc, :id => :desc)
+    end
+  end
+
   def where_cursor(notes, op, param)
     if param.respond_to?(:keys)
       cursor_note = notes.find(param[:id])
@@ -79,7 +87,7 @@ class NotesController < ApplicationController
       else
         notes.where("updated_at #{op} ?", cursor_time)
       end
-    elsif param == ""
+    elsif (param == "oldest" && op == ">=") || (param == "newest" && op == "<=")
       notes
     else
       cursor_note = notes.find(param)
