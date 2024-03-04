@@ -112,6 +112,7 @@ $(document).ready(function () {
     updateHeader();
 
     $(window).resize(updateHeader);
+    $(document).on("turbo:render", updateHeader);
   }, 0);
 
   $("#menu-icon").on("click", function (e) {
