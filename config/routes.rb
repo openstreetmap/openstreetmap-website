@@ -13,80 +13,80 @@ OpenStreetMap::Application.routes.draw do
     get "versions" => "versions#show"
   end
 
-  scope "api/0.6" do
-    get "capabilities" => "api/capabilities#show"
-    get "permissions" => "api/permissions#show"
+  scope "api/0.6", :module => :api do
+    get "capabilities" => "capabilities#show"
+    get "permissions" => "permissions#show"
 
-    put "changeset/create" => "api/changesets#create"
-    post "changeset/:id/upload" => "api/changesets#upload", :as => :changeset_upload, :id => /\d+/
-    get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
-    get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
-    post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "api/changesets#update", :id => /\d+/
-    put "changeset/:id/close" => "api/changesets#close", :as => :changeset_close, :id => /\d+/
-    get "changesets" => "api/changesets#query"
-    post "changeset/:id/comment" => "api/changeset_comments#create", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "api/changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "api/changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
+    put "changeset/create" => "changesets#create"
+    post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
+    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
+    get "changeset/:id" => "changesets#show", :as => :changeset_show, :id => /\d+/
+    post "changeset/:id/subscribe" => "changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
+    put "changeset/:id" => "changesets#update", :id => /\d+/
+    put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
+    get "changesets" => "changesets#query"
+    post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
+    post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
+    post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
-    put "node/create" => "api/nodes#create"
-    get "node/:id/ways" => "api/ways#ways_for_node", :as => :node_ways, :id => /\d+/
-    get "node/:id/relations" => "api/relations#relations_for_node", :as => :node_relations, :id => /\d+/
-    get "node/:id/history" => "api/old_nodes#history", :as => :api_node_history, :id => /\d+/
-    post "node/:id/:version/redact" => "api/old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "api/old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
-    get "node/:id" => "api/nodes#show", :as => :api_node, :id => /\d+/
-    put "node/:id" => "api/nodes#update", :id => /\d+/
-    delete "node/:id" => "api/nodes#delete", :id => /\d+/
-    get "nodes" => "api/nodes#index"
+    put "node/create" => "nodes#create"
+    get "node/:id/ways" => "ways#ways_for_node", :as => :node_ways, :id => /\d+/
+    get "node/:id/relations" => "relations#relations_for_node", :as => :node_relations, :id => /\d+/
+    get "node/:id/history" => "old_nodes#history", :as => :api_node_history, :id => /\d+/
+    post "node/:id/:version/redact" => "old_nodes#redact", :as => :node_version_redact, :version => /\d+/, :id => /\d+/
+    get "node/:id/:version" => "old_nodes#show", :as => :api_old_node, :id => /\d+/, :version => /\d+/
+    get "node/:id" => "nodes#show", :as => :api_node, :id => /\d+/
+    put "node/:id" => "nodes#update", :id => /\d+/
+    delete "node/:id" => "nodes#delete", :id => /\d+/
+    get "nodes" => "nodes#index"
 
-    put "way/create" => "api/ways#create"
-    get "way/:id/history" => "api/old_ways#history", :as => :api_way_history, :id => /\d+/
-    get "way/:id/full" => "api/ways#full", :as => :way_full, :id => /\d+/
-    get "way/:id/relations" => "api/relations#relations_for_way", :as => :way_relations, :id => /\d+/
-    post "way/:id/:version/redact" => "api/old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "api/old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
-    get "way/:id" => "api/ways#show", :as => :api_way, :id => /\d+/
-    put "way/:id" => "api/ways#update", :id => /\d+/
-    delete "way/:id" => "api/ways#delete", :id => /\d+/
-    get "ways" => "api/ways#index"
+    put "way/create" => "ways#create"
+    get "way/:id/history" => "old_ways#history", :as => :api_way_history, :id => /\d+/
+    get "way/:id/full" => "ways#full", :as => :way_full, :id => /\d+/
+    get "way/:id/relations" => "relations#relations_for_way", :as => :way_relations, :id => /\d+/
+    post "way/:id/:version/redact" => "old_ways#redact", :as => :way_version_redact, :version => /\d+/, :id => /\d+/
+    get "way/:id/:version" => "old_ways#show", :as => :api_old_way, :id => /\d+/, :version => /\d+/
+    get "way/:id" => "ways#show", :as => :api_way, :id => /\d+/
+    put "way/:id" => "ways#update", :id => /\d+/
+    delete "way/:id" => "ways#delete", :id => /\d+/
+    get "ways" => "ways#index"
 
-    put "relation/create" => "api/relations#create"
-    get "relation/:id/relations" => "api/relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
-    get "relation/:id/history" => "api/old_relations#history", :as => :api_relation_history, :id => /\d+/
-    get "relation/:id/full" => "api/relations#full", :as => :relation_full, :id => /\d+/
-    post "relation/:id/:version/redact" => "api/old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "api/old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
-    get "relation/:id" => "api/relations#show", :as => :api_relation, :id => /\d+/
-    put "relation/:id" => "api/relations#update", :id => /\d+/
-    delete "relation/:id" => "api/relations#delete", :id => /\d+/
-    get "relations" => "api/relations#index"
+    put "relation/create" => "relations#create"
+    get "relation/:id/relations" => "relations#relations_for_relation", :as => :relation_relations, :id => /\d+/
+    get "relation/:id/history" => "old_relations#history", :as => :api_relation_history, :id => /\d+/
+    get "relation/:id/full" => "relations#full", :as => :relation_full, :id => /\d+/
+    post "relation/:id/:version/redact" => "old_relations#redact", :as => :relation_version_redact, :version => /\d+/, :id => /\d+/
+    get "relation/:id/:version" => "old_relations#show", :as => :api_old_relation, :id => /\d+/, :version => /\d+/
+    get "relation/:id" => "relations#show", :as => :api_relation, :id => /\d+/
+    put "relation/:id" => "relations#update", :id => /\d+/
+    delete "relation/:id" => "relations#delete", :id => /\d+/
+    get "relations" => "relations#index"
 
-    get "map" => "api/map#index"
+    get "map" => "map#index"
 
-    get "trackpoints" => "api/tracepoints#index"
+    get "trackpoints" => "tracepoints#index"
 
-    get "user/:id" => "api/users#show", :id => /\d+/, :as => :api_user
-    get "user/details" => "api/users#details"
-    get "user/gpx_files" => "api/users#gpx_files"
-    get "users" => "api/users#index", :as => :api_users
+    get "user/:id" => "users#show", :id => /\d+/, :as => :api_user
+    get "user/details" => "users#details"
+    get "user/gpx_files" => "users#gpx_files"
+    get "users" => "users#index", :as => :api_users
 
-    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "api/user_preferences" do
+    resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences", :controller => "user_preferences" do
       collection do
-        put "" => "api/user_preferences#update_all", :as => ""
+        put "" => "user_preferences#update_all", :as => ""
       end
     end
 
-    post "gpx/create" => "api/traces#create"
-    get "gpx/:id" => "api/traces#show", :as => :api_trace, :id => /\d+/
-    put "gpx/:id" => "api/traces#update", :id => /\d+/
-    delete "gpx/:id" => "api/traces#destroy", :id => /\d+/
-    get "gpx/:id/details" => "api/traces#show", :id => /\d+/
-    get "gpx/:id/data" => "api/traces#data", :as => :api_trace_data
+    post "gpx/create" => "traces#create"
+    get "gpx/:id" => "traces#show", :as => :api_trace, :id => /\d+/
+    put "gpx/:id" => "traces#update", :id => /\d+/
+    delete "gpx/:id" => "traces#destroy", :id => /\d+/
+    get "gpx/:id/details" => "traces#show", :id => /\d+/
+    get "gpx/:id/data" => "traces#data", :as => :api_trace_data
 
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :controller => "api/notes", :as => :api_notes do
+    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :controller => "notes", :as => :api_notes do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
@@ -99,13 +99,13 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
-    post "notes/addPOIexec" => "api/notes#create"
-    post "notes/closePOIexec" => "api/notes#close"
-    post "notes/editPOIexec" => "api/notes#comment"
-    get "notes/getGPX" => "api/notes#index", :format => "gpx"
-    get "notes/getRSSfeed" => "api/notes#feed", :format => "rss"
+    post "notes/addPOIexec" => "notes#create"
+    post "notes/closePOIexec" => "notes#close"
+    post "notes/editPOIexec" => "notes#comment"
+    get "notes/getGPX" => "notes#index", :format => "gpx"
+    get "notes/getRSSfeed" => "notes#feed", :format => "rss"
 
-    resources :user_blocks, :only => [:show], :constraints => { :id => /\d+/ }, :controller => "api/user_blocks", :as => :api_user_blocks
+    resources :user_blocks, :only => [:show], :constraints => { :id => /\d+/ }, :controller => "user_blocks", :as => :api_user_blocks
   end
 
   # Data browsing
