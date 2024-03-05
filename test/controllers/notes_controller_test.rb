@@ -361,6 +361,58 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :index
   end
 
+  def test_same_time
+    user = create(:user)
+
+    freeze_time
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+    unfreeze_time
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse
+      check_no_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :before => notes[1].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :after => notes[0].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      check_older_notes
+    end
+
+    get user_notes_path(user, :to => notes[0].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :from => notes[1].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      check_older_notes
+    end
+  end
+
   def test_read_note
     open_note = create(:note_with_comments)
 
