@@ -29,7 +29,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     within "form", :text => "Email Address or Username" do
       fill_in "username", :with => user.email
       fill_in "password", :with => "test"
-      click_on "Login"
+      click_on "Log in"
     end
   end
 
