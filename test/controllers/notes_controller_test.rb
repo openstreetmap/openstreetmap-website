@@ -568,6 +568,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     get user_notes_path(user, :after => hidden_note.id)
     assert_redirected_to :action => :index
+
+    get user_notes_path(user, :before => { :what => "is it?" })
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => { :we => "don't know" })
+    assert_redirected_to :action => :index
   end
 
   def test_same_time
