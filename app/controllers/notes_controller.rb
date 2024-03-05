@@ -82,19 +82,33 @@ class NotesController < ApplicationController
 
   def where_cursor(notes, op, param)
     if param.respond_to?(:keys)
-      cursor_note = notes.find(param[:id])
-      cursor_time = Time.parse(param[:updated_at]).utc
-      if (cursor_time...(cursor_time + 1.second)).cover? cursor_note.updated_at
-        notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
+      if param[:id] && param[:updated_at]
+        where_cursor_by_updated_at_and_id notes, op, param[:updated_at], param[:id]
+      elsif param[:id]
+        where_cursor_by_id notes, op, param[:id]
       else
-        notes.where("updated_at #{op} ?", cursor_time)
+        raise ActiveRecord::RecordNotFound
       end
     elsif (param == "oldest" && op == ">=") || (param == "newest" && op == "<=")
       notes
     else
-      cursor_note = notes.find(param)
-      notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
+      where_cursor_by_id notes, op, param
     end
+  end
+
+  def where_cursor_by_updated_at_and_id(notes, op, updated_at, id)
+    cursor_note = notes.find(id)
+    cursor_time = Time.parse(updated_at).utc
+    if (cursor_time...(cursor_time + 1.second)).cover? cursor_note.updated_at
+      notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
+    else
+      notes.where("updated_at #{op} ?", cursor_time)
+    end
+  end
+
+  def where_cursor_by_id(notes, op, id)
+    cursor_note = notes.find(id)
+    notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
   end
 
   def updated_at_and_id_param_value(note)

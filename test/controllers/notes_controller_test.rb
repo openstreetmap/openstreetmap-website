@@ -67,6 +67,37 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  def test_index_hash_only_with_id
+    user = create(:user)
+
+    note = create(:note)
+    create(:note_comment, :note => note, :author => user)
+
+    get user_notes_path(user, :before => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+    end
+
+    get user_notes_path(user, :after => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+    end
+
+    get user_notes_path(user, :from => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [note]
+    end
+
+    get user_notes_path(user, :to => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [note]
+    end
+  end
+
   def test_index_paged
     user = create(:user)
 
