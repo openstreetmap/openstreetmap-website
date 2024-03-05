@@ -39,8 +39,10 @@ class NotesController < ApplicationController
       @newer_param = { :after => updated_at_and_id_param_value(@notes.first) } if notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
       @older_param = { :before => updated_at_and_id_param_value(@notes.last) } if notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
     else
-      @newer_param = { :from => "oldest" } if params[:before] && where_cursor(notes, ">", params[:before]).exists?
-      @older_param = { :to => "newest" } if params[:after] && where_cursor(notes, "<", params[:after]).exists?
+      previous_newer_param = params[:before] || params[:to]
+      previous_older_param = params[:after] || params[:from]
+      @newer_param = { :from => "oldest" } if previous_newer_param && where_cursor(notes, ">", previous_newer_param).exists?
+      @older_param = { :to => "newest" } if previous_older_param && where_cursor(notes, "<", previous_older_param).exists?
     end
 
     render :layout => "site"
