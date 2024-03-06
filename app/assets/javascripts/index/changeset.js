@@ -56,6 +56,21 @@ OSM.Changeset = function (map) {
     });
   }
 
+  function initializeElementSubPage(type) {
+    var section = content.find("#changeset_" + type);
+
+    section.on("click", "a.page-link", function (e) {
+      e.preventDefault();
+      $.ajax({
+        url: this.href + "&list=" + type,
+        dataType: "html",
+        complete: function (xhr) {
+          section.html(xhr.responseText);
+        }
+      });
+    });
+  }
+
   function initialize() {
     content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
@@ -75,6 +90,10 @@ OSM.Changeset = function (map) {
     });
 
     content.find("textarea").val("").trigger("input");
+
+    initializeElementSubPage("nodes");
+    initializeElementSubPage("ways");
+    initializeElementSubPage("relations");
   }
 
   page.unload = function () {
