@@ -13,11 +13,39 @@ class ChangesetElementsTest < ApplicationSystemTestCase
     visit changeset_path(changeset)
 
     within_sidebar do
-      assert_one_missing_link way_paths
+      next_page_way_path = assert_one_missing_link way_paths
+      assert_no_link "Ways (1-20 of 21)"
       assert_link "Ways (21-21 of 21)"
 
       assert_one_missing_link node_paths
+      assert_no_link "Nodes (1-20 of 21)"
       assert_link "Nodes (21-21 of 21)"
+
+      fill_in "text", :with => "Comment text we don't want to lose"
+
+      click_on "Ways (21-21 of 21)"
+
+      assert_one_present_link way_paths, next_page_way_path
+      assert_link "Ways (1-20 of 21)"
+      assert_no_link "Ways (21-21 of 21)"
+
+      next_page_node_path = assert_one_missing_link node_paths
+      assert_no_link "Nodes (1-20 of 21)"
+      assert_link "Nodes (21-21 of 21)"
+
+      assert_field "text", :with => "Comment text we don't want to lose"
+
+      click_on "Nodes (21-21 of 21)"
+
+      assert_one_present_link way_paths, next_page_way_path
+      assert_link "Ways (1-20 of 21)"
+      assert_no_link "Ways (21-21 of 21)"
+
+      assert_one_present_link node_paths, next_page_node_path
+      assert_link "Nodes (1-20 of 21)"
+      assert_no_link "Nodes (21-21 of 21)"
+
+      assert_field "text", :with => "Comment text we don't want to lose"
     end
   end
 
@@ -37,5 +65,11 @@ class ChangesetElementsTest < ApplicationSystemTestCase
     end
     assert_not_nil missing_href, "expected one link missing but all are present"
     missing_href
+  end
+
+  def assert_one_present_link(hrefs, present_href)
+    hrefs.each do |href|
+      assert_link :href => href, :count => (href == present_href ? 1 : 0)
+    end
   end
 end

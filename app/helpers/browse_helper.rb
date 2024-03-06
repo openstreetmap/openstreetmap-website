@@ -96,7 +96,7 @@ module BrowseHelper
       pagination_items(pages, {}).each do |body, page_or_class|
         linked = !(page_or_class.is_a? String)
         link = if linked
-                 link_to body, url_for(page_param => page_or_class.number), :class => link_classes, :title => yield(page_or_class)
+                 link_to body, url_for(page_param => page_or_class.number), :class => link_classes, **yield(page_or_class)
                else
                  tag.span body, :class => link_classes
                end
