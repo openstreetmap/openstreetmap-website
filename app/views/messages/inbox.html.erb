@@ -4,7 +4,7 @@
 
 <%= render :partial => "heading", :locals => { :active_link_path => inbox_messages_path } %>
 
-<%= render :partial => "inbox_count" %>
+<h4><%= t "messages.inbox.messages", :new_messages => t(".new_messages", :count => current_user.new_messages.size), :old_messages => t(".old_messages", :count => current_user.messages.size - current_user.new_messages.size) %></h4>
 
 <% if current_user.messages.size > 0 %>
   <%= render :partial => "messages_table", :locals => { :columns => %w[from subject date], :messages => current_user.messages, :inner_partial => "message_summary" } %>
