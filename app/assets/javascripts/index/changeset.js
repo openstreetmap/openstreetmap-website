@@ -1,7 +1,8 @@
 OSM.Changeset = function (map) {
   var page = {},
       content = $("#sidebar_content"),
-      currentChangesetId;
+      currentChangesetId,
+      elementSubPageLoaders = {};
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
@@ -61,11 +62,15 @@ OSM.Changeset = function (map) {
 
     section.on("click", "a.page-link", function (e) {
       e.preventDefault();
-      $.ajax({
+      if (elementSubPageLoaders[type]) elementSubPageLoaders[type].abort();
+      elementSubPageLoaders[type] = $.ajax({
         url: this.href + "&list=" + type,
         dataType: "html",
-        complete: function (xhr) {
-          section.html(xhr.responseText);
+        success: function (data) {
+          section.html(data);
+        },
+        complete: function () {
+          delete elementSubPageLoaders[type];
         }
       });
     });
@@ -97,6 +102,9 @@ OSM.Changeset = function (map) {
   }
 
   page.unload = function () {
+    Object.values(elementSubPageLoaders).forEach(function (loader) {
+      loader.abort();
+    });
     map.removeObject();
   };
 
