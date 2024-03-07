@@ -33,4 +33,16 @@ class RedactionTest < ActiveSupport::TestCase
     assert_predicate(node_v1, :redacted?, "Expected node version 1 to be redacted after redact! call.")
     assert_not_predicate(node_v2, :redacted?, "Expected node version 2 to not be redacted after redact! call.")
   end
+
+  def test_invalid_with_empty_title
+    redaction = build(:redaction, :title => "")
+    assert_not redaction.valid?
+    assert_includes redaction.errors.messages[:title], "can't be blank"
+  end
+
+  def test_invalid_with_empty_description
+    redaction = build(:redaction, :description => "")
+    assert_not redaction.valid?
+    assert_includes redaction.errors.messages[:description], "can't be blank"
+  end
 end
