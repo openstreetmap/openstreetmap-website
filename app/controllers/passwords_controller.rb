@@ -19,8 +19,7 @@ class PasswordsController < ApplicationController
     @title = t ".title"
 
     if params[:token]
-      self.current_user = User.find_by_token_for(:password_reset, params[:token]) ||
-                          UserToken.unexpired.find_by(:token => params[:token])&.user
+      self.current_user = User.find_by_token_for(:password_reset, params[:token])
 
       if current_user.nil?
         flash[:error] = t ".flash token bad"
@@ -51,8 +50,7 @@ class PasswordsController < ApplicationController
 
   def update
     if params[:token]
-      self.current_user = User.find_by_token_for(:password_reset, params[:token]) ||
-                          UserToken.unexpired.find_by(:token => params[:token])&.user
+      self.current_user = User.find_by_token_for(:password_reset, params[:token])
 
       if current_user
         if params[:user]
@@ -62,7 +60,6 @@ class PasswordsController < ApplicationController
           current_user.email_valid = true
 
           if current_user.save
-            UserToken.delete_by(:token => params[:token])
             session[:fingerprint] = current_user.fingerprint
             flash[:notice] = t ".flash changed"
             successful_login(current_user)

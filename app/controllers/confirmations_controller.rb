@@ -15,10 +15,7 @@ class ConfirmationsController < ApplicationController
 
   def confirm
     if request.post?
-      token = params[:confirm_string]
-
-      user = User.find_by_token_for(:new_user, token) ||
-             UserToken.unexpired.find_by(:token => token)&.user
+      user = User.find_by_token_for(:new_user, params[:confirm_string])
 
       if !user
         flash[:error] = t(".unknown token")
@@ -34,7 +31,6 @@ class ConfirmationsController < ApplicationController
         flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
         user.save!
         referer = safe_referer(params[:referer]) if params[:referer]
-        UserToken.delete_by(:token => token)
 
         pending_user = session.delete(:pending_user)
 
@@ -70,10 +66,7 @@ class ConfirmationsController < ApplicationController
 
   def confirm_email
     if request.post?
-      token = params[:confirm_string]
-
-      self.current_user = User.find_by_token_for(:new_email, token) ||
-                          UserToken.unexpired.find_by(:token => params[:confirm_string])&.user
+      self.current_user = User.find_by_token_for(:new_email, params[:confirm_string])
 
       if current_user&.new_email?
         current_user.email = current_user.new_email
@@ -89,7 +82,6 @@ class ConfirmationsController < ApplicationController
         else
           flash[:errors] = current_user.errors
         end
-        current_user.tokens.delete_all
         session[:user] = current_user.id
         session[:fingerprint] = current_user.fingerprint
       elsif current_user

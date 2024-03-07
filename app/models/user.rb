@@ -57,7 +57,6 @@ class User < ApplicationRecord
   has_many :muted_messages, -> { where(:to_user_visible => true, :muted => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
   has_many :friends, :through => :friendships, :source => :befriendee
-  has_many :tokens, :class_name => "UserToken", :dependent => :destroy
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :changeset_comments, :foreign_key => :author_id, :inverse_of => :author
@@ -165,9 +164,6 @@ class User < ApplicationRecord
       else
         user = nil
       end
-    elsif options[:token]
-      token = UserToken.find_by(:token => options[:token])
-      user = token.user if token
     end
 
     if user &&
@@ -176,8 +172,6 @@ class User < ApplicationRecord
          (user.status == "suspended" && !options[:suspended]))
       user = nil
     end
-
-    token.update(:expiry => 1.week.from_now) if token && user
 
     user
   end
