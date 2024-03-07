@@ -1304,8 +1304,8 @@ ALTER SEQUENCE public.oauth_tokens_id_seq OWNED BY public.oauth_tokens.id;
 
 CREATE TABLE public.redactions (
     id integer NOT NULL,
-    title character varying,
-    description text,
+    title character varying NOT NULL,
+    description text NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     user_id bigint NOT NULL,
@@ -3512,6 +3512,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240307181018'),
+('20240307180830'),
 ('20240228205723'),
 ('20240117185445'),
 ('20231213182102'),
@@ -3597,3 +3599,4 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('11'),
 ('10'),
 ('1');
+
