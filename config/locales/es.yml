@@ -418,12 +418,6 @@ es:
     destroy:
       success: Cuenta eliminada.
   browse:
-    created: Creado
-    closed: Cerrado
-    created_ago_html: Creado %{time_ago}
-    closed_ago_html: Cerrado %{time_ago}
-    created_ago_by_html: Creado %{time_ago} por %{user}
-    closed_ago_by_html: Cerrado %{time_ago} por %{user}
     deleted_ago_by_html: Eliminado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
     version: Versión
@@ -441,23 +435,6 @@ es:
     view_history: Ver historial
     view_details: Ver detalles
     location: 'Ubicación:'
-    changeset:
-      title: 'Conjunto de cambios: %{id}'
-      belongs_to: Autor
-      node: Nodos (%{count})
-      node_paginated: Nodos (%{x}-%{y} de %{count})
-      way: Vías (%{count})
-      way_paginated: Vías (%{x}-%{y} de %{count})
-      relation: Relaciones (%{count})
-      relation_paginated: Relaciones (%{x}-%{y} de %{count})
-      hidden_comment_by_html: Comentario ocultado por %{user} %{time_ago}
-      comment_by_html: Comentario de %{user} %{time_ago}
-      changesetxml: XML del conjunto de cambios
-      osmchangexml: XML en formato osmChange
-      join_discussion: Inicia sesión para unirte a la discusión
-      discussion: Discusión
-      still_open: El conjunto de cambios sigue abierto; la discusión se abrirá cuando
-        se cierre el conjunto de cambios.
     node:
       title_html: 'Nodo: %{name}'
       history_title_html: 'Historial de nodo: %{name}'
@@ -576,6 +553,44 @@ es:
       feed:
         title: Conjunto de cambios %{id}
         title_comment: Conjunto de cambios %{id} - %{comment}
+        created: Creado
+        closed: Cerrado
+        belongs_to: Autor
+    subscribe:
+      heading: ¿Deseas suscribirte a la siguiente discusión del conjunto de cambios?
+      button: Suscribirse a la discusión
+    unsubscribe:
+      heading: ¿Deseas desuscribirte de la siguiente discusión del conjunto de cambios?
+      button: Desuscribirse de la discusión
+    heading:
+      title: Conjunto de cambios %{id}
+      created_by_html: Creado por %{link_user} el %{created}.
+    no_such_entry:
+      title: No existe tal conjunto de cambios
+      heading: 'No hay entrada con id: %{id}'
+      body: Lo sentimos, no existe algún conjunto de cambios con id %{id}. Revisa
+        los dígitos, o tal vez el enlace en el que hiciste clic sea incorrecto.
+    show:
+      title: 'Conjunto de cambios: %{id}'
+      created_ago_html: Creado %{time_ago}
+      closed_ago_html: Cerrado %{time_ago}
+      created_ago_by_html: Creado %{time_ago} por %{user}
+      closed_ago_by_html: Cerrado %{time_ago} por %{user}
+      discussion: Discusión
+      join_discussion: Inicia sesión para unirte a la discusión
+      still_open: El conjunto de cambios sigue abierto; la discusión se abrirá cuando
+        se cierre el conjunto de cambios.
+      comment_by_html: Comentario de %{user} %{time_ago}
+      hidden_comment_by_html: Comentario ocultado por %{user} %{time_ago}
+      changesetxml: XML del conjunto de cambios
+      osmchangexml: XML en formato osmChange
+    paging_nav:
+      nodes: Nodos (%{count})
+      nodes_paginated: Nodos (%{x}-%{y} de %{count})
+      ways: Vías (%{count})
+      ways_paginated: Vías (%{x}-%{y} de %{count})
+      relations: Relaciones (%{count})
+      relations_paginated: Relaciones (%{x}-%{y} de %{count})
     timeout:
       sorry: Lo sentimos, la lista de conjuntos de cambios que solicitó tardó demasiado
         en obtenerse.
@@ -694,6 +709,12 @@ es:
       comment: Comentario
       newer_comments: Comentarios más recientes
       older_comments: Comentarios más antiguos
+    subscribe:
+      heading: ¿Deseas suscribirte a la siguiente discusión sobre la entrada al diario?
+      button: Suscribirse a la discusión
+    unsubscribe:
+      heading: ¿Deseas desuscribirte de la siguiente discusión de entrada de diario?
+      button: Desuscribirse de la discusión
   doorkeeper:
     errors:
       messages:
@@ -1698,6 +1719,7 @@ es:
     more: Más
   user_mailer:
     diary_comment_notification:
+      description: 'Entrada de diario de OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} ha comentado en una entrada de diario'
       hi: 'Hola, %{to_user}:'
       header: '%{from_user} ha comentado en la entrada de diario con asunto %{subject}:'
@@ -1706,6 +1728,8 @@ es:
         %{commenturl} o responder en %{replyurl}
       footer_html: También puedes leer el comentario en %{readurl} y puedes comentar
         en %{commenturl} o responder en %{replyurl}
+      footer_unsubscribe: Puedes cancelar la suscripción de la discusión en %{unsubscribeurl}
+      footer_unsubscribe_html: Puedes cancelar la suscripción de la discusión en %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Hola %{to_user},
@@ -1768,6 +1792,7 @@ es:
       click_the_link: Si este eres tú, por favor, haz clic en el enlace siguiente
         para restablecer tu contraseña.
     note_comment_notification:
+      description: 'Nota de OpenStreetMap #%{id}'
       anonymous: Un usuario anónimo
       greeting: Hola,
       commented:
@@ -1807,6 +1832,7 @@ es:
       details: Más detalles acerca de la nota pueden encontrarse en %{url}.
       details_html: Puedes encontrar más detalles acerca de la nota en %{url}.
     changeset_comment_notification:
+      description: 'Conjunto de cambios de OpenStreetMap #%{id}'
       hi: Hola %{to_user},
       greeting: Hola,
       commented:
@@ -1828,10 +1854,10 @@ es:
       details: Puedes encontrar más detalles sobre el conjunto de cambios en %{url}.
       details_html: Puedes encontrar más detalles sobre el conjunto de cambios en
         %{url}.
-      unsubscribe: Para cancelar la suscripción a las actualizaciones de este conjunto
-        de cambios, visita %{url} y haz clic en "Cancelar suscripción".
-      unsubscribe_html: Para darte de baja de las actualizaciones de este conjunto
-        de cambios, visita %{url} y haz clic en "Cancelar suscripción".
+      unsubscribe: Puedes desinscrirte de las actualizaciones de este conjunto de
+        cambios en %{url}.
+      unsubscribe_html: Puedes desinscrirte de las actualizaciones de este conjunto
+        de cambios en %{url}.
   confirmations:
     confirm:
       heading: ¡Revisa tu correo electrónico!
@@ -1948,12 +1974,6 @@ es:
       help_text: Escribe la dirección de correo electrónico con la que te registraste,
         te enviaremos un enlace a esa dirección que podrás utilizar para restablecer
         tu contraseña.
-    create:
-      notice email on way: Sentimos que la hayas perdido :-( pero ya va de camino
-        un mensaje de correo electrónico que te servirá para restablecer tu contraseña
-        enseguida.
-      notice email cannot find: Lo sentimos, no se pudo encontrar esa dirección de
-        correo electrónico.
     edit:
       title: Restablecer contraseña
       heading: Restablecer contraseña para %{user}

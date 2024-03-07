@@ -320,15 +320,10 @@ mk:
     destroy:
       success: Сметката е избришана.
   browse:
-    created: Создадено
-    closed: Затворено
-    created_ago_html: Создадено %{time_ago}
-    closed_ago_html: Затворено %{time_ago}
-    created_ago_by_html: Создадено %{time_ago} од %{user}
-    closed_ago_by_html: Затворено %{time_ago} од %{user}
     deleted_ago_by_html: Избришано %{time_ago} од %{user}
     edited_ago_by_html: Изменето %{time_ago} од %{user}
     version: Верзија
+    redacted_version: Исправена верзија
     in_changeset: Измени
     anonymous: анонимец
     no_comment: (нема коментари)
@@ -341,25 +336,11 @@ mk:
       other: '%{count} патишта'
     download_xml: Преземи XML
     view_history: Погл. историја
+    view_unredacted_history: Погл. неизменета историја
     view_details: Погл. подробности
+    view_redacted_data: Погл. исправена верзија
+    view_redaction_message: Погл. порака за измената
     location: 'Местоположба:'
-    changeset:
-      title: 'Измена: %{id}'
-      belongs_to: Автор
-      node: Јазли (%{count})
-      node_paginated: Јазли (%{x}-%{y} од вкупно %{count})
-      way: Патишта (%{count})
-      way_paginated: Патишта (%{x}-%{y} од вкупно %{count})
-      relation: Односи (%{count})
-      relation_paginated: Односи (%{x}-%{y} од вкупно %{count})
-      hidden_comment_by_html: Скриен коментар од %{user} %{time_ago}
-      comment_by_html: Коментар од %{user} %{time_ago}
-      changesetxml: XML за измените
-      osmchangexml: osmChange XML
-      join_discussion: Најавете се за да се приклучите во разговорот
-      discussion: Разговор
-      still_open: Измените сè уште се отворени — разговорот ќе се отвори штом ќе се
-        затворат измените.
     node:
       title_html: 'Јазол: %{name}'
       history_title_html: 'Историја на јазолот: %{name}'
@@ -476,6 +457,9 @@ mk:
       feed:
         title: Измени %{id}
         title_comment: Измени %{id} - %{comment}
+        created: Создадено
+        closed: Затворено
+        belongs_to: Автор
     subscribe:
       heading: Да ве претплатам на слединов разговор за измени?
       button: Претплати се на разговорот
@@ -490,6 +474,29 @@ mk:
       heading: 'Нема ставка со назнаката: %{id}'
       body: Жалиме, но не постојат измени со назнаката %{id}. Проверете да не сте
         згрешиле во пишувањето, или пак да не сте стиснале на погрешна врска.
+    show:
+      title: 'Измена: %{id}'
+      created: 'Создадено: %{when}'
+      closed: 'Затворено: %{when}'
+      created_ago_html: Создадено %{time_ago}
+      closed_ago_html: Затворено %{time_ago}
+      created_ago_by_html: Создадено %{time_ago} од %{user}
+      closed_ago_by_html: Затворено %{time_ago} од %{user}
+      discussion: Разговор
+      join_discussion: Најавете се за да се приклучите во разговорот
+      still_open: Измените сè уште се отворени — разговорот ќе се отвори штом ќе се
+        затворат измените.
+      comment_by_html: Коментар од %{user} %{time_ago}
+      hidden_comment_by_html: Скриен коментар од %{user} %{time_ago}
+      changesetxml: XML за измените
+      osmchangexml: osmChange XML
+    paging_nav:
+      nodes: Јазли (%{count})
+      nodes_paginated: Јазли (%{x}-%{y} од вкупно %{count})
+      ways: Патишта (%{count})
+      ways_paginated: Патишта (%{x}-%{y} од вкупно %{count})
+      relations: Односи (%{count})
+      relations_paginated: Односи (%{x}-%{y} од вкупно %{count})
     timeout:
       sorry: За жал, на списокот на промени што го побаравте му требаше предолго за
         да се добие.
@@ -1863,9 +1870,8 @@ mk:
       help_text: Внесете ја е-поштенската адреса со која се зачленивте, и ќе ви пратиме
         врска каде ќе наведете нова лозинка.
     create:
-      notice email on way: Жалиме, ова истече :-( но ви пративме нова порака на е-пошта,
-        па наскоро повторно ќе можете да ја смените.
-      notice email cannot find: Жалам, не можев да ја пронајдам таа адреса
+      send_paranoid_instructions: Ако вашата е-пошта е веќе заведена во нашата база,
+        за неколку минути на неа ќе добиете напатствија за лозинката.
     edit:
       title: Смени лозинка
       heading: Смени лозинка за %{user}

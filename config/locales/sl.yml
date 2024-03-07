@@ -359,15 +359,10 @@ sl:
     destroy:
       success: Račun izbrisan.
   browse:
-    created: Ustvarjeno
-    closed: Zaprto
-    created_ago_html: Ustvaril_a %{time_ago}
-    closed_ago_html: Zaprto %{time_ago}
-    created_ago_by_html: Ustvaril %{user} %{time_ago}
-    closed_ago_by_html: Zaprl_a %{time_ago} %{user}
     deleted_ago_by_html: Izbrisal %{user} %{time_ago}
     edited_ago_by_html: Uredil_a %{user} %{time_ago}
     version: Različica
+    redacted_version: Skrita različica
     in_changeset: Nabor sprememb
     anonymous: anonimni
     no_comment: (brez komentarja)
@@ -384,25 +379,11 @@ sl:
       other: '%{count} poti'
     download_xml: Prenesi XML
     view_history: Ogled zgodovine
+    view_unredacted_history: Ogled neskrite zgodovine
     view_details: Prikaz podrobnosti
+    view_redacted_data: Ogled skritih podatkov
+    view_redaction_message: Ogled sporočila o redigiranju
     location: 'Lokacija:'
-    changeset:
-      title: 'Nabor sprememb: %{id}'
-      belongs_to: Avtor
-      node: Vozlišč (%{count})
-      node_paginated: Vozlišča (%{x}-%{y} od %{count})
-      way: Poti (%{count})
-      way_paginated: Poti (%{x}-%{y} od %{count})
-      relation: Relacije (%{count})
-      relation_paginated: Zveze (%{x}-%{y} od %{count})
-      hidden_comment_by_html: Skrit komentar %{user} %{time_ago}
-      comment_by_html: Komentar %{user} %{time_ago}
-      changesetxml: Nabor sprememb XML
-      osmchangexml: osmChange XML
-      join_discussion: Prijavite se za pridružitev pogovoru
-      discussion: Pogovor
-      still_open: Nabor sprememb je še vedno odprt – pogovor se bo začel, ko bo nabor
-        sprememb zaprt.
     node:
       title_html: 'Vozlišče: %{name}'
       history_title_html: 'Zgodovina vozlišča: %{name}'
@@ -523,6 +504,9 @@ sl:
       feed:
         title: Nabor sprememb %{id}
         title_comment: Nabor sprememb %{id} – %{comment}
+        created: Ustvarjeno
+        closed: Zaprto
+        belongs_to: Avtor
     subscribe:
       heading: Se želite prijaviti na naslednjo razprave o naboru sprememb?
       button: Prijava na razpravo
@@ -537,6 +521,27 @@ sl:
       heading: Zapisa z id-jem %{id} ni
       body: Oprostite, nabora sprememb z oznako %{id} ni. Prosimo, preverite črkovanje
         in povezavo, ki ste jo kliknili.
+    show:
+      title: 'Nabor sprememb: %{id}'
+      created_ago_html: Ustvaril_a %{time_ago}
+      closed_ago_html: Zaprto %{time_ago}
+      created_ago_by_html: Ustvaril %{user} %{time_ago}
+      closed_ago_by_html: Zaprl_a %{time_ago} %{user}
+      discussion: Pogovor
+      join_discussion: Prijavite se za pridružitev pogovoru
+      still_open: Nabor sprememb je še vedno odprt – pogovor se bo začel, ko bo nabor
+        sprememb zaprt.
+      comment_by_html: Komentar %{user} %{time_ago}
+      hidden_comment_by_html: Skrit komentar %{user} %{time_ago}
+      changesetxml: Nabor sprememb XML
+      osmchangexml: osmChange XML
+    paging_nav:
+      nodes: Vozlišč (%{count})
+      nodes_paginated: Vozlišča (%{x}-%{y} od %{count})
+      ways: Poti (%{count})
+      ways_paginated: Poti (%{x}-%{y} od %{count})
+      relations: Relacije (%{count})
+      relations_paginated: Zveze (%{x}-%{y} od %{count})
     timeout:
       sorry: Žal je trajalo pridobivanje zahtevanega nabora sprememb predolgo.
   changeset_comments:
@@ -682,7 +687,7 @@ sl:
     scopes:
       address: Ogled vašega fizičnega naslova
       email: Ogled vašega e-poštnega naslova
-      openid: Preverite pristnost svojega računa
+      openid: Avtenticirajte svoj račun
       phone: Ogled vaše telefonske številke
       profile: Ogled vaših profilnih podatkov
   errors:
@@ -1923,11 +1928,6 @@ sl:
       new password button: Pošlji mi novo geslo
       help_text: Vpišite e-poštni naslov, s katerim ste se registrirali. Poslali vam
         bomo povezavo za ponastavitev gesla.
-    create:
-      notice email on way: E-pismo z vsemi potrebnimi podatki za nastavitev novega
-        gesla je že na poti.
-      notice email cannot find: Oprostite, toda vnesenega e-poštnega naslova ni bilo
-        mogoče najti.
     edit:
       title: Ponastavitev gesla
       heading: Ponastavi geslo za %{user}
@@ -2715,7 +2715,7 @@ sl:
     permissions:
       missing: Aplikaciji niste dovolili dostopa do te funkcije
     scopes:
-      openid: Vstop z uporabo OpenStreetMap
+      openid: Prijava z uporabo OpenStreetMap
       read_prefs: Branje uporabniških prilagoditev
       write_prefs: Spreminjanje uporabniških nastavitev
       write_diary: Ustvarjajte dnevniške zapise, komentarje in sklepajte prijateljstva
@@ -2959,8 +2959,7 @@ sl:
       title: Račun zaklenjen
       heading: Račun zaklenjen
       support: podpora
-      automatically_suspended: Oprostite, vaš račun je bil blokiran zaradi sumljive
-        dejavnosti.
+      automatically_suspended: Vaš račun je bil žal blokiran zaradi sumljive dejavnosti.
       contact_support_html: To odločitev bo kmalu pregledal administrator, lahko pa
         se obrnete na %{support_link}, če se želite o tem pogovoriti.
     auth_failure:
@@ -2971,7 +2970,7 @@ sl:
       invalid_scope: Neveljaven obseg
       unknown_error: Avtentikacija ni uspela
     auth_association:
-      heading: Vaš ID še ni povezan z računom OpenStreetMap.
+      heading: Vaš ID še ni povezan z OpenStreetMap računom.
       option_1: Če ste novi v OpenStreetMapu, prosimo, ustvarite nov račun z uporabo
         spodnjega obrazca.
       option_2: Če že imate račun, se lahko prijavite s svojim uporabniškim imenom

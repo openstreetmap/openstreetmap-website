@@ -342,12 +342,6 @@ cy:
     destroy:
       success: Cyfrif wedi'i ddileu.
   browse:
-    created: Wedi creu
-    closed: Wedi cau
-    created_ago_html: Wedi creu %{time_ago}
-    closed_ago_html: Wedi cau %{time_ago}
-    created_ago_by_html: Wedi creu %{time_ago} gan %{user}
-    closed_ago_by_html: Wedi cau %{time_ago} gan %{user}
     deleted_ago_by_html: Wedi dileu %{time_ago} gan %{user}
     edited_ago_by_html: Golygwyd %{time_ago} gan %{user}
     version: Fersiwn
@@ -373,23 +367,6 @@ cy:
     view_history: Gweld hanes
     view_details: Gweld manylion
     location: Lleoliadː
-    changeset:
-      title: 'Grŵp newid: %{id}'
-      belongs_to: Awdur
-      node: Nodau (%{count})
-      node_paginated: Nodau (%{x}-%{y} o %{count})
-      way: Llwybrau %{count}
-      way_paginated: Llwybrau (%{x}-%{y} o %{count})
-      relation: Perthnasoedd (%{count})
-      relation_paginated: Perthnasoedd (%{x}-%{y} o %{count})
-      hidden_comment_by_html: Sylw cudd gan %{user} %{time_ago}
-      comment_by_html: Sylw gan %{user} %{time_ago}
-      changesetxml: XML grŵp newid
-      osmchangexml: XML osmChange
-      join_discussion: Mewngofnodwch i ymuno â'r sgwrs
-      discussion: Sgwrs
-      still_open: Mae'r grŵp newid dal ar agor - bydd trafodaeth yn agor pan fydd
-        y grŵp newid wedi cau.
     node:
       title_html: 'Nod: %{name}'
       history_title_html: 'Hanes y nod: %{name}'
@@ -509,6 +486,42 @@ cy:
       feed:
         title: Grŵp newid %{id}
         title_comment: Grŵp newid %{id} - %{comment}
+        created: Wedi creu
+        closed: Wedi cau
+        belongs_to: Awdur
+    subscribe:
+      button: Tanysgrifio i drafodaeth
+    unsubscribe:
+      button: Dad-danysgrifio o'r drafodaeth
+    heading:
+      title: Grŵp newid %{id}
+      created_by_html: Crëwyd gan %{link_user} ar %{created}.
+    no_such_entry:
+      title: Dim grŵp newid o'r fath
+      heading: 'Dim cofnod gyda''r id: %{id}'
+    show:
+      title: 'Grŵp newid: %{id}'
+      created: 'Crëwyd: %{when}'
+      closed: 'Caëwyd: %{when}'
+      created_ago_html: Wedi creu %{time_ago}
+      closed_ago_html: Wedi cau %{time_ago}
+      created_ago_by_html: Wedi creu %{time_ago} gan %{user}
+      closed_ago_by_html: Wedi cau %{time_ago} gan %{user}
+      discussion: Sgwrs
+      join_discussion: Mewngofnodwch i ymuno â'r sgwrs
+      still_open: Mae'r grŵp newid dal ar agor - bydd trafodaeth yn agor pan fydd
+        y grŵp newid wedi cau.
+      comment_by_html: Sylw gan %{user} %{time_ago}
+      hidden_comment_by_html: Sylw cudd gan %{user} %{time_ago}
+      changesetxml: XML grŵp newid
+      osmchangexml: XML osmChange
+    paging_nav:
+      nodes: Nodau (%{count})
+      nodes_paginated: Nodau (%{x}-%{y} o %{count})
+      ways: Llwybrau %{count}
+      ways_paginated: Llwybrau (%{x}-%{y} o %{count})
+      relations: Perthnasoedd (%{count})
+      relations_paginated: Perthnasoedd (%{x}-%{y} o %{count})
     timeout:
       sorry: Mae'n ddrwg gennym, cymerodd y rhestr o grwpiau newid y gofynnoch amdanynt
         rhy hir i'w hadalw.
@@ -1602,6 +1615,7 @@ cy:
       details: Ceir rhagor o fanylion am y nodyn ar %{url}.
       details_html: Ceir rhagor o fanylion am y nodyn ar %{url}.
     changeset_comment_notification:
+      description: 'Grŵp newid OpenStreetMap #%{id}'
       hi: Helo %{to_user},
       greeting: Helo,
       commented:
@@ -1716,10 +1730,6 @@ cy:
       heading: Wedi anghofio'ch cyfrinair?
       email address: Cyfeiriad E-bost
       new password button: Ailosod cyfrinair
-    create:
-      notice email on way: Sori eich bod wedi ei golli :-( ond mae e-bost ar y ffordd
-        er mwyn ichi ei ailosod yn fuan.
-      notice email cannot find: Methwyd dod o hyd i'r cyfeiriad ebost yno.
     edit:
       title: Ailosod cyfrinair
       heading: Ailosod cyfrinair ar gyfer %{user}
@@ -1731,9 +1741,9 @@ cy:
       title: Dewisiadau
       preferred_editor: Hoff Olygydd
       preferred_languages: Ieithoedd
-      edit_preferences: Dewisiadau Golygu
+      edit_preferences: Golygu Dewisiadau
     edit:
-      title: Dewisiadau Golygu
+      title: Golygu Dewisiadau
       save: Diweddaru Dewisiadau
       cancel: Canslo
     update:
@@ -2515,6 +2525,13 @@ cy:
     revoke:
       revoke: Dad-flocio!
     revoke_all:
+      active_blocks:
+        zero: '%{count} blociau cyfredol.'
+        one: '%{count} %{count} bloc cyfredol.'
+        two: '%{count} floc cyfredol.'
+        few: '%{count} bloc cyfredol.'
+        many: '%{count} bloc cyfredol.'
+        other: '%{count} bloc cyfredol.'
       revoke: Dad-flocio!
     helper:
       time_future_html: Yn dod i ben mewn %{time}.

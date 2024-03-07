@@ -378,12 +378,6 @@ zh-CN:
     destroy:
       success: 账户已删除。
   browse:
-    created: 创建于
-    closed: 关闭于
-    created_ago_html: 创建于 %{time_ago}
-    closed_ago_html: 关闭于 %{time_ago}
-    created_ago_by_html: 由 %{user} 创建于 %{time_ago}
-    closed_ago_by_html: 由 %{user} 关闭于 %{time_ago}
     deleted_ago_by_html: 由 %{user} 删除于 %{time_ago}
     edited_ago_by_html: 由%{user} 编辑于 %{time_ago}
     version: 版本
@@ -401,22 +395,6 @@ zh-CN:
     view_history: 查看历史
     view_details: 查看详情
     location: 位置：
-    changeset:
-      title: 变更集：%{id}
-      belongs_to: 作者
-      node: 节点 (%{count})
-      node_paginated: 节点 (%{x}-%{y}，共 %{count})
-      way: 路径 (%{count})
-      way_paginated: 路径 (%{x}-%{y}，共 %{count})
-      relation: 关系 (%{count})
-      relation_paginated: 关系 (%{x}-%{y}，共 %{count})
-      hidden_comment_by_html: '%{user} 于 %{time_ago} 的隐藏评论'
-      comment_by_html: '%{user} 于 %{time_ago} 的评论'
-      changesetxml: 变更集 XML
-      osmchangexml: osmChange XML
-      join_discussion: 登录以加入讨论
-      discussion: 讨论
-      still_open: 变更集依然开放——一旦变更集关闭讨论将开放。
     node:
       title_html: 节点：%{name}
       history_title_html: 节点历史：%{name}
@@ -529,6 +507,42 @@ zh-CN:
       feed:
         title: 变更集 %{id}
         title_comment: 变更集 %{id} - %{comment}
+        created: 创建于
+        closed: 关闭于
+        belongs_to: 作者
+    subscribe:
+      heading: 订阅以下变更集讨论吗？
+      button: 订阅讨论
+    unsubscribe:
+      heading: 退订以下变更集讨论吗？
+      button: 退订讨论
+    heading:
+      title: 变更集 %{id}
+      created_by_html: 由 %{link_user} 在 %{created} 创建。
+    no_such_entry:
+      title: 无此变更集
+      heading: 找不到ID为%{id}的文章
+      body: 对不起，没有ID为 %{id} 的变更集。请检查您的拼写，或者可能是点击了错误的链接。
+    show:
+      title: 变更集：%{id}
+      created_ago_html: 创建于 %{time_ago}
+      closed_ago_html: 关闭于 %{time_ago}
+      created_ago_by_html: 由 %{user} 创建于 %{time_ago}
+      closed_ago_by_html: 由 %{user} 关闭于 %{time_ago}
+      discussion: 讨论
+      join_discussion: 登录以加入讨论
+      still_open: 变更集依然开放——一旦变更集关闭讨论将开放。
+      comment_by_html: '%{user} 于 %{time_ago} 的评论'
+      hidden_comment_by_html: '%{user} 于 %{time_ago} 的隐藏评论'
+      changesetxml: 变更集 XML
+      osmchangexml: osmChange XML
+    paging_nav:
+      nodes: 节点 (%{count})
+      nodes_paginated: 节点 (%{x}-%{y}，共 %{count})
+      ways: 路径 (%{count})
+      ways_paginated: 路径 (%{x}-%{y}，共 %{count})
+      relations: 关系 (%{count})
+      relations_paginated: 关系 (%{x}-%{y}，共 %{count})
     timeout:
       sorry: 抱歉，您所请求的变更集列表检索时间过长。
   changeset_comments:
@@ -640,6 +654,12 @@ zh-CN:
       comment: 评论
       newer_comments: 较新评论
       older_comments: 较旧评论
+    subscribe:
+      heading: 订阅以下日记讨论吗？
+      button: 订阅讨论
+    unsubscribe:
+      heading: 退订以下日记讨论吗？
+      button: 退订讨论
   doorkeeper:
     errors:
       messages:
@@ -1623,12 +1643,15 @@ zh-CN:
     more: 更多
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap 日记 #%{id}'
       subject: '[OpenStreetMap] %{user} 在日记篇目留下了评论'
       hi: 您好，%{to_user}：
       header: '%{from_user} 评论了主题为 %{subject} 的 OpenStreetMap 日记文章：'
       header_html: '%{from_user} 评论了主题为 %{subject} 的 OpenStreetMap 日记文章：'
       footer: 您也可以通过%{readurl}来读取评论，并且在%{commenturl}来撰写评论或者通过%{replyurl}向作者发送消息
       footer_html: 您也可以通过%{readurl}查看评论，并在%{commenturl}撰写评论或通过%{replyurl}向作者发送消息
+      footer_unsubscribe: 您可访问%{unsubscribeurl}以从该讨论中退订。
+      footer_unsubscribe_html: 您可访问%{unsubscribeurl}以从该讨论中退订。
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: 您好，%{to_user}：
@@ -1675,6 +1698,7 @@ zh-CN:
       hopefully_you: 某人(可能是您)已要求重置该电子邮件地址上的 openstreetmap.org 帐户密码。
       click_the_link: 如果这是您，请点击下面的链接重置您的密码。
     note_comment_notification:
+      description: 'OpenStreetMap 注记 #%{id}'
       anonymous: 匿名用户
       greeting: 您好，
       commented:
@@ -1701,6 +1725,7 @@ zh-CN:
       details: 更多关于笔记的详细信息可以在%{url}找到。
       details_html: 更多关于笔记的详细信息可以在%{url}找到。
     changeset_comment_notification:
+      description: 'OpenStreetMap 变更集 #%{id}'
       hi: 您好，%{to_user}：
       greeting: 您好，
       commented:
@@ -1715,8 +1740,8 @@ zh-CN:
         partial_changeset_without_comment: 没有评论
       details: 更多关于变更集的详细信息可以在 %{url} 找到。
       details_html: 更多有关变更集的详细信息，请参见 %{url}。
-      unsubscribe: 要从该变更集中退订，请访问%{url}，并点击“退订”。
-      unsubscribe_html: 要从该变更集中退订，请访问%{url}，并点击“退订”。
+      unsubscribe: 您可访问%{url}以从该变更集中退订。
+      unsubscribe_html: 您可访问%{url}以从该变更集中退订。
   confirmations:
     confirm:
       heading: 检查您的电子邮件！
@@ -1815,9 +1840,6 @@ zh-CN:
       email address: 电子邮件地址
       new password button: 重置密码
       help_text: 输入您的电子邮件地址来注册，我们会寄出链接给它，这样您就可以用它来重置密码。
-    create:
-      notice email on way: 很遗憾您遗失了密码:-(不过一封电子邮件已经发往您的邮箱，您很快就可以重置密码了。
-      notice email cannot find: 对不起，无法找到邮箱。
     edit:
       title: 重置密码
       heading: 重置%{user}的密码

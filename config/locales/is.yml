@@ -330,12 +330,6 @@ is:
     destroy:
       success: Aðgangi eytt.
   browse:
-    created: Búið til
-    closed: Lokað
-    created_ago_html: Búið til %{time_ago}
-    closed_ago_html: Lokað %{time_ago}
-    created_ago_by_html: Búið til %{time_ago} af %{user}
-    closed_ago_by_html: Lokað %{time_ago} af %{user}
     deleted_ago_by_html: Eytt %{time_ago} af %{user}
     edited_ago_by_html: Breytt %{time_ago} af %{user}
     version: Útgáfa
@@ -355,23 +349,6 @@ is:
     location: 'Staðsetning:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
-    changeset:
-      title: 'Breytingasett: %{id}'
-      belongs_to: Höfundur
-      node: Liðir (%{count})
-      node_paginated: Liðir (%{x}-%{y} af %{count})
-      way: Leiðir (%{count})
-      way_paginated: Leiðir (%{x}-%{y} af %{count})
-      relation: Vensl (%{count})
-      relation_paginated: Vensl (%{x}-%{y} af %{count})
-      hidden_comment_by_html: Falin umsögn frá %{user} %{time_ago}
-      comment_by_html: Umsögn frá %{user} %{time_ago}
-      changesetxml: XML breytingasetts
-      osmchangexml: XML osmChange
-      join_discussion: Skráðu þig inn til að taka þátt í umræðunni
-      discussion: Umræða
-      still_open: Breytingasett er enn opið - Umræða mun opnast þegar breytingasettinu
-        hefur verið lokað.
     node:
       title_html: 'Liður: %{name}'
       history_title_html: 'Saga hnúts: %{name}'
@@ -482,6 +459,30 @@ is:
       feed:
         title: Breytingasett %{id}
         title_comment: Breytingasett %{id} - %{comment}
+        created: Búið til
+        closed: Lokað
+        belongs_to: Höfundur
+    show:
+      title: 'Breytingasett: %{id}'
+      created_ago_html: Búið til %{time_ago}
+      closed_ago_html: Lokað %{time_ago}
+      created_ago_by_html: Búið til %{time_ago} af %{user}
+      closed_ago_by_html: Lokað %{time_ago} af %{user}
+      discussion: Umræða
+      join_discussion: Skráðu þig inn til að taka þátt í umræðunni
+      still_open: Breytingasett er enn opið - Umræða mun opnast þegar breytingasettinu
+        hefur verið lokað.
+      comment_by_html: Umsögn frá %{user} %{time_ago}
+      hidden_comment_by_html: Falin umsögn frá %{user} %{time_ago}
+      changesetxml: XML breytingasetts
+      osmchangexml: XML osmChange
+    paging_nav:
+      nodes: Liðir (%{count})
+      nodes_paginated: Liðir (%{x}-%{y} af %{count})
+      ways: Leiðir (%{count})
+      ways_paginated: Leiðir (%{x}-%{y} af %{count})
+      relations: Vensl (%{count})
+      relations_paginated: Vensl (%{x}-%{y} af %{count})
     timeout:
       sorry: Því miður, það tók of langan tíma að ná í listann yfir þau breytingasett
         sem þú baðst um.
@@ -1824,9 +1825,6 @@ is:
       new password button: Endurstilla lykilorð
       help_text: Sláðu inn netfangið sem þú skráðir þig með, við munum senda tengil
         á það sem þú getur notað til að breyta lykilorðinu þínu.
-    create:
-      notice email on way: Nýtt lykilorð er á leiðinni í innhólfið þitt.
-      notice email cannot find: Þetta netfang fannst ekki.
     edit:
       title: Endurstilla lykilorð
       heading: Endurstilla lykilorð fyrir %{user}

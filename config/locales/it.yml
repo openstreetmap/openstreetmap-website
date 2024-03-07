@@ -26,6 +26,7 @@
 # Author: Jlrb+
 # Author: Kaitu
 # Author: Karika
+# Author: LametinoWiki
 # Author: Lollo
 # Author: Lorelai87
 # Author: Lorem Ipsum
@@ -379,12 +380,6 @@ it:
     destroy:
       success: Account eliminato.
   browse:
-    created: Creato
-    closed: Chiuso
-    created_ago_html: Creato %{time_ago}
-    closed_ago_html: Chiuso %{time_ago}
-    created_ago_by_html: Creato %{time_ago} da %{user}
-    closed_ago_by_html: Chiuso %{time_ago} da %{user}
     deleted_ago_by_html: Cancellato %{time_ago} da %{user}
     edited_ago_by_html: Modificato %{time_ago} da %{user}
     version: Versione
@@ -400,25 +395,9 @@ it:
       other: '%{count} percorsi'
     download_xml: Scarica XML
     view_history: Visualizza cronologia
+    view_unredacted_history: Visualizza la cronologia non oscurata
     view_details: Vedi dettagli
     location: 'Posizione:'
-    changeset:
-      title: 'Gruppo di modifiche: %{id}'
-      belongs_to: Autore
-      node: Nodi (%{count})
-      node_paginated: Nodi (%{x}-%{y} di %{count})
-      way: Percorsi (%{count})
-      way_paginated: Percorsi (%{x}-%{y} di %{count})
-      relation: Relazioni (%{count})
-      relation_paginated: Relazioni (%{x}-%{y} di %{count})
-      hidden_comment_by_html: Commento nascosto da %{user} %{time_ago}
-      comment_by_html: Commento da %{user} %{time_ago}
-      changesetxml: Gruppo di modifiche XML
-      osmchangexml: XML in formato osmChange
-      join_discussion: Accedi per unirti alla discussione
-      discussion: Discussione
-      still_open: Il gruppo di modifiche è ancora aperto - le discussioni saranno
-        disponibili quando verrà chiuso.
     node:
       title_html: 'Nodo: %{name}'
       history_title_html: 'Cronologia nodo: %{name}'
@@ -528,6 +507,30 @@ it:
       feed:
         title: Gruppo di modifiche %{id}
         title_comment: Gruppo di modifiche %{id} - %{comment}
+        created: Creato
+        closed: Chiuso
+        belongs_to: Autore
+    show:
+      title: 'Gruppo di modifiche: %{id}'
+      created_ago_html: Creato %{time_ago}
+      closed_ago_html: Chiuso %{time_ago}
+      created_ago_by_html: Creato %{time_ago} da %{user}
+      closed_ago_by_html: Chiuso %{time_ago} da %{user}
+      discussion: Discussione
+      join_discussion: Accedi per unirti alla discussione
+      still_open: Il gruppo di modifiche è ancora aperto - le discussioni saranno
+        disponibili quando verrà chiuso.
+      comment_by_html: Commento da %{user} %{time_ago}
+      hidden_comment_by_html: Commento nascosto da %{user} %{time_ago}
+      changesetxml: Gruppo di modifiche XML
+      osmchangexml: XML in formato osmChange
+    paging_nav:
+      nodes: Nodi (%{count})
+      nodes_paginated: Nodi (%{x}-%{y} di %{count})
+      ways: Percorsi (%{count})
+      ways_paginated: Percorsi (%{x}-%{y} di %{count})
+      relations: Relazioni (%{count})
+      relations_paginated: Relazioni (%{x}-%{y} di %{count})
     timeout:
       sorry: Spiacenti, l'elenco dei gruppi di modifiche che hai richiesto ha impiegato
         troppo tempo per poter essere recuperato.
@@ -1899,11 +1902,6 @@ it:
       help_text: Inserire l'indirizzo email che si è utilizzato per l'iscrizione,
         a cui verrà inviato un collegamento che permetterà la reimpostazione della
         propria password.
-    create:
-      notice email on way: Siamo spiacenti che tu l'abbia persa :-( ma una email ti
-        è stata spedita in modo che tu la possa presto reimpostare.
-      notice email cannot find: Spiacenti, ma non è possibile trovare l'indirizzo
-        email.
     edit:
       title: Reimposta password
       heading: Reimposta password per %{user}

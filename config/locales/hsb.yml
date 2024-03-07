@@ -45,6 +45,9 @@ hsb:
       messages:
         invalid_email_address: njezda so płaćiwa mejlkowa adresa być
         email_address_not_routable: njeje routojomna
+      models:
+        user_mute:
+          is_already_muted: je so hižo zněmił
     models:
       acl: Lisćina za přistupnu kontrolu
       changeset: Sadźba změnow
@@ -305,8 +308,6 @@ hsb:
         e-mejl z namołwu, swoju nowu e-mejlowu adresu wobkrućić.
       success: Wužiwarske informacije wuspěšnje zaktualizowane.
   browse:
-    created: Wutworjeny
-    closed: 'Začinjeny:'
     version: Wersija
     in_changeset: Sadźba změnow
     anonymous: anonymny
@@ -326,21 +327,6 @@ hsb:
     view_history: Historiju pokazać
     view_details: Podrobnosće pokazać
     location: 'Městno:'
-    changeset:
-      title: 'Sadźba změnow: %{id}'
-      belongs_to: Awtor
-      node: Suki (%{count})
-      node_paginated: Suki (%{x}-%{y} z %{count})
-      way: Puće (%{count})
-      way_paginated: Puće (%{x}-%{y} z %{count})
-      relation: Relacije (%{count})
-      relation_paginated: Relacije (%{x}-%{y} z %{count})
-      changesetxml: Sadźba změnow XML
-      osmchangexml: osmChange XML
-      join_discussion: Přizjew so, zo by móhł(a) sobu diskutować
-      discussion: Diskusija
-      still_open: Sadźba změnow je hišće wočinjena. Diskusija so wočinja, ručež je
-        sadźba změnow začinjena.
     node:
       title_html: 'Suk: %{name}'
       history_title_html: 'Sukata historija: %{name}'
@@ -452,6 +438,24 @@ hsb:
       feed:
         title: Sadźba změnow %{id}
         title_comment: Sadźba změnow %{id} - %{comment}
+        created: Wutworjeny
+        closed: 'Začinjeny:'
+        belongs_to: Awtor
+    show:
+      title: 'Sadźba změnow: %{id}'
+      discussion: Diskusija
+      join_discussion: Přizjew so, zo by móhł(a) sobu diskutować
+      still_open: Sadźba změnow je hišće wočinjena. Diskusija so wočinja, ručež je
+        sadźba změnow začinjena.
+      changesetxml: Sadźba změnow XML
+      osmchangexml: osmChange XML
+    paging_nav:
+      nodes: Suki (%{count})
+      nodes_paginated: Suki (%{x}-%{y} z %{count})
+      ways: Puće (%{count})
+      ways_paginated: Puće (%{x}-%{y} z %{count})
+      relations: Relacije (%{count})
+      relations_paginated: Relacije (%{x}-%{y} z %{count})
     timeout:
       sorry: Bohužel je předołho trało, požadanu lisćinu změnow wotwołać.
   changeset_comments:
@@ -1465,6 +1469,7 @@ hsb:
     help: Pomoc
     about: Wo projekće
     copyright: Awtorske prawo
+    communities: Zhromadnosće
     community: Zhromadźenstwo
     community_blogs: Dźeniki zhromadźenstwa
     community_blogs_title: Dźeniki čłonow zhromadźenstwa OpenStreetMap
@@ -1679,6 +1684,13 @@ hsb:
       no_sent_messages_html: Hišće njejsy žane powěsće pósłał(a). Chceš z %{people_mapping_nearby_link}
         styki nawjazać?
       people_mapping_nearby: ludźimi, kotřiž w bliskosći kartěruja
+    muted:
+      title: Zněmjene powěsće
+      messages:
+        one: '%{count} zněmjena powěsć'
+        two: Maš %{count} zněmjenej powěsći
+        few: Maš %{count} zněmjene powěsće
+        other: Maš %{count} zněmjenych powěsćow
     reply:
       wrong_user: Sy jako `%{user}' přizjewjeny, ale powěsć, na kotruž chceš wotmołwić,
         bu na druheho wužiwarja pósłana. Prošu přizjew so z prawym kontom, zo by wotmołwił(a).
@@ -1695,6 +1707,7 @@ hsb:
     heading:
       my_inbox: Moja póšta
       my_outbox: Mój póstowy wuchad
+      muted_messages: Zněmjene powěsće
     mark:
       as_read: Powěsć jako přečitanu markěrowana
       as_unread: Powěsć jako njepřečitanu markěrowana
@@ -1708,10 +1721,6 @@ hsb:
       new password button: Hesło wróćo stajić
       help_text: Zapódaj mejlowu adresu, kotruž sy za registrowanje wužił, pósćelemy
         wotkaz na nju, kotryž móžeš za wróćostajenje hesła wužić.
-    create:
-      notice email on way: Sy jo zabył :-(, ale e-mejl je po puću, zo by móhł jo borze
-        wróćo stajić.
-      notice email cannot find: Wodaj, ale njemóžachmy tutu e-mejlowu adresu namakać.
     edit:
       title: Hesło wróćo stajić
       heading: Hesło za wužiwarja %{user} wróćo stajić
@@ -1935,6 +1944,9 @@ hsb:
         url: http://wiki.openstreetmap.org/wiki/hsb:Beginners%27_guide
         title: Instrukcije za nowačkow
         description: Přez zhromadźenstwo wothladowany nawod za započatkowarjow.
+      community:
+        description: Zhromadne městno, hdźež móžeće za pomocu pytać a so wo OpenStreetMap
+          rozmołwjeć.
       mailing_lists:
         title: Rozesyłanske lisćiny
         description: Staj prašenje abo diskutuj zajimawe wěcy w šěrokim wobłuku temow
@@ -1948,6 +1960,8 @@ hsb:
           słužbach bazuja a k OpenStreetMap přeńdu.
       welcomemat:
         title: Za organizacije
+        description: Z organizaciju plany za OpenStreetMap činić? Wuslědźće na stronje
+          na powitanje, štož dyrbiće wědźeć.
       wiki:
         title: Wiki OpenStreetMap
         description: Přepytaj wiki za nadrobnej dokumentaciju OpenStreetMap
@@ -2042,6 +2056,14 @@ hsb:
         title: Nimaš chwile za wobdźěłowanje? Přidaj pokazku!
         para_1: Jeli chceš jenož drobnosć korigować a nimaš chwile, zo by so zregistrował
           a wuknył, kak so wobdźěłuje, móžeš prosće pokazku přidać.
+    communities:
+      title: Zhromadnosće
+      local_chapters:
+        title: Lokalne zwjazki
+        list_text: 'Slědowace zhromadnosće su oficielnje jako lokalne zwjazki zregistrowane:'
+      other_groups:
+        title: Druhe skupiny
+        communities_wiki: Wikistrona zhromadnosćow
   traces:
     visibility:
       private: Priwatna (jenož jako anonymna, njezrjadowane dypki )
@@ -2164,6 +2186,7 @@ hsb:
       oauth1_settings: Nastajenja OAUTH 1
       oauth2_applications: Nastajenja OAUTH 2
       oauth2_authorizations: Prawa OAUTH 2
+      muted_users: Zněmjeni wužiwarjo
   oauth:
     authorize:
       title: Přistup na twoje konto awtorizować
@@ -2338,6 +2361,7 @@ hsb:
       my_preferences: Moje nastajenja
       blocks on me: Dostane blokowanja
       blocks by me: Date blokowanja
+      create_mute: Tutoho wužiwarja zněmić
       edit_profile: Profil wobdźěłać
       send message: Powěsć pósłać
       diary: Dźenik
@@ -2533,6 +2557,25 @@ hsb:
       showing_page: Strona %{page}
       next: Přichodny »
       previous: « Předchadny
+  user_mutes:
+    index:
+      title: Zněmjeni wužiwarjo
+      my_muted_users: Moji zněmjeni wužiwarjo
+      you_have_muted_n_users:
+        one: Sy %{count} wužiwarja zněmił
+        two: Sy %{count} wužiwarjow zněmił
+        few: Sy %{count} wužiwarjow zněmił
+        other: Sy %{count} wužiwarjow zněmił
+      user_mute_explainer: Powěsće zněmjenych wužiwarjow so do separatneho póstoweho
+        dochada přesuwaja a sy e-mejlowe zdźělenki njedóstawaš.
+      user_mute_admins_and_moderators: Móžeš administratorow a moderatorow zněmić,
+        ale jich powěsće so njezněmja.
+      table:
+        thead:
+          muted_user: Zněmjeny wužiwar
+    create:
+      notice: Sy wužiwarja %{name} zněmił.
+      error: Wužiwar %{name} njeda so zněmić. %{full_message}.
   notes:
     index:
       title: Pokazki, kotrež su so wot %{user} dali abo komentowali

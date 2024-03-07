@@ -367,15 +367,10 @@ tr:
     destroy:
       success: Hesap Silindi.
   browse:
-    created: Oluşturulma
-    closed: Kapandı
-    created_ago_html: '%{time_ago} oluşturuldu'
-    closed_ago_html: '%{time_ago} kapatıldı'
-    created_ago_by_html: '%{user} tarafından %{time_ago} oluşturuldu'
-    closed_ago_by_html: '%{user} tarafından %{time_ago} kapatıldı'
     deleted_ago_by_html: '%{user} tarafından %{time_ago} silindi'
     edited_ago_by_html: '%{user} tarafından %{time_ago} düzenlendi'
     version: Sürüm
+    redacted_version: Düzenlenmiş Sürüm
     in_changeset: Değişiklik Kaydı
     anonymous: anonim
     no_comment: (yorum yok)
@@ -388,25 +383,11 @@ tr:
       other: '%{count} yol'
     download_xml: XML İndir
     view_history: Geçmişi Görüntüle
+    view_unredacted_history: Düzenlenmemiş Geçmişi Görüntüle
     view_details: Ayrıntıları Görüntüle
+    view_redacted_data: Düzenlenmiş Veriyi Görüntüle
+    view_redaction_message: Düzenlenmiş Mesajı Görüntüle
     location: 'Konum:'
-    changeset:
-      title: 'Değişiklik kaydı: %{id}'
-      belongs_to: Yazar
-      node: Noktalar (%{count})
-      node_paginated: Nokta (%{x}-%{y} - toplam %{count})
-      way: Yollar (%{count})
-      way_paginated: Yol (%{x}-%{y} - toplam %{count})
-      relation: İlişkiler (%{count})
-      relation_paginated: İlişkiler (%{x}-%{y} - toplam %{count})
-      hidden_comment_by_html: '%{user} tarafından %{time_ago} yapılan gizli yorum'
-      comment_by_html: '%{user} tarafından %{time_ago} yapılan yorum'
-      changesetxml: ' XML değişiklik kaydı'
-      osmchangexml: osmChange XML
-      join_discussion: Tartışmaya katılmak için lütfen giriş yapın
-      discussion: Tartışma
-      still_open: Değişiklik kaydı hâlâ açık - tartışma, değişiklik serisi kapatıldığında
-        açılacaktır.
     node:
       title_html: 'Nokta: %{name}'
       history_title_html: 'Nokta Geçmişi: %{name}'
@@ -524,6 +505,9 @@ tr:
       feed:
         title: Değişiklik kaydı %{id}
         title_comment: Değişiklik takımı %{id} - %{comment}
+        created: Oluşturulma
+        closed: Kapandı
+        belongs_to: Yazar
     subscribe:
       heading: Aşağıdaki değişiklik kaydı tartışmasına abone olmak ister misiniz?
       button: Tartışmaya abone ol
@@ -538,6 +522,29 @@ tr:
       heading: 'Şu kimliğe sahip girdi yok: %{id}'
       body: Üzgünüz, %{id} kimliğine sahip herhangi bir değişiklik kaydı yok. Lütfen
         yazımınızı kontrol edin ya da tıkladığınız bağlantı yanlış olabilir.
+    show:
+      title: 'Değişiklik kaydı: %{id}'
+      created: 'Oluşturma: %{when}'
+      closed: 'Kapanma: %{when}'
+      created_ago_html: '%{time_ago} oluşturuldu'
+      closed_ago_html: '%{time_ago} kapatıldı'
+      created_ago_by_html: '%{user} tarafından %{time_ago} oluşturuldu'
+      closed_ago_by_html: '%{user} tarafından %{time_ago} kapatıldı'
+      discussion: Tartışma
+      join_discussion: Tartışmaya katılmak için lütfen giriş yapın
+      still_open: Değişiklik kaydı hâlâ açık - tartışma, değişiklik serisi kapatıldığında
+        açılacaktır.
+      comment_by_html: '%{user} tarafından %{time_ago} yapılan yorum'
+      hidden_comment_by_html: '%{user} tarafından %{time_ago} yapılan gizli yorum'
+      changesetxml: ' XML değişiklik kaydı'
+      osmchangexml: osmChange XML
+    paging_nav:
+      nodes: Noktalar (%{count})
+      nodes_paginated: Nokta (%{x}-%{y} - toplam %{count})
+      ways: Yollar (%{count})
+      ways_paginated: Yol (%{x}-%{y} - toplam %{count})
+      relations: İlişkiler (%{count})
+      relations_paginated: İlişkiler (%{x}-%{y} - toplam %{count})
     timeout:
       sorry: Üzgünüz, değişiklik kayıtlarının listelenmesi fazla sürdü.
   changeset_comments:
@@ -1923,9 +1930,8 @@ tr:
       help_text: Kaydolmak için kullandığınız e-posta adresini girin, şifrenizi sıfırlamak
         için kullanabileceğiniz bir bağlantı yollayacağız.
     create:
-      notice email on way: Maalesef şifrenizi kaybettiniz :-( Ancak yeni bir e-posta
-        yolda böylece şifreniziyakında sıfırlayabilirsiniz.
-      notice email cannot find: 'Üzgünüz: bu e-posta adresi bulunamadı.'
+      send_paranoid_instructions: E-posta adresiniz veritabanımızda mevcutsa birkaç
+        dakika içinde e-posta adresinize bir şifre kurtarma bağlantısı gönderilecektir.
     edit:
       title: Parolayı sıfırla
       heading: '%{user} İçin Parolayı Sıfırlayın'

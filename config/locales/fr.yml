@@ -56,6 +56,7 @@
 # Author: Ltrlg
 # Author: Lucky
 # Author: Lulucmy
+# Author: MacOS Weed
 # Author: Macofe
 # Author: Manaviko
 # Author: Mathieu
@@ -435,15 +436,10 @@ fr:
     destroy:
       success: Compte supprimé.
   browse:
-    created: Créé
-    closed: Fermé
-    created_ago_html: Créé %{time_ago}
-    closed_ago_html: Fermé %{time_ago}
-    created_ago_by_html: Créé %{time_ago} par %{user}
-    closed_ago_by_html: Fermé %{time_ago} par %{user}
     deleted_ago_by_html: Supprimé %{time_ago} par %{user}
     edited_ago_by_html: Modifié %{time_ago} par %{user}
     version: Version
+    redacted_version: Version censurée
     in_changeset: Groupe de modifications
     anonymous: anonyme
     no_comment: (aucun commentaire)
@@ -456,27 +452,12 @@ fr:
       other: '%{count} chemins'
     download_xml: Télécharger en XML
     view_history: Voir l’historique
+    view_unredacted_history: Voir l'historique non censuré
     view_details: Afficher les détails
+    view_redacted_data: Afficher les données censurées
     location: 'Emplacement :'
     common_details:
       coordinates_html: '%{latitude} ; %{longitude}'
-    changeset:
-      title: 'Groupe de modifications : %{id}'
-      belongs_to: Auteur
-      node: Nœuds (%{count})
-      node_paginated: Nœuds (%{x} à %{y} sur %{count})
-      way: Chemins (%{count})
-      way_paginated: Chemins (%{x} à %{y} sur %{count})
-      relation: Relations (%{count})
-      relation_paginated: Relations (%{x} à %{y} sur %{count})
-      hidden_comment_by_html: Commentaire caché de %{user} %{time_ago}
-      comment_by_html: Commentaire de %{user} %{time_ago}
-      changesetxml: XML du groupe de modifications
-      osmchangexml: XML osmChange
-      join_discussion: Se connecter pour rejoindre la discussion
-      discussion: Discussion
-      still_open: Ensemble de modifications toujours ouvert – la discussion s’ouvrira
-        une fois que l’ensemble de modifications sera fermé.
     node:
       title_html: 'Nœud : %{name}'
       history_title_html: 'Historique du nœud : %{name}'
@@ -596,6 +577,34 @@ fr:
       feed:
         title: Groupe de modifications %{id}
         title_comment: 'Groupe de modifications %{id} : %{comment}'
+        created: Créé
+        closed: Fermé
+        belongs_to: Auteur
+    unsubscribe:
+      button: Se désinscrire de la discussion
+    show:
+      title: 'Groupe de modifications : %{id}'
+      created: 'Créé : %{when}'
+      closed: 'Fermé : %{when}'
+      created_ago_html: Créé %{time_ago}
+      closed_ago_html: Fermé %{time_ago}
+      created_ago_by_html: Créé %{time_ago} par %{user}
+      closed_ago_by_html: Fermé %{time_ago} par %{user}
+      discussion: Discussion
+      join_discussion: Se connecter pour rejoindre la discussion
+      still_open: Ensemble de modifications toujours ouvert – la discussion s’ouvrira
+        une fois que l’ensemble de modifications sera fermé.
+      comment_by_html: Commentaire de %{user} %{time_ago}
+      hidden_comment_by_html: Commentaire caché de %{user} %{time_ago}
+      changesetxml: XML du groupe de modifications
+      osmchangexml: XML osmChange
+    paging_nav:
+      nodes: Nœuds (%{count})
+      nodes_paginated: Nœuds (%{x} à %{y} sur %{count})
+      ways: Chemins (%{count})
+      ways_paginated: Chemins (%{x} à %{y} sur %{count})
+      relations: Relations (%{count})
+      relations_paginated: Relations (%{x} à %{y} sur %{count})
     timeout:
       sorry: Désolé, la liste des groupes de modifications que vous avez demandée
         a mis trop de temps à récupérer.
@@ -717,6 +726,10 @@ fr:
       comment: Commentaire
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
+    subscribe:
+      button: S'abonner à la discussion
+    unsubscribe:
+      button: Se désinscrire de la discussion
   doorkeeper:
     errors:
       messages:
@@ -1733,6 +1746,7 @@ fr:
         sur %{commenturl} ou envoyer un message à l'auteur sur %{replyurl}
       footer_html: Vous pouvez aussi lire le commentaire sur %{readurl} et vous pouvez
         commenter sur %{commenturl} ou envoyer un message à l’auteur sur %{replyurl}
+      footer_unsubscribe: Vous pouvez vous désabonner de la discussion depuis %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Bonjour %{to_user},
@@ -1856,10 +1870,10 @@ fr:
       details: Plus de détails sur l’ensemble de modifications à %{url}.
       details_html: Vous pouvez trouver plus de détails sur l’ensemble de modifications
         sur %{url}.
-      unsubscribe: Pour vous désabonner des mises à jour de cet ensemble de modifications,
-        visitez %{url} et cliquez sur « Désabonner ».
-      unsubscribe_html: Pour vous désabonner des mises à jour de cet ensemble de modifications,
-        visitez %{url} et cliquez sur « Désabonner ».
+      unsubscribe: Vous pouvez vous désabonner des mises à jour de cet ensemble de
+        modifications depuis %{url}.
+      unsubscribe_html: Vous pouvez vous désabonner des mises à jour de cet ensemble
+        de modifications depuis %{url}.
   confirmations:
     confirm:
       heading: Vérifiez votre courriel !
@@ -1981,9 +1995,9 @@ fr:
         nous enverrons à cette adresse un lien que vous pourrez utiliser pour réinitialiser
         votre mot de passe.
     create:
-      notice email on way: Désolé que vous ayez perdu votre mot de passe :-( Un courriel
-        vous a été envoyé pour que vous puissiez vite le réinitialiser.
-      notice email cannot find: Cette adresse de courriel est introuvable, désolé.
+      send_paranoid_instructions: Si votre adresse courriel existe dans notre base
+        de données, vous recevrez dans quelques minutes un courriel avec un lien de
+        récupération de mot de passe à votre adresse de courriel.
     edit:
       title: Réinitialiser le mot de passe
       heading: Réinitialiser le mot de passe de %{user}
