@@ -1,10 +1,17 @@
-<%= render :partial => "paging_nav", :locals => { :type => type, :pages => pages } %>
-<ul class="list-unstyled">
-  <% elements.each do |element| %>
-    <%= element_list_item type, element do
-          t "printable_name.current_and_old_links_html",
-            :current_link => link_to(printable_element_name(element), :controller => :browse, :action => type, :id => element.id[0]),
-            :old_link => link_to(printable_element_version(element), :controller => "old_#{type.pluralize}", :action => :show, :id => element.id[0], :version => element.version)
-        end %>
+<div class="d-flex gap-2">
+  <div class="flex-grow-1">
+    <h4 class="fs-5"><%= type_and_paginated_count(type, pages) %></h4>
+    <ul class="list-unstyled">
+      <% elements.each do |element| %>
+        <%= element_list_item type, element do
+              t "printable_name.current_and_old_links_html",
+                :current_link => link_to(printable_element_name(element), :controller => :browse, :action => type, :id => element.id[0]),
+                :old_link => link_to(printable_element_version(element), :controller => "old_#{type.pluralize}", :action => :show, :id => element.id[0], :version => element.version)
+            end %>
+      <% end %>
+    </ul>
+  </div>
+  <% if pages.page_count > 1 %>
+    <%= sidebar_classic_pagination(pages, "#{type}_page") { |page| type_and_paginated_count(type, pages, page) } %>
   <% end %>
-</ul>
+</div>

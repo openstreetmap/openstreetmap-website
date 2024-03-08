@@ -83,24 +83,26 @@ module BrowseHelper
   end
 
   def sidebar_classic_pagination(pages, page_param)
-    max_width_for_default_padding = 35
+    items = pagination_items(pages, {})
+    common_link_classes = %w[page-link ms-0]
+    above_active = true
+    below_active = false
 
-    width = 0
-    pagination_items(pages, {}).each do |body|
-      width += 2 # padding width
-      width += body.length
-    end
-    link_classes = ["page-link", { "px-1" => width > max_width_for_default_padding }]
-
-    tag.ul :class => "pagination pagination-sm mb-1 ms-auto" do
-      pagination_items(pages, {}).each do |body, page_or_class|
+    tag.ul :class => "pagination pagination-sm flex-column text-center" do
+      items.each_with_index do |(body, page_or_class), i|
         linked = !(page_or_class.is_a? String)
+        above_active = false if !linked && page_or_class == "active"
+        link_classes = common_link_classes + [{ "rounded-top rounded-bottom-0" => i.zero?,
+                                                "rounded-top-0 rounded-bottom" => i == items.count - 1,
+                                                "border-bottom-0" => above_active,
+                                                "border-top-0" => below_active }]
         link = if linked
                  link_to body, url_for(page_param => page_or_class.number), :class => link_classes, :title => yield(page_or_class)
                else
                  tag.span body, :class => link_classes
                end
         concat tag.li link, :class => ["page-item", { page_or_class => !linked }]
+        below_active = true if !linked && page_or_class == "active"
       end
     end
   end
