@@ -19,6 +19,8 @@ class ApiCapability
         can [:gpx_files], User if scope?(token, :read_gpx)
         can [:index, :show], UserPreference if scope?(token, :read_prefs)
         can [:update, :update_all, :destroy], UserPreference if scope?(token, :write_prefs)
+        can [:inbox, :outbox, :show, :update, :destroy], Message if scope?(token, :message_consume)
+        can [:create], Message if scope?(token, :message_send)
 
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scope?(token, :write_api)
