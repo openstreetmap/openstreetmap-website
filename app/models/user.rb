@@ -360,9 +360,9 @@ class User < ApplicationRecord
     diary_comment_score = diary_comments.visible.inject(0) { |acc, elem| acc + elem.body.spam_score }
 
     score = description.spam_score / 4.0
-    score += diary_entries.where("created_at > ?", 1.day.ago).count * 10
-    score += diary_entry_score / diary_entries.length unless diary_entries.empty?
-    score += diary_comment_score / diary_comments.length unless diary_comments.empty?
+    score += diary_entries.visible.where("created_at > ?", 1.day.ago).count * 10
+    score += diary_entry_score / diary_entries.visible.length unless diary_entries.visible.empty?
+    score += diary_comment_score / diary_comments.visible.length unless diary_comments.visible.empty?
     score -= changeset_score
     score -= trace_score
 
