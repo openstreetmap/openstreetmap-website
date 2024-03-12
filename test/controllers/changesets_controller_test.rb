@@ -306,14 +306,60 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     relations = create_list(:relation, page_size + 1, :with_history, :changeset => changeset)
 
     sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
-    page_size.times do |i|
-      assert_dom "a[href='#{node_path nodes[i]}']", :count => 1
-      assert_dom "a[href='#{old_node_path nodes[i], 1}']", :count => 1
-      assert_dom "a[href='#{way_path ways[i]}']", :count => 1
-      assert_dom "a[href='#{old_way_path ways[i], 1}']", :count => 1
-      assert_dom "a[href='#{relation_path relations[i]}']", :count => 1
-      assert_dom "a[href='#{old_relation_path relations[i], 1}']", :count => 1
+
+    next_page_node = nil
+    nodes.each do |node|
+      node_skip = true
+      assert_dom "a[href='#{node_path node}']", :minimum => 0, :maximum => 1 do
+        node_skip = false
+      end
+      assert_dom "a[href='#{old_node_path node, 1}']", :count => (node_skip ? 0 : 1)
+      if node_skip
+        assert_nil next_page_node
+        next_page_node = node
+      end
     end
+    assert_not_nil next_page_node
+
+    get changeset_path(changeset, :node_page => 2, :xhr => true)
+    assert_dom "a[href='#{node_path next_page_node}']", :count => 1
+    assert_dom "a[href='#{old_node_path next_page_node, 1}']", :count => 1
+
+    next_page_way = nil
+    ways.each do |way|
+      way_skip = true
+      assert_dom "a[href='#{way_path way}']", :minimum => 0, :maximum => 1 do
+        way_skip = false
+      end
+      assert_dom "a[href='#{old_way_path way, 1}']", :count => (way_skip ? 0 : 1)
+      if way_skip
+        assert_nil next_page_way
+        next_page_way = way
+      end
+    end
+    assert_not_nil next_page_way
+
+    get changeset_path(changeset, :way_page => 2, :xhr => true)
+    assert_dom "a[href='#{way_path next_page_way}']", :count => 1
+    assert_dom "a[href='#{old_way_path next_page_way, 1}']", :count => 1
+
+    next_page_relation = nil
+    relations.each do |relation|
+      relation_skip = true
+      assert_dom "a[href='#{relation_path relation}']", :minimum => 0, :maximum => 1 do
+        relation_skip = false
+      end
+      assert_dom "a[href='#{old_relation_path relation, 1}']", :count => (relation_skip ? 0 : 1)
+      if relation_skip
+        assert_nil next_page_relation
+        next_page_relation = relation
+      end
+    end
+    assert_not_nil next_page_relation
+
+    get changeset_path(changeset, :relation_page => 2, :xhr => true)
+    assert_dom "a[href='#{relation_path next_page_relation}']", :count => 1
+    assert_dom "a[href='#{old_relation_path next_page_relation, 1}']", :count => 1
   end
 
   ##
