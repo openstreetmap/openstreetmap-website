@@ -29,20 +29,14 @@ class ApiAbility
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset
           can :create, ChangesetComment
-          can [:create, :update, :delete], Node
-          can [:create, :update, :delete], Way
-          can [:create, :update, :delete], Relation
+          can [:create, :update, :delete], [Node, Way, Relation]
         end
 
         if user.moderator?
           can [:destroy, :restore], ChangesetComment
           can :destroy, Note
 
-          if user.terms_agreed?
-            can :redact, OldNode
-            can :redact, OldWay
-            can :redact, OldRelation
-          end
+          can :redact, [OldNode, OldWay, OldRelation] if user.terms_agreed?
         end
       end
     end
