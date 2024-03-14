@@ -23,19 +23,13 @@ class ApiCapability
         if user.terms_agreed?
           can [:create, :update, :upload, :close, :subscribe, :unsubscribe], Changeset if scope?(token, :write_api)
           can :create, ChangesetComment if scope?(token, :write_api)
-          can [:create, :update, :delete], Node if scope?(token, :write_api)
-          can [:create, :update, :delete], Way if scope?(token, :write_api)
-          can [:create, :update, :delete], Relation if scope?(token, :write_api)
+          can [:create, :update, :delete], [Node, Way, Relation] if scope?(token, :write_api)
         end
 
         if user.moderator?
           can [:destroy, :restore], ChangesetComment if scope?(token, :write_api)
           can :destroy, Note if scope?(token, :write_notes)
-          if user&.terms_agreed?
-            can :redact, OldNode if scope?(token, :write_api) || scope?(token, :write_redactions)
-            can :redact, OldWay if scope?(token, :write_api) || scope?(token, :write_redactions)
-            can :redact, OldRelation if scope?(token, :write_api) || scope?(token, :write_redactions)
-          end
+          can :redact, [OldNode, OldWay, OldRelation] if user&.terms_agreed? && (scope?(token, :write_api) || scope?(token, :write_redactions))
         end
       end
     end
