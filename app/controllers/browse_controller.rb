@@ -6,7 +6,6 @@ class BrowseController < ApplicationController
   before_action -> { check_database_readable(:need_api => true) }
   before_action :require_oauth
   before_action :update_totp, :only => [:query]
-  before_action :require_moderator_for_unredacted_history, :only => [:relation_history, :way_history, :node_history]
   around_action :web_timeout
   authorize_resource :class => false
 
@@ -14,14 +13,6 @@ class BrowseController < ApplicationController
     @type = "relation"
     @feature = Relation.preload(:relation_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :relation_members => :member).find(params[:id])
     render "feature"
-  rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
-  end
-
-  def relation_history
-    @type = "relation"
-    @feature = Relation.preload(:relation_tags, :old_relations => [:old_tags, { :changeset => [:changeset_tags, :user], :old_members => :member }]).find(params[:id])
-    render "history"
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
@@ -34,14 +25,6 @@ class BrowseController < ApplicationController
     render :action => "not_found", :status => :not_found
   end
 
-  def way_history
-    @type = "way"
-    @feature = Way.preload(:way_tags, :old_ways => [:old_tags, { :changeset => [:changeset_tags, :user], :old_nodes => { :node => [:node_tags, :ways] } }]).find(params[:id])
-    render "history"
-  rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
-  end
-
   def node
     @type = "node"
     @feature = Node.preload(:node_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :ways => :way_tags).find(params[:id])
@@ -50,19 +33,5 @@ class BrowseController < ApplicationController
     render :action => "not_found", :status => :not_found
   end
 
-  def node_history
-    @type = "node"
-    @feature = Node.preload(:node_tags, :old_nodes => [:old_tags, { :changeset => [:changeset_tags, :user] }]).find(params[:id])
-    render "history"
-  rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
-  end
-
   def query; end
-
-  private
-
-  def require_moderator_for_unredacted_history
-    deny_access(nil) if params[:show_redactions] && !current_user&.moderator?
-  end
 end

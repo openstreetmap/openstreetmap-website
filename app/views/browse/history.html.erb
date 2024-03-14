@@ -2,17 +2,17 @@
 
 <%= render "sidebar_header", :title => t("browse.#{@type}.history_title_html", :name => printable_element_name(@feature)) %>
 
-<%= render :partial => @type, :collection => @feature.send(:"old_#{@type}s").reverse %>
+<%= render :partial => "browse/#{@type}", :collection => @feature.send(:"old_#{@type}s").reverse %>
 
 <div class='secondary-actions'>
-  <%= link_to(t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => "history") %>
+  <%= link_to t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => "history" %>
   &middot;
-  <%= link_to(t("browse.view_details"), :action => @type) %>
+  <%= link_to t("browse.view_details"), :controller => "browse", :action => @type %>
   <% if params[:show_redactions] %>
     &middot;
-    <%= link_to(t("browse.view_history"), :action => "#{@type}_history") %>
+    <%= link_to t("browse.view_history") %>
   <% elsif current_user&.moderator? %>
     &middot;
-    <%= link_to(t("browse.view_unredacted_history"), :action => "#{@type}_history", :params => { :show_redactions => true }) %>
+    <%= link_to t("browse.view_unredacted_history"), :params => { :show_redactions => true } %>
   <% end %>
 </div>

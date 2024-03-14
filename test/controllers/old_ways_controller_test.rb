@@ -3,9 +3,56 @@ require "test_helper"
 class OldWaysControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
+      { :path => "/way/1/history", :method => :get },
+      { :controller => "old_ways", :action => "index", :id => "1" }
+    )
+    assert_routing(
       { :path => "/way/1/history/2", :method => :get },
       { :controller => "old_ways", :action => "show", :id => "1", :version => "2" }
     )
+  end
+
+  def test_history
+    way = create(:way, :with_history)
+    sidebar_browse_check :way_history_path, way.id, "browse/history"
+    assert_select "h4", /^Version/ do
+      assert_select "a[href='#{old_way_path way, 1}']", :text => "1", :count => 1
+    end
+  end
+
+  def test_history_of_redacted
+    way = create(:way, :with_history, :version => 4)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    way_v1.redact!(create(:redaction))
+    way_v3 = way.old_ways.find_by(:version => 3)
+    way_v3.redact!(create(:redaction))
+
+    get way_history_path(:id => way)
+    assert_response :success
+    assert_template "browse/history"
+
+    # there are 4 revisions of the redacted way, but only 2
+    # should be showing details here.
+    assert_select ".browse-section", 4
+    assert_select ".browse-section.browse-redacted", 2
+    assert_select ".browse-section.browse-way", 2
+  end
+
+  def test_unredacted_history_of_redacted
+    session_for(create(:moderator_user))
+    way = create(:way, :with_history, :version => 4)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    way_v1.redact!(create(:redaction))
+    way_v3 = way.old_ways.find_by(:version => 3)
+    way_v3.redact!(create(:redaction))
+
+    get way_history_path(:id => way, :params => { :show_redactions => true })
+    assert_response :success
+    assert_template "browse/history"
+
+    assert_select ".browse-section", 4
+    assert_select ".browse-section.browse-redacted", 0
+    assert_select ".browse-section.browse-way", 4
   end
 
   def test_visible_with_one_version

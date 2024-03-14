@@ -11,6 +11,14 @@ class OldRelationsController < ApplicationController
   before_action :require_moderator_for_unredacted_history
   around_action :web_timeout
 
+  def index
+    @type = "relation"
+    @feature = Relation.preload(:relation_tags, :old_relations => [:old_tags, { :changeset => [:changeset_tags, :user], :old_members => :member }]).find(params[:id])
+    render "browse/history"
+  rescue ActiveRecord::RecordNotFound
+    render "browse/not_found", :status => :not_found
+  end
+
   def show
     @type = "relation"
     @feature = OldRelation.preload(:old_tags, :changeset => [:changeset_tags, :user], :old_members => :member).find([params[:id], params[:version]])
