@@ -8,13 +8,14 @@ L.OSM.layers = function (options) {
       .attr("class", "section base-layers")
       .appendTo($ui);
 
-    var baseLayers = $("<ul class='list-unstyled mb-0'>")
+    var baseLayers = $("<ul class='list-unstyled row row-cols-2 row-cols-md-1 g-2'>")
       .appendTo(baseSection);
 
     layers.forEach(function (layer) {
-      var item = $("<li>")
-        .attr("class", "rounded-3")
+      var col = $("<li class='col'>")
         .appendTo(baseLayers);
+      var item = $("<div class='layer-button rounded-3'>")
+        .appendTo(col);
 
       if (map.hasLayer(layer)) {
         item.addClass("active");
