@@ -17,10 +17,10 @@
     <% end %>
     &middot;
   <% end %>
-    <%= link_to t("browse.view_history"), :action => "#{@type}_history" %>
+    <%= link_to t("browse.view_history"), :controller => "old_#{@type.pluralize}" %>
   <% if current_user&.moderator? %>
     &middot;
-    <%= link_to(t("browse.view_unredacted_history"), :action => "#{@type}_history", :params => { :show_redactions => true }) %>
+    <%= link_to(t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true }) %>
   <% end %>
   <% if @feature.version > 1 %>
     &middot;

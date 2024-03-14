@@ -4,8 +4,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:relation, :relation_history, :way, :way_history, :node, :node_history, :query], :browse
-    can [:show], [OldNode, OldWay, OldRelation]
+    can [:relation, :way, :node, :query], :browse
+    can [:index, :show], [OldNode, OldWay, OldRelation]
     can [:show, :new], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id], :site
