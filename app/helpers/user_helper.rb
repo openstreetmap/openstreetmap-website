@@ -58,7 +58,10 @@ module UserHelper
 
   def auth_button(name, provider, options = {})
     link_to(
-      image_tag("#{name}.svg", :alt => t("sessions.new.auth_providers.#{name}.alt"), :class => "rounded-3"),
+      image_tag("#{name}.svg",
+                :alt => t("sessions.new.auth_providers.#{name}.alt"),
+                :class => "rounded-3",
+                :size => "36"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
       :class => "auth_button",
