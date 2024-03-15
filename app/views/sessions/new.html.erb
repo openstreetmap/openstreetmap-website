@@ -28,7 +28,15 @@
       <label class="form-label"><%= t ".with external" %></label>
 
       <ul class='list-inline' id="login_auth_buttons">
-        <li class="list-inline-item me-3"><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
+        <li class="list-inline-item me-3">
+          <%= link_to image_tag("openid.png",
+                                :alt => t(".auth_providers.openid.title"),
+                                :size => "36"),
+                      "#",
+                      :id => "openid_open_url",
+                      :title => t(".auth_providers.openid.title") %>
+        </li>
+
         <% %w[google facebook microsoft github wikipedia].each do |provider| %>
           <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
             <li class="list-inline-item me-3"><%= auth_button provider, provider %></li>

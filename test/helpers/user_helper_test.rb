@@ -116,7 +116,7 @@ class UserHelperTest < ActionView::TestCase
 
   def test_auth_button
     button = auth_button("google", "google")
-    img_tag = "<img alt=\"Log in with a Google OpenID\" class=\"rounded-3\" src=\"/images/google.svg\" />"
+    img_tag = "<img alt=\"Log in with a Google OpenID\" class=\"rounded-3\" src=\"/images/google.svg\" width=\"36\" height=\"36\" />"
     assert_equal("<a class=\"auth_button\" title=\"Log in with Google\" rel=\"nofollow\" data-method=\"post\" href=\"/auth/google\">#{img_tag}</a>", button)
   end
 
