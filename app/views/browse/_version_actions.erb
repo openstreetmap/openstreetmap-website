@@ -1,5 +1,5 @@
 <div class='secondary-actions'>
-  <%= link_to t("browse.view_details"), :controller => :browse, :action => @type %>
+  <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
   <% if !@feature.redacted? %>
     &middot;
     <%= link_to t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => :show %>
