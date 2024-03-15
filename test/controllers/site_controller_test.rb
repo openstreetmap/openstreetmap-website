@@ -89,13 +89,13 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   # Test the index page redirects
   def test_index_redirect
     get root_path(:node => 123)
-    assert_redirected_to :controller => :browse, :action => :node, :id => 123
+    assert_redirected_to node_path(123)
 
     get root_path(:way => 123)
-    assert_redirected_to :controller => :browse, :action => :way, :id => 123
+    assert_redirected_to way_path(123)
 
     get root_path(:relation => 123)
-    assert_redirected_to :controller => :browse, :action => :relation, :id => 123
+    assert_redirected_to relation_path(123)
 
     get root_path(:note => 123)
     assert_redirected_to :controller => :notes, :action => :show, :id => 123
@@ -131,16 +131,16 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125&layers=T"
 
     get permalink_path(:code => "wBz3--", :node => 1)
-    assert_redirected_to :controller => :browse, :action => :node, :id => 1, :anchor => "map=3/4.8779296875/3.955078125"
+    assert_redirected_to node_path(1, :anchor => "map=3/4.8779296875/3.955078125")
 
     get permalink_path(:code => "wBz3--", :way => 2)
-    assert_redirected_to :controller => :browse, :action => :way, :id => 2, :anchor => "map=3/4.8779296875/3.955078125"
+    assert_redirected_to way_path(2, :anchor => "map=3/4.8779296875/3.955078125")
 
     get permalink_path(:code => "wBz3--", :relation => 3)
-    assert_redirected_to :controller => :browse, :action => :relation, :id => 3, :anchor => "map=3/4.8779296875/3.955078125"
+    assert_redirected_to relation_path(3, :anchor => "map=3/4.8779296875/3.955078125")
 
     get permalink_path(:code => "wBz3--", :changeset => 4)
-    assert_redirected_to changeset_path(:id => 4, :anchor => "map=3/4.8779296875/3.955078125")
+    assert_redirected_to changeset_path(4, :anchor => "map=3/4.8779296875/3.955078125")
   end
 
   # Test the key page

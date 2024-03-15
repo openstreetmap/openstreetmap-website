@@ -7,7 +7,7 @@
 <div class='secondary-actions'>
   <%= link_to t("browse.download_xml"), :controller => "api/old_#{@type.pluralize}", :action => "history" %>
   &middot;
-  <%= link_to t("browse.view_details"), :controller => "browse", :action => @type %>
+  <%= link_to t("browse.view_details"), :controller => @type.pluralize, :action => :show %>
   <% if params[:show_redactions] %>
     &middot;
     <%= link_to t("browse.view_history") %>

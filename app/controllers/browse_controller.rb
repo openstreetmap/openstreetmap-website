@@ -9,29 +9,5 @@ class BrowseController < ApplicationController
   around_action :web_timeout
   authorize_resource :class => false
 
-  def relation
-    @type = "relation"
-    @feature = Relation.preload(:relation_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :relation_members => :member).find(params[:id])
-    render "feature"
-  rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
-  end
-
-  def way
-    @type = "way"
-    @feature = Way.preload(:way_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :nodes => [:node_tags, { :ways => :way_tags }]).find(params[:id])
-    render "feature"
-  rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
-  end
-
-  def node
-    @type = "node"
-    @feature = Node.preload(:node_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :ways => :way_tags).find(params[:id])
-    render "feature"
-  rescue ActiveRecord::RecordNotFound
-    render :action => "not_found", :status => :not_found
-  end
-
   def query; end
 end
