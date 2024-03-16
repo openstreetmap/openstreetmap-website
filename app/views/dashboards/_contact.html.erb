@@ -10,7 +10,7 @@
   </div>
   <div class="col">
     <p class='text-muted mb-0'>
-      <%= link_to contact.display_name, user_path(contact) %>
+      <%= link_to contact.display_name, contact %>
       <% if @user.home_location? and contact.home_location? %>
         <% distance = @user.distance(contact) %>
         <% if distance < 1 %>
@@ -25,7 +25,7 @@
       <% if changeset %>
         <%= t(".latest_edit_html", :ago => friendly_date_ago(changeset.created_at)) %>
         <% comment = changeset.tags["comment"].to_s == "" ? t("browse.no_comment") : changeset.tags["comment"] %>
-        <q><%= link_to comment, changeset_path(changeset), :title => t("changesets.changeset.view_changeset_details") %></q>
+        <q><%= link_to comment, changeset, :title => t("changesets.changeset.view_changeset_details") %></q>
       <% else %>
        <%= t "changesets.changeset.no_edits" %>
       <% end %>

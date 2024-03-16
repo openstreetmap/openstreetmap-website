@@ -3,7 +3,7 @@ module ChangesetsHelper
     if changeset.user.status == "deleted"
       t("users.no_such_user.deleted")
     elsif changeset.user.data_public?
-      link_to(changeset.user.display_name, user_path(changeset.user))
+      link_to changeset.user.display_name, changeset.user
     else
       t("browse.anonymous")
     end
