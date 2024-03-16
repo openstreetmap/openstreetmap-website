@@ -28,4 +28,12 @@ class RelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 1}']", :count => 1
     assert_select ".secondary-actions a[href='#{old_relation_path relation, 2}']", :count => 1
   end
+
+  def test_show_relation_member
+    member = create(:relation)
+    relation = create(:relation)
+    create(:relation_member, :relation => relation, :member => member)
+    sidebar_browse_check :relation_path, member.id, "browse/feature"
+    assert_select "a[href='#{relation_path relation}']", :count => 1
+  end
 end
