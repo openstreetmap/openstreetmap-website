@@ -402,7 +402,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     other_user = create(:user)
     changeset = create(:changeset, :user => user)
-    path = changeset_subscribe_path(changeset)
+    path = subscribe_changeset_path(changeset)
 
     get path
     assert_redirected_to login_path(:referer => path)
@@ -423,7 +423,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     session_for(other_user)
     assert_difference "changeset.subscribers.count", 1 do
-      post changeset_subscribe_path(changeset)
+      post subscribe_changeset_path(changeset)
     end
     assert_redirected_to changeset_path(changeset)
     assert changeset.reload.subscribed?(other_user)
@@ -437,20 +437,20 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     # not signed in
     assert_no_difference "changeset.subscribers.count" do
-      post changeset_subscribe_path(changeset)
+      post subscribe_changeset_path(changeset)
     end
     assert_response :forbidden
 
     session_for(other_user)
 
     # bad diary id
-    post changeset_subscribe_path(999111)
+    post subscribe_changeset_path(999111)
     assert_response :not_found
 
     # trying to subscribe when already subscribed
-    post changeset_subscribe_path(changeset)
+    post subscribe_changeset_path(changeset)
     assert_no_difference "changeset.subscribers.count" do
-      post changeset_subscribe_path(changeset)
+      post subscribe_changeset_path(changeset)
     end
   end
 
@@ -458,7 +458,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     other_user = create(:user)
     changeset = create(:changeset, :user => user)
-    path = changeset_unsubscribe_path(changeset)
+    path = unsubscribe_changeset_path(changeset)
 
     get path
     assert_redirected_to login_path(:referer => path)
@@ -481,7 +481,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     session_for(other_user)
     assert_difference "changeset.subscribers.count", -1 do
-      post changeset_unsubscribe_path(changeset)
+      post unsubscribe_changeset_path(changeset)
     end
     assert_redirected_to changeset_path(changeset)
     assert_not changeset.reload.subscribed?(other_user)
@@ -495,19 +495,19 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
     # not signed in
     assert_no_difference "changeset.subscribers.count" do
-      post changeset_unsubscribe_path(changeset)
+      post unsubscribe_changeset_path(changeset)
     end
     assert_response :forbidden
 
     session_for(other_user)
 
     # bad diary id
-    post changeset_unsubscribe_path(999111)
+    post unsubscribe_changeset_path(999111)
     assert_response :not_found
 
     # trying to unsubscribe when not subscribed
     assert_no_difference "changeset.subscribers.count" do
-      post changeset_unsubscribe_path(changeset)
+      post unsubscribe_changeset_path(changeset)
     end
   end
 
