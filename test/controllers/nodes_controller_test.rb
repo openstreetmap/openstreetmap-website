@@ -29,6 +29,14 @@ class NodesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a[href='#{old_node_path node, 2}']", :count => 1
   end
 
+  def test_show_relation_member
+    member = create(:node)
+    relation = create(:relation)
+    create(:relation_member, :relation => relation, :member => member)
+    sidebar_browse_check :node_path, member.id, "browse/feature"
+    assert_select "a[href='#{relation_path relation}']", :count => 1
+  end
+
   def test_show_deleted
     node = create(:node, :visible => false)
     sidebar_browse_check :node_path, node.id, "browse/feature"
