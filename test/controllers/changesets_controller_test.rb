@@ -266,6 +266,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_dom "p", :text => "tested-changeset-comment"
     assert_dom "li#c#{changeset_comment.id}" do
       assert_dom "> small", :text => /^Comment from #{commenting_user.display_name}/
+      assert_dom "a[href='#{user_path(commenting_user)}']"
     end
   end
 
@@ -314,6 +315,15 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
       assert_dom "a[href='#{relation_path relations[i]}']", :count => 1
       assert_dom "a[href='#{old_relation_path relations[i], 1}']", :count => 1
     end
+  end
+
+  def test_show_adjacent_changesets
+    user = create(:user)
+    changesets = create_list(:changeset, 3, :user => user)
+
+    sidebar_browse_check :changeset_path, changesets[1].id, "changesets/show"
+    assert_dom "a[href='#{changeset_path changesets[0]}']", :count => 1
+    assert_dom "a[href='#{changeset_path changesets[2]}']", :count => 1
   end
 
   ##
