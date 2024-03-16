@@ -68,4 +68,19 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select body, "a[href^='#{url}']"
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
   end
+
+  def test_changeset_comment_notification
+    create(:language, :code => "en")
+    user = create(:user)
+    other_user = create(:user)
+    changeset = create(:changeset, :user => user)
+    changeset_comment = create(:changeset_comment, :changeset => changeset)
+    email = UserMailer.changeset_comment_notification(changeset_comment, other_user)
+    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+
+    url = Rails.application.routes.url_helpers.changeset_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    unsubscribe_url = Rails.application.routes.url_helpers.unsubscribe_changeset_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    assert_select body, "a[href^='#{url}']"
+    assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
+  end
 end

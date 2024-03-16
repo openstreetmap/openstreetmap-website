@@ -118,7 +118,9 @@ OpenStreetMap::Application.routes.draw do
   get "/relation/:id" => "relations#show", :id => /\d+/, :as => :relation
   get "/relation/:id/history" => "old_relations#index", :id => /\d+/, :as => :relation_history
   resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
-  resources :changesets, :path => "changeset", :id => /\d+/, :only => :show
+  resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
+    match :subscribe, :unsubscribe, :on => :member, :via => [:get, :post]
+  end
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   resources :notes, :path => "note", :only => [:show, :new]
 
@@ -127,8 +129,6 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes
   get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
   get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
-  match "/changeset/:id/subscribe" => "changesets#subscribe", :via => [:get, :post], :as => "changeset_subscribe"
-  match "/changeset/:id/unsubscribe" => "changesets#unsubscribe", :via => [:get, :post], :as => "changeset_unsubscribe"
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
