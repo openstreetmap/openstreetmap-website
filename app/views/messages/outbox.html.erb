@@ -9,5 +9,5 @@
 <% if current_user.sent_messages.size > 0 %>
   <%= render :partial => "messages_table", :locals => { :columns => %w[to subject date], :messages => current_user.sent_messages, :inner_partial => "sent_message_summary" } %>
 <% else %>
-  <div class="messages"><%= t(".no_sent_messages_html", :people_mapping_nearby_link => link_to(t(".people_mapping_nearby"), user_path(current_user))) %></div>
+  <div class="messages"><%= t(".no_sent_messages_html", :people_mapping_nearby_link => link_to(t(".people_mapping_nearby"), dashboard_path)) %></div>
 <% end %>
