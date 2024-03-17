@@ -40,14 +40,13 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       create(:note_comment, :note => note, :author => second_user)
     end
 
-    # Note that the table rows include a header row
     get user_notes_path(:display_name => first_user.display_name)
     assert_response :success
-    assert_select "table.note_list tr", :count => 2
+    assert_select "table.note_list tbody tr", :count => 1
 
     get user_notes_path(:display_name => second_user.display_name)
     assert_response :success
-    assert_select "table.note_list tr", :count => 2
+    assert_select "table.note_list tbody tr", :count => 1
 
     get user_notes_path(:display_name => "non-existent")
     assert_response :not_found
@@ -56,11 +55,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     get user_notes_path(:display_name => first_user.display_name)
     assert_response :success
-    assert_select "table.note_list tr", :count => 2
+    assert_select "table.note_list tbody tr", :count => 1
 
     get user_notes_path(:display_name => second_user.display_name)
     assert_response :success
-    assert_select "table.note_list tr", :count => 3
+    assert_select "table.note_list tbody tr", :count => 2
 
     get user_notes_path(:display_name => "non-existent")
     assert_response :not_found
@@ -75,11 +74,11 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     get user_notes_path(:display_name => user.display_name)
     assert_response :success
-    assert_select "table.note_list tr", :count => 11
+    assert_select "table.note_list tbody tr", :count => 10
 
     get user_notes_path(:display_name => user.display_name, :page => 2)
     assert_response :success
-    assert_select "table.note_list tr", :count => 11
+    assert_select "table.note_list tbody tr", :count => 10
   end
 
   def test_empty_page
