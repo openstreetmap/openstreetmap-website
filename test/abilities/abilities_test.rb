@@ -21,7 +21,7 @@ class GuestAbilityTest < AbilityTest
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
 
-    [:create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
+    [:create, :edit, :comment, :subscribe, :unsubscribe, :hide, :unhide, :hidecomment, :unhidecomment].each do |action|
       assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
     end
   end
@@ -47,11 +47,11 @@ class UserAbilityTest < AbilityTest
   test "Diary permissions" do
     ability = Ability.new create(:user)
 
-    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe].each do |action|
+    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :unhide].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
 
-    [:hide, :hidecomment].each do |action|
+    [:hidecomment, :unhidecomment].each do |action|
       assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
     end
 
@@ -77,7 +77,7 @@ class ModeratorAbilityTest < AbilityTest
       assert ability.cannot?(action, UserRole), "should not be able to #{action} UserRoles"
     end
 
-    [:hide, :hidecomment].each do |action|
+    [:hide, :unhide, :hidecomment, :unhidecomment].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
   end
@@ -86,7 +86,7 @@ end
 class AdministratorAbilityTest < AbilityTest
   test "Diary for an administrator" do
     ability = Ability.new create(:administrator_user)
-    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
+    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :unhide, :hidecomment, :unhidecomment].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
   end
