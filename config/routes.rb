@@ -13,23 +13,31 @@ OpenStreetMap::Application.routes.draw do
     get "versions" => "versions#show"
   end
 
-  scope "api/0.6", :module => :api do
+  namespace :api, :path => "api/0.6" do
     get "capabilities" => "capabilities#show"
     get "permissions" => "permissions#show"
 
-    put "changeset/create" => "changesets#create"
-    post "changeset/:id/upload" => "changesets#upload", :as => :changeset_upload, :id => /\d+/
-    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
-    get "changeset/:id" => "changesets#show", :as => :changeset_show, :id => /\d+/
-    post "changeset/:id/subscribe" => "changesets#subscribe", :as => :api_changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :api_changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "changesets#update", :id => /\d+/
-    put "changeset/:id/close" => "changesets#close", :as => :changeset_close, :id => /\d+/
-    get "changesets" => "changesets#index"
-    post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
+    resource :changeset, :only => [] do
+      put :create, :as => :create
+    end
+    resources :changesets, :only => :index
+    resources :changesets, :path => "changeset", :id => /\d+/, :only => [:show, :update] do
+      member do
+        get :download
+        post :upload, :subscribe, :unsubscribe
+        put :close
+      end
 
+      resources :changeset_comments, :path => "comment", :id => /\d+/, :shallow => true, :shallow_path => "changeset", :only => :create do
+        member do
+          post :hide, :action => :destroy
+          post :unhide, :action => :restore
+        end
+      end
+    end
+  end
+
+  scope "api/0.6", :module => :api do
     put "node/create" => "nodes#create"
     get "node/:id/ways" => "ways#ways_for_node", :as => :node_ways, :id => /\d+/
     get "node/:id/relations" => "relations#relations_for_node", :as => :node_relations, :id => /\d+/
