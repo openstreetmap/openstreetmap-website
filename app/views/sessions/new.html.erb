@@ -2,11 +2,15 @@
   <%= javascript_include_tag "login" %>
 <% end %>
 
+<% content_for :heading_class, "p-0 mw-100" %>
+
 <% content_for :heading do %>
-  <h1><%= t ".heading" %></h1>
+  <div class="header-illustration new-user-main auth-container mx-auto">
+    <h1 class="pt-3"><%= t ".heading" %></h1>
+  <div>
 <% end %>
 
-<div id="login_login">
+<div id="login_login" class="auth-container mx-auto my-0">
   <p class='text-muted'><%= t ".no account" %> <%= link_to t(".register now"), user_new_path(:referer => params[:referer]) %></p>
 
   <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
