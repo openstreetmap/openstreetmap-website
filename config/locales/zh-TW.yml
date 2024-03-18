@@ -118,7 +118,7 @@ zh-TW:
       tracetag: 軌跡標籤
       user: 使用者
       user_preference: 使用者偏好設定
-      user_token: 使用者令牌
+      user_token: 使用者權杖
       way: 路徑
       way_node: 路徑節點
       way_tag: 路徑標籤
@@ -614,10 +614,34 @@ zh-TW:
       newer_comments: 較新的評論
       older_comments: 較舊的評論
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: 授權伺服器需要終端使用者帳號選擇
+        consent_required: 授權伺服器需要終端使用者同意
+        interaction_required: 授權伺服器需要終端使用者互動
+        login_required: 授權伺服器需要終端使用者驗證
     flash:
       applications:
         create:
           notice: 應用程式已註冊。
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            缺少組態導致失敗。
+          reauthenticate_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            缺少組態導致失敗。
+          resource_owner_from_access_token_not_configured: 因 Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            缺少組態導致失敗。
+          select_account_for_resource_owner_not_configured: 因 Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner  缺少組態導致失敗。
+          subject_not_configured: 因 Doorkeeper::OpenidConnect.configure.subject 缺少組態導致導致產生
+            ID 權杖失敗。
+    scopes:
+      address: 查看您的實際地址
+      email: 查看您的電子郵件位址
+      openid: 驗證您的帳號
+      phone: 查看您的電話號碼
+      profile: 查看您的個人資訊
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
@@ -1703,7 +1727,7 @@ zh-TW:
       press confirm button: 按下確認按鈕以確認您的新電子郵件地址。
       button: 確認
       success: 已確認您變更的電子郵件地址！
-      failure: 電子郵件地址已使用此密鑰確認過。
+      failure: 電子郵件地址已使用此權杖確認過。
       unknown_token: 確認碼已經過期或不存在。
     resend_success_flash:
       confirmation_sent: 我們已發送新的確認通知到 %{email}，一旦您確認您的帳號後，就能取得製圖。
@@ -1789,7 +1813,7 @@ zh-TW:
       heading: 重設 %{user} 的密碼
       reset: 重設密碼
       flash changed: 您的密碼已經變更。
-      flash token bad: 找不到該密鑰，可能要檢查一下 URL？
+      flash token bad: 找不到該權杖，請檢查一下 URL？
   preferences:
     show:
       title: 我的偏好設定
@@ -2346,10 +2370,11 @@ zh-TW:
       denied: 您已拒絕應用程式 %{app_name} 使用您的帳號。
       invalid: 授權權杖無效。
     revoke:
-      flash: 您已經撤銷 %{application} 的授權密鑰。
+      flash: 您已經撤銷 %{application} 的權杖。
     permissions:
       missing: 您尚未允許應用程式來訪問此設施
     scopes:
+      openid: 使用 OpenStreetMap 登入
       read_prefs: 讀取使用者偏好設定
       write_prefs: 修改使用者偏好設定
       write_diary: 建立日記、評論和加入好友
@@ -2369,7 +2394,7 @@ zh-TW:
       key: 消費者金鑰：
       secret: 消費者祕密金鑰：
       url: 要求權杖 URL：
-      access_url: 存取記號 URL：
+      access_url: 存取權杖 URL：
       authorize_url: 授權 URL：
       support_notice: 我們支援 HMAC-SHA1 (建議) 和 RSA-SHA1 署名。
       edit: 編輯詳細資料
@@ -2379,7 +2404,7 @@ zh-TW:
     index:
       title: 我的 OAuth 詳細資料
       my_tokens: 我授權的應用程式
-      list_tokens: 下列密鑰已核發給您名下的應用程式：
+      list_tokens: 下列權杖已核發給您名下的應用程式：
       application: 應用程式名稱
       issued_at: 已發於
       revoke: 撤銷！
