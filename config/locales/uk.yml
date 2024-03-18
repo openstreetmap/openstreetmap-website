@@ -87,6 +87,8 @@ uk:
       messages:
         invalid_email_address: не схоже на коректну адресу електронної пошти
         email_address_not_routable: недоступний
+        display_name_is_user_n: не може бути user_n, якщо n не є вашим ідентифікатором
+          користувача
       models:
         user_mute:
           is_already_muted: вже стишено
@@ -395,6 +397,7 @@ uk:
     deleted_ago_by_html: Вилучив(ла) %{time_ago} %{user}
     edited_ago_by_html: Змінено %{user} %{time_ago}
     version: Версія
+    redacted_version: Очищена Версія
     in_changeset: Набір змін
     anonymous: анонім
     no_comment: (без коментарів)
@@ -411,7 +414,10 @@ uk:
       other: ""
     download_xml: Завантажити XML
     view_history: Перегляд історії
+    view_unredacted_history: Перегляд невідредагованої історії
     view_details: Поточна інформація
+    view_redacted_data: Переглянути очищені дані
+    view_redaction_message: Переглянути повідомлення про очищення
     location: 'Координати:'
     node:
       title_html: 'Точка: %{name}'
@@ -496,6 +502,15 @@ uk:
       introduction: Клацніть на мапі, щоб отримати дані про об’єкти поруч.
       nearby: Об’єкти поруч
       enclosing: Оточуючі об’єкти
+  old_nodes:
+    not_found:
+      sorry: 'На жаль, точку #%{id} версії %{version} не знайдено.'
+  old_ways:
+    not_found:
+      sorry: 'На жаль, лінію #%{id} версії %{version} не знайдено.'
+  old_relations:
+    not_found:
+      sorry: 'На жаль, звʼязок #%{id} версії %{version} не знайдено.'
   changesets:
     changeset_paging_nav:
       showing_page: Сторінка %{page}
@@ -530,8 +545,24 @@ uk:
         created: Створено
         closed: Закрито
         belongs_to: Автор
+    subscribe:
+      heading: Підписатися на обговорення набору змін?
+      button: Підписатись на обговорення
+    unsubscribe:
+      heading: Відписатись від обговорення набору змін?
+      button: Відписатися від обговорення
+    heading:
+      title: Набір змін %{id}
+      created_by_html: Створений %{link_user} %{created}.
+    no_such_entry:
+      title: Немає такого набору змін
+      heading: Немає запису з id %{id}
+      body: На жаль, немає набору змін %{id}. Будь ласка, перевірте посилання, або,
+        можливо, посилання, яке ви натиснули, неправильне.
     show:
       title: 'Набір змін: %{id}'
+      created: 'Створено: %{when}'
+      closed: 'Закрито: %{when}'
       created_ago_html: Створено %{time_ago}
       closed_ago_html: Закрито %{time_ago}
       created_ago_by_html: Створив(ла) %{user} %{time_ago}
@@ -613,6 +644,7 @@ uk:
     show:
       title: Щоденник %{user} | %{title}
       user_title: Щоденник %{user}
+      discussion: Обговорення
       leave_a_comment: Лишити коментар
       login_to_leave_a_comment_html: '%{login_link}, аби залишити коментар'
       login: Увійти
@@ -667,6 +699,12 @@ uk:
       comment: Коментар
       newer_comments: Нові коментарі
       older_comments: Старіші коментарі
+    subscribe:
+      heading: Підписатись на обговорення цього допису щоденника?
+      button: Підписатись на обговорення
+    unsubscribe:
+      heading: Відписатись від обговорення цього допису щоденника?
+      button: Відписатися від обговорення
   doorkeeper:
     errors:
       messages:
@@ -1644,11 +1682,10 @@ uk:
     intro_text: OpenStreetMap — мапа світу, створена такими ж людьми, як і ви, для
       вільного використання під відкритою ліцензією.
     intro_2_create_account: Створіть обліковий запис
-    hosting_partners_html: Хостинг підтримується %{ucl}, %{fastly}, %{bytemark} та
+    hosting_partners_2024_html: Хостинг підтримується %{fastly}, %{corpmembers} та
       іншими %{partners}.
-    partners_ucl: UCL
     partners_fastly: Fastly
-    partners_bytemark: Bytemark Hosting
+    partners_corpmembers: Корпоративні члени OSMF
     partners_partners: партнерами
     tou: Умови використання
     osm_offline: База даних OpenStreetMap в даний момент недоступна, бо саме проводиться
@@ -1670,6 +1707,7 @@ uk:
     more: Більше
   user_mailer:
     diary_comment_notification:
+      description: 'Запис у щоденнику OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} залишив коментар у вашому щоденнику'
       hi: Привіт, %{to_user},
       header: '%{from_user} прокоментував ваш допис у щоденнику у OpenStreetMap з
@@ -1679,6 +1717,9 @@ uk:
         або відповісти — %{replyurl}
       footer_html: Ви можете ознайомитись з коментарем за посиланням %{readurl}, відповісти
         на коментар - %{commenturl}, чи надіслати повідомлення автору - %{replyurl}
+      footer_unsubscribe: Ви можете скасувати підписку на обговорення за адресою %{unsubscribeurl}
+      footer_unsubscribe_html: Ви можете скасувати підписку на обговорення за адресою
+        %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Привіт, %{to_user},
@@ -1716,6 +1757,8 @@ uk:
         few: 'успішно завантажено %{trace_points} точки з %{count} можливих. '
         many: успішно завантажено %{trace_points} точок з %{count} можливих.
         other: ""
+      all_your_traces_html: Усі успішно завантажені треки GPX можна знайти за адресою
+        %{url}.
       subject: '[OpenStreetMap] Імпорт GPX пройшов успішно'
     signup_confirm:
       subject: '[OpenStreetMap] Ласкаво просимо до OpenStreetMap'
@@ -1741,6 +1784,7 @@ uk:
       click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб змінити
         свій пароль.
     note_comment_notification:
+      description: 'Нотатка OpenStreetMap #%{id}'
       anonymous: Анонімний учасник
       greeting: Привіт,
       commented:
@@ -1778,6 +1822,7 @@ uk:
       details: Докладніше про нотатку %{url}.
       details_html: Докладніше про нотатку %{url}.
     changeset_comment_notification:
+      description: 'Набір змін OpenStreetMap #%{id}'
       hi: Привіт %{to_user},
       greeting: Привіт,
       commented:
@@ -1798,10 +1843,10 @@ uk:
         partial_changeset_without_comment: без коментарів
       details: Більше деталей про зміни, які можуть бути знайдені в %{url}.
       details_html: Більше деталей про набір змін можна знайти за посиланням - %{url}.
-      unsubscribe: Щоб відмовитись від отримання повідомлень для цього набору змін,
-        перейдіть за посиланням %{url} й натисніть кнопку „Відписатись“.
+      unsubscribe: Щоб відмовитись від отримання повідомлень для цього набору змін
+        за посиланням %{url}.
       unsubscribe_html: Щоб відмовитись від отримання повідомлень для цього набору
-        змін, перейдіть за посиланням %{url} й натисніть кнопку «Відписатись».
+        змін за посиланням %{url}.
   confirmations:
     confirm:
       heading: Перевірте вашу електронну пошту!
@@ -1922,10 +1967,13 @@ uk:
     new:
       title: Відновлення пароля
       heading: Забули пароль?
-      email address: 'Адреса ел. пошти:'
+      email address: Адреса ел. пошти
       new password button: Вишліть мені новий пароль
       help_text: Введіть адресу вашої електронної пошти, яку ви використовували для
         реєстрації, і ми надішлемо інструкції, як можна відновити ваш пароль.
+    create:
+      send_paranoid_instructions: Якщо адреса вашої електронної пошти є в нашій базі,
+        ви отримаєте посилання для відновлення пароля через кілька хвилин.
     edit:
       title: Скидання пароля
       heading: Скидання пароля для %{user}
@@ -1978,8 +2026,8 @@ uk:
     new:
       title: Ласкаво просимо
       heading: Ласкаво просимо
-      email or username: 'Ел. пошта або прізвисько:'
-      password: 'Пароль:'
+      email or username: Ел. пошта або прізвисько
+      password: Пароль
       remember: Запам’ятати мене
       lost password link: Забули пароль?
       login_button: Увійти
@@ -2329,8 +2377,8 @@ uk:
         title: Посібник новачка
         description: Посібник для новачків від спільноти.
       community:
-        title: Форум спільноти
-        description: Місце де можна поспілкуватись про OpenStreetMap.
+        title: Допомога та Форум спільноти
+        description: Місце де можна отримати допомогу та поспілкуватись про OpenStreetMap.
       mailing_lists:
         title: Списки розсилки
         description: Поставте запитання або обговоріть цікаві речі у широкому виборі
@@ -2443,6 +2491,7 @@ uk:
           allotments: Сади-городи, дачні ділянки
           pitch: Спортмайданчик
           centre: Спортивний центр
+          beach: Пляж
           reserve: Заповідник
           military: Військова зона
           school: Школа
@@ -2460,7 +2509,9 @@ uk:
           bus_stop: Автобусна зупинка
           stop: Зупинка
           bicycle_shop: Веломагазин
+          bicycle_rental: Прокат велосипедів
           bicycle_parking: Велопарковка
+          bicycle_parking_small: Невелика велопарковка
           toilets: Туалети
     welcome:
       title: Ласкаво просимо!
@@ -2719,6 +2770,7 @@ uk:
   oauth_clients:
     new:
       title: Зареєструвати новий застосунок
+      disabled: Реєстрацію програм OAuth 1 вимкнено
     edit:
       title: Змінити дані вашого застосунку
     show:
@@ -2802,6 +2854,7 @@ uk:
       title: Авторизовані застосунки
       application: Застосунок
       permissions: Дозволи
+      last_authorized: Останній авторизований
       no_applications_html: У вас ще немає застосунків авторизованих через %{oauth2}.
     application:
       revoke: Відкликати доступ
@@ -2923,6 +2976,7 @@ uk:
           importer: Відкликати доступ на імпорт
       block_history: Активні блокування
       moderator_history: Створені блокування
+      revoke_all_blocks: Скасувати всі блокування
       comments: Коментарі
       create_block: Заблокувати цього учасника
       activate_user: Активувати цього учасника
@@ -3033,6 +3087,18 @@ uk:
       confirm: Ви впевнені, що бажаєте зняти це блокування?
       revoke: Зняти блокування!
       flash: Це блокування було знято.
+    revoke_all:
+      title: Зняти блокування з %{block_on}
+      heading_html: Зняти блокування з %{block_on}
+      empty: '%{name} не має активних блоків.'
+      confirm: Ви впевнені, що бажаєте відкликати %{active_blocks}?
+      active_blocks:
+        one: '%{count} активне блокування'
+        few: '%{count} активні блокування'
+        many: '%{count} активних блокувань'
+        other: ""
+      revoke: Відкликати!
+      flash: Усі активні блокування скасовано.
     helper:
       time_future_html: До закінчення %{time}.
       until_login: Активне доти, доки учасник не здійснить вхід.

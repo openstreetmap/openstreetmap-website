@@ -284,6 +284,28 @@ be:
         title: Выдаліць мой уліковы запіс
         warning: Увага! Працэс выдалення ўліковага запісу з'яўляецца канчатковым і
           не можа быць зменены.
+        delete_account: Выдаліць уліковы запіс
+        delete_introduction: 'Вы можаце выдаліць свой уліковы запіс OpenStreetMap
+          з дапамогай кнопкі ніжэй. Звярніце ўвагу на наступныя дэталі:'
+        delete_profile: Інфармацыя вашага ўліковага запісу, разам з вашым аватарам,
+          апісаннем і месцазнаходжаннем дома, будзе выдалена.
+        delete_display_name: Назва вашага ўліковага запісу будзе выдалена і можа быць
+          паўторна выкарыстана іншымі ўліковымі запісамі.
+        retain_caveats: 'Аднак некаторая інфармацыя пра вас будзе захоўвацца на OpenStreetMap
+          нават пасля выдалення вашага ўліковага запісу:'
+        retain_edits: Вашыя змены ў базе даных карты, калі такія маюцца, будуць захаваныя.
+        retain_traces: Вашыя трасіроўкі, калі такія маюцца, будуць захаваны.
+        retain_diary_entries: Вашыя запісы і каментарыі ў дзённіку, калі такія маюцца,
+          будуць захаваныя, але схаваныя ад назірання.
+        retain_notes: Вашы нататкі на карце і каментарыі да іх, калі такія маюцца,
+          будуць захаваныя, але схаваныя ад назірання.
+        retain_changeset_discussions: Вашыя абмеркаванні зменаў, калі такія маюцца,
+          будуць захаваныя.
+        retain_email: Ваш адрас электроннай пошты будзе захаваны.
+        recent_editing_html: Вы нядаўна рэдагавалі ваш уліковы запіс, таму зараз яго
+          нельга выдаліць. Выдаленне будзе магчымае праз %{time}.
+        confirm_delete: Вы ўпэўненыя?
+        cancel: Скасаваць
   accounts:
     edit:
       title: Рэдагаваць уліковы запіс
@@ -300,7 +322,7 @@ be:
           ананімныя.
         disabled link text: чаму я не магу рэдагаваць?
       contributor terms:
-        heading: 'Умовы ўдзелу:'
+        heading: Умовы ўдзелу
         agreed: Вы пагадзіліся на новыя ўмовы ўдзелу.
         not yet agreed: Вы яшчэ не пагадзіліся на новыя ўмовы ўдзелу.
         review link text: Калі ласка, прайдзіце па гэтай спасылцы для Вашай зручнасці,
@@ -309,22 +331,31 @@ be:
           ў агульнай уласнасці.
         link text: што гэта?
       save changes button: Запісаць змены
+      delete_account: Выдаліць уліковы запіс...
     go_public:
-      heading: 'Публічнае рэдагаванне:'
+      heading: Публічнае рэдагаванне
       make_edits_public_button: Зрабіць усе мае змены публічнымі
     update:
       success_confirm_needed: Звесткі аб карыстальніку паспяхова абноўленыя. Праверце
         сваю эл.пошту, вам павінен прыйсці запыт на пацвярджэнне вашага новага адраса.
       success: Звесткі аб карыстальніку паспяхова абноўленыя.
+    destroy:
+      success: Уліковы запіс выдалены.
   browse:
+    deleted_ago_by_html: Выдалена %{time_ago} карыстальнікам %{user}
+    edited_ago_by_html: Адрэдагавана %{time_ago} карыстальнікам %{user}
     version: Версія
+    redacted_version: Адрэдагаваная версія
     in_changeset: Пакет правак
     anonymous: ананімны
     no_comment: (без каментароў)
     part_of: Частка
     download_xml: Спампаваць XML
     view_history: Прагляд гісторыі
+    view_unredacted_history: Прагляд неадрэдагаванай гісторыі
     view_details: Прагляд звестак
+    view_redacted_data: Прагляд адрэдагаваных даных
+    view_redaction_message: Прагляд паведамлення аб рэдагаванні
     location: 'Месца:'
     node:
       title_html: 'Пункт: %{name}'
@@ -350,6 +381,7 @@ be:
       entry_html: Дачыненне %{relation_name}
       entry_role_html: Дачыненне %{relation_name} (як %{relation_role})
     not_found:
+      title: Не знойдзена
       sorry: Прабачце, %{type} з нумарам %{id} не знойдзены.
       type:
         node: пункт
@@ -358,6 +390,7 @@ be:
         changeset: пакет правак
         note: заўвага
     timeout:
+      title: Памылка
       sorry: Прабачце, атрыманне даных для %{type} з ідэнтыфікатарам %{id} заняла
         зашмат часу.
       type:
@@ -389,6 +422,7 @@ be:
       wikimedia_commons_link: '%{page} ў Вікісховішчы'
       telephone_link: Патэлефанаваць %{phone_number}
       colour_preview: Прагляд колеру %{colour_value}
+      email_link: Электронная пошта %{email}
     query:
       title: Пошук аб’ектаў
       introduction: Націсніце на карце, каб атрымаць звесткі пра аб’екты паблізу.
@@ -412,6 +446,7 @@ be:
     index:
       title: Пакет правак
       title_user: Пакет правак ад %{user}
+      title_user_link_html: Змены ад %{user_link}
       title_friend: Пакеты правак ад вашых сяброў
       title_nearby: Пакеты правак ад карыстальнікаў паблізу
       empty: Пакеты правак не знойдзены.
@@ -427,8 +462,17 @@ be:
         created: Створаны
         closed: Зачынены
         belongs_to: Аўтар
+    subscribe:
+      heading: Падпісацца на наступнае абмеркаванне зменаў?
+      button: Падпісацца на абмеркаванне
+    unsubscribe:
+      heading: Скасаваць падпіску на наступнае абмеркаванне зменаў?
+      button: Адпісацца ад абмеркавання
+    heading:
+      title: Набор змен %{id}
     show:
       title: 'Набор змен: %{id}'
+      created: 'Створана: %{when}'
       discussion: Абмеркаванне
       join_discussion: Увайдзіце ў сістэму, каб далучыцца да абмеркавання
       still_open: Пакет правак яшчэ адкрыты. Абмеркаванне стане даступным, як толькі
@@ -465,6 +509,8 @@ be:
       nearby mapper: Карыстальнік
       friend: Сябар
     show:
+      title: Мая панэль
+      edit_your_profile: Адрэдагуйце свой профіль
       my friends: Мае сябры
       no friends: Вы пакуль не дадалі нікога ў сябры.
       nearby users: 'Карыстальнікі паблізу:'
@@ -478,7 +524,7 @@ be:
     new:
       title: Новы запіс дзённіку
     form:
-      location: 'Месца:'
+      location: Месца
       use_map_link: карыстацца картай
     index:
       title: Дзённікі карыстальнікаў
@@ -499,6 +545,7 @@ be:
     show:
       title: Дзённік карыстальніка %{user} | %{title}
       user_title: Дзённік карыстальніка %{user}
+      discussion: Абмеркаванне
       leave_a_comment: Пакінуць каментар
       login_to_leave_a_comment_html: '%{login_link} каб пакінуць каментар'
       login: Увайсці
@@ -515,6 +562,7 @@ be:
         one: 1 каментар
         zero: Каментароў няма
         other: 'Каментароў: %{count}'
+      no_comments: Няма каментароў
       edit_link: Правіць гэты запіс
       hide_link: Схаваць гэты запіс
       unhide_link: Паказаць гэты запіс
@@ -541,6 +589,7 @@ be:
         title: Дзеннікавыя запісы OpenStreetMap
         description: Свежыя дзеннікавыя запісы карыстальнікаў OpenStreetMap
     comments:
+      no_comments: Няма каментароў у дзённіку
       post: Апублікаваць
       when: Калі
       comment: Каментар
@@ -1244,9 +1293,6 @@ be:
     intro_text: OpenStreetMap - гэта карта свету, створаная людзьмі, як вы, і бясплатная
       для выкарыстання на ўмовах адкрытай ліцэнзіі.
     intro_2_create_account: Стварыць уліковы запіс удзельніка
-    hosting_partners_html: Хостынг падтрымліваецца %{ucl}, %{bytemark}, і іншымі %{partners}.
-    partners_ucl: UCL
-    partners_bytemark: Bytemark Hosting
     partners_partners: партнёрамi
     tou: Умовы карыстання
     osm_offline: База дадзеных OpenStreetMap зараз па-за сецівам, таму што праходзіць
@@ -1257,6 +1303,7 @@ be:
     help: Даведка
     about: Пра праект
     copyright: Аўтарскае права
+    communities: Супольнасці
     community: Супольнасьць
     community_blogs: Блогі супольнасці
     community_blogs_title: Блогі ўдзельнікаў супольнасці OpenStreetMap
@@ -1267,15 +1314,27 @@ be:
     more: Больш падрабязна
   user_mailer:
     diary_comment_notification:
+      description: 'Запіс у дзённіку OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} пакінуў каментар у вашым дзённіку'
       hi: Вітанні, %{to_user},
       header: '%{from_user} пракаментаваў ваш запіс у дзённіку на OpenStreetMap з
         тэмай %{subject}:'
+      header_html: '%{from_user} пракаментаваў ваш запіс у дзённіку на OpenStreetMap
+        з тэмай %{subject}:'
       footer: Вы можаце прагледзець каментар на %{readurl} і пракаментаваць на %{commenturl}
         ці адказаць на %{replyurl}
+      footer_html: Вы можаце прагледзець каментар на %{readurl} і пракаментаваць на
+        %{commenturl} ці адказаць на %{replyurl}
+      footer_unsubscribe: Вы можаце адмовіцца ад падпіскі на абмеркаванне праз %{unsubscribeurl}
+      footer_unsubscribe_html: Вы можаце адмовіцца ад падпіскі на абмеркаванне праз
+        %{unsubscribeurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: Прывітанне, %{to_user},
       header: '%{from_user} адправіў вам паведамленне з тэмай %{subject} праз OpenStreetMap:'
+      header_html: '%{from_user} адправіў вам паведамленне з тэмай %{subject} у OpenStreetMap:'
+      footer: Вы можаце таксама прачытаць паведамленне на %{readurl}, і вы можаце
+        адказаць на %{replyurl}
       footer_html: Вы можаце таксама прачытаць паведамленне на %{readurl}, і вы можаце
         адказаць на %{replyurl}
     friendship_notification:
@@ -1284,8 +1343,16 @@ be:
       had_added_you: '%{user} пасябраваў з Вамі на OpenStreetMap.'
       see_their_profile: Вы можаце прагледзець профіль на %{userurl} і дадаць, як
         сябра, у адказ, калі хочаце.
+      see_their_profile_html: Вы можаце прагледзець профіль на %{userurl}.
       befriend_them: Вы таксама можаце пасябраваць з імі на %{befriendurl}.
+      befriend_them_html: Вы таксама можаце дадаць як сябра па спасылцы %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Падобна, што ваш файл GPX %{trace_name} з апісаннем
+        %{trace_description} і наступнымі тэгамі: %{tags}'
+      description_with_no_tags_html: Падобна, што ваш файл GPX %{trace_name} з апісаннем
+        %{trace_description} і без тэгаў
     gpx_failure:
+      hi: Прывітанне, %{to_user},
       failed_to_import: 'збой імпарту. Адбылася памылка:'
       subject: '[OpenStreetMap] Збой імпарту GPX'
     gpx_success:
@@ -1758,6 +1825,13 @@ be:
         para_1: Калі трэба ўнесці дробнае ўдакладненне, дзеля якога не варта марнаваць
           час на рэгістрацыю і вывучэнне правілаў рэдагавання, раім проста дадаць
           заўвагу на карту.
+    communities:
+      title: Супольнасці
+      lede_text: |-
+        Людзі з усяго свету ўносяць свой уклад у OpenStreetMap або выкарыстоўваюць яго.
+        Многія ўдзельнічаюць паасобку, іншыя стварылі свае супольнасці.
+        Супольнасці бываюць розных памераў і могуць прадстаўляць як невялікія гарады, так і цэлыя рэгіёны з некалькімі краінамі.
+        Яны таксама могуць быць афіцыйнымі і неафіцыйнымі.
   traces:
     visibility:
       private: Прыватны (ананімны з неспарадкаванымі пунктамі)
@@ -1780,6 +1854,7 @@ be:
       traces_waiting: У вас %{count} след у чарзе. Калі ласка, пачакайце, пакуль яны
         будуць апрацаваныя, каб не блакірваць чаргу для астатніх карстальнікаў.
     edit:
+      cancel: Скасаваць
       title: Рэдагаванне следу %{name}
       heading: Рэдагаванне следу %{name}
       visibility_help: што гэта значыць?
@@ -1796,6 +1871,7 @@ be:
       uploaded: 'Прысланы:'
       points: 'Пункты:'
       start_coordinates: 'Каардынаты пачатку:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: карта
       edit: правіць
       owner: 'Уладальнік:'
@@ -1829,9 +1905,13 @@ be:
       in: у
     index:
       public_traces: Агульныя GPS-сляды
+      my_gps_traces: Мае GPS-трэкі
       public_traces_from: Агульныя GPS-сляды карыстальніка %{user}
       description: Агляд нядаўна дададзеных GPS-слядоў
       tagged_with: ' з тэгамі: %{tags}'
+      empty_title: Тут яшчэ нічога няма
+      empty_upload_html: '%{upload_link} або даведайцеся больш пра адсочванне GPS
+        на %{wiki_link}.'
       upload_trace: Адаслаць GPS-след
       my_traces: Мае GPS-сляды
     destroy:
