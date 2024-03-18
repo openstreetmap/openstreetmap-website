@@ -1,0 +1,33 @@
+<div>
+  <div class="mb-3">
+    <label class="form-label"><%= t ".with external" %></label>
+
+    <ul class='list-inline' id="login_auth_buttons">
+      <li class="list-inline-item me-3">
+        <%= link_to image_tag("openid.png",
+                              :alt => t("application.auth_providers.openid.title"),
+                              :size => "36"),
+                    "#",
+                    :id => "openid_open_url",
+                    :title => t("application.auth_providers.openid.title") %>
+      </li>
+
+      <% %w[google facebook microsoft github wikipedia].each do |provider| %>
+        <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
+          <li class="list-inline-item me-3"><%= auth_button provider, provider %></li>
+        <% end -%>
+      <% end -%>
+    </ul>
+
+    <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
+      <div id='login_openid_url' class="mb-3">
+        <label for='openid_url' class="form-label"><%= t ".openid_html", :logo => openid_logo %></label>
+        <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
+        <%= text_field_tag("openid_url", "", :tabindex => 5, :autocomplete => "on", :class => "openid_url form-control") %>
+        <span class="form-text text-muted">(<a href="<%= t "accounts.edit.openid.link" %>" target="_new"><%= t "accounts.edit.openid.link text" %></a>)</span>
+      </div>
+
+      <%= submit_tag t(".openid_login_button"), :tabindex => 6, :id => "openid_login_button", :class => "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
