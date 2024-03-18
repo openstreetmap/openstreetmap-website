@@ -618,19 +618,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get users_path
     assert_response :success
     assert_template :index
-    assert_select "table#user_list tr", :count => 7 + 1
+    assert_select "table#user_list tbody tr", :count => 7
 
     # Should be able to limit by status
     get users_path, :params => { :status => "suspended" }
     assert_response :success
     assert_template :index
-    assert_select "table#user_list tr", :count => 1 + 1
+    assert_select "table#user_list tbody tr", :count => 1
 
     # Should be able to limit by IP address
     get users_path, :params => { :ip => "1.2.3.4" }
     assert_response :success
     assert_template :index
-    assert_select "table#user_list tr", :count => 1 + 1
+    assert_select "table#user_list tbody tr", :count => 1
   end
 
   def test_index_get_paginated
@@ -648,17 +648,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get users_path
     assert_response :success
     assert_template :index
-    assert_select "table#user_list tr", :count => 51
+    assert_select "table#user_list tbody tr", :count => 50
 
     get users_path, :params => { :page => 2 }
     assert_response :success
     assert_template :index
-    assert_select "table#user_list tr", :count => 51
+    assert_select "table#user_list tbody tr", :count => 50
 
     get users_path, :params => { :page => 3 }
     assert_response :success
     assert_template :index
-    assert_select "table#user_list tr", :count => 3
+    assert_select "table#user_list tbody tr", :count => 2
   end
 
   def test_index_post_confirm

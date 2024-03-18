@@ -88,14 +88,14 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     get user_blocks_path
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", :count => 21
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
     end
 
     get user_blocks_path(:page => 2)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", :count => 21
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
     end
   end
 
@@ -513,14 +513,14 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     get user_blocks_on_path(:display_name => user.display_name)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", :count => 21
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
     end
 
     get user_blocks_on_path(:display_name => user.display_name, :page => 2)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", :count => 21
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
     end
   end
 
@@ -572,14 +572,14 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     get user_blocks_by_path(:display_name => user.display_name)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", :count => 21
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
     end
 
     get user_blocks_by_path(:display_name => user.display_name, :page => 2)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", :count => 21
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
     end
   end
 end
