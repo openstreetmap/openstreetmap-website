@@ -1,5 +1,6 @@
 <% content_for :head do %>
   <%= javascript_include_tag "user" %>
+  <%= javascript_include_tag "auth_providers" %>
 <% end %>
 
 <% content_for :heading_class, "p-0 mw-100" %>
@@ -11,59 +12,73 @@
 <% end %>
 
 <div class="auth-container mx-auto my-0">
-  <div class="text-muted fs-6">
-    <p><strong><%= t ".about.header" %></strong> <%= t ".about.paragraph_1" %></p>
-    <p><%= t ".about.paragraph_2" %></p>
-  </div>
+  <% if current_user.auth_uid.nil? %>
+    <div class="text-muted fs-6">
+      <p><strong><%= t ".about.header" %></strong> <%= t ".about.paragraph_1" %></p>
+      <p><%= t ".about.paragraph_2" %></p>
+    </div>
+  <% else %>
+    <h4><%= t ".about.welcome" %></h4>
+  <% end %>
 
   <%= bootstrap_form_for current_user, :url => { :action => "create" } do |f| %>
     <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
+    <%= hidden_field_tag("verified_email", h(@verified_email)) unless @verified_email.nil? %>
+    <%= f.hidden_field :auth_provider unless current_user.auth_provider.nil? %>
+    <%= f.hidden_field :auth_uid unless current_user.auth_uid.nil? %>
 
-    <%= f.email_field :email, :help => t(".email_help_html",
-                                         :privacy_policy_link => link_to(t(".privacy_policy"),
-                                                                         t(".privacy_policy_url"),
-                                                                         :title => t(".privacy_policy_title"))),
-                              :tabindex => 1 %>
+    <% if current_user.auth_uid.nil? or not current_user.errors[:email].empty? %>
+      <%= f.email_field :email, :help => t(".email_help_html",
+                                           :privacy_policy_link => link_to(t(".privacy_policy"),
+                                                                           t(".privacy_policy_url"),
+                                                                           :title => t(".privacy_policy_title"),
+                                                                           :target => :new)),
+                                :tabindex => 1 %>
+    <% else %>
+      <%= f.hidden_field :email %>
+    <% end %>
 
     <%= f.text_field :display_name, :help => t(".display name description"), :tabindex => 2 %>
 
-    <fieldset class="mb-3" id="auth_field">
-      <label for="user_auth_provider" class="form-label"><%= t(".external auth") %></label>
+    <% if current_user.auth_uid.nil? %>
       <div class="row">
-        <%= f.select(:auth_provider, Auth.providers, :default => "", :hide_label => true, :wrapper => { :class => "col-auto mb-0" }, :tabindex => 3) %>
-        <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }, :tabindex => 4) %>
+        <div class="col-sm">
+          <%= f.password_field :pass_crypt, :tabindex => 3 %>
+        </div>
+        <div class="col-sm">
+          <%= f.password_field :pass_crypt_confirmation, :tabindex => 4 %>
+        </div>
       </div>
-      <small class="form-text text-muted"><%= t ".auth no password" %></small>
-    </fieldset>
-
-    <%= f.password_field :pass_crypt, :tabindex => 5 %>
-    <%= f.password_field :pass_crypt_confirmation, :tabindex => 6 %>
+    <% end %>
 
     <p class="mb-3 text-muted"><%= t(".by_signing_up_html",
                                      :tou_link => link_to(t("layouts.tou"),
                                                           "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
                                                           :target => :new),
+                                     :privacy_policy_link => link_to(t(".privacy_policy"),
+                                                                     t(".privacy_policy_url"),
+                                                                     :title => t(".privacy_policy_title"),
+                                                                     :target => :new),
                                      :contributor_terms_link => link_to(t(".contributor_terms"),
                                                                         t(".contributor_terms_url"),
                                                                         :target => :new)) %></p>
 
-    <div class="mb-3">
-      <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :class => "btn btn-primary", :tabindex => 7) %>
-    </div>
+    <%= f.form_group do %>
+      <%= f.check_box :consider_pd,
+                      :tabindex => 5,
+                      :label => t(".consider_pd_html",
+                                  :consider_pd_link => link_to(t(".consider_pd"),
+                                                               t(".consider_pd_url"),
+                                                               :target => :new)) %>
+    <% end %>
 
     <div class="mb-3">
-      <div class="form-check">
-        <%= check_box("user", "consider_pd", :class => "form-check-input") %>
-          <label for="user_consider_pd" class="form-check-label">
-            <%= t ".consider_pd" %>
-          </label>
-        <span class="minorNote">(<%= link_to(t(".consider_pd_why"), t(".consider_pd_why_url"), :target => :new) %>)</span>
-      </div>
+      <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :class => "btn btn-primary", :tabindex => 6) %>
     </div>
+  <% end %>
 
-    <div id="auth_prompt">
-      <p><%= link_to t(".use external auth"), "#", :id => "auth_enable" %></p>
-    </div>
-
+  <% if current_user.auth_uid.nil? %>
+    <hr>
+    <%= render :partial => "auth_providers" %>
   <% end %>
 </div>

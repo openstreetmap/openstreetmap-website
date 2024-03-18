@@ -69,12 +69,17 @@ class UsersController < ApplicationController
       # page, instead send them to the home page
       redirect_to @referer || { :controller => "site", :action => "index" }
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
+      @verified_email = params[:verified_email]
+
       self.current_user = User.new(:email => params[:email],
                                    :display_name => params[:nickname],
                                    :auth_provider => params[:auth_provider],
                                    :auth_uid => params[:auth_uid])
 
       flash.now[:notice] = render_to_string :partial => "auth_association"
+
+      # validate before displaying to show email field if it conflicts
+      flash.now[:notice] = t ".duplicate_social_email" unless current_user.valid? && current_user.errors[:email].empty?
     else
       check_signup_allowed
 
@@ -90,7 +95,7 @@ class UsersController < ApplicationController
 
       Rails.logger.info "create: #{session[:referer]}"
 
-      if current_user.auth_provider.present? && current_user.pass_crypt.empty?
+      if current_user.auth_uid.present?
         # We are creating an account with external authentication and
         # no password was specified so create a random one
         current_user.pass_crypt = SecureRandom.base64(16)
@@ -100,14 +105,9 @@ class UsersController < ApplicationController
       if current_user.invalid?
         # Something is wrong with a new user, so rerender the form
         render :action => "new"
-      elsif current_user.auth_provider.present?
-        # Verify external authenticator before moving on
-        session[:new_user] = current_user.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation", "consider_pd")
-        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
       else
         # Save the user record
-        session[:new_user] = current_user.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation", "consider_pd")
-        save_new_user
+        save_new_user params[:verified_email]
       end
     end
   end
@@ -131,7 +131,7 @@ class UsersController < ApplicationController
       if current_user&.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to edit_account_path
-      elsif current_user.nil? && session[:new_user].nil?
+      elsif current_user.nil?
         redirect_to login_path(:referer => request.fullpath)
       end
     end
@@ -220,12 +220,6 @@ class UsersController < ApplicationController
       session[:user_errors] = current_user.errors.as_json
 
       redirect_to edit_account_path
-    elsif session[:new_user]
-      session[:new_user]["auth_provider"] = provider
-      session[:new_user]["auth_uid"] = uid
-      session[:new_user]["verified_email"] = email if email_verified
-
-      save_new_user
     else
       user = User.find_by(:auth_provider => provider, :auth_uid => uid)
 
@@ -247,7 +241,8 @@ class UsersController < ApplicationController
           failed_login t("sessions.new.auth failure")
         end
       else
-        redirect_to :action => "new", :nickname => name, :email => email,
+        verified_email = UsersController.message_hmac(email) if email_verified && email
+        redirect_to :action => "new", :nickname => name, :email => email, :verified_email => verified_email,
                     :auth_provider => provider, :auth_uid => uid
       end
     end
@@ -263,14 +258,16 @@ class UsersController < ApplicationController
     redirect_to origin || login_url
   end
 
+  def self.message_hmac(text)
+    sha256 = Digest::SHA256.new
+    sha256 << Rails.application.key_generator.generate_key("openstreetmap/verified_email")
+    sha256 << text
+    Base64.urlsafe_encode64(sha256.digest)
+  end
+
   private
 
-  def save_new_user
-    new_user = session.delete(:new_user)
-    verified_email = new_user.delete("verified_email")
-
-    self.current_user = User.new(new_user)
-
+  def save_new_user(email_hmac)
     if check_signup_allowed(current_user.email)
       current_user.data_public = true
       current_user.description = "" if current_user.description.nil?
@@ -283,7 +280,7 @@ class UsersController < ApplicationController
       if current_user.auth_uid.blank?
         current_user.auth_provider = nil
         current_user.auth_uid = nil
-      elsif current_user.email == verified_email
+      elsif email_hmac && ActiveSupport::SecurityUtils.secure_compare(email_hmac, UsersController.message_hmac(current_user.email))
         current_user.activate
       end
 
