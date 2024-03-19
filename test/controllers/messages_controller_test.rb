@@ -47,8 +47,8 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   def test_new_no_login
     # Check that the new message page requires us to login
     user = create(:user)
-    get new_message_path(:display_name => user.display_name)
-    assert_redirected_to login_path(:referer => new_message_path(:display_name => user.display_name))
+    get new_message_path(user)
+    assert_redirected_to login_path(:referer => new_message_path(user))
   end
 
   ##
@@ -60,7 +60,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     session_for(user)
 
     # Check that the new message page loads
-    get new_message_path(:display_name => recipient_user.display_name)
+    get new_message_path(recipient_user)
     assert_response :success
     assert_template "new"
     assert_select "title", "Send message | OpenStreetMap"
@@ -84,8 +84,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
         perform_enqueued_jobs do
-          get new_message_path(:display_name => recipient_user.display_name,
-                               :message => { :title => "Test Message", :body => "Test message body" })
+          get new_message_path(recipient_user, :message => { :title => "Test Message", :body => "Test message body" })
         end
       end
     end
@@ -197,7 +196,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "markdown", m.body_format
 
     # Asking to send a message with a bogus user name should fail
-    get new_message_path(:display_name => "non_existent_user")
+    get new_message_path("non_existent_user")
     assert_response :not_found
     assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"

@@ -40,28 +40,28 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       create(:note_comment, :note => note, :author => second_user)
     end
 
-    get user_notes_path(:display_name => first_user.display_name)
+    get user_notes_path(first_user)
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 1
 
-    get user_notes_path(:display_name => second_user.display_name)
+    get user_notes_path(second_user)
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 1
 
-    get user_notes_path(:display_name => "non-existent")
+    get user_notes_path("non-existent")
     assert_response :not_found
 
     session_for(moderator_user)
 
-    get user_notes_path(:display_name => first_user.display_name)
+    get user_notes_path(first_user)
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 1
 
-    get user_notes_path(:display_name => second_user.display_name)
+    get user_notes_path(second_user)
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 2
 
-    get user_notes_path(:display_name => "non-existent")
+    get user_notes_path("non-existent")
     assert_response :not_found
   end
 
@@ -72,18 +72,18 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       create(:note_comment, :note => note, :author => user)
     end
 
-    get user_notes_path(:display_name => user.display_name)
+    get user_notes_path(user)
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 10
 
-    get user_notes_path(:display_name => user.display_name, :page => 2)
+    get user_notes_path(user, :page => 2)
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 10
   end
 
   def test_empty_page
     user = create(:user)
-    get user_notes_path(:display_name => user.display_name)
+    get user_notes_path(user)
     assert_response :success
     assert_select "h4", :html => "No notes"
   end

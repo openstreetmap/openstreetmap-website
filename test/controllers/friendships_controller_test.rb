@@ -32,7 +32,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
 
     # When not logged in a GET should ask us to login
     get make_friend_path(friend)
-    assert_redirected_to login_path(:referer => make_friend_path(:display_name => friend.display_name))
+    assert_redirected_to login_path(:referer => make_friend_path(friend))
 
     # When not logged in a POST should error
     post make_friend_path(friend)
@@ -113,7 +113,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
   def test_make_friend_unknown_user
     # Should error when a bogus user is specified
     session_for(create(:user))
-    get make_friend_path(:display_name => "No Such User")
+    get make_friend_path("No Such User")
     assert_response :not_found
     assert_template :no_such_user
   end
@@ -129,7 +129,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
 
     # When not logged in a GET should ask us to login
     get remove_friend_path(friend)
-    assert_redirected_to login_path(:referer => remove_friend_path(:display_name => friend.display_name))
+    assert_redirected_to login_path(:referer => remove_friend_path(friend))
 
     # When not logged in a POST should error
     post remove_friend_path, :params => { :display_name => friend.display_name }
@@ -191,7 +191,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
   def test_remove_friend_unknown_user
     # Should error when a bogus user is specified
     session_for(create(:user))
-    get remove_friend_path(:display_name => "No Such User")
+    get remove_friend_path("No Such User")
     assert_response :not_found
     assert_template :no_such_user
   end
