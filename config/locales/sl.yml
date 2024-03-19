@@ -646,10 +646,37 @@ sl:
       newer_comments: Novejši komentarji
       older_comments: Starejši komentarji
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Pooblastitveni strežnik zahteva izbiro računa
+          končnega uporabnika
+        consent_required: Pooblastitveni strežnik zahteva soglasje končnega uporabnika
+        interaction_required: Pooblastitveni strežnik zahteva interakcijo končnega
+          uporabnika
+        login_required: Pooblastitveni strežnik zahteva avtentikacijo končnega uporabnika
     flash:
       applications:
         create:
           notice: Aplikacija registrirana.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Napaka zaradi manjkajoče konfiguracije
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Napaka zaradi manjkajoče konfiguracije
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Napaka zaradi manjkajoče
+            konfiguracije Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Napaka zaradi manjkajoče
+            konfiguracije Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Generiranje ID-žetona ni uspelo, ker Doorkeeper::OpenidConnect.configure.subject
+            manjka konfiguracija.
+    scopes:
+      address: Ogled vašega fizičnega naslova
+      email: Ogled vašega e-poštnega naslova
+      openid: Avtenticirajte svoj račun
+      phone: Ogled vaše telefonske številke
+      profile: Ogled vaših profilnih podatkov
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
@@ -2543,6 +2570,7 @@ sl:
     permissions:
       missing: Aplikaciji niste dovolili dostopa do te funkcije
     scopes:
+      openid: Prijava z uporabo OpenStreetMap
       read_prefs: Branje uporabniških prilagoditev
       write_prefs: Spreminjanje uporabniških nastavitev
       write_diary: Ustvarjajte dnevniške zapise, komentarje in sklepajte prijateljstva
@@ -2797,7 +2825,7 @@ sl:
       invalid_scope: Neveljaven obseg
       unknown_error: Avtentikacija ni uspela
     auth_association:
-      heading: Vaš ID še ni povezan z računom OpenHistoricalMap.
+      heading: Vaš ID še ni povezan z OpenHistoricalMap računom.
       option_1: Če ste novi v OpenHistoricalMapu, prosimo, ustvarite nov račun z uporabo
         spodnjega obrazca.
       option_2: Če že imate račun, se lahko prijavite s svojim uporabniškim imenom

@@ -664,10 +664,36 @@ nl:
       newer_comments: Nieuwere reacties
       older_comments: Oudere reacties
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Voor de autorisatieserver is de selectie van een
+          eindgebruikersaccount vereist
+        consent_required: De autorisatieserver vereist toestemming van de eindgebruiker
+        interaction_required: De autorisatieserver vereist interactie van de eindgebruiker
+        login_required: De autorisatieserver vereist authenticatie van de eindgebruiker
     flash:
       applications:
         create:
           notice: Toepassing geregistreerd.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Fout vanwege ontbrekende configuratie
+            van Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Fout vanwege ontbrekende configuratie
+            van Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Fout vanwege ontbrekende
+            configuratie van Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Fout vanwege ontbrekende
+            configuratie van Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          subject_not_configured: Het genereren van het ID-token is mislukt vanwege
+            een ontbrekende configuratie van Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Uw fysieke adres bekijken
+      email: Uw e-mailadres bekijken
+      openid: Uw account authenticeren
+      phone: Uw telefoonnummer bekijken
+      profile: Uw profielgegevens bekijken
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
@@ -1615,11 +1641,8 @@ nl:
     edit_with: Bewerken met %{editor}
     tag_line: De vrije wikiwereldkaart
     intro_header: Welkom bij OpenHistoricalMap!
-    intro_text: OpenHistoricalMap is een project dat is ontworpen om kaartgegevens
-      over de hele wereldgeschiedenis op te slaan en weer te geven. Dit is een werk
-      in uitvoering; we voegen tijdsgebonden functionaliteit aan de site toe en daarbij
-      zijn we met allerlei dingen aan het experimenteren. Wij nodigen je uit om ook
-      te gaan experimenteren en gegevens te bewerken.
+    intro_text: OpenHistoricalMap is een interactieve kaart van de wereld door de
+      geschiedenis heen, gemaakt door mensen zoals u en gewijd aan het publieke domein.
     intro_2_create_account: Maak een account aan
     partners_title: Partners
     hosting_partners_html: |-
@@ -2243,13 +2266,24 @@ nl:
           uitlegt.
       discord:
         title: Discord
+        description: 'Sluit u aan bij de OpenStreetMap World Discord-server en krijg
+          hulp in het kanaal #openhistoricalmap.'
+      forum:
+        title: Forum
+        description: Neem deel aan langere discussies en informele chatrooms met uw
+          OHM-account.
+      mailing_list:
+        title: Mailinglijsten
+        description: Abonneer u op onze mailinglijst met een laag volume.
       slack:
         title: Slack
+        description: 'Nodig uzelf uit voor de OpenStreetMap US Slack-werkruimte en
+          sluit u aan bij het kanaal #openhistoricalmap.'
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/Special:MyLanguage/Open_Historical_Map
-        title: OHM Wiki
-        description: Blader door de wiki voor diepgaande OHM-informatie en zeer nuttige
-          OSM-informatie, met dank aan de OSM Wiki.
+        url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap
+        title: Wiki
+        description: Door de gemeenschap onderhouden instructies voor het gebruik
+          van OHM en richtlijnen voor het bijdragen aan het project.
     any_questions:
       title: Nog vragen?
       paragraph_1_html: OpenHistoricalMap biedt verschillende bronnen voor het leren
@@ -2547,6 +2581,7 @@ nl:
     permissions:
       missing: U heeft niet toegestaan dat de toepassing toegang heeft tot dit kenmerk.
     scopes:
+      openid: Aanmelden met OpenStreetMap
       read_prefs: Gebruikersvoorkeuren lezen
       write_prefs: Gebruikersvoorkeuren wijzigen
       write_diary: Dagboekberichten schrijven, reacties geven en vrienden maken
@@ -3032,6 +3067,7 @@ nl:
         historical: Historisch
         woodblock: Blokdruk
         japanesescroll: Japanse hangende rol
+        railway: Spoorweg
         standard: Standaard
         cycle_map: Fietskaart
         transport_map: Transportkaart
