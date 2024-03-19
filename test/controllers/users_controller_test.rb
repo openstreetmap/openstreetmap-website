@@ -416,7 +416,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   # information for the user
   def test_show
     # Test a non-existent user
-    get user_path(:display_name => "unknown")
+    get user_path("unknown")
     assert_response :not_found
 
     # Test a normal user

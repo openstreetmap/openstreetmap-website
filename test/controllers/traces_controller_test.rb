@@ -374,17 +374,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     public_trace_file = create(:trace, :visibility => "public")
 
     # First with no auth, which should work since the trace is public
-    get show_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get show_trace_path(public_trace_file.user, public_trace_file)
     check_trace_show public_trace_file
 
     # Now with some other user, which should work since the trace is public
     session_for(create(:user))
-    get show_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get show_trace_path(public_trace_file.user, public_trace_file)
     check_trace_show public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
     session_for(public_trace_file.user)
-    get show_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get show_trace_path(public_trace_file.user, public_trace_file)
     check_trace_show public_trace_file
   end
 
@@ -393,17 +393,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     anon_trace_file = create(:trace, :visibility => "private")
 
     # First with no auth
-    get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get show_trace_path(anon_trace_file.user, anon_trace_file)
     assert_redirected_to :action => :index
 
     # Now with some other user, which should not work since the trace is anon
     session_for(create(:user))
-    get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get show_trace_path(anon_trace_file.user, anon_trace_file)
     assert_redirected_to :action => :index
 
     # And finally we should be able to do it with the owner of the trace
     session_for(anon_trace_file.user)
-    get show_trace_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get show_trace_path(anon_trace_file.user, anon_trace_file)
     check_trace_show anon_trace_file
   end
 
@@ -412,12 +412,12 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     deleted_trace_file = create(:trace, :deleted)
 
     # First with a trace that has never existed
-    get show_trace_path(:display_name => create(:user).display_name, :id => 0)
+    get show_trace_path(create(:user), 0)
     assert_redirected_to :action => :index
 
     # Now with a trace that has been deleted
     session_for(deleted_trace_file.user)
-    get show_trace_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
+    get show_trace_path(deleted_trace_file.user, deleted_trace_file)
     assert_redirected_to :action => :index
   end
 
@@ -505,17 +505,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
 
     # First with no auth, which should work since the trace is public
-    get trace_picture_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get trace_picture_path(public_trace_file.user, public_trace_file)
     check_trace_picture public_trace_file
 
     # Now with some other user, which should work since the trace is public
     session_for(create(:user))
-    get trace_picture_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get trace_picture_path(public_trace_file.user, public_trace_file)
     check_trace_picture public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
     session_for(public_trace_file.user)
-    get trace_picture_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get trace_picture_path(public_trace_file.user, public_trace_file)
     check_trace_picture public_trace_file
   end
 
@@ -524,17 +524,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
 
     # First with no auth
-    get trace_picture_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get trace_picture_path(anon_trace_file.user, anon_trace_file)
     assert_response :forbidden
 
     # Now with some other user, which shouldn't work since the trace is anon
     session_for(create(:user))
-    get trace_picture_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get trace_picture_path(anon_trace_file.user, anon_trace_file)
     assert_response :forbidden
 
     # And finally we should be able to do it with the owner of the trace
     session_for(anon_trace_file.user)
-    get trace_picture_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get trace_picture_path(anon_trace_file.user, anon_trace_file)
     check_trace_picture anon_trace_file
   end
 
@@ -543,12 +543,12 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     deleted_trace_file = create(:trace, :deleted)
 
     # First with a trace that has never existed
-    get trace_picture_path(:display_name => create(:user).display_name, :id => 0)
+    get trace_picture_path(create(:user), 0)
     assert_response :not_found
 
     # Now with a trace that has been deleted
     session_for(deleted_trace_file.user)
-    get trace_picture_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
+    get trace_picture_path(deleted_trace_file.user, deleted_trace_file)
     assert_response :not_found
   end
 
@@ -557,17 +557,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
 
     # First with no auth, which should work since the trace is public
-    get trace_icon_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get trace_icon_path(public_trace_file.user, public_trace_file)
     check_trace_icon public_trace_file
 
     # Now with some other user, which should work since the trace is public
     session_for(create(:user))
-    get trace_icon_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get trace_icon_path(public_trace_file.user, public_trace_file)
     check_trace_icon public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
     session_for(public_trace_file.user)
-    get trace_icon_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
+    get trace_icon_path(public_trace_file.user, public_trace_file)
     check_trace_icon public_trace_file
   end
 
@@ -576,17 +576,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
 
     # First with no auth
-    get trace_icon_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get trace_icon_path(anon_trace_file.user, anon_trace_file)
     assert_response :forbidden
 
     # Now with some other user, which shouldn't work since the trace is anon
     session_for(create(:user))
-    get trace_icon_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get trace_icon_path(anon_trace_file.user, anon_trace_file)
     assert_response :forbidden
 
     # And finally we should be able to do it with the owner of the trace
     session_for(anon_trace_file.user)
-    get trace_icon_path(:display_name => anon_trace_file.user.display_name, :id => anon_trace_file)
+    get trace_icon_path(anon_trace_file.user, anon_trace_file)
     check_trace_icon anon_trace_file
   end
 
@@ -595,12 +595,12 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     deleted_trace_file = create(:trace, :deleted)
 
     # First with a trace that has never existed
-    get trace_icon_path(:display_name => create(:user).display_name, :id => 0)
+    get trace_icon_path(create(:user), 0)
     assert_response :not_found
 
     # Now with a trace that has been deleted
     session_for(deleted_trace_file.user)
-    get trace_icon_path(:display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file)
+    get trace_icon_path(deleted_trace_file.user, deleted_trace_file)
     assert_response :not_found
   end
 

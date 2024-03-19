@@ -140,21 +140,21 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     target_user = create(:user)
 
     # Check that the block creation page requires us to login
-    get new_user_block_path(:display_name => target_user.display_name)
-    assert_redirected_to login_path(:referer => new_user_block_path(:display_name => target_user.display_name))
+    get new_user_block_path(target_user)
+    assert_redirected_to login_path(:referer => new_user_block_path(target_user))
 
     # Login as a normal user
     session_for(create(:user))
 
     # Check that normal users can't load the block creation page
-    get new_user_block_path(:display_name => target_user.display_name)
+    get new_user_block_path(target_user)
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
     session_for(create(:moderator_user))
 
     # Check that the block creation page loads for moderators
-    get new_user_block_path(:display_name => target_user.display_name)
+    get new_user_block_path(target_user)
     assert_response :success
     assert_select "form#new_user_block", :count => 1 do
       assert_select "textarea#user_block_reason", :count => 1
@@ -232,7 +232,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       post user_blocks_path(:display_name => target_user.display_name,
                             :user_block_period => "99")
     end
-    assert_redirected_to new_user_block_path(:display_name => target_user.display_name)
+    assert_redirected_to new_user_block_path(target_user)
     assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
 
     # Check that creating a block works
@@ -396,7 +396,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     create(:user_block, :user => blocked_user)
 
     # Asking for the revoke all blocks page with a bogus user name should fail
-    get user_blocks_on_path(:display_name => "non_existent_user")
+    get user_blocks_on_path("non_existent_user")
     assert_response :not_found
 
     # Check that the revoke all blocks page requires us to login
@@ -476,19 +476,19 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     expired_block = create(:user_block, :expired, :user => unblocked_user)
 
     # Asking for a list of blocks with a bogus user name should fail
-    get user_blocks_on_path(:display_name => "non_existent_user")
+    get user_blocks_on_path("non_existent_user")
     assert_response :not_found
     assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks for a user that has never been blocked
-    get user_blocks_on_path(:display_name => normal_user.display_name)
+    get user_blocks_on_path(normal_user)
     assert_response :success
     assert_select "table#block_list", false
     assert_select "p", "#{normal_user.display_name} has not been blocked yet."
 
     # Check the list of blocks for a user that is currently blocked
-    get user_blocks_on_path(:display_name => blocked_user.display_name)
+    get user_blocks_on_path(blocked_user)
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 3
@@ -497,7 +497,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     end
 
     # Check the list of blocks for a user that has previously been blocked
-    get user_blocks_on_path(:display_name => unblocked_user.display_name)
+    get user_blocks_on_path(unblocked_user)
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 2
@@ -511,13 +511,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create_list(:user_block, 50, :user => user)
 
-    get user_blocks_on_path(:display_name => user.display_name)
+    get user_blocks_on_path(user)
     assert_response :success
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
 
-    get user_blocks_on_path(:display_name => user.display_name, :page => 2)
+    get user_blocks_on_path(user, :page => 2)
     assert_response :success
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", :count => 20
@@ -535,13 +535,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     revoked_block = create(:user_block, :revoked, :creator => second_moderator_user)
 
     # Asking for a list of blocks with a bogus user name should fail
-    get user_blocks_by_path(:display_name => "non_existent_user")
+    get user_blocks_by_path("non_existent_user")
     assert_response :not_found
     assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks given by one moderator
-    get user_blocks_by_path(:display_name => moderator_user.display_name)
+    get user_blocks_by_path(moderator_user)
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 2
@@ -549,7 +549,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     end
 
     # Check the list of blocks given by a different moderator
-    get user_blocks_by_path(:display_name => second_moderator_user.display_name)
+    get user_blocks_by_path(second_moderator_user)
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 3
@@ -558,7 +558,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     end
 
     # Check the list of blocks (not) given by a normal user
-    get user_blocks_by_path(:display_name => normal_user.display_name)
+    get user_blocks_by_path(normal_user)
     assert_response :success
     assert_select "table#block_list", false
     assert_select "p", "#{normal_user.display_name} has not made any blocks yet."
@@ -570,13 +570,13 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     user = create(:moderator_user)
     create_list(:user_block, 50, :creator => user)
 
-    get user_blocks_by_path(:display_name => user.display_name)
+    get user_blocks_by_path(user)
     assert_response :success
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
 
-    get user_blocks_by_path(:display_name => user.display_name, :page => 2)
+    get user_blocks_by_path(user, :page => 2)
     assert_response :success
     assert_select "table#block_list tbody", :count => 1 do
       assert_select "tr", :count => 20
