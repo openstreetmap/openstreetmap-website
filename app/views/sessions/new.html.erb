@@ -7,8 +7,15 @@
 
 <% content_for :heading do %>
   <div class="header-illustration new-user-main auth-container mx-auto">
-    <h1 class="pt-3"><%= t ".heading" %></h1>
-  <div>
+    <ul class="nav nav-tabs position-absolute bottom-0 px-3 fs-6 w-100">
+      <li class="nav-item">
+        <%= link_to t("sessions.new.tab_title"), "#", :class => "nav-link active" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to t("users.new.tab_title"), url_for(:action => :new, :controller => :users), :class => "nav-link" %>
+      </li>
+    </ul>
+  </div>
 <% end %>
 
 <div id="login_login" class="auth-container mx-auto my-0">
