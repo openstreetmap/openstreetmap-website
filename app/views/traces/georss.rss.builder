@@ -25,7 +25,7 @@ xml.rss("version" => "2.0",
         xml.guid show_trace_url(trace.user, trace)
 
         xml.description do
-          xml.cdata! render(:partial => "description", :object => trace, :formats => [:html])
+          xml.cdata! render(:partial => "description", :object => trace, :as => "trace", :formats => [:html])
         end
 
         xml.dc :creator, trace.user.display_name
