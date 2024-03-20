@@ -833,6 +833,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
             assert_select row, "li", Regexp.new(Regexp.escape("#{trace.size} points")) if trace.inserted?
             assert_select row, "td", Regexp.new(Regexp.escape(trace.description))
             assert_select row, "td", Regexp.new(Regexp.escape("by #{trace.user.display_name}"))
+            assert_select row, "a[href='#{user_path trace.user}']", :text => trace.user.display_name
           end
         end
       end
@@ -845,7 +846,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "table", :count => 1 do
       assert_select "td", /^#{Regexp.quote(trace.name)} /
-      assert_select "td", trace.user.display_name
+      assert_select "td a[href='#{user_path trace.user}']", :text => trace.user.display_name
       assert_select "td", trace.description
     end
   end
