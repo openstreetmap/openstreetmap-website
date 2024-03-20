@@ -2,11 +2,11 @@
   <% comments.each do |comment| %>
     <div class="row">
       <div class="col-auto">
-        <%= link_to user_thumbnail(comment.user), user_path(comment.user) %>
+        <%= link_to user_thumbnail(comment.user), comment.user %>
       </div>
       <div class="col">
         <p class="text-muted">
-          <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, user_path(comment.user)),
+          <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, comment.user),
                                       :comment_created_at => tag.time(l(comment.created_at.to_datetime, :format => :friendly),
                                                                       :datetime => comment.created_at.xmlschema) %>
         </p>
