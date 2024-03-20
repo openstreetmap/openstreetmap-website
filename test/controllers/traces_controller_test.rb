@@ -810,7 +810,11 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
             assert_select item, "title", trace.name
             assert_select item, "link", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
             assert_select item, "guid", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
-            assert_select item, "description"
+            assert_select item, "description" do
+              assert_dom_encoded do
+                assert_select "img[src='#{trace_icon_url trace.user, trace}']"
+              end
+            end
             # assert_select item, "dc:creator", trace.user.display_name
             assert_select item, "pubDate", trace.timestamp.rfc822
           end
