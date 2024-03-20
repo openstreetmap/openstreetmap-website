@@ -21,9 +21,9 @@ class UserEmailChangeTest < ApplicationSystemTestCase
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal "new_tester@example.com", email.to.first
-    assert_match %r{/user/confirm-email\?confirm_string=[A-Za-z0-9-_%]+\s}, email.parts[0].parts[0].decoded
+    assert_match %r{/user/confirm-email\?confirm_string=[A-Za-z0-9\-_%]+\s}, email.parts[0].parts[0].decoded
 
-    if email.parts[0].parts[0].decoded =~ %r{(/user/confirm-email\?confirm_string=[A-Za-z0-9-_%]+)\s}
+    if email.parts[0].parts[0].decoded =~ %r{(/user/confirm-email\?confirm_string=[A-Za-z0-9\-_%]+)\s}
       visit Regexp.last_match(1)
       assert page.has_css?("body.accounts-edit")
     end
