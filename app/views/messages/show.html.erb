@@ -5,10 +5,10 @@
 <div class='mb-3 border-bottom border-grey py-1 d-flex gap-1 flex-wrap'>
   <% if current_user == @message.recipient %>
     <%= user_thumbnail_tiny @message.sender %>
-    <%= link_to @message.sender.display_name, user_path(@message.sender) %>
+    <%= link_to @message.sender.display_name, @message.sender %>
   <% else %>
     <%= user_thumbnail_tiny @message.recipient %>
-    <%= link_to @message.recipient.display_name, user_path(@message.recipient) %>
+    <%= link_to @message.recipient.display_name, @message.recipient %>
   <% end %>
   <span class="ms-auto">
     <%= l @message.sent_on, :format => :friendly %>

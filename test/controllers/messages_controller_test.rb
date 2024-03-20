@@ -64,6 +64,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "new"
     assert_select "title", "Send message | OpenStreetMap"
+    assert_select "a[href='#{user_path recipient_user}']", :text => recipient_user.display_name
     assert_select "form[action='/messages']", :count => 1 do
       assert_select "input[type='hidden'][name='display_name'][value='#{recipient_user.display_name}']"
       assert_select "input#message_title", :count => 1
@@ -299,6 +300,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     get message_path(:id => unread_message)
     assert_response :success
     assert_template "show"
+    assert_select "a[href='#{user_path recipient_user}']", :text => recipient_user.display_name
     assert_not Message.find(unread_message.id).message_read
 
     # Login as the message recipient
@@ -308,6 +310,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     get message_path(:id => unread_message)
     assert_response :success
     assert_template "show"
+    assert_select "a[href='#{user_path user}']", :text => user.display_name
     assert Message.find(unread_message.id).message_read
 
     # Asking to read a message with no ID should fail
@@ -338,7 +341,10 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_template "inbox"
     assert_select ".content-inner > table", :count => 1 do
       assert_select "tr", :count => 2
-      assert_select "tr#inbox-#{read_message.id}.inbox-row", :count => 1
+      assert_select "tr#inbox-#{read_message.id}.inbox-row", :count => 1 do
+        assert_select "a[href='#{user_path read_message.sender}']", :text => read_message.sender.display_name
+        assert_select "a[href='#{message_path read_message}']", :text => read_message.title
+      end
     end
   end
 
@@ -346,7 +352,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   # test the outbox action
   def test_outbox
     user = create(:user)
-    create(:message, :sender => user)
+    message = create(:message, :sender => user)
 
     # Check that the outbox page requires us to login
     get outbox_messages_path
@@ -361,7 +367,10 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_template "outbox"
     assert_select ".content-inner > table", :count => 1 do
       assert_select "tr", :count => 2
-      assert_select "tr.inbox-row", :count => 1
+      assert_select "tr.inbox-row", :count => 1 do
+        assert_select "a[href='#{user_path message.recipient}']", :text => message.recipient.display_name
+        assert_select "a[href='#{message_path message}']", :text => message.title
+      end
     end
   end
 
