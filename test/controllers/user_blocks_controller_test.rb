@@ -67,14 +67,23 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   ##
   # test the index action
   def test_index
-    active_block = create(:user_block)
-    expired_block = create(:user_block, :expired)
     revoked_block = create(:user_block, :revoked)
 
     get user_blocks_path
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", 4
+    assert_select "table#block_list tbody tr", :count => 1 do
+      assert_select "a[href='#{user_path revoked_block.user}']", :text => revoked_block.user.display_name
+      assert_select "a[href='#{user_path revoked_block.creator}']", :text => revoked_block.creator.display_name
+      assert_select "a[href='#{user_path revoked_block.revoker}']", :text => revoked_block.revoker.display_name
+    end
+
+    active_block = create(:user_block)
+    expired_block = create(:user_block, :expired)
+
+    get user_blocks_path
+    assert_response :success
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", 3
       assert_select "a[href='#{user_block_path(active_block)}']", 1
       assert_select "a[href='#{user_block_path(expired_block)}']", 1
       assert_select "a[href='#{user_block_path(revoked_block)}']", 1
@@ -115,14 +124,21 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Viewing an expired block should work
     get user_block_path(:id => expired_block)
     assert_response :success
+    assert_select "h1 a[href='#{user_path expired_block.user}']", :text => expired_block.user.display_name
+    assert_select "h1 a[href='#{user_path expired_block.creator}']", :text => expired_block.creator.display_name
 
     # Viewing a revoked block should work
     get user_block_path(:id => revoked_block)
     assert_response :success
+    assert_select "h1 a[href='#{user_path revoked_block.user}']", :text => revoked_block.user.display_name
+    assert_select "h1 a[href='#{user_path revoked_block.creator}']", :text => revoked_block.creator.display_name
+    assert_select "a[href='#{user_path revoked_block.revoker}']", :text => revoked_block.revoker.display_name
 
     # Viewing an active block should work, but shouldn't mark it as seen
     get user_block_path(:id => active_block)
     assert_response :success
+    assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
+    assert_select "h1 a[href='#{user_path active_block.creator}']", :text => active_block.creator.display_name
     assert UserBlock.find(active_block.id).needs_view
 
     # Login as the blocked user
@@ -156,6 +172,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Check that the block creation page loads for moderators
     get new_user_block_path(target_user)
     assert_response :success
+    assert_select "h1 a[href='#{user_path target_user}']", :text => target_user.display_name
     assert_select "form#new_user_block", :count => 1 do
       assert_select "textarea#user_block_reason", :count => 1
       assert_select "select#user_block_period", :count => 1
@@ -193,6 +210,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Check that the block edit page loads for moderators
     get edit_user_block_path(:id => active_block)
     assert_response :success
+    assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
     assert_select "form#edit_user_block_#{active_block.id}", :count => 1 do
       assert_select "textarea#user_block_reason", :count => 1
       assert_select "select#user_block_period", :count => 1
@@ -364,6 +382,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     get revoke_user_block_path(:id => active_block)
     assert_response :success
     assert_template "revoke"
+    assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
     assert_select "form", :count => 1 do
       assert_select "input#confirm[type='checkbox']", :count => 1
       assert_select "input[type='submit'][value='Revoke!']", :count => 1
@@ -416,6 +435,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Check that the revoke all blocks page loads for moderators
     get revoke_all_user_blocks_path(blocked_user)
     assert_response :success
+    assert_select "h1 a[href='#{user_path blocked_user}']", :text => blocked_user.display_name
   end
 
   ##
@@ -490,8 +510,9 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Check the list of blocks for a user that is currently blocked
     get user_blocks_on_path(blocked_user)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", 3
+    assert_select "h1 a[href='#{user_path blocked_user}']", :text => blocked_user.display_name
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", 2
       assert_select "a[href='#{user_block_path(active_block)}']", 1
       assert_select "a[href='#{user_block_path(revoked_block)}']", 1
     end
@@ -499,8 +520,9 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Check the list of blocks for a user that has previously been blocked
     get user_blocks_on_path(unblocked_user)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", 2
+    assert_select "h1 a[href='#{user_path unblocked_user}']", :text => unblocked_user.display_name
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", 1
       assert_select "a[href='#{user_block_path(expired_block)}']", 1
     end
   end
@@ -543,16 +565,18 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     # Check the list of blocks given by one moderator
     get user_blocks_by_path(moderator_user)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", 2
+    assert_select "h1 a[href='#{user_path moderator_user}']", :text => moderator_user.display_name
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", 1
       assert_select "a[href='#{user_block_path(active_block)}']", 1
     end
 
     # Check the list of blocks given by a different moderator
     get user_blocks_by_path(second_moderator_user)
     assert_response :success
-    assert_select "table#block_list", :count => 1 do
-      assert_select "tr", 3
+    assert_select "h1 a[href='#{user_path second_moderator_user}']", :text => second_moderator_user.display_name
+    assert_select "table#block_list tbody", :count => 1 do
+      assert_select "tr", 2
       assert_select "a[href='#{user_block_path(expired_block)}']", 1
       assert_select "a[href='#{user_block_path(revoked_block)}']", 1
     end

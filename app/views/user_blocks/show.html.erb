@@ -4,10 +4,8 @@
 
 <% content_for :heading do %>
   <h1><%= t(".heading_html",
-            :block_on => link_to(@user_block.user.display_name,
-                                 user_path(@user_block.user)),
-            :block_by => link_to(@user_block.creator.display_name,
-                                 user_path(@user_block.creator))) %></h1>
+            :block_on => link_to(@user_block.user.display_name, @user_block.user),
+            :block_by => link_to(@user_block.creator.display_name, @user_block.creator)) %></h1>
   <nav class='secondary-actions'>
     <ul class='clearfix'>
       <% if @user_block.ends_at > Time.now.getutc %>
@@ -26,7 +24,7 @@
 <dl class="row">
   <% if @user_block.revoker %>
     <dt class="col-sm-3"><%= t ".revoker" %></dt>
-    <dd class="col-sm-9"><%= link_to @user_block.revoker.display_name, user_path(@user_block.revoker) %></dd>
+    <dd class="col-sm-9"><%= link_to @user_block.revoker.display_name, @user_block.revoker %></dd>
   <% end %>
 
   <dt class="col-sm-3"><%= t ".created" %></dt>
