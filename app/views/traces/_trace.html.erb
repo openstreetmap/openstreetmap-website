@@ -2,7 +2,7 @@
   <td>
     <% if Settings.status != "gpx_offline" %>
       <% if trace.inserted %>
-        <a href="<%= url_for :controller => "traces", :action => "show", :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => "traces", :action => "icon", :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
+        <%= link_to image_tag(trace_icon_path(trace.user, trace), :alt => ""), show_trace_path(trace.user, trace) %>
       <% else %>
         <span class="text-danger"><%= t ".pending" %></span>
       <% end %>
@@ -11,7 +11,7 @@
   <td>
     <ul class="list-inline mb-0">
       <li class="list-inline-item">
-        <%= link_to trace.name, :controller => "traces", :action => "show", :display_name => trace.user.display_name, :id => trace.id %>
+        <%= link_to trace.name, show_trace_path(trace.user, trace) %>
       </li>
 
       <% if trace.inserted? %>
@@ -30,7 +30,7 @@
     </ul>
     <p class="text-muted mb-0">
       <%= friendly_date_ago(trace.timestamp) %>
-      <%= t ".by" %> <%= link_to trace.user.display_name, user_path(trace.user) %>
+      <%= t ".by" %> <%= link_to trace.user.display_name, trace.user %>
       <% if !trace.tags.empty? %>
         <%= t ".in" %>
         <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
@@ -45,10 +45,10 @@
       <nav class="secondary-actions">
         <ul>
           <li>
-            <%= link_to t(".view_map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" } %>
+            <%= link_to t(".view_map"), root_path(:mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}") %>
           </li>
           <li>
-            <%= link_to t(".edit_map"), { :controller => "site", :action => "edit", :gpx => trace.id } %>
+            <%= link_to t(".edit_map"), edit_path(:gpx => trace.id) %>
           </li>
         </ul>
       </nav>
