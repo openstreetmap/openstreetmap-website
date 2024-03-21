@@ -19,9 +19,9 @@
     <% if current_user %>
       <div class="col-auto">
         <% if @entry.subscribers.exists?(current_user.id) %>
-          <%= link_to t("javascripts.changesets.show.unsubscribe"), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-sm btn-primary" %>
+          <%= link_to t("javascripts.changesets.show.unsubscribe"), diary_entry_unsubscribe_path(@entry.user, @entry), :method => :post, :class => "btn btn-sm btn-primary" %>
         <% else %>
-          <%= link_to t("javascripts.changesets.show.subscribe"), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => "btn btn-sm btn-primary" %>
+          <%= link_to t("javascripts.changesets.show.subscribe"), diary_entry_subscribe_path(@entry.user, @entry.id), :method => :post, :class => "btn btn-sm btn-primary" %>
         <% end %>
       </div>
     <% end %>

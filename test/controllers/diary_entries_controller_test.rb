@@ -886,8 +886,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_comments_path(:display_name => other_user.display_name)
     assert_response :success
     assert_template :comments
-    assert_select "table.table-striped" do
-      assert_select "tr", :count => 2 # header and one comment
+    assert_dom "a[href='#{user_path(other_user)}']", :text => other_user.display_name
+    assert_select "table.table-striped tbody" do
+      assert_select "tr", :count => 1
     end
 
     # Test a suspended user
