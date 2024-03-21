@@ -24,7 +24,7 @@
       <% end %>
 
       <% if current_user && current_user == diary_entry.user %>
-        <li><%= link_to t(".edit_link"), :action => "edit", :display_name => diary_entry.user.display_name, :id => diary_entry.id %></li>
+        <li><%= link_to t(".edit_link"), edit_diary_entry_path(diary_entry.user, diary_entry) %></li>
       <% end %>
 
       <% if current_user and diary_entry.user != current_user %>
@@ -36,9 +36,9 @@
       <% if can? :hide, DiaryEntry %>
         <li>
           <% if diary_entry.visible %>
-            <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+            <%= link_to t(".hide_link"), hide_diary_entry_path(diary_entry.user, diary_entry), :method => :post, :data => { :confirm => t(".confirm") } %>
           <% else %>
-            <%= link_to t(".unhide_link"), unhide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+            <%= link_to t(".unhide_link"), unhide_diary_entry_path(diary_entry.user, diary_entry), :method => :post, :data => { :confirm => t(".confirm") } %>
           <% end %>
         </li>
       <% end %>
