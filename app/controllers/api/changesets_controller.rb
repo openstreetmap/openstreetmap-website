@@ -130,13 +130,7 @@ module Api
       # almost sensible ordering available. this would be much nicer if
       # global (SVN-style) versioning were used - then that would be
       # unambiguous.
-      elements.sort! do |a, b|
-        if a.timestamp == b.timestamp
-          a.version <=> b.version
-        else
-          a.timestamp <=> b.timestamp
-        end
-      end
+      elements.sort_by! { |e| [e.timestamp, e.version] }
 
       # generate an output element for each operation. note: we avoid looking
       # at the history because it is simpler - but it would be more correct to

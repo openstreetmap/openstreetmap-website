@@ -1995,6 +1995,40 @@ module Api
       end
     end
 
+    test "sorts downloaded elements by timestamp" do
+      changeset = create(:changeset)
+      node1 = create(:old_node, :version => 2, :timestamp => "2020-02-01", :changeset => changeset)
+      node0 = create(:old_node, :version => 2, :timestamp => "2020-01-01", :changeset => changeset)
+
+      get changeset_download_path(changeset)
+      assert_response :success
+      assert_dom "modify", :count => 2 do |modify|
+        assert_dom modify[0], ">node", :count => 1 do |node|
+          assert_dom node, ">@id", node0.node_id.to_s
+        end
+        assert_dom modify[1], ">node", :count => 1 do |node|
+          assert_dom node, ">@id", node1.node_id.to_s
+        end
+      end
+    end
+
+    test "sorts downloaded elements by version" do
+      changeset = create(:changeset)
+      node1 = create(:old_node, :version => 3, :timestamp => "2020-01-01", :changeset => changeset)
+      node0 = create(:old_node, :version => 2, :timestamp => "2020-01-01", :changeset => changeset)
+
+      get changeset_download_path(changeset)
+      assert_response :success
+      assert_dom "modify", :count => 2 do |modify|
+        assert_dom modify[0], ">node", :count => 1 do |node|
+          assert_dom node, ">@id", node0.node_id.to_s
+        end
+        assert_dom modify[1], ">node", :count => 1 do |node|
+          assert_dom node, ">@id", node1.node_id.to_s
+        end
+      end
+    end
+
     ##
     # check that the bounding box of a changeset gets updated correctly
     # FIXME: This should really be moded to a integration test due to the with_controller
