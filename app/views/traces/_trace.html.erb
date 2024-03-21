@@ -29,11 +29,13 @@
       </li>
     </ul>
     <p class="text-muted mb-0">
-      <%= friendly_date_ago(trace.timestamp) %>
-      <%= t ".by" %> <%= link_to trace.user.display_name, trace.user %>
-      <% if !trace.tags.empty? %>
-        <%= t ".in" %>
-        <%= safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
+      <% if trace.tags.empty? %>
+        <%= t ".details_without_tags_html", :time_ago => friendly_date_ago(trace.timestamp),
+                                            :user => link_to(trace.user.display_name, trace.user) %>
+      <% else %>
+        <%= t ".details_with_tags_html", :time_ago => friendly_date_ago(trace.timestamp),
+                                         :user => link_to(trace.user.display_name, trace.user),
+                                         :tags => safe_join(trace.tags.collect { |tag| link_to_tag tag.tag }, ", ") %>
       <% end %>
     </p>
     <p class="fst-italic mb-0">
