@@ -11,6 +11,6 @@
   <%= yield :head %>
   <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
-  <%= csp_meta_tag %>
+  <meta name="csp-nonce" content="<%= content_security_policy_style_nonce %>" />
   <title><%= "#{@title} | " if @title %><%= t "layouts.project_name.title" %></title>
 <% end %>
