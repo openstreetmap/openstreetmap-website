@@ -11,10 +11,12 @@ FactoryBot.define do
     end
 
     trait :expired do
+      created_at { Time.now.utc - 2.days }
       ends_at { Time.now.utc - 1.day }
     end
 
     trait :revoked do
+      expired
       revoker :factory => :moderator_user
     end
   end
