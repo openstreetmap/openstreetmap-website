@@ -12,7 +12,8 @@ class DiaryEntriesController < ApplicationController
 
   before_action :lookup_user, :only => [:show, :comments]
   before_action :check_database_writable, :only => [:new, :create, :edit, :update, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :allow_thirdparty_images, :only => [:new, :create, :edit, :update, :index, :show, :comments]
+
+  allow_thirdparty_images :only => [:new, :create, :edit, :update, :index, :show, :comments]
 
   def index
     if params[:display_name]

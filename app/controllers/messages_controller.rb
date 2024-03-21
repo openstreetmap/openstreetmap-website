@@ -11,7 +11,8 @@ class MessagesController < ApplicationController
   before_action :lookup_user, :only => [:new, :create]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :create, :reply, :mark, :destroy]
-  before_action :allow_thirdparty_images, :only => [:new, :create, :show]
+
+  allow_thirdparty_images :only => [:new, :create, :show]
 
   # Show a message
   def show
