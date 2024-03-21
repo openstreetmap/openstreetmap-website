@@ -60,7 +60,7 @@ class IssuesTest < ApplicationSystemTestCase
 
   def test_view_issues_with_no_reported_user
     sign_in_as(create(:moderator_user))
-    anonymous_note = create(:note_with_comments)
+    anonymous_note = create(:note)
     issue = create(:issue, :reportable => anonymous_note, :assigned_role => "moderator")
 
     visit issues_path
