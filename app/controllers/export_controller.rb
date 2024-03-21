@@ -4,6 +4,10 @@ class ExportController < ApplicationController
   before_action :update_totp, :only => [:finish]
   authorize_resource :class => false
 
+  content_security_policy(:only => :embed) do |policy|
+    policy.frame_ancestors("*")
+  end
+
   caches_page :embed
 
   # When the user clicks 'Export' we redirect to a URL which generates the export download
@@ -25,9 +29,5 @@ class ExportController < ApplicationController
     end
   end
 
-  def embed
-    append_content_security_policy_directives(
-      :frame_ancestors => %w[*]
-    )
-  end
+  def embed; end
 end

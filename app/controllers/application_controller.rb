@@ -13,12 +13,29 @@ class ApplicationController < ActionController::Base
   rescue_from RailsParam::InvalidParameterError, :with => :invalid_parameter
 
   before_action :fetch_body
-  around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
   attr_accessor :current_user, :oauth_token
 
   helper_method :current_user
   helper_method :oauth_token
+
+  def self.allow_thirdparty_images(**options)
+    content_security_policy(options) do |policy|
+      policy.img_src("*")
+    end
+  end
+
+  def self.allow_social_login(**options)
+    content_security_policy(options) do |policy|
+      policy.form_action(*policy.form_action, "accounts.google.com", "*.facebook.com", "login.microsoftonline.com", "github.com", "meta.wikimedia.org")
+    end
+  end
+
+  def self.allow_all_form_action(**options)
+    content_security_policy(options) do |policy|
+      policy.form_action(nil)
+    end
+  end
 
   private
 
@@ -233,13 +250,15 @@ class ApplicationController < ActionController::Base
   end
 
   def map_layout
-    append_content_security_policy_directives(
-      :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url],
-      :form_action => %w[render.openstreetmap.org],
-      :style_src => %w['unsafe-inline']
-    )
+    policy = request.content_security_policy.clone
+
+    policy.child_src(*policy.child_src, "http://127.0.0.1:8111", "https://127.0.0.1:8112")
+    policy.frame_src(*policy.frame_src, "http://127.0.0.1:8111", "https://127.0.0.1:8112")
+    policy.connect_src(*policy.connect_src, Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url)
+    policy.form_action(*policy.form_action, "render.openstreetmap.org")
+    policy.style_src(*policy.style_src, :unsafe_inline)
+
+    request.content_security_policy = policy
 
     case Settings.status
     when "database_offline", "api_offline"
@@ -249,10 +268,6 @@ class ApplicationController < ActionController::Base
     end
 
     request.xhr? ? "xhr" : "map"
-  end
-
-  def allow_thirdparty_images
-    append_content_security_policy_directives(:img_src => %w[*])
   end
 
   def preferred_editor
@@ -275,17 +290,6 @@ class ApplicationController < ActionController::Base
         :expires => 1.hour.from_now
       }
     end
-  end
-
-  def better_errors_allow_inline
-    yield
-  rescue StandardError
-    append_content_security_policy_directives(
-      :script_src => %w['unsafe-inline'],
-      :style_src => %w['unsafe-inline']
-    )
-
-    raise
   end
 
   def current_ability
