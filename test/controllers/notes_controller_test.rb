@@ -42,10 +42,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     get user_notes_path(first_user)
     assert_response :success
+    assert_select ".content-heading a[href='#{user_path first_user}']", :text => first_user.display_name
     assert_select "table.note_list tbody tr", :count => 1
 
     get user_notes_path(second_user)
     assert_response :success
+    assert_select ".content-heading a[href='#{user_path second_user}']", :text => second_user.display_name
     assert_select "table.note_list tbody tr", :count => 1
 
     get user_notes_path("non-existent")

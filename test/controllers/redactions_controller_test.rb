@@ -45,6 +45,15 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show
+    redaction = create(:redaction, :title => "tested-redaction")
+
+    get redaction_path(redaction)
+    assert_response :success
+    assert_dom "h1", :text => /tested-redaction/
+    assert_dom "a[href='#{user_path redaction.user}']", :text => redaction.user.display_name
+  end
+
   def test_new
     get new_redaction_path
     assert_redirected_to login_path(:referer => new_redaction_path)
