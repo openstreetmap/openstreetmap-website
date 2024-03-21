@@ -1,36 +1,16 @@
 $(document).ready(function () {
-  $(".inbox-mark-unread").on("ajax:success", function (event, data) {
-    updateHtml(data);
-    updateReadState(this, false);
+  $(".messages-table .destroy-message").on("turbo:submit-end", function (event) {
+    if (event.detail.success) {
+      event.target.dataset.isDestroyed = true;
+    }
   });
 
-  $(".inbox-mark-read").on("ajax:success", function (event, data) {
-    updateHtml(data);
-    updateReadState(this, true);
+  $(".messages-table .message-summary").on("turbo:before-morph-element", function (event) {
+    if ($(event.target).find("[data-is-destroyed]").length > 0) {
+      event.preventDefault(); // NB: prevent Turbo from morhping/removing this element
+      $(event.target).fadeOut(800, "linear", function () {
+        $(this).remove();
+      });
+    }
   });
-
-  $(".inbox-destroy").on("ajax:success", function (event, data) {
-    updateHtml(data);
-
-    $(this).closest("tr").fadeOut(800, "linear", function () {
-      $(this).remove();
-    });
-  });
-
-  function updateHtml(data) {
-    $("#inboxanchor").remove();
-    $(".user-button").before(data.inboxanchor);
-
-    $("#inbox-count").replaceWith(data.inbox_count);
-    $("#outbox-count").replaceWith(data.outbox_count);
-    $("#muted-count").replaceWith(data.muted_count);
-  }
-
-  function updateReadState(target, isRead) {
-    $(target).closest("tr")
-      .toggleClass("inbox-row", isRead)
-      .toggleClass("inbox-row-unread", !isRead)
-      .find(".inbox-mark-unread").prop("hidden", !isRead).end()
-      .find(".inbox-mark-read").prop("hidden", isRead);
-  }
 });

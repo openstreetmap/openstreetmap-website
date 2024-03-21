@@ -69,6 +69,10 @@ window.updateLinks = function (loc, zoom, layers, object) {
 };
 
 $(document).ready(function () {
+  // NB: Turns Turbo Drive off by default. Turbo Drive must be opt-in on a per-link and per-form basis
+  // See https://turbo.hotwired.dev/reference/drive#turbo.session.drive
+  Turbo.session.drive = false;
+
   var headerWidth = 0,
       compactWidth = 0;
 
@@ -108,6 +112,7 @@ $(document).ready(function () {
     updateHeader();
 
     $(window).resize(updateHeader);
+    $(document).on("turbo:render", updateHeader);
   }, 0);
 
   $("#menu-icon").on("click", function (e) {

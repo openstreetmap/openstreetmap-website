@@ -36,6 +36,7 @@ class MessagesTest < ApplicationSystemTestCase
     assert_text "1 muted message"
 
     click_on "Delete"
-    assert_text "0 muted messages"
+    refute_text "1 muted message"
+    assert_text "You have 0 new messages and 0 old messages"
   end
 end
