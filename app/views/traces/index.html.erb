@@ -33,7 +33,7 @@
         <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link active" } %>
       </li>
     <% else %>
-      <!-- public_traces_from @target_user -->
+      <!-- traces_from @target_user -->
       <li class="nav-item">
         <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
       </li>
@@ -43,7 +43,7 @@
         </li>
       <% end %>
       <li class="nav-item">
-        <%= link_to t(".public_traces_from", :user => @target_user&.display_name), { :action => "mine" }, { :class => "nav-link active" } %>
+        <%= link_to t(".traces_from", :user => @target_user&.display_name), { :controller => "traces", :action => "index", :display_name => @target_user&.display_name }, { :class => "nav-link active" } %>
       </li>
     <% end %>
 

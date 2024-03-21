@@ -172,6 +172,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check the index of traces for a specific user
   def test_index_user
     user = create(:user)
+    checked_user_traces_path = url_for :only_path => true, :controller => "traces", :action => "index", :display_name => user.display_name
     second_user = create(:user)
     third_user = create(:user)
     create(:trace)
@@ -187,18 +188,33 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # Test the user with the traces - should see only public ones
     get traces_path(:display_name => user.display_name)
     check_trace_index [trace_b]
+    assert_dom ".nav-tabs" do
+      assert_dom "a[href='#{traces_path}']", :text => "All Traces", :count => 1
+      assert_dom "a[href='#{traces_mine_path}']", :text => "My Traces", :count => 0
+      assert_dom "a[href='#{checked_user_traces_path}']", :text => Regexp.new(Regexp.escape(user.display_name)), :count => 1
+    end
 
     session_for(third_user)
 
     # Should still see only public ones when authenticated as another user
     get traces_path(:display_name => user.display_name)
     check_trace_index [trace_b]
+    assert_dom ".nav-tabs" do
+      assert_dom "a[href='#{traces_path}']", :text => "All Traces", :count => 1
+      assert_dom "a[href='#{traces_mine_path}']", :text => "My Traces", :count => 1
+      assert_dom "a[href='#{checked_user_traces_path}']", :text => Regexp.new(Regexp.escape(user.display_name)), :count => 1
+    end
 
     session_for(user)
 
     # Should see all traces when authenticated as the target user
     get traces_path(:display_name => user.display_name)
     check_trace_index [trace_c, trace_b]
+    assert_dom ".nav-tabs" do
+      assert_dom "a[href='#{traces_path}']", :text => "All Traces", :count => 1
+      assert_dom "a[href='#{traces_mine_path}']", :text => "My Traces", :count => 1
+      assert_dom "a[href='#{checked_user_traces_path}']", :text => Regexp.new(Regexp.escape(user.display_name)), :count => 0
+    end
 
     # Should only see traces with the correct tag when a tag is specified
     get traces_path(:display_name => user.display_name, :tag => "London")
