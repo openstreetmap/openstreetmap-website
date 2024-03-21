@@ -18,11 +18,13 @@ class UserMutesControllerTest < ActionDispatch::IntegrationTest
 
   def test_index
     user = create(:user)
-    user.mutes.create(:subject => create(:user))
+    muted_user = create(:user)
+    user.mutes.create(:subject => muted_user)
     session_for(user)
 
     get user_mutes_path
     assert_match "You have muted 1 User", @response.body
+    assert_dom "tr a[href='#{user_path muted_user}']", :text => muted_user.display_name
   end
 
   def test_create

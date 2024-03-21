@@ -2,7 +2,7 @@
   <h1><%= t ".title" %></h1>
 <% end %>
 
-<p><%= t(".request_access_html", :app_name => link_to(@token.client_application.name, @token.client_application.url), :user => link_to(current_user.display_name, user_path(current_user))) %></p>
+<p><%= t(".request_access_html", :app_name => link_to(@token.client_application.name, @token.client_application.url), :user => link_to(current_user.display_name, current_user)) %></p>
 
 <%= bootstrap_form_tag do |f| %>
   <%= f.hidden_field :oauth_token, :value => @token.token %>
