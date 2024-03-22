@@ -15896,6 +15896,7 @@
     osmSetPointTags: () => osmSetPointTags,
     osmSetVertexTags: () => osmSetVertexTags,
     osmTagSuggestingArea: () => osmTagSuggestingArea,
+    osmTimelessFeatureTagValues: () => osmTimelessFeatureTagValues,
     osmTurn: () => osmTurn,
     osmVertexTags: () => osmVertexTags,
     osmWay: () => osmWay,
@@ -16161,6 +16162,7 @@
     validationMismatchedDates: () => validationMismatchedDates,
     validationMismatchedGeometry: () => validationMismatchedGeometry,
     validationMissingRole: () => validationMissingRole,
+    validationMissingStartDate: () => validationMissingStartDate,
     validationMissingTag: () => validationMissingTag,
     validationOutdatedTags: () => validationOutdatedTags,
     validationPrivateData: () => validationPrivateData,
@@ -16585,6 +16587,27 @@
     }
     return true;
   }
+  var osmTimelessFeatureTagValues = {
+    wood: true,
+    wetland: true,
+    beach: true,
+    cave_entrance: true,
+    peak: true,
+    cliff: true,
+    coastline: true,
+    tree_row: true,
+    water: true,
+    scrub: true,
+    grassland: true,
+    heath: true,
+    bare_rock: true,
+    glacier: true,
+    stream: true,
+    river: true,
+    pond: true,
+    basin: true,
+    lake: true
+  };
 
   // node_modules/d3-array/src/ascending.js
   function ascending(a2, b2) {
@@ -46701,6 +46724,7 @@
     validationMismatchedDates: () => validationMismatchedDates,
     validationMismatchedGeometry: () => validationMismatchedGeometry,
     validationMissingRole: () => validationMissingRole,
+    validationMissingStartDate: () => validationMissingStartDate,
     validationMissingTag: () => validationMissingTag,
     validationOutdatedTags: () => validationOutdatedTags,
     validationPrivateData: () => validationPrivateData,
@@ -48337,6 +48361,48 @@
           }
         });
       }
+    };
+    validation.type = type2;
+    return validation;
+  }
+
+  // modules/validations/missing_start_date.js
+  function validationMissingStartDate(context) {
+    const type2 = "missing_start_date";
+    const validation = function checkMissingStartDate(entity, graph) {
+      if (entity.tags && (entity.tags.start_date || entity.tags["start_date:edtf"]))
+        return [];
+      if (Object.keys(entity.tags).length === 0)
+        return [];
+      if (entity.tags && (entity.tags.natural && osmTimelessFeatureTagValues[entity.tags.natural] || entity.tags.waterway && osmTimelessFeatureTagValues[entity.tags.waterway] || entity.tags.water && osmTimelessFeatureTagValues[entity.tags.water]))
+        return [];
+      var osm = context.connection();
+      var isUnloadedNode = entity.type === "node" && osm && !osm.isDataLoaded(entity.loc);
+      if (isUnloadedNode || // allow untagged nodes that are part of ways
+      entity.geometry(graph) === "vertex" || // allow untagged entities that are part of relations
+      entity.hasParentRelations(graph))
+        return [];
+      const entityID = entity.id;
+      function showReference(selection2) {
+        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.missing_start_date.reference"));
+      }
+      return [new validationIssue({
+        type: type2,
+        severity: "warning",
+        message: (context2) => {
+          const entity2 = context2.hasEntity(entityID);
+          return entity2 ? _t.append("issues.missing_start_date.feature.message", {
+            feature: utilDisplayLabel(entity2, context2.graph())
+          }) : "";
+        },
+        reference: showReference,
+        entityIds: [entityID],
+        dynamicFixes: () => {
+          return [
+            new validationIssueFix({ title: _t.append("issues.fix.add_start_date.title") })
+          ];
+        }
+      })];
     };
     validation.type = type2;
     return validation;
