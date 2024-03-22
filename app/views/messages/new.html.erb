@@ -4,8 +4,8 @@
 
 <%= bootstrap_form_for @message do |f| %>
   <%= hidden_field_tag :display_name, @message.recipient.display_name, :autocomplete => "off" %>
-  <%= f.text_field :title %>
-  <%= f.richtext_field :body, :cols => 80, :rows => 20 %>
+  <%= f.text_field :title, :dir => :auto %>
+  <%= f.richtext_field :body, :cols => 80, :rows => 20, :dir => :auto %>
 
   <%= f.primary %>
   <%= link_to t(".back_to_inbox"), inbox_messages_path, :class => "btn btn-link" %>
