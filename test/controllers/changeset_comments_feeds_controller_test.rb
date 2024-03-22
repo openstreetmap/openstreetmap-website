@@ -6,21 +6,21 @@ class ChangesetCommentsFeedsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/changeset/1/comments/feed", :method => :get },
-      { :controller => "changeset_comments_feeds", :action => "index", :id => "1", :format => "rss" }
+      { :controller => "changeset_comments_feeds", :action => "show", :changeset_id => "1", :format => "rss" }
     )
     assert_routing(
       { :path => "/history/comments/feed", :method => :get },
-      { :controller => "changeset_comments_feeds", :action => "index", :format => "rss" }
+      { :controller => "changeset_comments_feeds", :action => "show", :format => "rss" }
     )
   end
 
-  ##
-  # test comments feed
-  def test_feed
-    changeset = create(:changeset, :closed)
-    create_list(:changeset_comment, 3, :changeset => changeset)
+  def test_show
+    changeset1 = create(:changeset, :closed)
+    changeset2 = create(:changeset, :closed)
+    create_list(:changeset_comment, 1, :changeset => changeset1)
+    create_list(:changeset_comment, 2, :changeset => changeset2)
 
-    get changesets_comments_feed_path(:format => "rss")
+    get changeset_comments_feed_path(:format => "rss")
     assert_response :success
     assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
@@ -29,7 +29,7 @@ class ChangesetCommentsFeedsControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    get changesets_comments_feed_path(:format => "rss", :limit => 2)
+    get changeset_comments_feed_path(:format => "rss", :limit => 2)
     assert_response :success
     assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
@@ -38,23 +38,30 @@ class ChangesetCommentsFeedsControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    get changeset_comments_feed_path(:id => changeset.id, :format => "rss")
+    get changeset_changeset_comments_feed_path(changeset1, :format => "rss")
     assert_response :success
     assert_equal "application/rss+xml", @response.media_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
-        assert_select "item", :count => 3
+        assert_select "item", :count => 1
+      end
+    end
+
+    get changeset_changeset_comments_feed_path(changeset2, :format => "rss")
+    assert_response :success
+    assert_equal "application/rss+xml", @response.media_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 2
       end
     end
   end
 
-  ##
-  # test comments feed
-  def test_feed_bad_limit
-    get changesets_comments_feed_path(:format => "rss", :limit => 0)
+  def test_show_bad_limit
+    get changeset_comments_feed_path(:format => "rss", :limit => 0)
     assert_response :bad_request
 
-    get changesets_comments_feed_path(:format => "rss", :limit => 100001)
+    get changeset_comments_feed_path(:format => "rss", :limit => 100001)
     assert_response :bad_request
   end
 end
