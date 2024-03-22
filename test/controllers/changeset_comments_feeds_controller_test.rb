@@ -1,16 +1,16 @@
 require "test_helper"
 
-class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
+class ChangesetCommentsFeedsControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/changeset/1/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "index", :id => "1", :format => "rss" }
+      { :controller => "changeset_comments_feeds", :action => "index", :id => "1", :format => "rss" }
     )
     assert_routing(
       { :path => "/history/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "index", :format => "rss" }
+      { :controller => "changeset_comments_feeds", :action => "index", :format => "rss" }
     )
   end
 

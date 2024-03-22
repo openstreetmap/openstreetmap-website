@@ -16,7 +16,7 @@ class Ability
 
     if Settings.status != "database_offline"
       can [:index, :feed, :show], Changeset
-      can :index, ChangesetComment
+      can :index, :changeset_comments_feed
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show], DiaryEntry
       can :index, DiaryComment
