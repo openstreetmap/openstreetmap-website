@@ -1,18 +1,18 @@
 require "test_helper"
 
-class BrowseControllerTest < ActionDispatch::IntegrationTest
+class QueriesControllerTest < ActionDispatch::IntegrationTest
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/query", :method => :get },
-      { :controller => "browse", :action => "query" }
+      { :controller => "queries", :action => "show" }
     )
   end
 
-  def test_query
+  def test_show
     get query_path
     assert_response :success
-    assert_template "browse/query"
+    assert_template "queries/show"
   end
 end
