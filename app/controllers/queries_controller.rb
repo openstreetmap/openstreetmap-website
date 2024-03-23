@@ -6,7 +6,6 @@ class QueriesController < ApplicationController
   before_action -> { check_database_readable(:need_api => true) }
   before_action :require_oauth
   before_action :update_totp
-  around_action :web_timeout
   authorize_resource :class => false
 
   def show; end
