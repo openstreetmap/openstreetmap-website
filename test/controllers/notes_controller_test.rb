@@ -99,12 +99,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   def test_read_hidden_note
     hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
-    get note_path(:id => hidden_note_with_comment)
+    get note_path(hidden_note_with_comment)
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    get note_path(:id => hidden_note_with_comment), :xhr => true
+    get note_path(hidden_note_with_comment), :xhr => true
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
