@@ -463,6 +463,36 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :feed
   end
 
+  def test_feed_timeout
+    with_settings(:web_timeout => -1) do
+      get history_feed_path
+    end
+    assert_response :success
+    assert_equal "application/atom+xml; charset=utf-8", @response.header["Content-Type"]
+    assert_dom "feed>link[rel='self']", 1 do
+      assert_dom ">@href", history_feed_url
+    end
+    assert_dom "feed>link[rel='alternate']", 1 do
+      assert_dom ">@href", history_url
+    end
+    assert_dom "feed>subtitle", :text => /the list of changesets you requested took too long to retrieve/
+  end
+
+  def test_feed_bbox_timeout
+    with_settings(:web_timeout => -1) do
+      get history_feed_path(:bbox => "4.5,4.5,5.5,5.5")
+    end
+    assert_response :success
+    assert_equal "application/atom+xml; charset=utf-8", @response.header["Content-Type"]
+    assert_dom "feed>link[rel='self']", 1 do
+      assert_dom ">@href", history_feed_url(:bbox => "4.5,4.5,5.5,5.5")
+    end
+    assert_dom "feed>link[rel='alternate']", 1 do
+      assert_dom ">@href", history_url(:bbox => "4.5,4.5,5.5,5.5")
+    end
+    assert_dom "feed>subtitle", :text => /the list of changesets you requested took too long to retrieve/
+  end
+
   def test_subscribe_page
     user = create(:user)
     other_user = create(:user)
