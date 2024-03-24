@@ -273,6 +273,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :layout => "map"
+    assert_dom "head > link[rel='alternate'][href='#{history_feed_url}']", 1
     assert_dom "h2", "Timeout Error"
     assert_dom "p", /the list of changesets/
   end
@@ -283,6 +284,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
       get history_path(:list => "1")
     end
     assert_response :success
+    assert_dom "head > link[rel='alternate'][href='#{history_feed_url}']", 0
     assert_dom "p", /the list of changesets/
   end
 
@@ -377,6 +379,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template :layout => "map"
+    assert_dom "head > link[rel='alternate'][href='#{history_feed_url}']", 0
     assert_dom "h2", "Timeout Error"
     assert_dom "p", /#{Regexp.quote("the changeset with the id #{changeset.id}")}/
   end
