@@ -8,6 +8,6 @@ xml.rss("version" => "2.0",
     end
     xml.link url_for(:controller => "site", :action => "index", :only_path => false)
 
-    xml << render(:partial => "comments", :object => @comments)
+    xml << render(:partial => "comment", :collection => @comments)
   end
 end
