@@ -8,7 +8,7 @@ module Api
     authorize_resource
 
     around_action :api_call_handle_error
-    before_action :lookup_user_by_id, :only => [:show]
+    load_resource :only => :show
 
     before_action :set_request_formats, :except => [:gpx_files]
 
@@ -56,14 +56,6 @@ module Api
 
     private
 
-    ##
-    # ensure that there is a "user" instance variable
-    def lookup_user_by_id
-      @user = User.find(params[:id])
-    end
-
-    ##
-    #
     def disable_terms_redirect
       # this is necessary otherwise going to the user terms page, when
       # having not agreed already would cause an infinite redirect loop.
