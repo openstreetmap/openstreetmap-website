@@ -165,14 +165,6 @@ class ApiController < ApplicationController
   end
 
   ##
-  # asserts that the request method is the +method+ given as a parameter
-  # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
-  def assert_method(method)
-    ok = request.send(:"#{method.to_s.downcase}?")
-    raise OSM::APIBadMethodError, method unless ok
-  end
-
-  ##
   # wrap an api call in a timeout
   def api_call_timeout(&block)
     Timeout.timeout(Settings.api_timeout, &block)

@@ -52,8 +52,6 @@ module Api
 
     # Create a node from XML.
     def create
-      assert_method :put
-
       node = Node.from_xml(request.raw_post, :create => true)
 
       # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml
