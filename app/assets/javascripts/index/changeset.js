@@ -1,7 +1,8 @@
 OSM.Changeset = function (map) {
   var page = {},
       content = $("#sidebar_content"),
-      currentChangesetId;
+      currentChangesetId,
+      elementSubPageLoaders = {};
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
@@ -56,6 +57,25 @@ OSM.Changeset = function (map) {
     });
   }
 
+  function initializeElementSubPage(type) {
+    var section = content.find("#changeset_" + type);
+
+    section.on("click", "a.page-link", function (e) {
+      e.preventDefault();
+      if (elementSubPageLoaders[type]) elementSubPageLoaders[type].abort();
+      elementSubPageLoaders[type] = $.ajax({
+        url: this.href + "&list=" + type,
+        dataType: "html",
+        success: function (data) {
+          section.html(data);
+        },
+        complete: function () {
+          delete elementSubPageLoaders[type];
+        }
+      });
+    });
+  }
+
   function initialize() {
     content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
@@ -75,9 +95,16 @@ OSM.Changeset = function (map) {
     });
 
     content.find("textarea").val("").trigger("input");
+
+    initializeElementSubPage("nodes");
+    initializeElementSubPage("ways");
+    initializeElementSubPage("relations");
   }
 
   page.unload = function () {
+    Object.values(elementSubPageLoaders).forEach(function (loader) {
+      loader.abort();
+    });
     map.removeObject();
   };
 
