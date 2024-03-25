@@ -1,7 +1,7 @@
 # The NodeController is the RESTful interface to Node objects
 
 module Api
-  class NodesController < ApiController
+  class NodesController < ElementsApiController
     require "xml/libxml"
 
     before_action :check_api_writable, :only => [:create, :update, :delete]

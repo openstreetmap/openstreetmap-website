@@ -1,5 +1,5 @@
 module Api
-  class WaysController < ApiController
+  class WaysController < ElementsApiController
     require "xml/libxml"
 
     before_action :check_api_writable, :only => [:create, :update, :delete]
