@@ -783,6 +783,16 @@ module Api
       assert_not_nil js
       assert_equal "FeatureCollection", js["type"]
       assert_equal 3, js["features"].count
+
+      # Open + closed + hidden notes
+      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      get api_notes_path(:bbox => "1,1,1.7,1.7", :closed => "-1", :format => "json"), :params => { :show_hidden => "true" }, :headers => auth_header
+      assert_response :success
+      assert_equal "application/json", @response.media_type
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "FeatureCollection", js["type"]
+      assert_equal 4, js["features"].count
     end
 
     def test_index_bad_params
