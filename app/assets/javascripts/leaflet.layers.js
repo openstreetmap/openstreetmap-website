@@ -5,26 +5,27 @@ L.OSM.layers = function (options) {
     var layers = options.layers;
 
     var baseSection = $("<div>")
-      .attr("class", "section base-layers")
+      .attr("class", "section base-layers d-grid gap-2")
       .appendTo($ui);
 
-    var baseLayers = $("<ul class='list-unstyled mb-0'>")
-      .appendTo(baseSection);
+    layers.forEach(function (layer, i) {
+      var id = "map-ui-layer-" + i;
+      var input = $("<input type='radio' class='btn-check' name='layer'>")
+        .prop("id", id)
+        .prop("checked", map.hasLayer(layer))
+        .appendTo(baseSection);
 
-    layers.forEach(function (layer) {
-      var item = $("<li>")
-        .attr("class", "rounded-3")
-        .appendTo(baseLayers);
+      var mapContainer = $("<div class='position-absolute top-0 start-0 bottom-0 end-0 m-1 rounded-2'>");
 
-      if (map.hasLayer(layer)) {
-        item.addClass("active");
-      }
-
-      var div = $("<div>")
-        .appendTo(item);
+      var item = $("<div class='btn btn-outline-primary mx-n1 border-0 position-relative text-start'>").append(
+        mapContainer,
+        $("<label class='position-absolute top-0 start-0 bottom-0 end-0 m-1 rounded-2 overflow-hidden'>")
+          .prop("for", id)
+          .append($("<span class='position-absolute top-0 start-0 ps-2 pe-1 pt-1 m-n1 rounded-1 bg-white' style='--bs-bg-opacity:.9'>").append(layer.options.name)))
+        .appendTo(baseSection);
 
       map.whenReady(function () {
-        var miniMap = L.map(div[0], { attributionControl: false, zoomControl: false, keyboard: false })
+        var miniMap = L.map(mapContainer[0], { attributionControl: false, zoomControl: false, keyboard: false })
           .addLayer(new layer.constructor({ apikey: layer.options.apikey }));
 
         miniMap.dragging.disable();
@@ -55,17 +56,7 @@ L.OSM.layers = function (options) {
         }
       });
 
-      var label = $("<label>")
-        .appendTo(item);
-
-      var input = $("<input>")
-        .attr("type", "radio")
-        .prop("checked", map.hasLayer(layer))
-        .appendTo(label);
-
-      label.append(layer.options.name);
-
-      item.on("click", function () {
+      input.on("click", function () {
         layers.forEach(function (other) {
           if (other === layer) {
             map.addLayer(other);
@@ -79,7 +70,6 @@ L.OSM.layers = function (options) {
       item.on("dblclick", toggle);
 
       map.on("layeradd layerremove", function () {
-        item.toggleClass("active", map.hasLayer(layer));
         input.prop("checked", map.hasLayer(layer));
       });
     });
