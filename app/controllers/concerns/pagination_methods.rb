@@ -5,7 +5,7 @@ module PaginationMethods
 
   ##
   # limit selected items to one page, get ids of first item before/after the page
-  def get_page_items(items, includes)
+  def get_page_items(items, includes: [], limit: 20)
     id_column = "#{items.table_name}.id"
     page_items = if params[:before]
                    items.where("#{id_column} < ?", params[:before]).order(:id => :desc)
@@ -15,7 +15,7 @@ module PaginationMethods
                    items.order(:id => :desc)
                  end
 
-    page_items = page_items.limit(20)
+    page_items = page_items.limit(limit)
     page_items = page_items.includes(includes)
     page_items = page_items.sort.reverse
 
