@@ -644,22 +644,43 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     # 100 examples, an administrator, and a granter for the admin.
     assert_equal 102, User.count
+    next_path = users_path
 
-    get users_path
+    get next_path
     assert_response :success
     assert_template :index
     assert_select "table#user_list tbody tr", :count => 50
+    check_no_page_link "Newer Users"
+    next_path = check_page_link "Older Users"
 
-    get users_path, :params => { :page => 2 }
+    get next_path
     assert_response :success
     assert_template :index
     assert_select "table#user_list tbody tr", :count => 50
+    check_page_link "Newer Users"
+    next_path = check_page_link "Older Users"
 
-    get users_path, :params => { :page => 3 }
+    get next_path
     assert_response :success
     assert_template :index
     assert_select "table#user_list tbody tr", :count => 2
+    check_page_link "Newer Users"
+    check_no_page_link "Older Users"
   end
+
+  private
+
+  def check_no_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/, :count => 0 }, "unexpected #{name} page link"
+  end
+
+  def check_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/ }, "missing #{name} page link" do |buttons|
+      return buttons.first.attributes["href"].value
+    end
+  end
+
+  public
 
   def test_index_post_confirm
     inactive_user = create(:user, :pending)
