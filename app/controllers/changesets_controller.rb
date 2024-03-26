@@ -14,7 +14,7 @@ class ChangesetsController < ApplicationController
 
   authorize_resource
 
-  around_action :web_timeout
+  around_action :web_timeout, :except => [:subscribe, :unsubscribe]
 
   # Helper methods for checking consistency
   include ConsistencyValidations

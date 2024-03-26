@@ -1,1 +1,17 @@
-<p><%= t ".sorry" %></p>
+<% if request.format == :html && !params[:list] %>
+  <% content_for :auto_discovery_link_tag do -%>
+    <% unless params[:id] or params[:friends] or params[:nearby] -%>
+      <%= auto_discovery_link_tag :atom, params.permit(:format, :display_name, :bbox).to_h.merge(:action => :feed) %>
+    <% end -%>
+  <% end -%>
+
+  <% set_title(t("browse.timeout.title")) %>
+
+  <%= render "sidebar_header", :title => t("browse.timeout.title") %>
+<% end %>
+
+<% if params[:id] %>
+  <p><%= t ".sorry_member", :id => params[:id] %></p>
+<% else %>
+  <p><%= t ".sorry" %></p>
+<% end %>
