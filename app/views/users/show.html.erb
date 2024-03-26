@@ -213,10 +213,10 @@
               <dd class="list-inline-item"><%= @user.email %></dd>
               <% unless @user.creation_ip.nil? -%>
                 <dt class="list-inline-item m-0"><%= t ".created from" %></dt>
-                <dd class="list-inline-item"><%= @user.creation_ip %></dd>
+                <dd class="list-inline-item"><%= link_to @user.creation_ip, users_path(:ip => @user.creation_ip) %></dd>
               <% end -%>
               <dt class="list-inline-item m-0"><%= t ".status" %></dt>
-              <dd class="list-inline-item"><%= @user.status.capitalize %></dd>
+              <dd class="list-inline-item"><%= link_to @user.status.capitalize, users_path(:status => @user.status) %></dd>
               <dt class="list-inline-item m-0"><%= t ".spam score" %></dt>
               <dd class="list-inline-item"><%= @user.spam_score %></dd>
             </dl>
