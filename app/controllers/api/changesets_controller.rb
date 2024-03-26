@@ -40,8 +40,6 @@ module Api
 
     # Create a changeset from XML.
     def create
-      assert_method :put
-
       cs = Changeset.from_xml(request.raw_post, :create => true)
 
       # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
@@ -58,8 +56,6 @@ module Api
     # marks a changeset as closed. this may be called multiple times
     # on the same changeset, so is idempotent.
     def close
-      assert_method :put
-
       changeset = Changeset.find(params[:id])
       check_changeset_consistency(changeset, current_user)
 
@@ -85,12 +81,6 @@ module Api
     # Returns: a diffResult document, as described in
     # http://wiki.openstreetmap.org/wiki/OSM_Protocol_Version_0.6
     def upload
-      # only allow POST requests, as the upload method is most definitely
-      # not idempotent, as several uploads with placeholder IDs will have
-      # different side-effects.
-      # see http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.2
-      assert_method :post
-
       changeset = Changeset.find(params[:id])
       check_changeset_consistency(changeset, current_user)
 
@@ -205,9 +195,6 @@ module Api
     #
     # after succesful update, returns the XML of the changeset.
     def update
-      # request *must* be a PUT.
-      assert_method :put
-
       @changeset = Changeset.find(params[:id])
       new_changeset = Changeset.from_xml(request.raw_post)
 
