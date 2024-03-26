@@ -36,6 +36,7 @@ class UsersController < ApplicationController
       users = users.where(:status => @params[:status]) if @params[:status]
       users = users.where(:creation_ip => @params[:ip]) if @params[:ip]
 
+      @users_count = users.count
       @users, @newer_users_id, @older_users_id = get_page_items(users, :limit => 50)
     end
   end

@@ -10,11 +10,18 @@
 
 <% unless @users.empty? %>
   <%= form_tag do %>
-    <%= render "shared/pagination",
-               :newer_key => "users.index.newer",
-               :older_key => "users.index.older",
-               :newer_id => @newer_users_id,
-               :older_id => @older_users_id %>
+    <div class="row">
+      <div class="col">
+        <%= render "shared/pagination",
+                   :newer_key => "users.index.newer",
+                   :older_key => "users.index.older",
+                   :newer_id => @newer_users_id,
+                   :older_id => @older_users_id %>
+      </div>
+      <div class="col col-auto">
+        <%= t ".found_users", :count => @users_count %>
+      </div>
+    <div>
 
     <%= hidden_field_tag :status, params[:status] if params[:status] %>
     <%= hidden_field_tag :ip, params[:ip] if params[:ip] %>
@@ -32,11 +39,18 @@
       <%= render @users %>
     </table>
 
-    <%= render "shared/pagination",
-               :newer_key => "users.index.newer",
-               :older_key => "users.index.older",
-               :newer_id => @newer_users_id,
-               :older_id => @older_users_id %>
+    <div class="row">
+      <div class="col">
+        <%= render "shared/pagination",
+                   :newer_key => "users.index.newer",
+                   :older_key => "users.index.older",
+                   :newer_id => @newer_users_id,
+                   :older_id => @older_users_id %>
+      </div>
+      <div class="col col-auto">
+        <%= t ".found_users", :count => @users_count %>
+      </div>
+    <div>
 
     <div>
       <%= submit_tag t(".confirm"), :name => "confirm", :class => "btn btn-primary" %>
