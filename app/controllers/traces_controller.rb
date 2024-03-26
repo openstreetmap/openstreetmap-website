@@ -1,5 +1,6 @@
 class TracesController < ApplicationController
   include UserMethods
+  include PaginationMethods
 
   layout "site", :except => :georss
 
@@ -60,20 +61,7 @@ class TracesController < ApplicationController
 
     @params = params.permit(:display_name, :tag, :before, :after)
 
-    @traces = if params[:before]
-                traces.where("gpx_files.id < ?", params[:before]).order(:id => :desc)
-              elsif params[:after]
-                traces.where("gpx_files.id > ?", params[:after]).order(:id => :asc)
-              else
-                traces.order(:id => :desc)
-              end
-
-    @traces = @traces.limit(20)
-    @traces = @traces.includes(:user, :tags)
-    @traces = @traces.sort.reverse
-
-    @newer_traces = @traces.count.positive? && traces.exists?(["gpx_files.id > ?", @traces.first.id])
-    @older_traces = @traces.count.positive? && traces.exists?(["gpx_files.id < ?", @traces.last.id])
+    @traces, @newer_traces_id, @older_traces_id = get_page_items(traces, :includes => [:user, :tags])
 
     # final helper vars for view
     @target_user = target_user

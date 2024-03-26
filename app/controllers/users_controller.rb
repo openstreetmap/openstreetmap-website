@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   include EmailMethods
   include SessionMethods
   include UserMethods
+  include PaginationMethods
 
   layout "site"
 
@@ -29,16 +30,14 @@ class UsersController < ApplicationController
 
       redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
     else
-      @params = params.permit(:status, :ip)
+      @params = params.permit(:status, :ip, :before, :after)
 
-      conditions = {}
-      conditions[:status] = @params[:status] if @params[:status]
-      conditions[:creation_ip] = @params[:ip] if @params[:ip]
+      users = User.all
+      users = users.where(:status => @params[:status]) if @params[:status]
+      users = users.where(:creation_ip => @params[:ip]) if @params[:ip]
 
-      @user_pages, @users = paginate(:users,
-                                     :conditions => conditions,
-                                     :order => :id,
-                                     :per_page => 50)
+      @users_count = users.count
+      @users, @newer_users_id, @older_users_id = get_page_items(users, :limit => 50)
     end
   end
 
