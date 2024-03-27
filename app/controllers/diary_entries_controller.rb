@@ -58,7 +58,7 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, :includes => [:user, :language])
+    @entries, @newer_param, @older_param = get_page_items(entries, :includes => [:user, :language])
   end
 
   def show
@@ -247,7 +247,7 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name, :before, :after)
 
-    @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, :includes => [:user])
+    @comments, @newer_param, @older_param = get_page_items(comments, :includes => [:user])
   end
 
   private

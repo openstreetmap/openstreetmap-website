@@ -16,13 +16,34 @@ class NotesController < ApplicationController
   ##
   # Display a list of notes by a specified user
   def index
-    @params = params.permit(:display_name)
     @title = t ".title", :user => @user.display_name
-    @page = (params[:page] || 1).to_i
-    @page_size = 10
-    @notes = @user.notes
-    @notes = @notes.visible unless current_user&.moderator?
-    @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)
+    @params = params.permit(:display_name, :before, :after)
+
+    notes = @user.notes
+    notes = notes.visible unless current_user&.moderator?
+
+    begin
+      @notes = start_reading_at_params(notes)
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = t ".invalid_page"
+      redirect_to :action => "index"
+      return
+    end
+
+    @notes = @notes.distinct
+    @notes = @notes.limit(10)
+    @notes = @notes.preload(:comments => :author)
+    @notes = @notes.sort_by { |note| [note.updated_at, note.id] }.reverse
+
+    if @notes.count.positive?
+      @newer_param = { :after => updated_at_and_id_param_value(@notes.first) } if notes.exists?(["(updated_at, notes.id) > (?, ?)", @notes.first.updated_at, @notes.first.id])
+      @older_param = { :before => updated_at_and_id_param_value(@notes.last) } if notes.exists?(["(updated_at, notes.id) < (?, ?)", @notes.last.updated_at, @notes.last.id])
+    else
+      previous_newer_param = params[:before] || params[:to]
+      previous_older_param = params[:after] || params[:from]
+      @newer_param = { :from => "oldest" } if previous_newer_param && where_cursor(notes, ">", previous_newer_param).exists?
+      @older_param = { :to => "newest" } if previous_older_param && where_cursor(notes, "<", previous_older_param).exists?
+    end
 
     render :layout => "site"
   end
@@ -42,4 +63,59 @@ class NotesController < ApplicationController
   end
 
   def new; end
+
+  private
+
+  def start_reading_at_params(notes)
+    if params[:before]
+      where_cursor(notes, "<", params[:before]).order(:updated_at => :desc, :id => :desc)
+    elsif params[:after]
+      where_cursor(notes, ">", params[:after]).order(:updated_at => :asc, :id => :asc)
+    elsif params[:to]
+      where_cursor(notes, "<=", params[:to]).order(:updated_at => :desc, :id => :desc)
+    elsif params[:from]
+      where_cursor(notes, ">=", params[:from]).order(:updated_at => :asc, :id => :asc)
+    else
+      notes.order(:updated_at => :desc, :id => :desc)
+    end
+  end
+
+  def where_cursor(notes, op, param)
+    if param.respond_to?(:keys)
+      if param[:id] && param[:updated_at]
+        where_cursor_by_updated_at_and_id notes, op, param[:updated_at], param[:id]
+      elsif param[:id]
+        where_cursor_by_id notes, op, param[:id]
+      else
+        raise ActiveRecord::RecordNotFound
+      end
+    elsif (param == "oldest" && op == ">=") || (param == "newest" && op == "<=")
+      notes
+    else
+      where_cursor_by_id notes, op, param
+    end
+  end
+
+  def where_cursor_by_updated_at_and_id(notes, op, updated_at, id)
+    cursor_note = notes.find(id)
+    cursor_time = Time.parse(updated_at).utc
+    if (cursor_time...(cursor_time + 1.second)).cover? cursor_note.updated_at
+      notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
+    else
+      notes.where("updated_at #{op} ?", cursor_time)
+    end
+  end
+
+  def where_cursor_by_id(notes, op, id)
+    cursor_note = notes.find(id)
+    notes.where("(updated_at, notes.id) #{op} (?, ?)", cursor_note.updated_at, cursor_note.id)
+  end
+
+  def updated_at_and_id_param_value(note)
+    { :updated_at => time_param_value(note.updated_at), :id => note.id }
+  end
+
+  def time_param_value(time)
+    time.utc.strftime("%Y%m%dT%H%M%SZ")
+  end
 end

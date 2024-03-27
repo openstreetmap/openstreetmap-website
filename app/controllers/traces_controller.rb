@@ -61,7 +61,7 @@ class TracesController < ApplicationController
 
     @params = params.permit(:display_name, :tag, :before, :after)
 
-    @traces, @newer_traces_id, @older_traces_id = get_page_items(traces, :includes => [:user, :tags])
+    @traces, @newer_param, @older_param = get_page_items(traces, :includes => [:user, :tags])
 
     # final helper vars for view
     @target_user = target_user
