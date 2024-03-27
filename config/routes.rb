@@ -167,7 +167,7 @@ OpenStreetMap::Application.routes.draw do
   get "/offline" => "site#offline"
   get "/key" => "site#key"
   get "/id" => "site#id"
-  get "/query" => "browse#query"
+  resource :query, :only => :show
   get "/user/new" => "users#new"
   post "/user/new" => "users#create"
   get "/user/terms" => "users#terms"
