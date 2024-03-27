@@ -878,7 +878,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_comments_path(:display_name => user.display_name)
     assert_response :success
     assert_template :comments
-    assert_select "h4", :html => "No diary comments"
+    assert_select "h4", :html => "No comments"
 
     # Test a user with a comment
     create(:diary_comment, :user => other_user)

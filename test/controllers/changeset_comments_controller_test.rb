@@ -6,12 +6,37 @@ class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
       { :path => "/changeset/1/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "index", :id => "1", :format => "rss" }
+      { :controller => "changeset_comments", :action => "feed", :id => "1", :format => "rss" }
     )
     assert_routing(
       { :path => "/history/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "index", :format => "rss" }
+      { :controller => "changeset_comments", :action => "feed", :format => "rss" }
     )
+  end
+
+  ##
+  # test comments webpage
+  def test_index
+    user = create(:user)
+    other_user = create(:user)
+    changeset = create(:changeset, :closed)
+    create_list(:changeset_comment, 3, :changeset => changeset, :author => user)
+    create_list(:changeset_comment, 2, :changeset => changeset, :author => other_user)
+
+    get changeset_comments_path(user)
+    assert_response :success
+    assert_select "table.table-striped tbody" do
+      assert_select "tr", :count => 3
+    end
+
+    create(:changeset_comment, :changeset => changeset, :author => user)
+    create(:changeset_comment, :changeset => changeset, :author => user, :visible => false)
+
+    get changeset_comments_path(user)
+    assert_response :success
+    assert_select "table.table-striped tbody" do
+      assert_select "tr", :count => 4
+    end
   end
 
   ##
