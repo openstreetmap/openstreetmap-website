@@ -30,8 +30,8 @@ class ChangesetsController < ApplicationController
     end
 
     if @params[:display_name]
-      user = User.find_by(:display_name => @params[:display_name])
-      if !user || !user.active?
+      @user = User.find_by(:display_name => @params[:display_name])
+      unless @user
         render_unknown_user @params[:display_name]
         return
       end
@@ -49,8 +49,8 @@ class ChangesetsController < ApplicationController
       changesets = conditions_nonempty(Changeset.all)
 
       if @params[:display_name]
-        changesets = if user.data_public? || user == current_user
-                       changesets.where(:user => user)
+        changesets = if @user.data_public? || @user == current_user
+                       changesets.where(:user => @user)
                      else
                        changesets.where("false")
                      end
@@ -87,7 +87,7 @@ class ChangesetsController < ApplicationController
     @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "node_page")
     @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "way_page")
     @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "relation_page")
-    if @changeset.user.active? && @changeset.user.data_public?
+    if @changeset.user.data_public?
       @next_by_user = @changeset.user.changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
       @prev_by_user = @changeset.user.changesets.where("id < ?", @changeset.id).reorder(:id => :desc).first
     end
