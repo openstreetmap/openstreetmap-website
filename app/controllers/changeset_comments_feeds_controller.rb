@@ -1,21 +1,21 @@
-class ChangesetCommentsController < ApplicationController
+class ChangesetCommentsFeedsController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
 
-  authorize_resource
+  authorize_resource :class => false
 
   before_action -> { check_database_readable(:need_api => true) }
   around_action :web_timeout
 
   ##
   # Get a feed of recent changeset comments
-  def index
-    if params[:id]
+  def show
+    if params[:changeset_id]
       # Extract the arguments
-      id = params[:id].to_i
+      changeset_id = params[:changeset_id].to_i
 
       # Find the changeset
-      changeset = Changeset.find(id)
+      changeset = Changeset.find(changeset_id)
 
       # Return comments for this changeset only
       @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
