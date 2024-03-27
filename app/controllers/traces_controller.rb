@@ -68,10 +68,9 @@ class TracesController < ApplicationController
   end
 
   def show
-    @trace = Trace.find(params[:id])
+    @trace = Trace.visible.find(params[:id])
 
-    if @trace&.visible? &&
-       (@trace&.public? || @trace&.user == current_user)
+    if @trace.public? || @trace.user == current_user
       @title = t ".title", :name => @trace.name
     else
       flash[:error] = t ".trace_not_found"
@@ -88,11 +87,9 @@ class TracesController < ApplicationController
   end
 
   def edit
-    @trace = Trace.find(params[:id])
+    @trace = Trace.visible.find(params[:id])
 
-    if !@trace.visible?
-      head :not_found
-    elsif current_user.nil? || @trace.user != current_user
+    if current_user.nil? || @trace.user != current_user
       head :forbidden
     else
       @title = t ".title", :name => @trace.name
@@ -136,11 +133,9 @@ class TracesController < ApplicationController
   end
 
   def update
-    @trace = Trace.find(params[:id])
+    @trace = Trace.visible.find(params[:id])
 
-    if !@trace.visible?
-      head :not_found
-    elsif current_user.nil? || @trace.user != current_user
+    if current_user.nil? || @trace.user != current_user
       head :forbidden
     elsif @trace.update(trace_params)
       flash[:notice] = t ".updated"
@@ -154,11 +149,9 @@ class TracesController < ApplicationController
   end
 
   def destroy
-    trace = Trace.find(params[:id])
+    trace = Trace.visible.find(params[:id])
 
-    if !trace.visible?
-      head :not_found
-    elsif current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
+    if current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
       head :forbidden
     else
       trace.visible = false
@@ -176,9 +169,9 @@ class TracesController < ApplicationController
   end
 
   def data
-    trace = Trace.find(params[:id])
+    trace = Trace.visible.find(params[:id])
 
-    if trace.visible? && (trace.public? || (current_user && current_user == trace.user))
+    if trace.public? || (current_user && current_user == trace.user)
       if Acl.no_trace_download(request.remote_ip)
         head :forbidden
       elsif request.format == Mime[:xml]
