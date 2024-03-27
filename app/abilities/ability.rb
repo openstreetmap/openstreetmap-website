@@ -23,7 +23,7 @@ class Ability
       can [:new, :create, :edit, :update], :password
       can [:index, :show], Redaction
       can [:new, :create, :destroy], :session
-      can [:index, :show, :data, :georss, :picture, :icon], Trace
+      can [:index, :show, :data, :georss], Trace
       can [:terms, :new, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
       can [:index, :show, :blocks_on, :blocks_by], UserBlock
     end
