@@ -1,6 +1,4 @@
 //= require_self
-//= require leaflet.sidebar
-//= require leaflet.sidebar-pane
 //= require leaflet.locatecontrol/src/L.Control.Locate
 //= require leaflet.locate
 //= require leaflet.layers
@@ -21,6 +19,9 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require index/mapkey
+//= require index/layers
+//= require index/share
 //= require router
 //= require qs/dist/qs
 
@@ -99,9 +100,6 @@ $(document).ready(function () {
     }
   });
 
-  var sidebar = L.OSM.sidebar("#map-ui")
-    .addTo(map);
-
   var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
   function addControlGroup(controls) {
@@ -124,34 +122,17 @@ $(document).ready(function () {
   ]);
 
   addControlGroup([
-    L.OSM.layers({
-      position: position,
-      layers: map.baseLayers,
-      sidebar: sidebar
-    }),
-    L.OSM.key({
-      position: position,
-      sidebar: sidebar
-    }),
-    L.OSM.share({
-      "position": position,
-      "sidebar": sidebar,
-      "short": true
-    })
+    L.OSM.layers({ position: position }),
+    L.OSM.key({ position: position }),
+    L.OSM.share({ position: position })
   ]);
 
   addControlGroup([
-    L.OSM.note({
-      position: position,
-      sidebar: sidebar
-    })
+    L.OSM.note({ position: position })
   ]);
 
   addControlGroup([
-    L.OSM.query({
-      position: position,
-      sidebar: sidebar
-    })
+    L.OSM.query({ position: position })
   ]);
 
   L.control.scale()
@@ -385,7 +366,10 @@ $(document).ready(function () {
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
     "/relation/:id/history/:version": OSM.OldBrowse(),
     "/changeset/:id": OSM.Changeset(map),
-    "/query": OSM.Query(map)
+    "/query": OSM.Query(map),
+    "/mapkey": OSM.MapKey(map),
+    "/layers": OSM.Layers(map),
+    "/share": OSM.Share(map)
   });
 
   if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {

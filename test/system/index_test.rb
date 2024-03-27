@@ -28,9 +28,9 @@ class IndexTest < ApplicationSystemTestCase
     create(:note_comment, :note => visible_note, :body => "this-is-a-visible-note")
 
     visit root_path(:anchor => "map=15/1/1") # view place of hidden note in case it is not rendered during note_path(hidden_note)
+    visit "/layers"
+    find(".overlay-layers .form-check-label", :text => "Map Notes").click
     visit note_path(hidden_note)
-    find(".leaflet-control.control-layers .control-button").click
-    find("#map-ui .overlay-layers .form-check-label", :text => "Map Notes").click
     visible_note_marker = find(".leaflet-marker-icon[title=this-is-a-visible-note]")
     assert_selector "#sidebar", :text => "this-is-a-hidden-note"
 
