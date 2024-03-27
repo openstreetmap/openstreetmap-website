@@ -209,8 +209,10 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/:id" => "traces#show", :as => "show_trace"
-  get "/user/:display_name/traces/:id/picture" => "traces#picture", :as => "trace_picture"
-  get "/user/:display_name/traces/:id/icon" => "traces#icon", :as => "trace_icon"
+  scope "/user/:display_name/traces/:trace_id", :module => :traces do
+    get "picture" => "pictures#show", :as => "trace_picture"
+    get "icon" => "icons#show", :as => "trace_icon"
+  end
   get "/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/tag/%{tag}")
   get "/traces/tag/:tag" => "traces#index"
   get "/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces")

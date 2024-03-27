@@ -208,48 +208,6 @@ class TracesController < ApplicationController
     @traces = @traces.includes(:user)
   end
 
-  def picture
-    trace = Trace.find(params[:id])
-
-    if trace.visible? && trace.inserted?
-      if trace.public? || (current_user && current_user == trace.user)
-        if trace.icon.attached?
-          redirect_to rails_blob_path(trace.image, :disposition => "inline")
-        else
-          expires_in 7.days, :private => !trace.public?, :public => trace.public?
-          send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => "image/gif", :disposition => "inline")
-        end
-      else
-        head :forbidden
-      end
-    else
-      head :not_found
-    end
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
-  end
-
-  def icon
-    trace = Trace.find(params[:id])
-
-    if trace.visible? && trace.inserted?
-      if trace.public? || (current_user && current_user == trace.user)
-        if trace.icon.attached?
-          redirect_to rails_blob_path(trace.icon, :disposition => "inline")
-        else
-          expires_in 7.days, :private => !trace.public?, :public => trace.public?
-          send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => "image/gif", :disposition => "inline")
-        end
-      else
-        head :forbidden
-      end
-    else
-      head :not_found
-    end
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
-  end
-
   private
 
   def do_create(file, tags, description, visibility)
