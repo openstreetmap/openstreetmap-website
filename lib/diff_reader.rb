@@ -4,8 +4,6 @@
 # Uses the streaming LibXML "Reader" interface to cut down on memory
 # usage, so hopefully we can process fairly large diffs.
 class DiffReader
-  include ConsistencyValidations
-
   # maps each element type to the model class which handles it
   MODELS = {
     "node" => Node,

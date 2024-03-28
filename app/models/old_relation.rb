@@ -21,8 +21,6 @@
 #
 
 class OldRelation < ApplicationRecord
-  include ConsistencyValidations
-
   self.table_name = "relations"
 
   # NOTE: this needs to be included after the table name changes, or

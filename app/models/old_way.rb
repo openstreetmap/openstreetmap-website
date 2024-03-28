@@ -21,8 +21,6 @@
 #
 
 class OldWay < ApplicationRecord
-  include ConsistencyValidations
-
   self.table_name = "ways"
 
   # NOTE: this needs to be included after the table name changes, or
