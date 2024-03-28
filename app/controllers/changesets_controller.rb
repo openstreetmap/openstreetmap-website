@@ -4,7 +4,6 @@ class ChangesetsController < ApplicationController
   include UserMethods
 
   layout "site"
-  require "xml/libxml"
 
   before_action :authorize_web
   before_action :set_locale
