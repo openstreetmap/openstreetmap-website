@@ -6,9 +6,9 @@ module Traces
     authorize_resource :trace
 
     def show
-      trace = Trace.find(params[:trace_id])
+      trace = Trace.visible.find(params[:trace_id])
 
-      if trace.visible? && trace.inserted?
+      if trace.inserted?
         if trace.public? || (current_user && current_user == trace.user)
           if trace.icon.attached?
             redirect_to rails_blob_path(trace.icon, :disposition => "inline")
