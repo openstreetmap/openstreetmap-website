@@ -1,6 +1,6 @@
 require "test_helper"
 
-module Api
+module Traces
   class PicturesControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
