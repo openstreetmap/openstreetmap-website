@@ -16,9 +16,6 @@ class ChangesetsController < ApplicationController
 
   around_action :web_timeout
 
-  # Helper methods for checking consistency
-  include ConsistencyValidations
-
   ##
   # list non-empty changesets in reverse chronological order
   def index
