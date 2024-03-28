@@ -326,6 +326,7 @@ ia:
     deleted_ago_by_html: Delite %{time_ago} per %{user}
     edited_ago_by_html: Modificate %{time_ago} per %{user}
     version: Version
+    redacted_version: Version censurate
     in_changeset: Gruppo de modificationes
     anonymous: anonyme
     no_comment: (sin commento)
@@ -338,7 +339,10 @@ ia:
       other: '%{count} vias'
     download_xml: Discargar XML
     view_history: Vider historia
+    view_unredacted_history: Vider historia non censurate
     view_details: Vider detalios
+    view_redacted_data: Vider datos censurate
+    view_redaction_message: Vider message de censura
     location: 'Loco:'
     node:
       title_html: 'Nodo: %{name}'
@@ -460,8 +464,24 @@ ia:
         created: Create a
         closed: Claudite a
         belongs_to: Autor
+    subscribe:
+      heading: Abonar te al sequente discussion de gruppo de modificationes?
+      button: Abonar te al discussion
+    unsubscribe:
+      heading: Disabonar te del sequente discussion de gruppo de modificationes?
+      button: Disabonar te del discussion
+    heading:
+      title: Gruppo de modificationes %{id}
+      created_by_html: Create per %{link_user} le %{created}.
+    no_such_entry:
+      title: Gruppo de modificationes non trovate
+      heading: 'Nulle entrata con le ID: %{id}'
+      body: Non existe un gruppo de modificationes con le ID %{id}. Per favor verifica
+        le orthographia, o pote esser que le ligamine que tu sequeva es incorrecte.
     show:
       title: 'Gruppo de modificationes: %{id}'
+      created: 'Create: %{when}'
+      closed: 'Claudite: %{when}'
       created_ago_html: Create %{time_ago}
       closed_ago_html: Claudite %{time_ago}
       created_ago_by_html: Create %{time_ago} per %{user}
@@ -546,6 +566,7 @@ ia:
     show:
       title: Diario de %{user} | %{title}
       user_title: Diario de %{user}
+      discussion: Discussion
       leave_a_comment: Lassar un commento
       login_to_leave_a_comment_html: '%{login_link} pro lassar un commento'
       login: Aperir session
@@ -598,6 +619,12 @@ ia:
       comment: Commento
       newer_comments: Commentos plus recente
       older_comments: Commentos plus ancian
+    subscribe:
+      heading: Abonar te al sequente discussion de entrata de diario?
+      button: Abonar te al discussion
+    unsubscribe:
+      heading: Disabonar te del sequente discussion de entrata de diario?
+      button: Disabonar te del discussion
   doorkeeper:
     errors:
       messages:
@@ -1573,7 +1600,10 @@ ia:
     intro_text: OpenStreetMap es un carta del mundo, create per gente como tu e libere
       de usar sub un licentia aperte.
     intro_2_create_account: Crea un conto de usator
+    hosting_partners_2024_html: Le allogiamento web es supportate per %{fastly}, %{corpmembers}
+      e altere %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: Membros corporative de OSMF
     partners_partners: partners
     tou: Conditiones de uso
     osm_offline: Le base de datos de OpenStreetMap non es disponibile al momento debite
@@ -1595,6 +1625,7 @@ ia:
     more: Plus
   user_mailer:
     diary_comment_notification:
+      description: 'Entrata de diario de OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} commentava un entrata de diario'
       hi: Salute %{to_user},
       header: '%{from_user} ha commentate le entrata recente de diario OpenStreetMap
@@ -1605,6 +1636,8 @@ ia:
         o inviar un message al autor a %{replyurl}
       footer_html: Tu pote etiam leger le commento sur %{readurl} e tu pote commentar
         sur %{commenturl} o inviar un message al autor sur %{replyurl}
+      footer_unsubscribe: Tu pote disabonar te del discussion sur %{unsubscribeurl}
+      footer_unsubscribe_html: Tu pote disabonar te del discussion sur %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Salute %{to_user},
@@ -1670,6 +1703,7 @@ ia:
       click_the_link: Si isto es tu, per favor clicca sur le ligamine hic infra pro
         reinitialisar tu contrasigno.
     note_comment_notification:
+      description: 'Nota OpenStreetMap #%{id}'
       anonymous: Un usator anonyme
       greeting: Salute,
       commented:
@@ -1709,6 +1743,7 @@ ia:
       details: Plus detalios sur le nota pote esser trovate a %{url}.
       details_html: Plus detalios sur le nota pote esser trovate a %{url}.
     changeset_comment_notification:
+      description: 'Gruppo de modificationes OpenStreetMap #%{id}'
       hi: Salute %{to_user},
       greeting: Salute,
       commented:
@@ -1817,18 +1852,18 @@ ia:
         one: '%{count message silentiate'
         other: Tu ha %{count} messages silentiate
     reply:
-      wrong_user: Tu es authenticate como "%{user}", ma le message al qual tu vole
-        responder non ha essite inviate a iste usator. Per favor aperi un session
-        como le usator correcte pro poter responder.
+      wrong_user: Tu es authenticate como ‘%{user}’, ma le message al qual tu vole
+        responder non ha essite inviate a iste usator. Per favor aperi session como
+        le usator correcte pro poter responder.
     show:
       title: Leger message
       reply_button: Responder
       unread_button: Marcar como non legite
       destroy_button: Deler
       back: Retornar
-      wrong_user: Tu es authenticate como "%{user}", ma le message que tu vole leger
-        non ha essite inviate per o a iste usator. Per favor aperi un session como
-        le usator correcte pro poter leger lo.
+      wrong_user: Tu es authenticate como ‘%{user}’, ma le message que tu vole leger
+        non ha essite inviate per o a iste usator. Per favor aperi session como le
+        usator correcte pro poter leger lo.
     sent_message_summary:
       destroy_button: Deler
     heading:
@@ -1851,6 +1886,10 @@ ia:
       new password button: Reinitialisar contrasigno
       help_text: Entra le adresse de e-mail que tu usava pro inscriber te, e nos te
         inviara un ligamine que tu pote usar pro reinitialisar tu contrasigno.
+    create:
+      send_paranoid_instructions: Si tu adresse de e-mail existe in nostre base de
+        datos, tu recipera in qualque minutas un ligamine de recuperation de contrasigno
+        a tu adresse de e-mail.
     edit:
       title: Reinitialisar contrasigno
       heading: Reinitialisar le contrasigno de %{user}
@@ -2546,8 +2585,8 @@ ia:
       identifiable: IDENTIFICABILE
       private: PRIVATE
       trackable: TRACIABILE
-      by: per
-      in: in
+      details_with_tags_html: '%{time_ago} per %{user} in %{tags}'
+      details_without_tags_html: '%{time_ago} per %{user}'
     index:
       public_traces: Tracias GPS public
       my_gps_traces: Mi tracias GPS
@@ -2643,6 +2682,7 @@ ia:
   oauth_clients:
     new:
       title: Registrar un nove application
+      disabled: Le registration de applicationes OAuth 1 ha essite disactivate
     edit:
       title: Modificar tu application
     show:
@@ -2726,6 +2766,7 @@ ia:
       title: Mi applicationes autorisate
       application: Application
       permissions: Permissiones
+      last_authorized: Ultime autorisation
       no_applications_html: Tu non ha ancora autorisate applicationes %{oauth2}.
     application:
       revoke: Revocar accesso
@@ -2862,9 +2903,11 @@ ia:
     index:
       title: Usatores
       heading: Usatores
-      showing:
-        one: Pagina %{page} (%{first_item} de %{items})
-        other: Pagina %{page} (%{first_item}-%{last_item} de %{items})
+      older: Usatores plus ancian
+      newer: Usatores plus nove
+      found_users:
+        one: '%{count} usator trovate'
+        other: '%{count} usatores trovate'
       summary_html: '%{name} create ab %{ip_address} le %{date}'
       summary_no_ip_html: '%{name} create le %{date}'
       confirm: Confirmar usatores seligite

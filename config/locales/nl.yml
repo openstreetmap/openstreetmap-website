@@ -103,6 +103,9 @@ nl:
       messages:
         invalid_email_address: lijkt geen geldig e-mailadres te zijn
         email_address_not_routable: is niet routeerbaar
+      models:
+        user_mute:
+          is_already_muted: is al gedempt
     models:
       acl: Toegangscontrolelijst
       changeset: Wijzigingenset
@@ -382,6 +385,7 @@ nl:
     deleted_ago_by_html: '%{time_ago} verwijderd door %{user}'
     edited_ago_by_html: '%{time_ago} bewerkt door %{user}'
     version: Versie
+    redacted_version: Geredigeerde versie
     in_changeset: Wijzigingenset
     anonymous: anoniem
     no_comment: (geen opmerking)
@@ -394,7 +398,10 @@ nl:
       other: '%{count} wegen'
     download_xml: XML downloaden
     view_history: Geschiedenis weergeven
+    view_unredacted_history: Niet-geredigeerde geschiedenis bekijken
     view_details: Details weergeven
+    view_redacted_data: Geredigeerde gegevens bekijken
+    view_redaction_message: Redactiebericht bekijken
     location: 'Locatie:'
     node:
       title_html: 'Knooppunt: %{name}'
@@ -518,8 +525,24 @@ nl:
         created: Aangemaakt
         closed: Gesloten
         belongs_to: Auteur
+    subscribe:
+      heading: Abonneren op de volgende discussie over wijzigingenreeks?
+      button: Op discussie abonneren
+    unsubscribe:
+      heading: Afmelden voor de volgende discussie over wijzigingenreeks
+      button: Van discussie afmelden
+    heading:
+      title: Wijzigingenreeks %{id}
+      created_by_html: Gemaakt door %{link_user} op %{created}.
+    no_such_entry:
+      title: Een dergelijke wijzigingenreeks bestaat niet
+      heading: 'Geen gegevens met de id: %{id}'
+      body: Er is geen wijzigingenreeks met de id %{id}. Controleer uw spelling, of
+        wellicht is de lijk die u hebt gevolgd foutief.
     show:
       title: 'Wijzigingenset: %{id}'
+      created: 'Aangemaakt: %{when}'
+      closed: 'Gesloten: %{when}'
       created_ago_html: Gemaakt %{time_ago}
       closed_ago_html: Gesloten %{time_ago}
       created_ago_by_html: '%{time_ago} gemaakt door %{user}'
@@ -602,6 +625,7 @@ nl:
     show:
       title: Dagboek van %{user} | %{title}
       user_title: Dagboek van %{user}
+      discussion: Overleg
       leave_a_comment: Een reactie achterlaten
       login_to_leave_a_comment_html: U moet moet zich %{login_link} om te kunnen reageren
       login: Aanmelden
@@ -655,6 +679,12 @@ nl:
       comment: Reactie
       newer_comments: Nieuwere reacties
       older_comments: Oudere reacties
+    subscribe:
+      heading: Abonneren op de volgende dagboekaantekeningendiscussie?
+      button: Op discussie abonneren
+    unsubscribe:
+      heading: Afmelden voor de volgende dagboekaantekeningendiscussie?
+      button: Van discussie afmelden
   doorkeeper:
     errors:
       messages:
@@ -1785,10 +1815,9 @@ nl:
         partial_changeset_without_comment: zonder reactie
       details: Meer details over de wijzigingenset kunt u vinden op %{url}.
       details_html: Meer details over de wijzigingenset kunt u vinden op %{url}.
-      unsubscribe: Om u af te melden van de updates van deze wijzigingenset, ga naar
-        %{url} en klik op "Afmelden".
-      unsubscribe_html: Om geen meldingen meer te krijgen over deze wijzigingset,
-        gaat u naar %{url} en klikt u op "Afmelden".
+      unsubscribe: U kunt afmelden voor updates van deze wijzigingensetop %{url}.
+      unsubscribe_html: U kunt u afmelden voor updates van deze wijzigingenset op
+        %{url}.
   confirmations:
     confirm:
       heading: Controleer uw e-mail
@@ -1837,11 +1866,13 @@ nl:
       to: Aan
       subject: Onderwerp
       date: Datum
+      actions: Handelingen
     message_summary:
       unread_button: Markeren als ongelezen
       read_button: Markeren als gelezen
       reply_button: Antwoorden
       destroy_button: Verwijderen
+      unmute_button: Naar Inbox verplaatsen
     new:
       title: Bericht verzenden
       send_message_to_html: Een persoonlijk bericht naar %{name} verzenden
@@ -1856,12 +1887,15 @@ nl:
       body: Er is geen bericht met dat ID.
     outbox:
       title: Postvak UIT
+      actions: Handelingen
       messages:
         one: U hebt één verzonden bericht
         other: U hebt %{count} verzonden berichten
       no_sent_messages_html: U hebt nog geen berichten verzonden. Waarom legt u geen
         contact met %{people_mapping_nearby_link}?
       people_mapping_nearby: dichtbijzijnde mappers
+    muted:
+      title: Gedempte berichten
     reply:
       wrong_user: U bent aangemeld als "%{user}", maar het bericht waarop u wilt antwoorden
         is niet aan die gebruiker gericht. Meld u aan als de juiste gebruiker om te
@@ -2390,6 +2424,7 @@ nl:
           cycleway_national: Nationale fietsroute
           cycleway_regional: Regionale fietsroute
           cycleway_local: Lokale fietsroute
+          cycleway_mtb: Mountainbikeroute
           footway: Voetpad
           rail: Spoorweg
           train: Trein
@@ -2405,6 +2440,8 @@ nl:
           taxiway: Taxibaan
           apron: Luchthavenplatform
           admin: Bestuurlijke grens
+          capital: Hoofdstad
+          city: Stad
           orchard: Boomgaard
           vineyard: Wijngaard
           forest: Bos
@@ -2427,6 +2464,7 @@ nl:
           lake: Meer
           reservoir: Reservoir
           glacier: Gletsjer
+          reef: Rif
           wetland: Moeras
           farm: Boerderij
           brownfield: Braakliggend terrein
@@ -2602,8 +2640,6 @@ nl:
       identifiable: IDENTIFICEERBAAR
       private: PERSOONLIJK
       trackable: TRACEERBAAR
-      by: door
-      in: in
     index:
       public_traces: Openbare gps-trajecten
       my_gps_traces: Mijn GPS-traces
@@ -2693,6 +2729,7 @@ nl:
       read_gpx: Persoonlijke gps-trajecten lezen
       write_gpx: Gps-trajecten uploaden
       write_notes: Opmerkingen wijzigen
+      write_redactions: Kaartgegevens redigeren
       read_email: E-mailadres lezen
       skip_authorization: Toepassing automatisch goedkeuren
   oauth_clients:
@@ -2900,6 +2937,7 @@ nl:
           importer: Importeurstoegang intrekken
       block_history: Actieve blokkades
       moderator_history: Uitgevoerde blokkades
+      revoke_all_blocks: Alle blokkades opheffen
       comments: Reacties
       create_block: Deze gebruiker blokkeren
       activate_user: Deze gebruiker activeren
@@ -2916,9 +2954,6 @@ nl:
     index:
       title: Gebruikers
       heading: Gebruikers
-      showing:
-        one: Pagina %{page} (%{first_item} van %{items})
-        other: Pagina %{page} (%{first_item}-%{last_item} van %{items})
       summary_html: '%{name} aangemaakt vanaf %{ip_address} op %{date}'
       summary_no_ip_html: '%{name} aangemaakt op %{date}'
       confirm: Geselecteerde gebruikers bevestigen
@@ -3011,6 +3046,16 @@ nl:
       confirm: Weet u zeker dat u deze blokkade wilt intrekken?
       revoke: Intrekken
       flash: Deze blokkade is ingetrokken.
+    revoke_all:
+      title: Alle blokkeringen op %{block_on} intrekken
+      heading_html: Alle blokkeringen op %{block_on} intrekken
+      empty: '%{name} heeft geen actieve blokkeringen.'
+      confirm: Weet u zeker dat u %{active_blocks} wilt intrekken?
+      active_blocks:
+        one: '%{count} actieve blokkering'
+        other: '%{count} actieve blokkeringen'
+      revoke: Intrekken
+      flash: Alle actieve blokkeringen zijn ingetrokken.
     helper:
       time_future_html: Vervalt over %{time}.
       until_login: Actief totdat de gebruiker zich aanmeldt.
@@ -3083,8 +3128,10 @@ nl:
       table:
         thead:
           muted_user: Gedempte gebruiker
+          actions: Handelingen
         tbody:
           unmute: Dempen opheffen
+          send_message: Bericht verzenden
     create:
       notice: Je hebt %{name} gedempt.
       error: '%{name} kan niet worden gedempt. %{full_message}.'

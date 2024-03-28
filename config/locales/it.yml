@@ -99,6 +99,8 @@ it:
       messages:
         invalid_email_address: non sembra essere un indirizzo e-mail valido
         email_address_not_routable: non è instradabile
+        display_name_is_user_n: non puoi essere user_n a meno che n non sia il tuo
+          ID utente
       models:
         user_mute:
           is_already_muted: è già silenziato
@@ -476,6 +478,12 @@ it:
       introduction: Clicca sulla cartina per disponibilità nei pressi.
       nearby: Disponibilità nei pressi
       enclosing: Elementi inglobanti
+  old_nodes:
+    not_found:
+      sorry: 'Impossibile trovare il nodo #%{id} alla versione %{version}.'
+  old_ways:
+    not_found:
+      sorry: 'Impossibile trovare il percorso #%{id} alla versione %{version}.'
   changesets:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -510,6 +518,20 @@ it:
         created: Creato
         closed: Chiuso
         belongs_to: Autore
+    subscribe:
+      heading: Vuoi iscriverti alla seguente discussione del gruppo di modifiche?
+      button: Iscriviti alla discussione
+    unsubscribe:
+      heading: Annullare l'iscrizione alla seguente discussione del gruppo di modifiche?
+      button: Annulla l'iscrizione alla discussione
+    heading:
+      title: Gruppo di modifiche %{id}
+      created_by_html: Creato da %{link_user} il %{created}.
+    no_such_entry:
+      title: Gruppo di modifiche non trovato
+      heading: 'Nessuna voce con l''ID: %{id}'
+      body: Non esiste alcun gruppo di modifiche con l’ID %{id}. Controlla la digitazione
+        o che il collegamento sul quale hai cliccato non sia errato.
     show:
       title: 'Gruppo di modifiche: %{id}'
       created_ago_html: Creato %{time_ago}
@@ -648,6 +670,12 @@ it:
       comment: Commento
       newer_comments: Commenti più recenti
       older_comments: Commenti più vecchi
+    subscribe:
+      heading: Vuoi iscriverti alla seguente discussione sul diario?
+      button: Iscriviti alla discussione
+    unsubscribe:
+      heading: Annullare l'iscrizione alla seguente discussione sul diario?
+      button: Annulla l'iscrizione alla discussione
   doorkeeper:
     errors:
       messages:
@@ -1622,7 +1650,10 @@ it:
     intro_text: OpenStreetMap è una mappa del mondo, creata da persone come te e libera
       da utilizzare secondo una licenza aperta.
     intro_2_create_account: Crea un account utente
+    hosting_partners_2024_html: L'hosting è supportato da %{fastly}, %{corpmembers}
+      e da altri %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: Membri aziendali dell'OSMF
     partners_partners: partner
     tou: Condizioni d'uso
     osm_offline: Il database di OpenStreetMap è al momento non in linea per permettere
@@ -1644,6 +1675,7 @@ it:
     more: Altro
   user_mailer:
     diary_comment_notification:
+      description: 'Voce del diario OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} ha commentato una voce del diario'
       hi: Ciao %{to_user},
       header: '%{from_user} ha commentato la voce del diario OpenStreetMap con l''oggetto
@@ -1654,6 +1686,8 @@ it:
         oppure inviare un messaggio all'autore su %{replyurl}
       footer_html: Puoi anche leggere il commento su %{readurl} e puoi commentare
         su %{commenturl} oppure inviare un messaggio all'autore su %{replyurl}
+      footer_unsubscribe: Puoi annullare l'iscrizione alla discussione su %{unsubscribeurl}
+      footer_unsubscribe_html: Puoi annullare l'iscrizione alla discussione su %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Ciao %{to_user},
@@ -1691,6 +1725,8 @@ it:
           punto.
         other: sia stato caricato con successo con %{trace_points} su un totale di
           %{count} punti.
+      all_your_traces_html: Puoi vedere tutte le tue tracce GPX caricate con successo
+        su %{url}.
       subject: '[OpenStreetMap] Importazione GPX completata con successo'
     signup_confirm:
       subject: '[OpenStreetMap] Benvenuti su OpenStreetMap'
@@ -1717,6 +1753,7 @@ it:
       click_the_link: Se sei tu, per favore clicca sul link sotto per resettare la
         password
     note_comment_notification:
+      description: 'Nota OpenStreetMap #%{id}'
       anonymous: Un utente anonimo
       greeting: Ciao,
       commented:
@@ -1755,6 +1792,7 @@ it:
       details: Ulteriori dettagli sulla nota possono essere trovati su %{url}.
       details_html: Ulteriori dettagli sulla nota possono essere trovati su %{url}.
     changeset_comment_notification:
+      description: 'Gruppo di modifiche OpenStreetMap #%{id}'
       hi: Ciao %{to_user},
       greeting: Ciao,
       commented:
@@ -1898,6 +1936,9 @@ it:
       help_text: Inserire l'indirizzo email che si è utilizzato per l'iscrizione,
         a cui verrà inviato un collegamento che permetterà la reimpostazione della
         propria password.
+    create:
+      send_paranoid_instructions: Se il tuo indirizzo e-mail esiste nel nostro database,
+        entro pochi minuti riceverai un link di recupero al tuo indirizzo e-mail.
     edit:
       title: Reimposta password
       heading: Reimposta password per %{user}
@@ -2438,6 +2479,7 @@ it:
           bicycle_shop: Negozio di biciclette
           bicycle_rental: Noleggio biciclette
           bicycle_parking: Parcheggio per biciclette
+          bicycle_parking_small: Piccolo parcheggio per biciclette
           toilets: Bagni pubblici
     welcome:
       title: Benvenuto!
@@ -2594,8 +2636,8 @@ it:
       identifiable: IDENTIFICABILE
       private: PRIVATO
       trackable: TRACCIABILE
-      by: da
-      in: in
+      details_with_tags_html: '%{time_ago} da %{user} in %{tags}'
+      details_without_tags_html: '%{time_ago} da %{user}'
     index:
       public_traces: Tracciati GPS pubblici
       my_gps_traces: Le mie tracce GPS
@@ -2691,6 +2733,7 @@ it:
   oauth_clients:
     new:
       title: Registra una nuova applicazione
+      disabled: La registrazione delle applicazioni OAuth 1 è stata disabilitata
     edit:
       title: Modifica la tua applicazione
     show:
@@ -2910,9 +2953,9 @@ it:
     index:
       title: Utenti
       heading: Utenti
-      showing:
-        one: Pagina %{page} (%{first_item} di %{items})
-        other: Pagina %{page} (%{first_item}-%{last_item} di %{items})
+      found_users:
+        one: '%{count} utente trovato'
+        other: '%{count} utenti trovati'
       summary_html: '%{name} creato da %{ip_address} il %{date}'
       summary_no_ip_html: '%{name} creato il %{date}'
       confirm: Conferma Utenti Selezionati

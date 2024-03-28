@@ -69,7 +69,7 @@ gl:
       changeset_tag: Etiqueta do conxunto de modificacións
       country: País
       diary_comment: Comentario do diario
-      diary_entry: Entrada do diario
+      diary_entry: Entrada no diario
       friend: Amizade
       issue: Problema
       language: Lingua
@@ -342,6 +342,7 @@ gl:
     deleted_ago_by_html: Borrado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
     version: Versión
+    redacted_version: Versión censurada
     in_changeset: Conxunto de modificacións
     anonymous: anónimo
     no_comment: (sen comentarios)
@@ -354,7 +355,10 @@ gl:
       other: '%{count} vías'
     download_xml: Baixar en XML
     view_history: Ollar o historial
+    view_unredacted_history: Ollar o historial non censurado
     view_details: Ollar os detalles
+    view_redacted_data: Ollar os datos censurados
+    view_redaction_message: Ollar a mensaxe censurada
     location: 'Localización:'
     node:
       title_html: 'Nó: %{name}'
@@ -476,8 +480,25 @@ gl:
         created: Creado
         closed: Pechado
         belongs_to: Autor
+    subscribe:
+      heading: Queres subscribirte á seguinte conversa sobre o conxunto de modificacións?
+      button: Subscribirse á conversa
+    unsubscribe:
+      heading: Queres cancelar a subscrición á seguinte conversa sobre o conxunto
+        de modificacións?
+      button: Cancelar a subscrición á conversa
+    heading:
+      title: Conxunto de modificacións %{id}
+      created_by_html: Creado por %{link_user} o %{created}.
+    no_such_entry:
+      title: Non existe ese conxunto de modificacións
+      heading: 'Non hai ningunha entrada co ID: %{id}'
+      body: Non existe ningún conxunto de modificacións co identificador %{id}. Comproba
+        a ortografía ou que a ligazón que seguiches estea ben.
     show:
       title: 'Conxunto de modificacións: %{id}'
+      created: 'Creado: %{when}'
+      closed: 'Pechado: %{when}'
       created_ago_html: Creado %{time_ago}
       closed_ago_html: Pechado %{time_ago}
       created_ago_by_html: Creado %{time_ago} por %{user}
@@ -559,19 +580,19 @@ gl:
       newer_entries: Entradas máis novas
     edit:
       title: Editar a entrada do diario
-      marker_text: Localización da entrada do diario
+      marker_text: Localización da entrada no diario
     show:
       title: Diario de %{user} | %{title}
       user_title: Diario de %{user}
       discussion: Conversa
       leave_a_comment: Deixar un comentario
       login_to_leave_a_comment_html: '%{login_link} para deixar un comentario'
-      login: Iniciar a sesión
+      login: Inicia sesión
     no_such_entry:
-      title: Non hai tal entrada de diario
+      title: Non hai tal entrada no diario
       heading: 'Non hai ningunha entrada co ID: %{id}'
-      body: Non existe ningunha entrada no diario ou comentario co ID %{id}. Comprobe
-        a ortografía ou que a ligazón que seguiu estea ben.
+      body: Non existe ningunha entrada no diario ou comentario co identificador %{id}.
+        Comproba a ortografía ou que a ligazón que seguiches estea ben.
     diary_entry:
       posted_by_html: Publicado por %{link_user} o %{created} en %{language_link}.
       updated_at_html: Última actualización no %{updated}.
@@ -617,6 +638,13 @@ gl:
       comment: Comentario
       newer_comments: Comentarios máis recentes
       older_comments: Comentarios máis vellos
+    subscribe:
+      heading: Queres subscribirte á seguinte conversa sobre a entrada no diario?
+      button: Subscribirse á conversa
+    unsubscribe:
+      heading: Queres cancelar a subscrición á seguinte conversa sobre a entrada no
+        diario?
+      button: Cancelar a subscrición á conversa
   doorkeeper:
     errors:
       messages:
@@ -1542,9 +1570,9 @@ gl:
         resolve_with_user: Xa tentaches resolver o problema co usuario en cuestión
       categories:
         diary_entry:
-          spam_label: Esta entrada de diario é/contén spam
-          offensive_label: Esta entrada do diario é obscena/ofensiva
-          threat_label: Esta entrada de diario contén unha ameaza
+          spam_label: Esta entrada no diario é/contén spam
+          offensive_label: Esta entrada no diario é obscena/ofensiva
+          threat_label: Esta entrada no diario contén unha ameaza
           other_label: Outro
         diary_comment:
           spam_label: Este comentario da entrada é/contén spam
@@ -1589,7 +1617,10 @@ gl:
     intro_text: O OpenStreetMap é un mapa do mundo, creado por xente coma ti e de
       libre uso baixo unha licenza aberta.
     intro_2_create_account: Crea unha conta de usuario
+    hosting_partners_2024_html: O aloxamento está fornecido por %{fastly}, %{corpmembers}
+      e outros %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: membros corporativos da OSMF
     partners_partners: socios
     tou: Termos de uso
     osm_offline: A base de datos do OpenStreetMap atópase desconectada mentres realizamos
@@ -1611,16 +1642,19 @@ gl:
     more: Máis
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} comentou nunha entrada de diario'
+      description: Entrada do diario do OpenStreetMap n.º %{id}
+      subject: '[OpenStreetMap] %{user} comentou nunha entrada do diario'
       hi: 'Ola %{to_user}:'
-      header: '%{from_user} comentou na entrada de diario no OpenStreetMap co asunto
+      header: '%{from_user} comentou na entrada do diario do OpenStreetMap co asunto
         "%{subject}":'
-      header_html: '%{from_user} comentou na entrada de diario no OpenStreetMap co
+      header_html: '%{from_user} comentou na entrada do diario do OpenStreetMap co
         asunto %{subject}:'
       footer: Tamén podes ler o comentario en %{readurl} e comentar en %{commenturl}
         ou enviar unha mensaxe ó autor en %{replyurl}
       footer_html: Tamén podes ler o comentario en %{readurl} e comentar en %{commenturl}
         ou enviar unha mensaxe ao autor en %{replyurl}
+      footer_unsubscribe: Podes cancelar a subscrición á conversa en %{unsubscribeurl}
+      footer_unsubscribe_html: Podes cancelar a subscrición á conversa en %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: 'Ola %{to_user}:'
@@ -1682,6 +1716,7 @@ gl:
       click_the_link: Se este es ti, preme na seguinte ligazón para restablecer o
         teu contrasinal.
     note_comment_notification:
+      description: Nota do OpenStreetMap n.º %{id}
       anonymous: Un usuario anónimo
       greeting: 'Ola:'
       commented:
@@ -1721,6 +1756,7 @@ gl:
       details: Pode atopar máis detalles da nota en %{url}.
       details_html: Podes atopar máis detalles da nota en %{url}.
     changeset_comment_notification:
+      description: Conxunto de modificacións do OpenStreetMap n.º %{id}
       hi: 'Ola, %{to_user}:'
       greeting: 'Ola:'
       commented:
@@ -1743,10 +1779,10 @@ gl:
         %{url}.
       details_html: Pódense atopar máis detalles sobre o conxunto de modificacións
         en %{url}.
-      unsubscribe: Para darse de baixa das actualizacións deste conxunto de modificacións,
-        olla %{url} e preme en "darse de baixa".
-      unsubscribe_html: Para darse de baixa das actualizacións deste conxunto de modificacións,
-        olla %{url} e preme en "darse de baixa".
+      unsubscribe: Podes cancelar a subscrición ás actualizacións deste conxunto de
+        modificacións en %{url}.
+      unsubscribe_html: Podes cancelar a subscrición ás actualizacións deste conxunto
+        de modificacións en %{url}.
   confirmations:
     confirm:
       heading: Comproba o teu correo!
@@ -1830,17 +1866,18 @@ gl:
         one: '%{count} mensaxe silenciada'
         other: Tes %{count} mensaxes silenciadas
     reply:
-      wrong_user: Accediches ó sistema coma "%{user}", pero a mensaxe que pediu responder
-        non lla enviou a ese usuario. Accede co usuario correcto para redactar a resposta.
+      wrong_user: Accediches ó sistema como "%{user}", pero a mensaxe que pediches
+        responder non se enviou a ese usuario. Accede co usuario correcto para redactar
+        a resposta.
     show:
       title: Ler a mensaxe
       reply_button: Responder
       unread_button: Marcar como non lida
       destroy_button: Eliminar
       back: Volver
-      wrong_user: Accedeches ó sistema coma "%{user}", pero a mensaxe que pregaches
-        ler non a enviaches a ese usuario ou el non a enviou a ti. Accede co usuario
-        correcto para ler a resposta.
+      wrong_user: Accediches ó sistema como "%{user}", pero a mensaxe que pediches
+        ler non a enviou ese usuario nin foi enviada a ese usuario. Accede co usuario
+        correcto para ler a mensaxe.
     sent_message_summary:
       destroy_button: Eliminar
     heading:
@@ -1864,6 +1901,10 @@ gl:
       help_text: Escribe o enderezo de correo electrónico que empregaches para te
         rexistrares. Enviarémosche unha ligazón que poderás empregar para restablecer
         o teu contrasinal.
+    create:
+      send_paranoid_instructions: Se o teu enderezo de correo electrónico existe na
+        nosa base de datos, recibirás nuns minutos unha ligazón de recuperación do
+        contrasinal no teu enderezo de correo electrónico.
     edit:
       title: Restablecer o contrasinal
       heading: Restablecer o contrasinal de %{user}
@@ -1916,13 +1957,13 @@ gl:
       failure: Non foi posíbel actualizar o perfil.
   sessions:
     new:
-      title: Rexistrarse
-      heading: Rexistro
+      title: Acceder ao sistema
+      heading: Acceder ao sistema
       email or username: Enderezo de correo electrónico ou nome de usuario
       password: Contrasinal
       remember: Lembrádeme
       lost password link: Perdiches o teu contrasinal?
-      login_button: Iniciar a sesión
+      login_button: Acceder ao sistema
       register now: Rexístrate agora
       with external: 'Ou ben, emprega un servizo de terceiros para acceder:'
       no account: Non estás rexistrado?
@@ -1930,28 +1971,28 @@ gl:
       openid_logo_alt: Acceder ó sistema cun OpenID
       auth_providers:
         openid:
-          title: Iniciar a sesión co OpenID
-          alt: Acceder ó sistema cun URL OpenID
+          title: Acceder ó sistema co OpenID
+          alt: Acceder ó sistema cun URL do OpenID
         google:
-          title: Acceder ó sistema co Google
+          title: Acceder ó sistema con Google
           alt: Acceder ó sistema cun OpenID de Google
         facebook:
-          title: Iniciar a sesión co Facebook
-          alt: Iniciar a sesión cunha conta do Facebook
+          title: Acceder ó sistema co Facebook
+          alt: Acceder ó sistema cunha conta do Facebook
         microsoft:
-          title: Iniciar a sesión con Microsoft
-          alt: Iniciar a sesión cunha conta de Microsoft
+          title: Acceder ó sistema con Microsoft
+          alt: Acceder ó sistema cunha conta de Microsoft
         github:
-          title: Iniciar a sesión co GitHub
-          alt: Acceder cunha conta do GitHub
+          title: Acceder ó sistema co GitHub
+          alt: Acceder ó sistema cunha conta do GitHub
         wikipedia:
-          title: Iniciar a sesión ca Wikipedia
-          alt: Iniciar a sesión cunha conta da Wikipedia
+          title: Acceder ó sistema coa Wikipedia
+          alt: Acceder ó sistema cunha conta da Wikipedia
         wordpress:
-          title: Iniciar a sesión co Wordpress
+          title: Acceder ó sistema co Wordpress
           alt: Acceder ó sistema cun OpenID do Wordpress
         aol:
-          title: Iniciar a sesión co AOL
+          title: Acceder ó sistema co AOL
           alt: Acceder ó sistema cun OpenID do AOL
     destroy:
       title: Pechar a sesión
@@ -2575,8 +2616,6 @@ gl:
       identifiable: IDENTIFICÁBEL
       private: PRIVADO
       trackable: RASTREXÁBEL
-      by: por
-      in: en
     index:
       public_traces: Pistas GPS públicas
       my_gps_traces: A miñas pistas GPS
@@ -2893,9 +2932,6 @@ gl:
     index:
       title: Usuarios
       heading: Usuarios
-      showing:
-        one: Páxina %{page} (%{first_item} de %{items})
-        other: Páxina %{page} (%{first_item}-%{last_item} de %{items})
       summary_html: '%{name} creado dende %{ip_address} o %{date}'
       summary_no_ip_html: '%{name} creado o %{date}'
       confirm: Confirmar os usuarios seleccionados
@@ -2920,8 +2956,8 @@ gl:
       option_1: Se é novo en OpenStreetMap, por favor cree unha nova conta utilizando
         o formulario de abaixo.
       option_2: Se xa tes unha conta, podes conectarte á túa conta empregando o teu
-        nome de usuario e contrasinal, e despois asociar a conta co teu Identificador
-        nas túas preferencias de usuario
+        nome de usuario e contrasinal, e despois asociar a conta co teu identificador
+        nas túas preferencias de usuario.
   user_role:
     filter:
       not_a_role: A cadea "%{role}" non é un rol correcto.
@@ -3209,7 +3245,7 @@ gl:
       show:
         comment: Comentar
         subscribe: Subscribirse
-        unsubscribe: Rexeitar a subscrición
+        unsubscribe: Cancelar a subscrición
         hide_comment: agochar
         unhide_comment: amosar
     edit_help: Desplaza o mapa e achégao na localización que queiras editar; logo,
