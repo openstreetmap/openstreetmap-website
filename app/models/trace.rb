@@ -38,6 +38,7 @@ class Trace < ApplicationRecord
   scope :visible_to, ->(u) { visible.where(:visibility => %w[public identifiable]).or(visible.where(:user => u)) }
   scope :visible_to_all, -> { where(:visibility => %w[public identifiable]) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
+  scope :imported, -> { where(:inserted => true) }
 
   has_one_attached :file, :service => Settings.trace_file_storage
   has_one_attached :image, :service => Settings.trace_image_storage
