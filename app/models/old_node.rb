@@ -26,7 +26,6 @@
 
 class OldNode < ApplicationRecord
   include GeoRecord
-  include ConsistencyValidations
 
   self.table_name = "nodes"
 
