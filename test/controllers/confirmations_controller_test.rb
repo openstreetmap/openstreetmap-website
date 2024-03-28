@@ -38,7 +38,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_get
     user = build(:user, :pending)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
@@ -50,7 +49,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     # Get the confirmation page
@@ -71,7 +69,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -85,7 +82,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
@@ -96,7 +92,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -111,7 +106,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -125,7 +119,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
@@ -136,7 +129,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
@@ -151,7 +143,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     travel 2.weeks do
@@ -165,7 +156,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
@@ -183,7 +173,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     User.find_by(:display_name => user.display_name).hide!
@@ -201,7 +190,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_confirm_resend_success
     user = build(:user, :pending)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
 
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       perform_enqueued_jobs do
@@ -220,25 +208,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
-  def test_confirm_resend_no_token
-    user = build(:user, :pending)
-    # only complete first half of registration
-    post user_new_path, :params => { :user => user.attributes }
-
-    assert_no_difference "ActionMailer::Base.deliveries.size" do
-      perform_enqueued_jobs do
-        get user_confirm_resend_path(user)
-      end
-    end
-
-    assert_redirected_to login_path
-    assert_match "User #{user.display_name} not found.", flash[:error]
-  end
-
   def test_confirm_resend_deleted
     user = build(:user, :pending)
     post user_new_path, :params => { :user => user.attributes }
-    post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
 
     User.find_by(:display_name => user.display_name).hide!
 
