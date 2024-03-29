@@ -151,7 +151,7 @@ class DiaryEntriesController < ApplicationController
 
       redirect_to diary_entry_path(@entry.user, @entry)
     else
-      render :action => "show"
+      render :action => "newcomment"
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
