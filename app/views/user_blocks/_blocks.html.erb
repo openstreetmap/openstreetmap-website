@@ -20,20 +20,8 @@
   <%= render :partial => "block", :locals => { :show_revoke_link => show_revoke_link, :show_user_name => show_user_name, :show_creator_name => show_creator_name }, :collection => @user_blocks %>
 </table>
 
-<nav class='secondary-actions'>
-  <ul>
-    <% if @user_blocks_pages.current_page.number > 1 -%>
-      <li><%= link_to t(".previous"), @params.merge(:page => @user_blocks_pages.current_page.number - 1) %></li>
-    <% else -%>
-      <li><%= t(".previous") %></li>
-    <% end -%>
-
-    <li><%= t(".showing_page", :page => @user_blocks_pages.current_page.number) %></li>
-
-    <% if @user_blocks_pages.current_page.number < @user_blocks_pages.page_count -%>
-      <li><%= link_to t(".next"), @params.merge(:page => @user_blocks_pages.current_page.number + 1) %></li>
-    <% else -%>
-      <li><%= t(".next") %></li>
-    <% end -%>
-  </ul>
-</nav>
+<%= render "shared/pagination",
+           :newer_key => "user_blocks.blocks.newer",
+           :older_key => "user_blocks.blocks.older",
+           :newer_id => @newer_user_blocks_id,
+           :older_id => @older_user_blocks_id %>

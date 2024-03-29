@@ -1,5 +1,6 @@
 class UserBlocksController < ApplicationController
   include UserMethods
+  include PaginationMethods
 
   layout "site"
 
@@ -16,10 +17,10 @@ class UserBlocksController < ApplicationController
 
   def index
     @params = params.permit
-    @user_blocks_pages, @user_blocks = paginate(:user_blocks,
-                                                :include => [:user, :creator, :revoker],
-                                                :order => "user_blocks.ends_at DESC",
-                                                :per_page => 20)
+
+    user_blocks = UserBlock.all
+
+    @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
   end
 
   def show
@@ -103,22 +104,20 @@ class UserBlocksController < ApplicationController
   # shows a list of all the blocks on the given user
   def blocks_on
     @params = params.permit(:display_name)
-    @user_blocks_pages, @user_blocks = paginate(:user_blocks,
-                                                :include => [:user, :creator, :revoker],
-                                                :conditions => { :user_id => @user.id },
-                                                :order => "user_blocks.ends_at DESC",
-                                                :per_page => 20)
+
+    user_blocks = UserBlock.where(:user => @user)
+
+    @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
   end
 
   ##
   # shows a list of all the blocks by the given user.
   def blocks_by
     @params = params.permit(:display_name)
-    @user_blocks_pages, @user_blocks = paginate(:user_blocks,
-                                                :include => [:user, :creator, :revoker],
-                                                :conditions => { :creator_id => @user.id },
-                                                :order => "user_blocks.ends_at DESC",
-                                                :per_page => 20)
+
+    user_blocks = UserBlock.where(:creator => @user)
+
+    @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
   end
 
   private

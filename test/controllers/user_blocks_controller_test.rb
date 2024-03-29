@@ -93,19 +93,26 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   ##
   # test the index action with multiple pages
   def test_index_paged
-    create_list(:user_block, 50)
+    user_blocks = create_list(:user_block, 50).reverse
+    next_path = user_blocks_path
 
-    get user_blocks_path
+    get next_path
     assert_response :success
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", :count => 20
-    end
+    check_user_blocks_table user_blocks[0...20]
+    check_no_page_link "Newer Blocks"
+    next_path = check_page_link "Older Blocks"
 
-    get user_blocks_path(:page => 2)
+    get next_path
     assert_response :success
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", :count => 20
-    end
+    check_user_blocks_table user_blocks[20...40]
+    check_page_link "Newer Blocks"
+    next_path = check_page_link "Older Blocks"
+
+    get next_path
+    assert_response :success
+    check_user_blocks_table user_blocks[40...50]
+    check_page_link "Newer Blocks"
+    check_no_page_link "Older Blocks"
   end
 
   ##
@@ -531,19 +538,26 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   # test the blocks_on action with multiple pages
   def test_blocks_on_paged
     user = create(:user)
-    create_list(:user_block, 50, :user => user)
+    user_blocks = create_list(:user_block, 50, :user => user).reverse
+    next_path = user_blocks_on_path(user)
 
-    get user_blocks_on_path(user)
+    get next_path
     assert_response :success
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", :count => 20
-    end
+    check_user_blocks_table user_blocks[0...20]
+    check_no_page_link "Newer Blocks"
+    next_path = check_page_link "Older Blocks"
 
-    get user_blocks_on_path(user, :page => 2)
+    get next_path
     assert_response :success
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", :count => 20
-    end
+    check_user_blocks_table user_blocks[20...40]
+    check_page_link "Newer Blocks"
+    next_path = check_page_link "Older Blocks"
+
+    get next_path
+    assert_response :success
+    check_user_blocks_table user_blocks[40...50]
+    check_page_link "Newer Blocks"
+    check_no_page_link "Older Blocks"
   end
 
   ##
@@ -592,18 +606,46 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   # test the blocks_by action with multiple pages
   def test_blocks_by_paged
     user = create(:moderator_user)
-    create_list(:user_block, 50, :creator => user)
+    user_blocks = create_list(:user_block, 50, :creator => user).reverse
+    next_path = user_blocks_by_path(user)
 
-    get user_blocks_by_path(user)
+    get next_path
     assert_response :success
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", :count => 20
+    check_user_blocks_table user_blocks[0...20]
+    check_no_page_link "Newer Blocks"
+    next_path = check_page_link "Older Blocks"
+
+    get next_path
+    assert_response :success
+    check_user_blocks_table user_blocks[20...40]
+    check_page_link "Newer Blocks"
+    next_path = check_page_link "Older Blocks"
+
+    get next_path
+    assert_response :success
+    check_user_blocks_table user_blocks[40...50]
+    check_page_link "Newer Blocks"
+    check_no_page_link "Older Blocks"
+  end
+
+  private
+
+  def check_user_blocks_table(user_blocks)
+    assert_dom "table#block_list tbody tr" do |rows|
+      assert_equal user_blocks.count, rows.count, "unexpected number of rows in user blocks table"
+      rows.zip(user_blocks).map do |row, user_block|
+        assert_dom row, "a[href='#{user_block_path user_block}']", 1
+      end
     end
+  end
 
-    get user_blocks_by_path(user, :page => 2)
-    assert_response :success
-    assert_select "table#block_list tbody", :count => 1 do
-      assert_select "tr", :count => 20
+  def check_no_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/, :count => 0 }, "unexpected #{name} page link"
+  end
+
+  def check_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/ }, "missing #{name} page link" do |buttons|
+      return buttons.first.attributes["href"].value
     end
   end
 end
