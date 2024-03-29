@@ -32254,7 +32254,7 @@
         let loadStringsPromises = [];
         indexes.forEach((index, i3) => {
           const fullCoverageIndex = _localeCodes.findIndex(function(locale2) {
-            return index[locale2] && index[locale2].pct === 1;
+            return locale2 === "en" && index[locale2] && index[locale2].pct === 1;
           });
           _localeCodes.slice(0, fullCoverageIndex + 1).forEach(function(code) {
             let scopeId = Object.keys(localeDirs)[i3];
@@ -33022,7 +33022,9 @@
   // modules/presets/index.js
   var _mainPresetIndex = presetIndex();
   function setHistoricalDefaults(defaults2) {
-    defaults2.relation.unshift("type/chronology");
+    if (defaults2.relation) {
+      defaults2.relation.unshift("type/chronology");
+    }
   }
   function addHistoricalPresets(presets) {
     presets["type/chronology"] = {
@@ -33035,12 +33037,16 @@
     };
   }
   function addHistoricalFields(fields) {
-    fields.start_date.type = "date";
-    fields.end_date = {
-      ...fields.start_date,
-      key: "end_date"
-    };
-    fields.source.type = "text";
+    if (fields.start_date) {
+      fields.start_date.type = "date";
+      fields.end_date = {
+        ...fields.start_date,
+        key: "end_date"
+      };
+    }
+    if (fields.source) {
+      fields.source.type = "text";
+    }
     fields.license = {
       key: "license",
       type: "combo",
@@ -48391,7 +48397,7 @@
         severity: "warning",
         message: (context2) => {
           const entity2 = context2.hasEntity(entityID);
-          return entity2 ? _t.append("issues.missing_start_date.feature.message", {
+          return entity2 ? _t.append("issues.missing_start_date.message", {
             feature: utilDisplayLabel(entity2, context2.graph())
           }) : "";
         },
@@ -62544,6 +62550,7 @@
       if (osm) {
         links.append("a").attr("class", "changeset-osm-link").attr("href", osm.changesetURL(changeset)).attr("target", "_blank").call(_t.append("info_panels.history.changeset_link"));
       }
+      links.append("a").attr("class", "changeset-osmcha-link").attr("href", "https://osmcha.openhistoricalmap.org/changesets/" + changeset).attr("target", "_blank").text("OSMCha");
     }
     function redraw(selection2) {
       var selectedNoteID = context.selectedNoteID();
@@ -85034,7 +85041,7 @@
       } else {
         prefix = type2 + ":";
       }
-      return prefix + (value ? "".concat(key, "=").concat(value) : key).replace(/_/g, " ").trim();
+      return (prefix + (value ? "".concat(key, "=").concat(value) : key).replace(/_/g, " ")).trim();
     },
     //
     // Pass params object of the form:
