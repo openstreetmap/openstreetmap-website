@@ -237,7 +237,8 @@ OpenStreetMap::Application.routes.draw do
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/
   end
-  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/, :as => :comment_diary_entry
+  get "/user/:display_name/diary/:id/comments", :id => /\d+/, :to => redirect(:path => "/user/%{display_name}/diary/%{id}", :anchor => "comments")
+  post "/user/:display_name/diary/:id/comments" => "diary_entries#comment", :id => /\d+/, :as => :comment_diary_entry
   post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
   post "/user/:display_name/diary/:id/unhide" => "diary_entries#unhide", :id => /\d+/, :as => :unhide_diary_entry
   post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_comments#hide", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment

@@ -70,7 +70,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       { :controller => "diary_entries", :action => "update", :display_name => "username", :id => "1" }
     )
     assert_routing(
-      { :path => "/user/username/diary/1/newcomment", :method => :post },
+      { :path => "/user/username/diary/1/comments", :method => :post },
       { :controller => "diary_entries", :action => "comment", :display_name => "username", :id => "1" }
     )
     assert_routing(
@@ -370,7 +370,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :success
-    assert_template :show
+    assert_template :newcomment
 
     # Now try again with the right id
     assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do

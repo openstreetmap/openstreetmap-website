@@ -1,0 +1,12 @@
+<% content_for :heading do %>
+  <h1><%= t ".heading" %></h1>
+<% end %>
+
+<%= render :partial => "diary_entry_heading", :object => @entry, :as => "diary_entry" %>
+
+<h3 id="newcomment"><%= t "diary_entries.show.leave_a_comment" %></h3>
+
+<%= bootstrap_form_for @diary_comment, :url => { :action => "comment" } do |f| %>
+  <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
+  <%= f.primary %>
+<% end %>
