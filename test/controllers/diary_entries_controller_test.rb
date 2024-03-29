@@ -53,10 +53,6 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username/diary/comments", :method => :get },
       { :controller => "diary_entries", :action => "comments", :display_name => "username" }
     )
-    assert_routing(
-      { :path => "/user/username/diary/comments/1", :method => :get },
-      { :controller => "diary_entries", :action => "comments", :display_name => "username", :page => "1" }
-    )
 
     assert_routing(
       { :path => "/diary/new", :method => :get },
@@ -114,6 +110,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username/diary/1/unsubscribe", :method => :post },
       { :controller => "diary_entries", :action => "unsubscribe", :display_name => "username", :id => "1" }
     )
+
+    get "/user/username/diary/comments/1"
+    assert_redirected_to "/user/username/diary/comments"
   end
 
   def test_new_no_login
