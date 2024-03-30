@@ -12,13 +12,9 @@ module ConsistencyValidations
       raise OSM::APIPreconditionFailedError, "New and old IDs don't match on #{new.class}. #{new.id} != #{old.id}."
     elsif new.version != old.version
       raise OSM::APIVersionMismatchError.new(new.id, new.class.to_s, new.version, old.version)
-    elsif new.changeset.nil?
-      raise OSM::APIChangesetMissingError
-    elsif new.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError
-    elsif !new.changeset.open?
-      raise OSM::APIChangesetAlreadyClosedError, new.changeset
     end
+
+    check_changeset_consistency(new.changeset, user)
   end
 
   # This is similar to above, just some validations don't apply
