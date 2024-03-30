@@ -22,7 +22,7 @@ module ConsistencyValidations
   end
 
   # This is similar to above, just some validations don't apply
-  def check_create_consistency(new, user)
+  def check_create_element_consistency(new, user)
     check_changeset_consistency(new.changeset, user)
   end
 

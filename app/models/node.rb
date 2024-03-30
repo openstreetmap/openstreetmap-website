@@ -189,7 +189,7 @@ class Node < ApplicationRecord
   end
 
   def create_with_history(user)
-    check_create_consistency(self, user)
+    check_create_element_consistency(self, user)
     self.version = 0
     self.visible = true
 

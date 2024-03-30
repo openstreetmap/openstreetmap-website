@@ -155,7 +155,7 @@ class Way < ApplicationRecord
   end
 
   def create_with_history(user)
-    check_create_consistency(self, user)
+    check_create_element_consistency(self, user)
     raise OSM::APIPreconditionFailedError, "Cannot create way: data is invalid." unless preconditions_ok?
 
     self.version = 0
