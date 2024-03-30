@@ -290,4 +290,13 @@ class WayTest < ActiveSupport::TestCase
       way.update_from(new_way, user)
     end
   end
+
+  test "raises id precondition exception when deleting" do
+    user = create(:user)
+    way = Way.new(:id => 23, :visible => true)
+    new_way = Way.new(:id => 42, :visible => false)
+    assert_raises OSM::APIPreconditionFailedError do
+      way.delete_with_history!(new_way, user)
+    end
+  end
 end

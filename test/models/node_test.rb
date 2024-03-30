@@ -435,4 +435,13 @@ class NodeTest < ActiveSupport::TestCase
       node.update_from(new_node, user)
     end
   end
+
+  test "raises id precondition exception when deleting" do
+    user = create(:user)
+    node = Node.new(:id => 23, :visible => true)
+    new_node = Node.new(:id => 42, :visible => false)
+    assert_raises OSM::APIPreconditionFailedError do
+      node.delete_with_history!(new_node, user)
+    end
+  end
 end

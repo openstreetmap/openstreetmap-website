@@ -323,4 +323,13 @@ class RelationTest < ActiveSupport::TestCase
       relation.update_from(new_relation, user)
     end
   end
+
+  test "raises id precondition exception when deleting" do
+    user = create(:user)
+    relation = Relation.new(:id => 23, :visible => true)
+    new_relation = Relation.new(:id => 42, :visible => false)
+    assert_raises OSM::APIPreconditionFailedError do
+      relation.delete_with_history!(new_relation, user)
+    end
+  end
 end

@@ -142,7 +142,7 @@ class Way < ApplicationRecord
   def update_from(new_way, user)
     Way.transaction do
       lock!
-      check_consistency(self, new_way, user)
+      check_update_element_consistency(self, new_way, user)
       raise OSM::APIPreconditionFailedError, "Cannot update way #{id}: data is invalid." unless new_way.preconditions_ok?(nds)
 
       self.changeset_id = new_way.changeset_id
@@ -193,7 +193,7 @@ class Way < ApplicationRecord
     # shouldn't be possible to get race conditions.
     Way.transaction do
       lock!
-      check_consistency(self, new_way, user)
+      check_update_element_consistency(self, new_way, user)
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
       raise OSM::APIPreconditionFailedError, "Way #{id} is still used by relations #{rels.collect(&:id).join(',')}." unless rels.empty?
 

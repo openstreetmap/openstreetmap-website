@@ -7,7 +7,7 @@ module ConsistencyValidations
   # code in 6 places for all the updates and deletes. Some of these tests are
   # needed for creates, but are currently not run :-(
   # This will throw an exception if there is an inconsistency
-  def check_consistency(old, new, user)
+  def check_update_element_consistency(old, new, user)
     if new.id != old.id || new.id.nil? || old.id.nil?
       raise OSM::APIPreconditionFailedError, "New and old IDs don't match on #{new.class}. #{new.id} != #{old.id}."
     elsif new.version != old.version
