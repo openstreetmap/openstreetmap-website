@@ -51,11 +51,11 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/changesets", :method => :get },
-        { :controller => "api/changesets", :action => "query" }
+        { :controller => "api/changesets", :action => "index" }
       )
       assert_routing(
         { :path => "/api/0.6/changesets.json", :method => :get },
-        { :controller => "api/changesets", :action => "query", :format => "json" }
+        { :controller => "api/changesets", :action => "index", :format => "json" }
       )
     end
 
