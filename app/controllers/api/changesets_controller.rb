@@ -49,7 +49,6 @@ module Api
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
-      render "changesets"
 
       respond_to do |format|
         format.xml
