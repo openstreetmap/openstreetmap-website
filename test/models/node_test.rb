@@ -362,4 +362,30 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal relation_member2.relation.id, cr.second.id
     assert_equal relation_member3.relation.id, cr.third.id
   end
+
+  test "raises missing changeset exception when creating" do
+    user = create(:user)
+    node = Node.new
+    assert_raises OSM::APIChangesetMissingError do
+      node.create_with_history(user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    node = Node.new(:changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      node.create_with_history(user)
+    end
+  end
+
+  test "raises already closed changeset exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    node = Node.new(:changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      node.create_with_history(user)
+    end
+  end
 end

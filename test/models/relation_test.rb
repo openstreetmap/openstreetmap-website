@@ -250,4 +250,30 @@ class RelationTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "raises missing changeset exception when creating" do
+    user = create(:user)
+    relation = Relation.new
+    assert_raises OSM::APIChangesetMissingError do
+      relation.create_with_history(user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    relation = Relation.new(:changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      relation.create_with_history(user)
+    end
+  end
+
+  test "raises already closed changeset exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    relation = Relation.new(:changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      relation.create_with_history(user)
+    end
+  end
 end

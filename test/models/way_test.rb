@@ -217,4 +217,30 @@ class WayTest < ActiveSupport::TestCase
     assert_equal 1, cr.size
     assert_equal relation.id, cr.first.id
   end
+
+  test "raises missing changeset exception when creating" do
+    user = create(:user)
+    way = Way.new
+    assert_raises OSM::APIChangesetMissingError do
+      way.create_with_history(user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    way = Way.new(:changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      way.create_with_history(user)
+    end
+  end
+
+  test "raises already closed changeset exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    way = Way.new(:changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      way.create_with_history(user)
+    end
+  end
 end
