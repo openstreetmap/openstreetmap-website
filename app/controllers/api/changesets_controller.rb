@@ -3,7 +3,7 @@
 module Api
   class ChangesetsController < ApiController
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
-    before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :subscribe, :unsubscribe]
+    before_action :check_api_readable, :except => [:index, :create, :update, :upload, :download, :subscribe, :unsubscribe]
     before_action :setup_user_auth, :only => [:show]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
 
@@ -17,6 +17,44 @@ module Api
 
     # Helper methods for checking consistency
     include ConsistencyValidations
+
+    ##
+    # query changesets by bounding box, time, user or open/closed status.
+    def index
+      raise OSM::APIBadUserInput, "cannot use order=oldest with time" if params[:time] && params[:order] == "oldest"
+
+      # find any bounding box
+      bbox = BoundingBox.from_bbox_params(params) if params["bbox"]
+
+      # create the conditions that the user asked for. some or all of
+      # these may be nil.
+      changesets = Changeset.all
+      changesets = conditions_bbox(changesets, bbox)
+      changesets = conditions_user(changesets, params["user"], params["display_name"])
+      changesets = conditions_time(changesets, params["time"])
+      changesets = conditions_from_to(changesets, params["from"], params["to"])
+      changesets = conditions_open(changesets, params["open"])
+      changesets = conditions_closed(changesets, params["closed"])
+      changesets = conditions_ids(changesets, params["changesets"])
+
+      # sort the changesets
+      changesets = if params[:order] == "oldest"
+                     changesets.order(:created_at => :asc)
+                   else
+                     changesets.order(:created_at => :desc)
+                   end
+
+      # limit the result
+      changesets = changesets.limit(result_limit)
+
+      # preload users, tags and comments, and render result
+      @changesets = changesets.preload(:user, :changeset_tags, :comments)
+
+      respond_to do |format|
+        format.xml
+        format.json
+      end
+    end
 
     ##
     # Return XML giving the basic info about the changeset. Does not
@@ -141,45 +179,6 @@ module Api
 
       respond_to do |format|
         format.xml
-      end
-    end
-
-    ##
-    # query changesets by bounding box, time, user or open/closed status.
-    def query
-      raise OSM::APIBadUserInput, "cannot use order=oldest with time" if params[:time] && params[:order] == "oldest"
-
-      # find any bounding box
-      bbox = BoundingBox.from_bbox_params(params) if params["bbox"]
-
-      # create the conditions that the user asked for. some or all of
-      # these may be nil.
-      changesets = Changeset.all
-      changesets = conditions_bbox(changesets, bbox)
-      changesets = conditions_user(changesets, params["user"], params["display_name"])
-      changesets = conditions_time(changesets, params["time"])
-      changesets = conditions_from_to(changesets, params["from"], params["to"])
-      changesets = conditions_open(changesets, params["open"])
-      changesets = conditions_closed(changesets, params["closed"])
-      changesets = conditions_ids(changesets, params["changesets"])
-
-      # sort the changesets
-      changesets = if params[:order] == "oldest"
-                     changesets.order(:created_at => :asc)
-                   else
-                     changesets.order(:created_at => :desc)
-                   end
-
-      # limit the result
-      changesets = changesets.limit(result_limit)
-
-      # preload users, tags and comments, and render result
-      @changesets = changesets.preload(:user, :changeset_tags, :comments)
-      render "changesets"
-
-      respond_to do |format|
-        format.xml
-        format.json
       end
     end
 
