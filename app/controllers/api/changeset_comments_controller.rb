@@ -42,7 +42,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "api/changesets/changeset"
+      render "api/changesets/show"
 
       respond_to do |format|
         format.xml
@@ -67,7 +67,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = comment.changeset
-      render "api/changesets/changeset"
+      render "api/changesets/show"
 
       respond_to do |format|
         format.xml
@@ -92,7 +92,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = comment.changeset
-      render "api/changesets/changeset"
+      render "api/changesets/show"
 
       respond_to do |format|
         format.xml

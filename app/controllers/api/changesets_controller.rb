@@ -28,7 +28,6 @@ module Api
         @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:restore, ChangesetComment)
         @comments = @comments.includes(:author)
       end
-      render "changeset"
 
       respond_to do |format|
         format.xml
@@ -198,7 +197,7 @@ module Api
 
       check_changeset_consistency(@changeset, current_user)
       @changeset.update_from(new_changeset, current_user)
-      render "changeset"
+      render "show"
 
       respond_to do |format|
         format.xml
@@ -224,7 +223,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "changeset"
+      render "show"
 
       respond_to do |format|
         format.xml
@@ -250,7 +249,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "changeset"
+      render "show"
 
       respond_to do |format|
         format.xml
