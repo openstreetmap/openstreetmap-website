@@ -44,9 +44,6 @@
       <% if current_user.terms_agreed? %>
         <%= t ".contributor terms.agreed" %>
         (<a href="<%= t ".contributor terms.link" %>" target="_new"><%= t ".contributor terms.link text" %></a>)
-        <% if current_user.consider_pd? %>
-          <%= t ".contributor terms.agreed_with_pd" %>
-        <% end %>
       <% else %>
         <%= t ".contributor terms.not yet agreed" %>
         <%= link_to t(".contributor terms.review link text"), :controller => "users", :action => "terms" %>
