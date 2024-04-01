@@ -217,4 +217,86 @@ class WayTest < ActiveSupport::TestCase
     assert_equal 1, cr.size
     assert_equal relation.id, cr.first.id
   end
+
+  test "raises missing changeset exception when creating" do
+    user = create(:user)
+    way = Way.new
+    assert_raises OSM::APIChangesetMissingError do
+      way.create_with_history(user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    way = Way.new(:changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      way.create_with_history(user)
+    end
+  end
+
+  test "raises already closed changeset exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    way = Way.new(:changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      way.create_with_history(user)
+    end
+  end
+
+  test "raises id precondition exception when updating" do
+    user = create(:user)
+    way = Way.new(:id => 23)
+    new_way = Way.new(:id => 42)
+    assert_raises OSM::APIPreconditionFailedError do
+      way.update_from(new_way, user)
+    end
+  end
+
+  test "raises version mismatch exception when updating" do
+    user = create(:user)
+    way = Way.new(:id => 42, :version => 7)
+    new_way = Way.new(:id => 42, :version => 12)
+    assert_raises OSM::APIVersionMismatchError do
+      way.update_from(new_way, user)
+    end
+  end
+
+  test "raises missing changeset exception when updating" do
+    user = create(:user)
+    way = Way.new(:id => 42, :version => 12)
+    new_way = Way.new(:id => 42, :version => 12)
+    assert_raises OSM::APIChangesetMissingError do
+      way.update_from(new_way, user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    way = Way.new(:id => 42, :version => 12)
+    new_way = Way.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      way.update_from(new_way, user)
+    end
+  end
+
+  test "raises already closed changeset exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    way = Way.new(:id => 42, :version => 12)
+    new_way = Way.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      way.update_from(new_way, user)
+    end
+  end
+
+  test "raises id precondition exception when deleting" do
+    user = create(:user)
+    way = Way.new(:id => 23, :visible => true)
+    new_way = Way.new(:id => 42, :visible => false)
+    assert_raises OSM::APIPreconditionFailedError do
+      way.delete_with_history!(new_way, user)
+    end
+  end
 end

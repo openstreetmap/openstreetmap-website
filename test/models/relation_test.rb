@@ -250,4 +250,86 @@ class RelationTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "raises missing changeset exception when creating" do
+    user = create(:user)
+    relation = Relation.new
+    assert_raises OSM::APIChangesetMissingError do
+      relation.create_with_history(user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    relation = Relation.new(:changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      relation.create_with_history(user)
+    end
+  end
+
+  test "raises already closed changeset exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    relation = Relation.new(:changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      relation.create_with_history(user)
+    end
+  end
+
+  test "raises id precondition exception when updating" do
+    user = create(:user)
+    relation = Relation.new(:id => 23)
+    new_relation = Relation.new(:id => 42)
+    assert_raises OSM::APIPreconditionFailedError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises version mismatch exception when updating" do
+    user = create(:user)
+    relation = Relation.new(:id => 42, :version => 7)
+    new_relation = Relation.new(:id => 42, :version => 12)
+    assert_raises OSM::APIVersionMismatchError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises missing changeset exception when updating" do
+    user = create(:user)
+    relation = Relation.new(:id => 42, :version => 12)
+    new_relation = Relation.new(:id => 42, :version => 12)
+    assert_raises OSM::APIChangesetMissingError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    relation = Relation.new(:id => 42, :version => 12)
+    new_relation = Relation.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises already closed changeset exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    relation = Relation.new(:id => 42, :version => 12)
+    new_relation = Relation.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      relation.update_from(new_relation, user)
+    end
+  end
+
+  test "raises id precondition exception when deleting" do
+    user = create(:user)
+    relation = Relation.new(:id => 23, :visible => true)
+    new_relation = Relation.new(:id => 42, :visible => false)
+    assert_raises OSM::APIPreconditionFailedError do
+      relation.delete_with_history!(new_relation, user)
+    end
+  end
 end

@@ -166,7 +166,7 @@ class Relation < ApplicationRecord
     # shouldn't be possible to get race conditions.
     Relation.transaction do
       lock!
-      check_consistency(self, new_relation, user)
+      check_update_element_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
       rel = RelationMember.joins(:relation).find_by("visible = ? AND member_type = 'Relation' and member_id = ? ", true, id)
       raise OSM::APIPreconditionFailedError, "The relation #{new_relation.id} is used in relation #{rel.relation.id}." unless rel.nil?
@@ -182,7 +182,7 @@ class Relation < ApplicationRecord
   def update_from(new_relation, user)
     Relation.transaction do
       lock!
-      check_consistency(self, new_relation, user)
+      check_update_element_consistency(self, new_relation, user)
       raise OSM::APIPreconditionFailedError, "Cannot update relation #{id}: data or member data is invalid." unless new_relation.preconditions_ok?(members)
 
       self.changeset_id = new_relation.changeset_id
@@ -195,7 +195,7 @@ class Relation < ApplicationRecord
   end
 
   def create_with_history(user)
-    check_create_consistency(self, user)
+    check_create_element_consistency(self, user)
     raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid." unless preconditions_ok?
 
     self.version = 0

@@ -362,4 +362,86 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal relation_member2.relation.id, cr.second.id
     assert_equal relation_member3.relation.id, cr.third.id
   end
+
+  test "raises missing changeset exception when creating" do
+    user = create(:user)
+    node = Node.new
+    assert_raises OSM::APIChangesetMissingError do
+      node.create_with_history(user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    node = Node.new(:changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      node.create_with_history(user)
+    end
+  end
+
+  test "raises already closed changeset exception when creating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    node = Node.new(:changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      node.create_with_history(user)
+    end
+  end
+
+  test "raises id precondition exception when updating" do
+    user = create(:user)
+    node = Node.new(:id => 23)
+    new_node = Node.new(:id => 42)
+    assert_raises OSM::APIPreconditionFailedError do
+      node.update_from(new_node, user)
+    end
+  end
+
+  test "raises version mismatch exception when updating" do
+    user = create(:user)
+    node = Node.new(:id => 42, :version => 7)
+    new_node = Node.new(:id => 42, :version => 12)
+    assert_raises OSM::APIVersionMismatchError do
+      node.update_from(new_node, user)
+    end
+  end
+
+  test "raises missing changeset exception when updating" do
+    user = create(:user)
+    node = Node.new(:id => 42, :version => 12)
+    new_node = Node.new(:id => 42, :version => 12)
+    assert_raises OSM::APIChangesetMissingError do
+      node.update_from(new_node, user)
+    end
+  end
+
+  test "raises user-changeset mismatch exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset)
+    node = Node.new(:id => 42, :version => 12)
+    new_node = Node.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIUserChangesetMismatchError do
+      node.update_from(new_node, user)
+    end
+  end
+
+  test "raises already closed changeset exception when updating" do
+    user = create(:user)
+    changeset = create(:changeset, :closed, :user => user)
+    node = Node.new(:id => 42, :version => 12)
+    new_node = Node.new(:id => 42, :version => 12, :changeset => changeset)
+    assert_raises OSM::APIChangesetAlreadyClosedError do
+      node.update_from(new_node, user)
+    end
+  end
+
+  test "raises id precondition exception when deleting" do
+    user = create(:user)
+    node = Node.new(:id => 23, :visible => true)
+    new_node = Node.new(:id => 42, :visible => false)
+    assert_raises OSM::APIPreconditionFailedError do
+      node.delete_with_history!(new_node, user)
+    end
+  end
 end

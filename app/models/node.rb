@@ -145,7 +145,7 @@ class Node < ApplicationRecord
     # shouldn't be possible to get race conditions.
     Node.transaction do
       lock!
-      check_consistency(self, new_node, user)
+      check_update_element_consistency(self, new_node, user)
       ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
       raise OSM::APIPreconditionFailedError, "Node #{id} is still used by ways #{ways.collect(&:id).join(',')}." unless ways.empty?
 
@@ -166,7 +166,7 @@ class Node < ApplicationRecord
   def update_from(new_node, user)
     Node.transaction do
       lock!
-      check_consistency(self, new_node, user)
+      check_update_element_consistency(self, new_node, user)
 
       # update changeset first
       self.changeset_id = new_node.changeset_id
@@ -189,7 +189,7 @@ class Node < ApplicationRecord
   end
 
   def create_with_history(user)
-    check_create_consistency(self, user)
+    check_create_element_consistency(self, user)
     self.version = 0
     self.visible = true
 
