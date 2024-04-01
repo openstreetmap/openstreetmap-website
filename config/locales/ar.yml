@@ -34,6 +34,7 @@
 # Author: Mohammed Qubati
 # Author: Mutarjem horr
 # Author: NEHAOUA
+# Author: NO1xMOHAMED
 # Author: Omda4wady
 # Author: OsamaK
 # Author: Ruila
@@ -90,6 +91,9 @@ ar:
       messages:
         invalid_email_address: لا يبدو أنه عنوان بريد إلكتروني صالح
         email_address_not_routable: غير قابل للتوجيه
+      models:
+        user_mute:
+          is_already_muted: تمت كتم الصوت بالفعل
     models:
       acl: لائحة التحكم بالوصول
       changeset: حزمة التغييرات
@@ -325,6 +329,8 @@ ar:
         reopened_at_by_html: تم التنشيط %{when} مِن قِبَل %{user}
       rss:
         title: ملاحظات خريطة الشارع المفتوحة
+        description_all: قائمة بالملاحظات التي تم الإبلاغ عنها أو التعليق عليها أو
+          إغلاقها
         description_area: قائمة بالملاحظات أو التقارير أو التعليق عليها أو إغلاقها
           في منطقتك [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: خلاصة rss للملاحظة %{id}
@@ -359,6 +365,8 @@ ar:
         retain_changeset_discussions: سيجري الاحتفاظ بمناقشات مجموعة التغييرات الخاصة
           بك، إن وجدت.
         retain_email: سيتم الاحتفاظ بعنوان بريدك الإلكتروني.
+        recent_editing_html: نظرًا لأنك قمت بتحرير حسابك مؤخرًا، فلا يمكن حذفه حاليًا.
+          سيكون الحذف ممكنًا خلال %{time}.
         confirm_delete: هل أنت متأكد؟
         cancel: إلغاء
   accounts:
@@ -407,6 +415,7 @@ ar:
     deleted_ago_by_html: تم حذف %{time_ago} بواسطة %{user}
     edited_ago_by_html: تم تحرير %{time_ago} بواسطة %{user}
     version: الإصدار
+    redacted_version: النسخة المنقحة
     in_changeset: مجموعة التغييرات
     anonymous: مجهول
     no_comment: (لا تعليق)
@@ -420,6 +429,7 @@ ar:
       other: '%{count} طريقٍ'
     download_xml: تنزيل XML
     view_history: عرض السجل
+    view_unredacted_history: عرض التاريخ غير المُحرف
     view_details: شاهد التفاصيل
     location: 'الموقع:'
     node:
@@ -526,8 +536,24 @@ ar:
         created: تم الإنشاء
         closed: تم الإغلاق
         belongs_to: الصانع
+    subscribe:
+      heading: الاشتراك في مناقشة التغييرات التالية؟
+      button: الاشتراك في المناقشة
+    unsubscribe:
+      heading: الاشتراك في مناقشة التغييرات التالية؟
+      button: إلغاء الاشتراك من المناقشة
+    heading:
+      title: تغييرات %{id}
+      created_by_html: تم إنشاؤه بواسطة %{link_user} على %{created}.
+    no_such_entry:
+      title: لا يوجد مثل هذه التغييرات
+      heading: 'لا يوجد إدخال بالمعرف: %{id}'
+      body: عذرًا، لا يوجد مجموعة تغيير بالمعرف %{id}. يرجى التحقق من الإملاء، أو
+        ربما الرابط الذي قمت بالنقر عليه خاطئ.
     show:
       title: حزمة التغييرات %{id}
+      created: 'تم إنشاؤه: %{when}'
+      closed: 'مغلق: %{when}'
       created_ago_html: تم إنشاء %{time_ago}
       closed_ago_html: مغلق %{time_ago}
       created_ago_by_html: تم إنشاء %{time_ago} بواسطة %{user}
@@ -608,6 +634,7 @@ ar:
     show:
       title: يوميات %{user} | %{title}
       user_title: يومية %{user}
+      discussion: مناقشة
       leave_a_comment: اترك تعليقًا
       login_to_leave_a_comment_html: '%{login_link} لترك تعليق'
       login: تسجيل الدخول
@@ -625,6 +652,7 @@ ar:
         zero: لا تعليق
         one: '%{count} تعليق'
         other: '%{count} تعليقات'
+      no_comments: لا يوجد تعليقات
       edit_link: عدل هذه المدخلة
       hide_link: اخفِ هذه المدخلة
       unhide_link: إظهار هذا الإدخال
@@ -660,7 +688,16 @@ ar:
       comment: التعليق
       newer_comments: التعليقات الأحدث
       older_comments: التعليقات الأقدم
+    subscribe:
+      heading: اشترك في مناقشة مدونة الدخول التالية؟
+      button: الاشتراك في المناقشة
+    unsubscribe:
+      heading: إلغاء الاشتراك في مناقشة إدخال اليوميات التالية؟
+      button: إلغاء الاشتراك من المناقشة
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: يتطلب خادم المصادقة اختيار حساب المستخدم النهائي
     flash:
       applications:
         create:

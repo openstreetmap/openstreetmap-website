@@ -100,6 +100,7 @@
 # Author: Thomas Bohn
 # Author: Til
 # Author: Timonade
+# Author: TomatoCake
 # Author: Twistqj
 # Author: Umherirrender
 # Author: Unkn0wnCat
@@ -433,6 +434,7 @@ de:
     deleted_ago_by_html: Gelöscht %{time_ago} von %{user}
     edited_ago_by_html: Bearbeitet %{time_ago} von %{user}
     version: Version
+    redacted_version: Zensierte Version
     in_changeset: Änderungssatz
     anonymous: anonym
     no_comment: (kein Kommentar)
@@ -445,7 +447,10 @@ de:
       other: '%{count} Wege'
     download_xml: XML herunterladen
     view_history: Verlauf anzeigen
+    view_unredacted_history: Unzensierten Verlauf ansehen
     view_details: Details anzeigen
+    view_redacted_data: Zensierte Daten ansehen
+    view_redaction_message: Zensurnachricht ansehen
     location: 'Standort:'
     node:
       title_html: 'Knoten: %{name}'
@@ -523,6 +528,18 @@ de:
       introduction: Klicke auf die Karte, um benachbarte Objekte zu finden.
       nearby: Benachbarte Objekte
       enclosing: Umschließende Objekte
+  old_nodes:
+    not_found:
+      sorry: 'Entschuldigung, Knoten #%{id} Version %{version} konnte nicht gefunden
+        werden.'
+  old_ways:
+    not_found:
+      sorry: 'Entschuldigung, Weg #%{id} Version %{version} konnte nicht gefunden
+        werden.'
+  old_relations:
+    not_found:
+      sorry: 'Entschuldigung, Relation #%{id} Version %{version} konnte nicht gefunden
+        werden.'
   changesets:
     changeset_paging_nav:
       showing_page: Seite %{page}
@@ -557,8 +574,25 @@ de:
         created: Erstellt
         closed: Geschlossen
         belongs_to: Autor
+    subscribe:
+      heading: Die folgende Änderungssatz-Diskussion abonnieren?
+      button: Diskussion abonnieren
+    unsubscribe:
+      heading: Von der folgenden Änderungssatz-Diskussion abmelden?
+      button: Von der Diskussion abmelden
+    heading:
+      title: Änderungssatz %{id}
+      created_by_html: Erstellt von %{link_user} am %{created}.
+    no_such_entry:
+      title: Dieser Änderungssatz existiert nicht
+      heading: 'Kein Eintrag mit der ID: %{id}'
+      body: Es gibt leider keinen Änderungssatz mit der ID %{id}. Bitte überprüfe
+        deine Rechtschreibung, oder vielleicht ist der Link, auf den du geklickt hast,
+        falsch.
     show:
       title: 'Änderungssatz: %{id}'
+      created: 'Erstellt: %{when}'
+      closed: 'Geschlossen: %{when}'
       created_ago_html: Erstellt %{time_ago}
       closed_ago_html: Geschlossen %{time_ago}
       created_ago_by_html: Erstellt %{time_ago} von %{user}
@@ -641,6 +675,7 @@ de:
     show:
       title: Blog von %{user} | %{title}
       user_title: Blog von %{user}
+      discussion: Diskussion
       leave_a_comment: Schreibe einen Kommentar
       login_to_leave_a_comment_html: '%{login_link}, um einen Kommentar zu schreiben'
       login: Anmelden
@@ -694,6 +729,12 @@ de:
       comment: Kommentar
       newer_comments: Neuere Kommentare
       older_comments: Ältere Kommentare
+    subscribe:
+      heading: Folgende Tagebucheintragsdiskussion abonnieren?
+      button: Diskussion abonnieren
+    unsubscribe:
+      heading: Von der folgenden Tagebucheintragsdiskussion abmelden?
+      button: Von der Diskussion abmelden
   doorkeeper:
     errors:
       messages:
@@ -1666,7 +1707,10 @@ de:
     intro_text: OpenStreetMap ist eine Karte der Welt, erstellt von Menschen wie dir
       und frei verwendbar unter einer offenen Lizenz.
     intro_2_create_account: Erstelle ein Benutzerkonto
+    hosting_partners_2024_html: Das Hosting wird von %{fastly}, %{corpmembers} und
+      anderen %{partners} unterstützt.
     partners_fastly: Fastly
+    partners_corpmembers: OSMF-Unternehmensmitglieder
     partners_partners: Partnern
     tou: Nutzungsbedingungen
     osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
@@ -1689,6 +1733,7 @@ de:
     more: Mehr
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap-Tagebucheintrag #%{id}'
       subject: '[OpenStreetMap] %{user} hat zu einem Blogeintrag kommentiert'
       hi: Hallo %{to_user},
       header: '%{from_user} hat zu dem OpenStreetMap-Blogeintrag mit dem Thema %{subject}
@@ -1699,6 +1744,10 @@ de:
         oder dem Autor unter %{replyurl} antworten.
       footer_html: Hier gehts zum Kommentar %{readurl}, Du kannst ihn kommentieren
         %{commenturl} oder dem Autor unter %{replyurl} eine Nachricht senden.
+      footer_unsubscribe: Du kannst dich von der Diskussion auf %{unsubscribeurl}
+        abmelden.
+      footer_unsubscribe_html: Du kannst dich von der Diskussion auf %{unsubscribeurl}
+        abmelden.
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Hallo %{to_user},
@@ -1762,6 +1811,7 @@ de:
       click_the_link: Wenn du das bist, klicke bitte auf den Link unten, um dein Passwort
         zurückzusetzen.
     note_comment_notification:
+      description: 'OpenStreetMap-Notiz #%{id}'
       anonymous: Ein anonymer Benutzer
       greeting: Hallo,
       commented:
@@ -1806,6 +1856,7 @@ de:
       details: Weitere Details über den Hinweis findest du unter %{url}.
       details_html: Weitere Details über den Hinweis findest du unter %{url}.
     changeset_comment_notification:
+      description: 'OpenStreetMap-Änderungssatz #%{id}'
       hi: Hallo %{to_user},
       greeting: Hallo,
       commented:
@@ -1827,10 +1878,10 @@ de:
       details: Weitere Details über den Änderungssatz können gefunden werden unter
         %{url}.
       details_html: Weitere Details über den Änderungssatz findest Du unter %{url}.
-      unsubscribe: Um die Aktualisierungen an diesem Änderungssatz abzubestellen,
-        besuche %{url} und klicke auf „Abmelden“.
-      unsubscribe_html: Um Aktualisierungen an diesem Änderungssatz abzubestellen,
-        besuche %{url} und klicke auf „Abmelden“.
+      unsubscribe: Du kannst dich auf %{url} von den Benachrichtigungen dieses Änderungssatzes
+        abmelden.
+      unsubscribe_html: Du kannst dich auf %{url} von den Benachrichtigungen dieses
+        Änderungssatzes abmelden.
   confirmations:
     confirm:
       heading: Bitte überprüfe deine E-Mails!
@@ -1915,8 +1966,8 @@ de:
         other: '%{count} stummgeschatete Nachrichten'
     reply:
       wrong_user: Du bist angemeldet als '%{user}', aber die Nachricht, auf die du
-        antworten wolltest, wurde an einen anderen Benutzer geschickt. Bitte melde
-        dich zum Beantworten mit dem richtigen Benutzer an.
+        antworten wolltest, wurde nicht an diesen Benutzer gesendet. Bitte melde dich
+        zum Beantworten mit dem richtigen Benutzer an.
     show:
       title: Nachricht lesen
       reply_button: Antworten
@@ -1924,8 +1975,8 @@ de:
       destroy_button: Löschen
       back: Zurück
       wrong_user: Du bist angemeldet als '%{user}', aber die Nachricht, die du lesen
-        wolltest, wurde an einen anderen Benutzer geschickt. Bitte melde dich zum
-        Lesen mit dem richtigen Benutzer an.
+        wolltest, wurde von einem oder an einen anderen Benutzer geschickt. Bitte
+        melde dich zum Lesen mit dem richtigen Benutzer an.
     sent_message_summary:
       destroy_button: Löschen
     heading:
@@ -1944,11 +1995,15 @@ de:
     new:
       title: Passwort vergessen
       heading: Passwort vergessen?
-      email address: 'E-Mail-Adresse:'
+      email address: E-Mail-Adresse
       new password button: Passwort zurücksetzen
       help_text: Bitte gib deine E-Mail-Adresse ein, mit der du dich angemeldet hast.
         Wir werden dir dann einen Link schicken, mit dem du dein Passwort zurücksetzen
         kannst.
+    create:
+      send_paranoid_instructions: Wenn deine E-Mail-Adresse in unserer Datenbank existiert
+        erhältst du in wenigen Minuten einen Passwortwiederherstellungs-Link an deiner
+        E-Mail-Adresse.
     edit:
       title: Passwort zurücksetzen
       heading: Passwort für %{user} zurücksetzen
@@ -2003,13 +2058,13 @@ de:
     new:
       title: Anmelden
       heading: Anmelden
-      email or username: 'E-Mail-Adresse oder Benutzername:'
-      password: 'Passwort:'
+      email or username: E-Mail-Adresse oder Benutzername
+      password: Passwort
       remember: Anmeldedaten merken
       lost password link: Passwort vergessen?
       login_button: Anmelden
       register now: Jetzt registrieren
-      with external: 'Verwende alternativ eine Drittpartei zur Anmeldung:'
+      with external: 'Verwende alternativ einen Drittanbieter für die Anmeldung:'
       no account: Du hast noch kein Benutzerkonto?
       auth failure: Mit diesen Daten leider keine Anmeldung möglich.
       openid_logo_alt: Mit einer OpenID anmelden
@@ -2377,8 +2432,9 @@ de:
         title: Anleitung für Anfänger
         description: Eine durch die Gemeinschaft gewartete Anleitung für Anfänger.
       community:
-        title: Community-Forum
-        description: Ein gemeinsamer Ort für Gespräche über OpenStreetMap.
+        title: Hilfe- und Community-Forum
+        description: Ein gemeinsamer Ort, um Hilfe zu erhalten und Gespräche über
+          OpenStreetMap zu führen.
       mailing_lists:
         title: Mailinglisten
         description: Stelle eine Frage und diskutiere interessante Sachen zu einem
@@ -2668,6 +2724,8 @@ de:
       identifiable: IDENTIFIZIERBAR
       private: PRIVAT
       trackable: VERFOLGBAR
+      details_with_tags_html: '%{time_ago} von %{user} in %{tags}'
+      details_without_tags_html: '%{time_ago} von %{user}'
     index:
       public_traces: Öffentliche GPS-Tracks
       my_gps_traces: Meine GPS-Tracks
@@ -2766,6 +2824,7 @@ de:
   oauth_clients:
     new:
       title: Eine neue Anwendung registrieren
+      disabled: Die Registrierung von OAuth-1-Anwendungen wurde deaktiviert
     edit:
       title: Anwendung bearbeiten
     show:
@@ -2849,6 +2908,7 @@ de:
       title: Meine autorisierten Anwendungen
       application: Anwendung
       permissions: Berechtigungen
+      last_authorized: Zuletzt autorisiert
       no_applications_html: Du hast noch keine %{oauth2}-Anwendungen autorisiert.
     application:
       revoke: Zugriff entziehen
@@ -2871,7 +2931,7 @@ de:
       display name description: Dein öffentlich angezeigter Benutzername. Er kann
         später in den Einstellungen geändert werden.
       external auth: 'Drittparteiauthentifikation:'
-      use external auth: Verwende alternativ eine Drittpartei zur Anmeldung
+      use external auth: Verwende alternativ einen Drittanbieter für die Anmeldung
       auth no password: Mit Drittparteiauthentifikation ist kein Passwort erforderlich,
         jedoch können einige Extrawerkzeuge oder Server eines benötigen.
       continue: Registrieren
@@ -2991,6 +3051,11 @@ de:
     index:
       title: Benutzer
       heading: Benutzer
+      older: Ältere Benutzer
+      newer: Neuere Benutzer
+      found_users:
+        one: '%{count} Benutzer gefunden'
+        other: '%{count} Benutzer gefunden'
       summary_html: '%{name} erstellt von %{ip_address} am %{date}'
       summary_no_ip_html: '%{name} erstellt am %{date}'
       confirm: Bestätige ausgewählte Benutzer
