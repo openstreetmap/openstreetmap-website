@@ -1,31 +1,21 @@
 L.OSM.key = function (options) {
-  var control = L.OSM.sidebarPane(options, "key", null, "javascripts.key.title");
+  var control = L.control(options);
 
-  control.onAddPane = function (map, button, $ui) {
-    var $section = $("<div>")
-      .attr("class", "section")
-      .appendTo($ui);
+  control.onAdd = function (map) {
+    var $container = $("<div>")
+      .attr("class", "control-key");
 
-    $ui
-      .on("show", shown)
-      .on("hide", hidden);
+    var link = $("<a>")
+      .attr("class", "control-button")
+      .attr("href", "#")
+      .html("<span class=\"icon key\"></span>")
+      .appendTo($container);
 
-    map.on("baselayerchange", updateButton);
+    map.on("baselayerchange", update);
 
-    updateButton();
-
-    function shown() {
-      map.on("zoomend baselayerchange", update);
-      $section.load("/key", update);
-    }
-
-    function hidden() {
-      map.off("zoomend baselayerchange", update);
-    }
-
-    function updateButton() {
+    function update() {
       var disabled = OSM.LAYERS_WITH_MAP_KEY.indexOf(map.getMapBaseLayerId()) === -1;
-      button
+      link
         .toggleClass("disabled", disabled)
         .attr("data-bs-original-title",
               I18n.t(disabled ?
@@ -33,19 +23,9 @@ L.OSM.key = function (options) {
                 "javascripts.key.tooltip"));
     }
 
-    function update() {
-      var layer = map.getMapBaseLayerId(),
-          zoom = map.getZoom();
+    update();
 
-      $(".mapkey-table-entry").each(function () {
-        var data = $(this).data();
-        $(this).toggle(
-          layer === data.layer &&
-          (!data.zoomMin || zoom >= data.zoomMin) &&
-          (!data.zoomMax || zoom <= data.zoomMax)
-        );
-      });
-    }
+    return $container[0];
   };
 
   return control;
