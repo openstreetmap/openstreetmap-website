@@ -191,7 +191,7 @@ module Api
     def test_lat_lon_xml_format
       old_node = create(:old_node, :latitude => (0.00004 * OldNode::SCALE).to_i, :longitude => (0.00008 * OldNode::SCALE).to_i)
 
-      get api_node_history_path(:id => old_node.node_id, :version => old_node.version)
+      get api_node_history_path(old_node.node_id)
       assert_match(/lat="0.0000400"/, response.body)
       assert_match(/lon="0.0000800"/, response.body)
     end
@@ -299,14 +299,14 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      get api_node_history_path(:id => node_v1.node_id)
+      get api_node_history_path(node)
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
                     "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history."
 
       # not even to a logged-in user
       auth_header = basic_authorization_header create(:user).email, "test"
-      get api_node_history_path(:id => node_v1.node_id), :headers => auth_header
+      get api_node_history_path(node), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 0,
                     "redacted node #{node_v1.node_id} version #{node_v1.version} shouldn't be present in the history, even when logged in."
@@ -331,11 +331,11 @@ module Api
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_node_history_path(:id => node_v3.node_id)
+      get api_node_history_path(node)
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 0,
                     "node #{node_v3.node_id} version #{node_v3.version} should not be present in the history for moderators when not passing flag."
-      get api_node_history_path(:id => node_v3.node_id), :params => { :show_redactions => "true" }, :headers => auth_header
+      get api_node_history_path(node, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 1,
                     "node #{node_v3.node_id} version #{node_v3.version} should still be present in the history for moderators when passing flag."
@@ -359,7 +359,7 @@ module Api
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # and when accessed via history
-      get api_node_history_path(:id => node_v3.node_id), :headers => auth_header
+      get api_node_history_path(node), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v3.node_id}'][version='#{node_v3.version}']", 0,
                     "redacted node #{node_v3.node_id} version #{node_v3.version} shouldn't be present in the history."
@@ -412,7 +412,7 @@ module Api
       assert_response :success, "After unredaction, node should not be gone for moderator."
 
       # and when accessed via history
-      get api_node_history_path(:id => node_v1.node_id)
+      get api_node_history_path(node)
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1,
                     "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for moderators without passing flag."
@@ -424,7 +424,7 @@ module Api
       assert_response :success, "After unredaction, node should be visible to normal users."
 
       # and when accessed via history
-      get api_node_history_path(:id => node_v1.node_id)
+      get api_node_history_path(node)
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm node[id='#{node_v1.node_id}'][version='#{node_v1.version}']", 1,
                     "node #{node_v1.node_id} version #{node_v1.version} should now be present in the history for normal users without passing flag."

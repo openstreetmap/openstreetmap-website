@@ -45,7 +45,7 @@ module Api
 
     def test_history_invalid
       # check chat a non-existent way is not returned
-      get api_way_history_path(:id => 0)
+      get api_way_history_path(0)
       assert_response :not_found
     end
 
@@ -179,14 +179,14 @@ module Api
       way_v1 = way.old_ways.find_by(:version => 1)
       way_v1.redact!(create(:redaction))
 
-      get api_way_history_path(:id => way_v1.way_id)
+      get api_way_history_path(way)
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
                     "redacted way #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history."
 
       # not even to a logged-in user
       auth_header = basic_authorization_header create(:user).email, "test"
-      get api_way_history_path(:id => way_v1.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
                     "redacted node #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history, even when logged in."
@@ -211,11 +211,11 @@ module Api
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v3.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
                     "way #{way_v3.way_id} version #{way_v3.version} should not be present in the history for moderators when not passing flag."
-      get api_way_history_path(:id => way_v3.way_id), :params => { :show_redactions => "true" }, :headers => auth_header
+      get api_way_history_path(way, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 1,
                     "way #{way_v3.way_id} version #{way_v3.version} should still be present in the history for moderators when passing flag."
@@ -239,7 +239,7 @@ module Api
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v3.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
                     "redacted way #{way_v3.way_id} version #{way_v3.version} shouldn't be present in the history."
@@ -291,7 +291,7 @@ module Api
       assert_response :success, "After unredaction, node should not be gone for moderator."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v1.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
                     "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for moderators."
@@ -303,7 +303,7 @@ module Api
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v1.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
                     "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for normal users."
@@ -336,7 +336,7 @@ module Api
     # look at all the versions of the way in the history and get each version from
     # the versions call. check that they're the same.
     def check_history_equals_versions(way_id)
-      get api_way_history_path(:id => way_id)
+      get api_way_history_path(way_id)
       assert_response :success, "can't get way #{way_id} from API"
       history_doc = XML::Parser.string(@response.body).parse
       assert_not_nil history_doc, "parsing way #{way_id} history failed"
