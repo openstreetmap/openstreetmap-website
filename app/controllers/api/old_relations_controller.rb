@@ -1,5 +1,5 @@
 module Api
-  class OldRelationsController < OldController
+  class OldRelationsController < OldElementsController
     private
 
     def lookup_old_element
