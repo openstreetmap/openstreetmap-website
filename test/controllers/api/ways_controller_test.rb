@@ -57,7 +57,7 @@ module Api
       assert_response :gone
 
       # check chat a non-existent way is not returned
-      get api_way_path(:id => 0)
+      get api_way_path(0)
       assert_response :not_found
     end
 
@@ -102,11 +102,11 @@ module Api
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get ways_path, :params => { :ways => "" }
+      get ways_path(:ways => "")
       assert_response :bad_request
 
       # test a working call
-      get ways_path, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}" }
+      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "way", :count => 4
@@ -117,7 +117,7 @@ module Api
       end
 
       # test a working call with json format
-      get ways_path, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json" }
+      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -129,7 +129,7 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
 
       # check error when a non-existent way is included
-      get ways_path, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }
+      get ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0")
       assert_response :not_found
     end
 
@@ -345,7 +345,7 @@ module Api
                       "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
 
       # this won't work since the way never existed
-      delete api_way_path(:id => 0), :headers => auth_header
+      delete api_way_path(0), :headers => auth_header
       assert_response :forbidden
 
       ### Now check with a public user
@@ -394,7 +394,7 @@ module Api
       assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
 
       # this won't work since the way never existed
-      delete api_way_path(:id => 0), :params => xml.to_s, :headers => auth_header
+      delete api_way_path(0), :params => xml.to_s, :headers => auth_header
       assert_response :not_found
     end
 

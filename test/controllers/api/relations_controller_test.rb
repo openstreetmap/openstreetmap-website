@@ -82,7 +82,7 @@ module Api
       assert_response :gone
 
       # check chat a non-existent relation is not returned
-      get api_relation_path(:id => 0)
+      get api_relation_path(0)
       assert_response :not_found
     end
 
@@ -178,11 +178,11 @@ module Api
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get relations_path, :params => { :relations => "" }
+      get relations_path(:relations => "")
       assert_response :bad_request
 
       # test a working call
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "relation", :count => 4
@@ -193,7 +193,7 @@ module Api
       end
 
       # test a working call with json format
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -205,7 +205,7 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == relation4.id && a["visible"].nil? })
 
       # check error when a non-existent relation is included
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0")
       assert_response :not_found
     end
 
@@ -286,7 +286,7 @@ module Api
       assert checkrelation.visible,
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
 
       ###
@@ -315,7 +315,7 @@ module Api
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
 
       ###
@@ -343,7 +343,7 @@ module Api
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
 
       ###
@@ -371,7 +371,7 @@ module Api
       assert checkrelation.visible,
              "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
-      get api_relation_path(:id => relationid)
+      get api_relation_path(relationid)
       assert_response :success
     end
 
@@ -453,7 +453,7 @@ module Api
       auth_header = basic_authorization_header user.email, "test"
       with_relation(relation.id) do |rel|
         update_changeset(rel, changeset.id)
-        put api_relation_path(:id => other_relation.id), :params => rel.to_s, :headers => auth_header
+        put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
         assert_response :bad_request
       end
     end
@@ -560,7 +560,7 @@ module Api
       assert_response :forbidden
 
       # this won't work since the relation never existed
-      delete api_relation_path(:id => 0), :headers => auth_header
+      delete api_relation_path(0), :headers => auth_header
       assert_response :forbidden
 
       ## now set auth for the public user
@@ -632,7 +632,7 @@ module Api
                       "should be able to delete a relation used in an old relation (#{@response.body})"
 
       # this won't work since the relation never existed
-      delete api_relation_path(:id => 0), :headers => auth_header
+      delete api_relation_path(0), :headers => auth_header
       assert_response :not_found
     end
 
@@ -695,7 +695,7 @@ module Api
           update_changeset(relation_xml, changeset_id)
 
           # upload the change
-          put api_relation_path(:id => relation.id), :params => relation_xml.to_s, :headers => auth_header
+          put api_relation_path(relation), :params => relation_xml.to_s, :headers => auth_header
           assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
           # get it back and check the ordering
@@ -762,7 +762,7 @@ module Api
       relation_id = @response.body.to_i
 
       # get it back and check the ordering
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
@@ -777,18 +777,18 @@ module Api
       doc.find("//osm/relation").first["version"] = 1.to_s
 
       # upload the next version of the relation
-      put api_relation_path(:id => relation_id), :params => doc.to_s, :headers => auth_header
+      put api_relation_path(relation_id), :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't update relation: #{@response.body}"
       assert_equal 2, @response.body.to_i
 
       # get it back again and check the ordering again
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(:id => relation_id, :version => 2)
+        get api_old_relation_path(relation_id, 2)
         assert_response :success, "can't read back version 2 of the relation #{relation_id}"
         check_ordering(doc, @response.body)
       end
@@ -829,7 +829,7 @@ module Api
       relation_id = @response.body.to_i
 
       # get it back and check the ordering
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{relation_id}"
       check_ordering(doc, @response.body)
     end
@@ -862,13 +862,13 @@ module Api
       relation_id = @response.body.to_i
 
       # check the ordering in the current tables:
-      get api_relation_path(:id => relation_id)
+      get api_relation_path(relation_id)
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get api_old_relation_path(:id => relation_id, :version => 1)
+        get api_old_relation_path(relation_id, 1)
         assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
         check_ordering(doc, @response.body)
       end
@@ -1106,10 +1106,10 @@ module Api
     # doc is returned.
     def with_relation(id, ver = nil)
       if ver.nil?
-        get api_relation_path(:id => id)
+        get api_relation_path(id)
       else
         with_controller(OldRelationsController.new) do
-          get api_old_relation_path(:id => id, :version => ver)
+          get api_old_relation_path(id, ver)
         end
       end
       assert_response :success
@@ -1122,12 +1122,12 @@ module Api
     # the parsed XML doc is returned.
     def with_update(rel, headers)
       rel_id = rel.find("//osm/relation").first["id"].to_i
-      put api_relation_path(:id => rel_id), :params => rel.to_s, :headers => headers
+      put api_relation_path(rel_id), :params => rel.to_s, :headers => headers
       assert_response :success, "can't update relation: #{@response.body}"
       version = @response.body.to_i
 
       # now get the new version
-      get api_relation_path(:id => rel_id)
+      get api_relation_path(rel_id)
       assert_response :success
       new_rel = xml_parse(@response.body)
 
@@ -1159,7 +1159,7 @@ module Api
       end
 
       # now get the new version
-      get api_relation_path(:id => rel_id)
+      get api_relation_path(rel_id)
       assert_response :success
       new_rel = xml_parse(@response.body)
 

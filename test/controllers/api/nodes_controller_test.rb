@@ -151,7 +151,7 @@ module Api
       assert_response :gone
 
       # check chat a non-existent node is not returned
-      get api_node_path(:id => 0)
+      get api_node_path(0)
       assert_response :not_found
     end
 
@@ -201,7 +201,7 @@ module Api
       assert_require_public_data
 
       # this won't work since the node never existed
-      delete api_node_path(:id => 0), :headers => auth_header
+      delete api_node_path(0), :headers => auth_header
       assert_require_public_data
 
       ## these test whether nodes which are in-use can be deleted:
@@ -241,7 +241,7 @@ module Api
       # try to delete a node with a different ID
       other_node = create(:node)
       xml = xml_for_node(other_node)
-      delete api_node_path(node.id), :params => xml.to_s, :headers => auth_header
+      delete api_node_path(node), :params => xml.to_s, :headers => auth_header
       assert_response :bad_request,
                       "should not be able to delete a node with a different ID from the XML"
 
@@ -266,7 +266,7 @@ module Api
       assert_response :gone
 
       # this won't work since the node never existed
-      delete api_node_path(:id => 0), :headers => auth_header
+      delete api_node_path(0), :headers => auth_header
       assert_response :not_found
 
       ## these test whether nodes which are in-use can be deleted:
@@ -360,7 +360,7 @@ module Api
       # try and update a node without authorisation
       # first try to update node without auth
       xml = xml_for_node(node)
-      put api_node_path(node.id), :params => xml.to_s, :headers => auth_header
+      put api_node_path(node), :params => xml.to_s, :headers => auth_header
       assert_response :forbidden
 
       # setup auth
@@ -456,11 +456,11 @@ module Api
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get nodes_path, :params => { :nodes => "" }
+      get nodes_path(:nodes => "")
       assert_response :bad_request
 
       # test a working call
-      get nodes_path, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}" }
+      get nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "node", :count => 5
@@ -472,7 +472,7 @@ module Api
       end
 
       # test a working call with json format
-      get nodes_path, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}", :format => "json" }
+      get nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -485,7 +485,7 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == node5.id && a["visible"] == false })
 
       # check error when a non-existent node is included
-      get nodes_path, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0" }
+      get nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0")
       assert_response :not_found
     end
 
@@ -548,7 +548,7 @@ module Api
       assert_not_nil checknode, "node not found in data base after upload"
 
       # and grab it using the api
-      get api_node_path(:id => nodeid)
+      get api_node_path(nodeid)
       assert_response :success
       apinode = Node.from_xml(@response.body)
       assert_not_nil apinode, "downloaded node is nil, but shouldn't be"

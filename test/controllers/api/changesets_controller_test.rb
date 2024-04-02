@@ -2436,7 +2436,7 @@ module Api
         assert_response :success, "can't create a new node"
         node_id = @response.body.to_i
 
-        get api_node_path(:id => node_id)
+        get api_node_path(node_id)
         assert_response :success, "can't read back new node"
         node_doc = XML::Parser.string(@response.body).parse
         node_xml = node_doc.find("//osm/node").first
@@ -2447,7 +2447,7 @@ module Api
           node_xml["lon"] = rand.to_s
           node_xml["version"] = (i + 1).to_s
 
-          put api_node_path(:id => node_id), :params => node_doc.to_s, :headers => auth_header
+          put api_node_path(node_id), :params => node_doc.to_s, :headers => auth_header
           assert_response :success, "attempt #{i} should have succeeded"
         end
 
@@ -2456,7 +2456,7 @@ module Api
         node_xml["lon"] = rand.to_s
         node_xml["version"] = offset.to_s
 
-        put api_node_path(:id => node_id), :params => node_doc.to_s, :headers => auth_header
+        put api_node_path(node_id), :params => node_doc.to_s, :headers => auth_header
         assert_response :conflict, "final attempt should have failed"
       end
 

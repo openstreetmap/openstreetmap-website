@@ -45,7 +45,7 @@ module Api
 
     def test_history_invalid
       # check chat a non-existent way is not returned
-      get api_way_history_path(:id => 0)
+      get api_way_history_path(0)
       assert_response :not_found
     end
 
@@ -163,12 +163,12 @@ module Api
       way_v1 = way.old_ways.find_by(:version => 1)
       way_v1.redact!(create(:redaction))
 
-      get api_old_way_path(:id => way_v1.way_id, :version => way_v1.version)
+      get api_old_way_path(way_v1.way_id, way_v1.version)
       assert_response :forbidden, "Redacted way shouldn't be visible via the version API."
 
       # not even to a logged-in user
       auth_header = basic_authorization_header create(:user).email, "test"
-      get api_old_way_path(:id => way_v1.way_id, :version => way_v1.version), :headers => auth_header
+      get api_old_way_path(way_v1.way_id, way_v1.version), :headers => auth_header
       assert_response :forbidden, "Redacted way shouldn't be visible via the version API, even when logged in."
     end
 
@@ -179,14 +179,14 @@ module Api
       way_v1 = way.old_ways.find_by(:version => 1)
       way_v1.redact!(create(:redaction))
 
-      get api_way_history_path(:id => way_v1.way_id)
+      get api_way_history_path(way)
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
                     "redacted way #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history."
 
       # not even to a logged-in user
       auth_header = basic_authorization_header create(:user).email, "test"
-      get api_way_history_path(:id => way_v1.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0,
                     "redacted node #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history, even when logged in."
@@ -205,17 +205,17 @@ module Api
 
       # check moderator can still see the redacted data, when passing
       # the appropriate flag
-      get api_old_way_path(:id => way_v3.way_id, :version => way_v3.version), :headers => auth_header
+      get api_old_way_path(way_v3.way_id, way_v3.version), :headers => auth_header
       assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-      get api_old_way_path(:id => way_v3.way_id, :version => way_v3.version), :params => { :show_redactions => "true" }, :headers => auth_header
+      get api_old_way_path(way_v3.way_id, way_v3.version, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v3.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
                     "way #{way_v3.way_id} version #{way_v3.version} should not be present in the history for moderators when not passing flag."
-      get api_way_history_path(:id => way_v3.way_id), :params => { :show_redactions => "true" }, :headers => auth_header
+      get api_way_history_path(way, :show_redactions => "true"), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 1,
                     "way #{way_v3.way_id} version #{way_v3.version} should still be present in the history for moderators when passing flag."
@@ -235,11 +235,11 @@ module Api
       auth_header = basic_authorization_header create(:user).email, "test"
 
       # check can't see the redacted data
-      get api_old_way_path(:id => way_v3.way_id, :version => way_v3.version), :headers => auth_header
+      get api_old_way_path(way_v3.way_id, way_v3.version), :headers => auth_header
       assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v3.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v3.way_id}'][version='#{way_v3.version}']", 0,
                     "redacted way #{way_v3.way_id} version #{way_v3.version} shouldn't be present in the history."
@@ -253,7 +253,7 @@ module Api
       way_v1 = way.old_ways.find_by(:version => 1)
       way_v1.redact!(create(:redaction))
 
-      post way_version_redact_path(:id => way_v1.way_id, :version => way_v1.version)
+      post way_version_redact_path(way_v1.way_id, way_v1.version)
       assert_response :unauthorized, "should need to be authenticated to unredact."
     end
 
@@ -267,7 +267,7 @@ module Api
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
-      post way_version_redact_path(:id => way_v1.way_id, :version => way_v1.version), :headers => auth_header
+      post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
       assert_response :forbidden, "should need to be moderator to unredact."
     end
 
@@ -282,16 +282,16 @@ module Api
 
       auth_header = basic_authorization_header moderator_user.email, "test"
 
-      post way_version_redact_path(:id => way_v1.way_id, :version => way_v1.version), :headers => auth_header
+      post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
       assert_response :success, "should be OK to unredact old version as moderator."
 
       # check moderator can still see the unredacted data, without passing
       # the appropriate flag
-      get api_old_way_path(:id => way_v1.way_id, :version => way_v1.version), :headers => auth_header
+      get api_old_way_path(way_v1.way_id, way_v1.version), :headers => auth_header
       assert_response :success, "After unredaction, node should not be gone for moderator."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v1.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Unredaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
                     "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for moderators."
@@ -299,11 +299,11 @@ module Api
       auth_header = basic_authorization_header create(:user).email, "test"
 
       # check normal user can now see the unredacted data
-      get api_old_way_path(:id => way_v1.way_id, :version => way_v1.version), :headers => auth_header
+      get api_old_way_path(way_v1.way_id, way_v1.version), :headers => auth_header
       assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get api_way_history_path(:id => way_v1.way_id), :headers => auth_header
+      get api_way_history_path(way), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1,
                     "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for normal users."
@@ -324,7 +324,7 @@ module Api
       assert_not_nil current_way, "getting way #{way_id} returned nil"
 
       # get the "old" version of the way from the version method
-      get api_old_way_path(:id => way_id, :version => current_way.version)
+      get api_old_way_path(way_id, current_way.version)
       assert_response :success, "can't get old way #{way_id}, v#{current_way.version}"
       old_way = Way.from_xml(@response.body)
 
@@ -336,7 +336,7 @@ module Api
     # look at all the versions of the way in the history and get each version from
     # the versions call. check that they're the same.
     def check_history_equals_versions(way_id)
-      get api_way_history_path(:id => way_id)
+      get api_way_history_path(way_id)
       assert_response :success, "can't get way #{way_id} from API"
       history_doc = XML::Parser.string(@response.body).parse
       assert_not_nil history_doc, "parsing way #{way_id} history failed"
@@ -345,7 +345,7 @@ module Api
         history_way = Way.from_xml_node(way_doc)
         assert_not_nil history_way, "parsing way #{way_id} version failed"
 
-        get api_old_way_path(:id => way_id, :version => history_way.version)
+        get api_old_way_path(way_id, history_way.version)
         assert_response :success, "couldn't get way #{way_id}, v#{history_way.version}"
         version_way = Way.from_xml(@response.body)
         assert_not_nil version_way, "failed to parse #{way_id}, v#{history_way.version}"
@@ -368,11 +368,11 @@ module Api
     end
 
     def do_redact_way(way, redaction, headers = {})
-      get api_old_way_path(:id => way.way_id, :version => way.version)
+      get api_old_way_path(way.way_id, way.version)
       assert_response :success, "should be able to get version #{way.version} of way #{way.way_id}."
 
       # now redact it
-      post way_version_redact_path(:id => way.way_id, :version => way.version), :params => { :redaction => redaction.id }, :headers => headers
+      post way_version_redact_path(way.way_id, way.version), :params => { :redaction => redaction.id }, :headers => headers
     end
 
     def propagate_tags(way, old_way)
