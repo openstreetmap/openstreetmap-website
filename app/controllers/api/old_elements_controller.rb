@@ -2,7 +2,7 @@
 # into one place. as it turns out, the API methods for historical
 # nodes, ways and relations are basically identical.
 module Api
-  class OldController < ApiController
+  class OldElementsController < ApiController
     before_action :check_api_readable
     before_action :check_api_writable, :only => [:redact]
     before_action :setup_user_auth, :only => [:history, :show]

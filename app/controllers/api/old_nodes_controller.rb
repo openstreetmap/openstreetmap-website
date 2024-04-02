@@ -1,5 +1,5 @@
 module Api
-  class OldNodesController < OldController
+  class OldNodesController < OldElementsController
     private
 
     def lookup_old_element
