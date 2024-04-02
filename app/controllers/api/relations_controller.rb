@@ -1,5 +1,5 @@
 module Api
-  class RelationsController < ApiController
+  class RelationsController < ElementsController
     before_action :check_api_writable, :only => [:create, :update, :destroy]
     before_action :authorize, :only => [:create, :update, :destroy]
 
@@ -8,22 +8,6 @@ module Api
     before_action :require_public_data, :only => [:create, :update, :destroy]
     before_action :set_request_formats, :except => [:create, :update, :destroy]
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
-
-    def index
-      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
-
-      ids = params["relations"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
-
-      @relations = Relation.find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-    end
 
     def show
       relation = Relation.find(params[:id])
@@ -121,6 +105,12 @@ module Api
       else
         head :bad_request
       end
+    end
+
+    private
+
+    def current_model
+      Relation
     end
   end
 end
