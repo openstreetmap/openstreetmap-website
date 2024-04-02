@@ -373,7 +373,7 @@ module Api
       node_v1 = node.old_nodes.find_by(:version => 1)
       node_v1.redact!(create(:redaction))
 
-      post node_version_redact_path(:id => node_v1.node_id, :version => node_v1.version)
+      post node_version_redact_path(node_v1.node_id, node_v1.version)
       assert_response :unauthorized, "should need to be authenticated to unredact."
     end
 
@@ -388,7 +388,7 @@ module Api
 
       auth_header = basic_authorization_header user.email, "test"
 
-      post node_version_redact_path(:id => node_v1.node_id, :version => node_v1.version), :headers => auth_header
+      post node_version_redact_path(node_v1.node_id, node_v1.version), :headers => auth_header
       assert_response :forbidden, "should need to be moderator to unredact."
     end
 
@@ -403,7 +403,7 @@ module Api
 
       auth_header = basic_authorization_header moderator_user.email, "test"
 
-      post node_version_redact_path(:id => node_v1.node_id, :version => node_v1.version), :headers => auth_header
+      post node_version_redact_path(node_v1.node_id, node_v1.version), :headers => auth_header
       assert_response :success, "should be OK to unredact old version as moderator."
 
       # check moderator can now see the redacted data, when not
@@ -450,7 +450,7 @@ module Api
       assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."
 
       # now redact it
-      post node_version_redact_path(:id => node.node_id, :version => node.version), :params => { :redaction => redaction.id }, :headers => headers
+      post node_version_redact_path(node.node_id, node.version), :params => { :redaction => redaction.id }, :headers => headers
     end
 
     def check_current_version(node_id)

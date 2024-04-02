@@ -253,7 +253,7 @@ module Api
       way_v1 = way.old_ways.find_by(:version => 1)
       way_v1.redact!(create(:redaction))
 
-      post way_version_redact_path(:id => way_v1.way_id, :version => way_v1.version)
+      post way_version_redact_path(way_v1.way_id, way_v1.version)
       assert_response :unauthorized, "should need to be authenticated to unredact."
     end
 
@@ -267,7 +267,7 @@ module Api
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
-      post way_version_redact_path(:id => way_v1.way_id, :version => way_v1.version), :headers => auth_header
+      post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
       assert_response :forbidden, "should need to be moderator to unredact."
     end
 
@@ -282,7 +282,7 @@ module Api
 
       auth_header = basic_authorization_header moderator_user.email, "test"
 
-      post way_version_redact_path(:id => way_v1.way_id, :version => way_v1.version), :headers => auth_header
+      post way_version_redact_path(way_v1.way_id, way_v1.version), :headers => auth_header
       assert_response :success, "should be OK to unredact old version as moderator."
 
       # check moderator can still see the unredacted data, without passing
@@ -372,7 +372,7 @@ module Api
       assert_response :success, "should be able to get version #{way.version} of way #{way.way_id}."
 
       # now redact it
-      post way_version_redact_path(:id => way.way_id, :version => way.version), :params => { :redaction => redaction.id }, :headers => headers
+      post way_version_redact_path(way.way_id, way.version), :params => { :redaction => redaction.id }, :headers => headers
     end
 
     def propagate_tags(way, old_way)
