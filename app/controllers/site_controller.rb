@@ -107,6 +107,8 @@ class SiteController < ApplicationController
     @locale = params[:about_locale] || I18n.locale
   end
 
+  def privacy_policy; end
+
   def export; end
 
   def offline
