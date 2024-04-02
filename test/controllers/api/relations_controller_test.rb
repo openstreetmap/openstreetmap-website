@@ -178,11 +178,11 @@ module Api
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get relations_path, :params => { :relations => "" }
+      get relations_path(:relations => "")
       assert_response :bad_request
 
       # test a working call
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}")
       assert_response :success
       assert_select "osm" do
         assert_select "relation", :count => 4
@@ -193,7 +193,7 @@ module Api
       end
 
       # test a working call with json format
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}", :format => "json")
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -205,7 +205,7 @@ module Api
       assert_equal 1, (js["elements"].count { |a| a["id"] == relation4.id && a["visible"].nil? })
 
       # check error when a non-existent relation is included
-      get relations_path, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
+      get relations_path(:relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0")
       assert_response :not_found
     end
 
