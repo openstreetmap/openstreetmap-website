@@ -68,7 +68,7 @@ module Api
         xml_node["lat"] = precision((rand * 180) - 90).to_s
         xml_node["lon"] = precision((rand * 360) - 180).to_s
         with_controller(NodesController.new) do
-          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
+          put api_node_path(nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :forbidden, "Should have rejected node update"
           xml_node["version"] = @response.body.to_s
         end
@@ -83,7 +83,7 @@ module Api
         xml_tag["v"] = random_string
         xml_node << xml_tag
         with_controller(NodesController.new) do
-          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
+          put api_node_path(nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :forbidden,
                           "should have rejected node #{nodeid} (#{@response.body}) with forbidden"
           xml_node["version"] = @response.body.to_s
@@ -116,7 +116,7 @@ module Api
         xml_node["lat"] = precision((rand * 180) - 90).to_s
         xml_node["lon"] = precision((rand * 360) - 180).to_s
         with_controller(NodesController.new) do
-          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
+          put api_node_path(nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :success
           xml_node["version"] = @response.body.to_s
         end
@@ -131,7 +131,7 @@ module Api
         xml_tag["v"] = random_string
         xml_node << xml_tag
         with_controller(NodesController.new) do
-          put api_node_path(:id => nodeid), :params => xml_doc.to_s, :headers => auth_header
+          put api_node_path(nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :success,
                           "couldn't update node #{nodeid} (#{@response.body})"
           xml_node["version"] = @response.body.to_s
@@ -456,7 +456,7 @@ module Api
     def check_current_version(node_id)
       # get the current version of the node
       current_node = with_controller(NodesController.new) do
-        get api_node_path(:id => node_id)
+        get api_node_path(node_id)
         assert_response :success, "cant get current node #{node_id}"
         Node.from_xml(@response.body)
       end

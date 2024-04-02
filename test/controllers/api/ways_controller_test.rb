@@ -57,7 +57,7 @@ module Api
       assert_response :gone
 
       # check chat a non-existent way is not returned
-      get api_way_path(:id => 0)
+      get api_way_path(0)
       assert_response :not_found
     end
 
@@ -345,7 +345,7 @@ module Api
                       "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
 
       # this won't work since the way never existed
-      delete api_way_path(:id => 0), :headers => auth_header
+      delete api_way_path(0), :headers => auth_header
       assert_response :forbidden
 
       ### Now check with a public user
@@ -394,7 +394,7 @@ module Api
       assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
 
       # this won't work since the way never existed
-      delete api_way_path(:id => 0), :params => xml.to_s, :headers => auth_header
+      delete api_way_path(0), :params => xml.to_s, :headers => auth_header
       assert_response :not_found
     end
 
