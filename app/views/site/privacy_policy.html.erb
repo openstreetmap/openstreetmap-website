@@ -1,4 +1,12 @@
-<mark>Introduction</mark>
+<% content_for :heading do %>
+  <% I18n.with_locale @locale do %>
+    <%= tag.h1 do %>
+      Privacy Policy
+    <% end %>
+  <% end %>
+<% end %>
+
+<h3>Introduction</h3>
 
 <p>
   This document states the OpenHistoricalMap (OHM) '''privacy policy''' for services formally operated and provided through the <a href="http://openhistoricalmap.org" target="_blank" rel="noopener">openhistoricalmap.org</a> domain and subdomains. In particular these are
@@ -14,14 +22,12 @@
 <p>
   This document is mainly intended for OpenHistoricalMap contributors.
 </p>
-<p>
-  <mark>Why do we store and process personal data?</mark>
-</p>
+<h3>Why do we store and process personal data?</h3>
 <p>
   The purpose of the OpenHistoricalMap project is to provide open historical geographic data, such as street maps or historical building outlines, railways, trails, etc, to anyone.
 </p>
 <p>
-  To fulfill the goal of distributing data that is truly open, untethered by rights of third parties and of high quality, we do not support anonymous contributions and retain additional, non-geographic, data on a legitimate interest basis (see [<a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank" rel="noopener">https://gdpr-info.eu/art-6-gdpr/</a> GDPR article 6.1f ]), to enable:
+  To fulfill the goal of distributing data that is truly open, untethered by rights of third parties and of high quality, we do not support anonymous contributions and retain additional, non-geographic, data on a legitimate interest basis (see <a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank" rel="noopener">GDPR article 6.1f</a>), to enable:
 </p>
 <ul>
   <li>
@@ -40,11 +46,9 @@
     Research and analysis on aggregate contributions to improve or prioritise OHM services, such as evaluating mapping efficacy map completeness, determining if locations or mappers are disproportionately represented
   </li>
 </ul>
+<h3>What data do we store and process?</h3>
 <p>
-  <mark>What data do we store and process?</mark>
-</p>
-<p>
-  <mark>Data from contributions to OpenHistoricalMap</mark>
+  Data from contributions to OpenHistoricalMap.
 </p>
 <p>
   Besides the geographic data contributed (points, lines, and areas with associated attributes and GPS trace data), and communications related data (diary posts and comments, the user page, changeset comments, messages) we store:
@@ -66,9 +70,7 @@
     Network access data (example IP addresses) for the systems and services operated by OHM. Please see [[#Data_we_receive_automatically | Data we receive automatically]]
   </li>
 </ul>
-<p>
-  <mark>Who has access to the data</mark>
-</p>
+<h3>Who has access to the data</h3>
 <p>
   We do not share email addresses associated with accounts with any third party. User to user messages are visible to the sender and recipient, other access is limited to our operations staff and only if required for operational reasons, to enforce our acceptable use policies, to fulfil any legal obligations and most notably to prevent SPAM.
 </p>
@@ -78,9 +80,7 @@
 <p>
   The other data is made available, depending on the use case, via the website, via the editing API and from our data dumps, to users with accounts and to the general public. Some of the non-geographic data may be available only by some methods, however this is subject to change.
 </p>
-<p>
-  <mark>Where do we store the data</mark>
-</p>
+<h3>Where do we store the data</h3>
 <p>
   The website, API servers, databases and the servers for auxiliary services are currently hosted on Amazon Web Services in the East Coast Region of the United States.
 </p>
@@ -98,9 +98,7 @@
     Network topology and load
   </li>
 </ul>
-<p>
-  <mark>How can you control the processing of your data and reduce privacy related issues</mark>
-</p>
+<h3>How can you control the processing of your data and reduce privacy related issues</h3>
 <p>
   While not required by law, we provide the following mechanism to reduce the exposure of potentially privacy related information for you:
 </p>
@@ -121,16 +119,12 @@
 <p>
   You can further reduce exposure by not adding personal information to the map data (personal names and similar). Such information is in general not considered to be an useful addition to our data and you should refrain from adding it.
 </p>
+<h3>Right to Object</h3>
 <p>
-  <mark>Right to Object</mark>
+  You have a <a href="https://gdpr-info.eu/art-21-gdpr/" target="_blank" rel="noopener">right to object</a> against processing based on legitimate interests of the data controller.
 </p>
-<p>
-  You have a [<a href="https://gdpr-info.eu/art-21-gdpr/" target="_blank" rel="noopener">https://gdpr-info.eu/art-21-gdpr/</a> right to object] against processing based on legitimate interests of the data controller.
-</p>
-<p>
-  <mark>Detailed Information</mark>
-</p>
-<h3>GPS Trace Data</h3>
+<h3>Detailed Information</h3>
+<h4>GPS Trace Data</h4>
 <p>
   The uploading of GPS data is entirely optional and not a prerequisite for contributions to OpenHistoricalMap. If you do submit GPS data, it is uploaded in the form of individual GPX files. These are kept as raw files, as well as imported into the database. GPX files can be marked "[<a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces" target="_blank" rel="noopener">https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces</a> public]" by the uploader; this is completely unrelated to the option of making one's ''edits'' "public".
 </p>
@@ -140,7 +134,7 @@
 <p>
   If a GPS trace is marked as public when it is uploaded then the raw trace may be downloaded from the web site or using an API call. In this case the user's display name is shown (regardless of whether the user has made their ''edits'' public) and the timestamps in the GPX file will be included. Also, any additional information placed in the GPX file will still be present, e.g. waypoints with their names and/or notes entered, associated symbols, elevation data, etc.  You should remove any such information from the data and trim enough information from beginning and end of the trace to obscure start and destination before uploading it if you have privacy concerns.
 </p>
-<h3>Map Data</h3>
+<h4>Map Data</h4>
 <p>
   All edits made to the map are recorded in the database with the user ID of the user making the change, and a timestamp at the time of change upload. In general all of this information is also made available to everyone via the website, including links to allow everyone to easily cross-reference which user has made which edit.
 </p>
@@ -151,7 +145,7 @@
 <p>
   If a user sets a home location then they will appear on the "nearby mappers" list for other people with a home location near theirs. This is an option on your account settings page.
 </p>
-<h3>Email Addresses</h3>
+<h4>Email Addresses</h4>
 <p>
   The registered email address for an OHM user account will never intentionally be published on the internet anywhere, shared with third party organisations, or revealed directly to other users. Email addresses will be used by the server to notify the user if another user has sent a message through the website, and for other system generated notifications.
 </p>
@@ -163,19 +157,15 @@
 </p>
 <h4>Gravatar</h4>
 <p>
-  The <a href="http://openhistoricalmap.org" target="_blank" rel="noopener">openhistoricalmap.org</a> website supports the display of [<a href="http://gravatar.com/" target="_blank" rel="noopener">http://gravatar.com/</a> Gravatars], these are retrieved from <a href="http://gravatar.com" target="_blank" rel="noopener">gravatar.com</a> by generating a globally unique key from your e-mail address. Our website software will check on the initial signup and on every email address change if you have a Gravatar for the new address and start displaying it if one exists. You can stop this behaviour by explicitly turning Gravatar support off in your account settings. You should be aware that, if a Gravatar is displayed, the key can be used to track your account over any website that has Gravatar support.
+  The <a href="http://openhistoricalmap.org" target="_blank" rel="noopener">openhistoricalmap.org</a> website supports the display of <a href="http://gravatar.com/" target="_blank" rel="noopener">Gravatars</a>, these are retrieved from <a href="http://gravatar.com" target="_blank" rel="noopener">gravatar.com</a> by generating a globally unique key from your e-mail address. Our website software will check on the initial signup and on every email address change if you have a Gravatar for the new address and start displaying it if one exists. You can stop this behaviour by explicitly turning Gravatar support off in your account settings. You should be aware that, if a Gravatar is displayed, the key can be used to track your account over any website that has Gravatar support.
 </p>
-<p>
-  <mark>Data you may voluntarily add to your profile or diary posts</mark>
-</p>
+<h4>Data you may voluntarily add to your profile or diary posts</h4>
 <p>
   You are not required to fill out your profile or make diary posts. By voluntarily entering personal data in your user profile or diary posts, you consent to that information being publicly available and stored by OHM as long as you maintain an OHM account. You may edit your public profile or your diary posts at any time to remove such information if you change your mind.
 </p>
+<h4>Data we receive automatically</h4>
 <p>
-  <mark>Data we receive automatically</mark>
-</p>
-<p>
-  OHM operates a number of services for the OHM community, examples are the <a href="http://openhistoricalmap.org" target="_blank" rel="noopener">openhistoricalmap.org</a> website, the standard OHM vector tiles online map, the OHM API and the nominatim search facility.
+  OHM operates a number of services for the OHM community, examples are the <a href="/" target="_blank" rel="noopener">openhistoricalmap.org</a> website, the standard OHM vector tiles online map, the OHM API and the nominatim search facility.
 </p>
 <p>
   When you visit an OHM website, access any of the services via a browser or via applications that utilize the provided APIs, records of that use are produced, we collect information about your browser or application and your interaction with our website, including (a) IP address, (b) browser and device type, © operating system, (d) referring web page, (e) the date and time of page visits, and (f) the pages accessed on our websites.
@@ -208,11 +198,9 @@
   Given the temporary nature of this storage, it is generally not feasible for us to provide access to IP addresses or the logs associated with them.
 </p>
 <p>
-  The above mentioned data is processed on a legitimate interest basis (see [<a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank" rel="noopener">https://gdpr-info.eu/art-6-gdpr/</a> GDPR article 6.1f ]).
+  The above mentioned data is processed on a legitimate interest basis (see <a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank" rel="noopener">GDPR article 6.1f</a>).
 </p>
-<p>
-  <mark>Account Removal</mark>
-</p>
+<h3>Account Removal</h3>
 <p>You can [<a href="//wiki.openstreetmap.org/wiki/FAQ#How_can_I_close_my_account.3F" target="_blank" rel="noopener">//wiki.openstreetmap.org/wiki/FAQ#How_can_I_close_my_account.3F</a> request your account to be removed] and we will honor such requests as far as possible.
 </p>
 <p>
@@ -222,20 +210,16 @@
   If you have contributed your account will be renamed to user_''USERID'' (where USERID is your old OHM username) and contributions and changeset comments will be retained with this name, diary entries and your user page will be removed. Because we do not allow anonymous edits we will non-publicly retain your email address in case you need to be contacted with respect to your contributions.
 </p>
 <p>
-  Wiki and forum accounts will be renamed to a pseudo-anonymous name, but otherwise will remain as is. You can unsubscribe yourself from any mailing lists, however you need to realize that personal copies held by the recipients of any mails you sent to the lists and the archives on <a href="http://lists.openstreetmap.org" target="_blank" rel="noopener">lists.openstreetmap.org</a> can not be removed.
+  Wiki and forum accounts will be renamed to a pseudo-anonymous name, but otherwise will remain as is. You can unsubscribe yourself from any mailing lists, however you need to realize that personal copies held by the recipients of any mails you sent to the lists and the archives on <a href="https://lists.openstreetmap.org" target="_blank" rel="noopener">lists.openstreetmap.org</a> can not be removed.
 </p>
 <p>
   In your request for account removal you need to identify all accounts that are affected as we do not have information on which accounts belong to which OpenHistoricalMap users.
 </p>
-<p>
-  <mark>Cookies</mark>
-</p>
+<h3>Cookies</h3>
 <p>
   Numerous OHM operated services use cookies to store information on your login and site navigation state. We also use cookies and similar technologies to recognize and improve your use of our websites. You may delete cookies from your computer, and most browsers provide the option to block them. If you block cookies placed by us (first party cookies), you will not be able to access parts of the OHM websites and services that require a login. However, your access to our websites will not be affected if you disable cookies placed by third parties.
 </p>
-<p>
-  <mark>Contact</mark>
-</p>
+<h3>Contact</h3>
 <p>
   If you have questions or concerns with respect to this policy, please contact OHM via our [need Contact channels].
 </p>
