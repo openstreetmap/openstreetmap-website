@@ -11,6 +11,14 @@
                   :class => ["nav-link", { :active => action_name == "blocks_on" && current_user == @user }] %>
     </li>
   <% end %>
+  <% on_user = @user || @user_block&.user %>
+  <% if on_user != current_user && on_user&.blocks&.exists? %>
+    <li class="nav-item">
+      <%= link_to t(".blocks_on_user", :user => on_user.display_name),
+                  user_blocks_on_path(on_user),
+                  :class => ["nav-link", { :active => action_name == "blocks_on" }] %>
+    </li>
+  <% end %>
   <% if current_user&.blocks_created&.exists? %>
     <li class="nav-item">
       <%= link_to t(".blocks_by_me"),
