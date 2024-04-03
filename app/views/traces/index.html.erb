@@ -13,51 +13,55 @@
       <% end %>
     </ul>
   </nav>
-  <ul class="nav nav-tabs">
-    <% if @target_user.blank? %>
-      <!-- public traces -->
-      <li class="nav-item">
-        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link active" } %>
-      </li>
-      <% if current_user %>
-        <li class="nav-item">
-          <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
-        </li>
-      <% end %>
-    <% elsif current_user && current_user == @target_user %>
-      <li class="nav-item">
-        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
-      </li>
-      <!-- my traces -->
-      <li class="nav-item">
-        <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link active" } %>
-      </li>
-    <% else %>
-      <!-- traces_from @target_user -->
-      <li class="nav-item">
-        <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
-      </li>
-      <% if current_user && current_user != @target_user %>
-        <li class="nav-item">
-          <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
-        </li>
-      <% end %>
-      <li class="nav-item">
-        <%= link_to t(".traces_from", :user => @target_user&.display_name), { :controller => "traces", :action => "index", :display_name => @target_user&.display_name }, { :class => "nav-link active" } %>
-      </li>
-    <% end %>
 
-    <li class="nav-item ms-auto">
-      <div class="nav-link pe-0 border-0">
-        <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] }, { :class => "btn btn-secondary btn-sm my-n2 align-baseline border-0" }) do %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="align-text-bottom">
-            <circle cx="2" cy="14" r="2" fill="white" />
-            <path d="M 8 14 a 6 6 0 0 0 -6 -6 M 14 14 a 12 12 0 0 0 -12 -12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" />
-          </svg><% end -%>
-        <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm my-n2 align-baseline border-0" %>
-      </div>
-    </li>
-  </ul>
+  <div class="d-flex align-items-end">
+    <div class="flex-grow-1">
+      <ul class="nav nav-tabs">
+        <% if @target_user.blank? %>
+          <!-- public traces -->
+          <li class="nav-item">
+            <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link active" } %>
+          </li>
+          <% if current_user %>
+            <li class="nav-item">
+              <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
+            </li>
+          <% end %>
+        <% elsif current_user && current_user == @target_user %>
+          <li class="nav-item">
+            <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
+          </li>
+          <!-- my traces -->
+          <li class="nav-item">
+            <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link active" } %>
+          </li>
+        <% else %>
+          <!-- traces_from @target_user -->
+          <li class="nav-item">
+            <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
+          </li>
+          <% if current_user && current_user != @target_user %>
+            <li class="nav-item">
+              <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= link_to t(".traces_from", :user => @target_user&.display_name), { :controller => "traces", :action => "index", :display_name => @target_user&.display_name }, { :class => "nav-link active" } %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="pb-1 ps-1 d-flex flex-wrap flex-shrink-0 gap-1 justify-content-end">
+      <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] },
+                  { :class => "btn btn-secondary btn-sm" }) do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="align-text-bottom">
+          <circle cx="2" cy="14" r="2" fill="white" />
+          <path d="M 8 14 a 6 6 0 0 0 -6 -6 M 14 14 a 12 12 0 0 0 -12 -12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" />
+        </svg><% end -%>
+      <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm" %>
+    </div>
+  </div>
 <% end %>
 
 <% content_for :auto_discovery_link_tag do %>
