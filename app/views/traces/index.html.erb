@@ -14,7 +14,17 @@
     </ul>
   </nav>
 
-  <div class="d-flex align-items-end">
+  <div class="d-flex flex-column flex-md-row-reverse align-items-md-end">
+    <div class="pb-1 ps-1 d-flex flex-wrap flex-shrink-0 gap-1 justify-content-end">
+      <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] },
+                  { :class => "btn btn-secondary btn-sm" }) do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="align-text-bottom">
+          <circle cx="2" cy="14" r="2" fill="white" />
+          <path d="M 8 14 a 6 6 0 0 0 -6 -6 M 14 14 a 12 12 0 0 0 -12 -12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" />
+        </svg><% end -%>
+      <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm" %>
+    </div>
+
     <div class="flex-grow-1">
       <ul class="nav nav-tabs">
         <% if @target_user.blank? %>
@@ -50,16 +60,6 @@
           </li>
         <% end %>
       </ul>
-    </div>
-
-    <div class="pb-1 ps-1 d-flex flex-wrap flex-shrink-0 gap-1 justify-content-end">
-      <%= link_to({ :action => :georss, :display_name => @target_user&.display_name, :tag => params[:tag] },
-                  { :class => "btn btn-secondary btn-sm" }) do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="align-text-bottom">
-          <circle cx="2" cy="14" r="2" fill="white" />
-          <path d="M 8 14 a 6 6 0 0 0 -6 -6 M 14 14 a 12 12 0 0 0 -12 -12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" />
-        </svg><% end -%>
-      <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm" %>
     </div>
   </div>
 <% end %>
