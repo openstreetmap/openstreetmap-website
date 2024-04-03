@@ -4,4 +4,11 @@
                 user_blocks_path,
                 :class => ["nav-link", { :active => action_name == "index" }] %>
   </li>
+  <% if current_user&.blocks&.exists? %>
+    <li class="nav-item">
+      <%= link_to t(".blocks_on_me"),
+                  user_blocks_on_path(current_user),
+                  :class => ["nav-link", { :active => action_name == "blocks_on" && current_user == @user }] %>
+    </li>
+  <% end %>
 </ul>
