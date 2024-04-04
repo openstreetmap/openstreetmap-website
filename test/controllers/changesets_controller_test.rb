@@ -266,6 +266,26 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  def test_index_timeout
+    create_list(:changeset, 30, :num_changes => 1)
+    with_settings(:web_timeout => -1) do
+      get history_path
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /the list of changesets/
+  end
+
+  def test_index_list_timeout
+    create_list(:changeset, 30, :num_changes => 1)
+    with_settings(:web_timeout => -1) do
+      get history_path(:list => "1")
+    end
+    assert_response :success
+    assert_dom "p", /the list of changesets/
+  end
+
   def test_show
     changeset = create(:changeset)
     create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "tested-changeset-comment")
@@ -348,6 +368,17 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     sidebar_browse_check :changeset_path, changeset3.id, "changesets/show"
     assert_dom "a[href='#{changeset_path changeset1}']", :count => 1
     assert_dom "a[href='#{changeset_path changeset5}']", :count => 1
+  end
+
+  def test_show_timeout
+    changeset = create(:changeset)
+    with_settings(:web_timeout => -1) do
+      get changeset_path(changeset)
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the changeset with the id #{changeset.id}")}/
   end
 
   ##
