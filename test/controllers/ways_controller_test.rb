@@ -36,4 +36,15 @@ class WaysControllerTest < ActionDispatch::IntegrationTest
     sidebar_browse_check :way_path, member.id, "browse/feature"
     assert_select "a[href='#{relation_path relation}']", :count => 1
   end
+
+  def test_show_timeout
+    way = create(:way)
+    with_settings(:web_timeout => -1) do
+      get way_path(way)
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the way with the id #{way.id}")}/
+  end
 end
