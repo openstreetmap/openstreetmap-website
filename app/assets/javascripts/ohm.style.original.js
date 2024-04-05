@@ -5328,7 +5328,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 4], [10, 10], [16, 12]]},
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5349,7 +5349,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 7], [10, 12], [16, 14]]},
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5370,7 +5370,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 8], [10, 15], [16, 16]]},
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "rgba(34, 34, 34, 1)",
@@ -5391,7 +5391,7 @@ ohmVectorStyles.Original = {
         "text-field": "{name}",
         "text-font": ["OpenHistorical"],
         "text-size": {"stops": [[6, 12], [10, 15]]},
-        "visibility": "none",
+        "visibility": "visible",
         "icon-image": "capital-18",
         "icon-offset": [0, 0],
         "icon-size": 1,
