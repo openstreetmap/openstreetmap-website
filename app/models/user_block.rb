@@ -15,7 +15,8 @@
 #
 # Indexes
 #
-#  index_user_blocks_on_user_id  (user_id)
+#  index_user_blocks_on_creator_id_and_id  (creator_id,id)
+#  index_user_blocks_on_user_id            (user_id)
 #
 # Foreign Keys
 #
