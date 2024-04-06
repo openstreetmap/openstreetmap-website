@@ -68,6 +68,9 @@ window.updateLinks = function (loc, zoom, layers, object) {
     .toggleClass("disabled", editDisabled);
 };
 
+updateBootstrapTheme();
+$(matchMedia("(prefers-color-scheme: dark)")).on("change", updateBootstrapTheme);
+
 $(document).ready(function () {
   // NB: Turns Turbo Drive off by default. Turbo Drive must be opt-in on a per-link and per-form basis
   // See https://turbo.hotwired.dev/reference/drive#turbo.session.drive
@@ -148,3 +151,8 @@ $(document).ready(function () {
   $("#edit_tab")
     .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
 });
+
+function updateBootstrapTheme() {
+  var prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+  $("html").attr("data-bs-theme", prefersDark ? "dark" : "light");
+}
