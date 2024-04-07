@@ -2,15 +2,12 @@
               :block_on => @user_block.user.display_name,
               :block_by => @user_block.creator.display_name) %>
 
+<% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
   <h1><%= t(".heading_html",
             :block_on => link_to(@user_block.user.display_name, @user_block.user),
             :block_by => link_to(@user_block.creator.display_name, @user_block.creator)) %></h1>
-  <nav class='secondary-actions'>
-    <ul class='clearfix'>
-      <li><%= link_to t(".back"), user_blocks_path %></li>
-    </ul>
-  </nav>
+  <%= render :partial => "navigation" %>
 <% end %>
 
 <dl class="row">
