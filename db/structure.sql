@@ -2729,6 +2729,13 @@ CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
 
 
 --
+-- Name: index_user_blocks_on_creator_id_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_blocks_on_creator_id_and_id ON public.user_blocks USING btree (creator_id, id);
+
+
+--
 -- Name: index_user_blocks_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3512,6 +3519,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240405083825'),
 ('20240307181018'),
 ('20240307180830'),
 ('20240228205723'),
