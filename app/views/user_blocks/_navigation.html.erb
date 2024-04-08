@@ -34,4 +34,11 @@
                   :class => ["nav-link", { :active => action_name == "blocks_by" }] %>
     </li>
   <% end %>
+  <% if @user_block %>
+    <li class="nav-item">
+      <%= link_to t(".block", :id => @user_block.id),
+                  user_block_path(@user_block),
+                  :class => ["nav-link", { :active => action_name == "show" }] %>
+    </li>
+  <% end %>
 </ul>
