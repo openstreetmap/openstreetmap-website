@@ -41,8 +41,8 @@ module ApplicationHelper
     end
   end
 
-  def current_page_class(path)
-    :current if current_page?(path)
+  def header_nav_link_class(path)
+    ["nav-link", current_page?(path) ? "text-secondary-emphasis" : "text-secondary"]
   end
 
   def application_data
