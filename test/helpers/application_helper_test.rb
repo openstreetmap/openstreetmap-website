@@ -91,5 +91,5 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_body_class; end
 
-  def test_current_page_class; end
+  def test_header_nav_link_class; end
 end
