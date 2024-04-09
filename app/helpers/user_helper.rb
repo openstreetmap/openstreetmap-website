@@ -10,7 +10,7 @@ module UserHelper
     elsif user.avatar.attached?
       user_avatar_variant_tag(user, { :resize_to_limit => [100, 100] }, options)
     else
-      image_tag "avatar_large.png", options.merge(:width => 100, :height => 100)
+      image_tag "avatar.svg", options.merge(:width => 100, :height => 100)
     end
   end
 
@@ -23,7 +23,7 @@ module UserHelper
     elsif user.avatar.attached?
       user_avatar_variant_tag(user, { :resize_to_limit => [50, 50] }, options)
     else
-      image_tag "avatar_small.png", options.merge(:width => 50, :height => 50)
+      image_tag "avatar.svg", options.merge(:width => 50, :height => 50)
     end
   end
 
@@ -36,7 +36,7 @@ module UserHelper
     elsif user.avatar.attached?
       user_avatar_variant_tag(user, { :resize_to_limit => [50, 50] }, options)
     else
-      image_tag "avatar_small.png", options.merge(:width => 50, :height => 50)
+      image_tag "avatar.svg", options.merge(:width => 50, :height => 50)
     end
   end
 
@@ -46,7 +46,7 @@ module UserHelper
     elsif user.avatar.attached?
       polymorphic_url(user_avatar_variant(user, :resize_to_limit => [100, 100]), :host => Settings.server_url)
     else
-      image_url("avatar_large.png")
+      image_url("avatar.svg")
     end
   end
 
