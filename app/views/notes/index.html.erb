@@ -1,9 +1,11 @@
+<% submitted_class = "bg-primary bg-opacity-25" %>
+
 <% content_for :heading do %>
   <h1><%= t ".heading", :user => @user.display_name %></h1>
   <p><%= t ".subheading_html",
            :user => link_to(@user.display_name, @user),
-           :submitted => tag.span(t(".subheading_submitted"), :class => "px-2 py-1 bg-primary bg-opacity-25"),
-           :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-white") %></p>
+           :submitted => tag.span(t(".subheading_submitted"), :class => "px-2 py-1 #{submitted_class}"),
+           :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-body") %></p>
 <% end %>
 
 <% if @notes.empty? %>
@@ -24,19 +26,20 @@
       </tr>
     </thead>
   <% @notes.each do |note| -%>
-    <tr<% if note.author == @user %> class="table-primary"<% end %>>
-      <td>
+    <% cell_class = submitted_class if note.author == @user -%>
+    <tr>
+      <%= tag.td :class => cell_class do %>
         <% if note.closed? %>
           <%= image_tag("closed_note_marker.png", :alt => "closed", :size => "25x40") %>
         <% else %>
           <%= image_tag("open_note_marker.png", :alt => "open", :size => "25x40") %>
-        <% end %>
-      </td>
-      <td><%= link_to note.id, note %></td>
-      <td><%= note_author(note.author) %></td>
-      <td><%= note.comments.first.body.to_html %></td>
-      <td><%= friendly_date_ago(note.created_at) %></td>
-      <td><%= friendly_date_ago(note.updated_at) %></td>
+        <% end -%>
+      <% end %>
+      <%= tag.td link_to(note.id, note), :class => cell_class %>
+      <%= tag.td note_author(note.author), :class => cell_class %>
+      <%= tag.td note.comments.first.body.to_html, :class => cell_class %>
+      <%= tag.td friendly_date_ago(note.created_at), :class => cell_class %>
+      <%= tag.td friendly_date_ago(note.updated_at), :class => cell_class %>
     </tr>
   <% end -%>
   </table>
