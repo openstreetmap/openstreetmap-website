@@ -179,6 +179,9 @@ OpenStreetMap::Application.routes.draw do
   get "/create-account.html", :to => redirect(:path => "/user/new")
   get "/forgot-password.html", :to => redirect(:path => "/user/forgot-password")
 
+  # ohm
+  get "/privacy-policy" => "site#privacy_policy"
+
   # omniauth
   get "/auth/failure" => "users#auth_failure"
   match "/auth/:provider/callback" => "users#auth_success", :via => [:get, :post], :as => :auth_success
