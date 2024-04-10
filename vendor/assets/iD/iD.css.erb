@@ -2861,8 +2861,12 @@
     align-items: center;
 }
 
+.ideditor .mapillary-attribution-image-container {
+  height: auto;
+}
+
 .ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-username {
-    display: none;
+    padding: 0px 8px 0 6px;
 }
 
 .ideditor .mly-wrapper .mapillary-attribution-container .mapillary-attribution-date {
@@ -3893,6 +3897,12 @@
 .ideditor .icon-annotation {
     color: #333;
     vertical-align: baseline;
+}
+
+.ideditor button.loading .icon {
+    background-image: url(<%= asset_path("iD/img/mini-loader.gif") %>);
+    background-position: 0 0;
+    background-size: auto;
 }
 
 
@@ -4981,11 +4991,11 @@
     display: flex;
     flex-flow: row nowrap;
 }
-.ideditor .form-field ul.rows li.labeled-input > span,
 .ideditor .form-field ul.rows li.labeled-input > div {
     flex: 1 1 auto;
     width: 100%;
     border-radius: 0;
+    line-height: 0.95rem;
 }
 .ideditor .form-field ul.rows li input {
     border-radius: 0;
@@ -5002,6 +5012,28 @@
 .ideditor[dir='rtl'] .form-field ul.rows li.labeled-input input,
 .ideditor[dir='rtl'] .form-field ul.rows li button {
     border-right-width: 1px;
+}
+
+/* Field - lists with labeled input items as table
+------------------------------------------------------- */
+.ideditor .form-field ul.rows.rows-table {
+    display: table;
+    width: 100%;
+}
+.ideditor .form-field ul.rows.rows-table li.labeled-input {
+    display: table-row;
+}
+.ideditor .form-field ul.rows.rows-table li.labeled-input > div:first-child {
+    display: table-cell;
+    width: auto;
+    max-width: 170px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.ideditor .form-field ul.rows.rows-table li.labeled-input > div:nth-child(2) {
+    display: table-cell;
+    width: auto;
 }
 
 
@@ -5425,7 +5457,7 @@
 .ideditor .form-field-input-roadheight input.roadheight-secondary-number,
 .ideditor .form-field-input-roadspeed input.roadspeed-number {
     flex-basis: 0;
-	width: 0;
+    width: 0;
 }
 .ideditor .form-field-input-roadheight input.roadheight-unit,
 .ideditor .form-field-input-roadheight input.roadheight-secondary-unit {
@@ -5780,9 +5812,8 @@
     display: block;
     padding: 5px 10px;
     border-top: 1px solid #ccc;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    line-height: 0.95rem;
+    break: all;
 }
 
 .ideditor .combobox a.selected,
@@ -8521,10 +8552,12 @@
 }
 
 .ideditor .save-summary,
+.ideditor .save-supporting,
 .ideditor .save-communityLinks {
     padding: 0px 20px 15px 20px;
 }
 
+.ideditor .save-supporting,
 .ideditor .save-communityLinks {
     border-top: 1px solid #ccc;
 }
@@ -8556,6 +8589,7 @@
 }
 
 .ideditor .summary-view-on-osm,
+.ideditor .support-the-map,
 .ideditor .community-name {
     font-size: 14px;
     font-weight: bold;
