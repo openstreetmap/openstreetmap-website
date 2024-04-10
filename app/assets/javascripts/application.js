@@ -79,12 +79,22 @@ $(document).ready(function () {
   function updateHeader() {
     var windowWidth = $(window).width();
 
-    if (windowWidth < compactWidth) {
-      $("body").removeClass("compact-nav").addClass("small-nav");
-    } else if (windowWidth < headerWidth) {
-      $("body").addClass("compact-nav").removeClass("small-nav");
-    } else {
-      $("body").removeClass("compact-nav").removeClass("small-nav");
+    if (windowWidth < compactWidth && !$("body").hasClass("small-nav")) {
+      $("body").addClass("small-nav");
+      $("header nav").hide();
+    }
+
+    if (windowWidth >= compactWidth && $("body").hasClass("small-nav")) {
+      $("body").removeClass("small-nav");
+      $("header nav").show();
+    }
+
+    $("body").toggleClass("compact-nav", windowWidth >= compactWidth && windowWidth < headerWidth);
+  }
+
+  function toggleMenu() {
+    if ($(window).width() < compactWidth) {
+      $("header nav").toggle();
     }
   }
 
@@ -115,14 +125,8 @@ $(document).ready(function () {
     $(document).on("turbo:render", updateHeader);
   }, 0);
 
-  $("#menu-icon").on("click", function (e) {
-    e.preventDefault();
-    $("header").toggleClass("closed");
-  });
-
-  $("nav.primary li a").on("click", function () {
-    $("header").toggleClass("closed");
-  });
+  $("#menu-icon").on("click", toggleMenu);
+  $("nav.primary a").on("click", toggleMenu);
 
   var application_data = $("head").data();
 
