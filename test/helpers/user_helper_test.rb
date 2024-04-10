@@ -8,12 +8,12 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_image(user)
-    assert_match %r{^<img class="user_image border border-secondary-subtle" .* src="/images/avatar.svg" />$}, image
+    assert_match %r{^<img class="user_image border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_image(user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
     image = user_image(gravatar_user)
-    assert_match %r{^<img class="user_image border border-secondary-subtle" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_image border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_image(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -24,13 +24,13 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_thumbnail(user)
-    assert_match %r{^<img class="user_thumbnail border border-secondary-subtle" .* src="/images/avatar.svg" />$}, image
+    assert_match %r{^<img class="user_thumbnail border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail(user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail(gravatar_user)
-    assert_match %r{^<img class="user_thumbnail border border-secondary-subtle" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
@@ -41,13 +41,13 @@ class UserHelperTest < ActionView::TestCase
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     image = user_thumbnail_tiny(user)
-    assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle" .* src="/images/avatar.svg" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail_tiny(user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user)
-    assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
