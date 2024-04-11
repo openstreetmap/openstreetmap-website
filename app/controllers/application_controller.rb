@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied, :with => :deny_access
   check_authorization
 
+  rescue_from RailsParam::InvalidParameterError, :with => :invalid_parameter
+
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
@@ -303,6 +305,17 @@ class ApplicationController < ActionController::Base
       end
     else
       head :forbidden
+    end
+  end
+
+  def invalid_parameter(_exception)
+    if request.get?
+      respond_to do |format|
+        format.html { redirect_to :controller => "/errors", :action => "bad_request" }
+        format.any { head :bad_request }
+      end
+    else
+      head :bad_request
     end
   end
 

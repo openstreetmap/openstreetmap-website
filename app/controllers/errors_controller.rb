@@ -5,6 +5,13 @@ class ErrorsController < ApplicationController
 
   before_action :set_locale
 
+  def bad_request
+    respond_to do |format|
+      format.html { render :status => :bad_request }
+      format.any { render :status => :bad_request, :plain => "" }
+    end
+  end
+
   def forbidden
     respond_to do |format|
       format.html { render :status => :forbidden }
