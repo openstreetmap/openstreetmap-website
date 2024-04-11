@@ -3,7 +3,7 @@ L.OSM.key = function (options) {
 
   control.onAddPane = function (map, button, $ui) {
     var $section = $("<div>")
-      .attr("class", "section")
+      .attr("class", "p-3")
       .appendTo($ui);
 
     $ui

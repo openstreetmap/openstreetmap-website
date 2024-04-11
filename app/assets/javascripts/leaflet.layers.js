@@ -5,7 +5,7 @@ L.OSM.layers = function (options) {
     var layers = options.layers;
 
     var baseSection = $("<div>")
-      .attr("class", "section base-layers d-grid gap-3")
+      .attr("class", "base-layers d-grid gap-3 p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
 
     layers.forEach(function (layer, i) {
@@ -79,7 +79,7 @@ L.OSM.layers = function (options) {
 
     if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
       var overlaySection = $("<div>")
-        .attr("class", "section overlay-layers")
+        .attr("class", "overlay-layers p-3")
         .appendTo($ui);
 
       $("<p>")
