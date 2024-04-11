@@ -590,6 +590,17 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
   end
 
+  def test_index_invalid_paged
+    # Try some invalid paged accesses
+    %w[-1 0 fred].each do |id|
+      get diary_entries_path(:before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get diary_entries_path(:after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
   def test_rss
     create(:language, :code => "de")
     create(:diary_entry, :language_code => "en")
@@ -897,6 +908,18 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Test a deleted user
     get diary_comments_path(:display_name => deleted_user.display_name)
     assert_response :not_found
+  end
+
+  def test_comments_invalid_paged
+    user = create(:user)
+
+    %w[-1 0 fred].each do |id|
+      get diary_comments_path(:display_name => user.display_name, :before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get diary_comments_path(:display_name => user.display_name, :after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
   end
 
   def test_subscribe_page

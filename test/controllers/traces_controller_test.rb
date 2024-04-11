@@ -322,6 +322,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
   end
 
+  def test_index_invalid_paged
+    # Try some invalid paged accesses
+    %w[-1 0 fred].each do |id|
+      get traces_path(:before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get traces_path(:after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
   # Check the RSS feed
   def test_rss
     user = create(:user)
