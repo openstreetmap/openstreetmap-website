@@ -10,7 +10,7 @@ L.OSM.share = function (options) {
     // Link / Embed
 
     var $linkSection = $("<div>")
-      .attr("class", "section share-link")
+      .attr("class", "share-link p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
 
     $("<h4>")
@@ -104,7 +104,7 @@ L.OSM.share = function (options) {
     // Geo URI
 
     var $geoUriSection = $("<div>")
-      .attr("class", "section share-geo-uri")
+      .attr("class", "share-geo-uri p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
 
     $("<h4>")
@@ -119,7 +119,7 @@ L.OSM.share = function (options) {
     // Image
 
     var $imageSection = $("<div>")
-      .attr("class", "section share-image")
+      .attr("class", "share-image p-3")
       .appendTo($ui);
 
     $("<h4>")
