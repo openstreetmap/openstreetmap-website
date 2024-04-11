@@ -63,6 +63,9 @@ vi:
       messages:
         invalid_email_address: hình như không phải là địa chỉ thư điện tử hợp lệ
         email_address_not_routable: không thể gửi đến
+      models:
+        user_mute:
+          is_already_muted: đã bị tắt tiếng
     models:
       acl: Danh sách Điều khiển Truy cập
       changeset: Bộ thay đổi
@@ -236,6 +239,7 @@ vi:
         reopened_at_by_html: Được %{user} mở lại %{when}
       rss:
         title: Ghi chú OpenStreetMap
+        description_all: Danh sách các ghi chú được báo cáo, bình luận, hoặc đóng
         description_area: Danh sách các ghi chú được mở, bình luận, hoặc đóng trong
           khu vực của bạn [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
         description_item: Nguồn cấp RSS của ghi chú %{id}
@@ -271,6 +275,8 @@ vi:
         retain_changeset_discussions: Các cuộc thảo luận về bộ thay đổi của bạn (nếu
           có) sẽ được giữ lại.
         retain_email: Địa chỉ thư điện tử của bạn sẽ được giữ lại.
+        recent_editing_html: Không thể xóa tài khoản của bạn vì bạn mới thực hiện
+          sửa đổi gần đây. Có thể xóa tài khoản sau %{time}.
         confirm_delete: Bạn có chắc không?
         cancel: Hủy bỏ
   accounts:
@@ -303,7 +309,16 @@ vi:
       delete_account: Xóa Tài khoản…
     go_public:
       heading: Sửa đổi công khai
+      currently_not_public: Hiện tại các sửa đổi của bạn là vô danh và người ta không
+        thể gửi thư cho bạn hoặc xem vị trí của bạn. Để hiển thị những gì bạn đã sửa
+        đổi và cho phép người ta liên lạc với bạn qua trang mạng này, hãy bấm nút
+        bên dưới.
+      only_public_can_edit: Kể từ khi chuyển đổi sang phiên bản API 0.6, chỉ có những
+        người dùng công cộng mới có thể sửa đổi dữ liệu bản đồ.
       find_out_why: tìm hiểu tại sao
+      email_not_revealed: Địa chỉ thư điện tử của bạn sẽ không được tiết lộ công khai.
+      not_reversible: Không thể hoàn nguyên hành động này. Tất cả mọi người dùng mới
+        hiện ở chế độ công khai theo mặc định.
       make_edits_public_button: Phát hành công khai các sửa đổi của tôi
     update:
       success_confirm_needed: Đã cập nhật thông tin cá nhân thành công. Kiểm tra thư
@@ -315,6 +330,7 @@ vi:
     deleted_ago_by_html: Xóa %{time_ago} bởi %{user}
     edited_ago_by_html: Sửa đổi %{time_ago} bởi %{user}
     version: Phiên bản
+    redacted_version: Phiên bản Ẩn
     in_changeset: Bộ thay đổi
     anonymous: vô danh
     no_comment: (không miêu tả)
@@ -325,7 +341,10 @@ vi:
       other: '%{count} lối'
     download_xml: Tải về XML
     view_history: Xem Lịch sử
+    view_unredacted_history: Xem Lịch sử Ẩn
     view_details: Xem Chi tiết
+    view_redacted_data: Xem Dữ liệu Ẩn
+    view_redaction_message: Xem Thông điệp Ẩn Dữ liệu
     location: 'Vị trí:'
     node:
       title_html: 'Nốt: %{name}'
@@ -402,6 +421,15 @@ vi:
       introduction: Nhấn chuột vào bản đồ để tìm những yếu tố lân cận.
       nearby: Yếu tố lân cận
       enclosing: Yếu tố bao gồm
+  old_nodes:
+    not_found:
+      sorry: 'Rất tiếc, không tìm thấy nốt #%{id} phiên bản %{version}.'
+  old_ways:
+    not_found:
+      sorry: 'Rất tiếc, không tìm thấy lối #%{id} phiên bản %{version}.'
+  old_relations:
+    not_found:
+      sorry: 'Rất tiếc, không tìm thấy #%{id} phiên bản %{version}.'
   changesets:
     changeset_paging_nav:
       showing_page: Trang %{page}
@@ -436,8 +464,24 @@ vi:
         created: Tạo
         closed: Đóng
         belongs_to: Tác giả
+    subscribe:
+      heading: Theo dõi cuộc thảo luận về bộ thay đổi sau đây?
+      button: Theo dõi cuộc thảo luận
+    unsubscribe:
+      heading: Ngừng theo dõi cuộc thảo luận về bộ thay đổi sau đây?
+      button: Ngừng theo dõi cuộc thảo luận
+    heading:
+      title: Bộ thay đổi %{id}
+      created_by_html: Được %{link_user} tạo %{created}.
+    no_such_entry:
+      title: Không tìm thấy bộ thay đổi
+      heading: 'Không tìm thấy mục có số: %{id}'
+      body: Rất tiếc, không có bộ thay đổi với số %{id}. Xin hãy kiểm tra chính tả,
+        hoặc có lẽ bạn đã theo một liên kết sai.
     show:
       title: 'Bộ thay đổi: %{id}'
+      created: 'Lúc tạo: %{when}'
+      closed: 'Lúc đóng: %{when}'
       created_ago_html: Tạo %{time_ago}
       closed_ago_html: Đóng %{time_ago}
       created_ago_by_html: Tạo %{time_ago} bởi %{user}
@@ -518,6 +562,7 @@ vi:
     show:
       title: Nhật ký của %{user} | %{title}
       user_title: Nhật ký của %{user}
+      discussion: Thảo luận
       leave_a_comment: Để lại nhận xét
       login_to_leave_a_comment_html: '%{login_link} để nhận xét'
       login: Đăng nhập
@@ -533,6 +578,7 @@ vi:
       reply_link: Nhắn tin cho tác giả
       comment_count:
         other: '%{count} bình luận'
+      no_comments: Không có bình luận
       edit_link: Sửa đổi mục này
       hide_link: Ẩn mục này
       unhide_link: Bỏ ẩn mục này
@@ -568,20 +614,62 @@ vi:
       comment: Nhận xét
       newer_comments: Các Nhận xét Mới hơn
       older_comments: Các Nhận xét Cũ hơn
+    subscribe:
+      heading: Theo dõi cuộc thảo luận về mục nhật ký sau đây?
+      button: Theo dõi cuộc thảo luận
+    unsubscribe:
+      heading: Ngừng theo dõi cuộc thảo luận về mục nhật ký sau đây?
+      button: Ngừng theo dõi cuộc thảo luận
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Máy chủ cấp quyền yêu cầu lựa chọn tài khoản người
+          dùng cuối
+        consent_required: Máy chủ cấp quyền yêu cầu người dùng cuối đồng thuận
+        interaction_required: Máy chủ cấp quyền yêu cầu người dùng cuối tương tác
+        login_required: Máy chủ cấp quyền yêu cầu người dùng cuối xác thực
     flash:
       applications:
         create:
           notice: Ứng dụng được đăng ký.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            thiếu cấu hình.
+          reauthenticate_resource_owner_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            thiếu cấu hình.
+          resource_owner_from_access_token_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            thiếu cấu hình.
+          select_account_for_resource_owner_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            thiếu cấu hình.
+          subject_not_configured: Không thể tạo dấu hiệu ID do Doorkeeper::OpenidConnect.configure.subject
+            thiếu cấu hình.
+    scopes:
+      address: Xem địa chỉ thực của bạn
+      email: Xem địa chỉ thư điện tử của bạn
+      openid: Xác thực tài khoản của bạn
+      phone: Xem số điện thoại của bạn
+      profile: Xem thông tin hồ sơ của bạn
   errors:
     contact:
+      contact_url_title: Giải thích các phương cách liên lạc
       contact: liên lạc
+      contact_the_community_html: Xin vui lòng %{contact_link} cộng đồng OpenStreetMap
+        nếu bạn gặp liên kết hỏng hoặc lỗi phần mềm. Hãy ghi nhớ địa chỉ URL chính
+        xác của yêu cầu máy chủ.
     forbidden:
       title: Cấm
+      description: Tác vụ đuợc yêu cầu trên máy chủ OpenStreetMap chỉ khả dụng đối
+        với các quản trị viên (HTTP 403)
     internal_server_error:
       title: Lỗi ứng dụng
+      description: Máy chủ OpenStreetMap gặp phải tình trạng không mong đợi khiến
+        máy chủ không thể thực hiện yêu cầu (HTTP 500)
     not_found:
       title: Không tìm thấy tập tin
+      description: Không thể tìm thấy thao tác tập tin/thư mục/API có tên đó trên
+        máy chủ OpenStreetMap (HTTP 404)
   friendships:
     make_friend:
       heading: Kết bạn với %{user}?
@@ -1322,6 +1410,7 @@ vi:
       title: 'Vấn đề %{status} #%{issue_id}'
       reports:
         other: '%{count} báo cáo'
+      no_reports: Không có báo cáo
       report_created_at_html: Báo cáo lần đầu tiên vào %{datetime}
       last_resolved_at_html: Giải quyết lần cuối cùng vào %{datetime}
       last_updated_at_html: Cập nhật lần cuối cùng vào %{datetime} bởi %{displayname}
@@ -1413,7 +1502,10 @@ vi:
     intro_text: OpenStreetMap là bản đồ thế giới do những người như bạn xây dựng và
       cho phép sử dụng thoải mái theo một giấy phép nguồn mở.
     intro_2_create_account: Mở tài khoản mới
+    hosting_partners_2024_html: Dịch vụ lưu trữ nhờ sự hỗ trợ của %{fastly}, %{corpmembers},
+      và %{partners} khác.
     partners_fastly: Fastly
+    partners_corpmembers: các thành viên công ty Quỹ OSM
     partners_partners: các công ty bảo trợ
     tou: Điều khoản sử dụng
     osm_offline: Cơ sở dữ liệu OpenStreetMap đang ngoại tuyến trong lúc đang thực
@@ -1435,6 +1527,7 @@ vi:
     more: Thêm
   user_mailer:
     diary_comment_notification:
+      description: 'Mục Nhật ký OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} đã bình luận về mục nhật ký'
       hi: Chào %{to_user},
       header: '%{from_user} đã bình luận về mục nhật ký gần đây tại OpenStreetMap
@@ -1445,16 +1538,18 @@ vi:
         hoặc nhắn tin cho tác giả tại %{replyurl}
       footer_html: Bạn cũng có thể đọc bình luận tại %{readurl}, bình luận tại %{commenturl},
         hoặc nhắn tin cho tác giả tại %{replyurl}
+      footer_unsubscribe: Bạn có thể ngừng theo dõi cuộc thảo luận tại %{unsubscribeurl}
+      footer_unsubscribe_html: Bạn có thể ngừng theo dõi cuộc thảo luận tại %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Chào %{to_user},
       header: '%{from_user} đã gửi thư cho bạn dùng OpenStreetMap có tiêu đề %{subject}:'
       header_html: '%{from_user} đã gửi thư cho bạn dùng OpenStreetMap có tiêu đề
         %{subject}:'
-      footer: Bạn cũng có thể đọc tin nhắn này tại %{readurl} và có thể nhắn tin cho
+      footer: Bạn cũng có thể đọc thư này tại %{readurl} và có thể nhắn tin cho tác
+        giả tại %{replyurl}
+      footer_html: Bạn cũng có thể đọc thư này tại %{readurl} và có thể nhắn tin cho
         tác giả tại %{replyurl}
-      footer_html: Bạn cũng có thể đọc tin nhắn này tại %{readurl} và có thể nhắn
-        tin cho tác giả tại %{replyurl}
     friendship_notification:
       hi: Chào %{to_user},
       subject: '[OpenStreetMap] %{user} đã kết bạn với bạn'
@@ -1479,6 +1574,8 @@ vi:
       hi: Chào %{to_user},
       loaded:
         other: tải thành công với %{trace_points} điểm trên tổng số %{count} điểm.
+      all_your_traces_html: Bạn có thể truy cập tất cả các tuyến GPX mà bạn đã tải
+        lên thành công tại %{url}.
       subject: '[OpenStreetMap] Nhập GPX thành công'
     signup_confirm:
       subject: '[OpenStreetMap] Chào mừng bạn đã tham gia OpenStreetMap'
@@ -1504,6 +1601,7 @@ vi:
       click_the_link: Nếu bạn là người đó, xin hãy nhấn chuột vào liên kết ở dưới
         để đặt lại mật khẩu.
     note_comment_notification:
+      description: 'Ghi chú OpenStreetMap #%{id}'
       anonymous: Người dùng vô danh
       greeting: Chào bạn,
       commented:
@@ -1543,6 +1641,7 @@ vi:
       details: Xem chi tiết về ghi chú tại %{url}.
       details_html: Xem chi tiết về ghi chú tại %{url}.
     changeset_comment_notification:
+      description: 'Bộ thay đổi OpenStreetMap #%{id}'
       hi: Chào %{to_user},
       greeting: Chào bạn,
       commented:
@@ -1563,10 +1662,9 @@ vi:
         partial_changeset_without_comment: không có lời bình luận
       details: Xem chi tiết về bộ thay đổi tại %{url}.
       details_html: Xem chi tiết về bộ thay đổi tại %{url}.
-      unsubscribe: Để ngừng nhận các thông báo về bộ thay đổi này, mở %{url} và bấm
-        “Không theo dõi”.
-      unsubscribe_html: Để ngừng nhận các thông báo về bộ thay đổi này, mở %{url}
-        và bấm “Không theo dõi”.
+      unsubscribe: Bạn có thể ngừng nhận các thông báo về bộ thay đổi này tại %{url}.
+      unsubscribe_html: Bạn có thể ngừng nhận các thông báo về bộ thay đổi này tại
+        %{url}.
   confirmations:
     confirm:
       heading: Hãy kiểm tra hộp thư điện tử!
@@ -1578,6 +1676,7 @@ vi:
       success: Đã xác nhận tài khoản của bạn. Cám ơn bạn đã mở tài khoản!
       already active: Tài khoản này đã được xác nhận rồi.
       unknown token: Dấu hiệu xác nhận này đã hết hạn hoặc không tồn tại.
+      resend_html: Nếu bạn cần chúng tôi gửi lại thư điện tử xác nhận, %{reconfirm_link}.
       click_here: nhấn chuột tại đây
     confirm_resend:
       failure: Không tìm thấy người dùng %{name}.
@@ -1614,6 +1713,7 @@ vi:
       read_button: Đánh dấu là đã đọc
       reply_button: Trả lời
       destroy_button: Xóa
+      unmute_button: Chuyển vào Hộp thư đến
     new:
       title: Gửi thư
       send_message_to_html: Gửi thư mới cho %{name}
@@ -1633,6 +1733,10 @@ vi:
       no_sent_messages_html: Bạn chưa gửi thư cho người nào. Hãy thử liên lạc với
         %{people_mapping_nearby_link}?
       people_mapping_nearby: những người ở gần
+    muted:
+      title: Thư bị Tắt tiếng
+      messages:
+        other: Bạn có %{count} thư bị tắt tiếng
     reply:
       wrong_user: Bạn đã đăng nhập dùng tài khoản “%{user}” nhưng vừa yêu cầu trả
         lời một thư không được gửi đến bạn. Xin hãy đăng nhập với nhận diện chính
@@ -1651,9 +1755,13 @@ vi:
     heading:
       my_inbox: Hộp thư đến
       my_outbox: Hộp thư gửi
+      muted_messages: Thư bị Tắt tiếng
     mark:
       as_read: Thư đã đọc
       as_unread: Thư chưa đọc
+    unmute:
+      notice: Thư đã được chuyển vào Hộp thư đến
+      error: Không thể chuyển thư vào Hộp thư đến.
     destroy:
       destroyed: Đã xóa thư
   passwords:
@@ -1664,6 +1772,10 @@ vi:
       new password button: Đặt lại mật khẩu
       help_text: Nhập địa chỉ thư điện tử mà bạn đã dùng để mở tài khoản, rồi chúng
         tôi sẽ gửi liên kết cho địa chỉ đó để cho bạn đặt lại mật khẩu.
+    create:
+      send_paranoid_instructions: Nếu địa chỉ thư điện tử của bạn tồn tại trong cơ
+        sở dữ liệu của chúng tôi, bạn sẽ nhận được liên kết khôi phục mật khẩu tại
+        địa chỉ thư điện tử sau vài phút nữa.
     edit:
       title: Đặt lại mật khẩu
       heading: Đặt lại Mật khẩu của %{user}
@@ -1671,6 +1783,7 @@ vi:
       flash token bad: Không tìm thấy dấu hiệu đó. Có lẽ kiểm tra URL?
     update:
       flash changed: Mật khẩu của bạn đã được thay đổi.
+      flash token bad: Không tìm thấy dấu hiệu đó. Có lẽ kiểm tra URL?
   preferences:
     show:
       title: Tùy chỉnh
@@ -1928,6 +2041,7 @@ vi:
         contributors_nz_linz_data_service: Dịch vụ Dữ liệu LINZ
         contributors_nz_cc_by: CC BY 4.0
         contributors_rs_serbia: Serbia
+        contributors_rs_open_data_portal: Cổng Dữ liệu Mở Quốc gia
         contributors_si_slovenia: Slovenia
         contributors_es_spain: Tây Ban Nha
         contributors_es_cc_by: CC BY 4.0
@@ -2191,7 +2305,10 @@ vi:
         tag: Thẻ
       rules:
         title: Quy định!
+        imports: Nhập Dữ liệu
+        automated_edits: Sửa đổi Tự động
       start_mapping: Bắt đầu Đóng góp
+      continue_authorization: Tiếp tục Cấp quyền
       add_a_note:
         title: Không có Thì giờ Sửa đổi? Thêm một Ghi chú!
         para_1: Nếu bạn chỉ muốn sửa một chi tiết nhỏ và không có thì giờ tập sửa
@@ -2291,12 +2408,18 @@ vi:
       identifiable: NHẬN RA ĐƯỢC
       private: RIÊNG
       trackable: THEO DÕI ĐƯỢC
+      details_with_tags_html: '%{time_ago} bởi %{user} trong %{tags}'
+      details_without_tags_html: '%{time_ago} bởi %{user}'
     index:
       public_traces: Tuyến đường GPS công khai
       my_gps_traces: Tuyến GPS của Tôi
       public_traces_from: Tuyến đường GPS công khai của %{user}
       description: Xem những tuyến đường GPS được tải lên gần đây
       tagged_with: ' có thẻ %{tags}'
+      empty_title: Chưa có gì ở đây
+      empty_upload_html: '%{upload_link} hoặc tìm hiểu thêm về việc tạo tuyến đường
+        GPS tại %{wiki_link}.'
+      upload_new: Tải lên tuyến đường mới
       wiki_page: trang wiki
       upload_trace: Tải lên tuyến đường
       all_traces: Tất cả các Tuyến đường
@@ -2338,6 +2461,7 @@ vi:
       oauth1_settings: Thiết lập OAuth 1
       oauth2_applications: Ứng dụng OAuth 2
       oauth2_authorizations: Ủy quyền OAuth 2
+      muted_users: Người dùng bị Tắt tiếng
   oauth:
     authorize:
       title: Cho phép truy cập tài khoản của bạn
@@ -2375,11 +2499,13 @@ vi:
       read_gpx: Đọc tuyến đường GPS riêng tư
       write_gpx: Tải lên tuyến đường GPS
       write_notes: Thay đổi ghi chú
+      write_redactions: Ẩn dữ liệu bản đồ
       read_email: Đọc địa chỉ thư điện tử của người dùng
       skip_authorization: Tự động chấp nhận đơn xin
   oauth_clients:
     new:
       title: Đăng ký chương trình mới
+      disabled: Đã tắt chức năng đăng ký ứng dụng OAuth 1
     edit:
       title: Sửa đổi chương trình của bạn
     show:
@@ -2463,6 +2589,7 @@ vi:
       title: Ứng dụng tôi cho phép
       application: Ứng dụng
       permissions: Quyền
+      last_authorized: Cấp quyền Lần cuối
       no_applications_html: Bạn chưa cấp phép cho ứng dụng %{oauth2} nào.
     application:
       revoke: Rút quyền Truy cập
@@ -2550,6 +2677,8 @@ vi:
       my_dashboard: Bảng điều khiển
       blocks on me: Tác vụ Cấm Tôi
       blocks by me: Tác vụ Cấm bởi Tôi
+      create_mute: Tắt tiếng Người dùng Này
+      destroy_mute: Bật tiếng Người dùng Này
       edit_profile: Sửa đổi Hồ sơ
       send message: Gửi Thư
       diary: Nhật ký
@@ -2570,14 +2699,18 @@ vi:
       role:
         administrator: Người dùng này là quản lý viên
         moderator: Người dùng này là điều hành viên
+        importer: Người dùng này là người nhập dữ liệu
         grant:
           administrator: Cấp quyền quản lý viên
           moderator: Cấp quyền điều hành viên
+          importer: Cấp quyền truy cập cho người nhập dữ liệu
         revoke:
           administrator: Rút quyền quản lý viên
           moderator: Rút quyền điều hành viên
+          importer: Rút quyền truy cập của người nhập dữ liệu
       block_history: Tác vụ Cấm Người Này
       moderator_history: Tác vụ Cấm bởi Người Này
+      revoke_all_blocks: Bỏ cấm toàn bộ
       comments: Bình luận
       create_block: Cấm Người dùng Này
       activate_user: Kích hoạt Tài khoản Này
@@ -2595,6 +2728,10 @@ vi:
     index:
       title: Người dùng
       heading: Người dùng
+      older: Người dùng Lâu hơn
+      newer: Người dùng Mới hơn
+      found_users:
+        other: Đã tìm thấy %{count} người dùng
       summary_html: '%{name} do %{ip_address} mở ngày %{date}'
       summary_no_ip_html: '%{name} mở ngày %{date}'
       confirm: Xác nhận những Người dùng Được chọn
@@ -2685,6 +2822,15 @@ vi:
       confirm: Bạn có chắc muốn bỏ cấm người này?
       revoke: Bỏ cấm!
       flash: Đã bỏ cấm.
+    revoke_all:
+      title: Bỏ cấm tất cả vào %{block_on}
+      heading_html: Bỏ cấm tất cả vào %{block_on}
+      empty: '%{name} hiện không được cấm.'
+      confirm: Bạn có chắc chắn muốn bỏ %{active_blocks}?
+      active_blocks:
+        other: '%{count} tác vụ cấm hiện hành'
+      revoke: Bỏ cấm!
+      flash: Đã bỏ tất cả các tác vụ cấm hiện hành.
     helper:
       time_future_html: Hết hạn %{time}.
       until_login: Có hiệu lực cho đến khi người dùng đăng nhập.
@@ -2721,7 +2867,6 @@ vi:
       revoke: Bỏ cấm!
       confirm: Bạn có chắc không?
       reason: 'Lý do cấm:'
-      back: Xem tất cả tác vụ cấm
       revoker: 'Người bỏ cấm:'
       needs_view: Người dùng cần phải đăng nhập trước khi bỏ cấm được.
     block:
@@ -2735,6 +2880,37 @@ vi:
       reason: Lý do cấm
       status: Trạng thái
       revoker_name: Người bỏ cấm
+      older: Tác vụ Cấm Cũ hơn
+      newer: Tác vụ Cấm Mới hơn
+    navigation:
+      all_blocks: Tất cả các Tác vụ Cấm
+      blocks_on_me: Tác vụ Cấm Tôi
+      blocks_on_user: Tác vụ Cấm %{user}
+      blocks_by_me: Tác vụ Cấm bởi Tôi
+      blocks_by_user: Tác vụ Cấm bởi %{user}
+  user_mutes:
+    index:
+      title: Người dùng bị Tắt tiếng
+      my_muted_users: Người dùng Tôi đã Tắt tiếng
+      you_have_muted_n_users:
+        other: Bạn đã tắt tiếng %{count} người dùng
+      user_mute_explainer: Các thư từ người dùng bị tắt tiếng được chuyển sang Hộp
+        thư điện riêng và bạn sẽ không nhận thông báo qua thư điện tử.
+      user_mute_admins_and_moderators: Bạn có thể tắt tiếng các Quản trị viên và Điều
+        phối viên nhưng các thông điệp của họ sẽ không bị tắt tiếng.
+      table:
+        thead:
+          muted_user: Người dùng bị Tắt tiếng
+          actions: Tác vụ
+        tbody:
+          unmute: Bật tiếng
+          send_message: Gửi thư
+    create:
+      notice: Bạn đã tắt tiếng %{name}.
+      error: Không thể tắt tiếng %{name}. %{full_message}.
+    destroy:
+      notice: Bạn đã bật tiếng %{name}.
+      error: Không thể bật tiếng người dùng. Vui lòng thử lại.
   notes:
     index:
       title: Các ghi chú do %{user} lưu hoặc bình luận

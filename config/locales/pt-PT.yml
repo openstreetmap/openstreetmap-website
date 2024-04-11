@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: AntMadeira
 # Author: Athena in Wonderland
+# Author: B3rnas
 # Author: Caiofernandes
 # Author: Crazymadlover
 # Author: Danieldegroot2
@@ -68,8 +69,8 @@ pt-PT:
         create: Registar
         update: Atualizar
       redaction:
-        create: Criar supressão
-        update: Gravar supressão
+        create: Criar redação
+        update: Gravar redação
       trace:
         create: Enviar
         update: Gravar alterações
@@ -364,6 +365,7 @@ pt-PT:
     deleted_ago_by_html: Eliminado há %{time_ago} por %{user}
     edited_ago_by_html: Editado há %{time_ago} por %{user}
     version: Versão
+    redacted_version: Versão reduzida
     in_changeset: Conjunto de alterações
     anonymous: anónimo
     no_comment: (sem comentário)
@@ -376,7 +378,10 @@ pt-PT:
       other: '%{count} vias'
     download_xml: Transferir XML
     view_history: Ver histórico
+    view_unredacted_history: Ver histórico não editado
     view_details: Ver detalhes
+    view_redacted_data: Ver dados reduzidos
+    view_redaction_message: Ver mensagem de redação
     location: 'Localização:'
     node:
       title_html: 'Nó: %{name}'
@@ -457,6 +462,15 @@ pt-PT:
       introduction: Clica no mapa para descobrir elementos próximos.
       nearby: Elementos próximos
       enclosing: Elementos delimitadores
+  old_nodes:
+    not_found:
+      sorry: 'Desculpe, o nó #%{id} versão %{version} não foi encontrado.'
+  old_ways:
+    not_found:
+      sorry: 'Desculpe, não foi possível encontrar #%{id} versão %{version}.'
+  old_relations:
+    not_found:
+      sorry: 'Desculpe, a relação #%{id} versão %{version} não foi encontrada.'
   changesets:
     changeset_paging_nav:
       showing_page: Página %{page}
@@ -491,8 +505,24 @@ pt-PT:
         created: Criado
         closed: Fechado
         belongs_to: Autor
+    subscribe:
+      heading: Deseja subscrever à seguinte discussão do conjunto de mudanças?
+      button: Inscreva-se na discussão
+    unsubscribe:
+      heading: Cancelar a inscrição na seguinte discussão do conjunto de alterações?
+      button: Cancelar inscrição da discussão
+    heading:
+      title: Conjunto de alterações %{id}
+      created_by_html: Criado por %{link_user} em %{created}.
+    no_such_entry:
+      title: Não existe tal conjunto de alterações
+      heading: 'Nenhuma entrada com o id: %{id}'
+      body: Desculpe, não há conjunto de alterações com o id %{id}. Verifique a ortografia,
+        ou talvez o link em que clicou esteja errado.
     show:
       title: 'Conjunto de alterações: %{id}'
+      created: 'Criado: %{when}'
+      closed: 'Fechado: %{when}'
       created_ago_html: Criado há %{time_ago}
       closed_ago_html: Fechado há %{time_ago}
       created_ago_by_html: Criado há %{time_ago} por %{user}
@@ -578,6 +608,7 @@ pt-PT:
     show:
       title: Diário de %{user} | %{title}
       user_title: Diário de %{user}
+      discussion: Discussão
       leave_a_comment: Deixar um comentário
       login_to_leave_a_comment_html: '%{login_link} para deixar um comentário'
       login: Iniciar sessão
@@ -632,6 +663,13 @@ pt-PT:
       comment: Comentário
       newer_comments: Comentários mais recentes
       older_comments: Comentários mais antigos
+    subscribe:
+      heading: Pretendes acompanhar a seguinte discussão sobre a entrada no diário?
+      button: Acompanhar discussão
+    unsubscribe:
+      heading: Pretendes deixar de acompanhar a seguinte discussão sobre a entrada
+        no diário?
+      button: Deixar de acompanhar a discussão
   doorkeeper:
     errors:
       messages:
@@ -1605,7 +1643,10 @@ pt-PT:
     intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como tu e de
       uso livre sob uma licença aberta.
     intro_2_create_account: Cria uma conta de utilizador
+    hosting_partners_2024_html: O alojamento é suportado por %{fastly}, %{corpmembers}
+      e outros %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: membros corporativos OSMF
     partners_partners: parceiros
     tou: Condições de utilização
     osm_offline: A base de dados do OpenStreetMap está indisponível devido a trabalhos
@@ -1627,6 +1668,7 @@ pt-PT:
     more: Mais
   user_mailer:
     diary_comment_notification:
+      description: 'Entrada no Diário OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} comentou uma publicação de diário'
       hi: Olá, %{to_user}.
       header: '%{from_user} comentou a publicação de diário OpenStreetMap com o assunto
@@ -1637,6 +1679,8 @@ pt-PT:
         ou enviar uma mensagem ao autor em %{replyurl}
       footer_html: Também podes ler o comentário em %{readurl} e comentar em %{commenturl}
         ou enviar uma mensagem ao autor em %{replyurl}
+      footer_unsubscribe: Podes deixar de acompanhar a discussão em %{unsubscribeurl}
+      footer_unsubscribe_html: Podes deixar de acompanhar a discussão em %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Olá, %{to_user}.
@@ -1699,6 +1743,7 @@ pt-PT:
       click_the_link: Se foste tu, clica na ligação seguinte para criares uma nova
         palavra-passe.
     note_comment_notification:
+      description: Nota OpenStreetMap n.º %{id}
       anonymous: Um utilizador anónimo
       greeting: Olá,
       commented:
@@ -1737,6 +1782,7 @@ pt-PT:
       details: Podes ver mais detalhes sobre a nota em %{url}.
       details_html: Podes ver mais detalhes sobre a nota em %{url}.
     changeset_comment_notification:
+      description: Conjunto de alterações n.º %{id}
       hi: Olá, %{to_user}.
       greeting: Olá,
       commented:
@@ -1759,10 +1805,10 @@ pt-PT:
         %{url}.
       details_html: Podes encontrar mais informações sobre o conjunto de alterações
         em %{url}.
-      unsubscribe: Para deixares de receber atualizações sobre este conjunto de alterações,
-        visita %{url} e clica em "Anular subscrição".
-      unsubscribe_html: Para deixares de receber atualizações sobre este conjunto
-        de alterações, visita %{url} e clica em "Anular subscrição".
+      unsubscribe: Podes deixar de acompanhar as atualizações deste conjunto de alterações
+        em %{url}.
+      unsubscribe_html: Podes deixar de acompanhar as atualizações deste conjunto
+        de alterações em %{url}.
   confirmations:
     confirm:
       heading: Consulta o teu e-mail!
@@ -1875,10 +1921,14 @@ pt-PT:
     new:
       title: Palavra-passe esquecida
       heading: Esqueceste a palavra-passe?
-      email address: 'Endereço eletrónico:'
+      email address: Endereço de correio eletrónico
       new password button: Repor palavra-passe
       help_text: Introduz o endereço de correio eletrónico que usaste para criar a
         conta. Enviar-te-emos uma ligação que poderás usar para repor a palavra-passe.
+    create:
+      send_paranoid_instructions: Se o teu endereço de correio eletrónico existir
+        na nossa base de dados, receberás uma ligação de recuperação de palavra-passe
+        nesse mesmo endereço dentro de minutos.
     edit:
       title: Repor palavra-passe
       heading: Repor palavra-passe para %{user}
@@ -1930,14 +1980,14 @@ pt-PT:
   sessions:
     new:
       title: Entrar
-      heading: Iniciar Sessão
-      email or username: 'E-mail ou nome de utilizador:'
-      password: 'Palavra-passe:'
+      heading: Iniciar sessão
+      email or username: 'E-mail ou Nome de utilizador:'
+      password: Palavra-passe
       remember: Ficar autenticado entre sessões
       lost password link: Perdeste a tua palavra-passe?
       login_button: Iniciar sessão
       register now: Regista-te agora
-      with external: 'Em alternativa, podes iniciar sessão com um serviço externo:'
+      with external: 'Em alternativa, usa um serviço externo para iniciares sessão:'
       no account: Não tens uma conta?
       auth failure: Lamentamos, mas não foi possível iniciar sessão com os dados fornecidos.
       openid_logo_alt: Iniciar sessão com um OpenID
@@ -1949,8 +1999,8 @@ pt-PT:
           title: Iniciar sessão com Google
           alt: Iniciar sessão com um OpenID do Google
         facebook:
-          title: Iniciar sessão com o Facebook
-          alt: Iniciar sessão com uma conta do Facebook
+          title: Iniciar sessão com Facebook
+          alt: Iniciar sessão com uma conta Facebook
         microsoft:
           title: Iniciar sessão com Microsoft
           alt: Iniciar sessão com uma conta Microsoft
@@ -1958,8 +2008,8 @@ pt-PT:
           title: Iniciar sessão com GitHub
           alt: Iniciar sessão com uma conta GitHub
         wikipedia:
-          title: Iniciar sessão através da Wikipédia
-          alt: Iniciar a sessão com uma conta da Wikipédia
+          title: Iniciar sessão com a Wikipédia
+          alt: Iniciar sessão com uma conta Wikipédia
         wordpress:
           title: Iniciar sessão com Wordpress
           alt: Iniciar sessão com um OpenID do Wordpress
@@ -2277,8 +2327,8 @@ pt-PT:
         title: Guia para Principiantes
         description: Guia para principiantes atualizado pela comunidade.
       community:
-        title: Fórum da comunidade
-        description: Um local partilhado para conversas sobre o OpenStreetMap.
+        title: Ajuda e Fórum da Comunidade
+        description: Um local partilhado para procurar ajuda e conversar sobre o OpenStreetMap.
       mailing_lists:
         title: Listas de E-mail
         description: Faz uma pergunta ou debate temas interessantes numa vasta gama
@@ -2560,6 +2610,8 @@ pt-PT:
       identifiable: IDENTIFICÁVEL
       private: PRIVADO
       trackable: RASTREÁVEL
+      details_with_tags_html: '%{time_ago} por %{user} em %{tags}'
+      details_without_tags_html: '%{time_ago} por %{user}'
     index:
       public_traces: Rotas de GPS Públicas
       my_gps_traces: As minhas rotas GPS
@@ -2656,6 +2708,7 @@ pt-PT:
   oauth_clients:
     new:
       title: Registar uma nova aplicação
+      disabled: O registo com aplicações OAuth 1 foi desativado
     edit:
       title: Edita a tua aplicação
     show:
@@ -2739,6 +2792,7 @@ pt-PT:
       title: As minhas aplicações autorizadas
       application: Aplicação
       permissions: Permissões
+      last_authorized: Última autorização
       no_applications_html: Não autorizaste nenhuma aplicação %{oauth2}.
     application:
       revoke: Revogar Acesso
@@ -2761,8 +2815,7 @@ pt-PT:
       display name description: O nome de utilizador ficará visível publicamente.
         Poderás alterar o nome posteriormente nas configurações do teu perfil.
       external auth: 'Autenticação por terceiros:'
-      use external auth: Em alternativa, utiliza um serviço externo para iniciares
-        sessão
+      use external auth: Em alternativa, usa um serviço externo para iniciares sessão
       auth no password: Com a autenticação através de terceiros, não é necessário
         introduzir a palavra-passe, mas certos servidores ou ferramentas poderão precisar
         de uma.
@@ -2880,6 +2933,11 @@ pt-PT:
     index:
       title: Utilizadores
       heading: Utilizadores
+      older: Utilizadores mais antigos
+      newer: Utilizadores mais recentes
+      found_users:
+        one: '%{count} utilizador encontrado'
+        other: '%{count} utilizadores encontrados'
       summary_html: '%{name} criado com o ip %{ip_address} em %{date}'
       summary_no_ip_html: '%{name} criado em %{date}'
       confirm: Confirmar utilizadores selecionados
@@ -2904,8 +2962,9 @@ pt-PT:
       heading: O teu ID ainda não está associado a uma conta do OpenStreetMap.
       option_1: Se ainda não tens conta no OpenStreetMap, por favor, preenche o seguinte
         formulário.
-      option_2: Se já tiveres conta, podes iniciar sessão utilizando o teu nome de
-        utilizador e palavra-passe e associar a conta ao teu ID nas definições.
+      option_2: Se já tiveres uma conta, podes iniciar sessão na tua conta usando
+        o teu nome de utilizador e a palavra-passe e, em seguida, associar a conta
+        ao teu ID nas tuas definições de utilizador.
   user_role:
     filter:
       not_a_role: A expressão `%{role}' não é um cargo válido.
@@ -3022,7 +3081,6 @@ pt-PT:
       revoke: Revogar!
       confirm: Tens a certeza?
       reason: 'Razão do bloqueio:'
-      back: Ver todos os bloqueios
       revoker: 'Quem revogou:'
       needs_view: O utilizador tem de iniciar sessão antes de este bloqueio terminar.
     block:
@@ -3036,6 +3094,8 @@ pt-PT:
       reason: Motivo do bloqueio
       status: Estado
       revoker_name: Revogado por
+      older: Blocos mais antigos
+      newer: Blocos mais recentes
   user_mutes:
     index:
       title: Utilizadores Silenciados
