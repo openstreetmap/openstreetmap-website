@@ -19,7 +19,7 @@
 
 <div>
   <%= bootstrap_form_for @new_comment, :url => issue_comments_path(@issue) do |f| %>
-    <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
+    <%= f.richtext_field :body, :cols => 80, :rows => 20, :maxlength => 2000, :hide_label => true %>
     <%= f.form_group do %>
       <%= f.check_box :reassign, { :label => t(".reassign_param"), :id => "reassign", :name => "reassign", :checked => false }, true, false %>
     <% end %>

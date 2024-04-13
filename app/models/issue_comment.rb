@@ -24,7 +24,7 @@ class IssueComment < ApplicationRecord
   belongs_to :issue
   belongs_to :user
 
-  validates :body, :presence => true, :characters => true
+  validates :body, :presence => true, :length => { :maximum => 2000 }, :characters => true
 
   def body
     RichText.new("markdown", self[:body])

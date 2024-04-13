@@ -114,6 +114,7 @@ class User < ApplicationRecord
                        :uniqueness => { :scope => :auth_provider }
   validates :avatar, :if => proc { |u| u.attachment_changes["avatar"] },
                      :image => true
+  validates :description, :length => { :maximum => 10000 }
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }

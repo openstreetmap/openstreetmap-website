@@ -25,7 +25,7 @@ class Report < ApplicationRecord
   belongs_to :issue, :counter_cache => true
   belongs_to :user
 
-  validates :details, :presence => true, :characters => true
+  validates :details, :presence => true, :length => { :maximum => 10000 }, :characters => true
   validates :category, :presence => true
 
   def self.categories_for(reportable)
