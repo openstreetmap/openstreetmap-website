@@ -66,6 +66,21 @@ time[title] {
   color: $blue;
 }
 
+/* Bootstrap contextual table classes overrides in dark mode */
+
+@include color-mode(dark) {
+  .table-primary {
+    --bs-table-bg: rgb(var(--bs-primary-rgb), .25);
+  }
+  .table-secondary {
+    --bs-table-bg: rgb(var(--bs-secondary-rgb), .25);
+  }
+  .table-primary, .table-secondary {
+    --bs-table-color: initial;
+    border-color: inherit;
+  }
+}
+
 /* Rules for the header */
 
 #menu-icon {
