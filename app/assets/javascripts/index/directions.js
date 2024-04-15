@@ -268,7 +268,7 @@ OSM.Directions = function (map) {
           I18n.t("javascripts.directions.descend") + ": " + formatHeight(route.descend) + ".");
       }
 
-      var turnByTurnTable = $("<table class='table table-sm mb-3'>")
+      var turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
         .append($("<tbody>"));
       var directionsCloseButton = $("<button type='button' class='btn-close'>")
         .attr("aria-label", I18n.t("javascripts.close"));
