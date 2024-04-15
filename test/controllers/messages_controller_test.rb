@@ -341,7 +341,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_template "inbox"
     assert_select ".content-inner > table.messages-table > tbody", :count => 1 do
       assert_select "tr", :count => 1
-      assert_select "tr#inbox-#{read_message.id}.inbox-row", :count => 1 do
+      assert_select "tr#inbox-#{read_message.id}", :count => 1 do
         assert_select "a[href='#{user_path read_message.sender}']", :text => read_message.sender.display_name
         assert_select "a[href='#{message_path read_message}']", :text => read_message.title
       end
@@ -367,7 +367,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_template "outbox"
     assert_select ".content-inner > table.messages-table > tbody", :count => 1 do
       assert_select "tr", :count => 1
-      assert_select "tr.inbox-row", :count => 1 do
+      assert_select "tr#outbox-#{message.id}", :count => 1 do
         assert_select "a[href='#{user_path message.recipient}']", :text => message.recipient.display_name
         assert_select "a[href='#{message_path message}']", :text => message.title
       end

@@ -1,4 +1,4 @@
-<tr id="inbox-<%= message.id %>" class="message-summary inbox-row<%= "-unread" unless message.message_read? %>">
+<%= tag.tr(:id => "inbox-#{message.id}", :class => { "message-summary" => true, "table-success" => !message.message_read? }) do %>
   <td><%= link_to message.sender.display_name, user_path(message.sender) %></td>
   <td><%= link_to message.title, message_path(message) %></td>
   <td class="text-nowrap"><%= l message.sent_on, :format => :friendly %></td>
@@ -12,4 +12,4 @@
       <% end %>
     </div>
   </td>
-</tr>
+<% end %>
