@@ -73,9 +73,9 @@ sr:
       issue: Проблем
       language: Језик
       message: Порука
-      node: Тачка
+      node: Чвор
       node_tag: Ознака тачке
-      old_node: Стара тачка
+      old_node: Стари чвор
       old_node_tag: Ознака старе тачке
       old_relation: Стари однос
       old_relation_member: Стари члан односа
@@ -89,7 +89,7 @@ sr:
       report: Пријави
       session: Сесија
       trace: Рута
-      tracepoint: Тачка руте
+      tracepoint: Чвор путање
       tracetag: Ознака руте
       user: Корисник
       user_preference: Подешавања корисника
@@ -312,6 +312,7 @@ sr:
   browse:
     edited_ago_by_html: Уређено %{time_ago} од %{user}
     version: Верзија
+    redacted_version: Рецензирана верзија
     in_changeset: Скуп промена
     anonymous: анониман
     no_comment: (нема коментара)
@@ -321,12 +322,12 @@ sr:
     view_details: Детаљније
     location: 'Локација:'
     node:
-      title_html: 'Тачка: %{name}'
+      title_html: 'Чвор: %{name}'
       history_title_html: 'Историја тачака: %{name}'
     way:
       title_html: 'Линија: %{name}'
       history_title_html: 'Историја линија: %{name}'
-      nodes: Тачке
+      nodes: Чворови
       also_part_of_html:
         one: део линије %{related_ways}
         other: део линија %{related_ways}
@@ -337,7 +338,7 @@ sr:
     relation_member:
       entry_role_html: '%{type} %{name} као %{role}'
       type:
-        node: Тачка
+        node: Чвор
         way: Линија
         relation: Однос
     containing_relation:
@@ -347,15 +348,16 @@ sr:
       title: Није нађено
       sorry: 'Нажалост, %{type} #%{id} није пронађен.'
       type:
-        node: тачка
+        node: чвор
         way: линија
         relation: однос
         changeset: скуп промена
         note: белешка
     timeout:
+      title: Истекло време
       sorry: Преузимање података за %{type} са ID-јем %{id} предуго траје.
       type:
-        node: тачка
+        node: чвор
         way: линија
         relation: однос
         changeset: скуп промена
@@ -365,7 +367,7 @@ sr:
       message_html: Верзија %{version} %{type} је редигована и не може бити приказана.
         Детаљније на %{redaction_link}.
       type:
-        node: тачка
+        node: чвор
         way: линија
         relation: однос
     start_rjs:
@@ -405,6 +407,7 @@ sr:
     index:
       title: Скупови промена
       title_user: Скупови промена корисника %{user}
+      title_user_link_html: Сетови промена за %{user_link}
       title_friend: Скупови промена мојих пријатеља
       title_nearby: Скупови промена корисника у близини
       empty: Скупови промена нису пронађени.
@@ -556,6 +559,7 @@ sr:
     scopes:
       address: Види своју физичку адресу
       email: Види своју имејл адресу
+      openid: Потврдите ваш налог
       phone: Види своју број телефона
   errors:
     contact:
@@ -592,6 +596,7 @@ sr:
         aeroway:
           aerodrome: Аеродром
           airstrip: Писта
+          gate: Аеродромска капија
           hangar: Хангар
           helipad: Хелиодром
           parking_position: Место за паркинг
@@ -695,10 +700,12 @@ sr:
           waste_disposal: Контејнер
           waste_dump_site: Депонија
           weighbridge: Теретна вага
+          "yes": Погодност
         boundary:
           administrative: Административна граница
           census: Пописна граница
           national_park: Национални парк
+          political: Изборна граница
           protected_area: Заштићено подручје
           "yes": Граница
         bridge:
@@ -716,6 +723,7 @@ sr:
           cabin: Кабина
           chapel: Капела
           church: Црква
+          civic: Јавна зграда
           college: Факултетска зграда
           commercial: Пословна зграда
           construction: Зграда у изградњи
@@ -762,11 +770,13 @@ sr:
           blacksmith: Ковач
           brewery: Пивара
           carpenter: Столар
+          caterer: Угоститељ
           confectionery: Кондитор
           dressmaker: Кројач
           electrician: Електричар
           electronics_repair: Поправка електронике
           gardener: Баштован
+          glaziery: Стаклар
           painter: Молер
           photographer: Фотограф
           plumber: Водоинсталатер
@@ -785,6 +795,7 @@ sr:
           fire_extinguisher: ПП апарат
           landing_site: Место за хитно слетање
           phone: Телефон за хитне случајеве
+          siren: Сирена за узбуну
         highway:
           abandoned: Напуштени ауто-пут
           bridleway: Коњички пут
@@ -899,6 +910,7 @@ sr:
           bird_hide: Осматрачница за птице
           bowling_alley: Куглана
           common: Општинско земљиште
+          dance: Плесна сала
           dog_park: Парк за псе
           firepit: Камин
           fishing: Место за риболов
@@ -911,7 +923,9 @@ sr:
           marina: Марина
           miniature_golf: Мини-голф
           nature_reserve: Резерват природе
+          outdoor_seating: Одмориште
           park: Парк
+          picnic_table: Сто за ужину
           pitch: Спортски терен
           playground: Игралиште
           recreation_ground: Рекреативна зона
@@ -925,23 +939,29 @@ sr:
           water_park: Аквапарк
           "yes": Разонода
         man_made:
+          adit: Проход
           advertising: Реклама
           antenna: Антена
+          avalanche_protection: Заштита од лавина
           beacon: Светионик
           beehive: Кошница са пчелама
           bridge: Мост
           bunker_silo: Бункер
+          cairn: Каир
           chimney: Димњак
+          clearcut: Целовита сеча
           communications_tower: Репетитор
           crane: Кран
           cross: Крст
+          dolphin: Битва
           dyke: Насип
           embankment: Насип
           flagpole: Јарбол за заставу
           gasometer: Гасометар
-          groyne: Брана
+          groyne: Таласобран
           kiln: Печењара
           lighthouse: Светионик
+          manhole: Шахт
           mast: Јарбол
           mine: Рудник
           mineshaft: Рударско окно
@@ -952,7 +972,7 @@ sr:
           pumping_station: Црпна станица
           silo: Силос
           street_cabinet: Улични орман
-          surveillance: Присмотра
+          surveillance: Надзор
           telescope: Телескоп
           tower: Кула
           utility_pole: Бандера
@@ -1006,15 +1026,19 @@ sr:
           sand: Пешчара
           scree: Осулина
           scrub: Густиш
+          shingle: Черепица
           spring: Извор
           stone: Камен
           strait: Мореуз
           tree: Дрво
+          tree_row: Дрворед
+          tundra: Тундра
           valley: Долина
           volcano: Вулкан
           water: Вода
           wetland: Мочварно подручје
           wood: Шума
+          "yes": Природно обележје
         office:
           accountant: Рачуновођа
           administrative: Администрација
@@ -1033,6 +1057,7 @@ sr:
           ngo: Невладина организација
           notary: Нотар
           research: Истраживачка канцеларија
+          tax_advisor: Порески саветник
           telecommunication: Телекомуникациона компанија
           travel_agent: Туристичка агенција
           "yes": Канцеларија
@@ -1053,6 +1078,7 @@ sr:
           locality: Локалитет
           municipality: Општина
           neighbourhood: Кварт
+          plot: Парцела
           postcode: Поштански број
           quarter: Четврт
           region: Регион
@@ -1095,6 +1121,7 @@ sr:
           antiques: Антикварница
           appliance: Продавница уређаја
           art: Продавница опреме за уметнике
+          baby_goods: Беби опрема
           bag: Продавница кеса
           bakery: Пекара
           beauty: Козметички салон
@@ -1112,15 +1139,15 @@ sr:
           cheese: Продавница сира
           chemist: Продавница кућне хемије
           chocolate: Чоколада
-          clothes: Продавница одеће
+          clothes: Бутик
           coffee: Кафић
           computer: Продавница рачунара
           confectionery: Посластичарница
-          convenience: Продавница мешовите робе
+          convenience: Мини-маркет
           copyshop: Фотокопирница
           cosmetics: Козметичка радња
           curtain: Продавница драперија
-          dairy: Продавница млечних производа
+          dairy: Млекара
           deli: Сендвичара
           department_store: Робна кућа
           discount: Дисконт
@@ -1147,11 +1174,13 @@ sr:
           hairdresser: Фризерски салон
           hardware: Продавница алата
           health_food: Продавница здраве хране
+          herbalist: Травар
           hifi: Продавница аудио-опреме
           ice_cream: Сладоледџиница
           interior_decoration: Декорација ентеријера
           jewelry: Јувелирница
           kiosk: Трафика
+          kitchen: Кухињска опрема
           laundry: Перионица веша
           locksmith: Бравар
           lottery: Лутрија
@@ -1166,24 +1195,28 @@ sr:
           organic: Продавница здраве хране
           outdoor: Продавница опреме за спортове на отвореном
           paint: Фарбара
+          pastry: Посластичарница
           pawnbroker: Залагаоничар
           perfumery: Парфимерија
           pet: Продавница за кућне љубимце
           photo: Фотографска радња
           seafood: Морски плодови
           second_hand: Продавница половне робе
+          sewing: Шиваоница
           shoes: Продавница обуће
           sports: Продавница спортске опреме
           stationery: Продавница канцеларијског прибора
           supermarket: Супермаркет
           tailor: Кројач
           tattoo: Тетоваже
+          tea: Чајџиница
           ticket: Продавница карата
           tobacco: Продавница цигарета
           toys: Продавница играчака
           travel_agency: Туристичка агенција
           tyres: Продавница гума
           vacant: Упражњен локал
+          variety_store: Мешовита роба
           video: Видеотека
           video_games: Продавница видео-игара
           wholesale: Велепродаја
@@ -1191,7 +1224,7 @@ sr:
           "yes": Продавница
         tourism:
           alpine_hut: Планинарски дом
-          apartment: Апартман за одмор
+          apartment: Викенд-апартман
           artwork: Уметничко дело
           attraction: Атракција
           bed_and_breakfast: Полупансион
@@ -1231,7 +1264,7 @@ sr:
           stream: Поток
           wadi: Вади
           waterfall: Водопад
-          weir: Брана
+          weir: Преливник
           "yes": Водоток
       admin_levels:
         level2: Државна граница
@@ -1446,8 +1479,7 @@ sr:
         partial_changeset_with_comment: са коментаром „%{changeset_comment}”
         partial_changeset_without_comment: без коментара
       details: Више информација о чејнџсетовима може да се пронађе на %{url}.
-      unsubscribe: Да бисте престали пратити апдејте овог чејнџсета, посетите %{url}
-        и кликните на „Престани пратити”.
+      unsubscribe: Можете одјавити обавештења овог скупа измена на %{url}.
   confirmations:
     confirm:
       heading: Проверите Ваш имејл!
@@ -1639,6 +1671,9 @@ sr:
       support: подршка
   shared:
     markdown_help:
+      headings: Наслови
+      heading: Наслов
+      subheading: Поднаслов
       first: Прва ставка
       second: Друга ставка
       link: Веза
@@ -1720,6 +1755,7 @@ sr:
           BY 4.0)
         contributors_fi_finland: Финска
         contributors_fr_france: Француска
+        contributors_hr_croatia: Хрватска
         contributors_nl_netherlands: Холандија
         contributors_nz_new_zealand: Нови Зеланд
         contributors_rs_serbia: Србија
@@ -1862,7 +1898,7 @@ sr:
           trolleybus: Тролејбус
           bus: Аутобус
           cable_car: Жичара
-          chair_lift: седишница
+          chair_lift: Жичара са седиштима
           runway: Аеродромска писта
           taxiway: Рулна стаза
           apron: Аеродромски перон
@@ -2000,8 +2036,8 @@ sr:
     trace:
       pending: НА_ЧЕКАЊУ
       count_points:
-        one: 1 тачка
-        other: '%{count} тачака'
+        one: '%{count} чвор'
+        other: '%{count} чвора'
       more: више
       trace_details: Погледајте детаље о трагу
       view_map: Погледај карту
@@ -2340,8 +2376,8 @@ sr:
       time_past_html: Завршено пре %{time}.
       block_duration:
         hours:
-          one: 1 сат
-          other: '%{count} сата'
+          one: '%{count} час'
+          other: '%{count} часа'
     blocks_on:
       title: Блокаде за %{name}
       heading_html: Листа блокада за %{name}
@@ -2386,7 +2422,7 @@ sr:
     index:
       title: Белешке послао или коментарисао %{user}
       heading: Белешке корисника %{user}
-      subheading_html: Белешке послао или коментарисао %{user}
+      subheading_html: Белешке %{submitted} или %{commented} %{user}
       no_notes: Нема белешки
       id: Id
       creator: Творац
@@ -2540,7 +2576,7 @@ sr:
           tenth: "10."
       time: Време
     query:
-      node: Тачка
+      node: Чвор
       way: Линија
       relation: Однос
       nothing_found: Нема објеката у близини
