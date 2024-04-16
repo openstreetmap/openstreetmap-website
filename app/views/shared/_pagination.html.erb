@@ -1,32 +1,12 @@
 <nav>
-  <% link_class = "page-link icon-link text-center" %>
   <ul class="pagination">
-    <% newer_link_content = capture do %>
+    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => newer_id)) do %>
       <%= previous_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
       <%= t :newer, :scope => translation_scope %>
     <% end %>
-    <% if newer_id -%>
-      <li class="page-item d-flex">
-        <%= link_to newer_link_content, @params.merge(:before => nil, :after => newer_id), :class => link_class %>
-      </li>
-    <% else -%>
-      <li class="page-item d-flex disabled">
-        <%= tag.span newer_link_content, :class => link_class %>
-      </li>
-    <% end -%>
-
-    <% older_link_content = capture do %>
+    <%= pagination_item(older_id && @params.merge(:before => older_id, :after => nil)) do %>
       <%= t :older, :scope => translation_scope %>
       <%= next_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
     <% end %>
-    <% if older_id -%>
-      <li class="page-item d-flex">
-        <%= link_to older_link_content, @params.merge(:before => older_id, :after => nil), :class => link_class %>
-      </li>
-    <% else -%>
-      <li class="page-item d-flex disabled">
-        <%= tag.span older_link_content, :class => link_class %>
-      </li>
-    <% end -%>
   </ul>
 </nav>
