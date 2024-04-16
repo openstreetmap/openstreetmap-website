@@ -1,5 +1,9 @@
 <nav>
   <ul class="pagination">
+    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => nil)) do %>
+      <%= previous_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block", :count => 2 %>
+      <%= t :newest, :scope => translation_scope %>
+    <% end %>
     <%= pagination_item(newer_id && @params.merge(:before => nil, :after => newer_id)) do %>
       <%= previous_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
       <%= t :newer, :scope => translation_scope %>
@@ -7,6 +11,10 @@
     <%= pagination_item(older_id && @params.merge(:before => older_id, :after => nil)) do %>
       <%= t :older, :scope => translation_scope %>
       <%= next_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block" %>
+    <% end %>
+    <%= pagination_item(older_id && @params.merge(:before => nil, :after => 0)) do %>
+      <%= t :oldest, :scope => translation_scope %>
+      <%= next_page_svg_tag :class => "flex-shrink-0 d-none d-sm-block", :count => 2 %>
     <% end %>
   </ul>
 </nav>
