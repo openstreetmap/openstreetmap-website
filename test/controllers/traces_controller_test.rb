@@ -222,51 +222,52 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   def test_index_paged
     # Create several pages worth of traces
     create_list(:trace, 50)
+    next_path = traces_path
 
     # Try and get the index
-    get traces_path
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    check_no_page_link "Newer Traces"
+    next_path = check_page_link "Older Traces"
 
     # Try and get the second page
-    get css_select("li.page-item a.page-link").last["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    check_page_link "Newer Traces"
+    next_path = check_page_link "Older Traces"
 
     # Try and get the third page
-    get css_select("li.page-item a.page-link").last["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 10
     end
-    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item.disabled span.page-link", :text => "Older Traces", :count => 2
+    next_path = check_page_link "Newer Traces"
+    check_no_page_link "Older Traces"
 
     # Go back to the second page
-    get css_select("li.page-item a.page-link").first["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    next_path = check_page_link "Newer Traces"
+    check_page_link "Older Traces"
 
     # Go back to the first page
-    get css_select("li.page-item a.page-link").first["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    check_no_page_link "Newer Traces"
+    check_page_link "Older Traces"
   end
 
   # Check a multi-page index of tagged traces
@@ -275,51 +276,52 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     create_list(:trace, 100) do |trace, index|
       create(:tracetag, :trace => trace, :tag => "London") if index.even?
     end
+    next_path = traces_path :tag => "London"
 
     # Try and get the index
-    get traces_path(:tag => "London")
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    check_no_page_link "Newer Traces"
+    next_path = check_page_link "Older Traces"
 
     # Try and get the second page
-    get css_select("li.page-item a.page-link").last["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    check_page_link "Newer Traces"
+    next_path = check_page_link "Older Traces"
 
     # Try and get the third page
-    get css_select("li.page-item a.page-link").last["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 10
     end
-    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item.disabled span.page-link", :text => "Older Traces", :count => 2
+    next_path = check_page_link "Newer Traces"
+    check_no_page_link "Older Traces"
 
     # Go back to the second page
-    get css_select("li.page-item a.page-link").first["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item a.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    next_path = check_page_link "Newer Traces"
+    check_page_link "Older Traces"
 
     # Go back to the first page
-    get css_select("li.page-item a.page-link").first["href"]
+    get next_path
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Traces", :count => 2
-    assert_select "li.page-item a.page-link", :text => "Older Traces", :count => 2
+    check_no_page_link "Newer Traces"
+    check_page_link "Older Traces"
   end
 
   def test_index_invalid_paged
@@ -332,6 +334,20 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to :controller => :errors, :action => :bad_request
     end
   end
+
+  private
+
+  def check_no_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/, :count => 0 }, "unexpected #{name} page link"
+  end
+
+  def check_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/ }, "missing #{name} page link" do |buttons|
+      return buttons.first.attributes["href"].value
+    end
+  end
+
+  public
 
   # Check the RSS feed
   def test_rss

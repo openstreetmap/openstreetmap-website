@@ -545,41 +545,42 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   def test_index_paged
     # Create several pages worth of diary entries
     create_list(:diary_entry, 50)
+    next_path = diary_entries_path
 
     # Try and get the index
-    get diary_entries_path
+    get next_path
     assert_response :success
     assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
+    check_no_page_link "Newer Entries"
+    next_path = check_page_link "Older Entries"
 
     # Try and get the second page
-    get css_select("li.page-item .page-link").last["href"]
+    get next_path
     assert_response :success
     assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+    check_page_link "Newer Entries"
+    next_path = check_page_link "Older Entries"
 
     # Try and get the third page
-    get css_select("li.page-item .page-link").last["href"]
+    get next_path
     assert_response :success
     assert_select "article.diary_post", :count => 10
-    assert_select "li.page-item.disabled span.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+    next_path = check_page_link "Newer Entries"
+    check_no_page_link "Older Entries"
 
     # Go back to the second page
-    get css_select("li.page-item .page-link").first["href"]
+    get next_path
     assert_response :success
     assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
+    next_path = check_page_link "Newer Entries"
+    check_page_link "Older Entries"
 
     # Go back to the first page
-    get css_select("li.page-item .page-link").first["href"]
+    get next_path
     assert_response :success
     assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
+    check_no_page_link "Newer Entries"
+    check_page_link "Older Entries"
   end
 
   def test_index_invalid_paged
@@ -592,6 +593,20 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to :controller => :errors, :action => :bad_request
     end
   end
+
+  private
+
+  def check_no_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/, :count => 0 }, "unexpected #{name} page link"
+  end
+
+  def check_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/ }, "missing #{name} page link" do |buttons|
+      return buttons.first.attributes["href"].value
+    end
+  end
+
+  public
 
   def test_rss
     create(:language, :code => "de")
