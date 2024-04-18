@@ -103,6 +103,7 @@ nl:
       messages:
         invalid_email_address: lijkt geen geldig e-mailadres te zijn
         email_address_not_routable: is niet routeerbaar
+        display_name_is_user_n: kan niet user_n zijn, tenzij n uw gebruikers-ID is
       models:
         user_mute:
           is_already_muted: is al gedempt
@@ -1659,7 +1660,10 @@ nl:
     intro_text: OpenStreetMap is een kaart van de wereld, gemaakt door mensen zoals
       u en vrij te gebruiken onder een open licentie.
     intro_2_create_account: Maak een account aan
+    hosting_partners_2024_html: Hosting wordt ondersteund door %{fastly}, %{corpmembers}
+      en andere %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: OSMF-bedrijfsleden
     partners_partners: partners
     tou: Gebruiksvoorwaarden
     osm_offline: De OpenStreetMap-database is momenteel niet beschikbaar wegens het
@@ -1681,6 +1685,7 @@ nl:
     more: Meer
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap-dagboekbericht #%{id}'
       subject: '[OpenStreetMap] %{user} heeft een reactie bij uw dagboek geplaatst'
       hi: Hallo %{to_user},
       header: '%{from_user} heeft gereageerd op het OpenStreetMap-dagboekbericht met
@@ -1691,6 +1696,8 @@ nl:
         op %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
       footer_html: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren
         op %{commenturl} of een bericht sturen naar de auteur via %{replyurl}
+      footer_unsubscribe: U kunt zich afmelden voor de discussie op %{unsubscribeurl}
+      footer_unsubscribe_html: U kunt zich afmelden van de discussie op %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Hallo %{to_user},
@@ -1726,6 +1733,8 @@ nl:
       loaded:
         one: goed ontvangen, met %{trace_points} van %{count} mogelijk punt.
         other: goed ontvangen; met %{trace_points} van %{count} mogelijke punten.
+      all_your_traces_html: Alle succesvol geüploade GPX-traces zijn te vinden op
+        %{url}.
       subject: '[OpenStreetMap] GPX-import afgerond'
     signup_confirm:
       subject: '[OpenStreetMap] Welkom bij OpenStreetMap'
@@ -1751,6 +1760,7 @@ nl:
       click_the_link: Als u dit bent, klik dan op de onderstaande koppeling om uw
         wachtwoord opnieuw in te stellen.
     note_comment_notification:
+      description: 'OpenStreetMap-notitie #%{id}'
       anonymous: Een anonieme gebruiker
       greeting: Hallo,
       commented:
@@ -1795,6 +1805,7 @@ nl:
       details: Meer details over de opmerking zijn te vinden op %{url}.
       details_html: Meer details over de opmerking zijn te vinden op %{url}.
     changeset_comment_notification:
+      description: 'OpenStreetMap-wijzigingenreeks #%{id}'
       hi: Hoi %{to_user},
       greeting: Hallo,
       commented:
@@ -1896,6 +1907,9 @@ nl:
       people_mapping_nearby: dichtbijzijnde mappers
     muted:
       title: Gedempte berichten
+      messages:
+        one: '%{count} verborgen bericht'
+        other: U hebt %{count} genegeerde berichten
     reply:
       wrong_user: U bent aangemeld als "%{user}", maar het bericht waarop u wilt antwoorden
         is niet aan die gebruiker gericht. Meld u aan als de juiste gebruiker om te
@@ -1932,6 +1946,9 @@ nl:
       help_text: Voer het e-mailadres in dat u hebt opgegeven bij uw registratie.
         We sturen u dan een webkoppeling die u kunt gebruiken om uw wachtwoord opnieuw
         in te stellen.
+    create:
+      send_paranoid_instructions: Als uw e-mailadres in onze database bestaat, ontvangt
+        u binnen enkele minuten een wachtwoordherstellink op uw e-mailadres.
     edit:
       title: Wachtwoord opnieuw instellen
       heading: Wachtwoord voor %{user} opnieuw instellen
@@ -2209,6 +2226,11 @@ nl:
           %{france}: Bevat gegevens van de
           Direction Générale des Impôts.
         contributors_fr_france: Frankrijk
+        contributors_hr_credit_html: '%{croatia}: bevat gegevens uit de %{dgu_link}
+          en %{open_data_portal} (openbare informatie van Kroatië).'
+        contributors_hr_croatia: Kroatië
+        contributors_hr_dgu: Staatsgeodesisch bestuur van Kroatië
+        contributors_hr_open_data_portal: Nationaal Open Data Portaal
         contributors_nl_credit_html: '%{netherlands}: Bevat gegevens &copy; AND, 2007
           (%{and_link})'
         contributors_nl_netherlands: Nederland
@@ -2463,6 +2485,7 @@ nl:
           scrubland: Struikgewas
           lake: Meer
           reservoir: Reservoir
+          intermittent_water: Onderbroken waterlichaam
           glacier: Gletsjer
           reef: Rif
           wetland: Moeras
@@ -2640,6 +2663,8 @@ nl:
       identifiable: IDENTIFICEERBAAR
       private: PERSOONLIJK
       trackable: TRACEERBAAR
+      details_with_tags_html: '%{time_ago} door %{user} in %{tags}'
+      details_without_tags_html: '%{time_ago} door %{user}'
     index:
       public_traces: Openbare gps-trajecten
       my_gps_traces: Mijn GPS-traces
@@ -2956,6 +2981,9 @@ nl:
       heading: Gebruikers
       older: Oudere gebruikers
       newer: Nieuwere gebruikers
+      found_users:
+        one: '%{count} gebruiker gevonden'
+        other: '%{count} gebruikers gevonden'
       summary_html: '%{name} aangemaakt vanaf %{ip_address} op %{date}'
       summary_no_ip_html: '%{name} aangemaakt op %{date}'
       confirm: Geselecteerde gebruikers bevestigen
@@ -3112,6 +3140,15 @@ nl:
       reason: Reden voor blokkade
       status: Status
       revoker_name: Ingetrokken door
+      older: Oudere blokkades
+      newer: Nieuwere blokkades
+    navigation:
+      all_blocks: Alle blokkades
+      blocks_on_me: Blokkades voor u
+      blocks_on_user: Blokkades voor %{user}
+      blocks_by_me: Blokkades door u
+      blocks_by_user: Blokkades door %{user}
+      block: 'Blokkade #%{id}'
   user_mutes:
     index:
       title: Gedempte gebruikers
