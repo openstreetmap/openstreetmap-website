@@ -6,224 +6,242 @@
   <% end %>
 <% end %>
 
-<h3>Introduction</h3>
+<% I18n.with_locale @locale do %>
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.introduction.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.introduction.1_html" %>
+  <% end %>
+  <%= tag.ul :lang => @locale, :dir => t("html.dir") do %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %>
+      <%= t "site.ohm_privacy.introduction.2_1_html" %>
+    <% end %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.introduction.3_html" %>
+  <% end %>
 
-<p>
-  This document states the OpenHistoricalMap (OHM) '''privacy policy''' for services formally operated and provided through the <a href="http://openhistoricalmap.org" target="_blank" rel="noopener">openhistoricalmap.org</a> domain and subdomains. In particular these are
-</p>
-<ul>
-  <li>
-    The OHM website (<a href="/" target="_blank" rel="noopener">openhistoricalmap.org</a>) and associated services and APIs
-  </li>
-</ul>
-<p>
-  It describes what personal information we may be gathering from you, who can see this information, and what options you have for controlling this. We value your privacy and strive to achieve a balance between the legitimate interests of the OpenHistoricalMap project and your interests and rights.
-</p>
-<p>
-  This document is mainly intended for OpenHistoricalMap contributors.
-</p>
-<h3>Why do we store and process personal data?</h3>
-<p>
-  The purpose of the OpenHistoricalMap project is to provide open historical geographic data, such as street maps or historical building outlines, railways, trails, etc, to anyone.
-</p>
-<p>
-  To fulfill the goal of distributing data that is truly open, untethered by rights of third parties and of high quality, we do not support anonymous contributions and retain additional, non-geographic, data on a legitimate interest basis (see <a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank" rel="noopener">GDPR article 6.1f</a>), to enable:
-</p>
-<ul>
-  <li>
-    Identifying all the contributions made by an account
-  </li>
-  <li>
-    Contacting the contributor in the case of questions in respect to the nature and source of the contributions
-  </li>
-  <li>
-    Detection, removal and correction of spam accounts, vandallism and violations of the rights of third parties
-  </li>
-  <li>
-    Facilitating the communication between OpenHistoricalMap contributors
-  </li>
-  <li>
-    Research and analysis on aggregate contributions to improve or prioritise OHM services, such as evaluating mapping efficacy map completeness, determining if locations or mappers are disproportionately represented
-  </li>
-</ul>
-<h3>What data do we store and process?</h3>
-<p>
-  Data from contributions to OpenHistoricalMap.
-</p>
-<p>
-  Besides the geographic data contributed (points, lines, and areas with associated attributes and GPS trace data), and communications related data (diary posts and comments, the user page, changeset comments, messages) we store:
-</p>
-<ul>
-  <li>
-    Editing session meta-data. For example comments added by the user, any version and similar information added by the editing application, which editing application and which aerial imagery layers where used.
-  </li>
-  <li>
-    User id and login name of the author of every change to an object and a timestamp when that change occured.
-  </li>
-  <li>
-    The e-mail address associated with your account
-  </li>
-  <li>
-    Any blocks the user has received and associated messages
-  </li>
-  <li>
-    Network access data (example IP addresses) for the systems and services operated by OHM.
-  </li>
-</ul>
-<h3>Who has access to the data</h3>
-<p>
-  We do not share email addresses associated with accounts with any third party. User to user messages are visible to the sender and recipient, other access is limited to our operations staff and only if required for operational reasons, to enforce our acceptable use policies, to fulfil any legal obligations and most notably to prevent SPAM.
-</p>
-<p>
-  Similarly, network access data is only used for internal purposes and access is limited to operating personnel for operational and vandalism and SPAM protection purposes.
-</p>
-<p>
-  The other data is made available, depending on the use case, via the website, via the editing API and from our data dumps, to users with accounts and to the general public. Some of the non-geographic data may be available only by some methods, however this is subject to change.
-</p>
-<h3>Where do we store the data</h3>
-<p>
-  The website, API servers, databases and the servers for auxiliary services are currently hosted on Amazon Web Services in the East Coast Region of the United States.
-</p>
-<p>
-  Map tiles are provided by a global network of cache servers, which tile server your browser or app access is determined dynamically by geolocation of the IP address and selection of the cache server "nearest" to you. While in general this means that you will be using the tile cache physically nearest to you, this can be affected by:
-</p>
-<ul>
-  <li>
-    Uncertainties in determining the location of the client from its IP address
-  </li>
-  <li>
-    Operational issues (server downtime etc)
-  </li>
-  <li>
-    Network topology and load
-  </li>
-</ul>
-<h3>How can you control the processing of your data and reduce privacy related issues</h3>
-<p>
-  While not required by law, we provide the following mechanism to reduce the exposure of potentially privacy related information for you:
-</p>
-<ul>
-  <li>
-    You can select a non identifying login name and change it at any time you want
-  </li>
-  <li>
-    You are not required to include personal data in diary posts, comments, email listserv, the wiki, or other OHM communications methods, and you may delete diary posts at any time through your account
-  </li>
-  <li>
-    You can request your account to be deleted (restrictions see below). Typically there's no need to close/delete an account on openstreetmap.org. It's no problem to simply leave it lying dormant. Want to remove identifying information? It's easy to change your display name, and edit your profile description. If you do want to completely delete your account for some reason: log-in, go to My Settings and use the 'Delete Account...' button. Please take note of the warning: The account deletion process is final, and cannot be reversed! You will also see details of exactly what is being deleted. 
-  </li>
-</ul>
-<p>
-  You should not enable gravatar support or use an e-mail address you have associated with a gravatar with if privacy is a concern.
-</p>
-<p>
-  You can further reduce exposure by not adding personal information to the map data (personal names and similar). Such information is in general not considered to be an useful addition to our data and you should refrain from adding it.
-</p>
-<h3>Right to Object</h3>
-<p>
-  You have a <a href="https://gdpr-info.eu/art-21-gdpr/" target="_blank" rel="noopener">right to object</a> against processing based on legitimate interests of the data controller.
-</p>
-<h3>Detailed Information</h3>
-<h4>GPS Trace Data</h4>
-<p>
-  The uploading of GPS data is entirely optional and not a prerequisite for contributions to OpenHistoricalMap. If you do submit GPS data, it is uploaded in the form of individual GPX files. These are kept as raw files, as well as imported into the database. GPX files can be marked <a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces" target="_blank" rel="noopener">public</a> by the uploader; this is completely unrelated to the option of making one's ''edits'' "public".
-</p>
-<p>
-  When GPS data for an area is downloaded via the API no indication is provided of which user uploaded a point, or of the timestamp that was associated with the point. Points are however returned in timestamp order. GPS data downloaded in this way will include points from traces which were not marked as public.
-</p>
-<p>
-  If a GPS trace is marked as public when it is uploaded then the raw trace may be downloaded from the web site or using an API call. In this case the user's display name is shown (regardless of whether the user has made their ''edits'' public) and the timestamps in the GPX file will be included. Also, any additional information placed in the GPX file will still be present, e.g. waypoints with their names and/or notes entered, associated symbols, elevation data, etc.  You should remove any such information from the data and trim enough information from beginning and end of the trace to obscure start and destination before uploading it if you have privacy concerns.
-</p>
-<h4>Map Data</h4>
-<p>
-  All edits made to the map are recorded in the database with the user ID of the user making the change, and a timestamp at the time of change upload. In general all of this information is also made available to everyone via the website, including links to allow everyone to easily cross-reference which user has made which edit.
-</p>
-<p>
-  Editing programs (such as JOSM and iD) can store further data in the database that may be relevant to your privacy.  Please refer to the respective authors and distributors of the programs for more information. For example, iD and JOSM may add the language settings of your device to the metadata of each changeset and the make and operating system of the device may be visible from the transmitted version strings.
-</p>
-<h3>User 'home' location</h3>
-<p>
-  If a user sets a home location then they will appear on the "nearby mappers" list for other people with a home location near theirs. This is an option on your account settings page.
-</p>
-<h4>Email Addresses</h4>
-<p>
-  The registered email address for an OHM user account will never intentionally be published on the internet anywhere, shared with third party organisations, or revealed directly to other users. Email addresses will be used by the server to notify the user if another user has sent a message through the website, and for other system generated notifications.
-</p>
-<p>
-  Only System Administrators will have direct access to email address data associated with the OHM account. It may be used by these people to contact users directly about their edits or other OpenHistoricalMap related issues.
-</p>
-<p>
-  Email addresses associated with wiki, forum and help site accounts are stored separately from the OHM user account data in the respective systems. These address are used for notifications and user to user communication (if enabled).  These addresses are not publicly visible or shared with third parties, but may be visible to the administrators of the systems.
-</p>
-<h4>Gravatar</h4>
-<p>
-  The <a href="http://openhistoricalmap.org" target="_blank" rel="noopener">openhistoricalmap.org</a> website supports the display of <a href="http://gravatar.com/" target="_blank" rel="noopener">Gravatars</a>, these are retrieved from <a href="http://gravatar.com" target="_blank" rel="noopener">gravatar.com</a> by generating a globally unique key from your e-mail address. Our website software will check on the initial signup and on every email address change if you have a Gravatar for the new address and start displaying it if one exists. You can stop this behaviour by explicitly turning Gravatar support off in your account settings. You should be aware that, if a Gravatar is displayed, the key can be used to track your account over any website that has Gravatar support.
-</p>
-<h4>Data you may voluntarily add to your profile or diary posts</h4>
-<p>
-  You are not required to fill out your profile or make diary posts. By voluntarily entering personal data in your user profile or diary posts, you consent to that information being publicly available and stored by OHM as long as you maintain an OHM account. You may edit your public profile or your diary posts at any time to remove such information if you change your mind.
-</p>
-<h4>Data we receive automatically</h4>
-<p>
-  OHM operates a number of services for the OHM community, examples are the <a href="/" target="_blank" rel="noopener">openhistoricalmap.org</a> website, the standard OHM vector tiles online map, the OHM API and the nominatim search facility.
-</p>
-<p>
-  When you visit an OHM website, access any of the services via a browser or via applications that utilize the provided APIs, records of that use are produced, we collect information about your browser or application and your interaction with our website, including (a) IP address, (b) browser and device type, © operating system, (d) referring web page, (e) the date and time of page visits, and (f) the pages accessed on our websites.
-</p>
-<p>
-  Further we may operate user interaction tracking software that will generate additional records of user activity, for example Piwik.
-</p>
-<p>
-  Services that use Geo-DNS or similar mechanisms to distribute load to geographically distributed servers will potentially generate a record of your location at a large scale.
-</p>
-<p>These records are used or can be used in the following ways:</p>
-<ul>
-  <li>
-    In support of the operation of the services from a technical, security and planning point of view
-  </li>
-  <li>
-    As anonymised, summarised data for research and other purposes. Such data may be offered publicly via <a href="https://planet.openhistoricalmap.org" target="_blank" rel="noopener">https://planet.openhistoricalmap.org</a> or other channels and used by 3rd parties
-  </li>
-  <li>
-    To improve the OpenHistoricalMap dataset. For example by analysing nominatim queries for missing addresses and postcodes and providing such data to the OHM community
-  </li>
-</ul>
-<p>
-  The data collected on the systems will be accessible by the system administrators. No personal information or information that is linked to an individual will be released to third parties, except as required by law.
-</p>
-<p>
-  IP addresses stored by Piwik are shortened to two bytes and detailed usage information is retained for 180 days.
-</p>
-<p>
-  Given the temporary nature of this storage, it is generally not feasible for us to provide access to IP addresses or the logs associated with them.
-</p>
-<p>
-  The above mentioned data is processed on a legitimate interest basis (see <a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank" rel="noopener">GDPR article 6.1f</a>).
-</p>
-<h3>Account Removal</h3>
-<p>You can request your account to be removed and we will honor such requests as far as possible.
-</p>
-<p>
-  If you have not actively contributed to the project we will not retain any records, user page, diary posts and similar will be removed.
-</p>
-<p>
-  If you have contributed your account will be renamed to user_''USERID'' (where USERID is your old OHM username) and contributions and changeset comments will be retained with this name, diary entries and your user page will be removed. Because we do not allow anonymous edits we will non-publicly retain your email address in case you need to be contacted with respect to your contributions.
-</p>
-<p>
-  Wiki and forum accounts will be renamed to a pseudo-anonymous name, but otherwise will remain as is. You can unsubscribe yourself from any mailing lists, however you need to realize that personal copies held by the recipients of any mails you sent to the lists and the archives on <a href="https://lists.openstreetmap.org" target="_blank" rel="noopener">lists.openstreetmap.org</a> can not be removed.
-</p>
-<p>
-  In your request for account removal you need to identify all accounts that are affected as we do not have information on which accounts belong to which OpenHistoricalMap users.
-</p>
-<h3>Cookies</h3>
-<p>
-  Numerous OHM operated services use cookies to store information on your login and site navigation state. We also use cookies and similar technologies to recognize and improve your use of our websites. You may delete cookies from your computer, and most browsers provide the option to block them. If you block cookies placed by us (first party cookies), you will not be able to access parts of the OHM websites and services that require a login. However, your access to our websites will not be affected if you disable cookies placed by third parties.
-</p>
-<h3>Contact</h3>
-<p>
-  If you have questions or concerns with respect to this policy, please contact OHM admins at <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.
-</p>
-<p>
-  If you believe that we hold information that would allow us to correct, amend, or delete inaccurate information about you or if you believe that information about you has been processed in violation of this privacy policy please email us at <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.<br> Note that you may change your username, email associated with your account, and ‘home’ location through your account without contacting the OHM.
-</p>
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.why.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.why.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.why.2_html" %>
+  <% end %>
+  <%= tag.ul :lang => @locale, :dir => t("html.dir") do %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.why.2_1_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.why.2_2_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.why.2_3_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.why.2_4_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.why.2_5_html" %><% end %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.what.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.what.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.what.2_html" %>
+  <% end %>
+  <%= tag.ul :lang => @locale, :dir => t("html.dir") do %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.what.2_1_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.what.2_2_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.what.2_3_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.what.2_4_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.what.2_5_html" %><% end %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.who.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.who.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.who.2_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.who.3_html" %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.where.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.where.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.where.2_html" %>
+  <% end %>
+  <%= tag.ul :lang => @locale, :dir => t("html.dir") do %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.where.2_1_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.where.2_2_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.where.2_3_html" %><% end %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.how.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.how.1_html" %>
+  <% end %>
+  <%= tag.ul :lang => @locale, :dir => t("html.dir") do %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.how.1_1_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.how.1_2_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.how.1_3_html" %><% end %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.how.2_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.how.3_html" %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.right_to_object.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.right_to_object.1_html" %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.details.title_html" %>
+  <% end %>
+
+  <%= tag.h4 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.trace_data.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.trace_data.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.trace_data.2_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.trace_data.3_html" %>
+  <% end %>
+
+  <%= tag.h4 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.map_data.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.map_data.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.map_data.2_html" %>
+  <% end %>
+
+  <%= tag.h4 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.home_location.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.home_location.1_html" %>
+  <% end %>
+
+  <%= tag.h4 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.email.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.email.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.email.2_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.email.3_html" %>
+  <% end %>
+
+  <%= tag.h4 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.gravatar.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.gravatar.1_html" %>
+  <% end %>
+
+  <%= tag.h4 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.voluntarily.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.voluntarily.1_html" %>
+  <% end %>
+
+  <%= tag.h4 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.2_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.3_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.4_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.5_html" %>
+  <% end %>
+  <%= tag.ul :lang => @locale, :dir => t("html.dir") do %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.automatically.5_1_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.automatically.5_2_html" %><% end %>
+    <%= tag.li :lang => @locale, :dir => t("html.dir") do %><%= t "site.ohm_privacy.automatically.5_3_html" %><% end %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.6_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.7_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.8_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.automatically.9_html" %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.account_removal.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.account_removal.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.account_removal.2_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.account_removal.3_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.account_removal.4_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.account_removal.5_html" %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.cookies.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.cookies.1_html" %>
+  <% end %>
+
+  <%= tag.h3 :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.contact.title_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.contact.1_html" %>
+  <% end %>
+  <%= tag.p :lang => @locale, :dir => t("html.dir") do %>
+    <%= t "site.ohm_privacy.contact.2_html" %>
+  <% end %>
+
+<% end %>
+
 </div>
