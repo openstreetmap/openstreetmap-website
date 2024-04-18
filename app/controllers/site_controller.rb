@@ -107,7 +107,7 @@ class SiteController < ApplicationController
     @locale = params[:about_locale] || I18n.locale
   end
 
-  def privacy_policy; end
+  def ohm_privacy_policy; end
 
   def export; end
 

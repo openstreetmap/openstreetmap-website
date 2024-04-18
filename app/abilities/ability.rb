@@ -8,7 +8,7 @@ class Ability
          :changeset, :query], :browse
     can [:show, :new], Note
     can :search, :direction
-    can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :privacy_policy], :site
+    can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :ohm_privacy_policy], :site
     can [:finish, :embed], :export
     can [:search, :search_latlon, :search_osm_nominatim, :search_osm_nominatim_reverse], :geocoder
     can [:token, :request_token, :access_token, :test_request], :oauth
