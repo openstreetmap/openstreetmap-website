@@ -1,4 +1,4 @@
-pass_crypt = PasswordHash.create("test").first 
+pass_crypt = PasswordHash.create("test").first
 
 FactoryBot.define do
   factory :user do
