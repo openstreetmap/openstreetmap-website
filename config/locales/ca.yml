@@ -85,6 +85,9 @@ ca:
       messages:
         invalid_email_address: no sembla que sigui una adreça electrònica vàlida
         email_address_not_routable: no és routable
+      models:
+        user_mute:
+          is_already_muted: ja està silenciat
     models:
       acl: Llista de control d'accés
       changeset: Conjunt de canvis
@@ -307,6 +310,8 @@ ca:
         retain_changeset_discussions: Les vostres discussions del conjunt de canvis,
           si n'hi ha cap, es conservaran.
         retain_email: Es conservarà la vostra adreça de correu electrònic.
+        recent_editing_html: Com que heu fet edicions recentment, no podeu eliminar
+          el compte ara mateix. L'eliminació serà possible d'aquí a %{time}.
         confirm_delete: N'esteu segur?
         cancel: Cancel·la
   accounts:
@@ -488,6 +493,8 @@ ca:
         belongs_to: Autor
     show:
       title: 'Conjunt de canvis: %{id}'
+      created: 'Creat: %{when}'
+      closed: 'Tancat: %{when}'
       created_ago_html: Creat %{time_ago}
       closed_ago_html: Tancat %{time_ago}
       created_ago_by_html: Creat %{time_ago} per %{user}
@@ -571,7 +578,7 @@ ca:
       user_title: Diari de %{user}
       leave_a_comment: Feu un comentari
       login_to_leave_a_comment_html: '%{login_link} per a fer un comentari'
-      login: Inicia una sessió
+      login: Inicia sessió
     no_such_entry:
       title: Aquesta entrada no és al diari
       heading: 'No hi ha cap entrada amb la id: %{id}'
@@ -1719,10 +1726,10 @@ ca:
         partial_changeset_without_comment: cap comentari
       details: Podeu trobar més detalls del conjunt de canvis a %{url}
       details_html: Podeu trobar més detalls del conjunt de canvis a %{url}.
-      unsubscribe: Per a deixar de seguir les actualitzacions d'aquest conjunt de
-        canvis, visita %{url} i clica "Dona de baixa"
-      unsubscribe_html: Per a deixar de seguir les actualitzacions d'aquest conjunt
-        de canvis, visiteu %{url} i cliqueu "Dona de baixa".
+      unsubscribe: Podeu deixar de seguir les actualitzacions d'aquest conjunt de
+        canvis a %{url}.
+      unsubscribe_html: Podeu deixar de seguir les actualitzacions d'aquest conjunt
+        de canvis a %{url}.
   confirmations:
     confirm:
       heading: Comprova el teu correu electrònic
@@ -1801,7 +1808,7 @@ ca:
     muted:
       title: Missatges silenciats
     reply:
-      wrong_user: Heu iniciat la sessió com a "%{user}", però el missatge que voleu
+      wrong_user: Heu iniciat la sessió com a «%{user}», però el missatge que voleu
         respondre no s'ha enviat a aquest usuari. Per a poder respondre, inicieu la
         sessió amb l'usuari correcte.
     show:
@@ -1810,7 +1817,7 @@ ca:
       unread_button: Marca com a no llegit
       destroy_button: Suprimeix
       back: Enrere
-      wrong_user: Heu iniciat la sessió com a "%{user}", però aquest usuari no ha
+      wrong_user: Heu iniciat la sessió com a «%{user}», però aquest usuari no ha
         escrit ni ha rebut el missatge que voleu llegir. Per a poder llegir-lo, inicieu
         la sessió amb l'usuari correcte.
     sent_message_summary:
@@ -1831,7 +1838,7 @@ ca:
     new:
       title: Contrasenya perduda
       heading: Heu oblidat la contrasenya?
-      email address: 'Adreça de correu electrònic:'
+      email address: Adreça de correu electrònic
       new password button: Restableix la contrasenya
       help_text: Introduïu l'adreça de correu electrònic que vau utilitzar per registrar-vos;
         us hi enviarem un enllaç per a restablir la contrasenya.
@@ -1886,8 +1893,8 @@ ca:
     new:
       title: Inicia la sessió
       heading: Inicia la sessió
-      email or username: 'Adreça de correu o nom d''usuari:'
-      password: 'Contrasenya:'
+      email or username: Adreça de correu o nom d'usuari
+      password: Contrasenya
       remember: Recorda'm
       lost password link: Heu perdut la contrasenya?
       login_button: Accés
@@ -2203,8 +2210,9 @@ ca:
         title: Guia per a principiants
         description: Guia per a principiants mantinguda per la comunitat.
       community:
-        title: Fòrum comunitari
-        description: Un espai compartit per a les converses d'OpenStreetMap.
+        title: Ajuda i Fòrum de la comunitat
+        description: Un espai compartit per a trobar ajuda i tenir converses sobre
+          OpenStreetMap.
       mailing_lists:
         title: Llistes de correu
         description: Pregunta o debat sobre qüestions interessants en un ampli ventall
@@ -2270,6 +2278,7 @@ ca:
           cycleway_national: Carril bici nacional
           cycleway_regional: Carril bici regional
           cycleway_local: Carril bici local
+          cycleway_mtb: Ruta de bicicleta de muntanya
           footway: Via de vianants
           rail: Ferrocarril
           train: Tren
@@ -2285,6 +2294,8 @@ ca:
           taxiway: Carrer de rodatge
           apron: Estacionament d'avions
           admin: Límit administratiu
+          capital: Capital
+          city: Ciutat
           orchard: Hort
           vineyard: Vinya
           forest: Bosc
@@ -2316,6 +2327,7 @@ ca:
           allotments: Horts
           pitch: Camp d'esports
           centre: Centre esportiu
+          beach: Platja
           reserve: Reserva natural
           military: Àrea militar
           school: Escola - Institut
@@ -2331,8 +2343,11 @@ ca:
           destination: Servitud de pas
           construction: Carreteres en construcció
           bus_stop: Parada d'autobús
+          stop: Parada
           bicycle_shop: Botiga de bicicletes
+          bicycle_rental: Lloguer de bicicletes
           bicycle_parking: Aparcament de bicicletes
+          bicycle_parking_small: Aparcament de bicicletes petit
           toilets: Lavabos
     welcome:
       title: Us donem la benvinguda!
@@ -2375,6 +2390,7 @@ ca:
         imports: Importacions
         automated_edits: Edicions automatitzades
       start_mapping: Comença a editar el mapa
+      continue_authorization: Continua amb l'autorització
       add_a_note:
         title: No tens temps per editar? Escriu una nota
         para_1: Si només voleu fer una petita modificació, però no disposeu del temps
@@ -2478,6 +2494,8 @@ ca:
       identifiable: IDENTIFICABLE
       private: PRIVAT
       trackable: RASTREJABLE
+      details_with_tags_html: '%{time_ago} per %{user} a %{tags}'
+      details_without_tags_html: '%{time_ago} per %{user}'
     index:
       public_traces: Traces GPS públiques
       my_gps_traces: Les meves traces GPS
@@ -2531,6 +2549,7 @@ ca:
       oauth1_settings: Paràmetres OAuth 1
       oauth2_applications: Aplicacions OAuth 2
       oauth2_authorizations: Autoritzacions OAuth 2
+      muted_users: Usuaris silenciats
   oauth:
     authorize:
       title: Autoritzeu l'accés al vostre compte
@@ -2739,6 +2758,7 @@ ca:
       my_dashboard: El meu tauler
       blocks on me: Blocs sobre mi
       blocks by me: Blocs fets per mi
+      create_mute: Silencia aquest usuari
       edit_profile: Edita el perfil
       send message: Envia un missatge
       diary: Diari
@@ -2784,6 +2804,8 @@ ca:
     index:
       title: Usuaris
       heading: Usuaris
+      older: Usuaris més antics
+      newer: Usuaris més nous
       summary_html: '%{name} creat a partir de %{ip_address} el %{date}'
       summary_no_ip_html: '%{name} creat el %{date}'
       confirm: Confirmar usuaris seleccionats
@@ -2872,6 +2894,9 @@ ca:
       confirm: Esteu segur que voleu revocar aquest bloc?
       revoke: Revoca!
       flash: Aquest bloc ha estat revocat.
+    revoke_all:
+      revoke: Revoca
+      flash: S'han revocat tots els bloquejos actius.
     helper:
       time_future_html: Finalitza en %{time}.
       until_login: Activa fins que l'usuari es connecta.
@@ -2926,6 +2951,37 @@ ca:
       reason: Motiu del blocatge
       status: Estat
       revoker_name: Revocat per
+      older: Bloquejos més antics
+      newer: Bloquejos més nous
+    navigation:
+      all_blocks: Tots els bloquejos
+      blocks_on_me: Bloquejos a mi
+      blocks_on_user: Bloquejos a %{user}
+      blocks_by_me: Bloquejos fets per mi
+      blocks_by_user: Bloquejos fets per %{user}
+      block: 'Bloqueja #%{id}'
+  user_mutes:
+    index:
+      title: Usuaris silenciats
+      my_muted_users: Usuaris silenciats
+      you_have_muted_n_users:
+        one: Heu silenciat %{count} User
+        other: Heu silenciat %{count} usuaris
+      user_mute_explainer: Els missatges dels usuaris silenciats es mouen a una safata
+        d'entrada independent i no rebreu notificacions per correu electrònic.
+      table:
+        thead:
+          muted_user: Usuari silenciat
+          actions: Accions
+        tbody:
+          unmute: Deixar de silenciar
+          send_message: Envia un missatge
+    create:
+      notice: Heu silenciat %{name}.
+      error: No s'ha pogut silenciar %{name}. %{full_message}.
+    destroy:
+      notice: Heu deixat de silenciar %{name}.
+      error: No s'ha pogut deixar de silenciar l'usuari. Torneu-ho a provar.
   notes:
     index:
       title: Notes enviades o comentades per %{user}
@@ -2962,6 +3018,7 @@ ca:
       reactivate: Reactivar
       comment_and_resolve: Comenta i resol
       comment: Comenta
+      log_in_to_comment: Inicieu sessió per a comentar la nota
       report_link_html: Si aquesta nota conté informació delicada que cal eliminar,
         podeu %{link}.
       other_problems_resolve: Per la resta de problemes amb la nota, si us plau, resoleu-ho
@@ -3049,6 +3106,8 @@ ca:
       map_data_zoom_in_tooltip: Feu zoom per veure les dades del mapa
       queryfeature_tooltip: Consulta característiques
       queryfeature_disabled_tooltip: Apropeu-vos per a consultar característiques
+      embed_html_disabled: La incrustació d'HTML no està disponible per a aquesta
+        capa de mapa
     changesets:
       show:
         comment: Comenta

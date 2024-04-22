@@ -281,33 +281,47 @@ ru:
     distance_in_words_ago:
       about_x_hours:
         one: около часа назад
-        other: около %{count} часов назад
+        few: около %{count} часов назад
+        many: около %{count} часов назад
+        other: ""
       about_x_months:
-        one: около месяца назад
-        other: около %{count} месяцев назад
+        one: около часа назад
+        few: около %{count} часов назад
+        many: около %{count} часов назад
+        other: ""
       about_x_years:
         one: около года назад
-        other: около %{count} лет назад
+        few: около %{count} лет назад
+        many: около %{count} лет назад
+        other: ""
       almost_x_years:
         one: почти год назад
-        other: почти %{count} лет назад
+        few: почти %{count} лет назад
+        many: почти %{count} лет назад
+        other: ""
       half_a_minute: полминуты назад
       less_than_x_seconds:
         one: менее секунды назад
-        other: менее %{count} секунд назад
+        few: менее %{count} секунд назад
+        many: менее %{count} секунд назад
+        other: ""
       less_than_x_minutes:
         one: менее минуты назад
-        other: менее %{count} минут назад
+        few: менее %{count} минут назад
+        many: менее %{count} минут назад
+        other: ""
       over_x_years:
         one: более года назад
-        other: более %{count} лет назад
+        few: более %{count} лет назад
+        many: более %{count} лет назад
+        other: ""
       x_seconds:
-        one: '%{count} секунда назад'
+        one: '%{count} секунду назад'
         few: '%{count} секунды назад'
         many: '%{count} секунд назад'
         other: '%{count} секунд назад'
       x_minutes:
-        one: '%{count} минута назад'
+        one: '%{count} минуту назад'
         few: '%{count} минуты назад'
         many: '%{count} минут назад'
         other: '%{count} минут назад'
@@ -317,13 +331,15 @@ ru:
         many: '%{count} дней назад'
         other: '%{count} дней назад'
       x_months:
-        one: 1 месяц назад
+        one: '%{count} месяц назад'
         few: '%{count} месяца назад'
-        other: '%{count} месяцев назад'
+        many: '%{count} месяцев назад'
+        other: ""
       x_years:
-        one: 1 год назад
+        one: '%{count} год назад'
         few: '%{count} года назад'
-        other: '%{count} лет назад'
+        many: '%{count} лет назад'
+        other: ""
   editor:
     default: По умолчанию (назначен %{name})
     id:
@@ -352,6 +368,7 @@ ru:
         reopened_at_by_html: Переоткрыта %{when} пользователем %{user}
       rss:
         title: Заметки OpenStreetMap
+        description_all: Список созданных, прокомментированных или закрытых заметок
         description_area: Список заметок, созданных, прокомментированных или закрытых
           в вашей области [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS-поток заметки %{id}
@@ -386,6 +403,8 @@ ru:
         retain_changeset_discussions: Ваши обсуждения пакетов правок, если таковые
           имеются, будут сохранены.
         retain_email: Адрес вашей электронной почты будет сохранён.
+        recent_editing_html: Поскольку вы недавно редактировали, ваша учетная запись
+          в настоящее время не может быть удалена. Удаление будет возможно через %{time}.
         confirm_delete: Вы уверены?
         cancel: Отмена
   accounts:
@@ -418,9 +437,17 @@ ru:
       delete_account: Удалить учётную запись…
     go_public:
       heading: Общедоступная правка
+      currently_not_public: В настоящее время ваши изменения анонимны, и люди не могут
+        отправлять вам сообщения или видеть ваше местоположение. Чтобы показать, что
+        вы отредактировали, и позволить людям связаться с вами через веб-сайт, нажмите
+        кнопку ниже.
       only_public_can_edit: С момента перехода на API 0.6, только публичные пользователи
         могут редактировать данные карты.
       find_out_why: узнать почему
+      email_not_revealed: Ваш адрес электронной почты не будет раскрыт, если он станет
+        публичным.
+      not_reversible: Это действие не может быть отменено, и все новые пользователи
+        теперь являются публичными по умолчанию.
       make_edits_public_button: Сделать все мои правки доступными
     update:
       success_confirm_needed: Информация о пользователе успешно обновлена. Проверьте
@@ -429,8 +456,10 @@ ru:
     destroy:
       success: Учётная запись удалена.
   browse:
+    deleted_ago_by_html: Удален %{time_ago} пользователем %{user}
     edited_ago_by_html: Редактировал %{time_ago} %{user}
     version: Версия
+    redacted_version: Отредактированная версия
     in_changeset: Пакет правок
     anonymous: аноним
     no_comment: (комментарий отсутствует)
@@ -447,7 +476,10 @@ ru:
       other: ""
     download_xml: Скачать XML
     view_history: Посмотреть историю
+    view_unredacted_history: Просмотр неотредактированной истории
     view_details: Подробнее
+    view_redacted_data: Просмотр отредактированных данных
+    view_redaction_message: Просмотр отредактированного сообщения
     location: 'Географическое положение:'
     node:
       title_html: 'Точка: %{name}'
@@ -530,6 +562,15 @@ ru:
       introduction: Нажмите на карту, чтобы найти ближайшие объекты
       nearby: Ближайшие объекты
       enclosing: Окружающие объекты
+  old_nodes:
+    not_found:
+      sorry: 'К сожалению, узел #%{id} версии %{version} не найден.'
+  old_ways:
+    not_found:
+      sorry: 'К сожалению, путь #%{id} версии %{version} не найден.'
+  old_relations:
+    not_found:
+      sorry: 'К сожалению, отношение #%{id} версии %{version} не найдено.'
   changesets:
     changeset_paging_nav:
       showing_page: Страница %{page}
@@ -564,16 +605,34 @@ ru:
         created: Создано
         closed: Закрыто
         belongs_to: Автор
+    subscribe:
+      heading: Подписаться на следующее обсуждение пакета правок?
+      button: Подписаться на обсуждение
+    unsubscribe:
+      heading: Отписаться от следующего обсуждения пакета правок?
+      button: Отписаться от обсуждения
+    heading:
+      title: Пакет правок %{id}
+      created_by_html: Создал %{link_user} %{created}.
+    no_such_entry:
+      title: Нет такого пакета правок
+      heading: 'Нет записи с номером: %{id}'
+      body: К сожалению, пакета правок с идентификатором %{id} нет. Пожалуйста, проверьте
+        правильность написания, возможно, ссылка, по которой вы перешли, неверна.
     show:
       title: 'Пакет правок: %{id}'
+      created: 'Создан: %{when}'
+      closed: 'Закрыт: %{when}'
       created_ago_html: Создано %{time_ago}
       closed_ago_html: Закрыто %{time_ago}
       created_ago_by_html: Создал %{time_ago} %{user}
+      closed_ago_by_html: Закрыт %{time_ago} %{user}
       discussion: Обсуждение
       join_discussion: Войдите в систему, чтобы присоединиться к обсуждению
       still_open: Пакет правок ещё открыт. Обсуждение будет доступно, как только пакет
         правок будет закрыт.
       comment_by_html: Комментарий от %{user} %{time_ago}
+      hidden_comment_by_html: Скрытый комментарий от %{user} %{time_ago}
       changesetxml: XML пакета правок
       osmchangexml: osmChange XML
     paging_nav:
@@ -646,6 +705,7 @@ ru:
     show:
       title: Дневник пользователя %{user} | %{title}
       user_title: Дневник пользователя %{user}
+      discussion: Обсуждение
       leave_a_comment: Оставить комментарий
       login_to_leave_a_comment_html: '%{login_link}, чтобы оставить комментарий'
       login: Войти
@@ -660,10 +720,10 @@ ru:
       comment_link: Оставить комментарий
       reply_link: Написать автору
       comment_count:
-        few: '%{count} комментария'
         one: '%{count} комментарий'
-        zero: Нет комментариев
-        other: '%{count} комментариев'
+        few: '%{count} комментария'
+        many: '%{count} комментариев'
+        other: ""
       no_comments: Нет комментариев
       edit_link: Изменить запись
       hide_link: Скрыть эту запись
@@ -702,7 +762,17 @@ ru:
       comment: Комментарий
       newer_comments: Более новые комментарии
       older_comments: Более старые комментарии
+    subscribe:
+      heading: Подписаться на обсуждение следующей записи в дневнике?
+      button: Подписаться на обсуждение
+    unsubscribe:
+      heading: Отписаться от обсуждения следующей записи в дневнике?
+      button: Отписаться от обсуждения
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Сервер авторизации требует выбора учетной записи
+          конечного пользователя.
     flash:
       applications:
         create:
@@ -989,6 +1059,7 @@ ru:
           cycleway: Велодорожка
           elevator: Лифт
           emergency_access_point: Пункт первой помощи
+          emergency_bay: Аварийная стоянка
           footway: Тротуар
           ford: Брод
           give_way: Знак "Уступи дорогу"
@@ -1031,17 +1102,20 @@ ru:
         historic:
           aircraft: Историческое воздушное судно
           archaeological_site: Раскопки
+          bomb_crater: Исторический кратер от бомбы
           battlefield: Поле боя
           boundary_stone: Пограничный камень
           building: Историческое здание
           bunker: Бункер
           cannon: Историческая пушка
           castle: Крепость
+          charcoal_pile: Историческая груда древесного угля
           church: Церковь
           city_gate: Городские ворота
           citywalls: Исторические укрепления
           fort: Форт
           heritage: Объект культурного наследия
+          hollow_way: Путь в нише
           house: Дом
           manor: Поместье
           memorial: Памятник
@@ -1088,6 +1162,7 @@ ru:
           quarry: Карьер
           railway: Железная дорога
           recreation_ground: Зона отдыха
+          religious: Религиозная территория
           reservoir: Водохранилище
           reservoir_watershed: Водораздел водохранилища
           residential: Жилой район
@@ -1693,6 +1768,11 @@ ru:
       subject: '[OpenStreetMap] Сбой импорта GPX'
     gpx_success:
       hi: Здравствуйте, %{to_user},
+      loaded:
+        one: успешно загружена %{trace_points} точка из %{count} возможной.
+        few: успешно загружены %{trace_points} точки из %{count} возможных.
+        many: успешно загружено %{trace_points} точек из %{count} возможных.
+        other: ""
       subject: '[OpenStreetMap] Импорт GPX прошёл успешно'
     signup_confirm:
       subject: '[OpenStreetMap] Добро пожаловать в OpenStreetMap'
@@ -2116,7 +2196,12 @@ ru:
         contributors_cz_czechia: Чехия
         contributors_fi_finland: Финляндия
         contributors_fr_france: Франция
+        contributors_hr_credit_html: |-
+          %{croatia}: Содержит данные из %{dgu_link} и %{open_data_portal}
+          (публичная информация Хорватии).
         contributors_hr_croatia: Хорватия
+        contributors_hr_dgu: Государственное геодезическое управление Хорватии
+        contributors_hr_open_data_portal: Национальный портал открытых данных
         contributors_nl_netherlands: Нидерланды
         contributors_nz_new_zealand: Новая Зеландия
         contributors_nz_cc_by: CC BY 4.0
@@ -2488,10 +2573,8 @@ ru:
       newer: Более новые треки
     trace:
       pending: ОБРАБАТЫВАЕТСЯ
-      count_points:
-        one: 1 точка
-        few: '%{count} точки'
-        other: '%{count} точек'
+      count_points: '{{PLURAL|one=1 точка|few=%{count} точки|many=%{count} точек|%{count}
+        точек}'
       more: подробнее
       trace_details: Показать данные трека
       view_map: Просмотр карты
