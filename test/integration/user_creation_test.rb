@@ -366,7 +366,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_google_success
     new_email = "newtester-google@osm.org"
-    verified_email = UsersController.message_hmac(new_email)
+    email_hmac = UsersController.message_hmac(new_email)
     display_name = "new_tester-google"
     auth_uid = "123454321"
 
@@ -382,7 +382,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => new_email, :verified_email => verified_email,
+                               :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "google", :auth_uid => auth_uid
           follow_redirect!
 
@@ -392,7 +392,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "google",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" },
-                            :verified_email => verified_email }
+                            :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -420,7 +420,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_redirected_to auth_success_path(:provider => "google")
     follow_redirect!
     assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => dup_user.email,
-                         :verified_email => UsersController.message_hmac(dup_user.email),
+                         :email_hmac => UsersController.message_hmac(dup_user.email),
                          :auth_provider => "google", :auth_uid => auth_uid
     follow_redirect!
 
@@ -452,7 +452,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_google_redirect
     orig_email = "redirect_tester_google_orig@google.com"
-    verified_email = UsersController.message_hmac(orig_email)
+    email_hmac = UsersController.message_hmac(orig_email)
     new_email =  "redirect_tester_google@osm.org"
     display_name = "redirect_tester_google"
     auth_uid = "123454321"
@@ -469,12 +469,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => orig_email, :verified_email => verified_email,
+                               :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "google", :auth_uid => auth_uid
           follow_redirect!
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :verified_email => verified_email,
+                                       :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "google",
                                        :auth_uid => auth_uid,
@@ -516,7 +516,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_facebook_success
     new_email = "newtester-facebook@osm.org"
-    verified_email = UsersController.message_hmac(new_email)
+    email_hmac = UsersController.message_hmac(new_email)
     display_name = "new_tester-facebook"
     auth_uid = "123454321"
 
@@ -531,7 +531,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => new_email, :verified_email => verified_email,
+                               :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "facebook", :auth_uid => auth_uid
           follow_redirect!
 
@@ -541,7 +541,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "facebook",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" },
-                            :verified_email => verified_email }
+                            :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -568,7 +568,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_redirected_to auth_success_path(:provider => "facebook")
     follow_redirect!
     assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => dup_user.email,
-                         :verified_email => UsersController.message_hmac(dup_user.email),
+                         :email_hmac => UsersController.message_hmac(dup_user.email),
                          :auth_provider => "facebook", :auth_uid => auth_uid
     follow_redirect!
 
@@ -600,7 +600,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_facebook_redirect
     orig_email = "redirect_tester_facebook_orig@osm.org"
-    verified_email = UsersController.message_hmac(orig_email)
+    email_hmac = UsersController.message_hmac(orig_email)
     new_email = "redirect_tester_facebook@osm.org"
     display_name = "redirect_tester_facebook"
     auth_uid = "123454321"
@@ -617,13 +617,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => orig_email, :verified_email => verified_email,
+                               :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "facebook", :auth_uid => auth_uid
           follow_redirect!
 
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :verified_email => verified_email,
+                                       :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "facebook",
                                        :auth_uid => auth_uid,
@@ -665,7 +665,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_microsoft_success
     new_email = "newtester-microsoft@osm.org"
-    verified_email = UsersController.message_hmac(new_email)
+    email_hmac = UsersController.message_hmac(new_email)
     display_name = "new_tester-microsoft"
     auth_uid = "123454321"
 
@@ -680,7 +680,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "microsoft")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => new_email, :verified_email => verified_email,
+                               :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "microsoft", :auth_uid => auth_uid
           follow_redirect!
           post "/user/new",
@@ -689,7 +689,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "microsoft",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" },
-                            :verified_email => verified_email }
+                            :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -716,7 +716,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_redirected_to auth_success_path(:provider => "microsoft")
     follow_redirect!
     assert_redirected_to :controller => :users, :action => "new", :nickname => display_name, :email => dup_user.email,
-                         :verified_email => UsersController.message_hmac(dup_user.email),
+                         :email_hmac => UsersController.message_hmac(dup_user.email),
                          :auth_provider => "microsoft", :auth_uid => auth_uid
     follow_redirect!
 
@@ -748,7 +748,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_microsoft_redirect
     orig_email = "redirect_tester_microsoft_orig@osm.org"
-    verified_email = UsersController.message_hmac(orig_email)
+    email_hmac = UsersController.message_hmac(orig_email)
     new_email = "redirect_tester_microsoft@osm.org"
     display_name = "redirect_tester_microsoft"
     auth_uid = "123454321"
@@ -764,13 +764,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "microsoft")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => orig_email, :verified_email => verified_email,
+                               :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "microsoft", :auth_uid => auth_uid
           follow_redirect!
 
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :verified_email => verified_email,
+                                       :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "microsoft",
                                        :auth_uid => auth_uid,
@@ -812,7 +812,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_github_success
     new_email = "newtester-github@osm.org"
-    verified_email = UsersController.message_hmac(new_email)
+    email_hmac = UsersController.message_hmac(new_email)
     display_name = "new_tester-github"
     password = "testtest"
     auth_uid = "123454321"
@@ -828,7 +828,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => new_email, :verified_email => verified_email,
+                               :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "github", :auth_uid => auth_uid
           follow_redirect!
 
@@ -841,7 +841,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => password },
                             :read_ct => 1,
                             :read_tou => 1,
-                            :verified_email => verified_email }
+                            :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -869,7 +869,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_redirected_to auth_success_path(:provider => "github")
     follow_redirect!
     assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                         :email => dup_user.email, :verified_email => UsersController.message_hmac(dup_user.email),
+                         :email => dup_user.email, :email_hmac => UsersController.message_hmac(dup_user.email),
                          :auth_provider => "github", :auth_uid => auth_uid
     follow_redirect!
 
@@ -900,7 +900,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_github_redirect
     orig_email = "redirect_tester_github_orig@osm.org"
-    verified_email = UsersController.message_hmac(orig_email)
+    email_hmac = UsersController.message_hmac(orig_email)
     new_email = "redirect_tester_github@osm.org"
     display_name = "redirect_tester_github"
     auth_uid = "123454321"
@@ -916,12 +916,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => orig_email, :verified_email => verified_email,
+                               :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "github", :auth_uid => auth_uid
           follow_redirect!
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :verified_email => verified_email,
+                                       :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "github",
                                        :auth_uid => auth_uid,
@@ -963,7 +963,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_wikipedia_success
     new_email = "newtester-wikipedia@osm.org"
-    verified_email = UsersController.message_hmac(new_email)
+    email_hmac = UsersController.message_hmac(new_email)
     display_name = "new_tester-wikipedia"
     password = "testtest"
     auth_uid = "123454321"
@@ -979,7 +979,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => new_email, :verified_email => verified_email,
+                               :email => new_email, :email_hmac => email_hmac,
                                :auth_provider => "wikipedia", :auth_uid => auth_uid
           follow_redirect!
           post "/user/new",
@@ -991,7 +991,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :pass_crypt_confirmation => password },
                             :read_ct => 1,
                             :read_tou => 1,
-                            :verified_email => verified_email }
+                            :email_hmac => email_hmac }
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -1016,7 +1016,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
     follow_redirect!
     assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                         :email => dup_user.email, :verified_email => UsersController.message_hmac(dup_user.email),
+                         :email => dup_user.email, :email_hmac => UsersController.message_hmac(dup_user.email),
                          :auth_provider => "wikipedia", :auth_uid => auth_uid
     follow_redirect!
 
@@ -1048,7 +1048,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_wikipedia_redirect
     orig_email = "redirect_tester_wikipedia_orig@osm.org"
-    verified_email = UsersController.message_hmac(orig_email)
+    email_hmac = UsersController.message_hmac(orig_email)
     new_email = "redirect_tester_wikipedia@osm.org"
     display_name = "redirect_tester_wikipedia"
     auth_uid = "123454321"
@@ -1065,13 +1065,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
           assert_redirected_to :controller => :users, :action => "new", :nickname => display_name,
-                               :email => orig_email, :verified_email => verified_email,
+                               :email => orig_email, :email_hmac => email_hmac,
                                :auth_provider => "wikipedia", :auth_uid => auth_uid
           follow_redirect!
 
           post "/user/new",
                :params => { :user => { :email => new_email,
-                                       :verified_email => verified_email,
+                                       :email_hmac => email_hmac,
                                        :display_name => display_name,
                                        :auth_provider => "wikipedia",
                                        :auth_uid => auth_uid,

@@ -43,11 +43,11 @@
 
   <%= bootstrap_form_for current_user, :url => { :action => "create" } do |f| %>
     <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
-    <%= hidden_field_tag("verified_email", h(@verified_email)) unless @verified_email.nil? %>
+    <%= hidden_field_tag("email_hmac", h(@email_hmac)) unless @email_hmac.nil? %>
     <%= f.hidden_field :auth_provider unless current_user.auth_provider.nil? %>
     <%= f.hidden_field :auth_uid unless current_user.auth_uid.nil? %>
 
-    <% if current_user.auth_uid.nil? or @verified_email.nil? or not current_user.errors[:email].empty? %>
+    <% if current_user.auth_uid.nil? or @email_hmac.nil? or not current_user.errors[:email].empty? %>
       <%= f.email_field :email, :help => t(".email_help_html",
                                            :privacy_policy_link => link_to(t(".privacy_policy"),
                                                                            t(".privacy_policy_url"),

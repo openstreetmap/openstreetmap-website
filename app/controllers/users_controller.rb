@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       # page, instead send them to the home page
       redirect_to @referer || { :controller => "site", :action => "index" }
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
-      @verified_email = params[:verified_email]
+      @email_hmac = params[:email_hmac]
 
       self.current_user = User.new(:email => params[:email],
                                    :display_name => params[:nickname],
@@ -109,7 +109,7 @@ class UsersController < ApplicationController
         render :action => "new"
       else
         # Save the user record
-        save_new_user params[:verified_email]
+        save_new_user params[:email_hmac]
       end
     end
   end
@@ -243,8 +243,8 @@ class UsersController < ApplicationController
           failed_login t("sessions.new.auth failure")
         end
       else
-        verified_email = UsersController.message_hmac(email) if email_verified && email
-        redirect_to :action => "new", :nickname => name, :email => email, :verified_email => verified_email,
+        email_hmac = UsersController.message_hmac(email) if email_verified && email
+        redirect_to :action => "new", :nickname => name, :email => email, :email_hmac => email_hmac,
                     :auth_provider => provider, :auth_uid => uid
       end
     end
@@ -262,7 +262,7 @@ class UsersController < ApplicationController
 
   def self.message_hmac(text)
     sha256 = Digest::SHA256.new
-    sha256 << Rails.application.key_generator.generate_key("openstreetmap/verified_email")
+    sha256 << Rails.application.key_generator.generate_key("openstreetmap/email_address")
     sha256 << text
     Base64.urlsafe_encode64(sha256.digest)
   end
