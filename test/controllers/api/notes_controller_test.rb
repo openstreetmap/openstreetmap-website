@@ -219,15 +219,15 @@ module Api
       second_user = create(:user)
       third_user = create(:user)
 
-      note_with_comments_by_users = create(:note, :author => first_user)
-      create(:note_comment, :note => note_with_comments_by_users, :author => second_user)
+      note = create(:note, :author => first_user)
+      create(:note_comment, :note => note, :author => second_user)
 
       auth_header = bearer_authorization_header third_user
 
       assert_difference "NoteComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 2 do
           perform_enqueued_jobs do
-            post comment_api_note_path(note_with_comments_by_users, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+            post comment_api_note_path(note, :text => "This is an additional comment", :format => "json"), :headers => auth_header
           end
         end
       end
@@ -235,7 +235,7 @@ module Api
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "Feature", js["type"]
-      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal note.id, js["properties"]["id"]
       assert_equal "open", js["properties"]["status"]
       assert_equal 3, js["properties"]["comments"].count
       assert_equal "commented", js["properties"]["comments"].last["action"]
@@ -253,12 +253,12 @@ module Api
       assert_equal 1, email.to.length
       assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on a note you are interested in", email.subject
 
-      get api_note_path(note_with_comments_by_users, :format => "json")
+      get api_note_path(note, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal "Feature", js["type"]
-      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal note.id, js["properties"]["id"]
       assert_equal "open", js["properties"]["status"]
       assert_equal 3, js["properties"]["comments"].count
       assert_equal "commented", js["properties"]["comments"].last["action"]
