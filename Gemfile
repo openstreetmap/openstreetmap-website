@@ -28,8 +28,8 @@ gem "jbuilder", "~> 2.7"
 gem "bootsnap", ">= 1.4.2", :require => false
 
 # Use rtlcss for RTL conversion
-gem "rtlcss"
 gem "mini_racer", "~> 0.9.0"
+gem "rtlcss"
 
 # Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
