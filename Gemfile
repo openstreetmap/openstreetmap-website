@@ -29,6 +29,7 @@ gem "bootsnap", ">= 1.4.2", :require => false
 
 # Use rtlcss for RTL conversion
 gem "rtlcss"
+gem "mini_racer", "~> 0.9.0"
 
 # Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
