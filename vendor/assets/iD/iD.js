@@ -15297,15 +15297,12 @@
     osmInferRestriction: () => osmInferRestriction,
     osmIntersection: () => osmIntersection,
     osmIsInterestingTag: () => osmIsInterestingTag,
-    osmIsOldMultipolygonOuterMember: () => osmIsOldMultipolygonOuterMember,
     osmJoinWays: () => osmJoinWays,
     osmLanes: () => osmLanes,
     osmLifecyclePrefixes: () => osmLifecyclePrefixes,
     osmNode: () => osmNode,
     osmNodeGeometriesForTags: () => osmNodeGeometriesForTags,
     osmNote: () => osmNote,
-    osmOldMultipolygonOuterMember: () => osmOldMultipolygonOuterMember,
-    osmOldMultipolygonOuterMemberOfRelation: () => osmOldMultipolygonOuterMemberOfRelation,
     osmOneWayTags: () => osmOneWayTags,
     osmPavedTags: () => osmPavedTags,
     osmPointTags: () => osmPointTags,
@@ -15752,277 +15749,6 @@
     };
     return action;
   }
-
-  // modules/osm/tags.js
-  function osmIsInterestingTag(key) {
-    return key !== "attribution" && key !== "created_by" && key !== "source" && key !== "odbl" && key.indexOf("source:") !== 0 && key.indexOf("source_ref") !== 0 && // purposely exclude colon
-    key.indexOf("tiger:") !== 0;
-  }
-  var osmLifecyclePrefixes = {
-    // nonexistent, might be built
-    proposed: true,
-    planned: true,
-    // under maintentance or between groundbreaking and opening
-    construction: true,
-    // existent but not functional
-    disused: true,
-    // dilapidated to nonexistent
-    abandoned: true,
-    was: true,
-    // nonexistent, still may appear in imagery
-    dismantled: true,
-    razed: true,
-    demolished: true,
-    destroyed: true,
-    removed: true,
-    obliterated: true,
-    // existent occasionally, e.g. stormwater drainage basin
-    intermittent: true
-  };
-  function osmRemoveLifecyclePrefix(key) {
-    const keySegments = key.split(":");
-    if (keySegments.length === 1)
-      return key;
-    if (keySegments[0] in osmLifecyclePrefixes) {
-      return key.slice(keySegments[0].length + 1);
-    }
-    return key;
-  }
-  var osmAreaKeys = {};
-  function osmSetAreaKeys(value) {
-    osmAreaKeys = value;
-  }
-  var osmAreaKeysExceptions = {
-    highway: {
-      elevator: true,
-      rest_area: true,
-      services: true
-    },
-    public_transport: {
-      platform: true
-    },
-    railway: {
-      platform: true,
-      roundhouse: true,
-      station: true,
-      traverser: true,
-      turntable: true,
-      wash: true
-    },
-    waterway: {
-      dam: true
-    }
-  };
-  function osmTagSuggestingArea(tags) {
-    if (tags.area === "yes")
-      return { area: "yes" };
-    if (tags.area === "no")
-      return null;
-    var returnTags = {};
-    for (var realKey in tags) {
-      const key = osmRemoveLifecyclePrefix(realKey);
-      if (key in osmAreaKeys && !(tags[realKey] in osmAreaKeys[key])) {
-        returnTags[realKey] = tags[realKey];
-        return returnTags;
-      }
-      if (key in osmAreaKeysExceptions && tags[realKey] in osmAreaKeysExceptions[key]) {
-        returnTags[realKey] = tags[realKey];
-        return returnTags;
-      }
-    }
-    return null;
-  }
-  var osmLineTags = {};
-  function osmSetLineTags(value) {
-    osmLineTags = value;
-  }
-  var osmPointTags = {};
-  function osmSetPointTags(value) {
-    osmPointTags = value;
-  }
-  var osmVertexTags = {};
-  function osmSetVertexTags(value) {
-    osmVertexTags = value;
-  }
-  function osmNodeGeometriesForTags(nodeTags) {
-    var geometries = {};
-    for (var key in nodeTags) {
-      if (osmPointTags[key] && (osmPointTags[key]["*"] || osmPointTags[key][nodeTags[key]])) {
-        geometries.point = true;
-      }
-      if (osmVertexTags[key] && (osmVertexTags[key]["*"] || osmVertexTags[key][nodeTags[key]])) {
-        geometries.vertex = true;
-      }
-      if (geometries.point && geometries.vertex)
-        break;
-    }
-    return geometries;
-  }
-  var osmOneWayTags = {
-    "aerialway": {
-      "chair_lift": true,
-      "drag_lift": true,
-      "j-bar": true,
-      "magic_carpet": true,
-      "mixed_lift": true,
-      "platter": true,
-      "rope_tow": true,
-      "t-bar": true,
-      "zip_line": true
-    },
-    "highway": {
-      "motorway": true
-    },
-    "junction": {
-      "circular": true,
-      "roundabout": true
-    },
-    "man_made": {
-      "goods_conveyor": true,
-      "piste:halfpipe": true
-    },
-    "piste:type": {
-      "downhill": true,
-      "sled": true,
-      "yes": true
-    },
-    "seamark:type": {
-      "two-way_route": true,
-      "recommended_traffic_lane": true,
-      "separation_lane": true,
-      "separation_roundabout": true
-    },
-    "waterway": {
-      "canal": true,
-      "ditch": true,
-      "drain": true,
-      "fish_pass": true,
-      "pressurised": true,
-      "river": true,
-      "spillway": true,
-      "stream": true,
-      "tidal_channel": true
-    }
-  };
-  var osmPavedTags = {
-    "surface": {
-      "paved": true,
-      "asphalt": true,
-      "concrete": true,
-      "chipseal": true,
-      "concrete:lanes": true,
-      "concrete:plates": true
-    },
-    "tracktype": {
-      "grade1": true
-    }
-  };
-  var osmSemipavedTags = {
-    "surface": {
-      "cobblestone": true,
-      "cobblestone:flattened": true,
-      "unhewn_cobblestone": true,
-      "sett": true,
-      "paving_stones": true,
-      "metal": true,
-      "wood": true
-    }
-  };
-  var osmRightSideIsInsideTags = {
-    "natural": {
-      "cliff": true,
-      "coastline": "coastline"
-    },
-    "barrier": {
-      "retaining_wall": true,
-      "kerb": true,
-      "guard_rail": true,
-      "city_wall": true
-    },
-    "man_made": {
-      "embankment": true,
-      "quay": true
-    },
-    "waterway": {
-      "weir": true
-    }
-  };
-  var osmRoutableHighwayTagValues = {
-    motorway: true,
-    trunk: true,
-    primary: true,
-    secondary: true,
-    tertiary: true,
-    residential: true,
-    motorway_link: true,
-    trunk_link: true,
-    primary_link: true,
-    secondary_link: true,
-    tertiary_link: true,
-    unclassified: true,
-    road: true,
-    service: true,
-    track: true,
-    living_street: true,
-    bus_guideway: true,
-    busway: true,
-    path: true,
-    footway: true,
-    cycleway: true,
-    bridleway: true,
-    pedestrian: true,
-    corridor: true,
-    steps: true
-  };
-  var osmPathHighwayTagValues = {
-    path: true,
-    footway: true,
-    cycleway: true,
-    bridleway: true,
-    pedestrian: true,
-    corridor: true,
-    steps: true
-  };
-  var osmRailwayTrackTagValues = {
-    rail: true,
-    light_rail: true,
-    tram: true,
-    subway: true,
-    monorail: true,
-    funicular: true,
-    miniature: true,
-    narrow_gauge: true,
-    disused: true,
-    preserved: true
-  };
-  var osmFlowingWaterwayTagValues = {
-    canal: true,
-    ditch: true,
-    drain: true,
-    fish_pass: true,
-    river: true,
-    stream: true,
-    tidal_channel: true
-  };
-  var allowUpperCaseTagValues = /network|taxon|genus|species|brand|grape_variety|royal_cypher|listed_status|booth|rating|stars|:output|_hours|_times|_ref|manufacturer|country|target|brewery|cai_scale|traffic_sign/;
-  function isColourValid(value) {
-    if (!value.match(/^(#([0-9a-fA-F]{3}){1,2}|\w+)$/)) {
-      return false;
-    }
-    if (!CSS.supports("color", value) || ["unset", "inherit", "initial", "revert"].includes(value)) {
-      return false;
-    }
-    return true;
-  }
-  var osmMutuallyExclusiveTagPairs = [
-    ["noname", "name"],
-    ["noref", "ref"],
-    ["nohousenumber", "addr:housenumber"],
-    ["noaddress", "addr:housenumber"],
-    ["noaddress", "addr:housename"],
-    ["noaddress", "addr:unit"],
-    ["addr:nostreet", "addr:street"]
-  ];
 
   // node_modules/d3-array/src/ascending.js
   function ascending(a2, b2) {
@@ -22099,6 +21825,280 @@
     return score;
   }
 
+  // modules/osm/tags.js
+  function osmIsInterestingTag(key) {
+    return key !== "attribution" && key !== "created_by" && key !== "source" && key !== "odbl" && key.indexOf("source:") !== 0 && key.indexOf("source_ref") !== 0 && // purposely exclude colon
+    key.indexOf("tiger:") !== 0;
+  }
+  var osmLifecyclePrefixes = {
+    // nonexistent, might be built
+    proposed: true,
+    planned: true,
+    // under maintentance or between groundbreaking and opening
+    construction: true,
+    // existent but not functional
+    disused: true,
+    // dilapidated to nonexistent
+    abandoned: true,
+    was: true,
+    // nonexistent, still may appear in imagery
+    dismantled: true,
+    razed: true,
+    demolished: true,
+    destroyed: true,
+    removed: true,
+    obliterated: true,
+    // existent occasionally, e.g. stormwater drainage basin
+    intermittent: true
+  };
+  function osmRemoveLifecyclePrefix(key) {
+    const keySegments = key.split(":");
+    if (keySegments.length === 1)
+      return key;
+    if (keySegments[0] in osmLifecyclePrefixes) {
+      return key.slice(keySegments[0].length + 1);
+    }
+    return key;
+  }
+  var osmAreaKeys = {};
+  function osmSetAreaKeys(value) {
+    osmAreaKeys = value;
+  }
+  var osmAreaKeysExceptions = {
+    highway: {
+      elevator: true,
+      rest_area: true,
+      services: true
+    },
+    public_transport: {
+      platform: true
+    },
+    railway: {
+      platform: true,
+      roundhouse: true,
+      station: true,
+      traverser: true,
+      turntable: true,
+      wash: true
+    },
+    waterway: {
+      dam: true
+    },
+    amenity: {
+      bicycle_parking: true
+    }
+  };
+  function osmTagSuggestingArea(tags) {
+    if (tags.area === "yes")
+      return { area: "yes" };
+    if (tags.area === "no")
+      return null;
+    var returnTags = {};
+    for (var realKey in tags) {
+      const key = osmRemoveLifecyclePrefix(realKey);
+      if (key in osmAreaKeys && !(tags[realKey] in osmAreaKeys[key])) {
+        returnTags[realKey] = tags[realKey];
+        return returnTags;
+      }
+      if (key in osmAreaKeysExceptions && tags[realKey] in osmAreaKeysExceptions[key]) {
+        returnTags[realKey] = tags[realKey];
+        return returnTags;
+      }
+    }
+    return null;
+  }
+  var osmLineTags = {};
+  function osmSetLineTags(value) {
+    osmLineTags = value;
+  }
+  var osmPointTags = {};
+  function osmSetPointTags(value) {
+    osmPointTags = value;
+  }
+  var osmVertexTags = {};
+  function osmSetVertexTags(value) {
+    osmVertexTags = value;
+  }
+  function osmNodeGeometriesForTags(nodeTags) {
+    var geometries = {};
+    for (var key in nodeTags) {
+      if (osmPointTags[key] && (osmPointTags[key]["*"] || osmPointTags[key][nodeTags[key]])) {
+        geometries.point = true;
+      }
+      if (osmVertexTags[key] && (osmVertexTags[key]["*"] || osmVertexTags[key][nodeTags[key]])) {
+        geometries.vertex = true;
+      }
+      if (geometries.point && geometries.vertex)
+        break;
+    }
+    return geometries;
+  }
+  var osmOneWayTags = {
+    "aerialway": {
+      "chair_lift": true,
+      "drag_lift": true,
+      "j-bar": true,
+      "magic_carpet": true,
+      "mixed_lift": true,
+      "platter": true,
+      "rope_tow": true,
+      "t-bar": true,
+      "zip_line": true
+    },
+    "highway": {
+      "motorway": true
+    },
+    "junction": {
+      "circular": true,
+      "roundabout": true
+    },
+    "man_made": {
+      "goods_conveyor": true,
+      "piste:halfpipe": true
+    },
+    "piste:type": {
+      "downhill": true,
+      "sled": true,
+      "yes": true
+    },
+    "seamark:type": {
+      "two-way_route": true,
+      "recommended_traffic_lane": true,
+      "separation_lane": true,
+      "separation_roundabout": true
+    },
+    "waterway": {
+      "canal": true,
+      "ditch": true,
+      "drain": true,
+      "fish_pass": true,
+      "pressurised": true,
+      "river": true,
+      "spillway": true,
+      "stream": true,
+      "tidal_channel": true
+    }
+  };
+  var osmPavedTags = {
+    "surface": {
+      "paved": true,
+      "asphalt": true,
+      "concrete": true,
+      "chipseal": true,
+      "concrete:lanes": true,
+      "concrete:plates": true
+    },
+    "tracktype": {
+      "grade1": true
+    }
+  };
+  var osmSemipavedTags = {
+    "surface": {
+      "cobblestone": true,
+      "cobblestone:flattened": true,
+      "unhewn_cobblestone": true,
+      "sett": true,
+      "paving_stones": true,
+      "metal": true,
+      "wood": true
+    }
+  };
+  var osmRightSideIsInsideTags = {
+    "natural": {
+      "cliff": true,
+      "coastline": "coastline"
+    },
+    "barrier": {
+      "retaining_wall": true,
+      "kerb": true,
+      "guard_rail": true,
+      "city_wall": true
+    },
+    "man_made": {
+      "embankment": true,
+      "quay": true
+    },
+    "waterway": {
+      "weir": true
+    }
+  };
+  var osmRoutableHighwayTagValues = {
+    motorway: true,
+    trunk: true,
+    primary: true,
+    secondary: true,
+    tertiary: true,
+    residential: true,
+    motorway_link: true,
+    trunk_link: true,
+    primary_link: true,
+    secondary_link: true,
+    tertiary_link: true,
+    unclassified: true,
+    road: true,
+    service: true,
+    track: true,
+    living_street: true,
+    bus_guideway: true,
+    busway: true,
+    path: true,
+    footway: true,
+    cycleway: true,
+    bridleway: true,
+    pedestrian: true,
+    corridor: true,
+    steps: true
+  };
+  var osmPathHighwayTagValues = {
+    path: true,
+    footway: true,
+    cycleway: true,
+    bridleway: true,
+    pedestrian: true,
+    corridor: true,
+    steps: true
+  };
+  var osmRailwayTrackTagValues = {
+    rail: true,
+    light_rail: true,
+    tram: true,
+    subway: true,
+    monorail: true,
+    funicular: true,
+    miniature: true,
+    narrow_gauge: true,
+    disused: true,
+    preserved: true
+  };
+  var osmFlowingWaterwayTagValues = {
+    canal: true,
+    ditch: true,
+    drain: true,
+    fish_pass: true,
+    river: true,
+    stream: true,
+    tidal_channel: true
+  };
+  var allowUpperCaseTagValues = /network|taxon|genus|species|brand|grape_variety|royal_cypher|listed_status|booth|rating|stars|:output|_hours|_times|_ref|manufacturer|country|target|brewery|cai_scale|traffic_sign/;
+  function isColourValid(value) {
+    if (!value.match(/^(#([0-9a-fA-F]{3}){1,2}|\w+)$/)) {
+      return false;
+    }
+    if (!CSS.supports("color", value) || ["unset", "inherit", "initial", "revert"].includes(value)) {
+      return false;
+    }
+    return true;
+  }
+  var osmMutuallyExclusiveTagPairs = [
+    ["noname", "name"],
+    ["noref", "ref"],
+    ["nohousenumber", "addr:housenumber"],
+    ["noaddress", "addr:housenumber"],
+    ["noaddress", "addr:housename"],
+    ["noaddress", "addr:unit"],
+    ["addr:nostreet", "addr:street"]
+  ];
+
   // modules/util/array.js
   function utilArrayIdentical(a2, b2) {
     if (a2 === b2)
@@ -22212,7 +22212,7 @@
   var _storage;
   try {
     _storage = localStorage;
-  } catch (e3) {
+  } catch {
   }
   _storage = _storage || /* @__PURE__ */ (() => {
     let s2 = {};
@@ -22235,7 +22235,7 @@
         _listeners[k2].forEach((handler) => handler(v2));
       }
       return true;
-    } catch (e3) {
+    } catch {
       if (typeof console !== "undefined") {
         console.error("localStorage quota exceeded");
       }
@@ -22289,7 +22289,7 @@
   // package.json
   var package_default = {
     name: "iD",
-    version: "2.28.1",
+    version: "2.29.0",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
     repository: "github:openstreetmap/iD",
@@ -22322,8 +22322,8 @@
       "dist:svg:roentgen": 'svg-sprite --shape-id-generator "roentgen-%s" --shape-dim-width 16 --shape-dim-height 16 --symbol --symbol-dest . --symbol-sprite dist/img/roentgen-sprite.svg svg/roentgen/*.svg',
       "dist:svg:temaki": 'svg-sprite --symbol --symbol-dest . --shape-id-generator "temaki-%s" --symbol-sprite dist/img/temaki-sprite.svg node_modules/@rapideditor/temaki/icons/*.svg',
       imagery: "node scripts/update_imagery.js",
-      lint: "eslint config scripts test/spec modules --ext js,mjs",
-      "lint:fix": "eslint scripts test/spec modules --fix",
+      lint: "eslint config scripts test/spec modules -c config/eslint.config.mjs",
+      "lint:fix": "eslint scripts test/spec modules -c config/eslint.config.mjs --fix",
       start: "run-s start:watch",
       "start:single-build": "run-p build:js start:server",
       "start:watch": "run-p build:js:watch start:server",
@@ -22344,13 +22344,13 @@
       "abortcontroller-polyfill": "^1.7.5",
       "aes-js": "^3.1.2",
       "alif-toolkit": "^1.2.9",
-      "core-js-bundle": "^3.36.0",
+      "core-js-bundle": "^3.37.0",
       diacritics: "1.3.0",
       exifr: "^7.1.3",
       "fast-deep-equal": "~3.1.1",
       "fast-json-stable-stringify": "2.1.0",
       "lodash-es": "~4.17.15",
-      marked: "~12.0.0",
+      marked: "~12.0.2",
       "node-diff3": "~3.1.0",
       "osm-auth": "~2.4.0",
       pannellum: "2.5.6",
@@ -22361,32 +22361,32 @@
       "which-polygon": "2.2.1"
     },
     devDependencies: {
-      "@fortawesome/fontawesome-svg-core": "~6.5.1",
-      "@fortawesome/free-brands-svg-icons": "~6.5.1",
-      "@fortawesome/free-regular-svg-icons": "~6.5.1",
-      "@fortawesome/free-solid-svg-icons": "~6.5.1",
+      "@fortawesome/fontawesome-svg-core": "~6.5.2",
+      "@fortawesome/free-brands-svg-icons": "~6.5.2",
+      "@fortawesome/free-regular-svg-icons": "~6.5.2",
+      "@fortawesome/free-solid-svg-icons": "~6.5.2",
       "@mapbox/maki": "^8.0.1",
-      "@openstreetmap/id-tagging-schema": "^6.6.0",
+      "@openstreetmap/id-tagging-schema": "^6.7.3",
       "@rapideditor/mapillary_sprite_source": "^1.8.0",
-      "@rapideditor/temaki": "^5.7.0",
+      "@rapideditor/temaki": "^5.8.0",
       "@transifex/api": "^7.1.0",
-      autoprefixer: "^10.4.17",
+      autoprefixer: "^10.4.19",
       browserslist: "^4.23.0",
       "browserslist-to-esbuild": "^2.1.1",
       chai: "^4.4.1",
       chalk: "^4.1.2",
-      "cldr-core": "^44.0.1",
-      "cldr-localenames-full": "^44.1.0",
+      "cldr-core": "^45.0.0",
+      "cldr-localenames-full": "^45.0.0",
       "concat-files": "^0.1.1",
-      d3: "~7.8.5",
+      d3: "~7.9.0",
       dotenv: "^16.4.5",
       "editor-layer-index": "github:osmlab/editor-layer-index#gh-pages",
-      esbuild: "^0.20.1",
+      esbuild: "^0.20.2",
       "esbuild-visualizer": "^0.6.0",
-      eslint: "^8.57.0",
+      eslint: "^9.1.1",
       "fetch-mock": "^9.11.0",
       gaze: "^1.1.3",
-      glob: "^10.3.10",
+      glob: "^10.3.12",
       happen: "^0.3.2",
       "js-yaml": "^4.0.0",
       "json-stringify-pretty-compact": "^3.0.0",
@@ -22397,12 +22397,11 @@
       "karma-remap-istanbul": "^0.6.0",
       "mapillary-js": "4.1.2",
       minimist: "^1.2.8",
-      mocha: "^10.3.0",
+      mocha: "^10.4.0",
       "name-suggestion-index": "~6.0",
-      "node-fetch": "^2.7.0",
       "npm-run-all": "^4.0.0",
       "osm-community-index": "~5.6.2",
-      postcss: "^8.4.35",
+      postcss: "^8.4.38",
       "postcss-selector-prepend": "^0.5.0",
       shelljs: "^0.8.0",
       shx: "^0.3.0",
@@ -22410,7 +22409,7 @@
       "sinon-chai": "^3.7.0",
       smash: "0.0",
       "static-server": "^2.2.1",
-      "svg-sprite": "2.0.2",
+      "svg-sprite": "2.0.4",
       vparse: "~1.1.0"
     },
     engines: {
@@ -26894,7 +26893,7 @@
           s2.add(locationSetID);
         });
         this._knownLocationSets.set(locationSetID, area);
-      } catch (err) {
+      } catch {
         obj.locationSet = { include: ["Q2"] };
         obj.locationSetID = "+[Q2]";
       }
@@ -26923,7 +26922,7 @@
         geojson.id = locationSetID;
         geojson.properties.id = locationSetID;
         this._resolved.set(locationSetID, geojson);
-      } catch (err) {
+      } catch {
         obj.locationSet = { include: ["Q2"] };
         obj.locationSetID = "+[Q2]";
       }
@@ -27009,7 +27008,7 @@
       let locationSetID;
       try {
         locationSetID = _loco.validateLocationSet(locationSet).id;
-      } catch (err) {
+      } catch {
         locationSetID = "+[Q2]";
       }
       return locationSetID;
@@ -28486,7 +28485,7 @@
         return /_hours|_times|:conditional$/.test(k4);
       }
       function skip(k4) {
-        return /^(description|note|fixme)$/.test(k4);
+        return /^(description|note|fixme|inscription)$/.test(k4);
       }
       if (skip(k3))
         return v3;
@@ -32063,78 +32062,6 @@
   }
 
   // modules/osm/multipolygon.js
-  function osmOldMultipolygonOuterMemberOfRelation(entity, graph) {
-    if (entity.type !== "relation" || !entity.isMultipolygon() || Object.keys(entity.tags).filter(osmIsInterestingTag).length > 1) {
-      return false;
-    }
-    var outerMember;
-    for (var memberIndex in entity.members) {
-      var member = entity.members[memberIndex];
-      if (!member.role || member.role === "outer") {
-        if (outerMember)
-          return false;
-        if (member.type !== "way")
-          return false;
-        if (!graph.hasEntity(member.id))
-          return false;
-        outerMember = graph.entity(member.id);
-        if (Object.keys(outerMember.tags).filter(osmIsInterestingTag).length === 0) {
-          return false;
-        }
-      }
-    }
-    return outerMember;
-  }
-  function osmIsOldMultipolygonOuterMember(entity, graph) {
-    if (entity.type !== "way" || Object.keys(entity.tags).filter(osmIsInterestingTag).length === 0) {
-      return false;
-    }
-    var parents = graph.parentRelations(entity);
-    if (parents.length !== 1)
-      return false;
-    var parent = parents[0];
-    if (!parent.isMultipolygon() || Object.keys(parent.tags).filter(osmIsInterestingTag).length > 1) {
-      return false;
-    }
-    var members = parent.members, member;
-    for (var i3 = 0; i3 < members.length; i3++) {
-      member = members[i3];
-      if (member.id === entity.id && member.role && member.role !== "outer") {
-        return false;
-      }
-      if (member.id !== entity.id && (!member.role || member.role === "outer")) {
-        return false;
-      }
-    }
-    return parent;
-  }
-  function osmOldMultipolygonOuterMember(entity, graph) {
-    if (entity.type !== "way")
-      return false;
-    var parents = graph.parentRelations(entity);
-    if (parents.length !== 1)
-      return false;
-    var parent = parents[0];
-    if (!parent.isMultipolygon() || Object.keys(parent.tags).filter(osmIsInterestingTag).length > 1) {
-      return false;
-    }
-    var members = parent.members, member, outerMember;
-    for (var i3 = 0; i3 < members.length; i3++) {
-      member = members[i3];
-      if (!member.role || member.role === "outer") {
-        if (outerMember)
-          return false;
-        outerMember = member;
-      }
-    }
-    if (!outerMember)
-      return false;
-    var outerEntity = graph.hasEntity(outerMember.id);
-    if (!outerEntity || !Object.keys(outerEntity.tags).filter(osmIsInterestingTag).length) {
-      return false;
-    }
-    return outerEntity;
-  }
   function osmJoinWays(toJoin, graph) {
     function resolve(member) {
       return graph.childNodes(graph.entity(member.id));
@@ -32211,11 +32138,11 @@
   }
 
   // modules/actions/add_member.js
-  function actionAddMember(relationId, member, memberIndex, insertPair) {
+  function actionAddMember(relationId, member, memberIndex) {
     return function action(graph) {
       var relation = graph.entity(relationId);
       var isPTv2 = /stop|platform/.test(member.role);
-      if ((isNaN(memberIndex) || insertPair) && member.type === "way" && !isPTv2) {
+      if (member.type === "way" && !isPTv2) {
         graph = addWayMember(relation, graph);
       } else {
         if (isPTv2 && isNaN(memberIndex)) {
@@ -32226,7 +32153,7 @@
       return graph;
     };
     function addWayMember(relation, graph) {
-      var groups, tempWay, insertPairIsReversed, item, i3, j2, k2;
+      var groups, item, i3, j2, k2;
       var PTv2members = [];
       var members = [];
       for (i3 = 0; i3 < relation.members.length; i3++) {
@@ -32238,21 +32165,9 @@
         }
       }
       relation = relation.update({ members });
-      if (insertPair) {
-        tempWay = osmWay({ id: "wTemp", nodes: insertPair.nodes });
-        graph = graph.replace(tempWay);
-        var tempMember = { id: tempWay.id, type: "way", role: member.role };
-        var tempRelation = relation.replaceMember({ id: insertPair.originalID }, tempMember, true);
-        groups = utilArrayGroupBy(tempRelation.members, "type");
-        groups.way = groups.way || [];
-        var originalWay = graph.entity(insertPair.originalID);
-        var insertedWay = graph.entity(insertPair.insertedID);
-        insertPairIsReversed = originalWay.nodes.length > 0 && insertedWay.nodes.length > 0 && insertedWay.nodes[insertedWay.nodes.length - 1] === originalWay.nodes[0] && originalWay.nodes[originalWay.nodes.length - 1] !== insertedWay.nodes[0];
-      } else {
-        groups = utilArrayGroupBy(relation.members, "type");
-        groups.way = groups.way || [];
-        groups.way.push(member);
-      }
+      groups = utilArrayGroupBy(relation.members, "type");
+      groups.way = groups.way || [];
+      groups.way.push(member);
       members = withIndex(groups.way);
       var joined = osmJoinWays(members, graph);
       for (i3 = 0; i3 < joined.length; i3++) {
@@ -32267,20 +32182,6 @@
         for (k2 = 0; k2 < segment.length; k2++) {
           item = segment[k2];
           var way = graph.entity(item.id);
-          if (tempWay && item.id === tempWay.id) {
-            var reverse = nodes[0].id !== insertPair.nodes[0] ^ insertPairIsReversed;
-            if (reverse) {
-              item.pair = [
-                { id: insertPair.insertedID, type: "way", role: item.role },
-                { id: insertPair.originalID, type: "way", role: item.role }
-              ];
-            } else {
-              item.pair = [
-                { id: insertPair.originalID, type: "way", role: item.role },
-                { id: insertPair.insertedID, type: "way", role: item.role }
-              ];
-            }
-          }
           if (k2 > 0) {
             if (j2 + k2 >= members.length || item.index !== members[j2 + k2].index) {
               moveMember(members, item.index, j2 + k2);
@@ -32289,20 +32190,12 @@
           nodes.splice(0, way.nodes.length - 1);
         }
       }
-      if (tempWay) {
-        graph = graph.remove(tempWay);
-      }
       var wayMembers = [];
       for (i3 = 0; i3 < members.length; i3++) {
         item = members[i3];
         if (item.index === -1)
           continue;
-        if (item.pair) {
-          wayMembers.push(item.pair[0]);
-          wayMembers.push(item.pair[1]);
-        } else {
-          wayMembers.push(utilObjectOmit(item, ["index"]));
-        }
+        wayMembers.push(utilObjectOmit(item, ["index"]));
       }
       var newMembers = PTv2members.concat(groups.node || [], wayMembers, groups.relation || []);
       return graph.replace(relation.update({ members: newMembers }));
@@ -32315,7 +32208,7 @@
         }
         var item2 = Object.assign({}, arr[i4]);
         arr[i4].index = -1;
-        item2.index = toIndex;
+        delete item2.index;
         arr.splice(toIndex, 0, item2);
       }
       function withIndex(arr) {
@@ -34137,6 +34030,7 @@
       nodeIds = [nodeIds];
     var _wayIDs;
     var _keepHistoryOn = "longest";
+    const circularJunctions = ["roundabout", "circular"];
     var _createdWayIDs = [];
     function dist(graph, nA, nB) {
       var locA = graph.entity(nA).loc;
@@ -34183,11 +34077,9 @@
     }
     function split(graph, nodeId, wayA, newWayId) {
       var wayB = osmWay({ id: newWayId, tags: wayA.tags });
-      var origNodes = wayA.nodes.slice();
       var nodesA;
       var nodesB;
       var isArea = wayA.isArea();
-      var isOuter = osmIsOldMultipolygonOuterMember(wayA, graph);
       if (wayA.isClosed()) {
         var nodes = wayA.nodes.slice(0, -1);
         var idxA = nodes.indexOf(nodeId);
@@ -34235,7 +34127,6 @@
       graph = graph.replace(wayA);
       graph = graph.replace(wayB);
       graph.parentRelations(wayA).forEach(function(relation) {
-        var member;
         if (relation.hasFromViaTo()) {
           var f2 = relation.memberByRole("from");
           var v2 = relation.membersByRole("via");
@@ -34263,36 +34154,15 @@
           } else {
             for (i3 = 0; i3 < v2.length; i3++) {
               if (v2[i3].type === "way" && v2[i3].id === wayA.id) {
-                member = {
-                  id: wayB.id,
-                  type: "way",
-                  role: "via"
-                };
-                graph = actionAddMember(relation.id, member, v2[i3].index + 1)(graph);
-                break;
+                graph = splitWayMember(graph, relation.id, wayA, wayB);
               }
             }
           }
         } else {
-          if (relation === isOuter) {
-            graph = graph.replace(relation.mergeTags(wayA.tags));
-            graph = graph.replace(wayA.update({ tags: {} }));
-            graph = graph.replace(wayB.update({ tags: {} }));
-          }
-          member = {
-            id: wayB.id,
-            type: "way",
-            role: relation.memberById(wayA.id).role
-          };
-          var insertPair = {
-            originalID: wayA.id,
-            insertedID: wayB.id,
-            nodes: origNodes
-          };
-          graph = actionAddMember(relation.id, member, void 0, insertPair)(graph);
+          graph = splitWayMember(graph, relation.id, wayA, wayB);
         }
       });
-      if (!isOuter && isArea) {
+      if (isArea) {
         var multipolygon = osmRelation({
           tags: Object.assign({}, wayA.tags, { type: "multipolygon" }),
           members: [
@@ -34305,6 +34175,98 @@
         graph = graph.replace(wayB.update({ tags: {} }));
       }
       _createdWayIDs.push(wayB.id);
+      return graph;
+    }
+    function splitWayMember(graph, relationId, wayA, wayB) {
+      function connects(way1, way2) {
+        if (way1.nodes.length < 2 || way2.nodes.length < 2)
+          return false;
+        if (circularJunctions.includes(way1.tags.junction) && way1.isClosed()) {
+          return way1.nodes.some((nodeId) => nodeId === way2.nodes[0] || nodeId === way2.nodes[way2.nodes.length - 1]);
+        } else if (circularJunctions.includes(way2.tags.junction) && way2.isClosed()) {
+          return way2.nodes.some((nodeId) => nodeId === way1.nodes[0] || nodeId === way1.nodes[way1.nodes.length - 1]);
+        }
+        if (way1.nodes[0] === way2.nodes[0])
+          return true;
+        if (way1.nodes[0] === way2.nodes[way2.nodes.length - 1])
+          return true;
+        if (way1.nodes[way1.nodes.length - 1] === way2.nodes[way2.nodes.length - 1])
+          return true;
+        if (way1.nodes[way1.nodes.length - 1] === way2.nodes[0])
+          return true;
+        return false;
+      }
+      let relation = graph.entity(relationId);
+      const insertMembers = [];
+      const members = relation.members;
+      for (let i3 = 0; i3 < members.length; i3++) {
+        const member = members[i3];
+        if (member.id === wayA.id) {
+          let wayAconnectsPrev = false;
+          let wayAconnectsNext = false;
+          let wayBconnectsPrev = false;
+          let wayBconnectsNext = false;
+          if (i3 > 0 && graph.hasEntity(members[i3 - 1].id)) {
+            const prevEntity = graph.entity(members[i3 - 1].id);
+            if (prevEntity.type === "way") {
+              wayAconnectsPrev = connects(prevEntity, wayA);
+              wayBconnectsPrev = connects(prevEntity, wayB);
+            }
+          }
+          if (i3 < members.length - 1 && graph.hasEntity(members[i3 + 1].id)) {
+            const nextEntity = graph.entity(members[i3 + 1].id);
+            if (nextEntity.type === "way") {
+              wayAconnectsNext = connects(nextEntity, wayA);
+              wayBconnectsNext = connects(nextEntity, wayB);
+            }
+          }
+          if (wayAconnectsPrev && !wayAconnectsNext || !wayBconnectsPrev && wayBconnectsNext && !(!wayAconnectsPrev && wayAconnectsNext)) {
+            insertMembers.push({ at: i3 + 1, role: member.role });
+            continue;
+          }
+          if (!wayAconnectsPrev && wayAconnectsNext || wayBconnectsPrev && !wayBconnectsNext && !(wayAconnectsPrev && !wayAconnectsNext)) {
+            insertMembers.push({ at: i3, role: member.role });
+            continue;
+          }
+          if (wayAconnectsPrev && wayBconnectsPrev && wayAconnectsNext && wayBconnectsNext) {
+            if (i3 > 2 && graph.hasEntity(members[i3 - 2].id)) {
+              const prev2Entity = graph.entity(members[i3 - 2].id);
+              if (connects(prev2Entity, wayA) && !connects(prev2Entity, wayB)) {
+                insertMembers.push({ at: i3, role: member.role });
+                continue;
+              }
+              if (connects(prev2Entity, wayB) && !connects(prev2Entity, wayA)) {
+                insertMembers.push({ at: i3 + 1, role: member.role });
+                continue;
+              }
+            }
+            if (i3 < members.length - 2 && graph.hasEntity(members[i3 + 2].id)) {
+              const next2Entity = graph.entity(members[i3 + 2].id);
+              if (connects(next2Entity, wayA) && !connects(next2Entity, wayB)) {
+                insertMembers.push({ at: i3 + 1, role: member.role });
+                continue;
+              }
+              if (connects(next2Entity, wayB) && !connects(next2Entity, wayA)) {
+                insertMembers.push({ at: i3, role: member.role });
+                continue;
+              }
+            }
+          }
+          if (wayA.nodes[wayA.nodes.length - 1] === wayB.nodes[0]) {
+            insertMembers.push({ at: i3 + 1, role: member.role });
+          } else {
+            insertMembers.push({ at: i3, role: member.role });
+          }
+        }
+      }
+      insertMembers.reverse().forEach((item) => {
+        graph = graph.replace(relation.addMember({
+          id: wayB.id,
+          type: "way",
+          role: item.role
+        }, item.at));
+        relation = graph.entity(relation.id);
+      });
       return graph;
     }
     var action = function(graph) {
@@ -34355,11 +34317,35 @@
       })));
     };
     action.disabled = function(graph) {
-      for (var i3 = 0; i3 < nodeIds.length; i3++) {
-        var nodeId = nodeIds[i3];
-        var candidates = action.waysForNode(nodeId, graph);
+      for (const nodeId of nodeIds) {
+        const candidates = action.waysForNode(nodeId, graph);
         if (candidates.length === 0 || _wayIDs && _wayIDs.length !== candidates.length) {
           return "not_eligible";
+        }
+        for (const way of candidates) {
+          const parentRelations = graph.parentRelations(way);
+          for (const parentRelation of parentRelations) {
+            if (parentRelation.hasFromViaTo()) {
+              const vias = parentRelation.membersByRole("via");
+              if (!vias.every((via) => graph.hasEntity(via.id))) {
+                return "parent_incomplete";
+              }
+            } else {
+              for (let i3 = 0; i3 < parentRelation.members.length; i3++) {
+                if (parentRelation.members[i3].id === way.id) {
+                  const memberBeforePresent = i3 > 0 && graph.hasEntity(parentRelation.members[i3 - 1].id);
+                  const memberAfterPresent = i3 < parentRelation.members.length - 1 && graph.hasEntity(parentRelation.members[i3 + 1].id);
+                  if (!memberBeforePresent && !memberAfterPresent && parentRelation.members.length > 1) {
+                    return "parent_incomplete";
+                  }
+                }
+              }
+            }
+            const relTypesExceptions = ["junction", "enforcement"];
+            if (circularJunctions.includes(way.tags.junction) && way.isClosed() && !relTypesExceptions.includes(parentRelation.tags.type)) {
+              return "simple_roundabout";
+            }
+          }
         }
       }
     };
@@ -39981,7 +39967,8 @@
     blockquote(src) {
       const cap = this.rules.block.blockquote.exec(src);
       if (cap) {
-        const text = rtrim(cap[0].replace(/^ *>[ \t]?/gm, ""), "\n");
+        let text = cap[0].replace(/\n {0,3}((?:=+|-+) *)(?=\n|$)/g, "\n    $1");
+        text = rtrim(text.replace(/^ *>[ \t]?/gm, ""), "\n");
         const top = this.lexer.state.top;
         this.lexer.state.top = true;
         const tokens = this.lexer.blockTokens(text);
@@ -40522,7 +40509,7 @@
   var hr = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/;
   var heading = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/;
   var bullet = /(?:[*+-]|\d{1,9}[.)])/;
-  var lheading = edit(/^(?!bull )((?:.|\n(?!\s*?\n|bull ))+?)\n {0,3}(=+|-+) *(?:\n+|$)/).replace(/bull/g, bullet).getRegex();
+  var lheading = edit(/^(?!bull |blockCode|fences|blockquote|heading|html)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html))+?)\n {0,3}(=+|-+) *(?:\n+|$)/).replace(/bull/g, bullet).replace(/blockCode/g, / {4}/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).getRegex();
   var _paragraph = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/;
   var blockText = /^[^\n]+/;
   var _blockLabel = /(?!\s*\])(?:\\.|[^\[\]\\])+/;
@@ -45213,7 +45200,7 @@
           id: nextNode.id,
           properties: { target: true, entity: nextNode }
         });
-      } catch (ex) {
+      } catch {
         context.ui().flash.duration(4e3).iconName("#iD-icon-no").label(_t.append("operations.follow.error.unknown"))();
       }
     }
@@ -46254,7 +46241,7 @@
   // modules/validations/missing_tag.js
   function validationMissingTag(context) {
     var type2 = "missing_tag";
-    function hasDescriptiveTags(entity, graph) {
+    function hasDescriptiveTags(entity) {
       var onlyAttributeKeys = ["description", "name", "note", "start_date"];
       var entityDescriptiveKeys = Object.keys(entity.tags).filter(function(k2) {
         if (k2 === "area" || !osmIsInterestingTag(k2))
@@ -46264,7 +46251,7 @@
         });
       });
       if (entity.type === "relation" && entityDescriptiveKeys.length === 1 && entity.tags.type === "multipolygon") {
-        return osmOldMultipolygonOuterMemberOfRelation(entity, graph);
+        return false;
       }
       return entityDescriptiveKeys.length > 0;
     }
@@ -46283,7 +46270,7 @@
       !entity.hasParentRelations(graph)) {
         if (Object.keys(entity.tags).length === 0) {
           subtype = "any";
-        } else if (!hasDescriptiveTags(entity, graph)) {
+        } else if (!hasDescriptiveTags(entity)) {
           subtype = "descriptive";
         } else if (isUntypedRelation(entity)) {
           subtype = "relation_type";
@@ -46445,11 +46432,22 @@
         entity = graph.entity(entity.id);
         preset = newPreset;
       }
+      const upgradeReasons = [];
       if (_dataDeprecated) {
         const deprecatedTags = entity.deprecatedTags(_dataDeprecated);
+        if (entity.type === "way" && entity.isClosed() && entity.tags.traffic_calming === "island" && !entity.tags.highway) {
+          deprecatedTags.push({
+            old: { traffic_calming: "island" },
+            replace: { "area:highway": "traffic_island" }
+          });
+        }
         if (deprecatedTags.length) {
           deprecatedTags.forEach((tag2) => {
             graph = actionUpgradeTags(entity.id, tag2.old, tag2.replace)(graph);
+            upgradeReasons.push({
+              source: "id-tagging-schema--deprecated",
+              data: tag2
+            });
           });
           entity = graph.entity(entity.id);
         }
@@ -46460,9 +46458,13 @@
           if (!newTags[k2]) {
             if (preset.addTags[k2] === "*") {
               newTags[k2] = "yes";
-            } else {
+            } else if (preset.addTags[k2]) {
               newTags[k2] = preset.addTags[k2];
             }
+            upgradeReasons.push({
+              source: "id-tagging-schema--preset-addTags",
+              data: preset
+            });
           }
         });
       }
@@ -46477,6 +46479,10 @@
           if (nsiResult) {
             newTags = nsiResult.newTags;
             subtype = "noncanonical_brand";
+            upgradeReasons.push({
+              source: "name-suggestion-index",
+              data: nsiResult
+            });
           }
         }
       }
@@ -46587,71 +46593,7 @@
         }).html((d2) => d2.display);
       }
     }
-    function oldMultipolygonIssues(entity, graph) {
-      let multipolygon, outerWay;
-      if (entity.type === "relation") {
-        outerWay = osmOldMultipolygonOuterMemberOfRelation(entity, graph);
-        multipolygon = entity;
-      } else if (entity.type === "way") {
-        multipolygon = osmIsOldMultipolygonOuterMember(entity, graph);
-        outerWay = entity;
-      } else {
-        return [];
-      }
-      if (!multipolygon || !outerWay)
-        return [];
-      return [new validationIssue({
-        type: type2,
-        subtype: "old_multipolygon",
-        severity: "warning",
-        message: showMessage,
-        reference: showReference,
-        entityIds: [outerWay.id, multipolygon.id],
-        dynamicFixes: () => {
-          return [
-            new validationIssueFix({
-              autoArgs: [doUpgrade, _t("issues.fix.move_tags.annotation")],
-              title: _t.append("issues.fix.move_tags.title"),
-              onClick: (context) => {
-                context.perform(doUpgrade, _t("issues.fix.move_tags.annotation"));
-              }
-            })
-          ];
-        }
-      })];
-      function doUpgrade(graph2) {
-        let currMultipolygon = graph2.hasEntity(multipolygon.id);
-        let currOuterWay = graph2.hasEntity(outerWay.id);
-        if (!currMultipolygon || !currOuterWay)
-          return graph2;
-        currMultipolygon = currMultipolygon.mergeTags(currOuterWay.tags);
-        graph2 = graph2.replace(currMultipolygon);
-        return actionChangeTags(currOuterWay.id, {})(graph2);
-      }
-      function showMessage(context) {
-        let currMultipolygon = context.hasEntity(multipolygon.id);
-        if (!currMultipolygon)
-          return "";
-        return _t.append(
-          "issues.old_multipolygon.message",
-          { multipolygon: utilDisplayLabel(
-            currMultipolygon,
-            context.graph(),
-            true
-            /* verbose */
-          ) }
-        );
-      }
-      function showReference(selection2) {
-        selection2.selectAll(".issue-reference").data([0]).enter().append("div").attr("class", "issue-reference").call(_t.append("issues.old_multipolygon.reference"));
-      }
-    }
-    let validation = function checkOutdatedTags(entity, graph) {
-      let issues = oldMultipolygonIssues(entity, graph);
-      if (!issues.length)
-        issues = oldTagIssues(entity, graph);
-      return issues;
-    };
+    let validation = oldTagIssues;
     validation.type = type2;
     return validation;
   }
@@ -50201,19 +50143,12 @@
     function drawAreas(selection2, graph, entities, filter2) {
       var path = svgPath(projection2, graph, true);
       var areas = {};
-      var multipolygon;
       var base = context.history().base();
       for (var i3 = 0; i3 < entities.length; i3++) {
         var entity = entities[i3];
         if (entity.geometry(graph) !== "area")
           continue;
-        multipolygon = osmIsOldMultipolygonOuterMember(entity, graph);
-        if (multipolygon) {
-          areas[multipolygon.id] = {
-            entity: multipolygon.mergeTags(entity.tags),
-            area: Math.abs(entity.area(graph))
-          };
-        } else if (!areas[entity.id]) {
+        if (!areas[entity.id]) {
           areas[entity.id] = {
             entity,
             area: Math.abs(entity.area(graph))
@@ -54126,7 +54061,7 @@
               _photos.push(photo);
             }
           }
-        } catch (err) {
+        } catch {
         }
       }
       if (typeof callback === "function")
@@ -56213,11 +56148,7 @@
       var oldMultiPolygonOuters = {};
       for (var i3 = 0; i3 < entities.length; i3++) {
         var entity = entities[i3];
-        var outer = osmOldMultipolygonOuterMember(entity, graph);
-        if (outer) {
-          ways.push(entity.mergeTags(outer.tags));
-          oldMultiPolygonOuters[outer.id] = true;
-        } else if (entity.geometry(graph) === "line" || entity.geometry(graph) === "area" && entity.sidednessIdentifier && entity.sidednessIdentifier() === "coastline") {
+        if (entity.geometry(graph) === "line" || entity.geometry(graph) === "area" && entity.sidednessIdentifier && entity.sidednessIdentifier() === "coastline") {
           ways.push(entity);
         }
       }
@@ -60611,7 +60542,18 @@
         if (mode.id !== "select")
           return chapter.restart();
         _pointID = context.mode().selectedIDs()[0];
-        continueTo(searchPreset);
+        if (context.graph().geometry(_pointID) === "vertex") {
+          context.map().on("move.intro drawn.intro", null);
+          context.on("enter.intro", null);
+          reveal(pointBox2, helpHtml("intro.points.place_point_error"), {
+            buttonText: _t.html("intro.ok"),
+            buttonCallback: function() {
+              return chapter.restart();
+            }
+          });
+        } else {
+          continueTo(searchPreset);
+        }
       });
       function continueTo(nextStep) {
         context.map().on("move.intro drawn.intro", null);
@@ -65188,9 +65130,11 @@
           const field_buttons2 = selection2.select(".field_buttons");
           const clean_value = d2.value.trim();
           text_span.text("");
+          if (!field_buttons2.select("button").empty()) {
+            field_buttons2.select("button").remove();
+          }
           if (clean_value.startsWith("https://")) {
             text_span.text(clean_value);
-            field_buttons2.select("button").remove();
             field_buttons2.append("button").call(svgIcon("#iD-icon-out-link")).attr("class", "form-field-button foreign-id-permalink").attr("title", () => _t("icons.visit_website")).attr("aria-label", () => _t("icons.visit_website")).on("click", function(d3_event) {
               d3_event.preventDefault();
               window.open(clean_value, "_blank");
@@ -65536,7 +65480,7 @@
       if (field.type === "url" && value) {
         try {
           return new URL(value).href;
-        } catch (e3) {
+        } catch {
           return null;
         }
       }
@@ -67587,7 +67531,7 @@
       var enter = items.enter().append("li").attr("class", function(d2) {
         return "labeled-input preset-wikidata-" + d2;
       });
-      enter.append("span").attr("class", "label").html(function(d2) {
+      enter.append("div").attr("class", "label").html(function(d2) {
         return _t.html("wikidata." + d2);
       });
       enter.append("input").attr("type", "text").call(utilNoAuto).classed("disabled", "true").attr("readonly", "true");
@@ -67786,6 +67730,8 @@
 
   // modules/ui/fields/wikipedia.js
   function uiFieldWikipedia(field, context) {
+    const scheme = "https://";
+    const domain = "wikipedia.org";
     const dispatch14 = dispatch_default("change");
     const wikipedia = services.wikipedia;
     const wikidata = services.wikidata;
@@ -67843,7 +67789,7 @@
         change(false);
       });
       let link3 = titleContainer.selectAll(".wiki-link").data([0]);
-      link3 = link3.enter().append("button").attr("class", "form-field-button wiki-link").attr("title", _t("icons.view_on", { domain: "wikipedia.org" })).call(svgIcon("#iD-icon-out-link")).merge(link3);
+      link3 = link3.enter().append("button").attr("class", "form-field-button wiki-link").attr("title", _t("icons.view_on", { domain })).call(svgIcon("#iD-icon-out-link")).merge(link3);
       link3.on("click", (d3_event) => {
         d3_event.preventDefault();
         if (_wikiURL)
@@ -67943,20 +67889,13 @@
         const nativeLangName = tagLangInfo[1];
         utilGetSetValue(_langInput, nativeLangName);
         utilGetSetValue(_titleInput, tagArticleTitle + (anchor ? "#" + anchor : ""));
-        if (anchor) {
-          try {
-            anchor = encodeURIComponent(anchor.replace(/ /g, "_")).replace(/%/g, ".");
-          } catch (e3) {
-            anchor = anchor.replace(/ /g, "_");
-          }
-        }
-        _wikiURL = "https://" + tagLang + ".wikipedia.org/wiki/" + tagArticleTitle.replace(/ /g, "_") + (anchor ? "#" + anchor : "");
+        _wikiURL = "".concat(scheme).concat(tagLang, ".").concat(domain, "/wiki/").concat(wiki.encodePath(tagArticleTitle, anchor));
       } else {
         utilGetSetValue(_titleInput, value);
         if (value && value !== "") {
           utilGetSetValue(_langInput, "");
           const defaultLangInfo = defaultLanguageInfo();
-          _wikiURL = "https://".concat(defaultLangInfo[2], ".wikipedia.org/w/index.php?fulltext=1&search=").concat(value);
+          _wikiURL = "".concat(scheme).concat(defaultLangInfo[2], ".").concat(domain, "/w/index.php?fulltext=1&search=").concat(value);
         } else {
           const shownOrDefaultLangInfo = language(
             true
@@ -67967,6 +67906,18 @@
         }
       }
     }
+    wiki.encodePath = (tagArticleTitle, anchor) => {
+      const underscoredTitle = tagArticleTitle.replace(/ /g, "_");
+      const uriEncodedUnderscoredTitle = encodeURIComponent(underscoredTitle);
+      const uriEncodedAnchorFragment = wiki.encodeURIAnchorFragment(anchor);
+      return "".concat(uriEncodedUnderscoredTitle).concat(uriEncodedAnchorFragment);
+    };
+    wiki.encodeURIAnchorFragment = (anchor) => {
+      if (!anchor)
+        return "";
+      const underscoredAnchor = anchor.replace(/ /g, "_");
+      return "#" + encodeURIComponent(underscoredAnchor);
+    };
     wiki.entityIDs = (val) => {
       if (!arguments.length)
         return _entityIDs;
@@ -69850,7 +69801,7 @@
     var _maxMembers = 1e3;
     function downloadMember(d3_event, d2) {
       d3_event.preventDefault();
-      select_default2(this.parentNode).classed("tag-reference-loading", true);
+      select_default2(this).classed("loading", true);
       context.loadEntity(d2.id, function() {
         section.reRender();
       });
@@ -70228,6 +70179,14 @@
         context.enter(modeSelect(context, [relation.id]).newFeature(true));
       }
     }
+    function downloadMembers(d3_event, d2) {
+      d3_event.preventDefault();
+      const button = select_default2(this);
+      button.classed("loading", true);
+      context.loadEntity(d2.relation.id, function() {
+        section.reRender();
+      });
+    }
     function deleteMembership(d3_event, d2) {
       this.blur();
       if (d2 === 0)
@@ -70331,8 +70290,14 @@
       labelLink.append("span").attr("class", "member-entity-name").classed("has-colour", (d2) => d2.relation.tags.colour && isColourValid(d2.relation.tags.colour)).style("border-color", (d2) => d2.relation.tags.colour).text(function(d2) {
         return utilDisplayName(d2.relation);
       });
+      labelEnter.append("button").attr("class", "members-download").attr("title", _t("icons.download")).call(svgIcon("#iD-icon-load")).on("click", downloadMembers);
       labelEnter.append("button").attr("class", "remove member-delete").attr("title", _t("icons.remove")).call(svgIcon("#iD-operation-delete")).on("click", deleteMembership);
       labelEnter.append("button").attr("class", "member-zoom").attr("title", _t("icons.zoom_to")).call(svgIcon("#iD-icon-framed-dot", "monochrome")).on("click", zoomToRelation);
+      items = items.merge(itemsEnter);
+      items.selectAll("button.members-download").classed("hide", (d2) => {
+        const graph = context.graph();
+        return d2.relation.members.every((m2) => graph.hasEntity(m2.id));
+      });
       var wrapEnter = itemsEnter.append("div").attr("class", "form-field-input-wrap form-field-input-member");
       wrapEnter.append("input").attr("class", "member-role").attr("id", function(d2) {
         return d2.domId;
@@ -71133,8 +71098,12 @@
       });
       noteSave.exit().remove();
       var noteSaveEnter = noteSave.enter().append("div").attr("class", "note-save save-section cf");
-      noteSaveEnter.append("h4").attr("class", ".note-save-header").html(function() {
-        return _note.isNew() ? _t.html("note.newDescription") : _t.html("note.newComment");
+      noteSaveEnter.append("h4").attr("class", ".note-save-header").text("").each(function() {
+        if (_note.isNew()) {
+          _t.append("note.newDescription")(select_default2(this));
+        } else {
+          _t.append("note.newComment")(select_default2(this));
+        }
       });
       var commentTextarea = noteSaveEnter.append("textarea").attr("class", "new-comment-input").attr("placeholder", _t("note.inputPlaceholder")).attr("maxlength", 1e3).property("value", function(d2) {
         return d2.newComment;
@@ -71228,11 +71197,12 @@
       buttonSection = buttonSection.merge(buttonEnter);
       buttonSection.select(".cancel-button").on("click.cancel", clickCancel);
       buttonSection.select(".save-button").attr("disabled", isSaveDisabled).on("click.save", clickSave);
-      buttonSection.select(".status-button").attr("disabled", hasAuth ? null : true).html(function(d2) {
+      buttonSection.select(".status-button").attr("disabled", hasAuth ? null : true).text("").each(function(d2) {
         var action = d2.status === "open" ? "close" : "open";
         var andComment = d2.newComment ? "_comment" : "";
-        return _t.html("note." + action + andComment);
-      }).on("click.status", clickStatus);
+        _t.append("note." + action + andComment)(select_default2(this));
+      });
+      buttonSection.select(".status-button").on("click.status", clickStatus);
       buttonSection.select(".comment-button").attr("disabled", isSaveDisabled).on("click.comment", clickComment);
       function isSaveDisabled(d2) {
         return hasAuth && d2.status === "open" && d2.newComment ? null : true;
@@ -73947,8 +73917,6 @@
         return;
       if (typeof d2.value !== "string" && !this.value)
         return;
-      if (!this.value.trim())
-        return removeTag(d3_event, d2);
       if (_pendingChange && _pendingChange.hasOwnProperty(d2.key) && _pendingChange[d2.key] === void 0)
         return;
       _pendingChange = _pendingChange || {};
@@ -80915,7 +80883,7 @@
             try {
               var regex = new RegExp(regexString);
               regexes.push(regex);
-            } catch (e3) {
+            } catch {
             }
           }
         }
@@ -83530,6 +83498,8 @@
       attribution.append("a").attr("class", "image-link").attr("target", "_blank").attr("href", "https://mapilio.com/app?lat=".concat(d2.loc[1], "&lng=").concat(d2.loc[0], "&zoom=17&pId=").concat(d2.id)).text("mapilio.com");
       wrap2.transition().duration(100).call(imgZoom3.transform, identity2);
       wrap2.selectAll("img").remove();
+      wrap2.selectAll("button.back").classed("hide", !_cache4.images.forImageId.hasOwnProperty(+id2 - 1));
+      wrap2.selectAll("button.forward").classed("hide", !_cache4.images.forImageId.hasOwnProperty(+id2 + 1));
       getImageData(d2.id, d2.sequence_id).then(function() {
         if (d2.isPano) {
           if (!_pannellumViewer3) {
@@ -83583,8 +83553,8 @@
       let wrapEnter = wrap2.enter().append("div").attr("class", "photo-wrapper mapilio-wrapper").classed("hide", true).on("dblclick.zoom", null);
       wrapEnter.append("div").attr("class", "photo-attribution fillD");
       const controlsEnter = wrapEnter.append("div").attr("class", "photo-controls-wrap").append("div").attr("class", "photo-controls-mapilio");
-      controlsEnter.append("button").on("click.back", step(-1)).text("\u25C4");
-      controlsEnter.append("button").on("click.forward", step(1)).text("\u25BA");
+      controlsEnter.append("button").classed("back", true).on("click.back", step(-1)).text("\u25C4");
+      controlsEnter.append("button").classed("forward", true).on("click.forward", step(1)).text("\u25BA");
       wrapEnter.append("div").attr("id", "ideditor-viewer-mapilio-pnlm");
       wrapEnter.append("div").attr("id", "ideditor-viewer-mapilio-simple-wrap").call(imgZoom3.on("zoom", zoomPan2)).append("div").attr("id", "ideditor-viewer-mapilio-simple");
       context.ui().photoviewer.on("resize.mapilio", () => {
