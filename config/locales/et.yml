@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: AivoK
 # Author: Avjoska
+# Author: Jrttrw
 # Author: Kanne
 # Author: Kareyac
 # Author: Luckas
@@ -27,11 +28,15 @@ et:
         create: Kommenteeri
       diary_entry:
         create: Avalda
+        update: Uuenda
       issue_comment:
         create: Lisa kommentaar
       message:
         create: Saada
       client_application:
+        create: Registreeri
+        update: Uuenda
+      oauth2_application:
         create: Registreeri
         update: Uuenda
       redaction:
@@ -44,6 +49,15 @@ et:
         create: Loo blokeering
         update: Uuenda blokeeringut
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: ei tundu olema korrektne e-posti aadress
+        email_address_not_routable: e-posti domeen ei tundu olema seadistatud
+        display_name_is_user_n: ei saa olla user_n, välja arvatud juhul, kui n on
+          sinu kasutajatunnus
+      models:
+        user_mute:
+          is_already_muted: on juba summutatud
     models:
       acl: Pääsuloend
       changeset: Muudatuskogum
@@ -425,6 +439,8 @@ et:
         belongs_to: Autor
     show:
       title: 'Muudatuskogum: %{id}'
+      created: 'Loodud: %{when}'
+      closed: 'Suletud: %{when}'
       created_ago_html: Loodud %{time_ago}
       closed_ago_html: Suletud %{time_ago}
       created_ago_by_html: Loonud %{user} %{time_ago}
@@ -559,6 +575,28 @@ et:
       applications:
         create:
           notice: Rakendus registreeritud.
+    scopes:
+      email: Vaata oma e-posti aadressi
+      openid: Autendi oma konto
+      phone: Vaata oma telefoninumbrit
+      profile: Vaata oma profiili
+  errors:
+    contact:
+      contact_the_community_html: Kui avastad katkise lingi või vea, palun kirjuta
+        sellest OpenStreetMapi kogukonnale siin %{contact_link} aadressil. Palun lisa
+        teatesse ka päringu täpne URL.
+    forbidden:
+      title: Keelatud
+      description: Tegevus, mida sa üritasid OpenStreetMap'i serveris teha on lubadud
+        vaid administraatoriele (HTTP 403)
+    internal_server_error:
+      title: Rakenduse viga
+      description: OpenStreetMap'i serveris tekkis ootamatu olukord, mistõttu vastust
+        päringule ei õnnestu moodustada (HTTP 500)
+    not_found:
+      title: Faili ei leidu
+      description: Sellise nimega faili/kausta/API meetodit ei leidu OpenStreetMap'i
+        serveris (HTTP 404)
   friendships:
     make_friend:
       heading: Lisada %{user} sõbraks?
@@ -566,6 +604,8 @@ et:
       success: '%{name} on nüüd sinu sõber.'
       failed: Vabandust, kasutaja %{name} sõbraks lisamine ebaõnnestus.
       already_a_friend: Sa oled kasutajaga %{name} juba sõber.
+      limit_exceeded: Sa oled endale hiljuti lisanud palju sõpru. Palun oota mõnda
+        aega enne kui proovid veel sõpru lisada.
     remove_friend:
       heading: Eemaldada %{user} sõprade hulgast?
       button: Eemalda sõprade hulgast
@@ -580,9 +620,27 @@ et:
         osm_nominatim_reverse: OpenStreetMap Nominatimi
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Köisraudtee
+          chair_lift: Istelift
+          drag_lift: Suusatõstuk
+          gondola: Köistee väikeste vagunitega
+          magic_carpet: Suusaeskalaator
+          platter: Plaatkinnitusega suusatõstuk ühele
+          pylon: Köistee tugipost
+          station: Köistee jaam
+          t-bar: T-kujulise kinnitusega suusatõstuk kahele
+          "yes": Köistee
         aeroway:
+          aerodrome: Lennujaam
+          airstrip: Maandumisplats
+          apron: Lennujaama perroon
           gate: Lennujaama värav
+          hangar: Angaar
           helipad: Kopteriväljak
+          holding_position: Õhusõiduki ootepositsioon
+          parking_position: Õhusõiduki parkimiskoht
+          runway: Lennurada
           taxiway: Ruleerimisrada
           terminal: Lennujaama terminal
         amenity:
