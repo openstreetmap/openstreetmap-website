@@ -121,7 +121,7 @@ $(document).ready(function () {
         var user = $(this).data("user");
         if (user.lon && user.lat) {
           L.marker([user.lat, user.lon], { icon: OSM.getUserIcon(user.icon) }).addTo(map)
-            .bindPopup(user.description);
+            .bindPopup(user.description, { minWidth: 200 });
         }
       });
     }
