@@ -45,6 +45,47 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_email"
   end
 
+  def test_user_create_association_bad_auth_provider
+    assert_difference("User.count", 0) do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => "test@example.com",
+                                       :display_name => "new_tester",
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :auth_provider => "noprovider",
+                                       :auth_uid => "123454321",
+                                       :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "noprovider", :origin => "/user/new")
+          post response.location
+        end
+      end
+    end
+    assert_response :not_found
+  end
+
+  def test_user_create_association_no_auth_uid
+    OmniAuth.config.mock_auth[:google] = :invalid_credentials
+    assert_difference("User.count", 0) do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => "test@example.com",
+                                       :display_name => "new_tester",
+                                       :pass_crypt => "testtest",
+                                       :pass_crypt_confirmation => "testtest",
+                                       :auth_provider => "google",
+                                       :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
+          post response.location
+        end
+      end
+    end
+    follow_redirect!
+    assert_redirected_to auth_failure_path(:strategy => "google", :message => "invalid_credentials", :origin => "/user/new")
+  end
+
   def test_user_create_association_submit_duplicate_email
     dup_email = create(:user).email
     display_name = "new_tester"
@@ -56,7 +97,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :display_name => display_name,
                                        :pass_crypt => "testtest",
                                        :pass_crypt_confirmation => "testtest",
-                                       :auth_provider => "auth_provider",
+                                       :auth_provider => "google",
                                        :auth_uid => "123454321",
                                        :consider_pd => "1" } }
         end
@@ -116,7 +157,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           post "/user/new",
                :params => { :user => { :email => email,
                                        :display_name => dup_display_name,
-                                       :auth_provider => "provider",
+                                       :auth_provider => "google",
                                        :auth_uid => "123454321",
                                        :consider_pd => "1" } }
         end
@@ -255,6 +296,9 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "openid",
                                        :auth_uid => "http://localhost:1123/new.tester",
                                        :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          post response.location
+          follow_redirect!
         end
       end
     end
@@ -291,10 +335,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_openid_failure
     OmniAuth.config.mock_auth[:openid] = :connection_failed
 
+    new_email = "newtester-openid2@osm.org"
+    display_name = "new_tester-openid2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          post "/user/new",
+               :params => { :user => { :email => new_email,
+                                       :email_confirmation => new_email,
+                                       :display_name => display_name,
+                                       :auth_provider => "openid",
+                                       :auth_uid => "http://localhost:1123/new.tester",
+                                       :pass_crypt => "",
+                                       :pass_crypt_confirmation => "" } }
+          assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
           follow_redirect!
           assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/user/new")
           follow_redirect!
@@ -307,7 +363,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_openid_redirect
-    auth_uid = "12345654321"
+    auth_uid = "http://localhost:1123/new.tester"
     new_email = "redirect_tester_openid@osm.org"
     display_name = "redirect_tester_openid"
 
@@ -330,6 +386,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "openid",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          follow_redirect!
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -393,6 +454,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" },
                             :email_hmac => email_hmac }
+          assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "google")
+          follow_redirect!
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -434,11 +499,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_google_failure
     OmniAuth.config.mock_auth[:google] = :connection_failed
 
+    new_email = "newtester-google2@osm.org"
+    display_name = "new_tester-google2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post auth_path(:provider => "google", :origin => "/user/new")
-          assert_response :redirect
+          post "/user/new",
+               :params => { :user => { :email => new_email,
+                                       :email_confirmation => new_email,
+                                       :display_name => display_name,
+                                       :auth_provider => "google",
+                                       :auth_uid => "123454321",
+                                       :pass_crypt => "",
+                                       :pass_crypt_confirmation => "" } }
+          assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "google")
           follow_redirect!
           assert_redirected_to auth_failure_path(:strategy => "google", :message => "connection_failed", :origin => "/user/new")
           follow_redirect!
@@ -479,7 +555,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "google",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" } }
-          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "google")
+          follow_redirect!
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           follow_redirect!
         end
       end
@@ -542,6 +622,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" },
                             :email_hmac => email_hmac }
+          assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "facebook")
+          follow_redirect!
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -582,11 +666,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_facebook_failure
     OmniAuth.config.mock_auth[:facebook] = :connection_failed
 
+    new_email = "newtester-facebook2@osm.org"
+    display_name = "new_tester-facebook2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post auth_path(:provider => "facebook", :origin => "/user/new")
-          assert_response :redirect
+          post "/user/new",
+               :params => { :user => { :email => new_email,
+                                       :email_confirmation => new_email,
+                                       :display_name => display_name,
+                                       :auth_provider => "facebook",
+                                       :auth_uid => "123454321",
+                                       :pass_crypt => "",
+                                       :pass_crypt_confirmation => "" } }
+          assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "facebook")
           follow_redirect!
           assert_redirected_to auth_failure_path(:strategy => "facebook", :message => "connection_failed", :origin => "/user/new")
           follow_redirect!
@@ -628,6 +723,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "facebook",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "facebook")
+          follow_redirect!
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           assert_response :redirect
           follow_redirect!
         end
@@ -690,6 +790,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" },
                             :email_hmac => email_hmac }
+          assert_redirected_to auth_path(:provider => "microsoft", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "microsoft")
+          follow_redirect!
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -730,11 +834,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_microsoft_failure
     OmniAuth.config.mock_auth[:microsoft] = :connection_failed
 
+    new_email = "newtester-microsoft2@osm.org"
+    display_name = "new_tester-microsoft2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post auth_path(:provider => "microsoft", :origin => "/user/new")
-          assert_response :redirect
+          post "/user/new",
+               :params => { :user => { :email => new_email,
+                                       :email_confirmation => new_email,
+                                       :display_name => display_name,
+                                       :auth_provider => "microsoft",
+                                       :auth_uid => "123454321",
+                                       :pass_crypt => "",
+                                       :pass_crypt_confirmation => "" } }
+          assert_redirected_to auth_path(:provider => "microsoft", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "microsoft")
           follow_redirect!
           assert_redirected_to auth_failure_path(:strategy => "microsoft", :message => "connection_failed", :origin => "/user/new")
           follow_redirect!
@@ -775,6 +890,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "microsoft",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "microsoft", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "microsoft")
+          follow_redirect!
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           assert_response :redirect
           follow_redirect!
         end
@@ -842,6 +962,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :read_ct => 1,
                             :read_tou => 1,
                             :email_hmac => email_hmac }
+          assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "github")
+          follow_redirect!
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -883,10 +1007,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_github_failure
     OmniAuth.config.mock_auth[:github] = :connection_failed
 
+    new_email = "newtester-github2@osm.org"
+    display_name = "new_tester-github2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post auth_path(:provider => "github", :origin => "/user/new")
+          post "/user/new",
+               :params => { :user => { :email => new_email,
+                                       :email_confirmation => new_email,
+                                       :display_name => display_name,
+                                       :auth_provider => "github",
+                                       :auth_uid => "123454321",
+                                       :pass_crypt => "",
+                                       :pass_crypt_confirmation => "" } }
+          assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "github")
           follow_redirect!
           assert_redirected_to auth_failure_path(:strategy => "github", :message => "connection_failed", :origin => "/user/new")
           follow_redirect!
@@ -926,6 +1062,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "github",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "github")
+          follow_redirect!
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           assert_response :redirect
           follow_redirect!
         end
@@ -992,6 +1133,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                             :read_ct => 1,
                             :read_tou => 1,
                             :email_hmac => email_hmac }
+          assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
           assert_redirected_to welcome_path
           follow_redirect!
         end
@@ -1030,11 +1175,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_wikipedia_failure
     OmniAuth.config.mock_auth[:wikipedia] = :connection_failed
 
+    new_email = "newtester-wikipedia2@osm.org"
+    display_name = "new_tester-wikipedia2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         perform_enqueued_jobs do
-          post auth_path(:provider => "wikipedia", :origin => "/user/new")
-          assert_response :redirect
+          post "/user/new",
+               :params => { :user => { :email => new_email,
+                                       :email_confirmation => new_email,
+                                       :display_name => display_name,
+                                       :auth_provider => "wikipedia",
+                                       :auth_uid => "123454321",
+                                       :pass_crypt => "",
+                                       :pass_crypt_confirmation => "" } }
+          assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
           follow_redirect!
           assert_redirected_to auth_failure_path(:strategy => "wikipedia", :message => "connection_failed", :origin => "/user/new")
           follow_redirect!
@@ -1076,6 +1232,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                                        :auth_provider => "wikipedia",
                                        :auth_uid => auth_uid,
                                        :consider_pd => "1" } }
+          assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
+          post response.location
+          assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
+          assert_redirected_to :controller => :confirmations, :action => :confirm, :display_name => display_name
           assert_response :redirect
           follow_redirect!
         end

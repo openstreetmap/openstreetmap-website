@@ -107,8 +107,13 @@ class UsersController < ApplicationController
       if current_user.invalid?
         # Something is wrong with a new user, so rerender the form
         render :action => "new"
+      elsif current_user.auth_provider.present?
+        # Verify external authenticator before moving on
+        session[:new_user] = current_user.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation")
+        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
       else
         # Save the user record
+        session[:new_user] = current_user.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation")
         save_new_user params[:email_hmac]
       end
     end
@@ -222,6 +227,12 @@ class UsersController < ApplicationController
       session[:user_errors] = current_user.errors.as_json
 
       redirect_to edit_account_path
+    elsif session[:new_user]
+      session[:new_user]["auth_provider"] = provider
+      session[:new_user]["auth_uid"] = uid
+
+      email_hmac = UsersController.message_hmac(email) if email_verified && email
+      save_new_user email_hmac
     else
       user = User.find_by(:auth_provider => provider, :auth_uid => uid)
 
@@ -270,6 +281,8 @@ class UsersController < ApplicationController
   private
 
   def save_new_user(email_hmac)
+    new_user = session.delete(:new_user)
+    self.current_user = User.new(new_user)
     if check_signup_allowed(current_user.email)
       current_user.data_public = true
       current_user.description = "" if current_user.description.nil?
