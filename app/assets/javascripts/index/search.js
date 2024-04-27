@@ -94,8 +94,6 @@ OSM.Search = function (map) {
     }
 
     markers.addLayer(marker);
-
-    $(this).closest("li").addClass("selected");
   }
 
   function hideSearchResult() {
@@ -104,8 +102,6 @@ OSM.Search = function (map) {
     if (marker) {
       markers.removeLayer(marker);
     }
-
-    $(this).closest("li").removeClass("selected");
   }
 
   function panToSearchResult(data) {
