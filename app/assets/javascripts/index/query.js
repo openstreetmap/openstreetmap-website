@@ -1,4 +1,3 @@
-//= require jquery-simulate/jquery.simulate
 //= require qs/dist/qs
 
 OSM.Query = function (map) {
@@ -52,23 +51,8 @@ OSM.Query = function (map) {
   }
 
   $("#sidebar_content")
-    .on("mouseover", ".query-results li.query-result", showResultGeometry)
-    .on("mouseout", ".query-results li.query-result", hideResultGeometry)
-    .on("mousedown", ".query-results li.query-result", function () {
-      var moved = false;
-      $(this).one("click", function (e) {
-        if (!moved) {
-          var geometry = $(this).data("geometry");
-          if (geometry) map.removeLayer(geometry);
-
-          if (!$(e.target).is("a")) {
-            $(this).find("a").simulate("click", e);
-          }
-        }
-      }).one("mousemove", function () {
-        moved = true;
-      });
-    });
+    .on("mouseover", ".query-results a", showResultGeometry)
+    .on("mouseout", ".query-results a", hideResultGeometry);
 
   function interestingFeature(feature) {
     if (feature.tags) {
@@ -216,13 +200,14 @@ OSM.Query = function (map) {
 
           if (interestingFeature(element)) {
             var $li = $("<li>")
-              .addClass("query-result list-group-item list-group-item-action")
-              .data("geometry", featureGeometry(element))
+              .addClass("list-group-item list-group-item-action")
               .text(featurePrefix(element) + " ")
               .appendTo($ul);
 
             $("<a>")
+              .addClass("stretched-link")
               .attr("href", "/" + element.type + "/" + element.id)
+              .data("geometry", featureGeometry(element))
               .text(featureName(element))
               .appendTo($li);
           }
@@ -367,7 +352,7 @@ OSM.Query = function (map) {
   page.unload = function (sameController) {
     if (!sameController) {
       disableQueryMode();
-      $("#sidebar_content .query-results li.query-result.selected").each(hideResultGeometry);
+      $("#sidebar_content .query-results a.selected").each(hideResultGeometry);
     }
   };
 
