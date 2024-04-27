@@ -1,4 +1,3 @@
-//= require jquery-simulate/jquery.simulate
 //= require qs/dist/qs
 
 OSM.Search = function (map) {
@@ -44,17 +43,7 @@ OSM.Search = function (map) {
     .on("click", ".search_more a", clickSearchMore)
     .on("click", ".search_results_entry a.set_position", clickSearchResult)
     .on("mouseover", "li.search_results_entry:has(a.set_position)", showSearchResult)
-    .on("mouseout", "li.search_results_entry:has(a.set_position)", hideSearchResult)
-    .on("mousedown", "li.search_results_entry:has(a.set_position)", function () {
-      var moved = false;
-      $(this).one("click", function (e) {
-        if (!moved && !$(e.target).is("a")) {
-          $(this).find("a.set_position").simulate("click", e);
-        }
-      }).one("mousemove", function () {
-        moved = true;
-      });
-    });
+    .on("mouseout", "li.search_results_entry:has(a.set_position)", hideSearchResult);
 
   var markers = L.layerGroup().addTo(map);
 
