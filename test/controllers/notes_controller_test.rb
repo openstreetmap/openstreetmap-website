@@ -30,25 +30,25 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     second_user = create(:user)
     moderator_user = create(:moderator_user)
 
-    create(:note) do |note|
+    note1 = create(:note) do |note|
       create(:note_comment, :note => note, :author => first_user)
     end
-    create(:note) do |note|
+    note2 = create(:note) do |note|
       create(:note_comment, :note => note, :author => second_user)
     end
-    create(:note, :status => "hidden") do |note|
+    note3 = create(:note, :status => "hidden") do |note|
       create(:note_comment, :note => note, :author => second_user)
     end
 
     get user_notes_path(first_user)
     assert_response :success
     assert_select ".content-heading a[href='#{user_path first_user}']", :text => first_user.display_name
-    assert_select "table.note_list tbody tr", :count => 1
+    check_note_table [note1]
 
     get user_notes_path(second_user)
     assert_response :success
     assert_select ".content-heading a[href='#{user_path second_user}']", :text => second_user.display_name
-    assert_select "table.note_list tbody tr", :count => 1
+    check_note_table [note2]
 
     get user_notes_path("non-existent")
     assert_response :not_found
@@ -57,37 +57,606 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     get user_notes_path(first_user)
     assert_response :success
-    assert_select "table.note_list tbody tr", :count => 1
+    check_note_table [note1]
 
     get user_notes_path(second_user)
     assert_response :success
-    assert_select "table.note_list tbody tr", :count => 2
+    check_note_table [note3, note2]
 
     get user_notes_path("non-existent")
     assert_response :not_found
   end
 
+  def test_index_hash_only_with_id
+    user = create(:user)
+
+    note = create(:note)
+    create(:note_comment, :note => note, :author => user)
+
+    get user_notes_path(user, :before => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+    end
+
+    get user_notes_path(user, :after => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+    end
+
+    get user_notes_path(user, :from => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [note]
+    end
+
+    get user_notes_path(user, :to => { :id => note.id })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [note]
+    end
+  end
+
   def test_index_paged
     user = create(:user)
 
-    create_list(:note, 50) do |note|
+    notes = create_list(:note, 20) do |note|
       create(:note_comment, :note => note, :author => user)
     end
 
-    get user_notes_path(user)
-    assert_response :success
-    assert_select "table.note_list tbody tr", :count => 10
+    next_path = user_notes_path(user)
 
-    get user_notes_path(user, :page => 2)
+    get next_path
     assert_response :success
-    assert_select "table.note_list tbody tr", :count => 10
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[10..19]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
   end
 
-  def test_empty_page
+  def test_index_before_edge
+    user = create(:user)
+
+    notes = Array.new(11) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :to => "newest")
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes.reverse[10]]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+  end
+
+  def test_index_after_edge
+    user = create(:user)
+
+    notes = Array.new(11) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :from => "oldest")
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[1..10]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes.reverse[0]]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+  end
+
+  def test_index_before_id
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :before => notes[1].id)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+  end
+
+  def test_index_before_id_empty_page
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :before => notes[0].id)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[0]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+  end
+
+  def test_index_after_id
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :after => notes[0].id)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+  end
+
+  def test_index_after_id_empty_page
+    user = create(:user)
+
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+
+    next_path = user_notes_path(user, :after => notes[1].id)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[0]]
+      check_no_older_notes
+      check_no_newer_notes
+    end
+  end
+
+  ##
+  # Test note pages with one note being updated during the process
+  # by following the generated links
+  def test_index_updated_cursor
+    user = create(:user)
+
+    freeze_time
+    travel(-1.year)
+    notes = Array.new(20) do
+      travel 1.day
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+    unfreeze_time
+
+    next_path = user_notes_path(user)
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      check_no_newer_notes
+      next_path = check_older_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[10..19]
+      check_no_older_notes
+      next_path = check_newer_notes
+    end
+
+    updated_note = notes.reverse[10]
+    updated_note.updated_at = Time.now.utc
+    updated_note.save!
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse[0..9]
+      check_older_notes
+      next_path = check_newer_notes
+    end
+
+    get next_path
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes.reverse[10]]
+      check_no_newer_notes
+      check_older_notes
+    end
+  end
+
+  ##
+  # Test note pages with one note in the middle updated
+  # by generating links to that note directly
+  def test_index_updated_middle_cursor_direct_link
+    user = create(:user)
+
+    freeze_time
+    travel(-1.year)
+    notes = Array.new(3) do
+      travel 1.day
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+    unfreeze_time
+
+    old_updated_ats = notes.map(&:updated_at)
+    notes[1].updated_at = Time.now.utc
+    notes[1].save!
+    id1 = notes[1].id
+    params1 = { :id => notes[1].id, :updated_at => old_updated_ats[1].utc.strftime("%Y%m%dT%H%M%SZ") }
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[2], notes[0]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :before => id1)
+    expected_linked_path = user_notes_path(user, :after => { :id => notes[2].id, :updated_at => notes[2].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[2], notes[0]]
+      assert_equal expected_linked_path, check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :after => id1)
+    expected_linked_path = user_notes_path(user, :to => "newest")
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_newer_notes
+      assert_equal expected_linked_path, check_older_notes
+    end
+
+    get user_notes_path(user, :to => id1)
+    expected_linked_path = nil
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[2], notes[0]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :from => id1)
+    expected_linked_path = user_notes_path(user, :before => { :id => notes[1].id, :updated_at => notes[1].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      assert_equal expected_linked_path, check_older_notes
+    end
+
+    get user_notes_path(user, :before => params1)
+    expected_linked_path = user_notes_path(user, :after => { :id => notes[0].id, :updated_at => notes[0].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      assert_equal expected_linked_path, check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :after => params1)
+    expected_linked_path = user_notes_path(user, :before => { :id => notes[2].id, :updated_at => notes[2].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[2]]
+      check_no_newer_notes
+      assert_equal expected_linked_path, check_older_notes
+    end
+
+    get user_notes_path(user, :to => params1)
+    expected_linked_path = user_notes_path(user, :after => { :id => notes[0].id, :updated_at => notes[0].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      assert_equal expected_linked_path, check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :from => params1)
+    expected_linked_path = user_notes_path(user, :before => { :id => notes[2].id, :updated_at => notes[2].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1], notes[2]]
+      check_no_newer_notes
+      assert_equal expected_linked_path, check_older_notes
+    end
+  end
+
+  ##
+  # Test note pages with one note at the oldest end updated
+  # by generating links to that note directly
+  def test_index_updated_edge_cursor_direct_link
+    user = create(:user)
+
+    freeze_time
+    travel(-1.year)
+    notes = Array.new(2) do
+      travel 1.day
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+    unfreeze_time
+
+    old_updated_ats = notes.map(&:updated_at)
+    notes[0].updated_at = Time.now.utc
+    notes[0].save!
+    id0 = notes[0].id
+    params0 = { :id => notes[0].id, :updated_at => old_updated_ats[0].utc.strftime("%Y%m%dT%H%M%SZ") }
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0], notes[1]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :before => id0)
+    expected_linked_path = user_notes_path(user, :after => { :id => notes[1].id, :updated_at => notes[1].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      assert_equal expected_linked_path, check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :after => id0)
+    expected_linked_path = user_notes_path(user, :to => "newest")
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_newer_notes
+      assert_equal expected_linked_path, check_older_notes
+    end
+
+    get user_notes_path(user, :to => id0)
+    expected_linked_path = nil
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0], notes[1]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :from => id0)
+    expected_linked_path = user_notes_path(user, :before => { :id => notes[0].id, :updated_at => notes[0].updated_at.utc.strftime("%Y%m%dT%H%M%SZ") })
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_no_newer_notes
+      assert_equal expected_linked_path, check_older_notes
+    end
+
+    get user_notes_path(user, :before => params0)
+    expected_linked_path = user_notes_path(user, :from => "oldest")
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      assert_equal expected_linked_path, check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :after => params0)
+    expected_linked_path = nil
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0], notes[1]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :to => params0)
+    expected_linked_path = user_notes_path(user, :from => "oldest")
+    assert_response :success
+    assert_select ".content-body" do
+      check_no_note_table
+      assert_equal expected_linked_path, check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :from => params0)
+    expected_linked_path = nil
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0], notes[1]]
+      check_no_newer_notes
+      check_no_older_notes
+    end
+  end
+
+  def test_index_empty_page
     user = create(:user)
     get user_notes_path(user)
     assert_response :success
-    assert_select "h4", :html => "No notes"
+    assert_select ".content-body" do
+      check_no_note_table
+      check_no_newer_notes
+      check_no_older_notes
+    end
+  end
+
+  def test_index_invalid_cursor
+    user = create(:user)
+    other_user = create(:user)
+    other_users_note = create(:note) do |note|
+      create(:note_comment, :note => note, :author => other_user)
+    end
+    hidden_note = create(:note, :status => "hidden") do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    get user_notes_path(user, :before => 0)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => 0)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :before => other_users_note.id)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => other_users_note.id)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :before => hidden_note.id)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => hidden_note.id)
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :before => { :what => "is it?" })
+    assert_redirected_to :action => :index
+
+    get user_notes_path(user, :after => { :we => "don't know" })
+    assert_redirected_to :action => :index
+  end
+
+  def test_same_time
+    user = create(:user)
+
+    freeze_time
+    notes = Array.new(2) do
+      note = create(:note)
+      create(:note_comment, :note => note, :author => user)
+      note
+    end
+    unfreeze_time
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table notes.reverse
+      check_no_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :before => notes[1].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :after => notes[0].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      check_older_notes
+    end
+
+    get user_notes_path(user, :to => notes[0].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[0]]
+      check_newer_notes
+      check_no_older_notes
+    end
+
+    get user_notes_path(user, :from => notes[1].id)
+    assert_response :success
+    assert_select ".content-body" do
+      check_note_table [notes[1]]
+      check_no_newer_notes
+      check_older_notes
+    end
   end
 
   def test_read_note
@@ -202,5 +771,43 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template template
     assert_template :layout => "xhr"
+  end
+
+  def check_no_note_table
+    assert_select "h4", :html => "No notes"
+  end
+
+  def check_note_table(notes)
+    assert_dom "table.note_list tbody tr" do |rows|
+      table_ids = rows.map do |row|
+        cell = assert_dom row, "> td:nth-child(2)", :text => /^\d+$/
+        cell.text.to_i
+      end
+      assert_equal notes.map(&:id), table_ids, "notes table mismatch"
+    end
+  end
+
+  def check_no_older_notes
+    assert_select "a.page-link", { :text => /Older Notes/, :count => 0 }, "unexpected older notes link"
+  end
+
+  def check_no_newer_notes
+    assert_select "a.page-link", { :text => /Newer Notes/, :count => 0 }, "unexpected newer notes link"
+  end
+
+  def check_older_notes
+    path = nil
+    assert_select "a.page-link", { :text => /Older Notes/ }, "missing older notes link" do |buttons|
+      path = buttons.first.attributes["href"].value
+    end
+    path
+  end
+
+  def check_newer_notes
+    path = nil
+    assert_select "a.page-link", { :text => /Newer Notes/ }, "missing newer notes link" do |buttons|
+      path = buttons.first.attributes["href"].value
+    end
+    path
   end
 end

@@ -6,12 +6,18 @@
            :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-body") %></p>
 <% end %>
 
+<% if @newer_param || @older_param %>
+  <%= render "shared/pagination",
+             :newer_translation_key => "notes.index.newer_notes",
+             :older_translation_key => "notes.index.older_notes",
+             :newer_param => @newer_param,
+             :older_param => @older_param %>
+<% end %>
+
 <% if @notes.empty? %>
   <h4><%= t ".no_notes" %></h4>
 
 <% else %>
-  <%= render :partial => "notes_paging_nav" %>
-
   <table class="table table-sm note_list">
     <thead>
       <tr>
@@ -40,7 +46,12 @@
     </tr>
   <% end -%>
   </table>
-
-  <%= render :partial => "notes_paging_nav" %>
-
 <% end -%>
+
+<% if @newer_param || @older_param %>
+  <%= render "shared/pagination",
+             :newer_translation_key => "notes.index.newer_notes",
+             :older_translation_key => "notes.index.older_notes",
+             :newer_param => @newer_param,
+             :older_param => @older_param %>
+<% end %>
