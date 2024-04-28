@@ -1,23 +1,25 @@
 <nav class="d-flex justify-content-between gap-2">
   <ul class="pagination">
-    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => nil)) do %>
+    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => nil),
+                        t(:newest, :scope => translation_scope)) do %>
       <%= previous_page_svg_tag :class => "flex-shrink-0", :count => 2 %>
-      <span class="d-none d-md-block"><%= t :newest, :scope => translation_scope %></span>
     <% end %>
   </ul>
   <ul class="pagination">
-    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => newer_id)) do %>
+    <%= pagination_item(newer_id && @params.merge(:before => nil, :after => newer_id),
+                        t(:newer, :scope => translation_scope)) do %>
       <%= previous_page_svg_tag :class => "flex-shrink-0" %>
       <span class="d-none d-sm-block"><%= t :newer, :scope => translation_scope %></span>
     <% end %>
-    <%= pagination_item(older_id && @params.merge(:before => older_id, :after => nil)) do %>
+    <%= pagination_item(older_id && @params.merge(:before => older_id, :after => nil),
+                        t(:older, :scope => translation_scope)) do %>
       <span class="d-none d-sm-block"><%= t :older, :scope => translation_scope %></span>
       <%= next_page_svg_tag :class => "flex-shrink-0" %>
     <% end %>
   </ul>
   <ul class="pagination">
-    <%= pagination_item(older_id && @params.merge(:before => nil, :after => 0)) do %>
-      <span class="d-none d-md-block"><%= t :oldest, :scope => translation_scope %></span>
+    <%= pagination_item(older_id && @params.merge(:before => nil, :after => 0),
+                        t(:oldest, :scope => translation_scope)) do %>
       <%= next_page_svg_tag :class => "flex-shrink-0", :count => 2 %>
     <% end %>
   </ul>
