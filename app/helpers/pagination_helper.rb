@@ -1,11 +1,12 @@
 module PaginationHelper
-  def pagination_item(params, &)
+  def pagination_item(params, title, &)
     link_class = "page-link icon-link text-center"
     page_link_content = capture(&)
     if params
       page_link = link_to page_link_content,
                           params,
                           :class => link_class,
+                          :title => title,
                           :data => { "turbo" => true, "turbo-frame" => "pagination", "turbo-action" => "advance" }
       tag.li page_link, :class => "page-item d-flex"
     else
