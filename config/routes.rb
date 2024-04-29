@@ -180,7 +180,7 @@ OpenStreetMap::Application.routes.draw do
   get "/forgot-password.html", :to => redirect(:path => "/user/forgot-password")
 
   # ohm
-  get "/privacy-policy" => "site#privacy_policy"
+  get "/privacy-policy" => "site#ohm_privacy_policy"
 
   # omniauth
   get "/auth/failure" => "users#auth_failure"
