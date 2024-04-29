@@ -222,7 +222,7 @@ lb:
       openid: OpenID
       google: Google
       facebook: Facebook
-      windowslive: Windows Live
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -251,7 +251,7 @@ lb:
   account:
     deletions:
       show:
-        title: Mäi Benotzerkont läschen
+        title: Mäi Kont läschen
         warning: Opgepasst! D'Läsche vum Benotzerkont ass endgülteg a kann net réckgängeg
           gemaach ginn.
         delete_account: Benotzerkont läschen
@@ -288,6 +288,12 @@ lb:
   browse:
     created: Ugeluecht
     closed: Zou
+    created_ago_html: '%{time_ago} ugeluecht'
+    closed_ago_html: '%{time_ago} zougemaach'
+    created_ago_by_html: '%{time_ago} ugeluecht vum %{user}'
+    closed_ago_by_html: '%{time_ago} zougemaach vum %{user}'
+    deleted_ago_by_html: '%{time_ago} geläscht vum %{user}'
+    edited_ago_by_html: '%{time_ago} geännert vum %{user}'
     version: Versioun
     in_changeset: Set vun Ännerungen
     anonymous: anonym
@@ -303,6 +309,8 @@ lb:
     view_history: Versioune weisen
     view_details: Detailer weisen
     location: 'Plaz:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     changeset:
       title: 'Set vun Ännerungen: %{id}'
       belongs_to: Auteur
@@ -413,6 +421,7 @@ lb:
       reopened_by_anonymous_html: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by_html: Verstoppt vum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Dësen Hiweis mellen
+      coordinates_html: '%{latitude}, %{longitude}'
     query:
       title: Objetsoffro
       introduction: Klick op d'Kaart, fir Objeten an der Noperschaft ze fannen.
@@ -553,6 +562,17 @@ lb:
       applications:
         create:
           notice: Applikatioun registréiert.
+    scopes:
+      email: Är E-Mail-Adress weisen
+      phone: Är Telefonsnummer weisen
+      profile: Är Profilinformatioune weisen
+  errors:
+    contact:
+      contact: Kontakt
+    forbidden:
+      title: Verbueden
+    not_found:
+      title: Fichier net fonnt
   friendships:
     make_friend:
       heading: '%{user} als Frënd derbäisetzen?'
@@ -571,6 +591,7 @@ lb:
     search:
       title:
         results_from_html: Resultater vun %{results_link}
+        latlon: Intern
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1473,6 +1494,7 @@ lb:
     intro_text: OpenHistoricalMap ass eng Kaart vun der Welt, déi vu Leit wéi Iech
       gemaach gouf an déi fräi ënner enger oppener Lizenz benotzt ka ginn.
     intro_2_create_account: E Benotzerkont uleeën
+    partners_title: Partner
     hosting_partners_html: Den Hosting gëtt vun %{ucl}, %{fastly}, %{bytemark} an
       anere(n) %{partners} ënnerstëtzt.
     partners_partners: Partneren
@@ -1706,6 +1728,7 @@ lb:
     no_such_message:
       title: Kee sou ee Message
       heading: Kee sou ee Message
+      body: Leider gëtt et kee Message mat där ID.
     outbox:
       my_inbox: Mäi Postagang
       my_outbox: Mäi Postausgang
@@ -1829,9 +1852,9 @@ lb:
         facebook:
           title: Mat Facebook aloggen
           alt: Mat engem Facebook Benotzerkont aloggen
-        windowslive:
-          title: Mat Windows Live aloggen
-          alt: Mat engem Windows-Live Benotzerkont aloggen
+        microsoft:
+          title: Mat Microsoft aloggen
+          alt: Mat engem Microsoft-Kont aloggen
         github:
           title: Mat GitHub aloggen
           alt: Mat engem GitHub-Konto aloggen
@@ -1978,12 +2001,13 @@ lb:
       welcome:
         url: /welcome
         title: Wëllkomm bei OpenHistoricalMap
+      discord:
+        title: Discord
       forum:
         title: Forum
       slack:
         title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/
         title: Wiki
     any_questions:
       title: Nach Froen?
@@ -2061,6 +2085,8 @@ lb:
       title: Wëllkomm!
       whats_on_the_map:
         title: Wat ass op der Kaart
+      basic_terms:
+        node: Knuet
       rules:
         title: Reegelen!
       add_a_note:
@@ -2127,6 +2153,8 @@ lb:
       public_traces: Ëffentlech GPS Spueren
       public_traces_from: Ëffentlech GPS-Spuere vu(n) %{user}
       description: Lescht GPS-Spuer-Uploads duerchsichen
+      empty_title: Nach näischt hei
+      wiki_page: Wikisäit
       all_traces: All Spuren
       my_traces: Meng Spueren
       traces_from: Ëffentlech Spuere vum %{user}
@@ -2139,6 +2167,7 @@ lb:
       description_without_count: GPX-Fichier vum %{user}
   application:
     settings_menu:
+      account_settings: Kontoastellungen
       oauth1_settings: OAuth 1-Astellungen
       oauth2_applications: OAuth 2 Applikatiounen
       oauth2_authorizations: OAuth 2 Autorisatiounen
@@ -2151,6 +2180,8 @@ lb:
       allow_read_gpx: Deng privat GPS-Spueren ausliesen
       allow_write_gpx: GPS-Spueren héichlueden
       allow_write_notes: Notizen änneren.
+    authorize_success:
+      verification: De Verifikatiounscode ass %{code}
     scopes:
       read_prefs: Benotzerastellunge liesen
       write_prefs: Benotzerastellungen änneren
@@ -2174,6 +2205,8 @@ lb:
       revoke: Ophiewen!
       my_apps: Meng Clients-Applikatiounen
       oauth: OAuth
+    not_found:
+      sorry: Deen %{type} gouf leider net fonnt.
   oauth2_applications:
     index:
       title: Meng Clients-Applikatiounen
@@ -2428,6 +2461,10 @@ lb:
           one: Dir sidd manner wéi ee Fouss vun dësem Punkt ewech
           other: Dir sidd %{count} Féiss vun dësem Punkt ewech
       base:
+        historical: Historesch
+        woodblock: Holzblock
+        japanesescroll: Japanesch Schrëftroll
+        railway: Eisebunn
         standard: Standard
         cycle_map: Vëloskaart
         transport_map: Verkéierskaart
@@ -2441,6 +2478,7 @@ lb:
         overlays: Overlayë fir d’Feelersich aktivéieren
         title: Niveauen
       copyright_text: © %{copyright_link}
+      make_a_donation: En Don maachen
     site:
       edit_tooltip: Kaart änneren
       edit_disabled_tooltip: Vergréissere fir d'Kaart z'änneren
@@ -2472,6 +2510,7 @@ lb:
         fossgis_osrm_bike: Mam Vëlo (OSRM)
         fossgis_osrm_car: Auto (OSRM)
         fossgis_osrm_foot: Zu Fouss (OSRM)
+        graphhopper_bicycle: Vëlo (GraphHopper)
         graphhopper_car: Auto (GraphHopper)
       descend: Vu grouss op kleng
       directions: Richtungen
@@ -2514,6 +2553,7 @@ lb:
           tenth: zéngt
       time: Zäit
     query:
+      node: Knuet
       way: Wee
       relation: Relatioun
     context:

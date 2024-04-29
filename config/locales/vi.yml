@@ -228,7 +228,7 @@ vi:
       openid: OpenID
       google: Google
       facebook: Facebook
-      windowslive: Windows Live
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -604,20 +604,56 @@ vi:
       newer_comments: Các Nhận xét Mới hơn
       older_comments: Các Nhận xét Cũ hơn
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Máy chủ cấp quyền yêu cầu lựa chọn tài khoản người
+          dùng cuối
+        consent_required: Máy chủ cấp quyền yêu cầu người dùng cuối đồng thuận
+        interaction_required: Máy chủ cấp quyền yêu cầu người dùng cuối tương tác
+        login_required: Máy chủ cấp quyền yêu cầu người dùng cuối xác thực
     flash:
       applications:
         create:
           notice: Ứng dụng được đăng ký.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            thiếu cấu hình.
+          reauthenticate_resource_owner_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            thiếu cấu hình.
+          resource_owner_from_access_token_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            thiếu cấu hình.
+          select_account_for_resource_owner_not_configured: Lỗi do Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            thiếu cấu hình.
+          subject_not_configured: Không thể tạo dấu hiệu ID do Doorkeeper::OpenidConnect.configure.subject
+            thiếu cấu hình.
+    scopes:
+      address: Xem địa chỉ thực của bạn
+      email: Xem địa chỉ thư điện tử của bạn
+      openid: Xác thực tài khoản của bạn
+      phone: Xem số điện thoại của bạn
+      profile: Xem thông tin hồ sơ của bạn
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Resources?uselang=vi
       contact_url_title: Giải thích các phương cách liên lạc
       contact: liên lạc
+      contact_the_community_html: Xin vui lòng %{contact_link} cộng đồng OpenHistoricalMap
+        nếu bạn gặp liên kết hỏng hoặc lỗi phần mềm. Hãy ghi nhớ địa chỉ URL chính
+        xác của yêu cầu máy chủ.
     forbidden:
       title: Cấm
+      description: Tác vụ đuợc yêu cầu trên máy chủ OpenHistoricalMap chỉ khả dụng
+        đối với các quản trị viên (HTTP 403)
     internal_server_error:
       title: Lỗi ứng dụng
+      description: Máy chủ OpenHistoricalMap gặp phải tình trạng không mong đợi khiến
+        máy chủ không thể thực hiện yêu cầu (HTTP 500)
     not_found:
       title: Không tìm thấy tập tin
+      description: Không thể tìm thấy thao tác tập tin/thư mục/API có tên đó trên
+        máy chủ OpenHistoricalMap (HTTP 404)
   friendships:
     make_friend:
       heading: Kết bạn với %{user}?
@@ -1818,9 +1854,9 @@ vi:
         facebook:
           title: Đăng nhập qua Facebook
           alt: Đăng nhập dùng tài khoản Facebook
-        windowslive:
-          title: Đăng nhập qua Windows Live
-          alt: Đăng nhập dùng tài khoản Windows Live
+        microsoft:
+          title: Đăng nhập qua Microsoft
+          alt: Đăng nhập dùng Tài khoản Microsoft
         github:
           title: Đăng nhập qua GitHub
           alt: Đăng nhập dùng tài khoản GitHub
@@ -1887,9 +1923,8 @@ vi:
         Quy định Sử dụng Hợp lý</a> and our <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi">Quy
         định về Quyền Riêng tư</a> của chúng tôi.
       legal_2_html: |-
-        Xin vui lòng <a href='https://osmfoundation.org/Contact?uselang=vi'>liên lạc với OSMF</a> nếu bạn có thắc mắc về giấy phép, bản quyền, hoặc thắc mắc khác về pháp luật.
+        Xin vui lòng liên lạc với nhóm OHM tại <a href='mailto:historic@openstreetmap.org'>historic@openstreetmap.org</a> nếu bạn có thắc mắc về giấy phép, bản quyền, hoặc thắc mắc khác về pháp luật.
         <br>
-        OpenHistoricalMap, biểu trưng kính lúp, và State of the Map đều là <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy?uselang=vi">nhãn hiệu đăng ký của Quỹ OSM</a>.
       partners_title: Nhà bảo trợ
     copyright:
       foreign:
@@ -1905,18 +1940,23 @@ vi:
         mapping_link: bắt đầu vẽ bản đồ
       legal_babble:
         title_html: Bản quyền và Giấy phép
-        intro_1_html: |-
-          OpenHistoricalMap<sup><a href="#trademarks">&reg;</a></sup> là <i>dữ liệu mở</i> được phát hành theo <a
-          href="https://opendatacommons.org/licenses/odbl/">Giấy phép Cơ sở dữ liệu Mở của Open Data
-          Commons</a> (ODbL) bởi <a href="https://osmfoundation.org/">OpenHistoricalMap Foundation</a> (OSMF).
+        intro_1_html: OpenHistoricalMap (OHM) cung cấp dữ liệu bản đồ lịch sử và dữ
+          liệu liên quan do những người đóng góp cấp quyền ở cấp đối tượng. Những
+          người đóng góp được khuyến khích đóng góp dữ liệu bằng giấy phép <a href="https://creativecommons.org/public-domain/cc0/">CC0</a>,
+          nhưng vì lợi ích bảo vệ quyền của người tạo dữ liệu lịch sử, chẳng hạn như
+          các học giả, các giấy phép mở khác, chẳng hạn như bất kỳ sự kết hợp nào
+          của CC, BY, SA và NC đều được hỗ trợ. Bạn có trách nhiệm hiểu các điều khoản
+          của giấy phép có trong dữ liệu bạn sao chép, phân phối, truyền tải và điều
+          chỉnh.
         intro_2_html: Bạn được tự do sao chép, phân phối, truyền, và tạo ra các tác
           phẩm phái sinh từ các dữ liệu của chúng ta, miễn là bạn ghi công OpenHistoricalMap
           và những người đóng góp vào nó. Nếu bạn sửa đổi hoặc tạo sản phẩm dựa trên
           các dữ liệu của chúng tôi, bạn chỉ được phép phân phối kết quả theo cùng
           giấy phép. <a href="https://opendatacommons.org/licenses/odbl/1.0/">Mã pháp
           lý</a> đầy đủ giải thích các quyền và trách nhiệm của bạn.
-        intro_3_1_html: "Tài liệu của chúng tôi được phát hành theo giấy phép <a href=\"https://creativecommons.org/licenses/by-sa/2.0/deed.vi\">Creative
-          \nCommons Ghi công–Chia sẻ tương tự 2.0</a> (CC BY-SA)."
+        intro_3_1_html: |-
+          Các lựa chọn sáng tạo bản đồ học trong các mảnh bản đồ của chúng tôi được phát hành theo các điều khoản của đối tượng được chứa trong mảnh. Các kiểu bản đồ và tài liệu của chúng tôi được phát hành theo bản hiến tặng vào phạm vi công cộng
+          Creative Commons CC0 “Không bảo lưu quyền”.
         credit_title_html: Cách ghi công OpenHistoricalMap
         credit_1_html: Chúng tôi bắt bạn phải sử dụng lời ghi công “© những người
           đóng góp vào OpenHistoricalMap”.
@@ -2001,8 +2041,13 @@ vi:
       map_image: Hình Bản đồ (Lớp Chuẩn)
       embeddable_html: HTML để Nhúng
       licence: Giấy phép
-      export_details_html: Dữ liệu OpenHistoricalMap được phép sử dụng theo <a href="https://opendatacommons.org/licenses/odbl/1.0/">Giấy
-        phép Cơ sở dữ liệu Mở Open Data Commons</a> (ODbL).
+      licence_details_html: OpenHistoricalMap (OHM) cung cấp dữ liệu bản đồ lịch sử
+        và dữ liệu liên quan do những người đóng góp cấp quyền ở cấp đối tượng. Những
+        người đóng góp được khuyến khích đóng góp dữ liệu bằng giấy phép CC0, nhưng
+        vì lợi ích bảo vệ quyền của người tạo dữ liệu lịch sử, chẳng hạn như các học
+        giả, các giấy phép mở khác, chẳng hạn như bất kỳ sự kết hợp nào của CC, BY,
+        SA và NC đều được hỗ trợ. Bạn có trách nhiệm hiểu các điều khoản của giấy
+        phép có trong dữ liệu bạn sao chép, phân phối, truyền tải và điều chỉnh.
       too_large:
         advice: 'Nếu việc xuất dữ liệu ở trên bị thất bại, hãy nghĩ đến việc sử dụng
           một trong những nguồn bên dưới:'
@@ -2067,26 +2112,21 @@ vi:
         title: Chào mừng đến OpenHistoricalMap
         description: Bắt đầu với cẩm nang các điều cơ bản OpenHistoricalMap.
       discord:
-        url: https://discord.gg/openstreetmap
         title: switch2osm
         description: 'Tham gia máy chủ Discord OpenStreetMap Thế giới và nhận trợ
           giúp trong kênh #openhistoricalmap.'
       forum:
-        url: https://forum.openhistoricalmap.org/
         title: Diễn đàn
         description: Tham gia các cuộc thảo luận quan trọng và phòng trò chuyện thoải
           mái dùng tài khoản OHM của bạn.
       mailing_list:
-        url: https://lists.openstreetmap.org/listinfo/historic
         title: Danh sách thư
         description: Đăng ký theo dõi danh sách thư yên lặng.
       slack:
-        url: https://slack.openstreetmap.us/
         title: IRC
         description: 'Hãy gia nhập không gian làm việc Slack của OpenStreetMap Hoa
           Kỳ và truy cập vào kênh #openhistoricalmap.'
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/Vi:OpenHistoricalMap?uselang=vi
         title: Wiki
         description: Hướng dẫn sử dụng và đóng góp vào OpenHistoricalMap do cộng đồng
           biên soạn.
@@ -2309,8 +2349,12 @@ vi:
       public_traces_from: Tuyến đường GPS công khai của %{user}
       description: Xem những tuyến đường GPS được tải lên gần đây
       tagged_with: ' có thẻ %{tags}'
+      empty_title: Chưa có gì ở đây
+      empty_upload_html: '%{upload_link} hoặc tìm hiểu thêm về việc tạo tuyến đường
+        GPS tại %{wiki_link}.'
       upload_new: Tải lên tuyến đường mới
       wiki_page: trang wiki
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2?uselang=vi
       upload_trace: Tải lên tuyến đường
       all_traces: Tất cả các Tuyến đường
       my_traces: Tuyến đường của Tôi
@@ -2380,6 +2424,7 @@ vi:
     permissions:
       missing: Bạn chưa cấp phép cho ứng dụng sử dụng chức năng này
     scopes:
+      openid: Đăng nhập qua OpenStreetMap
       read_prefs: Đọc tùy chọn người dùng
       write_prefs: Thay đổi tùy chọn người dùng
       write_diary: Tạo mục nhật ký, bình luận, và kết bạn
@@ -2524,9 +2569,10 @@ vi:
         thuộc về phạm vi công cộng
       consider_pd_why: đây là gì?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=vi
-      guidance_html: 'Thông tin để tìm hiểu về các điều khoản này: <a href="%{summary}">bản
-        tóm tắt dễ đọc</a> và <a href="%{translations}">một số bản dịch không chính
-        thức</a>'
+      guidance_info_html: 'Thông tin giúp hiểu các thuật ngữ này: a %{readable_summary_link}
+        và một số %{informal_translations_link}'
+      readable_summary: bản tóm tắt dễ đọc
+      informal_translations: bản dịch không chính thức
       continue: Tiếp tục
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
       decline: Từ chối

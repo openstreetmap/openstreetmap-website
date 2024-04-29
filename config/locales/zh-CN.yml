@@ -288,7 +288,7 @@ zh-CN:
       openid: 开放式身份验证
       google: 谷歌
       facebook: 脸书
-      windowslive: Windows Live
+      microsoft: 微软
       github: GitHub
       wikipedia: 维基百科
   api:
@@ -371,6 +371,12 @@ zh-CN:
   browse:
     created: 创建于
     closed: 关闭于
+    created_ago_html: 创建于%{time_ago}
+    closed_ago_html: 关闭于%{time_ago}
+    created_ago_by_html: 由%{user}创建于%{time_ago}
+    closed_ago_by_html: 由%{user}关闭于%{time_ago}
+    deleted_ago_by_html: 由%{user}删除于%{time_ago}
+    edited_ago_by_html: 由%{user}编辑于%{time_ago}
     version: 版本
     in_changeset: 变更集
     anonymous: 匿名用户
@@ -398,6 +404,8 @@ zh-CN:
       relation: 关系 (%{count})
       relation_paginated: 关系 (%{x}-%{y}，共 %{count})
       comment: 评论（%{count}）
+      hidden_comment_by_html: 来自%{user}%{time_ago}的隐藏评论
+      comment_by_html: 来自%{user}%{time_ago}的评论
       changesetxml: 变更集 XML
       osmchangexml: osm 修改 XML
       feed:
@@ -516,6 +524,7 @@ zh-CN:
     index:
       title: 变更集
       title_user: '%{user}的变更集'
+      title_user_link_html: '%{user_link}的变更集'
       title_friend: 由我的朋友所做的变更集
       title_nearby: 附近用户的变更集
       empty: 未找到变更集。
@@ -639,6 +648,10 @@ zh-CN:
       applications:
         create:
           notice: 应用程序已注册。
+    scopes:
+      email: 查看您的电子邮件地址
+      openid: 验证您的帐户
+      phone: 查看您的电话号码
   friendships:
     make_friend:
       heading: 添加 %{user} 为朋友？
@@ -1842,9 +1855,6 @@ zh-CN:
         facebook:
           title: 使用脸书登录
           alt: 使用Facebook账户登录
-        windowslive:
-          title: 使用Windows Live登录
-          alt: 使用Windows Live账户登录
         github:
           title: 使用GitHub登录
           alt: 通过GitHub账户登录
@@ -1898,13 +1908,10 @@ zh-CN:
       open_data_html: OpenHistoricalMap 是<i>开源数据</i>:只要您表明使用了 OpenHistoricalMap 并承认其贡献者的工作，您就可以使用
         OpenHistoricalMap。如果您改变或者使用这些数据，您必须按照相同的版权协议发布结果。详情请参见<a href='%{copyright_path}'>版权协议</a>。
       legal_title: 法律
-      legal_1_html: |-
-        此网站和很多其他相关服务已由<a href='https://osmfoundation.org/'>OpenHistoricalMap基金会</a>（OSMF）正式代表社群运营。使用所有由OSMF运营的服务均需符合我们的<a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">使用条款</a>、<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        可接受使用方针</a>和我们的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">隐私政策。
-      legal_2_html: |-
-        如果您有任何授权、版权或其他法律咨询，请<a href='https://osmfoundation.org/Contact'>联系OSMF</a>。
-        <br>
-        OpenHistoricalMap、放大镜标示，和State of the Map是<a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF的注册商标</a>。
+      legal_1_html: 本网站以及很多其他相关服务由代表社区的非正式OpenHistoricalMap集体所运作。所有使用的OHM运作服务均符合我们的使用条款、可接受使用方针，以及<a
+        href="/privacy-policy">隐私政策</a>。
+      legal_2_html: "如果您有许可、版权或其他法律问题，请联系OHM团队 ( <a href='mailto:historic@openstreetmap.org'>historic@openstreetmap.org</a>
+        \n)。\n<br>"
       partners_title: 合作伙伴
     copyright:
       foreign:
@@ -1979,7 +1986,7 @@ zh-CN:
       map_image: 地图图像 (显示标准图层)
       embeddable_html: 可嵌入HTML
       licence: 许可协议
-      export_details_html: OpenHistoricalMap 数据采用<a href="https://opendatacommons.org/licenses/odbl/1.0/">开放数据共享开放数据库许可协议</a>
+      licence_details_html: OpenHistoricalMap 数据采用<a href="https://opendatacommons.org/licenses/odbl/1.0/">开放数据共享开放数据库许可协议</a>
         (ODbL)授权。
       too_large:
         advice: 如果用上面的导出工具失败了，请考虑使用下面列出的来源来导出：
@@ -2037,7 +2044,6 @@ zh-CN:
       slack:
         title: IRC
       wiki:
-        url: https://wiki.openstreetmap.org/
         title: OpenStreetMap Wiki
         description: 浏览 wiki 深入了解 OpenHistoricalMap 文档。
     any_questions:
@@ -2137,6 +2143,8 @@ zh-CN:
       basic_terms:
         title: 绘制地图的基本术语
         paragraph_1: OpenHistoricalMap 有一些自己的术语。这里是一些常用的关键词。
+        editor: 编辑器
+        tag: 标签
       rules:
         title: 规则！
         para_1_html: OpenHistoricalMap很少有正式规则，但我们期待所有参与者能合作，并与社区沟通。如果您在考虑任何除手工编辑的活动，请阅读并遵守<a
@@ -2145,6 +2153,7 @@ zh-CN:
       add_a_note:
         title: 没有时间编辑？添加注记！
         para_1: 如果您这是想做一些微小改动而没有时间登录来学习如何编辑，那添加注记是非常容易的。
+        the_map: 地图
   traces:
     visibility:
       private: 私有 (只以匿名分享，无顺序的点)
@@ -2217,6 +2226,7 @@ zh-CN:
       public_traces_from: 来自 %{user} 的公开 GPS 轨迹
       description: 浏览最近的GPS轨迹上传
       tagged_with: ' 标签为%{tags}'
+      wiki_page: Wiki页面
       upload_trace: 上传轨迹
       all_traces: 所有轨迹
       my_traces: 我的轨迹
@@ -2401,7 +2411,6 @@ zh-CN:
       consider_pd: 除了上述协议，我同意将我的贡献释于公有领域
       consider_pd_why: 这是什么？
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance_html: 帮助理解这些条款的信息：一个<a href="%{summary}">可读的摘要</a>和一些<a href="%{translations}">非正式翻译</a>
       continue: 继续
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: 拒绝
@@ -2684,6 +2693,8 @@ zh-CN:
           one: 你就在这个位置的一英尺范围内
           other: 你就在这个位置的%{count}英尺范围内
       base:
+        japanesescroll: 日本挂轴
+        railway: 铁路
         standard: 标准
         cyclosm: 自行车地图
         cycle_map: 骑行运动地图

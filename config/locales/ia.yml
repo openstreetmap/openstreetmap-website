@@ -222,7 +222,7 @@ ia:
       openid: OpenID
       google: Google
       facebook: Facebook
-      windowslive: Windows Live
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -603,10 +603,39 @@ ia:
       newer_comments: Commentos plus recente
       older_comments: Commentos plus ancian
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Le servitor de autorisation require le selection
+          de un conto de usator
+        consent_required: Le servitor de autorisation require le consentimento del
+          usator
+        interaction_required: Le servitor de autorisation require un interaction del
+          usator
+        login_required: Le servitor de autorisation require le authentication del
+          usator
     flash:
       applications:
         create:
           notice: Application registrate.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Fallimento a causa del manco
+            de un configuration Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Fallimento a causa del manco
+            de un configuration Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Fallimento a causa del
+            manco de un configuration  Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Fallimento a causa del
+            manco de un configuration  Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Le generation del token identificator ha fallite
+            a causa del manco de un configuration  Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Vider tu adresse physic
+      email: Vider tu adresse de e-mail
+      openid: Authenticar tu conto
+      phone: Vider tu numero de telephono
+      profile: Vider tu information de profilo
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
@@ -1922,9 +1951,9 @@ ia:
         facebook:
           title: Aperir session con Facebook
           alt: Aperir session con un conto de Facebook
-        windowslive:
-          title: Aperir session con Windows Live
-          alt: Aperir session con un conto de Windows Live
+        microsoft:
+          title: Aperir session con Microsoft
+          alt: Aperir session con un conto Microsoft
         github:
           title: Aperir session con GitHub
           alt: Aperir session con un conto de GitHub
@@ -1987,16 +2016,13 @@ ia:
         <p>Tu pote acceder a datos OHM a transverso varie servicios, non solmente iste sito web. Vide un lista de sitos web e API disponibile in production e test sur <a href='https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_Web_Services'>nostre pagina Wiki</a>.</p>
       legal_title: Juridic
       legal_1_html: "Iste sito e multe altere servicios associate es formalmente gerite
-        per le  \n<a href=\"https://osmfoundation.org/\">Fundation OpenHistoricalMap</a>
-        (OSMF) \nin nomine del communitate. Le uso de tote le servicios gerite per
-        OSMF es subjecte a nostre <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">conditiones
-        de uso</a>, a nostre <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npoliticas
-        de uso acceptabile</a> e a nostre <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">politica
-        de confidentialitate</a>."
-      legal_2_html: "<a href=\"https://osmfoundation.org/Contact\">Contacta OSMF</a>
-        \nsi vos ha questiones sur licentias, derectos de autor o altere themas juridic.\n<br>\nOpenHistoricalMap,
-        le logotypo de lupa e \"State of the Map\" es <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marcas
-        commercial registrate del OSMF</a>."
+        per le collectivo OpenHistoricalMap multo informal, \nin nomine del communitate.
+        Le uso de tote le servicios gerite per OHM es subjecte a nostre conditiones
+        de uso e a nostre <a href=\"/privacy-policy\">politica de confidentialitate</a>."
+      legal_2_html: |-
+        Per favor contacta le equipa de OHM a <a href='mailto:historic@openstreetmap.org'>historic@openstreetmap.org</a>
+        si tu ha questiones sur licentias, derectos de autor o altere questiones juridic.
+        <br>
       partners_title: Partners
     copyright:
       foreign:
@@ -2105,8 +2131,9 @@ ia:
       map_image: Imagine de carta (monstra le strato standard)
       embeddable_html: HTML incorporabile
       licence: Licentia
-      export_details_html: Le datos de OpenHistoricalMap es licentiate sub le <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
-        Data Commons Open Database License</a> (ODbL).
+      licence_details_html: Le datos de OpenHistoricalMap es licentiate sub le <a
+        href="https://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open
+        Database License</a> (ODbL).
       too_large:
         advice: 'Si iste exportation falle, considera usar un del fontes listate hic
           infra:'
@@ -2174,10 +2201,20 @@ ia:
         description: Comencia con iste guida rapide sur le fundamentos de OpenHistoricalMap.
       discord:
         title: switch2osm
+        description: 'Adhere al servitor Discord de OpenStreetMap e obtene adjuta
+          in le canal #openhistoricalmap.'
+      forum:
+        title: Foro
+        description: Participa a discussiones plus longe e conversationes informal
+          usante tu conto de OHM.
+      mailing_list:
+        title: Lista de diffusion
+        description: Abona te a nostre lista de diffusion a basse volumine.
       slack:
         title: IRC
+        description: 'Invita te al spatio de travalio Slack de OpenStreetMap U.S.
+          e entra in le canal #openhistoricalmap.'
       wiki:
-        url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap
         title: Wiki
         description: Instructiones mantenite per le communitate pro le utilisation
           de OHM e directivas de contribution al projecto.
@@ -2477,6 +2514,7 @@ ia:
     permissions:
       missing: Tu non ha permittite al application le accesso a iste facilitate
     scopes:
+      openid: Aperir session con OpenStreetMap
       read_prefs: Leger preferentias de usator
       write_prefs: Modificar preferentias de usator
       write_diary: Crear entratas de diario, commentos e adder amicos
@@ -2622,9 +2660,10 @@ ia:
         essente in le dominio public
       consider_pd_why: que es isto?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
-      guidance_html: 'Informationes pro adjutar a comprender iste terminos: a <a href="%{summary}">summario
-        facile a comprender</a> e alcun <a href="%{translations}">traductiones non
-        official</a>'
+      guidance_info_html: 'Information pro adjutar a comprender iste terminos: un
+        %{readable_summary_link} e qualque %{informal_translations_link}'
+      readable_summary: summario legibile per humanos
+      informal_translations: traductiones informal
       continue: Continuar
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Declinar
@@ -2958,6 +2997,7 @@ ia:
         historical: Historic
         woodblock: Bloco de ligno
         japanesescroll: Rolo de pergamena japonese
+        railway: Ferrovia
         standard: Standard
         cycle_map: Carta cyclista
         transport_map: Carta de transporto
