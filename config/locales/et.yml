@@ -103,13 +103,13 @@ et:
         allow_write_api: muuta kaarti
         allow_read_gpx: lugeda tema isiklikke GPS-radu
         allow_write_gpx: laadida üles GPS-radu
-        allow_write_notes: muuta märkusi
+        allow_write_notes: muuda märkusi
       diary_comment:
         body: Sisu
       diary_entry:
         user: Kasutaja
         title: Teema
-        body: Kehatekst
+        body: Päevikusissekanne
         latitude: Laius
         longitude: Pikkus
         language_code: Keel
@@ -139,6 +139,7 @@ et:
         body: Sisu
         recipient: Saaja
       redaction:
+        title: Pealkiri
         description: Kirjeldus
       report:
         category: Vali kaebuse põhjus
@@ -218,6 +219,9 @@ et:
   auth:
     providers:
       none: Puudub
+      google: Google
+      facebook: Facebook
+      github: GitHub
       wikipedia: Vikipeedia
   api:
     notes:
@@ -232,6 +236,7 @@ et:
         reopened_at_by_html: Taasaktiveerinud %{user} %{when}
       rss:
         title: OpenStreetMapi märkused
+        description_all: Teada antud, kommenteeritud või suletud märkuste loend
         description_area: Loetelu märkustest mida teatati, kommenteeriti või suleti
           sinu piirkonnas [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Märkuse %{id} RSS uudisvoog
@@ -315,6 +320,7 @@ et:
     deleted_ago_by_html: Kustutanud %{user} %{time_ago}
     edited_ago_by_html: Muutnud %{user} %{time_ago}
     version: Versioon
+    redacted_version: Muudetud versioon
     in_changeset: Muudatuskogum
     anonymous: anonüümne
     no_comment: (kommentaare pole)
@@ -327,7 +333,10 @@ et:
       other: '%{count} joont'
     download_xml: Laadi alla XML
     view_history: Vaata ajalugu
+    view_unredacted_history: Vaata ajalugu muutmata kujul
     view_details: Vaata üksikasju
+    view_redacted_data: Vaata muudetud andmeid
+    view_redaction_message: Vaata muutmissõnumit
     location: 'Asukoht:'
     node:
       title_html: 'Sõlm: %{name}'
@@ -359,6 +368,7 @@ et:
       entry_html: Relatsioon %{relation_name}
       entry_role_html: Relatsioon %{relation_name} (kui %{relation_role})
     not_found:
+      title: Ei leidu
       sorry: Vabandust, %{type} %{id} ei leitud.
       type:
         node: sõlme
@@ -367,6 +377,7 @@ et:
         changeset: muudatuskogumit
         note: märkust
     timeout:
+      title: Päringu aegumise viga
       sorry: Kahjuks võttis %{type} %{id} andmete laadimine liiga kaua aega.
       type:
         node: sõlme
@@ -437,6 +448,11 @@ et:
         created: Loodud
         closed: Suletud
         belongs_to: Autor
+    subscribe:
+      heading: Kas soovid liituda selle muudatuskogumi aruteluga?
+      button: Liitu aruteluga
+    heading:
+      title: Muudatuskogum %{id}
     show:
       title: 'Muudatuskogum: %{id}'
       created: 'Loodud: %{when}'
@@ -519,6 +535,7 @@ et:
     show:
       title: Kasutaja %{user} päevik | %{title}
       user_title: Kasutaja %{user} päevik
+      discussion: Arutelu
       leave_a_comment: Kommenteeri
       login_to_leave_a_comment_html: kommenteerimiseks %{login_link}
       login: logi sisse
@@ -538,11 +555,13 @@ et:
       no_comments: Kommentaarid puuduvad
       edit_link: Muuda seda sissekannet
       hide_link: Peida see sissekanne
+      unhide_link: Lõpeta selle sissekande peitmine
       confirm: Kinnita
       report: Teata sellest sissekandest
     diary_comment:
       comment_from_html: Kommentaar kasutajalt %{link_user} %{comment_created_at}
       hide_link: Peida see kommentaar
+      unhide_link: Lõpeta selle kommentaari peitmine
       confirm: Kinnita
       report: Teata sellest kommentaarist
     location:
@@ -570,12 +589,16 @@ et:
       comment: Kommentaar
       newer_comments: Uuemad kommentaarid
       older_comments: Vanemad kommentaarid
+    subscribe:
+      heading: Kas soovid liituda selle päeviku sissekande aruteluga?
+      button: Liitu aruteluga
   doorkeeper:
     flash:
       applications:
         create:
           notice: Rakendus registreeritud.
     scopes:
+      address: Vaata oma tänava-aadressi
       email: Vaata oma e-posti aadressi
       openid: Autendi oma konto
       phone: Vaata oma telefoninumbrit
@@ -635,15 +658,20 @@ et:
           aerodrome: Lennujaam
           airstrip: Maandumisplats
           apron: Lennujaama perroon
-          gate: Lennujaama värav
+          gate: Reisiterminali värav
           hangar: Angaar
           helipad: Kopteriväljak
           holding_position: Õhusõiduki ootepositsioon
+          navigationaid: Lennuliikluse navigatsioonivahendid
           parking_position: Õhusõiduki parkimiskoht
           runway: Lennurada
+          taxilane: Ruleerimisrada
           taxiway: Ruleerimisrada
-          terminal: Lennujaama terminal
+          terminal: Lennujaama reisiterminal
+          windsock: Tuulekott
         amenity:
+          animal_boarding: Loomahotell
+          animal_shelter: Loomade varjupaik
           arts_centre: Kunstikeskus
           atm: Pangaautomaat
           bank: Pank
@@ -654,18 +682,24 @@ et:
           bicycle_rental: Jalgrattarent
           bicycle_repair_station: Jalgrataste remondijaam
           biergarten: Õlleaed
+          blood_bank: Verepank
           boat_rental: Paadilaenutus
           brothel: Lõbumaja
           bureau_de_change: Rahavahetus
           bus_station: Bussijaam
           cafe: Kohvik
           car_rental: Autorent
+          car_sharing: Ühisauto kasutamine
           car_wash: Autopesu
           casino: Kasiino
           charging_station: Laadimisjaam
+          childcare: Lastehoid
           cinema: Kino
           clinic: Kliinik
           clock: Kell
+          college: Kolledž
+          community_centre: Kogukonnakeskus
+          conference_centre: Konverentsikeskus
           courthouse: Kohtuhoone
           crematorium: Krematoorium
           dentist: Hambaarst
@@ -673,12 +707,16 @@ et:
           drinking_water: Joogivesi
           driving_school: Autokool
           embassy: Saatkond
+          events_venue: Ürituste toimumiskoht
           fast_food: Kiirtoit
           ferry_terminal: Praamiterminal
           fire_station: Tuletõrjedepoo
+          food_court: Toidutänav
           fountain: Purskkaev
           fuel: Tankla
+          gambling: Hasartmängusaal
           grave_yard: Surnuaed
+          grit_bin: Libedustõrjekruusa kast
           hospital: Haigla
           hunting_stand: Jahikantsel
           ice_cream: Jäätis
@@ -686,13 +724,20 @@ et:
           kindergarten: Lasteaed
           language_school: Keeltekool
           library: Raamatukogu
+          loading_dock: Laoestakaad
+          love_hotel: Armuhotell
           marketplace: Turg
+          mobile_money_agent: Mobiiliraha agent
           monastery: Klooster
+          money_transfer: Rahaülekandeteenus
+          motorcycle_parking: Mootorrattaparkla
           music_school: Muusikakool
           nightclub: Ööklubi
           nursing_home: Hooldekodu
           parking: Parkimisplats
+          parking_entrance: Parkla sissepääs
           parking_space: Parkimiskoht
+          payment_terminal: Makseterminal
           pharmacy: Apteek
           place_of_worship: Pühapaik
           police: Politsei
@@ -700,23 +745,46 @@ et:
           post_office: Postkontor
           prison: Vangla
           pub: Pubi
+          public_bath: Avalik looduslik spaa
+          public_bookcase: Avalik raamaturiiul
           public_building: Ühiskondlik hoone
+          ranger_station: Looduskeskus
           recycling: Jäätmekäitluspunkt
           restaurant: Restoran
+          sanitary_dump_station: Maismaatranspordivahendite heitvee purgimiskoht
           school: Kool
           shelter: Varjualune
           shower: Dušš
+          social_centre: Seltsingu hoone
+          social_facility: Sotsiaalkeskus
+          studio: Stuudio
+          swimming_pool: Ujumisbassein
           taxi: Takso
           telephone: Üldkasutatav telefon
           theatre: Teater
           toilets: WC
+          townhall: Raekoda/vallamaja
+          training: Koolituskeskus
           university: Ülikool
+          vehicle_inspection: Sõidukite tehnoülevaatus
           vending_machine: Müügiautomaat
           veterinary: Loomakliinik
+          village_hall: Kogukonnakeskuse hoone
           waste_basket: Prügikast
+          waste_disposal: Prügikonteiner
+          waste_dump_site: Mitteametlik prügimägi
+          watering_place: Loomade joogikoht
+          water_point: Joogiveepunkt
+          weighbridge: Autokaal
+          "yes": Hüve
         boundary:
+          aboriginal_lands: Põliselanike maad
           administrative: Halduspiir
+          census: Statistilise üksuse piir
           national_park: Rahvuspark
+          political: Valimisringkonna piir
+          protected_area: Kaitseala
+          "yes": Piirjoon
         bridge:
           aqueduct: Akvedukt
           boardwalk: Laudtee
@@ -725,47 +793,99 @@ et:
           viaduct: Viadukt
           "yes": Sild
         building:
+          apartment: Korter
+          apartments: Kortermaja
+          barn: Küün või laut
+          bungalow: Bangalo
+          cabin: Metsamajake
           chapel: Kabel
           church: Kirik
+          civic: Üldkasutatav hoone
+          college: Kolledžihoone
           commercial: Ärihoone
+          construction: Ehitusjärgus hoone
+          detached: Eramu (eraldiseisev maja)
           dormitory: Ühiselamu
+          duplex: Paarismaja samal kinnistul
           farm: Talumaja
+          farm_auxiliary: Talu majandushoone
           garage: Garaaž
           garages: Garaažid
           greenhouse: Kasvuhoone
           hangar: Angaar
           hospital: Haigla hoone
           hotel: Hotell
-          house: Maja
+          house: Eramu
+          houseboat: Paatmaja
+          hut: Hütt
           industrial: Tööstushoone
-          office: Kontorihoone
+          kindergarten: Lasteaia hoone
+          manufacture: Tootmishoone
+          office: Büroohoone
           public: Avalik hoone
+          residential: Elamu
+          retail: Jaekaubandushoone
           roof: Katus
+          ruins: Hoone varemed
           school: Koolihoone
-          service: Teenindushoone
+          semidetached_house: Paarismaja eri kinnistutel
+          service: Tehniliste teenistuste hoone
+          shed: Kuur
           stable: Tall
+          static_caravan: Paikne haagismaja
+          temple: Templihoone
+          terrace: Ridamaja
           train_station: Raudteejaam
           university: Ülikoolihoone
+          warehouse: Laohoone
           "yes": Hoone
+        club:
+          scout: Skaudirühm
+          sport: Spordiklubi
+          "yes": Klubi
         craft:
+          beekeeper: Mesinik
           blacksmith: Sepp
           brewery: Pruulikoda
           carpenter: Puusepp
+          caterer: Toitlustaja
+          confectionery: Kondiiter
+          dressmaker: Naisteriiete õmbleja
           electrician: Elektrik
+          electronics_repair: Elektroonikaparandaja
           gardener: Aednik
+          glaziery: Klaasija
+          handicraft: Käsitöömeister
+          hvac: Kliima- ja kütteseadmete meister
+          metal_construction: Metallkonstruktsioonide ehitaja
           painter: Maaler
           photographer: Fotograaf
           plumber: Torulukksepp
+          roofer: Katuseehitaja
+          sawmill: Saeveski
           shoemaker: Kingsepp
-          tailor: Rätsep
-          "yes": Käsitööpood
+          stonemason: Kiviraidur
+          tailor: Meesteriiete rätsep
+          window_construction: Aknameister
+          winery: Veinikoda
+          "yes": Ametioskus
         emergency:
+          access_point: Asukohatuvastuspunkt hädaolukorras
           ambulance_station: Kiirabijaam
+          assembly_point: Kogunemiskoht hädaolukorras
           defibrillator: Defibrillaator
           fire_extinguisher: Tulekustuti
+          fire_water_pond: Tuletõrjetiik
+          landing_site: Kopteriväljak päästeteenistusele
+          life_ring: Päästerõngas
           phone: Hädaabi telefon
+          siren: Elanikukaitse häiresireen
+          suction_point: Tuletõrje veevõtukoht
+          water_tank: Tuletõrjevee paak
         highway:
+          abandoned: Mahajäetud maantee
           bridleway: Ratsatee
+          bus_guideway: Roobastee bussidele
           bus_stop: Bussipeatus
           construction: Ehitusjärgus tee
           corridor: Koridor
@@ -773,81 +893,146 @@ et:
           cycleway: Jalgrattatee
           elevator: Elevaator
           emergency_access_point: Hädaabi punkt
+          emergency_bay: Hädapeatumise ala
           footway: Jalgrada
           ford: Koolmekoht
           give_way: Märk "Anna teed"
           living_street: Õueala
           milestone: Verstapost
           motorway: Kiirtee
+          motorway_junction: Kiirtee ristmik
+          motorway_link: Kiirtee tee
+          passing_place: Möödasõidukoht
           path: Rada
           pedestrian: Jalakäijatele tee
           platform: Platvorm
           primary: Põhimaantee
+          primary_link: Põhimaantee ühendustee
+          proposed: Kavandatav tee
           raceway: Võidusõidurada
           residential: Kõrvaltee
+          rest_area: Teeäärne puhkekoht
           road: Tee
           secondary: Tugimaantee
+          secondary_link: Tugimaantee ühendustee
           service: Teenindustee
+          services: Kiirteeteenused
           speed_camera: Kiiruskaamera
           steps: Trepp
           stop: Stoppmärk
           street_lamp: Tänavavalgusti
           tertiary: Kohalik maantee
+          tertiary_link: Kohaliku maantee ühendustee
+          track: Rada
+          traffic_mirror: Liikluspeegel
           traffic_signals: Valgusfoor
+          trailhead: Raja alg- või lõpppunkt
+          trunk: Esimese klassi tee
+          trunk_link: Esimese klassi tee ühendustee
+          turning_circle: Ümberpöördering
+          turning_loop: Ümberpöördering saarega
+          unclassified: Klassifitseerimata tee
           "yes": Tee
         historic:
+          aircraft: Ajalooline lennuk
+          archaeological_site: Arheoloogiline leiukoht
+          bomb_crater: Ajalooline pommikraater
           battlefield: Lahinguväli
           boundary_stone: Piirikivi
           building: Ajalooline hoone
           bunker: Punker
+          cannon: Ajalooline kahur
           castle: Kindlus
+          charcoal_pile: Ajalooline miiliahi
           church: Kirik
           city_gate: Linnavärav
           citywalls: Linnamüürid
           fort: Kindlus
-          house: Maja
+          heritage: Muinsuskaitseobjekt
+          hollow_way: Ajalooline teenõgu
+          house: Ajalooline maja
           manor: Mõis
           memorial: Memoriaal
-          mine: Kaevandus
+          milestone: Ajalooline verstapost
+          mine: Ajalooline kaevandus
+          mine_shaft: Ajalooline kaevandusšaht
           monument: Mälestusmärk
-          roman_road: Rooma tee
+          railway: Ajalooline raudtee
+          roman_road: Vana-Rooma tee
           ruins: Varemed
-          stone: Kivi
+          rune_stone: Ruunikivi
+          stone: Ajalooline kivi
+          tomb: Hauakamber
           tower: Torn
+          wayside_chapel: Teeäärne kabel
           wayside_cross: Teeäärne rist
           wayside_shrine: Teeäärne altar
           wreck: Vrakk
+          "yes": Ajalooline vaatamisväärsus
+        junction:
+          "yes": Ristmik
         landuse:
+          allotments: Aianduskrundid
+          aquaculture: Vesiviljelus
+          basin: Kogumisbassein
+          brownfield: Pruunala
           cemetery: Surnuaed
+          commercial: Ärimaa
+          conservation: Määratlemata olekus kaitstav ala
+          construction: Ehitusala
+          farmland: Põllumaa
+          farmyard: Taluõu
           forest: Mets
           garages: Garaažid
           grass: Muru
+          greenfield: Ehituseks planeeritud roheala
           industrial: Tööstuspiirkond
           landfill: Prügimägi
           meadow: Niit
           military: Militaarala
           mine: Kaevandus
           orchard: Viljapuuaed
+          plant_nursery: Puukool
           quarry: Karjäär
           railway: Raudtee
           recreation_ground: Puhkeala
+          religious: Sakraalmaa
           reservoir: Veehoidla
+          reservoir_watershed: Veehaarde turvaala
           residential: Elamurajoon
+          retail: Jaekaubandusala
+          village_green: Külaplats
           vineyard: Viinamarjaistandus
           "yes": Maakasutus
         leisure:
-          bandstand: Kõlakoda
+          adult_gaming_centre: Hasartmängusaal
+          amusement_arcade: Mängusaal
+          bandstand: Väike vabaõhulava
+          beach_resort: Rannakuurort
+          bird_hide: Linnuvaatlushoone
+          bleachers: Avaistmed
+          bowling_alley: Keeglisaal
+          common: Ühismaakasutusala
+          dance: Tantsusaal
           dog_park: Koerapark
+          firepit: Lõkkease
           fishing: Kalapüügipiirkond
+          fitness_centre: Jõusaal
+          fitness_station: Jõulinnak
           garden: Aed
           golf_course: Golfiväljak
+          horse_riding: Ratsabaas
           ice_rink: Uisuväli
+          marina: Väikesadam
           miniature_golf: Minigolf
           nature_reserve: Looduskaitseala
+          outdoor_seating: Istekohad õues
           park: park
           picnic_table: Piknikulaud
           pitch: Spordiväljak
           playground: Mänguväljak
+          recreation_ground: Puhkeala
+          resort: Kuurort
           sauna: Saun
           slipway: Slipp
           sports_centre: Spordikeskus
@@ -855,26 +1040,71 @@ et:
           swimming_pool: Ujula
           track: Jooksurada
           water_park: Veepark
+          "yes": Jõudeaja tegevused
         man_made:
+          adit: Adit
+          advertising: Välireklaam
+          antenna: Antenn
+          avalanche_protection: Lumelaviini kaitsetunnel
+          beacon: Majakas
+          beehive: Mesipuu
+          breakwater: Lainemurdja
           bridge: Sild
+          bunker_silo: Siloauk
+          cairn: Kivikangur
+          chimney: Korsten
+          clearcut: Raiesmik
+          communications_tower: Sidemast
           crane: Kraana
           cross: Rist
+          dolphin: Paal
+          dyke: Kaldavall
+          embankment: Muldkeha
           flagpole: Lipumast
+          gasometer: Gaasimahuti
+          groyne: Kaldakaitsetamm
+          kiln: Põletusahi
           lighthouse: Tuletorn
+          manhole: Teeninduskaev
+          mast: Mast
+          mine: Kaevandus
+          mineshaft: Kaevandusšaht
+          monitoring_station: Seirejaam
+          petroleum_well: Naftapuurauk
+          pier: Kai (kerge kai ehk pulvärk)
+          pipeline: Torujuhe
+          pumping_station: Pumpla
+          reservoir_covered: Kaetud veemahuti maapinnas
+          silo: Silo
+          snow_cannon: Lumekahur
+          snow_fence: Lumetõkketara
+          storage_tank: Mahuti
+          street_cabinet: Seadmekapp tänaval
+          surveillance: Valvetehnika
           telescope: Teleskoop
           tower: Torn
+          utility_pole: Valgustus- või sidepost
+          wastewater_plant: Reoveepuhastusjaam
           watermill: Vesiveski
+          water_tap: Avalik veekraan
+          water_tower: Veetorn
           water_well: Kaev
+          water_works: Veepuhastusjaam
           windmill: Tuuleveski
           works: Vabrik
+          "yes": Inimese loodud rajatis
         military:
-          airfield: Sõjaväe lennuväli
+          airfield: Sõjaväelennuväli
           barracks: Kasarmud
-          bunker: Punker
+          bunker: Sõjaväe punker
+          checkpoint: Sõjaväe kontrollpunkt
+          trench: Kaitsekraav
+          "yes": Sõjaline
         mountain_pass:
           "yes": Mäekuru
         natural:
           atoll: Atoll
+          bare_rock: Paljand
           bay: Laht
           beach: Rand
           cape: Neem
@@ -883,59 +1113,99 @@ et:
           coastline: Rannajoon
           crater: Kraater
           dune: Düün
+          fell: Mägitundra
           fjord: Fjord
-          forest: Mets
+          forest: Majandusmets
           geyser: Geiser
           glacier: Liustik
           grassland: Rohumaa
           heath: Nõmm
           hill: Mägi
+          hot_spring: Kuumaveeallikas
           island: Saar
+          isthmus: Maakitsus
           land: Maa
           marsh: Soo
           moor: Raba
           mud: Muda
           peak: Mäetipp
+          peninsula: Poolsaar
           point: Neem
           reef: Riff
-          rock: Kivi
+          ridge: Mäeseljak
+          rock: Kaljurahn
+          saddle: Mäekuru
           sand: Liiv
+          scree: Rusukalle
+          scrub: Võsa
+          shingle: Kiviklibu
           spring: Allikas
           stone: Kivi
           strait: Väin
           tree: Puu
+          tree_row: Puude rivi
+          tundra: Tundra
           valley: Org
           volcano: Vulkaan
           water: Vesi
           wetland: Märgala
-          wood: Mets
+          wood: Looduslik mets
+          "yes": Loodusobjekt
         office:
-          accountant: Raamatupidaja
+          accountant: Raamatupidamisteenus
+          administrative: Valitsuse kontor (aegunud silt)
+          advertising_agency: Reklaamibüroo
           architect: Arhitekt
+          association: MTÜ kontor
           company: Ettevõte
-          employment_agency: Tööbüroo
+          diplomatic: Diplomaatilise teenistuse büroo
+          educational_institution: Haridusasutuse kontor
+          employment_agency: Tööhõivekontor
+          energy_supplier: Energiafirma kontor
+          estate_agent: Kinnisvarabüroo
+          financial: Rahandusteenuste firma kontor
+          government: Valitsusasutuse kontor
           insurance: Kindlustusbüroo
+          it: IT-firma kontor
           lawyer: Jurist
+          logistics: Ekspedeerimisfirma kontor
+          newspaper: Ajalehekirjastus
+          ngo: Vabaühenduse kontor
           notary: Notar
+          religion: Usuühingu büroo
+          research: Teadus- ja arendustegevuse kontor
+          tax_advisor: Maksunõustaja büroo
+          telecommunication: Sidefirma kontor
           travel_agent: Reisibüroo
+          "yes": Kontor
         place:
           allotments: Suvilad
           archipelago: Saarestik
           city: Linn
+          city_block: Tänavatevaheline kvartal
           country: Riik
           county: Maakond
           farm: Talu
+          hamlet: Väike küla
           house: Maja
           houses: Majad
           island: Saar
-          islet: Saareke
+          islet: Laid
+          isolated_dwelling: Üksik eluhoone
+          locality: Paikkond
           municipality: Vald
+          neighbourhood: Naabruskond
+          plot: Krunt
           postcode: Sihtnumber
+          quarter: Kvartal
+          region: Piirkond
           sea: meri
+          square: Väljak
           state: Osariik
           suburb: Linnaosa
-          town: Linn
+          town: Väikelinn
           village: Küla
+          "yes": Koht
         railway:
           abandoned: Ülesvõetud raudtee
           construction: Ehitusjärgus raudtee
@@ -951,6 +1221,7 @@ et:
           platform: Raudteeperroon
           preserved: Säilitatud raudtee
           proposed: Kavandatav raudtee
+          rail: Rööbastee
           spur: Raudtee harutee
           station: Raudteejaam
           stop: Raudteepeatus
@@ -959,13 +1230,22 @@ et:
           switch: Pöörangud
           tram: Trammitee
           tram_stop: Trammipeatus
+          turntable: Pöördesild
         shop:
+          agrarian: Põllumajandustarvete kauplus
+          alcohol: Viinapood
           antiques: Antikvariaat
+          appliance: Kodumasinate pood
           art: Kunstipood
+          baby_goods: Beebikaupade pood
+          bag: Kotipood
           bakery: Pagariäri
+          bathroom_furnishing: Vannitoasisustuse ja -tarvikute pood
           beauty: Kosmeetikasalong
+          bed: Magamistoamööbli ja -tarvikute pood
           beverages: Joogikauplus
           bicycle: Rattapood
+          bookmaker: Kihlveovahendaja
           books: Raamatupood
           boutique: Butiik
           butcher: Lihunik
@@ -976,47 +1256,99 @@ et:
           charity: Heategevuslik kauplus
           cheese: Juustupood
           chemist: Apteek
+          chocolate: Šokolaadipood
           clothes: Riidepood
+          coffee: Kohvipood
           computer: Arvutikauplus
+          confectionery: Kommipood
+          convenience: Lähikauplus
           copyshop: Paljunduskoda
           cosmetics: Kosmeetikapood
+          craft: Kunsti- ja käsitöötarvikutue pood
+          curtain: Kardinapood
+          dairy: Piimapood
+          deli: Delikatesstoodete pood
           department_store: Kaubamaja
+          discount: Odavkaupade pood (aegunud)
+          doityourself: Ehituskauplus
           dry_cleaning: Keemiline puhastus
+          e-cigarette: E-sigaretipood
           electronics: Elektroonikapood
+          erotic: ERootikapood
           estate_agent: Kinnisvaramaakler
+          fabric: Kangapood
           farm: Talupood
           fashion: Moe kauplus
+          fishing: Kalastustarvete pood
           florist: Lillepood
           food: Toidupood
+          frame: Piltide raamimise töökoda
           funeral_directors: Matusebüroo
-          furniture: Mööbel
+          furniture: Mööblipood
           garden_centre: Aianduskeskus
+          gas: Balloongaasi kauplus
+          general: Universaalkauplus
           gift: Kingipood
+          greengrocer: Puu- ja köögiviljapood
           grocery: Toidupood
           hairdresser: Juuksur
           hardware: Rauakauplus
+          health_food: Tervisliku toidu kauplus
+          hearing_aids: Kuuldeaparaatide pood
+          herbalist: Ravimtaimede pood
+          hifi: Hifi kauplus
+          houseware: Kodutarvete pood
           ice_cream: jäätisepood
+          interior_decoration: Sisekujunduspood
           jewelry: Juveelipood
           kiosk: Kiosk
+          kitchen: Köögimööblikauplus
           laundry: Pesumaja
+          locksmith: Lukuabi
+          lottery: Lotopood
           mall: Ostukeskus
           massage: Massaaž
+          medical_supply: Meditsiinitarvikute pood
           mobile_phone: Mobiiltelefonide pood
+          money_lender: Kiirlaenukontor
           motorcycle: Mootorrattapood
+          motorcycle_repair: Mootorrattaparandus
           music: Muusikapood
+          musical_instrument: Muusikariistade pood
           newsagent: Ajalehekiosk
+          nutrition_supplements: Toidulisandite pood
           optician: Prillipood
+          organic: Mahetoidu pood
           outdoor: Matkatarbed
+          paint: Värvipood
+          pastry: Kondiitriäri
+          pawnbroker: Pandimaja
+          perfumery: Parfümeeriakauplus
           pet: Lemmikloomapood
+          pet_grooming: Ilusalong lemmikloomadele
           photo: Fotopood
+          seafood: Mereandide pood
+          second_hand: Taaskasutuspood
+          sewing: Õmblustarvikute pood
           shoes: Kingapood
           sports: Spordipood
           stationery: Kirjatarvete kauplus
+          storage_rental: Miniladu
           supermarket: Supermarket
           tailor: Rätsep
+          tattoo: Tätoveeringusalong
+          tea: Teepood
+          ticket: Piletikassa
+          tobacco: Tubakapood
           toys: Mänguasjapood
           travel_agency: Reisiagentuur
-          wine: Alkoholipood
+          tyres: Rehvipood
+          vacant: Vaba kaubanduspind
+          variety_store: Odavkaupade pood
+          video: Videopood
+          video_games: Videomängude pood
+          wholesale: Hulgimüügipood
+          wine: Veinipood
           "yes": Pood
         tourism:
           alpine_hut: Alpimaja
@@ -1025,20 +1357,24 @@ et:
           attraction: Turismiatraktsioon
           bed_and_breakfast: Kodumajutus
           cabin: Metsamaja
+          camp_pitch: Telkimisplats
           camp_site: Laagriplats
-          chalet: Alpimaja
+          caravan_site: Karavanipark
+          chalet: Puhkemaja
           gallery: Galerii
           guest_house: Külalistemaja
           hostel: Hostel
           hotel: Hotell
-          information: informatsioon
+          information: infotahvel
           motel: motell
           museum: muuseum
           picnic_site: piknikuplats
           theme_park: Teemapark
           viewpoint: Vaatepunkt
+          wilderness_hut: Kõnnumaa ulualune
           zoo: Loomaaed
         tunnel:
+          building_passage: Läbikäik hoonest
           culvert: Truup
           "yes": Tunnel
         waterway:
@@ -1062,6 +1398,7 @@ et:
           "yes": Veetee
       admin_levels:
         level2: Riigipiir
+        level3: 5. järgu piir
         level4: 4. järgu piir
         level5: 5. järgu piir
         level6: 6. järgu piir
@@ -1069,6 +1406,7 @@ et:
         level8: 8. järgu piir
         level9: 9. järgu piir
         level10: 10. järgu piir
+        level11: Naabruskonna piirjoon
       types:
         cities: Suurlinnad
         towns: Linnad
@@ -1078,7 +1416,19 @@ et:
       more_results: Veel tulemusi
   issues:
     index:
+      select_status: Vali olek
+      select_type: Vali tüüp
+      select_last_updated_by: Vali viimane muutja
+      reported_user: Kasutaja, kellest on teada antud
+      not_updated: Pole uuendatud
+      search: Otsi
       user_not_found: Kasutajat pole olemas.
+      status: Olek
+      reports: Aruanded
+      link_to_reports: Vaata aruandeid
+      reports_count:
+        one: '%{count} aruanne'
+        other: '%{count} aruannet'
     helper:
       reportable_title:
         note: 'märkus #%{note_id}'
@@ -1140,7 +1490,12 @@ et:
     intro_text: OpenStreetMap on maailma kaart, mille on loonud inimesed nagu sina
       ja seda võib vabalt kasutada avatud litsentsi tingimustel.
     intro_2_create_account: loo oma konto
+    hosting_partners_2024_html: Serverimajutust aitavad korraldada %{fastly}, %{corpmembers}
+      ja muud %{partners}.
+    partners_fastly: Fastly
+    partners_corpmembers: OSMF'i äriühingutest liikmed
     partners_partners: partnerid
+    tou: Kasutustingimused
     osm_offline: OpenStreetMapi andmebaas ei ole hetkel juurdepääsetav sest teostatakse
       vajalikke hooldustöid.
     osm_read_only: OpenStreetMapi andmebaas on hetkel oluliste hooldustööde tõttu
@@ -1160,6 +1515,7 @@ et:
     more: Veel
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMapi päeviku sissekanne #%{id}'
       subject: '[OpenStreetMap] %{user} kommenteeris päeviku sissekannet'
       hi: Tere, %{to_user}!
       header: '%{from_user} kommenteeris hiljutist OpenStreetMapi päevikusissekannet
@@ -1198,6 +1554,8 @@ et:
       loaded:
         one: laaditi üles edukalt %{trace_points} punkt võimalikust %{count} punktist.
         other: laaditi üles edukalt %{trace_points} punkti võimalikust %{count} punktist.
+      all_your_traces_html: 'Kõik sinu poolt üleslaaditud GPX-rajafailid leiduvad
+        siin: %{url}'
       subject: '[OpenStreetMap] GPX-faili importimine õnnestus'
     signup_confirm:
       subject: '[OpenStreetMap] Tere tulemast OpenStreetMapi'
@@ -1222,6 +1580,7 @@ et:
       click_the_link: Kui see oled sina, siis klõpsa palun alloleval lingil, et parool
         lähtestada.
     note_comment_notification:
+      description: 'OpenStreetMapi märkus #%{id}'
       anonymous: Anonüümne kasutaja
       greeting: Tere!
       commented:
@@ -1426,6 +1785,8 @@ et:
       gravatar:
         gravatar: Kasuta Gravatari
         what_is_gravatar: Mis on Gravatar?
+        disabled: Gravatar on kasutusest eemaldatud.
+        enabled: Sinu Gravatar on nüüd kasutusel.
       new image: Lisa pilt
       keep image: Säilitada praegune pilt
       delete image: Eemalda praegune pilt
@@ -1434,6 +1795,9 @@ et:
       home location: Kodu asukoht
       no home location: Sa pole oma kodu asukohta märkinud.
       update home location on click: Kas uuendan kodu asukohta, kui klõpsan kaardil?
+      show: Näita
+      delete: Kustuta
+      undelete: Võta kustutamine tagasi
     update:
       success: Profiil uuendatud.
       failure: Profiili ei õnnestunud uuendada.
@@ -1496,9 +1860,11 @@ et:
       ordered: Järjestatud loend
       first: Esimene üksus
       second: Teine üksus
+      link: Link
       text: Tekst
       image: Pilt
       alt: Asendustekst
+      url: URL
       codeblock: Koodiplokk
     richtext_field:
       edit: Muuda
@@ -1627,6 +1993,7 @@ et:
           ja muudest allikatest, sealhulgas:
         contributors_at_credit_html: '%{austria}: Sisaldab %{stadt_wien_link} (%{cc_by_link}
           tingimustel), %{land_vorarlberg_link} ja Tirooli liidumaa andmeid (%{cc_by_at_with_amendments_link}).'
+        contributors_at_austria: Austria
         contributors_at_stadt_wien: Viini linna
         contributors_at_land_vorarlberg: Vorarlbergi liidumaa
         contributors_at_cc_by_at_with_amendments: CC BY AT tingimustel koos õiendustega
@@ -1635,6 +2002,7 @@ et:
           kasutust lubab Austraalia Ühendus Creative Commonsi rahvusvahelise litsentsi
           "%{cc_licence_link}" (CC BY 4.0) tingimustel.'
         contributors_au_australia: Austraalia
+        contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: Autorile viitamine 4.0
         contributors_ca_credit_html: '%{canada}: Sisaldab andmekogude GeoBase&reg;,
           GeoGratis (&copy; Kanada loodusvarade ministeerium), CanVec (&copy; Kanada
@@ -1655,15 +2023,19 @@ et:
           maksuametist (Direction Générale des Impôts).'
         contributors_fr_france: Prantsusmaa
         contributors_hr_croatia: Horvaatia
+        contributors_hr_open_data_portal: National Open Data Portal
         contributors_nl_credit_html: '%{netherlands}: Sisaldab ettevõtte &copy; AND
           andmeid (2007, %{and_link})'
         contributors_nl_netherlands: Holland
         contributors_nz_credit_html: '%{new_zealand}: Sisaldab teenuse %{linz_data_service_link}
           andmeid, mis on kasutatavad litsentsi %{cc_by_link} tingimustel.'
         contributors_nz_new_zealand: Uus-Meremaa
+        contributors_nz_linz_data_service: LINZ'i andmeteenus
+        contributors_nz_cc_by: CC BY 4.0
         contributors_rs_credit_html: |-
           %{serbia}: Sisaldab andmeid, mis on pärit %{rgz_link} ja %{open_data_portal}
           (Serbia avalik teave), 2018.
+        contributors_rs_serbia: Serbia
         contributors_rs_rgz: Serbia geodeesiaametist
         contributors_rs_open_data_portal: riigi avaandmete portaalist
         contributors_si_credit_html: '%{slovenia}: Sisaldab %{gu_link} ning %{mkgp_link}
@@ -1679,6 +2051,7 @@ et:
         contributors_za_credit_html: '%{south_africa}: Sisaldab andmeid allikast %{ngi_link},
           õigused kuuluvad riigile.'
         contributors_za_south_africa: LAV
+        contributors_za_ngi: 'Peadirektoraat: National Geo-Spatial Information'
         contributors_gb_credit_html: |-
           %{united_kingdom}: Sisaldab Ordnance
           Survey andmeid &copy; krooni autoriõigus ja andmebaasi õigused kaitstud
@@ -1813,6 +2186,8 @@ et:
         url: https://wiki.openstreetmap.org/wiki/Et:Main_Page
         title: OpenStreetMapi viki
         description: Sirvi vikis OpenStreetMapi põhjalikumat dokumentatsiooni.
+    potlatch:
+      change_preferences: Muuda oma eelistusi siin
     any_questions:
       title: Tekkis küsimusi?
       paragraph_1_html: |-
@@ -1826,6 +2201,7 @@ et:
       close: Sulge
     search:
       search: Otsi
+      get_directions: Näita mulle teed
       get_directions_title: Juhised liikumiseks kahe punkti vahel
       from: Alguspunkt
       to: Sihtpunkt
@@ -1842,49 +2218,84 @@ et:
           primary: Põhimaantee
           secondary: Tugimaantee
           unclassified: Klassifitseerimata tee
+          pedestrian: Jalakäijate tee
           track: Rada
           bridleway: Ratsatee
           cycleway: Jalgrattatee
+          cycleway_national: Riigiülene jalgrattatee
+          cycleway_regional: Piirkondlik jalgrattatee
+          cycleway_local: Kohalik jalgrattatee
+          cycleway_mtb: Mägirattarada
           footway: Jalgtee
           rail: Raudtee
+          train: Rong
           subway: Metroo
+          ferry: Praam
+          light_rail: Kergraudtee
+          tram: Tramm
+          trolleybus: Trollibuss
+          bus: Buss
           cable_car: Köisraudtee
           chair_lift: Toolilift
           runway: Lennurada
           taxiway: Ruleerimistee
           apron: Lennujaama perroon
           admin: Halduspiir
+          capital: Pealinn
+          city: Linn
+          orchard: Viljapuuaed
+          vineyard: Viinamarjaistandus
           forest: Tulundusmets
           wood: Mets
+          farmland: Põllumaa
+          grass: Muru
+          meadow: Niit
+          bare_rock: Paljand
+          sand: Liiv
           golf: Golfiväljak
           park: Park
           common: Heinamaa
+          built_up: Hoonestatud ala
           resident: Elamurajoon
           retail: Kaubanduspiirkond
           industrial: Tööstuspiirkond
           commercial: Äripiirkond
           heathland: Nõmm
+          scrubland: Võsamaa
           lake: Järv
           reservoir: Veehoidla
+          intermittent_water: Perioodiline veekogu
+          glacier: Liustik
+          reef: Riff
+          wetland: Märgala
           farm: Põllumajanduslik maa
           brownfield: Ehitusmaa
           cemetery: Surnuaed
           allotments: Aiamaa
           pitch: Spordiväljak
           centre: Spordikeskus
+          beach: Rand
           reserve: Looduskaitseala
-          military: Sõjaväe kasutuses
+          military: Militaarala
           school: Kool
           university: Ülikool
+          hospital: Haigla
           building: Märkimisväärne hoone
           station: Raudteejaam
           summit: Mägi
-          peak: Tipp
+          peak: Mäetipp
           tunnel: Katkendlik ümbris = tunnel
           bridge: Must ümbris = sild
           private: Üksnes omanikule
           destination: Üksnes läbisõiduks
           construction: Ehitatavad teed
+          bus_stop: Bussipeatus
+          stop: Peatus
+          bicycle_shop: Rattapood
+          bicycle_rental: Jalgrattarent
+          bicycle_parking: Jalgrattaparkla
+          bicycle_parking_small: Väike jalgrattaparkla
+          toilets: Tualettruumid
     welcome:
       title: Tere tulemast!
       introduction: Tere tulemast OpenStreetMapi, vabasse ja muudetavasse maailmakaarti.
@@ -1975,6 +2386,9 @@ et:
       upload_failed: Kahjuks ei õnnestunud GPX-faili üles laadida. Sellest tõrkest
         on antud märku administraatorile. Palun proovi uuesti.
     edit:
+      cancel: Katkesta
+      title: '%{name} - raja muutmine'
+      heading: 'Sa muudad rada #%{name}'
       visibility_help: mida see tähendab?
     update:
       updated: Rada uuendatud.
@@ -1989,6 +2403,7 @@ et:
       uploaded: 'Üles laaditud:'
       points: 'Punkte:'
       start_coordinates: 'Alguskoordinaadid:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: kaardil
       edit: redigeeri
       owner: 'Omanik:'
@@ -1999,6 +2414,7 @@ et:
       delete_trace: Kustuta see rada
       trace_not_found: Rada ei leitud!
       visibility: 'Nähtavus:'
+      confirm_delete: Kas kustutame selle raja?
     trace_paging_nav:
       older: Vanemad rajad
       newer: Uuemad rajad
@@ -2028,10 +2444,24 @@ et:
       upload_trace: Lisa GPS-rada
       all_traces: Kõik rajad
       my_traces: Minu rajad
+      traces_from: Avalikud rajad kasutajalt %{user}
+      remove_tag_filter: Eemalda sildifilter
     destroy:
       scheduled_for_deletion: Raja kustutamine kantud tööplaani.
+    make_public:
+      made_public: Rada on nüüd avalik
     offline_warning:
       message: GPX-failide üleslaadimise süsteem pole praegu saadaval.
+    offline:
+      heading: GPX-failide salvestamine hetkel ei tööta
+      message: GPX-failide salvestamise ja üleslaadimise süsteem pole hetkel kasutatav.
+    georss:
+      title: OpenStreetMap'i GPS-rajad
+    description:
+      description_with_count:
+        one: '%{count}-punktline GPX-fail with kasutajalt %{user}'
+        other: '%{count}-punktline GPX-fail kasutajalt %{user}'
+      description_without_count: GPX-fail kasutajalt %{user}
   application:
     require_cookies:
       cookies_needed: Paistab, et sul on küpsised keelatud. Enne jätkamist luba palun
@@ -2277,6 +2707,8 @@ et:
     index:
       title: Kasutajad
       heading: Kasutajad
+      older: Vanemad kasutajad
+      newer: Uuemad kasutajad
       summary_html: '%{name} loodud IP-aadressilt %{ip_address} (%{date})'
       summary_no_ip_html: '%{name} loodud (%{date})'
       confirm: Kinnita valitud kasutajad
@@ -2473,6 +2905,7 @@ et:
       reactivate: Aktiveeri uuesti
       comment_and_resolve: Kommenteeri ja lahenda
       comment: Kommenteeri
+      log_in_to_comment: Selle märkuse kommenteerimiseks palun logi sisse
       report_link_html: Kui see märkus sisaldab tundlikku teavet, mis tuleks eemaldada,
         saad %{link}.
       other_problems_resolve: Kõigi märkusega seotud muude probleemide korral lahenda
@@ -2526,6 +2959,7 @@ et:
         standard: Tavakaart
         cycle_map: Rattakaart
         transport_map: Transpordikaart
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitaarabi
       layers:
         header: Kaardikihid
@@ -2537,6 +2971,7 @@ et:
       openstreetmap_contributors: OpenStreetMapi kaastöölised
       make_a_donation: Tee annetus
       website_and_api_terms: Veebisaidi ja API tingimused
+      tracestrack_credit: Kaardipaanid teenusepakkujalt %{tracestrack_link}
     site:
       edit_tooltip: Muuda kaarti
       edit_disabled_tooltip: Kaardi redigeerimiseks suurenda kaarti
@@ -2623,4 +3058,9 @@ et:
         kuuluvate versioonide kinnikatmine enne kui selle hävitad.
       flash: Kinnikatmine hävitatud.
       error: Viga selle kinnikatmise hävitamisel.
+  validations:
+    leading_whitespace: ees on tühik
+    trailing_whitespace: lõpus on tühik
+    invalid_characters: sisaldab mittesobivaid tähemärke
+    url_characters: sisaldab URL'is erimärke (%{characters})
 ...
