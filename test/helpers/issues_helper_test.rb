@@ -9,7 +9,7 @@ class IssuesHelperTest < ActionView::TestCase
 
     n = (Settings.max_issues_count - 1)
     n.times do
-      create(:note_with_comments) do |note|
+      create(:note) do |note|
         create(:issue, :reportable => note, :reported_user => target_user, :assigned_role => "moderator")
       end
     end
@@ -19,7 +19,7 @@ class IssuesHelperTest < ActionView::TestCase
     assert_dom_equal expected, open_issues_count
 
     n += 1
-    create(:note_with_comments) do |note|
+    create(:note) do |note|
       create(:issue, :reportable => note, :reported_user => target_user, :assigned_role => "moderator")
     end
     expected = <<~HTML.delete("\n")
