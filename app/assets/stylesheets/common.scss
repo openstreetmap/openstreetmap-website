@@ -1,4 +1,6 @@
+@use "sass:map";
 @import "parameters";
+@import "browse";
 @import "bootstrap";
 @import "rails_bootstrap_forms";
 
@@ -1017,4 +1019,32 @@ img.trace_image {
   }
 }
 
-@import 'browse';
+/* Rules for map sidebar icons */
+
+.browse-section {
+  .node::before,
+  .way::before,
+  .relation::before {
+    display: inline-block;
+    width: 25px;
+    margin-left: -25px;
+  }
+
+  .node, .way, .relation {
+    margin-left: 25px;
+  }
+}
+
+@each $class, $item in $map-sidebar-icons {
+  .browse-section #{$class}::before {
+    content: image-url('browse/#{map.get($item, "filename")}');
+  }
+
+  @if map.get($item, "invert") {
+    @include color-mode(dark) {
+      .browse-section #{$class}::before {
+        filter: invert(.8) hue-rotate(180deg);
+      }
+    }
+  }
+}
