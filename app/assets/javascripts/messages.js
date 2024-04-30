@@ -5,7 +5,7 @@ $(document).ready(function () {
     }
   });
 
-  $(".messages-table .message-summary").on("turbo:before-morph-element", function (event) {
+  $(".messages-table tbody tr").on("turbo:before-morph-element", function (event) {
     if ($(event.target).find("[data-is-destroyed]").length > 0) {
       event.preventDefault(); // NB: prevent Turbo from morhping/removing this element
       $(event.target).fadeOut(800, "linear", function () {
