@@ -36,6 +36,7 @@ class TracesController < ApplicationController
                t ".public_traces_from", :user => target_user.display_name
              end
 
+    @untagged_title = @title
     @title += t ".tagged_with", :tags => params[:tag] if params[:tag]
 
     # four main cases:
