@@ -25,7 +25,7 @@ module UserRolesHelper
     end
 
     if image
-      icon = image_tag("#{image}.png", :srcset => image_path("#{image}.svg"), :size => "20x20", :border => 0, :alt => alt, :title => title)
+      icon = image_tag("#{image}.svg", :size => "20x20", :border => 0, :alt => alt, :title => title)
       icon = link_to(icon, url, :method => :post, :data => { :confirm => confirm }) if url
     end
 
