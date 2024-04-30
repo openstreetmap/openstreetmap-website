@@ -6,7 +6,7 @@ module AuthorizationHelper
     html << t("oauth.scopes.#{scope}")
     if Oauth::MODERATOR_SCOPES.include? scope
       html << " "
-      html << image_tag("roles/moderator.png", :srcset => image_path("roles/moderator.svg", :class => "align-text-bottom"), :size => "20x20")
+      html << image_tag("roles.svg#moderator", :size => "20x20", :class => "align-text-bottom")
     end
     safe_join(html)
   end
