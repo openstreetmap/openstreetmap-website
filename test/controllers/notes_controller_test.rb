@@ -179,9 +179,9 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       get path_method.call
     end
 
-    # assert_raise ActionController::UrlGenerationError do
-    #   get path_method.call(:id => -10) # we won't have an id that's negative
-    # end
+    assert_raise ActionController::UrlGenerationError do
+      get path_method.call(:id => -10) # we won't have an id that's negative
+    end
 
     get path_method.call(:id => 0)
     assert_response :not_found
