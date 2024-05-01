@@ -84,8 +84,9 @@ class ChangesetsController < ApplicationController
     @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "way_page")
     @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "relation_page")
     if @changeset.user.active? && @changeset.user.data_public?
-      @next_by_user = @changeset.user.changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
-      @prev_by_user = @changeset.user.changesets.where("id < ?", @changeset.id).reorder(:id => :desc).first
+      changesets = conditions_nonempty(@changeset.user.changesets)
+      @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
+      @prev_by_user = changesets.where("id < ?", @changeset.id).reorder(:id => :desc).first
     end
     render :layout => map_layout
   rescue ActiveRecord::RecordNotFound
