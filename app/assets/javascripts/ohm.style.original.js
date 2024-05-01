@@ -548,6 +548,26 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "ferry_lines",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "filter": ["all", ["==", "type", "ferry"]],
+      "paint": {
+        "line-color": "rgba(115, 191, 191, 1)",
+        "line-width": {"stops": [[10, 1], [20, 3]]},
+        "line-dasharray": {
+          "stops": [
+            [14, [2, 1]],
+            [15, [4, 1.25]],
+            [16, [6, 1.5]],
+            [17, [10, 1.75]],
+            [18, [16, 2]]
+          ]
+        }
+      }
+    },
+    {
       "id": "place_areas_islet",
       "type": "fill",
       "source": "osm",
@@ -660,6 +680,22 @@ ohmVectorStyles.Original = {
       }
     },
     {
+      "id": "water_lines_canal-casing",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "water_lines",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "type", "canal"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(111, 145, 160, 1)",
+        "line-width": {"stops": [[13, 0.5], [14, 2], [20, 3]]},
+        "line-gap-width": 4,
+        "line-dasharray": [1, 1]
+      }
+    },
+    {
       "id": "water_lines_canal",
       "type": "line",
       "source": "osm",
@@ -667,9 +703,10 @@ ohmVectorStyles.Original = {
       "minzoom": 8,
       "maxzoom": 24,
       "filter": ["all", ["==", "type", "canal"]],
+      "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(192, 234, 234, 1)",
-        "line-width": {"stops": [[8, 0.5], [13, 0.5], [14, 1], [20, 3]]}
+        "line-color": "rgba(153, 201, 222, 1)",
+        "line-width": {"stops": [[8, 1], [13, 2], [14, 3], [20, 4]]}
       }
     },
     {
@@ -3606,7 +3643,7 @@ ohmVectorStyles.Original = {
         "all",
         ["in", "type", "rail", "light_rail", "preserved"],
         ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=main"]
+        ["==", "usage", "main"]
       ],
       "layout": {
         "visibility": "visible",
@@ -3629,7 +3666,7 @@ ohmVectorStyles.Original = {
         "all",
         ["in", "type", "rail", "light_rail", "preserved"],
         ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=main"]
+        ["==", "usage", "main"]
       ],
       "layout": {
         "visibility": "visible",
@@ -3711,7 +3748,7 @@ ohmVectorStyles.Original = {
         "all",
         ["in", "type", "rail", "light_rail", "preserved"],
         ["!in", "service", "yard", "siding"],
-        ["!=", "name", "usage=main"]
+        ["!=", "usage", "main"]
       ],
       "layout": {
         "visibility": "visible",
@@ -3739,7 +3776,7 @@ ohmVectorStyles.Original = {
         "all",
         ["in", "type", "rail", "light_rail", "preserved"],
         ["!in", "service", "yard", "siding"],
-        ["!=", "name", "usage=main"]
+        ["!=", "usage", "main"]
       ],
       "layout": {
         "visibility": "visible",
@@ -5093,18 +5130,18 @@ ohmVectorStyles.Original = {
       "type": "symbol",
       "source": "osm",
       "source-layer": "transport_points",
-      "minzoom": 16,
+      "minzoom": 14,
       "maxzoom": 24,
       "filter": ["all"],
       "layout": {
         "icon-image": "{type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": {"stops": [[15.99, 0], [16, 8], [20, 10]]},
+        "text-size": {"stops": [[14, 8], [18, 10]]},
         "text-anchor": "top",
-        "text-offset": [0, 1],
+        "text-offset": [0, 0.75],
         "text-font": ["OpenHistorical"],
-        "icon-size": {"stops": [[16, 1], [20, 1.4]]}
+        "icon-size": {"stops": [[14, 0.75], [20, 1.4]]}
       },
       "paint": {
         "icon-color": "#000000",
@@ -5112,7 +5149,7 @@ ohmVectorStyles.Original = {
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 0.5,
         "text-halo-blur": 1,
-        "text-opacity": {"stops": [[16.99, 0], [17, 1]]}
+        "text-opacity": {"stops": [[13.99, 0], [14, 1]]}
       }
     },
     {
