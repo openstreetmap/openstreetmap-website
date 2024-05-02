@@ -2258,6 +2258,104 @@ ohmVectorStyles.Railway = {
       }
     },
     {
+      "id": "roads_subway-tunnels-halo",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": ["all", ["in", "type", "subway"], ["==", "tunnel", 1]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(204, 217, 242, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          2.5,
+          14,
+          4.5,
+          20,
+          7
+        ]
+      }
+    },
+    {
+      "id": "roads_subways-tunnel-tick",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 10,
+      "filter": ["all", ["in", "type", "subway"], ["==", "tunnel", 1]],
+      "layout": {"visibility": "none"},
+      "paint": {
+        "line-color": "rgba(156, 164, 197, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 16, 3, 20, 9],
+        "line-dasharray": {"stops": [[14, [0.3, 3]], [18, [0.15, 3]]]}
+      }
+    },
+    {
+      "id": "roads_subway-tunnels",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": ["all", ["in", "type", "subway"], ["==", "tunnel", 1]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(91, 107, 217, 1)",
+        "line-width": {"stops": [[14, 1], [20, 3]]},
+        "line-dasharray": [3, 2]
+      }
+    },
+    {
+      "id": "roads_light_rail-tunnel-halo",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        ["in", "type", "light_rail"],
+        ["==", "tunnel", 1],
+        ["!=", "bridge", 1]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(252, 241, 216, 1)",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          2.5,
+          14,
+          4.5,
+          20,
+          7
+        ]
+      }
+    },
+    {
+      "id": "roads_light_rail-tunnel",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        ["in", "type", "light_rail"],
+        ["==", "tunnel", 1],
+        ["!=", "bridge", 1]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(246, 183, 64, 1)",
+        "line-width": {"stops": [[14, 1], [20, 3]]},
+        "line-dasharray": [6, 4]
+      }
+    },
+    {
       "id": "roads_tertiarytunnel_case",
       "type": "line",
       "source": "osm",
@@ -2495,6 +2593,71 @@ ohmVectorStyles.Railway = {
           18,
           36
         ]
+      }
+    },
+    {
+      "id": "roads_rail-tunnel",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 11,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "preserved"],
+        ["==", "tunnel", 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [[10.5, "#5A6064"], [15, "rgba(224, 224, 224, 1)"]]
+        },
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 3.5, 7, 4, 20, 9]
+      }
+    },
+    {
+      "id": "roads_rail-tunnel-dash",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 11,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "preserved"],
+        ["==", "tunnel", 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [10.5, "rgba(255, 255, 255, 1)"],
+            [14, "rgba(207, 207, 207, 1)"],
+            [15, "rgba(184, 184, 184, 1)"]
+          ]
+        },
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6,
+          2,
+          7,
+          2.5,
+          20,
+          7
+        ],
+        "line-dasharray": {
+          "stops": [[6, [0.75, 2]], [11, [0.75, 2.5]], [14, [0.75, 3]]]
+        }
       }
     },
     {
@@ -3359,6 +3522,130 @@ ohmVectorStyles.Railway = {
       }
     },
     {
+      "id": "roads_rail-subway-bridge-case",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 11,
+      "maxzoom": 24,
+      "filter": ["all", ["in", "type", "subway"], ["==", "bridge", 1]],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(73, 85, 158, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1, 20, 2],
+        "line-gap-width": 5
+      }
+    },
+    {
+      "id": "roads_rail-bridge-case",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 11,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "preserved"],
+        ["==", "bridge", 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "rgba(46, 46, 46, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 5, 11, 8, 20, 14]
+      }
+    },
+    {
+      "id": "roads_subways_construction",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 14,
+      "filter": [
+        "all",
+        ["in", "type", "construction"],
+        ["in", "construction", "subway"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(153, 153, 153, 1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          11,
+          0.5,
+          18,
+          4
+        ],
+        "line-dasharray": [4, 1]
+      }
+    },
+    {
+      "id": "roads_subways-bridge",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        ["in", "type", "subway"],
+        ["!=", "tunnel", 1],
+        ["==", "bridge", 1]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(121, 145, 248, 1)",
+        "line-width": {"stops": [[14, 1], [20, 3]]},
+        "line-dasharray": [3, 2]
+      }
+    },
+    {
+      "id": "roads_light-rail-bridge-case",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        ["in", "type", "light_rail"],
+        ["!=", "tunnel", 1],
+        ["==", "bridge", 1]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(201, 139, 25, 1)",
+        "line-width": {"stops": [[14, 1], [20, 2]]},
+        "line-gap-width": 6
+      }
+    },
+    {
+      "id": "roads_light-rail-bridge",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 7,
+      "filter": [
+        "all",
+        ["in", "type", "light_rail"],
+        ["!=", "tunnel", 1],
+        ["==", "bridge", 1]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(246, 183, 64, 1)",
+        "line-width": {"stops": [[14, 1], [20, 3]]},
+        "line-dasharray": [6, 4]
+      }
+    },
+    {
       "id": "roads_residential_bridge_z13-case",
       "type": "line",
       "source": "osm",
@@ -3639,48 +3926,36 @@ ohmVectorStyles.Railway = {
       }
     },
     {
-      "id": "roads_subways_construction",
+      "id": "roads_subways-tick",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 14,
-      "filter": [
-        "all",
-        ["in", "type", "construction"],
-        ["in", "construction", "subway"]
-      ],
-      "layout": {"visibility": "visible"},
+      "minzoom": 10,
+      "filter": ["all", ["in", "type", "subway"], ["!=", "tunnel", 1]],
+      "layout": {"visibility": "none"},
       "paint": {
-        "line-color": "rgba(153, 153, 153, 1)",
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.5],
-          ["zoom"],
-          11,
-          0.5,
-          18,
-          4
-        ],
-        "line-dasharray": [4, 1]
+        "line-color": "rgba(138, 156, 234, 1)",
+        "line-width": {"stops": [[13, 4], [14, 5], [20, 9]]},
+        "line-dasharray": {"stops": [[13, [0.15, 3]], [14, [0.15, 4]]]}
       }
     },
     {
-      "id": "roads_rail_tram_construction",
+      "id": "roads_light_rail",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
       "minzoom": 7,
-      "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "tram", "funicular", "monorail"],
-        ["!in", "service", "yard", "siding"]
+        ["in", "type", "light_rail"],
+        ["!=", "tunnel", 1],
+        ["!=", "bridge", 1]
       ],
-      "layout": {"visibility": "visible", "line-cap": "square"},
+      "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(207, 153, 235, 1)",
-        "line-width": {"stops": [[13, 4], [14, 5], [20, 9]]},
-        "line-dasharray": {"stops": [[13, [0.15, 3]], [14, [0.15, 4]]]}
+        "line-color": "rgba(246, 183, 64, 1)",
+        "line-width": {"stops": [[14, 1], [20, 3]]},
+        "line-dasharray": [6, 4]
       }
     },
     {
@@ -3688,13 +3963,18 @@ ohmVectorStyles.Railway = {
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
-      "minzoom": 14,
-      "filter": ["all", ["in", "type", "subway"]],
+      "minzoom": 7,
+      "filter": [
+        "all",
+        ["in", "type", "subway"],
+        ["!=", "tunnel", 1],
+        ["!=", "bridge", 1]
+      ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(166, 170, 187, 1)",
-        "line-width": {"stops": [[12, 1], [13, 1], [14, 1.25], [20, 2.25]]},
-        "line-dasharray": [4, 1]
+        "line-color": "rgba(121, 145, 248, 1)",
+        "line-width": {"stops": [[14, 1], [20, 3]]},
+        "line-dasharray": [3, 2]
       }
     },
     {
@@ -3707,7 +3987,7 @@ ohmVectorStyles.Railway = {
       "filter": [
         "all",
         ["in", "type", "miniature", "narrow_gauge"],
-        ["!in", "service", "yard", "siding"]
+        ["!in", "service", "yard", "siding", "spur"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
@@ -3725,7 +4005,7 @@ ohmVectorStyles.Railway = {
       "filter": [
         "all",
         ["in", "type", "miniature", "narrow_gauge"],
-        ["!in", "service", "yard", "siding"]
+        ["!in", "service", "yard", "siding", "spur"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
@@ -3748,20 +4028,8 @@ ohmVectorStyles.Railway = {
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "rgba(210, 190, 190, 1)",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          12,
-          0.5,
-          13,
-          0.75,
-          14,
-          1,
-          20,
-          1.5
-        ]
+        "line-color": "rgba(209, 192, 192, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 2, 7, 3, 20, 7]
       }
     },
     {
@@ -3779,20 +4047,8 @@ ohmVectorStyles.Railway = {
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          12,
-          0.5,
-          13,
-          0.75,
-          14,
-          1,
-          20,
-          1.5
-        ],
-        "line-dasharray": [2, 2]
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 1, 20, 5],
+        "line-dasharray": {"stops": [[6, [1.15, 3]], [10, [1.25, 4]]]}
       }
     },
     {
@@ -3804,9 +4060,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["==", "name", "usage=main"],
-        ["!in", "service", "yard", "siding"],
-        ["in", "type", "rail", "light_rail", "preserved"]
+        ["==", "usage", "main"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["in", "type", "rail", "preserved"]
       ],
       "layout": {
         "visibility": "visible",
@@ -3827,9 +4083,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["==", "name", "usage=main"],
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"]
+        ["==", "usage", "main"],
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"]
       ],
       "layout": {
         "visibility": "visible",
@@ -3858,12 +4114,7 @@ ohmVectorStyles.Railway = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [
-            [13, "rgba(168, 168, 168, 1)"],
-            [14, "rgba(109, 111, 113, 1)"]
-          ]
-        },
+        "line-color": "rgba(168, 168, 168, 1)",
         "line-width": [
           "interpolate",
           ["linear"],
@@ -3871,14 +4122,14 @@ ohmVectorStyles.Railway = {
           12,
           0.5,
           14,
-          2,
+          0.75,
           20,
-          4
+          2
         ]
       }
     },
     {
-      "id": "roads_rail-yard-siding-dash",
+      "id": "roads_rail-yard-siding-tick",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
@@ -3891,113 +4142,9 @@ ohmVectorStyles.Railway = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": {
-          "stops": [
-            [13, "rgba(174, 175, 176, 1)"],
-            [14, "rgba(109, 111, 113, 1)"]
-          ]
-        },
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          6,
-          1.5,
-          12,
-          3,
-          20,
-          10
-        ],
-        "line-dasharray": {
-          "stops": [[6, [0.5, 2]], [12, [0.15, 3]], [16, [0.15, 2]]]
-        }
-      }
-    },
-    {
-      "id": "roads_rail-bridge-case",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 11,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["==", "bridge", 1]
-      ],
-      "layout": {
-        "visibility": "visible",
-        "line-cap": "square",
-        "line-join": "round"
-      },
-      "paint": {
-        "line-color": "rgba(46, 46, 46, 1)",
-        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 5, 11, 8, 20, 14]
-      }
-    },
-    {
-      "id": "roads_rail-tunnel",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 11,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["==", "tunnel", 1]
-      ],
-      "layout": {
-        "visibility": "visible",
-        "line-cap": "square",
-        "line-join": "round"
-      },
-      "paint": {
-        "line-color": {
-          "stops": [[10.5, "#5A6064"], [15, "rgba(224, 224, 224, 1)"]]
-        },
-        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 3.5, 7, 4, 20, 9]
-      }
-    },
-    {
-      "id": "roads_rail-tunnel-dash",
-      "type": "line",
-      "source": "osm",
-      "source-layer": "transport_lines",
-      "minzoom": 11,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["==", "tunnel", 1]
-      ],
-      "layout": {
-        "visibility": "visible",
-        "line-cap": "square",
-        "line-join": "round"
-      },
-      "paint": {
-        "line-color": {
-          "stops": [
-            [10.5, "rgba(255, 255, 255, 1)"],
-            [14, "rgba(207, 207, 207, 1)"],
-            [15, "rgba(184, 184, 184, 1)"]
-          ]
-        },
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          6,
-          2,
-          7,
-          2.5,
-          20,
-          7
-        ],
-        "line-dasharray": {
-          "stops": [[6, [0.75, 2]], [11, [0.75, 2.5]], [14, [0.75, 3]]]
-        }
+        "line-color": "rgba(174, 175, 176, 1)",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 20, 6],
+        "line-dasharray": {"stops": [[12, [0.15, 3]], [16, [0.15, 2]]]}
       }
     },
     {
@@ -4032,14 +4179,14 @@ ohmVectorStyles.Railway = {
           12,
           0.5,
           14,
-          2,
+          0.75,
           20,
-          4
+          2
         ]
       }
     },
     {
-      "id": "roads_rail-spur-dash",
+      "id": "roads_rail-spur-tick",
       "type": "line",
       "source": "osm",
       "source-layer": "transport_lines",
@@ -4058,20 +4205,8 @@ ohmVectorStyles.Railway = {
       },
       "paint": {
         "line-color": {"stops": [[13, "#DBDBDB"], [14, "#949599"]]},
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          6,
-          1.5,
-          12,
-          3,
-          20,
-          10
-        ],
-        "line-dasharray": {
-          "stops": [[6, [0.5, 2]], [12, [0.15, 3]], [16, [0.15, 2]]]
-        }
+        "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 20, 6],
+        "line-dasharray": {"stops": [[12, [0.15, 3]], [16, [0.15, 2]]]}
       }
     },
     {
@@ -4083,9 +4218,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=tourism"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "tourism"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4116,9 +4251,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=tourism"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "tourism"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4152,9 +4287,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=military"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "military"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4185,9 +4320,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=military"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "military"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4221,9 +4356,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=branch"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "branch"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4244,9 +4379,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=branch"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "branch"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4280,9 +4415,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=industrial"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "industrial"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4290,7 +4425,7 @@ ohmVectorStyles.Railway = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgba(136, 195, 234, 1)",
+        "line-color": "rgba(155, 221, 174, 1)",
         "line-width": [
           "interpolate",
           ["linear"],
@@ -4313,9 +4448,9 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["==", "name", "usage=industrial"]
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["==", "usage", "industrial"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4349,16 +4484,17 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["!=", "name", "usage=main"],
-        ["!=", "name", "usage=industrial"],
-        ["!=", "name", "usage=branch"],
-        ["!=", "name", "usage=military"],
-        ["!=", "name", "usage=tourism"],
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["!=", "usage", "main"],
+        ["!=", "usage", "industrial"],
+        ["!=", "usage", "branch"],
+        ["!=", "usage", "military"],
+        ["!=", "usage", "tourism"],
         ["!=", "service", "spur"],
         ["!=", "tunnel", 1],
-        ["!=", "service", "siding"]
+        ["!=", "service", "siding"],
+        ["!=", "bridge", 1]
       ],
       "layout": {
         "visibility": "visible",
@@ -4371,6 +4507,37 @@ ohmVectorStyles.Railway = {
       }
     },
     {
+      "id": "roads_rail-bridge",
+      "type": "line",
+      "source": "osm",
+      "source-layer": "transport_lines",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["!=", "usage", "main"],
+        ["!=", "usage", "industrial"],
+        ["!=", "usage", "branch"],
+        ["!=", "usage", "military"],
+        ["!=", "usage", "tourism"],
+        ["!=", "service", "spur"],
+        ["!=", "tunnel", 1],
+        ["!=", "service", "siding"],
+        ["==", "bridge", 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "square",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#5A6064",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 3.5, 7, 4, 20, 9]
+      }
+    },
+    {
       "id": "roads_rail-dash",
       "type": "line",
       "source": "osm",
@@ -4379,16 +4546,16 @@ ohmVectorStyles.Railway = {
       "maxzoom": 24,
       "filter": [
         "all",
-        ["in", "type", "rail", "light_rail", "preserved"],
-        ["!in", "service", "yard", "siding"],
-        ["!=", "name", "usage=main"],
-        ["!=", "name", "usage=industrial"],
-        ["!=", "name", "usage=branch"],
-        ["!=", "name", "usage=tourism"],
+        ["in", "type", "rail", "preserved"],
+        ["!in", "service", "yard", "siding", "spur"],
+        ["!=", "usage", "main"],
+        ["!=", "usage", "ndustrial"],
+        ["!=", "usage", "branch"],
+        ["!=", "usage", "tourism"],
         ["!=", "service", "spur"],
         ["!=", "service", "siding"],
         ["!=", "tunnel", 1],
-        ["!=", "name", "usage=military"]
+        ["!=", "usage", "military"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4437,18 +4604,8 @@ ohmVectorStyles.Railway = {
             [14, "rgba(199, 204, 213, 1)"]
           ]
         },
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          13,
-          3,
-          14,
-          5,
-          20,
-          9
-        ],
-        "line-dasharray": {"stops": [[13, [0.2, 1]], [14, [0.2, 0.75]]]}
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 1, 20, 5],
+        "line-dasharray": {"stops": [[6, [1.15, 2]], [10, [1.25, 2]]]}
       }
     },
     {
@@ -4461,7 +4618,7 @@ ohmVectorStyles.Railway = {
       "filter": [
         "all",
         ["in", "type", "tram", "funicular", "monorail"],
-        ["!in", "service", "yard", "siding"]
+        ["!in", "service", "yard", "siding", "spur"]
       ],
       "layout": {
         "visibility": "visible",
@@ -4469,7 +4626,7 @@ ohmVectorStyles.Railway = {
         "line-join": "miter"
       },
       "paint": {
-        "line-color": "rgba(214, 124, 229, 1)",
+        "line-color": "rgba(192, 123, 236, 1)",
         "line-width": {"stops": [[13, 1], [14, 0.5], [20, 2.25]]},
         "line-dasharray": {"stops": [[13, [3, 2]], [14, [3, 2]]]}
       }
@@ -5064,7 +5221,7 @@ ohmVectorStyles.Railway = {
       "filter": ["all"],
       "layout": {
         "icon-image": "{tourism}-18",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": {"stops": [[16, 10], [20, 12]]},
         "text-anchor": "center",
@@ -5107,7 +5264,7 @@ ohmVectorStyles.Railway = {
       ],
       "layout": {
         "icon-image": "{type}-12",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
@@ -5132,7 +5289,7 @@ ohmVectorStyles.Railway = {
       "filter": ["all"],
       "layout": {
         "icon-image": "{type}-18",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": {"stops": [[15.99, 0], [16, 10], [20, 12]]},
         "text-anchor": "top",
@@ -5158,12 +5315,13 @@ ohmVectorStyles.Railway = {
       "filter": ["all"],
       "layout": {
         "icon-image": "{type}-18",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": 8,
         "text-anchor": "top",
         "text-offset": [0, 1],
-        "text-font": ["OpenHistorical"]
+        "text-font": ["OpenHistorical"],
+        "icon-size": 0.9
       },
       "paint": {
         "text-color": "rgba(80, 80, 80, 1)",
@@ -5182,7 +5340,7 @@ ohmVectorStyles.Railway = {
       "filter": ["all"],
       "layout": {
         "icon-image": "{type}-18",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": {"stops": [[15.99, 0], [16, 10], [20, 12]]},
         "text-anchor": "top",
@@ -5209,7 +5367,7 @@ ohmVectorStyles.Railway = {
       "filter": ["all", ["!in", "type", "artwork"]],
       "layout": {
         "icon-image": "{type}-18",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": {"stops": [[15.99, 0], [16, 10], [20, 12]]},
         "text-offset": [0, 1],
@@ -5269,7 +5427,7 @@ ohmVectorStyles.Railway = {
       "filter": ["all", ["==", "type", "artwork"]],
       "layout": {
         "icon-image": "{artwork_type}-18",
-        "visibility": "none",
+        "visibility": "visible",
         "text-field": "{name}",
         "text-size": {"stops": [[15.99, 0], [16, 10], [20, 12]]},
         "text-anchor": "top",
@@ -5310,18 +5468,45 @@ ohmVectorStyles.Railway = {
       "layout": {"icon-image": "airport-18", "text-font": ["OpenHistorical"]}
     },
     {
+      "id": "transport_railstation_points",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "transport_points",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["all", ["==", "class", "railway"], ["==", "type", "station"]],
+      "layout": {
+        "icon-image": "railstation-18",
+        "visibility": "visible",
+        "text-field": "{name}",
+        "text-size": {"stops": [[13.99, 0], [14, 8], [20, 10]]},
+        "text-anchor": "top",
+        "text-offset": [0, 1],
+        "text-font": ["OpenHistorical"],
+        "icon-size": 1
+      },
+      "paint": {
+        "icon-color": "#000000",
+        "text-color": "rgba(80, 80, 80, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 2,
+        "text-halo-blur": 1,
+        "text-opacity": {"stops": [[13.99, 0], [14, 1]]}
+      }
+    },
+    {
       "id": "transport_points",
       "type": "symbol",
       "source": "osm",
       "source-layer": "transport_points",
-      "minzoom": 16,
+      "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["all"],
+      "filter": ["all", ["!=", "class", "railway"], ["==", "name", ""]],
       "layout": {
         "icon-image": "{type}-18",
         "visibility": "visible",
         "text-field": "{name}",
-        "text-size": {"stops": [[15.99, 0], [16, 8], [20, 10]]},
+        "text-size": {"stops": [[13.99, 0], [14, 8], [20, 10]]},
         "text-anchor": "top",
         "text-offset": [0, 1],
         "text-font": ["OpenHistorical"],
@@ -5331,9 +5516,9 @@ ohmVectorStyles.Railway = {
         "icon-color": "#000000",
         "text-color": "rgba(80, 80, 80, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-halo-width": 0.5,
+        "text-halo-width": 2,
         "text-halo-blur": 1,
-        "text-opacity": {"stops": [[16.99, 0], [17, 1]]}
+        "text-opacity": {"stops": [[13.99, 0], [14, 1]]}
       }
     },
     {
