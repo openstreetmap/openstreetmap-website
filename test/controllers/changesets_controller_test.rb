@@ -321,11 +321,24 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
   def test_show_adjacent_changesets
     user = create(:user)
-    changesets = create_list(:changeset, 3, :user => user)
+    changesets = create_list(:changeset, 3, :user => user, :num_changes => 1)
 
     sidebar_browse_check :changeset_path, changesets[1].id, "changesets/show"
     assert_dom "a[href='#{changeset_path changesets[0]}']", :count => 1
     assert_dom "a[href='#{changeset_path changesets[2]}']", :count => 1
+  end
+
+  def test_show_adjacent_nonempty_changesets
+    user = create(:user)
+    changeset1 = create(:changeset, :user => user, :num_changes => 1)
+    create(:changeset, :user => user, :num_changes => 0)
+    changeset3 = create(:changeset, :user => user, :num_changes => 1)
+    create(:changeset, :user => user, :num_changes => 0)
+    changeset5 = create(:changeset, :user => user, :num_changes => 1)
+
+    sidebar_browse_check :changeset_path, changeset3.id, "changesets/show"
+    assert_dom "a[href='#{changeset_path changeset1}']", :count => 1
+    assert_dom "a[href='#{changeset_path changeset5}']", :count => 1
   end
 
   ##
