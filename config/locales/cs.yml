@@ -340,6 +340,8 @@ cs:
           zachovány, ale nebudou viditelné.
         retain_changeset_discussions: Vaše případné diskuse k sadám změn budou zachovány.
         retain_email: Vaše e-mailová adresa bude zachována.
+        recent_editing_html: Vzhledem k tomu, že jste nedávno upravovali váš účet,
+          nelze aktuálně smazat. Smazání bude možné za %{time}.
         confirm_delete: Jste si jisti?
         cancel: Storno
   accounts:
@@ -392,6 +394,7 @@ cs:
     deleted_ago_by_html: Smazáno %{time_ago} uživatelem %{user}
     edited_ago_by_html: Upraveno %{time_ago} uživatelem %{user}
     version: Verze
+    redacted_version: Upravená verze
     in_changeset: Sada změn
     anonymous: anonym
     no_comment: (bez komentáře)
@@ -408,7 +411,10 @@ cs:
       other: '%{count} cest'
     download_xml: Stáhnout XML
     view_history: Zobrazit historii
+    view_unredacted_history: Zobrazit neredigovanou historii
     view_details: Zobrazit detaily
+    view_redacted_data: Zobrazit upravená data
+    view_redaction_message: Zobrazit zprávu o revizi
     location: 'Pozice:'
     node:
       title_html: 'Uzel: %{name}'
@@ -2436,6 +2442,7 @@ cs:
           light_rail: Rychlodráha
           tram: Tramvaj
           trolleybus: Trolejbus
+          bus: Autobus
           cable_car: Lanovka
           chair_lift: sedačková lanovka
           runway: Vzletová a přistávací dráha
@@ -2491,6 +2498,7 @@ cs:
           destination: Průjezd zakázán
           construction: Cesta ve výstavbě
           bus_stop: Autobusová zastávka
+          stop: Stop
           bicycle_shop: Cykloobchod
           bicycle_rental: Půjčovna kol
           bicycle_parking: Parkoviště pro kola
@@ -2536,6 +2544,7 @@ cs:
         imports: Importy
         automated_edits: Automatizované úpravy
       start_mapping: Začít mapovat
+      continue_authorization: Pokračovat v autorizaci
       add_a_note:
         title: Nemáte čas editovat? Přidejte poznámku!
         para_1: Pokud chcete jen opravit nějakou drobnost a nemáte čas se registrovat
@@ -2735,11 +2744,13 @@ cs:
       read_gpx: Číst soukromé GPS stopy
       write_gpx: Nahrávat GPS stopy
       write_notes: Měnit poznámky
+      write_redactions: Upravte mapová data
       read_email: Přečíst e-mailovou adresu uživatele
       skip_authorization: Automaticky schválit aplikaci
   oauth_clients:
     new:
       title: Registrace nové aplikace
+      disabled: Registrace aplikací OAuth 1 byla zakázána
     edit:
       title: Upravit aplikaci
     show:
@@ -2823,6 +2834,7 @@ cs:
       title: Mé autorizované aplikace
       application: Aplikace
       permissions: Oprávnění
+      last_authorized: Poslední autorizace
       no_applications_html: Zatím jste neautorizovali žádné %{oauth2} aplikace.
     application:
       revoke: Odebrat přístup
@@ -2931,12 +2943,15 @@ cs:
       role:
         administrator: Tento uživatel je správce
         moderator: Tento uživatel je moderátor
+        importer: Tento uživatel je importér
         grant:
           administrator: Přidělit práva správce
           moderator: Přidělit práva moderátora
+          importer: Udělit přístup importérům
         revoke:
           administrator: Odebrat práva správce
           moderator: Odebrat práva moderátora
+          importer: Zrušit přístup importéra
       block_history: Účinná zablokování
       moderator_history: Udělená zablokování
       revoke_all_blocks: Zrušit všechny bloky

@@ -502,8 +502,24 @@ el:
         created: Δημιουργήθηκε
         closed: Έκλεισε
         belongs_to: Συντάκτης
+    subscribe:
+      heading: Εγγραφή στην ακόλουθη συζήτηση ομάδας αλλαγών;
+      button: Εγγραφή σε συζήτηση
+    unsubscribe:
+      heading: Απεγγραφή από την ακόλουθη συζήτηση ομάδας αλλαγών;
+      button: Απεγγραφή από συζήτηση
+    heading:
+      title: Ομάδα αλλαγών %{id}
+      created_by_html: Δημιουργήθηκε από %{link_user} στις %{created}.
+    no_such_entry:
+      title: Δεν υπάρχει τέτοια ομάδα αλλαγών
+      heading: 'Δεν υπάρχει καταχώρηση με id: %{id}'
+      body: Λυπούμαστε, δεν υπάρχει ομάδα αλλαγών με το id %{id}. Παρακαλούμε ελέγξτε
+        για τυχόν ορθογραφικά λάθη ή ίσως ο σύνδεσμος που πατήσατε να είναι λάθος.
     show:
       title: 'Ομάδα αλλαγών: %{id}'
+      created: 'Δημιουργήθηκε: %{when}'
+      closed: 'Έκλεισε: %{when}'
       created_ago_html: Δημιουργήθηκε %{time_ago}
       closed_ago_html: Έκλεισε %{time_ago}
       created_ago_by_html: Δημιουργήθηκε %{time_ago} από %{user}
@@ -586,6 +602,7 @@ el:
     show:
       title: Ημερολόγιο του χρήστη %{user} | %{title}
       user_title: Ημερολόγιο του χρήστη %{user}
+      discussion: Συζήτηση
       leave_a_comment: Αφήστε σχόλιο
       login_to_leave_a_comment_html: '%{login_link} για να αφήσετε ένα σχόλιο'
       login: Συνδεθείτε
@@ -641,6 +658,12 @@ el:
       comment: Σχόλιο
       newer_comments: Νεότερα σχόλια
       older_comments: Παλαιότερα σχόλια
+    subscribe:
+      heading: Εγγραφή στην ακόλουθη συζήτηση καταχώρισης ημερολογίου;
+      button: Εγγραφείτε στη συζήτηση
+    unsubscribe:
+      heading: Απεγγραφή από την ακόλουθη συζήτηση καταχώρισης ημερολογίου;
+      button: Απεγγραφή από τη συζήτηση
   doorkeeper:
     errors:
       messages:
@@ -1620,7 +1643,10 @@ el:
     intro_text: Το OpenStreetMap είναι χάρτης του κόσμου, που δημιουργήθηκε από ανθρώπους
       σαν κι εσάς και είναι δωρεάν, υπό άδεια ελεύθερης χρήσης.
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
+    hosting_partners_2024_html: Η φιλοξενία υποστηρίζεται από %{fastly}, %{corpmembers}
+      και άλλους %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: εταιρικά μέλη του OSMF
     partners_partners: συνεργάτες
     tou: Όροι χρήσης
     osm_offline: Η βάση δεδομένων του OpenStreetMap είναι προσωρινά εκτός λειτουργίας
@@ -1642,6 +1668,7 @@ el:
     more: Περισσότερα
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap Καταχώριση Ημερολογίου #%{id}'
       subject: '[OpenStreetMap] Ο χρήστης %{user} σχολίασε μια καταχώριση ημερολογίου'
       hi: Γεια σας %{to_user},
       header: 'Ο %{from_user} έχει σχολιάσει την καταχώριση ημερολογίου στο OpenStreetMap
@@ -1652,6 +1679,8 @@ el:
         σχολιάσετε στο %{commenturl} ή να στείλετε μήνυμα στον συγγραφέα στο %{replyurl}
       footer_html: Μπορείτε επίσης να διαβάσετε το σχόλιο στο %{readurl} και μπορείτε
         να σχολιάσετε στο %{commenturl} ή να στείλετε μήνυμα στον συγγραφέα στο %{replyurl}
+      footer_unsubscribe: Μπορείτε να απεγγραφείτε από την συζήτηση στο %{unsubscribeurl}
+      footer_unsubscribe_html: Μπορείτε να απεγγραφείτε από την συζήτηση στο %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Γεια σας %{to_user},
@@ -1715,6 +1744,7 @@ el:
       click_the_link: Εάν πρόκειται για σας, κάντε κλικ στον παρακάτω σύνδεσμο για
         να επαναφέρετε τον κωδικό πρόσβασής σας.
     note_comment_notification:
+      description: 'OpenStreetMap Σημείωση #%{id}'
       anonymous: Ανώνυμος χρήστης
       greeting: Γεια,
       commented:
@@ -1760,6 +1790,7 @@ el:
       details_html: Περισσότερες λεπτομέρειες σχετικά με τη σημείωση μπορούν να βρεθούν
         στο %{url}.
     changeset_comment_notification:
+      description: 'OpenStreetMap Ομάδα Αλλαγών #%{id}'
       hi: Γεια σας, %{to_user},
       greeting: Γεια,
       commented:
@@ -1783,10 +1814,10 @@ el:
         στο %{url}.
       details_html: Περισσότερες λεπτομέρειες για την ομάδα αλλαγών μπορούν να βρεθούν
         στο %{url}.
-      unsubscribe: Για να διαγραφείτε από τις ενημερώσεις αυτής της ομάδας αλλαγών,
-        επισκεφθείτε το %{url} και πατήστε "Διαγραφή".
-      unsubscribe_html: Για να καταργήσετε την εγγραφή σας από ενημερώσεις σε αυτό
-        το σύνολο αλλαγών, επισκεφτείτε το %{url} και κάντε κλικ στην "Κατάργηση εγγραφής".
+      unsubscribe: Μπορείτε να απεγγραφείτε από τις ενημερώσεις αυτής της ομάδας αλλαγών
+        στο %{url}.
+      unsubscribe_html: Μπορείτε να απεγγραφείτε από τις ενημερώσεις σε αυτή την ομάδα
+        αλλαγών στο %{url}.
   confirmations:
     confirm:
       heading: Ελέγξτε το ηλεκτρονικό ταχυδρομείο σας!
@@ -1881,8 +1912,8 @@ el:
       destroy_button: Διαγραφή
       back: Επιστροφή
       wrong_user: Έχετε συνδεθεί ως «%{user}» αλλά το μήνυμα που ζητάτε να διαβάσετε
-        δεν έχει σταλεί σε εσάς ούτε από εσάς. Παρακαλώ συνδεθείτε με το σωστό όνομα
-        χρήστη ώστε να μπορέσετε να το διαβάσετε.
+        δεν έχει σταλεί σε εσάς ούτε από εσάς. Παρακαλούμε συνδεθείτε με το σωστό
+        όνομα χρήστη ώστε να μπορέσετε να το διαβάσετε.
     sent_message_summary:
       destroy_button: Διαγραφή
     heading:
@@ -1906,6 +1937,10 @@ el:
       help_text: Πληκτρολογήστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου που χρησιμοποιήσατε
         για να εγγραφείτε. Θα στείλουμε έναν σύνδεσμο τον οποίον μπορείτε να χρησιμοποιήσετε
         για να επαναφέρετε το συνθηματικό σας.
+    create:
+      send_paranoid_instructions: Εάν η διεύθυνση email σας υπάρχει στο σύστημα μας,
+        θα λάβετε έναν σύνδεσμο ανάκτησης κωδικού στην διεύθυνση email σας σε λίγα
+        λεπτά.
     edit:
       title: Επαναφορά συνθηματικού
       heading: Επαναφορά συνθηματικού για τον χρήστη %{user}
@@ -1956,42 +1991,42 @@ el:
       failure: Δεν μπόρεσε να ενημερωθεί το προφίλ.
   sessions:
     new:
-      title: Είσοδος
-      heading: Είσοδος
+      title: Σύνδεση
+      heading: Σύνδεση
       email or username: Διεύθυνση Ηλ. Ταχυδρομείου ή Όνομα Χρήστη
       password: Συνθηματικό
       remember: Να με θυμάσαι
       lost password link: Ξεχάσατε το συνθηματικό σας;
-      login_button: Είσοδος
+      login_button: Σύνδεση
       register now: Εγγραφείτε τώρα
-      with external: 'Εναλλακτικά, χρησιμοποιήστε τρίτη υπηρεσία για είσοδο:'
+      with external: 'Εναλλακτικά, χρησιμοποιήστε τρίτη υπηρεσία για σύνδεση:'
       no account: Δεν έχετε λογαριασμό;
       auth failure: Λυπούμαστε, δεν μπορείτε να συνδεθείτε με αυτές τις λεπτομέρειες.
       openid_logo_alt: Σύνδεση με ένα OpenID
       auth_providers:
         openid:
-          title: Σύνδεση με ένα OpenID
+          title: Σύνδεση με OpenID
           alt: Σύνδεση με ένα OpenID URL
         google:
-          title: Σύνδεση με το Google
+          title: Σύνδεση με Google
           alt: Σύνδεση με ένα Google OpenID
         facebook:
-          title: Σύνδεση με το Facebook
-          alt: Σύνδεση με έναν Λογαριασμό Facebook
+          title: Σύνδεση με Facebook
+          alt: Σύνδεση με λογαριασμό Facebook
         microsoft:
-          title: Σύνδεση μέσω της Microsoft
-          alt: Σύνδεση με ένα Λογαριασμό Microsoft
+          title: Σύνδεση με Microsoft
+          alt: Σύνδεση με λογαριασμό Microsoft
         github:
-          title: Σύνδεση με το GitHub
+          title: Σύνδεση με GitHub
           alt: Σύνδεση με λογαριασμό GitHub
         wikipedia:
           title: Σύνδεση με Wikipedia
-          alt: Συνδεθείτε με ένα Λογαριασμό Wikipedia
+          alt: Συνδεθείτε με λογαριασμό Wikipedia
         wordpress:
-          title: Σύνδεση με το Wordpress
+          title: Σύνδεση με Wordpress
           alt: Σύνδεση με ένα Wordpress OpenID
         aol:
-          title: Σύνδεση με την AOL
+          title: Σύνδεση με AOL
           alt: Σύνδεση με ένα AOL OpenID
     destroy:
       title: Αποσύνδεση
@@ -2141,6 +2176,7 @@ el:
           %{france}: Περιέχει δεδομένα που προέρχονται από
           Direction Générale des Impôts.
         contributors_fr_france: Γαλλία
+        contributors_hr_croatia: Κροατία
         contributors_nl_credit_html: '%{netherlands}: Περιέχει δεδομένα &copy; AND
           (Automotive Navigation Data), 2007 (%{and_link})'
         contributors_nl_netherlands: Κάτω Χώρες
@@ -2571,6 +2607,8 @@ el:
       identifiable: ΑΝΑΓΝΩΡΙΣΙΜΟ
       private: ΙΔΙΩΤΙΚΟ
       trackable: ΑΝΙΧΝΕΥΣΙΜΟ
+      details_with_tags_html: '%{time_ago} από %{user} σε %{tags}'
+      details_without_tags_html: '%{time_ago} από %{user}'
     index:
       public_traces: Δημόσια ίχνη GPS
       my_gps_traces: Τα ίχνη GPS μου
@@ -2780,7 +2818,7 @@ el:
       display name description: Το δημόσια εμφανιζόμενο όνομα χρήστη. Μπορείτε να
         το αλλάξετε αργότερα από τις προτιμήσεις.
       external auth: 'Έλεγχος ταυτότητας από τρίτο μέρος:'
-      use external auth: Εναλλακτικά, χρησιμοποιήστε τρίτη υπηρεσία για είσοδο
+      use external auth: Εναλλακτικά, χρησιμοποιήστε τρίτη υπηρεσία για σύνδεση
       auth no password: Για την έγκριση τρίτων δεν απαιτείται κωδικός πρόσβασης, αλλά
         μερικά ειδικά εργαλεία αλλιώς ο διακομιστής μπορεί να χρειάζεται ένα.
       continue: Εγγραφή
@@ -2895,6 +2933,11 @@ el:
     index:
       title: Χρήστες
       heading: Χρήστες
+      older: Παλαιότεροι Χρήστες
+      newer: Νεότεροι Χρήστες
+      found_users:
+        one: '%{count} χρήστης βρέθηκε'
+        other: '%{count} χρήστες βρέθηκαν'
       summary_html: '%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις
         %{date}'
       summary_no_ip_html: '%{name} δημιουργήθηκε στις %{date}'
