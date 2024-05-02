@@ -122,7 +122,7 @@ OpenStreetMap::Application.routes.draw do
     match :subscribe, :unsubscribe, :on => :member, :via => [:get, :post]
   end
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
-  resources :notes, :path => "note", :only => [:show, :new]
+  resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 
   get "/user/:display_name/history" => "changesets#index"
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
