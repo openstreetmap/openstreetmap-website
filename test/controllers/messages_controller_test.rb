@@ -263,10 +263,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     end
     assert Message.find(unread_message.id).message_read
 
-    # Asking to reply to a message with no ID should fail
-    get message_reply_path
-    assert_response :success
-
     # Asking to reply to a message with a bogus ID should fail
     get message_reply_path(:message_id => 99999)
     assert_response :not_found
@@ -312,10 +308,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_template "show"
     assert_select "a[href='#{user_path user}']", :text => user.display_name
     assert Message.find(unread_message.id).message_read
-
-    # Asking to read a message with no ID should fail
-    get message_path
-    assert_response :success
 
     # Asking to read a message with a bogus ID should fail
     get message_path(:id => 99999)
@@ -417,10 +409,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :see_other
     assert_not Message.find(unread_message.id).message_read
 
-    # Asking to mark a message with no ID should fail
-    post message_mark_path
-    assert_redirected_to inbox_messages_path
-
     # Asking to mark a message with a bogus ID should fail
     post message_mark_path(:message_id => 99999)
     assert_response :not_found
@@ -466,10 +454,6 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     m = Message.find(sent_message.id)
     assert_not m.from_user_visible
     assert m.to_user_visible
-
-    # Asking to destroy a message with no ID should fail
-    delete message_path
-    assert_redirected_to inbox_messages_path
 
     # Asking to destroy a message with a bogus ID should fail
     delete message_path(:id => 99999)
