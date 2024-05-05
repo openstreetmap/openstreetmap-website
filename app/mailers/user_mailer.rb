@@ -230,7 +230,7 @@ class UserMailer < ApplicationMailer
       else "avatar"
       end
     else
-      "avatar.png"
+      "avatar.svg"
     end
   end
 
@@ -243,7 +243,7 @@ class UserMailer < ApplicationMailer
         avatar.blob.download
       end
     else
-      Rails.root.join("app/assets/images/avatar_small.png").read
+      Rails.root.join("app/assets/images/avatar.svg").read
     end
   end
 
