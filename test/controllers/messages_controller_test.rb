@@ -233,35 +233,35 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     recipient_user = create(:user)
     other_user = create(:user)
-    unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
+    message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
     # Check that the message reply page requires us to login
-    get message_reply_path(:message_id => unread_message)
-    assert_redirected_to login_path(:referer => message_reply_path(:message_id => unread_message.id))
+    get message_reply_path(:message_id => message)
+    assert_redirected_to login_path(:referer => message_reply_path(:message_id => message.id))
 
     # Login as the wrong user
     session_for(other_user)
 
     # Check that we can't reply to somebody else's message
-    get message_reply_path(:message_id => unread_message)
-    assert_redirected_to login_path(:referer => message_reply_path(:message_id => unread_message.id))
+    get message_reply_path(:message_id => message)
+    assert_redirected_to login_path(:referer => message_reply_path(:message_id => message.id))
     assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to reply to was not sent to that user. Please log in as the correct user in order to reply.", flash[:notice]
 
     # Login as the right user
     session_for(recipient_user)
 
     # Check that the message reply page loads
-    get message_reply_path(:message_id => unread_message)
+    get message_reply_path(:message_id => message)
     assert_response :success
     assert_template "new"
-    assert_select "title", "Re: #{unread_message.title} | OpenStreetMap"
+    assert_select "title", "Re: #{message.title} | OpenStreetMap"
     assert_select "form[action='/messages']", :count => 1 do
       assert_select "input[type='hidden'][name='display_name'][value='#{user.display_name}']"
-      assert_select "input#message_title[value='Re: #{unread_message.title}']", :count => 1
+      assert_select "input#message_title[value='Re: #{message.title}']", :count => 1
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
     end
-    assert Message.find(unread_message.id).message_read
+    assert Message.find(message.id).message_read
 
     # Asking to reply to a message with no ID should fail
     get message_reply_path
@@ -279,39 +279,39 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     recipient_user = create(:user)
     other_user = create(:user)
-    unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
+    message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
     # Check that the show message page requires us to login
-    get message_path(:id => unread_message)
-    assert_redirected_to login_path(:referer => message_path(:id => unread_message.id))
+    get message_path(:id => message)
+    assert_redirected_to login_path(:referer => message_path(:id => message.id))
 
     # Login as the wrong user
     session_for(other_user)
 
     # Check that we can't read the message
-    get message_path(:id => unread_message)
-    assert_redirected_to login_path(:referer => message_path(:id => unread_message.id))
+    get message_path(:id => message)
+    assert_redirected_to login_path(:referer => message_path(:id => message.id))
     assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to read was not sent by or to that user. Please log in as the correct user in order to read it.", flash[:notice]
 
     # Login as the message sender
     session_for(user)
 
     # Check that the message sender can read the message
-    get message_path(:id => unread_message)
+    get message_path(:id => message)
     assert_response :success
     assert_template "show"
     assert_select "a[href='#{user_path recipient_user}']", :text => recipient_user.display_name
-    assert_not Message.find(unread_message.id).message_read
+    assert_not Message.find(message.id).message_read
 
     # Login as the message recipient
     session_for(recipient_user)
 
     # Check that the message recipient can read the message
-    get message_path(:id => unread_message)
+    get message_path(:id => message)
     assert_response :success
     assert_template "show"
     assert_select "a[href='#{user_path user}']", :text => user.display_name
-    assert Message.find(unread_message.id).message_read
+    assert Message.find(message.id).message_read
 
     # Asking to read a message with no ID should fail
     get message_path
@@ -380,17 +380,17 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     recipient_user = create(:user)
     other_user = create(:user)
-    unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
+    message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
     # Check that the marking a message requires us to login
-    post message_mark_path(:message_id => unread_message)
+    post message_mark_path(:message_id => message)
     assert_response :forbidden
 
     # Login as a user with no messages
     session_for(other_user)
 
     # Check that marking a message we didn't send or receive fails
-    post message_mark_path(:message_id => unread_message)
+    post message_mark_path(:message_id => message)
     assert_response :not_found
     assert_template "no_such_message"
 
@@ -398,24 +398,24 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     session_for(recipient_user)
 
     # Check that the marking a message read works
-    post message_mark_path(:message_id => unread_message, :mark => "read")
+    post message_mark_path(:message_id => message, :mark => "read")
     assert_redirected_to inbox_messages_path
-    assert Message.find(unread_message.id).message_read
+    assert Message.find(message.id).message_read
 
     # Check that the marking a message unread works
-    post message_mark_path(:message_id => unread_message, :mark => "unread")
+    post message_mark_path(:message_id => message, :mark => "unread")
     assert_redirected_to inbox_messages_path
-    assert_not Message.find(unread_message.id).message_read
+    assert_not Message.find(message.id).message_read
 
     # Check that the marking a message read via XHR works
-    post message_mark_path(:message_id => unread_message, :mark => "read")
+    post message_mark_path(:message_id => message, :mark => "read")
     assert_response :see_other
-    assert Message.find(unread_message.id).message_read
+    assert Message.find(message.id).message_read
 
     # Check that the marking a message unread via XHR works
-    post message_mark_path(:message_id => unread_message, :mark => "unread")
+    post message_mark_path(:message_id => message, :mark => "unread")
     assert_response :see_other
-    assert_not Message.find(unread_message.id).message_read
+    assert_not Message.find(message.id).message_read
 
     # Asking to mark a message with no ID should fail
     post message_mark_path
