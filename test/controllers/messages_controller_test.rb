@@ -407,14 +407,14 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to inbox_messages_path
     assert_not Message.find(message.id).message_read
 
-    # Check that the marking a message read via XHR works
-    post message_mark_path(:message_id => message, :mark => "read")
-    assert_response :see_other
+    # Check that the marking a message read works and redirects to inbox from the message page
+    post message_mark_path(:message_id => message, :mark => "read"), :headers => { :referer => message_path(message) }
+    assert_redirected_to inbox_messages_path
     assert Message.find(message.id).message_read
 
-    # Check that the marking a message unread via XHR works
-    post message_mark_path(:message_id => message, :mark => "unread")
-    assert_response :see_other
+    # Check that the marking a message unread works and redirects to inbox from the message page
+    post message_mark_path(:message_id => message, :mark => "unread"), :headers => { :referer => message_path(message) }
+    assert_redirected_to inbox_messages_path
     assert_not Message.find(message.id).message_read
 
     # Asking to mark a message with no ID should fail

@@ -127,7 +127,7 @@ class MessagesController < ApplicationController
     @message.message_read = message_read
     if @message.save
       flash[:notice] = notice
-      redirect_back_or_to inbox_messages_path, :status => :see_other
+      redirect_to inbox_messages_path, :status => :see_other
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
