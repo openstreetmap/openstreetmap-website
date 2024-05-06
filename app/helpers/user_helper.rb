@@ -53,19 +53,33 @@ module UserHelper
   # External authentication support
 
   def openid_logo
-    image_tag "openid_small.png", :alt => t("sessions.new.openid_logo_alt"), :class => "align-text-bottom"
+    image_tag "openid_small.png", :alt => t("application.auth_providers.openid_logo_alt"), :class => "align-text-bottom"
   end
 
   def auth_button(name, provider, options = {})
     link_to(
       image_tag("#{name}.svg",
-                :alt => t("sessions.new.auth_providers.#{name}.alt"),
-                :class => "rounded-3",
-                :size => "36"),
+                :alt => t("application.auth_providers.#{name}.alt"),
+                :class => "rounded-1",
+                :size => "24"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button",
-      :title => t("sessions.new.auth_providers.#{name}.title")
+      :class => "auth_button p-2 d-block",
+      :title => t("application.auth_providers.#{name}.title")
+    )
+  end
+
+  def auth_button_preferred(name, provider, options = {})
+    link_to(
+      image_tag("#{name}.svg",
+                :alt => t("application.auth_providers.#{name}.alt"),
+                :class => "rounded-1 me-3",
+                :width => "24px",
+                :height => "24px") + t("application.auth_providers.#{name}.title"),
+      auth_path(options.merge(:provider => provider)),
+      :method => :post,
+      :class => "auth_button fs-6 border rounded text-muted text-decoration-none py-2 px-4 d-flex justify-content-center align-items-center",
+      :title => t("application.auth_providers.#{name}.title")
     )
   end
 

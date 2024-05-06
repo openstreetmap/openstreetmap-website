@@ -1,0 +1,44 @@
+<div>
+  <div class="list-inline justify-content-center d-flex align-items-center flex-wrap mb-3 gap-3" id="login_auth_buttons">
+
+    <% %w[google facebook microsoft github wikipedia].each do |provider| %>
+      <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
+        <% if @preferred_auth_provider == provider %>
+          <div class="mx-2"><%= auth_button_preferred provider, provider %></div>
+        <% end %>
+      <% end -%>
+    <% end -%>
+
+    <div class="justify-content-center d-flex gap-1">
+      <div>
+        <%= link_to image_tag("openid.png",
+                              :alt => t("application.auth_providers.openid.title"),
+                              :size => "24"),
+                    "#",
+                    :id => "openid_open_url",
+                    :title => t("application.auth_providers.openid.title"),
+                    :class => "p-2 d-block" %>
+      </div>
+
+      <% %w[google facebook microsoft github wikipedia].each do |provider| %>
+        <% unless @preferred_auth_provider == provider %>
+          <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
+            <div><%= auth_button provider, provider %></div>
+          <% end -%>
+        <% end %>
+      <% end -%>
+    </div>
+  </div>
+
+  <%# :tabindex starts high to allow rendering at the bottom of the template %>
+  <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
+    <div id="login_openid_url" class="mb-3">
+      <label for="openid_url" class="form-label"><%= t ".openid_html", :logo => openid_logo %></label>
+      <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
+      <%= text_field_tag("openid_url", "", :tabindex => 20, :autocomplete => "on", :class => "openid_url form-control") %>
+      <span class="form-text text-muted">(<a href="<%= t "accounts.edit.openid.link" %>" target="_new"><%= t "accounts.edit.openid.link text" %></a>)</span>
+    </div>
+
+    <%= submit_tag t(".openid_login_button"), :tabindex => 21, :id => "openid_login_button", :class => "btn btn-primary" %>
+  <% end %>
+</div>

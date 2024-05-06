@@ -82,7 +82,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         assert_select "div#content", :count => 1 do
           assert_select "form[action='/user/new'][method='post']", :count => 1 do
             assert_select "input[id='user_email']", :count => 1
-            assert_select "input[id='user_email_confirmation']", :count => 1
             assert_select "input[id='user_display_name']", :count => 1
             assert_select "input[id='user_pass_crypt'][type='password']", :count => 1
             assert_select "input[id='user_pass_crypt_confirmation'][type='password']", :count => 1
@@ -106,18 +105,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_new_success
     user = build(:user, :pending)
 
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
-        end
-      end
-    end
-
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         perform_enqueued_jobs do
-          post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+          post user_new_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -151,55 +142,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_email"
   end
 
-  def test_save_duplicate_email
+  def test_new_duplicate_email_uppercase
     user = build(:user, :pending)
-
-    # Set up our user as being half-way through registration
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
-        end
-      end
-    end
-
-    # Now create another user with that email
-    create(:user, :email => user.email)
-
-    # Check that the second half of registration fails
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
-        end
-      end
-    end
-
-    assert_response :success
-    assert_template "new"
-    assert_select "form > div > input.is-invalid#user_email"
-  end
-
-  def test_save_duplicate_email_uppercase
-    user = build(:user, :pending)
-
-    # Set up our user as being half-way through registration
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
-        end
-      end
-    end
-
-    # Now create another user with that email, but uppercased
     create(:user, :email => user.email.upcase)
 
-    # Check that the second half of registration fails
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+          post user_new_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -209,26 +159,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_email"
   end
 
-  def test_save_duplicate_name
+  def test_new_duplicate_name
     user = build(:user, :pending)
-
-    # Set up our user as being half-way through registration
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
-        end
-      end
-    end
-
-    # Now create another user with that display name
     create(:user, :display_name => user.display_name)
 
-    # Check that the second half of registration fails
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+          post user_new_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -238,26 +176,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_display_name"
   end
 
-  def test_save_duplicate_name_uppercase
+  def test_new_duplicate_name_uppercase
     user = build(:user, :pending)
-
-    # Set up our user as being half-way through registration
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
-        end
-      end
-    end
-
-    # Now create another user with that display_name, but uppercased
     create(:user, :display_name => user.display_name.upcase)
 
-    # Check that the second half of registration fails
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+          post user_new_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -267,17 +193,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form > div > input.is-invalid#user_display_name"
   end
 
-  def test_save_blocked_domain
+  def test_new_blocked_domain
     user = build(:user, :pending, :email => "user@example.net")
-
-    # Set up our user as being half-way through registration
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
-        end
-      end
-    end
 
     # Now block that domain
     create(:acl, :domain => "example.net", :k => "no_account_creation")
@@ -286,7 +203,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+          post user_new_path, :params => { :user => user.attributes }
         end
       end
     end
@@ -298,18 +215,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def test_save_referer_params
     user = build(:user, :pending)
 
-    # Set up our user as being half-way through registration
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes, :referer => "/edit?editor=id#map=1/2/3" }
-        end
-      end
-    end
-
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        post user_save_path, :params => { :read_ct => 1, :read_tou => 1 }
+        post user_new_path, :params => { :user => user.attributes, :referer => "/edit?editor=id#map=1/2/3" }
         assert_enqueued_with :job => ActionMailer::MailDeliveryJob,
                              :args => proc { |args| args[3][:args][2] == welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3) }
         perform_enqueued_jobs
@@ -317,24 +225,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     ActionMailer::Base.deliveries.clear
-  end
-
-  def test_terms_new_user
-    user = build(:user, :pending)
-
-    # Set up our user as being half-way through registration
-    assert_no_difference "User.count" do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        perform_enqueued_jobs do
-          post user_new_path, :params => { :user => user.attributes }
-        end
-      end
-    end
-
-    get user_terms_path
-
-    assert_response :success
-    assert_template :terms
   end
 
   def test_terms_agreed
