@@ -78,10 +78,11 @@ class UsersController < ApplicationController
                                    :auth_provider => params[:auth_provider],
                                    :auth_uid => params[:auth_uid])
 
-      flash.now[:notice] = render_to_string :partial => "auth_association"
-
-      # validate before displaying to show email field if it conflicts
-      flash.now[:notice] = t ".duplicate_social_email" unless current_user.valid? && current_user.errors[:email].empty?
+      if current_user.valid? || current_user.errors[:email].empty?
+        flash.now[:notice] = render_to_string :partial => "auth_association"
+      else
+        flash.now[:warning] = t ".duplicate_social_email"
+      end
     else
       check_signup_allowed
 
