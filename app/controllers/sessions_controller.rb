@@ -14,15 +14,17 @@ class SessionsController < ApplicationController
   def new
     override_content_security_policy_directives(:form_action => []) if Settings.csp_enforce || Settings.key?(:csp_report_url)
 
-    session[:referer] = safe_referer(params[:referer]) if params[:referer]
+    referer = safe_referer(params[:referer]) if params[:referer]
 
-    parse_oauth_referer session[:referer]
+    parse_oauth_referer referer
   end
 
   def create
     session[:remember_me] ||= params[:remember_me]
-    session[:referer] = safe_referer(params[:referer]) if params[:referer]
-    password_authentication(params[:username].strip, params[:password])
+
+    referer = safe_referer(params[:referer]) if params[:referer]
+
+    password_authentication(params[:username].strip, params[:password], referer)
   end
 
   def destroy
@@ -43,15 +45,15 @@ class SessionsController < ApplicationController
 
   ##
   # handle password authentication
-  def password_authentication(username, password)
+  def password_authentication(username, password, referer = nil)
     if (user = User.authenticate(:username => username, :password => password))
-      successful_login(user)
+      successful_login(user, referer)
     elsif (user = User.authenticate(:username => username, :password => password, :pending => true))
-      unconfirmed_login(user)
+      unconfirmed_login(user, referer)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login({ :partial => "sessions/suspended_flash" }, username)
+      failed_login({ :partial => "sessions/suspended_flash" }, username, referer)
     else
-      failed_login t("sessions.new.auth failure"), username
+      failed_login(t("sessions.new.auth failure"), username, referer)
     end
   end
 end
