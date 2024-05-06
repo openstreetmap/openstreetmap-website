@@ -31,7 +31,7 @@
       <% @comments.each do |comment| %>
         <% next unless comment.visible || current_user&.moderator? %>
         <li id="c<%= comment.id %>">
-          <small class='text-muted'>
+          <small class='text-body-secondary'>
             <%= t comment.visible ? ".comment_by_html" : ".hidden_comment_by_html",
                   :time_ago => friendly_date_ago(comment.created_at),
                   :user => link_to(comment.author.display_name, comment.author) %>

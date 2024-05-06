@@ -307,7 +307,7 @@ OSM.Directions = function (map) {
         var row = $("<tr class='turn'/>");
         row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
         row.append("<td>" + instruction);
-        row.append("<td class='distance text-muted text-end'>" + dist);
+        row.append("<td class='distance text-body-secondary text-end'>" + dist);
 
         row.on("click", function () {
           popup
