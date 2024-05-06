@@ -1,4 +1,10 @@
 module SvgHelper
+  def notice_svg_tag
+    path_data = "M 2 0 C 0.892 0 0 0.892 0 2 L 0 14 C 0 15.108 0.892 16 2 16 L 14 16 C 15.108 16 16 15.108 16 14 L 16 2 C 16 0.892 15.108 0 14 0 L 2 0 z M 7 3 L 9 3 L 9 8 L 7 8 L 7 3 z M 7 10 L 9 10 L 9 12 L 7 12 L 7 10 z"
+    path_tag = tag.path :d => path_data, :fill => "currentColor"
+    tag.svg path_tag, :width => 16, :height => 16
+  end
+
   def previous_page_svg_tag(**options)
     adjacent_page_svg_tag(dir == "rtl" ? 1 : -1, **options)
   end
