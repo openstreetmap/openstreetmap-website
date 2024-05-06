@@ -199,7 +199,6 @@ ja:
         auth_provider: 認証提供者
         auth_uid: 認証 ID
         email: メール
-        email_confirmation: メールアドレスの確認
         new_email: 新しいメールアドレス
         active: アクティブ
         display_name: 表示名
@@ -1779,7 +1778,7 @@ ja:
   sessions:
     new:
       title: ログイン
-      heading: ログイン
+      tab_title: ログイン
       email or username: 'メールアドレスまたは利用者名:'
       password: 'パスワード:'
       remember: ログイン状態を保持
@@ -1787,34 +1786,7 @@ ja:
       login_button: ログイン
       register now: 今すぐ登録
       with external: 'サードパーティのアカウントでもログインできます:'
-      no account: アカウントを持っていませんか?
       auth failure: 申し訳ありませんが、入力された情報ではログインできませんでした。
-      openid_logo_alt: OpenID でログイン
-      auth_providers:
-        openid:
-          title: OpenID でログイン
-          alt: OpenID URLでログイン
-        google:
-          title: Googleでログイン
-          alt: Google OpenIDでログイン
-        facebook:
-          title: Facebookでログイン
-          alt: Facebook アカウントを使用してログイン
-        microsoft:
-          title: Microsoftでログイン
-          alt: Microsoftアカウントでログイン
-        github:
-          title: GitHubでログイン
-          alt: GitHubのアカウントでログイン
-        wikipedia:
-          title: ウィキペディアでログイン
-          alt: ウィキペディアのアカウントでログイン
-        wordpress:
-          title: Wordpressでログイン
-          alt: Wordpress OpenIDでログイン
-        aol:
-          title: AOLでログイン
-          alt: AOL OpenIDでログイン
     destroy:
       title: ログアウト
       heading: OpenStreetMap からログアウト
@@ -1894,6 +1866,7 @@ ja:
         contributors_fr_france: フランス
         contributors_nl_netherlands: オランダ
         contributors_nz_new_zealand: ニュージーランド
+        contributors_nz_cc_by: CC BY 4.0
         contributors_rs_serbia: セルビア
         contributors_si_slovenia: スロベニア
         contributors_es_spain: スペイン
@@ -2019,12 +1992,17 @@ ja:
           footway: 歩道
           rail: 鉄道
           subway: 地下鉄
+          bus: バス
           cable_car: 交走式ロープウェイ
           chair_lift: チェアリフト
           runway: 空港滑走路
           taxiway: 空港誘導路
           apron: 空港ビル
           admin: 行政境界
+          capital: 首都
+          city: 都市
+          orchard: 果樹園
+          vineyard: ブドウ園
           forest: 森
           wood: 森林
           golf: ゴルフ場
@@ -2043,10 +2021,12 @@ ja:
           allotments: 家庭菜園
           pitch: 運動場
           centre: スポーツセンター
+          beach: 砂浜
           reserve: 自然保護区
           military: 軍用地域
           school: 学校
           university: 大学
+          hospital: 病院
           building: 重要建造物
           station: 鉄道駅
           summit: 山脈
@@ -2056,6 +2036,7 @@ ja:
           private: 私的通行
           destination: 目的通行
           construction: 建設中の道路
+          bus_stop: バス停
           bicycle_shop: 自転車販売店
           bicycle_parking: 駐輪場
           toilets: トイレ
@@ -2213,6 +2194,32 @@ ja:
       oauth2_applications: OAuth 2 アプリケーション
       oauth2_authorizations: OAuth 2 認証
       muted_users: ミュートした利用者
+    auth_providers:
+      openid_logo_alt: OpenID でログイン
+      openid:
+        title: OpenID でログイン
+        alt: OpenID URLでログイン
+      google:
+        title: Googleでログイン
+        alt: Google OpenIDでログイン
+      facebook:
+        title: Facebookでログイン
+        alt: Facebook アカウントを使用してログイン
+      microsoft:
+        title: Microsoftでログイン
+        alt: Microsoftアカウントでログイン
+      github:
+        title: GitHubでログイン
+        alt: GitHubのアカウントでログイン
+      wikipedia:
+        title: ウィキペディアでログイン
+        alt: ウィキペディアのアカウントでログイン
+      wordpress:
+        title: Wordpressでログイン
+        alt: Wordpress OpenIDでログイン
+      aol:
+        title: AOLでログイン
+        alt: AOL OpenIDでログイン
   oauth:
     authorize:
       title: あなたのアカウントへのアクセスの認証
@@ -2342,11 +2349,10 @@ ja:
         header: フリー、編集可能
       display name description: あなたの公開利用者名です。あとで個人設定で変更できます。
       external auth: 'サードパーティ認証:'
-      use external auth: サードパーティのアカウントでもログインできます
-      auth no password: サードパーティ認証があるとパスワードは不要ですが、それでもその他のツールやサーバーが必要な場合があります。
       continue: 利用者登録
       terms accepted: 新しい協力者規約を承諾していただき、ありがとうございます!
       privacy_policy: プライバシー・ポリシー
+      use external auth: サードパーティのアカウントでもログインできます
     terms:
       title: 規約
       heading: 規約
@@ -2664,6 +2670,7 @@ ja:
         gps: 公開GPSトラッキング
         overlays: トラブルシューティング用の地図オーバーレイ
         title: レイヤー
+      openstreetmap_contributors: OpenStreetMapの貢献者
       make_a_donation: 寄付をする
     site:
       edit_tooltip: 地図を編集
@@ -2697,6 +2704,8 @@ ja:
       descend: 下り坂
       directions: 方向
       distance: 距離
+      distance_m: '%{distance}m'
+      distance_km: '%{distance}km'
       errors:
         no_route: ２点間のルートが見つかりません。
         no_place: 残念ながら、場所「%{place}」は見つかりませんでした。

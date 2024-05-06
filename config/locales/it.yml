@@ -148,11 +148,11 @@ it:
         support_url: Indirizzo URL di supporto
         allow_read_prefs: leggi le sue preferenze utente
         allow_write_prefs: modifica le sue preferenze utente
-        allow_write_diary: crea pagine di diario, commenta e fai amicizia
-        allow_write_api: modifica la mappa
+        allow_write_diary: creare pagine di diario, commenti e stringere amicizie
+        allow_write_api: modificare la mappa
         allow_read_gpx: visualizza le sue tracce GPS private
         allow_write_gpx: carica tracce GPS
-        allow_write_notes: modifica le note
+        allow_write_notes: modificare le note
       diary_comment:
         body: Corpo
       diary_entry:
@@ -197,7 +197,6 @@ it:
         auth_provider: Fornitore d'autenticazione
         auth_uid: UID d'autenticazione
         email: E-mail
-        email_confirmation: Conferma e-mail
         new_email: Nuovo indirizzo e-mail
         active: Attivo
         display_name: Nome visualizzato
@@ -1999,7 +1998,7 @@ it:
   sessions:
     new:
       title: Entra
-      heading: Entra
+      tab_title: Entra
       email or username: Indirizzo e-mail o nome utente
       password: Password
       remember: Ricordati di me
@@ -2007,34 +2006,7 @@ it:
       login_button: Entra
       register now: Registrati ora
       with external: In alternativa, effettua l'accesso tramite terze parti
-      no account: Non hai un'utenza?
       auth failure: Spiacenti, non si può accedere con questi dettagli.
-      openid_logo_alt: Accedi con un OpenID
-      auth_providers:
-        openid:
-          title: Accedi con OpenID
-          alt: Accedi con un URL OpenID
-        google:
-          title: Accedi con Google
-          alt: Accedi con un OpenID di Google
-        facebook:
-          title: Accedi con Facebook
-          alt: Accedi con un'utenza Facebook
-        microsoft:
-          title: Accedi con Microsoft
-          alt: Accedi con un'utenza Microsoft
-        github:
-          title: Accedi con GitHub
-          alt: Effettua l'acceso con un'utenza GitHub
-        wikipedia:
-          title: Accedi con Wikipedia
-          alt: Accedi con un'utenza Wikipedia
-        wordpress:
-          title: Accedi con Wordpress
-          alt: Accedi con un OpenID di Wordpress
-        aol:
-          title: Accedi con AOL
-          alt: Accedi con un OpenID di AOL
     destroy:
       title: Esci
       heading: Esci da OpenStreetMap
@@ -2212,7 +2184,12 @@ it:
           %{france}: Contiene dati provenienti dalla
           Direction Générale des Impôts.
         contributors_fr_france: Francia
+        contributors_hr_credit_html: |-
+          %{croatia}: contiene dati da %{dgu_link} e %{open_data_portal}
+          (informazioni pubbliche della Croazia).
         contributors_hr_croatia: Croazia
+        contributors_hr_dgu: Amministrazione geodetica statale della Croazia
+        contributors_hr_open_data_portal: Portale nazionale degli open data
         contributors_nl_credit_html: '%{netherlands}: Contiene i dati &copy; AND,
           2007 (%{and_link})'
         contributors_nl_netherlands: Paesi Bassi
@@ -2702,6 +2679,32 @@ it:
       oauth2_applications: Applicazioni OAuth 2
       oauth2_authorizations: Autorizzazioni OAuth 2
       muted_users: Utenti silenziati
+    auth_providers:
+      openid_logo_alt: Accedi con un OpenID
+      openid:
+        title: Accedi con OpenID
+        alt: Accedi con un URL OpenID
+      google:
+        title: Accedi con Google
+        alt: Accedi con un OpenID di Google
+      facebook:
+        title: Accedi con Facebook
+        alt: Accedi con un'utenza Facebook
+      microsoft:
+        title: Accedi con Microsoft
+        alt: Accedi con un'utenza Microsoft
+      github:
+        title: Accedi con GitHub
+        alt: Effettua l'acceso con un'utenza GitHub
+      wikipedia:
+        title: Accedi con Wikipedia
+        alt: Accedi con un'utenza Wikipedia
+      wordpress:
+        title: Accedi con Wordpress
+        alt: Accedi con un OpenID di Wordpress
+      aol:
+        title: Accedi con AOL
+        alt: Accedi con un OpenID di AOL
   oauth:
     authorize:
       title: Autorizzare l'accesso al tuo account
@@ -2711,7 +2714,7 @@ it:
       allow_to: 'Consenti all''applicazione client di:'
       allow_read_prefs: leggere le tue preferenze.
       allow_write_prefs: modificare le tue preferenze utente.
-      allow_write_diary: crea pagine di diario, commenti e fai amicizia.
+      allow_write_diary: creare pagine di diario, commenti e stringere amicizie.
       allow_write_api: modificare la mappa.
       allow_read_gpx: leggere i tuoi tracciati GPS privati.
       allow_write_gpx: caricare tracciati GPS.
@@ -2731,15 +2734,15 @@ it:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
     scopes:
       openid: Accedi utilizzando OpenStreetMap
-      read_prefs: Leggi preferenze utente
-      write_prefs: Modifica le preferenze utente
-      write_diary: Crea voci del diario, commenti e fai amicizia
-      write_api: Modifica la mappa
-      read_gpx: Leggi tracciati GPS privati
-      write_gpx: Carica tracciati GPS
-      write_notes: Modifica le note
-      write_redactions: Rimuovi dati cartografici
-      read_email: Leggere indirizzo di posta elettronica utente
+      read_prefs: Leggere le preferenze dell'utente
+      write_prefs: Modificare le preferenze dell'utente
+      write_diary: Creare voci del diario, commenti e stringere amicizie
+      write_api: Modificare la mappa
+      read_gpx: Leggere tracciati GPS privati
+      write_gpx: Caricare tracciati GPS
+      write_notes: Modificare le note
+      write_redactions: Rimuovere dati cartografici
+      read_email: Leggere indirizzo di posta elettronica dell'utente
       skip_authorization: Approvazione automatica applicazione
   oauth_clients:
     new:
@@ -2850,17 +2853,14 @@ it:
       display name description: Il proprio nome utente visualizzato pubblicamente.
         Può essere modificato più tardi nelle preferenze.
       external auth: 'Autenticazione tramite terze parti:'
-      use external auth: In alternativa, effettua l'accesso tramite terze parti
-      auth no password: Con l'autenticazione tramite terze parti non è richiesta una
-        password, ma alcuni strumenti o server aggiuntivi potrebbero ancora averne
-        bisogno.
       continue: Registrati
       terms accepted: Grazie di aver accettato le nuove regole per contribuire!
-      email_confirmation_help_html: Il tuo indirizzo non viene visualizzato pubblicamente,
-        consulta la nostra %{privacy_policy_link} per ulteriori informazioni.
+      email_help_html: Il tuo indirizzo non viene visualizzato pubblicamente, consulta
+        la nostra %{privacy_policy_link} per ulteriori informazioni.
       privacy_policy: normativa sulla privacy
       privacy_policy_title: Informativa sulla privacy di OSM Foundation compresa la
         sezione sugli indirizzi e-mail
+      use external auth: In alternativa, effettua l'accesso tramite terze parti
     terms:
       title: Termini
       heading: Termini
@@ -3123,6 +3123,8 @@ it:
       reason: Motivo del blocco
       status: Stato
       revoker_name: Revocato da
+      older: Blocchi più vecchi
+      newer: Blocchi più recenti
     navigation:
       all_blocks: Tutti i blocchi
       blocks_on_me: Blocchi su di me
