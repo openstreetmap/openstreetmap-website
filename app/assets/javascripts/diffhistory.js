@@ -24,6 +24,20 @@ function nullishCoalesce(a, b) {
   return a!== null && a!== undefined? a : b;
 }
 
+function getOptionalValue(obj, ...props) {
+  let currentObj = obj;
+
+  for (let prop of props) {
+    if (currentObj === null || currentObj === undefined) {
+      return undefined;
+    }
+
+    currentObj = currentObj[prop];
+  }
+
+  return currentObj;
+}
+
 function makeHistoryCompact() {
     // todo -> toogleAttribute
     if (document.querySelector(".compact-toggle-btn").textContent === "><") {
@@ -122,8 +136,8 @@ function addDiffInHistory() {
         }
         kv.forEach(
             (i) => {
-                let k = i.querySelector("th > a")?.textContent ?? i.querySelector("th")?.textContent;
-                let v = i.querySelector("td .wdplugin")?.textContent ?? i.querySelector("td > a")?.textContent ?? i.querySelector("td")?.textContent;
+                let k = nullishCoalesce(getOptionalValue(i.querySelector("th > a"),textContent),getOptionalValue(i.querySelector("th"),textContent));
+                let v = nullishCoalesce(nullishCoalesce(getOptionalValue(i.querySelector("td .wdplugin"),textContent),getOptionalValue(i.querySelector("td > a"),textContent)),getOptionalValue(i.querySelector("td"),textContent));
                 if (!k) {
                     // Human-readable Wikidata extension compatibility
                     return
@@ -189,7 +203,7 @@ function addDiffInHistory() {
         }
         versions.push({
             tags: tags,
-            coordinates: coordinates?.href ?? lastCoordinates,
+            coordinates: nullishCoalesce(getOptionalValue(coordinates,href),lastCoordinates),
             wasModified: wasModifiedObject,
             nodes: childNodes,
             members: [],
