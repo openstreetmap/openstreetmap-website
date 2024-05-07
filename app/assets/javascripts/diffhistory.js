@@ -20,6 +20,10 @@ function addHistoryLink() {
     }
 }
 
+function nullishCoalesce(a, b) {
+  return a!== null && a!== undefined? a : b;
+}
+
 function makeHistoryCompact() {
     // todo -> toogleAttribute
     if (document.querySelector(".compact-toggle-btn").textContent === "><") {
@@ -67,7 +71,7 @@ function addDiffInHistory() {
     for (let ver of versionsHTML.toReversed()) {
         let wasModifiedObject = false;
         let version = ver.children[0].childNodes[1].href.match(/\/(\d+)$/)[1]
-        let kv = ver.querySelectorAll("tbody > tr") ?? [];
+        let kv = nullishCoalesce(ver.querySelectorAll("tbody > tr"),[]);
         let tags = [];
 
         let metainfoHTML = ver.querySelector('ul:nth-child(3) > li:nth-child(1)');
