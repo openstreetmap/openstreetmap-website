@@ -24,7 +24,7 @@ module UserRolesHelper
   def role_icon_svg_tag(role, blank, title, **options)
     role_colors = {
       "administrator" => "#f69e42",
-      "moderator" => "#0606ff",
+      "moderator" => "#447eff",
       "importer" => "#38e13a"
     }
     color = role_colors[role] || "currentColor"
