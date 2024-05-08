@@ -16,8 +16,6 @@
 //= require matomo
 //= require richtext
 //= require qs/dist/qs
-//= require bs-custom-file-input
-//= require bs-custom-file-input-init
 //= require diffhistory
 
 /*
