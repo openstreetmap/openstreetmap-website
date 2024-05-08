@@ -18,6 +18,7 @@
 //= require qs/dist/qs
 //= require diffhistory
 
+
 /*
  * Called as the user scrolls/zooms around to manipulate hrefs of the
  * view tab and various other links
