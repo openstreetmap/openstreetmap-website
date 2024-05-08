@@ -213,7 +213,11 @@ function addDiffInHistory() {
               
                 wasModifiedObject = true
             }
-            ver.querySelector("details")?.removeAttribute("open")
+            //ver.querySelector("details")?.removeAttribute("open")
+            let element2 = ver.querySelector("details")
+            if (element2) {
+                element2.removeAttribute("open");
+            }
         }
         versions.push({
             tags: tags,
