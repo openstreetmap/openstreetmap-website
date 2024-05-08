@@ -38,6 +38,14 @@ function getOptionalValue(obj, ...props) {
   return currentObj;
 }
 
+function safeCall(obj, funcName, ...args) {
+    if (obj && typeof obj[funcName] === 'function') {
+        return obj[funcName](...args);
+    } else {
+        return undefined;
+    }
+}
+
 function makeHistoryCompact() {
     // todo -> toogleAttribute
     if (document.querySelector(".compact-toggle-btn").textContent === "><") {
@@ -196,7 +204,13 @@ function addDiffInHistory() {
             if (version > 1 &&
                 (childNodes.length !== lastChildNodes.length
                     || childNodes.some((el, index) => lastChildNodes[index] !== childNodes[index]))) {
-                ver.querySelector("details > summary")?.classList.add("history-diff-modified-tag")
+                //ver.querySelector("details > summary")?.classList.add("history-diff-modified-tag")
+
+                let element = ver.querySelector("details > summary");
+                if (element) {
+                    element.classList.add("history-diff-modified-tag");
+                }
+              
                 wasModifiedObject = true
             }
             ver.querySelector("details")?.removeAttribute("open")
