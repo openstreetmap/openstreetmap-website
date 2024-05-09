@@ -4,6 +4,7 @@
 # Author: 1917 Ekim Devrimi
 # Author: Asmen
 # Author: Erdemaslancan
+# Author: GolyatGeri
 # Author: Gorizon
 # Author: Gravitystorm
 # Author: Gırd
@@ -21,7 +22,7 @@ diq:
       prompt: Dosya weçinê
     submit:
       diary_comment:
-        create: Qeyd ke
+        create: Mışewre
       diary_entry:
         create: Vıla ke
         update: Rocane ke
@@ -32,6 +33,9 @@ diq:
       client_application:
         create: Qeyd Be
         update: Rocane kerê
+      oauth2_application:
+        create: Qeyd bıbe
+        update: Rocane kerên
       redaction:
         create: Redaksiyon vırazê
         update: Redaksiyoni qeyd kerê
@@ -46,6 +50,10 @@ diq:
       messages:
         invalid_email_address: Ravêrde ze yew adresê eposta nêaseno
         email_address_not_routable: Tadeyaye niyo
+        display_name_is_user_n: n, hendık kamiya karkeriya şoma nêbo  user_n nêbeno.
+      models:
+        user_mute:
+          is_already_muted: Hora gêriyao bêveng
     models:
       acl: Qontrol Listeyê Resayışi
       changeset: Qeydê Vurnayışan
@@ -89,6 +97,7 @@ diq:
         support_url: Gırey Destegi
         allow_read_prefs: Tercihanê karberi bıwanê
         allow_write_prefs: Tercihanê karberanê inan bıvurne
+        allow_write_diary: Embaz bıkerên, mışorê u rocek çiyeki vırazên
         allow_write_api: Xeritay bıvurne
         allow_read_gpx: Rêça GPSanê xısusiyan bıwane
         allow_write_gpx: Şopanê GPSi bar kerê
@@ -98,9 +107,15 @@ diq:
       diary_entry:
         user: Karber
         title: Mewzu
+        body: Metın
         latitude: Verıniye
         longitude: Derganiye
         language_code: Zıwan
+      doorkeeper/application:
+        name: Name
+        redirect_uri: Sersıkıtışên URI
+        confidential: Na aplikasyona itimadına?
+        scopes: Desturi
       friend:
         user: Karber
         friend: Embaz
@@ -122,20 +137,31 @@ diq:
         body: Metın
         recipient: Grotker
       redaction:
+        title: Serek
         description: Şınasnayış
       report:
         category: Qandê rapor jew sebeb weçinê
+        details: Serva mowzuy ziyedêr zanışge bıdêrên (zaruriyo)
       user:
+        auth_provider: Taderikerê rastkerdeni
+        auth_uid: Raştkerdışê UID
         email: E-poste
-        new_email: 'E-postay adresiyo newe:'
+        new_email: E-postay adresiyo neweh
         active: Aktiv
         display_name: Nameyo ke Aseno
-        description: Şınasnayış
+        description: Şınasiya weci
         home_lat: 'Verıniye:'
-        home_lon: 'Derganiye:'
-        languages: Zıwani
+        home_lon: Derganiye
+        languages: Zıwanê tercihi
+        preferred_editor: Vurnayoğê tercihi
         pass_crypt: Parola
         pass_crypt_confirmation: Parola tesdiq ke
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: nezdi %{count} saati veri
+        other: nezdi %{count} saatan veror
+      half_a_minute: Verê nim deqa
   editor:
     default: Hesabiyaye (%{name}yo nıkayên)
     id:
@@ -179,12 +205,13 @@ diq:
       heading: 'Pêron rê akerde vırnayış:'
   browse:
     version: Versiyon
+    redacted_version: Timariyın ramıtek
     in_changeset: Qeydê Vurnayışan
     anonymous: anonim
     no_comment: (be vatış)
     part_of: Letey
     part_of_relations:
-      one: '1 eleqe '
+      one: '%{count} eleqe '
       other: '%{count} eleqey'
     part_of_ways:
       one: 1 ray
@@ -278,6 +305,12 @@ diq:
         belongs_to: Nuştekar
     show:
       title: 'Koma vurnayışi: %{id}'
+      created: Vırazia:%{when}
+      closed: 'Kefılia: %{when}'
+      created_ago_html: Vırazia %{time_ago}
+      closed_ago_html: Kefılia  %{time_ago}
+      created_ago_by_html: Be hetên %{user} ra %{time_ago} vırazia
+      closed_ago_by_html: Be hetên %{user} ra %{time_ago} kefılia
       discussion: Werênayış
       join_discussion: Dekewtena vatenayışi rê qeyd bê
       changesetxml: Vurnayışê peyênê XML
@@ -298,6 +331,15 @@ diq:
       your location: Heruna mı
       nearby mapper: Xeritoğo emıryan
       friend: Embaz
+    show:
+      title: Panel Asengeni
+      edit_your_profile: Wecê ho bıvurnên
+      my friends: Alwazê mı
+      no friends: Hona şoma qet alwazê neweyi nêkerdê cı
+      nearby users: Nezdık ran yobina karkeri
+      no nearby users: Nezdık ran qet alwazê neweyi nıka çıniyê
+      friends_changesets: Qeydê vurnayışê alwazan
+      friends_diaries: Qeydê rocek anê alwazan
   diary_entries:
     new:
       title: Roceko newe definayış
@@ -317,6 +359,7 @@ diq:
     show:
       title: Rocekê %{user}'i | %{title}
       user_title: Rocekê %{user}'i
+      discussion: Diskusiyon
       leave_a_comment: Yew mışewre bınuse
       login_to_leave_a_comment_html: Seba mışewreyi rê %{login_link}
       login: Cıkewtış
@@ -341,35 +384,50 @@ diq:
       comment: Mışewre
       newer_comments: Mışewreyê Newey
       older_comments: Mışewreyê Kehani
+  errors:
+    contact:
+      contact: irtibat
+    forbidden:
+      title: Qedexe
   friendships:
     make_friend:
       button: Xo rê embaz ke
     remove_friend:
       button: Embazan ra vec
   geocoder:
+    search:
+      title:
+        latlon: Daxili
     search_osm_nominatim:
       prefix:
         aerialway:
           cable_car: Kabloy ereber
+          chair_lift: Liftê  ronışten
+          drag_lift: Liftê Xuzi
           gondola: Telesiyej
+          magic_carpet: Liftê  Xaliya Sihirın
+          platter: Liftê malzemeyi
           pylon: Pylon
           station: İstasyona teleferiki
+          t-bar: Liftê T-Bari
           "yes": Hewaray
         aeroway:
           aerodrome: Hewaherun
           airstrip: Pistê perayışi
-          apron: Apron
-          gate: Keyber
+          apron: Aprona Asmênrahi
+          gate: Keyberê Asmênrahi
           hangar: Hangar
           helipad: Hruna Helikopteri
           holding_position: Pozisyonê tesbiti
+          navigationaid: Phestigerê Geyrayışê Hewateyi
           parking_position: Pozisyonê parki
           runway: Pista teyera
           taxilane: Taxilane
           taxiway: Raya Texsiyan
-          terminal: Terminal
+          terminal: Terminalê Asmênrahi
           windsock: Loğavay
         amenity:
+          animal_boarding: Cınıştısên Hewyonon
           animal_shelter: Kozıkê heywanan
           arts_centre: Merkeze Zagoni
           atm: ATM

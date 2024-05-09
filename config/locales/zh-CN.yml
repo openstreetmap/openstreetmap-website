@@ -380,6 +380,7 @@ zh-CN:
     deleted_ago_by_html: 由 %{user} 删除于 %{time_ago}
     edited_ago_by_html: 由%{user} 编辑于 %{time_ago}
     version: 版本
+    redacted_version: 隐删版本
     in_changeset: 变更集
     anonymous: 匿名用户
     no_comment: (无注释)
@@ -392,7 +393,10 @@ zh-CN:
       other: '%{count} 条路径'
     download_xml: 下载 XML
     view_history: 查看历史
+    view_unredacted_history: 查看未隐删的历史
     view_details: 查看详情
+    view_redacted_data: 查看已隐删的数据
+    view_redaction_message: 查看隐删消息
     location: 位置：
     node:
       title_html: 节点：%{name}
@@ -1621,7 +1625,9 @@ zh-CN:
     intro_header: 欢迎访问 OpenStreetMap！
     intro_text: OpenStreetMap 是一个世界地图，由像您一样的人们所构筑，可依据开放许可协议自由使用。
     intro_2_create_account: 创建用户账户
+    hosting_partners_2024_html: 由%{fastly}、%{corpmembers}，以及其他%{partners}支持托管。
     partners_fastly: Fastly
+    partners_corpmembers: OSMF 企业会员
     partners_partners: 合作伙伴
     tou: 使用条款
     osm_offline: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于脱机状态。
@@ -1838,6 +1844,8 @@ zh-CN:
       email address: 电子邮件地址
       new password button: 重置密码
       help_text: 输入您的电子邮件地址来注册，我们会寄出链接给它，这样您就可以用它来重置密码。
+    create:
+      send_paranoid_instructions: 如果您的电子邮件地址存在于我们的数据库中，您将在几分钟后通过您的电子邮件地址收到密码恢复链接。
     edit:
       title: 重置密码
       heading: 重置%{user}的密码
@@ -1889,13 +1897,15 @@ zh-CN:
     new:
       title: 登录
       tab_title: 登录
+      login_to_authorize_html: 登录 OpenStreetMap 以访问 %{client_app_name}。
       email or username: 电子邮件地址或用户名
       password: 密码
       remember: 记住我
       lost password link: 忘记密码？
       login_button: 登录
       register now: 立即注册
-      with external: 或者使用第三方服务登录：
+      with external: 或使用第三方服务登录
+      or: 或
       auth failure: 对不起，凭这些信息您无法登录。
     destroy:
       title: 退出
@@ -2033,6 +2043,7 @@ zh-CN:
         contributors_fr_credit_html: "%{france}：包含来自 \nDirection Générale des Impôts
           的数据。"
         contributors_fr_france: 法国
+        contributors_hr_credit_html: '%{croatia}：包含来自%{dgu_link}和%{open_data_portal}的数据（克罗地亚公共信息）。'
         contributors_hr_croatia: 克罗地亚
         contributors_hr_dgu: 克罗地亚国家大地测量局
         contributors_hr_open_data_portal: 国家开放数据门户
@@ -2444,6 +2455,7 @@ zh-CN:
       muted_users: 已忽视用户
     auth_providers:
       openid_logo_alt: 使用 OpenID 登录
+      openid_login_button: 继续
       openid:
         title: 使用OpenID登录
         alt: 使用OpenID URL登录
@@ -2505,6 +2517,8 @@ zh-CN:
       write_redactions: 隐删地图数据
       read_email: 查看用户邮箱地址
       skip_authorization: 自动核准应用
+    for_roles:
+      moderator: 此权限仅适用于仲裁员可用的操作。
   oauth_clients:
     new:
       title: 注册新应用程序
@@ -2594,21 +2608,32 @@ zh-CN:
   users:
     new:
       title: 注册
+      tab_title: 注册
+      signup_to_authorize_html: 注册 OpenStreetMap 以访问 %{client_app_name}
       no_auto_account_create: 很遗憾，我们目前无法为您自动创建一个帐户。
       please_contact_support_html: 请联系 %{support_link} 以安排创建帐户 - 我们会尽快处理该请求。
       support: 支持
       about:
-        header: 自由且可编辑
+        header: 自由且可编辑。
         paragraph_1: 与其他地图不同，OpenStreetMap 完全由像您这样的人创建，任何人都可以免费修复、更新、下载和使用。
-        paragraph_2: 注册以开始贡献。我们将发送一封电子邮件以确认您的帐户。
+        paragraph_2: 注册以开始贡献。
+        welcome: 欢迎来到OpenStreetMap
+      duplicate_social_email: 如果您已经拥有OpenStreetMap账户并希望使用第三方提供的身份标识，请使用密码登录并修改您的账户设置。
       display name description: 你的公开展示的用户名。你可以稍后在设置中进行修改。
+      by_signing_up_html: 注册意味着您同意我们的%{tou_link}、%{privacy_policy_link}和%{contributor_terms_link}。
+      tou: 使用条款
+      contributor_terms: 贡献者条款
       external auth: 第三方身份验证：
       continue: 注册
       terms accepted: 感谢您接受新的贡献条款！
       email_help_html: 您的地址不会公开显示，请参阅我们的%{privacy_policy_link}了解更多信息。
       privacy_policy: 隐私政策
       privacy_policy_title: OSM基金会隐私政策包括电子邮件地址部分
-      use external auth: 或者使用第三方服务登录
+      consider_pd_html: 我认为我的贡献应在 %{consider_pd_link} 中。
+      consider_pd: 公有领域
+      consider_pd_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+      or: 或
+      use external auth: 或使用第三方服务登录
     terms:
       title: 条款
       heading: 条款

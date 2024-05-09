@@ -480,8 +480,18 @@ sk:
         created: Vytvorené
         closed: Uzavreté
         belongs_to: Autor
+    heading:
+      title: Sada zmien %{id}
+      created_by_html: Vytvoril %{link_user} dňa %{created}.
+    no_such_entry:
+      title: Žiadna takáto sada zmien
+      heading: 'Žiadna položka s ID: %{id}'
+      body: Ľutujeme, neexistuje žiadna sada zmien s ID %{id}. Skontrolujte si pravopis,
+        alebo možno je odkaz, na ktorý ste klikli, nesprávny.
     show:
       title: 'Sada zmien: %{id}'
+      created: 'Vytvorená: %{when}'
+      closed: 'Zatvorená: %{when}'
       created_ago_html: Vytvorené %{time_ago}
       closed_ago_html: Zatvorené %{time_ago}
       created_ago_by_html: Vytvorené %{time_ago} používateľom %{user}
@@ -562,6 +572,7 @@ sk:
     show:
       title: Denník používateľa %{user} | %{title}
       user_title: Denník používateľa %{user}
+      discussion: Diskusia
       leave_a_comment: Zanechať komentár
       login_to_leave_a_comment_html: '%{login_link} pre zanechanie komentára'
       login: Prihlásiť sa
@@ -1336,6 +1347,7 @@ sk:
           viewpoint: Rozhľadňa, výhliadka
           zoo: Zoo
         tunnel:
+          building_passage: Pasáž cez budovu
           culvert: Priepust
           "yes": Tunel
         waterway:
@@ -1363,6 +1375,7 @@ sk:
         level4: Hranica kraja (state)
         level5: Hranica regiónu
         level6: Hranica okresu (county)
+        level7: Hranica obce
         level8: Hranica mesta
         level9: Hranica obce
         level10: Hranica časti obce
@@ -1377,6 +1390,9 @@ sk:
   issues:
     index:
       title: Problémy
+      select_status: Zvoľte Stav
+      select_type: Zvoľte Typ
+      select_last_updated_by: Zvoľte Naposledy zmenené kým
       reported_user: Nahlásený používateľ
       not_updated: Neaktualizované
       search: Hľadať
@@ -1568,6 +1584,7 @@ sk:
       click_the_link: Ak ste to vy, kliknite prosím na odkaz nižšie pre obnovenie
         svojho hesla.
     note_comment_notification:
+      description: Poznámka OpenStreetMap č. %{id}
       anonymous: Anonymný používateľ
       greeting: Ahoj,
       commented:
@@ -1605,6 +1622,7 @@ sk:
       details: Viac podrobností o poznámke môžete nájsť nájsť na %{url}.
       details_html: Viac podrobností o poznámke môžete nájsť na adrese %{url}.
     changeset_comment_notification:
+      description: Sada zmien OpenStreetMap č. %{id}
       hi: Ahoj %{to_user},
       greeting: Ahoj,
       commented:
@@ -1622,10 +1640,9 @@ sk:
         partial_changeset_with_comment_html: s popisom '%{changeset_comment}'
         partial_changeset_without_comment: bez popisu
       details: Viac podrobností o sade zmien môžete nájsť na adrese %{url}.
-      unsubscribe: Ak už nechcete dostávať upozornenia pri zmenách v tejto sade zmien,
-        navštívte %{url} a kliknite na "Zrušiť odoberanie".
-      unsubscribe_html: Ak už nechcete dostávať upozornenia pri zmenách v tejto sade
-        zmien, navštívte %{url} a kliknite na "Zrušiť odoberanie".
+      details_html: Viac podrobností o sade zmien môžete nájsť na adrese %{url}.
+      unsubscribe: Môžete zrušiť odber aktualizácií tejto sady zmien na %{url}.
+      unsubscribe_html: Môžete zrušiť odber aktualizácií tejto sady zmien na %{url}.
   confirmations:
     confirm:
       heading: Skontrolujte vašu emailovú adresu!
@@ -1780,7 +1797,8 @@ sk:
       lost password link: Stratili ste heslo?
       login_button: Prihlásiť
       register now: Zaregistrujte se
-      with external: 'Prípadne použite na prihlásenie služby tretích strán:'
+      with external: ale použite na prihlásenie služby tretích strán
+      or: alebo
       auth failure: Ľutujeme, s uvedenými údajmi sa nie je možné prihlásiť.
     destroy:
       title: Odhlásenie
@@ -2447,10 +2465,14 @@ sk:
   users:
     new:
       title: Zaregistrovať sa
+      tab_title: Zaregistrovať sa
+      signup_to_authorize_html: Zaregistrujte sa v OpenStreetMap a získajte prístup
+        do %{client_app_name}.
       no_auto_account_create: Bohužiaľ teraz nie sme schopný vytvoriť pre vás účet
         automaticky.
       about:
         header: Slobodné a upravovateľné
+        paragraph_2: Ak chcete začať prispievať, zaregistrujte sa.
       display name description: Vaše verejne zobrazené meno užívateľa. Môžete ho potom
         zmeniť v nastaveniach.
       external auth: 'Autentifikácia treťou stranou:'
@@ -2460,7 +2482,7 @@ sk:
         pozornosť našim %{privacy_policy_link}.
       privacy_policy_title: Pravidlá ochrany osobných údajov OSMF vrátane sekcie o
         e-mailových adresách
-      use external auth: Prípadne použite na prihlásenie služby tretích strán
+      use external auth: prípadne využite na registráciu služby tretích strán
     terms:
       title: Podmienky
       heading: Podmienky
