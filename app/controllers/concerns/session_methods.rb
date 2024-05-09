@@ -4,6 +4,18 @@ module SessionMethods
   private
 
   ##
+  # Read @preferred_auth_provider and @client_app_name from oauth2 authorization request's referer
+  def parse_oauth_referer(referer)
+    referer_query = URI(referer).query if referer
+    return unless referer_query
+
+    ref_params = CGI.parse referer_query
+    preferred = ref_params["preferred_auth_provider"].first
+    @preferred_auth_provider = preferred if preferred && Settings.key?(:"#{preferred}_auth_id")
+    @client_app_name = Oauth2Application.where(:uid => ref_params["client_id"].first).pick(:name)
+  end
+
+  ##
   # return the URL to use for authentication
   def auth_url(provider, uid, referer = nil)
     params = { :provider => provider }

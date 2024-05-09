@@ -131,7 +131,7 @@ gem "gd2-ffij", ">= 0.4.0"
 gem "marcel"
 
 # Used for browser detection
-gem "browser"
+gem "browser", "< 6" # for ruby 3.0 support
 
 # Used for S3 object storage
 gem "aws-sdk-s3"
