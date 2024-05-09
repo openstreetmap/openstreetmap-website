@@ -209,7 +209,7 @@ class UserMailer < ApplicationMailer
   end
 
   def attach_project_logo
-    attachments.inline["osm_logo.svg"] = Rails.root.join("app/assets/images/osm_logo.svg").read
+    attachments.inline["logo.png"] = Rails.root.join("app/assets/images/osm_logo_30.png").read
   end
 
   def attach_user_avatar(user)
@@ -230,7 +230,7 @@ class UserMailer < ApplicationMailer
       else "avatar"
       end
     else
-      "avatar.svg"
+      "avatar.png"
     end
   end
 
@@ -243,7 +243,7 @@ class UserMailer < ApplicationMailer
         avatar.blob.download
       end
     else
-      Rails.root.join("app/assets/images/avatar.svg").read
+      Rails.root.join("app/assets/images/avatar_small.png").read
     end
   end
 
