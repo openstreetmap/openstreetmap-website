@@ -17,7 +17,7 @@ class AccountsController < ApplicationController
     @tokens = current_user.oauth_tokens.authorized
 
     append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.live.com login.microsoftonline.com github.com meta.wikimedia.org]
+      :form_action => %w[accounts.google.com *.facebook.com login.microsoftonline.com github.com meta.wikimedia.org]
     )
 
     if errors = session.delete(:user_errors)
@@ -32,7 +32,7 @@ class AccountsController < ApplicationController
     @tokens = current_user.oauth_tokens.authorized
 
     append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.live.com login.microsoftonline.com github.com meta.wikimedia.org]
+      :form_action => %w[accounts.google.com *.facebook.com login.microsoftonline.com github.com meta.wikimedia.org]
     )
 
     user_params = params.require(:user).permit(:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider)

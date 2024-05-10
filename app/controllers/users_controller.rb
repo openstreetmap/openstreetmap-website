@@ -63,7 +63,7 @@ class UsersController < ApplicationController
     parse_oauth_referer @referer
 
     append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.live.com login.microsoftonline.com github.com meta.wikimedia.org]
+      :form_action => %w[accounts.google.com *.facebook.com login.microsoftonline.com github.com meta.wikimedia.org]
     )
 
     if current_user
