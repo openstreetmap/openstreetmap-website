@@ -140,8 +140,16 @@ L.OSM.DarkMode = L.Class.extend({
     }, this);
 
     var updateContextMenuElements = function () {
+      var numberOfLayersWithApplicableFilter = 0;
+      map.eachLayer(function (layer) {
+        if (layer instanceof L.OSM.TileLayer) {
+          if (!layer.options.darkUrl) {
+            numberOfLayersWithApplicableFilter++;
+          }
+        }
+      });
       contextMenuElements.forEach(function (menuElement) {
-        menuElement.hidden = !this._enabled;
+        menuElement.hidden = !this._enabled || numberOfLayersWithApplicableFilter == 0;
         if ('filter' in menuElement.dataset) {
           menuElement.firstChild.checked = menuElement.dataset.filter === this._darkFilter;
         }
@@ -149,6 +157,8 @@ L.OSM.DarkMode = L.Class.extend({
     }.bind(this);
     updateContextMenuElements();
     this._contextMenuUpdateHandlers.push(updateContextMenuElements);
+    map.on("layeradd", updateContextMenuElements);
+    map.on("layerremove", updateContextMenuElements);
 
     return this;
   },
