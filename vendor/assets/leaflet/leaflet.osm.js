@@ -54,13 +54,15 @@ L.OSM.DarkMode = L.Class.extend({
   },
 
   options: {
-    darkFilter: ''
+    darkFilter: '',
+    darkFilterMenuItems: []
   },
 
   initialize: function (options) {
     L.Util.setOptions(this, options);
     this._darkFilter = this.options.darkFilter;
     this._enabled = false;
+    this._contextMenuUpdateHandlers = [];
     L.OSM.DarkMode._darkModes.push(this);
   },
 
@@ -70,6 +72,9 @@ L.OSM.DarkMode = L.Class.extend({
       L.OSM.DarkMode._layers.forEach(function (layer) {
         this._enableLayerDarkVariant(layer);
       }, this);
+      this._contextMenuUpdateHandlers.forEach(function (handler) {
+        handler();
+      });
     }
     return this;
   },
@@ -79,6 +84,9 @@ L.OSM.DarkMode = L.Class.extend({
       L.OSM.DarkMode._layers.forEach(function (layer) {
         this._disableLayerDarkVariant(layer);
       }, this);
+      this._contextMenuUpdateHandlers.forEach(function (handler) {
+        handler();
+      });
     }
     return this;
   },
@@ -100,6 +108,42 @@ L.OSM.DarkMode = L.Class.extend({
   },
   isEnabled: function () {
     return this._enabled;
+  },
+
+  // requires Leaflet.contextmenu plugin
+  manageMapContextMenu: function (map) {
+    var contextMenuElements = [];
+
+    if (this.options.darkFilterMenuItems.length > 0) {
+      var separator = map.contextmenu.addItem({
+        separator: true
+      });
+      contextMenuElements.push(separator);
+    }
+    this.options.darkFilterMenuItems.forEach(function (menuItem) {
+      var menuElement = map.contextmenu.addItem({
+        text: menuItem.text,
+        callback: function () {
+          this._darkFilter = menuItem.filter;
+          if (this._enabled) {
+            L.OSM.DarkMode._layers.forEach(function (layer) {
+              this._enableLayerDarkVariant(layer);
+            }, this);
+          }
+        }.bind(this)
+      });
+      contextMenuElements.push(menuElement);
+    }, this);
+
+    var updateContextMenuElements = function () {
+      contextMenuElements.forEach(function (menuElement) {
+        menuElement.hidden = !this._enabled;
+      }, this);
+    }.bind(this);
+    updateContextMenuElements();
+    this._contextMenuUpdateHandlers.push(updateContextMenuElements);
+
+    return this;
   },
 
   _addLayer: function (layer) {

@@ -146,9 +146,26 @@ $(document).ready(function () {
   $("#edit_tab")
     .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
 
-  new L.OSM.PrefersColorSchemeWatcher(
-    new L.OSM.DarkMode({
-      darkFilter: "brightness(.8)"
-    })
-  ).watch();
+  OSM.darkMode = new L.OSM.DarkMode({
+    darkFilter: "brightness(.8)",
+    darkFilterMenuItems: [
+      {
+        text: I18n.t("javascripts.map.filters.brightness100"),
+        filter: ""
+      },
+      {
+        text: I18n.t("javascripts.map.filters.brightness80"),
+        filter: "brightness(.8)"
+      },
+      {
+        text: I18n.t("javascripts.map.filters.brightness60"),
+        filter: "brightness(.6)"
+      },
+      {
+        text: I18n.t("javascripts.map.filters.invert"),
+        filter: "invert(.8) hue-rotate(180deg)"
+      }
+    ]
+  });
+  new L.OSM.PrefersColorSchemeWatcher(OSM.darkMode).watch();
 });
