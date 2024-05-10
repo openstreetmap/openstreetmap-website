@@ -125,6 +125,9 @@ L.OSM.DarkMode = L.Class.extend({
         text: menuItem.text,
         callback: function () {
           this._darkFilter = menuItem.filter;
+          this._contextMenuUpdateHandlers.forEach(function (handler) {
+            handler();
+          });
           if (this._enabled) {
             L.OSM.DarkMode._layers.forEach(function (layer) {
               this._enableLayerDarkVariant(layer);
@@ -132,12 +135,16 @@ L.OSM.DarkMode = L.Class.extend({
           }
         }.bind(this)
       });
+      this._decorateContextMenuElement(menuElement, menuItem);
       contextMenuElements.push(menuElement);
     }, this);
 
     var updateContextMenuElements = function () {
       contextMenuElements.forEach(function (menuElement) {
         menuElement.hidden = !this._enabled;
+        if ('filter' in menuElement.dataset) {
+          menuElement.firstChild.checked = menuElement.dataset.filter === this._darkFilter;
+        }
       }, this);
     }.bind(this);
     updateContextMenuElements();
@@ -183,6 +190,17 @@ L.OSM.DarkMode = L.Class.extend({
     if (container) {
       layer.getContainer().style.removeProperty('filter');
     }
+  },
+
+  _decorateContextMenuElement: function (menuElement, menuItem) {
+    menuElement.dataset.filter = menuItem.filter;
+    var radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.tabIndex = -1;
+    radio.classList.add('leaflet-contextmenu-icon');
+    radio.style.pointerEvents = 'none';
+    radio.style.transform = 'scale(80%)';
+    menuElement.prepend(radio, " ");
   }
 });
 
