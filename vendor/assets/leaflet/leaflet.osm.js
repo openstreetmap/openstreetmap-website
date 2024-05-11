@@ -1,5 +1,82 @@
 L.OSM = {};
 
+L.OSM.DarkMode = L.Class.extend({
+  statics: {
+    _darkModes: [],
+    _layers: [],
+
+    _addLayer: function (layer) {
+      this._layers.push(layer);
+      this._darkModes.forEach(function (darkMode) {
+        darkMode._addLayer(layer);
+      });
+    },
+    _removeLayer: function (layer) {
+      this._darkModes.forEach(function (darkMode) {
+        darkMode._removeLayer(layer);
+      });
+      var index = this._layers.indexOf(layer);
+      if (index > -1) {
+        this._layers.splice(index, 1);
+      }
+    }
+  },
+
+  options: {
+    darkFilter: ''
+  },
+
+  initialize: function (options) {
+    L.Util.setOptions(this, options);
+    this._darkFilter = this.options.darkFilter;
+    this._enabled = false;
+    L.OSM.DarkMode._darkModes.push(this);
+  },
+
+  enable: function () {
+    if (!this._enabled) {
+      this._enabled = true;
+      L.OSM.DarkMode._layers.forEach(function (layer) {
+        this._enableLayerDarkVariant(layer);
+      }, this);
+    }
+    return this;
+  },
+  disable: function () {
+    if (this._enabled) {
+      this._enabled = false;
+      L.OSM.DarkMode._layers.forEach(function (layer) {
+        this._disableLayerDarkVariant(layer);
+      }, this);
+    }
+    return this;
+  },
+
+  _addLayer: function (layer) {
+    if (this._enabled) {
+      this._enableLayerDarkVariant(layer);
+    }
+  },
+  _removeLayer: function (layer) {
+    if (this._enabled) {
+      this._disableLayerDarkVariant(layer);
+    }
+  },
+
+  _enableLayerDarkVariant: function (layer) {
+    var container = layer.getContainer();
+    if (container) {
+      container.style.setProperty('filter', this._darkFilter);
+    }
+  },
+  _disableLayerDarkVariant: function (layer) {
+    var container = layer.getContainer();
+    if (container) {
+      layer.getContainer().style.removeProperty('filter');
+    }
+  }
+});
+
 L.OSM.TileLayer = L.TileLayer.extend({
   options: {
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -9,6 +86,12 @@ L.OSM.TileLayer = L.TileLayer.extend({
   initialize: function (options) {
     options = L.Util.setOptions(this, options);
     L.TileLayer.prototype.initialize.call(this, options.url);
+
+    this.on("add", function () {
+      L.OSM.DarkMode._addLayer(this);
+    }).on("remove", function () {
+      L.OSM.DarkMode._removeLayer(this);
+    });
   }
 });
 
