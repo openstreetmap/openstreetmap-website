@@ -145,4 +145,10 @@ $(document).ready(function () {
 
   $("#edit_tab")
     .attr("title", I18n.t("javascripts.site.edit_disabled_tooltip"));
+
+  new L.OSM.PrefersColorSchemeWatcher(
+    new L.OSM.DarkMode({
+      darkFilter: "brightness(.8)"
+    })
+  ).watch();
 });
