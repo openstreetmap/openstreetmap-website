@@ -114,12 +114,27 @@ L.OSM.DarkMode = L.Class.extend({
   },
 
   _enableLayerDarkVariant: function (layer) {
+    if (layer.options.darkUrl) {
+      layer.setUrl(layer.options.darkUrl);
+    } else {
+      this._enableLayerDarkFilter(layer);
+    }
+  },
+  _disableLayerDarkVariant: function (layer) {
+    if (layer.options.darkUrl) {
+      layer.setUrl(layer.options.url);
+    } else {
+      this._disableLayerDarkFilter(layer);
+    }
+  },
+
+  _enableLayerDarkFilter: function (layer) {
     var container = layer.getContainer();
     if (container) {
       container.style.setProperty('filter', this._darkFilter);
     }
   },
-  _disableLayerDarkVariant: function (layer) {
+  _disableLayerDarkFilter: function (layer) {
     var container = layer.getContainer();
     if (container) {
       layer.getContainer().style.removeProperty('filter');
