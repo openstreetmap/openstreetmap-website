@@ -1,5 +1,36 @@
 L.OSM = {};
 
+L.OSM.PrefersColorSchemeWatcher = L.Class.extend({
+  initialize: function (darkMode) {
+    this._darkMode = darkMode;
+  },
+
+  watch: function () {
+    if (!this._prefersDarkQuery) {
+      this._darkModeWasEnabled = this._darkMode.isEnabled();
+      this._prefersDarkQuery = matchMedia("(prefers-color-scheme: dark)");
+      this._prefersDarkListener();
+      L.DomEvent.on(this._prefersDarkQuery, 'change', this._prefersDarkListener, this);
+    }
+    return this;
+  },
+  unwatch: function () {
+    if (this._prefersDarkQuery) {
+      L.DomEvent.off(this._prefersDarkQuery, 'change', this._prefersDarkListener, this);
+      this._prefersDarkQuery = undefined;
+      this._darkMode.toggle(this._darkModeWasEnabled);
+      this._darkModeWasEnabled = undefined;
+    }
+    return this;
+  },
+
+  _prefersDarkListener: function () {
+    if (this._prefersDarkQuery) {
+      this._darkMode.toggle(this._prefersDarkQuery.matches);
+    }
+  }
+});
+
 L.OSM.DarkMode = L.Class.extend({
   statics: {
     _darkModes: [],
