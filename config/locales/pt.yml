@@ -383,6 +383,7 @@ pt:
     deleted_ago_by_html: Excluído há %{time_ago} por %{user}
     edited_ago_by_html: Editado há %{time_ago} por %{user}
     version: Versão
+    redacted_version: Versão reduzida
     in_changeset: Conjunto de alterações
     anonymous: anônimo
     no_comment: (nenhum comentário)
@@ -395,7 +396,10 @@ pt:
       other: '%{count} vias'
     download_xml: Baixar XML
     view_history: Ver histórico
+    view_unredacted_history: Ver histórico não editado
     view_details: Ver detalhes
+    view_redacted_data: Ver dados reduzidos
+    view_redaction_message: Ver mensagem de redação
     location: 'Localização:'
     node:
       title_html: 'Ponto: %{name}'
@@ -507,8 +511,18 @@ pt:
         created: Criado
         closed: Fechado
         belongs_to: Autor
+    subscribe:
+      button: Inscreva-se na discussão
+    heading:
+      title: Conjunto de alterações %{id}
+      created_by_html: Criado por %{link_user} em %{created}.
+    no_such_entry:
+      title: Não existe esse conjunto de alterações
+      heading: 'Não há postagens no diário com o id: %{id}'
     show:
       title: 'Conjunto de alterações: %{id}'
+      created: 'Criado: %{when}'
+      closed: 'Fechado: %{when}'
       created_ago_html: Criado há %{time_ago}
       closed_ago_html: Fechado %{time_ago}
       created_ago_by_html: Criado há %{time_ago} por %{user}
@@ -1099,7 +1113,7 @@ pt:
           fitness_station: Estação de Ginástica
           garden: Jardim
           golf_course: Campo de golfe
-          horse_riding: Centro de Equitação
+          horse_riding: Centro de equitação
           ice_rink: Pista de Patinação no Gelo
           marina: Marina
           miniature_golf: Minigolfe
@@ -1618,7 +1632,10 @@ pt:
     intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e
       de uso livre sob uma licença aberta.
     intro_2_create_account: Criar uma conta de usuário
+    hosting_partners_2024_html: A hospedagem é suportada por %{fastly}, %{corpmembers}
+      e outros %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: Membros corporativos OSMF
     partners_partners: parceiros
     tou: Termo de uso
     osm_offline: A base de dados do OpenStreetMap está fora do ar para manutenção.
@@ -1640,6 +1657,7 @@ pt:
     more: Mais
   user_mailer:
     diary_comment_notification:
+      description: 'Entrada no diário do OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] %{user} comentou em uma entrada do diário'
       hi: Olá %{to_user},
       header: '%{from_user} comentou na publicação do diário do OpenStreetMap com
@@ -1650,6 +1668,8 @@ pt:
         ou respondê-lo em %{replyurl}
       footer_html: Você pode ler o comentário em %{readurl}, pode comentá-lo em %{commenturl}
         ou respondê-lo em %{replyurl}
+      footer_unsubscribe: Você pode deixar de acompanhar a discussão em %{unsubscribeurl}
+      footer_unsubscribe_html: Você pode deixar de acompanhar a discussão em %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Olá %{to_user},
@@ -1748,6 +1768,7 @@ pt:
       details: Mais detalhes sobre a nota podem ser encontrados em %{url}.
       details_html: Mais detalhes sobre a nota podem ser encontrados em %{url}.
     changeset_comment_notification:
+      description: Conjunto de alterações n.º %{id}
       hi: Olá %{to_user},
       greeting: Olá,
       commented:
@@ -1871,7 +1892,7 @@ pt:
     sent_message_summary:
       destroy_button: Apagar
     heading:
-      my_inbox: Minha Caixa de Entrada
+      my_inbox: Minha caixa de entrada
       my_outbox: Minha caixa de saída
       muted_messages: Mensagens silenciadas
     mark:
@@ -1949,6 +1970,7 @@ pt:
       login_button: Entrar
       register now: Registre agora
       with external: 'Ou identifique-se através de terceiros:'
+      or: ou
       auth failure: Impossível entrar com estas informações.
     destroy:
       title: Sair
@@ -2127,6 +2149,9 @@ pt:
         contributors_fr_credit_html: '%{france}: contém dados provenientes da Direção
           Geral de Impostos.'
         contributors_fr_france: França
+        contributors_hr_croatia: Croata
+        contributors_hr_dgu: Administração Geodésica Estatal da Croácia
+        contributors_hr_open_data_portal: Portal Nacional de Dados Abertos
         contributors_nl_credit_html: '%{netherlands}: Contém &copy; e dados, 2007
           (%{and_link})'
         contributors_nl_netherlands: Países Baixos
@@ -2270,7 +2295,7 @@ pt:
         title: Introdução
         description: Guia para iniciantes mantido pela comunidade.
       community:
-        title: Ajude & Fórum da comunidade
+        title: Ajude e fórum da comunidade
         description: Um lugar compartilhado para buscar ajuda e ter conversas sobre
           o OpenStreetMap.
       mailing_lists:
@@ -2352,7 +2377,7 @@ pt:
           bus: Ônibus
           cable_car: Bonde aéreo
           chair_lift: Teleférico
-          runway: Pista de Pouso
+          runway: Pista de pouso
           taxiway: Pista de taxiamento
           apron: Pátio de aeródromo
           admin: Limite administrativo
@@ -2393,7 +2418,7 @@ pt:
           reserve: Reserva ambiental
           military: Área militar
           school: Escola/Universidade
-          university: universidade
+          university: Universidade
           hospital: Hospital
           building: Edifício importante
           station: Estação ferroviária
@@ -2559,6 +2584,8 @@ pt:
       identifiable: IDENTIFICÁVEL
       private: PRIVADO
       trackable: RASTREÁVEL
+      details_with_tags_html: '%{time_ago} por %{user} em %{tags}'
+      details_without_tags_html: '%{time_ago} por %{user}'
     index:
       public_traces: Trilhas públicas de GPS
       my_gps_traces: Minhas trilhas GPS
@@ -2613,6 +2640,7 @@ pt:
       muted_users: Usuários silenciados
     auth_providers:
       openid_logo_alt: Entrar com um OpenID
+      openid_login_button: Continuar
       openid:
         title: Entrar com o OpenID
         alt: Entrar com uma URL do OpenID
@@ -2676,9 +2704,12 @@ pt:
       write_redactions: Rever dados do mapa
       read_email: Ler o endereço de e-mail do usuário
       skip_authorization: Aplicação de aprovação automática
+    for_roles:
+      moderator: Esta permissão é para ações disponíveis apenas para moderadores
   oauth_clients:
     new:
       title: Registrar uma nova aplicação
+      disabled: O registro com aplicativos OAuth 1 foi desativado
     edit:
       title: Editar sua aplicação
     show:
@@ -2763,6 +2794,7 @@ pt:
       title: Meus aplicativos autorizados
       application: Aplicação
       permissions: Permissões
+      last_authorized: Última autorização
       no_applications_html: Não autorizei nenhuma aplicação %{oauth2}.
     application:
       revoke: Revogar acesso
@@ -2770,20 +2802,29 @@ pt:
   users:
     new:
       title: Registrar-se
+      tab_title: Criar conta
+      signup_to_authorize_html: Cadastre-se no OpenStreetMap para acessar %{client_app_name}.
       no_auto_account_create: Infelizmente no momento não podemos criar uma conta
         para você automaticamente.
       please_contact_support_html: Por favor, contacte %{support_link} para pedir
         a criação de uma conta - tentaremos tratar do pedido o mais rapidamente possível.
       support: suporte
       about:
-        header: Livre e editável
+        header: Livre e editável.
         paragraph_1: Ao contrário de outros mapas, OpenStreetMap é completamente criado
           por pessoas como vocé, e qualquer um pode repará-lo, atualizá-lo, baixá-lo
           e usá-lo de forma gratuita.
-        paragraph_2: Registre-se para começar a contruibuir. Lhe enviaremos um email
-          para confirmar sua conta.
+        paragraph_2: Registre-se para começar a contruibuir.
+        welcome: Bem-vindo(a) ao OpenStreetMap
+      duplicate_social_email: Se você já possui uma conta OpenStreetMap e deseja usar
+        um provedor de identidade terceirizado, faça login usando sua senha e modifique
+        as configurações de sua conta.
       display name description: Seu nome de usuário disponível publicamente. Você
         pode mudá-lo depois nas preferências.
+      by_signing_up_html: Ao se inscrever, você concorda com nossos %{tou_link}, %{privacy_policy_link}
+        e %{contributor_terms_link}.
+      tou: termos de uso
+      contributor_terms: termos do contribuidor
       external auth: 'Autenticação de Terceiros:'
       continue: Registrar-se
       terms accepted: Obrigado por aceitar os novos termos de contribuição!
@@ -2792,7 +2833,10 @@ pt:
       privacy_policy: politica de privacidade
       privacy_policy_title: Política de privacidade da OSMF incluindo seção sobre
         endereços de e-mail
-      use external auth: Ou identifique-se através de terceiros
+      consider_pd_html: Considero que minhas contribuições estão no %{consider_pd_link}.
+      consider_pd: domínio público
+      or: ou
+      use external auth: ou inscreva-se com um terceiro
     terms:
       title: Termos
       heading: Termos
@@ -2928,7 +2972,7 @@ pt:
         Se você é novo no OpenStreetMap, por favor, crie uma nova conta
         utilizando o formulário abaixo.
       option_2: |-
-        Se você já tem uma conta, você pode fazer login na sua conta
+        Se você já tem uma conta, você pode entrar na sua conta
         usando seu nome de usuário e senha e, em seguida, associar a conta
         com o seu ID em suas configurações de usuário.
   user_role:
@@ -2997,6 +3041,9 @@ pt:
       heading_html: Revogando todos os bloqueios em %{block_on}
       empty: '%{name} não tem bloqueios ativos.'
       confirm: Você tem certeza de que quer revogar %{active_blocks}?
+      active_blocks:
+        one: '%{count} bloqueio ativo'
+        other: '%{count} bloqueios ativos'
       revoke: Revogar!
       flash: Todos os bloqueios ativos foram revogados.
     helper:
@@ -3052,13 +3099,23 @@ pt:
       reason: Razão para o bloqueio
       status: Status
       revoker_name: Retirado por
+      older: Bloqueios mais antigos
+      newer: Bloqueios mais recentes
+    navigation:
+      all_blocks: Todos os bloqueios
+      blocks_on_me: Bloqueios sobre mim
+      blocks_on_user: Bloqueios em %{user}
+      blocks_by_me: Bloqueios por mim
+      blocks_by_user: Bloqueios por %{user}
   user_mutes:
     index:
       title: Usuários silenciados
       table:
         thead:
+          muted_user: Usuários silenciados
           actions: Ações
         tbody:
+          unmute: Ativar
           send_message: Enviar mensagem
     create:
       error: '%{name} não pôde ser silenciado(a). %{full_message}.'
@@ -3178,7 +3235,7 @@ pt:
       andy_allan: Andy Allan
       tracestrack_credit: Mosaico cortesia de %{tracestrack_link}
       hotosm_credit: Estilo de mosaico por %{hotosm_link} hospedado por %{osm_france_link}
-      hotosm_name: Humanitarian OpenStreetMap Team
+      hotosm_name: Equipa Humanitária do OpenStreetMap
     site:
       edit_tooltip: Edite o mapa
       edit_disabled_tooltip: Aproxime para editar o mapa
