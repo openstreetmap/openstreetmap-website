@@ -51,11 +51,19 @@ L.OSM.DarkMode = L.Class.extend({
     }
     return this;
   },
-  toggle: function () {
-    if (this._enabled) {
-      this.disable();
+  toggle: function (requestEnable) {
+    if (requestEnable !== undefined) {
+      if (requestEnable) {
+        this.enable();
+      } else {
+        this.disable();
+      }
     } else {
-      this.enable();
+      if (this._enabled) {
+        this.disable();
+      } else {
+        this.enable();
+      }
     }
     return this;
   },
