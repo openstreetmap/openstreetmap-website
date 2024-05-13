@@ -67,6 +67,9 @@ L.OSM.DarkMode = L.Class.extend({
     }
     return this;
   },
+  isEnabled: function () {
+    return this._enabled;
+  },
 
   _addLayer: function (layer) {
     if (this._enabled) {
