@@ -160,9 +160,19 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.details", /Resolved by deleted/
   end
 
-  def test_new_note
+  def test_new_note_anonymous
     get new_note_path
     assert_response :success
     assert_template "notes/new"
+    assert_select "#sidebar_content a[href='#{login_path(:referer => new_note_path)}']", :count => 1
+  end
+
+  def test_new_note
+    session_for(create(:user))
+
+    get new_note_path
+    assert_response :success
+    assert_template "notes/new"
+    assert_select "#sidebar_content a[href='#{login_path(:referer => new_note_path)}']", :count => 0
   end
 end
