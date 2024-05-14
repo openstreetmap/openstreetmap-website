@@ -142,6 +142,9 @@ gem "image_processing"
 # Used to validate widths
 gem "unicode-display_width"
 
+# Keep ruby 3.0 compatibility
+gem "multi_xml", "~> 0.6.0"
+
 # Gems useful for development
 group :development do
   gem "better_errors"
