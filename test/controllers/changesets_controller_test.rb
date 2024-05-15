@@ -93,6 +93,15 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # This should report an error
+  def test_index_invalid_xhr
+    %w[-1 0 fred].each do |id|
+      get history_path(:format => "html", :list => "1", :max_id => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
+  ##
   # This should display the last 20 changesets closed in a specific area
   def test_index_bbox
     changesets = create_list(:changeset, 10, :num_changes => 1, :min_lat => 50000000, :max_lat => 50000001, :min_lon => 50000000, :max_lon => 50000001)

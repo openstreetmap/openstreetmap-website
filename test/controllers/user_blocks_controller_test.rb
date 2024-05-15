@@ -116,6 +116,18 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the index action with invalid pages
+  def test_index_invalid_paged
+    %w[-1 0 fred].each do |id|
+      get user_blocks_path(:before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get user_blocks_path(:after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
+  ##
   # test the show action
   def test_show
     active_block = create(:user_block, :needs_view)
@@ -561,6 +573,20 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the blocks_on action with invalid pages
+  def test_blocks_on_invalid_paged
+    user = create(:user)
+
+    %w[-1 0 fred].each do |id|
+      get user_blocks_on_path(user, :before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get user_blocks_on_path(user, :after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
+  ##
   # test the blocks_by action
   def test_blocks_by
     moderator_user = create(:moderator_user)
@@ -626,6 +652,20 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     check_user_blocks_table user_blocks[40...50]
     check_page_link "Newer Blocks"
     check_no_page_link "Older Blocks"
+  end
+
+  ##
+  # test the blocks_by action with invalid pages
+  def test_blocks_by_invalid_paged
+    user = create(:moderator_user)
+
+    %w[-1 0 fred].each do |id|
+      get user_blocks_by_path(user, :before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get user_blocks_by_path(user, :after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
   end
 
   private

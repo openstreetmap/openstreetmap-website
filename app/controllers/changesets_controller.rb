@@ -18,6 +18,8 @@ class ChangesetsController < ApplicationController
   ##
   # list non-empty changesets in reverse chronological order
   def index
+    param! :max_id, Integer, :min => 1
+
     @params = params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)
 
     if request.format == :atom && @params[:max_id]

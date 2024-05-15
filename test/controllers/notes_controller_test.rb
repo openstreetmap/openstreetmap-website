@@ -83,6 +83,15 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_select "table.note_list tbody tr", :count => 10
   end
 
+  def test_index_invalid_paged
+    user = create(:user)
+
+    %w[-1 0 fred].each do |page|
+      get user_notes_path(user, :page => page)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
   def test_empty_page
     user = create(:user)
     get user_notes_path(user)

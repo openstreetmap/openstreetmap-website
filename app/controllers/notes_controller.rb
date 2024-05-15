@@ -16,6 +16,8 @@ class NotesController < ApplicationController
   ##
   # Display a list of notes by a specified user
   def index
+    param! :page, Integer, :min => 1
+
     @params = params.permit(:display_name)
     @title = t ".title", :user => @user.display_name
     @page = (params[:page] || 1).to_i

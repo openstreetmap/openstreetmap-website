@@ -3,6 +3,10 @@ require "test_helper"
 class ErrorsControllerTest < ActionDispatch::IntegrationTest
   def test_routes
     assert_routing(
+      { :path => "/400", :method => :get },
+      { :controller => "errors", :action => "bad_request" }
+    )
+    assert_routing(
       { :path => "/403", :method => :get },
       { :controller => "errors", :action => "forbidden" }
     )
@@ -14,6 +18,11 @@ class ErrorsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/500", :method => :get },
       { :controller => "errors", :action => "internal_server_error" }
     )
+  end
+
+  def test_bad_request
+    get "/400"
+    assert_response :bad_request
   end
 
   def test_forbidden

@@ -558,6 +558,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     check_no_page_link "Older Users"
   end
 
+  def test_index_get_invalid_paginated
+    session_for(create(:administrator_user))
+
+    %w[-1 0 fred].each do |id|
+      get users_path(:before => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+
+      get users_path(:after => id)
+      assert_redirected_to :controller => :errors, :action => :bad_request
+    end
+  end
+
   private
 
   def check_no_page_link(name)
