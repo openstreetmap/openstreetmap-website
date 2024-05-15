@@ -67,6 +67,10 @@ class ApplicationController < ActionController::Base
     @oauth_token = current_user.oauth_token(Settings.oauth_application) if current_user && Settings.key?(:oauth_application)
   end
 
+  def require_oauth_10a_support
+    report_error t("application.oauth_10a_disabled", :link => t("application.auth_disabled_link")), :forbidden unless Settings.oauth_10a_support
+  end
+
   ##
   # require the user to have cookies enabled in their browser
   def require_cookies
