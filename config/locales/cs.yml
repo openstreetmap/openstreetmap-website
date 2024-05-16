@@ -91,6 +91,7 @@ cs:
       messages:
         invalid_email_address: není platná e-mailová adresa
         email_address_not_routable: není routovatelná
+        display_name_is_user_n: nemůže být user_n, pokud n není vaše ID uživatele
       models:
         user_mute:
           is_already_muted: již je ztlumen
@@ -1767,7 +1768,7 @@ cs:
         odkaz.
     lost_password:
       subject: '[OpenStreetMap] Žádost o nové heslo'
-      greeting: Dobrý den,
+      greeting: Ahoj,
       hopefully_you: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele
         serveru openstreetmap.org s touto e-mailovou adresou.
       click_the_link: Pokud jste to byli Vy, kliknutím na níže uvedený odkaz získáte
@@ -2012,6 +2013,7 @@ cs:
     new:
       title: Přihlásit se
       tab_title: Přihlášení
+      login_to_authorize_html: Pro přístup k %{client_app_name} se přihlaste do OpenStreetMap.
       email or username: E-mailová adresa nebo uživatelské jméno
       password: Heslo
       remember: Zapamatuj si mě
@@ -2019,6 +2021,7 @@ cs:
       login_button: Přihlásit se
       register now: Zaregistrujte se
       with external: nebo se přihlaste prostřednictvím třetí strany
+      or: nebo
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
     destroy:
       title: Odhlásit se
@@ -2627,6 +2630,8 @@ cs:
       identifiable: IDENTIFIKOVATELNÁ
       private: SOUKROMÁ
       trackable: STOPOVATELNÁ
+      details_with_tags_html: '%{time_ago} uživatelem %{user} v %{tags}'
+      details_without_tags_html: '%{time_ago} uživatelem %{user}'
     index:
       public_traces: Veřejné GPS stopy
       my_gps_traces: Moje GPS stopy
@@ -2682,6 +2687,7 @@ cs:
       muted_users: Ztlumení uživatelé
     auth_providers:
       openid_logo_alt: Přihlášení pomocí OpenID
+      openid_login_button: Pokračovat
       openid:
         title: Přihlásit se pomocí OpenID
         alt: Přihlásit se pomocí OpenID URL
@@ -2745,6 +2751,8 @@ cs:
       write_redactions: Upravte mapová data
       read_email: Přečíst e-mailovou adresu uživatele
       skip_authorization: Automaticky schválit aplikaci
+    for_roles:
+      moderator: Toto oprávnění je pro akce dostupné pouze moderátorům
   oauth_clients:
     new:
       title: Registrace nové aplikace
@@ -2840,20 +2848,30 @@ cs:
   users:
     new:
       title: Zaregistrovat se
+      tab_title: Registrace
+      signup_to_authorize_html: Zaregistrujte se pomocí OpenStreetMap pro přístup
+        k %{client_app_name}.
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet
         automaticky.
       please_contact_support_html: Kontaktujte prosím %{support_link} a domluvte se
         na vytvoření účtu – pokusíme se žádost vyřídit co nejrychleji.
       support: podporu
       about:
-        header: Svobodná a editovatelná
+        header: Svobodná a editovatelná.
         paragraph_1: Na rozdíl od jiných map je OpenStreetMap kompletně vytvořena
           lidmi jako jste vy a kdokoli ji může zdarma opravit, aktualizovat, stáhnout
           a používat.
-        paragraph_2: Zaregistrujte se a začněte přispívat. Zašleme vám e-mail pro
-          potvrzení vašeho účtu.
+        paragraph_2: Zaregistrujte se a začněte přispívat.
+        welcome: Vítejte v OpenStreetMap
+      duplicate_social_email: Pokud již máte účet OpenStreetMap a chcete používat
+        poskytovatele identity třetí strany, přihlaste se pomocí svého hesla a upravte
+        nastavení svého účtu.
       display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete
         si ho později změnit ve svém nastavení.
+      by_signing_up_html: Registrací souhlasíte s našimi %{tou_link}, %{privacy_policy_link}
+        a %{contributor_terms_link}.
+      tou: podmínkami užití
+      contributor_terms: podmínkami pro přispěvatele
       external auth: 'Autentizace třetí stranou:'
       continue: Zaregistrovat se
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
@@ -2862,7 +2880,10 @@ cs:
       privacy_policy: pravidlech ochrany osobních údajů
       privacy_policy_title: Pravidla ochrany osobních údajů OSMF, včetně části o e-mailových
         adresách
-      use external auth: Případně se přihlaste prostřednictvím třetí strany
+      consider_pd_html: Své příspěvky považuji za %{consider_pd_link}.
+      consider_pd: volné dílo
+      or: nebo
+      use external auth: nebo se přihlaste prostřednictvím třetí strany
     terms:
       title: Podmínky
       heading: Podmínky
