@@ -150,6 +150,19 @@ module Api
         put user_preferences_path, :params => "nonsense", :headers => auth_header
       end
       assert_response :bad_request
+
+      # try a put with unicode characters
+      assert_no_difference "UserPreference.count" do
+        put user_preferences_path, :params => "<osm><preferences><preference k='kêy' v='néw_vâlué'/><preference k='nêw_kêy' v='vâlué'/></preferences></osm>", :headers => auth_header
+      end
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "", @response.body
+      assert_equal "néw_vâlué", UserPreference.find([user.id, "kêy"]).v
+      assert_equal "vâlué", UserPreference.find([user.id, "nêw_kêy"]).v
+      assert_raises ActiveRecord::RecordNotFound do
+        UserPreference.find([user.id, "some_key"])
+      end
     end
 
     ##
@@ -187,6 +200,15 @@ module Api
       assert_equal "text/plain", @response.media_type
       assert_equal "", @response.body
       assert_equal "newer_value", UserPreference.find([user.id, "new_key"]).v
+
+      # try changing the value of a preference to include unicode characters
+      assert_difference "UserPreference.count", 1 do
+        put user_preference_path(:preference_key => "nêw_kêy"), :params => "néwèr_vâlué", :headers => auth_header
+      end
+      assert_response :success
+      assert_equal "text/plain", @response.media_type
+      assert_equal "", @response.body
+      assert_equal "néwèr_vâlué", UserPreference.find([user.id, "nêw_kêy"]).v
     end
 
     ##
