@@ -66,7 +66,7 @@ module Api
         pref.k = params[:preference_key]
       end
 
-      pref.v = request.raw_post.chomp
+      pref.v = request.raw_post.chomp.force_encoding("UTF-8")
       pref.save!
 
       render :plain => ""
