@@ -466,7 +466,7 @@ pl:
       entry_role_html: Relacja %{relation_name} (jako %{relation_role})
     not_found:
       title: Nie znaleziono
-      sorry: 'Niestety, nie odnaleziono %{type} #%{id}.'
+      sorry: 'Nie odnaleziono %{type} #%{id}.'
       type:
         node: węzła
         way: linii
@@ -512,6 +512,15 @@ pl:
       introduction: Kliknij na mapie, by wyszukać pobliskie obiekty.
       nearby: Obiekty w pobliżu
       enclosing: Większe, otaczające obiekty
+  old_nodes:
+    not_found:
+      sorry: 'Nie odnaleziono węzła #%{id} w wersji %{version}.'
+  old_ways:
+    not_found:
+      sorry: 'Nie odnaleziono linii #%{id} w wersji %{version}.'
+  old_relations:
+    not_found:
+      sorry: 'Nie odnaleziono relacji #%{id} w wersji %{version}.'
   changesets:
     changeset_paging_nav:
       showing_page: Strona %{page}
@@ -742,7 +751,7 @@ pl:
     search:
       title:
         results_from_html: Wyniki z %{results_link}
-        latlon: Wewnętrzny
+        latlon: Internal
         osm_nominatim: Nominatim
         osm_nominatim_reverse: Nominatim
     search_osm_nominatim:
@@ -1911,6 +1920,10 @@ pl:
       new password button: Wyczyść hasło
       help_text: Proszę wprowadzić adres e-mail używany do logowania. Zostanie wysłany
         na niego odnośnik służący do wyczyszczenia hasła.
+    create:
+      send_paranoid_instructions: Jeśli twój adres e-mail istnieje w naszej bazie
+        danych, otrzymasz link do odzyskania hasła na swój adres e-mail w ciągu kilku
+        minut.
     edit:
       title: Wyczyść hasło
       heading: Czyszczenie hasła użytkownika %{user}
@@ -1918,6 +1931,7 @@ pl:
       flash token bad: Nie znaleziono tokenu, sprawdź URL
     update:
       flash changed: Hasło zostało zmienione.
+      flash token bad: Nie znalaziono tego tokena. Sprawdź adres URL.
   preferences:
     show:
       title: Preferencje
@@ -2116,6 +2130,14 @@ pl:
         contributors_fr_credit_html: '%{france}: Zawiera dane uzyskane z Direction
           Générale des Impôts.'
         contributors_fr_france: Francja
+        contributors_hr_credit_html: |-
+          %{croatia}: Zawiera dane z %{dgu_link} i %{open_data_portal}
+          (informacje publiczne Chorwacji).
+        contributors_hr_croatia: Chorwacja
+        contributors_hr_dgu: Państwowej Administracji Geodezyjnej Chorwacji (Državna
+          geodetska uprava)
+        contributors_hr_open_data_portal: Krajowego portalu otwartych danych (Portal
+          otvorenih podataka)
         contributors_nl_credit_html: '%{netherlands}: Zawiera dane &copy; AND, 2007
           (%{and_link})'
         contributors_nl_netherlands: Holandia
@@ -2124,8 +2146,12 @@ pl:
         contributors_nz_new_zealand: Nowa Zelandia
         contributors_nz_linz_data_service: LINZ Data Service
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: |-
+          %{serbia}: Zawiera dane z %{rgz_link} i %{open_data_portal}
+          (informacje publiczne Serbii), 2018.
         contributors_rs_serbia: Serbia
-        contributors_rs_open_data_portal: Krajowy Portal Otwartych Danych
+        contributors_rs_rgz: Serbskiego Urzędu Geodezyjnego
+        contributors_rs_open_data_portal: Krajowego portalu otwartych danych
         contributors_si_credit_html: '%{slovenia}: Zawiera dane %{gu_link} oraz %{mkgp_link}
           (informacja publiczna Słowenii).'
         contributors_si_slovenia: Słowenia
@@ -2146,7 +2172,7 @@ pl:
         contributors_gb_united_kingdom: Wielka Brytania
         contributors_2_html: Szczegóły tych i innych źródeł, które zostały wykorzystane,
           aby udoskonalić OpenStreetMap, są dostępne na stronie %{contributors_page_link}.
-        contributors_2_contributors_page: Contributors (en)
+        contributors_2_contributors_page: Contributors
         contributors_footer_2_html: Włączenie danych do OpenStreetMap nie musi oznaczać,
           że udostępniający je podmiot popiera OpenStreetMap, udziela jakiejkolwiek
           gwarancji lub ponosi jakąkolwiek odpowiedzialność.
@@ -2327,6 +2353,7 @@ pl:
           farmland: Grunty rolne
           grass: Trawnik
           meadow: Łąka
+          bare_rock: Odkryte skały
           sand: Piaski
           golf: Pole golfowe
           park: Park
@@ -2340,6 +2367,7 @@ pl:
           scrubland: Zarośla
           lake: Jezioro
           reservoir: Zbiornik
+          intermittent_water: Okresowy ciek
           glacier: Lodowiec
           reef: Rafa
           wetland: Mokradła
@@ -2532,6 +2560,7 @@ pl:
         other: Plik GPX z %{count} punktami od %{user}
       description_without_count: Plik GPX od %{user}
   application:
+    auth_disabled_link: https://wiki.openstreetmap.org/wiki/2024_authentication_update
     permission_denied: Nie masz uprawnień do wykonywania tej akcji
     require_cookies:
       cookies_needed: Wygląda na to, że wyłączono obsługę ciasteczek w przeglądarce.
@@ -2553,6 +2582,7 @@ pl:
       oauth2_authorizations: Autoryzacje OAuth 2
     auth_providers:
       openid_logo_alt: Zaloguj się przez OpenID
+      openid_login_button: Kontynuuj
       openid:
         title: Zaloguj się przez OpenID
         alt: Zaloguj się za pomocą adresu URL OpenID
@@ -2713,6 +2743,7 @@ pl:
   users:
     new:
       title: Zarejestruj się
+      tab_title: Rejestracja
       no_auto_account_create: Niestety nie możemy aktualnie stworzyć ci konta automatycznie.
       please_contact_support_html: Skontaktuj się z %{support_link} w celu umówienia
         się na założenie konta – postaramy się rozpatrzyć prośbę jak najszybciej.
@@ -2735,7 +2766,7 @@ pl:
       privacy_policy_title: Polityka prywatności OSMF, w tym sekcja dotycząca adresów
         e-mail
       or: lub
-      use external auth: Alternatywnie, zaloguj się przez...
+      use external auth: 'Alternatywnie, zarejestruj się przez:'
     terms:
       title: Warunki
       heading: Warunki
@@ -2809,14 +2840,18 @@ pl:
       role:
         administrator: Ten użytkownik jest administratorem
         moderator: Ten użytkownik jest moderatorem
+        importer: Ten użytkownik jest importerem
         grant:
           administrator: Przyznaj dostęp administratora
           moderator: Przyznaj dostęp moderatora
+          importer: Przyznaj rolę importera
         revoke:
           administrator: Cofnij dostęp administratora
           moderator: Cofnij dostęp moderatora
+          importer: Odwołaj rolę importera
       block_history: aktywne blokady
       moderator_history: nałożone blokady
+      revoke_all_blocks: Odwołaj wszystkie blokady
       comments: komentarze
       create_block: Zablokuj tego użytkownika
       activate_user: Aktywuj tego użytkownika
@@ -2922,6 +2957,18 @@ pl:
       confirm: Czy na pewno chcesz odwołać tę blokadę?
       revoke: Odwołaj!
       flash: Blokada została odwołana.
+    revoke_all:
+      title: Odwoływanie wszystkich blokad nałożonych na użytkownika %{block_on}
+      heading_html: Odwoływanie wszystkich blokad nałożonych na użytkownika %{block_on}
+      empty: Użytkownik %{name} nie ma aktywnych blokad.
+      confirm: Jesteś pewny, że chcesz odwołać %{active_blocks}?
+      active_blocks:
+        one: '%{count} aktywna blokada'
+        few: '%{count} aktywne blokady'
+        many: '%{count} aktywnych blokad'
+        other: ""
+      revoke: Odwołaj!
+      flash: Wszystkie aktywne blokady zostały odwołane.
     helper:
       time_future_html: Blokada wygasa za %{time}.
       until_login: Aktywna do momentu zalogowania się użytkownika.
@@ -2957,7 +3004,7 @@ pl:
     blocks_on:
       title: Blokady na użytkownika %{name}
       heading_html: Lista blokad na użytkownika %{name}
-      empty: '%{name} nie był jeszcze zablokowany.'
+      empty: Użytkownik %{name} nie był jeszcze zablokowany.
     blocks_by:
       title: Blokady nałożone przez %{name}
       heading_html: Lista blokad nałożonych przez %{name}
@@ -2986,14 +3033,31 @@ pl:
       reason: Powód blokady
       status: Status
       revoker_name: Odwołana przez
+      older: Starsze blokady
+      newer: Nowsze blokady
+    navigation:
+      all_blocks: Wszystkie blokady
+      blocks_on_me: Blokady nałożone na mnie
+      blocks_on_user: Blokady na %{user}
+      blocks_by_me: Blokady nałożone przeze mnie
+      blocks_by_user: Blokady nałożone przez %{user}
+      block: Blokada nr %{id}
   user_mutes:
     index:
+      user_mute_explainer: Wiadomości od wyciszonych użytkowników są przenoszone do
+        osobnej skrzynki odbiorczej, a ty nie otrzymasz powiadomień e-mailem.
+      user_mute_admins_and_moderators: Możesz wyciszyć administratorów i moderatorów,
+        jednak ich wiadomości nie będą wyciszone.
       table:
         tbody:
           unmute: Wyłącz wyciszenie
           send_message: Wyślij wiadomość
     create:
-      notice: Wyciszyłeś %{name}.
+      notice: Wyciszyłeś użytkownika %{name}.
+      error: Nie udało się wyciszyć użytkownika %{name}. %{full_message}
+    destroy:
+      notice: Odciszyłeś użytkownika %{name}.
+      error: Nie udało się odciszyć użytkownika. Spróbuj ponownie.
   notes:
     index:
       title: Uwagi użytkownika %{user}
@@ -3043,6 +3107,10 @@ pl:
       intro: Zauważyłeś błąd lub brak czegoś? Daj znać innym mapującym, aby mogli
         to poprawić. Przesuń znacznik do właściwej pozycji i wpisz notatkę opisującą
         problem.
+      anonymous_warning_html: Nie jesteś zalogowany. %{log_in} lub %{sign_up}, jeśli
+        chcesz otrzymywać aktualizacje tej uwagi.
+      anonymous_warning_log_in: Zaloguj się
+      anonymous_warning_sign_up: zarejestruj
       advice: Twoja uwaga jest publiczna i może zostać użyta do zaktualizowania mapy,
         nie podawaj tu więc informacji osobistych oraz informacji z map i źródeł chronionych
         prawami autorskimi.
@@ -3113,6 +3181,7 @@ pl:
       osm_france: OpenStreetMap France
       thunderforest_credit: Kafelki dzięki uprzejmości %{thunderforest_link}
       andy_allan: Andy'ego Allana
+      tracestrack_credit: Kafelki dzięki uprzejmości %{tracestrack_link}
       hotosm_credit: 'Styl kafelków: %{hotosm_link}. Hosting: %{osm_france_link}'
       hotosm_name: Humanitarian OpenStreetMap Team
     site:

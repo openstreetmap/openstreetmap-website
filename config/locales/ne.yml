@@ -17,9 +17,13 @@
 # Author: हिमाल सुबेदी
 ---
 ne:
+  html:
+    dir: दायाँबाटबायाँ
   time:
     formats:
       friendly: '%e %B %Y मा %H:%M'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: फाइल छान्नुहोस्
@@ -39,10 +43,23 @@ ne:
       oauth2_application:
         create: दर्ता गर्नुहाेस्
         update: अद्यावधिक गर्नुहोस्
+      redaction:
+        create: डेटा हटाउनुहोस्
+        update: डेटा हटाउने सङ्ग्रह गर्नुहोस्
       trace:
-        create: अपलोड गर्ने
-        update: परिवर्तनहरू संग्रह गर्ने
+        create: अपलोड गर्नुहोस्
+        update: परिवर्तनहरू संग्रह गर्नुहोस्
+      user_block:
+        create: ब्लक सिर्जना गर्नुहोस्
+        update: ब्लक अद्यावधिक गर्नुहाेस्
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: इमेल मान्य देखिँदैन
+        email_address_not_routable: राउटेबल छैन
+      models:
+        user_mute:
+          is_already_muted: पहिले नै म्युट गरिएको छ
     models:
       acl: अनुमति नियन्त्रण सूची
       changeset: परिवर्तनहरू सूची
@@ -51,6 +68,7 @@ ne:
       diary_comment: डायरी टिप्पणी
       diary_entry: डायरी प्रविष्टी
       friend: साथी
+      issue: इस्यु
       language: भाषा
       message: सन्देश
       node: नोड
@@ -66,6 +84,7 @@ ne:
       relation: रिलेशन
       relation_member: रिलेशन सदस्य
       relation_tag: सम्बन्ध चिनो
+      report: रिपोर्ट गर्नुहोस्
       session: सत्र
       trace: ट्रेस
       tracepoint: ट्रेस बिन्दु
@@ -77,14 +96,32 @@ ne:
       way_node: बाटो नोड
       way_tag: मार्ग चिनो
     attributes:
+      client_application:
+        name: नाम (आवश्यक)
+        url: मुख्य एप्लिकेसन युआरएल (आवश्यक)
+        callback_url: कलब्याक युआरएल
+        support_url: सहायता युआरएल
+        allow_read_prefs: उनीहरूको प्रयोगकर्ता अभिरुचीहरू पढ्नुहोस्
+        allow_write_prefs: उनीहरूको प्रयोगकर्ता अभिरुचीहरू परिमार्जन गर्नुहोस्
+        allow_write_diary: डायरी प्रविष्टी गर्नुहोस्, टिप्पणीहरू र साथी बनाउनुहोस्
+        allow_write_api: नक्सा परिमार्जन गर्नुहोस्
+        allow_read_gpx: उनीहरूको निजी जिपिएस ट्रेसहरू पढ्नुहोस्
+        allow_write_gpx: जिपिएस ट्रेसहरू अपलोड गर्नुहोस्
+        allow_write_notes: टिपोटहरू परिमार्जन गर्नुहोस्
       diary_comment:
         body: बडी
       diary_entry:
         user: प्रयोगकर्ता
         title: विषय
+        body: बडी
         latitude: अक्षांश
         longitude: देशान्तर
         language_code: भाषा
+      doorkeeper/application:
+        name: नाम
+        redirect_uri: रिडाइरेक्ट युआरआइहरू
+        confidential: गोप्य एप्लिकेसन?
+        scopes: अनुमतिहरू
       friend:
         user: प्रयोगकर्ता
         friend: साथी
@@ -97,23 +134,26 @@ ne:
         longitude: देशान्तर
         public: सार्वजनिक
         description: वर्णन
-        gpx_file: 'जिपिएक्स फाइल उर्ध्वभरण गर्नुहाेस्:'
-        visibility: 'दृश्यक्षमता:'
-        tagstring: ट्यागहरूः
+        gpx_file: GPX फाइल अपलोड गर्नुहोस्
+        visibility: प्रदर्शन
+        tagstring: ट्यागहरू
       message:
         sender: पठाउने
         title: विषय
         body: बडी
         recipient: प्रापक
       redaction:
+        title: शीर्षक
         description: वर्णन
+      report:
+        category: तपाईँको रिपोर्टको कारण छान्नुहोस्
       user:
         email: इमेल
         active: सक्रिय
         display_name: देखाउने नाम
         description: वर्णन
-        home_lat: 'देशान्तर:'
-        home_lon: 'अक्षांश:'
+        home_lat: अक्षांश
+        home_lon: देशान्तर
         languages: भाषाहरू
         pass_crypt: पासवर्ड
     help:
@@ -127,24 +167,42 @@ ne:
     remote:
       name: रिमोट कन्ट्रोल
       description: रिमोट कन्ट्रोल  (JOSM वा Merkaartor)
+  auth:
+    providers:
+      none: कुनै पनि होइन
   api:
     notes:
+      comment:
+        commented_at_by_html: '%{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
       entry:
         comment: टिप्पणी
+  account:
+    deletions:
+      show:
+        confirm_delete: निश्चित हुनुहुन्छ ?
+        cancel: रद्द गर्नुहोस्
   accounts:
     edit:
-      my settings: मेरो अनुकुलताहरु
+      title: खाता सम्पादन गर्नुहोस्
+      my settings: मेरो सेटिङहरू
+      current email address: हालको इमेल ठेगाना
+      external auth: वाह्य अथेन्टिकेसन
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: यो के हो ?
       public editing:
         heading: सार्वजनिक सम्पादन
+        enabled: सक्रिय। Not anonymous and can edit data.
         enabled link text: यो के हो ?
         disabled link text: म किन सम्पादन गर्न सक्दिन?
       contributor terms:
+        heading: योगदानकर्ता सर्तहरू
+        agreed: तपाईँले नयाँ योगदानकर्ता सर्तहरू स्वीकार गर्नुभएको छ।
+        not yet agreed: तपाईँले नयाँ योगदानकर्ता सर्तहरू स्वीकार गर्नुभएको छैन।
         link text: यो के हो ?
       save changes button: परिवर्तनहरू संग्रह गर्नुहोस्
     go_public:
-      heading: 'सार्वजनिक सम्पादन:'
+      heading: सार्वजनिक सम्पादन
     update:
       success_confirm_needed: प्रयोगकर्ताको जानकारीहरू सफलतापूर्वक अध्यावधिक गरियो।
         Check your email for a note to confirm your new email address.
@@ -211,7 +269,7 @@ ne:
       feature_warning: '%{num_features}वटा सुविधाहरु लोड हुँदै छन्, जसले गर्दा तपाईंको
         ब्राउजर सुस्त वा अनुत्तरदायी बनाउन सक्छ । तपाईं साँच्चै यो जानकारी हेर्न चाहनुहुन्छ
         ?'
-      load_data: डेटा लोडगर्ने
+      load_data: डेटा लोड गर्नुहोस्
       loading: खुल्दै छ…
     tag_details:
       tags: ट्यागहरू
@@ -245,7 +303,7 @@ ne:
       title: परिवर्नहरू
       title_user: '%{user}द्वरा गरिएका परिवर्तनहरू'
       title_friend: तपाईको मित्रहरूद्वारा गरिएका परिवर्तनहरू
-      title_nearby: तपाईं नजिक हुनुभएका प्रयोगकर्ताहरूद्वारा गरिएका परिवर्तनहरू
+      title_nearby: तपाईँको नजिक हुनुभएका प्रयोगकर्ताहरूद्वारा गरिएका परिवर्तनहरू
       empty: कुनै पनि परिवर्तनहरू भेटिएनन्।
       empty_area: यो क्षेत्रमा कुनै परिवर्तनहरू छैनन्।
       empty_user: यस प्रयोगकर्ताद्वारा कुनै परिवर्तनहरू गरिएका छैनन्।
@@ -259,6 +317,10 @@ ne:
         created: सृजना गरिएको
         closed: समापन भएको
         belongs_to: रचयिता
+    heading:
+      title: 'परिवर्तनहरू: %{id}'
+    no_such_entry:
+      heading: '%{id} आइडी भएको कुनै अभिलेख भेटिएन'
     show:
       title: 'परिवर्तनहरू: %{id}'
       discussion: छलफल
@@ -273,12 +335,14 @@ ne:
       relations: सम्बन्धहरू (%{count})
       relations_paginated: सम्बन्धहरू (जम्मा %{count} मध्येबाट %{x}-%{y})
     timeout:
-      sorry: माफ गर्नुहोला, तपाईंले खोज्नुभएको परिवर्तनहरूको सूची प्राप्त गर्न निकै
+      sorry: माफ गर्नुहोला, तपाईँले खोज्नुभएको परिवर्तनहरूको सूची प्राप्त गर्न निकै
         समय लाग्यो ।
   changeset_comments:
     comment:
-      comment: ' %{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
-      commented_at_by_html: ' %{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
+      comment: '%{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
+      commented_at_by_html: '%{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
+    comments:
+      comment: '%{author}द्वारा #%{changeset_id}मा नयाँ टिप्पणी'
     index:
       title_all: OpenStreetMap परिवर्वतन सूची छलफल
       title_particular: 'OpenStreetMap परिवर्तन सूची #%{changeset_id} छलफल'
@@ -292,7 +356,8 @@ ne:
       friend: साथी
     show:
       my friends: मेरा साथीहरू
-      no friends: तपाईं कुनै साथीहरूलाई जोड्नु भएको छैन
+      no friends: तपाईँ कुनै साथीहरूलाई थप्नु भएको छैन
+      nearby users: अन्य नजिकका प्रयोगकर्ताहरू
   diary_entries:
     new:
       title: नयाँ दैनिकी प्रविष्टी
@@ -306,17 +371,19 @@ ne:
       user_title: '%{user}को डायरी'
       in_language_title: '%{language} भाषामा भएका दैनिकीहरू'
       new: नयाँ दैनिकी
-      new_title: तपाईंको डायरीमा नयाँ दैनिकी सिर्जना गर्नुहोस्
+      new_title: तपाईँको डायरीमा नयाँ दैनिकी सिर्जना गर्नुहोस्
+      my_diary: मेरो डायरी
       no_entries: कुनै पनि अभिलेखहरू भेटिएनन्
       recent_entries: हालैका दैनिकीहरू
       older_entries: पुराना अभिलेखहरू
       newer_entries: नयाँ अभिलेखहरू
     edit:
-      title: दैनिकी प्रविष्ठी सम्पादन गर्ने
-      marker_text: दैनिकी प्रविष्ठी स्थान
+      title: डायरी प्रविष्ठी सम्पादन गर्नुहोस्
+      marker_text: डायरी प्रविष्ठी स्थान
     show:
       title: '%{user}को डायरी | %{title}'
       user_title: '%{user}को डायरी'
+      discussion: छलफल
       leave_a_comment: टिप्पणी छोड्ने
       login_to_leave_a_comment_html: '%{login_link} टिप्पणी छोड्नलाई'
       login: प्रवेश
@@ -337,26 +404,27 @@ ne:
       edit_link: यो प्रविष्टी सम्पादन गर्ने
       hide_link: यो प्रविष्टी लुकाउने
       confirm: निश्चित गर्नुहोस्
-      report: यो प्रविष्टीको उजुरी गर्ने
+      report: यो प्रविष्टीको उजुरी गर्नुहोस्
     diary_comment:
       comment_from_html: '%{link_user}द्वारा %{comment_created_at}मा गरिएको टिप्पणी'
       hide_link: यो टिप्पणी लुकाउनुहोस्
       confirm: निश्चित गर्नुहोस्
     location:
       location: 'स्थान:'
-      view: अवलोकन गर्ने
-      edit: सम्पादन
+      view: अवलोकन गर्नुहोस्
+      edit: सम्पादन गर्नुहोस्
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
-        title: '%{user}को लागि ओपनस्ट्रीटम्याप दैनिकी'
-        description: '%{user}को लागि हालैका ओपनस्ट्रीटम्याप दैनिकीहरू'
+        title: '%{user}को लागि OpenStreetMap डायरी'
+        description: '%{user}को लागि हालैका OpenStreetMap डायरी'
       language:
         title: '%{language_name} भाषामा OpenStreetMap दैनिकी'
-        description: '%{language_name} भाषामा ओपनस्ट्रीटम्याप प्रयोगकर्ताहरूका हालैका
-          दैनिकी'
+        description: '%{language_name} भाषामा OpenStreetMap प्रयोगकर्ताहरूका हालैका
+          डायरी'
       all:
-        title: ओपनस्ट्रीटम्याप दैनिकीहरू
-        description: ओपनस्ट्रीटम्याप प्रयोगकर्ताहरूका हालैका दैनिकीहरू
+        title: OpenStreetMap डायरी प्रविष्टीहरू
+        description: OpenStreetMap प्रयोगकर्ताहरूका हालैका डायरी प्रविष्टीहरू
     comments:
       post: पोष्ट
       when: कहिले
@@ -366,9 +434,11 @@ ne:
   friendships:
     make_friend:
       button: साथीको रूपमा थप्नुहोस्
-      success: '%{name} अब तपाईंको मित्र हुनुभएको छ!'
+      success: '%{name} अब तपाईँको साथी हुनुभएको छ!'
       failed: माफ गर्नुहोला, %{name}लाई मित्रको रुपमा थप्न सकिएन।
-      already_a_friend: '%{name} सँग तपाईंले पहिले नै मित्रता गरिसक्नु भएको छ ।'
+      already_a_friend: '%{name} सँग तपाईँले पहिले साथी हुनुहुन्छ।'
+      limit_exceeded: तपाईँले हालसालै थुप्रै प्रयोगकर्ताहरूलाई साथी बनाउनु भएको छ।
+        Please wait a while before trying to friend any more.
     remove_friend:
       button: साथीबाट हटाउने
   geocoder:
@@ -483,6 +553,10 @@ ne:
           viaduct: भियाडक्ट
           "yes": पुल
         building:
+          garages: ग्यारेजहरू
+          hangar: ह्याङ्गर
+          house: घर
+          public: सार्वजनिक भवन
           "yes": भवन
         craft:
           brewery: ब्रुएरी
@@ -551,6 +625,7 @@ ne:
           "yes": ऐतिहासिक स्थल
         landuse:
           basin: बेसिन
+          cemetery: अन्त्यष्टी स्थल
           commercial: व्यवसायिक क्षेत्र
           conservation: संरक्षण
           construction: निर्माण
@@ -626,6 +701,7 @@ ne:
           administrative: प्रबन्धकीय स्थल
           architect: आर्किटेक्ट
           company: कम्पनी
+          estate_agent: घरजग्गा एजेन्ट
           government: सरकारी कार्यालय
           insurance: बीमा कार्यालय
           it: आइटी कार्यालय
@@ -657,6 +733,7 @@ ne:
         railway:
           abandoned: परित्यक्त रेलमार्ग
           junction: रेलमार्ग जङ्सन
+          subway: सबवे
         shop:
           bakery: बेकरी
           beauty: सौन्दर्य पसल
@@ -704,6 +781,7 @@ ne:
           sports: खेलकुद सामग्री पसल
           tailor: सुचीकार
           toys: खेलौना पसल
+          travel_agency: ट्राभल एजेन्सी
           video: भिडियो पसल
           "yes": पसल
         tourism:
@@ -734,6 +812,7 @@ ne:
           "yes": जलमार्ग
       admin_levels:
         level2: राष्ट्रिय सीमा
+        level3: क्षेत्र सीमा
         level4: राज्य सीमा
         level5: क्षेत्र सीमा
         level6: इलाका सीमा
@@ -759,16 +838,25 @@ ne:
   reports:
     new:
       categories:
+        diary_entry:
+          other_label: अन्य
+        diary_comment:
+          other_label: अन्य
+        user:
+          other_label: अन्य
         note:
           other_label: अन्य
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap लोगो
     logout: निर्गमन
     log_in: प्रवेश गर्नुहोस्
     sign_up: खाता खाेल्नुहाेस्
     start_mapping: म्यापिङ गर्न सुरु गर्नुहोस्
-    edit: सम्पादन
+    edit: सम्पादन गर्नुहोस्
     history: इतिहास
     export: निर्यात गर्नुहोस्
     data: डेटा
@@ -798,6 +886,10 @@ ne:
     friendship_notification:
       hi: नमस्ते %{to_user},
       subject: '[OpenStreetMap] %{user} ले तपाईँलाई मित्रको रूपमा थप्नु भयो'
+    gpx_failure:
+      hi: नमस्ते %{to_user},
+    gpx_success:
+      hi: नमस्ते %{to_user},
     signup_confirm:
       greeting: नमस्ते!
     email_confirm:
@@ -860,27 +952,39 @@ ne:
       title: पासवर्ड बिर्सियो
       heading: पासवर्ड बिर्सिनुभयो ?
       email address: 'इमेल ठेगाना:'
-      new password button: प्रवेस शब्द परिवर्तन गर्ने
+      new password button: पासवर्ड परिवर्तन गर्नुहोस्
     edit:
-      title: प्रवेस शब्द परिवर्तन गर्ने
-      heading: '%{user}को लागि प्रवेस शब्द परिवर्तन गर्ने'
-      reset: नयाँ प्रवेशशव्द
+      title: पासवर्ड परिवर्तन गर्नुहोस्
+      heading: '%{user}को लागि पासवर्ड परिवर्तन गर्नुहोस्'
+      reset: पासवर्ड रिसेट गर्नुहोस्
     update:
-      flash changed: तपाईंको प्रवेश शब्द परिवर्तन गरिएको छ।
+      flash changed: तपाईँको पासवर्ड परिवर्तन गरिएको छ।
+  preferences:
+    edit:
+      cancel: रद्द गर्नुहोस्
   profiles:
     edit:
-      image: 'चित्र:'
+      cancel: रद्द गर्नुहोस्
+      image: तस्विर
       home location: 'गृह स्थान:'
-      no home location: तपाईंले आफ्नो गृहस्थान प्रविष्ठ गर्नुभएको छैन।
+      no home location: तपाईँले आफ्नो गृहस्थान प्रविष्ठ गर्नुभएको छैन।
+      show: देखाउनुहोस्
+      delete: हटाउनुहोस्
   sessions:
     new:
       title: प्रवेश
       tab_title: प्रवेश
-      password: 'पासवर्ड:'
+      password: पासवर्ड
       login_button: प्रवेश
     destroy:
       title: लगआउट
       logout_button: निर्गमन
+  shared:
+    markdown_help:
+      link: कडी
+      image: तस्विर
+    richtext_field:
+      edit: सम्पादन गर्नुहोस्
   site:
     about:
       next: अर्को
@@ -896,6 +1000,7 @@ ne:
       legal_babble:
         more_title_html: थप जान्नको लागि
         contributors_title_html: हाम्रा योगदान कर्ताहरू
+        contributors_fr_france: फ्रान्स
     index:
       permalink: स्थायी लिङ्क
       shortlink: छोटो लिङ्क
@@ -970,35 +1075,52 @@ ne:
           subway: सबवे
           cable_car: केबल कार
           chair_lift: कुर्सी लिफ्ट
+          taxiway: ट्याक्सीको बाटो
+          city: शहर
+          vineyard: अङ्गुर-बगैँचा
           forest: वन
           wood: कुञ्ज
+          farmland: खेतीयोग्य जमिन
+          grass: घाँस
+          meadow: घाँसेमैदान
+          sand: बालुवा
           golf: गल्फ कोर्स
           park: उद्यान
           resident: आवासीय क्षेत्र
           lake: ताल
-          reservoir: मुहान
+          reservoir: जलाशय
+          glacier: हिमनदी
+          wetland: सिमसार
           farm: खेती
           cemetery: अन्त्यष्टी स्थल
+          beach: समुद्र किनारा
           school: विद्यालय
           university: विश्वविद्यालय
+          hospital: अस्पताल
           summit: शिखर
           peak: शिखर
           bicycle_shop: साइकल पसल
           bicycle_parking: साकल पार्किङ
           toilets: शौचालय
     welcome:
-      title: स्वागतम्!
+      title: स्वागत!
       whats_on_the_map:
         title: म्यापमा के छ
+      basic_terms:
+        node: नोड
+        way: बाटो
       rules:
         title: नियमहरू !
+      start_mapping: म्यापिङ गर्न सुरु गर्नुहोस्
   traces:
     new:
+      upload_trace: GPS Trace अपलोड गर्ने
       visibility_help: यसको मतलाब के हो ?
       help: सहायता
     create:
       upload_trace: GPS Trace अपलोड गर्ने
     edit:
+      cancel: रद्द गर्नुहोस्
       title: ट्रेस सम्पादन गर्दै %{name}
       heading: ट्रेस सम्पादन गर्दै %{name}
       visibility_help: यसको मतलब के हो ?
@@ -1013,6 +1135,7 @@ ne:
       uploaded: 'अपलोड गरिएको:'
       points: 'विन्दुहरू:'
       start_coordinates: 'सुरूको निर्देशङ्क:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: नक्सा
       edit: सम्पादन
       owner: 'मालिक:'
@@ -1033,9 +1156,11 @@ ne:
       public: सार्वजनिक
       private: निजी
     index:
-      public_traces: सारवजनिक GPS ट्रेसहरु
-      public_traces_from: '%{user}बाट सार्वकनिक GPS ट्रेसहरु'
+      public_traces: सार्वजनिक GPS ट्रेसहरू
+      my_gps_traces: मेरो जिपिएस ट्रेसहरू
+      public_traces_from: '%{user}बाट सार्वजनिक GPS ट्रेसहरू'
       tagged_with: ' %{tags}हरूद्वारा ट्याग गरिएको'
+      my_traces: मेरा ट्रेसहरू
     destroy:
       scheduled_for_deletion: मेट्नको लागि तालिकावद्ध गरिएको ट्रेस
     make_public:
@@ -1049,8 +1174,20 @@ ne:
     show:
       confirm: निश्चित हुनुहुन्छ ?
   oauth2_applications:
+    index:
+      name: नाम
+      permissions: अनुमतिहरू
+    application:
+      edit: सम्पादन गर्नुहोस्
+      delete: हटाउनुहोस्
     show:
+      edit: सम्पादन गर्नुहोस्
       delete: मेट्ने
+      permissions: अनुमतिहरू
+      redirect_uris: रिडाइरेक्ट युआरआइहरू
+  oauth2_authorized_applications:
+    index:
+      permissions: अनुमतिहरू
   users:
     new:
       title: खाता खाेल्नुहाेस्
@@ -1076,6 +1213,8 @@ ne:
       my comments: मेरा टिप्पणीहरू
       edits: सम्पादनहरू
       traces: ट्रेसहरू
+      notes: म्याप टिप्पणीहरू
+      remove as friend: साथीबाट हटाउने
       add as friend: साथी जोड्नुहोस्
       status: 'स्थिति:'
       role:
@@ -1083,7 +1222,7 @@ ne:
       comments: टिप्पणी
       confirm: निश्चित गर्नुहोस्
     go_public:
-      flash success: तपाईंका सबै सम्पादनहरू सार्वाजनिक छन् , तपाईं अब सम्पादन लायक
+      flash success: तपाईँका सबै सम्पादनहरू सार्वाजनिक छन् , तपाईँ अब सम्पादन लायक
         हुनु भयो ।
     index:
       title: प्रयोगकर्ताहरू
@@ -1104,7 +1243,7 @@ ne:
     revoke:
       title: भूमिका फिर्ता निश्चित गर्ने
       heading: भूमिका फिर्ता निश्चित गर्ने
-      are_you_sure: तपाईं भूमिका `%{role}' , `%{name} प्रोगकर्ताबाट फिर्ता लिने कुरामा
+      are_you_sure: तपाईँ भूमिका `%{role}' , `%{name} प्रोगकर्ताबाट फिर्ता लिने कुरामा
         निश्चित हुनुहुन्छ'?
       confirm: निश्चित गर्नुहोस्
       fail: भूमिका `%{role}' ,`%{name}'बाट फिर्ता लिन सकिएन । प्रोगकर्ता नाम र भूमिका
@@ -1112,16 +1251,21 @@ ne:
   user_blocks:
     show:
       created: सृजना गरिएको
-      status: वस्तुस्थिति
+      status: 'स्थिति:'
       show: देखाउनुहोस्
-      edit: सम्पादन
+      edit: सम्पादन गर्नुहोस्
       confirm: निश्चित हुनुहुन्छ ?
     block:
       show: देखाउनुहोस्
-      edit: सम्पादन
+      edit: सम्पादन गर्नुहोस्
     blocks:
       creator_name: सर्जक
       status: वस्तुस्थिति
+  user_mutes:
+    index:
+      table:
+        tbody:
+          send_message: सान्देस पठाउ
   notes:
     index:
       id: आईडी
@@ -1143,7 +1287,7 @@ ne:
     share:
       title: आदान-प्रदान गर्नुहोस्
       cancel: रद्द गर्नुहोस्
-      image: छवि
+      image: तस्विर
       long_link: कडी
       embed: एचटीएमएल
       format: 'ढाँचा:'
@@ -1158,6 +1302,8 @@ ne:
       layers:
         header: म्याप लेयरहरू
         notes: म्याप टिप्पणीहरू
+        gps: सार्वजनिक GPS ट्रेसहरू
+      make_a_donation: दान गर्नुहोस्
     changesets:
       show:
         comment: टिप्पणी

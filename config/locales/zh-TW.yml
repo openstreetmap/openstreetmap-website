@@ -43,6 +43,7 @@
 # Author: Winston Sung
 # Author: Wrightbus
 # Author: Xiplus
+# Author: Yuchenglinedu
 # Author: 予弦
 # Author: 列维劳德
 # Author: 捍粵者
@@ -86,18 +87,18 @@ zh-TW:
     errors:
       messages:
         invalid_email_address: 似乎不是有效的電子郵件信箱地址。
-        email_address_not_routable: 不可繞送
+        email_address_not_routable: 不可繞過
         display_name_is_user_n: 不能是「user_n」除非「n」是您的使用者 ID
       models:
         user_mute:
-          is_already_muted: 已忽視
+          is_already_muted: 已緘默
     models:
       acl: 存取控制清單
       changeset: 變更集
       changeset_tag: 變更集標籤
       country: 國家
-      diary_comment: 日記評論
-      diary_entry: 日記項目
+      diary_comment: 日誌評論
+      diary_entry: 日誌項目
       friend: 好友
       issue: 問題
       language: 語言
@@ -122,21 +123,21 @@ zh-TW:
       tracetag: 軌跡標籤
       user: 使用者
       user_preference: 使用者偏好設定
-      user_token: 使用者令牌
+      user_token: 使用者Token
       way: 路徑
       way_node: 路徑節點
       way_tag: 路徑標籤
     attributes:
       client_application:
-        name: 名稱（必需）
-        url: 主程式 URL（必需）
-        callback_url: 回呼 (Callback) URL
+        name: 名稱（必填）
+        url: 主要應用程式 URL（必填）
+        callback_url: 回撥 (Callback) URL
         support_url: 支援 URL
-        allow_read_prefs: 讀取他們的使用者偏好設定
-        allow_write_prefs: 修改他們的使用者偏好設定
+        allow_read_prefs: 讀取使用者偏好設定
+        allow_write_prefs: 修改使用者偏好設定
         allow_write_diary: 建立日記、評論和加入好友
         allow_write_api: 修改地圖
-        allow_read_gpx: 讀取他們的私人GPS軌跡
+        allow_read_gpx: 讀取個人GPS軌跡
         allow_write_gpx: 上傳 GPS 軌跡
         allow_write_notes: 修改註記
       diary_comment:
@@ -164,7 +165,7 @@ zh-TW:
         latitude: 緯度
         longitude: 經度
         public: 公開
-        description: 說明
+        description: 描述
         gpx_file: 上傳 GPX 檔案
         visibility: 能見度
         tagstring: 標籤
@@ -175,18 +176,18 @@ zh-TW:
         recipient: 收件者
       redaction:
         title: 標題
-        description: 說明
+        description: 描述
       report:
-        category: 選擇您回報的原因
-        details: 請提供有關問題的更多些詳情（必需）
+        category: 選擇你回報的原因
+        details: 請提供更多有關問題的詳情（必填）
       user:
-        auth_provider: 認證提供方
+        auth_provider: 認證提供者
         auth_uid: 認證 UID
         email: 電子郵件
         new_email: 新的電子郵件地址
-        active: 開啟中
+        active: 活躍
         display_name: 顯示名稱
-        description: 基本資料說明
+        description: 個人檔案描述
         home_lat: 緯度
         home_lon: 經度
         languages: 偏好的語言
@@ -196,14 +197,14 @@ zh-TW:
     help:
       doorkeeper/application:
         confidential: 應用程式會在客戶端密鑰可以維持機密時使用（本地端移動應用程式和單一頁面應用程式不保密）
-        redirect_uri: 一行一URI
+        redirect_uri: 每條 URI 使用一行
       trace:
-        tagstring: 逗點分隔
+        tagstring: 以逗點分隔
       user_block:
-        reason: 封鎖使用者的理由。請盡量以平靜、合理態度詳細描述情況，並記住訊息公開可見。請注意，並非所有使用者都了解社群術語，所以請盡量使用通俗說法。
+        reason: 封鎖使用者的理由。請盡量以平靜、合理的態度詳細描述情況，並記住訊息公開可見。請注意，並非所有使用者都了解社群術語，所以請盡量使用通俗說法。
         needs_view: 解封前是否需要使用者登入？
       user:
-        new_email: （永不公開顯示）
+        new_email: (永遠不公開顯示)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -215,34 +216,22 @@ zh-TW:
       about_x_years:
         one: 約 %{count} 年前
         other: 約 %{count} 年前
-      almost_x_years:
-        one: 將近 %{count} 年前
-        other: 將近 %{count} 年前
+      almost_x_years: 將近 %{count} 年前
       half_a_minute: 半分鐘前
-      less_than_x_seconds:
-        one: 小於 %{count} 秒前
-        other: 小於 %{count} 秒前
-      less_than_x_minutes:
-        one: 小於 %{count} 分前
-        other: 小於 %{count} 分前
+      less_than_x_seconds: 不到 %{count} 秒前
+      less_than_x_minutes: 不到 %{count} 分鐘前
       over_x_years:
-        one: 超過 %{count} 年前
-        other: 超過 %{count} 年前
+        one: 超過1年前
+        other: 超過%{count}年前
       x_seconds:
-        one: '%{count} 秒前'
-        other: '%{count} 秒前'
-      x_minutes:
-        one: '%{count} 分鐘前'
-        other: '%{count} 分鐘前'
-      x_days:
-        one: '%{count} 天前'
-        other: '%{count} 天前'
+        one: 1秒前
+        other: '%{count}秒前'
+      x_minutes: '%{count} 分鐘前'
+      x_days: '%{count} 天前'
       x_months:
         one: '%{count} 個月前'
         other: '%{count} 個月前'
-      x_years:
-        one: '%{count} 年前'
-        other: '%{count} 年前'
+      x_years: '%{count} 年前'
   printable_name:
     current_and_old_links_html: '%{current_link}，%{old_link}'
   editor:
@@ -274,13 +263,13 @@ zh-TW:
         reopened_at_by_html: 於%{when}由%{user}重新開啟
       rss:
         title: OpenStreetMap 註記
-        description_all: 已報告、評論、或是關閉註記的清單
+        description_all: 報告、評論、或關閉的註記清單
         description_area: 在你的區域[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]所報告、評論或關閉的註記的清單
         description_item: 註記 %{id} 的 RSS feed
         opened: 新的註記 (在 %{place} 附近)
         commented: 新的評論 (在 %{place} 附近)
         closed: 關閉的註記 (在 %{place} 附近)
-        reopened: 重新開啟的註記 (在 %{place} 附近)
+        reopened: 重新開啟的註記（在%{place}附近）
       entry:
         comment: 評論
         full: 註記原文
@@ -288,9 +277,9 @@ zh-TW:
     deletions:
       show:
         title: 刪除我的帳號
-        warning: 警告！帳號刪除處理是完全徹底、無法還原的。
-        delete_account: 刪除帳號
-        delete_introduction: 您可以使用下方按鈕來刪除您的 OpenStreetMap 帳號。並請注意以下細節：
+        warning: 警告！帳號刪除程序不可逆轉，無法復原。
+        delete_account: 刪除我的帳號
+        delete_introduction: 你可以使用下方按鈕來刪除你的 OpenStreetMap 帳號。並請留意以下細節：
         delete_profile: 您的個人檔案資訊，包含像是您的頭像圖片、描述，以及住家位置將會移除。
         delete_display_name: 您的顯示名稱將會移除，並且會被其他帳號拿來重覆使用。
         retain_caveats: 然而，即使您的帳號被刪除後，一些關於您的資訊仍會繼續保留在 OpenStreetMap 裡：
@@ -1699,8 +1688,8 @@ zh-TW:
         your_note_html: '%{commenter} 已經再次開啟你其中一筆接近 %{place} 的地圖註記。'
         commented_note: '%{commenter} 重新開啟了一個您曾評論的地圖註記。該註記位於 %{place} 附近。'
         commented_note_html: '%{commenter} 重新開啟了一個您曾評論的地圖註記。該註記位於 %{place} 附近。'
-      details: 關於註記的更多詳細資料可在 %{url} 找到。
-      details_html: 關於註記的更多詳細資料可在 %{url} 找到。
+      details: 關於標記的更多詳細資料可在 %{url} 找到。
+      details_html: 在%{url}回覆或是瞭解更多有關註釋的訊息。
     changeset_comment_notification:
       description: 'OpenStreetMap 變更集 #%{id}'
       hi: 嗨 %{to_user}，
@@ -1715,8 +1704,8 @@ zh-TW:
         partial_changeset_with_comment: 評論 "%{changeset_comment}"
         partial_changeset_with_comment_html: 評論 "%{changeset_comment}"
         partial_changeset_without_comment: 沒有評論
-      details: 關於變更集的詳情可在 %{url} 找到。
-      details_html: 關於變更集的詳情可在 %{url} 找到。
+      details: 在 %{url} 回覆或瞭解更多有關於變更子集的資訊。
+      details_html: 在 %{url} 回覆或瞭解更多有關變更集的資訊。
       unsubscribe: 您可以在 %{url} 取消訂閱此變更集的更新內容。
       unsubscribe_html: 您可以在 %{url} 取消訂閱此變更集的更新內容。
   confirmations:
