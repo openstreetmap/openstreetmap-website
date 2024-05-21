@@ -411,7 +411,7 @@ class User < ApplicationRecord
   def max_messages_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
-    recent_messages = messages.where("sent_on >= ?", Time.now.utc - 3600).count
+    recent_messages = messages.where(:sent_on => Time.now.utc - 3600..).count
     max_messages = account_age_in_hours.ceil + recent_messages - (active_reports * 10)
     max_messages.clamp(0, Settings.max_messages_per_hour)
   end
@@ -419,7 +419,7 @@ class User < ApplicationRecord
   def max_friends_per_hour
     account_age_in_seconds = Time.now.utc - created_at
     account_age_in_hours = account_age_in_seconds / 3600
-    recent_friends = Friendship.where(:befriendee => self).where("created_at >= ?", Time.now.utc - 3600).count
+    recent_friends = Friendship.where(:befriendee => self).where(:created_at => Time.now.utc - 3600..).count
     max_friends = account_age_in_hours.ceil + recent_friends - (active_reports * 10)
     max_friends.clamp(0, Settings.max_friends_per_hour)
   end

@@ -60,7 +60,7 @@ class ChangesetsController < ApplicationController
         changesets = changesets.where(:user => current_user.nearby)
       end
 
-      changesets = changesets.where("changesets.id <= ?", @params[:max_id]) if @params[:max_id]
+      changesets = changesets.where(:changesets => { :id => ..@params[:max_id] }) if @params[:max_id]
 
       @changesets = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
 
@@ -88,7 +88,7 @@ class ChangesetsController < ApplicationController
     if @changeset.user.active? && @changeset.user.data_public?
       changesets = conditions_nonempty(@changeset.user.changesets)
       @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
-      @prev_by_user = changesets.where("id < ?", @changeset.id).reorder(:id => :desc).first
+      @prev_by_user = changesets.where(:id => ...@changeset.id).reorder(:id => :desc).first
     end
     render :layout => map_layout
   rescue ActiveRecord::RecordNotFound

@@ -105,7 +105,7 @@ module Api
     ##
     # Check if the current user has exceed the rate limit for comments
     def rate_limit_exceeded?
-      recent_comments = current_user.changeset_comments.where("created_at >= ?", Time.now.utc - 1.hour).count
+      recent_comments = current_user.changeset_comments.where(:created_at => Time.now.utc - 1.hour..).count
 
       recent_comments >= current_user.max_changeset_comments_per_hour
     end

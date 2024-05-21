@@ -50,11 +50,11 @@ class Issue < ApplicationRecord
   scope :visible_to, ->(user) { where(:assigned_role => user.roles.map(&:role)) }
 
   def read_reports
-    resolved_at.present? ? reports.where("updated_at < ?", resolved_at) : nil
+    resolved_at.present? ? reports.where(:updated_at => ...resolved_at) : nil
   end
 
   def unread_reports
-    resolved_at.present? ? reports.where("updated_at >= ?", resolved_at) : reports
+    resolved_at.present? ? reports.where(:updated_at => resolved_at..) : reports
   end
 
   include AASM
