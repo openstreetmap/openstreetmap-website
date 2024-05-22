@@ -39,7 +39,7 @@ module SessionMethods
     session[:fingerprint] = user.fingerprint
     session_expires_after 28.days if session[:remember_me]
 
-    target = referer || session[:referer] || url_for(:controller => :site, :action => :index)
+    target = referer || url_for(:controller => :site, :action => :index)
 
     # The user is logged in, so decide where to send them:
     #
@@ -56,31 +56,28 @@ module SessionMethods
     end
 
     session.delete(:remember_me)
-    session.delete(:referer)
   end
 
   ##
   # process a failed login
-  def failed_login(message, username = nil)
+  def failed_login(message, username, referer = nil)
     flash[:error] = message
 
-    redirect_to :controller => "sessions", :action => "new", :referer => session[:referer],
+    redirect_to :controller => "sessions", :action => "new", :referer => referer,
                 :username => username, :remember_me => session[:remember_me]
 
     session.delete(:remember_me)
-    session.delete(:referer)
   end
 
   ##
   #
-  def unconfirmed_login(user)
+  def unconfirmed_login(user, referer = nil)
     session[:pending_user] = user.id
 
     redirect_to :controller => "confirmations", :action => "confirm",
-                :display_name => user.display_name, :referer => session[:referer]
+                :display_name => user.display_name, :referer => referer
 
     session.delete(:remember_me)
-    session.delete(:referer)
   end
 
   ##
