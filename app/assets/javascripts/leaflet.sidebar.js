@@ -1,6 +1,7 @@
 L.OSM.sidebar = function (selector) {
   var control = {},
       sidebar = $(selector),
+      closeButton = sidebar.find(".btn-close"),
       current = $(),
       currentButton = $(),
       map;
@@ -52,6 +53,10 @@ L.OSM.sidebar = function (selector) {
     currentButton
       .addClass("active");
   };
+
+  closeButton.click(function () {
+    control.togglePane(current, currentButton);
+  });
 
   return control;
 };
