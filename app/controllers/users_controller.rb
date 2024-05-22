@@ -17,7 +17,9 @@ class UsersController < ApplicationController
   before_action :check_database_writable, :only => [:new, :go_public]
   before_action :require_cookies, :only => [:new]
   before_action :lookup_user_by_name, :only => [:set_status, :destroy]
-  before_action :allow_thirdparty_images, :only => [:show]
+
+  allow_thirdparty_images :only => :show
+  allow_social_login :only => :new
 
   ##
   # display a list of users matching specified criteria
@@ -57,10 +59,6 @@ class UsersController < ApplicationController
     @referer = safe_referer(params[:referer])
 
     parse_oauth_referer @referer
-
-    append_content_security_policy_directives(
-      :form_action => %w[accounts.google.com *.facebook.com login.microsoftonline.com github.com meta.wikimedia.org]
-    )
 
     if current_user
       # The user is logged in already, so don't show them the signup

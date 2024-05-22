@@ -12,6 +12,17 @@ class SiteController < ApplicationController
 
   authorize_resource :class => false
 
+  content_security_policy(:only => :edit) do |policy|
+    policy.frame_src(*policy.frame_src, :blob)
+  end
+
+  content_security_policy(:only => :id) do |policy|
+    policy.connect_src("*")
+    policy.img_src("*", :blob)
+    policy.script_src(*policy.script_src, "dev.virtualearth.net", :unsafe_eval)
+    policy.style_src(*policy.style_src, :unsafe_inline)
+  end
+
   def index
     session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless Settings.status == "database_readonly" || Settings.status == "database_offline"
   end
@@ -69,12 +80,6 @@ class SiteController < ApplicationController
       return
     else
       require_user
-    end
-
-    if %w[id].include?(editor)
-      append_content_security_policy_directives(
-        :frame_src => %w[blob:]
-      )
     end
 
     begin
@@ -136,13 +141,6 @@ class SiteController < ApplicationController
   end
 
   def id
-    append_content_security_policy_directives(
-      :connect_src => %w[*],
-      :img_src => %w[* blob:],
-      :script_src => %w[dev.virtualearth.net 'unsafe-eval'],
-      :style_src => %w['unsafe-inline']
-    )
-
     render :layout => false
   end
 
