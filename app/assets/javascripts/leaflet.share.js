@@ -98,7 +98,7 @@ L.OSM.share = function (options) {
           .on("click", select))
       .append(
         $("<p>")
-          .attr("class", "text-muted")
+          .attr("class", "text-body-secondary")
           .text(I18n.t("javascripts.share.paste_html")));
 
     // Geo URI
@@ -128,7 +128,7 @@ L.OSM.share = function (options) {
 
     $("<div>")
       .attr("id", "export-warning")
-      .attr("class", "text-muted")
+      .attr("class", "text-body-secondary")
       .text(I18n.t("javascripts.share.only_standard_layer"))
       .appendTo($imageSection);
 
@@ -223,7 +223,7 @@ L.OSM.share = function (options) {
     };
 
     $("<p>")
-      .attr("class", "text-muted")
+      .attr("class", "text-body-secondary")
       .html(I18n.t("javascripts.share.image_dimensions", args))
       .appendTo($form);
 

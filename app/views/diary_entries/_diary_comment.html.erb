@@ -1,9 +1,9 @@
-<div class="row diary-comment border-bottom py-3<%= " text-muted bg-danger bg-opacity-10" unless diary_comment.visible? %>">
+<div class="row diary-comment border-bottom py-3<%= " text-body-secondary bg-danger bg-opacity-10" unless diary_comment.visible? %>">
   <div class="col-auto pe-0 text-center">
     <%= user_thumbnail diary_comment.user %>
   </div>
   <div class="col">
-    <p class="text-muted m-0" id="comment<%= diary_comment.id %>"><%= t(".comment_from_html", :link_user => (link_to diary_comment.user.display_name, diary_comment.user), :comment_created_at => link_to(l(diary_comment.created_at, :format => :friendly), :anchor => "comment#{diary_comment.id}")) %>
+    <p class="text-body-secondary m-0" id="comment<%= diary_comment.id %>"><%= t(".comment_from_html", :link_user => (link_to diary_comment.user.display_name, diary_comment.user), :comment_created_at => link_to(l(diary_comment.created_at, :format => :friendly), :anchor => "comment#{diary_comment.id}")) %>
       <% if current_user and diary_comment.user.id != current_user.id %>
         | <%= report_link(t(".report"), diary_comment) %>
       <% end %>

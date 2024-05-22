@@ -12,7 +12,7 @@
     </div>
   <% end %>
 
-  <small class='text-muted'>
+  <small class='text-body-secondary'>
     <%= t("diary_entries.diary_entry.posted_by_html", :link_user => (link_to diary_entry.user.display_name, diary_entry.user), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to diary_entry.language.name, :controller => "diary_entries", :action => "index", :display_name => nil, :language => diary_entry.language_code)) %>
     <% if (l(diary_entry.updated_at, :format => :blog) != l(diary_entry.created_at, :format => :blog)) %>
       <%= t("diary_entries.diary_entry.updated_at_html", :updated => l(diary_entry.updated_at, :format => :blog)) %>

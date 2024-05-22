@@ -1,7 +1,7 @@
 <% content_for :heading do %>
 <h1><%= t ".title", :status => @issue.status.humanize, :issue_id => @issue.id %></h1>
 <p><%= @issue.reportable.model_name.human %> : <%= link_to reportable_title(@issue.reportable), reportable_url(@issue.reportable) %></p>
-<p class="text-muted">
+<p class="text-body-secondary">
   <small>
     <%= @issue.assigned_role %>
     <% if @issue.reports.count > 0 %>
@@ -45,7 +45,7 @@
     <h3><%= t ".reports_of_this_issue" %></h3>
 
     <% if @read_reports.present? %>
-    <div class="bg-body-tertiary text-muted">
+    <div class="bg-body-tertiary text-body-secondary">
       <h4><%= t ".read_reports" %></h4>
       <%= render "reports", :reports => @read_reports %>
     </div>

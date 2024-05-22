@@ -33,7 +33,7 @@
       <ul class="list-unstyled">
         <% @note_comments.drop(1).each do |comment| %>
           <li id="c<%= comment.id %>">
-            <small class='text-muted'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
+            <small class='text-body-secondary'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <div class="mx-2">
               <%= comment.body.to_html %>
             </div>
@@ -90,7 +90,7 @@
 
   <% if current_user && current_user != @note.author %>
     <p>
-      <small class="text-muted">
+      <small class="text-body-secondary">
         <%= t ".report_link_html", :link => report_link(t(".report"), @note) %>
         <% if @note.status == "open" %>
           <%= t ".other_problems_resolve", :link => report_link(t(".report"), @note) %>
@@ -102,7 +102,7 @@
   <% end %>
 
   <% if @note.freshly_closed? %>
-    <small class="text-muted">
+    <small class="text-body-secondary">
       <%= t ".disappear_date_html", :disappear_in => friendly_date(@note.freshly_closed_until) %>
     </small>
   <% end %>

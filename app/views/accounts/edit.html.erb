@@ -22,12 +22,12 @@
       <%= f.select(:auth_provider, Auth.providers, :hide_label => true, :wrapper => { :class => "col-auto mb-0" }) %>
       <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }) %>
     </div>
-    <small class="form-text text-muted">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>
+    <small class="form-text text-body-secondary">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>
   </fieldset>
 
   <div class="mb-3">
     <label class="form-label"><%= t ".public editing.heading" %></label>
-    <span class="form-text text-muted">
+    <span class="form-text text-body-secondary">
       <% if current_user.data_public? %>
         <%= t ".public editing.enabled" %>
         (<a href="<%= t ".public editing.enabled link" %>" target="_new"><%= t ".public editing.enabled link text" %></a>)
@@ -40,7 +40,7 @@
 
   <div class="mb-3">
     <label class="form-label"><%= t ".contributor terms.heading" %></label>
-    <span class="form-text text-muted">
+    <span class="form-text text-body-secondary">
       <% if current_user.terms_agreed? %>
         <%= t ".contributor terms.agreed" %>
         (<a href="<%= t ".contributor terms.link" %>" target="_new"><%= t ".contributor terms.link text" %></a>)
