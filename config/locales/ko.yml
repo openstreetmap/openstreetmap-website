@@ -86,6 +86,9 @@ ko:
       messages:
         invalid_email_address: 유효한 이메일 주소로 보이지 않음
         email_address_not_routable: 라우팅할 수 없음
+      models:
+        user_mute:
+          is_already_muted: 님은 이미 음소거되어 있습니다
     models:
       acl: 접근 제어 목록
       changeset: 바뀜집합
@@ -416,6 +419,15 @@ ko:
       introduction: 근처의 지물을 찾으려면 지도에서 클릭하세요.
       nearby: 근처 지물
       enclosing: 근접 지역 내 지물
+  old_nodes:
+    not_found:
+      sorry: '죄송합니다. 버전 %{version}의 노드 #%{id}를 찾을 수 없습니다.'
+  old_ways:
+    not_found:
+      sorry: '죄송합니다. 버전 %{version}의 경로 #%{id}를 찾을 수 없습니다.'
+  old_relations:
+    not_found:
+      sorry: '죄송합니다. 버전 %{version}의 관계 #%{id}를 찾을 수 없습니다.'
   changesets:
     changeset_paging_nav:
       showing_page: '%{page}쪽'
@@ -1794,7 +1806,8 @@ ko:
       lost password link: 비밀번호를 잊으셨나요?
       login_button: 로그인
       register now: 지금 등록하세요
-      with external: '다른 제3자 로그인 방식 사용하기:'
+      with external: 혹은 제3자 방식으로 로그인하기
+      or: 혹은
       auth failure: 죄송합니다, 입력한 정보로 로그인할 수 없습니다.
     destroy:
       title: 로그아웃
@@ -2166,6 +2179,7 @@ ko:
           lake: 호수
           reservoir: 저수지
           glacier: 빙하
+          reef: 암초
           wetland: 습지
           farm: 농장
           brownfield: 재개발지역
@@ -2227,6 +2241,7 @@ ko:
         imports: 들여오기
         automated_edits: 자동화 편집
       start_mapping: 매핑 시작하기
+      continue_authorization: 승인 계속하기
       add_a_note:
         title: 편집할 짬을 내기가 어려우신가요? 손쉽게 '노트'(참고)를 덧붙이세요!
         para_1: 가입한 다음 편집 방법을 배울 시간이 없거나 자잘한 사항만 고치고 싶은 경우, '노트'(참고)를 덧붙여서 알려주면 쉽습니다.
@@ -2320,6 +2335,7 @@ ko:
       identifiable: 식별 가능
       private: 비공개
       trackable: 추적 가능
+      details_without_tags_html: '%{time_ago} %{user}님'
     index:
       public_traces: 공개 GPS 궤적
       my_gps_traces: 내 GPS 궤적
@@ -2519,6 +2535,7 @@ ko:
   users:
     new:
       title: 가입하기
+      tab_title: 가입하기
       no_auto_account_create: 불행하게도 현재로서는 자동으로 계정을 만들 수 없습니다.
       please_contact_support_html: 계정 생성 준비를 위해 %{support_link}(으)로 문의해 주세요. 요청 처리가
         최대한 빨리 이뤄질 수 있도록 노력하겠습니다.
@@ -2527,14 +2544,19 @@ ko:
         header: 자유롭게 편집 가능
         paragraph_1: 다른 지도와 달리 오픈스트리트맵은 전부 여러분과 같은 사람들이 제작했으며 누구나 자유롭게 수정, 업데이트, 다운로드,
           사용을 할 수 있습니다.
-        paragraph_2: 기여를 시작하려면 가입하세요. 당신의 계정 확인을 위해 이메일을 보내드리겠습니다.
+        paragraph_2: 회원 가입으로 기여를 시작해 봅시다.
+        welcome: 오픈스트리트맵에 오신 것을 환영합니다
       display name description: 공개적으로 표시되는 사용자 이름입니다. 나중에 환경 설정에서 바꿀 수 있습니다.
+      tou: 이용 약관
+      contributor_terms: 기여자 약관
       external auth: '제3자 인증:'
       continue: 가입하기
       terms accepted: 새 기여자 약관에 동의해 주셔서 감사합니다!
       email_help_html: 당신의 주소는 공개적으로 노출되지 않습니다. 자세한 내용은 %{privacy_policy_link}를 참조하세요.
       privacy_policy: 개인정보처리방침
       privacy_policy_title: 이메일 주소 섹션을 포함한 OSMF 개인 정보 보호 정책
+      consider_pd: 퍼블릭 도메인
+      or: 혹은
       use external auth: 다른 제3자 로그인 방식 사용하기
     terms:
       title: 약관
@@ -2585,6 +2607,8 @@ ko:
       my_dashboard: 내 대시보드
       blocks on me: 나를 차단
       blocks by me: 나한테 차단
+      create_mute: 이 사용자 음소거하기
+      destroy_mute: 이 사용자를 음소거 해제
       edit_profile: 프로필 수정
       send message: 메시지 보내기
       diary: 일기
@@ -2715,6 +2739,7 @@ ko:
       flash: 이 차단을 해제했습니다.
     revoke_all:
       revoke: 해제!
+      flash: 모든 차단 내역이 비활성화되었습니다.
     helper:
       time_future_html: '%{time}에 끝납니다.'
       until_login: 사용자가 로그인할 때까지 활성합니다.
@@ -2763,8 +2788,14 @@ ko:
       reason: 차단 이유
       status: 상태
       revoker_name: 해제자
+      older: 옛 차단내역
+      newer: 최근 차단내역
     navigation:
       all_blocks: 모든 차단
+      blocks_on_me: 나의 차단내역
+      blocks_on_user: '%{user}님의 차단내역'
+      blocks_by_me: 내가 차단한 내역
+      blocks_by_user: '%{user}님이 차단한 내역'
       block: '#%{id} 차단'
   user_mutes:
     index:
@@ -2772,7 +2803,14 @@ ko:
         thead:
           actions: 동작
         tbody:
+          unmute: 음소거 해제
           send_message: 메시지 보내기
+    create:
+      notice: '%{name}님을 음소거했습니다.'
+      error: '%{name}님을 음소거할 수 없습니다. %{full_message}.'
+    destroy:
+      notice: '%{name}님의 음소거를 해제했습니다.'
+      error: 유저의 음소거를 해제할 수 없습니다. 다시 시도해 주세요.
   notes:
     index:
       title: '%{user} 님이 제출했거나 덧글을 남긴 참고'
@@ -2817,6 +2855,8 @@ ko:
       title: 새로운 참고
       intro: 실수했거나 없는 무언가를 발견했나요? 다른 매퍼에게 알려주어 고칠 수 있게 해주세요. 마커를 올바른 위치로 이동하고, 참고를
         남겨 문제를 설명해주세요.
+      anonymous_warning_log_in: 로그인
+      anonymous_warning_sign_up: 가입하기
       advice: 노트는 공개되어 지도 업데이트에 쓰일 수 있으므로 개인정보 또는 저작권이 있는 지도나 디렉터리 리스팅의 정보를 입력하지 마십시오.
       add: 참고 추가
   javascripts:

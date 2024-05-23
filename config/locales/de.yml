@@ -72,6 +72,7 @@
 # Author: MarkusHD
 # Author: McDutchie
 # Author: Mcandri13
+# Author: Mcliquid
 # Author: Metalhead64
 # Author: Michi
 # Author: Milet
@@ -776,6 +777,10 @@ de:
       contact_the_community_html: Bitte nimm %{contact_link} mit der OpenStreetMap-Community
         auf, wenn du einen defekten Link / Fehler gefunden hast. Notiere dir die genaue
         URL deiner Anfrage.
+    bad_request:
+      title: Ungültige Anfrage
+      description: Die angeforderte Operation auf dem OpenStreetMap-Server ist ungültig
+        (HTTP 400).
     forbidden:
       title: Verboten
       description: Die von dir angeforderte Aktion auf dem OpenStreetMap-Server ist
@@ -1854,8 +1859,8 @@ de:
           den du kommentiert hattest, reaktivert.'
         commented_note_html: '%{commenter} hat einen Hinweis in der Nähe von %{place},
           den du kommentiert hattest, reaktivert.'
-      details: Weitere Details über den Hinweis findest du unter %{url}.
-      details_html: Weitere Details über den Hinweis findest du unter %{url}.
+      details: Antworte oder erfahre mehr über die Notiz unter %{url}.
+      details_html: Antworte oder erfahre mehr über die Notiz unter %{url}.
     changeset_comment_notification:
       description: 'OpenStreetMap-Änderungssatz #%{id}'
       hi: Hallo %{to_user},
@@ -1876,9 +1881,8 @@ de:
         partial_changeset_with_comment: mit der Bemerkung „%{changeset_comment}“
         partial_changeset_with_comment_html: mit der Bemerkung „%{changeset_comment}“
         partial_changeset_without_comment: ohne Kommentar
-      details: Weitere Details über den Änderungssatz können gefunden werden unter
-        %{url}.
-      details_html: Weitere Details über den Änderungssatz findest Du unter %{url}.
+      details: Antworte oder erfahre mehr über den Änderungssatz unter %{url}.
+      details_html: Antworte oder erfahre mehr über den Änderungssatz unter %{url}.
       unsubscribe: Du kannst dich auf %{url} von den Benachrichtigungen dieses Änderungssatzes
         abmelden.
       unsubscribe_html: Du kannst dich auf %{url} von den Benachrichtigungen dieses
@@ -2059,6 +2063,8 @@ de:
     new:
       title: Anmelden
       tab_title: Anmelden
+      login_to_authorize_html: Melde dich bei OpenStreetMap an, um auf %{client_app_name}
+        zuzugreifen.
       email or username: E-Mail-Adresse oder Benutzername
       password: Passwort
       remember: Anmeldedaten merken
@@ -2739,6 +2745,9 @@ de:
         other: GPX-Datei mit %{count} Punkten von %{user}
       description_without_count: GPX-Datei von %{user}
   application:
+    basic_auth_disabled: 'Die HTTP-Basisauthentifizierung ist deaktiviert: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 und 1.0a sind deaktiviert: %{link}'
+    auth_disabled_link: https://wiki.openstreetmap.org/wiki/DE:2024_authentication_update
     permission_denied: Du hast keine Berechtigung, um auf diese Aktion zuzugreifen.
     require_cookies:
       cookies_needed: Es scheint als hättest du Cookies ausgeschaltet. Bitte aktiviere
@@ -2827,6 +2836,9 @@ de:
       write_redactions: Kartendaten redigieren
       read_email: Lesen der Benutzer-E-Mail-Adresse
       skip_authorization: Antrag automatisch genehmigen
+    for_roles:
+      moderator: Diese Berechtigung gilt nur für Aktionen, die nur Moderatoren zur
+        Verfügung stehen.
   oauth_clients:
     new:
       title: Eine neue Anwendung registrieren
@@ -2931,18 +2943,21 @@ de:
         erstellen zu lassen - wir werden die Anfrage möglichst schnell bearbeiten.
       support: Support
       about:
-        header: Frei und editierbar
+        header: Frei und editierbar.
         paragraph_1: Im Gegensatz zu anderen Karten wird OpenStreetMap vollständig
           von Leuten wie dir erstellt und kann von jedem kostenlos repariert, aktualisiert,
           heruntergeladen und verwendet werden.
-        paragraph_2: Melde dich an, um mit der Mitarbeit zu beginnen. Wir senden dir
-          eine E-Mail zur Bestätigung deines Kontos.
+        paragraph_2: Registriere dich, um mit deinem Beitrag zu beginnen.
         welcome: Willkommen bei OpenStreetMap
+      duplicate_social_email: Wenn du bereits ein OpenStreetMap-Konto hast und einen
+        Identitätsanbieter eines Drittanbieters verwenden möchtest, melde dich bitte
+        mit deinem Passwort an und ändere die Einstellungen deines Kontos.
       display name description: Dein öffentlich angezeigter Benutzername. Er kann
         später in den Einstellungen geändert werden.
       by_signing_up_html: Mit Ihrer Anmeldung stimmen Sie unseren %{tou_link}, %{privacy_policy_link}
         und %{contributor_terms_link} zu.
       tou: Nutzungsbedingungen
+      contributor_terms: Bedingungen für Mitwirkende
       external auth: 'Drittparteiauthentifikation:'
       continue: Registrieren
       terms accepted: Vielen Dank, dass du den neuen Bedingungen für Mitwirkende zugestimmt
@@ -2952,6 +2967,8 @@ de:
       privacy_policy: Datenschutzrichtlinie
       privacy_policy_title: OSMF-Datenschutzrichtlinie einschließlich Abschnitt zu
         E-Mail-Adressen
+      consider_pd_html: Ich betrachte meine Beiträge als %{consider_pd_link}.
+      consider_pd: gemeinfrei
       or: oder
       use external auth: oder melde dich über einen Drittanbieter an
     terms:
@@ -3315,6 +3332,10 @@ de:
       intro: Fehlt etwas oder hast du einen Fehler gefunden? Bitte verschiebe den
         Marker auf die exakte Position und gib genaue Hinweise/Informationen an bzw.
         beschreibe den Fehler in der Karte möglichst präzise.
+      anonymous_warning_html: Du bist nicht eingeloggt. Bitte %{log_in} oder %{sign_up},
+        wenn du Updates für deine Notiz erhalten möchtest.
+      anonymous_warning_log_in: Anmelden
+      anonymous_warning_sign_up: Registrieren
       advice: Deine Meldung ist öffentlich und kann zur Aktualisierung der Karte verwendet
         werden. Gib deshalb keine persönlichen oder urheberrechtlich geschützten Informationen
         von anderen Karten oder Verzeichnislisten an.
