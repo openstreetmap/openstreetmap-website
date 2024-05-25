@@ -144,6 +144,9 @@ gem "unicode-display_width"
 # Keep ruby 3.0 compatibility
 gem "multi_xml", "~> 0.6.0"
 
+# Used to provide clean urls like /community/mappingdc
+gem "friendly_id"
+
 # Gems useful for development
 group :development do
   gem "better_errors"

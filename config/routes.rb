@@ -152,7 +152,7 @@ OpenStreetMap::Application.routes.draw do
   get "/help" => "site#help"
   get "/about/:about_locale" => "site#about"
   get "/about" => "site#about"
-  get "/communities" => "site#communities"
+  get "/communities_index" => "site#communities"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
@@ -248,7 +248,9 @@ OpenStreetMap::Application.routes.draw do
   post "/user/:display_name/diary/:id/comments/:comment/unhide" => "diary_comments#unhide", :id => /\d+/, :comment => /\d+/, :as => :unhide_diary_comment
 
   # user pages
-  resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy]
+  resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy] do
+    resources :communities, :only => [:index]
+  end
   get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
@@ -341,6 +343,9 @@ OpenStreetMap::Application.routes.draw do
 
   # redactions
   resources :redactions
+
+  # communities
+  resources :communities
 
   # errors
   match "/400", :to => "errors#bad_request", :via => :all
