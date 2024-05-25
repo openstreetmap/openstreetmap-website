@@ -84,7 +84,7 @@ L.OSM.layers = function (options) {
 
       $("<p>")
         .text(I18n.t("javascripts.map.layers.overlays"))
-        .attr("class", "text-body-secondary")
+        .attr("class", "text-body-secondary small mb-2")
         .appendTo(overlaySection);
 
       var overlays = $("<ul class='list-unstyled form-check'>")
