@@ -326,6 +326,14 @@ module ActiveSupport
       el
     end
 
+    def validate(attrs, result)
+      object_class = self.class.name.dup.sub!(/Test$/, "").underscore
+      object = build(object_class, attrs)
+      valid = object.valid?
+      errors = object.errors.messages
+      assert_equal result, valid, "Expected #{attrs.inspect} to be #{result} but #{errors}"
+    end
+
     def add_metadata_to_xml_node(el, osm, changeset_cache, user_display_name_cache)
       el["changeset"] = osm.changeset_id.to_s
       el["redacted"] = osm.redaction.id.to_s if osm.redacted?
