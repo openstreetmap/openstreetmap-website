@@ -180,7 +180,7 @@ window.formMapInput = function (id, type) {
   if (lat_field.value) {
     map.setView([lat_field.value, lon_field.value], 12);
   } else {
-    map.setView([0, 0], 0);
+    map.setView([0, 0], 2);
   }
 
   L.Control.Watermark = L.Control.extend({
