@@ -1,0 +1,59 @@
+<%= stylesheet_link_tag "communities" %>
+<%= javascript_include_tag "communities" %>
+
+<% content_for :heading do %>
+  <h1>
+    <%= "#{@community.name} " + t(".header_title") %>
+  </h1>
+  <% if current_user %>
+    <%= report_link(t(".report"), @community) %>
+    <% if current_user == @community.organizer %>
+      <%= link_to t(".edit"), edit_community_path(@community) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <%# TODO: replace these attributes @map_coords %>
+      <%= tag.div :id => "community_map", :class => "content_map", :data => { :lat => @community.latitude, :lon => @community.longitude, :zoom => 11 } %>
+    </div>
+    <div class="col-sm community_details">
+      <h1>
+        <%= link_to @community.name, @community %>
+      </h1>
+      <p>
+        <%= @community.location %>, <%= @community.latitude %>, <%= @community.longitude %>
+      </p>
+      <p>
+        <%= auto_link @community.description %>
+      </p>
+      <div>
+        <label><%= t(".organizer") %></label>
+        <%= link_to @community.organizer.display_name, user_path(@community.organizer) %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <h2>
+        <%= t(".recent_changes") %>
+      </h2>
+      <ul>
+        <% recent_changesets.each do |changeset| %>
+          <li>
+            <%= changeset_details(changeset) %>
+            &middot;
+            <%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %>
+            &middot;
+            <%= link_to("##{changeset.id}", changeset_path(changeset)) %>
+            <% if changeset.tags["review_requested"] == "yes" %>
+              <%= t(".review_requested") %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

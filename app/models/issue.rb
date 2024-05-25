@@ -86,6 +86,8 @@ class Issue < ApplicationRecord
     self.reported_user = case reportable.class.name
                          when "User"
                            reportable
+                         when "Community"
+                           reportable.organizer
                          when "Note"
                            reportable.author
                          else

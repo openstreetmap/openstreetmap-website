@@ -18,6 +18,9 @@
               <span class='badge count-number'><%= number_with_delimiter(current_user.note_comments.size) %></span>
             </li>
             <li>
+              <%= link_to t(".my communities"), user_communities_path(@user) %>
+            </li>
+            <li>
               <%= link_to t(".my traces"), :controller => "traces", :action => "mine" %>
               <span class='badge count-number'><%= number_with_delimiter(current_user.traces.size) %></span>
             </li>
@@ -62,6 +65,9 @@
             <li>
               <%= link_to t(".notes"), user_notes_path(@user) %>
               <span class='badge count-number'><%= number_with_delimiter(@user.note_comments.size) %></span>
+            </li>
+            <li>
+              <%= link_to t(".communities"), user_communities_path(@user) %>
             </li>
             <li>
               <%= link_to t(".traces"), :controller => "traces", :action => "index", :display_name => @user.display_name %>
