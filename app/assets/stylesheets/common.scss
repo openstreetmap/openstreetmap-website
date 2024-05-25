@@ -199,9 +199,7 @@ body.small-nav {
     }
   }
 
-  #sidebar .search_forms,
-  #edit_tab,
-  #export_tab {
+  #sidebar .search_forms {
     display: none;
   }
 
@@ -209,9 +207,18 @@ body.small-nav {
     margin-right: 0;
     padding: 0;
 
-    .btn-group {
+    > .btn-group,
+    > .btn-group-vertical {
       width: 100%;
       padding: 10px;
+    }
+
+    // Fix Bootstrap 5 bug, see https://github.com/twbs/bootstrap/pull/40488
+    .btn-group-vertical>.btn-group:not(:first-child)>.btn,
+    .btn-group-vertical>.btn:nth-child(n+3),
+    .btn-group-vertical>:not(.btn-check)+.btn {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
   }
 
