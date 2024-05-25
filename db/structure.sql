@@ -34,6 +34,17 @@ CREATE TYPE public.community_member_role_enum AS ENUM (
 
 
 --
+-- Name: event_attendances_intention_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.event_attendances_intention_enum AS ENUM (
+    'Maybe',
+    'No',
+    'Yes'
+);
+
+
+--
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -910,6 +921,109 @@ CREATE TABLE public.diary_entry_subscriptions (
     user_id bigint NOT NULL,
     diary_entry_id bigint NOT NULL
 );
+
+
+--
+-- Name: event_attendances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.event_attendances (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    event_id bigint NOT NULL,
+    intention public.event_attendances_intention_enum NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: event_attendances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.event_attendances_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_attendances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.event_attendances_id_seq OWNED BY public.event_attendances.id;
+
+
+--
+-- Name: event_organizers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.event_organizers (
+    id bigint NOT NULL,
+    event_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: event_organizers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.event_organizers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_organizers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.event_organizers_id_seq OWNED BY public.event_organizers.id;
+
+
+--
+-- Name: events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.events (
+    id bigint NOT NULL,
+    title character varying NOT NULL,
+    moment timestamp(6) without time zone NOT NULL,
+    location character varying NOT NULL,
+    location_url character varying,
+    latitude double precision,
+    longitude double precision,
+    description text NOT NULL,
+    community_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 
 --
@@ -1948,6 +2062,27 @@ ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: event_attendances id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances ALTER COLUMN id SET DEFAULT nextval('public.event_attendances_id_seq'::regclass);
+
+
+--
+-- Name: event_organizers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers ALTER COLUMN id SET DEFAULT nextval('public.event_organizers_id_seq'::regclass);
+
+
+--
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
+
+
+--
 -- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2284,6 +2419,30 @@ ALTER TABLE ONLY public.diary_entries
 
 ALTER TABLE ONLY public.diary_entry_subscriptions
     ADD CONSTRAINT diary_entry_subscriptions_pkey PRIMARY KEY (user_id, diary_entry_id);
+
+
+--
+-- Name: event_attendances event_attendances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances
+    ADD CONSTRAINT event_attendances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: event_organizers event_organizers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT event_organizers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
 
 
 --
@@ -2855,6 +3014,48 @@ CREATE INDEX index_community_members_on_user_id ON public.community_members USIN
 --
 
 CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_entry_subscriptions USING btree (diary_entry_id);
+
+
+--
+-- Name: index_event_attendances_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_attendances_on_event_id ON public.event_attendances USING btree (event_id);
+
+
+--
+-- Name: index_event_attendances_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_attendances_on_user_id ON public.event_attendances USING btree (user_id);
+
+
+--
+-- Name: index_event_attendances_on_user_id_and_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_event_attendances_on_user_id_and_event_id ON public.event_attendances USING btree (user_id, event_id);
+
+
+--
+-- Name: index_event_organizers_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_organizers_on_event_id ON public.event_organizers USING btree (event_id);
+
+
+--
+-- Name: index_event_organizers_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_event_organizers_on_user_id ON public.event_organizers USING btree (user_id);
+
+
+--
+-- Name: index_events_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_community_id ON public.events USING btree (community_id);
 
 
 --
@@ -3457,11 +3658,27 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 
 --
+-- Name: events fk_rails_3451eeb877; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_3451eeb877 FOREIGN KEY (community_id) REFERENCES public.communities(id);
+
+
+--
 -- Name: user_mutes fk_rails_591dad3359; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_mutes
     ADD CONSTRAINT fk_rails_591dad3359 FOREIGN KEY (owner_id) REFERENCES public.users(id);
+
+
+--
+-- Name: event_attendances fk_rails_64ad6920ae; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances
+    ADD CONSTRAINT fk_rails_64ad6920ae FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -3497,11 +3714,27 @@ ALTER TABLE ONLY public.active_storage_variant_records
 
 
 --
+-- Name: event_organizers fk_rails_b1c2c61554; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT fk_rails_b1c2c61554 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_grants fk_rails_b4b53e07b8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.oauth_access_grants
     ADD CONSTRAINT fk_rails_b4b53e07b8 FOREIGN KEY (application_id) REFERENCES public.oauth_applications(id) NOT VALID;
+
+
+--
+-- Name: event_organizers fk_rails_c1e082c91e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_organizers
+    ADD CONSTRAINT fk_rails_c1e082c91e FOREIGN KEY (event_id) REFERENCES public.events(id);
 
 
 --
@@ -3518,6 +3751,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 ALTER TABLE ONLY public.oauth_applications
     ADD CONSTRAINT fk_rails_cc886e315a FOREIGN KEY (owner_id) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- Name: event_attendances fk_rails_d082d0d206; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_attendances
+    ADD CONSTRAINT fk_rails_d082d0d206 FOREIGN KEY (event_id) REFERENCES public.events(id);
 
 
 --
@@ -3883,6 +4124,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240730234421'),
+('20240728224134'),
+('20240728144036'),
 ('20240618193051'),
 ('20240605134916'),
 ('20240605043305'),

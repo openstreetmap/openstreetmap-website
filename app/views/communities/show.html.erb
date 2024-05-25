@@ -83,6 +83,21 @@
   <div class="row">
     <div class="col-sm">
       <h2>
+        <%= link_to t(".events"), community_community_events_path(@community) %>
+      </h2>
+      <p>
+        <% if current_user && @community.organizer?(current_user) %>
+          <%= link_to t(".new_event"), new_event_path(:community_id => @community.id) %>
+        <% end %>
+      </p>
+      <ul>
+        <% @community.events.future.each do |event| %>
+          <li>
+            <%= link_to "#{l(event.moment, :format => '%e %B')} - #{event.title}", community_event_path(@community, event) %>
+          </li>
+        <% end %>
+      </ul>
+      <h2>
         <%= t(".recent_changes") %>
       </h2>
       <ul>

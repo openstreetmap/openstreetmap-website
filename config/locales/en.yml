@@ -25,12 +25,22 @@ en:
         community_id: "Community"
         user_id: "User"
         role: "Role"
+      event:
+        description: "Description"
+        location: "Location"
+        location_url: "Location URL"
+        community_id: "Community"
+        moment: "When"
+        title: "Title"
     submit:
       diary_comment:
         create: Comment
       diary_entry:
         create: "Publish"
         update: "Update"
+      event:
+        create: "Create Event"
+        update: "Update Event"
       issue_comment:
         create: Add Comment
       message:
@@ -568,6 +578,7 @@ en:
     show:
       diary_entries: "Diary Entries of Members"
       edit: "Edit"
+      events: "Events"
       header_title: "Community"
       join:
         action: "Join"
@@ -578,6 +589,7 @@ en:
       links: "Links"
       login_to_join: "Please login to join the community."
       members: "Members"
+      new_event: "new event"
       organizers: "Organizers"
       recent_changes: "Recent Changes"
       report: "Report"
@@ -762,6 +774,58 @@ en:
     not_found:
       title: File not found
       description: Couldn't find a file/directory/API operation by that name on the OpenStreetMap server (HTTP 404)
+  event_attendances:
+    create:
+      success: Attendance was successfully saved.
+      failure: Attendance could not be saved.
+    update:
+      success: Attendance was successfully updated.
+      failure: Attendance could not be updated.
+  events:
+    create:
+      success: Event was created successfully.
+      failure: Event was not created.
+    edit:
+      edit_event: Edit Event
+    index:
+      description: "Description"
+      events: "Events"
+      new_event: "New Event"
+      past_events: "Past Events"
+      show: "Show"
+      upcoming_events: "Upcoming Events"
+    index_list:
+      community: "Community"
+      location: "Location"
+      moment: "When"
+      title: "Title"
+    new:
+      new: "New Event"
+    show:
+      are_you_going: "Are you going?"
+      description: "Description"
+      directions_to: "Directions to this location."
+      edit: "Edit"
+      going_maybe: "Maybe"
+      going_no: "No"
+      going_yes: "Yes"
+      hosted_by: "Hosted by"
+      location: "Location"
+      login_to_rsvp: "Login to RSVP."
+      organized_by: "Organized by"
+      past: "Event is in the past."
+      people_are_going:
+        0: "" # TODO: Not working, but can't use "zero" due to lint.
+        1: "1 person is going." # TODO: Not working.
+        one: "1 person is going."
+        other: "%{count} people are going"
+      when: "When"
+      who_yes: "Going"
+      who_no: "Not Going"
+      who_maybe: "Might Go"
+    update:
+      success: "The event was successfully updated."
+      failure: "The event was not updated."
   friendships:
     make_friend:
       heading: "Add %{user} as a friend?"
@@ -1673,6 +1737,9 @@ en:
     home: Go to Home Location
     logout: Log Out
     log_in: Log In
+    log_in_tooltip: Log in with an existing account
+    communities: Communities
+    events: Events
     sign_up: Sign Up
     start_mapping: Start Mapping
     edit: Edit
@@ -3426,4 +3493,6 @@ en:
     leading_whitespace: "has leading whitespace"
     trailing_whitespace: "has trailing whitespace"
     invalid_characters: "contains invalid characters"
+    invalid_datetime_format: "contains invalid datetime format, use yyyy-mm-ddThh:mm"
+    invalid_datetime_range: "contains invalid datetime range"
     url_characters: "contains special URL characters (%{characters})"

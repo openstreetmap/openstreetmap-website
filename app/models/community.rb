@@ -41,6 +41,7 @@ class Community < ApplicationRecord
 
   belongs_to :leader, :class_name => "User"
   has_many :community_links
+  has_many :events, -> { order(:moment) }, :inverse_of => :community
 
   validates :name, :presence => true, :length => 1..255, :characters => true
   validates :description, :presence => true, :length => 1..1023, :characters => true
