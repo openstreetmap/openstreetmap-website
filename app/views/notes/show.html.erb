@@ -51,7 +51,7 @@
         </div>
         <div id="comment-error" class="alert alert-danger p-2 mb-3" hidden>
         </div>
-        <div class="btn-wrapper">
+        <div class="d-flex flex-wrap gap-1">
           <% if current_user.moderator? -%>
             <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-light",
                                        :data => { :method => "DELETE",
@@ -77,7 +77,7 @@
       <input type="hidden" name="text" value="" autocomplete="off">
       <div id="comment-error" class="alert alert-danger p-2 mb-3" hidden>
       </div>
-      <div class="btn-wrapper">
+      <div class="d-flex flex-wrap gap-1">
         <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
           <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
         <% end -%>
