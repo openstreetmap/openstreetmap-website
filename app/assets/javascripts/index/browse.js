@@ -58,7 +58,7 @@ OSM.initializeBrowse = function (map) {
               .click(cancel))),
         $("<p class='alert alert-warning'>")
           .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit })),
-        $("<input type='submit' class='btn btn-primary'>")
+        $("<input type='submit' class='btn btn-primary d-block mx-auto'>")
           .val(I18n.t("browse.start_rjs.load_data"))
           .click(add)));
   }
