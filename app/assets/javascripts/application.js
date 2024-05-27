@@ -106,6 +106,7 @@ $(document).ready(function () {
     $("body").removeClass("compact-nav");
 
     $("header").removeClass("text-nowrap");
+    $("header nav.secondary > ul").removeClass("flex-nowrap");
 
     updateHeader();
 

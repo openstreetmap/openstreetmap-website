@@ -31,8 +31,8 @@
       <%= link_to t("layouts.export"), export_path, :class => "btn btn-outline-primary geolink", :id => "export_tab" %>
     </div>
   </nav>
-  <nav class='secondary'>
-    <ul class='mx-1 px-0'>
+  <nav class='secondary d-flex gap-2 align-items-center'>
+    <ul class='nav flex-nowrap'>
       <% if Settings.status != "database_offline" && can?(:index, Issue) %>
         <li class="compact-hide nav-item">
           <%= link_to issues_path(:status => "open"), :class => header_nav_link_class(issues_path) do %>
@@ -84,9 +84,9 @@
         <button class='dropdown-toggle btn btn-outline-secondary border-secondary-subtle bg-body text-secondary px-2 py-1 flex-grow-1' type='button' data-bs-toggle='dropdown'>
           <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25, :class => "user_thumbnail_tiny rounded-1 bg-body") %>
           <% if current_user.new_messages.size > 0 %>
-            <span class="badge count-number m-1"><%= current_user.new_messages.size %></span>
+            <span class="badge count-number position-static m-1"><%= current_user.new_messages.size %></span>
           <% end %>
-          <span class='username'>
+          <span class='username align-middle'>
             <%= current_user.display_name %>
           </span>
         </button>
