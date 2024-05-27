@@ -101,7 +101,7 @@ class UsersController < ApplicationController
       elsif current_user.auth_provider.present?
         # Verify external authenticator before moving on
         session[:new_user] = current_user.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation")
-        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid), :status => :temporary_redirect
+        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid, params[:referer]), :status => :temporary_redirect
       else
         # Save the user record
         session[:new_user] = current_user.slice("email", "display_name", "pass_crypt", "pass_crypt_confirmation")
@@ -248,7 +248,7 @@ class UsersController < ApplicationController
       else
         email_hmac = UsersController.message_hmac(email) if email_verified && email
         redirect_to :action => "new", :nickname => name, :email => email, :email_hmac => email_hmac,
-                    :auth_provider => provider, :auth_uid => uid
+                    :auth_provider => provider, :auth_uid => uid, :referer => referer
       end
     end
   end
