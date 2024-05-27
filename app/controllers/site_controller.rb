@@ -18,7 +18,7 @@ class SiteController < ApplicationController
 
   content_security_policy(:only => :id) do |policy|
     policy.connect_src("*")
-    policy.img_src("*", :blob)
+    policy.img_src(*policy.img_src, "*", :blob)
     policy.script_src(*policy.script_src, "dev.virtualearth.net", :unsafe_eval)
     policy.style_src(*policy.style_src, :unsafe_inline)
   end
