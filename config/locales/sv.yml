@@ -369,6 +369,7 @@ sv:
     deleted_ago_by_html: Raderades %{time_ago} av %{user}
     edited_ago_by_html: Redigerades %{time_ago} av %{user}
     version: Version
+    redacted_version: Redigerad version
     in_changeset: Ändringsuppsättning
     anonymous: anonym
     no_comment: (inga kommentarer)
@@ -381,7 +382,10 @@ sv:
       other: '%{count} sträckor'
     download_xml: Ladda ner XML
     view_history: Visa historik
+    view_unredacted_history: Visa oredigerad historik
     view_details: Visa detaljer
+    view_redacted_data: Visa redigerad data
+    view_redaction_message: Visa redigeringsmeddelande
     location: 'Plats:'
     node:
       title_html: 'Nod: %{name}'
@@ -503,8 +507,12 @@ sv:
         created: Skapad
         closed: Stängd
         belongs_to: Författare
+    subscribe:
+      button: Prenumerera på diskussion
     show:
       title: 'Ändringsuppsättning: %{id}'
+      created: 'Skapades: %{when}'
+      closed: 'Stängdes: %{when}'
       created_ago_html: Skapades %{time_ago}
       closed_ago_html: Stängdes %{time_ago}
       created_ago_by_html: Skapades %{time_ago} av %{user}
@@ -588,6 +596,7 @@ sv:
     show:
       title: '%{user}s dagbok | %{title}'
       user_title: '%{user}s dagbok'
+      discussion: Diskussion
       leave_a_comment: Lämna en kommentar
       login_to_leave_a_comment_html: '%{login_link} för att lämna en kommentar'
       login: Logga in
@@ -640,6 +649,8 @@ sv:
       comment: Kommentar
       newer_comments: Nyare kommentarer
       older_comments: Äldre kommentarer
+    subscribe:
+      button: Prenumerera på diskussion
   doorkeeper:
     errors:
       messages:
@@ -1928,13 +1939,15 @@ sv:
     new:
       title: Logga in
       tab_title: Logga in
+      login_to_authorize_html: Logga in på OpenStreetMap för att komma åt %{client_app_name}.
       email or username: E-postadress eller Användarnamn
       password: Lösenord
       remember: Kom ihåg mig
       lost password link: Glömt ditt lösenord?
       login_button: Logga in
       register now: Registrera dig nu
-      with external: 'Alternativt kan du använda en tredje part för att logga in:'
+      with external: eller logga in med en tredje part
+      or: eller
       auth failure: Kunde inte logga in med de uppgifterna.
     destroy:
       title: Logga ut
@@ -2110,6 +2123,7 @@ sv:
           %{france}: Innehåller data hämtade från
           Direction Générale des Impôts.
         contributors_fr_france: Frankrike
+        contributors_hr_croatia: Kroatien
         contributors_nl_credit_html: '%{netherlands}: Innehåller &copy; AND data,
           2007 (%{and_link}).'
         contributors_nl_netherlands: Nederländerna
@@ -2581,6 +2595,7 @@ sv:
       muted_users: Tystade användare
     auth_providers:
       openid_logo_alt: Logga in med ett OpenID
+      openid_login_button: Fortsätt
       openid:
         title: Logga in med OpenID
         alt: Logga in med en OpenID-URL
@@ -2646,6 +2661,9 @@ sv:
       write_redactions: Omarbeta kartdata
       read_email: Läs användarens e-postadress
       skip_authorization: Godkänn applikation automatiskt
+    for_roles:
+      moderator: Denna behörighet är till för åtgärder som endast är tillgängliga
+        för moderatorer
   oauth_clients:
     new:
       title: Registrera en ny applikation
@@ -2741,20 +2759,25 @@ sv:
   users:
     new:
       title: Registrera
+      tab_title: Registrera
+      signup_to_authorize_html: Registrera dig på OpenStreetMap för att få åtkomst
+        till %{client_app_name}
       no_auto_account_create: Tyvärr kan vi för närvarande inte kan skapa ett konto
         åt dig automatiskt.
       please_contact_support_html: Kontakta %{support_link} för att ordna att ett
         konto ska skapas - vi kommer att försöka ta itu med begäran så fort som möjligt.
       support: support
       about:
-        header: Fri och redigerbar
+        header: Fri och redigerbar.
         paragraph_1: Till skillnad från andra kartor är OpenStreetMap helt skapad
           av människor som du, och det är gratis för alla att fixa, uppdatera, ladda
           ner och använda.
-        paragraph_2: Registrera dig för att börja bidra. Vi skickar ett e-postmeddelande
-          för att bekräfta ditt konto.
+        paragraph_2: Registrera dig för att börja bidra.
+        welcome: Välkommen till OpenStreetMap
       display name description: Ditt offentligt visade användarnamn. Du kan ändra
         detta senare i alternativ.
+      tou: användarvillkor
+      contributor_terms: bidragsvillkor
       external auth: 'Tredjepartsautentisering:'
       continue: Registrera
       terms accepted: Tack för att du accepterat de nya villkoren för bidrag till
@@ -2763,7 +2786,9 @@ sv:
         för mer information.
       privacy_policy: integritetspolicy
       privacy_policy_title: OSMFs integritetspolicy inklusive avsnitt om e-postadresser
-      use external auth: Alternativt kan du använda en tredje part för att logga in
+      consider_pd: public domain
+      or: eller
+      use external auth: eller registrera med en tredje part
     terms:
       title: Villkor för deltagare
       heading: Villkor för deltagare
@@ -2868,6 +2893,8 @@ sv:
     index:
       title: Användare
       heading: Användare
+      older: Äldre användare
+      newer: Nyare användare
       summary_html: '%{name} skapades från %{ip_address} den %{date}'
       summary_no_ip_html: '%{name} skapad den %{date}'
       confirm: Bekräfta valda användare
@@ -3024,6 +3051,15 @@ sv:
       reason: Orsak till blockering
       status: Status
       revoker_name: Återkallad av
+      older: Äldre blockeringar
+      newer: Nya blockeringar
+    navigation:
+      all_blocks: Alla blockeringar
+      blocks_on_me: Blockeringar på mig
+      blocks_on_user: Blockeringar på %{user}
+      blocks_by_me: Blockeringar av mig
+      blocks_by_user: Blockeringar av %{user}
+      block: 'Blockering #%{id}'
   user_mutes:
     index:
       title: Tystade användare
@@ -3096,6 +3132,10 @@ sv:
       intro: Upptäckt ett misstag eller något som saknas? Låt andra karterare veta
         så att vi kan fixa det. Flytta markören till rätt position och skriv in en
         kommentar som förklarar problemet.
+      anonymous_warning_html: Du är inte inloggad. %{log_in} eller %{sign_up} om du
+        vill få uppdateringar för din anteckning.
+      anonymous_warning_log_in: logga in
+      anonymous_warning_sign_up: registrera dig
       advice: Din anteckning är offentlig och kan användas för att uppdatera kartan,
         så skriv inte personuppgifter eller information från upphovsrättsligt skyddade
         kartor eller kataloger.
@@ -3144,6 +3184,7 @@ sv:
         standard: Standard
         cycle_map: Cykelkarta
         transport_map: Transportkarta
+        tracestracktop_topo: Tracetrack Topo
         hot: Humanitärt
       layers:
         header: Kartskikt
