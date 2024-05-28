@@ -81,7 +81,7 @@ class Trace < ApplicationRecord
             :content_type => content_type(attachable.path),
             :identify => false)
     else
-      super(attachable)
+      super
     end
   end
 

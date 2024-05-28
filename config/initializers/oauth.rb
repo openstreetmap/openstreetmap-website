@@ -45,7 +45,7 @@ module OpenStreetMap
         status = options.delete(:status) || :ok
         head status, options
       else
-        super(options)
+        super
       end
     end
 
@@ -61,7 +61,7 @@ module OpenStreetMap
           end
         end
 
-        super(controller)
+        super
       end
     end
   end

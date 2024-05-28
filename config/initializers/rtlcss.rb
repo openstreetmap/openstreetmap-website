@@ -2,7 +2,7 @@ require "rtlcss"
 
 class RtlcssSCSSProcessor < SassC::Rails::ScssTemplate
   def self.call(input)
-    output = super(input)
+    output = super
     data = Rtlcss.flip_css(output[:data])
     output.delete(:map)
     output.merge(:data => data)

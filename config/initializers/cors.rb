@@ -6,7 +6,7 @@
 module OpenStreetMap
   class Cors < Rack::Cors
     def call(env)
-      status, headers, body = super(env)
+      status, headers, body = super
       headers["Cache-Control"] = "no-cache" if headers["Access-Control-Allow-Origin"]
       [status, headers, body]
     end

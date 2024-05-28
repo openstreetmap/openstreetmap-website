@@ -8,7 +8,7 @@ module OSM
   # The base class for API Errors.
   class APIError < RuntimeError
     def initialize(message = "Generic API Error")
-      super(message)
+      super
     end
 
     def status
