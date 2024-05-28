@@ -6,7 +6,7 @@
 
 Rails.application.configure do
   connect_src = [:self]
-  img_src = [:self, :data, "www.gravatar.com", "*.wp.com", "tile.openstreetmap.org", "*.tile.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr"]
+  img_src = [:self, :data, "www.gravatar.com", "*.wp.com", "tile.openstreetmap.org", "gps.tile.openstreetmap.org", "*.tile.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr"]
   script_src = [:self]
 
   connect_src << Settings.matomo["location"] if defined?(Settings.matomo)
