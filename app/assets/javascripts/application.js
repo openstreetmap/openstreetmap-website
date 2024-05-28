@@ -71,12 +71,12 @@ $(document).ready(function () {
   Turbo.session.drive = false;
 
   var headerWidth = 0,
-      compactWidth = 0;
+      breakpointWidth = 768;
 
   function updateHeader() {
     var windowWidth = $(window).width();
 
-    if (windowWidth < compactWidth) {
+    if (windowWidth < breakpointWidth) {
       $("body").addClass("small-nav");
       expandSecondaryMenu();
     } else if (windowWidth < headerWidth) {
@@ -120,12 +120,6 @@ $(document).ready(function () {
   setTimeout(function () {
     $("header").children(":visible").each(function (i, e) {
       headerWidth = headerWidth + $(e).outerWidth();
-    });
-
-    collapseSecondaryMenu();
-
-    $("header").children(":visible").each(function (i, e) {
-      compactWidth = compactWidth + $(e).outerWidth();
     });
 
     $("header").removeClass("text-nowrap");
