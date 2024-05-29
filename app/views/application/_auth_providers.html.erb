@@ -1,29 +1,42 @@
 <div>
-  <div class="list-inline justify-content-center d-flex align-items-center flex-wrap mb-3 gap-3" id="login_auth_buttons">
+  <div class="list-inline justify-content-center d-flex align-items-center flex-wrap w-100 mb-3" id="login_auth_buttons">
 
+    <% prefered_auth_button_available = false %>
     <% %w[google facebook microsoft github wikipedia].each do |provider| %>
       <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
         <% if @preferred_auth_provider == provider %>
-          <div class="mx-2"><%= auth_button_preferred provider, provider %></div>
+          <% prefered_auth_button_available = true %>
         <% end %>
       <% end -%>
     <% end -%>
 
-    <div class="justify-content-center d-flex gap-1">
-      <div>
-        <%= link_to image_tag("openid.png",
-                              :alt => t("application.auth_providers.openid.title"),
-                              :size => "24"),
-                    "#",
-                    :id => "openid_open_url",
-                    :title => t("application.auth_providers.openid.title"),
-                    :class => "p-2 d-block" %>
+    <% if prefered_auth_button_available %>
+      <div class="list-inline justify-content-center d-flex align-items-center flex-wrap w-50">
+        <% %w[google facebook microsoft github wikipedia].each do |provider| %>
+          <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
+            <% if @preferred_auth_provider == provider %>
+              <%= auth_button_preferred provider, provider %>
+            <% end %>
+          <% end -%>
+        <% end -%>
       </div>
+      <div class="list-inline justify-content-center d-flex align-items-center flex-wrap w-50">
+    <% else %>
+      <div class="list-inline justify-content-center d-flex align-items-center flex-wrap w-100">
+    <% end %>
+
+      <%= link_to image_tag("openid.png",
+                            :alt => t("application.auth_providers.openid.title"),
+                            :size => "24"),
+                  "#",
+                  :id => "openid_open_url",
+                  :title => t("application.auth_providers.openid.title"),
+                  :class => "p-2 d-block" %>
 
       <% %w[google facebook microsoft github wikipedia].each do |provider| %>
         <% unless @preferred_auth_provider == provider %>
           <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
-            <div><%= auth_button provider, provider %></div>
+            <%= auth_button provider, provider %>
           <% end -%>
         <% end %>
       <% end -%>
