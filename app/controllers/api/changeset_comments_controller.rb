@@ -1,6 +1,5 @@
 module Api
   class ChangesetCommentsController < ApiController
-    before_action :check_api_readable
     before_action :check_api_writable
     before_action :authorize
 

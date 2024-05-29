@@ -1,6 +1,5 @@
 module Api
   class TracesController < ApiController
-    before_action :check_api_readable
     before_action :check_api_writable, :only => [:create, :update, :destroy]
     before_action :set_locale
     before_action :authorize
