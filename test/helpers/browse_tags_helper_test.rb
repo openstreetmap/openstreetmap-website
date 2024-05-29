@@ -205,6 +205,10 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "https://de.wikipedia.org/wiki/de:Liste der Baudenkmäler in Eichstätt?uselang=en#Br%C3%BCckenstra%C3%9Fe_1%2C_Ehemaliges_Bauernhaus", link[:url]
     assert_equal "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus", link[:title]
 
+    link = wikipedia_link("wikipedia", "en:Are Years What? (for Marianne Moore)")
+    assert_equal "https://en.wikipedia.org/wiki/en:Are Years What%3F (for Marianne Moore)?uselang=en", link[:url]
+    assert_equal "en:Are Years What? (for Marianne Moore)", link[:title]
+
     I18n.with_locale "pt-BR" do
       link = wikipedia_link("wikipedia", "zh-classical:Test#Section")
       assert_equal "https://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]

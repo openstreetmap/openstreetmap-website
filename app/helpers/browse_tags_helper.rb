@@ -98,8 +98,10 @@ module BrowseTagsHelper
       encoded_section = ""
     end
 
+    encoded_value = value.gsub("?") { |c| CGI.escape(c) }
+
     {
-      :url => "https://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{encoded_section}",
+      :url => "https://#{lang}.wikipedia.org/wiki/#{encoded_value}?uselang=#{I18n.locale}#{encoded_section}",
       :title => value + section
     }
   end
