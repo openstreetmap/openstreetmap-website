@@ -3,7 +3,6 @@
 module Api
   class NodesController < ApiController
     before_action :check_api_writable, :only => [:create, :update, :delete]
-    before_action :check_api_readable, :except => [:create, :update, :delete]
     before_action :authorize, :only => [:create, :update, :delete]
 
     authorize_resource

@@ -1,5 +1,6 @@
 module Api
   class VersionsController < ApiController
+    skip_before_action :check_api_readable
     authorize_resource :class => false
 
     before_action :set_request_formats

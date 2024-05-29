@@ -1,7 +1,5 @@
 module Api
   class MapController < ApiController
-    before_action :check_api_readable
-
     authorize_resource :class => false
 
     around_action :api_call_handle_error, :api_call_timeout

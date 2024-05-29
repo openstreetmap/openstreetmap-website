@@ -71,5 +71,75 @@ module Api
       assert_equal "online", js["api"]["status"]["gpx"]
       assert_equal Settings.imagery_blacklist.length, js["policy"]["imagery"]["blacklist"].length
     end
+
+    def test_capabilities_api_readonly
+      with_settings(:status => "api_readonly") do
+        get api_capabilities_path
+        assert_response :success
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+          assert_select "api", :count => 1 do
+            assert_select "status[database='online']", :count => 1
+            assert_select "status[api='readonly']", :count => 1
+            assert_select "status[gpx='online']", :count => 1
+          end
+        end
+      end
+    end
+
+    def test_capabilities_api_offline
+      with_settings(:status => "api_offline") do
+        get api_capabilities_path
+        assert_response :success
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+          assert_select "api", :count => 1 do
+            assert_select "status[database='online']", :count => 1
+            assert_select "status[api='offline']", :count => 1
+            assert_select "status[gpx='online']", :count => 1
+          end
+        end
+      end
+    end
+
+    def test_capabilities_database_readonly
+      with_settings(:status => "database_readonly") do
+        get api_capabilities_path
+        assert_response :success
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+          assert_select "api", :count => 1 do
+            assert_select "status[database='readonly']", :count => 1
+            assert_select "status[api='readonly']", :count => 1
+            assert_select "status[gpx='readonly']", :count => 1
+          end
+        end
+      end
+    end
+
+    def test_capabilities_database_offline
+      with_settings(:status => "database_offline") do
+        get api_capabilities_path
+        assert_response :success
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+          assert_select "api", :count => 1 do
+            assert_select "status[database='offline']", :count => 1
+            assert_select "status[api='offline']", :count => 1
+            assert_select "status[gpx='offline']", :count => 1
+          end
+        end
+      end
+    end
+
+    def test_capabilities_gpx_offline
+      with_settings(:status => "gpx_offline") do
+        get api_capabilities_path
+        assert_response :success
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+          assert_select "api", :count => 1 do
+            assert_select "status[database='online']", :count => 1
+            assert_select "status[api='online']", :count => 1
+            assert_select "status[gpx='offline']", :count => 1
+          end
+        end
+      end
+    end
   end
 end

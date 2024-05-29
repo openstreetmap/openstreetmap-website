@@ -1,6 +1,7 @@
 # Update and read user preferences, which are arbitrary key/val pairs
 module Api
   class UserPreferencesController < ApiController
+    before_action :check_api_writable, :only => [:update_all, :update, :destroy]
     before_action :authorize
 
     authorize_resource

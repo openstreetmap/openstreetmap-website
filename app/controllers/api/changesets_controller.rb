@@ -3,7 +3,6 @@
 module Api
   class ChangesetsController < ApiController
     before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
-    before_action :check_api_readable, :except => [:index, :create, :update, :upload, :download, :subscribe, :unsubscribe]
     before_action :setup_user_auth, :only => [:show]
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
 

@@ -3,7 +3,6 @@
 # nodes, ways and relations are basically identical.
 module Api
   class OldElementsController < ApiController
-    before_action :check_api_readable
     before_action :check_api_writable, :only => [:redact]
     before_action :setup_user_auth, :only => [:history, :show]
     before_action :authorize, :only => [:redact]

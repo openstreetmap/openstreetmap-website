@@ -1,7 +1,5 @@
 module Api
   class PermissionsController < ApiController
-    before_action :check_api_readable
-
     authorize_resource :class => false
 
     before_action :setup_user_auth
