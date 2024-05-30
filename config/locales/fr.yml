@@ -38,6 +38,7 @@
 # Author: GeorgeKaplan
 # Author: Gileri
 # Author: Gomoko
+# Author: Graineahumus
 # Author: Gravitystorm
 # Author: Guilhelma
 # Author: Hashar
@@ -75,6 +76,7 @@
 # Author: Orikrin1998
 # Author: Otourly
 # Author: Oupsa
+# Author: Overflorian
 # Author: Peter17
 # Author: Phoenamandre
 # Author: Pipo
@@ -457,6 +459,7 @@ fr:
     view_unredacted_history: Voir l'historique non censuré
     view_details: Afficher les détails
     view_redacted_data: Afficher les données censurées
+    view_redaction_message: Afficher le message de rédaction
     location: 'Emplacement :'
     common_details:
       coordinates_html: '%{latitude} ; %{longitude}'
@@ -583,6 +586,7 @@ fr:
         closed: Fermé
         belongs_to: Auteur
     subscribe:
+      heading: S'abonner à la discussion sur l'ensemble de modifications suivante ?
       button: S'abonner à la discussion
     unsubscribe:
       heading: Se désabonner de la discussion du groupe de modifications suivant ?
@@ -591,6 +595,7 @@ fr:
       title: Groupe de modifications %{id}
       created_by_html: Créé par %{link_user} le %{created}.
     no_such_entry:
+      title: Aucun ensemble de modifications de ce type
       heading: 'Aucune entrée avec l’identifiant : %{id}'
       body: Désolé, il n’y a aucun groupe de modifications avec l'identifiant %{id}.
         Veuillez vérifier l'orthographe ou la validité du lien sur lequel vous avez
@@ -740,8 +745,10 @@ fr:
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
     subscribe:
+      heading: S'abonner à la discussion suivante sur les entrées de journal ?
       button: S'abonner à la discussion
     unsubscribe:
+      heading: Se désinscrire de la discussion suivante sur les entrées du journal ?
       button: Se désinscrire de la discussion
   doorkeeper:
     errors:
@@ -785,6 +792,10 @@ fr:
       contact_the_community_html: N’hésitez pas à %{contact_link} la communauté OpenStreetMap
         si vous avez trouvé un lien cassé ou une anomalie. Notez l’URL exacte de votre
         demande.
+    bad_request:
+      title: Mauvaise requête
+      description: L'opération que vous avez demandée sur le serveur OpenStreetMap
+        n'est pas valide (HTTP 400)
     forbidden:
       title: Interdit
       description: L’opération que vous avez demandée sur le serveur OpenStreetMap
@@ -1725,6 +1736,7 @@ fr:
     hosting_partners_2024_html: L’hébergement est pris en charge par %{fastly}, %{corpmembers},
       et d’autres %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: Membres d'entreprise de l'OSMF
     partners_partners: partenaires
     tou: Conditions d’utilisation
     osm_offline: La base de données OpenStreetMap est actuellement hors ligne ; une
@@ -1860,8 +1872,8 @@ fr:
           La note se trouve près de %{place}.'
         commented_note_html: '%{commenter} a réactivé une note de carte que vous avez
           commentée. La note est près de %{place}.'
-      details: Plus de détails concernant la note se trouvent à %{url}.
-      details_html: Plus de détails concernant la note se trouvent à %{url}.
+      details: Répondez ou apprenez-en plus sur la note sur %{url}.
+      details_html: Répondez ou en savoir plus sur la note sur %{url}.
     changeset_comment_notification:
       description: 'Groupe de modifications OpenStreetMap #%{id}'
       hi: Bonjour %{to_user},
@@ -1882,9 +1894,8 @@ fr:
         partial_changeset_with_comment: avec le commentaire « %{changeset_comment} »
         partial_changeset_with_comment_html: avec le commentaire « %{changeset_comment} »
         partial_changeset_without_comment: sans commentaire
-      details: Plus de détails sur l’ensemble de modifications à %{url}.
-      details_html: Vous pouvez trouver plus de détails sur l’ensemble de modifications
-        sur %{url}.
+      details: Répondez ou en savoir plus sur l'ensemble de changements sur %{url}.
+      details_html: Répondre ou en savoir plus sur l'ensemble de changements sur %{url}.
       unsubscribe: Vous pouvez vous désabonner des mises à jour de cet ensemble de
         modifications depuis %{url}.
       unsubscribe_html: Vous pouvez vous désabonner des mises à jour de cet ensemble
@@ -1983,9 +1994,9 @@ fr:
       unread_button: Marque comme non lu
       destroy_button: Supprimer
       back: Retour
-      wrong_user: Vous êtes identifié comme « %{user} » mais le message que vous essayez
-        de lire n’a pas été envoyé par cet utilisateur, ni ne lui a été destiné. Veuillez
-        vous connecter avec l’identifiant correct pour pouvoir le lire.
+      wrong_user: Vous êtes identifié comme « %{user} » mais le message que vous avez
+        demandé de lire n’a pas été envoyé par cet utilisateur, ni ne lui a été destiné.
+        Veuillez vous connecter avec le bon identifiant pour pouvoir le lire.
     sent_message_summary:
       destroy_button: Supprimer
     heading:
@@ -2067,6 +2078,7 @@ fr:
     new:
       title: Se connecter
       tab_title: Se connecter
+      login_to_authorize_html: Connectez-vous à OpenStreetMap pour accéder à %{client_app_name}.
       email or username: 'Adresse de courriel ou nom d’utilisateur :'
       password: 'Mot de passe :'
       remember: Se souvenir de moi
@@ -2266,7 +2278,12 @@ fr:
           générale des finances publiques (anciennement la Direction générale des
           impôts).'
         contributors_fr_france: France
+        contributors_hr_credit_html: |-
+          %{croatia} : contient des données de %{dgu_link} et %{open_data_portal}
+          (informations publiques de Croatie).
         contributors_hr_croatia: Croatie
+        contributors_hr_dgu: Administration géodésique de l'État de Croatie
+        contributors_hr_open_data_portal: Portail national des données ouvertes
         contributors_nl_credit_html: '%{netherlands} : contient des données © AND,
           2007 (%{and_link})'
         contributors_nl_netherlands: Pays-Bas
@@ -2719,6 +2736,8 @@ fr:
       identifiable: IDENTIFIABLE
       private: PRIVÉE
       trackable: PISTABLE
+      details_with_tags_html: '%{time_ago} par %{user} dans %{tags}'
+      details_without_tags_html: '%{time_ago} par %{user}'
     index:
       public_traces: Traces GPS publiques
       my_gps_traces: Mes traces GPS
@@ -2781,13 +2800,13 @@ fr:
         title: Connexion avec OpenID
         alt: Se connecter avec une URL OpenID
       google:
-        title: Connexion avec Google
+        title: Se connecter avec Google
         alt: Se connecter avec un OpenID de Google
       facebook:
         title: Connexion avec Facebook
         alt: Se connecter avec un compte de Facebook
       microsoft:
-        title: Connexion avec Microsoft
+        title: Se connecter avec Microsoft
         alt: Se connecter avec un compte Microsoft
       github:
         title: Connexion avec GitHub
@@ -2799,7 +2818,7 @@ fr:
         title: Connexion avec Wordpress
         alt: Se connecter avec un OpenID de Wordpress
       aol:
-        title: Connexion avec AOL
+        title: Se connecter avec AOL
         alt: Se connecter avec un OpenID d’AOL
   oauth:
     authorize:
@@ -2844,6 +2863,9 @@ fr:
       write_redactions: Caviarder les données cartographiques
       read_email: Lire l’adresse courriel de l’utilisateur
       skip_authorization: Demande d’approbation automatique
+    for_roles:
+      moderator: Cette autorisation concerne les actions disponibles uniquement pour
+        les modérateurs
   oauth_clients:
     new:
       title: Inscrire une nouvelle application
@@ -2954,9 +2976,15 @@ fr:
           la réparer, la mettre à jour, la télécharger et l’utiliser.
         paragraph_2: Inscrivez-vous pour commencer à contribuer. Nous vous enverrons
           un courriel pour confirmer votre compte.
+      duplicate_social_email: Si vous possédez déjà un compte OpenStreetMap et souhaitez
+        utiliser un fournisseur d'identité tiers, veuillez vous connecter en utilisant
+        votre mot de passe et modifier les paramètres de votre compte.
       display name description: Votre nom d’utilisateur affiché publiquement. Vous
         pouvez changer ceci ultérieurement dans les préférences.
+      by_signing_up_html: En vous inscrivant, vous acceptez nos %{tou_link}, %{privacy_policy_link}
+        et %{contributor_terms_link}.
       tou: conditions d'utilisation
+      contributor_terms: Conditions de contribution
       external auth: 'Authentification tierce :'
       continue: S’inscrire
       terms accepted: Merci d’avoir accepté les nouveaux termes du contributeur !
@@ -2965,10 +2993,10 @@ fr:
       privacy_policy: politique de confidentialité
       privacy_policy_title: Politique de confidentialité de l’OSMF, qui comprend une
         section sur les adresses de courriel
+      consider_pd_html: Je considère que mes contributions se situent dans le %{consider_pd_link}.
       consider_pd: domaine public
       or: ou
-      use external auth: Vous pouvez également utiliser un service tiers pour vous
-        connecter.
+      use external auth: ou vous pouvez vous connecter avec un service tiers.
     terms:
       title: Conditions
       heading: Conditions
@@ -3079,6 +3107,9 @@ fr:
       heading: Utilisateurs
       older: Utilisateurs plus anciens
       newer: Utilisateurs plus récents
+      found_users:
+        one: '%{count} utilisateur trouvé'
+        other: '%{count} utilisateurs trouvés'
       summary_html: '%{name} créé depuis %{ip_address} le %{date}'
       summary_no_ip_html: '%{name} créé le %{date}'
       confirm: Confirmer les utilisateurs sélectionnés
@@ -3103,9 +3134,9 @@ fr:
       heading: Votre identifiant n’est pas encore associé à un compte OpenStreetMap.
       option_1: Si vous êtes nouveau sur OpenStreetMap, veuillez créer un nouveau
         compte à l’aide du formulaire ci-dessous.
-      option_2: Si vous avez déjà un compte, vous pouvez vous connecter avec en utilisant
-        votre nom d’utilisateur et votre mot de passe, puis associer le compte avec
-        votre ID dans vos préférences utilisateur.
+      option_2: Si vous avez déjà un compte, vous pouvez vous y connecter avec en
+        utilisant votre nom d’utilisateur et votre mot de passe, puis associer le
+        compte avec votre ID dans vos préférences utilisateur.
   user_role:
     filter:
       not_a_role: La chaîne « %{role} » n’est pas un rôle valide.
@@ -3236,6 +3267,8 @@ fr:
       reason: Motif du blocage
       status: État
       revoker_name: Révoqué par
+      older: Blocs plus anciens
+      newer: Blocs plus récents
     navigation:
       all_blocks: Tous les blocages
       blocks_on_me: Blocages me concernant

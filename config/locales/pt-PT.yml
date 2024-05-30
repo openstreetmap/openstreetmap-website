@@ -710,6 +710,10 @@ pt-PT:
       contact_the_community_html: Fique à vontade para %{contact_link} a comunidade
         OpenStreetMap caso tenha encontrado uma ligação inativa ou um erro. Deixe
         uma nota da URL exata da sua solicitação.
+    bad_request:
+      title: Pedido inválido
+      description: A operação solicitada no servidor OpenStreetMap não é válida (HTTP
+        400)
     forbidden:
       title: Proibido
       description: A operação solicitada no servidor do OpenStreetMap só está disponível
@@ -1778,8 +1782,8 @@ pt-PT:
           perto de %{place}.'
         commented_note_html: '%{commenter} reabriu uma nota comentada por ti. A nota
           fica perto de %{place}.'
-      details: Podes ver mais detalhes sobre a nota em %{url}.
-      details_html: Podes ver mais detalhes sobre a nota em %{url}.
+      details: Responde ou descobre mais sobre a nota em %{url}.
+      details_html: Responde ou descobre mais sobre a nota em %{url}.
     changeset_comment_notification:
       description: Conjunto de alterações n.º %{id}
       hi: Olá, %{to_user}.
@@ -1800,10 +1804,8 @@ pt-PT:
         partial_changeset_with_comment: com o comentário '%{changeset_comment}'
         partial_changeset_with_comment_html: com o comentário '%{changeset_comment}'
         partial_changeset_without_comment: sem comentários
-      details: Podes encontrar mais informações sobre o conjunto de alterações em
-        %{url}.
-      details_html: Podes encontrar mais informações sobre o conjunto de alterações
-        em %{url}.
+      details: Responde ou descobre mais sobre o conjunto de alterações em %{url}.
+      details_html: Responde ou descobre mais sobre o conjunto de alterações em %{url}.
       unsubscribe: Podes deixar de acompanhar as atualizações deste conjunto de alterações
         em %{url}.
       unsubscribe_html: Podes deixar de acompanhar as atualizações deste conjunto
@@ -1980,13 +1982,15 @@ pt-PT:
     new:
       title: Entrar
       tab_title: Iniciar sessão
+      login_to_authorize_html: Inicia sessão no OpenStreetMap para acederes a %{client_app_name}.
       email or username: 'E-mail ou Nome de utilizador:'
       password: Palavra-passe
       remember: Ficar autenticado entre sessões
       lost password link: Perdeste a tua palavra-passe?
       login_button: Iniciar sessão
       register now: Regista-te agora
-      with external: 'Em alternativa, usa um serviço externo para iniciares sessão:'
+      with external: ou inicia sessão com uma aplicação de terceiros
+      or: ou
       auth failure: Lamentamos, mas não foi possível iniciar sessão com os dados fornecidos.
     destroy:
       title: Sair
@@ -2157,6 +2161,12 @@ pt-PT:
         contributors_fr_credit_html: '%{france}: contém dados provenientes da Direção
           Geral de Impostos.'
         contributors_fr_france: França
+        contributors_hr_credit_html: |-
+          %{croatia}: Contém dados de %{dgu_link} e %{open_data_portal}
+          (informação pública da Croácia).
+        contributors_hr_croatia: Croácia
+        contributors_hr_dgu: Administração Geodésica Estatal da Croácia
+        contributors_hr_open_data_portal: Portal Nacional de Dados Abertos
         contributors_nl_credit_html: '%{netherlands}: Contém &copy; e dados, 2007
           (%{and_link})'
         contributors_nl_netherlands: Países Baixos
@@ -2617,6 +2627,9 @@ pt-PT:
         other: Ficheiro GPX com %{count} pontos de %{user}
       description_without_count: Ficheiro GPX de %{user}
   application:
+    basic_auth_disabled: 'A Autenticação Básica HTTP está desativada: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 e 1.0a estão desativados: %{link}'
+    auth_disabled_link: https://wiki.openstreetmap.org/wiki/2024_authentication_update
     permission_denied: Não tens permissões para realizar essa operação
     require_cookies:
       cookies_needed: Parece que tens os "cookies" desativados - por favor, ativa-os
@@ -2639,6 +2652,7 @@ pt-PT:
       muted_users: Utilizadores Silenciados
     auth_providers:
       openid_logo_alt: Iniciar sessão com um OpenID
+      openid_login_button: Continuar
       openid:
         title: Iniciar sessão com OpenID
         alt: Iniciar sessão com um URL do OpenID
@@ -2703,6 +2717,8 @@ pt-PT:
       write_redactions: Rever dados do mapa
       read_email: ‎Ler e-mail de utilizador
       skip_authorization: Aprovar a aplicação automaticamente
+    for_roles:
+      moderator: Esta permissão é para ações disponíveis apenas para moderadores
   oauth_clients:
     new:
       title: Registar uma nova aplicação
@@ -2798,20 +2814,29 @@ pt-PT:
   users:
     new:
       title: Criar conta
+      tab_title: Registar
+      signup_to_authorize_html: Inicia sessão no OpenStreetMap para acederes a %{client_app_name}.
       no_auto_account_create: Infelizmente, e de momento, não é possível criar uma
         conta automaticamente.
       please_contact_support_html: Por favor, contacta %{support_link} para pedir
         a criação de uma conta - tentaremos tratar do pedido o mais rapidamente possível.
       support: apoio
       about:
-        header: Livre e editável
+        header: Gratuito e editável.
         paragraph_1: Ao contrário de outros mapas, o OpenStreetMap é completamente
           criado por pessoas como tu, e qualquer pessoa o pode corrigir, transferir
           e usar de forma gratuita.
-        paragraph_2: Regista-te para começares a contribuir. Iremos enviar um e-mail
-          para confirmar a tua conta.
+        paragraph_2: Regista-te para começares a contribuir.
+        welcome: Bem-vind@ ao OpenStreetMap
+      duplicate_social_email: Se já tens uma conta OpenStreetMap e desejas utilizar
+        um provedor de identidade externo, inicia sessão com a tua palavra-passe e
+        modifica as definições da tua conta.
       display name description: O nome de utilizador ficará visível publicamente.
         Poderás alterar o nome posteriormente nas configurações do teu perfil.
+      by_signing_up_html: Ao registares-te, aceitas os nossos %{tou_link}, %{privacy_policy_link}
+        e %{contributor_terms_link}.
+      tou: Termos de Utilização
+      contributor_terms: Termos de Contribuidor
       external auth: 'Autenticação por terceiros:'
       continue: Criar conta
       terms accepted: Obrigado por aceitares os novos termos de contribuidor!
@@ -2820,7 +2845,10 @@ pt-PT:
       privacy_policy: política de privacidade
       privacy_policy_title: Política de privacidade da OSMF incluindo secção sobre
         endereços de correio eletrónico
-      use external auth: Em alternativa, usa um serviço externo para iniciares sessão
+      consider_pd_html: Considero que as minhas contribuições estão no %{consider_pd_link}.
+      consider_pd: domínio público
+      or: ou
+      use external auth: ou regista-te com um serviço externo
     terms:
       title: Termos
       heading: Termos
@@ -3091,6 +3119,13 @@ pt-PT:
       revoker_name: Revogado por
       older: Blocos mais antigos
       newer: Blocos mais recentes
+    navigation:
+      all_blocks: Todos os bloqueios
+      blocks_on_me: Quem me bloqueou
+      blocks_on_user: Bloqueios a %{user}
+      blocks_by_me: Os meus bloqueios
+      blocks_by_user: Bloqueios de %{user}
+      block: 'Bloqueio #%{id}'
   user_mutes:
     index:
       title: Utilizadores Silenciados
@@ -3166,6 +3201,10 @@ pt-PT:
         o mais pormenorizada possível sobre o que pretendes ver alterado no mapa,
         para que outros mapeadores te possam ajudar. Posiciona o marcador no local
         correto e escreve uma nota que explique o problema.
+      anonymous_warning_html: Não tens sessão iniciada. Por favor, %{log_in} ou %{sign_up}
+        se quiseres receber atualizações sobre a tua nota.
+      anonymous_warning_log_in: inicia sessão
+      anonymous_warning_sign_up: regista-te
       advice: 'Lembra-te: a tua nota é pública e poderá ser usada para atualizar o
         mapa, portanto, não introduzas informações pessoais, dados de mapas ou catálogos
         protegidos por direitos de autor.'
