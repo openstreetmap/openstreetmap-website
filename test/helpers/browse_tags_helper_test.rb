@@ -186,33 +186,37 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "Test", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Test")
-    assert_equal "https://de.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Test?uselang=en", link[:url]
     assert_equal "de:Test", link[:title]
 
+    link = wikipedia_link("wikipedia:fr", "Portsea")
+    assert_equal "https://fr.wikipedia.org/wiki/Portsea?uselang=en", link[:url]
+    assert_equal "Portsea", link[:title]
+
     link = wikipedia_link("wikipedia:fr", "de:Test")
-    assert_equal "https://fr.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Test?uselang=en", link[:url]
     assert_equal "de:Test", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Englischer Garten (München)#Japanisches Teehaus")
-    assert_equal "https://de.wikipedia.org/wiki/de:Englischer Garten (München)?uselang=en#Japanisches_Teehaus", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Englischer Garten (München)?uselang=en#Japanisches_Teehaus", link[:url]
     assert_equal "de:Englischer Garten (München)#Japanisches Teehaus", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Alte Brücke (Heidelberg)#Brückenaffe")
-    assert_equal "https://de.wikipedia.org/wiki/de:Alte Brücke (Heidelberg)?uselang=en#Br%C3%BCckenaffe", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Alte Brücke (Heidelberg)?uselang=en#Br%C3%BCckenaffe", link[:url]
     assert_equal "de:Alte Brücke (Heidelberg)#Brückenaffe", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus")
-    assert_equal "https://de.wikipedia.org/wiki/de:Liste der Baudenkmäler in Eichstätt?uselang=en#Br%C3%BCckenstra%C3%9Fe_1%2C_Ehemaliges_Bauernhaus", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/Liste der Baudenkmäler in Eichstätt?uselang=en#Br%C3%BCckenstra%C3%9Fe_1%2C_Ehemaliges_Bauernhaus", link[:url]
     assert_equal "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus", link[:title]
 
     I18n.with_locale "pt-BR" do
       link = wikipedia_link("wikipedia", "zh-classical:Test#Section")
-      assert_equal "https://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]
+      assert_equal "https://zh-classical.wikipedia.org/wiki/Test?uselang=pt-BR#Section", link[:url]
       assert_equal "zh-classical:Test#Section", link[:title]
     end
 
     link = wikipedia_link("subject:wikipedia", "en:Catherine McAuley")
-    assert_equal "https://en.wikipedia.org/wiki/en:Catherine McAuley?uselang=en", link[:url]
+    assert_equal "https://en.wikipedia.org/wiki/Catherine McAuley?uselang=en", link[:url]
     assert_equal "en:Catherine McAuley", link[:title]
 
     link = wikipedia_link("foo", "Test")
