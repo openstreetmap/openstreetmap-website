@@ -79,10 +79,14 @@
       </div>
       <div class="d-flex flex-wrap gap-1">
         <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
-          <input type="submit" name="hide" value="<%= t(".hide") %>" class="btn btn-light" data-method="DELETE" data-url="<%= api_note_url(@note, "json") %>">
+          <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-light",
+                                     :data => { :method => "DELETE",
+                                                :url => api_note_url(@note, "json") } %>
         <% end -%>
         <% if current_user -%>
-          <input type="submit" name="reopen" value="<%= t(".reactivate") %>" class="btn btn-primary" data-method="POST" data-url="<%= reopen_api_note_url(@note, "json") %>">
+          <%= submit_tag t(".reactivate"), :name => "reopen", :class => "btn btn-primary",
+                                           :data => { :method => "POST",
+                                                      :url => reopen_api_note_url(@note, "json") } %>
         <% end -%>
       </div>
     </form>
