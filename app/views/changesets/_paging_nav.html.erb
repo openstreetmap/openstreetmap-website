@@ -1,6 +1,20 @@
 <div class="d-flex flex-wrap gap-2">
-  <h4 class="fs-5 mb-0"><%= type_and_paginated_count(type, pages) %></h4>
-  <% if pages.page_count > 1 %>
+  <% if pages.page_count == 1 %>
+    <h4 class="fs-5 mb-0">
+      <%= t ".#{type.pluralize}_title" %>
+      <span class="badge count-number">
+        <%= pages.item_count %>
+      </span>
+    </h4>
+  <% else %>
+    <h4 class="fs-5 mb-0">
+      <%= t ".#{type.pluralize}_title" %>
+      <span class="badge count-number">
+        <%= t ".range", :x => pages.current_page.first_item,
+                        :y => pages.current_page.last_item,
+                        :count => pages.item_count %>
+      </span>
+    </h4>
     <%= sidebar_classic_pagination(pages, "#{type}_page") %>
   <% end %>
 </div>
