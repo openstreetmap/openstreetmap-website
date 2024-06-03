@@ -1565,7 +1565,9 @@ CREATE TABLE public.users (
     image_use_gravatar boolean DEFAULT false NOT NULL,
     auth_provider character varying,
     home_tile bigint,
-    tou_agreed timestamp without time zone
+    tou_agreed timestamp without time zone,
+    diary_comments_count integer DEFAULT 0,
+    note_comments_count integer DEFAULT 0
 );
 
 
@@ -3519,6 +3521,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240605134916'),
 ('20240405083825'),
 ('20240307181018'),
 ('20240307180830'),

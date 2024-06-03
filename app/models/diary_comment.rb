@@ -23,7 +23,7 @@
 #
 
 class DiaryComment < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, :counter_cache => true
   belongs_to :diary_entry
 
   scope :visible, -> { where(:visible => true) }
