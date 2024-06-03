@@ -357,7 +357,7 @@ OSM.Directions = function (map) {
     getRoute(true, true);
   });
 
-  $(".routing_marker").on("dragstart", function (e) {
+  $(".routing_marker_column img").on("dragstart", function (e) {
     var dt = e.originalEvent.dataTransfer;
     dt.effectAllowed = "move";
     var dragData = { type: $(this).data("type") };
