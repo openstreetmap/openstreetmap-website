@@ -36,12 +36,12 @@ OSM.Note = function (map) {
   };
 
   function initialize(path, id, callback) {
-    content.find("input[type=submit]").on("click", function (e) {
+    content.find("button[type=submit]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
       var form = e.target.form;
 
-      $(form).find("input[type=submit]").prop("disabled", true);
+      $(form).find("button[type=submit]").prop("disabled", true);
 
       $.ajax({
         url: data.url,
@@ -83,12 +83,12 @@ OSM.Note = function (map) {
   }
 
   function updateButtons(form) {
-    $(form).find("input[type=submit]").prop("disabled", false);
+    $(form).find("button[type=submit]").prop("disabled", false);
     if ($(form.text).val() === "") {
-      $(form.close).val($(form.close).data("defaultActionText"));
+      $(form.close).text($(form.close).data("defaultActionText"));
       $(form.comment).prop("disabled", true);
     } else {
-      $(form.close).val($(form.close).data("commentActionText"));
+      $(form.close).text($(form.close).data("commentActionText"));
       $(form.comment).prop("disabled", false);
     }
   }
