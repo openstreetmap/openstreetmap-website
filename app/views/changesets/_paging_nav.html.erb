@@ -1,12 +1,18 @@
 <% if pages.page_count == 1 %>
   <h4 class="fs-5">
-    <%= t ".#{type.pluralize}", :count => pages.item_count %>
+    <%= t ".#{type.pluralize}_title" %>
+    <span class="badge count-number">
+      <%= pages.item_count %>
+    </span>
   </h4>
 <% elsif pages.page_count > 1 %>
   <h4 class="fs-5">
-    <%= t ".#{type.pluralize}_paginated", :x => pages.current_page.first_item,
-                                          :y => pages.current_page.last_item,
-                                          :count => pages.item_count %>
+    <%= t ".#{type.pluralize}_title" %>
+    <span class="badge count-number">
+      <%= t ".range", :x => pages.current_page.first_item,
+                      :y => pages.current_page.last_item,
+                      :count => pages.item_count %>
+    </span>
   </h4>
 
   <%= sidebar_classic_pagination(pages, "#{type}_page") do |page|
