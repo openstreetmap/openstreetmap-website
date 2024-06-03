@@ -508,7 +508,19 @@ sv:
         closed: Stängd
         belongs_to: Författare
     subscribe:
+      heading: Prenumerera på följande diskussion om ändringsuppsättning?
       button: Prenumerera på diskussion
+    unsubscribe:
+      heading: Avsluta prenumeration på följande diskussion om ändringsuppsättning?
+      button: Sluta prenumerera på diskussion
+    heading:
+      title: Ändringsuppsättning %{id}
+      created_by_html: Skapades av %{link_user} %{created}.
+    no_such_entry:
+      title: Ingen sådan ändringsuppsättning
+      heading: 'Inget inlägg med ID: %{id}'
+      body: Det finns tyvärr ingen ändringsuppsättning med ID:t %{id}. Kontrollera
+        stavningen eller så kanske du tryckt på fel länk.
     show:
       title: 'Ändringsuppsättning: %{id}'
       created: 'Skapades: %{when}'
@@ -650,7 +662,11 @@ sv:
       newer_comments: Nyare kommentarer
       older_comments: Äldre kommentarer
     subscribe:
+      heading: Prenumerera på följande diskussion om dagboksinlägg?
       button: Prenumerera på diskussion
+    unsubscribe:
+      heading: Avsluta prenumeration på följande diskussion om dagboksinlägg?
+      button: Avsluta prenumeration på diskussion
   doorkeeper:
     errors:
       messages:
@@ -687,6 +703,10 @@ sv:
       contact: kontakta
       contact_the_community_html: Gå gärna till %{contact_link} OpenStreetMap-gemenskapen
         om du har hittat en trasig länk/bugg. Anteckna din förfrågas exakta webbadress.
+    bad_request:
+      title: Felaktig förfrågan
+      description: Operationen du begärde från OpenStreetMaps server är inte giltig
+        (HTTP 400)
     forbidden:
       title: Förbjudet
       description: Åtgärden du begärde på OpenStreetMap-servern är endast tillgänglig
@@ -1618,6 +1638,7 @@ sv:
       och fri att använda under en öppen licens.
     intro_2_create_account: Skapa ett användarkonto
     partners_fastly: Fastly
+    partners_corpmembers: OSMF-företagsmedlemmar
     partners_partners: partners
     tou: Användarvillkor
     osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då nödvändigt
@@ -1639,6 +1660,7 @@ sv:
     more: Mer
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap dagboksinlägg #%{id}'
       subject: '[OpenStreetMap] %{user} kommenterade på ett dagboksinlägg'
       hi: Hej %{to_user},
       header: '%{from_user} har kommenterat dagboksinlägget på OpenStreetMap med rubriken
@@ -1649,6 +1671,9 @@ sv:
         %{commenturl} eller skicka ett meddelande till författaren på %{replyurl}
       footer_html: Du kan också läsa kommentaren på %{readurl} och du kan kommentera
         på %{commenturl} eller skicka ett meddelande till författaren på %{replyurl}
+      footer_unsubscribe: Du kan avsluta prenumerationen från diskussionen på %{unsubscribeurl}
+      footer_unsubscribe_html: Du kan avsluta prenumerationen från diskussionen på
+        %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Hej %{to_user},
@@ -1709,6 +1734,7 @@ sv:
       click_the_link: Om det är du, klicka på länken nedan för att återställa ditt
         lösenord.
     note_comment_notification:
+      description: 'OpenStreetMap not #%{id}'
       anonymous: En anonym användare
       greeting: Hej,
       commented:
@@ -1747,9 +1773,10 @@ sv:
           på. Anteckningen är nära %{place}.'
         commented_note_html: '%{commenter} har återaktiverat en kartanteckning du
           har kommenterat på. Anteckningen är nära %{place}.'
-      details: Fler detaljer om anteckningen finns på %{url}.
-      details_html: Fler detaljer om anteckningen finns på %{url}.
+      details: Svara eller ta reda på mer anteckningen på %{url}.
+      details_html: Svara eller ta reda på mer om anteckningen på %{url}.
     changeset_comment_notification:
+      description: 'OpenStreetMap ändringsuppsättning #%{id}'
       hi: Hej %{to_user},
       greeting: Hej,
       commented:
@@ -1767,12 +1794,12 @@ sv:
         partial_changeset_with_comment: med kommentar '%{changeset_comment}'
         partial_changeset_with_comment_html: med kommentar '%{changeset_comment}'
         partial_changeset_without_comment: utan kommentar
-      details: Fler detaljer om ändringsuppsättningen finns på %{url}.
-      details_html: Fler detaljer om ändringsuppsättningen finns på %{url}.
-      unsubscribe: För att avsluta prenumerationen av uppdateringar i denna ändringsuppsättning,
-        besök %{url} och klicka på "Avprenumerera".
-      unsubscribe_html: För att avsluta prenumerationen av uppdateringar i denna ändringsuppsättning,
-        besök %{url} och klicka på "Avprenumerera".
+      details: Svara eller ta reda på mer om ändringsuppsättningen på %{url}.
+      details_html: Svara eller ta reda på mer om ändringsuppsättningen på %{url}.
+      unsubscribe: Du kan avsluta prenumeration på uppdateringar i denna ändringsuppsättning
+        på %{url}.
+      unsubscribe_html: Du kan avsluta prenumeration på uppdateringar i denna ändringsuppsättning
+        på %{url}.
   confirmations:
     confirm:
       heading: Kontrollera din e-post!
@@ -2109,6 +2136,8 @@ sv:
         contributors_at_cc_by_at_with_amendments: CC BY AT med tillägg
         contributors_au_australia: Australien
         contributors_au_geoscape_australia: Geoscape Australien
+        contributors_au_cc_licence: Creative Commons Erkännande 4.0 Internationell-licens
+          (CC BY 4.0)
         contributors_ca_credit_html: |-
           %{canada}: Innehåller data från
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -2116,14 +2145,23 @@ sv:
           Resources Canada), och StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: '%{czechia}: Innehåller data från den statliga
+          administrationen för landmäteri och Cadastre licensierad under %{cc_licence_link}'
         contributors_cz_czechia: Tjeckien
+        contributors_cz_cc_licence: Creative Commons Erkännande 4.0 Internationell
+          (CC BY 4.0)
+        contributors_fi_credit_html: '%{finland}: Innehåller data från Lantmäteriet
+          i Finlands Terrängdatabas och andra datauppsättningar, under %{nlsfi_license_link}.'
         contributors_fi_finland: Finland
         contributors_fi_nlsfi_license: NLSFI-licens
         contributors_fr_credit_html: |-
           %{france}: Innehåller data hämtade från
           Direction Générale des Impôts.
         contributors_fr_france: Frankrike
+        contributors_hr_credit_html: '%{croatia}: Innehåller data från %{dgu_link}
+          och %{open_data_portal} (offentlig information om Kroatien)'
         contributors_hr_croatia: Kroatien
+        contributors_hr_dgu: Kroatiens statliga geodatiska förvaltning
         contributors_nl_credit_html: '%{netherlands}: Innehåller &copy; AND data,
           2007 (%{and_link}).'
         contributors_nl_netherlands: Nederländerna
@@ -2137,7 +2175,12 @@ sv:
           %{serbia}: Innehåller data från %{rgz_link} och %{open_data_portal}
           (offentlig information om Serbien), 2018.
         contributors_rs_serbia: Serbien
+        contributors_rs_rgz: Serbiens geodetiska myndighet
+        contributors_rs_open_data_portal: Nationell portal för öppen data
+        contributors_si_credit_html: '%{slovenia}: Innehåller data från %{gu_link}
+          och %{mkgp_link} (offentlig information om Slovenien)'
         contributors_si_slovenia: Slovenien
+        contributors_si_gu: Lantmäteri- och kartverket
         contributors_si_mkgp: Ministeriet för Jordbruk, Skogsbruk och Livsmedel
         contributors_es_credit_html: |-
           %{spain}: Innehåller data hämtade från
@@ -2363,7 +2406,7 @@ sv:
           heathland: Hed
           scrubland: Buskskog
           lake: Sjö
-          reservoir: vattenmagasin
+          reservoir: Vattenmagasin
           intermittent_water: Intermittent vattenkropp
           glacier: Glaciär
           reef: Rev
@@ -2541,6 +2584,8 @@ sv:
       identifiable: IDENTIFIERBAR
       private: PRIVAT
       trackable: SPÅRBAR
+      details_with_tags_html: '%{time_ago} av %{user} i %{tags}'
+      details_without_tags_html: '%{time_ago} av %{user}'
     index:
       public_traces: Publika GPS-spår
       my_gps_traces: Mina GPS-spår
@@ -2573,6 +2618,8 @@ sv:
         other: GPX-fil med %{count} punkter från %{user}
       description_without_count: GPX-fil från %{user}
   application:
+    basic_auth_disabled: 'Grundläggande HTTP-autentisering är inaktiverat: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 och 1.0a är inaktiverade: %{link}'
     permission_denied: Du har inte behörighet för denna åtgärd
     require_cookies:
       cookies_needed: Du verkar ha inaktiverat kakor - aktivera kakor i din webbläsare
@@ -2786,6 +2833,7 @@ sv:
         för mer information.
       privacy_policy: integritetspolicy
       privacy_policy_title: OSMFs integritetspolicy inklusive avsnitt om e-postadresser
+      consider_pd_html: Jag anser mina bidrag vara i %{consider_pd_link}.
       consider_pd: public domain
       or: eller
       use external auth: eller registrera med en tredje part
@@ -2895,6 +2943,9 @@ sv:
       heading: Användare
       older: Äldre användare
       newer: Nyare användare
+      found_users:
+        one: '%{count} användare hittade'
+        other: '%{count} användare hittade'
       summary_html: '%{name} skapades från %{ip_address} den %{date}'
       summary_no_ip_html: '%{name} skapad den %{date}'
       confirm: Bekräfta valda användare

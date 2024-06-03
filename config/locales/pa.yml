@@ -17,7 +17,7 @@ pa:
   helpers:
     submit:
       diary_comment:
-        create: ਸਾਂਭੋ
+        create: ਟਿੱਪਣੀ
       diary_entry:
         create: ਸਾਂਭੋ
         update: ਅੱਪਡੇਟ ਕਰੋ
@@ -62,7 +62,7 @@ pa:
       relation: ਸਬੰਧ
       relation_member: ਸਬੰਧ ਮੈਂਬਰ
       relation_tag: ਸਬੰਧ ਟੈਗ
-      report: ਰਿਪੋਰਟ ਕਰੋ
+      report: ਇਤਲਾਹ ਦਿਓ
       session: ਸੈਸ਼ਨ
       trace: ਟਰੇਸ
       tracepoint: ਟਰੇਸ ਪੁਆਇੰਟ
@@ -75,7 +75,12 @@ pa:
       way_tag: ਰਾਹ ਟੈਗ
     attributes:
       client_application:
+        name: ਨਾਮ (ਲੋੜੀਂਦਾ)
+        url: ਮੁੱਢਲਾ Application URL (ਲੋੜੀਂਦਾ ਹੈ)
         support_url: ਮਦਦ URL
+        allow_read_prefs: ਉਹਨਾਂ ਦੀਆਂ ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਨੂੰ ਪੜ੍ਹੋ
+        allow_write_prefs: ਉਹਨਾਂ ਦੀਆਂ ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ ਨੂੰ ਸੋਧੋ
+        allow_write_api: ਨਕਸ਼ੇ ਨੂੰ ਸੋਧੋ
       diary_comment:
         body: ਮੁੱਖ ਭਾਗ
       diary_entry:
@@ -86,12 +91,13 @@ pa:
         language_code: ਬੋਲੀ
       doorkeeper/application:
         name: ਨਾਂ
+        scopes: ਇਜਾਜ਼ਤਾਂ
       friend:
         user: ਵਰਤੋਂਕਾਰ
         friend: ਦੋਸਤ
       trace:
         user: ਵਰਤੋਂਕਾਰ
-        visible: ਵਿਖਣਯੋਗ
+        visible: ਵਿਖਣ-ਯੋਗ
         name: ਨਾਂ
         size: ਅਕਾਰ
         latitude: ਅਕਸ਼ਾਂਸ਼
@@ -106,20 +112,64 @@ pa:
         body: ਮੁੱਖ ਭਾਗ
         recipient: ਪ੍ਰਾਪਤਕਰਤਾ
       redaction:
+        title: ਸਿਰਲੇਖ
         description: ਵੇਰਵਾ
+      report:
+        category: ਆਪਣੀ ਇਤਲਾਹ ਦਾ ਕਾਰਨ ਚੁਣੋ
+        details: ਕਿਰਪਾ ਕਰਕੇ ਸਮੱਸਿਆ ਬਾਰੇ ਕੁਝ ਹੋਰ ਵੇਰਵੇ ਪ੍ਰਦਾਨ ਕਰੋ (ਲੋੜੀਂਦਾ)
       user:
         email: ਈਮੇਲ
-        new_email: 'ਨਵਾਂ ਈ-ਮੇਲ ਪਤਾ:'
+        new_email: 'ਨਵਾਂ ਈਮੇਲ ਪਤਾ:'
         active: ਸਰਗਰਮ
         display_name: ਵਿਖਾਉਣ ਨਾਂ
         description: ਵੇਰਵਾ
         home_lat: ਅਕਸ਼ਾਂਸ਼
         home_lon: 'ਰੇਖਾਂਸ਼:'
-        languages: ਬੋਲੀਆਂ
+        languages: ਤਰਜੀਹੀ ਬੋਲੀਆਂ
+        preferred_editor: ਤਰਜੀਹੀ ਸੰਪਾਦਕ
         pass_crypt: ਪਛਾਣ-ਸ਼ਬਦ
+    help:
+      user:
+        new_email: (ਜਨਤਕ ਤੌਰ 'ਤੇ ਕਦੇ ਨਹੀਂ ਪ੍ਰਦਰਸ਼ਿਤ)
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: ਲਗਭਗ %{count} ਘੰਟਾ ਪਹਿਲਾਂ
+        other: ਲਗਭਗ %{count} ਘੰਟੇ ਪਹਿਲਾਂ
+      about_x_months:
+        one: about %{count} ਮਹੀਨਾ ਪਹਿਲਾਂ
+        other: ਲਗਭਗ %{count} ਮਹੀਨੇ ਪਹਿਲਾਂ
+      about_x_years:
+        one: about %{count} ਸਾਲ ਪਹਿਲਾਂ
+        other: ਲਗਭਗ %{count} ਸਾਲ ਪਹਿਲਾਂ
+      almost_x_years:
+        one: ਲਗਭਗ %{count} ਸਾਲ ਪਹਿਲਾਂ
+        other: ਲਗਭਗ %{count} ਸਾਲ ਪਹਿਲਾਂ
       half_a_minute: ਅੱਧਾ ਮਿੰਟ ਪਹਿਲਾਂ
+      less_than_x_seconds:
+        one: '%{count} ਸਕਿੰਟ ਤੋਂ ਘੱਟ'
+        other: '%{count} ਸਕਿੰਟ ਪਹਿਲਾਂ'
+      less_than_x_minutes:
+        one: '%{count} ਮਿੰਟ ਤੋਂ ਘੱਟ ਪਹਿਲਾਂ'
+        other: '%{count} ਮਿੰਟ ਪਹਿਲਾਂ'
+      over_x_years:
+        one: ਲਗਭਗ %{count} ਸਾਲ ਪਹਿਲਾਂ
+        other: ਲਗਭਗ %{count} ਸਾਲ ਪਹਿਲਾਂ
+      x_seconds:
+        one: '%{count} ਸਕਿੰਟ ਪਹਿਲਾਂ'
+        other: '%{count} ਸਕਿੰਟ ਪਹਿਲਾਂ'
+      x_minutes:
+        one: '%{count} ਮਿੰਟ ਪਹਿਲਾਂ'
+        other: '%{count} ਮਿੰਟ ਪਹਿਲਾਂ'
+      x_days:
+        one: '%{count} ਦਿਨ ਪਹਿਲਾਂ'
+        other: '%{count} ਦਿਨ ਪਹਿਲਾਂ'
+      x_months:
+        one: '%{count} ਮਹੀਨਾ ਪਹਿਲਾਂ'
+        other: '%{count} ਮਹੀਨੇ ਪਹਿਲਾਂ'
+      x_years:
+        one: '%{count} ਸਾਲ ਪਹਿਲਾਂ'
+        other: '%{count} ਸਾਲ ਪਹਿਲਾਂ'
   editor:
     default: ਮੂਲ (ਮੌਜੂਦਾ %{name})
     id:
@@ -131,14 +181,41 @@ pa:
       none: ਕੋਈ ਨਹੀਂ
       google: ਗੂਗਲ
       facebook: ਫੇਸਬੁੱਕ
-      microsoft: ਵਿੰਡੋਜ਼ ਲਾਈਵ
+      microsoft: ਮਾਈਕ੍ਰੋਸਾਫਟ
       github: ਗਿੱਟਹੱਬ
       wikipedia: ਵਿਕੀਪੀਡੀਆ
   api:
     notes:
+      comment:
+        opened_at_html: '%{when} ਬਣਾਇਆ ਗਿਆ'
+        opened_at_by_html: '%{when} ਨੂੰ %{user} ਦੁਆਰਾ ਬਣਾਇਆ ਗਿਆ'
+        closed_at_html: '%{when} ਹੱਲ ਕੀਤਾ'
+        closed_at_by_html: '%{when} ਨੂੰ %{user} ਦੁਆਰਾ ਹੱਲ ਕੀਤਾ ਗਿਆ'
+        reopened_at_html: '%{when} ਮੁੜ ਸਰਗਰਮ ਕੀਤਾ'
+        reopened_at_by_html: '%{when} ਨੂੰ %{user} ਦੁਆਰਾ ਮੁੜ ਸਰਗਰਮ ਕੀਤਾ'
       entry:
-        comment: ਟਿੱਪਣੀ ਕਰੋ
+        comment: ਟਿੱਪਣੀ
         full: ਪੂਰੀ ਟਿੱਪਣੀ
+  account:
+    deletions:
+      show:
+        title: ਮੇਰਾ ਖਾਤਾ ਮਿਟਾਓ
+        warning: ਚੇਤਾਵਨੀ! ਖਾਤਾ ਮਿਟਾਉਣ ਦੀ ਪ੍ਰਕਿਰਿਆ ਅੰਤਿਮ ਹੈ, ਅਤੇ ਇਸਨੂੰ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ
+          ਜਾ ਸਕਦਾ ਹੈ।
+        delete_account: ਖਾਤਾ ਮਿਟਾਓ
+        delete_introduction: 'ਤੁਸੀਂ ਹੇਠਾਂ ਦਿੱਤੇ ਬਟਨ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਆਪਣੇ ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ
+          ਖਾਤੇ ਨੂੰ ਮਿਟਾ ਸਕਦੇ ਹੋ। ਕਿਰਪਾ ਕਰਕੇ ਹੇਠ ਦਿੱਤੇ ਵੇਰਵਿਆਂ ਵੱਲ ਧਿਆਨ ਦਿਓ:'
+        delete_profile: ਤੁਹਾਡੇ ਪ੍ਰੋਫਾਈਲ ਦੀ ਜਾਣਕਾਰੀ, ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਅਵਤਾਰ, ਵੇਰਵਾ ਅਤੇ
+          ਘਰ ਦੇ ਟਿਕਾਣੇ ਸ਼ਾਮਲ ਹੈ, ਨੂੰ ਮਿਦਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।
+        retain_caveats: 'ਹਾਲਾਂਕਿ, ਤੁਹਾਡੇ ਬਾਰੇ ਕੁਝ ਜਾਣਕਾਰੀ ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ''ਤੇ ਬਰਕਰਾਰ
+          ਰੱਖੀ ਜਾਵੇਗੀ, ਭਾਵੇਂ ਤੁਹਾਡਾ ਖਾਤਾ ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ ਹੋਵੇ:'
+        retain_edits: ਨਕਸ਼ੇ ਦੇ ਭੰਡਾਰ ਵਿੱਚ ਤੁਹਾਡੇ ਸੰਪਾਦਨ, ਜੇ ਕੋਈ ਹਨ, ਨੂੰ ਬਰਕਰਾਰ ਰੱਖਿਆ
+          ਜਾਵੇਗਾ।
+        retain_email: ਤੁਹਾਡਾ ਈਮੇਲ ਪਤਾ ਬਰਕਰਾਰ ਰੱਖਿਆ ਜਾਵੇਗਾ।
+        recent_editing_html: ਜਿਵੇਂ ਕਿ ਤੁਸੀਂ ਹਾਲ ਹੀ ਵਿੱਚ ਸੰਪਾਦਿਤ ਕੀਤਾ ਹੈ ਤੁਹਾਡੇ ਖਾਤੇ
+          ਨੂੰ ਵਰਤਮਾਨ ਵਿੱਚ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ। %{time} ਵਿੱਚ ਮਿਟਾਉਣਾ ਸੰਭਵ ਹੋਵੇਗਾ।
+        confirm_delete: ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ?
+        cancel: ਰੱਦ ਕਰੋ
   accounts:
     edit:
       title: ਖਾਤਾ ਸੋਧੋ
@@ -151,19 +228,36 @@ pa:
         enabled link text: ਇਹ ਕੀ ਹੈ?
         disabled link text: ਮੈਂ ਸੋਧ ਕਿਉਂ ਨਹੀਂ ਕਰ ਸਕਦਾ?
       contributor terms:
-        heading: 'ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ:'
+        heading: 'ਯੋਗਦਾਨ ਦੀਆਂ ਸ਼ਰਤਾਂ:'
         agreed: ਤੁਸੀਂ ਯੋਗਦਾਨੀ ਦੀਆਂ ਨਵੀਆਂ ਸ਼ਰਤਾਂ ਨਾਲ਼ ਸਹਿਮਤੀ ਜਤਾਈ ਹੈ।
         not yet agreed: ਤੁਸੀਂ ਯੋਗਦਾਨੀ ਦੀਆਂ ਨਵੀਆਂ ਸ਼ਰਤਾਂ ਨਾਲ਼ ਸਹਿਮਤੀ ਨਹੀਂ ਜਤਾਈ।
         link text: ਇਹ ਕੀ ਹੈ?
       save changes button: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
+      delete_account: ਖਾਤਾ ਮਿਟਾਓ
     go_public:
+      heading: ਜਨਤਕ ਸੁਧਾਈ
+      currently_not_public: ਵਰਤਮਾਨ ਵਿੱਚ ਤੁਹਾਡੇ ਸੰਪਾਦਨ ਅਗਿਆਤ ਹਨ ਅਤੇ ਲੋਕ ਤੁਹਾਨੂੰ ਸੁਨੇਹੇ
+        ਨਹੀਂ ਭੇਜ ਸਕਦੇ ਜਾਂ ਤੁਹਾਡਾ ਟਿਕਾਣਾ ਨਹੀਂ ਦੇਖ ਸਕਦੇ। ਇਹ ਦਿਖਾਉਣ ਲਈ ਕਿ ਤੁਸੀਂ ਕੀ ਸੰਪਾਦਿਤ
+        ਕੀਤਾ ਹੈ ਅਤੇ ਲੋਕਾਂ ਨੂੰ ਵੈੱਬਸਾਈਟ ਰਾਹੀਂ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਦਿੱਤੀ
+        ਹੈ, ਹੇਠਾਂ ਦਿੱਤੇ ਬਟਨ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।
+      find_out_why: ਪਤਾ ਕਰੋ ਕਿਉਂ
+      email_not_revealed: ਤੁਹਾਡਾ ਈਮੇਲ ਪਤਾ ਜਨਤਕ ਹੋਣ ਨਾਲ ਪ੍ਰਗਟ ਨਹੀਂ ਕੀਤਾ ਜਾਵੇਗਾ।
+      not_reversible: ਇਸ ਕਾਰਵਾਈ ਨੂੰ  ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ ਅਤੇ ਸਾਰੇ ਨਵੇਂ ਵਰਤੋਂਕਾਰ
+        ਹੁਣ ਮੂਲ ਰੂਪ ਵਿੱਚ ਜਨਤਕ ਹਨ।
       make_edits_public_button: ਮੇਰੀਆਂ ਸਾਰੀਆਂ ਸੋਧਾਂ ਜਨਤਕ ਕਰੋ
+    destroy:
+      success: ਖਾਤਾ ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।
   browse:
+    deleted_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਦੁਆਰਾ ਮਿਟਾਇਆ ਗਿਆ'
+    edited_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਦੁਆਰਾ ਸੋਧਿਆ ਗਿਆ'
     version: ਵਰਜਨ
     in_changeset: ਤਬਦੀਲੀਆਂ
     anonymous: ਬੇਪਛਾਣ
     no_comment: (ਕੋਈ ਟਿੱਪਣੀ ਨਹੀਂ)
     part_of: ਦਾ ਹਿੱਸਾ
+    part_of_relations:
+      one: '%{count} ਸਬੰਧ'
+      other: '%{count} ਸਬੰਧ'
     download_xml: XML ਲਾਹੋ
     view_history: ਅਤੀਤ ਵੇਖੋ
     view_details: ਵੇਰਵੇ ਵੇਖੋ
@@ -176,7 +270,12 @@ pa:
         node: ਨੋਡ
         way: ਰਾਹ
         relation: ਸਬੰਧ
+    containing_relation:
+      entry_html: ਸਬੰਧ %{relation_name}
+      entry_role_html: ਸਬੰਧ %{relation_name} (%{relation_role} ਵਜੋਂ)
     not_found:
+      title: ਨਹੀਂ ਲੱਭਿਆ
+      sorry: 'ਮਾਫ਼ ਕਰਨਾ, %{type} #%{id} ਲੱਭਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।'
       type:
         node: ਨੋਡ
         way: ਰਾਹ
@@ -196,15 +295,22 @@ pa:
         way: ਰਾਹ
         relation: ਸਬੰਧ
     start_rjs:
-      load_data: ਡਾਟਾ ਲੋਡ ਕਰੋ
+      load_data: ਡੇਟਾ ਲੱਦੋ
       loading: ਲੱਦ ਰਿਹਾ ਹੈ...
     tag_details:
       tags: ਟੈਗ
       wikipedia_link: '%{page} ਲੇਖ ਵਿਕਿਪੀਡਿਆ ਉੱਤੇ'
       telephone_link: '%{phone_number} ਨੂੰ ਫੋਨ ਕਰੋ'
+      colour_preview: ਰੰਗ %{colour_value} ਝਲਕ
+      email_link: ਈਮੇਲ %{email}
+    query:
+      title: ਪੁੱਛਗਿੱਛ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
+      introduction: ਨੇੜਲੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਲੱਭਣ ਲਈ ਨਕਸ਼ੇ ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।
+      nearby: ਨੇੜਲੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
+      enclosing: ਨੱਥੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ
   changesets:
     changeset_paging_nav:
-      showing_page: ਵਰਕਾ %{page}
+      showing_page: ਸਫ਼ਾ %{page}
       next: ਅਗਲਾ »
       previous: « ਪਿਛਲਾ
     changeset:
@@ -214,10 +320,10 @@ pa:
       id: ਸ਼ਨਾਖ਼ਤ
       user: ਵਰਤੋਂਕਾਰ
       comment: ਟਿੱਪਣੀ
-      area: ਇਲਾਕਾ
+      area: ਖੇਤਰ
     index:
       title: ਤਬਦੀਲੀਆਂ
-      load_more: ਹੋਰ ਲੋਡ ਕਰੋ
+      load_more: ਹੋਰ ਪੜ੍ਹੋ
       feed:
         title: ਤਬਦੀਲੀ ਲੜੀ %{id}
         title_comment: ਤਬਦੀਲੀ ਲੜੀ %{id} - %{comment}
@@ -226,24 +332,35 @@ pa:
         belongs_to: ਲੇਖਕ
     show:
       title: 'ਤਬਦੀਲੀ ਲੜੀ: %{id}'
-      discussion: ਚਰਚਾ
+      created: 'ਬਣਾਇਆ ਗਿਆ: %{when}'
+      closed: 'ਬੰਦ ਕੀਤਾ: %{when}'
+      created_ago_html: '%{time_ago} ਬਣਾਇਆ ਗਿਆ'
+      closed_ago_html: '%{time_ago} ਬੰਦ ਕੀਤਾ'
+      created_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਦੁਆਰਾ ਬਣਾਇਆ ਗਿਆ'
+      closed_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਦੁਆਰਾ ਬੰਦ ਕੀਤਾ ਗਿਆ'
+      discussion: ਗੱਲ-ਬਾਤ
+      join_discussion: ਚਰਚਾ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਦਾਖ਼ਲ ਹੋਵੋ
+      comment_by_html: '%{user} %{time_ago} ਤੋਂ ਟਿੱਪਣੀ'
+      hidden_comment_by_html: '%{user} %{time_ago} ਤੋਂ ਲੁਕਵੀਂ ਟਿੱਪਣੀ'
       changesetxml: ਤਬਦੀਲੀ ਲੜੀ XML
   dashboards:
     contact:
       km away: '%{count}ਕਿ.ਮੀ. ਪਰ੍ਹਾਂ'
       m away: '%{count}ਮੀਟਰ ਪਰ੍ਹਾਂ'
-      latest_edit_html: 'ਆਖ਼ਰੀ ਸੋਧ %{ago}:'
+      latest_edit_html: 'ਤਾਜ਼ੇ ਸੋਧ (%{ago}):'
     popup:
       your location: ਤੁਹਾਡੀ ਸਥਿਤੀ
       friend: ਦੋਸਤ
     show:
+      my friends: ਮੇਰੇ ਦੋਸਤ
       no friends: ਤੁਸੀਂ ਅਜੇ ਕੋਈ ਮਿੱਤਰ ਨਹੀਂ ਜੋੜਿਆ।
       nearby users: ਨੇੜੇ-ਤੇੜੇ ਦੇ ਹੋਰ ਵਰਤੋਂਕਾਰ
   diary_entries:
     form:
-      location: 'ਸਥਿਤੀ:'
+      location: ਟਿਕਾਣਾ
       use_map_link: ਨਕਸ਼ਾ ਵਰਤੋ
     show:
+      discussion: ਗੱਲ-ਬਾਤ
       leave_a_comment: ਕੋਈ ਟਿੱਪਣੀ ਛੱਡੋ
       login_to_leave_a_comment_html: ਟਿੱਪਣੀ ਛੱਡਣ ਵਾਸਤੇ %{login_link}
       login: ਦਾਖ਼ਲ ਹੋਵੋ
@@ -252,6 +369,7 @@ pa:
     diary_entry:
       comment_link: ਇਸ ਇੰਦਰਾਜ 'ਤੇ ਟਿੱਪਣੀ ਕਰੋ
       reply_link: ਇਸ ਇੰਦਰਾਜ ਦਾ ਜੁਆਬ ਦਿਉ
+      no_comments: ਕੋਈ ਟਿੱਪਣੀਆਂ ਨਹੀਂ
       edit_link: ਇਹ ਇੰਦਰਾਜ ਸੋਧੋ
       hide_link: ਇਹ ਇੰਦਰਾਜ ਲੁਕਾਉ
       confirm: ਤਸਦੀਕ ਕਰੋ
@@ -259,15 +377,15 @@ pa:
       hide_link: ਇਹ ਟਿੱਪਣੀ ਲੁਕਾਉ
       confirm: ਤਸਦੀਕ ਕਰੋ
     location:
-      location: 'ਸਥਿਤੀ:'
+      location: 'ਟਿਕਾਣਾ:'
       view: ਵੇਖੋ
       edit: ਸੋਧੋ
     comments:
       post: ਡਾਕ
       when: ਕਦੋਂ
       comment: ਟਿੱਪਣੀ
-      newer_comments: ਹੋਰ ਨਵੀਆਂ ਟਿੱਪਣੀਆਂ
-      older_comments: ਹੋਰ ਪੁਰਾਣੀਆਂ ਟਿੱਪਣੀਆਂ
+      newer_comments: ਨਵੀਆਂ ਟਿੱਪਣੀਆਂ
+      older_comments: ਪੁਰਾਣੀਆਂ ਟਿੱਪਣੀਆਂ
   friendships:
     make_friend:
       heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਪਾਉਣੀ ਹੈ?'
@@ -283,7 +401,7 @@ pa:
         aeroway:
           aerodrome: ਏਰੋਡਰੋਮ
           apron: ਐਪਰਨ
-          gate: ਦਰਵਾਜ਼ਾ
+          gate: ਹਵਾਈ ਅੱਡੇ ਦਾ ਦਰਵਾਜ਼ਾ
           helipad: ਹੈਲੀਪੈਡ
           runway: ਉਡਾਣ-ਪੱਟੀ
           taxiway: ਟੈਕਸੀਵੇਅ
@@ -478,7 +596,7 @@ pa:
           recreation_ground: ਮਨੋਰੰਜਨ ਮੈਦਾਨ
           reservoir: ਸਰੋਵਰ
           residential: ਰਿਹਾਇਸ਼ੀ ਇਲਾਕਾ
-          retail: ਪਰਚੂਨ
+          retail: ਪਰਚੂਨ ਖੇਤਰ
           village_green: ਸ਼ਾਮਲਾਤ
           vineyard: ਅੰਗੂਰਾਂ ਦਾ ਬਾਗ਼
         leisure:
@@ -724,7 +842,7 @@ pa:
       more_results: ਹੋਰ ਨਤੀਜੇ
   layouts:
     logo:
-      alt_text: ਓਪਨਸਟਰੀਟਮੈਪ ਲੋਗੋ
+      alt_text: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਮਾਰਕਾ
     home: ਘਰੇਲੂ ਟਿਕਾਣੇ 'ਤੇ ਜਾਉ
     logout: ਵਿਦਾਈ ਲਉ
     log_in: ਦਾਖ਼ਲ ਹੋਵੋ
@@ -736,6 +854,7 @@ pa:
     data: ਸਮੱਗਰੀ
     export_data: ਸਮੱਗਰੀ ਬਰਾਮਦ ਕਰੋ
     edit_with: '%{editor} ਨਾਲ ਸੋਧੋ'
+    intro_header: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਉੱਤੇ ਜੀ ਆਇਆਂ ਨੂੰ
     intro_2_create_account: ਇੱਕ ਵਰਤੋਂਕਾਰ ਖਾਤਾ ਬਣਾਉ
     partners_partners: ਜੋੜੀਦਾਰ
     help: ਮਦਦ
@@ -749,9 +868,25 @@ pa:
     learn_more: ਹੋਰ ਜਾਣੋ
     more: ਹੋਰ
   user_mailer:
+    message_notification:
+      subject: '[ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ] %{message_title}'
+      header: '%{from_user} ਨੇ ਤੁਹਾਨੂੰ ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਰਾਹੀਂ %{subject}: ਵਿਸ਼ੇ ਨਾਲ
+        ਸੁਨੇਹਾ ਭੇਜਿਆ ਹੈ।'
+      header_html: '%{from_user} ਨੇ ਤੁਹਾਨੂੰ %{subject} ਵਿਸ਼ੇ ਦੇ ਨਾਲ ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ
+        ਰਾਹੀਂ ਇੱਕ ਸੁਨੇਹਾ ਭੇਜਿਆ ਹੈ:'
+    friendship_notification:
+      subject: '[ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ] %{user} ਨੇ ਤੁਹਾਨੂੰ ਇੱਕ ਦੋਸਤ ਵਜੋਂ ਸ਼ਾਮਲ ਕੀਤਾ ਹੈ'
+      had_added_you: '%{user} ਨੇ ਤੁਹਾਨੂੰ ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ''ਤੇ ਇੱਕ ਦੋਸਤ ਵਜੋਂ ਸ਼ਾਮਲ
+        ਕੀਤਾ ਹੈ।'
+    gpx_failure:
+      subject: '[ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ] GPX ਦਰਾਮਦ ਅਸਫਲਤਾ'
+    gpx_success:
+      subject: '[ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ] GPX ਦਰਾਮਦ ਸਫਲਤਾ'
     signup_confirm:
+      subject: '[ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ] ਉੱਤੇ ਜੀ ਆਈਆਂ ਨੂੰ'
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਜੀ!
     email_confirm:
+      subject: '[ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ] ਆਪਣੇ ਈਮੇਲ ਪਤੇ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ'
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
     lost_password:
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
@@ -809,7 +944,7 @@ pa:
     new:
       title: ਪਛਾਣ ਸ਼ਬਦ ਗੁੰਮ ਗਿਆ
       heading: ਪਛਾਣ ਸ਼ਬਦ ਭੁੱਲ ਗਿਆ?
-      email address: 'ਈਮੇਲ ਪਤਾ:'
+      email address: ਈਮੇਲ ਪਤਾ
       new password button: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
     edit:
       title: ਪਛਾਣ ਸ਼ਬਦ ਮੁੜ-ਸੈੱਟ ਕਰੋ
@@ -825,7 +960,7 @@ pa:
       keep image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਰੱਖੋ
       delete image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਹਟਾਉ
       replace image: ਮੌਜੂਦਾ ਤਸਵੀਰ ਵਟਾਉ
-      home location: 'ਘਰ ਦੀ ਸਥਿਤੀ:'
+      home location: ਘਰ ਦਾ ਟਿਕਾਣਾ
       no home location: ਤੁਸੀਂ ਆਪਣੇ ਘਰ ਦੀ ਸਥਿਤੀ ਨਹੀਂ ਦੱਸੀ ਹੈ।
   sessions:
     new:
@@ -838,12 +973,13 @@ pa:
       login_button: ਦਾਖ਼ਲ ਹੋਵੋ
       register now: ਹੁਣੇ ਰਜਿਸਟਰ ਕਰੋ
     destroy:
-      title: ਲੌਗਆਊਟ
-      heading: ਓਪਨ ਸਟਰੀਟ ਮੈਪ ਤੋਂ ਲੌਗਆਊਟ ਕਰੋ
-      logout_button: ਲੌਗਆਊਟ
+      title: ਬਾਹਰ ਆਉ
+      heading: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਤੋਂ ਬਾਹਰ ਆਓ
+      logout_button: ਬਾਹਰ ਆਉ
   site:
     about:
       next: ਅੱਗੇ
+      heading_html: '%{copyright}ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ %{br} ਯੋਗਦਾਨੀ'
       local_knowledge_title: ਸਥਾਨੀ ਗਿਆਨ
       open_data_title: ਓਪਨ ਡਾਟਾ
       legal_title: ਕਾਨੂੰਨੀ
@@ -858,6 +994,10 @@ pa:
         mapping_link: ਨਕਸ਼ਾਬੰਦੀ ਸ਼ੁਰੂ ਕਰੋ
       legal_babble:
         title_html: ਨਕਲ-ਹੱਕ ਤੇ ਲਾਇਸੰਸ
+        introduction_1_osm_foundation: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਸੰਸਥਾ
+        credit_title_html: ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਨੂੰ ਕਿਵੇਂ ਸੇਹਰਾ ਦੇਣਾ ਹੈ
+        credit_1_html: 'ਜਿੱਥੇ ਤੁਸੀਂ ਖੁੱਲ੍ਹਾ-ਗਲੀ-ਨਕਸ਼ਾ ਡੇਟਾ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋ, ਤੁਹਾਨੂੰ
+          ਹੇਠ ਲਿਖੀਆਂ ਦੋ ਚੀਜ਼ਾਂ ਕਰਨ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ:'
         more_title_html: ਹੋਰ ਜਾਣਕਾਰੀ ਲੱਭਣ ਵਾਸਤੇ
         contributors_title_html: ਸਾਡੇ ਯੋਗਦਾਨੀ
     index:
@@ -904,7 +1044,7 @@ pa:
       get_directions: ਦਿਸ਼ਾਵਾਂ ਪ੍ਰਾਪਤ ਕਰੋ
       from: ਵੱਲੋਂ
       to: ਵੱਲ
-      where_am_i: ਮੈਂ ਕਿੱਥੇ ਹਾਂ?
+      where_am_i: ਇਹ ਕਿੱਥੇ ਹੈ?
       submit_text: ਜਾਉ
     key:
       table:
@@ -926,7 +1066,7 @@ pa:
           apron: ਹਵਾਈ ਅੱਡੇ ਦਾ ਐਪਰਨ
           admin: ਪ੍ਰਬੰਧਕੀ ਸਰਹੱਦ
           forest: ਜੰਗਲ
-          wood: ਜੰਗਲ
+          wood: ਲੱਕੜ
           golf: ਗੋਲਫ਼ ਮੈਦਾਨ
           park: ਪਾਰਕ
           common: ਸ਼ਾਮਲਾਟ
@@ -1023,9 +1163,10 @@ pa:
         header: ਮੁਫ਼ਤ ਅਤੇ ਸੋਧਣਯੋਗ
       continue: ਭਰਤੀ ਹੋਵੋ
     terms:
-      title: ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ
-      heading: ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ
+      title: ਸ਼ਰਤਾਂ
+      heading: ਸ਼ਰਤਾਂ
       consider_pd_why: ਇਹ ਕੀ ਹੈ?
+      informal_translations: ਗ਼ੈਰ-ਰਸਮੀ ਤਰਜਮਾ
       decline: ਮਨਜ਼ੂਰ ਨਹੀਂ
       legale_select: 'ਆਪਣੀ ਰਿਹਾਇਸ਼ ਦਾ ਦੇਸ਼ ਚੁਣੋ:'
       legale_names:
@@ -1103,7 +1244,7 @@ pa:
     helper:
       block_duration:
         hours:
-          one: ੧ ਘੰਟਾ
+          one: '%{count} ਘੰਟਾ'
           other: '%{count} ਘੰਟੇ'
     show:
       status: ਹਾਲਾਤ

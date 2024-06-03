@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Alex73
+# Author: Andoti
 # Author: Artsiom91
 # Author: Chadyka
 # Author: Goshaproject
@@ -58,6 +59,9 @@ be:
       messages:
         invalid_email_address: не падобны на карэктны адрас электроннай пошты
         email_address_not_routable: немагчыма пракласці маршрут
+      models:
+        user_mute:
+          is_already_muted: ужо заглушаны
     models:
       acl: Спіс правоў доступу
       changeset: Пакет правак
@@ -334,6 +338,9 @@ be:
       delete_account: Выдаліць уліковы запіс...
     go_public:
       heading: Публічнае рэдагаванне
+      find_out_why: даведацца, чаму
+      email_not_revealed: Ваш адрас электроннай пошты не будзе раскрыты, калі стане
+        публічным.
       make_edits_public_button: Зрабіць усе мае змены публічнымі
     update:
       success_confirm_needed: Звесткі аб карыстальніку паспяхова абноўленыя. Праверце
@@ -595,6 +602,31 @@ be:
       comment: Каментар
       newer_comments: Навейшыя каментары
       older_comments: Старэйшыя каментары
+  doorkeeper:
+    scopes:
+      phone: Праглядзець ваш нумар тэлефона
+      profile: Праглядзець інфармацыю вашага профілю
+  errors:
+    contact:
+      contact_url_title: Тлумачэнне розных каналаў сувязі
+      contact: звяртацца
+      contact_the_community_html: Не саромейцеся %{contact_link} да супольнасці OpenStreetMap,
+        калі вы знайшлі непрацуючую спасылку / памылку. Запішыце дакладны URL вашага
+        запыту.
+    bad_request:
+      title: Памылковы запыт
+      description: Запытаная вамі аперацыя на серверы OpenStreetMap   несапраўдная
+        (HTTP 400)
+    forbidden:
+      title: Доступ забаронены
+      description: Запытаная вамі аперацыя на серверы OpenStreetMap даступная толькі
+        адміністратарам (HTTP 403)
+    internal_server_error:
+      title: Памылка праграмы
+      description: Сервер OpenStreetMap сутыкнуўся з нечаканай сітуацыяй, якая перашкодзіла
+        яму выканаць запыт (HTTP 500)
+    not_found:
+      title: Файл не знойдзены
   friendships:
     make_friend:
       heading: Пасябраваць з %{user}?
@@ -677,16 +709,22 @@ be:
           hospital: Бальніца
           hunting_stand: Паляўнічая вежа
           ice_cream: Марозіва
+          internet_cafe: Інтэрнэт-кафэ
           kindergarten: Дзіцячы садок
+          language_school: Моўная школа
           library: Бібліятэка
+          love_hotel: Гатэль кахання
           marketplace: Рыначная плошча
           monastery: Кляштар
+          money_transfer: Перавод грошай
           motorcycle_parking: Паркоўка для матацыклаў
+          music_school: Музычная школа
           nightclub: Начны клуб
           nursing_home: Прыватная лякарня
           parking: Паркоўка
           parking_entrance: Заезд на паркоўку
           parking_space: Паркоўка
+          payment_terminal: Плацежны тэрмінал
           pharmacy: Аптэка
           place_of_worship: Культавы будынак
           police: Паліцыя
@@ -694,7 +732,10 @@ be:
           post_office: Паштовае аддзяленне
           prison: Турма
           pub: Паб
+          public_bath: Лазня
+          public_bookcase: Кніжны абмен
           public_building: Грамадскі будынак
+          ranger_station: Станцыя рэйнджараў
           recycling: Пункт перапрацоўкі
           restaurant: Рэстаран
           school: Школа
@@ -715,12 +756,19 @@ be:
           village_hall: Вясковая зала
           waste_basket: Кош для смецця
           waste_disposal: Смеццевы бак
+          waste_dump_site: Нелегальная звалка
+          watering_place: Вадапой для жывёл
           water_point: Вада
+          weighbridge: Грузавыя вагі
+          "yes": Зручнасць
         boundary:
+          aboriginal_lands: Тэрыторыі тубыльцаў
           administrative: Адміністрацыйная мяжа
           census: Межы перапісу
           national_park: Нацыянальны парк
+          political: Электаральная мяжа
           protected_area: Абаронены раён
+          "yes": Мяжа
         bridge:
           aqueduct: Акведук
           boardwalk: Тратуар
@@ -729,6 +777,39 @@ be:
           viaduct: Віядук
           "yes": Мост
         building:
+          apartment: Кватэра
+          apartments: Кватэры
+          barn: Свіран
+          bungalow: Бунгала
+          cabin: Хаціна
+          chapel: Капліца
+          church: Будынак царквы
+          civic: Грамадзянскі будынак
+          college: Будынак каледжа
+          commercial: Камерцыйны будынак
+          construction: Будынак будуецца
+          hangar: Ангар
+          hospital: Будынак бальніцы
+          hotel: Будынак гасцініцы
+          house: Дом
+          houseboat: Плывучы дом
+          hut: Хата
+          industrial: Прамысловы будынак
+          kindergarten: Дзіцячы сад
+          manufacture: Вытворчы будынак
+          office: Офисны будынак
+          public: Грамадскі будынак
+          residential: Жылы будынак
+          retail: Гандлёвы будынак
+          roof: Дах
+          ruins: Рэшткі будынку
+          school: Школа
+          static_caravan: Мабільны дом
+          temple: Храм
+          terrace: Тэраса
+          train_station: Чыгуначны вакзал
+          university: Универсітэт
+          warehouse: Склад
           "yes": Будынак
         craft:
           brewery: Бровар
