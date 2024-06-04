@@ -37,7 +37,7 @@
                   :user => link_to(comment.author.display_name, comment.author) %>
             <% if current_user&.moderator? %>
               —
-              <%= tag.button t("javascripts.changesets.show.#{comment.visible ? 'hide' : 'unhide'}_comment"),
+              <%= tag.button t(".#{comment.visible ? 'hide' : 'unhide'}_comment"),
                              :class => "btn btn-sm small btn-link link-secondary p-0 align-baseline",
                              :data => { :method => "POST",
                                         :url => comment.visible ? changeset_comment_hide_url(comment) : changeset_comment_unhide_url(comment) } %>
