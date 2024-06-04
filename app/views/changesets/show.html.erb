@@ -18,9 +18,17 @@
     <% if current_user %>
       <div class="col-auto">
         <% if @changeset.subscribers.exists?(current_user.id) %>
-          <button class="btn btn-sm btn-primary" name="unsubscribe" data-method="POST" data-url="<%= api_changeset_unsubscribe_url(@changeset) %>"><%= t("javascripts.changesets.show.unsubscribe") %></button>
+          <%= tag.button t("javascripts.changesets.show.unsubscribe"),
+                         :class => "btn btn-sm btn-primary",
+                         :name => "unsubscribe",
+                         :data => { :method => "POST",
+                                    :url => api_changeset_unsubscribe_url(@changeset) } %>
         <% else %>
-          <button class="btn btn-sm btn-primary" name="subscribe" data-method="POST" data-url="<%= api_changeset_subscribe_url(@changeset) %>"><%= t("javascripts.changesets.show.subscribe") %></button>
+          <%= tag.button t("javascripts.changesets.show.subscribe"),
+                         :class => "btn btn-sm btn-primary",
+                         :name => "subscribe",
+                         :data => { :method => "POST",
+                                    :url => api_changeset_subscribe_url(@changeset) } %>
         <% end %>
       </div>
     <% end %>
