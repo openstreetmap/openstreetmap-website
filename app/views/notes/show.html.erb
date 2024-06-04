@@ -53,16 +53,16 @@
         </div>
         <div class="d-flex flex-wrap gap-1">
           <% if current_user.moderator? -%>
-            <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-light",
+            <%= button_tag t(".hide"), :name => "hide", :class => "btn btn-light",
                                        :data => { :method => "DELETE",
                                                   :url => api_note_url(@note, "json") } %>
           <% end -%>
-          <%= submit_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
+          <%= button_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
                                         :data => { :method => "POST",
                                                    :url => close_api_note_url(@note, "json"),
                                                    :default_action_text => t(".resolve"),
                                                    :comment_action_text => t(".comment_and_resolve") } %>
-          <%= submit_tag t(".comment"), :name => "comment", :class => "btn btn-primary", :disabled => true,
+          <%= button_tag t(".comment"), :name => "comment", :class => "btn btn-primary", :disabled => true,
                                         :data => { :method => "POST",
                                                    :url => comment_api_note_url(@note, "json") } %>
         </div>
@@ -79,12 +79,12 @@
       </div>
       <div class="d-flex flex-wrap gap-1">
         <% if @note.status != "hidden" and current_user and current_user.moderator? -%>
-          <%= submit_tag t(".hide"), :name => "hide", :class => "btn btn-light",
+          <%= button_tag t(".hide"), :name => "hide", :class => "btn btn-light",
                                      :data => { :method => "DELETE",
                                                 :url => api_note_url(@note, "json") } %>
         <% end -%>
         <% if current_user -%>
-          <%= submit_tag t(".reactivate"), :name => "reopen", :class => "btn btn-primary",
+          <%= button_tag t(".reactivate"), :name => "reopen", :class => "btn btn-primary",
                                            :data => { :method => "POST",
                                                       :url => reopen_api_note_url(@note, "json") } %>
         <% end -%>
