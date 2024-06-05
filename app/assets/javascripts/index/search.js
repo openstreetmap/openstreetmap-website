@@ -9,9 +9,9 @@ OSM.Search = function (map) {
     }
   });
 
-  $(".search_form a.button.switch_link").on("click", function (e) {
+  $(".search_form a.btn.switch_link").on("click", function (e) {
     e.preventDefault();
-    var query = $(e.target).parent().parent().find("input[name=query]").val();
+    var query = $(this).closest("form").find("input[name=query]").val();
     if (query) {
       OSM.router.route("/directions?from=" + encodeURIComponent(query) + OSM.formatHash(map));
     } else {
