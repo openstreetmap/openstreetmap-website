@@ -49,6 +49,10 @@ module RichText
         (spammy_phrases * 40)
     end
 
+    def image
+      nil
+    end
+
     protected
 
     def simple_format(text)
@@ -80,11 +84,32 @@ module RichText
 
   class Markdown < Base
     def to_html
-      linkify(sanitize(Kramdown::Document.new(self).to_html), :all)
+      linkify(sanitize(document.to_html), :all)
     end
 
     def to_text
       to_s
+    end
+
+    def image
+      return @image if defined? @image
+
+      @image = first_image_element(document.root)&.attr&.[]("src")
+    end
+
+    private
+
+    def document
+      @document ||= Kramdown::Document.new(self)
+    end
+
+    def first_image_element(element)
+      return element if element.type == :img
+
+      element.children.find do |child|
+        nested_image = first_image_element(child)
+        break nested_image if nested_image
+      end
     end
   end
 

@@ -250,6 +250,31 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal 141, r.spam_score.round
   end
 
+  def test_text_no_image
+    r = RichText.new("text", "foo https://example.com/ bar")
+    assert_nil r.image
+  end
+
+  def test_html_no_image
+    r = RichText.new("html", "foo <a href='https://example.com/'>bar</a> baz")
+    assert_nil r.image
+  end
+
+  def test_markdown_no_image
+    r = RichText.new("markdown", "foo [bar](https://example.com/) baz")
+    assert_nil r.image
+  end
+
+  def test_markdown_image
+    r = RichText.new("markdown", "foo ![bar](https://example.com/image.jpg) baz")
+    assert_equal "https://example.com/image.jpg", r.image
+  end
+
+  def test_markdown_first_image
+    r = RichText.new("markdown", "foo ![bar1](https://example.com/image1.jpg) baz\nfoo ![bar2](https://example.com/image2.jpg) baz")
+    assert_equal "https://example.com/image1.jpg", r.image
+  end
+
   private
 
   def assert_html(richtext, &block)
