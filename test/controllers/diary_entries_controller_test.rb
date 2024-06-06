@@ -763,6 +763,17 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_og_image_with_relative_uri
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "![some local picture](/picture.jpg)")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:image']" do
+      assert_dom "> @content", "#{root_url}picture.jpg"
+    end
+  end
+
   def test_hide
     user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
