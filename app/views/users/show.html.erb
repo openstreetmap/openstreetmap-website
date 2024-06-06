@@ -137,6 +137,8 @@
           <dl class="list-inline">
             <dt class="list-inline-item m-0"><%= t ".mapper since" %></dt>
             <dd class="list-inline-item"><%= l @user.created_at.to_date, :format => :long %></dd>
+            <dt class="list-inline-item m-0"><%= t ".last map edit" %></dt>
+            <dd class="list-inline-item"><%= l @user.changesets.first&.created_at&.to_date, :format => :long, :default => t(".no activity yet") %></dd>
             <% unless @user.terms_agreed %>
               <dt class="list-inline-item m-0"><%= t ".ct status" %></dt>
               <dd class="list-inline-item">
