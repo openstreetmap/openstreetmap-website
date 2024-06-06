@@ -50,7 +50,7 @@ class DiaryEntry < ApplicationRecord
   after_save :spam_check
 
   def body
-    RichText.new(self[:body_format], self[:body])
+    @body ||= RichText.new(self[:body_format], self[:body])
   end
 
   private
