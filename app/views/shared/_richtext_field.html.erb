@@ -1,5 +1,13 @@
 <div id="<%= id %>_container" class="row richtext_container">
   <div id="<%= id %>_content" class="col-sm-8 mb-3 mb-sm-0 richtext_content">
+    <ul class="nav nav-tabs mb-3" role="tablist">
+      <li class="nav-item">
+        <button type="button" class="nav-link active richtext_doedit"><%= t(".edit") %></button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="nav-link richtext_dopreview"><%= t(".preview") %></button>
+      </li>
+    </ul>
     <%= builder.text_area(attribute, options.merge(:wrapper => false, "data-preview-url" => preview_url(:type => type))) %>
     <div id="<%= id %>_preview" class="richtext_preview richtext text-break"></div>
   </div>
@@ -7,8 +15,6 @@
     <div class="card bg-body-tertiary h-100">
       <div class="card-body">
         <%= render :partial => "shared/#{type}_help" %>
-        <%= button_tag t(".edit"), :type => "button", :id => "#{id}_doedit", :class => "richtext_doedit btn btn-primary", :disabled => true %>
-        <%= button_tag t(".preview"), :type => "button", :id => "#{id}_dopreview", :class => "richtext_dopreview btn btn-primary" %>
       </div>
     </div>
   </div>

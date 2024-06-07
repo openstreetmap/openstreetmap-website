@@ -14,9 +14,6 @@ $(document).ready(function () {
   /* Disable all the edit buttons */
   $(".richtext_doedit").prop("disabled", true);
 
-  /* Enable the preview buttons */
-  $(".richtext_dopreview").prop("disabled", false);
-
   /*
    * Install a click handler to switch to edit mode when the
    * edit button is pressed.
@@ -28,8 +25,8 @@ $(document).ready(function () {
     preview.hide();
     editor.show();
 
-    $(this).siblings(".richtext_dopreview").prop("disabled", false);
-    $(this).prop("disabled", true);
+    $(this).parents(".richtext_container").find(".richtext_dopreview").prop("disabled", false).removeClass("active");
+    $(this).prop("disabled", true).addClass("active");
   });
 
   /*
@@ -56,7 +53,7 @@ $(document).ready(function () {
     preview.css("min-height", minHeight + "px");
     preview.show();
 
-    $(this).siblings(".richtext_doedit").prop("disabled", false);
-    $(this).prop("disabled", true);
+    $(this).parents(".richtext_container").find(".richtext_doedit").prop("disabled", false).removeClass("active");
+    $(this).prop("disabled", true).addClass("active");
   });
 });
