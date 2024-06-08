@@ -122,7 +122,7 @@ class SiteController < ApplicationController
   end
 
   def communities
-    @local_chapters = Community.where(:type => "osm-lc").where.not(:id => "OSMF")
+    @local_chapters = CommunityIndex.where(:type => "osm-lc").where.not(:id => "OSMF")
   end
 
   def export; end
