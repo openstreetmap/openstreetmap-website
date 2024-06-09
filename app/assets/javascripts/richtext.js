@@ -41,7 +41,6 @@ $(document).ready(function () {
   $(".richtext_dopreview").click(function (event) {
     var editor = $(this).parents(".richtext_container").find("textarea");
     var preview = $(this).parents(".richtext_container").find(".richtext_preview");
-    var width = editor.outerWidth() - preview.outerWidth() + preview.width();
     var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
 
     if (preview.contents().length === 0) {
@@ -56,7 +55,6 @@ $(document).ready(function () {
     }
 
     editor.hide();
-    preview.width(width);
     preview.css("min-height", minHeight + "px");
     preview.show();
 
