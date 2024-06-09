@@ -14,7 +14,8 @@
               <span class='badge count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
             </li>
             <li>
-              <%= link_to t(".my notes"), user_notes_path(@user) %>
+              <%= link_to t(".my notes"), user_notes_path(current_user) %>
+              <span class='badge count-number'><%= number_with_delimiter(current_user.note_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".my traces"), :controller => "traces", :action => "mine" %>
@@ -26,6 +27,7 @@
             </li>
             <li>
               <%= link_to t(".my comments"), diary_comments_path(current_user) %>
+              <span class='badge count-number'><%= number_with_delimiter(current_user.diary_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".my settings"), edit_account_path %>
@@ -59,6 +61,7 @@
             </li>
             <li>
               <%= link_to t(".notes"), user_notes_path(@user) %>
+              <span class='badge count-number'><%= number_with_delimiter(@user.note_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".traces"), :controller => "traces", :action => "index", :display_name => @user.display_name %>
@@ -76,6 +79,7 @@
             </li>
             <li>
               <%= link_to t(".comments"), diary_comments_path(@user) %>
+              <span class='badge count-number'><%= number_with_delimiter(@user.diary_comments.size) %></span>
             </li>
             <li>
               <% if current_user and current_user.friends_with?(@user) %>
