@@ -27,7 +27,7 @@ function FOSSGISValhallaEngine(id, costing) {
     5, // kStayLeft = 24;
     20, // kMerge = 25;
     10, // kRoundaboutEnter = 26;
-    11, // kRoundaboutExit = 27;
+    10, // kRoundaboutExit = 27;
     17, // kFerryEnter = 28;
     0, // kFerryExit = 29;
     null, // kTransit = 30;
