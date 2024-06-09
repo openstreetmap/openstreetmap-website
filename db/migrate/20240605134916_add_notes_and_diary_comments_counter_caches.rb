@@ -1,13 +1,4 @@
 class AddNotesAndDiaryCommentsCounterCaches < ActiveRecord::Migration[7.1]
-  class DiaryComment < ApplicationRecord
-  end
-
-  class NoteComment < ApplicationRecord
-  end
-
-  class User < ApplicationRecord
-  end
-
   def self.up
     add_column :users, :diary_comments_count, :integer, :default => 0
     add_column :users, :note_comments_count, :integer, :default => 0
