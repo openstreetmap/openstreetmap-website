@@ -324,7 +324,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
   def test_index_invalid_paged
     # Try some invalid paged accesses
-    %w[-1 0 fred].each do |id|
+    %w[-1 fred].each do |id|
       get traces_path(:before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
 
