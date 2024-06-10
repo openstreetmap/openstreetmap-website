@@ -10,10 +10,10 @@ class DiaryEntriesController < ApplicationController
 
   authorize_resource
 
-  before_action :lookup_user, :only => [:show, :comments]
+  before_action :lookup_user, :only => :show
   before_action :check_database_writable, :only => [:new, :create, :edit, :update, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
 
-  allow_thirdparty_images :only => [:new, :create, :edit, :update, :index, :show, :comments]
+  allow_thirdparty_images :only => [:new, :create, :edit, :update, :index, :show]
 
   def index
     if params[:display_name]
@@ -239,17 +239,6 @@ class DiaryEntriesController < ApplicationController
     comment = DiaryComment.find(params[:comment])
     comment.update(:visible => true)
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
-  end
-
-  def comments
-    @title = t ".title", :user => @user.display_name
-
-    comments = DiaryComment.where(:user => @user)
-    comments = comments.visible unless can? :unhidecomment, DiaryEntry
-
-    @params = params.permit(:display_name, :before, :after)
-
-    @comments, @newer_comments_id, @older_comments_id = get_page_items(comments, :includes => [:user])
   end
 
   private
