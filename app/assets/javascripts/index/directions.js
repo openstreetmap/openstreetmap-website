@@ -213,7 +213,11 @@ OSM.Directions = function (map) {
         }
 
         var row = $("<tr class='turn'/>");
-        row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
+        if (direction) {
+          row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
+        } else {
+          row.append("<td class='border-0'>");
+        }
         row.append("<td>" + instruction);
         row.append("<td class='distance text-body-secondary text-end'>" + dist);
 

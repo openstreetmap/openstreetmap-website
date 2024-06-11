@@ -1,20 +1,20 @@
 function GraphHopperEngine(id, vehicleType) {
   var GH_INSTR_MAP = {
-    "-3": 7, // sharp left
-    "-2": 6, // left
-    "-1": 5, // slight left
-    "0": 0, // straight
-    "1": 1, // slight right
-    "2": 2, // right
-    "3": 3, // sharp right
-    "4": 14, // finish reached
-    "5": 14, // via reached
-    "6": 10, // roundabout
-    "-7": 19, // keep left
-    "7": 18, // keep right
-    "-98": 4, // unknown direction u-turn
-    "-8": 4, // left u-turn
-    "8": 4 // right u-turn
+    "-3": "sharp-left",
+    "-2": "left",
+    "-1": "slight-left",
+    "0": "straight",
+    "1": "slight-right",
+    "2": "right",
+    "3": "sharp-right",
+    "4": "destination", // finish reached
+    "5": "destination", // via reached
+    "6": "roundabout",
+    "-7": "fork-left",
+    "7": "fork-right",
+    "-98": "u-turn", // unknown direction u-turn
+    "-8": "u-turn", // left u-turn
+    "8": "u-turn" // right u-turn
   };
 
   return {
@@ -50,7 +50,7 @@ function GraphHopperEngine(id, vehicleType) {
           var len = path.instructions.length;
           for (var i = 0; i < len; i++) {
             var instr = path.instructions[i];
-            var instrCode = (i === len - 1) ? 14 : GH_INSTR_MAP[instr.sign];
+            var instrCode = (i === len - 1) ? "destination" : GH_INSTR_MAP[instr.sign];
             var instrText = "<b>" + (i + 1) + ".</b> ";
             instrText += instr.text;
             var latLng = line[instr.interval[0]];
