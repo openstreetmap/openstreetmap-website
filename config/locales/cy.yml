@@ -365,6 +365,7 @@ cy:
     download_xml: Lawrlwytho XML
     view_history: Gweld hanes
     view_details: Gweld manylion
+    view_redaction_message: Gweld Neges Orchuddio
     location: Lleoliadː
     node:
       title_html: 'Nod: %{name}'
@@ -510,8 +511,13 @@ cy:
       join_discussion: Mewngofnodwch i ymuno â'r sgwrs
       still_open: Mae'r grŵp newid dal ar agor - bydd trafodaeth yn agor pan fydd
         y grŵp newid wedi cau.
+      subscribe: Tanysgrifio
+      unsubscribe: Dad-danysgrifio
       comment_by_html: Sylw gan %{user} %{time_ago}
       hidden_comment_by_html: Sylw cudd gan %{user} %{time_ago}
+      hide_comment: cuddio
+      unhide_comment: datguddio
+      comment: Sylw
       changesetxml: XML grŵp newid
       osmchangexml: XML osmChange
     paging_nav:
@@ -581,6 +587,8 @@ cy:
       title: Dyddiadur %{user} | %{title}
       user_title: Dyddiadur %{user}
       discussion: Sgwrs
+      subscribe: Tanysgrifio
+      unsubscribe: Dad-danysgrifio
       leave_a_comment: Sylw
       login_to_leave_a_comment_html: '%{login_link} i adael sylw'
       login: Mewngofnodi
@@ -675,6 +683,8 @@ cy:
       contact_the_community_html: '%{contact_link} â''r gymuned OpenStreetMap os ydych
         chi wedi dod o hyd i nam neu ddolen sydd wedi torri. Nodwch yr URL cywir o''ch
         cais.'
+    bad_request:
+      title: Cais Drwg
     forbidden:
       title: Gwaharddedig
     internal_server_error:
@@ -1529,6 +1539,7 @@ cy:
       sydd ar gael i'w ddefnyddio am ddim a dan drwydded rydd.
     intro_2_create_account: Creu cyfrif defnyddiwr
     partners_fastly: Fastly
+    partners_corpmembers: Aelodau corfforaethol OSMF
     partners_partners: phartneriaid
     tou: Telerau Gwasanaeth
     osm_offline: Mae cronfa ddata OpenStreetMap all-lein ar hyn o bryd er mwyn gwaith
@@ -1550,6 +1561,7 @@ cy:
     more: Mwy
   user_mailer:
     diary_comment_notification:
+      description: 'Cofnod Dyddiadur OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] Gwnaeth %{user} sylw ar gofnod dyddiadur'
       hi: Helo %{to_user},
     message_notification:
@@ -1586,6 +1598,7 @@ cy:
       click_the_link: Os mai chi yw hwn, cliciwch ar y ddolen isod i ailosod eich
         cyfrinair.
     note_comment_notification:
+      description: 'Nodyn OpenStreetMap #%{id}'
       anonymous: Defnyddiwr dienw
       greeting: Helo,
       commented:
@@ -1607,8 +1620,8 @@ cy:
           ddiddordeb ynddo'
         your_note: Ailysgogodd %{commenter} un o'ch nodiadau map ger %{place}.
         your_note_html: Ailysgogodd %{commenter} un o'ch nodiadau map ger %{place}.
-      details: Ceir rhagor o fanylion am y nodyn ar %{url}.
-      details_html: Ceir rhagor o fanylion am y nodyn ar %{url}.
+      details: 'Ateb neu ddysgu mwy am y nodyn: %{url}.'
+      details_html: 'Ateb neu ddysgu mwy am y nodyn: %{url}.'
     changeset_comment_notification:
       description: 'Grŵp newid OpenStreetMap #%{id}'
       hi: Helo %{to_user},
@@ -1624,8 +1637,8 @@ cy:
         partial_changeset_with_comment: gyda sylw '%{changeset_comment}'
         partial_changeset_with_comment_html: gyda sylw '%{changeset_comment}'
         partial_changeset_without_comment: dim sylw
-      details: Ceir rhagor o fanylion am y grŵp newid ar %{url}.
-      details_html: Ceir rhagor o fanylion am y grŵp newid ar %{url}.
+      details: 'Ateb neu ddysgu mwy am y grŵp newid: %{url}.'
+      details_html: 'Ateb neu ddysgu mwy am y grŵp newid: %{url}.'
   confirmations:
     confirm:
       heading: Gwiriwch eich e-byst!
@@ -1772,13 +1785,15 @@ cy:
     new:
       title: Mewngofnodi
       tab_title: Mewngofnodi
+      login_to_authorize_html: Mewngofnodwch i OpenStreetMap i gael mynediad i %{client_app_name}.
       email or username: Cyfeiriad E-Bost neu Enw Defnyddiwr
       password: Cyfrinair
       remember: Cofiwch fi
       lost password link: Wedi anghofio eich cyfrinair?
       login_button: Mewngofnodi
       register now: Cofrestru nawr
-      with external: 'Fel arall, defnyddiwch drydydd parti i fewngofnodi:'
+      with external: neu fewngofnodi gyda thrydydd parti
+      or: neu
       auth failure: Mae'n ddrwg gennym, ni ellir mewngofnodi gyda'r manylion hynny.
     destroy:
       title: Allgofnodi
@@ -1904,6 +1919,7 @@ cy:
         contributors_fr_credit_html: '%{france}: Cynhwysir data gan Direction Générale
           des Impôts.'
         contributors_fr_france: Ffrainc
+        contributors_hr_croatia: Croatia
         contributors_nl_credit_html: '%{netherlands}: Cynhwysir data &copy; AND, 2007
           (%{and_link})'
         contributors_nl_netherlands: Iseldiroedd
@@ -1929,9 +1945,6 @@ cy:
         trademarks_1_1_trademark_policy: Polisi Nod Masnach
     index:
       js_2: Mae OpenStreetMap yn defnyddio JavaScript ar gyfer ei fap llithrig.
-      permalink: Dolen barhaol
-      shortlink: Dolen fer
-      createnote: Ychwanegu nodyn
       license:
         copyright: Hawlfraint OpenStreetMap a chyfranwyr, dan drwydded agored
     edit:
@@ -2244,6 +2257,7 @@ cy:
     description:
       description_without_count: Ffeil GPX gan %{user}
   application:
+    oauth_10a_disabled: 'Analluogir OAuth 1.0 a 1.0a: %{link}'
     require_admin:
       not_an_admin: Mae rhaid ichi fod yn weinyddwr i gyflawni'r weithred honno.
     settings_menu:
@@ -2254,6 +2268,7 @@ cy:
       muted_users: Defnyddwyr ag Anwybyddwyd
     auth_providers:
       openid_logo_alt: Mewngofnodi gydag OpenID
+      openid_login_button: Parhau
       openid:
         title: Mewngofnodi ag OpenID
         alt: Mewngofnodi ag URL OpenID
@@ -2264,8 +2279,8 @@ cy:
         title: Mewngofnodi â Facebook
         alt: Mewngofnodi â Chyfrif Facebook
       microsoft:
-        title: Mewngofnodi gyda Microsoft
-        alt: Mewngofnodi gyda Chyfrif Microsoft
+        title: Mewngofnodi â Microsoft
+        alt: Mewngofnodi â Chyfrif Microsoft
       github:
         title: Mewngofnodi â GitHub
         alt: Mewngofnodi â Chyfrif GitHub
@@ -2377,16 +2392,22 @@ cy:
   users:
     new:
       title: Cofrestru
+      tab_title: Cofrestru
       support: cymorth
       about:
-        header: Rhydd ac agored
+        header: Rhydd a golygadwy.
+        paragraph_2: Cofrestrwch i ddechrau cyfrannu.
+        welcome: Croeso i OpenStreetMap
       display name description: Eich enw defnyddiwr cyhoeddus. Gallwch newid hyn yn
         nes ymlaen yn eich dewisiadau.
+      tou: telerau defnydd
       external auth: 'Dilysu Trydydd Parti:'
       continue: Cofrestru
       terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
       privacy_policy: polisi preifatrwydd
-      use external auth: Fel arall, defnyddiwch drydydd parti i fewngofnodi
+      consider_pd: parth cyhoeddus
+      or: neu
+      use external auth: neu gofrestru gyda thrydydd parti
     terms:
       title: Telerau
       heading: Telerau
@@ -2432,6 +2453,7 @@ cy:
       remove as friend: Dad-ffrindio
       add as friend: Ychwanegu ffrind
       mapper since: 'Yn mapio ers:'
+      last map edit: 'Golygiad map diwethaf:'
       uid: 'ID Defnyddiwr:'
       ct status: 'Telerau cyfrannwr:'
       ct undecided: Heb Benderfynu
@@ -2520,6 +2542,7 @@ cy:
       revoke: Dad-flocio!
     helper:
       time_future_html: Yn dod i ben mewn %{time}.
+      until_login: Gweithredol hyd nes bod y defnyddiwr yn mewngofnodi.
       time_past_html: Wedi dod i ben %{time} yn ôl.
       block_duration:
         hours:
@@ -2564,6 +2587,7 @@ cy:
       title: Blociau gan %{name}
       heading_html: Rhestr Blociau gan %{name}
     show:
+      heading_html: '%{block_on} a flociwyd gan %{block_by}'
       created: 'Crëwyd:'
       duration: 'Cyfnod:'
       status: 'Statws:'
@@ -2584,6 +2608,15 @@ cy:
       reason: Rheswm dros flocio
       status: Statws
       revoker_name: Dirymwyd gan
+      older: Blociau Hŷn
+      newer: Blociau Diweddarach
+    navigation:
+      all_blocks: Pob Bloc
+      blocks_on_me: Blociau arnaf i
+      blocks_on_user: Blociau ar %{user}
+      blocks_by_me: Blociau gennyf i
+      blocks_by_user: Blociau gan %{user}
+      block: 'Bloc #%{id}'
   user_mutes:
     index:
       title: Defnyddwyr ag Anwybyddwyd
@@ -2605,14 +2638,14 @@ cy:
     index:
       title: Nodiadau ag agorwyd neu y gwnaed sylw arnynt gan %{user}
       heading: Nodiadau %{user}
-      subheading_html: Nodiadau ag %{submitted} neu y %{commented} arnynt gan %{user}
-      subheading_submitted: cyflwynwyd
-      subheading_commented: rhoddwyd sylw
+      subheading_html: Nodiadau %{submitted} neu %{commented} arnynt gan %{user}
+      subheading_submitted: a gyflwynwyd
+      subheading_commented: y gwnaed sylw
       no_notes: Dim nodiadau
       id: Id
       creator: Crëwr
       description: Disgrifiad
-      created_at: Crëwyd am
+      created_at: Crëwyd
       last_changed: Newidiwyd ddiwethaf
     show:
       title: 'Nodyn: %{id}'
@@ -2649,6 +2682,10 @@ cy:
       intro: Ydych chi wedi sylwi ar gamgymeriad neu rywbeth sydd ar goll? Rhowch
         wybod i fapwyr eraill fel y gallwn ei ddatrys. Symudwch y marciwr i'r safle
         cywir ac ysgrifennwch nodyn i esbonio'r broblem.
+      anonymous_warning_html: Nid ydych chi wedi mewngofnodi. %{log_in} neu %{sign_up}
+        os ydych chi eisiau derbyn diweddariadau am eich nodyn.
+      anonymous_warning_log_in: Mewngofnodwch
+      anonymous_warning_sign_up: gofrestrwch
       advice: Mae eich nodyn yn gyhoeddus a gellid ei ddefnyddio i ddiweddaru'r map,
         felly peidiwch ag ysgrifennu gwybodaeth bersonol, na gwybodaeth o fapiau hawlfreintiedig
         neu gyfeiriaduron.
@@ -2717,13 +2754,6 @@ cy:
       map_data_zoom_in_tooltip: Chwyddwch mewn i weld data'r map
       queryfeature_tooltip: Manylion nodweddion
       queryfeature_disabled_tooltip: Chwyddwch i mewn i gael manylion nodweddion
-    changesets:
-      show:
-        comment: Sylw
-        subscribe: Tanysgrifio
-        unsubscribe: Dad-danysgrifio
-        hide_comment: cuddio
-        unhide_comment: datguddio
     directions:
       ascend: Esgyn
       engines:

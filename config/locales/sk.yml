@@ -64,6 +64,9 @@ sk:
         invalid_email_address: nevyzerá ako platná e-mailová adresa
         email_address_not_routable: nie je routovateľná
         display_name_is_user_n: nemôže byť user_n, pokiaľ n nie je vaše ID používateľa
+      models:
+        user_mute:
+          is_already_muted: je už stlmený/á.
     models:
       acl: Zoznam prístupových práv
       changeset: Sada zmien
@@ -500,8 +503,13 @@ sk:
       join_discussion: Zapojte sa do diskusie
       still_open: Sada zmien stále otvorená - diskusia bude otvorená, keď bude sada
         zmien uzatvorená.
+      subscribe: Odoberať
+      unsubscribe: Zrušiť odoberanie
       comment_by_html: Komentár od používateľa %{user} %{time_ago}
       hidden_comment_by_html: Skrytý komentár od používateľa %{user} %{time_ago}
+      hide_comment: skryť
+      unhide_comment: zobraziť
+      comment: Okomentovať
       changesetxml: XML sady zmien
       osmchangexml: osmChange XML
     paging_nav:
@@ -1710,6 +1718,8 @@ sk:
       no_sent_messages_html: Nemáte odoslané správy. Prečo ste sa nespojili s niekým
         z %{people_mapping_nearby_link}?
       people_mapping_nearby: blízko mapujúci ľudia
+    muted:
+      title: Stlmené správy
     reply:
       wrong_user: Ste prihlásený ako „%{user}“, ale správa, na ktorú chcete odpovedať,
         nebola odoslaná tomuto používateľovi. Ak na ňu chcete odpovedať, prihláste
@@ -1728,6 +1738,7 @@ sk:
     heading:
       my_inbox: Doručená pošta
       my_outbox: Odoslané
+      muted_messages: Stlmené správy
     mark:
       as_read: Správa označená ako prečítaná
       as_unread: Správa označená ako neprečítaná
@@ -1983,9 +1994,6 @@ sk:
     index:
       js_1: Používate prehliadač bez podpory JavaScriptu, alebo máte JavaScript vypnutý.
       js_2: OpenStreetMap používa pre interaktívnu mapu JavaScript.
-      permalink: Trvalý odkaz
-      shortlink: Krátky odkaz
-      createnote: Pridať poznámku
       license:
         copyright: Chránené autorskými právami OpenStreetMap a prispievateľov pod
           slobodnou licenciou
@@ -2336,6 +2344,7 @@ sk:
       oauth1_settings: Nastavenia OAuth 1
       oauth2_applications: Aplikácie OAuth 2
       oauth2_authorizations: Autorizácie OAuth 2
+      muted_users: Stlmení používatelia
     auth_providers:
       openid_logo_alt: Prihlásenie pomocou OpenID
       openid:
@@ -2364,6 +2373,7 @@ sk:
         alt: Prihlásenie sa pomocou AOL OpenID
   oauth:
     authorize:
+      title: Povoľte prístup k vášmu účtu
       request_access_html: Aplikácia %{app_name} požaduje prístup k vášmu kontu (%{user}).
         Vyberte si, či si želáte, aby mala aplikácia nasledujúce oprávnenie. Môžete
         zvoliť ľubovoľný počet oprávnení.
@@ -2377,10 +2387,13 @@ sk:
       allow_write_notes: meniť poznámky.
       grant_access: Udeliť prístup
     authorize_success:
+      title: Požiadavka na autorizáciu povolená
       allowed_html: Udelili ste aplikácii %{app_name} prístup k vášmu účtu.
       verification: Váš overovací kód je %{code}.
     authorize_failure:
+      title: Požiadavka na autorizáciu zlyhala
       denied: Odopreli ste aplikácii %{app_name} prístup k vášmu účtu.
+      invalid: Autorizačný token je neplatný.
     revoke:
       flash: Prístup pre aplikáciu %{application} bol odvolaný.
     permissions:
@@ -2452,6 +2465,7 @@ sk:
   oauth2_authorizations:
     new:
       introduction: Povoliť %{application} prístup k vášmu účtu s nasledovnými oprávneniami?
+      authorize: Autorizovať
     show:
       title: Autorizačný kód
   oauth2_authorized_applications:
@@ -2459,6 +2473,7 @@ sk:
       title: Moje autorizované aplikácie
       application: Aplikácia
       permissions: Oprávnenia
+      last_authorized: Posledná autorizácia
       no_applications_html: Zatiaľ ste nepovolili žiadne %{oauth2} aplikácie.
     application:
       revoke: Odobrať prístup
@@ -2532,6 +2547,7 @@ sk:
       remove as friend: Odstrániť z priateľov
       add as friend: Pridať priateľa
       mapper since: 'Mapuje od:'
+      last map edit: 'Posledná úprava mapy:'
       ct status: 'Podmienky prispievania:'
       ct undecided: Nerozhodnuté
       ct declined: Odmietnuté
@@ -2699,6 +2715,16 @@ sk:
       reason: Dôvod pre blokovanie
       status: Stav
       revoker_name: Zrušil
+  user_mutes:
+    index:
+      title: Stlmení používatelia
+      my_muted_users: Mnou stlmení používatelia
+      table:
+        thead:
+          muted_user: Stlmený používateľ
+    create:
+      notice: Stlmili ste používateľa %{name}.
+      error: Používateľa %{name} nebolo možné stlmiť. %{full_message}.
   notes:
     index:
       title: Poznámky vytvorené alebo komentované používateľom %{user}
@@ -2823,13 +2849,6 @@ sk:
       map_data_zoom_in_tooltip: Priblížením zobrazíte údaje mapy
       queryfeature_tooltip: Prieskum prvkov
       queryfeature_disabled_tooltip: Pre prieskum prvkov priblížte
-    changesets:
-      show:
-        comment: Okomentovať
-        subscribe: Odoberať
-        unsubscribe: Zrušiť odoberanie
-        hide_comment: skryť
-        unhide_comment: zobraziť
     edit_help: Posuňte mapu a priblížte ju na miesto, ktoré chcete upraviť, potom
       kliknite sem.
     directions:

@@ -129,7 +129,7 @@ ne:
       trace:
         user: प्रयोगकर्ता
         visible: देखिने
-        name: नाम
+        name: फाइल नाम
         size: आकार
         latitude: अक्षांश
         longitude: देशान्तर
@@ -148,18 +148,65 @@ ne:
         description: वर्णन
       report:
         category: तपाईँको रिपोर्टको कारण छान्नुहोस्
+        details: कृपया समस्या बारे केही थप विवरणहरू प्रदान गर्नुहोस् (आवश्यक)।
       user:
+        auth_provider: प्रमाणीकरण प्रदायक
+        auth_uid: प्रमाणीकरण युआइडी
         email: इमेल
+        new_email: नयाँ इमेल ठेगाना
         active: सक्रिय
         display_name: देखाउने नाम
-        description: वर्णन
+        description: प्रोफाइल विवरण
         home_lat: अक्षांश
         home_lon: देशान्तर
-        languages: भाषाहरू
+        languages: रुचाइएका भाषाहरू
+        preferred_editor: रुचाइएको सम्पादक
         pass_crypt: पासवर्ड
+        pass_crypt_confirmation: पासवर्ड निश्चित गर्नुहोस्
     help:
       trace:
         tagstring: अल्पविरामले छुट्याएको
+      user:
+        new_email: (सार्वजनिक रूपमा कहिल्यै देखाइएको छैन)
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: लगभग %{count} घण्टा अघि
+        other: लगभग %{count} घण्टा अघि
+      about_x_months:
+        one: लगभग %{count} महिना अघि
+        other: लगभग %{count} महिना अघि
+      about_x_years:
+        one: लगभग %{count} घण्टा अघि
+        other: लगभग %{count} घण्टा अघि
+      almost_x_years:
+        one: लगभग %{count} वर्ष पहिले
+        other: लगभग %{count} वर्ष पहिले
+      half_a_minute: आधा मिनेट अघि
+      less_than_x_seconds:
+        one: '%{count} सेकेन्ड भन्दा कम'
+        other: '%{count} सेकेन्ड अघि'
+      less_than_x_minutes:
+        one: '%{count} मिनेट भन्दा कम'
+        other: '%{count} मिनेट अघि'
+      over_x_years:
+        one: लगभग %{count} वर्ष पहिले
+        other: लगभग %{count} वर्ष पहिले
+      x_seconds:
+        one: '%{count} सेकेन्ड अघि'
+        other: '%{count} सेकेन्ड अघि'
+      x_minutes:
+        one: '%{count} मिनेट पहिले'
+        other: '%{count} मिनेट पहिले'
+      x_days:
+        one: '%{count} दिन अघि'
+        other: '%{count} दिन अघि'
+      x_months:
+        one: '%{count} महिना अघि'
+        other: '%{count} महिना अघि'
+      x_years:
+        one: लगभग %{count} वर्ष पहिले
+        other: लगभग %{count} वर्ष पहिले
   editor:
     default: पूर्वस्थापित(अहिलेको %{name})
     id:
@@ -171,15 +218,23 @@ ne:
   auth:
     providers:
       none: कुनै पनि होइन
+      google: गुगल
+      facebook: फेसबुक
+      github: गिटहब
+      wikipedia: विकिपिडिया
   api:
     notes:
       comment:
         commented_at_by_html: '%{user}  द्वारा  %{when} पहिले अद्यावधिक गरिएको'
+      rss:
+        title: ओपनस्ट्रिटम्याप टिप्पणीहरू
       entry:
         comment: टिप्पणी
+        full: पूर्ण टिप्पणी
   account:
     deletions:
       show:
+        title: मेरो खाता मेटाउनुहोस्
         confirm_delete: निश्चित हुनुहुन्छ ?
         cancel: रद्द गर्नुहोस्
   accounts:
@@ -326,6 +381,10 @@ ne:
       title: 'परिवर्तनहरू: %{id}'
       discussion: छलफल
       join_discussion: छलफलमा भाग लिन लग इन गर्नुहोस्
+      subscribe: सदस्यता लिनुहोस्
+      unsubscribe: सदस्यता खारेज गर्नुहोस्
+      hide_comment: लुकाउ
+      comment: टिप्पणी
       changesetxml: चेन्जसेट XML
       osmchangexml: osmChange XML
     paging_nav:
@@ -1002,10 +1061,6 @@ ne:
         more_title_html: थप जान्नको लागि
         contributors_title_html: हाम्रा योगदान कर्ताहरू
         contributors_fr_france: फ्रान्स
-    index:
-      permalink: स्थायी लिङ्क
-      shortlink: छोटो लिङ्क
-      createnote: एक टिप्पणी थप्नुहोस्
     edit:
       user_page_link: प्रयोगकर्ता पृष्ठ
     export:
@@ -1305,12 +1360,6 @@ ne:
         notes: म्याप टिप्पणीहरू
         gps: सार्वजनिक GPS ट्रेसहरू
       make_a_donation: दान गर्नुहोस्
-    changesets:
-      show:
-        comment: टिप्पणी
-        subscribe: सदस्यता लिनुहोस्
-        unsubscribe: सदस्यता खारेज गर्नुहोस्
-        hide_comment: लुकाउ
     directions:
       instructions:
         exit_counts:
