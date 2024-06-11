@@ -1,5 +1,82 @@
 <% content_for(:content_class) { "overlay-sidebar" } %>
 
+<svg width="20" height="20" class="d-none">
+  <symbol id="routing-sprite-start" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M10 16 a1 1 0 1 0 0 -2 1 1 0 1 0 0 2 m0 -4 v-8 m2.5 2 l-2.5 -2.5 -2.5 2.5 z" />
+  </symbol>
+  <symbol id="routing-sprite-destination" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M10 5 a1 1 0 1 0 0 -2 1 1 0 1 0 0 2 m0 12 v-8 m2.5 2 l-2.5 -2.5 -2.5 2.5 z" />
+  </symbol>
+
+  <symbol id="routing-sprite-straight" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M10 17 v-13 m2.5 2 l-2.5 -2.5 -2.5 2.5 z" />
+  </symbol>
+  <symbol id="routing-sprite-slight-right" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M7 17 v-3 q0 -2 2 -4 l5 -5 m0 0 h-3 l3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-right" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M8 17 v-5 q0 -3 3 -3 h4 m-2 2.5 l2.5 -2.5 -2.5 -2.5 z" />
+  </symbol>
+  <symbol id="routing-sprite-sharp-right" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M8 17 v-7 q0 -6 6 0 l2 2 m0 0 v-3 l-3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-u-turn" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M16 17 v-7 a4.5 4.5 0 0 0 -9 0 v5 m-2.5 -2 l2.5 2.5 2.5 -2.5 z" />
+  </symbol>
+  <symbol id="routing-sprite-slight-left" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M13 17 v-3 q0 -2 -2 -4 l-5 -5 m0 0 h3 l-3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-left" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M13 17 v-5 q0 -3 -3 -3 h-4 m2 2.5 l-2.5 -2.5 2.5 -2.5 z" />
+  </symbol>
+  <symbol id="routing-sprite-sharp-left" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M13 17 v-7 q0 -6 -6 0 l-2 2 m0 0 v-3 l3 3 z" />
+  </symbol>
+
+  <symbol id="routing-sprite-roundabout" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M8 17 v-3 a 3 3 0 1 0 0 -6 3 3 0 1 0 0 6 m2 -4 l5 -5 m0 0 h-3 l3 3 z" />
+  </symbol>
+
+  <symbol id="routing-sprite-fork-right" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M9 14 q0 -2 -2 -4 l-3 -3" opacity=".5" />
+    <path d="M9 17 v-3 q0 -2 2 -4 l5 -5 m0 0 h-3 l3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-fork-left" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M11 14 q0 -2 2 -4 l3 -3" opacity=".5" />
+    <path d="M11 17 v-3 q0 -2 -2 -4 l-5 -5 m0 0 h3 l-3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-merge-left" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M8 7 q0 2 -2 4 l-3 3" opacity=".5" />
+    <path d="M8 4 v3 q0 2 2 4 l5 5 m-5 -5 h3 l-3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-merge-right" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M12 7 q0 2 2 4 l3 3" opacity=".5" />
+    <path d="M12 4 v3 q0 2 -2 4 l-5 5 m5 -5 h-3 l3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-end-of-road-right" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M2 9 h10" opacity=".5" />
+    <path d="M9 17 v-5 q0 -3 3 -3 h4 m-2 2.5 l2.5 -2.5 -2.5 -2.5 z" />
+  </symbol>
+  <symbol id="routing-sprite-end-of-road-left" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M18 9 h-10" opacity=".5" />
+    <path d="M11 17 v-5 q0 -3 -3 -3 h-4 m2 2.5 l-2.5 -2.5 2.5 -2.5 z" />
+  </symbol>
+  <symbol id="routing-sprite-exit-right" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M9 14 v-8" opacity=".5" />
+    <path d="M9 17 v-3 q0 -2 2 -4 l5 -5 m0 0 h-3 l3 3 z" />
+  </symbol>
+  <symbol id="routing-sprite-exit-left" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M11 14 v-8" opacity=".5" />
+    <path d="M11 17 v-3 q0 -2 -2 -4 l-5 -5 m0 0 h3 l-3 3 z" />
+  </symbol>
+
+  <symbol id="routing-sprite-ferry" fill="none" stroke="currentColor" stroke-width="1">
+    <path d="M10.5 8 l-6 2 l2.5 2 v1.5 a2.828 2.828 0 0 1 1.5 1 a2.828 2.828 0 0 1 4 0 a2.828 2.828 0 0 1 1.5 -1 v-1.5 l2.5 -2 z" fill="currentColor" />
+    <path d="M6.5 9.5 v-5 h8 v5 m-5.5 -6 h3" />
+    <path d="M5.5 16.5 a1.414 2.828 0 0 1 2 0 a1.414 2.828 0 0 0 2 0 a1.414 2.828 0 0 1 2 0 a1.414 2.828 0 0 0 2 0 a1.414 2.828 0 0 1 2 0" />
+  </symbol>
+</svg>
+
 <%= render "sidebar_header", :title => t("javascripts.directions.directions") %>
 
 <div id="directions_content"></div>
