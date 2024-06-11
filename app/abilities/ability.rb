@@ -18,7 +18,8 @@ class Ability
       can [:index, :feed, :show], Changeset
       can :index, ChangesetComment
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
-      can [:index, :rss, :show, :comments], DiaryEntry
+      can [:index, :rss, :show], DiaryEntry
+      can :index, DiaryComment
       can [:index], Note
       can [:new, :create, :edit, :update], :password
       can [:index, :show], Redaction

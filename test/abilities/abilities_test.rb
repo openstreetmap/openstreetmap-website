@@ -17,8 +17,12 @@ class GuestAbilityTest < AbilityTest
 
   test "diary permissions for a guest" do
     ability = Ability.new nil
-    [:index, :rss, :show, :comments].each do |action|
+    [:index, :rss, :show].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
+    end
+
+    [:index].each do |action|
+      assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComments"
     end
 
     [:create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
@@ -47,8 +51,12 @@ class UserAbilityTest < AbilityTest
   test "Diary permissions" do
     ability = Ability.new create(:user)
 
-    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe].each do |action|
+    [:index, :rss, :show, :create, :edit, :comment, :subscribe, :unsubscribe].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
+    end
+
+    [:index].each do |action|
+      assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComments"
     end
 
     [:hide, :hidecomment].each do |action|
@@ -86,8 +94,12 @@ end
 class AdministratorAbilityTest < AbilityTest
   test "Diary for an administrator" do
     ability = Ability.new create(:administrator_user)
-    [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
+    [:index, :rss, :show, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
+    end
+
+    [:index].each do |action|
+      assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComments"
     end
   end
 
