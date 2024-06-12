@@ -24,6 +24,18 @@ module UserMethods
   end
 
   ##
+  # render a "no such user id" page
+  def render_unknown_user_id(id)
+    @title = t "users.no_such_user_id.title"
+    @not_found_user_id = id
+
+    respond_to do |format|
+      format.html { render :template => "users/no_such_user_id", :status => :not_found, :layout => "site" }
+      format.all { head :not_found }
+    end
+  end
+
+  ##
   # update a user's details
   def update_user(user, params)
     user.display_name = params[:display_name]
