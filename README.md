@@ -34,7 +34,9 @@ number of dependencies for installation. For full details please see [INSTALL.md
 We're always keen to have more developers! Pull requests are very welcome.
 
 * Bugs are recorded in the [issue tracker](https://github.com/openstreetmap/openstreetmap-website/issues).
-* Translation is managed by [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap).
+* Translation is managed by [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap). Most of the messages can be translated there. However, some translations come from external sources:
+   * GraphHopper: https://github.com/graphhopper/graphhopper/blob/master/docs/core/translations.md
+   * Time and date format: https://github.com/svenfuchs/rails-i18n
 * Local Chapters shown on the Communities page, and their translations, come from [osm-community-index](https://github.com/osmlab/osm-community-index).
 * There is a [rails-dev@openstreetmap.org](https://lists.openstreetmap.org/listinfo/rails-dev) mailing list for development discussion.
 * IRC - there is the #osm-dev channel on irc.oftc.net.
