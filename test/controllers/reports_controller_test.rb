@@ -7,7 +7,7 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path(:referer => new_report_path(:reportable_id => target_user.id, :reportable_type => "User"))
   end
 
-  def test_new_report_after_login
+  def test_new_user_report
     target_user = create(:user)
 
     session_for(create(:user))
@@ -25,6 +25,28 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
                         })
     end
     assert_redirected_to user_path(target_user)
+  end
+
+  def test_new_changeset_report
+    target_user = create(:user)
+    target_changeset = create(:changeset, :user => target_user)
+
+    session_for(create(:user))
+
+    # Create an Issue and a report
+    get new_report_path(:reportable_id => target_changeset.id, :reportable_type => "Changeset")
+    assert_response :success
+    assert_difference "Issue.count", 1 do
+      details = "Details of a report"
+      category = "other"
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_changeset.id, :reportable_type => "Changeset" }
+                        })
+    end
+    assert_response :redirect
+    assert_redirected_to changeset_path(target_changeset)
   end
 
   def test_new_report_with_incomplete_details
