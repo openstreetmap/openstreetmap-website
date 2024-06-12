@@ -11,7 +11,10 @@ function GraphHopperEngine(id, vehicleType) {
     "5": 14, // via reached
     "6": 10, // roundabout
     "-7": 19, // keep left
-    "7": 18 // keep right
+    "7": 18, // keep right
+    "-98": 4, // unknown direction u-turn
+    "-8": 4, // left u-turn
+    "8": 4 // right u-turn
   };
 
   return {
