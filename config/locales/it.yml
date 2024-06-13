@@ -630,6 +630,8 @@ it:
       title: Diario di %{user} | %{title}
       user_title: Diario di %{user}
       discussion: Discussione
+      subscribe: Iscriviti
+      unsubscribe: Annulla iscrizione
       leave_a_comment: Lascia un commento
       login_to_leave_a_comment_html: '%{login_link} per lasciare un commento'
       login: Entra
@@ -673,7 +675,14 @@ it:
       all:
         title: Voci del diario di OpenStreetMap
         description: Voci del diario recenti degli utenti di OpenStreetMap
-    comments:
+    subscribe:
+      heading: Vuoi iscriverti alla seguente discussione sul diario?
+      button: Iscriviti alla discussione
+    unsubscribe:
+      heading: Annullare l'iscrizione alla seguente discussione sul diario?
+      button: Annulla l'iscrizione alla discussione
+  diary_comments:
+    index:
       title: Commenti del diario aggiunti da %{user}
       heading: I commenti del diario di %{user}
       subheading_html: Commenti del diario aggiunti da %{user}
@@ -683,12 +692,6 @@ it:
       comment: Commento
       newer_comments: Commenti più recenti
       older_comments: Commenti più vecchi
-    subscribe:
-      heading: Vuoi iscriverti alla seguente discussione sul diario?
-      button: Iscriviti alla discussione
-    unsubscribe:
-      heading: Annullare l'iscrizione alla seguente discussione sul diario?
-      button: Annulla l'iscrizione alla discussione
   doorkeeper:
     errors:
       messages:
@@ -730,6 +733,10 @@ it:
       contact_the_community_html: Se hai trovato un link non funzionante o un bug,
         sentiti libero di %{contact_link} la comunità OpenStreetMap. Prendi nota dell'indirizzo
         URL esatto della tua richiesta.
+    bad_request:
+      title: Richiesta errata
+      description: L'operazione richiesta al server OpenStreetMap non è valida (HTTP
+        400)
     forbidden:
       title: Vietato
       description: L'operazione che hai richiesto sul server OpenStreetMap è disponibile
@@ -2002,6 +2009,7 @@ it:
     new:
       title: Entra
       tab_title: Entra
+      login_to_authorize_html: Accedi a OpenStreetMap per accedere a %{client_app_name}.
       email or username: Indirizzo e-mail o nome utente
       password: Password
       remember: Ricordati di me
@@ -2660,6 +2668,8 @@ it:
         other: File GPX con %{count} punti da %{user}
       description_without_count: File GPX da %{user}
   application:
+    basic_auth_disabled: 'L''autenticazione di base HTTP è disabilitata: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 e 1.0a sono disabilitati: %{link}'
     permission_denied: Non disponi dei permessi necessari per eseguire questa azione
     require_cookies:
       cookies_needed: Pare che tu abbia i cookie non abilitati - abilita i cookie
@@ -2843,6 +2853,7 @@ it:
     new:
       title: Registrati
       tab_title: Registrati
+      signup_to_authorize_html: Registrati su OpenStreetMap per accedere a %{client_app_name}.
       no_auto_account_create: Sfortunatamente in questo momento non è possibile creare
         automaticamente per te un profilo.
       please_contact_support_html: Contatta %{support_link} per organizzare la creazione
@@ -2855,8 +2866,13 @@ it:
           scaricarla o usarla.
         paragraph_2: Registrati per iniziare a contribuire.
         welcome: Benvenuti in OpenStreetMap
+      duplicate_social_email: Se hai già un account OpenStreetMap e desideri utilizzare
+        un provider d'identità di terze parti, accedi utilizzando la tua password
+        e modifica le impostazioni del tuo account.
       display name description: Il proprio nome utente visualizzato pubblicamente.
         Può essere modificato più tardi nelle preferenze.
+      by_signing_up_html: Registrandoti, accetti i nostri %{tou_link}, %{privacy_policy_link}
+        e %{contributor_terms_link}.
       tou: condizioni d'uso
       contributor_terms: regole per contribuire
       external auth: 'Autenticazione tramite terze parti:'
@@ -2867,6 +2883,7 @@ it:
       privacy_policy: normativa sulla privacy
       privacy_policy_title: Informativa sulla privacy di OSM Foundation compresa la
         sezione sugli indirizzi e-mail
+      consider_pd_html: Considero i miei contributi in %{consider_pd_link}.
       consider_pd: pubblico dominio
       or: o
       use external auth: o registrati tramite terze parti
@@ -2934,6 +2951,8 @@ it:
       remove as friend: Rimuovi amico
       add as friend: Aggiungi amico
       mapper since: 'Mappatore dal:'
+      last map edit: 'Ultima modifica della mappa:'
+      no activity yet: Non ci sono ancora attività
       uid: 'ID utente:'
       ct status: 'Termini di collaborazione:'
       ct undecided: Indeciso
@@ -3214,6 +3233,8 @@ it:
       intro: Ti sei accorto di un errore o di qualcosa che manca? Fallo sapere agli
         altri mappatori così possono correggerlo. Sposta il puntatore nella posizione
         esatta e inserisci una nota per spiegare il problema.
+      anonymous_warning_html: Non hai effettuato l'accesso. %{log_in} oppure %{sign_up}
+        se desideri ricevere aggiornamenti sulla tua nota.
       anonymous_warning_log_in: entra
       anonymous_warning_sign_up: registrati
       advice: La tua nota è pubblica e potrebbe essere utilizzata per aggiornare la
