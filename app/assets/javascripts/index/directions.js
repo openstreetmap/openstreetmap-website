@@ -69,7 +69,7 @@ OSM.Directions = function (map) {
     });
 
     input.on("keydown", function () {
-      input.removeClass("error");
+      input.removeClass("is-invalid");
     });
 
     input.on("change", function (e) {
@@ -81,7 +81,7 @@ OSM.Directions = function (map) {
     endpoint.setValue = function (value, latlng) {
       endpoint.value = value;
       delete endpoint.latlng;
-      input.removeClass("error");
+      input.removeClass("is-invalid");
       input.val(value);
 
       if (latlng) {
@@ -106,7 +106,7 @@ OSM.Directions = function (map) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
         if (json.length === 0) {
-          input.addClass("error");
+          input.addClass("is-invalid");
           alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
           return;
         }
