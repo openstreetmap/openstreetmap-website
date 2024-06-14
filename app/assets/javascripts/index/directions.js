@@ -3,7 +3,6 @@
 //= require qs/dist/qs
 
 OSM.Directions = function (map) {
-  var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
   var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
   var chosenEngine;
 
@@ -74,8 +73,6 @@ OSM.Directions = function (map) {
     });
 
     input.on("change", function (e) {
-      awaitingGeocode = true;
-
       // make text the same in both text boxes
       var value = e.target.value;
       endpoint.setValue(value);
@@ -118,10 +115,7 @@ OSM.Directions = function (map) {
 
         input.val(json[0].display_name);
 
-        if (awaitingGeocode) {
-          awaitingGeocode = false;
-          getRoute(true, true);
-        }
+        getRoute(true, true);
       });
     };
 
@@ -209,11 +203,9 @@ OSM.Directions = function (map) {
       var endpoint = endpoints[ep_i];
       if (!endpoint.hasGeocode && !endpoint.awaitingGeocode) {
         endpoint.getGeocode();
-        awaitingGeocode = true;
       }
     }
     if (endpoints[0].awaitingGeocode || endpoints[1].awaitingGeocode) {
-      awaitingGeocode = true;
       return;
     }
 
