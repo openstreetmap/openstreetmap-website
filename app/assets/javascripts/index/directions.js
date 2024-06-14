@@ -134,7 +134,7 @@ OSM.Directions = function (map) {
     // copy loading item to sidebar and display it. we copy it, rather than
     // just using it in-place and replacing it in case it has to be used
     // again.
-    $("#sidebar_content").html($(".directions_form .loader_copy").html());
+    $("#directions_content").html($(".directions_form .loader_copy").html());
     map.setSidebarOverlaid(false);
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(function (route) {
@@ -158,16 +158,10 @@ OSM.Directions = function (map) {
 
       const turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
         .append($("<tbody>"));
-      const directionsCloseButton = $("<button type='button' class='btn-close'>")
-        .attr("aria-label", I18n.t("javascripts.close"));
 
-      $("#sidebar_content")
+      $("#directions_content")
         .empty()
         .append(
-          $("<div class='d-flex'>").append(
-            $("<h2 class='flex-grow-1 text-break'>")
-              .text(I18n.t("javascripts.directions.directions")),
-            $("<div>").append(directionsCloseButton)),
           distanceText,
           turnByTurnTable
         );
@@ -203,27 +197,19 @@ OSM.Directions = function (map) {
       URL.revokeObjectURL(downloadURL);
       downloadURL = URL.createObjectURL(blob);
 
-      $("#sidebar_content").append(`<p class="text-center"><a href="${downloadURL}" download="${
+      $("#directions_content").append(`<p class="text-center"><a href="${downloadURL}" download="${
         I18n.t("javascripts.directions.filename")
       }">${
         I18n.t("javascripts.directions.download")
       }</a></p>`);
 
-      $("#sidebar_content").append("<p class=\"text-center\">" +
+      $("#directions_content").append("<p class=\"text-center\">" +
         I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
         "</p>");
-
-      directionsCloseButton.on("click", function () {
-        map.removeLayer(polyline);
-        $("#sidebar_content").html("");
-        popup.close();
-        map.setSidebarOverlaid(true);
-        // TODO: collapse width of sidebar back to previous
-      });
     }).catch(function () {
       map.removeLayer(polyline);
       if (reportErrors) {
-        $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
+        $("#directions_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
     }).finally(function () {
       controller = null;
@@ -236,6 +222,15 @@ OSM.Directions = function (map) {
       if (dist < 5000) return String(Math.round(dist / 100) / 10) + "km";
       return String(Math.round(dist / 1000)) + "km";
     }
+  }
+
+  function hideRoute(e) {
+    e.stopPropagation();
+    map.removeLayer(polyline);
+    $("#directions_content").html("");
+    popup.close();
+    map.setSidebarOverlaid(true);
+    // TODO: collapse width of sidebar back to previous
   }
 
   setEngine("fossgis_osrm_car");
@@ -295,6 +290,8 @@ OSM.Directions = function (map) {
   }
 
   function enableListeners() {
+    $("#sidebar_content").on("click", ".btn-close", hideRoute);
+
     $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
     });
@@ -320,6 +317,21 @@ OSM.Directions = function (map) {
   const page = {};
 
   page.pushstate = page.popstate = function () {
+    if ($("#directions_content").length) {
+      page.load();
+    } else {
+      initializeFromParams();
+
+      $(".search_form").hide();
+      $(".directions_form").show();
+
+      OSM.loadSidebarContent("/directions", enableListeners);
+
+      map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
+    }
+  };
+
+  page.load = function () {
     initializeFromParams();
 
     $(".search_form").hide();
@@ -330,13 +342,11 @@ OSM.Directions = function (map) {
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
   };
 
-  page.load = function () {
-    page.pushstate();
-  };
-
   page.unload = function () {
     $(".search_form").show();
     $(".directions_form").hide();
+
+    $("#sidebar_content").off("click", ".btn-close", hideRoute);
     $("#map").off("dragend dragover drop");
     map.off("locationfound", sendstartinglocation);
 
