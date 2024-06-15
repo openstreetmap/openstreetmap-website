@@ -72,6 +72,7 @@ gem "validates_email_format_of", ">= 1.5.1"
 gem "quad_tile", "~> 1.0.1"
 
 # Sanitise URIs
+gem "addressable", "~> 2.8"
 gem "rack-uri_sanitizer"
 
 # Omniauth for authentication
