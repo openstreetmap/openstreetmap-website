@@ -20,9 +20,18 @@ OSM.Directions = function (map) {
     weight: 12
   });
 
+  var endpointDragCallback = function (dragging) {
+    if (map.hasLayer(polyline)) {
+      getRoute(false, !dragging);
+    }
+  };
+  var endpointGeocodeCallback = function () {
+    getRoute(true, true);
+  };
+
   var endpoints = [
-    Endpoint($("input[name='route_from']"), OSM.MARKER_GREEN),
-    Endpoint($("input[name='route_to']"), OSM.MARKER_RED)
+    Endpoint($("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointGeocodeCallback),
+    Endpoint($("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointGeocodeCallback)
   ];
 
   var expiry = new Date();
@@ -42,7 +51,7 @@ OSM.Directions = function (map) {
     select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
   });
 
-  function Endpoint(input, iconUrl) {
+  function Endpoint(input, iconUrl, dragCallback, geocodeCallback) {
     var endpoint = {};
 
     endpoint.marker = L.marker([0, 0], {
@@ -63,9 +72,7 @@ OSM.Directions = function (map) {
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
-      if (map.hasLayer(polyline)) {
-        getRoute(false, !dragging);
-      }
+      dragCallback(dragging);
     });
 
     input.on("keydown", function () {
@@ -115,7 +122,7 @@ OSM.Directions = function (map) {
 
         input.val(json[0].display_name);
 
-        getRoute(true, true);
+        geocodeCallback();
       });
     };
 
