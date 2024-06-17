@@ -25,8 +25,12 @@ class GuestAbilityTest < AbilityTest
       assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComments"
     end
 
-    [:create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
+    [:create, :edit, :comment, :subscribe, :unsubscribe, :hide, :unhide].each do |action|
       assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
+    end
+
+    [:hide, :unhide].each do |action|
+      assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryComments"
     end
   end
 
@@ -59,8 +63,9 @@ class UserAbilityTest < AbilityTest
       assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComments"
     end
 
-    [:hide, :hidecomment].each do |action|
+    [:hide, :unhide].each do |action|
       assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
+      assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryComment"
     end
 
     [:index, :show, :resolve, :ignore, :reopen].each do |action|
@@ -85,8 +90,9 @@ class ModeratorAbilityTest < AbilityTest
       assert ability.cannot?(action, UserRole), "should not be able to #{action} UserRoles"
     end
 
-    [:hide, :hidecomment].each do |action|
+    [:hide, :unhide].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
+      assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComment"
     end
   end
 end
@@ -94,11 +100,11 @@ end
 class AdministratorAbilityTest < AbilityTest
   test "Diary for an administrator" do
     ability = Ability.new create(:administrator_user)
-    [:index, :rss, :show, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
+    [:index, :rss, :show, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :unhide].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
 
-    [:index].each do |action|
+    [:index, :hide, :unhide].each do |action|
       assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComments"
     end
   end

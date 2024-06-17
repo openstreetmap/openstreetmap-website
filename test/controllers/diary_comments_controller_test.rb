@@ -12,6 +12,14 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username/diary/comments", :method => :get },
       { :controller => "diary_comments", :action => "index", :display_name => "username" }
     )
+    assert_routing(
+      { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
+      { :controller => "diary_comments", :action => "hide", :display_name => "username", :id => "1", :comment => "2" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/unhidecomment/2", :method => :post },
+      { :controller => "diary_comments", :action => "unhide", :display_name => "username", :id => "1", :comment => "2" }
+    )
 
     get "/user/username/diary/comments/1"
     assert_redirected_to "/user/username/diary/comments"
@@ -59,5 +67,69 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
       get diary_comments_path(:display_name => user.display_name, :after => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
     end
+  end
+
+  def test_hide
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry)
+
+    # Try without logging in
+    post hide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_response :forbidden
+    assert DiaryComment.find(diary_comment.id).visible
+
+    # Now try as a normal user
+    session_for(user)
+    post hide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert DiaryComment.find(diary_comment.id).visible
+
+    # Try as a moderator
+    session_for(create(:moderator_user))
+    post hide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    assert_not DiaryComment.find(diary_comment.id).visible
+
+    # Reset
+    diary_comment.reload.update(:visible => true)
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    post hide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    assert_not DiaryComment.find(diary_comment.id).visible
+  end
+
+  def test_unhide
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry, :visible => false)
+
+    # Try without logging in
+    post unhide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_response :forbidden
+    assert_not DiaryComment.find(diary_comment.id).visible
+
+    # Now try as a normal user
+    session_for(user)
+    post unhide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_not DiaryComment.find(diary_comment.id).visible
+
+    # Now try as a moderator
+    session_for(create(:moderator_user))
+    post unhide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    assert DiaryComment.find(diary_comment.id).visible
+
+    # Reset
+    diary_comment.reload.update(:visible => true)
+
+    # Finally try as an administrator
+    session_for(create(:administrator_user))
+    post unhide_diary_comment_path(user, diary_entry, diary_comment)
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    assert DiaryComment.find(diary_comment.id).visible
   end
 end
