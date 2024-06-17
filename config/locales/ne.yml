@@ -164,6 +164,8 @@ ne:
         pass_crypt: पासवर्ड
         pass_crypt_confirmation: पासवर्ड निश्चित गर्नुहोस्
     help:
+      doorkeeper/application:
+        redirect_uri: प्रति युआरआई एउटा पङ्क्ति प्रयोग गर्नुहोस्
       trace:
         tagstring: अल्पविरामले छुट्याएको
       user:
@@ -214,7 +216,7 @@ ne:
       description: iD (ब्राउजर सम्पादक)
     remote:
       name: रिमोट कन्ट्रोल
-      description: रिमोट कन्ट्रोल  (JOSM वा Merkaartor)
+      description: रिमोट कन्ट्रोल (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: कुनै पनि होइन
@@ -235,6 +237,7 @@ ne:
     deletions:
       show:
         title: मेरो खाता मेटाउनुहोस्
+        delete_account: खाता मेटाउनुहोस्
         confirm_delete: निश्चित हुनुहुन्छ ?
         cancel: रद्द गर्नुहोस्
   accounts:
@@ -422,8 +425,8 @@ ne:
     new:
       title: नयाँ दैनिकी प्रविष्टी
     form:
-      location: 'स्थान:'
-      use_map_link: नक्सा प्रयोगर्ने
+      location: स्थान
+      use_map_link: नक्सा प्रयोग गर्ने
     index:
       title: प्रयोगकर्ताका डायरीहरू
       title_friends: साथीहरूका डायरीहरू
@@ -444,6 +447,8 @@ ne:
       title: '%{user}को डायरी | %{title}'
       user_title: '%{user}को डायरी'
       discussion: छलफल
+      subscribe: सदस्यता लिनुहोस्
+      unsubscribe: सदस्यता खारेज गर्नुहोस्
       leave_a_comment: टिप्पणी छोड्ने
       login_to_leave_a_comment_html: '%{login_link} टिप्पणी छोड्नलाई'
       login: प्रवेश
@@ -456,7 +461,7 @@ ne:
       posted_by_html: '%{link_user}द्वारा %{created}मा %{language_link}भाषामा पोस्ट
         गरिएको'
       comment_link: यस प्रविष्टीमा टिप्पणी गर्ने
-      reply_link: यो प्रविष्टीमा जवाफ लेख्ने
+      reply_link: लेखकलाई सन्देश पठाउनुहोस्
       comment_count:
         zero: कुनै टिप्पणीहरू छैनन्
         one: '%{count} टिप्पणी'
@@ -492,6 +497,13 @@ ne:
       comment: टिप्पणी
       newer_comments: नयाँ टिप्पणीहरू
       older_comments: पूरानो टिप्पणीहरू
+  errors:
+    forbidden:
+      title: निषेध गरिएको
+    internal_server_error:
+      title: अनुप्रयोगसम्बन्धी त्रुटि
+    not_found:
+      title: फाइल फेला परेन
   friendships:
     make_friend:
       button: साथीको रूपमा थप्नुहोस्
@@ -503,6 +515,9 @@ ne:
     remove_friend:
       button: साथीबाट हटाउने
   geocoder:
+    search:
+      title:
+        latlon: आन्तरिक
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -510,17 +525,26 @@ ne:
           chair_lift: कुर्सी लिफ्ट
           drag_lift: तान्ने लिफ्ट
           gondola: गोन्डोला लिफ्ट
+          pylon: पाइलन
           station: हवाई मार्ग स्टेशन
+          t-bar: टि-बार लिफ्ट
+          "yes": हवाई मार्ग
         aeroway:
           aerodrome: हवाईड्रोम
+          airstrip: हवाई यात्रा
           apron: तटबन्द
-          gate: ढोका
+          gate: विमानस्थलको गेट
           hangar: ह्याङ्गर
           helipad: हेलिकप्टर बस्ने ठाउँ
+          navigationaid: उड्डयन पथप्रदर्शन सहायता
+          parking_position: पार्किङ स्थिति
           runway: रनवे
+          taxilane: ट्याक्सिलेन
           taxiway: ट्याक्सीको बाटो
-          terminal: टर्मिनल
+          terminal: एयरपोर्ट टर्मिनल
+          windsock: विन्डसक
         amenity:
+          animal_boarding: पशु बोर्डिङ
           animal_shelter: पशु आश्रय
           arts_centre: कला केन्द्र
           atm: एटिएम् मेसिन
@@ -530,7 +554,9 @@ ne:
           bench: मेच
           bicycle_parking: साइकिल पार्किङ्
           bicycle_rental: साइकिल भाडामा
+          bicycle_repair_station: साइकल मर्मत स्टेसन
           biergarten: बियर पिउने ठाउँ
+          blood_bank: रक्त बैंक
           boat_rental: ढुङ्गा भाडा सेवा
           brothel: वेश्यालय
           bureau_de_change: परिवर्तन व्यूरो
@@ -547,6 +573,7 @@ ne:
           clock: घन्टाघर
           college: कलेज
           community_centre: सामुदायिक केन्द्र
+          conference_centre: सम्मेलन केन्द्र
           courthouse: अदालत
           crematorium: श्मशान
           dentist: दाँतको डाक्टर
@@ -554,6 +581,7 @@ ne:
           drinking_water: पिउने पानी
           driving_school: ड्राइभिङ स्कूल
           embassy: दूतावास
+          events_venue: कार्यक्रम स्थल
           fast_food: चमेना गृह
           ferry_terminal: फेरी टर्मिनल
           fire_station: अग्नि नियन्त्रण स्टेसन्
@@ -565,15 +593,20 @@ ne:
           hospital: अस्पताल
           hunting_stand: शिकार क्षेत्र
           ice_cream: बरफ
+          internet_cafe: इन्टरनेट क्याफे
           kindergarten: बाल आश्रम
+          language_school: भाषा विद्यालय
           library: पुस्तकालय
           marketplace: बजार क्षेत्र
           monastery: चैत्य
+          money_transfer: पैसा पठाउने
           motorcycle_parking: मोटर साइकल पार्किङ
+          music_school: सङ्गीत विद्यालय
           nightclub: रात्री क्लब
           nursing_home: नर्सिङ होम
           parking: पार्किङ
           parking_entrance: पार्किङ प्रवेश
+          parking_space: पार्किङ स्पेस
           pharmacy: औषधी पसल
           place_of_worship: पूजा गर्ने स्थान
           police: प्रहरी

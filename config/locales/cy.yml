@@ -344,6 +344,7 @@ cy:
     deleted_ago_by_html: Wedi dileu %{time_ago} gan %{user}
     edited_ago_by_html: Golygwyd %{time_ago} gan %{user}
     version: Fersiwn
+    redacted_version: Fersiwn Wedi'i Gorchuddio
     in_changeset: Grŵp newid
     anonymous: dienw
     no_comment: (dim sylw)
@@ -364,7 +365,9 @@ cy:
       other: '%{count} llwybr'
     download_xml: Lawrlwytho XML
     view_history: Gweld hanes
+    view_unredacted_history: Gweld Hanes Heb Ei Orchuddio
     view_details: Gweld manylion
+    view_redacted_data: Gweld Data Wedi'i Gorchuddio
     view_redaction_message: Gweld Neges Orchuddio
     location: Lleoliadː
     node:
@@ -896,6 +899,7 @@ cy:
           roof: To
           ruins: Adeilad Adfeiliedig
           school: Adeilad Ysgol
+          semidetached_house: Tŷ Pâr
           service: Adeilad Gwasanaeth
           shed: Sied
           stable: Stabl
@@ -928,8 +932,11 @@ cy:
           photographer: Ffotograffydd
           plumber: Plymar
           roofer: Towr
+          sawmill: Melin Lifio
           shoemaker: Crydd
+          stonemason: Saer Maen
           tailor: Teiliwr
+          window_construction: Gwydrwr
           winery: Gwindy
           "yes": Siop Grefft
         emergency:
@@ -938,6 +945,7 @@ cy:
           assembly_point: Man Ymgynull
           defibrillator: Diffibriliwr
           fire_extinguisher: Diffoddwr Tân
+          fire_water_pond: Pwll Dŵr Tân
           landing_site: Man Glanio Argyfwng
           phone: Ffôn Argyfwng
           water_tank: Tanc Dŵr Argyfwng
@@ -1317,6 +1325,7 @@ cy:
           grocery: Siop y Groser
           hairdresser: Siop Drin Gwallt
           hardware: Siop Nwyddau Metel
+          herbalist: Herbwr
           hifi: Siop Hi-Fi
           houseware: Siop Offer Tŷ
           ice_cream: Siop Hufen Iâ
@@ -1330,7 +1339,9 @@ cy:
           massage: Tylino
           mobile_phone: Siop Ffonau Symudol
           motorcycle: Siop Beiciau Modur
+          motorcycle_repair: Siop Atgyweirio Beiciau Modur
           music: Siop Gerddoriaeth
+          musical_instrument: Offerynau Cerddorol
           newsagent: Siop Bapurau
           optician: Optegydd
           organic: Siop Fwyd Organig
@@ -1565,6 +1576,8 @@ cy:
       description: 'Cofnod Dyddiadur OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] Gwnaeth %{user} sylw ar gofnod dyddiadur'
       hi: Helo %{to_user},
+      footer_unsubscribe: Gallwch chi ddad-danysgrifio o'r drafodaeth yn %{unsubscribeurl}
+      footer_unsubscribe_html: Gallwch chi ddad-danysgrifio o'r drafodaeth yn %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Helo %{to_user},
@@ -2237,6 +2250,8 @@ cy:
       identifiable: CANFYDDADWY
       private: PREIFAT
       trackable: OLRHAINADWY
+      details_with_tags_html: '%{time_ago} gan %{user} yn %{tags}'
+      details_without_tags_html: '%{time_ago} gan %{user}'
     index:
       public_traces: Arllwybrau GPS Cyhoeddus
       my_gps_traces: Fy Arllwybrau GPS
@@ -2258,6 +2273,7 @@ cy:
     description:
       description_without_count: Ffeil GPX gan %{user}
   application:
+    basic_auth_disabled: 'Mae Dilysiad Sylfaenol HTTP wedi''i analluogi: %{link}'
     oauth_10a_disabled: 'Analluogir OAuth 1.0 a 1.0a: %{link}'
     require_admin:
       not_an_admin: Mae rhaid ichi fod yn weinyddwr i gyflawni'r weithred honno.
@@ -2394,6 +2410,8 @@ cy:
     new:
       title: Cofrestru
       tab_title: Cofrestru
+      signup_to_authorize_html: Cofrestrwch gydag OpenStreetMap i gael mynediad at
+        %{client_app_name}.
       support: cymorth
       about:
         header: Rhydd a golygadwy.
@@ -2402,6 +2420,7 @@ cy:
       display name description: Eich enw defnyddiwr cyhoeddus. Gallwch newid hyn yn
         nes ymlaen yn eich dewisiadau.
       tou: telerau defnydd
+      contributor_terms: thelerau cyfranwyr
       external auth: 'Dilysu Trydydd Parti:'
       continue: Cofrestru
       terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
@@ -2509,8 +2528,12 @@ cy:
       unknown_error: Methodd y dilysu
   user_role:
     grant:
+      title: Cadarnhau rhoi rôl
+      heading: Cadarnhau rhoi rôl
       confirm: Cadarnhau
     revoke:
+      title: Cadarnhau dirymu rôl
+      heading: Cadarnhau dirymu rôl
       confirm: Cadarnhau
   user_blocks:
     not_found:
@@ -2533,6 +2556,7 @@ cy:
     revoke:
       revoke: Dad-flocio!
     revoke_all:
+      empty: Nid oes gan %{name} flociau gweithredol.
       active_blocks:
         zero: '%{count} blociau cyfredol.'
         one: '%{count} %{count} bloc cyfredol.'
@@ -2781,6 +2805,12 @@ cy:
         offramp_right: Cymerwch y ramp ar y dde
         offramp_right_with_exit: Cymerwch allanfa %{exit} ar y dde
         offramp_right_with_exit_name: Cymerwch allanfa %{exit} ar y dde i %{name}
+        offramp_right_with_name: Cymerwch y ramp ar y dde i %{name}
+        offramp_right_with_directions: Cymerwch y ramp ar y dde tuag at %{directions}
+        offramp_right_with_name_directions: Cymerwch y ramp ar y dde i %{name}, tuag
+          at %{directions}
+        onramp_right_without_exit: Trowch i'r dde ar y ramp i %{name}
+        onramp_right_with_directions: Trowch i'r dde ar y ramp tuag at %{directions}
         merge_right_without_exit: Cyfunwch i'r dde ar %{name}
         turn_right_without_exit: Trowch i'r dde ar %{name}
         sharp_right_without_exit: Siarp i'r dde ar %{name}

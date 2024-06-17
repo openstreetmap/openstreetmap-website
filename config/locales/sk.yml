@@ -276,6 +276,7 @@ sk:
         reopened_at_by_html: Opätovne aktivované %{when} používateľom %{user}
       rss:
         title: Poznámky OpenStreetMap
+        description_all: Zoznam nahlásených, komentovaných alebo uzavretých poznámok
         description_area: Zoznam poznámok nahlásených, komentovaných alebo uzavretých
           vo vašej oblasti [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS kanál k poznámke %{id}
@@ -307,6 +308,8 @@ sk:
         retain_notes: Vaše mapové poznámky a komentáre budú zachované, ale skryté.
         retain_changeset_discussions: Vaše prípadné diskusie k sadám zmien budú zachované.
         retain_email: Vaša emailová adresa bude uchovaná.
+        recent_editing_html: Keďže ste nedávno upravovali, váš účet momentálne nie
+          je možné odstrániť. Odstránenie bude možné o %{time}.
         confirm_delete: Ste si istý/á?
         cancel: Zrušiť
   accounts:
@@ -338,7 +341,16 @@ sk:
       delete_account: Odstrániť účet...
     go_public:
       heading: Verejné úpravy
+      currently_not_public: V súčasnosti sú vaše úpravy anonymné a ľudia vám nemôžu
+        posielať správy ani vidieť vašu polohu. Ak chcete zobraziť, čo ste upravili
+        a umožniť ľuďom kontaktovať vás prostredníctvom webovej lokality, kliknite
+        na tlačidlo nižšie.
+      only_public_can_edit: Od prechodu na API 0.6 môžu mapové údaje upravovať iba
+        verejní používatelia.
       find_out_why: zistite prečo
+      email_not_revealed: Vaša e-mailová adresa nebude zverejnená.
+      not_reversible: Túto akciu nie je možné vrátiť späť a všetci noví používatelia
+        sú teraz v predvolenom nastavení verejní.
       make_edits_public_button: Zverejniť všetky moje úpravy
     update:
       success_confirm_needed: Používateľské údaje boli úspešne aktualizované. Skontrolujte
@@ -350,6 +362,7 @@ sk:
     deleted_ago_by_html: Odstránené %{time_ago} používateľom %{user}
     edited_ago_by_html: Upravené %{time_ago} používateľom %{user}
     version: Verzia
+    redacted_version: Upravená verzia
     in_changeset: Sada zmien
     anonymous: anonym
     no_comment: (bez komentára)
@@ -366,7 +379,10 @@ sk:
       other: '%{count} ciest'
     download_xml: Stiahnuť XML
     view_history: Zobraziť históriu
+    view_unredacted_history: Zobraziť neredigovanú históriu
     view_details: Zobraziť detaily
+    view_redacted_data: Zobraziť upravené údaje
+    view_redaction_message: Zobraziť správu o úprave
     location: 'Poloha:'
     node:
       title_html: 'Uzol: %{name}'
@@ -1562,12 +1578,25 @@ sk:
       see_their_profile_html: Jeho/jej profil si môžete pozrieť na %{userurl}.
       befriend_them: Môžete ich tiež pridať ako priateľov na %{befriendurl}.
       befriend_them_html: Môžete ho/ju tiež pridať ako priateľov na %{befriendurl}.
+    gpx_description:
+      description_with_tags_html: 'Vyzerá, že váš GPX súbor %{trace_name} s popisom
+        %{trace_description} a nasledujúcimi značkami: %{tags}'
+      description_with_no_tags_html: Vyzerá, že váš súbor GPX %{trace_name} s popisom
+        %{trace_description} a bez značiek
     gpx_failure:
       hi: Ahoj %{to_user},
       failed_to_import: 'sa nepodarilo naimportovať. Chybové hlásenie:'
+      more_info_html: Viac informácií o zlyhaniach importu GPX a o tom, ako sa im
+        vyhnúť, nájdete na %{url}.
       subject: '[OpenStreetMap] Neúspešný import GPX'
     gpx_success:
       hi: Ahoj %{to_user},
+      loaded:
+        one: sa úspešne načítal s %{trace_points} z možného %{count} bodu.
+        few: sa úspešne načítal s %{trace_points} z možných %{count} bodov.
+        many: sa úspešne načítal s %{trace_points} z možných %{count} bodov.
+        other: sa úspešne načítal s %{trace_points} z možných %{count} bodov.
+      all_your_traces_html: Všetky vami úspešne nahrané GPX stopy nájdete na %{url}.
       subject: '[OpenStreetMap] GPX import úspešný'
     signup_confirm:
       subject: '[OpenStreetMap] Vitajte v OpenStreetMap'
@@ -1600,14 +1629,14 @@ sk:
         subject_own: '[OpenStreetMap] %{commenter} pridal komentár k vašej poznámke'
         subject_other: '[OpenStreetMap] %{commenter} pridal komentár k poznámke, o
           ktorú sa zaujímate'
-        your_note: '%{commenter} zanechal komentár k vašej poznámke na mape blízko
+        your_note: '%{commenter} zanechal(a) komentár k vašej poznámke na mape blízko
           %{place}.'
-        your_note_html: '%{commenter} zanechal komentár k vašej poznámke na mape blízko
-          %{place}.'
-        commented_note: '%{commenter} zanechal komentár k poznámke, ktorú ste komentovali.
+        your_note_html: '%{commenter} zanechal(a) komentár k vašej poznámke na mape
+          blízko %{place}.'
+        commented_note: '%{commenter} zanechal(a) komentár k poznámke, ktorú ste komentovali.
           Poznámka je blízko %{place}.'
-        commented_note_html: '%{commenter} zanechal komentár k poznámke, ktorú ste
-          komentovali. Poznámka je blízko %{place}.'
+        commented_note_html: '%{commenter} zanechal(a) komentár k poznámke, ktorú
+          ste komentovali. Poznámka je blízko %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} vyriešil vašu poznámku'
         subject_other: '[OpenStreetMap] %{commenter} vyriešil poznámku, o ktorú sa
@@ -1638,12 +1667,13 @@ sk:
         subject_own: '[OpenStreetMap] %{commenter} pridal komentár k vašej sade zmien'
         subject_other: '[OpenStreetMap] %{commenter} pridal komentár k sade zmien,
           o ktorú sa zaujímate'
-        your_changeset: '%{commenter} zanechal komentár o %{time} k vašej sade zmien'
-        your_changeset_html: '%{commenter} zanechal komentár o %{time} k vašej sade
-          zmien,'
-        commented_changeset: '%{commenter} zanechal komentár o %{time} k vami sledovanej
+        your_changeset: '%{commenter} zanechal(a) komentár o %{time} k vašej sade
+          zmien'
+        your_changeset_html: '%{commenter} zanechal(a) komentár o %{time} k vašej
+          sade zmien,'
+        commented_changeset: '%{commenter} zanechal(a) komentár o %{time} k vami sledovanej
           sade zmien, ktorú vytvoril %{changeset_author}'
-        commented_changeset_html: '%{commenter} zanechal komentár o %{time} k vami
+        commented_changeset_html: '%{commenter} zanechal(a) komentár o %{time} k vami
           sledovanej sade zmien, ktorú vytvoril %{changeset_author}'
         partial_changeset_with_comment: s popisom '%{changeset_comment}'
         partial_changeset_with_comment_html: s popisom '%{changeset_comment}'
