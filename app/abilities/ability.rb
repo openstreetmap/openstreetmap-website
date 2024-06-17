@@ -54,7 +54,7 @@ class Ability
         can [:index, :create, :destroy], UserMute
 
         if user.moderator?
-          can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
+          can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:new, :create, :edit, :update, :destroy], Redaction
@@ -62,7 +62,7 @@ class Ability
         end
 
         if user.administrator?
-          can [:hide, :unhide, :hidecomment, :unhidecomment], DiaryEntry
+          can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:set_status, :destroy, :index], User
