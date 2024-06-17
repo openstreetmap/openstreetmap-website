@@ -736,6 +736,17 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_og_image_with_no_image
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "nothing")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:image']" do
+      assert_dom "> @content", ActionController::Base.helpers.image_url("osm_logo_256.png", :host => root_url)
+    end
+  end
+
   def test_show_og_image
     user = create(:user)
     diary_entry = create(:diary_entry, :user => user, :body => "![some picture](https://example.com/picture.jpg)")
@@ -755,6 +766,39 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_dom "head meta[property='og:image']" do
       assert_dom "> @content", "#{root_url}picture.jpg"
+    end
+  end
+
+  def test_show_og_image_with_spaces
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "![some picture](https://example.com/the picture.jpg)")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:image']" do
+      assert_dom "> @content", "https://example.com/the%20picture.jpg"
+    end
+  end
+
+  def test_show_og_image_with_relative_uri_and_spaces
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "![some local picture](/the picture.jpg)")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:image']" do
+      assert_dom "> @content", "#{root_url}the%20picture.jpg"
+    end
+  end
+
+  def test_show_og_image_with_invalid_uri
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "![](:)")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:image']" do
+      assert_dom "> @content", ActionController::Base.helpers.image_url("osm_logo_256.png", :host => root_url)
     end
   end
 
