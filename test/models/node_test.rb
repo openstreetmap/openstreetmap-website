@@ -98,8 +98,9 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_update
-    node = create(:node)
-    create(:old_node, :node_id => node.id, :version => 1)
+    node = create(:node, :lat => 12.6543, :lon => 65.1234)
+    create(:old_node, :node_id => node.id, :version => 1, :lat => node.lat, :lon => node.lon)
+
     node_template = Node.find(node.id)
 
     assert_not_nil node_template

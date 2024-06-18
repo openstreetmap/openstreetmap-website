@@ -641,15 +641,15 @@ module Api
     # box of all its members into the changeset.
     def test_tag_modify_bounding_box
       relation = create(:relation)
-      node1 = create(:node, :lat => 3, :lon => 3)
-      node2 = create(:node, :lat => 5, :lon => 5)
+      node1 = create(:node, :lat => 0.3, :lon => 0.3)
+      node2 = create(:node, :lat => 0.5, :lon => 0.5)
       way = create(:way)
       create(:way_node, :way => way, :node => node1)
       create(:relation_member, :relation => relation, :member => way)
       create(:relation_member, :relation => relation, :member => node2)
       # the relation contains nodes1 and node2 (node1
-      # indirectly via the way), so the bbox should be [3,3,5,5].
-      check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id, auth_header|
+      # indirectly via the way), so the bbox should be [0.3,0.3,0.5,0.5].
+      check_changeset_modify(BoundingBox.new(0.3, 0.3, 0.5, 0.5)) do |changeset_id, auth_header|
         # add a tag to an existing relation
         relation_xml = xml_for_relation(relation)
         relation_element = relation_xml.find("//osm/relation").first
@@ -879,14 +879,14 @@ module Api
     # still technically valid.
     def test_remove_all_members
       relation = create(:relation)
-      node1 = create(:node, :lat => 3, :lon => 3)
-      node2 = create(:node, :lat => 5, :lon => 5)
+      node1 = create(:node, :lat => 0.3, :lon => 0.3)
+      node2 = create(:node, :lat => 0.5, :lon => 0.5)
       way = create(:way)
       create(:way_node, :way => way, :node => node1)
       create(:relation_member, :relation => relation, :member => way)
       create(:relation_member, :relation => relation, :member => node2)
 
-      check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id, auth_header|
+      check_changeset_modify(BoundingBox.new(0.3, 0.3, 0.5, 0.5)) do |changeset_id, auth_header|
         relation_xml = xml_for_relation(relation)
         relation_xml
           .find("//osm/relation/member")

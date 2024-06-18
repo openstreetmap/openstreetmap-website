@@ -16,7 +16,7 @@ FactoryBot.define do
     trait :with_history do
       after(:create) do |node, _evaluator|
         (1..node.version).each do |n|
-          create(:old_node, :node_id => node.id, :version => n, :changeset => node.changeset)
+          create(:old_node, :node_id => node.id, :version => n, :latitude => node.latitude, :longitude => node.longitude, :changeset => node.changeset)
         end
 
         # For deleted nodes, make sure the most recent old_node is also deleted.

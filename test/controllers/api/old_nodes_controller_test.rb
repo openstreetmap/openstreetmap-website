@@ -40,9 +40,9 @@ module Api
     # FIXME: Move this test to being an integration test since it spans multiple controllers
     def test_version
       private_user = create(:user, :data_public => false)
-      private_node = create(:node, :with_history, :version => 4, :changeset => create(:changeset, :user => private_user))
+      private_node = create(:node, :with_history, :version => 4, :lat => 0, :lon => 0, :changeset => create(:changeset, :user => private_user))
       user = create(:user)
-      node = create(:node, :with_history, :version => 4, :changeset => create(:changeset, :user => user))
+      node = create(:node, :with_history, :version => 4, :lat => 0, :lon => 0, :changeset => create(:changeset, :user => user))
       create_list(:node_tag, 2, :node => node)
       # Ensure that the current tags are propagated to the history too
       propagate_tags(node, node.old_nodes.last)
@@ -65,8 +65,8 @@ module Api
       # randomly move the node about
       3.times do
         # move the node somewhere else
-        xml_node["lat"] = precision((rand * 180) - 90).to_s
-        xml_node["lon"] = precision((rand * 360) - 180).to_s
+        xml_node["lat"] = precision(rand - 0.5).to_s
+        xml_node["lon"] = precision(rand - 0.5).to_s
         with_controller(NodesController.new) do
           put api_node_path(nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :forbidden, "Should have rejected node update"
@@ -113,8 +113,8 @@ module Api
       # randomly move the node about
       3.times do
         # move the node somewhere else
-        xml_node["lat"] = precision((rand * 180) - 90).to_s
-        xml_node["lon"] = precision((rand * 360) - 180).to_s
+        xml_node["lat"] = precision(rand - 0.5).to_s
+        xml_node["lon"] = precision(rand - 0.5).to_s
         with_controller(NodesController.new) do
           put api_node_path(nodeid), :params => xml_doc.to_s, :headers => auth_header
           assert_response :success
