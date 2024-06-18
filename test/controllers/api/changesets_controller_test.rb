@@ -1803,6 +1803,71 @@ module Api
     end
 
     ##
+    # test initial size limit
+    def test_upload_initial_size_limit
+      # create a user
+      user = create(:user)
+
+      # create a changeset that puts us near the initial size limit
+      changeset = create(:changeset, :user => user,
+                                     :min_lat => (-0.5 * GeoRecord::SCALE).round, :min_lon => (0.5 * GeoRecord::SCALE).round,
+                                     :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='0.9' lat='2.9' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :payload_too_large, "upload did not hit size limit"
+    end
+
+    ##
+    # test size limit after one week
+    def test_upload_week_size_limit
+      # create a user
+      user = create(:user)
+
+      # create a changeset to establish our initial edit time
+      create(:changeset, :user => user, :created_at => Time.now.utc - 7.days)
+
+      # create a changeset that puts us near the initial size limit
+      changeset = create(:changeset, :user => user,
+                                     :min_lat => (-0.5 * GeoRecord::SCALE).round, :min_lon => (0.5 * GeoRecord::SCALE).round,
+                                     :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node way and relation using placeholders
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='35' lat='35' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :payload_too_large, "upload did not hit size limit"
+    end
+
+    ##
     # when we make some simple changes we get the same changes back from the
     # diff download.
     def test_diff_download_simple
