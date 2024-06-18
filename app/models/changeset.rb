@@ -130,6 +130,8 @@ class Changeset < ApplicationRecord
   def update_bbox!(bbox_update)
     bbox.expand!(bbox_update)
 
+    raise OSM::APISizeLimitExceeded if bbox.linear_size > size_limit
+
     # update active record. rails 2.1's dirty handling should take care of
     # whether this object needs saving or not.
     self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox.to_a.collect(&:round) if bbox.complete?
@@ -224,5 +226,11 @@ class Changeset < ApplicationRecord
 
   def subscribed?(user)
     subscribers.exists?(user.id)
+  end
+
+  def size_limit
+    @size_limit ||= ActiveRecord::Base.connection.select_value(
+      "SELECT api_size_limit($1)", "api_size_limit", [user_id]
+    )
   end
 end

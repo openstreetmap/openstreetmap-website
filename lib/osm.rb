@@ -364,6 +364,17 @@ module OSM
     end
   end
 
+  # Raised when a size limit is exceeded
+  class APISizeLimitExceeded < APIError
+    def initialize
+      super("Size limit exceeded")
+    end
+
+    def status
+      :payload_too_large
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math

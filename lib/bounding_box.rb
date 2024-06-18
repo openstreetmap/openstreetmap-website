@@ -88,6 +88,14 @@ class BoundingBox
     end
   end
 
+  def linear_size
+    if complete?
+      (max_lon - min_lon) + (max_lat - min_lat)
+    else
+      0
+    end
+  end
+
   def complete?
     to_a.exclude?(nil)
   end
