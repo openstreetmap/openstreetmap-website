@@ -110,6 +110,7 @@ class SiteController < ApplicationController
   end
 
   def copyright
+    @title = t ".title"
     @locale = params[:copyright_locale] || I18n.locale
   end
 
