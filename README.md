@@ -45,3 +45,4 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 
 * Tom Hughes [@tomhughes](https://github.com/tomhughes/)
 * Andy Allan [@gravitystorm](https://github.com/gravitystorm/)
+* Anton Khorev [@AntonKhorev](https://github.com/AntonKhorev/)
