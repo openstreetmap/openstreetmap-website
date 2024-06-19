@@ -85,20 +85,15 @@ module BrowseTagsHelper
       title_section = value
     end
 
-    if title_section =~ /^([^#]*)#(.*)/
-      # Contains a reference to a section of the wikipedia article
-      # Must break it up to correctly build the url
-      title = Regexp.last_match(1)
-      encoded_section = "##{CGI.escape(Regexp.last_match(2).gsub(/ +/, '_'))}"
-    else
-      title = title_section
-      encoded_section = ""
-    end
+    title, section = title_section.split("#", 2)
+    url = "https://#{lang}.wikipedia.org/wiki/#{wiki_encode(title)}?uselang=#{I18n.locale}"
+    url += "##{wiki_encode(section)}" if section
 
-    {
-      :url => "https://#{lang}.wikipedia.org/wiki/#{title}?uselang=#{I18n.locale}#{encoded_section}",
-      :title => value
-    }
+    { :url => url, :title => value }
+  end
+
+  def wiki_encode(s)
+    u s.tr(" ", "_")
   end
 
   def wikidata_links(key, value)
