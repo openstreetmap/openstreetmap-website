@@ -749,7 +749,11 @@ module Api
     end
 
     def test_upload_large_changeset
-      auth_header = basic_authorization_header create(:user).email, "test"
+      user = create(:user)
+      auth_header = basic_authorization_header user.email, "test"
+
+      # create an old changeset to ensure we have the maximum rate limit
+      create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
 
       # create a changeset
       put changeset_create_path, :params => "<osm><changeset/></osm>", :headers => auth_header
@@ -1048,14 +1052,14 @@ module Api
       diff = <<~CHANGESET
         <osmChange>
          <modify>
-          <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-          <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset.id}' version='2'/>
-          <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='3'/>
-          <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset.id}' version='4'/>
-          <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset.id}' version='5'/>
-          <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset.id}' version='6'/>
-          <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset.id}' version='7'/>
-          <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
+          <node id='#{node.id}' lon='0.0' lat='0.0' changeset='#{changeset.id}' version='1'/>
+          <node id='#{node.id}' lon='0.1' lat='0.0' changeset='#{changeset.id}' version='2'/>
+          <node id='#{node.id}' lon='0.1' lat='0.1' changeset='#{changeset.id}' version='3'/>
+          <node id='#{node.id}' lon='0.1' lat='0.2' changeset='#{changeset.id}' version='4'/>
+          <node id='#{node.id}' lon='0.2' lat='0.2' changeset='#{changeset.id}' version='5'/>
+          <node id='#{node.id}' lon='0.3' lat='0.2' changeset='#{changeset.id}' version='6'/>
+          <node id='#{node.id}' lon='0.3' lat='0.3' changeset='#{changeset.id}' version='7'/>
+          <node id='#{node.id}' lon='0.9' lat='0.9' changeset='#{changeset.id}' version='8'/>
          </modify>
         </osmChange>
       CHANGESET
@@ -1329,9 +1333,9 @@ module Api
       diff = <<~CHANGESET
         <osmChange>
          <create>
-          <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
+          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
+          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
           <way id="-1" changeset="#{changeset.id}" version="1">
            <nd ref="-1"/>
            <nd ref="-2"/>
@@ -1352,9 +1356,9 @@ module Api
       diff = <<~CHANGESET
         <osmChange>
          <create>
-          <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
+          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
+          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
           <way id="#{way.id}" changeset="#{changeset.id}" version="1">
            <nd ref="-1"/>
            <nd ref="-2"/>
@@ -1384,9 +1388,9 @@ module Api
       diff = <<~CHANGESET
         <osmChange>
          <create>
-          <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
+          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
+          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
           <relation id="-1" changeset="#{changeset.id}" version="1">
            <member type="node" role="foo" ref="-1"/>
            <member type="node" role="foo" ref="-2"/>
@@ -1407,9 +1411,9 @@ module Api
       diff = <<~CHANGESET
         <osmChange>
          <create>
-          <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-          <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-          <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+          <node id="-1" lon="0.0" lat="0.0" changeset="#{changeset.id}" version="1"/>
+          <node id="-2" lon="0.1" lat="0.1" changeset="#{changeset.id}" version="1"/>
+          <node id="-3" lon="0.2" lat="0.2" changeset="#{changeset.id}" version="1"/>
           <relation id="#{relation.id}" changeset="#{changeset.id}" version="1">
            <member type="node" role="foo" ref="-1"/>
            <member type="node" role="foo" ref="-2"/>
@@ -1478,14 +1482,14 @@ module Api
       changeset_id = @response.body.to_i
 
       old_way = create(:way)
-      create(:way_node, :way => old_way, :node => create(:node, :lat => 1, :lon => 1))
+      create(:way_node, :way => old_way, :node => create(:node, :lat => 0.1, :lon => 0.1))
 
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
       modify = XML::Node.new "modify"
       xml_old_way = xml_node_for_way(old_way)
       nd_ref = XML::Node.new "nd"
-      nd_ref["ref"] = create(:node, :lat => 3, :lon => 3).id.to_s
+      nd_ref["ref"] = create(:node, :lat => 0.3, :lon => 0.3).id.to_s
       xml_old_way << nd_ref
       xml_old_way["changeset"] = changeset_id.to_s
       modify << xml_old_way
@@ -1498,10 +1502,10 @@ module Api
 
       # check the bbox
       changeset = Changeset.find(changeset_id)
-      assert_equal 1 * GeoRecord::SCALE, changeset.min_lon, "min_lon should be 1 degree"
-      assert_equal 3 * GeoRecord::SCALE, changeset.max_lon, "max_lon should be 3 degrees"
-      assert_equal 1 * GeoRecord::SCALE, changeset.min_lat, "min_lat should be 1 degree"
-      assert_equal 3 * GeoRecord::SCALE, changeset.max_lat, "max_lat should be 3 degrees"
+      assert_equal 0.1 * GeoRecord::SCALE, changeset.min_lon, "min_lon should be 0.1 degree"
+      assert_equal 0.3 * GeoRecord::SCALE, changeset.max_lon, "max_lon should be 0.3 degrees"
+      assert_equal 0.1 * GeoRecord::SCALE, changeset.min_lat, "min_lat should be 0.1 degree"
+      assert_equal 0.3 * GeoRecord::SCALE, changeset.max_lat, "max_lat should be 0.3 degrees"
     end
 
     ##
@@ -1799,6 +1803,71 @@ module Api
     end
 
     ##
+    # test initial size limit
+    def test_upload_initial_size_limit
+      # create a user
+      user = create(:user)
+
+      # create a changeset that puts us near the initial size limit
+      changeset = create(:changeset, :user => user,
+                                     :min_lat => (-0.5 * GeoRecord::SCALE).round, :min_lon => (0.5 * GeoRecord::SCALE).round,
+                                     :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='0.9' lat='2.9' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :payload_too_large, "upload did not hit size limit"
+    end
+
+    ##
+    # test size limit after one week
+    def test_upload_week_size_limit
+      # create a user
+      user = create(:user)
+
+      # create a changeset to establish our initial edit time
+      create(:changeset, :user => user, :created_at => Time.now.utc - 7.days)
+
+      # create a changeset that puts us near the initial size limit
+      changeset = create(:changeset, :user => user,
+                                     :min_lat => (-0.5 * GeoRecord::SCALE).round, :min_lon => (0.5 * GeoRecord::SCALE).round,
+                                     :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
+
+      # create authentication header
+      auth_header = basic_authorization_header user.email, "test"
+
+      # simple diff to create a node way and relation using placeholders
+      diff = <<~CHANGESET
+        <osmChange>
+         <create>
+          <node id='-1' lon='35' lat='35' changeset='#{changeset.id}'>
+           <tag k='foo' v='bar'/>
+           <tag k='baz' v='bat'/>
+          </node>
+         </create>
+        </osmChange>
+      CHANGESET
+
+      # upload it
+      post changeset_upload_path(changeset), :params => diff, :headers => auth_header
+      assert_response :payload_too_large, "upload did not hit size limit"
+    end
+
+    ##
     # when we make some simple changes we get the same changes back from the
     # diff download.
     def test_diff_download_simple
@@ -1829,14 +1898,14 @@ module Api
       diff = <<~CHANGESET
         <osmChange>
          <modify>
-          <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-          <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset_id}' version='2'/>
-          <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset_id}' version='3'/>
-          <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset_id}' version='4'/>
-          <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset_id}' version='5'/>
-          <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset_id}' version='6'/>
-          <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset_id}' version='7'/>
-          <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
+          <node id='#{node.id}' lon='0.0' lat='0.0' changeset='#{changeset_id}' version='1'/>
+          <node id='#{node.id}' lon='0.1' lat='0.0' changeset='#{changeset_id}' version='2'/>
+          <node id='#{node.id}' lon='0.1' lat='0.1' changeset='#{changeset_id}' version='3'/>
+          <node id='#{node.id}' lon='0.1' lat='0.2' changeset='#{changeset_id}' version='4'/>
+          <node id='#{node.id}' lon='0.2' lat='0.2' changeset='#{changeset_id}' version='5'/>
+          <node id='#{node.id}' lon='0.3' lat='0.2' changeset='#{changeset_id}' version='6'/>
+          <node id='#{node.id}' lon='0.3' lat='0.3' changeset='#{changeset_id}' version='7'/>
+          <node id='#{node.id}' lon='0.9' lat='0.9' changeset='#{changeset_id}' version='8'/>
          </modify>
         </osmChange>
       CHANGESET
@@ -1935,15 +2004,15 @@ module Api
       diff = <<~CHANGESET
         <osmChange>
          <delete>
-          <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+          <node id='#{node.id}' lon='0.0' lat='0.0' changeset='#{changeset_id}' version='1'/>
          </delete>
          <create>
-          <node id='-1' lon='9' lat='9' changeset='#{changeset_id}' version='0'/>
-          <node id='-2' lon='8' lat='9' changeset='#{changeset_id}' version='0'/>
-          <node id='-3' lon='7' lat='9' changeset='#{changeset_id}' version='0'/>
+          <node id='-1' lon='0.9' lat='0.9' changeset='#{changeset_id}' version='0'/>
+          <node id='-2' lon='0.8' lat='0.9' changeset='#{changeset_id}' version='0'/>
+          <node id='-3' lon='0.7' lat='0.9' changeset='#{changeset_id}' version='0'/>
          </create>
          <modify>
-          <node id='#{node2.id}' lon='20' lat='15' changeset='#{changeset_id}' version='1'/>
+          <node id='#{node2.id}' lon='2.0' lat='1.5' changeset='#{changeset_id}' version='1'/>
           <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
            <nd ref='#{node2.id}'/>
            <nd ref='-1'/>
@@ -2034,7 +2103,7 @@ module Api
     # FIXME: This should really be moded to a integration test due to the with_controller
     def test_changeset_bbox
       way = create(:way)
-      create(:way_node, :way => way, :node => create(:node, :lat => 3, :lon => 3))
+      create(:way_node, :way => way, :node => create(:node, :lat => 0.3, :lon => 0.3))
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
@@ -2046,7 +2115,7 @@ module Api
 
       # add a single node to it
       with_controller(NodesController.new) do
-        xml = "<osm><node lon='1' lat='2' changeset='#{changeset_id}'/></osm>"
+        xml = "<osm><node lon='0.1' lat='0.2' changeset='#{changeset_id}'/></osm>"
         put node_create_path, :params => xml, :headers => auth_header
         assert_response :success, "Couldn't create node."
       end
@@ -2054,14 +2123,14 @@ module Api
       # get the bounding box back from the changeset
       get changeset_show_path(:id => changeset_id)
       assert_response :success, "Couldn't read back changeset."
-      assert_select "osm>changeset[min_lon='1.0000000']", 1
-      assert_select "osm>changeset[max_lon='1.0000000']", 1
-      assert_select "osm>changeset[min_lat='2.0000000']", 1
-      assert_select "osm>changeset[max_lat='2.0000000']", 1
+      assert_select "osm>changeset[min_lon='0.1000000']", 1
+      assert_select "osm>changeset[max_lon='0.1000000']", 1
+      assert_select "osm>changeset[min_lat='0.2000000']", 1
+      assert_select "osm>changeset[max_lat='0.2000000']", 1
 
       # add another node to it
       with_controller(NodesController.new) do
-        xml = "<osm><node lon='2' lat='1' changeset='#{changeset_id}'/></osm>"
+        xml = "<osm><node lon='0.2' lat='0.1' changeset='#{changeset_id}'/></osm>"
         put node_create_path, :params => xml, :headers => auth_header
         assert_response :success, "Couldn't create second node."
       end
@@ -2069,10 +2138,10 @@ module Api
       # get the bounding box back from the changeset
       get changeset_show_path(:id => changeset_id)
       assert_response :success, "Couldn't read back changeset for the second time."
-      assert_select "osm>changeset[min_lon='1.0000000']", 1
-      assert_select "osm>changeset[max_lon='2.0000000']", 1
-      assert_select "osm>changeset[min_lat='1.0000000']", 1
-      assert_select "osm>changeset[max_lat='2.0000000']", 1
+      assert_select "osm>changeset[min_lon='0.1000000']", 1
+      assert_select "osm>changeset[max_lon='0.2000000']", 1
+      assert_select "osm>changeset[min_lat='0.1000000']", 1
+      assert_select "osm>changeset[max_lat='0.2000000']", 1
 
       # add (delete) a way to it, which contains a point at (3,3)
       with_controller(WaysController.new) do
@@ -2084,10 +2153,10 @@ module Api
       # get the bounding box back from the changeset
       get changeset_show_path(:id => changeset_id)
       assert_response :success, "Couldn't read back changeset for the third time."
-      assert_select "osm>changeset[min_lon='1.0000000']", 1
-      assert_select "osm>changeset[max_lon='3.0000000']", 1
-      assert_select "osm>changeset[min_lat='1.0000000']", 1
-      assert_select "osm>changeset[max_lat='3.0000000']", 1
+      assert_select "osm>changeset[min_lon='0.1000000']", 1
+      assert_select "osm>changeset[max_lon='0.3000000']", 1
+      assert_select "osm>changeset[min_lat='0.1000000']", 1
+      assert_select "osm>changeset[max_lat='0.3000000']", 1
     end
 
     ##
