@@ -53,7 +53,7 @@ module UserHelper
   # External authentication support
 
   def openid_logo
-    image_tag "openid.svg", :size => "24", :alt => t("application.auth_providers.openid_logo_alt"), :class => "align-text-bottom"
+    image_tag "openid.svg", :size => "36", :alt => t("application.auth_providers.openid_logo_alt"), :class => "align-text-bottom"
   end
 
   def auth_button(name, provider, options = {})
@@ -61,7 +61,7 @@ module UserHelper
       image_tag("#{name}.svg",
                 :alt => t("application.auth_providers.#{name}.alt"),
                 :class => "rounded-1",
-                :size => "24"),
+                :size => "36"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
       :class => "auth_button p-2 d-block",
@@ -74,7 +74,7 @@ module UserHelper
       image_tag("#{name}.svg",
                 :alt => t("application.auth_providers.#{name}.alt"),
                 :class => "rounded-1 me-3",
-                :size => "24") + t("application.auth_providers.#{name}.title"),
+                :size => "36") + t("application.auth_providers.#{name}.title"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
       :class => "auth_button fs-6 border rounded text-body-secondary text-decoration-none py-2 px-4 d-flex justify-content-center align-items-center",
