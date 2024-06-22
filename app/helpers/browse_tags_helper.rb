@@ -116,7 +116,7 @@ module BrowseTagsHelper
   end
 
   def wikimedia_commons_link(key, value)
-    if key == "wikimedia_commons" && value =~ /^(file|category):(.+)$/i
+    if key == "wikimedia_commons" && value =~ /^(file|category):([^#]+)/i
       namespace = Regexp.last_match(1)
       title = Regexp.last_match(2)
       return {
