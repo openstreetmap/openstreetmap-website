@@ -116,9 +116,11 @@ module BrowseTagsHelper
   end
 
   def wikimedia_commons_link(key, value)
-    if key == "wikimedia_commons" && value =~ /^(?:file|category):/i
+    if key == "wikimedia_commons" && value =~ /^(file|category):([^#]+)/i
+      namespace = Regexp.last_match(1)
+      title = Regexp.last_match(2)
       return {
-        :url => "//commons.wikimedia.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :url => "//commons.wikimedia.org/wiki/#{namespace}:#{u title}?uselang=#{I18n.locale}",
         :title => value
       }
     end

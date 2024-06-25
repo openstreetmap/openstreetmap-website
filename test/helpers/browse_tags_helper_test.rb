@@ -245,6 +245,14 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "//commons.wikimedia.org/wiki/Category:Test_Category?uselang=en", link[:url]
     assert_equal "Category:Test_Category", link[:title]
 
+    link = wikimedia_commons_link("wikimedia_commons", "Category:What If? (Bonn)")
+    assert_equal "//commons.wikimedia.org/wiki/Category:What%20If%3F%20%28Bonn%29?uselang=en", link[:url]
+    assert_equal "Category:What If? (Bonn)", link[:title]
+
+    link = wikimedia_commons_link("wikimedia_commons", "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg")
+    assert_equal "//commons.wikimedia.org/wiki/File:Corsica-vizzavona-abri-southwell.jpg?uselang=en", link[:url]
+    assert_equal "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg", link[:title]
+
     I18n.with_locale "pt-BR" do
       link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
       assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg?uselang=pt-BR", link[:url]
