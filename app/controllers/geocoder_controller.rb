@@ -13,10 +13,10 @@ class GeocoderController < ApplicationController
     @sources = []
 
     if @params[:lat] && @params[:lon]
-      @sources.push "latlon"
-      @sources.push "osm_nominatim_reverse"
+      @sources.push({ :name => "latlon", :parameters => "" })
+      @sources.push({ :name => "osm_nominatim_reverse", :parameters => "reverse?format=html&#{nominatim_reverse_url_parameters}" })
     elsif @params[:query]
-      @sources.push "osm_nominatim"
+      @sources.push({ :name => "osm_nominatim", :parameters => "search?format=html&#{nominatim_url_parameters}" })
     end
 
     if @sources.empty?
@@ -71,21 +71,8 @@ class GeocoderController < ApplicationController
   end
 
   def search_osm_nominatim
-    # get query parameters
-    query = params[:query]
-    minlon = params[:minlon]
-    minlat = params[:minlat]
-    maxlon = params[:maxlon]
-    maxlat = params[:maxlat]
-
-    # get view box
-    viewbox = "&viewbox=#{minlon},#{maxlat},#{maxlon},#{minlat}" if minlon && minlat && maxlon && maxlat
-
-    # get objects to excude
-    exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
-
     # ask nominatim
-    response = fetch_xml("#{Settings.nominatim_url}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{Settings.nominatim_url}search?format=xml&" + nominatim_url_parameters)
 
     # extract the results from the response
     results = response.elements["searchresults"]
@@ -138,15 +125,13 @@ class GeocoderController < ApplicationController
 
   def search_osm_nominatim_reverse
     # get query parameters
-    lat = params[:lat]
-    lon = params[:lon]
     zoom = params[:zoom]
 
     # create result array
     @results = []
 
     # ask nominatim
-    response = fetch_xml("#{Settings.nominatim_url}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{Settings.nominatim_url}reverse?" + nominatim_reverse_url_parameters)
 
     # parse the response
     response.elements.each("reversegeocode/result") do |result|
@@ -170,6 +155,32 @@ class GeocoderController < ApplicationController
   end
 
   private
+
+  def nominatim_url_parameters
+    # get query parameters
+    query = params[:query]
+    minlon = params[:minlon]
+    minlat = params[:minlat]
+    maxlon = params[:maxlon]
+    maxlat = params[:maxlat]
+
+    # get view box
+    viewbox = "&viewbox=#{minlon},#{maxlat},#{maxlon},#{minlat}" if minlon && minlat && maxlon && maxlat
+
+    # get objects to excude
+    exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
+
+    "extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
+  end
+
+  def nominatim_reverse_url_parameters
+    # get query parameters
+    lat = params[:lat]
+    lon = params[:lon]
+    zoom = params[:zoom]
+
+    "lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
+  end
 
   def fetch_text(url)
     response = OSM.http_client.get(URI.parse(url))
