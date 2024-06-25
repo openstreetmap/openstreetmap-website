@@ -34,26 +34,34 @@
     <div class="d-flex flex-row-reverse px-3 py-3"><button type="button" class="btn-close" aria-label="<%= t("javascripts.close") %>"></button></div>
 
     <div class="d-flex flex-column mx-2 gap-1">
-      <div class="d-flex gap-2 align-items-center">
-        <div class="routing_marker_column flex-shrink-0">
-          <%= image_tag "marker-green.png", :class => "img-fluid", :data => { :type => "from" }, :draggable => "true" %>
+      <div class="d-flex gap-1 align-items-center">
+        <div class="d-flex flex-column gap-1 flex-grow-1">
+          <div class="d-flex gap-2 align-items-center">
+            <div class="routing_marker_column flex-shrink-0">
+              <%= image_tag "marker-green.png", :class => "img-fluid", :data => { :type => "from" }, :draggable => "true" %>
+            </div>
+            <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <div class="routing_marker_column flex-shrink-0">
+              <%= image_tag "marker-red.png", :class => "img-fluid", :data => { :type => "to" }, :draggable => "true" %>
+            </div>
+            <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
+          </div>
         </div>
-        <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
-      </div>
-      <div class="d-flex gap-2 align-items-center">
-        <div class="routing_marker_column flex-shrink-0">
-          <%= image_tag "marker-red.png", :class => "img-fluid", :data => { :type => "to" }, :draggable => "true" %>
+        <div>
+          <button type="button" class="reverse_directions btn btn-outline-secondary border-0 p-2" title="<%= t("site.search.reverse_directions_text") %>">
+            <svg class="d-block" width="20" height="20" viewBox="-10 -10 20 20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m-4 -2 0 10 m-4 -4 4 4 4 -4" />
+              <path d="m4 2 0 -10 m4 4 -4 -4 -4 4" />
+            </svg>
+          </button>
         </div>
-        <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2", :dir => "auto" %>
       </div>
       <div class="d-flex gap-2 align-items-center">
         <div class="routing_marker_column flex-shrink-0"></div>
         <select class="routing_engines form-select py-1 px-2" name="routing_engines"></select>
         <%= submit_tag t("site.search.submit_text"), :class => "routing_go btn btn-primary py-1 px-2", :data => { :disable_with => false } %>
-      </div>
-      <div class="d-flex gap-2 align-items-center">
-        <div class="routing_marker_column flex-shrink-0"></div>
-        <button class="btn btn-link py-1 px-2 reverse_directions"><%= t("site.search.reverse_directions_text") %></button>
       </div>
     </div>
 
