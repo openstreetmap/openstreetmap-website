@@ -13,10 +13,10 @@ class GeocoderController < ApplicationController
     @sources = []
 
     if @params[:lat] && @params[:lon]
-      @sources.push({ :name => "latlon", :parameters => "" })
-      @sources.push({ :name => "osm_nominatim_reverse", :parameters => "reverse?format=html&#{nominatim_reverse_url_parameters}" })
+      @sources.push(:name => "latlon", :url => root_path)
+      @sources.push(:name => "osm_nominatim_reverse", :url => nominatim_reverse_url(:format => "html"))
     elsif @params[:query]
-      @sources.push({ :name => "osm_nominatim", :parameters => "search?format=html&#{nominatim_url_parameters}" })
+      @sources.push(:name => "osm_nominatim", :url => nominatim_url(:format => "html"))
     end
 
     if @sources.empty?
@@ -72,7 +72,7 @@ class GeocoderController < ApplicationController
 
   def search_osm_nominatim
     # ask nominatim
-    response = fetch_xml("#{Settings.nominatim_url}search?format=xml&" + nominatim_url_parameters)
+    response = fetch_xml(nominatim_url(:format => "xml"))
 
     # extract the results from the response
     results = response.elements["searchresults"]
@@ -131,7 +131,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask nominatim
-    response = fetch_xml("#{Settings.nominatim_url}reverse?" + nominatim_reverse_url_parameters)
+    response = fetch_xml(nominatim_reverse_url(:format => "xml"))
 
     # parse the response
     response.elements.each("reversegeocode/result") do |result|
@@ -156,7 +156,7 @@ class GeocoderController < ApplicationController
 
   private
 
-  def nominatim_url_parameters
+  def nominatim_url(format: nil)
     # get query parameters
     query = params[:query]
     minlon = params[:minlon]
@@ -170,16 +170,18 @@ class GeocoderController < ApplicationController
     # get objects to excude
     exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
 
-    "extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
+    # build url
+    "#{Settings.nominatim_url}search?format=#{format}&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
   end
 
-  def nominatim_reverse_url_parameters
+  def nominatim_reverse_url(format: nil)
     # get query parameters
     lat = params[:lat]
     lon = params[:lon]
     zoom = params[:zoom]
 
-    "lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
+    # build url
+    "#{Settings.nominatim_url}reverse?format=#{format}&lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
   end
 
   def fetch_text(url)
