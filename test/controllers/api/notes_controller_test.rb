@@ -99,27 +99,6 @@ module Api
         { :path => "/api/0.6/notes/feed", :method => :get },
         { :controller => "api/notes", :action => "feed", :format => "rss" }
       )
-
-      assert_recognizes(
-        { :controller => "api/notes", :action => "create" },
-        { :path => "/api/0.6/notes/addPOIexec", :method => :post }
-      )
-      assert_recognizes(
-        { :controller => "api/notes", :action => "close" },
-        { :path => "/api/0.6/notes/closePOIexec", :method => :post }
-      )
-      assert_recognizes(
-        { :controller => "api/notes", :action => "comment" },
-        { :path => "/api/0.6/notes/editPOIexec", :method => :post }
-      )
-      assert_recognizes(
-        { :controller => "api/notes", :action => "index", :format => "gpx" },
-        { :path => "/api/0.6/notes/getGPX", :method => :get }
-      )
-      assert_recognizes(
-        { :controller => "api/notes", :action => "feed", :format => "rss" },
-        { :path => "/api/0.6/notes/getRSSfeed", :method => :get }
-      )
     end
 
     def test_create_success
