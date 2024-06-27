@@ -349,6 +349,7 @@ ja:
     deleted_ago_by_html: '%{user}が%{time_ago}に削除'
     edited_ago_by_html: '%{user}が%{time_ago}に編集'
     version: バージョン
+    redacted_version: 編集版
     in_changeset: 変更セット
     anonymous: 匿名
     no_comment: (コメントなし)
@@ -359,7 +360,10 @@ ja:
       other: '%{count}件のウェイ'
     download_xml: XMLをダウンロード
     view_history: 履歴を表示
+    view_unredacted_history: 未編集の履歴を表示
     view_details: 詳細を表示
+    view_redacted_data: 編集されたデータを表示
+    view_redaction_message: 編集メッセージを表示
     location: '場所:'
     node:
       title_html: 'ノード: %{name}'
@@ -433,6 +437,15 @@ ja:
       introduction: 地図上をクリックすると、近くの地物を探します。
       nearby: 近くの地物
       enclosing: 付近の地物
+  old_nodes:
+    not_found:
+      sorry: 'ノード #%{id} のバージョン %{version} が見つかりませんでした。'
+  old_ways:
+    not_found:
+      sorry: 'ウェイ #%{id} のバージョン %{version} が見つかりませんでした。'
+  old_relations:
+    not_found:
+      sorry: 'リレーション #%{id} のバージョン %{version} が見つかりませんでした。'
   changesets:
     changeset_paging_nav:
       showing_page: '%{page}ページ'
@@ -468,7 +481,17 @@ ja:
         closed: クローズ
         belongs_to: 著者
     subscribe:
+      heading: この変更セットのディスカッションの通知を受け取りますか？
       button: 議論に参加する
+    unsubscribe:
+      heading: この変更セットの議論の通知を解除しますか？
+      button: 議論の通知を解除
+    heading:
+      title: 変更セット %{id}
+      created_by_html: ユーザ %{link_user} によって %{created} に作成されました。
+    no_such_entry:
+      title: 対象の変更セットがありません
+      heading: 'ID番号: %{id} のエントリはありません'
     show:
       title: '変更セット: %{id}'
       created_ago_html: '%{time_ago} に作成'
@@ -552,6 +575,8 @@ ja:
       title: '%{user}さんの日記 | %{title}'
       user_title: '%{user}さんの日記'
       discussion: 議論
+      subscribe: 通知を開始
+      unsubscribe: 通知を解除
       leave_a_comment: コメントを書いてください
       login_to_leave_a_comment_html: コメントを書くには%{login_link}してください
       login: ログイン
@@ -592,6 +617,12 @@ ja:
       all:
         title: OpenStreetMap 利用者の日記エントリ
         description: OpenStreetMap 利用者による最近の日記エントリ
+    subscribe:
+      heading: この日記エントリの議論の通知を受け取りますか？
+      button: 議論の通知を開始
+    unsubscribe:
+      heading: この日記エントリの議論の通知を解除しますか？
+      button: 議論の通知を解除
   diary_comments:
     index:
       title: '%{user}が追加した日記コメント'
@@ -608,16 +639,28 @@ ja:
       applications:
         create:
           notice: アプリケーションが登録されています。
+    scopes:
+      address: 物理アドレスを表示
+      email: メールアドレスを表示
+      openid: アカウントを認証
+      phone: 電話番号を表示
+      profile: プロフィール情報の表示
   errors:
     contact:
       contact: 連絡
       contact_the_community_html: リンク切れ / バグを見つけたら、遠慮なくOpenStreetMapコミュニティに%{contact_link}してください。リクエストの正確なURLを書き留めてください。
+    bad_request:
+      title: 要求の形式が正しくありません
+      description: OpenStreetMapサーバへ要求した操作は無効な形式です (HTTP 400)
     forbidden:
       title: 閲覧禁止
+      description: OpenStreetMapサーバへ要求した操作は管理者のみが可能です (HTTP 403)
     internal_server_error:
       title: アプリケーションエラー
+      description: OpenStreetMapサーバは予期しない状態となり、リクエストを処理できませんでした (HTTP 500)
     not_found:
       title: ファイルが見つかりません
+      description: OpenStreetMapサーバ上に、その名称のファイル/ディレクトリ/API操作はありません (HTTP 404)
   friendships:
     make_friend:
       heading: '%{user} を友達に追加しますか?'
@@ -1616,9 +1659,10 @@ ja:
         your_note_html: '%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを再開しました。'
         commented_note: '%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。'
         commented_note_html: '%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。'
-      details: メモについての詳細は %{url} を参照。
-      details_html: メモについての詳細は %{url} を参照。
+      details: メモについての詳細あるいは返答は %{url} を参照。
+      details_html: メモについての詳細あるいは返信は %{url} を参照。
     changeset_comment_notification:
+      description: 'OpenStreetMap 変更セット #%{id}'
       hi: こんにちは、%{to_user} さん。
       greeting: こんにちは、
       commented:
@@ -1631,10 +1675,10 @@ ja:
         partial_changeset_with_comment: 「%{changeset_comment}」に対するコメント
         partial_changeset_with_comment_html: 「%{changeset_comment}」に対するコメント
         partial_changeset_without_comment: コメントなし
-      details: 変更セットについての詳細は %{url} を参照。
-      details_html: 変更セットについての詳細は %{url} を参照。
-      unsubscribe: この変更セットの購読を中止するには%{url}を開いて"購読を中止 Unsubscribe"をクリック。
-      unsubscribe_html: この変更セットの購読を中止するには%{url}を開いて「購読を中止」をクリック。
+      details: 変更セットについての詳細あるいは返信は %{url} を参照。
+      details_html: 変更セットについての詳細あるいは返信は %{url} を参照。
+      unsubscribe: この変更セットの更新通知は %{url} から解除が可能です。
+      unsubscribe_html: この変更セットの更新通知は %{url} から解除可能です。
   confirmations:
     confirm:
       heading: メールを確認してください
@@ -1792,6 +1836,7 @@ ja:
       login_button: ログイン
       register now: 今すぐ登録
       with external: 'サードパーティのアカウントでもログインできます:'
+      or: または
       auth failure: 申し訳ありませんが、入力された情報ではログインできませんでした。
     destroy:
       title: ログアウト
@@ -1841,6 +1886,10 @@ ja:
       legal_1_1_terms_of_use: 利用規約
       legal_1_1_aup: 利用規定
       legal_1_1_privacy_policy: プライバシー・ポリシー
+      legal_2_1_contact_the_osmf: OSMFに連絡
+      legal_2_2_html: OpenStreetMap、虫眼鏡のロゴ、および State of the Map は %{registered_trademarks_link}
+        です。
+      legal_2_2_registered_trademarks: OSMFの登録商標
       partners_title: パートナー
     copyright:
       title: 著作権とライセンス
@@ -1854,17 +1903,49 @@ ja:
         native_link: 日本語版
         mapping_link: マッピングを開始
       legal_babble:
+        introduction_1_html: |-
+          OpenStreetMap %{registered_trademark_link} は %{open_data} であり、
+          %{osm_foundation_link} によって %{odc_odbl_link} (ODbL) の下でライセンスされています。
+        introduction_1_open_data: オープンデータ
+        introduction_1_odc_odbl: Open Data Commons Open Database License
+        introduction_1_osm_foundation: OpenStreetMap財団
+        introduction_2_html: あなたはOpenStreetMapとその協力者をクレジットする限り、データを自由にコピー、配布、送信、利用することができます。データを改変したり翻案したりした場合、元データと同じライセンスを適用することによって配布を行うことができます。あなたの権利と責任は
+          %{legal_code_link} で解説されています。
+        introduction_2_legal_code: リーガルコード
+        introduction_3_html: 私達のドキュメントは %{creative_commons_link} ライセンス（CC BY SA 2.0）の下でライセンスされています。
+        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: OpenStreetMap のクレジット表記の仕方
         credit_1_html: OpenStreetMap を使う場所では、以下の2つの条件を必ず守ってください。
+        credit_2_1: OpenStreetMapのクレジットを表示し、著作権表示を行ってください。
+        credit_2_2: 配布されるデータがOpen Database Licenseの下で利用可能であることを明示してください。
+        credit_3_html: 著作権表示に関しては、データの使用方法によって表示方法に異なる要件があります。例えば、ブラウザで閲覧可能な地図、印刷された地図、静止画像のどれを作成したかによって、著作権表示の表示方法に異なるルールが適用されます。要件の詳細については、
+          %{attribution_guidelines_link} で確認できます。
+        credit_3_attribution_guidelines: Attribution Guidelines
+        credit_4_1_html: データがOpen Database Licenseでライセンスされていることを明示するために、あなたは %{this_copyright_page_link}
+          へリンクしてもかまいません。もしくは、OSMをデータ形式で配布する際の要件として、対象のライセンスを明示し、それぞれに直接リンクを付与してもかまりません。リンクの付与が不可能な媒体（例
+          印刷物など）の場合、読者に対して openstreetmap.org （"OpenStreetMap"の文字列を本URLに置き換えてもかまいません）および
+          opendatacommons.org を参照するよう推奨してください。この例ですと、クレジットは地図の隅に表示されます。
+        credit_4_1_this_copyright_page: この著作権ページ
         attribution_example:
           alt: ウェブページに OpenStreetMap を記述する方法の例
           title: 権利表示の例
         more_title_html: 詳細を見る
+        more_1_1_html: 私達のデータの使用方法とクレジット付与方法の詳細については %{osmf_licence_page_link} を参照ください。
         more_1_1_osmf_licence_page: OSMFライセンスページ
+        more_2_1_html: OpenStreetMapはオープンデータですが、第三者に対して無料の地図利用APIを提供することはできません。詳しくは
+          %{api_usage_policy_link}、%{tile_usage_policy_link}、および%{nominatim_usage_policy_link}を参照ください。
         more_2_1_api_usage_policy: API利用ポリシー
+        more_2_1_tile_usage_policy: タイル利用規約
+        more_2_1_nominatim_usage_policy: Nominatim利用規約
         contributors_title_html: 協力者
         contributors_intro_html: 数千人もの個人が協力者となっています。それに加え、各国の地図作成機関や、以下のように、その他の情報源も含め、公開されたライセンスによるデータを含みます。
+        contributors_at_credit_html: |-
+          %{austria}:  %{stadt_wien_link} (under %{cc_by_link})、 %{land_vorarlberg_link}
+          、および Land Tirol ( %{cc_by_at_with_amendments_link} ライセンス下) のデータが含まれます。
         contributors_at_austria: オーストリア
+        contributors_at_stadt_wien: Stadt Wien
+        contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT with amendments
         contributors_au_australia: オーストラリア
         contributors_ca_canada: カナダ
         contributors_fi_finland: フィンランド
@@ -1878,11 +1959,21 @@ ja:
         contributors_es_spain: スペイン
         contributors_za_south_africa: 南アフリカ
         contributors_gb_united_kingdom: イギリス
+        contributors_2_html: 上記の詳細について、およびOpenStreetMapの改善を支援するために利用されたその他の情報源については、OpenStreetMap
+          Wikiの %{contributors_page_link} を参照ください。
+        contributors_2_contributors_page: 貢献者ページ
         contributors_footer_2_html: OpenStreetMapのデータに含めることは、元データの提供者がOpenStreetMapを支持したり、何かしらの保証を行ったり、何かしらの責任を負ったりすることを意味するものではありません。
         infringement_title_html: 著作権侵害
         infringement_1_html: 'OpenStreetMapの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google
           マップや印刷された地図) から決してデータを持ち込まないよう注意するものとします。'
+        infringement_2_1_html: 著作権で保護された素材が、OpenStreetMapあるいは本サイトに対して不適切な形で追加されていると思われる場合は、
+          %{takedown_procedure_link} を参照するか、あるいは%{online_filing_page_link}%{online_filing_page_link}
+          に直接申請ください。
+        infringement_2_1_takedown_procedure: データ削除手続き
+        infringement_2_1_online_filing_page: オンライン申請ページ
         trademarks_title: 商標
+        trademarks_1_1_html: OpenStreetMap、虫眼鏡のロゴ、そしてState of the Mapは、OpenStreetMap財団の登録商標です。商標の利用について質問がある場合は、
+          %{trademark_policy_link} を参照ください。
         trademarks_1_1_trademark_policy: 商標ポリシー
     index:
       js_1: JavaScript に対応していないブラウザーを使用しているか、JavaScript を無効にしているかのどちらかです。
@@ -1901,6 +1992,8 @@ ja:
       title: エクスポート
       manually_select: ドラッグして別の領域を選択
       licence: ライセンス
+      licence_details_html: OpenStreetMapデータは %{odbl_link} (ODbL) の下でライセンスされています。
+      odbl: Open Data Commons Open Database License
       too_large:
         advice: '上のエクスポートが失敗した場合は、以下に列挙した情報源のいずれかの使用を検討してください:'
         body: 領域が大きすぎて OpenStreetMap XML データとしてエクスポートできません。拡大するか、領域を小さくするか、以下に列挙したソースから一括データダウンロードを使用するかしてください。
@@ -1924,8 +2017,12 @@ ja:
         join_the_community:
           title: コミュニティへの参加
           explanation_html: 道路やあなたの住所が抜けているなど地図データの問題を見つけた場合、OpenStreetMapのコミュニティに参加して自分でデータの修正や追加をすることが最善の方法です。
+        add_a_note:
+          instructions_1_html: '%{note_icon}をクリックするか、地図上の同じアイコンをクリックしてください。地図にマーカーが追加されます。マーカーはドラッグで移動できます。メッセージを追加して保存をクリックすると、他のマッパーたちが調査を行います。'
       other_concerns:
         title: 他の問題
+        concerns_html: OpenStreetMapデータの利用方法やコンテンツについて質問がある場合は %{copyright_link} を参照するか、あるいは適切な
+          %{working_group_link} へ問い合わせを行ってください。
         copyright: 著作権ページ
         working_group: OSMFワーキンググループ
     help:
@@ -2639,6 +2736,8 @@ ja:
     new:
       title: 新しいメモ
       intro: 間違いや情報の抜けがありましたか？　他のマッパーが修正できるよう、お知らせください。マーカーを正しい位置に移動し、問題を説明するメモを入力します。
+      anonymous_warning_log_in: ログイン
+      anonymous_warning_sign_up: 利用者登録
       advice: 投稿したメモは公開され、地図の更新に利用されます。そのため、著作権保護された地図や一覧情報からの転用情報や、個人情報の入力は行わないでください。
       add: メモを追加
   javascripts:
@@ -2693,6 +2792,8 @@ ja:
         title: レイヤー
       openstreetmap_contributors: OpenStreetMapの貢献者
       make_a_donation: 寄付をする
+      osm_france: OpenStreetMap France
+      hotosm_name: Humanitarian OpenStreetMap Team
     site:
       edit_tooltip: 地図を編集
       edit_disabled_tooltip: 地図を編集するには拡大してください
