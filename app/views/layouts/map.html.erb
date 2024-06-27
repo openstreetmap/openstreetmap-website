@@ -4,18 +4,6 @@
 
 <% content_for(:body_class) { "map-layout" } %>
 
-<% if current_user&.home_location? %>
-  <% content_for :greeting do %>
-    <%= link_to t("layouts.home"),
-                "#",
-                :id => "homeanchor",
-                :class => "set_position dropdown-item",
-                :data => { :lat => current_user.home_lat,
-                           :lon => current_user.home_lon,
-                           :zoom => 15 } %>
-  <% end %>
-<% end %>
-
 <% content_for :header do %>
   <%= render :partial => "layouts/search", :locals => { :autofocus => false } %>
 <% end %>
