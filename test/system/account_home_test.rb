@@ -45,4 +45,13 @@ class AccountHomeTest < ApplicationSystemTestCase
     click_on "test user"
     assert_no_link "Go to Home Location"
   end
+
+  test "account home page shows a warning when visited by users without home location" do
+    @user = create(:user, :display_name => "test user")
+    sign_in_as(@user)
+
+    visit account_home_path
+    assert_no_selector "img.leaflet-marker-icon"
+    assert_text "Home location is not set"
+  end
 end
