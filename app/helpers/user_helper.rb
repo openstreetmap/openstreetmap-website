@@ -64,7 +64,7 @@ module UserHelper
                 :size => "36"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button p-2 d-block",
+      :class => "auth_button btn btn-light mx-1 p-2 d-block",
       :title => t("application.auth_providers.#{name}.title")
     )
   end
@@ -77,7 +77,7 @@ module UserHelper
                 :size => "36") + t("application.auth_providers.#{name}.title"),
       auth_path(options.merge(:provider => provider)),
       :method => :post,
-      :class => "auth_button fs-6 border rounded text-body-secondary text-decoration-none py-2 px-4 d-flex justify-content-center align-items-center",
+      :class => "auth_button btn btn-outline-secondary fs-6 border rounded py-2 px-4 d-flex justify-content-center align-items-center",
       :title => t("application.auth_providers.#{name}.title")
     )
   end
