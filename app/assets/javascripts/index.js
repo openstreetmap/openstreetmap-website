@@ -234,16 +234,6 @@ $(document).ready(function () {
     L.marker([params.mlat, params.mlon]).addTo(map);
   }
 
-  $("#homeanchor").on("click", function (e) {
-    e.preventDefault();
-
-    var data = $(this).data(),
-        center = L.latLng(data.lat, data.lon);
-
-    map.setView(center, data.zoom);
-    L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
-  });
-
   function remoteEditHandler(bbox, object) {
     var remoteEditHost = "http://127.0.0.1:8111",
         osmHost = location.protocol + "//" + location.host,
