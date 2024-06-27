@@ -254,6 +254,7 @@ OpenStreetMap::Application.routes.draw do
 
   namespace :account do
     resource :deletion, :only => [:show]
+    resource :home, :only => [:show]
   end
   resource :dashboard, :only => [:show]
   resource :preferences, :only => [:show, :edit, :update]

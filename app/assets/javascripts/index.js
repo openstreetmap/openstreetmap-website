@@ -21,6 +21,7 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require index/home
 //= require router
 //= require qs/dist/qs
 
@@ -385,7 +386,8 @@ $(document).ready(function () {
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
     "/relation/:id/history/:version": OSM.OldBrowse(),
     "/changeset/:id": OSM.Changeset(map),
-    "/query": OSM.Query(map)
+    "/query": OSM.Query(map),
+    "/account/home": OSM.Home(map)
   });
 
   if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {
