@@ -12,17 +12,26 @@ OSM.Home = function (map) {
     map.setSidebarOverlaid(true);
     clearMarker();
 
-    OSM.router.withoutMoveListener(function () {
-      map.setView(OSM.home, 15, { reset: true });
-    });
-    marker = L.marker(OSM.home, {
-      icon: OSM.getUserIcon(),
-      title: I18n.t("javascripts.home.marker_title")
-    }).addTo(map);
+    if (OSM.home) {
+      OSM.router.withoutMoveListener(function () {
+        map.setView(OSM.home, 15, { reset: true });
+      });
+      marker = L.marker(OSM.home, {
+        icon: OSM.getUserIcon(),
+        title: I18n.t("javascripts.home.marker_title")
+      }).addTo(map);
+    } else {
+      $("#browse_status").html(
+        $("<div class='m-2 alert alert-warning'>").text(
+          I18n.t("javascripts.home.not_set")
+        )
+      );
+    }
   };
 
   page.unload = function () {
     clearMarker();
+    $("#browse_status").empty();
   };
 
   return page;
