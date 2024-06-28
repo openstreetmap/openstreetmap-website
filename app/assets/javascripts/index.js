@@ -327,17 +327,17 @@ $(document).ready(function () {
   OSM.Browse = function (map, type) {
     var page = {};
 
-    page.pushstate = page.popstate = function (path, id) {
+    page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path, function () {
-        addObject(type, id);
+        addObject(type, id, version);
       });
     };
 
-    page.load = function (path, id) {
-      addObject(type, id, true);
+    page.load = function (path, id, version) {
+      addObject(type, id, version, true);
     };
 
-    function addObject(type, id, center) {
+    function addObject(type, id, version, center) {
       var object = { type: type, id: parseInt(id, 10) },
           data;
 
@@ -346,6 +346,10 @@ $(document).ready(function () {
         if (data && data.coordinates) {
           object.latLng = L.latLng(data.coordinates.split(","));
         }
+      }
+
+      if (version && !(type === "node" && object.latLng)) {
+        return;
       }
 
       map.addObject(object, function (bounds) {
@@ -365,16 +369,6 @@ $(document).ready(function () {
     return page;
   };
 
-  OSM.OldBrowse = function () {
-    var page = {};
-
-    page.pushstate = page.popstate = function (path) {
-      OSM.loadSidebarContent(path);
-    };
-
-    return page;
-  };
-
   var history = OSM.History(map);
 
   OSM.router = OSM.Router(map, {
@@ -389,11 +383,11 @@ $(document).ready(function () {
     "/user/:display_name/history": history,
     "/note/:id": OSM.Note(map),
     "/node/:id(/history)": OSM.Browse(map, "node"),
-    "/node/:id/history/:version": OSM.OldBrowse(),
+    "/node/:id/history/:version": OSM.Browse(map, "node"),
     "/way/:id(/history)": OSM.Browse(map, "way"),
-    "/way/:id/history/:version": OSM.OldBrowse(),
+    "/way/:id/history/:version": OSM.Browse(map, "way"),
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
-    "/relation/:id/history/:version": OSM.OldBrowse(),
+    "/relation/:id/history/:version": OSM.Browse(map, "relation"),
     "/changeset/:id": OSM.Changeset(map),
     "/query": OSM.Query(map)
   });
