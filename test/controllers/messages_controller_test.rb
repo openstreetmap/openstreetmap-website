@@ -369,10 +369,10 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   ##
   # test the mark action
   def test_mark
-    user = create(:user)
+    sender_user = create(:user)
     recipient_user = create(:user)
     other_user = create(:user)
-    message = create(:message, :unread, :sender => user, :recipient => recipient_user)
+    message = create(:message, :unread, :sender => sender_user, :recipient => recipient_user)
 
     # Check that the marking a message requires us to login
     post message_mark_path(message)
@@ -382,6 +382,14 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     session_for(other_user)
 
     # Check that marking a message we didn't send or receive fails
+    post message_mark_path(message)
+    assert_response :not_found
+    assert_template "no_such_message"
+
+    # Login as the message sender_user
+    session_for(sender_user)
+
+    # Check that marking a message we sent fails
     post message_mark_path(message)
     assert_response :not_found
     assert_template "no_such_message"

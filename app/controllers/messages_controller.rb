@@ -117,7 +117,7 @@ class MessagesController < ApplicationController
 
   # Set the message as being read or unread.
   def mark
-    @message = Message.where(:recipient => current_user).or(Message.where(:sender => current_user)).find(params[:message_id])
+    @message = current_user.messages.find(params[:message_id])
     if params[:mark] == "unread"
       message_read = false
       notice = t ".as_unread"
