@@ -15,26 +15,28 @@
   <% end %>
 </p>
 
-<ul class="list-unstyled">
-  <li>
-    <%= t "browse.#{common_details.visible? ? :edited : :deleted}_ago_by_html",
-          :time_ago => friendly_date_ago(common_details.timestamp),
-          :user => changeset_user_link(common_details.changeset) %>
-  </li>
-  <li>
-    <%= t "browse.in_changeset" %>
-    #<%= link_to common_details.changeset_id, changeset_path(common_details.changeset) %>
-  </li>
-
-  <% if @type == "node" and common_details.visible? %>
+<%= tag.div :class => "details" do %>
+  <ul class="list-unstyled">
     <li>
-      <%= t "browse.location" %>
-      <%= link_to(t(".coordinates_html",
-                    :latitude => tag.span(number_with_delimiter(common_details.lat), :class => "latitude"),
-                    :longitude => tag.span(number_with_delimiter(common_details.lon), :class => "longitude")),
-                  root_path(:anchor => "map=18/#{common_details.lat}/#{common_details.lon}")) %>
+      <%= t "browse.#{common_details.visible? ? :edited : :deleted}_ago_by_html",
+            :time_ago => friendly_date_ago(common_details.timestamp),
+            :user => changeset_user_link(common_details.changeset) %>
     </li>
-  <% end %>
-</ul>
+    <li>
+      <%= t "browse.in_changeset" %>
+      #<%= link_to common_details.changeset_id, changeset_path(common_details.changeset) %>
+    </li>
+
+    <% if @type == "node" and common_details.visible? %>
+      <li>
+        <%= t "browse.location" %>
+        <%= link_to(t(".coordinates_html",
+                      :latitude => tag.span(number_with_delimiter(common_details.lat), :class => "latitude"),
+                      :longitude => tag.span(number_with_delimiter(common_details.lon), :class => "longitude")),
+                    root_path(:anchor => "map=18/#{common_details.lat}/#{common_details.lon}")) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
 
 <%= render :partial => "browse/tag_details", :object => common_details.tags %>
