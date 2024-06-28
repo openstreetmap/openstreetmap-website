@@ -338,7 +338,17 @@ $(document).ready(function () {
     };
 
     function addObject(type, id, center) {
-      map.addObject({ type: type, id: parseInt(id, 10) }, function (bounds) {
+      var object = { type: type, id: parseInt(id, 10) },
+          data;
+
+      if (type === "node") {
+        data = $(".details").data();
+        if (data && data.coordinates) {
+          object.latLng = L.latLng(data.coordinates.split(","));
+        }
+      }
+
+      map.addObject(object, function (bounds) {
         if (!window.location.hash && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
           OSM.router.withoutMoveListener(function () {
