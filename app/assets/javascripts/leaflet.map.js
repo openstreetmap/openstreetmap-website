@@ -302,16 +302,24 @@ L.OSM.Map = L.Map.extend({
       if (callback) callback(this._objectLayer.getBounds());
     } else { // element or changeset handled by L.OSM.DataLayer
       var map = this;
-      this._objectLoader = $.ajax({
-        url: OSM.apiUrl(object),
-        dataType: "xml",
-        success: function (xml) {
-          map._object = object;
-          map._objectLayer = map.makeObjectLayer(object, xml);
 
-          if (callback) callback(map._objectLayer.getBounds());
-        }
-      });
+      if (object.type === "node" && object.latLng) {
+        map._object = object;
+        map._objectLayer = map.makeObjectLayer(object, [object]);
+
+        if (callback) callback(map._objectLayer.getBounds());
+      } else {
+        this._objectLoader = $.ajax({
+          url: OSM.apiUrl(object),
+          dataType: "xml",
+          success: function (xml) {
+            map._object = object;
+            map._objectLayer = map.makeObjectLayer(object, xml);
+
+            if (callback) callback(map._objectLayer.getBounds());
+          }
+        });
+      }
     }
   },
 
