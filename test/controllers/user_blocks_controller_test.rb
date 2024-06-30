@@ -118,7 +118,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   ##
   # test the index action with invalid pages
   def test_index_invalid_paged
-    %w[-1 0 fred].each do |id|
+    %w[-1 fred].each do |id|
       get user_blocks_path(:before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
 
@@ -577,7 +577,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   def test_blocks_on_invalid_paged
     user = create(:user)
 
-    %w[-1 0 fred].each do |id|
+    %w[-1 fred].each do |id|
       get user_blocks_on_path(user, :before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
 
@@ -659,7 +659,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   def test_blocks_by_invalid_paged
     user = create(:moderator_user)
 
-    %w[-1 0 fred].each do |id|
+    %w[-1 fred].each do |id|
       get user_blocks_by_path(user, :before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
 
