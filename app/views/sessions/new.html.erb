@@ -25,12 +25,8 @@
 <div id="login_login" class="auth-container mx-auto my-0">
   <% if @preferred_auth_provider %>
     <%= render :partial => "auth_providers" %>
-    <div class="d-flex justify-content-center align-items-center mb-2">
-      <div class="border-bottom border-1 flex-grow-1"></div>
-      <div class="text-secondary mx-3"><%= t ".or" %></div>
-      <div class="border-bottom border-1 flex-grow-1"></div>
-    </div>
-  <% end %>
+    <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
+<% end %>
 
   <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
     <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
@@ -57,11 +53,7 @@
   <% end %>
 
   <% unless @preferred_auth_provider %>
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="border-bottom border-1 flex-grow-1"></div>
-      <div class="text-secondary mx-3"><%= t ".with external" %></div>
-      <div class="border-bottom border-1 flex-grow-1"></div>
-    </div>
+    <%= render :partial => "shared/section_divider", :locals => { :text => t(".with external") } %>
     <%= render :partial => "auth_providers" %>
   <% end %>
 </div>

@@ -31,12 +31,8 @@
 
     <% unless @preferred_auth_provider.nil? %>
       <%= render :partial => "auth_providers" %>
-      <div class="d-flex justify-content-center align-items-center mb-2">
-        <div class="border-bottom border-1 flex-grow-1"></div>
-        <div class="text-secondary mx-3"><%= t ".or" %></div>
-        <div class="border-bottom border-1 flex-grow-1"></div>
-      </div>
-    <% end %>
+      <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
+<% end %>
   <% else %>
     <h4><%= t ".about.welcome" %></h4>
   <% end %>
@@ -98,11 +94,7 @@
   <% end %>
 
   <% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? %>
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="border-bottom border-1 flex-grow-1"></div>
-      <div class="text-secondary mx-3"><%= t ".use external auth" %></div>
-      <div class="border-bottom border-1 flex-grow-1"></div>
-    </div>
+    <%= render :partial => "shared/section_divider", :locals => { :text => t(".use external auth") } %>
     <%= render :partial => "auth_providers" %>
   <% end %>
 </div>
