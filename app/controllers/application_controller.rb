@@ -220,20 +220,28 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout(&block)
+    raise Timeout::Error if Settings.web_timeout.negative?
+
     Timeout.timeout(Settings.web_timeout, &block)
   rescue ActionView::Template::Error => e
     e = e.cause
 
     if e.is_a?(Timeout::Error) ||
        (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
-      ActiveRecord::Base.connection.raw_connection.cancel
-      render :action => "timeout"
+      respond_to_timeout
     else
       raise
     end
   rescue Timeout::Error
+    respond_to_timeout
+  end
+
+  def respond_to_timeout
     ActiveRecord::Base.connection.raw_connection.cancel
-    render :action => "timeout"
+    respond_to do |format|
+      format.html { render :action => "timeout", :layout => map_layout }
+      format.all { render :action => "timeout" }
+    end
   end
 
   ##

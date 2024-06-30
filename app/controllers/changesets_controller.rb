@@ -13,7 +13,7 @@ class ChangesetsController < ApplicationController
 
   authorize_resource
 
-  around_action :web_timeout
+  around_action :web_timeout, :except => [:subscribe, :unsubscribe]
 
   ##
   # list non-empty changesets in reverse chronological order
