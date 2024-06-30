@@ -49,7 +49,8 @@ class Ability
         can [:show, :edit, :update], :preference
         can [:edit, :update], :profile
         can [:new, :create], Report
-        can [:mine, :new, :create, :edit, :update, :destroy], Trace
+        can [:mine], Trace
+        can [:new, :create, :edit, :update, :destroy], Trace if user.blocks.active.empty?
         can [:account, :go_public], User
         can [:index, :create, :destroy], UserMute
 
