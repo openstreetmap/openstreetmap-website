@@ -209,6 +209,23 @@ module Api
       assert_response :not_found
     end
 
+    ##
+    # test fetching multiple relations with specified versions
+    def test_index_with_versions
+      relation1 = create(:relation)
+      relation2 = create(:relation, :with_history, :version => 2)
+
+      # test a working call with versions
+      get relations_path(:relations => "#{relation1.id},#{relation2.id}v1,#{relation2.id}v2")
+      assert_response :success
+      assert_select "osm" do
+        assert_select "relation", :count => 3
+        assert_select "relation[id='#{relation1.id}'][version='1']", :count => 1
+        assert_select "relation[id='#{relation2.id}'][version='1']", :count => 1
+        assert_select "relation[id='#{relation2.id}'][version='2']", :count => 1
+      end
+    end
+
     # -------------------------------------
     # Test simple relation creation.
     # -------------------------------------
