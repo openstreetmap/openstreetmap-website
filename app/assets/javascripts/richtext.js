@@ -43,6 +43,12 @@ $(document).ready(function () {
     var preview = $(this).parents(".richtext_container").find(".richtext_preview");
     var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
 
+    if (editor.val().length === 0) {
+      event.preventDefault();
+      editor[0].reportValidity();
+      return;
+    }
+
     if (preview.contents().length === 0) {
       preview.oneTime(500, "loading", function () {
         preview.addClass("loading");
