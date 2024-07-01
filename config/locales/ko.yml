@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: A Retired User
 # Author: Adreamy
+# Author: Alatta
 # Author: Alattalatta
 # Author: Alex00728
 # Author: Apzp79
@@ -86,6 +87,7 @@ ko:
       messages:
         invalid_email_address: 유효한 이메일 주소로 보이지 않음
         email_address_not_routable: 라우팅할 수 없음
+        display_name_is_user_n: n이 사용자 ID가 아니라면 user_n이 될 수 없음
       models:
         user_mute:
           is_already_muted: 님은 이미 음소거되어 있습니다
@@ -241,11 +243,11 @@ ko:
   auth:
     providers:
       none: 없음
-      google: 구글
-      facebook: 페이스북
+      google: Google
+      facebook: Facebook
       microsoft: 마이크로소프트
-      github: 깃허브
-      wikipedia: 위키백과
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
@@ -560,13 +562,15 @@ ko:
       title: '%{user}의 일기 | %{title}'
       user_title: '%{user}의 일기'
       discussion: 토론
+      subscribe: 구독
+      unsubscribe: 구독 해지
       leave_a_comment: 의견 남기기
-      login_to_leave_a_comment_html: 덧글을 남기려면 %{login_link}해야 합니다.
+      login_to_leave_a_comment_html: 댓글을 남기려면 %{login_link}하세요
       login: 로그인
     no_such_entry:
       title: 해당 일기 항목이 없음
-      heading: 'id에 항목 없음: %{id}'
-      body: 안타깝게도, %{id} id로 된 일기 항목이나 덧글이 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지를 확인해보세요.
+      heading: '%{id} ID 항목 없음'
+      body: 안타깝게도, ID가 %{id}인 일기 항목이나 댓글이 없습니다. 맞춤법이나 클릭한 링크의 유효성을 확인해 주세요.
     diary_entry:
       posted_by_html: '%{link_user}님이 %{language_link}로 %{created}에 게시함.'
       updated_at_html: 최근 %{updated}에 업데이트됨.
@@ -1479,7 +1483,7 @@ ko:
         note: '참고 #%{note_id}'
   issue_comments:
     create:
-      comment_created: 덧글이 성공적으로 생성되었습니다
+      comment_created: 댓글을 성공적으로 생성했습니다
       issue_reassigned: 당신의 댓글이 작성되었으며 해당 문제가 다시 제기되었습니다
   reports:
     new:
@@ -1497,9 +1501,9 @@ ko:
           threat_label: 이 일기 항목은 위협을 포함합니다
           other_label: 기타
         diary_comment:
-          spam_label: 이 일기 덧글은 스팸을 포함합니다.
-          offensive_label: 이 일기 덧글은 타당치 않거나 공격적입니다
-          threat_label: 이 일기 덧글은 위협을 포함합니다
+          spam_label: 이 일기 댓글은 스팸을 포함합니다
+          offensive_label: 이 일기 댓글은 음란물이거나 모욕적입니다
+          threat_label: 이 일기 댓글은 위협적입니다
           other_label: 기타
         user:
           spam_label: 이 사용자 프로필은 스팸이거나 스팸을 포함합니다
@@ -1541,7 +1545,9 @@ ko:
     intro_text: 오픈스트리트맵 (OpenStreetMap)은 여러분과 같은 사람들이 만들어, 개방형 라이선스에 따라 자유롭게 사용할 수
       있는 세계 지도입니다.
     intro_2_create_account: 사용자 계정을 만드세요
-    partners_fastly: 빠르게
+    hosting_partners_2024_html: 호스팅은 %{fastly}, %{corpmembers}, 기타 %{partners}에서 지원합니다.
+    partners_fastly: Fastly
+    partners_corpmembers: OSMF 기업 회원
     partners_partners: 협력단체
     tou: 이용 약관
     osm_offline: 데이터베이스 점검을 위해 현재 오픈스트리트맵의 데이터가 오프라인 상태에 있습니다.
@@ -1561,10 +1567,10 @@ ko:
     more: 더 보기
   user_mailer:
     diary_comment_notification:
-      subject: '[오픈스트리트맵] %{user}님이 일기 항목에 덧글을 남겼습니다'
+      subject: '[OpenStreetMap] %{user}님이 일기 항목에 댓글을 남겼습니다'
       hi: 안녕하세요 %{to_user}님,
-      header: '%{from_user}님이 오픈스트리트맵 일기 항목 내 %{subject} 주제에 덧글을 남겼습니다:'
-      header_html: '%{from_user}님이 오픈스트리트맵 일기 항목 내 %{subject} 주제에 덧글을 남겼습니다:'
+      header: '%{from_user}님이 오픈스트리트맵 일기 항목 내 %{subject} 주제에 댓글을 남겼습니다:'
+      header_html: '%{from_user}님이 오픈스트리트맵 일기 항목 내 %{subject} 주제에 댓글을 남겼습니다:'
       footer: '%{readurl}에서 댓글을 읽을 수가 있으며, %{commenturl}에서 댓글을 남기거나 %{replyurl}에서
         저자에게 메시지를 보낼 수 있습니다.'
       footer_html: '%{readurl}에서 댓글을 읽을 수가 있으며, %{commenturl}에서 댓글을 남기거나 %{replyurl}에서
@@ -1611,42 +1617,44 @@ ko:
       hopefully_you: 누군가가 아마 자신이 이 이메일 계정의 openstreetmap.org 계정에서 재설정할 비밀번호를 요청했습니다.
       click_the_link: 만약 당신이라면 비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.
     note_comment_notification:
+      description: 'OpenStreetMap 참고 #%{id}'
       anonymous: 익명 사용자
       greeting: 안녕하세요,
       commented:
-        subject_own: '[오픈스트리트맵] %{commenter}님이 내 참고에 덧글을 남겼습니다'
-        subject_other: '[오픈스트리트맵] %{commenter}님이 내가 관심을 가진 참고에 덧글을 남겼습니다'
-        your_note: '%{commenter}님이 %{place} 근처의 내 지도 참고에 덧글을 남겼습니다.'
-        your_note_html: '%{commenter}님이 %{place} 근처의 내 지도 참고에 덧글을 남겼습니다.'
-        commented_note: '%{commenter}님이 내가 덧글을 남긴 지도 참고에 덧글을 남겼습니다. 참고는 %{place} 근처에
+        subject_own: '[OpenStreetMap] %{commenter}님이 내 참고에 댓글을 남겼습니다'
+        subject_other: '[OpenStreetMap] %{commenter}님이 내가 관심을 가진 참고에 댓글을 남겼습니다'
+        your_note: '%{commenter}님이 %{place} 근처의 내 지도 참고에 댓글을 남겼습니다.'
+        your_note_html: '%{commenter}님이 %{place} 근처의 내 지도 참고에 댓글을 남겼습니다.'
+        commented_note: '%{commenter}님이 내가 댓글을 남긴 지도 참고에 댓글을 남겼습니다. 참고는 %{place} 근처에
           있습니다.'
-        commented_note_html: '%{commenter}님이 내가 덧글을 남긴 지도 참고에 덧글을 남겼습니다. 참고는 %{place}
+        commented_note_html: '%{commenter}님이 내가 댓글을 남긴 지도 참고에 댓글을 남겼습니다. 참고는 %{place}
           근처에 있습니다.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter}님이 당신의 참고 중 하나를 해결했습니다'
         subject_other: '[OpenStreetMap] %{commenter}님이 당신이 관심 있는 참고를 해결했습니다'
         your_note: '%{commenter}님이 %{place} 근처의 당신의 지도 참고 중 하나를 해결했습니다.'
         your_note_html: '%{commenter}님이 %{place} 근처의 당신의 지도 참고 중 하나를 해결 처리했습니다.'
-        commented_note: '%{commenter}님이 내가 덧글을 남긴 지도 참고를 해결했습니다. 참고는 %{place} 근처에
+        commented_note: '%{commenter}님이 내가 댓글을 남긴 지도 참고를 해결했습니다. 참고는 %{place} 근처에
           있습니다.'
-        commented_note_html: '%{commenter}님이 내가 덧글을 남긴 지도 참고를 해결 처리했습니다. 참고는 %{place}
+        commented_note_html: '%{commenter}님이 내가 댓글을 남긴 지도 참고를 해결했습니다. 참고는 %{place}
           근처에 있습니다.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter}님이 당신의 참고 중 하나를 다시 활성했습니다'
         subject_other: '[OpenStreetMap] %{commenter}님이 당신이 관심 있는 참고를 다시 활성했습니다'
         your_note: '%{commenter}님이 %{place} 근처의 당신의 지도 참고 중 하나를 다시 활성했습니다.'
         your_note_html: '%{commenter}님이 %{place} 근처의 당신의 지도 참고 중 하나를 다시 활성화했습니다.'
-        commented_note: '%{commenter}님이 내가 덧글을 남긴 지도 참고를 다시 활성했습니다. 참고는 %{place} 근처에
-          있습니다.'
+        commented_note: '%{commenter}님이 내가 댓글을 남긴 지도 참고를 다시 활성화했습니다. 참고는 %{place}
+          근처에 있습니다.'
         commented_note_html: '%{commenter}님이 내가 덧글을 남긴 지도 참고를 다시 활성화했습니다. 참고는 %{place}
           근처에 있습니다.'
-      details: 참고에 대한 자세한 사항은 %{url}에서 찾을 수 있습니다.
-      details_html: 참고에 대한 자세한 사항은 %{url}에서 볼 수 있습니다.
+      details: '%{url}에서 참고에 답변하거나 자세한 내용을 볼 수 있습니다.'
+      details_html: '%{url}에서 참고에 답변하거나 자세한 내용을 볼 수 있습니다.'
     changeset_comment_notification:
+      description: 'OpenStreetMap 바뀜집합 #%{id}'
       hi: 안녕하세요 %{to_user}님,
       greeting: 안녕하세요,
       commented:
-        subject_own: '[오픈스트리트맵] %{commenter}님이 내 바뀜집합에 덧글을 남겼습니다'
+        subject_own: '[OpenStreetMap] %{commenter}님이 바뀜집합에 댓글을 남겼습니다'
         subject_other: '[오픈스트리트맵] %{commenter}님이 내가 관심을 가진 바뀜집합에 뎟글을 남겼습니다'
         your_changeset: '%{commenter}님이 %{time}에 내가 바뀜집합에 댓글을 달았습니다'
         your_changeset_html: '%{commenter}님이 %{time}에 내 바뀜집합에 댓글을 달았습니다'
@@ -1654,7 +1662,7 @@ ko:
           주시중인 바뀜집합에 댓글을 남겼습니다'
         commented_changeset_html: '%{commenter}님이 %{time}에 내가 주시하고 있는 %{changeset_author}님이
           만든 바뀜집합에 댓글을 남겼습니다'
-        partial_changeset_with_comment: ‘%{changeset_comment}’ 덧글로
+        partial_changeset_with_comment: ‘%{changeset_comment}’ 댓글로
         partial_changeset_with_comment_html: ‘%{changeset_comment}’ 댓글로
         partial_changeset_without_comment: 의견 없이
       details: 바뀜집합에 대한 자세한 사항은 %{url}에서 찾을 수 있습니다.
@@ -1849,39 +1857,39 @@ ko:
       next: 다음
       heading_html: '%{copyright}OpenStreetMap %{br} 기여자'
       used_by_html: '%{name}은 수많은 웹사이트와 모바일 앱, 하드웨어 장치를 위해 지도 자료를 제공합니다'
-      lede_text: 오픈스트리트맵은 전 세계의 도로나 오솔길, 카페, 기차역을 비롯한 다양한 정보를 관리하고 기여하는 지도 편집자 공동체가
-        만들어 나갑니다.
+      lede_text: OpenStreetMap은 전 세계의 도로나 오솔길, 카페, 기차역을 비롯한 다양한 정보를 관리하고 기여하는 지도 편집자
+        공동체가 만들어 나갑니다.
       local_knowledge_title: 지역 지식
-      local_knowledge_html: 오픈스트리트맵은 지역 지식을 강조합니다. 기여자는 OSM이 정확하고 최신 상태라는 것이 확인되는
-        항공 사진이나 GPS 장치, 저차원 기술분야 지도를 사용합니다.
+      local_knowledge_html: OpenStreetMap은 지역 지식을 강조합니다. 기여자들은 항공 사진과 GPS 장치, 현장 지도를
+        사용해 OSM이 정확하고 최신 상태인지 확인합니다.
       community_driven_title: 공동체 주도
       community_driven_1_html: |-
-        오픈스트리트맵 커뮤니티는 다채롭고 열정적이며 매일 성장하고 있습니다.
-        열정적인 지도 제작자, GIS 전문가, OSM 서버를 운영하는 기술자, 재난 피해 지역을 매핑하는 인도주의자, 그리고 더 많은 사람들이 모여 오픈스트리트맵의 기여자로 나섭니다.
+        OpenStreetMap 커뮤니티는 다채롭고 열정적이며 매일 성장하고 있습니다.
+        열정적인 지도 제작자, GIS 전문가, OSM 서버를 운영하는 기술자, 재난 피해 지역을 매핑하는 인도주의자, 그리고 더 많은 사람들이 모두 OpenStreetMap의 기여자입니다.
         커뮤니티에 관한 자세한 사항은 %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link},
-        %{osm_foundation_link} 홈페이지를 참조하세요.
+        %{osm_foundation_link} 웹사이트를 참조하세요.
       community_driven_osm_blog: OpenStreetMap 블로그
       community_driven_user_diaries: 사용자 일기
-      community_driven_community_blogs: 공동체 블로그
+      community_driven_community_blogs: 커뮤니티 블로그
       community_driven_osm_foundation: OSM 재단
       open_data_title: 개방형 자료
       open_data_1_html: |-
-        오픈스트리트맵은 %{open_data}입니다. 오픈스트리트맵과 기여자를 저작자로 명시하는 한 어떤 목적으로든 자유롭게 사용할 수 있습니다.
+        OpenStreetMap은 %{open_data}입니다. OpenStreetMap과 기여자들을 저작자로 명시하는 한 어떤 목적으로든 자유롭게 사용할 수 있습니다.
          특정 방식으로 데이터를 변경하거나 2차 제작의 기반으로 삼는 경우, 동일한 라이선스에 한하여 그 결과물을 배포할 수 있습니다
          자세한 내용은 %{copyright_license_link}를 참조하세요.
       open_data_open_data: 개방형 데이터
       open_data_copyright_license: 저작권 및 라이선스 페이지
-      legal_title: 법률
+      legal_title: 법적 고지
       legal_1_1_html: |-
         본 사이트와 기타 관련 서비스의 운영은 커뮤니티의 위탁으로
         %{openstreetmap_foundation_link}(OSMF)가 공식적으로 맡고 있습니다. OSMF가 운영하는 모든 서비스의 이용 시 %{terms_of_use_link}, %{aup_link}, %{privacy_policy_link}이 적용됩니다.
-      legal_1_1_openstreetmap_foundation: 오픈스트리트맵 재단
+      legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
       legal_1_1_terms_of_use: 이용 약관
       legal_1_1_aup: 사용 범위 정책
       legal_1_1_privacy_policy: 개인정보처리방침
-      legal_2_1_html: 라이선스, 저작권 또는 그 밖의 법무 관련 질문이 있는 경우 %{contact_the_osmf_link}.
-      legal_2_1_contact_the_osmf: OSMF에 문의하세요
-      legal_2_2_html: 오픈스트리트맵 (OpenStreetMap)과 지도 위 돋보기 로고는 %{registered_trademarks_link}입니다.
+      legal_2_1_html: 라이선스, 저작권 또는 기타 법무 관련 문의는 %{contact_the_osmf_link}.
+      legal_2_1_contact_the_osmf: OSMF로 연락해 주세요
+      legal_2_2_html: OpenStreetMap, 돋보기 로고, State of the Map은 %{registered_trademarks_link}입니다.
       legal_2_2_registered_trademarks: OSMF의 등록 상표
       partners_title: 파트너
     copyright:
@@ -2001,7 +2009,7 @@ ko:
           책임을 진다는 것을 의미하지 않습니다.
         infringement_title_html: 저작권 침해
         infringement_1_html: |-
-          OSM 기여자는 저작권 소유자로부터 명시적 허가 없이
+          OSM 기여자는 저작권 소유자의 명시적 허가 없이
           저작권이 있는 자료(예를 들어 Google 지도 또는 인쇄된 지도)에서
           데이터를 반입하지 않도록 주의하여야 합니다.
         infringement_2_1_html: |-
@@ -2036,21 +2044,21 @@ ko:
       licence_details_html: OpenStreetMap 데이터의 라이선스는 %{odbl_link} (ODbL)를 따릅니다.
       odbl: 오픈 데이터 커먼즈 오픈 데이터베이스 라이선스
       too_large:
-        advice: '위의 내보내기가 실패하면, 아래에 나열된 원본 중 하나를 사용하는 것을 고려해주세요:'
-        body: 이 지역은 오픈스트리트맵 XML 데이터로 내보내기엔 너무 넓습니다. 확대를 하거나, 범위를 좁히거나, 대량 데이터 다운로드에
-          대한 아래에 나열된 자료 중 하나를 사용하세요.
+        advice: 위의 내보내기가 실패하면, 아래에 나열된 소스 중 하나를 사용해 주세요.
+        body: 이 지역은 OpenStreetMap XML 데이터로 내보내기엔 너무 넓습니다. 화면을 확대하거나, 더 좁은 지역을 선택해
+          주세요. 대량 다운로드는 아래 나열된 소스들을 사용해 주세요.
         planet:
-          title: 플래닛 OSM
-          description: 완전한 오픈스트리트맵 데이터베이스가 정기적으로 업데이트되는 복사본
+          title: Planet OSM
+          description: 정기적으로 업데이트되는 전체 OpenStreetMap 데이터베이스 복사본
         overpass:
           title: Overpass API
-          description: 오픈스트리트맵 데이터베이스의 미러에서 이 테두리 상자를 다운로드
+          description: OpenStreetMap 데이터베이스의 미러에서 영역 다운로드
         geofabrik:
           title: Geofabrik 다운로드
-          description: 대륙, 국가 및 선택한 도시가 정기적으로 업데이트되는 추출본
+          description: 정기적으로 업데이트되는 대륙, 국가, 도시 단위 추출본
         other:
-          title: 다른 원본
-          description: OpenStreetMap 위키에 나와있는 추가 원본
+          title: 다른 소스
+          description: OpenStreetMap Wiki에서 찾아보기
       export_button: 내보내기
     fixthemap:
       title: 문제 보고 / 지도 수정
@@ -2391,24 +2399,25 @@ ko:
       oauth2_authorizations: OAuth 2 인가
     auth_providers:
       openid_logo_alt: OpenID로 로그인
+      openid_login_button: 계속
       openid:
         title: OpenID로 로그인하기
         alt: OpenID URL로 로그인
       google:
-        title: 구글로 로그인하기
+        title: Google로 로그인하기
         alt: Google OpenID로 로그인하기
       facebook:
-        title: 페이스북으로 로그인
-        alt: 페이스북 계정으로 로그인하기
+        title: Facebook으로 로그인
+        alt: Facebook 계정으로 로그인하기
       microsoft:
-        title: 마이크로소프트로 로그인하기
-        alt: 마이크로소프트 계정으로 로그인하기
+        title: Microsoft로 로그인하기
+        alt: Microsoft 계정으로 로그인하기
       github:
-        title: GitHub로 로그인
+        title: GitHub으로 로그인
         alt: GitHub 계정으로 로그인
       wikipedia:
-        title: 위키백과로 로그인하기
-        alt: 위키백과 계정으로 로그인
+        title: Wikipedia로 로그인하기
+        alt: Wikipedia 계정으로 로그인
       wordpress:
         title: 워드프레스로 로그인하기
         alt: Wordpress OpenID로 로그인하기
@@ -2423,7 +2432,7 @@ ko:
       allow_to: '다음 클라이언트 애플리케이션을 허용합니다:'
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
-      allow_write_diary: 일기 항목을 생성하고 덧글을 남기며 친구를 만듭니다.
+      allow_write_diary: 일기 항목과 댓글을 생성하고 친구를 추가합니다.
       allow_write_api: 지도를 수정합니다.
       allow_read_gpx: 비공개 GPS 궤적을 읽습니다.
       allow_write_gpx: GPS 궤적을 업로드합니다.
@@ -2445,7 +2454,7 @@ ko:
       openid: 오픈스트리트맵으로 로그인
       read_prefs: 사용자 환경 설정 읽기
       write_prefs: 사용자 환경 설정 수정
-      write_diary: 일기 항목을 생성하고 덧글을 남기며 친구를 만듭니다.
+      write_diary: 일기 항목과 댓글을 생성하고 친구를 추가합니다.
       write_api: 지도 수정
       read_gpx: 비공개 GPS 궤적 읽기
       write_gpx: GPS 궤적 업로드
@@ -2513,6 +2522,8 @@ ko:
       delete: 삭제
       confirm_delete: 이 애플리케이션을 삭제하시겠습니까?
       client_id: 클라이언트 ID
+      client_secret: 클라이언트 비밀번호
+      client_secret_warning: 이 비밀번호는 다시 볼 수 없으므로 안전한 곳에 저장하세요
       permissions: 권한
       redirect_uris: URI 리다이렉트
     not_found:
@@ -2546,13 +2557,15 @@ ko:
         최대한 빨리 이뤄질 수 있도록 노력하겠습니다.
       support: 지원
       about:
-        header: 자유롭게 편집 가능
-        paragraph_1: 다른 지도와 달리 오픈스트리트맵은 전부 여러분과 같은 사람들이 제작했으며 누구나 자유롭게 수정, 업데이트, 다운로드,
-          사용을 할 수 있습니다.
-        paragraph_2: 회원 가입으로 기여를 시작해 봅시다.
-        welcome: 오픈스트리트맵에 오신 것을 환영합니다
+        header: 자유롭게 편집할 수 있습니다.
+        paragraph_1: 다른 지도와 달리 OpenStreetMap은 전부 여러분과 같은 사람들이 제작합니다. 누구나 자유롭게 고치고,
+          갱신하고, 다운로드하고, 사용할 수 있습니다.
+        paragraph_2: 회원으로 가입해서 기여를 시작하세요.
+        welcome: OpenStreetMap에 오신 것을 환영합니다
       display name description: 공개적으로 표시되는 사용자 이름입니다. 나중에 환경 설정에서 바꿀 수 있습니다.
-      tou: 이용 약관
+      by_signing_up_html: 가입하시면 저희의 %{tou_link}, %{privacy_policy_link}, %{contributor_terms_link}에
+        동의하는 것입니다.
+      tou: 이용약관
       contributor_terms: 기여자 약관
       external auth: '제3자 인증:'
       continue: 가입하기
@@ -2560,6 +2573,7 @@ ko:
       email_help_html: 당신의 주소는 공개적으로 노출되지 않습니다. 자세한 내용은 %{privacy_policy_link}를 참조하세요.
       privacy_policy: 개인정보처리방침
       privacy_policy_title: 이메일 주소 섹션을 포함한 OSMF 개인 정보 보호 정책
+      consider_pd_html: 내 기여가 %{consider_pd_link}에 속함을 선언합니다.
       consider_pd: 퍼블릭 도메인
       or: 혹은
       use external auth: 다른 제3자 로그인 방식 사용하기
@@ -2818,7 +2832,7 @@ ko:
       error: 유저의 음소거를 해제할 수 없습니다. 다시 시도해 주세요.
   notes:
     index:
-      title: '%{user} 님이 제출했거나 덧글을 남긴 참고'
+      title: '%{user} 님이 제출했거나 댓글을 남긴 참고'
       heading: '%{user}의 참고'
       subheading_html: '%{user}님이 %{submitted}하거나 %{commented}한 참고'
       subheading_submitted: 제출
@@ -2845,7 +2859,7 @@ ko:
       event_reopened_by_anonymous_html: '%{time_ago} 익명 사용자가 재활성화함'
       event_hidden_by_html: '%{time_ago} %{user}님이 숨김 처리함'
       report: 이 참고 신고
-      anonymous_warning: 이 참고에는 익명 사용자의 덧글도 있으므로 별도로 확인해야 합니다.
+      anonymous_warning: 이 참고는 익명 사용자의 댓글을 포함하므로 별도로 확인해야 합니다.
       hide: 숨기기
       resolve: 해결
       reactivate: 다시 활성화

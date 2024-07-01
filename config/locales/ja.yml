@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: A2y4
 # Author: Aefgh39622
+# Author: Afaz
 # Author: Ajeje Brazorf
 # Author: Amire80
 # Author: Aphaia
@@ -104,6 +105,7 @@ ja:
       messages:
         invalid_email_address: 有効なメールアドレスではないようです
         email_address_not_routable: ルート作成できません
+        display_name_is_user_n: n がユーザIDでない限り、 user_n にすることはできません。
       models:
         user_mute:
           is_already_muted: さんはすでにミュートされています
@@ -426,9 +428,9 @@ ja:
       wiki_link:
         key: タグ %{key} のウィキでの説明ページ
         tag: タグ %{key}=%{value} のウィキでの説明ページ
-      wikidata_link: Wikidataの%{page}項目目
-      wikipedia_link: ウィキペディアの %{page} 記事
-      wikimedia_commons_link: ウィキメディアコモンズの項目 %{page}件
+      wikidata_link: ウィキデータの項目 %{page}
+      wikipedia_link: ウィキペディアの記事 %{page}
+      wikimedia_commons_link: ウィキメディアコモンズの項目 %{page}
       telephone_link: '%{phone_number}に電話'
       colour_preview: 色彩%{colour_value}プレビュー
       email_link: メール %{email}
@@ -492,8 +494,11 @@ ja:
     no_such_entry:
       title: 対象の変更セットがありません
       heading: 'ID番号: %{id} のエントリはありません'
+      body: 申し訳ありませんが、ID %{id} という変更セットはありません。入力した文字列が誤っているか、クリックしたリンクが間違っている可能性があります。
     show:
       title: '変更セット: %{id}'
+      created: '作成日: %{when}'
+      closed: '終了日: %{when}'
       created_ago_html: '%{time_ago} に作成'
       closed_ago_html: '%{time_ago}に閉じられました'
       created_ago_by_html: '%{user}が%{time_ago}に作成'
@@ -503,6 +508,8 @@ ja:
       still_open: 変更セットが開いたままです - 議論を行うには変更セットを閉じる必要があります。
       subscribe: 購読
       unsubscribe: 購読停止
+      comment_by_html: '%{time_ago}, %{user} からのコメント'
+      hidden_comment_by_html: '%{time_ago}, %{user} からの非公開コメント'
       hide_comment: 非表示
       unhide_comment: 非表示を解除
       comment: コメント
@@ -635,10 +642,29 @@ ja:
       newer_comments: 新しいコメント
       older_comments: 古いコメント
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: 認可サーバはエンドユーザのアカウントを選択する必要があります。
+        consent_required: 認可サーバにはエンドユーザの同意が必要です。
+        interaction_required: 認可サーバはエンドユーザのインタラクションを必要とします。
+        login_required: 認可サーバはエンドユーザの認証を必要とします。
     flash:
       applications:
         create:
           notice: アプリケーションが登録されています。
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: 処理が失敗しました。Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            の設定が欠落しています。
+          reauthenticate_resource_owner_not_configured: 処理が失敗しました。 Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            の設定が欠落しています。
+          resource_owner_from_access_token_not_configured: 処理が失敗しました。 Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            の設定が欠落しています。
+          select_account_for_resource_owner_not_configured: 処理が失敗しました。 Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            の設定が欠落しています。
+          subject_not_configured: IDトークンの生成に失敗しました。 Doorkeeper::OpenidConnect.configure.subject
+            の設定が欠落しています。
     scopes:
       address: 物理アドレスを表示
       email: メールアドレスを表示
@@ -647,6 +673,7 @@ ja:
       profile: プロフィール情報の表示
   errors:
     contact:
+      contact_url_title: 複数の連絡チャンネルが存在します
       contact: 連絡
       contact_the_community_html: リンク切れ / バグを見つけたら、遠慮なくOpenStreetMapコミュニティに%{contact_link}してください。リクエストの正確なURLを書き留めてください。
     bad_request:
@@ -675,6 +702,10 @@ ja:
       success: '%{name} を友達から解除しました。'
       not_a_friend: '%{name} は友達ではありません。'
   geocoder:
+    search:
+      title:
+        results_from_html: '結果: %{results_link}'
+        latlon: 内部
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -838,6 +869,7 @@ ja:
           college: 校舎
           commercial: 商業ビル
           construction: 建設中の建物
+          cowshed: 牛舎
           detached: 戸建て住宅
           dormitory: 寮
           duplex: 2世帯住宅
@@ -1467,6 +1499,7 @@ ja:
       status: 状態
       reports: 報告
       last_updated: 最近の更新
+      last_updated_time_ago_user_html: '%{time_ago}, 実施ユーザ %{user}'
       link_to_reports: レポートを表示
       reports_count:
         other: '%{count}件のレポート'
@@ -1510,6 +1543,7 @@ ja:
   issue_comments:
     create:
       comment_created: コメントは無事作成されました
+      issue_reassigned: コメントが作成され、課題が再アサインされました
   reports:
     new:
       title_html: '%{link} を報告'
@@ -1567,7 +1601,10 @@ ja:
     intro_header: OpenStreetMap へようこそ!
     intro_text: OpenStreetMap は、あなたのような人々が作成した世界地図であり、オープン ライセンスの下で自由に利用できます。
     intro_2_create_account: 新しい利用者アカウントを作成
+    hosting_partners_2024_html: ホスティングは %{fastly} 、 %{corpmembers} 、そしてその他の %{partners}
+      による支援をいただいています。
     partners_fastly: Fastly
+    partners_corpmembers: OSMF法人会員
     partners_partners: パートナー
     tou: 利用規約
     osm_offline: OpenStreetMap のデータベースはメンテナンスのため一時的に停止しています。
@@ -1587,12 +1624,15 @@ ja:
     more: その他
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap日記エントリ #%{id}'
       subject: '[OpenStreetMap]の%{user}さんが日記エントリにコメントしました'
       hi: こんにちは、%{to_user} さん。
       header: 'OpenStreetMap 日記エントリ (タイトル: %{subject}) に、%{from_user} がコメントしました。'
       header_html: 'OpenStreetMap 日記エントリ (タイトル: %{subject}) に、%{from_user} がコメントしました。'
       footer: '%{readurl}でコメントを読み、%{commenturl} でコメントし、%{replyurl} で筆者へメッセージを送信することができます。'
       footer_html: '%{readurl}でコメントを読み、%{commenturl} でコメントし、%{replyurl} で筆者へメッセージを送信することができます。'
+      footer_unsubscribe: 議論の通知停止は %{unsubscribeurl} から実施してください。
+      footer_unsubscribe_html: 議論の通知停止は %{unsubscribeurl} から実施してください。
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: こんにちは、%{to_user} さん。
@@ -1618,6 +1658,7 @@ ja:
       subject: '[OpenStreetMap] GPX のインポートが失敗'
     gpx_success:
       hi: こんにちは、%{to_user} さん。
+      all_your_traces_html: アップロードが完了したGPXトレースログは %{url} から参照できます。
       subject: '[OpenStreetMap] GPX のインポートが成功'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMapへようこそ'
@@ -1636,6 +1677,7 @@ ja:
       hopefully_you: 誰か (おそらくあなた) が、このメール アドレスの openstreetmap.org アカウントに対するパスワードをリセットするように依頼しました。
       click_the_link: これがあなたであれば、以下のリンクをクリックしてパスワードをリセットしてください。
     note_comment_notification:
+      description: 'OpenStreetMap地図メモ #%{id}'
       anonymous: IP利用者
       greeting: こんにちは。
       commented:
@@ -1786,6 +1828,7 @@ ja:
       flash token bad: キーワードが見つかりません。URL を確認してください。
     update:
       flash changed: あなたのパスワードは変更されました。
+      flash token bad: トークンが見つかりませんでした。URLを確認してください。
   preferences:
     show:
       title: 個人設定
@@ -1829,6 +1872,7 @@ ja:
     new:
       title: ログイン
       tab_title: ログイン
+      login_to_authorize_html: '%{client_app_name} へのアクセスにはOpenStreetMapでのログインが必要です。'
       email or username: 'メールアドレスまたは利用者名:'
       password: 'パスワード:'
       remember: ログイン状態を保持
@@ -1948,12 +1992,37 @@ ja:
         contributors_at_cc_by_at_with_amendments: CC BY AT with amendments
         contributors_au_australia: オーストラリア
         contributors_ca_canada: カナダ
+        contributors_cz_czechia: チェコ
+        contributors_cz_cc_licence: Creative Commons Attribution 4.0 International
+          licence (CC BY 4.0)
+        contributors_fi_credit_html: |-
+          %{finland}: Contains data from the
+          National Land Survey of Finland's Topographic Database
+          and other datasets, under the %{nlsfi_license_link}.
         contributors_fi_finland: フィンランド
         contributors_fi_nlsfi_license: NLSFIライセンス
+        contributors_fr_credit_html: |-
+          %{france}: Contains data sourced from
+          Direction Générale des Impôts.
         contributors_fr_france: フランス
+        contributors_hr_credit_html: |-
+          %{croatia}: Contains data from the %{dgu_link} and %{open_data_portal}
+          (public information of Croatia).
+        contributors_hr_croatia: クロアチア
+        contributors_hr_dgu: クロアチア共和国測地部
+        contributors_hr_open_data_portal: 国立オープンデータポータル
+        contributors_nl_credit_html: '%{netherlands}: Contains &copy; AND data, 2007
+          (%{and_link})'
         contributors_nl_netherlands: オランダ
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Contains data sourced from the %{linz_data_service_link}
+          and licensed for reuse under %{cc_by_link}.
         contributors_nz_new_zealand: ニュージーランド
+        contributors_nz_linz_data_service: LINZデータサービス
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: |-
+          %{serbia}: Contains data from the %{rgz_link} and %{open_data_portal}
+          (public information of Serbia), 2018.
         contributors_rs_serbia: セルビア
         contributors_si_slovenia: スロベニア
         contributors_es_spain: スペイン
@@ -1967,8 +2036,7 @@ ja:
         infringement_1_html: 'OpenStreetMapの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google
           マップや印刷された地図) から決してデータを持ち込まないよう注意するものとします。'
         infringement_2_1_html: 著作権で保護された素材が、OpenStreetMapあるいは本サイトに対して不適切な形で追加されていると思われる場合は、
-          %{takedown_procedure_link} を参照するか、あるいは%{online_filing_page_link}%{online_filing_page_link}
-          に直接申請ください。
+          %{takedown_procedure_link} を参照するか、あるいは%{online_filing_page_link} に直接申請ください。
         infringement_2_1_takedown_procedure: データ削除手続き
         infringement_2_1_online_filing_page: オンライン申請ページ
         trademarks_title: 商標
@@ -2055,12 +2123,16 @@ ja:
     potlatch:
       removed: お使いの OpenStreetMap エディタは既定では Potlatch が選択されています。 Adobe Flash Player
         の撤退により、 Potlatch はウェブブラウザ上で利用できなくなりました。
+      desktop_application_html: 以下のリンクから引き続きPotlatchを利用することが可能です %{download_link}
+        。
       download: MacOS および Windows 用のデスクトップ アプリケーションのダウンロード
       id_editor_html: 代わりに、デフォルトのエディターを iD に設定することもできます。iD は、以前の　Potlatchのように、Web
         ブラウザーで実行されます。 %{change_preferences_link}。
+      change_preferences: 設定変更
     any_questions:
       title: 何か質問はありますか?
       get_help_here: ヘルプを取得
+      welcome_mat: ウェルカムマットを表示
     sidebar:
       search_results: 検索結果
       close: 閉じる
@@ -2083,15 +2155,22 @@ ja:
           primary: 主要地方道
           secondary: 一般県道
           unclassified: 一般道
+          pedestrian: 歩行者専用道路
           track: 農道・林道
           bridleway: 乗馬道
           cycleway: 自転車道
           cycleway_national: 国立自転車道路
           cycleway_regional: 地方管轄の自転車道路
           cycleway_local: 地域の自転車道路
+          cycleway_mtb: 山岳自転車コース
           footway: 歩道
           rail: 鉄道
+          train: 電車
           subway: 地下鉄
+          ferry: フェリー
+          light_rail: ライトレール
+          tram: トラム
+          trolleybus: トロリーバス
           bus: バス
           cable_car: 交走式ロープウェイ
           chair_lift: チェアリフト
@@ -2105,16 +2184,26 @@ ja:
           vineyard: ブドウ園
           forest: 森
           wood: 森林
+          farmland: 農地
+          grass: 草地
+          meadow: 草原
+          bare_rock: 露岩
+          sand: 砂地
           golf: ゴルフ場
           park: 公園
           common: 共有地
+          built_up: 市街地
           resident: 住宅地
           retail: 小売業地域
           industrial: 工業地域
           commercial: オフィス地域
           heathland: 荒地
+          scrubland: 低木地帯
           lake: 湖
           reservoir: 貯水池
+          intermittent_water: 間欠性水路
+          glacier: 氷河
+          wetland: 湿地帯
           farm: 農牧場
           brownfield: 褐色地
           cemetery: 墓地
@@ -2138,7 +2227,9 @@ ja:
           construction: 建設中の道路
           bus_stop: バス停
           bicycle_shop: 自転車販売店
+          bicycle_rental: 自転車レンタル
           bicycle_parking: 駐輪場
+          bicycle_parking_small: 小規模駐輪場
           toilets: トイレ
     welcome:
       title: ようこそ!
@@ -2152,15 +2243,20 @@ ja:
         title: マッピングのための基本的な用語
         paragraph_1: OpenStreetMap には独自の用語がいくつかあります。ここでは手早く、いくつかのキーワードを紹介しましょう。
         an_editor_html: '%{editor}は、地図を編集できるプログラムやウェブサイトです。'
+        a_node_html: '%{node}は地図上の一点であり、単一のレストランや樹木などを意味します。'
+        a_way_html: '%{way}は線形あるいは領域です。道路、水路、湖沼、建物などが該当します。'
+        a_tag_html: '%{tag}はノードやウェイについて補足するデータです。レストランの名称や、道路の速度制限などを意味します。'
         editor: 編集者
         node: ノード
         way: ウェイ
         tag: タグ
       rules:
         title: ルール
+        para_1_html: OpenStreetMapに公式なルールはほとんどありませんが、参加者がコミュニティと協力し、コミュニケーションを取ることを期待していいます。手作業ではない編集活動を検討している場合は%{imports_link}および%{automated_edits_link}のガイドラインを読み、それらに従ってください。
         imports: インポート
         automated_edits: 自動編集
       start_mapping: マッピングを開始
+      continue_authorization: 認可を続行
       add_a_note:
         title: 編集する時間がないためメモを残します
         para_1: |-
@@ -2279,6 +2375,8 @@ ja:
         ファイル}}'
       description_without_count: '%{user} による GPX ファイル'
   application:
+    basic_auth_disabled: 'HTTP Basic認証は無効化されています: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 および 1.0a は無効化されています: %{link}'
     permission_denied: その処理をする権限がありません
     require_cookies:
       cookies_needed: ブラウザーの Cookie が無効になっているようです。続行する前にブラウザーの Cookie を有効にしてください。
@@ -2296,6 +2394,7 @@ ja:
       muted_users: ミュートした利用者
     auth_providers:
       openid_logo_alt: OpenID でログイン
+      openid_login_button: 次へ
       openid:
         title: OpenID でログイン
         alt: OpenID URLでログイン
@@ -2346,6 +2445,7 @@ ja:
     permissions:
       missing: この機能についてアプリケーションにアクセスを許可していません。
     scopes:
+      openid: OpenStreetMapを使用してログイン
       read_prefs: 利用者設定の読み込み
       write_prefs: 利用者設定の変更
       write_diary: 日記エントリを作成する・コメントする・友達を作る
@@ -2355,9 +2455,12 @@ ja:
       write_notes: メモを変更する
       read_email: 利用者のメールアドレスを読む
       skip_authorization: 自動的に申請を承認する
+    for_roles:
+      moderator: モデレータ専用アクション用の権限
   oauth_clients:
     new:
       title: アプリケーションの新規登録
+      disabled: OAuth 1アプリケーションの登録が無効化されました
     edit:
       title: アプリケーションの編集
     show:
@@ -2436,6 +2539,7 @@ ja:
       title: 認証を許可したアプリケーション
       application: アプリケーション
       permissions: 権限
+      last_authorized: 直近の認可
       no_applications_html: ％{oauth2}アプリケーションをまだ承認していません。
     application:
       revoke: アクセスを取り消す
@@ -2443,6 +2547,7 @@ ja:
   users:
     new:
       title: 利用者登録
+      tab_title: 利用者登録
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
       support: サポート
       about:
@@ -2793,6 +2898,7 @@ ja:
       openstreetmap_contributors: OpenStreetMapの貢献者
       make_a_donation: 寄付をする
       osm_france: OpenStreetMap France
+      andy_allan: Andy Allan
       hotosm_name: Humanitarian OpenStreetMap Team
     site:
       edit_tooltip: 地図を編集

@@ -17,6 +17,7 @@
 # Author: Mikulas1
 # Author: Mimarik
 # Author: Nemo bis
+# Author: Oujon
 # Author: Rudko
 # Author: Ruila
 # Author: Spider 001757
@@ -659,6 +660,9 @@ sk:
       all:
         title: Záznamy denníka OpenStreetMap
         description: Nedávne položky denníkov používateľov OpenStreetMap
+    subscribe:
+      heading: Prihlásiť sa na odber nasledujúcej diskusie o zmenách?
+      button: Odoberať diskusiu
   diary_comments:
     index:
       title: Komentáre k denníkom pridané používateľom %{user}
@@ -1546,7 +1550,10 @@ sk:
     intro_text: OpenStreetMap je mapa sveta, vytvorené ľuďmi ako vy, voľne využiteľná
       pod slobodnou licenciou.
     intro_2_create_account: Založte si konto
+    hosting_partners_2024_html: Prevádzku serverov podporujú %{fastly}, %{corpmembers},
+      a ďalší %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: firemní členovia OSMF
     partners_partners: partneri
     tou: Podmienky používania
     osm_offline: OpenStreetMap databáza je teraz offline, zatiaľ čo potrebná údržba
@@ -1578,6 +1585,8 @@ sk:
         alebo odpovedať na %{replyurl}
       footer_html: Komentár si môžete tiež prečítať na %{readurl} a okomentovať ho
         na %{commenturl}, alebo odpovedať autorovi na %{replyurl}
+      footer_unsubscribe: Z diskusie sa môžete odhlásiť na %{unsubscribeurl}
+      footer_unsubscribe_html: Z diskusie sa môžete odhlásiť na %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Ahoj %{to_user},
@@ -1674,8 +1683,9 @@ sk:
           Poznámka je blízko %{place}.'
         commented_note_html: '%{commenter} znovu aktivoval poznámku, ktorú ste komentovali.
           Poznámka je blízko %{place}.'
-      details: Viac podrobností o poznámke môžete nájsť nájsť na %{url}.
-      details_html: Viac podrobností o poznámke môžete nájsť na adrese %{url}.
+      details: Odpovedať alebo dozvedieť sa viac o poznámke môžete na %{url}.
+      details_html: Odpovedať alebo dozvedieť sa viac o poznámke môžete na adrese
+        %{url}.
     changeset_comment_notification:
       description: Sada zmien OpenStreetMap č. %{id}
       hi: Ahoj %{to_user},
@@ -1695,8 +1705,9 @@ sk:
         partial_changeset_with_comment: s popisom '%{changeset_comment}'
         partial_changeset_with_comment_html: s popisom '%{changeset_comment}'
         partial_changeset_without_comment: bez popisu
-      details: Viac podrobností o sade zmien môžete nájsť na adrese %{url}.
-      details_html: Viac podrobností o sade zmien môžete nájsť na adrese %{url}.
+      details: Odpovedať alebo dozvedieť sa viac o sade zmien môžete na adrese %{url}.
+      details_html: Odpovedať alebo dozvedieť sa viac o sade zmien môžete na adrese
+        %{url}.
       unsubscribe: Môžete zrušiť odber aktualizácií tejto sady zmien na %{url}.
       unsubscribe_html: Môžete zrušiť odber aktualizácií tejto sady zmien na %{url}.
   confirmations:
@@ -1711,6 +1722,8 @@ sk:
       success: Váš účet je založený, ďakujeme, že ste sa zapísali!
       already active: Toto používateľské konto už bolo potvrdené.
       unknown token: Zadaný potvrdzovací kód vypršal alebo neexistuje.
+      resend_html: Ak potrebujete znovu zaslať potvrdzujúcu správu, %{reconfirm_link}.
+      click_here: kliknite sem
     confirm_resend:
       failure: Používateľ %{name} neexistuje.
     confirm_email:
@@ -1721,6 +1734,12 @@ sk:
       success: Potvrdená vaša e-mailová adresa, ďakujeme za registráciu!
       failure: E-mailová adresa bola už potvrdená s týmto znakom.
       unknown_token: Zadaný potvrdzovací kód vypršal alebo neexistuje.
+    resend_success_flash:
+      confirmation_sent: Zaslali sme novú potvrdzujúcu správu na %{email} a hneď ako
+        potvrdíte váš účet môžete začať mapovať.
+      whitelist: Ak používate systém proti nevyžiadanej pošte (antispam), pridajte
+        odosielateľa %{sender} do výnimiek, pretože my nemôžeme odpovedať na emailové
+        požiadavky na potvrdenie.
   messages:
     inbox:
       title: Doručená pošta
@@ -1746,6 +1765,7 @@ sk:
       read_button: Označiť ako prečítané
       reply_button: Odpovedať
       destroy_button: Zmazať
+      unmute_button: Presunúť do doručenej pošty
     new:
       title: Odoslať správu
       send_message_to_html: Poslať novú správu používateľovi %{name}
@@ -1792,6 +1812,9 @@ sk:
     mark:
       as_read: Správa označená ako prečítaná
       as_unread: Správa označená ako neprečítaná
+    unmute:
+      notice: Správa bola presunutá do doručenej pošty
+      error: Správa nemohla byť presunutá do doručenej pošty.
     destroy:
       destroyed: Správa vymazaná
   passwords:
@@ -1802,6 +1825,9 @@ sk:
       new password button: Resetnúť heslo
       help_text: Vložte emailovú adresu, ktorú ste uviedli pri registrácii, pošleme
         vám odkaz, pomocou ktorého si budete môcť nastaviť nové heslo.
+    create:
+      send_paranoid_instructions: Ak vaša emailová adresa je v našej databáze, obdržíte
+        odkaz na obnovenie hesla na vašu emailovú adresu do niekoľkých minút.
     edit:
       title: Resetnúť heslo
       heading: Resetnúť heslo pre %{user}
@@ -2379,6 +2405,8 @@ sk:
     description:
       description_without_count: GPX súbor od používateľa %{user}
   application:
+    basic_auth_disabled: 'HTTP Základná autentifikácia je vypnutá: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 a 1.0a sú vypnuté: %{link}'
     permission_denied: Nemáte oprávnenie na prístup k tejto akcii
     require_cookies:
       cookies_needed: Zdá sa, že máte zakázané cookies – povoľte prosím cookies vo
@@ -2401,6 +2429,7 @@ sk:
       muted_users: Stlmení používatelia
     auth_providers:
       openid_logo_alt: Prihlásenie pomocou OpenID
+      openid_login_button: Pokračovať
       openid:
         title: Prihlásenie sa pomocou OpenID
         alt: Prihlásenie sa pomocou OpenID URL
@@ -2453,15 +2482,23 @@ sk:
     permissions:
       missing: Aplikácii ste nepovolili prístup k tejto funkcii
     scopes:
+      openid: Prihlásenie sa pomocou OpenStreetMap
+      read_prefs: Čítať nastavenia používateľa
       write_prefs: Meniť osobné nastavenia
+      write_diary: Vytvárať záznamy v denníku, komentáre a nastavovať priateľov
       write_api: Upravovať mapu
+      read_gpx: Čítať súkromné stopy GPS
+      write_gpx: Nahrávať stopy GPS
       write_notes: Meniť poznámky
+      write_redactions: Upravovať údaje mapy
+      read_email: Čítať používateľovu emailovú adresu
       skip_authorization: Automaticky schváliť aplikáciu
     for_roles:
       moderator: Toto oprávnenie je pre akcie dostupné iba moderátorom
   oauth_clients:
     new:
       title: Registrácia novej aplikácie
+      disabled: Registrácia aplikácií cez OAuth 1 bola vypnutá
     edit:
       title: Upraviť aplikáciu
     show:
@@ -2542,7 +2579,7 @@ sk:
       no_auto_account_create: Bohužiaľ teraz nie sme schopný vytvoriť pre vás účet
         automaticky.
       about:
-        header: Slobodné a upravovateľné
+        header: Slobodné a upravovateľné.
         paragraph_1: Na rozdiel od iných máp OpenStreetMap tvoria výhradne dobrovoľníci
           ako ste vy a každý si ju môže bezplatne opraviť, aktualizovať, stiahnuť
           a použiť.
