@@ -1,4 +1,4 @@
-OSM.initializeNotes = function (map) {
+OSM.initializeNotesLayer = function (map) {
   var noteLayer = map.noteLayer,
       notes = {};
 

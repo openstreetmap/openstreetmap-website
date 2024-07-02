@@ -12,9 +12,9 @@
 //= require leaflet.contextmenu
 //= require index/contextmenu
 //= require index/search
-//= require index/browse
+//= require index/layers/data
 //= require index/export
-//= require index/notes
+//= require index/layers/notes
 //= require index/history
 //= require index/note
 //= require index/new_note
@@ -160,12 +160,12 @@ $(document).ready(function () {
   OSM.initializeContextMenu(map);
 
   if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
-    OSM.initializeNotes(map);
+    OSM.initializeNotesLayer(map);
     if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
       map.addLayer(map.noteLayer);
     }
 
-    OSM.initializeBrowse(map);
+    OSM.initializeDataLayer(map);
     if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
       map.addLayer(map.dataLayer);
     }

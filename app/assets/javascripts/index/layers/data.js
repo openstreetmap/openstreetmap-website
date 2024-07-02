@@ -1,5 +1,5 @@
-OSM.initializeBrowse = function (map) {
-  var browseBounds;
+OSM.initializeDataLayer = function (map) {
+  var loadedBounds;
   var dataLayer = map.dataLayer;
 
   dataLayer.setStyle({
@@ -41,7 +41,7 @@ OSM.initializeBrowse = function (map) {
 
   function updateData() {
     var bounds = map.getBounds();
-    if (!browseBounds || !browseBounds.contains(bounds)) {
+    if (!loadedBounds || !loadedBounds.contains(bounds)) {
       getData();
     }
   }
@@ -96,7 +96,7 @@ OSM.initializeBrowse = function (map) {
         function addFeatures() {
           $("#browse_status").empty();
           dataLayer.addData(features);
-          browseBounds = bounds;
+          loadedBounds = bounds;
         }
 
         function cancelAddFeatures() {
