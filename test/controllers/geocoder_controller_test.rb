@@ -37,9 +37,11 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   def test_identify_latlon_basic
     [
       "50.06773 14.37742",
+      "50.06773/14.37742",
       "50.06773, 14.37742",
       "+50.06773 +14.37742",
-      "+50.06773, +14.37742"
+      "+50.06773, +14.37742",
+      "+50.06773/+14.37742"
     ].each do |code|
       latlon_check code, 50.06773, 14.37742
     end

@@ -218,7 +218,7 @@ class GeocoderController < ApplicationController
                      query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([EW])$/).try(:captures)    # degrees, minutes, decimal seconds [NSEW]
         params.merge!(dms_to_decdeg(latlon)).delete(:query)
 
-      elsif latlon = query.match(/^([+-]?\d+(\.\d*)?)(?:\s+|\s*,\s*)([+-]?\d+(\.\d*)?)$/)
+      elsif latlon = query.match(%r{^([+-]?\d+(\.\d*)?)(?:\s+|\s*[,/]\s*)([+-]?\d+(\.\d*)?)$})
         params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
 
         params[:latlon_digits] = true unless params[:whereami]
