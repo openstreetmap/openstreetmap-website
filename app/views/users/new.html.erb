@@ -44,10 +44,10 @@
     <%= f.hidden_field :auth_uid unless current_user.auth_uid.nil? %>
 
     <% if current_user.auth_uid.nil? or @email_hmac.nil? or not current_user.errors[:email].empty? %>
-      <%= f.email_field :email, :help => t(".email_help_html",
-                                           :privacy_policy_link => link_to(t(".privacy_policy"),
-                                                                           t(".privacy_policy_url"),
-                                                                           :title => t(".privacy_policy_title"),
+      <%= f.email_field :email, :help => t(".email_help.html",
+                                           :privacy_policy_link => link_to(t(".email_help.privacy_policy"),
+                                                                           t(".email_help.privacy_policy_url"),
+                                                                           :title => t(".email_help.privacy_policy_title"),
                                                                            :target => :new)),
                                 :autofocus => true,
                                 :tabindex => 1 %>
@@ -68,16 +68,16 @@
       </div>
     <% end %>
 
-    <p class="mb-3 text-body-secondary fs-6"><%= t(".by_signing_up_html",
+    <p class="mb-3 text-body-secondary fs-6"><%= t(".by_signing_up.html",
                                                    :tou_link => link_to(t("layouts.tou"),
                                                                         "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
                                                                         :target => :new),
-                                                   :privacy_policy_link => link_to(t(".privacy_policy"),
-                                                                                   t(".privacy_policy_url"),
-                                                                                   :title => t(".privacy_policy_title"),
+                                                   :privacy_policy_link => link_to(t(".by_signing_up.privacy_policy"),
+                                                                                   t(".by_signing_up.privacy_policy_url"),
+                                                                                   :title => t(".by_signing_up.privacy_policy_title"),
                                                                                    :target => :new),
-                                                   :contributor_terms_link => link_to(t(".contributor_terms"),
-                                                                                      t(".contributor_terms_url"),
+                                                   :contributor_terms_link => link_to(t(".by_signing_up.contributor_terms"),
+                                                                                      t(".by_signing_up.contributor_terms_url"),
                                                                                       :target => :new)) %></p>
     <%= f.form_group do %>
       <%= f.check_box :consider_pd,
