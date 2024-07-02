@@ -71,7 +71,13 @@ OSM.Directions = function (map) {
       var dragging = (e.type === "drag");
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
-      endpoint.setLatLng(e.target.getLatLng());
+
+      var ll = e.target.getLatLng();
+      var precision = OSM.zoomPrecision(map.getZoom());
+      endpoint.value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
+      input.val(endpoint.value);
+      endpoint.setLatLng(ll);
+
       dragCallback(dragging);
     });
 
@@ -86,12 +92,20 @@ OSM.Directions = function (map) {
     });
 
     endpoint.setValue = function (value, latlng) {
+      if (value === endpoint.value) {
+        endpoint.setLatLng(endpoint.latlng);
+        return;
+      }
+
       endpoint.value = value;
       delete endpoint.latlng;
       input.removeClass("is-invalid");
       input.val(value);
 
       if (latlng) {
+        var precision = OSM.zoomPrecision(map.getZoom());
+        endpoint.value = latlng.lat.toFixed(precision) + ", " + latlng.lng.toFixed(precision);
+        input.val(endpoint.value);
         endpoint.setLatLng(latlng);
       } else {
         endpoint.getGeocode();
@@ -118,7 +132,12 @@ OSM.Directions = function (map) {
           return;
         }
 
-        endpoint.setLatLng(L.latLng(json[0]));
+        if (endpoint.value.match(/^([+-]?\d+(\.\d*)?)(?:\s+|\s*,\s*)([+-]?\d+(\.\d*)?)$/)) {
+          endpoint.setLatLng(L.latLng(endpoint.value.split(",")));
+        } else {
+          endpoint.setLatLng(L.latLng(json[0]));
+        }
+        endpoint.value = json[0].display_name;
 
         input.val(json[0].display_name);
 
@@ -127,8 +146,6 @@ OSM.Directions = function (map) {
     };
 
     endpoint.setLatLng = function (ll) {
-      var precision = OSM.zoomPrecision(map.getZoom());
-      input.val(ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision));
       endpoint.hasGeocode = true;
       endpoint.latlng = ll;
       endpoint.marker
