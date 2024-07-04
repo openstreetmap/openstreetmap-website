@@ -33,15 +33,12 @@
 
     <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :tabindex => 1, :value => params[:username] %>
 
-    <div class="row">
-      <div class="col">
-        <%= f.label :password, t(".password"), :class => "form-label" %>
-      </div>
-      <div class="col text-end">
-        <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
-      </div>
+    <div class="d-flex flex-wrap column-gap-3 justify-content-between align-items-baseline mb-2">
+      <%= f.label :password, t(".password") %>
+      <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
     </div>
-    <input class="form-control mb-3" type="password" name="password" id="password" tabindex="2" value="" autocomplete="on" />
+
+    <%= f.password_field :password, :autocomplete => "on", :tabindex => 2, :value => "", :skip_label => true %>
 
     <%= f.form_group do %>
       <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
