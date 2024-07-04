@@ -3,4 +3,7 @@ $(document).ready(function () {
   if (window.location.hash) {
     $("#referer").val($("#referer").val() + window.location.hash);
   }
+
+  window.addTogglePasswordEventListener("toggle-password-login", "password");
 });
+

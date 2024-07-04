@@ -1,6 +1,9 @@
 <% content_for :head do %>
   <%= javascript_include_tag "user" %>
   <%= javascript_include_tag "auth_providers" %>
+  <%= javascript_include_tag "toggle_password" %>
+  <%= javascript_include_tag "signup" %>
+
 <% end %>
 
 <% content_for :heading_class, "pb-0" %>
@@ -60,10 +63,10 @@
     <% if current_user.auth_uid.nil? %>
       <div class="row">
         <div class="col-sm">
-          <%= f.password_field :pass_crypt, :tabindex => 3 %>
+          <%= render :partial => "shared/password_field_with_toggle", :locals => { :f => f, :attribute => :pass_crypt, :tabindex => 3, :button_id => "pass_crypt_toggle" } %>
         </div>
         <div class="col-sm">
-          <%= f.password_field :pass_crypt_confirmation, :tabindex => 4 %>
+          <%= render :partial => "shared/password_field_with_toggle", :locals => { :f => f, :attribute => :pass_crypt_confirmation, :tabindex => 4, :button_id => "pass_crypt_confirm_toggle" } %>
         </div>
       </div>
     <% end %>

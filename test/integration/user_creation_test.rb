@@ -104,7 +104,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_template "users/new"
-    assert_select "form > div > div > div > input.is-invalid#user_pass_crypt_confirmation"
+    assert_select "#user_pass_crypt_confirmation.is-invalid"
   end
 
   def test_user_create_association_submit_duplicate_username

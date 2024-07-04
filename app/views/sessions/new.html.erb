@@ -1,4 +1,5 @@
 <% content_for :head do %>
+  <%= javascript_include_tag "toggle_password" %>
   <%= javascript_include_tag "login" %>
   <%= javascript_include_tag "auth_providers" %>
 <% end %>
@@ -38,7 +39,7 @@
       <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
     </div>
 
-    <%= f.password_field :password, :autocomplete => "on", :tabindex => 2, :value => "", :skip_label => true %>
+    <%= render :partial => "shared/password_field_with_toggle", :locals => { :f => f, :attribute => :password, :tabindex => 2, :value => "", :skip_label => true, :button_id => "toggle-password-login" } %>
 
     <%= f.form_group do %>
       <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
