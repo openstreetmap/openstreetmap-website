@@ -8,6 +8,7 @@ L.OSM.share = function (options) {
 
   control.onAddPane = function (map, button, $ui) {
     // Link / Embed
+    $("#content").addClass("overlay-right-sidebar");
 
     var $linkSection = $("<div>")
       .attr("class", "share-link p-3 border-bottom border-secondary-subtle")
