@@ -11,14 +11,16 @@ module Nominatim
       url = "#{Settings.nominatim_url}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
 
       begin
-        response = Timeout.timeout(4) do
-          REXML::Document.new(Net::HTTP.get(URI.parse(url)))
+        response = OSM.http_client.get(URI.parse(url)) do |request|
+          request.options.timeout = 4
         end
+
+        results = REXML::Document.new(response.body) if response.success?
       rescue StandardError
-        response = nil
+        results = nil
       end
 
-      if response && result = response.get_text("reversegeocode/result")
+      if results && result = results.get_text("reversegeocode/result")
         result.value
       else
         "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"
