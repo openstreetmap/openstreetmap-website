@@ -18,7 +18,7 @@ class ChangesetCommentsController < ApplicationController
       changeset = Changeset.find(id)
 
       # Return comments for this changeset only
-      @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
+      @comments = changeset.comments.includes(:author, :changeset).reverse_order.limit(comments_limit)
     else
       # Return comments
       @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order("created_at DESC").limit(comments_limit).preload(:changeset)
