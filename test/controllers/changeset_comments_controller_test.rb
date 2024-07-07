@@ -46,6 +46,23 @@ class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
         assert_select "item", :count => 3
       end
     end
+    # Rails::Dom::Testing.html_document_fragment.parse(icons)
+    # Gets comment Ids from HTML and checks that they are in descending order
+
+    last_comment_id = -1
+    assert_select "rss", :count => 1 do
+      assert_select "description", :count => 3 do |descriptions|
+        descriptions.children.each do |description|
+          changeset_dom = Rails::Dom::Testing.html_document_fragment.parse(description.content)
+          comment = changeset_dom.at_css(".changeset-comment-text")
+          next unless comment
+
+          id = comment.content.split[-1].to_i
+          assert_operator id, "<", last_comment_id if last_comment_id != -1
+          last_comment_id = id
+        end
+      end
+    end
   end
 
   ##
