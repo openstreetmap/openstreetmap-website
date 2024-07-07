@@ -226,18 +226,18 @@ class GeocoderController < ApplicationController
 
   def to_decdeg(captures)
     ns = captures.fetch("ns").casecmp("s").zero? ? -1 : 1
-    nsd = captures.fetch("nsd", "0").to_f
-    nsm = captures.fetch("nsm", "0").to_f
-    nss = captures.fetch("nss", "0").to_f
+    nsd = BigDecimal(captures.fetch("nsd", "0"))
+    nsm = BigDecimal(captures.fetch("nsm", "0"))
+    nss = BigDecimal(captures.fetch("nss", "0"))
 
     ew = captures.fetch("ew").casecmp("w").zero? ? -1 : 1
-    ewd = captures.fetch("ewd", "0").to_f
-    ewm = captures.fetch("ewm", "0").to_f
-    ews = captures.fetch("ews", "0").to_f
+    ewd = BigDecimal(captures.fetch("ewd", "0"))
+    ewm = BigDecimal(captures.fetch("ewm", "0"))
+    ews = BigDecimal(captures.fetch("ews", "0"))
 
     lat = ns * (nsd + (nsm / 60) + (nss / 3600))
     lon = ew * (ewd + (ewm / 60) + (ews / 3600))
 
-    { :lat => lat, :lon => lon }
+    { :lat => lat.round(6).to_s("F"), :lon => lon.round(6).to_s("F") }
   end
 end
