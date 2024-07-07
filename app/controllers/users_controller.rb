@@ -262,40 +262,38 @@ class UsersController < ApplicationController
   private
 
   def save_new_user(email_hmac, referer = nil)
-    if check_signup_allowed(current_user.email)
-      current_user.data_public = true
-      current_user.description = "" if current_user.description.nil?
-      current_user.creation_ip = request.remote_ip
-      current_user.languages = http_accept_language.user_preferred_languages
-      current_user.terms_agreed = Time.now.utc
-      current_user.tou_agreed = Time.now.utc
-      current_user.terms_seen = true
+    current_user.data_public = true
+    current_user.description = "" if current_user.description.nil?
+    current_user.creation_ip = request.remote_ip
+    current_user.languages = http_accept_language.user_preferred_languages
+    current_user.terms_agreed = Time.now.utc
+    current_user.tou_agreed = Time.now.utc
+    current_user.terms_seen = true
 
-      if current_user.auth_uid.blank?
-        current_user.auth_provider = nil
-        current_user.auth_uid = nil
-      elsif email_hmac && ActiveSupport::SecurityUtils.secure_compare(email_hmac, UsersController.message_hmac(current_user.email))
-        current_user.activate
-      end
+    if current_user.auth_uid.blank?
+      current_user.auth_provider = nil
+      current_user.auth_uid = nil
+    elsif email_hmac && ActiveSupport::SecurityUtils.secure_compare(email_hmac, UsersController.message_hmac(current_user.email))
+      current_user.activate
+    end
 
-      if current_user.save
-        SIGNUP_IP_LIMITER&.update(request.remote_ip)
-        SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
+    if current_user.save
+      SIGNUP_IP_LIMITER&.update(request.remote_ip)
+      SIGNUP_EMAIL_LIMITER&.update(canonical_email(current_user.email))
 
-        flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
+      flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
-        referer = welcome_path(welcome_options(referer))
+      referer = welcome_path(welcome_options(referer))
 
-        if current_user.status == "active"
-          successful_login(current_user, referer)
-        else
-          session[:pending_user] = current_user.id
-          UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
-          redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
-        end
+      if current_user.status == "active"
+        successful_login(current_user, referer)
       else
-        render :action => "new", :referer => params[:referer]
+        session[:pending_user] = current_user.id
+        UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
+        redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
       end
+    else
+      render :action => "new", :referer => params[:referer]
     end
   end
 
