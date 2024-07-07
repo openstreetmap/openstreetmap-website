@@ -35,15 +35,15 @@ class GeocoderController < ApplicationController
       @results = []
 
       if lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
-        @results.push(:lat => lat, :lon => lon,
+        @results.push(:lat => params[:lat], :lon => params[:lon],
                       :zoom => params[:zoom],
-                      :name => "#{lat}, #{lon}")
+                      :name => "#{params[:lat]}, #{params[:lon]}")
       end
 
       if lon >= -90 && lon <= 90 && lat >= -180 && lat <= 180
-        @results.push(:lat => lon, :lon => lat,
+        @results.push(:lat => params[:lon], :lon => params[:lat],
                       :zoom => params[:zoom],
-                      :name => "#{lon}, #{lat}")
+                      :name => "#{params[:lon]}, #{params[:lat]}")
       end
 
       if @results.empty?
@@ -61,9 +61,9 @@ class GeocoderController < ApplicationController
         @error = "Longitude #{lon} out of range"
         render :action => "error"
       else
-        @results = [{ :lat => lat, :lon => lon,
+        @results = [{ :lat => params[:lat], :lon => params[:lon],
                       :zoom => params[:zoom],
-                      :name => "#{lat}, #{lon}" }]
+                      :name => "#{params[:lat]}, #{params[:lon]}" }]
 
         render :action => "results"
       end
@@ -219,7 +219,7 @@ class GeocoderController < ApplicationController
         params.merge!(dms_to_decdeg(latlon)).delete(:query)
 
       elsif latlon = query.match(%r{^([+-]?\d+(\.\d*)?)(?:\s+|\s*[,/]\s*)([+-]?\d+(\.\d*)?)$})
-        params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
+        params.merge!(:lat => latlon[1], :lon => latlon[3]).delete(:query)
 
         params[:latlon_digits] = true
       end

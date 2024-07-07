@@ -368,8 +368,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
-    assert_in_delta lat, @controller.params[:lat]
-    assert_in_delta lon, @controller.params[:lon]
+    assert_in_delta lat, @controller.params[:lat].to_f
+    assert_in_delta lon, @controller.params[:lon].to_f
 
     get search_path(:query => query), :xhr => true
     assert_response :success
@@ -377,8 +377,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "xhr"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
-    assert_in_delta lat, @controller.params[:lat]
-    assert_in_delta lon, @controller.params[:lon]
+    assert_in_delta lat, @controller.params[:lat].to_f
+    assert_in_delta lon, @controller.params[:lon].to_f
   end
 
   def search_check(query, sources)
