@@ -112,6 +112,7 @@ class ApiController < ApplicationController
         # self.current_user setup by OAuth
       else
         report_error t("application.oauth_10a_disabled", :link => t("application.auth_disabled_link")), :forbidden
+        self.current_user = nil
       end
     else
       username, passwd = auth_data # parse from headers
