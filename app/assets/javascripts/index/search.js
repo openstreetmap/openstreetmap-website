@@ -33,10 +33,11 @@ OSM.Search = function (map) {
   $(".describe_location").on("click", function (e) {
     e.preventDefault();
     var center = map.getCenter().wrap(),
-        precision = OSM.zoomPrecision(map.getZoom());
-    OSM.router.route("/search?whereami=1&query=" + encodeURIComponent(
-      center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
-    ));
+        precision = OSM.zoomPrecision(map.getZoom()),
+        lat = center.lat.toFixed(precision),
+        lng = center.lng.toFixed(precision);
+
+    OSM.router.route("/search?lat=" + encodeURIComponent(lat) + "&lon=" + encodeURIComponent(lng));
   });
 
   $("#sidebar_content")
