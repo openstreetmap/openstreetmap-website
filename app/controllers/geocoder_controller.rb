@@ -206,20 +206,16 @@ class GeocoderController < ApplicationController
     if query = params[:query]
       query.strip!
 
-      if latlon = query.match(/^([NS])\s*(\d{1,3}(\.\d*)?)\W*([EW])\s*(\d{1,3}(\.\d*)?)$/).try(:captures) || # [NSEW] decimal degrees
-                  query.match(/^(\d{1,3}(\.\d*)?)\s*([NS])\W*(\d{1,3}(\.\d*)?)\s*([EW])$/).try(:captures)    # decimal degrees [NSEW]
-        params.merge!(nsew_to_decdeg(latlon)).delete(:query)
+      if latlon = query.match(/^(?<ns>[NS])\s*(?<nsd>\d{1,3}(?:\.\d+)?)°?\W*(?<ew>[EW])\s*(?<ewd>\d{1,3}(?:\.\d+)?)°?$/) ||                                                                                                     # [NSEW] decimal degrees
+                  query.match(/^(?<nsd>\d{1,3}(?:\.\d+)?)°?\s*(?<ns>[NS])\W*(?<ewd>\d{1,3}(?:\.\d+)?)°?\s*(?<ew>[EW])$/) ||                                                                                                     # decimal degrees [NSEW]
+                  query.match(/^(?<ns>[NS])\s*(?<nsd>\d{1,3})°?(?:\s*(?<nsm>\d{1,3}(?:\.\d+)?)['′]?)\W*(?<ew>[EW])\s*(?<ewd>\d{1,3})°?(?:\s*(?<ewm>\d{1,3}(?:\.\d+)?)['′]?)$/) ||                                               # [NSEW] degrees, decimal minutes
+                  query.match(/^(?<nsd>\d{1,3})°?(?:\s*(?<nsm>\d{1,3}(?:\.\d+)?)['′]?)\s*(?<ns>[NS])\W*(?<ewd>\d{1,3})°?(?:\s*(?<ewm>\d{1,3}(?:\.\d+)?)['′]?)\s*(?<ew>[EW])$/) ||                                               # degrees, decimal minutes [NSEW]
+                  query.match(/^(?<ns>[NS])\s*(?<nsd>\d{1,3})°?\s*(?<nsm>\d{1,2})['′]?(?:\s*(?<nss>\d{1,3}(?:\.\d+)?)["″]?)\W*(?<ew>[EW])\s*(?<ewd>\d{1,3})°?\s*(?<ewm>\d{1,2})['′]?(?:\s*(?<ews>\d{1,3}(?:\.\d+)?)["″]?)$/) || # [NSEW] degrees, minutes, decimal seconds
+                  query.match(/^(?<nsd>\d{1,3})°?\s*(?<nsm>\d{1,2})['′]?(?:\s*(?<nss>\d{1,3}(?:\.\d+)?)["″]?)\s*(?<ns>[NS])\W*(?<ewd>\d{1,3})°?\s*(?<ewm>\d{1,2})['′]?(?:\s*(?<ews>\d{1,3}(?:\.\d+)?)["″]?)\s*(?<ew>[EW])$/)    # degrees, minutes, decimal seconds [NSEW]
+        params.merge!(to_decdeg(latlon.named_captures)).delete(:query)
 
-      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\W*([EW])\s*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?$/).try(:captures) || # [NSEW] degrees, decimal minutes
-                     query.match(/^(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\s*([NS])\W*(\d{1,3})°?(?:\s*(\d{1,3}(\.\d*)?)?['′]?)?\s*([EW])$/).try(:captures)    # degrees, decimal minutes [NSEW]
-        params.merge!(ddm_to_decdeg(latlon)).delete(:query)
-
-      elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?$/).try(:captures) || # [NSEW] degrees, minutes, decimal seconds
-                     query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?(?:\s*(\d{1,3}(\.\d*)?)?["″]?)?\s*([EW])$/).try(:captures)    # degrees, minutes, decimal seconds [NSEW]
-        params.merge!(dms_to_decdeg(latlon)).delete(:query)
-
-      elsif latlon = query.match(%r{^([+-]?\d+(\.\d*)?)(?:\s+|\s*[,/]\s*)([+-]?\d+(\.\d*)?)$})
-        params.merge!(:lat => latlon[1], :lon => latlon[3]).delete(:query)
+      elsif latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$})
+        params.merge!(:lat => latlon["lat"], :lon => latlon["lon"]).delete(:query)
 
         params[:latlon_digits] = true
       end
@@ -228,39 +224,20 @@ class GeocoderController < ApplicationController
     params.permit(:query, :lat, :lon, :latlon_digits, :zoom, :minlat, :minlon, :maxlat, :maxlon)
   end
 
-  def nsew_to_decdeg(captures)
-    begin
-      Float(captures[0])
-      lat = captures[2].casecmp("s").zero? ? -captures[0].to_f : captures[0].to_f
-      lon = captures[5].casecmp("w").zero? ? -captures[3].to_f : captures[3].to_f
-    rescue StandardError
-      lat = captures[0].casecmp("s").zero? ? -captures[1].to_f : captures[1].to_f
-      lon = captures[3].casecmp("w").zero? ? -captures[4].to_f : captures[4].to_f
-    end
-    { :lat => lat, :lon => lon }
-  end
+  def to_decdeg(captures)
+    ns = captures.fetch("ns").casecmp("s").zero? ? -1 : 1
+    nsd = captures.fetch("nsd", "0").to_f
+    nsm = captures.fetch("nsm", "0").to_f
+    nss = captures.fetch("nss", "0").to_f
 
-  def ddm_to_decdeg(captures)
-    begin
-      Float(captures[0])
-      lat = captures[3].casecmp("s").zero? ? -(captures[0].to_f + (captures[1].to_f / 60)) : captures[0].to_f + (captures[1].to_f / 60)
-      lon = captures[7].casecmp("w").zero? ? -(captures[4].to_f + (captures[5].to_f / 60)) : captures[4].to_f + (captures[5].to_f / 60)
-    rescue StandardError
-      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + (captures[2].to_f / 60)) : captures[1].to_f + (captures[2].to_f / 60)
-      lon = captures[4].casecmp("w").zero? ? -(captures[5].to_f + (captures[6].to_f / 60)) : captures[5].to_f + (captures[6].to_f / 60)
-    end
-    { :lat => lat, :lon => lon }
-  end
+    ew = captures.fetch("ew").casecmp("w").zero? ? -1 : 1
+    ewd = captures.fetch("ewd", "0").to_f
+    ewm = captures.fetch("ewm", "0").to_f
+    ews = captures.fetch("ews", "0").to_f
 
-  def dms_to_decdeg(captures)
-    begin
-      Float(captures[0])
-      lat = captures[4].casecmp("s").zero? ? -(captures[0].to_f + ((captures[1].to_f + (captures[2].to_f / 60)) / 60)) : captures[0].to_f + ((captures[1].to_f + (captures[2].to_f / 60)) / 60)
-      lon = captures[9].casecmp("w").zero? ? -(captures[5].to_f + ((captures[6].to_f + (captures[7].to_f / 60)) / 60)) : captures[5].to_f + ((captures[6].to_f + (captures[7].to_f / 60)) / 60)
-    rescue StandardError
-      lat = captures[0].casecmp("s").zero? ? -(captures[1].to_f + ((captures[2].to_f + (captures[3].to_f / 60)) / 60)) : captures[1].to_f + ((captures[2].to_f + (captures[3].to_f / 60)) / 60)
-      lon = captures[5].casecmp("w").zero? ? -(captures[6].to_f + ((captures[7].to_f + (captures[8].to_f / 60)) / 60)) : captures[6].to_f + ((captures[7].to_f + (captures[8].to_f / 60)) / 60)
-    end
+    lat = ns * (nsd + (nsm / 60) + (nss / 3600))
+    lon = ew * (ewd + (ewm / 60) + (ews / 3600))
+
     { :lat => lat, :lon => lon }
   end
 end

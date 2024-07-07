@@ -61,6 +61,19 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Test identification of integer lat/lon pairs using N/E with degrees
+  def test_identify_latlon_ne_d_int_deg
+    [
+      "N50 E14",
+      "N50° E14°",
+      "50N 14E",
+      "50°N 14°E"
+    ].each do |code|
+      latlon_check code, 50, 14
+    end
+  end
+
+  ##
   # Test identification of lat/lon pairs using N/W with degrees
   def test_identify_latlon_nw_d
     [
@@ -220,6 +233,31 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       "50°4'3.828\"S 14°22'38.712\"W"
     ].each do |code|
       latlon_check code, -50.06773, -14.37742
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs with missing fractions
+  def test_no_identify_latlon_ne_missing_fraction_part
+    [
+      "N50. E14.",
+      "N50.° E14.°",
+      "50.N 14.E",
+      "50.°N 14.°E",
+      "N50 1.' E14 2.'",
+      "N50° 1.' E14° 2.'",
+      "50N 1.' 14 2.'E",
+      "50° 1.'N 14° 2.'E",
+      "N50 1' 3,\" E14 2' 4.\"",
+      "N50° 1' 3.\" E14° 2' 4.\"",
+      "50N 1' 3.\" 14 2' 4.\"E",
+      "50° 1' 3.\"N 14° 2' 4.\"E"
+    ].each do |code|
+      get search_path(:query => code)
+      assert_response :success
+      assert_template :search
+      assert_template :layout => "map"
+      assert_equal %w[osm_nominatim], assigns(:sources).pluck(:name)
     end
   end
 
