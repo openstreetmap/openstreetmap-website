@@ -354,6 +354,7 @@ da:
     deleted_ago_by_html: Slettet %{time_ago} af %{user}
     edited_ago_by_html: Redigeret %{time_ago} af %{user}
     version: Version
+    redacted_version: Redigeret version
     in_changeset: Ændringssæt
     anonymous: anonym
     no_comment: (ingen kommentar)
@@ -366,7 +367,10 @@ da:
       other: '%{count} veje'
     download_xml: Hent XML
     view_history: Se historik
+    view_unredacted_history: Vis uredigeret historik
     view_details: Se detaljer
+    view_redacted_data: Vis redigeret data
+    view_redaction_message: Vis redigeringsbesked
     location: 'Sted:'
     node:
       title_html: 'Punkt: %{name}'
@@ -489,6 +493,7 @@ da:
         closed: Lukket
         belongs_to: Forfatter
     subscribe:
+      heading: Abonner på den følgende ændringssæt-diskussion?
       button: Abonner på diskussion
     unsubscribe:
       heading: Vil du afmelde følgende diskussion om ændringssæt?
@@ -499,8 +504,12 @@ da:
     no_such_entry:
       title: Intet sådant ændringssæt
       heading: 'Intet indlæg med id: %{id}'
+      body: Der findes desværre intet ændringssæt med id %{id}. Tjek stavningen, eller
+        måske er linket du trykkede på forkert.
     show:
       title: 'Ændringssæt: %{id}'
+      created: 'Oprettet: %{when}'
+      closed: 'Lukket: %{when}'
       created_ago_html: Oprettet %{time_ago}
       closed_ago_html: Lukket %{time_ago}
       created_ago_by_html: Oprettet %{time_ago} af %{user}
@@ -588,6 +597,9 @@ da:
     show:
       title: Blog for %{user} | %{title}
       user_title: Blog for %{user}
+      discussion: Diskussion
+      subscribe: Abonnér
+      unsubscribe: Afmeld
       leave_a_comment: Tilføj en kommentar
       login_to_leave_a_comment_html: '%{login_link} for at kommentere'
       login: Log ind
@@ -631,9 +643,11 @@ da:
         title: OpenStreetMap-blogindlæg
         description: Seneste blogindlæg fra brugere af OpenStreetMap
     subscribe:
+      heading: Abonner på følgende dagbogsindlægsdiskussion?
       button: Abonner på diskussion
     unsubscribe:
       heading: Vil du afmelde følgende dagbogsindlægsdiskussion?
+      button: Afmeld diskussion
   diary_comments:
     index:
       title: Kommentarer til blogindlæg tilføjet af %{user}
@@ -682,6 +696,10 @@ da:
       contact_the_community_html: Vær velkommen til at %{contact_link} OpenStreetMap-fællesskabet
         hvis du finder et dødt link eller en fejl. Noter venligst den eksakte URL
         hvorpå fejlen opstod.
+    bad_request:
+      title: Dårlig anmodning
+      description: Den handling, du anmodede om på OpenStreetMap-serveren, er ikke
+        gyldig (HTTP 400)
     forbidden:
       title: Adgang forbudt
       description: Den handling du anmodede om på OpenStreetMap-serveren er kun tilgængelig
@@ -1641,6 +1659,7 @@ da:
     more: Mere
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap dagbogindlæg #%{id}'
       subject: '[OpenStreetMap] %{user} kommenterede på et blogindlæg'
       hi: Hej %{to_user},
       header: '%{from_user} har kommenteret på OpenStreetMap-blogindlægget med emnet
@@ -1651,6 +1670,8 @@ da:
         %{commenturl} eller sende en besked til forfatteren på %{replyurl}
       footer_html: Du kan også læse kommentaren på %{readurl}, og du kan kommentere
         på %{commenturl} eller sende en besked til forfatteren på %{replyurl}
+      footer_unsubscribe: Du kan afmelde diskussionen på %{unsubscribeurl}
+      footer_unsubscribe_html: Du kan afmelde diskussionen på %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Hej %{to_user},
@@ -1713,6 +1734,7 @@ da:
       click_the_link: Hvis dette er dig, så klik på linket nedenfor for at nulstille
         din adgangskode.
     note_comment_notification:
+      description: 'OpenStreetMap-note #%{id}'
       anonymous: En anonym bruger
       greeting: Hej,
       commented:
@@ -1750,8 +1772,8 @@ da:
           Bemærkningen er i nærheden af %{place}.'
         commented_note_html: '%{commenter} har genaktiveret en kortbemærkning du har
           kommenteret. Bemærkningen er i nærheden af %{place}.'
-      details: Flere oplysninger om bemærkningen kan findes på %{url}.
-      details_html: Flere oplysninger om kortbemærkningen kan findes på %{url}.
+      details: Besvar eller få mere at vide om bemærkningen på %{url}.
+      details_html: Besvar eller få mere at vide om bemærkningen på %{url}.
     changeset_comment_notification:
       description: 'OpenStreetMap-ændringssæt #%{id}'
       hi: Hej %{to_user},
@@ -1771,8 +1793,8 @@ da:
         partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
         partial_changeset_with_comment_html: med kommentaren '%{changeset_comment}'
         partial_changeset_without_comment: uden kommentar
-      details: Flere oplysninger om ændringssættet kan findes på %{url}.
-      details_html: Flere oplysninger om ændringssættet kan findes på %{url}.
+      details: Besvar eller få mere at vide om ændringssættet på %{url}.
+      details_html: Besvar eller få mere at vide om ændringssættet på %{url}.
       unsubscribe: Du kan afmelde opdateringer om dette ændringssæt på %{url}.
       unsubscribe_html: Du kan afmelde opdateringer om dette ændringssæt på %{url}.
   confirmations:
@@ -1947,13 +1969,15 @@ da:
     new:
       title: Log ind
       tab_title: Log ind
+      login_to_authorize_html: Log ind på OpenStreetMap for at få adgang til %{client_app_name}.
       email or username: E-mailadresse eller brugernavn
       password: Adgangskode
       remember: Husk mig
       lost password link: Glemt din adgangskode?
       login_button: Log ind
       register now: Registrér nu
-      with external: 'Alternativt kan du bruge en tredjepart for at logge ind:'
+      with external: eller log ind med en tredjepart
+      or: eller
       auth failure: Kunne ikke logge på med disse oplysninger.
     destroy:
       title: Log af
@@ -2131,6 +2155,12 @@ da:
         contributors_fr_credit_html: '%{france}: Indeholder data fra Direction Générale
           des Impôts.'
         contributors_fr_france: Frankrig
+        contributors_hr_credit_html: |-
+          %{croatia}: Indeholder data fra %{dgu_link} og %{open_data_portal}
+          (offentlig information om Kroatien).
+        contributors_hr_croatia: Kroatien
+        contributors_hr_dgu: Kroatiens statsgeodætiske administration
+        contributors_hr_open_data_portal: Den nationale portal for åbne data
         contributors_nl_credit_html: '%{netherlands}: Indeholder &copy; AND data,
           2007 (%{and_link}).'
         contributors_nl_netherlands: Holland
@@ -2268,8 +2298,8 @@ da:
         title: Hjælp for nybegyndere
         description: Hjælp for nybegyndere, som vedligeholdes af fællesskabet.
       community:
-        title: Fællesskabs-forum
-        description: Et sted for fælles diskussioner om OpenStreetMap.
+        title: Hjælp og fællesskabsforum
+        description: Et fælles sted til at søge hjælp og have samtaler om OpenStreetMap.
       mailing_lists:
         title: Mailinglister
         description: Stil et spørgsmål eller diskuter interessante spørgsmål på en
@@ -2548,6 +2578,8 @@ da:
       identifiable: IDENTIFICERBAR
       private: PRIVAT
       trackable: SPORBAR
+      details_with_tags_html: '%{time_ago} af %{user} i %{tags}'
+      details_without_tags_html: '%{time_ago} af %{user}'
     index:
       public_traces: Offentlige GPS-spor
       my_gps_traces: Mine GPS-spor
@@ -2583,6 +2615,8 @@ da:
         other: GPX fil med %{count} punkter fra %{user}
       description_without_count: GPX fil fra %{user}
   application:
+    basic_auth_disabled: 'Grundlæggende HTTP-godkendelse er deaktiveret: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 og 1.0a er deaktiveret: %{link}'
     permission_denied: Du har ikke rettigheder til at udføre den handling
     require_cookies:
       cookies_needed: Du har tilsyneladende deaktiveret cookies i din browser. Aktivér
@@ -2605,24 +2639,25 @@ da:
       muted_users: Stillegjorte Brugere
     auth_providers:
       openid_logo_alt: Log på med et OpenID
+      openid_login_button: Fortsæt
       openid:
-        title: Log på med OpenID
-        alt: Log på med en OpenID-URL
+        title: Log ind med OpenID
+        alt: OpenID-logo
       google:
-        title: Log på med Google
-        alt: Log på med et Google OpenID
+        title: Log ind med Google
+        alt: Google-logo
       facebook:
-        title: Log på med Facebook
-        alt: Log på med en Facebook-konto
+        title: Log ind med Facebook
+        alt: Facebook-logo
       microsoft:
         title: Log ind med Microsoft
-        alt: Log ind med en Microsoft-konto
+        alt: Microsoft-logo
       github:
         title: Log ind med GitHub
-        alt: Log ind med en GitHub-konto
+        alt: GitHub-logo
       wikipedia:
         title: Log ind med Wikipedia
-        alt: Log ind med en Wikipedia-konto
+        alt: Wikipedia-logo
   oauth:
     authorize:
       title: Tillad adgang til din konto
@@ -2662,9 +2697,12 @@ da:
       write_redactions: Rediger kortdata
       read_email: Læse brugerens e-mailadresse
       skip_authorization: Godkend applikation automatisk
+    for_roles:
+      moderator: Denne tilladelse er til handlinger, der kun er tilgængelige for moderatorer
   oauth_clients:
     new:
       title: Registrere en ny applikation
+      disabled: Registrering af OAuth 1-applikationer er blevet deaktiveret
     edit:
       title: Redigere din applikation
     show:
@@ -2748,6 +2786,7 @@ da:
       title: Mine autoriserede applikationer
       application: Applikation
       permissions: Tilladelser
+      last_authorized: Sidst autoriseret
       no_applications_html: Du har endnu ikke autoriseret nogle %{oauth2}-applikationer.
     application:
       revoke: Fjern adgang
@@ -2755,6 +2794,8 @@ da:
   users:
     new:
       title: Opret konto
+      tab_title: Opret en konto
+      signup_to_authorize_html: Tilmeld dig OpenStreetMap for at få adgang til %{client_app_name}.
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for
         dig pt.
       please_contact_support_html: Kontakt venligst %{support_link} for at få oprettet
@@ -2764,20 +2805,32 @@ da:
         header: Fri og redigerbar
         paragraph_1: Til forskel fra andre kort, er OpenStreetMap skabt af folk som
           dig, og er gratis for enhver både at rette, opdatere, downloade og anvende.
-        paragraph_2: Opret en konto for at kunne bidrage. Vi sender dig en e-mail
-          for at bekræfte kontoen.
+        paragraph_2: Opret en konto for at bidrage.
+        welcome: Velkommen til OpenStreetMap
+      duplicate_social_email: Hvis du allerede har en OpenStreetMap-konto og ønsker
+        at bruge en tredjeparts identitetsudbyder, skal du logge ind med din adgangskode
+        og ændre indstillingerne for din konto.
       display name description: Dit offentligt synlige brugernavn. Du kan ændre dette
         senere i indstillingerne.
       by_signing_up:
+        html: Ved at tilmelde dig accepterer du vores %{tou_link}, %{privacy_policy_link}
+          og %{contributor_terms_link}.
         privacy_policy: privatlivs-politik
         privacy_policy_title: OSMF privatlivs-politik inklusiv afsnit om e-mailadresser
+        contributor_terms: vilkår for bidragsydere
+      tou: brugsbetingelser
       external auth: 'Tredjeparts-godkendelse:'
       continue: Opret konto
       terms accepted: Tak for at du accepterede de nye vilkår for bidragsydere!
       email_help:
+        privacy_policy: privatlivspolitik
+        privacy_policy_title: OSMF privatlivspolitik inklusiv afsnit om e-mailadresser
         html: Din adresse vises ikke offentligt. Se vores %{privacy_policy_link} for
           flere oplysninger.
-      use external auth: Alternativt kan du bruge en tredjepart for at logge på
+      consider_pd_html: Jeg anser mine bidrag for at være i %{consider_pd_link}.
+      consider_pd: offentligt domæne
+      or: eller
+      use external auth: eller tilmeld dig med en tredjepart
     terms:
       title: Vilkår
       heading: Vilkår
@@ -2842,6 +2895,8 @@ da:
       remove as friend: Fjern som ven
       add as friend: Tilføj som ven
       mapper since: 'Kortlægger siden:'
+      last map edit: 'Sidste kortredigering:'
+      no activity yet: Ingen aktivitet endnu
       uid: 'Bruger-ID:'
       ct status: 'Vilkår for bidragsydere:'
       ct undecided: Uafklaret
@@ -2882,6 +2937,11 @@ da:
     index:
       title: Brugere
       heading: Brugere
+      older: Ældre brugere
+      newer: Nyere brugere
+      found_users:
+        one: '%{count} bruger fundet'
+        other: '%{count} brugere fundet'
       summary_html: '%{name} oprettet fra %{ip_address} på %{date}'
       summary_no_ip_html: '%{name} oprettet på %{date}'
       confirm: Bekræft valgte brugere
@@ -3038,6 +3098,15 @@ da:
       reason: Årsag til blokering
       status: Status
       revoker_name: Tilbagekaldt af
+      older: Ældre blokeringer
+      newer: Nyere blokeringer
+    navigation:
+      all_blocks: Alle blokeringer
+      blocks_on_me: Blokeringer af mig
+      blocks_on_user: Blokeringer af %{user}
+      blocks_by_me: Blokeringer udført af mig
+      blocks_by_user: Blokeringer af %{user}
+      block: 'Blokering #%{id}'
   user_mutes:
     index:
       title: Stillegjorte Brugere
@@ -3110,6 +3179,10 @@ da:
       intro: Opdaget en fejl eller noget der mangler? Lad andre kortlæggere vide det,
         så vi kan ordne det. Flyt markøren til den korrekte position, og skriv en
         bemærkning for at forklare problemet.
+      anonymous_warning_html: Du er ikke logget ind. %{log_in} eller %{sign_up}, hvis
+        du vil modtage opdateringer til din note.
+      anonymous_warning_log_in: Log ind
+      anonymous_warning_sign_up: tilmeld dig
       advice: Dine oplysninger er offentlige og vil måske blive brugt til at opdatere
         kortet, så indtast ikke personlige oplysninger eller oplysninger fra kort
         beskyttet af ophavsret eller mappeoversigter.
