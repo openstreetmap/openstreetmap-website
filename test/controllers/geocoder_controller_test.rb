@@ -261,6 +261,18 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  #
+  # Test identification of lat/lon pairs with values close to zero
+  def test_identify_latlon_close_to_zero
+    [
+      "0.0000123 -0.0000456",
+      "+0.0000123 -0.0000456",
+      "N 0° 0' 0.4428\", W 0° 0' 1.6416\""
+    ].each do |code|
+      latlon_check code, 0.0000123, -0.0000456
+    end
+  end
+
   ##
   # Test identification of US zipcodes
   def test_identify_us_postcode
@@ -406,6 +418,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
+    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lat])
+    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lon])
     assert_in_delta lat, @controller.params[:lat].to_f
     assert_in_delta lon, @controller.params[:lon].to_f
 
@@ -415,6 +429,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "xhr"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
+    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lat])
+    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lon])
     assert_in_delta lat, @controller.params[:lat].to_f
     assert_in_delta lon, @controller.params[:lon].to_f
   end
