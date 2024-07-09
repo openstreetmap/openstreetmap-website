@@ -22,35 +22,33 @@
   </div>
 <% end %>
 
-<div id="login_login">
-  <% if @preferred_auth_provider %>
-    <%= render :partial => "auth_providers" %>
-    <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
+<% if @preferred_auth_provider %>
+  <%= render :partial => "auth_providers" %>
+  <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
 <% end %>
 
-  <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
-    <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
+<%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
+  <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
 
-    <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :tabindex => 1, :value => params[:username] %>
+  <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :tabindex => 1, :value => params[:username] %>
 
-    <div class="d-flex flex-wrap column-gap-3 justify-content-between align-items-baseline mb-2">
-      <%= f.label :password, t(".password") %>
-      <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
-    </div>
+  <div class="d-flex flex-wrap column-gap-3 justify-content-between align-items-baseline mb-2">
+    <%= f.label :password, t(".password") %>
+    <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
+  </div>
 
-    <%= f.password_field :password, :autocomplete => "on", :tabindex => 2, :value => "", :skip_label => true %>
+  <%= f.password_field :password, :autocomplete => "on", :tabindex => 2, :value => "", :skip_label => true %>
 
-    <%= f.form_group do %>
-      <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
-    <% end %>
-
-    <div class="mb-3">
-      <%= f.primary t(".login_button"), :tabindex => 4 %>
-    </div>
+  <%= f.form_group do %>
+    <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "yes") }, "yes" %>
   <% end %>
 
-  <% unless @preferred_auth_provider %>
-    <%= render :partial => "shared/section_divider", :locals => { :text => t(".with external") } %>
-    <%= render :partial => "auth_providers" %>
-  <% end %>
-</div>
+  <div class="mb-3">
+    <%= f.primary t(".login_button"), :tabindex => 4 %>
+  </div>
+<% end %>
+
+<% unless @preferred_auth_provider %>
+  <%= render :partial => "shared/section_divider", :locals => { :text => t(".with external") } %>
+  <%= render :partial => "auth_providers" %>
+<% end %>
