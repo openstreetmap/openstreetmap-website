@@ -284,8 +284,10 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/remove_friend" => "friendships#remove_friend", :via => [:get, :post], :as => "remove_friend"
 
   # user lists
-  match "/users" => "users#index", :via => [:get, :post]
-  match "/users/:status" => "users#index", :via => [:get, :post]
+  scope :module => :administrator do
+    match "users" => "users#index", :via => [:get, :post]
+    match "users/:status" => "users#index", :via => [:get, :post]
+  end
 
   # geocoder
   get "/search" => "geocoder#search"
