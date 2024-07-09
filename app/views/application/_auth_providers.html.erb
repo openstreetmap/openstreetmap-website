@@ -1,5 +1,5 @@
 <div>
-  <div class="list-inline justify-content-center d-flex align-items-center flex-wrap w-100 mb-3" id="login_auth_buttons">
+  <div class="justify-content-center d-flex align-items-center flex-wrap w-100 mb-3" id="login_auth_buttons">
 
     <% prefered_auth_button_available = false %>
     <% %w[google facebook microsoft github wikipedia].each do |provider| %>
@@ -11,7 +11,7 @@
     <% end -%>
 
     <% if prefered_auth_button_available %>
-      <div class="list-inline justify-content-center d-flex align-items-center flex-wrap w-50">
+      <div class="justify-content-center d-flex align-items-center flex-wrap w-50">
         <% %w[google facebook microsoft github wikipedia].each do |provider| %>
           <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
             <% if @preferred_auth_provider == provider %>
@@ -20,9 +20,9 @@
           <% end -%>
         <% end -%>
       </div>
-      <div class="list-inline justify-content-center d-flex align-items-center flex-wrap gap-2 w-50 px-1">
+      <div class="justify-content-center d-flex align-items-center flex-wrap gap-2 w-50 px-1">
     <% else %>
-      <div class="list-inline justify-content-center d-flex align-items-center flex-wrap gap-2 w-100">
+      <div class="justify-content-center d-flex align-items-center flex-wrap gap-2 w-100">
     <% end %>
 
       <%= link_to image_tag("openid.svg",
