@@ -1,17 +1,18 @@
-<div>
-  <div class="justify-content-center d-flex align-items-center flex-wrap mb-3" id="login_auth_buttons">
+<% prefered_auth_button_available = false %>
+<% %w[google facebook microsoft github wikipedia].each do |provider| %>
+  <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
+    <% if @preferred_auth_provider == provider %>
+      <% prefered_auth_button_available = true %>
+    <% end %>
+  <% end -%>
+<% end -%>
 
-    <% prefered_auth_button_available = false %>
-    <% %w[google facebook microsoft github wikipedia].each do |provider| %>
-      <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
-        <% if @preferred_auth_provider == provider %>
-          <% prefered_auth_button_available = true %>
-        <% end %>
-      <% end -%>
-    <% end -%>
+<div>
+  <%= tag.div :id => "login_auth_buttons",
+              :class => ["row row-cols-1", { "row-cols-sm-2" => prefered_auth_button_available }, "g-2 mb-3"] do %>
 
     <% if prefered_auth_button_available %>
-      <div class="justify-content-center d-flex align-items-center flex-wrap w-50">
+      <div class="col justify-content-center d-flex align-items-center flex-wrap">
         <% %w[google facebook microsoft github wikipedia].each do |provider| %>
           <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
             <% if @preferred_auth_provider == provider %>
@@ -20,11 +21,9 @@
           <% end -%>
         <% end -%>
       </div>
-      <div class="justify-content-center d-flex align-items-center flex-wrap gap-2 w-50 px-1">
-    <% else %>
-      <div class="justify-content-center d-flex align-items-center flex-wrap gap-2">
     <% end %>
 
+    <div class="col justify-content-center d-flex align-items-center flex-wrap gap-2">
       <%= button_tag image_tag("openid.svg",
                                :alt => t(".openid.alt"),
                                :size => "36"),
@@ -41,7 +40,7 @@
         <% end %>
       <% end -%>
     </div>
-  </div>
+  <% end %>
 
   <%# :tabindex starts high to allow rendering at the bottom of the template %>
   <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
