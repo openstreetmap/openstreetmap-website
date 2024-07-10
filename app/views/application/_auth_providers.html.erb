@@ -46,7 +46,10 @@
   <%# :tabindex starts high to allow rendering at the bottom of the template %>
   <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
     <div id="login_openid_url" class="mb-3">
-      <label for="openid_url" class="form-label"><%= t ".openid_html", :logo => openid_logo %></label>
+      <label for="openid_url" class="form-label">
+        <%= openid_logo %>
+        <%= t ".openid_url" %>
+      </label>
       <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
       <%= text_field_tag("openid_url", "", :tabindex => 20, :autocomplete => "on", :class => "form-control") %>
       <span class="form-text text-body-secondary">(<a href="<%= t "accounts.edit.openid.link" %>" target="_new"><%= t "accounts.edit.openid.link text" %></a>)</span>
