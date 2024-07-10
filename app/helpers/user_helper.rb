@@ -52,10 +52,6 @@ module UserHelper
 
   # External authentication support
 
-  def openid_logo
-    image_tag "openid.svg", :size => "36", :alt => t("application.auth_providers.openid_logo_alt"), :class => "align-text-bottom"
-  end
-
   def auth_button(name, provider, options = {})
     link_to(
       image_tag("#{name}.svg",
