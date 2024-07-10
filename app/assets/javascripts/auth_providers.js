@@ -9,8 +9,7 @@ $(document).ready(function () {
   });
 
   // Add click handler to show OpenID field
-  $("#openid_open_url").click(function (e) {
-    e.preventDefault();
+  $("#openid_open_url").click(function () {
     $("#openid_url").val("http://");
     $("#login_auth_buttons").hide().removeClass("d-flex");
     $("#login_openid_url").show();
