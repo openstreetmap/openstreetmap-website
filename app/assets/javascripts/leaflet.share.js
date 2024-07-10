@@ -160,6 +160,7 @@ L.OSM.share = function (options) {
     $("<div>")
       .appendTo($form)
       .attr("class", "row mb-3")
+      .attr("id", "mapnik_scale_row")
       .append($("<label>")
         .attr("for", "mapnik_scale")
         .attr("class", "col-auto col-form-label")
@@ -195,7 +196,7 @@ L.OSM.share = function (options) {
             .attr("class", "form-check-input")
             .bind("change", toggleFilter))));
 
-    ["minlon", "minlat", "maxlon", "maxlat"].forEach(function (name) {
+    ["minlon", "minlat", "maxlon", "maxlat", "lat", "lon"].forEach(function (name) {
       $("<input>")
         .attr("id", "mapnik_" + name)
         .attr("name", name)
@@ -204,8 +205,30 @@ L.OSM.share = function (options) {
     });
 
     $("<input>")
+      .attr("id", "map_format")
       .attr("name", "format")
       .attr("value", "mapnik")
+      .attr("type", "hidden")
+      .appendTo($form);
+
+    $("<input>")
+      .attr("id", "map_zoom")
+      .attr("name", "zoom")
+      .attr("value", map.getZoom())
+      .attr("type", "hidden")
+      .appendTo($form);
+
+    $("<input>")
+      .attr("id", "map_width")
+      .attr("name", "width")
+      .attr("value", 0)
+      .attr("type", "hidden")
+      .appendTo($form);
+
+    $("<input>")
+      .attr("id", "map_height")
+      .attr("name", "height")
+      .attr("value", 0)
       .attr("type", "hidden")
       .appendTo($form);
 
@@ -219,6 +242,7 @@ L.OSM.share = function (options) {
       .appendTo($form);
 
     var args = {
+      layer: "<span id=\"mapnik_image_layer\"></span>",
       width: "<span id=\"mapnik_image_width\"></span>",
       height: "<span id=\"mapnik_image_height\"></span>"
     };
@@ -381,11 +405,34 @@ L.OSM.share = function (options) {
         $("#mapnik_scale").val(scale);
       }
 
-      $("#mapnik_image_width").text(Math.round(size.x / scale / 0.00028));
-      $("#mapnik_image_height").text(Math.round(size.y / scale / 0.00028));
+      const mapWidth = Math.round(size.x / scale / 0.00028);
+      const mapHeight = Math.round(size.y / scale / 0.00028);
+      $("#mapnik_image_width").text(mapWidth);
+      $("#mapnik_image_height").text(mapHeight);
 
-      if (map.getMapBaseLayerId() === "mapnik") {
+      const layer = map.getMapBaseLayerId();
+      const layerKeys = new Map([
+        ["mapnik", "standard"],
+        ["cyclemap", "cycle_map"],
+        ["transportmap", "transport_map"]
+      ]);
+
+      $("#mapnik_image_layer").text(layerKeys.has(layer) ? I18n.t(`javascripts.map.base.${layerKeys.get(layer)}`) : "");
+      $("#map_format").val(layer);
+
+      $("#map_zoom").val(map.getZoom());
+      $("#mapnik_lon").val(map.getCenter().lng);
+      $("#mapnik_lat").val(map.getCenter().lat);
+      $("#map_width").val(mapWidth);
+      $("#map_height").val(mapHeight);
+
+      if (["cyclemap", "transportmap"].includes(map.getMapBaseLayerId())) {
         $("#export-image").show();
+        $("#mapnik_scale_row").hide();
+        $("#export-warning").hide();
+      } else if (map.getMapBaseLayerId() === "mapnik") {
+        $("#export-image").show();
+        $("#mapnik_scale_row").show();
         $("#export-warning").hide();
       } else {
         $("#export-image").hide();
