@@ -25,13 +25,13 @@
       <div class="justify-content-center d-flex align-items-center flex-wrap gap-2">
     <% end %>
 
-      <%= link_to image_tag("openid.svg",
-                            :alt => t("application.auth_providers.openid.alt"),
-                            :size => "36"),
-                  "#",
-                  :id => "openid_open_url",
-                  :title => t("application.auth_providers.openid.title"),
-                  :class => "btn btn-light p-2" %>
+      <%= button_tag image_tag("openid.svg",
+                               :alt => t(".openid.alt"),
+                               :size => "36"),
+                     :type => "button",
+                     :id => "openid_open_url",
+                     :title => t(".openid.title"),
+                     :class => "btn btn-light p-2" %>
 
       <% %w[google facebook microsoft github wikipedia].each do |provider| %>
         <% unless @preferred_auth_provider == provider %>
