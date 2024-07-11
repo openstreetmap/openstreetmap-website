@@ -22,7 +22,7 @@ L.OSM.Map = L.Map.extend({
     var copyright = I18n.t("javascripts.map.copyright_text", { copyright_link: copyright_link });
 
     var donate = $("<a>", {
-      "href": "https://supporting.openstreetmap.org",
+      "href": "https://openstreetmap.app.neoncrm.com/forms/ohm",
       "class": "donate-attr",
       "text": I18n.t("javascripts.map.make_a_donation")
     }).prop("outerHTML");
@@ -68,7 +68,7 @@ L.OSM.Map = L.Map.extend({
     this.baseLayers = [];
 
     this.ohmMaplibreOptions = {
-      attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+      attribution: `<a href="https://wiki.openstreetmap.org/wiki/OHM">OHM</a> &hearts; ${donate}`,
       localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
       minZoom: 1,  /* leave at 1 even if L.OSM.Map has something deeper */
       maxZoom: 20,  /* match to "L.OSM.Map" options in index.js */
