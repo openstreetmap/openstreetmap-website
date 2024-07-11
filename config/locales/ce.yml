@@ -4,6 +4,7 @@
 # Author: McDutchie
 # Author: Sasan700
 # Author: Исмаил Садуев
+# Author: Робин
 # Author: Умар
 ---
 ce:
@@ -11,9 +12,11 @@ ce:
     formats:
       friendly: '%e %B %Y %H:%M'
   helpers:
+    file:
+      prompt: Харжа файл
     submit:
       diary_comment:
-        create: Ӏалашдан
+        create: Коммент
       diary_entry:
         create: Ӏалашйан
         update: Карлайаккха
@@ -23,7 +26,10 @@ ce:
         create: ДӀадахьийта
       client_application:
         create: ДӀайаздала
-        update: Хийца
+        update: Карлайаккха
+      oauth2_application:
+        create: Регистраци йан
+        update: Карлайаккха
       redaction:
         create: Нисдар кхоллар
         update: Хийцам Ӏалашбе
@@ -38,6 +44,10 @@ ce:
       messages:
         invalid_email_address: электронан поштан адресе тера дац
         email_address_not_routable: неъбиллина бац
+        display_name_is_user_n: user_n хила йиш йац, наггахь n хьан лелоша ID йацахь
+      models:
+        user_mute:
+          is_already_muted: хӀинцале а дӀайаккхина
     models:
       acl: ТӀецакхачаран бахьанин могӀа
       changeset: Нисдарш
@@ -46,6 +56,7 @@ ce:
       diary_comment: Коммент
       diary_entry: Къамелан дӀайаздар
       friend: ДоттагӀ
+      issue: Хаттар
       language: Мотт
       message: Хаам
       node: ТӀадам
@@ -61,6 +72,7 @@ ce:
       relation: Хилар
       relation_member: Хиларан декъашхо
       relation_tag: Хиларан тег
+      report: хаам
       session: Сесси
       trace: Трек
       tracepoint: Трекан тӀадам
@@ -72,56 +84,105 @@ ce:
       way_node: Сизан тӀадам
       way_tag: Сизан тег
     attributes:
+      client_application:
+        name: ЦIе (схьадоьхург)
+        url: Приложенена URL (схьадоьхург)
+        callback_url: URL йухакхайкха
+        support_url: URL гӀо дар
+        allow_read_prefs: йеша лелорчера лаамаш
+        allow_write_prefs: хийца лелорчера лаамаш
+        allow_write_diary: |-
+          тептар тIехь йаздарш кхолла а, комментареш йа а,
+           доттагӀий лаха
+        allow_write_api: карта нисдар
+        allow_read_gpx: долахь йолу GPS-трекаш йеша
+        allow_write_gpx: GPS-трекаш чуйаха
+        allow_write_notes: заметкаш нисайар
       diary_comment:
         body: Текст
       diary_entry:
         user: Декъашхо
         title: Тема
+        body: Текст
         latitude: Шоралла
         longitude: Дохалла
         language_code: Мотт
+      doorkeeper/application:
+        name: ЦӀе
+        redirect_uri: URI-ш хийца
+        confidential: Къайле приложени?
+        scopes: Магор
       friend:
         user: Декъашхо
         friend: ДоттагӀ
       trace:
         user: Декъашхо
         visible: Гуш хилар
-        name: ЦӀе
+        name: Файлан цӀе
         size: Барам
         latitude: Шоралла
         longitude: Дохалла
         public: Массарна
         description: Цуьнах лаьцна
-        visibility: 'Гуш хилар:'
+        gpx_file: GPX файл чуяккха
+        visibility: Гуш хилар
+        tagstring: Тегаш
       message:
         sender: Баийтинарг
         title: Тема
         body: Текст
         recipient: Кхаьчнарг
+      redaction:
+        title: Корта
+        description: Цуьнах лаьцна
+      report:
+        category: Хьай хаамина бахьан гайта
+        details: Дехар ду, кхин а цхьацца дерг дийца проблемех лаьцна (оьшуш ду).
       user:
+        auth_provider: Аутентификацин провайдер
+        auth_uid: Аутентификаци
         email: Электронан пошт
-        new_email: 'Электронан поштан керла адрес:'
+        new_email: Электронан поштан керла адрес
         active: Жигара
         display_name: Гуш йолу цӀе
         description: Цуьнах лаьцна
-        home_lat: 'Шоралла:'
-        home_lon: 'Дохалла:'
-        languages: Меттанаш
+        home_lat: Шоралла
+        home_lon: Дохалла
+        languages: ГӀоле хета меттанаш
+        preferred_editor: ГӀоле хеташ волу редактор
         pass_crypt: Пароль
+        pass_crypt_confirmation: Бакъйе пароль
+    help:
+      doorkeeper/application:
+        confidential: |-
+          Приложени лелор йу клиентан къайле ларъян йиш йолчохь
+           (долахь йолу мобилан программаш а, цхьана агӀонан программаш а къайлаха йац)
+        redirect_uri: Цхьа могӀа лелабе URI тIехь
+      trace:
+        tagstring: цӀоьмалгца хадийна
+      user_block:
+        reason: Юзер дӀакъовларан бахьана. Дехар ду, хьайн ницкъ ма-кхоччу тийна а,
+          хьекъале а хила. Хьайн ницкъ ма-кхоччу пайдаэцархочун алсам хаам ло и дIа
+          хунда ваьккхан аьла и хIума нахана гуш хир дуйла дагахь а долуш. Диц ма
+          де, массо а пайдаэцархо кхеташ вац йукъараллин жаргонех, цундела дилитантан
+          терминаш лело хьажа.
+        needs_view: Бакъо йал оьший юзерин система чу вала, блок дӀаяккхале хьалха?
+      user:
+        new_email: (гайтан хир йац)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: герг сахьт хьалха
-        other: '%{count} герг сахьт хьалха'
+        one: герг сахьт хьалха %{count} масех сахьт хьалха}}
+        other: '%{count} герг сахьт хьалха %{count} масех сахьт хьалха}}'
       about_x_months:
-        one: герг бутт хьалха
-        other: '%{count} герг бутт хьалха'
+        one: герг бутт хьалха%{count} бутт хьалха}}
+        other: '%{count} герг бутт хьалха%{count} бутт хьалха}}'
       about_x_years:
-        one: герг шо хьалха
-        other: '%{count} герг шо хьалха'
+        one: герг сахьт хьалха %{count} масех сахьт хьалха}}
+        other: '%{count} герг сахьт хьалха %{count} масех сахьт хьалха}}'
       almost_x_years:
-        one: герг шо хьалха
-        other: '%{count} герг шо хьалха'
+        one: герг сахьт хьалха %{count} масех сахьт хьалха}}
+        other: '%{count} герг сахьт хьалха %{count} масех сахьт хьалха}}'
       half_a_minute: ахминот хьалхьа
       less_than_x_seconds:
         one: секундал кӀезга хьалха
@@ -135,22 +196,16 @@ ce:
       x_seconds:
         one: 1 секунд хьалха
         other: '%{count} секунд хьалха'
-      x_minutes:
-        one: 1 минот хьалха
-        few: '%{count} минот хьалха'
-        other: '%{count} минот хьалха'
+      x_minutes: '{{PLURAL|one=%{count}1 минот хьалха|few=%{count} минот хьалха|many=%{count}'
       x_days:
-        one: 1 де хьалха
-        few: '%{count} де хьалха'
-        other: '%{count} де хьалха'
+        one: '%{count} де хьалха'
+        other: '%{count} масех де хьалха'
       x_months:
-        one: 1 бутт хьалха
-        few: '%{count} бутт хьалха'
-        other: '%{count} бутт хьалха'
+        one: '%{count} бутт хьалха'
+        other: '%{count} масех бутт хьалха'
       x_years:
-        one: 1 шо хьалха
-        few: '%{count} шо хьалха'
-        other: '%{count} шо хьалха'
+        one: '%{count} шо хьалха'
+        other: '%{count} масех шо хьалха'
   editor:
     default: Ӏадйитаран кеп (хӀоттина %{name})
     id:
@@ -159,39 +214,131 @@ ce:
     remote:
       name: Генара лелор
       description: Генара лелор (JOSM йа Merkaartor)
+  auth:
+    providers:
+      none: Йаьсса
+      google: Google
+      facebook: Facebook
+      github: GitHub
+      wikipedia: Википеди
   api:
     notes:
       comment:
         opened_at_html: Кхоьллина %{when}
-        opened_at_by_html: Кхоьллина %{when} хьалха %{user}
-        commented_at_html: Карлаяьккхина %{when} хьалха
-        commented_at_by_html: Карлаяьккхина %{when} хьалха %{user}
-        closed_at_html: Кичйина %{when} хьалха
-        closed_at_by_html: Кечйина %{when} хьалха %{user}
-        reopened_at_html: Йуха йеллина %{when} хьалха
-        reopened_at_by_html: Йуха йиллина %{when} хьалха %{user}
+        opened_at_by_html: Кхоьллина %{when} пайдаэцархочо %{user}
+        commented_at_html: Карлаяьккхина %{when}
+        commented_at_by_html: Карлаяьккхина %{when} пайдаэцархочо %{user}
+        closed_at_html: Кичйина %{when}
+        closed_at_by_html: Кечйина %{when} пайдаэцархочо %{user}
+        reopened_at_html: Йуха йиллина %{when}
+        reopened_at_by_html: Йуха йиллина %{when} пайдаэцархочо %{user}
       rss:
         title: OpenStreetMap билгалонаш
+        description_all: Къепйоза кхоьллина а, комментареш йина йа дӀакъевлина тептарш
+        description_area: Тептари къепйоза, кхоьллина а, комментареш йина йа дӀакъевлина
+          шуна меттигера [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: RSS-Ӏовраш билгалонаш %{id}
+        opened: керла билгалдаккхар (герга %{place})
+        commented: керла комментари (герга %{place})
+        closed: къоьвлина билгалдаккхар (герга %{place})
+        reopened: йуха хьайилин билгалдаккхар (герга %{place})
       entry:
         comment: Коммент
         full: Йуьззина текст
+  account:
+    deletions:
+      show:
+        title: Са аккаунт дӀайаккхар
+        warning: Терго йе! Аккаунт дӀаяккхаран процесс тӀаьххьара йу, йухаерзо йиш
+          яц.
+        delete_account: Аккаунт дӀайаккхар
+        delete_introduction: 'Хьай OpenStreetMap аккаунт дӀадаккха йиш йу лахахь йолчу
+          нуьйдица. Дехар ду, тидам бе лахахь долчу детальшна:'
+        delete_profile: Хьан профилан информаци, аватар а, йаздар а, цӀахь волу меттиг
+          а йолуш, дӀайаккхина хир ю.
+        delete_display_name: Хьан гойтуш йолу цӀе дӀаяьккхина хир ю, кхечу аккаунташа
+          юха лело йиш ю.
+        retain_caveats: 'Делахь а, хьох лаьцна цхьаболу хаамаш латтор бу OpenStreetMap-ехь,
+          хьан аккаунт дӀаяьккхинчул тӀаьхьа а:'
+        retain_edits: Картан базехь ахь дина хийцамаш, нагахь санна уьш белахь, ларбийр
+          бу.
+        retain_traces: Ахь чуйиллина лараш, нагахь санна уьш елахь, ларйийр йу.
+        retain_diary_entries: Хьан дневникан йаззамаш а, дневникан комментареш а,
+          нагахь санна уьш елахь, ларйийр ю, амма гуш ца хилийта къайлаяьхна хир йу.
+        retain_notes: Хьан картан тептарш а, цун тIе комментареш а, нагахь санна уьш
+          елахь, ларйийр ю, амма гуш ца хилийта къайлайахна хир ю.
+        retain_changeset_discussions: Хьан хийцамийн дискуссеш, нагахь санна уьш елахь,
+          ларйийр ю.
+        retain_email: Хьан почтан адрес лардийр ду.
+        recent_editing_html: Ахь дукха хан йоццуш хийцамаш бина хила дер, хьан аккаунт
+          карарчу хенахь дӀайаккха йиш яц. ДӀайаккха йиш хир йу цхьана %{time}.
+        confirm_delete: Бакъалла лаьий хӀуна?
+        cancel: Цаоьшу
   accounts:
     edit:
-      current email address: 'Карара электронан поштан адрес:'
+      title: Аккаунт хийца
+      my settings: Сан нисдаран гӀирс
+      current email address: Карара электронан поштан адрес
+      external auth: Арахьара аутентификаци
       openid:
         link text: хӀун йу хӀара?
+      public editing:
+        heading: Йукъара нисайар
+        enabled: ДӀахӀоттийна. Аноним йац, нисайа йиш ю.
+        enabled link text: хӀун йу хӀара?
+        disabled: ДӀасакъаьстина а, нисайа йиш йоцуш а, хьалха дина массо а хийцамаш
+          анониман ду.
+        disabled link text: Соьга хьунда ца йало нийсарш?
       contributor terms:
+        heading: Дакъалацарна хьоьлаш
+        agreed: Хьо реза хила керлачу дакъалацаран низаман.
+        not yet agreed: Хьо хинца а, реза ца хила керлачу дакъалацаран низаман.
+        review link text: Дехар ду хьайна аттачу хенахь хӀокху ссылки тӀе хьажа, керла
+          дакъалацаран Низам талла а, тӀеэца а.
+        agreed_with_pd: Иштта ахь дӀакхайкхийна, хьайн хийцамаш Къоман Кхиам лоруш
+          йу аьлла.
         link text: хӀун йу хӀара?
       save changes button: Хийцамаш дӀаӀалашбан
+      delete_account: Аккаунт дӀайаккхар...
+    go_public:
+      heading: Йукъара нисайар
+      currently_not_public: Карарчу хенахь хьан хийцамаш анониман бу, наха хьуна хаамаш
+        дӀакхачо а, хьан меттиг ган а йиш яц. Ахь хийцинарг гайта а, сайтехула хьайца
+        зӀене бовла а, лахахь йолчу нуьйда тӀе Ӏоттало.
+      only_public_can_edit: 0.6 API хийцаелчахьана, йукъараллин пайдаэцархойн бен
+        йиш яц картан хаамаш хийца.
+      find_out_why: хӀунда ду хаа
+      email_not_revealed: Хьан электронан почтан адрес гучудер дац, иза публични  гIоттадахь.
+      not_reversible: И гӀуллакх йухадерзо йиш яц, массо а керла пайдаэцархой хӀинца
+        публични лоруш бу.
+      make_edits_public_button: Сан массо а хийцамаш нахана гойтуш дӀахӀиттабе
+    update:
+      success_confirm_needed: Декъашхочун информаци кхиамца карлаяьккхина. Хьайн электронан
+        почтан чу хьажа, хьай керла адрес тӀечӀагӀда.
+      success: Декъашхочунахь лаьцна информаци кхиамца карлайаькхна.
+    destroy:
+      success: Аккаунт дӀайаккхина.
   browse:
+    deleted_ago_by_html: ДӀадаьккхина %{time_ago} декъашхочо %{user}
+    edited_ago_by_html: Нисайина %{time_ago} декъашхочо %{user}
     version: Верси
+    redacted_version: Нисайина верси
     in_changeset: Нисдарш
     anonymous: аноним
     no_comment: (коммент йац)
     part_of: Дакъалоцу цу
+    part_of_relations:
+      one: '%{count} йукъаметтиг '
+      other: '%{count} йукъаметтигаш'
+    part_of_ways:
+      one: '%{count} сиза'
+      other: '%{count} сизнаш'
     download_xml: Схьаэца XML
     view_history: Хьажа истори
+    view_unredacted_history: Хьажа нисайаза историга
     view_details: Мадарра
+    view_redacted_data: Хьажа нисайина историга
+    view_redaction_message: Хьажа нийсабина хаамига
     location: 'Географин йолу меттиг:'
     node:
       title_html: 'ТӀадам: %{name}'
@@ -200,6 +347,9 @@ ce:
       title_html: 'Сиз: %{name}'
       history_title_html: 'Сизан истори: %{name}'
       nodes: ТӀадам
+      nodes_count:
+        one: '%{count} шад'
+        other: '%{count} шаднаш'
       also_part_of_html:
         one: сиза чохь йу %{related_ways}
         other: сизийн чохь йу %{related_ways}
@@ -207,6 +357,9 @@ ce:
       title_html: 'Хилар: %{name}'
       history_title_html: 'Хиларан истори: %{name}'
       members: Декъашхой
+      members_count:
+        one: '%{count} декъашхо '
+        other: '%{count} декъашхоша'
     relation_member:
       entry_role_html: '%{type} %{name} ролехь %{role}'
       type:
@@ -217,6 +370,7 @@ ce:
       entry_html: Хилар %{relation_name}
       entry_role_html: Хилар %{relation_name} (ролехь %{relation_role})
     not_found:
+      title: Цакарийна
       sorry: 'Халахетарх, %{type} #%{id} цакарий.'
       type:
         node: тӀадам
@@ -225,6 +379,7 @@ ce:
         changeset: нисдарш
         note: билгалдаккхар
     timeout:
+      title: Тайм-аут гIалат
       sorry: Бехк ба билла, цу %{type} хаамаш %{id} чуьра чубаха тӀех беха бу.
       type:
         node: тӀадамаш
@@ -252,12 +407,24 @@ ce:
         tag: Вики агӀонгахь гойту, тег %{key}=%{value}
       wikidata_link: Элемент %{page} Викихаамашкахь
       wikipedia_link: АгӀо %{page} Википедин чохь
+      wikimedia_commons_link: Викиларми тIера элемент %{page}
       telephone_link: Телпо тоха %{phone_number}
+      colour_preview: Басе %{colour_value} хьажа
+      email_link: Электронан почта %{email}
     query:
       title: ХӀун йу кхузахь?
       introduction: Уллера объекташ карайан, картин тӀетаӀайe
       nearby: Уллера объекташ
       enclosing: Йолу меттиг
+  old_nodes:
+    not_found:
+      sorry: 'Бехк ма билла, шад #%{id} версин %{version} карийна бац.'
+  old_ways:
+    not_found:
+      sorry: 'Бехк ма била, некъ #%{id} версин %{version} карийна бац.'
+  old_relations:
+    not_found:
+      sorry: 'Бехк ма билла, йукъаметтиг #%{id} версин %{version} карийна йац.'
   changesets:
     changeset_paging_nav:
       showing_page: АгӀо %{page}
@@ -276,14 +443,15 @@ ce:
     index:
       title: Нисдарш
       title_user: Декъашхочун %{user} нисдарш
+      title_user_link_html: Декъашхочун  %{user_link} нисдарш
       title_friend: Хьан доттагӀийн нисдарш
       title_nearby: Уллера декъашхойн нисдарш
-      empty: Нисдарш цакарий
+      empty: Нисдарш цакарий.
       empty_area: Кхузахь нисдарш дина дац.
-      empty_user: Кхузахь хӀокху декъашхочо нисдарш дийна дац.
+      empty_user: Кхузахь хӀокху декъашхочо нисдарш дина дац.
       no_more: Кхи цхьа нисдарш цакарий.
-      no_more_area: Кхузахь нисдарш дина дац.
-      no_more_user: Кхузахь хӀокху декъашхочо нисдарш дина дац.
+      no_more_area: Кхи кхузахь нисдарш дина дац.
+      no_more_user: Кхи кхузахь хӀокху декъашхочо нисдарш дина дац.
       load_more: Чуйаха кхин а
       feed:
         title: 'Нисдарш: %{id}'
@@ -291,10 +459,36 @@ ce:
         created: Кхоьллина
         closed: ДӀачӀагӀа
         belongs_to: Автор
+    subscribe:
+      heading: ТIевазалур вуй хийцамийн дийцар тIе?
+      button: ТIевазало дийцар тIе
+    unsubscribe:
+      heading: ХӀокху хийцамийн дийцар тIера дӀакъаста?
+      button: ДӀакъаста дийцар тIера
+    heading:
+      title: 'Нисдарш: %{id}'
+      created_by_html: Кхоьлина %{link_user} on %{created}.
+    no_such_entry:
+      title: Иштта хийцама пакет бац
+      heading: 'ДӀайазайина йац id: %{id}'
+      body: Бехк ма билла, id %{id} хийцамаш бац. Дехар ду, нийса йазийни хьажа, хьо
+        чоьха ваьла ссылка нийса ца хила а тарло.
     show:
       title: 'Нисдарш: %{id}'
+      created: Кхоьллина %{when}
+      closed: 'ДӀакъевлина: %{when}'
+      created_ago_html: Кхоьллина %{time_ago}
+      closed_ago_html: ДӀакъевлина %{time_ago}
+      created_ago_by_html: Кхоьллина %{time_ago} декъашхочо %{user}
+      closed_ago_by_html: ДӀакъевлина %{time_ago} декъашхочо %{user}
       discussion: Дийцар
       join_discussion: Дийцарехь дакъалаца системин чугӀо
+      still_open: Хийцамийн пакет хӀинца а йиллина йу - дискусси схьайоьллур йу хийцамийн
+        пакет дӀакъевлича.
+      subscribe: Йаздала
+      unsubscribe: Йаздалар дӀадаккха
+      comment_by_html: Комментари йина %{user} %{time_ago}
+      hidden_comment_by_html: Къайлаха комментари йина %{user} %{time_ago}
       hide_comment: къайлайаккха
       unhide_comment: гайта
       comment: Коммент
@@ -308,35 +502,58 @@ ce:
       relations: Хилар (%{count})
       relations_paginated: Хилар (%{x}-%{y} чуьра %{count})
     timeout:
-      sorry: Ахьа бихина нисдарийн могӀа, арабаккха тӀехь беха бу.
+      sorry: Бехк ма билла, ахьа бихина нисдарийн могӀа, арабаккха тӀехь сов хьан
+        оьшу.
   changeset_comments:
     comment:
-      comment: '#%{changeset_id} %{author} керла коммент'
-      commented_at_by_html: Карлаяьккхина %{when} хьалха %{user}
+      comment: '#%{changeset_id} %{author} керла коммент нисдаран пакет тIе'
+      commented_at_by_html: Карлайаккхина %{when} декъашхочо %{user}
+    comments:
+      comment: 'Керла комментари нисдаран пакет тIе #%{changeset_id} декъашхочо %{author}'
     index:
       title_all: OpenStreetMap тӀехь дина нисдарийн дийцар
       title_particular: 'OpenStreetMap #%{changeset_id} тӀехь дина нисдарийн дийцар'
+    timeout:
+      sorry: Бехк ма билла, ахьа бихина нисдарийн могӀанаш, арабаха тӀехь сов хьан
+        оьшу.
   dashboards:
     contact:
+      km away: Хьун тIера %{count} км
+      m away: Хьун тIера %{count} м
       latest_edit_html: 'ТӀаьххьара нисдар %{ago}:'
     popup:
+      your location: Хьо волу/йолу меттиг
+      nearby mapper: Уллера картадилархо
       friend: ДоттагӀ
     show:
+      title: Сан панель
+      no_home_location_html: '%{edit_profile_link} а, хьо волу меттиг а хӀоттае, уллера
+        декъашхо гарахьам.'
+      edit_your_profile: Хьайн профиль нисайе
       my friends: ДоттагӀий
+      no friends: Цкъачунна цхьа а доттагӀ тӀетоьхна вац ахь.
+      nearby users: Кхибола уллера декъашхой
+      no nearby users: Кхин цхьа а декъашхо вац цкъачунна уллех карта хӀоттош болх
+        беш.
+      friends_changesets: доттагӀийн хийцамаш
+      friends_diaries: доттагӀийн тептарш
+      nearby_changesets: лулара хийцамаш
+      nearby_diaries: лулара тептаран йаздарш
   diary_entries:
     new:
       title: Керла дӀайаздар дневник чохь
     form:
-      location: 'Меттиг:'
-      use_map_link: Гайта картан тӀехь
+      location: Меттиг
+      use_map_link: Карта лела де
     index:
-      title: Дневникаш
-      title_friends: ДоттагӀийн дневникаш
-      title_nearby: Уллера декъашхойн дневникаш
-      user_title: Декъашхочун дневник %{user}
+      title: Тептарш
+      title_friends: ДоттагӀийн тептарш
+      title_nearby: Уллера декъашхойн тептарш
+      user_title: Декъашхочун тептар %{user}
       in_language_title: '%{language} маттахь дневникан дӀайаздарш'
       new: Дневник чуьра керла дӀайаздар
       new_title: Кхолла хьайн дневник чохь керла дӀайаздар
+      my_diary: Сан тептар
       no_entries: Дневник чохь дӀайаздарш дац
       recent_entries: Дукха хан йоцу дӀайаздарш
       older_entries: Шира дӀайаздарш
@@ -345,8 +562,11 @@ ce:
       title: ДӀайаздарш тадар
       marker_text: Билгало йазйаран меттиг
     show:
-      title: Декъашхочун дневник %{user} | %{title}
-      user_title: Декъашхочун дневник %{user}
+      title: Декъашхочун тептар %{user} | %{title}
+      user_title: Декъашхочун тептар %{user}
+      discussion: Дийцар
+      subscribe: Йаздала
+      unsubscribe: Йаздалар дӀадаккха
       leave_a_comment: Йитта коммент
       login_to_leave_a_comment_html: '%{login_link}, коммент йитарна'
       login: ЧугӀо
@@ -356,12 +576,14 @@ ce:
       body: id %{id} чуьра дӀайаздарш цакарий. хьажа нийса йаздиний. Хьажорг гӀалате
         хила мега.
     diary_entry:
-      posted_by_html: 'ДӀабахийтина %{link_user} %{created}, мотт: %{language_link}'
-      comment_link: Йитта коммент
-      reply_link: Жоп ло
+      posted_by_html: 'Арахецна %{link_user} %{created}, мотт: %{language_link}'
+      updated_at_html: ТӀаьххьара карладаккхар %{updated}.
+      comment_link: Комментари е хӀокху йаззамна
+      reply_link: Авторе йаза де
       comment_count:
-        few: '%{count} коммент яц'
-        other: '%{count} коммент яц'
+        one: '%{count} коммент'
+        other: '%{count} комментареш'
+      no_comments: Комментари йац
       edit_link: Хийца дӀайаздар
       hide_link: Къайладаккха дӀайаздар
       unhide_link: Гучудаккха хӀара дӀайаздар
@@ -369,13 +591,13 @@ ce:
       report: Хаамбе хӀокху дӀайаздарх дневник тӀехь
     diary_comment:
       comment_from_html: Коммент %{link_user} %{comment_created_at}
-      hide_link: Къайладаккха хӀара коммент
+      hide_link: Къайлайаккха хӀара коммент
       unhide_link: Гучуйаккха хӀара коммент
       confirm: Бакъдан
       report: ХӀокху комментах хаамбе
     location:
       location: 'Меттиг:'
-      view: Гар
+      view: Хьажа
       edit: Нисдар
     feed:
       user:
@@ -388,25 +610,115 @@ ce:
       all:
         title: Дневникан дӀайаздарш OpenStreetMap
         description: OpenStreetMap декъашхойн тӀаьххьарлера дӀайаздарш
+    subscribe:
+      heading: РoгӀepa йаззам йазъечу дискуссина тIе вазлой?
+      button: ТIевазало дийцар тIе
+    unsubscribe:
+      heading: РoгӀepa йаззам йазъечу дискуссина тIера дӀакъастий?
+      button: ДӀакъаста дийцар тIера
   diary_comments:
     index:
+      title: Декъашхочо тӀетоьхначу дневникан йаздаршна комментареш %{user}
+      heading: '%{user} тептар тIе комментареш'
+      subheading_html: тдекъашхочо тептар тIе комментареш тоьхна %{user}
+      no_comments: цхьа комментари йац тептартех
       post: Хаам
       when: Маца
       comment: Коммент
       newer_comments: Керла комменташ
       older_comments: Шира комменташ
+  doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Авторизацин серверо декъашхочуна тептар къасто
+          деза доьху
+        consent_required: Авторизацин серверо декъашхочуна резахилар доьху
+        interaction_required: Авторизацин серверна оьшу декъашхочуна йукъаметтигаш
+          лелайар
+        login_required: Авторизацин серверна оьшу чаккхенан декъашхочуна аутентификаци
+    flash:
+      applications:
+        create:
+          notice: Приложенин регистраци йина.
+    scopes:
+      address: Хьо волу адрес хьажа
+      email: Хьайн электронан почтан адрес хьажа
+      openid: Хьайн аккаунте аутинфикаци
+      phone: Хьайн телефон номере хьажа
+      profile: Хьайн профилан хаамашка хьажа
+  errors:
+    contact:
+      contact_url_title: Тайп-тайпанчу контактийн каналаша гайтан
+      contact: Контакт
+      contact_the_community_html: Маьрша хила %{contact_link} OpenStreetMap йукъаралле,
+        нагахь санна хьуна йоьхна ссылка / гIалат карийнехь.  Нийса URL дӀаязъе хьайн
+        дехаран йуккхех.
+    bad_request:
+      title: Нийса доцу дехар
+      description: OpenStreetMap сервер тӀехь ахь йехна операци нийса йац (HTTP 400)
+    forbidden:
+      title: Магийна дац
+      description: OpenStreetMap сервер тӀехь ахь йехна операци администраторшна бен
+        магина йац (HTTP 403)
+    internal_server_error:
+      title: Приложенин гIалат
+      description: OpenStreetMap серверна дагахь доцу хьал нисделира, цо новкъарло
+        йира дехар кхочушдан (HTTP 500)
+    not_found:
+      title: Файл цакарий
+      description: Цу цӀарца йолу файл/каталог/API операци ца карийра OpenStreetMap
+        сервер тӀехь (HTTP 404)
+  friendships:
+    make_friend:
+      heading: '%{user} доттагӀ санна тӀетохий?'
+      button: ТӀетоха доттагӀ сана
+      success: '%{name} хIинца хьа доттагI ву!'
+      failed: Бехк ма билла,  %{name} доттагӀ санна тӀе цатохавела.
+      already_a_friend: Хьо хӀинца %{name} доттагӀ ву .
+      limit_exceeded: Дукха юзершца доттагӀалла лелийна ахь тӀаьхьарчу хенахь. Кхин
+        доттагӀалла лело гӀертале жимма собар дехьа.
+    remove_friend:
+      heading: ДоттагӀ %{user} дӀаваккхий?
+      button: ДоттагӀ дӀаваккха
+      success: '%{name} хьан доттагIшна йукъара дӀаваьккхина.'
+      not_a_friend: '%{name} хIинца хьа доттагI вац.'
   geocoder:
+    search:
+      title:
+        results_from_html: '%{results_link} тӀера жамӀаш'
+        latlon: Чоьхьара
     search_osm_nominatim:
       prefix:
         aerialway:
           cable_car: Муьшан некъ
+          chair_lift: Муш тесна хьалаойург
+          drag_lift: Якорь тесна хьалаойург
+          gondola: Канатан некъ
+          magic_carpet: Инзаре кузан хьалаойург
+          platter: Бугелан хьалаойург
+          pylon: БӀогӀам
+          station: Канатан хьалаойургачун станци
+          t-bar: Т-сан хьалаойург
+          "yes": ХӀаваан некъ
         aeroway:
           aerodrome: Аэродром
-          apron: Перрон
+          airstrip: Кеман хьалагIоту-охьахуа некъ
+          apron: Аэропортан перрон
+          gate: Аэропортан гэйт
           hangar: Ангар
           helipad: Беркеманийн майда
-          terminal: Терминал
+          holding_position: Собар до меттиг
+          navigationaid: Авиацин навигацина систем
+          parking_position: Машен дӀахӀотто меттиг
+          runway: Кема хьалагIоту некъ
+          taxilane: Таксин некъ
+          taxiway: Кема нийсадо некъ
+          terminal: Аэропортер терминал
+          windsock: Мох гойтуш йерг
         amenity:
+          animal_boarding: Дийнатан интернат
+          animal_shelter: Дийнаташан тховкӀело
+          arts_centre: Исбаьхьаллин центр
           atm: Банкомат
           bank: Банк
           bar: Бар
@@ -414,17 +726,26 @@ ce:
           bench: ГӀант
           bicycle_parking: Велопарковка
           bicycle_rental: Вилспетийн прокат
+          bicycle_repair_station: вилспеташ та йо меттиг
+          biergarten: Йий духку меттиг
+          blood_bank: ЦIина доккху банк
+          boat_rental: Лодкан прокат
           brothel: Бордель
+          bureau_de_change: Валюта хуьйцу меттиг
+          bus_station: Автобусан станци
           cafe: Кафе
           car_rental: Автомобилийн аренда
           car_sharing: Каршаринг
           car_wash: Авто йуьлу меттиг
           casino: Казино
+          charging_station: Электромашенан ток ло станци
+          childcare: Берига хьожу Iедал
           cinema: Кинотеатр
           clinic: Поликлиника
           clock: Сахьташ
           college: Колледж
           community_centre: Йукъараллин центр
+          conference_centre: Конференц-центр
           courthouse: Суд
           crematorium: Крематоорий
           dentist: Стоматологи
@@ -432,6 +753,7 @@ ce:
           drinking_water: Молу хи
           driving_school: Автошкола
           embassy: Векалалла
+          events_venue: Вовшахкхеттар дӀахьуш йолу меттиг
           fast_food: Фаст-фуд
           ferry_terminal: Пароман станци
           fire_station: ЦӀеяйаран станци
@@ -440,23 +762,42 @@ ce:
           fuel: Йагорг йоттар
           gambling: Ловза цӀа
           grave_yard: ДӀабухку меттиг
+          grit_bin: ГIум чохь йол контейнер
           hospital: Госпиталь
+          hunting_stand: Талларан стенд
+          ice_cream: Морожени
+          internet_cafe: Интернет кафе
+          kindergarten: Берийн беш
+          language_school: Мотт Iамо ишкол
           library: Библиотека
+          loading_dock: ТIедуту док
+          love_hotel: Безаман отель
           marketplace: Базар
+          mobile_money_agent: Мобилан ахчанан агент
           monastery: Монастырь
+          money_transfer: Ахч дехьадокху меттиг
+          motorcycle_parking: Маццикл дӀахӀотто меттиг
+          music_school: Музыкийн ишкол
           nightclub: Буьйсанан клуб
           nursing_home: Къанойн цӀа
           parking: ДӀахӀуттийла
+          parking_entrance: Парковкан чуволийла
           parking_space: Парковка
+          payment_terminal: Ахча дӀадаларан терминал
           pharmacy: Аптека
+          place_of_worship: Ӏибадат до меттиг
           police: Полици
           post_box: Поштан йаьшка
           post_office: Поштан дакъа
           prison: Набахте
           pub: Паб
+          public_bath: Йукъара бани
+          public_bookcase: Йукъара книжкан шкаф
           public_building: Йукъараллин гӀишло
+          ranger_station: Рейнджерин станци
           recycling: Утилизацин меттиг
           restaurant: Ресторан
+          sanitary_dump_station: Санитарийн кхели
           school: Ишкол
           shelter: ДӀахьуллойла
           shower: Душ
@@ -469,17 +810,27 @@ ce:
           theatre: Театр
           toilets: ХьаштагӀа
           townhall: ГӀалин администраци
+          training: Ӏаморан меттиг
           university: Университет
+          vehicle_inspection: Машенаг хьожу меттиг
           vending_machine: Махбаран автомат
           veterinary: Ветеринаран клиника
           village_hall: Керт
           waste_basket: Урна
           waste_disposal: Нехийн бак
+          waste_dump_site: Нехаш дӀакхуссу меттиг
+          watering_place: Хи доккху меттиг
           water_point: Хи гулдар
+          weighbridge: ТӀайан терза
+          "yes": ПаргIатто
         boundary:
+          aboriginal_lands: Аборигенан латташ
           administrative: Административан дакъа
+          census: Бахархойн дӀаязбаран доза
           national_park: Къоман парк
+          political: Хьаржаман доза
           protected_area: ГӀорала деш йолу меттиг
+          "yes": Доза
         bridge:
           aqueduct: Акведук
           boardwalk: Тротуар
@@ -488,35 +839,145 @@ ce:
           viaduct: Виадук
           "yes": ТӀай
         building:
+          apartment: Петар
+          apartments: Петарш
+          barn: Амбар
+          bungalow: Бунгало
+          cabin: ЛаппагӀа
+          chapel: Килс
+          church: Килс
+          civic: Граждански гӀишло
+          college: Колледжан гIишло
+          commercial: Коммерцин гӀишло
+          construction: Йаш йолу гIишло
+          cowshed: Божал
+          detached: Ша лаьтта цIа
+          dormitory: Общежити
+          duplex: Шина агIор цIа
+          farm: Ферма
+          farm_auxiliary: Фермера цIа
+          garage: Гараж
+          garages: Гаражаш
+          hangar: Ангар
+          hospital: Лазартне гIишло
+          hotel: ХьешацӀа
+          house: ЦӀа
+          houseboat: ЦӀийнан хинкема
+          hut: ЛаппагӀа
+          industrial: Промышленни гӀишло
+          kindergarten: Берийн беш
+          manufacture: Промышленни гӀишло
+          office: Офисан гIишло
+          public: Йукъараллин гӀишло
+          residential: Нах беха цIа
+          retail: Йохк-эцаран гIишло
+          roof: Тхов
+          ruins: Доьхна цIа
+          school: Ишколан гIишло
+          semidetached_house: Ши петар йол цIа
+          service: Сервисан гIишло
+          shed: Божал
+          stable: Кхай
+          static_caravan: ДIайсалело цIа
+          sty: Хьакхин божал
+          temple: Килсан гIишло
+          terrace: МогIара цIенош
+          train_station: Аьчка некъан вокзал
+          university: Университет
+          warehouse: Дуо
           "yes": ГӀишло
+        club:
+          scout: Скаутан база
+          sport: Спортан клуб
+          "yes": Клуб
         craft:
+          beekeeper: Накхаршлелорхо
+          blacksmith: Пхьар
           brewery: Йий доккху
           carpenter: Дечиг-пхьар
+          caterer: Юург латтош верг
+          confectionery: Кондитерски
+          dressmaker: ХIумаша тоьгург
           electrician: Электрик
+          electronics_repair: Электроник тайо меттиг
           gardener: Бешахо
+          glaziery: Аьнглилелархо
+          handicraft: Пхьола
+          hvac: HVAC Пхьола
+          metal_construction: Эчкан пхьар
           painter: Исбаьхьалча
           photographer: Суртдоккхург
           plumber: Сантехник
+          roofer: Тхован пхьар
+          sawmill: Дечкан хьер
           shoemaker: Эткийн пхьар
+          stonemason: ТӀулгбуттург
           tailor: Тегархо
+          window_construction: Кораш до меттиг
+          winery: Вино до меттиг
           "yes": ПхьалгӀа
         emergency:
+          access_point: Интернет тIекхочу меттиг
+          ambulance_station: Сиха гIо до станци
           assembly_point: Гулдо меттиг
           defibrillator: Дефибриллятор
+          fire_extinguisher: ЦӀейойург
+          fire_water_pond: ЦӀейойурган Iам
+          landing_site: Аварийна охьааран меттиг
+          life_ring: Аварийн хинтIехь латто хӀоз
+          phone: Аварийн телефон
+          siren: Аварийн хаамийн сирен
+          suction_point: Аварийн хи чуузу меттиг
+          water_tank: ЦӀейойургучер Iам
         highway:
+          abandoned: Тесна некъ
+          bridleway: Говр хьохку некъ
+          bus_guideway: Автобусан моха
           bus_stop: Автобус соцу меттиг
+          construction: Некъ тобар
+          corridor: Йуккъахула чекхвала
+          crossing: Биъ-некъ
+          cycleway: Вилиспетан некъ
+          elevator: Лифт
+          emergency_access_point: Дуьххьара гIо до меттиг
+          emergency_bay: Аварийн лоттийла
+          footway: Тротуар
           ford: Гечо
+          give_way: Знак "Некъ битта"
+          living_street: Нах беха урам
+          milestone: Километаран бIогIам
+          motorway: Бокх некъ
+          motorway_junction: Бокх биъ-некъ
+          motorway_link: Некъан къастар
+          passing_place: Некъ къастаран моха
           path: 'Некъ:'
+          pedestrian: ГIаш лела урам
           platform: Платформа
           primary: Коьрта некъ
           primary_link: Коьрта некъ
           proposed: Проектехь болу некъ
+          raceway: Машен къовсу некъ
           residential: Урам
           rest_area: СадоӀу зона
           road: Некъ
+          secondary: Къезга лелабо некъ
+          secondary_link: Къезга лелабо некъ
+          service: ДӀасалелар
+          services: Некъаца йолу сервис
+          speed_camera: Сихаллин камера
           steps: ТӀегӀанаш
+          stop: Соцу знак
           street_lamp: Урамера фонарь
+          tertiary: КхозлолгIа классан некъ
+          tertiary_link: КхозлолгIа классан некъ
+          track: Ворданан некъ
+          traffic_mirror: Некъан куьзга
+          traffic_signals: Светофор
+          trailhead: Тача
           trunk: Некъ
+          trunk_link: Бокх некъ
+          turning_circle: Чувоьрзу гуо
+          turning_loop: Чувоьрзу некъ
           "yes": Некъ
         historic:
           archaeological_site: Эхкарш

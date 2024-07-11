@@ -64,6 +64,8 @@ vi:
       messages:
         invalid_email_address: hình như không phải là địa chỉ thư điện tử hợp lệ
         email_address_not_routable: không thể gửi đến
+        display_name_is_user_n: không thể là user_n trừ khi n là số người dùng của
+          bạn
       models:
         user_mute:
           is_already_muted: đã bị tắt tiếng
@@ -568,6 +570,8 @@ vi:
       title: Nhật ký của %{user} | %{title}
       user_title: Nhật ký của %{user}
       discussion: Thảo luận
+      subscribe: Theo dõi
+      unsubscribe: Ngừng theo dõi
       leave_a_comment: Để lại nhận xét
       login_to_leave_a_comment_html: '%{login_link} để nhận xét'
       login: Đăng nhập
@@ -664,6 +668,10 @@ vi:
       contact_the_community_html: Xin vui lòng %{contact_link} cộng đồng OpenStreetMap
         nếu bạn gặp liên kết hỏng hoặc lỗi phần mềm. Hãy ghi nhớ địa chỉ URL chính
         xác của yêu cầu máy chủ.
+    bad_request:
+      title: Yêu cầu hỏng
+      description: Bạn đã yêu cầu tác vụ không hợp lệ trên máy chủ OpenStreetMap (HTTP
+        400)
     forbidden:
       title: Cấm
       description: Tác vụ đuợc yêu cầu trên máy chủ OpenStreetMap chỉ khả dụng đối
@@ -1644,8 +1652,8 @@ vi:
           chú gần %{place}.'
         commented_note_html: '%{commenter} đã mở lại một ghi chú mà bạn đã bình luận,
           ghi chú gần %{place}.'
-      details: Xem chi tiết về ghi chú tại %{url}.
-      details_html: Xem chi tiết về ghi chú tại %{url}.
+      details: Trả lời hoặc tìm hiểu thêm về ghi chú tại %{url}.
+      details_html: Trả lời hoặc tìm hiểu thêm về ghi chú tại %{url}.
     changeset_comment_notification:
       description: 'Bộ thay đổi OpenStreetMap #%{id}'
       hi: Chào %{to_user},
@@ -1666,8 +1674,8 @@ vi:
         partial_changeset_with_comment: với lời bình luận “%{changeset_comment}”
         partial_changeset_with_comment_html: với lời bình luận “%{changeset_comment}”
         partial_changeset_without_comment: không có lời bình luận
-      details: Xem chi tiết về bộ thay đổi tại %{url}.
-      details_html: Xem chi tiết về bộ thay đổi tại %{url}.
+      details: Trả lời hoặc tìm hiểu thêm về bộ thay đổi tại %{url}.
+      details_html: Trả lời hoặc tìm hiểu thêm về bộ thay đổi tại %{url}.
       unsubscribe: Bạn có thể ngừng nhận các thông báo về bộ thay đổi này tại %{url}.
       unsubscribe_html: Bạn có thể ngừng nhận các thông báo về bộ thay đổi này tại
         %{url}.
@@ -1835,13 +1843,15 @@ vi:
     new:
       title: Đăng nhập
       tab_title: Đăng nhập
+      login_to_authorize_html: Đăng nhập vào OpenStreetMap để truy cập %{client_app_name}.
       email or username: Địa chỉ Thư điện tử hoặc Tên người dùng
       password: Mật khẩu
       remember: Nhớ tôi
       lost password link: Quên mất Mật khẩu?
       login_button: Đăng nhập
       register now: Mở tài khoản ngay
-      with external: 'Hoặc đăng nhập qua dịch vụ bên thứ ba:'
+      with external: hoặc đăng nhập qua dịch vụ bên thứ ba
+      or: hoặc
       auth failure: Rất tiếc, không thể đăng nhập với những chi tiết đó.
     destroy:
       title: Đăng xuất
@@ -2011,6 +2021,8 @@ vi:
         contributors_fi_nlsfi_license: Giấy phép NLSFI
         contributors_fr_france: Pháp
         contributors_hr_croatia: Croatia
+        contributors_hr_dgu: Cơ quan Quản lý Trắc địa Nhà nước Croatia
+        contributors_hr_open_data_portal: Cổng Dữ liệu Mở Quốc gia
         contributors_nl_credit_html: '%{netherlands}: Chứa dữ liệu &copy; AND, 2007
           (%{and_link})'
         contributors_nl_netherlands: Hà Lan
@@ -2021,6 +2033,7 @@ vi:
         contributors_nz_linz_data_service: Dịch vụ Dữ liệu LINZ
         contributors_nz_cc_by: CC BY 4.0
         contributors_rs_serbia: Serbia
+        contributors_rs_rgz: Cơ quan Trắc địa Serbia
         contributors_rs_open_data_portal: Cổng Dữ liệu Mở Quốc gia
         contributors_si_slovenia: Slovenia
         contributors_es_spain: Tây Ban Nha
@@ -2282,6 +2295,10 @@ vi:
         tag: Thẻ
       rules:
         title: Quy định!
+        para_1_html: OpenStreetMap có ít quy tắc chính thức nhưng yêu cầu mọi người
+          muốn tham gia phải cộng tác và liên lạc với cộng đồng. Nếu bạn đang tính
+          thực hiện tác vụ nào không phải sửa đổi thủ công, xin vui lòng đọc và tuân
+          theo các hướng dẫn tại %{imports_link} và %{automated_edits_link}.
         imports: Nhập Dữ liệu
         automated_edits: Sửa đổi Tự động
       start_mapping: Bắt đầu Đóng góp
@@ -2419,6 +2436,8 @@ vi:
         other: Tập tin GPX của %{user} có %{count} địa điểm
       description_without_count: Tập tin GPX của %{user}
   application:
+    basic_auth_disabled: 'Xác thực Cơ bản HTTP đã bị tắt: %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 và 1.0a đã bị tắt: %{link}'
     permission_denied: Bạn không có quyền thực hiện tác vụ này
     require_cookies:
       cookies_needed: Hình như đã tắt cookie. Xin hãy bật lên chức năng cookie trong
@@ -2440,25 +2459,25 @@ vi:
       oauth2_authorizations: Ủy quyền OAuth 2
       muted_users: Người dùng bị Tắt tiếng
     auth_providers:
-      openid_logo_alt: Đăng nhập dùng OpenID
+      openid_login_button: Tiếp tục
       openid:
         title: Đăng nhập qua OpenID
-        alt: Đăng nhập dùng URL OpenID
+        alt: Biểu trưng OpenID
       google:
         title: Đăng nhập qua Google
-        alt: Đăng nhập dùng OpenID của Google
+        alt: Biểu trưng Google
       facebook:
         title: Đăng nhập qua Facebook
-        alt: Đăng nhập dùng tài khoản Facebook
+        alt: Biểu trưng Facebook
       microsoft:
         title: Đăng nhập qua Microsoft
-        alt: Đăng nhập dùng Tài khoản Microsoft
+        alt: Biểu trưng Microsoft
       github:
         title: Đăng nhập qua GitHub
-        alt: Đăng nhập dùng tài khoản GitHub
+        alt: Biểu trưng GitHub
       wikipedia:
         title: Đăng nhập qua Wikipedia
-        alt: Đăng nhập qua Tài khoản Wikipedia
+        alt: Biểu trưng Wikipedia
   oauth:
     authorize:
       title: Cho phép truy cập tài khoản của bạn
@@ -2499,6 +2518,8 @@ vi:
       write_redactions: Ẩn dữ liệu bản đồ
       read_email: Đọc địa chỉ thư điện tử của người dùng
       skip_authorization: Tự động chấp nhận đơn xin
+    for_roles:
+      moderator: Chỉ có điều hành viên có quyền thực hiện tác vụ này
   oauth_clients:
     new:
       title: Đăng ký chương trình mới
@@ -2595,31 +2616,45 @@ vi:
     new:
       title: Mở tài khoản
       tab_title: Mở tài khoản
+      signup_to_authorize_html: Mở tài khoản OpenStreetMap để truy cập %{client_app_name}.
       no_auto_account_create: Rất tiếc, chúng ta hiện không có khả năng tạo ra tài
         khoản tự động cho bạn.
       please_contact_support_html: Vui lòng liên hệ với %{support_link} để yêu cầu
         tạo tài khoản – chúng tôi sẽ cố gắng giải quyết yêu cầu nhanh nhất có thể.
       support: hỗ trợ
       about:
-        header: Tự do sử dụng và sửa đổi
+        header: Tự do sử dụng và sửa đổi.
         paragraph_1: Không giống như với các bản đồ kia, OpenStreetMap được xây dựng
           hoàn toàn nhờ những người như bạn, và mọi người có thể tự do sửa chữa, cập
           nhật, tải về, và sử dụng miễn phí.
-        paragraph_2: Hãy mở tài khoản để bắt đầu đóng góp. Chúng tôi sẽ gửi thư điện
-          tử cho bạn để xác nhận tài khoản của bạn.
+        paragraph_2: Hãy mở tài khoản để bắt đầu đóng góp.
+        welcome: Chào mừng đến OpenStreetMap
+      duplicate_social_email: Nếu bạn đã có tài khoản OpenStreetMap và muốn sử dụng
+        nhà cung cấp danh tính bên thứ ba, xin vui lòng đăng nhập dùng mật khẩu của
+        bạn và thay đổi tùy chọn tài khoản.
       display name description: Tên người dùng của bạn được hiển thị công khai. Bạn
         có thể thay đổi tên này về sau trong tùy chọn.
       by_signing_up:
+        html: Bằng cách mở tài khoản, bạn chấp nhận %{tou_link}, %{privacy_policy_link},
+          và %{contributor_terms_link} của chúng tôi.
         privacy_policy: quy định về quyền riêng tư
         privacy_policy_title: Quy định về quyền riêng tư của OSMF, bao gồm phần về
           địa chỉ thư điện tử
+        contributor_terms: các điều kiện đóng góp
+      tou: các điều khoản sử dụng
       external auth: 'Xác minh qua Dịch vụ Bên thứ ba:'
       continue: Mở tài khoản
       terms accepted: Cám ơn bạn đã chấp nhận các điều khoản đóng góp mới!
       email_help:
+        privacy_policy: quy định về quyền riêng tư
+        privacy_policy_title: Quy định về quyền riêng tư của OSMF, bao gồm phần về
+          địa chỉ thư điện tử
         html: Địa chỉ thư điện tử không được hiển thị công khai, xem thêm thông tin
           trong %{privacy_policy_link} của chúng tôi.
-      use external auth: Hoặc đăng nhập qua dịch vụ bên thứ ba
+      consider_pd_html: Tôi coi những đóng góp của mình thuộc về %{consider_pd_link}.
+      consider_pd: phạm vi công cộng
+      or: hoặc
+      use external auth: hoặc mở tài khoản qua dịch vụ bên thứ ba
     terms:
       title: Điều khoản
       heading: Điều khoản
@@ -2686,6 +2721,8 @@ vi:
       remove as friend: Hủy Kết Bạn
       add as friend: Kết Bạn
       mapper since: 'Tham gia:'
+      last map edit: 'Sửa đổi bản đồ cuối cùng:'
+      no activity yet: Chưa có hoạt động nào
       uid: 'Số người dùng:'
       ct status: 'Điều khoản đóng góp:'
       ct undecided: Chưa quyết định
@@ -2886,6 +2923,7 @@ vi:
       blocks_on_user: Tác vụ Cấm %{user}
       blocks_by_me: Tác vụ Cấm bởi Tôi
       blocks_by_user: Tác vụ Cấm bởi %{user}
+      block: Tác vụ cấm số %{id}
   user_mutes:
     index:
       title: Người dùng bị Tắt tiếng
@@ -2958,6 +2996,10 @@ vi:
       intro: Bản đồ có thiếu gì hay sai lầm không? Hãy báo cho chúng tôi để chúng
         tôi sửa chữa bản đồ. Chỉ việc kéo ghim vào vị trí đúng và viết lời giải thích
         vấn đề.
+      anonymous_warning_html: Bạn chưa đăng nhập. Để nhận được các thông báo về lời
+        ghi chú của bạn, xin vui lòng %{log_in} hoặc %{sign_up}.
+      anonymous_warning_log_in: đăng nhập
+      anonymous_warning_sign_up: mở tài khoản
       advice: Ghi chú của bạn được hiển thị công khai và có thể được sử dụng để cập
         nhật bản đồ. Xin đừng ghi thông tin cá nhân hoặc thông tin lấy từ bản đồ hay
         danh bạ có bản quyền.
