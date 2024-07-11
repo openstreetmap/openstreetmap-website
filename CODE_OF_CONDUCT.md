@@ -57,7 +57,7 @@ If a community member engages in unacceptable behavior, the community organizers
 
 ## 7. Reporting Guidelines
 
-If you are subject to or witness unacceptable behavior, or have any other concerns, please notify a community organizer as soon as possible. historic@openstreetmap.org.
+If you are subject to or witness unacceptable behavior, or have any other concerns, please notify a community organizer as soon as possible. ohm-admins@googlegroups.com.
 
 
 
@@ -65,7 +65,7 @@ Additionally, community organizers are available to help community members engag
 
 ## 8. Addressing Grievances
 
-If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify OpenHistoricalMap with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies. 
+If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify OpenHistoricalMap with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies.
 
 
 
@@ -81,7 +81,7 @@ historic@openstreetmap.org
 
 ## 11. License and attribution
 
-The Citizen Code of Conduct is distributed by [Stumptown Syndicate](http://stumptownsyndicate.org) under a [Creative Commons Attribution-ShareAlike license](http://creativecommons.org/licenses/by-sa/3.0/). 
+The Citizen Code of Conduct is distributed by [Stumptown Syndicate](http://stumptownsyndicate.org) under a [Creative Commons Attribution-ShareAlike license](http://creativecommons.org/licenses/by-sa/3.0/).
 
 Portions of text derived from the [Django Code of Conduct](https://www.djangoproject.com/conduct/) and the [Geek Feminism Anti-Harassment Policy](http://geekfeminism.wikia.com/wiki/Conference_anti-harassment/Policy).
 
