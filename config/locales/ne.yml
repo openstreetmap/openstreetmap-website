@@ -16,10 +16,15 @@
 # Author: हिमाल सुबेदी
 ---
 ne:
+  html:
+    dir: लिटर
   time:
     formats:
       friendly: '%e %B %Y मा %H:%M'
+      blog: '%B %e, %Y'
   helpers:
+    file:
+      prompt: फाइल छान्नुहोस्
     submit:
       diary_comment:
         create: सङ्ग्रह गर्नुहोस्
@@ -32,10 +37,13 @@ ne:
         create: पठाउनुहोस्
       client_application:
         create: दर्ता गर्नुहाेस्
-        update: सम्पादन
+        update: अद्यावधिक गर्नुहोस्
+      doorkeeper_application:
+        create: दर्ता गर्नुहाेस्
+        update: अद्यावधिक गर्नुहोस्
       trace:
-        create: अपलोड गर्ने
-        update: परिवर्तनहरू संग्रह गर्ने
+        create: उर्ध्वभरण गर्नुहोस्
+        update: परिवर्तनहरू सङ्ग्रह गर्ने
   activerecord:
     models:
       acl: अनुमति नियन्त्रण सूची
@@ -129,6 +137,10 @@ ne:
     notes:
       entry:
         comment: टिप्पणी
+  account:
+    deletions:
+      show:
+        cancel: रद्द गर्नुहोस्
   accounts:
     edit:
       my settings: मेरो अनुकुलताहरु
@@ -355,7 +367,6 @@ ne:
       comment_link: यस प्रविष्टीमा टिप्पणी गर्ने
       reply_link: यो प्रविष्टीमा जवाफ लेख्ने
       comment_count:
-        zero: कुनै टिप्पणीहरू छैनन्
         one: '%{count} टिप्पणी'
         other: '%{count} टिप्पणीहरू'
       edit_link: यो प्रविष्टी सम्पादन गर्ने
@@ -807,6 +818,7 @@ ne:
     tag_line: स्वतन्त्र र खुला विकी विश्व म्याप
     intro_header: ओपन स्ट्रिट म्यापमा स्वागत छ!
     partners_partners: समर्थकहरू
+    tou: प्रयोगका सर्तहरू
     help: सहायता
     about: बारेमा
     copyright: प्रतिलिपि अधिकार
@@ -1052,6 +1064,7 @@ ne:
       rules:
         title: नियमहरू !
     ohm_privacy_policy:
+      page_title_html: गोपनीयता नीति
       introduction:
         title_html: परिचय
       email:
@@ -1094,7 +1107,9 @@ ne:
       showing_page: पृष्ठ %{page}
     trace:
       pending: बाँकी रहेको
-      count_points: पोइन्टहरु %{count}
+      count_points:
+        one: 1 अङ्क
+        other: '%{count} अङ्कहरू'
       more: थप
       trace_details: ट्रेसको विस्तृत जानकारी हेर्ने
       view_map: नक्सा हेर्ने

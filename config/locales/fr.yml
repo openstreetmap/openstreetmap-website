@@ -31,6 +31,7 @@
 # Author: Gaspard
 # Author: Gileri
 # Author: Gomoko
+# Author: Graineahumus
 # Author: Hashar
 # Author: IAlex
 # Author: JB
@@ -71,6 +72,7 @@
 # Author: Rémi Bovard
 # Author: Seb35
 # Author: Sherbrooke
+# Author: SleaY
 # Author: Syl
 # Author: The RedBurn
 # Author: Thibaut120094
@@ -701,10 +703,39 @@ fr:
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Le serveur d'autorisation nécessite la sélection
+          du compte de l'utilisateur final
+        consent_required: Le serveur d'autorisation nécessite le consentement de l'utilisateur
+          final
+        interaction_required: Le serveur d'autorisation nécessite une interaction
+          de l'utilisateur final
+        login_required: Le serveur d'autorisation nécessite l'authentification de
+          l'utilisateur final
     flash:
       applications:
         create:
           notice: Application inscrite.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Échec dû à la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Échec due à la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Échec dû à la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Échec dû à la configuration
+            manquante de Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Génération du jeton d’identification en échec à
+            cause de la configuration manquante de Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Afficher votre adresse physique
+      email: Afficher votre adresse électronique
+      openid: Authentifiez votre compte
+      phone: Afficher votre numéro de téléphone
+      profile: Voir les informations de votre profil
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map#OHM_resources
@@ -1762,8 +1793,8 @@ fr:
     lost_password:
       subject: '[OpenHistoricalMap] Demande de réinitialisation du mot de passe'
       greeting: Bonjour,
-      hopefully_you: Quelqu’un (vous, espérons-le) a demandé la réinitialisation du
-        mot de passe du compte openstreetmap.org associé à cette adresse de courriel.
+      hopefully_you: Quelqu’un (probablement vous) a demandé la réinitialisation du
+        mot de passe du compte openhistoricalmap.org associé à cette adresse de courriel.
       click_the_link: Si vous êtes à l’origine de cette demande, cliquez le lien ci-dessous
         pour réinitialiser votre mot de passe.
     note_comment_notification:
@@ -2098,9 +2129,8 @@ fr:
         page wiki</a>.</p>"
       legal_title: Informations juridiques
       legal_1_html: |-
-        Ce site et de nombreux autres services connexes sont formellement exploités par le
-        très informel collectif OpenHistoricalMap
-        au nom de la communauté.
+        Ce site et de nombreux autres services associés sont officiellement gérés par le collectif
+        très informel OpenHistoricalMap au nom de la communauté. L'utilisation de tous les services exploités par OHM est soumise à nos conditions d'utilisation, à nos politiques d'utilisation acceptable et à notre <a href="/privacy-policy">politique de confidentialité</a>.
       legal_2_html: Veuillez contacter l’équipe OHM à <a href="mailto:historic@opensteetmap.org">historic@opensteetmap.org</a>
         si vous avez des questions sur les licences, les droits d’auteur ou d’autres
         questions juridiques.<br>
@@ -2457,6 +2487,302 @@ fr:
           Cela ajoutera un marquer à la carte, que vous pouvez déplacer en tirant.
           Ajouter votre message, puis cliquer sur enregistrer, et d’autres cartographes vont investiguer.
         the_map: la carte
+    ohm_privacy_policy:
+      page_title_html: Politique de confidentialité
+      introduction:
+        title_html: Introduction
+        1_html: Ce document indique la '''politique de confidentialité''' d'OpenHistoricalMap
+          (OHM) pour les services officiellement exploités et fournis via le domaine
+          et les sous-domaines <a href='http://openhistoricalmap.org' target='_blank'
+          rel='noopener'>openhistoricalmap.org</a> . Ce sont en particulier
+        2_1_html: Le site Internet de l'OHM (<a href='/' target='_blank' rel='noopener'>openhistoricalmap.org</a>)
+          et les services et API associés
+        3_html: Il décrit vos informations personnelles que nous pouvons recueillir,
+          qui peut voir ces informations et les options dont vous disposez pour contrôler
+          cela. Nous accordons une grande importance à votre vie privée et nous efforçons
+          de parvenir à un équilibre entre les intérêts légitimes du projet OpenHistoricalMap
+          et vos intérêts et droits.</p><p>Ce document est principalement destiné
+          aux contributeurs d'OpenHistoricalMap.
+      why:
+        title_html: Pourquoi stockons-nous et traitons-nous des données personnelles
+          ?
+        1_html: Le but du projet OpenHistoricalMap est de fournir à quiconque des
+          données géographiques historiques ouvertes, telles que des plans de rues
+          ou des contours de bâtiments historiques, de voies ferrées, de sentiers,
+          etc.
+        2_html: 'Afin d''atteindre l''objectif de diffusion de données véritablement
+          ouvertes, indépendantes des droits de tiers et de haute qualité, nous ne
+          soutenons pas les contributions anonymes et conservons des données supplémentaires,
+          non géographiques, sur la base d''un intérêt légitime (voir <a href="https://gdpr-info.eu/art-6-gdpr/"
+          target="_blank" rel="noopener">l''article 6.1f du RGPD</a>), autoriser :'
+        2_1_html: Identifier toutes les cotisations effectuées par un compte
+        2_2_html: Contacter le contributeur en cas de questions sur la nature et la
+          source des contributions
+        2_3_html: Détection, suppression et correction des comptes spam, vandalisme
+          et violations des droits de tiers
+        2_4_html: Faciliter la communication entre les contributeurs d'OpenHistoricalMap
+        2_5_html: Recherche et analyse sur les contributions globales pour améliorer
+          ou hiérarchiser les services OHM, comme évaluer l'exhaustivité cartographique
+          de l'efficacité de carte, déterminer si les emplacements ou les cartographes
+          sont représentés de manière disproportionnée.
+      what:
+        title_html: Quelles données stockons-nous et traitons-nous ?
+        1_html: Données provenant des contributions à OpenHistoricalMap.
+        2_html: 'Outre les données géographiques fournies (points, lignes et zones
+          avec attributs associés et données de trace GPS) et les données liées aux
+          communications (articles et commentaires du journal, page utilisateur, commentaires
+          sur les modifications, messages), nous stockons :'
+        2_1_html: Modification des métadonnées de la session. Par exemple, les commentaires
+          ajoutés par l'utilisateur, toute version et informations similaires ajoutées
+          par l'application d'édition, quelle application d'édition et quelles couches
+          d'images aériennes ont été utilisées.
+        2_2_html: Identifiant d'utilisateur et nom de connexion de l'auteur de chaque
+          modification apportée à un objet et horodatage de la date à laquelle cette
+          modification s'est produite.
+        2_3_html: L'adresse e-mail associée à votre compte
+        2_4_html: Tous les blocs reçus par l'utilisateur et les messages associés
+        2_5_html: Données d'accès au réseau (exemples adresses IP) pour les systèmes
+          et services exploités par OHM.
+      who:
+        title_html: Qui a accès aux données
+        1_html: Nous ne partageons pas les adresses e-mail associées aux comptes avec
+          des tiers. Les messages d'utilisateur à utilisateur sont visibles par l'expéditeur
+          et le destinataire, les autres accès sont limités à notre personnel opérationnel
+          et uniquement si cela est nécessaire pour des raisons opérationnelles, pour
+          faire respecter nos politiques d'utilisation acceptable, pour remplir toutes
+          les obligations légales et plus particulièrement pour empêcher le SPAM.
+        2_html: De même, les données d'accès au réseau ne sont utilisées qu'à des
+          fins internes et l'accès est limité au personnel d'exploitation à des fins
+          opérationnelles, de protection contre le vandalisme et le spam.
+        3_html: Les autres données sont mises à disposition, selon le cas d'utilisation,
+          via le site Internet, via l'API d'édition et à partir de nos dumps de données,
+          aux utilisateurs disposant de comptes et au grand public. Certaines données
+          non géographiques peuvent être disponibles uniquement par certaines méthodes,
+          mais cela est sujet à changement.
+      where:
+        title_html: Où stockons-nous les données</h3>
+        1_html: Le site Web, les serveurs API, les bases de données et les serveurs
+          des services auxiliaires sont actuellement hébergés sur Amazon Web Services
+          dans la région de la côte Est des États-Unis.
+        2_html: 'Les tuiles de carte sont fournies par un réseau mondial de serveurs
+          de cache, le serveur de tuiles auquel votre navigateur ou votre application
+          accède est déterminé dynamiquement par la géolocalisation de l''adresse
+          IP et la sélection du serveur de cache « le plus proche » de vous. Bien
+          qu''en général, cela signifie que vous utiliserez le cache de tuiles physiquement
+          le plus proche de chez vous, cela peut être affecté par :'
+        2_1_html: Incertitudes dans la détermination de la localisation du client
+          à partir de son adresse IP
+        2_2_html: Problèmes opérationnels (temps d'arrêt du serveur, etc.)
+        2_3_html: Topologie et charge du réseau
+      how:
+        title_html: Comment pouvez-vous contrôler le traitement de vos données et
+          réduire les problèmes liés à la confidentialité</h3>
+        1_html: 'Bien que cela ne soit pas requis par la loi, nous proposons le mécanisme
+          suivant pour réduire pour vous l''exposition d''informations potentiellement
+          liées à la confidentialité :'
+        1_1_html: Vous pouvez sélectionner un nom de connexion non identifiable et
+          le modifier à tout moment.
+        1_2_html: Vous n'êtes pas obligé d'inclure des données personnelles dans les
+          publications du journal, les commentaires, la liste de diffusion par courrier
+          électronique, le wiki ou d'autres méthodes de communication de l'OHM, et
+          vous pouvez supprimer les publications du journal à tout moment via votre
+          compte.
+        1_3_html: |-
+          Vous pouvez demander la suppression de votre compte (restrictions voir ci-dessous). En règle générale, il n'est pas nécessaire de fermer/supprimer un compte sur openstreetmap.org. Ce n'est pas un problème de simplement le laisser en sommeil. Vous souhaitez supprimer les informations d'identification ? Il est facile de changer votre nom d'affichage et de modifier la description de votre profil. Si vous souhaitez supprimer complètement votre compte pour une raison quelconque : 
+          connectez-vous, accédez à Mes paramètres et utilisez le bouton « Supprimer le compte... ». Veuillez prendre note de l'avertissement : Le processus de suppression de compte est définitif et irréversible ! Vous verrez également des détails sur ce qui est supprimé exactement.
+        2_html: Vous ne devez pas activer la prise en charge de gravatar ou utiliser
+          une adresse e-mail que vous avez associée à un gravatar si la confidentialité
+          est un problème.
+        3_html: Vous pouvez réduire davantage l'exposition en n'ajoutant pas d'informations
+          personnelles aux données cartographiques (noms personnels et similaires).
+          De telles informations ne sont en général pas considérées comme un complément
+          utile à nos données et vous devriez vous abstenir de les ajouter.
+      right_to_object:
+        title_html: Droit d'opposition
+        1_html: Vous avez le <a href="https://gdpr-info.eu/art-21-gdpr/" target="_blank"
+          rel="noopener">droit de vous opposer</a> au traitement basé sur les intérêts
+          légitimes du responsable des données.
+      details:
+        title_html: Informations détaillées
+      trace_data:
+        title_html: Données de trace GPS
+        1_html: Le téléchargement de données GPS est entièrement facultatif et n’est
+          pas une condition préalable pour contribuer à OpenHistoricalMap. Si vous
+          soumettez des données GPS, elles sont téléchargées sous la forme de fichiers
+          GPX individuels. Ceux-ci sont conservés sous forme de fichiers bruts et
+          importés dans la base de données. Les fichiers GPX peuvent être marqués
+          comme <a href="https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
+          target="_blank" rel="noopener">publics</a> par la personne qui a téléversé ;
+          cela n'a absolument aucun rapport avec la possibilité de rendre ses ''modifications''
+          « publiques ».
+        2_html: Lorsque les données GPS d'une zone sont téléchargées via l'API, aucune
+          indication n'est fournie sur l'utilisateur qui a téléversé un point ou sur
+          l'horodatage associé au point. Les points sont cependant renvoyés dans l'ordre
+          d'horodatage. Les données GPS ainsi téléchargées incluront des points provenant
+          de traces qui n'ont pas été marquées comme publiques.
+        3_html: Si une trace GPS est marquée comme publique lors de son téléchargement,
+          la trace brute peut être téléchargée depuis le site Web ou à l'aide d'un
+          appel API. Dans ce cas, le nom d'affichage de l'utilisateur est affiché
+          (indépendamment du fait que l'utilisateur ait rendu public ou non ses «
+          modifications ») et les horodatages du fichier GPX seront inclus. De plus,
+          toutes les informations supplémentaires placées dans le fichier GPX seront
+          toujours présentes, par exemple les points de cheminement avec leurs noms
+          et/ou notes saisies, les symboles associés, les données d'altitude, etc.
+          Vous devez supprimer ces informations des données et supprimer suffisamment
+          d'informations du début et de fin du tracé pour masquer le début et la destination
+          avant de la téléverser si vous avez des préoccupations de confidentialité.
+      map_data:
+        title_html: Données de carte
+        1_html: Toutes les modifications apportées à la carte sont enregistrées dans
+          la base de données avec l'ID utilisateur de l'utilisateur effectuant la
+          modification et un horodatage au moment du téléversement des modifications.
+          De manière générale, toutes ces informations sont également mises à la disposition
+          de tous via le site Internet, y compris des liens permettant à chacun de
+          croiser facilement quel utilisateur a effectué quelle modification.
+        2_html: Les programmes d'édition (tels que JOSM et iD) peuvent stocker dans
+          la base de données d'autres données susceptibles d'être liées à votre vie
+          privée. Veuillez vous référer aux auteurs et distributeurs respectifs des
+          programmes pour plus d'informations. Par exemple, iD et JOSM peuvent ajouter
+          les paramètres de langue de votre appareil aux métadonnées de chaque ensemble
+          de modifications et la marque et le système d'exploitation de l'appareil
+          peuvent être visibles à partir des chaînes de version transmises.
+      home_location:
+        title_html: Emplacement 'accueil' de l'utilisateur
+        1_html: Si un utilisateur définit un emplacement de domicile, il apparaîtra
+          sur la liste des « cartographes à proximité » pour les autres personnes
+          ayant un emplacement de domicile à proximité du leur. Il s'agit d'une option
+          sur la page des paramètres de votre compte.
+      email:
+        title_html: Adresses de courriel
+        1_html: L'adresse e-mail enregistrée pour un compte utilisateur OHM ne sera
+          jamais intentionnellement publiée sur Internet, partagée avec des organisations
+          tierces ou révélée directement à d'autres utilisateurs. Les adresses e-mail
+          seront utilisées par le serveur pour informer l'utilisateur si un autre
+          utilisateur a envoyé un message via le site Web et pour d'autres notifications
+          générées par le système.
+        2_html: Seuls les administrateurs système auront un accès direct aux données
+          d'adresse e-mail associées au compte OHM. Il peut être utilisé par ces personnes
+          pour contacter directement les utilisateurs au sujet de leurs modifications
+          ou d'autres questions liés à OpenHistoricalMap.
+        3_html: Les adresses e-mail associées aux comptes wiki, forum et site d'aide
+          sont stockées séparément des données du compte utilisateur OHM dans les
+          systèmes respectifs. Ces adresses sont utilisées pour les notifications
+          et la communication d'utilisateur à utilisateur (si activée). Ces adresses
+          ne sont pas visibles publiquement ni partagées avec des tiers, mais peuvent
+          être visibles par les administrateurs des systèmes.
+      gravatar:
+        title_html: Gravatar
+        1_html: Le site <a href="http://openhistoricalmap.org" target="_blank" rel="noopener">openhistoricalmap.org</a>
+          prend en charge l'affichage des <a href="http://gravatar.com/" target="_blank"
+          rel="noopener">Gravatars</a> , ceux-ci sont récupérés sur <a href="http://gravatar.com"
+          target="_blank" rel="noopener">gravatar.com</a> en générant une clé mondialement
+          unique à partir de votre adresse e-mail. Notre logiciel de site Web vérifiera
+          lors de l'inscription initiale et à chaque changement d'adresse e-mail si
+          vous disposez d'un Gravatar pour la nouvelle adresse et commencera à l'afficher
+          s'il en existe un. Vous pouvez arrêter ce comportement en désactivant explicitement
+          la prise en charge de Gravatar dans les paramètres de votre compte. Vous
+          devez savoir que, si un Gravatar est affiché, la clé peut être utilisée
+          pour suivre votre compte sur n'importe quel site Web prenant en charge Gravatar.
+      voluntarily:
+        title_html: Données que vous pouvez volontairement ajouter à votre profil
+          ou à vos publications de journal
+        1_html: Vous n’êtes pas obligé de remplir votre profil ou de publier des publications
+          dans votre journal. En saisissant volontairement des données personnelles
+          dans votre profil d'utilisateur ou dans votre journal, vous consentez à
+          ce que ces informations soient accessibles au public et stockées par OHM
+          aussi longtemps que vous conserverez un compte OHM. Vous pouvez modifier
+          votre profil public ou vos publications de journal à tout moment pour supprimer
+          ces informations si vous changez d'avis.
+      automatically:
+        title_html: Données que nous recevons automatiquement
+        1_html: OHM exploite un certain nombre de services pour la communauté OHM,
+          par exemple le site Web <a href="/" target="_blank" rel="noopener">openhistoricalmap.org</a>,
+          la carte en ligne de tuiles vectorielles OHM standard, l'API OHM et la fonction
+          de recherche nominatim.
+        2_html: Lorsque vous visitez un site Web OHM, accédez à l'un des services
+          via un navigateur ou via des applications qui utilisent les API fournies,
+          des enregistrements de cette utilisation sont produits, nous collectons
+          des informations sur votre navigateur ou application et votre interaction
+          avec notre site Web, y compris (a) l'adresse IP, (b) le type de navigateur
+          et d'appareil, de système d'exploitation ©, (d) les page Web de référence,
+          (e) la date et l'heure des visites de pages et (f) les pages consultées
+          sur nos sites Web.
+        3_html: En outre, nous pouvons utiliser un logiciel de suivi des interactions
+          des utilisateurs qui générera des enregistrements supplémentaires de l'activité
+          des utilisateurs, par exemple Piwik.
+        4_html: Les services qui utilisent Geo-DNS ou des mécanismes similaires pour
+          répartir la charge sur des serveurs géographiquement répartis généreront
+          potentiellement un enregistrement de votre emplacement à une échelle large.
+        5_html: Ces enregistrements sont utilisés ou peuvent être utilisés des manières
+          suivantes :</p>
+        5_1_html: En soutien au fonctionnement des services d'un point de vue technique,
+          de sécurité et de planification
+        5_2_html: En tant que données anonymisées et résumées à des fins de recherche
+          et à d’autres fins. Ces données peuvent être proposées publiquement via
+          <a href="https://planet.openhistoricalmap.org" target="_blank" rel="noopener">https://planet.openhistoricalmap.org</a>
+          ou d'autres canaux et utilisées par des tiers.
+        5_3_html: Pour améliorer l'ensemble de données OpenHistoricalMap. Par exemple
+          en analysant les requêtes nominatim pour les adresses et codes postaux manquants
+          et en fournissant ces données à la communauté OHM.
+        6_html: Les données collectées sur les systèmes seront accessibles par les
+          administrateurs système. Aucune information personnelle ou information liée
+          à un individu ne sera divulguée à des tiers, sauf si la loi l'exige.
+        7_html: Les adresses IP stockées par Piwik sont raccourcies à deux octets
+          et les informations détaillées d'utilisation sont conservées pendant 180
+          jours.
+        8_html: Compte tenu de la nature temporaire de ce stockage, il ne nous est
+          généralement pas possible de fournir un accès aux adresses IP ou aux journaux
+          qui leur sont associés.
+        9_html: Les données mentionnées ci-dessus sont traitées sur la base d'un intérêt
+          légitime (voir <a href="https://gdpr-info.eu/art-6-gdpr/" target="_blank"
+          rel="noopener">l'article 6.1f du RGPD</a> ).
+      account_removal:
+        title_html: Suppression de compte
+        1_html: Vous pouvez demander la suppression de votre compte et nous honorerons
+          ces demandes aussi rapidement que possible.
+        2_html: Si vous n'avez pas contribué activement au projet, nous ne conserverons
+          aucun enregistrement, la page utilisateur, les publications du journal et
+          autres seront supprimées.
+        3_html: Si vous avez contribué, votre compte sera renommé utilisateur_''USERID''
+          (où USERID est votre ancien nom d'utilisateur OHM) et les contributions
+          et les commentaires sur les modifications seront conservés sous ce nom,
+          les entrées du journal et votre page utilisateur seront supprimées. Parce
+          que nous n'autorisons pas les modifications anonymes, nous conserverons
+          votre adresse e-mail de manière non publique au cas où vous auriez besoin
+          d'être contacté au sujet de vos contributions.
+        4_html: Les comptes wiki et forum seront renommés sous un nom pseudo-anonyme,
+          mais resteront tels quels. Vous pouvez vous désinscrire de n'importe quelle
+          liste de diffusion, mais vous devez savoir que les copies personnelles détenues
+          par les destinataires de tous les courriers que vous avez envoyés aux listes
+          et aux archives sur <a href="https://lists.openstreetmap.org" target="_blank"
+          rel="noopener">lists.openstreetmap.org</a> ne peuvent pas être supprimées.
+        5_html: Dans votre demande de suppression de compte, vous devez identifier
+          tous les comptes concernés car nous ne disposons pas d'informations sur
+          quels comptes appartiennent à quels utilisateurs d'OpenHistoricalMap.
+      cookies:
+        title_html: Cookies
+        1_html: De nombreux services exploités par OHM utilisent des cookies pour
+          stocker des informations sur votre connexion et votre état de navigation
+          sur le site. Nous utilisons également des cookies et des technologies similaires
+          pour reconnaître et améliorer votre utilisation de nos sites Web. Vous pouvez
+          supprimer les cookies de votre ordinateur et la plupart des navigateurs
+          offrent la possibilité de les bloquer. Si vous bloquez les cookies que nous
+          plaçons (cookies de premier cercle), vous ne pourrez pas accéder à certaines
+          parties des sites Web et des services de l'OHM qui nécessitent une connexion.
+          Toutefois, votre accès à nos sites Web ne sera pas affecté si vous désactivez
+          les cookies placés par des tiers.
+      contact:
+        title_html: Contact
+        1_html: Si vous avez des questions ou des préoccupations concernant cette
+          politique, veuillez contacter les administrateurs de l'OHM à <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.
+        2_html: Si vous pensez que nous détenons des informations qui nous permettraient
+          de corriger, modifier ou supprimer des informations inexactes vous concernant
+          ou si vous pensez que ces informations vous concernant ont été traitées
+          en violation de cette politique de confidentialité, veuillez nous envoyer
+          un e-mail à <a href="mailto:ohm-admins@googlegroups.com">ohm-admins@googlegroups.com</a>.<br>Notez
+          que vous pouvez modifier votre nom d'utilisateur, l'adresse e-mail associée
+          à votre compte et l'emplacement de votre « domicile » via votre compte sans
+          contacter l'OHM.
   traces:
     visibility:
       private: Privé (partagé anonymement, points non ordonnés)
@@ -2770,6 +3096,8 @@ fr:
         étant dans le domaine public.
       consider_pd_why: qu’est-ce que ceci ?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+      guidance_info_html: 'Informations pour aider à comprendre ces termes :  %{readable_summary_link}
+        et quelques %{informal_translations_link}'
       readable_summary: résumé lisible par un humain
       informal_translations: traductions informelles
       continue: Continuer
