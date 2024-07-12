@@ -11,7 +11,7 @@ class DiaryEntriesController < ApplicationController
   authorize_resource
 
   before_action :lookup_user, :only => :show
-  before_action :check_database_writable, :only => [:new, :create, :edit, :update, :comment, :hide, :unhide, :subscribe, :unsubscribe]
+  before_action :check_database_writable, :only => [:new, :create, :edit, :update, :hide, :unhide, :subscribe, :unsubscribe]
 
   allow_thirdparty_images :only => [:new, :create, :edit, :update, :index, :show]
 
@@ -136,29 +136,6 @@ class DiaryEntriesController < ApplicationController
     render :action => "no_such_entry", :status => :not_found
   end
 
-  def comment
-    @entry = DiaryEntry.find(params[:id])
-    @comments = @entry.visible_comments
-    @diary_comment = @entry.comments.build(comment_params)
-    @diary_comment.user = current_user
-    if @diary_comment.save
-
-      # Notify current subscribers of the new comment
-      @entry.subscribers.visible.each do |user|
-        UserMailer.diary_comment_notification(@diary_comment, user).deliver_later if current_user != user
-      end
-
-      # Add the commenter to the subscribers if necessary
-      @entry.subscriptions.create(:user => current_user) unless @entry.subscribers.exists?(current_user.id)
-
-      redirect_to diary_entry_path(@entry.user, @entry)
-    else
-      render :action => "show"
-    end
-  rescue ActiveRecord::RecordNotFound
-    render :action => "no_such_entry", :status => :not_found
-  end
-
   def subscribe
     @diary_entry = DiaryEntry.find(params[:id])
 
@@ -237,12 +214,6 @@ class DiaryEntriesController < ApplicationController
     params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude)
   rescue ActionController::ParameterMissing
     ActionController::Parameters.new.permit(:title, :body, :language_code, :latitude, :longitude)
-  end
-
-  ##
-  # return permitted diary comment parameters
-  def comment_params
-    params.require(:diary_comment).permit(:body)
   end
 
   ##
