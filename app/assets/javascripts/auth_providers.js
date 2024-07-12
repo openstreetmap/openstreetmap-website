@@ -12,11 +12,9 @@ $(document).ready(function () {
   $("#openid_open_url").click(function () {
     $("#openid_url").val("http://");
     $("#login_auth_buttons").hide();
-    $("#login_openid_url").show();
-    $("#openid_login_button").show();
+    $("#openid_login_form").show();
   });
 
   // Hide OpenID field for now
-  $("#login_openid_url").hide();
-  $("#openid_login_button").hide();
+  $("#openid_login_form").hide();
 });
