@@ -16077,6 +16077,7 @@
     uiSettingsCustomBackground: () => uiSettingsCustomBackground,
     uiSettingsCustomData: () => uiSettingsCustomData,
     uiSidebar: () => uiSidebar,
+    uiSourceSubfield: () => uiSourceSubfield,
     uiSourceSwitch: () => uiSourceSwitch,
     uiSpinner: () => uiSpinner,
     uiSplash: () => uiSplash,
@@ -31179,6 +31180,9 @@
         date2.setUTCMonth(parseInt(match[3], 10) - 1);
       if (match[4])
         date2.setUTCDate(parseInt(match[4], 10));
+      if (isNaN(date2.getDate())) {
+        return null;
+      }
     } else {
       date2 = new Date(raw);
       try {
@@ -33067,6 +33071,7 @@
     }
     if (fields.source) {
       fields.source.type = "text";
+      fields.source.source = false;
     }
     fields.license = {
       key: "license",
@@ -71550,6 +71555,79 @@
     wikipedia: uiFieldWikipedia
   };
 
+  // modules/ui/source_subfield.js
+  function uiSourceSubfield(context, field, tags, dispatch14) {
+    var sourceSubfield = {};
+    let sourceInput = select_default2(null);
+    let sourceKey = field.key + ":source";
+    let _sourceValue = tags[sourceKey];
+    function renderSourceInput(selection2) {
+      let entries = selection2.selectAll("div.entry").data(typeof _sourceValue === "string" || Array.isArray(_sourceValue) ? [_sourceValue] : []);
+      entries.exit().style("top", "0").style("max-height", "240px").transition().duration(200).style("opacity", "0").style("max-height", "0px").remove();
+      let entriesEnter = entries.enter().append("div").attr("class", "entry").each(function() {
+        var wrap2 = select_default2(this);
+        let domId = utilUniqueDomId("source-" + field.safeid);
+        let label = wrap2.append("label").attr("class", "field-label").attr("for", domId);
+        let text = label.append("span").attr("class", "label-text");
+        text.append("span").attr("class", "label-textvalue").call(_t.append("inspector.field_source_label", { field_name: field.title }));
+        text.append("span").attr("class", "label-textannotation");
+        label.append("button").attr("class", "remove-icon-source").attr("title", _t("icons.remove")).on("click", function(d3_event) {
+          d3_event.preventDefault();
+          _sourceValue = void 0;
+          let t2 = {};
+          t2[sourceKey] = void 0;
+          dispatch14.call("change", this, t2);
+          renderSourceInput(selection2);
+        }).call(svgIcon("#iD-operation-delete"));
+        wrap2.append("input").attr("type", "text").attr("class", "field-source-value").on("blur", changeSourceValue).on("change", changeSourceValue);
+      });
+      entriesEnter.style("margin-top", "0px").style("max-height", "0px").style("opacity", "0").transition().duration(200).style("margin-top", "10px").style("max-height", "240px").style("opacity", "1").on("end", function() {
+        select_default2(this).style("max-height", "").style("overflow", "visible");
+      });
+      entries = entries.merge(entriesEnter);
+      entries.order();
+      entries.classed("present", true);
+      utilGetSetValue(entries.select(".field-source-value"), function(d2) {
+        return typeof d2 === "string" ? d2 : "";
+      }).attr("title", function(d2) {
+        return Array.isArray(d2) ? d2.filter(Boolean).join("\n") : null;
+      }).attr("placeholder", function(d2) {
+        return Array.isArray(d2) ? _t("inspector.multiple_values") : _t("inspector.field_source_placeholder");
+      }).classed("mixed", function(d2) {
+        return Array.isArray(d2);
+      });
+    }
+    function changeSourceValue(d3_event, d2) {
+      let value = context.cleanTagValue(utilGetSetValue(select_default2(this))) || void 0;
+      if (!value && Array.isArray(d2.value))
+        return;
+      let t2 = {};
+      t2[sourceKey] = value;
+      d2.value = value;
+      dispatch14.call("change", this, t2);
+    }
+    function addSource(d3_event) {
+      d3_event.preventDefault();
+      if (typeof _sourceValue !== "string" && !Array.isArray(_sourceValue)) {
+        _sourceValue = "";
+      }
+      sourceInput.call(renderSourceInput);
+    }
+    sourceSubfield.button = function(labelEnter, container) {
+      labelEnter.append("button").attr("class", "source-icon").attr("title", function() {
+        return _t("inspector.field_source");
+      }).call(svgIcon("#fas-at", "inline"));
+      container = container.merge(labelEnter);
+      container.select(".field-label > .source-icon").on("click", addSource);
+    };
+    sourceSubfield.body = function(selection2) {
+      sourceInput = selection2.selectChild().selectAll(".field-source").data([0]);
+      sourceInput = sourceInput.enter().append("div").attr("class", "field-source").merge(sourceInput);
+      sourceInput.call(renderSourceInput);
+    };
+    return sourceSubfield;
+  }
+
   // modules/ui/field.js
   function uiField(context, presetField2, entityIDs, options2) {
     options2 = Object.assign({
@@ -71565,6 +71643,7 @@
     var _show = options2.show;
     var _state = "";
     var _tags = {};
+    options2.source = field.source !== void 0 ? field.source : true;
     var _entityExtent;
     if (entityIDs && entityIDs.length) {
       _entityExtent = entityIDs.reduce(function(extent, entityID) {
@@ -71638,6 +71717,7 @@
       dispatch14.call("change", d2, t2);
     }
     field.render = function(selection2) {
+      var sourceSubfield = uiSourceSubfield(context, field, _tags, dispatch14);
       var container = selection2.selectAll(".form-field").data([field]);
       var enter = container.enter().append("div").attr("class", function(d2) {
         return "form-field form-field-" + d2.safeid;
@@ -71656,6 +71736,9 @@
         }
         if (options2.revert) {
           labelEnter.append("button").attr("class", "modified-icon").attr("title", _t("icons.undo")).call(svgIcon(_mainLocalizer.textDirection() === "rtl" ? "#iD-icon-redo" : "#iD-icon-undo"));
+        }
+        if (options2.source) {
+          sourceSubfield.button(labelEnter, container);
         }
       }
       container = container.merge(enter);
@@ -71699,6 +71782,9 @@
       icon2.exit().remove();
       icon2.enter().append("svg").attr("class", "icon").append("use").attr("xlink:href", "#fas-lock");
       container.call(_locked ? _lockedTip : _lockedTip.destroy);
+      if (options2.source) {
+        sourceSubfield.body(selection2);
+      }
     };
     field.state = function(val) {
       if (!arguments.length)
