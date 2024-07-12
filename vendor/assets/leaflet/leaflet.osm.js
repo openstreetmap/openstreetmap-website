@@ -1,5 +1,219 @@
 L.OSM = {};
 
+L.OSM.PrefersColorSchemeWatcher = L.Class.extend({
+  initialize: function (darkMode) {
+    this._darkMode = darkMode;
+  },
+
+  watch: function () {
+    if (!this._prefersDarkQuery) {
+      this._darkModeWasEnabled = this._darkMode.isEnabled();
+      this._prefersDarkQuery = matchMedia("(prefers-color-scheme: dark)");
+      this._prefersDarkListener();
+      L.DomEvent.on(this._prefersDarkQuery, 'change', this._prefersDarkListener, this);
+    }
+    return this;
+  },
+  unwatch: function () {
+    if (this._prefersDarkQuery) {
+      L.DomEvent.off(this._prefersDarkQuery, 'change', this._prefersDarkListener, this);
+      this._prefersDarkQuery = undefined;
+      this._darkMode.toggle(this._darkModeWasEnabled);
+      this._darkModeWasEnabled = undefined;
+    }
+    return this;
+  },
+
+  _prefersDarkListener: function () {
+    if (this._prefersDarkQuery) {
+      this._darkMode.toggle(this._prefersDarkQuery.matches);
+    }
+  }
+});
+
+L.OSM.DarkMode = L.Class.extend({
+  statics: {
+    _darkModes: [],
+    _layers: [],
+
+    _addLayer: function (layer) {
+      this._layers.push(layer);
+      this._darkModes.forEach(function (darkMode) {
+        darkMode._addLayer(layer);
+      });
+    },
+    _removeLayer: function (layer) {
+      this._darkModes.forEach(function (darkMode) {
+        darkMode._removeLayer(layer);
+      });
+      var index = this._layers.indexOf(layer);
+      if (index > -1) {
+        this._layers.splice(index, 1);
+      }
+    }
+  },
+
+  options: {
+    darkFilter: '',
+    darkFilterMenuItems: []
+  },
+
+  initialize: function (options) {
+    L.Util.setOptions(this, options);
+    this._darkFilter = this.options.darkFilter;
+    this._enabled = false;
+    this._contextMenuUpdateHandlers = [];
+    L.OSM.DarkMode._darkModes.push(this);
+  },
+
+  enable: function () {
+    if (!this._enabled) {
+      this._enabled = true;
+      L.OSM.DarkMode._layers.forEach(function (layer) {
+        this._enableLayerDarkVariant(layer);
+      }, this);
+      this._contextMenuUpdateHandlers.forEach(function (handler) {
+        handler();
+      });
+    }
+    return this;
+  },
+  disable: function () {
+    if (this._enabled) {
+      this._enabled = false;
+      L.OSM.DarkMode._layers.forEach(function (layer) {
+        this._disableLayerDarkVariant(layer);
+      }, this);
+      this._contextMenuUpdateHandlers.forEach(function (handler) {
+        handler();
+      });
+    }
+    return this;
+  },
+  toggle: function (requestEnable) {
+    if (requestEnable !== undefined) {
+      if (requestEnable) {
+        this.enable();
+      } else {
+        this.disable();
+      }
+    } else {
+      if (this._enabled) {
+        this.disable();
+      } else {
+        this.enable();
+      }
+    }
+    return this;
+  },
+  isEnabled: function () {
+    return this._enabled;
+  },
+
+  // requires Leaflet.contextmenu plugin
+  manageMapContextMenu: function (map) {
+    var contextMenuElements = [];
+
+    if (this.options.darkFilterMenuItems.length > 0) {
+      var separator = map.contextmenu.addItem({
+        separator: true
+      });
+      contextMenuElements.push(separator);
+    }
+    this.options.darkFilterMenuItems.forEach(function (menuItem) {
+      var menuElement = map.contextmenu.addItem({
+        text: menuItem.text,
+        callback: function () {
+          this._darkFilter = menuItem.filter;
+          this._contextMenuUpdateHandlers.forEach(function (handler) {
+            handler();
+          });
+          if (this._enabled) {
+            L.OSM.DarkMode._layers.forEach(function (layer) {
+              this._enableLayerDarkVariant(layer);
+            }, this);
+          }
+        }.bind(this)
+      });
+      this._decorateContextMenuElement(menuElement, menuItem);
+      contextMenuElements.push(menuElement);
+    }, this);
+
+    var updateContextMenuElements = function () {
+      var numberOfLayersWithApplicableFilter = 0;
+      map.eachLayer(function (layer) {
+        if (layer instanceof L.OSM.TileLayer) {
+          if (!layer.options.darkUrl) {
+            numberOfLayersWithApplicableFilter++;
+          }
+        }
+      });
+      contextMenuElements.forEach(function (menuElement) {
+        menuElement.hidden = !this._enabled || numberOfLayersWithApplicableFilter == 0;
+        if ('filter' in menuElement.dataset) {
+          menuElement.firstChild.checked = menuElement.dataset.filter === this._darkFilter;
+        }
+      }, this);
+    }.bind(this);
+    updateContextMenuElements();
+    this._contextMenuUpdateHandlers.push(updateContextMenuElements);
+    map.on("layeradd", updateContextMenuElements);
+    map.on("layerremove", updateContextMenuElements);
+
+    return this;
+  },
+
+  _addLayer: function (layer) {
+    if (this._enabled) {
+      this._enableLayerDarkVariant(layer);
+    }
+  },
+  _removeLayer: function (layer) {
+    if (this._enabled) {
+      this._disableLayerDarkVariant(layer);
+    }
+  },
+
+  _enableLayerDarkVariant: function (layer) {
+    if (layer.options.darkUrl) {
+      layer.setUrl(layer.options.darkUrl);
+    } else {
+      this._enableLayerDarkFilter(layer);
+    }
+  },
+  _disableLayerDarkVariant: function (layer) {
+    if (layer.options.darkUrl) {
+      layer.setUrl(layer.options.url);
+    } else {
+      this._disableLayerDarkFilter(layer);
+    }
+  },
+
+  _enableLayerDarkFilter: function (layer) {
+    var container = layer.getContainer();
+    if (container) {
+      container.style.setProperty('filter', this._darkFilter);
+    }
+  },
+  _disableLayerDarkFilter: function (layer) {
+    var container = layer.getContainer();
+    if (container) {
+      layer.getContainer().style.removeProperty('filter');
+    }
+  },
+
+  _decorateContextMenuElement: function (menuElement, menuItem) {
+    menuElement.dataset.filter = menuItem.filter;
+    var radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.tabIndex = -1;
+    radio.classList.add('leaflet-contextmenu-icon');
+    radio.style.pointerEvents = 'none';
+    radio.style.transform = 'scale(80%)';
+    menuElement.prepend(radio, " ");
+  }
+});
+
 L.OSM.TileLayer = L.TileLayer.extend({
   options: {
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -9,6 +223,12 @@ L.OSM.TileLayer = L.TileLayer.extend({
   initialize: function (options) {
     options = L.Util.setOptions(this, options);
     L.TileLayer.prototype.initialize.call(this, options.url);
+
+    this.on("add", function () {
+      L.OSM.DarkMode._addLayer(this);
+    }).on("remove", function () {
+      L.OSM.DarkMode._removeLayer(this);
+    });
   }
 });
 
@@ -39,6 +259,7 @@ L.OSM.CycleMap = L.OSM.TileLayer.extend({
 L.OSM.TransportMap = L.OSM.TileLayer.extend({
   options: {
     url: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    darkUrl: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey={apikey}',
     maxZoom: 21,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
