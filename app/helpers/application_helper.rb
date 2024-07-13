@@ -1,5 +1,6 @@
 module ApplicationHelper
   require "rexml/document"
+  include SocialShareButtonHelper
 
   def linkify(text)
     if text.html_safe?
@@ -74,5 +75,46 @@ module ApplicationHelper
     end
   rescue StandardError
     flash.inspect if Rails.env.development?
+  end
+
+  # Generates a set of social share buttons based on the specified options.
+  def render_social_share_buttons(opts = {})
+    sites = opts.fetch(:allow_sites, [])
+
+    valid_sites, invalid_sites = SocialShareButtonHelper.filter_allowed_sites(sites)
+
+    # Log invalid providers
+    invalid_sites.each do |invalid_site|
+      Rails.logger.error("Invalid site or icon not configured: #{invalid_site}")
+    end
+
+    content_tag(
+      :div,
+      :class => "social-share-button d-flex gap-1 align-items-end flex-wrap",
+      :data => {
+        :title => opts[:title],
+        :url => opts[:url],
+        :desc => opts[:desc],
+        :via => opts[:via]
+      }
+    ) do
+      social_buttons = valid_sites.filter_map do |site|
+        if SocialShareButtonHelper.icon_path(site).empty?
+          Rails.logger.error("Invalid site: #{site}")
+          next
+        end
+
+        link_to "", {
+          :rel => ["nofollow", opts[:rel]].compact,
+          :data => { :site => site, :title => opts[:title], :desc => opts[:desc], :url => opts[:url] },
+          :class => "social-share-button ssb-icon",
+          :onclick => "return SocialShareButton.share(this);"
+        } do
+          image_tag(SocialShareButtonHelper.icon_path(site), :alt => site.capitalize, :size => 28)
+        end
+      end.join.html_safe
+
+      social_buttons
+    end
   end
 end
