@@ -418,8 +418,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
-    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lat])
-    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lon])
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])
     assert_in_delta lat, @controller.params[:lat].to_f
     assert_in_delta lon, @controller.params[:lon].to_f
 
@@ -429,8 +429,8 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "xhr"
     assert_equal %w[latlon osm_nominatim_reverse], assigns(:sources).pluck(:name)
     assert_nil @controller.params[:query]
-    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lat])
-    assert_match(/^[+-]?\d+(?:\.\d*)?$/, @controller.params[:lon])
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lat])
+    assert_match(/^[+-]?\d+(?:\.\d+)?$/, @controller.params[:lon])
     assert_in_delta lat, @controller.params[:lat].to_f
     assert_in_delta lon, @controller.params[:lon].to_f
   end
