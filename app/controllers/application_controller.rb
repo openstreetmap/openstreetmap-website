@@ -181,7 +181,7 @@ class ApplicationController < ActionController::Base
     # TODO: some sort of escaping of problem characters in the message
     response.headers["Error"] = message
 
-    if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
+    if request.headers["X-Error-Format"]&.casecmp?("xml")
       result = OSM::API.new.xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")

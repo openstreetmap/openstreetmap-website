@@ -225,12 +225,12 @@ class GeocoderController < ApplicationController
   end
 
   def to_decdeg(captures)
-    ns = captures.fetch("ns").casecmp("s").zero? ? -1 : 1
+    ns = captures.fetch("ns").casecmp?("s") ? -1 : 1
     nsd = BigDecimal(captures.fetch("nsd", "0"))
     nsm = BigDecimal(captures.fetch("nsm", "0"))
     nss = BigDecimal(captures.fetch("nss", "0"))
 
-    ew = captures.fetch("ew").casecmp("w").zero? ? -1 : 1
+    ew = captures.fetch("ew").casecmp?("w") ? -1 : 1
     ewd = BigDecimal(captures.fetch("ewd", "0"))
     ewm = BigDecimal(captures.fetch("ewm", "0"))
     ews = BigDecimal(captures.fetch("ews", "0"))
