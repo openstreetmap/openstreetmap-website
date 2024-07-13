@@ -206,13 +206,9 @@ class GeocoderController < ApplicationController
     if query = params[:query]
       query.strip!
 
-      if latlon = query.match(/^(?<ns>[NS])\s*(?<nsd>\d{1,3}(?:\.\d+)?)°?\W*(?<ew>[EW])\s*(?<ewd>\d{1,3}(?:\.\d+)?)°?$/) ||                                                                                                     # [NSEW] decimal degrees
-                  query.match(/^(?<nsd>\d{1,3}(?:\.\d+)?)°?\s*(?<ns>[NS])\W*(?<ewd>\d{1,3}(?:\.\d+)?)°?\s*(?<ew>[EW])$/) ||                                                                                                     # decimal degrees [NSEW]
-                  query.match(/^(?<ns>[NS])\s*(?<nsd>\d{1,3})°?(?:\s*(?<nsm>\d{1,3}(?:\.\d+)?)['′]?)\W*(?<ew>[EW])\s*(?<ewd>\d{1,3})°?(?:\s*(?<ewm>\d{1,3}(?:\.\d+)?)['′]?)$/) ||                                               # [NSEW] degrees, decimal minutes
-                  query.match(/^(?<nsd>\d{1,3})°?(?:\s*(?<nsm>\d{1,3}(?:\.\d+)?)['′]?)\s*(?<ns>[NS])\W*(?<ewd>\d{1,3})°?(?:\s*(?<ewm>\d{1,3}(?:\.\d+)?)['′]?)\s*(?<ew>[EW])$/) ||                                               # degrees, decimal minutes [NSEW]
-                  query.match(/^(?<ns>[NS])\s*(?<nsd>\d{1,3})°?\s*(?<nsm>\d{1,2})['′]?(?:\s*(?<nss>\d{1,3}(?:\.\d+)?)["″]?)\W*(?<ew>[EW])\s*(?<ewd>\d{1,3})°?\s*(?<ewm>\d{1,2})['′]?(?:\s*(?<ews>\d{1,3}(?:\.\d+)?)["″]?)$/) || # [NSEW] degrees, minutes, decimal seconds
-                  query.match(/^(?<nsd>\d{1,3})°?\s*(?<nsm>\d{1,2})['′]?(?:\s*(?<nss>\d{1,3}(?:\.\d+)?)["″]?)\s*(?<ns>[NS])\W*(?<ewd>\d{1,3})°?\s*(?<ewm>\d{1,2})['′]?(?:\s*(?<ews>\d{1,3}(?:\.\d+)?)["″]?)\s*(?<ew>[EW])$/)    # degrees, minutes, decimal seconds [NSEW]
-        params.merge!(to_decdeg(latlon.named_captures)).delete(:query)
+      if latlon = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
+                  query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/)
+        params.merge!(to_decdeg(latlon.named_captures.compact)).delete(:query)
 
       elsif latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$})
         params.merge!(:lat => latlon["lat"], :lon => latlon["lon"]).delete(:query)
@@ -222,6 +218,14 @@ class GeocoderController < ApplicationController
     end
 
     params.permit(:query, :lat, :lon, :latlon_digits, :zoom, :minlat, :minlon, :maxlat, :maxlon)
+  end
+
+  def dms_regexp(name_prefix)
+    /
+      (?: (?<#{name_prefix}d>\d{1,3}(?:\.\d+)?)°? ) |
+      (?: (?<#{name_prefix}d>\d{1,3})°?\s*(?<#{name_prefix}m>\d{1,2}(?:\.\d+)?)['′]? ) |
+      (?: (?<#{name_prefix}d>\d{1,3})°?\s*(?<#{name_prefix}m>\d{1,2})['′]?\s*(?<#{name_prefix}s>\d{1,2}(?:\.\d+)?)["″]? )
+    /x
   end
 
   def to_decdeg(captures)
