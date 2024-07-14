@@ -262,6 +262,17 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   end
 
   #
+  # Test identification of lat/lon pairs with mixed precision
+  def test_identify_latlon_ne_mixed_precision
+    latlon_check "N1 5 E15",    1.083333, 15
+    latlon_check "N1 5 9 E15",  1.085833, 15
+    latlon_check "N1 5 9 E1 5", 1.085833, 1.083333
+    latlon_check "N15 E1 5",    15, 1.083333
+    latlon_check "N15 E1 5 9",  15, 1.085833
+    latlon_check "N1 5 E1 5 9", 1.083333, 1.085833
+  end
+
+  #
   # Test identification of lat/lon pairs with values close to zero
   def test_identify_latlon_close_to_zero
     [
