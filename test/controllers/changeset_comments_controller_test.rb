@@ -41,25 +41,18 @@ class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
     get changeset_comments_feed_path(:id => changeset.id, :format => "rss")
     assert_response :success
     assert_equal "application/rss+xml", @response.media_type
-    assert_select "rss", :count => 1 do
-      assert_select "channel", :count => 1 do
-        assert_select "item", :count => 3
-      end
-    end
-    # Rails::Dom::Testing.html_document_fragment.parse(icons)
-    # Gets comment Ids from HTML and checks that they are in descending order
-
     last_comment_id = -1
     assert_select "rss", :count => 1 do
-      assert_select "description", :count => 3 do |descriptions|
-        descriptions.children.each do |description|
-          changeset_dom = Rails::Dom::Testing.html_document_fragment.parse(description.content)
-          comment = changeset_dom.at_css(".changeset-comment-text")
-          next unless comment
-
-          id = comment.content.split[-1].to_i
-          assert_operator id, "<", last_comment_id if last_comment_id != -1
-          last_comment_id = id
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 3 do |items|
+          items.each do |item|
+            assert_select item, "link", :count => 1 do |link|
+              match = assert_match(/^#{changeset_url changeset}#c(\d+)$/, link.text)
+              comment_id = match[1].to_i
+              assert_operator comment_id, "<", last_comment_id if last_comment_id != -1
+              last_comment_id = comment_id
+            end
+          end
         end
       end
     end
