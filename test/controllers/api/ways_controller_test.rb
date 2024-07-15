@@ -133,6 +133,23 @@ module Api
       assert_response :not_found
     end
 
+    ##
+    # test fetching multiple ways with specified versions
+    def test_index_with_versions
+      way1 = create(:way)
+      way2 = create(:way, :with_history, :version => 2)
+
+      # test a working call with versions
+      get ways_path(:ways => "#{way1.id},#{way2.id}v1,#{way2.id}v2")
+      assert_response :success
+      assert_select "osm" do
+        assert_select "way", :count => 3
+        assert_select "way[id='#{way1.id}'][version='1']", :count => 1
+        assert_select "way[id='#{way2.id}'][version='1']", :count => 1
+        assert_select "way[id='#{way2.id}'][version='2']", :count => 1
+      end
+    end
+
     # -------------------------------------
     # Test simple way creation.
     # -------------------------------------
