@@ -24,10 +24,12 @@ class IssuesTest < ApplicationSystemTestCase
 
   def test_view_issues
     sign_in_as(create(:moderator_user))
-    issues = create_list(:issue, 3, :assigned_role => "moderator")
+    issue = create(:issue, :assigned_role => "moderator")
+    issue.reports << create(:report, :user => create(:user, :display_name => "Test Name"))
 
     visit issues_path
-    assert_content issues.first.reported_user.display_name
+    assert_content issue.reported_user.display_name
+    assert_content issue.reports.first.user.display_name
   end
 
   def test_view_issue_with_report
