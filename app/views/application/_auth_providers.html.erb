@@ -16,7 +16,7 @@
         <% %w[google facebook microsoft github wikipedia].each do |provider| %>
           <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
             <% if @preferred_auth_provider == provider %>
-              <%= auth_button_preferred provider, provider %>
+              <%= auth_button_preferred provider %>
             <% end %>
           <% end -%>
         <% end -%>
@@ -35,7 +35,7 @@
       <% %w[google facebook microsoft github wikipedia].each do |provider| %>
         <% unless @preferred_auth_provider == provider %>
           <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
-            <%= auth_button provider, provider %>
+            <%= auth_button provider %>
           <% end -%>
         <% end %>
       <% end -%>
