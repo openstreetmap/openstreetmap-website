@@ -225,21 +225,21 @@ module Api
       comment = create(:changeset_comment)
       assert comment.visible
 
-      post changeset_comment_hide_path(:id => comment)
+      post changeset_comment_hide_path(comment)
       assert_response :unauthorized
       assert comment.reload.visible
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
       # not a moderator
-      post changeset_comment_hide_path(:id => comment), :headers => auth_header
+      post changeset_comment_hide_path(comment), :headers => auth_header
       assert_response :forbidden
       assert comment.reload.visible
 
       auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
       # bad comment id
-      post changeset_comment_hide_path(:id => 999111), :headers => auth_header
+      post changeset_comment_hide_path(999111), :headers => auth_header
       assert_response :not_found
       assert comment.reload.visible
     end
@@ -252,7 +252,7 @@ module Api
 
       auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
-      post changeset_comment_hide_path(:id => comment), :headers => auth_header
+      post changeset_comment_hide_path(comment), :headers => auth_header
       assert_response :success
       assert_not comment.reload.visible
     end
@@ -264,21 +264,21 @@ module Api
       comment = create(:changeset_comment, :visible => false)
       assert_not comment.visible
 
-      post changeset_comment_unhide_path(:id => comment)
+      post changeset_comment_unhide_path(comment)
       assert_response :unauthorized
       assert_not comment.reload.visible
 
       auth_header = basic_authorization_header create(:user).email, "test"
 
       # not a moderator
-      post changeset_comment_unhide_path(:id => comment), :headers => auth_header
+      post changeset_comment_unhide_path(comment), :headers => auth_header
       assert_response :forbidden
       assert_not comment.reload.visible
 
       auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
       # bad comment id
-      post changeset_comment_unhide_path(:id => 999111), :headers => auth_header
+      post changeset_comment_unhide_path(999111), :headers => auth_header
       assert_response :not_found
       assert_not comment.reload.visible
     end
@@ -291,7 +291,7 @@ module Api
 
       auth_header = basic_authorization_header create(:moderator_user).email, "test"
 
-      post changeset_comment_unhide_path(:id => comment), :headers => auth_header
+      post changeset_comment_unhide_path(comment), :headers => auth_header
       assert_response :success
       assert comment.reload.visible
     end
