@@ -2592,7 +2592,7 @@ module Api
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_subscribe_path(:id => 999111), :headers => auth_header
+        post api_changeset_subscribe_path(999111), :headers => auth_header
       end
       assert_response :not_found
 
