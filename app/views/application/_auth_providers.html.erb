@@ -13,13 +13,7 @@
 
     <% if prefered_auth_button_available %>
       <div class="col justify-content-center d-flex align-items-center flex-wrap">
-        <% %w[google facebook microsoft github wikipedia].each do |provider| %>
-          <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
-            <% if @preferred_auth_provider == provider %>
-              <%= auth_button_preferred provider %>
-            <% end %>
-          <% end -%>
-        <% end -%>
+        <%= auth_button_preferred @preferred_auth_provider %>
       </div>
     <% end %>
 
