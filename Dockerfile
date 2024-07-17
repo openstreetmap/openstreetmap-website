@@ -27,10 +27,14 @@ RUN apt-get update \
       ruby-bundler \
       software-properties-common \
       tzdata \
-      unzip \
-      nodejs \
-      npm \
- && npm install --global yarn \
+      unzip
+
+# Install Node.js 18 and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+ && apt-get install -y nodejs
+
+# Install yarn globally
+RUN npm install --global yarn \
  # We can't use snap packages for firefox inside a container, so we need to get firefox+geckodriver elsewhere
  && add-apt-repository -y ppa:mozillateam/ppa \
  && echo "Package: *\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox \
