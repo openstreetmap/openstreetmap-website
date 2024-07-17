@@ -118,8 +118,13 @@ OSM.Search = function (map) {
 
   page.pushstate = page.popstate = function (path) {
     var params = Qs.parse(path.substring(path.indexOf("?") + 1));
-    $(".search_form input[name=query]").val(params.query);
-    $(".describe_location").hide();
+    if (params.query) {
+      $(".search_form input[name=query]").val(params.query);
+      $(".describe_location").hide();
+    } else if (params.lat && params.lon) {
+      $(".search_form input[name=query]").val(params.lat + ", " + params.lon);
+      $(".describe_location").hide();
+    }
     OSM.loadSidebarContent(path, page.load);
   };
 
