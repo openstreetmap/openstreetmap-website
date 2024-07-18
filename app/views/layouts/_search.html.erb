@@ -1,9 +1,15 @@
+<% search_query = if params[:query]
+                    params[:query]
+                  elsif params[:lat] && params[:lon]
+                    "#{params[:lat]}, #{params[:lon]}"
+                  end %>
+
 <div class="search_forms">
   <form method="GET" action="<%= search_path %>" class="search_form bg-body-secondary px-1 py-2">
     <div class="row gx-2 mx-0">
       <div class="col">
         <div class="input-group flex-nowrap">
-          <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control z-0 py-1 px-2", :dir => "auto" %>
+          <%= text_field_tag "query", search_query, :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control z-0 py-1 px-2", :dir => "auto" %>
           <div class="input-group-text border-start-0 p-0 position-relative">
             <%= button_tag t("site.search.where_am_i"), :type => "button", :class => "describe_location position-absolute end-0 top-0 bottom-0 m-1 btn btn-outline-primary border-0 p-1 bg-transparent text-primary link-body-emphasis link-opacity-100-hover", :title => t("site.search.where_am_i_title") %>
           </div>
