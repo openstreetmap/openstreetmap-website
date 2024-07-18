@@ -19,7 +19,7 @@
   <fieldset class="mb-3">
     <label for="user_auth_provider" class="form-label"><%= t(".external auth") %></label>
     <div class="row">
-      <%= f.select(:auth_provider, Auth.providers, :hide_label => true, :wrapper => { :class => "col-auto mb-0" }) %>
+      <%= f.select(:auth_provider, { t("auth.providers.none") => "" }.merge(Auth.providers), :hide_label => true, :wrapper => { :class => "col-auto mb-0" }) %>
       <%= f.text_field(:auth_uid, :hide_label => true, :wrapper => { :class => "col mb-0" }) %>
     </div>
     <small class="form-text text-body-secondary">(<a href="<%= t ".openid.link" %>" target="_new"><%= t ".openid.link text" %></a>)</small>

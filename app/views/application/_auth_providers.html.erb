@@ -1,11 +1,4 @@
-<% prefered_auth_button_available = false %>
-<% %w[google facebook microsoft github wikipedia].each do |provider| %>
-  <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
-    <% if @preferred_auth_provider == provider %>
-      <% prefered_auth_button_available = true %>
-    <% end %>
-  <% end -%>
-<% end -%>
+<% prefered_auth_button_available = @preferred_auth_provider != "openid" && Auth.providers.value?(@preferred_auth_provider) %>
 
 <div>
   <%= tag.div :id => "login_auth_buttons",
@@ -18,20 +11,18 @@
     <% end %>
 
     <div class="col justify-content-center d-flex align-items-center flex-wrap gap-2">
-      <%= button_tag image_tag("openid.svg",
-                               :alt => t(".openid.alt"),
-                               :size => "36"),
-                     :type => "button",
-                     :id => "openid_open_url",
-                     :title => t(".openid.title"),
-                     :class => "btn btn-light p-2" %>
-
-      <% %w[google facebook microsoft github wikipedia].each do |provider| %>
-        <% unless @preferred_auth_provider == provider %>
-          <% if Settings.key?("#{provider}_auth_id".to_sym) -%>
-            <%= auth_button provider %>
-          <% end -%>
-        <% end %>
+      <% Auth.providers.each_value do |provider| %>
+        <% if provider == "openid" %>
+          <%= button_tag image_tag("openid.svg",
+                                   :alt => t(".openid.alt"),
+                                   :size => "36"),
+                         :type => "button",
+                         :id => "openid_open_url",
+                         :title => t(".openid.title"),
+                         :class => "btn btn-light p-2" %>
+        <% elsif provider != @preferred_auth_provider %>
+          <%= auth_button provider %>
+        <% end -%>
       <% end -%>
     </div>
   <% end %>
