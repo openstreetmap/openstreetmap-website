@@ -117,7 +117,7 @@ class MessagesController < ApplicationController
 
   # Set the message as being read or unread.
   def mark
-    @message = current_user.messages.find(params[:message_id])
+    @message = current_user.messages.unscope(:where => :muted).find(params[:message_id])
     if params[:mark] == "unread"
       message_read = false
       notice = t ".as_unread"
@@ -128,7 +128,11 @@ class MessagesController < ApplicationController
     @message.message_read = message_read
     if @message.save
       flash[:notice] = notice
-      redirect_to inbox_messages_path, :status => :see_other
+      if @message.muted?
+        redirect_to muted_messages_path, :status => :see_other
+      else
+        redirect_to inbox_messages_path, :status => :see_other
+      end
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
