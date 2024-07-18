@@ -424,6 +424,27 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the mark action for messages from muted users
+  def test_mark_muted
+    sender_user = create(:user)
+    recipient_user = create(:user)
+    create(:user_mute, :owner => recipient_user, :subject => sender_user)
+    message = create(:message, :unread, :sender => sender_user, :recipient => recipient_user)
+
+    session_for(recipient_user)
+
+    # Check that the marking a message read works
+    post message_mark_path(message, :mark => "read")
+    assert_redirected_to muted_messages_path
+    assert Message.find(message.id).message_read
+
+    # Check that the marking a message unread works
+    post message_mark_path(message, :mark => "unread")
+    assert_redirected_to muted_messages_path
+    assert_not Message.find(message.id).message_read
+  end
+
+  ##
   # test the destroy action
   def test_destroy
     user = create(:user)
