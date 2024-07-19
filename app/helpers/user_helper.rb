@@ -54,7 +54,7 @@ module UserHelper
 
   def auth_button(provider, options = {})
     link_to(
-      image_tag("#{provider}.svg",
+      image_tag("auth_providers/#{provider}.svg",
                 :alt => t("application.auth_providers.#{provider}.alt"),
                 :class => "rounded-1",
                 :size => "36"),
@@ -67,7 +67,7 @@ module UserHelper
 
   def auth_button_preferred(provider, options = {})
     link_to(
-      image_tag("#{provider}.svg",
+      image_tag("auth_providers/#{provider}.svg",
                 :alt => t("application.auth_providers.#{provider}.alt"),
                 :class => "rounded-1 me-3",
                 :size => "36") + t("application.auth_providers.#{provider}.title"),

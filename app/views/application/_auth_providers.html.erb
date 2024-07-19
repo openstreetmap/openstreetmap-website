@@ -13,7 +13,7 @@
     <div class="col justify-content-center d-flex align-items-center flex-wrap gap-2">
       <% Auth.providers.each_value do |provider| %>
         <% if provider == "openid" %>
-          <%= button_tag image_tag("openid.svg",
+          <%= button_tag image_tag("auth_providers/openid.svg",
                                    :alt => t(".openid.alt"),
                                    :size => "36"),
                          :type => "button",
@@ -31,7 +31,7 @@
   <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
     <div class="mb-3">
       <label for="openid_url" class="form-label">
-        <%= image_tag "openid.svg", :size => "36", :alt => "", :class => "align-text-bottom" %>
+        <%= image_tag "auth_providers/openid.svg", :size => "36", :alt => "", :class => "align-text-bottom" %>
         <%= t ".openid_url" %>
       </label>
       <%= hidden_field_tag("referer", params[:referer], :autocomplete => "off") %>
