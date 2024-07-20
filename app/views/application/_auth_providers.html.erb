@@ -2,7 +2,7 @@
 
 <div>
   <%= tag.div :id => "login_auth_buttons",
-              :class => ["row row-cols-1", { "row-cols-sm-2" => prefered_auth_button_available }, "g-2 mb-3"] do %>
+              :class => ["collapse show row row-cols-1", { "row-cols-sm-2" => prefered_auth_button_available }, "g-2 mb-3"] do %>
 
     <% if prefered_auth_button_available %>
       <div class="col justify-content-center d-flex align-items-center flex-wrap">
@@ -17,7 +17,8 @@
                                    :alt => t(".openid.alt"),
                                    :size => "36"),
                          :type => "button",
-                         :id => "openid_open_url",
+                         :data => { "bs-toggle" => "collapse",
+                                    "bs-target" => "#login_auth_buttons, #openid_login_form" },
                          :title => t(".openid.title"),
                          :class => "btn btn-light p-2" %>
         <% elsif provider != @preferred_auth_provider %>
@@ -28,7 +29,7 @@
   <% end %>
 
   <%# :tabindex starts high to allow rendering at the bottom of the template %>
-  <%= form_tag(auth_path(:provider => "openid"), :id => "openid_login_form") do %>
+  <%= form_tag auth_path(:provider => "openid"), :id => "openid_login_form", :class => "collapse" do %>
     <div class="mb-3">
       <label for="openid_url" class="form-label">
         <%= image_tag "openid.svg", :size => "36", :alt => "", :class => "align-text-bottom" %>
