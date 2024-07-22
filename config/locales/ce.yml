@@ -1449,7 +1449,7 @@ ce:
         tunnel:
           building_passage: ГӀишлочухула чакхавалар
           culvert: Хина турба
-          "yes": Тоннель
+          "yes": Туннель
         waterway:
           artificial: Искусствени хи дIадохар
           boatyard: Верфь
@@ -3002,13 +3002,41 @@ ce:
       active_blocks:
         one: '%{count} жигара блок'
         other: '%{count} жигара блокаш'
-      revoke: Йухадаккха!
+      revoke: ДӀайаккха блок!
+      flash: Массо а жигара блокаш йухаяьхна.
     helper:
+      time_future_html: '%{time} йалча чекхйолу.'
+      until_login: Активни йу, декъашхо системан чу валлалц.
+      time_future_and_until_login_html: Чекхдолу %{time} йалча а, декъашхо чуваьллачул
+        тӀаьхьа а.
+      time_past_html: Чекхйаьлла %{time}.
       block_duration:
         hours:
           one: '%{count} сахьт'
           other: '%{count} сахьташ'
+        days:
+          one: '%{count} де'
+          other: '%{count} денош'
+        weeks:
+          one: '%{count} кIира'
+          other: '%{count} кIиранаш'
+        months:
+          one: '%{count} бутт'
+          other: '%{count} беттанаш'
+        years:
+          one: '%{count} шо'
+          other: '%{count} шераш'
+    blocks_on:
+      title: Блокаш йу  %{name} тӀехь
+      heading_html: Декъашхочун %{name} блокийн тептар
+      empty: '%{name} цкъа а блок тоьхна вац.'
+    blocks_by:
+      title: '%{name} кхоьллина блокаш'
+      heading_html: '%{name} кхоьллина блокийн тептар'
+      empty: '%{name} цкъачунна цхьа а блок ца йина.'
     show:
+      title: '%{block_on} декъашхо дӀакъевлина %{block_by}'
+      heading_html: '%{block_on} декъашхо дӀакъевлина %{block_by}'
       created: 'Кхоьллина:'
       duration: 'Йохалла:'
       status: 'Статус:'
@@ -3018,7 +3046,9 @@ ce:
       confirm: Бакъалла лаьий хӀуна?
       reason: 'Блоктохаран бахьана:'
       revoker: 'БлокдӀайаьккхинарг:'
+      needs_view: И блок дӀаяккхале хьалха декъашхо дIавазавала веза.
     block:
+      not_revoked: (блок дIа ца йаьккхина)
       show: Гайта
       edit: Нисйан
       revoke: ДӀайаккхаблок!
@@ -3028,9 +3058,47 @@ ce:
       reason: Блоктохаран бахьана
       status: Статус
       revoker_name: ДӀайаьккхина блок
+      older: Шира блокаш
+      newer: Керла блокаш
+    navigation:
+      all_blocks: Ерриге а блокаш
+      blocks_on_me: Сан блоктохарш
+      blocks_on_user: Блокаш йу %{user} тӀехь
+      blocks_by_me: Сан блоктохарш
+      blocks_by_user: Блокаш йина %{user}
+      block: 'Блок #%{id}'
+  user_mutes:
+    index:
+      title: ДIакъоьвлина декъашхой
+      my_muted_users: Сан дIакъоьвлина декъашхой
+      you_have_muted_n_users:
+        one: Ахь дIакъоьвлина %{count} Декъашхо
+        other: Ахь дIакъоьвлина %{count} users
+      user_mute_explainer: ДӀабайначу декъашхоша баитина хаамаш, шакъаьстинчу Inbox
+        чу дӀабоьду, хьуна электронан почтехула хаамаш кхочура бац.
+      user_mute_admins_and_moderators: Хьоьга Админашна а, Модераторшна а гIовгIа
+        дIа йаккха лур йу, амма церан хаамаш дIайайна хир йац.
+      table:
+        thead:
+          muted_user: Декъашхо дӀаваьккхина
+          actions: Ардамаш
+        tbody:
+          unmute: Аз латаде
+          send_message: Хаам дIабахьийта
+    create:
+      notice: Ахь дӀаяьккхина %{name}.
+      error: '%{name} дӀайаккха аьтто ца баьлла.  %{full_message}.'
+    destroy:
+      notice: Ахь дӀавайина %{name}.
+      error: Декъашхо дӀаваккха йиш йацара. Дехар ду,йуха хьажа.
   notes:
     index:
+      title: Билгалдаккхарш кхоьллина я комментари йина %{user}
       heading: '%{user} декъашхочун билгалонаш'
+      subheading_html: Билгалдаккхар %{submitted} йа %{commented} %{user}
+      subheading_submitted: Гайтина
+      subheading_commented: комментари йина
+      no_notes: Билгалдаккхарш дац
       id: Идентификатор
       creator: Автор
       description: Цуьнах лаьцна
@@ -3042,14 +3110,44 @@ ce:
       open_title: 'Кечйина йоцу билгало #%{note_name}'
       closed_title: 'Кечйина билгало #%{note_name}'
       hidden_title: 'Къайлайаьккхина билгало #%{note_name}'
+      event_opened_by_html: Кхоьллина  %{user} %{time_ago}
+      event_opened_by_anonymous_html: Анонимо кхоьллина %{time_ago}
+      event_commented_by_html: Комментари йина %{user} %{time_ago}
+      event_commented_by_anonymous_html: Комментарий ананимо йина %{time_ago}
+      event_closed_by_html: Сацам бина %{user} %{time_ago}
+      event_closed_by_anonymous_html: Ананимо сацам бина %{time_ago}
+      event_reopened_by_html: Юха а дӀахӀоттийна %{user} %{time_ago}
+      event_reopened_by_anonymous_html: Анонимо юха а дӀахӀоттийна %{time_ago}
+      event_hidden_by_html: Къовлина %{user} %{time_ago}
       report: хаамбе хӀокху билгалонах
+      anonymous_warning: ХӀокху билгалдаккхарехь ю анониман декъашхочун комментареш,
+        Информаци тилла езаш йу цхьанех дозуш доцуш.
       hide: Къайлайаккха
       resolve: Кечйан
       reactivate: Йуха йела
       comment_and_resolve: Жопделла кечъе
       comment: Жопдала
+      log_in_to_comment: ХӀокху тептарна комментари ян чу вала
+      report_link_html: Нагахь санна хӀокху билгалдаккхарехь дӀадаккха дезаш леррина
+        хаамаш балахь, хьа йиш йу %{link}.
+      other_problems_resolve: Кхин йолу массо а проблемаш хилча, дехар ду, иза хьайна
+        комментарица дӀакъовла.
+      other_problems_resolved: Кхин йолчу массо а проблемашна заметкаш дIакъоьвлича
+        тоьар ду.
+      disappear_date_html: ДӀакъевлина заметка карта тӀера дӀайер йу %{disappear_in}
+        дӀадаьлча.
     new:
       title: Керла билгало
+      intro: ГӀалат гучудаьлла йа цхьа хӀума ца тоьуш гинех? Кхечу картдилархошна
+        хаийта, царна иза нисдан йиш хилийта. Маркер нийсачу метте дӀа а хӀоттийна,
+        проблема йовзийта лерина хаам базбе.
+      anonymous_warning_html: Хьо чу ваьлла вац. Дехар ду %{log_in} йа %{sign_up}
+        хьун хьайн билгалдаккхар карлайаха лаахь.
+      anonymous_warning_log_in: Логин
+      anonymous_warning_sign_up: дӀавазвала
+      advice: Хьан тептар массарна гуш ду, карта карладаккхархьама лело мегар ду,
+        цундела ма базбе хьайха лаьцна хаамаш а, йа авторан бакъонаш ларъеш йолчу
+        карташа, йа каталогийн тептаршкара хаамаш а.
       add: ТӀетоха билгало
   javascripts:
     close: ДӀачӀагӀа
@@ -3062,21 +3160,71 @@ ce:
       short_link: Йоца хьажорг
       geo_uri: Geo URI
       embed: Код
+      custom_dimensions: Куьйгаца хӀоттабе барам
       format: 'Формат:'
       scale: 'Масштаб:'
+      image_dimensions: Суьрто гойтур ду %{layer} чкъор  %{width} x %{height} тIехь
       download: Схьаэца
       short_url: Йоца хьажорг
+      include_marker: Маркер латтайе
+      center_marker: Маркер тӀехь карта йуккъе даккха
+      paste_html: HTML-код веб-сайта чу дӀаязъян
+      view_larger_map: Доккха картага хьажа
+      only_standard_layer: Стандартни, циклан карта а, транспортан а чкъоьраш бен
+        экспорт йан йиш йац сурт санна
     embed:
       report_problem: Проблемах лаьцна хаийта
+    key:
+      title: Картан догIа
+      tooltip: Картан догIа
+      tooltip_disabled: Картан догIа мегаш дац цу чкъоьран
     map:
+      zoom:
+        in: Йоккха йе
+        out: Жима йе
+      locate:
+        title: Со волу меттиг гайта
+        metersPopup:
+          one: Хьо лаьтташ ву %{count} метр цу точкан
+          other: Хьо лаьтташ ву %{count} метр цу точкан
+        feetPopup:
+          one: Хьо чохь ву %{count} ког баккхал оцу меттиган
+          other: Хьо чохь ву %{count} когаш бахал оцу меттигера
+      base:
+        standard: Стандартан
+        cycle_map: Вилспетан карта
+        transport_map: Транспортан карта
+        tracestracktop_topo: Топографина карта
+        hot: Гуманитарин
       layers:
         header: Картан чкъор
         notes: Билгалонаш
         data: Картан хаамаш
+        gps: Йукъара GPS трекаш
+        overlays: Чкъоьраш латаде, картетIера гIалаташ дIадаха
         title: Чкъор
+      openstreetmap_contributors: OpenStreetMap-ан автораш
+      make_a_donation: ГIо де проектан
+      website_and_api_terms: Веб-сайтан а, API-н а лелоран низам
+      cyclosm_credit: Тайлин стиль %{cyclosm_link} йилина йу  %{osm_france_link} тIехь
+      osm_france: OpenStreetMap Франци
+      thunderforest_credit: Tайлаш елла %{thunderforest_link}
+      andy_allan: Энди Аллан
+      tracestrack_credit: Tайлаш елла %{tracestrack_link}
+      hotosm_credit: Тайлин стиль %{hotosm_link} йилина йу %{osm_france_link} тIехь
+      hotosm_name: Гуманитарин OpenStreetMap тоба
     site:
       edit_tooltip: Нисде карта
       edit_disabled_tooltip: Хийцамашбан гергадаладе карта
+      createnote_tooltip: Картан заметка тӀе тӀетоха
+      createnote_disabled_tooltip: Улле даладе карта заметка тIетоха
+      map_notes_zoom_in_tooltip: Доккха де, заметкаш ган
+      map_data_zoom_in_tooltip: Доккха де, хаамаш ган
+      queryfeature_tooltip: ХӀун йу кхузахь?
+      queryfeature_disabled_tooltip: Улле даладе карта тIера объекташкехь лаьцна хьажа
+      embed_html_disabled: HTML чутохар, оцу картан чкъоьран тӀекхочийла дац
+    edit_help: Карта дӀа хила де, хьайна хийца луучу метте масштаб совъяккха, тӀаккха
+      кхузахь тIетIаIайе.
     directions:
       ascend: Хьала
       engines:
@@ -3086,10 +3234,81 @@ ce:
         graphhopper_bicycle: (GraphHopper) вилспед тӀехь
         graphhopper_car: (GraphHopper) машен тӀехь
         graphhopper_foot: (GraphHopper) гӀаш
+        fossgis_valhalla_bicycle: Вилспет тIехь (Valhalla)
+        fossgis_valhalla_car: Машен тIехь (Valhalla)
+        fossgis_valhalla_foot: ГIаш (Valhalla)
       descend: Охье
       directions: Маршрут
       distance: Йукъ
+      distance_m: '%{distance}м'
+      distance_km: '%{distance}км'
+      errors:
+        no_route: Цу шина меттигна юккъера некъ ца карийра.
+        no_place: Бехк ма билла - '%{place}' ца карийра.
       instructions:
+        continue_without_exit: ДӀа гIо а %{name}
+        slight_right_without_exit: Жимма аьтту агӀор %{name} тӀе ваьрза
+        offramp_right: Аьтту агӀора аравала
+        offramp_right_with_exit: Аьтту агӀор аравала %{exit}
+        offramp_right_with_exit_name: Аьтту агӀор аравала %{exit} %{name} тӀехь
+        offramp_right_with_exit_directions: Аьтту агӀор аравала %{exit} %{directions}
+          агӀора
+        offramp_right_with_exit_name_directions: Аьтту агӀор аравала %{exit} %{name}
+          тӀехь %{directions} агӀора
+        offramp_right_with_name: Аьтту агӀор аравала %{name}
+        offramp_right_with_directions: Аьтту агӀор аравала %{directions} агӀора
+        offramp_right_with_name_directions: Аьтту агӀор аравала %{name} тӀе %{directions}
+          агӀора
+        onramp_right_without_exit: Аьтту агӀор ваьрза %{name} тIе.
+        onramp_right_with_directions: Аьтту агӀор  вала  %{directions} агӀор дӀагӀо.
+        onramp_right_with_name_directions: Аьтту агӀор аравала %{name} тӀе %{directions}
+          агӀора
+        onramp_right_without_directions: Аьтту агӀор дӀаверза
+        onramp_right: Аьтту агӀор дӀаверза
+        endofroad_right_without_exit: Некъ чаккхаболучех аьтту агӀор дӀаверза %{name}
+          тӀе.
+        merge_right_without_exit: Аьтту агӀор вала %{name} тIе
+        fork_right_without_exit: ГӀонжагӀехь аьтту агӀор дӀаверза %{name} тӀе.
+        turn_right_without_exit: Аьтту агӀор дӀаверза %{name} тӀе
+        sharp_right_without_exit: Сиха аьтту агӀор дӀаверза %{name} тӀе
+        uturn_without_exit: Йухаверза %{name} тIе
+        sharp_left_without_exit: Сиха аьрру агӀор дӀаверза %{name} тӀе
+        turn_left_without_exit: Аьрру агӀор дӀаверза %{name} тӀе
+        offramp_left: Аьрру агӀор аравала
+        offramp_left_with_exit: Аьрру агӀор аравала %{exit} тIе
+        offramp_left_with_exit_name: Аьрру агӀор аравала %{exit} %{name} тIе
+        offramp_left_with_exit_directions: Аьрру агӀор аравала %{exit} %{directions}
+          агӀора дӀагIо
+        offramp_left_with_exit_name_directions: Аьрру агӀор аравала %{exit} %{name}
+          тӀе %%{directions} агӀора дӀагIо
+        offramp_left_with_name: Аьрру агӀор аравала  %{name}
+        offramp_left_with_directions: Аьрру агӀор аравала %{directions} агӀора
+        offramp_left_with_name_directions: Аьрру агӀор аравала %{name} тӀе %{directions}
+          агӀора
+        onramp_left_without_exit: Аьрру агӀор ваьрза %{name} тӀе.
+        onramp_left_with_directions: Аьрру агӀор  вала  %{directions} агӀора дӀагӀо.
+        onramp_left_with_name_directions: Аьрру агӀор аравала %{name} тӀе %{directions}
+          агӀора
+        onramp_left_without_directions: Аьрру агӀор дӀаверза
+        onramp_left: Аьрру агӀор дӀаверза
+        merge_left_without_exit: Аьрру агӀор вала %{name} тIе
+        fork_left_without_exit: ГӀонжагӀехь аьрру агӀор дӀаверза %{name} тӀе.
+        slight_left_without_exit: '%{name} тӀе аьрру агӀор меллаш дӀаверза'
+        via_point_without_exit: (тIадамтIехула)
+        follow_without_exit: ДIаго %{name}
+        roundabout_without_exit: Го болчехь, %{name} тIе чу верза
+        leave_roundabout_without_exit: Го бита -  %{name}
+        stay_roundabout_without_exit: Гочохь Iе - %{name}
+        start_without_exit: ДIаволало %{name} тIе
+        destination_without_exit: Йилина метте дӀакхача
+        against_oneway_without_exit: Цхьана агӀор дӀасалелачу некъан дуьхьал лела
+          %{name}
+        end_oneway_without_exit: Цхьана агӀор дӀасалеларан чаккхе %{name}
+        roundabout_with_exit: Горгачу новкъахь аравала %{exit} %{name} тӀе
+        roundabout_with_exit_ordinal: Горгачу меттигехь %{exit} аравала %{name} тӀе
+        exit_roundabout: Го тIера аравала  %{name} тӀе
+        unnamed: некъ
+        courtesy: Маршрут гIотайина %{link}
         exit_counts:
           first: хьалхара
           second: шолгӀа
@@ -3106,7 +3325,47 @@ ce:
       node: ТӀадам
       way: Сиз
       relation: Хилар
+      nothing_found: Уллех объекташ йац
+      error: '%{server} зӀе йац: %{error}'
+      timeout: '%{server} зӀене валаран хан чекхъяьлла'
+    context:
+      directions_from: Кхузара маршрут
+      directions_to: Кхуза маршрут
+      add_note: Кхузахь дӀаязде
+      show_address: Адрес гайта
+      query_features: ХӀун йу кхузахь?
+      centre_map: Центран карта
   redactions:
+    edit:
+      heading: Нисйе редакци
+      title: Нисйе редакци
+    index:
+      empty: Гайта цхьа а редакци яц.
+      heading: Редакцин тептар
+      title: Редакцин тептар
+    new:
+      heading: Керлачу нисдарна лерина хаамаш чубаха
+      title: Керла нисйар кхоллар
     show:
+      description: 'Цуьнах лаьцна:'
+      heading: Редакци гайтар "%{title}"
+      title: Редакци гайтар
       user: 'Кхоьллина:'
+      edit: ХӀара редакци хийца
+      destroy: ДӀаяккха хӀара редакци
+      confirm: Бакъалла лаьий хӀуна?
+    create:
+      flash: Редакци кхоьллина.
+    update:
+      flash: Хийцамаш ларбина.
+    destroy:
+      not_empty: Редакци яьсса яц. Дехар ду, оцу редакцин юкъайогӀуш йолу ерриге а
+        версиш дӀаяха, иза дIайаккхале.
+      flash: Редакци хӀаллакйина.
+      error: И редакцеш йохош гӀалат даьлла.
+  validations:
+    leading_whitespace: хьалхахь меттиг йу
+    trailing_whitespace: тӀехьахь меттиг йу
+    invalid_characters: нийса йоцу хьаьркаш йу
+    url_characters: леррина хьаьркаш йу URL чохь (%{characters})
 ...
