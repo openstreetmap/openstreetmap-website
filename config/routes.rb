@@ -237,13 +237,13 @@ OpenStreetMap::Application.routes.draw do
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/
   end
-  post "/user/:display_name/diary/:id/newcomment" => "diary_comments#create", :id => /\d+/, :as => :comment_diary_entry
   post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
   post "/user/:display_name/diary/:id/unhide" => "diary_entries#unhide", :id => /\d+/, :as => :unhide_diary_entry
-  post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_comments#hide", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
-  post "/user/:display_name/diary/:id/unhidecomment/:comment" => "diary_comments#unhide", :id => /\d+/, :comment => /\d+/, :as => :unhide_diary_comment
   match "/user/:display_name/diary/:id/subscribe" => "diary_entries#subscribe", :via => [:get, :post], :as => :diary_entry_subscribe, :id => /\d+/
   match "/user/:display_name/diary/:id/unsubscribe" => "diary_entries#unsubscribe", :via => [:get, :post], :as => :diary_entry_unsubscribe, :id => /\d+/
+  post "/user/:display_name/diary/:id/comments" => "diary_comments#create", :id => /\d+/, :as => :comment_diary_entry
+  post "/user/:display_name/diary/:id/comments/:comment/hide" => "diary_comments#hide", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
+  post "/user/:display_name/diary/:id/comments/:comment/unhide" => "diary_comments#unhide", :id => /\d+/, :comment => /\d+/, :as => :unhide_diary_comment
 
   # user pages
   resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy]
