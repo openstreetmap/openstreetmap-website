@@ -125,7 +125,7 @@ class DiaryEntriesController < ApplicationController
     @title = t "diary_entries.edit.title"
     @diary_entry = DiaryEntry.find(params[:id])
 
-    if current_user != @diary_entry.user ||
+    if cannot?(:update, @diary_entry) ||
        (params[:diary_entry] && @diary_entry.update(entry_params))
       redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     else

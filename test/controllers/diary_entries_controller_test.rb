@@ -336,6 +336,29 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end
 
+  def test_update
+    user = create(:user)
+    other_user = create(:user)
+    diary_entry = create(:diary_entry, :language_code => "en", :user => user, :title => "Original Title")
+
+    put diary_entry_path(user, diary_entry, :diary_entry => { :title => "Updated Title" })
+    assert_response :forbidden
+    diary_entry.reload
+    assert_equal "Original Title", diary_entry.title
+
+    session_for(other_user)
+    put diary_entry_path(user, diary_entry, :diary_entry => { :title => "Updated Title" })
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    diary_entry.reload
+    assert_equal "Original Title", diary_entry.title
+
+    session_for(user)
+    put diary_entry_path(user, diary_entry, :diary_entry => { :title => "Updated Title" })
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    diary_entry.reload
+    assert_equal "Updated Title", diary_entry.title
+  end
+
   def test_index_all
     diary_entry = create(:diary_entry)
     geo_entry = create(:diary_entry, :latitude => 51.50763, :longitude => -0.10781)
