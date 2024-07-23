@@ -245,6 +245,34 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the edit action when the remaining block duration doesn't match the available select options
+  def test_edit_duration
+    moderator_user = create(:moderator_user)
+
+    freeze_time do
+      active_block = create(:user_block, :creator => moderator_user, :ends_at => Time.now.utc + 96.hours)
+
+      session_for(moderator_user)
+      get edit_user_block_path(active_block)
+
+      assert_select "form#edit_user_block_#{active_block.id}", :count => 1 do
+        assert_select "select#user_block_period", :count => 1 do
+          assert_select "option[value='96'][selected]", :count => 1
+        end
+      end
+
+      travel 2.hours
+      get edit_user_block_path(active_block)
+
+      assert_select "form#edit_user_block_#{active_block.id}", :count => 1 do
+        assert_select "select#user_block_period", :count => 1 do
+          assert_select "option[value='96'][selected]", :count => 1
+        end
+      end
+    end
+  end
+
+  ##
   # test the create action
   def test_create
     target_user = create(:user)

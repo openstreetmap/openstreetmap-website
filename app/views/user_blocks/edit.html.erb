@@ -15,7 +15,8 @@
   <%= f.form_group do %>
     <%= label_tag "user_block_period", t(".period"), :class => "form-label" %>
     <%= select_tag("user_block_period",
-                   options_for_select(UserBlock::PERIODS.collect { |h| [block_duration_in_words(h.hours), h.to_s] }, params[:user_block_period]),
+                   options_for_select(UserBlock::PERIODS.collect { |h| [block_duration_in_words(h.hours), h.to_s] },
+                                      UserBlock::PERIODS.min_by { |h| (params[:user_block_period].to_i - h).abs }),
                    :class => "form-select") %>
   <% end %>
 
