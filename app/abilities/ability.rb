@@ -12,7 +12,6 @@ class Ability
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id], :site
     can [:finish, :embed], :export
     can [:search, :search_latlon, :search_osm_nominatim, :search_osm_nominatim_reverse], :geocoder
-    can [:token, :request_token, :access_token, :test_request], :oauth
 
     if Settings.status != "database_offline"
       can [:index, :feed, :show], Changeset
@@ -31,12 +30,10 @@ class Ability
 
     if user&.active?
       can :welcome, :site
-      can [:revoke, :authorize], :oauth
       can [:show], :deletion
 
       if Settings.status != "database_offline"
         can [:subscribe, :unsubscribe], Changeset
-        can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
         can [:index, :new, :create, :show, :edit, :update, :destroy], :oauth2_application
         can [:index, :destroy], :oauth2_authorized_application
         can [:new, :show, :create, :destroy], :oauth2_authorization

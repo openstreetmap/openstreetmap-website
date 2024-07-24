@@ -14,10 +14,8 @@ module Api
     def show
       @permissions = if doorkeeper_token.present?
                        doorkeeper_token.scopes.map { |s| :"allow_#{s}" }
-                     elsif current_token.present?
-                       ClientApplication.all_permissions.select { |p| current_token.read_attribute(p) }
                      elsif current_user
-                       ClientApplication.all_permissions
+                       Oauth.scopes.map { |s| :"allow_#{s.name}" }
                      else
                        []
                      end

@@ -323,17 +323,6 @@ OpenStreetMap::Application.routes.draw do
   end
   resources :user_mutes, :only => [:index]
 
-  # oauth admin pages (i.e: for setting up new clients, etc...)
-  scope "/user/:display_name" do
-    resources :oauth_clients
-  end
-  match "/oauth/revoke" => "oauth#revoke", :via => [:get, :post]
-  match "/oauth/authorize" => "oauth#authorize", :via => [:get, :post], :as => :authorize
-  get "/oauth/token" => "oauth#token", :as => :token
-  match "/oauth/request_token" => "oauth#request_token", :via => [:get, :post], :as => :request_token
-  match "/oauth/access_token" => "oauth#access_token", :via => [:get, :post], :as => :access_token
-  get "/oauth/test_request" => "oauth#test_request", :as => :test_request
-
   # roles and banning pages
   post "/user/:display_name/role/:role/grant" => "user_roles#grant", :as => "grant_role"
   post "/user/:display_name/role/:role/revoke" => "user_roles#revoke", :as => "revoke_role"

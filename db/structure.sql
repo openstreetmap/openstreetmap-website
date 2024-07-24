@@ -473,51 +473,6 @@ CREATE TABLE public.changesets_subscribers (
 
 
 --
--- Name: client_applications; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.client_applications (
-    id integer NOT NULL,
-    name character varying,
-    url character varying,
-    support_url character varying,
-    callback_url character varying,
-    key character varying(50),
-    secret character varying(50),
-    user_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    allow_read_prefs boolean DEFAULT false NOT NULL,
-    allow_write_prefs boolean DEFAULT false NOT NULL,
-    allow_write_diary boolean DEFAULT false NOT NULL,
-    allow_write_api boolean DEFAULT false NOT NULL,
-    allow_read_gpx boolean DEFAULT false NOT NULL,
-    allow_write_gpx boolean DEFAULT false NOT NULL,
-    allow_write_notes boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: client_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.client_applications_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: client_applications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.client_applications_id_seq OWNED BY public.client_applications.id;
-
-
---
 -- Name: current_node_tags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1245,38 +1200,6 @@ ALTER SEQUENCE public.oauth_applications_id_seq OWNED BY public.oauth_applicatio
 
 
 --
--- Name: oauth_nonces; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.oauth_nonces (
-    id bigint NOT NULL,
-    nonce character varying,
-    "timestamp" integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: oauth_nonces_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.oauth_nonces_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: oauth_nonces_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.oauth_nonces_id_seq OWNED BY public.oauth_nonces.id;
-
-
---
 -- Name: oauth_openid_requests; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1304,55 +1227,6 @@ CREATE SEQUENCE public.oauth_openid_requests_id_seq
 --
 
 ALTER SEQUENCE public.oauth_openid_requests_id_seq OWNED BY public.oauth_openid_requests.id;
-
-
---
--- Name: oauth_tokens; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.oauth_tokens (
-    id integer NOT NULL,
-    user_id integer,
-    type character varying(20),
-    client_application_id integer,
-    token character varying(50),
-    secret character varying(50),
-    authorized_at timestamp without time zone,
-    invalidated_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    allow_read_prefs boolean DEFAULT false NOT NULL,
-    allow_write_prefs boolean DEFAULT false NOT NULL,
-    allow_write_diary boolean DEFAULT false NOT NULL,
-    allow_write_api boolean DEFAULT false NOT NULL,
-    allow_read_gpx boolean DEFAULT false NOT NULL,
-    allow_write_gpx boolean DEFAULT false NOT NULL,
-    callback_url character varying,
-    verifier character varying(20),
-    scope character varying,
-    valid_to timestamp without time zone,
-    allow_write_notes boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: oauth_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.oauth_tokens_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: oauth_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.oauth_tokens_id_seq OWNED BY public.oauth_tokens.id;
 
 
 --
@@ -1729,13 +1603,6 @@ ALTER TABLE ONLY public.changesets ALTER COLUMN id SET DEFAULT nextval('public.c
 
 
 --
--- Name: client_applications id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.client_applications ALTER COLUMN id SET DEFAULT nextval('public.client_applications_id_seq'::regclass);
-
-
---
 -- Name: current_nodes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1855,24 +1722,10 @@ ALTER TABLE ONLY public.oauth_applications ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- Name: oauth_nonces id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.oauth_nonces ALTER COLUMN id SET DEFAULT nextval('public.oauth_nonces_id_seq'::regclass);
-
-
---
 -- Name: oauth_openid_requests id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.oauth_openid_requests ALTER COLUMN id SET DEFAULT nextval('public.oauth_openid_requests_id_seq'::regclass);
-
-
---
--- Name: oauth_tokens id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.oauth_tokens ALTER COLUMN id SET DEFAULT nextval('public.oauth_tokens_id_seq'::regclass);
 
 
 --
@@ -1979,14 +1832,6 @@ ALTER TABLE ONLY public.changeset_tags
 
 ALTER TABLE ONLY public.changesets
     ADD CONSTRAINT changesets_pkey PRIMARY KEY (id);
-
-
---
--- Name: client_applications client_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.client_applications
-    ADD CONSTRAINT client_applications_pkey PRIMARY KEY (id);
 
 
 --
@@ -2198,27 +2043,11 @@ ALTER TABLE ONLY public.oauth_applications
 
 
 --
--- Name: oauth_nonces oauth_nonces_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.oauth_nonces
-    ADD CONSTRAINT oauth_nonces_pkey PRIMARY KEY (id);
-
-
---
 -- Name: oauth_openid_requests oauth_openid_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.oauth_openid_requests
     ADD CONSTRAINT oauth_openid_requests_pkey PRIMARY KEY (id);
-
-
---
--- Name: oauth_tokens oauth_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.oauth_tokens
-    ADD CONSTRAINT oauth_tokens_pkey PRIMARY KEY (id);
 
 
 --
@@ -2586,20 +2415,6 @@ CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_
 
 
 --
--- Name: index_client_applications_on_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_client_applications_on_key ON public.client_applications USING btree (key);
-
-
---
--- Name: index_client_applications_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_client_applications_on_user_id ON public.client_applications USING btree (user_id);
-
-
---
 -- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2747,31 +2562,10 @@ CREATE UNIQUE INDEX index_oauth_applications_on_uid ON public.oauth_applications
 
 
 --
--- Name: index_oauth_nonces_on_nonce_and_timestamp; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_oauth_nonces_on_nonce_and_timestamp ON public.oauth_nonces USING btree (nonce, "timestamp");
-
-
---
 -- Name: index_oauth_openid_requests_on_access_grant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_oauth_openid_requests_on_access_grant_id ON public.oauth_openid_requests USING btree (access_grant_id);
-
-
---
--- Name: index_oauth_tokens_on_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_oauth_tokens_on_token ON public.oauth_tokens USING btree (token);
-
-
---
--- Name: index_oauth_tokens_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_oauth_tokens_on_user_id ON public.oauth_tokens USING btree (user_id);
 
 
 --
@@ -3030,14 +2824,6 @@ ALTER TABLE ONLY public.changesets_subscribers
 
 ALTER TABLE ONLY public.changesets
     ADD CONSTRAINT changesets_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: client_applications client_applications_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.client_applications
-    ADD CONSTRAINT client_applications_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -3377,22 +3163,6 @@ ALTER TABLE ONLY public.note_comments
 
 
 --
--- Name: oauth_tokens oauth_tokens_client_application_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.oauth_tokens
-    ADD CONSTRAINT oauth_tokens_client_application_id_fkey FOREIGN KEY (client_application_id) REFERENCES public.client_applications(id);
-
-
---
--- Name: oauth_tokens oauth_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.oauth_tokens
-    ADD CONSTRAINT oauth_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: redactions redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3581,6 +3351,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('21'),
 ('20240822121603'),
 ('20240813070506'),
+('20240724194738'),
 ('20240618193051'),
 ('20240605134916'),
 ('20240405083825'),
