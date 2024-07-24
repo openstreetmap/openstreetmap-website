@@ -170,6 +170,63 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test edit/revoke link for active blocks
+  def test_active_block_buttons
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :creator => creator_user)
+
+    session_for(other_moderator_user)
+    check_block_buttons block, :revoke => 1
+
+    session_for(creator_user)
+    check_block_buttons block, :edit => 1, :revoke => 1
+  end
+
+  ##
+  # test the edit link for expired blocks
+  def test_expired_block_buttons
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :expired, :creator => creator_user)
+
+    session_for(other_moderator_user)
+    check_block_buttons block
+
+    session_for(creator_user)
+    check_block_buttons block, :edit => 1
+  end
+
+  ##
+  # test the edit link for revoked blocks
+  def test_revoked_block_buttons
+    creator_user = create(:moderator_user)
+    revoker_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :revoked, :creator => creator_user, :revoker => revoker_user)
+
+    session_for(other_moderator_user)
+    check_block_buttons block
+
+    session_for(creator_user)
+    check_block_buttons block, :edit => 1
+
+    session_for(revoker_user)
+    check_block_buttons block
+  end
+
+  private
+
+  def check_block_buttons(block, edit: 0, revoke: 0)
+    get user_blocks_path
+    assert_response :success
+    assert_select "a[href='#{edit_user_block_path block}']", :count => edit
+    assert_select "a[href='#{revoke_user_block_path block}']", :count => revoke
+  end
+
+  public
+
+  ##
   # test the new action
   def test_new
     target_user = create(:user)
