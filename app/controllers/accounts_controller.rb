@@ -16,8 +16,6 @@ class AccountsController < ApplicationController
   allow_social_login :only => [:edit, :update]
 
   def edit
-    @tokens = current_user.oauth_tokens.authorized
-
     if errors = session.delete(:user_errors)
       errors.each do |attribute, error|
         current_user.errors.add(attribute, error)
@@ -27,8 +25,6 @@ class AccountsController < ApplicationController
   end
 
   def update
-    @tokens = current_user.oauth_tokens.authorized
-
     user_params = params.require(:user).permit(:display_name, :new_email, :pass_crypt, :pass_crypt_confirmation, :auth_provider)
 
     if params[:user][:auth_provider].blank? ||

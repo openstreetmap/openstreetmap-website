@@ -66,9 +66,6 @@ class User < ApplicationRecord
   has_many :note_comments, :foreign_key => :author_id, :inverse_of => :author
   has_many :notes, :through => :note_comments
 
-  has_many :client_applications
-  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken", :inverse_of => :user
-
   has_many :oauth2_applications, :class_name => Doorkeeper.config.application_model.name, :as => :owner
   has_many :access_grants, :class_name => Doorkeeper.config.access_grant_model.name, :foreign_key => :resource_owner_id
   has_many :access_tokens, :class_name => Doorkeeper.config.access_token_model.name, :foreign_key => :resource_owner_id
@@ -332,7 +329,6 @@ class User < ApplicationRecord
   ##
   # revoke any authentication tokens
   def revoke_authentication_tokens
-    oauth_tokens.authorized.each(&:invalidate!)
     access_tokens.not_expired.each(&:revoke)
   end
 
@@ -375,12 +371,6 @@ class User < ApplicationRecord
   # perform a spam check on a user
   def spam_check
     suspend! if may_suspend? && spam_score > Settings.spam_threshold
-  end
-
-  ##
-  # return an oauth 1 access token for a specified application
-  def access_token(application_key)
-    ClientApplication.find_by(:key => application_key).access_token_for_user(self)
   end
 
   ##
