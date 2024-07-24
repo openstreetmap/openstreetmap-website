@@ -42,7 +42,8 @@ class Ability
         can [:new, :show, :create, :destroy], :oauth2_authorization
         can [:edit, :update, :destroy], :account
         can [:show], :dashboard
-        can [:new, :create, :edit, :update, :subscribe, :unsubscribe], DiaryEntry
+        can [:new, :create, :subscribe, :unsubscribe], DiaryEntry
+        can :update, DiaryEntry, :user => user
         can [:create], DiaryComment
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message

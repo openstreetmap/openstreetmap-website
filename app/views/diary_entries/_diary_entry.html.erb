@@ -23,7 +23,7 @@
         </li>
       <% end %>
 
-      <% if current_user && current_user == diary_entry.user %>
+      <% if can?(:edit, diary_entry) %>
         <li><%= link_to t(".edit_link"), edit_diary_entry_path(diary_entry.user, diary_entry) %></li>
       <% end %>
 
