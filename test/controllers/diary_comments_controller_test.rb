@@ -13,15 +13,15 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
       { :controller => "diary_comments", :action => "index", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/user/username/diary/1/newcomment", :method => :post },
+      { :path => "/user/username/diary/1/comments", :method => :post },
       { :controller => "diary_comments", :action => "create", :display_name => "username", :id => "1" }
     )
     assert_routing(
-      { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
+      { :path => "/user/username/diary/1/comments/2/hide", :method => :post },
       { :controller => "diary_comments", :action => "hide", :display_name => "username", :id => "1", :comment => "2" }
     )
     assert_routing(
-      { :path => "/user/username/diary/1/unhidecomment/2", :method => :post },
+      { :path => "/user/username/diary/1/comments/2/unhide", :method => :post },
       { :controller => "diary_comments", :action => "unhide", :display_name => "username", :id => "1", :comment => "2" }
     )
 
