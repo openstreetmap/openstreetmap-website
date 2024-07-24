@@ -407,6 +407,43 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the update action on expired blocks
+  def test_update_expired
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :expired, :creator => creator_user, :reason => "Original Reason")
+
+    session_for(other_moderator_user)
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to edit_user_block_path(block)
+    assert_equal "Only the moderator who created this block can edit it.", flash[:error]
+    block.reload
+    assert_not block.active?
+    assert_equal "Original Reason", block.reason
+
+    session_for(creator_user)
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
+    block.reload
+    assert_not block.active?
+    assert_equal "Updated Reason", block.reason
+
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => true, :reason => "Updated Reason 2" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
+    block.reload
+    assert_predicate block, :active?
+    assert_equal "Updated Reason 2", block.reason
+  end
+
+  ##
   # test the revoke action
   def test_revoke
     active_block = create(:user_block)

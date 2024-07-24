@@ -142,9 +142,6 @@ class UserBlocksController < ApplicationController
     if UserBlock::PERIODS.exclude?(@block_period)
       flash[:error] = t("user_blocks.filter.block_period")
 
-    elsif @user_block && !@user_block.active?
-      flash[:error] = t("user_blocks.filter.block_expired")
-
     else
       @valid_params = true
     end
