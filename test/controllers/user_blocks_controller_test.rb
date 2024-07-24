@@ -170,6 +170,65 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test edit/revoke link for active blocks
+  def test_active_block_buttons
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :creator => creator_user)
+
+    session_for(other_moderator_user)
+    check_block_buttons block, :revoke => 1
+
+    session_for(creator_user)
+    check_block_buttons block, :edit => 1, :revoke => 1
+  end
+
+  ##
+  # test the edit link for expired blocks
+  def test_expired_block_buttons
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :expired, :creator => creator_user)
+
+    session_for(other_moderator_user)
+    check_block_buttons block
+
+    session_for(creator_user)
+    check_block_buttons block, :edit => 1
+  end
+
+  ##
+  # test the edit link for revoked blocks
+  def test_revoked_block_buttons
+    creator_user = create(:moderator_user)
+    revoker_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :revoked, :creator => creator_user, :revoker => revoker_user)
+
+    session_for(other_moderator_user)
+    check_block_buttons block
+
+    session_for(creator_user)
+    check_block_buttons block, :edit => 1
+
+    session_for(revoker_user)
+    check_block_buttons block
+  end
+
+  private
+
+  def check_block_buttons(block, edit: 0, revoke: 0)
+    [user_blocks_path, user_block_path(block)].each do |path|
+      get path
+      assert_response :success
+      assert_select "a[href='#{edit_user_block_path block}']", :count => edit
+      assert_select "a[href='#{revoke_user_block_path block}']", :count => revoke
+    end
+  end
+
+  public
+
+  ##
   # test the new action
   def test_new
     target_user = create(:user)
@@ -404,6 +463,43 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
     assert_template "not_found"
     assert_select "p", "Sorry, the user block with ID 99999 could not be found."
+  end
+
+  ##
+  # test the update action on expired blocks
+  def test_update_expired
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :expired, :creator => creator_user, :reason => "Original Reason")
+
+    session_for(other_moderator_user)
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to edit_user_block_path(block)
+    assert_equal "Only the moderator who created this block can edit it.", flash[:error]
+    block.reload
+    assert_not block.active?
+    assert_equal "Original Reason", block.reason
+
+    session_for(creator_user)
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
+    block.reload
+    assert_not block.active?
+    assert_equal "Updated Reason", block.reason
+
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => true, :reason => "Updated Reason 2" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
+    block.reload
+    assert_predicate block, :active?
+    assert_equal "Updated Reason 2", block.reason
   end
 
   ##
