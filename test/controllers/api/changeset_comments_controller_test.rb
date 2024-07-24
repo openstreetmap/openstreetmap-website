@@ -303,11 +303,11 @@ module Api
     # But writing oauth tests is hard, and so it's easier to put in a controller test.)
     def test_api_write_and_terms_agreed_via_token
       user = create(:user, :terms_agreed => nil)
-      token = create(:access_token, :user => user, :allow_write_api => true)
+      token = create(:oauth_access_token, :resource_owner_id => user.id, :scopes => %w[write_api])
       changeset = create(:changeset, :closed)
 
       assert_difference "ChangesetComment.count", 0 do
-        signed_post changeset_comment_path(:id => changeset), :params => { :text => "This is a comment" }, :oauth => { :token => token }
+        post changeset_comment_path(:id => changeset), :params => { :text => "This is a comment" }, :headers => bearer_authorization_header(token.token)
       end
       assert_response :forbidden
 
@@ -316,7 +316,7 @@ module Api
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do
-        signed_post changeset_comment_path(:id => changeset), :params => { :text => "This is a comment" }, :oauth => { :token => token }
+        post changeset_comment_path(:id => changeset), :params => { :text => "This is a comment" }, :headers => bearer_authorization_header(token.token)
       end
       assert_response :success
     end
