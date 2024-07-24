@@ -102,6 +102,7 @@ L.OSM.layers = function (options) {
 
         var label = $("<label>")
           .attr("class", "form-check-label")
+          .attr("id", `label-layers-${name}`)
           .appendTo(item);
 
         var checked = map.hasLayer(layer);
@@ -120,6 +121,7 @@ L.OSM.layers = function (options) {
             map.addLayer(layer);
           } else {
             map.removeLayer(layer);
+            $("#layers-data-loading").remove();
           }
           map.fire("overlaylayerchange", { layer: layer });
         });
