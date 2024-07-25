@@ -396,7 +396,7 @@ module Api
     # check that a changeset that doesn't exist returns an appropriate message
     def test_show_not_found
       [0, -32, 233455644, "afg", "213"].each do |id|
-        get changeset_show_path(:id => id)
+        get changeset_show_path(id)
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -424,7 +424,7 @@ module Api
       auth_header = basic_authorization_header user.email, "test"
 
       cs_id = changeset.id
-      put changeset_close_path(:id => cs_id), :headers => auth_header
+      put changeset_close_path(cs_id), :headers => auth_header
       assert_response :success
 
       # test that it really is closed now
@@ -470,7 +470,7 @@ module Api
 
       # First try to do it with no auth
       cs_ids.each do |id|
-        put changeset_close_path(:id => id)
+        put changeset_close_path(id)
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -479,7 +479,7 @@ module Api
       # Now try with auth
       auth_header = basic_authorization_header create(:user).email, "test"
       cs_ids.each do |id|
-        put changeset_close_path(:id => id), :headers => auth_header
+        put changeset_close_path(id), :headers => auth_header
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
       rescue ActionController::UrlGenerationError => e
         assert_match(/No route matches/, e.to_s)
@@ -788,7 +788,7 @@ module Api
 
       # upload it, which used to cause an error like "PGError: ERROR:
       # integer out of range" (bug #2152). but shouldn't any more.
-      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
+      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a spatially-large diff to changeset: #{@response.body}"
 
@@ -1457,7 +1457,7 @@ module Api
       diff.root << modify
 
       # upload it
-      post changeset_upload_path(:id => changeset_id), :params => diff.to_s, :headers => auth_header
+      post changeset_upload_path(changeset_id), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "diff should have uploaded OK"
 
@@ -1496,7 +1496,7 @@ module Api
       diff.root << modify
 
       # upload it
-      post changeset_upload_path(:id => changeset_id), :params => diff.to_s, :headers => auth_header
+      post changeset_upload_path(changeset_id), :params => diff.to_s, :headers => auth_header
       assert_response :success,
                       "diff should have uploaded OK"
 
@@ -1911,11 +1911,11 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
+      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get changeset_download_path(:id => changeset_id)
+      get changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -1969,11 +1969,11 @@ module Api
       OSMFILE
 
       # upload it
-      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
+      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload a diff from JOSM: #{@response.body}"
 
-      get changeset_download_path(:id => changeset_id)
+      get changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -2024,11 +2024,11 @@ module Api
       CHANGESET
 
       # upload it
-      post changeset_upload_path(:id => changeset_id), :params => diff, :headers => auth_header
+      post changeset_upload_path(changeset_id), :params => diff, :headers => auth_header
       assert_response :success,
                       "can't upload multiple versions of an element in a diff: #{@response.body}"
 
-      get changeset_download_path(:id => changeset_id)
+      get changeset_download_path(changeset_id)
       assert_response :success
 
       assert_select "osmChange", 1
@@ -2121,7 +2121,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(:id => changeset_id)
+      get changeset_show_path(changeset_id)
       assert_response :success, "Couldn't read back changeset."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.1000000']", 1
@@ -2136,7 +2136,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(:id => changeset_id)
+      get changeset_show_path(changeset_id)
       assert_response :success, "Couldn't read back changeset for the second time."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.2000000']", 1
@@ -2151,7 +2151,7 @@ module Api
       end
 
       # get the bounding box back from the changeset
-      get changeset_show_path(:id => changeset_id)
+      get changeset_show_path(changeset_id)
       assert_response :success, "Couldn't read back changeset for the third time."
       assert_select "osm>changeset[min_lon='0.1000000']", 1
       assert_select "osm>changeset[max_lon='0.3000000']", 1
@@ -2642,7 +2642,7 @@ module Api
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do
-        post api_changeset_unsubscribe_path(:id => 999111), :headers => auth_header
+        post api_changeset_unsubscribe_path(999111), :headers => auth_header
       end
       assert_response :not_found
 
