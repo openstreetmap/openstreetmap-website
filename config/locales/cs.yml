@@ -707,6 +707,8 @@ cs:
       comment: Komentář
       newer_comments: Novější komentáře
       older_comments: Starší komentáře
+    new:
+      heading: Přidat komentář do následující diskuse k deníkovému záznamu?
   doorkeeper:
     errors:
       messages:
@@ -745,6 +747,10 @@ cs:
       contact_the_community_html: Neváhejte %{contact_link} komunitu OpenStreetMap,
         pokud jste našli nefunkční odkaz / chybu. Poznamenejte si přesnou adresu URL
         vašeho požadavku.
+    bad_request:
+      title: Chybný požadavek
+      description: Operace, kterou jste žádali po serveru OpenStreetMap, není platná
+        (HTTP 400)
     forbidden:
       title: Zakázáno
       description: Operace, kterou jste požadovali na serveru OpenStreetMap, je dostupná
@@ -941,6 +947,7 @@ cs:
           college: Budova školy
           commercial: Komerční budova
           construction: Budova ve výstavbě
+          cowshed: Kravín
           detached: Rodinný dům
           dormitory: Kolej
           duplex: Dvojdomek
@@ -970,6 +977,7 @@ cs:
           shed: Kůlna
           stable: Stáj
           static_caravan: Karavan
+          sty: Vepřín
           temple: Budova chrámu
           terrace: Terasovitá budova
           train_station: Železniční stanice
@@ -1820,8 +1828,8 @@ cs:
           Poznámka je umístěna poblíž %{place}.'
         commented_note_html: '%{commenter} reaktivoval poznámku k mapě, kterou jste
           komentovali. Poznámka je umístěna poblíž %{place}.'
-      details: Podrobnosti k poznámce můžete najít na %{url}.
-      details_html: Podrobnosti k poznámce můžete najít na %{url}.
+      details: Odpovědět nebo se dozvědět více o této poznámce můžete na %{url}.
+      details_html: Odpovědět nebo se dozvědět více o této poznámce můžete na %{url}.
     changeset_comment_notification:
       description: 'Sada změn OpenStreetMap #%{id}'
       hi: Dobrý den, uživateli %{to_user},
@@ -1842,8 +1850,8 @@ cs:
         partial_changeset_with_comment: s komentářem „%{changeset_comment}“
         partial_changeset_with_comment_html: s komentářem „%{changeset_comment}“
         partial_changeset_without_comment: bez komentáře
-      details: Více informací o této sadě změn lze nalézt na %{url}.
-      details_html: Odpovězte nebo se zjistěte více o změnách na %{url}.
+      details: Odpovědět nebo se dozvědět více o této sadě změn můžete na %{url}.
+      details_html: Odpovědět nebo se dozvědět více o této sadě změn můžete na %{url}.
       unsubscribe: Od aktualizací této sady změn se můžete odhlásit na %{url}.
       unsubscribe_html: Od aktualizací této sady změn se můžete odhlásit na %{url}.
   confirmations:
@@ -2670,7 +2678,7 @@ cs:
         other: GPX soubor s %{count} body od uživatele %{user}
       description_without_count: GPX soubor od uživatele %{user}
   application:
-    basic_auth_disabled: 'HTTP základní autentifikace je zakázaná: %{link}'
+    basic_auth_disabled: 'HTTP Basic autentizace je zakázaná: %{link}'
     oauth_10a_disabled: 'OAuth 1.0 a 1.0a jsou zakázané: %{link}'
     permission_denied: Pro přístup k této akci nemáte oprávnění
     require_cookies:
@@ -2697,22 +2705,22 @@ cs:
       openid_login_button: Pokračovat
       openid:
         title: Přihlásit se pomocí OpenID
-        alt: OpenID Logo
+        alt: Logo OpenID
       google:
         title: Přihlásit se prostřednictvím Google
-        alt: Google Logo
+        alt: Logo Googlu
       facebook:
         title: Přihlásit se přes Facebook
-        alt: Facebook logo
+        alt: Logo Facebooku
       microsoft:
         title: Přihlásit se přes Microsoft
-        alt: Microsoft Logo
+        alt: Logo Microsoftu
       github:
         title: Přihlásit se přes GitHub
-        alt: GitHub Logo
+        alt: Logo GitHubu
       wikipedia:
         title: Přihlásit se účtem na Wikipedii
-        alt: Wikipedia Logo
+        alt: Logo Wikipedie
   oauth:
     authorize:
       title: Autorizovat přístup k vašemu účtu
@@ -2881,7 +2889,7 @@ cs:
       continue: Zaregistrovat se
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
       email_help:
-        privacy_policy: Zásady ochrany osobních údajů
+        privacy_policy: pravidly ochrany osobních údajů
         privacy_policy_title: Pravidla ochrany osobních údajů OSMF, včetně části o
           e-mailových adresách
         html: Vaše adresa se nezobrazuje veřejně, více informací získáte na stránce
@@ -3069,7 +3077,6 @@ cs:
       show: Zobrazit tento blok
       back: Zobrazit všechny bloky
     filter:
-      block_expired: Tento blok již vypršel, a proto ho nelze upravovat.
       block_period: Doba bloku musí být jedna z těch, které obsahuje rozevírací seznam.
     create:
       flash: Uživatel %{name} zablokován.
@@ -3246,8 +3253,10 @@ cs:
       intro: Zahlédli jste chybu nebo prázdné místo? Dejte vědět ostatním uživatelům,
         aby to mohli napravit. Posuňte značku na správné místo a napište poznámku
         vysvětlující problém.
-      anonymous_warning_log_in: Přihlásit se
-      anonymous_warning_sign_up: Zaregistrovat se
+      anonymous_warning_html: Nejste přihlášeni. Pokud chcete získávat aktualizace
+        k vaší poznámce, %{log_in} nebo %{sign_up}.
+      anonymous_warning_log_in: přihlaste se
+      anonymous_warning_sign_up: se zaregistrujte
       advice: Vaše poznámka je veřejná a může sloužit k úpravám mapy, proto nevkládejte
         žádné osobní údaje ani informace z autorskoprávně chráněných map či adresářů.
       add: Přidat poznámku
@@ -3265,14 +3274,15 @@ cs:
       custom_dimensions: Nastavit vlastní rozměry
       format: 'Formát:'
       scale: 'Měřítko:'
-      image_dimensions: Obrázek bude ukazovat standardní vrstvu v %{width} × %{height}
+      image_dimensions: Obrázek bude ukazovat vrstvu %{layer} v %{width} × %{height}
       download: Stáhnout
       short_url: Krátké URL
       include_marker: Vložit značku
       center_marker: Vycentrovat mapu na značku
       paste_html: HTML ke vložení na webovou stránku
       view_larger_map: Zobrazit větší mapu
-      only_standard_layer: Jako obrázek lze exportovat jen standardní vrstvu
+      only_standard_layer: Jako obrázek lze exportovat jen vrstvy Standardní, Cyklomapa
+        a Dopravní
     embed:
       report_problem: Nahlásit problém
     key:
