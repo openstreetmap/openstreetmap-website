@@ -87,7 +87,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:administrator_user))
     post resolve_issue_path(:id => issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.resolved?
+    assert_not_predicate issue.reload, :resolved?
 
     # Resolve issue as moderator
     session_for(create(:moderator_user))
@@ -113,7 +113,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post resolve_issue_path(:id => issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.resolved?
+    assert_not_predicate issue.reload, :resolved?
 
     # Resolve issue as administrator
     session_for(create(:administrator_user))
@@ -139,7 +139,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:administrator_user))
     post ignore_issue_path(:id => issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.ignored?
+    assert_not_predicate issue.reload, :ignored?
 
     # Ignore issue as moderator
     session_for(create(:moderator_user))
@@ -165,7 +165,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post ignore_issue_path(:id => issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.ignored?
+    assert_not_predicate issue.reload, :ignored?
 
     # Ignore issue as administrator
     session_for(create(:administrator_user))
@@ -193,7 +193,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:administrator_user))
     post reopen_issue_path(:id => issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.open?
+    assert_not_predicate issue.reload, :open?
 
     # Reopen issue as moderator
     session_for(create(:moderator_user))
@@ -221,7 +221,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     post reopen_issue_path(:id => issue)
     assert_redirected_to :controller => :errors, :action => :not_found
-    assert_not issue.reload.open?
+    assert_not_predicate issue.reload, :open?
 
     # Reopen issue as administrator
     session_for(create(:administrator_user))
