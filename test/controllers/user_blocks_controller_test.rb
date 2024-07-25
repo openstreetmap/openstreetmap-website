@@ -212,7 +212,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     check_block_buttons block, :edit => 1
 
     session_for(revoker_user)
-    check_block_buttons block
+    check_block_buttons block, :edit => 1
   end
 
   private
