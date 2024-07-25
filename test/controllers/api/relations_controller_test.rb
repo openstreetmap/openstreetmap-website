@@ -1089,7 +1089,7 @@ module Api
 
       # now download the changeset to check its bounding box
       with_controller(Api::ChangesetsController.new) do
-        get changeset_show_path(:id => changeset_id)
+        get changeset_show_path(changeset_id)
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
@@ -1153,7 +1153,7 @@ module Api
         change << modify
         modify << doc.import(rel.find("//osm/relation").first)
 
-        post changeset_upload_path(:id => cs_id), :params => doc.to_s, :headers => headers
+        post changeset_upload_path(cs_id), :params => doc.to_s, :headers => headers
         assert_response :success, "can't upload diff relation: #{@response.body}"
         version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
       end
