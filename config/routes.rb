@@ -84,9 +84,11 @@ OpenStreetMap::Application.routes.draw do
     delete "gpx/:id" => "traces#destroy", :id => /\d+/
     get "gpx/:id/details" => "traces#show", :id => /\d+/
     get "gpx/:id/data" => "traces#data", :as => :api_trace_data
+  end
 
+  namespace :api, :path => "api/0.6" do
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :controller => "notes", :as => :api_notes do
+    resources :notes, :except => [:new, :edit, :update], :id => /\d+/, :controller => "notes" do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
@@ -99,7 +101,7 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
-    resources :user_blocks, :only => [:show], :constraints => { :id => /\d+/ }, :controller => "user_blocks", :as => :api_user_blocks
+    resources :user_blocks, :only => :show, :id => /\d+/, :controller => "user_blocks"
   end
 
   # Data browsing
