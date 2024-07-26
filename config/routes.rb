@@ -99,7 +99,7 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
-    resources :user_blocks, :only => [:show], :constraints => { :id => /\d+/ }, :controller => "user_blocks", :as => :api_user_blocks
+    resources :user_blocks, :only => [:show, :create], :constraints => { :id => /\d+/ }, :controller => "user_blocks", :as => :api_user_blocks
   end
 
   # Data browsing
