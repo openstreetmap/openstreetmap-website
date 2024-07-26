@@ -4,7 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :query, :browse
+    can :read, :feature_query
     can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
     can [:show, :create], Note
     can :search, :direction
