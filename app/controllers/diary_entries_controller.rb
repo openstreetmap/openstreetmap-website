@@ -17,31 +17,23 @@ class DiaryEntriesController < ApplicationController
 
   def index
     if params[:display_name]
-      @user = User.active.find_by(:display_name => params[:display_name])
+      lookup_user
+      return unless @user
 
-      if @user
-        @title = t ".user_title", :user => @user.display_name
-        entries = @user.diary_entries
-      else
-        render_unknown_user params[:display_name]
-        return
-      end
+      @title = t ".user_title", :user => @user.display_name
+      entries = @user.diary_entries
     elsif params[:friends]
-      if current_user
-        @title = t ".title_friends"
-        entries = DiaryEntry.where(:user => current_user.friends)
-      else
-        require_user
-        return
-      end
+      require_user
+      return unless current_user
+
+      @title = t ".title_friends"
+      entries = DiaryEntry.where(:user => current_user.friends)
     elsif params[:nearby]
-      if current_user
-        @title = t ".title_nearby"
-        entries = DiaryEntry.where(:user => current_user.nearby)
-      else
-        require_user
-        return
-      end
+      require_user
+      return unless current_user
+
+      @title = t ".title_nearby"
+      entries = DiaryEntry.where(:user => current_user.nearby)
     else
       entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
