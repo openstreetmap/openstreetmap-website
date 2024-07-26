@@ -169,6 +169,17 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.details", /Resolved by deleted/
   end
 
+  def test_show_timeout
+    note = create(:note_with_comments)
+    with_settings(:web_timeout => -1) do
+      get note_path(note)
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the note with the id #{note.id}")}/
+  end
+
   def test_new_note_anonymous
     get new_note_path
     assert_response :success

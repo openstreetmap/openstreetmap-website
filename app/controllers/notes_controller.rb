@@ -11,7 +11,7 @@ class NotesController < ApplicationController
 
   before_action :lookup_user, :only => [:index]
   before_action :set_locale
-  around_action :web_timeout
+  around_action :web_timeout, :only => :show
 
   ##
   # Display a list of notes by a specified user
