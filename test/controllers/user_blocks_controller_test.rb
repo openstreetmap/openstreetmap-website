@@ -212,21 +212,8 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     check_block_buttons block, :edit => 1
 
     session_for(revoker_user)
-    check_block_buttons block
+    check_block_buttons block, :edit => 1
   end
-
-  private
-
-  def check_block_buttons(block, edit: 0, revoke: 0)
-    [user_blocks_path, user_block_path(block)].each do |path|
-      get path
-      assert_response :success
-      assert_select "a[href='#{edit_user_block_path block}']", :count => edit
-      assert_select "a[href='#{revoke_user_block_path block}']", :count => revoke
-    end
-  end
-
-  public
 
   ##
   # test the new action
@@ -483,23 +470,32 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Original Reason", block.reason
 
     session_for(creator_user)
+    check_block_updates(block)
+  end
+
+  ##
+  # test the update action on revoked blocks
+  def test_update_revoked
+    creator_user = create(:moderator_user)
+    revoker_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :revoked, :creator => creator_user, :revoker => revoker_user, :reason => "Original Reason")
+
+    session_for(other_moderator_user)
     put user_block_path(block,
                         :user_block_period => "0",
                         :user_block => { :needs_view => false, :reason => "Updated Reason" })
-    assert_redirected_to user_block_path(block)
-    assert_equal "Block updated.", flash[:notice]
+    assert_redirected_to edit_user_block_path(block)
+    assert_equal "Only the moderators who created or revoked this block can edit it.", flash[:error]
     block.reload
-    assert_not block.active?
-    assert_equal "Updated Reason", block.reason
+    assert_not_predicate block, :active?
+    assert_equal "Original Reason", block.reason
 
-    put user_block_path(block,
-                        :user_block_period => "0",
-                        :user_block => { :needs_view => true, :reason => "Updated Reason 2" })
-    assert_redirected_to user_block_path(block)
-    assert_equal "Block updated.", flash[:notice]
-    block.reload
-    assert_predicate block, :active?
-    assert_equal "Updated Reason 2", block.reason
+    session_for(creator_user)
+    check_block_updates(block)
+
+    session_for(revoker_user)
+    check_block_updates(block)
   end
 
   ##
@@ -793,6 +789,35 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def check_block_buttons(block, edit: 0, revoke: 0)
+    [user_blocks_path, user_block_path(block)].each do |path|
+      get path
+      assert_response :success
+      assert_select "a[href='#{edit_user_block_path block}']", :count => edit
+      assert_select "a[href='#{revoke_user_block_path block}']", :count => revoke
+    end
+  end
+
+  def check_block_updates(block)
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
+    block.reload
+    assert_not_predicate block, :active?
+    assert_equal "Updated Reason", block.reason
+
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => true, :reason => "Updated Reason 2" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
+    block.reload
+    assert_predicate block, :active?
+    assert_equal "Updated Reason 2", block.reason
+  end
 
   def check_user_blocks_table(user_blocks)
     assert_dom "table#block_list tbody tr" do |rows|

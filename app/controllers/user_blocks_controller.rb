@@ -63,8 +63,9 @@ class UserBlocksController < ApplicationController
 
   def update
     if @valid_params
-      if @user_block.creator != current_user
-        flash[:error] = t(".only_creator_can_edit")
+      if current_user != @user_block.creator &&
+         current_user != @user_block.revoker
+        flash[:error] = t(@user_block.revoker ? ".only_creator_or_revoker_can_edit" : ".only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update(
         :ends_at => Time.now.utc + @block_period.hours,
