@@ -215,19 +215,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     check_block_buttons block, :edit => 1
   end
 
-  private
-
-  def check_block_buttons(block, edit: 0, revoke: 0)
-    [user_blocks_path, user_block_path(block)].each do |path|
-      get path
-      assert_response :success
-      assert_select "a[href='#{edit_user_block_path block}']", :count => edit
-      assert_select "a[href='#{revoke_user_block_path block}']", :count => revoke
-    end
-  end
-
-  public
-
   ##
   # test the new action
   def test_new
@@ -802,6 +789,15 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def check_block_buttons(block, edit: 0, revoke: 0)
+    [user_blocks_path, user_block_path(block)].each do |path|
+      get path
+      assert_response :success
+      assert_select "a[href='#{edit_user_block_path block}']", :count => edit
+      assert_select "a[href='#{revoke_user_block_path block}']", :count => revoke
+    end
+  end
 
   def check_block_updates(block)
     put user_block_path(block,
