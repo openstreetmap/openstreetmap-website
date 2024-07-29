@@ -391,7 +391,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
                       "min-lat" => 51.6808751, "max-lat" => 51.7806237,
                       "min-lon" => -0.114204, "max-lon" => 0.0145267,
                       "type" => "relation", "id" => 2677978 },
-                    { "prefix" => "Railway Station",
+                    { "prefix" => "Train Station",
                       "name" => "Broxbourne, Stafford Drive, Broxbourne, Hertfordshire, East of England, England, United Kingdom",
                       "min-lat" => 51.7418469, "max-lat" => 51.7518469,
                       "min-lon" => -0.0156773, "max-lon" => -0.0056773,
