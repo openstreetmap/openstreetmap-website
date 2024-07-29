@@ -381,7 +381,7 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
       post geocoder_search_osm_nominatim_path(:query => "Broxbourne", :zoom => 10,
                                               :minlon => -0.559, :minlat => 51.217,
                                               :maxlon => 0.836, :maxlat => 51.766), :xhr => true
-      results_check({ "prefix" => "Suburb",
+      results_check({ "prefix" => "Urban District",
                       "name" => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
                       "min-lat" => 51.7265723, "max-lat" => 51.7665723,
                       "min-lon" => -0.0390782, "max-lon" => 0.0009218,

@@ -71,7 +71,7 @@ class UserRolesControllerTest < ActionDispatch::IntegrationTest
       post grant_role_path(target_user, "no_such_role")
     end
     assert_redirected_to user_path(target_user)
-    assert_equal "The string `no_such_role' is not a valid role.", flash[:error]
+    assert_equal "The string \"no_such_role\" is not a valid role.", flash[:error]
   end
 
   ##
@@ -131,7 +131,7 @@ class UserRolesControllerTest < ActionDispatch::IntegrationTest
       post revoke_role_path(target_user, "no_such_role")
     end
     assert_redirected_to user_path(target_user)
-    assert_equal "The string `no_such_role' is not a valid role.", flash[:error]
+    assert_equal "The string \"no_such_role\" is not a valid role.", flash[:error]
 
     # Revoking administrator role from current user should fail
     post revoke_role_path(administrator_user, "administrator")

@@ -344,7 +344,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
                             :user_block_period => "99")
     end
     assert_redirected_to new_user_block_path(target_user)
-    assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
+    assert_equal "The blocking period must be one of the values selectable in the dropdown list.", flash[:error]
 
     # Check that creating a block works
     assert_difference "UserBlock.count", 1 do
@@ -430,7 +430,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       put user_block_path(:id => active_block, :user_block_period => "99")
     end
     assert_redirected_to edit_user_block_path(active_block)
-    assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
+    assert_equal "The blocking period must be one of the values selectable in the dropdown list.", flash[:error]
 
     # Check that updating a block works
     assert_no_difference "UserBlock.count" do

@@ -245,7 +245,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     # Check that we can't reply to somebody else's message
     get message_reply_path(message)
     assert_redirected_to login_path(:referer => message_reply_path(message))
-    assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to reply to was not sent to that user. Please log in as the correct user in order to reply.", flash[:notice]
+    assert_equal "You are logged in as \"#{other_user.display_name}\" but the message you have asked to reply to was not sent to that user. Please log in as the correct user in order to reply.", flash[:notice]
 
     # Login as the right user
     session_for(recipient_user)
@@ -287,7 +287,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     # Check that we can't read the message
     get message_path(message)
     assert_redirected_to login_path(:referer => message_path(message))
-    assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to read was not sent by or to that user. Please log in as the correct user in order to read it.", flash[:notice]
+    assert_equal "You are logged in as \"#{other_user.display_name}\" but the message you have asked to read was not sent by or to that user. Please log in as the correct user in order to read it.", flash[:notice]
 
     # Login as the message sender
     session_for(user)
