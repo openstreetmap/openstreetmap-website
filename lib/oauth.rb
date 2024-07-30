@@ -2,7 +2,7 @@ module Oauth
   SCOPES = %w[read_prefs write_prefs write_diary write_api read_gpx write_gpx write_notes].freeze
   PRIVILEGED_SCOPES = %w[read_email skip_authorization].freeze
   MODERATOR_SCOPES = %w[write_redactions].freeze
-  OAUTH2_SCOPES = %w[write_redactions openid].freeze
+  OAUTH2_SCOPES = %w[write_redactions consume_messages send_messages openid].freeze
 
   class Scope
     attr_reader :name

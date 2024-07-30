@@ -78,6 +78,15 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
+    resources :messages, :path => "user/messages", :constraints => { :id => /\d+/ }, :only => [:create, :show, :destroy], :controller => "messages", :as => :api_messages do
+      collection do
+        get "inbox"
+        get "outbox"
+      end
+    end
+
+    post "/user/messages/:id" => "messages#update", :as => :api_message_update
+
     post "gpx/create" => "traces#create"
     get "gpx/:id" => "traces#show", :as => :api_trace, :id => /\d+/
     put "gpx/:id" => "traces#update", :id => /\d+/
