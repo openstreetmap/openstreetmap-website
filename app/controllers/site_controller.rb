@@ -138,7 +138,12 @@ class SiteController < ApplicationController
   end
 
   def preview
-    render :html => RichText.new(params[:type], params[:text]).to_html
+    if params[:text].blank?
+      flash.now[:warning] = t("layouts.nothing_to_preview")
+      render :partial => "layouts/flash"
+    else
+      render :html => RichText.new(params[:type], params[:text]).to_html
+    end
   end
 
   def id
