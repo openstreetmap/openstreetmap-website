@@ -19,7 +19,7 @@ class IssuesTest < ApplicationSystemTestCase
     sign_in_as(create(:moderator_user))
 
     visit issues_path
-    assert_content I18n.t("issues.index.issues_not_found")
+    assert_content I18n.t("issues.page.issues_not_found")
   end
 
   def test_view_issues
@@ -81,22 +81,22 @@ class IssuesTest < ApplicationSystemTestCase
     visit issues_path
     fill_in "search_by_user", :with => good_user.display_name
     click_on "Search"
-    assert_no_content I18n.t("issues.index.user_not_found")
-    assert_content I18n.t("issues.index.issues_not_found")
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_content I18n.t("issues.page.issues_not_found")
 
     # User doesn't exist
     visit issues_path
     fill_in "search_by_user", :with => "Nonexistent User"
     click_on "Search"
-    assert_content I18n.t("issues.index.user_not_found")
-    assert_content I18n.t("issues.index.issues_not_found")
+    assert_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
 
     # Find Issue against bad_user
     visit issues_path
     fill_in "search_by_user", :with => bad_user.display_name
     click_on "Search"
-    assert_no_content I18n.t("issues.index.user_not_found")
-    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
   end
 
   def test_commenting
@@ -158,7 +158,22 @@ class IssuesTest < ApplicationSystemTestCase
 
     visit issues_path
 
-    assert_link I18n.t("issues.index.reports_count", :count => issue1.reports_count), :href => issue_path(issue1)
-    assert_link I18n.t("issues.index.reports_count", :count => issue2.reports_count), :href => issue_path(issue2)
+    assert_link I18n.t("issues.page.reports_count", :count => issue1.reports_count), :href => issue_path(issue1)
+    assert_link I18n.t("issues.page.reports_count", :count => issue2.reports_count), :href => issue_path(issue2)
+  end
+
+  def test_infinite_scroll_issues
+    1.upto(100).each do
+      user = create(:user)
+      create(:issue, :reportable => user, :reported_user => user, :assigned_role => "administrator")
+    end
+
+    sign_in_as(create(:administrator_user))
+
+    visit issues_path
+
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
+    assert_css "tr", :count => 51
   end
 end
