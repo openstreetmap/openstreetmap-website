@@ -1,0 +1,8 @@
+<% trace_name = @trace_name %>
+<% trace_description = @trace_description %>
+<% if @trace_tags.length > 0 %>
+  <% tags = @trace_tags.map { |trace_tag| trace_tag.tag }.join(", ") %>
+  <%= t ".description_with_tags", :trace_name => trace_name, :trace_description => trace_description, :tags => tags %>
+<% else %>
+  <%= t ".description_with_no_tags", :trace_name => trace_name, :trace_description => trace_description %>
+<% end %>
