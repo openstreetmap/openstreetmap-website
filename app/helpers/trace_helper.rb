@@ -10,4 +10,12 @@ module TraceHelper
     image_tag trace_icon_path(trace.user, trace),
               options.merge(:size => 50)
   end
+
+  def trace_picture(trace, options = {})
+    options[:class] ||= "trace_image"
+    options[:alt] ||= ""
+
+    image_tag trace_picture_path(trace.user, trace),
+              options.merge(:size => 250)
+  end
 end
