@@ -20,6 +20,8 @@ is:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
       blog: '%e. %B %Y'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Veldu skrá
@@ -53,6 +55,9 @@ is:
       messages:
         invalid_email_address: lítur ekki út fyrir að vera gilt tölvupóstfang
         email_address_not_routable: er ekki nothæft
+      models:
+        user_mute:
+          is_already_muted: er nú þegar þaggað
     models:
       acl: Aðgangslisti
       changeset: Breytingasett
@@ -214,6 +219,7 @@ is:
         other: fyrir %{count} árum síðan
   printable_name:
     with_name_html: '%{name} (%{id})'
+    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: Sjálfgefið (núna %{name})
     id:
@@ -225,8 +231,10 @@ is:
   auth:
     providers:
       none: Ekkert
+      openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -461,8 +469,15 @@ is:
         created: Búið til
         closed: Lokað
         belongs_to: Höfundur
+    heading:
+      title: Breytingasett %{id}
+      created_by_html: Útbúið af %{link_user} þann %{created}.
+    no_such_entry:
+      title: Ekkert slíkt breytingasett
     show:
       title: 'Breytingasett: %{id}'
+      created: 'Búið til: %{when}'
+      closed: 'Lokað: %{when}'
       created_ago_html: Búið til %{time_ago}
       closed_ago_html: Lokað %{time_ago}
       created_ago_by_html: Búið til %{time_ago} af %{user}
@@ -550,6 +565,9 @@ is:
     show:
       title: Blogg %{user} | %{title}
       user_title: Blogg %{user}
+      discussion: Umræða
+      subscribe: Gerast áskrifandi
+      unsubscribe: Hætta í áskrift
       leave_a_comment: Bæta við athugasemd
       login_to_leave_a_comment_html: '%{login_link} til að bæta við athugasemd'
       login: Skrá inn
@@ -593,6 +611,10 @@ is:
       all:
         title: OpenStreetMap bloggfærslur
         description: Nýjustu bloggfærslur frá notendum OpenStreetMap
+    subscribe:
+      button: Gerast áskrifandi að umræðu
+    unsubscribe:
+      button: Hætta áskrift að umræðu
   diary_comments:
     index:
       title: Dagbók Athugasemdir bætt við af %{user}
@@ -617,6 +639,8 @@ is:
       contact_the_community_html: Ekki hika við að %{contact_link} OpenStreetMap-samfélagið
         ef þú hefur fundið bilaðan tengil eða villu. Taktu niður nákvæma vefslóð beiðni
         þinnar.
+    bad_request:
+      title: Ógild beiðni
     forbidden:
       title: Bannað
       description: Aðgerðin sem þú baðst um á OpenStreetMap-þjóninum er aðeins í boði
@@ -814,6 +838,7 @@ is:
           college: Framhaldsskólabygging
           commercial: Verslunarhús
           construction: Bygging á framkvæmdastigi
+          cowshed: Fjós
           detached: Aðskilið hús
           dormitory: Heimavist
           duplex: Parhús
@@ -1687,8 +1712,8 @@ is:
           hefur gert athugasemd við. Minnispunkturinn er nálægt %{place}.'
         commented_note_html: '%{commenter} hefur endurvirkjað minnispunkt á korti
           sem þú hefur gert athugasemd við. Minnispunkturinn er nálægt %{place}.'
-      details: Nánari upplýsingar um minnispunktinn er að finna á %{url}.
-      details_html: Nánari upplýsingar um minnispunktinn er að finna á %{url}.
+      details: Svaraðu eða fáðu nánari upplýsingar um minnispunktinn á %{url}.
+      details_html: Svaraðu eða fáðu nánari upplýsingar um minnispunktinn á %{url}.
     changeset_comment_notification:
       hi: Hæ %{to_user},
       greeting: Hæ,
@@ -1708,12 +1733,11 @@ is:
         partial_changeset_with_comment: með umsögninni '%{changeset_comment}'
         partial_changeset_with_comment_html: með umsögninni '%{changeset_comment}'
         partial_changeset_without_comment: án athugasemdar
-      details: Nánari upplýsingar um breytingasettið er að finna á %{url}.
-      details_html: Nánari upplýsingar um breytingasettið er að finna á %{url}.
-      unsubscribe: Til að hætta áskrift að uppfærslum á þessu breytingasetti, farðu
-        þá á %{url} og smelltu á "Segja upp áskrift".
-      unsubscribe_html: Til að hætta áskrift að uppfærslum á þessu breytingasetti,
-        farðu þá á %{url} og smelltu á "Segja upp áskrift".
+      details: Svaraðu eða fáðu nánari upplýsingar um breytingasettið á %{url}.
+      details_html: Svaraðu eða fáðu nánari upplýsingar um breytingasettið á %{url}.
+      unsubscribe: Þú getur hætt áskrift að uppfærslum á þessu breytingasetti á %{url}.
+      unsubscribe_html: Þú getur hætt áskrift að uppfærslum á þessu breytingasetti
+        á %{url}.
   confirmations:
     confirm:
       heading: Skoðaðu tölvupóstinn þinn!
@@ -1792,6 +1816,9 @@ is:
       people_mapping_nearby: nálæga notendur
     muted:
       title: Þögguð skilaboð
+      messages:
+        one: '%{count} þögguð skilaboð'
+        other: Þú ert með %{count} þögguð skilaboð
     reply:
       wrong_user: Þú hefur skráð þig inn sem `%{user}' en skilaboðin sem þú baðst
         um að svara voru ekki send til þess notanda. Skráðu þig inn sem réttan notanda
@@ -1810,6 +1837,7 @@ is:
     heading:
       my_inbox: Innhólfið mitt
       my_outbox: Úthólfið mitt
+      muted_messages: Þögguð skilaboð
     mark:
       as_read: Skilaboðin voru merkt sem lesin
       as_unread: Skilaboðin voru merkt sem ólesin
@@ -1852,6 +1880,7 @@ is:
       image: Mynd
       gravatar:
         gravatar: Nota Gravatar-auðkennismynd
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         what_is_gravatar: Hvað er Gravatar?
         disabled: Gravatar-auðkennismynd hefur verið gerð óvirk.
         enabled: Birting Gravatar-auðkennismyndar hefur verið gerð virk.
@@ -1871,15 +1900,16 @@ is:
       failure: Gat ekki uppfært kjörstillingar.
   sessions:
     new:
-      title: Innskrá
-      tab_title: Innskrá
+      title: Skrá inn
+      tab_title: Skrá inn
       email or username: Tölvupóstur eða notandanafn
       password: Lykilorð
       remember: Muna innskráninguna
       lost password link: Gleymdirðu lykilorðinu þínu?
-      login_button: Innskrá
+      login_button: Skrá inn
       register now: Skrá þig núna
-      with external: 'Þú getur líka notað utanaðkomandi þjónustur til innskráningar:'
+      with external: eða skráð inn með utanaðkomandi þjónustu
+      or: eða
       auth failure: Þetta notandanafn eða lykilorð er rangt.
     destroy:
       title: Útskráning
@@ -2070,6 +2100,7 @@ is:
           Statistics Canada).
         contributors_ca_canada: Kanada
         contributors_cz_czechia: Tékkland
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
         contributors_fi_credit_html: |-
           %{finland}: Inniheldur gögn frá
           landupplýsingagagnagrunni Landmælinga Finnlands
@@ -2081,6 +2112,9 @@ is:
           %{france}: Inniheldur afleidd gögn frá
           Direction Générale des Impôts (Skattstjóraembættið).
         contributors_fr_france: Frakkland
+        contributors_hr_croatia: Króatía
+        contributors_hr_dgu_url: https://dgu.gov.hr/
+        contributors_hr_open_data_portal_url: https://data.gov.hr/
         contributors_nl_credit_html: '%{netherlands}: Inniheldur AND-gögn &copy;,
           2007 (%{and_link})'
         contributors_nl_netherlands: Holland
@@ -2099,7 +2133,9 @@ is:
           (opinberar upplýsingar um Serbíu), 2018.
         contributors_rs_serbia: Serbía
         contributors_rs_rgz: Serbneska jarðfræðistofnunin
+        contributors_rs_rgz_url: https://geosrbija.rs/
         contributors_rs_open_data_portal: National Open Data Portal
+        contributors_rs_open_data_portal_url: https://data.gov.rs/sr/
         contributors_si_credit_html: |-
           %{slovenia}: Inniheldur gögn frá %{gu_link} og %{mkgp_link}
           (opinberar upplýsingar frá Slóveníu).
@@ -2321,6 +2357,7 @@ is:
           ferry: Ferja
           light_rail: Léttlest
           tram: Sporvagn
+          trolleybus: Rafknúinn strætisvagn
           bus: Strætó
           cable_car: Kláflyfta
           chair_lift: Stólalyfta
@@ -2330,11 +2367,13 @@ is:
           admin: Stjórnsýslumörk
           capital: Höfuðborg
           city: Borg
+          orchard: Trjágarður
           vineyard: Vínekra
           forest: Ræktaður skógur
           wood: Skógur
           farmland: Ræktarland
           grass: Gras
+          meadow: Rjóður
           bare_rock: Berar klappir
           sand: Sandur
           golf: Golfvöllur
@@ -2562,6 +2601,7 @@ is:
         other: GPX-skrá með %{count} punktum frá %{user}
       description_without_count: GPX-skrá frá %{user}
   application:
+    auth_disabled_link: https://wiki.openstreetmap.org/wiki/2024_authentication_update
     permission_denied: Þú hefur ekki réttindi til að nota þessa aðgerð
     require_cookies:
       cookies_needed: Þú virðist ekki vera með stuðning við vefkökur í vafranum þínum.
@@ -2584,24 +2624,25 @@ is:
       oauth2_authorizations: OAuth 2 auðkenningar
       muted_users: Þaggaðir notendur
     auth_providers:
+      openid_login_button: Halda áfram
       openid:
         title: Skrá inn með OpenID
-        alt: Skrá inn með OpenID-slóð
+        alt: Táknmerki OpenID
       google:
         title: Skrá inn með Google
-        alt: Skrá inn með Google OpenID-aðgangi
+        alt: Táknmerki Google
       facebook:
         title: Skrá inn með Facebook
-        alt: Skrá inn með Facebook-aðgangi
+        alt: Táknmerki Facebook
       microsoft:
         title: Skrá inn með Microsoft
-        alt: Skrá inn með Microsoft-aðgangi
+        alt: Táknmerki Microsoft
       github:
         title: Skrá inn með GitHub
-        alt: Skrá inn með GitHub-aðgangi
+        alt: Táknmerki GitHub
       wikipedia:
         title: Skrá inn með Wikipedia
-        alt: Skrá inn með Wikipedia-aðgangi
+        alt: Táknmerki Wikipedia
   oauth:
     authorize:
       title: Auðkenndu aðgang að notandaaðganginum þínum
@@ -2692,6 +2733,7 @@ is:
       no_applications_html: Ert þú að nota forrit sem þú myndir vilja skrá til notkunar
         hjá okkur með %{oauth2} staðlinum? Þú verður að skrá vefforritið áður en það
         fer að senda OAuth-beiðnir á þessa þjónustu.
+      oauth_2: OAuth 2
       new: Skrá nýtt forrit
       name: Nafn
       permissions: Heimildir
@@ -2732,37 +2774,42 @@ is:
       application: Forrit
       permissions: Heimildir
       no_applications_html: Þú hefur ekki ennþá heimilað nein %{oauth2} forrit.
+      oauth_2: OAuth 2
     application:
       revoke: Afturkalla aðgang
       confirm_revoke: Afturkalla aðgang fyrir þetta forrit?
   users:
     new:
       title: Nýskrá
+      tab_title: Nýskrá
       no_auto_account_create: Því miður getum við eki búið til reikning fyrir þig
         sjálfkrafa.
       please_contact_support_html: Hafðu samband við %{support_link} til að fá aðgang
         búinn til - við munum reyna að afgreiða beiðnina eins fljótt og mögulegt er.
       support: aðstoðarteymið
       about:
-        header: Frjálst og breytanlegt
+        header: Frjálst og breytanlegt.
         paragraph_1: Ólíkt öðrum landakortum, er OpenStreetMap gert frá grunni af
           fólki eins og þér, öllum er heimilt að laga það, uppfæra, sækja og nota.
-        paragraph_2: Skráðu þig sem notanda til að geta tekið þátt. Við munum senda
-          þér tölvupóst til staðfestingar á aðgangnum.
+        paragraph_2: Skráðu þig sem notanda til að geta tekið þátt.
       display name description: Nafn þitt sem aðrir notendur sjá, þú getur breytt
         því síðar í stillingunum þínum.
       by_signing_up:
         privacy_policy: meðferð persónuupplýsinga
         privacy_policy_title: persónuverndarstefnu OSMF, þar með talinn hlutann um
           tölvupóstföng
+        contributor_terms: skilmálar vegna framlags
+      tou: notkunarskilmálar
       external auth: 'Auðkenning með þriðja aðila:'
       continue: Nýskrá
       terms accepted: Bestu þakkir fyrir að samþykkja nýju skilmálana vegna framlags
         þíns!
       email_help:
+        privacy_policy: stefna vegna meðferðar persónuupplýsinga
         html: Netfangið þitt er ekki birt opinberlega, skoðaðu síðuna um %{privacy_policy_link}
           til að sjá nánari upplýsingar.
-      use external auth: Þú getur líka notað utanaðkomandi þjónustur til innskráningar
+      or: eða
+      use external auth: eða nýskráð þig með utanaðkomandi þjónustu
     terms:
       title: Skilmálar
       heading: Skilmálar
@@ -2861,6 +2908,8 @@ is:
     index:
       title: Notendur
       heading: Notendur
+      older: Eldri notendur
+      newer: Nýrri notendur
       summary_html: '%{name} var útbúinn frá %{ip_address} þann %{date}'
       summary_no_ip_html: '%{name} útbúinn þann %{date}'
       confirm: Staðfesta valda notendur
@@ -2949,6 +2998,8 @@ is:
       confirm: Staðfestu að þú viljir eyða þessu banni.
       revoke: Eyða banninu
       flash: Banninu var eytt.
+    revoke_all:
+      revoke: Afturkalla!
     helper:
       time_future_html: Endar eftir %{time}
       until_login: Virkt þangað til notandinn skráir sig inn.
@@ -3005,12 +3056,24 @@ is:
       revoker_name: Eytt af
   user_mutes:
     index:
+      title: Þaggaðir notendur
+      my_muted_users: Þaggaðir notendur mínir
+      you_have_muted_n_users:
+        one: Þú hefur þaggað niður í {count} notanda
+        other: Þú hefur þaggað niður í {count} notendum
       table:
         thead:
           muted_user: Þaggaður notandi
           actions: Aðgerðir
         tbody:
+          unmute: Ekki þagga
           send_message: Senda skilaboð
+    create:
+      notice: Þú þaggaðir niður í %{name}.
+      error: Ekki tókst að þagga niður í %{name}. %{full_message}.
+    destroy:
+      notice: Þú hættir að þagga niður í %{name}.
+      error: Ekki tókst að þagga niður í notandanum. Reyndu aftur.
   notes:
     index:
       title: Minnispunktar sem hafa verið sendir inn eða gerðar athugasemdir við af
@@ -3060,6 +3123,7 @@ is:
       intro: Fannstu mistök eða eitthvað sem vantar? Láttu aðra kortagerðarmenn vita
         svo hægt sé að laga það. Færðu kortamerkið á réttan stað og skrifaðu minnispunkt
         til að útskýra vandamálið.
+      anonymous_warning_log_in: skrá inn
       advice: Minnispunkturinn þinn er opinber og gæti verið notaður til að uppfæra
         kortið; því ættirðu ekki að setja inn neinar persónulegar upplýsingar, eða
         upplýsingar úr höfundarvörðu efni.
@@ -3078,14 +3142,15 @@ is:
       custom_dimensions: Setja sérsniðnar stærðir
       format: 'Snið:'
       scale: 'Kvarði:'
-      image_dimensions: Myndin mun sýna venjulegt lag á %{width} x %{height}
+      image_dimensions: Myndin mun sýna %{layer} lagið í %{width} x %{height}
       download: Sækja
       short_url: Stutt URL-slóð
       include_marker: Hafa með kortamerkið
       center_marker: Miðja kort á kortamerki
       paste_html: Notaðu þennan HTML kóða til að bæta kortinu á vefsíðu
       view_larger_map: Skoða stærra kort
-      only_standard_layer: Eingöngu er hægt að flytja staðallagið út sem mynd
+      only_standard_layer: Eingöngu er hægt að flytja lögin Staðlað, Hjólakort og
+        Samgöngur út sem mynd
     embed:
       report_problem: Tilkynna vandamál
     key:
@@ -3106,6 +3171,7 @@ is:
           other: Þú ert minna en %{count} fet frá þessum punkti
       base:
         standard: Staðlað
+        cyclosm: CyclOSM
         cycle_map: Hjólakort
         transport_map: Umferðarkort
         hot: Hjálparstarf

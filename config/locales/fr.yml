@@ -116,7 +116,7 @@ fr:
     dir: ltr
   time:
     formats:
-      friendly: '%e %B %Y à %H%M'
+      friendly: '%e %B %Y à %-H h %M'
       blog: '%e %B %Y'
   helpers:
     file:
@@ -138,8 +138,8 @@ fr:
         create: S’inscrire
         update: Mettre à jour
       redaction:
-        create: Créer la censure
-        update: Enregistrer la censure
+        create: Créer le masquage
+        update: Enregistrer le masquage
       trace:
         create: Téléverser
         update: Enregistrer les modifications
@@ -162,7 +162,7 @@ fr:
       changeset_tag: Attribut du groupe de modifications
       country: Pays
       diary_comment: Commentaire du journal
-      diary_entry: Entrée d’agenda
+      diary_entry: Entrée du journal
       friend: Ami(e)
       issue: Problème
       language: Langue
@@ -199,7 +199,7 @@ fr:
         support_url: URL de l’assistance
         allow_read_prefs: lire les préférences de l’utilisateur
         allow_write_prefs: modifier les préférences de l’utilisateur
-        allow_write_diary: créer des entrées de carnet, des commentaires et des liens
+        allow_write_diary: créer des entrées du journal, des commentaires et des liens
           d’amitié
         allow_write_api: modifier la carte
         allow_read_gpx: lire ses traces GPS privées
@@ -251,7 +251,7 @@ fr:
         email: Courriel
         new_email: Nouvelle adresse de courriel
         active: Actif
-        display_name: Afficher le nom
+        display_name: Pseudonyme
         description: Description du profil
         home_lat: Latitude
         home_lon: Longitude
@@ -347,7 +347,7 @@ fr:
         reopened_at_by_html: Réactivé à %{when} par %{user}
       rss:
         title: Notes OpenStreetMap
-        description_all: Une liste de notes rapportées, commentées ou fermées
+        description_all: Une liste de notes signalées, commentées ou fermées
         description_area: Une liste de notes, signalées, commentées ou fermées dans
           votre zone [(%{min_lat} ; %{min_lon}) – (%{max_lat} ; %{max_lon})]
         description_item: Un flux RSS pour la note %{id}
@@ -369,7 +369,7 @@ fr:
           utilisant le bouton ci-dessous. Veuillez prendre note des détails suivants :'
         delete_profile: Les informations de votre profil, y compris votre avatar,
           votre description et votre lieu de résidence seront supprimées.
-        delete_display_name: Votre nom affiché sera supprimé et pourra être réutilisé
+        delete_display_name: Votre pseudonyme sera supprimé et pourra être réutilisé
           pour d’autres comptes.
         retain_caveats: 'Cependant, quelques informations vous concernant seront conservées
           sur OpenStreetMap, même après la suppression de votre compte :'
@@ -396,12 +396,12 @@ fr:
       external auth: Authentification externe
       openid:
         link: https://wiki.openstreetmap.org/wiki/FR:OpenID
-        link text: qu’est-ce que cela ?
+        link text: qu’est-ce ?
       public editing:
         heading: Modification publique
         enabled: Activée. Non anonyme et peut modifier les données.
         enabled link: https://wiki.openstreetmap.org/wiki/FR:Modifications_anonymes
-        enabled link text: qu’est-ce que ceci ?
+        enabled link text: qu’est-ce ?
         disabled: Désactivée et ne peut pas modifier les données ; toutes les précédentes
           modifications sont anonymes.
         disabled link text: pourquoi ne puis-je pas modifier ?
@@ -415,9 +415,9 @@ fr:
         agreed_with_pd: Vous avez également déclaré que vous considérez vos modifications
           comme relevant du domaine public.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms/FR
-        link text: qu’est-ce que ceci ?
+        link text: qu’est-ce ?
       save changes button: Enregistrer les modifications
-      delete_account: Supprimer le compte...
+      delete_account: Supprimer le compte…
     go_public:
       heading: Modification publique
       currently_not_public: Actuellement, vos modifications sont anonymes et les utilisateurs
@@ -458,10 +458,10 @@ fr:
       other: '%{count} chemins'
     download_xml: Télécharger en XML
     view_history: Voir l’historique
-    view_unredacted_history: Voir l'historique non censuré
+    view_unredacted_history: Voir l'historique non masqué
     view_details: Afficher les détails
-    view_redacted_data: Afficher les données censurées
-    view_redaction_message: Afficher le message de rédaction
+    view_redacted_data: Afficher les données masquées
+    view_redaction_message: Afficher le message de masquage
     location: 'Emplacement :'
     common_details:
       coordinates_html: '%{latitude} ; %{longitude}'
@@ -506,8 +506,8 @@ fr:
         note: note
     timeout:
       title: Erreur de dépassement du délai d’attente
-      sorry: Désolé, les données pour l’objet %{type} d’identifiant %{id} ont mis
-        trop de temps à être récupérées.
+      sorry: Désolé, obtenir les données pour l’objet %{type} d’identifiant %{id}
+        a pris trop de temps.
       type:
         node: nœud
         way: chemin
@@ -527,7 +527,7 @@ fr:
         navigateur lent ou le bloquer. Êtes-vous sûr de vouloir afficher ces données
         ?
       load_data: Charger les données
-      loading: Chargement en cours...
+      loading: Chargement en cours…
     tag_details:
       tags: Attributs
       wiki_link:
@@ -546,18 +546,18 @@ fr:
       enclosing: Objets englobants
   old_nodes:
     not_found:
-      sorry: 'Désolé, le nœud #%{id} version %{version} est introuvable.'
+      sorry: Désolé, la version %{version} du nœud %{id} est introuvable.
   old_ways:
     not_found:
-      sorry: 'Désolé, la façon #%{id} version %{version} est introuvable.'
+      sorry: Désolé, la version %{version} du chemin %{id} est introuvable.
   old_relations:
     not_found:
-      sorry: 'Désolé, la relation #%{id} version %{version} est introuvable.'
+      sorry: Désolé, la version %{version} de la relation %{id} est introuvable.
   changesets:
     changeset_paging_nav:
       showing_page: Page %{page}
-      next: Suivant ▸
-      previous: ◂ Précédent
+      next: Suivant ›
+      previous: ‹ Précédent
     changeset:
       anonymous: Anonyme
       no_edits: (aucune modification)
@@ -588,10 +588,10 @@ fr:
         closed: Fermé
         belongs_to: Auteur
     subscribe:
-      heading: S'abonner à la discussion sur l'ensemble de modifications suivante ?
-      button: S'abonner à la discussion
+      heading: S’abonner à la discussion sur l’ensemble de modifications suivant ?
+      button: S’abonner à la discussion
     unsubscribe:
-      heading: Se désabonner de la discussion du groupe de modifications suivant ?
+      heading: Se désabonner de la discussion du groupe de modifications suivant ?
       button: Se désinscrire de la discussion
     heading:
       title: Groupe de modifications %{id}
@@ -599,9 +599,8 @@ fr:
     no_such_entry:
       title: Aucun ensemble de modifications de ce type
       heading: 'Aucune entrée avec l’identifiant : %{id}'
-      body: Désolé, il n’y a aucun groupe de modifications avec l'identifiant %{id}.
-        Veuillez vérifier l'orthographe ou la validité du lien sur lequel vous avez
-        cliqué.
+      body: Désolé, il n’y a aucun groupe de modifications avec l’identifiant %{id}.
+        Peut-être avez-vous fait une erreur en le recopiant ou suivi un lien erroné ?
     show:
       title: 'Groupe de modifications : %{id}'
       created: 'Créé : %{when}'
@@ -617,7 +616,7 @@ fr:
       subscribe: S’abonner
       unsubscribe: Se désabonner
       comment_by_html: Commentaire de %{user} %{time_ago}
-      hidden_comment_by_html: Commentaire caché de %{user} %{time_ago}
+      hidden_comment_by_html: Commentaire masqué de %{user} %{time_ago}
       hide_comment: masquer
       unhide_comment: démasquer
       comment: Commenter
@@ -631,22 +630,22 @@ fr:
       relations: Relations (%{count})
       relations_paginated: Relations (%{x} à %{y} sur %{count})
     timeout:
-      sorry: Désolé, la liste des groupes de modifications que vous avez demandée
-        a mis trop de temps à récupérer.
+      sorry: Désolé, récupérer la liste des groupes de modifications que vous avez
+        demandée a pris trop de temps.
   changeset_comments:
     comment:
       comment: Nouveau commentaire sur le groupe de modifications nº %{changeset_id}
         par %{author}
       commented_at_by_html: Mis à jour le %{when} par %{user}
     comments:
-      comment: Nouveau commentaire sur le groupe de modifications nº %{changeset_id}
+      comment: Nouveau commentaire sur le groupe de modifications %{changeset_id}
         par %{author}
     index:
       title_all: Discussion sur le groupe de modifications OpenStreetMap
-      title_particular: Discussion sur le groupe de modifications OpenStreetMap nº %{changeset_id}
+      title_particular: Discussion sur le groupe de modifications OpenStreetMap %{changeset_id}
     timeout:
-      sorry: Désolé, la liste des commentaires d’ensembles de modifications que vous
-        avez demandée est trop longue à récupérer.
+      sorry: Désolé, récupérer les commentaires du groupe de modifications que vous
+        avez demandés a pris trop de temps.
   dashboards:
     contact:
       km away: à %{count} km
@@ -660,7 +659,7 @@ fr:
       title: Mon tableau de bord
       no_home_location_html: '%{edit_profile_link} et définissez l’emplacement de
         votre domicile pour voir les utilisateurs à proximité.'
-      edit_your_profile: Modifier votre profil
+      edit_your_profile: Modifiez votre profil
       my friends: Mes amis
       no friends: Vous n’avez encore ajouté aucun ami.
       nearby users: Autres utilisateurs à proximité
@@ -680,12 +679,12 @@ fr:
       title: Journaux des utilisateurs
       title_friends: Journaux des amis
       title_nearby: Journaux des utilisateurs à proximité
-      user_title: Carnet de %{user}
-      in_language_title: Entrées du carnet en %{language}
+      user_title: Journal de %{user}
+      in_language_title: Entrées du journal en %{language}
       new: Nouvelle entrée du journal
       new_title: Écrire une nouvelle entrée dans mon journal utilisateur
       my_diary: Mon journal
-      no_entries: Aucune entrée de carnet
+      no_entries: Aucune entrée de journal
       recent_entries: Entrées récentes du journal
       older_entries: Entrées plus anciennes
       newer_entries: Entrées plus récentes
@@ -693,8 +692,8 @@ fr:
       title: Modifier l’entrée du journal
       marker_text: Emplacement de l’entrée du journal
     show:
-      title: Carnet de %{user} | %{title}
-      user_title: Carnet de %{user}
+      title: Journal de %{user} | %{title}
+      user_title: Journal de %{user}
       discussion: Discussion
       subscribe: S’abonner
       unsubscribe: Se désabonner
@@ -702,11 +701,11 @@ fr:
       login_to_leave_a_comment_html: '%{login_link} pour laisser un commentaire'
       login: Se connecter
     no_such_entry:
-      title: Aucune entrée de carnet correspondante
+      title: Aucune entrée de journal correspondante
       heading: 'Aucune entrée avec l’identifiant : %{id}'
-      body: Désolé, il n’y a aucune entrée ni commentaire de carnet avec l’identifiant
-        %{id}. Veuillez vérifier votre orthographe ou la validité du lien que vous
-        avez cliqué.
+      body: Désolé, il n’y a aucune entrée ni commentaire de journal avec l’identifiant
+        %{id}. Peut-être avez-vous fait une erreur en le recopiant ou suivi un lien
+        erroné ?
     diary_entry:
       posted_by_html: Publié par %{link_user} le %{created} en %{language_link}.
       updated_at_html: Dernière mise à jour le %{updated}.
@@ -738,8 +737,8 @@ fr:
         description: Entrées récentes du journal OpenStreetMap de %{user}
       language:
         title: Entrées du journal OpenStreetMap en %{language_name}
-        description: Entrées récentes des carnets d’utilisateurs d’OpenStreetMap en
-          %{language_name}
+        description: Entrées récentes des journaux d’utilisateurs d’OpenStreetMap
+          en %{language_name}
       all:
         title: Entrées des journaux OpenStreetMap
         description: Entrées récentes des journaux d’utilisateurs de OpenStreetMap
@@ -760,6 +759,8 @@ fr:
       comment: Commentaire
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
+    new:
+      heading: Ajouter un commentaire à cette discussion ?
   doorkeeper:
     errors:
       messages:
@@ -945,7 +946,7 @@ fr:
           prison: Prison
           pub: Pub
           public_bath: Bains publics
-          public_bookcase: Bibliothèque publique
+          public_bookcase: Microbibliothèque
           public_building: Bâtiment public
           ranger_station: Poste de garde forestière
           recycling: Point de recyclage
@@ -2671,6 +2672,7 @@ fr:
           Il n’est pas nécessaire d’établir formellement un groupe dans la même mesure que les chapitres locaux.
           En effet, de nombreux groupes existent avec beaucoup de succès en tant que rassemblement informel de personnes ou en tant que groupe communautaire. Chacun peut en créer ou en rejoindre un. En savoir plus sur la %{communities_wiki_link}.
         communities_wiki: page wiki des communautés
+        communities_wiki_url: https://wiki.openstreetmap.org/wiki/FR:User_group
   traces:
     visibility:
       private: Privé (partagé anonymement, points non ordonnés)
@@ -2806,6 +2808,7 @@ fr:
       oauth2_authorizations: Droits OAuth 2
       muted_users: Utilisateurs silencieux
     auth_providers:
+      openid_url: URL OpenID
       openid_login_button: Continuer
       openid:
         title: Connexion avec OpenID
@@ -2835,7 +2838,7 @@ fr:
       allow_to: 'Autoriser l’application cliente à :'
       allow_read_prefs: lire vos préférences utilisateur ;
       allow_write_prefs: modifier vos préférences utilisateur ;
-      allow_write_diary: créer des entrées dans votre carnet, faire des commentaires
+      allow_write_diary: créer des entrées dans votre journal, faire des commentaires
         et ajouter des ami(e)s ;
       allow_write_api: modifier la carte.
       allow_read_gpx: lire vos traces GPS privées ;
@@ -2867,6 +2870,8 @@ fr:
       write_notes: Modifier les notes
       write_redactions: Caviarder les données cartographiques
       read_email: Lire l’adresse courriel de l’utilisateur
+      consume_messages: Lire, modifier l’état et supprimer les messages de l’utilisateur
+      send_messages: Envoyer des messages privés à d’autres utilisateurs
       skip_authorization: Demande d’approbation automatique
     for_roles:
       moderator: Cette autorisation concerne les actions disponibles uniquement pour
@@ -3069,7 +3074,7 @@ fr:
       destroy_mute: Réactiver le son de cet utilisateur
       edit_profile: Modifier le profil
       send message: Envoyer un message
-      diary: Carnet
+      diary: Journal
       edits: Modifications
       traces: Traces
       notes: Notes de carte
@@ -3201,6 +3206,8 @@ fr:
     update:
       only_creator_can_edit: Seul le modérateur ou la modératrice qui a créé ce blocage
         peut le modifier.
+      only_creator_or_revoker_can_edit: Seuls les modérateurs ayant créé ou annulé
+        ce blocage peuvent le modifier.
       success: Blocage mis à jour.
     index:
       title: Blocages d’utilisateur
@@ -3391,7 +3398,8 @@ fr:
       center_marker: Centrer la carte sur le marqueur
       paste_html: Coller le HTML à inclure dans le site web
       view_larger_map: Afficher une carte plus grande
-      only_standard_layer: Seule la couche standard peut être exportée comme une image
+      only_standard_layer: Seule les couche « Standard », « Carte cyclable » et « Carte
+        de transport » peuvent être exportées comme une image
     embed:
       report_problem: Signaler un problème
     key:

@@ -444,8 +444,8 @@ sv:
         relation: relation
     start_rjs:
       feature_warning: Laddar %{num_features} kartkomponenter, vilket kan göra din
-        webbläsare långsam eller få den att sluta svara. Är säker på att du vill visa
-        denna data?
+        webbläsare långsam eller få den att sluta svara. Är du säker på att du vill
+        visa denna data?
       load_data: Ladda data
       loading: Läser in …
     tag_details:
@@ -614,6 +614,8 @@ sv:
       title: '%{user}s dagbok | %{title}'
       user_title: '%{user}s dagbok'
       discussion: Diskussion
+      subscribe: Prenumerera
+      unsubscribe: Avsluta prenumeration
       leave_a_comment: Lämna en kommentar
       login_to_leave_a_comment_html: '%{login_link} för att lämna en kommentar'
       login: Logga in
@@ -673,6 +675,8 @@ sv:
       comment: Kommentar
       newer_comments: Nyare kommentarer
       older_comments: Äldre kommentarer
+    new:
+      heading: Lägg en kommentar på följande diskussion om dagboksinlägg?
   doorkeeper:
     errors:
       messages:
@@ -907,6 +911,7 @@ sv:
           college: Högskolebyggnad
           commercial: Kommersiell byggnad
           construction: Byggnad under uppförande
+          cowshed: Kostall
           detached: Fristående hus
           dormitory: Studenthem
           duplex: Dubbelhus
@@ -936,6 +941,7 @@ sv:
           shed: Skjul
           stable: Stall
           static_caravan: Husvagn
+          sty: Stia
           temple: Tempelbyggnad
           terrace: Terrassbyggnad
           train_station: Järnvägsstation
@@ -1643,6 +1649,8 @@ sv:
     intro_text: OpenStreetMap är en karta över världen, skapad av människor som du
       och fri att använda under en öppen licens.
     intro_2_create_account: Skapa ett användarkonto
+    hosting_partners_2024_html: Driften stöds av %{fastly}, %{corpmembers} och andra
+      %{partners}.
     partners_fastly: Fastly
     partners_corpmembers: OSMF-företagsmedlemmar
     partners_partners: partners
@@ -1921,6 +1929,9 @@ sv:
       new password button: Återställ lösenord
       help_text: Ange e-postadressen du använde för att registrera dig så skickar
         vi en länk till den som du kan använda för att återställa ditt lösenord.
+    create:
+      send_paranoid_instructions: Om din e-postadress finns i vår databas kommer du
+        få ett e-postmeddelande för att bekräfta din e-postadress på några minuter.
     edit:
       title: Återställ lösenord
       heading: Återställ lösenord för %{user}
@@ -2140,6 +2151,9 @@ sv:
         contributors_at_cc_by: CC BY
         contributors_at_land_vorarlberg: Förbundsland Vorarlberg
         contributors_at_cc_by_at_with_amendments: CC BY AT med tillägg
+        contributors_au_credit_html: '%{australia}: Inkorporerades eller utvecklades
+          med hjälp av administrativa gränser &copy; %{geoscape_australia_link} licensierades
+          av Samväldet Australien under %{cc_licence_link}.'
         contributors_au_australia: Australien
         contributors_au_geoscape_australia: Geoscape Australien
         contributors_au_cc_licence: Creative Commons Erkännande 4.0 Internationell-licens
@@ -2168,6 +2182,7 @@ sv:
           och %{open_data_portal} (offentlig information om Kroatien)'
         contributors_hr_croatia: Kroatien
         contributors_hr_dgu: Kroatiens statliga geodatiska förvaltning
+        contributors_hr_open_data_portal: Nationella öppen data-portalen
         contributors_nl_credit_html: '%{netherlands}: Innehåller &copy; AND data,
           2007 (%{and_link}).'
         contributors_nl_netherlands: Nederländerna
@@ -2198,6 +2213,7 @@ sv:
         contributors_za_credit_html: '%{south_africa}: Innehåller data från %{ngi_link},
           statens upphovsrätt förbehålls.'
         contributors_za_south_africa: Sydafrika
+        contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
         contributors_gb_credit_html: '%{united_kingdom}: Innehåller Ordnance Survey
           data &copy; Crown copyright and database right 2010-2023.'
         contributors_gb_united_kingdom: Storbritannien
@@ -2644,25 +2660,26 @@ sv:
       oauth2_authorizations: OAuth 2-auktoriseringar
       muted_users: Tystade användare
     auth_providers:
+      openid_url: OpenID-URL
       openid_login_button: Fortsätt
       openid:
         title: Logga in med OpenID
-        alt: Logga in med en OpenID-URL
+        alt: OpenID-logotyp
       google:
         title: Logga in med Google
-        alt: Logga in med ett Google OpenID
+        alt: Google-logotyp
       facebook:
         title: Logga in med Facebook
-        alt: Logga in med ett Facebook-konto
+        alt: Facebook-logotyp
       microsoft:
         title: Logga in med Microsoft
-        alt: Logga in med ett Microsoft-konto
+        alt: Microsoft-logotyp
       github:
         title: Logga in med GitHub
-        alt: Logga in med ett GitHub-Konto
+        alt: GitHub-logotyp
       wikipedia:
         title: Logga in med Wikipedia
-        alt: Logga in med ett Wikipedia-konto
+        alt: Wikipedia-logotyp
   oauth:
     authorize:
       title: Auktorisera tillgång till ditt konto
@@ -2817,9 +2834,14 @@ sv:
           ner och använda.
         paragraph_2: Registrera dig för att börja bidra.
         welcome: Välkommen till OpenStreetMap
+      duplicate_social_email: Om du redan har ett OpenStreetMap-konto och vill använda
+        en identitetsleverantör från en tredjepart, kan du logga in med ditt lösenord
+        och modifiera inställningarna för ditt konto.
       display name description: Ditt offentligt visade användarnamn. Du kan ändra
         detta senare i alternativ.
       by_signing_up:
+        html: Genom att registrera dig accepterar du vår %{tou_link}, %{privacy_policy_link}
+          och %{contributor_terms_link}.
         privacy_policy: integritetspolicy
         privacy_policy_title: OSMFs integritetspolicy inklusive avsnitt om e-postadresser
         contributor_terms: bidragsvillkor
@@ -2829,6 +2851,8 @@ sv:
       terms accepted: Tack för att du accepterat de nya villkoren för bidrag till
         kartan!
       email_help:
+        privacy_policy: integritetspolicy
+        privacy_policy_title: OSMF:s integritetspolicy inkluderingsavsnitt om e-postadresser
         html: Din adress visas inte offentligt, se vår %{privacy_policy_link} för
           mer information.
       consider_pd_html: Jag anser mina bidrag vara i %{consider_pd_link}.
@@ -2900,6 +2924,8 @@ sv:
       remove as friend: Ta bort vän
       add as friend: Lägg till vän
       mapper since: 'Karterar sedan:'
+      last map edit: 'Senaste kartredigering:'
+      no activity yet: Ännu ingen aktivitet
       uid: 'Användar id:'
       ct status: 'Användarvillkor:'
       ct undecided: Ej bestämda
@@ -3022,6 +3048,8 @@ sv:
     update:
       only_creator_can_edit: Bara moderatorn som skapade denna blockering kan redigera
         den.
+      only_creator_or_revoker_can_edit: Endast moderatorer som skapade eller drog
+        tillbaka den här blockeringen kan redigera den.
       success: Blockering uppdaterad.
     index:
       title: Användarblockeringar
@@ -3202,14 +3230,15 @@ sv:
       custom_dimensions: Ange anpassade dimensioner
       format: 'Format:'
       scale: 'Skala:'
-      image_dimensions: Bilden kommer visa standardlager på %{width} x %{height}
+      image_dimensions: Bilden kommer visa lager %{layer} på %{width} x %{height}
       download: Ladda ned
       short_url: Kortlänk
       include_marker: Lägg till markör
       center_marker: Centrera kartan på markören
       paste_html: Klistra in HTML-koden för att publicera på en webbsida
       view_larger_map: Visa större karta
-      only_standard_layer: Endast standardlagret kan exporteras som en bild
+      only_standard_layer: Endast lagrena Standard, Cykelkarta och Transport kan exporteras
+        som en bild
     embed:
       report_problem: Rapportera ett problem
     key:
