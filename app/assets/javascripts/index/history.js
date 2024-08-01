@@ -60,9 +60,11 @@ OSM.History = function (map) {
 
     if (window.location.pathname === "/history") {
       data.bbox = map.getBounds().wrap().toBBoxString();
-      var feedLink = $("link[type=\"application/atom+xml\"]"),
-          feedHref = feedLink.attr("href").split("?")[0];
-      feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
+      var feedLink = $("link[type=\"application/atom+xml\"]");
+      if (feedLink.length) {
+        var feedHref = feedLink.attr("href").split("?")[0];
+        feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
+      }
     }
 
     $.ajax({
