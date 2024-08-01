@@ -126,11 +126,12 @@ OpenStreetMap::Application.routes.draw do
   resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
     match :subscribe, :unsubscribe, :on => :member, :via => [:get, :post]
   end
-  get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
+  get "/changeset/:id/comments/feed" => "changeset_comments_feeds#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 
   get "/user/:display_name/history" => "changesets#index"
   get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
+  resources :changeset_comments, :path => "/user/:display_name/history/comments", :only => [:index]
   get "/user/:display_name/notes" => "notes#index", :as => :user_notes
   get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
   get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
@@ -164,7 +165,7 @@ OpenStreetMap::Application.routes.draw do
   get "/communities" => "site#communities"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
-  get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
+  get "/history/comments/feed" => "changeset_comments_feeds#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
   get "/login" => "sessions#new"
   post "/login" => "sessions#create"
