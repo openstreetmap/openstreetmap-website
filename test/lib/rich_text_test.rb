@@ -253,61 +253,79 @@ class RichTextTest < ActiveSupport::TestCase
   def test_text_no_image
     r = RichText.new("text", "foo https://example.com/ bar")
     assert_nil r.image
+    assert_nil r.image_alt
   end
 
   def test_html_no_image
     r = RichText.new("html", "foo <a href='https://example.com/'>bar</a> baz")
     assert_nil r.image
+    assert_nil r.image_alt
   end
 
   def test_markdown_no_image
     r = RichText.new("markdown", "foo [bar](https://example.com/) baz")
     assert_nil r.image
+    assert_nil r.image_alt
   end
 
   def test_markdown_image
     r = RichText.new("markdown", "foo ![bar](https://example.com/image.jpg) baz")
     assert_equal "https://example.com/image.jpg", r.image
+    assert_equal "bar", r.image_alt
   end
 
   def test_markdown_first_image
     r = RichText.new("markdown", "foo ![bar1](https://example.com/image1.jpg) baz\nfoo ![bar2](https://example.com/image2.jpg) baz")
     assert_equal "https://example.com/image1.jpg", r.image
+    assert_equal "bar1", r.image_alt
   end
 
   def test_markdown_image_with_empty_src
     r = RichText.new("markdown", "![invalid]()")
     assert_nil r.image
+    assert_nil r.image_alt
   end
 
   def test_markdown_skip_image_with_empty_src
     r = RichText.new("markdown", "![invalid]() ![valid](https://example.com/valid.gif)")
     assert_equal "https://example.com/valid.gif", r.image
+    assert_equal "valid", r.image_alt
   end
 
   def test_markdown_html_image
+    r = RichText.new("markdown", "<img src='https://example.com/img_element.png' alt='alt text here'>")
+    assert_equal "https://example.com/img_element.png", r.image
+    assert_equal "alt text here", r.image_alt
+  end
+
+  def test_markdown_html_image_without_alt
     r = RichText.new("markdown", "<img src='https://example.com/img_element.png'>")
     assert_equal "https://example.com/img_element.png", r.image
+    assert_nil r.image_alt
   end
 
   def test_markdown_html_image_with_empty_src
-    r = RichText.new("markdown", "<img src=''>")
+    r = RichText.new("markdown", "<img src='' alt='forgot src'>")
     assert_nil r.image
+    assert_nil r.image_alt
   end
 
   def test_markdown_skip_html_image_with_empty_src
-    r = RichText.new("markdown", "<img src=''> <img src='https://example.com/next_img_element.png'>")
+    r = RichText.new("markdown", "<img src='' alt='forgot src'> <img src='https://example.com/next_img_element.png' alt='have src'>")
     assert_equal "https://example.com/next_img_element.png", r.image
+    assert_equal "have src", r.image_alt
   end
 
   def test_markdown_html_image_without_src
-    r = RichText.new("markdown", "<img>")
+    r = RichText.new("markdown", "<img alt='totally forgot src'>")
     assert_nil r.image
+    assert_nil r.image_alt
   end
 
   def test_markdown_skip_html_image_without_src
-    r = RichText.new("markdown", "<img> <img src='https://example.com/next_img_element.png'>")
+    r = RichText.new("markdown", "<img alt='totally forgot src'> <img src='https://example.com/next_img_element.png' alt='have src'>")
     assert_equal "https://example.com/next_img_element.png", r.image
+    assert_equal "have src", r.image_alt
   end
 
   private
