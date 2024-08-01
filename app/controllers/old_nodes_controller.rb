@@ -7,8 +7,8 @@ class OldNodesController < ApplicationController
   before_action :require_oauth
 
   authorize_resource
+  before_action -> { authorize! :show_redactions, OldNode if params[:show_redactions] }
 
-  before_action :require_moderator_for_unredacted_history
   around_action :web_timeout
 
   def index
@@ -24,11 +24,5 @@ class OldNodesController < ApplicationController
     @feature = OldNode.preload(:old_tags, :changeset => [:changeset_tags, :user]).find([params[:id], params[:version]])
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
-  end
-
-  private
-
-  def require_moderator_for_unredacted_history
-    deny_access(nil) if params[:show_redactions] && !current_user&.moderator?
   end
 end
