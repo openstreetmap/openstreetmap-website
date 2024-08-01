@@ -30,6 +30,8 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
+    resources :changeset_comments, :only => [:index], :controller => "changeset_comments", :as => :api_changeset_comments
+
     put "node/create" => "nodes#create"
     get "node/:id/ways" => "ways#ways_for_node", :as => :node_ways, :id => /\d+/
     get "node/:id/relations" => "relations#relations_for_node", :as => :node_relations, :id => /\d+/

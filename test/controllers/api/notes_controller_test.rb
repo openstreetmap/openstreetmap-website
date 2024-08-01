@@ -908,6 +908,37 @@ module Api
       assert_select "gpx", :count => 1 do
         assert_select "wpt", :count => 1
       end
+
+      user2 = create(:user)
+      get search_api_notes_path(:user => user2.id, :format => "xml")
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm", :count => 1 do
+        assert_select "note", :count => 0
+      end
+    end
+
+    def test_search_by_time_success
+      note1 = create(:note, :created_at => "2020-02-01T00:00:00Z", :updated_at => "2020-04-01T00:00:00Z")
+      note2 = create(:note, :created_at => "2020-03-01T00:00:00Z", :updated_at => "2020-05-01T00:00:00Z")
+
+      get search_api_notes_path(:from => "2020-02-15T00:00:00Z", :to => "2020-04-15T00:00:00Z", :format => "xml")
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm", :count => 1 do
+        assert_select "note", :count => 1 do
+          assert_select "id", note2.id.to_s
+        end
+      end
+
+      get search_api_notes_path(:from => "2020-02-15T00:00:00Z", :to => "2020-04-15T00:00:00Z", :sort => "updated_at", :format => "xml")
+      assert_response :success
+      assert_equal "application/xml", @response.media_type
+      assert_select "osm", :count => 1 do
+        assert_select "note", :count => 1 do
+          assert_select "id", note1.id.to_s
+        end
+      end
     end
 
     def test_search_by_bbox_success
