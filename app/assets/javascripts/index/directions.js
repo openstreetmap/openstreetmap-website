@@ -200,7 +200,24 @@ OSM.Directions = function (map) {
     select.val(index);
   }
 
+  function setSidebarOverlaidForEndpoints() {
+    map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
+  }
+
   function getRoute(fitRoute, reportErrors) {
+    if ($("#directions_content").length) {
+      getRouteWithLoadedSidebar(fitRoute, reportErrors);
+    } else {
+      OSM.loadSidebarContent("/directions", function () {
+        getRouteWithLoadedSidebar(fitRoute, reportErrors);
+      });
+      setSidebarOverlaidForEndpoints();
+    }
+  }
+
+  function getRouteWithLoadedSidebar(fitRoute, reportErrors) {
+    setSidebarOverlaidForEndpoints();
+
     // Cancel any route that is already in progress
     if (awaitingRoute) awaitingRoute.abort();
 
@@ -233,8 +250,7 @@ OSM.Directions = function (map) {
     // copy loading item to sidebar and display it. we copy it, rather than
     // just using it in-place and replacing it in case it has to be used
     // again.
-    $("#sidebar_content").html($(".directions_form .loader_copy").html());
-    map.setSidebarOverlaid(false);
+    $("#directions_content").html($(".directions_form .loader_copy").html());
 
     awaitingRoute = chosenEngine.getRoute([o, d], function (err, route) {
       awaitingRoute = null;
@@ -243,7 +259,7 @@ OSM.Directions = function (map) {
         map.removeLayer(polyline);
 
         if (reportErrors) {
-          $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
+          $("#directions_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
         }
 
         return;
@@ -269,16 +285,10 @@ OSM.Directions = function (map) {
 
       var turnByTurnTable = $("<table class='table table-hover table-sm mb-3'>")
         .append($("<tbody>"));
-      var directionsCloseButton = $("<button type='button' class='btn-close'>")
-        .attr("aria-label", I18n.t("javascripts.close"));
 
-      $("#sidebar_content")
+      $("#directions_content")
         .empty()
         .append(
-          $("<div class='d-flex'>").append(
-            $("<h2 class='flex-grow-1 text-break'>")
-              .text(I18n.t("javascripts.directions.directions")),
-            $("<div>").append(directionsCloseButton)),
           distanceText,
           turnByTurnTable
         );
@@ -304,7 +314,11 @@ OSM.Directions = function (map) {
         }
 
         var row = $("<tr class='turn'/>");
-        row.append("<td class='border-0'><div class='direction i" + direction + "'/></td> ");
+        if (direction) {
+          row.append("<td class='border-0'><svg width='20' height='20' class='d-block'><use href='#routing-sprite-" + direction + "' /></svg></td>");
+        } else {
+          row.append("<td class='border-0'>");
+        }
         row.append("<td>" + instruction);
         row.append("<td class='distance text-body-secondary text-end'>" + dist);
 
@@ -326,17 +340,18 @@ OSM.Directions = function (map) {
         turnByTurnTable.append(row);
       });
 
-      $("#sidebar_content").append("<p class=\"text-center\">" +
+      $("#directions_content").append("<p class=\"text-center\">" +
         I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
         "</p>");
-
-      directionsCloseButton.on("click", function () {
-        map.removeLayer(polyline);
-        $("#sidebar_content").html("");
-        map.setSidebarOverlaid(true);
-        // TODO: collapse width of sidebar back to previous
-      });
     });
+  }
+
+  function hideRoute(e) {
+    e.stopPropagation();
+    map.removeLayer(polyline);
+    $("#directions_content").html("");
+    map.setSidebarOverlaid(true);
+    // TODO: collapse width of sidebar back to previous
   }
 
   var chosenEngineIndex = findEngine("fossgis_osrm_car");
@@ -373,6 +388,8 @@ OSM.Directions = function (map) {
     $(".search_form").hide();
     $(".directions_form").show();
 
+    $("#sidebar_content").on("click", ".btn-close", hideRoute);
+
     $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
     });
@@ -405,8 +422,6 @@ OSM.Directions = function (map) {
     endpoints[0].setValue(params.from || "", from);
     endpoints[1].setValue(params.to || "", to);
 
-    map.setSidebarOverlaid(!from || !to);
-
     getRoute(true, true);
   };
 
@@ -417,6 +432,7 @@ OSM.Directions = function (map) {
   page.unload = function () {
     $(".search_form").show();
     $(".directions_form").hide();
+    $("#sidebar_content").off("click", ".btn-close", hideRoute);
     $("#map").off("dragend dragover drop");
 
     map
