@@ -458,6 +458,7 @@ module Api
           assert_select "comment_url", comment_api_note_url(open_note, :format => "xml")
           assert_select "close_url", close_api_note_url(open_note, :format => "xml")
           assert_select "date_created", open_note.created_at.to_s
+          assert_select "date_updated", open_note.updated_at.to_s
           assert_select "status", open_note.status
           assert_select "comments", :count => 1 do
             assert_select "comment", :count => 1
@@ -495,6 +496,7 @@ module Api
       assert_equal comment_api_note_url(open_note, :format => "json"), js["properties"]["comment_url"]
       assert_equal close_api_note_url(open_note, :format => "json"), js["properties"]["close_url"]
       assert_equal open_note.created_at.to_s, js["properties"]["date_created"]
+      assert_equal open_note.updated_at.to_s, js["properties"]["date_updated"]
       assert_equal open_note.status, js["properties"]["status"]
 
       get api_note_path(open_note, :format => "gpx")
@@ -511,6 +513,8 @@ module Api
             assert_select "url", api_note_url(open_note, :format => "gpx")
             assert_select "comment_url", comment_api_note_url(open_note, :format => "gpx")
             assert_select "close_url", close_api_note_url(open_note, :format => "gpx")
+            assert_select "date_created", open_note.created_at.to_s
+            assert_select "date_updated", open_note.updated_at.to_s
           end
         end
       end
