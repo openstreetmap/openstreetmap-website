@@ -230,16 +230,17 @@ class Trace < ApplicationRecord
           tp.timestamp = point.timestamp
           tp.gpx_id = id
           tp.trackid = point.segment
+          tp.validate!
           tracepoints << tp
         end
 
-        # Run the before_save and before_create callbacks, and then import them in bulk with activerecord-import
+        # Run the before_save and before_create callbacks, and then do a bulk insert
         tracepoints.each do |tp|
           tp.run_callbacks(:save) { false }
           tp.run_callbacks(:create) { false }
         end
 
-        Tracepoint.import!(tracepoints)
+        Tracepoint.insert_all!(tracepoints.map(&:attributes)) # rubocop:disable Rails::SkipsModelValidations
       end
 
       if gpx.actual_points.positive?

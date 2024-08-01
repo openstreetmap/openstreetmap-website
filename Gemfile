@@ -48,7 +48,6 @@ gem "file_exists"
 
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
-gem "activerecord-import"
 gem "active_record_union"
 gem "bootstrap", "~> 5.3.2"
 gem "bootstrap_form", "~> 5.0"
