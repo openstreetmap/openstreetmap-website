@@ -48,6 +48,7 @@ class IssuesController < ApplicationController
     @comments = @issue.comments
     @related_issues = @issue.reported_user.issues.where(:assigned_role => current_user.roles.map(&:role)) if @issue.reported_user
     @new_comment = IssueComment.new(:issue => @issue)
+    @category_counts = @issue.reports.group_by(&:category).transform_values(&:count)
   end
 
   # Status Transitions
