@@ -104,7 +104,8 @@ module RichText
     end
 
     def first_image_element(element)
-      return element if element.type == :img
+      return element if element.type == :img ||
+                        (element.type == :html_element && element.value == "img")
 
       element.children.find do |child|
         nested_image = first_image_element(child)
