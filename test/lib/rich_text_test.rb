@@ -275,9 +275,39 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "https://example.com/image1.jpg", r.image
   end
 
+  def test_markdown_image_with_empty_src
+    r = RichText.new("markdown", "![invalid]()")
+    assert_nil r.image
+  end
+
+  def test_markdown_skip_image_with_empty_src
+    r = RichText.new("markdown", "![invalid]() ![valid](https://example.com/valid.gif)")
+    assert_equal "https://example.com/valid.gif", r.image
+  end
+
   def test_markdown_html_image
     r = RichText.new("markdown", "<img src='https://example.com/img_element.png'>")
     assert_equal "https://example.com/img_element.png", r.image
+  end
+
+  def test_markdown_html_image_with_empty_src
+    r = RichText.new("markdown", "<img src=''>")
+    assert_nil r.image
+  end
+
+  def test_markdown_skip_html_image_with_empty_src
+    r = RichText.new("markdown", "<img src=''> <img src='https://example.com/next_img_element.png'>")
+    assert_equal "https://example.com/next_img_element.png", r.image
+  end
+
+  def test_markdown_html_image_without_src
+    r = RichText.new("markdown", "<img>")
+    assert_nil r.image
+  end
+
+  def test_markdown_skip_html_image_without_src
+    r = RichText.new("markdown", "<img> <img src='https://example.com/next_img_element.png'>")
+    assert_equal "https://example.com/next_img_element.png", r.image
   end
 
   private

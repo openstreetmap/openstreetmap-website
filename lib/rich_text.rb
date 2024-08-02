@@ -104,13 +104,16 @@ module RichText
     end
 
     def first_image_element(element)
-      return element if element.type == :img ||
-                        (element.type == :html_element && element.value == "img")
+      return element if image?(element) && element.attr["src"].present?
 
       element.children.find do |child|
         nested_image = first_image_element(child)
         break nested_image if nested_image
       end
+    end
+
+    def image?(element)
+      element.type == :img || (element.type == :html_element && element.value == "img")
     end
   end
 
