@@ -21,7 +21,7 @@ $(document).ready(function () {
    * Install a click handler to switch to edit mode when the
    * edit button is pressed.
    */
-  $(".richtext_doedit").click(function (event) {
+  $(".richtext_doedit").click(function () {
     var editor = $(this).parents(".richtext_container").find("textarea");
     var preview = $(this).parents(".richtext_container").find(".richtext_preview");
 
@@ -30,15 +30,13 @@ $(document).ready(function () {
 
     $(this).siblings(".richtext_dopreview").prop("disabled", false);
     $(this).prop("disabled", true);
-
-    event.preventDefault();
   });
 
   /*
    * Install a click handler to switch to preview mode when the
    * preview button is pressed.
    */
-  $(".richtext_dopreview").click(function (event) {
+  $(".richtext_dopreview").click(function () {
     var editor = $(this).parents(".richtext_container").find("textarea");
     var preview = $(this).parents(".richtext_container").find(".richtext_preview");
     var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
@@ -60,7 +58,5 @@ $(document).ready(function () {
 
     $(this).siblings(".richtext_doedit").prop("disabled", false);
     $(this).prop("disabled", true);
-
-    event.preventDefault();
   });
 });
