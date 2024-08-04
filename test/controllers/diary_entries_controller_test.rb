@@ -119,9 +119,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
         assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
         assert_select "input[name=commit][type=submit][value=Publish]", :count => 1
-        assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
-        assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 6
+        assert_select "button[type=button]", :text => "Edit", :count => 1
+        assert_select "button[type=button]", :text => "Preview", :count => 1
+        assert_select "input", :count => 4
       end
     end
   end
@@ -272,9 +272,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
         assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
         assert_select "input[name=commit][type=submit][value=Update]", :count => 1
-        assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
-        assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 7
+        assert_select "button[type=button]", :text => "Edit", :count => 1
+        assert_select "button[type=button]", :text => "Preview", :count => 1
+        assert_select "input", :count => 5
       end
     end
 
