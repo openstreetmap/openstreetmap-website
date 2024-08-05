@@ -55,6 +55,8 @@ is:
       messages:
         invalid_email_address: lítur ekki út fyrir að vera gilt tölvupóstfang
         email_address_not_routable: er ekki nothæft
+        display_name_is_user_n: getur ekki verið user_n nema n sé notandaauðkennið
+          þitt
       models:
         user_mute:
           is_already_muted: er nú þegar þaggað
@@ -89,7 +91,7 @@ is:
       tracetag: Merki ferils
       user: Notandi
       user_preference: Notandastillingar
-      user_token: Leynistrengur notanda
+      user_token: Aðgangsteikn notanda
       way: Leið
       way_node: Leiðarliður
       way_tag: Merki leiðar
@@ -250,6 +252,8 @@ is:
         reopened_at_by_html: Endurvirkjað %{when} af %{user}
       rss:
         title: Minnispunktar OpenStreetMap
+        description_all: Listi yfir minnispunkta sem hafa verið tilkynntir, gerðar
+          athugasemdir við eða hefur verið lokað
         description_area: Listi yfir minnispunkta sem hafa verið tilkynntir, gerðar
           athugasemdir við eða hefur verið lokað á svæðinu þínu [(%{min_lat}|%{min_lon})
           -- (%{max_lat}|%{max_lon})]
@@ -285,6 +289,8 @@ is:
         retain_changeset_discussions: Umræður þínar um breytingar, ef einhverjar eru,
           verða geymdar.
         retain_email: Netfangið þitt verður geymt.
+        recent_editing_html: Þar sem þú hefur nýverið gert breytingar er ekki hægt
+          að eyða aðgangnum þínum. Eyðing verður möguleg eftir %{time}.
         confirm_delete: Ertu viss?
         cancel: Hætta við
   accounts:
@@ -299,6 +305,7 @@ is:
       public editing:
         heading: Nafngreindar breytingar
         enabled: Virkt. Ekki nafnlaus og getur breytt gögnum.
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Hvað er þetta?
         disabled: Óvirkur og getur ekki breytt gögnum, allar fyrri breytingar eru
           ónafngreindar.
@@ -312,6 +319,7 @@ is:
           skilmálana vegna framlags þíns.
         agreed_with_pd: Þú hefur einnig lýst því yfir að breytingar þínar verði í
           almenningseigu (Public Domain).
+        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: Hvað er þetta?
       save changes button: Vista breytingar
       delete_account: Eyði aðgangi...
@@ -340,6 +348,7 @@ is:
     deleted_ago_by_html: Eytt %{time_ago} af %{user}
     edited_ago_by_html: Breytt %{time_ago} af %{user}
     version: Útgáfa
+    redacted_version: Endurskoðuð útgáfa
     in_changeset: Breytingasett
     anonymous: nafnlaus
     no_comment: (engin athugasemd)
@@ -352,7 +361,10 @@ is:
       other: '%{count} leiðir'
     download_xml: Sækja XML
     view_history: Skoða feril
+    view_unredacted_history: Sjá óendurskoðaða útgáfu
     view_details: Skoða nánar
+    view_redacted_data: Sjá endurskoðuð gögn
+    view_redaction_message: Sjá skilaboð með yfirferð
     location: 'Staðsetning:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -435,6 +447,15 @@ is:
       introduction: Smelltu á kortið til að finna fitjur í nágrenninu.
       nearby: Nálægar fitjur
       enclosing: Umlykjandi fitjur
+  old_nodes:
+    not_found:
+      sorry: 'Því miður, liðurinn #%{id} útgáfa %{version} fannst ekki.'
+  old_ways:
+    not_found:
+      sorry: 'Því miður, leiðin #%{id} útgáfa %{version} fannst ekki.'
+  old_relations:
+    not_found:
+      sorry: 'Því miður, venslin #%{id} útgáfa %{version} fundust ekki.'
   changesets:
     changeset_paging_nav:
       showing_page: Síða %{page}
@@ -469,11 +490,20 @@ is:
         created: Búið til
         closed: Lokað
         belongs_to: Höfundur
+    subscribe:
+      heading: Gerast áskrifandi að umræðu með breytingasetti?
+      button: Gerast áskrifandi að umræðu
+    unsubscribe:
+      heading: Hætta áskrift að umræðu með breytingasetti?
+      button: Hætta áskrift að umræðu
     heading:
       title: Breytingasett %{id}
       created_by_html: Útbúið af %{link_user} þann %{created}.
     no_such_entry:
       title: Ekkert slíkt breytingasett
+      heading: 'Engin færsla er til með auðkennið: %{id}'
+      body: Breytingasett númerið %{id} er ekki til. Kannski settirðu inn rangt stafsetta
+        slóð eða fylgdir ógildum tengli.
     show:
       title: 'Breytingasett: %{id}'
       created: 'Búið til: %{when}'
@@ -612,8 +642,10 @@ is:
         title: OpenStreetMap bloggfærslur
         description: Nýjustu bloggfærslur frá notendum OpenStreetMap
     subscribe:
+      heading: Gerast áskrifandi að umræðu með bloggfærslu?
       button: Gerast áskrifandi að umræðu
     unsubscribe:
+      heading: Hætta áskrift að umræðu með bloggfærslu?
       button: Hætta áskrift að umræðu
   diary_comments:
     index:
@@ -626,11 +658,40 @@ is:
       comment: Athugasemd
       newer_comments: Nýrri athugasemdir
       older_comments: Eldri athugasemdir
+    new:
+      heading: Bæta athugasemd við umræðu með bloggfærslu?
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Auðkenningarþjónninn krefst þess að reikningur
+          endanotanda sé valinn
+        consent_required: Auðkenningarþjónninn krefst samþykkis endanotanda
+        interaction_required: Auðkenningarþjónninn krefst aðgerðar af hálfu endanotanda
+        login_required: Auðkenningarþjónninn krefst auðkenningar endanotanda
     flash:
       applications:
         create:
           notice: Umsókn skráð.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner vantar.
+          reauthenticate_resource_owner_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner vantar.
+          resource_owner_from_access_token_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token vantar.
+          select_account_for_resource_owner_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            vantar.
+          subject_not_configured: Gerð auðkennisteikns brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.subject vantar.
+    scopes:
+      address: Skoðaðu heimilisfangið þitt
+      email: Skoðaðu tölvupóstfangið þitt
+      openid: Auðkenndu notandaaðganginn þinn
+      phone: Skoðaðu símanúmerið þitt
+      profile: Skoðaðu persónuupplýsingar þínar
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/Contact
@@ -641,6 +702,8 @@ is:
         þinnar.
     bad_request:
       title: Ógild beiðni
+      description: Aðgerðin sem þú baðst um á OpenStreetMap-þjóninum er ekki gild
+        (HTTP 400)
     forbidden:
       title: Bannað
       description: Aðgerðin sem þú baðst um á OpenStreetMap-þjóninum er aðeins í boði
@@ -868,6 +931,7 @@ is:
           shed: Skúr
           stable: Hesthús
           static_caravan: Hjólhýsi
+          sty: Stía
           temple: Trúarleg bygging
           terrace: Raðhús
           train_station: Lestarstöðvarbygging
@@ -1520,7 +1584,7 @@ is:
       title_html: Tilkynna %{link}
       missing_params: Get ekki búið til nýja skýrslu
       disclaimer:
-        intro: 'Áður en þú sendir skýrsluna þína inn til stjórnenda vefsins, skaltu
+        intro: 'Áður en þú sendir skýrsluna þína inn til umsjónarmanna vefsins, skaltu
           ganga úr skugga um að:'
         not_just_mistake: Þú sért viss um að vandamálið sé ekki bara mistök
         unable_to_fix: Þér hefur sjálfum ekki tekist að leysa vandamálið eða með hjálp
@@ -1579,7 +1643,10 @@ is:
     intro_text: OpenStreetMap er heimskort gert af fólki eins og þér. Það er gefið
       út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
     intro_2_create_account: Búa til notandaaðgang
+    hosting_partners_2024_html: Vefhýsing er studd af %{fastly}, %{corpmembers} og
+      öðrum %{partners}.
     partners_fastly: Fastly
+    partners_corpmembers: Fyrirtækjameðlimir OSMF
     partners_partners: samstarfsaðilum
     tou: Notkunarskilmálar
     osm_offline: OpenStreetMap gagnagrunnurinn er niðri vegna viðhalds.
@@ -1600,6 +1667,7 @@ is:
     more: Meira
   user_mailer:
     diary_comment_notification:
+      description: 'OpenStreetMap bloggfærsla #%{id}'
       subject: '[OpenStreetMap] %{user} bætti athugasemd við bloggfærslu þína'
       hi: Hæ %{to_user},
       header: '%{from_user} hefur bætt við athugasemd á OpenStreetMap bloggfærsluna
@@ -1610,6 +1678,8 @@ is:
         á %{commenturl} eða sent skilaboð til höfundarins á %{replyurl}
       footer_html: Þú getur einnig lesið athugasemdina á %{readurl} og skrifað athugasemd
         á %{commenturl} eða sent skilaboð til höfundarins á %{replyurl}
+      footer_unsubscribe: Þú getur hætt áskrift að umræðunni á %{unsubscribeurl}
+      footer_unsubscribe_html: Þú getur hætt áskrift að umræðunni á %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Hæ %{to_user},
@@ -1630,13 +1700,19 @@ is:
       befriend_them: Þú getur líka bætt þeim við sem vinum á %{befriendurl}.
       befriend_them_html: Þú getur líka bætt þeim við sem vinum á %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Hitt sér út sem að þinn GPX-fil %{trace_name} með lýsingunni
+        %{trace_description} og eftirfarandi merki: %{tags}'
       description_with_tags_html: 'Hitt sér út sem að þinn GPX-fil %{trace_name} með
         lýsingunni %{trace_description} og eftirfarandi merki: %{tags}'
+      description_with_no_tags: Hitt sér út sem að þinn GPX-fil %{trace_name} með
+        lýsingunni %{trace_description} og engin merki
       description_with_no_tags_html: Hitt sér út sem að þinn GPX-fil %{trace_name}
         með lýsingunni %{trace_description} og engin merki
     gpx_failure:
       hi: Hæ %{to_user},
       failed_to_import: 'tókst ekki að flytja inn. Hér er villan:'
+      more_info: Frekari upplýsingar um bilanir í GPX-innflutningi og hvernig á að
+        forðast þær má finna á %{url}.
       more_info_html: Frekari upplýsingar um bilanir í GPX-innflutningi og hvernig
         á að forðast þær má finna á %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
@@ -1646,6 +1722,9 @@ is:
       loaded:
         one: var hlaðið inn með %{trace_points} af %{count} punkti mögulegum.
         other: var hlaðið inn með %{trace_points} punktum af %{count} mögulegum.
+      trace_location: Ferillinn þinn er núna tiltækur á %{trace_url}
+      all_your_traces: Alla GPX-ferla sem þú hefur sent inn má finna á %{url}
+      all_your_traces_html: Alla GPX-ferla sem þú hefur sent inn má finna á %{url}.
       subject: '[OpenStreetMap] GPX skrá flutt inn'
     signup_confirm:
       subject: '[OpenStreetMap] Velkomin í OpenStreetMap'
@@ -1671,6 +1750,7 @@ is:
       click_the_link: Ef þú óskaðir eftir þessari endurstillingu, skaltu fylgja tenglinum
         hér fyrir neðan til að staðfesta breytinguna.
     note_comment_notification:
+      description: 'OpenStreetMap-minnispunktur #%{id}'
       anonymous: Nafnlaus notandi
       greeting: Hæ,
       commented:
@@ -1715,6 +1795,7 @@ is:
       details: Svaraðu eða fáðu nánari upplýsingar um minnispunktinn á %{url}.
       details_html: Svaraðu eða fáðu nánari upplýsingar um minnispunktinn á %{url}.
     changeset_comment_notification:
+      description: 'OpenStreetMap-breytingasett #%{id}'
       hi: Hæ %{to_user},
       greeting: Hæ,
       commented:
@@ -1760,7 +1841,7 @@ is:
       press confirm button: Hér getur þú staðfest breytingu á netfangi.
       button: Staðfesta
       success: Breyting á netfanginu þínu hefur verið staðfest.
-      failure: Netfang hefur þegar verið staðfest með þessum lykli.
+      failure: Netfang hefur þegar verið staðfest með þessu aðgangsteikni.
       unknown_token: Þessi staðfestingarkóði er útrunninn eða er ekki til staðar.
     resend_success_flash:
       confirmation_sent: Við höfum sent nýja staðfestingarmiða til %{email} og um
@@ -1841,6 +1922,9 @@ is:
     mark:
       as_read: Skilaboðin voru merkt sem lesin
       as_unread: Skilaboðin voru merkt sem ólesin
+    unmute:
+      notice: Skilaboð voru færð í Innhólf
+      error: Ekki var hægt að færa skilaboðin í innhólfið.
     destroy:
       destroyed: Skilaboðunum var eytt
   passwords:
@@ -1851,13 +1935,18 @@ is:
       new password button: Endurstilla lykilorð
       help_text: Sláðu inn netfangið sem þú skráðir þig með, við munum senda tengil
         á það sem þú getur notað til að breyta lykilorðinu þínu.
+    create:
+      send_paranoid_instructions: Ef tölvupóstfangið þitt fyrirfinnst í gagnagrunninum
+        okkar, munt þú innan nokkurra mínútna fá tölvupóst með tengli til að endurheimta
+        lykilorðið þitt.
     edit:
       title: Endurstilla lykilorð
       heading: Endurstilla lykilorð fyrir %{user}
       reset: Endurstilla lykilorð
-      flash token bad: Þessi leynistrengur fannst ekki, kannski er slóðin röng?
+      flash token bad: Þetta aðgangsteikn fannst ekki, kannski er slóðin röng?
     update:
       flash changed: Lykilorðinu þínu hefur verið breytt
+      flash token bad: Þetta aðgangsteikn fannst ekki, kannski er slóðin röng?
   preferences:
     show:
       title: Kjörstillingar
@@ -1902,6 +1991,7 @@ is:
     new:
       title: Skrá inn
       tab_title: Skrá inn
+      login_to_authorize_html: Skráðu inn á OpenStreetMap til að fá aðgang að %{client_app_name}.
       email or username: Tölvupóstur eða notandanafn
       password: Lykilorð
       remember: Muna innskráninguna
@@ -1937,6 +2027,7 @@ is:
       image: Mynd
       alt: Alt-texti
       url: Vefslóð
+      codeblock: Kóðablokk
     richtext_field:
       edit: Breyta
       preview: Forskoða
@@ -2099,7 +2190,12 @@ is:
           Resources Canada), og StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: |-
+          %{czechia}: Inniheldur gögn frá Ríkisumsýslu landmælinga
+          og Landskrá fasteigna gefið út með %{cc_licence_link} notkunarleyfi
         contributors_cz_czechia: Tékkland
+        contributors_cz_cc_licence: Creative Commons HöfundarGetið 4.0 alþjóðlegt
+          notkunarleyfi (CC BY 4.0)
         contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
         contributors_fi_credit_html: |-
           %{finland}: Inniheldur gögn frá
@@ -2112,8 +2208,13 @@ is:
           %{france}: Inniheldur afleidd gögn frá
           Direction Générale des Impôts (Skattstjóraembættið).
         contributors_fr_france: Frakkland
+        contributors_hr_credit_html: |-
+          %{croatia}: Inniheldur gögn frá %{dgu_link} og %{open_data_portal}
+          (opinberar upplýsingar um Króatíu).
         contributors_hr_croatia: Króatía
+        contributors_hr_dgu: Jarðfræðistofnun Króatíska ríkisins
         contributors_hr_dgu_url: https://dgu.gov.hr/
+        contributors_hr_open_data_portal: National Open Data Portal
         contributors_hr_open_data_portal_url: https://data.gov.hr/
         contributors_nl_credit_html: '%{netherlands}: Inniheldur AND-gögn &copy;,
           2007 (%{and_link})'
@@ -2388,6 +2489,7 @@ is:
           scrubland: Kjarrlendi
           lake: Vatn
           reservoir: Uppistöðulón
+          intermittent_water: Ósamfellt vatnasvæði
           glacier: Jökull
           reef: Sker
           wetland: Votlendi
@@ -2413,9 +2515,11 @@ is:
           destination: Umferð leyfileg á ákveðinn áfangastað
           construction: Vegir í byggingu
           bus_stop: Strætisvagnabiðstöð
+          stop: Biðstöð
           bicycle_shop: Hjólaverslun
           bicycle_rental: Reiðhjólaleiga
           bicycle_parking: Reiðhjólastæði
+          bicycle_parking_small: Lítið reiðhjólastæði
           toilets: Salerni
     welcome:
       title: Velkomin!
@@ -2463,6 +2567,7 @@ is:
         automated_edits: Sjálfvirkar breytingar
         automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Hefja kortlagningu
+      continue_authorization: Halda auðkenningu áfram
       add_a_note:
         title: Enginn tími fyrir breytingar? Bættu við athugasemd!
         para_1: Það er auðvelt að bæta við minnispunkti ef þú vilt laga eitthvað smávægilegt
@@ -2568,6 +2673,8 @@ is:
       identifiable: AUÐKENNANLEGT
       private: EINKA
       trackable: REKJANLEGT
+      details_with_tags_html: '%{time_ago} af %{user} í %{tags}'
+      details_without_tags_html: '%{time_ago} af %{user}'
     index:
       public_traces: Allir ferlar
       my_gps_traces: GPS ferlarnir mínir
@@ -2601,6 +2708,9 @@ is:
         other: GPX-skrá með %{count} punktum frá %{user}
       description_without_count: GPX-skrá frá %{user}
   application:
+    basic_auth_disabled: 'Einföld HTTP-auðkenning (Basic Authentication) er óvirk:
+      %{link}'
+    oauth_10a_disabled: 'OAuth 1.0 og 1.0a eru óvirk: %{link}'
     auth_disabled_link: https://wiki.openstreetmap.org/wiki/2024_authentication_update
     permission_denied: Þú hefur ekki réttindi til að nota þessa aðgerð
     require_cookies:
@@ -2624,6 +2734,7 @@ is:
       oauth2_authorizations: OAuth 2 auðkenningar
       muted_users: Þaggaðir notendur
     auth_providers:
+      openid_url: OpenID-slóð
       openid_login_button: Halda áfram
       openid:
         title: Skrá inn með OpenID
@@ -2683,11 +2794,17 @@ is:
       read_gpx: Lesa einka-GPS-ferlana þína.
       write_gpx: Senda inn GPS feril.
       write_notes: Breyta minnispunktum.
+      write_redactions: Endurskoða kortagögn
       read_email: Lesa tölvupóstfang notanda
+      consume_messages: Lesa, uppfæra stöðu og eyða skilaboðum notenda
+      send_messages: Senda einkaskilaboð til annara notenda
       skip_authorization: Samþykkja forrit sjálfvirkt
+    for_roles:
+      moderator: Þessi heimild er fyrir aðgerðir sem eingöngu tiltækar fyrir umsjónarmenn
   oauth_clients:
     new:
       title: Skrá nýtt forrit
+      disabled: Skráning OAuth 1 forrita hefur verið gerð óvirk
     edit:
       title: Breyta forritinu þínu
     show:
@@ -2773,6 +2890,7 @@ is:
       title: Auðkenndu forritin mín
       application: Forrit
       permissions: Heimildir
+      last_authorized: Síðast auðkennt
       no_applications_html: Þú hefur ekki ennþá heimilað nein %{oauth2} forrit.
       oauth_2: OAuth 2
     application:
@@ -2782,6 +2900,7 @@ is:
     new:
       title: Nýskrá
       tab_title: Nýskrá
+      signup_to_authorize_html: Skráðu þig á OpenStreetMap til að fá aðgang að %{client_app_name}.
       no_auto_account_create: Því miður getum við eki búið til reikning fyrir þig
         sjálfkrafa.
       please_contact_support_html: Hafðu samband við %{support_link} til að fá aðgang
@@ -2792,12 +2911,21 @@ is:
         paragraph_1: Ólíkt öðrum landakortum, er OpenStreetMap gert frá grunni af
           fólki eins og þér, öllum er heimilt að laga það, uppfæra, sækja og nota.
         paragraph_2: Skráðu þig sem notanda til að geta tekið þátt.
+        welcome: Velkomin í OpenStreetMap
+      duplicate_social_email: Ef þú ert þegar með notandaaðgang á OpenStreetMap en
+        óskar eftir að nota utanaðkomandi auðkenningarþjónustu, skaltu skrá þig inn
+        með lykilorðinu þínu og gera viðeigandi breytingar í stillingum notandaaðgangsins
+        þíns.
       display name description: Nafn þitt sem aðrir notendur sjá, þú getur breytt
         því síðar í stillingunum þínum.
       by_signing_up:
+        html: Með því að skrá þig, samþykkir þú %{tou_link}, %{privacy_policy_link}
+          og %{contributor_terms_link} hjá okkur.
         privacy_policy: meðferð persónuupplýsinga
+        privacy_policy_url: https://wiki.osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: persónuverndarstefnu OSMF, þar með talinn hlutann um
           tölvupóstföng
+        contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: skilmálar vegna framlags
       tou: notkunarskilmálar
       external auth: 'Auðkenning með þriðja aðila:'
@@ -2806,8 +2934,14 @@ is:
         þíns!
       email_help:
         privacy_policy: stefna vegna meðferðar persónuupplýsinga
+        privacy_policy_url: https://wiki.osmfoundation.org/wiki/Privacy_Policy
+        privacy_policy_title: persónuverndarstefnu OSMF, þar með talinn hlutann um
+          tölvupóstföng
         html: Netfangið þitt er ekki birt opinberlega, skoðaðu síðuna um %{privacy_policy_link}
           til að sjá nánari upplýsingar.
+      consider_pd_html: Ég lít svo á að framlög mín verði í %{consider_pd_link}.
+      consider_pd: almenningseign
+      consider_pd_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       or: eða
       use external auth: eða nýskráð þig með utanaðkomandi þjónustu
     terms:
@@ -2845,6 +2979,7 @@ is:
         nýja skilmála vegna framlags (contributor terms). Til að sjá ítarlegri upplýsingar,
         geturðu skoðað %{terms_declined_link}.
       terms_declined_link: þessari wiki síðu
+      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Notandi ekki til
       heading: Notandinn %{user} er ekki til
@@ -2865,6 +3000,7 @@ is:
       blocks on me: Bönn gegn mér
       blocks by me: Bönn eftir mig
       create_mute: Þagga þennan notanda
+      destroy_mute: Hætta að þagga niður í þessum notanda
       edit_profile: Breyta notandasíðu
       send message: Senda skilaboð
       diary: Blogg
@@ -2874,6 +3010,9 @@ is:
       remove as friend: Fjarlægja úr vinum
       add as friend: Bæta við sem vini
       mapper since: 'Í kortlagningu síðan:'
+      last map edit: 'Síðasta breyting á korti:'
+      no activity yet: Engin virkni ennþá
+      uid: 'Notandaauðkenni:'
       ct status: 'Skilmálar vegna framlags:'
       ct undecided: Óvíst
       ct declined: Hafnað
@@ -2884,14 +3023,18 @@ is:
       role:
         administrator: Þessi notandi er möppudýr
         moderator: Þessi notandi er prófarkalesari
+        importer: Þessi notandi hefur heimild til innflutnings
         grant:
           administrator: Veita möppudýrsréttindi
           moderator: Veita stjórnandaréttindi
+          importer: Veita aðgang að innflutningi
         revoke:
           administrator: Svifta möppudýrsréttindum
           moderator: Svifta stjórnandaréttindum
+          importer: Afturkalla aðgang að innflutningi
       block_history: Virk bönn
       moderator_history: Úthlutuð bönn (eftir notandann)
+      revoke_all_blocks: Aflétta öllum bönnum
       comments: Athugasemdir
       create_block: Banna þennan notanda
       activate_user: Virkja þennan notanda
@@ -2910,6 +3053,9 @@ is:
       heading: Notendur
       older: Eldri notendur
       newer: Nýrri notendur
+      found_users:
+        one: '%{count} notandi fannst'
+        other: '%{count} notendur fundust'
       summary_html: '%{name} var útbúinn frá %{ip_address} þann %{date}'
       summary_no_ip_html: '%{name} útbúinn þann %{date}'
       confirm: Staðfesta valda notendur
@@ -2984,6 +3130,8 @@ is:
       flash: Bjó til bann gegn %{name}.
     update:
       only_creator_can_edit: Aðeins stjórnandinn sem bjó til bannið getur breytt því.
+      only_creator_or_revoker_can_edit: Aðeins þeir umsjónarmenn sem hafa sett bannið
+        geta breytt því.
       success: Banninu var breytt.
     index:
       title: Bönn
@@ -2999,7 +3147,15 @@ is:
       revoke: Eyða banninu
       flash: Banninu var eytt.
     revoke_all:
+      title: Eyði öllum bönnum á %{block_on}
+      heading_html: Eyði öllum bönnum á %{block_on}
+      empty: '%{name} er ekki með nein virk bönn.'
+      confirm: Ertu viss um að þú viljir aflétta %{active_blocks}?
+      active_blocks:
+        one: '%{count} virkt bann'
+        other: '%{count} virk bönn'
       revoke: Afturkalla!
+      flash: Öllum virkum bönnum hefur verið aflétt.
     helper:
       time_future_html: Endar eftir %{time}
       until_login: Virkt þangað til notandinn skráir sig inn.
@@ -3054,13 +3210,26 @@ is:
       reason: Ástæða banns
       status: Staða
       revoker_name: Eytt af
+      older: Eldri bönn
+      newer: Nýrri bönn
+    navigation:
+      all_blocks: Öll bönn
+      blocks_on_me: Bönn gegn mér
+      blocks_on_user: Bönn gegn %{user}
+      blocks_by_me: Bönn eftir mig
+      blocks_by_user: Bönn eftir %{user}
+      block: 'Bann #%{id}'
   user_mutes:
     index:
       title: Þaggaðir notendur
       my_muted_users: Þaggaðir notendur mínir
       you_have_muted_n_users:
-        one: Þú hefur þaggað niður í {count} notanda
-        other: Þú hefur þaggað niður í {count} notendum
+        one: Þú hefur þaggað niður í %{count} notanda
+        other: Þú hefur þaggað niður í %{count} notendum
+      user_mute_explainer: Skilaboð frá þögguðum notendum eru sett í sérstakt pósthólf
+        og þú munt ekki fá tilkynningar í tölvupósti.
+      user_mute_admins_and_moderators: Þú getur þaggað niður í stjórnendum og umsjónarfólki
+        en skilaboð þeirra verða ekki þögguð.
       table:
         thead:
           muted_user: Þaggaður notandi
@@ -3081,6 +3250,8 @@ is:
       heading: Minnispunktar frá %{user}
       subheading_html: Minnispunktar sem hafa verið %{submitted} eða gerð %{commented}
         við af %{user}
+      subheading_submitted: sendi inn
+      subheading_commented: setti inn athugasemd á
       no_notes: Engir minnispunktar
       id: Auðkenni (ID)
       creator: Búið til af
@@ -3111,6 +3282,7 @@ is:
       reactivate: Virkja aftur
       comment_and_resolve: Athugasemd & leysa
       comment: Athugasemd
+      log_in_to_comment: Skráðu þig inn til að gera athugasemd við þennan minnispunkt
       report_link_html: Ef þessi minnispunktur inniheldur viðkvæmar upplýsingar sem
         þarf að fjarlægja geturðu %{link}.
       other_problems_resolve: Fyrir öll önnur vandamál með minnispunktinn, skaltu
@@ -3123,7 +3295,10 @@ is:
       intro: Fannstu mistök eða eitthvað sem vantar? Láttu aðra kortagerðarmenn vita
         svo hægt sé að laga það. Færðu kortamerkið á réttan stað og skrifaðu minnispunkt
         til að útskýra vandamálið.
+      anonymous_warning_html: Þú ert ekki skráð/ur inn. Notaðu %{log_in} eða %{sign_up}
+        ef þú vilt fá uppfærslur varðandi minnispunktinn þinn.
       anonymous_warning_log_in: skrá inn
+      anonymous_warning_sign_up: Nýskráðu þig
       advice: Minnispunkturinn þinn er opinber og gæti verið notaður til að uppfæra
         kortið; því ættirðu ekki að setja inn neinar persónulegar upplýsingar, eða
         upplýsingar úr höfundarvörðu efni.
@@ -3174,6 +3349,7 @@ is:
         cyclosm: CyclOSM
         cycle_map: Hjólakort
         transport_map: Umferðarkort
+        tracestracktop_topo: Tracestrack Topo
         hot: Hjálparstarf
       layers:
         header: Lög á korti
@@ -3191,6 +3367,8 @@ is:
       osm_france: OpenStreetMap Frakklandi
       thunderforest_credit: Kortatíglar frá %{thunderforest_link}
       andy_allan: Andy Allan
+      tracestrack_credit: Kortatíglar frá %{tracestrack_link}
+      tracestrack: Tracestrack
       hotosm_credit: Stíll kortatígla frá %{hotosm_link} hýst af %{osm_france_link}
       hotosm_name: Humanitarian OpenStreetMap teyminu
     site:
@@ -3202,6 +3380,7 @@ is:
       map_data_zoom_in_tooltip: Renndu að til að skoða gögn kortsins
       queryfeature_tooltip: Rannsaka fitjur
       queryfeature_disabled_tooltip: Renndu að til að rannsaka fitjur
+      embed_html_disabled: Ívafið HTML ekki tiltækt fyrir þetta kortalag
     edit_help: Færðu kortið og stilltu aðdrátt inn á staðinn sem þú vilt breyta, smelltu
       síðan hér.
     directions:

@@ -677,6 +677,9 @@ el:
       comment: Σχόλιο
       newer_comments: Νεότερα σχόλια
       older_comments: Παλαιότερα σχόλια
+    new:
+      heading: Να προσθέσετε ένα σχόλιο στην ακόλοουθη συζήτηση για την καταχώριση
+        ημερολογίου;
   doorkeeper:
     errors:
       messages:
@@ -922,6 +925,7 @@ el:
           college: Πανεπιστημιακό κτήριο
           commercial: Εμπορικό κτήριο
           construction: Κτήριο υπό κατασκευή
+          cowshed: Αγελαδοστάσιο
           detached: Μεζονέτα
           dormitory: Κοιτώνας
           duplex: Μεζονέτα
@@ -951,6 +955,7 @@ el:
           shed: Υπόστεγο
           stable: Στάβλος
           static_caravan: Τροχόσπιτο
+          sty: Χοιροστάσιο
           temple: Κτήριο ναού
           terrace: Σειρά όμοιων σπιτιών
           train_station: Κτήριο Σιδηροδρομικού Σταθμού
@@ -1670,6 +1675,7 @@ el:
       λόγω εργασιών συντήρησης.
     osm_read_only: Η βάση δεδομένων του OpenStreetMap έχει τεθεί προσωρινά σε λειτουργία
       «μόνο για ανάγνωση» λόγω εργασιών συντήρησης.
+    nothing_to_preview: Τίποτα για προεπισκόπηση.
     donate: Υποστηρίξτε το OpenStreetMap %{link} στον έρανο αναβάθμισης υλικού.
     help: Βοήθεια
     about: Σχετικά
@@ -1718,13 +1724,19 @@ el:
       befriend_them: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο %{befriendurl}.
       befriend_them_html: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Φαίνεται πως το αρχείο σας GPX %{trace_name} με την
+        περιγραφή %{trace_description} και με τις παρακάτω ετικέτες: %{tags}'
       description_with_tags_html: 'Φαίνεται πως το αρχείο σου GPX %{trace_name} με
         την περιγραφή %{trace_description} και με τις παρακάτω ετικέτες: %{tags}'
+      description_with_no_tags: Φαίνεται πως το αρχείο σας GPX %{trace_name} με την
+        περιγραφή %{trace_description} και χωρίς ετικέτες
       description_with_no_tags_html: Φαίνεται πως το αρχείο σου GPX %{trace_name}
         με την περιγραφή %{trace_description} και χωρίς ετικέτες
     gpx_failure:
       hi: Γεια σας %{to_user},
       failed_to_import: 'Απέτυχε η εισαγωγή. Το σφάλμα είναι:'
+      more_info: Περισσότερες πληροφορίες σχετικά με τα σφάλματα εισαγωγής GPX και
+        πως να τα αποφύγετε, μπορείτε να βρείτε στο %{url}.
       more_info_html: Περισσότερες πληροφορίες σχετικά με τις αποτυχίες εισαγωγής
         GPX και τον τρόπο αποφυγής τους μπορείτε να βρείτε στη διεύθυνση %{url}.
       subject: '[OpenStreetMap] Η εισαγωγή GPX απέτυχε'
@@ -1733,6 +1745,9 @@ el:
       loaded:
         one: φορτώθηκε επιτυχώς με %{trace_points} από πιθανό %{count} σημείο.
         other: φορτώθηκε επιτυχώς με %{trace_points} από πιθανά %{count} σημεία.
+      trace_location: Το ίχνος σας είναι διαθέσιμο στο %{trace_url}
+      all_your_traces: Όλα τα επιτυχώς ανεβασμένα ίχνη GPX σας μπορούν να βρεθούν
+        στο %{url}
       all_your_traces_html: Όλα τα ίχνη GPX που ανεβάσατε με επιτυχία μπορούν να βρεθούν
         στη διεύθυνση %{url}.
       subject: '[OpenStreetMap] Η εισαγωγή GPX πέτυχε'
@@ -2654,25 +2669,26 @@ el:
       oauth2_authorizations: Εξουσιοδοτήσεις OAuth 2
       muted_users: Χρήστες σε Σίγαση
     auth_providers:
+      openid_url: OpenID URL
       openid_login_button: Συνέχεια
       openid:
         title: Σύνδεση με OpenID
-        alt: Σύνδεση με ένα OpenID URL
+        alt: Λογότυπο OpenID
       google:
         title: Σύνδεση με Google
-        alt: Σύνδεση με ένα Google OpenID
+        alt: Λογότυπο Google
       facebook:
         title: Σύνδεση με Facebook
-        alt: Σύνδεση με λογαριασμό Facebook
+        alt: Λογότυπο Facebook
       microsoft:
         title: Σύνδεση με Microsoft
-        alt: Σύνδεση με λογαριασμό Microsoft
+        alt: Λογότυπο Microsoft
       github:
         title: Σύνδεση με GitHub
-        alt: Σύνδεση με λογαριασμό GitHub
+        alt: Λογότυπο GitHub
       wikipedia:
         title: Σύνδεση με Wikipedia
-        alt: Συνδεθείτε με λογαριασμό Wikipedia
+        alt: Λογότυπο Wikipedia
   oauth:
     authorize:
       title: Επιτρέψτε την πρόσβαση στο λογαριασμό σας
@@ -2714,7 +2730,12 @@ el:
       write_notes: Τροποποίηση σημειώσεων
       write_redactions: Αφαίρεση και απόκρυψη δεδομένων χάρτη
       read_email: Διαβάζει τη διεύθυνση email χρήστη
+      consume_messages: Ανάγνωση, ενημέρωση της κατάστασης και διαγραφή των μηνυμάτων
+        χρήστη
+      send_messages: Αποστολή προσωπικών μηνυμάτων σε άλλους χρήστες.
       skip_authorization: Αυτόματη έγκριση εφαρμογής
+    for_roles:
+      moderator: Αυτή η άδεια είναι για ενέργειες διαθέσιμες μόνο στους διαχειριστές
   oauth_clients:
     new:
       title: Καταχώρηση νέας εφαρμογής
@@ -2825,18 +2846,27 @@ el:
           το διορθώσει, να ενημερώσει, να το κατεβάσει και να το χρησιμοποιήσει.
         paragraph_2: Εγγραφείτε για να ξεκινήσετε να συνεισφέρετε.
         welcome: Καλώς ήλθατε στο OpenStreetMap
+      duplicate_social_email: Εάν έχετε ήδη λογαριασμό OpenStreetMap και επιθυμείτε
+        να χρησιμοποιείτε έναν πάροχο ταυτότητας τρίτου μέρους, παρακαλούμε να συνδεθείτε
+        χρησιμοποιώντας τον κωδικό πρόσβασής σας και να τροποποιήσετε τις ρυθμίσεις
+        του λογαριασμού σας.
       display name description: Το δημόσια εμφανιζόμενο όνομα χρήστη. Μπορείτε να
         το αλλάξετε αργότερα από τις προτιμήσεις.
       by_signing_up:
+        html: Με την εγγραφή σας, συμφωνείτε στους %{tou_link}, στην %{privacy_policy_link}
+          και στους %{contributor_terms_link}.
         privacy_policy: πολιτική απορρήτου
         privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
           για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
         contributor_terms: όρους συνεισφοράς
-      tou: όροι χρήσης
+      tou: όρους χρήσης
       external auth: 'Έλεγχος ταυτότητας από τρίτο μέρος:'
       continue: Εγγραφή
       terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
       email_help:
+        privacy_policy: πολιτική απορρήτου
+        privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
+          για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
         html: Η διεύθυνσή σας δεν εμφανίζεται δημόσια, ανατρέξτε στην %{privacy_policy_link}
           για περισσότερες πληροφορίες.
       consider_pd_html: Θεωρώ τις συνεισφορές μου να είναι στο %{consider_pd_link}.
@@ -3034,6 +3064,8 @@ el:
     update:
       only_creator_can_edit: Μόνο ο συντονιστής που δημιούργησε αυτήν τη φραγή μπορεί
         να την επεξεργαστεί.
+      only_creator_or_revoker_can_edit: Μόνο οι διαχειριστές που δημιούργησαν ή ανακαλέσαν
+        αυτή τη φραγή μπορούν να την επεξεργαστούν.
       success: Η φραγή ενημερώθηκε.
     index:
       title: Φραγές χρήστη
@@ -3216,7 +3248,7 @@ el:
       custom_dimensions: Ορισμός προσαρμοσμένων διαστάσεων
       format: 'Μορφή:'
       scale: 'Κλίμακα:'
-      image_dimensions: Η εικόνα θα εμφανίζει το τυπικό στρώμα στο %{width} x %{height}
+      image_dimensions: Η εικόνα θα εμφανίζει το %{layer} στο %{width} x %{height}
       download: Λήψη
       short_url: Σύντομος Σύνδεμος
       include_marker: Συμπερίληψη δείκτη
