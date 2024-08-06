@@ -297,6 +297,8 @@ module Api
     # tests whether the API works and prevents incorrect use while trying
     # to update nodes.
     def test_update
+      invalid_attr_values = [["lat", 91.0], ["lat", -91.0], ["lon", 181.0], ["lon", -181.0]]
+
       ## First test with no user credentials
       # try and update a node without authorisation
       # first try to delete node without auth
@@ -334,21 +336,11 @@ module Api
       assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
 
       ## try and submit invalid updates
-      xml = xml_attr_rewrite(xml_for_node(private_node), "lat", 91.0)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "node at lat=91 should be forbidden, when data isn't public"
-
-      xml = xml_attr_rewrite(xml_for_node(private_node), "lat", -91.0)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "node at lat=-91 should be forbidden, when data isn't public"
-
-      xml = xml_attr_rewrite(xml_for_node(private_node), "lon", 181.0)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "node at lon=181 should be forbidden, when data isn't public"
-
-      xml = xml_attr_rewrite(xml_for_node(private_node), "lon", -181.0)
-      put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
-      assert_require_public_data "node at lon=-181 should be forbidden, when data isn't public"
+      invalid_attr_values.each do |name, value|
+        xml = xml_attr_rewrite(xml_for_node(private_node), name, value)
+        put api_node_path(private_node), :params => xml.to_s, :headers => auth_header
+        assert_require_public_data "node at #{name}=#{value} should be forbidden, when data isn't public"
+      end
 
       ## finally, produce a good request which still won't work
       xml = xml_for_node(private_node)
@@ -386,21 +378,11 @@ module Api
       assert_response :conflict, "update with changeset=0 should be rejected"
 
       ## try and submit invalid updates
-      xml = xml_attr_rewrite(xml_for_node(node), "lat", 91.0)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request, "node at lat=91 should be rejected"
-
-      xml = xml_attr_rewrite(xml_for_node(node), "lat", -91.0)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request, "node at lat=-91 should be rejected"
-
-      xml = xml_attr_rewrite(xml_for_node(node), "lon", 181.0)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request, "node at lon=181 should be rejected"
-
-      xml = xml_attr_rewrite(xml_for_node(node), "lon", -181.0)
-      put api_node_path(node), :params => xml.to_s, :headers => auth_header
-      assert_response :bad_request, "node at lon=-181 should be rejected"
+      invalid_attr_values.each do |name, value|
+        xml = xml_attr_rewrite(xml_for_node(node), name, value)
+        put api_node_path(node), :params => xml.to_s, :headers => auth_header
+        assert_response :bad_request, "node at #{name}=#{value} should be rejected"
+      end
 
       ## next, attack the versioning
       current_node_version = node.version
