@@ -115,12 +115,12 @@ module Api
       comment = params[:text]
 
       # Find the note and check it is valid
-      @note = Note.find(id)
-      raise OSM::APINotFoundError unless @note
-      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-
-      # Mark the note as hidden
       Note.transaction do
+        @note = Note.lock.find(id)
+        raise OSM::APINotFoundError unless @note
+        raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+
+        # Mark the note as hidden
         @note.status = "hidden"
         @note.save
 
@@ -146,13 +146,13 @@ module Api
       comment = params[:text]
 
       # Find the note and check it is valid
-      @note = Note.find(id)
-      raise OSM::APINotFoundError unless @note
-      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-      raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
-
-      # Add a comment to the note
       Note.transaction do
+        @note = Note.lock.find(id)
+        raise OSM::APINotFoundError unless @note
+        raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+        raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
+
+        # Add a comment to the note
         add_comment(@note, comment, "commented")
       end
 
@@ -174,13 +174,13 @@ module Api
       comment = params[:text]
 
       # Find the note and check it is valid
-      @note = Note.find_by(:id => id)
-      raise OSM::APINotFoundError unless @note
-      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-      raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
-
-      # Close the note and add a comment
       Note.transaction do
+        @note = Note.lock.find_by(:id => id)
+        raise OSM::APINotFoundError unless @note
+        raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+        raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
+
+        # Close the note and add a comment
         @note.close
 
         add_comment(@note, comment, "closed")
@@ -204,13 +204,13 @@ module Api
       comment = params[:text]
 
       # Find the note and check it is valid
-      @note = Note.find_by(:id => id)
-      raise OSM::APINotFoundError unless @note
-      raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user.moderator?
-      raise OSM::APINoteAlreadyOpenError, @note unless @note.closed? || !@note.visible?
-
-      # Reopen the note and add a comment
       Note.transaction do
+        @note = Note.lock.find_by(:id => id)
+        raise OSM::APINotFoundError unless @note
+        raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user.moderator?
+        raise OSM::APINoteAlreadyOpenError, @note unless @note.closed? || !@note.visible?
+
+        # Reopen the note and add a comment
         @note.reopen
 
         add_comment(@note, comment, "reopened")
