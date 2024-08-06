@@ -1,15 +1,16 @@
 module OpenGraphHelper
   require "addressable/uri"
 
-  def opengraph_tags(title = nil, og_image = nil)
+  def opengraph_tags(title = nil, og_image = nil, og_image_alt = nil)
     tags = {
       "og:site_name" => t("layouts.project_name.title"),
       "og:title" => title || t("layouts.project_name.title"),
       "og:type" => "website",
-      "og:image" => og_image_url(og_image),
       "og:url" => url_for(:only_path => false),
       "og:description" => t("layouts.intro_text")
-    }
+    }.merge(
+      opengraph_image_properties(og_image, og_image_alt)
+    )
 
     safe_join(tags.map do |property, content|
       tag.meta(:property => property, :content => content)
@@ -18,12 +19,20 @@ module OpenGraphHelper
 
   private
 
-  def og_image_url(og_image)
+  def opengraph_image_properties(og_image, og_image_alt)
     begin
-      return Addressable::URI.join(root_url, og_image).normalize if og_image
+      if og_image
+        properties = {}
+        properties["og:image"] = Addressable::URI.join(root_url, og_image).normalize
+        properties["og:image:alt"] = og_image_alt if og_image_alt
+        return properties
+      end
     rescue Addressable::URI::InvalidURIError
       # return default image
     end
-    image_url("osm_logo_256.png")
+    {
+      "og:image" => image_url("osm_logo_256.png"),
+      "og:image:alt" => t("layouts.logo.alt_text")
+    }
   end
 end

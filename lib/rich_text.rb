@@ -53,6 +53,10 @@ module RichText
       nil
     end
 
+    def image_alt
+      nil
+    end
+
     protected
 
     def simple_format(text)
@@ -92,9 +96,13 @@ module RichText
     end
 
     def image
-      return @image if defined? @image
+      @image_element = first_image_element(document.root) unless defined? @image_element
+      @image_element.attr["src"] if @image_element
+    end
 
-      @image = first_image_element(document.root)&.attr&.[]("src")
+    def image_alt
+      @image_element = first_image_element(document.root) unless defined? @image_element
+      @image_element.attr["alt"] if @image_element
     end
 
     private

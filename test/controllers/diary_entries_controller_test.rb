@@ -657,6 +657,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_dom "head meta[property='og:image']" do
       assert_dom "> @content", ActionController::Base.helpers.image_url("osm_logo_256.png", :host => root_url)
     end
+    assert_dom "head meta[property='og:image:alt']" do
+      assert_dom "> @content", "OpenStreetMap logo"
+    end
   end
 
   def test_show_og_image
@@ -667,6 +670,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_dom "head meta[property='og:image']" do
       assert_dom "> @content", "https://example.com/picture.jpg"
+    end
+    assert_dom "head meta[property='og:image:alt']" do
+      assert_dom "> @content", "some picture"
     end
   end
 
@@ -679,6 +685,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_dom "head meta[property='og:image']" do
       assert_dom "> @content", "#{root_url}picture.jpg"
     end
+    assert_dom "head meta[property='og:image:alt']" do
+      assert_dom "> @content", "some local picture"
+    end
   end
 
   def test_show_og_image_with_spaces
@@ -689,6 +698,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_dom "head meta[property='og:image']" do
       assert_dom "> @content", "https://example.com/the%20picture.jpg"
+    end
+    assert_dom "head meta[property='og:image:alt']" do
+      assert_dom "> @content", "some picture"
     end
   end
 
@@ -701,6 +713,9 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_dom "head meta[property='og:image']" do
       assert_dom "> @content", "#{root_url}the%20picture.jpg"
     end
+    assert_dom "head meta[property='og:image:alt']" do
+      assert_dom "> @content", "some local picture"
+    end
   end
 
   def test_show_og_image_with_invalid_uri
@@ -712,6 +727,21 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_dom "head meta[property='og:image']" do
       assert_dom "> @content", ActionController::Base.helpers.image_url("osm_logo_256.png", :host => root_url)
     end
+    assert_dom "head meta[property='og:image:alt']" do
+      assert_dom "> @content", "OpenStreetMap logo"
+    end
+  end
+
+  def test_show_og_image_without_alt
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "<img src='https://example.com/no_alt.gif'>")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:image']" do
+      assert_dom "> @content", "https://example.com/no_alt.gif"
+    end
+    assert_dom "head meta[property='og:image:alt']", :count => 0
   end
 
   def test_hide
