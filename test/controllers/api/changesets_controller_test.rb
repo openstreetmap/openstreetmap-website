@@ -636,26 +636,27 @@ module Api
                       "can't upload a simple valid creation to changeset: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-      assert_select "diffResult>node", 1
-      assert_select "diffResult>way", 1
-      assert_select "diffResult>relation", 1
-
-      # inspect the response to find out what the new element IDs are
-      doc = XML::Parser.string(@response.body).parse
-      new_node_id = doc.find("//diffResult/node").first["new_id"].to_i
-      new_way_id = doc.find("//diffResult/way").first["new_id"].to_i
-      new_rel_id = doc.find("//diffResult/relation").first["new_id"].to_i
-
-      # check the old IDs are all present and negative one
-      assert_equal(-1, doc.find("//diffResult/node").first["old_id"].to_i)
-      assert_equal(-1, doc.find("//diffResult/way").first["old_id"].to_i)
-      assert_equal(-1, doc.find("//diffResult/relation").first["old_id"].to_i)
-
-      # check the versions are present and equal one
-      assert_equal 1, doc.find("//diffResult/node").first["new_version"].to_i
-      assert_equal 1, doc.find("//diffResult/way").first["new_version"].to_i
-      assert_equal 1, doc.find("//diffResult/relation").first["new_version"].to_i
+      new_node_id, new_way_id, new_rel_id = nil
+      assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+        # inspect the response to find out what the new element IDs are
+        # check the old IDs are all present and negative one
+        # check the versions are present and equal one
+        assert_dom "> node", 1 do |(node_el)|
+          new_node_id = node_el["new_id"].to_i
+          assert_dom "> @old_id", "-1"
+          assert_dom "> @new_version", "1"
+        end
+        assert_dom "> way", 1 do |(way_el)|
+          new_way_id = way_el["new_id"].to_i
+          assert_dom "> @old_id", "-1"
+          assert_dom "> @new_version", "1"
+        end
+        assert_dom "> relation", 1 do |(rel_el)|
+          new_rel_id = rel_el["new_id"].to_i
+          assert_dom "> @old_id", "-1"
+          assert_dom "> @new_version", "1"
+        end
+      end
 
       # check that the changes made it into the database
       assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
@@ -878,28 +879,26 @@ module Api
                       "can't do a conditional delete of in use objects: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-      assert_select "diffResult>node", 1
-      assert_select "diffResult>way", 1
-      assert_select "diffResult>relation", 1
-
-      # parse the response
-      doc = XML::Parser.string(@response.body).parse
-
-      # check the old IDs are all present and what we expect
-      assert_equal used_node.id, doc.find("//diffResult/node").first["old_id"].to_i
-      assert_equal used_way.id, doc.find("//diffResult/way").first["old_id"].to_i
-      assert_equal used_relation.id, doc.find("//diffResult/relation").first["old_id"].to_i
-
-      # check the new IDs are all present and unchanged
-      assert_equal used_node.id, doc.find("//diffResult/node").first["new_id"].to_i
-      assert_equal used_way.id, doc.find("//diffResult/way").first["new_id"].to_i
-      assert_equal used_relation.id, doc.find("//diffResult/relation").first["new_id"].to_i
-
-      # check the new versions are all present and unchanged
-      assert_equal used_node.version, doc.find("//diffResult/node").first["new_version"].to_i
-      assert_equal used_way.version, doc.find("//diffResult/way").first["new_version"].to_i
-      assert_equal used_relation.version, doc.find("//diffResult/relation").first["new_version"].to_i
+      assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+        # check the old IDs are all present and what we expect
+        # check the new IDs are all present and unchanged
+        # check the new versions are all present and unchanged
+        assert_dom "> node", 1 do
+          assert_dom "> @old_id", used_node.id.to_s
+          assert_dom "> @new_id", used_node.id.to_s
+          assert_dom "> @new_version", used_node.version.to_s
+        end
+        assert_dom "> way", 1 do
+          assert_dom "> @old_id", used_way.id.to_s
+          assert_dom "> @new_id", used_way.id.to_s
+          assert_dom "> @new_version", used_way.version.to_s
+        end
+        assert_dom "> relation", 1 do
+          assert_dom "> @old_id", used_relation.id.to_s
+          assert_dom "> @new_id", used_relation.id.to_s
+          assert_dom "> @new_version", used_relation.version.to_s
+        end
+      end
 
       # check that nothing was, in fact, deleted
       assert Node.find(used_node.id).visible
@@ -973,14 +972,14 @@ module Api
                       "can't upload a complex diff to changeset: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-      assert_select "diffResult>node", 1
-      assert_select "diffResult>way", 1
-      assert_select "diffResult>relation", 1
-
-      # inspect the response to find out what the new element IDs are
-      doc = XML::Parser.string(@response.body).parse
-      new_node_id = doc.find("//diffResult/node").first["new_id"].to_i
+      new_node_id = nil
+      assert_dom "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1 do
+        assert_dom "> node", 1 do |(node_el)|
+          new_node_id = node_el["new_id"].to_i
+        end
+        assert_dom "> way", 1
+        assert_dom "> relation", 1
+      end
 
       # check that the changes made it into the database
       assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
