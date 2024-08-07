@@ -1,7 +1,7 @@
 module OpenGraphHelper
   require "addressable/uri"
 
-  def opengraph_tags(title = nil, og_image = nil, og_image_alt = nil)
+  def opengraph_tags(title, og_image, og_image_alt)
     tags = {
       "og:site_name" => t("layouts.project_name.title"),
       "og:title" => title || t("layouts.project_name.title"),
