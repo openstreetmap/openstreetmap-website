@@ -41,7 +41,7 @@
         <li id="c<%= comment.id %>">
           <small class='text-body-secondary'>
             <%= t comment.visible ? ".comment_by_html" : ".hidden_comment_by_html",
-                  :time_ago => friendly_date_ago(comment.created_at),
+                  :time_ago => link_to(friendly_date_ago(comment.created_at), "https://www.openstreetmap.org/changeset/#{@changeset.id}##{comment.id}"),
                   :user => link_to(comment.author.display_name, comment.author) %>
             <% if current_user&.moderator? %>
               —
