@@ -345,6 +345,16 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "Here starts the text.", r.description
   end
 
+  def test_markdown_description_after_image
+    r = RichText.new("markdown", "![bar](https://example.com/image.jpg)\n\nThis is below the image.")
+    assert_equal "This is below the image.", r.description
+  end
+
+  def test_markdown_description_only_first_paragraph
+    r = RichText.new("markdown", "This thing.\n\nMaybe also that thing.")
+    assert_equal "This thing.", r.description
+  end
+
   def test_markdown_description_elements
     r = RichText.new("markdown", "*Something* **important** [here](https://example.com/).")
     assert_equal "Something important here.", r.description

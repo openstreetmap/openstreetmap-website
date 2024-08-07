@@ -112,8 +112,9 @@ module RichText
     end
 
     def description
-      @paragraph_element = first_paragraph_element(document.root) unless defined? @paragraph_element
-      truncated_text_content(@paragraph_element) if @paragraph_element
+      return @description if defined? @description
+
+      @description = first_truncated_text_content(document.root)
     end
 
     private
@@ -131,12 +132,14 @@ module RichText
       end
     end
 
-    def first_paragraph_element(element)
-      return element if paragraph?(element)
-
-      element.children.find do |child|
-        nested_paragraph = first_paragraph_element(child)
-        break nested_paragraph if nested_paragraph
+    def first_truncated_text_content(element)
+      if paragraph?(element)
+        truncated_text_content(element)
+      else
+        element.children.find do |child|
+          text = first_truncated_text_content(child)
+          break text unless text.nil?
+        end
       end
     end
 
@@ -154,6 +157,8 @@ module RichText
         end
       end
       append_text.call(element)
+
+      return nil if text.blank?
 
       text.truncate(MAX_DESCRIPTION_LENGTH)
     end
