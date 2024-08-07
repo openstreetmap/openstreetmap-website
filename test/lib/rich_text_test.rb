@@ -355,6 +355,17 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "Can use HTML tags.", r.description
   end
 
+  def test_markdown_description_max_length
+    r = RichText.new("markdown", "x" * RichText::MAX_DESCRIPTION_LENGTH)
+    assert_equal "x" * RichText::MAX_DESCRIPTION_LENGTH, r.description
+
+    r = RichText.new("markdown", "y" * (RichText::MAX_DESCRIPTION_LENGTH + 1))
+    assert_equal "#{'y' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+
+    r = RichText.new("markdown", "*zzzzzzzzz*z" * ((RichText::MAX_DESCRIPTION_LENGTH + 1) / 10.0).ceil)
+    assert_equal "#{'z' * (RichText::MAX_DESCRIPTION_LENGTH - 3)}...", r.description
+  end
+
   private
 
   def assert_html(richtext, &block)

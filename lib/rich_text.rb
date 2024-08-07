@@ -3,6 +3,8 @@ module RichText
     "Business Description:", "Additional Keywords:"
   ].freeze
 
+  MAX_DESCRIPTION_LENGTH = 500
+
   def self.new(format, text)
     case format
     when "html" then HTML.new(text || "")
@@ -111,7 +113,7 @@ module RichText
 
     def description
       @paragraph_element = first_paragraph_element(document.root) unless defined? @paragraph_element
-      text_content(@paragraph_element) if @paragraph_element
+      truncated_text_content(@paragraph_element) if @paragraph_element
     end
 
     private
@@ -138,19 +140,22 @@ module RichText
       end
     end
 
-    def text_content(element)
+    def truncated_text_content(element)
       text = ""
 
       append_text = lambda do |child|
         if child.type == :text
           text << child.value
         else
-          child.children.each { |c| append_text.call(c) }
+          child.children.each do |c|
+            append_text.call(c)
+            break if text.length > MAX_DESCRIPTION_LENGTH
+          end
         end
       end
       append_text.call(element)
 
-      text
+      text.truncate(MAX_DESCRIPTION_LENGTH)
     end
 
     def image?(element)
