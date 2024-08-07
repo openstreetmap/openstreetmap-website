@@ -158,7 +158,7 @@ module RichText
     end
 
     def paragraph?(element)
-      element.type == :p
+      element.type == :p || (element.type == :html_element && element.value == "p")
     end
   end
 

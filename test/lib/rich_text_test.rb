@@ -350,6 +350,11 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "Something important here.", r.description
   end
 
+  def test_markdown_html_description
+    r = RichText.new("markdown", "<p>Can use HTML tags.</p>")
+    assert_equal "Can use HTML tags.", r.description
+  end
+
   private
 
   def assert_html(richtext, &block)
