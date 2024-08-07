@@ -163,7 +163,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
                                                 :longitude => "2.2", :language_code => "en" })
     end
     assert_redirected_to :action => :index, :display_name => user.display_name
-    entry = DiaryEntry.order(:id).last
+    entry = DiaryEntry.last
     assert_equal user.id, entry.user_id
     assert_equal "New Title", entry.title
     assert_equal "This is a new body for the diary entry", entry.body
@@ -189,7 +189,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
                                                 :longitude => "2.2", :language_code => "de" })
     end
     assert_redirected_to :action => :index, :display_name => user.display_name
-    entry = DiaryEntry.order(:id).last
+    entry = DiaryEntry.last
     assert_equal user.id, entry.user_id
     assert_equal "New Title", entry.title
     assert_equal "This is a new body for the diary entry", entry.body
@@ -217,7 +217,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
                               :diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" })
     end
     assert_redirected_to :action => :index, :display_name => user.display_name
-    entry = DiaryEntry.order(:id).last
+    entry = DiaryEntry.last
     assert_equal user.id, entry.user_id
     assert_equal spammy_title, entry.title
     assert_equal spammy_body, entry.body
