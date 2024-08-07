@@ -1,5 +1,5 @@
 json.partial! "api/root_attributes"
 
-json.users(@users) do |user|
-  json.partial! user
+json.users do
+  json.array! @users, :partial => "user", :as => :user
 end

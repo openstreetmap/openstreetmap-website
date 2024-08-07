@@ -1,5 +1,5 @@
 json.partial! "api/root_attributes"
 
-json.messages(@messages) do |message|
-  json.partial! message
+json.messages do
+  json.array! @messages, :partial => "message", :as => :message
 end

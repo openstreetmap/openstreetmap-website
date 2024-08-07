@@ -1,5 +1,5 @@
 json.partial! "api/root_attributes"
 
-json.changesets(@changesets) do |changeset|
-  json.partial! changeset
+json.changesets do
+  json.array! @changesets, :partial => "changeset", :as => :changeset
 end

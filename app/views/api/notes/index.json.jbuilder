@@ -1,5 +1,5 @@
 json.type "FeatureCollection"
 
-json.features(@notes) do |note|
-  json.partial! note
+json.features do
+  json.array! @notes, :partial => "note", :as => :note
 end
