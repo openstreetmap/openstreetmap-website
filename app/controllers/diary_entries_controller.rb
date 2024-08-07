@@ -68,8 +68,10 @@ class DiaryEntriesController < ApplicationController
     @entry = entries.find_by(:id => params[:id])
     if @entry
       @title = t ".title", :user => params[:display_name], :title => @entry.title
-      @og_image = @entry.body.image
-      @og_image_alt = @entry.body.image_alt
+      @opengraph_properties = {
+        "og:image" => @entry.body.image,
+        "og:image:alt" => @entry.body.image_alt
+      }
       @comments = can?(:unhide, DiaryComment) ? @entry.comments : @entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
