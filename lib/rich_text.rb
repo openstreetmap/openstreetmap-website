@@ -109,6 +109,11 @@ module RichText
       @image_element.attr["alt"] if @image_element
     end
 
+    def description
+      @paragraph_element = first_paragraph_element(document.root) unless defined? @paragraph_element
+      text_content(@paragraph_element) if @paragraph_element
+    end
+
     private
 
     def document
@@ -124,8 +129,36 @@ module RichText
       end
     end
 
+    def first_paragraph_element(element)
+      return element if paragraph?(element)
+
+      element.children.find do |child|
+        nested_paragraph = first_paragraph_element(child)
+        break nested_paragraph if nested_paragraph
+      end
+    end
+
+    def text_content(element)
+      text = ""
+
+      append_text = lambda do |child|
+        if child.type == :text
+          text << child.value
+        else
+          child.children.each { |c| append_text.call(c) }
+        end
+      end
+      append_text.call(element)
+
+      text
+    end
+
     def image?(element)
       element.type == :img || (element.type == :html_element && element.value == "img")
+    end
+
+    def paragraph?(element)
+      element.type == :p
     end
   end
 

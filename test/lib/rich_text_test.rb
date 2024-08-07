@@ -335,6 +335,21 @@ class RichTextTest < ActiveSupport::TestCase
     assert_nil r.description
   end
 
+  def test_markdown_description
+    r = RichText.new("markdown", "This is an article about something.")
+    assert_equal "This is an article about something.", r.description
+  end
+
+  def test_markdown_description_after_heading
+    r = RichText.new("markdown", "#Heading\n\nHere starts the text.")
+    assert_equal "Here starts the text.", r.description
+  end
+
+  def test_markdown_description_elements
+    r = RichText.new("markdown", "*Something* **important** [here](https://example.com/).")
+    assert_equal "Something important here.", r.description
+  end
+
   private
 
   def assert_html(richtext, &block)
