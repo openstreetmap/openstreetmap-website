@@ -90,42 +90,15 @@
   <% end %>
 
   <% unless @ways.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :type => "way", :pages => @way_pages } %>
-    <ul class="list-unstyled">
-      <% @ways.each do |way| %>
-        <%= element_list_item "way", way do
-              t "printable_name.current_and_old_links_html",
-                :current_link => link_to(printable_element_name(way), way_path(way.way_id)),
-                :old_link => link_to(printable_element_version(way), old_way_path(way.way_id, way.version))
-            end %>
-      <% end %>
-    </ul>
+    <%= render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages } %>
   <% end %>
 
   <% unless @relations.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :type => "relation", :pages => @relation_pages } %>
-    <ul class="list-unstyled">
-      <% @relations.each do |relation| %>
-        <%= element_list_item "relation", relation do
-              t "printable_name.current_and_old_links_html",
-                :current_link => link_to(printable_element_name(relation), relation_path(relation.relation_id)),
-                :old_link => link_to(printable_element_version(relation), old_relation_path(relation.relation_id, relation.version))
-            end %>
-      <% end %>
-    </ul>
+    <%= render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages } %>
   <% end %>
 
   <% unless @nodes.empty? %>
-    <%= render :partial => "paging_nav", :locals => { :type => "node", :pages => @node_pages } %>
-    <ul class="list-unstyled">
-      <% @nodes.each do |node| %>
-        <%= element_list_item "node", node do
-              t "printable_name.current_and_old_links_html",
-                :current_link => link_to(printable_element_name(node), node_path(node.node_id), { :rel => link_follow(node) }),
-                :old_link => link_to(printable_element_version(node), old_node_path(node.node_id, node.version), { :rel => link_follow(node) })
-            end %>
-      <% end %>
-    </ul>
+    <%= render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages } %>
   <% end %>
 </div>
 

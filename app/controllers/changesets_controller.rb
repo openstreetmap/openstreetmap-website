@@ -75,22 +75,33 @@ class ChangesetsController < ApplicationController
   end
 
   def show
-    @type = "changeset"
     @changeset = Changeset.find(params[:id])
-    @comments = if current_user&.moderator?
-                  @changeset.comments.unscope(:where => :visible).includes(:author)
-                else
-                  @changeset.comments.includes(:author)
-                end
-    @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "node_page")
-    @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "way_page")
-    @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "relation_page")
-    if @changeset.user.active? && @changeset.user.data_public?
-      changesets = conditions_nonempty(@changeset.user.changesets)
-      @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
-      @prev_by_user = changesets.where(:id => ...@changeset.id).reorder(:id => :desc).first
+    case turbo_frame_request_id
+    when "changeset_nodes"
+      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "node_page")
+      render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages }
+    when "changeset_ways"
+      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "way_page")
+      render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages }
+    when "changeset_relations"
+      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "relation_page")
+      render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages }
+    else
+      @comments = if current_user&.moderator?
+                    @changeset.comments.unscope(:where => :visible).includes(:author)
+                  else
+                    @changeset.comments.includes(:author)
+                  end
+      @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "node_page")
+      @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "way_page")
+      @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => "relation_page")
+      if @changeset.user.active? && @changeset.user.data_public?
+        changesets = conditions_nonempty(@changeset.user.changesets)
+        @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
+        @prev_by_user = changesets.where(:id => ...@changeset.id).reorder(:id => :desc).first
+      end
+      render :layout => map_layout
     end
-    render :layout => map_layout
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found, :layout => map_layout
   end
