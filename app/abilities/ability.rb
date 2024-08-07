@@ -57,7 +57,7 @@ class Ability
 
         if user.moderator?
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
-          can [:index, :show, :resolve, :ignore, :reopen], Issue
+          can [:index, :show, :resolve, :ignore, :reopen, :page], Issue
           can :create, IssueComment
           can [:new, :create, :edit, :update, :destroy], Redaction
           can [:new, :edit, :create, :update, :revoke, :revoke_all], UserBlock
@@ -65,7 +65,7 @@ class Ability
 
         if user.administrator?
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
-          can [:index, :show, :resolve, :ignore, :reopen], Issue
+          can [:index, :show, :resolve, :ignore, :reopen, :page], Issue
           can :create, IssueComment
           can [:set_status, :destroy, :index], User
           can [:grant, :revoke], UserRole
