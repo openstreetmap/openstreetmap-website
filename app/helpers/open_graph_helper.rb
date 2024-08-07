@@ -7,7 +7,7 @@ module OpenGraphHelper
       "og:title" => title || t("layouts.project_name.title"),
       "og:type" => "website",
       "og:url" => url_for(:only_path => false),
-      "og:description" => t("layouts.intro_text")
+      "og:description" => properties["og:description"] || t("layouts.intro_text")
     }.merge(
       opengraph_image_properties(properties)
     )

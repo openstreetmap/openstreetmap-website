@@ -744,6 +744,28 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_dom "head meta[property='og:image:alt']", :count => 0
   end
 
+  def test_show_no_og_description
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "![nope](https://example.com/nope.jpg)")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:description']" do
+      assert_dom "> @content", I18n.t("layouts.intro_text")
+    end
+  end
+
+  def test_show_og_description
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "# Hello\n\n![hello](https://example.com/hello.jpg)\n\nFirst paragraph.\n\nSecond paragraph.")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:description']" do
+      assert_dom "> @content", "First paragraph."
+    end
+  end
+
   def test_hide
     user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
