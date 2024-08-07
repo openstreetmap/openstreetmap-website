@@ -41,7 +41,7 @@ class DiaryCommentsController < ApplicationController
       # Add the commenter to the subscribers if necessary
       @entry.subscriptions.create(:user => current_user) unless @entry.subscribers.exists?(current_user.id)
 
-      redirect_to diary_entry_path(@entry.user, @entry)
+      redirect_to diary_entry_path(@entry.user, @entry, :anchor => "comment#{@diary_comment.id}")
     else
       render :action => "new"
     end
