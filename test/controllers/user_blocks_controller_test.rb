@@ -352,10 +352,9 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
                             :user_block_period => "12",
                             :user_block => { :needs_view => false, :reason => "Vandalism" })
     end
-    id = UserBlock.order(:id).ids.last
-    assert_redirected_to user_block_path(:id => id)
+    b = UserBlock.last
+    assert_redirected_to user_block_path(:id => b.id)
     assert_equal "Created a block on user #{target_user.display_name}.", flash[:notice]
-    b = UserBlock.find(id)
     assert_in_delta Time.now.utc, b.created_at, 1
     assert_in_delta Time.now.utc, b.updated_at, 1
     assert_in_delta Time.now.utc + 12.hours, b.ends_at, 1
@@ -388,7 +387,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
                           :user_block_period => "336",
                           :user_block => { :needs_view => false, :reason => "Vandalism" })
 
-    block = UserBlock.order(:id).last
+    block = UserBlock.last
     assert_equal 1209600, block.ends_at - block.created_at
   end
 
