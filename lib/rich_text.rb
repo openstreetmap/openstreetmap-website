@@ -57,6 +57,10 @@ module RichText
       nil
     end
 
+    def description
+      nil
+    end
+
     protected
 
     def simple_format(text)

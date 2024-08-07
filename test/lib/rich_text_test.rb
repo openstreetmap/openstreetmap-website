@@ -250,16 +250,18 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal 141, r.spam_score.round
   end
 
-  def test_text_no_image
+  def test_text_no_opengraph_properties
     r = RichText.new("text", "foo https://example.com/ bar")
     assert_nil r.image
     assert_nil r.image_alt
+    assert_nil r.description
   end
 
-  def test_html_no_image
+  def test_html_no_opengraph_properties
     r = RichText.new("html", "foo <a href='https://example.com/'>bar</a> baz")
     assert_nil r.image
     assert_nil r.image_alt
+    assert_nil r.description
   end
 
   def test_markdown_no_image
@@ -326,6 +328,11 @@ class RichTextTest < ActiveSupport::TestCase
     r = RichText.new("markdown", "<img alt='totally forgot src'> <img src='https://example.com/next_img_element.png' alt='have src'>")
     assert_equal "https://example.com/next_img_element.png", r.image
     assert_equal "have src", r.image_alt
+  end
+
+  def test_markdown_no_description
+    r = RichText.new("markdown", "#Nope")
+    assert_nil r.description
   end
 
   private
