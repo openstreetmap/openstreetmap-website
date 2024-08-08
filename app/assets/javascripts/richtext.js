@@ -41,6 +41,9 @@ $(document).ready(function () {
     $(".richtext_container .richtext_help_sidebar:visible:empty").each(function () {
       var container = $(this).closest(".richtext_container");
       container.find(".tab-pane[id$='_help']").children().appendTo($(this));
+      if (container.find("button[data-bs-target$='_help'].active").length) {
+        container.find("button[data-bs-target$='_edit']").tab("show");
+      }
     });
   };
 
