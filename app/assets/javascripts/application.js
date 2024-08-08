@@ -79,8 +79,11 @@ $(document).ready(function () {
 
     if (windowWidth < compactWidth) {
       $("body").removeClass("compact-nav").addClass("small-nav");
+      // Toggling the classes is needed until https://github.com/twbs/bootstrap/issues/39213 is added
+      $("nav.primary > .btn-group").removeClass("btn-group").addClass("btn-group-vertical");
     } else if (windowWidth < headerWidth) {
       $("body").addClass("compact-nav").removeClass("small-nav");
+      $("nav.primary > .btn-group").removeClass("btn-group-vertical").addClass("btn-group");
     } else {
       $("body").removeClass("compact-nav").removeClass("small-nav");
     }
