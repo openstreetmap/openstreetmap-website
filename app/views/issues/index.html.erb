@@ -50,6 +50,7 @@
         <th><%= t ".reports" %></th>
         <th><%= t ".reported_item" %></th>
         <th><%= t ".reported_user" %></th>
+        <th class="reporter_users"><%= t ".reporter_users" %></th>
         <th><%= t ".last_updated" %></th>
       </tr>
     </thead>
@@ -60,6 +61,10 @@
           <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
           <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
           <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
+          <% unique_reporters = issue.reports.preload(:user).map(&:user).uniq %>
+          <td class="reporter_users" title="<%= safe_join(unique_reporters.map(&:display_name), ", ") %>">
+            <%= safe_join(unique_reporters.map { |u| link_to u.display_name, u }, ", ") %>
+          </td>
           <td>
             <% if issue.user_updated %>
               <%= t ".last_updated_time_ago_user_html", :user => link_to(issue.user_updated.display_name, issue.user_updated),
