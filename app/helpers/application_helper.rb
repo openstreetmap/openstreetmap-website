@@ -75,4 +75,10 @@ module ApplicationHelper
   rescue StandardError
     flash.inspect if Rails.env.development?
   end
+
+  def plus_icon
+    '<svg width="16" height="16">
+      <path d="M2 0 a2 2 0 0 0 -2 2 v12 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 v-12 a2 2 0 0 0 -2 -2 z M4 7 h3 v-3 h2 v3 h3 v2 h-3 v3 h-2 v-3 h-3 z" fill="currentColor" />
+    </svg>'.html_safe
+  end
 end

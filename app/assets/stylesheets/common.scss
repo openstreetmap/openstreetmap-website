@@ -802,6 +802,37 @@ img.user_thumbnail_tiny {
   object-fit: contain;
 }
 
+.user_card {
+  @extend .card;
+  width: 100px;
+  display: inline-block;
+  > img {
+    @extend .card-img-top;
+  }
+  > div {
+    @extend .card-body;
+    /*
+    Some display_names are long and break the uniform display of user cards.
+    For now, hide the overflow.  This does make some user names ambiguous.
+    TODO: Fix this.
+    */
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0.5rem;  /* override bootstrap's 1.25rem */
+    > h5 {
+      @extend .card-title;
+      font-size: 0.9rem;  /* override bootstrap's 1.25 rem */
+    }
+  }
+}
+
+
+/* Rules for geo microformats */
+
+abbr.geo {
+  border-bottom: none;
+}
+
 /* General styles for action lists / subnavs */
 
 nav.secondary-actions {

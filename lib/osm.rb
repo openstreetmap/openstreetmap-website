@@ -543,4 +543,9 @@ module OSM
   def self.maxmind_database
     @maxmind_database ||= MaxMindDB.new(Settings.maxmind_database) if Settings.key?(:maxmind_database)
   end
+
+  # Convert any longitude input to the range -180..180.
+  def self.normalize_longitude(longitude)
+    longitude ? ((longitude.to_f + 180) % 360) - 180 : nil
+  end
 end

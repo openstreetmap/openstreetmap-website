@@ -1,0 +1,39 @@
+<%= javascript_include_tag "event" %>
+
+<% content_for :heading do %>
+  <h1>
+    <%= @event.title %>
+  </h1>
+  <% if current_user && @community&.organizer?(current_user) %>
+    <%= link_to t(".edit"), edit_event_path(@event) %>
+  <% end %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <p>
+        <%= t(".hosted_by") %>: <strong><%= link_to @event.community.name, community_path(@event.community) %></strong>
+      </p>
+      <p>
+        <%= t(".organized_by") %>: <% @event.organizers.each do |organizer| %>
+          <strong><%= link_to organizer.user.display_name, user_path(organizer.user) %></strong>
+        <% end %>
+      </p>
+      <div class='mb-3 border border-secondary-subtle rounded overflow-hidden'>
+        <table class='mb-0 browse-tag-list table align-middle'>
+          <%= render :partial => "events/event_property", :locals => { :name => t(".when"), :value => l(@event.moment, :format => :friendly) } %>
+          <%= render :partial => "events/event_property", :locals => { :name => t(".location"), :value => event_location(@event) } %>
+          <%= render :partial => "events/event_property", :locals => { :name => t(".description"), :value => @event.description } %>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm">
+      <%# TODO: replace these attributes @map_coords %>
+      <%= tag.div :class => "content_map", :id => "event_map_show", :data => { :lat => @event.latitude, :lon => @event.longitude, :zoom => 11 } %>
+      <p>
+        <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=44.97067%2C-93.26822%3B38.90201%2C-77.04469#map=6/42.026/-85.156"><%= t(".directions_to") %></a>
+      </p>
+    </div>
+  </div>
+</div>

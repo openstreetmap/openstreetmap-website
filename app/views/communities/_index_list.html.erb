@@ -1,0 +1,25 @@
+<% if !communities.empty? %>
+  <h2><%= header %></h2>
+  <table class="table table-borderless table-striped">
+    <tbody>
+    <% communities.each do |community| %>
+      <tr>
+        <td>
+          <h3><%= link_to community.name, community %></h3>
+          <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex">
+              <%= community.location %>
+            </div>
+            <div class="d-flex">
+              (<%= number_with_precision(community.latitude) %>°, <%= number_with_precision(community.longitude) %>°)
+            </div>
+          </div>
+          <p>
+            <%= community.description %>
+          </p>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
