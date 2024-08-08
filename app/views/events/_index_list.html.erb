@@ -1,0 +1,25 @@
+<% if !events.empty? %>
+  <h2>
+    <%= header %>
+  </h2>
+  <table class="table table-borderless table-striped">
+    <thead>
+    <tr>
+      <th><%= t(".moment") %></th>
+      <th><%= t(".title") %></th>
+      <th><%= t(".location") %></th>
+      <th><%= t(".community") %></th>
+    </tr>
+    </thead>
+    <tbody>
+      <% events.each do |event| %>
+        <tr>
+          <td><%= l(event.moment, :format => :blog) %></td>
+          <td><%= link_to event.title, event %></td>
+          <td><%= event.location %></td>
+          <td><%= link_to event.community.name, community_path(event.community) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
