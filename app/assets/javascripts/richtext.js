@@ -32,4 +32,18 @@ $(document).ready(function () {
 
     preview.css("min-height", minHeight + "px");
   });
+
+  var updateHelp = function () {
+    $(".richtext_container .richtext_help_sidebar:not(:visible):not(:empty)").each(function () {
+      var container = $(this).closest(".richtext_container");
+      $(this).children().appendTo(container.find(".tab-pane[id$='_help']"));
+    });
+    $(".richtext_container .richtext_help_sidebar:visible:empty").each(function () {
+      var container = $(this).closest(".richtext_container");
+      container.find(".tab-pane[id$='_help']").children().appendTo($(this));
+    });
+  };
+
+  updateHelp();
+  $(window).on("resize", updateHelp);
 });
