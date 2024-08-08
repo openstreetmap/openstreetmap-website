@@ -4,7 +4,7 @@ $(document).ready(function () {
    * the associated preview pne so that it will be regenerated when
    * the user next switches to it.
    */
-  $(".richtext_content textarea").change(function () {
+  $(".richtext_container textarea").change(function () {
     $(this).parents(".richtext_container").find(".richtext_preview").empty();
   });
 
