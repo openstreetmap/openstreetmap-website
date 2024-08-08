@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "social_share_button" %>
+<% end %>
+
 <article class='diary_post border-top border-secondary-subtle py-3<%= " text-body-secondary px-3 bg-danger bg-opacity-10" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
   <%= render :partial => "diary_entry_heading", :object => diary_entry, :as => "diary_entry" %>
 
@@ -44,4 +48,10 @@
       <% end %>
     </ul>
   </nav>
+
+  <%= render_social_share_buttons({
+                                    :title => diary_entry.title,
+                                    :url => diary_entry_url(diary_entry.user, diary_entry)
+                                  }) %>
+
 </article>
