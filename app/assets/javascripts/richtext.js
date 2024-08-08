@@ -5,7 +5,7 @@ $(document).ready(function () {
    * the user next switches to it.
    */
   $(".richtext_container textarea").change(function () {
-    $(this).parents(".richtext_container").find(".richtext_preview").empty();
+    $(this).parents(".richtext_container").find(".tab-pane[id$='_preview']").empty();
   });
 
   /*
@@ -13,7 +13,7 @@ $(document).ready(function () {
    */
   $(".richtext_container button[data-bs-target$='_preview']").on("show.bs.tab", function () {
     var editor = $(this).parents(".richtext_container").find("textarea");
-    var preview = $(this).parents(".richtext_container").find(".richtext_preview");
+    var preview = $(this).parents(".richtext_container").find(".tab-pane[id$='_preview']");
     var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
 
     if (preview.contents().length === 0) {
