@@ -5,15 +5,18 @@ $(document).ready(function () {
    * the user next switches to it.
    */
   $(".richtext_container textarea").change(function () {
-    $(this).parents(".richtext_container").find(".tab-pane[id$='_preview']").empty();
+    var container = $(this).closest(".richtext_container");
+
+    container.find(".tab-pane[id$='_preview']").empty();
   });
 
   /*
    * Install a handler to switch to preview mode
    */
   $(".richtext_container button[data-bs-target$='_preview']").on("show.bs.tab", function () {
-    var editor = $(this).parents(".richtext_container").find("textarea");
-    var preview = $(this).parents(".richtext_container").find(".tab-pane[id$='_preview']");
+    var container = $(this).closest(".richtext_container");
+    var editor = container.find("textarea");
+    var preview = container.find(".tab-pane[id$='_preview']");
     var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
 
     if (preview.contents().length === 0) {
