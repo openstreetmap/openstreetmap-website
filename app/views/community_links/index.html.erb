@@ -1,0 +1,32 @@
+<% content_for :heading do %>
+  <h1><%= t(".title") %></h1>
+  <nav class="secondary-actions">
+    <ul class='clearfix'>
+      <li>
+        <%= link_to new_community_community_link_path(@community), :class => "icon-link" do %>
+          <%= plus_icon %>
+          <%= t(".new") %>
+        <% end %>
+      </li>
+    </ul>
+  </nav>
+<% end %>
+
+<% if !@links.empty? %>
+  <table class="table table-borderless table-striped">
+    <tbody>
+    <% @links.each do |link| %>
+      <tr>
+        <td>
+          <% link.url.slice! "https://" %> <%# prevent XSS %>
+          <%= link_to link.text, "https://#{link.url}" %>
+        </td>
+        <td>
+          <%= link_to t(".edit"), edit_community_link_path(link) %>
+          <%= link_to t(".delete"), community_link_path(link), :method => :delete %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
