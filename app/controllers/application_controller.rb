@@ -86,10 +86,6 @@ class ApplicationController < ActionController::Base
     @oauth_token = current_user.oauth_token(Settings.oauth_application) if current_user && Settings.key?(:oauth_application)
   end
 
-  def require_oauth_10a_support
-    report_error t("application.oauth_10a_disabled", :link => t("application.auth_disabled_link")), :forbidden unless Settings.oauth_10a_support
-  end
-
   ##
   # require the user to have cookies enabled in their browser
   def require_cookies
@@ -297,7 +293,7 @@ class ApplicationController < ActionController::Base
   end
 
   def deny_access(_exception)
-    if doorkeeper_token || current_token
+    if doorkeeper_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
@@ -341,9 +337,6 @@ class ApplicationController < ActionController::Base
     [user, pass]
   end
 
-  # override to stop oauth plugin sending errors
-  def invalid_oauth_response; end
-
   # clean any referer parameter
   def safe_referer(referer)
     begin
@@ -366,7 +359,7 @@ class ApplicationController < ActionController::Base
   end
 
   def scope_enabled?(scope)
-    doorkeeper_token&.includes_scope?(scope) || current_token&.includes_scope?(scope)
+    doorkeeper_token&.includes_scope?(scope)
   end
 
   helper_method :scope_enabled?

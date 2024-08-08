@@ -37,9 +37,9 @@ module Api
       get permissions_path, :headers => auth_header
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
-        assert_select "permission", :count => ClientApplication.all_permissions.size
-        ClientApplication.all_permissions.each do |p|
-          assert_select "permission[name='#{p}']", :count => 1
+        assert_select "permission", :count => Oauth.scopes.size
+        Oauth.scopes.each do |p|
+          assert_select "permission[name='allow_#{p.name}']", :count => 1
         end
       end
 
@@ -50,24 +50,9 @@ module Api
 
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
-      assert_equal ClientApplication.all_permissions.size, js["permissions"].count
-      ClientApplication.all_permissions.each do |p|
-        assert_includes js["permissions"], p.to_s
-      end
-    end
-
-    def test_permissions_oauth1
-      token = create(:access_token,
-                     :allow_read_prefs => true,
-                     :allow_write_api => true,
-                     :allow_read_gpx => false)
-      signed_get permissions_path, :oauth => { :token => token }
-      assert_response :success
-      assert_select "osm > permissions", :count => 1 do
-        assert_select "permission", :count => 2
-        assert_select "permission[name='allow_read_prefs']", :count => 1
-        assert_select "permission[name='allow_write_api']", :count => 1
-        assert_select "permission[name='allow_read_gpx']", :count => 0
+      assert_equal Oauth.scopes.size, js["permissions"].count
+      Oauth.scopes.each do |p|
+        assert_includes js["permissions"], "allow_#{p.name}"
       end
     end
 
