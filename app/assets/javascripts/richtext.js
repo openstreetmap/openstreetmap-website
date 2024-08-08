@@ -11,7 +11,7 @@ $(document).ready(function () {
   /*
    * Install a handler to switch to preview mode
    */
-  $(".richtext_dopreview").on("show.bs.tab", function () {
+  $(".richtext_container button[data-bs-target$='_preview']").on("show.bs.tab", function () {
     var editor = $(this).parents(".richtext_container").find("textarea");
     var preview = $(this).parents(".richtext_container").find(".richtext_preview");
     var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
