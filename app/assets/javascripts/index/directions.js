@@ -5,6 +5,7 @@
 OSM.Directions = function (map) {
   var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
   var chosenEngine;
+  var coordinatesRegularExpression = "([+-]?\\d+(\\.\\d*)?)(?:\\s+|\\s*[/,]\\s*)([+-]?\\d+(\\.\\d*)?)";
 
   var popup = L.popup({ autoPanPadding: [100, 100] });
 
@@ -20,18 +21,13 @@ OSM.Directions = function (map) {
     weight: 12
   });
 
-  var endpointDragCallback = function (dragging) {
-    if (map.hasLayer(polyline)) {
-      getRoute(false, !dragging);
-    }
-  };
-  var endpointGeocodeCallback = function () {
-    getRoute(true, true);
+  var endpointUpdatedCallback = function (fitBounds) {
+    getRoute(fitBounds, true);
   };
 
   var endpoints = [
-    Endpoint($("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointGeocodeCallback),
-    Endpoint($("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointGeocodeCallback)
+    Endpoint($("input[name='route_from']"), OSM.MARKER_GREEN, endpointUpdatedCallback),
+    Endpoint($("input[name='route_to']"), OSM.MARKER_RED, endpointUpdatedCallback)
   ];
 
   var expiry = new Date();
@@ -51,7 +47,7 @@ OSM.Directions = function (map) {
     select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
   });
 
-  function Endpoint(input, iconUrl, dragCallback, geocodeCallback) {
+  function Endpoint(input, iconUrl, endpointCoordinatesUpdatedCallback) {
     var endpoint = {};
 
     endpoint.marker = L.marker([0, 0], {
@@ -71,8 +67,8 @@ OSM.Directions = function (map) {
       var dragging = (e.type === "drag");
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
-      endpoint.setLatLng(e.target.getLatLng());
-      dragCallback(dragging);
+
+      endpoint.setLatLng(e.target.getLatLng(), true, !dragging);
     });
 
     input.on("keydown", function () {
@@ -82,17 +78,31 @@ OSM.Directions = function (map) {
     input.on("change", function (e) {
       // make text the same in both text boxes
       var value = e.target.value;
-      endpoint.setValue(value);
+      endpoint.setValue(value, false, null, true);
     });
 
-    endpoint.setValue = function (value, latlng) {
+    endpoint.setValue = function (value, force_reverse_geocoding, latlng, fitMap) {
+      if (!value && !latlng) {
+        endpoint.value = value;
+        delete endpoint.latlng;
+        input.val(value);
+
+        return;
+      }
+
+      if (value === endpoint.value) {
+        endpoint.setLatLng(endpoint.latlng, false, fitMap);
+        return;
+      }
+
       endpoint.value = value;
       delete endpoint.latlng;
-      input.removeClass("is-invalid");
       input.val(value);
 
       if (latlng) {
-        endpoint.setLatLng(latlng);
+        endpoint.setLatLng(latlng, true, fitMap);
+      } else if (!force_reverse_geocoding && endpoint.value.match(new RegExp("^" + coordinatesRegularExpression + "$"))) {
+        endpoint.setLatLng(L.latLng(endpoint.value.split(/[/,]/)), false, fitMap);
       } else {
         endpoint.getGeocode();
       }
@@ -109,31 +119,64 @@ OSM.Directions = function (map) {
 
       var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
 
-      $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
-        endpoint.awaitingGeocode = false;
-        endpoint.hasGeocode = true;
-        if (json.length === 0) {
-          input.addClass("is-invalid");
-          alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
-          return;
-        }
+      if (endpoint.value.match(new RegExp("^" + coordinatesRegularExpression + "$"))) {
+        var latlng_array = endpoint.value.split(/[/,]/);
+        $.getJSON(OSM.NOMINATIM_URL + "reverse?lat=" + latlng_array[0] + "&lon=" + latlng_array[1] + "&format=json&viewbox=" + viewbox, function (json) {
+          endpoint.awaitingGeocode = false;
+          endpoint.hasGeocode = true;
 
-        endpoint.setLatLng(L.latLng(json[0]));
+          endpoint.setLatLng(L.latLng(latlng_array), false, true);
 
-        input.val(json[0].display_name);
+          if (!json || !json.display_name) {
+            input.addClass("is-invalid");
+            alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
+            return;
+          }
 
-        geocodeCallback();
-      });
+          if (endpoint.latlng.distanceTo(L.latLng(json.lat, json.lon)) > 200.0) {
+            input.val(endpoint.value);
+          } else {
+            endpoint.value = json.display_name;
+            input.val(json.display_name);
+          }
+        });
+      } else {
+        $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
+          endpoint.awaitingGeocode = false;
+          endpoint.hasGeocode = true;
+          if (!json || json.length === 0) {
+            input.addClass("is-invalid");
+            alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
+            return;
+          }
+
+          endpoint.setLatLng(L.latLng(json[0]), false, true);
+
+          endpoint.value = json[0].display_name;
+          input.val(json[0].display_name);
+        });
+      }
     };
 
-    endpoint.setLatLng = function (ll) {
-      var precision = OSM.zoomPrecision(map.getZoom());
-      input.val(ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision));
+    endpoint.setLatLng = function (ll, populate_input, fitMap) {
+      if (!ll) {
+        return;
+      }
+
+      input.removeClass("is-invalid");
+
+      if (populate_input) {
+        var precision = OSM.zoomPrecision(map.getZoom());
+        endpoint.value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
+        input.val(endpoint.value);
+      }
       endpoint.hasGeocode = true;
       endpoint.latlng = ll;
       endpoint.marker
         .setLatLng(ll)
         .addTo(map);
+
+      endpointCoordinatesUpdatedCallback(fitMap);
     };
 
     return endpoint;
@@ -200,7 +243,7 @@ OSM.Directions = function (map) {
     select.val(index);
   }
 
-  function getRoute(fitRoute, reportErrors) {
+  function getRoute(fitBounds, reportErrors) {
     // Cancel any route that is already in progress
     if (awaitingRoute) awaitingRoute.abort();
 
@@ -246,6 +289,14 @@ OSM.Directions = function (map) {
           $("#sidebar_content").html("<div class=\"alert alert-danger\">" + I18n.t("javascripts.directions.errors.no_route") + "</div>");
         }
 
+        if (fitBounds) {
+          var partiallyCombinedBounds = L.latLngBounds();
+          partiallyCombinedBounds.extend(L.latLngBounds(o, o));
+          partiallyCombinedBounds.extend(L.latLngBounds(d, d));
+
+          map.fitBounds(partiallyCombinedBounds.pad(0.05));
+        }
+
         return;
       }
 
@@ -253,8 +304,13 @@ OSM.Directions = function (map) {
         .setLatLngs(route.line)
         .addTo(map);
 
-      if (fitRoute) {
-        map.fitBounds(polyline.getBounds().pad(0.05));
+      if (fitBounds) {
+        var fullyCombinedBounds = L.latLngBounds();
+        fullyCombinedBounds.extend(polyline.getBounds());
+        fullyCombinedBounds.extend(L.latLngBounds(o, o));
+        fullyCombinedBounds.extend(L.latLngBounds(d, d));
+
+        map.fitBounds(fullyCombinedBounds.pad(0.05));
       }
 
       var distanceText = $("<p>").append(
@@ -385,14 +441,13 @@ OSM.Directions = function (map) {
       var pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
-      endpoints[type === "from" ? 0 : 1].setLatLng(ll);
-      getRoute(true, true);
+      endpoints[type === "from" ? 0 : 1].setLatLng(ll, true, true);
     });
 
     var params = Qs.parse(location.search.substring(1)),
         route = (params.route || "").split(";"),
-        from = route[0] && L.latLng(route[0].split(",")),
-        to = route[1] && L.latLng(route[1].split(","));
+        from = route[0] && L.latLng(route[0].split(/[/,]/)),
+        to = route[1] && L.latLng(route[1].split(/[/,]/));
 
     if (params.engine) {
       var engineIndex = findEngine(params.engine);
@@ -402,12 +457,12 @@ OSM.Directions = function (map) {
       }
     }
 
-    endpoints[0].setValue(params.from || "", from);
-    endpoints[1].setValue(params.to || "", to);
+    var ll_from_search_form = decodeURIComponent(location.search).match("^\\?from=" + coordinatesRegularExpression + "$");
+
+    endpoints[0].setValue(params.from || "", !ll_from_search_form, from, false);
+    endpoints[1].setValue(params.to || "", !ll_from_search_form, to, true);
 
     map.setSidebarOverlaid(!from || !to);
-
-    getRoute(true, true);
   };
 
   page.load = function () {
