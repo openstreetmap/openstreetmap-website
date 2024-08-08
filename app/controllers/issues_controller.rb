@@ -1,4 +1,6 @@
 class IssuesController < ApplicationController
+  include PaginationMethods
+
   layout "site"
 
   before_action :authorize_web
@@ -18,7 +20,10 @@ class IssuesController < ApplicationController
     @issue_types.push("DiaryEntry", "DiaryComment", "User") if current_user.administrator?
 
     @users = User.joins(:roles).where(:user_roles => { :role => current_user.roles.map(&:role) }).distinct
-    @issues = Issue.visible_to(current_user).order(:updated_at => :desc)
+  end
+
+  def page
+    @issues = Issue.visible_to(current_user)
 
     # If search
     if params[:search_by_user].present?
@@ -27,7 +32,7 @@ class IssuesController < ApplicationController
         @issues = @issues.where(:reported_user => @find_user)
       else
         @issues = @issues.none
-        flash.now[:warning] = t(".user_not_found")
+        @user_not_found_error = t(".user_not_found")
       end
     end
 
@@ -39,6 +44,10 @@ class IssuesController < ApplicationController
       last_updated_by = params[:last_updated_by].to_s == "nil" ? nil : params[:last_updated_by].to_i
       @issues = @issues.where(:updated_by => last_updated_by)
     end
+
+    @issues, @newer_issues_id, @older_issues_id = get_page_items(@issues, :limit => params[:limit])
+
+    render :partial => "page"
   end
 
   def show

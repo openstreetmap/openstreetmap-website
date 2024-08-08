@@ -344,6 +344,9 @@ OpenStreetMap::Application.routes.draw do
       post "ignore"
       post "reopen"
     end
+    collection do
+      get "page"
+    end
   end
 
   resources :reports
