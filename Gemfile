@@ -148,6 +148,8 @@ gem "multi_xml", "~> 0.6.0"
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
+  gem "danger"
+  gem "danger-auto_label"
   gem "debug_inspector"
   gem "i18n-tasks"
   gem "listen"
