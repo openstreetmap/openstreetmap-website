@@ -34,6 +34,18 @@ class GuestAbilityTest < AbilityTest
     end
   end
 
+  test "community permissions for a guest" do
+    ability = Ability.new nil
+
+    [:index, :show].each do |action|
+      assert ability.can?(action, Community), "should be able to #{action} Communities"
+    end
+
+    [:edit, :update].each do |action|
+      assert ability.cannot?(action, Community), "should not be able to #{action} Communities"
+    end
+  end
+
   test "note permissions for a guest" do
     ability = Ability.new nil
 
@@ -70,6 +82,17 @@ class UserAbilityTest < AbilityTest
 
     [:index, :show, :resolve, :ignore, :reopen].each do |action|
       assert ability.cannot?(action, Issue), "should not be able to #{action} Issues"
+    end
+  end
+
+  test "community permissions for a user" do
+    community = create(:community)
+    ability_as_org = Ability.new(community.organizer)
+    ability_as_nonorg = Ability.new create(:user)
+
+    [:edit, :update].each do |action|
+      assert ability_as_org.can?(action, community), "should be able to #{action} this community"
+      assert ability_as_nonorg.cannot?(action, community), "should not be able to #{action} this community"
     end
   end
 end

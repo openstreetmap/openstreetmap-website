@@ -7,6 +7,8 @@ module IssuesHelper
       user_url(reportable)
     when DiaryComment
       diary_entry_url(reportable.diary_entry.user, reportable.diary_entry, :anchor => "comment#{reportable.id}")
+    when Community
+      community_url(reportable)
     when Note
       note_url(reportable)
     end
@@ -20,6 +22,8 @@ module IssuesHelper
       reportable.display_name
     when DiaryComment
       I18n.t("issues.helper.reportable_title.diary_comment", :entry_title => reportable.diary_entry.title, :comment_id => reportable.id)
+    when Community
+      reportable.name
     when Note
       I18n.t("issues.helper.reportable_title.note", :note_id => reportable.id)
     end

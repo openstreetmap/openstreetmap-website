@@ -31,6 +31,7 @@ class Report < ApplicationRecord
   def self.categories_for(reportable)
     case reportable.class.name
     when "DiaryEntry", "DiaryComment" then %w[spam offensive threat other]
+    when "Community" then %w[spam offensive other]
     when "User" then %w[spam offensive threat vandal other]
     when "Note" then %w[spam personal abusive other]
     else %w[other]
