@@ -21,9 +21,11 @@ OSM.Directions = function (map) {
   });
 
   var endpointDragCallback = function (dragging) {
-    if (map.hasLayer(polyline)) {
-      getRoute(false, !dragging);
-    }
+    if (!map.hasLayer(polyline)) return;
+    if (dragging && !chosenEngine.draggable) return;
+    if (dragging && awaitingRoute) return;
+
+    getRoute(false, !dragging);
   };
   var endpointGeocodeCallback = function () {
     getRoute(true, true);
@@ -68,11 +70,8 @@ OSM.Directions = function (map) {
     });
 
     endpoint.marker.on("drag dragend", function (e) {
-      var dragging = (e.type === "drag");
-      if (dragging && !chosenEngine.draggable) return;
-      if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
-      dragCallback(dragging);
+      dragCallback(e.type === "drag");
     });
 
     input.on("keydown", function () {
