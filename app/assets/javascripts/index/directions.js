@@ -3,7 +3,7 @@
 //= require qs/dist/qs
 
 OSM.Directions = function (map) {
-  var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
+  var routeRequest = null; // jqXHR object of an ongoing route request or null
   var chosenEngine;
 
   var popup = L.popup({ autoPanPadding: [100, 100] });
@@ -23,7 +23,7 @@ OSM.Directions = function (map) {
   var endpointDragCallback = function (dragging) {
     if (!map.hasLayer(polyline)) return;
     if (dragging && !chosenEngine.draggable) return;
-    if (dragging && awaitingRoute) return;
+    if (dragging && routeRequest) return;
 
     getRoute(false, !dragging);
   };
@@ -201,7 +201,7 @@ OSM.Directions = function (map) {
 
   function getRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
-    if (awaitingRoute) awaitingRoute.abort();
+    if (routeRequest) routeRequest.abort();
 
     // go fetch geocodes for any endpoints which have not already
     // been geocoded.
@@ -235,8 +235,8 @@ OSM.Directions = function (map) {
     $("#sidebar_content").html($(".directions_form .loader_copy").html());
     map.setSidebarOverlaid(false);
 
-    awaitingRoute = chosenEngine.getRoute([o, d], function (err, route) {
-      awaitingRoute = null;
+    routeRequest = chosenEngine.getRoute([o, d], function (err, route) {
+      routeRequest = null;
 
       if (err) {
         map.removeLayer(polyline);
