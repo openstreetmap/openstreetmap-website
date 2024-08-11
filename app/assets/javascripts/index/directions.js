@@ -1,9 +1,10 @@
+//= require ./directions-endpoint
 //= require_self
 //= require_tree ./directions
 //= require qs/dist/qs
 
 OSM.Directions = function (map) {
-  var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
+  var routeRequest = null; // jqXHR object of an ongoing route request or null
   var chosenEngine;
 
   var popup = L.popup({ autoPanPadding: [100, 100] });
@@ -21,17 +22,19 @@ OSM.Directions = function (map) {
   });
 
   var endpointDragCallback = function (dragging) {
-    if (map.hasLayer(polyline)) {
-      getRoute(false, !dragging);
-    }
+    if (!map.hasLayer(polyline)) return;
+    if (dragging && !chosenEngine.draggable) return;
+    if (dragging && routeRequest) return;
+
+    getRoute(false, !dragging);
   };
   var endpointGeocodeCallback = function () {
     getRoute(true, true);
   };
 
   var endpoints = [
-    Endpoint($("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointGeocodeCallback),
-    Endpoint($("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointGeocodeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointGeocodeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointGeocodeCallback)
   ];
 
   var expiry = new Date();
@@ -50,94 +53,6 @@ OSM.Directions = function (map) {
   engines.forEach(function (engine, i) {
     select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
   });
-
-  function Endpoint(input, iconUrl, dragCallback, geocodeCallback) {
-    var endpoint = {};
-
-    endpoint.marker = L.marker([0, 0], {
-      icon: L.icon({
-        iconUrl: iconUrl,
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowUrl: OSM.MARKER_SHADOW,
-        shadowSize: [41, 41]
-      }),
-      draggable: true,
-      autoPan: true
-    });
-
-    endpoint.marker.on("drag dragend", function (e) {
-      var dragging = (e.type === "drag");
-      if (dragging && !chosenEngine.draggable) return;
-      if (dragging && awaitingRoute) return;
-      endpoint.setLatLng(e.target.getLatLng());
-      dragCallback(dragging);
-    });
-
-    input.on("keydown", function () {
-      input.removeClass("is-invalid");
-    });
-
-    input.on("change", function (e) {
-      // make text the same in both text boxes
-      var value = e.target.value;
-      endpoint.setValue(value);
-    });
-
-    endpoint.setValue = function (value, latlng) {
-      endpoint.value = value;
-      delete endpoint.latlng;
-      input.removeClass("is-invalid");
-      input.val(value);
-
-      if (latlng) {
-        endpoint.setLatLng(latlng);
-      } else {
-        endpoint.getGeocode();
-      }
-    };
-
-    endpoint.getGeocode = function () {
-      // if no one has entered a value yet, then we can't geocode, so don't
-      // even try.
-      if (!endpoint.value) {
-        return;
-      }
-
-      endpoint.awaitingGeocode = true;
-
-      var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
-
-      $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
-        endpoint.awaitingGeocode = false;
-        endpoint.hasGeocode = true;
-        if (json.length === 0) {
-          input.addClass("is-invalid");
-          alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
-          return;
-        }
-
-        endpoint.setLatLng(L.latLng(json[0]));
-
-        input.val(json[0].display_name);
-
-        geocodeCallback();
-      });
-    };
-
-    endpoint.setLatLng = function (ll) {
-      var precision = OSM.zoomPrecision(map.getZoom());
-      input.val(ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision));
-      endpoint.hasGeocode = true;
-      endpoint.latlng = ll;
-      endpoint.marker
-        .setLatLng(ll)
-        .addTo(map);
-    };
-
-    return endpoint;
-  }
 
   $(".directions_form .reverse_directions").on("click", function () {
     var coordFrom = endpoints[0].latlng,
@@ -202,7 +117,7 @@ OSM.Directions = function (map) {
 
   function getRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
-    if (awaitingRoute) awaitingRoute.abort();
+    if (routeRequest) routeRequest.abort();
 
     // go fetch geocodes for any endpoints which have not already
     // been geocoded.
@@ -236,8 +151,8 @@ OSM.Directions = function (map) {
     $("#sidebar_content").html($(".directions_form .loader_copy").html());
     map.setSidebarOverlaid(false);
 
-    awaitingRoute = chosenEngine.getRoute([o, d], function (err, route) {
-      awaitingRoute = null;
+    routeRequest = chosenEngine.getRoute([o, d], function (err, route) {
+      routeRequest = null;
 
       if (err) {
         map.removeLayer(polyline);
