@@ -10,6 +10,7 @@ module Auth
       providers[I18n.t("auth.providers.microsoft")] = "microsoft" if Settings.key?(:microsoft_auth_id)
       providers[I18n.t("auth.providers.github")] = "github" if Settings.key?(:github_auth_id)
       providers[I18n.t("auth.providers.wikipedia")] = "wikipedia" if Settings.key?(:wikipedia_auth_id)
+      providers[I18n.t("auth.providers.openstreetmap")] = "openstreetmap" if Settings.key?(:openstreetmap_auth_id)
     end.freeze
   end
 end
