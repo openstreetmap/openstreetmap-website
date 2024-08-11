@@ -61,7 +61,6 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
     $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
       endpoint.awaitingGeocode = false;
-      endpoint.hasGeocode = true;
       if (json.length === 0) {
         input.addClass("is-invalid");
         alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
@@ -77,7 +76,6 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   };
 
   function setLatLng(ll) {
-    endpoint.hasGeocode = true;
     endpoint.latlng = ll;
     endpoint.marker
       .setLatLng(ll)
