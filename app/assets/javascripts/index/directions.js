@@ -300,7 +300,9 @@ OSM.Directions = function (map) {
       var pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
-      endpoints[type === "from" ? 0 : 1].setLatLng(ll);
+      var precision = OSM.zoomPrecision(map.getZoom());
+      var value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
+      endpoints[type === "from" ? 0 : 1].setValue(value, ll);
       getRoute(true, true);
     });
 
