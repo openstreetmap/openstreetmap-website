@@ -55,7 +55,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     endpoint.setValue(value);
   }
 
-  endpoint.setValue = function (value, latlng) {
+  endpoint.setValue = function (value) {
     endpoint.value = value;
     removeLatLng();
     input.removeClass("is-invalid");
@@ -63,6 +63,9 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
     if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     delete endpoint.geocodeRequest;
+
+    var coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
+    var latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
 
     if (latlng) {
       setLatLng(latlng);
