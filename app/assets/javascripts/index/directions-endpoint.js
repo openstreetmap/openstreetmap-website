@@ -15,7 +15,11 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ge
   });
 
   endpoint.marker.on("drag dragend", function (e) {
-    endpoint.setLatLng(e.target.getLatLng());
+    var latlng = e.target.getLatLng();
+
+    endpoint.setLatLng(latlng);
+    setInputValueFromLatLng(latlng);
+    endpoint.value = input.val();
     dragCallback(e.type === "drag");
   });
 
@@ -37,6 +41,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ge
 
     if (latlng) {
       endpoint.setLatLng(latlng);
+      setInputValueFromLatLng(latlng);
     } else {
       endpoint.getGeocode();
     }
@@ -71,14 +76,18 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ge
   };
 
   endpoint.setLatLng = function (ll) {
-    var precision = OSM.zoomPrecision(map.getZoom());
-    input.val(ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision));
     endpoint.hasGeocode = true;
     endpoint.latlng = ll;
     endpoint.marker
       .setLatLng(ll)
       .addTo(map);
   };
+
+  function setInputValueFromLatLng(latlng) {
+    var precision = OSM.zoomPrecision(map.getZoom());
+
+    input.val(latlng.lat.toFixed(precision) + ", " + latlng.lng.toFixed(precision));
+  }
 
   return endpoint;
 };
