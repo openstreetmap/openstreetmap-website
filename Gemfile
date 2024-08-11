@@ -83,6 +83,7 @@ gem "omniauth-google-oauth2", ">= 0.6.0"
 gem "omniauth-mediawiki", ">= 0.0.4"
 gem "omniauth-microsoft_graph"
 gem "omniauth-openid"
+gem "omniauth_openid_connect"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
 
 # Doorkeeper for OAuth2
