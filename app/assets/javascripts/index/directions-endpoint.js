@@ -44,11 +44,11 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
       setInputValueFromLatLng(latlng);
       changeCallback();
     } else if (endpoint.value) {
-      endpoint.getGeocode();
+      getGeocode();
     }
   };
 
-  endpoint.getGeocode = function () {
+  function getGeocode() {
     endpoint.awaitingGeocode = true;
 
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
@@ -67,7 +67,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
       changeCallback();
     });
-  };
+  }
 
   function setLatLng(ll) {
     endpoint.latlng = ll;
