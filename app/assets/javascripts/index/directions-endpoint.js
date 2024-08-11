@@ -43,18 +43,12 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
       setLatLng(latlng);
       setInputValueFromLatLng(latlng);
       changeCallback();
-    } else {
+    } else if (endpoint.value) {
       endpoint.getGeocode();
     }
   };
 
   endpoint.getGeocode = function () {
-    // if no one has entered a value yet, then we can't geocode, so don't
-    // even try.
-    if (!endpoint.value) {
-      return;
-    }
-
     endpoint.awaitingGeocode = true;
 
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
