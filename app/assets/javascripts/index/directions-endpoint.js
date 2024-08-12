@@ -36,6 +36,9 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   function markerDragListener(e) {
     var latlng = convertLatLngToZoomPrecision(e.target.getLatLng());
 
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    delete endpoint.geocodeRequest;
+
     setLatLng(latlng);
     setInputValueFromLatLng(latlng);
     endpoint.value = input.val();
@@ -58,6 +61,9 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     input.removeClass("is-invalid");
     input.val(value);
 
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    delete endpoint.geocodeRequest;
+
     if (latlng) {
       setLatLng(latlng);
       setInputValueFromLatLng(latlng);
@@ -71,7 +77,6 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
     var geocodeUrl = OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox;
 
-    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     endpoint.geocodeRequest = $.getJSON(geocodeUrl, function (json) {
       delete endpoint.geocodeRequest;
       if (json.length === 0) {
