@@ -57,16 +57,24 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   }
 
   endpoint.setValue = function (value) {
-    endpoint.value = value;
-    removeLatLng();
-    input.removeClass("is-invalid");
-    input.val(value);
-
     if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     delete endpoint.geocodeRequest;
+    input.removeClass("is-invalid");
 
     var coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
     var latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
+
+    if (latlng && endpoint.cachedReverseGeocode && endpoint.cachedReverseGeocode.latlng.equals(latlng)) {
+      setLatLng(latlng);
+      endpoint.value = endpoint.cachedReverseGeocode.value;
+      input.val(endpoint.value);
+      changeCallback();
+      return;
+    }
+
+    endpoint.value = value;
+    removeLatLng();
+    input.val(value);
 
     if (latlng) {
       setLatLng(latlng);
@@ -92,6 +100,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
       setLatLng(L.latLng(json[0]));
 
+      endpoint.value = json[0].display_name;
       input.val(json[0].display_name);
 
       changeCallback();
@@ -99,7 +108,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   }
 
   function getReverseGeocode() {
-    var reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?lat=" + endpoint.latlng.lat + "&lon=" + endpoint.latlng.lng + "&format=json";
+    var latlng = endpoint.latlng.clone();
+    var reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?lat=" + latlng.lat + "&lon=" + latlng.lng + "&format=json";
 
     endpoint.geocodeRequest = $.getJSON(reverseGeocodeUrl, function (json) {
       delete endpoint.geocodeRequest;
@@ -109,6 +119,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
       endpoint.value = json.display_name;
       input.val(json.display_name);
+      endpoint.cachedReverseGeocode = { latlng: latlng, value: endpoint.value };
     });
   }
 
