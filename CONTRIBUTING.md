@@ -65,7 +65,7 @@ and why it should be the way it is.
 
 ## i18n
 
-If you make a change that involve the locale files (in `config/locales`) then please
+If you make a change that involve the locale files (in `config/locales`), please
 only submit changes to the `en.yml` file. The other files are updated via
 [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap) and should
 not be included in your pull request.
@@ -105,28 +105,28 @@ merge. To help with this, when committing you should:
 * Keep your commit messages relevant to the changes in each individual
 commit.
 
-When writing commit messages please try and stick to the same style as
+When writing commit messages, please try and stick to the same style as
 other commits, namely:
 
 * A one line summary, starting with a capital and with no full stop.
 * A blank line.
 * Full description, as proper sentences with capitals and full stops.
 
-For simple commits the one line summary is often enough and the body
+For simple commits, the one line summary is often enough and the body
 of the commit message can be left out.
 
 ## Pull Requests
 
-If you have forked on GitHub then the best way to submit your patches is to
+If you have forked on GitHub, the best way to submit your patches is to
 push your changes back to GitHub and then send a "pull request" on GitHub.
 
 If your pull request is small, for example one or two commits each containing
 only a few lines of code, then it is easy for the maintainers to review.
 
-If you are creating a larger pull request, then please help the maintainers
+If you are creating a larger pull request, please help the maintainers
 with making the reviews as straightforward as possible:
 
-* The smaller the PR, the easier it is to review. In particular if a PR is too
+* The smaller the PR, the easier it is to review. In particular, if a PR is too
   large to review in one sitting, or if changes are requested, then the
   maintainer needs to repeatedly re-read code that has already been considered.
 * The commit history is important. This is a large codebase, developed over many
@@ -141,11 +141,11 @@ If you are creating a large pull request then please:
   can be considered standalone, or is a foundation for the rest of your work,
   please submit it separately first.
 * Avoid including "fixup" commits. If you have added a fixup commit (for example
-  to fix a rubocop warning, or because you changed your own new code) please
+  to fix a rubocop warning, or because you changed your own new code), please
   combine the fixup commit into the commit that introduced the problem.
   `git rebase -i` is very useful for this.
 * Avoid including "merge" commits. If your PR can no longer be merged cleanly
   (for example, an unrelated change to Gemfile.lock on master now conflicts with
-  your PR) then please rebase your PR onto the latest master. This allows you to
+  your PR), please rebase your PR onto the latest master. This allows you to
   fix the conflicts, while keeping the PR a straightforward list of commits. If
   there are no conflicts, then there is no need to rebase anything.
