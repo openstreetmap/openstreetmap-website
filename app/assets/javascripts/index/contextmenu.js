@@ -11,7 +11,7 @@ OSM.initializeContextMenu = function (map) {
 
       OSM.router.route("/directions?" + Qs.stringify({
         from: lat + "," + lng,
-        to: $("#route_to").val()
+        to: getDirectionsEndpointCoordinatesFromInput($("#route_to"))
       }));
     }
   });
@@ -25,7 +25,7 @@ OSM.initializeContextMenu = function (map) {
           lng = latlng.lng.toFixed(precision);
 
       OSM.router.route("/directions?" + Qs.stringify({
-        from: $("#route_from").val(),
+        from: getDirectionsEndpointCoordinatesFromInput($("#route_from")),
         to: lat + "," + lng
       }));
     }
@@ -78,6 +78,14 @@ OSM.initializeContextMenu = function (map) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
     else map.contextmenu.enable();
   });
+
+  function getDirectionsEndpointCoordinatesFromInput(input) {
+    if (input.attr("data-lat") && input.attr("data-lon")) {
+      return input.attr("data-lat") + "," + input.attr("data-lon");
+    } else {
+      return $(input).val();
+    }
+  }
 
   var updateMenu = function updateMenu() {
     map.contextmenu.setDisabled(2, map.getZoom() < 12);
