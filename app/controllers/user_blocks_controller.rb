@@ -21,6 +21,11 @@ class UserBlocksController < ApplicationController
     user_blocks = UserBlock.all
 
     @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
+
+    @show_user_name = true
+    @show_creator_name = true
+
+    render :partial => "blocks" if turbo_frame_request_id == "pagination"
   end
 
   def show
@@ -118,6 +123,11 @@ class UserBlocksController < ApplicationController
     user_blocks = UserBlock.where(:user => @user)
 
     @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
+
+    @show_user_name = false
+    @show_creator_name = true
+
+    render :partial => "blocks" if turbo_frame_request_id == "pagination"
   end
 
   ##
@@ -128,6 +138,11 @@ class UserBlocksController < ApplicationController
     user_blocks = UserBlock.where(:creator => @user)
 
     @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
+
+    @show_user_name = true
+    @show_creator_name = false
+
+    render :partial => "blocks" if turbo_frame_request_id == "pagination"
   end
 
   private

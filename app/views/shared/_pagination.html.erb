@@ -7,7 +7,7 @@
     <% end %>
     <% if newer_id -%>
       <li class="page-item d-flex">
-        <%= link_to newer_link_content, @params.merge(:before => nil, :after => newer_id), :class => link_class %>
+        <%= link_to newer_link_content, @params.merge(:before => nil, :after => newer_id), :class => link_class, :data => { "turbo-frame" => "pagination", "turbo-action" => "advance" } %>
       </li>
     <% else -%>
       <li class="page-item d-flex disabled">
@@ -21,7 +21,7 @@
     <% end %>
     <% if older_id -%>
       <li class="page-item d-flex">
-        <%= link_to older_link_content, @params.merge(:before => older_id, :after => nil), :class => link_class %>
+        <%= link_to older_link_content, @params.merge(:before => older_id, :after => nil), :class => link_class, :data => { "turbo-frame" => "pagination", "turbo-action" => "advance" } %>
       </li>
     <% else -%>
       <li class="page-item d-flex disabled">
