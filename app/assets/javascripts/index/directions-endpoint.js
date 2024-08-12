@@ -70,6 +70,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     if (latlng) {
       setLatLng(latlng);
       setInputValueFromLatLng(latlng);
+      getReverseGeocode();
       changeCallback();
     } else if (endpoint.value) {
       getGeocode();
@@ -93,6 +94,20 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
       input.val(json[0].display_name);
 
       changeCallback();
+    });
+  }
+
+  function getReverseGeocode() {
+    var reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?lat=" + endpoint.latlng.lat + "&lon=" + endpoint.latlng.lng + "&format=json";
+
+    endpoint.geocodeRequest = $.getJSON(reverseGeocodeUrl, function (json) {
+      delete endpoint.geocodeRequest;
+      if (!json || !json.display_name) {
+        return;
+      }
+
+      endpoint.value = json.display_name;
+      input.val(json.display_name);
     });
   }
 
