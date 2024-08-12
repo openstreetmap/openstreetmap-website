@@ -65,10 +65,9 @@ OSM.Directions = function (map) {
     if (coordTo) {
       routeTo = coordTo.lat + "," + coordTo.lng;
     }
+    endpoints[0].swapCachedReverseGeocodes(endpoints[1]);
 
     OSM.router.route("/directions?" + Qs.stringify({
-      from: $("#route_to").val(),
-      to: $("#route_from").val(),
       route: routeTo + ";" + routeFrom
     }));
   });

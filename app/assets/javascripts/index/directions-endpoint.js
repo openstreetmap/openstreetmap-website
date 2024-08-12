@@ -86,6 +86,15 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     }
   };
 
+  endpoint.swapCachedReverseGeocodes = function (otherEndpoint) {
+    var g0 = endpoint.cachedReverseGeocode;
+    var g1 = otherEndpoint.cachedReverseGeocode;
+    delete endpoint.cachedReverseGeocode;
+    delete otherEndpoint.cachedReverseGeocode;
+    if (g0) otherEndpoint.cachedReverseGeocode = g0;
+    if (g1) endpoint.cachedReverseGeocode = g1;
+  };
+
   function getGeocode() {
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
     var geocodeUrl = OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox;
