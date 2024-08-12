@@ -25,6 +25,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     input.off("keydown", inputKeydownListener);
     input.off("change", inputChangeListener);
 
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    delete endpoint.geocodeRequest;
     map.removeLayer(endpoint.marker);
   };
 
@@ -63,12 +65,12 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   };
 
   function getGeocode() {
-    endpoint.awaitingGeocode = true;
-
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
+    var geocodeUrl = OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox;
 
-    $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
-      endpoint.awaitingGeocode = false;
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    endpoint.geocodeRequest = $.getJSON(geocodeUrl, function (json) {
+      delete endpoint.geocodeRequest;
       if (json.length === 0) {
         input.addClass("is-invalid");
         alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
