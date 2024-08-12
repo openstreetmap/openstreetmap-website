@@ -51,7 +51,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
   endpoint.setValue = function (value, latlng) {
     endpoint.value = value;
-    delete endpoint.latlng;
+    removeLatLng();
     input.removeClass("is-invalid");
     input.val(value);
 
@@ -86,10 +86,20 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   }
 
   function setLatLng(ll) {
+    input
+      .attr("data-lat", ll.lat)
+      .attr("data-lon", ll.lng);
     endpoint.latlng = ll;
     endpoint.marker
       .setLatLng(ll)
       .addTo(map);
+  }
+
+  function removeLatLng() {
+    input
+      .removeAttr("data-lat")
+      .removeAttr("data-lon");
+    delete endpoint.latlng;
   }
 
   function setInputValueFromLatLng(latlng) {
