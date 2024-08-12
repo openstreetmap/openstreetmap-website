@@ -42,6 +42,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     setLatLng(latlng);
     setInputValueFromLatLng(latlng);
     endpoint.value = input.val();
+    if (e.type === "dragend") getReverseGeocode();
     dragCallback(e.type === "drag");
   }
 
