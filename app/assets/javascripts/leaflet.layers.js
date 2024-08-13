@@ -22,7 +22,7 @@ L.OSM.layers = function (options) {
         .prop("checked", map.hasLayer(layer))
         .appendTo(buttonContainer);
 
-      var item = $("<label class='btn btn-outline-primary border-4 rounded-3 bg-transparent position-absolute top-0 start-0 bottom-0 end-0 m-n1 overflow-hidden'>")
+      var item = $("<label class='btn btn-outline-primary border-4 rounded-3 bg-transparent position-absolute p-0 h-100 w-100 overflow-hidden'>")
         .prop("for", id)
         .append($("<span class='badge position-absolute top-0 start-0 rounded-top-0 rounded-start-0 py-1 px-2 bg-body bg-opacity-75 text-body text-wrap text-start fs-6 lh-base'>").append(layer.options.name))
         .appendTo(buttonContainer);
