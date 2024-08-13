@@ -340,10 +340,10 @@ module ActiveSupport
       Settings.merge!(saved_settings)
     end
 
-    def with_user_account_deletion_delay(value, &block)
+    def with_user_account_deletion_delay(value, &)
       freeze_time
 
-      with_settings(:user_account_deletion_delay => value, &block)
+      with_settings(:user_account_deletion_delay => value, &)
     ensure
       unfreeze_time
     end

@@ -9,7 +9,7 @@ are two alternatives which make it easier to get a consistent development enviro
 * **Vagrant** This installs the software into a virtual machine. For Vagrant instructions see [VAGRANT.md](VAGRANT.md).
 * **Docker** This installs the software using containerization. For Docker instructions see [DOCKER.md](DOCKER.md).
 
-These instructions are based on Ubuntu 22.04 LTS, which is the platform used by the OSMF servers.
+These instructions are based on Ubuntu 24.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
 We don't recommend attempting to develop or deploy this software on Windows. Some Ruby gems may not be supported. If you need to use Windows the easiest solutions in order are [Docker](DOCKER.md), [Vagrant](VAGRANT.md), and Ubuntu in a virtual machine.
@@ -22,12 +22,12 @@ of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
-* Ruby 3.0+
+* Ruby 3.1+
 * PostgreSQL 13+
 * Bundler (see note below about [developer Ruby setup](#rbenv))
 * Javascript Runtime
 
-These can be installed on Ubuntu 22.04 or later with:
+These can be installed on Ubuntu 24.04 or later with:
 
 ```
 sudo apt-get update

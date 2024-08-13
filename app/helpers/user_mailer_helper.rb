@@ -18,10 +18,10 @@ module UserMailerHelper
     )
   end
 
-  def message_body(&block)
+  def message_body(&)
     render(
       :partial => "message_body",
-      :locals => { :body => capture(&block) }
+      :locals => { :body => capture(&) }
     )
   end
 

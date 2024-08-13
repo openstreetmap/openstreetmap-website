@@ -38,7 +38,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     click_on "Logout", :match => :first
   end
 
-  def within_sidebar(&block)
-    within "#sidebar_content", &block
+  def within_sidebar(&)
+    within("#sidebar_content", &)
   end
 end

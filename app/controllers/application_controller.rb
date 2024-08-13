@@ -215,10 +215,10 @@ class ApplicationController < ActionController::Base
 
   ##
   # wrap a web page in a timeout
-  def web_timeout(&block)
+  def web_timeout(&)
     raise Timeout::Error if Settings.web_timeout.negative?
 
-    Timeout.timeout(Settings.web_timeout, &block)
+    Timeout.timeout(Settings.web_timeout, &)
   rescue ActionView::Template::Error => e
     e = e.cause
 
