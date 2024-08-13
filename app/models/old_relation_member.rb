@@ -21,7 +21,7 @@
 class OldRelationMember < ApplicationRecord
   self.table_name = "relation_members"
 
-  belongs_to :old_relation, :query_constraints => [:relation_id, :version], :inverse_of => :old_members
+  belongs_to :old_relation, :foreign_key => [:relation_id, :version], :inverse_of => :old_members
   # A bit messy, referring to the current tables, should do for the data browser for now
   belongs_to :member, :polymorphic => true
 

@@ -31,8 +31,8 @@ class OldRelation < ApplicationRecord
   belongs_to :redaction, :optional => true
   belongs_to :current_relation, :class_name => "Relation", :foreign_key => "relation_id", :inverse_of => :old_relations
 
-  has_many :old_members, -> { order(:sequence_id) }, :class_name => "OldRelationMember", :query_constraints => [:relation_id, :version], :inverse_of => :old_relation
-  has_many :old_tags, :class_name => "OldRelationTag", :query_constraints => [:relation_id, :version], :inverse_of => :old_relation
+  has_many :old_members, -> { order(:sequence_id) }, :class_name => "OldRelationMember", :foreign_key => [:relation_id, :version], :inverse_of => :old_relation
+  has_many :old_tags, :class_name => "OldRelationTag", :foreign_key => [:relation_id, :version], :inverse_of => :old_relation
 
   validates :changeset, :associated => true
   validates :timestamp, :presence => true
