@@ -2,16 +2,17 @@
 #
 # Table name: user_blocks
 #
-#  id            :integer          not null, primary key
-#  user_id       :bigint(8)        not null
-#  creator_id    :bigint(8)        not null
-#  reason        :text             not null
-#  ends_at       :datetime         not null
-#  needs_view    :boolean          default(FALSE), not null
-#  revoker_id    :bigint(8)
-#  created_at    :datetime
-#  updated_at    :datetime
-#  reason_format :enum             default("markdown"), not null
+#  id             :integer          not null, primary key
+#  user_id        :bigint(8)        not null
+#  creator_id     :bigint(8)        not null
+#  reason         :text             not null
+#  ends_at        :datetime         not null
+#  needs_view     :boolean          default(FALSE), not null
+#  revoker_id     :bigint(8)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  reason_format  :enum             default("markdown"), not null
+#  deactivates_at :datetime
 #
 # Indexes
 #
@@ -28,6 +29,8 @@
 class UserBlock < ApplicationRecord
   validate :moderator_permissions
   validates :reason, :characters => true
+  validates :deactivates_at, :comparison => { :greater_than_or_equal_to => :ends_at }, :unless => -> { needs_view }
+  validates :deactivates_at, :absence => true, :if => -> { needs_view }
 
   belongs_to :user, :class_name => "User"
   belongs_to :creator, :class_name => "User"
@@ -67,6 +70,7 @@ class UserBlock < ApplicationRecord
   def revoke!(revoker)
     update(
       :ends_at => Time.now.utc,
+      :deactivates_at => Time.now.utc,
       :revoker_id => revoker.id,
       :needs_view => false
     )

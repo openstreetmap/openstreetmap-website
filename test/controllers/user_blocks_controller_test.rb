@@ -620,6 +620,134 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test changes to end/deactivation dates
+  def test_dates_when_viewed_before_end
+    blocked_user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    freeze_time do
+      session_for(moderator_user)
+      assert_difference "UserBlock.count", 1 do
+        post user_blocks_path(:display_name => blocked_user.display_name,
+                              :user_block_period => "48",
+                              :user_block => { :needs_view => true, :reason => "Testing deactivates_at" })
+      end
+      block = UserBlock.last
+      assert_equal Time.now.utc + 2.days, block.ends_at
+      assert_nil block.deactivates_at
+
+      travel 1.day
+      session_for(blocked_user)
+      get user_block_path(block)
+      block.reload
+      assert_equal Time.now.utc + 1.day, block.ends_at
+      assert_equal Time.now.utc + 1.day, block.deactivates_at
+    end
+  end
+
+  def test_dates_when_viewed_after_end
+    blocked_user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    freeze_time do
+      session_for(moderator_user)
+      assert_difference "UserBlock.count", 1 do
+        post user_blocks_path(:display_name => blocked_user.display_name,
+                              :user_block_period => "24",
+                              :user_block => { :needs_view => true, :reason => "Testing deactivates_at" })
+      end
+      block = UserBlock.last
+      assert_equal Time.now.utc + 1.day, block.ends_at
+      assert_nil block.deactivates_at
+
+      travel 2.days
+      session_for(blocked_user)
+      get user_block_path(block)
+      block.reload
+      assert_equal Time.now.utc - 1.day, block.ends_at
+      assert_equal Time.now.utc, block.deactivates_at
+    end
+  end
+
+  def test_dates_when_edited_before_end
+    blocked_user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    freeze_time do
+      session_for(moderator_user)
+      assert_difference "UserBlock.count", 1 do
+        post user_blocks_path(:display_name => blocked_user.display_name,
+                              :user_block_period => "48",
+                              :user_block => { :needs_view => false, :reason => "Testing deactivates_at" })
+      end
+      block = UserBlock.last
+      assert_equal Time.now.utc + 2.days, block.ends_at
+      assert_equal Time.now.utc + 2.days, block.deactivates_at
+
+      travel 1.day
+      put user_block_path(block,
+                          :user_block_period => "48",
+                          :user_block => { :needs_view => false, :reason => "Testing deactivates_at updated" })
+      block.reload
+      assert_equal Time.now.utc + 2.days, block.ends_at
+      assert_equal Time.now.utc + 2.days, block.deactivates_at
+    end
+  end
+
+  def test_dates_when_edited_after_end
+    blocked_user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    freeze_time do
+      session_for(moderator_user)
+      assert_difference "UserBlock.count", 1 do
+        post user_blocks_path(:display_name => blocked_user.display_name,
+                              :user_block_period => "24",
+                              :user_block => { :needs_view => false, :reason => "Testing deactivates_at" })
+      end
+      block = UserBlock.last
+      assert_equal Time.now.utc + 1.day, block.ends_at
+      assert_equal Time.now.utc + 1.day, block.deactivates_at
+
+      travel 2.days
+      put user_block_path(block,
+                          :user_block_period => "0",
+                          :user_block => { :needs_view => false, :reason => "Testing deactivates_at updated" })
+      block.reload
+      assert_equal Time.now.utc - 1.day, block.ends_at
+      assert_equal Time.now.utc - 1.day, block.deactivates_at
+    end
+  end
+
+  ##
+  # test updates on legacy records without correctly initialized deactivates_at
+  def test_update_legacy_deactivates_at
+    blocked_user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    freeze_time do
+      block = UserBlock.new :user => blocked_user,
+                            :creator => moderator_user,
+                            :reason => "because",
+                            :ends_at => Time.now.utc + 1.day,
+                            :needs_view => false
+
+      assert_difference "UserBlock.count", 1 do
+        block.save :validate => false
+      end
+
+      travel 2.days
+      session_for(moderator_user)
+      put user_block_path(block,
+                          :user_block_period => "0",
+                          :user_block => { :needs_view => false, :reason => "Testing legacy block update" })
+      block.reload
+      assert_equal Time.now.utc - 1.day, block.ends_at
+      assert_equal Time.now.utc - 1.day, block.deactivates_at
+    end
+  end
+
+  ##
   # test the blocks_on action
   def test_blocks_on
     blocked_user = create(:user)
