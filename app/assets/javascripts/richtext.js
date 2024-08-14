@@ -8,6 +8,10 @@ $(document).ready(function () {
     var container = $(this).closest(".richtext_container");
 
     container.find(".tab-pane[id$='_preview']").empty();
+  }).on("invalid", function () {
+    var container = $(this).closest(".richtext_container");
+
+    container.find("button[data-bs-target$='_edit']").tab("show");
   });
 
   /*
