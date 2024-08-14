@@ -1,0 +1,126 @@
+<%= stylesheet_link_tag "communities" %>
+<%= javascript_include_tag "communities" %>
+
+<% content_for :heading do %>
+  <h1>
+    <%= "#{@community.name} " + t(".header_title") %>
+  </h1>
+  <% if current_user %>
+    <%= report_link(t(".report"), @community) %>
+    <% if @community.organizer?(current_user) %>
+      <%= link_to t(".edit"), edit_community_path(@community) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <%# TODO: replace these attributes @map_coords %>
+      <%= tag.div :id => "community_map", :class => "content_map", :data => { :lat => @community.latitude, :lon => @community.longitude, :zoom => 11 } %>
+    </div>
+    <div class="col-sm community_details">
+      <h1>
+        <%= link_to @community.name, @community %>
+      </h1>
+      <p>
+        <%= @community.location %>, <%= @community.latitude %>, <%= @community.longitude %>
+      </p>
+      <p>
+        <%= auto_link @community.description %>
+      </p>
+      <div class="d-flex">
+        <label>
+          <% if current_user && @community.organizer?(current_user) %>
+            <%= link_to t(".links"), community_community_links_path(@community) %>
+          <% else %>
+            <%= t(".links") %>
+          <% end %>
+        </label>
+        <ul class="ps-2 breadcrumb">
+          <% @community.community_links.each do |link| %>
+            <li class="breadcrumb-item">
+              <a href="<%= link.url %>"><%= link.text %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="d-flex">
+        <label><%= t(".organizers") %></label>
+        <ul class="ps-2 breadcrumb">
+          <% @community.organizers.each do |membership| %>
+            <li>
+              <%= link_to membership.user.display_name, user_path(membership.user) %>
+            </li>
+          <% end %>
+        </ul>
+        <% if @community.organizers.empty? %>
+          <%= link_to t(".step_up"), step_up_path(@community.id), :method => :post %>
+        <% end %>
+      </div>
+      <div>
+        <% if current_user %>
+          <% if ! @community.member?(current_user) %>
+            <%= bootstrap_form_for @current_user_membership do |form| %>
+              <%= form.hidden_field(:community_id) %>
+              <%= form.hidden_field(:user_id) %>
+              <%= form.primary t(".join.action") %>
+            <% end %>
+          <% else %>
+            <%= bootstrap_form_for @current_user_membership, :method => :delete do |form| %>
+              <%= form.primary t(".leave.action"), :data => { :confirm => t(".leave.confirm", :name => @community.name) } %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <div>
+            <%# Just a link here.  application_controller will redirect to login.  That will be posted. %>
+            <%= link_to t(".join.action"), login_to_join_path(:community_member => { :community_id => @community.id }), :class => "btn btn-primary btn-sm" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <h2>
+        <%= t(".recent_changes") %>
+      </h2>
+      <ul>
+        <% recent_changesets.each do |changeset| %>
+          <li>
+            <%= changeset_details(changeset) %>
+            &middot;
+            <%= changeset.tags["comment"].to_s.presence || t("browse.no_comment") %>
+            &middot;
+            <%= link_to("##{changeset.id}", changeset_path(changeset)) %>
+            <% if changeset.tags["review_requested"] == "yes" %>
+              <%= t(".review_requested") %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+      <h2>
+        <%= t(".diary_entries") %>
+      </h2>
+      <ul>
+        <% @community.users.each do |user| %>
+          <% user.diary_entries.each do |entry| %>
+            <li>
+              <%= l(entry.created_at, :format => :blog) %> <%= link_to user.display_name, user_path(user) %> <%= link_to(entry.title, diary_entry_path(entry.user, entry)) %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-sm">
+      <h2>
+        <%= link_to t(".members"), community_community_members_path(@community) %>
+      </h2>
+      <div>
+        <% @community.community_members.each do |membership| %>
+          <%= render :partial => "users/user_card", :locals => { :user => membership.user } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

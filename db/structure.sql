@@ -24,6 +24,16 @@ COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiS
 
 
 --
+-- Name: community_member_role_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.community_member_role_enum AS ENUM (
+    'member',
+    'organizer'
+);
+
+
+--
 -- Name: format_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -518,6 +528,113 @@ ALTER SEQUENCE public.client_applications_id_seq OWNED BY public.client_applicat
 
 
 --
+-- Name: communities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.communities (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text NOT NULL,
+    leader_id bigint NOT NULL,
+    slug character varying NOT NULL,
+    location character varying NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    min_lat double precision NOT NULL,
+    max_lat double precision NOT NULL,
+    min_lon double precision NOT NULL,
+    max_lon double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: communities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.communities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: communities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.communities_id_seq OWNED BY public.communities.id;
+
+
+--
+-- Name: community_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.community_links (
+    id bigint NOT NULL,
+    community_id bigint NOT NULL,
+    text character varying NOT NULL,
+    url character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: community_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.community_links_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: community_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.community_links_id_seq OWNED BY public.community_links.id;
+
+
+--
+-- Name: community_members; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.community_members (
+    id bigint NOT NULL,
+    community_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    role public.community_member_role_enum DEFAULT 'member'::public.community_member_role_enum NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: community_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.community_members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: community_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.community_members_id_seq OWNED BY public.community_members.id;
+
+
+--
 -- Name: current_node_tags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -793,6 +910,39 @@ CREATE TABLE public.diary_entry_subscriptions (
     user_id bigint NOT NULL,
     diary_entry_id bigint NOT NULL
 );
+
+
+--
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.friendly_id_slugs (
+    id bigint NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp(6) without time zone
+);
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.friendly_id_slugs_id_seq OWNED BY public.friendly_id_slugs.id;
 
 
 --
@@ -1735,6 +1885,27 @@ ALTER TABLE ONLY public.client_applications ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: communities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities ALTER COLUMN id SET DEFAULT nextval('public.communities_id_seq'::regclass);
+
+
+--
+-- Name: community_links id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links ALTER COLUMN id SET DEFAULT nextval('public.community_links_id_seq'::regclass);
+
+
+--
+-- Name: community_members id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members ALTER COLUMN id SET DEFAULT nextval('public.community_members_id_seq'::regclass);
+
+
+--
 -- Name: current_nodes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1774,6 +1945,13 @@ ALTER TABLE ONLY public.diary_comments ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.diary_entries ALTER COLUMN id SET DEFAULT nextval('public.diary_entries_id_seq'::regclass);
+
+
+--
+-- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('public.friendly_id_slugs_id_seq'::regclass);
 
 
 --
@@ -1989,6 +2167,30 @@ ALTER TABLE ONLY public.client_applications
 
 
 --
+-- Name: communities communities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities
+    ADD CONSTRAINT communities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: community_links community_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links
+    ADD CONSTRAINT community_links_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: community_members community_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members
+    ADD CONSTRAINT community_members_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: current_node_tags current_node_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2082,6 +2284,14 @@ ALTER TABLE ONLY public.diary_entries
 
 ALTER TABLE ONLY public.diary_entry_subscriptions
     ADD CONSTRAINT diary_entry_subscriptions_pkey PRIMARY KEY (user_id, diary_entry_id);
+
+
+--
+-- Name: friendly_id_slugs friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
 
 
 --
@@ -2599,10 +2809,73 @@ CREATE INDEX index_client_applications_on_user_id ON public.client_applications 
 
 
 --
+-- Name: index_communities_on_leader_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_communities_on_leader_id ON public.communities USING btree (leader_id);
+
+
+--
+-- Name: index_communities_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_communities_on_slug ON public.communities USING btree (slug);
+
+
+--
+-- Name: index_community_links_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_links_on_community_id ON public.community_links USING btree (community_id);
+
+
+--
+-- Name: index_community_members_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_members_on_community_id ON public.community_members USING btree (community_id);
+
+
+--
+-- Name: index_community_members_on_community_id_and_user_id_and_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_community_members_on_community_id_and_user_id_and_role ON public.community_members USING btree (community_id, user_id, role);
+
+
+--
+-- Name: index_community_members_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_members_on_user_id ON public.community_members USING btree (user_id);
+
+
+--
 -- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_entry_subscriptions USING btree (diary_entry_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON public.friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON public.friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type_and_sluggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type_and_sluggable_id ON public.friendly_id_slugs USING btree (sluggable_type, sluggable_id);
 
 
 --
@@ -3160,6 +3433,22 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: community_members fk_rails_0f0591ae60; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members
+    ADD CONSTRAINT fk_rails_0f0591ae60 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: communities fk_rails_15754625a4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities
+    ADD CONSTRAINT fk_rails_15754625a4 FOREIGN KEY (leader_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_grants fk_rails_330c32d8d9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3189,6 +3478,14 @@ ALTER TABLE ONLY public.oauth_access_tokens
 
 ALTER TABLE ONLY public.oauth_openid_requests
     ADD CONSTRAINT fk_rails_77114b3b09 FOREIGN KEY (access_grant_id) REFERENCES public.oauth_access_grants(id) ON DELETE CASCADE;
+
+
+--
+-- Name: community_members fk_rails_880260e18d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_members
+    ADD CONSTRAINT fk_rails_880260e18d FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -3237,6 +3534,14 @@ ALTER TABLE ONLY public.user_mutes
 
 ALTER TABLE ONLY public.oauth_access_tokens
     ADD CONSTRAINT fk_rails_ee63f25419 FOREIGN KEY (resource_owner_id) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- Name: community_links fk_rails_f60a749c39; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_links
+    ADD CONSTRAINT fk_rails_f60a749c39 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -3580,6 +3885,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('21'),
 ('20240618193051'),
 ('20240605134916'),
+('20240605043305'),
+('20240525143545'),
+('20240525030520'),
+('20240525020545'),
 ('20240405083825'),
 ('20240307181018'),
 ('20240307180830'),

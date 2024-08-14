@@ -1,0 +1,6 @@
+<%= bootstrap_form_for(@community_member) do |form| %>
+  <%= form.static_control :community, :value => @community_member.community.name %>
+  <%= form.static_control :user, :value => @community_member.user.display_name %>
+  <%= form.select(:role, CommunityMember::Roles::ALL_ROLES.map { |role| [role.titleize, role] }) %>
+  <%= form.primary %>
+<% end %>
