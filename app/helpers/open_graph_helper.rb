@@ -10,6 +10,8 @@ module OpenGraphHelper
       "og:description" => properties["og:description"] || t("layouts.intro_text")
     }.merge(
       opengraph_image_properties(properties)
+    ).merge(
+      properties.slice("article:published_time")
     )
 
     safe_join(tags.map do |property, content|
