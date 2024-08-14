@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class ReportNoteTest < ApplicationSystemTestCase
+class UserBlocksSystemTest < ApplicationSystemTestCase
   test "revoke all link is absent for anonymous users when viewed user has active blocks" do
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
