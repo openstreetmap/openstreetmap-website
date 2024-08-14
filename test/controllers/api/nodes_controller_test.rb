@@ -639,12 +639,5 @@ module Api
       xml.find("//osm/node").first[name] = value.to_s
       xml
     end
-
-    ##
-    # parse some xml
-    def xml_parse(xml)
-      parser = XML::Parser.string(xml)
-      parser.parse
-    end
   end
 end
