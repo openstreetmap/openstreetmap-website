@@ -71,7 +71,8 @@ class DiaryEntriesController < ApplicationController
       @opengraph_properties = {
         "og:image" => @entry.body.image,
         "og:image:alt" => @entry.body.image_alt,
-        "og:description" => @entry.body.description
+        "og:description" => @entry.body.description,
+        "article:published_time" => @entry.created_at.xmlschema
       }
       @comments = can?(:unhide, DiaryComment) ? @entry.comments : @entry.visible_comments
     else

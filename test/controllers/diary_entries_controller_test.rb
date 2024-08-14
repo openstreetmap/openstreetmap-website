@@ -766,6 +766,17 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_article_published_time
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :created_at => "2020-03-04")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='article:published_time']" do
+      assert_dom "> @content", "2020-03-04T00:00:00Z"
+    end
+  end
+
   def test_hide
     user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
