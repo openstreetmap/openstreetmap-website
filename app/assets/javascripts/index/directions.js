@@ -28,13 +28,13 @@ OSM.Directions = function (map) {
 
     getRoute(false, !dragging);
   };
-  var endpointGeocodeCallback = function () {
+  var endpointChangeCallback = function () {
     getRoute(true, true);
   };
 
   var endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointGeocodeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointGeocodeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), OSM.MARKER_GREEN, endpointDragCallback, endpointChangeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), OSM.MARKER_RED, endpointDragCallback, endpointChangeCallback)
   ];
 
   var expiry = new Date();
@@ -303,7 +303,6 @@ OSM.Directions = function (map) {
       var precision = OSM.zoomPrecision(map.getZoom());
       var value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
       endpoints[type === "from" ? 0 : 1].setValue(value, ll);
-      getRoute(true, true);
     });
 
     var params = Qs.parse(location.search.substring(1)),
@@ -323,8 +322,6 @@ OSM.Directions = function (map) {
     endpoints[1].setValue(params.to || "", to);
 
     map.setSidebarOverlaid(!from || !to);
-
-    getRoute(true, true);
   };
 
   page.load = function () {

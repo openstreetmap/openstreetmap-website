@@ -1,4 +1,4 @@
-OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, geocodeCallback) {
+OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, changeCallback) {
   var endpoint = {};
 
   endpoint.marker = L.marker([0, 0], {
@@ -42,6 +42,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ge
     if (latlng) {
       setLatLng(latlng);
       setInputValueFromLatLng(latlng);
+      changeCallback();
     } else {
       endpoint.getGeocode();
     }
@@ -71,7 +72,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ge
 
       input.val(json[0].display_name);
 
-      geocodeCallback();
+      changeCallback();
     });
   };
 
