@@ -67,15 +67,20 @@ class UserBlocksController < ApplicationController
          current_user != @user_block.revoker
         flash[:error] = t(@user_block.revoker ? ".only_creator_or_revoker_can_edit" : ".only_creator_can_edit")
         redirect_to :action => "edit"
-      elsif @user_block.update(
-        :ends_at => Time.now.utc + @block_period.hours,
-        :reason => params[:user_block][:reason],
-        :needs_view => params[:user_block][:needs_view]
-      )
-        flash[:notice] = t(".success")
-        redirect_to(@user_block)
       else
-        render :action => "edit"
+        user_block_was_active = @user_block.active?
+        @user_block.reason = params[:user_block][:reason]
+        @user_block.needs_view = params[:user_block][:needs_view]
+        @user_block.ends_at = Time.now.utc + @block_period.hours
+        if !user_block_was_active && @user_block.active?
+          flash.now[:error] = t(".inactive_block_cannot_be_reactivated")
+          render :action => "edit"
+        elsif @user_block.save
+          flash[:notice] = t(".success")
+          redirect_to @user_block
+        else
+          render :action => "edit"
+        end
       end
     else
       redirect_to edit_user_block_path(:id => params[:id])
