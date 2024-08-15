@@ -469,7 +469,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Original Reason", block.reason
 
     session_for(creator_user)
-    check_block_updates(block)
+    check_inactive_block_updates(block)
   end
 
   ##
@@ -491,10 +491,10 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Original Reason", block.reason
 
     session_for(creator_user)
-    check_block_updates(block)
+    check_inactive_block_updates(block)
 
     session_for(revoker_user)
-    check_block_updates(block)
+    check_inactive_block_updates(block)
   end
 
   ##
@@ -798,7 +798,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def check_block_updates(block)
+  def check_inactive_block_updates(block)
     put user_block_path(block,
                         :user_block_period => "0",
                         :user_block => { :needs_view => false, :reason => "Updated Reason" })
@@ -810,12 +810,30 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     put user_block_path(block,
                         :user_block_period => "0",
-                        :user_block => { :needs_view => true, :reason => "Updated Reason 2" })
+                        :user_block => { :needs_view => true, :reason => "Updated Reason Needs View" })
+    assert_response :success
+    assert_equal "This block is inactive and cannot be reactivated.", flash[:error]
+    block.reload
+    assert_not_predicate block, :active?
+    assert_equal "Updated Reason", block.reason
+
+    put user_block_path(block,
+                        :user_block_period => "1",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason Duration Extended" })
+    assert_response :success
+    assert_equal "This block is inactive and cannot be reactivated.", flash[:error]
+    block.reload
+    assert_not_predicate block, :active?
+    assert_equal "Updated Reason", block.reason
+
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason Again" })
     assert_redirected_to user_block_path(block)
     assert_equal "Block updated.", flash[:notice]
     block.reload
-    assert_predicate block, :active?
-    assert_equal "Updated Reason 2", block.reason
+    assert_not_predicate block, :active?
+    assert_equal "Updated Reason Again", block.reason
   end
 
   def check_user_blocks_table(user_blocks)
