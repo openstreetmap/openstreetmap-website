@@ -1,15 +1,30 @@
 module BrowseHelper
   def element_single_current_link(type, object)
-    link_to object, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
-      element_strikethrough object do
-        printable_element_name object
+    block = -> { printable_element_name object }
+    svg_icon = lookup_svg_icon(object)
+    if svg_icon
+      link_to object, { :class => type, :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
+        concat external_svg(svg_icon)
+        concat element_strikethrough object, &block
+      end
+    else
+      link_to object, { :class => element_class(type, object), :title => element_title(object), :rel => (link_follow(object) if type == "node") } do
+        element_strikethrough object, &block
       end
     end
   end
 
   def element_list_item(type, object, &block)
-    tag.li :class => element_class(type, object), :title => element_title(object) do
-      element_strikethrough object, &block
+    svg_icon = lookup_svg_icon(object)
+    if svg_icon
+      tag.li :class => type, :title => element_title(object) do
+        concat external_svg(svg_icon)
+        concat element_strikethrough object, &block
+      end
+    else
+      tag.li :class => element_class(type, object), :title => element_title(object) do
+        element_strikethrough object, &block
+      end
     end
   end
 
@@ -107,7 +122,7 @@ module BrowseHelper
 
   private
 
-  ICON_TAGS = %w[aeroway amenity barrier building highway historic landuse leisure man_made natural office railway shop tourism waterway].freeze
+  ICON_TAGS = %w[advertising aeroway amenity barrier building emergency highway historic landuse leisure man_made natural office railway shop tourism waterway].freeze
 
   def icon_tags(object)
     object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort
@@ -115,5 +130,37 @@ module BrowseHelper
 
   def name_locales(object)
     object.tags.keys.map { |k| Regexp.last_match(1) if k =~ /^name:(.*)$/ }.flatten
+  end
+
+  def external_svg(args, attributes = {})
+    file_name, fragment = args[:image].split("#")
+    fragment ||= "icon"
+    attributes[:xmlns] = "http://www.w3.org/2000/svg"
+    attributes[:class] = args[:css_class].compact_blank.join(" ")
+    file_name = "browse/#{file_name}"
+    content_tag :svg, attributes do
+      tag.use :href => "#{image_path(file_name)}##{fragment}"
+    end
+  end
+
+  def lookup_svg_icon(object)
+    return if object.redacted?
+
+    icon_tags = icon_tags(object)
+
+    # lookup key-value
+    elem_icon_kv = icon_tags.map { |k, v| "#{k}_#{v}" }.last
+    icon = BROWSE_IMAGE[elem_icon_kv.to_sym] if elem_icon_kv
+
+    # fallback: lookup key only (eg. shop)
+    unless icon
+      elem_icon_k = icon_tags.map { |k, _| k }.last
+      icon = BROWSE_IMAGE[elem_icon_k.to_sym] if elem_icon_k
+    end
+
+    if icon
+      { :image => icon[:image],
+        :css_class => [icon[:fill], "svg_icon"] }
+    end
   end
 end

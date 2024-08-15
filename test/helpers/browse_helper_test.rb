@@ -132,7 +132,46 @@ class BrowseHelperTest < ActionView::TestCase
     assert_includes tags, %w[shop gift]
   end
 
+  def test_svg_files_valid
+    BROWSE_IMAGE.each_value do |value|
+      assert_path_exists "app/assets/images/browse/#{value[:image]}"
+    end
+  end
+
+  def test_svg_element_single_current_link
+    # Test if node returns svg as per config/browse_image.yml
+    node = create(:node, :version => 1)
+    create(:node_tag, :node => node, :k => "amenity", :v => "bench")
+    html = element_single_current_link "node", node
+    root = Nokogiri::HTML::DocumentFragment.parse(html)
+    assert_select root, "a[@class='node']" do
+      validate_svg
+    end
+  end
+
+  def test_svg_element_list_item
+    # Test if node returns svg as per config/browse_image.yml
+    node = create(:node, :version => 1)
+    create(:node_tag, :node => node, :k => "amenity", :v => "bench")
+    html = element_list_item "node", node do
+      "Dummy hyperlink to a node"
+    end
+    root = Nokogiri::HTML::DocumentFragment.parse(html)
+    assert_select root, "li[@class='node']" do
+      validate_svg
+    end
+  end
+
   private
+
+  def validate_svg
+    assert_select "svg", :count => 1
+    assert_select "svg[@class='man-made svg_icon']", :count => 1
+    assert_select "svg[@xmlns='http://www.w3.org/2000/svg']", :count => 1
+    assert_select "svg" do
+      assert_select "use[@href='/images/browse/amenity_bench.svg#icon']", :count => 1
+    end
+  end
 
   def add_old_tags_selection(old_node)
     { "building" => "yes",
