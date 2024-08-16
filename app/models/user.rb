@@ -87,6 +87,10 @@ class User < ApplicationRecord
 
   has_many :reports
 
+  has_many :communities_lead, :class_name => "Community", :foreign_key => :leader_id, :inverse_of => :leader
+  has_many :community_members
+  has_many :communities, :through => :community_members
+
   scope :visible, -> { where(:status => %w[pending active confirmed]) }
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }

@@ -3,7 +3,7 @@ require "application_system_test_case"
 class ViewCommunitiesTest < ApplicationSystemTestCase
   def test_lc_links
     # Check that all the parsing of the chapter information has worked
-    visit "/communities"
+    visit "/communities_index"
     assert_link "OpenStreetMap US", :href => "https://www.openstreetmap.us/"
     assert_link "OpenStreetMap Belgium", :href => "https://openstreetmap.be/"
   end
@@ -15,7 +15,7 @@ class ViewCommunitiesTest < ApplicationSystemTestCase
     fill_in "Preferred Languages", :with => "fr"
     click_on "Update Preferences"
 
-    visit "/communities"
+    visit "/communities_index"
     assert_link "OpenStreetMap États-Unis", :href => "https://www.openstreetmap.us/"
     assert_link "OpenStreetMap Belgique", :href => "https://openstreetmap.be/"
   end
