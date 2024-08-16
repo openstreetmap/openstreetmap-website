@@ -204,7 +204,9 @@ OSM = {
   },
 
   zoomPrecision: function(zoom) {
-    return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+    var pixels = Math.pow(2, 8 + zoom);
+    var degrees = 180;
+    return Math.ceil(Math.log10(pixels / degrees));
   },
 
   locationCookie: function(map) {
