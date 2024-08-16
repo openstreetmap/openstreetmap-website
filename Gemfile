@@ -67,6 +67,7 @@ gem "rails_param"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations", "< 2.0.0"
 gem "validates_email_format_of", ">= 1.5.1"
+gem "validate_url"
 
 # Native OSM extensions
 gem "quad_tile", "~> 1.0.1"
@@ -143,6 +144,9 @@ gem "unicode-display_width"
 
 # Keep ruby 3.0 compatibility
 gem "multi_xml", "~> 0.6.0"
+
+# Used to provide clean urls like /community/mappingdc
+gem "friendly_id"
 
 # Gems useful for development
 group :development do

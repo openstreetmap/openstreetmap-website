@@ -1,0 +1,33 @@
+<%= stylesheet_link_tag "communities" %>
+<%= javascript_include_tag "communities" %>
+
+<p>
+  All fields are required.
+</p>
+<%= bootstrap_form_for @community do |form| %>
+  <%= form.text_field :name, :id => :community_name %>
+  <%= form.text_field :location, :id => :community_location %>
+  <div class="row">
+    <%= form.text_field :latitude, :wrapper_class => "col-sm-6", :id => :community_latitude %>
+    <%= form.text_field :longitude, :wrapper_class => "col-sm-6", :id => :community_longitude %>
+  </div>
+  <div class="community_set_location">
+    <div id="community_map_form" class="content_map">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <%= form.text_field :max_lat, :wrapper_class => "col-sm-4", :id => :community_max_lat %>
+  </div>
+  <div class="row">
+    <%= form.text_field :min_lon, :wrapper_class => "col-sm-4", :id => :community_min_lon %>
+    <div class="col-sm-4"></div>
+    <%= form.text_field :max_lon, :wrapper_class => "col-sm-4", :id => :community_max_lon %>
+  </div>
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <%= form.text_field :min_lat, :wrapper_class => "col-sm-4", :id => :community_min_lat %>
+  </div>
+  <%= form.text_area :description, :id => :community_description %>
+  <%= form.primary %>
+<% end %>

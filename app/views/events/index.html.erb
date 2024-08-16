@@ -1,0 +1,20 @@
+<% content_for :heading do %>
+  <h1><%= @community&.name %> <%= t(".events") %></h1>
+  <nav class="secondary-actions">
+    <ul class="clearfix">
+      <% if current_user && @community&.organizer?(current_user) %>
+        <li>
+          <%= link_to new_event_path(:event => { :community_id => @community.id }), :title => t(".new_event") do %>
+            <%= plus_icon %>
+            <%= t(".new_event") %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+<% end %>
+
+<p id="notice"><%= notice %></p>
+
+<%= render :partial => "index_list", :locals => { :events => @events.future, :header => t(".upcoming_events") } %>
+<%= render :partial => "index_list", :locals => { :events => @events.past, :header => t(".past_events") } %>

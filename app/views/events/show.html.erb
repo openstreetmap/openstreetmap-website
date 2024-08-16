@@ -1,0 +1,81 @@
+<%= javascript_include_tag "event" %>
+
+<% content_for :heading do %>
+  <h1>
+    <%= @event.title %>
+  </h1>
+  <% if current_user && @community&.organizer?(current_user) %>
+    <%= link_to t(".edit"), edit_event_path(@event) %>
+  <% end %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <p>
+        <%= t(".hosted_by") %>: <strong><%= link_to @event.community.name, community_path(@event.community) %></strong>
+      </p>
+      <p>
+        <%= t(".organized_by") %>: <% @event.organizers.each do |organizer| %>
+          <strong><%= link_to organizer.user.display_name, user_path(organizer.user) %></strong>
+        <% end %>
+      </p>
+      <div class='mb-3 border border-secondary-subtle rounded overflow-hidden'>
+        <table class='mb-0 browse-tag-list table align-middle'>
+          <%= render :partial => "events/event_property", :locals => { :name => t(".when"), :value => l(@event.moment, :format => :friendly) } %>
+          <%= render :partial => "events/event_property", :locals => { :name => t(".location"), :value => event_location(@event) } %>
+          <%= render :partial => "events/event_property", :locals => { :name => t(".description"), :value => @event.description } %>
+        </table>
+      </div>
+      <div>
+        <p><%= t(".people_are_going", :count => @event.yes_attendees.size) %></p>
+        <p><%= t(".are_you_going") %></p>
+        <% if current_user %>
+          <%= form_with :model => @my_attendance do |form| %>
+            <%= form.hidden_field(:event_id, :value => @event.id) %>
+            <%= form.hidden_field(:user_id, :value => current_user&.id) %>
+            <%= form.submit :name => "event_attendance[intention]", :value => @yes_check + t(".going_yes"), :disabled => @yes_disabled %>
+            <%= form.submit :name => "event_attendance[intention]", :value => @no_check + t(".going_no"), :disabled => @no_disabled %>
+            <%= form.submit :name => "event_attendance[intention]", :value => @maybe_check + t(".going_maybe"), :disabled => @maybe_disabled %>
+          <% end %>
+        <% else %>
+          <p>
+            <%# TODO: Use login_path %>
+            <%= t(".login_to_rsvp") %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm">
+      <%# TODO: replace these attributes @map_coords %>
+      <%= tag.div :class => "content_map", :id => "event_map_show", :data => { :lat => @event.latitude, :lon => @event.longitude, :zoom => 11 } %>
+      <p>
+        <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=44.97067%2C-93.26822%3B38.90201%2C-77.04469#map=6/42.026/-85.156"><%= t(".directions_to") %></a>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="row">
+    <div class="col-sm">
+      <strong><%= t(".who_yes") %></strong>
+      <div>
+        <% @event.yes_attendees.each do |attendance| %>
+          <%= render :partial => "users/user_card", :locals => { :user => attendance.user } %>
+        <% end %>
+      </div>
+      <strong><%= t(".who_maybe") %></strong>
+      <div>
+        <% @event.maybe_attendees.each do |attendance| %>
+          <%= render :partial => "users/user_card", :locals => { :user => attendance.user } %>
+        <% end %>
+      </div>
+      <strong><%= t(".who_no") %></strong>
+      <div>
+        <% @event.no_attendees.each do |attendance| %>
+          <%= render :partial => "users/user_card", :locals => { :user => attendance.user } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

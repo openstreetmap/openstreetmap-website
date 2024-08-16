@@ -1,0 +1,48 @@
+<%= javascript_include_tag "event" %>
+
+<%= bootstrap_form_for(@event) do |form| %>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <ul>
+        <% event.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <%= form.text_field :title, :id => :event_title %>
+  </div>
+  <div class="row">
+    <%= form.datetime_local_field :moment, :pattern => "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" %>
+  </div>
+  <div class="row">
+    <%= form.text_field :location, :id => :event_location %>
+  </div>
+  <div class="row">
+    <%= form.text_field :location_url, :id => :event_location_url %>
+  </div>
+  <div class="row">
+    <%= form.text_area :description, :id => :event_description %>
+  </div>
+  <fieldset>
+    <div class='row'>
+      <%= form.text_field :latitude, :id => "event_latitude" %>
+    </div>
+    <div class='row'>
+      <%= form.text_field :longitude, :id => "event_longitude" %>
+    </div>
+    <div class="event_set_location">
+      <div id="event_map_form" class="content_map"></div>
+    </div>
+  </fieldset>
+  <% if @event&.community_id %>
+    <%= form.hidden_field(:community_id, :value => @event.community_id) %>
+  <% else %>
+    <div class="row">
+      <%= collection_select(:event, :community_id, Community.all, :id, :name, :prompt => true) %>
+    </div>
+  <% end %>
+  <%= form.primary %>
+<% end %>
