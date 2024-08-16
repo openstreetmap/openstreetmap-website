@@ -12,16 +12,25 @@
 <%= bootstrap_form_for(@user_block) do |f| %>
   <%= f.richtext_field :reason, :cols => 80, :rows => 20, :format => @user_block.reason_format %>
 
-  <%= f.form_group do %>
-    <%= label_tag "user_block_period", t(".period"), :class => "form-label" %>
-    <%= select_tag("user_block_period",
-                   options_for_select(UserBlock::PERIODS.collect { |h| [block_duration_in_words(h.hours), h.to_s] },
-                                      UserBlock::PERIODS.min_by { |h| (params[:user_block_period].to_i - h).abs }),
-                   :class => "form-select") %>
-  <% end %>
+  <% if @user_block.active? %>
+    <%= f.form_group do %>
+      <%= label_tag "user_block_period", t(".period"), :class => "form-label" %>
+      <%= select_tag "user_block_period",
+                     options_for_select(UserBlock::PERIODS.collect { |h| [block_duration_in_words(h.hours), h.to_s] },
+                                        UserBlock::PERIODS.min_by { |h| (params[:user_block_period].to_i - h).abs }),
+                     :class => "form-select" %>
+    <% end %>
 
-  <%= f.form_group :needs_view do %>
-    <%= f.check_box :needs_view %>
+    <%= f.form_group :needs_view do %>
+      <%= f.check_box :needs_view %>
+    <% end %>
+  <% else %>
+    <div class="alert alert-info">
+      <%= t "user_blocks.update.inactive_block_cannot_be_reactivated" %>
+    </div>
+
+    <%= hidden_field_tag "user_block_period", 0 %>
+    <%= f.hidden_field :needs_view %>
   <% end %>
 
   <%= f.primary %>

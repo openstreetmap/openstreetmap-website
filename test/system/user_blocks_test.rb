@@ -68,4 +68,34 @@ class UserBlocksSystemTest < ApplicationSystemTestCase
     assert_unchecked_field "Are you sure you wish to revoke 2 active blocks?"
     assert_button "Revoke!"
   end
+
+  test "duration controls are present for active blocks" do
+    creator_user = create(:moderator_user)
+    block = create(:user_block, :creator => creator_user, :reason => "Testing editing active blocks", :ends_at => Time.now.utc + 2.days)
+    sign_in_as(creator_user)
+
+    visit edit_user_block_path(block)
+    assert_field "Reason", :with => "Testing editing active blocks"
+    assert_select "user_block_period", :selected => "2 days"
+    assert_unchecked_field "Needs view"
+
+    fill_in "Reason", :with => "Editing active blocks works"
+    click_on "Update block"
+    assert_text(/Reason for block:\s+Editing active blocks works/)
+  end
+
+  test "duration controls are removed for inactive blocks" do
+    creator_user = create(:moderator_user)
+    block = create(:user_block, :expired, :creator => creator_user, :reason => "Testing editing expired blocks")
+    sign_in_as(creator_user)
+
+    visit edit_user_block_path(block)
+    assert_field "Reason", :with => "Testing editing expired blocks"
+    assert_no_select "user_block_period"
+    assert_no_field "Needs view"
+
+    fill_in "Reason", :with => "Editing expired blocks works"
+    click_on "Update block"
+    assert_text(/Reason for block:\s+Editing expired blocks works/)
+  end
 end
