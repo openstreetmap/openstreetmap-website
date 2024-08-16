@@ -1,12 +1,9 @@
 <% @title = t ".title", :name => @user_block.user.display_name %>
+
+<% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
   <h1><%= t(".heading_html", :name => link_to(@user_block.user.display_name, @user_block.user)) %></h1>
-  <nav class='secondary-actions'>
-    <ul class='clearfix'>
-      <li><%= link_to t(".show"), @user_block %></li>
-      <li><%= link_to t(".back"), user_blocks_path %></li>
-    </ul>
-  </nav>
+  <%= render :partial => "navigation" %>
 <% end %>
 
 <%= bootstrap_form_for(@user_block) do |f| %>
