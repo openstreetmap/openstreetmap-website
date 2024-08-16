@@ -75,12 +75,8 @@ OSM.Directions = function (map) {
 
   $(".directions_form .btn-close").on("click", function (e) {
     e.preventDefault();
-    var route_from = endpoints[0].value;
-    if (route_from) {
-      OSM.router.route("/?query=" + encodeURIComponent(route_from) + OSM.formatHash(map));
-    } else {
-      OSM.router.route("/" + OSM.formatHash(map));
-    }
+    $(".search_form input[name='query']").val(endpoints[0].value);
+    OSM.router.route("/" + OSM.formatHash(map));
   });
 
   function formatDistance(m) {
