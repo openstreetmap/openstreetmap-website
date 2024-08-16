@@ -293,6 +293,8 @@ OSM.Directions = function (map) {
 
     $("#sidebar_content").on("click", ".btn-close", hideRoute);
 
+    // TODO enable endpoint input/marker listeners
+
     $("#map").on("dragend dragover", function (e) {
       e.preventDefault();
     });
@@ -334,6 +336,8 @@ OSM.Directions = function (map) {
     $(".directions_form").hide();
     $("#sidebar_content").off("click", ".btn-close", hideRoute);
     $("#map").off("dragend dragover drop");
+
+    // TODO disable endpoint input/marker listeners
 
     map
       .removeLayer(popup)
