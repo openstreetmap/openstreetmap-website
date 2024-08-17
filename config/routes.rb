@@ -246,10 +246,12 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
-    resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/
+    resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/ do
+      member do
+        post :hide, :unhide
+      end
+    end
   end
-  post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
-  post "/user/:display_name/diary/:id/unhide" => "diary_entries#unhide", :id => /\d+/, :as => :unhide_diary_entry
   match "/user/:display_name/diary/:id/subscribe" => "diary_entries#subscribe", :via => [:get, :post], :as => :diary_entry_subscribe, :id => /\d+/
   match "/user/:display_name/diary/:id/unsubscribe" => "diary_entries#unsubscribe", :via => [:get, :post], :as => :diary_entry_unsubscribe, :id => /\d+/
   post "/user/:display_name/diary/:id/comments" => "diary_comments#create", :id => /\d+/, :as => :comment_diary_entry
