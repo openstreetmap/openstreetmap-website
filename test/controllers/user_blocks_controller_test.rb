@@ -799,6 +799,8 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   def check_inactive_block_updates(block)
+    original_ends_at = block.ends_at
+
     put user_block_path(block,
                         :user_block_period => "0",
                         :user_block => { :needs_view => false, :reason => "Updated Reason" })
@@ -807,6 +809,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block.reload
     assert_not_predicate block, :active?
     assert_equal "Updated Reason", block.reason
+    assert_equal original_ends_at, block.ends_at
 
     put user_block_path(block,
                         :user_block_period => "0",
@@ -816,6 +819,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block.reload
     assert_not_predicate block, :active?
     assert_equal "Updated Reason", block.reason
+    assert_equal original_ends_at, block.ends_at
 
     put user_block_path(block,
                         :user_block_period => "1",
@@ -825,6 +829,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block.reload
     assert_not_predicate block, :active?
     assert_equal "Updated Reason", block.reason
+    assert_equal original_ends_at, block.ends_at
 
     put user_block_path(block,
                         :user_block_period => "0",
@@ -834,6 +839,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block.reload
     assert_not_predicate block, :active?
     assert_equal "Updated Reason Again", block.reason
+    assert_equal original_ends_at, block.ends_at
   end
 
   def check_user_blocks_table(user_blocks)
