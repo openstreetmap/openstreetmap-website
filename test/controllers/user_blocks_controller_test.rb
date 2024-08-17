@@ -14,10 +14,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       { :controller => "user_blocks", :action => "index" }
     )
     assert_routing(
-      { :path => "/user_blocks/new", :method => :get },
-      { :controller => "user_blocks", :action => "new" }
-    )
-    assert_routing(
       { :path => "/user_blocks", :method => :post },
       { :controller => "user_blocks", :action => "create" }
     )
