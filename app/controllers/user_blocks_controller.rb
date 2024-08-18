@@ -75,11 +75,14 @@ class UserBlocksController < ApplicationController
         if !user_block_was_active && @user_block.active?
           flash.now[:error] = t(".inactive_block_cannot_be_reactivated")
           render :action => "edit"
-        elsif @user_block.save
-          flash[:notice] = t(".success")
-          redirect_to @user_block
         else
-          render :action => "edit"
+          @user_block.ends_at = @user_block.ends_at_was unless user_block_was_active
+          if @user_block.save
+            flash[:notice] = t(".success")
+            redirect_to @user_block
+          else
+            render :action => "edit"
+          end
         end
       end
     else
