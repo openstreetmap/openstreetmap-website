@@ -43,25 +43,18 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
       setLatLng(latlng);
       setInputValueFromLatLng(latlng);
       changeCallback();
-    } else {
-      endpoint.getGeocode();
+    } else if (endpoint.value) {
+      getGeocode();
     }
   };
 
-  endpoint.getGeocode = function () {
-    // if no one has entered a value yet, then we can't geocode, so don't
-    // even try.
-    if (!endpoint.value) {
-      return;
-    }
-
+  function getGeocode() {
     endpoint.awaitingGeocode = true;
 
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
 
     $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
       endpoint.awaitingGeocode = false;
-      endpoint.hasGeocode = true;
       if (json.length === 0) {
         input.addClass("is-invalid");
         alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
@@ -74,10 +67,9 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
       changeCallback();
     });
-  };
+  }
 
   function setLatLng(ll) {
-    endpoint.hasGeocode = true;
     endpoint.latlng = ll;
     endpoint.marker
       .setLatLng(ll)

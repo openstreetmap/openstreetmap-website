@@ -115,18 +115,6 @@ OSM.Directions = function (map) {
     // Cancel any route that is already in progress
     if (routeRequest) routeRequest.abort();
 
-    // go fetch geocodes for any endpoints which have not already
-    // been geocoded.
-    for (var ep_i = 0; ep_i < 2; ++ep_i) {
-      var endpoint = endpoints[ep_i];
-      if (!endpoint.hasGeocode && !endpoint.awaitingGeocode) {
-        endpoint.getGeocode();
-      }
-    }
-    if (endpoints[0].awaitingGeocode || endpoints[1].awaitingGeocode) {
-      return;
-    }
-
     var o = endpoints[0].latlng,
         d = endpoints[1].latlng;
 
