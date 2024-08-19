@@ -93,4 +93,20 @@ class SiteTest < ApplicationSystemTestCase
     li.hover
     assert_selector ".tooltip", :text => "Zoom in"
   end
+
+  test "language selector should not redirect when logged out" do
+    visit "/"
+
+    find(".language-change-trigger").click
+    assert_equal "/", current_path
+  end
+
+  test "language selector should redirect when logged in" do
+    sign_in_as(create(:user))
+
+    visit "/"
+
+    find(".language-change-trigger").click
+    assert_equal current_path, preferences_path
+  end
 end

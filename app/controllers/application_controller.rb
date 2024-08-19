@@ -198,6 +198,8 @@ class ApplicationController < ActionController::Base
                                Locale.list(params[:locale])
                              elsif current_user
                                current_user.preferred_languages
+                             elsif request.cookies["_osm_locale"]
+                               Locale.list(request.cookies["_osm_locale"])
                              else
                                Locale.list(http_accept_language.user_preferred_languages)
                              end

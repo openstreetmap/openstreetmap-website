@@ -16,6 +16,7 @@
 //= require matomo
 //= require richtext
 //= require qs/dist/qs
+//= require uls
 
 /*
  * Called as the user scrolls/zooms around to manipulate hrefs of the
