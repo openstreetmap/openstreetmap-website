@@ -325,9 +325,7 @@ OSM.Directions = function (map) {
 
     map
       .removeLayer(popup)
-      .removeLayer(polyline)
-      .removeLayer(endpoints[0].marker)
-      .removeLayer(endpoints[1].marker);
+      .removeLayer(polyline);
   };
 
   return page;

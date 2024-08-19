@@ -24,6 +24,8 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     endpoint.marker.off("drag dragend", markerDragListener);
     input.off("keydown", inputKeydownListener);
     input.off("change", inputChangeListener);
+
+    map.removeLayer(endpoint.marker);
   };
 
   function markerDragListener(e) {
