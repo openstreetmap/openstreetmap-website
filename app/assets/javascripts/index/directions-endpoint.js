@@ -14,24 +14,40 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     autoPan: true
   });
 
-  endpoint.marker.on("drag dragend", function (e) {
+  endpoint.enable = function () {
+    endpoint.marker.on("drag dragend", markerDragListener);
+    input.on("keydown", inputKeydownListener);
+    input.on("change", inputChangeListener);
+  };
+
+  endpoint.disable = function () {
+    endpoint.marker.off("drag dragend", markerDragListener);
+    input.off("keydown", inputKeydownListener);
+    input.off("change", inputChangeListener);
+
+    if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
+    delete endpoint.geocodeRequest;
+    map.removeLayer(endpoint.marker);
+  };
+
+  function markerDragListener(e) {
     var latlng = e.target.getLatLng();
 
     setLatLng(latlng);
     setInputValueFromLatLng(latlng);
     endpoint.value = input.val();
     dragCallback(e.type === "drag");
-  });
+  }
 
-  input.on("keydown", function () {
+  function inputKeydownListener() {
     input.removeClass("is-invalid");
-  });
+  }
 
-  input.on("change", function (e) {
+  function inputChangeListener(e) {
     // make text the same in both text boxes
     var value = e.target.value;
     endpoint.setValue(value);
-  });
+  }
 
   endpoint.setValue = function (value, latlng) {
     endpoint.value = value;
@@ -49,12 +65,11 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   };
 
   function getGeocode() {
-    endpoint.awaitingGeocode = true;
-
     var viewbox = map.getBounds().toBBoxString(); // <sw lon>,<sw lat>,<ne lon>,<ne lat>
+    var geocodeUrl = OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox;
 
-    $.getJSON(OSM.NOMINATIM_URL + "search?q=" + encodeURIComponent(endpoint.value) + "&format=json&viewbox=" + viewbox, function (json) {
-      endpoint.awaitingGeocode = false;
+    endpoint.geocodeRequest = $.getJSON(geocodeUrl, function (json) {
+      delete endpoint.geocodeRequest;
       if (json.length === 0) {
         input.addClass("is-invalid");
         alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));

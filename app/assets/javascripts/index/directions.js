@@ -290,6 +290,9 @@ OSM.Directions = function (map) {
       endpoints[type === "from" ? 0 : 1].setValue(value, ll);
     });
 
+    endpoints[0].enable();
+    endpoints[1].enable();
+
     var params = Qs.parse(location.search.substring(1)),
         route = (params.route || "").split(";"),
         from = route[0] && L.latLng(route[0].split(",")),
@@ -318,11 +321,12 @@ OSM.Directions = function (map) {
     $(".directions_form").hide();
     $("#map").off("dragend dragover drop");
 
+    endpoints[0].disable();
+    endpoints[1].disable();
+
     map
       .removeLayer(popup)
-      .removeLayer(polyline)
-      .removeLayer(endpoints[0].marker)
-      .removeLayer(endpoints[1].marker);
+      .removeLayer(polyline);
   };
 
   return page;
