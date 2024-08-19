@@ -72,6 +72,7 @@ class UserBlocksController < ApplicationController
         @user_block.reason = params[:user_block][:reason]
         @user_block.needs_view = params[:user_block][:needs_view]
         @user_block.ends_at = Time.now.utc + @block_period.hours
+        @user_block.revoker = current_user if user_block_was_active && !@user_block.active?
         if !user_block_was_active && @user_block.active?
           flash.now[:error] = t(".inactive_block_cannot_be_reactivated")
           render :action => "edit"
