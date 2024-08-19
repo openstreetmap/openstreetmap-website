@@ -494,6 +494,28 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # test the update action revoking the block
+  def test_revoke_using_update
+    moderator_user = create(:moderator_user)
+    block = create(:user_block, :creator => moderator_user)
+
+    session_for(moderator_user)
+    put user_block_path(block,
+                        :user_block_period => "24",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    block.reload
+    assert_predicate block, :active?
+    assert_nil block.revoker
+
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    block.reload
+    assert_not_predicate block, :active?
+    assert_equal moderator_user, block.revoker
+  end
+
+  ##
   # test the revoke action
   def test_revoke
     active_block = create(:user_block)
