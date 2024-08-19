@@ -14,24 +14,36 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     autoPan: true
   });
 
-  endpoint.marker.on("drag dragend", function (e) {
+  endpoint.enable = function () {
+    endpoint.marker.on("drag dragend", markerDragListener);
+    input.on("keydown", inputKeydownListener);
+    input.on("change", inputChangeListener);
+  };
+
+  endpoint.disable = function () {
+    endpoint.marker.off("drag dragend", markerDragListener);
+    input.off("keydown", inputKeydownListener);
+    input.off("change", inputChangeListener);
+  };
+
+  function markerDragListener(e) {
     var latlng = e.target.getLatLng();
 
     setLatLng(latlng);
     setInputValueFromLatLng(latlng);
     endpoint.value = input.val();
     dragCallback(e.type === "drag");
-  });
+  }
 
-  input.on("keydown", function () {
+  function inputKeydownListener() {
     input.removeClass("is-invalid");
-  });
+  }
 
-  input.on("change", function (e) {
+  function inputChangeListener(e) {
     // make text the same in both text boxes
     var value = e.target.value;
     endpoint.setValue(value);
-  });
+  }
 
   endpoint.setValue = function (value, latlng) {
     endpoint.value = value;
