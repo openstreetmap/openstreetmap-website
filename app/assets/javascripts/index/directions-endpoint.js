@@ -31,7 +31,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   };
 
   function markerDragListener(e) {
-    var latlng = e.target.getLatLng();
+    var latlng = convertLatLngToZoomPrecision(e.target.getLatLng());
 
     setLatLng(latlng);
     setInputValueFromLatLng(latlng);
@@ -51,7 +51,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
   endpoint.setValue = function (value, latlng) {
     endpoint.value = value;
-    delete endpoint.latlng;
+    removeLatLng();
     input.removeClass("is-invalid");
     input.val(value);
 
@@ -86,16 +86,30 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
   }
 
   function setLatLng(ll) {
+    input
+      .attr("data-lat", ll.lat)
+      .attr("data-lon", ll.lng);
     endpoint.latlng = ll;
     endpoint.marker
       .setLatLng(ll)
       .addTo(map);
   }
 
+  function removeLatLng() {
+    input
+      .removeAttr("data-lat")
+      .removeAttr("data-lon");
+    delete endpoint.latlng;
+  }
+
   function setInputValueFromLatLng(latlng) {
+    input.val(latlng.lat + ", " + latlng.lng);
+  }
+
+  function convertLatLngToZoomPrecision(latlng) {
     var precision = OSM.zoomPrecision(map.getZoom());
 
-    input.val(latlng.lat.toFixed(precision) + ", " + latlng.lng.toFixed(precision));
+    return L.latLng(latlng.lat.toFixed(precision), latlng.lng.toFixed(precision));
   }
 
   return endpoint;

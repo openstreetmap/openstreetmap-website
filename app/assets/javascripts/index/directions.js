@@ -287,7 +287,8 @@ OSM.Directions = function (map) {
       var ll = map.containerPointToLatLng(pt);
       var precision = OSM.zoomPrecision(map.getZoom());
       var value = ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision);
-      endpoints[type === "from" ? 0 : 1].setValue(value, ll);
+      var llWithPrecision = L.latLng(ll.lat.toFixed(precision), ll.lng.toFixed(precision));
+      endpoints[type === "from" ? 0 : 1].setValue(value, llWithPrecision);
     });
 
     endpoints[0].enable();
