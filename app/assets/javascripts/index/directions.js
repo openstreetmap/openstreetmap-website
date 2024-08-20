@@ -269,6 +269,7 @@ OSM.Directions = function (map) {
       page.load();
     } else {
       OSM.loadSidebarContent("/directions", page.load);
+      // TODO predict if both endpoints will have latlng on load and set map.setSidebarOverlaid() accordingly
     }
   };
 
