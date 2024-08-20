@@ -18,12 +18,26 @@ Rails.application.configure do
   config.server_timing = true
 
   # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  # Run rails dev:cache to toggle caching, or export RAILS_DEV_CACHE=true
+  if Rails.root.join("tmp/caching-dev.txt").exist? || ENV['RAILS_DEV_CACHE'].present?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
-    config.cache_store = :memory_store
+    # Enable/disable Rails page cache. By default page cache is disabled.
+    # export RAILS_PAGE_CACHE=true to enable page cache
+    if ENV['RAILS_PAGE_CACHE'].present?
+      config.action_controller.page_cache_directory = Rails.public_path
+    end
+
+    # Use memory_store or file_store. Default is memory_store.
+    # export RAILS_FILE_CACHE_DIR='path/to/file/cache/dir' to use file_store
+    unless ENV['RAILS_FILE_CACHE_DIR'].present?
+      config.cache_store = :memory_store
+    else
+      FileUtils.mkdir_p(ENV['RAILS_FILE_CACHE_DIR']) unless FileTest.exist?(ENV['RAILS_FILE_CACHE_DIR'])
+      config.cache_store = :file_store, ENV['RAILS_FILE_CACHE_DIR']
+    end
+
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
