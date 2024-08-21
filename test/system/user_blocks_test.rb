@@ -111,7 +111,7 @@ class UserBlocksSystemTest < ApplicationSystemTestCase
     assert_no_field "Needs view"
 
     fill_in "Reason", :with => "Revoking 0-hour blocks works"
-    click_on "Update block"
+    click_on "Revoke block"
     assert_text(/Revoker:\s+#{Regexp.escape other_moderator_user.display_name}/)
     assert_text(/Status:\s+Ended/)
     assert_text(/Reason for block:\s+Revoking 0-hour blocks works/)

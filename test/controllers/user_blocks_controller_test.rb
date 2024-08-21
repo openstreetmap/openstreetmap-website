@@ -278,9 +278,10 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       assert_select "textarea#user_block_reason", :count => 1
       assert_select "select#user_block_period", :count => 0
       assert_select "input#user_block_needs_view[type='checkbox']", :count => 0
+      assert_select "input[type='submit'][value='Update block']", :count => 0
       assert_select "input#user_block_period[type='hidden']", :count => 1
       assert_select "input#user_block_needs_view[type='hidden']", :count => 1
-      assert_select "input[type='submit'][value='Update block']", :count => 1
+      assert_select "input[type='submit'][value='Revoke block']", :count => 1
     end
 
     # Login as the block creator
@@ -294,9 +295,10 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       assert_select "textarea#user_block_reason", :count => 1
       assert_select "select#user_block_period", :count => 1
       assert_select "input#user_block_needs_view[type='checkbox']", :count => 1
+      assert_select "input[type='submit'][value='Update block']", :count => 1
       assert_select "input#user_block_period[type='hidden']", :count => 0
       assert_select "input#user_block_needs_view[type='hidden']", :count => 0
-      assert_select "input[type='submit'][value='Update block']", :count => 1
+      assert_select "input[type='submit'][value='Revoke block']", :count => 0
     end
 
     # We should get an error if the user doesn't exist

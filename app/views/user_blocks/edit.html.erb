@@ -21,6 +21,8 @@
     <%= f.form_group :needs_view do %>
       <%= f.check_box :needs_view %>
     <% end %>
+
+    <%= f.primary %>
   <% else %>
     <div class="alert alert-info">
       <% if @user_block.active? %>
@@ -32,7 +34,11 @@
 
     <%= hidden_field_tag "user_block_period", 0 %>
     <%= hidden_field_tag "user_block[needs_view]", false %>
-  <% end %>
 
-  <%= f.primary %>
+    <% if @user_block.active? %>
+      <%= f.submit t(".revoke"), :class => "btn btn-danger" %>
+    <% else %>
+      <%= f.primary %>
+    <% end %>
+  <% end %>
 <% end %>
