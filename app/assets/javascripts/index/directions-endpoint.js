@@ -66,7 +66,12 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
     if (latlng && endpoint.cachedReverseGeocode && endpoint.cachedReverseGeocode.latlng.equals(latlng)) {
       setLatLng(latlng);
-      endpoint.value = endpoint.cachedReverseGeocode.value;
+      if (endpoint.cachedReverseGeocode.notFound) {
+        endpoint.value = value;
+        input.addClass("is-invalid");
+      } else {
+        endpoint.value = endpoint.cachedReverseGeocode.value;
+      }
       input.val(endpoint.value);
       changeCallback();
       return;
@@ -123,6 +128,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
     endpoint.geocodeRequest = $.getJSON(reverseGeocodeUrl, function (json) {
       delete endpoint.geocodeRequest;
       if (!json || !json.display_name) {
+        endpoint.cachedReverseGeocode = { latlng: latlng, notFound: true };
         return;
       }
 
