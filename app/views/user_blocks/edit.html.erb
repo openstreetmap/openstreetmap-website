@@ -9,7 +9,7 @@
 <%= bootstrap_form_for(@user_block) do |f| %>
   <%= f.richtext_field :reason, :cols => 80, :rows => 20, :format => @user_block.reason_format %>
 
-  <% if @user_block.active? %>
+  <% if @user_block.active? && @user_block.creator == current_user %>
     <%= f.form_group do %>
       <%= label_tag "user_block_period", t(".period"), :class => "form-label" %>
       <%= select_tag "user_block_period",
@@ -23,11 +23,15 @@
     <% end %>
   <% else %>
     <div class="alert alert-info">
-      <%= t "user_blocks.update.inactive_block_cannot_be_reactivated" %>
+      <% if @user_block.active? %>
+        <%= t "user_blocks.update.only_creator_can_edit_without_revoking" %>
+      <% else %>
+        <%= t "user_blocks.update.inactive_block_cannot_be_reactivated" %>
+      <% end %>
     </div>
 
     <%= hidden_field_tag "user_block_period", 0 %>
-    <%= f.hidden_field :needs_view %>
+    <%= hidden_field_tag "user_block[needs_view]", false %>
   <% end %>
 
   <%= f.primary %>

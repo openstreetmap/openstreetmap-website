@@ -252,7 +252,9 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   ##
   # test the edit action
   def test_edit
-    active_block = create(:user_block)
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    active_block = create(:user_block, :creator => creator_user)
 
     # Check that the block edit page requires us to login
     get edit_user_block_path(:id => active_block)
@@ -266,7 +268,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
-    session_for(create(:moderator_user))
+    session_for(other_moderator_user)
 
     # Check that the block edit page loads for moderators
     get edit_user_block_path(:id => active_block)
@@ -274,8 +276,26 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
     assert_select "form#edit_user_block_#{active_block.id}", :count => 1 do
       assert_select "textarea#user_block_reason", :count => 1
+      assert_select "select#user_block_period", :count => 0
+      assert_select "input#user_block_needs_view[type='checkbox']", :count => 0
+      assert_select "input#user_block_period[type='hidden']", :count => 1
+      assert_select "input#user_block_needs_view[type='hidden']", :count => 1
+      assert_select "input[type='submit'][value='Update block']", :count => 1
+    end
+
+    # Login as the block creator
+    session_for(creator_user)
+
+    # Check that the block edit page loads for the creator
+    get edit_user_block_path(:id => active_block)
+    assert_response :success
+    assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
+    assert_select "form#edit_user_block_#{active_block.id}", :count => 1 do
+      assert_select "textarea#user_block_reason", :count => 1
       assert_select "select#user_block_period", :count => 1
       assert_select "input#user_block_needs_view[type='checkbox']", :count => 1
+      assert_select "input#user_block_period[type='hidden']", :count => 0
+      assert_select "input#user_block_needs_view[type='hidden']", :count => 0
       assert_select "input[type='submit'][value='Update block']", :count => 1
     end
 
