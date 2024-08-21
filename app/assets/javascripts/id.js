@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
       parent.updateLinks(llz, zoom);
 
       // Manually resolve URL to avoid iframe JS context weirdness.
-      // http://bl.ocks.org/jfirebaugh/5439412
+      // https://gist.github.com/jfirebaugh/5439412
       var hash = parent.OSM.formatHash(llz);
       if (hash !== parent.location.hash) {
         parent.location.replace(parent.location.href.replace(/(#.*|$)/, hash));
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var data = parent.$(this).data();
 
       // 0ms timeout to avoid iframe JS context weirdness.
-      // http://bl.ocks.org/jfirebaugh/5439412
+      // https://gist.github.com/jfirebaugh/5439412
       setTimeout(function () {
         id.map().centerZoom(
           [data.lon, data.lat],
