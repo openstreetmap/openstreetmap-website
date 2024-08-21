@@ -1488,7 +1488,8 @@ CREATE TABLE public.user_blocks (
     revoker_id bigint,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    reason_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL
+    reason_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL,
+    deactivates_at timestamp without time zone
 );
 
 
@@ -3578,6 +3579,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240813070506'),
 ('20240618193051'),
 ('20240605134916'),
 ('20240405083825'),

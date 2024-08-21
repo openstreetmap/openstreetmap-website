@@ -26,6 +26,7 @@ class UserBlocksController < ApplicationController
   def show
     if current_user && current_user == @user_block.user
       @user_block.needs_view = false
+      @user_block.deactivates_at = [@user_block.ends_at, Time.now.utc].max
       @user_block.save!
     end
   end
@@ -49,6 +50,7 @@ class UserBlocksController < ApplicationController
         :ends_at => now + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
       )
+      @user_block.deactivates_at = @user_block.ends_at unless @user_block.needs_view
 
       if @user_block.save
         flash[:notice] = t(".flash", :name => @user.display_name)
@@ -72,12 +74,17 @@ class UserBlocksController < ApplicationController
         @user_block.reason = params[:user_block][:reason]
         @user_block.needs_view = params[:user_block][:needs_view]
         @user_block.ends_at = Time.now.utc + @block_period.hours
+        @user_block.deactivates_at = (@user_block.ends_at unless @user_block.needs_view)
         @user_block.revoker = current_user if user_block_was_active && !@user_block.active?
         if !user_block_was_active && @user_block.active?
           flash.now[:error] = t(".inactive_block_cannot_be_reactivated")
           render :action => "edit"
         else
-          @user_block.ends_at = @user_block.ends_at_was unless user_block_was_active
+          unless user_block_was_active
+            @user_block.ends_at = @user_block.ends_at_was
+            @user_block.deactivates_at = @user_block.deactivates_at_was
+            @user_block.deactivates_at = [@user_block.ends_at, @user_block.updated_at].max unless @user_block.deactivates_at # take updated_at into account before deactivates_at is backfilled
+          end
           if @user_block.save
             flash[:notice] = t(".success")
             redirect_to @user_block

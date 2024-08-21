@@ -20,7 +20,7 @@ module UserBlocksHelper
       # the max of the last update time or the ends_at time is when this block finished
       # either because the user viewed the block (updated_at) or it expired or was
       # revoked (ends_at)
-      last_time = [block.ends_at, block.updated_at].max
+      last_time = block.deactivates_at || [block.ends_at, block.updated_at].max
       t("user_blocks.helper.time_past_html", :time => friendly_date_ago(last_time))
     end
   end

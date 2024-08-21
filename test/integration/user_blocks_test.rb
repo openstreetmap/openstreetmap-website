@@ -15,7 +15,8 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :user_id => blocked_user.id,
       :creator_id => create(:moderator_user).id,
       :reason => "testing",
-      :ends_at => Time.now.utc + 5.minutes
+      :ends_at => Time.now.utc + 5.minutes,
+      :deactivates_at => Time.now.utc + 5.minutes
     )
     get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
     assert_response :forbidden
@@ -29,7 +30,8 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :user_id => blocked_user.id,
       :creator_id => moderator.id,
       :reason => "testing",
-      :ends_at => Time.now.utc + 5.minutes
+      :ends_at => Time.now.utc + 5.minutes,
+      :deactivates_at => Time.now.utc + 5.minutes
     )
     get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
     assert_response :forbidden
