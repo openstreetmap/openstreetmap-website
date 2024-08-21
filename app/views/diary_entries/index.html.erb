@@ -43,16 +43,8 @@
 <% if @entries.empty? %>
   <h4><%= t ".no_entries" %></h4>
 <% else %>
-  <h4><%= t ".recent_entries" %></h4>
-
-  <%= render @entries %>
-
-  <%= render "shared/pagination",
-             :newer_key => "diary_entries.index.newer_entries",
-             :older_key => "diary_entries.index.older_entries",
-             :newer_id => @newer_entries_id,
-             :older_id => @older_entries_id %>
-<% end %>
+  <%= render :partial => "page" %>
+<% end -%>
 
 <% unless params[:friends] or params[:nearby] -%>
   <% content_for :auto_discovery_link_tag do -%>

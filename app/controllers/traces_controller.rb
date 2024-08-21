@@ -65,6 +65,8 @@ class TracesController < ApplicationController
 
     # final helper vars for view
     @target_user = target_user
+
+    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show
