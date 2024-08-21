@@ -27,6 +27,9 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, iconUrl, dragCallback, ch
 
     if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     delete endpoint.geocodeRequest;
+    removeLatLng();
+    delete endpoint.value;
+    input.val("");
     map.removeLayer(endpoint.marker);
   };
 
