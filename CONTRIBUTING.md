@@ -14,6 +14,13 @@ bundle exec rails eslint
 bundle exec erblint .
 ```
 
+You can also install hooks to have git run checks automatically when
+you commit using [overcommit](https://github.com/sds/overcommit) with:
+
+```
+bundle exec overcommit --install
+```
+
 ## Testing
 
 Having a good suite of tests is very important to the stability and

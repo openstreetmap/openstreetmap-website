@@ -151,6 +151,7 @@ group :development do
   gem "debug_inspector"
   gem "i18n-tasks"
   gem "listen"
+  gem "overcommit"
   gem "vendorer"
 end
 
