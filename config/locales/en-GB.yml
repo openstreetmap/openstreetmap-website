@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Abijeet Patro
 # Author: Alefar
+# Author: Amire80
 # Author: Andibing
 # Author: BEANS
 # Author: Back ache
@@ -336,8 +337,6 @@ en-GB:
         way: way
         relation: relation
     start_rjs:
-      feature_warning: Loading %{num_features} features, which may make your browser
-        slow or unresponsive. Are sure you want to display this data?
       load_data: Load Data
       loading: Loading...
     tag_details:
@@ -455,6 +454,7 @@ en-GB:
       new_title: Compose a new entry in my user diary
       my_diary: My Diary
       no_entries: No diary entries
+    page:
       recent_entries: Recent diary entries
       older_entries: Older Entries
       newer_entries: Newer Entries
@@ -466,7 +466,6 @@ en-GB:
       user_title: '%{user}''s diary'
       leave_a_comment: Leave a comment
       login_to_leave_a_comment_html: '%{login_link} to leave a comment'
-      login: Login
     no_such_entry:
       title: No such diary entry
       heading: 'No entry with the id: %{id}'
@@ -506,7 +505,7 @@ en-GB:
         title: OpenStreetMap diary entries
         description: Recent diary entries from users of OpenStreetMap
   diary_comments:
-    index:
+    page:
       post: Post
       when: When
       comment: Comment
@@ -1236,7 +1235,6 @@ en-GB:
         your_note: '%{commenter} has reactivated one of your map notes near %{place}.'
         commented_note: '%{commenter} has reactivated a map note you have commented
           on. The note is near %{place}.'
-      details: More details about the note can be found at %{url}.
     changeset_comment_notification:
       hi: Hi %{to_user},
       greeting: Hi,
@@ -1249,9 +1247,6 @@ en-GB:
           you are watching created by %{changeset_author}'
         partial_changeset_with_comment: with comment '%{changeset_comment}'
         partial_changeset_without_comment: without comment
-      details: More details about the changeset can be found at %{url}.
-      unsubscribe: To unsubscribe from updates to this changeset, visit %{url} and
-        click "Unsubscribe".
   confirmations:
     confirm:
       heading: Check your email!
@@ -1316,19 +1311,12 @@ en-GB:
       no_sent_messages_html: You have no sent messages yet. Why not get in touch with
         some of the %{people_mapping_nearby_link}?
       people_mapping_nearby: people mapping nearby
-    reply:
-      wrong_user: You are logged in as `%{user}' but the message you have asked to
-        reply to was not sent to that user. Please login as the correct user in order
-        to reply.
     show:
       title: Read message
       reply_button: Reply
       unread_button: Mark as unread
       destroy_button: Delete
       back: Back
-      wrong_user: You are logged in as `%{user}' but the message you have asked to
-        read was not sent by or to that user. Please login as the correct user in
-        order to read it.
     sent_message_summary:
       destroy_button: Delete
     heading:
@@ -1370,15 +1358,11 @@ en-GB:
       update home location on click: Update home location when I click on the map?
   sessions:
     new:
-      title: Login
-      tab_title: Login
       email or username: E-mail Address or Username
       password: Password
       remember: Remember me
       lost password link: Lost your password?
-      login_button: Login
       register now: Register now
-      with external: 'Alternatively, use a third party to login:'
       auth failure: Sorry, could not log in with those details.
     destroy:
       title: Logout
@@ -1397,6 +1381,12 @@ en-GB:
         is accurate and up to date.
       community_driven_title: Community Driven
       open_data_title: Open Data
+      open_data_1_html: |-
+        OpenStreetMap is %{open_data}: you are free to use it for any purpose
+        as long as you credit OpenStreetMap and its contributors. If you alter or
+        build upon the data in certain ways, you may distribute the result only
+        under the same licence. See the %{copyright_license_link} for details.
+      open_data_copyright_license: Copyright and Licence page
       legal_title: Legal
       partners_title: Partners
     copyright:
@@ -1414,16 +1404,21 @@ en-GB:
         native_link: British English version
         mapping_link: start mapping
       legal_babble:
+        introduction_3_html: Our documentation is licensed under the %{creative_commons_link}
+          license (CC BY-SA 2.0).
         credit_title_html: How to credit OpenStreetMap
         attribution_example:
           alt: Example of how to attribute OpenStreetMap on a webpage
           title: Attribution example
         more_title_html: Finding out more
+        more_1_1_osmf_licence_page: OSMF Licence page
         contributors_title_html: Our contributors
         contributors_intro_html: |-
           Our contributors are thousands of individuals. We also include
           openly-licenced data from national mapping agencies
           and other sources, among them:
+        contributors_cz_cc_licence: Creative Commons Attribution 4.0 International
+          licence (CC BY 4.0)
         contributors_footer_2_html: Inclusion of data in OpenStreetMap does not imply
           that the original data provider endorses OpenStreetMap, provides any warranty,
           or accepts any liability.
@@ -1648,9 +1643,6 @@ en-GB:
       delete_trace: Delete this trace
       trace_not_found: Trace not found!
       visibility: 'Visibility:'
-    trace_paging_nav:
-      older: Older Traces
-      newer: Newer Traces
     trace:
       pending: PENDING
       count_points:
@@ -1670,6 +1662,9 @@ en-GB:
       description: Browse recent GPS track uploads
       tagged_with: ' tagged with %{tags}'
       upload_trace: Upload a trace
+    page:
+      older: Older Traces
+      newer: Newer Traces
     destroy:
       scheduled_for_deletion: Trace scheduled for deletion
     make_public:
@@ -1696,25 +1691,6 @@ en-GB:
       need_to_see_terms: Your access to the API is temporarily suspended. Please log-in
         to the web interface to view the Contributor Terms. You do not need to agree,
         but you must view them.
-    auth_providers:
-      openid:
-        title: Login with OpenID
-        alt: Login with an OpenID URL
-      google:
-        title: Login with Google
-        alt: Login with a Google OpenID
-      facebook:
-        title: Login with Facebook
-        alt: Login with a Facebook Account
-      microsoft:
-        title: Login with Microsoft
-        alt: Login with a Microsoft Account
-      github:
-        title: Login with GitHub
-        alt: Login with a GitHub Account
-      wikipedia:
-        title: Login with Wikipedia
-        alt: Login with a Wikipedia Account
   oauth:
     authorize:
       title: Authorise access to your account
@@ -1791,14 +1767,11 @@ en-GB:
       title: Sign Up
       no_auto_account_create: Unfortunately we are not currently able to create an
         account for you automatically.
-      about:
-        header: Free and editable
       display name description: Your publicly displayed username. You can change this
         later in the preferences.
       external auth: 'Third Party Authentication:'
       continue: Sign Up
       terms accepted: Thanks for accepting the new contributor terms!
-      use external auth: Alternatively, use a third party to login
     terms:
       title: Terms
       heading: Terms
@@ -1875,9 +1848,10 @@ en-GB:
       heading: Users
       summary_html: '%{name} created from %{ip_address} on %{date}'
       summary_no_ip_html: '%{name} created on %{date}'
+      empty: No matching users found
+    page:
       confirm: Confirm Selected Users
       hide: Hide Selected Users
-      empty: No matching users found
     suspended:
       title: Account Suspended
       heading: Account Suspended
@@ -1892,10 +1866,6 @@ en-GB:
       option_1: |-
         If you are new to OpenStreetMap, please create a new account
         using the form below.
-      option_2: |-
-        If you already have an account, you can login to your account
-        using your username and password and then associate the account
-        with your ID in your user settings.
   user_role:
     filter:
       not_a_role: The string `%{role}' is not a valid role.
@@ -1928,13 +1898,10 @@ en-GB:
       title: Creating block on %{name}
       heading_html: Creating block on %{name}
       period: How long, starting now, the user will be blocked from the API for.
-      back: View all blocks
     edit:
       title: Editing block on %{name}
       heading_html: Editing block on %{name}
       period: How long, starting now, the user will be blocked from the API for.
-      show: View this block
-      back: View all blocks
     filter:
       block_period: The blocking period must be one of the values selectable in the
         drop-down list.
@@ -2047,7 +2014,6 @@ en-GB:
       center_marker: Centre map on marker
       paste_html: Paste HTML to embed in website
       view_larger_map: View Larger Map
-      only_standard_layer: Only the standard layer can be exported as an image
     embed:
       report_problem: Report a problem
     key:

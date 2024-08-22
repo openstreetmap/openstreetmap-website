@@ -500,9 +500,9 @@ es:
         way: vía
         relation: relación
     start_rjs:
-      feature_warning: Cargando %{num_features} funciones, lo que puede hacer que
-        su navegador sea lento o no responda. ¿Está seguro de que desea mostrar estos
-        datos?
+      feature_warning: Cargando %{num_features} elementos, lo que puede hacer que
+        tu navegador se ralentice o no responda. ¿Estás seguro de que deseas mostrar
+        estos datos?
       load_data: Cargar datos
       loading: Cargando…
     tag_details:
@@ -661,6 +661,7 @@ es:
       new_title: Escribir una nueva entrada en mi diario de usuario
       my_diary: Mi diario
       no_entries: No hay entradas en el diario
+    page:
       recent_entries: Entradas recientes en el diario
       older_entries: Entradas más antiguas
       newer_entries: Entradas más recientes
@@ -728,14 +729,14 @@ es:
       heading: Comentarios del diario de %{user}
       subheading_html: Comentarios de diario añadidos por %{user}
       no_comments: Ningún comentario de diario
+    page:
       post: Publicación
       when: Cuando
       comment: Comentario
       newer_comments: Comentarios más recientes
       older_comments: Comentarios más antiguos
     new:
-      heading: ¿Agregar un comentario a la siguiente discusión sobre la entrada del
-        diario?
+      heading: ¿Añadir un comentario a la siguiente discusión de entrada en el diario?
   doorkeeper:
     errors:
       messages:
@@ -1730,6 +1731,7 @@ es:
       debido a trabajos de mantenimiento.
     osm_read_only: La base de datos de OpenStreetMap se encuentra en modo de sólo
       lectura debido a trabajos de mantenimiento.
+    nothing_to_preview: Nada que previsualizar.
     donate: Apoya a OpenStreetMap %{link} al Fondo de modernización de hardware.
     help: Ayuda
     about: Acerca de
@@ -1776,13 +1778,19 @@ es:
       befriend_them: También puedes añadirlo como amigo en %{befriendurl}.
       befriend_them_html: También puedes añadirlo como amigo en %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Parece que tu archivo GPX %{trace_name} con la descripción
+        %{trace_description} y las etiquetas siguientes: %{tags}'
       description_with_tags_html: 'Parece que tu archivo GPX %{trace_name} con la
         descripción %{trace_description} y las etiquetas siguientes: %{tags}'
+      description_with_no_tags: Parece que tu archivo GPX %{trace_name} con la descripción
+        %{trace_description} y sin etiquetas
       description_with_no_tags_html: Parece que tu archivo GPX %{trace_name} con la
-        descripción %{trace_description} sin etiquetas
+        descripción %{trace_description} y sin etiquetas
     gpx_failure:
       hi: Hola %{to_user},
       failed_to_import: 'no ha podido ser importado. El mensaje de error es:'
+      more_info: Más información sobre fallas de importación de GPX y cómo evitarlas
+        se puede encontrar en %{url}.
       more_info_html: Más información sobre los errores de importación de GPX y y
         cómo evitarlos se pueden encontrar en %{url}.
       subject: '[OpenStreetMap] Fallo al importar GPX'
@@ -1791,7 +1799,10 @@ es:
       loaded:
         one: se cargó correctamente, con %{trace_points} de %{count} puntos posibles.
         other: se cargaron correctamente, con %{trace_points} de %{count} puntos posibles.
-      all_your_traces_html: Todas los trazas GPX cargadas correctamente se pueden
+      trace_location: Tu traza está disponible en %{trace_url}
+      all_your_traces: Todas tus trazas GPX cargadas correctamente se pueden encontrar
+        en %{url}.
+      all_your_traces_html: Todas tus trazas GPX cargadas correctamente se pueden
         encontrar en %{url}.
       subject: '[OpenStreetMap] Éxito al importar GPX'
     signup_confirm:
@@ -2097,6 +2108,7 @@ es:
     richtext_field:
       edit: Editar
       preview: Previsualizar
+      help: Ayuda
   site:
     about:
       next: Siguiente
@@ -2675,9 +2687,6 @@ es:
       trace_not_found: ¡No se ha encontrado la traza!
       visibility: 'Visibilidad:'
       confirm_delete: ¿Quieres eliminar esta traza?
-    trace_paging_nav:
-      older: Trazas más antiguas
-      newer: Trazas más recientes
     trace:
       pending: PENDIENTE
       count_points:
@@ -2710,6 +2719,9 @@ es:
       my_traces: Mis trazas
       traces_from: Trazas Públicos de %{user}
       remove_tag_filter: Eliminar Filtro de Etiquetas
+    page:
+      older: Trazas más antiguas
+      newer: Trazas más recientes
     destroy:
       scheduled_for_deletion: Traza programada para eliminación
     make_public:
@@ -2810,6 +2822,7 @@ es:
       write_notes: Modifica notas
       write_redactions: Censurar datos del mapa
       read_email: Leer dirección de correo electrónico del usuario
+      consume_messages: Leer, actualizar el estado y eliminar mensajes del usuario
       send_messages: Enviar mensajes privados a otros usuarios
       skip_authorization: Auto aprobar aplicación
     for_roles:
@@ -3057,16 +3070,17 @@ es:
     index:
       title: Usuarios
       heading: Usuarios
+      summary_html: '%{name} creado desde %{ip_address} el %{date}'
+      summary_no_ip_html: '%{name} creado el %{date}'
+      empty: No hay usuarios coincidentes
+    page:
       older: Usuarios antiguos
       newer: Usuarios más recientes
       found_users:
         one: '%{count} usuario encontrado'
         other: '%{count} usuarios encontrados'
-      summary_html: '%{name} creado desde %{ip_address} el %{date}'
-      summary_no_ip_html: '%{name} creado el %{date}'
       confirm: Confirmar usuarios seleccionados
       hide: Ocultar usuarios seleccionados
-      empty: No hay usuarios coincidentes
     suspended:
       title: Cuenta suspendida
       heading: Cuenta suspendida
@@ -3127,14 +3141,11 @@ es:
       heading_html: Creando un bloqueo para %{name}
       period: ¿Por cuánto tiempo, empezando desde ahora, el usuario tendrá bloqueado
         el uso de la API?
-      back: Ver todos los bloqueos
     edit:
       title: Editando el bloqueo sobre %{name}
       heading_html: Editando el bloqueo sobre %{name}
       period: ¿Por cuánto tiempo, empezando desde ahora, el usuario tendrá bloqueado
         el uso de la API?
-      show: Ver este bloqueo
-      back: Ver todos los bloqueos
     filter:
       block_period: El periodo de bloqueo debe de ser uno de los valores seleccionables
         de la lista desplegable.
@@ -3144,6 +3155,8 @@ es:
       only_creator_can_edit: Sólo el moderador que ha creado este bloqueo puede editarlo.
       only_creator_or_revoker_can_edit: Solo los moderadores que han creado o revocado
         este bloqueo pueden editarlo.
+      inactive_block_cannot_be_reactivated: Este bloqueo está inactivo y no puede
+        reactivarse.
       success: Bloqueo actualizado.
     index:
       title: Bloqueos de usuario

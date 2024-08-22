@@ -700,6 +700,7 @@ ru:
       new_title: Создать новую запись в моём дневнике
       my_diary: Мой дневник
       no_entries: Нет записей в дневнике
+    page:
       recent_entries: Недавние записи в дневнике
       older_entries: Более старые записи
       newer_entries: Более новые записи
@@ -770,6 +771,7 @@ ru:
       subheading_html: Комментарии к записям в дневнике, добавленные пользователем
         %{user}
       no_comments: Никаких комментариев в дневнике
+    page:
       post: Сообщение
       when: Когда
       comment: Комментарий
@@ -1646,6 +1648,8 @@ ru:
       link_to_reports: Просмотр сообщений
       reports_count:
         one: 1 сообщение
+        few: '%{count} сообщения'
+        many: '%{count} сообщений'
         other: '%{count} сообщений'
       reported_item: Тема сообщения
       states:
@@ -1655,8 +1659,9 @@ ru:
     show:
       title: '%{status} Проблема #%{issue_id}'
       reports:
-        zero: Нет сообщений
         one: 1 сообщение
+        few: '%{count} сообщения'
+        many: '%{count} сообщений'
         other: '%{count} сообщений'
       report_created_at_html: Впервые сообщено %{datetime}
       last_resolved_at_html: Последний раз обработано %{datetime}
@@ -1819,6 +1824,7 @@ ru:
         few: успешно загружены %{trace_points} точки из %{count} возможных.
         many: успешно загружено %{trace_points} точек из %{count} возможных.
         other: ""
+      trace_location: Ваш трек доступен по %{trace_url}
       subject: '[OpenStreetMap] Импорт GPX прошёл успешно'
     signup_confirm:
       subject: '[OpenStreetMap] Добро пожаловать в OpenStreetMap'
@@ -1904,8 +1910,8 @@ ru:
         partial_changeset_without_comment: без комментария
       details: 'Ответить или узнать больше о пакете правок: %{url}.'
       details_html: Ответить или узнать больше о пакете правок можно на %{url}.
-      unsubscribe: Чтобы отказаться от новых сообщений для этого пакета правок, перейдите
-        по ссылке %{url} и нажмите кнопку "Отписаться".
+      unsubscribe: Вы можете отказаться от новых сообщений для этого пакета правок
+        перейдя по ссылке %{url}.
       unsubscribe_html: Чтобы отказаться от подписки на обновления этого набора изменений,
         зайдите на %{url} и нажмите «Отписаться».
   confirmations:
@@ -2593,13 +2599,13 @@ ru:
       trace_not_found: Трек не найден!
       visibility: 'Видимость:'
       confirm_delete: Удалить этот трек?
-    trace_paging_nav:
-      older: Более старые треки
-      newer: Более новые треки
     trace:
       pending: ОБРАБАТЫВАЕТСЯ
-      count_points: '{{PLURAL|one=1 точка|few=%{count} точки|many=%{count} точек|%{count}
-        точек}'
+      count_points:
+        one: 1 точка
+        few: '%{count} точки'
+        many: '%{count} точек'
+        other: '%{count} точек'
       more: подробнее
       trace_details: Показать данные трека
       view_map: Просмотр карты
@@ -2625,6 +2631,9 @@ ru:
       my_traces: Мои треки
       traces_from: Общедоступные трассировки от %{user}
       remove_tag_filter: Удалить фильтр тегов
+    page:
+      older: Более старые треки
+      newer: Более новые треки
     destroy:
       scheduled_for_deletion: Запланировано к удалению
     make_public:
@@ -2936,13 +2945,14 @@ ru:
     index:
       title: Пользователи
       heading: Пользователи
-      older: Участники с большим стажем
-      newer: Новые участники
       summary_html: '%{name} создан %{date}, с адреса %{ip_address}'
       summary_no_ip_html: '%{name} создан %{date}'
+      empty: Не найдено соответствующих пользователей
+    page:
+      older: Участники с большим стажем
+      newer: Новые участники
       confirm: Подтвердить выделенных пользователей
       hide: Скрыть выделенных пользователей
-      empty: Не найдено соответствующих пользователей
     suspended:
       title: Учётная запись приостановлена
       heading: Учётная запись приостановлена
@@ -3000,14 +3010,11 @@ ru:
       heading_html: Создание блокировки для пользователя %{name}
       period: Как долго, начиная с этого момента, пользователь будет заблокирован
         от API.
-      back: Показать все блокировки
     edit:
       title: Правка блокировки пользователя %{name}
       heading_html: Правка блокировки пользователя %{name}
       period: На какой срок, начиная с этого момента, заблокировать пользователя от
         API.
-      show: Просмотреть эту блокировку
-      back: Просмотреть все блокировки
     filter:
       block_period: Период блокировки должен быть одним из значений, выбираемых из
         выпадающего списка.

@@ -620,6 +620,7 @@ it:
       new_title: Componi una nuova voce nel tuo diario utente
       my_diary: Il mio diario
       no_entries: Nessuna voce nel diario
+    page:
       recent_entries: Voci del diario recenti
       older_entries: Voci più vecchie
       newer_entries: Voci più recenti
@@ -687,6 +688,7 @@ it:
       heading: I commenti del diario di %{user}
       subheading_html: Commenti del diario aggiunti da %{user}
       no_comments: Nessun commento al diario
+    page:
       post: Messaggio
       when: Quando
       comment: Commento
@@ -1684,6 +1686,7 @@ it:
       lo svolgimento di alcuni lavori essenziali su di esso.
     osm_read_only: Il database di OpenStreetMap è al momento in modalità sola-lettura
       per permettere lo svolgimento di alcuni lavori essenziali su di esso.
+    nothing_to_preview: Niente da visualizzare in anteprima.
     donate: Supporta OpenStreetMap %{link} al fondo destinato all'aggiornamento dell'hardware.
     help: Aiuto
     about: Informazioni
@@ -1732,13 +1735,19 @@ it:
       befriend_them: Puoi anche aggiungerli come amici in %{befriendurl}.
       befriend_them_html: Puoi anche aggiungerli come amici in %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Sembra che il tuo file GPX %{trace_name} con la descrizione
+        %{trace_description} e le seguenti etichette: %{tags}'
       description_with_tags_html: 'Sembra che il tuo file GPX %{trace_name} con la
         descrizione %{trace_description} e le seguenti etichette: %{tags}'
+      description_with_no_tags: Sembra che il tuo file GPX %{trace_name} con la descrizione
+        %{trace_description} e senza etichette
       description_with_no_tags_html: Sembra che il tuo file GPX %{trace_name} con
         la descrizione %{trace_description} e senza etichette
     gpx_failure:
       hi: Ciao %{to_user},
       failed_to_import: 'fallito nell''importazione. Questo è l''errore:'
+      more_info: Per ulteriori informazioni sugli errori di importazione GPX e su
+        come evitarli, consulta %{url}.
       more_info_html: Troverai maggiori informazioni sul fallimento dell'importazione
         di GPX e come evitarlo all'indirizzo %{url}.
       subject: '[OpenStreetMap] Importazione GPX fallita'
@@ -1749,6 +1758,9 @@ it:
           punto.
         other: sia stato caricato con successo con %{trace_points} su un totale di
           %{count} punti.
+      trace_location: La tua traccia è disponibile su %{trace_url}
+      all_your_traces: Tutte le tracce GPX caricate con successo possono essere trovate
+        su %{url}
       all_your_traces_html: Puoi vedere tutte le tue tracce GPX caricate con successo
         su %{url}.
       subject: '[OpenStreetMap] Importazione GPX completata con successo'
@@ -2051,6 +2063,7 @@ it:
     richtext_field:
       edit: Modifica
       preview: Anteprima
+      help: Aiuto
   site:
     about:
       next: Successivo
@@ -2620,9 +2633,6 @@ it:
       trace_not_found: Tracciato non trovato!
       visibility: 'Visibilità:'
       confirm_delete: Cancellare questo tracciato?
-    trace_paging_nav:
-      older: Tracce più vecchie
-      newer: Tracce più recenti
     trace:
       pending: IN ATTESA
       count_points:
@@ -2654,6 +2664,9 @@ it:
       my_traces: I miei tracciati
       traces_from: Tracciati pubblici di %{user}
       remove_tag_filter: Rimuovi filtro delle etichette
+    page:
+      older: Tracce più vecchie
+      newer: Tracce più recenti
     destroy:
       scheduled_for_deletion: Tracciato in attesa di essere eliminato
     make_public:
@@ -2753,6 +2766,8 @@ it:
       write_notes: Modificare le note
       write_redactions: Rimuovere dati cartografici
       read_email: Leggere indirizzo di posta elettronica dell'utente
+      consume_messages: Leggere, aggiornare lo stato e cancellare i messaggi dell'utente
+      send_messages: Inviare messaggi privati ad altri utenti
       skip_authorization: Approvazione automatica applicazione
     for_roles:
       moderator: Questa autorizzazione è per le azioni disponibili solo ai moderatori
@@ -2996,16 +3011,17 @@ it:
     index:
       title: Utenti
       heading: Utenti
+      summary_html: '%{name} creato da %{ip_address} il %{date}'
+      summary_no_ip_html: '%{name} creato il %{date}'
+      empty: Nessun utente corrispondente trovato
+    page:
       older: Utenti più vecchi
       newer: Utenti più recenti
       found_users:
         one: '%{count} utente trovato'
         other: '%{count} utenti trovati'
-      summary_html: '%{name} creato da %{ip_address} il %{date}'
-      summary_no_ip_html: '%{name} creato il %{date}'
       confirm: Conferma Utenti Selezionati
       hide: Nascondi Utenti Selezionati
-      empty: Nessun utente corrispondente trovato
     suspended:
       title: Account sospeso
       heading: Account sospeso
@@ -3061,14 +3077,11 @@ it:
       heading_html: Creazione del blocco su %{name}
       period: Quanto a lungo, a partire da adesso, sarà bloccato l'accesso alle API
         per l'utente.
-      back: Visualizza tutti i blocchi
     edit:
       title: Modifica del blocco su %{name}
       heading_html: Modifica del blocco su %{name}
       period: Quanto a lungo, a partire da adesso, l'accesso alle API sarà bloccato
         per l'utente.
-      show: Visualizza questo blocco
-      back: Visualizza tutti i blocchi
     filter:
       block_period: Il periodo di blocco deve essere uno dei valori selezionabili
         nella lista a tendina.
@@ -3076,6 +3089,10 @@ it:
       flash: È stato imposto un blocco sull'utente %{name}.
     update:
       only_creator_can_edit: Solo il moderatore che ha creato questo blocco può modificarlo.
+      only_creator_or_revoker_can_edit: Solo i moderatori che hanno creato o revocato
+        questo blocco possono modificarlo.
+      inactive_block_cannot_be_reactivated: Questo blocco è inattivo e non può essere
+        riattivato.
       success: Blocco aggiornato.
     index:
       title: Blocchi dell'utente

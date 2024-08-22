@@ -64,6 +64,7 @@
 # Author: Walesson
 # Author: Wille
 # Author: Willemarcel
+# Author: YoReaper
 # Author: YuriNikolai
 ---
 pt:
@@ -478,6 +479,15 @@ pt:
       introduction: Clique no mapa para achar elementos próximos
       nearby: Elementos próximos
       enclosing: Elementos envoltórios
+  old_nodes:
+    not_found:
+      sorry: 'Desculpe, o nó #%{id} versão %{version} não foi encontrado.'
+  old_ways:
+    not_found:
+      sorry: 'Desculpe, não foi possível encontrar o caminho #%{id} versão %{version}.'
+  old_relations:
+    not_found:
+      sorry: 'Desculpe, a relação #%{id} versão %{version} não foi encontrada.'
   changesets:
     changeset_paging_nav:
       showing_page: Página %{page}
@@ -513,13 +523,19 @@ pt:
         closed: Fechado
         belongs_to: Autor
     subscribe:
+      heading: Deseja se inscrever à seguinte discussão do conjunto de alterações?
       button: Inscreva-se na discussão
+    unsubscribe:
+      heading: Deseja cancelar a inscrição na seguinte discussão do conjunto de alterações?
+      button: Cancelar inscrição da discussão
     heading:
       title: Conjunto de alterações %{id}
       created_by_html: Criado por %{link_user} em %{created}.
     no_such_entry:
       title: Não existe esse conjunto de alterações
       heading: 'Não há postagens no diário com o id: %{id}'
+      body: Desculpe, não há conjunto de alterações com o id %{id}. Verifique a ortografia,
+        ou talvez o link que que você clicou esteja errado.
     show:
       title: 'Conjunto de alterações: %{id}'
       created: 'Criado: %{when}'
@@ -601,6 +617,7 @@ pt:
       new_title: Escrever uma nova entrada no meu diário de usuário
       my_diary: Meu diário
       no_entries: Sem publicações no diário
+    page:
       recent_entries: Publicações recentes no diário
       older_entries: Publicações mais antigas
       newer_entries: Publicações mais novas
@@ -657,6 +674,7 @@ pt:
         title: Publicações no diário do OpenStreetMap
         description: Publicações no diário recentes de usuários do OpenStreetMap
     subscribe:
+      heading: Você deseja acompanhar a seguinte discussão sobre a entrada no diário?
       button: Inscreva-se na discussão
     unsubscribe:
       heading: Cancelar a in=inscrição da seguinte discussão de entrada de diário?
@@ -667,11 +685,15 @@ pt:
       heading: Comentários no diário de %{user}
       subheading_html: Comentários no diário feitos por %{user}
       no_comments: Sem comentários no diário.
+    page:
       post: Entrada
       when: Quando
       comment: Comentário
       newer_comments: Comentários mais recentes
       older_comments: Comentários mais antigos
+    new:
+      heading: Deseja adicionar um comentário na seguinte discussão sobre a entrada
+        de diário?
   doorkeeper:
     errors:
       messages:
@@ -914,6 +936,7 @@ pt:
           college: Edifício de escola técnica
           commercial: Edifício comercial
           construction: Edifício em construção
+          cowshed: Vacaria
           detached: Casa separada
           dormitory: Dormitório
           duplex: Casa com duplex
@@ -943,6 +966,7 @@ pt:
           shed: Galpão
           stable: Estábulo
           static_caravan: Caravana
+          sty: Chiqueiro
           temple: Edifício de templo
           terrace: Edifício terraço
           train_station: Edifício de estação de trem
@@ -1659,6 +1683,7 @@ pt:
     osm_offline: A base de dados do OpenStreetMap está fora do ar para manutenção.
     osm_read_only: A base de dados do OpenStreetMap está em modo somente leitura devido
       a operações de manutenção.
+    nothing_to_preview: Nada para pré-visualizar.
     donate: 'Ajude o OpenStreetMap fazendo doações para o Fundo de Melhoria de Hardware:
       %{link}.'
     help: Ajuda
@@ -1708,13 +1733,19 @@ pt:
       befriend_them: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
       befriend_them_html: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Parece com o seu arquivo GPX %{trace_name} com a descrição
+        %{trace_description} e as seguintes etiquetas: %{tags}'
       description_with_tags_html: 'Parece que seu arquivo GPX %{trace_name} com a
         descrição %{trace_description} e as seguintes etiquetas: %{tags}'
+      description_with_no_tags: Parece com o seu arquivo GPX %{trace_name} com a descrição
+        %{trace_description} e sem etiquetas
       description_with_no_tags_html: Parece que seu arquivo GPX %{trace_name} com
         a descrição %{trace_description} e sem etiquetas
     gpx_failure:
       hi: Olá %{to_user},
       failed_to_import: 'falha ao importar. Veja a mensagem de erro:'
+      more_info: Mais informações sobre as falhas de importação de GPX e como evitá-las
+        podem ser encontradas em %{url}.
       more_info_html: Mais informações sobre as falhas de importação GPX e como evitá-las
         podem ser encontradas em %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=pt-br
@@ -1724,6 +1755,11 @@ pt:
       loaded:
         one: carregado com sucesso com %{trace_points} de %{count} ponto.
         other: carregado com sucesso com %{trace_points} de %{count} pontos possíveis
+      trace_location: Sua trilha está disponível em %{trace_url}
+      all_your_traces: Todas as suas trilhas GPX enviadas com sucesso podem ser encontradas
+        em %{url}
+      all_your_traces_html: Todas as suas trilhas GPX enviadas com sucesso podem ser
+        encontradas em %{url}.
       subject: '[OpenStreetMap] GPX importado com sucesso'
     signup_confirm:
       subject: '[OpenStreetMap] Bem-vindo(a) ao OpenStreetMap'
@@ -1784,8 +1820,8 @@ pt:
           A nota está perto de %{place}.'
         commented_note_html: '%{commenter} reativou uma nota de mapa que você comentou.
           A nota está perto de %{place}.'
-      details: Mais detalhes sobre a nota podem ser encontrados em %{url}.
-      details_html: Mais detalhes sobre a nota podem ser encontrados em %{url}.
+      details: Responda ou descubra mais sobre a nota em %{url}.
+      details_html: Responda ou descubra mais sobre a nota em %{url}.
     changeset_comment_notification:
       description: Conjunto de alterações n.º %{id}
       hi: Olá %{to_user},
@@ -1806,14 +1842,12 @@ pt:
         partial_changeset_with_comment: com comentário %{changeset_comment}
         partial_changeset_with_comment_html: com comentário %{changeset_comment}
         partial_changeset_without_comment: sem comentários
-      details: Mais detalhes sobre o conjunto de alterações podem ser encontrados
-        em %{url}
-      details_html: Mais detalhes sobre o conjunto de alterações podem ser encontrados
-        em %{url}
-      unsubscribe: Para cancelar a subscrição das atualizações deste conjunto de alterações,
-        visite %{url} e clique em "Anular subscrição".
-      unsubscribe_html: Para cancelar a subscrição das atualizações deste conjunto
-        de alterações, visite %{url} e clique em "Anular subscrição".
+      details: Responda ou descubra mais sobre o conjunto de alterações em %{url}
+      details_html: Responda ou descubra mais sobre o conjunto de alterações em %{url}.
+      unsubscribe: Você pode deixar de acompanhar as atualizações deste conjunto de
+        alterações em %{url}.
+      unsubscribe_html: Você pode deixar de acompanhar as atualizações deste conjunto
+        de alterações em %{url}.
   confirmations:
     confirm:
       heading: Confira o seu e-mail!
@@ -1897,8 +1931,8 @@ pt:
         other: Você tem %{count} mensagens silenciadas
     reply:
       wrong_user: Você está conectado como `%{user}' mas a mensagem que você quer
-        responder não foi enviada para este usuário. Faça o login com o usuário correto
-        para poder responder.
+        responder não foi enviada para este usuário. Entre com o usuário correto para
+        poder responder.
     show:
       title: Ler mensagem
       reply_button: Responder
@@ -1906,8 +1940,8 @@ pt:
       destroy_button: Apagar
       back: Voltar
       wrong_user: Você está conectado como `%{user}' mas a mensagem que você quer
-        ler não foi enviada para este usuário. Faça o login com o usuário correto
-        para poder responder.
+        ler não foi enviada para ou por este usuário. Entre com o usuário correto
+        para poder ler.
     sent_message_summary:
       destroy_button: Apagar
     heading:
@@ -1930,6 +1964,10 @@ pt:
       new password button: Redefinir senha
       help_text: Digite o endereço de e-mail que você usou para se conectar e enviaremos
         um link que você poderá usar para redefinir a sua senha.
+    create:
+      send_paranoid_instructions: Se o seu endereço de e-mail existir em nosso banco
+        de dados, você receberá um link de recuperação de senha no seu e-mail em alguns
+        minutos.
     edit:
       title: Redefinir senha
       heading: Redefinir Senha de %{user}
@@ -2020,6 +2058,7 @@ pt:
     richtext_field:
       edit: Editar
       preview: Pré-visualizar
+      help: Ajuda
   site:
     about:
       next: Próximo
@@ -2297,9 +2336,9 @@ pt:
       other_concerns:
         title: Outras preocupações
         concerns_html: Se você tem preucopações sobre a forma em que nossos dados
-          estão sendo usados ou sobre o contéudo, por favor consulte nosso %{copyright_link}
+          estão sendo usados ou sobre o contéudo, por favor consulte nossa %{copyright_link}
           para mais informações legais, ou contate o %{working_group_link} apropriado.
-        copyright: págian de direitos autorais
+        copyright: página de direitos autorais
         working_group: Grupo de trabalho OSMF
     help:
       title: Obtendo ajuda
@@ -2331,8 +2370,8 @@ pt:
           no OpenStreetMap e outros serviços.
       welcomemat:
         title: Para organizações
-        description: Com uma organização fazendo planos para o OpenStreetMap? Encontre
-          o que você precisa saber no Welcome Mat.
+        description: Você está com uma organização fazendo planos para o OpenStreetMap?
+          Encontre o que você precisa saber no Material de Boas-Vindas.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Pt:Main_Page
         title: OpenStreetMap Wiki
@@ -2352,10 +2391,10 @@ pt:
       title: Dúvidas?
       paragraph_1_html: OpenStreetMap tem vários recursos para aprender sobre o projeto,
         fazer e responder perguntas e debater e documentar de forma conjunta temas
-        de mapeamento. %{help_link}. Com uma organização fazendo planos para o OpenStreetMap?
-        %{welcome_mat_link}.
+        de mapeamento. %{help_link}. Você está com uma organização fazendo planos
+        para o OpenStreetMap? %{welcome_mat_link}.
       get_help_here: Obtenha ajuda aqui
-      welcome_mat: Visite o Welcome Mat
+      welcome_mat: Visite o Material de Boas-Vindas.
     sidebar:
       search_results: Resultados da busca
       close: Fechar
@@ -2588,9 +2627,6 @@ pt:
       trace_not_found: Trilha não encontrada!
       visibility: 'Visibilidade:'
       confirm_delete: Eliminar esta trilha?
-    trace_paging_nav:
-      older: Trilhas mais antigas
-      newer: Trilhas mais recentes
     trace:
       pending: PENDENTE
       count_points:
@@ -2621,6 +2657,9 @@ pt:
       my_traces: Minhas trilhas
       traces_from: Traços públicos de %{user}
       remove_tag_filter: Remova o filtro de marcações
+    page:
+      older: Trilhas mais antigas
+      newer: Trilhas mais recentes
     destroy:
       scheduled_for_deletion: Trilha marcada para ser apagada
     make_public:
@@ -2661,6 +2700,7 @@ pt:
       oauth2_authorizations: Autorizações do OAuth 2
       muted_users: Usuários silenciados
     auth_providers:
+      openid_url: URL do OpenID
       openid_login_button: Continuar
       openid:
         title: Entrar com o OpenID
@@ -2718,6 +2758,8 @@ pt:
       write_notes: Modificar notas
       write_redactions: Rever dados do mapa
       read_email: Ler o endereço de e-mail do usuário
+      consume_messages: Ver, atualizar o status e apagar mensagens de usuários
+      send_messages: Enviar mensagens privadas para outros usuários
       skip_authorization: Aplicação de aprovação automática
     for_roles:
       moderator: Esta permissão é para ações disponíveis apenas para moderadores
@@ -2964,16 +3006,17 @@ pt:
     index:
       title: Usuários
       heading: Usuários
+      summary_html: '%{name} criado no computador %{ip_address} em %{date}'
+      summary_no_ip_html: '%{name} criado em %{date}'
+      empty: Não há usuários correspondentes
+    page:
       older: Usuários antigos
       newer: Novos usuários
       found_users:
         one: '%{count} usuário encontrado'
         other: '%{count} usuários encontrados'
-      summary_html: '%{name} criado no computador %{ip_address} em %{date}'
-      summary_no_ip_html: '%{name} criado em %{date}'
       confirm: Confirmar Usuários Selecionados
       hide: Ocultar Usuários Selecionados
-      empty: Não há usuários correspondentes
     suspended:
       title: Conta suspensa
       heading: Conta suspensa
@@ -3031,13 +3074,10 @@ pt:
       title: Criando bloqueio em %{name}
       heading_html: Criando bloqueio em %{name}
       period: Começando agora, por quanto tempo impedir o usuário de usar a API.
-      back: Ver todos bloqueios
     edit:
       title: Editando bloqueio em %{name}
       heading_html: Editando bloqueio em %{name}
       period: Começando agora, por quanto tempo impedir o usuário de usar a API.
-      show: Ver esse bloqueio
-      back: Ver todos bloqueios
     filter:
       block_period: O período de bloqueio deve ser um dos valores selecionáveis na
         lista.
@@ -3045,6 +3085,10 @@ pt:
       flash: Bloquear o usuário %{name}.
     update:
       only_creator_can_edit: Somente o moderador que criou esse bloqueio pode editá-lo.
+      only_creator_or_revoker_can_edit: Somente os moderadores que criaram ou revogaram
+        esse bloqueio pode editá-lo.
+      inactive_block_cannot_be_reactivated: Este bloqueio está inativo e não pode
+        ser reativado.
       success: Bloqueio atualizado.
     index:
       title: Bloqueios do usuário
@@ -3134,6 +3178,13 @@ pt:
     index:
       title: Usuários silenciados
       my_muted_users: Meus usuários silenciados
+      you_have_muted_n_users:
+        one: Você silenciou %{count} usuário
+        other: Você silenciou %{count} usuários
+      user_mute_explainer: As mensagens de usuários silenciados são movidas para uma
+        Caixa de Entrada separada e você não receberá notificações por e-mail.
+      user_mute_admins_and_moderators: Você pode silenciar Administradores e Moderadores,
+        mas as mensagens deles não serão silenciadas.
       table:
         thead:
           muted_user: Usuários silenciados
@@ -3142,8 +3193,10 @@ pt:
           unmute: Ativar
           send_message: Enviar mensagem
     create:
+      notice: Você silenciou %{name}.
       error: '%{name} não pôde ser silenciado(a). %{full_message}.'
     destroy:
+      notice: Você deixou de silenciar %{name}.
       error: Não foi possível silenciar o usuário. Por favor tente novamente.
   notes:
     index:
@@ -3193,6 +3246,10 @@ pt:
       intro: Encontrou um erro ou algo faltando? Informe outros mapeadores para que
         isso possa ser corrigido. Mova o marcador para a posição correta e digite
         uma nota para explicar o problema.
+      anonymous_warning_html: Você não iniciou sessão. Por favor, %{log_in} ou %{sign_up}
+        se você deseja receber atualizações sobre sua nota.
+      anonymous_warning_log_in: entre
+      anonymous_warning_sign_up: crie uma conta
       advice: A sua nota será pública e pode ser usada para atualizar o mapa, portanto,
         não insira informações pessoais ou dados de mapas protegidos por direitos
         autorais ou listas de diretórios.
@@ -3211,14 +3268,15 @@ pt:
       custom_dimensions: Definir dimensões personalizadas
       format: 'Formato:'
       scale: 'Escala:'
-      image_dimensions: A imagem mostrará a camada padrão em %{width} x %{height}
+      image_dimensions: A imagem mostrará a camada %{layer} em %{width} x %{height}
       download: Baixar
       short_url: URL curta
       include_marker: Incluir marcador
       center_marker: Centralizar o mapa no marcador
       paste_html: Cole o HTML para publicar no site
       view_larger_map: Ver mapa ampliado
-      only_standard_layer: Somente a camada padrão pode ser exportada como uma imagem
+      only_standard_layer: Somente as camadas Padrão, Ciclístico, e Transporte Público
+        podem ser exportadas como uma imagem
     embed:
       report_problem: Reportar um problema
     key:

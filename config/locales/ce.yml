@@ -273,7 +273,7 @@ ce:
         recent_editing_html: Ахь дукха хан йоццуш хийцамаш бина хила дер, хьан аккаунт
           карарчу хенахь дӀайаккха йиш яц. ДӀайаккха йиш хир йу цхьана %{time}.
         confirm_delete: Бакъалла лаьий хӀуна?
-        cancel: Цаоьшу
+        cancel: ДӀадаккхар
   accounts:
     edit:
       title: Аккаунт хийца
@@ -555,6 +555,7 @@ ce:
       new_title: Кхолла хьайн дневник чохь керла дӀайаздар
       my_diary: Сан тептар
       no_entries: Дневник чохь дӀайаздарш дац
+    page:
       recent_entries: Дукха хан йоцу дӀайаздарш
       older_entries: Шира дӀайаздарш
       newer_entries: Керла дӀайаздарш
@@ -622,6 +623,7 @@ ce:
       heading: '%{user} тептар тIе комментареш'
       subheading_html: тдекъашхочо тептар тIе комментареш тоьхна %{user}
       no_comments: цхьа комментари йац тептартех
+    page:
       post: Хаам
       when: Маца
       comment: Коммент
@@ -1917,7 +1919,7 @@ ce:
     edit:
       title: Хийца хазахеттарш
       save: Карладаха хазахеттарш
-      cancel: Цаоьшу
+      cancel: ДӀадаккхар
     update:
       failure: Хазахеттарш карладаха аьтто ца баьлла.
     update_success_flash:
@@ -1926,7 +1928,7 @@ ce:
     edit:
       title: Профиль нисйан
       save: Карлайаккха профиль
-      cancel: Цаоьшу
+      cancel: ДӀадаккхар
       image: Сурт
       gravatar:
         gravatar: Gravatar лелайар
@@ -2508,7 +2510,7 @@ ce:
         other: Хьан %{count} лараш йу чуйахаре сатуьйсуш. Дехар ду, кхин дӀа чудалале,
           уьш чекхдовларе сатуьйсийла хьажа, кхечу лелочарна рагӀ дӀа ца йайтархьама.
     edit:
-      cancel: Цаоьшу
+      cancel: ДӀадаккха
       title: Трек нисайа %{name}
       heading: Трек нисайар %{name}
       visibility_help: хӀара хӀун бохург ду?
@@ -2537,9 +2539,6 @@ ce:
       trace_not_found: Трек ца карийна!
       visibility: 'Гуш хилар:'
       confirm_delete: ХӀара трек дӀайаккхий?
-    trace_paging_nav:
-      older: Шира трекаш
-      newer: Керла трекаш
     trace:
       pending: КЕЧДАЬШ ДУ
       count_points:
@@ -2571,6 +2570,9 @@ ce:
       my_traces: Сан трекаш
       traces_from: '%{user}-ан йукъара трекаш'
       remove_tag_filter: ДӀаяккха теган фильтр
+    page:
+      older: Шира трекаш
+      newer: Керла трекаш
     destroy:
       scheduled_for_deletion: ДӀаяккха лерина трек
     make_public:
@@ -2913,16 +2915,17 @@ ce:
     index:
       title: Декъашхой
       heading: Декъашхой
+      summary_html: '%{name} кхоьллина %{date}, %{ip_address} адрес чуьра'
+      summary_no_ip_html: '%{name} кхоьллина %{date}'
+      empty: ЦхьаьнабогӀуш болу декъашхой ца карийна
+    page:
       older: Зедела декъашхой
       newer: Керла декъашхой
       found_users:
         one: '%{count} декъашхо карийна'
         other: '%{count} декъашхоша карийна'
-      summary_html: '%{name} кхоьллина %{date}, %{ip_address} адрес чуьра'
-      summary_no_ip_html: '%{name} кхоьллина %{date}'
       confirm: Хаьржина декъашхой тӀечӀагӀбе
       hide: Хаьржина декъашхой къейлабаха
-      empty: ЦхьаьнабогӀуш болу декъашхой ца карийна
     suspended:
       title: Аккаунт сацийна
       heading: Аккаунт сацийна
@@ -2979,13 +2982,10 @@ ce:
       title: Декъашхочунна  %{name} блок кхоллар
       heading_html: Декъашхочунна  %{name} блок кхоллар
       period: Мел хенан, хӀинца дуьйна, декъашхо API-х дӀакъовлур ву.
-      back: Гайта дерриге блоктохарш
     edit:
       title: ' %{name} декъашхочун блок хийцар'
       heading_html: ' %{name} декъашхочун блок хийцар'
       period: Мел хенан, хӀинца дуьйна, декъашхо API-х дӀакъовла веза.
-      show: ХӀокху блоке хьажа
-      back: Гайта дерриге блоктохарш
     filter:
       block_period: Блокировкан мур хила беза цхьаъ маьIан долуш тептарчура хаьржина.
     create:
@@ -2994,6 +2994,8 @@ ce:
       only_creator_can_edit: И блок кхоьллинчу модераторан бен хийца йиш яц.
       only_creator_or_revoker_can_edit: ХӀара блок кхоьллинчу йа йухайаьккхинчу модераторийн
         бен хийца йиш йац.
+      inactive_block_cannot_be_reactivated: ХӀара блок жигара йац, йуха дӀахӀотто
+        йиш йац.
       success: Блок карлайаккхина.
     index:
       title: Декъашхочун блоктохар
@@ -3080,6 +3082,7 @@ ce:
       blocks_by_me: Сан блоктохарш
       blocks_by_user: Блокаш йина %{user}
       block: 'Блок #%{id}'
+      new_block: Керла блок
   user_mutes:
     index:
       title: ДIакъоьвлина декъашхой
@@ -3106,12 +3109,12 @@ ce:
       error: Декъашхо дӀаваккха йиш йацара. Дехар ду,йуха хьажа.
   notes:
     index:
-      title: Билгалдаккхарш кхоьллина я комментари йина %{user}
+      title: Билгалдахарш кхоьллина йа комментари йина %{user}
       heading: '%{user} декъашхочун билгалонаш'
       subheading_html: Билгалдаккхар %{submitted} йа %{commented} %{user}
       subheading_submitted: Гайтина
       subheading_commented: комментари йина
-      no_notes: Билгалдаккхарш дац
+      no_notes: Билгалдахарш дац
       id: Идентификатор
       creator: Автор
       description: Цуьнах лаьцна
