@@ -173,7 +173,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block = create(:user_block, :creator => creator_user)
 
     session_for(other_moderator_user)
-    check_block_buttons block, :revoke => 1
+    check_block_buttons block, :edit => 1, :revoke => 1
 
     session_for(creator_user)
     check_block_buttons block, :edit => 1, :revoke => 1
