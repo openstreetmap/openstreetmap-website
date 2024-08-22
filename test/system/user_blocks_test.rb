@@ -98,4 +98,22 @@ class UserBlocksSystemTest < ApplicationSystemTestCase
     click_on "Update block"
     assert_text(/Reason for block:\s+Editing expired blocks works/)
   end
+
+  test "other moderator can revoke 0-hour blocks" do
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :zero_hour, :needs_view, :creator => creator_user, :reason => "Testing revoking 0-hour blocks")
+    sign_in_as(other_moderator_user)
+
+    visit edit_user_block_path(block)
+    assert_field "Reason", :with => "Testing revoking 0-hour blocks"
+    assert_no_select "user_block_period"
+    assert_no_field "Needs view"
+
+    fill_in "Reason", :with => "Revoking 0-hour blocks works"
+    click_on "Revoke block"
+    assert_text(/Revoker:\s+#{Regexp.escape other_moderator_user.display_name}/)
+    assert_text(/Status:\s+Ended/)
+    assert_text(/Reason for block:\s+Revoking 0-hour blocks works/)
+  end
 end

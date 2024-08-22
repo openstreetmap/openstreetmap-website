@@ -70,8 +70,7 @@ class UserBlocksController < ApplicationController
 
   def update
     if @valid_params
-      if current_user != @user_block.creator &&
-         current_user != @user_block.revoker
+      if cannot?(:update, @user_block)
         flash[:error] = t(@user_block.revoker ? ".only_creator_or_revoker_can_edit" : ".only_creator_can_edit")
         redirect_to :action => "edit"
       else
@@ -81,7 +80,10 @@ class UserBlocksController < ApplicationController
         @user_block.ends_at = Time.now.utc + @block_period.hours
         @user_block.deactivates_at = (@user_block.ends_at unless @user_block.needs_view)
         @user_block.revoker = current_user if user_block_was_active && !@user_block.active?
-        if !user_block_was_active && @user_block.active?
+        if user_block_was_active && @user_block.active? && current_user != @user_block.creator
+          flash.now[:error] = t(".only_creator_can_edit_without_revoking")
+          render :action => "edit"
+        elsif !user_block_was_active && @user_block.active?
           flash.now[:error] = t(".inactive_block_cannot_be_reactivated")
           render :action => "edit"
         else

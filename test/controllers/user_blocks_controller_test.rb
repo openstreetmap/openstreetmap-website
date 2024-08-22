@@ -173,7 +173,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block = create(:user_block, :creator => creator_user)
 
     session_for(other_moderator_user)
-    check_block_buttons block, :revoke => 1
+    check_block_buttons block, :edit => 1, :revoke => 1
 
     session_for(creator_user)
     check_block_buttons block, :edit => 1, :revoke => 1
@@ -252,7 +252,9 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   ##
   # test the edit action
   def test_edit
-    active_block = create(:user_block)
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    active_block = create(:user_block, :creator => creator_user)
 
     # Check that the block edit page requires us to login
     get edit_user_block_path(:id => active_block)
@@ -266,9 +268,26 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
     # Login as a moderator
-    session_for(create(:moderator_user))
+    session_for(other_moderator_user)
 
     # Check that the block edit page loads for moderators
+    get edit_user_block_path(:id => active_block)
+    assert_response :success
+    assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
+    assert_select "form#edit_user_block_#{active_block.id}", :count => 1 do
+      assert_select "textarea#user_block_reason", :count => 1
+      assert_select "select#user_block_period", :count => 0
+      assert_select "input#user_block_needs_view[type='checkbox']", :count => 0
+      assert_select "input[type='submit'][value='Update block']", :count => 0
+      assert_select "input#user_block_period[type='hidden']", :count => 1
+      assert_select "input#user_block_needs_view[type='hidden']", :count => 1
+      assert_select "input[type='submit'][value='Revoke block']", :count => 1
+    end
+
+    # Login as the block creator
+    session_for(creator_user)
+
+    # Check that the block edit page loads for the creator
     get edit_user_block_path(:id => active_block)
     assert_response :success
     assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
@@ -277,6 +296,9 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       assert_select "select#user_block_period", :count => 1
       assert_select "input#user_block_needs_view[type='checkbox']", :count => 1
       assert_select "input[type='submit'][value='Update block']", :count => 1
+      assert_select "input#user_block_period[type='hidden']", :count => 0
+      assert_select "input#user_block_needs_view[type='hidden']", :count => 0
+      assert_select "input[type='submit'][value='Revoke block']", :count => 0
     end
 
     # We should get an error if the user doesn't exist
@@ -391,7 +413,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   # test the update action
   def test_update
     moderator_user = create(:moderator_user)
-    second_moderator_user = create(:moderator_user)
     active_block = create(:user_block, :creator => moderator_user)
 
     # Not logged in yet, so updating a block should fail
@@ -405,19 +426,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     put user_block_path(:id => active_block)
     assert_redirected_to :controller => "errors", :action => "forbidden"
 
-    # Login as the wrong moderator
-    session_for(second_moderator_user)
-
-    # Check that only the person who created a block can update it
-    assert_no_difference "UserBlock.count" do
-      put user_block_path(:id => active_block,
-                          :user_block_period => "12",
-                          :user_block => { :needs_view => true, :reason => "Vandalism" })
-    end
-    assert_redirected_to edit_user_block_path(active_block)
-    assert_equal "Only the moderator who created this block can edit it.", flash[:error]
-
-    # Login as the correct moderator
+    # Login as the moderator
     session_for(moderator_user)
 
     # A bogus block period should result in an error
@@ -495,7 +504,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
   ##
   # test the update action revoking the block
-  def test_revoke_using_update
+  def test_revoke_using_update_by_creator
     moderator_user = create(:moderator_user)
     block = create(:user_block, :creator => moderator_user)
 
@@ -503,6 +512,8 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     put user_block_path(block,
                         :user_block_period => "24",
                         :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
     block.reload
     assert_predicate block, :active?
     assert_nil block.revoker
@@ -510,9 +521,36 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     put user_block_path(block,
                         :user_block_period => "0",
                         :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
     block.reload
     assert_not_predicate block, :active?
     assert_equal moderator_user, block.revoker
+  end
+
+  def test_revoke_using_update_by_other_moderator
+    creator_user = create(:moderator_user)
+    other_moderator_user = create(:moderator_user)
+    block = create(:user_block, :creator => creator_user)
+
+    session_for(other_moderator_user)
+    put user_block_path(block,
+                        :user_block_period => "24",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_response :success
+    assert_equal "Only the moderator who created this block can edit it without revoking.", flash[:error]
+    block.reload
+    assert_predicate block, :active?
+    assert_nil block.revoker
+
+    put user_block_path(block,
+                        :user_block_period => "0",
+                        :user_block => { :needs_view => false, :reason => "Updated Reason" })
+    assert_redirected_to user_block_path(block)
+    assert_equal "Block updated.", flash[:notice]
+    block.reload
+    assert_not_predicate block, :active?
+    assert_equal other_moderator_user, block.revoker
   end
 
   ##

@@ -7,6 +7,12 @@ FactoryBot.define do
     user
     creator :factory => :moderator_user
 
+    trait :zero_hour do
+      now = Time.now.utc
+      created_at { now }
+      ends_at { now }
+    end
+
     trait :needs_view do
       needs_view { true }
       deactivates_at { nil }
