@@ -4,7 +4,7 @@
 
 <% @sources.each do |source| %>
   <h4>
-    <%= t(".title.results_from_html", :results_link => link_to(t(".title.#{source[:name]}"), source[:url].to_s)) %>
+    <%= link_to t(".title.#{source[:name]}"), source[:url].to_s %>
   </h4>
   <div class="search_results_entry mx-n3" data-href="<%= url_for @params.merge(:action => "search_#{source[:name]}") %>">
     <div class="text-center loader">
