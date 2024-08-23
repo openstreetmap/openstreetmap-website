@@ -34,10 +34,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       { :controller => "user_blocks", :action => "destroy", :id => "1" }
     )
     assert_routing(
-      { :path => "/blocks/1/revoke", :method => :get },
-      { :controller => "user_blocks", :action => "revoke", :id => "1" }
-    )
-    assert_routing(
       { :path => "/blocks/1/revoke", :method => :post },
       { :controller => "user_blocks", :action => "revoke", :id => "1" }
     )
@@ -558,48 +554,14 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   def test_revoke
     active_block = create(:user_block)
 
-    # Check that the block revoke page requires us to login
-    get revoke_user_block_path(:id => active_block)
-    assert_redirected_to login_path(:referer => revoke_user_block_path(:id => active_block))
-
-    # Login as a normal user
-    session_for(create(:user))
-
-    # Check that normal users can't load the block revoke page
-    get revoke_user_block_path(:id => active_block)
-    assert_redirected_to :controller => "errors", :action => "forbidden"
-
     # Login as a moderator
     session_for(create(:moderator_user))
-
-    # Check that the block revoke page loads for moderators
-    get revoke_user_block_path(:id => active_block)
-    assert_response :success
-    assert_template "revoke"
-    assert_select "h1 a[href='#{user_path active_block.user}']", :text => active_block.user.display_name
-    assert_select "form", :count => 1 do
-      assert_select "input#confirm[type='checkbox']", :count => 1
-      assert_select "input[type='submit'][value='Revoke!']", :count => 1
-    end
-
-    # Check that revoking a block using GET should fail
-    get revoke_user_block_path(:id => active_block, :confirm => true)
-    assert_response :success
-    assert_template "revoke"
-    b = UserBlock.find(active_block.id)
-    assert_operator b.ends_at - Time.now.utc, :>, 100
 
     # Check that revoking a block works using POST
     post revoke_user_block_path(:id => active_block, :confirm => true)
     assert_redirected_to user_block_path(active_block)
     b = UserBlock.find(active_block.id)
     assert_in_delta Time.now.utc, b.ends_at, 1
-
-    # We should get an error if the block doesn't exist
-    get revoke_user_block_path(:id => 99999)
-    assert_response :not_found
-    assert_template "not_found"
-    assert_select "p", "Sorry, the user block with ID 99999 could not be found."
   end
 
   ##
