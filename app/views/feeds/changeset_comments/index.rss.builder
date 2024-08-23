@@ -6,7 +6,7 @@ xml.rss("version" => "2.0",
     else
       xml.title t(".title_all")
     end
-    xml.link url_for(:controller => "site", :action => "index", :only_path => false)
+    xml.link root_url
 
     xml << render(:partial => "comment", :collection => @comments)
   end
