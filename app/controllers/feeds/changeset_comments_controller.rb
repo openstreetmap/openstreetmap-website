@@ -11,12 +11,12 @@ module Feeds
     ##
     # Get a feed of recent changeset comments
     def index
-      if params[:id]
+      if params[:changeset_id]
         # Extract the arguments
-        id = params[:id].to_i
+        changeset_id = params[:changeset_id].to_i
 
         # Find the changeset
-        changeset = Changeset.find(id)
+        changeset = Changeset.find(changeset_id)
 
         # Return comments for this changeset only
         @comments = changeset.comments.includes(:author, :changeset).reverse_order.limit(comments_limit)
