@@ -27,7 +27,7 @@
     </div>
 
     <div class="col-md">
-      <h3><%= t ".my friends" %></h3>
+      <h2><%= t ".my friends" %></h2>
 
       <% if friends.empty? %>
         <%= t ".no friends" %>
@@ -38,14 +38,14 @@
             <li><%= link_to t(".friends_diaries"), friends_diary_entries_path %></li>
           </ul>
         </nav>
-        <div id="friends-container">
+        <div>
           <%= render :partial => "contact", :collection => friends, :locals => { :type => "friend" } %>
         </div>
       <% end %>
 
       <hr>
 
-      <h3><%= t ".nearby users" %></h3>
+      <h2><%= t ".nearby users" %></h2>
 
       <% if nearby.empty? %>
         <%= t ".no nearby users" %>

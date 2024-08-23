@@ -325,9 +325,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
     end
 
-    # Friends shouldn't be visible as we're not logged in
-    assert_select "div#friends-container", :count => 0
-
     # Test a user who has been blocked
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
