@@ -33,10 +33,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user_blocks/1", :method => :delete },
       { :controller => "user_blocks", :action => "destroy", :id => "1" }
     )
-    assert_routing(
-      { :path => "/blocks/1/revoke", :method => :post },
-      { :controller => "user_blocks", :action => "revoke", :id => "1" }
-    )
 
     assert_routing(
       { :path => "/user/username/blocks", :method => :get },
@@ -547,21 +543,6 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block.reload
     assert_not_predicate block, :active?
     assert_equal other_moderator_user, block.revoker
-  end
-
-  ##
-  # test the revoke action
-  def test_revoke
-    active_block = create(:user_block)
-
-    # Login as a moderator
-    session_for(create(:moderator_user))
-
-    # Check that revoking a block works using POST
-    post revoke_user_block_path(:id => active_block, :confirm => true)
-    assert_redirected_to user_block_path(active_block)
-    b = UserBlock.find(active_block.id)
-    assert_in_delta Time.now.utc, b.ends_at, 1
   end
 
   ##

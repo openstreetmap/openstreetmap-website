@@ -334,7 +334,6 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/blocks_by" => "user_blocks#blocks_by", :as => "user_blocks_by"
   get "/blocks/new/:display_name" => "user_blocks#new", :as => "new_user_block"
   resources :user_blocks, :except => :new
-  post "/blocks/:id/revoke" => "user_blocks#revoke", :as => "revoke_user_block"
   match "/user/:display_name/blocks/revoke_all" => "user_blocks#revoke_all", :via => [:get, :post], :as => "revoke_all_user_blocks"
 
   # issues and reports
