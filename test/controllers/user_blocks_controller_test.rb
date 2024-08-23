@@ -173,10 +173,10 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
     block = create(:user_block, :creator => creator_user)
 
     session_for(other_moderator_user)
-    check_block_buttons block, :edit => 1, :revoke => 1
+    check_block_buttons block, :edit => 1
 
     session_for(creator_user)
-    check_block_buttons block, :edit => 1, :revoke => 1
+    check_block_buttons block, :edit => 1
   end
 
   ##
@@ -973,12 +973,11 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
   private
 
-  def check_block_buttons(block, edit: 0, revoke: 0)
+  def check_block_buttons(block, edit: 0)
     [user_blocks_path, user_block_path(block)].each do |path|
       get path
       assert_response :success
       assert_select "a[href='#{edit_user_block_path block}']", :count => edit
-      assert_select "a[href='#{revoke_user_block_path block}']", :count => revoke
     end
   end
 
