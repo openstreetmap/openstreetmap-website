@@ -1,24 +1,20 @@
-$(document).ready(function () {
+(function () {
   /*
    * When the text in an edit pane is changed, clear the contents of
    * the associated preview pne so that it will be regenerated when
    * the user next switches to it.
    */
-  $(".richtext_container textarea").change(function () {
+  $(document).on("change", ".richtext_container textarea", function () {
     var container = $(this).closest(".richtext_container");
 
     container.find(".tab-pane[id$='_preview']").empty();
-  }).on("invalid", function () {
-    var container = $(this).closest(".richtext_container");
-
-    container.find("button[data-bs-target$='_edit']").tab("show");
   });
 
   /*
    * Install a handler to set the minimum preview pane height
    * when switching away from an edit pane
    */
-  $(".richtext_container button[data-bs-target$='_edit']").on("hide.bs.tab", function () {
+  $(document).on("hide.bs.tab", ".richtext_container button[data-bs-target$='_edit']", function () {
     var container = $(this).closest(".richtext_container");
     var editor = container.find("textarea");
     var preview = container.find(".tab-pane[id$='_preview']");
@@ -30,7 +26,7 @@ $(document).ready(function () {
   /*
    * Install a handler to switch to preview mode
    */
-  $(".richtext_container button[data-bs-target$='_preview']").on("show.bs.tab", function () {
+  $(document).on("show.bs.tab", ".richtext_container button[data-bs-target$='_preview']", function () {
     var container = $(this).closest(".richtext_container");
     var editor = container.find("textarea");
     var preview = container.find(".tab-pane[id$='_preview']");
@@ -47,7 +43,20 @@ $(document).ready(function () {
     }
   });
 
-  var updateHelp = function () {
+  $(window).on("resize", updateHelp);
+
+  $(document).on("turbo:load", function () {
+    $(".richtext_container textarea").on("invalid", invalidTextareaListener);
+    updateHelp();
+  });
+
+  function invalidTextareaListener() {
+    var container = $(this).closest(".richtext_container");
+
+    container.find("button[data-bs-target$='_edit']").tab("show");
+  }
+
+  function updateHelp() {
     $(".richtext_container .richtext_help_sidebar:not(:visible):not(:empty)").each(function () {
       var container = $(this).closest(".richtext_container");
       $(this).children().appendTo(container.find(".tab-pane[id$='_help']"));
@@ -59,8 +68,5 @@ $(document).ready(function () {
         container.find("button[data-bs-target$='_edit']").tab("show");
       }
     });
-  };
-
-  updateHelp();
-  $(window).on("resize", updateHelp);
-});
+  }
+}());
