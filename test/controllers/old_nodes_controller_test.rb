@@ -218,6 +218,17 @@ class OldNodesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#sidebar_content", /node #0 version 0 could not be found/
   end
 
+  def test_show_timeout
+    node = create(:node, :with_history)
+    with_settings(:web_timeout => -1) do
+      get old_node_path(node, 1)
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the node with the id #{node.id}")}/
+  end
+
   private
 
   def create_redacted_node

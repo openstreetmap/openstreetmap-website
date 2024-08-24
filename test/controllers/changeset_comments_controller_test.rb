@@ -67,4 +67,24 @@ class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
     get changesets_comments_feed_path(:format => "rss", :limit => 100001)
     assert_response :bad_request
   end
+
+  def test_feed_timeout
+    with_settings(:web_timeout => -1) do
+      get changesets_comments_feed_path
+    end
+    assert_response :success
+    assert_equal "application/rss+xml; charset=utf-8", @response.header["Content-Type"]
+    assert_dom "rss>channel>title", :text => "OpenStreetMap changeset discussion"
+    assert_dom "rss>channel>description", :text => /the list of changeset comments you requested took too long to retrieve/
+  end
+
+  def test_feed_changeset_timeout
+    with_settings(:web_timeout => -1) do
+      get changeset_comments_feed_path(123)
+    end
+    assert_response :success
+    assert_equal "application/rss+xml; charset=utf-8", @response.header["Content-Type"]
+    assert_dom "rss>channel>title", :text => "OpenStreetMap changeset #123 discussion"
+    assert_dom "rss>channel>description", :text => /the list of changeset comments you requested took too long to retrieve/
+  end
 end

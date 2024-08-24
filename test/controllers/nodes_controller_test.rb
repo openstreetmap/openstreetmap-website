@@ -90,4 +90,15 @@ class NodesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".secondary-actions a", :text => "View History", :count => 1
     assert_select ".secondary-actions a", :text => "View Unredacted History", :count => 1
   end
+
+  def test_show_timeout
+    node = create(:node)
+    with_settings(:web_timeout => -1) do
+      get node_path(node)
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the node with the id #{node.id}")}/
+  end
 end

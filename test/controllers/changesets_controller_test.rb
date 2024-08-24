@@ -266,6 +266,28 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  def test_index_timeout
+    create_list(:changeset, 30, :num_changes => 1)
+    with_settings(:web_timeout => -1) do
+      get history_path
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "head > link[rel='alternate'][href='#{history_feed_url}']", 1
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /the list of changesets/
+  end
+
+  def test_index_list_timeout
+    create_list(:changeset, 30, :num_changes => 1)
+    with_settings(:web_timeout => -1) do
+      get history_path(:list => "1")
+    end
+    assert_response :success
+    assert_dom "head > link[rel='alternate'][href='#{history_feed_url}']", 0
+    assert_dom "p", /the list of changesets/
+  end
+
   def test_show
     changeset = create(:changeset)
     create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "tested-changeset-comment")
@@ -350,6 +372,18 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_dom "a[href='#{changeset_path changeset5}']", :count => 1
   end
 
+  def test_show_timeout
+    changeset = create(:changeset)
+    with_settings(:web_timeout => -1) do
+      get changeset_path(changeset)
+    end
+    assert_response :success
+    assert_template :layout => "map"
+    assert_dom "head > link[rel='alternate'][href='#{history_feed_url}']", 0
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the changeset with the id #{changeset.id}")}/
+  end
+
   ##
   # This should display the last 20 non-empty changesets
   def test_feed
@@ -430,6 +464,36 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def test_feed_max_id
     get history_feed_path(:format => "atom", :max_id => 100)
     assert_redirected_to :action => :feed
+  end
+
+  def test_feed_timeout
+    with_settings(:web_timeout => -1) do
+      get history_feed_path
+    end
+    assert_response :success
+    assert_equal "application/atom+xml; charset=utf-8", @response.header["Content-Type"]
+    assert_dom "feed>link[rel='self']", 1 do
+      assert_dom ">@href", history_feed_url
+    end
+    assert_dom "feed>link[rel='alternate']", 1 do
+      assert_dom ">@href", history_url
+    end
+    assert_dom "feed>subtitle", :text => /the list of changesets you requested took too long to retrieve/
+  end
+
+  def test_feed_bbox_timeout
+    with_settings(:web_timeout => -1) do
+      get history_feed_path(:bbox => "4.5,4.5,5.5,5.5")
+    end
+    assert_response :success
+    assert_equal "application/atom+xml; charset=utf-8", @response.header["Content-Type"]
+    assert_dom "feed>link[rel='self']", 1 do
+      assert_dom ">@href", history_feed_url(:bbox => "4.5,4.5,5.5,5.5")
+    end
+    assert_dom "feed>link[rel='alternate']", 1 do
+      assert_dom ">@href", history_url(:bbox => "4.5,4.5,5.5,5.5")
+    end
+    assert_dom "feed>subtitle", :text => /the list of changesets you requested took too long to retrieve/
   end
 
   def test_subscribe_page
