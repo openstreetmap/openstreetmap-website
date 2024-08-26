@@ -80,11 +80,16 @@ gd:
         name: Ainm (Riatanach)
         callback_url: URL ais-ghairm
         support_url: URL taice
+        allow_write_api: am mapa atharrachadh
+        allow_read_gpx: na lorgaidhean GPS prìobhaideach aca a leughadh
+        allow_write_gpx: lorgaidhean GPS a luchdadh suas
+        allow_write_notes: nòtaichean atharrachadh
       diary_comment:
         body: Bodhaig
       diary_entry:
         user: Cleachdaiche
         title: Cuspair
+        body: Bodhaig
         latitude: Domhan-leud
         longitude: Domhan-fhad
         language_code: Cànan
@@ -231,6 +236,7 @@ gd:
   account:
     deletions:
       show:
+        confirm_delete: A bheil thu cinnteach?
         cancel: Sguir dheth
   accounts:
     edit:
@@ -357,6 +363,7 @@ gd:
       wikidata_link: An nì %{page} air Wikidata
       wikipedia_link: An artaigil %{page} air Wikidata
       telephone_link: Cuir fòn gu %{phone_number}
+      email_link: Post-d %{email}
     query:
       title: Lorg feartan sònraichte
       introduction: Briog air a' mhapa gus feartan faisg air a lorg.
@@ -650,6 +657,7 @@ gd:
           "yes": Drochaid
         building:
           garage: Garaids
+          garages: Garaidsean
           house: Taigh
           shed: Seada
           static_caravan: Carabhan
@@ -1041,6 +1049,22 @@ gd:
     results:
       no_results: Cha deach toradh a lorg
       more_results: Barrachd toraidhean
+  issues:
+    index:
+      search: Lorg
+      states:
+        open: Fosgailte
+    show:
+      reports:
+        one: '%{count} aithris'
+        two: '%{count} aithris'
+        few: '%{count} aithrisean'
+        other: '%{count} aithris'
+      read_reports: Leugh aithrisean
+      new_reports: Aithrisean Ùra
+    helper:
+      reportable_title:
+        note: 'Nòta #%{note_id}'
   layouts:
     logo:
       alt_text: Suaicheantas OpenStreetMap
@@ -1097,6 +1121,7 @@ gd:
       footer_html: '''S urrainn dhut an teachdaireachd a leughadh air %{readurl} cuideachd
         agus freagairt a sgrìobhadh air %{replyurl}'
     friendship_notification:
+      hi: Shin thu, %{to_user},
       subject: '[OpenStreetMap] Chuir %{user} ''na charaid ris thu'
       had_added_you: '[OpenStreetMap] Chuir %{user} ''na charaid ris thu air OpenStreetMap.'
       see_their_profile: '''S urrainn dhut a'' phròifil aig an neach ud a shealltainn
@@ -1104,9 +1129,11 @@ gd:
       befriend_them: '''S urrainn dhut an neach ud a a chur ''nad caraid ris air %{befriendurl}
         cuideachd.'
     gpx_failure:
+      hi: Shin thu, %{to_user},
       failed_to_import: 'ion-phortachadh. Seo a'' mhearachd:'
       subject: '[OpenStreetMap] Dh''fhàillig le ion-phortadh GPX'
     gpx_success:
+      hi: Shin thu, %{to_user},
       subject: '[OpenStreetMap] Shoirbhich le ion-phortadh GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Fàilte gu OpenStreetMap'
@@ -1134,6 +1161,7 @@ gd:
       click_the_link: Mas e tusa a bh' ann, briog air a' cheangal gu h-ìosal gus am
         facal-faire agad ath-shuidheachadh.
     note_comment_notification:
+      description: 'Nòta OpenStreetMap #%{id}'
       anonymous: Ball gun ainm
       greeting: Shin thu,
       commented:
@@ -1264,7 +1292,7 @@ gd:
     new:
       title: Facal-faire air chall
       heading: Na chaill thu am facal-faire agad?
-      email address: 'Seòladh puist-d:'
+      email address: Seòladh puist-d
       new password button: Ath-shuidhich am facal-faire
       help_text: Cuir a-steach an seòladh puist-d a chleachd thu gus an cunntas agad
         a chlàradh agus cuiridh sinn post-d dha as urrainn dhut cleachdadh gus am
@@ -1359,6 +1387,9 @@ gd:
           Gabhaidh sinn a-steach dàta fo cheadachas fosgailte aig buidhnean
           mapachaidh nàiseanta agus tùsan eile, agus tha an fheadhainn a leanas
           'nam measg:
+        contributors_at_austria: An Ostair
+        contributors_au_australia: Astràilia
+        contributors_ca_canada: Canada
         contributors_fr_france: An Fhraing
         contributors_nl_netherlands: Na Tìrean Ìsle
         contributors_nz_new_zealand: Sealainn Nuadh
@@ -1756,6 +1787,7 @@ gd:
       external auth: 'Dearbhadh treas-phàrtaidh:'
       continue: Clàraich
       terms accepted: Mòran taing gun do dh'aontaich thu ri teirmichean a' chom-pàirtiche!
+      or: "no"
       use external auth: No cleachd treas-phàrtaidh airson clàradh a-steach
     terms:
       title: Teirmichean a' chom-pàirtiche
@@ -1897,15 +1929,6 @@ gd:
       title: Bacadh chleachdaichean
       heading: Liosta dhe na cleachdaichean a chaidh a bhacadh.
       empty: Cha deach duine sam bith a bhacadh fhathast.
-    revoke:
-      title: A' cùl-ghairm am bacadh air %{block_on}
-      heading_html: A' cùl-ghairm am bacadh air %{block_on} le %{block_by}
-      time_future_html: Falbhaidh an ùine air a' bacadh seo an ceann %{time}.
-      past_html: Dh'fhalbh an ùine air a' bhacadh seo o chionn %{time} agus cha ghabh
-        a chùl-ghairm a-nis.
-      confirm: A bheil thu cinnteach gu bheil thu airson am bacadh seo a chùl-ghairm?
-      revoke: Cùl-ghairm!
-      flash: Chaidh am bacadh seo a chùl-ghairm.
     helper:
       time_future_html: Falbhaidh an ùine air an ceann %{time}.
       until_login: Gnìomhach gus an clàraich an cleachdaiche a-steach.
@@ -1927,7 +1950,6 @@ gd:
       status: Staid
       show: Seall
       edit: Deasaich
-      revoke: Cùl-ghairm!
       confirm: A bheil thu cinnteach?
       reason: 'Adhbhar a'' bhacaidh:'
       revoker: 'Cùl-ghairm le:'
@@ -1937,7 +1959,6 @@ gd:
       not_revoked: (cha deach a chùl-ghairm)
       show: Seall
       edit: Deasaich
-      revoke: Cùl-ghairm!
     blocks:
       display_name: Cleachdaiche bacte
       creator_name: Cruthadair
@@ -1974,6 +1995,7 @@ gd:
         eile ach an urrainn dhuinn seo a chàradh. Gluais an comharra gun ionad cheart
         agus sgrìobh nòta gus an duilgheadas a mhìneachadh. (Thoir an aire nach cuir
         thu a-steach fiosrachadh pearsanta no o mhapaichean no eòlairean fo chòir-lethbhreac.)
+      anonymous_warning_log_in: clàraich a-steach
       add: Cuir nòta ris
   javascripts:
     close: Dùin
@@ -2029,9 +2051,15 @@ gd:
       Briog an-seo an uairsin.
     directions:
       engines:
+        fossgis_osrm_bike: Rothair (OSRM)
         fossgis_osrm_car: Càr (OSRM)
+        fossgis_osrm_foot: Coiseachd (OSRM)
         graphhopper_bicycle: Baidhseagal (GraphHopper)
+        graphhopper_car: Càr (GraphHopper)
         graphhopper_foot: Coiseachd (GraphHopper)
+        fossgis_valhalla_bicycle: Rothair (Valhalla)
+        fossgis_valhalla_car: Càr (Valhalla)
+        fossgis_valhalla_foot: Coiseachd (Valhalla)
       directions: Seòlaidhean
       distance: Astar
       errors:
@@ -2043,6 +2071,17 @@ gd:
         turn_left_without_exit: Tionndaidh gu clì dha %{name}
         unnamed: gun ainm
         courtesy: Chaidh na seòlaidhean a thoirt dhuinn le cead %{link}
+        exit_counts:
+          first: 1d
+          second: 2na
+          third: 3mh
+          fourth: 4mh
+          fifth: 5mh
+          sixth: 6mh
+          seventh: 7mh
+          eighth: 8mh
+          ninth: 9mh
+          tenth: 10mh
       time: Ùine
     query:
       node: Nòd
