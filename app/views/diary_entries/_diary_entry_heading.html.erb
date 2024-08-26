@@ -1,17 +1,23 @@
 <div class='mb-3'>
-  <% if @user %>
-    <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
-  <% else %>
-    <div class="row">
-      <div class="col-auto">
-        <%= user_thumbnail diary_entry.user %>
-      </div>
-      <div class="col">
-        <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
-      </div>
+  <div class="accordion">
+    <div class="accordion-item bg-transparent row w-100 border-0">
+      <% if @user %>
+        <h2 class="col"><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
+      <% else %>
+        <div class="col-auto">
+          <%= user_thumbnail diary_entry.user %>
+        </div>
+        <div class="col">
+          <h2><%= link_to diary_entry.title, diary_entry_path(diary_entry.user, diary_entry) %></h2>
+        </div>
+      <% end %>
+      <% if defined?(show_accordion) && show_accordion %>
+        <button class="w-auto accordion-button bg-transparent collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#diary_entry_<%= diary_entry.id.to_s %>" aria-expanded="false" aria-controls="diary_entry_<%= diary_entry.id.to_s %>">
+          <span class="visually-hidden"><%= t "diary_entries.diary_entry.toggle_content" %></span>
+        </button>
+      <% end %>
     </div>
-  <% end %>
-
+  </div>
   <small class='text-body-secondary'>
     <%= t("diary_entries.diary_entry.posted_by_html", :link_user => (link_to diary_entry.user.display_name, diary_entry.user), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to diary_entry.language.name, :controller => "diary_entries", :action => "index", :display_name => nil, :language => diary_entry.language_code)) %>
     <% if (l(diary_entry.updated_at, :format => :blog) != l(diary_entry.created_at, :format => :blog)) %>

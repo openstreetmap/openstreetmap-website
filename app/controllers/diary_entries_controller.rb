@@ -15,6 +15,10 @@ class DiaryEntriesController < ApplicationController
 
   allow_thirdparty_images :only => [:new, :create, :edit, :update, :index, :show]
 
+  content_security_policy(:only => :index) do |policy|
+    policy.img_src(*policy.img_src, "data:")
+  end
+
   def index
     if params[:display_name]
       @user = User.active.find_by(:display_name => params[:display_name])
