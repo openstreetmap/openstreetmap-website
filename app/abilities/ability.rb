@@ -17,6 +17,8 @@ class Ability
     if Settings.status != "database_offline"
       can [:index, :feed, :show], Changeset
       can :index, ChangesetComment
+      can [:index, :show], Community
+      can [:index], CommunityLink
       can [:confirm, :confirm_resend, :confirm_email], :confirmation
       can [:index, :rss, :show], DiaryEntry
       can :index, DiaryComment
@@ -47,6 +49,9 @@ class Ability
         can [:create], DiaryComment
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
+        can [:create, :new], Community
+        can [:edit, :update], Community, { :organizer_id => user.id }
+        can [:edit, :create, :destroy, :new, :update], CommunityLink, { :community => { :organizer_id => user.id } }
         can [:close, :reopen], Note
         can [:show, :edit, :update], :preference
         can [:edit, :update], :profile

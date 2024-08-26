@@ -1,0 +1,49 @@
+<%= stylesheet_link_tag "communities" %>
+<%= javascript_include_tag "communities" %>
+
+<p>
+  All fields are required.
+</p>
+<%= bootstrap_form_with :model => @community, :id => "community_form" do |form| %>
+  <%= form.text_field :name, :id => :community_name %>
+  <%= form.text_field :location, :id => :community_location %>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= form.text_field :latitude, :class => "field_latitude", :id => :community_latitude %>
+    </div>
+    <div class="col-sm-6">
+      <%= form.text_field :longitude, :class => "field_longitude", :id => :community_longitude %>
+    </div>
+  </div>
+  <%= tag.div "",
+              :id => "community_form_map",
+              :class => "content_map has_marker set_location border border-secondary-subtle rounded mb-3 z-0",
+              :data => {
+                :latitude => @community.latitude,
+                :longitude => @community.longitude,
+                :min_lat => @community.min_lat,
+                :max_lat => @community.max_lat,
+                :min_lon => @community.min_lon,
+                :max_lon => @community.max_lon
+              } %>
+  <div class="row">
+    <div class="col-sm-4 offset-sm-4">
+      <%= form.text_field :max_lat, :class => "field_max_lat", :id => :community_max_lat %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <%= form.text_field :min_lon, :class => "field_min_lon", :id => :community_min_lon %>
+    </div>
+    <div class="col-sm-4 offset-sm-4">
+      <%= form.text_field :max_lon, :class => "field_max_lon", :id => :community_max_lon %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 offset-sm-4">
+      <%= form.text_field :min_lat, :class => "field_min_lat", :id => :community_min_lat %>
+    </div>
+  </div>
+  <%= form.text_area :description, :id => :community_description %>
+  <%= form.primary %>
+<% end %>
