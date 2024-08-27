@@ -19,7 +19,7 @@ class IssuesTest < ApplicationSystemTestCase
     sign_in_as(create(:moderator_user))
 
     visit issues_path
-    assert_content I18n.t("issues.index.issues_not_found")
+    assert_content I18n.t("issues.page.issues_not_found")
   end
 
   def test_view_issues
@@ -81,22 +81,22 @@ class IssuesTest < ApplicationSystemTestCase
     visit issues_path
     fill_in "search_by_user", :with => good_user.display_name
     click_on "Search"
-    assert_no_content I18n.t("issues.index.user_not_found")
-    assert_content I18n.t("issues.index.issues_not_found")
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_content I18n.t("issues.page.issues_not_found")
 
     # User doesn't exist
     visit issues_path
     fill_in "search_by_user", :with => "Nonexistent User"
     click_on "Search"
-    assert_content I18n.t("issues.index.user_not_found")
-    assert_content I18n.t("issues.index.issues_not_found")
+    assert_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
 
     # Find Issue against bad_user
     visit issues_path
     fill_in "search_by_user", :with => bad_user.display_name
     click_on "Search"
-    assert_no_content I18n.t("issues.index.user_not_found")
-    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
   end
 
   def test_commenting
@@ -173,20 +173,20 @@ class IssuesTest < ApplicationSystemTestCase
     visit issues_path
 
     # First Page
-    assert_no_content I18n.t("issues.index.user_not_found")
-    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
     assert_css "tr", :count => 51
 
     # Second Page
     click_on I18n.t("issues.page.older_issues")
-    assert_no_content I18n.t("issues.index.user_not_found")
-    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
     assert_css "tr", :count => 31
 
     # Back to First Page
     click_on I18n.t("issues.page.newer_issues")
-    assert_no_content I18n.t("issues.index.user_not_found")
-    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_no_content I18n.t("issues.page.user_not_found")
+    assert_no_content I18n.t("issues.page.issues_not_found")
     assert_css "tr", :count => 51
   end
 end

@@ -4,7 +4,7 @@
 
 <p><%= t ".search_guidance" %></p>
 
-<%= form_tag(issues_path, :method => :get) do %>
+<%= form_tag(issues_path, :method => :get, :data => { "turbo" => true, "turbo-frame" => "pagination", "turbo-action" => "advance" }) do %>
   <div class="row gx-1">
     <div class="mb-3 col-md-auto">
       <%= select_tag :status,
@@ -40,8 +40,4 @@
   </div>
 <% end %>
 
-<% if @issues.length == 0 %>
-  <p><%= t ".issues_not_found" %></p>
-<% else %>
-  <%= render :partial => "page" %>
-<% end %>
+<%= render :partial => "page" %>
