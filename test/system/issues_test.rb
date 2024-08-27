@@ -181,12 +181,12 @@ class IssuesTest < ApplicationSystemTestCase
     click_on I18n.t("issues.page.older_issues")
     assert_no_content I18n.t("issues.index.user_not_found")
     assert_no_content I18n.t("issues.index.issues_not_found")
-    assert_css "tr", :count => 31, :wait => 1
+    assert_css "tr", :count => 31
 
     # Back to First Page
     click_on I18n.t("issues.page.newer_issues")
     assert_no_content I18n.t("issues.index.user_not_found")
     assert_no_content I18n.t("issues.index.issues_not_found")
-    assert_css "tr", :count => 51, :wait => 1
+    assert_css "tr", :count => 51
   end
 end

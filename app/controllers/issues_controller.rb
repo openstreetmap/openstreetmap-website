@@ -45,6 +45,7 @@ class IssuesController < ApplicationController
     end
 
     @issues, @newer_issues_id, @older_issues_id = get_page_items(@issues, :limit => @params[:limit])
+    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show
