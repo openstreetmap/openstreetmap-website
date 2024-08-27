@@ -158,7 +158,35 @@ class IssuesTest < ApplicationSystemTestCase
 
     visit issues_path
 
-    assert_link I18n.t("issues.index.reports_count", :count => issue1.reports_count), :href => issue_path(issue1)
-    assert_link I18n.t("issues.index.reports_count", :count => issue2.reports_count), :href => issue_path(issue2)
+    assert_link I18n.t("issues.page.reports_count", :count => issue1.reports_count), :href => issue_path(issue1)
+    assert_link I18n.t("issues.page.reports_count", :count => issue2.reports_count), :href => issue_path(issue2)
+  end
+
+  def test_issues_pagination
+    1.upto(80).each do
+      user = create(:user)
+      create(:issue, :reportable => user, :reported_user => user, :assigned_role => "administrator")
+    end
+
+    sign_in_as(create(:administrator_user))
+
+    visit issues_path
+
+    # First Page
+    assert_no_content I18n.t("issues.index.user_not_found")
+    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_css "tr", :count => 51
+
+    # Second Page
+    click_on I18n.t("issues.page.older_issues")
+    assert_no_content I18n.t("issues.index.user_not_found")
+    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_css "tr", :count => 31
+
+    # Back to First Page
+    click_on I18n.t("issues.page.newer_issues")
+    assert_no_content I18n.t("issues.index.user_not_found")
+    assert_no_content I18n.t("issues.index.issues_not_found")
+    assert_css "tr", :count => 51
   end
 end
