@@ -263,6 +263,21 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     end
     assert Message.find(message.id).message_read
 
+    # Login as the sending user
+    session_for(user)
+
+    # Check that the message reply page loads
+    get message_reply_path(message)
+    assert_response :success
+    assert_template "new"
+    assert_select "title", "Re: #{message.title} | OpenStreetMap"
+    assert_select "form[action='/messages']", :count => 1 do
+      assert_select "input[type='hidden'][name='display_name'][value='#{recipient_user.display_name}']"
+      assert_select "input#message_title[value='Re: #{message.title}']", :count => 1
+      assert_select "textarea#message_body", :count => 1
+      assert_select "input[type='submit'][value='Send']", :count => 1
+    end
+
     # Asking to reply to a message with a bogus ID should fail
     get message_reply_path(99999)
     assert_response :not_found
@@ -292,21 +307,23 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     # Login as the message sender
     session_for(user)
 
-    # Check that the message sender can read the message
+    # Check that the message sender can read the message and that Reply button is available
     get message_path(message)
     assert_response :success
     assert_template "show"
     assert_select "a[href='#{user_path recipient_user}']", :text => recipient_user.display_name
+    assert_select "a.btn.btn-primary", :text => "Reply"
     assert_not Message.find(message.id).message_read
 
     # Login as the message recipient
     session_for(recipient_user)
 
-    # Check that the message recipient can read the message
+    # Check that the message recipient can read the message and that Reply button is available
     get message_path(message)
     assert_response :success
     assert_template "show"
     assert_select "a[href='#{user_path user}']", :text => user.display_name
+    assert_select "a.btn.btn-primary", :text => "Reply"
     assert Message.find(message.id).message_read
 
     # Asking to read a message with a bogus ID should fail

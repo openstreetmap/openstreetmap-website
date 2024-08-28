@@ -89,6 +89,16 @@ class MessagesController < ApplicationController
       @title = @message.title
 
       render :action => "new"
+    elsif message.sender == current_user
+      @message = Message.new(
+        :recipient => message.recipient,
+        :title => "Re: #{message.title.sub(/^Re:\s*/, '')}",
+        :body => "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}"
+      )
+
+      @title = @message.title
+
+      render :action => "new"
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
       redirect_to login_path(:referer => request.fullpath)
