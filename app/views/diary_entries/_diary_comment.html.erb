@@ -13,9 +13,9 @@
     <% if can? :hide, DiaryComment %>
       <span>
         <% if diary_comment.visible? %>
-          <%= link_to t(".hide_link"), hide_diary_comment_path(diary_comment.diary_entry.user, diary_comment.diary_entry, diary_comment), :method => :post, :data => { :confirm => t(".confirm") } %>
+          <%= link_to t(".hide_link"), hide_diary_comment_path(diary_comment), :method => :post, :data => { :confirm => t(".confirm") } %>
         <% else %>
-          <%= link_to t(".unhide_link"), unhide_diary_comment_path(diary_comment.diary_entry.user, diary_comment.diary_entry, diary_comment), :method => :post, :data => { :confirm => t(".confirm") } %>
+          <%= link_to t(".unhide_link"), unhide_diary_comment_path(diary_comment), :method => :post, :data => { :confirm => t(".confirm") } %>
         <% end %>
       </span>
     <% end %>
