@@ -1,17 +1,17 @@
 require "test_helper"
 
-module Feeds
-  class ChangesetCommentsControllerTest < ActionDispatch::IntegrationTest
+module ChangesetComments
+  class FeedsControllerTest < ActionDispatch::IntegrationTest
     ##
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
         { :path => "/changeset/1/comments/feed", :method => :get },
-        { :controller => "feeds/changeset_comments", :action => "index", :changeset_id => "1", :format => "rss" }
+        { :controller => "changeset_comments/feeds", :action => "show", :changeset_id => "1", :format => "rss" }
       )
       assert_routing(
         { :path => "/history/comments/feed", :method => :get },
-        { :controller => "feeds/changeset_comments", :action => "index", :format => "rss" }
+        { :controller => "changeset_comments/feeds", :action => "show", :format => "rss" }
       )
     end
 
@@ -21,7 +21,7 @@ module Feeds
       changeset = create(:changeset, :closed)
       create_list(:changeset_comment, 3, :changeset => changeset)
 
-      get feeds_changeset_comments_path(:format => "rss")
+      get changesets_comments_feed_path(:format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -30,7 +30,7 @@ module Feeds
         end
       end
 
-      get feeds_changeset_comments_path(:format => "rss", :limit => 2)
+      get changesets_comments_feed_path(:format => "rss", :limit => 2)
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
@@ -39,7 +39,7 @@ module Feeds
         end
       end
 
-      get changeset_feeds_changeset_comments_path(changeset, :format => "rss")
+      get changeset_comments_feed_path(changeset, :format => "rss")
       assert_response :success
       assert_equal "application/rss+xml", @response.media_type
       last_comment_id = -1
@@ -62,10 +62,10 @@ module Feeds
     ##
     # test comments feed
     def test_feed_bad_limit
-      get feeds_changeset_comments_path(:format => "rss", :limit => 0)
+      get changesets_comments_feed_path(:format => "rss", :limit => 0)
       assert_response :bad_request
 
-      get feeds_changeset_comments_path(:format => "rss", :limit => 100001)
+      get changesets_comments_feed_path(:format => "rss", :limit => 100001)
       assert_response :bad_request
     end
   end

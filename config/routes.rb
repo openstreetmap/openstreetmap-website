@@ -126,8 +126,8 @@ OpenStreetMap::Application.routes.draw do
   resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
     match :subscribe, :unsubscribe, :on => :member, :via => [:get, :post]
 
-    namespace :feeds, :path => "" do
-      resources :changeset_comments, :path => "comments/feed", :only => :index, :defaults => { :format => "rss" }
+    namespace :changeset_comments, :as => :comments, :path => :comments do
+      resource :feed, :only => :show, :defaults => { :format => "rss" }
     end
   end
   resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
@@ -167,8 +167,10 @@ OpenStreetMap::Application.routes.draw do
   get "/communities" => "site#communities"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
-  namespace :feeds, :path => "" do
-    resources :changeset_comments, :path => "/history/comments/feed", :only => :index, :defaults => { :format => "rss" }
+  scope "/history" do
+    namespace :changeset_comments, :path => :comments, :as => :changesets_comments do
+      resource :feed, :only => :show, :defaults => { :format => "rss" }
+    end
   end
   get "/export" => "site#export"
   get "/login" => "sessions#new"
