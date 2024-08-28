@@ -125,8 +125,11 @@ OpenStreetMap::Application.routes.draw do
   resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
   resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
     match :subscribe, :unsubscribe, :on => :member, :via => [:get, :post]
+
+    namespace :feeds, :path => "" do
+      resources :changeset_comments, :path => "comments/feed", :only => :index, :defaults => { :format => "rss" }
+    end
   end
-  get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   resources :notes, :path => "note", :id => /\d+/, :only => [:show, :new]
 
   get "/user/:display_name/history" => "changesets#index"
@@ -164,7 +167,9 @@ OpenStreetMap::Application.routes.draw do
   get "/communities" => "site#communities"
   get "/history" => "changesets#index"
   get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
-  get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
+  namespace :feeds, :path => "" do
+    resources :changeset_comments, :path => "/history/comments/feed", :only => :index, :defaults => { :format => "rss" }
+  end
   get "/export" => "site#export"
   get "/login" => "sessions#new"
   post "/login" => "sessions#create"
