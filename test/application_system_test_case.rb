@@ -2,6 +2,8 @@ require "test_helper"
 
 ENV.delete("http_proxy")
 
+Capybara.default_max_wait_time = 5
+
 ActiveSupport.on_load(:action_dispatch_system_test_case) do
   ActionDispatch::SystemTesting::Server.silence_puma = true
 end
