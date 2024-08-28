@@ -70,14 +70,14 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
-  def type_and_paginated_count(type, pages)
+  def type_and_paginated_count(type, pages, selected_page = pages.current_page)
     if pages.page_count == 1
       t ".#{type.pluralize}",
         :count => pages.item_count
     else
       t ".#{type.pluralize}_paginated",
-        :x => pages.current_page.first_item,
-        :y => pages.current_page.last_item,
+        :x => selected_page.first_item,
+        :y => selected_page.last_item,
         :count => pages.item_count
     end
   end
@@ -93,14 +93,14 @@ module BrowseHelper
     link_classes = ["page-link", { "px-1" => width > max_width_for_default_padding }]
 
     tag.ul :class => "pagination pagination-sm mb-1 ms-auto" do
-      pagination_items(pages, {}).each do |body, n|
-        linked = !(n.is_a? String)
+      pagination_items(pages, {}).each do |body, page_or_class|
+        linked = !(page_or_class.is_a? String)
         link = if linked
-                 link_to body, url_for(page_param => n), :class => link_classes
+                 link_to body, url_for(page_param => page_or_class.number), :class => link_classes, **yield(page_or_class)
                else
                  tag.span body, :class => link_classes
                end
-        concat tag.li link, :class => ["page-item", { n => !linked }]
+        concat tag.li link, :class => ["page-item", { page_or_class => !linked }]
       end
     end
   end

@@ -396,7 +396,7 @@ $(document).ready(function () {
   OSM.router.load();
 
   $(document).on("click", "a", function (e) {
-    if (e.isDefaultPrevented() || e.isPropagationStopped()) {
+    if (e.isDefaultPrevented() || e.isPropagationStopped() || $(e.target).data("turbo")) {
       return;
     }
 
