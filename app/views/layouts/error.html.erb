@@ -4,14 +4,19 @@
     <meta charset="utf-8">
     <title>OpenStreetMap</title>
     <%= stylesheet_link_tag "errors", :media => "screen" %>
-    <%= render :partial => "layouts/meta" %>
+    <%= render :partial => "layouts/head" %>
   </head>
-  <body>
-    <a href="<%= root_path %>">
-      <%= image_tag "osm_logo.svg", :alt => t("layouts.logo.alt_text"), :class => "logo" %>
-    </a>
-    <div class="details">
-      <%= yield %>
-    </div>
+   <body class="container">
+    <main class="mt-4">
+      <a href="<%= root_path %>">
+        <%= image_tag "osm_logo.svg", :alt => t("layouts.logo.alt_text"), :class => "logo" %>
+      </a>
+      <div class="details">
+        <%= yield %>
+        <a href="<%= root_path %>" class="btn btn-primary">
+          <%= t("layouts.home") %>
+        </a>
+      </div>
+    </main>
   </body>
 </html>
