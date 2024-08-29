@@ -163,8 +163,8 @@ class IssuesTest < ApplicationSystemTestCase
   end
 
   def test_issues_pagination
-    1.upto(80).each do
-      user = create(:user)
+    1.upto(80).each do |n|
+      user = create(:user, :display_name => "extra_#{n}")
       create(:issue, :reportable => user, :reported_user => user, :assigned_role => "administrator")
     end
 
@@ -175,18 +175,33 @@ class IssuesTest < ApplicationSystemTestCase
     # First Page
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
-    assert_css "tr", :count => 51
+    31.upto(80).each do |n|
+      assert_content(/extra_#{n}[^\d]/i, :count => 2)
+    end
+    1.upto(30).each do |n|
+      assert_no_content(/extra_#{n}[^\d]/i)
+    end
 
     # Second Page
     click_on I18n.t("issues.page.older_issues")
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
-    assert_css "tr", :count => 31
+    31.upto(80).each do |n|
+      assert_no_content(/extra_#{n}[^\d]/i)
+    end
+    1.upto(30).each do |n|
+      assert_content(/extra_#{n}[^\d]/i, :count => 2)
+    end
 
     # Back to First Page
     click_on I18n.t("issues.page.newer_issues")
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
-    assert_css "tr", :count => 51
+    31.upto(80).each do |n|
+      assert_content(/extra_#{n}[^\d]/i, :count => 2)
+    end
+    1.upto(30).each do |n|
+      assert_no_content(/extra_#{n}[^\d]/i)
+    end
   end
 end
