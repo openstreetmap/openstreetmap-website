@@ -163,22 +163,22 @@ class IssuesTest < ApplicationSystemTestCase
   end
 
   def test_issues_pagination
-    1.upto(80).each do |n|
+    1.upto(8).each do |n|
       user = create(:user, :display_name => "extra_#{n}")
       create(:issue, :reportable => user, :reported_user => user, :assigned_role => "administrator")
     end
 
     sign_in_as(create(:administrator_user))
 
-    visit issues_path
+    visit issues_path(:limit => 5)
 
     # First Page
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
-    31.upto(80).each do |n|
+    4.upto(8).each do |n|
       assert_content(/extra_#{n}[^\d]/i, :count => 2)
     end
-    1.upto(30).each do |n|
+    1.upto(3).each do |n|
       assert_no_content(/extra_#{n}[^\d]/i)
     end
 
@@ -186,10 +186,10 @@ class IssuesTest < ApplicationSystemTestCase
     click_on I18n.t("issues.page.older_issues")
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
-    31.upto(80).each do |n|
+    4.upto(8).each do |n|
       assert_no_content(/extra_#{n}[^\d]/i)
     end
-    1.upto(30).each do |n|
+    1.upto(3).each do |n|
       assert_content(/extra_#{n}[^\d]/i, :count => 2)
     end
 
@@ -197,10 +197,10 @@ class IssuesTest < ApplicationSystemTestCase
     click_on I18n.t("issues.page.newer_issues")
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
-    31.upto(80).each do |n|
+    4.upto(8).each do |n|
       assert_content(/extra_#{n}[^\d]/i, :count => 2)
     end
-    1.upto(30).each do |n|
+    1.upto(3).each do |n|
       assert_no_content(/extra_#{n}[^\d]/i)
     end
   end
