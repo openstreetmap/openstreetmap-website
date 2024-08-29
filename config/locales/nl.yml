@@ -492,6 +492,19 @@ nl:
   old_relations:
     not_found:
       sorry: 'Sorry, relatie #%{id} versie %{version} kon niet worden gevonden.'
+  changeset_comments:
+    feeds:
+      comment:
+        comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
+        commented_at_by_html: '%{when} bijgewerkt door %{user}'
+      comments:
+        comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
+      show:
+        title_all: Overleg over een wijzigingenset van OpenStreetMap
+        title_particular: 'Overleg over wijzigingenset #%{changeset_id} van OpenStreetMap'
+      timeout:
+        sorry: Sorry, het oproepen van de lijst met wijzigingenset-opmerkingen die
+          u hebt opgevraagd duurde te lang.
   changesets:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -571,18 +584,6 @@ nl:
     timeout:
       sorry: Het oproepen van de lijst met wijzigingensets die u hebt opgevraagd duurde
         te lang.
-  changeset_comments:
-    comment:
-      comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
-      commented_at_by_html: '%{when} bijgewerkt door %{user}'
-    comments:
-      comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
-    index:
-      title_all: Overleg over een wijzigingenset van OpenStreetMap
-      title_particular: 'Overleg over wijzigingenset #%{changeset_id} van OpenStreetMap'
-    timeout:
-      sorry: Sorry, het oproepen van de lijst met wijzigingenset-opmerkingen die u
-        hebt opgevraagd duurde te lang.
   dashboards:
     contact:
       km away: '%{count} km verwijderd'
@@ -1559,17 +1560,23 @@ nl:
       select_status: Selecteer Status
       select_type: Selecteer Type
       select_last_updated_by: Selecteer Laatst Bijgewerkt Door
-      reported_user: Gerapporteerde Gebruiker
+      reported_user: Gerapporteerde gebruiker
       not_updated: Niet Bijgewerkt
       search: Zoeken
       search_guidance: 'Problemen zoeken:'
+      link_to_reports: Rapporten weergeven
+      states:
+        ignored: Genegeerd
+        open: Open
+        resolved: Opgelost
+    page:
       user_not_found: Gebruiker bestaat niet
       issues_not_found: Geen dergelijke problemen gevonden
+      reported_user: Gerapporteerde gebruiker
       status: Status
       reports: Rapportages
       last_updated: Laatst Bijgewerkt
       last_updated_time_ago_user_html: '%{time_ago} door %{user}'
-      link_to_reports: Rapporten weergeven
       reports_count:
         one: '%{count} rapport'
         other: '%{count} rapporten'
@@ -1578,6 +1585,8 @@ nl:
         ignored: Genegeerd
         open: Open
         resolved: Opgelost
+      older_issues: Oudere meldingen
+      newer_issues: Nieuwere meldingen
     show:
       title: '%{status} Probleem #%{issue_id}'
       reports:
@@ -3099,6 +3108,7 @@ nl:
       heading_html: Blokkade voor %{name} bijwerken
       period: Hoe lang, per nu, moet de gebruiker worden uitgesloten van het gebruik
         van de API?
+      revoke: Blokkade intrekken
     filter:
       block_period: De duur van de blokkade moet één van de waarden in het menu zijn.
     create:
@@ -3106,8 +3116,12 @@ nl:
     update:
       only_creator_can_edit: Alleen de moderator die deze blokkade heeft ingesteld
         kan wijzigingen aanbrengen.
+      only_creator_can_edit_without_revoking: Alleen de moderator die deze blokkade
+        heeft ingesteld kan er zonder intrekken wijzigingen in aanbrengen.
       only_creator_or_revoker_can_edit: Alleen de moderator die deze blokkade heeft
         ingesteld of ingetrokken kan wijzigingen aanbrengen.
+      inactive_block_cannot_be_reactivated: Deze blokkade is inactief en kan niet
+        opnieuw worden geactiveerd.
       success: De blokkade is bijgewerkt.
     index:
       title: Gebruikersblokkades
@@ -3184,6 +3198,7 @@ nl:
       blocks_by_me: Blokkades door u
       blocks_by_user: Blokkades door %{user}
       block: 'Blokkade #%{id}'
+      new_block: Nieuwe blokkade
   user_mutes:
     index:
       title: Gedempte gebruikers

@@ -167,7 +167,7 @@ es:
       relation: Relación
       relation_member: Miembro de la relación
       relation_tag: Etiqueta de la relación
-      report: Informe
+      report: Denunciar
       session: Sesión
       trace: Traza
       tracepoint: Punto de la traza
@@ -530,6 +530,21 @@ es:
   old_relations:
     not_found:
       sorry: 'Lo sentimos, no se pudo encontrar la relación #%{id} versión %{version}.'
+  changeset_comments:
+    feeds:
+      comment:
+        comment: 'Comentario nuevo sobre el conjunto de cambios #%{changeset_id} de
+          %{author}'
+        commented_at_by_html: Actualizado %{when} por %{user}
+      comments:
+        comment: 'Comentario nuevo sobre el conjunto de cambios #%{changeset_id} de
+          %{author}'
+      show:
+        title_all: Discusión del conjunto de cambios de OpenStreetMap
+        title_particular: 'Discusión del conjunto de cambios #%{changeset_id} de OpenStreetMap'
+      timeout:
+        sorry: Lo sentimos, la lista de comentarios del conjunto de cambios que solicitó
+          tardó demasiado en obtenerse.
   changesets:
     changeset_paging_nav:
       showing_page: Página %{page}
@@ -609,20 +624,6 @@ es:
     timeout:
       sorry: Lo sentimos, la lista de conjuntos de cambios que solicitó tardó demasiado
         en obtenerse.
-  changeset_comments:
-    comment:
-      comment: 'Comentario nuevo sobre el conjunto de cambios #%{changeset_id} de
-        %{author}'
-      commented_at_by_html: Actualizado %{when} por %{user}
-    comments:
-      comment: 'Comentario nuevo sobre el conjunto de cambios #%{changeset_id} de
-        %{author}'
-    index:
-      title_all: Discusión del conjunto de cambios de OpenStreetMap
-      title_particular: 'Discusión del conjunto de cambios #%{changeset_id} de OpenStreetMap'
-    timeout:
-      sorry: Lo sentimos, la lista de comentarios del conjunto de cambios que solicitó
-        tardó demasiado en obtenerse.
   dashboards:
     contact:
       km away: '%{count} km. de distancia'
@@ -1556,7 +1557,7 @@ es:
           zoo: Zoológico
         tunnel:
           building_passage: Pasaje de edificio
-          culvert: Alcantarilla
+          culvert: Desagüe
           "yes": Túnel
         waterway:
           artificial: Vía fluvial artificial
@@ -1605,13 +1606,19 @@ es:
       not_updated: No actualizado
       search: Buscar
       search_guidance: 'Buscar incidencias:'
+      link_to_reports: Ver denuncias
+      states:
+        ignored: Ignorado
+        open: Abierto
+        resolved: Resuelto
+    page:
       user_not_found: El usuario no existe
       issues_not_found: No se encontraron incidencias de este tipo
+      reported_user: Usuario denunciado
       status: Estado
       reports: Denuncias
       last_updated: Última actualización
       last_updated_time_ago_user_html: '%{time_ago} por %{user}'
-      link_to_reports: Ver denuncias
       reports_count:
         one: '%{count} reporte'
         other: '%{count} reportes'
@@ -1620,12 +1627,14 @@ es:
         ignored: Ignorado
         open: Abierto
         resolved: Resuelto
+      older_issues: Incidencias más antiguas
+      newer_issues: Incidencias más recientes
     show:
       title: '%{status} Incidencia n.º %{issue_id}'
       reports:
         one: '%{count} reporte'
         other: '%{count} reportes'
-      no_reports: Sin reportes
+      no_reports: Sin denuncias
       report_created_at_html: Denunciado por primera vez el %{datetime}
       last_resolved_at_html: Resuelto por última vez el %{datetime}
       last_updated_at_html: Actualizado por última vez el %{datetime} por %{displayname}
@@ -3074,7 +3083,7 @@ es:
       summary_no_ip_html: '%{name} creado el %{date}'
       empty: No hay usuarios coincidentes
     page:
-      older: Usuarios antiguos
+      older: Usuarios más antiguos
       newer: Usuarios más recientes
       found_users:
         one: '%{count} usuario encontrado'
@@ -3146,6 +3155,7 @@ es:
       heading_html: Editando el bloqueo sobre %{name}
       period: ¿Por cuánto tiempo, empezando desde ahora, el usuario tendrá bloqueado
         el uso de la API?
+      revoke: Revocar bloqueo
     filter:
       block_period: El periodo de bloqueo debe de ser uno de los valores seleccionables
         de la lista desplegable.
@@ -3153,6 +3163,8 @@ es:
       flash: Has creado un bloqueo en el usuario %{name}.
     update:
       only_creator_can_edit: Sólo el moderador que ha creado este bloqueo puede editarlo.
+      only_creator_can_edit_without_revoking: Sólo el moderador que creó este bloqueo
+        puede editarlo sin revocarlo.
       only_creator_or_revoker_can_edit: Solo los moderadores que han creado o revocado
         este bloqueo pueden editarlo.
       inactive_block_cannot_be_reactivated: Este bloqueo está inactivo y no puede
@@ -3234,6 +3246,7 @@ es:
       blocks_by_me: Bloqueados por mí
       blocks_by_user: Bloqueos por %{user}
       block: 'Bloqueo #%{id}'
+      new_block: Nuevo bloqueo
   user_mutes:
     index:
       title: Usuarios silenciados

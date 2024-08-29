@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Gravitystorm
+# Author: Gylfiolafsson
 # Author: LoveIceLang
 # Author: Macofe
 # Author: McDutchie
@@ -456,6 +457,19 @@ is:
   old_relations:
     not_found:
       sorry: 'Því miður, venslin #%{id} útgáfa %{version} fundust ekki.'
+  changeset_comments:
+    feeds:
+      comment:
+        comment: 'Ný athugasemd við breytingasettið #%{changeset_id} eftir %{author}'
+        commented_at_by_html: Uppfært %{when} af %{user}
+      comments:
+        comment: 'Ný athugasemd við breytingasett #%{changeset_id} eftir %{author}'
+      show:
+        title_all: Umræða um OpenStreetMap breytingasett
+        title_particular: 'Umræða um OpenStreetMap breytingasett #%{changeset_id}'
+      timeout:
+        sorry: Því miður, það tók of langan tíma að ná í listann yfir þær athugasemdir
+          við breytingasett sem þú baðst um.
   changesets:
     changeset_paging_nav:
       showing_page: Síða %{page}
@@ -535,18 +549,6 @@ is:
     timeout:
       sorry: Því miður, það tók of langan tíma að ná í listann yfir þau breytingasett
         sem þú baðst um.
-  changeset_comments:
-    comment:
-      comment: 'Ný athugasemd við breytingasettið #%{changeset_id} eftir %{author}'
-      commented_at_by_html: Uppfært %{when} af %{user}
-    comments:
-      comment: 'Ný athugasemd við breytingasett #%{changeset_id} eftir %{author}'
-    index:
-      title_all: Umræða um OpenStreetMap breytingasett
-      title_particular: 'Umræða um OpenStreetMap breytingasett #%{changeset_id}'
-    timeout:
-      sorry: Því miður, það tók of langan tíma að ná í listann yfir þær athugasemdir
-        við breytingasett sem þú baðst um.
   dashboards:
     contact:
       km away: í %{count} km fjarlægð
@@ -1529,21 +1531,22 @@ is:
       not_updated: Ekki uppfært
       search: Leita
       search_guidance: 'Leita að vandamálum:'
+      link_to_reports: Skoða skýrslur
+      states:
+        ignored: Hunsað
+        open: Opna
+        resolved: Leyst
+    page:
       user_not_found: Notandi er ekki til
       issues_not_found: Engin slík vandamál fundust
       status: Staða
       reports: Skýrslur
       last_updated: Síðast uppfært
       last_updated_time_ago_user_html: '%{time_ago} af %{user}'
-      link_to_reports: Skoða skýrslur
       reports_count:
         one: '%{count} skýrsla'
         other: '%{count} skýrslur'
       reported_item: Tilkynnt atriði
-      states:
-        ignored: Hunsað
-        open: Opna
-        resolved: Leyst
     show:
       title: '%{status} vandamál #%{issue_id}'
       reports:
@@ -2034,6 +2037,7 @@ is:
     richtext_field:
       edit: Breyta
       preview: Forskoða
+      help: Hjálp
   site:
     about:
       next: Næsta
@@ -3125,6 +3129,7 @@ is:
       title: Breyti banni gegn %{name}
       heading_html: Breyti banni gegn %{name}
       period: Hversu lengi á að banna notandann frá því að nota forritunarviðmótið?
+      revoke: Afturkalla útilokun
     filter:
       block_period: Banntíminn verður að vera í forstillingunum.
     create:
