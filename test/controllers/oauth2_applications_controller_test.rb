@@ -53,6 +53,16 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "tbody tr", 2
   end
 
+  def test_index_with_moderator_app
+    user = create(:user)
+    create(:oauth_application, :owner => user, :scopes => "write_redactions")
+
+    session_for(user)
+
+    get oauth_applications_path
+    assert_response :success
+  end
+
   def test_new
     user = create(:user)
 
