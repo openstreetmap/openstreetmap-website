@@ -143,7 +143,7 @@ class TracesController < ApplicationController
       flash[:notice] = t ".updated"
       redirect_to :action => "show", :display_name => current_user.display_name
     else
-      @title = t ".title", :name => @trace.name
+      @title = t "traces.edit.title", :name => @trace.name
       render :action => "edit"
     end
   rescue ActiveRecord::RecordNotFound
