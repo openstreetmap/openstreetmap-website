@@ -208,7 +208,7 @@ class GeocoderController < ApplicationController
 
       if latlon = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
                   query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/)
-        params.merge!(to_decdeg(latlon.named_captures.compact)).delete(:query)
+        params.merge!(latlon_to_decdeg(latlon.named_captures.compact)).delete(:query)
 
       elsif latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$})
         params.merge!(:lat => latlon["lat"], :lon => latlon["lon"]).delete(:query)
@@ -228,20 +228,21 @@ class GeocoderController < ApplicationController
     /x
   end
 
-  def to_decdeg(captures)
-    ns = captures.fetch("ns").casecmp?("s") ? -1 : 1
-    nsd = BigDecimal(captures.fetch("nsd", "0"))
-    nsm = BigDecimal(captures.fetch("nsm", "0"))
-    nss = BigDecimal(captures.fetch("nss", "0"))
+  def latlon_to_decdeg(captures)
+    { :lat => dms_to_decdeg("ns", captures), :lon => dms_to_decdeg("ew", captures) }
+  end
 
-    ew = captures.fetch("ew").casecmp?("w") ? -1 : 1
-    ewd = BigDecimal(captures.fetch("ewd", "0"))
-    ewm = BigDecimal(captures.fetch("ewm", "0"))
-    ews = BigDecimal(captures.fetch("ews", "0"))
-
-    lat = ns * (nsd + (nsm / 60) + (nss / 3600))
-    lon = ew * (ewd + (ewm / 60) + (ews / 3600))
-
-    { :lat => lat.round(6).to_s("F"), :lon => lon.round(6).to_s("F") }
+  def dms_to_decdeg(directions, captures)
+    positive_direction, negative_direction = directions.chars
+    sign = captures.fetch(directions, positive_direction).casecmp?(negative_direction) ? "-" : ""
+    deg = if captures["#{directions}m"] || captures["#{directions}s"]
+            d = BigDecimal(captures.fetch("#{directions}d", "0"))
+            m = BigDecimal(captures.fetch("#{directions}m", "0"))
+            s = BigDecimal(captures.fetch("#{directions}s", "0"))
+            (d + (m / 60) + (s / 3600)).round(6).to_s("F")
+          else
+            captures.fetch("#{directions}d", "0")
+          end
+    "#{sign}#{deg}"
   end
 end
