@@ -164,7 +164,7 @@ module Api
       assert_response :unauthorized
 
       # check that we get a response when logged in
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       get user_details_path, :headers => auth_header
       assert_response :success
       assert_equal "application/xml", response.media_type
@@ -173,7 +173,7 @@ module Api
       check_xml_details(user, true, false)
 
       # check that data is returned properly in json
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       get user_details_path(:format => "json"), :headers => auth_header
       assert_response :success
       assert_equal "application/json", response.media_type
@@ -427,7 +427,7 @@ module Api
       assert_response :unauthorized
 
       # check that we get a response when logged in
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       get user_gpx_files_path, :headers => auth_header
       assert_response :success
       assert_equal "application/xml", response.media_type

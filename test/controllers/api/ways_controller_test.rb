@@ -146,7 +146,7 @@ module Api
       changeset = create(:changeset, :user => user)
 
       ## First check that it fails when creating a way using a non-public user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # use the first user's open changeset
       changeset_id = private_changeset.id
@@ -161,7 +161,7 @@ module Api
                       "way upload did not return forbidden status"
 
       ## Now use a public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # use the first user's open changeset
       changeset_id = changeset.id
@@ -207,7 +207,7 @@ module Api
       closed_changeset = create(:changeset, :closed, :user => user)
 
       ## First test with a private user to make sure that they are not authorized
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # use the first user's open changeset
       # create a way with non-existing node
@@ -235,7 +235,7 @@ module Api
                       "way upload to closed changeset with a private user did not return 'forbidden'"
 
       ## Now test with a public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # use the first user's open changeset
       # create a way with non-existing node
@@ -301,7 +301,7 @@ module Api
       assert_response :unauthorized
 
       # now set auth using the private user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # this shouldn't work as with the 0.6 api we need pay load to delete
       delete api_way_path(private_way), :headers => auth_header
@@ -350,7 +350,7 @@ module Api
 
       ### Now check with a public user
       # now set auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # this shouldn't work as with the 0.6 api we need pay load to delete
       delete api_way_path(way), :headers => auth_header
@@ -419,7 +419,7 @@ module Api
       ## Second test with the private user
 
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       ## trying to break changesets
 
@@ -457,7 +457,7 @@ module Api
       ## Finally test with the public user
 
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       ## trying to break changesets
 
@@ -541,7 +541,7 @@ module Api
 
       ## Try with the non-public user
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -559,7 +559,7 @@ module Api
 
       ## Now try with the public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -589,7 +589,7 @@ module Api
 
       ## Try with the non-public user
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -607,7 +607,7 @@ module Api
 
       ## Now try with the public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # add an identical tag to the way
       tag_xml = XML::Node.new("tag")
@@ -635,7 +635,7 @@ module Api
 
       ## First test with the non-public user so should be rejected
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # create duplicate tag
       tag_xml = XML::Node.new("tag")
@@ -655,7 +655,7 @@ module Api
 
       ## Now test with the public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create duplicate tag
       tag_xml = XML::Node.new("tag")
@@ -687,7 +687,7 @@ module Api
 
       ## First make sure that you can't with a non-public user
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # add the tag into the existing xml
       way_str = "<osm><way changeset='#{private_changeset.id}'>"
@@ -702,7 +702,7 @@ module Api
 
       ## Now do it with a public user
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # add the tag into the existing xml
       way_str = "<osm><way changeset='#{changeset.id}'>"
@@ -769,7 +769,7 @@ module Api
                                      :num_changes => Settings.initial_changes_per_hour - 1)
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try creating a way
       xml = "<osm><way changeset='#{changeset.id}'>" \
@@ -826,7 +826,7 @@ module Api
       end
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try creating a way
       xml = "<osm><way changeset='#{changeset.id}'>" \

@@ -32,30 +32,6 @@ module Api
       assert_equal 0, js["permissions"].count
     end
 
-    def test_permissions_basic_auth
-      auth_header = basic_authorization_header create(:user).email, "test"
-      get permissions_path, :headers => auth_header
-      assert_response :success
-      assert_select "osm > permissions", :count => 1 do
-        assert_select "permission", :count => Oauth.scopes.size
-        Oauth.scopes.each do |p|
-          assert_select "permission[name='allow_#{p.name}']", :count => 1
-        end
-      end
-
-      # Test json
-      get permissions_path(:format => "json"), :headers => auth_header
-      assert_response :success
-      assert_equal "application/json", @response.media_type
-
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_equal Oauth.scopes.size, js["permissions"].count
-      Oauth.scopes.each do |p|
-        assert_includes js["permissions"], "allow_#{p.name}"
-      end
-    end
-
     def test_permissions_oauth2
       user = create(:user)
       token = create(:oauth_access_token,

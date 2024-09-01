@@ -47,19 +47,14 @@ class ApiController < ApplicationController
     end
   end
 
-  def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
+  def authorize(errormessage = "Couldn't authenticate you")
     # make the current_user object from any auth sources we have
     setup_user_auth
 
     # handle authenticate pass/fail
     unless current_user
       # no auth, the user does not exist or the password was wrong
-      if Settings.basic_auth_support
-        response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-        render :plain => errormessage, :status => :unauthorized
-      else
-        render :plain => errormessage, :status => :forbidden
-      end
+      render :plain => errormessage, :status => :unauthorized
 
       false
     end
@@ -80,13 +75,8 @@ class ApiController < ApplicationController
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       head :forbidden
-    elsif Settings.basic_auth_support
-      realm = "Web Password"
-      errormessage = "Couldn't authenticate you"
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
     else
-      render :plain => errormessage, :status => :forbidden
+      head :unauthorized
     end
   end
 
@@ -103,25 +93,7 @@ class ApiController < ApplicationController
   def setup_user_auth
     logger.info " setup_user_auth"
     # try and setup using OAuth
-    if doorkeeper_token&.accessible?
-      self.current_user = User.find(doorkeeper_token.resource_owner_id)
-    else
-      username, passwd = auth_data # parse from headers
-      # authenticate per-scheme
-      self.current_user = if username.nil?
-                            nil # no authentication provided - perhaps first connect (client should retry after 401)
-                          else
-                            User.authenticate(:username => username, :password => passwd) # basic auth
-                          end
-      if username && current_user
-        if Settings.basic_auth_support
-          # log if we have authenticated using basic auth
-          logger.info "Authenticated as user #{current_user.id} using basic authentication"
-        else
-          report_error t("application.basic_auth_disabled", :link => t("application.auth_disabled_link")), :forbidden
-        end
-      end
-    end
+    self.current_user = User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token&.accessible?
 
     # have we identified the user?
     if current_user

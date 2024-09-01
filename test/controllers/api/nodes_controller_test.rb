@@ -55,7 +55,7 @@ module Api
       assert_response :unauthorized, "node upload did not return unauthorized status"
 
       ## Now try with the user which doesn't have their data public
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # create a minimal xml file
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{private_changeset.id}'/></osm>"
@@ -66,7 +66,7 @@ module Api
       assert_require_public_data "node create did not return forbidden status"
 
       ## Now try with the user that has the public data
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create a minimal xml file
       xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
@@ -92,7 +92,7 @@ module Api
       user = create(:user)
       changeset = create(:changeset, :user => user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       lat = 3.434
       lon = 3.23
 
@@ -178,7 +178,7 @@ module Api
       assert_response :unauthorized
 
       ## now set auth for the non-data public user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # try to delete with an invalid (closed) changeset
       xml = update_changeset(xml_for_node(private_node), private_user_closed_changeset.id)
@@ -226,7 +226,7 @@ module Api
       changeset = create(:changeset, :user => user)
       closed_changeset = create(:changeset, :closed, :user => user)
       node = create(:node, :changeset => changeset)
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try to delete with an invalid (closed) changeset
       xml = update_changeset(xml_for_node(node), closed_changeset.id)
@@ -314,7 +314,7 @@ module Api
       ## Second test with the private user
 
       # setup auth
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       ## trying to break changesets
 
@@ -356,7 +356,7 @@ module Api
       assert_response :forbidden
 
       # setup auth
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       ## trying to break changesets
 
@@ -477,7 +477,7 @@ module Api
       existing_tag = create(:node_tag)
       assert existing_tag.node.changeset.user.data_public
       # setup auth
-      auth_header = basic_authorization_header existing_tag.node.changeset.user.email, "test"
+      auth_header = bearer_authorization_header existing_tag.node.changeset.user
 
       # add an identical tag to the node
       tag_xml = XML::Node.new("tag")
@@ -503,7 +503,7 @@ module Api
       changeset = create(:changeset, :user => user)
 
       ## First try with the non-data public user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # try and put something into a string that the API might
       # use unquoted and therefore allow code injection...
@@ -514,7 +514,7 @@ module Api
       assert_require_public_data "Shouldn't be able to create with non-public user"
 
       ## Then try with the public data user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try and put something into a string that the API might
       # use unquoted and therefore allow code injection...
@@ -552,7 +552,7 @@ module Api
                                      :num_changes => Settings.initial_changes_per_hour - 1)
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try creating a node
       xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"
@@ -599,7 +599,7 @@ module Api
       end
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try creating a node
       xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'/></osm>"

@@ -37,10 +37,9 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     # upload it
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => diff,
-         :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
+         :headers => bearer_authorization_header(user).merge(
            "HTTP_CONTENT_TYPE" => "application/xml"
-         }
+         )
     assert_response :success,
                     "can't upload an uncompressed diff to changeset: #{@response.body}"
 
@@ -86,11 +85,10 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     # upload it
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => gzip_content(diff),
-         :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
+         :headers => bearer_authorization_header(user).merge(
            "HTTP_CONTENT_ENCODING" => "gzip",
            "HTTP_CONTENT_TYPE" => "application/xml"
-         }
+         )
     assert_response :success,
                     "can't upload a gzip compressed diff to changeset: #{@response.body}"
 
@@ -136,11 +134,10 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     # upload it
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => deflate_content(diff),
-         :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
+         :headers => bearer_authorization_header(user).merge(
            "HTTP_CONTENT_ENCODING" => "deflate",
            "HTTP_CONTENT_TYPE" => "application/xml"
-         }
+         )
     assert_response :success,
                     "can't upload a deflate compressed diff to changeset: #{@response.body}"
 
@@ -157,11 +154,10 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     # upload it
     post "/api/0.6/changeset/#{changeset.id}/upload",
          :params => "",
-         :headers => {
-           "HTTP_AUTHORIZATION" => format("Basic %<auth>s", :auth => Base64.encode64("#{user.display_name}:test")),
+         :headers => bearer_authorization_header(user).merge(
            "HTTP_CONTENT_ENCODING" => "unknown",
            "HTTP_CONTENT_TYPE" => "application/xml"
-         }
+         )
     assert_response :unsupported_media_type
   end
 

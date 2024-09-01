@@ -7,7 +7,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     get "/api/#{Settings.api_version}/user/details"
     assert_response :unauthorized
 
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :success
 
     # now block the user
@@ -18,7 +18,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :ends_at => Time.now.utc + 5.minutes,
       :deactivates_at => Time.now.utc + 5.minutes
     )
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :forbidden
   end
 
@@ -33,7 +33,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :ends_at => Time.now.utc + 5.minutes,
       :deactivates_at => Time.now.utc + 5.minutes
     )
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :forbidden
 
     # revoke the ban
@@ -53,7 +53,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     reset!
 
     # access the API again. this time it should work
-    get "/api/#{Settings.api_version}/user/details", :headers => basic_authorization_header(blocked_user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
     assert_response :success
   end
 end

@@ -203,7 +203,7 @@ module Api
     def test_comment_success
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       assert_difference "NoteComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
@@ -244,7 +244,7 @@ module Api
         create(:note_comment, :note => note, :author => second_user)
       end
 
-      auth_header = basic_authorization_header third_user.email, "test"
+      auth_header = bearer_authorization_header third_user
 
       assert_difference "NoteComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -300,7 +300,7 @@ module Api
         assert_response :unauthorized
       end
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       assert_no_difference "NoteComment.count" do
         post comment_api_note_path(open_note_with_comment), :headers => auth_header
@@ -344,7 +344,7 @@ module Api
       post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json")
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json"), :headers => auth_header
       assert_response :success
@@ -375,7 +375,7 @@ module Api
       post close_api_note_path(12345)
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       post close_api_note_path(12345), :headers => auth_header
       assert_response :not_found
@@ -398,7 +398,7 @@ module Api
       post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
       assert_response :success
@@ -431,7 +431,7 @@ module Api
       post reopen_api_note_path(hidden_note_with_comment)
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       post reopen_api_note_path(12345), :headers => auth_header
       assert_response :not_found
@@ -550,12 +550,12 @@ module Api
       delete api_note_path(open_note_with_comment, :text => "This is a hide comment", :format => "json")
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       delete api_note_path(open_note_with_comment, :text => "This is a hide comment", :format => "json"), :headers => auth_header
       assert_response :forbidden
 
-      auth_header = basic_authorization_header moderator_user.email, "test"
+      auth_header = bearer_authorization_header moderator_user
 
       delete api_note_path(open_note_with_comment, :text => "This is a hide comment", :format => "json"), :headers => auth_header
       assert_response :success
@@ -572,7 +572,7 @@ module Api
       get api_note_path(open_note_with_comment, :format => "json"), :headers => auth_header
       assert_response :success
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       get api_note_path(open_note_with_comment, :format => "json"), :headers => auth_header
       assert_response :gone
@@ -585,12 +585,12 @@ module Api
       delete api_note_path(12345, :format => "json")
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       delete api_note_path(12345, :format => "json"), :headers => auth_header
       assert_response :forbidden
 
-      auth_header = basic_authorization_header moderator_user.email, "test"
+      auth_header = bearer_authorization_header moderator_user
 
       delete api_note_path(12345, :format => "json"), :headers => auth_header
       assert_response :not_found

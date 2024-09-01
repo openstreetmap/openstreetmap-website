@@ -64,7 +64,7 @@ module Api
     # -----------------------
 
     def test_create
-      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
+      auth_header = bearer_authorization_header create(:user, :data_public => false)
       # Create the first user's changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
@@ -72,7 +72,7 @@ module Api
       put changeset_create_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       # Create the first user's changeset
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
@@ -99,13 +99,13 @@ module Api
     end
 
     def test_create_invalid
-      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
+      auth_header = bearer_authorization_header create(:user, :data_public => false)
       xml = "<osm><changeset></osm>"
       put changeset_create_path, :params => xml, :headers => auth_header
       assert_require_public_data
 
       ## Try the public user
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       xml = "<osm><changeset></osm>"
       put changeset_create_path, :params => xml, :headers => auth_header
       assert_response :bad_request, "creating a invalid changeset should fail"
@@ -117,23 +117,23 @@ module Api
       assert_response :unauthorized, "shouldn't be able to create a changeset with no auth"
 
       ## Now try to with a non-public user
-      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
+      auth_header = bearer_authorization_header create(:user, :data_public => false)
       put changeset_create_path, :headers => auth_header
       assert_require_public_data
 
       ## Try an inactive user
-      auth_header = basic_authorization_header create(:user, :pending).email, "test"
+      auth_header = bearer_authorization_header create(:user, :pending)
       put changeset_create_path, :headers => auth_header
       assert_inactive_user
 
       ## Now try to use a normal user
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       put changeset_create_path, :headers => auth_header
       assert_response :bad_request, "creating a changeset with no content should fail"
     end
 
     def test_create_wrong_method
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       get changeset_create_path, :headers => auth_header
       assert_response :not_found
@@ -216,7 +216,7 @@ module Api
 
       # one hidden comment shown to moderators
       moderator_user = create(:moderator_user)
-      auth_header = basic_authorization_header moderator_user.email, "test"
+      auth_header = bearer_authorization_header moderator_user
       get changeset_show_path(changeset), :params => { :include_discussion => true, :show_hidden_comments => true },
                                           :headers => auth_header
       assert_response :success, "cannot get closed changeset with comments"
@@ -322,7 +322,7 @@ module Api
 
       # one hidden comment shown to moderators
       moderator_user = create(:moderator_user)
-      auth_header = basic_authorization_header moderator_user.email, "test"
+      auth_header = bearer_authorization_header moderator_user
       get changeset_show_path(changeset), :params => { :format => "json", :include_discussion => true, :show_hidden_comments => true },
                                           :headers => auth_header
       assert_response :success, "cannot get closed changeset with comments"
@@ -416,12 +416,12 @@ module Api
       assert_response :unauthorized
 
       ## Try using the non-public user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
       put changeset_close_path(private_changeset), :headers => auth_header
       assert_require_public_data
 
       ## The try with the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       cs_id = changeset.id
       put changeset_close_path(cs_id), :headers => auth_header
@@ -439,7 +439,7 @@ module Api
       user = create(:user)
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       put changeset_close_path(changeset), :headers => auth_header
       assert_response :conflict
@@ -452,7 +452,7 @@ module Api
       user = create(:user)
       changeset = create(:changeset, :user => user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       get changeset_close_path(changeset), :headers => auth_header
       assert_response :not_found
@@ -477,7 +477,7 @@ module Api
       end
 
       # Now try with auth
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       cs_ids.each do |id|
         put changeset_close_path(id), :headers => auth_header
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
@@ -534,7 +534,7 @@ module Api
                       "shouldn't be able to upload a simple valid diff to changeset: #{@response.body}"
 
       ## Now try with a private user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
       changeset_id = private_changeset.id
 
       # simple diff to change a node, way and relation by removing
@@ -563,7 +563,7 @@ module Api
                       "can't upload a simple valid diff to changeset: #{@response.body}"
 
       ## Now try with the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       changeset_id = changeset.id
 
       # simple diff to change a node, way and relation by removing
@@ -606,7 +606,7 @@ module Api
       way = create(:way_with_nodes, :nodes_count => 2)
       relation = create(:relation)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -677,7 +677,7 @@ module Api
       create(:relation_member, :relation => super_relation, :member => used_way)
       create(:relation_member, :relation => super_relation, :member => used_node)
 
-      auth_header = basic_authorization_header changeset.user.display_name, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
@@ -719,7 +719,7 @@ module Api
       node = create(:node)
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.display_name, "test"
+      auth_header = bearer_authorization_header changeset.user
       diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{changeset.id}'/></delete></osmChange>"
 
       # upload it
@@ -736,7 +736,7 @@ module Api
 
     def test_repeated_changeset_create
       3.times do
-        auth_header = basic_authorization_header create(:user).email, "test"
+        auth_header = bearer_authorization_header
 
         # create a temporary changeset
         xml = "<osm><changeset>" \
@@ -751,7 +751,7 @@ module Api
 
     def test_upload_large_changeset
       user = create(:user)
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create an old changeset to ensure we have the maximum rate limit
       create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
@@ -813,7 +813,7 @@ module Api
       create(:relation_member, :relation => relation, :member => used_way)
       create(:relation_member, :relation => relation, :member => used_node)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
@@ -855,7 +855,7 @@ module Api
       create(:relation_member, :relation => super_relation, :member => used_way)
       create(:relation_member, :relation => super_relation, :member => used_node)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = XML::Document.new
       diff.root = XML::Node.new "osmChange"
@@ -911,7 +911,7 @@ module Api
     def test_upload_invalid_too_long_tag
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -941,7 +941,7 @@ module Api
 
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -1000,7 +1000,7 @@ module Api
       relation = create(:relation)
       other_relation = create(:relation)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -1043,7 +1043,7 @@ module Api
     def test_upload_multiple_valid
       node = create(:node)
       changeset = create(:changeset)
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       # change the location of a node multiple times, each time referencing
       # the last version. doesn't this depend on version numbers being
@@ -1081,7 +1081,7 @@ module Api
       node = create(:node)
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1103,7 +1103,7 @@ module Api
     def test_upload_missing_version
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1124,7 +1124,7 @@ module Api
     def test_action_upload_invalid
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1149,7 +1149,7 @@ module Api
       other_relation = create(:relation)
       create(:relation_tag, :relation => relation)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1184,7 +1184,7 @@ module Api
     def test_upload_reuse_placeholder_valid
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1218,7 +1218,7 @@ module Api
     def test_upload_placeholder_invalid
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1256,7 +1256,7 @@ module Api
     def test_upload_process_order
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1280,7 +1280,7 @@ module Api
     def test_upload_duplicate_delete
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1327,7 +1327,7 @@ module Api
       changeset = create(:changeset)
       way = create(:way)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1382,7 +1382,7 @@ module Api
       changeset = create(:changeset)
       relation = create(:relation)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       diff = <<~CHANGESET
         <osmChange>
@@ -1434,7 +1434,7 @@ module Api
     # test what happens if a diff is uploaded containing only a node
     # move.
     def test_upload_node_move
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
@@ -1471,7 +1471,7 @@ module Api
     ##
     # test what happens if a diff is uploaded adding a node to a way.
     def test_upload_way_extend
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       xml = "<osm><changeset>" \
             "<tag k='created_by' v='osm test suite checking changesets'/>" \
@@ -1512,7 +1512,7 @@ module Api
     def test_upload_empty_invalid
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       ["<osmChange/>",
        "<osmChange></osmChange>",
@@ -1532,7 +1532,7 @@ module Api
       node = create(:node)
       create(:relation_member, :member => node)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       # try and delete a node that is in use
       diff = XML::Document.new
@@ -1556,7 +1556,7 @@ module Api
     def test_upload_not_found
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       # modify node
       diff = <<~CHANGESET
@@ -1640,7 +1640,7 @@ module Api
     def test_upload_relation_placeholder_not_fix
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       # modify node
       diff = <<~CHANGESET
@@ -1674,7 +1674,7 @@ module Api
     def test_upload_multiple_delete_block
       changeset = create(:changeset)
 
-      auth_header = basic_authorization_header changeset.user.email, "test"
+      auth_header = bearer_authorization_header changeset.user
 
       node = create(:node)
       way = create(:way)
@@ -1717,7 +1717,7 @@ module Api
                                      :num_changes => Settings.initial_changes_per_hour - 2)
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -1772,7 +1772,7 @@ module Api
       end
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -1813,7 +1813,7 @@ module Api
                                      :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # simple diff to create a node
       diff = <<~CHANGESET
@@ -1847,7 +1847,7 @@ module Api
                                      :max_lat => (0.5 * GeoRecord::SCALE).round, :max_lon => (2.5 * GeoRecord::SCALE).round)
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # simple diff to create a node way and relation using placeholders
       diff = <<~CHANGESET
@@ -1873,7 +1873,7 @@ module Api
       node = create(:node)
 
       ## First try with a non-public user, which should get a forbidden
-      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
+      auth_header = bearer_authorization_header create(:user, :data_public => false)
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
@@ -1883,7 +1883,7 @@ module Api
       assert_response :forbidden
 
       ## Now try with a normal user
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
@@ -1928,7 +1928,7 @@ module Api
     #
     # NOTE: the error turned out to be something else completely!
     def test_josm_upload
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
@@ -1989,7 +1989,7 @@ module Api
       node = create(:node)
       node2 = create(:node)
       way = create(:way)
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # create a temporary changeset
       xml = "<osm><changeset>" \
@@ -2104,7 +2104,7 @@ module Api
       way = create(:way)
       create(:way_node, :way => way, :node => create(:node, :lat => 0.3, :lon => 0.3))
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # create a new changeset
       xml = "<osm><changeset/></osm>"
@@ -2193,7 +2193,7 @@ module Api
       assert_response :not_found, "shouldn't be able to get changesets by non-public user (name)"
 
       # but this should work
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
       get changesets_path(:user => private_user.id), :headers => auth_header
       assert_response :success, "can't get changesets by user ID"
       assert_changesets_in_order [private_user_changeset, private_user_closed_changeset]
@@ -2421,12 +2421,12 @@ module Api
       assert_response :unauthorized
 
       # try with the wrong authorization
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should get an unauthorized
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
       put changeset_show_path(private_changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
@@ -2442,12 +2442,12 @@ module Api
       assert_response :unauthorized
 
       # try with the wrong authorization
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :conflict
 
       # now this should work...
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       put changeset_show_path(changeset), :params => new_changeset.to_s, :headers => auth_header
       assert_response :success
 
@@ -2460,7 +2460,7 @@ module Api
     # check that a user different from the one who opened the changeset
     # can't modify it.
     def test_changeset_update_invalid
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       changeset = create(:changeset)
       new_changeset = create_changeset_xml(:user => changeset.user, :id => changeset.id)
@@ -2478,7 +2478,7 @@ module Api
     ## FIXME should be changed to an integration test due to the with_controller
     def test_changeset_limits
       user = create(:user)
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create an old changeset to ensure we have the maximum rate limit
       create(:changeset, :user => user, :created_at => Time.now.utc - 28.days)
@@ -2559,7 +2559,7 @@ module Api
     ##
     # test subscribe success
     def test_subscribe_success
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       changeset = create(:changeset, :closed)
 
       assert_difference "changeset.subscribers.count", 1 do
@@ -2587,7 +2587,7 @@ module Api
       end
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do
@@ -2608,7 +2608,7 @@ module Api
     # test unsubscribe success
     def test_unsubscribe_success
       user = create(:user)
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       changeset = create(:changeset, :closed)
       changeset.subscribers.push(user)
 
@@ -2637,7 +2637,7 @@ module Api
       end
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # bad changeset id
       assert_no_difference "changeset.subscribers.count" do

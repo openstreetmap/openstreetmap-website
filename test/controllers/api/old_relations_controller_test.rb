@@ -58,7 +58,7 @@ module Api
       relation = create(:relation, :with_history, :version => 4)
       relation_v3 = relation.old_relations.find_by(:version => 3)
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       do_redact_relation(relation_v3, create(:redaction), auth_header)
       assert_response :forbidden, "should need to be moderator to redact."
@@ -71,7 +71,7 @@ module Api
       relation = create(:relation, :with_history, :version => 4)
       relation_latest = relation.old_relations.last
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       do_redact_relation(relation_latest, create(:redaction), auth_header)
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
@@ -126,7 +126,7 @@ module Api
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
 
       # not even to a logged-in user
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       get api_old_relation_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
     end
@@ -144,7 +144,7 @@ module Api
                     "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history."
 
       # not even to a logged-in user
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
       get api_old_relation_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
       get api_relation_history_path(relation), :headers => auth_header
       assert_response :success, "Redaction shouldn't have stopped history working."
@@ -159,7 +159,7 @@ module Api
       relation = create(:relation, :with_history, :version => 4)
       relation_v3 = relation.old_relations.find_by(:version => 3)
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       do_redact_relation(relation_v3, create(:redaction), auth_header)
       assert_response :success, "should be OK to redact old version as moderator."
@@ -188,13 +188,13 @@ module Api
       relation = create(:relation, :with_history, :version => 4)
       relation_v3 = relation.old_relations.find_by(:version => 3)
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       do_redact_relation(relation_v3, create(:redaction), auth_header)
       assert_response :success, "should be OK to redact old version as moderator."
 
       # re-auth as non-moderator
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # check can't see the redacted data
       get api_old_relation_path(relation_v3.relation_id, relation_v3.version), :headers => auth_header
@@ -227,7 +227,7 @@ module Api
       relation_v1 = relation.old_relations.find_by(:version => 1)
       relation_v1.redact!(create(:redaction))
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       post relation_version_redact_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
       assert_response :forbidden, "should need to be moderator to unredact."
@@ -241,7 +241,7 @@ module Api
       relation_v1 = relation.old_relations.find_by(:version => 1)
       relation_v1.redact!(create(:redaction))
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       post relation_version_redact_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
       assert_response :success, "should be OK to unredact old version as moderator."
@@ -257,7 +257,7 @@ module Api
       assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1,
                     "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for moderators."
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # check normal user can now see the redacted data
       get api_old_relation_path(relation_v1.relation_id, relation_v1.version), :headers => auth_header
