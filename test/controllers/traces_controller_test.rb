@@ -667,6 +667,17 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_equal new_details[:visibility], trace.visibility
   end
 
+  # Test invalid updates
+  def test_update_invalid
+    trace = create(:trace)
+
+    # Invalid visibility
+    session_for(trace.user)
+    put trace_path(trace, :trace => { :description => "Changed description", :tagstring => "new_tag", :visibility => "wrong" })
+    assert_response :success
+    assert_select "title", :text => /^Editing Trace/
+  end
+
   # Test destroying a trace
   def test_destroy
     public_trace_file = create(:trace, :visibility => "public")
