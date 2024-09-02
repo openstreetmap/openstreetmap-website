@@ -1,17 +1,27 @@
-<p>
+<nav>
+  <ul class="pagination">
+    <% if @page > 1 %>
+      <li class="page-item">
+        <%= link_to t(".previous"), @params.merge(:page => @page - 1), :class => "page-link" %>
+      </li>
+    <% else %>
+      <li class="page-item disabled">
+        <%= tag.span t(".previous"), :class => "page-link" %>
+      </li>
+    <% end %>
 
-<% if @page > 1 %>
-<%= link_to t(".previous"), @params.merge(:page => @page - 1) %>
-<% else %>
-<%= t(".previous") %>
-<% end %>
+    <li class="page-item active">
+      <%= tag.span t(".showing_page", :page => @page), :class => "page-link" %>
+    </li>
 
-| <%= t(".showing_page", :page => @page) %> |
-
-<% if @notes.size < @page_size %>
-<%= t(".next") %>
-<% else %>
-<%= link_to t(".next"), @params.merge(:page => @page + 1) %>
-<% end %>
-
-</p>
+    <% if @notes.size < @page_size %>
+      <li class="page-item disabled">
+        <%= tag.span t(".next"), :class => "page-link" %>
+      </li>
+    <% else %>
+      <li class="page-item">
+        <%= link_to t(".next"), @params.merge(:page => @page + 1), :class => "page-link" %>
+      </li>
+    <% end %>
+  </ul>
+</nav>
