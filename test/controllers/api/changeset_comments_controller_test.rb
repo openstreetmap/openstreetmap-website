@@ -307,7 +307,7 @@ module Api
       changeset = create(:changeset, :closed)
 
       assert_difference "ChangesetComment.count", 0 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => bearer_authorization_header(token.token)
+        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => bearer_authorization_header(token)
       end
       assert_response :forbidden
 
@@ -316,7 +316,7 @@ module Api
       user.save!
 
       assert_difference "ChangesetComment.count", 1 do
-        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => bearer_authorization_header(token.token)
+        post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => bearer_authorization_header(token)
       end
       assert_response :success
     end

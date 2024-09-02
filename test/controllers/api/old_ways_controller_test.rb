@@ -358,7 +358,7 @@ module Api
       token = create(:oauth_access_token,
                      :resource_owner_id => user.id,
                      :scopes => scopes)
-      bearer_authorization_header(token.token)
+      bearer_authorization_header(token)
     end
 
     def do_redact_redactable_way(headers = {})

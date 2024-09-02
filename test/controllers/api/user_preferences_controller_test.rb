@@ -255,7 +255,7 @@ module Api
       token = create(:oauth_access_token, :resource_owner_id => user.id, :scopes => %w[read_prefs])
       create(:user_preference, :user => user, :k => "key", :v => "value")
 
-      get user_preference_path(:preference_key => "key"), :headers => bearer_authorization_header(token.token)
+      get user_preference_path(:preference_key => "key"), :headers => bearer_authorization_header(token)
       assert_response :success
     end
 
@@ -267,7 +267,7 @@ module Api
       token = create(:oauth_access_token, :resource_owner_id => user.id)
       create(:user_preference, :user => user, :k => "key", :v => "value")
 
-      get user_preference_path(:preference_key => "key"), :headers => bearer_authorization_header(token.token)
+      get user_preference_path(:preference_key => "key"), :headers => bearer_authorization_header(token)
       assert_response :forbidden
     end
   end
