@@ -213,7 +213,11 @@ class GeocoderController < ApplicationController
                       :lon => dms_to_decdeg("ew", "ew", captures)
         params.delete(:query)
 
-      elsif match = query.match(%r{^(?<ns>[+-]?)\s*#{dms_regexp('ns')}(?:\s+|\s*[,/]\s*)(?<ew>[+-]?)\s*#{dms_regexp('ew')}$})
+      elsif match = query.match(%r{^
+                      (?<ns>[+-]?)\s*#{dms_regexp('ns', :comma => false)}
+                      (?:\s+|\s*[,/]\s*)
+                      (?<ew>[+-]?)\s*#{dms_regexp('ew', :comma => false)}
+                    $}x)
         captures = match.named_captures.compact
         params.merge! :lat => dms_to_decdeg("ns", "+-", captures),
                       :lon => dms_to_decdeg("ew", "+-", captures)
@@ -225,24 +229,27 @@ class GeocoderController < ApplicationController
     params.permit(:query, :lat, :lon, :latlon_digits, :zoom, :minlat, :minlon, :maxlat, :maxlon)
   end
 
-  def dms_regexp(name_prefix)
+  def dms_regexp(prefix, comma: true)
+    final_fraction = comma ? /(?:[.,]\d+)?/ : /(?:[.]\d+)?/
     /
-      (?: (?<#{name_prefix}d>\d{1,3}(?:\.\d+)?)°? ) |
-      (?: (?<#{name_prefix}d>\d{1,3})°?\s*(?<#{name_prefix}m>\d{1,2}(?:\.\d+)?)['′]? ) |
-      (?: (?<#{name_prefix}d>\d{1,3})°?\s*(?<#{name_prefix}m>\d{1,2})['′]?\s*(?<#{name_prefix}s>\d{1,2}(?:\.\d+)?)["″]? )
+      (?: (?<#{prefix}d>\d{1,3}#{final_fraction})°? ) |
+      (?: (?<#{prefix}d>\d{1,3})°?\s*(?<#{prefix}m>\d{1,2}#{final_fraction})['′]? ) |
+      (?: (?<#{prefix}d>\d{1,3})°?\s*(?<#{prefix}m>\d{1,2})['′]?\s*(?<#{prefix}s>\d{1,2}#{final_fraction})["″]? )
     /x
   end
 
   def dms_to_decdeg(prefix, directions, captures)
+    extract_number = ->(suffix) { captures.fetch("#{prefix}#{suffix}", "0").sub(",", ".") }
+
     positive_direction, negative_direction = directions.chars
     sign = captures.fetch(prefix, positive_direction).casecmp?(negative_direction) ? "-" : ""
     deg = if captures["#{prefix}m"] || captures["#{prefix}s"]
-            d = BigDecimal(captures.fetch("#{prefix}d", "0"))
-            m = BigDecimal(captures.fetch("#{prefix}m", "0"))
-            s = BigDecimal(captures.fetch("#{prefix}s", "0"))
+            d = BigDecimal extract_number.call("d")
+            m = BigDecimal extract_number.call("m")
+            s = BigDecimal extract_number.call("s")
             (d + (m / 60) + (s / 3600)).round(6).to_s("F")
           else
-            captures.fetch("#{prefix}d", "0")
+            extract_number.call("d")
           end
     "#{sign}#{deg}"
   end

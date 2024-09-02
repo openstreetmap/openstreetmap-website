@@ -329,6 +329,20 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  #
+  # Test identification of lat/lon pairs with decimal comma
+  def test_identify_latlon_nw_decimal_comma
+    [
+      "N 28° 34' 31,098\" W 16° 11' 14,592\"",
+      "N 28° 34' 31,098\", W 16° 11' 14,592\"",
+      "28° 34' 31,098\" N 16° 11' 14,592\" W",
+      "28° 34' 31,098\" N, 16° 11' 14,592\" W"
+    ].each do |code|
+      latlon_check code, 28.575305, -16.187387
+      assert_nil @controller.params[:latlon_digits]
+    end
+  end
+
   ##
   # Test identification of US zipcodes
   def test_identify_us_postcode
