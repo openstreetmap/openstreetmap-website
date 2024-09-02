@@ -75,6 +75,7 @@ class ChangesetsController < ApplicationController
   end
 
   def show
+    @type = "changeset"
     @changeset = Changeset.find(params[:id])
     case turbo_frame_request_id
     when "changeset_nodes"
