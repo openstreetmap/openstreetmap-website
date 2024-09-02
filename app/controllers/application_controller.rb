@@ -323,20 +323,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # extract authorisation credentials from headers, returns user = nil if none
-  def auth_data
-    if request.env.key? "X-HTTP_AUTHORIZATION" # where mod_rewrite might have put it
-      authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
-    elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION" # mod_fcgi
-      authdata = request.env["REDIRECT_X_HTTP_AUTHORIZATION"].to_s.split
-    elsif request.env.key? "HTTP_AUTHORIZATION" # regular location
-      authdata = request.env["HTTP_AUTHORIZATION"].to_s.split
-    end
-    # only basic authentication supported
-    user, pass = Base64.decode64(authdata[1]).split(":", 2) if authdata && authdata[0] == "Basic"
-    [user, pass]
-  end
-
   # clean any referer parameter
   def safe_referer(referer)
     begin

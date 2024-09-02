@@ -221,7 +221,7 @@ module Api
       node = create(:node)
       way = create(:way_with_nodes, :nodes_count => 2)
 
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # create an relation without members
       xml = "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
@@ -263,7 +263,7 @@ module Api
                       "relation upload did not return success status"
 
       ## Now try with the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create an relation without members
       xml = "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
@@ -391,7 +391,7 @@ module Api
       relation = create(:relation)
       create_list(:relation_tag, 4, :relation => relation)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       with_relation(relation.id) do |rel|
         # alter one of the tags
@@ -423,7 +423,7 @@ module Api
       relation = create(:relation)
       create_list(:relation_tag, 4, :relation => relation)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       with_relation(relation.id) do |rel|
         # alter one of the tags
@@ -450,7 +450,7 @@ module Api
       relation = create(:relation)
       other_relation = create(:relation)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
       with_relation(relation.id) do |rel|
         update_changeset(rel, changeset.id)
         put api_relation_path(other_relation), :params => rel.to_s, :headers => auth_header
@@ -466,7 +466,7 @@ module Api
       user = create(:user)
       changeset = create(:changeset, :user => user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create a relation with non-existing node as member
       xml = "<osm><relation changeset='#{changeset.id}'>" \
@@ -487,7 +487,7 @@ module Api
       changeset = create(:changeset, :user => user)
       node = create(:node)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # create some xml that should return an error
       xml = "<osm><relation changeset='#{changeset.id}'>" \
@@ -522,7 +522,7 @@ module Api
       assert_response :unauthorized
 
       ## Then try with the private user, to make sure that you get a forbidden
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       # this shouldn't work, as we should need the payload...
       delete api_relation_path(relation), :headers => auth_header
@@ -564,7 +564,7 @@ module Api
       assert_response :forbidden
 
       ## now set auth for the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # this shouldn't work, as we should need the payload...
       delete api_relation_path(relation), :headers => auth_header
@@ -743,7 +743,7 @@ module Api
       way1 = create(:way_with_nodes, :nodes_count => 2)
       way2 = create(:way_with_nodes, :nodes_count => 2)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       doc_str = <<~OSM
         <osm>
@@ -816,13 +816,13 @@ module Api
       doc = XML::Parser.string(doc_str).parse
 
       ## First try with the private user
-      auth_header = basic_authorization_header private_user.email, "test"
+      auth_header = bearer_authorization_header private_user
 
       put relation_create_path, :params => doc.to_s, :headers => auth_header
       assert_response :forbidden
 
       ## Now try with the public user
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       put relation_create_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
@@ -855,7 +855,7 @@ module Api
         </osm>
       OSM
       doc = XML::Parser.string(doc_str).parse
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       put relation_create_path, :params => doc.to_s, :headers => auth_header
       assert_response :success, "can't create a relation: #{@response.body}"
@@ -922,7 +922,7 @@ module Api
                                      :num_changes => Settings.initial_changes_per_hour - 1)
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try creating a relation
       xml = "<osm><relation changeset='#{changeset.id}'>" \
@@ -982,7 +982,7 @@ module Api
       end
 
       # create authentication header
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       # try creating a relation
       xml = "<osm><relation changeset='#{changeset.id}'>" \
@@ -1062,7 +1062,7 @@ module Api
     # that the changeset bounding box is +bbox+.
     def check_changeset_modify(bbox)
       ## First test with the private user to check that you get a forbidden
-      auth_header = basic_authorization_header create(:user, :data_public => false).email, "test"
+      auth_header = bearer_authorization_header create(:user, :data_public => false)
 
       # create a new changeset for this operation, so we are assured
       # that the bounding box will be newly-generated.
@@ -1073,7 +1073,7 @@ module Api
       end
 
       ## Now do the whole thing with the public user
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # create a new changeset for this operation, so we are assured
       # that the bounding box will be newly-generated.

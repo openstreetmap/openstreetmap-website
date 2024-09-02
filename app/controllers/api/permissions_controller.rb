@@ -9,13 +9,10 @@ module Api
     # External apps that use the api are able to query which permissions
     # they have. This currently returns a list of permissions granted to the current user:
     # * if authenticated via OAuth, this list will contain all permissions granted by the user to the access_token.
-    # * if authenticated via basic auth all permissions are granted, so the list will contain all permissions.
     # * unauthenticated users have no permissions, so the list will be empty.
     def show
       @permissions = if doorkeeper_token.present?
                        doorkeeper_token.scopes.map { |s| :"allow_#{s}" }
-                     elsif current_user
-                       Oauth.scopes.map { |s| :"allow_#{s.name}" }
                      else
                        []
                      end

@@ -39,7 +39,7 @@ module Api
       assert_response :unauthorized, "should be authenticated"
 
       # authenticate as a user with no preferences
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # try the read again
       get user_preferences_path, :headers => auth_header
@@ -53,7 +53,7 @@ module Api
       user = create(:user)
       user_preference = create(:user_preference, :user => user)
       user_preference2 = create(:user_preference, :user => user)
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header(user)
 
       # try the read again
       get user_preferences_path, :headers => auth_header
@@ -89,7 +89,7 @@ module Api
       assert_response :unauthorized, "should be authenticated"
 
       # authenticate as a user with preferences
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header(user)
 
       # try the read again
       get user_preference_path(:preference_key => "key"), :headers => auth_header
@@ -121,7 +121,7 @@ module Api
       end
 
       # authenticate as a user with preferences
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header(user)
 
       # try the put again
       assert_no_difference "UserPreference.count" do
@@ -181,7 +181,7 @@ module Api
       end
 
       # authenticate as a user with preferences
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header(user)
 
       # try adding a new preference
       assert_difference "UserPreference.count", 1 do
@@ -225,7 +225,7 @@ module Api
       assert_equal "value", UserPreference.find([user.id, "key"]).v
 
       # authenticate as a user with preferences
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header(user)
 
       # try the delete again
       assert_difference "UserPreference.count", -1 do

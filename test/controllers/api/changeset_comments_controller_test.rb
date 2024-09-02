@@ -41,7 +41,7 @@ module Api
       deleted_user = create(:user, :deleted)
       private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       assert_difference "ChangesetComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
@@ -74,7 +74,7 @@ module Api
 
       ActionMailer::Base.deliveries.clear
 
-      auth_header = basic_authorization_header user2.email, "test"
+      auth_header = bearer_authorization_header user2
 
       assert_difference "ChangesetComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -105,7 +105,7 @@ module Api
       post changeset_comment_path(create(:changeset, :closed), :text => "This is a comment")
       assert_response :unauthorized
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # bad changeset id
       assert_no_difference "ChangesetComment.count" do
@@ -138,7 +138,7 @@ module Api
       changeset = create(:changeset, :closed)
       user = create(:user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       assert_difference "ChangesetComment.count", Settings.initial_changeset_comments_per_hour do
         1.upto(Settings.initial_changeset_comments_per_hour) do |count|
@@ -160,7 +160,7 @@ module Api
       user = create(:user)
       create_list(:changeset_comment, 200, :author_id => user.id, :created_at => Time.now.utc - 1.day)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       assert_difference "ChangesetComment.count", Settings.max_changeset_comments_per_hour do
         1.upto(Settings.max_changeset_comments_per_hour) do |count|
@@ -182,7 +182,7 @@ module Api
       user = create(:user)
       create(:issue_with_reports, :reportable => user, :reported_user => user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       assert_difference "ChangesetComment.count", Settings.initial_changeset_comments_per_hour / 2 do
         1.upto(Settings.initial_changeset_comments_per_hour / 2) do |count|
@@ -203,7 +203,7 @@ module Api
       changeset = create(:changeset, :closed)
       user = create(:moderator_user)
 
-      auth_header = basic_authorization_header user.email, "test"
+      auth_header = bearer_authorization_header user
 
       assert_difference "ChangesetComment.count", Settings.moderator_changeset_comments_per_hour do
         1.upto(Settings.moderator_changeset_comments_per_hour) do |count|
@@ -229,14 +229,14 @@ module Api
       assert_response :unauthorized
       assert comment.reload.visible
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # not a moderator
       post changeset_comment_hide_path(comment), :headers => auth_header
       assert_response :forbidden
       assert comment.reload.visible
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       # bad comment id
       post changeset_comment_hide_path(999111), :headers => auth_header
@@ -250,7 +250,7 @@ module Api
       comment = create(:changeset_comment)
       assert comment.visible
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       post changeset_comment_hide_path(comment), :headers => auth_header
       assert_response :success
@@ -268,14 +268,14 @@ module Api
       assert_response :unauthorized
       assert_not comment.reload.visible
 
-      auth_header = basic_authorization_header create(:user).email, "test"
+      auth_header = bearer_authorization_header
 
       # not a moderator
       post changeset_comment_unhide_path(comment), :headers => auth_header
       assert_response :forbidden
       assert_not comment.reload.visible
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       # bad comment id
       post changeset_comment_unhide_path(999111), :headers => auth_header
@@ -289,7 +289,7 @@ module Api
       comment = create(:changeset_comment, :visible => false)
       assert_not comment.visible
 
-      auth_header = basic_authorization_header create(:moderator_user).email, "test"
+      auth_header = bearer_authorization_header create(:moderator_user)
 
       post changeset_comment_unhide_path(comment), :headers => auth_header
       assert_response :success
@@ -317,29 +317,6 @@ module Api
 
       assert_difference "ChangesetComment.count", 1 do
         post changeset_comment_path(changeset), :params => { :text => "This is a comment" }, :headers => bearer_authorization_header(token.token)
-      end
-      assert_response :success
-    end
-
-    # This test does the same as above, but with basic auth, to similarly test that the
-    # abilities take into account terms agreement too.
-    def test_api_write_and_terms_agreed_via_basic_auth
-      user = create(:user, :terms_agreed => nil)
-      changeset = create(:changeset, :closed)
-
-      auth_header = basic_authorization_header user.email, "test"
-
-      assert_difference "ChangesetComment.count", 0 do
-        post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
-      end
-      assert_response :forbidden
-
-      # Try again, after agreement with the terms
-      user.terms_agreed = Time.now.utc
-      user.save!
-
-      assert_difference "ChangesetComment.count", 1 do
-        post changeset_comment_path(changeset, :text => "This is a comment"), :headers => auth_header
       end
       assert_response :success
     end

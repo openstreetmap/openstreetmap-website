@@ -134,14 +134,15 @@ module ActiveSupport
     end
 
     ##
-    # return request header for HTTP Basic Authorization
-    def basic_authorization_header(user, pass)
-      { "Authorization" => format("Basic %<auth>s", :auth => Base64.encode64("#{user}:#{pass}")) }
-    end
-
-    ##
     # return request header for HTTP Bearer Authorization
-    def bearer_authorization_header(token)
+    def bearer_authorization_header(token_or_user = nil, scopes: Oauth::SCOPES)
+      token = case token_or_user
+              when nil then create(:oauth_access_token, :scopes => scopes).token
+              when User then create(:oauth_access_token, :resource_owner_id => token_or_user.id, :scopes => scopes).token
+              when Doorkeeper::AccessToken then token_or_user.token
+              when String then token_or_user
+              end
+
       { "Authorization" => "Bearer #{token}" }
     end
 
@@ -168,7 +169,7 @@ module ActiveSupport
     ##
     # Not sure this is the best response we could give
     def assert_inactive_user(msg = "an inactive user shouldn't be able to access the API")
-      assert_response :unauthorized, msg
+      assert_response :forbidden, msg
       # assert_equal @response.headers['Error'], ""
     end
 
