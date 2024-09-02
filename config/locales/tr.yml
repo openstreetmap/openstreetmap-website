@@ -54,6 +54,7 @@
 # Author: Vito Genovese
 # Author: Watermelon juice
 # Author: Zeugma
+# Author: İsimsizman
 # Author: 아라
 ---
 tr:
@@ -139,7 +140,7 @@ tr:
         callback_url: Geri Arama Bağlantısı
         support_url: Destek Bağlantısı
         allow_read_prefs: kullanıcı tercihlerini okuyun
-        allow_write_prefs: onların kullanıcı tercihlerini değiştir
+        allow_write_prefs: kullanıcı tercihlerini değiştir
         allow_write_diary: günlük girdiler, yorumlar oluşturun ve arkadaş edinin
         allow_write_api: haritayı değiştir
         allow_read_gpx: özel GPS izlerini oku
@@ -334,16 +335,17 @@ tr:
         enabled: Etkin. Anonim değil ve verileri düzenleyebilir.
         enabled link: https://wiki.openstreetmap.org/wiki/Tr:Anonymous_edits
         enabled link text: bu nedir?
-        disabled: Devre dışı ve verileri düzenleyemez; önceki düzenlemeleri hepsi
-          anonimdir.
+        disabled: Devre dışı bırakıldı ve verileri düzenleyemiyor, önceki tüm düzenlemeler
+          anonim.
         disabled link text: neden düzenleyemiyorum?
       contributor terms:
         heading: Katılımcı Şartları
         agreed: Yeni katılımcı şartlarını kabul ettin.
-        not yet agreed: Yeni katılımcı şartları kabul etmedin.
+        not yet agreed: Yeni Katılımcı Şartlarını henüz kabul etmediniz.
         review link text: Yeni Katkıda Bulunma Şartlarını incelemek ve kabul etmek
           için lütfen bu bağlantıyı kolaylık sağlamak için izleyin.
-        agreed_with_pd: Ayrıca düzenlediklerin Kamu Malı olsun diye kabul ettin.
+        agreed_with_pd: Ayrıca, düzenlemelerinizin Kamu Malı olduğunu düşündüğünüzü
+          de beyan ettiniz.
         link text: bu nedir?
       save changes button: Değişiklikleri Kaydet
       delete_account: Hesabı Sil...
@@ -359,7 +361,7 @@ tr:
       email_not_revealed: E-posta adresiniz herkese açık hale getirilerek gösterilmeyecektir.
       not_reversible: Bu işlem geri alınamaz ve tüm yeni kullanıcılar artık varsayılan
         olarak herkese açıktır.
-      make_edits_public_button: Bütün girdiklerim herkese açık olsun
+      make_edits_public_button: Tüm düzenlemelerimi herkese açık hale getirin
     update:
       success_confirm_needed: Kullanıcı bilgisi başarıyla güncellendi. Yeni e-posta
         adresinizi onaylamak için e-mail'inizi lütfen kontrol ediniz.
@@ -1653,7 +1655,6 @@ tr:
     gps_traces: GPS İzleri
     gps_traces_tooltip: GPS izleri yönet
     user_diaries: Kullanıcı Günlükleri
-    user_diaries_tooltip: Kullanıcı günlükleri görüntüle
     edit_with: '%{editor} kullanarak düzenle'
     tag_line: Özgür Viki Dünya Haritası
     intro_header: OpenStreetMap'e hoş geldiniz!
@@ -1678,9 +1679,6 @@ tr:
     community: Topluluk
     community_blogs: Üye Blogları
     community_blogs_title: OpenStreetMap üyelerinin blogları
-    make_a_donation:
-      title: OpenStreetMap para bağışı ile destek verebilirsiniz
-      text: Bağış Yapın
     learn_more: Daha Fazla Bilgi
     more: Daha fazla
   user_mailer:
@@ -2276,8 +2274,6 @@ tr:
       user_page_link: kullanıcı sayfası
       anon_edits_link_text: Durumun neden böyle olduğunu öğrenin.
       id_not_configured: iD yapılandırılmamış
-      no_iframe_support: Bu özelliği görüntülemek için gerekli olan HTML iframe tarayıcınız
-        desteklemiyor.
     export:
       title: Dışa Aktar
       manually_select: Fare kullanarak farklı bir alan seç
@@ -2663,13 +2659,10 @@ tr:
       description_without_count: '%{user} tarafından GPX dosyası'
   application:
     basic_auth_disabled: 'HTTP Temel Kimlik Doğrulaması devre dışı: %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 ve 1.0a devre dışı bırakıldı: %{link}'
     permission_denied: Bu eyleme erişme izniniz yok
     require_cookies:
       cookies_needed: Çerezleri devre dışı bırakmış görünüyorsunuz - devam etmeden
         önce lütfen tarayıcınızda çerezleri etkinleştirin.
-    require_admin:
-      not_an_admin: Bu eylemi gerçekleştirmek için yönetici olmanız gerekiyor.
     setup_user_auth:
       blocked_zero_hour: OpenStreetMap web sitesinde önemli bir mesajınız var. Düzenlemelerinizi
         kaydetmeden önce mesajı okumanız gerekiyor.
@@ -2680,7 +2673,6 @@ tr:
         ancak bunları görmeniz gerekiyor.
     settings_menu:
       account_settings: Hesap Ayarları
-      oauth1_settings: OAuth 1 ayarları
       oauth2_applications: OAuth 2 uygulamaları
       oauth2_authorizations: OAuth 2 yetkilendirmeleri
       muted_users: Sessize Alınan Kullanıcılar
@@ -2688,16 +2680,16 @@ tr:
       openid_login_button: Devam et
       openid:
         title: OpenID ile giriş
-        alt: OpenID Bağlantısı ile giriş
+        alt: OpenID logosu
       google:
         title: Google ile giriş
-        alt: Google OpenID ile giriş
+        alt: Google logosu
       facebook:
         title: Facebook ile giriş
-        alt: Facebook Hesabı ile giriş
+        alt: Facebook logosu
       microsoft:
         title: Microsoft ile giriş
-        alt: Microsoft Hesabı ile giriş
+        alt: Microsoft logosu
       github:
         title: GitHub ile giriş
         alt: GitHub Hesabı ile giriş
@@ -2705,30 +2697,6 @@ tr:
         title: Vikipedi ile giriş
         alt: Vikipedi Hesabı ile giriş
   oauth:
-    authorize:
-      title: Hesabınıza erişimi yetkilendirin
-      request_access_html: '%{app_name} uygulaması hesabınıza, %{user}, erişim izni
-        istiyor. Lütfen uygulamanın aşağıdaki özelliklere sahip olmasını isteyip istemediğinizi
-        kontrol edin. İstediğiniz kadar veya az sayıda seçebilirsiniz.'
-      allow_to: 'İstemci uygulamanın aşağıdakilere izin vermesini sağlayın:'
-      allow_read_prefs: kullanıcı tercihlerinizi okuma.
-      allow_write_prefs: kullanıcı tercihlerinizi değiştirme.
-      allow_write_diary: günlük girdiler, yorumlar ve arkadaşlıklar oluşturma.
-      allow_write_api: haritayı değiştirme.
-      allow_read_gpx: özel GPS izlerini okuma.
-      allow_write_gpx: GPS izlerini yükleme.
-      allow_write_notes: notları değiştirme.
-      grant_access: Erişim izni ver
-    authorize_success:
-      title: Erişim isteğine izin verildi
-      allowed_html: '%{app_name} uygulamasının hesabınıza erişimine izin verdiniz.'
-      verification: Doğrulama kodu %{code}.
-    authorize_failure:
-      title: Yetkilendirme isteği başarısız oldu
-      denied: '%{app_name} uygulamasının hesabınıza erişmesini engellediniz.'
-      invalid: Yetkilendirme özelliği geçerli değil.
-    revoke:
-      flash: Özelliği %{application} için iptal ettiniz
     permissions:
       missing: Uygulamanın bu özelliğe erişimine izin vermediniz
     scopes:
@@ -2745,48 +2713,6 @@ tr:
       skip_authorization: Başvuruyu otomatik onayla
     for_roles:
       moderator: Bu izin yalnızca moderatörlerin erişebildiği işlemler içindir
-  oauth_clients:
-    new:
-      title: Yeni bir uygulama kaydedin
-      disabled: OAuth 1 uygulamalarının kaydı devre dışı bırakıldı
-    edit:
-      title: Uygulamanızı düzenleyin
-    show:
-      title: '%{app_name} için OAuth ayrıntıları'
-      key: 'Tüketici anahtarı:'
-      secret: 'Tüketici mahremiyeti:'
-      url: 'İstek Bağlantısı:'
-      access_url: 'Erişim Noktası Bağlantısı:'
-      authorize_url: 'Yetkilendirme Bağlantısı:'
-      support_notice: HMAC-SHA1 (önerilen) ve RSA-SHA1 imzalarını destekliyoruz.
-      edit: Ayrıntıları Düzenle
-      delete: İstemci Sil
-      confirm: Emin misiniz?
-      requests: 'Kullanıcıdan istenen izinler şöyledir:'
-    index:
-      title: OAuth Ayrıntılarım
-      my_tokens: Yetkilendirdiğim Uygulamalarım
-      list_tokens: 'Sizin için belirtilen uygulamalara aşağıdaki özellikler verildi:'
-      application: Uygulama Adı
-      issued_at: Yetki Tarihi
-      revoke: İptal!
-      my_apps: İstemci Uygulamalarım
-      no_apps_html: '%{oauth} standardını kullanarak bizimle birlikte kullanmak için
-        kayıt yaptırmak istediğiniz bir uygulama var mı? Bu hizmete OAuth''dan istekte
-        bulunmadan önce web uygulamanızı kaydettirmeniz gerekir.'
-      oauth: OAuth
-      registered_apps: 'Aşağıdaki istemci uygulamalarını kaydettiniz:'
-      register_new: Uygulamanızı kaydedin
-    form:
-      requests: 'Kullanıcıdan istenen izinler şöyledir:'
-    not_found:
-      sorry: Üzgünüz, bu %{type} bulunamadı.
-    create:
-      flash: Bilgileri başarıyla kaydettirdiniz
-    update:
-      flash: Müşteri bilgilerini başarıyla güncelleştirildi
-    destroy:
-      flash: İstemci uygulaması kaydını yok etti
   oauth2_applications:
     index:
       title: İstemci uygulamalarım
@@ -3032,16 +2958,12 @@ tr:
       are_you_sure: '%{role} görevini %{name} kullanıcısına vermek istediğinize emin
         misiniz?'
       confirm: Onayla
-      fail: '%{name} kullanıcısına %{role} görevi verilemedi. Lütfen hem kullanıcının
-        hem görevin geçerli olduğunu kontrol edin.'
     revoke:
       title: Görev iptalini onayla
       heading: Görev iptalini onayla
       are_you_sure: '%{name} adlı kullanıcıyı %{role} görevinden almak istediğinizden
         emin misiniz?'
       confirm: Onayla
-      fail: '`%{name}'' adlı kullanıcı `%{role}'' görevinden alınamadı. Lütfen kullanıcı
-        ve görevin geçerli olup olmadığını kontrol edin.'
   user_blocks:
     model:
       non_moderator_update: Engelleme yapmak ya da engellemeyi güncellemek için bir

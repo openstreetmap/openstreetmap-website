@@ -1641,7 +1641,6 @@ is:
     gps_traces: GPS ferlar
     gps_traces_tooltip: Sjá alla GPS ferla
     user_diaries: Blogg notenda
-    user_diaries_tooltip: Sjá blogg notenda
     edit_with: Breyta með %{editor}
     tag_line: Frjálsa wiki heimskortið
     intro_header: Velkomin(n) í OpenStreetMap!
@@ -1666,9 +1665,6 @@ is:
     community: Samfélag
     community_blogs: Blogg félaga
     community_blogs_title: Blogg frá meðlimum OpenStreetMap samfélagsins
-    make_a_donation:
-      title: Hjálpaðu OpenStreetMap verkefninu með fjárframlagi
-      text: Styrkja verkefnið
     learn_more: Vita meira
     more: Meira
   user_mailer:
@@ -2320,8 +2316,6 @@ is:
       anon_edits_html: (%{link})
       anon_edits_link_text: Finndu út afhverju.
       id_not_configured: Það er ekki búið að setja upp auðkenni
-      no_iframe_support: Því miður styður vafrinn þinn ekki HTML-iframes, sem er nauðsynlegt
-        ef nota á þennan eiginleika.
     export:
       title: Flytja út
       manually_select: Veldu annað svæði handvirkt
@@ -2717,14 +2711,11 @@ is:
   application:
     basic_auth_disabled: 'Einföld HTTP-auðkenning (Basic Authentication) er óvirk:
       %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 og 1.0a eru óvirk: %{link}'
     auth_disabled_link: https://wiki.openstreetmap.org/wiki/2024_authentication_update
     permission_denied: Þú hefur ekki réttindi til að nota þessa aðgerð
     require_cookies:
       cookies_needed: Þú virðist ekki vera með stuðning við vefkökur í vafranum þínum.
         Þú verður að virkja þann stuðning áður en þú getur haldið áfram.
-    require_admin:
-      not_an_admin: Þú þarft að vera möppudýr til að framkvæma þessa aðgerð.
     setup_user_auth:
       blocked_zero_hour: Þú átt áríðandi skilaboð á OpenStreetMap vefsvæðinu. Þú verður
         að lesa þessi skilaboð áður en þú getur vistað neinar breytingar.
@@ -2736,7 +2727,6 @@ is:
         að skoða þá.
     settings_menu:
       account_settings: Kjörstillingar
-      oauth1_settings: OAuth 1 stillingar
       oauth2_applications: OAuth 2 forrit
       oauth2_authorizations: OAuth 2 auðkenningar
       muted_users: Þaggaðir notendur
@@ -2762,34 +2752,6 @@ is:
         title: Skrá inn með Wikipedia
         alt: Táknmerki Wikipedia
   oauth:
-    authorize:
-      title: Auðkenndu aðgang að notandaaðganginum þínum
-      request_access_html: Forritið %{app_name} hefur óskað eftir að fá aðgang að
-        OpenStreetMap í gegnum notandaaðganginn þinn, %{user}. Merktu við hvað eiginleika
-        þú vilt gefa forritinu leyfi fyrir. Hægt er að haka við hvaða eiginleika sem
-        er.
-      allow_to: 'Leyfa forritinu að:'
-      allow_read_prefs: lesa notandastillingarnar þínar.
-      allow_write_prefs: breyta notandastillingunum þínum.
-      allow_write_diary: búa til bloggfærslur, setja inn athugasemdir og bæta við
-        vinum.
-      allow_write_api: breyta kortagögnunum.
-      allow_read_gpx: lesa einka-GPS-ferlana þína.
-      allow_write_gpx: senda inn GPS ferla.
-      allow_write_notes: breyta minnispunktum.
-      grant_access: Veita aðgang
-    authorize_success:
-      title: Auðkenningarbeiðni samþykkt
-      allowed_html: Þú hefur veitt forritinu %{app_name} aðgang að notandaaðganginum
-        þínum.
-      verification: Sannvottunarkóðinn er %{code}.
-    authorize_failure:
-      title: Auðkenningarbeiðni brást
-      denied: Þú hefur neitað forritinu %{app_name} um aðgang að notandaaðganginum
-        þínum.
-      invalid: Auðkenningarteiknið er ekki gilt.
-    revoke:
-      flash: Þú afturkallaðir aðgangsteiknið fyrir %{application}
     permissions:
       missing: Þú hefur ekki gefið forritinu heimild fyrir aðgang að þessum eiginleikum
     scopes:
@@ -2808,49 +2770,6 @@ is:
       skip_authorization: Samþykkja forrit sjálfvirkt
     for_roles:
       moderator: Þessi heimild er fyrir aðgerðir sem eingöngu tiltækar fyrir umsjónarmenn
-  oauth_clients:
-    new:
-      title: Skrá nýtt forrit
-      disabled: Skráning OAuth 1 forrita hefur verið gerð óvirk
-    edit:
-      title: Breyta forritinu þínu
-    show:
-      title: OAuth stillingar fyrir %{app_name}
-      key: 'Lykill notanda:'
-      secret: 'Leyniorð notanda:'
-      url: 'Slóð á beiðniteikn:'
-      access_url: 'Slóð á aðgangsteikn:'
-      authorize_url: 'Leyfa slóð (URL):'
-      support_notice: Við styðjum HMAC-SHA1 (mælt með) og RSA-SHA1 undirritanir.
-      edit: Breyta þessari skráningu
-      delete: Eyða biðlara
-      confirm: Ertu viss?
-      requests: 'Óska eftir eftirfarandi leyfum frá notendum:'
-    index:
-      title: OAuth stillingar
-      my_tokens: Auðkenndu forritin mín
-      list_tokens: 'Eftirfarandi aðgangsteikn hafa verðið gefin út í þínu nafni til
-        handa forritum:'
-      application: Heiti forrits
-      issued_at: Gefið út þann
-      revoke: Eyða banninu
-      my_apps: Forritin mín
-      no_apps_html: Ert þú að nota forrit sem þú myndir vilja skrá til notkunar hjá
-        okkur með %{oauth} staðlinum? Þú verður að skrá vefforritið áður en það fer
-        að senda OAuth-beiðnir á þessa þjónustu.
-      oauth: OAuth
-      registered_apps: 'Þú hefur skráð eftirfarandi forrit:'
-      register_new: Skrá nýtt forrit
-    form:
-      requests: 'Óska eftir eftirfarandi leyfum frá notandanum:'
-    not_found:
-      sorry: Því miður, þessi %{type} fannst ekki.
-    create:
-      flash: Nýtt OAuth forrit hefur verið skráð
-    update:
-      flash: Uppfærði upplýsingar biðlaraforritsins
-    destroy:
-      flash: Eyðilagði skráningu biðlaraforritsins
   oauth2_applications:
     index:
       title: Forritin mín
@@ -3104,15 +3023,11 @@ is:
       heading: Staðfestu leyfisveitingu
       are_you_sure: Staðfestu að þú viljir veita notandanum „%{name}“ leyfið „%{role}“
       confirm: Staðfesta
-      fail: Gat ekki veitt „%{name}“ leyfið „%{role}“. Staðfestu að notandinn og leyfið
-        séu bæði gild.
     revoke:
       title: Staðfestu leyfissviftingu
       heading: Staðfestu leyfissviftingu
       are_you_sure: Staðfestu að þú viljir svifta notandann „%{name}“ leyfinu „%{role}“
       confirm: Staðfesta
-      fail: Gat ekki svift „%{name}“ leyfinu „%{role}“. Staðfestu að notandinn og
-        leyfið séu bæði gild.
   user_blocks:
     model:
       non_moderator_update: Þú verður að vera stjórnandi til að búa til eða breyta

@@ -1522,6 +1522,7 @@ eo:
     page:
       user_not_found: Uzanto ne ekzistas
       issues_not_found: Ne trovis tian problemon
+      reported_user: Raportita uzanto
       status: Stato
       reports: Raportoj
       last_updated: Laste aktualigita
@@ -1530,6 +1531,12 @@ eo:
         one: '%{count} raporto'
         other: '%{count} raportoj'
       reported_item: Objekto raportita
+      states:
+        ignored: Ignorita
+        open: Malfermita
+        resolved: Solvita
+      older_issues: Pli malnovaj problemoj
+      newer_issues: Pli novaj problemoj
     show:
       title: '%{status} problemo #%{issue_id}'
       reports:
@@ -1618,7 +1625,6 @@ eo:
     gps_traces: GPS-spuroj
     gps_traces_tooltip: Manipuli la GPS-spurojn
     user_diaries: Taglibroj de uzantoj
-    user_diaries_tooltip: Esplori taglibrojn de uzantoj
     edit_with: Redakti per %{editor}
     tag_line: La libera viki-mondmapo
     intro_header: Bonvenon al OpenStreetMap!
@@ -1644,9 +1650,6 @@ eo:
     community: Komunumo
     community_blogs: Taglibroj de komunumo
     community_blogs_title: Taglibroj de anoj de OpenStreetMap-komunumo
-    make_a_donation:
-      title: Subteni OpenStreetMap per mondonaco
-      text: Donaci
     learn_more: Ekscii pli
     more: Pli
   user_mailer:
@@ -2215,8 +2218,6 @@ eo:
       user_page_link: uzantpaĝo
       anon_edits_link_text: Tie ĉi vi sciiĝis kiel.
       id_not_configured: iD ne estas agordita
-      no_iframe_support: Via foliumilo ne subtenas 'HTML iframes', ili estas bezonataj
-        por tiu ĉi eblo.
     export:
       title: Elporti
       manually_select: Permane elektu alian areon.
@@ -2593,13 +2594,10 @@ eo:
       description_without_count: GPX-dosiero de %{user}
   application:
     basic_auth_disabled: 'Baza alira aŭtentigo estas malaktiva: %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 kaj 1.0a estas malaktivaj: %{link}'
     permission_denied: Vi ne rajtas fari tiun ĉi agon
     require_cookies:
       cookies_needed: Ŝajnas, ke vi malaktivigis 'kuketojn' - bonvolu aktivigi 'kuketojn'
         en via foliumilo por pluigi.
-    require_admin:
-      not_an_admin: Vi devas esti administranto por fari tion.
     setup_user_auth:
       blocked_zero_hour: Vi havas urĝan mesaĝon en la retejo OpenStreetMap. Vi devas
         legi la mesaĝon antaŭ ol vi povos konservi viajn redaktojn.
@@ -2610,7 +2608,6 @@ eo:
         akcepti ĝin, sed vi devas legi ĝin.
     settings_menu:
       account_settings: Agordoj pri konto
-      oauth1_settings: Agordoj OAuth 1
       oauth2_applications: Aplikaĵoj OAuth 2
       oauth2_authorizations: Rajtigoj OAuth 2
       muted_users: Silentigitaj uzantoj
@@ -2636,30 +2633,6 @@ eo:
         title: Ensaluti per Vikipedio
         alt: markemblemo de Vikipedio
   oauth:
-    authorize:
-      title: Rajtigi aliron al via konto
-      request_access_html: La aplikaĵo %{app_name} petas pri aliro al la konto de
-        %{user}. Bonvolu kontroli rajtojn, kiujn vi donas al aplikaĵo. Vi povas elekti
-        rajtojn laŭvole.
-      allow_to: 'Permesi al porklienta aplikaĵo:'
-      allow_read_prefs: legi agordojn de uzanto.
-      allow_write_prefs: modifi viajn agordojn de uzanto.
-      allow_write_diary: afiŝi en taglibro, komenti kaj amikiĝi.
-      allow_write_api: redakti la mapon.
-      allow_read_gpx: legi viajn privatajn GPS-spurojn.
-      allow_write_gpx: alŝuti GPS-spurojn.
-      allow_write_notes: modifi rimarkojn.
-      grant_access: Permesi aliron
-    authorize_success:
-      title: Rajtiga peto akceptita
-      allowed_html: Vi permesis al aplikaĵo %{app_name} aliron al via konto.
-      verification: La kontrol-kodon estas %{code}.
-    authorize_failure:
-      title: Rajtiga peto malakceptita
-      denied: Vi malpermesis al aplikaĵo %{app_name} aliron al via konto
-      invalid: La rajtiga ĵetono ne plu validas.
-    revoke:
-      flash: Vi malvalidigis la ĵetonon por %{application}
     permissions:
       missing: Vi ne permesis al aplikaĵo aliri al ĉi tiu eblo
     scopes:
@@ -2678,48 +2651,6 @@ eo:
       skip_authorization: Aŭtomate akcepti aplikaĵojn
     for_roles:
       moderator: Tiu ĉi permeso estas por agoj disponeblaj nur por kontrolantoj
-  oauth_clients:
-    new:
-      title: Registri novan aplikaĵon
-      disabled: Registrado de aplikaĵoj OAuth 1 estas malŝaltita
-    edit:
-      title: Modifi vian aplikaĵon
-    show:
-      title: OAuth-detaloj por %{app_name}
-      key: 'Klienta ŝlosilo:'
-      secret: 'Klienta sekreto:'
-      url: 'Retadreso de petoĵetono:'
-      access_url: 'Retadreso de atingoĵetono:'
-      authorize_url: 'Retadreso de rajtigado:'
-      support_notice: Ni subtenas subskribojn HMAC-SHA1 (konsilinda) kaj RSA-SHA1.
-      edit: Redakti detalojn
-      delete: Forigi klienton
-      confirm: Ĉu vi certas?
-      requests: 'Petado pri la jenaj permesoj de la uzanto:'
-    index:
-      title: Miaj OAuth-detaloj
-      my_tokens: Miaj permesataj aplikaĵoj
-      list_tokens: 'La jenaj ĵetonoj estis aldonitaj al aplikaĵoj komisie de vi:'
-      application: Nomo de aplikaĵo
-      issued_at: Eldonita je
-      revoke: Malvalidigi!
-      my_apps: Miaj klientaj aplikaĵoj
-      no_apps_html: Ĉu vi havas iun aplikaĵon, kiun vi volas registri uzante la normon
-        %{oauth}? Vi devas registri vian retaplikaĵon, antaŭ ĝi eblos fari OAuth-petojn
-        al tiu ĉi servo.
-      oauth: OAuth
-      registered_apps: 'Vi havas la jenajn porklientajn aplikaĵojn registritajn:'
-      register_new: Registri vian aplikaĵon
-    form:
-      requests: 'Peti pri la jenajn permesojn de la uzanto:'
-    not_found:
-      sorry: Bedaŭrinde %{type} ne trovita.
-    create:
-      flash: Sukcese registrita la informon
-    update:
-      flash: Informoj pri kliento estas ĝisdatigitaj sukcese
-    destroy:
-      flash: La porklienta aplikaĵo forigita
   oauth2_applications:
     index:
       title: Miaj klientaj aplikaĵoj
@@ -2961,15 +2892,11 @@ eo:
       heading: Konfirmi donadon de rolo
       are_you_sure: Ĉu vi certe volas doni la rolon '%{role}'  al la uzanto '%{name}'?
       confirm: Konfirmi
-      fail: Ne povas doni rolon '%{role}' al la uzanto '%{name}'. Bonvolu kontroli,
-        ĉu kaj uzanto kaj rolo estas ĝustaj.
     revoke:
       title: Konfirmi nuligo de rolo
       heading: Konfirmi nuligon de rolo
       are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
       confirm: Konfirmi
-      fail: Ne povas nuligi la rolon '%{role}' de la uzanto '%{name}'. Bonvolu kontroli,
-        ĉu kaj uzanto kaj rolo estas ĝustaj.
   user_blocks:
     model:
       non_moderator_update: Vi devas esti kontrolanto por doni aŭ ĝisdatigi blokadon.

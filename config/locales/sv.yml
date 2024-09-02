@@ -1646,7 +1646,6 @@ sv:
     gps_traces: GPS-spår
     gps_traces_tooltip: Visa, ladda upp och ändra GPS-spår.
     user_diaries: Användardagböcker
-    user_diaries_tooltip: Visa användardagböcker
     edit_with: Redigera med %{editor}
     tag_line: Den fria wiki-världskartan
     intro_header: Välkommen till OpenStreetMap!
@@ -1671,9 +1670,6 @@ sv:
     community: Gemenskap
     community_blogs: Gemenskapens bloggar
     community_blogs_title: Bloggar från medlemmar i OpenStreetMap-gemenskapen
-    make_a_donation:
-      title: Stöd OpenStreetMap med en monetär donation
-      text: Donera
     learn_more: Läs mer
     more: Mer
   user_mailer:
@@ -2261,8 +2257,6 @@ sv:
       user_page_link: användarsida
       anon_edits_link_text: Ta reda på varför det är så.
       id_not_configured: iD har inte konfigurerats
-      no_iframe_support: Din webbläsare stöder inte HTML iframes, vilken är nödvändig
-        för den här funktionen.
     export:
       title: Exportera
       manually_select: Välj ett annat område manuellt
@@ -2642,13 +2636,10 @@ sv:
       description_without_count: GPX-fil från %{user}
   application:
     basic_auth_disabled: 'Grundläggande HTTP-autentisering är inaktiverat: %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 och 1.0a är inaktiverade: %{link}'
     permission_denied: Du har inte behörighet för denna åtgärd
     require_cookies:
       cookies_needed: Du verkar ha inaktiverat kakor - aktivera kakor i din webbläsare
         innan du fortsätter.
-    require_admin:
-      not_an_admin: Du måste vara administratör för att utföra denna åtgärd.
     setup_user_auth:
       blocked_zero_hour: Ett brådskande meddelande väntar dig på OpenStreetMaps hemsida.
         Du behöver läsa meddelandet innan du kan spara dina redigeringar.
@@ -2659,7 +2650,6 @@ sv:
         men du måste titta på dem.
     settings_menu:
       account_settings: Kontoinställningar
-      oauth1_settings: OAuth 1-inställningar
       oauth2_applications: OAuth 2-applikationer
       oauth2_authorizations: OAuth 2-auktoriseringar
       muted_users: Tystade användare
@@ -2685,32 +2675,6 @@ sv:
         title: Logga in med Wikipedia
         alt: Wikipedia-logotyp
   oauth:
-    authorize:
-      title: Auktorisera tillgång till ditt konto
-      request_access_html: Applikationen %{app_name} har begärt tillgång till ditt
-        konto, %{user}. Var god kontrollera om du vill att applikationen ska ha dessa
-        möjligheter. Du kan välja eller ta bort hur många val du vill.
-      allow_to: 'Tillåt klientapplikation att:'
-      allow_read_prefs: läs dina användaralternativ.
-      allow_write_prefs: ändra dina användaralternativ.
-      allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
-      allow_write_api: ändra kartan.
-      allow_read_gpx: läs dina privata GPS-spår.
-      allow_write_gpx: ladda upp GPS-spår
-      allow_write_notes: ändra anteckningar.
-      grant_access: Bevilja åtkomst
-    authorize_success:
-      title: Auktoriseringsbegäran tillåten
-      allowed_html: Du har beviljat en applikation %{app_name} tillgång till ditt
-        konto.
-      verification: Verifikationskoden är %{code}.
-    authorize_failure:
-      title: Auktoriseringsbegäran misslyckades
-      denied: Du har blockerat en applikation %{app_name} från tillgång till ditt
-        konto.
-      invalid: Auktoriserings-nyckeln är inte giltig.
-    revoke:
-      flash: Du tagit bort nyckeln för %{application}
     permissions:
       missing: Du har inte gett applikationen åtkomst till den här faciliteten
     scopes:
@@ -2728,48 +2692,6 @@ sv:
     for_roles:
       moderator: Denna behörighet är till för åtgärder som endast är tillgängliga
         för moderatorer
-  oauth_clients:
-    new:
-      title: Registrera en ny applikation
-      disabled: Registrering av OAuth 1-applikationer har inaktiverats
-    edit:
-      title: Redigera ditt tillägg
-    show:
-      title: OAuth-detaljer för %{app_name}
-      key: 'Konsumentnyckel:'
-      secret: 'Konsumenthemlighet:'
-      url: 'URL för anropsnyckel:'
-      access_url: 'URL för tillgångsnyckel:'
-      authorize_url: 'Godkänn URL:'
-      support_notice: Vi stödjer signaturer med HMAC-SHA1 (rekommenderas) och RSA-SHA1.
-      edit: Redigera detaljer
-      delete: Radera klient
-      confirm: Är du säker?
-      requests: 'Begär följande behörigheter från användaren:'
-    index:
-      title: Mina OAuth-detaljer
-      my_tokens: Mina auktoriserade applikationer
-      list_tokens: 'Följande nycklar har utfärdats till applikationer i ditt namn:'
-      application: Applikationsnamn
-      issued_at: Utfärdad den
-      revoke: Återkalla!
-      my_apps: Mina klientapplikationer
-      no_apps_html: Har du ett applikation som du vill registrera för användning hos
-        oss med hjälp av %{oauth}-standarden? Du måste registrera din webbapplikation
-        innan du kan göra OAuth-anropp till den här tjänsten.
-      oauth: OAuth
-      registered_apps: 'Du har följande klientapplikationer registrerade:'
-      register_new: Registrera din applikation
-    form:
-      requests: 'Be om följande behörigheter från användaren:'
-    not_found:
-      sorry: Tyvärr kunde inte %{type} hittas.
-    create:
-      flash: Informationen registrerades framgångsrikt
-    update:
-      flash: Uppdaterade klientinformationen framgångsrikt
-    destroy:
-      flash: Annullerade registreringen av klientapplikationen
   oauth2_applications:
     index:
       title: Mina klientapplikationer
@@ -3017,16 +2939,12 @@ sv:
       are_you_sure: Är du säker på att du vill ge rollen `%{role}' till användaren
         `%{name}'?
       confirm: Bekräfta
-      fail: Kunde inte ge rollen "%{role}" till användare "%{name}". Kontrollera att
-        både användare och roll är korrekta.
     revoke:
       title: Bekräfta återkallning av roll
       heading: Bekräfta återkallande av roll
       are_you_sure: Är du säker på att du vill återkalla rollen `%{role}' från användaren
         `%{name}'?
       confirm: Bekräfta
-      fail: Kunde inte återkalla rollen "%{role}" från användaren "%{name}". Kontrollera
-        att både användaren och rollen är korrekta.
   user_blocks:
     model:
       non_moderator_update: Måste vara en moderator för att skapa eller uppdatera

@@ -1623,7 +1623,6 @@ hu:
     gps_traces: GPS-nyomvonalak
     gps_traces_tooltip: GPS-nyomvonalak kezelése
     user_diaries: Naplók
-    user_diaries_tooltip: Felhasználói naplók megtekintése
     edit_with: 'Szerkesztés a következővel: %{editor}'
     tag_line: A szabad világtérkép
     intro_header: Üdvözöljük az OpenStreetMap-en!
@@ -1648,9 +1647,6 @@ hu:
     community: Közösség
     community_blogs: Közösségi blogok
     community_blogs_title: Blogok az OpenStreetMap közösség tagjaitól
-    make_a_donation:
-      title: Támogasd az OpenStreetMapet pénzadománnyal
-      text: Adományozz
     learn_more: További info
     more: Több
   user_mailer:
@@ -2174,8 +2170,6 @@ hu:
       user_page_link: felhasználói oldal
       anon_edits_link_text: Nézz utána, miért van ez.
       id_not_configured: Az iD nincs beállítva
-      no_iframe_support: A böngésződ nem támogatja a HTML iframes-t, amely ehhez a
-        funkcióhoz szükséges.
     export:
       title: Exportálás
       manually_select: Más terület kézi kijelölése
@@ -2553,9 +2547,6 @@ hu:
     require_cookies:
       cookies_needed: Úgy tűnik, hogy a böngésződben le vannak tiltva a sütik. A folytatáshoz
         engedélyezd őket.
-    require_admin:
-      not_an_admin: Ennek a műveletnek az elvégzéséhez adminisztrátori jogosultsággal
-        kell rendelkezned.
     setup_user_auth:
       blocked_zero_hour: Sürgős üzeneted van az OpenStreetMap weboldalon. A szerkesztésed
         elmentése előtt el kell olvasnod.
@@ -2566,7 +2557,6 @@ hu:
         Ezt nem kell elfogadnod, de meg kell tekintened.
     settings_menu:
       account_settings: Fiók beállításai
-      oauth1_settings: OAuth 1 beállítások
       oauth2_applications: OAuth 2 alkalmazások
       oauth2_authorizations: OAuth 2 engedélyek
       muted_users: Elnémított felhasználók
@@ -2590,31 +2580,6 @@ hu:
         title: Bejelentkezés Wikipédiával
         alt: Wikipédia fiókkal való bejelentkezés
   oauth:
-    authorize:
-      title: A fiókodhoz való hozzáférés engedélyezése
-      request_access_html: Kedves %{user}! A(z) %{app_name} alkalmazás hozzáférést
-        kér a felhasználói fiókodhoz. Kérlek, jelöld, ha azt szeretnéd, hogy az alkalmazás
-        képes legyen az alábbiakra. Annyit választasz ki, amennyit szeretnél.
-      allow_to: 'Az alábbiak engedélyezése a kliensalkalmazásnak:'
-      allow_read_prefs: felhasználói beállítások elolvasása.
-      allow_write_prefs: felhasználói beállítások módosítása.
-      allow_write_diary: naplóbejegyzések, hozzászólások létrehozása és ismerősök
-        hozzáadása.
-      allow_write_api: a térkép módosítása.
-      allow_read_gpx: magán GPS-nyomvonalaid megtekintése.
-      allow_write_gpx: GPS-nyomvonalak feltöltése.
-      allow_write_notes: jegyzet módosítása
-      grant_access: Hozzáférés megadása
-    authorize_success:
-      title: Hozzáférési kérés jóváhagyva
-      allowed_html: '%{app_name} számára hozzáférést biztosítottál a fiókodhoz.'
-      verification: 'Az ellenőrző kód: %{code}.'
-    authorize_failure:
-      title: Az azonosítás sikertelen.
-      denied: '%{app_name} alkalmazástól megtagadtad, hogy hozzáférhessen a fiókodhoz.'
-      invalid: A hitelesítő token érvénytelen.
-    revoke:
-      flash: Visszavontad a(z) %{application} tokenjét
     permissions:
       missing: Nem engedted meg az alkalmazás számára, hogy hozzáférjen ehhez a létesítményhez
     scopes:
@@ -2629,48 +2594,6 @@ hu:
       write_redactions: Térképadatok szerkesztése
       read_email: Felhasználó e-mail-címének elolvasása
       skip_authorization: Alkalmazás automatikus jóváhagyása
-  oauth_clients:
-    new:
-      title: Új alkalmazás regisztrálása
-      disabled: Az OAuth 1 alkalmazások regisztrációja le van tiltva
-    edit:
-      title: Alkalmazásod szerkesztése
-    show:
-      title: '%{app_name} OAuth részletei'
-      key: 'Fogyasztói kulcs:'
-      secret: 'Fogyasztói titok:'
-      url: 'Tokenkérési URL:'
-      access_url: 'Token-hozzáférési URL:'
-      authorize_url: 'Felhatalmazási URL:'
-      support_notice: Támogatjuk a HMAC-SHA1 (ajánlott) és az RSA-SHA1 hitelesítést.
-      edit: Részletek szerkesztése
-      delete: Ügyfél törlése
-      confirm: Biztos vagy benne?
-      requests: 'A következő engedélyek kérése a felhasználótól:'
-    index:
-      title: OAuth részletek
-      my_tokens: Engedélyezett alkalmazások
-      list_tokens: 'A nevedben a következő tokenek lettek kibocsátva alkalmazásokhoz:'
-      application: Alkalmazás neve
-      issued_at: 'Kibocsátva:'
-      revoke: Visszavonás!
-      my_apps: Kliensalkalmazásaim
-      no_apps_html: Van egy olyan alkalmazásod, amit szeretnél regisztrálni a velünk
-        való használathoz a(z) %{oauth} szabvány használatával? Regisztrálnod kell
-        a webalkalmazásod, mielőtt OAuth kéréseket küld ehhez a szolgáltatáshoz.
-      oauth: OAuth
-      registered_apps: 'A következő kliensalkalmazások vannak regisztrálva:'
-      register_new: Alkalmazásod regisztrálása
-    form:
-      requests: 'A következő engedélyek kérése a felhasználótól:'
-    not_found:
-      sorry: Sajnáljuk, ez a(z) %{type} nem található.
-    create:
-      flash: Az információ sikeresen regisztrálva
-    update:
-      flash: A kliens információi sikeresen frissítve
-    destroy:
-      flash: A kliensalkalmazás regisztrációja törölve
   oauth2_applications:
     index:
       title: Kliensalkalmazásaim
@@ -2892,15 +2815,11 @@ hu:
       heading: Szerep kiosztásának megerősítése
       are_you_sure: Biztosan kiosztod '%{name}' felhasználónak a '%{role}' szerepet?
       confirm: Megerősítés
-      fail: '%{name} felhasználónak nem sikerült meadni a %{role} szerepet. Kérjük,
-        ellenőrizd, hogy a felhasználó és a szerep érvényes-e.'
     revoke:
       title: Szerep visszavonásának megerősítése
       heading: Szerep visszavonásának megerősítése
       are_you_sure: Biztosan megfosztod '%{name}' felhasználót '%{role}' szerepétől?
       confirm: Megerősítés
-      fail: A %{role} szerepet nem sikerült visszavonni %{name} felhasználótól. Kérjük,
-        ellenőrizd, hogy a felhasználó és a szerep érvényes-e.
   user_blocks:
     model:
       non_moderator_update: Blokkolás kiosztásához vagy frissítéséhez moderátornak

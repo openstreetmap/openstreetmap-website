@@ -1681,7 +1681,6 @@ pl:
     gps_traces: Ślady GPS
     gps_traces_tooltip: Zarządzanie śladami GPS
     user_diaries: Dzienniki
-    user_diaries_tooltip: Przeglądaj dzienniki użytkownika
     edit_with: Edytuj w %{editor}
     tag_line: Wolna wikimapa świata
     intro_header: Witamy w OpenStreetMap!
@@ -1703,9 +1702,6 @@ pl:
     community: Społeczność
     community_blogs: Blogi społeczności
     community_blogs_title: Blogi członków społeczności OpenStreetMap
-    make_a_donation:
-      title: Wspomóż OpenStreetMap za pomocą darowizny pieniężnej
-      text: Przekaż darowiznę
     learn_more: Dowiedz się więcej
     more: Więcej
   user_mailer:
@@ -2239,8 +2235,6 @@ pl:
       user_page_link: stronie użytkownika
       anon_edits_link_text: Tu dowiesz się dlaczego.
       id_not_configured: iD nie został skonfigurowany
-      no_iframe_support: Używana przeglądarka nie obsługuje HTML iframes, które są
-        niezbędne do tej funkcji.
     export:
       title: Eksportuj
       manually_select: Ręcznie zaznacz inny obszar
@@ -2593,8 +2587,6 @@ pl:
     require_cookies:
       cookies_needed: Wygląda na to, że wyłączono obsługę ciasteczek w przeglądarce.
         Proszę ją włączyć przed kontynuowaniem.
-    require_admin:
-      not_an_admin: Musisz mieć uprawnienia administratora do wykonania tego działania.
     setup_user_auth:
       blocked_zero_hour: Masz pilną wiadomość na stronie OpenStreetMap. Musisz przeczytać
         tę wiadomość, zanim będzie można zapisywać zmiany.
@@ -2605,7 +2597,6 @@ pl:
         ich akceptować, ale musisz się z nimi zapoznać.
     settings_menu:
       account_settings: Ustawienia konta
-      oauth1_settings: Ustawienia OAuth 1
       oauth2_applications: Aplikacje OAuth 2
       oauth2_authorizations: Autoryzacje OAuth 2
     auth_providers:
@@ -2629,31 +2620,6 @@ pl:
         title: Zaloguj się przez Wikipedię
         alt: Zaloguj się przez konto Wikipedii
   oauth:
-    authorize:
-      title: Uwierzytelnij dostęp do konta
-      request_access_html: Aplikacja %{app_name} żąda dostępu do konta użytkownika
-        %{user}. Proszę potwierdzić przyznanie aplikacji poniższych uprawnień. Można
-        wybrać dowolną liczbę opcji.
-      allow_to: 'Zezwól aplikacji klienckiej na:'
-      allow_read_prefs: odczytywanie preferencji konta
-      allow_write_prefs: modyfikowanie preferencji konta
-      allow_write_diary: tworzenie wpisów w dzienniku, dopisywanie komentarzy i nawiązywanie
-        kontaktów.
-      allow_write_api: modyfikowanie mapy
-      allow_read_gpx: odczytywanie prywatnych śladów GPS
-      allow_write_gpx: przesyłanie śladów GPS
-      allow_write_notes: modyfikowanie uwag.
-      grant_access: Przyznaj dostęp
-    authorize_success:
-      title: Dozwolone żądanie uwierzytelnienia
-      allowed_html: Przyznano dostęp do konta aplikacji %{app_name}.
-      verification: Kod weryfikacyjny to %{code}.
-    authorize_failure:
-      title: Nieudane żądanie uwierzytelnienia
-      denied: Odmówiono dostępu do konta aplikacji %{app_name}.
-      invalid: Token uwierzytelnienia jest nieprawidłowy.
-    revoke:
-      flash: Odwołano uprawnienia aplikacji %{application}
     permissions:
       missing: Nie zezwoliłeś aplikacji na dostęp do tej funkcji
     scopes:
@@ -2669,48 +2635,6 @@ pl:
       write_redactions: Redagowanie danych mapy
       read_email: Odczytywanie adresu e-mail użytkownika
       skip_authorization: Automatycznie akceptuj aplikację
-  oauth_clients:
-    new:
-      title: Rejestrowanie nowej aplikacji
-      disabled: Rejestracja aplikacji OAuth 1 została wyłączona
-    edit:
-      title: Edycja aplikacji
-    show:
-      title: Szczegóły OAuth do %{app_name}
-      key: 'Klucz odbiorcy:'
-      secret: 'Sekret odbiorcy:'
-      url: 'URL znacznika zapytania:'
-      access_url: 'URL znaki dostępu:'
-      authorize_url: 'URL upoważnienia:'
-      support_notice: Wspieramy HMAC-SHA1 (zalecane) i sygnatury RSA-SHA1.
-      edit: Edytuj szczegóły
-      delete: Usuń klienta
-      confirm: Jesteś pewien?
-      requests: 'Zapytanie następujących uprawnień ze strony użytkownika:'
-    index:
-      title: Szczegóły uwierzytelnienia OAuth
-      my_tokens: Zarejestrowane programy
-      list_tokens: 'Wydano następujące tokeny aplikacjom w imieniu użytkownika:'
-      application: Nazwa aplikacji
-      issued_at: Czas wydania
-      revoke: Odwołaj!
-      my_apps: Programy klienckie
-      no_apps_html: Poniżej można zarejestrować programy korzystające ze standardu
-        %{oauth}. Programy należy wcześniej zarejestrować, nim będzie można skorzystać
-        z zapytań OAuth do tej usługi.
-      oauth: OAuth
-      registered_apps: 'Zarejestrowano następujące aplikacje klienckie:'
-      register_new: Zarejestruj swoją aplikację
-    form:
-      requests: 'Żądanie następujących uprawnień od użytkowników:'
-    not_found:
-      sorry: Niestety, nie odnaleziono %{type}.
-    create:
-      flash: Zarejestrowano informacje
-    update:
-      flash: Informacje o kliencie zostały pomyślnie zaktualizowane
-    destroy:
-      flash: Usunięto rejestrację aplikacji
   oauth2_applications:
     index:
       title: Moje aplikacje klienckie
@@ -2934,15 +2858,11 @@ pl:
       heading: Potwierdź przyznanie roli
       are_you_sure: Czy na pewno chcesz przyznać rolę „%{role}” użytkownikowi %{name}?
       confirm: Potwierdź
-      fail: Nie można przyznać roli „%{role}” użytkownikowi %{name}. Sprawdź, czy
-        użytkownik i rola są poprawne.
     revoke:
       title: Potwierdź odwołanie roli
       heading: Potwierdź odwołanie roli
       are_you_sure: Czy na pewno chcesz odwołać rolę „%{role}” użytkownikowi %{name}?
       confirm: Potwierdź
-      fail: Nie można odwołać roli „%{role}” użytkownikowi %{name}. Sprawdź, czy użytkownik
-        i rola są poprawne.
   user_blocks:
     model:
       non_moderator_update: Musisz być moderatorem, by ustanowić lub edytować blokadę.

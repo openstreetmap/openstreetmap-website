@@ -1743,7 +1743,6 @@ fr:
     gps_traces: Traces GPS
     gps_traces_tooltip: Gérer les traces GPS
     user_diaries: Journaux des utilisateurs
-    user_diaries_tooltip: Voir les journaux d’utilisateurs
     edit_with: Modifier avec %{editor}
     tag_line: La carte wiki libre du monde
     intro_header: Bienvenue dans OpenStreetMap !
@@ -1769,9 +1768,6 @@ fr:
     community: Communauté
     community_blogs: Blogues de la communauté
     community_blogs_title: Blogues de membres de la communauté OpenStreetMap
-    make_a_donation:
-      title: Soutenez OpenStreetMap avec un don financier
-      text: Faire un don
     learn_more: En savoir plus
     more: Plus
   user_mailer:
@@ -2397,8 +2393,6 @@ fr:
       anon_edits_html: (%{link})
       anon_edits_link_text: Trouvez pourquoi ici.
       id_not_configured: iD n’a pas été configuré
-      no_iframe_support: Votre navigateur ne prend pas en charge les ''iframes HTML'',
-        qui sont nécessaires pour cette fonctionnalité.
     export:
       title: Exporter
       manually_select: Sélectionner manuellement une autre zone
@@ -2801,13 +2795,10 @@ fr:
       description_without_count: Fichier GPX de %{user}
   application:
     basic_auth_disabled: 'L''authentification HTTP de base est désactivée : %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 et 1.0a sont désactivés : %{link}'
     permission_denied: Vous n’avez pas le droit d’accéder à cette action
     require_cookies:
       cookies_needed: Il semble que les témoins (cookies) soient désactivés dans votre
         navigateur. Veuillez les activer avant de continuer.
-    require_admin:
-      not_an_admin: Vous devez être un administrateur pour effectuer cette action.
     setup_user_auth:
       blocked_zero_hour: Vous avez un message urgent sur le site web OpenStreetMap.
         Vous devez lire le message avant de pouvoir enregistrer vos modifications.
@@ -2818,7 +2809,6 @@ fr:
         Vous n’avez pas besoin de les accepter, mais vous devez les visualiser.
     settings_menu:
       account_settings: Paramètres du compte
-      oauth1_settings: Paramètres OAuth 1
       oauth2_applications: Applications OAuth 2
       oauth2_authorizations: Droits OAuth 2
       muted_users: Utilisateurs silencieux
@@ -2844,33 +2834,6 @@ fr:
         title: Se connecter avec Wikipédia
         alt: Logo Wikipédia
   oauth:
-    authorize:
-      title: Autoriser l’accès à votre compte
-      request_access_html: L’application %{app_name} demande l’accès à votre compte,
-        %{user}. Veuillez vérifiez si vous désirez que l’application dispose des droits
-        suivants. Vous pouvez lui accorder autant ou aussi peu de droits que vous
-        le souhaitez.
-      allow_to: 'Autoriser l’application cliente à :'
-      allow_read_prefs: lire vos préférences utilisateur ;
-      allow_write_prefs: modifier vos préférences utilisateur ;
-      allow_write_diary: créer des entrées dans votre journal, faire des commentaires
-        et ajouter des ami(e)s ;
-      allow_write_api: modifier la carte.
-      allow_read_gpx: lire vos traces GPS privées ;
-      allow_write_gpx: téléverser des traces GPS.
-      allow_write_notes: modifier des notes.
-      grant_access: Accorder l’accès
-    authorize_success:
-      title: La demande d’autorisation a été acceptée
-      allowed_html: Vous avez accordé à l’application %{app_name} l’accès à votre
-        compte.
-      verification: Le code de vérification est %{code}.
-    authorize_failure:
-      title: La demande d’autorisation a échoué
-      denied: Vous avez refusé à l’application %{app_name} l’accès à votre compte.
-      invalid: Le jeton d’autorisation n’est pas valide.
-    revoke:
-      flash: Vous avez révoqué le jeton pour %{application}
     permissions:
       missing: Vous n’avez pas autorisé l’application à accéder à cette fonctionnalité
     scopes:
@@ -2891,49 +2854,6 @@ fr:
     for_roles:
       moderator: Cette autorisation concerne les actions disponibles uniquement pour
         les modérateurs
-  oauth_clients:
-    new:
-      title: Inscrire une nouvelle application
-      disabled: L'enregistrement d'applications OAuth 1 a été désactivé
-    edit:
-      title: Modifier votre application
-    show:
-      title: Détails OAuth pour %{app_name}
-      key: 'Clé de l’utilisateur :'
-      secret: 'Secret de l’utilisateur :'
-      url: 'URL du jeton de requête :'
-      access_url: 'URL du jeton d’accès :'
-      authorize_url: 'URL d’autorisation :'
-      support_notice: Nous prenons en charge les signatures HMAC-SHA1 (recommandé)
-        et RSA-SHA1.
-      edit: Modifier les détails
-      delete: Supprimer le client
-      confirm: Êtes-vous sûr ?
-      requests: 'Demande les permissions suivantes à l’utilisateur :'
-    index:
-      title: Mes détails OAuth
-      my_tokens: Mes applications enregistrées
-      list_tokens: 'Les jetons suivants ont été émis aux applications en votre nom :'
-      application: Nom de l’application
-      issued_at: Émis le
-      revoke: Révoquer !
-      my_apps: Mes applications clientes
-      no_apps_html: Avez-vous une application que vous aimeriez inscrire pour son
-        utilisation avec nous via le standard %{oauth} ? Vous devez inscrire votre
-        application web avant qu’elle puisse faire des requêtes OAuth sur ce service.
-      oauth: OAuth
-      registered_apps: 'Vous avez inscrit les applications clientes suivantes :'
-      register_new: Enregistrez votre application
-    form:
-      requests: 'Demander les permissions suivantes à l’utilisateur :'
-    not_found:
-      sorry: Désolé, ce %{type} n’a pas pu être trouvé.
-    create:
-      flash: Informations enregistrées avec succès
-    update:
-      flash: Informations du client enregistrées avec succès
-    destroy:
-      flash: Enregistrement de l’application cliente supprimé
   oauth2_applications:
     index:
       title: Mes applications clientes
@@ -3184,16 +3104,12 @@ fr:
       are_you_sure: Êtes-vous sûr de vouloir octroyer le rôle « %{role} » à l’utilisateur
         « %{name} » ?
       confirm: Confirmer
-      fail: Impossible d’octroyer le rôle « %{role} » à l’utilisateur « %{name} ».
-        Vérifiez que l’utilisateur et le rôle sont valides.
     revoke:
       title: Confirmer la révocation du rôle
       heading: Confirmer la révocation du rôle
       are_you_sure: Êtes-vous sûr de vouloir révoquer le rôle « %{role} » de l’utilisateur
         « %{name} » ?
       confirm: Confirmer
-      fail: Impossible de révoquer le rôle « %{role} » de l’utilisateur « %{name}
-        ». Vérifiez que l’utilisateur et le rôle sont valides.
   user_blocks:
     model:
       non_moderator_update: Vous devez être modérateur pour créer ou modifier un blocage.

@@ -1638,7 +1638,6 @@ zh-CN:
     gps_traces: GPS 轨迹
     gps_traces_tooltip: 管理GPS轨迹
     user_diaries: 用户日记
-    user_diaries_tooltip: 查看用户日记
     edit_with: 使用 %{editor} 编辑
     tag_line: 自由的 Wiki 世界地图
     intro_header: 欢迎访问 OpenStreetMap！
@@ -1660,9 +1659,6 @@ zh-CN:
     community: 社区
     community_blogs: 社区博客
     community_blogs_title: OpenStreetMap 社区成员的博客
-    make_a_donation:
-      title: 通过捐款支持 OpenStreetMap
-      text: 捐款
     learn_more: 了解更多
     more: 更多
   user_mailer:
@@ -2131,7 +2127,6 @@ zh-CN:
       user_page_link: 用户页面
       anon_edits_link_text: 了解为什么这很重要。
       id_not_configured: iD 尚未配置
-      no_iframe_support: 您的浏览器不支持 HTML 嵌入式框架，这是此功能所需要的。
     export:
       title: 导出
       manually_select: 手动选择不同的区域
@@ -2461,19 +2456,15 @@ zh-CN:
       description_without_count: 来自 %{user} 的 GPX 文件
   application:
     basic_auth_disabled: HTTP 基本身份验证已禁用：%{link}
-    oauth_10a_disabled: OAuth 1.0 和 1.0a 已禁用：%{link}
     permission_denied: 您没有权限来执行此操作
     require_cookies:
       cookies_needed: 您似乎停用了 cookie - 请在继续操作前启用您的浏览器 cookie。
-    require_admin:
-      not_an_admin: 您需要成为管理员以执行该操作。
     setup_user_auth:
       blocked_zero_hour: 您在OpenStreetMap网站有一条紧急消息。在您可以保存您的编辑之前，您需要阅读这条消息。
       blocked: 您对 API 的访问已经被阻挡了。请登录到网站以了解更多信息。
       need_to_see_terms: 您对 API 的访问已暂时中止。请登录到网站以查看贡献者条款。您不需要同意，但必须查看它们。
     settings_menu:
       account_settings: 账户设置
-      oauth1_settings: OAuth 1设置
       oauth2_applications: OAuth 2应用程序
       oauth2_authorizations: OAuth 2授权
       muted_users: 已忽视用户
@@ -2499,28 +2490,6 @@ zh-CN:
         title: 使用维基百科登录
         alt: 维基百科标志
   oauth:
-    authorize:
-      title: 授权访问您的账户
-      request_access_html: '%{user}，应用程序 %{app_name} 要求访问您的帐户。请确定您要让此应用程序使用下列功能。您可以按照自己的意思选择几个。'
-      allow_to: 允许客户应用程序：
-      allow_read_prefs: 读取您的用户首选项。
-      allow_write_prefs: 修改您的用户首选项。
-      allow_write_diary: 创建日记，评论和交朋友。
-      allow_write_api: 修改地图。
-      allow_read_gpx: 读取您的私人 GPS 轨迹。
-      allow_write_gpx: 上传 GPS 轨迹。
-      allow_write_notes: 修改注记。
-      grant_access: 授予访问权
-    authorize_success:
-      title: 已允许授权申请
-      allowed_html: 您已授权 %{app_name} 应用访问您的账户。
-      verification: 验证码为 %{code}。
-    authorize_failure:
-      title: 授权请求失败
-      denied: 您已经拒绝应用程序 %{app_name} 访问您的账户。
-      invalid: 授权令牌无效。
-    revoke:
-      flash: 您已经注销 %{application} 的令牌。
     permissions:
       missing: 您未给予应用访问此装置的权限
     scopes:
@@ -2539,46 +2508,6 @@ zh-CN:
       skip_authorization: 自动核准应用
     for_roles:
       moderator: 此权限仅适用于仲裁员可用的操作。
-  oauth_clients:
-    new:
-      title: 注册新应用程序
-      disabled: OAuth 1 应用程序的注册已被禁用
-    edit:
-      title: 编辑您的应用程序
-    show:
-      title: '%{app_name} 的 OAuth 详细信息'
-      key: 用户键：
-      secret: 用户密钥：
-      url: 请求令牌 URL：
-      access_url: 访问令牌 URL：
-      authorize_url: 授权 URL：
-      support_notice: 我们支持 HMAC-SHA1 (推荐)和 RSA-SHA1 签名。
-      edit: 编辑详细信息
-      delete: 删除客户端
-      confirm: 您确定吗？
-      requests: 向用户请求以下权限：
-    index:
-      title: 我的 OAuth 详细信息
-      my_tokens: 我的已授权应用程序
-      list_tokens: 下列令牌已发给您名下的应用程序：
-      application: 应用程序名称
-      issued_at: 发出于
-      revoke: 撤销！
-      my_apps: 我的客户应用程序
-      no_apps_html: 您是否有想要注册使用 %{oauth} 标准的应用程序？您必须先注册您的网页应用程序，才能对这个服务进行 OAuth 要求。
-      oauth: OAuth
-      registered_apps: 您已注册以下客户应用程序：
-      register_new: 注册您的应用程序
-    form:
-      requests: 向用户请求以下权限：
-    not_found:
-      sorry: 对不起，无法找到那个 %{type}。
-    create:
-      flash: 注册信息成功
-    update:
-      flash: 更新客户端信息成功
-    destroy:
-      flash: 已破坏此客户端应用程序注册
   oauth2_applications:
     index:
       title: 我的客户应用程序
@@ -2792,13 +2721,11 @@ zh-CN:
       heading: 确认角色授予
       are_you_sure: 您确定要赋予用户 '%{name}' 角色 '%{role}' 吗?
       confirm: 确认
-      fail: 无法授予用户 '%{name}' 角色 '%{role}'。请检查用户和角色是否都正确。
     revoke:
       title: 确认角色吊销
       heading: 确认角色吊销
       are_you_sure: 您确定要吊销用户 '%{name}' 角色 '%{role}' 吗?
       confirm: 确认
-      fail: 无法吊销用户 '%{name}' 角色 '%{role}'。请检查用户和角色是否都正确。
   user_blocks:
     model:
       non_moderator_update: 必须为仲裁员才能创建或更新一个封禁。

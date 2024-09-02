@@ -25,7 +25,7 @@ ba:
       prompt: Файлды һайлағыҙ
     submit:
       diary_comment:
-        create: Һаҡларға
+        create: Комментарий
       diary_entry:
         create: Баҫтырырға
         update: Яңыртырға
@@ -53,6 +53,11 @@ ba:
       messages:
         invalid_email_address: Ысын электрон почта адресына оҡшамаған
         email_address_not_routable: йүнәлешле түгел
+        display_name_is_user_n: use_n була алмай, әгәр n һеҙҙең ҡулланыусы идентификаторығыҙ
+          булмаһа.
+      models:
+        user_mute:
+          is_already_muted: тауышы инде һүндерелгән
     models:
       acl: Инеүҙе сикләү исемлеге
       changeset: Төҙәтеүҙәр пакеты
@@ -107,6 +112,7 @@ ba:
       diary_entry:
         user: Ҡулланыусы
         title: Тема
+        body: Текст
         latitude: Киңлек
         longitude: Оҙонлоҡ
         language_code: Тел
@@ -160,6 +166,7 @@ ba:
         confidential: Ҡушымта клиент серен сер итеп тоторға мөмкин булған урындарҙа
           ҡулланыласаҡ (үҙ мобиль ҡушымталар һәм бер битле ҡушымталар конфиденциаль
           түгел)
+        redirect_uri: URI өсөн бер юл ҡулланығыҙ
       trace:
         tagstring: өтөр аша
       user_block:
@@ -174,41 +181,41 @@ ba:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: яҡынса 1 сәғәт элек
-        other: яҡынса %{count} сәғәт элек
+        one: '%{count} сәғәт самаһы элек'
+        other: '%{count} сәғәт самаһы элек'
       about_x_months:
-        one: яҡынса 1 ай элек
-        other: яҡынса %{count} ай элек
+        one: '%{count} ай самаһы элек'
+        other: '%{count} ай самаһы элек'
       about_x_years:
-        one: яҡынса 1 йыл элек
-        other: яҡынса %{count} йыл элек
+        one: '%{count} йыл самаһы элек'
+        other: '%{count} йыл самаһы элек'
       almost_x_years:
-        one: 1 йыл элек тиерлек
-        other: '%{count} йыл элек тиерлек'
+        one: '%{count} йыл тирәһе элек'
+        other: '%{count} йыл тирәһе элек'
       half_a_minute: ярты минут элек
       less_than_x_seconds:
-        one: 1 секунд кәм элек
-        other: '%{count} секунд кәм элек'
+        one: '%{count} секундтан аҙ ваҡыт элек'
+        other: '%{count} секундтан аҙ ваҡыт элек'
       less_than_x_minutes:
-        one: 1 минут кәм элек
-        other: '%{count} минут кәм элек'
+        one: '%{count} минуттан аҙ ваҡыт элек'
+        other: '%{count} минуттан аҙ ваҡыт элек'
       over_x_years:
-        one: яҡынса 1 йыл элек
-        other: яҡынса %{count} йыл элек
+        one: '%{count} йылдан ашыу ваҡыт элек'
+        other: '%{count} йылдан ашыу ваҡыт элек'
       x_seconds:
-        one: 1 секунд элек
+        one: '%{count} секунд элек'
         other: '%{count} секунд элек'
       x_minutes:
-        one: 1 минут элек
+        one: '%{count} минут элек'
         other: '%{count} минут элек'
       x_days:
-        one: 1 көн элек
+        one: '%{count} көн элек'
         other: '%{count} көн элек'
       x_months:
-        one: 1 ай элек
+        one: '%{count} ай элек'
         other: '%{count} ай элек'
       x_years:
-        one: 1 йыл элек
+        one: '%{count} йыл элек'
         other: '%{count} йыл элек'
   editor:
     default: Һайланмаған (ҡуйылған %{name})
@@ -239,6 +246,7 @@ ba:
         reopened_at_by_html: Кире асылды %{when} ҡулланыусы %{user}
       rss:
         title: OpenStreetMap Яҙмалары
+        description_all: Яһалған, комментарий бирелгән йәки ябыҡ иҫкәрмәләр исемлеге
         description_area: Һеҙҙең өлкәлә яһалған, комментарий бирелгән йәки ябылған
           яҙмалар исемлеге [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS-яҙмалар ағымы %{id}
@@ -249,6 +257,16 @@ ba:
       entry:
         comment: Комментарий
         full: Тулы текст
+  account:
+    deletions:
+      show:
+        title: Минең иҫәп яҙманы юйырға
+        warning: Иғтибар! Аккаунтты юйыу процесы һуңғы, һәм кире ҡайтарып булмай.
+        delete_account: Аккаунтты юйырға
+        delete_introduction: 'Түбәндәге төймә ярҙамында OpenStreetMap аккаунтты юйырға
+          мөмкин. Түбәндәге нескәлектәргә иғтибар итегеҙ:'
+        delete_profile: Һеҙҙең профилегеҙҙең мәғлүмәттәре, шул иҫәптән аватар, тасуирлама
+          һәм өй адресы юйыласаҡ.
   browse:
     version: Версия
     in_changeset: Төҙәтеүҙәр пакеты

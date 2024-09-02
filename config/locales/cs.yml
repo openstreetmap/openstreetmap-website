@@ -1685,7 +1685,6 @@ cs:
     gps_traces: GPS stopy
     gps_traces_tooltip: Spravovat GPS stopy
     user_diaries: Deníky uživatelů
-    user_diaries_tooltip: Zobrazit deníky uživatelů
     edit_with: Upravit pomocí %{editor}
     tag_line: Otevřená wiki-mapa světa
     intro_header: Vítejte v OpenStreetMap!
@@ -1710,9 +1709,6 @@ cs:
     community: Komunita
     community_blogs: Komunitní blogy
     community_blogs_title: Blogy členů komunity OpenStreetMap
-    make_a_donation:
-      title: Podpořte OpenStreetMap finančním příspěvkem
-      text: Pošlete příspěvek
     learn_more: Více informací
     more: Další
   user_mailer:
@@ -2297,8 +2293,6 @@ cs:
       user_page_link: uživatelské stránce
       anon_edits_link_text: Proč to tak je?
       id_not_configured: iD nebyl nakonfigurován
-      no_iframe_support: Váš prohlížeč nepodporuje vložené HTML rámy (iframes), které
-        jsou pro tuto funkci nezbytné.
     export:
       title: Export
       manually_select: Ručně vybrat jinou oblast
@@ -2683,13 +2677,10 @@ cs:
       description_without_count: GPX soubor od uživatele %{user}
   application:
     basic_auth_disabled: 'HTTP Basic autentizace je zakázaná: %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 a 1.0a jsou zakázané: %{link}'
     permission_denied: Pro přístup k této akci nemáte oprávnění
     require_cookies:
       cookies_needed: Vypadá to, že máte zakázány cookies – před pokračováním si je
         v prohlížeči zapněte.
-    require_admin:
-      not_an_admin: Tuto akci může provést jen správce.
     setup_user_auth:
       blocked_zero_hour: Na webu OpenStreetMap máte urgentní zprávu. Tuto zprávu si
         musíte přečíst, než budete moci ukládat své editace.
@@ -2700,7 +2691,6 @@ cs:
         odsouhlasit, musíte si je ale zobrazit.
     settings_menu:
       account_settings: Nastavení účtu
-      oauth1_settings: Nastavení OAuth 1
       oauth2_applications: Aplikace OAuth 2
       oauth2_authorizations: Autorizace OAuth 2
       muted_users: Ztlumení uživatelé
@@ -2726,30 +2716,6 @@ cs:
         title: Přihlásit se účtem na Wikipedii
         alt: Logo Wikipedie
   oauth:
-    authorize:
-      title: Autorizovat přístup k vašemu účtu
-      request_access_html: Aplikace %{app_name} žádá o přístup k vašemu účtu %{user}.
-        Vyberte si, zda si přejete, aby aplikace měla následující oprávnění. Můžete
-        jich zvolit libovolný počet.
-      allow_to: 'Umožnit klientské aplikaci:'
-      allow_read_prefs: číst vaše uživatelské nastavení.
-      allow_write_prefs: měnit vaše uživatelské nastavení.
-      allow_write_diary: vytvářet deníkové záznamy, komentovat a navazovat přátelství.
-      allow_write_api: upravovat mapu.
-      allow_read_gpx: číst vaše soukromé GPS stopy.
-      allow_write_gpx: nahrávat GPS stopy.
-      allow_write_notes: měnit poznámky.
-      grant_access: Udělit přístup
-    authorize_success:
-      title: Požadavek na autorizaci povolen
-      allowed_html: Udělili jste aplikaci %{app_name} přístup k vašemu účtu.
-      verification: Ověřovací kód je %{code}.
-    authorize_failure:
-      title: Požadavek na autorizaci se nezdařil
-      denied: Odepřeli jste aplikaci %{app_name} přístup k vašemu účtu.
-      invalid: Autorizační token je neplatný.
-    revoke:
-      flash: Přístup pro aplikaci %{application} byl odvolán.
     permissions:
       missing: Aplikaci jste nedovolili přístup k této funkci
     scopes:
@@ -2766,48 +2732,6 @@ cs:
       skip_authorization: Automaticky schválit aplikaci
     for_roles:
       moderator: Toto oprávnění je pro akce dostupné pouze moderátorům
-  oauth_clients:
-    new:
-      title: Registrace nové aplikace
-      disabled: Registrace aplikací OAuth 1 byla zakázána
-    edit:
-      title: Upravit aplikaci
-    show:
-      title: Podrobnosti OAuth pro %{app_name}
-      key: 'Klíč konzumenta (consumer key):'
-      secret: 'Tajemství konzumenta (consumer secret):'
-      url: 'URL tokenu požadavku:'
-      access_url: 'URL přístupového tokenu:'
-      authorize_url: 'Autorizační URL:'
-      support_notice: Podporujeme HMAC-SHA1 (doporučeno) a podpisy RSA-SHA1.
-      edit: Upravit podrobnosti
-      delete: Smazat klienta
-      confirm: Opravdu?
-      requests: 'Uživatelé se žádají o následující oprávnění:'
-    index:
-      title: Moje nastavení OAuth
-      my_tokens: Mé autorizované aplikace
-      list_tokens: 'Aplikacím byly vaším jménem vydány následující přístupové tokeny:'
-      application: Název aplikace
-      issued_at: Vydáno
-      revoke: Odvolat!
-      my_apps: Mé klientské aplikace
-      no_apps_html: Máte nějakou aplikaci používající standard %{oauth}, která by
-        s námi měla spolupracovat? Aplikaci je potřeba nejdříve zaregistrovat, až
-        poté k nám bude moci posílat OAuth požadavky.
-      oauth: OAuth
-      registered_apps: 'Máte zaregistrovány následující klientské aplikace:'
-      register_new: Zaregistrovat aplikaci
-    form:
-      requests: 'Žádat uživatele o následující oprávnění:'
-    not_found:
-      sorry: Je nám líto, ale nepodařilo se najít %{type}.
-    create:
-      flash: Údaje úspěšně zaregistrovány
-    update:
-      flash: Klientské informace úspěšně aktualizovány
-    destroy:
-      flash: Registrace klientské aplikace zrušena
   oauth2_applications:
     index:
       title: Mé klientské aplikace
@@ -3054,15 +2978,11 @@ cs:
       heading: Potvrdit přidělení role
       are_you_sure: Opravdu chtete přidělit roli `%{role}' uživateli `%{name}'?
       confirm: Potvrdit
-      fail: Nelze přidělit roli `%{role}' uživateli `%{name}'. Zkontrolujte prosím,
-        zda jsou uživatel i role platnými údaji.
     revoke:
       title: Potvrdit odebrání role
       heading: Potvrdit odebrání role
       are_you_sure: Opravdu chcete odebrat roli `%{role}' uživateli `%{name}'?
       confirm: Potvrdit
-      fail: Nelze odebrat roli `%{role}' uživateli `%{name}'. Zkontrolujte prosím,
-        zda jsou uživatel i role platnými údaji.
   user_blocks:
     model:
       non_moderator_update: K vytvoření nebo aktualizaci bloku musíte být moderátorem.

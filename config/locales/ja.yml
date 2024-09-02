@@ -1602,7 +1602,6 @@ ja:
     gps_traces: GPSトレース
     gps_traces_tooltip: トレースの管理
     user_diaries: 利用者の日記
-    user_diaries_tooltip: 利用者の日記を閲覧する
     edit_with: '%{editor} で編集'
     tag_line: 自由なウィキ世界地図
     intro_header: OpenStreetMap へようこそ!
@@ -1624,9 +1623,6 @@ ja:
     community: コミュニティ
     community_blogs: コミュニティ ブログ
     community_blogs_title: OpenStreetMap コミュニティのメンバーからのブログ
-    make_a_donation:
-      title: 金銭を寄贈して OpenStreetMap を支援
-      text: 寄付
     learn_more: 詳細
     more: その他
   user_mailer:
@@ -2062,7 +2058,6 @@ ja:
       user_page_link: 利用者ページ
       anon_edits_link_text: なぜそうなのかを調べる。
       id_not_configured: iDが設定されていません。
-      no_iframe_support: あなたのブラウザーは、この機能に必須の HTML iframe に未対応です。
     export:
       title: エクスポート
       manually_select: ドラッグして別の領域を選択
@@ -2383,19 +2378,15 @@ ja:
       description_without_count: '%{user} による GPX ファイル'
   application:
     basic_auth_disabled: 'HTTP Basic認証は無効化されています: %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 および 1.0a は無効化されています: %{link}'
     permission_denied: その処理をする権限がありません
     require_cookies:
       cookies_needed: ブラウザーの Cookie が無効になっているようです。続行する前にブラウザーの Cookie を有効にしてください。
-    require_admin:
-      not_an_admin: この作業を行うには、管理者になる必要があります。
     setup_user_auth:
       blocked_zero_hour: OpenStreetMap Web サイトに緊急のメッセージがあります。まずメッセージを読まないと、編集内容を保存することができません。
       blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
       need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
     settings_menu:
       account_settings: アカウント設定
-      oauth1_settings: OAuth 1 設定
       oauth2_applications: OAuth 2 アプリケーション
       oauth2_authorizations: OAuth 2 認証
       muted_users: ミュートした利用者
@@ -2421,28 +2412,6 @@ ja:
         title: ウィキペディアでログイン
         alt: ウィキペディアロゴ
   oauth:
-    authorize:
-      title: あなたのアカウントへのアクセスの認証
-      request_access_html: アプリケーション %{app_name} があなたのアカウント%{user} への接続許可を求めています。そのアプリケーションに以下を許可してもよいかどうかを確認してください。単独もしくは複数の許可を与えることができます。
-      allow_to: 'クライアント アプリケーションに以下の操作を許可する:'
-      allow_read_prefs: 自分の利用者設定を読み込む。
-      allow_write_prefs: 自分の利用者設定を変更する。
-      allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
-      allow_write_api: 地図を変更する。
-      allow_read_gpx: 自分の非公開GPSトレースを読み込む。
-      allow_write_gpx: GPSトレースをアップロードする。
-      allow_write_notes: メモを変更する。
-      grant_access: アクセスを許可
-    authorize_success:
-      title: 認証リクエストが成功しました
-      allowed_html: アプリケーション %{app_name} によるあなたのアカウントへのアクセスを許可しました。
-      verification: 検証コードは %{code} です。
-    authorize_failure:
-      title: 認証リクエストに失敗しました
-      denied: アプリケーション %{app_name} によるあなたのアカウントへのアクセスを拒否しました。
-      invalid: 認証トークンが有効ではありません。
-    revoke:
-      flash: '%{application} へのトークンを失効しました。'
     permissions:
       missing: この機能についてアプリケーションにアクセスを許可していません。
     scopes:
@@ -2458,46 +2427,6 @@ ja:
       skip_authorization: 自動的に申請を承認する
     for_roles:
       moderator: モデレータ専用アクション用の権限
-  oauth_clients:
-    new:
-      title: アプリケーションの新規登録
-      disabled: OAuth 1アプリケーションの登録が無効化されました
-    edit:
-      title: アプリケーションの編集
-    show:
-      title: '%{app_name} の OAuth の詳細'
-      key: 'コンシューマー キー:'
-      secret: 'コンシューマー シークレット:'
-      url: 'リクエスト トークン URL:'
-      access_url: 'アクセス トークン URL:'
-      authorize_url: '承認 URL:'
-      support_notice: HMAC-SHA1 署名 (推奨) および RSA-SHA1 署名に対応しています。
-      edit: 詳細を編集
-      delete: クライアントを削除
-      confirm: 本当によろしいですか?
-      requests: '利用者が以下の許可をリクエストしています:'
-    index:
-      title: 自分の OAuth の詳細
-      my_tokens: 認証を許可したアプリケーション
-      list_tokens: 'アプリケーションに対してあなたの名前で以下のトークンが許可されています:'
-      application: アプリケーション名
-      issued_at: 発行日時
-      revoke: 取り消す!
-      my_apps: クライアント アプリケーション
-      no_apps_html: OSMのサイトで使用するアプリケーションを新しく %{oauth} で登録するにはOAuthリクエストの前にあらかじめwebから登録しておく必要があります。
-      oauth: OAuth
-      registered_apps: '以下のクライアント アプリケーションが登録済みです:'
-      register_new: アプリケーションの登録
-    form:
-      requests: '利用者が以下の許可をリクエストしています:'
-    not_found:
-      sorry: 申し訳ありませんが、この %{type} は見つかりませんでした。
-    create:
-      flash: 正常に登録完了しました。
-    update:
-      flash: クライアント情報の更新が正常に終了しました
-    destroy:
-      flash: 破棄されたクライアント アプリケーションの登録
   oauth2_applications:
     index:
       title: クライアント アプリケーション
@@ -2704,13 +2633,11 @@ ja:
       heading: 権限付与の確認
       are_you_sure: 利用者「%{name}」に「%{role}」権限を本当に与えますか?
       confirm: 確認
-      fail: 利用者「%{name}」に「%{role}」権限を付与できませんでした。利用者および権限が両方とも正しいか確認してください。
     revoke:
       title: 権限取り消しの確認
       heading: 権限取り消しの確認
       are_you_sure: 利用者「%{name}」の「%{role}」権限を本当に取り消しますか?
       confirm: 確認
-      fail: 利用者「%{name}」の「%{role}」権限を取り消せませんでした。利用者および権限が両方とも正しいか確認してください。
   user_blocks:
     model:
       non_moderator_update: ブロックの作成/更新にはモデレーター権限が必要です。

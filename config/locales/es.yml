@@ -1723,7 +1723,6 @@ es:
     gps_traces: Trazas GPS
     gps_traces_tooltip: Gestiona las trazas GPS
     user_diaries: Diarios de usuario
-    user_diaries_tooltip: Ver diarios de usuario
     edit_with: Editar con %{editor}
     tag_line: El wikimapamundi libre
     intro_header: ¡Bienvenido a OpenStreetMap!
@@ -1749,9 +1748,6 @@ es:
     community: Comunidad
     community_blogs: Blogs de la comunidad
     community_blogs_title: Blogs de miembros de la comunidad de OpenStreetMap
-    make_a_donation:
-      title: Apoya a OpenStreetMap con una donación monetaria
-      text: Hacer una donación
     learn_more: Más información
     more: Más
   user_mailer:
@@ -2354,8 +2350,6 @@ es:
       user_page_link: página de usuario
       anon_edits_link_text: Descubre a qué se debe.
       id_not_configured: iD no ha sido configurado
-      no_iframe_support: Tu navegador no soporta iframes HTML, que son necesarios
-        para esta funcionalidad.
     export:
       title: Exportar
       manually_select: Seleccionar manualmente un área diferente
@@ -2751,13 +2745,10 @@ es:
       description_without_count: Archivo GPX de %{user}
   application:
     basic_auth_disabled: 'La autenticación básica de HTTPS está desactivada: %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 y 1.0a están desactivados: %{link}'
     permission_denied: No tienes permisos para realizar esa acción
     require_cookies:
       cookies_needed: Parece que tienes las cookies deshabilitadas. Habilita las cookies
         en tu navegador antes de continuar.
-    require_admin:
-      not_an_admin: Necesitas ser un administrador para realizar esa acción.
     setup_user_auth:
       blocked_zero_hour: Tienes un mensaje urgente en el sitio web de OpenStreetMap.
         Debes leer el mensaje para poder guardar tus ediciones.
@@ -2768,7 +2759,6 @@ es:
         pero debes conocerlos.
     settings_menu:
       account_settings: Configuración de la cuenta
-      oauth1_settings: Otras configuraciones
       oauth2_applications: Aplicaciones de OAuth 2
       oauth2_authorizations: Autorizaciones de OAuth 2
       muted_users: Usuarios silenciados
@@ -2794,30 +2784,6 @@ es:
         title: Inicia sesión con Wikipedia
         alt: Logotipo de Wikipedia
   oauth:
-    authorize:
-      title: Autorizar el acceso a tu cuenta
-      request_access_html: La aplicación %{app_name} solicita acceso a tu cuenta,
-        %{user}. Comprueba si deseas que la aplicación tenga las siguientes capacidades.
-        Puedes elegir tantas o tan pocas como quieras.
-      allow_to: 'Permitir a la aplicación cliente:'
-      allow_read_prefs: leer tus preferencias de usuario.
-      allow_write_prefs: modificar tus preferencias de usuario.
-      allow_write_diary: crear entradas en el diario, comentarios y hacer amigos.
-      allow_write_api: modificar el mapa.
-      allow_read_gpx: leer tus trazas GPS privadas.
-      allow_write_gpx: subir trazas GPS.
-      allow_write_notes: cambiar notas.
-      grant_access: Otorgar acceso
-    authorize_success:
-      title: Solicitud de autorización permitida
-      allowed_html: Has otorgado acceso a tu cuenta a la aplicación %{app_name}.
-      verification: El código de verificación es %{code}.
-    authorize_failure:
-      title: Falló la solicitud de autorización
-      denied: Has denegado a la aplicación %{app_name} el acceso a tu cuenta.
-      invalid: El token de autorización no es válido.
-    revoke:
-      flash: Revocaste el token para %{application}
     permissions:
       missing: No has permitido que la aplicación acceda a esta instalación.
     scopes:
@@ -2836,48 +2802,6 @@ es:
       skip_authorization: Auto aprobar aplicación
     for_roles:
       moderator: Este permiso es para acciones disponibles solo para moderadores.
-  oauth_clients:
-    new:
-      title: Registrar una nueva aplicación
-      disabled: Se ha deshabilitado el registro de aplicaciones OAuth 1
-    edit:
-      title: Editar tu aplicación
-    show:
-      title: Detalles de OAuth de %{app_name}
-      key: 'Clave de Consumidor:'
-      secret: 'Secreto de consumidor:'
-      url: 'URL de token de solicitud:'
-      access_url: 'URL de token de acceso:'
-      authorize_url: 'URL de autorización:'
-      support_notice: Soportamos HMAC-SHA1 (recomendado) y firmas RSA-SHA1.
-      edit: Editar detalles
-      delete: Eliminar cliente
-      confirm: ¿Estás seguro?
-      requests: 'Solicitando los siguientes permisos del usuario:'
-    index:
-      title: Mis datos OAuth
-      my_tokens: Mis aplicaciones autorizadas
-      list_tokens: 'Se han emitido los siguientes tokens para aplicaciones en tu nombre:'
-      application: Nombre de la aplicación
-      issued_at: Emitido el
-      revoke: ¡Revocar!
-      my_apps: Mis aplicaciones cliente
-      no_apps_html: ¿Tienes una aplicación que te gustaría registrar para usar con
-        nosotros utilizando el estándar %{oauth}? Debes registrar tu aplicación web
-        antes de que puedas hacer solicitudes OAuth a este servicio.
-      oauth: OAuth
-      registered_apps: 'Tienes las siguientes aplicaciones cliente registradas:'
-      register_new: Registra tu aplicación
-    form:
-      requests: 'Solicita los siguientes permisos del usuario:'
-    not_found:
-      sorry: Lo sentimos, ese %{type} no puede ser encontrado.
-    create:
-      flash: Información registrada exitosamente
-    update:
-      flash: Actualizada la información del cliente exitosamente
-    destroy:
-      flash: Destruido el registro de aplicación del cliente
   oauth2_applications:
     index:
       title: Mis aplicaciones de cliente
@@ -3127,16 +3051,12 @@ es:
       are_you_sure: ¿Estás seguro de que deseas otorgar el rol `%{role}' al usuario
         `%{name}'?
       confirm: Confirmar
-      fail: No pudo otorgarse el rol `%{role}' al usuario `%{name}'. Comprueba que
-        el usuario y el rol sean válidos.
     revoke:
       title: Confirmar revocación de rol
       heading: Confirmar revocación de rol
       are_you_sure: ¿Estás seguro de que deseas revocar el rol `%{role}' del usuario
         `%{name}'?
       confirm: Confirmar
-      fail: No se pudo revocar el rol `%{role}' del usuario `%{name}'. Comprueba que
-        el usuario y el rol sean válidos.
   user_blocks:
     model:
       non_moderator_update: Debes ser un moderador para poder crear o actualizar un

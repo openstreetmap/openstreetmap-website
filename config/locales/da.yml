@@ -1535,6 +1535,7 @@ da:
     page:
       user_not_found: Brugeren findes ikke
       issues_not_found: Sag ikke fundet
+      reported_user: Repporteret bruger
       status: Status
       reports: Rapporter
       last_updated: Sidst opdateret
@@ -1543,6 +1544,12 @@ da:
         one: '%{count} rapport'
         other: '%{count} rapporter'
       reported_item: Rapporteret element
+      states:
+        ignored: Ignoreret
+        open: Åben
+        resolved: Løst
+      older_issues: Ældre problemer
+      newer_issues: Nyere problemer
     show:
       title: '%{status} Sag #%{issue_id}'
       reports:
@@ -1633,7 +1640,6 @@ da:
     gps_traces: GPS-spor
     gps_traces_tooltip: Håndtér GPS-spor
     user_diaries: Brugerblogs
-    user_diaries_tooltip: Vis brugerblogs
     edit_with: Redigér med %{editor}
     tag_line: Det frie Wiki-verdenskort
     intro_header: Velkommen til OpenStreetMap!
@@ -1659,9 +1665,6 @@ da:
     community: Fællesskabet
     community_blogs: Blogs fra bidragsydere
     community_blogs_title: Blogs fra medlemmer af OpenStreetMap-fællesskabet
-    make_a_donation:
-      title: Støt OpenStreetMap med en donation
-      text: Donér
     learn_more: Lær mere
     more: Mere
   user_mailer:
@@ -2249,8 +2252,6 @@ da:
       user_page_link: brugerside
       anon_edits_link_text: Find ud af hvorfor.
       id_not_configured: iD er ikke blevet konfigureret
-      no_iframe_support: Din browser understøtter ikke HTML-iframes, hvilket er nødvendigt
-        for denne funktion.
     export:
       title: Eksportér
       manually_select: Vælg et andet område manuelt
@@ -2632,13 +2633,10 @@ da:
       description_without_count: GPX fil fra %{user}
   application:
     basic_auth_disabled: 'Basal HTTP-godkendelse (Basic Auth) er deaktiveret: %{link}'
-    oauth_10a_disabled: 'OAuth 1.0 og 1.0a er deaktiveret: %{link}'
     permission_denied: Du har ikke rettigheder til at udføre den handling
     require_cookies:
       cookies_needed: Du har tilsyneladende deaktiveret cookies i din browser. Aktivér
         cookies før du fortsætter.
-    require_admin:
-      not_an_admin: Du skal være administrator for at udføre denne handling.
     setup_user_auth:
       blocked_zero_hour: Du har en vigtig besked på OpenStreetMap-hjemmesiden. Du
         skal læse denne besked, før du kan gemme dine redigeringer.
@@ -2649,7 +2647,6 @@ da:
         men du skal læse dem.
     settings_menu:
       account_settings: Kontoindstillinger
-      oauth1_settings: OAuth 1-indstillinger
       oauth2_applications: OAuth 2-applikationer
       oauth2_authorizations: OAuth 2-autorisationer
       muted_users: Stillegjorte Brugere
@@ -2675,30 +2672,6 @@ da:
         title: Log ind med Wikipedia
         alt: Wikipedia-logo
   oauth:
-    authorize:
-      title: Tillad adgang til din konto
-      request_access_html: Programmet %{app_name} anmoder om adgang til din konto,
-        %{user}. Kontroller, om du vil tillade adgang til følgende funktioner. Du
-        kan vælge lige så mange eller så få, som du ønsker.
-      allow_to: 'Tillad klient-applikationen at:'
-      allow_read_prefs: læse dine brugerpræferencer.
-      allow_write_prefs: ændre dine brugeralternativer.
-      allow_write_diary: oprette blogindlæg, kommentarer og indgå venskaber.
-      allow_write_api: ændre kortet.
-      allow_read_gpx: læse dine private GPS-spor.
-      allow_write_gpx: overfør GPS-spor.
-      allow_write_notes: ændre bemærkninger.
-      grant_access: Tillad adgang
-    authorize_success:
-      title: Anmodning om tilladelse godkendt
-      allowed_html: Du har givet programmet %{app_name} adgang til din konto.
-      verification: Bekræftelseskoden er %{code}.
-    authorize_failure:
-      title: Anmodning om tilladelse mislykkedes
-      denied: Du har nægtet programmet %{app_name} adgang til din konto.
-      invalid: Godkendelse token er ikke gyldigt.
-    revoke:
-      flash: Du har tilbagekaldt adgang for %{application}
     permissions:
       missing: Du har ikke givet applikationen adgang til denne facilitet
     scopes:
@@ -2717,48 +2690,6 @@ da:
       skip_authorization: Godkend applikation automatisk
     for_roles:
       moderator: Denne tilladelse er til handlinger, der kun er tilgængelige for moderatorer
-  oauth_clients:
-    new:
-      title: Registrere en ny applikation
-      disabled: Registrering af OAuth 1-applikationer er blevet deaktiveret
-    edit:
-      title: Redigere din applikation
-    show:
-      title: OAuth detaljer for %{app_name}
-      key: 'Forbrugernøgle:'
-      secret: 'Forbrugerhemmelighed:'
-      url: 'Request Token URL:'
-      access_url: 'Access Token URL:'
-      authorize_url: 'Godkend URL:'
-      support_notice: Vi understøtter HMAC-SHA1- (anbefales) og RSA-SHA1-signaturer.
-      edit: Redigér detaljer
-      delete: Slet klient
-      confirm: Er du sikker?
-      requests: 'Anmoder brugeren om følgende tilladelser:'
-    index:
-      title: Mine OAuth-detaljer
-      my_tokens: Mine godkendte programmer
-      list_tokens: 'De følgende nøgler er blevet udstedt til programmer i dit navn:'
-      application: Programnavn
-      issued_at: Udstedt
-      revoke: Tilbagekald!
-      my_apps: Mine klientprogrammer
-      no_apps_html: Har du et program, du gerne vil registrere til brug med os ved
-        hjælp af %{oauth} standarden? Du skal registrere dit Webprogram, før det kan
-        foretage OAuth anmodninger til denne tjeneste.
-      oauth: OAuth
-      registered_apps: 'Du har registreret følgende klientprogrammer:'
-      register_new: Registrer dit program
-    form:
-      requests: 'Anmod brugeren om følgende tilladelser:'
-    not_found:
-      sorry: Beklager, men %{type} kunne ikke findes.
-    create:
-      flash: Registrering af informationen lykkedes
-    update:
-      flash: Opdateret klientoplysninger
-    destroy:
-      flash: Annulerede klient programmets registrering
   oauth2_applications:
     index:
       title: Mine klientapplikationer
@@ -3003,15 +2934,11 @@ da:
       heading: Bekræft rolletildeling
       are_you_sure: Er du sikker på du vil tildele rollen '%{role}' til brugeren '%{name}'?
       confirm: Bekræft
-      fail: Kunne ikke give rollen '%{role}' til brugeren '%{name}'. Kontroller at
-        brugeren og rollen begge er gyldige.
     revoke:
       title: Bekræft fratagelse af rolle
       heading: Bekræft fratagelse af rolle
       are_you_sure: Er du sikker på du vil fratage rollen "%{role}" fra brugeren "%{name}"?
       confirm: Bekræft
-      fail: Kunne ikke fratage rollen %{role} fra brugeren %{name}. Kontroller at
-        brugeren og rollen begge er gyldige.
   user_blocks:
     model:
       non_moderator_update: Skal være en moderator for at oprette eller opdatere en
