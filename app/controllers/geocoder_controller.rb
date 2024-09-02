@@ -206,13 +206,18 @@ class GeocoderController < ApplicationController
     if query = params[:query]
       query.strip!
 
-      if latlon = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
-                  query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/)
-        params.merge!(latlon_to_decdeg(latlon.named_captures.compact)).delete(:query)
+      if match = query.match(/^(?<ns>[NS])\s*#{dms_regexp('ns')}\W*(?<ew>[EW])\s*#{dms_regexp('ew')}$/) ||
+                 query.match(/^#{dms_regexp('ns')}\s*(?<ns>[NS])\W*#{dms_regexp('ew')}\s*(?<ew>[EW])$/)
+        captures = match.named_captures.compact
+        params.merge! :lat => dms_to_decdeg("ns", "ns", captures),
+                      :lon => dms_to_decdeg("ew", "ew", captures)
+        params.delete(:query)
 
-      elsif latlon = query.match(%r{^(?<lat>[+-]?\d+(?:\.\d+)?)(?:\s+|\s*[,/]\s*)(?<lon>[+-]?\d+(?:\.\d+)?)$})
-        params.merge!(:lat => latlon["lat"], :lon => latlon["lon"]).delete(:query)
-
+      elsif match = query.match(%r{^(?<ns>[+-]?)\s*#{dms_regexp('ns')}(?:\s+|\s*[,/]\s*)(?<ew>[+-]?)\s*#{dms_regexp('ew')}$})
+        captures = match.named_captures.compact
+        params.merge! :lat => dms_to_decdeg("ns", "+-", captures),
+                      :lon => dms_to_decdeg("ew", "+-", captures)
+        params.delete(:query)
         params[:latlon_digits] = true
       end
     end
@@ -228,20 +233,16 @@ class GeocoderController < ApplicationController
     /x
   end
 
-  def latlon_to_decdeg(captures)
-    { :lat => dms_to_decdeg("ns", captures), :lon => dms_to_decdeg("ew", captures) }
-  end
-
-  def dms_to_decdeg(directions, captures)
+  def dms_to_decdeg(prefix, directions, captures)
     positive_direction, negative_direction = directions.chars
-    sign = captures.fetch(directions, positive_direction).casecmp?(negative_direction) ? "-" : ""
-    deg = if captures["#{directions}m"] || captures["#{directions}s"]
-            d = BigDecimal(captures.fetch("#{directions}d", "0"))
-            m = BigDecimal(captures.fetch("#{directions}m", "0"))
-            s = BigDecimal(captures.fetch("#{directions}s", "0"))
+    sign = captures.fetch(prefix, positive_direction).casecmp?(negative_direction) ? "-" : ""
+    deg = if captures["#{prefix}m"] || captures["#{prefix}s"]
+            d = BigDecimal(captures.fetch("#{prefix}d", "0"))
+            m = BigDecimal(captures.fetch("#{prefix}m", "0"))
+            s = BigDecimal(captures.fetch("#{prefix}s", "0"))
             (d + (m / 60) + (s / 3600)).round(6).to_s("F")
           else
-            captures.fetch("#{directions}d", "0")
+            captures.fetch("#{prefix}d", "0")
           end
     "#{sign}#{deg}"
   end

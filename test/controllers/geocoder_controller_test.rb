@@ -49,6 +49,36 @@ class GeocoderControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Test identification of basic lat/lon pairs with degrees
+  def test_identify_latlon_basic_d
+    [
+      "25.79° -80.27°",
+      "25.79°/-80.27°",
+      "25.79°, -80.27°",
+      "+25.79° -80.27°",
+      "+25.79°/-80.27°",
+      "+25.79°, -80.27°"
+    ].each do |code|
+      latlon_check code, 25.79, -80.27
+      assert @controller.params[:latlon_digits]
+    end
+  end
+
+  ##
+  # Test identification of basic lat/lon pairs with degrees/mins
+  def test_identify_latlon_basic_dm
+    [
+      "25° 47.70852 -80° 16.61904",
+      "25° 47.70852, -80° 16.61904",
+      "25° 47.70852' -80° 16.61904'",
+      "25° 47.70852', -80° 16.61904'"
+    ].each do |code|
+      latlon_check code, 25.795142, -80.276984
+      assert @controller.params[:latlon_digits]
+    end
+  end
+
+  ##
   # Test identification of lat/lon pairs using N/E with degrees
   def test_identify_latlon_ne_d
     [
