@@ -27,7 +27,6 @@
           <% end %>
         </ul>
       </div>
-      <%= link_to t("layouts.history"), history_path, :class => "btn btn-outline-primary geolink flex-grow-1" %>
     </div>
   </nav>
   <nav class='secondary d-flex gap-2 align-items-center'>
@@ -40,6 +39,9 @@
           <% end -%>
         </li>
       <% end %>
+      <li class="compact-hide nav-item">
+        <%= link_to t("layouts.history"), history_path, :class => header_nav_link_class(history_path) %>
+      </li>
       <li class="compact-hide nav-item">
         <%= link_to t("layouts.export"), export_path, :class => header_nav_link_class(export_path) %>
       </li>
@@ -72,6 +74,7 @@
               <% end -%>
             </li>
           <% end %>
+          <li><%= link_to t("layouts.history"), history_path, :class => "dropdown-item" %></li>
           <li><%= link_to t("layouts.export"), export_path, :class => "dropdown-item" %></li>
           <li><%= link_to t("layouts.gps_traces"), traces_path, :class => "dropdown-item" %></li>
           <li><%= link_to t("layouts.user_diaries"), diary_entries_path, :class => "dropdown-item" %></li>
