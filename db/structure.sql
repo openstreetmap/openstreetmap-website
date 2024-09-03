@@ -2416,6 +2416,13 @@ CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_
 
 
 --
+-- Name: index_diary_entries_on_searchable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diary_entries_on_searchable ON public.diary_entries USING gin (searchable);
+
+
+--
 -- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3350,6 +3357,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240903180252'),
 ('20240903014508'),
 ('20240822121603'),
 ('20240813070506'),
