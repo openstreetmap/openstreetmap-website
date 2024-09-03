@@ -59,10 +59,7 @@ module Api
       recipient = create(:user)
       sender = create(:user)
 
-      sender_token = create(:oauth_access_token,
-                            :resource_owner_id => sender.id,
-                            :scopes => %w[send_messages consume_messages])
-      sender_auth = bearer_authorization_header(sender_token.token)
+      sender_auth = bearer_authorization_header(sender, :scopes => %w[send_messages consume_messages])
 
       msg = build(:message)
 
@@ -101,10 +98,7 @@ module Api
       recipient = create(:user)
 
       sender = create(:user)
-      sender_token = create(:oauth_access_token,
-                            :resource_owner_id => sender.id,
-                            :scopes => %w[send_messages consume_messages])
-      sender_auth = bearer_authorization_header(sender_token.token)
+      sender_auth = bearer_authorization_header(sender, :scopes => %w[send_messages consume_messages])
 
       assert_no_difference "Message.count" do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
@@ -160,20 +154,9 @@ module Api
       sender = create(:user)
       user3 = create(:user)
 
-      sender_token = create(:oauth_access_token,
-                            :resource_owner_id => sender.id,
-                            :scopes => %w[consume_messages])
-      sender_auth = bearer_authorization_header(sender_token.token)
-
-      recipient_token = create(:oauth_access_token,
-                               :resource_owner_id => recipient.id,
-                               :scopes => %w[consume_messages])
-      recipient_auth = bearer_authorization_header(recipient_token.token)
-
-      user3_token = create(:oauth_access_token,
-                           :resource_owner_id => user3.id,
-                           :scopes => %w[send_messages consume_messages])
-      user3_auth = bearer_authorization_header(user3_token.token)
+      sender_auth = bearer_authorization_header(sender, :scopes => %w[consume_messages])
+      recipient_auth = bearer_authorization_header(recipient, :scopes => %w[consume_messages])
+      user3_auth = bearer_authorization_header(user3, :scopes => %w[send_messages consume_messages])
 
       msg = create(:message, :unread, :sender => sender, :recipient => recipient)
 
@@ -264,15 +247,8 @@ module Api
       sender = create(:user)
       user3 = create(:user)
 
-      recipient_token = create(:oauth_access_token,
-                               :resource_owner_id => recipient.id,
-                               :scopes => %w[consume_messages])
-      recipient_auth = bearer_authorization_header(recipient_token.token)
-
-      user3_token = create(:oauth_access_token,
-                           :resource_owner_id => user3.id,
-                           :scopes => %w[send_messages consume_messages])
-      user3_auth = bearer_authorization_header(user3_token.token)
+      recipient_auth = bearer_authorization_header(recipient, :scopes => %w[consume_messages])
+      user3_auth = bearer_authorization_header(user3, :scopes => %w[send_messages consume_messages])
 
       msg = create(:message, :unread, :sender => sender, :recipient => recipient)
 
@@ -339,22 +315,13 @@ module Api
 
     def test_delete
       recipient = create(:user)
-      recipient_token = create(:oauth_access_token,
-                               :resource_owner_id => recipient.id,
-                               :scopes => %w[consume_messages])
-      recipient_auth = bearer_authorization_header(recipient_token.token)
+      recipient_auth = bearer_authorization_header(recipient, :scopes => %w[consume_messages])
 
       sender = create(:user)
-      sender_token = create(:oauth_access_token,
-                            :resource_owner_id => sender.id,
-                            :scopes => %w[send_messages consume_messages])
-      sender_auth = bearer_authorization_header(sender_token.token)
+      sender_auth = bearer_authorization_header(sender, :scopes => %w[send_messages consume_messages])
 
       user3 = create(:user)
-      user3_token = create(:oauth_access_token,
-                           :resource_owner_id => user3.id,
-                           :scopes => %w[send_messages consume_messages])
-      user3_auth = bearer_authorization_header(user3_token.token)
+      user3_auth = bearer_authorization_header(user3, :scopes => %w[send_messages consume_messages])
 
       msg = create(:message, :read, :sender => sender, :recipient => recipient)
 
@@ -407,22 +374,13 @@ module Api
 
     def test_list_messages
       user1 = create(:user)
-      user1_token = create(:oauth_access_token,
-                           :resource_owner_id => user1.id,
-                           :scopes => %w[send_messages consume_messages])
-      user1_auth = bearer_authorization_header(user1_token.token)
+      user1_auth = bearer_authorization_header(user1, :scopes => %w[send_messages consume_messages])
 
       user2 = create(:user)
-      user2_token = create(:oauth_access_token,
-                           :resource_owner_id => user2.id,
-                           :scopes => %w[send_messages consume_messages])
-      user2_auth = bearer_authorization_header(user2_token.token)
+      user2_auth = bearer_authorization_header(user2, :scopes => %w[send_messages consume_messages])
 
       user3 = create(:user)
-      user3_token = create(:oauth_access_token,
-                           :resource_owner_id => user3.id,
-                           :scopes => %w[send_messages consume_messages])
-      user3_auth = bearer_authorization_header(user3_token.token)
+      user3_auth = bearer_authorization_header(user3, :scopes => %w[send_messages consume_messages])
 
       # create some messages between users
       # user | inbox | outbox
@@ -523,10 +481,7 @@ module Api
 
     def test_paged_list_messages_asc
       recipient = create(:user)
-      recipient_token = create(:oauth_access_token,
-                               :resource_owner_id => recipient.id,
-                               :scopes => %w[consume_messages])
-      recipient_auth = bearer_authorization_header(recipient_token.token)
+      recipient_auth = bearer_authorization_header(recipient, :scopes => %w[consume_messages])
 
       sender = create(:user)
 
@@ -559,10 +514,7 @@ module Api
 
     def test_paged_list_messages_desc
       recipient = create(:user)
-      recipient_token = create(:oauth_access_token,
-                               :resource_owner_id => recipient.id,
-                               :scopes => %w[consume_messages])
-      recipient_auth = bearer_authorization_header(recipient_token.token)
+      recipient_auth = bearer_authorization_header(recipient, :scopes => %w[consume_messages])
 
       sender = create(:user)
 

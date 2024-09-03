@@ -252,10 +252,10 @@ module Api
     # read preferences
     def test_show_using_token
       user = create(:user)
-      token = create(:oauth_access_token, :resource_owner_id => user.id, :scopes => %w[read_prefs])
+      auth_header = bearer_authorization_header(user, :scopes => %w[read_prefs])
       create(:user_preference, :user => user, :k => "key", :v => "value")
 
-      get user_preference_path(:preference_key => "key"), :headers => bearer_authorization_header(token.token)
+      get user_preference_path(:preference_key => "key"), :headers => auth_header
       assert_response :success
     end
 
@@ -264,10 +264,10 @@ module Api
     # by other methods.
     def test_show_using_token_fail
       user = create(:user)
-      token = create(:oauth_access_token, :resource_owner_id => user.id)
+      auth_header = bearer_authorization_header(user, :scopes => %w[])
       create(:user_preference, :user => user, :k => "key", :v => "value")
 
-      get user_preference_path(:preference_key => "key"), :headers => bearer_authorization_header(token.token)
+      get user_preference_path(:preference_key => "key"), :headers => auth_header
       assert_response :forbidden
     end
   end

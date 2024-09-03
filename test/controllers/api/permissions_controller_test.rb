@@ -34,10 +34,8 @@ module Api
 
     def test_permissions_oauth2
       user = create(:user)
-      token = create(:oauth_access_token,
-                     :resource_owner_id => user.id,
-                     :scopes => %w[read_prefs write_api])
-      get permissions_path, :headers => bearer_authorization_header(token.token)
+      auth_header = bearer_authorization_header(user, :scopes => %w[read_prefs write_api])
+      get permissions_path, :headers => auth_header
       assert_response :success
       assert_select "osm > permissions", :count => 1 do
         assert_select "permission", :count => 2

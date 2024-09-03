@@ -79,18 +79,14 @@ module Api
       user = create(:user,
                     :home_lat => 12.1, :home_lon => 23.4,
                     :languages => ["en"])
-      good_token = create(:oauth_access_token,
-                          :resource_owner_id => user.id,
-                          :scopes => %w[read_prefs])
-      bad_token = create(:oauth_access_token,
-                         :resource_owner_id => user.id,
-                         :scopes => %w[])
+      good_auth = bearer_authorization_header(user, :scopes => %w[read_prefs])
+      bad_auth = bearer_authorization_header(user, :scopes => %w[])
       other_user = create(:user,
                           :home_lat => 12.1, :home_lon => 23.4,
                           :languages => ["en"])
 
       # check that we can fetch our own details as XML with read_prefs
-      get api_user_path(:id => user.id), :headers => bearer_authorization_header(good_token.token)
+      get api_user_path(:id => user.id), :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -98,7 +94,7 @@ module Api
       check_xml_details(user, true, false)
 
       # check that we can fetch a different user's details as XML with read_prefs
-      get api_user_path(:id => other_user.id), :headers => bearer_authorization_header(good_token.token)
+      get api_user_path(:id => other_user.id), :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -106,7 +102,7 @@ module Api
       check_xml_details(other_user, false, false)
 
       # check that we can fetch our own details as XML without read_prefs
-      get api_user_path(:id => user.id), :headers => bearer_authorization_header(bad_token.token)
+      get api_user_path(:id => user.id), :headers => bad_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -114,7 +110,7 @@ module Api
       check_xml_details(user, false, false)
 
       # check that we can fetch our own details as JSON with read_prefs
-      get api_user_path(:id => user.id, :format => "json"), :headers => bearer_authorization_header(good_token.token)
+      get api_user_path(:id => user.id, :format => "json"), :headers => good_auth
       assert_response :success
       assert_equal "application/json", response.media_type
 
@@ -126,7 +122,7 @@ module Api
       check_json_details(js, user, true, false)
 
       # check that we can fetch a different user's details as JSON with read_prefs
-      get api_user_path(:id => other_user.id, :format => "json"), :headers => bearer_authorization_header(good_token.token)
+      get api_user_path(:id => other_user.id, :format => "json"), :headers => good_auth
       assert_response :success
       assert_equal "application/json", response.media_type
 
@@ -138,7 +134,7 @@ module Api
       check_json_details(js, other_user, false, false)
 
       # check that we can fetch our own details as JSON without read_prefs
-      get api_user_path(:id => user.id, :format => "json"), :headers => bearer_authorization_header(bad_token.token)
+      get api_user_path(:id => user.id, :format => "json"), :headers => bad_auth
       assert_response :success
       assert_equal "application/json", response.media_type
 
@@ -190,21 +186,16 @@ module Api
       user = create(:user,
                     :home_lat => 12.1, :home_lon => 23.4,
                     :languages => ["en"])
-      good_token = create(:oauth_access_token,
-                          :resource_owner_id => user.id,
-                          :scopes => %w[read_prefs])
-      bad_token = create(:oauth_access_token,
-                         :resource_owner_id => user.id)
-      email_token = create(:oauth_access_token,
-                           :resource_owner_id => user.id,
-                           :scopes => %w[read_prefs read_email])
+      good_auth = bearer_authorization_header(user, :scopes => %w[read_prefs])
+      bad_auth = bearer_authorization_header(user, :scopes => %w[])
+      email_auth = bearer_authorization_header(user, :scopes => %w[read_prefs read_email])
 
       # check that we can't fetch details as XML without read_prefs
-      get user_details_path, :headers => bearer_authorization_header(bad_token.token)
+      get user_details_path, :headers => bad_auth
       assert_response :forbidden
 
       # check that we can fetch details as XML without read_email
-      get user_details_path, :headers => bearer_authorization_header(good_token.token)
+      get user_details_path, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -212,7 +203,7 @@ module Api
       check_xml_details(user, true, false)
 
       # check that we can fetch details as XML with read_email
-      get user_details_path, :headers => bearer_authorization_header(email_token.token)
+      get user_details_path, :headers => email_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
 
@@ -220,11 +211,11 @@ module Api
       check_xml_details(user, true, true)
 
       # check that we can't fetch details as JSON without read_prefs
-      get user_details_path(:format => "json"), :headers => bearer_authorization_header(bad_token.token)
+      get user_details_path(:format => "json"), :headers => bad_auth
       assert_response :forbidden
 
       # check that we can fetch details as JSON without read_email
-      get user_details_path(:format => "json"), :headers => bearer_authorization_header(good_token.token)
+      get user_details_path(:format => "json"), :headers => good_auth
       assert_response :success
       assert_equal "application/json", response.media_type
 
@@ -236,7 +227,7 @@ module Api
       check_json_details(js, user, true, false)
 
       # check that we can fetch details as JSON with read_email
-      get user_details_path(:format => "json"), :headers => bearer_authorization_header(email_token.token)
+      get user_details_path(:format => "json"), :headers => email_auth
       assert_response :success
       assert_equal "application/json", response.media_type
 
@@ -325,10 +316,10 @@ module Api
       user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
       user2 = create(:user, :description => "test2", :terms_agreed => Date.yesterday)
       user3 = create(:user, :description => "test3", :terms_agreed => Date.yesterday)
-      good_token = create(:oauth_access_token, :resource_owner_id => user1.id, :scopes => %w[read_prefs])
-      bad_token = create(:oauth_access_token, :resource_owner_id => user1.id, :scopes => %w[])
+      good_auth = bearer_authorization_header(user1, :scopes => %w[read_prefs])
+      bad_auth = bearer_authorization_header(user1, :scopes => %w[])
 
-      get api_users_path, :params => { :users => user1.id }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => user1.id }, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
@@ -337,7 +328,7 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
-      get api_users_path, :params => { :users => user2.id }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => user2.id }, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 1 do
@@ -346,7 +337,7 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
@@ -355,7 +346,7 @@ module Api
         check_xml_details(user3, false, false)
       end
 
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :headers => bearer_authorization_header(bad_token.token)
+      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}" }, :headers => bad_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 2 do
@@ -364,7 +355,7 @@ module Api
         check_xml_details(user3, false, false)
       end
 
-      get api_users_path, :params => { :users => user1.id, :format => "json" }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => user1.id, :format => "json" }, :headers => good_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -372,7 +363,7 @@ module Api
       assert_equal 1, js["users"].count
       check_json_details(js["users"][0], user1, true, false)
 
-      get api_users_path, :params => { :users => user2.id, :format => "json" }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => user2.id, :format => "json" }, :headers => good_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -380,7 +371,7 @@ module Api
       assert_equal 1, js["users"].count
       check_json_details(js["users"][0], user2, false, false)
 
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => good_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -389,7 +380,7 @@ module Api
       check_json_details(js["users"][0], user1, true, false)
       check_json_details(js["users"][1], user3, false, false)
 
-      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => bearer_authorization_header(bad_token.token)
+      get api_users_path, :params => { :users => "#{user1.id},#{user3.id}", :format => "json" }, :headers => bad_auth
       assert_response :success
       assert_equal "application/json", response.media_type
       js = ActiveSupport::JSON.decode(@response.body)
@@ -398,17 +389,17 @@ module Api
       check_json_details(js["users"][0], user1, false, false)
       check_json_details(js["users"][1], user3, false, false)
 
-      get api_users_path, :params => { :users => create(:user, :suspended).id }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => create(:user, :suspended).id }, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
 
-      get api_users_path, :params => { :users => create(:user, :deleted).id }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => create(:user, :deleted).id }, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
 
-      get api_users_path, :params => { :users => 0 }, :headers => bearer_authorization_header(good_token.token)
+      get api_users_path, :params => { :users => 0 }, :headers => good_auth
       assert_response :success
       assert_equal "application/xml", response.media_type
       assert_select "user", :count => 0
