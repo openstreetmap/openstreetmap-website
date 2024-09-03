@@ -8,25 +8,23 @@
   <a href="#" id="menu-icon"></a>
   <nav class='primary'>
     <%= content_for :header %>
-    <div class="btn-group">
-      <div id="edit_tab" class="btn-group flex-grow-1">
-        <%= link_to t("layouts.edit"),
-                    edit_path,
-                    :class => "btn btn-outline-primary geolink editlink",
-                    :id => "editanchor",
-                    :data => { :editor => preferred_editor } %>
-        <button class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split flex-grow-0' type='button' data-bs-toggle='dropdown'></button>
-        <ul class='dropdown-menu'>
-          <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
-            <li>
-              <%= link_to t("layouts.edit_with", :editor => t("editor.#{editor}.description")),
-                          edit_path(:editor => editor),
-                          :data => { :editor => editor },
-                          :class => "geolink editlink dropdown-item" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+    <div id="edit_tab" class="btn-group">
+      <%= link_to t("layouts.edit"),
+                  edit_path,
+                  :class => "btn btn-outline-primary geolink editlink",
+                  :id => "editanchor",
+                  :data => { :editor => preferred_editor } %>
+      <button class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split flex-grow-0' type='button' data-bs-toggle='dropdown'></button>
+      <ul class='dropdown-menu'>
+        <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
+          <li>
+            <%= link_to t("layouts.edit_with", :editor => t("editor.#{editor}.description")),
+                        edit_path(:editor => editor),
+                        :data => { :editor => editor },
+                        :class => "geolink editlink dropdown-item" %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </nav>
   <nav class='secondary d-flex gap-2 align-items-center'>
