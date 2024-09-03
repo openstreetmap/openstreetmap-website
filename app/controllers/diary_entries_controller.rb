@@ -48,6 +48,9 @@ class DiaryEntriesController < ApplicationController
       if params[:language]
         @title = t ".in_language_title", :language => Language.find(params[:language]).english_name
         entries = entries.where(:language_code => params[:language])
+      elsif params[:query].present?
+        @title = t ".search_results_title"
+        entries = DiaryEntry.search_by_title_and_body(params[:query])
       else
         candidate_codes = preferred_languages.flat_map(&:candidates).uniq.map(&:to_s)
         @languages = Language.where(:code => candidate_codes).in_order_of(:code, candidate_codes)

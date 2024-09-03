@@ -35,6 +35,16 @@ class DiaryEntry < ApplicationRecord
   has_many :subscriptions, :class_name => "DiaryEntrySubscription"
   has_many :subscribers, :through => :subscriptions, :source => :user
 
+  include PgSearch::Model
+  pg_search_scope :search_by_title_and_body,
+                  :against => [:title, :body],
+                  :using => {
+                    :tsearch => {
+                      :dictionary => "simple",
+                      :tsvector_column => "searchable"
+                    }
+                  }
+
   scope :visible, -> { where(:visible => true) }
 
   validates :title, :presence => true, :length => 1..255, :characters => true
