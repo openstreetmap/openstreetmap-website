@@ -717,7 +717,8 @@ CREATE TABLE public.diary_entries (
     longitude double precision,
     language_code character varying DEFAULT 'en'::character varying NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    body_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL
+    body_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('simple'::regconfig, (COALESCE(title, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('simple'::regconfig, COALESCE(body, ''::text)), 'B'::"char"))) STORED
 );
 
 
@@ -3349,6 +3350,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240903014508'),
 ('20240822121603'),
 ('20240813070506'),
 ('20240724194738'),
