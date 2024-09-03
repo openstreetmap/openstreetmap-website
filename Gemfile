@@ -10,6 +10,9 @@ gem "json"
 # Use postgres as the database
 gem "pg"
 
+# Use postgres search
+gem "pg_search"
+
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
 # Pin the dependentent sass-embedded to avoid deprecation warnings in bootstrap
