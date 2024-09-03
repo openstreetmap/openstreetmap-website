@@ -199,10 +199,6 @@ class Node < ApplicationRecord
     save_with_history!
   end
 
-  def tags_as_hash
-    tags
-  end
-
   def tags
     @tags ||= node_tags.to_h { |t| [t.k, t.v] }
   end

@@ -85,10 +85,6 @@ class OldNode < ApplicationRecord
 
   attr_writer :tags
 
-  def tags_as_hash
-    tags
-  end
-
   # Pretend we're not in any ways
   def ways
     []
