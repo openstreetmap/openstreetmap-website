@@ -88,8 +88,4 @@ class ApplicationHelperTest < ActionView::TestCase
     date = friendly_date_ago(Time.now.utc - 4.months)
     assert_match %r{^<time title=".*">4 months ago</time>$}, date
   end
-
-  def test_body_class; end
-
-  def test_header_nav_link_class; end
 end

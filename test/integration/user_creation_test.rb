@@ -171,13 +171,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   # Check that the user can successfully recover their password
-  def test_lost_password_recovery_success
-    # Open the lost password form
-    # Submit the lost password form
-    # Check the e-mail
-    # Submit the reset password token
-    # Check that the password has changed, and the user can login
-  end
+  # def test_lost_password_recovery_success
+  #   Open the lost password form
+  #   Submit the lost password form
+  #   Check the e-mail
+  #   Submit the reset password token
+  #   Check that the password has changed, and the user can login
+  # end
 
   def test_user_create_redirect
     new_email = "redirect_tester@osm.org"
