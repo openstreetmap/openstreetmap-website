@@ -88,12 +88,6 @@ end
 
 class UserApiCapabilityTest < ActiveSupport::TestCase
   test "user preferences" do
-    # a user with no tokens
-    capability = ApiCapability.new nil
-    [:index, :show, :update_all, :update, :destroy].each do |act|
-      assert capability.cannot? act, UserPreference
-    end
-
     # A user with empty tokens
     token = create(:oauth_access_token)
     capability = ApiCapability.new token

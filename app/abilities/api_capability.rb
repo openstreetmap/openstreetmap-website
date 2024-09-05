@@ -5,7 +5,7 @@ class ApiCapability
 
   def initialize(token)
     if Settings.status != "database_offline"
-      user = (User.find(token.resource_owner_id) if token.respond_to?(:resource_owner_id))
+      user = User.find(token.resource_owner_id)
 
       if user&.active?
         can [:create, :comment, :close, :reopen], Note if scope?(token, :write_notes)
