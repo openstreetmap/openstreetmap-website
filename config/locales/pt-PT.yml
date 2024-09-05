@@ -114,9 +114,9 @@ pt-PT:
       relation_tag: Etiqueta da relação
       report: Denúncia
       session: Sessão
-      trace: Trajeto
-      tracepoint: Ponto do trajeto
-      tracetag: Etiqueta do trajeto
+      trace: Rota
+      tracepoint: Ponto de Rota
+      tracetag: Etiqueta de Rota
       user: Utilizador
       user_preference: Preferências do utilizador
       user_token: Token do utilizador
@@ -442,8 +442,8 @@ pt-PT:
         relation: relação
     start_rjs:
       feature_warning: A carregar %{num_features} elementos. Isto poderá deixar o
-        navegador lento ou sem resposta. Tens a certeza de que queres ver estes elementos
-        todos?
+        navegador lento ou sem resposta. Tens a certeza de que queres mostrar estes
+        dados?
       load_data: Carregar Dados
       loading: A carregar…
     tag_details:
@@ -496,12 +496,6 @@ pt-PT:
       anonymous: Anónimo
       no_edits: (sem edições)
       view_changeset_details: Ver detalhes do conjunto de alterações
-    changesets:
-      id: ID
-      saved_at: Gravado em
-      user: Utilizador
-      comment: Comentário
-      area: Área
     index:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
@@ -681,6 +675,8 @@ pt-PT:
       comment: Comentário
       newer_comments: Comentários mais recentes
       older_comments: Comentários mais antigos
+    new:
+      heading: Adicionar um comentário à seguinte discussão de entrada no diário?
   doorkeeper:
     errors:
       messages:
@@ -922,6 +918,7 @@ pt-PT:
           college: Edifício de faculdade
           commercial: Edifício comercial
           construction: Edifício em construção
+          cowshed: Vacaria
           detached: Casa isolada
           dormitory: Dormitório
           duplex: Casa dupla
@@ -951,6 +948,7 @@ pt-PT:
           shed: Barracão
           stable: Estábulo
           static_caravan: Caravana
+          sty: Pocilga
           temple: Edíficio de templo
           terrace: Edifício geminado
           train_station: Edifício de estação dos comboios
@@ -1554,6 +1552,7 @@ pt-PT:
     page:
       user_not_found: O utilizador não existe
       issues_not_found: Não se encontraram problemas desse tipo
+      reported_user: Utilizador Denunciado
       status: Estado
       reports: Denúncias
       last_updated: Última atualização
@@ -1562,6 +1561,12 @@ pt-PT:
         one: '%{count} denúncia'
         other: '%{count} denúncias'
       reported_item: Elemento denunciado
+      states:
+        ignored: Ignorada
+        open: Aberta
+        resolved: Resolvida
+      older_issues: Problemas antigos
+      newer_issues: Problemas recentes
     show:
       title: '%{status} Denúncia #%{issue_id}'
       reports:
@@ -1668,6 +1673,7 @@ pt-PT:
       de manutenção.
     osm_read_only: A base de dados do OpenStreetMap encontra-se em modo de leitura
       devido a trabalhos de manutenção.
+    nothing_to_preview: Nada para pré-visualizar.
     donate: Apoia o OpenStreetMap %{link} para o Fundo de Atualização do Hardware.
     help: Ajuda
     about: Sobre
@@ -1711,15 +1717,21 @@ pt-PT:
       see_their_profile: Podes ver o perfil dele em %{userurl}.
       see_their_profile_html: Podes ver o seu perfil em %{userurl}.
       befriend_them: Também podes adicioná-lo como amigo em %{befriendurl}.
-      befriend_them_html: Também os podes adicionar como amigos em %{befriendurl}.
+      befriend_them_html: Também podes adicionar este utilizador como amigo em %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Parece que o teu ficheiro GPX %{trace_name} com a descrição
+        %{trace_description} e as seguintes etiquetas: %{tags}'
       description_with_tags_html: 'Parece que o teu ficheiro GPX %{trace_name} com
         a descrição %{trace_description} e as etiquetas: %{tags}'
+      description_with_no_tags: Parece que o teu ficheiro GPX %{trace_name} com a
+        descrição %{trace_description} e sem etiquetas
       description_with_no_tags_html: Parece que o teu ficheiro GPX %{trace_name} com
         a descrição %{trace_description} e sem etiquetas
     gpx_failure:
       hi: Olá, %{to_user}.
       failed_to_import: 'falhou na importação. Eis o erro:'
+      more_info: Podes encontrar mais informações sobre falhas de importação de ficheiros
+        GPX e como as evitar em %{url}.
       more_info_html: Podes encontrar mais informações sobre falhas de importação
         GPX e como evitá-las em %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=pt
@@ -1729,7 +1741,10 @@ pt-PT:
       loaded:
         one: carregado com sucesso com %{trace_points} de %{count} point possível.
         other: carregado com sucesso com %{trace_points} de %{count} pontos possíveis.
-      all_your_traces_html: Todos os trajetos GPX que enviaste podem ser encontrados
+      trace_location: A tua rota está disponível em %{trace_url}
+      all_your_traces: Todas as tuas rotas GPX enviadas com sucesso podem ser encontradas
+        em %{url}
+      all_your_traces_html: Todas as rotas GPX que enviaste podem ser encontradas
         em %{url}.
       subject: '[OpenStreetMap] Importação de GPX bem-sucedida'
     signup_confirm:
@@ -2028,6 +2043,7 @@ pt-PT:
     richtext_field:
       edit: Editar
       preview: Pré-visualizar
+      help: Ajuda
   site:
     about:
       next: Seguinte
@@ -2106,9 +2122,9 @@ pt-PT:
         credit_title_html: Como creditar o OpenStreetMap
         credit_1_html: 'Onde usar dados do OpenStreetMap, é necessário fazer as duas
           coisas seguintes:'
-        credit_2_1: Forneça os devidos créditos ao OpenStreetMap exibindo o nosso
+        credit_2_1: Fornecer os devidos créditos ao OpenStreetMap, exibindo o nosso
           aviso de direitos de autor.
-        credit_2_2: Deixe claro que os dados estão disponíveis sob a Licença de Base
+        credit_2_2: Deixar claro que os dados estão disponíveis sob a Licença de Base
           de Dados Abertos.
         credit_3_html: Para o aviso de direitos de autor, temos vários requisitos
           para a sua exibição, dependendo da forma como usa os nossos dados. Por exemplo,
@@ -2254,7 +2270,7 @@ pt-PT:
       title: Exportar
       manually_select: Selecionar manualmente outra área
       licence: Licença
-      licence_details_html: Os dados do OpenStreetMap são licenciados sob %{odbl_link}
+      licence_details_html: Os dados do OpenStreetMap são licenciados sob a %{odbl_link}
         (ODbL).
       odbl: Licença de Base de Dados Aberta de Open Data Commons
       too_large:
@@ -2631,7 +2647,6 @@ pt-PT:
         other: Ficheiro GPX com %{count} pontos de %{user}
       description_without_count: Ficheiro GPX de %{user}
   application:
-    basic_auth_disabled: 'A Autenticação Básica HTTP está desativada: %{link}'
     permission_denied: Não tens permissões para realizar essa operação
     require_cookies:
       cookies_needed: Parece que tens os "cookies" desativados - por favor, ativa-os
@@ -2650,25 +2665,26 @@ pt-PT:
       oauth2_authorizations: Autorizações OAuth 2
       muted_users: Utilizadores Silenciados
     auth_providers:
+      openid_url: URL OpenID
       openid_login_button: Continuar
       openid:
         title: Iniciar sessão com OpenID
-        alt: Iniciar sessão com um URL do OpenID
+        alt: Logótipo OpenID
       google:
         title: Iniciar sessão com Google
-        alt: Iniciar sessão com um OpenID do Google
+        alt: Logótipo Google
       facebook:
         title: Iniciar sessão com Facebook
-        alt: Iniciar sessão com uma conta Facebook
+        alt: Logótipo Facebook
       microsoft:
         title: Iniciar sessão com Microsoft
-        alt: Iniciar sessão com uma conta Microsoft
+        alt: Logótipo Microsoft
       github:
         title: Iniciar sessão com GitHub
-        alt: Iniciar sessão com uma conta GitHub
+        alt: Logótipo GitHub
       wikipedia:
         title: Iniciar sessão com a Wikipédia
-        alt: Iniciar sessão com uma conta Wikipédia
+        alt: Logótipo Wikipédia
   oauth:
     permissions:
       missing: Não deste permissão à aplicação para aceder a este serviço
@@ -2683,6 +2699,8 @@ pt-PT:
       write_notes: Modificar notas
       write_redactions: Rever dados do mapa
       read_email: ‎Ler e-mail de utilizador
+      consume_messages: Ler, atualizar estado e apagar mensagens de utilizadores
+      send_messages: Enviar mensagens privadas a outros utilizadores
       skip_authorization: Aprovar a aplicação automaticamente
     for_roles:
       moderator: Esta permissão é para ações disponíveis apenas para moderadores
@@ -2957,6 +2975,7 @@ pt-PT:
       heading_html: A editar o bloqueio em %{name}
       period: Por quanto tempo, com início agora, o utilizador será bloqueado na utilização
         da API.
+      revoke: Revogar bloqueio
     filter:
       block_period: O período de bloqueio tem de corresponder a um dos valores selecionáveis
         da lista.
@@ -2965,6 +2984,12 @@ pt-PT:
     update:
       only_creator_can_edit: Este bloqueio só pode ser editado pelo moderador que
         o criou.
+      only_creator_can_edit_without_revoking: Só o moderador que criou este bloqueio
+        é que o pode editar sem o revogar.
+      only_creator_or_revoker_can_edit: Só os moderadores que criaram ou revogaram
+        este bloqueio é que o podem editar.
+      inactive_block_cannot_be_reactivated: Este bloqueio está inativo e não pode
+        ser reativado.
       success: Bloqueio atualizado.
     index:
       title: Bloqueios do utilizador
@@ -3041,6 +3066,7 @@ pt-PT:
       blocks_by_me: Os meus bloqueios
       blocks_by_user: Bloqueios de %{user}
       block: 'Bloqueio #%{id}'
+      new_block: Novo Bloqueio
   user_mutes:
     index:
       title: Utilizadores Silenciados
@@ -3138,14 +3164,15 @@ pt-PT:
       custom_dimensions: Definir dimensões
       format: 'Formato:'
       scale: 'Escala:'
-      image_dimensions: A imagem mostrará a camada padrão com %{width} x %{height}
+      image_dimensions: A imagem mostrará a camada %{layer} com %{width} x %{height}
       download: Transferir
       short_url: URL curto
       include_marker: Incluir marcador
       center_marker: Centrar o mapa no marcador
       paste_html: Colar HTML para incorporar na página web
       view_larger_map: Ver mapa maior
-      only_standard_layer: Só a camada padrão pode ser exportada como imagem
+      only_standard_layer: Só as camadas Padrão, de Ciclismo e de Transporte é que
+        podem ser exportadas como imagem
     embed:
       report_problem: Reportar um problema
     key:
