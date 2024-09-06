@@ -20,7 +20,7 @@ class Ability
       can [:index, :rss, :show], DiaryEntry
       can :index, DiaryComment
       can [:index], Note
-      can [:new, :create, :edit, :update], :password
+      can [:new, :create, :update], :password
       can [:index, :show], Redaction
       can [:new, :create, :destroy], :session
       can [:index, :show, :data, :georss], Trace
@@ -34,10 +34,10 @@ class Ability
 
       if Settings.status != "database_offline"
         can [:subscribe, :unsubscribe], Changeset
-        can [:index, :new, :create, :show, :edit, :update, :destroy], :oauth2_application
+        can [:index, :new, :create, :show, :update, :destroy], :oauth2_application
         can [:index, :destroy], :oauth2_authorized_application
         can [:new, :show, :create, :destroy], :oauth2_authorization
-        can [:edit, :update, :destroy], :account
+        can [:update, :destroy], :account
         can [:show], :dashboard
         can [:new, :create, :subscribe, :unsubscribe], DiaryEntry
         can :update, DiaryEntry, :user => user
@@ -45,10 +45,10 @@ class Ability
         can [:make_friend, :remove_friend], Friendship
         can [:new, :create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
         can [:close, :reopen], Note
-        can [:show, :edit, :update], :preference
-        can [:edit, :update], :profile
+        can [:show, :update], :preference
+        can :update, :profile
         can [:new, :create], Report
-        can [:mine, :new, :create, :edit, :update, :destroy], Trace
+        can [:mine, :new, :create, :update, :destroy], Trace
         can [:account, :go_public], User
         can [:index, :create, :destroy], UserMute
 
@@ -56,7 +56,7 @@ class Ability
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
-          can [:new, :create, :edit, :update, :destroy], Redaction
+          can [:new, :create, :update, :destroy], Redaction
           can [:new, :create, :revoke_all], UserBlock
           can :update, UserBlock, :creator => user
           can :update, UserBlock, :revoker => user
