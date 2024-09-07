@@ -75,11 +75,15 @@ Run the Rails database migrations:
 
 Prepare the test database:
 
-     docker compose run --rm web bundle exec rails db:test:prepare
+    docker compose run --rm web bundle exec rails db:test:prepare
 
 Run the test suite:
 
     docker compose run --rm web bundle exec rails test:all
+
+If you encounter errors about missing assets, precompile the assets:
+
+    docker compose run --rm web bundle exec rake assets:precompile
 
 ### Loading an OSM extract
 
