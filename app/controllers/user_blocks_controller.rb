@@ -71,7 +71,7 @@ class UserBlocksController < ApplicationController
   def update
     if @valid_params
       if cannot?(:update, @user_block)
-        flash[:error] = t(@user_block.revoker ? ".only_creator_or_revoker_can_edit" : ".only_creator_can_edit")
+        flash[:error] = @user_block.revoker ? t(".only_creator_or_revoker_can_edit") : t(".only_creator_can_edit")
         redirect_to :action => "edit"
       else
         user_block_was_active = @user_block.active?
