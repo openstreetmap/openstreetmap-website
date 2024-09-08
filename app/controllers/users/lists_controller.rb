@@ -27,7 +27,7 @@ module Users
 
       @users, @newer_users_id, @older_users_id = get_page_items(users, :limit => 50)
 
-      render :partial => "page" if turbo_frame_request_id == "pagination"
+      render "_page", :layout => "turbo_frame_visit" if turbo_frame_request_id == "pagination"
     end
 
     ##
