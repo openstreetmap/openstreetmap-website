@@ -224,14 +224,17 @@ class ApplicationController < ActionController::Base
 
     if e.is_a?(Timeout::Error) ||
        (e.is_a?(ActiveRecord::StatementInvalid) && e.message.include?("execution expired"))
-      ActiveRecord::Base.connection.raw_connection.cancel
-      render :action => "timeout"
+      respond_to_timeout
     else
       raise
     end
   rescue Timeout::Error
+    respond_to_timeout
+  end
+
+  def respond_to_timeout
     ActiveRecord::Base.connection.raw_connection.cancel
-    render :action => "timeout"
+    render :action => "timeout", :status => :gateway_timeout
   end
 
   ##
