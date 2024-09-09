@@ -204,6 +204,7 @@ module Api
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)
       auth_header = bearer_authorization_header user
+
       assert_difference "NoteComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
@@ -340,10 +341,6 @@ module Api
     def test_close_success
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)
-
-      post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json")
-      assert_response :unauthorized
-
       auth_header = bearer_authorization_header user
 
       post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json"), :headers => auth_header
@@ -372,7 +369,9 @@ module Api
     end
 
     def test_close_fail
-      post close_api_note_path(12345)
+      open_note_with_comment = create(:note_with_comments)
+
+      post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json")
       assert_response :unauthorized
 
       auth_header = bearer_authorization_header
@@ -394,10 +393,6 @@ module Api
     def test_reopen_success
       closed_note_with_comment = create(:note_with_comments, :closed)
       user = create(:user)
-
-      post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
-      assert_response :unauthorized
-
       auth_header = bearer_authorization_header user
 
       post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
@@ -426,6 +421,11 @@ module Api
     end
 
     def test_reopen_fail
+      closed_note_with_comment = create(:note_with_comments, :closed)
+
+      post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
+      assert_response :unauthorized
+
       hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
       post reopen_api_note_path(hidden_note_with_comment)
