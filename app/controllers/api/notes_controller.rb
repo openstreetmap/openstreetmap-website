@@ -82,7 +82,7 @@ module Api
       # Extract the arguments
       lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
       lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
-      comment = params[:text]
+      text = params[:text]
 
       # Include in a transaction to ensure that there is always a note_comment for every note
       Note.transaction do
@@ -94,7 +94,7 @@ module Api
         @note.save!
 
         # Add a comment to the note
-        add_comment(@note, comment, "opened")
+        add_comment(@note, text, "opened")
       end
 
       # Return a copy of the new note
@@ -112,7 +112,7 @@ module Api
 
       # Extract the arguments
       id = params[:id].to_i
-      comment = params[:text]
+      text = params[:text]
 
       # Find the note and check it is valid
       Note.transaction do
@@ -124,7 +124,7 @@ module Api
         @note.status = "hidden"
         @note.save
 
-        add_comment(@note, comment, "hidden", :notify => false)
+        add_comment(@note, text, "hidden", :notify => false)
       end
 
       # Return a copy of the updated note
@@ -143,7 +143,7 @@ module Api
 
       # Extract the arguments
       id = params[:id].to_i
-      comment = params[:text]
+      text = params[:text]
 
       # Find the note and check it is valid
       Note.transaction do
@@ -153,7 +153,7 @@ module Api
         raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
 
         # Add a comment to the note
-        add_comment(@note, comment, "commented")
+        add_comment(@note, text, "commented")
       end
 
       # Return a copy of the updated note
@@ -171,7 +171,7 @@ module Api
 
       # Extract the arguments
       id = params[:id].to_i
-      comment = params[:text]
+      text = params[:text]
 
       # Find the note and check it is valid
       Note.transaction do
@@ -183,7 +183,7 @@ module Api
         # Close the note and add a comment
         @note.close
 
-        add_comment(@note, comment, "closed")
+        add_comment(@note, text, "closed")
       end
 
       # Return a copy of the updated note
@@ -201,7 +201,7 @@ module Api
 
       # Extract the arguments
       id = params[:id].to_i
-      comment = params[:text]
+      text = params[:text]
 
       # Find the note and check it is valid
       Note.transaction do
@@ -213,7 +213,7 @@ module Api
         # Reopen the note and add a comment
         @note.reopen
 
-        add_comment(@note, comment, "reopened")
+        add_comment(@note, text, "reopened")
       end
 
       # Return a copy of the updated note
