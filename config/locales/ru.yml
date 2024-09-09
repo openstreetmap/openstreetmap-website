@@ -70,6 +70,7 @@
 # Author: Nemo bis
 # Author: Nitch
 # Author: Nk88
+# Author: Nyuhn
 # Author: Nzeemin
 # Author: Okras
 # Author: Pacha Tchernof
@@ -845,7 +846,6 @@ ru:
   geocoder:
     search:
       title:
-        results_from_html: Результаты из %{results_link}
         latlon: Внутренний
     search_osm_nominatim:
       prefix:
@@ -1255,12 +1255,14 @@ ru:
           antenna: Антенна
           avalanche_protection: Защита от лавин
           beacon: Маяк
+          beam: Балка
           beehive: Улей
           breakwater: Волнорез
           bridge: Мост
           bunker_silo: Бункер
           cairn: Пирамида из камней
           chimney: Дымовая труба
+          clearcut: Вырубленный лес
           communications_tower: Башня связи
           crane: Кран
           cross: Перекресток
@@ -1738,17 +1740,12 @@ ru:
     history: История
     export: Экспорт
     issues: Проблемы
-    data: Данные
-    export_data: Экспортировать данные
     gps_traces: GPS-треки
-    gps_traces_tooltip: Работать с GPS-треками
     user_diaries: Дневники участников
     edit_with: Редактировать с помощью %{editor}
-    tag_line: Свободная вики-карта мира
     intro_header: Добро пожаловать на OpenStreetMap!
     intro_text: OpenStreetMap является картой мира, созданной такими же людьми, как
       и вы, и может свободно использоваться под открытой лицензией.
-    intro_2_create_account: Создайте учётную запись
     hosting_partners_2024_html: Хостинг поддерживается %{fastly}, %{corpmembers} и
       другими %{partners}.
     partners_fastly: Fastly
@@ -1758,14 +1755,10 @@ ru:
       необходимое техническое обслуживание.
     osm_read_only: База данных OpenStreetMap в данный момент доступна только для чтения,
       так как проводится необходимое техническое обслуживание.
-    donate: Поддержите OpenStreetMap %{link} в Фонд обновления оборудования.
     help: Помощь
     about: О проекте
     copyright: Авторские права
     communities: Сообщества
-    community: Сообщество
-    community_blogs: Блоги сообщества
-    community_blogs_title: Блоги членов сообщества OpenStreetMap
     learn_more: Узнать больше
     more: Ещё
   user_mailer:
@@ -1961,7 +1954,6 @@ ru:
     message_summary:
       unread_button: Пометить как непрочитанное
       read_button: Пометить как прочитанное
-      reply_button: Ответить
       destroy_button: Удалить
     new:
       title: Отправить сообщение
@@ -1983,7 +1975,6 @@ ru:
         Извините, но сообщения с таким ID нет.
     outbox:
       title: Исходящие
-      actions: Действия
       messages:
         few: У вас %{count} отправленных сообщения
         many: У вас %{count} отправленных сообщений
@@ -2115,7 +2106,6 @@ ru:
       help: Помощь
   site:
     about:
-      next: Далее
       used_by_html: '%{name} предоставляет данные для тысяч сайтов, мобильных приложений
         и устройств'
       lede_text: OpenStreetMap создан сообществом картографов, которые добавляют и
@@ -2133,6 +2123,7 @@ ru:
       community_driven_osm_blog: блог OpenStreetMap
       community_driven_user_diaries: дневники пользователей
       community_driven_community_blogs: блоги сообщества
+      community_driven_osm_foundation: Фонд OSM
       open_data_title: Открытые данные
       open_data_1_html: |-
         OpenStreetMap — это %{open_data}: вы можете использовать их для любых целей
@@ -2147,7 +2138,9 @@ ru:
         %{openstreetmap_foundation_link} (OSMF)
         от имени сообщества. Использование всех сервисов OSMF регулируется
         нашими %{terms_of_use_link}, %{aup_link} и %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Фонд OpenStreetMap
       legal_1_1_terms_of_use: Условиями использования
+      legal_1_1_aup: Политики приемлемого использования
       legal_1_1_privacy_policy: Политикой конфиденциальности
       legal_2_1_html: |-
         Пожалуйста, %{contact_the_osmf_link}
@@ -2176,11 +2169,16 @@ ru:
           лицензированные по \n%{odc_odbl_link} (ODbL), разработанной %{osm_foundation_link}
           (OSMF)."
         introduction_1_open_data: открытые данные
+        introduction_1_odc_odbl: Лицензия Open Data Commons Open Database
+        introduction_1_osm_foundation: Фонд OpenStreetMap
         introduction_2_html: Вы можете свободно копировать, распространять, передавать
           и дорабатывать наши данные до тех пор, пока вы ссылаетесь на OpenStreetMap
           и его участников. Если вы изменяете или берёте наши данные за основу, то
           вы должны распространять результат только по такой же лицензии. Полный %{legal_code_link}
           юридический текст лицензии разъясняет ваши права и обязанности.
+        introduction_3_html: Наша документация распространяется по лицензии %{creative_commons_link}
+          (CC BY-SA 2.0).
+        introduction_3_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: Как сослаться на OpenStreetMap
         credit_1_html: 'Если вы используете данные OpenStreetMap, вы должны выполнить
           следующие два условия:'
@@ -2199,6 +2197,7 @@ ru:
           В качестве альтернативы, а также в качестве требования, если вы распространяете OSM в виде набора данных, вы можете назвать лицензию(и) и дать на неё(них) прямую ссылку.
           В СМИ, где ссылки физически невозможны (например, в печатных изданиях), мы предлагаем вам направлять читателей на сайт openstreetmap.org (возможно, расширив написание «OpenStreetMap» до полного веб-адреса) и на opendatacommons.org.
           В этом примере, упоминание находится в углу карты.
+        credit_4_1_this_copyright_page: эту страницу об авторских правах
         attribution_example:
           alt: Пример того, как сослаться на OpenStreetMap с веб-страницы
           title: Пример указания авторства
@@ -2209,6 +2208,7 @@ ru:
           Проект также включает данные под свободными лицензиями от национальных картографических
           агентств и от других источников, среди которых:'
         contributors_at_austria: Австрия
+        contributors_at_stadt_wien: город Вена
         contributors_at_land_vorarlberg: Земля Форарльберг
         contributors_au_australia: Австралия
         contributors_ca_canada: Канада
@@ -2321,7 +2321,7 @@ ru:
         title: Руководство для начинающих
         description: Сообщество поддерживает руководство для начинающих.
       community:
-        title: Форум сообщества
+        title: Помощь и форум сообщества
         description: Общедоступное место для разговоров об OpenStreetMap.
       mailing_lists:
         title: Списки рассылок
@@ -2364,7 +2364,6 @@ ru:
       close: Закрыть
     search:
       search: Поиск
-      get_directions: Проложить маршрут
       get_directions_title: Поиск маршрута между двумя точками
       from: Старт
       to: Финиш
@@ -2382,24 +2381,27 @@ ru:
           primary: Магистральная дорога
           secondary: Второстепенная дорога
           unclassified: Дорога местного значения
+          pedestrian: Пешеходная дорога
           track: Просёлочная дорога
           bridleway: Дорога для верховой езды
           cycleway: Велосипедная дорога
           cycleway_national: Национальная велодорожка
           cycleway_regional: Региональная велодорожка
           cycleway_local: Велодорожка местного значения
+          cycleway_mtb: Маршрут для горного велосипеда
           footway: Пешеходная дорожка
           rail: Железная дорога
           train: Поезд
           subway: Линия метро
           ferry: Паром
+          light_rail: Легкорельсовый транспорт
           tram: Трамвай
           trolleybus: Троллейбус
           bus: Автобус
           cable_car: Канатная дорога
           chair_lift: кресельный подъёмник
           runway: Взлётно-посадочная полоса аэропорта
-          taxiway: рулёжная дорожка
+          taxiway: Рулёжная дорожка
           apron: Перрон аэродрома
           admin: Административная граница
           capital: Столица
@@ -2412,6 +2414,7 @@ ru:
           grass: Трава
           meadow: Луг
           bare_rock: Голая скала
+          sand: Песок
           golf: Площадка для гольфа
           park: Парк
           common: Общественная земля
@@ -2421,8 +2424,10 @@ ru:
           industrial: Промышленный район
           commercial: Коммерческий район
           heathland: Вересковая пустошь
+          scrubland: Скрэб
           lake: Озеро
           reservoir: Водохранилище
+          intermittent_water: Пересыхающий водоём
           glacier: Ледник
           reef: Риф
           wetland: Заболоченная территория
@@ -2670,7 +2675,7 @@ ru:
         alt: Логотип Facebook
       microsoft:
         title: Войти с помощью Microsoft
-        alt: Войти с помощью учётной записи Microsoft
+        alt: логотип Microsoft
       github:
         title: Войти с GitHub
         alt: Логотип GitHub
@@ -2748,12 +2753,12 @@ ru:
         для вас учётную запись.
       support: поддержка
       about:
-        header: Свободно редактируемая
+        header: Свободно редактируемая.
         paragraph_1: В отличие от других карт, OpenStreetMap полностью создана такими
           же людьми, как и вы, и каждый может бесплатно исправлять, обновлять, загружать
           и использовать ее.
-        paragraph_2: Зарегистрируйтесь, чтобы начать вносить свой вклад. Мы отправим
-          электронное письмо для подтверждения вашей учетной записи.
+        paragraph_2: Зарегистрируйтесь, чтобы начать вносить свой вклад.
+        welcome: Добро пожаловать в OpenStreetMap
       display name description: Ваше имя, как оно будет видно другим пользователям.
         Вы сможете изменить его позже в настройках.
       by_signing_up:

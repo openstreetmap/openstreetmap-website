@@ -328,7 +328,7 @@ ja:
       contributor terms:
         heading: 協力者規約
         agreed: あなたは、新しい協力者規約を承諾しています。
-        not yet agreed: あなたは、まだ新しい投稿規約を承諾していません。
+        not yet agreed: あなたは、新しい協力者規約をまだ承諾していません。
         review link text: ご都合の良い時にこのリンクをクリックして新しい協力者規約を確認の上、承諾してください。
         agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
         link text: これは何ですか?
@@ -421,7 +421,7 @@ ja:
         way: ウェイ
         relation: リレーション
     start_rjs:
-      feature_warning: '%{num_features} 件の地物を読み込むことで、お使いのブラウザーが遅くなったり反応がなくなったりするおそれがあります。このデータを本当に表示しますか?'
+      feature_warning: '%{num_features}件の地物を読み込むことで、お使いのブラウザが遅くなったり反応がなくなったりするおそれがあります。このデータを本当に表示しますか？'
       load_data: データの読み込み
       loading: 読み込み中...
     tag_details:
@@ -704,7 +704,6 @@ ja:
   geocoder:
     search:
       title:
-        results_from_html: '結果: %{results_link}'
         latlon: 内部
     search_osm_nominatim:
       prefix:
@@ -899,6 +898,7 @@ ja:
           shed: 小屋
           stable: 畜舎
           static_caravan: キャラバン
+          sty: 豚小屋
           temple: 寺院
           terrace: テラスハウス
           train_station: 駅舎
@@ -1293,7 +1293,7 @@ ja:
           rail: 線路
           spur: 支線
           station: 鉄道駅
-          stop: 鉄道駅
+          stop: 鉄道停止位置
           subway: 地下鉄
           subway_entrance: 地下鉄駅入口
           switch: 鉄道の分岐器
@@ -1306,7 +1306,7 @@ ja:
           alcohol: 酒屋
           antiques: 骨董品
           appliance: 電器店
-          art: アート ショップ
+          art: アートショップ
           baby_goods: 赤ちゃん用品
           bag: 鞄屋
           bakery: パン屋
@@ -1373,7 +1373,7 @@ ja:
           jewelry: 宝石店
           kiosk: キオスク
           kitchen: キッチン用品店
-          laundry: クリーニング店
+          laundry: コインランドリー
           locksmith: 鍵屋
           lottery: 宝くじ
           mall: モール
@@ -1490,7 +1490,7 @@ ja:
       select_status: 状態を選択
       select_type: タイプを選択
       select_last_updated_by: 最近の更新を選択
-      reported_user: 利用者を通報
+      reported_user: 通報された利用者
       not_updated: 更新はありません
       search: 検索
       search_guidance: '検索の問題点:'
@@ -1502,6 +1502,7 @@ ja:
     page:
       user_not_found: 利用者が存在しません
       issues_not_found: このような問題はありません
+      reported_user: 通報された利用者
       status: 状態
       reports: 報告
       last_updated: 最近の更新
@@ -1509,6 +1510,12 @@ ja:
       reports_count:
         other: '%{count}件のレポート'
       reported_item: レポートした項目
+      states:
+        ignored: 無視
+        open: 開く
+        resolved: 解決済
+      older_issues: 古い問題
+      newer_issues: 新しい問題
     show:
       title: '%{status} 問題 #%{issue_id}'
       reports:
@@ -1569,7 +1576,7 @@ ja:
           spam_label: この利用者プロフィールはスパムを含む／スパムである
           offensive_label: この利用者プロフィールは卑猥／違法である
           threat_label: この利用者プロフィールは脅迫を含む
-          vandal_label: この利用者は破壊者である
+          vandal_label: この利用者は荒らしである
           other_label: その他
         note:
           spam_label: この注記はスパムである
@@ -1591,16 +1598,11 @@ ja:
     history: 履歴
     export: エクスポート
     issues: 問題点
-    data: データ
-    export_data: データをエクスポート
     gps_traces: GPSトレース
-    gps_traces_tooltip: トレースの管理
     user_diaries: 利用者の日記
     edit_with: '%{editor} で編集'
-    tag_line: 自由なウィキ世界地図
     intro_header: OpenStreetMap へようこそ!
     intro_text: OpenStreetMap は、あなたのような人々が作成した世界地図であり、オープン ライセンスの下で自由に利用できます。
-    intro_2_create_account: 新しい利用者アカウントを作成
     hosting_partners_2024_html: ホスティングは %{fastly} 、 %{corpmembers} 、そしてその他の %{partners}
       による支援をいただいています。
     partners_fastly: Fastly
@@ -1609,14 +1611,11 @@ ja:
     tou: 利用規約
     osm_offline: OpenStreetMap のデータベースはメンテナンスのため一時的に停止しています。
     osm_read_only: OpenStreetMap のデータベースは、メンテナンスのため一時的に読み取り専用モードになっています。
-    donate: ハードウェア アップグレード基金への%{link}で、OpenStreetMap を支援します。
+    nothing_to_preview: プレビューするものはありません。
     help: ヘルプ
     about: このサイトについて
     copyright: 著作権
     communities: コミュニティ
-    community: コミュニティ
-    community_blogs: コミュニティ ブログ
-    community_blogs_title: OpenStreetMap コミュニティのメンバーからのブログ
     learn_more: 詳細
     more: その他
   user_mailer:
@@ -1646,20 +1645,27 @@ ja:
       befriend_them: '%{befriendurl} で友達になることができます。'
       befriend_them_html: '%{befriendurl} で友達になることができます。'
     gpx_description:
-      description_with_tags_html: その GPX ファイル%{trace_name}は解説が%{trace_description}で次のタグがついているようです：%{tags}
-      description_with_no_tags_html: その GPX ファイル%{trace_name}は解説が%{trace_description}ですが、タグがないようです
+      description_with_tags: その GPX ファイル%{trace_name}の解説は%{trace_description}で、次のタグがついているようです：%{tags}
+      description_with_tags_html: その GPX ファイル%{trace_name}の解説は%{trace_description}で、次のタグがついているようです：%{tags}
+      description_with_no_tags: その GPX ファイル%{trace_name}の解説は%{trace_description}ですが、タグがないようです
+      description_with_no_tags_html: その GPX ファイル%{trace_name}の解説は%{trace_description}ですが、タグがないようです
     gpx_failure:
       hi: こんにちは、%{to_user} さん。
-      failed_to_import: 'インポートするのに失敗しました。エラーはここです。:'
+      failed_to_import: 'インポートに失敗しました。エラーはこちらです:'
+      more_info: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
-      subject: '[OpenStreetMap] GPX のインポートが失敗'
+      subject: '[OpenStreetMap] GPX インポートに失敗'
     gpx_success:
       hi: こんにちは、%{to_user} さん。
+      loaded:
+        other: 利用可能なポイント %{count} 個のうち、%{trace_points} 個の読み込みに成功しました。
+      trace_location: トレースは %{trace_url} で確認できます
+      all_your_traces: アップロードされたGPXトレースログは %{url} から参照できます。
       all_your_traces_html: アップロードが完了したGPXトレースログは %{url} から参照できます。
       subject: '[OpenStreetMap] GPX のインポートが成功'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMapへようこそ'
-      greeting: やあ、皆さん!
+      greeting: こんにちは、
       created: 誰か (おそらくあなた) が %{site_url} でアカウントを作成しました。
       confirm: 私たちが他に何かする前に、この要求があなたのものであることを確認する必要がありますので、その後であなたのアカウントを確認するために下のリンクをクリックしてください。
       welcome: アカウントを確認したあと、開始するための追加情報を提供します。
@@ -1736,8 +1742,8 @@ ja:
       heading: メール アドレスの変更を確認
       press confirm button: 新しいメール アドレスを確認するために確認ボタンを押してください。
       button: 確認
-      success: メール アドレスが変更されたことを確認しました。
-      failure: このトークンは、メール アドレスの確認に使用済みです。
+      success: メールアドレスが変更されたことを確認しました。
+      failure: このトークンは、メールアドレスの確認に使用済みです。
       unknown_token: その確認コードは期限切れ、または存在しません。
     resend_success_flash:
       confirmation_sent: 新しい確認書を%{email}に送りましたので、アカウントを確認したらすぐにマッピングができるようになります。
@@ -1761,7 +1767,6 @@ ja:
     message_summary:
       unread_button: 未読にする
       read_button: 既読にする
-      reply_button: 返信
       destroy_button: 削除
       unmute_button: 受信箱へ移動
     new:
@@ -1777,7 +1782,6 @@ ja:
       body: 申し訳ありませんが、この ID のメッセージはありません。
     outbox:
       title: 送信箱
-      actions: 操作
       messages:
         other: '%{count} 件の送信済みメッセージがあります'
       no_sent_messages_html: 送信したメッセージはまだありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
@@ -1815,7 +1819,7 @@ ja:
       heading: パスワードを忘れた場合はこちら
       email address: 'メールアドレス:'
       new password button: パスワードを再設定
-      help_text: 利用者登録に使用したメール アドレスを入力してください。そのアドレス宛に、パスワードを再設定するためのリンクをお送りします。
+      help_text: 利用者登録に使用したメールアドレスを入力してください。そのアドレス宛に、パスワードを再設定するためのリンクをお送りします。
     create:
       send_paranoid_instructions: メールアドレスが当サイトのデータベースに存在する場合、数分以内にあなたのメールアドレスにパスワード復元リンクが送信されます。
     edit:
@@ -1885,9 +1889,11 @@ ja:
       logout_button: ログアウト
     suspended_flash:
       suspended: 不審なアクティビティがあったため、アカウントが停止されました。
+      contact_support_html: この件について話し合うには、%{support_link} までご連絡ください。
       support: サポート
   shared:
     markdown_help:
+      heading_html: '%{kramdown_link} で解析'
       headings: 見出し
       heading: 見出し
       subheading: 小見出し
@@ -1900,12 +1906,13 @@ ja:
       image: 画像
       alt: 代替テキスト
       url: URL
+      codeblock: コードブロック
     richtext_field:
       edit: 編集
       preview: プレビュー
+      help: ヘルプ
   site:
     about:
-      next: 次へ
       used_by_html: '%{name} は数千ものウェブサイト、モバイル アプリ、ハードウェア機器に地図データを提供しています'
       lede_text: OpenStreetMapは、道路、通路、カフェ、鉄道駅など、世界中にあるすべてのものに関するデータを提供・メンテナンスしているマッパーのコミュニティによって構築されています。
       local_knowledge_title: 地元の情報
@@ -1927,7 +1934,10 @@ ja:
       legal_1_1_terms_of_use: 利用規約
       legal_1_1_aup: 利用規定
       legal_1_1_privacy_policy: プライバシー・ポリシー
-      legal_2_1_contact_the_osmf: OSMFに連絡
+      legal_2_1_html: |-
+        ライセンス、著作権、その他の法的な問題については、%{contact_the_osmf_link}
+        までお問い合わせください。
+      legal_2_1_contact_the_osmf: OSMF
       legal_2_2_html: OpenStreetMap、虫眼鏡のロゴ、および State of the Map は %{registered_trademarks_link}
         です。
       legal_2_2_registered_trademarks: OSMFの登録商標
@@ -2101,8 +2111,9 @@ ja:
         description: コミュニティが、初心者向けガイドを整備しています。
       community:
         title: コミュニティフォーラム
+        description: OpenStreetMap に関する支援を求めたり、会話をしたりするための共有の場です。
       mailing_lists:
-        title: メーリング リスト
+        title: メーリングリスト
         description: メーリングリストは話題や地域ごとに多種多様で、質問や興味のある事項について議論できる場です。
       irc:
         title: IRC
@@ -2127,6 +2138,9 @@ ja:
       change_preferences: 設定変更
     any_questions:
       title: 何か質問はありますか?
+      paragraph_1_html: |-
+        OpenStreetMap には、さまざまなコミュニケーションのための手段が用意されており、プロジェクトについて学習したり、質問したり回答したり、マッピングのトピックについて共同で議論したり、文書化したりできます。
+        %{help_link}。ご所属の組織でOpenStreetMap との取り組みを検討中ですか？ %{welcome_mat_link}。
       get_help_here: ヘルプを取得
       welcome_mat: ウェルカムマットを表示
     sidebar:
@@ -2134,7 +2148,6 @@ ja:
       close: 閉じる
     search:
       search: 検索
-      get_directions: ルートを検索
       get_directions_title: 2点を結ぶルートを検索
       from: 出発点
       to: 目的地
@@ -2199,6 +2212,7 @@ ja:
           reservoir: 貯水池
           intermittent_water: 間欠性水路
           glacier: 氷河
+          reef: 暗礁
           wetland: 湿地帯
           farm: 農牧場
           brownfield: 褐色地
@@ -2254,11 +2268,10 @@ ja:
       start_mapping: マッピングを開始
       continue_authorization: 認可を続行
       add_a_note:
-        title: 編集する時間がないためメモを残します
-        para_1: |-
-          些細な修正だけをしたいが、サインアップしたり編集の仕方を勉強する時間がない場合は、
-          簡単にメモを追加できます。
-        the_map: マップ
+        title: 編集する時間がないためメモを残す
+        para_1: ちょっとした修正をしたいが、利用者登録して編集の仕方を勉強する時間がない場合は、簡単にメモを残せます。
+        para_2_html: '%{map_link}の地図に移動してメモアイコン%{note_icon}をクリックするだけです。これで地図上に印が追加され、ドラッグして移動させることができます。メッセージを追加し、保存をクリックすれば、他のマッパーが調査するでしょう。'
+        the_map: 地図
     communities:
       title: コミュニティ
       lede_text: |-
@@ -2345,11 +2358,13 @@ ja:
       public_traces_from: '%{user}さんによる公開GPSトレース'
       description: 最近のGPSトレースのアップロードを参照
       tagged_with: (タグ %{tags} が付いているもの)
+      empty_title: まだ何もありません
+      empty_upload_html: '%{upload_link} 、またはGPSトレースについて %{wiki_link} で詳しく学ぶ。'
       upload_new: 新しいファイルをアップロード
       wiki_page: ウィキページ
       upload_trace: トレースをアップロード
-      all_traces: 全ての痕跡
-      my_traces: 私の痕跡
+      all_traces: 全てのトレース
+      my_traces: 自分のトレース
       traces_from: '%{user}さんによる公開GPSトレース'
       remove_tag_filter: タグフィルターの削除
     page:
@@ -2475,7 +2490,7 @@ ja:
       support: サポート
       about:
         header: フリーで編集可能
-        paragraph_1: 他の地図とは異なり、OpenStreetMapは完全に皆さんのような人によって作成されおり、誰でも自由に修正・更新・ダウンロード・利用ができます。
+        paragraph_1: 他の地図とは異なり、OpenStreetMapは完全に皆さんのような人によって作成されており、誰でも自由に修正・更新・ダウンロード・利用ができます。
         paragraph_2: 投稿を通じて貢献するには、登録が必要です。
         welcome: OpenStreetMap へようこそ。
       duplicate_social_email: すでに OpenStreetMap アカウントをお持ちで第三者認証プロバイダーを使用したい場合は、パスワードを使用してログインしたうえでアカウントの設定を変更してください。
@@ -2729,6 +2744,8 @@ ja:
       title: '%{user} さんが投稿またはコメントしたメモ'
       heading: '%{user}さんのメモ'
       subheading_html: '%{user}さんが%{submitted}または%{commented}したメモ'
+      subheading_submitted: 投稿
+      subheading_commented: コメント
       no_notes: メモなし
       id: ID
       creator: 作成者
@@ -2741,18 +2758,32 @@ ja:
       open_title: '未解決のメモ #%{note_name}'
       closed_title: '解決済のメモ #%{note_name}'
       hidden_title: '非表示のメモ #%{note_name}'
-      report: このノートを報告
+      event_opened_by_html: '%{user} が %{time_ago} に作成しました'
+      event_opened_by_anonymous_html: 匿名ユーザーによって%{time_ago}に作成されました
+      event_commented_by_html: '%{time_ago}, %{user} からのコメント'
+      event_commented_by_anonymous_html: 匿名ユーザーからのコメント %{time_ago}
+      event_closed_by_html: '%{user} によって %{time_ago} に解決されました'
+      event_closed_by_anonymous_html: 匿名ユーザーにより %{time_ago} に解決されました
+      event_reopened_by_html: '%{user} によって %{time_ago} に再アクティブ化されました'
+      event_reopened_by_anonymous_html: 匿名ユーザーにより %{time_ago} に再アクティブ化されました
+      event_hidden_by_html: '%{user} によって %{time_ago} に非表示化されました'
+      report: このメモを報告
       anonymous_warning: このメモはIP利用者によるコメントも含んでいるため、個別に確認してください。
       hide: 隠す
       resolve: 解決
       reactivate: 再有効化
       comment_and_resolve: コメント & 解決
       comment: コメント
+      log_in_to_comment: このメモにコメントするにはログインしてください
       report_link_html: このメモに削除が必要な機密情報が含まれている場合は、%{link}してください。
+      other_problems_resolve: メモに関するその他の問題は、コメントで自分で解決してください。
       other_problems_resolved: その他の問題には、解決で十分です。
+      disappear_date_html: このメモは解決済みです。%{disappear_in} で地図から消えます。
     new:
       title: 新しいメモ
       intro: 間違いや情報の抜けがありましたか？　他のマッパーが修正できるよう、お知らせください。マーカーを正しい位置に移動し、問題を説明するメモを入力します。
+      anonymous_warning_html: ログインしていません。メモの更新情報を受け取りたい場合は、%{log_in} または %{sign_up}
+        してください。
       anonymous_warning_log_in: ログイン
       anonymous_warning_sign_up: 利用者登録
       advice: 投稿したメモは公開され、地図の更新に利用されます。そのため、著作権保護された地図や一覧情報からの転用情報や、個人情報の入力は行わないでください。
@@ -2771,14 +2802,14 @@ ja:
       custom_dimensions: 独自の寸法を設定
       format: '形式:'
       scale: '縮尺:'
-      image_dimensions: 画像の表示は標準レイヤで %{width} x %{height} となります
+      image_dimensions: 画像の表示は%{layer}レイヤで %{width} x %{height} となります
       download: ダウンロード
       short_url: 短縮 URL
       include_marker: マーカーを含める
       center_marker: マーカーを地図の中心にする
       paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       view_larger_map: 大きな地図を表示
-      only_standard_layer: 標準レイヤーのみ画像としてエクスポートできます
+      only_standard_layer: 標準、サイクリングマップ、交通マップレイヤーのみ画像としてエクスポートできます
     embed:
       report_problem: 問題を報告
     key:
@@ -2799,6 +2830,7 @@ ja:
         standard: 標準
         cycle_map: サイクリングマップ
         transport_map: 交通マップ
+        tracestracktop_topo: トレーストラックトポ
         hot: Humanitarian
       layers:
         header: 地図のレイヤー
@@ -2809,8 +2841,13 @@ ja:
         title: レイヤー
       openstreetmap_contributors: OpenStreetMapの貢献者
       make_a_donation: 寄付をする
+      website_and_api_terms: ウェブサイトおよびAPIの利用規約
+      cyclosm_credit: '%{cyclosm_link} によるタイルスタイル (%{osm_france_link} がホスト)'
       osm_france: OpenStreetMap France
+      thunderforest_credit: タイル提供： %{thunderforest_link}
       andy_allan: Andy Allan
+      tracestrack_credit: タイル提供： %{tracestrack_link}
+      hotosm_credit: '%{hotosm_link} によるタイルスタイル (%{osm_france_link} がホスト)'
       hotosm_name: Humanitarian OpenStreetMap Team
     site:
       edit_tooltip: 地図を編集
@@ -2826,9 +2863,9 @@ ja:
     directions:
       ascend: 上り坂
       engines:
-        fossgis_osrm_bike: 自転車
-        fossgis_osrm_car: 自動車
-        fossgis_osrm_foot: 歩行
+        fossgis_osrm_bike: 自転車(OSRM)
+        fossgis_osrm_car: 自動車(OSRM)
+        fossgis_osrm_foot: 徒歩(OSRM)
         graphhopper_bicycle: 自転車(GraphHopper)
         graphhopper_car: 自動車(GraphHopper)
         graphhopper_foot: 歩行(GraphHopper)

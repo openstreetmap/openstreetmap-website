@@ -702,7 +702,6 @@ ce:
   geocoder:
     search:
       title:
-        results_from_html: '%{results_link} тӀера жамӀаш'
         latlon: Чоьхьара
     search_osm_nominatim:
       prefix:
@@ -1503,6 +1502,7 @@ ce:
     page:
       user_not_found: Иштта декъашхо вац
       issues_not_found: Иштта проблемаш карийна йац
+      reported_user: Декъашхочун хаам
       status: Статус
       reports: Хаамаш
       last_updated: ТӀаьххьара хийцам
@@ -1511,6 +1511,12 @@ ce:
         one: '%{count} хаам'
         other: '%{count} хаамаш'
       reported_item: Хаамин тема
+      states:
+        ignored: Игнорйина
+        open: Йиллина
+        resolved: Кечйина
+      older_issues: Шира арахецнарш
+      newer_issues: Керла арахецнарш
     show:
       title: '%{status} проблема #%{issue_id}'
       reports:
@@ -1595,17 +1601,12 @@ ce:
     history: Истори
     export: Экспорт
     issues: Проблемаш
-    data: Хаамаш
-    export_data: Хаамаш экспортбан
     gps_traces: GPS-трекаш
-    gps_traces_tooltip: Болхбе GPS-трекашца
     user_diaries: Декъашхочун дневник
     edit_with: Нисайе кхуьнца %{editor}
-    tag_line: Маьрша дуьненан Вики карта
     intro_header: Марша вогӀийла хьо OpenStreetMap!
     intro_text: OpenStreetMap — дуьненан карта ду, хьо санна болчу наха кхоьллина,
       ткъа хIара маьрша лело йиш йу йиллина лицензица.
-    intro_2_create_account: Декъашхочун аккаунт кхолла
     hosting_partners_2024_html: Хостинг лелош йу %{fastly}, %{corpmembers}, кхин а
       %{partners}.
     partners_fastly: Сиха
@@ -1617,14 +1618,10 @@ ce:
     osm_read_only: OpenStreetMap база карарчу хенахь ешаран режимехь йу,база Ӏалашъяран
       белхаш дӀахьош долу дер.
     nothing_to_preview: Хьалххе хьажа хӀумма а дац.
-    donate: Дехар ду, гӀо де OpenStreetMap %{link} аппаратан фонда карлайоккхуш.
     help: ГӀо
     about: Проектах лаьцна
     copyright: Авторийн бакъонаш
     communities: Тобаш
-    community: Тоба
-    community_blogs: Тобан блог
-    community_blogs_title: OpenStreetMap тобан декъашхошна блогаш
     learn_more: Цул совнаха хаа
     more: Кхин а
   user_mailer:
@@ -1828,7 +1825,6 @@ ce:
     message_summary:
       unread_button: Билгалйе ца йешна санна
       read_button: Билгалйе йешна санна
-      reply_button: Жоп ло
       destroy_button: ДӀайаккха
       unmute_button: ДӀаяхийта Инбокс чу
     new:
@@ -1845,7 +1841,6 @@ ce:
       body: Бехк ма билла цу ID-ца цхьа а хаам бац.
     outbox:
       title: ДӀайохьуьйтурш
-      actions: Дар
       messages:
         one: Хьан %{count} дIабахийтина хаам
         other: Хьан %{count} дIабахийтина хаамаш
@@ -1988,7 +1983,6 @@ ce:
       help: ГӀо
   site:
     about:
-      next: Кхин дӀа
       heading_html: '%{copyright}OpenStreetMap %{br} декъашхой'
       used_by_html: '%{name} картан хаамаш ло эзарнаш сайташна а, мобилан программашна
         а, аппаратан гӀирсашна а'
@@ -2309,7 +2303,6 @@ ce:
       close: ДӀачӀагӀа
     search:
       search: Лахар
-      get_directions: Маршрут йила
       get_directions_title: Шина тIадам юккъехь маршрут лаха
       from: Старт
       to: Финиш
@@ -2903,12 +2896,15 @@ ce:
       title: ' %{name} декъашхочун блок хийцар'
       heading_html: ' %{name} декъашхочун блок хийцар'
       period: Мел хенан, хӀинца дуьйна, декъашхо API-х дӀакъовла веза.
+      revoke: ДӀайаккхаблок
     filter:
       block_period: Блокировкан мур хила беза цхьаъ маьIан долуш тептарчура хаьржина.
     create:
       flash: Декъашхочунна %{name} тӀехь блок кхоьллина .
     update:
       only_creator_can_edit: И блок кхоьллинчу модераторан бен хийца йиш яц.
+      only_creator_can_edit_without_revoking: ХӀара блок кхоьллинчу модераторан бен
+        йиш йац иза хийца, йуха а ца йоккхуш.
       only_creator_or_revoker_can_edit: ХӀара блок кхоьллинчу йа йухайаьккхинчу модераторийн
         бен хийца йиш йац.
       inactive_block_cannot_be_reactivated: ХӀара блок жигара йац, йуха дӀахӀотто
