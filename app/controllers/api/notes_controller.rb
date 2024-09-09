@@ -114,8 +114,8 @@ module Api
       id = params[:id].to_i
       text = params[:text]
 
-      # Find the note and check it is valid
       Note.transaction do
+        # Find the note and check it is valid
         @note = Note.lock.find(id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
@@ -124,7 +124,7 @@ module Api
         @note.status = "hidden"
         @note.save
 
-        add_comment(@note, text, "hidden", :notify => false)
+        add_comment(@note, text, "hidden")
       end
 
       # Return a copy of the updated note
@@ -145,8 +145,8 @@ module Api
       id = params[:id].to_i
       text = params[:text]
 
-      # Find the note and check it is valid
-      Note.transaction do
+      comment = Note.transaction do
+        # Find the note and check it is valid
         @note = Note.lock.find(id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
@@ -155,6 +155,8 @@ module Api
         # Add a comment to the note
         add_comment(@note, text, "commented")
       end
+
+      notify_about_comment(comment)
 
       # Return a copy of the updated note
       respond_to do |format|
@@ -173,8 +175,8 @@ module Api
       id = params[:id].to_i
       text = params[:text]
 
-      # Find the note and check it is valid
-      Note.transaction do
+      comment = Note.transaction do
+        # Find the note and check it is valid
         @note = Note.lock.find_by(:id => id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
@@ -185,6 +187,8 @@ module Api
 
         add_comment(@note, text, "closed")
       end
+
+      notify_about_comment(comment)
 
       # Return a copy of the updated note
       respond_to do |format|
@@ -203,8 +207,8 @@ module Api
       id = params[:id].to_i
       text = params[:text]
 
-      # Find the note and check it is valid
-      Note.transaction do
+      comment = Note.transaction do
+        # Find the note and check it is valid
         @note = Note.lock.find_by(:id => id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user.moderator?
@@ -215,6 +219,8 @@ module Api
 
         add_comment(@note, text, "reopened")
       end
+
+      notify_about_comment(comment)
 
       # Return a copy of the updated note
       respond_to do |format|
@@ -382,7 +388,7 @@ module Api
 
     ##
     # Add a comment to a note
-    def add_comment(note, text, event, notify: true)
+    def add_comment(note, text, event)
       attributes = { :visible => true, :event => event, :body => text }
 
       if doorkeeper_token
@@ -397,10 +403,12 @@ module Api
         attributes[:author_ip] = request.remote_ip
       end
 
-      comment = note.comments.create!(attributes)
+      note.comments.create!(attributes)
+    end
 
-      note.comments.map(&:author).uniq.each do |user|
-        UserMailer.note_comment_notification(comment, user).deliver_later if notify && user && user != current_user && user.visible?
+    def notify_about_comment(comment)
+      comment.note.comments.map(&:author).uniq.each do |user|
+        UserMailer.note_comment_notification(comment, user).deliver_later if user && user != current_user && user.visible?
       end
     end
   end
