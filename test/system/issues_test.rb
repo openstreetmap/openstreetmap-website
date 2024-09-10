@@ -183,7 +183,7 @@ class IssuesTest < ApplicationSystemTestCase
     end
 
     # Second Page
-    click_on I18n.t("issues.page.older_issues")
+    click_on "Older Issues"
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
     4.upto(8).each do |n|
@@ -194,7 +194,7 @@ class IssuesTest < ApplicationSystemTestCase
     end
 
     # Back to First Page
-    click_on I18n.t("issues.page.newer_issues")
+    click_on "Newer Issues"
     assert_no_content I18n.t("issues.page.user_not_found")
     assert_no_content I18n.t("issues.page.issues_not_found")
     4.upto(8).each do |n|
