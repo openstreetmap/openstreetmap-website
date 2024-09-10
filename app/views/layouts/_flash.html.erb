@@ -1,6 +1,7 @@
 <% [[:error, :danger], [:warning, :warning], [:notice, :success]].each do |flash_type, bootstrap_type| %>
   <% if flash[flash_type] %>
-    <%= tag.div :class => "alert alert-#{bootstrap_type} row mx-0 mb-0 p-3 rounded-0 align-items-center" do %>
+    <%= tag.div :class => "alert alert-#{bootstrap_type} row mx-0 mb-0 p-3 rounded-0 align-items-center",
+                :data => { :turbo_temporary => true } do %>
       <div class="col-auto">
         <%= notice_svg_tag %>
       </div>
