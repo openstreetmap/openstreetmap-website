@@ -267,6 +267,7 @@ class UsersController < ApplicationController
     current_user.data_public = true
     current_user.description = "" if current_user.description.nil?
     current_user.creation_ip = request.remote_ip
+    current_user.creation_address = request.remote_ip
     current_user.languages = http_accept_language.user_preferred_languages
     current_user.terms_agreed = Time.now.utc
     current_user.tou_agreed = Time.now.utc
