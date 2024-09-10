@@ -118,14 +118,8 @@ module Api
       assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
     end
 
-    def test_redact_way_by_regular_with_read_prefs_scope
-      auth_header = bearer_authorization_header(create(:user), :scopes => %w[read_prefs])
-      do_redact_redactable_way(auth_header)
-      assert_response :forbidden, "should need to be moderator to redact."
-    end
-
-    def test_redact_way_by_regular_with_write_api_scope
-      auth_header = bearer_authorization_header(create(:user), :scopes => %w[write_api])
+    def test_redact_way_by_regular_without_write_redactions_scope
+      auth_header = bearer_authorization_header(create(:user), :scopes => %w[read_prefs write_api])
       do_redact_redactable_way(auth_header)
       assert_response :forbidden, "should need to be moderator to redact."
     end
@@ -136,17 +130,10 @@ module Api
       assert_response :forbidden, "should need to be moderator to redact."
     end
 
-    def test_redact_way_by_moderator_with_read_prefs_scope
-      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[read_prefs])
+    def test_redact_way_by_moderator_without_write_redactions_scope
+      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[read_prefs write_api])
       do_redact_redactable_way(auth_header)
       assert_response :forbidden, "should need to have write_redactions scope to redact."
-    end
-
-    def test_redact_way_by_moderator_with_write_api_scope
-      auth_header = bearer_authorization_header(create(:moderator_user), :scopes => %w[write_api])
-      do_redact_redactable_way(auth_header)
-      assert_response :success, "should be OK to redact old version as moderator with write_api scope."
-      # assert_response :forbidden, "should need to have write_redactions scope to redact."
     end
 
     def test_redact_way_by_moderator_with_write_redactions_scope
