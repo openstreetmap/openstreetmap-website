@@ -7,7 +7,7 @@ class Ability
     can :query, :browse
     can :show, [Node, Way, Relation]
     can [:index, :show], [OldNode, OldWay, OldRelation]
-    can [:show, :new], Note
+    can [:show, :create], Note
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :key, :id], :site
     can [:finish, :embed], :export
@@ -20,11 +20,11 @@ class Ability
       can [:index, :rss, :show], DiaryEntry
       can :index, DiaryComment
       can [:index], Note
-      can [:new, :create, :update], :password
+      can [:create, :update], :password
       can [:index, :show], Redaction
-      can [:new, :create, :destroy], :session
+      can [:create, :destroy], :session
       can [:index, :show, :data, :georss], Trace
-      can [:terms, :new, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
+      can [:terms, :create, :save, :suspended, :show, :auth_success, :auth_failure], User
       can [:index, :show, :blocks_on, :blocks_by], UserBlock
     end
 
@@ -34,21 +34,21 @@ class Ability
 
       if Settings.status != "database_offline"
         can [:subscribe, :unsubscribe], Changeset
-        can [:index, :new, :create, :show, :update, :destroy], :oauth2_application
+        can [:index, :create, :show, :update, :destroy], :oauth2_application
         can [:index, :destroy], :oauth2_authorized_application
-        can [:new, :show, :create, :destroy], :oauth2_authorization
+        can [:show, :create, :destroy], :oauth2_authorization
         can [:update, :destroy], :account
         can [:show], :dashboard
-        can [:new, :create, :subscribe, :unsubscribe], DiaryEntry
+        can [:create, :subscribe, :unsubscribe], DiaryEntry
         can :update, DiaryEntry, :user => user
         can [:create], DiaryComment
         can [:make_friend, :remove_friend], Friendship
-        can [:new, :create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
+        can [:create, :reply, :show, :inbox, :outbox, :muted, :mark, :unmute, :destroy], Message
         can [:close, :reopen], Note
         can [:show, :update], :preference
         can :update, :profile
-        can [:new, :create], Report
-        can [:mine, :new, :create, :update, :destroy], Trace
+        can :create, Report
+        can [:mine, :create, :update, :destroy], Trace
         can [:account, :go_public], User
         can [:index, :create, :destroy], UserMute
 
@@ -56,8 +56,8 @@ class Ability
           can [:hide, :unhide], [DiaryEntry, DiaryComment]
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
-          can [:new, :create, :update, :destroy], Redaction
-          can [:new, :create, :revoke_all], UserBlock
+          can [:create, :update, :destroy], Redaction
+          can [:create, :revoke_all], UserBlock
           can :update, UserBlock, :creator => user
           can :update, UserBlock, :revoker => user
           can :update, UserBlock, :active? => true
