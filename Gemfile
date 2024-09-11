@@ -144,6 +144,9 @@ gem "unicode-display_width"
 # Keep ruby 3.0 compatibility
 gem "multi_xml", "~> 0.6.0"
 
+gem "teaspoon"
+gem "teaspoon-mocha"
+
 # Gems useful for development
 group :development do
   gem "better_errors"
