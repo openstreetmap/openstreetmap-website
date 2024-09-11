@@ -60,6 +60,9 @@ jobs:
       run: bundle exec rails assets:precompile
     - name: Run tests
       run: bundle exec rails test:all
+    - name: Create required directories
+      run: |
+        mkdir -p tmp/pids
     - name: Run javascript tests
       run: bundle exec teaspoon
     - name: Report completion to Coveralls

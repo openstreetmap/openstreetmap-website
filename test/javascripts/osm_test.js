@@ -1,5 +1,5 @@
 //= require jquery
-//= require js-cookie/dist/js.cookie
+//= require jquery.cookie/jquery.cookie
 //= require osm
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm

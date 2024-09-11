@@ -10,6 +10,7 @@ module.exports = [
       globals: {
         ...globals.browser,
         ...globals.jquery,
+        ...globals.mocha,
         Cookies: "readonly",
         I18n: "readonly",
         L: "readonly",
@@ -17,7 +18,9 @@ module.exports = [
         Matomo: "readonly",
         Qs: "readonly",
         Turbo: "readonly",
-        updateLinks: "readonly"
+        updateLinks: "readonly",
+        chai: "readonly",
+        expect: "readonly"
       }
     },
     rules: {
