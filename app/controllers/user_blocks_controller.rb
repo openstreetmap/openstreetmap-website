@@ -25,7 +25,7 @@ class UserBlocksController < ApplicationController
     @show_user_name = true
     @show_creator_name = true
 
-    render :partial => "blocks" if turbo_frame_request_id == "pagination"
+    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   def show
@@ -127,7 +127,7 @@ class UserBlocksController < ApplicationController
     @show_user_name = false
     @show_creator_name = true
 
-    render :partial => "blocks" if turbo_frame_request_id == "pagination"
+    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   ##
@@ -142,7 +142,7 @@ class UserBlocksController < ApplicationController
     @show_user_name = true
     @show_creator_name = false
 
-    render :partial => "blocks" if turbo_frame_request_id == "pagination"
+    render :partial => "page" if turbo_frame_request_id == "pagination"
   end
 
   private
