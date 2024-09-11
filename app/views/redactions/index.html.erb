@@ -10,3 +10,9 @@
 <% else %>
   <p><%= t ".empty" %></p>
 <% end %>
+
+<% if can?(:create, Redaction) %>
+  <div>
+    <%= link_to t(".new"), new_redaction_path, :class => "btn btn-outline-primary" %>
+  </div>
+<% end %>
