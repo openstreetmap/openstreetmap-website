@@ -141,6 +141,9 @@ gem "image_processing"
 # Used to validate widths
 gem "unicode-display_width"
 
+gem "teaspoon"
+gem "teaspoon-mocha"
+
 # Gems useful for development
 group :development do
   gem "better_errors"
