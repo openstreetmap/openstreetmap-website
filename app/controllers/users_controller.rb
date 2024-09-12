@@ -38,7 +38,9 @@ class UsersController < ApplicationController
       users = users.where(:status => @params[:status]) if @params[:status]
       users = users.where(:creation_ip => @params[:ip]) if @params[:ip]
 
-      @users_count = users.count
+      @users_count = users.limit(501).count
+      @users_count = I18n.t("count.at_least_pattern", :count => 500) if @users_count > 500
+
       @users, @newer_users_id, @older_users_id = get_page_items(users, :limit => 50)
 
       render :partial => "page" if turbo_frame_request_id == "pagination"
