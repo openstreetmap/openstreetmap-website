@@ -91,16 +91,16 @@
     <% end %>
   <% end %>
 
-  <% unless @ways.empty? %>
-    <%= render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages } %>
+  <% unless @ways_paginator.current_page_elements.empty? %>
+    <%= render :partial => "elements", :locals => { :type => "way", :paginator => @ways_paginator } %>
   <% end %>
 
-  <% unless @relations.empty? %>
-    <%= render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages } %>
+  <% unless @relations_paginator.current_page_elements.empty? %>
+    <%= render :partial => "elements", :locals => { :type => "relation", :paginator => @relations_paginator } %>
   <% end %>
 
-  <% unless @nodes.empty? %>
-    <%= render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages } %>
+  <% unless @nodes_paginator.current_page_elements.empty? %>
+    <%= render :partial => "elements", :locals => { :type => "node", :paginator => @nodes_paginator } %>
   <% end %>
 </div>
 

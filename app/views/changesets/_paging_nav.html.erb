@@ -1,8 +1,8 @@
-<h4 class="fs-5"><%= type_and_paginated_count(type, pages) %></h4>
-<% if pages.page_count > 1 %>
-  <%= sidebar_classic_pagination(pages, "#{type}_page") do |page|
+<h4 class="fs-5"><%= type_and_paginated_count(type, paginator) %></h4>
+<% if paginator.pages_count > 1 %>
+  <%= sidebar_classic_pagination(paginator, "#{type}_page") do |page|
         {
-          :title => type_and_paginated_count(type, pages, page),
+          :title => type_and_paginated_count(type, paginator, page),
           :data => { :turbo => "true" }
         }
       end %>
