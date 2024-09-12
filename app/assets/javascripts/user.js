@@ -1,5 +1,11 @@
 //= require leaflet.locatecontrol/src/L.Control.Locate
 
+(function () {
+  $(document).on("change", "#user_all", function () {
+    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
+  });
+}());
+
 $(document).ready(function () {
   var defaultHomeZoom = 12;
   var map, marker, deleted_lat, deleted_lon;
@@ -199,10 +205,6 @@ $(document).ready(function () {
   } else {
     enableAuth();
   }
-
-  $("#user_all").change(function () {
-    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
-  });
 
   $("#content.user_confirm").each(function () {
     $(this).hide();
