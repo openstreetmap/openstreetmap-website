@@ -28,6 +28,7 @@
 # Author: Kareyac
 # Author: Lxlalexlxl
 # Author: Macofe
+# Author: MatviiBohdanFediura
 # Author: Mike140
 # Author: Movses
 # Author: Mykola Swarnyk
@@ -526,10 +527,6 @@ uk:
         sorry: На жаль, перелік наборів змін, який ви запросили, потребує забагато
           часу для завантаження.
   changesets:
-    changeset_paging_nav:
-      showing_page: Сторінка %{page}
-      next: Наступна →
-      previous: ← Попередня
     changeset:
       anonymous: Анонім
       no_edits: (редагувань немає)
@@ -638,8 +635,6 @@ uk:
       no_entries: У щоденнику немає записів
     page:
       recent_entries: Останні записи в щоденнику
-      older_entries: Старіші записи
-      newer_entries: Новіші записи
     edit:
       title: Редагувати нотатку
       marker_text: Місце написання нотатки
@@ -647,6 +642,8 @@ uk:
       title: Щоденник %{user} | %{title}
       user_title: Щоденник %{user}
       discussion: Обговорення
+      subscribe: Підписатися
+      unsubscribe: Відписатися
       leave_a_comment: Лишити коментар
       login_to_leave_a_comment_html: '%{login_link}, аби залишити коментар'
       login: Увійти
@@ -707,8 +704,8 @@ uk:
       post: Повідомлення
       when: Коли
       comment: Коментар
-      newer_comments: Нові коментарі
-      older_comments: Старіші коментарі
+    new:
+      heading: Додати коментар до обговорення запису в щоденнику?
   doorkeeper:
     errors:
       messages:
@@ -946,6 +943,7 @@ uk:
           college: Будівля коледжу
           commercial: Комерційна нерухомість
           construction: Будівля що будується
+          cowshed: Корівник
           detached: Будинок на одну родину
           dormitory: Гуртожиток
           duplex: Будинок поділений на два домогосподарства
@@ -975,6 +973,7 @@ uk:
           shed: Сарай
           stable: Стайня
           static_caravan: Будинок на колесах
+          sty: Свинарник
           temple: Будівля храму
           terrace: Таунхаус
           train_station: Будівля залізничної станції
@@ -1580,6 +1579,7 @@ uk:
     page:
       user_not_found: Такого учасника не існує
       issues_not_found: Таке звернення не знайдене
+      reported_user: Мапер, на якого поскаржились
       status: Статус
       reports: Скарги
       last_updated: Останнє оновлення
@@ -1590,6 +1590,10 @@ uk:
         many: '%{count} Скарг'
         other: ""
       reported_item: Про що
+      states:
+        ignored: Проігноровано
+        open: Відкрито
+        resolved: Вирішено
     show:
       title: 'Звернення #%{issue_id} - %{status}'
       reports:
@@ -1687,13 +1691,14 @@ uk:
     hosting_partners_2024_html: Хостинг підтримується %{fastly}, %{corpmembers} та
       іншими %{partners}.
     partners_fastly: Fastly
-    partners_corpmembers: Корпоративні члени OSMF
+    partners_corpmembers: Корпоративними членами OSMF
     partners_partners: партнерами
     tou: Умови використання
     osm_offline: База даних OpenStreetMap в даний момент недоступна, бо саме проводиться
       необхідне технічне обслуговування.
     osm_read_only: База даних OpenStreetMap в даний момент доступна тільки для читання,
       тому що проводиться необхідне технічне обслуговування.
+    nothing_to_preview: Нічого немає для перегляду.
     help: Довідка
     about: Про проєкт
     copyright: Авторські права
@@ -1735,13 +1740,19 @@ uk:
       befriend_them: Ви також можете додати їх як друзів %{befriendurl}.
       befriend_them_html: Ви також можете додати його/її до друзів %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Це виглядає як ваш GPX-файл %{trace_name} з описом %{trace_description}
+        і наступними теґами: %{tags}'
       description_with_tags_html: 'Схоже це ваш файл GPX %{trace_name}, що має опис
         — %{trace_description} та наступні теґи: %{tags}'
+      description_with_no_tags: Виглядає як ваш GPX-файл %{trace_name} з описом %{trace_description}
+        і без теґів
       description_with_no_tags_html: Схоже це ваш файл GPX %{trace_name}, що має опис
         - %{trace_description} та без теґів
     gpx_failure:
       hi: Привіт, %{to_user},
       failed_to_import: 'не вдалось імпортувати. Сталася помилка:'
+      more_info: Більше інформації про помилки імпорту GPX та способи їх уникнення
+        можна знайти за посиланням %{url}.
       more_info_html: Докладна інформація про проблеми імпорту GPX та шляхи їх вирішення
         знаходяться за посиланням %{url}.
       subject: '[OpenStreetMap] Збій імпорту GPX'
@@ -1752,6 +1763,9 @@ uk:
         few: 'успішно завантажено %{trace_points} точки з %{count} можливих. '
         many: успішно завантажено %{trace_points} точок з %{count} можливих.
         other: ""
+      trace_location: Ваш трек доступний за посиланням %{trace_url}
+      all_your_traces: Усі ваші успішно завантажені GPX-треки можна знайти за посиланням
+        %{url}.
       all_your_traces_html: Усі успішно завантажені треки GPX можна знайти за адресою
         %{url}.
       subject: '[OpenStreetMap] Імпорт GPX пройшов успішно'
@@ -2057,6 +2071,26 @@ uk:
     richtext_field:
       edit: Редагувати
       preview: Попередній перегляд
+      help: Довідка
+    pagination:
+      diary_comments:
+        older: Старіші коментарі
+        newer: Нові коментарі
+      diary_entries:
+        older: Старіші записи
+        newer: Новіші записи
+      issues:
+        older: Старіші повідомлення
+        newer: Новіші повідомлення
+      traces:
+        older: Старіші треки
+        newer: Новіші треки
+      user_blocks:
+        older: Старіші блокування
+        newer: Новіші блокування
+      users:
+        older: Раніше зареєстровані користувачі
+        newer: Нещодавно зареєстровані користувачі
   site:
     about:
       heading_html: '%{copyright}Учасники %{br} OpenStreetMap'
@@ -2593,8 +2627,6 @@ uk:
       visibility_help: ще це означає?
     update:
       updated: Трек оновлено
-    trace_optionals:
-      tags: 'Теґи:'
     show:
       title: Перегляд треку %{name}
       heading: Перегляд треку %{name}
@@ -2649,13 +2681,8 @@ uk:
       my_traces: Мої GPS-треки
       traces_from: Загальнодоступні GPS треки %{user}
       remove_tag_filter: Прибрати фільтри
-    page:
-      older: Старіші треки
-      newer: Новіші треки
     destroy:
       scheduled_for_deletion: Заплановано для вилучення
-    make_public:
-      made_public: Трек зроблено загальнодоступним
     offline_warning:
       message: Доступ до системи завантаження GPX-файлів на поточний момент відсутній
     offline:
@@ -2690,25 +2717,26 @@ uk:
       oauth2_authorizations: авторизації OAuth 2
       muted_users: Стишені учасники
     auth_providers:
+      openid_url: OpenID URL
       openid_login_button: Продовжити
       openid:
         title: Увійти за OpenID
-        alt: Увійти за OpenID URL
+        alt: OpenID лого
       google:
         title: Увійти через Google
-        alt: Увійти через Google OpenID
+        alt: Google лого
       facebook:
         title: Увійти з Facebook
-        alt: Увійти з облікового запису Facebook
+        alt: Facebook лого
       microsoft:
         title: Увійти з Microsoft
-        alt: Увійти з облікового запису Microsoft
+        alt: Microsoft лого
       github:
         title: Увійти через GitHub
-        alt: Вхід через обліковий запис GitHub
+        alt: GitHub лого
       wikipedia:
         title: Увійти через Вікіпедію
-        alt: Вхід через обліковий запис у Вікіпедії
+        alt: Wikipedia лого
   oauth:
     permissions:
       missing: Ви не дозволили програмі отримати доступ до цієї функції
@@ -2929,8 +2957,6 @@ uk:
       summary_no_ip_html: '%{name} зареєстровано %{date}'
       empty: Не знайдено учасників відповідно до критеріїв пошуку
     page:
-      older: Раніше зареєстровані користувачі
-      newer: Нещодавно зареєстровані користувачі
       found_users:
         one: знайдено %{count} користувача
         few: знайдено %{count} користувачів
@@ -2968,15 +2994,9 @@ uk:
       not_revoke_admin_current_user: Неможливо відкликати права адміністратора у поточного
         учасника.
     grant:
-      title: Підтвердження надання ролі
-      heading: Підтвердження надання ролі
       are_you_sure: Ви впевнені, що бажаєте надати роль «%{role}» учаснику «%{name}»?
-      confirm: Підтвердити
     revoke:
-      title: Підтвердження відкликання ролі
-      heading: Підтвердження відкликання ролі
       are_you_sure: Ви впевнені, що хочете відкликати роль «%{role})» в учасника «%{name}»?
-      confirm: Підтвердити
   user_blocks:
     model:
       non_moderator_update: Потрібно бути модератором, щоб створити або змінити блокування.
@@ -3075,14 +3095,12 @@ uk:
       not_revoked: (не розблокований)
       show: Показати
       edit: Редагувати
-    blocks:
+    page:
       display_name: Заблокований учасник
       creator_name: Автор
       reason: Причина блокування
       status: Стан
       revoker_name: Розблокував
-      older: Старіші блокування
-      newer: Новіші блокування
     navigation:
       all_blocks: Всі блокування
       blocks_on_me: Мої блокування
@@ -3172,6 +3190,8 @@ uk:
         Будь ласка, не додавайте персональні дані або інформацію, яка міститься на
         захищених авторським правом мапах чи каталогах.
       add: Додати нотатку
+    notes_paging_nav:
+      showing_page: Сторінка %{page}
   javascripts:
     close: Закрити
     share:

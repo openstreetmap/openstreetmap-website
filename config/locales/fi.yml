@@ -461,10 +461,6 @@ fi:
         sorry: Valitettavasti pyytämäsi muutoskokoelmien kommenttien hakeminen kesti
           liian kauan.
   changesets:
-    changeset_paging_nav:
-      showing_page: Sivu %{page}
-      next: Seuraava »
-      previous: « Edellinen
     changeset:
       anonymous: Tuntematon
       no_edits: (ei muokkauksia)
@@ -559,8 +555,6 @@ fi:
       no_entries: Päiväkirjassa ei ole merkintöjä.
     page:
       recent_entries: Uusimmat päiväkirjamerkinnät
-      older_entries: Vanhempia...
-      newer_entries: Uudempia...
     edit:
       title: Muokkaa päiväkirjamerkintää
       marker_text: Päiväkirjamerkinnän sijainti
@@ -621,8 +615,6 @@ fi:
       post: Kommentti
       when: Päiväys
       comment: Kommentti
-      newer_comments: Uudemmat kommentit
-      older_comments: Vanhemmat kommentit
   doorkeeper:
     flash:
       applications:
@@ -1828,7 +1820,7 @@ fi:
       lost password link: Unohditko salasanasi?
       login_button: Kirjaudu sisään
       register now: Rekisteröidy
-      with external: 'Voit myös kirjautua jonkun muun palvelun tunnuksilla:'
+      with external: 'tai kirjaudu jonkun muun palvelun tunnuksilla:'
       auth failure: Kirjautuminen epäonnistui.
     destroy:
       title: Kirjaudu ulos
@@ -1855,6 +1847,19 @@ fi:
     richtext_field:
       edit: Muokkaa
       preview: Esikatsele
+    pagination:
+      diary_comments:
+        older: Vanhemmat kommentit
+        newer: Uudemmat kommentit
+      diary_entries:
+        older: Vanhempia...
+        newer: Uudempia...
+      traces:
+        older: Vanhat jäljet
+        newer: Uudet jäljet
+      users:
+        older: Vanhemmat käyttäjät
+        newer: Uudemmat käyttäjät
   site:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} kartoittajat'
@@ -1961,6 +1966,8 @@ fi:
         contributors_at_cc_by_at_with_amendments: CC-BY AT -lisenssillä tietyin muutoksin
         contributors_au_australia: Australia
         contributors_au_geoscape_australia: Geoscape Australia
+        contributors_au_cc_licence: Creative Commons Nimeä 4.0 Kansainvälinen (CC
+          BY 4.0)
         contributors_ca_credit_html: |-
           %{canada}: Sisältää karttatietoja GeoBasesta&reg;, GeoGratisista (&copy; Department of Natural
           Resources Canada), CanVecista (&copy; Department of Natural
@@ -1968,6 +1975,8 @@ fi:
           Statistics Canada).
         contributors_ca_canada: Kanada
         contributors_cz_czechia: Tšekki
+        contributors_cz_cc_licence: Creative Commons Nimeä 4.0 Kansainvälinen (CC
+          BY 4.0)
         contributors_fi_credit_html: '%{finland}: Sisältää karttatietoja Maanmittauslaitoksen
           maastotietokannasta ja muista lähteistä %{nlsfi_license_link} mukaisesti.'
         contributors_fi_finland: Suomi
@@ -2290,8 +2299,6 @@ fi:
       visibility_help: Mitä tämä tarkoittaa?
     update:
       updated: Jälki päivitetty
-    trace_optionals:
-      tags: Ominaisuustiedot
     show:
       title: Näytetään jälkeä %{name}
       heading: Näytetään jälkeä %{name}
@@ -2341,13 +2348,8 @@ fi:
       my_traces: Omat jäljet
       traces_from: Julkiset jäljet käyttäjältä %{user}
       remove_tag_filter: Poista tunnistesuodatin
-    page:
-      older: Vanhat jäljet
-      newer: Uudet jäljet
     destroy:
       scheduled_for_deletion: Jälki on poistojonossa.
-    make_public:
-      made_public: Jäljestä tehtiin julkinen
     offline_warning:
       message: GPX-tiedostojen tallennus ei ole tällä hetkellä käytettävissä
     offline:
@@ -2378,24 +2380,25 @@ fi:
       oauth2_authorizations: OAuth 2 -käyttöoikeudet
       muted_users: Hiljennetyt käyttäjät
     auth_providers:
+      openid_login_button: Jatka
       openid:
         title: Kirjaudu sisään OpenID:llä
-        alt: Kirjaudu sisään OpenID-osoitteella
+        alt: OpenID-logo
       google:
         title: Kirjaudu käyttämällä Google-tunnustasi
-        alt: Kirjaudu käyttämällä Google OpenID-tunnustasi
+        alt: Google-logo
       facebook:
         title: Kirjaudu Facebookin avulla
-        alt: Kirjaudu käyttämällä Facebook-tunnustasi
+        alt: Facebook-logo
       microsoft:
         title: Kirjaudu Microsoft-tilin avulla
-        alt: Kirjaudu sisään Microsoft-tililläsi
+        alt: Microsoft-logo
       github:
         title: Kirjaudu GitHubin avulla
-        alt: Kirjaudu GitHub-tilin avulla
+        alt: GitHub-logo
       wikipedia:
         title: Kirjaudu sisään Wikipedialla
-        alt: Kirjaudu sisään Wikipedia-tunnuksella
+        alt: Wikipedia-logo
   oauth:
     permissions:
       missing: Et ole sallinut sovelluksen käyttöoikeutta tähän palveluun
@@ -2464,20 +2467,24 @@ fi:
         nyt käytössä.
       support: tuki
       about:
-        header: Muokkaa vapaasti
+        header: Muokkaa vapaasti.
         paragraph_1: Toisin kuin muut karttapalvelut, OpenStreetMap on täysin tavallisten
           ihmisten luoma. Kuka tahansa voi korjata, päivittää, ladata ja käyttää sitä
           ilmaiseksi.
         paragraph_2: Osallistu projektiin luomalla käyttäjätunnus.
+        welcome: Tervetuloa OpenStreetMapiin
       display name description: Julkisesti näkyvä käyttäjänimi. Tätä voi myöhemmin
         muuttaa asetuksista.
       by_signing_up:
         html: Rekisteröitymällä hyväksyt %{tou_link}, %{privacy_policy_link} ja %{contributor_terms_link}.
         privacy_policy: tietosuojakäytäntö
+        contributor_terms: osallistumisehdot
+      tou: käyttöehdot
       external auth: 'Kolmannen osapuolen todennus:'
       continue: Rekisteröidy
       terms accepted: Kiitos uusien osallistujaehtojen hyväksymisestä!
       email_help:
+        privacy_policy: tietosuojakäytäntö
         html: Osoitetta ei näytetä julkisesti, lisätietoja on sivulla %{privacy_policy_link}.
       consider_pd_html: Pidän tuotoksiani %{consider_pd_link}.
       use external auth: Kirjaudu toisen palvelun tunnuksilla
@@ -2580,8 +2587,6 @@ fi:
       summary_no_ip_html: '%{name} luotu %{date}'
       empty: Käyttäjiä ei löytynyt.
     page:
-      older: Vanhemmat käyttäjät
-      newer: Uudemmat käyttäjät
       confirm: Vahvista valitut käyttäjät
       hide: Piilota valitut käyttäjät
     suspended:
@@ -2610,15 +2615,9 @@ fi:
       not_revoke_admin_current_user: Ei voida perua järjestelmänvalvojan roolia nykyiseltä
         käyttäjältä.
     grant:
-      title: Vahvista roolin myöntäminen
-      heading: Vahvista roolin myöntäminen
       are_you_sure: Haluatko varmasti lisätä käyttäjän ”%{name}” ryhmään ”%{role}”?
-      confirm: Vahvista
     revoke:
-      title: Vahvista roolin poistaminen
-      heading: Vahvista roolin poistaminen
       are_you_sure: Haluatko varmasti poistaa käyttäjän ”%{name}” ryhmästä ”%{role}”?
-      confirm: Vahvista
   user_blocks:
     model:
       non_moderator_update: Sinun on oltava moderaattori luodaksesi tai muokataksesi
@@ -2693,7 +2692,7 @@ fi:
       not_revoked: (ei kumottu)
       show: Näytä
       edit: Muokkaa
-    blocks:
+    page:
       display_name: Estetty käyttäjä
       creator_name: Tekijä
       reason: Eston syy
@@ -2754,11 +2753,16 @@ fi:
       intro: Huomasitko virheen tai puuttuvan kohteen? Ilmoita siitä muille kartoittajille,
         jolloin virhe voidaan korjata. Siirrä merkkipiste oikeaan kohtaan ja kirjoita
         selite ongelmasta.
+      anonymous_warning_html: Et ole kirjautunut sisään. %{log_in} tai %{sign_up},
+        jos haluat saada päivityksiä karttailmoituksestasi.
+      anonymous_warning_log_in: Kirjaudu sisään
       anonymous_warning_sign_up: rekisteröidy
       advice: Merkintä näkyy julkisesti kaikille, älä kirjoita henkilökohtaisia tietoja.
         Aineistoa kehitetään palautteen perusteella, minkä takia älä käytä lähteenä
         muita karttoja tai hakemistoja.
       add: Lähetä ilmoitus
+    notes_paging_nav:
+      showing_page: Sivu %{page}
   javascripts:
     close: Sulje
     share:

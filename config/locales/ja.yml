@@ -462,10 +462,6 @@ ja:
       timeout:
         sorry: 申し訳ありませんが、要求した変更セットのコメントの一覧は時間がかかりすぎたため取得できませんでした。
   changesets:
-    changeset_paging_nav:
-      showing_page: '%{page}ページ'
-      next: 次 »
-      previous: « 前
     changeset:
       anonymous: 匿名
       no_edits: (編集がありません)
@@ -570,8 +566,6 @@ ja:
       no_entries: 日記エントリはありません
     page:
       recent_entries: 最近の日記エントリ
-      older_entries: 以前のエントリ
-      newer_entries: 以降のエントリ
     edit:
       title: 日記の編集
       marker_text: 日記のロケーション
@@ -637,8 +631,6 @@ ja:
       post: 投稿
       when: 日時
       comment: コメント
-      newer_comments: 新しいコメント
-      older_comments: 古いコメント
     new:
       heading: この日記エントリの議論にコメントを追加しますか？
   doorkeeper:
@@ -1514,8 +1506,6 @@ ja:
         ignored: 無視
         open: 開く
         resolved: 解決済
-      older_issues: 古い問題
-      newer_issues: 新しい問題
     show:
       title: '%{status} 問題 #%{issue_id}'
       reports:
@@ -1911,6 +1901,19 @@ ja:
       edit: 編集
       preview: プレビュー
       help: ヘルプ
+    pagination:
+      diary_comments:
+        older: 古いコメント
+        newer: 新しいコメント
+      diary_entries:
+        older: 以前のエントリ
+        newer: 以降のエントリ
+      issues:
+        older: 古い問題
+        newer: 新しい問題
+      traces:
+        older: 以前のトレース
+        newer: 以降のトレース
   site:
     about:
       used_by_html: '%{name} は数千ものウェブサイト、モバイル アプリ、ハードウェア機器に地図データを提供しています'
@@ -2236,6 +2239,7 @@ ja:
           destination: 目的通行
           construction: 建設中の道路
           bus_stop: バス停
+          stop: 乗り場
           bicycle_shop: 自転車販売店
           bicycle_rental: 自転車レンタル
           bicycle_parking: 駐輪場
@@ -2317,8 +2321,6 @@ ja:
       visibility_help_url: http://wiki.openstreetmap.org/wiki/JA:Visibility_of_GPS_traces
     update:
       updated: トレースが更新されました
-    trace_optionals:
-      tags: タグ
     show:
       title: トレース %{name} の表示
       heading: トレース %{name} の表示
@@ -2352,6 +2354,8 @@ ja:
       identifiable: 識別可能
       private: 非公開
       trackable: 追跡可能
+      details_with_tags_html: '%{time_ago} に %{user} が %{tags} に投稿'
+      details_without_tags_html: '%{time_ago}に%{user}によって投稿されました'
     index:
       public_traces: 公開GPSトレース
       my_gps_traces: 自作のGPSトレース
@@ -2367,13 +2371,8 @@ ja:
       my_traces: 自分のトレース
       traces_from: '%{user}さんによる公開GPSトレース'
       remove_tag_filter: タグフィルターの削除
-    page:
-      older: 以前のトレース
-      newer: 以降のトレース
     destroy:
       scheduled_for_deletion: トレースの削除準備を行いました
-    make_public:
-      made_public: トレースを公開しました
     offline_warning:
       message: GPX ファイルのアップロード システムは現在利用できません
     offline:
@@ -2432,6 +2431,7 @@ ja:
       write_gpx: GPSトレースをアップロードする
       write_notes: メモを変更する
       read_email: 利用者のメールアドレスを読む
+      send_messages: 他の利用者にプライベートメッセージを送信する
       skip_authorization: 自動的に申請を承認する
     for_roles:
       moderator: モデレータ専用アクション用の権限
@@ -2486,7 +2486,9 @@ ja:
     new:
       title: 利用者登録
       tab_title: 利用者登録
+      signup_to_authorize_html: '%{client_app_name} にアクセスするには、OpenStreetMap に利用者登録してください。'
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
+      please_contact_support_html: アカウントの作成をご希望の場合は、%{support_link} までご連絡ください。 - できる限りすみやかに対応いたします。
       support: サポート
       about:
         header: フリーで編集可能
@@ -2619,6 +2621,8 @@ ja:
       heading: アカウント停止
       support: サポート
       automatically_suspended: 不審なアクティビティがあったため、アカウントが自動的に停止されました。
+      contact_support_html: この決定は管理者によってすぐに検討されます。この件について話し合いたい場合は、%{support_link}
+        までお問い合わせください。
     auth_failure:
       connection_failed: 認証プロバイダへの接続に失敗しました
       invalid_credentials: 無効な認証資格情報です
@@ -2637,15 +2641,9 @@ ja:
       doesnt_have_role: 利用者に %{role} 権限が付与されていません。
       not_revoke_admin_current_user: 現在の利用者から管理者権限を剥奪することはできません。
     grant:
-      title: 権限付与の確認
-      heading: 権限付与の確認
       are_you_sure: 利用者「%{name}」に「%{role}」権限を本当に与えますか?
-      confirm: 確認
     revoke:
-      title: 権限取り消しの確認
-      heading: 権限取り消しの確認
       are_you_sure: 利用者「%{name}」の「%{role}」権限を本当に取り消しますか?
-      confirm: 確認
   user_blocks:
     model:
       non_moderator_update: ブロックの作成/更新にはモデレーター権限が必要です。
@@ -2712,7 +2710,7 @@ ja:
       not_revoked: (取り消されていません)
       show: 表示する
       edit: 編集
-    blocks:
+    page:
       display_name: ブロックされている利用者
       creator_name: 作成者
       reason: ブロックされた理由
@@ -2746,7 +2744,7 @@ ja:
       subheading_html: '%{user}さんが%{submitted}または%{commented}したメモ'
       subheading_submitted: 投稿
       subheading_commented: コメント
-      no_notes: メモなし
+      no_notes: メモはありません
       id: ID
       creator: 作成者
       description: 説明
@@ -2774,11 +2772,11 @@ ja:
       reactivate: 再有効化
       comment_and_resolve: コメント & 解決
       comment: コメント
-      log_in_to_comment: このメモにコメントするにはログインしてください
+      log_in_to_comment: このメモにコメントするためにはログインが必要です
       report_link_html: このメモに削除が必要な機密情報が含まれている場合は、%{link}してください。
-      other_problems_resolve: メモに関するその他の問題は、コメントで自分で解決してください。
+      other_problems_resolve: メモに関するその他の問題は、コメントによってご自分で解決してください。
       other_problems_resolved: その他の問題には、解決で十分です。
-      disappear_date_html: このメモは解決済みです。%{disappear_in} で地図から消えます。
+      disappear_date_html: このメモは解決済みです。あと%{disappear_in}で地図から消えます。
     new:
       title: 新しいメモ
       intro: 間違いや情報の抜けがありましたか？　他のマッパーが修正できるよう、お知らせください。マーカーを正しい位置に移動し、問題を説明するメモを入力します。
@@ -2788,6 +2786,8 @@ ja:
       anonymous_warning_sign_up: 利用者登録
       advice: 投稿したメモは公開され、地図の更新に利用されます。そのため、著作権保護された地図や一覧情報からの転用情報や、個人情報の入力は行わないでください。
       add: メモを追加
+    notes_paging_nav:
+      showing_page: '%{page}ページ'
   javascripts:
     close: 閉じる
     share:
@@ -2831,7 +2831,7 @@ ja:
         cycle_map: サイクリングマップ
         transport_map: 交通マップ
         tracestracktop_topo: トレーストラックトポ
-        hot: Humanitarian
+        hot: 人道支援
       layers:
         header: 地図のレイヤー
         notes: 地図メモ
