@@ -88,10 +88,15 @@ mapnik:
   - { min_zoom: 14, name: building, width: 10, height: 10, fill: "#ab9793" }
   - { min_zoom: 15, name: building, width: 10, height: 10, fill: "#b9a99c", border: "#a99a8d" }
   - { min_zoom: 16, name: building, width: 10, height: 10, fill: "#c4b6ab", border: "#a99a8d" }
-  # stations: stations.mss
-  - { min_zoom: 12, name: station, width: 4, height: 4, fill: "#7981b0" }
-  - { min_zoom: 13, name: station, width: 6, height: 6, fill: "#7981b0" }
+  # stations: stations.mss, amenity-points.mss
+  - { min_zoom: 12, max_zoom: 12, name: station, width: 4, height: 4, fill: "#7981b0" }
+  - { min_zoom: 13, max_zoom: 13, name: station, width: 6, height: 6, fill: "#7981b0" }
+  - { min_zoom: 13, max_zoom: 13, name: railway_halt, width: 4, height: 4, fill: "#7981b0" }
+  - { min_zoom: 14, max_zoom: 14, name: [station, subway_station], width: 6, height: 6, fill: "#7981b0" }
+  - { min_zoom: 14, max_zoom: 14, name: [railway_halt, tram_stop], width: 4, height: 4, fill: "#7981b0" }
   - { min_zoom: 15, name: station, width: 9, height: 9, fill: "#7981b0" }
+  - { min_zoom: 15, name: [railway_halt, subway_station, tram_stop], width: 6, height: 6, fill: "#7981b0" }
+  - { min_zoom: 16, name: bus_stop, width: 6, height: 6, fill: "#0092da" }
   # other
   - { min_zoom: 11, name: [summit, peak], image: summit.svg } # amenity-points.mss
   - { min_zoom: 13, name: tunnel, width: 50, height: 5, casing: grey, casing-dasharray: "4 2", casing-dashoffset: 1 } # roads.mss
