@@ -33,9 +33,11 @@
 #  tou_agreed           :datetime
 #  diary_comments_count :integer          default(0)
 #  note_comments_count  :integer          default(0)
+#  creation_address     :inet
 #
 # Indexes
 #
+#  index_users_on_creation_address   (creation_address) USING gist
 #  users_auth_idx                    (auth_provider,auth_uid) UNIQUE
 #  users_display_name_canonical_idx  (lower(NORMALIZE(display_name, NFKC)))
 #  users_display_name_idx            (display_name) UNIQUE

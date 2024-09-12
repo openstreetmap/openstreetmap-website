@@ -1499,7 +1499,8 @@ CREATE TABLE public.users (
     home_tile bigint,
     tou_agreed timestamp without time zone,
     diary_comments_count integer DEFAULT 0,
-    note_comments_count integer DEFAULT 0
+    note_comments_count integer DEFAULT 0,
+    creation_address inet
 );
 
 
@@ -2604,6 +2605,13 @@ CREATE UNIQUE INDEX index_user_mutes_on_owner_id_and_subject_id ON public.user_m
 
 
 --
+-- Name: index_users_on_creation_address; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_creation_address ON public.users USING gist (creation_address inet_ops);
+
+
+--
 -- Name: messages_from_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3349,6 +3357,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20240910175616'),
 ('20240822121603'),
 ('20240813070506'),
 ('20240724194738'),
