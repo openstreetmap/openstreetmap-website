@@ -86,7 +86,7 @@ module BrowseHelper
     max_width_for_default_padding = 35
 
     width = 0
-    pagination_items(pages, {}).each do |body|
+    pagination_items(pages, {}).each do |(body)|
       width += 2 # padding width
       width += body.length
     end
