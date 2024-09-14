@@ -43,6 +43,12 @@ You can run the existing test suite with:
 bundle exec rails test:all
 ```
 
+You can run javascript tests with:
+
+```
+bundle exec teaspoon
+```
+
 You can view test coverage statistics by browsing the `coverage` directory.
 
 The tests are automatically run on Pull Requests and other commits via github

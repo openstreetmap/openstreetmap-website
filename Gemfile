@@ -141,9 +141,6 @@ gem "image_processing"
 # Used to validate widths
 gem "unicode-display_width"
 
-gem "teaspoon"
-gem "teaspoon-mocha", "~> 2.3.3"
-
 # Gems useful for development
 group :development do
   gem "better_errors"
@@ -181,6 +178,8 @@ end
 
 group :development, :test do
   gem "annotate"
+  gem "teaspoon"
+  gem "teaspoon-mocha", "~> 2.3.3"
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", :require => "debug/prelude"
