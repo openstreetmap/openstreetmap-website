@@ -1,3 +1,4 @@
+/* eslint-disable */
 //= require jquery
 //= require js-cookie/dist/js.cookie
 //= require osm
