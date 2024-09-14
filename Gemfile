@@ -145,7 +145,7 @@ gem "unicode-display_width"
 gem "multi_xml", "~> 0.6.0"
 
 gem "teaspoon"
-gem "teaspoon-mocha"
+gem "teaspoon-mocha", "~> 2.3.3"
 
 # Gems useful for development
 group :development do
@@ -180,4 +180,11 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-lcov", :require => false
   gem "webmock"
+end
+
+group :development, :test do
+  gem "annotate"
+
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", :require => "debug/prelude"
 end
