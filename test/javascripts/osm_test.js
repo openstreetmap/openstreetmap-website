@@ -1,4 +1,3 @@
-/* eslint-disable */
 //= require jquery
 //= require js-cookie/dist/js.cookie
 //= require osm
@@ -11,15 +10,15 @@
 describe("OSM", function () {
   describe(".apiUrl", function () {
     it("returns a URL for a way", function () {
-      expect(OSM.apiUrl({type: "way", id: 10})).to.eq("/api/0.6/way/10/full");
+      expect(OSM.apiUrl({ type: "way", id: 10 })).to.eq("/api/0.6/way/10/full");
     });
 
     it("returns a URL for a node", function () {
-      expect(OSM.apiUrl({type: "node", id: 10})).to.eq("/api/0.6/node/10");
+      expect(OSM.apiUrl({ type: "node", id: 10 })).to.eq("/api/0.6/node/10");
     });
 
     it("returns a URL for a specific version", function () {
-      expect(OSM.apiUrl({type: "node", id: 10, version: 2})).to.eq("/api/0.6/node/10/2");
+      expect(OSM.apiUrl({ type: "node", id: 10, version: 2 })).to.eq("/api/0.6/node/10/2");
     });
   });
 
@@ -52,15 +51,15 @@ describe("OSM", function () {
     it("parses object params", function () {
       var params = OSM.mapParams("?node=1");
       expect(params).to.have.property("object");
-      expect(params.object).to.eql({type: "node", id: 1});
+      expect(params.object).to.eql({ type: "node", id: 1 });
 
       params = OSM.mapParams("?way=1");
       expect(params).to.have.property("object");
-      expect(params.object).to.eql({type: "way", id: 1});
+      expect(params.object).to.eql({ type: "way", id: 1 });
 
       params = OSM.mapParams("?relation=1");
       expect(params).to.have.property("object");
-      expect(params.object).to.eql({type: "relation", id: 1});
+      expect(params.object).to.eql({ type: "relation", id: 1 });
     });
 
     it("parses bbox params", function () {
@@ -86,21 +85,21 @@ describe("OSM", function () {
 
     it("parses lat/lon/zoom from the hash", function () {
       document.location.hash = "#map=16/57.6247/-3.6845";
-      params = OSM.mapParams("?");
+      const params = OSM.mapParams("?");
       expect(params).to.have.property("lat", 57.6247);
       expect(params).to.have.property("lon", -3.6845);
       expect(params).to.have.property("zoom", 16);
     });
 
     it("sets lat/lon from OSM.home", function () {
-      OSM.home = {lat: 57.6247, lon: -3.6845};
+      OSM.home = { lat: 57.6247, lon: -3.6845 };
       var params = OSM.mapParams("?");
       expect(params).to.have.property("lat", 57.6247);
       expect(params).to.have.property("lon", -3.6845);
     });
 
     it("sets bbox from OSM.location", function () {
-      OSM.location = {minlon: -3.6845, minlat: 57.6247, maxlon: -3.7845, maxlat: 57.7247};
+      OSM.location = { minlon: -3.6845, minlat: 57.6247, maxlon: -3.7845, maxlat: 57.7247 };
       var expected = L.latLngBounds([57.6247, -3.6845], [57.7247, -3.7845]);
       var params = OSM.mapParams("?");
       expect(params).to.have.property("bounds").deep.equal(expected);
@@ -135,7 +134,7 @@ describe("OSM", function () {
       params = OSM.mapParams("?");
       expect(params).to.have.property("layers", "C");
 
-      document.location.hash = "#map=5/57.6247/-3.6845&layers=M"
+      document.location.hash = "#map=5/57.6247/-3.6845&layers=M";
       params = OSM.mapParams("?");
       expect(params).to.have.property("layers", "M");
     });
@@ -241,8 +240,8 @@ describe("OSM", function () {
 
   describe(".distance", function () {
     it("computes distance between points", function () {
-      var latlng1 = L.latLng(51.76712,-0.00484),
-        latlng2 = L.latLng(51.7675159, -0.0078329);
+      var latlng1 = L.latLng(51.76712, -0.00484),
+          latlng2 = L.latLng(51.7675159, -0.0078329);
 
       expect(OSM.distance(latlng1, latlng2)).to.be.closeTo(210.664, 0.005);
       expect(OSM.distance(latlng2, latlng1)).to.be.closeTo(210.664, 0.005);
