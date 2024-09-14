@@ -58,6 +58,8 @@ jobs:
       run: bundle exec bin/yarn install
     - name: Compile assets
       run: bundle exec rails assets:precompile
+    - name: Create tmp/pids directory
+      run: mkdir -p tmp/pids
     - name: Run tests
       run: bundle exec rails test:all
     - name: Run javascript tests
