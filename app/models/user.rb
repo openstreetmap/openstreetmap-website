@@ -15,7 +15,6 @@
 #  pass_salt            :string
 #  email_valid          :boolean          default(FALSE), not null
 #  new_email            :string
-#  creation_ip          :string
 #  languages            :string
 #  status               :enum             default("pending"), not null
 #  terms_agreed         :datetime
@@ -49,6 +48,8 @@
 class User < ApplicationRecord
   require "digest"
   include AASM
+
+  self.ignored_columns += ["creation_ip"]
 
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
