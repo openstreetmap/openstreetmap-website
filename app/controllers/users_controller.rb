@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
       users = User.all
       users = users.where(:status => @params[:status]) if @params[:status]
-      users = users.where(:creation_ip => @params[:ip]) if @params[:ip]
+      users = users.where(:creation_address => @params[:ip]) if @params[:ip]
 
       @users_count = users.limit(501).count
       @users_count = I18n.t("count.at_least_pattern", :count => 500) if @users_count > 500
@@ -268,7 +268,6 @@ class UsersController < ApplicationController
   def save_new_user(email_hmac, referer = nil)
     current_user.data_public = true
     current_user.description = "" if current_user.description.nil?
-    current_user.creation_ip = request.remote_ip
     current_user.creation_address = request.remote_ip
     current_user.languages = http_accept_language.user_preferred_languages
     current_user.terms_agreed = Time.now.utc

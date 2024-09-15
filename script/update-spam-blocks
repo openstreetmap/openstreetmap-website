@@ -8,7 +8,7 @@ addresses = User.count(
     :status => %w[suspended deleted],
     :creation_time => Time.now.utc - 28.days..Time.now.utc
   },
-  :group => :creation_ip
+  :group => :creation_address
 )
 
 addresses.each do |address, count|
