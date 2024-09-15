@@ -81,15 +81,15 @@
               <%= link_to t(".comments"), diary_comments_path(@user) %>
               <span class='badge count-number'><%= number_with_delimiter(@user.diary_comments.size) %></span>
             </li>
-            <li>
-              <% if current_user and current_user.friends_with?(@user) %>
-                <%= link_to t(".remove as friend"), remove_friend_path(:display_name => @user.display_name), :method => :post %>
-              <% elsif current_user %>
-                <%= link_to t(".add as friend"), make_friend_path(:display_name => @user.display_name), :method => :post %>
-              <% else %>
-                <%= link_to t(".add as friend"), make_friend_path(:display_name => @user.display_name) %>
-              <% end %>
-            </li>
+            <% if current_user %>
+              <li>
+                <% if current_user.friends_with?(@user) %>
+                  <%= link_to t(".remove as friend"), remove_friend_path(:display_name => @user.display_name), :method => :post %>
+                <% else %>
+                  <%= link_to t(".add as friend"), make_friend_path(:display_name => @user.display_name), :method => :post %>
+                <% end %>
+              </li>
+            <% end %>
 
             <% if @user.blocks.exists? %>
               <li>
