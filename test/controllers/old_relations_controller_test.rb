@@ -177,6 +177,17 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#sidebar_content", /relation #0 version 0 could not be found/
   end
 
+  def test_show_timeout
+    relation = create(:relation, :with_history)
+    with_settings(:web_timeout => -1) do
+      get old_relation_path(relation, 1)
+    end
+    assert_response :error
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the relation with the id #{relation.id}")}/
+  end
+
   private
 
   def create_redacted_relation

@@ -182,6 +182,17 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_select "#sidebar_content", /way #0 version 0 could not be found/
   end
 
+  def test_show_timeout
+    way = create(:way, :with_history)
+    with_settings(:web_timeout => -1) do
+      get old_way_path(way, 1)
+    end
+    assert_response :error
+    assert_template :layout => "map"
+    assert_dom "h2", "Timeout Error"
+    assert_dom "p", /#{Regexp.quote("the way with the id #{way.id}")}/
+  end
+
   private
 
   def create_redacted_way
