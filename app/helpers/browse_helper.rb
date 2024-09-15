@@ -92,7 +92,7 @@ module BrowseHelper
     end
     link_classes = ["page-link", { "px-1" => width > max_width_for_default_padding }]
 
-    tag.ul :class => "pagination pagination-sm mb-1 ms-auto" do
+    tag.ul :class => "pagination pagination-sm mb-2" do
       pagination_items(pages, {}).each do |body, page_or_class|
         linked = !(page_or_class.is_a? String)
         link = if linked
