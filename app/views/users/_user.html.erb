@@ -4,10 +4,10 @@
   </td>
   <td>
     <p>
-      <% if user.creation_ip %>
+      <% if user.creation_address %>
         <%= t "users.index.summary_html",
               :name => link_to(user.display_name, user),
-              :ip_address => link_to(user.creation_ip, :ip => user.creation_ip),
+              :ip_address => link_to(user.creation_address, :ip => user.creation_address),
               :date => l(user.created_at, :format => :friendly) %>
       <% else %>
         <%= t "users.index.summary_no_ip_html",
