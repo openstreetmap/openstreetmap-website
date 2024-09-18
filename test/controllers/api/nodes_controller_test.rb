@@ -455,7 +455,6 @@ module Api
 
       # test a working call with json format
       get nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}", :format => "json")
-
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 5, js["elements"].count
@@ -469,6 +468,41 @@ module Api
       # check error when a non-existent node is included
       get nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0")
       assert_response :not_found
+    end
+
+    ##
+    # test fetching multiple nodes with specified versions
+    def test_index_with_versions
+      node1 = create(:node)
+      node2 = create(:node, :with_history, :version => 2)
+
+      # test a working call only with versions
+      get nodes_path(:nodes => "#{node2.id}v1,#{node2.id}v2")
+      assert_response :success
+      assert_select "osm" do
+        assert_select "node", :count => 2
+        assert_select "node[id='#{node2.id}'][version='1']", :count => 1
+        assert_select "node[id='#{node2.id}'][version='2']", :count => 1
+      end
+
+      # test a working call
+      get nodes_path(:nodes => "#{node1.id},#{node2.id}v1,#{node2.id}v2")
+      assert_response :success
+      assert_select "osm" do
+        assert_select "node", :count => 3
+        assert_select "node[id='#{node1.id}'][version='1']", :count => 1
+        assert_select "node[id='#{node2.id}'][version='1']", :count => 1
+        assert_select "node[id='#{node2.id}'][version='2']", :count => 1
+      end
+
+      # test a working call with intersecting results
+      get nodes_path(:nodes => "#{node2.id},#{node2.id}v1,#{node2.id}v2")
+      assert_response :success
+      assert_select "osm" do
+        assert_select "node", :count => 2
+        assert_select "node[id='#{node2.id}'][version='1']", :count => 1
+        assert_select "node[id='#{node2.id}'][version='2']", :count => 1
+      end
     end
 
     ##
