@@ -5,14 +5,21 @@ L.OSM.layers = function (options) {
     var layers = options.layers;
 
     var baseSection = $("<div>")
-      .attr("class", "base-layers d-grid gap-3 p-3 border-bottom border-secondary-subtle")
+      .attr("class", "base-layers container-fluid p-3 border-bottom border-secondary-subtle")
       .appendTo($ui);
+
+    var baseSectionRow = $("<div>")
+      .attr("class", "row row-cols-1 row-cols-sm-2 row-cols-md-1 g-3")
+      .appendTo(baseSection);
 
     layers.forEach(function (layer, i) {
       var id = "map-ui-layer-" + i;
 
+      var baseSectionCol = $("<div class='col'>")
+        .appendTo(baseSectionRow);
+
       var buttonContainer = $("<div class='position-relative'>")
-        .appendTo(baseSection);
+        .appendTo(baseSectionCol);
 
       var mapContainer = $("<div class='position-absolute top-0 start-0 bottom-0 end-0 z-0'>")
         .appendTo(buttonContainer);
