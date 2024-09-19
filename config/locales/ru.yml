@@ -150,13 +150,11 @@ ru:
   activerecord:
     errors:
       messages:
-        invalid_email_address: не похоже на действительный адрес электронной почты
-        email_address_not_routable: не маршрутизирован
         display_name_is_user_n: не может быть user_n, если n не является вашим идентификатором
           пользователя
       models:
         user_mute:
-          is_already_muted: уже отключен звук
+          is_already_muted: уже заглушён
     models:
       acl: Список контроля доступа
       changeset: Пакет правок
@@ -1612,10 +1610,6 @@ ru:
         level9: Граница села, деревни
         level10: Граница пригорода
         level11: Граница между соседствами
-      types:
-        cities: Города
-        towns: Городские поселения
-        places: Места
     results:
       no_results: Ничего не найдено
       more_results: Ещё результаты
@@ -1637,6 +1631,7 @@ ru:
     page:
       user_not_found: Пользователь не существует
       issues_not_found: Такие проблемы не найдены
+      reported_user: Пользователь в сообщении
       status: Статус
       reports: Сообщения
       last_updated: Последнее изменение
@@ -1646,7 +1641,7 @@ ru:
         few: '%{count} сообщения'
         many: '%{count} сообщений'
         other: '%{count} сообщений'
-      reported_item: Тема сообщения
+      reported_item: Элемент в сообщении
     show:
       title: '%{status} Проблема #%{issue_id}'
       reports:
@@ -1676,7 +1671,7 @@ ru:
       comment_from_html: Комментарий участника %{user_link}, созданный %{comment_created_at}
       reassign_param: Переназначить проблему?
     reports:
-      reported_by_html: Указано как %{category} пользователем %{user} в %{updated_at}
+      reported_by_html: Указано как %{category} пользователем %{user} %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, коммент. #%{comment_id}'
@@ -1871,7 +1866,6 @@ ru:
       details_html: 'Ответить или узнать больше о заметке: %{url}.'
     changeset_comment_notification:
       hi: Здравствуйте, %{to_user},
-      greeting: Здравствуйте,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} прокомментировал один из ваших
           пакетов правок'
@@ -1950,6 +1944,7 @@ ru:
       unread_button: Пометить как непрочитанное
       read_button: Пометить как прочитанное
       destroy_button: Удалить
+      unmute_button: Переместить во Входящие
     new:
       title: Отправить сообщение
       send_message_to_html: Отправить новое сообщение для %{name}
@@ -1978,6 +1973,8 @@ ru:
       no_sent_messages_html: Нет отправленных сообщений. Почему бы не пообщаться с
         %{people_mapping_nearby_link}?
       people_mapping_nearby: пользователями поблизости
+    muted:
+      title: Заглушённые сообщения
     reply:
       wrong_user: Вы вошли как `%{user}', но ответ на ваш вопрос был отправлен не
         этому пользователю. Пожалуйста, войдите как соответствующий вашему вопросу
@@ -1996,9 +1993,12 @@ ru:
     heading:
       my_inbox: Мои входящие
       my_outbox: Мои исходящие
+      muted_messages: Заглушённые сообщения
     mark:
       as_read: Сообщение отмечено как прочитанное
       as_unread: Сообщение отмечено как непрочитанное
+    unmute:
+      notice: Сообщение перемещено во Входящие
     destroy:
       destroyed: Сообщение удалено
   passwords:
@@ -2454,6 +2454,7 @@ ru:
           hospital: Больница
           building: Значительное здание
           station: Железнодорожная станция
+          tram_stop: Трамвайная остановка
           summit: Вершина
           peak: Вершина горы
           tunnel: Туннель (пунктир)
@@ -2462,7 +2463,6 @@ ru:
           destination: Целевой доступ
           construction: Строительство дороги
           bus_stop: Автобусная остановка
-          stop: Остановить
           bicycle_shop: Магазин велосипедов
           bicycle_rental: Прокат велосипедов
           bicycle_parking: Парковка для велосипедов
@@ -2530,12 +2530,12 @@ ru:
         формальными или неформальными."
       local_chapters:
         title: Местные отделения
-        about_text: |-
-          Местные отделения — это группы на уровне страны или региона, которые сделали формальный шаг
-          учредив некоммерческие юридические лица. Они представляют карту района и картографов, когда
-          имеют дело с местными органами власти, бизнесом и СМИ. Они также заключили союз
-          с OpenStreetMap Foundation (OSMF), что дало им связь с правовым и авторским
-          руководящим органом.
+        about_text: "Местные отделения — это группы на уровне страны или региона,
+          которые сделали формальный шаг, \nучредив некоммерческие юридические лица.
+          Они представляют карту района и картографов, когда\nимеют дело с местными
+          органами власти, бизнесом и СМИ. Они также заключили союз с OpenStreetMap
+          Foundation (OSMF), что дало им связь с управляющим органом по правовым вопросам
+          и вопросам авторского права."
         list_text: 'Следующие сообщества официально учреждены как местные отделения:'
       other_groups:
         title: Другие группы
@@ -2665,6 +2665,7 @@ ru:
       account_settings: Настройки профиля
       oauth2_applications: OAuth 2 приложения
       oauth2_authorizations: OAuth 2 авторизации
+      muted_users: Заглушённые пользователи
     auth_providers:
       openid_login_button: Продолжить
       openid:
@@ -2744,6 +2745,7 @@ ru:
       title: Мои авторизованные приложения
       application: Приложение
       permissions: Разрешения
+      last_authorized: Последняя авторизация
       no_applications_html: Вы еще не авторизовали ни одно приложение %{oauth2}.
     application:
       revoke: Отозвать доступ
@@ -2768,7 +2770,6 @@ ru:
         privacy_policy: политику конфиденциальности
         privacy_policy_title: Политика конфиденциальности OSMF, включая раздел об
           адресах электронной почты
-      external auth: 'Внешний сайт с учётной записью:'
       continue: Зарегистрироваться
       terms accepted: Спасибо за принятие новых условий участия!
       email_help:
@@ -2829,6 +2830,7 @@ ru:
       blocks on me: Мои блокировки
       blocks by me: Наложенные мною блокировки
       create_mute: Заглушить этого пользователя
+      destroy_mute: Отменить заглушение этого пользователя
       edit_profile: Редактировать профиль
       send message: Отправить сообщение
       diary: Дневник
@@ -3006,11 +3008,21 @@ ru:
     index:
       title: Заглушённые пользователи
       my_muted_users: Мои заглушённые пользователи
+      user_mute_explainer: Сообщения заглушённых пользователей помещаются в отдельную
+        папку входящих сообщений и вы не получите уведомлений по электронной почте.
+      user_mute_admins_and_moderators: Вы можете заглушить администраторов и модераторов,
+        но их сообщения не будут заглушены.
       table:
         thead:
+          muted_user: Заглушённый пользователь
           actions: Действия
         tbody:
           send_message: Отправить сообщение
+    create:
+      notice: Вы заглушили пользователя %{name}.
+    destroy:
+      notice: Вы отменили заглушение пользователя %{name}.
+      error: Пользователь не может быть заглушён. Пожалуйста, попробуйте ещё раз.
   notes:
     index:
       title: Заметки, созданные или прокомментированный участником %{user}
@@ -3258,6 +3270,7 @@ ru:
       empty: Нет исправлений для показа.
       heading: Список исправлений
       title: Список исправлений
+      new: Новое исправление
     new:
       heading: Введите информацию для нового исправления
       title: Создание нового исправления

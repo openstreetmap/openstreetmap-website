@@ -89,8 +89,6 @@ cs:
   activerecord:
     errors:
       messages:
-        invalid_email_address: není platná e-mailová adresa
-        email_address_not_routable: není routovatelná
         display_name_is_user_n: nemůže být user_n, pokud n není vaše ID uživatele
       models:
         user_mute:
@@ -496,15 +494,30 @@ cs:
       introduction: Pro nalezení okolních prvků klikněte na mapu.
       nearby: Okolní prvky
       enclosing: Umístění prvku
+  nodes:
+    timeout:
+      sorry: Promiňte, ale načítání dat uzlu s id %{id} trvalo příliš dlouho.
   old_nodes:
     not_found:
       sorry: 'Je nám líto, ale verze %{version} uzlu #%{id} nebyla nalezena.'
+    timeout:
+      sorry: Promiňte, ale načítání historie uzlu s id %{id} trvalo příliš dlouho.
+  ways:
+    timeout:
+      sorry: Promiňte, ale načítání dat cesty s id %{id} trvalo příliš dlouho.
   old_ways:
     not_found:
       sorry: 'Je nám líto, ale verze %{version} cesty #%{id} nebyla nalezena.'
+    timeout:
+      sorry: Promiňte, ale načítání historie cesty s id %{id} trvalo příliš dlouho.
+  relations:
+    timeout:
+      sorry: Promiňte, ale načítání dat relace s id %{id} trvalo příliš dlouho.
   old_relations:
     not_found:
       sorry: 'Je nám líto, ale verze %{version} relace #%{id} nebyla nalezena.'
+    timeout:
+      sorry: Promiňte, ale načítání historie relace s id %{id} trvalo příliš dlouho.
   changeset_comments:
     feeds:
       comment:
@@ -1544,10 +1557,6 @@ cs:
         level9: Hranice vesnice
         level10: Hranice městské části
         level11: Hranice sousedství
-      types:
-        cities: Velkoměsta
-        towns: Města
-        places: Místa
     results:
       no_results: Nenalezeny žádné výsledky
       more_results: Další výsledky
@@ -1681,6 +1690,7 @@ cs:
       údržbě mimo provoz.
     osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
       údržbě pouze pro čtení.
+    nothing_to_preview: Není k čemu zobrazovat náhled.
     help: Nápověda
     about: O projektu
     copyright: Autorská práva
@@ -1722,13 +1732,19 @@ cs:
       befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
       befriend_them_html: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
     gpx_description:
+      description_with_tags: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
+        %{trace_description} a s těmito značkami: %{tags}'
       description_with_tags_html: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
         %{trace_description} a s těmito značkami: %{tags}'
+      description_with_no_tags: Vypadá to, že váš GPX soubor %{trace_name} s popisem
+        %{trace_description} a bez značek
       description_with_no_tags_html: Vypadá to, že váš GPX soubor %{trace_name} s
         popisem %{trace_description} a bez značek
     gpx_failure:
       hi: Ahoj, %{to_user},
       failed_to_import: 'se nepodařilo nahrát. Chybové hlášení následuje:'
+      more_info: Více informací o chybách při importu GPX a jak se jim vyhnout, najdete
+        na %{url}.
       more_info_html: Více informací o chybách při importu GPX a jak se jim vyhnout,
         najdete na %{url}.
       import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=cs
@@ -1740,6 +1756,8 @@ cs:
         few: úspěšně načteno s %{trace_points} z možných %{count} bodů.
         many: úspěšně načteno s %{trace_points} z možných %{count} bodu.
         other: úspěšně načteno s %{trace_points} z možných %{count} bodů.
+      trace_location: Vaše stopa je dostupná na %{trace_url}
+      all_your_traces: Všechny úspěšně načtené GPX stopy můžete najít na %{url}
       all_your_traces_html: Všechny úspěšně načtené GPX stopy můžete najít na %{url}.
       subject: '[OpenStreetMap] Úspěšný import GPX'
     signup_confirm:
@@ -1809,7 +1827,6 @@ cs:
     changeset_comment_notification:
       description: 'Sada změn OpenStreetMap #%{id}'
       hi: Dobrý den, uživateli %{to_user},
-      greeting: Dobrý den,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} okomentoval jednu z vašich sad
           změn'
@@ -2041,6 +2058,7 @@ cs:
     richtext_field:
       edit: Upravit
       preview: Náhled
+      help: Nápověda
     pagination:
       diary_comments:
         older: Starší komentáře
@@ -2464,6 +2482,9 @@ cs:
           hospital: nemocnice
           building: Významná budova
           station: Nádraží
+          railway_halt: Železniční zastávka
+          subway_station: Stanice metra
+          tram_stop: Tramvajová zastávka
           summit: Vrchol
           peak: hora
           tunnel: Čárkované obrysy = tunel
@@ -2472,7 +2493,6 @@ cs:
           destination: Průjezd zakázán
           construction: Cesta ve výstavbě
           bus_stop: Autobusová zastávka
-          stop: Stop
           bicycle_shop: Cykloobchod
           bicycle_rental: Půjčovna kol
           bicycle_parking: Parkoviště pro kola
@@ -2793,7 +2813,6 @@ cs:
           e-mailových adresách
         contributor_terms: podmínkami pro přispěvatele
       tou: podmínkami užití
-      external auth: 'Autentizace třetí stranou:'
       continue: Zaregistrovat se
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
       email_help:
@@ -3144,6 +3163,8 @@ cs:
       add: Přidat poznámku
     notes_paging_nav:
       showing_page: Stránka %{page}
+      next: Následující
+      previous: Předchozí
   javascripts:
     close: Zavřít
     share:

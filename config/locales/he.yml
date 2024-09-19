@@ -77,8 +77,6 @@ he:
   activerecord:
     errors:
       messages:
-        invalid_email_address: זאת אינה כתובת דוא״ל תקנית
-        email_address_not_routable: לא בר־ניתוב
         display_name_is_user_n: זה לא יכול להיות user_n אלא אם כן n הוא מזהה המשתמש
           שלך
       models:
@@ -441,7 +439,7 @@ he:
         note: הערה
     timeout:
       title: שגיאת זמן מוקצב
-      sorry: אנו מתנצלים, אך טעינת המידע עבור %{type} מספר %{id}, ארכה זמן רב מדי.
+      sorry: אנו מתנצלים, אחזור הנתונים עבור %{type} מספר %{id} ארך זמן רב מדי.
       type:
         node: נקודה
         way: קו
@@ -477,15 +475,30 @@ he:
       introduction: יש ללחוץ על המפה כדי למצוא ישויות בסביבה.
       nearby: ישויות בסביבה
       enclosing: ישויות מכילות
+  nodes:
+    timeout:
+      sorry: אנו מתנצלים, אחזור הנתונים עבור הנקודה מספר %{id} ארך זמן רב מדי.
   old_nodes:
     not_found:
       sorry: לא ניתן למצוא את נקודה מס׳ %{id} בגרסה %{version}, מחילה.
+    timeout:
+      sorry: אנו מתנצלים, אחזור ההיסטוריה של נקודה מספר %{id} ארך זמן רב מדי.
+  ways:
+    timeout:
+      sorry: אנו מתנצלים, אחזור הנתונים עבור הדרך מספר %{id} ארך זמן רב מדי.
   old_ways:
     not_found:
       sorry: לא ניתן למצוא את דרך מס׳ %{id} בגרסה %{version}, מחילה.
+    timeout:
+      sorry: אנו מתנצלים, אחזור ההיסטוריה של דרך מספר %{id} ארך זמן רב מדי.
+  relations:
+    timeout:
+      sorry: אנו מתנצלים, אחזור הנתונים עבור היחס מספר %{id} ארך זמן רב מדי.
   old_relations:
     not_found:
       sorry: לא ניתן למצוא את יחס מס׳ %{id} בגרסה %{version}, מחילה.
+    timeout:
+      sorry: אנו מתנצלים, אחזור ההיסטוריה של יחס מספר %{id} ארך זמן רב מדי.
   changeset_comments:
     feeds:
       comment:
@@ -1518,10 +1531,6 @@ he:
         level9: גבול רובע
         level10: גבול שכונה
         level11: גבול תת־שכונה
-      types:
-        cities: ערים
-        towns: עיירות
-        places: מקומות
     results:
       no_results: לא נמצאו תוצאות
       more_results: תוצאות נוספות
@@ -1779,7 +1788,6 @@ he:
     changeset_comment_notification:
       description: ערכת שינויים של OpenStreetMap מס׳ %{id}
       hi: שלום %{to_user},
-      greeting: שלום,
       commented:
         subject_own: ‫[OpenStreetMap] קיבלת הערה מאת %{commenter} על אחת מערכות השינויים
           שלך
@@ -2441,6 +2449,9 @@ he:
           hospital: בית חולים
           building: בניין בעל חשיבות
           station: תחנת רכבת
+          railway_halt: מעצור מסילת ברזל
+          subway_station: תחנת רכבת תחתית
+          tram_stop: תחנת רכבת קלה
           summit: פסגה
           peak: פסגה
           tunnel: קו מקווקו = מנהרה
@@ -2449,7 +2460,6 @@ he:
           destination: גישה ליעד
           construction: דרכים בבנייה
           bus_stop: תחנת אוטובוס
-          stop: עצירה
           bicycle_shop: חנות אופניים
           bicycle_rental: השכרת אופניים
           bicycle_parking: חניית אופניים
@@ -2745,7 +2755,6 @@ he:
         privacy_policy_title: מדיניות הפרטיות של OSMF כוללת סעיף על כתובות דוא״ל
         contributor_terms: תנאי התרומה
       tou: תנאי השימוש
-      external auth: 'אימות עם צד שלישי:'
       continue: הרשמה
       terms accepted: תודה על קבלת תנאי התרומה החדשים!
       email_help:
@@ -3286,21 +3295,22 @@ he:
   redactions:
     edit:
       heading: עריכת הסרה
-      title: עריכת חיתוך
+      title: עריכת הסרה
     index:
       empty: אין הסרות שאפשר להציג.
-      heading: רשימת חיתוכים
+      heading: רשימת הסרות
       title: רשימת הסרות
+      new: הסרה חדשה
     new:
       heading: הוספת מידע להסרה חדשה
-      title: מתבצעת יצירת חיתוך חדש
+      title: מתבצעת יצירת הסרה חדשה
     show:
       description: 'תיאור:'
       heading: הצגת ההסרה „%{title}”
-      title: הצגת חיתוך
+      title: הצגת הסרה
       user: 'יוצר:'
       edit: עריכת ההסרה הזאת
-      destroy: הסרת החיתוך הזה
+      destroy: מחיקת ההסרה הזאת
       confirm: באמת?
     create:
       flash: הסרה נוצרה.
@@ -3309,7 +3319,7 @@ he:
     destroy:
       not_empty: ההסרה אינה ריקה. נא לבטל את הסרות הגרסאות ששיכות להסרה הזאת לפני
         ביטולה.
-      flash: החיתוך נהרס.
+      flash: ההסרה נהרסה.
       error: אירעה שגיאה בעת ביטול ההסרה הזאת.
   validations:
     leading_whitespace: יש רווח בהתחלה

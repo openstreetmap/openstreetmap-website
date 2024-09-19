@@ -88,8 +88,6 @@ uk:
   activerecord:
     errors:
       messages:
-        invalid_email_address: не схоже на коректну адресу електронної пошти
-        email_address_not_routable: недоступний
         display_name_is_user_n: не може бути user_n, якщо n не є вашим ідентифікатором
           користувача
       models:
@@ -1554,10 +1552,6 @@ uk:
           Адміністративна межа (9-й рівень)
         level10: Адміністративна межа району міста
         level11: Адміністративна межа (11-й рівень)
-      types:
-        cities: Міста
-        towns: Містечка
-        places: Місця
     results:
       no_results: Нічого не знайдено
       more_results: Більше результатів
@@ -1833,7 +1827,6 @@ uk:
     changeset_comment_notification:
       description: 'Набір змін OpenStreetMap #%{id}'
       hi: Привіт %{to_user},
-      greeting: Привіт,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} прокоментував один з ваших наборів
           змін'
@@ -2507,7 +2500,6 @@ uk:
           destination: Цільовий доступ
           construction: Будівництво дороги
           bus_stop: Автобусна зупинка
-          stop: Зупинка
           bicycle_shop: Веломагазин
           bicycle_rental: Прокат велосипедів
           bicycle_parking: Велопарковка
@@ -2752,6 +2744,8 @@ uk:
       write_notes: Змінювати нотатки
       write_redactions: Виконувати очищення даних
       read_email: Отримувати адресу е-пошти
+      consume_messages: Прочитати, оновити статус та видалити повідомлення користувача
+      send_messages: Надіслати приватне повідомлення іншим користувачам
       skip_authorization: Автоматичне схвалення заявки
     for_roles:
       moderator: Цей дозвіл призначений для дій, доступних лише модераторам
@@ -2838,10 +2832,12 @@ uk:
           адреси електронної пошти
         contributor_terms: умови співпраці
       tou: умови використання
-      external auth: 'Автентифікація через:'
       continue: Зареєструватись
       terms accepted: Дякуємо за прийняття нових умов співпраці!
       email_help:
+        privacy_policy: Політикою конфіденційності
+        privacy_policy_title: Політика конфіденційності OSMF, має розділ про адреси
+          електронної пошти
         html: Ваша адреса ніколи не показуватиметься публічно. Ознайомтесь з нашою
           %{privacy_policy_link} для отримання докладної інформації.
       consider_pd_html: Я вважаю, що мій внесок належать до %{consider_pd_link}.
@@ -2913,6 +2909,8 @@ uk:
       remove as friend: Вилучити зі списку друзів
       add as friend: Додати до списку друзів
       mapper since: 'Обліковий запис створено:'
+      last map edit: 'Останнє редагування мапи:'
+      no activity yet: Ще немає активності
       uid: 'id учасника:'
       ct status: 'Умови співпраці:'
       ct undecided: Не визначились
@@ -3014,6 +3012,7 @@ uk:
       heading_html: Редагування блокування для %{name}
       period: Як довго, починаючи з поточного моменту, учаснику буде заблокований
         доступ до API.
+      revoke: Відкликати блокування
     filter:
       block_period: Період блокування повинен бути одним зі значень зі списку, що
         розкривається.
@@ -3022,6 +3021,12 @@ uk:
     update:
       only_creator_can_edit: Тільки модератор, який створив це блокування, може змінювати
         його.
+      only_creator_can_edit_without_revoking: Тільки модератор, який створив блокування,
+        може редагувати його без відкликання.
+      only_creator_or_revoker_can_edit: Тільки модератори, які створили або відкликали
+        блокування, можуть його редагувати.
+      inactive_block_cannot_be_reactivated: Це блокування неактивне і не може бути
+        повторно активоване.
       success: Блокування оновлено.
     index:
       title: Блокування учасника
@@ -3108,6 +3113,7 @@ uk:
       blocks_by_me: Заблокований(а) мною
       blocks_by_user: Блокування, що їх наклав %{user}
       block: Блокування №%{id}
+      new_block: Нове блокування
   user_mutes:
     index:
       title: Стишені учасники
@@ -3192,6 +3198,8 @@ uk:
       add: Додати нотатку
     notes_paging_nav:
       showing_page: Сторінка %{page}
+      next: Далі
+      previous: Назад
   javascripts:
     close: Закрити
     share:
@@ -3206,15 +3214,15 @@ uk:
       custom_dimensions: Встановити власні розміри
       format: 'Формат:'
       scale: 'Масштаб:'
-      image_dimensions: На зображені буде Стандартний шар (%{width} * %{height})
+      image_dimensions: На зображені буде шар %{layer} (%{width} * %{height})
       download: Завантажити
       short_url: Скорочене URL-посилання
       include_marker: Додати маркер
       center_marker: Центрувати мапу на маркері
       paste_html: HTML-код для вбудування у сайт
       view_larger_map: Переглянути більшу мапу
-      only_standard_layer: Тільки стандартний шар може бути експортований у вигляді
-        зображення
+      only_standard_layer: Тільки Стандартний шар, Веломапа та Мапа транспорту можуть
+        бути експортований у вигляді зображення
     embed:
       report_problem: Повідомити про проблему
     key:
@@ -3390,6 +3398,7 @@ uk:
       empty: Редакції для показу відсутні.
       heading: Перелік редакцій
       title: Перелік редакцій
+      new: Нова редакція
     new:
       heading: Введіть інформацію для нової редакції
       title: Створення нової редакції

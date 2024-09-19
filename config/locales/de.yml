@@ -150,8 +150,6 @@ de:
   activerecord:
     errors:
       messages:
-        invalid_email_address: scheint keine gültige E-Mail-Adresse zu sein
-        email_address_not_routable: ist nicht routingfähig
         display_name_is_user_n: kann nicht user_n sein, es sei denn, n ist deine Benutzer-ID
       models:
         user_mute:
@@ -495,7 +493,8 @@ de:
         note: Hinweis
     timeout:
       title: Zeitüberschreitungsfehler
-      sorry: Es dauerte leider zu lange, die Daten für %{type} mit der ID %{id} abzurufen.
+      sorry: Leider hat das Abrufen der Daten für den %{type} mit der ID %{id} zu
+        lange gedauert.
       type:
         node: den Knoten
         way: den Weg
@@ -532,18 +531,39 @@ de:
       introduction: Klicke auf die Karte, um benachbarte Objekte zu finden.
       nearby: Benachbarte Objekte
       enclosing: Umschließende Objekte
+  nodes:
+    timeout:
+      sorry: Leider hat das Abrufen der Daten für den Knoten mit der ID %{id} zu lange
+        gedauert.
   old_nodes:
     not_found:
       sorry: 'Entschuldigung, Knoten #%{id} Version %{version} konnte nicht gefunden
         werden.'
+    timeout:
+      sorry: Leider hat das Abrufen der Historie des Knotens mit der ID %{id} zu lange
+        gedauert.
+  ways:
+    timeout:
+      sorry: Leider hat das Abrufen der Daten für den Weg mit der ID %{id} zu lange
+        gedauert.
   old_ways:
     not_found:
       sorry: 'Entschuldigung, Weg #%{id} Version %{version} konnte nicht gefunden
         werden.'
+    timeout:
+      sorry: Leider hat das Abrufen der Historie des Weges mit der ID %{id} zu lange
+        gedauert.
+  relations:
+    timeout:
+      sorry: Leider hat das Abrufen der Daten der Relation mit der ID %{id} zu lange
+        gedauert.
   old_relations:
     not_found:
       sorry: 'Entschuldigung, Relation #%{id} Version %{version} konnte nicht gefunden
         werden.'
+    timeout:
+      sorry: Leider dauerte das Abrufen der Historie der Relation mit der ID %{id}
+        zu lange.
   changeset_comments:
     feeds:
       comment:
@@ -1584,10 +1604,6 @@ de:
         level9: Stadtteilgrenze
         level10: Nachbarschaftsgrenze
         level11: Nachbarschaftsgrenze
-      types:
-        cities: Großstädte
-        towns: Städte
-        places: Orte
     results:
       no_results: Keine Ergebnisse gefunden
       more_results: Mehr Treffer
@@ -1868,7 +1884,6 @@ de:
     changeset_comment_notification:
       description: 'OpenStreetMap-Änderungssatz #%{id}'
       hi: Hallo %{to_user},
-      greeting: Hallo,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} hat einen deiner Änderungssätze
           diskutiert'
@@ -2561,6 +2576,9 @@ de:
           hospital: Krankenhaus
           building: Bedeutendes Gebäude
           station: Bahnhof
+          railway_halt: Eisenbahnhaltestelle
+          subway_station: U-Bahnstation
+          tram_stop: Straßenbahnhaltestelle
           summit: Gipfel
           peak: Gipfel
           tunnel: Gestrichelter Rand = Tunnel
@@ -2569,7 +2587,6 @@ de:
           destination: Nur für Anrainer
           construction: Straßen im Bau
           bus_stop: Bushaltestelle
-          stop: Stop
           bicycle_shop: Fahrradladen
           bicycle_rental: Fahrradverleih
           bicycle_parking: Fahrradparkplatz
@@ -2893,7 +2910,6 @@ de:
           zu E-Mail-Adressen
         contributor_terms: Bedingungen für Mitwirkende
       tou: Nutzungsbedingungen
-      external auth: 'Drittparteiauthentifikation:'
       continue: Registrieren
       terms accepted: Vielen Dank, dass du den neuen Bedingungen für Mitwirkende zugestimmt
         hast!
@@ -3457,6 +3473,7 @@ de:
       empty: Keine Redactions.
       heading: Liste der Redactions
       title: Liste der Redaktionen
+      new: Neue Redaktion
     new:
       heading: Informationenen für eine neue Redaction eingeben
       title: Neue Redaction erstellen

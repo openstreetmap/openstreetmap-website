@@ -44,8 +44,6 @@ mk:
   activerecord:
     errors:
       messages:
-        invalid_email_address: не претставува важечка е-пошта
-        email_address_not_routable: не е насочлива
         display_name_is_user_n: не може да биде user_n освен ако n е вашата корисничка
           назнака
       models:
@@ -380,7 +378,8 @@ mk:
         note: белешка
     timeout:
       title: Грешка поради истек на времето
-      sorry: Жалиме, но добивањето на податоците за %{type} со id %{id} трае предолго.
+      sorry: Жалиме, но добивањето на податоците за %{type} со назнака %{id} трае
+        предолго.
       type:
         node: јазол
         way: пат
@@ -416,15 +415,34 @@ mk:
       introduction: Стиснете на картата за да ги најдете елементите во близина.
       nearby: Елементи во близина
       enclosing: Обиколни елементи
+  nodes:
+    timeout:
+      sorry: Жалиме, но добивањето на податоците за јазолот со назнака %{id} трае
+        предолго.
   old_nodes:
     not_found:
       sorry: 'За жал, не го најдов јазолот #%{id} верзија %{version}.'
+    timeout:
+      sorry: Жалиме, но добивањето на историјата на јазолот со назнака %{id} трае
+        предолго.
+  ways:
+    timeout:
+      sorry: Жалиме, но добивањето на податоците за патот со назнака %{id} трае предолго.
   old_ways:
     not_found:
       sorry: 'За жал, не го најдов патот #%{id} верзија %{version}.'
+    timeout:
+      sorry: Жалиме, но добивањето на историјата на патот со назнака %{id} трае предолго.
+  relations:
+    timeout:
+      sorry: Жалиме, но добивањето на податоците за односот со назнака %{id} трае
+        предолго.
   old_relations:
     not_found:
       sorry: 'За жал, не го најдов односот #%{id} верзија %{version}.'
+    timeout:
+      sorry: Жалиме, но добивањето на историјата на односот со назнака %{id} трае
+        предолго.
   changeset_comments:
     feeds:
       comment:
@@ -1465,10 +1483,6 @@ mk:
         level9: Селска граница
         level10: Населбена граница
         level11: Маалска граница
-      types:
-        cities: Градови
-        towns: Гратчиња
-        places: Места
     results:
       no_results: Не пронајдов ништо
       more_results: Повеќе ставки
@@ -1736,7 +1750,6 @@ mk:
     changeset_comment_notification:
       description: Измени бр. %{id} во OpenStreetMap
       hi: Здраво %{to_user},
-      greeting: Здраво,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} искоментира на една од вашите промени'
         subject_other: '[OpenStreetMap] %{commenter} искоментира на промена што ве
@@ -2403,6 +2416,9 @@ mk:
           hospital: Болница
           building: Значајно здание
           station: Железничка станица
+          railway_halt: Железничка постојка
+          subway_station: Метростаница
+          tram_stop: Трамвајска постојка
           summit: Врв
           peak: Врв
           tunnel: Испрекината линија = тунел
@@ -2411,7 +2427,6 @@ mk:
           destination: Пристап до одредницата
           construction: Патишта во изградба
           bus_stop: Автобуска постојка
-          stop: Постојка
           bicycle_shop: Точкар
           bicycle_rental: Изнајмување велосипеди
           bicycle_parking: Паркирање велосипеди
@@ -2726,7 +2741,6 @@ mk:
         contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: услови на учество
       tou: услови на употреба
-      external auth: 'Заверка за надворешното место:'
       continue: Зачленување
       terms accepted: Ви благодариме што ги прифативте новите услови за учество!
       email_help:

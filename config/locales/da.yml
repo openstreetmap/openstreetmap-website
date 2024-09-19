@@ -73,8 +73,6 @@ da:
   activerecord:
     errors:
       messages:
-        invalid_email_address: ser ikke ud til at være en gyldig e-mailadresse
-        email_address_not_routable: kan ikke rutes
         display_name_is_user_n: kan ikke være user_n medmindre n er dit bruger-id
       models:
         user_mute:
@@ -412,7 +410,7 @@ da:
         note: bemærkning
     timeout:
       title: Timeoutfejl
-      sorry: Beklager, data for %{type} med id %{id} tog for lang tid at hente
+      sorry: Beklager, data for %{type} med id %{id} tog for lang tid at hente.
       type:
         node: punkt
         way: vej
@@ -449,15 +447,31 @@ da:
       introduction: Klik på kortet for at finde kortobjekter i nærheden.
       nearby: Kortobjekter i nærheden
       enclosing: Omgivende kortobjekter
+  nodes:
+    timeout:
+      sorry: Beklager, data for punktet med id %{id} tog for lang tid at hente.
   old_nodes:
     not_found:
       sorry: 'Beklager, node #%{id} version %{version} kunne ikke findes.'
+    timeout:
+      sorry: Beklager, historikken for punktet med id %{id} tog for lang tid at hente.
+  ways:
+    timeout:
+      sorry: Beklager, data for vejen med id %{id} tog for lang tid at hente.
   old_ways:
     not_found:
       sorry: 'Beklager, vej #%{id} version %{version} kunne ikke findes.'
+    timeout:
+      sorry: Beklager, historikken for vejen med id %{id} tog for lang tid at hente.
+  relations:
+    timeout:
+      sorry: Beklager, data for relationen med id %{id} tog for lang tid at hente.
   old_relations:
     not_found:
       sorry: 'Beklager, relation #%{id} version %{version} kunne ikke findes.'
+    timeout:
+      sorry: Beklager, historikken for relationen med id %{id} tog for lang tid at
+        hente.
   changeset_comments:
     feeds:
       comment:
@@ -1495,10 +1509,6 @@ da:
         level9: Bydelsgrænse
         level10: Sognegrænse
         level11: Nabolagsgrænse
-      types:
-        cities: Storbyer
-        towns: Byer
-        places: Steder
     results:
       no_results: Ingen resultater fundet
       more_results: Flere resultater
@@ -1769,7 +1779,6 @@ da:
     changeset_comment_notification:
       description: 'OpenStreetMap-ændringssæt #%{id}'
       hi: Hej %{to_user},
-      greeting: Hej,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} har kommenteret på et af dine ændringssæt'
         subject_other: '[OpenStreetMap] %{commenter} har kommenteret på et ændringssæt,
@@ -2427,6 +2436,8 @@ da:
           hospital: Sygehus
           building: Vigtig bygning
           station: Togstation
+          subway_station: Undergrundsstation
+          tram_stop: Sporvognsstoppested
           summit: Bjergtop
           peak: Højdepunkt
           tunnel: Stiplet kant = tunnel
@@ -2435,7 +2446,6 @@ da:
           destination: Ærindekørsel tilladt
           construction: Veje under konstruktion
           bus_stop: Busstop
-          stop: Stop
           bicycle_shop: Cykelhandler
           bicycle_rental: Cykeludlejning
           bicycle_parking: Cykelparkering
@@ -2749,7 +2759,6 @@ da:
         privacy_policy_title: OSMF privatlivs-politik inklusiv afsnit om e-mailadresser
         contributor_terms: vilkår for bidragsydere
       tou: brugsbetingelser
-      external auth: 'Tredjeparts-godkendelse:'
       continue: Opret konto
       terms accepted: Tak for at du accepterede de nye vilkår for bidragsydere!
       email_help:

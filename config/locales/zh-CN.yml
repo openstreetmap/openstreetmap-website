@@ -124,8 +124,6 @@ zh-CN:
   activerecord:
     errors:
       messages:
-        invalid_email_address: 似乎不是有效的电子邮件地址
-        email_address_not_routable: 不可路由
         display_name_is_user_n: 不能为“user_n”，除非“n”是您的用户ID
       models:
         user_mute:
@@ -895,6 +893,7 @@ zh-CN:
           college: 学院建筑
           commercial: 商业建筑物
           construction: 在建建筑
+          cowshed: 牛棚
           detached: 独立式住宅
           dormitory: 宿舍
           duplex: 双拼住宅
@@ -924,6 +923,7 @@ zh-CN:
           shed: 棚
           stable: 马厩
           static_caravan: 大篷车
+          sty: 猪圈
           temple: 庙宇建筑
           terrace: 排屋
           train_station: 火车站建筑
@@ -1502,10 +1502,6 @@ zh-CN:
         level9: 村界
         level10: 村界
         level11: 邻里界
-      types:
-        cities: 城市
-        towns: 城镇
-        places: 地点
     results:
       no_results: 没有找到结果
       more_results: 更多结果
@@ -1527,6 +1523,7 @@ zh-CN:
     page:
       user_not_found: 用户不存在
       issues_not_found: 找不到此问题
+      reported_user: 被举报用户
       status: 状态
       reports: 举报
       last_updated: 最后更新
@@ -1535,6 +1532,10 @@ zh-CN:
         one: '%{count}个举报'
         other: '%{count}个举报'
       reported_item: 举报项
+      states:
+        ignored: 已忽略
+        open: 开放
+        resolved: 已解决
     show:
       title: '%{status}问题#%{issue_id}'
       reports:
@@ -1728,7 +1729,6 @@ zh-CN:
     changeset_comment_notification:
       description: 'OpenStreetMap 变更集 #%{id}'
       hi: 您好，%{to_user}：
-      greeting: 您好，
       commented:
         subject_own: '[OpenStreetMap] %{commenter}评论了您的一个变更集'
         subject_other: '[OpenStreetMap] %{commenter} 评论了您感兴趣的一个变更集'
@@ -1937,6 +1937,9 @@ zh-CN:
       diary_entries:
         older: 较早的文章
         newer: 较新的文章
+      issues:
+        older: 旧问题
+        newer: 新问题
       traces:
         older: 较旧轨迹
         newer: 较新轨迹
@@ -2282,6 +2285,9 @@ zh-CN:
           hospital: 医院
           building: 特殊建筑物
           station: 火车站
+          railway_halt: 铁路乘降所
+          subway_station: 地铁站
+          tram_stop: 有轨电车站
           summit: 山峰
           peak: 山峰
           tunnel: 双虚线=隧道
@@ -2290,7 +2296,6 @@ zh-CN:
           destination: 目的地通行
           construction: 在建道路
           bus_stop: 公共汽车站
-          stop: 停车站
           bicycle_shop: 自行车店
           bicycle_rental: 自行车租赁
           bicycle_parking: 自行车停车场
@@ -2556,7 +2561,6 @@ zh-CN:
         privacy_policy_title: OSM基金会隐私政策包括电子邮件地址部分
         contributor_terms: 贡献者条款
       tou: 使用条款
-      external auth: 第三方身份验证：
       continue: 注册
       terms accepted: 感谢您接受新的贡献条款！
       email_help:
@@ -2714,6 +2718,7 @@ zh-CN:
       title: 编辑对 %{name} 的封禁
       heading_html: 编辑对 %{name} 的封禁
       period: 从现在开始，该用户要被封禁不能使用 API 多久。
+      revoke: 撤销封禁
     filter:
       block_period: 封禁时期必须是在下拉菜单中可选择的数值之一。
     create:
@@ -2794,6 +2799,7 @@ zh-CN:
       blocks_by_me: 由我做出的封禁
       blocks_by_user: 由%{user}做出的封禁
       block: 封禁#%{id}
+      new_block: 新封禁
   user_mutes:
     index:
       title: 已忽视用户
@@ -2866,6 +2872,8 @@ zh-CN:
       add: 添加注记
     notes_paging_nav:
       showing_page: 第 %{page} 页
+      next: 下一页
+      previous: 上一页
   javascripts:
     close: 关闭
     share:
