@@ -40,9 +40,9 @@
         <% next unless comment.visible || current_user&.moderator? %>
         <li id="c<%= comment.id %>">
           <small class='text-body-secondary'>
-            <%= t comment.visible ? ".comment_by_html" : ".hidden_comment_by_html",
-                  :time_ago => friendly_date_ago(comment.created_at),
-                  :user => link_to(comment.author.display_name, comment.author) %>
+            <%= comment_by_options = { :time_ago => friendly_date_ago(comment.created_at),
+                                       :user => link_to(comment.author.display_name, comment.author) }
+                comment.visible ? t(".comment_by_html", **comment_by_options) : t(".hidden_comment_by_html", **comment_by_options) %>
             <% if current_user&.moderator? %>
               —
               <%= tag.button t(".#{comment.visible ? 'hide' : 'unhide'}_comment"),
