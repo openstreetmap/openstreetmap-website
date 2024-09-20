@@ -31,11 +31,12 @@ class NoteMigrateOpenedCommentTest < ActiveSupport::TestCase
     create(:note_comment, :note => note, :event => "opened", :body => "Hey hey!", :author => create(:user), :author_ip => "10.0.0.1")
     create(:note_comment, :note => note, :event => "commented", :body => "done", :author => create(:user), :author_ip => "10.0.0.2")
 
-    assert_equal 2, note.comments_with_extra_open_comment.length
+    note.reload
+    assert_equal 2, note.comments.length
 
     assert Note::MigrateOpenedComment.new(note).call
 
-    n = Note.find(note.id) # avoids all caching, `||=` caches etc
-    assert_equal 2, n.comments_with_extra_open_comment.length
+    n = Note.find(note.id) # ensure association cache is avoided
+    assert_equal 2, n.comments.length
   end
 end

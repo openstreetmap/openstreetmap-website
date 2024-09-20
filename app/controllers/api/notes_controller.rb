@@ -230,18 +230,10 @@ module Api
                    .order(:created_at => :desc, :note_comments => :desc).limit(result_limit)
                    .preload(:author, :comments => :author)
 
-      @comments = notes.flat_map do |note|
-        if note.body_migrated?
-          note.comments_with_extra_open_comment
-        else
-          note.comments
-        end
-      end.take(result_limit)
       # FIXME: notes_refactoring
-      # Migrated and new Note records do not have the extra `open`-NoteComment
-      # so these are synthesized by calling Note#comments_with_extra_open_comment
-      # thus we might be ending up with more NoteComment-objects than asked for
-      # for with result_limit.
+      # Notes#comments is not a Active Record Collection Proxy anymore but a plain Array
+      # so we need to operate differently until the workaround in Note#comments is removed.
+      @comments = notes.flat_map(&:comments).take(result_limit)
 
       # Render the result
       respond_to do |format|
@@ -395,8 +387,8 @@ module Api
     ##
     # Add a comment to a note
     def add_comment(note, text, event, notify: true)
-      attributes = { :visible => true, :event => event, :body => text }.merge(author_attributes)
-      comment = note.comments.create!(attributes)
+      attributes = { :note => note, :visible => true, :event => event, :body => text }.merge(author_attributes)
+      comment = NoteComment.create!(attributes)
 
       ([note.author] + note.comments.map(&:author)).uniq.each do |user|
         UserMailer.note_comment_notification(comment, user).deliver_later if notify && user && user != current_user && user.visible?

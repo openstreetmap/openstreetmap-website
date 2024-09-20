@@ -7,18 +7,18 @@ class Note < ApplicationRecord
     def call
       return false if skip?
 
-      attributes = opened_comment_note.attributes.slice(*%w[body author_id author_ip]).compact_blank
+      attributes = first_comment.attributes.slice(*%w[body author_id author_ip]).compact_blank
       @note.update_columns(attributes) # rubocop:disable Rails/SkipsModelValidations
     end
 
     def skip?
-      opened_comment_note.blank?
+      first_comment.blank?
     end
 
     private
 
-    def opened_comment_note
-      @note.comments.unscope(:where => :visible).find_by(:event => "opened")
+    def first_comment
+      NoteComment.order(:id => :asc).find_by(:note => @note)
     end
   end
 end

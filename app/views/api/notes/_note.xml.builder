@@ -15,7 +15,7 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
   xml.date_closed note.closed_at if note.closed?
 
   xml.comments do
-    note.comments_with_extra_open_comment.each do |comment|
+    note.comments.each do |comment|
       xml.comment do
         xml.date comment.created_at
 

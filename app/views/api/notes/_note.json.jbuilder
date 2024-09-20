@@ -20,7 +20,7 @@ json.properties do
   json.status note.status
   json.closed_at note.closed_at.to_s if note.closed?
 
-  json.comments(note.comments_with_extra_open_comment) do |comment|
+  json.comments(note.comments) do |comment|
     json.date comment.created_at.to_s
 
     if comment.author

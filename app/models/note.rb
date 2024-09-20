@@ -49,10 +49,6 @@ class Note < ApplicationRecord
 
   DEFAULT_FRESHLY_CLOSED_LIMIT = 7.days
 
-  def comments_with_extra_open_comment
-    @comments_with_extra_open_comment ||= build_comments_with_extra_open_comment
-  end
-
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add(:base, "Note is not in the world") unless in_world?
@@ -103,42 +99,46 @@ class Note < ApplicationRecord
   def author
     return super if body_migrated?
 
-    opened_note_comment&.author
+    comments.first&.author
   end
 
   # FIXME: notes_refactoring remove this once the backfilling is completed
   def author_ip
     return super if body_migrated?
 
-    opened_note_comment&.author_ip
+    comments.first&.author_ip
   end
 
   # Return the note body
   def body
-    body = body_migrated? ? super : opened_note_comment&.body&.to_s
+    body = body_migrated? ? super : comments.first&.body&.to_s
     RichText.new("text", body)
+  end
+
+  # NB: For API backwards compatibility a synthetic `open`-comment is prepended.
+  def comments
+    # FIXME: notes_refactoring remove this guard once the backfilling is completed
+    records = super
+    return records unless body_migrated? || prepend_opened_comment?(records)
+
+    opened_comment = NoteComment.new(
+      :created_at => created_at,
+      :event => "opened",
+      :note => self,
+      :author => author,
+      :author_ip => author_ip,
+      :body => body
+    )
+    super.to_a.unshift(opened_comment)
   end
 
   private
 
-  # FIXME: notes_refactoring remove this once the backfilling is completed
-  def opened_note_comment
-    @opened_note_comment ||= comments.find_by(:event => "opened")
-  end
-
-  # NB: For API backwards compatibility a synthetic `open`-comment is prepended.
-  def build_comments_with_extra_open_comment
-    # FIXME: notes_refactoring remove this guard once the backfilling is completed
-    return comments if opened_note_comment
-
-    comments.to_a.unshift(NoteComment.new(
-                            :created_at => created_at,
-                            :event => "opened",
-                            :note => self,
-                            :author => author,
-                            :author_ip => author_ip,
-                            :body => body
-                          ))
+  def prepend_opened_comment?(records)
+    comment = records.first
+    comment.body != body ||
+      (comment.author != author &&
+        comment.author_ip != author_ip)
   end
 
   # Fill in default values for new notes
