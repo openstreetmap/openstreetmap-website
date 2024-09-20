@@ -57,7 +57,7 @@ module GPX
         when "application/x-bzip" then io = Bzip2::FFI::Reader.open(@file)
         end
 
-        parse_file(XML::Reader.io(io), &block)
+        parse_file(XML::Reader.io(io, :options => XML::Parser::Options::NOERROR), &block)
       end
     end
 
