@@ -1,7 +1,6 @@
 <article class='diary_post border-top border-secondary-subtle py-3<%= " text-body-secondary px-3 bg-danger bg-opacity-10" unless diary_entry.visible %> user_<%= diary_entry.user.id %>'>
-  <%= render :partial => "diary_entry_heading", :object => diary_entry, :as => "diary_entry" %>
-
-  <div class="richtext text-break" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
+  <%= render :partial => "diary_entry_heading", :object => diary_entry, :as => "diary_entry", :locals => { :show_accordion => defined?(show_accordion) && show_accordion } %>
+  <div class="richtext text-break<%= " h-auto d-block collapse accordion-collapse mh-10-collapsed overflow-hidden" if defined?(show_accordion) && show_accordion %>" id="diary_entry_<%= diary_entry.id.to_s %>" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
     <%= diary_entry.body.to_html %>
   </div>
 
