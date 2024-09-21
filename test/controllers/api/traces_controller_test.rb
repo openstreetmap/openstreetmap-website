@@ -195,16 +195,34 @@ module Api
       # Now authenticated
       create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
       assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
+
       auth_header = bearer_authorization_header user
-      post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
+
+      # Create trace and import tracepoints in background job
+      perform_enqueued_jobs do
+        post gpx_create_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }, :headers => auth_header
+      end
+
       assert_response :success
+
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
       assert_equal "New Trace", trace.description
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "trackable", trace.visibility
-      assert_not trace.inserted
+      assert trace.inserted
       assert_equal File.new(fixture).read, trace.file.blob.download
+
+      # Validate tracepoints
+      assert_equal 1, trace.points.size
+      tp = trace.points.first
+      assert_equal 10000000, tp.latitude
+      assert_equal 10000000, tp.longitude
+      assert_equal 3221331576, tp.tile
+      assert_equal 0, tp.trackid
+      assert_in_delta(134.0, tp.altitude)
+      assert_equal DateTime.parse("2008-10-01T10:10:10.000Z"), tp.timestamp
+
       trace.destroy
       assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
 
