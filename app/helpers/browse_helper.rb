@@ -159,8 +159,9 @@ module BrowseHelper
     end
 
     if icon
+      position_class = icon[:class] ||= "default"
       { :image => icon[:image],
-        :css_class => [icon[:fill], "svg_icon"] }
+        :css_class => [icon[:fill], "svg_icon", position_class] }
     end
   end
 end
