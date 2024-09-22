@@ -40,4 +40,14 @@ class CountryTest < ActiveSupport::TestCase
     name = OsmCommunityIndex.resolve_name(community, community_locale_yaml, community_en_yaml)
     assert_equal("Translated Community Chapter", name)
   end
+
+  def test_i18n_invalid_replacement_token
+    # Ignore invalid replacement tokens in OCI data provided. This might happen if translators were mistakenly translating the predefined token ids.
+    community = Community.new({ "id" => "foo-chapter", "type" => "osm-lc", "strings" => { "community" => "Community Name", "communityID" => "communityname" } })
+    community_locale_yaml = { "_communities" => { "communityname" => "Translated Community" }, "_defaults" => { "osm-lc" => { "name" => "{comminauté} Chapter" } } }
+    community_en_yaml = {}
+
+    name = OsmCommunityIndex.resolve_name(community, community_locale_yaml, community_en_yaml)
+    assert_equal("Community Name", name)
+  end
 end

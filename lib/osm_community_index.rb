@@ -38,7 +38,11 @@ module OsmCommunityIndex
                community_en_yaml.dig("_defaults", community.type, "name")
     community_name = community_locale_yaml.dig("_communities", community.strings["communityID"])
     # Change the `{community}` placeholder to `%{community}` and use Ruby's Kernel.format to fill it in.
-    translated_name = format(template.gsub("{", "%{"), { :community => community_name }) if template && community_name
+    begin
+      translated_name = format(template.gsub("{", "%{"), { :community => community_name }) if template && community_name
+    rescue KeyError => e
+      Rails.logger.warn e.full_message
+    end
     return translated_name if translated_name
 
     # Otherwise fall back to the (English-language) resource name
