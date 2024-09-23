@@ -98,9 +98,9 @@ module GPX
 
           first = true
 
-          points.each_with_index do |p, pt|
-            px = proj.x(p.longitude)
-            py = proj.y(p.latitude)
+          @actual_points.times do |pt|
+            px = proj.x @lons[pt]
+            py = proj.y @lats[pt]
 
             if (pt >= (points_per_frame * n)) && (pt <= (points_per_frame * (n + 1)))
               pen.thickness = 3
@@ -155,9 +155,9 @@ module GPX
 
         first = true
 
-        points do |p|
-          px = proj.x(p.longitude)
-          py = proj.y(p.latitude)
+        @actual_points.times do |pt|
+          px = proj.x @lons[pt]
+          py = proj.y @lats[pt]
 
           pen.line(px, py, oldpx, oldpy) unless first
 
