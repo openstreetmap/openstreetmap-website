@@ -115,30 +115,26 @@ class Note < ApplicationRecord
     RichText.new("text", body)
   end
 
-  # NB: For API backwards compatibility a synthetic `open`-comment is prepended.
-  def comments
-    # FIXME: notes_refactoring remove this guard once the backfilling is completed
-    records = super
-    return records unless body_migrated? || prepend_opened_comment?(records)
-
-    opened_comment = NoteComment.new(
-      :created_at => created_at,
-      :event => "opened",
-      :note => self,
-      :author => author,
-      :author_ip => author_ip,
-      :body => body
-    )
-    super.to_a.unshift(opened_comment)
+  def api_comments
+    @api_comments ||= build_api_comments
   end
 
   private
 
-  def prepend_opened_comment?(records)
-    comment = records.first
-    comment.body != body ||
-      (comment.author != author &&
-        comment.author_ip != author_ip)
+  # NB: For API backwards compatibility a synthetic `open`-comment is prepended.
+  def build_api_comments
+    records = comments
+    return records unless body_migrated? && records.first
+    return records if records.first.body.to_s == body.to_s
+
+    records.to_a.unshift(NoteComment.new(
+                           :created_at => created_at,
+                           :event => "opened",
+                           :note => self,
+                           :author => author,
+                           :author_ip => author_ip,
+                           :body => body
+                         ))
   end
 
   # Fill in default values for new notes

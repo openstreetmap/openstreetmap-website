@@ -68,7 +68,7 @@ class NoteTest < ActiveSupport::TestCase
   def test_author_from_opened_note_comment
     note = create(:note, :author => nil, :body => nil)
     comment = create(:note_comment, :note => note, :event => "opened", :author => create(:user))
-    assert_equal comment.author, note.author
+    assert_equal comment.author, note.reload.author
   end
 
   def test_author
@@ -80,11 +80,26 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal user, note.author
   end
 
+  def test_api_comments_before_deletion_of_first_comment
+    note = create(:note, :body => "Hello")
+    create(:note_comment, :note => note, :event => "opened", :body => note.body)
+    create(:note_comment, :note => note, :event => "commented")
+
+    assert_equal %w[opened commented], note.api_comments.pluck(:event)
+  end
+
+  def test_api_comments_after_deletion_of_first_comment
+    note = create(:note)
+    create(:note_comment, :note => note, :event => "commented", :author => create(:user))
+
+    assert_equal %w[opened commented], note.api_comments.pluck(:event)
+  end
+
   # FIXME: notes_refactoring
   def test_author_ip_from_opened_note_comment
     note = create(:note, :author_ip => nil, :body => nil)
     create(:note_comment, :note => note, :event => "opened", :author_ip => "192.168.1.1")
-    assert_equal IPAddr.new("192.168.1.1"), note.author_ip
+    assert_equal IPAddr.new("192.168.1.1"), note.reload.author_ip
   end
 
   def test_author_ip

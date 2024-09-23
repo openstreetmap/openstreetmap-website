@@ -233,7 +233,7 @@ module Api
       # FIXME: notes_refactoring
       # Notes#comments is not a Active Record Collection Proxy anymore but a plain Array
       # so we need to operate differently until the workaround in Note#comments is removed.
-      @comments = notes.flat_map(&:comments).take(result_limit)
+      @comments = notes.flat_map(&:api_comments).take(result_limit)
 
       # Render the result
       respond_to do |format|
