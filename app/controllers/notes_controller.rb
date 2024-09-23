@@ -34,14 +34,14 @@ class NotesController < ApplicationController
 
     if current_user&.moderator?
       @note = Note.find(params[:id])
-      @note_comments = NoteComment.where(:note => @note)
+      @note_comments = @note.comments.unscope(:where => :visible)
     else
       @note = Note.visible.find(params[:id])
       @note_comments = @note.comments
     end
 
-    # FIXME: notes_refactoring remove this once the backfilling is completed
-    @note_comments = @note_comments.drop(1)
+    # FIXME: notes_refactoring remove once the note open comments have been destroyed
+    @note_comments = @note_comments.drop(1) if @note.first_comment_migrated?
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found
   end
