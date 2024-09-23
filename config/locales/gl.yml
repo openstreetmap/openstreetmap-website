@@ -136,7 +136,7 @@ gl:
         longitude: Lonxitude
         public: Público
         description: Descrición
-        gpx_file: Subir un ficheiro GPX
+        gpx_file: Elixir un ficheiro de pista GPS
         visibility: Visibilidade
         tagstring: Etiquetas
       message:
@@ -398,7 +398,8 @@ gl:
         note: nota
     timeout:
       title: Tempo excedido
-      sorry: Tardouse demasiado en obter os datos para o %{type} co id %{id}.
+      sorry: Tardouse demasiado en obter os datos para o tipo "%{type}" co identificador
+        %{id}.
       type:
         node: nó
         way: vía
@@ -424,26 +425,44 @@ gl:
       wiki_link:
         key: A páxina de descrición da etiqueta %{key}
         tag: A páxina de descrición da etiqueta %{key}=%{value}
-      wikidata_link: O elemento %{page} no Wikidata
+      wikidata_link: O elemento %{page} en Wikidata
       wikipedia_link: O artigo sobre %{page} na Wikipedia
-      wikimedia_commons_link: O elemento %{page} en Wikimedia Comúns
+      wikimedia_commons_link: O elemento %{page} en Wikimedia Commons
       telephone_link: Chamar a %{phone_number}
       colour_preview: Previsualización da cor %{colour_value}
       email_link: Correo electrónico %{email}
     query:
       title: Consultar os elementos
-      introduction: Prema no mapa para atopar elementos preto daquí.
-      nearby: Elementos preto daquí
-      enclosing: Elementos darredor
+      introduction: Preme no mapa para atopar elementos preto de aquí.
+      nearby: Elementos preto de aquí
+      enclosing: Elementos arredor
+  nodes:
+    timeout:
+      sorry: Tardouse demasiado en obter os datos para o nodo co identificador %{id}.
   old_nodes:
     not_found:
       sorry: Sentímolo, non se puido atopar a versión %{version} do nó n.º %{id}.
+    timeout:
+      sorry: Tardouse demasiado en obter o historial para o nodo co identificador
+        %{id}.
+  ways:
+    timeout:
+      sorry: Tardouse demasiado en obter os datos para a vía co identificador %{id}.
   old_ways:
     not_found:
       sorry: Sentímolo, non se puido atopar a versión %{version} da vía n.º %{id}.
+    timeout:
+      sorry: Tardouse demasiado en obter o historial para a vía co identificador %{id}.
+  relations:
+    timeout:
+      sorry: Tardouse demasiado en obter os datos para a relación co identificador
+        %{id}.
   old_relations:
     not_found:
       sorry: Sentímolo, non se puido atopar a versión %{version} da relación n.º %{id}.
+    timeout:
+      sorry: Tardouse demasiado en obter o historial para a relación co identificador
+        %{id}.
   changeset_comments:
     feeds:
       comment:
@@ -462,7 +481,6 @@ gl:
           que solicitaches tardou moito en obterse.
   changesets:
     changeset:
-      anonymous: Anónimo
       no_edits: (sen edicións)
       view_changeset_details: Ollar os detalles do conxunto de modificacións
     index:
@@ -495,7 +513,6 @@ gl:
       title: Conxunto de modificacións %{id}
       created_by_html: Creado por %{link_user} o %{created}.
     no_such_entry:
-      title: Non existe ese conxunto de modificacións
       heading: 'Non hai ningunha entrada co ID: %{id}'
       body: Non existe ningún conxunto de modificacións co identificador %{id}. Comproba
         a ortografía ou que a ligazón que seguiches estea ben.
@@ -1668,17 +1685,21 @@ gl:
       befriend_them: Tamén pode engadilo coma amizade no %{befriendurl}.
       befriend_them_html: Tamén podes engadilo como amizade no %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Parece o teu ficheiro GPX %{trace_name} coa descrición
+      description_with_tags: 'Parece que o teu ficheiro %{trace_name} coa descrición
         %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_tags_html: 'Parece o teu ficheiro GPX %{trace_name} coa descrición
+      description_with_tags_html: 'Parece que o teu ficheiro %{trace_name} coa descrición
         %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_no_tags: Parece o teu ficheiro GPX %{trace_name} coa descrición
+      description_with_no_tags: Parece que o teu ficheiro %{trace_name} coa descrición
         %{trace_description} e sen etiquetas
-      description_with_no_tags_html: Parece o teu ficheiro GPX %{trace_name} coa descrición
+      description_with_no_tags_html: Parece que o teu ficheiro %{trace_name} coa descrición
         %{trace_description} e sen etiquetas
     gpx_failure:
       hi: 'Ola %{to_user}:'
-      failed_to_import: 'erro ao importar. Velaquí atópase o erro:'
+      failed_to_import: 'non se puido importar como ficheiro de pista GPS. Verifica
+        que o teu ficheiro sexa un ficheiro GPX válido ou un arquivo que conteña ficheiros
+        GPX no formato admitido (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Seica hai algún problema de formato ou de sintaxe co teu ficheiro? Velaquí
+        está o erro de importación:'
       more_info: Máis información sobre os erros de importación de GPX e como evitalos
         en %{url}.
       more_info_html: Máis información sobre os erros de importación de GPX e como
@@ -1696,7 +1717,7 @@ gl:
       all_your_traces_html: Podes atopar todas as pistas GPX que subiches en %{url}.
       subject: '[OpenStreetMap] Importación GPX correcta'
     signup_confirm:
-      subject: '[OpenStreetMap] Dámoslle a benvida ao OpenStreetMap'
+      subject: '[OpenStreetMap] Dámosche a benvida ao OpenStreetMap'
       greeting: Boas!
       created: Alguén (se cadra ti) acaba de crear unha conta en %{site_url}.
       confirm: 'Antes de facer ren, cómpre confirmar que esta solicitude veu de ti.

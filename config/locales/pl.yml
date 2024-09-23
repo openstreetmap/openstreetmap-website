@@ -37,6 +37,7 @@
 # Author: Maraf24
 # Author: Maro21
 # Author: Mateon1
+# Author: Meeqoo
 # Author: Mikini
 # Author: Mkot
 # Author: Nemo bis
@@ -186,7 +187,7 @@ pl:
         longitude: Długość geograficzna
         public: Publiczny
         description: Opis
-        gpx_file: Prześlij plik GPX
+        gpx_file: Wybierz plik śladu GPS
         visibility: Widoczność
         tagstring: Tagi
       message:
@@ -512,15 +513,34 @@ pl:
       introduction: Kliknij na mapie, by wyszukać pobliskie obiekty.
       nearby: Obiekty w pobliżu
       enclosing: Większe, otaczające obiekty
+  nodes:
+    timeout:
+      sorry: Niestety, pobranie danych węzła o identyfikatorze %{id} trwało zbyt długo.
   old_nodes:
     not_found:
       sorry: 'Nie odnaleziono węzła #%{id} w wersji %{version}.'
+    timeout:
+      sorry: Niestety, pobranie historii węzła o identyfikatorze %{id} trwało zbyt
+        długo.
+  ways:
+    timeout:
+      sorry: Niestety, pobranie danych linii o identyfikatorze %{id} trwało zbyt długo.
   old_ways:
     not_found:
       sorry: 'Nie odnaleziono linii #%{id} w wersji %{version}.'
+    timeout:
+      sorry: Niestety, pobranie historii linii o identyfikatorze %{id} trwało zbyt
+        długo.
+  relations:
+    timeout:
+      sorry: Niestety, pobranie danych relacji o identyfikatorze %{id} trwało zbyt
+        długo.
   old_relations:
     not_found:
       sorry: 'Nie odnaleziono relacji #%{id} w wersji %{version}.'
+    timeout:
+      sorry: Niestety, pobranie historii relacji o identyfikatorze %{id} trwało zbyt
+        długo.
   changeset_comments:
     feeds:
       comment:
@@ -536,7 +556,6 @@ pl:
           zbyt długo.
   changesets:
     changeset:
-      anonymous: Anonim
       no_edits: (brak edycji)
       view_changeset_details: Zobacz szczegóły zestawu zmian
     index:
@@ -568,7 +587,6 @@ pl:
       title: Zestaw zmian %{id}
       created_by_html: Utworzony przez %{link_user} w %{created}.
     no_such_entry:
-      title: Brak takiego zestawu zmian
       body: Niestety nie odnaleziono zestawu zmian o identyfikatorze %{id}. Sprawdź
         pisownię. Być może skorzystano z nieprawidłowego odnośnika.
     show:
@@ -1682,8 +1700,8 @@ pl:
     more: Więcej
   user_mailer:
     diary_comment_notification:
-      subject: '[OpenStreetMap] Użytkownik %{user} skomentował wpis dziennika'
-      hi: Witaj %{to_user},
+      subject: '[OpenStreetMap] %{user} skomentował wpis dziennika'
+      hi: Cześć, %{to_user},
       header: '%{from_user} zostawił(a) komentarz do wpisu w dzienniku OpenStreetMap
         o temacie %{subject}:'
       header_html: '%{from_user} zostawił(a) komentarz do wpisu w dzienniku OpenStreetMap
@@ -1692,9 +1710,13 @@ pl:
         %{commenturl} lub wysłać wiadomość do autora pod %{replyurl}
       footer_html: Możesz również przeczytać komentarz pod %{readurl}, skomentować
         go pod %{commenturl} lub wysłać wiadomość do autora pod %{replyurl}
+      footer_unsubscribe: Możesz wypisać się z subskrypcji tego wpisu dziennika pod
+        %{unsubscribeurl}
+      footer_unsubscribe_html: Możesz wypisać się z subskrypcji tego wpisu dziennika
+        pod %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
-      hi: Witaj %{to_user},
+      hi: Cześć, %{to_user},
       header: '%{from_user} wysłał do ciebie wiadomość z OpenStreetMap o temacie %{subject}:'
       header_html: '%{from_user} wysłał do ciebie wiadomość z OpenStreetMap o temacie
         %{subject}:'
@@ -1703,26 +1725,35 @@ pl:
       footer_html: Możesz również przeczytać wiadomość na %{readurl} i wysłać wiadomość
         do autora na %{replyurl}
     friendship_notification:
-      hi: Witaj %{to_user},
-      subject: '[OpenStreetMap] Użytkownik %{user} dodał cię jako znajomego'
+      hi: Cześć, %{to_user},
+      subject: '[OpenStreetMap] %{user} dodał cię jako znajomego'
       had_added_you: '%{user} dodał(a) cię jako swojego znajomego na OpenStreetMap.'
       see_their_profile: Możesz zobaczyć jego profil na stronie %{userurl}.
       see_their_profile_html: Możesz zobaczyć jego profil na stronie %{userurl}.
       befriend_them: Możesz również dodać go jako znajomego na %{befriendurl}.
       befriend_them_html: Możesz również dodać go jako znajomego na %{befriendurl}.
     gpx_description:
-      description_with_tags_html: 'Wygląda na to, że twój plik GPX %{trace_name} z
-        opisem %{trace_description} i tagami: %{tags}'
-      description_with_no_tags_html: Wygląda na to, że twój plik GPX %{trace_name}
-        z opisem %{trace_description} i bez tagów
+      description_with_tags_html: 'Wygląda jak twój plik %{trace_name} z opisem %{trace_description}
+        i następującymi tagami: %{tags}'
+      description_with_no_tags: Wygląda jak twój plik %{trace_name} z opisem %{trace_description}
+        i bez tagów
+      description_with_no_tags_html: Wygląda jak twój plik %{trace_name} z opisem
+        %{trace_description} i bez tagów
     gpx_failure:
       hi: Cześć, %{to_user},
       failed_to_import: 'nie został zaimportowany. Komunikat błędu:'
+      more_info: Więcej informacji na temat błędów importu plików GPX można znaleźć
+        na %{url}.
       more_info_html: Więcej informacji na temat błędów importu plików GPX można znaleźć
         na %{url}.
       subject: '[OpenStreetMap] Nieudane importowanie pliku GPX'
     gpx_success:
       hi: Cześć, %{to_user},
+      trace_location: Twój ślad jest dostępny pod adresem %{trace_url}
+      all_your_traces: Wszystkie pomyślnie przesłane ślady GPX można znaleźć pod adresem
+        %{url}
+      all_your_traces_html: Wszystkie pomyślnie przesłane ślady GPX można znaleźć
+        pod adresem %{url}
       subject: '[OpenStreetMap] Zaimportowano plik GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Witamy w OpenStreetMap'
@@ -1733,7 +1764,7 @@ pl:
       welcome: Po potwierdzeniu konta dostarczymy ci dodatkowych informacji o tym,
         jak zacząć.
     email_confirm:
-      subject: '[OpenStreetMap] Potwierdzenie adresu e-mail'
+      subject: '[OpenStreetMap] Potwierdź swój e-mail'
       greeting: Cześć,
       hopefully_you: Ktoś (prawdopodobnie ty) chce zmienić adres e-mail w %{server_url}
         na %{new_address}.
@@ -1746,19 +1777,19 @@ pl:
       click_the_link: Jeśli to ty, kliknij poniższy odnośnik, aby wyczyścić hasło.
     note_comment_notification:
       anonymous: Anonimowy użytkownik
-      greeting: Witaj,
+      greeting: Cześć,
       commented:
-        subject_own: '[OpenStreetMap] Użytkownik %{commenter} skomentował uwagę'
+        subject_own: '[OpenStreetMap] %{commenter} skomentował twoją uwagę'
         subject_other: '[OpenStreetMap] %{commenter} skomentował interesującą cię
           uwagę'
         your_note: '%{commenter} zostawił komentarz do jednej z twoich uwag na mapie
           w lokalizacji: %{place}.'
         your_note_html: '%{commenter} zostawił komentarz do jednej z twoich uwag na
           mapie w lokalizacji: %{place}.'
-        commented_note: Użytkownik %{commenter} zostawił komentarz do skomentowanej
-          uwagi. Znajduje się ona w położeniu %{place}.
-        commented_note_html: Użytkownik %{commenter} zostawił komentarz do skomentowanej
-          uwagi. Znajduje się ona w położeniu %{place}.
+        commented_note: '%{commenter} zostawił komentarz do skomentowanej przez ciebie
+          uwagi. Znajduje się ona w położeniu %{place}.'
+        commented_note_html: '%{commenter} zostawił komentarz do skomentowanej przez
+          ciebie uwagi. Znajduje się ona w położeniu %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} rozwiązał twoją uwagę'
         subject_other: '[OpenStreetMap] %{commenter} rozwiązał interesującą cię uwagę'
@@ -1771,22 +1802,21 @@ pl:
         commented_note_html: 'Użytkownik %{commenter} rozwiązał skomentowaną uwagę.
           Znajduje się ona w położeniu: %{place}.'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} ponownie aktywował jedną z twoich
-          uwag'
+        subject_own: '[OpenStreetMap] %{commenter} ponownie aktywował twoją uwagę'
         subject_other: '[OpenStreetMap] %{commenter} ponownie aktywował interesującą
           cię uwagę'
         your_note: '%{commenter} ponownie aktywował jedną z twoich uwag na mapie w
           lokalizacji: %{place}'
         your_note_html: '%{commenter} ponownie aktywował jedną z twoich uwag na mapie
           w lokalizacji: %{place}'
-        commented_note: Użytkownik %{commenter} ponownie aktywował skomentowaną uwagę.
-          Znajduje się ona w położeniu %{place}.
-        commented_note_html: Użytkownik %{commenter} ponownie aktywował skomentowaną
-          uwagę. Znajduje się ona w położeniu %{place}.
+        commented_note: '%{commenter} ponownie aktywował skomentowaną przez ciebie
+          uwagę. Znajduje się ona w położeniu %{place}.'
+        commented_note_html: '%{commenter} ponownie aktywował skomentowaną przez ciebie
+          uwagę. Znajduje się ona w położeniu %{place}.'
       details: 'Więcej informacji na temat uwagi można znaleźć pod adresem: %{url}.'
       details_html: 'Więcej informacji na temat uwagi można znaleźć pod adresem: %{url}.'
     changeset_comment_notification:
-      hi: Witaj %{to_user},
+      hi: Cześć, %{to_user},
       commented:
         subject_own: '[OpenStreetMap] %{commenter} skomentował jeden z twoich zestawów
           zmian'
@@ -1799,8 +1829,8 @@ pl:
           %{changeset_author}, który śledzisz, utworzony %{time}'
         commented_changeset_html: '%{commenter} zostawił komentarz do zestawu zmian
           użytkownika %{changeset_author}, który śledzisz, utworzony %{time}'
-        partial_changeset_with_comment: z komentarzem '%{changeset_comment}'
-        partial_changeset_with_comment_html: z komentarzem '%{changeset_comment}'
+        partial_changeset_with_comment: z komentarzem %{changeset_comment}
+        partial_changeset_with_comment_html: z komentarzem %{changeset_comment}
         partial_changeset_without_comment: bez komentarza
       details: 'Więcej informacji na temat zestawu zmian można znaleźć pod adresem:
         %{url}.'
@@ -1888,6 +1918,8 @@ pl:
       no_sent_messages_html: Nie masz jeszcze wysłanych wiadomości. Może skontaktujesz
         się z %{people_mapping_nearby_link}?
       people_mapping_nearby: użytkownikami z twojej okolicy
+    muted:
+      title: Wyciszone wiadomości
     reply:
       wrong_user: Jesteś zalogowany jako %{user}, ale wiadomość, na którą chcesz odpowiedzieć,
         nie została wysłana do tego użytkownika. Zaloguj się jako właściwy użytkownik,
@@ -1906,6 +1938,7 @@ pl:
     heading:
       my_inbox: wiadomości odebrane
       my_outbox: wiadomości wysłane
+      muted_messages: Wyciszone wiadomości
     mark:
       as_read: Wiadomość została oznaczona jako przeczytana
       as_unread: Wiadomość została oznaczona jako nieprzeczytana
@@ -2420,6 +2453,9 @@ pl:
           hospital: Szpital
           building: Ważny budynek
           station: Stacja kolejowa
+          railway_halt: Przystanek kolejowy
+          subway_station: Stacja metra
+          tram_stop: Przystanek tramwajowy
           summit: Góra
           peak: Szczyt
           tunnel: Kreskowany obrys – tunel
@@ -2515,7 +2551,7 @@ pl:
     new:
       upload_trace: Wgraj ślad GPS
       visibility_help: co to znaczy?
-      visibility_help_url: https://wiki.openstreetmap.org/wiki/Pl:Visibility_of_GPS_traces
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Pl:Widoczno%C5%9B%C4%87_%C5%9Blad%C3%B3w_GPS
       help: Pomoc
       help_url: https://wiki.openstreetmap.org/wiki/Pl:Upload
     create:
