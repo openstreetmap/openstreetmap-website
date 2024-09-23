@@ -31,6 +31,8 @@ module GPX
             point.altitude ||= 0
             yield point
             @actual_points += 1
+            @lats << point.latitude
+            @lons << point.longitude
           elsif reader.name == "trkseg"
             @tracksegs += 1
           end
@@ -44,6 +46,8 @@ module GPX
       @possible_points = 0
       @actual_points = 0
       @tracksegs = 0
+      @lats = []
+      @lons = []
 
       begin
         Archive::Reader.open_filename(@file).each_entry_with_data do |entry, data|
