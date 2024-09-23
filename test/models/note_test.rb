@@ -80,19 +80,27 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal user, note.author
   end
 
+  def test_api_comments_before_migration
+    note = create(:note, :body => nil)
+    create(:note_comment, :note => note, :event => "opened", :body => note.body)
+    create(:note_comment, :note => note, :event => "commented")
+
+    assert_equal %w[opened commented], note.reload.api_comments.pluck(:event)
+  end
+
   def test_api_comments_before_deletion_of_first_comment
     note = create(:note, :body => "Hello")
     create(:note_comment, :note => note, :event => "opened", :body => note.body)
     create(:note_comment, :note => note, :event => "commented")
 
-    assert_equal %w[opened commented], note.api_comments.pluck(:event)
+    assert_equal %w[opened commented], note.reload.api_comments.pluck(:event)
   end
 
   def test_api_comments_after_deletion_of_first_comment
     note = create(:note)
     create(:note_comment, :note => note, :event => "commented", :author => create(:user))
 
-    assert_equal %w[opened commented], note.api_comments.pluck(:event)
+    assert_equal %w[opened commented], note.reload.api_comments.pluck(:event)
   end
 
   # FIXME: notes_refactoring

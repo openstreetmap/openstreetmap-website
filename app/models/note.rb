@@ -131,8 +131,8 @@ class Note < ApplicationRecord
   # NB: For API backwards compatibility a synthetic `open`-comment is prepended.
   def build_api_comments
     records = comments
-    return records unless body_migrated? && records.first
-    return records if records.first.body.to_s == body.to_s
+    return records unless body_migrated?
+    return records if records.first&.body&.to_s == body.to_s
 
     records.to_a.unshift(NoteComment.new(
                            :created_at => created_at,
