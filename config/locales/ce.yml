@@ -11,6 +11,8 @@ ce:
     formats:
       friendly: '%e %B %Y %H:%M'
   helpers:
+    file:
+      prompt: Харжа файл
     submit:
       diary_comment:
         create: Ӏалашдан
@@ -24,6 +26,9 @@ ce:
       client_application:
         create: ДӀайаздала
         update: Хийца
+      doorkeeper_application:
+        create: Регистраци йан
+        update: карлайаккха
       redaction:
         create: Нисдар кхоллар
         update: Хийцам Ӏалашбе
@@ -41,11 +46,12 @@ ce:
     models:
       acl: ТӀецакхачаран бахьанин могӀа
       changeset: Нисдарш
-      changeset_tag: Нисдарийн гуламин тег
+      changeset_tag: Нисдарийн гуламан тег
       country: Пачхьалкх
       diary_comment: Коммент
       diary_entry: Къамелан дӀайаздар
       friend: ДоттагӀ
+      issue: Ӏалашо
       language: Мотт
       message: Хаам
       node: ТӀадам
@@ -62,17 +68,20 @@ ce:
       relation: Хилар
       relation_member: Хиларан декъашхо
       relation_tag: Хиларан тег
+      report: хаам
       session: Сесси
       trace: Трек
       tracepoint: Трекан тӀадам
       tracetag: Трекан тег
       user: Декъашхо
       user_preference: Декъашхочун гӀирс нисбар
-      user_token: Декъашхочун билгало
+      user_token: Декъашхочун токен
       way: Сиз
       way_node: Сизан тӀадам
       way_tag: Сизан тег
     attributes:
+      client_application:
+        name: ЦIе (схьадоьхург)
       diary_comment:
         body: Текст
       diary_entry:
@@ -81,6 +90,11 @@ ce:
         latitude: Шоралла
         longitude: Дохалла
         language: Мотт
+      doorkeeper/application:
+        name: ЦӀе
+        redirect_uri: ДӀасахьажорг
+        confidential: Къайле приложени?
+        scopes: Магор
       friend:
         user: Декъашхо
         friend: ДоттагӀ
@@ -92,19 +106,26 @@ ce:
         latitude: Шоралла
         longitude: Дохалла
         public: Массарна
-        description: Цуьнах лаьцна
+        description: Цунах лаьцна
+        gpx_file: GPX файл чуйаккха
         visibility: 'Гуш хилар:'
+        tagstring: 'Тегаш:'
       message:
         sender: Баийтинарг
         title: Тема
         body: Текст
         recipient: Кхаьчнарг
+      redaction:
+        title: Корта
+        description: Цуьнах лаьцна
+      report:
+        category: Хьай хаамина бахьан гайта
       user:
         email: Электронан пошт
         new_email: 'Электронан поштан керла адрес:'
         active: Жигара
         display_name: Гуш йолу цӀе
-        description: Цуьнах лаьцна
+        description: Цунах лаьцна
         home_lat: 'Шоралла:'
         home_lon: 'Дохалла:'
         languages: Меттанаш
@@ -176,6 +197,10 @@ ce:
       entry:
         comment: Коммент
         full: Йуьззина текст
+  account:
+    deletions:
+      show:
+        title: Са аккаунт дӀайаккхар
   accounts:
     edit:
       current email address: 'Карара электронан поштан адрес:'
@@ -339,6 +364,7 @@ ce:
       title_particular: 'OpenHistoricalMap #%{changeset_id} тӀехь дина нисдарийн дийцар'
   dashboards:
     popup:
+      your location: Хьо волу/йолу меттиг
       friend: ДоттагӀ
     show:
       my friends: ДоттагӀий
@@ -940,7 +966,7 @@ ce:
       created from: 'Кхоьллина:'
       status: 'Статус:'
       spam score: 'Спаман маххадор:'
-      description: Цуьнах лаьцна
+      description: Цунах лаьцна
       user location: Декъашхо волу/йолу меттиг
       report: Хаамбе хӀокху декъашхох
     index:
@@ -995,7 +1021,7 @@ ce:
       heading: '%{user} декъашхочун билгалонаш'
       id: Идентификатор
       creator: Автор
-      description: Цуьнах лаьцна
+      description: Цунах лаьцна
       created_at: Кхоьллина
       last_changed: Хийцина
   javascripts:
