@@ -13,6 +13,8 @@
 # Author: Þjarkur
 ---
 is:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
@@ -230,6 +232,7 @@ is:
       openid: OpenID
       google: Google
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
   api:
@@ -367,6 +370,8 @@ is:
       relation: Vensl (%{count})
       relation_paginated: Vensl (%{x}-%{y} af %{count})
       comment: Athugasemdir (%{count})
+      hidden_comment_by_html: Falin umsögn frá %{user} %{time_ago}
+      comment_by_html: Umsögn frá %{user} %{time_ago}
       changesetxml: Breytingasetts XML sniði
       osmchangexml: osmChange XML sniði
       feed:
@@ -618,10 +623,37 @@ is:
       newer_comments: Nýrri athugasemdir
       older_comments: Eldri athugasemdir
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Auðkenningarþjónninn krefst þess að reikningur
+          endanotanda sé valinn
+        consent_required: Auðkenningarþjónninn krefst samþykkis endanotanda
+        interaction_required: Auðkenningarþjónninn krefst aðgerðar af hálfu endanotanda
+        login_required: Auðkenningarþjónninn krefst auðkenningar endanotanda
     flash:
       applications:
         create:
           notice: Umsókn skráð.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner vantar.
+          reauthenticate_resource_owner_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner vantar.
+          resource_owner_from_access_token_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token vantar.
+          select_account_for_resource_owner_not_configured: Brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            vantar.
+          subject_not_configured: Gerð auðkennisteikns brást vegna þess að uppsetningu
+            Doorkeeper::OpenidConnect.configure.subject vantar.
+    scopes:
+      address: Skoðaðu heimilisfangið þitt
+      email: Skoðaðu tölvupóstfangið þitt
+      openid: Auðkenndu notandaaðganginn þinn
+      phone: Skoðaðu símanúmerið þitt
+      profile: Skoðaðu persónuupplýsingar þínar
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
@@ -1675,7 +1707,7 @@ is:
       subject: '[OpenHistoricalMap] Beðni um að endurstilla lykilorð'
       greeting: Hæ,
       hopefully_you: Einhver (vonandi þú) hefur beðið um að endurstilla lykilorðið
-        á reikningnum með þetta netfang á openstreetmap.org
+        á reikningnum með þetta netfang á openhistoricalmap.org
       click_the_link: Ef þú óskaðir eftir þessari endurstillingu fylgdu tenglinum
         hér fyrir neðan til að staðfesta breytinguna.
     note_comment_notification:
@@ -1940,6 +1972,9 @@ is:
         facebook:
           title: Skrá inn með Facebook
           alt: Skrá inn með Facebook-aðgangi
+        microsoft:
+          title: Skrá inn með Microsoft
+          alt: Skrá inn með Microsoft-aðgangi
         github:
           title: Skrá inn með GitHub
           alt: Skrá inn með GitHub-aðgangi
@@ -2209,6 +2244,12 @@ is:
           varðandi OpenHistoricalMap.
       discord:
         title: switch2osm
+      forum:
+        title: Vefspjall
+      github:
+        url: https://github.com/OpenHistoricalMap/
+      mailing_list:
+        title: Póstlisti
       slack:
         title: IRC
       wiki:
@@ -2357,6 +2398,28 @@ is:
           Þetta mun bæta merki á kortið, sem þú getur fært til með því að draga það.
           Bættu við skilaboðunum þínum, smelltu síðan á að vista, og annað kortagerðarfólk mun væntanlega rannsaka málið.
         the_map: landakortið
+    ohm_privacy_policy:
+      page_title_html: Meðferð persónuupplýsinga
+      introduction:
+        title_html: Kynning
+      who:
+        title_html: Hver hefur aðgang að gögnunum
+      details:
+        title_html: Ítarlegri upplýsingar
+      trace_data:
+        title_html: Gögn GPS-ferils
+      map_data:
+        title_html: Gögn korts
+      email:
+        title_html: Tölvupóstföng
+      gravatar:
+        title_html: Gravatar-auðkennismynd
+      account_removal:
+        title_html: Fjarlæging notandaaðgangs
+      cookies:
+        title_html: Vefkökur
+      contact:
+        title_html: Hafa samband
   traces:
     visibility:
       private: Prívat  (aðeins deilt sem óauðkennanlegum, óröðuðum punktum)
@@ -2517,6 +2580,7 @@ is:
     permissions:
       missing: Þú hefur ekki gefið forritinu heimild fyrir aðgang að þessum eiginleikum
     scopes:
+      openid: Skráðu þig inn með OpenStreetMap
       read_prefs: Lesa kjörstillingar notanda
       write_prefs: Breyta kjörstillingum notanda
       write_diary: Búa til bloggfærslur, setja inn athugasemdir og bæta við vinum
@@ -2574,6 +2638,7 @@ is:
       no_applications_html: Ert þú að nota forrit sem þú myndir vilja skrá til notkunar
         hjá okkur með %{oauth2} staðlinum? Þú verður að skrá vefforritið áður en það
         fer að senda OAuth-beiðnir á þessa þjónustu.
+      oauth_2: OAuth 2
       new: Skrá nýtt forrit
       name: Nafn
       permissions: Réttindi
@@ -2660,6 +2725,10 @@ is:
         mín verði í almenningseigu (Public Domain)
       consider_pd_why: hvað þýðir þetta?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+      guidance_info_html: 'Upplýsingar sem hjálpa til við að skilja þessi hugtök:
+        %{readable_summary_link} á mannamáli og nokkrar %{informal_translations_link}'
+      readable_summary: læsilegt yfirlit
+      informal_translations: óformlegar þýðingar
       continue: Halda áfram
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Hafna
@@ -2998,7 +3067,9 @@ is:
         historical: Sögulegt
         woodblock: Trjárista
         japanesescroll: Japönsk rúlla
+        railway: Járnbrautir
         standard: Staðlað
+        cyclosm: CyclOSM
         cycle_map: Hjólakort
         transport_map: Umferðarkort
         hot: Hjálparstarf
