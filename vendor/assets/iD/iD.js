@@ -22897,7 +22897,7 @@
 
   // package.json
   var package_default = {
-    name: "iD",
+    name: "@openhistoricalmap/id",
     version: "2.29.0-dev",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
@@ -23010,8 +23010,8 @@
       mocha: "^10.4.0",
       "name-suggestion-index": "~6.0",
       "npm-run-all": "^4.0.0",
-      "osm-community-index": "~5.6.2",
       "ohm-editor-layer-index": "github:openhistoricalmap/ohm-editor-layer-index#dist",
+      "osm-community-index": "~5.6.2",
       postcss: "^8.4.38",
       "postcss-selector-prepend": "^0.5.0",
       shelljs: "^0.8.0",
@@ -33070,8 +33070,9 @@
       };
     }
     if (fields.source) {
-      fields.source.type = "text";
+      fields.source.type = "source";
       fields.source.source = false;
+      fields.source.keys = ["source", "source:url", "source:name", "source:date"];
     }
     fields.license = {
       key: "license",
@@ -49026,9 +49027,13 @@
       function validateEDTF(key, msgKey) {
         if (!entity.tags[key] || !entity.tags[key + ":edtf"])
           return;
-        let basic = parseEDTF(entity.tags[key]);
+        let basic = entity.tags[key];
+        if (basic.match("^-?[0-9]+-[0-9]{2}-[0-9]{2}$")) {
+          basic = "".concat(basic, "T00:00:00/").concat(basic, "T24:00:00");
+        }
+        let basicAsEDTF = parseEDTF(basic);
         let parsed = parseEDTF(entity.tags[key + ":edtf"]);
-        if (!basic || !parsed || parsed.covers(basic))
+        if (!basicAsEDTF || !parsed || parsed.covers(basicAsEDTF) || basicAsEDTF.covers(parsed))
           return;
         issues.push(new validationIssue({
           type: type2,
@@ -71520,6 +71525,73 @@
   }
   uiFieldWikipedia.supportsMultiselection = false;
 
+  // modules/ui/fields/sources.js
+  function uiFieldSources(field, context) {
+    let dispatch14 = dispatch_default("change");
+    let items = select_default2(null);
+    let _tags = {};
+    let _selection = select_default2(null);
+    let _pendingChange;
+    const mainKey = "source";
+    const sourceHeader = mainKey + ":";
+    const possibleSourceSubkeys = [{ key: "name" }, { key: "url" }, { key: "date" }];
+    function scheduleChange() {
+      if (!_pendingChange)
+        return;
+      dispatch14.call("change", this, _pendingChange);
+      _pendingChange = null;
+      _selection.call(sources);
+    }
+    function valueChange(d3_event, d2) {
+      if (typeof d2.key !== "string" && !this.value)
+        return;
+      var key = sourceHeader + d2.key;
+      _pendingChange = _pendingChange || {};
+      var value = context.cleanTagValue(this.value);
+      _pendingChange[key] = value === "" ? void 0 : value;
+      _tags[key] = value === "" ? void 0 : value;
+      scheduleChange();
+    }
+    function mainChange() {
+      _pendingChange = _pendingChange || {};
+      var value = context.cleanTagValue(this.value);
+      _pendingChange[mainKey] = value === "" ? void 0 : value;
+      _tags[mainKey] = value === "" ? void 0 : value;
+      scheduleChange();
+    }
+    function sources(selection2) {
+      _selection = selection2;
+      var wrap2 = selection2.selectAll(".form-field-input-wrap").data([0]);
+      selection2.exit().style("top", "0").style("max-height", "240px").transition().duration(200).style("opacity", "0").style("max-height", "0px").remove();
+      wrap2 = wrap2.enter().append("div").attr("class", "form-field-input-wrap form-field-input-" + field.type).merge(wrap2);
+      wrap2.selectAll("input").data([0]).enter().append("input").attr("class", "main-value").attr("type", "text").attr("placeholder", _t("inspector.source.main_input")).call(utilNoAuto).on("change", mainChange).on("blur", mainChange);
+      var list3 = wrap2.selectAll("ul").data([0]);
+      list3 = list3.enter().append("ul").attr("class", "rows").merge(list3);
+      list3 = list3.merge(list3);
+      items = list3.selectAll("li.labeled-input-source").data(possibleSourceSubkeys);
+      items = items.enter().append("li").attr("class", "labeled-input-source");
+      items.append("input").attr("type", "text").attr("class", "value").attr("placeholder", function(d2) {
+        return _t("inspector.source." + d2.key);
+      }).call(utilNoAuto).call(utilGetSetValue, function(d2) {
+        return _tags[sourceHeader + d2.key];
+      }).on("change", valueChange).on("blur", valueChange);
+      items.exit().remove();
+      utilGetSetValue(_selection.selectAll(".value"), function(d2) {
+        return _tags[sourceHeader + d2.key] === void 0 ? "" : _tags[sourceHeader + d2.key];
+      });
+      utilGetSetValue(_selection.selectAll(".main-value"), function() {
+        return _tags[mainKey] === void 0 ? "" : _tags[mainKey];
+      });
+    }
+    sources.tags = function(tags) {
+      if (!arguments.length)
+        return _tags;
+      _tags = tags;
+      _selection.call(sources);
+    };
+    return utilRebind(sources, dispatch14, "on");
+  }
+
   // modules/ui/fields/index.js
   var uiFields = {
     access: uiFieldAccess,
@@ -71545,6 +71617,7 @@
     radio: uiFieldRadio,
     restrictions: uiFieldRestrictions,
     semiCombo: uiFieldCombo,
+    source: uiFieldSources,
     structureRadio: uiFieldRadio,
     tel: uiFieldText,
     text: uiFieldText,

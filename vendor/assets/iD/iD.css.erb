@@ -4991,11 +4991,19 @@
     display: flex;
     flex-flow: row nowrap;
 }
-.ideditor .form-field ul.rows li.labeled-input > div {
+.ideditor .form-field ul.rows li.labeled-input > div,
+.ideditor .form-field ul.rows li.labeled-input-source > div {
     flex: 1 1 auto;
     width: 100%;
     border-radius: 0;
     line-height: 0.95rem;
+}
+.ideditor .form-field ul.rows li.labeled-input div > span,
+.ideditor .form-field ul.rows li.labeled-input-source div > span{
+    vertical-align: middle;
+}
+.ideditor .form-field ul.rows li.labeled-input-source > div {
+    width: auto;
 }
 .ideditor .form-field ul.rows li input {
     border-radius: 0;
@@ -5020,10 +5028,12 @@
     display: table;
     width: 100%;
 }
-.ideditor .form-field ul.rows.rows-table li.labeled-input {
+.ideditor .form-field ul.rows.rows-table li.labeled-input,
+.ideditor .form-field ul.rows.rows-table li.labeled-input-source {
     display: table-row;
 }
-.ideditor .form-field ul.rows.rows-table li.labeled-input > div:first-child {
+.ideditor .form-field ul.rows.rows-table li.labeled-input > div:first-child,
+.ideditor .form-field ul.rows.rows-table li.labeled-input-source > div:first-child {
     display: table-cell;
     width: auto;
     max-width: 170px;
@@ -5031,7 +5041,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
-.ideditor .form-field ul.rows.rows-table li.labeled-input > div:nth-child(2) {
+.ideditor .form-field ul.rows.rows-table li.labeled-input > div:nth-child(2),
+.ideditor .form-field ul.rows.rows-table li.labeled-input-source > div:nth-child(2) {
     display: table-cell;
     width: auto;
 }
@@ -5451,6 +5462,9 @@
 
 /* Field - date, roadheight, and roadspeed
 ------------------------------------------------------- */
+.ideditor .form-field-input-source {
+    flex-direction: column;
+}
 .ideditor .form-field-input-date input.date-year,
 .ideditor .form-field-input-date input.date-month,
 .ideditor .form-field-input-roadheight input.roadheight-number,
@@ -6363,6 +6377,10 @@
 .ideditor .add-row .add-relation,
 .ideditor .add-row .space-value {
     flex: 1 1 50%;
+}
+.ideditor .add-row .add-subkey {
+    width: 32px;
+    flex: 0 1 auto;
 }
 .ideditor .add-row .space-buttons {
     flex: 0 0 62px;
