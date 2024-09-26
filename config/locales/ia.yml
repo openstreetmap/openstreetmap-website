@@ -33,8 +33,8 @@ ia:
         create: Registrar
         update: Actualisar
       redaction:
-        create: Crear suppression
-        update: Salveguardar suppression
+        create: Crear censura
+        update: Salveguardar censura
       trace:
         create: Incargar
         update: Salveguardar modificationes
@@ -391,9 +391,9 @@ ia:
         changeset: gruppo de modificationes
         note: nota
     redacted:
-      redaction: Suppression %{id}
+      redaction: Censura %{id}
       message_html: Le version %{version} de iste %{type} non pote esser monstrate
-        perque illo ha essite supprimite. Vide %{redaction_link} pro detalios.
+        perque illo ha essite censurate. Vide %{redaction_link} pro detalios.
       type:
         node: nodo
         way: via
@@ -419,24 +419,42 @@ ia:
       introduction: Clicca sur le carta pro cercar objectos a proximitate.
       nearby: Objectos proxime
       enclosing: Objectos inglobante
+  nodes:
+    timeout:
+      sorry: Pardono, le datos pro le nodo con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
   old_nodes:
     not_found:
       sorry: Guai, le version %{version} del nodo №%{id} non pote esser trovate.
+    timeout:
+      sorry: Pardono, le historia del nodo con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
+  ways:
+    timeout:
+      sorry: Pardono, le datos pro le via con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
   old_ways:
     not_found:
       sorry: Guai, le version %{version} del via №%{id} non pote esser trovate.
+    timeout:
+      sorry: Pardono, le historia del via con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
+  relations:
+    timeout:
+      sorry: Pardono, le datos pro le relation con le ID %{id} ha prendite troppo
+        de tempore pro esser recuperate.
   old_relations:
     not_found:
       sorry: Guai, le version %{version} del relation №%{id} non pote esser trovate.
+    timeout:
+      sorry: Pardono, le historia del relation con le ID %{id} ha prendite troppo
+        de tempore pro esser recuperate.
   changeset_comments:
     feeds:
       comment:
         comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
           %{author}
         commented_at_by_html: Actualisate %{when} per %{user}
-      comments:
-        comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
-          %{author}
       show:
         title_all: Discussion sur un gruppo de modificationes in OpenStreetMap
         title_particular: Discussion sur le gruppo de modificationes OpenStreetMap
@@ -590,8 +608,6 @@ ia:
       report: Signalar iste commento
     location:
       location: 'Loco:'
-      view: Vider
-      edit: Modificar
     feed:
       user:
         title: Entratas de diario de OpenStreetMap de %{user}
@@ -1482,7 +1498,6 @@ ia:
       not_updated: Non actualisate
       search: Recerca
       search_guidance: 'Cercar problemas:'
-      link_to_reports: Vider reportos
       states:
         ignored: Ignorate
         open: Aperte
@@ -1946,7 +1961,6 @@ ia:
       remember: Memorar me
       lost password link: Contrasigno perdite?
       login_button: Aperir session
-      register now: Registrar ora
       with external: o usa un tertio pro aperir session
       or: o
       auth failure: Pardono, non poteva aperir un session con iste detalios.
@@ -2744,7 +2758,6 @@ ia:
         privacy_policy_title: Politica de confidentialitate del OSMF con un section
           sur adresses de e-mail
         contributor_terms: conditiones de contributor
-      tou: conditiones de uso
       continue: Crear conto
       terms accepted: Gratias pro acceptar le nove conditiones de contributor!
       email_help:
@@ -2778,7 +2791,6 @@ ia:
       readable_summary: summario legibile per humanos
       informal_translations: traductiones informal
       continue: Continuar
-      decline: Declinar
       you need to accept or decline: Per favor lege e postea accepta o declina le
         nove Conditiones del Contributor pro continuar.
       legale_select: 'Per favor selige tu pais de residentia:'
@@ -3282,32 +3294,33 @@ ia:
       centre_map: Centrar le carta hic
   redactions:
     edit:
-      heading: Modificar suppression
-      title: Modificar obscuration
+      heading: Modificar censura
+      title: Modificar censura
     index:
-      empty: Il non ha suppressiones a monstrar.
-      heading: Lista de obscurationes
-      title: Lista de suppressiones
+      empty: Il non ha censuras a monstrar.
+      heading: Lista de censuras
+      title: Lista de censuras
+      new: Nove censura
     new:
-      heading: Specifica information pro nove suppression
-      title: Creation de nove obscuration
+      heading: Insere le information del nove censura
+      title: Creation de un nove censura
     show:
       description: 'Description:'
-      heading: Es monstrate le suppression "%{title}"
-      title: Presentation de obscuration
+      heading: Es monstrate le censura “%{title}”
+      title: Examinar un censura
       user: 'Creator:'
-      edit: Modificar iste suppression
-      destroy: Remover iste obscuration
+      edit: Modificar iste censura
+      destroy: Remover iste censura
       confirm: Es tu secur?
     create:
-      flash: Suppression create.
+      flash: Censura create.
     update:
       flash: Cambios salveguardate.
     destroy:
-      not_empty: Le suppression non es vacue. Per favor dis-supprime tote le versiones
-        pertinente a iste suppression ante de destruer lo.
-      flash: Obscuration destruite.
-      error: Un error occurreva durante le destruction de iste suppression.
+      not_empty: Le censura non es vacue. Per favor dis-censura tote le versiones
+        pertinente a iste censura ante de destruer lo.
+      flash: Censura destruite.
+      error: Un error ha occurrite durante le destruction de iste censura.
   validations:
     leading_whitespace: ha spatios al initio
     trailing_whitespace: ha spatios al fin

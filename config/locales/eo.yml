@@ -142,7 +142,7 @@ eo:
         longitude: Longitudo
         public: Publika
         description: Priskribo
-        gpx_file: Alŝuti GPX-dosieron
+        gpx_file: Elekti GPS-spur-dosieron
         visibility: Videbleco
         tagstring: Etikedoj
       message:
@@ -471,8 +471,6 @@ eo:
       comment:
         comment: 'Nova komento de %{author} al ŝanĝaro #%{changeset_id}'
         commented_at_by_html: Ĝisdatigita %{when} de %{user}
-      comments:
-        comment: 'Nova komento de %{author} al ŝanĝaro #%{changeset_id}'
       show:
         title_all: Diskuto pri OpenStreetMap-ŝanĝaro
         title_particular: 'Diskuto pri ŝanĝaro #%{changeset_id}'
@@ -624,8 +622,6 @@ eo:
       report: Raporti ĉi tiun komenton
     location:
       location: 'Pozicio:'
-      view: Montri
-      edit: Redakti
     feed:
       user:
         title: OpenStreetMap taglibraj afiŝoj de %{user}
@@ -1512,7 +1508,6 @@ eo:
       not_updated: Ne aktualigita
       search: Serĉi
       search_guidance: 'Serĉi problemon:'
-      link_to_reports: Montri raportojn
       states:
         ignored: Ignorita
         open: Malfermita
@@ -1673,17 +1668,20 @@ eo:
       befriend_them: Vi ankaŭ povas aldoni vin kiel amikon ĉe %{befriendurl}.
       befriend_them_html: Vi ankaŭ povas aldoni ilin kiel amiko ĉe %{befriendurl}
     gpx_description:
-      description_with_tags: 'Ŝajnas, ke tio ĉi estas via GPX‑dosiero %{trace_name}
+      description_with_tags: 'Ŝajnas, ke tio ĉi estas via dosiero %{trace_name} kun
+        la priskribo %{trace_description} kaj kun la jenaj etikedoj: %{tags}'
+      description_with_tags_html: 'Ŝajnas, ke tio ĉi estas via dosiero %{trace_name}
         kun la priskribo %{trace_description} kaj kun la jenaj etikedoj: %{tags}'
-      description_with_tags_html: 'Ŝajnas, ke tio ĉi estas via GPX‑dosiero %{trace_name}
-        kun la priskribo %{trace_description} kaj kun la jenaj etikedoj: %{tags}'
-      description_with_no_tags: Ŝajnas, ke tio ĉi estas via GPX‑dosiero %{trace_name}
+      description_with_no_tags: Ŝajnas, ke tio ĉi estas via dosiero %{trace_name}
         kun la priskribo %{trace_description} kaj sen etikedoj
-      description_with_no_tags_html: Ŝajnas, ke tio ĉi estas via GPX‑dosiero %{trace_name}
+      description_with_no_tags_html: Ŝajnas, ke tio ĉi estas via dosiero %{trace_name}
         kun la priskribo %{trace_description} kaj sen etikedoj
     gpx_failure:
       hi: Saluton %{to_user},
-      failed_to_import: 'ne estas enportita sukcese. Eraro:'
+      failed_to_import: 'ne estis enportita sukcese kiel GPS-spur-dosiero. Kontrolu,
+        ĉu via dosiero estas ĝusta GPX-dosiero aŭ arĥivo entenanta GPX-dosiero(j)n
+        en la subtenata dosierformo (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Eble okazis eraro pri dosierformo aŭ pri sintakso de spur-dosiero. Eraro:'
       more_info: Pliaj informoj pri eraroj dum enporti GPX‑dosierojn troviĝas ĉe %{url}.
       more_info_html: Pliaj informoj pri eraroj dum enporti GPX‑dosierojn troviĝas
         ĉe %{url}.
@@ -1946,7 +1944,6 @@ eo:
       remember: Memori min
       lost password link: Ĉu vi forgesis vian pasvorton?
       login_button: Ensaluti
-      register now: Registriĝi
       with external: 'ensaluti per ekstera liveranto:'
       or: aŭ
       auth failure: Bedaŭrinde ne povas ensaluti kun ĉi tiuj informoj.
@@ -2494,14 +2491,15 @@ eo:
         communities_wiki: tiu ĉi viki-paĝo
   traces:
     visibility:
-      private: Privata (kunhavigita nur kiel sennomaj, malordigitaj punktoj)
-      public: Publika (montrata en spurlisto kaj kiel sennomaj, neordigitaj punktoj)
-      trackable: Spurebla (kunhavigita nur kiel sennomaj, ordigitaj punktoj kun tempstampoj)
-      identifiable: Identigebla (montrata en spurlisto kaj kiel identigeblaj, ordigitaj
-        punktoj kun tempstampo)
+      private: privata (kunhavigata nur kiel sennomaj, malordigitaj punktoj)
+      public: publika (montrata en la listo “GPS-spuroj“ kaj kiel sennomaj, neordigitaj
+        punktoj)
+      trackable: spurebla (kunhavigata nur kiel sennomaj, ordigitaj punktoj kun tempstampoj)
+      identifiable: identigebla (montrata en la listo “GPS-spuroj” kaj kiel identigeblaj,
+        ordigitaj punktoj kun tempstampoj)
     new:
       upload_trace: Alŝuti GPS-spuron
-      visibility_help: kion tio signifas?
+      visibility_help: Pliaj informoj
       help: Helpo
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -2724,7 +2722,6 @@ eo:
         privacy_policy_title: privateca politiko de OSMF enhavanta sekcion pri uzo
           de retpoŝta adreso
         contributor_terms: Interkonsento pri kontribuado
-      tou: Kondiĉoj de uzado
       continue: Registriĝi
       terms accepted: Dankon por akcepto de nova interkonsento pri kontribuado!
       email_help:
@@ -2759,7 +2756,7 @@ eo:
       readable_summary: konciza sumiĝo
       informal_translations: neoficialaj tradukoj
       continue: Daŭrigi
-      decline: Malakcepti
+      cancel: Nuligi
       you need to accept or decline: Bonvolu legi kaj aŭ akcepti aŭ malakcepti la
         novan interkonsenton pri uzado por pluigi.
       legale_select: 'Loĝlando:'
