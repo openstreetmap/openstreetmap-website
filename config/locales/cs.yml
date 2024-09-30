@@ -41,6 +41,7 @@
 # Author: Paxt
 # Author: Reaperman
 # Author: Robins7
+# Author: ShaggyCZ - Main
 # Author: Spotter
 # Author: StenSoft
 # Author: Tchoř
@@ -167,7 +168,7 @@ cs:
         longitude: Zeměpisná délka
         public: Veřejná
         description: Popis
-        gpx_file: Nahrát GPX soubor
+        gpx_file: Vyberte soubor GPS trasování
         visibility: Viditelnost
         tagstring: Značky
       message:
@@ -458,7 +459,7 @@ cs:
         note: poznámka
     timeout:
       title: Vypršel časový limit
-      sorry: Promiňte, ale načítání dat %{type} číslo %{id} trvalo příliš dlouho.
+      sorry: Promiňte, ale načítání dat %{type} s ID %{id} trvalo příliš dlouho.
       type:
         node: uzlu
         way: cesty
@@ -496,7 +497,7 @@ cs:
       enclosing: Umístění prvku
   nodes:
     timeout:
-      sorry: Promiňte, ale načítání dat uzlu s id %{id} trvalo příliš dlouho.
+      sorry: Promiňte, ale načítání dat pro uzel s id %{id} trvalo příliš dlouho.
   old_nodes:
     not_found:
       sorry: 'Je nám líto, ale verze %{version} uzlu #%{id} nebyla nalezena.'
@@ -1571,6 +1572,7 @@ cs:
     page:
       user_not_found: Uživatel neexistuje
       issues_not_found: Takové problémy nebyly nalezeny
+      reported_user: Nahlášený uživatel
       status: Stav
       reports: Hlášení
       last_updated: Poslední změna
@@ -1581,6 +1583,10 @@ cs:
         many: '%{count} Hlášení'
         other: '%{count} Hlášení'
       reported_item: Hlášená položka
+      states:
+        ignored: Ignorováno
+        open: Otevřeno
+        resolved: Vyřešeno
     show:
       title: '%{status} Problém #%{issue_id}'
       reports:
@@ -1725,17 +1731,20 @@ cs:
       befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
       befriend_them_html: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
+      description_with_tags: 'Vypadá to, že váš soubor %{trace_name} s popisem %{trace_description}
+        a s těmito značkami: %{tags}'
+      description_with_tags_html: 'Vypadá to, že váš soubor %{trace_name} s popisem
         %{trace_description} a s těmito značkami: %{tags}'
-      description_with_tags_html: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
-        %{trace_description} a s těmito značkami: %{tags}'
-      description_with_no_tags: Vypadá to, že váš GPX soubor %{trace_name} s popisem
+      description_with_no_tags: Vypadá to, že váš soubor %{trace_name} s popisem %{trace_description}
+        a bez značek
+      description_with_no_tags_html: Vypadá to, že váš soubor %{trace_name} s popisem
         %{trace_description} a bez značek
-      description_with_no_tags_html: Vypadá to, že váš GPX soubor %{trace_name} s
-        popisem %{trace_description} a bez značek
     gpx_failure:
       hi: Ahoj, %{to_user},
-      failed_to_import: 'se nepodařilo nahrát. Chybové hlášení následuje:'
+      failed_to_import: 'se nepodařilo nahrát. Zkontrolujte si prosím, zda váš soubor
+        je platný soubor GPX nebo archiv obsahující GPX soubor(y) v podporovaném formátu
+        (.tar.gz, tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Možná je u vašeho souboru
+        problém s formátem nebo syntaxí? Zde je chyba importu:'
       more_info: Více informací o chybách při importu GPX a jak se jim vyhnout, najdete
         na %{url}.
       more_info_html: Více informací o chybách při importu GPX a jak se jim vyhnout,
@@ -2058,6 +2067,9 @@ cs:
       diary_entries:
         older: Starší záznamy
         newer: Novější záznamy
+      issues:
+        older: Starší problémy
+        newer: Novější problémy
       traces:
         older: Starší stopy
         newer: Novější stopy
@@ -2721,6 +2733,8 @@ cs:
       write_notes: Měnit poznámky
       write_redactions: Upravte mapová data
       read_email: Přečíst e-mailovou adresu uživatele
+      consume_messages: Číst, aktualizovat stav a mazat zprávy uživatelů
+      send_messages: Posílat soukromé zprávy jiným uživatelům
       skip_authorization: Automaticky schválit aplikaci
     for_roles:
       moderator: Toto oprávnění je pro akce dostupné pouze moderátorům
@@ -2838,6 +2852,7 @@ cs:
       informal_translations: neoficiální překlady
       continue: Pokračovat
       declined: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
+      cancel: Zrušit
       you need to accept or decline: Pro pokračování si prosím přečtěte a přijměte
         nebo odmítněte nové Podmínky pro přispěvatele.
       legale_select: 'Označte zemi, ve které sídlíte:'
@@ -2979,12 +2994,19 @@ cs:
       title: Upravit blok na uživatele %{name}
       heading_html: Úprava bloku na %{name}
       period: Jak dlouho (od nynějška) bude uživatel blokován z užívání API.
+      revoke: Odstranit blokování
     filter:
       block_period: Doba bloku musí být jedna z těch, které obsahuje rozevírací seznam.
     create:
       flash: Uživatel %{name} zablokován.
     update:
       only_creator_can_edit: Jen moderátor, který tento blok vytvořil, ho může upravovat.
+      only_creator_can_edit_without_revoking: Jen moderátor, který toto blokování
+        vytvořil, ho může upravovat bez jeho odvolání.
+      only_creator_or_revoker_can_edit: Jen moderátoři, kteří toto blokování vytvořili
+        nebo jej odvolali, ho mohou upravovat.
+      inactive_block_cannot_be_reactivated: Toto blokování není aktivní a nelze jej
+        znovu aktivovat.
       success: Blok aktualizován.
     index:
       title: Bloky uživatele
@@ -3070,6 +3092,7 @@ cs:
       blocks_by_me: Zablokování mnou
       blocks_by_user: Bloky od uživatele %{user}
       block: 'Blok #%{id}'
+      new_block: Nové blokování
   user_mutes:
     index:
       title: Ztlumení uživatelé
@@ -3353,6 +3376,7 @@ cs:
       empty: Žádné opravy k ukázání.
       heading: Seznam oprav
       title: Seznam oprav
+      new: Nová redakce
     new:
       heading: Zadejte informace k nové redakci
       title: Tvorba nové redakce
