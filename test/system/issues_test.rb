@@ -5,7 +5,7 @@ class IssuesTest < ApplicationSystemTestCase
 
   def test_view_issues_not_logged_in
     visit issues_path
-    assert_content I18n.t("sessions.new.title")
+    assert_content "Log in"
   end
 
   def test_view_issues_normal_user
