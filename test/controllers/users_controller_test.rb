@@ -38,6 +38,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       { :path => "/user/username", :method => :get },
       { :controller => "users", :action => "show", :display_name => "username" }
     )
+    assert_routing(
+      { :path => "/uid/123", :method => :get },
+      { :controller => "users", :action => "show", :id => "123" }
+    )
 
     assert_routing(
       { :path => "/user/username/set_status", :method => :post },
@@ -392,6 +396,28 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 1
       assert_select "a[href='/api/0.6/user/#{ERB::Util.u(user.id)}']", 1
     end
+  end
+
+  # Test redirects to user pages by ids
+  def test_show_uid
+    # Test a non-existent user
+    get uid_path(:id => 12345)
+    assert_response :not_found
+
+    # Test a normal user
+    user = create(:user)
+    get uid_path(user.id)
+    assert_response :redirect
+    assert_redirected_to user_path(user)
+
+    # Test a deleted user
+    user.hide!
+    get uid_path(user.id)
+    assert_response :not_found
+    session_for(create(:administrator_user))
+    get uid_path(user.id)
+    assert_response :redirect
+    assert_redirected_to user_path(user)
   end
 
   # Test whether information about contributor terms is shown for users who haven't agreed
