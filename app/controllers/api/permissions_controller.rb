@@ -4,7 +4,6 @@ module Api
 
     before_action :setup_user_auth
     before_action :set_request_formats
-    around_action :api_call_handle_error, :api_call_timeout
 
     # External apps that use the api are able to query which permissions
     # they have. This currently returns a list of permissions granted to the current user:

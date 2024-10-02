@@ -2,8 +2,6 @@ module Api
   class MapController < ApiController
     authorize_resource :class => false
 
-    around_action :api_call_handle_error, :api_call_timeout
-
     before_action :set_request_formats
 
     # This is probably the most common call of all. It is used for getting the

@@ -6,8 +6,6 @@ module Api
 
     authorize_resource
 
-    around_action :api_call_handle_error
-
     before_action :set_request_formats
 
     ##

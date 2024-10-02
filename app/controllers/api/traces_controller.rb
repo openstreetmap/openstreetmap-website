@@ -7,7 +7,7 @@ module Api
     authorize_resource
 
     before_action :offline_error, :only => [:create, :destroy, :data]
-    around_action :api_call_handle_error
+    skip_around_action :api_call_timeout, :only => :create
 
     def show
       @trace = Trace.visible.find(params[:id])
