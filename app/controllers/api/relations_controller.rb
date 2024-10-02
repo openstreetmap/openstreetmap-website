@@ -6,8 +6,6 @@ module Api
     authorize_resource
 
     before_action :require_public_data, :only => [:create, :update, :delete]
-    around_action :api_call_handle_error, :api_call_timeout
-
     before_action :set_request_formats, :except => [:create, :update, :delete]
     before_action :check_rate_limit, :only => [:create, :update, :delete]
 

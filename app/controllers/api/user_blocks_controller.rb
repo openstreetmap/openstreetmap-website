@@ -2,7 +2,6 @@ module Api
   class UserBlocksController < ApiController
     authorize_resource
 
-    around_action :api_call_handle_error, :api_call_timeout
     before_action :set_request_formats
 
     def show
