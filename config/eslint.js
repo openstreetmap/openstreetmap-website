@@ -123,6 +123,18 @@ module.exports = [
     }
   },
   {
+    // Additional configuration for test files
+    files: ["test/**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.mocha,
+        expect: "readonly",
+        assert: "readonly",
+        should: "readonly"
+      }
+    }
+  },
+  {
     files: ["config/eslint.js"],
     languageOptions: {
       ecmaVersion: 2019,
