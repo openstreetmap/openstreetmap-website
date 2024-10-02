@@ -288,7 +288,7 @@ module ActionController
       end
 
       # Successively yields all the paginator's pages to the given block.
-      def each(&_block)
+      def each(&)
         page_count.times do |n|
           yield self[n + 1]
         end

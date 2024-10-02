@@ -15,7 +15,7 @@
 class OldNodeTag < ApplicationRecord
   self.table_name = "node_tags"
 
-  belongs_to :old_node, :query_constraints => [:node_id, :version], :inverse_of => :old_tags
+  belongs_to :old_node, :foreign_key => [:node_id, :version], :inverse_of => :old_tags
 
   validates :old_node, :associated => true
   validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :characters => true

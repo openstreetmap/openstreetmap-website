@@ -142,8 +142,8 @@ class ApiController < ApplicationController
 
   ##
   # wrap an api call in a timeout
-  def api_call_timeout(&block)
-    Timeout.timeout(Settings.api_timeout, &block)
+  def api_call_timeout(&)
+    Timeout.timeout(Settings.api_timeout, &)
   rescue ActionView::Template::Error => e
     e = e.cause
 

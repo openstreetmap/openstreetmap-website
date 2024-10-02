@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "~> 7.1.0"
+gem "rails", "~> 7.2.0"
 gem "turbo-rails"
 
 # Require json for multi_json
@@ -130,7 +130,7 @@ gem "gd2-ffij", ">= 0.4.0"
 gem "marcel"
 
 # Used for browser detection
-gem "browser", "< 6" # for ruby 3.0 support
+gem "browser", "< 6" # for ruby 3.1 support
 
 # Used for S3 object storage
 gem "aws-sdk-s3"
@@ -140,9 +140,6 @@ gem "image_processing"
 
 # Used to validate widths
 gem "unicode-display_width"
-
-# Keep ruby 3.0 compatibility
-gem "multi_xml", "~> 0.6.0"
 
 # Gems useful for development
 group :development do
