@@ -15,19 +15,24 @@ pa:
     formats:
       friendly: '%e %B %Y at %H:%M'
   helpers:
+    file:
+      prompt: ਫਾਇਲ ਚੁਣੋ
     submit:
       diary_comment:
         create: ਟਿੱਪਣੀ
       diary_entry:
         create: ਸਾਂਭੋ
-        update: ਅੱਪਡੇਟ ਕਰੋ
+        update: ਨਵਿਆਓ
       issue_comment:
         create: ਟਿੱਪਣੀ ਕਰੋ
       message:
         create: ਭੇਜੋ
       client_application:
         create: ਇੰਦਰਾਜ ਕਰਾਉ
-        update: ਸੋਧੋ
+        update: ਨਵਿਆਓ
+      oauth2_application:
+        create: ਇੰਦਰਾਜ ਕਰਾਉ
+        update: ਨਵਿਆਉ
       trace:
         create: ਚੜ੍ਹਾਉ
         update: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
@@ -95,7 +100,7 @@ pa:
       trace:
         user: ਵਰਤੋਂਕਾਰ
         visible: ਵਿਖਣ-ਯੋਗ
-        name: ਨਾਂ
+        name: ਫ਼ਾਈਲ ਦਾ ਨਾਂ
         size: ਅਕਾਰ
         latitude: ਅਕਸ਼ਾਂਸ਼
         longitude: ਲੰਬਕਾਰ
@@ -118,13 +123,14 @@ pa:
         email: ਈਮੇਲ
         new_email: 'ਨਵਾਂ ਈਮੇਲ ਪਤਾ:'
         active: ਸਰਗਰਮ
-        display_name: ਵਿਖਾਉਣ ਨਾਂ
+        display_name: ਨਾਂ ਵਿਖਾਓ
         description: ਵੇਰਵਾ
         home_lat: ਅਕਸ਼ਾਂਸ਼
         home_lon: 'ਰੇਖਾਂਸ਼:'
         languages: ਤਰਜੀਹੀ ਬੋਲੀਆਂ
         preferred_editor: ਤਰਜੀਹੀ ਸੰਪਾਦਕ
         pass_crypt: ਪਛਾਣ-ਸ਼ਬਦ
+        pass_crypt_confirmation: ਪਛਾਣ-ਸ਼ਬਦ ਦੀ ਤਸਦੀਕ ਕਰੋ
     help:
       user:
         new_email: (ਜਨਤਕ ਤੌਰ 'ਤੇ ਕਦੇ ਨਹੀਂ ਪ੍ਰਦਰਸ਼ਿਤ)
@@ -218,6 +224,7 @@ pa:
       title: ਖਾਤਾ ਸੋਧੋ
       my settings: ਮੇਰੀਆਂ ਸੈਟਿੰਗਾਂ
       current email address: 'ਮੌਜੂਦਾ ਈਮੇਲ ਪਤਾ:'
+      external auth: ਬਾਹਰੀ ਪ੍ਰਮਾਣਿਕਤਾ
       openid:
         link text: ਇਹ ਕੀ ਹੈ?
       public editing:
@@ -280,6 +287,7 @@ pa:
         changeset: ਚੇਂਜ਼ਸੈੱਟ
         note: ਨੋਟ
     timeout:
+      title: ਵਕਤ-ਖ਼ਤਮ ਹੋ ਗਿਆ ਦੀ ਗ਼ਲਤੀ
       type:
         node: ਨੋਡ
         way: ਰਾਹ
@@ -327,8 +335,13 @@ pa:
       closed_ago_by_html: '%{time_ago} ਨੂੰ %{user} ਦੁਆਰਾ ਬੰਦ ਕੀਤਾ ਗਿਆ'
       discussion: ਗੱਲ-ਬਾਤ
       join_discussion: ਗੱਲਬਾਤ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਦਾਖ਼ਲ ਹੋਵੋ
+      subscribe: ਗਾਹਕ ਬਣੋ
+      unsubscribe: ਗਾਹਕੀ ਰੱਦ ਕਰੋ
       comment_by_html: '%{user} %{time_ago} ਤੋਂ ਟਿੱਪਣੀ'
       hidden_comment_by_html: '%{user} %{time_ago} ਤੋਂ ਲੁਕਵੀਂ ਟਿੱਪਣੀ'
+      hide_comment: ਲੁਕਾਓ
+      unhide_comment: ਮੁੜ-ਵਿਖਾਓ
+      comment: ਟਿੱਪਣੀ
       changesetxml: ਤਬਦੀਲੀ ਲੜੀ XML
   dashboards:
     contact:
@@ -348,6 +361,8 @@ pa:
       use_map_link: ਨਕਸ਼ਾ ਵਰਤੋ
     show:
       discussion: ਗੱਲ-ਬਾਤ
+      subscribe: ਗਾਹਕ ਬਣੋ
+      unsubscribe: ਗਾਹਕੀ ਰੱਦ ਕਰੋ
       leave_a_comment: ਕੋਈ ਟਿੱਪਣੀ ਛੱਡੋ
       login_to_leave_a_comment_html: ਟਿੱਪਣੀ ਛੱਡਣ ਵਾਸਤੇ %{login_link}
       login: ਦਾਖ਼ਲ ਹੋਵੋ
@@ -359,9 +374,11 @@ pa:
       no_comments: ਕੋਈ ਟਿੱਪਣੀਆਂ ਨਹੀਂ
       edit_link: ਇਹ ਇੰਦਰਾਜ ਸੋਧੋ
       hide_link: ਇਹ ਇੰਦਰਾਜ ਲੁਕਾਉ
+      unhide_link: ਇਹ ਇੰਦਰਾਜ ਮੁੜ-ਵਿਖਾਓ
       confirm: ਤਸਦੀਕ ਕਰੋ
     diary_comment:
       hide_link: ਇਹ ਟਿੱਪਣੀ ਲੁਕਾਉ
+      unhide_link: ਇਸ ਟਿੱਪਣੀ ਨੂੰ ਮੁੜ-ਵਿਖਾਓ
       confirm: ਤਸਦੀਕ ਕਰੋ
     location:
       location: 'ਟਿਕਾਣਾ:'
@@ -370,6 +387,11 @@ pa:
       post: ਡਾਕ
       when: ਕਦੋਂ
       comment: ਟਿੱਪਣੀ
+  errors:
+    contact:
+      contact: ਰਾਬਤਾ
+    forbidden:
+      title: ਵਰਜਿਤ
   friendships:
     make_friend:
       heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਪਾਉਣੀ ਹੈ?'
@@ -380,6 +402,9 @@ pa:
       heading: '%{user} ਨਾਲ਼ ਯਾਰੀ ਤੋੜਨੀ ਹੈ?'
       button: ਯਾਰੀ ਤੋੜੋ
   geocoder:
+    search:
+      title:
+        latlon: ਅੰਦਰੂਨੀ
     search_osm_nominatim:
       prefix:
         aeroway:
@@ -465,6 +490,7 @@ pa:
           theatre: ਥੀਏਟਰ
           toilets: ਪਖਾਣੇ
           townhall: ਟਾਊਨ ਹਾਲ
+          training: ਸਿਖਲਾਈ ਦੀ ਸਹੂਲਤ
           university: ਯੂਨੀਵਰਸਿਟੀ
           vending_machine: ਮਾਲ-ਵੇਚੂ ਮਸ਼ੀਨ
           veterinary: ਡੰਗਰਾਂ ਦਾ ਹਸਪਤਾਲ
@@ -476,6 +502,7 @@ pa:
           census: ਮਰਦਮਸ਼ੁਮਾਰੀ ਸਰਹੱਦ
           national_park: ਕੌਮੀ ਬਾਗ਼
           protected_area: ਸੁਰੱਖਿਅਤ ਖੇਤਰ
+          "yes": ਹੱਦ
         bridge:
           aqueduct: ਪੁਲ
           suspension: ਲਮਕਦਾ ਪੁਲ
@@ -483,6 +510,10 @@ pa:
           viaduct: ਘਾਟੀ ਉਤਲਾ ਪੁਲ
           "yes": ਪੁਲ
         building:
+          apartment: ਅਪਾਰਟਮੈਂਟ
+          apartments: ਅਪਾਰਟਮੈਂਟ
+          house: ਘਰ
+          roof: ਛੱਤ
           "yes": ਇਮਾਰਤ
         craft:
           brewery: ਬਰੂਅਰੀ
@@ -498,6 +529,7 @@ pa:
         emergency:
           ambulance_station: ਐਂਬੂਲੈਂਸ ਸਟੇਸ਼ਨ
           defibrillator: ਡੀਫਿਬ੍ਰੀਲੇਟਰ
+          fire_water_pond: ਅੱਗ ਦੇ ਪਾਣੀ ਦਾ ਟੋਆ
           landing_site: ਸੰਕਟਕਾਲੀਨ ਉਤਰ ਸਥਾਨ
           phone: ਐਮਰਜੈਂਸੀ ਫ਼ੋਨ
         highway:
@@ -537,6 +569,7 @@ pa:
           traffic_signals: ਟਰੈਫਿਕ ਸਿਗਨਲ
           trunk: ਟਰੰਕ ਸੜਕ
           trunk_link: ਟਰੰਕ ਸੜਕ
+          turning_circle: ਮੁੜਨ ਵਾਲਾ ਗੋਲ-ਘਤੇਰਾ
           unclassified: ਅਵਰਗੀਕ੍ਰਿਤ ਰੋਡ
           "yes": ਸੜਕ
         historic:
@@ -655,7 +688,7 @@ pa:
           architect: ਨਕਸ਼ਾਕਾਰ
           company: ਕੰਪਨੀ
           employment_agency: ਰੁਜ਼ਗਾਰ ਏਜੰਸੀ
-          estate_agent: ਇਸਟੇਟ ਏਜੰਸੀ
+          estate_agent: ਜਾਇਦਾਦ ਕਰਿੰਦਾ
           government: ਸਰਕਾਰੀ ਦਫ਼ਤਰ
           insurance: ਬੀਮਾ ਦਫ਼ਤਰ
           lawyer: ਵਕੀਲ
@@ -732,7 +765,7 @@ pa:
           doityourself: ਆਪ ਕਰੋ
           dry_cleaning: ਡਰਾਈ ਕਲੀਨਰ
           electronics: ਬਿਜਲਾਣੂ ਦੁਕਾਨ
-          estate_agent: ਇਸਟੇਟ ਏਜੰਟ
+          estate_agent: ਜਾਇਦਾਦ ਕਰਿੰਦਾ
           farm: ਫ਼ਾਰਮ ਦੁਕਾਨ
           fashion: ਫ਼ੈਸ਼ਨਾਂ ਦੀ ਹੱਟੀ
           florist: ਫੁੱਲਾਂ ਦੀ ਦੁਕਾਨ
@@ -905,7 +938,7 @@ pa:
       title: ਸੁਨੇਹਾ ਪੜ੍ਹੋ
       reply_button: ਜੁਆਬ
       unread_button: ਅਣ-ਪੜ੍ਹਿਆ ਨਿਸ਼ਾਨ ਲਾਉ
-      back: ਪਿੱਛੇ
+      back: ਪਿਛਾਂਹ
     sent_message_summary:
       destroy_button: ਮਿਟਾਓ
     heading:
@@ -936,7 +969,6 @@ pa:
       no home location: ਤੁਸੀਂ ਆਪਣੇ ਘਰ ਦੀ ਸਥਿਤੀ ਨਹੀਂ ਦੱਸੀ ਹੈ।
   sessions:
     new:
-      title: ਦਾਖ਼ਲ ਹੋਵੋ
       tab_title: ਦਾਖ਼ਲ ਹੋਵੋ
       email or username: 'ਈਮੇਲ ਪਤਾ ਜਾਂ ਵਰਤੋਂਕਾਰ-ਨਾਂ:'
       password: 'ਪਛਾਣ-ਸ਼ਬਦ:'
@@ -1012,13 +1044,12 @@ pa:
       title: ਕੋਈ ਸੁਆਲ?
     sidebar:
       search_results: ਖੋਜ ਨਤੀਜੇ
-      close: ਬੰਦ ਕਰੋ
     search:
       search: ਖੋਜੋ
       from: ਵੱਲੋਂ
       to: ਵੱਲ
       where_am_i: ਇਹ ਕਿੱਥੇ ਹੈ?
-      submit_text: ਜਾਉ
+      submit_text: ਜਾਓ
     key:
       table:
         entry:
@@ -1122,6 +1153,7 @@ pa:
       heading: ਸ਼ਰਤਾਂ
       consider_pd_why: ਇਹ ਕੀ ਹੈ?
       informal_translations: ਗ਼ੈਰ-ਰਸਮੀ ਤਰਜਮਾ
+      cancel: ਰੱਦ ਕਰੋ
       legale_select: 'ਆਪਣੀ ਰਿਹਾਇਸ਼ ਦਾ ਦੇਸ਼ ਚੁਣੋ:'
       legale_names:
         france: ਫ਼ਰਾਂਸ
@@ -1165,7 +1197,7 @@ pa:
       activate_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰੋ
       confirm_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਤਸਦੀਕ ਕਰੋ
       hide_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਲੁਕਾਉ
-      unhide_user: ਇਸ ਵਰਤੋਂਕਾਰ ਦਾ ਉਹਲਾ ਹਟਾਉ
+      unhide_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਮੁੜ-ਵਿਖਾਓ
       delete_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਮਿਟਾਉ
       confirm: ਤਸਦੀਕ ਕਰੋ
     index:
@@ -1190,9 +1222,7 @@ pa:
           other: '%{count} ਘੰਟੇ'
     show:
       status: ਹਾਲਾਤ
-      show: ਵਿਖਾਉ
       edit: ਸੋਧੋ
-      confirm: ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ?
       reason: 'ਰੋਕ ਦਾ ਕਾਰਨ:'
       revoker: 'ਪਰਤਾਉਣ ਵਾਲ਼ਾ:'
     block:
@@ -1221,6 +1251,8 @@ pa:
       add: ਟਿੱਪਣੀ ਜੋੜੋ
     notes_paging_nav:
       showing_page: ਸਫ਼ਾ %{page}
+      next: ਅਗਲਾ
+      previous: ਪਿਛਲਾ
   javascripts:
     close: ਬੰਦ ਕਰੋ
     share:

@@ -101,6 +101,7 @@
 # Author: Trial
 # Author: Tuxxic
 # Author: Urhixidur
+# Author: VALENTIN NVJ
 # Author: VIGNERON
 # Author: Vcalame
 # Author: Vega
@@ -506,7 +507,7 @@ fr:
         note: note
     timeout:
       title: Erreur de dépassement du délai d’attente
-      sorry: Désolé, obtenir les données pour l’objet %{type} d’identifiant %{id}
+      sorry: Désolé, l'extraction des données pour le %{type} avec l'identifiant %{id}
         a pris trop de temps.
       type:
         node: nœud
@@ -544,6 +545,10 @@ fr:
       introduction: Cliquer sur la carte pour trouver des objets à proximité.
       nearby: Objets à proximité
       enclosing: Objets englobants
+  nodes:
+    timeout:
+      sorry: Désolé, l'extraction des données du nœud avec l'identifiant %{id} a pris
+        trop de temps.
   old_nodes:
     not_found:
       sorry: Désolé, la version %{version} du nœud %{id} est introuvable.
@@ -556,9 +561,19 @@ fr:
   old_ways:
     not_found:
       sorry: Désolé, la version %{version} du chemin %{id} est introuvable.
+    timeout:
+      sorry: Désolé, l'historique du chemin avec l'identifiant %{id} a pris trop de
+        temps pour être récupéré.
+  relations:
+    timeout:
+      sorry: Désolé, l'extraction des données de la relation avec l'identifiant %{id}
+        a pris trop de temps.
   old_relations:
     not_found:
       sorry: Désolé, la version %{version} de la relation %{id} est introuvable.
+    timeout:
+      sorry: Désolé, l'historique de la relation avec l'identifiant %{id} a pris trop
+        de temps pour être récupéré.
   changeset_comments:
     feeds:
       comment:
@@ -992,6 +1007,7 @@ fr:
           college: Bâtiment d’enseignement supérieur
           commercial: Bâtiment de bureaux
           construction: Bâtiment en construction
+          cowshed: Étable
           detached: Maison isolée
           dormitory: Dortoir
           duplex: Maison en duplex
@@ -1619,6 +1635,7 @@ fr:
     page:
       user_not_found: L’utilisateur ou l’utilisatrice n’existe pas
       issues_not_found: Aucun problème trouvé de ce type
+      reported_user: Utilisateur signalé
       status: État
       reports: Rapports
       last_updated: Dernière mise à jour
@@ -1627,6 +1644,10 @@ fr:
         one: '%{count} rapport'
         other: '%{count} rapports'
       reported_item: Élément signalé
+      states:
+        ignored: Ignoré
+        open: Ouvert
+        resolved: Résolu
     show:
       title: Problème %{status} nº %{issue_id}
       reports:
@@ -1776,14 +1797,14 @@ fr:
       befriend_them: 'Vous pouvez également l’ajouter comme ami(e) ici : %{befriendurl}.'
       befriend_them_html: Vous pouvez aussi l’ajouter comme ami à l’adresse %{befriendurl}.
     gpx_description:
-      description_with_tags: Il semble que votre fichier GPX « %{trace_name} » avec
-        la description « %{trace_description} » et les balises « %{tags} »
-      description_with_tags_html: Il semble que votre fichier GPX « %{trace_name} »
-        avec la description « %{trace_description} » et les balises « %{tags} »
-      description_with_no_tags: Il semble que votre fichier GPX « %{trace_name} »
-        avec la description « %{trace_description} » et sans balise
-      description_with_no_tags_html: Il semble que votre fichier GPX « %{trace_name} »
-        avec la description « %{trace_description} » et sans balise
+      description_with_tags: 'Il semble que votre fichier %{trace_name} avec la description
+        %{trace_description} et les balises suivantes : %{tags}'
+      description_with_tags_html: 'Il semble que votre fichier %{trace_name} avec
+        la description %{trace_description} et les balises suivantes : %{tags}'
+      description_with_no_tags: On dirait que votre fichier %{trace_name} avec la
+        description %{trace_description} n'a pas de balises.
+      description_with_no_tags_html: Il semble que votre fichier %{trace_name} avec
+        la description %{trace_description} et sans balises
     gpx_failure:
       hi: Bonjour %{to_user},
       failed_to_import: 'échec de l''importation en tant que fichier de trace GPS.
@@ -2070,7 +2091,6 @@ fr:
       failure: Impossible de mettre à jour le profil.
   sessions:
     new:
-      title: Se connecter
       tab_title: Se connecter
       login_to_authorize_html: Connectez-vous à OpenStreetMap pour accéder à %{client_app_name}.
       email or username: 'Adresse de courriel ou nom d’utilisateur :'
@@ -2118,6 +2138,9 @@ fr:
       diary_entries:
         older: Entrées plus anciennes
         newer: Entrées plus récentes
+      issues:
+        older: Problèmes plus anciens
+        newer: Problèmes plus récents
       traces:
         older: Traces plus anciennes
         newer: Traces plus récentes
@@ -2486,7 +2509,6 @@ fr:
       welcome_mat: Découvrez le Tapis de bienvenue
     sidebar:
       search_results: Résultats de la recherche
-      close: Fermer
     search:
       search: Recherche
       get_directions_title: Trouvez des itinéraires entre deux points
@@ -2569,6 +2591,8 @@ fr:
           hospital: Hôpital
           building: Bâtiment important
           station: Gare ferroviaire
+          railway_halt: Gare ferroviaire
+          subway_station: Station de métro
           summit: Sommet
           peak: Pic
           tunnel: Bordure pointillée = tunnel
@@ -3153,13 +3177,9 @@ fr:
       created: 'Créé :'
       duration: 'Durée :'
       status: 'État :'
-      show: Afficher
       edit: Modifier
-      confirm: Êtes-vous sûr(e) ?
       reason: 'Raison du blocage :'
       revoker: 'Révocateur :'
-      needs_view: L’utilisateur ou l’utilisatrice doit se connecter avant que ce blocage
-        soit annulé.
     block:
       not_revoked: (non révoqué)
       show: Afficher
