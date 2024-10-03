@@ -134,7 +134,7 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_svg_files_valid
     BROWSE_IMAGE.each_value do |value|
-      assert_path_exists "app/assets/images/browse/#{value[:image]}"
+      assert_path_exists "app/assets/images/browse/#{value[:image].split('#').first}"
     end
   end
 
