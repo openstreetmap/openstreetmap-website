@@ -22901,12 +22901,15 @@
     version: "2.29.0-dev",
     description: "A friendly editor for OpenStreetMap",
     main: "dist/iD.min.js",
-    repository: "github:openstreetmap/iD",
-    homepage: "https://github.com/openstreetmap/iD",
-    bugs: "https://github.com/openstreetmap/iD/issues",
+    repository: {
+      type: "git",
+      url: "git+https://github.com/OpenHistoricalMap/iD"
+    },
+    homepage: "https://github.com/OpenHistoricalMap/iD",
+    bugs: "https://github.com/OpenHistoricalMap/issues/issues",
     keywords: [
       "editor",
-      "openstreetmap"
+      "openhistoricalmap"
     ],
     license: "ISC",
     scripts: {
@@ -32735,6 +32738,10 @@
   function presetField(fieldID, field, allFields) {
     allFields = allFields || {};
     let _this = Object.assign({}, field);
+    let localizerFieldID = fieldID;
+    if (field.baseKey && field.index) {
+      localizerFieldID = field.baseKey + "_multiple";
+    }
     _this.id = fieldID;
     _this.safeid = utilSafeClassName(fieldID);
     _this.matchGeometry = (geom) => !_this.geometry || _this.geometry.indexOf(geom) !== -1;
@@ -32742,18 +32749,18 @@
       return !_this.geometry || geometries.every((geom) => _this.geometry.indexOf(geom) !== -1);
     };
     _this.t = (scope, options2) => _t(_mainLocalizer.coalesceStringIds([
-      "custom_presets.fields.".concat(fieldID, ".").concat(scope),
-      "_tagging.presets.fields.".concat(fieldID, ".").concat(scope)
+      "custom_presets.fields.".concat(localizerFieldID, ".").concat(scope),
+      "_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope)
     ]), options2);
     _this.t.html = (scope, options2) => _t.html(_mainLocalizer.coalesceStringIds([
-      "custom_presets.fields.".concat(fieldID, ".").concat(scope),
-      "_tagging.presets.fields.".concat(fieldID, ".").concat(scope)
+      "custom_presets.fields.".concat(localizerFieldID, ".").concat(scope),
+      "_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope)
     ]), options2);
     _this.t.append = (scope, options2) => _t.append(_mainLocalizer.coalesceStringIds([
-      "custom_presets.fields.".concat(fieldID, ".").concat(scope),
-      "_tagging.presets.fields.".concat(fieldID, ".").concat(scope)
+      "custom_presets.fields.".concat(localizerFieldID, ".").concat(scope),
+      "_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope)
     ]), options2);
-    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId("custom_presets.fields.".concat(fieldID, ".").concat(scope)) || _mainLocalizer.hasTextForStringId("_tagging.presets.fields.".concat(fieldID, ".").concat(scope));
+    _this.hasTextForStringId = (scope) => _mainLocalizer.hasTextForStringId("custom_presets.fields.".concat(localizerFieldID, ".").concat(scope)) || _mainLocalizer.hasTextForStringId("_tagging.presets.fields.".concat(localizerFieldID, ".").concat(scope));
     _this.resolveReference = (which) => {
       const referenceRegex = /^\{(.*)\}$/;
       const match = (field[which] || "").match(referenceRegex);
@@ -32766,8 +32773,8 @@
       }
       return _this;
     };
-    _this.title = () => _this.overrideLabel || _this.resolveReference("label").t("label", { "default": fieldID });
-    _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.resolveReference("label").t.append("label", { "default": fieldID });
+    _this.title = () => _this.overrideLabel || _this.resolveReference("label").t("label", { "default": fieldID, "index": field.index });
+    _this.label = () => _this.overrideLabel ? (selection2) => selection2.text(_this.overrideLabel) : _this.resolveReference("label").t.append("label", { "default": fieldID, "index": field.index });
     _this.placeholder = () => _this.resolveReference("placeholder").t("placeholder", { "default": "" });
     _this.originalTerms = (_this.terms || []).join();
     _this.terms = () => _this.resolveReference("label").t("terms", { "default": _this.originalTerms }).toLowerCase().trim().split(/\s*,+\s*/);
@@ -33073,6 +33080,26 @@
       fields.source.type = "source";
       fields.source.source = false;
       fields.source.keys = ["source", "source:url", "source:name", "source:date"];
+      for (let i3 = 1; i3 < 4; i3++) {
+        let id3 = "source:" + i3.toString();
+        let previousId = "source" + (i3 - 1 > 0 ? ":" + (i3 - 1).toString() : "");
+        fields[id3] = {
+          ...fields.source,
+          key: id3,
+          keys: [id3, id3 + ":url", id3 + ":name", id3 + ":date"],
+          // baseKey and index will be used to create a localized label for this field
+          baseKey: "source",
+          index: i3,
+          prerequisiteTag: {
+            keys: [
+              previousId,
+              previousId + ":url",
+              previousId + ":name",
+              previousId + ":date"
+            ]
+          }
+        };
+      }
     }
     fields.license = {
       key: "license",
@@ -71532,7 +71559,7 @@
     let _tags = {};
     let _selection = select_default2(null);
     let _pendingChange;
-    const mainKey = "source";
+    const mainKey = field.key;
     const sourceHeader = mainKey + ":";
     const possibleSourceSubkeys = [{ key: "name" }, { key: "url" }, { key: "date" }];
     function scheduleChange() {
@@ -71588,6 +71615,11 @@
         return _tags;
       _tags = tags;
       _selection.call(sources);
+    };
+    sources.focus = function() {
+      var node = _selection.selectAll("input").node();
+      if (node)
+        node.focus();
     };
     return utilRebind(sources, dispatch14, "on");
   }
@@ -71831,6 +71863,9 @@
           if (d2.type === "multiCombo") {
             referenceKey = referenceKey.replace(/:$/, "");
           }
+          if (d2.type === "source") {
+            referenceKey = referenceKey.split(":")[0];
+          }
           var referenceOptions = d2.reference || {
             key: referenceKey,
             value: _tags[referenceKey]
@@ -71914,6 +71949,10 @@
       prerequisiteTag) {
         if (!entityIDs.every(function(entityID) {
           var entity = context.graph().entity(entityID);
+          if (prerequisiteTag.keys) {
+            const inEntityTags = (e3) => e3 in entity.tags;
+            return prerequisiteTag.keys.some(inEntityTags);
+          }
           if (prerequisiteTag.key) {
             var value = entity.tags[prerequisiteTag.key];
             if (!value)
@@ -73459,8 +73498,15 @@
             _fieldsArr.push(uiField(context, field, _entityIDs));
           }
         });
+        let optionalCoreKeys = ["source:1", "source:2", "source:3"];
+        optionalCoreKeys.forEach((key) => {
+          let field = presetsManager.field(key);
+          if (field && !_fieldsArr.includes(field)) {
+            _fieldsArr.push(uiField(context, field, _entityIDs, { show: false }));
+          }
+        });
         sharedFields.forEach(function(field) {
-          if (!coreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
+          if (!coreKeys.includes(field.id) && !optionalCoreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
             _fieldsArr.push(
               uiField(context, field, _entityIDs)
             );
@@ -73477,7 +73523,7 @@
           return field1.title().localeCompare(field2.title(), _mainLocalizer.localeCode());
         });
         additionalFields.forEach(function(field) {
-          if (sharedFields.indexOf(field) === -1 && !coreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
+          if (sharedFields.indexOf(field) === -1 && !coreKeys.includes(field.id) && !optionalCoreKeys.includes(field.id) && field.matchAllGeometry(geometries)) {
             _fieldsArr.push(
               uiField(context, field, _entityIDs, { show: false })
             );
