@@ -21,6 +21,7 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require index/home
 //= require router
 //= require qs/dist/qs
 
@@ -233,16 +234,6 @@ $(document).ready(function () {
     L.marker([params.mlat, params.mlon]).addTo(map);
   }
 
-  $("#homeanchor").on("click", function (e) {
-    e.preventDefault();
-
-    var data = $(this).data(),
-        center = L.latLng(data.lat, data.lon);
-
-    map.setView(center, data.zoom);
-    L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
-  });
-
   function remoteEditHandler(bbox, object) {
     var remoteEditHost = "http://127.0.0.1:8111",
         osmHost = location.protocol + "//" + location.host,
@@ -385,7 +376,8 @@ $(document).ready(function () {
     "/relation/:id(/history)": OSM.Browse(map, "relation"),
     "/relation/:id/history/:version": OSM.OldBrowse(),
     "/changeset/:id": OSM.Changeset(map),
-    "/query": OSM.Query(map)
+    "/query": OSM.Query(map),
+    "/account/home": OSM.Home(map)
   });
 
   if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {
