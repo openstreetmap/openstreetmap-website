@@ -118,7 +118,8 @@ gem "dalli"
 gem "kgio"
 
 # Load canonical-rails to generate canonical URLs
-gem "canonical-rails"
+# Use unreleased version for rails 7.2.1+ compatibility
+gem "canonical-rails", :github => "jumph4x/canonical-rails", :ref => "fbc1c88c"
 
 # Used to generate logstash friendly log files
 gem "logstasher"
