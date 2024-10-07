@@ -33,8 +33,8 @@ ia:
         create: Registrar
         update: Actualisar
       redaction:
-        create: Crear suppression
-        update: Salveguardar suppression
+        create: Crear censura
+        update: Salveguardar censura
       trace:
         create: Incargar
         update: Salveguardar modificationes
@@ -122,7 +122,7 @@ ia:
         longitude: Longitude
         public: Public
         description: Description
-        gpx_file: Incargar file GPX
+        gpx_file: Elige un file de tracia GPS
         visibility: Visibilitate
         tagstring: Etiquettas
       message:
@@ -391,9 +391,9 @@ ia:
         changeset: gruppo de modificationes
         note: nota
     redacted:
-      redaction: Suppression %{id}
+      redaction: Censura %{id}
       message_html: Le version %{version} de iste %{type} non pote esser monstrate
-        perque illo ha essite supprimite. Vide %{redaction_link} pro detalios.
+        perque illo ha essite censurate. Vide %{redaction_link} pro detalios.
       type:
         node: nodo
         way: via
@@ -419,24 +419,42 @@ ia:
       introduction: Clicca sur le carta pro cercar objectos a proximitate.
       nearby: Objectos proxime
       enclosing: Objectos inglobante
+  nodes:
+    timeout:
+      sorry: Pardono, le datos pro le nodo con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
   old_nodes:
     not_found:
       sorry: Guai, le version %{version} del nodo №%{id} non pote esser trovate.
+    timeout:
+      sorry: Pardono, le historia del nodo con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
+  ways:
+    timeout:
+      sorry: Pardono, le datos pro le via con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
   old_ways:
     not_found:
       sorry: Guai, le version %{version} del via №%{id} non pote esser trovate.
+    timeout:
+      sorry: Pardono, le historia del via con le ID %{id} ha prendite troppo de tempore
+        pro esser recuperate.
+  relations:
+    timeout:
+      sorry: Pardono, le datos pro le relation con le ID %{id} ha prendite troppo
+        de tempore pro esser recuperate.
   old_relations:
     not_found:
       sorry: Guai, le version %{version} del relation №%{id} non pote esser trovate.
+    timeout:
+      sorry: Pardono, le historia del relation con le ID %{id} ha prendite troppo
+        de tempore pro esser recuperate.
   changeset_comments:
     feeds:
       comment:
         comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
           %{author}
         commented_at_by_html: Actualisate %{when} per %{user}
-      comments:
-        comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
-          %{author}
       show:
         title_all: Discussion sur un gruppo de modificationes in OpenStreetMap
         title_particular: Discussion sur le gruppo de modificationes OpenStreetMap
@@ -446,7 +464,6 @@ ia:
           tardava troppo de tempore pro esser recuperate.
   changesets:
     changeset:
-      anonymous: Anonyme
       no_edits: (nulle modification)
       view_changeset_details: Vider detalios del gruppo de modificationes
     index:
@@ -478,7 +495,6 @@ ia:
       title: Gruppo de modificationes %{id}
       created_by_html: Create per %{link_user} le %{created}.
     no_such_entry:
-      title: Gruppo de modificationes non trovate
       heading: 'Nulle entrata con le ID: %{id}'
       body: Non existe un gruppo de modificationes con le ID %{id}. Per favor verifica
         le orthographia, o pote esser que le ligamine que tu sequeva es incorrecte.
@@ -592,8 +608,6 @@ ia:
       report: Signalar iste commento
     location:
       location: 'Loco:'
-      view: Vider
-      edit: Modificar
     feed:
       user:
         title: Entratas de diario de OpenStreetMap de %{user}
@@ -1484,7 +1498,6 @@ ia:
       not_updated: Non actualisate
       search: Recerca
       search_guidance: 'Cercar problemas:'
-      link_to_reports: Vider reportos
       states:
         ignored: Ignorate
         open: Aperte
@@ -1650,17 +1663,21 @@ ia:
       befriend_them: Tu pote equalmente adder le/la como amico a %{befriendurl}.
       befriend_them_html: Tu pote equalmente adder le/la como amico a %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Pare que tu file GPX %{trace_name} con le description
+      description_with_tags: 'Pare que tu file %{trace_name} con le description %{trace_description}
+        e le sequente etiquettas: %{tags}'
+      description_with_tags_html: 'Pare que tu file %{trace_name} con le description
         %{trace_description} e le sequente etiquettas: %{tags}'
-      description_with_tags_html: 'Pare que tu file GPX %{trace_name} con le description
-        %{trace_description} e le sequente etiquettas: %{tags}'
-      description_with_no_tags: Pare que tu file GPX %{trace_name} con le description
+      description_with_no_tags: Pare que tu file %{trace_name} con le description
         %{trace_description} e sin etiquettas
-      description_with_no_tags_html: Pare que tu file GPX %{trace_name} con le description
+      description_with_no_tags_html: Pare que tu file %{trace_name} con le description
         %{trace_description} e sin etiquettas
     gpx_failure:
       hi: Salute %{to_user},
-      failed_to_import: 'ha fallite de importar. Ecce le error:'
+      failed_to_import: 'non poteva esser importate como file de tracia GPS. Per favor
+        verifica que le file es un file GPX valide o un archivo que contine file(s)
+        GPX in un formato supportate (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Pote il haber un problema de formato o syntaxe con tu file? Ecce le error
+        de importation:'
       more_info: Plus information sur le fallimento de importation GPX e como evitar
         lo se trova sur %{url}.
       more_info_html: Plus information sur le fallimento de importation GPX e como
@@ -1936,7 +1953,6 @@ ia:
       failure: Non poteva actualisar le profilo.
   sessions:
     new:
-      title: Aperir session
       tab_title: Aperir session
       login_to_authorize_html: Aperi session in OpenStreetMap pro acceder a %{client_app_name}.
       email or username: Adresse de e-mail o nomine de usator
@@ -1944,7 +1960,6 @@ ia:
       remember: Memorar me
       lost password link: Contrasigno perdite?
       login_button: Aperir session
-      register now: Registrar ora
       with external: o usa un tertio pro aperir session
       or: o
       auth failure: Pardono, non poteva aperir un session con iste detalios.
@@ -2331,7 +2346,6 @@ ia:
       welcome_mat: Discoperi le Tapete de benvenita
     sidebar:
       search_results: Resultatos del recerca
-      close: Clauder
     search:
       search: Cercar
       get_directions_title: Indicar le cammino inter duo punctos
@@ -2742,7 +2756,6 @@ ia:
         privacy_policy_title: Politica de confidentialitate del OSMF con un section
           sur adresses de e-mail
         contributor_terms: conditiones de contributor
-      tou: conditiones de uso
       continue: Crear conto
       terms accepted: Gratias pro acceptar le nove conditiones de contributor!
       email_help:
@@ -2776,7 +2789,6 @@ ia:
       readable_summary: summario legibile per humanos
       informal_translations: traductiones informal
       continue: Continuar
-      decline: Declinar
       you need to accept or decline: Per favor lege e postea accepta o declina le
         nove Conditiones del Contributor pro continuar.
       legale_select: 'Per favor selige tu pais de residentia:'
@@ -2982,12 +2994,9 @@ ia:
       created: 'Create:'
       duration: 'Durata:'
       status: 'Stato:'
-      show: Monstrar
       edit: Modificar
-      confirm: Es tu secur?
       reason: 'Motivo del blocada:'
       revoker: 'Revocator:'
-      needs_view: Le usator debe aperir un session ante que iste blocada es cancellate.
     block:
       not_revoked: (non revocate)
       show: Monstrar
@@ -3280,32 +3289,33 @@ ia:
       centre_map: Centrar le carta hic
   redactions:
     edit:
-      heading: Modificar suppression
-      title: Modificar obscuration
+      heading: Modificar censura
+      title: Modificar censura
     index:
-      empty: Il non ha suppressiones a monstrar.
-      heading: Lista de obscurationes
-      title: Lista de suppressiones
+      empty: Il non ha censuras a monstrar.
+      heading: Lista de censuras
+      title: Lista de censuras
+      new: Nove censura
     new:
-      heading: Specifica information pro nove suppression
-      title: Creation de nove obscuration
+      heading: Insere le information del nove censura
+      title: Creation de un nove censura
     show:
       description: 'Description:'
-      heading: Es monstrate le suppression "%{title}"
-      title: Presentation de obscuration
+      heading: Es monstrate le censura “%{title}”
+      title: Examinar un censura
       user: 'Creator:'
-      edit: Modificar iste suppression
-      destroy: Remover iste obscuration
+      edit: Modificar iste censura
+      destroy: Remover iste censura
       confirm: Es tu secur?
     create:
-      flash: Suppression create.
+      flash: Censura create.
     update:
       flash: Cambios salveguardate.
     destroy:
-      not_empty: Le suppression non es vacue. Per favor dis-supprime tote le versiones
-        pertinente a iste suppression ante de destruer lo.
-      flash: Obscuration destruite.
-      error: Un error occurreva durante le destruction de iste suppression.
+      not_empty: Le censura non es vacue. Per favor dis-censura tote le versiones
+        pertinente a iste censura ante de destruer lo.
+      flash: Censura destruite.
+      error: Un error ha occurrite durante le destruction de iste censura.
   validations:
     leading_whitespace: ha spatios al initio
     trailing_whitespace: ha spatios al fin

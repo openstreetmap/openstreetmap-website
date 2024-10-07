@@ -6,7 +6,6 @@ module Api
 
     authorize_resource
 
-    around_action :api_call_handle_error
     load_resource :only => :show
 
     before_action :set_request_formats, :except => [:gpx_files]

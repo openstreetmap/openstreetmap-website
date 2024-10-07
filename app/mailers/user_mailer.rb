@@ -247,8 +247,8 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def with_recipient_locale(recipient, &block)
-    I18n.with_locale(Locale.available.preferred(recipient.preferred_languages), &block)
+  def with_recipient_locale(recipient, &)
+    I18n.with_locale(Locale.available.preferred(recipient.preferred_languages), &)
   end
 
   def from_address(name, type, id, token, user_id = nil)

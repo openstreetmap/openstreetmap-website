@@ -167,7 +167,7 @@ uk:
         longitude: Довгота
         public: Публічний
         description: Опис
-        gpx_file: Завантажити GPX-файл
+        gpx_file: Оберіть GPX-файл
         visibility: Видимість
         tagstring: Теґи
       message:
@@ -502,22 +502,41 @@ uk:
       introduction: Клацніть на мапі, щоб отримати дані про об’єкти поруч.
       nearby: Об’єкти поруч
       enclosing: Оточуючі об’єкти
+  nodes:
+    timeout:
+      sorry: На жаль, отримання даних для точки з ідентифікатором %{id} тривало занадто
+        довго.
   old_nodes:
     not_found:
       sorry: 'На жаль, точку #%{id} версії %{version} не знайдено.'
+    timeout:
+      sorry: На жаль, отримання історії точки з ідентифікатором %{id} потребує багато
+        часу.
+  ways:
+    timeout:
+      sorry: На жаль, отримання даних для лінії з ідентифікатором %{id} зайняло занадто
+        багато часу.
   old_ways:
     not_found:
       sorry: 'На жаль, лінію #%{id} версії %{version} не знайдено.'
+    timeout:
+      sorry: На жаль, отримання історії лінії з ідентифікатором %{id} потребує багато
+        часу.
+  relations:
+    timeout:
+      sorry: На жаль, отримання даних для зв’язку з ідентифікатором %{id} зайняло
+        занадто багато часу.
   old_relations:
     not_found:
       sorry: 'На жаль, звʼязок #%{id} версії %{version} не знайдено.'
+    timeout:
+      sorry: На жаль, отримання історії звʼязку з ідентифікатором %{id} потребує багато
+        часу.
   changeset_comments:
     feeds:
       comment:
         comment: 'Новий коментар до набору змін #%{changeset_id} від %{author}'
         commented_at_by_html: Оновлено %{when} %{user}
-      comments:
-        comment: 'Новий коментар до набору змін #%{changeset_id} від %{author}'
       show:
         title_all: Обговорення наборів змін в OpenStreetMap
         title_particular: 'Обговорення набору змін OpenStreetMap #%{changeset_id}'
@@ -526,7 +545,6 @@ uk:
           часу для завантаження.
   changesets:
     changeset:
-      anonymous: Анонім
       no_edits: (редагувань немає)
       view_changeset_details: Подивитися подробиці набору змін
     index:
@@ -558,7 +576,6 @@ uk:
       title: Набір змін %{id}
       created_by_html: Створений %{link_user} %{created}.
     no_such_entry:
-      title: Немає такого набору змін
       heading: Немає запису з id %{id}
       body: На жаль, немає набору змін %{id}. Будь ласка, перевірте посилання, або,
         можливо, посилання, яке ви натиснули, неправильне.
@@ -674,8 +691,6 @@ uk:
       report: Поскаржитись на цей коментар
     location:
       location: 'Місце:'
-      view: Переглянути
-      edit: Змінити
     feed:
       user:
         title: Записи щоденника OpenStreetMap %{user}
@@ -1565,7 +1580,6 @@ uk:
       not_updated: Не оновлювалось
       search: Пошук
       search_guidance: 'Пошук Звернень:'
-      link_to_reports: Дивитися скарги
       states:
         ignored: Проігноровано
         open: Відкрито
@@ -1734,17 +1748,21 @@ uk:
       befriend_them: Ви також можете додати їх як друзів %{befriendurl}.
       befriend_them_html: Ви також можете додати його/її до друзів %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Це виглядає як ваш GPX-файл %{trace_name} з описом %{trace_description}
+      description_with_tags: 'Схоже це ваш GPX-файл %{trace_name} з описом %{trace_description}
         і наступними теґами: %{tags}'
-      description_with_tags_html: 'Схоже це ваш файл GPX %{trace_name}, що має опис
+      description_with_tags_html: 'Схоже це ваш GPX-файл %{trace_name}, що має опис
         — %{trace_description} та наступні теґи: %{tags}'
-      description_with_no_tags: Виглядає як ваш GPX-файл %{trace_name} з описом %{trace_description}
+      description_with_no_tags: Схоже це ваш GPX-файл %{trace_name} з описом %{trace_description}
         і без теґів
       description_with_no_tags_html: Схоже це ваш файл GPX %{trace_name}, що має опис
-        - %{trace_description} та без теґів
+        - %{trace_description} та не має теґів
     gpx_failure:
       hi: Привіт, %{to_user},
-      failed_to_import: 'не вдалось імпортувати. Сталася помилка:'
+      failed_to_import: 'не вдалося імпортувати як файл GPS-треку. Переконайтеся,
+        що ваш файл є відповідним файлом GPX або архівом, який містить файл(и) GPX
+        у підтримуваному форматі (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2).
+        Чи може виникнути проблема з форматом або синтаксисом вашого файлу? Ось помилка
+        імпорту:'
       more_info: Більше інформації про помилки імпорту GPX та способи їх уникнення
         можна знайти за посиланням %{url}.
       more_info_html: Докладна інформація про проблеми імпорту GPX та шляхи їх вирішення
@@ -2024,7 +2042,6 @@ uk:
       failure: Неможливо зберегти оновлення профілю.
   sessions:
     new:
-      title: Ласкаво просимо
       tab_title: Ласкаво просимо
       login_to_authorize_html: Увійдіть до OpenStreetMap, щоб отримати доступ до %{client_app_name}.
       email or username: Ел. пошта або прізвисько
@@ -2032,7 +2049,6 @@ uk:
       remember: Запам’ятати мене
       lost password link: Забули пароль?
       login_button: Увійти
-      register now: Зареєструйтеся зараз
       with external: Або використовуйте, облікові записи з інших ресурсів
       or: або
       auth failure: Вибачте, вхід з цими ім’ям або паролем неможливий.
@@ -2408,7 +2424,6 @@ uk:
       welcome_mat: Відвідайте Welcome Mat
     sidebar:
       search_results: Результати пошуку
-      close: Закрити
     search:
       search: Пошук
       get_directions_title: Знайти маршрут між двома точками
@@ -2492,6 +2507,9 @@ uk:
           hospital: Лікарня
           building: Значна споруда
           station: Залізнична станція
+          railway_halt: Залізнична зупинка
+          subway_station: Станція метро
+          tram_stop: Трамвайна зупинка
           summit: Вершина
           peak: Пік
           tunnel: Тунель (пунктиром)
@@ -2831,7 +2849,6 @@ uk:
         privacy_policy_title: Політика конфіденційності OSMF, включаючи розділ про
           адреси електронної пошти
         contributor_terms: умови співпраці
-      tou: умови використання
       continue: Зареєструватись
       terms accepted: Дякуємо за прийняття нових умов співпраці!
       email_help:
@@ -2866,7 +2883,7 @@ uk:
       informal_translations: неофіційні переклади
       continue: Продовжити
       declined: https://wiki.openstreetmap.org/wiki/Uk:Contributor_Terms_Declined
-      decline: Відхилити
+      cancel: Скасувати
       you need to accept or decline: Будь ласка, прочитайте, а потім або прийміть
         або відхиліть нові Умови Участі.
       legale_select: 'Країна проживання:'
@@ -3090,12 +3107,9 @@ uk:
       created: 'Створено:'
       duration: 'Тривалість:'
       status: 'Стан:'
-      show: Показувати
       edit: Редагувати
-      confirm: Ви впевнені?
       reason: 'Причина блокування:'
       revoker: 'Розблокував:'
-      needs_view: Учаснику потрібно увійти перед тим, як блокування буде знято.
     block:
       not_revoked: (не розблокований)
       show: Показати

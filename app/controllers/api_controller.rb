@@ -3,6 +3,8 @@ class ApiController < ApplicationController
 
   before_action :check_api_readable
 
+  around_action :api_call_handle_error, :api_call_timeout
+
   private
 
   ##
@@ -132,7 +134,7 @@ class ApiController < ApplicationController
     report_error message, :bad_request
   rescue OSM::APIError => e
     report_error e.message, e.status
-  rescue AbstractController::ActionNotFound => e
+  rescue AbstractController::ActionNotFound, CanCan::AccessDenied => e
     raise
   rescue StandardError => e
     logger.info("API threw unexpected #{e.class} exception: #{e.message}")
@@ -142,8 +144,8 @@ class ApiController < ApplicationController
 
   ##
   # wrap an api call in a timeout
-  def api_call_timeout(&block)
-    Timeout.timeout(Settings.api_timeout, &block)
+  def api_call_timeout(&)
+    Timeout.timeout(Settings.api_timeout, &)
   rescue ActionView::Template::Error => e
     e = e.cause
 

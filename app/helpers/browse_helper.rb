@@ -44,9 +44,9 @@ module BrowseHelper
     t "printable_name.version", :version => object.version
   end
 
-  def element_strikethrough(object, &block)
+  def element_strikethrough(object, &)
     if object.redacted? || !object.visible?
-      tag.s(&block)
+      tag.s(&)
     else
       yield
     end

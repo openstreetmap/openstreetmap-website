@@ -170,7 +170,7 @@ tr:
         longitude: Boylam
         public: Kamu
         description: Açıklama
-        gpx_file: GPX Dosyası Yükle
+        gpx_file: GPS İz Dosyasını Seç
         visibility: Görünürlük
         tagstring: Etiketler
       message:
@@ -480,9 +480,6 @@ tr:
         comment: '#%{changeset_id} değişiklik kaydı hakkında %{author}, yeni bir yorum
           yaptı.'
         commented_at_by_html: '%{user} tarafından %{when} güncellendi'
-      comments:
-        comment: '#%{changeset_id} değişiklik kaydı hakkında %{author}, yeni bir yorum
-          yaptı'
       show:
         title_all: OpenStreetMap değişiklik kaydı tartışması
         title_particular: 'OpenStreetMap #%{changeset_id} değişiklik kaydı tartışması'
@@ -491,7 +488,6 @@ tr:
           uzun sürdü.
   changesets:
     changeset:
-      anonymous: Anonim
       no_edits: (düzenleme yok)
       view_changeset_details: Değişiklik kaydı ayrıntılarını görüntüle
     index:
@@ -523,7 +519,6 @@ tr:
       title: Değişiklik Kaydı %{id}
       created_by_html: '%{link_user} tarafından %{created} tarihinde oluşturuldu.'
     no_such_entry:
-      title: Böyle bir değişiklik kaydı yok
       heading: 'Şu kimliğe sahip girdi yok: %{id}'
       body: Üzgünüz, %{id} kimliğine sahip herhangi bir değişiklik kaydı yok. Lütfen
         yazımınızı kontrol edin ya da tıkladığınız bağlantı yanlış olabilir.
@@ -638,8 +633,6 @@ tr:
       report: Bu yorumu bildir
     location:
       location: 'Konum:'
-      view: Görüntüle
-      edit: Düzenle
     feed:
       user:
         title: '%{user} için OpenStreetMap günlük girdileri'
@@ -667,6 +660,8 @@ tr:
       post: Gönderi
       when: Tarih
       comment: Yorum
+    new:
+      heading: Aşağıdaki günlük girdisinin tartışmasına bir yorum ekle?
   doorkeeper:
     errors:
       messages:
@@ -1527,7 +1522,6 @@ tr:
       not_updated: Güncellenmedi
       search: Ara
       search_guidance: 'Arama Sorunları:'
-      link_to_reports: Raporları Görüntüle
       states:
         ignored: Yoksayıldı
         open: Aç
@@ -1535,6 +1529,7 @@ tr:
     page:
       user_not_found: Kullanıcı mevcut değil
       issues_not_found: Böyle bir sorun bulunamadı
+      reported_user: Bildirilen Kullanıcı
       status: Durum
       reports: Raporlar
       last_updated: Son Güncelleme
@@ -1543,6 +1538,10 @@ tr:
         one: '%{count} Rapor'
         other: '%{count} Rapor'
       reported_item: Bildirilen Öge
+      states:
+        ignored: Yoksayıldı
+        open: Aç
+        resolved: Çözüldü
     show:
       title: '%{status} Sorun #%{issue_id}'
       reports:
@@ -1645,6 +1644,7 @@ tr:
       şu anda çevrimdışıdır.
     osm_read_only: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
       şu anda sadece okunur durumdadır.
+    nothing_to_preview: Önizlenecek bir şey yok.
     help: Yardım
     about: Hakkında
     copyright: Telif Hakkı
@@ -1702,6 +1702,8 @@ tr:
       loaded:
         one: olası %{count} puan üzerinden %{trace_points} ile başarıyla yüklendi.
         other: olası %{count} puan üzerinden %{trace_points} ile başarıyla yüklendi.
+      trace_location: İzleriniz %{trace_url} adresinde mevcuttur
+      all_your_traces: Başarıyla yüklediğiniz tüm GPX izleri, %{url} adresinde bulunabilir
       all_your_traces_html: Başarıyla yüklediğiniz tüm GPX izlerinizi %{url} adresinde
         bulabilirsiniz.
       subject: '[OpenStreetMap] GPX dosyası başarıyla alındı'
@@ -1967,7 +1969,6 @@ tr:
       failure: Profil güncellenemedi.
   sessions:
     new:
-      title: Oturum Aç
       tab_title: Oturum Aç
       login_to_authorize_html: '%{client_app_name} uygulamasına erişmek için OpenStreetMap''te
         oturum açın.'
@@ -1976,7 +1977,6 @@ tr:
       remember: Beni hatırla
       lost password link: Parolanı mı unuttun?
       login_button: Oturum Aç
-      register now: Şimdi kaydol
       with external: veya üçüncü bir parti uygulaması kullanarak kaydolun
       or: veya
       auth failure: Üzgünüz, bu giriş ile oturum açılamadı.
@@ -2008,6 +2008,7 @@ tr:
     richtext_field:
       edit: Düzenle
       preview: Önizleme
+      help: Yardım
     pagination:
       diary_comments:
         older: Daha Eski Yorumlar
@@ -2015,6 +2016,9 @@ tr:
       diary_entries:
         older: Daha Eski Girdiler
         newer: Daha Yeni Girdiler
+      issues:
+        older: Eski Sorunlar
+        newer: Daha Yeni Sorunlar
       traces:
         older: Daha Eski İzler
         newer: En Yeni İzler
@@ -2359,7 +2363,6 @@ tr:
       welcome_mat: Sıcak Karşılamaya göz atın
     sidebar:
       search_results: Arama Sonuçları
-      close: Kapat
     search:
       search: Ara
       get_directions_title: İki nokta arasında yol tarifi bul
@@ -2442,6 +2445,9 @@ tr:
           hospital: Hastane
           building: Önemli yapı
           station: Gar
+          railway_halt: Demiryolu durağı
+          subway_station: Metro istasyonu
+          tram_stop: Tramvay durağı
           summit: Zirve
           peak: Zirve
           tunnel: çizgili kenar = tünel
@@ -2649,6 +2655,7 @@ tr:
       oauth2_authorizations: OAuth 2 yetkilendirmeleri
       muted_users: Sessize Alınan Kullanıcılar
     auth_providers:
+      openid_url: OpenID URL'si
       openid_login_button: Devam et
       openid:
         title: OpenID ile giriş
@@ -2664,10 +2671,10 @@ tr:
         alt: Microsoft logosu
       github:
         title: GitHub ile giriş
-        alt: GitHub Hesabı ile giriş
+        alt: GitHub logosu
       wikipedia:
         title: Vikipedi ile giriş
-        alt: Vikipedi Hesabı ile giriş
+        alt: Vikipedi logosu
   oauth:
     permissions:
       missing: Uygulamanın bu özelliğe erişimine izin vermediniz
@@ -2682,6 +2689,8 @@ tr:
       write_notes: Notları değiştir
       write_redactions: Harita verilerini düzelt
       read_email: Kullanıcı e-posta adresini oku
+      consume_messages: Kullanıcı mesajlarını okuyun, güncelleyin ve silin
+      send_messages: Diğer kullanıcılara özel mesajlar gönderin
       skip_authorization: Başvuruyu otomatik onayla
     for_roles:
       moderator: Bu izin yalnızca moderatörlerin erişebildiği işlemler içindir
@@ -2765,10 +2774,12 @@ tr:
         privacy_policy_title: E-posta adresleriyle ilgili bölümü içeren OSMF gizlilik
           politikası
         contributor_terms: katılımcı şartları
-      tou: kullanım şartları
       continue: Kaydol
       terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!
       email_help:
+        privacy_policy: gizlilik politikası
+        privacy_policy_title: E-posta adresleriyle ilgili bölümü içeren OSMF gizlilik
+          politikası
         html: Adresiniz herkese açık olarak görüntülenmiyor, daha fazla bilgi için
           %{privacy_policy_link} sayfasına bakın.
       consider_pd_html: Katkılarımın %{consider_pd_link} içinde olduğunu düşünüyorum.
@@ -2798,7 +2809,7 @@ tr:
       informal_translations: resmî olmayan çeviriler
       continue: Devam
       declined: https://wiki.openstreetmap.org/wiki/Tr:Contributor_Terms_Declined
-      decline: Reddet
+      cancel: İptal
       you need to accept or decline: Lütfen katılımcı şartlarını okuyunuz ve şartları
         kabul ya da ret ediniz.
       legale_select: 'İkamet edilen ülke:'
@@ -2943,12 +2954,18 @@ tr:
       title: '%{name} adlı kullanıcının engelini değiştir'
       heading_html: '%{name} adlı kullanıcının engelini değiştir'
       period: Şu andan itibaren ne zamana kadar kullanıcıdan API engellenecek?
+      revoke: Engeli iptal et
     filter:
       block_period: Engel süresi, açılır listeden seçilebilen değerlerden biri olmalıdır.
     create:
       flash: '%{name} kullanıcısına engel oluşturuldu.'
     update:
       only_creator_can_edit: Yalnızca bu engeli oluşturan moderatör düzenleyebilir.
+      only_creator_can_edit_without_revoking: Bu engeli, yalnızca oluşturan moderatör
+        iptal etmeden düzenleyebilir.
+      only_creator_or_revoker_can_edit: Bu engeli, yalnızca oluşturan veya iptal eden
+        moderatörler düzenleyebilir.
+      inactive_block_cannot_be_reactivated: Bu engel etkin değil ve yeniden etkinleştirilemez.
       success: Engelleme güncellendi.
     index:
       title: Kullanıcı engelleri
@@ -3000,12 +3017,9 @@ tr:
       created: 'Oluşturulma:'
       duration: 'Süre:'
       status: 'Durum:'
-      show: Göster
       edit: Düzenle
-      confirm: Emin misiniz?
       reason: 'Engellenme sebebi:'
       revoker: 'Geri alan:'
-      needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor.
     block:
       not_revoked: (iptal edilmemiş)
       show: Göster
@@ -3023,6 +3037,7 @@ tr:
       blocks_by_me: Engellediklerim
       blocks_by_user: '%{user} tarafından engellenenler'
       block: 'Engel #%{id}'
+      new_block: Yeni Engel
   user_mutes:
     index:
       title: Sessize Alınan Kullanıcılar
@@ -3107,6 +3122,8 @@ tr:
       add: Not Ekle
     notes_paging_nav:
       showing_page: '%{page}. sayfa'
+      next: Sonraki
+      previous: Önceki
   javascripts:
     close: Kapat
     share:
@@ -3121,14 +3138,15 @@ tr:
       custom_dimensions: Özel boyutlar belirt
       format: 'Biçim:'
       scale: 'Ölçek:'
-      image_dimensions: Resim standart katmanda %{width}x%{height} gösterecek.
+      image_dimensions: Resim %{layer} katmanını %{width} x %{height} olarak gösterecektir
       download: İndir
       short_url: Kısa bağlantı
       include_marker: İşaret ekle
       center_marker: İşaretleyicide merkez harita
       paste_html: Web sitesine yerleştirmek için HTML'yi yapıştırın
       view_larger_map: Daha Büyük Haritayı Göster
-      only_standard_layer: Yalnızca standart katman bir resim olarak dışa aktarılabilir
+      only_standard_layer: Yalnızca Standart, Döngü Haritası ve Taşıma katmanları
+        görüntü olarak dışa aktarılabilir
     embed:
       report_problem: Bir sorunu şikayet et
     key:
@@ -3302,6 +3320,7 @@ tr:
       empty: Gösterilecek redaksiyon yok.
       heading: Redaksiyonların listesi
       title: Redaksiyonların listesi
+      new: Yeni Redaksiyon
     new:
       heading: Yeni redaksiyon için bilgi giriniz
       title: Yeni redaksiyon oluşturma

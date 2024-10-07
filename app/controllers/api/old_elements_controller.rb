@@ -9,7 +9,6 @@ module Api
 
     authorize_resource
 
-    around_action :api_call_handle_error, :api_call_timeout
     before_action :lookup_old_element, :except => [:history]
     before_action :lookup_old_element_versions, :only => [:history]
 

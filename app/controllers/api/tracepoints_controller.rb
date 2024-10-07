@@ -2,8 +2,6 @@ module Api
   class TracepointsController < ApiController
     authorize_resource
 
-    around_action :api_call_handle_error, :api_call_timeout
-
     # Get an XML response containing a list of tracepoints that have been uploaded
     # within the specified bounding box, and in the specified page.
     def index

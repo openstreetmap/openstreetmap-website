@@ -166,7 +166,7 @@ zh-TW:
         longitude: 經度
         public: 公開
         description: 描述
-        gpx_file: 上傳 GPX 檔案
+        gpx_file: 選擇 GPX 軌跡檔案
         visibility: 能見度
         tagstring: 標籤
       message:
@@ -391,7 +391,7 @@ zh-TW:
         note: 註記
     timeout:
       title: 逾時錯誤
-      sorry: 抱歉，索取 id 為 %{id} 的 %{type} 資料，花費時間過長。
+      sorry: 很抱歉，索取 id 為 %{id} 的%{type}資料花費時間過長。
       type:
         node: 節點
         way: 路徑
@@ -425,22 +425,35 @@ zh-TW:
       introduction: 點選地圖以尋找附近的圖徵
       nearby: 附近圖徵
       enclosing: 區域內圖徵
+  nodes:
+    timeout:
+      sorry: 很抱歉，索取 id 為 %{id} 的節點資料花費時間過長。
   old_nodes:
     not_found:
       sorry: '很抱歉，無法找到版本 %{version} 的節點 #%{id}。'
+    timeout:
+      sorry: 很抱歉，索取 id 為 %{id} 的節點歷史花費時間過長。
+  ways:
+    timeout:
+      sorry: 很抱歉，索取 id 為 %{id} 的路徑資料花費時間過長。
   old_ways:
     not_found:
       sorry: 很抱歉，找不到版本 %{version} 的路徑 %{id}。
+    timeout:
+      sorry: 很抱歉，索取 id 為 %{id} 的路徑歷史花費時間過長。
+  relations:
+    timeout:
+      sorry: 很抱歉，索取 id 為 %{id} 的關聯資料花費時間過長。
   old_relations:
     not_found:
       sorry: '很抱歉，找不到版本 %{version} 的關聯 #%{id}。'
+    timeout:
+      sorry: 很抱歉，索取 id 為 %{id} 的關聯歷史花費時間過長。
   changeset_comments:
     feeds:
       comment:
         comment: '由 %{author} 對變更集 #%{changeset_id} 發表的新評論'
         commented_at_by_html: 於%{when}由%{user}更新
-      comments:
-        comment: '%{author} 對變更集 #%{changeset_id} 發表的新評論'
       show:
         title_all: OpenStreetMap 變更集討論
         title_particular: OpenStreetMap 變更集 %{changeset_id} 討論
@@ -448,7 +461,6 @@ zh-TW:
         sorry: 很抱歉，你請求的變更集評論過長無法讀取
   changesets:
     changeset:
-      anonymous: 匿名
       no_edits: (沒有編輯)
       view_changeset_details: 檢視變更集詳細資料
     index:
@@ -480,7 +492,6 @@ zh-TW:
       title: 變更集 %{id}
       created_by_html: 由 %{link_user} 在 %{created} 建立。
     no_such_entry:
-      title: 沒有這樣的變更集
       heading: 沒有 id 為 %{id} 的項目
       body: 抱歉，沒有 id 為 %{id} 的變更集。請檢查你的拼字，或者可能是你按到錯誤的連結。
     show:
@@ -589,8 +600,6 @@ zh-TW:
       report: 回報此評論
     location:
       location: 位置：
-      view: 檢視
-      edit: 編輯
     feed:
       user:
         title: '%{user} 的 OpenStreetMap 日記項目'
@@ -1470,7 +1479,6 @@ zh-TW:
       not_updated: 尚未更新
       search: 搜尋
       search_guidance: 搜尋問題：
-      link_to_reports: 檢視回報
       states:
         ignored: 已忽略
         open: 開放
@@ -1623,13 +1631,13 @@ zh-TW:
       befriend_them: 你可以在 %{befriendurl} 把他加入為好友。
       befriend_them_html: 你可以在 %{befriendurl} 把他加入為好友。
     gpx_description:
-      description_with_tags: 看起來似乎是你的 GPX 檔案%{trace_name}帶有%{trace_description}描述而且沒有標籤：%{tags}
-      description_with_tags_html: 看起來似乎是你的 GPX 檔案%{trace_name}帶有%{trace_description}描述而且沒有標籤：%{tags}
-      description_with_no_tags: 看起來似乎是你的 GPX 檔案%{trace_name}帶有%{trace_description}描述而且沒有標籤
-      description_with_no_tags_html: 看起來似乎是你的 GPX 檔案%{trace_name}帶有%{trace_description}描述而且沒有標籤
+      description_with_tags: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤：%{tags}
+      description_with_tags_html: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤：%{tags}
+      description_with_no_tags: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤
+      description_with_no_tags_html: 看起來似乎是你的%{trace_name}檔案帶有%{trace_description}描述而且沒有標籤
     gpx_failure:
       hi: '%{to_user} 你好，'
-      failed_to_import: 看來匯入失敗。錯誤訊息為：
+      failed_to_import: 匯入成 GPS 軌跡檔案失敗。請驗證您的檔案是否為有效的 GPX 檔案，或是否為含有 GPX 檔案的支援格式存檔（.tar.gz、.tar.bz2、.tar、.zip、.gpx.gz、.gpx.bz2）。您的檔案是否有格式或語法問題？此為匯入的錯誤內容：
       more_info: 更多關於 GPX 匯入失敗的資訊與如何避免，可在 %{url} 查詢。
       more_info_html: 更多關於 GPX 匯入失敗的資訊與如何避免，可在 %{url} 查詢。
       subject: '[OpenStreetMap] GPX 匯入失敗'
@@ -1853,7 +1861,6 @@ zh-TW:
       failure: 無法更新個人資料。
   sessions:
     new:
-      title: 登入
       tab_title: 登入
       login_to_authorize_html: 登入 OpenStreetMap 以存取 %{client_app_name}。
       email or username: 電子郵件地址或使用者名稱
@@ -1861,7 +1868,6 @@ zh-TW:
       remember: 記住我
       lost password link: 忘記密碼了？
       login_button: 登入
-      register now: 立即註冊
       with external: 或者使用第三方服務登入
       or: 或
       auth failure: 很抱歉，無法以這些資料登入。
@@ -2163,7 +2169,6 @@ zh-TW:
       welcome_mat: 查看歡迎墊
     sidebar:
       search_results: 搜尋結果
-      close: 關閉
     search:
       search: 搜尋
       get_directions_title: 尋找兩點之間的路線
@@ -2531,7 +2536,6 @@ zh-TW:
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
         contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: 貢獻者條款
-      tou: 使用條款
       continue: 註冊
       terms accepted: 感謝你接受新的貢獻條款！
       email_help:
@@ -2558,7 +2562,7 @@ zh-TW:
       readable_summary: 人類可讀的摘要
       informal_translations: 非正式翻譯
       continue: 繼續
-      decline: 拒絕
+      cancel: 取消
       you need to accept or decline: 請先閱讀，然後選擇接受或拒絕新的貢獻者條款，再繼續。
       legale_select: 請選擇您的居住地：
       legale_names:
@@ -2749,12 +2753,9 @@ zh-TW:
       created: 建立於：
       duration: 期限：
       status: 狀態：
-      show: 顯示
       edit: 編輯
-      confirm: 你確定嗎？
       reason: 封鎖的理由：
       revoker: 撤銷者：
-      needs_view: 在還原這個封鎖之前，該使用者需要先登入。
     block:
       not_revoked: (沒有撤銷)
       show: 顯示
@@ -3031,6 +3032,7 @@ zh-TW:
       empty: 沒有可顯示的修訂。
       heading: 修訂清單
       title: 修訂清單
+      new: 新修訂
     new:
       heading: 輸入新增修訂資訊
       title: 建立修訂中

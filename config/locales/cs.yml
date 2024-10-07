@@ -41,6 +41,7 @@
 # Author: Paxt
 # Author: Reaperman
 # Author: Robins7
+# Author: ShaggyCZ - Main
 # Author: Spotter
 # Author: StenSoft
 # Author: Tchoř
@@ -167,7 +168,7 @@ cs:
         longitude: Zeměpisná délka
         public: Veřejná
         description: Popis
-        gpx_file: Nahrát GPX soubor
+        gpx_file: Vyberte soubor GPS trasování
         visibility: Viditelnost
         tagstring: Značky
       message:
@@ -458,7 +459,7 @@ cs:
         note: poznámka
     timeout:
       title: Vypršel časový limit
-      sorry: Promiňte, ale načítání dat %{type} číslo %{id} trvalo příliš dlouho.
+      sorry: Promiňte, ale načítání dat %{type} s ID %{id} trvalo příliš dlouho.
       type:
         node: uzlu
         way: cesty
@@ -496,7 +497,7 @@ cs:
       enclosing: Umístění prvku
   nodes:
     timeout:
-      sorry: Promiňte, ale načítání dat uzlu s id %{id} trvalo příliš dlouho.
+      sorry: Promiňte, ale načítání dat pro uzel s id %{id} trvalo příliš dlouho.
   old_nodes:
     not_found:
       sorry: 'Je nám líto, ale verze %{version} uzlu #%{id} nebyla nalezena.'
@@ -523,8 +524,6 @@ cs:
       comment:
         comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
         commented_at_by_html: Aktualizováno %{when} uživatelem %{user}
-      comments:
-        comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
       show:
         title_all: Diskuse k sadě změn na OpenStreetMap
         title_particular: 'Diskuse k sadě změn #%{changeset_id} na OpenStreetMap'
@@ -533,7 +532,6 @@ cs:
           příliš dlouho.
   changesets:
     changeset:
-      anonymous: Anonymní
       no_edits: (žádné změny)
       view_changeset_details: Zobrazit detaily sady změn
     index:
@@ -565,7 +563,6 @@ cs:
       title: Sada změn %{id}
       created_by_html: Vytvořil uživatel %{link_user} %{created}.
     no_such_entry:
-      title: Taková sada změn neexistuje
       heading: Záznam s ID %{id} neexistuje
       body: Je nám líto, ale sada změn s ID %{id} neexistuje. Zkontrolujte překlepy
         nebo jste možná klikli na chybný odkaz.
@@ -681,8 +678,6 @@ cs:
       report: Nahlásit tento komentář
     location:
       location: 'Místo:'
-      view: Zobrazit
-      edit: Upravit
     feed:
       user:
         title: Záznamy v OpenStreetMap deníku uživatele %{user}
@@ -1570,7 +1565,6 @@ cs:
       not_updated: Neaktualizováno
       search: Hledat
       search_guidance: 'Hledat problémy:'
-      link_to_reports: Zobrazit hlášení
       states:
         ignored: Ignorováno
         open: Otevřeno
@@ -1578,6 +1572,7 @@ cs:
     page:
       user_not_found: Uživatel neexistuje
       issues_not_found: Takové problémy nebyly nalezeny
+      reported_user: Nahlášený uživatel
       status: Stav
       reports: Hlášení
       last_updated: Poslední změna
@@ -1588,6 +1583,10 @@ cs:
         many: '%{count} Hlášení'
         other: '%{count} Hlášení'
       reported_item: Hlášená položka
+      states:
+        ignored: Ignorováno
+        open: Otevřeno
+        resolved: Vyřešeno
     show:
       title: '%{status} Problém #%{issue_id}'
       reports:
@@ -1732,17 +1731,20 @@ cs:
       befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
       befriend_them_html: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
+      description_with_tags: 'Vypadá to, že váš soubor %{trace_name} s popisem %{trace_description}
+        a s těmito značkami: %{tags}'
+      description_with_tags_html: 'Vypadá to, že váš soubor %{trace_name} s popisem
         %{trace_description} a s těmito značkami: %{tags}'
-      description_with_tags_html: 'Vypadá to, že váš GPX soubor %{trace_name} s popisem
-        %{trace_description} a s těmito značkami: %{tags}'
-      description_with_no_tags: Vypadá to, že váš GPX soubor %{trace_name} s popisem
+      description_with_no_tags: Vypadá to, že váš soubor %{trace_name} s popisem %{trace_description}
+        a bez značek
+      description_with_no_tags_html: Vypadá to, že váš soubor %{trace_name} s popisem
         %{trace_description} a bez značek
-      description_with_no_tags_html: Vypadá to, že váš GPX soubor %{trace_name} s
-        popisem %{trace_description} a bez značek
     gpx_failure:
       hi: Ahoj, %{to_user},
-      failed_to_import: 'se nepodařilo nahrát. Chybové hlášení následuje:'
+      failed_to_import: 'se nepodařilo nahrát. Zkontrolujte si prosím, zda váš soubor
+        je platný soubor GPX nebo archiv obsahující GPX soubor(y) v podporovaném formátu
+        (.tar.gz, tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Možná je u vašeho souboru
+        problém s formátem nebo syntaxí? Zde je chyba importu:'
       more_info: Více informací o chybách při importu GPX a jak se jim vyhnout, najdete
         na %{url}.
       more_info_html: Více informací o chybách při importu GPX a jak se jim vyhnout,
@@ -2018,7 +2020,6 @@ cs:
       failure: Nepodařilo se nastavit profil.
   sessions:
     new:
-      title: Přihlásit se
       tab_title: Přihlášení
       login_to_authorize_html: Pro přístup k %{client_app_name} se přihlaste do OpenStreetMap.
       email or username: E-mailová adresa nebo uživatelské jméno
@@ -2026,7 +2027,6 @@ cs:
       remember: Zapamatuj si mě
       lost password link: Ztratili jste heslo?
       login_button: Přihlásit se
-      register now: Zaregistrujte se
       with external: nebo se přihlaste prostřednictvím třetí strany
       or: nebo
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
@@ -2066,6 +2066,9 @@ cs:
       diary_entries:
         older: Starší záznamy
         newer: Novější záznamy
+      issues:
+        older: Starší problémy
+        newer: Novější problémy
       traces:
         older: Starší stopy
         newer: Novější stopy
@@ -2399,7 +2402,6 @@ cs:
       welcome_mat: Podívejte se na Welcome Mat
     sidebar:
       search_results: Výsledky hledání
-      close: Zavřít
     search:
       search: Hledat
       get_directions_title: Najít trasu mezi dvěma body
@@ -2729,6 +2731,8 @@ cs:
       write_notes: Měnit poznámky
       write_redactions: Upravte mapová data
       read_email: Přečíst e-mailovou adresu uživatele
+      consume_messages: Číst, aktualizovat stav a mazat zprávy uživatelů
+      send_messages: Posílat soukromé zprávy jiným uživatelům
       skip_authorization: Automaticky schválit aplikaci
     for_roles:
       moderator: Toto oprávnění je pro akce dostupné pouze moderátorům
@@ -2812,7 +2816,6 @@ cs:
         privacy_policy_title: Pravidla ochrany osobních údajů OSMF, včetně části o
           e-mailových adresách
         contributor_terms: podmínkami pro přispěvatele
-      tou: podmínkami užití
       continue: Zaregistrovat se
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
       email_help:
@@ -2847,7 +2850,7 @@ cs:
       informal_translations: neoficiální překlady
       continue: Pokračovat
       declined: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
-      decline: Nesouhlasím
+      cancel: Zrušit
       you need to accept or decline: Pro pokračování si prosím přečtěte a přijměte
         nebo odmítněte nové Podmínky pro přispěvatele.
       legale_select: 'Označte zemi, ve které sídlíte:'
@@ -2989,12 +2992,19 @@ cs:
       title: Upravit blok na uživatele %{name}
       heading_html: Úprava bloku na %{name}
       period: Jak dlouho (od nynějška) bude uživatel blokován z užívání API.
+      revoke: Odstranit blokování
     filter:
       block_period: Doba bloku musí být jedna z těch, které obsahuje rozevírací seznam.
     create:
       flash: Uživatel %{name} zablokován.
     update:
       only_creator_can_edit: Jen moderátor, který tento blok vytvořil, ho může upravovat.
+      only_creator_can_edit_without_revoking: Jen moderátor, který toto blokování
+        vytvořil, ho může upravovat bez jeho odvolání.
+      only_creator_or_revoker_can_edit: Jen moderátoři, kteří toto blokování vytvořili
+        nebo jej odvolali, ho mohou upravovat.
+      inactive_block_cannot_be_reactivated: Toto blokování není aktivní a nelze jej
+        znovu aktivovat.
       success: Blok aktualizován.
     index:
       title: Bloky uživatele
@@ -3057,12 +3067,9 @@ cs:
       created: 'Vytvořeno:'
       duration: 'Doba trvání:'
       status: 'Stav:'
-      show: Zobrazit
       edit: Upravit
-      confirm: Jste si jistý?
       reason: 'Důvod bloku:'
       revoker: 'Zrušil:'
-      needs_view: Aby se blok smazal, uživatel se musí nejprve přihlásit.
     block:
       not_revoked: (nezrušeno)
       show: Zobrazit
@@ -3080,6 +3087,7 @@ cs:
       blocks_by_me: Zablokování mnou
       blocks_by_user: Bloky od uživatele %{user}
       block: 'Blok #%{id}'
+      new_block: Nové blokování
   user_mutes:
     index:
       title: Ztlumení uživatelé
@@ -3363,6 +3371,7 @@ cs:
       empty: Žádné opravy k ukázání.
       heading: Seznam oprav
       title: Seznam oprav
+      new: Nová redakce
     new:
       heading: Zadejte informace k nové redakci
       title: Tvorba nové redakce

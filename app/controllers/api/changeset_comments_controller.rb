@@ -6,9 +6,8 @@ module Api
     authorize_resource
 
     before_action :require_public_data, :only => [:create]
+
     before_action :set_request_formats
-    around_action :api_call_handle_error
-    around_action :api_call_timeout
 
     ##
     # Add a comment to a changeset

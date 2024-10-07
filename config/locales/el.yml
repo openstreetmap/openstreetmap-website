@@ -10,6 +10,7 @@
 # Author: Consta
 # Author: Crazymadlover
 # Author: Danieldegroot2
+# Author: Dimitris131
 # Author: Dogogos123
 # Author: Evropi
 # Author: FocalPoint
@@ -161,7 +162,7 @@ el:
         longitude: Γεωγραφικό μήκος
         public: Δημόσιο
         description: Περιγραφή
-        gpx_file: Ανέβασμα GPX αρχείου
+        gpx_file: Επιλογή αρχείου ίχνους GPX
         visibility: Ορατότητα
         tagstring: Ετικέτες
       message:
@@ -426,7 +427,7 @@ el:
         note: σημείωση
     timeout:
       title: Σφάλμα λήξης χρόνου
-      sorry: Λυπάμαι, τα δεδομένα για το %{type} με αναγνωριστικό %{id}, χρειάστηκαν
+      sorry: Λυπάμαι, τα δεδομένα για το %{type} με αναγνωριστικό %{id} χρειάστηκαν
         πολύ χρόνο για να ανακτηθούν.
       type:
         node: κόμβος
@@ -464,22 +465,41 @@ el:
       introduction: Κάντε κλικ στον χάρτη για να βρείτε κοντινά χαρακτηριστικά.
       nearby: Κοντινά χαρακτηριστικά
       enclosing: Περικλείει τα χαρακτηριστικά
+  nodes:
+    timeout:
+      sorry: Λυπάμαι, τα δεδομένα για τον κόμβο με αναγνωριστικό %{id} χρειάστηκαν
+        πολύ χρόνο για να ανακτηθούν.
   old_nodes:
     not_found:
       sorry: 'Λυπούμαστε, η έκδοση %{version} του κόμβου #%{id} δεν βρέθηκε.'
+    timeout:
+      sorry: Λυπάμαι, το ιστορικό για τον κόμβο με αναγνωριστικό %{id} χρειάστηκε
+        πολύ χρόνο για να ανακτηθεί.
+  ways:
+    timeout:
+      sorry: Λυπάμαι, τα δεδομένα για την γραμμή με αναγνωριστικό %{id} χρειάστηκαν
+        πολύ χρόνο για να ανακτηθούν.
   old_ways:
     not_found:
       sorry: 'Λυπούμαστε, η έκδοση %{version} της γραμμής #%{id} δεν βρέθηκε.'
+    timeout:
+      sorry: Λυπάμαι, το ιστορικό για την γραμμή με αναγνωριστικό %{id} χρειάστηκε
+        πολύ χρόνο για να ανακτηθεί.
+  relations:
+    timeout:
+      sorry: Λυπάμαι, τα δεδομένα για την σχέση με αναγνωριστικό %{id} χρειάστηκαν
+        πολύ χρόνο για να ανακτηθούν.
   old_relations:
     not_found:
       sorry: 'Λυπούμαστε, η έκδοση %{version} της σχέσης #%{id} δεν βρέθηκε.'
+    timeout:
+      sorry: Λυπάμαι, το ιστορικό για την σχέση με αναγνωριστικό %{id} χρειάστηκε
+        πολύ χρόνο για να ανακτηθεί.
   changeset_comments:
     feeds:
       comment:
         comment: 'Νέο σχόλιο σχετικά με τις αλλαγές #%{changeset_id} από τον %{author}'
         commented_at_by_html: Ενημερώθηκε %{when} πριν από τον %{user}
-      comments:
-        comment: 'Νέο σχόλιο σχετικά με τις αλλαγές #%{changeset_id} από τον %{author}'
       show:
         title_all: Συζήτηση αλλαγών OpenStreetMap
         title_particular: 'Συζήτηση αλλαγών OpenStreetMap #%{changeset_id}'
@@ -488,7 +508,6 @@ el:
           χρειάστηκε πολύ χρόνο για να ανακτηθεί.
   changesets:
     changeset:
-      anonymous: Ανώνυμος
       no_edits: (χωρίς επεξεργασίες)
       view_changeset_details: Προβολή λεπτομερειών αλλαγών
     index:
@@ -520,7 +539,6 @@ el:
       title: Ομάδα αλλαγών %{id}
       created_by_html: Δημιουργήθηκε από %{link_user} στις %{created}.
     no_such_entry:
-      title: Δεν υπάρχει τέτοια ομάδα αλλαγών
       heading: 'Δεν υπάρχει καταχώρηση με id: %{id}'
       body: Λυπούμαστε, δεν υπάρχει ομάδα αλλαγών με το id %{id}. Παρακαλούμε ελέγξτε
         για τυχόν ορθογραφικά λάθη ή ίσως ο σύνδεσμος που πατήσατε να είναι λάθος.
@@ -637,8 +655,6 @@ el:
       report: Αναφορά σχολίου
     location:
       location: 'Τοποθεσία:'
-      view: Προβολή
-      edit: Επεξεργασία
     feed:
       user:
         title: Καταχωρήσεις ημερολογίου OpenStreetMap για τον %{user}
@@ -1535,7 +1551,6 @@ el:
       not_updated: Μη ενημερωμένο
       search: Αναζήτηση
       search_guidance: 'Αναζήτηση ζητημάτων:'
-      link_to_reports: Προβολή αναφορών
       states:
         ignored: Παραβλέφθηκε
         open: Άνοιγμα
@@ -1701,17 +1716,21 @@ el:
       befriend_them: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο %{befriendurl}.
       befriend_them_html: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Φαίνεται πως το αρχείο σας GPX %{trace_name} με την
+      description_with_tags: 'Φαίνεται πως το αρχείο σας %{trace_name} με την περιγραφή
+        %{trace_description} και με τις παρακάτω ετικέτες: %{tags}'
+      description_with_tags_html: 'Φαίνεται πως το αρχείο σου %{trace_name} με την
         περιγραφή %{trace_description} και με τις παρακάτω ετικέτες: %{tags}'
-      description_with_tags_html: 'Φαίνεται πως το αρχείο σου GPX %{trace_name} με
-        την περιγραφή %{trace_description} και με τις παρακάτω ετικέτες: %{tags}'
-      description_with_no_tags: Φαίνεται πως το αρχείο σας GPX %{trace_name} με την
+      description_with_no_tags: Φαίνεται πως το αρχείο σας %{trace_name} με την περιγραφή
+        %{trace_description} και χωρίς ετικέτες
+      description_with_no_tags_html: Φαίνεται πως το αρχείο σου %{trace_name} με την
         περιγραφή %{trace_description} και χωρίς ετικέτες
-      description_with_no_tags_html: Φαίνεται πως το αρχείο σου GPX %{trace_name}
-        με την περιγραφή %{trace_description} και χωρίς ετικέτες
     gpx_failure:
       hi: Γεια σας %{to_user},
-      failed_to_import: 'Απέτυχε η εισαγωγή. Το σφάλμα είναι:'
+      failed_to_import: 'απέτυχε να εισαχθεί ως αρχείο ίχνους GPX. Παρακαλώ επαληθεύστε
+        ότι το αρχείο σας είναι ένα έγκυρο αρχείο GPX ή ένα συμπιεσμένο αρχείο που
+        περιέχει αρχείο/αρχεία GPX στην υποστηριζόμενη μορφή (.tar.gz, .tar.bz2, .tar,
+        .zip, .gpx.gz, .gpx.bz2). Μπορεί να υπάρχει πρόβλημα μορφής ή σύνταξης με
+        το αρχείο σας; Το σφάλμα της εισαγωγής είναι:'
       more_info: Περισσότερες πληροφορίες σχετικά με τα σφάλματα εισαγωγής GPX και
         πως να τα αποφύγετε, μπορείτε να βρείτε στο %{url}.
       more_info_html: Περισσότερες πληροφορίες σχετικά με τις αποτυχίες εισαγωγής
@@ -1993,7 +2012,6 @@ el:
       failure: Δεν μπόρεσε να ενημερωθεί το προφίλ.
   sessions:
     new:
-      title: Σύνδεση
       tab_title: Σύνδεση
       login_to_authorize_html: Συνδεθείτε στο OpenStreetMap για πρόσβαση στο %{client_app_name}.
       email or username: Διεύθυνση Ηλ. Ταχυδρομείου ή Όνομα Χρήστη
@@ -2001,7 +2019,6 @@ el:
       remember: Να με θυμάσαι
       lost password link: Ξεχάσατε το συνθηματικό σας;
       login_button: Σύνδεση
-      register now: Εγγραφείτε τώρα
       with external: ή συνδεθείτε μέσω τρίτης υπηρεσίας
       or: ή
       auth failure: Λυπούμαστε, δεν μπορείτε να συνδεθείτε με αυτές τις λεπτομέρειες.
@@ -2398,7 +2415,6 @@ el:
       welcome_mat: Δείτε το Χαλάκι Καλωσορίσματος
     sidebar:
       search_results: Αποτελέσματα Αναζήτησης
-      close: Κλείσιμο
     search:
       search: Αναζήτηση
       get_directions_title: Βρείτε οδηγίες μεταξύ δύο σημείων
@@ -2481,6 +2497,9 @@ el:
           hospital: Νοσοκομείο
           building: Σημαντικό κτήριο
           station: Σιδηροδρομικός σταθμός
+          railway_halt: Σιδηροδρομική στάση
+          subway_station: Σταθμός μετρό
+          tram_stop: Στάση τραμ
           summit: Κορυφή
           peak: Κορυφή
           tunnel: Διακεκομμένο περίβλημα = σήραγγα
@@ -2815,7 +2834,6 @@ el:
         privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
           για τις διευθύνσεις ηλεκτρονικού ταχυδρομείου
         contributor_terms: όρους συνεισφοράς
-      tou: όρους χρήσης
       continue: Εγγραφή
       terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
       email_help:
@@ -2850,7 +2868,7 @@ el:
       readable_summary: περίληψη αναγνώσιμη από τον άνθρωπο
       informal_translations: ανεπίσημες μεταφράσεις
       continue: Συνέχεια
-      decline: Διαφωνώ
+      cancel: Ακύρωση
       you need to accept or decline: Παρακαλούμε διαβάστε και αποδεχτείτε ή απορρίψτε
         τους νέους Όρους Συνεισφοράς για να συνεχίσετε.
       legale_select: 'Παρακαλούμε επιλέξτε τη χώρα κατοικίας σας:'
@@ -3063,12 +3081,9 @@ el:
       created: 'Δημιουργήθηκε:'
       duration: 'Διάρκεια:'
       status: 'Κατάσταση:'
-      show: Εμφάνιση
       edit: Επεξεργασία
-      confirm: Είστε σίγουρος?
       reason: 'Αιτία φραγής:'
       revoker: 'Έκανε την ανάκληση:'
-      needs_view: Ο χρήστης πρέπει να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή.
     block:
       not_revoked: (δεν έχει ανακληθεί)
       show: Εμφάνιση
@@ -3171,6 +3186,8 @@ el:
       add: Προσθήκη Σημείωσης
     notes_paging_nav:
       showing_page: Σελίδα %{page}
+      next: Επόμενη
+      previous: Προηγούμενη
   javascripts:
     close: Κλείσιμο
     share:
@@ -3372,6 +3389,7 @@ el:
       empty: Καμία παράληψη προς εμφάνιση.
       heading: Κατάλογος παραλήψεων
       title: Κατάλογος συντακτικών αλλαγών
+      new: Νέα Απόκρυψη
     new:
       heading: Εισαγωγή πληροφοριών για νέα παράληψη
       title: Δημιουργώντας νέα παράληψη
