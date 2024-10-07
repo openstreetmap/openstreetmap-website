@@ -145,6 +145,8 @@ gem "unicode-display_width"
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
+  gem "danger"
+  gem "danger-auto_label"
   gem "debug_inspector"
   gem "i18n-tasks"
   gem "listen"
