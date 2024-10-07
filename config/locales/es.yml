@@ -481,7 +481,7 @@ es:
         note: nota
     timeout:
       title: Error de tiempo de espera
-      sorry: Lo sentimos, los datos para %{type} con el identificador %{id} han tardado
+      sorry: Lo sentimos, los datos para el %{type} con identificador %{id} tardaron
         demasiado tiempo en obtenerse.
       type:
         node: nodo
@@ -519,15 +519,34 @@ es:
       introduction: Haz clic en el mapa para encontrar elementos cercanos.
       nearby: Elementos cercanos
       enclosing: Elementos delimitantes
+  nodes:
+    timeout:
+      sorry: Lo sentimos, los datos para el nodo con id %{id} tardaron demasiado en
+        recuperarse.
   old_nodes:
     not_found:
       sorry: 'Lo sentimos, no se pudo encontrar el nodo #%{id} versión %{version}.'
+    timeout:
+      sorry: Lo sentimos, el historial del nodo con id %{id} tardó demasiado en obtenerse.
+  ways:
+    timeout:
+      sorry: Lo sentimos, los datos para la vía con identificador %{id} han tardado
+        demasiado tiempo en obtenerse.
   old_ways:
     not_found:
       sorry: 'Lo sentimos, no se pudo encontrar la vía #%{id} versión %{version}.'
+    timeout:
+      sorry: Lo sentimos, el historial del nodo con id %{id} tardó demasiado en obtenerse.
+  relations:
+    timeout:
+      sorry: Lo sentimos, los datos para la relación con identificador %{id} han tardado
+        demasiado tiempo en obtenerse.
   old_relations:
     not_found:
       sorry: 'Lo sentimos, no se pudo encontrar la relación #%{id} versión %{version}.'
+    timeout:
+      sorry: Lo sentimos, el historial de la relación con id %{id} tardó demasiado
+        en obtenerse.
   changeset_comments:
     feeds:
       comment:
@@ -1743,17 +1762,21 @@ es:
       befriend_them: También puedes añadirlo como amigo en %{befriendurl}.
       befriend_them_html: También puedes añadirlo como amigo en %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Parece que tu archivo GPX %{trace_name} con la descripción
-        %{trace_description} y las etiquetas siguientes: %{tags}'
-      description_with_tags_html: 'Parece que tu archivo GPX %{trace_name} con la
-        descripción %{trace_description} y las etiquetas siguientes: %{tags}'
-      description_with_no_tags: Parece que tu archivo GPX %{trace_name} con la descripción
+      description_with_tags: 'Parece que tu archivo %{trace_name} con la descripción
+        %{trace_description} y las siguientes etiquetas: %{tags}'
+      description_with_tags_html: 'Parece que tu archivo %{trace_name} con la descripción
+        %{trace_description} y las siguientes etiquetas: %{tags}'
+      description_with_no_tags: Parece que tu archivo %{trace_name} con la descripción
         %{trace_description} y sin etiquetas
       description_with_no_tags_html: Parece que tu archivo GPX %{trace_name} con la
         descripción %{trace_description} y sin etiquetas
     gpx_failure:
       hi: Hola %{to_user},
-      failed_to_import: 'no ha podido ser importado. El mensaje de error es:'
+      failed_to_import: 'falló en la importación como un archivo de traza GPS. Verifica
+        si tu archivo es un archivo GPX válido o un contenedor de archivo(s) GPX en
+        el formato soportado (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz. , .gpx .bz2).
+        ¿Podría haber un problema de formato o sintaxis con tu archivo? Aquí está
+        el error de importación:'
       more_info: Más información sobre fallas de importación de GPX y cómo evitarlas
         se puede encontrar en %{url}.
       more_info_html: Más información sobre los errores de importación de GPX y y
