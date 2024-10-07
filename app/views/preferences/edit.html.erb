@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "preferences" %>
+<% end %>
+
 <% content_for :heading do %>
   <h1><%= t ".title" %></h1>
 <% end %>
@@ -6,6 +10,19 @@
   <%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{Settings.default_editor}.name")), "default"]] + Editors::AVAILABLE_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %>
 
   <%= f.text_field :languages %>
+
+  <div class="row mb-3" id="available_languages_menu" hidden>
+    <div class="col-sm-auto align-self-end">
+      <label class="form-label" for="available_languages"><%= t ".available_languages" %></label>
+    </div>
+    <div class="col-sm mb-sm-0 mb-2">
+      <%= tag.select options_from_collection_for_select(Language.order(:english_name), :code, :name), :id => "available_languages", :class => "form-select" %>
+    </div>
+    <div class="col-sm-auto">
+      <button type="button" class="btn btn-outline-primary" id="add_preferred_language"><%= t ".add" %></button>
+      <button type="button" class="btn btn-outline-primary" id="remove_preferred_language"><%= t ".remove" %></button>
+    </div>
+  </div>
 
   <%= f.primary t(".save") %>
   <%= link_to t(".cancel"), preferences_path, :class => "btn btn-link" %>
