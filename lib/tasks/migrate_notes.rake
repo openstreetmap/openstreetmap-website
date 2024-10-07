@@ -10,7 +10,7 @@ namespace :db do
     scope.find_in_batches do |batch|
       puts "Processing batch of #{batch.size} records."
       batch.each do |record|
-        migration = Note::MigrateOpenedComment.new(record)
+        migration = Note::MigrateFirstComment.new(record)
         (putc "x" && next) if migration.skip?
 
         if migration.call

@@ -1,5 +1,5 @@
 class Note < ApplicationRecord
-  class MigrateOpenedComment
+  class MigrateFirstComment
     def initialize(note)
       @note = note
     end
