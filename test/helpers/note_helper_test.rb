@@ -21,4 +21,16 @@ class NoteHelperTest < ActionView::TestCase
     assert_equal "<a href=\"/user/#{ERB::Util.u(user.display_name)}\">#{user.display_name}</a>", note_author(user)
     assert_equal "<a href=\"http://test.host/user/#{ERB::Util.u(user.display_name)}\">#{user.display_name}</a>", note_author(user, :only_path => false)
   end
+
+  def test_note_body_if_author_is_deleted
+    note = create(:note, :author => nil)
+
+    assert_equal "Deleted", note_body(note)
+  end
+
+  def test_note_body_author_is_present
+    note = create(:note)
+
+    assert_equal note.body.to_html, note_body(note)
+  end
 end

@@ -119,13 +119,6 @@ class Note < ApplicationRecord
     @api_comments ||= build_api_comments
   end
 
-  # FIXME: notes_refactoring remove once the note open comments have been destroyed
-  def first_comment_migrated?
-    return false unless comments.first
-
-    comments.first.body.to_s == body.to_s
-  end
-
   private
 
   # NB: For API backwards compatibility a synthetic `open`-comment is prepended.

@@ -37,6 +37,6 @@ class NoteMigrateFirstCommentTest < ActiveSupport::TestCase
     assert Note::MigrateFirstComment.new(note).call
 
     n = Note.find(note.id) # ensure association cache is avoided
-    assert_equal 2, n.comments.length
+    assert_equal 1, n.comments.length
   end
 end

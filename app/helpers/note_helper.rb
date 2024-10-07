@@ -22,8 +22,8 @@ module NoteHelper
     end
   end
 
-  def note_body(body, author)
-    return body.to_html unless author&.deleted?
+  def note_body(note)
+    return note.body.to_html if note.author.present? && !note.author.deleted?
 
     t("notes.show.note_body_for_deleted_user")
   end

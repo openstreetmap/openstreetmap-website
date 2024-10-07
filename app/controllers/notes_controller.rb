@@ -40,8 +40,6 @@ class NotesController < ApplicationController
       @note_comments = @note.comments
     end
 
-    # FIXME: notes_refactoring remove once the note open comments have been destroyed
-    @note_comments = @note_comments.drop(1) if @note.first_comment_migrated?
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found
   end
