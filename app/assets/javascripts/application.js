@@ -16,6 +16,7 @@
 //= require matomo
 //= require richtext
 //= require qs/dist/qs
+//= require language_selector
 
 /*
  * Called as the user scrolls/zooms around to manipulate hrefs of the
