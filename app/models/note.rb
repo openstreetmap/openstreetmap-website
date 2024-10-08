@@ -35,6 +35,54 @@ class Note < ApplicationRecord
   scope :visible, -> { where.not(:status => "hidden") }
   scope :invisible, -> { where(:status => "hidden") }
 
+  scope :filter_hidden_notes, lambda { |user|
+    if user&.moderator?
+      all
+    else
+      visible
+    end
+  }
+
+  scope :filter_by_status, lambda { |status|
+    case status
+    when "open"
+      where(:status => "open")
+    when "closed"
+      where(:status => "closed")
+    else
+      all
+    end
+  }
+
+  scope :filter_by_note_type, lambda { |note_type, user_id|
+    case note_type
+    when "commented"
+      joins(:comments)
+        .where("notes.id IN (SELECT note_id FROM note_comments WHERE author_id != ?)", user_id)
+        .distinct
+    when "submitted"
+      joins(:comments)
+        .where(:note_comments => { :author_id => user_id })
+        .where("note_comments.id = (SELECT MIN(id) FROM note_comments WHERE note_comments.note_id = notes.id)")
+        .distinct
+    else
+      all
+    end
+  }
+
+  scope :filter_by_date_range, lambda { |from, to|
+    notes = all
+    notes = notes.where(:notes => { :created_at => DateTime.parse(from).. }) if from.present?
+    notes = notes.where(:notes => { :created_at => ..DateTime.parse(to) }) if to.present?
+    notes
+  }
+
+  scope :sort_by_params, lambda { |sort_by, sort_order|
+    sort_by ||= "updated_at"
+    sort_order ||= "desc"
+    order("#{sort_by} #{sort_order}")
+  }
+
   after_initialize :set_defaults
 
   DEFAULT_FRESHLY_CLOSED_LIMIT = 7.days
