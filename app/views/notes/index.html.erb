@@ -1,3 +1,4 @@
+<% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
   <h1><%= t ".heading", :user => @user.display_name %></h1>
   <p><%= t ".subheading_html",
@@ -8,8 +9,37 @@
 
 <% if @notes.empty? %>
   <h4><%= t ".no_notes" %></h4>
-
 <% else %>
+  <%= form_tag(url_for("controller" => "notes", "action" => "index"), "method" => :get, "data" => { "turbo" => true, "turbo-frame" => "pagination", "turbo-action" => "advance" }) do %>
+    <div class="row gx-2">
+      <div class="col-md-auto mb-3">
+        <%= label_tag :status, t(".status") %>
+        <%= select_tag  :status,
+                        options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"]], params[:status]),
+                        :include_blank => t(".select_status"),
+                        :class => "form-select" %>
+      </div>
+      <div class="col-md-auto mb-3">
+        <%= label_tag :note_type, t(".note_type") %>
+        <%= select_tag  :note_type,
+                        options_for_select([[t(".all_types"), ""], [t(".submitted"), "submitted"], [t(".commented"), "commented"]], params[:note_type]),
+                        :include_blank => t(".select_note_type"),
+                        :class => "form-select" %>
+    </div>
+      <div class="col-md-auto mb-3">
+        <%= label_tag :from, t(".from") %>
+        <%= date_field_tag :from, params[:from], :placeholder => t(".from"), :class => "form-control", :autocomplete => "off" %>
+      </div>
+      <div class="col-md-auto mb-3">
+        <%= label_tag :to, t(".to") %>
+        <%= date_field_tag :to, params[:to], :placeholder => t(".to"), :class => "form-control", :autocomplete => "off" %>
+      </div>
+      <div class="col-md-auto mb-3 mt-auto">
+        <%= submit_tag t(".filter"), :class => "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+
   <%= render :partial => "notes_paging_nav" %>
 
   <table class="table table-sm note_list">
