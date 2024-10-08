@@ -13,18 +13,25 @@ class NotesController < ApplicationController
   before_action :set_locale
   around_action :web_timeout
 
-  ##
-  # Display a list of notes by a specified user
+  ### Display a list of notes by a specified user
   def index
     param! :page, Integer, :min => 1
 
-    @params = params.permit(:display_name)
-    @title = t ".title", :user => @user.display_name
+    @params = params.permit(:display_name, :from, :to, :status, :sort_by, :sort_order, :note_type)
+    @title = t(".title", :user => @user.display_name)
     @page = (params[:page] || 1).to_i
     @page_size = 10
+
     @notes = @user.notes
-    @notes = @notes.visible unless current_user&.moderator?
-    @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)
+                  .filter_hidden_notes(current_user)
+                  .filter_by_status(params[:status])
+                  .filter_by_note_type(params[:note_type], @user.id)
+                  .filter_by_date_range(params[:from], params[:to])
+                  .sort_by_params(params[:sort_by], params[:sort_order])
+                  .distinct
+                  .offset((@page - 1) * @page_size)
+                  .limit(@page_size)
+                  .preload(:comments => :author)
 
     render :layout => "site"
   end
