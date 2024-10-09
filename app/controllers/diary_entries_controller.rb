@@ -61,7 +61,7 @@ class DiaryEntriesController < ApplicationController
 
     @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, :includes => [:user, :language])
 
-    render :partial => "page" if turbo_frame_request_id == "pagination"
+    render "_page", :layout => "turbo_frame_visit" if turbo_frame_request_id == "pagination"
   end
 
   def show
