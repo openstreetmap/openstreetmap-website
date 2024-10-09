@@ -304,7 +304,7 @@ class ApplicationController < ActionController::Base
     elsif current_user
       set_locale
       respond_to do |format|
-        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
+        format.html { deny_html_access_for_current_user }
         format.any { report_error t("application.permission_denied"), :forbidden }
       end
     elsif request.get?
@@ -315,6 +315,11 @@ class ApplicationController < ActionController::Base
     else
       head :forbidden
     end
+  end
+
+  # override to show a custom 'access denied' page to a logged in user
+  def deny_html_access_for_current_user
+    redirect_to :controller => "/errors", :action => "forbidden"
   end
 
   def invalid_parameter(_exception)
