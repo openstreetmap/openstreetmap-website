@@ -74,4 +74,24 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     assert_link "Diary Entries in Portuguese", :href => "/diary/pt"
     assert_no_link "Diary Entries in Russian"
   end
+
+  test "should be truncated on the list page" do
+    body = SecureRandom.alphanumeric(1001)
+    create(:diary_entry, :body => body)
+
+    visit diary_entries_path
+
+    assert_content body.truncate(1000)
+    assert_no_content body
+  end
+
+  test "should not be truncated on the show page" do
+    body = SecureRandom.alphanumeric(1001)
+    diary_entry = create(:diary_entry, :body => body)
+
+    visit diary_entry_path(diary_entry.user, diary_entry)
+
+    assert_no_content body.truncate(1000)
+    assert_content body
+  end
 end
