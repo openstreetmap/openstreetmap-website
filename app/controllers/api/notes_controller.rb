@@ -83,18 +83,13 @@ module Api
       lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
       comment = params[:text]
 
-      # Include in a transaction to ensure that there is always a note_comment for every note
-      Note.transaction do
-        # Create the note
-        @note = Note.create(:lat => lat, :lon => lon)
-        raise OSM::APIBadUserInput, "The note is outside this world" unless @note.in_world?
+      # Create the note
+      attributes = { :lat => lat, :lon => lon, :body => comment }.merge(author_attributes)
+      @note = Note.create(attributes)
+      raise OSM::APIBadUserInput, "The note is outside this world" unless @note.in_world?
 
-        # Save the note
-        @note.save!
-
-        # Add a comment to the note
-        add_comment(@note, comment, "opened")
-      end
+      # Save the note
+      @note.save!
 
       # Return a copy of the new note
       respond_to do |format|
@@ -229,10 +224,15 @@ module Api
       notes = closed_condition(Note.all)
       notes = bbox_condition(notes)
 
-      # Find the comments we want to return
-      @comments = NoteComment.where(:note => notes)
-                             .order(:created_at => :desc).limit(result_limit)
-                             .preload(:author, :note => { :comments => :author })
+      # Find the notes and comments we want to return
+      notes = notes.left_joins(:comments)
+                   .order(:created_at => :desc, :note_comments => :desc).limit(result_limit)
+                   .preload(:author, :comments => :author)
+
+      # FIXME: notes_refactoring
+      # Notes#comments is not a Active Record Collection Proxy anymore but a plain Array
+      # so we need to operate differently until the workaround in Note#comments is removed.
+      @comments = notes.flat_map(&:api_comments).take(result_limit)
 
       # Render the result
       respond_to do |format|
@@ -259,11 +259,15 @@ module Api
           raise OSM::APIBadUserInput, "User #{params[:user]} not known" unless @user
         end
 
-        @notes = @notes.joins(:comments).where(:note_comments => { :author_id => @user })
+        @notes = @notes.left_joins(:comments).where(:note_comments => { :author_id => @user })
+                       .or(@notes.where(:author_id => @user))
       end
 
       # Add any text filter
-      @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) if params[:q]
+      if params[:q]
+        @notes = @notes.left_joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
+                       .or(@notes.where("to_tsvector('english', notes.body) @@ plainto_tsquery('english', ?)", params[:q]))
+      end
 
       # Add any date filter
       if params[:from]
@@ -382,8 +386,15 @@ module Api
     ##
     # Add a comment to a note
     def add_comment(note, text, event, notify: true)
-      attributes = { :visible => true, :event => event, :body => text }
+      attributes = { :note => note, :visible => true, :event => event, :body => text }.merge(author_attributes)
+      comment = NoteComment.create!(attributes)
 
+      ([note.author] + note.comments.map(&:author)).uniq.each do |user|
+        UserMailer.note_comment_notification(comment, user).deliver_later if notify && user && user != current_user && user.visible?
+      end
+    end
+
+    def author_attributes
       if doorkeeper_token
         author = current_user if scope_enabled?(:write_notes)
       else
@@ -391,15 +402,9 @@ module Api
       end
 
       if author
-        attributes[:author_id] = author.id
+        { :author => current_user }
       else
-        attributes[:author_ip] = request.remote_ip
-      end
-
-      comment = note.comments.create!(attributes)
-
-      note.comments.map(&:author).uniq.each do |user|
-        UserMailer.note_comment_notification(comment, user).deliver_later if notify && user && user != current_user && user.visible?
+        { :author_ip => request.remote_ip }
       end
     end
   end
