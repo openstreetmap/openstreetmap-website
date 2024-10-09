@@ -21,7 +21,6 @@ class NotesController < ApplicationController
     @title = t(".title", :user => @user.display_name)
     @page = (params[:page] || 1).to_i
     @page_size = 10
-
     @notes = @user.notes
                   .filter_hidden_notes(current_user)
                   .filter_by_status(params[:status])
