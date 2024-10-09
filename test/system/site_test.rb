@@ -93,4 +93,16 @@ class SiteTest < ApplicationSystemTestCase
     li.hover
     assert_selector ".tooltip", :text => "Zoom in"
   end
+
+  test "language selector should exist when logged out" do
+    visit "/"
+    assert_selector ".language-change-trigger", :visible => "all"
+  end
+
+  test "language selector should not exist when logged in" do
+    sign_in_as(create(:user))
+
+    visit "/"
+    assert_no_selector ".language-change-trigger", :visible => "all"
+  end
 end
