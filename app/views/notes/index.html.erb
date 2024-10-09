@@ -15,15 +15,13 @@
       <div class="col-md-auto mb-3">
         <%= label_tag :status, t(".status") %>
         <%= select_tag  :status,
-                        options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"]], params[:status]),
-                        :include_blank => t(".select_status"),
+                        options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"]], params[:status] || "all"),
                         :class => "form-select" %>
       </div>
       <div class="col-md-auto mb-3">
-        <%= label_tag :note_type, t(".note_type") %>
+        <%= label_tag :note_type, t(".interaction_type") %>
         <%= select_tag  :note_type,
-                        options_for_select([[t(".all_types"), ""], [t(".submitted"), "submitted"], [t(".commented"), "commented"]], params[:note_type]),
-                        :include_blank => t(".select_note_type"),
+                        options_for_select([[t(".all"), ""], [t(".submitted"), "submitted"], [t(".commented"), "commented"]], params[:note_type] || "all"),
                         :class => "form-select" %>
     </div>
       <div class="col-md-auto mb-3">

@@ -58,12 +58,12 @@ class Note < ApplicationRecord
     case note_type
     when "commented"
       joins(:comments)
-        .where("notes.id IN (SELECT note_id FROM note_comments WHERE author_id != ?)", user_id)
+        .where("notes.id IN (SELECT note_id FROM note_comments WHERE author_id != ? OR author_id IS NULL)", user_id)
         .distinct
     when "submitted"
       joins(:comments)
         .where(:note_comments => { :author_id => user_id })
-        .where("note_comments.id = (SELECT MIN(id) FROM note_comments WHERE note_comments.note_id = notes.id)")
+        .where("note_comments.id = (SELECT MIN(nc.id) FROM note_comments nc WHERE nc.note_id = notes.id)")
         .distinct
     else
       all
@@ -72,8 +72,8 @@ class Note < ApplicationRecord
 
   scope :filter_by_date_range, lambda { |from, to|
     notes = all
-    notes = notes.where(:notes => { :created_at => DateTime.parse(from).. }) if from.present?
-    notes = notes.where(:notes => { :created_at => ..DateTime.parse(to) }) if to.present?
+    notes = notes.where(:created_at => DateTime.parse(from).beginning_of_day..) if from.present?
+    notes = notes.where(:created_at => ..DateTime.parse(to).end_of_day) if to.present?
     notes
   }
 

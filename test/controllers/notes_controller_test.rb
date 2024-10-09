@@ -45,6 +45,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".content-heading a[href='#{user_path first_user}']", :text => first_user.display_name
     assert_select "table.note_list tbody tr", :count => 1
 
+    # Check for a regular user (second user)
     get user_notes_path(second_user)
     assert_response :success
     assert_select ".content-heading a[href='#{user_path second_user}']", :text => second_user.display_name
@@ -54,10 +55,6 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
 
     session_for(moderator_user)
-
-    get user_notes_path(first_user)
-    assert_response :success
-    assert_select "table.note_list tbody tr", :count => 1
 
     get user_notes_path(second_user)
     assert_response :success
@@ -183,5 +180,128 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "notes/new"
     assert_select "#sidebar_content a[href='#{login_path(:referer => new_note_path)}']", :count => 0
+  end
+
+  def test_index_filter_by_status
+    user = create(:user)
+
+    open_note = create(:note, :status => "open")
+    create(:note_comment, :note => open_note, :author => user)
+
+    closed_note = create(:note, :status => "closed")
+    create(:note_comment, :note => closed_note, :author => user)
+
+    get user_notes_path(user), :params => { :status => "open" }
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 1
+
+    get user_notes_path(user), :params => { :status => "closed" }
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 1
+  end
+
+  def test_index_filter_by_note_type
+    user = create(:user)
+    other_user = create(:user)
+    anonymous_user = nil
+
+    submitted_note = create(:note)
+    create(:note_comment, :note => submitted_note, :author => user)
+
+    commented_note = create(:note)
+    create(:note_comment, :note => commented_note, :author => other_user)
+    create(:note_comment, :note => commented_note, :author => user)
+
+    anonymous_commented_note = create(:note)
+    create(:note_comment, :note => anonymous_commented_note, :author => anonymous_user)
+    create(:note_comment, :note => anonymous_commented_note, :author => user)
+
+    get user_notes_path(user), :params => { :note_type => "submitted" }
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 1
+    assert_select "table.note_list tbody tr", :text => /#{submitted_note.id}/
+
+    get user_notes_path(user), :params => { :note_type => "commented" }
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 2
+    assert_select "table.note_list tbody tr", :text => /#{commented_note.id}/
+    assert_select "table.note_list tbody tr", :text => /#{anonymous_commented_note.id}/
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 3
+    assert_select "table.note_list tbody tr", :text => /#{submitted_note.id}/
+    assert_select "table.note_list tbody tr", :text => /#{commented_note.id}/
+    assert_select "table.note_list tbody tr", :text => /#{anonymous_commented_note.id}/
+  end
+
+  def test_index_filter_by_date_range
+    user = create(:user)
+
+    old_note = create(:note, :created_at => 1.year.ago)
+    create(:note_comment, :note => old_note, :author => user)
+
+    recent_note = create(:note, :created_at => 1.day.ago)
+    create(:note_comment, :note => recent_note, :author => user)
+
+    middle_note = create(:note, :created_at => 6.months.ago)
+    create(:note_comment, :note => middle_note, :author => user)
+
+    very_recent_note = create(:note, :created_at => 2.hours.ago)
+    create(:note_comment, :note => very_recent_note, :author => user)
+
+    # Filter for notes created between 1 year ago + 1 day and 1 month ago (should only include middle_note)
+    get user_notes_path(user), :params => { :from => (1.year.ago + 1.day).to_date, :to => 1.month.ago.end_of_month.to_date }
+    assert_response :success
+    assert_select "table.note_list tbody tr", :count => 1
+    assert_select "table.note_list tbody tr", :text => /#{middle_note.id}/
+  end
+
+  def test_index_sort_by_params
+    user = create(:user)
+
+    older_note = create(:note)
+    create(:note_comment, :note => older_note, :author => user)
+    older_note.updated_at = 2.days.ago
+    older_note.created_at = 5.days.ago
+    older_note.save!
+
+    newer_note = create(:note)
+    create(:note_comment, :note => newer_note, :author => user)
+    newer_note.updated_at = 13.minutes.ago
+    newer_note.created_at = 3.days.ago
+    newer_note.save!
+
+    middle_note = create(:note)
+    create(:note_comment, :note => middle_note, :author => user)
+    middle_note.updated_at = 1.day.ago
+    middle_note.created_at = 4.days.ago
+    middle_note.save!
+
+    very_recent_note = create(:note)
+    create(:note_comment, :note => very_recent_note, :author => user)
+    very_recent_note.updated_at = 5.minutes.ago
+    very_recent_note.created_at = 1.day.ago
+    very_recent_note.save!
+
+    get user_notes_path(user), :params => { :sort_by => "updated_at", :sort_order => "asc" }
+    assert_response :success
+    assert_select "table.note_list tbody tr:first-child td:nth-child(6) time", :text => /2 days ago/
+    assert_select "table.note_list tbody tr:last-child td:nth-child(6) time", :text => /5 minutes ago/
+
+    get user_notes_path(user), :params => { :sort_by => "updated_at", :sort_order => "desc" }
+    assert_response :success
+    assert_select "table.note_list tbody tr:first-child td:nth-child(6) time", :text => /5 minutes ago/
+    assert_select "table.note_list tbody tr:last-child td:nth-child(6) time", :text => /2 days ago/
+
+    get user_notes_path(user), :params => { :sort_by => "created_at", :sort_order => "asc" }
+    assert_response :success
+    assert_select "table.note_list tbody tr:first-child td:nth-child(5) time", :text => /5 days ago/
+    assert_select "table.note_list tbody tr:last-child td:nth-child(5) time", :text => /1 day ago/
+    # created at
+    get user_notes_path(user), :params => { :sort_by => "created_at", :sort_order => "desc" }
+    assert_response :success
+    assert_select "table.note_list tbody tr:first-child td:nth-child(5) time", :text => /1 day ago/
+    assert_select "table.note_list tbody tr:last-child td:nth-child(5) time", :text => /5 days ago/
   end
 end
