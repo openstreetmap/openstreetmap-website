@@ -204,6 +204,7 @@ module Api
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)
       auth_header = bearer_authorization_header user
+
       assert_difference "NoteComment.count", 1 do
         assert_no_difference "ActionMailer::Base.deliveries.size" do
           perform_enqueued_jobs do
@@ -233,8 +234,11 @@ module Api
       assert_equal "commented", js["properties"]["comments"].last["action"]
       assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
+    end
 
-      # Ensure that emails are sent to users
+    ##
+    # Ensure that emails are sent to users when a note is commented
+    def test_comment_success_notifications
       first_user = create(:user)
       second_user = create(:user)
       third_user = create(:user)
@@ -340,10 +344,6 @@ module Api
     def test_close_success
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)
-
-      post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json")
-      assert_response :unauthorized
-
       auth_header = bearer_authorization_header user
 
       post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json"), :headers => auth_header
@@ -371,8 +371,68 @@ module Api
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
     end
 
+    ##
+    # Ensure that emails are sent to users when a note is closed
+    def test_close_success_notifications
+      first_user = create(:user)
+      second_user = create(:user)
+      third_user = create(:user)
+
+      note_with_comments_by_users = create(:note) do |note|
+        create(:note_comment, :note => note, :author => first_user)
+        create(:note_comment, :note => note, :author => second_user)
+      end
+
+      auth_header = bearer_authorization_header third_user
+
+      assert_difference "NoteComment.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 2 do
+          perform_enqueued_jobs do
+            post close_api_note_path(note_with_comments_by_users, :text => "This is a close comment", :format => "json"), :headers => auth_header
+          end
+        end
+      end
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "Feature", js["type"]
+      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal "closed", js["properties"]["status"]
+      assert_equal 3, js["properties"]["comments"].count
+      assert_equal "closed", js["properties"]["comments"].last["action"]
+      assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
+      assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
+
+      email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
+      assert_not_nil email
+      assert_equal 1, email.to.length
+      assert_equal "[OpenStreetMap] #{third_user.display_name} has resolved one of your notes", email.subject
+      assert_equal first_user.email, email.to.first
+
+      email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
+      assert_not_nil email
+      assert_equal 1, email.to.length
+      assert_equal "[OpenStreetMap] #{third_user.display_name} has resolved a note you are interested in", email.subject
+
+      get api_note_path(note_with_comments_by_users, :format => "json")
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "Feature", js["type"]
+      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal "closed", js["properties"]["status"]
+      assert_equal 3, js["properties"]["comments"].count
+      assert_equal "closed", js["properties"]["comments"].last["action"]
+      assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
+      assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
+
+      ActionMailer::Base.deliveries.clear
+    end
+
     def test_close_fail
-      post close_api_note_path(12345)
+      open_note_with_comment = create(:note_with_comments)
+
+      post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json")
       assert_response :unauthorized
 
       auth_header = bearer_authorization_header
@@ -394,10 +454,6 @@ module Api
     def test_reopen_success
       closed_note_with_comment = create(:note_with_comments, :closed)
       user = create(:user)
-
-      post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
-      assert_response :unauthorized
-
       auth_header = bearer_authorization_header user
 
       post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
@@ -425,7 +481,70 @@ module Api
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
     end
 
+    ##
+    # Ensure that emails are sent to users when a note is reopened
+    def test_reopen_success_notifications
+      first_user = create(:user)
+      second_user = create(:user)
+      third_user = create(:user)
+
+      note_with_comments_by_users = create(:note, :status => "closed", :closed_at => Time.now.utc) do |note|
+        create(:note_comment, :note => note, :author => first_user)
+        create(:note_comment, :note => note, :author => second_user, :event => "closed")
+      end
+
+      auth_header = bearer_authorization_header third_user
+
+      assert_difference "NoteComment.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 2 do
+          perform_enqueued_jobs do
+            post reopen_api_note_path(note_with_comments_by_users, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
+          end
+        end
+      end
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "Feature", js["type"]
+      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal "open", js["properties"]["status"]
+      assert_equal 3, js["properties"]["comments"].count
+      assert_equal "reopened", js["properties"]["comments"].last["action"]
+      assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
+      assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
+
+      email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
+      assert_not_nil email
+      assert_equal 1, email.to.length
+      assert_equal "[OpenStreetMap] #{third_user.display_name} has reactivated one of your notes", email.subject
+      assert_equal first_user.email, email.to.first
+
+      email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
+      assert_not_nil email
+      assert_equal 1, email.to.length
+      assert_equal "[OpenStreetMap] #{third_user.display_name} has reactivated a note you are interested in", email.subject
+
+      get api_note_path(note_with_comments_by_users, :format => "json")
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "Feature", js["type"]
+      assert_equal note_with_comments_by_users.id, js["properties"]["id"]
+      assert_equal "open", js["properties"]["status"]
+      assert_equal 3, js["properties"]["comments"].count
+      assert_equal "reopened", js["properties"]["comments"].last["action"]
+      assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
+      assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
+
+      ActionMailer::Base.deliveries.clear
+    end
+
     def test_reopen_fail
+      closed_note_with_comment = create(:note_with_comments, :closed)
+
+      post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json")
+      assert_response :unauthorized
+
       hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
       post reopen_api_note_path(hidden_note_with_comment)
