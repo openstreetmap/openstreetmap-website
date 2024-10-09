@@ -70,18 +70,6 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
-  def type_and_paginated_count(type, pages, selected_page = pages.current_page)
-    if pages.page_count == 1
-      t ".#{type.pluralize}",
-        :count => pages.item_count
-    else
-      t ".#{type.pluralize}_paginated",
-        :x => selected_page.first_item,
-        :y => selected_page.last_item,
-        :count => pages.item_count
-    end
-  end
-
   def sidebar_classic_pagination(pages, page_param)
     max_width_for_default_padding = 35
 
