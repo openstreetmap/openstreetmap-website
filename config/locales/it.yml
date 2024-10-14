@@ -54,6 +54,7 @@
 # Author: Ricordisamoa
 # Author: Rippitippi
 # Author: Ruila
+# Author: Ruthven
 # Author: Selven
 # Author: Shirayuki
 # Author: Simone
@@ -491,12 +492,26 @@ it:
     timeout:
       sorry: Spiacenti, il recupero della cronologia del nodo con ID %{id} ha richiesto
         troppo tempo.
+  ways:
+    timeout:
+      sorry: Siamo spiacenti, il recupero dei dati con ID %{id} ha richiesto troppo
+        tempo.
   old_ways:
     not_found:
       sorry: 'Impossibile trovare il percorso #%{id} alla versione %{version}.'
+    timeout:
+      sorry: Spiacenti, il recupero della cronologia del percorso con l'ID %{id} ha
+        richiesto troppo tempo.
+  relations:
+    timeout:
+      sorry: Spiacenti, il recupero dei dati per la relazione con l'ID %{id} ha richiesto
+        troppo tempo.
   old_relations:
     not_found:
       sorry: 'Impossibile trovare la relazione #%{id} alla versione %{version}.'
+    timeout:
+      sorry: Spiacenti, il recupero della cronologia della relazione con l'ID %{id}
+        ha richiesto troppo tempo.
   changeset_comments:
     feeds:
       comment:
@@ -2169,7 +2184,7 @@ it:
           cartografiche nazionali o di altra fonte, tra cui:'
         contributors_at_credit_html: |-
           %{austria}: Contiene dati da %{stadt_wien_link} (rilasciati con licenza %{cc_by_link}), %{land_vorarlberg_link}
-          e Land del Tirolo (rilasciati con licenza %{cc_by_at_with_amendments_link}).
+          e Land del Tirolo (pubblicati con licenza %{cc_by_at_with_amendments_link}).
         contributors_at_austria: Austria
         contributors_at_stadt_wien: Città di Vienna
         contributors_at_cc_by: CC BY
@@ -2289,7 +2304,7 @@ it:
       title: Esporta
       manually_select: Seleziona manualmente un'area differente
       licence: Licenza
-      licence_details_html: I dati OpenStreetMap sono rilasciati con licenza %{odbl_link}
+      licence_details_html: I dati OpenStreetMap sono pubblicati con licenza %{odbl_link}
         (ODbL).
       odbl: Licenza della base di dati aperti Open Data Commons (ODbL)
       too_large:
@@ -2982,6 +2997,7 @@ it:
       heading_html: Modifica del blocco su %{name}
       period: Quanto a lungo, a partire da adesso, l'accesso alle API sarà bloccato
         per l'utente.
+      revoke: Revoca blocco
     filter:
       block_period: Il periodo di blocco deve essere uno dei valori selezionabili
         nella lista a tendina.
@@ -2989,6 +3005,8 @@ it:
       flash: È stato imposto un blocco sull'utente %{name}.
     update:
       only_creator_can_edit: Solo il moderatore che ha creato questo blocco può modificarlo.
+      only_creator_can_edit_without_revoking: Solo il moderatore che ha creato questo
+        blocco può modificarlo senza revocarlo.
       only_creator_or_revoker_can_edit: Solo i moderatori che hanno creato o revocato
         questo blocco possono modificarlo.
       inactive_block_cannot_be_reactivated: Questo blocco è inattivo e non può essere
@@ -3064,6 +3082,7 @@ it:
       blocks_by_me: Blocchi applicati da me
       blocks_by_user: Blocchi imposti da %{user}
       block: 'Blocco #%{id}'
+      new_block: Nuovo blocco
   user_mutes:
     index:
       title: Utenti silenziati

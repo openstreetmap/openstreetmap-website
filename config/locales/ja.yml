@@ -41,6 +41,7 @@
 # Author: Oinary
 # Author: Omotecho
 # Author: Otokoume
+# Author: PoCoSoFo
 # Author: RYOUMA1117
 # Author: Ruila
 # Author: Rxy
@@ -182,7 +183,7 @@ ja:
         longitude: 経度
         public: 公開
         description: 説明
-        gpx_file: ' GPX ファイルをアップロード'
+        gpx_file: GPSトレースファイルを選択
         visibility: 可視性
         tagstring: タグ
       message:
@@ -438,15 +439,30 @@ ja:
       introduction: 地図上をクリックすると、近くの地物を探します。
       nearby: 近くの地物
       enclosing: 付近の地物
+  nodes:
+    timeout:
+      sorry: 申し訳ありませんが、ノードのデータ（id %{id}）は、時間がかかりすぎたため取得できませんでした。
   old_nodes:
     not_found:
       sorry: 'ノード #%{id} のバージョン %{version} が見つかりませんでした。'
+    timeout:
+      sorry: 申し訳ありませんが、ID %{id} の履歴データは時間がかかりすぎたため取得できませんでした。
+  ways:
+    timeout:
+      sorry: 申し訳ありませんが、ウェイのデータ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   old_ways:
     not_found:
       sorry: 'ウェイ #%{id} のバージョン %{version} が見つかりませんでした。'
+    timeout:
+      sorry: 申し訳ありませんが、ウェイの履歴データ（id %{id}）は時間がかかりすぎたため取得できませんでした。
+  relations:
+    timeout:
+      sorry: 申し訳ありませんが、リレーションのデータ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   old_relations:
     not_found:
       sorry: 'リレーション #%{id} のバージョン %{version} が見つかりませんでした。'
+    timeout:
+      sorry: 申し訳ありませんが、リレーションの履歴データ（id %{id}）は時間がかかりすぎたため取得できませんでした。
   changeset_comments:
     feeds:
       comment:
@@ -1628,7 +1644,8 @@ ja:
       description_with_no_tags_html: その GPX ファイル%{trace_name}の解説は%{trace_description}ですが、タグがないようです
     gpx_failure:
       hi: こんにちは、%{to_user} さん。
-      failed_to_import: 'インポートに失敗しました。エラーはこちらです:'
+      failed_to_import: 'GPS トレース ファイルとしてインポートできませんでした。ファイルが有効な GPXファイル、または、GPX ファイルを含む圧縮ファイル（対応形式は.tar.gz,
+        .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2）であることを確認してください。ファイルの形式または構造に問題がある可能性があります。エラー内容は次の通りです:'
       more_info: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       subject: '[OpenStreetMap] GPX インポートに失敗'
@@ -1898,8 +1915,15 @@ ja:
       traces:
         older: 以前のトレース
         newer: 以降のトレース
+      user_blocks:
+        older: 前のブロック
+        newer: 次のブロック
+      users:
+        older: 前のユーザー
+        newer: 次のユーザー
   site:
     about:
+      heading_html: '%{copyright}OpenStreetMap %{br} 貢献者'
       used_by_html: '%{name} は数千ものウェブサイト、モバイル アプリ、ハードウェア機器に地図データを提供しています'
       lede_text: OpenStreetMapは、道路、通路、カフェ、鉄道駅など、世界中にあるすべてのものに関するデータを提供・メンテナンスしているマッパーのコミュニティによって構築されています。
       local_knowledge_title: 地元の情報
@@ -1985,7 +2009,17 @@ ja:
         contributors_at_land_vorarlberg: Land Vorarlberg
         contributors_at_cc_by_at_with_amendments: CC BY AT with amendments
         contributors_au_australia: オーストラリア
+        contributors_au_geoscape_australia: ジオスケープ・オーストラリア
+        contributors_au_cc_licence: クリエイティブ・コモンズ・ライセンス 表示 4.0 国際 (CC BY 4.0)
+        contributors_ca_credit_html: |-
+          %{canada}: GeoBase&reg;、GeoGratis (&copy; Department of Natural
+          Resources Canada)、CanVec (&copy; Department of Natural
+          Resources Canada)、および StatCan (Geography Division,
+          Statistics Canada)のデータが含まれます。
         contributors_ca_canada: カナダ
+        contributors_cz_credit_html: |-
+          %{czechia}: State Administration of Land Surveying
+          and Cadastre（%{cc_licence_link}ライセンス下）のデータが含まれます。
         contributors_cz_czechia: チェコ
         contributors_cz_cc_licence: Creative Commons Attribution 4.0 International
           licence (CC BY 4.0)
@@ -2018,7 +2052,13 @@ ja:
           %{serbia}: Contains data from the %{rgz_link} and %{open_data_portal}
           (public information of Serbia), 2018.
         contributors_rs_serbia: セルビア
+        contributors_rs_rgz: セルビア測地局
+        contributors_rs_open_data_portal: National Open Data Portal
+        contributors_si_credit_html: |-
+          %{slovenia}: %{gu_link}および %{mkgp_link}
+          (public information of Slovenia)のデータが含まれます。
         contributors_si_slovenia: スロベニア
+        contributors_si_mkgp: 農林食品省
         contributors_es_spain: スペイン
         contributors_za_south_africa: 南アフリカ
         contributors_gb_united_kingdom: イギリス

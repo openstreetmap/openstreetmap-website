@@ -8,6 +8,7 @@
 # Author: BraulioBezerra
 # Author: Brunomelnic
 # Author: Cainamarques
+# Author: Cats
 # Author: CorraleH
 # Author: Crazymadlover
 # Author: Cristofer Alves
@@ -32,6 +33,7 @@
 # Author: JasonZe
 # Author: Jgpacker
 # Author: Jgrocha
+# Author: Juliana Reboucas de Oliveira
 # Author: Lc97
 # Author: Leosls
 # Author: Luckas
@@ -181,7 +183,7 @@ pt:
         longitude: Longitude
         public: Público
         description: Descrição
-        gpx_file: Enviar Arquivo GPX
+        gpx_file: Escolha o arquivo de rastreamento do GPS
         visibility: Visibilidade
         tagstring: Etiquetas
       message:
@@ -441,7 +443,8 @@ pt:
         note: Nota
     timeout:
       title: Erro de tempo limite
-      sorry: Desculpe, os dados para %{type} com id %{id} demoraram demais para chegar.
+      sorry: Desculpe, os dados para %{type} com id %{id} demoraram demais para ser
+        obtidos.
       type:
         node: ponto
         way: linha
@@ -477,15 +480,34 @@ pt:
       introduction: Clique no mapa para achar elementos próximos
       nearby: Elementos próximos
       enclosing: Elementos envoltórios
+  nodes:
+    timeout:
+      sorry: Desculpe, os dados para o nó com id %{id} demoraram demais para ser obtidos.
   old_nodes:
     not_found:
       sorry: 'Desculpe, o nó #%{id} versão %{version} não foi encontrado.'
+    timeout:
+      sorry: Desculpe, o histórico do nó com id %{id} demorou demais para ser obtido.
+  ways:
+    timeout:
+      sorry: Desculpe, os dados do caminho com o id %{id} demoraram muito para serem
+        recuperados.
   old_ways:
     not_found:
       sorry: 'Desculpe, não foi possível encontrar o caminho #%{id} versão %{version}.'
+    timeout:
+      sorry: Desculpe, o histórico do caminho com o id %{id} levou muito tempo para
+        ser recuperado.
+  relations:
+    timeout:
+      sorry: Desculpe, os dados do caminho com o id %{id} demoraram muito para serem
+        recuperados.
   old_relations:
     not_found:
       sorry: 'Desculpe, a relação #%{id} versão %{version} não foi encontrada.'
+    timeout:
+      sorry: Desculpe, o histórico do caminho com o id %{id} levou muito tempo para
+        ser recuperado.
   changeset_comments:
     feeds:
       comment:
@@ -1544,6 +1566,7 @@ pt:
     page:
       user_not_found: Usuário não existe
       issues_not_found: Nenhum problema foi encontrado
+      reported_user: Usuário Denunciado
       status: Status
       reports: Denúncias
       last_updated: Última Atualização
@@ -1552,6 +1575,10 @@ pt:
         one: '%{count} denúncia'
         other: '%{count} denúncias'
       reported_item: Elemento denunciado
+      states:
+        ignored: Ignorado
+        open: Abrir
+        resolved: Resolvido
     show:
       title: '%{status} Problema #%{issue_id}'
       reports:
@@ -1694,17 +1721,20 @@ pt:
       befriend_them: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
       befriend_them_html: Você também pode adicioná-lo(a) como amigo em %{befriendurl}.
     gpx_description:
-      description_with_tags: 'Parece com o seu arquivo GPX %{trace_name} com a descrição
+      description_with_tags: 'Parece que o seu arquivo %{trace_name} com a descrição
         %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_tags_html: 'Parece que seu arquivo GPX %{trace_name} com a
-        descrição %{trace_description} e as seguintes etiquetas: %{tags}'
-      description_with_no_tags: Parece com o seu arquivo GPX %{trace_name} com a descrição
+      description_with_tags_html: 'Parece que seu arquivo %{trace_name} com a descrição
+        %{trace_description} e as seguintes etiquetas: %{tags}'
+      description_with_no_tags: Parece com o seu arquivo %{trace_name} com a descrição
         %{trace_description} e sem etiquetas
-      description_with_no_tags_html: Parece que seu arquivo GPX %{trace_name} com
-        a descrição %{trace_description} e sem etiquetas
+      description_with_no_tags_html: Parece que seu arquivo %{trace_name} com a descrição
+        %{trace_description} e sem etiquetas
     gpx_failure:
       hi: Olá %{to_user},
-      failed_to_import: 'falha ao importar. Veja a mensagem de erro:'
+      failed_to_import: 'falha na importação do arquivo de rastreamento de GPS. Por
+        favor, verifique se o formato do arquivo é GPX válido ou outro formato aceito
+        (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Poderia haver um problema
+        de formato ou sintaxe em seu arquivo? Veja detalhes sobre este erro:'
       more_info: Mais informações sobre as falhas de importação de GPX e como evitá-las
         podem ser encontradas em %{url}.
       more_info_html: Mais informações sobre as falhas de importação GPX e como evitá-las
@@ -2022,6 +2052,9 @@ pt:
       diary_entries:
         older: Publicações mais antigas
         newer: Publicações mais novas
+      issues:
+        older: Problemas antigos
+        newer: Problemas recentes
       traces:
         older: Trilhas mais antigas
         newer: Trilhas mais recentes
@@ -2449,6 +2482,9 @@ pt:
           hospital: Hospital
           building: Edifício importante
           station: Estação ferroviária
+          railway_halt: Estação de trem
+          subway_station: Estação de metrô
+          tram_stop: Ponto de bonde
           summit: Cume
           peak: cume
           tunnel: Túnel (contorno tracejado)
@@ -2807,6 +2843,7 @@ pt:
       informal_translations: traduções informais
       continue: Continuar
       declined: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined?uselang=pt-br
+      cancel: Cancelar
       you need to accept or decline: Por favor leia e, em seguida, aceite ou recuse
         os novos termos do contribuidor para continuar.
       legale_select: 'País em que você mora:'
@@ -3118,6 +3155,8 @@ pt:
       add: Incluir nota
     notes_paging_nav:
       showing_page: Página %{page}
+      next: Próxima
+      previous: Anterior
   javascripts:
     close: Fechar
     share:
@@ -3312,6 +3351,7 @@ pt:
       empty: Nenhuma anulação para mostrar.
       heading: Lista de anulações
       title: Lista de anulações
+      new: Nova seção
     new:
       heading: Introduza a informação da nova anulação
       title: Criando uma nova anulação
