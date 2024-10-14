@@ -32,7 +32,7 @@ module ChangesetsHelper
 
   def changeset_index_title(params, user)
     if params[:friends] && user
-      t "changesets.index.title_friend"
+      t "changesets.index.title_followed"
     elsif params[:nearby] && user
       t "changesets.index.title_nearby"
     elsif params[:display_name]

@@ -9,16 +9,16 @@ class FriendshipsController < ApplicationController
 
   authorize_resource
 
-  before_action :check_database_writable, :only => [:make_friend, :remove_friend]
-  before_action :lookup_friend, :only => [:make_friend, :remove_friend]
+  before_action :check_database_writable, :only => [:follow_user, :unfollow_user]
+  before_action :lookup_friend, :only => [:follow_user, :unfollow_user]
 
-  def make_friend
+  def follow_user
     if request.post?
       friendship = Friendship.new
       friendship.befriender = current_user
       friendship.befriendee = @friend
       if current_user.friends_with?(@friend)
-        flash[:warning] = t ".already_a_friend", :name => @friend.display_name
+        flash[:warning] = t ".already_followed", :name => @friend.display_name
       elsif current_user.friendships.where(:created_at => Time.now.utc - 1.hour..).count >= current_user.max_friends_per_hour
         flash[:error] = t ".limit_exceeded"
       elsif friendship.save
@@ -34,13 +34,13 @@ class FriendshipsController < ApplicationController
     end
   end
 
-  def remove_friend
+  def unfollow_user
     if request.post?
       if current_user.friends_with?(@friend)
         Friendship.where(:befriender => current_user, :befriendee => @friend).delete_all
         flash[:notice] = t ".success", :name => @friend.display_name
       else
-        flash[:error] = t ".not_a_friend", :name => @friend.display_name
+        flash[:error] = t ".not_followed", :name => @friend.display_name
       end
 
       referer = safe_referer(params[:referer]) if params[:referer]
