@@ -77,15 +77,6 @@ only submit changes to the `en.yml` file. The other files are updated via
 [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap) and should
 not be included in your pull request.
 
-### Nominatim prefixes
-
-I18n keys under the `geocoder.search_osm_nominatim` keyspace are managed by the
-Nominatim maintainers. From time to time they run stats over the Nominatim
-database, and update the list of available keys manually.
-
-Adding or removing keys to this list is therefore discouraged, but contributions
-to the descriptive texts are welcome.
-
 ### Copyright attribution
 
 The list of attributions on the /copyright page is managed by the [OSMF Licensing
