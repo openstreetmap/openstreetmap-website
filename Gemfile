@@ -183,6 +183,8 @@ end
 
 group :development, :test do
   gem "annotate"
+  gem "teaspoon"
+  gem "teaspoon-mocha", "~> 2.3.3"
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", :require => "debug/prelude"
