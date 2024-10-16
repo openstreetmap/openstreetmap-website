@@ -1,0 +1,25 @@
+name: Danger
+
+run-name: Updating labels for current PR
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  danger:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+          rubygems: 3.4.10
+          bundler-cache: true
+      - name: Danger
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bundle exec danger --verbose
