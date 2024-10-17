@@ -27,6 +27,8 @@
 #
 
 class DiaryEntry < ApplicationRecord
+  include Truncatable
+
   belongs_to :user, :counter_cache => true
   belongs_to :language, :foreign_key => "language_code", :inverse_of => :diary_entries
 
@@ -51,6 +53,10 @@ class DiaryEntry < ApplicationRecord
 
   def body
     @body ||= RichText.new(self[:body_format], self[:body])
+  end
+
+  def truncated_body(max_length)
+    RichText.new("html", truncate_html(body.to_html, max_length))
   end
 
   private
