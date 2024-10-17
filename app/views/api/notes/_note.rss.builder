@@ -3,7 +3,7 @@ xml.item do
 
   if note.closed?
     xml.title t("api.notes.rss.closed", :place => location)
-  elsif note.comments.length > 1
+  elsif note.comments.any?
     xml.title t("api.notes.rss.commented", :place => location)
   else
     xml.title t("api.notes.rss.opened", :place => location)
@@ -13,7 +13,7 @@ xml.item do
   xml.guid api_note_url(note)
   xml.description render(:partial => "description", :object => note, :formats => [:html])
 
-  xml.dc :creator, note.author.display_name if note.author
+  xml.dc :creator, note.author.display_name if note.author && !note.author.deleted?
 
   xml.pubDate note.created_at.to_fs(:rfc822)
   xml.geo :lat, note.lat

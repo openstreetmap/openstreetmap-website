@@ -21,4 +21,10 @@ module NoteHelper
       link_to h(author.display_name), link_options.merge(:controller => "/users", :action => "show", :display_name => author.display_name)
     end
   end
+
+  def note_body(note)
+    return note.body.to_html if note.author.present? && !note.author.deleted?
+
+    t("notes.show.note_body_for_deleted_user")
+  end
 end

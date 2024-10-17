@@ -46,7 +46,7 @@ class IndexTest < ApplicationSystemTestCase
   end
 
   test "note included in edit link" do
-    note = create(:note_with_comments)
+    note = create(:note)
     visit note_path(note)
     assert_selector "#editanchor[href*='?note=#{note.id}#']"
 
@@ -56,11 +56,9 @@ class IndexTest < ApplicationSystemTestCase
 
   test "can navigate from hidden note to visible note" do
     sign_in_as(create(:moderator_user))
-    hidden_note = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note, :body => "this-is-a-hidden-note")
+    hidden_note = create(:note, :status => "hidden", :body => "this-is-a-hidden-note")
     position = (1.003 * GeoRecord::SCALE).to_i
-    visible_note = create(:note, :latitude => position, :longitude => position)
-    create(:note_comment, :note => visible_note, :body => "this-is-a-visible-note")
+    create(:note, :latitude => position, :longitude => position, :body => "this-is-a-visible-note")
 
     visit root_path(:anchor => "map=15/1/1") # view place of hidden note in case it is not rendered during note_path(hidden_note)
     visit note_path(hidden_note)

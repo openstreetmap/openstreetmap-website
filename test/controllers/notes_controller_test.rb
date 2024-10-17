@@ -100,46 +100,47 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_read_note
-    open_note = create(:note_with_comments)
+    open_note = create(:note)
 
     sidebar_browse_check :note_path, open_note.id, "notes/show"
   end
 
   def test_read_hidden_note
-    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+    hidden_note = create(:note, :status => "hidden")
 
-    get note_path(hidden_note_with_comment)
+    get note_path(hidden_note)
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    get note_path(hidden_note_with_comment), :xhr => true
+    get note_path(hidden_note), :xhr => true
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
 
     session_for(create(:moderator_user))
 
-    sidebar_browse_check :note_path, hidden_note_with_comment.id, "notes/show"
+    sidebar_browse_check :note_path, hidden_note.id, "notes/show"
   end
 
   def test_read_note_hidden_comments
-    note_with_hidden_comment = create(:note_with_comments, :comments_count => 2) do |note|
-      create(:note_comment, :note => note, :visible => false)
-    end
+    note = create(:note)
+    create(:note_comment, :note => note)
+    create(:note_comment, :note => note, :visible => false)
 
-    sidebar_browse_check :note_path, note_with_hidden_comment.id, "notes/show"
+    sidebar_browse_check :note_path, note.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 1
 
     session_for(create(:moderator_user))
 
-    sidebar_browse_check :note_path, note_with_hidden_comment.id, "notes/show"
+    sidebar_browse_check :note_path, note.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 2
   end
 
   def test_read_note_hidden_user_comment
     hidden_user = create(:user, :deleted)
-    note_with_hidden_user_comment = create(:note_with_comments, :comments_count => 2) do |note|
+    note_with_hidden_user_comment = create(:note) do |note|
+      create(:note_comment, :note => note)
       create(:note_comment, :note => note, :author => hidden_user)
     end
 
@@ -154,7 +155,10 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   def test_read_closed_note
     user = create(:user)
-    closed_note = create(:note_with_comments, :closed, :closed_by => user, :comments_count => 2)
+    closed_note = create(:note, :status => "closed", :closed_at => Time.now.utc) do |note|
+      create(:note_comment, :note => note)
+      create(:note_comment, :event => "closed", :note => note, :author => user)
+    end
 
     sidebar_browse_check :note_path, closed_note.id, "notes/show"
     assert_select "div.note-comments ul li", :count => 2
