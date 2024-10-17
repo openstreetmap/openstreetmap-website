@@ -331,14 +331,24 @@ cy:
         not yet agreed: Nid ydych wedi cytuno â'r Telerau Cyfranwyr newydd eto.
         review link text: Dilynwch y ddolen hon i adolygu a derbyn y Telerau Cyfranwyr
           newydd.
+        agreed_with_pd: Rydych hefyd wedi datgan eich bod yn ystyried bod eich golygiadau
+          yn y Parth Cyhoeddus.
         link text: beth yw hwn?
       save changes button: Cadw newidiadau
       delete_account: Dileu cyfrif...
     go_public:
       heading: Golygu cyhoeddus
+      currently_not_public: Ar hyn o bryd mae eich golygiadau yn ddienw ac ni all
+        pobl anfon negeseuon atoch na gweld eich lleoliad. Er mwyn dangos beth wnaethoch
+        chi ei olygu a chaniatáu i bobl gysylltu â chi drwy'r wefan, cliciwch y botwm
+        isod.
       only_public_can_edit: Ers y newid yn fersiwn 0.6 yr API, dim ond defnyddwyr
         cyhoeddus all olygu data map.
       find_out_why: dyma pam
+      email_not_revealed: Ni fydd eich cyfeiriad e-bost yn cael ei ddatgelu wrth fod
+        yn gyhoeddus.
+      not_reversible: Ni ellir gwrthdroi'r weithred hon ac mae pob defnyddiwr newydd
+        bellach yn gyhoeddus yn ddiofyn.
       make_edits_public_button: Gwneud fy holl olygiadau yn gyhoeddus
     update:
       success: Diweddarwyd gwybodaeth defnyddiwr yn llwyddiannus.
@@ -1555,7 +1565,15 @@ cy:
       reports_of_this_issue: Adroddiadau o'r Mater hwn
       read_reports: Darllen Adroddiadau
       new_reports: Adroddiadau Newydd
+      other_issues_against_this_user: Materion eraill yn erbyn y defnyddiwr hwn
+      no_other_issues: Dim materion eraill yn erbyn y defnyddiwr hwn.
       comments_on_this_issue: Sylwadau ar y mater hwn
+    resolve:
+      resolved: Mae statws y mater wedi'i osod i 'Datrys'
+    ignore:
+      ignored: Mae statws y mater wedi'i osod i 'Anwybyddwyd'
+    reopen:
+      reopened: Mae statws y mater wedi'i osod i 'Agored'
     comments:
       comment_from_html: Sylw gan %{user_link} ar %{comment_created_at}
       reassign_param: Ailbennu'r Mater?
@@ -1568,6 +1586,7 @@ cy:
   issue_comments:
     create:
       comment_created: Postiwyd eich sylw yn llwyddiannus
+      issue_reassigned: Crëwyd eich sylw a chafodd y mater ei ailbennu
   reports:
     new:
       title_html: Adrodd %{link}
@@ -1861,8 +1880,10 @@ cy:
       title: Ailosod cyfrinair
       heading: Ailosod cyfrinair ar gyfer %{user}
       reset: Ailosod cyfrinair
+      flash token bad: Methu dod o hyd i'r tocyn hwnnw, gwiriwch yr URL?
     update:
       flash changed: Mae eich cyfrinair wedi'i newid.
+      flash token bad: Methu dod o hyd i'r tocyn hwnnw, gwiriwch yr URL?
   preferences:
     show:
       title: Dewisiadau
@@ -1895,6 +1916,8 @@ cy:
       image size hint: (delweddau sgwâr o leiaf 100x100 yw'r gorau)
       home location: Lleoliad Cartref
       no home location: Nid ydych wedi gosod eich lleoliad cartref.
+      update home location on click: Diweddaru lleoliad cartref pan fyddaf yn clicio
+        ar y map?
       show: Dangos
       delete: Dileu
       undelete: Dadwneud dileu
@@ -1966,11 +1989,18 @@ cy:
       heading_html: '%{copyright}Cyfranwyr %{br} OpenStreetMap'
       used_by_html: Mae %{name} yn darparu data map ar gyfer miloedd o wefannau, apiau
         symudol a dyfeisiau caledwedd
+      lede_text: Mae OpenStreetMap yn cael ei greu gan gymuned o fapwyr sy'n cyfrannu
+        ac yn cynnal a chadw data am ffyrdd, llwybrau, caffis, gorsafoedd trenau,
+        a llawer mwy ledled y byd.
       local_knowledge_title: Gwybodaeth Leol
       local_knowledge_html: Mae OpenStreetMap yn rhoi pwyslais ar wybodaeth leol.
         Mae cyfranwyr yn defnyddio delweddaeth o'r awyr, dyfeisiau GPS, a mapiau maes
         technoleg isel i wirio bod OSM yn gywir ac yn gyfredol.
       community_driven_title: Gwaith y Gymuned
+      community_driven_1_html: |-
+        Mae cymuned OpenStreetMap yn amrywiol, yn angerddol, ac yn tyfu bob dydd.
+        Mae ein cyfranwyr yn cynnwys mapwyr brwdfrydig, gweithwyr profesiynol GIS, peirianwyr sy'n rhedeg y gweinyddion OSM, gwirfoddolwyr dyngarol sy'n mapio ardaloedd wedi'u heffeithio gan drychinebau, a llawer mwy.
+        Er mwyn dysgu rhagor am y gymuned, gweler %{osm_blog_link}, %{user_diaries_link}, %{community_blogs_link} a gwefan %{osm_foundation_link}.
       community_driven_osm_blog: Blog OpenStreetMap
       community_driven_user_diaries: dyddiaduron defnyddwyr
       community_driven_community_blogs: blogiau cymunedol
@@ -1984,35 +2014,45 @@ cy:
         ddosbarthu'r canlyniad
         o dan yr un drwydded yn unig. Gweler y %{copyright_license_link} am fanylion.
       open_data_open_data: ddata agored
-      open_data_copyright_license: Dudalen Hawlfraint a Thrwydded
+      open_data_copyright_license: dudalen Hawlfraint a Thrwydded
       legal_title: Cyfreithiol
       legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
       legal_1_1_terms_of_use: Telerau Gwasanaeth
       legal_1_1_aup: Polisïau Defnydd Derbyniol
       legal_1_1_privacy_policy: Polisi Preifatrwydd
-      legal_2_1_html: Cysylltwch â'r %{contact_the_osmf_link} os oes gennych chi gwestiynau
-        am drwydded, hawlfraint neu gwestiynau cyfreithiol eraill.
-      legal_2_1_contact_the_osmf: cysylltwch â'r OSMF
+      legal_2_1_html: '%{contact_the_osmf_link} os oes gennych gwestiynau am drwydded,
+        hawlfraint neu gwestiynau cyfreithiol eraill.'
+      legal_2_1_contact_the_osmf: Cysylltwch â'r OSMF
+      legal_2_2_html: Mae OpenStreetMap, y logo chwyddwydr a "State of the Map" yn
+        %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: nodau masnach cofrestredig yr OSMF
       partners_title: Partneriaid
     copyright:
       title: Hawlfraint a Thrwydded
       foreign:
         title: Ynglŷn â'r cyfieithiad hwn
-        html: Mewn achos o wrthdaro rhwng y dudalen hon a gyfieithwyd a %{english_original_link},
-          y dudalen Saesneg fydd yn cael blaenoriaeth
-        english_link: y Saesneg gwreiddiol
+        html: Mewn achos o wrthdaro rhwng y dudalen hon a gyfieithwyd a%{english_original_link},
+          bydd y dudalen Saesneg yn cael blaenoriaeth
+        english_link: '''r gwreiddiol yn Saesneg'
       native:
         title: Ynglŷn â'r dudalen hon
+        html: Rydych chi'n darllen fersiwn Saesneg y dudalen hawlfraint. Gallwch fynd
+          yn ôl i %{native_link} y dudalen hon, neu allwch stopio darllen am hawlfraint
+          a %{mapping_link}.
         native_link: fersiwn Cymraeg
         mapping_link: dechrau mapio
       legal_babble:
-        introduction_1_open_data: data agored
+        introduction_1_html: Mae OpenStreetMap%{registered_trademark_link} yn %{open_data},
+          wedi'i drwyddedu o dan y %{odc_odbl_link} (ODbL) gan %{osm_foundation_link}
+          (OSMF).
+        introduction_1_open_data: ddata agored
         introduction_1_odc_odbl: Open Data Commons Open Database License
-        introduction_1_osm_foundation: OpenStreetMap Foundation
-        introduction_2_html: |-
-          Rydych yn rhydd i gopïo, dosbarthu, trosglwyddo ac addasu ein data, cyn belled â'ch bod yn cydnabod OpenStreetMap a'i
-          gyfranwyr. Os ydych chi'n newid neu'n adeiladu ar ein data, dim ond o dan yr un drwydded y cewch chi ddosbarthu eich canlyniad. Mae'r %{legal_code_link} llawn yn esbonio eich hawliau a'ch cyfrifoldebau.
+        introduction_1_osm_foundation: Sefydliad OpenStreetMap
+        introduction_2_html: Rydych yn rhydd i gopïo, dosbarthu, trosglwyddo ac addasu
+          ein data, cyn belled â'ch bod yn cydnabod OpenStreetMap a'i gyfranwyr. Os
+          ydych yn newid neu'n adeiladu ar ein data, dim ond o dan yr un drwydded
+          y cewch ddosbarthu eich canlyniad. Mae'r %{legal_code_link} llawn yn esbonio
+          eich hawliau a'ch cyfrifoldebau.
         introduction_2_legal_code: cod cyfreithiol
         introduction_3_html: Mae ein dogfennaeth wedi'i thrwyddedu o dan drwydded
           %{creative_commons_link} (CC BY-SA 2.0).
@@ -2020,7 +2060,7 @@ cy:
         credit_title_html: Sut i gydnabod OpenStreetMap
         credit_1_html: 'Pan fyddwch yn defnyddio data OpenStreetMap, mae rhaid i chi
           wneud y ddau beth canlynol:'
-        credit_2_1: Rhoi cydnabyddiaeth i OpenStreetMap trwy arddangos ein hysbysiad
+        credit_2_1: Rhoi cydnabyddiaeth i OpenStreetMap drwy arddangos ein hysbysiad
           hawlfraint.
         credit_2_2: Gwnewch yn glir bod y data ar gael o dan y Drwydded Cronfa Ddata
           Agored.
@@ -2028,12 +2068,22 @@ cy:
           Ar gyfer yr hysbysiad hawlfraint, mae gennym ofynion gwahanol o ran sut y dylid ei arddangos, yn dibynnu ar sut rydych yn defnyddio ein data. Er enghraifft, mae rheolau
           gwahanol yn berthnasol ar sut i ddangos yr hysbysiad hawlfraint yn dibynnu a ydych wedi creu map pori, map printiedig neu ddelwedd statig. Ceir manylion llawn am y gofynion yn y %{attribution_guidelines_link}.
         credit_3_attribution_guidelines: Canllawiau Priodoli
-        credit_4_1_this_copyright_page: y dudalen hawlfraint hon
+        credit_4_1_html: "Er mwyn gwneud yn glir bod y data ar gael o dan y Drwydded
+          Cronfa Ddata Agored, gallwch roi dolen i'r %{this_copyright_page_link}.\nFel
+          arall, ac fel gofyniad os ydych yn dosbarthu OSM ar ffurf data\n, gallwch
+          enwi a chysylltu'n uniongyrchol â'r drwydded(au). Yn y cyfryngau\nlle nad
+          yw dolenni'n bosibl (e.e. gweithiau printiedig), rydym yn awgrymu eich bod
+          yn cyfeirio eich darllenwyr at openstreetmap.org (efallai drwy ehangu\n'OpenStreetMap'
+          i'r cyfeiriad llawn hwn) ac at opendatacommons.org. \nYn yr enghraifft hon,
+          mae'r cydnabyddiaeth yn ymddangos yng nghornel y map."
+        credit_4_1_this_copyright_page: dudalen hawlfraint hon
         attribution_example:
           alt: Enghraifft o sut i briodoli OpenStreetMap ar dudalen we
-          title: Enghraifft o gydnabyddiaeth
-        more_title_html: Darganfod rhagor
-        more_1_1_osmf_licence_page: Tudalen Trwydded OSMF
+          title: Enghraifft o briodoli
+        more_title_html: Dysgu rhagor
+        more_1_1_html: Gallwch ddysgu mwy am ddefnyddio ein data a sut i roi gydnabyddiaeth
+          i ni ar %{osmf_licence_page_link}
+        more_1_1_osmf_licence_page: dudalen Drwydded yr OSMF
         more_2_1_html: |-
           Er mai data agored yw OpenStreetMap, ni allwn ddarparu API map am ddim ar gyfer defnyddwyr trydydd parti.
           Gweler ein %{api_usage_policy_link}, %{tile_usage_policy_link} a %{nominatim_usage_policy_link}.
@@ -2041,48 +2091,99 @@ cy:
         more_2_1_tile_usage_policy: Polisi Defnydd Teils
         more_2_1_nominatim_usage_policy: Polisi Defnydd Nominatim
         contributors_title_html: Ein cyfranwyr
+        contributors_intro_html: |-
+          Mae ein cyfranwyr yn filoedd o unigolion. Rydym hefyd yn cynnwys
+          data sydd wedi'i drwyddedu'n agored gan asiantaethau mapio cenedlaethol
+          a ffynonellau eraill, gan gynnwys:
+        contributors_at_credit_html: '%{austria}: Yn cynnwys data gan %{stadt_wien_link}
+          (o dan %{cc_by_link}), %{land_vorarlberg_link}, a Land Tirol (o dan %{cc_by_at_with_amendments_link}).'
         contributors_at_austria: Awstria
         contributors_at_stadt_wien: Stadt Wien
         contributors_at_cc_by: CC BY
         contributors_at_land_vorarlberg: Land Vorarlberg
         contributors_at_cc_by_at_with_amendments: CC BY AT gyda diwygiadau
+        contributors_au_credit_html: '%{australia}: Yn ymgorffori neu''n datblygu
+          gan ddefnyddio Ffiniau Gweinyddol &copy; %{geoscape_australia_link} wedi''i
+          drwyddedu gan Gymanwlad Awstralia o dan %{cc_licence_link}.'
         contributors_au_australia: Awstralia
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: Trwydded Creative Commons Attribution 4.0 International
           (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: Yn cynnwys data gan GeoBase&reg;,
+          GeoGratis  (&copy; Adran Adnoddau Naturiol Canada), CanVec (&copy; Adran
+          Adnoddau Naturiol Canada), a StatCan (Adran Ddaearyddiaeth, Ystadegau Canada).'
         contributors_ca_canada: Canada
+        contributors_cz_credit_html: '%{czechia}: Yn cynnwys data gan Weinyddiaeth
+          y Wladwriaeth Tirfesur a Pharseli Tir wedi''i drwyddedu o dan %{cc_licence_link}'
         contributors_cz_czechia: Gweriniaeth Tsiec
         contributors_cz_cc_licence: Creative Commons Attribution 4.0 International
           licence (CC BY 4.0)
+        contributors_fi_credit_html: '%{finland}: Yn cynnwys data gan Gronfa Ddata
+          Arolwg Tir Topograffig Cenedlaethol y Ffindir a chfronfeydd data eraill,
+          o dan %{nlsfi_license_link}.'
         contributors_fi_finland: Y Ffindir
-        contributors_fi_nlsfi_license: Trwydded NLSFI
-        contributors_fr_credit_html: '%{france}: Cynhwysir data gan Direction Générale
+        contributors_fi_nlsfi_license: Drwydded NLSFI
+        contributors_fr_credit_html: '%{france}: Yn cynnwys data gan Direction Générale
           des Impôts.'
         contributors_fr_france: Ffrainc
+        contributors_hr_credit_html: '%{croatia}: Yn cynnwys data gan y %{dgu_link}
+          a %{open_data_portal} (gwybodaeth gyhoeddus Croatia).'
         contributors_hr_croatia: Croatia
-        contributors_hr_open_data_portal: Porth Data Agored Cenedlaethol
-        contributors_nl_credit_html: '%{netherlands}: Cynhwysir data &copy; AND, 2007
-          (%{and_link})'
+        contributors_hr_dgu: Gweinyddiaeth Geodetig Talaith Croatia
+        contributors_hr_open_data_portal: Phorth Data Agored Cenedlaethol
+        contributors_nl_credit_html: '%{netherlands}: Yn cynnwys data &copy; AND,
+          2007 (%{and_link})'
         contributors_nl_netherlands: Iseldiroedd
+        contributors_nz_credit_html: '%{new_zealand}: Yn cynnwys data o ffynhonnell
+          %{linz_data_service_link} wedi''i drwyddedu i''w hailddefnyddio o dan %{cc_by_link}.'
         contributors_nz_new_zealand: Seland Newydd
         contributors_nz_linz_data_service: Gwasanaeth Data LINZ
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: '%{serbia}: Yn cynnwys data gan yr %{rgz_link}
+          a''r %{open_data_portal} (gwybodaeth gyhoeddus Serbia), 2018.'
         contributors_rs_serbia: Serbia
-        contributors_rs_open_data_portal: National Open Data Portal
+        contributors_rs_rgz: Awdurdodaeth Geodetig Serbia
+        contributors_rs_open_data_portal: Porth Data Agored Cenedlaethol
+        contributors_si_credit_html: '%{slovenia}: Yn cynnwys data o''r %{gu_link}
+          a''r %{mkgp_link} (gwybodaeth gyhoeddus Slofenia).'
         contributors_si_slovenia: Slofenia
+        contributors_si_gu: Awdurdodaeth Tirfesur a Mapio
         contributors_si_mkgp: Gweinyddiaeth Amaethyddiaeth, Coedwigaeth a Bwyd
+        contributors_es_credit_html: '%{spain}: Yn cynnwys data o ffynhonnell Sefydliad
+          Daearyddol Cenedlaethol Sbaen (%{ign_link}) a''r System Cartograffig Genedlaethol
+          (%{scne_link}) wedi''i drwyddedu i''w hailddefnyddio o dan %{cc_by_link}.'
         contributors_es_spain: Sbaen
         contributors_es_ign: IGN
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: Yn cynnwys data o''r ffynhonnell
+          %{ngi_link}, cedwir hawlfraint gan y wladwriaeth.'
         contributors_za_south_africa: De Affrica
+        contributors_za_ngi: 'Prif Gyfarwyddiaeth: Gwybodaeth Geo-Ofodol Cenedlaethol'
         contributors_gb_credit_html: '%{united_kingdom}: Yn cynnwys data Arolwg Ordnans
           &copy; Hawlfraint y Goron a chronfa ddata 2010-2023.'
         contributors_gb_united_kingdom: Y Deyrnas Unedig
-        contributors_2_contributors_page: Tudalen gyfranwyr
-        infringement_title_html: Torri hawlfraint
+        contributors_2_html: |-
+          Am fanylion pellach am y rhain, a ffynonellau eraill sydd wedi cael eu defnyddio
+          er mwyn helpu i wella OpenStreetMap, gweler y %{contributors_page_link} ar Wici OpenStreetMap.
+        contributors_2_contributors_page: dudalen gyfranwyr
+        contributors_footer_2_html: |-
+          Nid yw cynnwys data yn OpenStreetMap yn awgrymu bod y darparwr data
+           gwreiddiol yn cefnogi OpenStreetMap, yn darparu unrhyw warant, neu
+           yn derbyn unrhyw atebolrwydd.
+        infringement_title_html: Toriadau hawlfraint
+        infringement_1_html: Hoffem atgofio cyfranwyr OSM i beidio ag ychwanegu data
+          o unrhyw ffynonellau hawlfreintiedig (e.e. Google Maps neu fapiau print)
+          heb ganiatâd penodol gan ddeiliaid yr hawlfraint.
+        infringement_2_1_html: |-
+          Os ydych yn credu bod deunydd hawlfreintiedig wedi'i ychwanegu'n amhriodol
+          at gronfa ddata OpenStreetMap neu'r wefan hon, dilynwch ein %{takedown_procedure_link} neu ffeiliwch yn uniongyrchol ar ein
+          %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: gweithdrefn tynnu i lawr
         infringement_2_1_online_filing_page: tudalen ffeilio ar-lein
         trademarks_title: Nodau Masnach
+        trademarks_1_1_html: |-
+          Mae OpenStreetMap, y logo chwyddwydr a State of the Map yn nodau masnach cofrestredig y Sefydliad OpenStreetMap. Os oes gennych gwestiynau am eich defnydd o'r marciau, gweler ein
+          %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Polisi Nod Masnach
     index:
       js_2: Mae OpenStreetMap yn defnyddio JavaScript ar gyfer ei fap llithrig.
@@ -2122,8 +2223,12 @@ cy:
             OpenStreetMap ac ychwanegu neu atgyweirio'r data eich hun.
       other_concerns:
         title: Gofidion eraill
+        concerns_html: |-
+          Os oes gennych bryderon am sut caiff ein data ei ddefnyddio neu am y cynnwys, cysylltwch â'n
+          %{copyright_link} am ragor o wybodaeth gyfreithiol, neu cysylltwch â'r %{working_group_link} priodol.
         copyright: tudalen hawlfraint
         working_group: Gweithgor OSMF
+        working_group_url: https://wiki.osmfoundation.org/wiki/Working_Groups
     help:
       title: Cael Cymorth
       welcome:
@@ -2147,12 +2252,22 @@ cy:
         title: Wici OpenStreetMap
         description: Archwiliwch y wici am ddogfennau manwl OpenStreetMap.
     potlatch:
+      removed: Mae eich golygydd OpenStreetMap diofyn wedi'i osod fel Potlatch. Oherwydd
+        bod Adobe Flash Player wedi'i dynnu'n ôl, nid yw Potlatch bellach ar gael
+        i'w ddefnyddio mewn porwr gwe.
       desktop_application_html: 'Gallwch barhau i ddefnyddio Potlatch yma: %{download_link}.'
+      download: Lawrlwytho'r rhaglen bwrdd gwaith ar gyfer Mac a Windows
+      id_editor_html: Fel arall, gallwch osod eich golygydd rhagosodedig i iD, sy'n
+        rhedeg yn eich porwr gwe fel y gwnaeth Potlatch yn flaenorol. %{change_preferences_link}.
       change_preferences: Newidiwch eich dewisiadau yma
     any_questions:
       title: Unrhyw gwestiynau?
-      get_help_here: Cael cymorth yma
-      welcome_mat: Edrychwch ar y Mat Croeso
+      paragraph_1_html: |-
+        Mae gan OpenStreetMap nifer o adnoddau ar gyfer dysgu am y prosiect, holi ac ateb
+        cwestiynau, a thrafod ac ysgrifennu dogfennaeth ar bynciau mapio.
+        %{help_link}. Ydych chi'n gweithio gyda sefydliad sy'n gwneud cynlluniau ar gyfer OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Cewch gymorth yma
+      welcome_mat: Dyma'r Mat Croeso
     sidebar:
       search_results: Canlyniadau Chwilio
     search:
@@ -2238,6 +2353,7 @@ cy:
           hospital: Ysbyty
           building: Adeilad arwyddocâol
           station: Gorsaf drên
+          railway_halt: Arhosfa drenau
           subway_station: Gorsaf Isffordd
           tram_stop: Safle Tramiau
           summit: Pen Mynydd
@@ -2482,12 +2598,14 @@ cy:
       openid: Mewngofnodi ag OpenStreetMap
       read_prefs: Darllen dewisiadau defnyddwyr
       write_prefs: Addasu dewisiadau defnyddwyr
+      write_diary: Creu cofnodion dyddiadur, sylwadau a gwneud ffrindiau
       write_api: Golygu'r map
       read_gpx: Darllen olion GPS preifat
       write_gpx: Uwchlwytho olion GPS
       write_notes: Addasu nodiadau
       write_redactions: Gorchuddio data map
       read_email: Darllen cyfeiriad e-bost defnyddwyr
+      consume_messages: Darllen, diweddaru statws a dileu negeseuon defnyddiwr
       send_messages: Anfon negeseuon preifat at ddefnyddwyr eraill
       skip_authorization: Cymeradwyo cais yn awtomatig
   oauth2_applications:
@@ -2560,10 +2678,15 @@ cy:
       heading_ct: Telerau Cyfranwyr
       read_ct: Rwyf wedi darllen ac yn cytuno â'r telerau cyfranwyr uchod
       read_tou: Rwyf wedi darllen ac yn cytuno â'r Telerau Defnyddio
+      consider_pd: Yn ogystal â'r uchod, ystyriaf fod fy nghyfraniadau yn y Parth
+        Cyhoeddus
       consider_pd_why: beth yw hwn?
+      guidance_info_html: 'Gwybodaeth i helpu i ddeall y termau hyn: %{readable_summary_link}
+        a rhai %{informal_translations_link}'
       readable_summary: crynodeb darllenadwy
       informal_translations: cyfieithiadau anffurfiol
       continue: Parhau
+      cancel: Canslo
       legale_select: 'Gwlad breswyl:'
       legale_names:
         france: Ffrainc
@@ -2930,6 +3053,9 @@ cy:
       map_data_zoom_in_tooltip: Chwyddwch mewn i weld data'r map
       queryfeature_tooltip: Manylion nodweddion
       queryfeature_disabled_tooltip: Chwyddwch i mewn i gael manylion nodweddion
+      embed_html_disabled: Nid yw mewnosod HTML ar gael ar gyfer yr haen fap hon
+    edit_help: Symudwch y map a chwyddwch i mewn i leoliad rydych chi am ei olygu,
+      yna cliciwch yma.
     directions:
       ascend: Esgyn
       engines:
