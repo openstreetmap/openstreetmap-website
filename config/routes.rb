@@ -280,8 +280,8 @@ OpenStreetMap::Application.routes.draw do
   resource :profile, :only => [:edit, :update]
 
   # friendships
-  match "/user/:display_name/make_friend" => "friendships#make_friend", :via => [:get, :post], :as => "make_friend"
-  match "/user/:display_name/remove_friend" => "friendships#remove_friend", :via => [:get, :post], :as => "remove_friend"
+  match "/user/:display_name/follow_user" => "friendships#follow_user", :via => [:get, :post], :as => "follow_user"
+  match "/user/:display_name/unfollow_user" => "friendships#unfollow_user", :via => [:get, :post], :as => "unfollow_user"
 
   # user lists
   match "/users" => "users#index", :via => [:get, :post]
