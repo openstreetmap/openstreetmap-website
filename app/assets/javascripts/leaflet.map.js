@@ -271,21 +271,6 @@ L.OSM.Map = L.Map.extend({
   },
 
   addObject: function (object, callback) {
-    var objectStyle = {
-      color: "#FF6200",
-      weight: 4,
-      opacity: 1,
-      fillOpacity: 0.5
-    };
-
-    var changesetStyle = {
-      weight: 4,
-      color: "#FF9500",
-      opacity: 1,
-      fillOpacity: 0,
-      interactive: false
-    };
-
     var haloStyle = {
       weight: 2.5,
       radius: 20,
@@ -316,40 +301,68 @@ L.OSM.Map = L.Map.extend({
       if (callback) callback(this._objectLayer.getBounds());
     } else { // element or changeset handled by L.OSM.DataLayer
       var map = this;
-      this._objectLoader = $.ajax({
-        url: OSM.apiUrl(object),
-        dataType: "xml",
-        success: function (xml) {
-          map._object = object;
 
-          map._objectLayer = new L.OSM.DataLayer(null, {
-            styles: {
-              node: objectStyle,
-              way: objectStyle,
-              area: objectStyle,
-              changeset: changesetStyle
-            }
-          });
+      if (object.type === "node" && object.latLng) {
+        map._object = object;
+        map._objectLayer = map.makeObjectLayer(object, [object]);
 
-          map._objectLayer.interestingNode = function (node, ways, relations) {
-            if (object.type === "node") {
-              return true;
-            } else if (object.type === "relation") {
-              for (var i = 0; i < relations.length; i++) {
-                if (relations[i].members.indexOf(node) !== -1) return true;
-              }
-            } else {
-              return false;
-            }
-          };
+        if (callback) callback(map._objectLayer.getBounds());
+      } else {
+        this._objectLoader = $.ajax({
+          url: OSM.apiUrl(object),
+          dataType: "xml",
+          success: function (xml) {
+            map._object = object;
+            map._objectLayer = map.makeObjectLayer(object, xml);
 
-          map._objectLayer.addData(xml);
-          map._objectLayer.addTo(map);
-
-          if (callback) callback(map._objectLayer.getBounds());
-        }
-      });
+            if (callback) callback(map._objectLayer.getBounds());
+          }
+        });
+      }
     }
+  },
+
+  makeObjectLayer: function (object, features) {
+    var objectStyle = {
+      color: "#FF6200",
+      weight: 4,
+      opacity: 1,
+      fillOpacity: 0.5
+    };
+
+    var changesetStyle = {
+      weight: 4,
+      color: "#FF9500",
+      opacity: 1,
+      fillOpacity: 0,
+      interactive: false
+    };
+
+    var objectLayer = new L.OSM.DataLayer(null, {
+      styles: {
+        node: objectStyle,
+        way: objectStyle,
+        area: objectStyle,
+        changeset: changesetStyle
+      }
+    });
+
+    objectLayer.interestingNode = function (node, ways, relations) {
+      if (object.type === "node") {
+        return true;
+      } else if (object.type === "relation") {
+        for (var i = 0; i < relations.length; i++) {
+          if (relations[i].members.indexOf(node) !== -1) return true;
+        }
+      } else {
+        return false;
+      }
+    };
+
+    objectLayer.addData(features);
+    objectLayer.addTo(this);
+
+    return objectLayer;
   },
 
   removeObject: function () {
