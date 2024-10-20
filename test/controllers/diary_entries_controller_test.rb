@@ -648,6 +648,17 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_og_title
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :title => "The Important Blog Post")
+
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_dom "head meta[property='og:title']" do
+      assert_dom "> @content", "The Important Blog Post"
+    end
+  end
+
   def test_show_og_image_with_no_image
     user = create(:user)
     diary_entry = create(:diary_entry, :user => user, :body => "nothing")
