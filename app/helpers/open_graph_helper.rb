@@ -4,7 +4,7 @@ module OpenGraphHelper
   def opengraph_tags(title, properties)
     tags = {
       "og:site_name" => t("layouts.project_name.title"),
-      "og:title" => title || t("layouts.project_name.title"),
+      "og:title" => properties["og:title"] || title || t("layouts.project_name.title"),
       "og:type" => "website",
       "og:url" => url_for(:only_path => false),
       "og:description" => properties["og:description"] || t("layouts.intro_text")

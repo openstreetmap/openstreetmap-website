@@ -71,6 +71,7 @@ class DiaryEntriesController < ApplicationController
     if @entry
       @title = t ".title", :user => params[:display_name], :title => @entry.title
       @opengraph_properties = {
+        "og:title" => @entry.title,
         "og:image" => @entry.body.image,
         "og:image:alt" => @entry.body.image_alt,
         "og:description" => @entry.body.description,
