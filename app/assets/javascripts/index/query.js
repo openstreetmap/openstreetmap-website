@@ -253,9 +253,9 @@ OSM.Query = function (map) {
    * To find nearby objects we ask overpass for the union of the
    * following sets:
    *
-   *   node(around:<radius>,<lat>,lng>)
-   *   way(around:<radius>,<lat>,lng>)
-   *   relation(around:<radius>,<lat>,lng>)
+   *   node(around:<radius>,<lat>,<lng>)
+   *   way(around:<radius>,<lat>,<lng>)
+   *   relation(around:<radius>,<lat>,<lng>)
    *
    * to find enclosing objects we first find all the enclosing areas:
    *
