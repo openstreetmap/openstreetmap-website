@@ -1,6 +1,5 @@
 <%= tag.head :data => application_data do %>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= render :partial => "layouts/meta" %>
   <%= javascript_include_tag "es6" unless browser.es6? %>
   <%= javascript_include_tag "turbo", :type => "module" %>
   <%= javascript_include_tag "application" %>
@@ -8,7 +7,6 @@
   <%= stylesheet_link_tag "screen-#{dir}", :media => "screen" %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
-  <%= render :partial => "layouts/meta" %>
   <%= yield :head %>
   <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
