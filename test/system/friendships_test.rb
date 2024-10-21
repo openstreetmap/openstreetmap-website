@@ -8,11 +8,11 @@ class FriendshipsTest < ApplicationSystemTestCase
 
     with_settings(:max_friends_per_hour => 0) do
       visit user_path(befriendee)
-      assert_link "Add Friend"
+      assert_link "Follow"
 
-      click_on "Add Friend"
-      assert_text "You have friended a lot of users recently"
-      assert_link "Add Friend"
+      click_on "Follow"
+      assert_text "You have followed a lot of users recently"
+      assert_link "Follow"
     end
   end
 end
