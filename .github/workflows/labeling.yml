@@ -27,4 +27,4 @@ jobs:
         env:
           DANGER_GITHUB_BEARER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bundle exec danger --verbose
+          bundle exec danger --verbose --base=${{ github.base_ref }} --head=${{ github.head_ref }}
