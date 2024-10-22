@@ -66,6 +66,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :changeset_subscriptions, :class_name => "Changeset", :join_table => "changesets_subscribers", :foreign_key => "subscriber_id"
   has_many :note_comments, :foreign_key => :author_id, :inverse_of => :author
   has_many :notes, :through => :note_comments
+  has_many :note_subscriptions, :class_name => "NoteSubscription"
+  has_many :subscribed_notes, :through => :note_subscriptions, :source => :note
 
   has_many :oauth2_applications, :class_name => Doorkeeper.config.application_model.name, :as => :owner
   has_many :access_grants, :class_name => Doorkeeper.config.access_grant_model.name, :foreign_key => :resource_owner_id

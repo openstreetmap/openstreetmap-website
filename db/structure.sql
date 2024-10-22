@@ -1052,6 +1052,16 @@ ALTER SEQUENCE public.note_comments_id_seq OWNED BY public.note_comments.id;
 
 
 --
+-- Name: note_subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.note_subscriptions (
+    user_id bigint NOT NULL,
+    note_id bigint NOT NULL
+);
+
+
+--
 -- Name: notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2011,6 +2021,14 @@ ALTER TABLE ONLY public.note_comments
 
 
 --
+-- Name: note_subscriptions note_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_subscriptions
+    ADD CONSTRAINT note_subscriptions_pkey PRIMARY KEY (user_id, note_id);
+
+
+--
 -- Name: notes notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2499,6 +2517,13 @@ CREATE INDEX index_note_comments_on_created_at ON public.note_comments USING btr
 
 
 --
+-- Name: index_note_subscriptions_on_note_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_note_subscriptions_on_note_id ON public.note_subscriptions USING btree (note_id);
+
+
+--
 -- Name: index_oauth_access_grants_on_application_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2954,6 +2979,14 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: note_subscriptions fk_rails_2c1913f293; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_subscriptions
+    ADD CONSTRAINT fk_rails_2c1913f293 FOREIGN KEY (note_id) REFERENCES public.notes(id);
+
+
+--
 -- Name: oauth_access_grants fk_rails_330c32d8d9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2991,6 +3024,14 @@ ALTER TABLE ONLY public.oauth_openid_requests
 
 ALTER TABLE ONLY public.active_storage_variant_records
     ADD CONSTRAINT fk_rails_993965df05 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
+
+
+--
+-- Name: note_subscriptions fk_rails_a352f4eced; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_subscriptions
+    ADD CONSTRAINT fk_rails_a352f4eced FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -3356,6 +3397,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20241022141247'),
 ('20240913171951'),
 ('20240912181413'),
 ('20240910175616'),
