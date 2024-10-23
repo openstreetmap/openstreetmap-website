@@ -101,10 +101,12 @@ module Api
       )
     end
 
-    def test_create_success
+    def test_create_anonymous_success
       assert_difference "Note.count", 1 do
         assert_difference "NoteComment.count", 1 do
-          post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json")
+          assert_no_difference "NoteSubscription.count" do
+            post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json")
+          end
         end
       end
       assert_response :success
@@ -135,7 +137,7 @@ module Api
       assert_nil js["properties"]["comments"].last["user"]
     end
 
-    def test_create_fail
+    def test_create_anonymous_fail
       assert_no_difference "Note.count" do
         assert_no_difference "NoteComment.count" do
           post api_notes_path(:lon => -1.0, :text => "This is a comment")
@@ -200,14 +202,44 @@ module Api
       assert_response :bad_request
     end
 
+    def test_create_success
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      assert_difference "Note.count", 1 do
+        assert_difference "NoteComment.count", 1 do
+          assert_difference "NoteSubscription.count", 1 do
+            post api_notes_path(:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json"), :headers => auth_header
+          end
+        end
+      end
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal "Feature", js["type"]
+      assert_equal "Point", js["geometry"]["type"]
+      assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
+      assert_equal "open", js["properties"]["status"]
+      assert_equal 1, js["properties"]["comments"].count
+      assert_equal "opened", js["properties"]["comments"].last["action"]
+      assert_equal "This is a comment", js["properties"]["comments"].last["text"]
+      assert_equal user.display_name, js["properties"]["comments"].last["user"]
+
+      note = Note.last
+      subscription = NoteSubscription.last
+      assert_equal user, subscription.user
+      assert_equal note, subscription.note
+    end
+
     def test_comment_success
       open_note_with_comment = create(:note_with_comments)
       user = create(:user)
       auth_header = bearer_authorization_header user
       assert_difference "NoteComment.count", 1 do
-        assert_no_difference "ActionMailer::Base.deliveries.size" do
-          perform_enqueued_jobs do
-            post comment_api_note_path(open_note_with_comment, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+        assert_difference "NoteSubscription.count", 1 do
+          assert_no_difference "ActionMailer::Base.deliveries.size" do
+            perform_enqueued_jobs do
+              post comment_api_note_path(open_note_with_comment, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+            end
           end
         end
       end
@@ -222,6 +254,10 @@ module Api
       assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
+      subscription = NoteSubscription.last
+      assert_equal user, subscription.user
+      assert_equal open_note_with_comment, subscription.note
+
       get api_note_path(open_note_with_comment, :format => "json")
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
@@ -233,7 +269,9 @@ module Api
       assert_equal "commented", js["properties"]["comments"].last["action"]
       assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
+    end
 
+    def test_comment_with_notifications_success
       # Ensure that emails are sent to users
       first_user = create(:user)
       second_user = create(:user)
@@ -247,9 +285,11 @@ module Api
       auth_header = bearer_authorization_header third_user
 
       assert_difference "NoteComment.count", 1 do
-        assert_difference "ActionMailer::Base.deliveries.size", 2 do
-          perform_enqueued_jobs do
-            post comment_api_note_path(note_with_comments_by_users, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+        assert_difference "NoteSubscription.count", 1 do
+          assert_difference "ActionMailer::Base.deliveries.size", 2 do
+            perform_enqueued_jobs do
+              post comment_api_note_path(note_with_comments_by_users, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+            end
           end
         end
       end
@@ -263,6 +303,10 @@ module Api
       assert_equal "commented", js["properties"]["comments"].last["action"]
       assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
       assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
+
+      subscription = NoteSubscription.last
+      assert_equal third_user, subscription.user
+      assert_equal note_with_comments_by_users, subscription.note
 
       email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
       assert_not_nil email
@@ -288,6 +332,43 @@ module Api
       assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
 
       ActionMailer::Base.deliveries.clear
+    end
+
+    def test_comment_twice_success
+      open_note_with_comment = create(:note_with_comments)
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      assert_difference "NoteComment.count", 1 do
+        assert_difference "NoteSubscription.count", 1 do
+          assert_no_difference "ActionMailer::Base.deliveries.size" do
+            perform_enqueued_jobs do
+              post comment_api_note_path(open_note_with_comment, :text => "This is an additional comment", :format => "json"), :headers => auth_header
+            end
+          end
+        end
+      end
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 2, js["properties"]["comments"].count
+
+      subscription = NoteSubscription.last
+      assert_equal user, subscription.user
+      assert_equal open_note_with_comment, subscription.note
+
+      assert_difference "NoteComment.count", 1 do
+        assert_no_difference "NoteSubscription.count" do
+          assert_no_difference "ActionMailer::Base.deliveries.size" do
+            perform_enqueued_jobs do
+              post comment_api_note_path(open_note_with_comment, :text => "This is a second additional comment", :format => "json"), :headers => auth_header
+            end
+          end
+        end
+      end
+      assert_response :success
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      assert_equal 3, js["properties"]["comments"].count
     end
 
     def test_comment_fail
@@ -346,7 +427,9 @@ module Api
 
       auth_header = bearer_authorization_header user
 
-      post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json"), :headers => auth_header
+      assert_difference "NoteSubscription.count", 1 do
+        post close_api_note_path(open_note_with_comment, :text => "This is a close comment", :format => "json"), :headers => auth_header
+      end
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -357,6 +440,10 @@ module Api
       assert_equal "closed", js["properties"]["comments"].last["action"]
       assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
+
+      subscription = NoteSubscription.last
+      assert_equal user, subscription.user
+      assert_equal open_note_with_comment, subscription.note
 
       get api_note_path(open_note_with_comment.id, :format => "json")
       assert_response :success
@@ -400,7 +487,9 @@ module Api
 
       auth_header = bearer_authorization_header user
 
-      post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
+      assert_difference "NoteSubscription.count", 1 do
+        post reopen_api_note_path(closed_note_with_comment, :text => "This is a reopen comment", :format => "json"), :headers => auth_header
+      end
       assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -411,6 +500,10 @@ module Api
       assert_equal "reopened", js["properties"]["comments"].last["action"]
       assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
       assert_equal user.display_name, js["properties"]["comments"].last["user"]
+
+      subscription = NoteSubscription.last
+      assert_equal user, subscription.user
+      assert_equal closed_note_with_comment, subscription.note
 
       get api_note_path(closed_note_with_comment, :format => "json")
       assert_response :success
