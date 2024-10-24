@@ -12,5 +12,11 @@ module Api
     rescue ActiveRecord::RecordNotUnique
       head :conflict
     end
+
+    def destroy
+      note_id = params[:note_id].to_i
+      count = NoteSubscription.where(:user => current_user, :note => note_id).delete_all
+      head :not_found if count.zero?
+    end
   end
 end

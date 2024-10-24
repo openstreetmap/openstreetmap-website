@@ -7,6 +7,10 @@ module Api
         { :path => "/api/0.6/notes/1/subscription", :method => :post },
         { :controller => "api/note_subscriptions", :action => "create", :note_id => "1" }
       )
+      assert_routing(
+        { :path => "/api/0.6/notes/1/subscription", :method => :delete },
+        { :controller => "api/note_subscriptions", :action => "destroy", :note_id => "1" }
+      )
     end
 
     def test_create
@@ -21,7 +25,6 @@ module Api
           assert_response :success
         end
       end
-      assert_response :success
       assert_equal user, note.subscribers.last
     end
 
@@ -71,6 +74,59 @@ module Api
           assert_response :conflict
         end
       end
+    end
+
+    def test_destroy
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      note = create(:note_with_comments)
+      create(:note_subscription, :user => user, :note => note)
+      assert_equal [user], note.subscribers
+
+      assert_difference "NoteSubscription.count", -1 do
+        assert_difference "note.subscribers.count", -1 do
+          delete api_note_subscription_path(note), :headers => auth_header
+          assert_response :success
+        end
+      end
+    end
+
+    def test_destroy_fail_anonymous
+      note = create(:note_with_comments)
+
+      delete api_note_subscription_path(note)
+      assert_response :unauthorized
+    end
+
+    def test_destroy_fail_no_scope
+      user = create(:user)
+      auth_header = bearer_authorization_header user, :scopes => %w[read_prefs]
+      note = create(:note_with_comments)
+      create(:note_subscription, :user => user, :note => note)
+
+      assert_no_difference "NoteSubscription.count" do
+        assert_no_difference "note.subscribers.count" do
+          delete api_note_subscription_path(note), :headers => auth_header
+          assert_response :forbidden
+        end
+      end
+    end
+
+    def test_destroy_fail_note_not_found
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+
+      delete api_note_subscription_path(999111), :headers => auth_header
+      assert_response :not_found
+    end
+
+    def test_destroy_fail_not_subscribed
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      note = create(:note_with_comments)
+
+      delete api_note_subscription_path(note), :headers => auth_header
+      assert_response :not_found
     end
   end
 end
