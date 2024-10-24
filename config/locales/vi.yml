@@ -23,6 +23,7 @@
 # Author: Trần Nguyễn Minh Huy
 # Author: Trọng Đặng
 # Author: Vinhtantran
+# Author: XDO
 # Author: 予弦
 # Author: 神樂坂秀吉
 ---
@@ -141,7 +142,7 @@ vi:
         longitude: Kinh độ
         public: Công khai
         description: Miêu tả
-        gpx_file: Tải lên Tập tin GPX
+        gpx_file: Chọn tệp Tuyến đường GPS
         visibility: 'Mức độ truy cập:'
         tagstring: 'Thẻ:'
       message:
@@ -384,7 +385,8 @@ vi:
         note: ghi chú
     timeout:
       title: Lỗi Hết Thời gian Chờ
-      sorry: Rất tiếc, đã chờ lấy dữ liệu của %{type} có ID %{id} quá lâu.
+      sorry: Rất tiếc, việc lấy dữ liệu loại %{type} có ID %{id} vượt quá thời gian
+        cho phép.
       type:
         node: nốt
         way: lối
@@ -400,9 +402,8 @@ vi:
         way: lối
         relation: quan hệ
     start_rjs:
-      feature_warning: Đang tải %{num_features} đối tượng, điều này sẽ chậm lại trình
-        duyệt của bạn hoặc làm nó không phản hồi. Bạn có chắc chắn muốn hiển thị toàn
-        bộ dữ liệu này?
+      feature_warning: Việc tải %{num_features} đối tượng có thể làm trình duyệt của
+        bạn bị chậm hoặc đơ. Bạn có chắc chắn muốn hiển thị dữ liệu này không?
       load_data: Tải Dữ liệu
       loading: Đang tải…
     tag_details:
@@ -421,9 +422,16 @@ vi:
       introduction: Nhấn chuột vào bản đồ để tìm những yếu tố lân cận.
       nearby: Yếu tố lân cận
       enclosing: Yếu tố bao gồm
+  nodes:
+    timeout:
+      sorry: Rất tiếc, việc lấy dữ liệu cho node có ID %{id} vượt quá thời gian cho
+        phép.
   old_nodes:
     not_found:
       sorry: 'Rất tiếc, không tìm thấy nốt #%{id} phiên bản %{version}.'
+    timeout:
+      sorry: Rất tiếc, việc lấy lịch sử cho node có ID %{id} vượt quá thời gian cho
+        phép.
   old_ways:
     not_found:
       sorry: 'Rất tiếc, không tìm thấy lối #%{id} phiên bản %{version}.'
