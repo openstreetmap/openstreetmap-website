@@ -184,53 +184,39 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   def test_index_filter_by_status
     user = create(:user)
+    other_user = create(:user)
 
-    open_note = create(:note, :status => "open")
-    create(:note_comment, :note => open_note, :author => user)
+    open_note = create(:note, :status => "open") do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
 
-    closed_note = create(:note, :status => "closed")
-    create(:note_comment, :note => closed_note, :author => user)
+    closed_note = create(:note, :status => "closed") do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    commented_note = create(:note, :status => "open") do |note|
+      create(:note_comment, :note => note, :author => other_user)
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    anonymous_commented_note = create(:note, :status => "open") do |note|
+      create(:note_comment, :note => note, :author => nil)
+      create(:note_comment, :note => note, :author => user)
+    end
 
     get user_notes_path(user), :params => { :status => "open" }
     assert_response :success
-    assert_select "table.note_list tbody tr", :count => 1
+    assert_select "table.note_list tbody tr", :count => 3
+    assert_select "table.note_list tbody tr", :text => /#{open_note.id}/
 
     get user_notes_path(user), :params => { :status => "closed" }
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 1
-  end
+    assert_select "table.note_list tbody tr", :text => /#{closed_note.id}/
 
-  def test_index_filter_by_note_type
-    user = create(:user)
-    other_user = create(:user)
-    anonymous_user = nil
-
-    submitted_note = create(:note)
-    create(:note_comment, :note => submitted_note, :author => user)
-
-    commented_note = create(:note)
-    create(:note_comment, :note => commented_note, :author => other_user)
-    create(:note_comment, :note => commented_note, :author => user)
-
-    anonymous_commented_note = create(:note)
-    create(:note_comment, :note => anonymous_commented_note, :author => anonymous_user)
-    create(:note_comment, :note => anonymous_commented_note, :author => user)
-
-    get user_notes_path(user), :params => { :note_type => "submitted" }
-    assert_response :success
-    assert_select "table.note_list tbody tr", :count => 1
-    assert_select "table.note_list tbody tr", :text => /#{submitted_note.id}/
-
-    get user_notes_path(user), :params => { :note_type => "commented" }
+    get user_notes_path(user), :params => { :status => "commented" }
     assert_response :success
     assert_select "table.note_list tbody tr", :count => 2
-    assert_select "table.note_list tbody tr", :text => /#{commented_note.id}/
-    assert_select "table.note_list tbody tr", :text => /#{anonymous_commented_note.id}/
-
-    get user_notes_path(user)
-    assert_response :success
-    assert_select "table.note_list tbody tr", :count => 3
-    assert_select "table.note_list tbody tr", :text => /#{submitted_note.id}/
     assert_select "table.note_list tbody tr", :text => /#{commented_note.id}/
     assert_select "table.note_list tbody tr", :text => /#{anonymous_commented_note.id}/
   end

@@ -17,14 +17,13 @@ class NotesController < ApplicationController
   def index
     param! :page, Integer, :min => 1
 
-    @params = params.permit(:display_name, :from, :to, :status, :sort_by, :sort_order, :note_type)
+    @params = params.permit(:display_name, :from, :to, :status, :sort_by, :sort_order)
     @title = t(".title", :user => @user.display_name)
     @page = (params[:page] || 1).to_i
     @page_size = 10
     @notes = @user.notes
                   .filter_hidden_notes(current_user)
-                  .filter_by_status(params[:status])
-                  .filter_by_note_type(params[:note_type], @user.id)
+                  .filter_by_status(params[:status], @user.id)
                   .filter_by_date_range(params[:from], params[:to])
                   .sort_by_params(params[:sort_by], params[:sort_order])
                   .distinct

@@ -12,17 +12,10 @@
     <div class="col-md-auto mb-3">
       <%= label_tag :status, t(".status") %>
       <%= select_tag  :status,
-                      options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"]], params[:status] || "all"),
+                      options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"], [t(".commented"), "commented"]], params[:status] || "all"),
                       :class => "form-select",
                       :onchange => "this.form.requestSubmit()" %>
     </div>
-    <div class="col-md-auto mb-3">
-      <%= label_tag :note_type, t(".interaction_type") %>
-      <%= select_tag  :note_type,
-                      options_for_select([[t(".all"), ""], [t(".submitted"), "submitted"], [t(".commented"), "commented"]], params[:note_type] || "all"),
-                      :class => "form-select",
-                      :onchange => "this.form.requestSubmit()" %>
-  </div>
     <div class="col-md-auto mb-3">
       <%= label_tag :from, t(".from") %>
         <%= date_field_tag :from, params[:from], :placeholder => t(".from"), :class => "form-control", :autocomplete => "off", :onchange => "this.form.requestSubmit()" %>

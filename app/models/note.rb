@@ -43,28 +43,14 @@ class Note < ApplicationRecord
     end
   }
 
-  scope :filter_by_status, lambda { |status|
+  scope :filter_by_status, lambda { |status, user_id = nil|
     case status
     when "open"
       where(:status => "open")
     when "closed"
       where(:status => "closed")
-    else
-      all
-    end
-  }
-
-  scope :filter_by_note_type, lambda { |note_type, user_id|
-    case note_type
     when "commented"
-      joins(:comments)
-        .where("notes.id IN (SELECT note_id FROM note_comments WHERE author_id != ? OR author_id IS NULL)", user_id)
-        .distinct
-    when "submitted"
-      joins(:comments)
-        .where(:note_comments => { :author_id => user_id })
-        .where("note_comments.id = (SELECT MIN(nc.id) FROM note_comments nc WHERE nc.note_id = notes.id)")
-        .distinct
+      where("NOT EXISTS (SELECT 1 FROM note_comments WHERE note_comments.note_id = notes.id AND note_comments.author_id = ? AND note_comments.id = (SELECT MIN(nc.id) FROM note_comments nc WHERE nc.note_id = notes.id))", user_id)
     else
       all
     end

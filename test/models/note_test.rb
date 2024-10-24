@@ -95,59 +95,59 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_filter_by_status
-    open_note = create(:note, :status => "open")
-    closed_note = create(:note, :status => "closed")
-    reopened_note = create(:note, :status => "open", :closed_at => 2.days.ago)
-
-    filtered_notes = Note.filter_by_status("open")
-    assert_includes filtered_notes, open_note
-    assert_includes filtered_notes, reopened_note
-    assert_not_includes filtered_notes, closed_note
-
-    filtered_notes = Note.filter_by_status("closed")
-    assert_includes filtered_notes, closed_note
-    assert_not_includes filtered_notes, open_note
-    assert_not_includes filtered_notes, reopened_note
-
-    filtered_notes = Note.filter_by_status(nil)
-    assert_includes filtered_notes, open_note
-    assert_includes filtered_notes, closed_note
-    assert_includes filtered_notes, reopened_note
-  end
-
-  def test_filter_by_note_type
     user = create(:user)
     other_user = create(:user)
-    anonymous_user = nil
 
-    submitted_note = create(:note) do |note|
+    open_note = create(:note, :status => "open") do |note|
       create(:note_comment, :note => note, :author => user)
     end
 
-    commented_note = create(:note) do |note|
+    closed_note = create(:note, :status => "closed", :closed_at => 1.day.ago) do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    reopened_note = create(:note, :status => "open", :closed_at => 2.days.ago) do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    created_and_commented_by_author = create(:note, :status => "closed", :closed_at => 2.days.ago) do |note|
+      create(:note_comment, :note => note, :author => user)
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    commented_note = create(:note, :status => "open") do |note|
       create(:note_comment, :note => note, :author => other_user)
       create(:note_comment, :note => note, :author => user)
     end
 
-    anonymous_commented_note = create(:note) do |note|
-      create(:note_comment, :note => note, :author => anonymous_user)
+    anonymus_commented_note = create(:note, :status => "open") do |note|
+      create(:note_comment, :note => note, :author => nil)
       create(:note_comment, :note => note, :author => user)
     end
 
-    filtered_notes = Note.filter_by_note_type("submitted", user.id)
-    assert_includes filtered_notes, submitted_note
+    filtered_notes = Note.filter_by_status("open", user.id)
+    assert_includes filtered_notes, open_note
+    assert_includes filtered_notes, reopened_note
+    assert_includes filtered_notes, commented_note
+    assert_includes filtered_notes, anonymus_commented_note
+    assert_not_includes filtered_notes, closed_note
+    assert_not_includes filtered_notes, created_and_commented_by_author
+
+    filtered_notes = Note.filter_by_status("closed", user.id)
+    assert_includes filtered_notes, closed_note
+    assert_includes filtered_notes, created_and_commented_by_author
+    assert_not_includes filtered_notes, anonymus_commented_note
+    assert_not_includes filtered_notes, open_note
+    assert_not_includes filtered_notes, reopened_note
     assert_not_includes filtered_notes, commented_note
-    assert_not_includes filtered_notes, anonymous_commented_note
 
-    filtered_notes = Note.filter_by_note_type("commented", user.id)
+    filtered_notes = Note.filter_by_status("commented", user.id)
     assert_includes filtered_notes, commented_note
-    assert_includes filtered_notes, anonymous_commented_note
-    assert_not_includes filtered_notes, submitted_note
-
-    filtered_notes = Note.filter_by_note_type(nil, user.id)
-    assert_includes filtered_notes, submitted_note
-    assert_includes filtered_notes, commented_note
-    assert_includes filtered_notes, anonymous_commented_note
+    assert_includes filtered_notes, anonymus_commented_note
+    assert_not_includes filtered_notes, open_note
+    assert_not_includes filtered_notes, closed_note
+    assert_not_includes filtered_notes, reopened_note
+    assert_not_includes filtered_notes, created_and_commented_by_author
   end
 
   def test_filter_by_date_range
