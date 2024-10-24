@@ -22,7 +22,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  def test_add_comment
+  test "can add comment" do
     note = create(:note_with_comments)
     user = create(:user)
     sign_in_as(user)
@@ -123,6 +123,51 @@ class NoteCommentsTest < ApplicationSystemTestCase
       assert_text "Resolved note"
       assert_text "Your access to the API has been blocked"
       assert_button "Reactivate", :disabled => false
+    end
+  end
+
+  test "no subscribe button when not logged in" do
+    note = create(:note_with_comments)
+    visit note_path(note)
+
+    within_sidebar do
+      assert_no_button "Subscribe"
+      assert_no_button "Unsubscribe"
+    end
+  end
+
+  test "can subscribe" do
+    note = create(:note_with_comments)
+    user = create(:user)
+    sign_in_as(user)
+    visit note_path(note)
+
+    within_sidebar do
+      assert_button "Subscribe"
+      assert_no_button "Unsubscribe"
+
+      click_on "Subscribe"
+
+      assert_no_button "Subscribe"
+      assert_button "Unsubscribe"
+    end
+  end
+
+  test "can unsubscribe" do
+    note = create(:note_with_comments)
+    user = create(:user)
+    create(:note_subscription, :note => note, :user => user)
+    sign_in_as(user)
+    visit note_path(note)
+
+    within_sidebar do
+      assert_no_button "Subscribe"
+      assert_button "Unsubscribe"
+
+      click_on "Unsubscribe"
+
+      assert_button "Subscribe"
+      assert_no_button "Unsubscribe"
     end
   end
 end

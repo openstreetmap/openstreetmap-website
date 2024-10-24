@@ -28,6 +28,32 @@
     <p class='alert alert-warning'><%= t ".anonymous_warning" %></p>
   <% end -%>
 
+  <div class="row">
+    <div class="col">
+      <h4><%= t(".discussion") %></h4>
+    </div>
+
+    <% if current_user %>
+      <div class="col-auto">
+        <% if @note.subscribers.exists?(current_user.id) %>
+          <%= tag.button t(".unsubscribe"),
+                         :type => "button",
+                         :class => "btn btn-sm btn-primary",
+                         :name => "unsubscribe",
+                         :data => { :method => "DELETE",
+                                    :url => api_note_subscription_path(@note) } %>
+        <% else %>
+          <%= tag.button t(".subscribe"),
+                         :type => "button",
+                         :class => "btn btn-sm btn-primary",
+                         :name => "subscribe",
+                         :data => { :method => "POST",
+                                    :url => api_note_subscription_path(@note) } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
   <% if @note_comments.length > 1 %>
     <div class='note-comments'>
       <ul class="list-unstyled">
