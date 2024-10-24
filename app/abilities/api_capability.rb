@@ -9,6 +9,7 @@ class ApiCapability
 
       if user&.active?
         can [:create, :comment, :close, :reopen], Note if scope?(token, :write_notes)
+        can :create, NoteSubscription if scope?(token, :write_notes)
         can [:show, :data], Trace if scope?(token, :read_gpx)
         can [:create, :update, :destroy], Trace if scope?(token, :write_gpx)
         can [:details], User if scope?(token, :read_prefs)

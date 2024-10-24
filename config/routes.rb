@@ -108,6 +108,8 @@ OpenStreetMap::Application.routes.draw do
         post "close"
         post "reopen"
       end
+
+      resource :subscription, :only => :create, :controller => "note_subscriptions"
     end
 
     resources :user_blocks, :only => :show, :id => /\d+/, :controller => "user_blocks"
