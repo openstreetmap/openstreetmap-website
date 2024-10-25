@@ -636,15 +636,15 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
                               :user_block => { :needs_view => true, :reason => "Testing deactivates_at" })
       end
       block = UserBlock.last
-      assert_equal Time.now.utc + 2.days, block.ends_at
+      assert_equal Time.now.utc + 48.hours, block.ends_at
       assert_nil block.deactivates_at
 
-      travel 1.day
+      travel 24.hours
       session_for(blocked_user)
       get user_block_path(block)
       block.reload
-      assert_equal Time.now.utc + 1.day, block.ends_at
-      assert_equal Time.now.utc + 1.day, block.deactivates_at
+      assert_equal Time.now.utc + 24.hours, block.ends_at
+      assert_equal Time.now.utc + 24.hours, block.deactivates_at
     end
   end
 
@@ -660,14 +660,14 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
                               :user_block => { :needs_view => true, :reason => "Testing deactivates_at" })
       end
       block = UserBlock.last
-      assert_equal Time.now.utc + 1.day, block.ends_at
+      assert_equal Time.now.utc + 24.hours, block.ends_at
       assert_nil block.deactivates_at
 
-      travel 2.days
+      travel 48.hours
       session_for(blocked_user)
       get user_block_path(block)
       block.reload
-      assert_equal Time.now.utc - 1.day, block.ends_at
+      assert_equal Time.now.utc - 24.hours, block.ends_at
       assert_equal Time.now.utc, block.deactivates_at
     end
   end
@@ -684,16 +684,16 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
                               :user_block => { :needs_view => false, :reason => "Testing deactivates_at" })
       end
       block = UserBlock.last
-      assert_equal Time.now.utc + 2.days, block.ends_at
-      assert_equal Time.now.utc + 2.days, block.deactivates_at
+      assert_equal Time.now.utc + 48.hours, block.ends_at
+      assert_equal Time.now.utc + 48.hours, block.deactivates_at
 
-      travel 1.day
+      travel 24.hours
       put user_block_path(block,
                           :user_block_period => "48",
                           :user_block => { :needs_view => false, :reason => "Testing deactivates_at updated" })
       block.reload
-      assert_equal Time.now.utc + 2.days, block.ends_at
-      assert_equal Time.now.utc + 2.days, block.deactivates_at
+      assert_equal Time.now.utc + 48.hours, block.ends_at
+      assert_equal Time.now.utc + 48.hours, block.deactivates_at
     end
   end
 
@@ -709,16 +709,16 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
                               :user_block => { :needs_view => false, :reason => "Testing deactivates_at" })
       end
       block = UserBlock.last
-      assert_equal Time.now.utc + 1.day, block.ends_at
-      assert_equal Time.now.utc + 1.day, block.deactivates_at
+      assert_equal Time.now.utc + 24.hours, block.ends_at
+      assert_equal Time.now.utc + 24.hours, block.deactivates_at
 
-      travel 2.days
+      travel 48.hours
       put user_block_path(block,
                           :user_block_period => "0",
                           :user_block => { :needs_view => false, :reason => "Testing deactivates_at updated" })
       block.reload
-      assert_equal Time.now.utc - 1.day, block.ends_at
-      assert_equal Time.now.utc - 1.day, block.deactivates_at
+      assert_equal Time.now.utc - 24.hours, block.ends_at
+      assert_equal Time.now.utc - 24.hours, block.deactivates_at
     end
   end
 
@@ -732,21 +732,21 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
       block = UserBlock.new :user => blocked_user,
                             :creator => moderator_user,
                             :reason => "because",
-                            :ends_at => Time.now.utc + 1.day,
+                            :ends_at => Time.now.utc + 24.hours,
                             :needs_view => false
 
       assert_difference "UserBlock.count", 1 do
         block.save :validate => false
       end
 
-      travel 2.days
+      travel 48.hours
       session_for(moderator_user)
       put user_block_path(block,
                           :user_block_period => "0",
                           :user_block => { :needs_view => false, :reason => "Testing legacy block update" })
       block.reload
-      assert_equal Time.now.utc - 1.day, block.ends_at
-      assert_equal Time.now.utc - 1.day, block.deactivates_at
+      assert_equal Time.now.utc - 24.hours, block.ends_at
+      assert_equal Time.now.utc - 24.hours, block.deactivates_at
     end
   end
 
