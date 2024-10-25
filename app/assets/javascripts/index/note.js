@@ -22,20 +22,21 @@ OSM.Note = function (map) {
 
   page.pushstate = page.popstate = function (path, id) {
     OSM.loadSidebarContent(path, function () {
-      initialize(path, id, function () {
-        var data = $(".details").data();
-        if (!data) return;
-        var latLng = L.latLng(data.coordinates.split(","));
-        if (!map.getBounds().contains(latLng)) moveToNote();
-      });
+      initialize(path, id);
+
+      var data = $(".details").data();
+      if (!data) return;
+      var latLng = L.latLng(data.coordinates.split(","));
+      if (!map.getBounds().contains(latLng)) moveToNote();
     });
   };
 
   page.load = function (path, id) {
-    initialize(path, id, moveToNote);
+    initialize(path, id);
+    moveToNote();
   };
 
-  function initialize(path, id, callback) {
+  function initialize(path, id) {
     content.find("button[type=submit]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
@@ -50,7 +51,8 @@ OSM.Note = function (map) {
         data: { text: $(form.text).val() },
         success: function () {
           OSM.loadSidebarContent(path, function () {
-            initialize(path, id, moveToNote);
+            initialize(path, id);
+            moveToNote();
           });
         },
         error: function (xhr) {
@@ -78,8 +80,6 @@ OSM.Note = function (map) {
         icon: noteIcons[data.status]
       });
     }
-
-    if (callback) callback();
   }
 
   function updateButtons(form) {
