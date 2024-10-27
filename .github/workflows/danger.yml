@@ -1,7 +1,5 @@
 name: Danger
 
-run-name: Updating labels for current PR
-
 on:
   pull_request_target:
     types: [opened, synchronize]
@@ -28,4 +26,4 @@ jobs:
         env:
           DANGER_GITHUB_BEARER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bundle exec danger --verbose --base=${{ github.event.pull_request.base.sha }} --head=${{ github.event.pull_request.head.sha }}
+          bundle exec danger --verbose
