@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class NoteCommentsTest < ApplicationSystemTestCase
   test "open note has login notice" do
-    note = create(:note_with_comments)
+    note = create(:note)
     visit note_path(note)
 
     within_sidebar do
@@ -13,7 +13,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "closed note has no login notice" do
-    note = create(:note_with_comments, :closed)
+    note = create(:note, :closed)
     visit note_path(note)
 
     within_sidebar do
@@ -23,7 +23,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   def test_add_comment
-    note = create(:note_with_comments)
+    note = create(:note)
     user = create(:user)
     sign_in_as(user)
     visit note_path(note)
@@ -47,7 +47,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "can't add a comment when blocked" do
-    note = create(:note_with_comments)
+    note = create(:note)
     user = create(:user)
     sign_in_as(user)
     visit note_path(note)
@@ -81,7 +81,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "can't resolve a note when blocked" do
-    note = create(:note_with_comments)
+    note = create(:note)
     user = create(:user)
     sign_in_as(user)
     visit note_path(note)
@@ -105,7 +105,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
   end
 
   test "can't reactivate a note when blocked" do
-    note = create(:note_with_comments, :closed)
+    note = create(:note, :closed)
     user = create(:user)
     sign_in_as(user)
     visit note_path(note)
