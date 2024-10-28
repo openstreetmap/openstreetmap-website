@@ -45,7 +45,7 @@ class GuestAbilityTest < AbilityTest
   test "user roles permissions for a guest" do
     ability = Ability.new nil
 
-    [:grant, :revoke].each do |action|
+    [:create, :destroy].each do |action|
       assert ability.cannot?(action, UserRole), "should not be able to #{action} UserRoles"
     end
   end
@@ -86,7 +86,7 @@ class ModeratorAbilityTest < AbilityTest
   test "User Roles permissions" do
     ability = Ability.new create(:moderator_user)
 
-    [:grant, :revoke].each do |action|
+    [:create, :destroy].each do |action|
       assert ability.cannot?(action, UserRole), "should not be able to #{action} UserRoles"
     end
 
@@ -159,7 +159,7 @@ class AdministratorAbilityTest < AbilityTest
   test "User Roles permissions for an administrator" do
     ability = Ability.new create(:administrator_user)
 
-    [:grant, :revoke].each do |action|
+    [:create, :destroy].each do |action|
       assert ability.can?(action, UserRole), "should be able to #{action} UserRoles"
     end
   end

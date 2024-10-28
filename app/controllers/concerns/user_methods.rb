@@ -6,9 +6,10 @@ module UserMethods
   ##
   # ensure that there is a "user" instance variable
   def lookup_user
-    @user = User.active.find_by!(:display_name => params[:display_name])
+    display_name = params[:display_name] || params[:user_display_name]
+    @user = User.active.find_by!(:display_name => display_name)
   rescue ActiveRecord::RecordNotFound
-    render_unknown_user params[:display_name]
+    render_unknown_user display_name
   end
 
   ##

@@ -7,12 +7,12 @@ module UserRolesHelper
     if current_user&.administrator?
       if user.role?(role)
         link_to role_icon_svg_tag(role, false, t("users.show.role.revoke.#{role}")),
-                revoke_role_path(user, role),
-                :method => :post,
+                user_role_path(user, role),
+                :method => :delete,
                 :data => { :confirm => t("user_role.revoke.are_you_sure", :name => user.display_name, :role => role) }
       else
         link_to role_icon_svg_tag(role, true, t("users.show.role.grant.#{role}")),
-                grant_role_path(user, role),
+                user_role_path(user, role),
                 :method => :post,
                 :data => { :confirm => t("user_role.grant.are_you_sure", :name => user.display_name, :role => role) }
       end

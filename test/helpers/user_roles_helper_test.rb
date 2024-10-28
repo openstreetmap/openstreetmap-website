@@ -31,7 +31,7 @@ class UserRolesHelperTest < ActionView::TestCase
     create(:user) do |user|
       icon = role_icon(user, "moderator")
       icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
-      assert_dom icon_dom, "a:root[href='#{grant_role_path(user, 'moderator')}']", :count => 1 do
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']", :count => 1 do
         assert_dom "> svg", :count => 1 do
           assert_dom "> title", :text => "Grant moderator access"
         end
@@ -39,7 +39,7 @@ class UserRolesHelperTest < ActionView::TestCase
 
       icon = role_icon(user, "importer")
       icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
-      assert_dom icon_dom, "a:root[href='#{grant_role_path(user, 'importer')}']", :count => 1 do
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']", :count => 1 do
         assert_dom "> svg", :count => 1 do
           assert_dom "> title", :text => "Grant importer access"
         end
@@ -49,7 +49,7 @@ class UserRolesHelperTest < ActionView::TestCase
     create(:moderator_user) do |user|
       icon = role_icon(user, "moderator")
       icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
-      assert_dom icon_dom, "a:root[href='#{revoke_role_path(user, 'moderator')}']", :count => 1 do
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='delete']", :count => 1 do
         assert_dom "> svg", :count => 1 do
           assert_dom "> title", :text => "Revoke moderator access"
         end
@@ -57,7 +57,7 @@ class UserRolesHelperTest < ActionView::TestCase
 
       icon = role_icon(user, "importer")
       icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
-      assert_dom icon_dom, "a:root[href='#{grant_role_path(user, 'importer')}']", :count => 1 do
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']", :count => 1 do
         assert_dom "> svg", :count => 1 do
           assert_dom "> title", :text => "Grant importer access"
         end
@@ -67,7 +67,7 @@ class UserRolesHelperTest < ActionView::TestCase
     create(:importer_user) do |user|
       icon = role_icon(user, "moderator")
       icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
-      assert_dom icon_dom, "a:root[href='#{grant_role_path(user, 'moderator')}']", :count => 1 do
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']", :count => 1 do
         assert_dom "> svg", :count => 1 do
           assert_dom "> title", :text => "Grant moderator access"
         end
@@ -75,7 +75,7 @@ class UserRolesHelperTest < ActionView::TestCase
 
       icon = role_icon(user, "importer")
       icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
-      assert_dom icon_dom, "a:root[href='#{revoke_role_path(user, 'importer')}']", :count => 1 do
+      assert_dom icon_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='delete']", :count => 1 do
         assert_dom "> svg", :count => 1 do
           assert_dom "> title", :text => "Revoke importer access"
         end
@@ -113,13 +113,13 @@ class UserRolesHelperTest < ActionView::TestCase
       icons = role_icons(user)
       icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
       assert_dom icons_dom, "a:root", :count => 3
-      assert_dom icons_dom, "a:root[href='#{grant_role_path(user, 'administrator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='post']" do
         assert_dom "> svg > title", :text => "Grant administrator access"
       end
-      assert_dom icons_dom, "a:root[href='#{grant_role_path(user, 'moderator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']" do
         assert_dom "> svg > title", :text => "Grant moderator access"
       end
-      assert_dom icons_dom, "a:root[href='#{grant_role_path(user, 'importer')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']" do
         assert_dom "> svg > title", :text => "Grant importer access"
       end
     end
@@ -128,13 +128,13 @@ class UserRolesHelperTest < ActionView::TestCase
       icons = role_icons(user)
       icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
       assert_dom icons_dom, "a:root", :count => 3
-      assert_dom icons_dom, "a:root[href='#{grant_role_path(user, 'administrator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='post']" do
         assert_dom "> svg > title", :text => "Grant administrator access"
       end
-      assert_dom icons_dom, "a:root[href='#{revoke_role_path(user, 'moderator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='delete']" do
         assert_dom "> svg > title", :text => "Revoke moderator access"
       end
-      assert_dom icons_dom, "a:root[href='#{grant_role_path(user, 'importer')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='post']" do
         assert_dom "> svg > title", :text => "Grant importer access"
       end
     end
@@ -143,13 +143,13 @@ class UserRolesHelperTest < ActionView::TestCase
       icons = role_icons(user)
       icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
       assert_dom icons_dom, "a:root", :count => 3
-      assert_dom icons_dom, "a:root[href='#{grant_role_path(user, 'administrator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='post']" do
         assert_dom "> svg > title", :text => "Grant administrator access"
       end
-      assert_dom icons_dom, "a:root[href='#{grant_role_path(user, 'moderator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='post']" do
         assert_dom "> svg > title", :text => "Grant moderator access"
       end
-      assert_dom icons_dom, "a:root[href='#{revoke_role_path(user, 'importer')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='delete']" do
         assert_dom "> svg > title", :text => "Revoke importer access"
       end
     end
@@ -158,13 +158,13 @@ class UserRolesHelperTest < ActionView::TestCase
       icons = role_icons(user)
       icons_dom = Rails::Dom::Testing.html_document_fragment.parse(icons)
       assert_dom icons_dom, "a:root", :count => 3
-      assert_dom icons_dom, "a:root[href='#{revoke_role_path(user, 'administrator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'administrator')}'][data-method='delete']" do
         assert_dom "> svg > title", :text => "Revoke administrator access"
       end
-      assert_dom icons_dom, "a:root[href='#{revoke_role_path(user, 'moderator')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'moderator')}'][data-method='delete']" do
         assert_dom "> svg > title", :text => "Revoke moderator access"
       end
-      assert_dom icons_dom, "a:root[href='#{revoke_role_path(user, 'importer')}']" do
+      assert_dom icons_dom, "a:root[href='#{user_role_path(user, 'importer')}'][data-method='delete']" do
         assert_dom "> svg > title", :text => "Revoke importer access"
       end
     end

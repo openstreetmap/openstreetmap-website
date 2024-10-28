@@ -68,7 +68,7 @@ class Ability
           can [:index, :show, :resolve, :ignore, :reopen], Issue
           can :create, IssueComment
           can [:set_status, :destroy, :index], User
-          can [:grant, :revoke], UserRole
+          can [:create, :destroy], UserRole
         end
       end
     end

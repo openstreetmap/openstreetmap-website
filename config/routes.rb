@@ -266,7 +266,9 @@ OpenStreetMap::Application.routes.draw do
   post "/diary_comments/:comment/unhide" => "diary_comments#unhide", :comment => /\d+/, :as => :unhide_diary_comment
 
   # user pages
-  resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy]
+  resources :users, :path => "user", :param => :display_name, :only => [:show, :destroy] do
+    resource :role, :controller => "user_roles", :path => "roles/:role", :only => [:create, :destroy]
+  end
   get "/user/:display_name/account", :to => redirect(:path => "/account/edit")
   post "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
 
@@ -323,9 +325,7 @@ OpenStreetMap::Application.routes.draw do
   end
   resources :user_mutes, :only => [:index]
 
-  # roles and banning pages
-  post "/user/:display_name/role/:role/grant" => "user_roles#grant", :as => "grant_role"
-  post "/user/:display_name/role/:role/revoke" => "user_roles#revoke", :as => "revoke_role"
+  # banning pages
   get "/user/:display_name/blocks" => "user_blocks#blocks_on", :as => "user_blocks_on"
   get "/user/:display_name/blocks_by" => "user_blocks#blocks_by", :as => "user_blocks_by"
   get "/blocks/new/:display_name" => "user_blocks#new", :as => "new_user_block"
