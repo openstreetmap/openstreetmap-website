@@ -22,6 +22,12 @@ jobs:
           ruby-version: 3.1
           rubygems: 3.4.10
           bundler-cache: true
+      - name: Create base branch
+        run: |
+          git fetch ${{ github.event.pull_request.base.repo.clone_url }} ${{ github.event.pull_request.base.ref }}:danger_base
+      - name: Create head branch
+        run: |
+          git fetch ${{ github.event.pull_request.head.repo.clone_url }} ${{ github.event.pull_request.head.ref }}:danger_head
       - name: Danger
         env:
           DANGER_GITHUB_BEARER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
