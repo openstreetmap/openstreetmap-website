@@ -78,6 +78,15 @@
           <li><%= link_to t("layouts.about"), about_path, :class => "dropdown-item" %></li>
         </ul>
       </li>
+      <li class="nav-item ms-1">
+        <% if current_user && current_user.id %>
+          <%= link_to(preferences_path, :class => "nav-link text-secondary") do %>
+            <%= render "shared/language_selector", :classes => "", :disabled => true %>
+          <% end %>
+        <% else %>
+          <%= render "shared/language_selector", :classes => "nav-link text-secondary", :disabled => false %>
+        <% end %>
+      </li>
     </ul>
     <% if current_user && current_user.id %>
       <div class='d-inline-flex dropdown user-menu logged-in'>
