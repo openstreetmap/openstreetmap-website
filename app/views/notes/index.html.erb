@@ -6,6 +6,20 @@
            :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-body") %></p>
 <% end %>
 
+<%= form_with :url => user_notes_path(@user), :method => :get, :data => { :turbo => true } do %>
+  <div class="row gx-2 align-items-end">
+    <div class="col-sm-auto mb-3">
+      <%= label_tag :status, t(".status") %>
+      <%= select_tag :status,
+                     options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"]], params[:status] || "all"),
+                     :class => "form-select" %>
+    </div>
+    <div class="col-sm-auto mb-3">
+      <%= submit_tag t(".apply"), :name => nil, :class => "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
 <% if @notes.empty? %>
   <h4><%= t ".no_notes" %></h4>
 
