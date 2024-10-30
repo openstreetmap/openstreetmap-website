@@ -1,4 +1,4 @@
-//= require leaflet.locatecontrol/src/L.Control.Locate
+//= require leaflet.locatecontrol/dist/L.Control.Locate.umd
 
 (function () {
   $(document).on("change", "#user_all", function () {

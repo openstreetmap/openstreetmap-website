@@ -1,7 +1,7 @@
 //= require_self
 //= require leaflet.sidebar
 //= require leaflet.sidebar-pane
-//= require leaflet.locatecontrol/src/L.Control.Locate
+//= require leaflet.locatecontrol/dist/L.Control.Locate.umd
 //= require leaflet.locate
 //= require leaflet.layers
 //= require leaflet.key
