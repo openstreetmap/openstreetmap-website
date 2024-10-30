@@ -1062,6 +1062,17 @@ CREATE TABLE public.note_subscriptions (
 
 
 --
+-- Name: note_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.note_tags (
+    note_id bigint NOT NULL,
+    k character varying DEFAULT ''::character varying NOT NULL,
+    v character varying DEFAULT ''::character varying NOT NULL
+);
+
+
+--
 -- Name: notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2026,6 +2037,14 @@ ALTER TABLE ONLY public.note_comments
 
 ALTER TABLE ONLY public.note_subscriptions
     ADD CONSTRAINT note_subscriptions_pkey PRIMARY KEY (user_id, note_id);
+
+
+--
+-- Name: note_tags note_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_tags
+    ADD CONSTRAINT note_tags_pkey PRIMARY KEY (note_id, k);
 
 
 --
@@ -3211,6 +3230,14 @@ ALTER TABLE ONLY public.note_comments
 
 
 --
+-- Name: note_tags note_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.note_tags
+    ADD CONSTRAINT note_tags_id_fkey FOREIGN KEY (note_id) REFERENCES public.notes(id);
+
+
+--
 -- Name: redactions redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3397,6 +3424,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20241030122707'),
 ('20241023004427'),
 ('20241022141247'),
 ('20240913171951'),
