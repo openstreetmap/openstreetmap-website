@@ -94,6 +94,16 @@ class Note < ApplicationRecord
     comments.first.author_ip
   end
 
+  def tags
+    unless @tags
+      @tags = {}
+      note_tags.each do |tag|
+        @tags[tag.k] = tag.v
+      end
+    end
+    @tags
+  end
+
   private
 
   # Fill in default values for new notes
